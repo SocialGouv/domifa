@@ -4,6 +4,7 @@
     "build": "lerna run build",
     "dev": "lerna run dev --parallel",
     "lint": "lerna run lint --parallel",
+    "test": "lerna run test --parallel",
     "start": "lerna run start --parallel"
   },
   "devDependencies": {
