@@ -1,0 +1,15 @@
+{
+  "command": {
+    "publish": {
+      "skip-npm": true,
+      "conventionalCommits": true,
+      "message": "chore(release): version %v"
+    }
+  },
+  "npmClient": "yarn",
+  "packages": [
+    "packages/*"
+  ],
+  "useWorkspaces": true,
+  "version": "0.0.2"
+}

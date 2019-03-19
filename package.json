@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "lerna run build",
+    "dev": "lerna run dev --parallel",
+    "lint": "lerna run lint --parallel",
+    "start": "lerna run start --parallel"
+  },
+  "devDependencies": {
+    "lerna": "^3.13.1"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "name": "domifa"
+}
