@@ -36,7 +36,26 @@ input[type="number"] {
   margin-bottom: 10px;
   transition: all 0.3s;
   cursor: pointer;
+  padding-top: 20px;
+}
 
+#big_icons div {
+  width: 48%;
+  padding: 0 20px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#big_icons {
+  margin-left: 20px;
+  border-left: 1px solid #dfdfdf;
+}
+
+#big_icons span {
+  font-size: 0.8rem;
+  line-height: 1rem;
+  display: block;
 }
 
 #appel {

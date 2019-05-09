@@ -1,12 +1,11 @@
 <div class="container">
-  <br><br>
-  <h4 class="text-center ">Bonjour Jean</h4>
+  <h4 class="text-center"><b>Bonjour Domifa</b></h4>
   <div class="row">
     <div class="col-md-6 offset-md-3 ">
       <div class="form-group">
-        <label for="exampleInputEmail1">Rechercher un.e domicilié.e</label>
         <input id="typeahead-http"
           type="text"
+          placeholder="Rechercher un.e domicilié par nom, prénom, numéro de domicilié"
           class="form-control">
         <span *ngIf="searching">Recherche en cours...</span>
         <div class="invalid-feedback"
@@ -83,16 +82,6 @@
   <div class="row">
 
     <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Nom</th>
-          <th scope="col">N°</th>
-          <th scope="col">Date de naissance</th>
-          <th scope="col"></th>
-          <th scope="col"></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
       <tbody>
         <tr *ngFor="let usager of usagers">
           <th scope="row"
@@ -105,7 +94,10 @@
               *ngIf="usager.decision && usager.decision.statut === 'refus'">
             </span>
             <span class="instruction"
-              *ngIf="usager.decision && usager.decision.statut === 'instruction'">
+              *ngIf="usager.decision && usager.decision.statut === 'instruction' ">
+            </span>
+            <span class="instruction"
+              *ngIf="usager.statutDemande === 'entretien'">
             </span>
           </th>
           <td>{{ usager.id}}</td>
@@ -114,17 +106,6 @@
               {{ usager.dateNaissance | date:'dd/MM/yyyy' }}
             </span>
           </td>
-          <td>
-            <button (click)="getAttestation(usager.id)"
-              class="btn btn-primary">
-              <fa-icon icon="file-pdf"></fa-icon>
-            </button>
-            &nbsp;
-            &nbsp;
-            <a routerLink="/profil/{{usager.id}}/edit/"
-              class="btn btn-primary">
-              <fa-icon icon="edit"></fa-icon>
-            </a>
           <td>
             <span class="btn">
               <fa-icon icon="envelope"></fa-icon>
@@ -136,11 +117,17 @@
               <fa-icon icon="phone"></fa-icon>
             </span>
           </td>
-          <td>
+          <td class="text-right">
             <a routerLink="/profil/{{usager.id}}"
               routerLinkActive="router-link-active">
               Accéder à sa fiche
             </a>
+          </td>
+          <td>
+            <button (click)="getAttestation(usager.id)"
+              class="btn btn-primary">
+              <fa-icon icon="file-pdf"></fa-icon>
+            </button>
           </td>
         </tr>
       </tbody>

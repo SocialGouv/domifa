@@ -45,6 +45,45 @@
     </ngb-alert>
   </div>
 
+
+  <div class="step_form"
+    *ngIf="usager.statutDemande === 'valide'">
+    <div class="row ">
+      <div class="col text-center">
+        <h5> <b>{{ usager.nom }} {{ usager.prenom }}</b> est désormais domicilié dans votre structure.</h5>
+        La domiciliation sera effective du {{ usager.decision.dateDebut | date: 'dd/MM/yyyy'  }} au
+        {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}
+        <br><br>
+        <button (click)="getAttestation()"
+          class="btn btn-outline-primary">
+          <fa-icon icon="download"></fa-icon>
+          Télécharger l’attestation de domiciliation
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="step_form"
+    *ngIf="usager.statutDemande === 'refus'">
+    <div class="row ">
+      <div class="col text-center">
+        <h5> <b>{{ usager.nom }} {{ usager.prenom }}</b> a vu son dossier refusé le
+          {{ usager.decision.dateDebut | date: 'dd/MM/yyyy'  }}</h5>
+        <br>
+        <b>Motif</b>
+        <br>
+        {{ usager.decision.motif }}: {{ usager.decision.motifDetails }}
+        <br>
+        <button (click)="getAttestation()"
+          class="btn btn-outline-primary">
+          <fa-icon icon="download"></fa-icon>
+          Télécharger l’attestation de refus
+        </button>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ///////// -->
   <!-- ETAPE 1 INFOS -->
   <!-- ///////// -->
@@ -385,7 +424,7 @@
 
 
   <div class="step_menu"
-    *ngIf="usager.etapeDemande > 1">
+    *ngIf="usager.etapeDemande > 1 && usager.decision.statutDemande !== 'valide'">
     <div class="row">
       <div class="col-md-6">
         Dossier enregistré par <br><b>{{ usager.agent }}, le {{ usager.dateDemande | date: 'dd/MM/yyyy' }}</b>
@@ -822,7 +861,7 @@
               aria-describedby="helpId"
               placeholder="Lettre, impots, carte identité, etc..."
               required>
-            <div *ngIf="submitted || u.label.errors"
+            <div *ngIf="u.label.errors"
               class="invalid-feedback">
               <div *ngIf="u.label.errors && u.imageInput.errors ">Indiquez le type de pièce</div>
             </div>
@@ -938,7 +977,7 @@
     *ngIf="usager.etapeDemande === 4">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <h5 class="text-center">Le dossier de {{ usager.nom }} {{ usager.prenom }} est complet</h5>
+        <h5 class="text-center">Le dossier de <b>{{ usager.nom }} {{ usager.prenom }}</b> est complet</h5>
         <h6 class="text-center">Quelle décision souhaitez-vous rendre ?</h6>
         <br>
         <div class="row">
@@ -970,42 +1009,7 @@
     </div>
   </div>
 
-  <div class="step_form"
-    *ngIf="usager.statutDemande === 'valide'">
-    <div class="row ">
-      <div class="col text-center">
-        <h5> <b>{{ usager.nom }} {{ usager.prenom }}</b> est désormais domicilié dans votre structure.</h5>
-        La domiciliation sera effective du {{ usager.decision.dateDebut | date: 'dd/MM/yyyy'  }} au
-        {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}
-        <br><br>
-        <button (click)="getAttestation()"
-          class="btn btn-outline-primary">
-          <fa-icon icon="download"></fa-icon>
-          Télécharger l’attestation de domiciliation
-        </button>
-      </div>
-    </div>
-  </div>
 
-  <div class="step_form"
-    *ngIf="usager.statutDemande === 'refus'">
-    <div class="row ">
-      <div class="col text-center">
-        <h5> <b>{{ usager.nom }} {{ usager.prenom }}</b> a vu son dossier refusé le
-          {{ usager.decision.dateDebut | date: 'dd/MM/yyyy'  }}</h5>
-        <br>
-        <b>Motif</b>
-        <br>
-        {{ usager.decision.motif }}: {{ usager.decision.motifDetails }}
-        <br>
-        <button (click)="getAttestation()"
-          class="btn btn-outline-primary">
-          <fa-icon icon="download"></fa-icon>
-          Télécharger l’attestation de refus
-        </button>
-      </div>
-    </div>
-  </div>
   <ng-template #refus
     let-modal>
     <div class="modal-header">

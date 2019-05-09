@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from "mongoose";
+import { UsersService } from '../../users/users.service';
+import { EntretienDto } from '../dto/entretien';
 import { RdvDto } from '../dto/rdv';
 import { UsagersDto } from '../dto/usagers.dto';
 import { Decision } from '../interfaces/decision';
 import { Usager } from '../interfaces/usagers';
-import { EntretienDto } from '../dto/entretien';
 
 @Injectable()
 export class UsagersService {
@@ -13,18 +14,19 @@ export class UsagersService {
   public limit: number;
   public sort: {};
   public searchByName: {  };
-  usersService: any;
 
-  constructor(@Inject('USAGER_MODEL') private readonly usagerModel: Model<Usager>) {
+  constructor(@Inject('USAGER_MODEL') private readonly usagerModel: Model<Usager>,
+  private readonly usersService: UsersService) {
 
   }
 
   public async create(usagersDto: UsagersDto): Promise<Usager> {
     const createdUsager = new this.usagerModel(usagersDto);
-    const user =  await this.usersService.findById(2);
+    const user = await this.usersService.findById(2);
+
     createdUsager.etapeDemande++;
     createdUsager.dateDemande = new Date();
-    createdUsager.agent = user.nom + ' ' + user.prenom;
+    createdUsager.agent = user.firstName + ' ' + user.lastName;
     createdUsager.id = this.lastId(await this.findLastUsager());
     return createdUsager.save();
   }

@@ -23,6 +23,7 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public ngOnInit() {
+    //this.user = this.userService.getUser();
     this.filters = {
       statut: null,
       name: null,
