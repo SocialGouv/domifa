@@ -1,0 +1,193 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from "mongoose";
+import { RdvDto } from '../dto/rdv';
+import { UsagersDto } from '../dto/usagers.dto';
+import { Decision } from '../interfaces/decision';
+import { Usager } from '../interfaces/usagers';
+import { EntretienDto } from '../dto/entretien';
+
+@Injectable()
+export class UsagersService {
+
+  public limit: number;
+  public sort: {};
+  public searchByName: {  };
+  usersService: any;
+
+  constructor(@Inject('USAGER_MODEL') private readonly usagerModel: Model<Usager>) {
+
+  }
+
+  public async create(usagersDto: UsagersDto): Promise<Usager> {
+    const createdUsager = new this.usagerModel(usagersDto);
+    const user =  await this.usersService.findById(2);
+    createdUsager.etapeDemande++;
+    createdUsager.dateDemande = new Date();
+    createdUsager.agent = user.nom + ' ' + user.prenom;
+    createdUsager.id = this.lastId(await this.findLastUsager());
+    return createdUsager.save();
+  }
+
+  public async patch(usagersDto: UsagersDto): Promise<Usager> {
+    usagersDto.etapeDemande++;
+    return this.usagerModel.findOneAndUpdate({
+      'id' : usagersDto.id
+    }, {
+      $set: usagersDto
+    },{
+      new: true
+    }).select('-docsPath').exec();
+  }
+
+
+  public async setDecision(usagerId: number, decision: Decision): Promise<Usager> {
+    decision.dateDebut = new Date();
+    decision.userId = 1;
+    decision.agent = 'Yassine';
+    decision.dateFin = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+
+    if (decision.statut === 'valide') {
+      /* Récupération du dernier ID lié à la structure */
+      /* SMS & Mail pr prévenir */
+    }
+    return this.usagerModel.findOneAndUpdate({
+      'id' :usagerId
+    }, {
+      $set: {
+        "etapeDemande": 6,
+        "decision" : decision,
+        "statutDemande": decision.statut,
+      }
+    },{
+      new: true
+    }).select('-docsPath').exec();
+  }
+
+  public async setEntretien(usagerId: number, entretien: EntretienDto): Promise<Usager> {
+    return this.usagerModel.findOneAndUpdate({
+      'id' :usagerId
+    }, {
+      $set: {
+        "entretien" : entretien,
+        "etapeDemande": 4,
+      }
+    },{
+      new: true
+    }).select('-docsPath').exec();
+  }
+
+  public async setRdv(usagerId: number, rdvDto: RdvDto): Promise<Usager> {
+    console.log(rdvDto);
+    /* GET USER NAME ID */
+    return this.usagerModel.findOneAndUpdate({
+      'id' : usagerId
+    }, {
+      $set: {
+        "dateDemande": new Date().toISOString(),
+        "etapeDemande": 2,
+        "rdv.dateRdv": rdvDto.dateRdv,
+        "rdv.userId": rdvDto.userId,
+        "rdv.username": 'Valérie',
+        "statutDemande": 'entretien',
+      }
+    }) .select('-docsPath').exec();
+  }
+
+  public async deleteDocument(usagerId: number, index): Promise<Usager> {
+    const usager = await this.usagerModel.findOne({ "id": usagerId }).exec();
+    const newDocs = usager.docs;
+    const newDocsPath = usager.docsPath;
+    newDocs.splice(parseInt(index, 2), 1);
+    newDocsPath.splice(parseInt(index, 2), 1);
+
+    /* GET USER NAME ID */
+    return this.usagerModel.findOneAndUpdate({ 'id': usagerId }, {
+      $set: {
+        "docs": usager.docs,
+        "docsPath": usager.docsPath
+      }
+    },{
+      new: true
+    }) .exec();
+  }
+
+  public async addDocument(usagerId: number, filename: string, filetype: string, label: string): Promise<Usager> {
+    const usager = await this.usagerModel.findOne({
+      "id": usagerId
+    }).exec();
+
+    usager.docs.push({
+      'createdAt': new Date(),
+      'createdBy':  'Yassine',
+      'filetype': filetype,
+      'label': label,
+    });
+
+    usager.docsPath.push(filename);
+
+    /* GET USER NAME ID */
+    return this.usagerModel.findOneAndUpdate({ 'id' : usagerId }, {
+      $set: {
+        "docs": usager.docs,
+        "docsPath": usager.docsPath
+      }
+    }, { new: true  })
+    .select('-docsPath')
+    .exec();
+  }
+
+  public async getDocument(usagerId: number, index: number): Promise<any> {
+    const usager = await this.usagerModel.findOne({
+      "id": usagerId
+    }).exec();
+
+    const fileInfos = usager.docs[index];
+    fileInfos.path = usager.docsPath[index];
+    return fileInfos;
+  }
+
+  public async findAll(): Promise<Usager[]> {
+    return this.usagerModel.find().exec();
+  }
+
+  public async findById(usagerId: number): Promise<Usager> {
+    return this.usagerModel.findOne({
+      "id": usagerId
+    }) .select('-docsPath').exec();
+  }
+
+  public async search(term?: string): Promise<Usager[]> {
+    this.sort = { 'nom': 1 };
+    this.searchByName = {
+      $or: [
+        {
+          nom: { $regex: '.*' + term + '.*' }
+        },
+        {
+          prenom: { $regex: '.*' + term + '.*' }
+        }
+      ]
+    };
+
+    const paramsAvailable = [ 'term', 'statut', 'echeance', 'courrier']
+    return this.usagerModel.find()
+    .sort(this.sort)
+    .exec();
+  }
+
+  private async findLastUsager(): Promise<Usager> {
+    return this.usagerModel.findOne().select('id').sort({ id: -1 }).limit(1).exec();
+  }
+
+  private lastId(usager): number{
+    if (usager) {
+      if (usager.id !== undefined) {
+        return usager.id + 1;
+      }
+    }
+    return 1;
+  }
+}
+
+

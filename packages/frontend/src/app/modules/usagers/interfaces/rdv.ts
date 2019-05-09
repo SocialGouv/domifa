@@ -1,0 +1,38 @@
+export class Rdv {
+
+  public dateRdv: Date;
+  public jourRdv: {
+    day: number,
+    month: number,
+    year: number
+  };
+  public heureRdv: {
+    hour: number,
+    minute: number,
+  };
+
+  public userId: string;
+  public username: string;
+  public isNow: string;
+
+  constructor(rdv?: any) {
+
+    const today = new Date();
+    this.dateRdv = rdv && new Date(rdv.dateRdv) || today;
+
+    this.jourRdv = rdv && rdv.dateRdv ? { day: this.dateRdv.getDate(), month: this.dateRdv.getMonth() + 1, year: this.dateRdv.getFullYear() } : { day: today.getDate(), month: today.getMonth() + 1, year: today.getFullYear() };
+
+    this.heureRdv = rdv && rdv.dateRdv ? { hour: this.dateRdv.getHours(), minute: this.dateRdv.getMinutes() } : { hour: 10, minute: 20 };
+
+    this.userId = rdv && rdv.userId || null;
+    this.username = rdv && rdv.username || null;
+
+    this.isNow = rdv && rdv.isNow || '';
+
+    if (this.dateRdv !== today) {
+      this.isNow = this.dateRdv <= today ? 'oui' : 'non';
+    }
+
+    /* ICI METTRE L'ID RECUPERER DANS LE TOKEN */
+  }
+}

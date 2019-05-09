@@ -1,0 +1,140 @@
+.step * {
+  transition: all 0.3s ease;
+}
+
+.step {
+  display: inline-block;
+  max-width: 200px;
+}
+
+.step div {
+  display: inline-block;
+  max-width: 80px;
+  vertical-align: top;
+  transition: all 0.25s;
+}
+
+#steps {
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+  text-align: center;
+}
+
+.step_number {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  display: block;
+  padding: 4px 0;
+  background: #fff;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.step_text {
+  word-break: break-word;
+  display: block;
+  padding-top: 12px;
+  font-size: 0.9rem;
+  line-height: 1.1rem;
+  position: absolute;
+  text-align: center;
+  margin-left: -40px;
+  width: 120px;
+}
+
+.step_text_active {
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.step_form {
+  padding: 2.5rem 1rem;
+  border: 1px solid #f0f0f0;
+  max-width: 750px;
+  margin: 1rem auto;
+  border-radius: 4px;
+}
+
+.step_menu {
+  padding: 1rem;
+  border: 1px solid #f0f0f0;
+  max-width: 750px;
+  margin: 1rem auto;
+  border-radius: 4px;
+}
+
+.step_active {
+  background-color: var(--blue);
+  color: white;
+}
+
+.step_check {
+  padding-top: 6px;
+  background-color: white;
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.separateur {
+  border-bottom: 1px solid var(--blue);
+  min-width: 100px;
+  width: 100%;
+  display: block;
+  height: 20px;
+  margin: 0;
+}
+
+.check_sep .separateur {
+  border-color: var(--success);
+}
+
+.card {
+  margin: 10px auto;
+}
+
+.card_not_selected {
+  opacity: 0.2;
+}
+
+.card_selected,
+.card:hover,
+.card:focus {
+  transition: all 0.15s;
+  border-color: var(--blue);
+  box-shadow: 0 1px 6px 0 rgba(124, 124, 124, 0.15);
+  z-index: 4000;
+}
+
+label {
+  font-weight: 600;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  padding: 10px 0;
+}
+
+.form-check label {
+  font-weight: 300;
+  margin-left: 5px;
+}
+
+.form-group.required label:after {
+  content: " *";
+  color: red;
+}
+
+.white {
+  color: white;
+}
+
+.questions .form-check {
+  display: inline-block;
+  margin-bottom: 12px;
+  min-width: 345px;
+}

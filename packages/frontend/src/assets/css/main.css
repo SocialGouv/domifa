@@ -1,0 +1,101 @@
+body {
+  font-family: "Source Sans Pro";
+}
+
+.navbar {
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 0px 8px 2px rgba(215, 210, 210, 0.4);
+}
+
+.navbar img {
+  max-height: 40px;
+  width: auto;
+}
+
+.navbar .btn {
+  margin: 5px;
+}
+
+.page-footer div {
+  display: inline-block;
+  min-width: 200px;
+  vertical-align: middle;
+}
+
+.page-footer {
+  text-align: center;
+  margin-top: 200px;
+  width: 100%;
+  padding: 0.5rem 3rem;
+  border: 1px solid #e6e6e6;
+}
+
+.btn-white {
+  background-color: white;
+  border-radius: 6px;
+  transition: all 0.25s;
+}
+
+.btn-white:hover {
+  color: white;
+}
+
+.btn-white.primary {
+  border: 1px solid var(--blue);
+  color: var(--blue);
+}
+
+.btn-white.secondary {
+  border: 1px solid var(--green);
+  color: var(--green);
+}
+
+.btn-white.primary:hover {
+  color: white;
+  background-color: var(--blue);
+}
+
+.btn-white.secondary:hover {
+  color: white;
+  background-color: var(--green);
+}
+
+
+.hero {
+  background-color: var(--primary);
+  padding: 3rem 1rem;
+  text-align: center;
+  color: white;
+}
+
+.section {
+  padding: 1.5rem 0;
+}
+
+.container {
+  margin-top: 40px;
+}
+
+
+.card-header {
+  padding: 0;
+  margin-bottom: 0;
+  background-color: white;
+  border-radius: 2px;
+}
+
+.card-header button {
+  padding: 10px 20px;
+  width: 100%;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: left;
+  color: black;
+}
+
+.accordion .card {
+  margin: 10px auto;
+  border: 1px solid rgba(0, 0, 0, 0.125) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+  border-radius: 0.25rem !important;
+}

@@ -1,21 +1,74 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand"
+    href="#">
+    <img src="../assets/images/logo.png"
+      alt="Logo Domifa">
+  </a>
+  <button class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarTogglerDemo02"
+    aria-controls="navbarTogglerDemo02"
+    aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
+  <div class="collapse navbar-collapse"
+    id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+      </li>
+    </ul>
+    <div class="my-2 my-lg-0">
+      <a routerLink="/login"
+        class="btn btn-outline-primary">Se connecter</a>
+      <a routerLink="/nouveau"
+        class="btn btn-outline-secondary">
+        <fa-icon icon="plus"></fa-icon>
+        Créer une demande
+      </a>
+    </div>
+  </div>
+</nav>
 <router-outlet></router-outlet>
+<footer class="page-footer">
+  <div class="">
+    <img src="../assets/images/logoministere.jpg"
+      alt="Logo Domifa">
+  </div>
+  <div>
+    <span>Accueil</span>
+  </div>
+  <div>
+    <span>FAQ</span>
+  </div>
+  <div>
+    <span>Contactez-nous</span>
+  </div>
+  <div class="text-right ">
+    <span>© 2019 Incubateur des affaires sociales</span>
+  </div>
+</footer>
+<ng-template #content
+  let-c="close"
+  let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title"
+      id="modal-basic-title">Hi there!</h4>
+    <button type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Hello, World!</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button"
+      class="btn btn-outline-dark"
+      (click)="c('Save click')">Save</button>
+  </div>
+</ng-template>

@@ -1,0 +1,215 @@
+<div class="container"
+  *ngIf="usager">
+  <div class="row">
+    <div class="col-md-3 text-left">
+      <a routerLink="/manage/">
+        <fa-icon icon="angle-left"></fa-icon>
+        Retour à la liste
+      </a>
+    </div>
+    <div class="col-md-6 text-center">
+      <div id="profil_head">
+        <h2 id="profil_name">
+          {{ usager.prenom }} <span>{{ usager.nom }}</span> 
+        </h2>
+        Numéro domicilié : <b>{{ usager.id }}</b>
+      </div>
+      <div class="text-center"
+        *ngIf="usager.statutDemande === 'valide'">
+        Domiciliation valable jusqu'au <b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}</b>
+        <br>
+        Dernier passage le <b>18/03/2019</b>
+      </div>
+      <br><br>
+      <div class="text-center">
+        <span class="btn btn-warning">14 courriers en attente. <a href="">Confirmer la distribution</a></span>
+      </div>
+    </div>
+  </div>
+  <br><br>
+  <div class="text-center">
+    <h5><b>Signalez la réception d’un courrier ou un passage</b></h5>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-md-4 offset-md-1"
+      id="notif_form">
+      <div>
+        <fa-icon icon="envelope"></fa-icon>
+        <input class="form-control"
+          type="number">
+        <span>Courriers reçus</span>
+      </div>
+      <div>
+        <fa-icon icon="envelope"></fa-icon>
+        <input class="form-control"
+          type="number">
+        <span>Courriers <b>recommandés</b> reçus</span>
+      </div>
+      <div>
+        <fa-icon icon="envelope"></fa-icon>
+        <input class="form-control"
+          type="number">
+        <span>Colis reçus</span>
+      </div>
+    </div>
+
+    <div class="col-md-2 text-center">
+      <br><br>
+      <button class="btn btn-primary btn-block">
+        Notifier
+      </button>
+    </div>
+
+    <div class="col-md-4"
+      id="big_icons">
+      <div class="row">
+        <div class="col-md-6 text-center">
+          <fa-icon icon="walking"
+            size="4x"
+            class="actions_icones"
+            id="passage">
+          </fa-icon>
+          Est passé sans récupérer de courrier
+        </div>
+        <div class="col-md-6 text-center">
+          <fa-icon class="actions_icones"
+            id="appel"
+            icon="phone"
+            size="4x"></fa-icon>
+          A appelé
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br><br>
+  <ngb-accordion #acc="ngbAccordion"
+    activeIds="ngb-panel-0">
+
+    <ngb-panel title="HISTORIQUE DES DERNIÈRES INTERACTIONS">
+      <ng-template ngbPanelContent>
+        <table class="table table-light">
+          <tr>
+            <td>Courrier recommandé</td>
+            <td>Notifié le 11/03/2019</td>
+            <td>14 courriers en attente. <a href="">Confirmer la distribution</a></td>
+          </tr>
+          <tr>
+            <td>Courrier </td>
+            <td>Notifié le 11/03/2019</td>
+            <td>14 courriers en attente. Récupéré le 12/02/2019</td>
+          </tr>
+          <tr>
+            <td>Appel téléphonique</td>
+            <td></td>
+            <td>Le 13/11/2019</td>
+          </tr>
+        </table>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel title="HISTORIQUE DE LA DOMICILIATION">
+      <ng-template ngbPanelContent>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel title="ÉTAT CIVIL">
+      <ng-template ngbPanelContent>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel title="AYANTS DROITS">
+      <ng-template ngbPanelContent>
+        <table class="table table-light">
+          <tbody>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Né le </th>
+              <th>Lien</th>
+            </tr>
+            <tr *ngFor="let ayantDroit of usager.ayantsDroits">
+              <td>{{ ayantDroit.nom }}</td>
+              <td>{{ ayantDroit.prenom }}</td>
+              <td>{{ ayantDroit.dateNaissance }}</td>
+              <td>{{ ayantDroit.lien }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel title="SITUATION SOCIALE">
+      <ng-template ngbPanelContent>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel title="PIÈCES JOINTES">
+      <ng-template ngbPanelContent>
+
+        <table class="table table-light">
+          <tbody>
+            <tr>
+              <th>#</th>
+              <th>Nom de la pièce justificative</th>
+              <th>Ajoutée le </th>
+              <th>Ajoutée par </th>
+              <th></th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let document of usager.docs; let indexDocs = index">
+              <td>{{ indexDocs }} </td>
+              <td>{{ document.label }} </td>
+              <td>{{ document.createdAt | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ document.createdBy }}</td>
+              <td>
+                <button (click)="getDocument(indexDocs)"
+                  class="btn btn-primary"
+                  aria-label="Voir la pièce jointe">
+                  <fa-icon icon="download"></fa-icon> Télécharger
+                </button>
+              </td>
+              <td>
+                <button (click)="deleteDocument(indexDocs)"
+                  class="btn btn-danger"
+                  aria-label="Voir la pièce jointe">
+                  <fa-icon icon="trash"></fa-icon>
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel title="ATTESTATIONS">
+      <ng-template ngbPanelContent>
+        <div class="row">
+          <div class="col">
+            Attestation de domiciliation à la date du jour (12/10/2019)
+          </div>
+
+          <div class="col">
+            <button (click)="getAttestation()"
+              class="btn btn-outline-primary">
+              <fa-icon icon="file-pdf"> </fa-icon> &nbsp; Télécharger l'attestation
+            </button>
+          </div>
+          <div class="col">
+            Courrier de radiation à la date du jour (12/10/2019)
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-danger">
+              <fa-icon icon="times"> </fa-icon> &nbsp; Radier et générer le courrier
+            </button>
+
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+
+  </ngb-accordion>
+
+
+</div>

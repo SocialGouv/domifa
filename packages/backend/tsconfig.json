@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "paths": {
+      "*": ["types/*"]
+    },
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -8,7 +11,11 @@
     "target": "es6",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "typeRoots": [
+      "node_modules/@types",
+      "../../node_modules/@types"
+    ],
   },
   "exclude": ["node_modules"]
 }

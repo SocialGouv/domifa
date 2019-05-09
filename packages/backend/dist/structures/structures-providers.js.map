@@ -1,0 +1,1 @@
+{"version":3,"file":"structures-providers.js","sourceRoot":"","sources":["../../src/structures/structures-providers.ts"],"names":[],"mappings":";;AACA,yDAAqD;AAExC,QAAA,mBAAmB,GAAG;IACjC;QACE,MAAM,EAAE,CAAC,qBAAqB,CAAC;QAC/B,OAAO,EAAE,iBAAiB;QAC1B,UAAU,EAAE,CAAC,UAAsB,EAAE,EAAE,CAAC,UAAU,CAAC,KAAK,CAAC,WAAW,EAAE,kCAAe,CAAC;KACvF;CACF,CAAC"}

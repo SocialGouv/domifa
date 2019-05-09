@@ -1,0 +1,58 @@
+.profil {
+  color: #2E384D;
+}
+
+#profil_head {
+  padding: 5px 20px;
+  border-bottom: 1px solid #2E384D;
+}
+
+#profil_name {
+  font-size: 1.3rem;
+  margin: 2px 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+#profil_name span {
+  text-transform: uppercase;
+}
+
+#notif_form div {
+  margin: 5px auto;
+}
+
+input[type="number"] {
+  width: 50px;
+  margin: 0 10px;
+  display: inline;
+}
+
+.actions_icones {
+  display: block;
+  color: white;
+  -webkit-text-stroke-width: 12px;
+  stroke-width: 10px;
+  margin-bottom: 10px;
+  transition: all 0.3s;
+  cursor: pointer;
+
+}
+
+#appel {
+  -webkit-text-stroke-color: var(--secondary);
+  stroke: var(--secondary);
+}
+
+#appel:hover {
+  color: var(--secondary);
+}
+
+#passage {
+  -webkit-text-stroke-color: var(--primary);
+  stroke: var(--primary);
+}
+
+#passage:hover {
+  color: #4668ff;
+}

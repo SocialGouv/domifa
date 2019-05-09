@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -o",
     "build": "ng build",
     "test": "jest",
     "lint": "ng lint",
@@ -15,15 +15,21 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~7.2.0",
-    "@angular/common": "~7.2.0",
+    "@angular/common": "^7.2.11",
     "@angular/compiler": "~7.2.0",
-    "@angular/core": "~7.2.0",
-    "@angular/forms": "~7.2.0",
+    "@angular/core": "^7.0.0",
+    "@angular/forms": "^7.0.0",
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "@fortawesome/angular-fontawesome": "^0.3.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-regular-svg-icons": "^5.8.1",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@ng-bootstrap/ng-bootstrap": "^4.1.0",
     "core-js": "^2.5.4",
-    "rxjs": "~6.3.3",
+    "rxjs": "^6.3.0",
+    "template.data.gouv.fr": "^1.2.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },
@@ -42,6 +48,6 @@
     "ts-jest": "^24.0.0",
     "ts-node": "~7.0.0",
     "tslint": "^5.14.0",
-    "typescript": "^3.3.3333"
+    "typescript": "3.2"
   }
 }

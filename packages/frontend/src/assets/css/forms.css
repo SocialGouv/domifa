@@ -1,0 +1,17 @@
+.form-group.required .control-label:after {
+  content: "*";
+  color: red;
+}
+
+.custom-file-label {
+  overflow: hidden;
+  font-weight: 400 !important;
+}
+
+input[type="radio"]:checked+label {
+  color: var(--blue);
+}
+
+label {
+  cursor: pointer;
+}

@@ -1,0 +1,42 @@
+#filters .row * {
+  vertical-align: middle;
+
+}
+
+#filters .row {
+  margin: 15px 0;
+}
+
+#filters button {
+  margin: 0 5px;
+}
+
+#filters span {
+  width: 100px;
+  padding-top: 5px;
+}
+
+#filters .btn {
+  border-radius: 100px;
+  padding: 5px 20px;
+}
+
+.table_name span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 100px;
+  margin-top: -10px
+}
+
+.valide {
+  background-color: rgb(102, 194, 10);
+}
+
+.refus {
+  background-color: #bc1516;
+}
+
+.instruction {
+  background-color: rgb(226, 168, 7);
+}
