@@ -6,6 +6,7 @@ import { EntretienDto } from '../dto/entretien';
 import { RdvDto } from '../dto/rdv';
 import { UsagersDto } from '../dto/usagers.dto';
 import { Decision } from '../interfaces/decision';
+import { SearchDto } from '../interfaces/search';
 import { Usager } from '../interfaces/usagers';
 
 @Injectable()
@@ -159,21 +160,27 @@ export class UsagersService {
     }) .select('-docsPath').exec();
   }
 
-  public async search(term?: string): Promise<Usager[]> {
+  public async search(query?: SearchDto): Promise<Usager[]> {
     this.sort = { 'nom': 1 };
-    this.searchByName = {
-      $or: [
-        {
-          nom: { $regex: '.*' + term + '.*' }
-        },
-        {
-          prenom: { $regex: '.*' + term + '.*' }
-        }
-      ]
+
+    /* ID DE LA STRUCTURE DE LUSER */
+    const searchQuery = {
+      structure: 0
     };
 
-    const paramsAvailable = [ 'term', 'statut', 'echeance', 'courrier']
-    return this.usagerModel.find()
+    if (query.name) {
+      console.log(query.name);
+      searchQuery['$or'] =  [
+        {
+          nom: { $regex: '.*' + query.name + '.*' , $options: '-i' }
+        },
+        {
+          prenom: { $regex: '.*' + query.name + '.*', $options: '-i'  }
+        }
+      ];
+    }
+
+    return this.usagerModel.find(searchQuery)
     .sort(this.sort)
     .exec();
   }

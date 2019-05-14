@@ -30,8 +30,8 @@ export class UsagerService {
     return this.http.post(`${this.endPoint}/rdv/${idUsager}`, rdv);
   };
 
-   /* Ajout d'un rendez-vous */
-   public entretien(entretien: Entretien, idUsager: number){
+  /* Ajout d'un rendez-vous */
+  public entretien(entretien: Entretien, idUsager: number){
     return this.http.post(`${this.endPoint}/entretien/${idUsager}`, entretien);
   };
 
@@ -46,9 +46,12 @@ export class UsagerService {
   };
 
   /* Recherche */
-  public search(term?: string) {
-    const params = term ? new HttpParams().set('q', term) : null;
-    return this.http.get(`${this.endPoint}/search/`, { params });
+  public search(filters?: {}) {
+    let httpParams = new HttpParams();
+    Object.keys(filters).forEach(function (key) {
+      filters[key] !== null ? httpParams = httpParams.append(key, filters[key]) : null;
+    });
+    return this.http.get(`${this.endPoint}/search/`, { params : httpParams });
   };
 
   /* Attestation */

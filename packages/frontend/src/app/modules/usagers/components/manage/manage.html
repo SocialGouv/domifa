@@ -5,19 +5,21 @@
       <div class="form-group">
         <input id="typeahead-http"
           type="text"
+          #searchInput
           placeholder="Rechercher un.e domicilié par nom, prénom, numéro de domicilié"
           class="form-control">
         <span *ngIf="searching">Recherche en cours...</span>
         <div class="invalid-feedback"
           *ngIf="searchFailed">
         </div>
-        <ng-template let-t="term"
-          #rt
-          let-r="result">
-          <ngb-highlight [result]="r.properties.label"
-            [term]="t">
-          </ngb-highlight>
-        </ng-template>
+        <div class="row"
+          *ngIf="isSearching">
+          <div class="col-12 text-center">
+
+            <h4>Recherche en cours ... </h4>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Header, Param, Patch, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Header, Param, Patch, Post, Res, UploadedFile, UseInterceptors, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer';
 import * as path from 'path';
@@ -8,6 +8,7 @@ import { Decision } from './interfaces/decision';
 import { CerfaService } from './services/cerfa.service';
 import { UsagersService } from './services/usagers.service';
 import { EntretienDto } from './dto/entretien';
+import { SearchDto } from './interfaces/search';
 
 @Controller('usagers')
 export class UsagersController {
@@ -45,11 +46,11 @@ export class UsagersController {
      return this.usagersService.setDecision(usagerId, decision);
    }
 
-
     /* PROFILE & MANAGEMENT */
     @Get('search')
-    public search() {
-      return this.usagersService.search();
+    public search(@Query() query: SearchDto) {
+      console.log(query);
+      return this.usagersService.search(query);
     }
 
     @Get(':id')

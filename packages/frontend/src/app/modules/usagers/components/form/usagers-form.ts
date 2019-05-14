@@ -83,11 +83,24 @@ export class UsagersFormComponent implements OnInit {
   public structure: any;
   public agents: any[] = [];
 
+  public motifsRefus = {
+    "refus1": "Existence d'un hébergement stable",
+    "refus2": "Nombre de domiciliations de votre organisme prévu par l’agrément atteint (associations)",
+    "refus3": "En dehors des critères du public domicilié (associations)",
+    "refus4": "Absence de lien avec la commune (CCAS/commune)",
+    "refus5": "Autres (précisez le motif)",
+  };
+
+  public motifsRefusList = Object.keys(this.motifsRefus);
+
+
   public successMessage: string;
   public errorMessage: string;
 
   private _success = new Subject<string>();
   private _error = new Subject<string>();
+
+
 
   constructor(private Autocomplete: AutocompleteAdresseService,
     private formBuilder: FormBuilder,
@@ -99,6 +112,7 @@ export class UsagersFormComponent implements OnInit {
     }
 
     public ngOnInit() {
+      console.log(this.motifsRefusList);
 
       this.title = "Enregister un dossier";
       this.uploadResponse = { status: '', message: '', filePath: '' };
@@ -227,6 +241,12 @@ export class UsagersFormComponent implements OnInit {
 
     public getAttestation() {
       return this.usagerService.attestation(this.usager.id);
+    }
+
+    public changeStep(i: number) {
+      if (this.usager.decision.statut === 'instruction' ) {
+        this.usager.etapeDemande = i;
+      }
     }
 
     public submitInfos() {

@@ -92,7 +92,7 @@ export class Usager {
     this.decision = usager && usager.decision || {
       motif: "",
       motifDetails: "",
-      statut: "",
+      statut: 'instruction',
     };
   }
 }
