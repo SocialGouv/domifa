@@ -1,7 +1,2 @@
 node_modules
-.DS_Store
-.idea
-.next
-.vscode
-.env
-yarn-error.log
+coverage
