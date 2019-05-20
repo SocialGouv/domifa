@@ -2,9 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Entretien } from '../interfaces/entretien';
 import { Rdv } from '../interfaces/rdv';
 import { Usager } from '../interfaces/usager';
-import { Entretien } from '../interfaces/entretien';
 
 @Injectable()
 export class UsagerService {

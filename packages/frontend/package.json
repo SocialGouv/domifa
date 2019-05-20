@@ -9,7 +9,7 @@
     "start": "ng serve -o",
     "build": "ng build",
     "test": "jest",
-    "lint": "ng lint",
+    "lint": "ng lint --format stylish",
     "e2e": "ng e2e"
   },
   "private": true,

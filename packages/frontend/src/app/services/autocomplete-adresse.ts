@@ -23,7 +23,7 @@ export class AutocompleteAdresseService {
     return this.http
     .get(ADRESSE_DATA_GOUV, {params: PARAMS.set('q', term)}).pipe(
       map(response => {
-        return response['features'];
+        return response.features;
       })
 
       );

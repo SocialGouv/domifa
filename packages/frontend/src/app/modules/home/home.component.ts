@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.title = "Domifa : faciliter la vie des CCAS";
   }
 

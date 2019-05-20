@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { password, regexp } from '../../../entities/validators';
 import { User } from '../../../entities/user';
+import { password, regexp } from '../../../entities/validators';
 
 @Component({
   selector: 'app-home',
