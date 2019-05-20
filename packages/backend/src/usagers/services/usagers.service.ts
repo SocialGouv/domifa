@@ -170,7 +170,7 @@ export class UsagersService {
 
     if (query.name) {
       console.log(query.name);
-      searchQuery['$or'] =  [
+      searchQuery.$or =  [
         {
           nom: { $regex: '.*' + query.name + '.*' , $options: '-i' }
         },

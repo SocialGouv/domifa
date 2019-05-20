@@ -1,7 +1,7 @@
-import { Controller, Body, Post, Get, Param } from '@nestjs/common';
-import { StructuresService } from './structures.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { StructureDto } from './structure-dto';
 import { Structure } from './structure-interface';
+import { StructuresService } from './structures.service';
 
 @Controller('structures')
 export class StructuresController {

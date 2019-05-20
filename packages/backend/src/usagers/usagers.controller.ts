@@ -1,14 +1,14 @@
-import { BadRequestException, Body, Controller, Delete, Get, Header, Param, Patch, Post, Res, UploadedFile, UseInterceptors, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Header, Param, Patch, Post, Query, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer';
 import * as path from 'path';
+import { EntretienDto } from './dto/entretien';
 import { RdvDto } from './dto/rdv';
 import { UsagersDto } from './dto/usagers.dto';
 import { Decision } from './interfaces/decision';
+import { SearchDto } from './interfaces/search';
 import { CerfaService } from './services/cerfa.service';
 import { UsagersService } from './services/usagers.service';
-import { EntretienDto } from './dto/entretien';
-import { SearchDto } from './interfaces/search';
 
 @Controller('usagers')
 export class UsagersController {
