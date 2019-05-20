@@ -15,6 +15,10 @@ git:
   install:
     - yarn --frozen-lockfile
 
+.environments:
+  - &github_keys
+    - secure: "FPrx9BEXrb4iHjareOF3htRRQtBcqJi+16NlQGZ27Dw/1I7I4IwxwjPgI4YKt31mjtv7K+tU8zQlD/+3G2RHHiNEsm4mNhuedexW8SYU2iI76sjiFb9N8bLnrxezh1LBf0jG7tA3mhkChmyiajSn/ENqJxbVADUAEHw1NepFSQePJkCtAuazHqpslZ4bVCrJ5JzjX5scHomQHb8TPOQEAVKBT7GLdGceoylMJwmj8b6GnxjD+J2DvWukTp5c0tesXPbpASb1v4T1nIBLNYmrdDXbFMv5O5nGiwDNpRsY5UKt8kdgA8/Uh1Tu83Z5Dle/Lly46VtrBfKqp6fB7zQfr17vZo5tMp0+M1fbhK23+fdIdBTYgPQjOk3RfmxE+6b/spW3/9vedji4IOLmDh49kfEORyWfEkhl5qSjfPnhbGJvM8S4RL6Q3wxCJFu6/593z98t74JL2qm/48WLgVZgZaKkXEt0TnR6ZMZ2dYyle7O2RByapuRTS/gi54cdkOfVCf4mg6RZ0UapsAhUO1BDu8UXZ5QeFOmlzHjuZPuV27GpqcXLuzjZ9EP+UbsvGi5zn/w3pfuG2K9JjfKhMyCOxMokuB2MhpJtJxQM36JhIVe+q5B1HLnK4n1d/cYUrVc7279me+wrhI3/wHugbM29fVHhAYo3wdsL8/LoiHEnxN8="
+
 #
 
 jobs:
@@ -41,3 +45,23 @@ jobs:
         - travis_fold end "yarn.test"
       after_script:
         - npx codecov
+
+    - <<: *node_stage
+      stage: Release
+      if: env(RELEASE)
+      name: Make a new release 🎉
+      git:
+        # NOTE(douglasduteil): disable git --depth
+        # Try to have all the commits for the release Change Log
+        # see travis-ci/travis-ci#3412
+        depth: 9999999 # Over 9000 !
+      env:
+        - *github_keys
+      before_script:
+        - git checkout ${TRAVIS_BRANCH}
+        - git config user.name "Social Groovy Bot"
+        - git config user.email "45039513+SocialGroovyBot@users.noreply.github.com"
+        - git remote set-url origin https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
+      script:
+        - GH_TOKEN=${GITHUB_TOKEN} yarn lerna version ${LERNA_ARGS:=--yes}
+        - yarn lerna publish from-git --yes
