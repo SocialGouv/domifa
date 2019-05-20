@@ -1,4 +1,4 @@
-import { Inject, Injectable, Res } from '@nestjs/common';
+import { Inject, Injectable, Logger, Res } from '@nestjs/common';
 import * as fs from 'fs';
 import { Model } from "mongoose";
 import * as path from 'path';
@@ -10,6 +10,7 @@ import { UsersService } from '../../users/users.service';
 
 @Injectable()
 export class CerfaService {
+  private readonly logger = new Logger(CerfaService.name);
 
   constructor(@Inject('USAGER_MODEL') private readonly usagerModel: Model<Usager>, private readonly usersService: UsersService) {
 
@@ -112,8 +113,8 @@ export class CerfaService {
         infosPdf["topmostSubform[0].Page2[0].OrientationProposée[0]"] = (usager.decision.orientation || '') + ' : ' + (usager.decision.orientationDetails || '');
       }
     }
-    console.log(path.resolve(__dirname, pdfForm));
-    console.log(typeof infosPdf);
+    this.logger.log(path.resolve(__dirname, pdfForm));
+    this.logger.log(typeof infosPdf);
     return pdftk.input( fs.readFileSync(path.resolve(__dirname, pdfForm))).fillForm(infosPdf).flatten().output();
   }
 
