@@ -1,10 +1,43 @@
 ---
 dist: xenial
-language: node_js
-node_js: "10"
+language: minimal
 git:
   depth: 5
 
-cache:
-  yarn: true
+#
 
+.node_stage: &node_stage
+  language: node_js
+  node_js: "10"
+  before_install:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+    - export PATH="$HOME/.yarn/bin:$PATH"
+  install:
+    - yarn --frozen-lockfile
+
+#
+
+jobs:
+  include:
+    - <<: *node_stage
+      stage: Test
+      # if: type = pull_request
+      name: Test
+      before_script:
+        # Code folding and timing in Travis CI
+        # from http://www.garbers.co.za/2017/11/01/code-folding-and-timing-in-travis-ci/
+        - export -f travis_fold travis_nanoseconds travis_time_finish
+      script:
+        - travis_fold start "yarn.build"
+        - yarn build --stream
+        - travis_fold end "yarn.build"
+        #
+        - travis_fold start "yarn.lint"
+        - yarn lint --stream
+        - travis_fold end "yarn.lint"
+        #
+        - travis_fold start "yarn.test"
+        - yarn run -- test --stream -- --coverage
+        - travis_fold end "yarn.test"
+      after_script:
+        - npx codecov
