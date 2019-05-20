@@ -166,6 +166,7 @@ export class UsagersService {
 
     /* ID DE LA STRUCTURE DE LUSER */
     const searchQuery = {
+      $or: [],
       structure: 0
     };
 
