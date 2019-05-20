@@ -5,8 +5,6 @@ import { AuthService } from './auth.service';
 
 @Controller("auth")
 export class AuthController {
-  constructor(
-    ) { }
 /*
     @Post('login')
     public async loginUser(@Response() res: any, @Body() body: User) {
