@@ -3,16 +3,17 @@ import { AyantDroit } from '../interfaces/ayant-droit';
 
 export class UsagersDto {
 
-  @IsIn(['homme','femme'])
+  @IsIn(['homme', 'femme'])
   public sexe: string;
 
   @IsNotEmpty()
   public nom: string;
+
   @IsNotEmpty()
   public prenom: string;
 
   @IsNotEmpty()
-  public readonly dateNaissance: Date;
+  public dateNaissance: Date;
 
   @IsNotEmpty()
   public villeNaissance: string;
@@ -22,17 +23,14 @@ export class UsagersDto {
 
   @IsOptional()
   @IsEmail()
-  public readonly email: string;
+  public email: string;
 
   @IsOptional()
-  public readonly phone: string;
+  public phone: string;
 
   @IsOptional()
   @IsNumber()
   public etapeDemande: number;
-
-  @IsNotEmpty()
-  public statutDemande: string;
 
   @IsNotEmpty()
   public preference: {
@@ -41,7 +39,19 @@ export class UsagersDto {
   };
 
   @IsOptional()
-  public decision: {};
+  public decision: {
+    dateDebut: Date,
+    dateFin: Date,
+    dateDemande: Date,
+    dateInstruction: Date,
+    statut: string,
+    motif: string,
+    userId: number,
+    agent: string,
+    motifDetails: string,
+    orientation: number,
+    orientationDetails: string
+  };
 
   @IsOptional()
   public ayantsDroits: AyantDroit[];

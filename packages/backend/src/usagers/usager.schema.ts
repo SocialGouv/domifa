@@ -27,18 +27,18 @@ export const UsagerSchema = new mongoose.Schema({
   ayantsDroitsExist: Boolean,
 
   etapeDemande: Number,
-  statutDemande: String,
-  dateDemande: Date,
 
   decision: {
-    dateDebut: Date,
-    dateFin: Date,
-    statut: String,
-    motif: String,
     agent : String,
+    dateDebut: Date,
+    dateDemande: Date,
+    dateFin: Date,
+    dateInstruction: Date,
+    motif: String,
     motifDetails: String,
     orientation: String,
-    orientationDetails: String
+    orientationDetails: String,
+    statut: String,
   },
 
   historique: String,
@@ -48,7 +48,6 @@ export const UsagerSchema = new mongoose.Schema({
     userId: Number,
     userName: String,
   },
-
 
   entretien: {
     domiciliation: Boolean,

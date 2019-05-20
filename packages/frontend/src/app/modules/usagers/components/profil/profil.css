@@ -25,7 +25,7 @@
 input[type="number"] {
   width: 50px;
   margin: 0 10px;
-  display: inline;
+  display: inline-block;
 }
 
 .actions_icones {

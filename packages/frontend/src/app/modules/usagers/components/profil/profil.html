@@ -1,5 +1,4 @@
-<div class="container"
-  *ngIf="usager">
+<div class="container" *ngIf="usager">
   <div class="row">
     <div class="col-md-3 text-left">
       <a routerLink="/manage/">
@@ -10,12 +9,11 @@
     <div class="col-md-6 text-center">
       <div id="profil_head">
         <h2 id="profil_name">
-          {{ usager.prenom }} <span>{{ usager.nom }}</span> 
+          {{ usager.prenom }} <span>{{ usager.nom }}</span>
         </h2>
         Numéro domicilié : <b>{{ usager.id }}</b>
       </div>
-      <div class="text-center"
-        *ngIf="usager.statutDemande === 'valide'">
+      <div class="text-center" *ngIf="usager.decision.statut === 'valide'">
         Domiciliation valable jusqu'au <b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}</b>
         <br>
         Dernier passage le <b>18/03/2019</b>
@@ -32,24 +30,20 @@
     <br>
   </div>
   <div class="row">
-    <div class="col-md-4 offset-md-1"
-      id="notif_form">
+    <div class="col-md-4 offset-md-1" id="notif_form">
       <div>
         <fa-icon icon="envelope"></fa-icon>
-        <input class="form-control"
-          type="number">
+        <input class="form-control" type="number">
         <span>Courriers reçus</span>
       </div>
       <div>
         <fa-icon icon="envelope"></fa-icon>
-        <input class="form-control"
-          type="number">
+        <input class="form-control" type="number">
         <span>Courriers <b>recommandés</b> reçus</span>
       </div>
       <div>
         <fa-icon icon="envelope"></fa-icon>
-        <input class="form-control"
-          type="number">
+        <input class="form-control" type="number">
         <span>Colis reçus</span>
       </div>
     </div>
@@ -61,21 +55,14 @@
       </button>
     </div>
 
-    <div class="col-md-4"
-      id="big_icons">
+    <div class="col-md-4" id="big_icons">
       <div class="text-center">
-        <fa-icon icon="walking"
-          size="3x"
-          class="actions_icones"
-          id="passage">
+        <fa-icon icon="walking" size="3x" class="actions_icones" id="passage">
         </fa-icon>
         <span>Est passé sans récupérer de courrier</span>
       </div>
       <div class="text-center">
-        <fa-icon class="actions_icones"
-          id="appel"
-          icon="phone"
-          size="3x">
+        <fa-icon class="actions_icones" id="appel" icon="phone" size="3x">
         </fa-icon>
         <span>A appelé</span>
       </div>
@@ -83,8 +70,7 @@
   </div>
 
   <br><br>
-  <ngb-accordion #acc="ngbAccordion"
-    activeIds="ngb-panel-0">
+  <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
 
     <ngb-panel title="HISTORIQUE DES DERNIÈRES INTERACTIONS">
       <ng-template ngbPanelContent>
@@ -110,6 +96,9 @@
 
     <ngb-panel title="HISTORIQUE DE LA DOMICILIATION">
       <ng-template ngbPanelContent>
+        Dossier instruit le <b>{{ usager.decision.dateInstruction | date: 'dd/MM/yyyy' }}</b>
+        <br>
+        Demande de domiciliation effectuée le <b>{{ usager.decision.dateDemande | date: 'dd/MM/yyyy' }}</b>
       </ng-template>
     </ngb-panel>
 
@@ -139,14 +128,32 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel title="SITUATION SOCIALE">
+    <ngb-panel title="ENTRETIEN SOCIALE">
       <ng-template ngbPanelContent>
+        <div class="row">
+          <div class="col">
+            <b>Avez-vous déjà une domiciliation quelque part ?</b> : {{ usager.entretien.domiciliation ? 'Oui' : 'Non' }} <br>
+            <b>Avez-vous des revenus ?</b> : {{ usager.entretien.revenus ? 'Oui' : 'Non' }}  <br> <br>
+
+            <b>Quel est votre lien avec la commune ?</b> : {{ usager.entretien.liencommune || 'Non renseigné' }} <br><br>
+
+            <b>Quelle est la cause de l'instabilité de logement ?</b> : {{ usager.entretien.residence }} <br>
+            <span *ngIf="usager.entretien.residence === 'residenceAutre'"><b>Détail : </b>{{ usager.entretien.residenceDetail }} <br></span><br>
+          </div>
+          <div class="col">
+            <b>Quel est le motif principal de demande de domiciliation ?</b> : {{ usager.entretien.cause }} <br>
+            <span *ngIf="usager.entretien.cause === 'causeAutre'"><b>Détail : </b>{{ usager.entretien.residenceDetail }} <br></span>
+            <br>
+            <b>Faites-vous l’objet d’un accompagnement social ?</b> : {{ usager.entretien.accompagnement ? 'Oui' : 'Non' }} <br>
+            <span *ngIf=" accompagnementDetail !== null"> <b>Suivi par</b> : {{ accompagnementDetail }}</span><br><br>
+            <b>Commentaires</b> <br>
+          </div>
+        </div>
       </ng-template>
     </ngb-panel>
 
     <ngb-panel title="PIÈCES JOINTES">
       <ng-template ngbPanelContent>
-
         <table class="table table-light">
           <tbody>
             <tr>
@@ -163,16 +170,12 @@
               <td>{{ document.createdAt | date: 'dd/MM/yyyy' }}</td>
               <td>{{ document.createdBy }}</td>
               <td>
-                <button (click)="getDocument(indexDocs)"
-                  class="btn btn-primary"
-                  aria-label="Voir la pièce jointe">
+                <button (click)="getDocument(indexDocs)" class="btn btn-primary" aria-label="Voir la pièce jointe">
                   <fa-icon icon="download"></fa-icon> Télécharger
                 </button>
               </td>
               <td>
-                <button (click)="deleteDocument(indexDocs)"
-                  class="btn btn-danger"
-                  aria-label="Voir la pièce jointe">
+                <button (click)="deleteDocument(indexDocs)" class="btn btn-danger" aria-label="Voir la pièce jointe">
                   <fa-icon icon="trash"></fa-icon>
                   Supprimer
                 </button>
@@ -190,8 +193,7 @@
           </div>
 
           <div class="col">
-            <button (click)="getAttestation()"
-              class="btn btn-outline-primary">
+            <button (click)="getAttestation()" class="btn btn-outline-primary">
               <fa-icon icon="file-pdf"> </fa-icon> &nbsp; Télécharger l'attestation
             </button>
           </div>

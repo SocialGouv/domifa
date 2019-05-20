@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { Model } from "mongoose";
 import { UsersService } from '../../users/users.service';
 import { EntretienDto } from '../dto/entretien';
@@ -24,9 +23,7 @@ export class UsagersService {
   public async create(usagersDto: UsagersDto): Promise<Usager> {
     const createdUsager = new this.usagerModel(usagersDto);
     const user = await this.usersService.findById(2);
-
     createdUsager.etapeDemande++;
-    createdUsager.dateDemande = new Date();
     createdUsager.agent = user.firstName + ' ' + user.lastName;
     createdUsager.id = this.lastId(await this.findLastUsager());
     return createdUsager.save();
@@ -45,22 +42,31 @@ export class UsagersService {
 
 
   public async setDecision(usagerId: number, decision: Decision): Promise<Usager> {
-    decision.dateDebut = new Date();
-    decision.userId = 1;
-    decision.agent = 'Yassine';
-    decision.dateFin = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+    const user = await this.usersService.findById(2);
+    decision.agent = user.firstName + ' ' + user.lastName;
 
-    if (decision.statut === 'valide') {
+    if (decision.statut === 'demande') {
+      decision.dateDemande = new Date();
+      /* Mail au responsable */
+    }
+    else if (decision.statut === 'valide') {
+      decision.dateFin = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+      decision.dateDebut = new Date();
+
       /* Récupération du dernier ID lié à la structure */
       /* SMS & Mail pr prévenir */
+    }
+    else if (decision.statut === 'refus')
+    {
+      decision.dateDebut = new Date();
+
     }
     return this.usagerModel.findOneAndUpdate({
       'id' :usagerId
     }, {
       $set: {
-        "etapeDemande": 6,
         "decision" : decision,
-        "statutDemande": decision.statut,
+        "etapeDemande": 6,
       }
     },{
       new: true
@@ -73,7 +79,7 @@ export class UsagersService {
     }, {
       $set: {
         "entretien" : entretien,
-        "etapeDemande": 4,
+        "etapeDemande": 3,
       }
     },{
       new: true
@@ -81,20 +87,17 @@ export class UsagersService {
   }
 
   public async setRdv(usagerId: number, rdvDto: RdvDto): Promise<Usager> {
-    console.log(rdvDto);
-    /* GET USER NAME ID */
+    const user = await this.usersService.findById(rdvDto.userId);
     return this.usagerModel.findOneAndUpdate({
       'id' : usagerId
     }, {
       $set: {
-        "dateDemande": new Date().toISOString(),
         "etapeDemande": 2,
         "rdv.dateRdv": rdvDto.dateRdv,
         "rdv.userId": rdvDto.userId,
-        "rdv.username": 'Valérie',
-        "statutDemande": 'entretien',
+        "rdv.userName": user.lastName + ' ' + user.firstName,
       }
-    }) .select('-docsPath').exec();
+    }).select('-docsPath').exec();
   }
 
   public async deleteDocument(usagerId: number, index): Promise<Usager> {
@@ -169,7 +172,6 @@ export class UsagersService {
     };
 
     if (query.name) {
-      console.log(query.name);
       searchQuery['$or'] =  [
         {
           nom: { $regex: '.*' + query.name + '.*' , $options: '-i' }

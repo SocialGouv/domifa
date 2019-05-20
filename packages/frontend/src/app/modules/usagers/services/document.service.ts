@@ -11,7 +11,7 @@ export class DocumentService {
 
   public http: HttpClient;
   private usager = null;
-  private endPoint = environment.apiUrl+'/usagers/document/';
+  private endPoint = environment.apiUrl+'usagers/document/';
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -27,10 +27,8 @@ export class DocumentService {
       switch (event.type) {
         case HttpEventType.UploadProgress:
         const progress = Math.round(100 * event.loaded / event.total);
-        console.log(100 * event.loaded);
         return { status: 'progress', message: progress };
         case HttpEventType.Response:
-        console.log("FINITO");
         return { success: true, body: event.body };
         default:
         return `Unhandled event: ${event.type}`;

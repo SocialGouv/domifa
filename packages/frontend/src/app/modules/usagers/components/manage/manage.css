@@ -5,7 +5,6 @@
 
 #filters .row * {
   vertical-align: middle;
-
 }
 
 #filters .row {
@@ -23,7 +22,8 @@
 
 #filters .btn {
   border-radius: 100px;
-  padding: 5px 20px;
+  padding: 4px 16px;
+  font-size: 0.85rem;
 }
 
 .table_name span {
@@ -34,17 +34,6 @@
   margin-top: -10px
 }
 
-.valide {
-  background-color: rgb(102, 194, 10);
-}
-
-.refus {
-  background-color: #bc1516;
-}
-
-.instruction {
-  background-color: rgb(226, 168, 7);
-}
 
 table {
   border-collapse: separate;
@@ -61,12 +50,11 @@ th {
   padding: 6px 5px;
 }
 
+
 td:first-child,
 th:first-child {
-  border-left: 1px solid #f0f0f0;
   padding: 6px 25px;
   border-radius: 4px 0px 0 4px;
-
 }
 
 td:last-child,
@@ -75,5 +63,34 @@ th:last-child {
   padding: 6px 10px;
   text-align: right;
   border-radius: 0 4px 4px 0;
+}
 
+.valide {
+  border-left: 4px solid   var(--secondary);
+}
+
+.demande {
+  border-left: 4px solid  var(--primary);
+}
+.refus {
+  border-left: 4px solid  #bc1516;
+}
+
+.instruction {
+  border-left: 4px solid  rgb(226, 168, 7)!important;
+}
+
+
+tbody tr {
+  transition: all 0.2s;
+  border-radius: 6px;
+}
+
+tbody tr:hover {
+  transform: translate(0,-1px);
+  color: #495057;
+  background-color: #fff;
+  border-color: #464646;
+  outline: 0;
+  box-shadow: 0 0 0 0.1rem rgba(177, 177, 177, 0.1);
 }

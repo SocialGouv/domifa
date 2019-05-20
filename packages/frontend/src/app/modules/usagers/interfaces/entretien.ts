@@ -7,8 +7,8 @@ export class Entretien {
   public residenceDetail: string;
   public cause: string;
   public causeDetail: string;
-  public pourquoi: string;
-  public pourquoiDetail: string;
+  public raison: string;
+  public raisonDetail: string;
   public accompagnement: boolean;
   public accompagnementDetail: string;
   public commentaires: string;
@@ -21,8 +21,8 @@ export class Entretien {
     this.residenceDetail = entretien && entretien.residenceDetail || null;
     this.cause = entretien && entretien.cause || null;
     this.causeDetail = entretien && entretien.causeDetail || null;
-    this.pourquoi = entretien && entretien.pourquoi || null;
-    this.pourquoiDetail = entretien && entretien.pourquoiDetail || null;
+    this.raison = entretien && entretien.raison || null;
+    this.raisonDetail = entretien && entretien.raisonDetail || null;
     this.accompagnement = entretien && entretien.accompagnement || null;
     this.accompagnementDetail = entretien && entretien.accompagnementDetail || null;
     this.commentaires = entretien && entretien.commentaires || null;

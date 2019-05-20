@@ -19,19 +19,19 @@ export interface Usager extends Document {
   email: string;
   phone: string;
 
-  statutDemande: string;
+  ayantsDroits: AyantDroit[]
+
   etapeDemande: number;
-  dateDemande: Date;
 
   agent: string;
   historique: string;
 
   contactPreference: string;
 
-  ayantsDroits: AyantDroit[]
   rdv: Rdv;
   entretien: Entretien;
   decision: Decision;
+
   docs: Doc[];
   docsPath: string[];
 }

@@ -1,6 +1,8 @@
 export interface Decision{
   dateDebut: Date,
   dateFin: Date,
+  dateDemande: Date,
+  dateInstruction: Date,
   statut: string,
   motif: string,
   userId: number,

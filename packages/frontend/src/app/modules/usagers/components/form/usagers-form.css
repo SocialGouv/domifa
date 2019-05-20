@@ -119,9 +119,20 @@ label {
   padding: 10px 0;
 }
 
+.autres {
+  display: inline-block;
+  width: 220px;
+  margin-left: 10px;
+  margin-top: -15px;
+}
+
 .form-check label {
   font-weight: 300;
   margin-left: 5px;
+}
+
+.modal-body .form-check{
+  margin: 5px 0;
 }
 
 .form-group.required label:after {

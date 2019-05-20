@@ -2,16 +2,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Entretien } from '../interfaces/entretien';
 import { Rdv } from '../interfaces/rdv';
 import { Usager } from '../interfaces/usager';
-import { Entretien } from '../interfaces/entretien';
 
 @Injectable()
 export class UsagerService {
 
   public http: HttpClient;
   private usager = null;
-  private endPoint = environment.apiUrl+'/usagers';
+  private endPoint = environment.apiUrl+'usagers';
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -19,14 +19,11 @@ export class UsagerService {
 
   /* Ajout d'un domicilié */
   public create(usager: Usager) {
-    if (usager.id !== 0) {
-      return this.http.patch(`${this.endPoint}`, usager);
-    }
-    return this.http.post(`${this.endPoint}`, usager);
+    return  usager.id !== 0 ? this.http.patch(`${this.endPoint}`, usager) : this.http.post(`${this.endPoint}`, usager);
   };
 
   /* Ajout d'un rendez-vous */
-  public createRdv(rdv: Rdv, idUsager: number){
+  public createRdv(rdv: Rdv, idUsager: number) {
     return this.http.post(`${this.endPoint}/rdv/${idUsager}`, rdv);
   };
 
@@ -48,8 +45,10 @@ export class UsagerService {
   /* Recherche */
   public search(filters?: {}) {
     let httpParams = new HttpParams();
-    Object.keys(filters).forEach(function (key) {
-      filters[key] !== null ? httpParams = httpParams.append(key, filters[key]) : null;
+    Object.keys(filters).forEach((key) => {
+      if (filters[key] !== null) {
+        httpParams = httpParams.append(key, filters[key])
+      }
     });
     return this.http.get(`${this.endPoint}/search/`, { params : httpParams });
   };
@@ -65,9 +64,12 @@ export class UsagerService {
       }
       const data = window.URL.createObjectURL(newBlob);
       const link = document.createElement('a');
+      const randomNumber = Math.floor(Math.random() * 100) + 1;
+
       link.href = data;
-      link.download = "attestation_" + idUsager+".pdf";
+      link.download = "attestation_" + idUsager+"_"+randomNumber+".pdf";
       link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+
 
       setTimeout( ( ) => {
         window.URL.revokeObjectURL(data);
@@ -76,19 +78,4 @@ export class UsagerService {
     }
     );
   };
-
-  // Error handling
-  public handleError(error) {
-    let errorMessage = '';
-
-    if(error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
-    } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
-  }
 }

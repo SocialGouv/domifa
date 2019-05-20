@@ -2,9 +2,8 @@ import { IsDate,  IsNotEmpty, IsDateString,  } from 'class-validator';
 
 export class RdvDto {
   @IsNotEmpty()
-  public userId: string;
+  public userId: number;
 
   @IsNotEmpty()
-  @IsDateString()
   public dateRdv: Date;
 }

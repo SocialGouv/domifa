@@ -16,16 +16,23 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     .pipe(
       catchError( (error: HttpErrorResponse) => {
         let errMsg = '';
+        if (error instanceof HttpErrorResponse) {
+          // Server or connection error happened
+          if (!navigator.onLine) {
+            // Handle offline error
+          } else {
+            // Handle Http Error (error.status === 403, 404...)
+            if(error.status === 400) {
+              return  throwError(error.error);
+            }
+          }
+        }
         // Client Side Error
         if (error.error instanceof ErrorEvent) {
-          errMsg = `Error: ${error.error.message}`;
+          // return an observable
+          return throwError(errMsg);
         }
-        else {  // Server Side Error
-          console.log("SERV");
-          errMsg = `Error Code: ${error.status},  Message: ${error.message}`;
-        }
-        // return an observable
-        return throwError(errMsg);
+
       })
       )
     }

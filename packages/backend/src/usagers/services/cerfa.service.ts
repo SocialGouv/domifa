@@ -17,10 +17,18 @@ export class CerfaService {
 
   public async attestation(usager: Usager) {
     const user = await this.usersService.findById(2);
-    let pdfForm = './demande.pdf';
+    let pdfForm = '../../ressources/demande.pdf';
 
     const sexe = usager.sexe === 'femme' ? '1' : '2';
     const today = new Date();
+    const motifsRefus = {
+      "refus1": "Existence d'un hébergement stable",
+      "refus2": "Nombre de domiciliations de votre organisme prévu par l’agrément atteint (associations)",
+      "refus3": "En dehors des critères du public domicilié (associations)",
+      "refus4": "Absence de lien avec la commune (CCAS/commune)",
+      "refusAutre": "Autre (précisez le motif)",
+    };
+
 
     let ayantsDroitsTexte = '';
     for (const ayantDroit of usager.ayantsDroits) { 
@@ -41,18 +49,20 @@ export class CerfaService {
       "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]" : user.structure.departement,
       "topmostSubform[0].Page2[0].NuméroAgrément[0]" : user.structure.agrement,
     };
-    const jourDemande = usager.dateDemande.getDate().toString();
-    const moisDemande = (usager.dateDemande.getMonth() + 1).toString();
-    const anneeDemande = usager.dateDemande.getFullYear().toString();
+    const jourDemande = usager.decision.dateInstruction.getDate().toString();
+    const moisDemande = (usager.decision.dateInstruction.getMonth() + 1).toString();
+    const anneeDemande = usager.decision.dateInstruction.getFullYear().toString();
 
-    if (usager.statutDemande === 'valide') {
-      pdfForm = './attestation.pdf';
+    const adresseStructure = user.structure.adresse + ', ' + user.structure.complementAdresse + ', ' + user.structure.ville + ', ' + user.structure.codePostal;
+
+    if (usager.decision.statut === 'valide') {
+      pdfForm = '../../ressources/attestation.pdf';
 
       infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] = user.structure.nom;
       infosPdf["topmostSubform[0].Page1[0].RespOrganisme[0]"] = user.structure.responsable.nom + ' ' + user.structure.responsable.prenom;
       infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] = user.structure.departement;
       infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] = user.structure.agrement;
-      infosPdf["topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]"] = user.structure.agrement + ', ' + user.structure.ville + ' ' +  user.structure.codePostal;
+      infosPdf["topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]"] = user.structure.agrement + ', ' + user.structure.adresse + ' ' + user.structure.ville + ' ' +  user.structure.codePostal;
       infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] = user.structure.mail;
       infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = user.structure.phone;
       infosPdf["topmostSubform[0].Page1[0].Noms2[0]"] = usager.nom;
@@ -74,7 +84,6 @@ export class CerfaService {
       infosPdf["topmostSubform[0].Page1[0].FaitleAnnée[0]"] =  today.getFullYear().toString().substr(-2);
     }
     else {
-      pdfForm = './demande.pdf';
       infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = usager.phone || '';
       infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] = usager.email || '';
       infosPdf["topmostSubform[0].Page1[0].Groupe_de_boutons_radio[0]"] = '1';
@@ -102,13 +111,20 @@ export class CerfaService {
       infosPdf["topmostSubform[0].Page1[0].Heureconvocation[0]"] = usager.rdv.dateRdv.getHours().toString();
       infosPdf["topmostSubform[0].Page1[0].Minuteconvocation[0]"] = usager.rdv.dateRdv.getMinutes().toString();
 
-      if (usager.statutDemande === 'refus') {
+      infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] = user.structure.nom;
+      infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] = user.structure.departement;
+      infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] = user.structure.agrement;
 
-        infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] = user.structure.nom;
-        infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] = user.structure.departement;
-        infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] = user.structure.agrement;
+      infosPdf["topmostSubform[0].Page1[0].AdressePostale[0]"] = adresseStructure ;
+      infosPdf["topmostSubform[0].Page1[0].Courriel[1]"] = user.structure.mail;
+      infosPdf["topmostSubform[0].Page1[0].téléphone[1]"] = user.structure.phone;
+
+      infosPdf["topmostSubform[0].Page1[0].EntretienAvec[0]"] = usager.rdv.userName;
+      infosPdf["topmostSubform[0].Page1[0].EntretienAdresse[0]"] = adresseStructure;
+
+      if (usager.decision.statut === 'refus') {
         infosPdf["topmostSubform[0].Page2[0].Décision[0]"] = '2';
-        infosPdf["topmostSubform[0].Page2[0].MotifRefus[0]"] = (usager.decision.motif || '') + ' : ' + usager.decision.motifDetails || '';
+        infosPdf["topmostSubform[0].Page2[0].MotifRefus[0]"] = (motifsRefus[usager.decision.motif] || '') + ' : ' +   usager.decision.motifDetails || '';
         infosPdf["topmostSubform[0].Page2[0].OrientationProposée[0]"] = (usager.decision.orientation || '') + ' : ' + (usager.decision.orientationDetails || '');
       }
     }

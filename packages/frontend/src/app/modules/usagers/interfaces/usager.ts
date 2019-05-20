@@ -1,5 +1,6 @@
 import { Rdv } from '../interfaces/rdv';
 import { AyantDroit } from './ayant-droit';
+import { Decision } from './decision';
 import { Doc } from './document';
 import { Entretien } from './entretien';
 
@@ -26,9 +27,6 @@ export class Usager {
   public ayantsDroitsExist: boolean;
   public ayantsDroits: AyantDroit[];
 
-  public statutDemande: string;
-  public dateDemande: Date;
-  public dateFin: Date;
   public agent: string;
   public statut: string;
 
@@ -66,10 +64,6 @@ export class Usager {
     this.contactPreference =  usager && usager.contactPreference || null;
     this.docs =  usager && usager.docs || [];
 
-    this.statutDemande =  usager && usager.statutDemande || 'instruction';
-    this.dateDemande =  usager && usager.dateDemande || null;
-
-    this.dateFin =  usager && usager.dateFin || null;
     this.agent =  usager && usager.agent || null;
 
     this.structure = usager && usager.statut || 0;
@@ -89,10 +83,7 @@ export class Usager {
       phone: false
     };
 
-    this.decision = usager && usager.decision || {
-      motif: "",
-      motifDetails: "",
-      statut: 'instruction',
-    };
+    this.decision = usager && usager.decision || new Decision({});
+
   }
 }

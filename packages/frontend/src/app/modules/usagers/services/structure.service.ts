@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 export class StructureService {
   public http: HttpClient;
   private usager = null;
-  private endPoint = environment.apiUrl+'/structures/';
+  private endPoint = environment.apiUrl+'structures/';
 
   constructor(http: HttpClient) {
     this.http = http;

@@ -12,7 +12,7 @@ export class Rdv {
   };
 
   public userId: string;
-  public username: string;
+  public userName: string;
   public isNow: string;
 
   constructor(rdv?: any) {
@@ -25,7 +25,7 @@ export class Rdv {
     this.heureRdv = rdv && rdv.dateRdv ? { hour: this.dateRdv.getHours(), minute: this.dateRdv.getMinutes() } : { hour: 10, minute: 20 };
 
     this.userId = rdv && rdv.userId || null;
-    this.username = rdv && rdv.username || null;
+    this.userName = rdv && rdv.userName || null;
 
     this.isNow = rdv && rdv.isNow || '';
 
