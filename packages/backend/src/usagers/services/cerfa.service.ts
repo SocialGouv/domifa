@@ -29,17 +29,17 @@ export class CerfaService {
     }
 
     const infosPdf = {
-      "topmostSubform[0].Page1[0].Mme-Monsieur1[0]": sexe,
-      "topmostSubform[0].Page1[0].Noms[0]": usager.nom.toUpperCase(),
-      "topmostSubform[0].Page1[0].Prénoms[0]": usager.prenom.toUpperCase(),
+      "topmostSubform[0].Page1[0].AyantsDroits[0]": ayantsDroitsTexte || '',
       "topmostSubform[0].Page1[0].Datenaissance1[0]": usager.dateNaissance.getDate().toString(),
       "topmostSubform[0].Page1[0].Datenaissance2[0]": (usager.dateNaissance.getMonth() + 1).toString(),
       "topmostSubform[0].Page1[0].Datenaissance3[0]": usager.dateNaissance.getFullYear().toString(),
       "topmostSubform[0].Page1[0].LieuNaissance[0]": usager.villeNaissance.toString(),
-      "topmostSubform[0].Page1[0].AyantsDroits[0]": ayantsDroitsTexte || '',
+      "topmostSubform[0].Page1[0].Mme-Monsieur1[0]": sexe,
+      "topmostSubform[0].Page1[0].Noms[0]": usager.nom.toUpperCase(),
+      "topmostSubform[0].Page1[0].Prénoms[0]": usager.prenom.toUpperCase(),
       "topmostSubform[0].Page2[0].NomOrgaDomiciliataire[0]" : user.structure.nom,
-      "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]" : user.structure.departement,
       "topmostSubform[0].Page2[0].NuméroAgrément[0]" : user.structure.agrement,
+      "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]" : user.structure.departement,
     };
     const jourDemande = usager.dateDemande.getDate().toString();
     const moisDemande = (usager.dateDemande.getMonth() + 1).toString();

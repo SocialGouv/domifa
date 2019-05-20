@@ -58,8 +58,8 @@ export class UsagersService {
       'id' :usagerId
     }, {
       $set: {
-        "etapeDemande": 6,
         "decision" : decision,
+        "etapeDemande": 6,
         "statutDemande": decision.statut,
       }
     },{

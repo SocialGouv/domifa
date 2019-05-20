@@ -10,8 +10,8 @@ export class AuthService {
     const user: JwtPayload = { email: 'test@email.com' };
     const accessToken = this.jwtService.sign(user);
     return {
-      expiresIn: 3600,
       accessToken,
+      expiresIn: 3600,
     };
   }
 
