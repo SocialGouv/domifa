@@ -1,5 +1,8 @@
 # DomiFa
 
+[![Build Status](https://travis-ci.com/SocialGouv/domifa.svg?branch=master)](https://travis-ci.com/SocialGouv/domifa)
+[![codecov](https://codecov.io/gh/SocialGouv/domifa/branch/master/graph/badge.svg)](https://codecov.io/gh/SocialGouv/domifa)
+
 > Faciliter l'accès aux droits pour les personnes sans domicile stable, en simplifiant la gestion de la domiciliation
 
 ## Release policy
