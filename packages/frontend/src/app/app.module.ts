@@ -9,6 +9,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { LoginComponent } from './modules/auth/login/login.component';
 import { HomeComponent } from './modules/home/home.component';
 import { HttpErrorInterceptor } from './modules/interceptors/errors.interceptor';
 import { UsagersFormComponent } from './modules/usagers/components/form/usagers-form';
@@ -21,7 +22,7 @@ library.add(fas, far);
 
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [AppComponent, HomeComponent, UsagersFormComponent, UsersComponent, ManageUsagersComponent,UsagersProfilComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, UsagersFormComponent, UsersComponent, ManageUsagersComponent,UsagersProfilComponent],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, HttpClientModule, NgbModule, FormsModule, ReactiveFormsModule
   ],
   providers: [{
