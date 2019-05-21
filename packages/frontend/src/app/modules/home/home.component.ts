@@ -8,10 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   public title = null;
-  constructor() {
-  }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.title = "Domifa : faciliter la vie des CCAS";
   }
 

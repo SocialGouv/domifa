@@ -174,12 +174,11 @@ export class UsagersFormComponent implements OnInit {
             this.addAyantDroit(ayantDroit);
           }
         }, (error) => {
-          console.log('404 ! : ' + error);
+          /* Redirect */
         });
       }
       else {
         this.usager = new Usager({});
-        console.log(this.usager);
         this.initForm();
       }
 
@@ -266,7 +265,7 @@ export class UsagersFormComponent implements OnInit {
         }, 2000);
 
       }, (error) => {
-        console.log('Erreur ! : ' + error);
+        this.changeSuccessMessage("Une erreur a eu lieu lors de la validation", true);
       });
     }
 
@@ -330,7 +329,7 @@ export class UsagersFormComponent implements OnInit {
             }
           }
           this.changeSuccessMessage("Une erreur dans le form", true);
-          console.log('Erreur ! : ' + error);
+
         });
       }
     }
@@ -409,8 +408,6 @@ export class UsagersFormComponent implements OnInit {
 
       this.documentService.upload(formData, this.usager.id).subscribe((res) => {
         this.uploadResponse = res;
-        console.log(this.uploadResponse);
-
         if (this.uploadResponse.success !== undefined && this.uploadResponse.success) {
           this.usager.docs = new Usager(this.uploadResponse.body).docs;
           this.uploadForm.reset();
@@ -449,21 +446,28 @@ export class UsagersFormComponent implements OnInit {
 
     public formatter = (x: { properties: { label: string } }) => x.properties.label;
 
-    public search = (text$: Observable<string>) =>
-    text$.pipe(debounceTime(300), distinctUntilChanged(), tap(() => this.searching = true), switchMap(term => this.Autocomplete.search(term).pipe(tap(() => this.searchFailed = false),
-    catchError(() => {
-      this.searchFailed = true;
-      return of([]);
-    }))),
-    tap(() => this.searching = false));
+    public search(text$: Observable<string>)  {
+      text$.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap(() => this.searching = true ),
+        switchMap(term => this.Autocomplete.search(term).pipe(tap(() => this.searchFailed = false),
+        catchError(() => {
+          this.searchFailed = true;
+          return of([]);
+        }))),
+        tap(() => this.searching = false));
 
-    public changeSuccessMessage(message: string, error?: boolean) {
-      window.scroll({
-        behavior: 'smooth',
-        left: 0,
-        top: 0,
-      });
-      error ? this.errorSubject.next(message) : this.successSubject.next(message);
+      };
+
+
+      public changeSuccessMessage(message: string, error?: boolean) {
+        window.scroll({
+          behavior: 'smooth',
+          left: 0,
+          top: 0,
+        });
+        error ? this.errorSubject.next(message) : this.successSubject.next(message);
+      }
+
     }
-
-  }

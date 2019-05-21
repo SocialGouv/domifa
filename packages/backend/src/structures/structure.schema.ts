@@ -1,3 +1,5 @@
+// tslint:disable: object-literal-sort-keys
+
 import * as mongoose from 'mongoose';
 
 export const StructureSchema = new mongoose.Schema({

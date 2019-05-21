@@ -1,6 +1,6 @@
 {
   "name": "@domifa/backend",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "author": "",
   "license": "MIT",
@@ -10,9 +10,9 @@
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
-    "prestart:prod": "rimraf dist && npm run build && cp -r -i src/ressources dist/ressources && forever stopall",
+    "prestart:prod": "rimraf dist && npm run build  && cp -r -i src/ressources dist/ressources && forever stopall",
     "start:prod": "forever start dist/main.js",
-    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "lint": "tslint -p tsconfig.json -t stylish",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -62,19 +62,5 @@
     "tsconfig-paths": "^3.7.0",
     "tslint": "^5.14.0",
     "typescript": "^3.2.4"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }

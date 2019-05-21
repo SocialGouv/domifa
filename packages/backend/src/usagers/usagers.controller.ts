@@ -1,17 +1,19 @@
-import { BadRequestException, Body, Controller, Delete, Get, Header, Param, Patch, Post, Res, UploadedFile, UseInterceptors, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Header, Logger, Param, Patch, Post, Query, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer';
 import * as path from 'path';
+import { EntretienDto } from './dto/entretien';
 import { RdvDto } from './dto/rdv';
 import { UsagersDto } from './dto/usagers.dto';
 import { Decision } from './interfaces/decision';
+import { SearchDto } from './interfaces/search';
 import { CerfaService } from './services/cerfa.service';
 import { UsagersService } from './services/usagers.service';
-import { EntretienDto } from './dto/entretien';
-import { SearchDto } from './interfaces/search';
 
 @Controller('usagers')
 export class UsagersController {
+
+  private readonly logger = new Logger(UsagersController.name);
 
   constructor(private readonly usagersService: UsagersService,
     private readonly cerfaService: CerfaService)
@@ -49,7 +51,7 @@ export class UsagersController {
     /* PROFILE & MANAGEMENT */
     @Get('search')
     public search(@Query() query: SearchDto) {
-      console.log(query);
+      this.logger.log(query);
       return this.usagersService.search(query);
     }
 
@@ -69,7 +71,7 @@ export class UsagersController {
         res.send(buffer);
       })
       .catch(err => {
-        console.log(err);
+        this.logger.log(err);
       });
     }
 
@@ -88,7 +90,7 @@ export class UsagersController {
         res.sendFile(path.join(__dirname, '../uploads/' + fileInfos.path));
       })
       .catch(err => {
-        console.log(err);
+        this.logger.log(err);
       });
     }
 

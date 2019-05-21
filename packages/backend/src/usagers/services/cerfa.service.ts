@@ -1,4 +1,4 @@
-import { Inject, Injectable, Res } from '@nestjs/common';
+import { Inject, Injectable, Logger, Res } from '@nestjs/common';
 import * as fs from 'fs';
 import { Model } from "mongoose";
 import * as path from 'path';
@@ -10,6 +10,7 @@ import { UsersService } from '../../users/users.service';
 
 @Injectable()
 export class CerfaService {
+  private readonly logger = new Logger(CerfaService.name);
 
   constructor(@Inject('USAGER_MODEL') private readonly usagerModel: Model<Usager>, private readonly usersService: UsersService) {
 
@@ -37,17 +38,17 @@ export class CerfaService {
     }
 
     const infosPdf = {
-      "topmostSubform[0].Page1[0].Mme-Monsieur1[0]": sexe,
-      "topmostSubform[0].Page1[0].Noms[0]": usager.nom.toUpperCase(),
-      "topmostSubform[0].Page1[0].Prénoms[0]": usager.prenom.toUpperCase(),
+      "topmostSubform[0].Page1[0].AyantsDroits[0]": ayantsDroitsTexte || '',
       "topmostSubform[0].Page1[0].Datenaissance1[0]": usager.dateNaissance.getDate().toString(),
       "topmostSubform[0].Page1[0].Datenaissance2[0]": (usager.dateNaissance.getMonth() + 1).toString(),
       "topmostSubform[0].Page1[0].Datenaissance3[0]": usager.dateNaissance.getFullYear().toString(),
       "topmostSubform[0].Page1[0].LieuNaissance[0]": usager.villeNaissance.toString(),
-      "topmostSubform[0].Page1[0].AyantsDroits[0]": ayantsDroitsTexte || '',
+      "topmostSubform[0].Page1[0].Mme-Monsieur1[0]": sexe,
+      "topmostSubform[0].Page1[0].Noms[0]": usager.nom.toUpperCase(),
+      "topmostSubform[0].Page1[0].Prénoms[0]": usager.prenom.toUpperCase(),
       "topmostSubform[0].Page2[0].NomOrgaDomiciliataire[0]" : user.structure.nom,
-      "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]" : user.structure.departement,
       "topmostSubform[0].Page2[0].NuméroAgrément[0]" : user.structure.agrement,
+      "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]" : user.structure.departement,
     };
     const jourDemande = usager.decision.dateInstruction.getDate().toString();
     const moisDemande = (usager.decision.dateInstruction.getMonth() + 1).toString();
@@ -128,8 +129,8 @@ export class CerfaService {
         infosPdf["topmostSubform[0].Page2[0].OrientationProposée[0]"] = (usager.decision.orientation || '') + ' : ' + (usager.decision.orientationDetails || '');
       }
     }
-    console.log(path.resolve(__dirname, pdfForm));
-    console.log(typeof infosPdf);
+    this.logger.log(path.resolve(__dirname, pdfForm));
+    this.logger.log(typeof infosPdf);
     return pdftk.input( fs.readFileSync(path.resolve(__dirname, pdfForm))).fillForm(infosPdf).flatten().output();
   }
 

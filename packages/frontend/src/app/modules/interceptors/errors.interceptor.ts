@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, throwError } from 'rxjs';
@@ -15,7 +15,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request)
     .pipe(
       catchError( (error: HttpErrorResponse) => {
-        let errMsg = '';
+        const errMsg = '';
         if (error instanceof HttpErrorResponse) {
           // Server or connection error happened
           if (!navigator.onLine) {

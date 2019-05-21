@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { password, regexp } from '../../../entities/validators';
 import { User } from '../../../entities/user';
+import { password, regexp } from '../../../entities/validators';
 
 @Component({
   selector: 'app-home',
@@ -22,22 +22,19 @@ export class LoginComponent implements OnInit {
   public error = '';
   public submitted = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    ) {
-    }
-
-    public ngOnInit(): void {
-
-    }
-
-    public onSubmit() {
-      this.submitted = true;
-    }
-
-    public signin(user: User) {
-      this.loading = true;
-    }
+  constructor(private fb: FormBuilder) {
   }
+
+  public ngOnInit(): void {
+    this.submitted = false;
+  }
+
+  public onSubmit() {
+    this.submitted = true;
+  }
+
+  public signin(user: User) {
+    this.loading = true;
+  }
+}
 

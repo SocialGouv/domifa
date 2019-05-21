@@ -1,3 +1,5 @@
+// tslint:disable: object-literal-sort-keys
+
 import { ObjectID } from 'bson';
 import * as mongoose from 'mongoose';
 mongoose.set('debug', true);

@@ -1,0 +1,6 @@
+{
+  "editor.defaultFormatter": "stringham.angular-template-formatter",
+  "html.format.indentHandlebars": true,
+  "html.format.indentInnerHtml": true,
+  "editor.wrappingIndent": "indent"
+}

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { regexp } from '../entities/validators';
 import { isNumber, padNumber, toInteger } from './bootstrap-util';
 
 @Injectable()

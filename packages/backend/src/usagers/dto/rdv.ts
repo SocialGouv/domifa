@@ -1,4 +1,4 @@
-import { IsDate,  IsNotEmpty, IsDateString,  } from 'class-validator';
+import { IsDate,  IsDateString, IsNotEmpty,  } from 'class-validator';
 
 export class RdvDto {
   @IsNotEmpty()

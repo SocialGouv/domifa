@@ -1,6 +1,6 @@
-import { Component, ElementRef, Injectable, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, fromEvent, Observable, of, Subject } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Usager } from 'src/app/modules/usagers/interfaces/usager';
 import { UsagerService } from 'src/app/modules/usagers/services/usager.service';
 @Component({
@@ -8,11 +8,10 @@ import { UsagerService } from 'src/app/modules/usagers/services/usager.service';
   selector: 'app-manage-usagers',
   styleUrls: ['./manage.css'],
   templateUrl: './manage.html'
-
 })
 
 export class ManageUsagersComponent implements OnInit {
-  public title;
+  public title: string;
   public searching: boolean;
   public searchFailed: boolean;
   public usagers: Usager[];
@@ -45,7 +44,6 @@ export class ManageUsagersComponent implements OnInit {
     this.title = "Gérer vos domiciliés";
 
     fromEvent(this.searchInput.nativeElement, 'keyup').pipe(map((event: any) => {
-      console.log(event);
       return event.target.value;
     })
     ,debounceTime(300)
@@ -66,8 +64,7 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public updateFilters(filter: string, value: string) {
-    console.log(filter);
-    console.log(value);
+    /* Filter */
   }
 
   public search() {
@@ -80,6 +77,4 @@ export class ManageUsagersComponent implements OnInit {
     } );
 
   }
-
-
 }

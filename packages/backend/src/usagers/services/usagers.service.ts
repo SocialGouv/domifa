@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Model } from "mongoose";
 import { UsersService } from '../../users/users.service';
 import { EntretienDto } from '../dto/entretien';
@@ -14,6 +14,7 @@ export class UsagersService {
   public limit: number;
   public sort: {};
   public searchByName: {  };
+  private readonly logger = new Logger(UsagersService.name);
 
   constructor(@Inject('USAGER_MODEL') private readonly usagerModel: Model<Usager>,
   private readonly usersService: UsersService) {
@@ -88,6 +89,7 @@ export class UsagersService {
 
   public async setRdv(usagerId: number, rdvDto: RdvDto): Promise<Usager> {
     const user = await this.usersService.findById(rdvDto.userId);
+    /* GET USER NAME ID */
     return this.usagerModel.findOneAndUpdate({
       'id' : usagerId
     }, {
@@ -168,11 +170,13 @@ export class UsagersService {
 
     /* ID DE LA STRUCTURE DE LUSER */
     const searchQuery = {
+      $or: [],
       structure: 0
     };
 
     if (query.name) {
-      searchQuery['$or'] =  [
+      this.logger.log(query.name);
+      searchQuery.$or =  [
         {
           nom: { $regex: '.*' + query.name + '.*' , $options: '-i' }
         },
