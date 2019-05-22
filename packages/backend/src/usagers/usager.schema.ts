@@ -1,6 +1,5 @@
 // tslint:disable: object-literal-sort-keys
 
-import { ObjectID } from 'bson';
 import * as mongoose from 'mongoose';
 mongoose.set('debug', true);
 
@@ -20,7 +19,6 @@ export const UsagerSchema = new mongoose.Schema({
   phone: String,
   sexe: String,
 
-  codePostalNaissance: String,
   contactPreference: String,
   dateNaissance: Date,
   villeNaissance: String,

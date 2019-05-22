@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateParserFormatter, NgbDatepickerI18n, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, of, Subject } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { Doc } from 'src/app/modules/usagers/interfaces/document';
 import { Usager } from 'src/app/modules/usagers/interfaces/usager';
 import { DocumentService } from 'src/app/modules/usagers/services/document.service';
 import { UsagerService } from 'src/app/modules/usagers/services/usager.service';
-import { AutocompleteAdresseService } from 'src/app/services/autocomplete-adresse';
 import { NgbDateCustomParserFormatter } from 'src/app/services/date-formatter';
 import { CustomDatepickerI18n } from 'src/app/services/date-french';
 import { regexp } from '../../../../entities/validators';
@@ -16,7 +15,7 @@ import { AyantDroit } from '../../interfaces/ayant-droit';
 import { StructureService } from '../../services/structure.service';
 
 @Component({
-  providers: [UsagerService, AutocompleteAdresseService,
+  providers: [UsagerService,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
@@ -26,7 +25,7 @@ import { StructureService } from '../../services/structure.service';
 })
 
 export class UsagersFormComponent implements OnInit {
-
+  
   get f() {
     return this.usagerForm.controls;
   }
@@ -39,53 +38,48 @@ export class UsagersFormComponent implements OnInit {
   get e(): any {
     return this.entretienForm.controls;
   }
-
+  
   get ayantsDroits() {
     return this.usagerForm.get('ayantsDroits') as FormArray
   }
-
+  
   public title = "Ajouter un domicilié";
-
+  
   /* Config datepickers */
   public dToday = new Date();
   public maxDateNaissance = { day: this.dToday.getDate(), month: this.dToday.getMonth() + 1, year: this.dToday.getFullYear() };
   public minDateNaissance = { day: 1, month: 1, year: 1920 };
-
+  
   public minDateRdv = { day: this.dToday.getDate(), month: this.dToday.getMonth() + 1, year: this.dToday.getFullYear() };
   public maxDateRdv = { day: this.dToday.getDate(), month: this.dToday.getMonth() + 1, year: this.dToday.getFullYear() + 2 };
-
-
-  /* Recherche adresse */
-  public ville: any;
-  public searching = false;
-  public searchFailed = false;
-
+  
+  
   public etapes = ["État civil", "Prise de RDV", "Entretien", "Pièces justificatives", "Décision finale"];
   public etapeDemande: number;
-
+  
   /* RDV */
   public httpError: any;
-
+  
   /* Upload */
   public uploadError: any;
   public fileName = '';
   public userId: number;
   public uploadResponse: any;
   public documents: Doc[];
-
+  
   public usager: Usager;
   public uploadForm: FormGroup;
   public registerForm: FormGroup;
   public usagerForm: FormGroup;
   public rdvForm: FormGroup;
   public entretienForm: FormGroup;
-
+  
   public submitted = false;
   public structureId: number;
   public modal: any;
   public structure: any;
   public agents: any[] = [];
-
+  
   public motifsRefus = {};
   public residence = {};
   public cause = {};
@@ -94,17 +88,16 @@ export class UsagersFormComponent implements OnInit {
   public residenceList = [];
   public causeList = [];
   public raisonList = [];
-
+  
   public successMessage: string;
   public errorMessage: string;
-
+  
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
-
-
-
-  constructor(private Autocomplete: AutocompleteAdresseService,
-    private formBuilder: FormBuilder,
+  
+  
+  
+  constructor( private formBuilder: FormBuilder,
     private usagerService: UsagerService,
     private documentService: DocumentService,
     private structureService: StructureService,
@@ -112,20 +105,20 @@ export class UsagersFormComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router) {
     }
-
+    
     public ngOnInit() {
-
+      
       this.title = "Enregister un dossier";
       this.uploadResponse = { status: '', message: '', filePath: '' };
       this.userId = 1;
       this.structureId = 1;
       this.uploadError = {};
-
+      
       this.successSubject.subscribe((message) => { this.successMessage = message; this.errorMessage = null;});
       this.errorSubject.subscribe((message) => { this.errorMessage = message;this.successMessage = null;});
-      this.successSubject.pipe(debounceTime(20000)).subscribe(() => this.successMessage = null);
+      this.successSubject.pipe(debounceTime(10000)).subscribe(() => this.successMessage = null);
       // this.errorSubject.pipe(debounceTime(20000)).subscribe(() => this.errorMessage = null);
-
+      
       this.motifsRefus = {
         "refus1": "Existence d'un hébergement stable",
         "refus2": "Nombre de domiciliations de votre organisme prévu par l’agrément atteint (associations)",
@@ -133,14 +126,14 @@ export class UsagersFormComponent implements OnInit {
         "refus4": "Absence de lien avec la commune (CCAS/commune)",
         "refusAutre": "Autre (précisez le motif)",
       };
-
+      
       this.residence = {
-        "residenceAutre": "Autre",
         "sr1": "Sans abris / squat",
         "sr2": "Hôtel",
         "sr3": "Hébergement social (sans service courrier)",
         "sr4": "Hébergé chez un tiers",
         "sr5": "Domicile mobile",
+        "residenceAutre": "Autre",
       };
       this.cause = {
         "cause1": "Rupture familiale et/ou conjugale ",
@@ -157,16 +150,16 @@ export class UsagersFormComponent implements OnInit {
         "raison2": "Exercice des droits civils ou civiques",
         "raisonAutre": "Autre"
       };
-
+      
       this.motifsRefusList = Object.keys(this.motifsRefus);
       this.residenceList = Object.keys(this.residence);
       this.causeList = Object.keys(this.cause);
       this.raisonList = Object.keys(this.raison);
-
-
+      
+      
       if (this.route.snapshot.params.id) {
         const id = this.route.snapshot.params.id;
-
+        
         this.usagerService.findOne(id).subscribe((usager: Usager) => {
           this.usager = new Usager(usager);
           this.initForm();
@@ -181,7 +174,7 @@ export class UsagersFormComponent implements OnInit {
         this.usager = new Usager({});
         this.initForm();
       }
-
+      
       /* get structure users */
       this.structureService.getStructure(2).subscribe((structure: any) => {
         for (const agent of structure.users) {
@@ -192,20 +185,18 @@ export class UsagersFormComponent implements OnInit {
         }
       });
     }
-
+    
     public initForm() {
-
+      
       this.usagerForm = this.formBuilder.group({
         ayantsDroits: this.formBuilder.array([]),
         ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
-        codePostalNaissance: [this.usager.codePostalNaissance, [Validators.required]],
         dateNaissance: [this.usager.dateNaissance, []],
         dateNaissancePicker: [this.usager.dateNaissancePicker, [Validators.required]],
         decision: [this.usager.decision, []],
         email: [this.usager.email, [Validators.email]],
         etapeDemande: [this.usager.etapeDemande, []],
         id: [this.usager.id, []],
-        lieuNaissance: [this.usager.lieuNaissance, [Validators.required]],
         nom: [this.usager.nom, Validators.required],
         phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
         preference: this.formBuilder.group({
@@ -215,14 +206,14 @@ export class UsagersFormComponent implements OnInit {
         prenom: [this.usager.prenom, Validators.required],
         sexe: [this.usager.sexe, Validators.required],
         structure: [this.usager.structure, []],
-        villeNaissance: [this.usager.lieuNaissance, [Validators.required]],
+        villeNaissance: [this.usager.villeNaissance, [Validators.required]],
       });
-
+      
       this.uploadForm = this.formBuilder.group({
         imageInput: [this.fileName, Validators.required],
         label: ['', Validators.required]
       });
-
+      
       this.rdvForm = this.formBuilder.group({
         dateRdv: [this.usager.rdv.dateRdv, [Validators.required]],
         heureRdv: [this.usager.rdv.heureRdv, [Validators.required]],
@@ -230,7 +221,7 @@ export class UsagersFormComponent implements OnInit {
         jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
         userId: [this.usager.id, Validators.required]
       });
-
+      
       this.entretienForm = this.formBuilder.group({
         accompagnement: [this.usager.entretien.accompagnement, [Validators.required]],
         accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
@@ -245,42 +236,38 @@ export class UsagersFormComponent implements OnInit {
         residenceDetail: [this.usager.entretien.residenceDetail, []],
         revenus: [this.usager.entretien.revenus, []],
       });
-
+      
     }
-
+    
     public setDecision(statut: string) {
       this.usagerService.setDecision(this.usager.id, this.usager.decision, statut).subscribe((usager: Usager) => {
         this.modal.close();
         this.usager = new Usager(usager);
-
+        
         const actionsAfterDecision = {
           'demande': "La validation a bien été demandée au référent",
           'refus': "La demande de domiciliation a bien été refusée",
           'valide': "Nouvelle domiciliation enregisitrée",
         }
-
+        
         this.changeSuccessMessage(actionsAfterDecision[statut]);
-        setTimeout(() => {
-          this.router.navigate(['manage']);
-        }, 2000);
-
       }, (error) => {
         this.changeSuccessMessage("Une erreur a eu lieu lors de la validation", true);
       });
     }
-
+    
     public open(content) {
       this.modal = this.modalService.open(content);
     }
-
+    
     public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
       (this.usagerForm.controls.ayantsDroits as FormArray).push(this.newAyantDroit(ayantDroit));
     }
-
+    
     public deleteAyantDroit(i: number): void {
       (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
     }
-
+    
     public newAyantDroit(ayantDroit: AyantDroit) {
       return this.formBuilder.group({
         dateNaissance: [ayantDroit.dateNaissance, [Validators.pattern(regexp.date), Validators.required]],
@@ -289,17 +276,17 @@ export class UsagersFormComponent implements OnInit {
         prenom: [ayantDroit.prenom, Validators.required],
       })
     }
-
+    
     public getAttestation() {
       return this.usagerService.attestation(this.usager.id);
     }
-
+    
     public changeStep(i: number) {
       if (this.usager.decision.statut === 'instruction') {
         this.usager.etapeDemande = i;
       }
     }
-
+    
     public submitInfos() {
       this.submitted = true;
       if (this.usagerForm.invalid) {
@@ -312,12 +299,7 @@ export class UsagersFormComponent implements OnInit {
       else {
         const dateNaissanceTmp = this.usagerForm.get('dateNaissancePicker').value;
         this.usagerForm.controls.dateNaissance.setValue(new Date(dateNaissanceTmp.year + '-' + dateNaissanceTmp.month + '-' + dateNaissanceTmp.day));
-
-        /* Edit: ville de naissance  */
-        if (typeof this.usagerForm.get('villeNaissance').value === "object" && this.usagerForm.get('villeNaissance').value.properties.label !== undefined) {
-          this.usagerForm.controls.villeNaissance.setValue(this.usagerForm.get('villeNaissance').value.properties.label);
-        }
-
+        
         this.usagerService.create(this.usagerForm.value).subscribe((usager: Usager) => {
           this.changeSuccessMessage("Enregistrement réussi");
           this.usager = new Usager(usager);
@@ -329,18 +311,18 @@ export class UsagersFormComponent implements OnInit {
             }
           }
           this.changeSuccessMessage("Une erreur dans le form", true);
-
+          
         });
       }
     }
-
+    
     public submitEntretien() {
       this.usagerService.entretien(this.entretienForm.value, this.usager.id).subscribe((usager: Usager) => {
         this.usager = new Usager(usager);
         this.changeSuccessMessage("Enregistrement de l'entretien réussi");
       }, (error) => { this.changeSuccessMessage("Une erreur est survenu", true); });
     }
-
+    
     public submitRdv() {
       if (this.rdvForm.get('isNow').value === 'oui') {
         this.rdvForm.controls.userId.setValue(2);
@@ -361,51 +343,51 @@ export class UsagersFormComponent implements OnInit {
           this.rdvForm.controls.dateRdv.setValue(dateTmp.toISOString());
         }
       }
-
+      
       this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe((usager: Usager) => {
         this.usager = new Usager(usager);
         console.log("usager.rdv");
         console.log(this.usager.rdv);
         console.log(usager);
-
+        
         this.changeSuccessMessage("Rendez-vous enregistré");
       }, (error) => {
         this.changeSuccessMessage("Une erreur est survenu", true);
       });
     }
-
+    
     public onFileChange(event) {
       if (event.target.files.length > 0) {
         const file = event.target.files[0];
         const validFileExtensions = ["image/jpg", "application/pdf", "image/jpeg", "image/bmp", "image/gif", "image/png"];
         const type = event.target.files[0].type;
         const size = event.target.files[0].size;
-
+        
         this.fileName = event.target.files[0].name;
         this.uploadError = {
           fileSize: size < 5000000,
           fileType: validFileExtensions.includes(type)
         };
-
+        
         this.uploadForm.controls.imageInput.setValue(file); // <-- Set Value for Validation
         if (!this.uploadError.fileSize || !this.uploadError.fileType) {
           return;
         }
       }
     }
-
+    
     public submitFile() {
       this.submitted = true;
       this.uploadError = {
         fileSize: true,
         fileType: true
       };
-
+      
       const formData = new FormData();
-
+      
       formData.append('file', this.uploadForm.get('imageInput').value);
       formData.append('label', this.uploadForm.get('label').value);
-
+      
       this.documentService.upload(formData, this.usager.id).subscribe((res) => {
         this.uploadResponse = res;
         if (this.uploadResponse.success !== undefined && this.uploadResponse.success) {
@@ -415,26 +397,21 @@ export class UsagersFormComponent implements OnInit {
         }
       }, (err) => this.httpError = err);
     }
-
+    
     public getDocument(i: number) {
       return this.documentService.getDocument(this.usager.id, i, this.usager.docs[i]);
     }
-
+    
     public deleteDocument(i: number): void {
       this.documentService.deleteDocument(this.usager.id, i).subscribe((usager: Usager) => {
         this.usager.docs = new Usager(usager).docs;
       }, (error) => { console.log('Erreur ! : ' + error); });
     }
-
+    
     public formatResult(properties) {
       return properties.label + ', ' + properties.postcode;
     }
-
-    public selectVille(item) {
-      this.usagerForm.controls.villeNaissance.setValue(item.item.properties.city);
-      this.usagerForm.controls.codePostalNaissance.setValue(item.item.properties.postcode);
-    }
-
+    
     public addSlash(event) {
       const dateValue = event.target.value;
       if (event.key !== 'Backspace') {
@@ -443,31 +420,15 @@ export class UsagersFormComponent implements OnInit {
         }
       }
     }
-
-    public formatter = (x: { properties: { label: string } }) => x.properties.label;
-
-    public search(text$: Observable<string>)  {
-      text$.pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        tap(() => this.searching = true ),
-        switchMap(term => this.Autocomplete.search(term).pipe(tap(() => this.searchFailed = false),
-        catchError(() => {
-          this.searchFailed = true;
-          return of([]);
-        }))),
-        tap(() => this.searching = false));
-
-      };
-
-
-      public changeSuccessMessage(message: string, error?: boolean) {
-        window.scroll({
-          behavior: 'smooth',
-          left: 0,
-          top: 0,
-        });
-        error ? this.errorSubject.next(message) : this.successSubject.next(message);
-      }
-
+    
+    public changeSuccessMessage(message: string, error?: boolean) {
+      window.scroll({
+        behavior: 'smooth',
+        left: 0,
+        top: 0,
+      });
+      error ? this.errorSubject.next(message) : this.successSubject.next(message);
     }
+    
+  }
+  

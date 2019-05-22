@@ -27,6 +27,7 @@ export class UsagersService {
     createdUsager.etapeDemande++;
     createdUsager.agent = user.firstName + ' ' + user.lastName;
     createdUsager.id = this.lastId(await this.findLastUsager());
+
     return createdUsager.save();
   }
 
@@ -117,7 +118,7 @@ export class UsagersService {
       }
     },{
       new: true
-    }) .exec();
+    }).exec();
   }
 
   public async addDocument(usagerId: number, filename: string, filetype: string, label: string): Promise<Usager> {
@@ -165,6 +166,12 @@ export class UsagersService {
     }) .select('-docsPath').exec();
   }
 
+  public async deleteById(usagerId: number): Promise<any> {
+    return this.usagerModel.deleteOne({
+      "id": usagerId
+    }).exec();
+  }
+
   public async search(query?: SearchDto): Promise<Usager[]> {
     this.sort = { 'nom': 1 };
 
@@ -184,6 +191,9 @@ export class UsagersService {
           prenom: { $regex: '.*' + query.name + '.*', $options: '-i'  }
         }
       ];
+    }
+    else {
+      delete searchQuery.$or;
     }
 
     return this.usagerModel.find(searchQuery)

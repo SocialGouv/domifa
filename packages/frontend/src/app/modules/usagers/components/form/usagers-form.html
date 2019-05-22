@@ -21,20 +21,16 @@
       </div>
     </div>
   </div>
-
   <div class="col-md-8 offset-md-2">
     <div class="w-100"></div>
-
     <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
       <strong>Erreur:</strong>
       {{ errorMessage }}
     </ngb-alert>
-
     <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">
       <strong>{{ successMessage }}</strong>
     </ngb-alert>
   </div>
-
   <div class="step_form" *ngIf="usager.decision.statut === 'valide'">
     <div class="row">
       <div class="col text-center">
@@ -53,7 +49,7 @@
         </button>
         <br><br>
         <p class="text-center">
-          <a [routerLink]="['/manage']" routerLinkActive="router-link-active">Retour à la liste des domiciliés</a>
+          <a routerLink="'/manage'" routerLinkActive="router-link-active">Retour à la liste des domiciliés</a>
         </p>
       </div>
     </div>
@@ -99,15 +95,12 @@
       </div>
     </div>
   </div>
-
   <div *ngIf="usager.decision.statut === 'instruction'">
     <!-- ///////// -->
     <!-- ETAPE 1 INFOS -->
     <!-- ///////// -->
     <div class="step_form" id="step_form0" *ngIf="usager.etapeDemande === 0">
-
       <form [formGroup]="usagerForm" (ngSubmit)="submitInfos()" autocomplete="off">
-
         <h5 class="text-center">État civil du demandeur</h5>
         <div class="form-group">
           <div class="form-check form-check-inline">
@@ -175,34 +168,15 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
           <div class="col-md-7">
             <div class="form-group required">
-              <label for="lieuNaissance">Lieu de naissance</label>
-              {{ lieuNaissance | json}}
-              <input id="typeahead-http" type="text" id="lieuNaissance" class="form-control" [class.is-invalid]="searchFailed" formControlName="lieuNaissance" [ngbTypeahead]="search"
-                [ngClass]="{ 'is-invalid': submitted && (f.lieuNaissance.errors  || f.villeNaissance.errors || f.codePostalNaissance.errors) }" [resultTemplate]="rt" autocomplete="null"
-                [inputFormatter]="formatter" (selectItem)="selectVille($event)" placeholder="Entrez une ville">
-              <span *ngIf="searching">Recherche en cours...</span>
-              <div class="invalid-feedback" *ngIf="searchFailed">
-                Désolé, la ville recherchée n'existe pas
-              </div>
-              <ng-template #rt let-r="result" let-t="term">
-                <ngb-highlight [result]="formatResult(r.properties)" [term]="t">
-                </ngb-highlight>
-              </ng-template>
-              <div *ngIf="submitted && (f.lieuNaissance.errors || f.villeNaissance.errors || f.codePostalNaissance.errors)" class="invalid-feedback">
-                <div *ngIf="submitted && f.codePostalNaissance.errors.required">
-                  Le
-                  <b>lieu de naissance</b>
-                  est obligatoire
-                </div>
-                <div *ngIf="f.villeNaissance.errors">
-                  Veuillez choisir un lieu
-                  dans la liste
-                </div>
+              <label for="villeNaissance">Lieu de naissance</label>
+              <input type="text" class="form-control" id="villeNaissance" formControlName="villeNaissance" placeholder="Précisez le pays si à l'étranger" autocomplete="null"
+                [ngClass]="{ 'is-invalid': submitted && f.villeNaissance.errors }" required>
+              <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
+                La <b>ville de naissance</b> est obligatoire
               </div>
             </div>
           </div>
@@ -361,8 +335,6 @@
 
         <input formControlName="id" type="hidden">
         <input formControlName="dateNaissance" type="hidden">
-        <input formControlName="villeNaissance" type="hidden">
-        <input formControlName="codePostalNaissance" type="hidden">
 
         <br>
         <br>
@@ -512,7 +484,6 @@
               &nbsp; Télécharger le Cerfa
               de demande
             </span>
-
           </p>
         </div>
       </div>

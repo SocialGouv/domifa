@@ -1,4 +1,4 @@
-import { Inject, Injectable, Module} from '@nestjs/common';
+import { Module} from '@nestjs/common';
 
 import { MongooseModule } from "@nestjs/mongoose";
 import { InteractionsController } from './interactions/interactions.controller';

@@ -1,10 +1,14 @@
-import { IsDate, IsEmail, IsIn, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber } from 'class-validator';
+import { IsEmail, IsIn, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { AyantDroit } from '../interfaces/ayant-droit';
 
 export class UsagersDto {
 
   @IsIn(['homme', 'femme'])
   public sexe: string;
+
+  @IsNumber()
+  @IsOptional()
+  public id: number;
 
   @IsNotEmpty()
   public nom: string;
@@ -17,9 +21,6 @@ export class UsagersDto {
 
   @IsNotEmpty()
   public villeNaissance: string;
-
-  @IsNotEmpty()
-  public codePostalNaissance: string;
 
   @IsOptional()
   @IsEmail()
@@ -55,9 +56,5 @@ export class UsagersDto {
 
   @IsOptional()
   public ayantsDroits: AyantDroit[];
-
-  @IsNumber()
-  @IsOptional()
-  public id: number;
 
 }

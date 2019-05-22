@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"domifa.usagers"},{"v":2,"unique":true,"key":{"id":1},"name":"id_1","ns":"domifa.usagers","background":true}],"uuid":"b5c0f659e53e482fbdd963cef81b714a"}

@@ -1,5 +1,6 @@
+
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from "@angular/platform-browser";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -22,13 +23,14 @@ library.add(fas, far);
 
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [AppComponent, LoginComponent, HomeComponent, UsagersFormComponent, UsersComponent, ManageUsagersComponent,UsagersProfilComponent],
-  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, HttpClientModule, NgbModule, FormsModule, ReactiveFormsModule
+  declarations: [AppComponent, LoginComponent, HomeComponent, UsagersFormComponent, UsersComponent, ManageUsagersComponent,UsagersProfilComponent ],
+  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, HttpClientModule, NgbModule.forRoot(), FormsModule, ReactiveFormsModule
   ],
   providers: [{
     multi: true,
     provide: HTTP_INTERCEPTORS,
     useClass: HttpErrorInterceptor,
-  }]
+  }],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
 })
 export class AppModule {}

@@ -1,4 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+
+import { BadRequestException, Inject, Injectable, Logger } from '@nestjs/common';
 import { Model } from "mongoose";
 
 import { StructuresService } from '../structures/structures.service';
@@ -7,6 +9,9 @@ import { User } from './user.interface';
 
 @Injectable()
 export class UsersService {
+
+  private readonly logger = new Logger(UsersService.name);
+
   constructor(@Inject('USER_MODEL') private readonly userModel: Model<User>,
   private readonly structureService: StructuresService) {
   }
@@ -16,10 +21,21 @@ export class UsersService {
   }
 
   public async newUser(userDto: UserDto): Promise<User> {
+
     const createdUser = new this.userModel(userDto);
-    createdUser.structure = await this.structureService.findById(createdUser.structureID);
+    const structure = await this.structureService.findById(createdUser.structureID);
+    createdUser.structure = structure;
     createdUser.id = this.lastId(await this.findLast());
-    return createdUser.save();
+    createdUser.password = await bcrypt.hash(createdUser.password, 10);
+
+    try {
+      const newUser = await createdUser.save();
+      this.structureService.addUser(newUser, createdUser.structureID);
+
+      return newUser;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   public async findByEmail(email: string): Promise<User> {
@@ -34,11 +50,17 @@ export class UsersService {
     }).populate('structure').lean().exec();
   }
 
+  public async deleteById(id: number): Promise<User> {
+    return this.userModel.findOneAndDelete({
+      "id": id
+    }).exec();
+  }
+
   private async findLast(): Promise<User> {
     return this.userModel.findOne().select('id').sort({ id: -1 }).limit(1).lean().exec();
   }
 
-  private lastId(user): number{
+  private lastId(user: User): number{
     if (user) {
       if (user.id !== undefined) {
         return user.id + 1;
@@ -46,7 +68,6 @@ export class UsersService {
     }
     return 1;
   }
-
 }
 
 

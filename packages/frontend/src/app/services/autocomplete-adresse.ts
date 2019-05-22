@@ -11,10 +11,13 @@ const PARAMS = new HttpParams({
   }
 });
 
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AutocompleteAdresseService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+
+  }
 
   public search(term: string) {
     if (term === '') {
@@ -22,9 +25,9 @@ export class AutocompleteAdresseService {
     }
 
     return this.http
-    .get(ADRESSE_DATA_GOUV, { params: PARAMS.set('q', term) })
-    .pipe( map((response:any) => {
-      return response.features;
-    }));
+    .get(ADRESSE_DATA_GOUV, {params: PARAMS.set('q', term)}).pipe(
+      map(response => {
+        return response;
+      }));
+    }
   }
-}

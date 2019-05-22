@@ -11,7 +11,6 @@ export class Usager {
   public prenom: string;
   public sexe: string;
   public dateNaissance: Date;
-  public lieuNaissance: any;
   public villeNaissance: string;
 
   public email: string;
@@ -40,7 +39,6 @@ export class Usager {
   public decision: any;
 
   public dateNaissancePicker: any;
-  public codePostalNaissance: string;
 
   constructor(usager?: any) {
 
@@ -54,10 +52,7 @@ export class Usager {
     this.dateNaissancePicker = usager && usager.dateNaissance ?
       { day: this.dateNaissance.getDate(), month: this.dateNaissance.getMonth() + 1, year: this.dateNaissance.getFullYear() } : {};
 
-    this.codePostalNaissance = usager && usager.codePostalNaissance || null;
     this.villeNaissance = usager && usager.villeNaissance || null;
-    this.lieuNaissance = usager && usager.villeNaissance ? { properties :  { label: this.villeNaissance }
-  } : null;
 
     this.email =  usager && usager.email || null;
     this.phone = usager && usager.phone || null;

@@ -1189,18 +1189,18 @@
     glob-to-regexp "^0.3.0"
 
 "@nestjs/common@^6.0.0":
-  version "6.2.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-6.2.3.tgz#d8ace5f9a9820419d09df7bfca2d0be3a927c57c"
-  integrity sha512-XHlQGfeM5IbPd0zixEVQPj/xMqPLdaETV8DDwRh8YQXoQN32zPvwM4zrxiKAIU7WjTj+VWy87HCsnX8trZ3MxA==
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-6.2.4.tgz#ee6ff8b07494ce7242b1e61fb7fae9f64ec963d6"
+  integrity sha512-YZvJ6/S7yVQZK+9rupCzMCg4tpbc9DyVvLoTx0NBDqExTCUNcNEcCtn0AZrO/hLqbeYODnJwGE2NxkH1R/qw+w==
   dependencies:
     axios "0.18.0"
     cli-color "1.4.0"
     uuid "3.3.2"
 
 "@nestjs/core@^6.0.0":
-  version "6.2.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-6.2.3.tgz#4b1ce3e0c3f9e7b157b29bc8ca865404024defad"
-  integrity sha512-AM6YkvCf6L9MK5Nxx5WXV1+hl6Jku1JmcEr4fCspwaW92GwS8MpXxfO24hsR9voQ9u4FKaAqNRdWULcg5VlIcg==
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-6.2.4.tgz#ab2436ebfee356ae4ac66f19378f8ed57ac2c3c9"
+  integrity sha512-aYKi3QGKmpxF6w32STAcobIqOHFqSUXrU8nF+Y9dOlStRkXFBTuVchsoJk94sY+3y4SJAlHH4Q/8R4yFaixrug==
   dependencies:
     "@nuxtjs/opencollective" "0.2.1"
     fast-safe-stringify "2.0.6"
@@ -1228,19 +1228,19 @@
   integrity sha512-V4KdtFFLsdZQ/HlIECpiK6byzGz57Y12TAc+Iatykk8jWuVFE1jq8RJbpTfB0zG0PTfcGm9crQ6Ut2Rwdmis4Q==
 
 "@nestjs/platform-express@^6.1.1":
-  version "6.2.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-6.2.3.tgz#5efaa688c30a88daed4544c1ababa4f422c2f7e7"
-  integrity sha512-kpnBN6+YR3dXO6h+p0JrJxLnGRUzvyPPVCP9YPZ7n0c/1SvAAVKN26uRNGZo8jOpD72taL8+rTLyjgezooh1QA==
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-6.2.4.tgz#cf7d8d758f185d5d2513d3916475c17ecd394e76"
+  integrity sha512-MmoQqFWO7nmgEvBIeO6ddz1CFVx3RIQluX1LMIzyfiyRghQzcZCGqTQsZSpck5ZnXNQNxrrI9bz/6a6cTwovmQ==
   dependencies:
     body-parser "1.19.0"
     cors "2.8.5"
     express "4.17.0"
     multer "1.4.1"
 
-"@nestjs/testing@^6.0.0":
-  version "6.2.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-6.2.3.tgz#5e36d49b9c55bf7bd6b1430bbc41f152c0001031"
-  integrity sha512-et3zvLE8xBjJqoYBjyub9LyuYDf9qbL7Go7WDmsiYEGzV6FELA1t0pHBFr8bKRtRWGQviOIf/4cd0YwilhoZUQ==
+"@nestjs/testing@^6.2.4":
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-6.2.4.tgz#23a3480fa6c46b24940187b3d6ed21c784709865"
+  integrity sha512-l5uxeNz+CksHaVcHxSlpo0vyJxvZP7BM1vS6BKuqtn/lNlIITAkdWmCVfBldN8Okayj3B2yhc04Zq6imU3aX9w==
   dependencies:
     optional "0.1.4"
 
@@ -1400,6 +1400,11 @@
   integrity sha512-XYVgHF2sQ0YblLRMLNPB3CkFMewzFmlDsH/TneZFHUXDlABQgh88uOxuez7ZcXxayLFrqLwtDH1t+FmlFwNZxw==
   dependencies:
     "@babel/types" "^7.3.0"
+
+"@types/bcrypt@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/bcrypt/-/bcrypt-3.0.0.tgz#851489a9065a067cb7f3c9cbe4ce9bed8bba0876"
+  integrity sha512-nohgNyv+1ViVcubKBh0+XiNJ3dO8nYu///9aJ4cgSqv70gBL+94SNy/iC2NLzKPT2Zt/QavrOkBVbZRLZmw6NQ==
 
 "@types/body-parser@*":
   version "1.17.0"
@@ -2448,6 +2453,14 @@ bcrypt-pbkdf@^1.0.0:
   integrity sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=
   dependencies:
     tweetnacl "^0.14.3"
+
+bcrypt@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/bcrypt/-/bcrypt-3.0.6.tgz#f607846df62d27e60d5e795612c4f67d70206eb2"
+  integrity sha512-taA5bCTfXe7FUjKroKky9EXpdhkVvhE5owfxfLYodbrAR1Ul3juLmIQmIQBK4L9a5BuUcE6cqmwT+Da20lF9tg==
+  dependencies:
+    nan "2.13.2"
+    node-pre-gyp "0.12.0"
 
 before-after-hook@^1.4.0:
   version "1.4.0"
@@ -3528,9 +3541,9 @@ core-js@^2.4.0, core-js@^2.5.0:
   integrity sha512-klh/kDpwX8hryYL14M9w/xei6vrv6sE8gTHDG7/T/+SEovB/G4ejwcfE/CBzO6Edsu+OETZMZ3wcX/EjUkrl5A==
 
 core-js@^2.5.4:
-  version "2.6.7"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.7.tgz#c2b19af9b50ec49c356ee087d6155632a889e968"
-  integrity sha512-ydmsQxDVH7lDpYoirXft8S83ddKKfdsrsmWhtyj7xafXVLbLhKOyfD7kAi2ueFfeP7m9rNavjW59O3hLLzzC5A==
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.8.tgz#dc3a1e633a04267944e0cb850d3880f340248139"
+  integrity sha512-RWlREFU74TEkdXzyl1bka66O3kYp8jeTXrvJZDzVVMH8AiHUSOFpL1yfhQJ+wHocAm1m+4971W1PPzfLuCv1vg==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -8123,7 +8136,7 @@ mute-stream@~0.0.4:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nan@^2.12.1, nan@^2.13.2, nan@^2.9.2:
+nan@2.13.2, nan@^2.12.1, nan@^2.13.2, nan@^2.9.2:
   version "2.13.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.13.2.tgz#f51dc7ae66ba7d5d55e1e6d4d8092e802c9aefe7"
   integrity sha512-TghvYc72wlMGMVMluVo9WRJc0mB8KxxF/gZ4YYFy7V2ZQX9l7rgbPg7vjS9mt6U5HXODVFVI2bOduCzwOMv/lw==
@@ -8307,10 +8320,10 @@ node-pdftk@^2.0.2:
   resolved "https://registry.yarnpkg.com/node-pdftk/-/node-pdftk-2.0.2.tgz#4e236123dcf5dc1d8473e5924ae446d6c6859d4e"
   integrity sha512-ouNYoWd0gzI/ZPt/odQ5JIU4SeRUJTg5dEnCLG88lKJAgFJjn0dHotg563hZTOUyWLP6/n6YBfkW92CvpM5QOg==
 
-node-pre-gyp@^0.10.0:
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.3.tgz#3070040716afdc778747b61b6887bf78880b80fc"
-  integrity sha512-d1xFs+C/IPS8Id0qPTZ4bUT8wWryfR/OzzAFxweG+uLN85oPzyo2Iw6bVlLQ/JOdgNonXLCoRyqDzDWq4iw72A==
+node-pre-gyp@0.12.0, node-pre-gyp@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.12.0.tgz#39ba4bb1439da030295f899e3b520b7785766149"
+  integrity sha512-4KghwV8vH5k+g2ylT+sLTjy5wmUOb9vPhnM8NHvRf9dHmnW/CndrFXy2aRPaPST6dugXSdHXfeaHQm77PIz/1A==
   dependencies:
     detect-libc "^1.0.2"
     mkdirp "^0.5.1"
@@ -8323,10 +8336,10 @@ node-pre-gyp@^0.10.0:
     semver "^5.3.0"
     tar "^4"
 
-node-pre-gyp@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.12.0.tgz#39ba4bb1439da030295f899e3b520b7785766149"
-  integrity sha512-4KghwV8vH5k+g2ylT+sLTjy5wmUOb9vPhnM8NHvRf9dHmnW/CndrFXy2aRPaPST6dugXSdHXfeaHQm77PIz/1A==
+node-pre-gyp@^0.10.0:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.3.tgz#3070040716afdc778747b61b6887bf78880b80fc"
+  integrity sha512-d1xFs+C/IPS8Id0qPTZ4bUT8wWryfR/OzzAFxweG+uLN85oPzyo2Iw6bVlLQ/JOdgNonXLCoRyqDzDWq4iw72A==
   dependencies:
     detect-libc "^1.0.2"
     mkdirp "^0.5.1"

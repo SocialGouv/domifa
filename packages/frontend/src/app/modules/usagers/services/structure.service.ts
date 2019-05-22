@@ -1,13 +1,12 @@
-import { HttpClient, HttpEventType } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StructureService {
   public http: HttpClient;
-  private usager = null;
   private endPoint = environment.apiUrl+'structures/';
 
   constructor(http: HttpClient) {

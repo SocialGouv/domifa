@@ -22,6 +22,7 @@ export class UsagersController {
     /* FORMULAIRE INFOS */
     @Post()
     public postUsager(@Body() usagerDto: UsagersDto) {
+       this.logger.log("BUG");
       return this.usagersService.create(usagerDto);
     }
 
@@ -42,11 +43,11 @@ export class UsagersController {
       return this.usagersService.setEntretien(usagerId, entretien);
     }
 
-   /* RDV  */
-   @Post('decision/:id')
-   public setDecision(@Param('id') usagerId: number, @Body() decision: Decision) {
-     return this.usagersService.setDecision(usagerId, decision);
-   }
+    /* RDV  */
+    @Post('decision/:id')
+    public setDecision(@Param('id') usagerId: number, @Body() decision: Decision) {
+      return this.usagersService.setDecision(usagerId, decision);
+    }
 
     /* PROFILE & MANAGEMENT */
     @Get('search')
@@ -58,6 +59,11 @@ export class UsagersController {
     @Get(':id')
     public findOne(@Param('id') usagerId: number) {
       return this.usagersService.findById(usagerId);
+    }
+
+    @Delete(':id')
+    public deleteOne(@Param('id') usagerId: number) {
+      return this.usagersService.deleteById(usagerId);
     }
 
     @Get('attestation/:id')

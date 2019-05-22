@@ -1,11 +1,10 @@
 import { Inject, Injectable, Logger, Res } from '@nestjs/common';
 import * as fs from 'fs';
 import { Model } from "mongoose";
-import * as path from 'path';
-import { Usager } from '../interfaces/usagers';
-
 import pdftk = require('node-pdftk');
+import * as path from 'path';
 import { UsersService } from '../../users/users.service';
+import { Usager } from '../interfaces/usagers';
 
 
 @Injectable()
@@ -63,7 +62,7 @@ export class CerfaService {
       infosPdf["topmostSubform[0].Page1[0].RespOrganisme[0]"] = user.structure.responsable.nom + ' ' + user.structure.responsable.prenom;
       infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] = user.structure.departement;
       infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] = user.structure.agrement;
-      infosPdf["topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]"] = user.structure.agrement + ', ' + user.structure.adresse + ' ' + user.structure.ville + ' ' +  user.structure.codePostal;
+      infosPdf["topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]"] = user.structure.adresse + ' ' + user.structure.ville + ' ' +  user.structure.codePostal;
       infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] = user.structure.mail;
       infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = user.structure.phone;
       infosPdf["topmostSubform[0].Page1[0].Noms2[0]"] = usager.nom;

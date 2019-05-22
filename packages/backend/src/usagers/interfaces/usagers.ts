@@ -6,7 +6,6 @@ import { Entretien } from './entretien';
 import { Rdv } from './rdv';
 
 export interface Usager extends Document {
-
   id: number;
   nom: string;
   prenom: string;
@@ -14,7 +13,6 @@ export interface Usager extends Document {
 
   dateNaissance: Date;
   villeNaissance: string;
-  codePostalNaissance: string;
 
   email: string;
   phone: string;
@@ -35,3 +33,5 @@ export interface Usager extends Document {
   docs: Doc[];
   docsPath: string[];
 }
+
+

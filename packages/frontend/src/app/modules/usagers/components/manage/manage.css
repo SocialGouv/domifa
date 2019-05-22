@@ -34,7 +34,6 @@
   margin-top: -10px
 }
 
-
 table {
   border-collapse: separate;
   border-spacing: 0 6px;
@@ -49,7 +48,6 @@ th {
   vertical-align: middle;
   padding: 6px 5px;
 }
-
 
 td:first-child,
 th:first-child {
@@ -79,7 +77,6 @@ th:last-child {
 .instruction {
   border-left: 4px solid  rgb(226, 168, 7)!important;
 }
-
 
 tbody tr {
   transition: all 0.2s;

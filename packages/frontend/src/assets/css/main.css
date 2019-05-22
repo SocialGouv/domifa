@@ -22,8 +22,14 @@ body {
 
 .page-footer div {
   display: inline-block;
-  min-width: 200px;
+  min-width: 80px;
+  padding: 0.5rem 1rem;
   vertical-align: middle;
+  font-size: 0.85rem;
+}
+
+.page-footer img {
+  max-height: 40px;
 }
 
 .page-footer {

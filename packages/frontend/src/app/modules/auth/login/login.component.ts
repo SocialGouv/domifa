@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
   public signinForm = this.fb.group({
     email: ['', [Validators.required, Validators.pattern(regexp.email)]],
     password: ['', [Validators.required, Validators.minLength(password.min), Validators.maxLength(password.max)]],
-
   });
 
   public model: any = {};

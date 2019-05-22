@@ -1,4 +1,5 @@
 export class Decision{
+
   public dateDebut: Date;
   public dateFin: Date;
   public dateDemande: Date;

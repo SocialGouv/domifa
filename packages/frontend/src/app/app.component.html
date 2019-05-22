@@ -25,11 +25,17 @@
   <router-outlet></router-outlet>
 </div>
 <footer class="page-footer">
-  <div class>
+  <div>
     <img src="../assets/images/logoministere.jpg" alt="Logo Domifa">
   </div>
   <div>
     <span>FAQ</span>
+  </div>
+  <div>
+    <span>Conditions d'utilisation</span>
+  </div>
+  <div>
+    <span>Contactez-nous</span>
   </div>
   <div>
     <span>Contactez-nous</span>
@@ -38,21 +44,3 @@
     <span>© 2019 Incubateur des affaires sociales</span>
   </div>
 </footer>
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-      Hi there!
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Hello, World!</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">
-      Save
-    </button>
-  </div>
-</ng-template>
