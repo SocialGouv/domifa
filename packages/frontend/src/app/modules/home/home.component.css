@@ -1,6 +1,7 @@
 h1 {
   font-weight: 600;
-  line-height: 3rem;
+ font-size: 2.6rem;
+  line-height: 3.2rem;
   max-width: 780px;
   margin: 0.5rem auto;
 }
@@ -32,4 +33,9 @@ h1 {
   max-width: 120px;
   height: auto;
   margin: 2rem auto;
+}
+
+#team img {
+  display: block;
+  max-height: 150px;
 }

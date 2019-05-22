@@ -50,7 +50,7 @@ export class Usager {
     this.dateNaissance = usager && new Date(usager.dateNaissance) || null;
 
     this.dateNaissancePicker = usager && usager.dateNaissance ?
-      { day: this.dateNaissance.getDate(), month: this.dateNaissance.getMonth() + 1, year: this.dateNaissance.getFullYear() } : {};
+    { day: this.dateNaissance.getDate(), month: this.dateNaissance.getMonth() + 1, year: this.dateNaissance.getFullYear() } : {};
 
     this.villeNaissance = usager && usager.villeNaissance || null;
 
@@ -61,7 +61,7 @@ export class Usager {
 
     this.agent =  usager && usager.agent || null;
 
-    this.structure = usager && usager.statut || 0;
+    this.structure = usager && usager.structure || 2;
     this.etapeDemande =  usager && usager.etapeDemande || 0;
     this.historique = usager && usager.historique || null;
 
