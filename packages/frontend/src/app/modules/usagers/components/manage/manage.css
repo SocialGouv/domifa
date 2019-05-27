@@ -1,6 +1,11 @@
+#manage {
+  max-width: 950px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #filters {
-  max-width: 1024px;
-  margin: 10px auto;
+  padding: 10px 0;
 }
 
 #filters .row * {
@@ -16,14 +21,54 @@
 }
 
 #filters span {
+  color:#4A4A4A;
   width: 100px;
   padding-top: 5px;
 }
 
 #filters .btn {
   border-radius: 100px;
-  padding: 4px 16px;
-  font-size: 0.85rem;
+  padding: 5px 25px;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.btn-outline-dark:hover,
+.btn-dark {
+  color: white;
+  border-color:white;
+  background-color:  #9b9b9b;
+}
+
+.btn-outline-dark {
+  border-color: #9b9b9b;
+  color: #4A4A4A;
+}
+
+#searchbar {
+  position: relative;
+}
+
+#searchbar input {
+  padding: 10px 38px;
+  border-radius: 6px;
+}
+
+#searchbar span {
+  display: block;
+  position: absolute;
+  top: 8px;
+}
+
+#search_icon{
+  left: 15px;
+  color:rgb(202, 202, 202);
+}
+
+#times_icon{
+  right: 15px;
+  color:rgb(43, 43, 43);
+  cursor :pointer;
 }
 
 .table_name span {
@@ -36,8 +81,7 @@
 
 table {
   border-collapse: separate;
-  border-spacing: 0 6px;
-  max-width: 1024px;
+  border-spacing: 0 8px;
   margin: 0 auto;
 }
 
@@ -84,10 +128,25 @@ tbody tr {
 }
 
 tbody tr:hover {
-  transform: translate(0,-1px);
-  color: #495057;
   background-color: #fff;
-  border-color: #464646;
   outline: 0;
-  box-shadow: 0 0 0 0.1rem rgba(177, 177, 177, 0.1);
+  border-color:white;
+  cursor: pointer;
+  box-shadow: 0 0 0 5px rgba(179, 179, 179, 0.1),  0 0 0 1px rgba(104, 104, 104, 0.1) ;
+}
+
+.icones_liste span {
+  font-size: 1.65rem;
+  color: white;
+  -webkit-text-stroke-width: 20px;
+  stroke-width: 20px;
+  transition: all 0.3s;
+  cursor: pointer;
+  margin-right: 25px;
+  display: inline-block;
+}
+
+.icones_liste span:hover {
+  -webkit-text-stroke-width: 10px;
+  stroke-width: 10px;
 }

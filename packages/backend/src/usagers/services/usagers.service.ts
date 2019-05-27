@@ -3,9 +3,9 @@ import { Model } from "mongoose";
 import { UsersService } from '../../users/users.service';
 import { EntretienDto } from '../dto/entretien';
 import { RdvDto } from '../dto/rdv';
+import { SearchDto } from '../dto/search';
 import { UsagersDto } from '../dto/usagers.dto';
 import { Decision } from '../interfaces/decision';
-import { SearchDto } from '../interfaces/search';
 import { Usager } from '../interfaces/usagers';
 
 @Injectable()
@@ -176,28 +176,36 @@ export class UsagersService {
     this.sort = { 'nom': 1 };
 
     /* ID DE LA STRUCTURE DE LUSER */
-    const searchQuery = {
-      $or: [],
-      structure: 2
-    };
+    interface SearchQuery {
+      name?: string;
+      $or?: any[];
+      "decision.statut"?: {};
+      structure?: string;
+    }
+
+    const searchQuery: SearchQuery = {};
 
     if (query.name) {
-      this.logger.log(query.name);
       searchQuery.$or =  [
         {
-          nom: { $regex: '.*' + query.name + '.*' , $options: '-i' }
+          nom: { $regex: '.*' + query.name + '.*', $options: '-i' }
         },
         {
-          prenom: { $regex: '.*' + query.name + '.*', $options: '-i'  }
+          prenom: { $regex: '.*' + query.name + '.*', $options: '-i' }
         }
       ];
     }
-    else {
-      delete searchQuery.$or;
+
+    if (query.statut) {
+      searchQuery["decision.statut"] = query.statut;
     }
+
+    this.logger.log("searchQuery");
+    this.logger.log(JSON.stringify(searchQuery));
 
     return this.usagerModel.find(searchQuery)
     .sort(this.sort)
+    .lean()
     .exec();
   }
 
@@ -214,5 +222,3 @@ export class UsagersService {
     return 1;
   }
 }
-
-

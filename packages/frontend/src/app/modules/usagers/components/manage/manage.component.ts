@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Usager } from 'src/app/modules/usagers/interfaces/usager';
 import { UsagerService } from 'src/app/modules/usagers/services/usager.service';
+import { Search } from '../../interfaces/search';
+
 @Component({
   providers: [UsagerService],
   selector: 'app-manage-usagers',
@@ -15,17 +17,13 @@ export class ManageUsagersComponent implements OnInit {
   public searching: boolean;
   public searchFailed: boolean;
   public usagers: Usager[];
+  public searchWord: string;
+
 
   @ViewChild('searchInput')
   public searchInput: ElementRef;
 
-  public filters: {
-    statut: string,
-    name: string,
-    echeance: string,
-    courrier: boolean,
-    id: number
-  };
+  public filters: Search;
 
   constructor( private usagerService: UsagerService) {
   }
@@ -33,15 +31,10 @@ export class ManageUsagersComponent implements OnInit {
   public ngOnInit() {
     // this.user = this.userService.getUser();
 
-    this.filters =  {
-      courrier: null,
-      echeance: null,
-      id: null,
-      name: null,
-      statut: null,
-    };
-
+    this.filters =  new Search({});
     this.title = "Gérer vos domiciliés";
+    this.usagers = [];
+    this.searching = false;
 
     fromEvent(this.searchInput.nativeElement, 'keyup').pipe(map((event: any) => {
       return event.target.value;
@@ -49,6 +42,8 @@ export class ManageUsagersComponent implements OnInit {
     ,debounceTime(300)
     ,distinctUntilChanged()).subscribe((text: any) => {
       this.filters.name = null;
+      this.filters.id = null;
+      text = text.trim();
       if (text !== '') {
         isNaN(text) ? this.filters.name = text : this.filters.id = text;
       }
@@ -59,17 +54,38 @@ export class ManageUsagersComponent implements OnInit {
     this.search();
   }
 
-  public getAttestation(idUsager) {
+  public getSearchBar() {
+    return this.searchInput.nativeElement.value;
+  }
+  public resetSearchBar() {
+    this.filters.name = null;
+    this.filters.id = null;
+    this.searchInput.nativeElement.value = '';
+    this.search();
+  }
+
+  public getAttestation(idUsager: number) {
     return this.usagerService.attestation(idUsager);
+  }
+
+  public resetFilters() {
+    this.filters = new Search({});
+    this.search();
   }
 
   public updateFilters(filter: string, value: string) {
     /* Filter */
+    console.log(filter);
+    console.log(value);
+    this.filters[filter] = this.filters[filter] === value ? null : value;
+    this.search();
   }
 
   public search() {
-
     this.usagerService.search(this.filters).subscribe((usagers: Usager[]) => {
+      if (usagers.length === 0) {
+        console.log("PAS DE RESULTAT");
+      }
       this.usagers = usagers;
       this.searching = false;
     },(error) => {

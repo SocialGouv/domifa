@@ -13,6 +13,7 @@ import { AppComponent } from "./app.component";
 import { LoginComponent } from './modules/auth/login/login.component';
 import { HomeComponent } from './modules/home/home.component';
 import { HttpErrorInterceptor } from './modules/interceptors/errors.interceptor';
+import { StructuresFormComponent } from './modules/structures/components/structures-form/structures-form.component';
 import { UsagersFormComponent } from './modules/usagers/components/form/usagers-form';
 import { ManageUsagersComponent } from './modules/usagers/components/manage/manage.component';
 import { UsagersProfilComponent } from './modules/usagers/components/profil/profil-component';
@@ -23,8 +24,16 @@ library.add(fas, far);
 
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [AppComponent, LoginComponent, HomeComponent, UsagersFormComponent, UsersComponent, ManageUsagersComponent,UsagersProfilComponent ],
-  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, HttpClientModule, NgbModule.forRoot(), FormsModule, ReactiveFormsModule
+  declarations: [AppComponent, LoginComponent, HomeComponent, UsagersFormComponent, UsersComponent, ManageUsagersComponent,UsagersProfilComponent, StructuresFormComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    HttpClientModule,
+    NgbModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
+
   ],
   providers: [{
     multi: true,

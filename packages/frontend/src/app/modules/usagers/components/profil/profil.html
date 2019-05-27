@@ -7,20 +7,23 @@
       </a>
     </div>
     <div class="col-md-6 text-center">
-      <div id="profil_head">
+      <div id="profil_head" [class]="usager.decision.statut">
         <h2 id="profil_name">
           {{ usager.prenom }} <span>{{ usager.nom }}</span>
         </h2>
         Numéro domicilié : <b>{{ usager.id }}</b>
       </div>
       <div class="text-center" *ngIf="usager.decision.statut === 'valide'">
-        Domiciliation valable jusqu'au <b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}</b>
+        Domiciliation valable jusqu'au <span class="text-secondary"><b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}</b></span>
         <br>
         Dernier passage le <b>18/03/2019</b>
       </div>
       <br><br>
       <div class="text-center">
-        <span class="btn btn-warning">14 courriers en attente. <a href="">Confirmer la distribution</a></span>
+        <span class="btn btn-pink">
+          <fa-icon id="courrier" icon="envelope"></fa-icon>
+          14 courriers en attente. <u>Confirmer la distribution</u>
+        </span>
       </div>
     </div>
   </div>
@@ -96,14 +99,35 @@
 
     <ngb-panel title="HISTORIQUE DE LA DOMICILIATION">
       <ng-template ngbPanelContent>
-        Dossier instruit le <b>{{ usager.decision.dateInstruction | date: 'dd/MM/yyyy' }}</b>
+        <div class="row">
+          <div class="col">
+            Dossier instruit le <b>{{ usager.decision.dateInstruction | date: 'dd/MM/yyyy' }}</b>
+          </div>
+          <div *ngIf="usager.decision.statut === 'demande'" class="col">
+            Demande effectuée le <b>{{ usager.decision.dateDemande | date: 'dd/MM/yyyy' }}</b>
+          </div>
+          <div *ngIf="usager.decision.statut === 'valide'" class="col">
+            Domiciliation accepté le <b>{{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}</b>
+          </div>
+          <div *ngIf="usager.decision.statut === 'refus'" class="col">
+            Domiciliation refusée le <b>{{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}</b>
+          </div>
+        </div>
         <br>
-        Demande de domiciliation effectuée le <b>{{ usager.decision.dateDemande | date: 'dd/MM/yyyy' }}</b>
       </ng-template>
     </ngb-panel>
 
     <ngb-panel title="ÉTAT CIVIL">
       <ng-template ngbPanelContent>
+        <div class="row">
+          <div class="col">
+            <b> Nom :</b> {{ usager.nom }}<br>
+            <b> Prénom : </b> {{ usager.prenom }}<br>
+            <b> Date de naissance :</b> {{ usager.dateNaissance | date: 'dd/MM/yyyy'  }}<br>
+            <b> Lieu de Naissance : </b> {{ usager.villeNaissance }}<br>
+
+          </div>
+        </div>
       </ng-template>
     </ngb-panel>
 
@@ -132,20 +156,43 @@
       <ng-template ngbPanelContent>
         <div class="row">
           <div class="col">
-            <b>Avez-vous déjà une domiciliation quelque part ?</b> : {{ usager.entretien.domiciliation ? 'Oui' : 'Non' }} <br>
-            <b>Avez-vous des revenus ?</b> : {{ usager.entretien.revenus ? 'Oui' : 'Non' }}  <br> <br>
+            <b>Avez-vous déjà une domiciliation quelque part ?</b>
+            {{ usager.entretien.domiciliation ? 'Oui' : 'Non' }} <br>
 
-            <b>Quel est votre lien avec la commune ?</b> : {{ usager.entretien.liencommune || 'Non renseigné' }} <br><br>
+            <b>Avez-vous des revenus ?</b> :
+            {{ usager.entretien.revenus ? 'Oui' : 'Non' }}<br><br>
 
-            <b>Quelle est la cause de l'instabilité de logement ?</b> : {{ usager.entretien.residence }} <br>
-            <span *ngIf="usager.entretien.residence === 'residenceAutre'"><b>Détail : </b>{{ usager.entretien.residenceDetail }} <br></span><br>
+            <b>Quel est votre lien avec la commune ?</b><br>
+            {{ usager.entretien.liencommune || 'Non renseigné' }}<br><br>
+
+            <b> Quel est le motif principal de demande de domiciliation ?</b><br>
+            {{ labels[usager.entretien.raison] || 'Non renseigné' }}<br><br>
+
+            <b>Quelle est la cause de l'instabilité de logement ?</b><br>
+            {{ labels[ usager.entretien.residence ] || 'Non renseigné' }}
+
+            <span *ngIf="usager.entretien.residence === 'residenceAutre'">
+              {{ usager.entretien.residenceDetail }}
+            </span> <br>
+            <br>
           </div>
           <div class="col">
-            <b>Quel est le motif principal de demande de domiciliation ?</b> : {{ usager.entretien.cause }} <br>
-            <span *ngIf="usager.entretien.cause === 'causeAutre'"><b>Détail : </b>{{ usager.entretien.residenceDetail }} <br></span>
+
+            <b>Quel est le motif principal de demande de domiciliation ?</b><br>
+            {{ labels[usager.entretien.cause] }} 
+            <span *ngIf="usager.entretien.cause === 'causeAutre'">
+              : {{ usager.entretien.residenceDetail }} <br>
+            </span>
+
             <br>
-            <b>Faites-vous l’objet d’un accompagnement social ?</b> : {{ usager.entretien.accompagnement ? 'Oui' : 'Non' }} <br>
-            <span *ngIf=" accompagnementDetail !== null"> <b>Suivi par</b> : {{ accompagnementDetail }}</span><br><br>
+
+            <b>Faites-vous l’objet d’un accompagnement social ?</b> :
+            {{ usager.entretien.accompagnement ? 'Oui' : 'Non' }} <br>
+            <span *ngIf="accompagnement">
+              <b>Suivi par</b> : {{ accompagnementDetail }}
+            </span>
+
+            <br><br>
             <b>Commentaires</b> <br>
           </div>
         </div>

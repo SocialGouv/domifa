@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Usager } from '../../interfaces/usager';
 import { DocumentService } from '../../services/document.service';
 import { UsagerService } from '../../services/usager.service';
+import { LABELS } from '../../shared/labels'
 
 @Component({
   providers: [UsagerService],
@@ -16,7 +17,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public title: string;
   public usager: Usager;
-
+  public labels: any;
   constructor(private usagerService: UsagerService, private route: ActivatedRoute, private documentService: DocumentService) {
 
   }
@@ -24,6 +25,7 @@ export class UsagersProfilComponent implements OnInit {
   public ngOnInit() {
 
     this.title = "Fiche d'un domicilié ";
+    this.labels = LABELS;
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;

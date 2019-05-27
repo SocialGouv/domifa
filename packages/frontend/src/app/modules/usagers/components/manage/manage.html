@@ -1,9 +1,17 @@
-<div class="container">
+<div class="container" id="manage">
   <h4 class="text-center"><b>Bonjour Domifa</b></h4>
   <div class="row">
     <div class="col-md-6 offset-md-3 ">
       <div class="form-group">
-        <input id="typeahead-http" type="text" #searchInput placeholder="Rechercher un.e domicilié par nom, prénom, numéro de domicilié" class="form-control">
+        <div id="searchbar">
+          <span id="search_icon">
+            <fa-icon icon="search"></fa-icon>
+          </span>
+          <input type="text" [(ngModel)]="searchWord" #searchInput placeholder="Rechercher un.e domicilié par nom, prénom, numéro de domicilié" class="form-control">
+          <span *ngIf="searchInput.value !== ''" (click)="resetSearchBar()" id="times_icon">
+            <fa-icon icon="times-circle"></fa-icon>
+          </span>
+        </div>
         <span *ngIf="searching">Recherche en cours...</span>
         <div class="invalid-feedback" *ngIf="searchFailed">
         </div>
@@ -18,47 +26,57 @@
   <div id="filters">
     <div class="row">
       <span> Statut : </span>
-      <button class="btn btn-outline-dark" [ngClass]="{ 'btn-dark': filters.statut === 'encours' }" (click)="filters.statut = 'encours'">
+      <button class="btn " [ngClass]="(filters.statut === 'instruction') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'instruction')">
         Demande en cours
       </button>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('statut', 'encours')">
-        A valider
+      <button class="btn" [ngClass]="(filters.statut === 'demande') ?  'btn-dark': 'btn-outline-dark'" [ngClass]="(filters.statut === 'demande') ?  'btn-dark': 'btn-outline-dark'"
+        (click)="updateFilters('statut', 'demande')">
+        À valider
       </button>
-      <button class="btn btn-outline-dark" (click)="updateFilters('statut', 'encours')">
-        Refusés
+      <button class="btn" [ngClass]="(filters.statut === 'refus') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'refus')">
+        Refusé
       </button>
-      <button class="btn btn-outline-dark" (click)="updateFilters('statut', 'encours')">
-        Radiés
+      <button class="btn" [ngClass]="(filters.statut === 'radie') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'radie')">
+        Radié
       </button>
-      <button class="btn btn-outline-dark" (click)="updateFilters('statut', 'encours')">
-        Actifs
+      <button class="btn" [ngClass]="(filters.statut === 'valide') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'valide')">
+        Actif
       </button>
-      <button class="btn btn-outline-dark" (click)="updateFilters('statut', 'encours')">
-        Pouvant être radiés
+      <button class="btn" [ngClass]="(filters.statut === 'avenir') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'avenir')">
+        Pouvant être radier
       </button>
     </div>
     <div class="row">
       <span> Échéance : </span>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('statut', 'encours')">
+      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('echeance', 'deuxmois')">
         Dans moins de 2 mois
       </button>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('statut', 'encours')">
+      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('echeance', 'futur')">
         Dans plus de 2 mois
       </button>
     </div>
     <div class="row">
       <span> Courrier : </span>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('statut', 'encours')">
+      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('courrier', true)">
         Courrier à récupérer
       </button>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('statut', 'encours')">
+      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('courrier', false)">
         Pas de courrier
       </button>
     </div>
   </div>
   <br> <br>
-  <div class="row">
 
+  <ngb-alert *ngIf="usagers.length === 0" dismissible='false' type="warning">
+    <div class="text-center">
+      <strong>Aucun résultat</strong> :
+      aucun dossier ne correspond à votre Recherche
+      &nbsp;&nbsp;&nbsp;
+      <button (click)="resetFilters()" class="btn btn-outline-white">Réinitialiser les filtres</button>
+    </div>
+  </ngb-alert>
+
+  <div class="row">
     <table class="table">
       <tbody>
         <tr *ngFor="let usager of usagers">
@@ -71,15 +89,15 @@
               {{ usager.dateNaissance | date:'dd/MM/yyyy' }}
             </span>
           </td>
-          <td>
-            <span class="btn">
-              <fa-icon icon="envelope"></fa-icon>
+          <td class="text-right icones_liste">
+            <span>
+              <fa-icon id="courrier" icon="envelope"></fa-icon>
             </span>
-            <span class="btn">
-              <fa-icon icon="walking"></fa-icon>
+            <span>
+              <fa-icon id="passage" icon="walking"></fa-icon>
             </span>
-            <span class="btn">
-              <fa-icon icon="phone"></fa-icon>
+            <span>
+              <fa-icon id="appel" icon="phone"></fa-icon>
             </span>
           </td>
           <td class="text-right">

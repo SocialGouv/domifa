@@ -132,6 +132,7 @@ export class UsagersFormComponent implements OnInit {
         "sr5": "Domicile mobile",
         "residenceAutre": "Autre",
       };
+
       this.cause = {
         "cause1": "Rupture familiale et/ou conjugale ",
         "cause2": "Violence familiale et/ou conjugale",

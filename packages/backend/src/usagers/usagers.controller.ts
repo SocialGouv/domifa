@@ -4,9 +4,9 @@ import { diskStorage } from 'multer';
 import * as path from 'path';
 import { EntretienDto } from './dto/entretien';
 import { RdvDto } from './dto/rdv';
+import { SearchDto } from './dto/search';
 import { UsagersDto } from './dto/usagers.dto';
 import { Decision } from './interfaces/decision';
-import { SearchDto } from './interfaces/search';
 import { CerfaService } from './services/cerfa.service';
 import { UsagersService } from './services/usagers.service';
 
@@ -22,7 +22,6 @@ export class UsagersController {
     /* FORMULAIRE INFOS */
     @Post()
     public postUsager(@Body() usagerDto: UsagersDto) {
-       this.logger.log("BUG");
       return this.usagersService.create(usagerDto);
     }
 

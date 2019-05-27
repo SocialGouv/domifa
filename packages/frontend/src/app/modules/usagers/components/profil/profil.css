@@ -5,6 +5,13 @@
 #profil_head {
   padding: 5px 20px;
   border-bottom: 1px solid #2E384D;
+  border-radius: 6px;
+}
+
+
+#profil_head.valide{
+  border: 4px solid var(--secondary);
+
 }
 
 #profil_name {
@@ -58,20 +65,11 @@ input[type="number"] {
   display: block;
 }
 
-#appel {
-  -webkit-text-stroke-color: var(--secondary);
-  stroke: var(--secondary);
+.btn-pink {
+  background-color:  rgba(189,16,224,0.5);
+  color: white;
 }
 
-#appel:hover {
-  color: var(--secondary);
-}
-
-#passage {
-  -webkit-text-stroke-color: var(--primary);
-  stroke: var(--primary);
-}
-
-#passage:hover {
-  color: #4668ff;
+.btn-pink:hover{
+  background-color: #BD10E0;
 }

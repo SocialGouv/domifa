@@ -64,7 +64,7 @@
         La demande d'élection de domicile de <b>{{ usager.nom }} {{ usager.prenom }}</b> a été envoyée le <b>{{ usager.decision.dateDemande | date: 'dd/MM/yyyy' }}</b>.
         <br> Elle est actuellement en cours de traitement.
         <br><br>
-        La personne référente dans votre structure a reçu un mail l'invitatant à statuer sur ce dossier.
+        La personne référente dans votre structure a reçu un mail l'invitant à statuer sur ce dossier.
         <br><br>
         <button (click)="getAttestation()" class="btn btn-outline-primary">
           <fa-icon icon="download"></fa-icon>
@@ -501,6 +501,10 @@
             <div>
               <span class="label">
                 Avez-vous déjà une domiciliation quelque part ?
+                <fa-icon icon="question-circle" placement="top"
+                  ngbTooltip="Une domiciliation existante n’est pas un motif de refus. Néanmoins, il faut rechercher pourquoi la personne formule une nouvelle demande et l’inviter à choisir quelle domiciliation elle souhaite conserver.">
+                </fa-icon>
+
               </span>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" formControlName="domiciliation" id="domiciliation_oui" [value]="true">
@@ -560,7 +564,7 @@
                   {{ cause[key] }}
                 </label>
                 <input type="text" *ngIf="key ==='causeAutre' && e.cause.value ===
-            'causeAutre'" class="form-control autres" formControlName="causeDetail" placeholder="Précisions">
+          'causeAutre'" class="form-control autres" formControlName="causeDetail" placeholder="Précisions">
               </div>
             </div>
 
@@ -571,10 +575,9 @@
               <div class="form-check" *ngFor="let key of raisonList">
                 <input class="form-check-input" type="radio" formControlName="raison" id="{{ key }}" value="{{ key }}">
                 <label class="form-check-label" for="{{ key }}">
-                  {{raison[key] }}
+                  {{ raison[key] }}
                 </label>
-                <input *ngIf="key ==='raisonAutre' && e.raison.value ===
-            'raisonAutre'" type="text" class="autres form-control" formControlName="raisonDetail" placeholder="Précisions">
+                <input *ngIf="key ==='raisonAutre' && e.raison.value === 'raisonAutre'" type="text" class="autres form-control" formControlName="raisonDetail" placeholder="Précisions">
               </div>
 
             </div>
@@ -757,7 +760,7 @@
       </div>
     </div>
   </div>
-  <div class="step_form" id="step_form4" *ngIf="usager.etapeDemande === 4">
+  <div class="step_form" id="step_form4" *ngIf="usager.etapeDemande === 4 && usager.decision.statut === 'instruction'">
     <div class="row">
       <div class="col-md-8 offset-md-2">
         <h5 class="text-center">

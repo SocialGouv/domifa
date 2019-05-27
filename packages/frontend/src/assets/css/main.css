@@ -109,3 +109,30 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
   border-radius: 0.25rem !important;
 }
+
+#appel {
+  -webkit-text-stroke-color: var(--secondary);
+  stroke: var(--secondary);
+}
+
+#appel:hover {
+  color: var(--secondary);
+}
+
+#passage {
+  -webkit-text-stroke-color: var(--primary);
+  stroke: var(--primary);
+}
+
+#passage:hover {
+  color: #4668ff;
+}
+
+#courrier {
+  -webkit-text-stroke-color: #c62bd9;
+  stroke: #c62bd9;
+}
+
+#courrier:hover {
+  color: #c62bd9;
+}

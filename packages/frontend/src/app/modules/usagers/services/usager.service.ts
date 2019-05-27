@@ -52,6 +52,10 @@ export class UsagerService {
     return this.http.get(`${this.endPoint}/search/`, { params : httpParams });
   };
 
+  public setInteraction(idUsager: number, type: string, interaction: any) {
+    return this.http.post(`${this.endPoint}/decision/${idUsager}`, interaction);
+  }
+
   /* Attestation */
   public attestation(idUsager: number) {
     this.http.get(`${this.endPoint}/attestation/${idUsager}`, { responseType: 'blob' }).subscribe( x => {

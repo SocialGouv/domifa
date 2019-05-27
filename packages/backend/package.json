@@ -47,6 +47,7 @@
     "rxjs": "^6.3.3"
   },
   "devDependencies": {
+    "@nestjs/cli": "^6.5.0",
     "@nestjs/testing": "^6.2.4",
     "@socialgouv/tslint-config-recommended": "^0.5.2",
     "@types/bcrypt": "^3.0.0",
