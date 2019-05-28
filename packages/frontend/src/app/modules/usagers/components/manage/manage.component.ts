@@ -73,23 +73,17 @@ export class ManageUsagersComponent implements OnInit {
     this.search();
   }
 
-  public updateFilters(filter: string, value: string) {
+  public updateFilters(filter: string, value: any) {
     /* Filter */
-    console.log(filter);
-    console.log(value);
     this.filters[filter] = this.filters[filter] === value ? null : value;
     this.search();
   }
 
   public search() {
     this.usagerService.search(this.filters).subscribe((usagers: Usager[]) => {
-      if (usagers.length === 0) {
-        console.log("PAS DE RESULTAT");
-      }
       this.usagers = usagers;
       this.searching = false;
     },(error) => {
-      console.log('Erreur ! : ' + error);
     } );
 
   }

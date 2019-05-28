@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StructuresFormComponent } from './structures-form.component';
 
 describe('StructuresFormComponent', () => {
@@ -8,7 +11,9 @@ describe('StructuresFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StructuresFormComponent ]
+      declarations: [StructuresFormComponent],
+      imports:[NgbModule.forRoot(), ReactiveFormsModule, FormsModule, HttpClientModule],
+
     })
     .compileComponents();
   }));

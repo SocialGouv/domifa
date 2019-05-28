@@ -38,7 +38,6 @@ export class UsagersFormComponent implements OnInit {
   get e(): any {
     return this.entretienForm.controls;
   }
-
   get ayantsDroits() {
     return this.usagerForm.get('ayantsDroits') as FormArray
   }

@@ -1,8 +1,9 @@
 
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from "@angular/platform-browser";
+import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons';
@@ -24,16 +25,25 @@ library.add(fas, far);
 
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [AppComponent, LoginComponent, HomeComponent, UsagersFormComponent, UsersComponent, ManageUsagersComponent,UsagersProfilComponent, StructuresFormComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    UsagersFormComponent,
+    UsersComponent,
+    ManageUsagersComponent,
+    UsagersProfilComponent,
+    StructuresFormComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
+    RouterModule.forRoot([]),
     HttpClientModule,
     NgbModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-
   ],
   providers: [{
     multi: true,

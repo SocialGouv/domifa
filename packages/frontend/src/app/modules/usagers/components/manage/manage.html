@@ -101,10 +101,10 @@
             </span>
           </td>
           <td class="text-right">
-            <a *ngIf="usager.decision.statut !== 'instruction'" routerLink="/profil/{{usager.id}}" routerLinkActive="router-link-active">
+            <a [routerLink]="['/profil', usager.id]" routerLinkActive="router-link-active" *ngIf="usager.decision.statut !== 'instruction'">
               Accéder à sa fiche
             </a>
-            <a *ngIf="usager.decision.statut === 'instruction'" routerLink="/profil/{{usager.id}}/edit" routerLinkActive="router-link-active">
+            <a *ngIf="usager.decision.statut === 'instruction'" [routerLink]="['/profil', usager.id, 'edit']" routerLinkActive="router-link-active">
               <fa-icon icon="clock"></fa-icon> Reprendre la demande
             </a>
           </td>
