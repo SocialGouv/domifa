@@ -36,6 +36,18 @@ export class Usager {
     phone: boolean
   };
 
+
+  public lastInteraction: {
+    nbCourrier: number,
+    courrierIn: Date,
+    courrierOut: Date,
+    recommandeIn: Date,
+    recommandeOut: Date,
+    appel: Date,
+    visite: Date,
+  };
+
+
   public decision: any;
 
   public dateNaissancePicker: any;
@@ -66,6 +78,16 @@ export class Usager {
     this.historique = usager && usager.historique || null;
 
     this.rdv = usager && new Rdv(usager.rdv) || new Rdv({});
+    this.lastInteraction = usager && usager.lastInteraction || {
+      appel: null,
+      courrierIn: null,
+      courrierOut: null,
+      nbCourrier: 0,
+      recommandeIn: null,
+      recommandeOut: null,
+      visite: null,
+    };;
+
     this.entretien = usager && new Entretien(usager.entretien) || new Entretien({});
 
     this.docs = usager && usager.docs || [];

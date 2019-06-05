@@ -64,6 +64,18 @@ export const UsagerSchema = new mongoose.Schema({
     commentaires: String,
   },
 
+
+  lastInteraction: {
+    nbCourrier: Number,
+    courrierIn: Date,
+    courrierOut: Date,
+    recommandeIn: Date,
+    recommandeOut: Date,
+    appel: Date,
+    visite: Date,
+  },
+
+
   preference : {
     mail: Boolean,
     phone: Boolean

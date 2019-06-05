@@ -42,17 +42,14 @@
       <button class="btn" [ngClass]="(filters.statut === 'valide') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'valide')">
         Actif
       </button>
-      <button class="btn" [ngClass]="(filters.statut === 'avenir') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'avenir')">
-        Pouvant être radier
-      </button>
     </div>
     <div class="row">
       <span> Échéance : </span>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('echeance', 'deuxmois')">
-        Dans moins de 2 mois
+      <button class="btn" [ngClass]="(filters.statut === 'avenir') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'avenir')">
+        Aucun signe de vie
       </button>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('echeance', 'futur')">
-        Dans plus de 2 mois
+      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('echeance', 'deuxmois')">
+        Renouvellement à venir
       </button>
     </div>
     <div class="row">
@@ -67,7 +64,7 @@
   </div>
   <br> <br>
 
-  <ngb-alert *ngIf="usagers.length === 0" dismissible='false' type="warning">
+  <ngb-alert *ngIf="usagers.length === 0" [dismissible]='false' type="warning">
     <div class="text-center">
       <strong>Aucun résultat</strong> :
       aucun dossier ne correspond à votre Recherche
@@ -80,27 +77,28 @@
     <table class="table">
       <tbody>
         <tr *ngFor="let usager of usagers">
-          <th scope="row" class="table_name" [class]='usager.decision.statut'>
-            {{ usager.sexe === "femme" ? 'Mme' : 'M.' }} {{ usager.nom }} {{ usager.prenom }}
-          </th>
-          <td>{{ usager.id}}</td>
-          <td>
+          <td [routerLink]="['/profil', usager.id]" scope="row" class="table_name" [class]='usager.decision.statut'>
+            <b>{{ usager.sexe === "femme" ? 'Mme' : 'M.' }} {{ usager.nom }} {{ usager.prenom }}</b> ({{ usager.id}})
+          </td>
+          <td [routerLink]="['/profil', usager.id]">
             <span *ngIf="usager.rdv">
               {{ usager.dateNaissance | date:'dd/MM/yyyy' }}
             </span>
           </td>
           <td class="text-right icones_liste">
-            <span>
-              <fa-icon id="courrier" icon="envelope"></fa-icon>
-            </span>
-            <span>
-              <fa-icon id="passage" icon="walking"></fa-icon>
-            </span>
-            <span>
-              <fa-icon id="appel" icon="phone"></fa-icon>
-            </span>
+            <div *ngIf="usager.decision.statut === 'valide'">
+              <span>
+                <fa-icon id="courrier" icon="envelope"></fa-icon>
+              </span>
+              <span>
+                <fa-icon id="visite" icon="walking"></fa-icon>
+              </span>
+              <span>
+                <fa-icon id="appel" icon="phone"></fa-icon>
+              </span>
+            </div>
           </td>
-          <td class="text-right">
+          <td [routerLink]="['/profil', usager.id]" class="text-right">
             <a [routerLink]="['/profil', usager.id]" routerLinkActive="router-link-active" *ngIf="usager.decision.statut !== 'instruction'">
               Accéder à sa fiche
             </a>

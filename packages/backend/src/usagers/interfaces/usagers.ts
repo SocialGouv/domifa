@@ -34,7 +34,16 @@ export interface Usager extends Document {
   docs: Doc[];
   docsPath: string[];
 
-  lastInteraction: Interaction;
+  lastInteraction: {
+    nbCourrier: number;
+    courrierIn: Date;
+    courrierOut: Date;
+    recommandeIn: Date;
+    recommandeOut: Date;
+    appel: Date;
+    visite: Date;
+  };
+
   interactions: Interaction[];
 
 }

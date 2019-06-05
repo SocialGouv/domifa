@@ -52,8 +52,12 @@ export class UsagerService {
     return this.http.get(`${this.endPoint}/search/`, { params : httpParams });
   };
 
-  public setInteraction(idUsager: number, type: string, interaction: any) {
-    return this.http.post(`${this.endPoint}/decision/${idUsager}`, interaction);
+  public setInteraction(idUsager: number, interaction?: any) {
+    return this.http.post(environment.apiUrl+`interactions/${idUsager}`, interaction);
+  }
+
+  public setPassage(idUsager: number, type: string) {
+    return this.http.get(environment.apiUrl+`interactions/${idUsager}/${type}`);
   }
 
   /* Attestation */

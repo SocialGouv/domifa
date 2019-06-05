@@ -35,9 +35,7 @@
     <div class="row">
       <div class="col text-center">
         <h5>
-          <b>{{ usager.nom }} {{ usager.prenom }}</b>
-          est désormais domicilié
-          dans votre structure.
+          <b>{{ usager.nom }} {{ usager.prenom }}</b> est désormais domicilié dans votre structure.
         </h5>
         La domiciliation sera effective du {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }} au
         {{ usager.decision.dateFin | date: 'dd/MM/yyyy' }}
@@ -92,6 +90,10 @@
           <fa-icon icon="download"></fa-icon>
           Télécharger l’attestation de refus
         </button>
+        <br>
+        <p class="text-center">
+          <a routerLink="/manage" routerLinkActive="router-link-active">Retour à la liste des domiciliés</a>
+        </p>
       </div>
     </div>
   </div>
@@ -122,10 +124,7 @@
           <input type="text" class="form-control" id="nom" formControlName="nom" placeholder="Nom du demandeur" [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" required>
           <div *ngIf="submitted && f.nom.errors" class="invalid-feedback" autocomplete="null">
             <div *ngIf="f.nom.errors.required">
-              Le
-              <b>nom</b>
-              du demandeur est
-              obligatoire
+              Le <b>nom</b> du demandeur est obligatoire
             </div>
           </div>
         </div>
@@ -134,10 +133,7 @@
           <input type="text" class="form-control" id="prenom" formControlName="prenom" placeholder="Prénom(s) du demandeur" [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }" required>
           <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback" autocomplete="null">
             <div *ngIf="f.prenom.errors.required">
-              Le
-              <b>Prénom</b>
-              est
-              obligatoire
+              Le <b>Prénom</b> est obligatoire
             </div>
           </div>
         </div>
@@ -157,9 +153,7 @@
                 <div *ngIf="f.dateNaissancePicker.errors" class="invalid-feedback">
                   <div *ngIf="submitted &&
                   f.dateNaissancePicker.errors.required">
-                    La
-                    <b>date de naissance</b>
-                    est obligatoire
+                    La <b>date de naissance</b> est obligatoire
                   </div>
                   <div *ngIf="f.dateNaissancePicker.errors.ngbDate">
                     La
@@ -172,8 +166,8 @@
           </div>
           <div class="col-md-7">
             <div class="form-group required">
-              <label for="villeNaissance">Lieu de naissance</label>
-              <input type="text" class="form-control" id="villeNaissance" formControlName="villeNaissance" placeholder="Précisez le pays si à l'étranger" autocomplete="null"
+              <label for="villeNaissance">Ville de naissance</label>
+              <input type="text" class="form-control" id="villeNaissance" formControlName="villeNaissance" placeholder="Ville (préciser le pays si à l'étranger)" autocomplete="null"
                 [ngClass]="{ 'is-invalid': submitted && f.villeNaissance.errors }" required>
               <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
                 La <b>ville de naissance</b> est obligatoire
@@ -384,9 +378,7 @@
                 <label for="rdvNow">L'entretien a lieu maintenant</label>
               </h5>
               <p class="card-text">
-                Pas besoin de fixer de date d'entretien ultérieure : l'entretien
-                est réaliser
-                maintenant
+                Pas besoin de fixer de date d'entretien ultérieure : l'entretien est réalisé maintenant
               </p>
               <div class="col-md-4 offset-md-4 text-center" *ngIf="r.isNow.value === 'oui'">
                 <button type="submit" class="btn btn-primary btn-block">

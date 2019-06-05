@@ -12,7 +12,6 @@ describe('UsersService', () => {
       imports: [ DatabaseModule, StructuresModule ],
       providers: [UsersService, ...UsersProviders],
     }).compile();
-
     service = module.get<UsersService>(UsersService);
   });
 

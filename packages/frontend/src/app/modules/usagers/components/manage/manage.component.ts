@@ -84,7 +84,7 @@ export class ManageUsagersComponent implements OnInit {
       this.usagers = usagers;
       this.searching = false;
     },(error) => {
-    } );
+    });
 
   }
 }

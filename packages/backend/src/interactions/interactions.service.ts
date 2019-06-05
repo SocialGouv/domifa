@@ -1,5 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
+import { Usager } from '../usagers/interfaces/usagers';
 import { UsagersService } from '../usagers/services/usagers.service';
 import { UsersService } from '../users/users.service';
 import { InteractionDto } from './interactions.dto';
@@ -17,16 +18,26 @@ export class InteractionsService {
 
   }
 
-  public async create(usagerId: number, usagersDto: InteractionDto): Promise<Interaction> {
+  public async create(usagerId: number, usagersDto: InteractionDto): Promise<Usager> {
 
-    const createdInteraction = new this.interactionModel(usagersDto);
+    const createdInteraction =  new this.interactionModel(usagersDto)
     const user = await this.usersService.findById(2);
     const usager = await this.usagersService.findById(usagerId);
 
+    usager.lastInteraction[usagersDto.type] = new Date();
+
+    if (usagersDto.nbre) {
+      usager.lastInteraction.nbCourrier = usagersDto.nbre
+    }
+
     createdInteraction.userName = user.firstName + ' ' + user.lastName;
+    createdInteraction.userId = user.id;
+    createdInteraction.dateInteraction = new Date();
+
     const savedInteraction = await createdInteraction.save();
-    usager.lastInteraction = savedInteraction;
-    return savedInteraction;
+    usager.interactions === undefined ? usager.interactions = [] : usager.interactions.push(savedInteraction);
+
+    return usager.save();
   }
 
 }

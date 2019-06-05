@@ -4,14 +4,10 @@
 
 #profil_head {
   padding: 5px 20px;
+  max-width: 320px;
+  max-width: 90%;
+  margin: 0 auto;
   border-bottom: 1px solid #2E384D;
-  border-radius: 6px;
-}
-
-
-#profil_head.valide{
-  border: 4px solid var(--secondary);
-
 }
 
 #profil_name {
@@ -48,7 +44,8 @@ input[type="number"] {
 
 #big_icons div {
   width: 48%;
-  padding: 0 20px;
+  padding: 0 5
+  px;
   text-align: center;
   display: inline-block;
   vertical-align: top;
@@ -72,4 +69,18 @@ input[type="number"] {
 
 .btn-pink:hover{
   background-color: #BD10E0;
+}
+
+
+.arrows {
+  text-align: right;
+}
+
+.head-panel .btn {
+  position: relative;
+}
+
+.head-panel .arrows {
+  position: absolute;
+  right: 20px;
 }

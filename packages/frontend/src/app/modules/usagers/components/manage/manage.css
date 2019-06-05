@@ -91,6 +91,8 @@ th {
   border-bottom: 1px solid #f0f0f0;
   vertical-align: middle;
   padding: 6px 5px;
+  height: 52px;
+
 }
 
 td:first-child,
@@ -108,11 +110,11 @@ th:last-child {
 }
 
 .valide {
-  border-left: 4px solid   var(--secondary);
+  border-left: 1px solid #f0f0f0!important;
 }
 
 .demande {
-  border-left: 4px solid  var(--primary);
+  border-left: 4px solid  rgb(226, 168, 7)!important;
 }
 .refus {
   border-left: 4px solid  #bc1516;

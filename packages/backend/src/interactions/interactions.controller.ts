@@ -1,4 +1,4 @@
-import { Body, Controller, Logger, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { InteractionDto } from './interactions.dto';
 import { InteractionsService } from './interactions.service';
 
@@ -14,5 +14,13 @@ export class InteractionsController {
   public postInteraction(@Param('usagerId') usagerId: number, @Body() interactionDto: InteractionDto) {
     this.logger.log("POST INTERACTION");
     return this.interactionService.create(usagerId, interactionDto);
+  }
+
+  @Get(':usagerId/:type')
+  public setPassage(@Param('usagerId') usagerId: number, @Param('type') type: string) {
+    this.logger.log("SET SIMPLE INTERACTION");
+    const interaction = new InteractionDto();
+    interaction.type = type;
+    return this.interactionService.create(usagerId, interaction);
   }
 }

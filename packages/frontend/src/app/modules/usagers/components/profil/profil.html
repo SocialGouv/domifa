@@ -16,17 +16,47 @@
       <div class="text-center" *ngIf="usager.decision.statut === 'valide'">
         Domiciliation valable jusqu'au <span class="text-secondary"><b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}</b></span>
         <br>
-        Dernier passage le <b>18/03/2019</b>
+        <span *ngIf="usager.lastInteraction.visite">
+          Dernier passage le <b>{{ usager.lastInteraction.visite | date: 'dd/MM/yyyy' }}</b>
+        </span>
       </div>
       <br><br>
+      <ngb-alert type="warning" *ngIf="usager.decision.statut === 'demande'">
+        Demande en cours, à valider par un responsable
+      </ngb-alert>
+
+
       <div class="text-center">
-        <span class="btn btn-pink">
-          <fa-icon id="courrier" icon="envelope"></fa-icon>
-          14 courriers en attente. <u>Confirmer la distribution</u>
-        </span>
+
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="w-100"></div>
+      <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
+        <strong>Erreur:</strong>
+        {{ errorMessage }}
+      </ngb-alert>
+      <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">
+        <strong>{{ successMessage }}</strong>
+      </ngb-alert>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-md-6 offset-md-3">
+      <ngb-alert [dismissible]='false' *ngIf="usager.lastInteraction.nbCourrier > 0" type="primary">
+        <div class="text-center">
+          <fa-icon id="courrier" icon="envelope"></fa-icon>
+          {{ usager.lastInteraction.nbCourrier  }} courriers en attente
+          &nbsp;&nbsp;&nbsp;
+          <button class="btn btn-outline-white">Confirmer la distribution</button>
+        </div>
+      </ngb-alert>
+    </div>
+  </div>
+
   <br><br>
   <div class="text-center">
     <h5><b>Signalez la réception d’un courrier ou un passage</b></h5>
@@ -36,68 +66,112 @@
     <div class="col-md-4 offset-md-1" id="notif_form">
       <div>
         <fa-icon icon="envelope"></fa-icon>
-        <input class="form-control" type="number">
+        <input [(ngModel)]="notifInputs.courrierIn" class="form-control" type="number">
         <span>Courriers reçus</span>
       </div>
       <div>
         <fa-icon icon="envelope"></fa-icon>
-        <input class="form-control" type="number">
+        <input [(ngModel)]="notifInputs.recommandeIn" class="form-control" type="number">
         <span>Courriers <b>recommandés</b> reçus</span>
       </div>
       <div>
         <fa-icon icon="envelope"></fa-icon>
-        <input class="form-control" type="number">
+        <input [(ngModel)]="notifInputs.colisIn" class="form-control" type="number">
         <span>Colis reçus</span>
       </div>
     </div>
 
     <div class="col-md-2 text-center">
       <br><br>
-      <button class="btn btn-primary btn-block">
+      <button (click)="notifier()" class="btn btn-primary btn-block">
         Notifier
       </button>
     </div>
 
     <div class="col-md-4" id="big_icons">
-      <div class="text-center">
-        <fa-icon icon="walking" size="3x" class="actions_icones" id="passage">
+      <div class="text-center" (click)="setPassage('visite')">
+        <fa-icon icon="walking" size="3x" class="actions_icones" id="visite">
         </fa-icon>
         <span>Est passé sans récupérer de courrier</span>
       </div>
-      <div class="text-center">
+      <div class="text-center" [ngClass]="appelAuj" (click)="setPassage('appel')">
         <fa-icon class="actions_icones" id="appel" icon="phone" size="3x">
         </fa-icon>
         <span>A appelé</span>
       </div>
     </div>
   </div>
-
   <br><br>
-  <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
 
-    <ngb-panel title="HISTORIQUE DES DERNIÈRES INTERACTIONS">
+
+
+  <ngb-accordion #acc="ngbAccordion">
+
+
+    <ngb-panel id="panel-0">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>
+              HISTORIQUE DES INTERACTIONS
+            </span>
+            <span class="arrows">
+              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+
       <ng-template ngbPanelContent>
         <table class="table table-light">
           <tr>
-            <td>Courrier recommandé</td>
-            <td>Notifié le 11/03/2019</td>
-            <td>14 courriers en attente. <a href="">Confirmer la distribution</a></td>
+            <td>Courrier </td>
+            <td>
+              <span *ngIf="usager.lastInteraction.courrierIn">Notifié le {{ usager.lastInteraction.courrierIn | date: 'dd/MM/yyyy' }}</span>
+              <span *ngIf="!usager.lastInteraction.courrierIn">Aucun courrier enregistré</span>
+            </td>
+            <td>
+              <span *ngIf="usager.lastInteraction.nbCourrier">
+                <b>{{ usager.lastInteraction.nbCourrier }} courriers en attente</b>
+              </span>
+              <span *ngIf="!usager.lastInteraction.nbCourrier">Aucun courrier en attente</span>
+              <span *ngIf="usager.lastInteraction.courrierOut">Récupéré le {{ usager.lastInteraction.courrierOut | date: 'dd/MM/yyyy' }}</span>
+            </td>
           </tr>
           <tr>
-            <td>Courrier </td>
-            <td>Notifié le 11/03/2019</td>
-            <td>14 courriers en attente. Récupéré le 12/02/2019</td>
+            <td>Courrier recommandé</td>
+            <td>
+              <span *ngIf="usager.lastInteraction.recommandeIn">Notifié le {{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}</span>
+              <span *ngIf="!usager.lastInteraction.recommandeIn">Aucun recommandé enregistré</span>
+            </td>
+            <td>
+            </td>
           </tr>
           <tr>
             <td>Appel téléphonique</td>
+            <td>{{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}</td>
             <td></td>
-            <td>Le 13/11/2019</td>
           </tr>
         </table>
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel title="HISTORIQUE DE LA DOMICILIATION">
+    <ngb-panel id="panel-1">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>
+              HISTORIQUE DE LA DOMICILIATION
+            </span>
+            <span class="arrows">
+              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+
       <ng-template ngbPanelContent>
         <div class="row">
           <div class="col">
@@ -117,12 +191,29 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel title="ÉTAT CIVIL">
+    <ngb-panel id="panel-2">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>
+              ÉTAT CIVIL
+            </span>
+            <span class="arrows">
+              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+
       <ng-template ngbPanelContent>
         <div class="row">
           <div class="col">
             <b> Nom :</b> {{ usager.nom }}<br>
             <b> Prénom : </b> {{ usager.prenom }}<br>
+          </div>
+
+          <div class="col">
             <b> Date de naissance :</b> {{ usager.dateNaissance | date: 'dd/MM/yyyy'  }}<br>
             <b> Lieu de Naissance : </b> {{ usager.villeNaissance }}<br>
 
@@ -131,9 +222,23 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel title="AYANTS DROITS">
+    <ngb-panel id="panel-3">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>
+              AYANTS DROITS
+            </span>
+            <span class="arrows">
+              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+
       <ng-template ngbPanelContent>
-        <table class="table table-light">
+        <table *ngIf="usager.ayantsDroits.length > 0" class="table table-light">
           <tbody>
             <tr>
               <th>Nom</th>
@@ -152,7 +257,21 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel title="ENTRETIEN SOCIALE">
+    <ngb-panel id="panel-4">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>
+              ENTRETIEN
+            </span>
+            <span class="arrows">
+              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+
       <ng-template ngbPanelContent>
         <div class="row">
           <div class="col">
@@ -199,7 +318,20 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel title="PIÈCES JOINTES">
+    <ngb-panel id="panel-5">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>
+              PIÈCES JOINTES
+            </span>
+            <span class="arrows">
+              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
       <ng-template ngbPanelContent>
         <table class="table table-light">
           <tbody>
@@ -232,7 +364,20 @@
         </table>
       </ng-template>
     </ngb-panel>
-    <ngb-panel title="ATTESTATIONS">
+    <ngb-panel id="panel-6">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>
+              ATTESTATIONS
+            </span>
+            <span class="arrows">
+              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
       <ng-template ngbPanelContent>
         <div class="row">
           <div class="col">
@@ -252,6 +397,35 @@
               <fa-icon icon="times"> </fa-icon> &nbsp; Radier et générer le courrier
             </button>
 
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="panel-7">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>
+              CONTACT
+            </span>
+            <span class="arrows">
+              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="row">
+          <div class="col">
+            <fa-icon icon="phone"> </fa-icon>
+            <b> Numéro de téléphone </b><br>
+            <span>{{ usager.phone }}</span>
+          </div>
+          <div class="col">
+            <fa-icon icon="at"> </fa-icon>
+            <b>Adresse email</b><br>
+            <span>{{ usager.phone }}</span>
           </div>
         </div>
       </ng-template>

@@ -1,4 +1,4 @@
-import { HttpHandler, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpHandler } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { AuthGuardService } from './auth-guard.service';
 
@@ -7,7 +7,6 @@ describe('AuthGuardService', () => {
     TestBed.configureTestingModule({
       imports:[HttpClientModule],
       providers: [AuthGuardService],
-
     });
   });
   it('should be created', () => {
