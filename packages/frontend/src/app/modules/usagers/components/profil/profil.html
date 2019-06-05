@@ -51,7 +51,7 @@
           <fa-icon id="courrier" icon="envelope"></fa-icon>
           {{ usager.lastInteraction.nbCourrier  }} courriers en attente
           &nbsp;&nbsp;&nbsp;
-          <button class="btn btn-outline-white">Confirmer la distribution</button>
+          <button class="btn btn-outline-white" (click)="setPassage('courrierOut')">Confirmer la distribution</button>
         </div>
       </ngb-alert>
     </div>
@@ -90,12 +90,12 @@
 
     <div class="col-md-4" id="big_icons">
       <div class="text-center" (click)="setPassage('visite')">
-        <fa-icon icon="walking" size="3x" class="actions_icones" id="visite">
+        <fa-icon icon="walking" size="3x" class="visite actions_icones">
         </fa-icon>
         <span>Est passé sans récupérer de courrier</span>
       </div>
       <div class="text-center" [ngClass]="appelAuj" (click)="setPassage('appel')">
-        <fa-icon class="actions_icones" id="appel" icon="phone" size="3x">
+        <fa-icon class="actions_icones appel" icon="phone" size="3x">
         </fa-icon>
         <span>A appelé</span>
       </div>
@@ -136,7 +136,7 @@
                 <b>{{ usager.lastInteraction.nbCourrier }} courriers en attente</b>
               </span>
               <span *ngIf="!usager.lastInteraction.nbCourrier">Aucun courrier en attente</span>
-              <span *ngIf="usager.lastInteraction.courrierOut">Récupéré le {{ usager.lastInteraction.courrierOut | date: 'dd/MM/yyyy' }}</span>
+              <span *ngIf="usager.lastInteraction.courrierOut"> - <b>Récupéré le {{ usager.lastInteraction.courrierOut | date: 'dd/MM/yyyy' }}</b></span>
             </td>
           </tr>
           <tr>
@@ -431,4 +431,23 @@
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
+
+
+  <div class="text-center" *ngIf="usager.decision.statut === 'valide'">
+
+    <br>
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-outline-danger" (click)="open(refus)">
+          <fa-icon icon="times"></fa-icon>
+          Radier le domicilié
+        </button>
+        &nbsp;&nbsp;&nbsp;
+        <button class="btn btn-outline-secondary" (click)="open(confirmation)">
+          <fa-icon icon="redo"></fa-icon>
+          Demande de renouvellement
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -6,7 +6,7 @@ mongoose.set('debug', true);
 export const InteractionSchema = new mongoose.Schema({
   type: String,
   date: Date,
-  nbre: Number,
+  nbCourrier: Number,
   content: String,
   userId: Number,
   userName: String,

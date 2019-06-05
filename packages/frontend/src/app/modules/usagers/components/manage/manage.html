@@ -7,18 +7,10 @@
           <span id="search_icon">
             <fa-icon icon="search"></fa-icon>
           </span>
-          <input type="text" [(ngModel)]="searchWord" #searchInput placeholder="Rechercher un.e domicilié par nom, prénom, numéro de domicilié" class="form-control">
+          <input type="text" [(ngModel)]="searchWord" #searchInput placeholder="Recherche par nom, prénom ou numéro de domicilié" class="form-control">
           <span *ngIf="searchInput.value !== ''" (click)="resetSearchBar()" id="times_icon">
             <fa-icon icon="times-circle"></fa-icon>
           </span>
-        </div>
-        <span *ngIf="searching">Recherche en cours...</span>
-        <div class="invalid-feedback" *ngIf="searchFailed">
-        </div>
-        <div class="row" *ngIf="searching">
-          <div class="col-12 text-center">
-            <h4>Recherche en cours ... </h4>
-          </div>
         </div>
       </div>
     </div>
@@ -27,7 +19,7 @@
     <div class="row">
       <span> Statut : </span>
       <button class="btn " [ngClass]="(filters.statut === 'instruction') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'instruction')">
-        Demande en cours
+        À compléter
       </button>
       <button class="btn" [ngClass]="(filters.statut === 'demande') ?  'btn-dark': 'btn-outline-dark'" [ngClass]="(filters.statut === 'demande') ?  'btn-dark': 'btn-outline-dark'"
         (click)="updateFilters('statut', 'demande')">
@@ -46,7 +38,7 @@
     <div class="row">
       <span> Échéance : </span>
       <button class="btn" [ngClass]="(filters.statut === 'avenir') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'avenir')">
-        Aucun signe de vie
+        Radiation possible
       </button>
       <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('echeance', 'deuxmois')">
         Renouvellement à venir
@@ -76,11 +68,14 @@
   <div class="row">
     <table class="table">
       <tbody>
-        <tr *ngFor="let usager of usagers">
-          <td [routerLink]="['/profil', usager.id]" scope="row" class="table_name" [class]='usager.decision.statut'>
+        <tr *ngFor="let usager of usagers;">
+
+          <td (click)="goToProfil(usager.id, usager.decision.statut)"  isComplete="'dhii'" scope="row" class="table_name" [class]='usager.decision.statut'>
             <b>{{ usager.sexe === "femme" ? 'Mme' : 'M.' }} {{ usager.nom }} {{ usager.prenom }}</b> ({{ usager.id}})
+
+
           </td>
-          <td [routerLink]="['/profil', usager.id]">
+          <td (click)="goToProfil(usager.id, usager.decision.statut)">
             <span *ngIf="usager.rdv">
               {{ usager.dateNaissance | date:'dd/MM/yyyy' }}
             </span>
@@ -88,23 +83,28 @@
           <td class="text-right icones_liste">
             <div *ngIf="usager.decision.statut === 'valide'">
               <span>
-                <fa-icon id="courrier" icon="envelope"></fa-icon>
+                <fa-icon class="courrier" icon="envelope"></fa-icon>
+              </span>
+              <span *ngIf="usager.lastInteraction.nbCourrier > 0">
+                <fa-icon class="courrier" icon="envelope-open-text"></fa-icon>
+                <b class="notification">{{ usager.lastInteraction.nbCourrier }}</b>
               </span>
               <span>
-                <fa-icon id="visite" icon="walking"></fa-icon>
+                <fa-icon class="visite" icon="walking"></fa-icon>
               </span>
               <span>
-                <fa-icon id="appel" icon="phone"></fa-icon>
+                <fa-icon class="appel" icon="phone"></fa-icon>
               </span>
             </div>
           </td>
-          <td [routerLink]="['/profil', usager.id]" class="text-right">
-            <a [routerLink]="['/profil', usager.id]" routerLinkActive="router-link-active" *ngIf="usager.decision.statut !== 'instruction'">
+          <td (click)="goToProfil(usager.id, usager.decision.statut)" class="text-right">
+            <span class="active" *ngIf="usager.decision.statut !== 'instruction'">
               Accéder à sa fiche
-            </a>
-            <a *ngIf="usager.decision.statut === 'instruction'" [routerLink]="['/profil', usager.id, 'edit']" routerLinkActive="router-link-active">
-              <fa-icon icon="clock"></fa-icon> Reprendre la demande
-            </a>
+            </span>
+            <span class="active" *ngIf="usager.decision.statut === 'instruction'">
+              <fa-icon [icon]="['far', 'clock']"></fa-icon>
+              Reprendre la demande
+            </span>
           </td>
         </tr>
       </tbody>

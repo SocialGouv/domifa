@@ -27,7 +27,7 @@
   margin: 0 auto;
   display: block;
   padding: 4px 0;
-  background: #fff;
+  background-color: #fff;
   border: 1px solid var(--blue);
   color: var(--blue);
   font-size: 1.2rem;
@@ -92,8 +92,9 @@
   border-color: var(--success);
 }
 
-.card {
+.step_form .card{
   margin: 10px auto;
+  width: 90%;
 }
 
 .card_not_selected {

@@ -13,7 +13,7 @@ export interface Interaction extends Document {
   type: TypeInteraction;
   dateInteraction: Date;
   content?: string;
-  nbre?: number;
+  nbCourrier?: number;
   userName?: string;
   userId: number
 }

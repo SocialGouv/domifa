@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, } from '@angular/router';
+import { PlatformLocation } from '@angular/common'
+
 import { NgbDateParserFormatter, NgbDatepickerI18n, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -74,6 +76,8 @@ export class UsagersFormComponent implements OnInit {
   public entretienForm: FormGroup;
 
   public submitted = false;
+  public submittedFile = false;
+
   public structureId: number;
   public modal: any;
   public structure: any;
@@ -99,7 +103,14 @@ export class UsagersFormComponent implements OnInit {
     private documentService: DocumentService,
     private structureService: StructureService,
     private route: ActivatedRoute,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    location: PlatformLocation) {
+
+      location.onPopState(() => {
+
+        console.log('pressed back!');
+
+      });
     }
 
     public ngOnInit() {
@@ -113,13 +124,12 @@ export class UsagersFormComponent implements OnInit {
       this.successSubject.subscribe((message) => { this.successMessage = message; this.errorMessage = null;});
       this.errorSubject.subscribe((message) => { this.errorMessage = message;this.successMessage = null;});
       this.successSubject.pipe(debounceTime(10000)).subscribe(() => this.successMessage = null);
-      // this.errorSubject.pipe(debounceTime(20000)).subscribe(() => this.errorMessage = null);
 
       this.motifsRefus = {
         "refus1": "Existence d'un hébergement stable",
-        "refus2": "Nombre de domiciliations de votre organisme prévu par l’agrément atteint (associations)",
-        "refus3": "En dehors des critères du public domicilié (associations)",
-        "refus4": "Absence de lien avec la commune (CCAS/commune)",
+        "refus2": "Nombre maximal domiciliations atteint",
+        "refus3": "En dehors des critères du public domicilié",
+        "refus4": "Absence de lien avec la commune",
         "refusAutre": "Autre (précisez le motif)",
       };
 
@@ -252,7 +262,7 @@ export class UsagersFormComponent implements OnInit {
       });
     }
 
-    public open(content) {
+    public open(content: string) {
       this.modal = this.modalService.open(content);
     }
 
@@ -352,7 +362,7 @@ export class UsagersFormComponent implements OnInit {
       });
     }
 
-    public onFileChange(event) {
+    public onFileChange(event: any) {
       if (event.target.files.length > 0) {
         const file = event.target.files[0];
         const validFileExtensions = ["image/jpg", "application/pdf", "image/jpeg", "image/bmp", "image/gif", "image/png"];
@@ -373,7 +383,7 @@ export class UsagersFormComponent implements OnInit {
     }
 
     public submitFile() {
-      this.submitted = true;
+      this.submittedFile = true;
       this.uploadError = {
         fileSize: true,
         fileType: true
@@ -401,7 +411,9 @@ export class UsagersFormComponent implements OnInit {
     public deleteDocument(i: number): void {
       this.documentService.deleteDocument(this.usager.id, i).subscribe((usager: Usager) => {
         this.usager.docs = new Usager(usager).docs;
-      }, (error) => { console.log('Erreur ! : ' + error); });
+      }, (error) => {
+        console.log('Erreur ! : ' + error);
+      });
     }
 
     public formatResult(properties) {
@@ -416,6 +428,7 @@ export class UsagersFormComponent implements OnInit {
         }
       }
     }
+
 
     public changeSuccessMessage(message: string, error?: boolean) {
       window.scroll({

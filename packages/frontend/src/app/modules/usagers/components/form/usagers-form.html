@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-8 offset-md-2">
+  <div class="col-md-10 offset-md-1">
     <div class="w-100"></div>
     <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
       <strong>Erreur:</strong>
@@ -31,6 +31,8 @@
       <strong>{{ successMessage }}</strong>
     </ngb-alert>
   </div>
+
+
   <div class="step_form" *ngIf="usager.decision.statut === 'valide'">
     <div class="row">
       <div class="col text-center">
@@ -68,6 +70,10 @@
           <fa-icon icon="download"></fa-icon>
           Télécharger l’attestation de demande
         </button>
+        <br><br>
+        <p class="text-center">
+          <a routerLink="/manage" routerLinkActive="router-link-active">Retour à la liste des domiciliés</a>
+        </p>
       </div>
     </div>
   </div>
@@ -83,14 +89,14 @@
           Motif : {{ motifsRefus[usager.decision.motif] }}
         </b>
         <br>
-        <i>{{ usager.decision.motifDetail }}</i>
+        <i>{{ usager.decision.motifDetails }}</i>
         <br>
         <br>
         <button (click)="getAttestation()" class="btn btn-outline-primary">
           <fa-icon icon="download"></fa-icon>
           Télécharger l’attestation de refus
         </button>
-        <br>
+        <br><br>
         <p class="text-center">
           <a routerLink="/manage" routerLinkActive="router-link-active">Retour à la liste des domiciliés</a>
         </p>
@@ -200,6 +206,7 @@
               <small id="emailHelp" class="form-text text-muted">
                 Optionnel
               </small>
+
             </div>
           </div>
         </div>
@@ -335,6 +342,11 @@
         <div class="col-md-4 offset-md-4 text-center">
           <button type="submit" class="btn btn-primary btn-block">
             Suivant
+
+            <fa-icon icon="angle-right"></fa-icon>
+
+
+
           </button>
         </div>
       </form>
@@ -350,13 +362,14 @@
           Dossier enregistré par
           <br>
           <b>
-            {{ usager.agent }}, le {{ usager.decision.dateInstruction | date: 'dd/MM/yyyy' }}
+            {{ usager.agent }}, le {{ usager.decision.dateInstruction | date: 'dd/MM/yyyy à HH:mm' }}
           </b>
         </div>
         <div class="col-md-6 text-right">
-          <a class="btn btn-outline-primary" (click)="getAttestation()">
+          <button class="btn btn-outline-primary" (click)="getAttestation()">
+            <fa-icon icon="download"></fa-icon>
             Attestation de demande
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -555,23 +568,25 @@
                 <label class="form-check-label" for="{{ key }}">
                   {{ cause[key] }}
                 </label>
-                <input type="text" *ngIf="key ==='causeAutre' && e.cause.value ===
-          'causeAutre'" class="form-control autres" formControlName="causeDetail" placeholder="Précisions">
+                <input type="text" *ngIf="key ==='causeAutre' && e.cause.value === 'causeAutre'" class="form-control autres" formControlName="causeDetail" placeholder="Précisions">
               </div>
             </div>
 
             <div class="questions">
-              <span class="label">
-                Quel est le motif principal de demande de domiciliation ?
-              </span>
-              <div class="form-check" *ngFor="let key of raisonList">
-                <input class="form-check-input" type="radio" formControlName="raison" id="{{ key }}" value="{{ key }}">
-                <label class="form-check-label" for="{{ key }}">
-                  {{ raison[key] }}
-                </label>
-                <input *ngIf="key ==='raisonAutre' && e.raison.value === 'raisonAutre'" type="text" class="autres form-control" formControlName="raisonDetail" placeholder="Précisions">
+              <div>
+                <span class="label">
+                  Quel est le motif principal de demande de domiciliation ?
+                </span>
+                <div class="form-check" *ngFor="let key of raisonList">
+                  <input class="form-check-input" type="radio" formControlName="raison" id="{{ key }}" value="{{ key }}">
+                  <label class="form-check-label" for="{{ key }}">
+                    {{ raison[key] }}
+                  </label>
+                </div>
               </div>
-
+              <div *ngIf="e.raison.value === 'raisonAutre'" class="form-group">
+                <input type="text" class="form-control" formControlName="raisonDetail" placeholder="Précisions">
+              </div>
             </div>
 
             <div>
@@ -590,13 +605,17 @@
                   Non
                 </label>
               </div>
-              <div *ngIf="e.accompagnement.value === true" class="form-group">
-                <label class="col form-check-label" for="accompagnement_non">
-                  Par quelle structure ?
-                </label>
-                <input type="text" class="col form-control" formControlName="accompagnementDetail" placeholder>
-              </div>
+
             </div>
+
+            <div *ngIf="e.accompagnement.value === true" class="form-group">
+              <br>
+              <label class="form-check-label" for="accompagnement_non">
+                Par quelle structure ?
+              </label>
+              <input type="text" class="form-control" formControlName="accompagnementDetail">
+            </div>
+
             <div>
               <span class="label">Commentaires</span>
               <textarea class="form-control" id="commentaires" formControlName="commentaires" id="commentaires"></textarea>
@@ -615,8 +634,8 @@
               Suivant
             </button>
             <br>
-            <span (click)="open(entretienConfirmation)">
-              Passer cette étape
+            <span class="pointer" (click)="open(entretienConfirmation)">
+              Passer cette étape >
             </span>
           </div>
 
@@ -666,8 +685,8 @@
           <div class="col-md-5">
             <label for>Document à enregistrer</label>
             <div class="form-group custom-file">
-              <input type="file" class="custom-file-input" id="pieceJointe" (change)="onFileChange($event)" [ngClass]="{ 'is-invalid' : submitted && (!uploadError.fileType || !uploadError.fileSize) }"
-                file="pieceJointe" required>
+              <input type="file" class="custom-file-input" id="pieceJointe" (change)="onFileChange($event)"
+                [ngClass]="{ 'is-invalid' : submittedFile && (!uploadError.fileType || !uploadError.fileSize) }" file="pieceJointe" required>
               <input type="hidden" name="fileHidden" formControlName="imageInput">
               <label class="custom-file-label" for="pieceJointe" data-browse="Parcourir" lang="fr">
                 {{ fileName }}
@@ -675,9 +694,7 @@
               <div *ngIf="!uploadError.fileType || !uploadError.fileSize" class="invalid-feedback">
                 <div *ngIf="u.imageInput.errors && u.imageInput.errors.required">Veuillez ajouter un fichier</div>
                 <div *ngIf="!uploadError.fileType">
-                  Seul les
-                  <b>JPG, PNG et PDF</b>
-                  sont autorisés
+                  Seul les <b>JPG, PNG et PDF</b> sont autorisés
                 </div>
                 <div *ngIf="!uploadError.fileSize">Le fichier est trop grand</div>
               </div>
@@ -802,14 +819,19 @@
     </div>
     <div class="modal-body">
       <div class="col">
-        <div class="form-row">
-          <div class="form-check" *ngFor="let key of motifsRefusList">
+        <div class="form-row" *ngFor="let key of motifsRefusList">
+          <div class="form-check">
             <input class="form-check-input" type="radio" name="motif" id="{{key}}" [(ngModel)]="usager.decision.motif" value="{{key}}">
             <label class="form-check-label" for="{{key}}">
               {{ motifsRefus[key] }}
             </label>
-            <input type="text" class="autres form-control" *ngIf="key ==='refusAutre' && usager.decision.motif === 'refusAutre'" [(ngModel)]="usager.decision.motifDetail" placeholder="Précisions">
           </div>
+        </div>
+        <div *ngIf="usager.decision.motif === 'refusAutre'" class="form-row">
+          <input type="text" class="form-control" [(ngModel)]="usager.decision.motifDetails">
+          <small id="refusAutres" class="form-text text-muted" *ngIf="usager.decision.motifDetails.length < 5">
+            20 caractères minimum
+          </small>
         </div>
         <br>
         <div class="form-row">
@@ -822,7 +844,8 @@
       <button class="btn btn-outline-danger" (click)="modal.close('Save click')">
         Annuler
       </button>
-      <button class="btn btn-danger" [disabled]="usager.decision.motif === ''" (click)="usager.decision.statut = 'refus';setDecision('refus')">
+      <button class="btn btn-danger" [disabled]="usager.decision.motif === '' || (usager.decision.motif === 'refusAutre' && usager.decision.motifDetails.length < 20 )"
+        (click)="usager.decision.statut = 'refus';setDecision('refus')">
         Confirmer le refus
       </button>
     </div>
@@ -839,8 +862,8 @@
     </div>
     <div class="modal-body">
       <div class="col">
-        Vous êtes sur le point de domicilier Jean Dupont. Il n’y aura aucune
-        validation par une autre personne que vous.<br><br> <b>Êtes-vous sûr ?</b>
+        Vous êtes sur le point de domicilier {{ usager.nom }} {{ usager.prenom }}.
+        Il n’y aura aucune validation par une autre personne que vous.<br><br> <b>Êtes-vous sûr ?</b>
       </div>
     </div>
     <div class="modal-footer">

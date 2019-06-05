@@ -100,6 +100,8 @@ export class UsagersService {
         "rdv.userId": rdvDto.userId,
         "rdv.userName": user.lastName + ' ' + user.firstName,
       }
+    },{
+      new: true
     }).select('-docsPath').exec();
   }
 
@@ -163,7 +165,7 @@ export class UsagersService {
   public async findById(usagerId: number): Promise<Usager> {
     return this.usagerModel.findOne({
       "id": usagerId
-    }) .select('-docsPath').exec();
+    }).select('-docsPath').exec();
   }
 
   public async deleteById(usagerId: number): Promise<any> {
@@ -199,10 +201,6 @@ export class UsagersService {
     if (query.statut) {
       searchQuery["decision.statut"] = query.statut;
     }
-
-    this.logger.log("searchQuery");
-    this.logger.log(JSON.stringify(searchQuery));
-
     return this.usagerModel.find(searchQuery)
     .sort(this.sort)
     .lean()
@@ -213,7 +211,7 @@ export class UsagersService {
     return this.usagerModel.findOne().select('id').sort({ id: -1 }).limit(1).exec();
   }
 
-  private lastId(usager): number{
+  private lastId(usager: Usager): number{
     if (usager) {
       if (usager.id !== undefined) {
         return usager.id + 1;

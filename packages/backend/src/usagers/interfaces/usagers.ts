@@ -4,6 +4,7 @@ import { AyantDroit } from './ayant-droit';
 import { Decision } from './decision';
 import { Doc } from './doc';
 import { Entretien } from './entretien';
+import { LastInteraction } from './last-interaction';
 import { Rdv } from './rdv';
 
 export interface Usager extends Document {
@@ -34,15 +35,7 @@ export interface Usager extends Document {
   docs: Doc[];
   docsPath: string[];
 
-  lastInteraction: {
-    nbCourrier: number;
-    courrierIn: Date;
-    courrierOut: Date;
-    recommandeIn: Date;
-    recommandeOut: Date;
-    appel: Date;
-    visite: Date;
-  };
+  lastInteraction: LastInteraction;
 
   interactions: Interaction[];
 

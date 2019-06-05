@@ -8,7 +8,7 @@ import { UsagersProviders } from './usagers.providers';
 
 @Module({
   controllers: [ UsagersController ],
-  exports: [ UsagersService, CerfaService ],
+  exports: [ UsagersService, CerfaService],
   imports: [ DatabaseModule, UsersModule ],
   providers: [ UsagersService, CerfaService, ...UsagersProviders ],
 })

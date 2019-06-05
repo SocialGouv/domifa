@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { fromEvent, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Usager } from 'src/app/modules/usagers/interfaces/usager';
@@ -19,13 +20,13 @@ export class ManageUsagersComponent implements OnInit {
   public usagers: Usager[];
   public searchWord: string;
 
+  public filters: Search;
 
   @ViewChild('searchInput')
   public searchInput: ElementRef;
 
-  public filters: Search;
 
-  constructor( private usagerService: UsagerService) {
+  constructor( private usagerService: UsagerService, private router: Router) {
   }
 
   public ngOnInit() {
@@ -79,6 +80,12 @@ export class ManageUsagersComponent implements OnInit {
     this.search();
   }
 
+  public goToProfil(id: number, statut: string) {
+    const urlParams = (statut === 'instruction' || statut === 'demande') ? '/edit' : '';
+    const url = 'profil/' + id + urlParams;
+    this.router.navigate([url]);
+
+  }
   public search() {
     this.usagerService.search(this.filters).subscribe((usagers: Usager[]) => {
       this.usagers = usagers;

@@ -11,5 +11,5 @@ export class InteractionDto {
 
   @IsOptional()
   @IsNumber()
-  public nbre: number;
+  public nbCourrier: number;
 }

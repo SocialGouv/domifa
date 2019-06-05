@@ -8,7 +8,7 @@ export class Decision{
   public motif: string;
   public userId: number;
   public agent: string;
-  public motifDetail: string;
+  public motifDetails: string;
   public orientation: number;
   public orientationDetails: string;
 
@@ -21,7 +21,7 @@ export class Decision{
     this.motif = decision && decision.motif || '';
     this.userId = decision && decision.userId || '';
     this.agent = decision && decision.agent || '';
-    this.motifDetail = decision && decision.motifDetail || '';
+    this.motifDetails = decision && decision.motifDetails || '';
     this.orientation = decision && decision.orientation || '';
     this.orientationDetails = decision && decision.orientationDetails || '';
   }

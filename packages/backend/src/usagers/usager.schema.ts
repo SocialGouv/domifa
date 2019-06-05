@@ -1,7 +1,9 @@
 // tslint:disable: object-literal-sort-keys
-
 import * as mongoose from 'mongoose';
 mongoose.set('debug', true);
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 export const UsagerSchema = new mongoose.Schema({
 
@@ -66,13 +68,45 @@ export const UsagerSchema = new mongoose.Schema({
 
 
   lastInteraction: {
-    nbCourrier: Number,
-    courrierIn: Date,
-    courrierOut: Date,
-    recommandeIn: Date,
-    recommandeOut: Date,
-    appel: Date,
-    visite: Date,
+    type: {
+      nbCourrier: {
+        type : Number,
+        default: 0
+      },
+      courrierIn: {
+        type : Date,
+        default: null
+      },
+      courrierOut: {
+        type : Date,
+        default: null
+      },
+      recommandeIn: {
+        type : Date,
+        default: null
+      },
+      recommandeOut: {
+        type : Date,
+        default: null
+      },
+      appel: {
+        type : Date,
+        default: null
+      },
+      visite: {
+        type : Date,
+        default: null
+      },
+    },
+    default: {
+      nbCourrier: 0,
+      courrierIn: null,
+      courrierOut: null,
+      recommandeIn:null,
+      recommandeOut :null,
+      appel: null,
+      visite: null,
+    }
   },
 
 

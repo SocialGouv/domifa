@@ -32,6 +32,9 @@ export class UsagersProfilComponent implements OnInit {
   public successMessage: string;
   public errorMessage: string;
 
+
+  public messages: any;
+
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
 
@@ -48,6 +51,14 @@ export class UsagersProfilComponent implements OnInit {
     this.successSubject.subscribe((message: string) => { this.successMessage = message; this.errorMessage = null;});
     this.errorSubject.subscribe((message: string) => { this.errorMessage = message;this.successMessage = null;});
     this.successSubject.pipe(debounceTime(10000)).subscribe(() => this.successMessage = null);
+
+
+    this.messages = {
+      'courrierIn': 'Nouveaux courriers enregistrés',
+      'courrierOut': 'Récupération du courrier enregistré !',
+      'recommandeIn': 'Courrier recommandé enregistré !',
+      'recommandeOut': 'Recommandés remis ',
+    };
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
@@ -71,11 +82,14 @@ export class UsagersProfilComponent implements OnInit {
       if (this.notifInputs[item] !== 0) {
         this.usagerService.setInteraction(this.usager.id, {
           content: '',
-          nbre: this.notifInputs[item],
+          nbCourrier: this.notifInputs[item],
           type: item,
         }).subscribe((usager: Usager) => {
           this.usager.lastInteraction = usager.lastInteraction;
-          this.changeSuccessMessage("Notifications enregistré !");
+          console.log("item");
+          console.log(item);
+          console.log(this.messages[item]);
+          this.changeSuccessMessage(this.messages[item]);
         }, (error) => {
           this.changeSuccessMessage("Impossible d'enregistrer cette interaction : ", true);
         });
@@ -85,7 +99,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public setPassage(type: string) {
     this.usagerService.setPassage(this.usager.id, type).subscribe((usager: Usager) => {
-      this.changeSuccessMessage(type + " enregistré !");
+      this.changeSuccessMessage(this.messages[type]);
       this.usager.lastInteraction = usager.lastInteraction;
     }, (error) => {
       this.changeSuccessMessage("Impossible d'enregistrer cette interaction : " + type, true);

@@ -3,6 +3,7 @@ import { AyantDroit } from './ayant-droit';
 import { Decision } from './decision';
 import { Doc } from './document';
 import { Entretien } from './entretien';
+import { LastInteraction } from './last-interaction';
 
 export class Usager {
 
@@ -37,16 +38,7 @@ export class Usager {
   };
 
 
-  public lastInteraction: {
-    nbCourrier: number,
-    courrierIn: Date,
-    courrierOut: Date,
-    recommandeIn: Date,
-    recommandeOut: Date,
-    appel: Date,
-    visite: Date,
-  };
-
+  public lastInteraction: LastInteraction;
 
   public decision: any;
 
@@ -78,15 +70,7 @@ export class Usager {
     this.historique = usager && usager.historique || null;
 
     this.rdv = usager && new Rdv(usager.rdv) || new Rdv({});
-    this.lastInteraction = usager && usager.lastInteraction || {
-      appel: null,
-      courrierIn: null,
-      courrierOut: null,
-      nbCourrier: 0,
-      recommandeIn: null,
-      recommandeOut: null,
-      visite: null,
-    };;
+    this.lastInteraction = usager && new LastInteraction(usager.lastInteraction) || new LastInteraction({});
 
     this.entretien = usager && new Entretien(usager.entretien) || new Entretien({});
 

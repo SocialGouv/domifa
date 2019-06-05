@@ -51,13 +51,15 @@
 
 #searchbar input {
   padding: 10px 38px;
-  border-radius: 6px;
+  height: 46px;
+  border-radius: 8px;
 }
 
 #searchbar span {
   display: block;
   position: absolute;
-  top: 8px;
+  top: 10px;
+  font-size: 18px;
 }
 
 #search_icon{
@@ -81,7 +83,7 @@
 
 table {
   border-collapse: separate;
-  border-spacing: 0 8px;
+  border-spacing: 0 10px;
   margin: 0 auto;
 }
 
@@ -146,9 +148,25 @@ tbody tr:hover {
   cursor: pointer;
   margin-right: 25px;
   display: inline-block;
+  position: relative
 }
 
 .icones_liste span:hover {
   -webkit-text-stroke-width: 10px;
   stroke-width: 10px;
+}
+
+.notification {
+  background-color: #f15555;
+  border-radius: 16px;
+  color: white;
+  -webkit-text-stroke-width: 0px;
+  stroke-width: 0px;
+  padding: 3px 6px;
+  font-size: 13px;
+  line-height: 100%;
+  position: absolute;
+  box-shadow: 0 1px 3px rgba(74,74,74,0.6) ;
+  top: -2px;
+  right: -10px;
 }

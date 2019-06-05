@@ -84,7 +84,7 @@ body {
 
 .container {
   margin: 40px auto;
-  max-width: 1000px;
+  max-width: 1100px;
 }
 
 
@@ -111,29 +111,52 @@ body {
   border-radius: 0.25rem !important;
 }
 
-#appel {
+
+.modal-dialog {
+  max-width: 600px;
+  width: 96%;
+}
+
+.alert {
+  max-width: 750px;
+  width: 98%;
+  margin: 10px auto;
+}
+
+
+.appel {
   -webkit-text-stroke-color: var(--secondary);
   stroke: var(--secondary);
 }
 
-#appel:hover {
+.appel:hover {
   color: var(--secondary);
 }
 
-#visite {
+.visite {
   -webkit-text-stroke-color: var(--primary);
   stroke: var(--primary);
 }
 
-#visite:hover {
+.visite:hover {
   color: #4668ff;
 }
 
-#courrier {
+.courrier {
   -webkit-text-stroke-color: #c62bd9;
   stroke: #c62bd9;
+  color: white;
 }
 
-#courrier:hover {
+
+.courrier:hover {
   color: #c62bd9;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.active {
+  color : var(--primary);
 }

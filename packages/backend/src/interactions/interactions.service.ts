@@ -13,21 +13,29 @@ export class InteractionsService {
 
 
   constructor(@Inject('INTERACTION_MODEL') private readonly interactionModel: Model<Interaction>,
+  @Inject('USAGER_MODEL') private readonly usagerModel: Model<Usager>,
   private readonly usagersService: UsagersService,
   private readonly usersService: UsersService) {
 
   }
 
   public async create(usagerId: number, usagersDto: InteractionDto): Promise<Usager> {
-
-    const createdInteraction =  new this.interactionModel(usagersDto)
+    const createdInteraction = new this.interactionModel(usagersDto)
     const user = await this.usersService.findById(2);
     const usager = await this.usagersService.findById(usagerId);
+    this.logger.log(usager);
 
     usager.lastInteraction[usagersDto.type] = new Date();
 
-    if (usagersDto.nbre) {
-      usager.lastInteraction.nbCourrier = usagersDto.nbre
+    if (usagersDto.nbCourrier) {
+      this.logger.log(usager.lastInteraction.nbCourrier);
+      usager.lastInteraction.nbCourrier = usager.lastInteraction.nbCourrier + usagersDto.nbCourrier;
+      this.logger.log(usager.lastInteraction.nbCourrier);
+      this.logger.log(usagersDto.nbCourrier);
+    }
+
+    if (usagersDto.type === 'courrierOut' || usagersDto.type === 'recommandeOut') {
+      usager.lastInteraction.nbCourrier = 0;
     }
 
     createdInteraction.userName = user.firstName + ' ' + user.lastName;
@@ -35,9 +43,15 @@ export class InteractionsService {
     createdInteraction.dateInteraction = new Date();
 
     const savedInteraction = await createdInteraction.save();
-    usager.interactions === undefined ? usager.interactions = [] : usager.interactions.push(savedInteraction);
+    const interactions = usager.interactions === undefined ? usager.interactions = [] : usager.interactions.push(savedInteraction);
 
-    return usager.save();
+    return this.usagerModel.findOneAndUpdate({ 'id': usagerId }, {
+      $set: {
+        "interactions": interactions,
+        "lastInteraction": usager.lastInteraction,
+      }
+    }, {
+      new: true
+    }).select('-docsPath').exec();
   }
-
 }

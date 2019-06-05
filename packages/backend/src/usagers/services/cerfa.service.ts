@@ -68,20 +68,6 @@ export class CerfaService {
       infosPdf["topmostSubform[0].Page1[0].Noms2[0]"] = usager.nom;
       infosPdf["topmostSubform[0].Page1[0].Prénoms2[0]"] = usager.prenom;
       infosPdf["topmostSubform[0].Page1[0].AdressePostale[0]"] = user.structure.agrement + ', ' + user.structure.ville + ' ' +  user.structure.codePostal;
-      infosPdf["topmostSubform[0].Page1[0].JourValidité1[0]"] = usager.decision.dateDebut.getDate().toString();
-      infosPdf["topmostSubform[0].Page1[0].MoisValidité1[0]"] = (usager.decision.dateDebut.getMonth() + 1).toString();
-      infosPdf["topmostSubform[0].Page1[0].AnnéeValidité1[0]"] = usager.decision.dateDebut.getFullYear().toString();
-      infosPdf["topmostSubform[0].Page1[0].JourValidité2[0]"] = usager.decision.dateFin.getDate().toString();
-      infosPdf["topmostSubform[0].Page1[0].MoisValidité2[0]"] = (usager.decision.dateFin.getMonth() + 1).toString();
-      infosPdf["topmostSubform[0].Page1[0].AnnéeValidité2[0]"] = usager.decision.dateFin.getFullYear().toString();
-      infosPdf["topmostSubform[0].Page1[0].JourPremiereDomic[0]"] = usager.decision.dateDebut.getDate().toString();
-      infosPdf["topmostSubform[0].Page1[0].MoisPremiereDomic[0]"] = (usager.decision.dateDebut.getMonth() + 1).toString();
-      infosPdf["topmostSubform[0].Page1[0].AnneePremiereDomic[0]"] = usager.decision.dateDebut.getFullYear().toString();
-
-      infosPdf["topmostSubform[0].Page1[0].Faità[0]"] = user.structure.ville;
-      infosPdf["topmostSubform[0].Page1[0].FaitleJour[0]"] = today.getDate().toString();
-      infosPdf["topmostSubform[0].Page1[0].FaitleMois[0]"] = (today.getMonth() + 1).toString();
-      infosPdf["topmostSubform[0].Page1[0].FaitleAnnée[0]"] =  today.getFullYear().toString().substr(-2);
     }
     else {
       infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = usager.phone || '';
