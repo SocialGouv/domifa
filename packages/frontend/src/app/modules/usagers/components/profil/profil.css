@@ -26,7 +26,7 @@
 }
 
 input[type="number"] {
-  width: 50px;
+  width: 60px;
   margin: 0 10px;
   display: inline-block;
 }
@@ -44,8 +44,7 @@ input[type="number"] {
 
 #big_icons div {
   width: 48%;
-  padding: 0 5
-  px;
+  padding: 0 5px;
   text-align: center;
   display: inline-block;
   vertical-align: top;

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { LoadingService } from '../../loading/loading.service';
 import { Entretien } from '../interfaces/entretien';
 import { Rdv } from '../interfaces/rdv';
 import { Usager } from '../interfaces/usager';
@@ -9,11 +10,14 @@ import { Usager } from '../interfaces/usager';
 export class UsagerService {
 
   public http: HttpClient;
+  public loading: boolean;
+
   private usager = null;
   private endPoint = environment.apiUrl+'usagers';
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient, private loadingService: LoadingService) {
     this.http = http;
+    this.loading = true;
   }
 
   /* Ajout d'un domicilié */
@@ -62,6 +66,8 @@ export class UsagerService {
 
   /* Attestation */
   public attestation(idUsager: number) {
+    this.loadingService.startLoading();
+
     this.http.get(`${this.endPoint}/attestation/${idUsager}`, { responseType: 'blob' }).subscribe( x => {
       const newBlob = new Blob([x], { type: "application/pdf" });
 
@@ -77,11 +83,11 @@ export class UsagerService {
       link.download = "attestation_" + idUsager+"_"+randomNumber+".pdf";
       link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
 
-
       setTimeout( ( ) => {
         window.URL.revokeObjectURL(data);
         link.remove();
-      }, 100);
+        this.loadingService.stopLoading();
+      }, 500);
     }
     );
   };

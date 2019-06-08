@@ -1,4 +1,5 @@
 import { IsBoolean, IsNumber, IsOptional } from "class-validator";
+import { TypeInteraction } from '../../interactions/interactions.enum';
 
 export class SearchDto {
 
@@ -13,7 +14,10 @@ export class SearchDto {
 
   @IsBoolean()
   @IsOptional()
-  public courrier: boolean;
+  public interactionStatut: boolean;
+
+  @IsOptional()
+  public interactionType: TypeInteraction;
 
   @IsNumber()
   @IsOptional()

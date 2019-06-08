@@ -51,7 +51,6 @@ export class UsagersController {
     /* PROFILE & MANAGEMENT */
     @Get('search')
     public search(@Query() query: SearchDto) {
-      this.logger.log(query);
       return this.usagersService.search(query);
     }
 

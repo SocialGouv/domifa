@@ -1,8 +1,9 @@
+import { PlatformLocation } from '@angular/common'
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, } from '@angular/router';
-import { PlatformLocation } from '@angular/common'
 
+import { animate, style, transition, trigger } from '@angular/animations';
 import { NgbDateParserFormatter, NgbDatepickerI18n, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -16,7 +17,19 @@ import { regexp } from '../../../../entities/validators';
 import { AyantDroit } from '../../interfaces/ayant-droit';
 import { StructureService } from '../../services/structure.service';
 
+const fadeInOut = trigger('fadeInOut', [
+  transition(':enter', [
+    style({ opacity: 0 }),
+    animate(300, style({ opacity: 1 }))
+  ]),
+  transition(':leave', [
+    animate(150, style({ opacity: 0 }))
+  ])
+])
+
 @Component({
+  animations: [fadeInOut],
+
   providers: [UsagerService,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
@@ -206,7 +219,7 @@ export class UsagersFormComponent implements OnInit {
         nom: [this.usager.nom, Validators.required],
         phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
         preference: this.formBuilder.group({
-          mail: [this.usager.preference.mail, []],
+          email: [this.usager.preference.email, []],
           phone: [this.usager.preference.phone, []],
         }),
         prenom: [this.usager.prenom, Validators.required],
@@ -329,6 +342,10 @@ export class UsagersFormComponent implements OnInit {
       }, (error) => { this.changeSuccessMessage("Une erreur est survenu", true); });
     }
 
+    public setValueRdv(value: string) {
+      this.rdvForm.controls.isNow.setValue(value);
+    }
+
     public submitRdv() {
       if (this.rdvForm.get('isNow').value === 'oui') {
         this.rdvForm.controls.userId.setValue(2);
@@ -352,13 +369,10 @@ export class UsagersFormComponent implements OnInit {
 
       this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe((usager: Usager) => {
         this.usager = new Usager(usager);
-        console.log("usager.rdv");
-        console.log(this.usager.rdv);
-        console.log(usager);
-
         this.changeSuccessMessage("Rendez-vous enregistré");
       }, (error) => {
         this.changeSuccessMessage("Une erreur est survenu", true);
+
       });
     }
 
@@ -412,23 +426,22 @@ export class UsagersFormComponent implements OnInit {
       this.documentService.deleteDocument(this.usager.id, i).subscribe((usager: Usager) => {
         this.usager.docs = new Usager(usager).docs;
       }, (error) => {
+        this.changeSuccessMessage("Impossible de supprimer le document", true);
         console.log('Erreur ! : ' + error);
       });
     }
 
-    public formatResult(properties) {
-      return properties.label + ', ' + properties.postcode;
-    }
-
-    public addSlash(event) {
+    public addSlash(event: any) {
       const dateValue = event.target.value;
+      if ((event.key === '/' && dateValue.substr(dateValue.length - 1) === '/')) {
+        event.target.value = dateValue.substr(0, dateValue.length - 1);
+      }
       if (event.key !== 'Backspace') {
         if (dateValue.length === 2 || dateValue.length === 5 ) {
           event.target.value = dateValue + '/';
         }
       }
     }
-
 
     public changeSuccessMessage(message: string, error?: boolean) {
       window.scroll({

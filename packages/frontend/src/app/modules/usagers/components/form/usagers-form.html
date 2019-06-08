@@ -23,11 +23,11 @@
   </div>
   <div class="col-md-10 offset-md-1">
     <div class="w-100"></div>
-    <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
+    <ngb-alert @fadeInOut *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
       <strong>Erreur:</strong>
       {{ errorMessage }}
     </ngb-alert>
-    <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">
+    <ngb-alert @fadeInOut *ngIf="successMessage" type="success" (close)="successMessage = null">
       <strong>{{ successMessage }}</strong>
     </ngb-alert>
   </div>
@@ -149,8 +149,8 @@
               <label for="dateNaissancePicker">Date de naissance</label>
               <div class="input-group">
                 <input class="form-control" placeholder="jj/mm/aaaa" [minDate]="minDateNaissance" [maxDate]="maxDateNaissance" placement="bottom" formControlName="dateNaissancePicker" ngbDatepicker
-                  (keyup)="addSlash($event)" [ngClass]="{ 'is-invalid': submitted &&
-                f.dateNaissancePicker.errors }" #d="ngbDatepicker" required>
+                (keyup)="addSlash($event)" [ngClass]="{ 'is-invalid': submitted &&
+                f.dateNaissancePicker.errors }" #d="ngbDatepicker" maxlength="10" required>
                 <div class="input-group-append">
                   <span class="btn btn-outline-primary" (click)="d.toggle()">
                     <fa-icon icon="calendar"></fa-icon>
@@ -159,747 +159,726 @@
                 <div *ngIf="f.dateNaissancePicker.errors" class="invalid-feedback">
                   <div *ngIf="submitted &&
                   f.dateNaissancePicker.errors.required">
-                    La <b>date de naissance</b> est obligatoire
-                  </div>
-                  <div *ngIf="f.dateNaissancePicker.errors.ngbDate">
-                    La
-                    <b>date de naissance est incorrect</b>
-                    (ex: 20/12/1991)
-                  </div>
+                  La <b>date de naissance</b> est obligatoire
+                </div>
+                <div *ngIf="f.dateNaissancePicker.errors.ngbDate">
+                  La
+                  <b>date de naissance est incorrect</b>
+                  (ex: 20/12/1991)
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-md-7">
-            <div class="form-group required">
-              <label for="villeNaissance">Ville de naissance</label>
-              <input type="text" class="form-control" id="villeNaissance" formControlName="villeNaissance" placeholder="Ville (préciser le pays si à l'étranger)" autocomplete="null"
-                [ngClass]="{ 'is-invalid': submitted && f.villeNaissance.errors }" required>
-              <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
-                La <b>ville de naissance</b> est obligatoire
-              </div>
+        </div>
+        <div class="col-md-7">
+          <div class="form-group required">
+            <label for="villeNaissance">Ville de naissance</label>
+            <input type="text" class="form-control" id="villeNaissance" formControlName="villeNaissance" placeholder="Ville (préciser le pays si à l'étranger)" autocomplete="null"
+            [ngClass]="{ 'is-invalid': submitted && f.villeNaissance.errors }" required>
+            <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
+              La <b>ville de naissance</b> est obligatoire
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-5">
-            <div class="form-group">
-              <label for="phone">Numéro de téléphone</label>
-              <input type="text" class="form-control" id="phone" formControlName="phone" aria-describedby="phoneHelp" [ngClass]="{ 'is-invalid': f.phone.errors }" placeholder="0606060606"
-                autocomplete="null">
-              <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
-                <div>Le numéro de téléphone est incorrect</div>
-              </div>
-              <small id="phoneHelp" class="form-text text-muted">
-                Optionnel
-              </small>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="phone">Numéro de téléphone</label>
+            <input type="text" class="form-control" id="phone" formControlName="phone" aria-describedby="phoneHelp" [ngClass]="{ 'is-invalid': f.phone.errors }" placeholder="0606060606"
+            autocomplete="null" maxlength="10">
+            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+              <div>Le numéro de téléphone est incorrect</div>
+            </div>
+            <small id="phoneHelp" class="form-text text-muted">
+              Optionnel
+            </small>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="form-group">
+            <label for="email">Adresse e-mail</label>
+            <input type="email" class="form-control" id="email" formControlName="email" aria-describedby="emailHelp" [ngClass]="{ 'is-invalid': f.email.errors }" placeholder="adresse@mail.com"
+            autocomplete="null">
+            <div *ngIf="f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.email">L'adresse email est incorrecte</div>
+            </div>
+            <small id="emailHelp" class="form-text text-muted">
+              Optionnel
+            </small>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="w-100"></div>
+      <br>
+      <div class="row">
+        <div class="col-md-12" formGroupName="preference">
+          <label class="form-check-label">
+            Par quel(s) moyen(s) le domicilié souhaite t-il être notifié de la réception de courrier ?
+          </label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" formControlName="email" id="preference_email" [value]="true">
+              <label class="form-check-label" for="preference_email">
+                Email
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" formControlName="phone" id="preference_phone" [value]="false">
+              <label class="form-check-label" for="preference_phone">
+                SMS
+              </label>
             </div>
           </div>
-          <div class="col-md-7">
-            <div class="form-group">
-              <label for="email">Adresse e-mail</label>
-              <input type="email" class="form-control" id="email" formControlName="email" aria-describedby="emailHelp" [ngClass]="{ 'is-invalid': f.email.errors }" placeholder="adresse@mail.com"
-                autocomplete="null">
-              <div *ngIf="f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.email">L'adresse email est incorrecte</div>
-              </div>
-              <small id="emailHelp" class="form-text text-muted">
-                Optionnel
-              </small>
+        </div>
+        <ngb-alert @fadeInOut [dismissible]="false" type="warning" *ngIf="f.email.value === null && f.preference.get('email').value === true ">
+          Pour envoyer les notifications par mail, veuillez remplir le champ email
+        </ngb-alert>
+        <ngb-alert @fadeInOut [dismissible]="false" type="warning" *ngIf="f.phone.value === null && f.preference.get('phone').value === true ">
+          Pour envoyer les notifications par SMS, veuillez indiquer un numéro de téléphone
+        </ngb-alert>
+      </div>
+      <br>
 
+      <div class="row">
+
+        <div class="col-md-12">
+          <label class="form-check-label">
+            Le demandeur a-t-il des ayant-droits ?
+            <fa-icon icon="question-circle" placement="top" ngbTooltip="Autres personnes à la charge du demandeur"></fa-icon>
+          </label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input #hasAd class="form-check-input" type="radio" formControlName="ayantsDroitsExist" id="ayantsDroits_oui" [value]="true">
+              <label class="form-check-label" for="ayantsDroits_oui">
+                Oui
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input #hasAd class="form-check-input" type="radio" formControlName="ayantsDroitsExist" id="ayantsDroits_non" [value]="false">
+              <label class="form-check-label" for="ayantsDroits_non">
+                Non
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="f.ayantsDroitsExist.value === true">
+        <br>
+        <div formArrayName="ayantsDroits" *ngFor="let ayantDroit of f.ayantsDroits.controls; let i=index">
+          <div [formGroupName]="i" class="row">
+            <div class="col form-group required">
+              <label for>Nom</label>
+              <input type="text" class="form-control" formControlName="nom" [ngClass]="{ 'is-invalid': submitted &&
+              f.ayantsDroits.controls[i].get('nom').errors }" placeholder="Nom de l'ayant droit">
+              <div *ngIf="submitted &&
+              f.ayantsDroits.controls[i].get('nom').errors" class="invalid-feedback">
+              <div>
+                Le
+                <b>nom de l'ayant</b>
+                est obligatoire
+              </div>
+            </div>
+          </div>
+          <div class="col form-group required">
+            <label for>Prénom</label>
+            <input type="text" class="form-control" formControlName="prenom" [ngClass]="{ 'is-invalid': submitted &&
+            f.ayantsDroits.controls[i].get('prenom').errors }" placeholder="Prénom">
+            <div *ngIf="submitted &&
+            f.ayantsDroits.controls[i].get('prenom').errors" class="invalid-feedback">
+            <div> Le <b>prénom de l'ayant</b> est obligatoire
+            </div>
+          </div>
+        </div>
+        <div class="col form-group required">
+          <label for>Date de naissance</label>
+          <input class="form-control" placeholder="jj/mm/aaaa" (keyup)="addSlash($event)" [ngClass]="{ 'is-invalid': submitted && f.ayantsDroits.controls[i].get('dateNaissance').errors }"
+          formControlName="dateNaissance">
+          <div *ngIf="submitted && f.ayantsDroits.controls[i].get('dateNaissance').errors" class="invalid-feedback">
+            <div>La date de naissance est obligatoire</div>
+          </div>
+        </div>
+        <div class="col form-group">
+          <label for>Lien</label>
+          <select formControlName="lien" class="custom-select">
+            <option value="enfant">Enfant</option>
+            <option value="parent">Parent</option>
+            <option value="conjoint">Conjoint</option>
+            <option value="autre">Autre personne à la charge du domicilié</option>
+          </select>
+
+        </div>
+        <div class="col-md-1">
+          <label for class="white">
+            c
+          </label>
+          <div>
+            <span *ngIf="i>0" (click)="deleteAyantDroit(i)" class="btn btn-danger">
+              <fa-icon icon="trash"></fa-icon>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <span (click)="addAyantDroit()" class="btn btn-primary">
+      <fa-icon icon="plus"></fa-icon>
+      Ajouter des ayants droits
+    </span>
+    <br>
+    <br>
+    <br>
+  </ng-container>
+
+  <input formControlName="id" type="hidden">
+  <input formControlName="dateNaissance" type="hidden">
+
+  <br>
+  <br>
+  <div class="col-md-4 offset-md-4 text-center">
+    <button type="submit" class="btn btn-primary btn-block">
+      Suivant &nbsp; <fa-icon icon="angle-right"></fa-icon>
+    </button>
+  </div>
+</form>
+</div>
+
+<!-- ///////// -->
+<!-- ETAPE 2 RENDEZVOUS -->
+<!-- ///////// -->
+
+<div class="step_menu" *ngIf="usager.etapeDemande> 1 && usager.decision.statut !== 'valide'">
+  <div class="row">
+    <div class="col-md-6">
+      Dossier enregistré par
+      <br>
+      <b>
+        {{ usager.agent }}, le {{ usager.decision.dateInstruction | date: 'dd/MM/yyyy à HH:mm' }}
+      </b>
+    </div>
+    <div class="col-md-6 text-right">
+      <button class="btn btn-outline-primary" (click)="getAttestation()">
+        <fa-icon icon="download"></fa-icon>
+        Attestation de demande
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="step_form" *ngIf="usager.etapeDemande === 1" id="step_form1">
+  <div class="text-center">
+    <h5>
+      Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom ||
+        null }} ?
+      </h5>
+      <p></p>
+    </div>
+    <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
+      <div class="row text-center">
+        <div class="card" [ngClass]="{'card_selected': r.isNow.value === 'oui', 'card_not_selected': r.isNow.value === 'non'}">
+          <div class="card-body" (click)="setValueRdv('oui')">
+            <h5 class="card-title text-center">
+              <input class="form-check-input" type="radio" formControlName="isNow" id="rdvNow" value="oui">
+              <label for="rdvNow">L'entretien a lieu maintenant</label>
+            </h5>
+            <p class="card-text">
+              Pas besoin de fixer de date d'entretien ultérieure : l'entretien est réalisé maintenant
+            </p>
+            <div class="col-md-4 offset-md-4 text-center" *ngIf="r.isNow.value === 'oui'">
+              <button type="submit" class="btn btn-primary btn-block">
+                Suivant &nbsp; <fa-icon icon="angle-right"></fa-icon>
+              </button>
             </div>
           </div>
         </div>
 
         <div class="w-100"></div>
-        <br>
-        <div class="row">
 
-          <div class="col-md-12" formGroupName="preference">
-            <label class="form-check-label">
-              Par quel(s) moyen(s) souhaitez-vous être notifié de la réception
-              de courrier ?
-            </label>
-            <div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" formControlName="mail" id="preference_mail" [value]="true">
-                <label class="form-check-label" for="preference_mail">
-                  Email
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" formControlName="phone" id="preference_phone" [value]="false">
-                <label class="form-check-label" for="preference_phone">
-                  SMS
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br>
+        <div class="card" [ngClass]="{'card_selected': r.isNow.value === 'non', 'card_not_selected': r.isNow.value === 'oui'}">
+          <div class="card-body" (click)="setValueRdv('non')">
+            <h5 class="card-title text-center">
+              <input class="form-check-input" type="radio" id="rdv" value="non" formControlName="isNow">
+              <label for="rdv">Fixer une date de rendez-vous</label>
+            </h5>
+            <p class="card-text">
+              L'entretien sera réalisé plus tard, par vous-même ou un autre agent.
+            </p>
 
-        <div class="row">
-
-          <div class="col-md-12">
-            <label class="form-check-label">
-              Le demandeur a-t-il des ayant-droits ?
-              <fa-icon icon="question-circle" placement="top" ngbTooltip="Autres personnes à la charge du demandeur"></fa-icon>
-            </label>
-            <div>
-              <div class="form-check form-check-inline">
-                <input #hasAd class="form-check-input" type="radio" formControlName="ayantsDroitsExist" id="ayantsDroits_oui" [value]="true">
-                <label class="form-check-label" for="ayantsDroits_oui">
-                  Oui
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input #hasAd class="form-check-input" type="radio" formControlName="ayantsDroitsExist" id="ayantsDroits_non" [value]="false">
-                <label class="form-check-label" for="ayantsDroits_non">
-                  Non
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <ng-container *ngIf="f.ayantsDroitsExist.value === true">
-          <br>
-          <div formArrayName="ayantsDroits" *ngFor="let ayantDroit of f.ayantsDroits.controls; let i=index">
-            <div [formGroupName]="i" class="row">
-              <div class="col form-group required">
-                <label for>Nom</label>
-                <input type="text" class="form-control" formControlName="nom" [ngClass]="{ 'is-invalid': submitted &&
-              f.ayantsDroits.controls[i].get('nom').errors }" placeholder="Nom de l'ayant droit">
-                <div *ngIf="submitted &&
-              f.ayantsDroits.controls[i].get('nom').errors" class="invalid-feedback">
-                  <div>
-                    Le
-                    <b>nom de l'ayant</b>
-                    est obligatoire
-                  </div>
-                </div>
-              </div>
-              <div class="col form-group required">
-                <label for>Prénom</label>
-                <input type="text" class="form-control" formControlName="prenom" [ngClass]="{ 'is-invalid': submitted &&
-            f.ayantsDroits.controls[i].get('prenom').errors }" placeholder="Prénom">
-                <div *ngIf="submitted &&
-            f.ayantsDroits.controls[i].get('prenom').errors" class="invalid-feedback">
-                  <div>
-                    Le
-                    <b>prénom de l'ayant</b>
-                    est obligatoire
-                  </div>
-                </div>
-              </div>
-              <div class="col form-group required">
-                <label for>Date de naissance</label>
-                <input class="form-control" placeholder="jj/mm/aaaa" (keyup)="addSlash($event)" [ngClass]="{ 'is-invalid': submitted &&
-          f.ayantsDroits.controls[i].get('dateNaissance').errors }" formControlName="dateNaissance">
-                <div *ngIf="submitted &&
-          f.ayantsDroits.controls[i].get('dateNaissance').errors" class="invalid-feedback">
-                  <div>La date de naissance est obligatoire</div>
-                </div>
-              </div>
-              <div class="col form-group">
-                <label for>Lien</label>
-                <select formControlName="lien" class="custom-select">
-                  <option value="enfant">Enfant</option>
-                  <option value="parent">Parent</option>
-                  <option value="conjoint">Conjoint</option>
-                  <option value="autre">Autre personne à la charge du domicilié</option>
+            <div class="row text-center" *ngIf="r.isNow.value === 'non'">
+              <div class="form-group col">
+                <label for="rdvUser">Avec quel agent ?</label>
+                <select id="rdvUser" formControlName="userId" class="custom-select">
+                  <option *ngFor="let agent of agents; let i = index" [value]="agent.id" [selected]="i === 1">
+                    {{ agent.name }}
+                  </option>
                 </select>
-
               </div>
-              <div class="col-md-1">
-                <label for class="white">
-                  c
-                </label>
-                <div>
-                  <span *ngIf="i>0" (click)="deleteAyantDroit(i)" class="btn btn-danger">
-                    <fa-icon icon="trash"></fa-icon>
-                  </span>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <span (click)="addAyantDroit()" class="btn btn-primary">
-            <fa-icon icon="plus"></fa-icon>
-            Ajouter des ayants droits
-          </span>
-          <br>
-          <br>
-          <br>
-        </ng-container>
-
-        <input formControlName="id" type="hidden">
-        <input formControlName="dateNaissance" type="hidden">
-
-        <br>
-        <br>
-        <div class="col-md-4 offset-md-4 text-center">
-          <button type="submit" class="btn btn-primary btn-block">
-            Suivant
-
-            <fa-icon icon="angle-right"></fa-icon>
-
-
-
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <!-- ///////// -->
-    <!-- ETAPE 2 RENDEZVOUS -->
-    <!-- ///////// -->
-
-    <div class="step_menu" *ngIf="usager.etapeDemande> 1 && usager.decision.statut !== 'valide'">
-      <div class="row">
-        <div class="col-md-6">
-          Dossier enregistré par
-          <br>
-          <b>
-            {{ usager.agent }}, le {{ usager.decision.dateInstruction | date: 'dd/MM/yyyy à HH:mm' }}
-          </b>
-        </div>
-        <div class="col-md-6 text-right">
-          <button class="btn btn-outline-primary" (click)="getAttestation()">
-            <fa-icon icon="download"></fa-icon>
-            Attestation de demande
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="step_form" *ngIf="usager.etapeDemande === 1" id="step_form1">
-      <div class="text-center">
-        <h5>
-          Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom ||
-        null }} ?
-        </h5>
-        <p></p>
-      </div>
-      <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
-        <div class="row text-center">
-          <div class="card" [ngClass]="{'card_selected': r.isNow.value === 'oui', 'card_not_selected': r.isNow.value === 'non'}">
-            <div class="card-body">
-              <h5 class="card-title text-center">
-                <input class="form-check-input" type="radio" formControlName="isNow" id="rdvNow" value="oui">
-                <label for="rdvNow">L'entretien a lieu maintenant</label>
-              </h5>
-              <p class="card-text">
-                Pas besoin de fixer de date d'entretien ultérieure : l'entretien est réalisé maintenant
-              </p>
-              <div class="col-md-4 offset-md-4 text-center" *ngIf="r.isNow.value === 'oui'">
-                <button type="submit" class="btn btn-primary btn-block">
-                  Suivant
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="w-100"></div>
-
-          <div class="card" [ngClass]="{'card_selected': r.isNow.value === 'non',
-        'card_not_selected': r.isNow.value === 'oui'}">
-            <div class="card-body">
-              <h5 class="card-title text-center">
-                <input class="form-check-input" type="radio" id="rdv" value="non" formControlName="isNow">
-                <label for="rdv">Fixer une date de rendez-vous</label>
-              </h5>
-              <div class="row text-left">
-                <div class="form-group col-md-4">
-                  <label for="rdvUser">Avec qui ?</label>
-                  <select id="rdvUser" formControlName="userId" class="custom-select">
-                    <option *ngFor="let agent of agents; let i = index" [value]="agent.id" [selected]="i === 1">
-                      {{ agent.name }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="jourRdv">Date du rendez-vous</label>
-                  <div class="input-group">
-                    <input class="form-control" placeholder="jj/mm/aaaa" [minDate]="minDateRdv" [maxDate]="maxDateRdv" placement="bottom" ngbDatepicker formControlName="jourRdv" #dRdv="ngbDatepicker">
-                    <div class="input-group-append">
-                      <span class="btn btn-outline-primary" (click)="dRdv.toggle()">
-                        <fa-icon icon="calendar"></fa-icon>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="heureRdv">Heure du rendez-vous</label>
-                  <div class="input-group">
-                    <ngb-timepicker [spinners]="OFF" id="heureRdv" formControlName="heureRdv"></ngb-timepicker>
+              <div class="form-group col">
+                <label for="jourRdv">Date du rendez-vous</label>
+                <div class="input-group">
+                  <input class="form-control" placeholder="jj/mm/aaaa" [minDate]="minDateRdv" [maxDate]="maxDateRdv" placement="bottom" ngbDatepicker formControlName="jourRdv" #dRdv="ngbDatepicker">
+                  <div class="input-group-append">
+                    <span class="btn btn-outline-primary" (click)="dRdv.toggle()">
+                      <fa-icon icon="calendar"></fa-icon>
+                    </span>
                   </div>
                 </div>
               </div>
-              <input formControlName="dateRdv" type="hidden">
-              <div class="col-md-4 offset-md-4 text-center" *ngIf="r.isNow.value === 'non'">
-                <button type="submit" class="btn btn-primary btn-block">
-                  Suivant
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <!-- ///////// -->
-    <!-- ETAPE 2.5 ECRAN ENTRETIEN 2 -->
-    <!-- ///////// -->
-    <div class="step_form" *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'non'">
-      <div class="row text-center">
-        <div class="col">
-          <h5>
-            Prise de rendez-vous entre le demandeur et un agent
-          </h5>
-          <p>
-            Le rendez-vous avec
-            <b>{{ usager.nom }} {{ usager.prenom }}</b>
-            est confirmé
-            <br>
-            <br>
-            Le
-            <b>
-              {{ usager.rdv.dateRdv | date: 'dd/MM/yyyy'}}
-            </b>
-            <br>
-            à
-            <b>{{ usager.rdv.dateRdv | date: 'hh:mm'}}</b>
-            <br>
-            avec
-            <b>{{ usager.rdv.userName }}</b>
-            <br>
-            <br>
-            Vous avez reçu une invitation dans votre agenda.
-            <br>
-            <br>
-
-            <span (click)="usager.rdv.isNow= 'oui'" class="btn btn-outline-secondary">
-              Réaliser l'entretien
-              maintenant
-            </span>
-            <br><br>
-            <span (click)="getAttestation()" class="btn btn-outline-primary">
-              <fa-icon icon="file-pdf"></fa-icon>
-              &nbsp; Télécharger le Cerfa
-              de demande
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <!-- ///////// -->
-    <!-- ETAPE 3 QUESTIONS -->
-    <!-- ///////// -->
-    <div class="step_form" id="step_form2" *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'oui'">
-      <form [formGroup]="entretienForm" (ngSubmit)="submitEntretien()">
-        <div class="text-center">
-          <h5>Entretien avec le demandeur</h5>
-        </div>
-        <div class="row">
-          <div class="col">
-            <div>
-              <span class="label">
-                Avez-vous déjà une domiciliation quelque part ?
-                <fa-icon icon="question-circle" placement="top"
-                  ngbTooltip="Une domiciliation existante n’est pas un motif de refus. Néanmoins, il faut rechercher pourquoi la personne formule une nouvelle demande et l’inviter à choisir quelle domiciliation elle souhaite conserver.">
-                </fa-icon>
-
-              </span>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="domiciliation" id="domiciliation_oui" [value]="true">
-                <label class="form-check-label" for="domiciliation_oui">
-                  Oui
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="domiciliation" id="domiciliation_non" [value]="false">
-                <label class="form-check-label" for="domiciliation_non">
-                  Non
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <span class="label">Avez-vous des revenus ?</span>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="revenus" id="revenus_oui" [value]="true">
-                <label class="form-check-label" for="revenus_oui">
-                  Oui
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="revenus" id="revenus_non" [value]="false">
-                <label class="form-check-label" for="revenus_non">
-                  Non
-                </label>
-              </div>
-            </div>
-            <div>
-              <span class="label">Quel est votre lien avec la commune ?</span>
-              <textarea class="form-control" formControlName="liencommune" name="liencommune" id="liencommune"></textarea>
-            </div>
-
-            <div class="questions">
-              <span class="label">
-                Quelle est votre situation résidentielle ?
-              </span>
-              <div class="form-check" *ngFor="let key of residenceList">
-                <input class="form-check-input" type="radio" formControlName="residence" id="{{ key }}" value="{{ key }}">
-                <label class="form-check-label" for="{{ key }}">
-                  {{ residence[key] }}
-                </label>
-                <input type="text" class="autres form-control" *ngIf="key ==='residenceAutre' && e.residence.value === 'residenceAutre'" formControlName="residenceDetail" placeholder="Précisions">
-              </div>
-
-            </div>
-
-            <div class="questions">
-              <span class="label">
-                Quelle est la cause de l'instabilité de logement ?
-              </span>
-              <div class="form-check" *ngFor="let key of causeList">
-                <input class="form-check-input" type="radio" formControlName="cause" id="{{ key }}" value="{{ key }}">
-                <label class="form-check-label" for="{{ key }}">
-                  {{ cause[key] }}
-                </label>
-                <input type="text" *ngIf="key ==='causeAutre' && e.cause.value === 'causeAutre'" class="form-control autres" formControlName="causeDetail" placeholder="Précisions">
-              </div>
-            </div>
-
-            <div class="questions">
-              <div>
-                <span class="label">
-                  Quel est le motif principal de demande de domiciliation ?
-                </span>
-                <div class="form-check" *ngFor="let key of raisonList">
-                  <input class="form-check-input" type="radio" formControlName="raison" id="{{ key }}" value="{{ key }}">
-                  <label class="form-check-label" for="{{ key }}">
-                    {{ raison[key] }}
-                  </label>
+              <div class="form-group col">
+                <label for="heureRdv">Heure du rendez-vous</label>
+                <div class="input-group">
+                  <ngb-timepicker [spinners]="OFF" id="heureRdv" formControlName="heureRdv"></ngb-timepicker>
                 </div>
               </div>
-              <div *ngIf="e.raison.value === 'raisonAutre'" class="form-group">
-                <input type="text" class="form-control" formControlName="raisonDetail" placeholder="Précisions">
-              </div>
             </div>
-
-            <div>
-              <span class="label">
-                Faites-vous l’objet d’un accompagnement social ?
-              </span>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="accompagnement" id="accompagnement_oui" [value]="true">
-                <label class="form-check-label" for="accompagnement_oui">
-                  Oui
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" formControlName="accompagnement" id="accompagnement_non" [value]="false">
-                <label class="form-check-label" for="accompagnement_non">
-                  Non
-                </label>
-              </div>
-
-            </div>
-
-            <div *ngIf="e.accompagnement.value === true" class="form-group">
+            <input formControlName="dateRdv" type="hidden">
+            <div class="col-md-4 offset-md-4 text-center" *ngIf="r.isNow.value === 'non'">
               <br>
-              <label class="form-check-label" for="accompagnement_non">
-                Par quelle structure ?
-              </label>
-              <input type="text" class="form-control" formControlName="accompagnementDetail">
+              <button type="submit" class="btn btn-primary btn-block">
+                Suivant &nbsp; <fa-icon icon="angle-right"></fa-icon>
+              </button>
             </div>
-
-            <div>
-              <span class="label">Commentaires</span>
-              <textarea class="form-control" id="commentaires" formControlName="commentaires" id="commentaires"></textarea>
-            </div>
-
           </div>
-
-          <div class="w-100">
-            <br>
-          </div>
-          <br>
-          <br>
-
-          <div class="col-md-6 offset-md-3 text-center">
-            <button type="submit" class="btn btn-primary btn-block">
-              Suivant
-            </button>
-            <br>
-            <span class="pointer" (click)="open(entretienConfirmation)">
-              Passer cette étape >
-            </span>
-          </div>
-
         </div>
-      </form>
-    </div>
-
-    <!-- ///////// -->
-    <!-- ETAPE 4 UPLOAD DES PJ -->
-    <!-- ///////// -->
-    <div class="step_form" id="step_form3" *ngIf="usager.etapeDemande === 3">
-      <div>
-        <h5 class="text-center">
-          Pièces justificatives complétant le dossier
-        </h5>
-        <br>
-        <p>
-          Cette étape est optionnelle, rien ne vous oblige à enregistrer des
-          pièces justificatives.
-        </p>
-        <ul>
-          <li>
-            <b>Formats autorisés</b>
-            : .jpg, .png, .pdf
-          </li>
-          <li>
-            <b>Taille max</b>
-            : 4mo
-          </li>
-        </ul>
       </div>
-      <div class="w-100"></div>
-      <!-- Liste des pièces déjà enregistrées -->
+    </form>
+  </div>
+  <!-- ///////// -->
+  <!-- ETAPE 2.5 ECRAN ENTRETIEN 2 -->
+  <!-- ///////// -->
+  <div class="step_form" *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'non'">
+    <div class="row text-center">
+      <div class="col">
+        <h5>
+          Prise de rendez-vous entre le demandeur et un agent
+        </h5>
+        <p>
+          Le rendez-vous avec <b>{{ usager.nom }} {{ usager.prenom }}</b> est confirmé
+          <br>
+          <br>
+          Le <b>{{ usager.rdv.dateRdv | date: 'dd/MM/yyyy'}} </b>
+          <br>
+          à <b>{{ usager.rdv.dateRdv | date: 'HH:mm'}}</b> <br> avec <b>{{ usager.rdv.userName }}</b>
+          <br> <br> Vous avez reçu une invitation dans votre agenda. <br> <br>
+          <span (click)="usager.rdv.isNow= 'oui'" class="btn btn-outline-secondary">
+            Réaliser l'entretien maintenant
+          </span>
+          <br><br>
+          <span (click)="getAttestation()" class="btn btn-outline-primary">
+            <fa-icon icon="file-pdf"></fa-icon>
+            &nbsp; Télécharger le Cerfa
+            de demande
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- ///////// -->
+  <!-- ETAPE 3 QUESTIONS -->
+  <!-- ///////// -->
+  <div class="step_form" id="step_form2" *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'oui'">
+    <form [formGroup]="entretienForm" (ngSubmit)="submitEntretien()">
+      <div class="text-center">
+        <h5>Entretien avec le demandeur</h5>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div>
+            <span class="label">
+              Avez-vous déjà une domiciliation quelque part ?
+              <fa-icon icon="question-circle" placement="top"
+              ngbTooltip="Une domiciliation existante n’est pas un motif de refus. Néanmoins, il faut rechercher pourquoi la personne formule une nouvelle demande et l’inviter à choisir quelle domiciliation elle souhaite conserver.">
+            </fa-icon>
 
-      <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
-        <div class="row">
-          <div class="col-md-5">
-            <div class="form-group required">
-              <label for="label">Nom de la pièce</label>
-              <input type="text" class="form-control" formControlName="label" id="label" aria-describedby="helpId" placeholder="Lettre, impots, carte identité, etc..." required>
-              <div *ngIf="u.label.errors" class="invalid-feedback">
-                <div *ngIf="u.label.errors && u.imageInput.errors">Indiquez le type de pièce</div>
-              </div>
-
-            </div>
+          </span>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="domiciliation" id="domiciliation_oui" [value]="true">
+            <label class="form-check-label" for="domiciliation_oui">
+              Oui
+            </label>
           </div>
-          <div class="col-md-5">
-            <label for>Document à enregistrer</label>
-            <div class="form-group custom-file">
-              <input type="file" class="custom-file-input" id="pieceJointe" (change)="onFileChange($event)"
-                [ngClass]="{ 'is-invalid' : submittedFile && (!uploadError.fileType || !uploadError.fileSize) }" file="pieceJointe" required>
-              <input type="hidden" name="fileHidden" formControlName="imageInput">
-              <label class="custom-file-label" for="pieceJointe" data-browse="Parcourir" lang="fr">
-                {{ fileName }}
-              </label>
-              <div *ngIf="!uploadError.fileType || !uploadError.fileSize" class="invalid-feedback">
-                <div *ngIf="u.imageInput.errors && u.imageInput.errors.required">Veuillez ajouter un fichier</div>
-                <div *ngIf="!uploadError.fileType">
-                  Seul les <b>JPG, PNG et PDF</b> sont autorisés
-                </div>
-                <div *ngIf="!uploadError.fileSize">Le fichier est trop grand</div>
-              </div>
-            </div>
-
-          </div>
-          <div class="col-md-2">
-            <label for>+</label>
-            <button [disabled] type class="btn btn-primary btn-block" [disabled]="!uploadError.fileType || !uploadError.fileSize || u.imageInput.errors">
-              Ajouter
-            </button>
-          </div>
-
-          <div class="w-100"></div>
-
-          <div class="col-md-12">
-            <div *ngIf="error">{{ uploadError.message }}</div>
-            <div *ngIf="uploadResponse">
-              <div *ngIf="uploadResponse.status === 'error'">{{ uploadResponse.message }}</div>
-              <div *ngIf="uploadResponse.status === 'progress'">
-                <ngb-progressbar type="success" [striped]="true" [animated]="true" [value]="uploadResponse.message">
-                  {{ uploadResponse.message }} %
-                </ngb-progressbar>
-              </div>
-            </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="domiciliation" id="domiciliation_non" [value]="false">
+            <label class="form-check-label" for="domiciliation_non">
+              Non
+            </label>
           </div>
         </div>
-      </form>
-      <div class="w-100"></div>
+
+        <div>
+          <span class="label">Avez-vous des revenus ?</span>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="revenus" id="revenus_oui" [value]="true">
+            <label class="form-check-label" for="revenus_oui">
+              Oui
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="revenus" id="revenus_non" [value]="false">
+            <label class="form-check-label" for="revenus_non">
+              Non
+            </label>
+          </div>
+        </div>
+        <div>
+          <span class="label">Quel est votre lien avec la commune ?</span>
+          <textarea class="form-control" formControlName="liencommune" name="liencommune" id="liencommune"></textarea>
+        </div>
+
+        <div class="questions">
+          <span class="label">
+            Quelle est votre situation résidentielle ?
+          </span>
+          <div class="form-check" *ngFor="let key of residenceList">
+            <input class="form-check-input" type="radio" formControlName="residence" id="{{ key }}" value="{{ key }}">
+            <label class="form-check-label" for="{{ key }}">
+              {{ residence[key] }}
+            </label>
+            <input type="text" class="autres form-control" *ngIf="key ==='residenceAutre' && e.residence.value === 'residenceAutre'" formControlName="residenceDetail" placeholder="Précisions">
+          </div>
+
+        </div>
+
+        <div class="questions">
+          <span class="label">
+            Quelle est la cause de l'instabilité de logement ?
+          </span>
+          <div class="form-check" *ngFor="let key of causeList">
+            <input class="form-check-input" type="radio" formControlName="cause" id="{{ key }}" value="{{ key }}">
+            <label class="form-check-label" for="{{ key }}">
+              {{ cause[key] }}
+            </label>
+            <input type="text" *ngIf="key ==='causeAutre' && e.cause.value === 'causeAutre'" class="form-control autres" formControlName="causeDetail" placeholder="Précisions">
+          </div>
+        </div>
+
+        <div class="questions">
+          <div>
+            <span class="label">
+              Quel est le motif principal de demande de domiciliation ?
+            </span>
+            <div class="form-check" *ngFor="let key of raisonList">
+              <input class="form-check-input" type="radio" formControlName="raison" id="{{ key }}" value="{{ key }}">
+              <label class="form-check-label" for="{{ key }}">
+                {{ raison[key] }}
+              </label>
+            </div>
+          </div>
+          <div *ngIf="e.raison.value === 'raisonAutre'" class="form-group">
+            <input type="text" class="form-control" formControlName="raisonDetail" placeholder="Précisions">
+          </div>
+        </div>
+
+        <div>
+          <span class="label">
+            Faites-vous l’objet d’un accompagnement social ?
+          </span>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="accompagnement" id="accompagnement_oui" [value]="true">
+            <label class="form-check-label" for="accompagnement_oui">
+              Oui
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="accompagnement" id="accompagnement_non" [value]="false">
+            <label class="form-check-label" for="accompagnement_non">
+              Non
+            </label>
+          </div>
+
+        </div>
+
+        <div *ngIf="e.accompagnement.value === true" class="form-group">
+          <br>
+          <label class="form-check-label" for="accompagnement_non">
+            Par quelle structure ?
+          </label>
+          <input type="text" class="form-control" formControlName="accompagnementDetail">
+        </div>
+
+        <div>
+          <span class="label">Commentaires</span>
+          <textarea class="form-control" id="commentaires" formControlName="commentaires" id="commentaires"></textarea>
+        </div>
+
+      </div>
+
+      <div class="w-100">
+        <br>
+      </div>
       <br>
+      <br>
+
       <div class="col-md-6 offset-md-3 text-center">
-        <button (click)="usager.etapeDemande= 4" type="submit" class="btn btn-primary btn-block">
-          Suivant
+        <button type="submit" class="btn btn-primary btn-block">
+          Suivant &nbsp; <fa-icon icon="angle-right"></fa-icon>
+        </button>
+        <br>
+        <span class="btn btn-outline-dark" (click)="open(entretienConfirmation)">
+          Passer cette étape &nbsp; <fa-icon icon="angle-right"></fa-icon>
+        </span>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<!-- ///////// -->
+<!-- ETAPE 4 UPLOAD DES PJ -->
+<!-- ///////// -->
+<div class="step_form" id="step_form3" *ngIf="usager.etapeDemande === 3">
+  <div>
+    <h5 class="text-center">
+      Pièces justificatives complétant le dossier
+    </h5>
+    <br>
+    <p>
+      Cette étape est optionnelle, rien ne vous oblige à enregistrer des pièces justificatives.
+    </p>
+    <ul>
+      <li>
+        <b>Formats autorisés</b> : .jpg, .png, .pdf
+      </li>
+      <li>
+        <b>Taille max</b> : 4mo
+      </li>
+    </ul>
+  </div>
+  <div class="w-100"></div>
+  <!-- Liste des pièces déjà enregistrées -->
+
+  <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group required">
+          <label for="label">Nom de la pièce</label>
+          <input type="text" class="form-control" formControlName="label" id="label" aria-describedby="helpId" placeholder="Lettre, impots, carte identité, etc..." required>
+          <div *ngIf="u.label.errors" class="invalid-feedback">
+            <div *ngIf="u.label.errors && u.imageInput.errors">Indiquez le type de pièce</div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-5">
+        <label for>Document à enregistrer</label>
+        <div class="form-group custom-file">
+          <input type="file" class="custom-file-input" id="pieceJointe" (change)="onFileChange($event)"
+          [ngClass]="{ 'is-invalid' : submittedFile && (!uploadError.fileType || !uploadError.fileSize) }" file="pieceJointe" required>
+          <input type="hidden" name="fileHidden" formControlName="imageInput">
+          <label class="custom-file-label" for="pieceJointe" data-browse="Parcourir" lang="fr">
+            {{ fileName }}
+          </label>
+          <div *ngIf="!uploadError.fileType || !uploadError.fileSize" class="invalid-feedback">
+            <div *ngIf="u.imageInput.errors && u.imageInput.errors.required">Veuillez ajouter un fichier</div>
+            <div *ngIf="!uploadError.fileType">
+              Seul les <b>JPG, PNG et PDF</b> sont autorisés
+            </div>
+            <div *ngIf="!uploadError.fileSize">Le fichier est trop grand</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-2">
+        <label for>+</label>
+        <button [disabled] type class="btn btn-primary btn-block" [disabled]="!uploadError.fileType || !uploadError.fileSize || u.imageInput.errors">
+          Ajouter
         </button>
       </div>
+
+      <div class="w-100"></div>
+
+      <div class="col-md-12">
+        <div *ngIf="error">{{ uploadError.message }}</div>
+        <div *ngIf="uploadResponse">
+          <div *ngIf="uploadResponse.status === 'error'">{{ uploadResponse.message }}</div>
+          <div *ngIf="uploadResponse.status === 'progress'">
+            <ngb-progressbar type="success" [striped]="true" [animated]="true" [value]="uploadResponse.message">
+              {{ uploadResponse.message }} %
+            </ngb-progressbar>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="step_form" *ngIf="usager.etapeDemande === 3 && usager.docs.length> 0">
+  </form>
+  <div class="w-100"></div>
+  <br>
+  <div class="col-md-6 offset-md-3 text-center">
+    <button (click)="usager.etapeDemande= 4" type="submit" class="btn btn-primary btn-block">
+      Suivant &nbsp; <fa-icon icon="angle-right"></fa-icon>
+    </button>
+  </div>
+</div>
+<div class="step_form" *ngIf="usager.etapeDemande === 3 && usager.docs.length> 0">
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="text-center">Pièces déjà enregistrées</h5>
+    </div>
+    <table class="table table-light">
+      <tbody>
+        <tr>
+          <th>Nom de la pièce justificative</th>
+          <th>Ajoutée le</th>
+          <th>Ajoutée par</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let document of usager.docs; let indexDocs= index">
+          <td>{{ document.label }}</td>
+          <td>
+            {{ document.createdAt | date: 'dd/MM/yyyy' }}
+          </td>
+          <td>{{ document.createdBy }}</td>
+          <td>
+            <button (click)="getDocument(indexDocs)" class="btn btn-primary" aria-label="Voir la pièce jointe">
+              <fa-icon icon="download"></fa-icon>
+              Télécharger
+            </button>
+          </td>
+          <td>
+            <button (click)="deleteDocument(indexDocs)" class="btn btn-danger" aria-label="Voir la pièce jointe">
+              <fa-icon icon="trash"></fa-icon>
+              Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+<div class="step_form" id="step_form4" *ngIf="usager.etapeDemande === 4 && usager.decision.statut === 'instruction'">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h5 class="text-center">
+        Le dossier de <b> {{ usager.nom }} {{ usager.prenom }} </b> est complet
+      </h5>
+      <h6 class="text-center">Quelle décision souhaitez-vous rendre ?</h6>
+      <br>
       <div class="row">
-        <div class="col-md-12">
-          <h5 class="text-center">Pièces déjà enregistrées</h5>
+        <div class="col">
+          <button class="btn-block btn btn-danger" (click)="open(refus)">
+            <fa-icon icon="times"></fa-icon>
+            REFUSER LE DOSSIER
+          </button>
         </div>
-        <table class="table table-light">
-          <tbody>
-            <tr>
-              <th>Nom de la pièce justificative</th>
-              <th>Ajoutée le</th>
-              <th>Ajoutée par</th>
-              <th></th>
-              <th></th>
-            </tr>
-            <tr *ngFor="let document of usager.docs; let indexDocs= index">
-              <td>{{ document.label }}</td>
-              <td>
-                {{ document.createdAt | date: 'dd/MM/yyyy' }}
-              </td>
-              <td>{{ document.createdBy }}</td>
-              <td>
-                <button (click)="getDocument(indexDocs)" class="btn btn-primary" aria-label="Voir la pièce jointe">
-                  <fa-icon icon="download"></fa-icon>
-                  Télécharger
-                </button>
-              </td>
-              <td>
-                <button (click)="deleteDocument(indexDocs)" class="btn btn-danger" aria-label="Voir la pièce jointe">
-                  <fa-icon icon="trash"></fa-icon>
-                  Supprimer
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <br>
+        <div class="col">
+          <button class="btn-block btn btn-secondary" (click)="open(confirmation)">
+            <fa-icon icon="check"></fa-icon>
+            ACCEPTER LE DOSSIER
+          </button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <button (click)="setDecision('demande')" class="btn btn-primary btn-block">
+            DEMANDER LA VALIDATION DU DOSSIER
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #refus let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Motivez votre refus
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col">
+      <div class="form-row" *ngFor="let key of motifsRefusList">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="motif" id="{{key}}" [(ngModel)]="usager.decision.motif" value="{{key}}">
+          <label class="form-check-label" for="{{key}}">
+            {{ motifsRefus[key] }}
+          </label>
+        </div>
+      </div>
+      <div *ngIf="usager.decision.motif === 'refusAutre'" class="form-row">
+        <label class="form-check-label" for="motifRefusAutre">Motif du refus<span class="red">*</span></label>
+        <input type="text" class="form-control" id="motifRefusAutre" [(ngModel)]="usager.decision.motifDetails">
+        <small id="refusAutres" class="form-text text-muted">
+          20 caractères minimum
+        </small>
+      </div>
+      <br>
+      <div class="form-row">
+        <label for="orientationRefus">Orientation proposée</label>
+        <input class="form-control" type="text" [(ngModel)]="usager.decision.orientationDetails" id="orientationRefus">
       </div>
     </div>
   </div>
-  <div class="step_form" id="step_form4" *ngIf="usager.etapeDemande === 4 && usager.decision.statut === 'instruction'">
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <h5 class="text-center">
-          Le dossier de
-          <b>
-            {{ usager.nom }} {{ usager.prenom }}
-          </b> est complet
-        </h5>
-        <h6 class="text-center">Quelle décision souhaitez-vous rendre ?</h6>
-        <br>
-        <div class="row">
-          <div class="col">
-            <button class="btn-block btn btn-danger" (click)="open(refus)">
-              <fa-icon icon="times"></fa-icon>
-              REFUSER LE DOSSIER
-            </button>
-          </div>
-          <br>
-          <div class="col">
-            <button class="btn-block btn btn-secondary" (click)="open(confirmation)">
-              <fa-icon icon="check"></fa-icon>
-              ACCEPTER LE DOSSIER
-            </button>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-md-10 offset-md-1">
-            <button (click)="setDecision('demande')" class="btn btn-primary btn-block">
-              DEMANDER LA VALIDATION DU DOSSIER
-            </button>
-          </div>
-        </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-danger" (click)="modal.close('Save click')">
+      Annuler
+    </button>
+    <button class="btn btn-danger" [disabled]="usager.decision.motif === '' || (usager.decision.motif === 'refusAutre' && usager.decision.motifDetails.length < 10 )"
+    (click)="usager.decision.statut = 'refus';setDecision('refus')">
+    Confirmer le refus
+  </button>
+</div>
+</ng-template>
 
-      </div>
+<ng-template #confirmation let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Validation définitive d'une domiciliation
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col">
+      Vous êtes sur le point de domicilier {{ usager.nom }} {{ usager.prenom }}.
+      Il n’y aura aucune validation par une autre personne que vous.<br><br> <b>Êtes-vous sûr ?</b>
     </div>
   </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      Revenir au formulaire
+    </button>
+    <button class="btn btn-success" (click)="setDecision('valide');modal.close('Close click')">
+      Confirmer
+    </button>
+  </div>
+</ng-template>
 
-  <ng-template #refus let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">
-        Motivez votre refus
-      </h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<ng-template #entretienConfirmation let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      <fa-icon icon="info"></fa-icon>
+      Attention
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col">
+      L’entretien préalable <b>est obligatoire</b>, il est l’occasion d’inscrire la domiciliation dans une démarche d’accompagnement social visant à favoriser l’insertion des personnes domiciliées
+      et constitue une porte d’entrée pour intégrer la personne dans une logique de parcours. <br><br>
+      Cette étape ne peut être passée que si votre structure met déjà en place un accompagnement social pour cette personne, en parallèle de sa domiciliation.
     </div>
-    <div class="modal-body">
-      <div class="col">
-        <div class="form-row" *ngFor="let key of motifsRefusList">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="motif" id="{{key}}" [(ngModel)]="usager.decision.motif" value="{{key}}">
-            <label class="form-check-label" for="{{key}}">
-              {{ motifsRefus[key] }}
-            </label>
-          </div>
-        </div>
-        <div *ngIf="usager.decision.motif === 'refusAutre'" class="form-row">
-          <input type="text" class="form-control" [(ngModel)]="usager.decision.motifDetails">
-          <small id="refusAutres" class="form-text text-muted" *ngIf="usager.decision.motifDetails.length < 5">
-            20 caractères minimum
-          </small>
-        </div>
-        <br>
-        <div class="form-row">
-          <label for="orientationRefus">Orientation proposée</label>
-          <input class="form-control" type="text" [(ngModel)]="usager.decision.orientationDetails" id="orientationRefus">
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline-danger" (click)="modal.close('Save click')">
-        Annuler
-      </button>
-      <button class="btn btn-danger" [disabled]="usager.decision.motif === '' || (usager.decision.motif === 'refusAutre' && usager.decision.motifDetails.length < 20 )"
-        (click)="usager.decision.statut = 'refus';setDecision('refus')">
-        Confirmer le refus
-      </button>
-    </div>
-  </ng-template>
-
-  <ng-template #confirmation let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">
-        Validation définitive d'une domiciliation
-      </h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="col">
-        Vous êtes sur le point de domicilier {{ usager.nom }} {{ usager.prenom }}.
-        Il n’y aura aucune validation par une autre personne que vous.<br><br> <b>Êtes-vous sûr ?</b>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
-        Revenir au formulaire
-      </button>
-      <button class="btn btn-success" (click)="setDecision('valide');modal.close('Close click')">
-        Confirmer
-      </button>
-    </div>
-  </ng-template>
-
-  <ng-template #entretienConfirmation let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">
-        <fa-icon icon="info"></fa-icon>
-        Attention
-      </h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="col">
-        L’entretien préalable <b>est obligatoire</b>, il est l’occasion d’inscrire la domiciliation dans une démarche d’accompagnement social visant à favoriser l’insertion des personnes domiciliées
-        et constitue une porte d’entrée pour intégrer la personne dans une logique de parcours. <br><br>
-        Cette étape ne peut être passée que si votre structure met déjà en place un accompagnement social pour cette personne, en parallèle de sa domiciliation.
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
-        Revenir à l'entretien
-      </button>
-      <button class="btn btn-success" (click)="usager.etapeDemande = 3;modal.close('Close click')">
-        Continuer sans entretien
-      </button>
-    </div>
-  </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      Revenir à l'entretien
+    </button>
+    <button class="btn btn-success" (click)="usager.etapeDemande = 3;modal.close('Close click')">
+      Continuer sans entretien
+    </button>
+  </div>
+</ng-template>
 </div>

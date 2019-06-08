@@ -1,6 +1,5 @@
-import { Inject, Injectable, Logger, Res } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
-import { Model } from "mongoose";
 import pdftk = require('node-pdftk');
 import * as path from 'path';
 import { UsersService } from '../../users/users.service';
@@ -11,7 +10,7 @@ import { Usager } from '../interfaces/usagers';
 export class CerfaService {
   private readonly logger = new Logger(CerfaService.name);
 
-  constructor(@Inject('USAGER_MODEL') private readonly usagerModel: Model<Usager>, private readonly usersService: UsersService) {
+  constructor(private readonly usersService: UsersService) {
 
   }
 
@@ -20,7 +19,6 @@ export class CerfaService {
     let pdfForm = '../../ressources/demande.pdf';
 
     const sexe = usager.sexe === 'femme' ? '1' : '2';
-    const today = new Date();
     const motifsRefus = {
       "refus1": "Existence d'un hébergement stable",
       "refus2": "Nombre de domiciliations de votre organisme prévu par l’agrément atteint (associations)",

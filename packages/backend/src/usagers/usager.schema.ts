@@ -41,6 +41,12 @@ export const UsagerSchema = new mongoose.Schema({
     orientation: String,
     orientationDetails: String,
     statut: String,
+
+    userDecisionId: Number,
+    userDecisionName: String,
+    userInstructionId: Number,
+    userInstructionName: String,
+
   },
 
   historique: String,

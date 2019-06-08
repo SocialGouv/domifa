@@ -4,7 +4,10 @@ import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+
+  constructor(private readonly jwtService: JwtService) {
+
+  }
 
   public async createToken() {
     const user: JwtPayload = { email: 'test@email.com' };
@@ -16,8 +19,6 @@ export class AuthService {
   }
 
   public async validateUser(payload: JwtPayload): Promise<any> {
-    // put some validation logic here
-    // for example query user by id/email/username
     return {};
   }
 }

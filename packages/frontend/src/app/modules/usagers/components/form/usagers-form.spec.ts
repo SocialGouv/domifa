@@ -17,8 +17,8 @@ describe('UsagersFormComponent', () => {
       imports:[NgbModule.forRoot(), ReactiveFormsModule, FormsModule, HttpClientModule,  HttpClientTestingModule, RouterModule.forRoot([])],
       providers: [
         { provide: APP_BASE_HREF, useValue : '/' }
-      ]
-      , schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));

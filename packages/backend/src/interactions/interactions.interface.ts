@@ -1,13 +1,5 @@
 import { Document } from 'mongoose';
-
-enum TypeInteraction {
-  courrierIn,
-  courrierOut,
-  recommandeIn,
-  recommandeOut,
-  appel,
-  visite
-}
+import { TypeInteraction } from './interactions.enum';
 
 export interface Interaction extends Document {
   type: TypeInteraction;

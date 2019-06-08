@@ -16,7 +16,6 @@ export class Usager {
 
   public email: string;
   public phone: string;
-  public contactPreference: string;
 
   public structure: number;
   public etapeDemande: number;
@@ -33,7 +32,7 @@ export class Usager {
   public historique: string;
 
   public preference: {
-    mail: boolean,
+    email: boolean,
     phone: boolean
   };
 
@@ -60,7 +59,6 @@ export class Usager {
 
     this.email =  usager && usager.email || null;
     this.phone = usager && usager.phone || null;
-    this.contactPreference =  usager && usager.contactPreference || null;
     this.docs =  usager && usager.docs || [];
 
     this.agent =  usager && usager.agent || null;
@@ -80,7 +78,7 @@ export class Usager {
     this.ayantsDroits = usager && usager.ayantsDroits || [];
 
     this.preference = usager && usager.preference || {
-      mail: false,
+      email: false,
       phone: false
     };
 

@@ -25,7 +25,10 @@ export class UsagersService {
     const createdUsager = new this.usagerModel(usagersDto);
     const user = await this.usersService.findById(2);
     createdUsager.etapeDemande++;
-    createdUsager.agent = user.firstName + ' ' + user.lastName;
+    createdUsager.decision.dateInstruction = new Date();
+    createdUsager.decision.userInstructionName = user.firstName + ' ' + user.lastName;
+    createdUsager.decision.userInstructionId = 2;
+
     createdUsager.id = this.lastId(await this.findLastUsager());
 
     return createdUsager.save();
@@ -42,27 +45,38 @@ export class UsagersService {
     }).select('-docsPath').exec();
   }
 
+  public async updateUsager(usagerId: number, toUpdate: any) {
+    return this.usagerModel.findOneAndUpdate({ 'id': usagerId }, {
+      $set: toUpdate
+    }, {
+      new: true
+    }).select('-docsPath').exec();
+  }
 
   public async setDecision(usagerId: number, decision: Decision): Promise<Usager> {
     const user = await this.usersService.findById(2);
-    decision.agent = user.firstName + ' ' + user.lastName;
+    const agent = user.firstName + ' ' + user.lastName;
 
     if (decision.statut === 'demande') {
       decision.dateDemande = new Date();
+      decision.userInstructionId = 2;
+      decision.userInstructionName = agent;
       /* Mail au responsable */
     }
-    else if (decision.statut === 'valide') {
-      decision.dateFin = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
-      decision.dateDebut = new Date();
 
+    if (decision.statut === 'valide' || decision.statut === 'refus' ) {
+      decision.userDecisionId = 2;
+      decision.userDecisionName = agent;
+      decision.dateDebut = new Date();
       /* Récupération du dernier ID lié à la structure */
       /* SMS & Mail pr prévenir */
-    }
-    else if (decision.statut === 'refus')
-    {
-      decision.dateDebut = new Date();
 
     }
+
+    if (decision.statut === 'valide') {
+      decision.dateFin = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+    }
+
     return this.usagerModel.findOneAndUpdate({
       'id' :usagerId
     }, {
@@ -181,7 +195,10 @@ export class UsagersService {
     interface SearchQuery {
       name?: string;
       $or?: any[];
+      interactionType?: string;
+      interactionStatut?: boolean;
       "decision.statut"?: {};
+      "lastInteraction.nbre"?: {};
       structure?: string;
     }
 
@@ -201,6 +218,11 @@ export class UsagersService {
     if (query.statut) {
       searchQuery["decision.statut"] = query.statut;
     }
+
+    if (query.interactionType) {
+      searchQuery["lastInteraction.nbCourrier"] = { $gt: 0 };
+    }
+
     return this.usagerModel.find(searchQuery)
     .sort(this.sort)
     .lean()

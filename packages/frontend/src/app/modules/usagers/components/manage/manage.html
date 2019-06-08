@@ -37,20 +37,20 @@
     </div>
     <div class="row">
       <span> Échéance : </span>
-      <button class="btn" [ngClass]="(filters.statut === 'avenir') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'avenir')">
+      <button class="btn" [ngClass]="(filters.statut === 'radiation') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'avenir')">
         Radiation possible
       </button>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('echeance', 'deuxmois')">
+      <button class="btn" [ngClass]="(filters.statut === 'avenir') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('echeance', 'deuxmois')">
         Renouvellement à venir
       </button>
     </div>
     <div class="row">
       <span> Courrier : </span>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('courrier', true)">
+      <button class="btn" [ngClass]="(filters.interactionType === 'courrierIn') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('interactionType', 'courrierIn')">
         Courrier à récupérer
       </button>
-      <button class="btn btn-outline-dark" [ngClass]="{'filters.statut': filters.statut === null }" (click)="updateFilters('courrier', false)">
-        Pas de courrier
+      <button class="btn" [ngClass]="(filters.interactionType === 'courrierOut') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('interactionType', 'courrierOut')">
+        Récupéré récemment
       </button>
     </div>
   </div>
@@ -72,16 +72,14 @@
 
           <td (click)="goToProfil(usager.id, usager.decision.statut)"  isComplete="'dhii'" scope="row" class="table_name" [class]='usager.decision.statut'>
             <b>{{ usager.sexe === "femme" ? 'Mme' : 'M.' }} {{ usager.nom }} {{ usager.prenom }}</b> ({{ usager.id}})
-
-
           </td>
           <td (click)="goToProfil(usager.id, usager.decision.statut)">
             <span *ngIf="usager.rdv">
               {{ usager.dateNaissance | date:'dd/MM/yyyy' }}
             </span>
           </td>
-          <td class="text-right icones_liste">
-            <div *ngIf="usager.decision.statut === 'valide'">
+          <td class="text-right icones_liste" *ngIf="usager.decision.statut === 'valide'">
+            <div>
               <span>
                 <fa-icon class="courrier" icon="envelope"></fa-icon>
               </span>
@@ -96,6 +94,8 @@
                 <fa-icon class="appel" icon="phone"></fa-icon>
               </span>
             </div>
+          </td>
+          <td (click)="goToProfil(usager.id, usager.decision.statut)" *ngIf=" usager.decision.statut !=='valide'">
           </td>
           <td (click)="goToProfil(usager.id, usager.decision.statut)" class="text-right">
             <span class="active" *ngIf="usager.decision.statut !== 'instruction'">

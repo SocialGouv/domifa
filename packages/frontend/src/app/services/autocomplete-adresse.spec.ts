@@ -6,7 +6,6 @@ describe('AutocompleteAdresseService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpHandler ],
-
       providers: [AutocompleteAdresseService, HttpClient]
     });
   });

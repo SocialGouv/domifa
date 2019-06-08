@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseModule } from '../database/database.module';
 import { UsagersModule } from '../usagers/usagers.module';
+import { UsagersProviders } from '../usagers/usagers.providers';
 import { UsersModule } from '../users/users.module';
 import { InteractionsController } from './interactions.controller';
 import { InteractionsProviders } from './interactions.providers';
@@ -13,7 +14,7 @@ describe('Interactions Controller', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [InteractionsController],
       imports: [ DatabaseModule, UsersModule, UsagersModule ],
-      providers: [ InteractionsService, ...InteractionsProviders ],
+      providers: [ InteractionsService, ...InteractionsProviders],
 
     }).compile();
 

@@ -1,13 +1,26 @@
+import {animate, style, transition, trigger  } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { Usager } from '../../interfaces/usager';
 import { DocumentService } from '../../services/document.service';
-import { UsagerService } from '../../services/usager.service';
 import { LABELS } from '../../shared/labels'
+import { LoadingService } from '../../../loading/loading.service';
+import { Usager } from '../../interfaces/usager';
+import { UsagerService } from '../../services/usager.service';
+import { Subject } from 'rxjs';
+
+const fadeInOut = trigger('fadeInOut', [
+  transition(':enter', [
+    style({ opacity: 0 }),
+    animate(300, style({ opacity: 1 }))
+  ]),
+  transition(':leave', [
+    animate(150, style({ opacity: 0 }))
+  ])
+])
 
 @Component({
+  animations: [fadeInOut],
   providers: [UsagerService],
   selector: 'app-profil',
   styleUrls: ['./profil.css'],
@@ -23,23 +36,20 @@ export class UsagersProfilComponent implements OnInit {
   public notifLabels: string[] = ['courrierIn', 'recommandeIn', 'colisIn'];
 
   public notifInputs: {} = {
-    'courrierIn': 1, 'recommandeIn': 0, 'colisIn': 0
+    'colisIn': 0, 'courrierIn': 1, 'recommandeIn': 0
   };
 
   public callToday = false;
   public visitToday = false;
-
   public successMessage: string;
   public errorMessage: string;
-
-
   public messages: any;
 
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
 
 
-  constructor(private usagerService: UsagerService, private route: ActivatedRoute, private documentService: DocumentService) {
+  constructor(private usagerService: UsagerService, private route: ActivatedRoute, private documentService: DocumentService, private loadingService: LoadingService) {
 
   }
 
@@ -70,6 +80,7 @@ export class UsagersProfilComponent implements OnInit {
 
       }, (error) => {
         /* Redirect */
+
       });
     }
     else {
@@ -86,9 +97,6 @@ export class UsagersProfilComponent implements OnInit {
           type: item,
         }).subscribe((usager: Usager) => {
           this.usager.lastInteraction = usager.lastInteraction;
-          console.log("item");
-          console.log(item);
-          console.log(this.messages[item]);
           this.changeSuccessMessage(this.messages[item]);
         }, (error) => {
           this.changeSuccessMessage("Impossible d'enregistrer cette interaction : ", true);
@@ -128,11 +136,14 @@ export class UsagersProfilComponent implements OnInit {
   }
 
 
+  public loading() {
+    this.loadingService.startLoading();
+    this.loadingService.stopLoading();
+  }
+
   private isToday(someDate?: Date) {
 
     if (!someDate) { return false; }
-    console.log(someDate);
-    console.log(typeof someDate);
     const today = new Date();
 
     return someDate.getDate() === today.getDate() &&

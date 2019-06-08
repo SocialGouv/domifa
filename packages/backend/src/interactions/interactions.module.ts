@@ -12,7 +12,7 @@ import { InteractionsService } from './interactions.service';
   controllers: [ InteractionsController ],
   exports: [ InteractionsService ],
   imports: [ DatabaseModule, UsersModule, UsagersModule ],
-  providers: [ InteractionsService, ...InteractionsProviders, ...UsagersProviders ],
+  providers: [ InteractionsService, ...InteractionsProviders ],
 })
 
 

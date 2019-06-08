@@ -13,7 +13,6 @@ export class InteractionsService {
 
 
   constructor(@Inject('INTERACTION_MODEL') private readonly interactionModel: Model<Interaction>,
-  @Inject('USAGER_MODEL') private readonly usagerModel: Model<Usager>,
   private readonly usagersService: UsagersService,
   private readonly usersService: UsersService) {
 
@@ -45,13 +44,10 @@ export class InteractionsService {
     const savedInteraction = await createdInteraction.save();
     const interactions = usager.interactions === undefined ? usager.interactions = [] : usager.interactions.push(savedInteraction);
 
-    return this.usagerModel.findOneAndUpdate({ 'id': usagerId }, {
-      $set: {
-        "interactions": interactions,
-        "lastInteraction": usager.lastInteraction,
-      }
-    }, {
-      new: true
-    }).select('-docsPath').exec();
+    const toUpdate = {
+      "interactions": interactions,
+      "lastInteraction": usager.lastInteraction,
+    };
+    return this.usagersService.updateUsager(usagerId, toUpdate)
   }
 }

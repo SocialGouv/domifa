@@ -53,7 +53,7 @@
 
 .step_form {
   padding: 2.5rem 1rem;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #e2e2e2;
   max-width: 750px;
   margin: 1rem auto;
   border-radius: 4px;
@@ -61,7 +61,7 @@
 
 .step_menu {
   padding: 1rem;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #e2e2e2;
   max-width: 750px;
   margin: 1rem auto;
   border-radius: 4px;
@@ -93,12 +93,13 @@
 }
 
 .step_form .card{
-  margin: 10px auto;
+  margin: 15px auto;
   width: 90%;
+  cursor: pointer;
 }
 
 .card_not_selected {
-  opacity: 0.2;
+  opacity: 0.5;
 }
 
 .card_selected,
@@ -149,4 +150,8 @@ label {
   display: inline-block;
   margin-bottom: 12px;
   min-width: 345px;
+}
+
+#heureRdv {
+  margin: 0 auto;
 }

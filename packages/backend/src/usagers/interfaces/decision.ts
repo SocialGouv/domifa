@@ -9,5 +9,12 @@ export interface Decision{
   agent: string,
   motifDetails: string,
   orientation: number,
-  orientationDetails: string
+  orientationDetails: string,
+
+
+  userDecisionId: number,
+  userDecisionName: string,
+  userInstructionId: number,
+  userInstructionName: string,
+
 }

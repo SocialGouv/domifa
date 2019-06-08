@@ -7,6 +7,12 @@ export class Decision{
   public statut: string;
   public motif: string;
   public userId: number;
+
+  public userDecisionId: number;
+  public userDecisionName: string;
+  public userInstructionId: number;
+  public userInstructionName: string;
+
   public agent: string;
   public motifDetails: string;
   public orientation: number;
@@ -19,6 +25,10 @@ export class Decision{
     this.dateInstruction = decision && decision.dateInstruction || new Date();
     this.statut = decision && decision.statut || 'instruction';
     this.motif = decision && decision.motif || '';
+    this.userDecisionId = decision && decision.userDecisionId || '';
+    this.userDecisionName = decision && decision.userDecisionName || '';
+    this.userInstructionId = decision && decision.userInstructionId || '';
+    this.userInstructionName = decision && decision.userInstructionName || '';
     this.userId = decision && decision.userId || '';
     this.agent = decision && decision.agent || '';
     this.motifDetails = decision && decision.motifDetails || '';

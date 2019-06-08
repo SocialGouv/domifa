@@ -1,3 +1,4 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
@@ -11,8 +12,12 @@ describe('ManageUsagersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ManageUsagersComponent],
-      imports:[NgbModule.forRoot(), ReactiveFormsModule, FormsModule, RouterModule, HttpClientModule],
+      imports:[NgbModule.forRoot(), RouterModule.forRoot([]), ReactiveFormsModule, FormsModule, RouterModule, HttpClientModule],
+      providers: [
+        { provide: APP_BASE_HREF, useValue : '/' }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
     })
     .compileComponents();
   }));

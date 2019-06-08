@@ -16,7 +16,7 @@
       <div class="text-center" *ngIf="usager.decision.statut === 'valide'">
         Domiciliation valable jusqu'au <span class="text-secondary"><b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}</b></span>
         <br>
-        <span *ngIf="usager.lastInteraction.visite">
+        <span *ngIf="usager.lastInteraction.visite !== null">
           Dernier passage le <b>{{ usager.lastInteraction.visite | date: 'dd/MM/yyyy' }}</b>
         </span>
       </div>
@@ -24,21 +24,18 @@
       <ngb-alert type="warning" *ngIf="usager.decision.statut === 'demande'">
         Demande en cours, à valider par un responsable
       </ngb-alert>
-
-
       <div class="text-center">
-
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="w-100"></div>
-      <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
+      <ngb-alert @fadeInOut *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
         <strong>Erreur:</strong>
         {{ errorMessage }}
       </ngb-alert>
-      <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">
+      <ngb-alert @fadeInOut *ngIf="successMessage" type="success" (close)="successMessage = null">
         <strong>{{ successMessage }}</strong>
       </ngb-alert>
     </div>
@@ -72,7 +69,7 @@
       <div>
         <fa-icon icon="envelope"></fa-icon>
         <input [(ngModel)]="notifInputs.recommandeIn" class="form-control" type="number">
-        <span>Courriers <b>recommandés</b> reçus</span>
+        <span>Avis de passage <b></b> reçus</span>
       </div>
       <div>
         <fa-icon icon="envelope"></fa-icon>
@@ -104,16 +101,13 @@
   <br><br>
 
 
-
-  <ngb-accordion #acc="ngbAccordion">
-
-
+  <ngb-accordion #acc="ngbAccordion" activeIds="panel-0,panel-1,panel-2,panel-6,panel-8">
     <ngb-panel id="panel-0">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
             <span>
-              HISTORIQUE DES INTERACTIONS
+              DERNIÈRES INTERACTIONS
             </span>
             <span class="arrows">
               <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
@@ -128,22 +122,22 @@
           <tr>
             <td>Courrier </td>
             <td>
-              <span *ngIf="usager.lastInteraction.courrierIn">Notifié le {{ usager.lastInteraction.courrierIn | date: 'dd/MM/yyyy' }}</span>
-              <span *ngIf="!usager.lastInteraction.courrierIn">Aucun courrier enregistré</span>
+              <span *ngIf="usager.lastInteraction.courrierIn">Notifié le {{ usager.lastInteraction.courrierIn | date: 'dd/MM/yyyy' }}</span>
+              <span *ngIf="usager.lastInteraction.courrierIn === null">Aucun courrier enregistré</span>
             </td>
             <td>
-              <span *ngIf="usager.lastInteraction.nbCourrier">
+              <span *ngIf="usager.lastInteraction.nbCourrier !== null">
                 <b>{{ usager.lastInteraction.nbCourrier }} courriers en attente</b>
               </span>
-              <span *ngIf="!usager.lastInteraction.nbCourrier">Aucun courrier en attente</span>
-              <span *ngIf="usager.lastInteraction.courrierOut"> - <b>Récupéré le {{ usager.lastInteraction.courrierOut | date: 'dd/MM/yyyy' }}</b></span>
+              <span *ngIf="usager.lastInteraction.nbCourrier === 0">Aucun courrier en attente</span>
+              <span *ngIf="usager.lastInteraction.courrierOut !== null"> - <b>Dernière récupération le {{ usager.lastInteraction.courrierOut | date: 'dd/MM/yyyy' }}</b></span>
             </td>
           </tr>
           <tr>
-            <td>Courrier recommandé</td>
+            <td>Courrier avis de passage</td>
             <td>
               <span *ngIf="usager.lastInteraction.recommandeIn">Notifié le {{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}</span>
-              <span *ngIf="!usager.lastInteraction.recommandeIn">Aucun recommandé enregistré</span>
+              <span *ngIf="!usager.lastInteraction.recommandeIn">Aucun avis de passage enregistré</span>
             </td>
             <td>
             </td>
@@ -176,9 +170,16 @@
         <div class="row">
           <div class="col">
             Dossier instruit le <b>{{ usager.decision.dateInstruction | date: 'dd/MM/yyyy' }}</b>
+            <br>
+            <span *ngIf="usager.decision.userInstructionName === null">
+              Dossier instruit par <b>{{ usager.decision.userInstructionName }}</b>
+            </span>
           </div>
           <div *ngIf="usager.decision.statut === 'demande'" class="col">
             Demande effectuée le <b>{{ usager.decision.dateDemande | date: 'dd/MM/yyyy' }}</b>
+            <span *ngIf="usager.decision.userDecisionName === null">
+              Dossier instruit par <b>{{ usager.decision.userDecisionName }}</b>
+            </span>
           </div>
           <div *ngIf="usager.decision.statut === 'valide'" class="col">
             Domiciliation accepté le <b>{{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}</b>
@@ -438,7 +439,7 @@
     <br>
     <div class="row">
       <div class="col">
-        <button class="btn btn-outline-danger" (click)="open(refus)">
+        <button class="btn btn-outline-danger" (click)="loading()">
           <fa-icon icon="times"></fa-icon>
           Radier le domicilié
         </button>

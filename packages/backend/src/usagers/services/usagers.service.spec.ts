@@ -12,7 +12,6 @@ describe('UsagersService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ DatabaseModule, UsersModule ],
       providers: [ UsagersService, CerfaService, ...UsagersProviders ],
-
     }).compile();
 
     service = module.get<UsagersService>(UsagersService);

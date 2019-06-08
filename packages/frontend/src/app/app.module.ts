@@ -3,6 +3,7 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -14,6 +15,7 @@ import { AppComponent } from "./app.component";
 import { LoginComponent } from './modules/auth/login/login.component';
 import { HomeComponent } from './modules/home/home.component';
 import { HttpErrorInterceptor } from './modules/interceptors/errors.interceptor';
+import { LoadingComponent } from './modules/loading/loading.component';
 import { StructuresFormComponent } from './modules/structures/components/structures-form/structures-form.component';
 import { UsagersFormComponent } from './modules/usagers/components/form/usagers-form';
 import { ManageUsagersComponent } from './modules/usagers/components/manage/manage.component';
@@ -33,10 +35,12 @@ library.add(fas, far);
     UsersComponent,
     ManageUsagersComponent,
     UsagersProfilComponent,
-    StructuresFormComponent
+    StructuresFormComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FontAwesomeModule,
     RouterModule.forRoot([]),

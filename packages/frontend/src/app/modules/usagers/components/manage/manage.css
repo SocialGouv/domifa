@@ -89,8 +89,8 @@ table {
 
 td,
 th {
-  border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
+  border-top: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
   vertical-align: middle;
   padding: 6px 5px;
   height: 52px;
@@ -105,14 +105,14 @@ th:first-child {
 
 td:last-child,
 th:last-child {
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid #e2e2e2;
   padding: 6px 10px;
   text-align: right;
   border-radius: 0 4px 4px 0;
 }
 
 .valide {
-  border-left: 1px solid #f0f0f0!important;
+  border-left: 1px solid #e2e2e2!important;
 }
 
 .demande {

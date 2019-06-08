@@ -105,10 +105,11 @@ body {
 }
 
 .accordion .card {
-  margin: 10px auto;
+  margin: 12px auto;
   border: 1px solid rgba(0, 0, 0, 0.125) !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
   border-radius: 0.25rem !important;
+  max-width: 950px;
 }
 
 
