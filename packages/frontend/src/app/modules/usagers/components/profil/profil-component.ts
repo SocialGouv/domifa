@@ -2,12 +2,13 @@ import {animate, style, transition, trigger  } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
+import { LoadingService } from '../../../loading/loading.service';
 import { DocumentService } from '../../services/document.service';
 import { LABELS } from '../../shared/labels'
-import { LoadingService } from '../../../loading/loading.service';
+
+import { Subject } from 'rxjs';
 import { Usager } from '../../interfaces/usager';
 import { UsagerService } from '../../services/usager.service';
-import { Subject } from 'rxjs';
 
 const fadeInOut = trigger('fadeInOut', [
   transition(':enter', [

@@ -22,15 +22,11 @@ export class InteractionsService {
     const createdInteraction = new this.interactionModel(usagersDto)
     const user = await this.usersService.findById(2);
     const usager = await this.usagersService.findById(usagerId);
-    this.logger.log(usager);
 
     usager.lastInteraction[usagersDto.type] = new Date();
 
     if (usagersDto.nbCourrier) {
-      this.logger.log(usager.lastInteraction.nbCourrier);
       usager.lastInteraction.nbCourrier = usager.lastInteraction.nbCourrier + usagersDto.nbCourrier;
-      this.logger.log(usager.lastInteraction.nbCourrier);
-      this.logger.log(usagersDto.nbCourrier);
     }
 
     if (usagersDto.type === 'courrierOut' || usagersDto.type === 'recommandeOut') {
