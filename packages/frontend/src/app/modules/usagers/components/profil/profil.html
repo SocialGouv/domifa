@@ -24,13 +24,10 @@
       <ngb-alert type="warning" *ngIf="usager.decision.statut === 'demande'">
         Demande en cours, à valider par un responsable
       </ngb-alert>
-      <div class="text-center">
-      </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <div class="w-100"></div>
+    <div class="col-md-10 offset-md-1">
       <ngb-alert @fadeInOut *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
         <strong>Erreur:</strong>
         {{ errorMessage }}
@@ -38,21 +35,18 @@
       <ngb-alert @fadeInOut *ngIf="successMessage" type="success" (close)="successMessage = null">
         <strong>{{ successMessage }}</strong>
       </ngb-alert>
-    </div>
-  </div>
-  <div class="row">
-
-    <div class="col-md-6 offset-md-3">
-      <ngb-alert [dismissible]='false' *ngIf="usager.lastInteraction.nbCourrier > 0" type="primary">
+      <ngb-alert [dismissible]='false' *ngIf="usager.lastInteraction.nbCourrier > 0" type="dark">
         <div class="text-center">
-          <fa-icon id="courrier" icon="envelope"></fa-icon>
-          {{ usager.lastInteraction.nbCourrier  }} courriers en attente
+          <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
+          &nbsp;&nbsp;
+          {{ usager.lastInteraction.nbCourrier }} courriers en attente
           &nbsp;&nbsp;&nbsp;
-          <button class="btn btn-outline-white" (click)="setPassage('courrierOut')">Confirmer la distribution</button>
+          <button class="btn btn-primary" (click)="setPassage('courrierOut')">Confirmer la distribution</button>
         </div>
       </ngb-alert>
     </div>
   </div>
+
 
   <br><br>
   <div class="text-center">
@@ -101,17 +95,17 @@
   <br><br>
 
 
-  <ngb-accordion #acc="ngbAccordion" activeIds="panel-0,panel-1,panel-2,panel-6,panel-8">
+  <ngb-accordion #acc="ngbAccordion" activeIds="panel-0,panel-1,panel-2,panel-3,panel-4,panel-5,panel-6,panel-7,panel-8">
     <ngb-panel id="panel-0">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
             <span>
-              DERNIÈRES INTERACTIONS
+              SUIVI DU COURRIER ET DES PASSAGES
             </span>
             <span class="arrows">
-              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
             </span>
           </button>
         </div>
@@ -134,7 +128,7 @@
             </td>
           </tr>
           <tr>
-            <td>Courrier avis de passage</td>
+            <td>Avis de passage</td>
             <td>
               <span *ngIf="usager.lastInteraction.recommandeIn">Notifié le {{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}</span>
               <span *ngIf="!usager.lastInteraction.recommandeIn">Aucun avis de passage enregistré</span>
@@ -159,8 +153,8 @@
               HISTORIQUE DE LA DOMICILIATION
             </span>
             <span class="arrows">
-              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
             </span>
           </button>
         </div>
@@ -200,8 +194,8 @@
               ÉTAT CIVIL
             </span>
             <span class="arrows">
-              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
             </span>
           </button>
         </div>
@@ -228,17 +222,22 @@
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
             <span>
-              AYANTS DROITS
+              AYANTS-DROITS
             </span>
             <span class="arrows">
-              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
             </span>
           </button>
         </div>
       </ng-template>
 
       <ng-template ngbPanelContent>
+        <div *ngIf="usager.ayantsDroits.length === 0">
+          <ngb-alert [dismissible]="false">
+            Aucun ayant-droit enregistré
+          </ngb-alert>
+        </div>
         <table *ngIf="usager.ayantsDroits.length > 0" class="table table-light">
           <tbody>
             <tr>
@@ -266,8 +265,8 @@
               ENTRETIEN
             </span>
             <span class="arrows">
-              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
             </span>
           </button>
         </div>
@@ -327,14 +326,19 @@
               PIÈCES JOINTES
             </span>
             <span class="arrows">
-              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
             </span>
           </button>
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <table class="table table-light">
+        <div *ngIf="usager.docs.length === 0">
+          <ngb-alert [dismissible]="false">
+            Aucune pièce-jointe enregistrée
+          </ngb-alert>
+        </div>
+        <table class="table table-light" *ngIf="usager.docs.length > 0">
           <tbody>
             <tr>
               <th>#</th>
@@ -373,8 +377,8 @@
               ATTESTATIONS
             </span>
             <span class="arrows">
-              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
             </span>
           </button>
         </div>
@@ -382,7 +386,7 @@
       <ng-template ngbPanelContent>
         <div class="row">
           <div class="col">
-            Attestation de domiciliation à la date du jour (12/10/2019)
+            Attestation de domiciliation
           </div>
 
           <div class="col">
@@ -391,7 +395,7 @@
             </button>
           </div>
           <div class="col">
-            Courrier de radiation à la date du jour (12/10/2019)
+            Courrier de radiation
           </div>
           <div class="col">
             <button class="btn btn-outline-danger">
@@ -410,8 +414,8 @@
               CONTACT
             </span>
             <span class="arrows">
-              <fa-icon *ngIf="!opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="opened" icon="chevron-right"></fa-icon>
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
             </span>
           </button>
         </div>
@@ -435,7 +439,6 @@
 
 
   <div class="text-center" *ngIf="usager.decision.statut === 'valide'">
-
     <br>
     <div class="row">
       <div class="col">

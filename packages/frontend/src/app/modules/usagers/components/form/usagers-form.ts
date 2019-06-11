@@ -1,7 +1,7 @@
 import { PlatformLocation } from '@angular/common'
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, } from '@angular/router';
+import { ActivatedRoute, Router, } from '@angular/router';
 
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgbDateParserFormatter, NgbDatepickerI18n, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,9 +13,9 @@ import { DocumentService } from 'src/app/modules/usagers/services/document.servi
 import { UsagerService } from 'src/app/modules/usagers/services/usager.service';
 import { NgbDateCustomParserFormatter } from 'src/app/services/date-formatter';
 import { CustomDatepickerI18n } from 'src/app/services/date-french';
-import { regexp } from '../../../../entities/validators';
+import { regexp } from '../../../../shared/validators';
+import { StructureService } from '../../../structures/services/structure.service';
 import { AyantDroit } from '../../interfaces/ayant-droit';
-import { StructureService } from '../../services/structure.service';
 
 const fadeInOut = trigger('fadeInOut', [
   transition(':enter', [
@@ -117,14 +117,14 @@ export class UsagersFormComponent implements OnInit {
     private structureService: StructureService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    location: PlatformLocation) {
+    location: PlatformLocation,
+    private router: Router) {
 
       location.onPopState(() => {
-
         console.log('pressed back!');
-
       });
     }
+
 
     public ngOnInit() {
 
@@ -147,11 +147,12 @@ export class UsagersFormComponent implements OnInit {
       };
 
       this.residence = {
-        "sr1": "Sans abris / squat",
+        "sr1": "Sans abris / Squat",
         "sr2": "Hôtel",
         "sr3": "Hébergement social (sans service courrier)",
         "sr4": "Hébergé chez un tiers",
-        "sr5": "Domicile mobile",
+        "sr5": "Domicile mobile (ex: caravane)",
+        // tslint:disable-next-line: object-literal-sort-keys
         "residenceAutre": "Autre",
       };
 
@@ -186,7 +187,7 @@ export class UsagersFormComponent implements OnInit {
             this.addAyantDroit(ayantDroit);
           }
         }, (error) => {
-          /* Redirect */
+          this.router.navigate(['/404']);
         });
       }
       else {
@@ -285,6 +286,12 @@ export class UsagersFormComponent implements OnInit {
 
     public deleteAyantDroit(i: number): void {
       (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
+    }
+
+    public resetAyantDroit(i: number): void {
+      while ((this.usagerForm.controls.ayantsDroits as FormArray).length !== 0) {
+        (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(0)
+      }
     }
 
     public newAyantDroit(ayantDroit: AyantDroit) {

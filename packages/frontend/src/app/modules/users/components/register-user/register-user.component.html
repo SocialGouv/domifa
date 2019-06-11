@@ -1,0 +1,73 @@
+<div class="step_form">
+  <div class=" text-center">
+    <h5 class="title">Vous pouvez désormais créer votre compte</h5>
+  </div>
+  <br><br>
+  <form [formGroup]="userForm" (ngSubmit)="submitUser()" autocomplete="off">
+    <div class="row">
+      <div class="col form-group required">
+        <label for="nom">Nom</label>
+        <input type="text" class="form-control" id="nom" formControlName="nom" placeholder="Nom" [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" required>
+        <div *ngIf="submitted && f.nom.errors" class="invalid-feedback" autocomplete="null">
+          <div *ngIf="f.nom.errors.required">
+            Le <b>nom</b> du demandeur est obligatoire
+          </div>
+        </div>
+      </div>
+      <div class="col form-group required">
+        <label for="prenom">Prénom</label>
+        <input type="text" class="form-control" id="prenom" formControlName="prenom" placeholder="Prénom" [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }" required>
+        <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback" autocomplete="null">
+          <div *ngIf="f.prenom.errors.required">
+            Le <b>Prénom</b> est obligatoire
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col form-group required">
+        <label for="fonction">Fonction</label>
+        <input type="text" class="form-control" id="fonction" formControlName="fonction" placeholder="Président.e, Directrice, etc." [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"
+          required>
+        <div *ngIf="submitted && f.fonction.errors" class="invalid-feedback" autocomplete="null">
+          <div *ngIf="f.fonction.errors.required">
+            Votre fonction est obligatoire
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col form-group required">
+        <label for="email">Votre adresse email</label>
+        <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" required>
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback" autocomplete="null">
+          <div *ngIf="f.email.errors.required">
+            L'adresse <b>Email</b> est obligatoire
+          </div>
+        </div>
+      </div>
+      <div class="col form-group required" id="passwordInput">
+        <label for="password">Mot de passe</label>
+        <input class="form-control" [type]="!hidePassword ? 'text' : 'password'" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="password" formControlName="password"
+          placeholder="6 caractères mininum" required>
+        <span>
+          <fa-icon *ngIf="hidePassword" (click)="hidePassword = false" icon="eye"></fa-icon>
+        </span>
+        <span>
+          <fa-icon *ngIf="!hidePassword" (click)="hidePassword = true" icon="eye-slash"></fa-icon>
+        </span>
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback" autocomplete="null">
+          <div *ngIf="f.password.errors.required">
+            Le <b>Mot de passe</b> est obligatoire
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="text-center">
+      <button class="btn btn-primary">Finaliser mon inscription</button>
+      <br><br><br>
+      <a href="" class="btn btn-outline-dark">Retour en arrière</a>
+    </div>
+  </form>
+</div>

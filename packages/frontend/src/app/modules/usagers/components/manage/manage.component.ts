@@ -39,10 +39,12 @@ export class ManageUsagersComponent implements OnInit {
   public ngOnInit() {
     // this.user = this.userService.getUser();
 
-    this.filters =  new Search({});
+    this.filters = localStorage.getItem('filters') ? new Search(JSON.parse(localStorage.getItem('filters'))) : new Search({});
+
     this.title = "Gérer vos domiciliés";
     this.usagers = [];
     this.searching = false;
+
 
     fromEvent(this.searchInput.nativeElement, 'keyup').pipe(map((event: any) => {
       return event.target.value;
@@ -65,6 +67,7 @@ export class ManageUsagersComponent implements OnInit {
   public getSearchBar() {
     return this.searchInput.nativeElement.value;
   }
+
   public resetSearchBar() {
     this.searchInput.nativeElement.value = '';
     this.filters =  new Search({});
@@ -93,6 +96,7 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public search() {
+    localStorage.setItem('filters',  JSON.stringify(this.filters));
     this.usagerService.search(this.filters).subscribe((usagers: Usager[]) => {
       this.usagers = usagers;
       this.searching = false;

@@ -95,8 +95,13 @@ body {
   border-radius: 2px;
 }
 
+.card-header button:hover {
+  background-color: #f1f1f1;
+
+}
 .card-header button {
   padding: 10px 20px;
+  background-color: #fafafa;
   width: 100%;
   text-transform: uppercase;
   font-weight: bold;
@@ -149,7 +154,6 @@ body {
   color: white;
 }
 
-
 .courrier:hover {
   color: #c62bd9;
 }
@@ -160,4 +164,25 @@ body {
 
 .active {
   color : var(--primary);
+}
+
+.step_form {
+  padding: 2.5rem 1rem;
+  border: 1px solid #e2e2e2;
+  max-width: 750px;
+  margin: 1rem auto;
+  border-radius: 4px;
+}
+
+.tooltip-inner {
+  background-color: #FAF8F8;
+  border: 0.5px solid #ECE7E7;
+  font-size: 0.85rem!important;
+  color: rgb(95, 107, 122);
+  max-width: 280px;
+  padding: 4px 8px;
+}
+
+.title {
+  font-weight: 700;
 }

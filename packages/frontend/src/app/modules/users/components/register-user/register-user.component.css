@@ -1,0 +1,9 @@
+#passwordInput {
+  position: relative;
+}
+
+#passwordInput span{
+  position: absolute;
+  top: 40px;
+  right: 30px;
+}

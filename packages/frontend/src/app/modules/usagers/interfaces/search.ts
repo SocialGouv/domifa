@@ -12,6 +12,6 @@ export class Search {
     this.echeance = search && search.echeance ||  null;
     this.id = search && search.id ||  null;
     this.name = search && search.name ||  null;
-    this.statut = search && search.statut ||  null;
+    this.statut = search && search.statut ||  'valide';
   }
 };

@@ -100,6 +100,7 @@ th {
 td:first-child,
 th:first-child {
   padding: 6px 25px;
+  border-left: 1px solid #e2e2e2;
   border-radius: 4px 0px 0 4px;
 }
 
@@ -109,21 +110,6 @@ th:last-child {
   padding: 6px 10px;
   text-align: right;
   border-radius: 0 4px 4px 0;
-}
-
-.valide {
-  border-left: 1px solid #e2e2e2!important;
-}
-
-.demande {
-  border-left: 4px solid  rgb(226, 168, 7)!important;
-}
-.refus {
-  border-left: 4px solid  #bc1516;
-}
-
-.instruction {
-  border-left: 4px solid  rgb(226, 168, 7)!important;
 }
 
 tbody tr {

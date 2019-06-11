@@ -1,6 +1,6 @@
 h1 {
   font-weight: 600;
- font-size: 2.6rem;
+  font-size: 2.6rem;
   line-height: 3.2rem;
   max-width: 780px;
   margin: 0.5rem auto;
@@ -12,7 +12,7 @@ h1 {
 }
 
 #home1 {
-  background: url("../../../assets/images/image_fond.jpg") no-repeat center;
+  background: url("/assets/images/image_fond.jpg") no-repeat center;
   -webkit-background-size: cover;
   background-size: cover;
   padding: 3rem 1rem;
