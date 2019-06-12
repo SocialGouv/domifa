@@ -10,6 +10,8 @@ export class Usager {
   public id: number;
   public nom: string;
   public prenom: string;
+  public surnom: string;
+
   public sexe: string;
   public dateNaissance: Date;
   public villeNaissance: string;
@@ -49,6 +51,7 @@ export class Usager {
 
     this.nom = usager && usager.nom || null;
     this.prenom = usager && usager.prenom || null;
+    this.surnom = usager && usager.surnom || null;
     this.sexe = usager && usager.sexe || 'homme';
     this.dateNaissance = usager && new Date(usager.dateNaissance) || null;
 

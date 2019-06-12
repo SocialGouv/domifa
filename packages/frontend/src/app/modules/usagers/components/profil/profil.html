@@ -20,12 +20,13 @@
           Dernier passage le <b>{{ usager.lastInteraction.visite | date: 'dd/MM/yyyy' }}</b>
         </span>
       </div>
-      <br><br>
+      <br>
       <ngb-alert type="warning" *ngIf="usager.decision.statut === 'demande'">
         Demande en cours, à valider par un responsable
       </ngb-alert>
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-10 offset-md-1">
       <ngb-alert @fadeInOut *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
@@ -46,9 +47,7 @@
       </ngb-alert>
     </div>
   </div>
-
-
-  <br><br>
+  <br>
   <div class="text-center">
     <h5><b>Signalez la réception d’un courrier ou un passage</b></h5>
     <br>
@@ -57,17 +56,17 @@
     <div class="col-md-4 offset-md-1" id="notif_form">
       <div>
         <fa-icon icon="envelope"></fa-icon>
-        <input [(ngModel)]="notifInputs.courrierIn" class="form-control" type="number">
+        <input min="0" max="100" [(ngModel)]="notifInputs.courrierIn" class="form-control" type="number">
         <span>Courriers reçus</span>
       </div>
       <div>
         <fa-icon icon="envelope"></fa-icon>
-        <input [(ngModel)]="notifInputs.recommandeIn" class="form-control" type="number">
+        <input min="0" max="100" [(ngModel)]="notifInputs.recommandeIn" class="form-control" type="number">
         <span>Avis de passage <b></b> reçus</span>
       </div>
       <div>
         <fa-icon icon="envelope"></fa-icon>
-        <input [(ngModel)]="notifInputs.colisIn" class="form-control" type="number">
+        <input min="0" max="100" [(ngModel)]="notifInputs.colisIn" class="form-control" type="number">
         <span>Colis reçus</span>
       </div>
     </div>
@@ -83,7 +82,7 @@
       <div class="text-center" (click)="setPassage('visite')">
         <fa-icon icon="walking" size="3x" class="visite actions_icones">
         </fa-icon>
-        <span>Est passé sans récupérer de courrier</span>
+        <span>Passage sans récupérer de courrier</span>
       </div>
       <div class="text-center" [ngClass]="appelAuj" (click)="setPassage('appel')">
         <fa-icon class="actions_icones appel" icon="phone" size="3x">
@@ -120,11 +119,10 @@
               <span *ngIf="usager.lastInteraction.courrierIn === null">Aucun courrier enregistré</span>
             </td>
             <td>
-              <span *ngIf="usager.lastInteraction.nbCourrier !== null">
+              <span *ngIf="usager.lastInteraction.nbCourrier !== null && usager.lastInteraction.nbCourrier !== 0">
                 <b>{{ usager.lastInteraction.nbCourrier }} courriers en attente</b>
               </span>
               <span *ngIf="usager.lastInteraction.nbCourrier === 0">Aucun courrier en attente</span>
-              <span *ngIf="usager.lastInteraction.courrierOut !== null"> - <b>Dernière récupération le {{ usager.lastInteraction.courrierOut | date: 'dd/MM/yyyy' }}</b></span>
             </td>
           </tr>
           <tr>
@@ -386,7 +384,7 @@
       <ng-template ngbPanelContent>
         <div class="row">
           <div class="col">
-            Attestation de domiciliation
+            Attestation de domiciliation à la date du jour
           </div>
 
           <div class="col">

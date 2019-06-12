@@ -26,6 +26,18 @@
   padding-top: 5px;
 }
 
+#filters button b {
+  background-color: white;
+  color: #4A4A4A;
+  border-radius: 100px;
+  padding: 0px 8px;
+  margin-left: 3px;
+  margin-top: -5px;
+  margin-right: -5px;
+  display: inline-block;
+}
+
+
 #filters .btn {
   border-radius: 100px;
   padding: 5px 25px;
@@ -78,7 +90,8 @@
   width: 10px;
   height: 10px;
   border-radius: 100px;
-  margin-top: -10px
+  margin-top: -10px;
+  text-transform: capitalize;
 }
 
 table {
@@ -89,8 +102,8 @@ table {
 
 td,
 th {
-  border-top: 1px solid #e2e2e2;
-  border-bottom: 1px solid #e2e2e2;
+  border-top: 1px solid #d2d2d2;
+  border-bottom: 1px solid #d2d2d2;
   vertical-align: middle;
   padding: 6px 5px;
   height: 52px;
@@ -100,13 +113,13 @@ th {
 td:first-child,
 th:first-child {
   padding: 6px 25px;
-  border-left: 1px solid #e2e2e2;
+  border-left: 1px solid #d2d2d2;
   border-radius: 4px 0px 0 4px;
 }
 
 td:last-child,
 th:last-child {
-  border-right: 1px solid #e2e2e2;
+  border-right: 1px solid #d2d2d2;
   padding: 6px 10px;
   text-align: right;
   border-radius: 0 4px 4px 0;
@@ -122,7 +135,7 @@ tbody tr:hover {
   outline: 0;
   border-color:white;
   cursor: pointer;
-  box-shadow: 0 0 0 5px rgba(179, 179, 179, 0.1),  0 0 0 1px rgba(104, 104, 104, 0.1) ;
+  box-shadow: 0 0 0 5px rgba(179, 179, 179, 0.3),  0 0 0 1px rgba(104, 104, 104, 0.25) ;
 }
 
 .icones_liste span {
@@ -143,7 +156,7 @@ tbody tr:hover {
 }
 
 .notification {
-  background-color: #f15555;
+  background-color: #e42f2f;
   border-radius: 16px;
   color: white;
   -webkit-text-stroke-width: 0px;
@@ -155,4 +168,28 @@ tbody tr:hover {
   box-shadow: 0 1px 3px rgba(74,74,74,0.6) ;
   top: -2px;
   right: -10px;
+}
+
+
+.letter:hover,
+.letter td:hover{
+  border: none;
+  box-shadow: 0 0 0 white!important;
+  background: white;
+}
+
+.letter td {
+  border: none!important;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 0;
+  height: 40px;
+  padding: 32px 0 0px 2px;
+}
+
+.usager_informations span {
+  display: none;
+  padding: 5px 15px;
+  opacity: 0.8;
+  border-radius: 50px;
 }

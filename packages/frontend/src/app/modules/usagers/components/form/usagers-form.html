@@ -1,11 +1,12 @@
 <br>
 <br>
+{{ usager.etapeDemande }}
 <div class="container" *ngIf="usager">
   <div class="row">
     <div id="steps">
       <div class="step" *ngFor="let etape of etapes; let i= index" id="step{{ i }}">
         <div (click)="changeStep(i); submitted= false">
-          <span *ngIf="usager.etapeDemande> i" class="step_number step_check">
+          <span *ngIf="usager.etapeDemande > i" class="step_number step_check">
             <fa-icon icon="check"></fa-icon>
           </span>
           <span *ngIf="usager.etapeDemande <= i" [ngClass]="usager.etapeDemande == i ? 'step_active' : ''" class="step_number">
@@ -109,7 +110,8 @@
     <!-- ///////// -->
     <div class="step_form" id="step_form0" *ngIf="usager.etapeDemande === 0">
       <form [formGroup]="usagerForm" (ngSubmit)="submitInfos()" autocomplete="off">
-        <h5 class="text-center">État civil du demandeur</h5>
+        <h5 class="text-center title">État-civil du demandeur</h5>
+        <br>
         <div class="form-group">
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" formControlName="sexe" id="homme" value="homme">
@@ -124,27 +126,35 @@
             </label>
           </div>
         </div>
+        <div class="row">
 
-        <div class="form-group required">
-          <label for="nom">Nom</label>
-          <input type="text" class="form-control" id="nom" formControlName="nom" placeholder="Nom du demandeur" [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" required>
-          <div *ngIf="submitted && f.nom.errors" class="invalid-feedback" autocomplete="null">
-            <div *ngIf="f.nom.errors.required">
-              Le <b>nom</b> du demandeur est obligatoire
+          <div class="col form-group required">
+            <label for="nom">Nom</label>
+            <input type="text" class="form-control " id="nom" formControlName="nom" placeholder="Nom du demandeur" [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" required>
+            <div *ngIf="submitted && f.nom.errors" class="invalid-feedback" autocomplete="null">
+              <div *ngIf="f.nom.errors.required">
+                Le <b>nom</b> du demandeur est obligatoire
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group required">
-          <label for="prenom">Prénom(s)</label>
-          <input type="text" class="form-control" id="prenom" formControlName="prenom" placeholder="Prénom(s) du demandeur" [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }" required>
-          <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback" autocomplete="null">
-            <div *ngIf="f.prenom.errors.required">
-              Le <b>Prénom</b> est obligatoire
+          <div class="col form-group required">
+            <label for="prenom">Prénom(s)</label>
+            <input type="text" class="form-control " id="prenom" formControlName="prenom" placeholder="Prénom(s) du demandeur" [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }" required>
+            <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback" autocomplete="null">
+              <div *ngIf="f.prenom.errors.required">
+                Le <b>Prénom</b> est obligatoire
+              </div>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-6 form-group">
+            <label for="surnom">Surnom ou prénom d'usage</label>
+            <input type="text" class="form-control " id="surnom" formControlName="surnom" placeholder="Surnom / Nom d'usage" [ngClass]="{ 'is-invalid': submitted && f.prenom.surnom }">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
             <div class="form-group required">
               <label for="dateNaissancePicker">Date de naissance</label>
               <div class="input-group">
@@ -170,7 +180,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-7">
+          <div class="col">
             <div class="form-group required">
               <label for="villeNaissance">Ville de naissance</label>
               <input type="text" class="form-control" id="villeNaissance" formControlName="villeNaissance" placeholder="Ville (préciser le pays si à l'étranger)" autocomplete="null"
@@ -182,7 +192,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-5">
+          <div class="col">
             <div class="form-group">
               <label for="phone">Numéro de téléphone</label>
               <input type="text" class="form-control" id="phone" formControlName="phone" aria-describedby="phoneHelp" [ngClass]="{ 'is-invalid': f.phone.errors }" placeholder="0606060606"
@@ -195,7 +205,7 @@
               </small>
             </div>
           </div>
-          <div class="col-md-7">
+          <div class="col">
             <div class="form-group">
               <label for="email">Adresse e-mail</label>
               <input type="email" class="form-control" id="email" formControlName="email" aria-describedby="emailHelp" [ngClass]="{ 'is-invalid': f.email.errors }" placeholder="adresse@mail.com"
@@ -234,10 +244,10 @@
             </div>
           </div>
           <ngb-alert @fadeInOut [dismissible]="false" type="warning" *ngIf="f.email.value === null && f.preference.get('email').value === true ">
-            Pour envoyer les notifications par mail, veuillez remplir le champ email
+            <fa-icon icon="exclamation-triangle"></fa-icon> &nbsp; Pour envoyer les notifications par mail, <b>veuillez compléter le champ email</b>
           </ngb-alert>
           <ngb-alert @fadeInOut [dismissible]="false" type="warning" *ngIf="f.phone.value === null && f.preference.get('phone').value === true ">
-            Pour envoyer les notifications par SMS, veuillez indiquer un numéro de téléphone
+            <fa-icon icon="exclamation-triangle"></fa-icon> &nbsp; Pour envoyer les notifications par SMS, <b>veuillez indiquer un numéro de téléphone</b>
           </ngb-alert>
         </div>
         <br>
@@ -272,23 +282,19 @@
             <div [formGroupName]="i" class="row">
               <div class="col form-group required">
                 <label for>Nom</label>
-                <input type="text" class="form-control" formControlName="nom" [ngClass]="{ 'is-invalid': submitted &&
-              f.ayantsDroits.controls[i].get('nom').errors }" placeholder="Nom de l'ayant droit">
+                <input type="text" class="form-control" formControlName="nom" [ngClass]="{ 'is-invalid': submitted && f.ayantsDroits.controls[i].get('nom').errors }"
+                  placeholder="Nom de l'ayant droit">
                 <div *ngIf="submitted &&
               f.ayantsDroits.controls[i].get('nom').errors" class="invalid-feedback">
                   <div>
-                    Le
-                    <b>nom de l'ayant</b>
-                    est obligatoire
+                    Le <b>nom de l'ayant</b> est obligatoire
                   </div>
                 </div>
               </div>
               <div class="col form-group required">
                 <label for>Prénom</label>
-                <input type="text" class="form-control" formControlName="prenom" [ngClass]="{ 'is-invalid': submitted &&
-            f.ayantsDroits.controls[i].get('prenom').errors }" placeholder="Prénom">
-                <div *ngIf="submitted &&
-            f.ayantsDroits.controls[i].get('prenom').errors" class="invalid-feedback">
+                <input type="text" class="form-control" formControlName="prenom" [ngClass]="{ 'is-invalid': submitted &&  f.ayantsDroits.controls[i].get('prenom').errors }" placeholder="Prénom">
+                <div *ngIf="submitted &&  f.ayantsDroits.controls[i].get('prenom').errors" class="invalid-feedback">
                   <div> Le <b>prénom de l'ayant</b> est obligatoire
                   </div>
                 </div>
@@ -351,7 +357,7 @@
     <!-- ETAPE 2 RENDEZVOUS -->
     <!-- ///////// -->
 
-    <div class="step_menu" *ngIf="usager.etapeDemande> 1 && usager.decision.statut !== 'valide'">
+    <div class="step_menu" *ngIf="usager.etapeDemande > 1 && usager.decision.statut !== 'valide'">
       <div class="row">
         <div class="col-md-6">
           Dossier enregistré par
@@ -370,10 +376,10 @@
 
     <div class="step_form" *ngIf="usager.etapeDemande === 1" id="step_form1">
       <div class="text-center">
-        <h5>
+        <h5 class="title">
           Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom || null }} ?
         </h5>
-        <p></p>
+        <br>
       </div>
       <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
         <div class="row text-center">
@@ -451,9 +457,10 @@
     <div class="step_form" *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'non'">
       <div class="row text-center">
         <div class="col">
-          <h5>
+          <h5 class="title">
             Prise de rendez-vous entre le demandeur et un agent
           </h5>
+          <br>
           <p>
             Le rendez-vous avec <b>{{ usager.nom }} {{ usager.prenom }}</b> est confirmé
             <br>
@@ -481,8 +488,9 @@
     <div class="step_form" id="step_form2" *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'oui'">
       <form [formGroup]="entretienForm" (ngSubmit)="submitEntretien()">
         <div class="text-center">
-          <h5>Entretien avec le demandeur</h5>
+          <h5 class="title">Entretien avec le demandeur</h5>
         </div>
+        <br>
         <div class="row">
           <div class="col">
             <div>
@@ -651,7 +659,7 @@
 
       <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
         <div class="row">
-          <div class="col-md-5">
+          <div class="col">
             <div class="form-group required">
               <label for="label">Nom de la pièce</label>
               <input type="text" class="form-control" formControlName="label" id="label" aria-describedby="helpId" placeholder="Lettre, impots, carte identité, etc..." required>
@@ -661,7 +669,7 @@
 
             </div>
           </div>
-          <div class="col-md-5">
+          <div class="col">
             <label for>Document à enregistrer</label>
             <div class="form-group custom-file">
               <input type="file" class="custom-file-input" id="pieceJointe" (change)="onFileChange($event)"
@@ -839,7 +847,7 @@
     </div>
     <div class="modal-body">
       <div class="col">
-        Vous êtes sur le point de domicilier {{ usager.nom }} {{ usager.prenom }}.
+        Vous êtes sur le point de domicilier <b>{{ usager.nom }} {{ usager.prenom }}</b>.
         Il n’y aura aucune validation par une autre personne que vous.<br><br> <b>Êtes-vous sûr ?</b>
       </div>
     </div>

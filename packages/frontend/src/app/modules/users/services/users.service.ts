@@ -18,7 +18,7 @@ export class UsersService {
     return this.http.get(`${this.endPoint}${id}/`);
   }
 
-  public create(id: number) {
-    return this.http.get(`${this.endPoint}${id}/`);
+  public create(data: any) {
+    return this.http.post(`${this.endPoint}/`, data);
   };
 }

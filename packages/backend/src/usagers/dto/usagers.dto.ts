@@ -16,6 +16,9 @@ export class UsagersDto {
   @IsNotEmpty()
   public prenom: string;
 
+  @IsOptional()
+  public surnom: string;
+
   @IsNotEmpty()
   public dateNaissance: Date;
 

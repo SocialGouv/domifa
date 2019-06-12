@@ -211,6 +211,9 @@ export class UsagersService {
         },
         {
           prenom: { $regex: '.*' + query.name + '.*', $options: '-i' }
+        },
+        {
+          surnom: { $regex: '.*' + query.name + '.*', $options: '-i' }
         }
       ];
     }
@@ -224,6 +227,7 @@ export class UsagersService {
     }
 
     return this.usagerModel.find(searchQuery)
+    .collation({locale: "en" })
     .sort(this.sort)
     .lean()
     .exec();

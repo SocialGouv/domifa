@@ -11,6 +11,7 @@ export interface Usager extends Document {
   id: number;
   nom: string;
   prenom: string;
+  surnom: string;
   sexe: string;
 
   dateNaissance: Date;

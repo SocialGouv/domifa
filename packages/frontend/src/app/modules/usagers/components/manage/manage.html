@@ -1,5 +1,6 @@
 <div class="container" id="manage">
   <h4 class="text-center"><b>Bonjour Domifa</b></h4>
+  <br>
   <div class="row">
     <div class="col-md-6 offset-md-3 ">
       <div class="form-group">
@@ -7,7 +8,7 @@
           <span id="search_icon">
             <fa-icon icon="search"></fa-icon>
           </span>
-          <input type="text" [(ngModel)]="searchWord" #searchInput placeholder="Recherche par nom, prénom ou numéro de domicilié" class="form-control">
+          <input type="text" [(ngModel)]="filters.name" #searchInput placeholder="Recherche par nom, prénom ou numéro de domicilié" class="form-control">
           <span *ngIf="searchInput.value !== ''" (click)="resetSearchBar()" id="times_icon">
             <fa-icon icon="times-circle"></fa-icon>
           </span>
@@ -19,7 +20,7 @@
     <div class="row">
       <span> Statut : </span>
       <button class="btn" [ngClass]="(filters.statut === 'valide') ?  'btn-primary': 'btn-outline-dark'" (click)="updateFilters('statut', 'valide')">
-        Actif
+        Actif <b *ngIf="filters.statut === 'valide'">{{ usagers.length }}</b>
       </button>
       <button class="btn " [ngClass]="(filters.statut === 'instruction') ?  'btn-warning': 'btn-outline-dark'" (click)="updateFilters('statut', 'instruction')">
         À compléter
@@ -36,10 +37,10 @@
     </div>
     <div class="row">
       <span> Échéance : </span>
-      <button class="btn" [ngClass]="(filters.statut === 'radiation') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('statut', 'avenir')">
+      <button class="btn" [ngClass]="(filters.echeance === 'radiation') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('echeance', 'avenir')">
         Radiation possible
       </button>
-      <button class="btn" [ngClass]="(filters.statut === 'avenir') ?  'btn-dark': 'btn-outline-dark'" (click)="updateFilters('echeance', 'deuxmois')">
+      <button class="btn" [ngClass]="(filters.echeance === 'deuxmois') ?  'btn-dark' : 'btn-outline-dark'" (click)="updateFilters('echeance', 'deuxmois')">
         Renouvellement à venir
       </button>
     </div>
@@ -50,7 +51,6 @@
       </button>
     </div>
   </div>
-  <br> <br>
 
   <ngb-alert *ngIf="usagers.length === 0" [dismissible]='false' type="warning">
     <div class="text-center">
@@ -61,15 +61,21 @@
     </div>
   </ngb-alert>
 
+  <h3>{{ letter }}</h3>
   <div class="row">
     <table class="table">
-      <tbody>
-        <tr *ngFor="let usager of usagers;">
-          <td (click)="goToProfil(usager.id, usager.decision.statut)"  isComplete="'dhii'" scope="row" class="table_name">
-            <b>{{ usager.sexe === "femme" ? 'Mme' : 'M.' }} {{ usager.nom }} {{ usager.prenom }}</b> ({{ usager.id}})
+      <tbody *ngFor="let usager of usagers; let i = index">
+        <tr *ngIf="differentLetter(usager.nom, i)" class="letter">
+          <td colspan="4" class=" text-left">{{ getLetter(usager.nom) }}</td>
+        </tr>
+        <tr>
+          <td (click)="goToProfil(usager.id, usager.decision.statut)" scope="row" class="table_name">
+            {{ usager.sexe === 'homme' ? 'M.' : 'Mme' }} <b>{{ usager.nom }} </b> {{ usager.prenom }}
+            <b *ngIf="usager.surnom && usager.surnom !== null">( {{ usager.surnom }} )</b>
+            ({{ usager.id}})
           </td>
           <td (click)="goToProfil(usager.id, usager.decision.statut)">
-            <span *ngIf="usager.rdv">
+            <span *ngIf="usager.dateNaissance">
               {{ usager.dateNaissance | date:'dd/MM/yyyy' }}
             </span>
           </td>
@@ -90,7 +96,11 @@
               </span>
             </div>
           </td>
-          <td (click)="goToProfil(usager.id, usager.decision.statut)" *ngIf=" usager.decision.statut !=='valide'">
+          <td (click)="goToProfil(usager.id, usager.decision.statut)" class="text-right usager_informations" *ngIf=" usager.decision.statut !=='valide'">
+            <span *ngIf="usager.decision.statut === 'instruction'" class="bg-warning">Dossier à compléter</span>
+            <span *ngIf="usager.decision.statut === 'demande'" class="bg-dark">Demande en cours </span>
+            <span *ngIf="usager.decision.statut === 'radie'" class="bg-danger">Radié le <b>12/12/2019</b></span>
+            <span *ngIf="usager.decision.statut === 'refus'" class="bg-danger">Refusé le <b>12/12/2019</b></span>
           </td>
           <td (click)="goToProfil(usager.id, usager.decision.statut)" class="text-right">
             <span class="active" *ngIf="usager.decision.statut !== 'demande' && usager.decision.statut !== 'instruction'">

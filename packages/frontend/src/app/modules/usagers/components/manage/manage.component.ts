@@ -18,9 +18,9 @@ export class ManageUsagersComponent implements OnInit {
   public searching: boolean;
   public searchFailed: boolean;
   public usagers: Usager[];
-  public searchWord: string;
 
   public filters: Search;
+  public letter: string;
 
   public successMessage: string;
   public errorMessage: string;
@@ -44,19 +44,15 @@ export class ManageUsagersComponent implements OnInit {
     this.title = "Gérer vos domiciliés";
     this.usagers = [];
     this.searching = false;
-
+    this.letter = "";
 
     fromEvent(this.searchInput.nativeElement, 'keyup').pipe(map((event: any) => {
       return event.target.value;
     })
     ,debounceTime(300)
     ,distinctUntilChanged()).subscribe((text: any) => {
-      this.filters.name = null;
-      this.filters.id = null;
       text = text.trim();
-      if (text !== '') {
-        isNaN(text) ? this.filters.name = text : this.filters.id = text;
-      }
+      this.filters.name = text
       this.searching = true;
       this.search();
     });
@@ -95,10 +91,24 @@ export class ManageUsagersComponent implements OnInit {
     this.router.navigate([url]);
   }
 
+  public getLetter(nom: string): string {
+    return nom.charAt(0).toUpperCase();
+  }
+
+  public differentLetter(nom: string, i: number): boolean {
+    console.log("differentLetter("+nom+", " +i+")");
+    if (i !== undefined && i > 0) {
+      console.log(this.usagers[i - 1].nom.charAt(0).toUpperCase() + " !== " + nom.charAt(0).toUpperCase());
+      return this.usagers[i - 1].nom.charAt(0).toUpperCase() !== nom.charAt(0).toUpperCase();
+    }
+    return true;
+  }
+
   public search() {
     localStorage.setItem('filters',  JSON.stringify(this.filters));
     this.usagerService.search(this.filters).subscribe((usagers: Usager[]) => {
       this.usagers = usagers;
+
       this.searching = false;
     }, (error) => {
       this.changeSuccessMessage("Une erreur a eu lieu lors de la recherche", true);

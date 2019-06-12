@@ -136,7 +136,7 @@ body {
 }
 
 .appel:hover {
-  color: var(--secondary);
+  color: var(--secondary)!important;
 }
 
 .visite {
@@ -145,7 +145,7 @@ body {
 }
 
 .visite:hover {
-  color: #4668ff;
+  color: #4668ff!important;
 }
 
 .courrier {
@@ -155,7 +155,7 @@ body {
 }
 
 .courrier:hover {
-  color: #c62bd9;
+  color: #c62bd9!important;
 }
 
 .pointer {
@@ -167,8 +167,8 @@ body {
 }
 
 .step_form {
-  padding: 2.5rem 1rem;
-  border: 1px solid #e2e2e2;
+  padding: 2rem 1.5rem;
+  border: 1px solid #d2d2d2;
   max-width: 750px;
   margin: 1rem auto;
   border-radius: 4px;
@@ -185,4 +185,8 @@ body {
 
 .title {
   font-weight: 700;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }

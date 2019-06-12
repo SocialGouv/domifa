@@ -2,7 +2,6 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { Usager } from 'src/app/modules/usagers/interfaces/usager';
 import { regexp } from 'src/app/shared/validators';
 import { User } from '../../interfaces/user';
 import { UsersService } from '../../services/users.service';
@@ -74,7 +73,7 @@ export class RegisterUserComponent implements OnInit {
       });
     }
     else {
-      this.userService.create(this.userForm.value).subscribe((user: Usager) => {
+      this.userService.create(this.userForm.value).subscribe((user: User) => {
         this.changeSuccessMessage("Votre compte a bien été créé");
         this.user = new User(user);
       }, (error) => {

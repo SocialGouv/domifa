@@ -67,9 +67,7 @@ export class UsagersFormComponent implements OnInit {
   public minDateRdv = { day: this.dToday.getDate(), month: this.dToday.getMonth() + 1, year: this.dToday.getFullYear() };
   public maxDateRdv = { day: this.dToday.getDate(), month: this.dToday.getMonth() + 1, year: this.dToday.getFullYear() + 2 };
 
-
   public etapes = ["État civil", "Prise de RDV", "Entretien", "Pièces justificatives", "Décision finale"];
-  public etapeDemande: number;
 
   /* RDV */
   public httpError: any;
@@ -225,6 +223,7 @@ export class UsagersFormComponent implements OnInit {
         }),
         prenom: [this.usager.prenom, Validators.required],
         sexe: [this.usager.sexe, Validators.required],
+        surnom: [this.usager.surnom, []],
         structure: [this.usager.structure, []],
         villeNaissance: [this.usager.villeNaissance, [Validators.required]],
       });
@@ -318,6 +317,7 @@ export class UsagersFormComponent implements OnInit {
       if (this.usagerForm.invalid) {
         Object.keys(this.usagerForm.controls).forEach(key => {
           if (this.usagerForm.get(key).errors != null) {
+            console.log(this.usagerForm.get(key).errors);
             this.changeSuccessMessage("Un des champs du formulaire est incorrecte", true);
           }
         });
@@ -325,6 +325,7 @@ export class UsagersFormComponent implements OnInit {
       else {
         const dateNaissanceTmp = this.usagerForm.get('dateNaissancePicker').value;
         this.usagerForm.controls.dateNaissance.setValue(new Date(dateNaissanceTmp.year + '-' + dateNaissanceTmp.month + '-' + dateNaissanceTmp.day));
+        this.usagerForm.controls.etapeDemande.setValue(this.usager.etapeDemande);
 
         this.usagerService.create(this.usagerForm.value).subscribe((usager: Usager) => {
           this.changeSuccessMessage("Enregistrement réussi");
