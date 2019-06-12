@@ -11,9 +11,6 @@ export class UserDto {
   public readonly mail: string;
 
   @IsNotEmpty()
-  public readonly dateNaissance: Date;
-
-  @IsNotEmpty()
   public readonly password: string;
 
   @IsNotEmpty()
@@ -21,7 +18,7 @@ export class UserDto {
 
   @IsOptional()
   public readonly structure: {};
-  
+
   @IsOptional()
   public readonly phone: string;
 }
