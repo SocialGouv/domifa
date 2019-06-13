@@ -38,7 +38,7 @@ export class UsagersDto {
 
   @IsNotEmpty()
   public preference: {
-    mail: boolean,
+    email: boolean,
     phone: boolean
   };
 

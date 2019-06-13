@@ -12,7 +12,7 @@ export interface Structure extends Document {
   agrement: string,
   password: string,
   phone: string,
-  mail: string,
+  email: string,
   responsable: {
     fonction: string,
     nom: string,

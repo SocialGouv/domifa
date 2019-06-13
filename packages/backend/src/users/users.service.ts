@@ -23,14 +23,14 @@ export class UsersService {
   public async newUser(userDto: UserDto): Promise<User> {
 
     const createdUser = new this.userModel(userDto);
-    const structure = await this.structureService.findById(createdUser.structureID);
+    const structure = await this.structureService.findById(createdUser.structureId);
     createdUser.structure = structure;
     createdUser.id = this.lastId(await this.findLast());
     createdUser.password = await bcrypt.hash(createdUser.password, 10);
 
     try {
       const newUser = await createdUser.save();
-      this.structureService.addUser(newUser, createdUser.structureID);
+      this.structureService.addUser(newUser, createdUser.structureId);
 
       return newUser;
     } catch (error) {

@@ -2,6 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { regexp } from 'src/app/shared/validators';
 import { User } from '../../interfaces/user';
 import { UsersService } from '../../services/users.service';
@@ -48,7 +49,14 @@ export class RegisterUserComponent implements OnInit {
     this.title = "Inscription";
     this.hidePassword = true;
     this.user = new User({});
+    this.user.structureId = 2;
+
     this.initForm();
+
+    this.successSubject.subscribe((message) => { this.successMessage = message; this.errorMessage = null;});
+    this.errorSubject.subscribe((message) => { this.errorMessage = message;this.successMessage = null;});
+    this.successSubject.pipe(debounceTime(10000)).subscribe(() => this.successMessage = null);
+
   }
 
   public initForm() {
@@ -68,6 +76,8 @@ export class RegisterUserComponent implements OnInit {
     if (this.userForm.invalid) {
       Object.keys(this.userForm.controls).forEach(key => {
         if (this.userForm.get(key).errors != null) {
+          console.log(key);
+          console.log(this.userForm.get(key));
           this.changeSuccessMessage("Un des champs du formulaire est incorrecte", true);
         }
       });

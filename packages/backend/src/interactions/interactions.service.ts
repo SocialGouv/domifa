@@ -33,7 +33,7 @@ export class InteractionsService {
       usager.lastInteraction.nbCourrier = 0;
     }
 
-    createdInteraction.userName = user.firstName + ' ' + user.lastName;
+    createdInteraction.userName = user.prenom + ' ' + user.nom;
     createdInteraction.userId = user.id;
     createdInteraction.dateInteraction = new Date();
 

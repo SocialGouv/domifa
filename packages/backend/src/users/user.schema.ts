@@ -7,11 +7,11 @@ export const UserSchema = new mongoose.Schema({
     type: Number,
     unique: true
   },
-  email: String,
-  firstName: String,
-  lastName: String,
+  email: { type: String, unique: true, required: true },
+  prenom: String,
+  nom: String,
   password: String,
   phone: String,
   structure : {type: mongoose.Schema.Types.ObjectId, ref: 'Structure'},
-  structureID: Number
+  structureId: Number
 });

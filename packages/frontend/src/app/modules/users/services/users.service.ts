@@ -19,6 +19,6 @@ export class UsersService {
   }
 
   public create(data: any) {
-    return this.http.post(`${this.endPoint}/`, data);
+    return this.http.post(`${this.endPoint}`, data);
   };
 }

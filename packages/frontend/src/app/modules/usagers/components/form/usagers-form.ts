@@ -198,7 +198,7 @@ export class UsagersFormComponent implements OnInit {
         for (const agent of structure.users) {
           this.agents.push({
             id: agent.id,
-            name: agent.firstName + ' ' + agent.lastName
+            name: agent.prenom + ' ' + agent.nom
           });
         }
       });
@@ -307,7 +307,7 @@ export class UsagersFormComponent implements OnInit {
     }
 
     public changeStep(i: number) {
-      if (this.usager.decision.statut === 'instruction') {
+      if (this.usager.decision.statut === 'instruction' && this.usager.id !== 0) {
         this.usager.etapeDemande = i;
       }
     }

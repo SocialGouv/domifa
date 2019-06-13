@@ -1,7 +1,8 @@
-import { BadRequestException, Body, Controller, Delete, Get, Header, Logger, Param, Patch, Post, Query, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Header, HttpException, HttpStatus, Logger, Param, Patch, Post, Query, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer';
 import * as path from 'path';
+import { UsersService } from '../users/users.service';
 import { EntretienDto } from './dto/entretien';
 import { RdvDto } from './dto/rdv';
 import { SearchDto } from './dto/search';
@@ -16,8 +17,11 @@ export class UsagersController {
   private readonly logger = new Logger(UsagersController.name);
 
   constructor(private readonly usagersService: UsagersService,
+    private readonly usersService: UsersService,
     private readonly cerfaService: CerfaService)
-    { }
+    {
+
+    }
 
     /* FORMULAIRE INFOS */
     @Post()
@@ -26,14 +30,25 @@ export class UsagersController {
     }
 
     @Patch()
-    public patchUsager(@Body() usagerDto: UsagersDto) {
+    public async patchUsager(@Body() usagerDto: UsagersDto) {
+      const usager = await this.usagersService.findById(usagerDto.id);
+      if (!usager) {
+        throw new HttpException('Usager not found', HttpStatus.BAD_GATEWAY);
+      }
       return this.usagersService.patch(usagerDto);
     }
 
     /* RDV  */
     @Post('rdv/:id')
-    public postRdv(@Param('id') usagerId: number, @Body() rdvDto: RdvDto ) {
-      return this.usagersService.setRdv(usagerId, rdvDto);
+    public async postRdv(@Param('id') usagerId: number, @Body() rdvDto: RdvDto) {
+      const usager = await this.usagersService.findById(usagerId);
+      const user = await this.usersService.findById(rdvDto.userId);
+
+      if (!user || !usager) {
+        throw new HttpException('Usager not found', HttpStatus.BAD_GATEWAY);
+      }
+
+      return this.usagersService.setRdv(usagerId, rdvDto, user);
     }
 
     /* RDV  */
@@ -65,13 +80,18 @@ export class UsagersController {
     }
 
     @Get('attestation/:id')
-    @Header('Content-Type', 'application/pdf')
     public async getAttestation(@Param('id') usagerId: number, @Res() res) {
 
       const usager = await this.usagersService.findById(usagerId);
+      const user = await this.usersService.findById(2);
 
-      this.cerfaService.attestation(usager)
+      if (!user || !usager || usager === null) {
+        throw new HttpException('Usager not found', HttpStatus.NOT_FOUND);
+      }
+
+      this.cerfaService.attestation(usager, user)
       .then(buffer => {
+        res.setHeader('content-type', 'application/pdf');
         res.send(buffer);
       })
       .catch(err => {
@@ -90,8 +110,8 @@ export class UsagersController {
 
       this.usagersService.getDocument(usagerId, index)
       .then(fileInfos => {
-        const pathFile = path.resolve(__dirname, '../uploads/' + fileInfos.path);
-        res.sendFile(path.join(__dirname, '../uploads/' + fileInfos.path));
+        const pathFile = path.resolve(__dirname, '../../uploads/' + fileInfos.path);
+        res.sendFile(pathFile);
       })
       .catch(err => {
         this.logger.log("ERROR");
@@ -102,7 +122,7 @@ export class UsagersController {
     @Post('document/:usagerId')
     @UseInterceptors(FileInterceptor('file', {
       storage: diskStorage({
-        destination: 'src/uploads',
+        destination: path.resolve(__dirname, '../../uploads'),
         fileFilter: (req: any, file: any, cb: any) => {
           const mimeTest = !file.mimetype.match(/\/(jpg|jpeg|png|gif|pdf)$/);
           const sizeTest = file.size >= 5242880;
@@ -123,7 +143,7 @@ export class UsagersController {
         },
       }),
     }))
-    public uploadDoc(@Param('usagerId') usagerId, @UploadedFile() file, @Body() postData) {
+    public uploadDoc(@Param('usagerId') usagerId: number, @UploadedFile() file, @Body() postData) {
       return this.usagersService.addDocument(usagerId, file.filename, file.mimetype, postData.label);
     }
   }

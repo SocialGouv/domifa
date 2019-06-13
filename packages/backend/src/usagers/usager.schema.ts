@@ -119,7 +119,7 @@ export const UsagerSchema = new mongoose.Schema({
 
 
   preference : {
-    mail: Boolean,
+    email: Boolean,
     phone: Boolean
   },
 

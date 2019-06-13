@@ -1,3 +1,14 @@
+<div class="col-md-10 offset-md-1">
+  <div class="w-100"></div>
+  <ngb-alert @fadeInOut *ngIf="errorMessage" type="danger" (close)="errorMessage = null">
+    <strong>Erreur:</strong>
+    {{ errorMessage }}
+  </ngb-alert>
+  <ngb-alert @fadeInOut *ngIf="successMessage" type="success" (close)="successMessage = null">
+    <strong>{{ successMessage }}</strong>
+  </ngb-alert>
+</div>
+
 <div class="step_form">
   <div class=" text-center">
     <h5 class="title">Vous pouvez désormais créer votre compte</h5>

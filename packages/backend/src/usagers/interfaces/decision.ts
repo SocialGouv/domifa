@@ -1,8 +1,12 @@
 export interface Decision{
+
   dateDebut: Date,
   dateFin: Date,
+
   dateDemande: Date,
   dateInstruction: Date,
+  datePremiereDom: Date,
+
   statut: string,
   motif: string,
   userId: number,
@@ -10,7 +14,6 @@ export interface Decision{
   motifDetails: string,
   orientation: number,
   orientationDetails: string,
-
 
   userDecisionId: number,
   userDecisionName: string,

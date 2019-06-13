@@ -1,5 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Model } from "mongoose";
+import { User } from '../../users/user.interface';
 import { UsersService } from '../../users/users.service';
 import { EntretienDto } from '../dto/entretien';
 import { RdvDto } from '../dto/rdv';
@@ -26,7 +27,7 @@ export class UsagersService {
     const user = await this.usersService.findById(2);
     createdUsager.etapeDemande++;
     createdUsager.decision.dateInstruction = new Date();
-    createdUsager.decision.userInstructionName = user.firstName + ' ' + user.lastName;
+    createdUsager.decision.userInstructionName = user.prenom + ' ' + user.nom;
     createdUsager.decision.userInstructionId = 2;
 
     createdUsager.id = this.lastId(await this.findLastUsager());
@@ -55,7 +56,7 @@ export class UsagersService {
 
   public async setDecision(usagerId: number, decision: Decision): Promise<Usager> {
     const user = await this.usersService.findById(2);
-    const agent = user.firstName + ' ' + user.lastName;
+    const agent = user.prenom + ' ' + user.nom;
 
     if (decision.statut === 'demande') {
       decision.dateDemande = new Date();
@@ -102,8 +103,7 @@ export class UsagersService {
     }).select('-docsPath').exec();
   }
 
-  public async setRdv(usagerId: number, rdvDto: RdvDto): Promise<Usager> {
-    const user = await this.usersService.findById(rdvDto.userId);
+  public async setRdv(usagerId: number, rdvDto: RdvDto, user: User): Promise<Usager> {
     /* GET USER NAME ID */
     return this.usagerModel.findOneAndUpdate({
       'id' : usagerId
@@ -112,7 +112,7 @@ export class UsagersService {
         "etapeDemande": 2,
         "rdv.dateRdv": rdvDto.dateRdv,
         "rdv.userId": rdvDto.userId,
-        "rdv.userName": user.lastName + ' ' + user.firstName,
+        "rdv.userName": user.nom + ' ' + user.prenom,
       }
     },{
       new: true

@@ -14,7 +14,7 @@ export const StructureSchema = new mongoose.Schema({
   agrement: String,
   password: String,
   phone: String,
-  mail: String,
+  email: String,
   responsable: {
     fonction: String,
     nom: String,

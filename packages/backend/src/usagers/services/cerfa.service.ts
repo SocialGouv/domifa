@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import pdftk = require('node-pdftk');
 import * as path from 'path';
+import { User } from '../../users/user.interface';
 import { UsersService } from '../../users/users.service';
 import { Usager } from '../interfaces/usagers';
 
@@ -14,15 +15,20 @@ export class CerfaService {
 
   }
 
-  public async attestation(usager: Usager) {
-    const user = await this.usersService.findById(2);
+  public async attestation(usager: Usager, user: User) {
 
-    this.logger.log("user");
-    this.logger.log(user);
-    this.logger.log("usager");
-    this.logger.log(usager);
+
+    if (!usager) {
+      this.logger.log("usager NOT FOUND");
+    }
 
     let pdfForm = '../../ressources/demande.pdf';
+
+    let ayantsDroitsTexte = '';
+    for (const ayantDroit of usager.ayantsDroits) { 
+      const dateNaissaceTmp = usager.dateNaissance.getDate() + '/' + (usager.dateNaissance.getMonth() + 1) + '/' + usager.dateNaissance.getFullYear();
+      ayantsDroitsTexte = ayantsDroitsTexte + ayantDroit.nom + ' ' + ayantDroit.prenom + ' ' + ayantDroit.dateNaissance + ' né(e) le ' + dateNaissaceTmp + '\t\t ';
+    }
 
     const sexe = usager.sexe === 'femme' ? '1' : '2';
     const motifsRefus = {
@@ -32,13 +38,6 @@ export class CerfaService {
       "refus4": "Absence de lien avec la commune (CCAS/commune)",
       "refusAutre": "Autre (précisez le motif)",
     };
-
-
-    let ayantsDroitsTexte = '';
-    for (const ayantDroit of usager.ayantsDroits) { 
-      const dateNaissaceTmp = usager.dateNaissance.getDate() + '/' + (usager.dateNaissance.getMonth() + 1) + '/' + usager.dateNaissance.getFullYear();
-      ayantsDroitsTexte = ayantsDroitsTexte + ayantDroit.nom + ' ' + ayantDroit.prenom + ' ' + ayantDroit.dateNaissance + ' né(e) le ' + dateNaissaceTmp + '\t\t ';
-    }
 
     const infosPdf = {
       "topmostSubform[0].Page1[0].AyantsDroits[0]": ayantsDroitsTexte || '',
@@ -67,11 +66,11 @@ export class CerfaService {
       infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] = user.structure.departement;
       infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] = user.structure.agrement;
       infosPdf["topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]"] = user.structure.adresse + ' ' + user.structure.ville + ' ' +  user.structure.codePostal;
-      infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] = user.structure.mail;
+      infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] = user.structure.email;
       infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = user.structure.phone;
       infosPdf["topmostSubform[0].Page1[0].Noms2[0]"] = usager.nom;
       infosPdf["topmostSubform[0].Page1[0].Prénoms2[0]"] = usager.prenom;
-      infosPdf["topmostSubform[0].Page1[0].AdressePostale[0]"] = user.structure.agrement + ', ' + user.structure.ville + ' ' +  user.structure.codePostal;
+      infosPdf["topmostSubform[0].Page1[0].AdressePostale[0]"] = user.structure.adresse + ' ' + user.structure.complementAdresse + ', ' + user.structure.ville + ' ' +  user.structure.codePostal;
     }
     else {
       infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = usager.phone || '';
@@ -106,7 +105,7 @@ export class CerfaService {
       infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] = user.structure.agrement;
 
       infosPdf["topmostSubform[0].Page1[0].AdressePostale[0]"] = adresseStructure ;
-      infosPdf["topmostSubform[0].Page1[0].Courriel[1]"] = user.structure.mail;
+      infosPdf["topmostSubform[0].Page1[0].Courriel[1]"] = user.structure.email;
       infosPdf["topmostSubform[0].Page1[0].téléphone[1]"] = user.structure.phone;
 
       infosPdf["topmostSubform[0].Page1[0].EntretienAvec[0]"] = usager.rdv.userName;
@@ -118,9 +117,11 @@ export class CerfaService {
         infosPdf["topmostSubform[0].Page2[0].OrientationProposée[0]"] = (usager.decision.orientation || '') + ' : ' + (usager.decision.orientationDetails || '');
       }
     }
+
     this.logger.log(__dirname);
     this.logger.log(path.resolve(__dirname, pdfForm));
     this.logger.log(typeof infosPdf);
+    this.logger.log(infosPdf);
 
     if (fs.readFileSync(path.resolve(__dirname, pdfForm))) {
       this.logger.log("OUVERTURE PDF réussie");
