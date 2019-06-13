@@ -69,14 +69,7 @@ export class UsagersController {
     public async getAttestation(@Param('id') usagerId: number, @Res() res) {
 
       const usager = await this.usagersService.findById(usagerId);
-
-      this.cerfaService.attestation(usager)
-      .then(buffer => {
-        res.send(buffer);
-      })
-      .catch(err => {
-        this.logger.log(err);
-      });
+      res.send(this.cerfaService.attestation(usager));
     }
 
     /* DOCUMENT */

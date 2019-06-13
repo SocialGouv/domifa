@@ -16,6 +16,12 @@ export class CerfaService {
 
   public async attestation(usager: Usager) {
     const user = await this.usersService.findById(2);
+
+    this.logger.log("user");
+    this.logger.log(user);
+    this.logger.log("usager");
+    this.logger.log(usager);
+
     let pdfForm = '../../ressources/demande.pdf';
 
     const sexe = usager.sexe === 'femme' ? '1' : '2';
@@ -114,7 +120,12 @@ export class CerfaService {
     }
     this.logger.log(path.resolve(__dirname, pdfForm));
     this.logger.log(typeof infosPdf);
-    return pdftk.input( fs.readFileSync(path.resolve(__dirname, pdfForm))).fillForm(infosPdf).flatten().output();
+
+    if (fs.readFileSync(path.resolve(__dirname, pdfForm))) {
+      this.logger.log("OUVERTURE PDF réussie");
+    }
+
+    return pdftk.input(fs.readFileSync(path.resolve(__dirname, pdfForm))).fillForm(infosPdf).output();
   }
 
 
