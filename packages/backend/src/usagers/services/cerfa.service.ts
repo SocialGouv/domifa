@@ -118,6 +118,7 @@ export class CerfaService {
         infosPdf["topmostSubform[0].Page2[0].OrientationProposée[0]"] = (usager.decision.orientation || '') + ' : ' + (usager.decision.orientationDetails || '');
       }
     }
+    this.logger.log(__dirname);
     this.logger.log(path.resolve(__dirname, pdfForm));
     this.logger.log(typeof infosPdf);
 

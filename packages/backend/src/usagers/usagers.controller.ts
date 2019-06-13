@@ -69,7 +69,14 @@ export class UsagersController {
     public async getAttestation(@Param('id') usagerId: number, @Res() res) {
 
       const usager = await this.usagersService.findById(usagerId);
-      res.send(this.cerfaService.attestation(usager));
+
+      this.cerfaService.attestation(usager)
+      .then(buffer => {
+        res.send(buffer);
+      })
+      .catch(err => {
+        this.logger.log(err);
+      });
     }
 
     /* DOCUMENT */
@@ -87,6 +94,7 @@ export class UsagersController {
         res.sendFile(path.join(__dirname, '../uploads/' + fileInfos.path));
       })
       .catch(err => {
+        this.logger.log("ERROR");
         this.logger.log(err);
       });
     }
