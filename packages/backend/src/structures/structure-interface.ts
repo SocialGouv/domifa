@@ -1,7 +1,6 @@
 import { Document } from 'mongoose';
 
 export interface Structure extends Document {
-
   adresse: string,
   complementAdresse: string,
   nom: string,

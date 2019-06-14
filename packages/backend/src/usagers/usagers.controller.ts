@@ -90,15 +90,15 @@ export class UsagersController {
       }
 
       this.cerfaService.attestation(usager, user)
-        .then(buffer => {
+      .then(buffer => {
         this.logger.log("buffer");
         this.logger.log(buffer);
         res.setHeader('content-type', 'application/pdf');
         res.send(buffer);
       })
       .catch(err => {
-        this.logger.log("err");
         this.logger.log(err);
+        this.logger.log("err");
       });
     }
 
