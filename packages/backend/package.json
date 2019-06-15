@@ -30,7 +30,7 @@
     "@types/mongoose": "^5.3.26",
     "@types/passport-jwt": "^3.0.1",
     "bcrypt": "^3.0.6",
-    "braces": "^3.0.2",
+    "braces": "^2.3.1",
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
     "forever": "^1.0.0",
