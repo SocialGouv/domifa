@@ -91,14 +91,14 @@ export class UsagersController {
 
       this.cerfaService.attestation(usager, user)
       .then(buffer => {
-        this.logger.log("buffer");
-        this.logger.log(buffer);
+        this.logger.log("BUFFER");
         res.setHeader('content-type', 'application/pdf');
         res.send(buffer);
       })
       .catch(err => {
+        this.logger.log("Erreur Cerfa ");
         this.logger.log(err);
-        this.logger.log("err");
+        throw new HttpException('ERREUR CERFA', HttpStatus.BAD_REQUEST);
       });
     }
 
