@@ -63,7 +63,7 @@
     "supertest": "^3.4.1",
     "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
-    "tsconfig-paths": "^3.7.0",
+    "tsconfig-paths": "^3.8.0",
     "tslint": "^5.14.0",
     "tslint-config-prettier": "^1.18.0",
     "typeorm": "^0.2.18",
