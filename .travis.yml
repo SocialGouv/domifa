@@ -37,9 +37,9 @@ jobs:
         - yarn build --stream
         - travis_fold end "yarn.build"
         #
-        # - travis_fold start "yarn.lint"
-        # - yarn lint --stream
-        # - travis_fold end "yarn.lint"
+        - travis_fold start "yarn.lint"
+        - yarn lint --stream
+        - travis_fold end "yarn.lint"
         #
         - travis_fold start "yarn.test"
         - yarn run -- test --stream -- --coverage

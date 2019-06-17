@@ -150,7 +150,7 @@ export class UsagersService {
         },
         {
           $set: {
-            etapeDemande: 2,
+            "etapeDemande": 2,
             "rdv.dateRdv": rdvDto.dateRdv,
             "rdv.userId": rdvDto.userId,
             "rdv.userName": user.nom + " " + user.prenom
@@ -267,7 +267,7 @@ export class UsagersService {
       $or?: any[];
       interactionType?: string;
       interactionStatut?: boolean;
-      "decisionSent.statut"?: {};
+      "decision.statut"?: {};
       "lastInteraction.nbre"?: {};
       structure?: string;
     }
@@ -289,7 +289,7 @@ export class UsagersService {
     }
 
     if (query.statut) {
-      searchQuery["decisionSent.statut"] = query.statut;
+      searchQuery["decision.statut"] = query.statut;
     }
 
     if (query.interactionType) {
