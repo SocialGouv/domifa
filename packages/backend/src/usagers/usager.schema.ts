@@ -1,13 +1,12 @@
 // tslint:disable: object-literal-sort-keys
-import * as mongoose from 'mongoose';
-import { Usager } from './interfaces/usagers';
-mongoose.set('debug', true);
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
+import * as mongoose from "mongoose";
+import { Usager } from "./interfaces/usagers";
+mongoose.set("debug", true);
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
 export const UsagerSchema = new mongoose.Schema({
-
   id: {
     type: Number,
     unique: true
@@ -33,7 +32,7 @@ export const UsagerSchema = new mongoose.Schema({
   etapeDemande: Number,
 
   decision: {
-    agent : String,
+    agent: String,
     dateDebut: Date,
     dateDemande: Date,
     dateFin: Date,
@@ -47,8 +46,7 @@ export const UsagerSchema = new mongoose.Schema({
     userDecisionId: Number,
     userDecisionName: String,
     userInstructionId: Number,
-    userInstructionName: String,
-
+    userInstructionName: String
   },
 
   historique: String,
@@ -56,7 +54,7 @@ export const UsagerSchema = new mongoose.Schema({
   rdv: {
     dateRdv: Date,
     userId: Number,
-    userName: String,
+    userName: String
   },
 
   entretien: {
@@ -71,54 +69,52 @@ export const UsagerSchema = new mongoose.Schema({
     pourquoiDetail: String,
     accompagnement: Boolean,
     accompagnementDetail: String,
-    commentaires: String,
+    commentaires: String
   },
-
 
   lastInteraction: {
     type: {
       nbCourrier: {
-        type : Number,
+        type: Number,
         default: 0
       },
       courrierIn: {
-        type : Date,
+        type: Date,
         default: null
       },
       courrierOut: {
-        type : Date,
+        type: Date,
         default: null
       },
       recommandeIn: {
-        type : Date,
+        type: Date,
         default: null
       },
       recommandeOut: {
-        type : Date,
+        type: Date,
         default: null
       },
       appel: {
-        type : Date,
+        type: Date,
         default: null
       },
       visite: {
-        type : Date,
+        type: Date,
         default: null
-      },
+      }
     },
     default: {
       nbCourrier: 0,
       courrierIn: null,
       courrierOut: null,
-      recommandeIn:null,
-      recommandeOut :null,
+      recommandeIn: null,
+      recommandeOut: null,
       appel: null,
-      visite: null,
+      visite: null
     }
   },
 
-
-  preference : {
+  preference: {
     email: Boolean,
     phone: Boolean
   },
@@ -127,9 +123,9 @@ export const UsagerSchema = new mongoose.Schema({
   docsPath: []
 });
 
-UsagerSchema.pre<Usager>('save', function (next) {
-  this.nom = this.nom.charAt(0).toUpperCase() + this.nom.slice(1)
-  this.prenom = this.prenom.charAt(0).toUpperCase() + this.prenom.slice(1)
-  this.surnom = this.surnom.charAt(0).toUpperCase() + this.surnom.slice(1)
+UsagerSchema.pre<Usager>("save", function (next) {
+  this.nom = this.nom.charAt(0).toUpperCase() + this.nom.slice(1);
+  this.prenom = this.prenom.charAt(0).toUpperCase() + this.prenom.slice(1);
+  this.surnom = this.surnom.charAt(0).toUpperCase() + this.surnom.slice(1);
   next();
 });

@@ -1,10 +1,23 @@
-import { Injectable} from '@angular/core';
-import { NgbDatepickerI18n, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { Injectable } from "@angular/core";
+import { NgbDatepickerI18n, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
 const I18N_VALUES = {
-  'fr': {
-    months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-    weekdays: ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'],
+  fr: {
+    months: [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre"
+    ],
+    weekdays: ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
   }
   // other languages you would support
 };
@@ -12,7 +25,6 @@ const I18N_VALUES = {
 // Define custom service providing the months and weekdays translations
 @Injectable()
 export class CustomDatepickerI18n extends NgbDatepickerI18n {
-
   public getWeekdayShortName(weekday: number): string {
     return I18N_VALUES.fr.weekdays[weekday - 1];
   }

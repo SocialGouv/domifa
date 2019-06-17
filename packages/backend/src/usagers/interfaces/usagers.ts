@@ -1,11 +1,11 @@
-import { Document } from 'mongoose';
-import { Interaction } from '../../interactions/interactions.interface';
-import { AyantDroit } from './ayant-droit';
-import { Decision } from './decision';
-import { Doc } from './doc';
-import { Entretien } from './entretien';
-import { LastInteraction } from './last-interaction';
-import { Rdv } from './rdv';
+import { Document } from "mongoose";
+import { Interaction } from "../../interactions/interactions.interface";
+import { AyantDroit } from "./ayant-droit";
+import { Decision } from "./decision";
+import { Doc } from "./doc";
+import { Entretien } from "./entretien";
+import { LastInteraction } from "./last-interaction";
+import { Rdv } from "./rdv";
 
 export interface Usager extends Document {
   id: number;
@@ -20,7 +20,7 @@ export interface Usager extends Document {
   email: string;
   phone: string;
 
-  ayantsDroits: AyantDroit[]
+  ayantsDroits: AyantDroit[];
 
   etapeDemande: number;
 
@@ -39,7 +39,4 @@ export interface Usager extends Document {
   lastInteraction: LastInteraction;
 
   interactions: Interaction[];
-
 }
-
-

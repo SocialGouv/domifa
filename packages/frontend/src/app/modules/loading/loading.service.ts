@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class LoadingService {
-
-  get loading():boolean {
+  get loading(): boolean {
     return this._loading;
   }
 
@@ -23,10 +22,8 @@ export class LoadingService {
   }
 
   public stopLoading() {
-    setTimeout( ( ) => {
+    setTimeout(() => {
       this.loading = false;
     }, 200);
   }
-
-
 }

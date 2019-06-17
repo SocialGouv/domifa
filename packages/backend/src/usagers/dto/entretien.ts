@@ -28,5 +28,4 @@ export class EntretienDto {
   public accompagnementDetail: string;
 
   public commentaires: string;
-
 }

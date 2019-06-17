@@ -1,17 +1,24 @@
-import { Body, Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
-import { Request } from 'express';
-import { UserDto } from './user.dto';
-import { User } from './user.interface';
-import { UsersService } from './users.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req
+} from "@nestjs/common";
+import { Request } from "express";
+import { UserDto } from "./user.dto";
+import { User } from "./user.interface";
+import { UsersService } from "./users.service";
 
-@Controller('users')
+@Controller("users")
 export class UsersController {
-
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   public async create(@Body() userDto: UserDto) {
-    return this.usersService.newUser(userDto)
+    return this.usersService.newUser(userDto);
   }
 
   @Get()
@@ -20,8 +27,8 @@ export class UsersController {
     // return 'This action returns all USERS';
   }
 
-  @Delete(':id')
-  public deleteOne(@Param('id') id: number) {
+  @Delete(":id")
+  public deleteOne(@Param("id") id: number) {
     return this.usersService.deleteById(id);
   }
 }

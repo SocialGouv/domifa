@@ -1,11 +1,19 @@
-import { Body, Controller, Get, HttpCode,  HttpStatus,  Post, Response } from '@nestjs/common';
-import { User } from '../users/user.interface';
-import { UsersService } from '../users/users.service';
-import { AuthService } from './auth.service';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Response
+} from "@nestjs/common";
+import { User } from "../users/user.interface";
+import { UsersService } from "../users/users.service";
+import { AuthService } from "./auth.service";
 
 @Controller("auth")
 export class AuthController {
-/*
+  /*
     @Post('login')
     public async loginUser(@Response() res: any, @Body() body: User) {
       if (!(body && body.email && body.password)) {
@@ -41,4 +49,4 @@ export class AuthController {
         return res.status(HttpStatus.OK).json(userSave);
       }
       */
-  }
+}

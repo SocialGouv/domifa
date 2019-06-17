@@ -1,5 +1,5 @@
-import { Document } from 'mongoose';
-import { TypeInteraction } from './interactions.enum';
+import { Document } from "mongoose";
+import { TypeInteraction } from "./interactions.enum";
 
 export interface Interaction extends Document {
   type: TypeInteraction;
@@ -7,5 +7,5 @@ export interface Interaction extends Document {
   content?: string;
   nbCourrier?: number;
   userName?: string;
-  userId: number
+  userId: number;
 }

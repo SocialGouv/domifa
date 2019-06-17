@@ -7,11 +7,11 @@ export class Search {
   public id: number;
 
   constructor(search?: any) {
-    this.interactionType = search && search.interactionType ||  null;
-    this.interactionStatut = search && search.interactionStatut ||  null;
-    this.echeance = search && search.echeance ||  null;
-    this.id = search && search.id ||  null;
-    this.name = search && search.name ||  null;
-    this.statut = search && search.statut ||  'valide';
+    this.interactionType = (search && search.interactionType) || null;
+    this.interactionStatut = (search && search.interactionStatut) || null;
+    this.echeance = (search && search.echeance) || null;
+    this.id = (search && search.id) || null;
+    this.name = (search && search.name) || null;
+    this.statut = (search && search.statut) || "valide";
   }
-};
+}

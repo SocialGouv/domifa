@@ -1,12 +1,11 @@
-import { Rdv } from '../interfaces/rdv';
-import { AyantDroit } from './ayant-droit';
-import { Decision } from './decision';
-import { Doc } from './document';
-import { Entretien } from './entretien';
-import { LastInteraction } from './last-interaction';
+import { Rdv } from "../interfaces/rdv";
+import { AyantDroit } from "./ayant-droit";
+import { Decision } from "./decision";
+import { Doc } from "./document";
+import { Entretien } from "./entretien";
+import { LastInteraction } from "./last-interaction";
 
 export class Usager {
-
   public id: number;
   public nom: string;
   public prenom: string;
@@ -34,10 +33,9 @@ export class Usager {
   public historique: string;
 
   public preference: {
-    email: boolean,
-    phone: boolean
+    email: boolean;
+    phone: boolean;
   };
-
 
   public lastInteraction: LastInteraction;
 
@@ -46,46 +44,53 @@ export class Usager {
   public dateNaissancePicker: any;
 
   constructor(usager?: any) {
+    this.id = (usager && usager.id) || 0;
 
-    this.id = usager && usager.id || 0;
+    this.nom = (usager && usager.nom) || null;
+    this.prenom = (usager && usager.prenom) || null;
+    this.surnom = (usager && usager.surnom) || null;
+    this.sexe = (usager && usager.sexe) || "homme";
+    this.dateNaissance = (usager && new Date(usager.dateNaissance)) || null;
 
-    this.nom = usager && usager.nom || null;
-    this.prenom = usager && usager.prenom || null;
-    this.surnom = usager && usager.surnom || null;
-    this.sexe = usager && usager.sexe || 'homme';
-    this.dateNaissance = usager && new Date(usager.dateNaissance) || null;
+    this.dateNaissancePicker =
+      usager && usager.dateNaissance
+        ? {
+            day: this.dateNaissance.getDate(),
+            month: this.dateNaissance.getMonth() + 1,
+            year: this.dateNaissance.getFullYear()
+          }
+        : {};
 
-    this.dateNaissancePicker = usager && usager.dateNaissance ?
-    { day: this.dateNaissance.getDate(), month: this.dateNaissance.getMonth() + 1, year: this.dateNaissance.getFullYear() } : {};
+    this.villeNaissance = (usager && usager.villeNaissance) || null;
 
-    this.villeNaissance = usager && usager.villeNaissance || null;
+    this.email = (usager && usager.email) || null;
+    this.phone = (usager && usager.phone) || null;
+    this.docs = (usager && usager.docs) || [];
 
-    this.email =  usager && usager.email || null;
-    this.phone = usager && usager.phone || null;
-    this.docs =  usager && usager.docs || [];
+    this.agent = (usager && usager.agent) || null;
 
-    this.agent =  usager && usager.agent || null;
+    this.structure = (usager && usager.structure) || 2;
+    this.etapeDemande = (usager && usager.etapeDemande) || 0;
+    this.historique = (usager && usager.historique) || null;
 
-    this.structure = usager && usager.structure || 2;
-    this.etapeDemande =  usager && usager.etapeDemande || 0;
-    this.historique = usager && usager.historique || null;
+    this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv({});
+    this.lastInteraction =
+      (usager && new LastInteraction(usager.lastInteraction)) ||
+      new LastInteraction({});
 
-    this.rdv = usager && new Rdv(usager.rdv) || new Rdv({});
-    this.lastInteraction = usager && new LastInteraction(usager.lastInteraction) || new LastInteraction({});
+    this.entretien =
+      (usager && new Entretien(usager.entretien)) || new Entretien({});
 
-    this.entretien = usager && new Entretien(usager.entretien) || new Entretien({});
+    this.docs = (usager && usager.docs) || [];
 
-    this.docs = usager && usager.docs || [];
+    this.ayantsDroitsExist = (usager && usager.ayantsDroitsExist) || false;
+    this.ayantsDroits = (usager && usager.ayantsDroits) || [];
 
-    this.ayantsDroitsExist = usager && usager.ayantsDroitsExist || false;
-    this.ayantsDroits = usager && usager.ayantsDroits || [];
-
-    this.preference = usager && usager.preference || {
+    this.preference = (usager && usager.preference) || {
       email: false,
       phone: false
     };
 
-    this.decision = usager && usager.decision || new Decision({});
-
+    this.decision = (usager && usager.decision) || new Decision({});
   }
 }

@@ -1,8 +1,7 @@
 import { IsBoolean, IsNumber, IsOptional } from "class-validator";
-import { TypeInteraction } from '../../interactions/interactions.enum';
+import { TypeInteraction } from "../../interactions/interactions.enum";
 
 export class SearchDto {
-
   @IsOptional()
   public statut: string;
 

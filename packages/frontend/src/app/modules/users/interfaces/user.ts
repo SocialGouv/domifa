@@ -1,5 +1,4 @@
-export class User{
-
+export class User {
   public nom: string;
   public prenom: string;
   public email: string;
@@ -10,14 +9,13 @@ export class User{
   public structureId: number;
 
   constructor(user?: any) {
-    this.statut = user && user.statut || 'instructeur';
-    this.prenom = user && user.prenom || null;
-    this.nom = user && user.nom || null;
-    this.email = user && user.email || null;
-    this.fonction = user && user.fonction || null;
-    this.phone = user && user.phone || null;
-    this.statut = user && user.statut || null;
-    this.structureId = user && user.structureId || null;
-
+    this.statut = (user && user.statut) || "instructeur";
+    this.prenom = (user && user.prenom) || null;
+    this.nom = (user && user.nom) || null;
+    this.email = (user && user.email) || null;
+    this.fonction = (user && user.fonction) || null;
+    this.phone = (user && user.phone) || null;
+    this.statut = (user && user.statut) || null;
+    this.structureId = (user && user.structureId) || null;
   }
 }

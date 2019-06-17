@@ -1,4 +1,4 @@
-export interface Rdv{
+export interface Rdv {
   userId: string;
   dateRdv: Date;
   userName: string;

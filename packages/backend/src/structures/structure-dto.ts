@@ -1,7 +1,14 @@
-import { IsDate, IsEmail, IsIn, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber } from 'class-validator';
+import {
+  IsDate,
+  IsEmail,
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPhoneNumber
+} from "class-validator";
 
 export class StructureDto {
-
   @IsNumber()
   @IsOptional()
   public id: number;
@@ -40,11 +47,8 @@ export class StructureDto {
 
   @IsNotEmpty()
   public responsable: {
-    "fonction": string,
-    "nom": string,
-    "prenom": string
+    fonction: string;
+    nom: string;
+    prenom: string;
   };
 }
-
-
-

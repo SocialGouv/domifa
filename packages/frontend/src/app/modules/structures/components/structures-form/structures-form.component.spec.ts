@@ -1,21 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { StructuresFormComponent } from './structures-form.component';
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { StructuresFormComponent } from "./structures-form.component";
 
-describe('StructuresFormComponent', () => {
+describe("StructuresFormComponent", () => {
   let component: StructuresFormComponent;
   let fixture: ComponentFixture<StructuresFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [StructuresFormComponent],
-      imports:[NgbModule.forRoot(), ReactiveFormsModule, FormsModule, HttpClientModule],
-
-    })
-    .compileComponents();
+      imports: [
+        NgbModule.forRoot(),
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -24,7 +27,7 @@ describe('StructuresFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

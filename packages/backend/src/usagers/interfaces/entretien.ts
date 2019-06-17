@@ -1,5 +1,4 @@
 export interface Entretien {
-
   domiciliation: boolean;
   revenus: boolean;
   liencommune: string;
@@ -12,5 +11,4 @@ export interface Entretien {
   accompagnement: boolean;
   accompagnementDetail: string;
   commentaires: string;
-
 }

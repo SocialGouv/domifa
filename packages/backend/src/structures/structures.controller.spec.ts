@@ -9,7 +9,7 @@ describe("Stuctures Controller", () => {
   it("should be defined", async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [StructuresController],
-      imports: [ DatabaseModule, UsersModule, UsagersModule ],
+      imports: [DatabaseModule, UsersModule, UsagersModule],
       providers: [{ provide: StructuresService, useValue: {} }]
     }).compile();
 

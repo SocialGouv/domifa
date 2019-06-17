@@ -9,10 +9,8 @@ describe("Auth Controller", () => {
   it("should be defined", async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      imports: [ DatabaseModule, UsersModule, UsagersModule ],
-      providers: [
-        { provide: AuthService, useValue: {} }
-      ]
+      imports: [DatabaseModule, UsersModule, UsagersModule],
+      providers: [{ provide: AuthService, useValue: {} }]
     }).compile();
 
     const controller = module.get<AuthController>(AuthController);

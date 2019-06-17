@@ -1,14 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { environment } from "src/environments/environment";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class UsersService {
-
   public http: HttpClient;
-  private endPoint = environment.apiUrl+'users/';
+  private endPoint = environment.apiUrl + "users/";
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -20,5 +19,5 @@ export class UsersService {
 
   public create(data: any) {
     return this.http.post(`${this.endPoint}`, data);
-  };
+  }
 }

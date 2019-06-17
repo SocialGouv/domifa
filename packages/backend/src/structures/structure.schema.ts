@@ -1,6 +1,6 @@
 // tslint:disable: object-literal-sort-keys
 
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
 
 export const StructureSchema = new mongoose.Schema({
   id: Number,
@@ -17,7 +17,7 @@ export const StructureSchema = new mongoose.Schema({
   responsable: {
     fonction: { type: String, default: "", required: true },
     nom: { type: String, default: "", required: true },
-    prenom: { type: String, default: "", required: true },
+    prenom: { type: String, default: "", required: true }
   },
-  users : [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
+  users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
 });

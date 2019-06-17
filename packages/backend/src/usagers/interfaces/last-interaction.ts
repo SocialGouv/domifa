@@ -1,5 +1,4 @@
 export interface LastInteraction {
-
   nbCourrier: number;
   courrierIn: Date;
   courrierOut: Date;
@@ -7,5 +6,4 @@ export interface LastInteraction {
   recommandeOut: Date;
   appel: Date;
   visite: Date;
-
 }
