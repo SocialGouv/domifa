@@ -24,7 +24,7 @@ export class ManageUsagersComponent implements OnInit {
   public successMessage: string;
   public errorMessage: string;
 
-  @ViewChild("searchInput")
+  @ViewChild("searchInput", { static: true })
   public searchInput: ElementRef;
 
   private successSubject = new Subject<string>();

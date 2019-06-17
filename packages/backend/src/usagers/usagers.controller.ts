@@ -35,7 +35,7 @@ export class UsagersController {
     private readonly usagersService: UsagersService,
     private readonly usersService: UsersService,
     private readonly cerfaService: CerfaService
-  ) { }
+  ) {}
 
   /* FORMULAIRE INFOS */
   @Post()
@@ -139,14 +139,14 @@ export class UsagersController {
   ) {
     this.usagersService
       .getDocument(usagerId, index)
-      .then(fileInfos => {
+      .then((fileInfos) => {
         const pathFile = path.resolve(
           __dirname,
           "../../uploads/" + fileInfos.path
         );
         res.sendFile(pathFile);
       })
-      .catch(err => {
+      .catch((err) => {
         this.logger.log("ERROR");
         this.logger.log(err);
       });
