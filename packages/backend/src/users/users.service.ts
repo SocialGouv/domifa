@@ -1,4 +1,4 @@
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 
 import {
   BadRequestException,
@@ -50,7 +50,7 @@ export class UsersService {
   public async findByEmail(email: string): Promise<User> {
     return this.userModel
       .findOne({
-        email: email
+        email
       })
       .lean()
       .exec();
@@ -59,7 +59,7 @@ export class UsersService {
   public async findById(id: number): Promise<User> {
     return this.userModel
       .findOne({
-        id: id
+        id
       })
       .populate("structure")
       .lean()
@@ -69,7 +69,7 @@ export class UsersService {
   public async deleteById(id: number): Promise<User> {
     return this.userModel
       .findOneAndDelete({
-        id: id
+        id
       })
       .exec();
   }
