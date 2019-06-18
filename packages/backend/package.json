@@ -34,7 +34,7 @@
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
     "forever": "^1.0.0",
-    "fs": "^0.0.1-security",
+    "fs": "^0.0.2",
     "mongoose": "^5.5.2",
     "mongoose-auto-increment-reworked": "^1.2.1",
     "mongoose-sequence": "^5.0.1",
