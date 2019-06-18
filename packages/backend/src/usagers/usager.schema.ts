@@ -2,7 +2,6 @@
 import * as mongoose from "mongoose";
 import { Usager } from "./interfaces/usagers";
 mongoose.set("debug", true);
-mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
@@ -123,7 +122,7 @@ export const UsagerSchema = new mongoose.Schema({
   docsPath: []
 });
 
-UsagerSchema.pre<Usager>("save", function (next) {
+UsagerSchema.pre<Usager>("save", function(next) {
   this.nom = this.nom.charAt(0).toUpperCase() + this.nom.slice(1);
   this.prenom = this.prenom.charAt(0).toUpperCase() + this.prenom.slice(1);
   this.surnom = this.surnom.charAt(0).toUpperCase() + this.surnom.slice(1);
