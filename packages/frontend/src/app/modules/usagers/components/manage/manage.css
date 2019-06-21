@@ -21,14 +21,14 @@
 }
 
 #filters span {
-  color:#4A4A4A;
+  color: #4a4a4a;
   width: 100px;
   padding-top: 5px;
 }
 
 #filters button b {
   background-color: white;
-  color: #4A4A4A;
+  color: #4a4a4a;
   border-radius: 100px;
   padding: 0px 8px;
   margin-left: 3px;
@@ -36,7 +36,6 @@
   margin-right: -5px;
   display: inline-block;
 }
-
 
 #filters .btn {
   border-radius: 100px;
@@ -48,13 +47,13 @@
 .btn-outline-dark:hover,
 .btn-dark {
   color: white;
-  border-color:white;
-  background-color:  #9b9b9b;
+  border-color: white;
+  background-color: #9b9b9b;
 }
 
 .btn-outline-dark {
   border-color: #9b9b9b;
-  color: #4A4A4A;
+  color: #4a4a4a;
 }
 
 #searchbar {
@@ -74,15 +73,15 @@
   font-size: 18px;
 }
 
-#search_icon{
+#search_icon {
   left: 15px;
-  color:rgb(202, 202, 202);
+  color: rgb(202, 202, 202);
 }
 
-#times_icon{
+#times_icon {
   right: 15px;
-  color:rgb(43, 43, 43);
-  cursor :pointer;
+  color: rgb(43, 43, 43);
+  cursor: pointer;
 }
 
 .table_name span {
@@ -107,7 +106,6 @@ th {
   vertical-align: middle;
   padding: 6px 5px;
   height: 52px;
-
 }
 
 td:first-child,
@@ -133,9 +131,10 @@ tbody tr {
 tbody tr:hover {
   background-color: #fff;
   outline: 0;
-  border-color:white;
+  border-color: white;
   cursor: pointer;
-  box-shadow: 0 0 0 5px rgba(179, 179, 179, 0.3),  0 0 0 1px rgba(104, 104, 104, 0.25) ;
+  box-shadow: 0 0 0 5px rgba(179, 179, 179, 0.3),
+    0 0 0 1px rgba(104, 104, 104, 0.25);
 }
 
 .icones_liste span {
@@ -147,7 +146,7 @@ tbody tr:hover {
   cursor: pointer;
   margin-right: 25px;
   display: inline-block;
-  position: relative
+  position: relative;
 }
 
 .icones_liste span:hover {
@@ -165,30 +164,30 @@ tbody tr:hover {
   font-size: 13px;
   line-height: 100%;
   position: absolute;
-  box-shadow: 0 1px 3px rgba(74,74,74,0.6) ;
+  box-shadow: 0 1px 3px rgba(74, 74, 74, 0.6);
   top: -2px;
   right: -10px;
 }
 
-
 .letter:hover,
-.letter td:hover{
+.letter td:hover {
   border: none;
-  box-shadow: 0 0 0 white!important;
+  box-shadow: 0 0 0 white !important;
   background: white;
 }
 
 .letter td {
-  border: none!important;
-  font-size: 1.35rem;
+  border: none !important;
+  font-size: 0.9rem;
   font-weight: 600;
   line-height: 0;
-  height: 40px;
-  padding: 32px 0 0px 2px;
+  height: 13px;
+  padding: 15px 0 0 2px;
+  color: #505d68;
+  opacity: 0.8;
 }
 
 .usager_informations span {
-  display: none;
   padding: 5px 15px;
   opacity: 0.8;
   border-radius: 50px;

@@ -31,3 +31,9 @@
 h1 {
   font-family: Evolventa;
 }
+
+h4 {
+  font-family: Evolventa;
+  font-weight: 600;
+  margin: 20px 0px;
+}

@@ -35,6 +35,7 @@ export class Usager {
   public preference: {
     email: boolean;
     phone: boolean;
+    aucun: boolean;
   };
 
   public lastInteraction: LastInteraction;
@@ -87,6 +88,7 @@ export class Usager {
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
 
     this.preference = (usager && usager.preference) || {
+      aucun: false,
       email: false,
       phone: false
     };

@@ -1,5 +1,5 @@
 .profil {
-  color: #2E384D;
+  color: #2e384d;
 }
 
 #profil_head {
@@ -7,7 +7,7 @@
   max-width: 320px;
   max-width: 90%;
   margin: 0 auto;
-  border-bottom: 1px solid #2E384D;
+  border-bottom: 1px solid #2e384d;
 }
 
 #profil_name {
@@ -62,24 +62,10 @@ input[type="number"] {
 }
 
 .btn-pink {
-  background-color:  rgba(189,16,224,0.5);
+  background-color: rgba(189, 16, 224, 0.5);
   color: white;
 }
 
-.btn-pink:hover{
-  background-color: #BD10E0;
-}
-
-
-.arrows {
-  text-align: right;
-}
-
-.head-panel .btn {
-  position: relative;
-}
-
-.head-panel .arrows {
-  position: absolute;
-  right: 20px;
+.btn-pink:hover {
+  background-color: #bd10e0;
 }

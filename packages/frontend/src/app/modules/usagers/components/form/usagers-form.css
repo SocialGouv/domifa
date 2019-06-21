@@ -51,6 +51,12 @@
   color: var(--blue);
 }
 
+.step_text_inactive {
+  color: #afafaf;
+  border-color: #afafaf;
+  background-color: white;
+  cursor: not-allowed;
+}
 
 .step_menu {
   padding: 1rem;
@@ -60,9 +66,16 @@
   border-radius: 4px;
 }
 
+.step_inactive {
+  color: #afafaf;
+  border-color: #afafaf;
+  background-color: white;
+  cursor: not-allowed;
+}
 .step_active {
   background-color: var(--blue);
   color: white;
+  cursor: pointer;
 }
 
 .step_check {
@@ -70,6 +83,7 @@
   background-color: white;
   border-color: var(--success);
   color: var(--success);
+  cursor: pointer;
 }
 
 .separateur {
@@ -81,11 +95,20 @@
   margin: 0;
 }
 
+.separateur_inactive {
+  border-bottom: 1px solid #afafaf;
+  min-width: 100px;
+  width: 100%;
+  display: block;
+  height: 20px;
+  margin: 0;
+}
+
 .check_sep .separateur {
   border-color: var(--success);
 }
 
-.step_form .card{
+.step_form .card {
   margin: 15px auto;
   width: 90%;
   cursor: pointer;
@@ -126,7 +149,7 @@ label {
   margin-left: 5px;
 }
 
-.modal-body .form-check{
+.modal-body .form-check {
   margin: 5px 0;
 }
 
@@ -147,4 +170,9 @@ label {
 
 #heureRdv {
   margin: 0 auto;
+}
+
+.recap .card {
+  max-width: 750px;
+  margin: 0.5rem auto;
 }

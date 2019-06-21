@@ -1,20 +1,37 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">
-    <img src="../assets/images/logo.png" alt="Logo Domifa">
+<nav class="navbar navbar-expand-lg">
+  <a
+    class="navbar-brand"
+    href="#">
+    <img
+      src="../assets/images/logo.png"
+      alt="Logo Domifa">
   </a>
-  <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false"
+  <button
+    class="navbar-toggler hidden-sm-up"
+    type="button"
+    (click)="isNavbarCollapsed = !isNavbarCollapsed"
+    data-target="#navbarsDefault"
+    aria-controls="navbarsDefault"
+    aria-expanded="false"
     aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
+  <div
+    [ngbCollapse]="isNavbarCollapsed"
+    class="collapse navbar-collapse"
+    id="navbarsDefault">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active"></li>
     </ul>
     <div class="my-2 my-lg-0">
-      <a routerLink="/manage" class="btn btn-outline-primary">
+      <a
+        routerLink="/manage"
+        class="btn btn-outline-primary">
         Se connecter
       </a>
-      <a routerLink="/nouveau" class="btn btn-outline-secondary">
+      <a
+        routerLink="/nouveau"
+        class="btn btn-outline-secondary">
         <fa-icon icon="plus"></fa-icon>
         Créer une demande
       </a>
@@ -26,7 +43,9 @@
 </div>
 <footer class="page-footer">
   <div>
-    <img src="../assets/images/logoministere.jpg" alt="Logo Domifa">
+    <img
+      src="../assets/images/logoministere.jpg"
+      alt="Logo Domifa">
   </div>
   <div>
     <span>FAQ</span>
@@ -36,7 +55,9 @@
   </div>
   <div>
     <span>
-      <a [routerLink]="['/mentions-legales']" routerLinkActive="router-link-active">
+      <a
+        [routerLink]="['/mentions-legales']"
+        routerLinkActive="router-link-active">
         Mentions légales
       </a>
     </span>

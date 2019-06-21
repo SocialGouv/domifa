@@ -1,4 +1,5 @@
-html,body {
+html,
+body {
   height: 100%;
 }
 
@@ -8,7 +9,13 @@ body {
 
 .navbar {
   border: 1px solid #e0e0e0;
+  background-color: white;
   box-shadow: 0 0px 8px 2px rgba(215, 210, 210, 0.4);
+  position: fixed;
+  z-index: 200000;
+  width: 100%;
+  top: 0;
+  margin-bottom: 100px;
 }
 
 .navbar img {
@@ -20,6 +27,9 @@ body {
   margin: 5px;
 }
 
+#page {
+  padding-top: 80px;
+}
 .page-footer div {
   display: inline-block;
   min-width: 80px;
@@ -70,7 +80,6 @@ body {
   background-color: var(--green);
 }
 
-
 .hero {
   background-color: var(--primary);
   padding: 3rem 1rem;
@@ -87,7 +96,6 @@ body {
   max-width: 1100px;
 }
 
-
 .card-header {
   padding: 0;
   margin-bottom: 0;
@@ -97,7 +105,6 @@ body {
 
 .card-header button:hover {
   background-color: #f1f1f1;
-
 }
 .card-header button {
   padding: 10px 20px;
@@ -117,7 +124,6 @@ body {
   max-width: 950px;
 }
 
-
 .modal-dialog {
   max-width: 600px;
   width: 96%;
@@ -129,14 +135,13 @@ body {
   margin: 10px auto;
 }
 
-
 .appel {
   -webkit-text-stroke-color: var(--secondary);
   stroke: var(--secondary);
 }
 
 .appel:hover {
-  color: var(--secondary)!important;
+  color: var(--secondary) !important;
 }
 
 .visite {
@@ -145,7 +150,7 @@ body {
 }
 
 .visite:hover {
-  color: #4668ff!important;
+  color: #4668ff !important;
 }
 
 .courrier {
@@ -155,7 +160,7 @@ body {
 }
 
 .courrier:hover {
-  color: #c62bd9!important;
+  color: #c62bd9 !important;
 }
 
 .pointer {
@@ -163,7 +168,12 @@ body {
 }
 
 .active {
-  color : var(--primary);
+  color: var(--primary);
+}
+
+table .active {
+  color: #8393a7;
+  text-decoration: underline;
 }
 
 .step_form {
@@ -174,10 +184,16 @@ body {
   border-radius: 4px;
 }
 
+.recap {
+  max-width: 750px;
+  margin: 1rem auto;
+  display: block;
+}
+
 .tooltip-inner {
-  background-color: #FAF8F8;
-  border: 0.5px solid #ECE7E7;
-  font-size: 0.85rem!important;
+  background-color: #faf8f8;
+  border: 0.5px solid #ece7e7;
+  font-size: 0.85rem !important;
   color: rgb(95, 107, 122);
   max-width: 280px;
   padding: 4px 8px;
@@ -189,4 +205,21 @@ body {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.text-warning2 {
+  color: #e08b01;
+}
+
+.arrows {
+  text-align: right;
+}
+
+.head-panel .btn {
+  position: relative;
+}
+
+.head-panel .arrows {
+  position: absolute;
+  right: 20px;
 }

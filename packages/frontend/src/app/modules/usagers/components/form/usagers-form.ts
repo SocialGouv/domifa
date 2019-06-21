@@ -19,6 +19,7 @@ import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../../structures/services/structure.service";
 import { AyantDroit } from "../../interfaces/ayant-droit";
+import { LABELS } from "../../shared/labels";
 
 const fadeInOut = trigger("fadeInOut", [
   transition(":enter", [
@@ -58,6 +59,7 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public title = "Ajouter un domicilié";
+  public labels: any;
 
   /* Config datepickers */
   public dToday = new Date();
@@ -143,6 +145,7 @@ export class UsagersFormComponent implements OnInit {
     this.userId = 1;
     this.structureId = 2;
     this.uploadError = {};
+    this.labels = LABELS;
 
     this.successSubject.subscribe((message) => {
       this.successMessage = message;
@@ -242,6 +245,7 @@ export class UsagersFormComponent implements OnInit {
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       preference: this.formBuilder.group({
+        aucun: [this.usager.preference.aucun, []],
         email: [this.usager.preference.email, []],
         phone: [this.usager.preference.phone, []]
       }),
@@ -542,12 +546,16 @@ export class UsagersFormComponent implements OnInit {
     }
   }
 
-  public changeSuccessMessage(message: string, error?: boolean) {
+  public goToTop() {
     window.scroll({
       behavior: "smooth",
       left: 0,
       top: 0
     });
+  }
+
+  public changeSuccessMessage(message: string, error?: boolean) {
+    this.goToTop();
     error ? this.errorSubject.next(message) : this.successSubject.next(message);
   }
 }
