@@ -93,7 +93,23 @@
 
   <h3>{{ letter }}</h3>
   <div class="row">
+    <div class="col-md-6 offset-md-6 text-right">
+      <div class="sort-structures form-group form-check-inline">
+        <label for="sort">Trier par</label>
+        <select
+          class="form-control"
+          [(ngModel)]="filters.sort"
+          id="sort"
+          (change)="updateFilters('sort', filters.sort)">
+          <option value="alpha1">Alphabétique : A -> Z</option>
+          <option value="alpha2">Alphabétique : Z -> A</option>
+          <option value="radiation1">Date de radiation à venir</option>
+          <option value="dateDom1">Date de première domiciliation</option>
+        </select>
+      </div>
+    </div>
     <table class="table">
+      <tbody></tbody>
       <tbody *ngFor="let usager of usagers; let i = index">
         <tr
           *ngIf="differentLetter(usager.nom, i)"

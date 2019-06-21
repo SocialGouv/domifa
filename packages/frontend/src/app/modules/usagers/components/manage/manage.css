@@ -192,3 +192,9 @@ tbody tr:hover {
   opacity: 0.8;
   border-radius: 50px;
 }
+
+.sort-structures label {
+  min-width: 150px;
+  padding-top: 8px;
+  padding-right: 20px;
+}

@@ -28,12 +28,15 @@
   font-weight: 800;
 }
 
-h1 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   font-family: Evolventa;
 }
 
 h4 {
-  font-family: Evolventa;
   font-weight: 600;
   margin: 20px 0px;
 }
