@@ -150,7 +150,7 @@ export class UsagersService {
         },
         {
           $set: {
-            "etapeDemande": 2,
+            etapeDemande: 2,
             "rdv.dateRdv": rdvDto.dateRdv,
             "rdv.userId": rdvDto.userId,
             "rdv.userName": user.nom + " " + user.prenom
@@ -255,6 +255,22 @@ export class UsagersService {
       .deleteOne({
         id: usagerId
       })
+      .exec();
+  }
+
+  public async isDoublon(nom: string, prenom: string): Promise<Usager[]> {
+    return this.usagerModel
+      .find({
+        $and: [
+          {
+            nom: { $regex: nom + ".*", $options: "-i" }
+          },
+          {
+            prenom: { $regex: prenom + ".*", $options: "-i" }
+          }
+        ]
+      })
+      .lean()
       .exec();
   }
 

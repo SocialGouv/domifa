@@ -46,6 +46,17 @@
       (close)="errorMessage = null">
       <strong>Erreur:</strong>
       {{ errorMessage }}
+      <div *ngIf="doublons">
+        <ul>
+          <li *ngFor="let doublon of doublons;">
+            <a href>
+              <b>{{ doublon.nom }}</b>
+              {{ doublon.prenom }}
+            </a>
+            né(e) le {{ doublon.dateNaissance | date: 'dd/MM/yyyy'  }}
+          </li>
+        </ul>
+      </div>
     </ngb-alert>
     <ngb-alert
       @fadeInOut
@@ -149,7 +160,7 @@
           (click)="getAttestation()"
           class="btn btn-outline-primary">
           <fa-icon icon="download"></fa-icon>
-          Télécharger l’attestation de refus
+          Télécharger le CERFA de refus
         </button>
         <br>
         <br>
@@ -214,6 +225,7 @@
               class="form-control "
               id="nom"
               formControlName="nom"
+              (keyup)="isDoublon()"
               placeholder="Précisez nom de naissance si nécessaire"
               [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
               required>
@@ -235,6 +247,7 @@
               class="form-control "
               id="prenom"
               formControlName="prenom"
+              (keyup)="isDoublon()"
               placeholder="Prénom(s) du demandeur"
               [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
               required>

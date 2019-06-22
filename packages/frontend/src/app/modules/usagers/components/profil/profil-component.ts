@@ -2,9 +2,9 @@ import { animate, style, transition, trigger } from "@angular/animations";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { debounceTime } from "rxjs/operators";
+import { LABELS } from "../../../../shared/labels";
 import { LoadingService } from "../../../loading/loading.service";
 import { DocumentService } from "../../services/document.service";
-import { LABELS } from "../../shared/labels";
 
 import { Subject } from "rxjs";
 import { Usager } from "../../interfaces/usager";
@@ -90,7 +90,7 @@ export class UsagersProfilComponent implements OnInit {
             new Date(usager.lastInteraction.visite)
           );
         },
-        (error) => {
+        error => {
           this.router.navigate(["/404"]);
         }
       );
@@ -113,7 +113,7 @@ export class UsagersProfilComponent implements OnInit {
               this.usager.lastInteraction = usager.lastInteraction;
               this.changeSuccessMessage(this.messages[item]);
             },
-            (error) => {
+            error => {
               this.changeSuccessMessage(
                 "Impossible d'enregistrer cette interaction : ",
                 true
@@ -130,7 +130,7 @@ export class UsagersProfilComponent implements OnInit {
         this.changeSuccessMessage(this.messages[type]);
         this.usager.lastInteraction = usager.lastInteraction;
       },
-      (error) => {
+      error => {
         this.changeSuccessMessage(
           "Impossible d'enregistrer cette interaction : " + type,
           true

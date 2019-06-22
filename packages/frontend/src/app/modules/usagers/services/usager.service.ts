@@ -46,10 +46,14 @@ export class UsagerService {
     return this.http.get(`${this.endPoint}/${idUsager}`);
   }
 
+  public isDoublon(nom: string, prenom: string) {
+    return this.http.get(`${this.endPoint}/doublon/${nom}/${prenom}`);
+  }
+
   /* Recherche */
   public search(filters?: {}) {
     let httpParams = new HttpParams();
-    Object.keys(filters).forEach((key) => {
+    Object.keys(filters).forEach(key => {
       if (filters[key] !== null) {
         httpParams = httpParams.append(key, filters[key]);
       }
@@ -76,7 +80,7 @@ export class UsagerService {
 
     this.http
       .get(`${this.endPoint}/attestation/${idUsager}`, { responseType: "blob" })
-      .subscribe((x) => {
+      .subscribe(x => {
         const newBlob = new Blob([x], { type: "application/pdf" });
 
         if (window.navigator && window.navigator.msSaveOrOpenBlob) {

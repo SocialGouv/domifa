@@ -89,6 +89,12 @@ export class UsagersController {
     return this.usagersService.search(query);
   }
 
+  /* DOUBLON */
+  @Get("doublon/:nom/:prenom")
+  public isDoublon(@Param("nom") nom: string, @Param("prenom") prenom: string) {
+    return this.usagersService.isDoublon(nom, prenom);
+  }
+
   @Get(":id")
   public findOne(@Param("id") usagerId: number) {
     return this.usagersService.findById(usagerId);
@@ -110,12 +116,12 @@ export class UsagersController {
 
     this.cerfaService
       .attestation(usager, user)
-      .then((buffer) => {
+      .then(buffer => {
         this.logger.log("BUFFER");
         res.setHeader("content-type", "application/pdf");
         res.send(buffer);
       })
-      .catch((err) => {
+      .catch(err => {
         this.logger.log("Erreur Cerfa ");
         this.logger.log(err);
         throw new HttpException("ERREUR CERFA", HttpStatus.BAD_REQUEST);
@@ -139,14 +145,14 @@ export class UsagersController {
   ) {
     this.usagersService
       .getDocument(usagerId, index)
-      .then((fileInfos) => {
+      .then(fileInfos => {
         const pathFile = path.resolve(
           __dirname,
           "../../uploads/" + fileInfos.path
         );
         res.sendFile(pathFile);
       })
-      .catch((err) => {
+      .catch(err => {
         this.logger.log("ERROR");
         this.logger.log(err);
       });

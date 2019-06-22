@@ -8,18 +8,18 @@ import {
   NgbDatepickerI18n,
   NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
-import { Subject } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import { fromEvent, Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Doc } from "src/app/modules/usagers/interfaces/document";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
+import { LABELS } from "../../../../shared/labels";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../../structures/services/structure.service";
 import { AyantDroit } from "../../interfaces/ayant-droit";
-import { LABELS } from "../../shared/labels";
 
 const fadeInOut = trigger("fadeInOut", [
   transition(":enter", [
@@ -60,6 +60,7 @@ export class UsagersFormComponent implements OnInit {
 
   public title = "Ajouter un domicilié";
   public labels: any;
+  public doublons: Usager[];
 
   /* Config datepickers */
   public dToday = new Date();
@@ -146,15 +147,18 @@ export class UsagersFormComponent implements OnInit {
     this.structureId = 2;
     this.uploadError = {};
     this.labels = LABELS;
+    this.doublons = [];
 
-    this.successSubject.subscribe((message) => {
+    this.successSubject.subscribe(message => {
       this.successMessage = message;
       this.errorMessage = null;
     });
-    this.errorSubject.subscribe((message) => {
+
+    this.errorSubject.subscribe(message => {
       this.errorMessage = message;
       this.successMessage = null;
     });
+
     this.successSubject
       .pipe(debounceTime(10000))
       .subscribe(() => (this.successMessage = null));
@@ -187,6 +191,7 @@ export class UsagersFormComponent implements OnInit {
       cause7: "Personnes itinérantes",
       causeAutre: "Autre"
     };
+
     this.raison = {
       raison1: "Accès aux prestations sociales",
       raison2: "Exercice des droits civils ou civiques",
@@ -209,7 +214,7 @@ export class UsagersFormComponent implements OnInit {
             this.addAyantDroit(ayantDroit);
           }
         },
-        (error) => {
+        error => {
           this.router.navigate(["/404"]);
         }
       );
@@ -304,7 +309,7 @@ export class UsagersFormComponent implements OnInit {
 
           this.changeSuccessMessage(actionsAfterDecision[statut]);
         },
-        (error) => {
+        error => {
           this.changeSuccessMessage(
             "Une erreur a eu lieu lors de la validation",
             true
@@ -315,6 +320,47 @@ export class UsagersFormComponent implements OnInit {
 
   public open(content: string) {
     this.modal = this.modalService.open(content);
+  }
+
+  public isDoublon() {
+    if (
+      this.usagerForm.get("nom").value !== "" &&
+      this.usagerForm.get("prenom").value !== "" &&
+      this.usagerForm.get("nom").value !== null &&
+      this.usagerForm.get("nom").value &&
+      this.usagerForm.get("prenom").value !== null &&
+      this.usagerForm.get("prenom").value
+    ) {
+      this.usagerService
+        .isDoublon(
+          this.usagerForm.get("nom").value,
+          this.usagerForm.get("prenom").value
+        )
+        .subscribe(
+          (usagersDoublon: Usager[]) => {
+            if (usagersDoublon.length !== 0) {
+              this.changeSuccessMessage(
+                "Un homonyme potentiel a été détecté !",
+                true
+              );
+              this.doublons = [];
+              usagersDoublon.forEach(doublon => {
+                this.doublons.push(new Usager(doublon));
+              });
+            }
+          },
+          error => {
+            /* Todo : afficher le contenu des erreurs cote serveur */
+            if (error.statusCode && error.statusCode === 400) {
+              for (const message of error.message) {
+                console.log(message.constraints);
+              }
+            }
+            this.changeSuccessMessage("Une erreur dans le form", true);
+          }
+        );
+      console.log("CHECK");
+    }
   }
 
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
@@ -358,7 +404,7 @@ export class UsagersFormComponent implements OnInit {
   public submitInfos() {
     this.submitted = true;
     if (this.usagerForm.invalid) {
-      Object.keys(this.usagerForm.controls).forEach((key) => {
+      Object.keys(this.usagerForm.controls).forEach(key => {
         if (this.usagerForm.get(key).errors != null) {
           console.log(this.usagerForm.get(key).errors);
           this.changeSuccessMessage(
@@ -385,7 +431,7 @@ export class UsagersFormComponent implements OnInit {
           this.changeSuccessMessage("Enregistrement réussi");
           this.usager = new Usager(usager);
         },
-        (error) => {
+        error => {
           /* Todo : afficher le contenu des erreurs cote serveur */
           if (error.statusCode && error.statusCode === 400) {
             for (const message of error.message) {
@@ -406,7 +452,7 @@ export class UsagersFormComponent implements OnInit {
           this.usager = new Usager(usager);
           this.changeSuccessMessage("Enregistrement de l'entretien réussi");
         },
-        (error) => {
+        error => {
           this.changeSuccessMessage("Une erreur est survenu", true);
         }
       );
@@ -422,7 +468,7 @@ export class UsagersFormComponent implements OnInit {
       this.rdvForm.controls.dateRdv.setValue(new Date().toISOString());
     } else {
       if (this.rdvForm.invalid) {
-        Object.keys(this.rdvForm.controls).forEach((key) => {
+        Object.keys(this.rdvForm.controls).forEach(key => {
           if (this.rdvForm.get(key).errors != null) {
             this.changeSuccessMessage(
               "Veuillez vérifier la date de rendez-vous",
@@ -453,7 +499,7 @@ export class UsagersFormComponent implements OnInit {
         this.usager = new Usager(usager);
         this.changeSuccessMessage("Rendez-vous enregistré");
       },
-      (error) => {
+      error => {
         this.changeSuccessMessage("Une erreur est survenu", true);
       }
     );
@@ -499,7 +545,7 @@ export class UsagersFormComponent implements OnInit {
     formData.append("label", this.uploadForm.get("label").value);
 
     this.documentService.upload(formData, this.usager.id).subscribe(
-      (res) => {
+      res => {
         this.uploadResponse = res;
         if (
           this.uploadResponse.success !== undefined &&
@@ -510,7 +556,7 @@ export class UsagersFormComponent implements OnInit {
           this.fileName = "";
         }
       },
-      (err) => (this.httpError = err)
+      err => (this.httpError = err)
     );
   }
 
@@ -527,7 +573,7 @@ export class UsagersFormComponent implements OnInit {
       (usager: Usager) => {
         this.usager.docs = new Usager(usager).docs;
       },
-      (error) => {
+      error => {
         this.changeSuccessMessage("Impossible de supprimer le document", true);
         console.log("Erreur ! : " + error);
       }
