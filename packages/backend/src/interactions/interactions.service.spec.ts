@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import * as mongoose from "mongoose";
 import { DatabaseModule } from "../database/database.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -11,7 +12,7 @@ import { InteractionsService } from "./interactions.service";
 describe("InteractionsService", () => {
   let service: InteractionsService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         DatabaseModule,
@@ -24,6 +25,11 @@ describe("InteractionsService", () => {
     }).compile();
 
     service = module.get<InteractionsService>(InteractionsService);
+  });
+
+  afterAll(async () => {
+    await mongoose.disconnect();
+    await mongoose.connection.close();
   });
 
   it("should be defined", () => {

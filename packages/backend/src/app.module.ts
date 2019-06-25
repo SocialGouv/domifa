@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
-import { MongooseModule } from "@nestjs/mongoose";
 import { AuthController } from "./auth/auth.controller";
 import { AuthModule } from "./auth/auth.module";
+import { DatabaseModule } from "./database/database.module";
 import { InteractionsController } from "./interactions/interactions.controller";
 import { InteractionsModule } from "./interactions/interactions.module";
 import { StructuresModule } from "./structures/structure.module";
@@ -20,7 +20,7 @@ import { UsersModule } from "./users/users.module";
     StructuresController
   ],
   imports: [
-    MongooseModule.forRoot("mongodb://127.0.0.1:27017/domifa"),
+    DatabaseModule,
     UsagersModule,
     UsersModule,
     AuthModule,

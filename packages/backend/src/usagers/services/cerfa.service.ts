@@ -3,14 +3,11 @@ import * as fs from "fs";
 import pdftk = require("node-pdftk");
 import * as path from "path";
 import { User } from "../../users/user.interface";
-import { UsersService } from "../../users/users.service";
 import { Usager } from "../interfaces/usagers";
 
 @Injectable()
 export class CerfaService {
   private readonly logger = new Logger(CerfaService.name);
-
-  constructor(private readonly usersService: UsersService) { }
 
   public async attestation(usager: Usager, user: User) {
     if (!usager) {
@@ -193,8 +190,8 @@ export class CerfaService {
         infosPdf["topmostSubform[0].Page2[0].Décision[0]"] = "2";
         infosPdf["topmostSubform[0].Page2[0].MotifRefus[0]"] =
           (motifsRefus[usager.decision.motif] || "") +
-          " : " +
-          usager.decision.motifDetails || "";
+            " : " +
+            usager.decision.motifDetails || "";
         infosPdf["topmostSubform[0].Page2[0].OrientationProposée[0]"] =
           (usager.decision.orientation || "") +
           " : " +
