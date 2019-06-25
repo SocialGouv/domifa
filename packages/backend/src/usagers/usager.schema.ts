@@ -1,9 +1,6 @@
 // tslint:disable: object-literal-sort-keys
 import * as mongoose from "mongoose";
 import { Usager } from "./interfaces/usagers";
-mongoose.set("debug", true);
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
 
 export const UsagerSchema = new mongoose.Schema({
   id: {

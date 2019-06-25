@@ -275,7 +275,14 @@ export class UsagersService {
   }
 
   public async search(query?: SearchDto): Promise<Usager[]> {
-    this.sort = { nom: 1 };
+    let sort = { nom: 1 };
+
+    const sortValues = {
+      az: { nom: "ascending" },
+      domiciliation: { "decision.dateDebut": "ascending" },
+      radiation: { "decision.dateFin": "descending" },
+      za: { nom: "descending" }
+    };
 
     /* ID DE LA STRUCTURE DE LUSER */
     interface SearchQuery {
@@ -312,10 +319,14 @@ export class UsagersService {
       searchQuery["lastInteraction.nbCourrier"] = { $gt: 0 };
     }
 
+    if (query.sort) {
+      sort = sortValues[query.sort];
+    }
+
     return this.usagerModel
       .find(searchQuery)
       .collation({ locale: "en" })
-      .sort(this.sort)
+      .sort(sort)
       .lean()
       .exec();
   }

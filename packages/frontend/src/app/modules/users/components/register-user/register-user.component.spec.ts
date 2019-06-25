@@ -17,7 +17,7 @@ describe("RegisterUserComponent", () => {
     TestBed.configureTestingModule({
       declarations: [RegisterUserComponent],
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,

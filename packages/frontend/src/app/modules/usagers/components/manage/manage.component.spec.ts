@@ -12,7 +12,7 @@ describe("ManageUsagersComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ManageUsagersComponent],
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         RouterModule.forRoot([]),
         ReactiveFormsModule,
         FormsModule,

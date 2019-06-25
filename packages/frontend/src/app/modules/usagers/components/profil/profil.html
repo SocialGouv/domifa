@@ -440,8 +440,7 @@
             <br>
 
             <b>Avez-vous des revenus ?</b>
-            :
-      {{ usager.entretien.revenus ? 'Oui' : 'Non' }}
+            {{ usager.entretien.revenus ? 'Oui' : 'Non' }}
             <br>
             <br>
 
@@ -458,7 +457,6 @@
             {{ labels[usager.entretien.raison] || 'Non renseigné' }}
             <br>
             <br>
-
             <b>
               Quelle est la cause de l'instabilité de logement ?
             </b>
@@ -469,9 +467,8 @@
             <br>
           </div>
           <div class="col">
-
             <b>
-              Quel est le motif principal de demande de domiciliation ?
+              Quelle est la cause de l'instabilité de logement ?
             </b>
             <br>
             {{ labels[usager.entretien.cause] }}
@@ -479,14 +476,11 @@
               : {{ usager.entretien.residenceDetail }}
               <br>
             </span>
-
             <br>
-
             <b>
               Faites-vous l’objet d’un accompagnement social ?
             </b>
-            :
-      {{ usager.entretien.accompagnement ? 'Oui' : 'Non' }}
+            {{ usager.entretien.accompagnement ? 'Oui' : 'Non' }}
             <br>
             <span *ngIf="accompagnement">
               <b>Suivi par</b>

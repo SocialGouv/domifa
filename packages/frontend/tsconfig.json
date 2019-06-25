@@ -11,6 +11,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "esModuleInterop": true,
     "target": "es2015",
     "types": ["jest"],
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"],

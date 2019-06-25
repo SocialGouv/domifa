@@ -1,4 +1,7 @@
 import * as mongoose from "mongoose";
+mongoose.set("debug", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
 export const databaseProviders = [
   {

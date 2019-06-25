@@ -13,7 +13,7 @@ describe("UsagersProfilComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,

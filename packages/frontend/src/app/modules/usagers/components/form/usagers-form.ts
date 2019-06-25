@@ -9,7 +9,7 @@ import {
   NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
 import { fromEvent, Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
+import { debounceTime } from "rxjs/operators";
 import { Doc } from "src/app/modules/usagers/interfaces/document";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
@@ -42,6 +42,7 @@ const fadeInOut = trigger("fadeInOut", [
   templateUrl: "./usagers-form.html"
 })
 export class UsagersFormComponent implements OnInit {
+
   get f() {
     return this.usagerForm.controls;
   }
@@ -58,7 +59,7 @@ export class UsagersFormComponent implements OnInit {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
-  public title = "Ajouter un domicilié";
+  public title: string;
   public labels: any;
   public doublons: Usager[];
 
@@ -141,7 +142,7 @@ export class UsagersFormComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.title = "Enregister un dossier";
+    this.title = "Enregister une domiciliation";
     this.uploadResponse = { status: "", message: "", filePath: "" };
     this.userId = 1;
     this.structureId = 2;

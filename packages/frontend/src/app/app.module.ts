@@ -54,7 +54,7 @@ library.add(fas, far);
     FontAwesomeModule,
     RouterModule.forRoot([]),
     HttpClientModule,
-    NgbModule.forRoot(),
+    NgbModule,
     FormsModule,
     ReactiveFormsModule
   ],

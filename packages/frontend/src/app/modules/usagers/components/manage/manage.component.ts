@@ -21,6 +21,8 @@ export class ManageUsagersComponent implements OnInit {
   public filters: Search;
   public letter: string;
 
+  public sort: string;
+
   public successMessage: string;
   public errorMessage: string;
 
@@ -118,7 +120,7 @@ export class ManageUsagersComponent implements OnInit {
 
         this.searching = false;
       },
-      (error) => {
+      error => {
         this.changeSuccessMessage(
           "Une erreur a eu lieu lors de la recherche",
           true

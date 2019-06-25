@@ -12,7 +12,7 @@ describe("LoadingComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LoadingComponent],
-      imports: [NgbModule.forRoot(), RouterModule.forRoot([])],
+      imports: [NgbModule, RouterModule.forRoot([])],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

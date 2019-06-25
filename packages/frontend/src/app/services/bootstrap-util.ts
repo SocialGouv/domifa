@@ -6,10 +6,6 @@ export function toString(value: any): string {
   return value !== undefined && value !== null ? `${value}` : "";
 }
 
-export function getValueInRange(value: number, max: number, min = 0): number {
-  return Math.max(Math.min(value, max), min);
-}
-
 export function isString(value: any): value is string {
   return typeof value === "string";
 }
@@ -34,17 +30,4 @@ export function padNumber(value: number) {
   } else {
     return "";
   }
-}
-
-export function regExpEscape(text) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-}
-
-export function hasClassName(element: any, className: string): boolean {
-  return (
-    element &&
-    element.className &&
-    element.className.split &&
-    element.className.split(/\s+/).indexOf(className) >= 0
-  );
 }

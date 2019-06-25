@@ -33,7 +33,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public notifInputs: {} = {
     colisIn: 0,
-    courrierIn: 1,
+    courrierIn: 0,
     recommandeIn: 0
   };
 
@@ -111,6 +111,7 @@ export class UsagersProfilComponent implements OnInit {
           .subscribe(
             (usager: Usager) => {
               this.usager.lastInteraction = usager.lastInteraction;
+              this.notifInputs[item] = 0;
               this.changeSuccessMessage(this.messages[item]);
             },
             error => {

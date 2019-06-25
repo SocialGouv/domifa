@@ -5,6 +5,7 @@ export class Search {
   public interactionType: string;
   public interactionStatut: boolean;
   public id: number;
+  public sort: string;
 
   constructor(search?: any) {
     this.interactionType = (search && search.interactionType) || null;
@@ -12,6 +13,7 @@ export class Search {
     this.echeance = (search && search.echeance) || null;
     this.id = (search && search.id) || null;
     this.name = (search && search.name) || null;
+    this.sort = (search && search.sort) || "az";
     this.statut = (search && search.statut) || "valide";
   }
 }

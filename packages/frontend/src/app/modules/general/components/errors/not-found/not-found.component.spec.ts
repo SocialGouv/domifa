@@ -17,7 +17,7 @@ describe("NotFoundComponent", () => {
     TestBed.configureTestingModule({
       declarations: [NotFoundComponent],
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,

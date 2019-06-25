@@ -12,12 +12,7 @@ describe("StructuresFormComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [StructuresFormComponent],
-      imports: [
-        NgbModule.forRoot(),
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule
-      ]
+      imports: [NgbModule, ReactiveFormsModule, FormsModule, HttpClientModule]
     }).compileComponents();
   }));
 
