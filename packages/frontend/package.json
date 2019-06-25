@@ -43,7 +43,7 @@
     "codelyzer": "^5.1.0",
     "jest": "^24.8.0",
     "jest-preset-angular": "^7.1.1",
-    "prettier": "^1.16.4",
+    "prettier": "^1.18.2",
     "ts-jest": "^24.0.0",
     "ts-node": "~7.0.0",
     "tslint": "^5.14.0",
