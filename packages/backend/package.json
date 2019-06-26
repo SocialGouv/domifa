@@ -45,7 +45,7 @@
     "pg": "^7.11.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.3",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.5.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.5.0",
