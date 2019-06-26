@@ -1356,7 +1356,7 @@
     optional "0.1.4"
     uuid "3.3.2"
 
-"@nestjs/jwt@^6.0.0":
+"@nestjs/jwt@^6.1.1":
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/@nestjs/jwt/-/jwt-6.1.1.tgz#78883321fc8663a7cf32aa725a70adc8454bbf5d"
   integrity sha512-XZEYC+p69N+Accktjho0B98TkwAKCZNt91+t08eukw7Gwk6FvfJB+aBzHCmQEaWUiAOpAo4eObgac86P12XOkw==
