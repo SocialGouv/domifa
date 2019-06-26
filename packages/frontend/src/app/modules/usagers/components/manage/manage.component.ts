@@ -19,8 +19,6 @@ export class ManageUsagersComponent implements OnInit {
   public usagers: Usager[];
 
   public filters: Search;
-  public letter: string;
-
   public sort: string;
 
   public successMessage: string;
@@ -44,7 +42,6 @@ export class ManageUsagersComponent implements OnInit {
     this.title = "Gérer vos domiciliés";
     this.usagers = [];
     this.searching = false;
-    this.letter = "";
 
     fromEvent(this.searchInput.nativeElement, "keyup")
       .pipe(
@@ -70,7 +67,7 @@ export class ManageUsagersComponent implements OnInit {
 
   public resetSearchBar() {
     this.searchInput.nativeElement.value = "";
-    this.filters = new Search({});
+    this.filters.name = "";
     this.search();
   }
 

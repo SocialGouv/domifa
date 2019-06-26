@@ -9,14 +9,13 @@ import { Doc } from "../interfaces/document";
 })
 export class DocumentService {
   public http: HttpClient;
-  private usager = null;
   private endPoint = environment.apiUrl + "usagers/document/";
 
   constructor(http: HttpClient) {
     this.http = http;
   }
 
-  public upload(data, usagerId) {
+  public upload(data, usagerId: number) {
     const uploadURL = `${this.endPoint}${usagerId}`;
 
     return this.http
@@ -25,7 +24,7 @@ export class DocumentService {
         reportProgress: true
       })
       .pipe(
-        map((event) => {
+        map(event => {
           switch (event.type) {
             case HttpEventType.UploadProgress:
               const progress = Math.round((100 * event.loaded) / event.total);
@@ -43,7 +42,7 @@ export class DocumentService {
   public getDocument(idUsager: number, index: number, doc: Doc) {
     this.http
       .get(`${this.endPoint}${idUsager}/${index}`, { responseType: "blob" })
-      .subscribe((x) => {
+      .subscribe(x => {
         const extensionTmp = doc.filetype.split("/");
         const extension = extensionTmp[1];
 

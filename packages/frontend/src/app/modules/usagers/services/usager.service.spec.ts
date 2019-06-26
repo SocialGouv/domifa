@@ -11,13 +11,14 @@ describe("UsagerService", () => {
       providers: [UsagerService]
     });
   });
+
   it("should be created", () => {
     const service: UsagerService = TestBed.get(UsagerService);
     expect(service).toBeTruthy();
   });
 
   it("CREATE USAGER", () => {
-    const service = new Usager({});
-    expect(service).toBeDefined();
+    const usager = new Usager({});
+    expect(usager).toBeDefined();
   });
 });

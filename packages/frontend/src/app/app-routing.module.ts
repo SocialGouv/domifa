@@ -8,7 +8,7 @@ import { ManageUsagersComponent } from "./modules/usagers/components/manage/mana
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "nouveau", component: UsagersFormComponent },
   { path: "profil/:id/edit", component: UsagersFormComponent },

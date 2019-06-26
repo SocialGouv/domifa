@@ -12,7 +12,8 @@ import { LABELS } from "src/app/shared/labels";
 import { UsagersFormComponent } from "./usagers-form";
 
 describe("UsagersFormComponent", () => {
-  let app, fixture;
+  let app: any;
+  let fixture: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
