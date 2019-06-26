@@ -1705,7 +1705,7 @@
   dependencies:
     "@types/mongoose" "*"
 
-"@types/mongoose@*", "@types/mongoose@^4.0.0 || ^5.0.0", "@types/mongoose@^5.3.26":
+"@types/mongoose@*", "@types/mongoose@^4.0.0 || ^5.0.0", "@types/mongoose@^5.5.6":
   version "5.5.6"
   resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.5.6.tgz#8ef6c56d5ebb79b34e92946b5679b7a053919b38"
   integrity sha512-Duco8iiwOEGB756eIyafsrFbsAxjXQPkb/nplZtbxGOhfmsA90rXjO/GbDsBYbUz5nkGOCRHuNfxOJzoVAMHMg==
@@ -8195,7 +8195,7 @@ mongoose-sequence@^5.0.1:
     async "^2.5.0"
     lodash "^4.6.1"
 
-mongoose@^5.5.2:
+mongoose@^5.6.1:
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.6.1.tgz#4efc3373b8121fdac4192896e303bb8cc572907b"
   integrity sha512-/EBoXS+fZv8dYf0VKMXwhTEVYUI+6EbmVhmV2DzO9BGacTSgStQprU09rZYfVxe8EmLhmTrSV5eCIRLBYuXGag==
