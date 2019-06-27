@@ -95,7 +95,7 @@ export class UsagersProfilComponent implements OnInit {
         }
       );
     } else {
-      return "chips";
+      this.router.navigate(["/404"]);
     }
   }
 

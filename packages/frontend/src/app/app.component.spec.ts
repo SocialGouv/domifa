@@ -16,5 +16,8 @@ describe("AppComponent", () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
+
+    expect(app.title).toEqual("Domifa");
+    expect(app.isNavbarCollapsed).toEqual(false);
   });
 });

@@ -9,13 +9,14 @@ import { Doc } from "../interfaces/document";
 })
 export class DocumentService {
   public http: HttpClient;
-  private endPoint = environment.apiUrl + "usagers/document/";
+  public endPoint: string;
 
   constructor(http: HttpClient) {
     this.http = http;
+    this.endPoint = environment.apiUrl + "usagers/document/";
   }
 
-  public upload(data, usagerId: number) {
+  public upload(data: any, usagerId: number) {
     const uploadURL = `${this.endPoint}${usagerId}`;
 
     return this.http

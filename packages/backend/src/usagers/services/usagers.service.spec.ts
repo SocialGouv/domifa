@@ -9,7 +9,7 @@ import { UsagersService } from "./usagers.service";
 describe("UsagersService", () => {
   let service: UsagersService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule, UsersModule],
       providers: [UsagersService, CerfaService, ...UsagersProviders]

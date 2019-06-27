@@ -29,12 +29,12 @@ describe("UsagersFormComponent", () => {
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-  }));
-
-  it("0. Création du compenent", () => {
     fixture = TestBed.createComponent(UsagersFormComponent);
     app = fixture.debugElement.componentInstance;
     app.ngOnInit();
+  }));
+
+  it("0. Création du compenent", () => {
     expect(app).toBeTruthy();
   });
 
@@ -50,14 +50,43 @@ describe("UsagersFormComponent", () => {
     expect(app.uploadError).toEqual({});
     expect(app.labels).toEqual(LABELS);
     expect(app.doublons).toEqual([]);
+    expect(app.documents).toEqual([]);
   });
 
-  it("2. Valid form", () => {
+  it("2. Initialisation de l'usager", () => {
+    expect(app.usager).toBeTruthy();
+    expect(app.usager.entretien).toBeTruthy();
+    expect(app.usager.lastInteraction).toBeTruthy();
+  });
+
+  it("6. Valid form", () => {
     app.usagerForm.controls.nom.setValue("Test nom");
     app.usagerForm.controls.prenom.setValue("Test Prenom");
     app.usagerForm.controls.surnom.setValue("Test Surnom");
     app.usagerForm.controls.dateNaissance.setValue("20/12/1991");
     app.usagerForm.controls.villeNaissance.setValue("Paris");
     expect(app.usagerForm.valid).toBeTruthy();
+  });
+
+  it("3. Ayant-droit", () => {
+    app.resetAyantDroit();
+    expect(app.usagerForm.controls.ayantsDroits.controls).toEqual([]);
+
+    app.addAyantDroit();
+    app.addAyantDroit();
+    app.addAyantDroit();
+    app.deleteAyantDroit();
+    expect(app.usagerForm.controls.ayantsDroits.controls.length).toEqual(2);
+  });
+
+  it("X. General functions", () => {
+    app.usager.decision.statut = "instruction";
+    app.changeStep(4);
+    expect(app.usager.etapeDemande).toEqual(0);
+    app.usager.id = 12;
+    app.changeStep(3);
+    expect(app.usager.etapeDemande).toEqual(3);
+    app.setValueRdv("oui");
+    expect(app.rdvForm.get("isNow").value).toEqual("oui");
   });
 });

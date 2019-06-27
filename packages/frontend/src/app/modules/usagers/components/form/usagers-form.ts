@@ -42,7 +42,6 @@ const fadeInOut = trigger("fadeInOut", [
   templateUrl: "./usagers-form.html"
 })
 export class UsagersFormComponent implements OnInit {
-
   get f() {
     return this.usagerForm.controls;
   }
@@ -149,6 +148,7 @@ export class UsagersFormComponent implements OnInit {
     this.uploadError = {};
     this.labels = LABELS;
     this.doublons = [];
+    this.documents = [];
 
     this.successSubject.subscribe(message => {
       this.successMessage = message;
@@ -360,7 +360,6 @@ export class UsagersFormComponent implements OnInit {
             this.changeSuccessMessage("Une erreur dans le form", true);
           }
         );
-      console.log("CHECK");
     }
   }
 
@@ -407,7 +406,6 @@ export class UsagersFormComponent implements OnInit {
     if (this.usagerForm.invalid) {
       Object.keys(this.usagerForm.controls).forEach(key => {
         if (this.usagerForm.get(key).errors != null) {
-          console.log(this.usagerForm.get(key).errors);
           this.changeSuccessMessage(
             "Un des champs du formulaire est incorrecte",
             true
