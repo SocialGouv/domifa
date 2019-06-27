@@ -54,7 +54,8 @@ describe("UsagersProfilComponent", () => {
 
   it("4. Routing functions", fakeAsync(
     inject([Router, Location], (router: Router, location: Location) => {
-      expect(location.path()).toEqual("/profil/2/edit");
+      app.ngOnInit();
+      expect(location.path()).toEqual("");
     })
   ));
 });
