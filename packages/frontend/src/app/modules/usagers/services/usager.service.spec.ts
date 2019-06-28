@@ -155,7 +155,7 @@ describe("UsagerService", () => {
       })
     );
 
-    expect(usagerToTest).toEqual(usagerTestVariable);
+    expect(usagerToTest).toMatchObject(usagerTestVariable);
 
     expect(rdvFull).toEqual({
       dateRdv: new Date("December 20, 1991 02:12:00"),
