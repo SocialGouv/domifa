@@ -81,8 +81,6 @@ export class RegisterUserComponent implements OnInit {
     if (this.userForm.invalid) {
       Object.keys(this.userForm.controls).forEach(key => {
         if (this.userForm.get(key).errors != null) {
-          console.log(key);
-          console.log(this.userForm.get(key));
           this.changeSuccessMessage(
             "Un des champs du formulaire est incorrecte",
             true

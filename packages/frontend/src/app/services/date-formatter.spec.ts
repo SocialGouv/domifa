@@ -1,7 +1,16 @@
 import { inject, TestBed } from "@angular/core/testing";
 
-import { NgbDateCustomParserFormatter } from "./date-formatter";
+import {
+  isDefined,
+  isInteger,
+  isNumber,
+  isString,
+  padNumber,
+  toInteger,
+  toString
+} from "./bootstrap-util";
 
+import { NgbDateCustomParserFormatter } from "./date-formatter";
 describe("NgbDateCustomParserFormatter", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,6 +29,22 @@ describe("NgbDateCustomParserFormatter", () => {
     [NgbDateCustomParserFormatter],
     (service: NgbDateCustomParserFormatter) => {
       expect(service.parse("Toz")).toEqual(null);
+    }
+  ));
+
+  it("Date formatter : invalid state", inject(
+    [NgbDateCustomParserFormatter],
+    (service: NgbDateCustomParserFormatter) => {
+      expect(isDefined(1)).toBeDefined();
+      expect(isInteger(1)).toBeTruthy();
+      expect(isInteger("A")).toBeFalsy();
+      expect(isNumber("A")).toBeFalsy();
+      expect(isNumber(1)).toBeTruthy();
+      expect(isString(1)).toBeFalsy();
+      expect(isString("CHAINE")).toBeTruthy();
+      expect(padNumber(1)).toEqual("01");
+      expect(toInteger("10")).toEqual(10);
+      expect(toString(12)).toEqual("12");
     }
   ));
 

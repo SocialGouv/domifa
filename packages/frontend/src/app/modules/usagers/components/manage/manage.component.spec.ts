@@ -39,7 +39,7 @@ describe("ManageUsagersComponent", () => {
       ],
       imports: [
         NgbModule,
-        RouterModule.forRoot(routes),
+        RouterTestingModule.withRoutes(routes),
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule

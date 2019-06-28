@@ -22,7 +22,6 @@ import { AppComponent } from "./app.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
-import { HttpErrorInterceptor } from "./modules/interceptors/errors.interceptor";
 import { LoadingComponent } from "./modules/loading/loading.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
@@ -57,13 +56,6 @@ library.add(fas, far);
     NgbModule,
     FormsModule,
     ReactiveFormsModule
-  ],
-  providers: [
-    {
-      multi: true,
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor
-    }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

@@ -14,6 +14,7 @@ describe("AutocompleteAdresseService", () => {
     [AutocompleteAdresseService],
     (service: AutocompleteAdresseService) => {
       expect(service).toBeTruthy();
+      expect(service.search).toBeDefined();
     }
   ));
 });

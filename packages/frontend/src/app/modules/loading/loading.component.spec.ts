@@ -26,5 +26,7 @@ describe("LoadingComponent", () => {
 
   it("should create", () => {
     expect(component).toBeTruthy();
+    expect(component.ngOnInit).toBeTruthy();
+    expect(component.loading).toBeFalsy();
   });
 });

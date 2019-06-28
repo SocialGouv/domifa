@@ -186,7 +186,7 @@ export class UsagersController {
   )
   public uploadDoc(
     @Param("usagerId") usagerId: number,
-    @UploadedFile() file,
+    @UploadedFile() file: any,
     @Body() postData
   ) {
     return this.usagersService.addDocument(

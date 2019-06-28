@@ -44,35 +44,40 @@ export class DocumentService {
     this.http
       .get(`${this.endPoint}${idUsager}/${index}`, { responseType: "blob" })
       .subscribe(x => {
-        const extensionTmp = doc.filetype.split("/");
-        const extension = extensionTmp[1];
-
-        const newBlob = new Blob([x], { type: doc.filetype });
-
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          window.navigator.msSaveOrOpenBlob(newBlob);
-          return;
-        }
-        const data = window.URL.createObjectURL(newBlob);
-        const link = document.createElement("a");
-        link.href = data;
-        link.download = "document_" + idUsager + "." + extension;
-        link.dispatchEvent(
-          new MouseEvent("click", {
-            bubbles: true,
-            cancelable: true,
-            view: window
-          })
-        );
-
-        setTimeout(() => {
-          window.URL.revokeObjectURL(data);
-          link.remove();
-        }, 100);
+        this.download(idUsager, doc, x);
       });
   }
 
-  public deleteDocument(usagerId, index) {
+  public download(idUsager: number, doc: Doc, x: any) {
+    const extensionTmp = doc.filetype.split("/");
+    const extension = extensionTmp[1];
+
+    const newBlob = new Blob([x], { type: doc.filetype });
+
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(newBlob);
+      return;
+    }
+    const data = window.URL.createObjectURL(newBlob);
+    const link = document.createElement("a");
+    link.href = data;
+    link.download = "document_" + idUsager + "." + extension;
+
+    link.dispatchEvent(
+      new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      })
+    );
+
+    setTimeout(() => {
+      window.URL.revokeObjectURL(data);
+      link.remove();
+    }, 100);
+  }
+
+  public deleteDocument(usagerId: number, index: number) {
     return this.http.delete(`${this.endPoint}${usagerId}/${index}`);
   }
 }

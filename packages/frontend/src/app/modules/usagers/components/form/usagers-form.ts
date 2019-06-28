@@ -526,7 +526,7 @@ export class UsagersFormComponent implements OnInit {
 
       this.uploadForm.controls.imageInput.setValue(file); // <-- Set Value for Validation
       if (!this.uploadError.fileSize || !this.uploadError.fileType) {
-        return;
+        return false;
       }
     }
   }
@@ -574,7 +574,6 @@ export class UsagersFormComponent implements OnInit {
       },
       error => {
         this.changeSuccessMessage("Impossible de supprimer le document", true);
-        console.log("Erreur ! : " + error);
       }
     );
   }

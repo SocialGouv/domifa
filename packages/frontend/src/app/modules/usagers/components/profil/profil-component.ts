@@ -7,6 +7,7 @@ import { LoadingService } from "../../../loading/loading.service";
 import { DocumentService } from "../../services/document.service";
 
 import { Subject } from "rxjs";
+import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 
@@ -95,7 +96,7 @@ export class UsagersProfilComponent implements OnInit {
         }
       );
     } else {
-      return "chips";
+      this.router.navigate(["/404"]);
     }
   }
 
@@ -129,7 +130,9 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.setPassage(this.usager.id, type).subscribe(
       (usager: Usager) => {
         this.changeSuccessMessage(this.messages[type]);
-        this.usager.lastInteraction = usager.lastInteraction;
+        this.usager.lastInteraction = new LastInteraction(
+          usager.lastInteraction
+        );
       },
       error => {
         this.changeSuccessMessage(
@@ -159,11 +162,6 @@ export class UsagersProfilComponent implements OnInit {
       top: 0
     });
     error ? this.errorSubject.next(message) : this.successSubject.next(message);
-  }
-
-  public loading() {
-    this.loadingService.startLoading();
-    this.loadingService.stopLoading();
   }
 
   private isToday(someDate?: Date) {
