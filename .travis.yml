@@ -13,10 +13,10 @@ services:
   before_install:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - export PATH="$HOME/.yarn/bin:$PATH"
-    - apt-get install mongodb-org-tools
+    - sudo apt-get install -y mongodb-org-tools
+    - mongorestore --gzip --archive=packages/backend/dump_test.gzip
   install:
     - yarn --frozen-lockfile
-    - mongorestore --gzip --archive=packages/backend/dump_test.gzip
 
 .environments:
   - &github_keys
