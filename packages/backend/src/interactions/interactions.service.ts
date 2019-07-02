@@ -44,15 +44,17 @@ export class InteractionsService {
     createdInteraction.dateInteraction = new Date();
 
     const savedInteraction = await createdInteraction.save();
-    const interactionsToUpdate =
-      usager.interactions === undefined
-        ? (usager.interactions = [])
-        : usager.interactions.push(savedInteraction);
+
+    if (usager.interactions === undefined) {
+      usager.interactions = [];
+    }
+    usager.interactions.push(savedInteraction);
 
     const toUpdate = {
-      interactions: interactionsToUpdate,
+      interactions: usager.interactions,
       lastInteraction: usager.lastInteraction
     };
+
     return this.usagersService.updateUsager(usagerId, toUpdate);
   }
 }

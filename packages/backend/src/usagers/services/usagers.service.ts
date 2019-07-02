@@ -17,7 +17,7 @@ export class UsagersService {
   private readonly logger = new Logger(UsagersService.name);
 
   constructor(
-    @Inject("USAGER_MODEL") private readonly usagerModel: Model<Usager>,
+    @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model,
     private readonly usersService: UsersService
   ) {}
 
@@ -64,6 +64,7 @@ export class UsagersService {
         }
       )
       .select("-docsPath")
+      .populate("interactions")
       .exec();
   }
 
@@ -331,7 +332,7 @@ export class UsagersService {
       .exec();
   }
 
-  private async findLastUsager(): Promise<Usager> {
+  public async findLastUsager(): Promise<Usager> {
     return this.usagerModel
       .findOne()
       .select("id")
@@ -340,7 +341,7 @@ export class UsagersService {
       .exec();
   }
 
-  private lastId(usager: Usager): number {
+  public lastId(usager: Usager): number {
     if (usager) {
       if (usager.id !== undefined) {
         return usager.id + 1;

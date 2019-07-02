@@ -41,7 +41,7 @@ export class UsagersDto {
   @IsNumber()
   public etapeDemande: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   public preference: {
     email: boolean;
     phone: boolean;

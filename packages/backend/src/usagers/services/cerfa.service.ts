@@ -7,13 +7,7 @@ import { Usager } from "../interfaces/usagers";
 
 @Injectable()
 export class CerfaService {
-  private readonly logger = new Logger(CerfaService.name);
-
   public async attestation(usager: Usager, user: User) {
-    if (!usager) {
-      this.logger.log("usager NOT FOUND");
-    }
-
     let pdfForm = "../../ressources/demande.pdf";
 
     let ayantsDroitsTexte = "";
@@ -198,16 +192,6 @@ export class CerfaService {
           (usager.decision.orientationDetails || "");
       }
     }
-
-    this.logger.log(__dirname);
-    this.logger.log(path.resolve(__dirname, pdfForm));
-    this.logger.log(typeof infosPdf);
-    this.logger.log(infosPdf);
-
-    if (fs.readFileSync(path.resolve(__dirname, pdfForm))) {
-      this.logger.log("OUVERTURE PDF réussie");
-    }
-
     return pdftk
       .input(fs.readFileSync(path.resolve(__dirname, pdfForm)))
       .fillForm(infosPdf)

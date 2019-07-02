@@ -1,6 +1,7 @@
 // tslint:disable: object-literal-sort-keys
 import * as mongoose from "mongoose";
 import { Usager } from "./interfaces/usagers";
+mongoose.set("debug", true);
 
 export const UsagerSchema = new mongoose.Schema({
   id: {
@@ -115,6 +116,7 @@ export const UsagerSchema = new mongoose.Schema({
     phone: Boolean
   },
 
+  interactions: [],
   docs: [],
   docsPath: []
 });

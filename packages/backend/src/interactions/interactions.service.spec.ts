@@ -36,8 +36,28 @@ describe("InteractionsService", () => {
     expect(service).toBeDefined();
   });
 
-  it("new DTO ", () => {
+  it("Create", async () => {
     const interaction = new InteractionDto();
+    interaction.type = "courrierOut";
+    interaction.content = "Les impôts";
+
     expect(interaction).toBeDefined();
+    expect(await service.create(2, interaction)).toBeDefined();
+    expect(await service.create(2, interaction)).toBeTruthy();
+
+    /* COURRIER A ZERO */
+    const usager = await service.create(2, interaction);
+    service.create(2, interaction);
+    expect(usager.lastInteraction.nbCourrier).toEqual(0);
+
+    interaction.type = "courrierIn";
+    interaction.content = "Les impôts";
+    interaction.nbCourrier = 10;
+    await service.create(2, interaction);
+    interaction.type = "courrierIn";
+    interaction.content = "Le Loyer";
+    interaction.nbCourrier = 5;
+    const usager2 = await service.create(2, interaction);
+    expect(usager2.lastInteraction.nbCourrier).toEqual(15);
   });
 });
