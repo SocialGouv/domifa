@@ -22,8 +22,8 @@ describe("Structure Service", () => {
   structureDto.phone = "0101010101";
   structureDto.responsable = {
     fonction: "Président",
-    prenom: "Marc",
-    nom: "Hidalin"
+    nom: "Hidalin",
+    prenom: "Marc"
   };
 
   beforeAll(async () => {

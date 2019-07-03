@@ -33,11 +33,6 @@ describe("UsagersService", () => {
     service = module.get<UsagersService>(UsagersService);
   });
 
-  afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoose.connection.close();
-  });
-
   it("should be defined", () => {
     expect(service).toBeDefined();
   });
@@ -103,12 +98,12 @@ describe("UsagersService", () => {
 
     service.search(searchDto);
     expect(service.searchQuery).toEqual({
-      "decision.statut": "valide",
       $or: [
         { nom: { $regex: ".*as.*", $options: "-i" } },
         { prenom: { $regex: ".*as.*", $options: "-i" } },
         { surnom: { $regex: ".*as.*", $options: "-i" } }
-      ]
+      ],
+      "decision.statut": "valide"
     });
   });
 });

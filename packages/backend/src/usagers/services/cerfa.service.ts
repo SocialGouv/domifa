@@ -219,9 +219,6 @@ export class CerfaService {
           (usager.decision.orientationDetails || "");
       }
     }
-
-    console.log(this.infosPdf);
-
     return pdftk
       .input(fs.readFileSync(path.resolve(__dirname, this.pdfForm)))
       .fillForm(this.infosPdf)

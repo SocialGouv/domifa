@@ -40,11 +40,6 @@ describe("CerfaService", () => {
     userService = module.get<UsersService>(UsersService);
   });
 
-  afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoose.connection.close();
-  });
-
   it("0. Cerfa Service should be defined", () => {
     expect(service).toBeDefined();
   });
@@ -74,10 +69,10 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Prénoms[0]": "DEBARD",
       "topmostSubform[0].Page2[0].NomOrgaDomiciliataire[0]":
         "Association ARCAT",
+      "topmostSubform[0].Page1[0].Courriel[0]": "",
+      "topmostSubform[0].Page1[0].téléphone[0]": "0606060606",
       "topmostSubform[0].Page2[0].NuméroAgrément[0]": "1000900293",
       "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]": "Paris, 75",
-      "topmostSubform[0].Page1[0].téléphone[0]": "0606060606",
-      "topmostSubform[0].Page1[0].Courriel[0]": "",
       "topmostSubform[0].Page1[0].Groupe_de_boutons_radio[0]": "1",
       "topmostSubform[0].Page1[0].LieuNaissance[1]": "Ecouen Ezanville",
       "topmostSubform[0].Page2[0].Mme-Monsieur2[0]": "2",
