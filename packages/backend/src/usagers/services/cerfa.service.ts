@@ -7,10 +7,18 @@ import { Usager } from "../interfaces/usagers";
 
 @Injectable()
 export class CerfaService {
-  public async attestation(usager: Usager, user: User) {
-    let pdfForm = "../../ressources/demande.pdf";
+  public pdfForm = "../../ressources/demande.pdf";
+  public ayantsDroitsTexte = "";
+  public infosPdf: any;
 
-    let ayantsDroitsTexte = "";
+  public moisDemande: string;
+  public jourDemande: string;
+  public anneeDemande: string;
+
+  public phone: string;
+  public villeNaissance: string;
+
+  public async attestation(usager: Usager, user: User) {
     for (const ayantDroit of usager.ayantsDroits) {
       const dateNaissaceTmp =
         usager.dateNaissance.getDate() +
@@ -18,8 +26,8 @@ export class CerfaService {
         (usager.dateNaissance.getMonth() + 1) +
         "/" +
         usager.dateNaissance.getFullYear();
-      ayantsDroitsTexte =
-        ayantsDroitsTexte +
+      this.ayantsDroitsTexte =
+        this.ayantsDroitsTexte +
         ayantDroit.nom +
         " " +
         ayantDroit.prenom +
@@ -40,8 +48,9 @@ export class CerfaService {
       refusAutre: "Autre (précisez le motif)"
     };
 
-    const infosPdf = {
-      "topmostSubform[0].Page1[0].AyantsDroits[0]": ayantsDroitsTexte || "",
+    this.infosPdf = {
+      "topmostSubform[0].Page1[0].AyantsDroits[0]":
+        this.ayantsDroitsTexte || "",
       "topmostSubform[0].Page1[0].Datenaissance1[0]": usager.dateNaissance
         .getDate()
         .toString(),
@@ -60,11 +69,13 @@ export class CerfaService {
       "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]":
         user.structure.departement
     };
-    const jourDemande = usager.decision.dateInstruction.getDate().toString();
-    const moisDemande = (
+    this.moisDemande = (
       usager.decision.dateInstruction.getMonth() + 1
     ).toString();
-    const anneeDemande = usager.decision.dateInstruction
+
+    this.jourDemande = usager.decision.dateInstruction.getDate().toString();
+
+    this.anneeDemande = usager.decision.dateInstruction
       .getFullYear()
       .toString();
 
@@ -78,30 +89,31 @@ export class CerfaService {
       user.structure.codePostal;
 
     if (usager.decision.statut === "valide") {
-      pdfForm = "../../ressources/attestation.pdf";
+      this.pdfForm = "../../ressources/attestation.pdf";
 
-      infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] =
         user.structure.nom;
-      infosPdf["topmostSubform[0].Page1[0].RespOrganisme[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].RespOrganisme[0]"] =
         user.structure.responsable.nom +
         " " +
         user.structure.responsable.prenom;
-      infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] =
         user.structure.departement;
-      infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] =
         user.structure.agrement;
-      infosPdf["topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]"] =
         user.structure.adresse +
         " " +
         user.structure.ville +
         " " +
         user.structure.codePostal;
-      infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] = user.structure.email;
-      infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] =
+        user.structure.email;
+      this.infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] =
         user.structure.phone;
-      infosPdf["topmostSubform[0].Page1[0].Noms2[0]"] = usager.nom;
-      infosPdf["topmostSubform[0].Page1[0].Prénoms2[0]"] = usager.prenom;
-      infosPdf["topmostSubform[0].Page1[0].AdressePostale[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].Noms2[0]"] = usager.nom;
+      this.infosPdf["topmostSubform[0].Page1[0].Prénoms2[0]"] = usager.prenom;
+      this.infosPdf["topmostSubform[0].Page1[0].AdressePostale[0]"] =
         user.structure.adresse +
         " " +
         user.structure.complementAdresse +
@@ -110,91 +122,110 @@ export class CerfaService {
         " " +
         user.structure.codePostal;
     } else {
-      infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = usager.phone || "";
-      infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] = usager.email || "";
-      infosPdf["topmostSubform[0].Page1[0].Groupe_de_boutons_radio[0]"] = "1";
-      infosPdf["topmostSubform[0].Page1[0].LieuNaissance[1]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] =
+        usager.phone || "";
+      this.infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] =
+        usager.email || "";
+      this.infosPdf["topmostSubform[0].Page1[0].Groupe_de_boutons_radio[0]"] =
+        "1";
+      this.infosPdf["topmostSubform[0].Page1[0].LieuNaissance[1]"] =
         usager.villeNaissance.toString() || "";
-      infosPdf["topmostSubform[0].Page2[0].Mme-Monsieur2[0]"] = sexe;
-      infosPdf[
+      this.infosPdf["topmostSubform[0].Page2[0].Mme-Monsieur2[0]"] = sexe;
+      this.infosPdf[
         "topmostSubform[0].Page2[0].NomsDemandeur[0]"
       ] = usager.nom.toUpperCase();
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page2[0].PrénomsDemandeur[0]"
       ] = usager.prenom.toUpperCase();
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page2[0].JourNaissanceDemandeur[0]"
       ] = usager.dateNaissance.getDate().toString();
-      infosPdf["topmostSubform[0].Page2[0].MoisNaissanceDemandeur[0]"] = (
+      this.infosPdf["topmostSubform[0].Page2[0].MoisNaissanceDemandeur[0]"] = (
         usager.dateNaissance.getMonth() + 1
       ).toString();
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page2[0].AnnéeNaissanceDemandeur[0]"
       ] = usager.dateNaissance.getFullYear().toString();
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page2[0].LieuNaissanceDemandeur[0]"
       ] = usager.villeNaissance.toString().toUpperCase();
 
       /* FAIT LE */
-      infosPdf["topmostSubform[0].Page1[0].FaitLeOrganisme1[0]"] = jourDemande;
-      infosPdf["topmostSubform[0].Page1[0].FaitLeOrganisme2[0]"] = moisDemande;
-      infosPdf["topmostSubform[0].Page1[0].FaitLeOrganisme3[0]"] = anneeDemande;
-      infosPdf["topmostSubform[0].Page1[0].FaitLeDemandeur1[0]"] = jourDemande;
-      infosPdf["topmostSubform[0].Page1[0].FaitLeDemandeur2[0]"] = moisDemande;
-      infosPdf["topmostSubform[0].Page1[0].FaitLeDemandeur3[0]"] = anneeDemande;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].FaitLeOrganisme1[0]"
+      ] = this.jourDemande;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].FaitLeOrganisme2[0]"
+      ] = this.moisDemande;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].FaitLeOrganisme3[0]"
+      ] = this.anneeDemande;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].FaitLeDemandeur1[0]"
+      ] = this.jourDemande;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].FaitLeDemandeur2[0]"
+      ] = this.moisDemande;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].FaitLeDemandeur3[0]"
+      ] = this.anneeDemande;
 
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page1[0].Jourconvocation[0]"
       ] = usager.rdv.dateRdv.getDate().toString();
-      infosPdf["topmostSubform[0].Page1[0].Moisconvocation[0]"] = (
+      this.infosPdf["topmostSubform[0].Page1[0].Moisconvocation[0]"] = (
         usager.rdv.dateRdv.getMonth() + 1
       ).toString();
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page1[0].Annéeconvocation[0]"
       ] = usager.rdv.dateRdv.getFullYear().toString();
 
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page1[0].Heureconvocation[0]"
       ] = usager.rdv.dateRdv.getHours().toString();
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page1[0].Minuteconvocation[0]"
       ] = usager.rdv.dateRdv.getMinutes().toString();
 
-      infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] =
         user.structure.nom;
-      infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] =
         user.structure.departement;
-      infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] =
         user.structure.agrement;
 
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page1[0].AdressePostale[0]"
       ] = adresseStructure;
-      infosPdf["topmostSubform[0].Page1[0].Courriel[1]"] = user.structure.email;
-      infosPdf["topmostSubform[0].Page1[0].téléphone[1]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].Courriel[1]"] =
+        user.structure.email;
+      this.infosPdf["topmostSubform[0].Page1[0].téléphone[1]"] =
         user.structure.phone;
 
-      infosPdf["topmostSubform[0].Page1[0].EntretienAvec[0]"] =
+      this.infosPdf["topmostSubform[0].Page1[0].EntretienAvec[0]"] =
         usager.rdv.userName;
-      infosPdf[
+      this.infosPdf[
         "topmostSubform[0].Page1[0].EntretienAdresse[0]"
       ] = adresseStructure;
 
       if (usager.decision.statut === "refus") {
-        infosPdf["topmostSubform[0].Page2[0].Décision[0]"] = "2";
-        infosPdf["topmostSubform[0].Page2[0].MotifRefus[0]"] =
+        this.infosPdf["topmostSubform[0].Page2[0].Décision[0]"] = "2";
+        this.infosPdf["topmostSubform[0].Page2[0].MotifRefus[0]"] =
           (motifsRefus[usager.decision.motif] || "") +
             " : " +
             usager.decision.motifDetails || "";
-        infosPdf["topmostSubform[0].Page2[0].OrientationProposée[0]"] =
+        this.infosPdf["topmostSubform[0].Page2[0].OrientationProposée[0]"] =
           (usager.decision.orientation || "") +
           " : " +
           (usager.decision.orientationDetails || "");
       }
     }
+
+    console.log(this.infosPdf);
+
     return pdftk
-      .input(fs.readFileSync(path.resolve(__dirname, pdfForm)))
-      .fillForm(infosPdf)
+      .input(fs.readFileSync(path.resolve(__dirname, this.pdfForm)))
+      .fillForm(this.infosPdf)
       .output();
   }
 }

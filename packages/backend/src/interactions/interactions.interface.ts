@@ -1,8 +1,7 @@
 import { Document } from "mongoose";
-import { TypeInteraction } from "./interactions.enum";
 
 export interface Interaction extends Document {
-  type: TypeInteraction;
+  type: string;
   dateInteraction: Date;
   content?: string;
   nbCourrier?: number;

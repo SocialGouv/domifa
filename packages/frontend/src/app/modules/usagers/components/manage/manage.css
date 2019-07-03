@@ -82,6 +82,7 @@
   background-color: var(--primary);
   color: white;
   border-radius: 0 45px 45px 0;
+  cursor: pointer;
 }
 
 #times_icon {
@@ -144,12 +145,16 @@ tbody tr:hover {
     0 0 0 1px rgba(104, 104, 104, 0.25);
 }
 
-thead td {
-  border: none;
-  opacity: 0.4;
+thead th {
+  opacity: 0.9;
+  font-weight: 500;
+  padding-bottom: 10px;
+}
+
+thead td,
+th {
   font-size: 1rem;
-  font-weight: 600;
-  font-family: Evolventa;
+  border: none !important;
   padding: 0;
   vertical-align: bottom;
 }
@@ -217,4 +222,10 @@ thead td {
   min-width: 150px;
   padding-top: 8px;
   padding-right: 20px;
+  font-weight: 500;
+  text-align: right;
+}
+
+.sort-structures {
+  margin: 0;
 }

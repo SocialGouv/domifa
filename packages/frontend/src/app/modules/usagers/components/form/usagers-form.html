@@ -42,14 +42,14 @@
     <ngb-alert
       @fadeInOut
       *ngIf="errorMessage"
-      type="danger"
+      type="warning"
       (close)="errorMessage = null">
       <strong>Erreur:</strong>
       {{ errorMessage }}
       <div *ngIf="doublons">
         <ul>
           <li *ngFor="let doublon of doublons;">
-            <a href>
+            <a  routerLink="'/profil/'+doublon.id+'/edit'">
               <b>{{ doublon.nom }}</b>
               {{ doublon.prenom }}
             </a>
@@ -109,11 +109,7 @@
         <br>
         La demande d'élection de domicile de
         <b>{{ usager.nom }} {{ usager.prenom }}</b>
-        a été envoyée le
-        <b>
-          {{ usager.decision.dateDemande | date: 'dd/MM/yyyy' }}
-        </b>
-        .
+        a été envoyée le <b>{{ usager.decision.dateDemande | date: 'dd/MM/yyyy' }}</b>.
         <br>
         Elle est actuellement en cours de traitement.
         <br>
@@ -123,7 +119,7 @@
         <br>
         <button
           (click)="getAttestation()"
-          class="btn btn-outline-primary">
+          class="btn btn-primary">
           <fa-icon icon="download"></fa-icon>
           Télécharger le CERFA de demande
         </button>
@@ -158,7 +154,7 @@
         <br>
         <button
           (click)="getAttestation()"
-          class="btn btn-outline-primary">
+          class="btn btn-primary">
           <fa-icon icon="download"></fa-icon>
           Télécharger le CERFA de refus
         </button>
@@ -289,8 +285,7 @@
                   formControlName="dateNaissancePicker"
                   ngbDatepicker
                   (keyup)="addSlash($event)"
-                  [ngClass]="{ 'is-invalid': submitted &&
-                f.dateNaissancePicker.errors }"
+                  [ngClass]="{ 'is-invalid': submitted && f.dateNaissancePicker.errors }"
                   #d="ngbDatepicker"
                   maxlength="10"
                   required>
@@ -618,7 +613,6 @@
         <input
           formControlName="dateNaissance"
           type="hidden">
-
         <br>
         <br>
         <div class="col-md-4 offset-md-4 text-center">
@@ -835,8 +829,7 @@
               (click)="getAttestation()"
               class="btn btn-outline-primary">
               <fa-icon icon="file-pdf"></fa-icon>
-              &nbsp; Télécharger le Cerfa
-          de demande
+              &nbsp; Télécharger le Cerfa de demande
             </span>
           </p>
         </div>

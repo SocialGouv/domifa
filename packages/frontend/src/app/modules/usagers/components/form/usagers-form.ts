@@ -301,14 +301,7 @@ export class UsagersFormComponent implements OnInit {
         (usager: Usager) => {
           this.modal.close();
           this.usager = new Usager(usager);
-
-          const actionsAfterDecision = {
-            demande: "La validation a bien été demandée au référent",
-            refus: "La demande de domiciliation a bien été refusée",
-            valide: "Nouvelle domiciliation enregisitrée"
-          };
-
-          this.changeSuccessMessage(actionsAfterDecision[statut]);
+          this.changeSuccessMessage(this.labels[statut]);
         },
         error => {
           this.changeSuccessMessage(
@@ -428,7 +421,7 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService.create(this.usagerForm.value).subscribe(
         (usager: Usager) => {
           this.changeSuccessMessage("Enregistrement réussi");
-          this.usager = new Usager(usager);
+          this.router.navigate(["profil/" + usager.id + "/edit"]);
         },
         error => {
           /* Todo : afficher le contenu des erreurs cote serveur */
@@ -495,7 +488,11 @@ export class UsagersFormComponent implements OnInit {
 
     this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe(
       (usager: Usager) => {
+        console.log("AVANT");
+        console.log(this.usager.etapeDemande);
         this.usager = new Usager(usager);
+        console.log("APRES");
+        console.log(this.usager.etapeDemande);
         this.changeSuccessMessage("Rendez-vous enregistré");
       },
       error => {

@@ -7,6 +7,7 @@ import { RdvDto } from "../dto/rdv";
 import { SearchDto } from "../dto/search";
 import { UsagersDto } from "../dto/usagers.dto";
 import { Decision } from "../interfaces/decision";
+import { SearchQuery } from "../interfaces/search-query";
 import { Usager } from "../interfaces/usagers";
 
 @Injectable()
@@ -14,8 +15,9 @@ export class UsagersService {
   public limit: number;
   public sort: {};
   public searchByName: {};
-  private readonly logger = new Logger(UsagersService.name);
+  public searchQuery: SearchQuery;
 
+  private readonly logger = new Logger(UsagersService.name);
   constructor(
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model,
     private readonly usersService: UsersService
@@ -29,13 +31,15 @@ export class UsagersService {
     createdUsager.decision.userInstructionName = user.prenom + " " + user.nom;
     createdUsager.decision.userInstructionId = 2;
 
-    createdUsager.id = this.lastId(await this.findLastUsager());
+    createdUsager.id = await this.findLastUsager();
 
     return createdUsager.save();
   }
 
   public async patch(usagersDto: UsagersDto): Promise<Usager> {
-    usagersDto.etapeDemande++;
+    if (!isNaN(usagersDto.etapeDemande)) {
+      usagersDto.etapeDemande++;
+    }
     return this.usagerModel
       .findOneAndUpdate(
         {
@@ -276,8 +280,8 @@ export class UsagersService {
   }
 
   public async search(query?: SearchDto): Promise<Usager[]> {
-    let sort = { nom: 1 };
-
+    this.sort = { nom: 1 };
+    this.searchQuery = {};
     const sortValues = {
       az: { nom: "ascending" },
       domiciliation: { "decision.dateDebut": "ascending" },
@@ -286,20 +290,8 @@ export class UsagersService {
     };
 
     /* ID DE LA STRUCTURE DE LUSER */
-    interface SearchQuery {
-      name?: string;
-      $or?: any[];
-      interactionType?: string;
-      interactionStatut?: boolean;
-      "decision.statut"?: {};
-      "lastInteraction.nbre"?: {};
-      structure?: string;
-    }
-
-    const searchQuery: SearchQuery = {};
-
     if (query.name) {
-      searchQuery.$or = [
+      this.searchQuery.$or = [
         {
           nom: { $regex: ".*" + query.name + ".*", $options: "-i" }
         },
@@ -313,40 +305,31 @@ export class UsagersService {
     }
 
     if (query.statut) {
-      searchQuery["decision.statut"] = query.statut;
+      this.searchQuery["decision.statut"] = query.statut;
     }
 
     if (query.interactionType) {
-      searchQuery["lastInteraction.nbCourrier"] = { $gt: 0 };
+      this.searchQuery["lastInteraction.nbCourrier"] = { $gt: 0 };
     }
 
     if (query.sort) {
-      sort = sortValues[query.sort];
+      this.sort = sortValues[query.sort];
     }
 
     return this.usagerModel
-      .find(searchQuery)
+      .find(this.searchQuery)
       .collation({ locale: "en" })
-      .sort(sort)
+      .sort(this.sort)
       .lean()
       .exec();
   }
 
-  public async findLastUsager(): Promise<Usager> {
-    return this.usagerModel
-      .findOne()
-      .select("id")
+  public async findLastUsager(): Promise<number> {
+    const lastUsager = await this.usagerModel
+      .findOne({}, { id: 1 })
       .sort({ id: -1 })
-      .limit(1)
+      .lean()
       .exec();
-  }
-
-  public lastId(usager: Usager): number {
-    if (usager) {
-      if (usager.id !== undefined) {
-        return usager.id + 1;
-      }
-    }
-    return 1;
+    return lastUsager.id !== undefined ? lastUsager.id + 1 : 1;
   }
 }

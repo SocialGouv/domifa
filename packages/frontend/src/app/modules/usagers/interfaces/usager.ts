@@ -70,8 +70,8 @@ export class Usager {
 
     this.agent = (usager && usager.agent) || null;
 
-    this.structure = (usager && parseInt(usager.structure, 2)) || 2;
-    this.etapeDemande = (usager && parseInt(usager.etapeDemande, 2)) || 0;
+    this.structure = (usager && parseInt(usager.structure, 10)) || 2;
+    this.etapeDemande = (usager && parseInt(usager.etapeDemande, 10)) || 0;
     this.historique = (usager && usager.historique) || null;
 
     this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv({});

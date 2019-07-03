@@ -24,5 +24,9 @@ export const LABELS = {
 
   raisonDom1: "Accès aux prestations sociales",
   raisonDom2: "Exercice des droits civils ou civiques",
-  raisonDomAutre: "Autres"
+  raisonDomAutre: "Autres",
+
+  demande: "La validation a bien été demandée au référent",
+  refus: "La demande de domiciliation a bien été refusée",
+  valide: "Nouvelle domiciliation enregisitrée"
 };

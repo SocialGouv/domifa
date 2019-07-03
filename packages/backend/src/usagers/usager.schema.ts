@@ -1,7 +1,6 @@
 // tslint:disable: object-literal-sort-keys
 import * as mongoose from "mongoose";
 import { Usager } from "./interfaces/usagers";
-mongoose.set("debug", true);
 
 export const UsagerSchema = new mongoose.Schema({
   id: {
@@ -10,23 +9,27 @@ export const UsagerSchema = new mongoose.Schema({
   },
 
   agent: String,
-  structure: String,
+  structure: { type: Number, default: 2 },
 
-  nom: String,
-  prenom: String,
-  surnom: String,
-  email: String,
-  phone: String,
-  sexe: String,
+  nom: { type: String, required: true },
+  prenom: { type: String, required: true },
+  surnom: { type: String, default: "" },
+  email: { type: String, default: "" },
+  phone: { type: String, default: "" },
+  sexe: { type: String, required: true },
 
   contactPreference: String,
   dateNaissance: Date,
-  villeNaissance: String,
+  villeNaissance: { type: String, required: true },
 
-  ayantsDroits: [],
+  ayantsDroits: { type: Array, default: [] },
   ayantsDroitsExist: Boolean,
 
-  etapeDemande: Number,
+  etapeDemande: {
+    type: Number,
+    default: 1,
+    required: true
+  },
 
   decision: {
     agent: String,
