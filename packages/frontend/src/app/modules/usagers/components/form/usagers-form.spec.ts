@@ -2,7 +2,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, TestBed } from "@angular/core/testing";
+import { async, fakeAsync, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -111,7 +111,7 @@ describe("UsagersFormComponent", () => {
     expect(app.usagerForm.controls.ayantsDroits.controls.length).toEqual(2);
   });
 
-  it("X. General functions", () => {
+  it("X. General functions", async(() => {
     app.usager.decision.statut = "instruction";
     app.changeStep(4);
     expect(app.usager.etapeDemande).toEqual(0);
@@ -122,5 +122,5 @@ describe("UsagersFormComponent", () => {
     expect(app.rdvForm.get("isNow").value).toEqual("oui");
 
     app.initForm();
-  });
+  }));
 });

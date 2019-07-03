@@ -57,9 +57,8 @@ describe("ManageUsagersComponent", () => {
     expect(app).toBeTruthy();
   });
 
-  it("1. NgOnInit", () => {
+  it("1. NgOnInit", async(() => {
     expect(app.title).toEqual("Gérer vos domiciliés");
-    expect(app.usagers).toEqual([]);
     expect(app.searching).toEqual(false);
 
     expect(app.filters).toEqual({
@@ -71,9 +70,9 @@ describe("ManageUsagersComponent", () => {
       sort: "az",
       statut: "valide"
     });
-  });
+  }));
 
-  it("2. Update filter", () => {
+  it("2. Update filter", async(() => {
     app.updateFilters("sort", "za");
     app.updateFilters("statut", "refus");
     expect(app.filters).toEqual({
@@ -85,9 +84,9 @@ describe("ManageUsagersComponent", () => {
       sort: "za",
       statut: "refus"
     });
-  });
+  }));
 
-  it("3. Reset Filters", () => {
+  it("3. Reset Filters", async(() => {
     fixture = TestBed.createComponent(ManageUsagersComponent);
     app = fixture.debugElement.componentInstance;
     app.ngOnInit();
@@ -101,7 +100,7 @@ describe("ManageUsagersComponent", () => {
       sort: "az",
       statut: "valide"
     });
-  });
+  }));
 
   it("X. Small functions : get letter, reset bar, go to profil", () => {
     fixture = TestBed.createComponent(ManageUsagersComponent);

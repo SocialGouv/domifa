@@ -23,6 +23,9 @@ import { UsagersProfilComponent } from "./profil-component";
 describe("UsagersProfilComponent", () => {
   let fixture: any;
   let app: any;
+  let router: any;
+  let location: Location;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -50,6 +53,15 @@ describe("UsagersProfilComponent", () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(UsagersProfilComponent);
+    fixture.detectChanges();
+
+    router = TestBed.get(Router);
+    location = TestBed.get(Location);
+
+    fixture.ngZone.run(() => {
+      router.initialNavigation();
+    });
+
     app = fixture.debugElement.componentInstance;
     app.ngOnInit();
   }));
@@ -58,7 +70,7 @@ describe("UsagersProfilComponent", () => {
     expect(app).toBeTruthy();
   });
 
-  it("1. Variables", () => {
+  it("1. Variables", async(() => {
     expect(app.title).toBeDefined();
     expect(app.labels).toBeDefined();
     expect(app.messages).toBeDefined();
@@ -72,15 +84,13 @@ describe("UsagersProfilComponent", () => {
 
     expect(app.callToday).toBeFalsy();
     expect(app.visitToday).toBeFalsy();
-  });
-  it("2. General functions", () => {
-    expect(app.isToday(new Date("march 30, 2019"))).toBeFalsy();
-  });
+  }));
 
-  it("4. Routing functions", fakeAsync(
-    inject([Router, Location], (router: Router, location: Location) => {
-      app.ngOnInit();
-      expect(location.path()).toEqual("/404");
-    })
-  ));
+  it("2. General functions", async(() => {
+    expect(app.isToday(new Date("march 30, 2019"))).toBeFalsy();
+  }));
+
+  it("4. Routing functions", async(() => {
+    expect(location.path()).toEqual("/404");
+  }));
 });

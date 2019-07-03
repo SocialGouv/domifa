@@ -147,6 +147,6 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].AdressePostale[0]":
         "14 rue de Buzenval CHRS, bleu, Paris 75014"
     };
-    expect(service.infosPdf).toEqual(datasAttendues);
+    expect(await service.infosPdf).toEqual(datasAttendues);
   });
 });
