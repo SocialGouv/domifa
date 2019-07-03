@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { User } from "../users/user.interface";
+import { UserSchema } from "../users/user.schema";
 import { StructureDto } from "./structure-dto";
 import { Structure } from "./structure-interface";
 
@@ -12,7 +13,7 @@ export class StructuresService {
 
   public async create(structureDto: StructureDto): Promise<Structure> {
     const createdStructure = new this.structureModel(structureDto);
-    createdStructure.id = this.lastId(await this.findLast());
+    createdStructure.id = await this.findLast();
     return createdStructure.save();
   }
 
@@ -54,21 +55,12 @@ export class StructuresService {
     });
   }
 
-  private async findLast(): Promise<Structure> {
-    return this.structureModel
-      .findOne()
-      .select("id")
+  public async findLast(): Promise<number> {
+    const lastStructure = await this.structureModel
+      .findOne({}, { id: 1 })
       .sort({ id: -1 })
-      .limit(1)
+      .lean()
       .exec();
-  }
-
-  private lastId(structure: Structure): number {
-    if (structure) {
-      if (structure.id !== undefined) {
-        return structure.id + 1;
-      }
-    }
-    return 1;
+    return lastStructure.id !== undefined ? lastStructure.id + 1 : 1;
   }
 }

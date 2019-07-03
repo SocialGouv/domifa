@@ -15,10 +15,14 @@ export class StructureDto {
 
   @IsNotEmpty()
   @IsNumber()
-  public structureType: number;
+  @IsIn(["asso", "ccas", "hopital"])
+  public structureType: string;
 
   @IsNotEmpty()
   public adresse: string;
+
+  @IsNotEmpty()
+  public nom: string;
 
   @IsOptional()
   public adressePostale: string;

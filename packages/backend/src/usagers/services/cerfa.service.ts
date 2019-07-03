@@ -8,7 +8,6 @@ import { Usager } from "../interfaces/usagers";
 @Injectable()
 export class CerfaService {
   public pdfForm = "../../ressources/demande.pdf";
-  public ayantsDroitsTexte = "";
   public infosPdf: any;
 
   public moisDemande: string;
@@ -19,6 +18,7 @@ export class CerfaService {
   public villeNaissance: string;
 
   public async attestation(usager: Usager, user: User) {
+    let ayantsDroitsTexte = "";
     for (const ayantDroit of usager.ayantsDroits) {
       const dateNaissaceTmp =
         usager.dateNaissance.getDate() +
@@ -26,8 +26,8 @@ export class CerfaService {
         (usager.dateNaissance.getMonth() + 1) +
         "/" +
         usager.dateNaissance.getFullYear();
-      this.ayantsDroitsTexte =
-        this.ayantsDroitsTexte +
+      ayantsDroitsTexte =
+        ayantsDroitsTexte +
         ayantDroit.nom +
         " " +
         ayantDroit.prenom +
@@ -49,8 +49,7 @@ export class CerfaService {
     };
 
     this.infosPdf = {
-      "topmostSubform[0].Page1[0].AyantsDroits[0]":
-        this.ayantsDroitsTexte || "",
+      "topmostSubform[0].Page1[0].AyantsDroits[0]": ayantsDroitsTexte,
       "topmostSubform[0].Page1[0].Datenaissance1[0]": usager.dateNaissance
         .getDate()
         .toString(),
