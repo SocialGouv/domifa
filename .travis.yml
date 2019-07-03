@@ -15,7 +15,7 @@ services:
     - export PATH="$HOME/.yarn/bin:$PATH"
     - sudo apt-get install -y mongodb-org-tools
     - mongorestore --gzip --archive=dump_test.gzip
-    - sudo add-apt-repository ppa:malteworld/ppa
+    - sudo add-apt-repository ppa:malteworld/ppa -y
     - sudo apt update
     - sudo apt-get install -y install pdftk
 
