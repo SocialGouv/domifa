@@ -24,7 +24,7 @@ describe("UsagersService", () => {
   fakeUsagerDto.villeNaissance = "Paris";
   fakeUsagerDto.email = "chips@gmail.com";
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule, UsersModule],
       providers: [UsagersService, CerfaService, ...UsagersProviders]
@@ -33,7 +33,7 @@ describe("UsagersService", () => {
     service = module.get<UsagersService>(UsagersService);
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await mongoose.disconnect();
     await mongoose.connection.close();
   });
