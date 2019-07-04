@@ -37,11 +37,11 @@ export const UsagerSchema = new mongoose.Schema({
     dateDemande: Date,
     dateFin: Date,
     dateInstruction: Date,
-    motif: String,
-    motifDetails: String,
-    orientation: String,
-    orientationDetails: String,
-    statut: String,
+    motif: { type: String, default: "" },
+    motifDetails: { type: String, default: "" },
+    orientation: { type: String, default: "" },
+    orientationDetails: { type: String, default: "" },
+    statut: { type: String, default: "instruction" },
 
     userDecisionId: Number,
     userDecisionName: String,
@@ -115,8 +115,8 @@ export const UsagerSchema = new mongoose.Schema({
   },
 
   preference: {
-    email: Boolean,
-    phone: Boolean
+    email: { type: Boolean, default: false },
+    phone: { type: Boolean, default: false }
   },
 
   interactions: [],

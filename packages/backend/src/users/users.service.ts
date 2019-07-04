@@ -34,7 +34,7 @@ export class UsersService {
       createdUser.structureId
     );
     createdUser.structure = structure;
-    createdUser.id = this.lastId(await this.findLast());
+    createdUser.id = await this.findLast();
     createdUser.password = await bcrypt.hash(createdUser.password, 10);
 
     try {
@@ -74,22 +74,12 @@ export class UsersService {
       .exec();
   }
 
-  private async findLast(): Promise<User> {
-    return this.userModel
-      .findOne()
-      .select("id")
+  public async findLast(): Promise<number> {
+    const lastUser = await this.userModel
+      .findOne({}, { id: 1 })
       .sort({ id: -1 })
-      .limit(1)
       .lean()
       .exec();
-  }
-
-  private lastId(user: User): number {
-    if (user) {
-      if (user.id !== undefined) {
-        return user.id + 1;
-      }
-    }
-    return 1;
+    return lastUser.id !== undefined ? lastUser.id + 1 : 1;
   }
 }

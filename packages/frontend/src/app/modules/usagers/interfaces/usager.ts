@@ -47,9 +47,9 @@ export class Usager {
   constructor(usager?: any) {
     this.id = (usager && usager.id) || 0;
 
-    this.nom = (usager && usager.nom) || null;
-    this.prenom = (usager && usager.prenom) || null;
-    this.surnom = (usager && usager.surnom) || null;
+    this.nom = (usager && usager.nom) || "";
+    this.prenom = (usager && usager.prenom) || "";
+    this.surnom = (usager && usager.surnom) || "";
     this.sexe = (usager && usager.sexe) || "homme";
     this.dateNaissance = (usager && new Date(usager.dateNaissance)) || null;
 
@@ -62,17 +62,17 @@ export class Usager {
           }
         : {};
 
-    this.villeNaissance = (usager && usager.villeNaissance) || null;
+    this.villeNaissance = (usager && usager.villeNaissance) || "";
 
-    this.email = (usager && usager.email) || null;
-    this.phone = (usager && usager.phone) || null;
+    this.email = (usager && usager.email) || "";
+    this.phone = (usager && usager.phone) || "";
     this.docs = (usager && usager.docs) || [];
 
-    this.agent = (usager && usager.agent) || null;
+    this.agent = (usager && usager.agent) || "";
 
     this.structure = (usager && parseInt(usager.structure, 10)) || 2;
     this.etapeDemande = (usager && parseInt(usager.etapeDemande, 10)) || 0;
-    this.historique = (usager && usager.historique) || null;
+    this.historique = (usager && usager.historique) || "";
 
     this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv({});
     this.lastInteraction =
