@@ -1,5 +1,6 @@
 // tslint:disable: object-literal-sort-keys
 import * as mongoose from "mongoose";
+import { InteractionSchema } from "../interactions/interaction.schema";
 import { Usager } from "./interfaces/usagers";
 
 export const UsagerSchema = new mongoose.Schema({
@@ -19,7 +20,7 @@ export const UsagerSchema = new mongoose.Schema({
   sexe: { type: String, required: true },
 
   contactPreference: String,
-  dateNaissance: Date,
+  dateNaissance: { type: Date, required: true },
   villeNaissance: { type: String, required: true },
 
   ayantsDroits: { type: Array, default: [] },
@@ -119,7 +120,12 @@ export const UsagerSchema = new mongoose.Schema({
     phone: { type: Boolean, default: false }
   },
 
-  interactions: [],
+  interactions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Interaction"
+    }
+  ],
   docs: [],
   docsPath: []
 });

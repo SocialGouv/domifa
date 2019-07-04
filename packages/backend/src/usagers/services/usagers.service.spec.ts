@@ -40,15 +40,15 @@ describe("UsagersService", () => {
   it("0. Create / Read / Update / Delete", async () => {
     // LAST ID
     expect(service.findAll()).toBeTruthy();
-    expect(await service.findLastUsager()).toEqual(7);
+    expect(await service.findLastUsager()).toEqual(4);
 
     // CREATE
     const newUser = await service.create(fakeUsagerDto);
     expect(await newUser).toBeDefined();
-    expect(await newUser.id).toEqual(7);
+    expect(await newUser.id).toEqual(4);
 
     // READ
-    const usager = await service.findById(7);
+    const usager = await service.findById(4);
     expect(await usager).toBeTruthy();
     expect(await usager.nom).toEqual("Usager");
     expect(await usager.sexe).toEqual("homme");
@@ -64,12 +64,12 @@ describe("UsagersService", () => {
     expect(await updatedUser.prenom).toEqual("Nouveau prénom");
 
     // DELETE
-    const deletedUsager = await service.deleteById(7);
+    const deletedUsager = await service.deleteById(4);
     expect(await deletedUsager.deletedCount).toEqual(1);
   });
 
   it("2. Doublons", async () => {
-    const doublons = await service.isDoublon("Sam", "bam");
+    const doublons = await service.isDoublon("Kar", "Del");
     expect(doublons.length).toEqual(1);
   });
 

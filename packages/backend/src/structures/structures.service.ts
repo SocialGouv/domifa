@@ -1,9 +1,11 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
+import * as mongoose from "mongoose";
 import { User } from "../users/user.interface";
 import { UserSchema } from "../users/user.schema";
 import { StructureDto } from "./structure-dto";
 import { Structure } from "./structure-interface";
+mongoose.set("debug", true);
 
 @Injectable()
 export class StructuresService {

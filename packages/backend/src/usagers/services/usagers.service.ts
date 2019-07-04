@@ -330,6 +330,6 @@ export class UsagersService {
       .sort({ id: -1 })
       .lean()
       .exec();
-    return lastUsager.id !== undefined ? lastUsager.id + 1 : 1;
+    return lastUsager === undefined || null ? 1 : lastUsager.id + 1;
   }
 }

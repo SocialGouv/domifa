@@ -3,7 +3,7 @@ import * as mongoose from "mongoose";
 import { UserSchema } from "../users/user.schema";
 
 export const StructureSchema = new mongoose.Schema({
-  id: Number,
+  id: { type: Number, unique: true },
   adresse: { type: String, default: "", required: true },
   complementAdresse: { type: String, default: "" },
   nom: { type: String, default: "", required: true },
@@ -19,5 +19,10 @@ export const StructureSchema = new mongoose.Schema({
     nom: { type: String, default: "", required: true },
     prenom: { type: String, default: "", required: true }
   },
-  users: [UserSchema]
+  users: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ]
 });

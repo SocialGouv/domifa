@@ -8,11 +8,18 @@
   font-weight: 400 !important;
 }
 
-input[type="radio"]:checked+label {
+input[type="radio"]:checked + label {
   color: var(--blue);
 }
 
 label {
   cursor: pointer;
   font-weight: 600;
+}
+
+.invalid-feedback-custom {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
 }

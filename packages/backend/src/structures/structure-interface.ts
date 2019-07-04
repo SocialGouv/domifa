@@ -9,7 +9,6 @@ export interface Structure extends Document {
   departement: string;
   codePostal: string;
   agrement: string;
-  password: string;
   phone: string;
   email: string;
   responsable: {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { isNumber } from "src/app/services/bootstrap-util";
 
 import { animate, style, transition, trigger } from "@angular/animations";
 import {
@@ -19,6 +20,7 @@ import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { LABELS } from "../../../../shared/labels";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../../structures/services/structure.service";
+import { Structure } from "../../../structures/structure.interface";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 
 const fadeInOut = trigger("fadeInOut", [
@@ -31,9 +33,9 @@ const fadeInOut = trigger("fadeInOut", [
 
 @Component({
   animations: [fadeInOut],
-
   providers: [
     UsagerService,
+    NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
   ],
@@ -42,6 +44,7 @@ const fadeInOut = trigger("fadeInOut", [
   templateUrl: "./usagers-form.html"
 })
 export class UsagersFormComponent implements OnInit {
+  public selected: any;
   get f() {
     return this.usagerForm.controls;
   }
@@ -69,7 +72,7 @@ export class UsagersFormComponent implements OnInit {
     month: this.dToday.getMonth() + 1,
     year: this.dToday.getFullYear()
   };
-  public minDateNaissance = { day: 1, month: 1, year: 1920 };
+  public minDateNaissance = { day: 1, month: 1, year: 1900 };
 
   public minDateRdv = {
     day: this.dToday.getDate(),
@@ -137,7 +140,8 @@ export class UsagersFormComponent implements OnInit {
     private structureService: StructureService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private nbgDate: NgbDateCustomParserFormatter
   ) {}
 
   public ngOnInit() {
@@ -225,13 +229,11 @@ export class UsagersFormComponent implements OnInit {
     }
 
     /* get structure users */
-    this.structureService.getStructure(2).subscribe((structure: any) => {
-      for (const agent of structure.users) {
-        this.agents.push({
-          id: agent.id,
-          name: agent.prenom + " " + agent.nom
-        });
-      }
+    this.structureService.getStructure(2).subscribe((structure: Structure) => {
+      this.structure = new Structure(structure);
+      this.rdvForm.controls.userId.setValue(this.structure.users[0].id, {
+        onlySelf: true
+      });
     });
   }
 
@@ -406,16 +408,12 @@ export class UsagersFormComponent implements OnInit {
         }
       });
     } else {
-      const dateNaissanceTmp = this.usagerForm.get("dateNaissancePicker").value;
-      this.usagerForm.controls.dateNaissance.setValue(
-        new Date(
-          dateNaissanceTmp.year +
-            "-" +
-            dateNaissanceTmp.month +
-            "-" +
-            dateNaissanceTmp.day
-        )
+      const dateTmp = this.nbgDate.formatEn(
+        this.usagerForm.get("dateNaissancePicker").value
       );
+      const dateTmpN = new Date(dateTmp).toISOString();
+
+      this.usagerForm.controls.dateNaissance.setValue(dateTmpN);
       this.usagerForm.controls.etapeDemande.setValue(this.usager.etapeDemande);
 
       this.usagerService.create(this.usagerForm.value).subscribe(
@@ -469,30 +467,19 @@ export class UsagersFormComponent implements OnInit {
           }
         });
       } else {
-        const jourRdv = this.rdvForm.get("jourRdv").value;
         const heureRdv = this.rdvForm.get("heureRdv").value;
-        const dateTmp = new Date(
-          jourRdv.year +
-            "-" +
-            jourRdv.month +
-            "-" +
-            jourRdv.day +
-            " " +
-            heureRdv.hour +
-            ":" +
-            heureRdv.minute
+        const jourRdv = this.nbgDate.formatEn(
+          this.rdvForm.get("jourRdv").value
         );
+        const dateTmp = new Date(jourRdv);
+        dateTmp.setHours(heureRdv.hour, heureRdv.minute, 0);
         this.rdvForm.controls.dateRdv.setValue(dateTmp.toISOString());
       }
     }
 
     this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe(
       (usager: Usager) => {
-        console.log("AVANT");
-        console.log(this.usager.etapeDemande);
         this.usager = new Usager(usager);
-        console.log("APRES");
-        console.log(this.usager.etapeDemande);
         this.changeSuccessMessage("Rendez-vous enregistré");
       },
       error => {
@@ -577,11 +564,16 @@ export class UsagersFormComponent implements OnInit {
 
   public addSlash(event: any) {
     const dateValue = event.target.value;
-    if (event.key === "/" && dateValue.substr(dateValue.length - 1) === "/") {
-      event.target.value = dateValue.substr(0, dateValue.length - 1);
-    }
+
     if (event.key !== "Backspace") {
-      if (dateValue.length === 2 || dateValue.length === 5) {
+      const lastChar = dateValue.substr(dateValue.length - 1);
+      if (lastChar !== "/" && !isNumber(lastChar)) {
+        event.target.value = dateValue.substr(0, dateValue.length - 1);
+      }
+
+      if (event.key === "/" && dateValue.substr(dateValue.length) === "/") {
+        event.target.value = dateValue.substr(0, dateValue.length - 1);
+      } else if (dateValue.length === 2 || dateValue.length === 5) {
         event.target.value = dateValue + "/";
       }
     }

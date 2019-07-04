@@ -34,7 +34,7 @@ export class CerfaService {
         "Nombre de domiciliations de votre organisme prévu par l’agrément atteint (associations)",
       refus3: "En dehors des critères du public domicilié (associations)",
       refus4: "Absence de lien avec la commune (CCAS/commune)",
-      refusAutre: "Autre (précisez le motif)"
+      refusAutre: "Autre motif"
     };
 
     let ayantsDroitsTexte = "";
@@ -59,7 +59,7 @@ export class CerfaService {
 
     if (usager.decision.statut === "refus") {
       this.motifRefus = motifsRefusLabels[usager.decision.motif];
-      if (usager.decision.motifDetails && usager.decision.motifDetails !== "") {
+      if (usager.decision.motif === "refusAutre") {
         this.motifRefus =
           this.motifRefus + " : " + usager.decision.motifDetails;
       }

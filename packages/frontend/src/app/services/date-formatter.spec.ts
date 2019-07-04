@@ -91,6 +91,16 @@ describe("NgbDateCustomParserFormatter", () => {
           year: 1991
         })
       ).toEqual("20/12/1991");
+
+      expect(
+        service.formatEn({
+          day: 20,
+          month: 12,
+          year: 1991
+        })
+      ).toEqual("12-20-1991");
+
+      expect(service.formatEn(null)).toEqual(null);
     }
   ));
 });

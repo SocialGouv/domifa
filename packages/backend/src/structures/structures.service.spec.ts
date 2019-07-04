@@ -1,6 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
 import { DatabaseModule } from "../database/database.module";
+import { UsagersProviders } from "../usagers/usagers.providers";
+import { UsersProviders } from "../users/users.providers";
 import { StructureDto } from "./structure-dto";
 import { StructuresProviders } from "./structures-providers";
 import { StructuresService } from "./structures.service";
@@ -29,7 +31,12 @@ describe("Structure Service", () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule],
-      providers: [StructuresService, ...StructuresProviders]
+      providers: [
+        StructuresService,
+        ...StructuresProviders,
+        ...UsagersProviders,
+        ...UsersProviders
+      ]
     }).compile();
     service = module.get<StructuresService>(StructuresService);
   });
@@ -46,22 +53,22 @@ describe("Structure Service", () => {
   it("0. Create / Read / Update / Delete", async () => {
     // LAST ID
     expect(service.findAll()).toBeTruthy();
-    expect(await service.findLast()).toEqual(3);
+    expect(await service.findLast()).toEqual(4);
 
     // CREATE
     const newStructure = await service.create(structureDto);
     expect(await newStructure).toBeDefined();
-    expect(await newStructure.id).toEqual(3);
+    expect(await newStructure.id).toEqual(4);
 
     // READ
-    const structure = await service.findById(3);
+    const structure = await service.findById(4);
     expect(await structure).toBeTruthy();
     expect(await structure.ville).toEqual("Paris");
     expect(await structure.nom).toEqual("Association Amicale");
     structureDto.id = await structure.id;
 
     // DELETE
-    const deletedstructure = await service.deleteById(3);
+    const deletedstructure = await service.deleteById(4);
     expect(await deletedstructure.deletedCount).toEqual(1);
   });
 });

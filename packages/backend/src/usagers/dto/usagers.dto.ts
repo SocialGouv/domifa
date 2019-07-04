@@ -31,7 +31,6 @@ export class UsagersDto {
   public villeNaissance: string;
 
   @IsOptional()
-  @IsEmail()
   public email: string;
 
   @IsOptional()
