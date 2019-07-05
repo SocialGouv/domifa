@@ -51,10 +51,10 @@ export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
     if (date === null) {
       return null;
     }
-    return date
-      ? `${isNumber(date.month) ? padNumber(date.month) : ""}-${
-          isNumber(date.day) ? padNumber(date.day) : ""
-        }-${date.year}`
-      : "";
+    const dateEn = `${date.year}-${
+      isNumber(date.month) ? padNumber(date.month) : ""
+    }-${isNumber(date.day) ? padNumber(date.day) : ""}`;
+
+    return dateEn;
   }
 }

@@ -56,5 +56,5 @@ describe("InteractionsService", () => {
     interaction.nbCourrier = 5;
     const usager2 = await service.create(2, interaction);
     expect(await usager2.lastInteraction.nbCourrier).toEqual(15);
-  });
+  }, 30000);
 });

@@ -27,6 +27,8 @@ export class CerfaService {
   public motifRefus: string;
   public sexe: string;
 
+  private readonly logger = new Logger(CerfaService.name);
+
   public async attestation(usager: Usager, user: User) {
     const motifsRefusLabels = {
       refus1: "Existence d'un hébergement stable",
@@ -51,8 +53,12 @@ export class CerfaService {
     }
 
     this.sexe = usager.sexe === "femme" ? "1" : "2";
-
     this.dateNaissance = this.convertDate(usager.dateNaissance);
+
+    this.logger.log("--- Erreur Cerfa ");
+    this.logger.log(usager.dateNaissance);
+    this.logger.log(this.dateNaissance);
+
     this.dateDemande = this.convertDate(usager.decision.dateInstruction);
     this.dateRdv = this.convertDate(usager.rdv.dateRdv);
     this.motifRefus = "";
@@ -246,14 +252,16 @@ export class CerfaService {
       }
     }
 
-    console.log(this.infosPdf);
+    this.logger.log("------- >this.pdfForm");
+    this.logger.log(this.infosPdf);
+
     return pdftk
       .input(fs.readFileSync(path.resolve(__dirname, this.pdfForm)))
       .fillForm(this.infosPdf)
       .output();
   }
 
-  public convertDate(date: Date) {
+  public convertDate(date: any) {
     if (date !== null) {
       return {
         annee: date.getFullYear().toString(),

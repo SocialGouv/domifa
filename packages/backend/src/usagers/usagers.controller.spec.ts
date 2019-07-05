@@ -1,23 +1,46 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import * as mongoose from "mongoose";
 import { DatabaseModule } from "../database/database.module";
 import { UsersModule } from "../users/users.module";
 import { CerfaService } from "./services/cerfa.service";
 import { UsagersService } from "./services/usagers.service";
 import { UsagersController } from "./usagers.controller";
+import { UsagersModule } from "./usagers.module";
+import { UsagersProviders } from "./usagers.providers";
 
 describe("Usagers Controller", () => {
-  it("should be defined", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  let app: TestingModule;
+  let controller: UsagersController;
+
+  beforeAll(async () => {
+    app = await Test.createTestingModule({
       controllers: [UsagersController],
       imports: [DatabaseModule, UsersModule],
-      providers: [
-        { provide: CerfaService, useValue: {} },
-        { provide: UsagersService, useValue: {} }
-      ]
+      providers: [CerfaService, UsagersService, ...UsagersProviders]
     }).compile();
 
-    const controller = module.get<UsagersController>(UsagersController);
+    controller = app.get<UsagersController>(UsagersController);
+  });
 
-    expect(controller).toBeDefined();
+  afterAll(async () => {
+    await mongoose.disconnect();
+    await mongoose.connection.close();
+  });
+
+  it("GET by ID ", async () => {
+    expect(await controller.findOne(1)).toBeDefined();
+    try {
+      await controller.findOne(30);
+    } catch (err) {
+      expect(err.message).toEqual("NOT_FOUND");
+    }
+  });
+
+  it("GET Document  📁", async () => {
+    try {
+      await controller.getDocument(2, 10, null);
+    } catch (err) {
+      expect(err.message).toEqual("NOT_FOUND");
+    }
   });
 });

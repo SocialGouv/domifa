@@ -120,12 +120,15 @@ export const UsagerSchema = new mongoose.Schema({
     phone: { type: Boolean, default: false }
   },
 
-  interactions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Interaction"
-    }
-  ],
+  interactions: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Interaction"
+      }
+    ],
+    default: []
+  },
   docs: [],
   docsPath: []
 });

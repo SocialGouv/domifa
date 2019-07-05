@@ -75,11 +75,15 @@ export class UsersService {
   }
 
   public async findLast(): Promise<number> {
-    const lastUser = await this.userModel
-      .findOne({}, { id: 1 })
-      .sort({ id: -1 })
-      .lean()
-      .exec();
-    return lastUser.id !== undefined ? lastUser.id + 1 : 1;
+    try {
+      const lastUser = await this.userModel
+        .findOne({}, { id: 1 })
+        .sort({ id: -1 })
+        .lean()
+        .exec();
+      return lastUser.id === undefined ? 1 : lastUser.id + 1;
+    } catch (e) {
+      return 1;
+    }
   }
 }

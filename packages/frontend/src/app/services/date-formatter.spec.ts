@@ -81,7 +81,7 @@ describe("NgbDateCustomParserFormatter", () => {
     }
   ));
 
-  it("NgbDate to date", inject(
+  it("FORMAT ENGLISH", inject(
     [NgbDateCustomParserFormatter],
     (service: NgbDateCustomParserFormatter) => {
       expect(
@@ -91,6 +91,21 @@ describe("NgbDateCustomParserFormatter", () => {
           year: 1991
         })
       ).toEqual("20/12/1991");
+      expect(
+        service.format({
+          day: 1,
+          month: 2,
+          year: 1991
+        })
+      ).toEqual("01/02/1991");
+
+      expect(
+        service.format({
+          day: 8,
+          month: 9,
+          year: 1991
+        })
+      ).toEqual("08/09/1991");
 
       expect(
         service.formatEn({
@@ -98,7 +113,15 @@ describe("NgbDateCustomParserFormatter", () => {
           month: 12,
           year: 1991
         })
-      ).toEqual("12-20-1991");
+      ).toEqual("1991-12-20");
+
+      expect(
+        service.formatEn({
+          day: 8,
+          month: 2,
+          year: 1909
+        })
+      ).toEqual("1909-02-08");
 
       expect(service.formatEn(null)).toEqual(null);
     }

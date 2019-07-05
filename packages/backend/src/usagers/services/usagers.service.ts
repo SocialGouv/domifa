@@ -1,4 +1,10 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger
+} from "@nestjs/common";
 import { Model } from "mongoose";
 import { User } from "../../users/user.interface";
 import { UsersService } from "../../users/users.service";
@@ -31,7 +37,7 @@ export class UsagersService {
     createdUsager.decision.userInstructionName = user.prenom + " " + user.nom;
     createdUsager.decision.userInstructionId = 2;
 
-    createdUsager.id = await this.findLastUsager();
+    createdUsager.id = await this.findLast();
 
     return createdUsager.save();
   }
@@ -236,6 +242,12 @@ export class UsagersService {
         id: usagerId
       })
       .exec();
+    if (
+      typeof usager.docs[index] === "undefined" ||
+      typeof usager.docsPath[index] === "undefined"
+    ) {
+      return null;
+    }
 
     const fileInfos = usager.docs[index];
     fileInfos.path = usager.docsPath[index];
@@ -324,12 +336,16 @@ export class UsagersService {
       .exec();
   }
 
-  public async findLastUsager(): Promise<number> {
-    const lastUsager = await this.usagerModel
-      .findOne({}, { id: 1 })
-      .sort({ id: -1 })
-      .lean()
-      .exec();
-    return lastUsager === undefined || null ? 1 : lastUsager.id + 1;
+  public async findLast(): Promise<number> {
+    try {
+      const lastUser = await this.usagerModel
+        .findOne({}, { id: 1 })
+        .sort({ id: -1 })
+        .lean()
+        .exec();
+      return lastUser.id === undefined ? 1 : lastUser.id + 1;
+    } catch (e) {
+      return 1;
+    }
   }
 }

@@ -16,6 +16,7 @@ import {
   UseInterceptors
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
+import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
 import { UsersService } from "../users/users.service";
@@ -96,8 +97,12 @@ export class UsagersController {
   }
 
   @Get(":id")
-  public findOne(@Param("id") usagerId: number) {
-    return this.usagersService.findById(usagerId);
+  public async findOne(@Param("id") usagerId: number) {
+    const usager = await this.usagersService.findById(usagerId);
+    if (usager === null) {
+      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+    }
+    return usager;
   }
 
   @Delete(":id")
@@ -111,7 +116,7 @@ export class UsagersController {
     const user = await this.usersService.findById(2);
 
     if (!user || !usager || usager === null) {
-      throw new HttpException("Usager not found", HttpStatus.NOT_FOUND);
+      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
     }
 
     this.cerfaService
@@ -143,19 +148,17 @@ export class UsagersController {
     @Param("index") index: number,
     @Res() res
   ) {
-    this.usagersService
-      .getDocument(usagerId, index)
-      .then(fileInfos => {
-        const pathFile = path.resolve(
-          __dirname,
-          "../../uploads/" + fileInfos.path
-        );
-        res.sendFile(pathFile);
-      })
-      .catch(err => {
-        this.logger.log("ERROR");
-        this.logger.log(err);
-      });
+    const fileInfos = await this.usagersService.getDocument(usagerId, index);
+
+    if (fileInfos === null) {
+      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+    }
+
+    const pathFile = path.resolve(__dirname, "../../uploads/" + fileInfos.path);
+    if (!fs.existsSync(pathFile)) {
+      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+    }
+    res.sendFile(pathFile);
   }
 
   @Post("document/:usagerId")

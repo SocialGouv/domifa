@@ -13,6 +13,9 @@ services:
   before_install:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - export PATH="$HOME/.yarn/bin:$PATH"
+    - export TZ=Europe/Paris
+    - echo 'Europe/Paris' | sudo tee /etc/timezone
+    - sudo dpkg-reconfigure --frontend noninteractive tzdata
     - sudo apt-get install -y mongodb-org-tools  pdftk
     - mongo domifa --eval "db.dropDatabase()"
     - mongorestore --gzip --archive=dump_test.gzip

@@ -1,4 +1,10 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger
+} from "@nestjs/common";
 import { Model } from "mongoose";
 import { Usager } from "../usagers/interfaces/usagers";
 import { UsagersService } from "../usagers/services/usagers.service";
@@ -25,6 +31,10 @@ export class InteractionsService {
     const user = await this.usersService.findById(2);
     const usager = await this.usagersService.findById(usagerId);
 
+    if (!usager || usager === null) {
+      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+    }
+
     usager.lastInteraction[usagersDto.type] = new Date();
 
     if (usagersDto.nbCourrier) {
@@ -44,10 +54,6 @@ export class InteractionsService {
     createdInteraction.dateInteraction = new Date();
 
     const savedInteraction = await createdInteraction.save();
-
-    if (usager.interactions === undefined) {
-      usager.interactions = [];
-    }
     usager.interactions.push(savedInteraction);
 
     const toUpdate = {

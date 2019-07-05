@@ -51,16 +51,26 @@ export class Usager {
     this.prenom = (usager && usager.prenom) || "";
     this.surnom = (usager && usager.surnom) || "";
     this.sexe = (usager && usager.sexe) || "homme";
-    this.dateNaissance = (usager && new Date(usager.dateNaissance)) || null;
+    this.dateNaissance = null;
+    this.dateNaissancePicker = {};
+    if (usager && usager.dateNaissance !== null) {
+      this.dateNaissance = new Date(usager.dateNaissance);
 
-    this.dateNaissancePicker =
-      usager && usager.dateNaissance
-        ? {
-            day: this.dateNaissance.getDate(),
-            month: this.dateNaissance.getMonth() + 1,
-            year: this.dateNaissance.getFullYear()
-          }
-        : {};
+      console.log("usager.dateNaissance");
+      console.log(usager.dateNaissance);
+      console.log("this.dateNaissance");
+      console.log(this.dateNaissance);
+      console.log("this.dateNaissance 2");
+      console.log(this.dateNaissance);
+      this.dateNaissancePicker = {
+        day: this.dateNaissance.getDate(),
+        month: this.dateNaissance.getMonth() + 1,
+        year: this.dateNaissance.getFullYear()
+      };
+
+      console.log("this.dateNaissancePicker");
+      console.log(this.dateNaissancePicker);
+    }
 
     this.villeNaissance = (usager && usager.villeNaissance) || "";
 

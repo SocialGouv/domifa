@@ -227,14 +227,6 @@ export class UsagersFormComponent implements OnInit {
       this.usager = new Usager({});
       this.initForm();
     }
-
-    /* get structure users */
-    this.structureService.getStructure(2).subscribe((structure: Structure) => {
-      this.structure = new Structure(structure);
-      this.rdvForm.controls.userId.setValue(this.structure.users[0].id, {
-        onlySelf: true
-      });
-    });
   }
 
   public initForm() {
@@ -294,6 +286,14 @@ export class UsagersFormComponent implements OnInit {
       residenceDetail: [this.usager.entretien.residenceDetail, []],
       revenus: [this.usager.entretien.revenus, []]
     });
+
+    /* get structure users */
+    this.structureService.getStructure(2).subscribe((structure: Structure) => {
+      this.structure = new Structure(structure);
+      this.rdvForm.controls.userId.setValue(this.structure.users[0].id, {
+        onlySelf: true
+      });
+    });
   }
 
   public setDecision(statut: string) {
@@ -301,7 +301,9 @@ export class UsagersFormComponent implements OnInit {
       .setDecision(this.usager.id, this.usager.decision, statut)
       .subscribe(
         (usager: Usager) => {
-          this.modal.close();
+          if (this.modal) {
+            this.modal.close();
+          }
           this.usager = new Usager(usager);
           this.changeSuccessMessage(this.labels[statut]);
         },
@@ -411,8 +413,8 @@ export class UsagersFormComponent implements OnInit {
       const dateTmp = this.nbgDate.formatEn(
         this.usagerForm.get("dateNaissancePicker").value
       );
-      const dateTmpN = new Date(dateTmp).toISOString();
 
+      const dateTmpN = new Date(dateTmp).toISOString();
       this.usagerForm.controls.dateNaissance.setValue(dateTmpN);
       this.usagerForm.controls.etapeDemande.setValue(this.usager.etapeDemande);
 

@@ -40,7 +40,7 @@ describe("UsagersService", () => {
   it("0. Create / Read / Update / Delete", async () => {
     // LAST ID
     expect(service.findAll()).toBeTruthy();
-    expect(await service.findLastUsager()).toEqual(4);
+    expect(await service.findLast()).toEqual(4);
 
     // CREATE
     const newUser = await service.create(fakeUsagerDto);
@@ -69,7 +69,7 @@ describe("UsagersService", () => {
   });
 
   it("2. Doublons", async () => {
-    const doublons = await service.isDoublon("Kar", "Del");
+    const doublons = await service.isDoublon("del", "Kar");
     expect(doublons.length).toEqual(1);
   });
 
@@ -105,5 +105,19 @@ describe("UsagersService", () => {
       ],
       "decision.statut": "valide"
     });
+  });
+
+  it("2. Document Functions 📁 ", async () => {
+    const doc = await service.getDocument(3, 0);
+    expect(doc).toEqual({
+      createdAt: new Date("2019-07-05T13:11:42.795Z"),
+      createdBy: "Yassine",
+      filetype: "image/jpeg",
+      label: "Lettre d'identité",
+      path: "1d94d21bb6e11d230a4b41c10a564102e2.jpg"
+    });
+
+    const docError = await service.getDocument(3, 10);
+    expect(docError).toBeNull();
   });
 });
