@@ -1408,10 +1408,10 @@
   dependencies:
     uuid "3.3.2"
 
-"@ng-bootstrap/ng-bootstrap@^5.0.0-rc.1":
-  version "5.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-5.0.0-rc.1.tgz#1212a7060132058ac479fdc10ab871477edb3cb4"
-  integrity sha512-LRbA+qCbsY3rnXQiFbDG6M0fyDOi6n4MadUUrrnI6DyNAsH+uAg2twxkjXhkizUD6+XihpvR6AMsQ91T3Bndaw==
+"@ng-bootstrap/ng-bootstrap@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-5.0.0.tgz#93abf17b9d10680ca89b9dae3d50113df6f0fa3e"
+  integrity sha512-B3jLrJ2Fm6cP3IghG9PJQQw0J8BDXx1zh2XFHmm3S1K19UXKQTtL8Ta0TMfjSsIHqEeZmQ1gtlMBGk/+ucbYzg==
   dependencies:
     tslib "^1.9.0"
 
