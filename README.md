@@ -1,5 +1,6 @@
 # DomiFa
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f15dba30a35f44c5a62cfdea9c1e3729)](https://app.codacy.com/app/pYassine/domifa?utm_source=github.com&utm_medium=referral&utm_content=SocialGouv/domifa&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.com/SocialGouv/domifa.svg?branch=master)](https://travis-ci.com/SocialGouv/domifa)
 [![codecov](https://codecov.io/gh/SocialGouv/domifa/branch/master/graph/badge.svg)](https://codecov.io/gh/SocialGouv/domifa)
 
