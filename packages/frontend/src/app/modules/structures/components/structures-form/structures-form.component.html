@@ -1,3 +1,248 @@
-<p>
-  structures-form works!
-</p>
+<div class="col-md-10 offset-md-1">
+  <div class="w-100"></div>
+  <ngb-alert
+    @fadeInOut
+    *ngIf="errorMessage"
+    type="danger"
+    (close)="errorMessage = null">
+    <strong>Erreur:</strong>
+    {{ errorMessage }}
+  </ngb-alert>
+  <ngb-alert
+    @fadeInOut
+    *ngIf="successMessage"
+    type="success"
+    (close)="successMessage = null">
+    <strong>{{ successMessage }}</strong>
+  </ngb-alert>
+</div>
+
+<div class="step_form">
+  <div class="text-center">
+    <h5 class="title">
+      Vous créez un compte administrateur pour votre structure, qui n’est pas encore référencée sur Domifa.
+    </h5>
+  </div>
+  <br>
+  <br>
+  <form
+    [formGroup]="structureForm"
+    (ngSubmit)="submitUser()"
+    autocomplete="off">
+    <div class="row">
+      <div
+        class="btn-group btn-group-toggle"
+        data-toggle="buttons">
+        <label class="btn btn-secondary active">
+          <input
+            type="radio"
+            name="options"
+            id="option1"
+            autocomplete="off"
+            checked>
+          Un CCAS, un CIAS ou une commune
+        </label>
+        <label class="btn btn-secondary">
+          <input
+            type="radio"
+            name="options"
+            id="option2"
+            autocomplete="off">
+          Un organisme agréé
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group required">
+        <label for="nom">Raison sociale (nom de la structure)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nom"
+          formControlName="nom"
+          placeholder="Nom"
+          [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+          required>
+        <div
+          *ngIf="submitted && f.nom.errors"
+          class="invalid-feedback"
+          autocomplete="null">
+          <div *ngIf="f.nom.errors.required">
+            Le
+            <b>nom de la structure</b>
+            est requis
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group required">
+        <label for="adresseAuto">Adresse</label>
+        <input
+          type="text"
+          class="form-control"
+          id="adresseAuto"
+          formControlName="adresseAuto"
+          placeholder="15 rue des bois, etc.."
+          [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+          required>
+        <div
+          *ngIf="submitted && f.adresseAuto.errors"
+          class="invalid-feedback"
+          autocomplete="null">
+          <div *ngIf="f.adresseAuto.errors.required">
+            <b>L'adresse</b>
+            est obligatoire
+          </div>
+        </div>
+      </div>
+      <div class="form-group required">
+        <label for="complementAdresse">Complément d'adresse</label>
+        <input
+          type="text"
+          class="form-control"
+          id="complementAdresse"
+          formControlName="complementAdresse"
+          placeholder="15 rue des bois, etc.."
+          [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+          required>
+        <div
+          *ngIf="submitted && f.complementAdresse.errors"
+          class="invalid-feedback"
+          autocomplete="null">
+          <div ngIf="f.complementAdresse.errors.required">
+            <b>L'adresse</b>
+            est obligatoire
+          </div>
+        </div>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value
+          id="defaultCheck1">
+        <label
+          class="form-check-label"
+          for="defaultCheck1">
+          L'adresse de réception du courrier est différente de celle de l'association ?
+        </label>
+      </div>
+
+      <div class="row">
+        <div class="col form-group required">
+          <label for="fonction">Fonction</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fonction"
+            formControlName="fonction"
+            placeholder="Président.e, Directrice, etc."
+            [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"
+            required>
+          <div
+            *ngIf="submitted && f.fonction.errors"
+            class="invalid-feedback"
+            autocomplete="null">
+            <div *ngIf="f.fonction.errors.required">Votre fonction est obligatoire</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col form-group required">
+          <label for="email">Adresse e-mail indiquée sur le Cerfa</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+            placeholder="Email"
+            [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+            required>
+          <div
+            *ngIf="submitted && f.email.errors"
+            class="invalid-feedback"
+            autocomplete="null">
+            <div *ngIf="f.email.errors.required">
+              L'adresse
+              <b>Email</b>
+              est obligatoire
+            </div>
+          </div>
+        </div>
+        <div
+          class="col form-group required"
+          id="passwordInput">
+          <label for="password">Mot de passe</label>
+          <input
+            class="form-control"
+            [type]="!hidePassword ? 'text' : 'password'"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+            id="password"
+            formControlName="password"
+            placeholder="6 caractères mininum"
+            required>
+          <span>
+            <fa-icon
+              *ngIf="hidePassword"
+              (click)="hidePassword = false"
+              icon="eye"></fa-icon>
+          </span>
+          <span>
+            <fa-icon
+              *ngIf="!hidePassword"
+              (click)="hidePassword = true"
+              icon="eye-slash"></fa-icon>
+          </span>
+          <div
+            *ngIf="submitted && f.password.errors"
+            class="invalid-feedback"
+            autocomplete="null">
+            <div *ngIf="f.password.errors.required">
+              Le
+              <b>Mot de passe</b>
+              est obligatoire
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input
+      type="hidden"
+      formControlName="adressePostale"
+      id="input"
+      class="form-control"
+      value>
+    <input
+      type="hidden"
+      formControlName="codePostal"
+      id="input"
+      class="form-control"
+      value>
+    <input
+      type="hidden"
+      formControlName="ville"
+      id="input"
+      class="form-control"
+      value>
+    <input
+      type="hidden"
+      formControlName="departement"
+      id="input"
+      class="form-control"
+      value>
+
+    <br>
+    <div class="text-center">
+      <button class="btn btn-primary">Finaliser mon inscription</button>
+      <br>
+      <br>
+      <br>
+      <a
+        href
+        class="btn btn-outline-dark">
+        Retour en arrière
+      </a>
+    </div>
+  </form>
+</div>

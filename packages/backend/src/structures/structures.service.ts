@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import * as mongoose from "mongoose";
 import { User } from "../users/user.interface";
@@ -29,6 +29,7 @@ export class StructuresService {
 
   public async addUser(user: User, structureId: number) {
     const structure = await this.findById(structureId);
+
     structure.users.push(user);
     return this.structureModel
       .findOneAndUpdate(
@@ -58,11 +59,15 @@ export class StructuresService {
   }
 
   public async findLast(): Promise<number> {
-    const lastStructure = await this.structureModel
-      .findOne({}, { id: 1 })
-      .sort({ id: -1 })
-      .lean()
-      .exec();
-    return lastStructure.id !== undefined ? lastStructure.id + 1 : 1;
+    try {
+      const lastStructure = await this.structureModel
+        .findOne({}, { id: 1 })
+        .sort({ id: -1 })
+        .lean()
+        .exec();
+      return lastStructure.id === undefined ? 1 : lastStructure.id + 1;
+    } catch (e) {
+      return 1;
+    }
   }
 }

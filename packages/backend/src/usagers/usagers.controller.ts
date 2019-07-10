@@ -146,7 +146,7 @@ export class UsagersController {
   public async getDocument(
     @Param("usagerId") usagerId: number,
     @Param("index") index: number,
-    @Res() res
+    @Res() res: any
   ) {
     const fileInfos = await this.usagersService.getDocument(usagerId, index);
 
@@ -155,9 +155,11 @@ export class UsagersController {
     }
 
     const pathFile = path.resolve(__dirname, "../../uploads/" + fileInfos.path);
+
     if (!fs.existsSync(pathFile)) {
       throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
     }
+
     res.sendFile(pathFile);
   }
 
