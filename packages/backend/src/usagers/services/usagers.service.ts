@@ -280,10 +280,10 @@ export class UsagersService {
       .find({
         $and: [
           {
-            nom: { $regex: nom + ".*", $options: "-i" }
+            nom: { $regex: nom, $options: "-i" }
           },
           {
-            prenom: { $regex: prenom + ".*", $options: "-i" }
+            prenom: { $regex: prenom, $options: "-i" }
           }
         ]
       })

@@ -1,8 +1,12 @@
 import { animate, style, transition, trigger } from "@angular/animations";
+import { error } from "@angular/compiler/src/util";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
+import { StructureService } from "src/app/modules/structures/services/structure.service";
+import { Structure } from "src/app/modules/structures/structure.interface";
 import { regexp } from "src/app/shared/validators";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
@@ -40,7 +44,10 @@ export class RegisterUserComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UsersService
+    private userService: UsersService,
+    private route: ActivatedRoute,
+    private structureService: StructureService,
+    private router: Router
   ) {}
 
   public ngOnInit() {
@@ -49,7 +56,21 @@ export class RegisterUserComponent implements OnInit {
     this.user = new User({});
     this.user.structureId = 2;
 
-    this.initForm();
+    this.user = new User({});
+    if (this.route.snapshot.params.id) {
+      const id = this.route.snapshot.params.id;
+      this.structureService.findOne(id).subscribe(
+        (structure: Structure) => {
+          this.user.structureId = structure.id;
+          this.initForm();
+        },
+        error => {
+          this.router.navigate(["404"]);
+        }
+      );
+    } else {
+      this.router.navigate(["404"]);
+    }
 
     this.successSubject.subscribe(message => {
       this.successMessage = message;

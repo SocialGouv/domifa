@@ -1,6 +1,7 @@
 import { User } from "../users/interfaces/user";
 
 export class Structure {
+  public id: number;
   public adresse: string;
   public complementAdresse: string;
   public nom: string;
@@ -19,6 +20,7 @@ export class Structure {
   public users: User[];
 
   constructor(structure?: any) {
+    this.id = (structure && structure.id) || 0;
     this.adresse = (structure && structure.adresse) || "";
     this.complementAdresse = (structure && structure.complementAdresse) || "";
     this.nom = (structure && structure.nom) || "";

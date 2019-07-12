@@ -1,9 +1,7 @@
+import { animate, style, transition, trigger } from "@angular/animations";
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { isNumber } from "src/app/services/bootstrap-util";
-
-import { animate, style, transition, trigger } from "@angular/animations";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -15,6 +13,7 @@ import { Doc } from "src/app/modules/usagers/interfaces/document";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+import { isNumber } from "src/app/services/bootstrap-util";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { LABELS } from "../../../../shared/labels";
@@ -404,7 +403,7 @@ export class UsagersFormComponent implements OnInit {
       Object.keys(this.usagerForm.controls).forEach(key => {
         if (this.usagerForm.get(key).errors != null) {
           this.changeSuccessMessage(
-            "Un des champs du formulaire est incorrecte",
+            "Un des champs du formulaire n'est pas rempli ou contient une erreur",
             true
           );
         }

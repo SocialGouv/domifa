@@ -4,7 +4,7 @@ export interface Structure extends Document {
   adresse: string;
   complementAdresse: string;
   nom: string;
-  structureType: number;
+  structureType: string;
   ville: string;
   departement: string;
   codePostal: string;
