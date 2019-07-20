@@ -1337,7 +1337,7 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nestjs/cli@^6.5.0":
+"@nestjs/cli@^6.6.0":
   version "6.6.0"
   resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-6.6.0.tgz#f5ebee700b834b62d1b427dbf2a9353b4e2d9f56"
   integrity sha512-hy6ge3p+1PMMMSBf8UHkfofBCNLIEXQUqiPYK9gn6YtDxtcjN7M/ou/0U5zfr87hS9Us+JlySTEaMTAwqk5wfw==
@@ -1355,7 +1355,7 @@
     os-name "3.1.0"
     typescript "3.4.5"
 
-"@nestjs/common@^6.5.2":
+"@nestjs/common@^6.5.3":
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-6.5.3.tgz#25a3916b53f1e681640641bdb96a40bb37a15515"
   integrity sha512-8d39grIMrUYGKM46BFWxB6csQFCu1S2aK7azPivg7gTRVSbvR84cVd6tgRVM0LwFpqQrtn3Q6G6Pa8FSk7Kh1w==
@@ -1364,7 +1364,7 @@
     cli-color "1.4.0"
     uuid "3.3.2"
 
-"@nestjs/core@^6.5.2":
+"@nestjs/core@^6.5.3":
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-6.5.3.tgz#0cfd4388f07f15ab7b49aa0ff7ed594f51446378"
   integrity sha512-ZhYfH49sVmUUw02qsaGozCFOOehlEABakYzRShyDDq30/2+ek3KpE0DfvA9tXlzX2KVrac2qDTBxMOPoJ+zY+g==
@@ -1394,7 +1394,7 @@
   resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-6.1.0.tgz#80da326cc976a82530648d8025b04c8e2d41c10e"
   integrity sha512-V4KdtFFLsdZQ/HlIECpiK6byzGz57Y12TAc+Iatykk8jWuVFE1jq8RJbpTfB0zG0PTfcGm9crQ6Ut2Rwdmis4Q==
 
-"@nestjs/platform-express@^6.5.2":
+"@nestjs/platform-express@^6.5.3":
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-6.5.3.tgz#0260f2c13e5914dc121dbd3a221afb5305b9f813"
   integrity sha512-c5n4XUbDDmF6MfBGYWM1jtsIDpVsOfOQtf3S0w3IeJNqm7dnmVAvO2Jk+RsYpt50tN4NAXntM3YTuTDqMb9uiA==
@@ -1414,7 +1414,7 @@
     ts-morph "^1.3.1"
     typescript "^3.2.2"
 
-"@nestjs/testing@^6.5.2":
+"@nestjs/testing@^6.5.3":
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-6.5.3.tgz#fcc2a9ed77ae2f5626e6472e67964a0c401edec6"
   integrity sha512-W8tPhkNVhmX+jaDu4R7WUOtIl0PK3ZDso434rEm/b1+S6ZRgAKwNVHWM/rwIuTi5+erPTEULtTsZgrXFrzC1sA==
