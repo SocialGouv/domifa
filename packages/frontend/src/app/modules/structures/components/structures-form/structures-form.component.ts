@@ -1,16 +1,27 @@
-import { animate, style, transition, trigger } from "@angular/animations";
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Observable } from "rxjs";
-import { debounceTime, map } from "rxjs/operators";
-import { isNumber } from "src/app/services/bootstrap-util";
+import {
+  NgbModal,
+  NgbTypeaheadSelectItemEvent
+} from "@ng-bootstrap/ng-bootstrap";
+import { Observable, of, Subject } from "rxjs";
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap
+} from "rxjs/operators";
+import { AutocompleteAdresseService } from "src/app/services/autocomplete-adresse";
+import { fadeInOut } from "../../../../shared/animations";
 import { DEPARTEMENTS } from "../../../../shared/departements";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
 
 @Component({
+  animations: [fadeInOut],
   selector: "app-structures-form",
   styleUrls: ["./structures-form.component.css"],
   templateUrl: "./structures-form.component.html"
@@ -25,35 +36,55 @@ export class StructuresFormComponent implements OnInit {
   public departements: any;
   public model: any;
   public submitted: boolean = false;
+  public searching: boolean = false;
+  public searchFailed: boolean;
+  public successMessage: string;
+  public errorMessage: string;
+
+  private successSubject = new Subject<string>();
+  private errorSubject = new Subject<string>();
 
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private Autocomplete: AutocompleteAdresseService
   ) {}
-
-  public formatter = (x: { name: string }) => x.name;
 
   public ngOnInit() {
     this.departements = DEPARTEMENTS;
     this.structure = new Structure({});
+
+    this.successSubject.subscribe(message => {
+      this.successMessage = message;
+      this.errorMessage = null;
+    });
+
+    this.errorSubject.subscribe(message => {
+      this.errorMessage = message;
+      this.successMessage = null;
+    });
+
     this.initForm();
   }
 
   public initForm() {
     this.structureForm = this.formBuilder.group({
-      adresseAuto: [this.structure.adresse, []],
-      adressePostale: [this.structure.adresse, []],
+      adresse: [this.structure.adresse, [Validators.required]],
+      adresseAuto: [this.structure.adresse, [Validators.required]],
+      adresseCourrier: [this.structure.adresseCourrier, []],
+      adresseDifferente: [this.structure.adresseCourrier, []],
       agrement: [this.structure.agrement, []],
       codePostal: [this.structure.codePostal, [Validators.required]],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, []],
-      departementSearch: [this.structure.departement, []],
+      departementAuto: [this.structure.departement, []],
       email: [this.structure.email, [Validators.required, Validators.email]],
+      id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
-      phone: [this.structure.phone, []],
+      phone: [this.structure.phone, [Validators.required]],
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
@@ -64,7 +95,39 @@ export class StructuresFormComponent implements OnInit {
     });
   }
 
-  public search = (text$: Observable<string>) =>
+  public submitStrucutre() {
+    this.submitted = true;
+
+    if (this.structureForm.invalid) {
+      Object.keys(this.structureForm.controls).forEach(key => {
+        if (this.structureForm.get(key).errors !== null) {
+          this.changeSuccessMessage(
+            "veuillez vérifier les champs marqués en rouge dans le formulaire",
+            true
+          );
+        }
+      });
+    } else {
+      this.structureService.create(this.structureForm.value).subscribe(
+        (structure: Structure) => {
+          this.changeSuccessMessage("La structure a bien été créée");
+          console.log(structure);
+          // this.structure = new Structure(structure);
+        },
+        error => {
+          /* Todo : afficher le contenu des erreurs cote serveur */
+          if (error.statusCode && error.statusCode === 400) {
+            for (const message of error.message) {
+              console.log(message.constraints);
+            }
+          }
+          this.changeSuccessMessage("Une erreur dans le form", true);
+        }
+      );
+    }
+  }
+
+  public searchDepartement = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       map(term =>
@@ -77,4 +140,51 @@ export class StructuresFormComponent implements OnInit {
               .slice(0, 10)
       )
     );
+
+  public formatter = (x: { properties: { label: string } }) =>
+    x.properties.label;
+
+  public selectVille(event: NgbTypeaheadSelectItemEvent): void {
+    this.structureForm.controls.adresse.setValue(event.item.properties.label);
+    this.structureForm.controls.ville.setValue(event.item.properties.city);
+    this.structureForm.controls.codePostal.setValue(
+      event.item.properties.postcode
+    );
+  }
+
+  public selectDepartement(event: NgbTypeaheadSelectItemEvent): void {
+    this.structureForm.controls.departement.setValue(event.item.code);
+  }
+
+  public formatDepartement(x: any) {
+    if (x.name !== undefined) {
+      return x.name + ", " + x.code;
+    }
+  }
+
+  public search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => (this.searching = true)),
+      switchMap(term =>
+        this.Autocomplete.search(term).pipe(
+          tap(() => (this.searchFailed = false)),
+          catchError(() => {
+            this.searchFailed = true;
+            return of([]);
+          })
+        )
+      ),
+      tap(() => (this.searching = false))
+    );
+
+  public changeSuccessMessage(message: string, error?: boolean) {
+    window.scroll({
+      behavior: "smooth",
+      left: 0,
+      top: 0
+    });
+    error ? this.errorSubject.next(message) : this.successSubject.next(message);
+  }
 }

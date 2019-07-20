@@ -1,0 +1,35 @@
+<div class="step_form">
+  <div class="text-center">
+    <h4 class="title">
+      Prêt(e) à faciliter la domiciliation ?
+      <br>
+      L’inscription se fait en moins d’une minute !
+    </h4>
+    <br>
+    <b>
+      Les structures déjà enregistrées dans votre ville sont les suivantes.
+    </b>
+    <div class="text-center">
+      <div
+        class="card"
+        [routerLink]="'/inscription/'+structure.id"
+        *ngFor="let structure of structures">
+        <span>
+          <b>{{ structure.nom }}</b>
+          - {{ structure.adresse }}
+        </span>
+      </div>
+    </div>
+    <br>
+    Si votre structure n'est pas dans la liste, vous pouvez la créer en cliquant sur le bouton ci-dessous
+    <br>
+    <br>
+    <a
+      class="btn btn-primary"
+      [routerLink]="['/structures/nouveau']"
+      routerLinkActive="router-link-active">
+      J'inscris ma structure
+    </a>
+  </div>
+  <br>
+</div>

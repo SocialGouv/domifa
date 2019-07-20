@@ -22,8 +22,8 @@ export class UsagersService {
   public sort: {};
   public searchByName: {};
   public searchQuery: SearchQuery;
-
   private readonly logger = new Logger(UsagersService.name);
+
   constructor(
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model,
     private readonly usersService: UsersService

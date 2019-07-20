@@ -13,47 +13,78 @@
     *ngIf="successMessage"
     type="success"
     (close)="successMessage = null">
-    <strong>{{ successMessage }}</strong>
+    <strong>La structure a été créée avec succès</strong>
   </ngb-alert>
 </div>
 
 <div class="step_form">
   <div class="text-center">
-    <h5 class="title">
+    <h4 class="title">
       Vous créez un compte administrateur pour votre structure,
       <br>
       qui n’est pas encore référencée sur Domifa.
-    </h5>
+    </h4>
   </div>
   <br>
-  <br>
+
   <form
     [formGroup]="structureForm"
-    (ngSubmit)="submitUser()"
+    (ngSubmit)="submitStrucutre()"
+    id="structureForm"
     autocomplete="off">
     <div class="row">
+      <div class="col-md-12 text-center">Vous appartenez à…</div>
       <div class="col-md-12 text-center">
         <div
-          class="btn-group btn-group-toggle"
-          data-toggle="buttons">
-          <label class="btn btn-primary active">
+          class="btn"
+          [ngClass]="{
+              'btn-primary': f.structureType.value === 'ccas',
+              'btn-outline-primary': f.structureType.value !== 'ccas',
+              'btn-outline-danger': submitted && f.structureType.value === ''
+            }">
+          <label for="ccas">
+            CCAS, CIAS, Commune
             <input
               type="radio"
-              formControlName="structureType"
-              id="asso">
-            Un CCAS, un CIAS ou une commune
+              id="ccas"
+              class="d-none"
+              value="ccas"
+              formControlName="structureType">
           </label>
-          <label class="btn btn-primary">
+        </div>
+        <div
+          class="btn"
+          [ngClass]="{
+              'btn-primary': f.structureType.value === 'asso',
+              'btn-outline-primary': f.structureType.value !== 'asso',
+              'btn-outline-danger': submitted && f.structureType.value === ''
+            }">
+          <label for="asso">
+            Organisme agréée
             <input
               type="radio"
-              formControlName="structureType"
-              id="ccas">
-            Un organisme agréé
+              id="asso"
+              class="d-none"
+              value="asso"
+              formControlName="structureType">
           </label>
         </div>
       </div>
+
+      <div
+        *ngIf="submitted && f.structureType.value === ''"
+        class="col-md-12 text-danger text-center">
+        Veuillez sélectionner un des deux types d'organisme : CCAS ou organisme agréé
+        <br>
+      </div>
+
     </div>
     <br>
+
+    <div class="text-center subtitle">
+      Les coordonnées de cette structure, qui apparaîtront sur le Cerfa d’attestation, sont :
+      <br>
+    </div>
     <br>
     <div class="row">
       <div class="col-md-12 form-group required">
@@ -79,44 +110,64 @@
       </div>
 
       <div class="col-md-12 form-group required">
-        <label for="adresseAuto">Adresse</label>
+        <label for="adresse">Adresse de l'organisme</label>
+
         <input
+          id="typeahead-http"
           type="text"
-          class="form-control"
           id="adresseAuto"
+          class="form-control"
+          [class.is-invalid]="searchFailed"
           formControlName="adresseAuto"
-          placeholder="15 rue des bois, etc.."
-          [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
-          required>
+          [ngbTypeahead]="search"
+          [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
+          [resultTemplate]="rt"
+          autocomplete="null"
+          [inputFormatter]="formatter"
+          (selectItem)="selectVille($event)"
+          placeholder="Entrez une adresse">
+        <span *ngIf="searching">Recherche en cours...</span>
         <div
-          *ngIf="submitted && f.adresseAuto.errors"
+          class="invalid-feedback"
+          *ngIf="searchFailed">
+          Désolé, l'adresse recherchée n'existe pas
+        </div>
+        <ng-template
+          #rt
+          let-r="result"
+          let-t="term">
+          <ngb-highlight
+            [result]="r.properties.label"
+            [term]="t">
+          </ngb-highlight>
+        </ng-template>
+
+        <div
+          *ngIf="submitted && f.adresse.errors"
           class="invalid-feedback"
           autocomplete="null">
-          <div *ngIf="f.adresseAuto.errors.required">
+          <div *ngIf="f.adresse.errors.required">
             <b>L'adresse</b>
             est obligatoire
           </div>
         </div>
       </div>
 
-      <div class="col-md-12 form-group required">
+      <div class="col-md-12 form-group">
         <label for="complementAdresse">Complément d'adresse</label>
         <input
           type="text"
           class="form-control"
           id="complementAdresse"
+          autocomplete="null"
           formControlName="complementAdresse"
           placeholder="15 rue des bois, etc.."
-          [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
-          required>
+          [ngClass]="{ 'is-invalid': submitted && f.complementAdresse.errors }">
         <div
           *ngIf="submitted && f.complementAdresse.errors"
           class="invalid-feedback"
           autocomplete="null">
-          <div ngIf="f.complementAdresse.errors.required">
-            <b>L'adresse</b>
-            est obligatoire
-          </div>
+          {{ f.complementAdresse.errors | json }}
         </div>
       </div>
 
@@ -125,14 +176,30 @@
           <input
             class="form-check-input"
             type="checkbox"
-            value
-            id="defaultCheck1">
+            formControlName="adresseDifferente"
+            value="true"
+            id="adresseDifferente">
           <label
             class="form-check-label"
-            for="defaultCheck1">
+            for="adresseDifferente">
             L'adresse de réception du courrier est différente de celle de l'association ?
           </label>
         </div>
+      </div>
+    </div>
+    <div
+      class="row"
+      *ngIf="f.adresseDifferente.value === true">
+      <div class="col-md-12 form-group">
+        <label for="adresseCourrier">Adresse de réception du courrier</label>
+        <input
+          type="text"
+          class="form-control"
+          id="adresseCourrier"
+          autocomplete="null"
+          formControlName="adresseCourrier"
+          placeholder="15 rue des bois, etc.."
+          [ngClass]="{ 'is-invalid': submitted && f.adresseCourrier.errors }">
       </div>
     </div>
 
@@ -145,6 +212,8 @@
           id="phone"
           formControlName="phone"
           placeholder="0606060606"
+          autocomplete="null"
+          maxlength="10"
           [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
           required>
         <div
@@ -171,105 +240,138 @@
           id="email"
           formControlName="email"
           placeholder="Email"
+          autocomplete="null"
           [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
           required>
         <div
           *ngIf="submitted && f.email.errors"
-          class="invalid-feedback"
-          autocomplete="null">
-          <div *ngIf="f.email.errors.required">
-            L'adresse
-            <b>Email</b>
-            est obligatoire
-          </div>
+          class="invalid-feedback">
+          Veuillez vérifier l'adresse email
         </div>
       </div>
     </div>
     <br>
-    <div class="row">
-      <h5 class="text-center title">
-        Quelles sont ses informations d’agrément ?
-      </h5>
-    </div>
     <br>
-    <br>
-    <div>
-      <div class="col form-group">
-        <label for="departement">Préfecture ayant délivré l’agrément</label>
-        <input
-          id="typeahead-template"
-          type="text"
-          class="form-control"
-          formControlName="departementSearch"
-          [ngbTypeahead]="search"
-          [inputFormatter]="formatter">
+    <div
+      class="row"
+      *ngIf="f.structureType.value === 'asso'">
+
+      <div class="col-md-12 text-center ">
+        <h5 class="subtitle">
+          Quelles sont ses informations d’agrément ?
+        </h5>
       </div>
+
       <div class="col form-group required">
-        <label for="nom">Numéro d'agrément</label>
+        <label for="departementAuto">Préfecture ayant délivré l’agrément</label>
         <input
+          id="departementAuto"
           type="text"
           class="form-control"
-          id="agrement"
-          formControlName="agrement"
-          placeholder="Numéro donné par la préfecture"
-          [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
+          formControlName="departement"
+          [ngbTypeahead]="searchDepartement"
+          (selectItem)="selectDepartement($event)"
+          [resultTemplate]="rtDepartement"
+          [inputFormatter]="formatDepartement">
+        <div
+          *ngIf="submitted && f.departement.errors"
+          class="invalid-feedback"
+          autocomplete="null">
+          Veuillez sélectionner un département
+        </div>
+        <input
+          type="hidden"
+          formControlName="departement"
+          id="departement"
+          class="form-control"
+          value
           required>
 
+        <ng-template
+          #rtDepartement
+          let-r="result"
+          let-t="term">
+          <ngb-highlight
+            [result]="formatDepartement(r)"
+            [term]="t">
+          </ngb-highlight>
+        </ng-template>
+      </div>
+
+      <div class="col form-group required">
+        <label for>Numéro d'agrément</label>
+        <input
+          formControlName="nom"
+          class="form-control"
+          id="agrement"
+          placeholder="Numéro donné par la préfecture"
+          type="text"
+          [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
+          required>
+        <div
+          *ngIf="submitted && f.agrement.errors"
+          class="invalid-feedback"
+          autocomplete="null">
+          Veuillez insérer un numéro d'agrément
+        </div>
       </div>
     </div>
+
     <br>
     <br>
     <div class="text-center">
-      <h5 class="title">Qui est son responsable légal ?</h5>
+      <h5 class="subtitle">Qui est son responsable légal ?</h5>
       Il s’agit du nom qui apparaîtra sur le Cerfa.
     </div>
     <br>
     <div
       class="row"
-      [formGroupName]="responsable">
-      <div class="col form-group required">
-        <label for="nom">Nom</label>
+      formGroupName="responsable">
+
+      <div class="col-md-6 form-group required">
+        <label for="responsable-nom">Nom</label>
         <input
           type="text"
           class="form-control"
-          id="nom"
+          id="responsable-nom"
           formControlName="nom"
           placeholder="Nom d'un.e responsable"
-          [ngClass]="{ 'is-invalid': submitted && f.responsable.nom.errors }"
+          [ngClass]="{ 'is-invalid': submitted && f.responsable.get('nom').errors }"
           required>
         <div
-          *ngIf="submitted && f.responsable.nom.errors"
+          *ngIf="submitted && f.responsable.get('nom').errors"
           class="invalid-feedback"
           autocomplete="null">
-          <div *ngIf="f.responsable.nom.errors.required">
+          <div *ngIf="f.responsable.get('nom').errors.required">
             Le
             <b>nom</b>
             du demandeur est obligatoire
           </div>
         </div>
       </div>
-      <div class="col form-group required">
-        <label for="prenom">Prénom(s)</label>
+      <div class="col-md-6  form-group required">
+        <label for="responsable-prenom">Prénom(s)</label>
         <input
           type="text"
           class="form-control"
-          id="prenom"
+          id="responsable-prenom"
           formControlName="prenom"
           placeholder="Prénom(s)"
-          [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+          [ngClass]="{ 'is-invalid': submitted && f.responsable.get('prenom').errors }"
           required>
         <div
-          *ngIf="submitted && f.responsable.prenom.errors"
+          *ngIf="submitted && f.responsable.get('prenom').errors"
           class="invalid-feedback"
           autocomplete="null">
-          <div *ngIf="f.responsable.prenom.errors.required">
+          <div *ngIf="f.responsable.get('prenom').errors.required">
             Le
             <b>Prénom</b>
             est obligatoire
           </div>
         </div>
+
       </div>
-      <div class="col form-group required">
+      <div class="col-md-12 form-group required">
         <label for="fonction">Fonction</label>
         <input
           type="text"
@@ -277,62 +379,46 @@
           id="fonction"
           formControlName="fonction"
           placeholder="Président.e, Directrice, etc."
-          [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"
+          [ngClass]="{ 'is-invalid': submitted && f.responsable.get('fonction').errors }"
           required>
         <div
-          *ngIf="submitted && f.responsable.fonction.errors"
+          *ngIf="submitted && f.responsable.get('fonction').errors"
           class="invalid-feedback"
           autocomplete="null">
-          <div *ngIf="f.responsable.fonction.errors.required">Votre fonction est obligatoire</div>
+          <div *ngIf="f.responsable.get('fonction').errors.required">Votre fonction est obligatoire</div>
         </div>
       </div>
+
     </div>
     <div class="row">
       <input
         type="hidden"
-        formControlName="adressePostale"
-        id="input"
+        formControlName="codePostal"
+        id="codePostal"
         class="form-control"
         value>
       <input
         type="hidden"
-        formControlName="codePostal"
-        id="input"
+        formControlName="adresse"
+        id="adresse"
         class="form-control"
         value>
       <input
         type="hidden"
         formControlName="ville"
-        id="input"
+        id="ville"
         class="form-control"
         value>
-      <input
-        type="hidden"
-        formControlName="departement"
-        id="input"
-        class="form-control"
-        value>
-      <br>
-      <div class="text-center">
-        <button class="btn btn-primary">Finaliser mon inscription</button>
+
+      <div class="col-md-12 text-center">
         <br>
+
+        <button class="btn btn-primary">Enregistrer votre structure</button>
         <br>
-        <br>
-        <a
-          href
-          class="btn btn-outline-dark">
-          Retour en arrière
-        </a>
       </div>
+
+      <br>
     </div>
+
   </form>
 </div>
-
-<ng-template
-  #rt
-  let-r="result"
-  let-t="term">
-  <ngb-highlight
-    [result]="r.name"
-    [term]="t"></ngb-highlight>
-</ng-template>

@@ -55,7 +55,7 @@
       <div *ngIf="doublons">
         <ul>
           <li *ngFor="let doublon of doublons">
-            <a routerLink="'/profil/'+doublon.id+'/edit'">
+            <a routerLink="'/usager/'+doublon.id+'/edit'">
               <b>{{ doublon.nom }}</b>
               {{ doublon.prenom }}
             </a>
@@ -910,7 +910,7 @@
           <div class="col">
             <div>
               <span class="label">
-                Avez-vous déjà une domiciliation quelque part ?
+                Avez-vous déjà une domiciliation ?
                 <fa-icon
                   icon="question-circle"
                   placement="top"

@@ -14,7 +14,6 @@ export class StructureDto {
   public id: number;
 
   @IsNotEmpty()
-  @IsNumber()
   @IsIn(["asso", "ccas", "hopital"])
   public structureType: string;
 
@@ -25,7 +24,7 @@ export class StructureDto {
   public nom: string;
 
   @IsOptional()
-  public adressePostale: string;
+  public adresseCourrier: string;
 
   @IsOptional()
   public complementAdresse: string;
@@ -36,17 +35,16 @@ export class StructureDto {
   @IsNotEmpty()
   public ville: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   public agrement: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   public departement: string;
 
-  @IsOptional()
-  @IsEmail()
+  @IsNotEmpty()
   public email: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   public phone: string;
 
   @IsNotEmpty()

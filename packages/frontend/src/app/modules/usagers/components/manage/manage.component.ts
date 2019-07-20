@@ -91,7 +91,7 @@ export class ManageUsagersComponent implements OnInit {
       statut === "instruction" || statut === "demande" || statut === "refus"
         ? "/edit"
         : "";
-    const url = "profil/" + id + urlParams;
+    const url = "usager/" + id + urlParams;
     this.router.navigate([url]);
   }
 
@@ -114,7 +114,6 @@ export class ManageUsagersComponent implements OnInit {
     this.usagerService.search(this.filters).subscribe(
       (usagers: Usager[]) => {
         this.usagers = usagers;
-
         this.searching = false;
       },
       error => {

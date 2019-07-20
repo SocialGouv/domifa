@@ -6,6 +6,12 @@
 
 @font-face {
   font-family: "Source Sans Pro";
+  src: url("../fonts/SourceSansPro/SourceSansPro-SemiBold.otf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
   src: url("../fonts/SourceSansPro/SourceSansPro-Bold.otf");
   font-weight: 800;
 }
@@ -31,8 +37,7 @@
 h1,
 h2,
 h3,
-h4,
-h5 {
+h4 {
   font-family: Evolventa;
 }
 

@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from "@angular/animations";
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -16,19 +15,12 @@ import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { isNumber } from "src/app/services/bootstrap-util";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
+import { fadeInOut } from "../../../../shared/animations";
 import { LABELS } from "../../../../shared/labels";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../../structures/services/structure.service";
 import { Structure } from "../../../structures/structure.interface";
 import { AyantDroit } from "../../interfaces/ayant-droit";
-
-const fadeInOut = trigger("fadeInOut", [
-  transition(":enter", [
-    style({ opacity: 0 }),
-    animate(300, style({ opacity: 1 }))
-  ]),
-  transition(":leave", [animate(150, style({ opacity: 0 }))])
-]);
 
 @Component({
   animations: [fadeInOut],
@@ -420,7 +412,7 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService.create(this.usagerForm.value).subscribe(
         (usager: Usager) => {
           this.changeSuccessMessage("Enregistrement réussi");
-          this.router.navigate(["profil/" + usager.id + "/edit"]);
+          this.router.navigate(["usager/" + usager.id + "/edit"]);
         },
         error => {
           /* Todo : afficher le contenu des erreurs cote serveur */

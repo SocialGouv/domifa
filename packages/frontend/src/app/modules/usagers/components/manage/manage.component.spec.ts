@@ -13,6 +13,8 @@ import { HomeComponent } from "src/app/modules/general/components/home/home.comp
 import { MentionsLegalesComponent } from "src/app/modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { LoadingComponent } from "src/app/modules/loading/loading.component";
 import { StructuresFormComponent } from "src/app/modules/structures/components/structures-form/structures-form.component";
+import { StructuresSearchComponent } from "src/app/modules/structures/components/structures-search/structures-search.component";
+
 import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
 import { AppRoutingModule, routes } from "../../../../app-routing.module";
 import { UsagersFormComponent } from "../form/usagers-form";
@@ -35,7 +37,8 @@ describe("ManageUsagersComponent", () => {
         LoadingComponent,
         RegisterUserComponent,
         MentionsLegalesComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        StructuresSearchComponent
       ],
       imports: [
         NgbModule,
@@ -116,11 +119,11 @@ describe("ManageUsagersComponent", () => {
       app = fixture.debugElement.componentInstance;
       app.goToProfil(2, "instruction");
       tick();
-      expect(location.path()).toEqual("/profil/2/edit");
+      expect(location.path()).toEqual("/usager/2/edit");
 
       app.goToProfil(1, "valide");
       tick();
-      expect(location.path()).toEqual("/profil/1");
+      expect(location.path()).toEqual("/usager/1");
     })
   ));
 });

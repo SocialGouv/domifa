@@ -24,6 +24,7 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { LoadingComponent } from "./modules/loading/loading.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
+import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
@@ -44,7 +45,8 @@ library.add(fas, far);
     LoadingComponent,
     RegisterUserComponent,
     MentionsLegalesComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    StructuresSearchComponent
   ],
   imports: [
     BrowserModule,

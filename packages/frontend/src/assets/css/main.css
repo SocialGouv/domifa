@@ -206,6 +206,10 @@ table .active {
   font-weight: 700;
 }
 
+.subtitle {
+  font-weight: 600;
+}
+
 .capitalize {
   text-transform: capitalize;
 }

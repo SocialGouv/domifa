@@ -8,16 +8,9 @@ import { debounceTime } from "rxjs/operators";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { regexp } from "src/app/shared/validators";
+import { fadeInOut } from "../../../../shared/animations";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
-
-const fadeInOut = trigger("fadeInOut", [
-  transition(":enter", [
-    style({ opacity: 0 }),
-    animate(300, style({ opacity: 1 }))
-  ]),
-  transition(":leave", [animate(150, style({ opacity: 0 }))])
-]);
 
 @Component({
   animations: [fadeInOut],
@@ -29,6 +22,7 @@ export class RegisterUserComponent implements OnInit {
   public title: string;
   public user: User;
   public userForm: FormGroup;
+
   public submitted: boolean;
 
   public hidePassword: boolean;
@@ -45,9 +39,7 @@ export class RegisterUserComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
-    private route: ActivatedRoute,
-    private structureService: StructureService,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   public ngOnInit() {
@@ -57,29 +49,19 @@ export class RegisterUserComponent implements OnInit {
     this.user.structureId = 2;
 
     this.user = new User({});
-    if (this.route.snapshot.params.id) {
-      const id = this.route.snapshot.params.id;
-      this.structureService.findOne(id).subscribe(
-        (structure: Structure) => {
-          this.user.structureId = structure.id;
-          this.initForm();
-        },
-        error => {
-          this.router.navigate(["404"]);
-        }
-      );
-    } else {
-      this.router.navigate(["404"]);
-    }
+    this.user.structureId = this.route.snapshot.params.id;
+    this.initForm();
 
     this.successSubject.subscribe(message => {
       this.successMessage = message;
       this.errorMessage = null;
     });
+
     this.errorSubject.subscribe(message => {
       this.errorMessage = message;
       this.successMessage = null;
     });
+
     this.successSubject
       .pipe(debounceTime(10000))
       .subscribe(() => (this.successMessage = null));

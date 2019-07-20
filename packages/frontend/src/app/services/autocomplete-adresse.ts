@@ -6,8 +6,7 @@ import { map } from "rxjs/operators";
 const ADRESSE_DATA_GOUV = "https://api-adresse.data.gouv.fr/search/";
 const PARAMS = new HttpParams({
   fromObject: {
-    limit: "10",
-    type: "municipality"
+    limit: "10"
   }
 });
 
@@ -25,8 +24,8 @@ export class AutocompleteAdresseService {
     return this.http
       .get(ADRESSE_DATA_GOUV, { params: PARAMS.set("q", term) })
       .pipe(
-        map(response => {
-          return response;
+        map((response: any) => {
+          return response.features;
         })
       );
   }

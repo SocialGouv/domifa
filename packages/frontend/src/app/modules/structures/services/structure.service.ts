@@ -8,15 +8,20 @@ import { Structure } from "../structure.interface";
 })
 export class StructureService {
   public http: HttpClient;
-  private endPoint = environment.apiUrl + "structures/";
+  private endPoint = environment.apiUrl + "structures";
 
   constructor(http: HttpClient) {
     this.http = http;
   }
 
   public getStructure(id: number) {
-    return this.http.get(`${this.endPoint}${id}/`);
+    return this.http.get(`${this.endPoint}/${id}/`);
   }
+
+  public getAll() {
+    return this.http.get(`${this.endPoint}`);
+  }
+
   /* Ajout d'un domicilié */
   public create(structure: Structure) {
     return structure.id !== 0

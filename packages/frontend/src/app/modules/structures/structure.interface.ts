@@ -3,9 +3,11 @@ import { User } from "../users/interfaces/user";
 export class Structure {
   public id: number;
   public adresse: string;
+  public adresseCourrier: string;
   public complementAdresse: string;
+  public adresseDifferente: boolean;
   public nom: string;
-  public structureType: number;
+  public structureType: string;
   public ville: string;
   public departement: string;
   public codePostal: string;
@@ -21,7 +23,9 @@ export class Structure {
 
   constructor(structure?: any) {
     this.id = (structure && structure.id) || 0;
-    this.adresse = (structure && structure.adresse) || "";
+    this.adresse = (structure && structure.adresse) || null;
+    this.adresseCourrier = (structure && structure.adresseCourrier) || "";
+    this.adresseDifferente = structure && structure.adresseCourrier !== "";
     this.complementAdresse = (structure && structure.complementAdresse) || "";
     this.nom = (structure && structure.nom) || "";
     this.structureType = (structure && structure.structureType) || "";

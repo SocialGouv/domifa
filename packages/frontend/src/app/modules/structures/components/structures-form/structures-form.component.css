@@ -1,0 +1,8 @@
+#structureForm div.btn {
+  margin: 10px 15px;
+}
+
+.btn label {
+  margin: 0;
+  padding: 10px 15px;
+}
