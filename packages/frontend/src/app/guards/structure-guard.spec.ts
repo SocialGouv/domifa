@@ -47,11 +47,7 @@ describe("StructureGuard", () => {
   ));
 
   it("should navigate to home for a logged out user", () => {
-    console.log("--->activatedRoute");
-    console.log(activatedRoute);
-
     structureGuard = new StructureGuard(activatedRoute, structureService);
-
     expect(structureGuard.canActivate()).toEqual(false);
   });
 });
