@@ -38,7 +38,7 @@
     "mongoose": "^5.6.4",
     "mongoose-auto-increment-reworked": "^1.2.1",
     "mongoose-sequence": "^5.1.0",
-    "multer": "^1.4.1",
+    "multer": "^1.4.2",
     "node-pdftk": "^2.0.2",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
