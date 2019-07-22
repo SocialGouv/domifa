@@ -20,10 +20,11 @@ services:
     - mongo domifa --eval "db.dropDatabase()"
     - mongorestore --gzip --archive=dump_test.gzip
     - sleep 15
-    - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+    - mongo mydb_test --eval 'db.createUser({user:"travis", pwd:"test",roles:["readWrite"]});'
     - touch packages/backend/src/config/config.env
-    - echo "DB_USER=travis" >> packages/backend/src/config/config.env
-    - echo "DB_PASS=test" >> packages/backend/src/config/config.env
+    - echo "DB_USER=travis" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - cat /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
 
   install:
     - yarn --frozen-lockfile
