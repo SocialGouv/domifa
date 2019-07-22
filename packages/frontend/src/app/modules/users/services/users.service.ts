@@ -7,14 +7,14 @@ import { environment } from "src/environments/environment";
 })
 export class UsersService {
   public http: HttpClient;
-  private endPoint = environment.apiUrl + "users/";
+  private endPoint = environment.apiUrl + "users";
 
   constructor(http: HttpClient) {
     this.http = http;
   }
 
   public getUser(id: number) {
-    return this.http.get(`${this.endPoint}${id}/`);
+    return this.http.get(`${this.endPoint}/${id}`);
   }
 
   public create(data: any) {

@@ -16,8 +16,29 @@
     <strong>{{ successMessage }}</strong>
   </ngb-alert>
 </div>
-
-<div class="step_form">
+<div
+  class="step_form"
+  *ngIf="success">
+  <div class="text-center">
+    <fa-icon
+      class="fa-4x"
+      [icon]="['far', 'check-circle']"></fa-icon>
+    <br>
+    <h3 class="text-success">
+      Félicitations, votre compte a bien été créé
+    </h3>
+    <p class="text-center">
+      <b>
+        Un email de confirmation vient de vous être envoyé.
+      </b>
+      <br>
+      Cliquez sur le lien pour confirmer votre compte et vous connecter.
+    </p>
+  </div>
+</div>
+<div
+  class="step_form"
+  *ngIf="!success">
   <div class=" text-center">
     <h5 class="title">
       Vous pouvez désormais créer votre compte

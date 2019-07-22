@@ -24,6 +24,7 @@ export class RegisterUserComponent implements OnInit {
   public userForm: FormGroup;
 
   public submitted: boolean;
+  public success: boolean;
 
   public hidePassword: boolean;
   public successMessage: string;
@@ -46,10 +47,8 @@ export class RegisterUserComponent implements OnInit {
     this.title = "Inscription";
     this.hidePassword = true;
     this.user = new User({});
-    this.user.structureId = 2;
-
-    this.user = new User({});
-    this.user.structureId = this.route.snapshot.params.id;
+    this.user.structureId = parseInt(this.route.snapshot.params.id, 10);
+    this.success = false;
     this.initForm();
 
     this.successSubject.subscribe(message => {
@@ -93,8 +92,8 @@ export class RegisterUserComponent implements OnInit {
     } else {
       this.userService.create(this.userForm.value).subscribe(
         (user: User) => {
-          this.changeSuccessMessage("Votre compte a bien été créé");
           this.user = new User(user);
+          this.success = true;
         },
         error => {
           /* Todo : afficher le contenu des erreurs cote serveur */

@@ -40,7 +40,6 @@ export class UsersService {
     try {
       const newUser = await createdUser.save();
       this.structureService.addUser(newUser, createdUser.structureId);
-
       return newUser;
     } catch (error) {
       throw new BadRequestException(error);

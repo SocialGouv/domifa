@@ -9,7 +9,6 @@ export const UserSchema = new mongoose.Schema({
   prenom: { type: String, required: true },
   nom: { type: String, required: true },
   password: { type: String, required: true },
-  phone: { type: String, required: true },
   structure: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Structure"

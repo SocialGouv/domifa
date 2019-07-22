@@ -31,6 +31,7 @@ export class StructuresFormComponent implements OnInit {
     return this.structureForm.controls;
   }
   public title: string;
+  public success: boolean = false;
   public structureForm: FormGroup;
   public structure: Structure;
   public departements: any;
@@ -111,8 +112,9 @@ export class StructuresFormComponent implements OnInit {
       this.structureService.create(this.structureForm.value).subscribe(
         (structure: Structure) => {
           this.changeSuccessMessage("La structure a bien été créée");
-          console.log(structure);
-          // this.structure = new Structure(structure);
+          this.success = true;
+          this.structure = new Structure(structure);
+          this.router.navigate(["inscription/" + this.structure.id]);
         },
         error => {
           /* Todo : afficher le contenu des erreurs cote serveur */

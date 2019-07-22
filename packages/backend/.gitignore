@@ -2,3 +2,10 @@ node_modules
 src/uploads/
 uploads
 dist
+*.env
+
+
+
+
+db.createUser( { user: "travisDb", pwd: "travisMdp", roles: [ { role: "dbOwner", db: "domifa" } ]  });
+  

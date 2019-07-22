@@ -1,12 +1,7 @@
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot
-} from "@angular/router";
-import { Observable } from "rxjs";
+import { ActivatedRouteSnapshot, CanActivate, Router } from "@angular/router";
+import { Observable, of } from "rxjs";
+import { map } from "rxjs/operators";
 import { StructureService } from "../modules/structures/services/structure.service";
 import { Structure } from "../modules/structures/structure.interface";
 
@@ -15,27 +10,29 @@ import { Structure } from "../modules/structures/structure.interface";
 })
 export class StructureGuard implements CanActivate {
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
     private structureService: StructureService
   ) {}
 
-  public canActivate(): boolean {
-    if (this.route.snapshot.params.id) {
-      const id = this.route.snapshot.params.id;
-      this.structureService.findOne(id).subscribe(
+  public canActivate(activatedRoute: ActivatedRouteSnapshot): any {
+    const id = activatedRoute.params.id;
+    if (!id) {
+      this.router.navigate(["/404"]);
+      return false;
+    }
+
+    return this.structureService.findOne(id).pipe(
+      map(
         (structure: Structure) => {
           if (structure !== null && structure !== undefined) {
-            console.log("--> --> 1");
             return true;
           }
         },
-        error => {
-          console.log("--> --> 2");
+        (error: any) => {
+          this.router.navigate(["/404"]);
           return false;
         }
-      );
-    }
-    console.log("--> --> 3");
-    return false;
+      )
+    );
   }
 }

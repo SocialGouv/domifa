@@ -9,8 +9,13 @@
 }
 
 .card {
-  width: 90%;
+  width: 85%;
   max-width: 600px;
-  padding: 5px 10px;
-  margin: 5px auto;
+  margin: 6px auto;
+}
+
+.card a {
+  padding: 8px 12px;
+  display: block;
+  width: 100%;
 }

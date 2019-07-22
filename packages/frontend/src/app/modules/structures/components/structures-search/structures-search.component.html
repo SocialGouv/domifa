@@ -1,4 +1,6 @@
-<div class="step_form">
+<div
+  class="step_form"
+  *ngIf="structures">
   <div class="text-center">
     <h4 class="title">
       Prêt(e) à faciliter la domiciliation ?
@@ -12,14 +14,17 @@
     <div class="text-center">
       <div
         class="card"
-        [routerLink]="'/inscription/'+structure.id"
         *ngFor="let structure of structures">
-        <span>
+        <a
+          class="nav-link"
+          href="#"
+          routerLink="{{ structure.id}}">
           <b>{{ structure.nom }}</b>
           - {{ structure.adresse }}
-        </span>
+        </a>
       </div>
     </div>
+    <br>
     <br>
     Si votre structure n'est pas dans la liste, vous pouvez la créer en cliquant sur le bouton ci-dessous
     <br>

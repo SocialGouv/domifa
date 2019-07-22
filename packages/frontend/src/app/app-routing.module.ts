@@ -13,12 +13,12 @@ import { RegisterUserComponent } from "./modules/users/components/register-user/
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: "structures", component: StructuresSearchComponent },
+  { path: "inscription", component: StructuresSearchComponent },
   { path: "structures/nouveau", component: StructuresFormComponent },
   {
-    component: RegisterUserComponent,
     path: "inscription/:id",
-    canActivate: [StructureGuard]
+    canActivate: [StructureGuard],
+    component: RegisterUserComponent
   },
   { path: "usager/nouveau", component: UsagersFormComponent },
   { path: "usager/:id/edit", component: UsagersFormComponent },

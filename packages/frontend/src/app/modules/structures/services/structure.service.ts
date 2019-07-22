@@ -14,7 +14,7 @@ export class StructureService {
     this.http = http;
   }
 
-  public getStructure(id: number) {
+  public getStructure(id: number): any {
     return this.http.get(`${this.endPoint}/${id}/`);
   }
 

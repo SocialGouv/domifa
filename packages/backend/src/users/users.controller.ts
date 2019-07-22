@@ -18,7 +18,9 @@ export class UsersController {
 
   @Post()
   public async create(@Body() userDto: UserDto) {
-    return this.usersService.newUser(userDto);
+    this.usersService.newUser(userDto).then(user => {
+      return user;
+    });
   }
 
   @Get()
@@ -30,5 +32,11 @@ export class UsersController {
   @Delete(":id")
   public deleteOne(@Param("id") id: number) {
     return this.usersService.deleteById(id);
+  }
+
+  @Get("validate/:tokrn")
+  public validate(@Req() request: Request): Promise<User[]> {
+    return this.usersService.findAll();
+    // return 'This action returns all USERS';
   }
 }
