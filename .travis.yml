@@ -20,7 +20,7 @@ services:
     - mongo domifa --eval "db.dropDatabase()"
     - mongorestore --gzip --archive=dump_test.gzip
     - sleep 15
-    - mongo domifa --eval 'db.createUser({user:"travis", pwd:"test", roles:[{role:"userAdminAnyDatabase",db:"domifa"},"readWriteAnyDatabase"] });'
+    - mongo domifa --eval "db.createUser({user:'travis', pwd:'test', roles:[{role:'readWrite', db:'domifa'}] });"
     - touch packages/backend/src/config/config.env
     - echo "DB_USER=travis" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
