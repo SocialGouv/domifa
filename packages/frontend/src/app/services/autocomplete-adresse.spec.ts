@@ -1,6 +1,6 @@
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { fakeAsync, inject, TestBed } from "@angular/core/testing";
+import { async, TestBed } from "@angular/core/testing";
 import { AutocompleteAdresseService } from "./autocomplete-adresse";
 
 describe("AutocompleteAdresseService", () => {
@@ -10,13 +10,28 @@ describe("AutocompleteAdresseService", () => {
       providers: [AutocompleteAdresseService]
     });
   });
-  it("should be created", fakeAsync(
-    inject(
-      [AutocompleteAdresseService],
-      (service: AutocompleteAdresseService) => {
-        expect(service).toBeTruthy();
-        expect(service.search).toBeDefined();
+
+  it("Get Search", async(() => {
+    const service: AutocompleteAdresseService = TestBed.get(
+      AutocompleteAdresseService
+    );
+
+    // expect(service).toBeTruthy();
+    console.log(service.search(""));
+    console.log(service.search("110 route de saint-leu"));
+
+    service.search("110 route de saint-leu").subscribe(
+      (adresses: any) => {
+        expect(adresses).toBeTruthy();
+        console.log("adresses");
+        console.log(adresses);
+      },
+      error => {
+        expect(error).toBeTruthy();
+        console.log("ERRORS");
+        console.log(error);
+        // expect(error).toBeTruthy();
       }
-    )
-  ));
+    );
+  }));
 });

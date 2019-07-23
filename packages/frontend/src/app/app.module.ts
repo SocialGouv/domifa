@@ -29,6 +29,8 @@ import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
+import { ServerErrorInterceptor } from "./services/server-error.interceptor";
+import { DigitOnlyDirective } from "./shared/digit-only.directive";
 
 // Add an icon to the library for convenient access in other components
 library.add(fas, far);
@@ -46,7 +48,8 @@ library.add(fas, far);
     RegisterUserComponent,
     MentionsLegalesComponent,
     NotFoundComponent,
-    StructuresSearchComponent
+    StructuresSearchComponent,
+    DigitOnlyDirective
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,13 @@ library.add(fas, far);
     NgbModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    {
+      multi: true,
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerErrorInterceptor
+    }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router } from "@angular/router";
 import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 import { StructureService } from "../modules/structures/services/structure.service";
 import { Structure } from "../modules/structures/structure.interface";
 
@@ -29,7 +29,6 @@ export class StructureGuard implements CanActivate {
           }
         },
         (error: any) => {
-          this.router.navigate(["/404"]);
           return false;
         }
       )

@@ -20,11 +20,14 @@ export class StructuresService {
   }
 
   public async findById(structureId: number) {
-    return this.structureModel
+    const structure = await this.structureModel
       .findOne({ id: structureId })
-      .populate("users")
       .lean()
       .exec();
+    if (!structure) {
+      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+    }
+    return structure;
   }
 
   public async addUser(user: User, structureId: number) {
