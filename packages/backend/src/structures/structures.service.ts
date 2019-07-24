@@ -1,11 +1,8 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import * as mongoose from "mongoose";
 import { User } from "../users/user.interface";
-import { UserSchema } from "../users/user.schema";
 import { StructureDto } from "./structure-dto";
 import { Structure } from "./structure-interface";
-mongoose.set("debug", true);
 
 @Injectable()
 export class StructuresService {
@@ -24,7 +21,7 @@ export class StructuresService {
       .findOne({ id: structureId })
       .lean()
       .exec();
-    if (!structure) {
+    if (!structure || structure.length === 0) {
       throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
     }
     return structure;

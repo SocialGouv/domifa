@@ -1,6 +1,6 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientModule, HttpHandler } from "@angular/common/http";
-import { async, inject, TestBed } from "@angular/core/testing";
+import { async, inject, TestBed, tick } from "@angular/core/testing";
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
@@ -14,9 +14,8 @@ import { StructureGuard } from "./structure-guard";
 
 describe("StructureGuard", () => {
   let structureGuard: StructureGuard;
-  let router: Router;
+
   let activatedRoute: ActivatedRouteSnapshot;
-  let structureService: StructureService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -34,22 +33,32 @@ describe("StructureGuard", () => {
         { provide: APP_BASE_HREF, useValue: "/" }
       ]
     });
-    router = TestBed.get(Router);
+
     activatedRoute = TestBed.get(ActivatedRouteSnapshot);
-    structureService = TestBed.get(StructureService);
+
     structureGuard = TestBed.get(StructureGuard);
   }));
 
-  it("should be created", inject(
+  it("Structure guard - Creation", inject(
     [StructureGuard],
     (service: StructureGuard) => {
       expect(service).toBeTruthy();
     }
   ));
 
-  it("Structure ID not exist", async(async () => {
-    // console.log(activatedRoute);
-    // console.log(await structureGuard.canActivate(activatedRoute));
-    // expect(service.canActivate(activatedRoute)).toEqual(false);
+  it("✅ Structure exist", async(() => {
+    structureGuard.canActivate(activatedRoute).subscribe((value: any) => {
+      expect(value).toEqual(true);
+    });
+  }));
+
+  it("❌ Structure not exist - 404 error", async(() => {
+    activatedRoute.params.id = 100;
+    structureGuard.canActivate(activatedRoute).subscribe(
+      () => {},
+      error => {
+        expect(error).toBeDefined();
+      }
+    );
   }));
 });

@@ -20,7 +20,7 @@ export class AutocompleteAdresseService {
     this.http = http;
   }
 
-  public search(term: string): Observable<any> {
+  public search(term: string): any {
     if (term === "") {
       return of([]);
     }

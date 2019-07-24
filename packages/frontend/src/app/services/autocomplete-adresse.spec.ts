@@ -1,37 +1,35 @@
 import { HttpClientModule } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { async, TestBed } from "@angular/core/testing";
+import { of } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
 import { AutocompleteAdresseService } from "./autocomplete-adresse";
 
 describe("AutocompleteAdresseService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, HttpClientTestingModule],
+      imports: [HttpClientModule],
       providers: [AutocompleteAdresseService]
     });
   });
 
-  it("Get Search", async(() => {
+  it("🔍 Adresse Data Gouv Autocomplete", async(() => {
     const service: AutocompleteAdresseService = TestBed.get(
       AutocompleteAdresseService
     );
-
-    // expect(service).toBeTruthy();
-    console.log(service.search(""));
-    console.log(service.search("110 route de saint-leu"));
+    expect(service).toBeTruthy();
 
     service.search("110 route de saint-leu").subscribe(
-      (adresses: any) => {
-        expect(adresses).toBeTruthy();
-        console.log("adresses");
-        console.log(adresses);
+      (value: any) => {
+        expect(value.length).toEqual(10);
       },
-      error => {
-        expect(error).toBeTruthy();
-        console.log("ERRORS");
-        console.log(error);
-        // expect(error).toBeTruthy();
-      }
+      error => {}
+    );
+
+    service.search("").subscribe(
+      (value: any) => {
+        expect(value.length).toEqual(0);
+      },
+      error => {}
     );
   }));
 });
