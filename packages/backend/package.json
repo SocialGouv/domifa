@@ -1,7 +1,11 @@
 {
   "name": "@domifa/backend",
+<<<<<<< HEAD
   "private": true,
   "version": "0.1.0",
+=======
+  "version": "0.2.0",
+>>>>>>> b841ebd066140ace199e24aa3069f220f32e6c9d
   "description": "",
   "author": "",
   "license": "MIT",
@@ -51,7 +55,7 @@
     "rxjs": "^6.5.2"
   },
   "devDependencies": {
-    "@nestjs/cli": "^6.6.0",
+    "@nestjs/cli": "^6.6.1",
     "@nestjs/jwt": "^6.1.1",
     "@nestjs/testing": "^6.5.3",
     "@socialgouv/tslint-config-recommended": "^0.9.3",
