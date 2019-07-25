@@ -109,42 +109,24 @@
       </div>
 
       <div class="col-md-12 form-group required">
-        <label for="adresse">Adresse de l'organisme</label>
-
+        <label for="adresse">Adresse de l'organisme domiciliataire</label>
         <input
-          id="typeahead-http"
+          id="adresse"
           type="text"
-          id="adresseAuto"
           class="form-control"
-          [class.is-invalid]="searchFailed"
-          formControlName="adresseAuto"
-          [ngbTypeahead]="search"
+          formControlName="adresse"
           [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
-          [resultTemplate]="rt"
           autocomplete="null"
-          [inputFormatter]="formatter"
-          (selectItem)="selectVille($event)"
-          placeholder="Entrez une adresse">
+          placeholder="Cette adresse apparaîtra sur le Cerfa">
         <span *ngIf="searching">Recherche en cours...</span>
         <div
           class="invalid-feedback"
           *ngIf="searchFailed">
           Désolé, l'adresse recherchée n'existe pas
         </div>
-        <ng-template
-          #rt
-          let-r="result"
-          let-t="term">
-          <ngb-highlight
-            [result]="r.properties.label"
-            [term]="t">
-          </ngb-highlight>
-        </ng-template>
-
         <div
           *ngIf="submitted && f.adresse.errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           <div *ngIf="f.adresse.errors.required">
             <b>L'adresse</b>
             est obligatoire
@@ -160,13 +142,43 @@
           id="complementAdresse"
           autocomplete="null"
           formControlName="complementAdresse"
-          placeholder="15 rue des bois, etc.."
+          placeholder="Lieu-dit, Bâtiment, étage, etc.."
           [ngClass]="{ 'is-invalid': submitted && f.complementAdresse.errors }">
         <div
           *ngIf="submitted && f.complementAdresse.errors"
-          class="invalid-feedback"
-          autocomplete="null">
-          {{ f.complementAdresse.errors | json }}
+          class="invalid-feedback">
+          <b>L'adresse est obligatoire</b>
+        </div>
+      </div>
+      <div class="col-md-6 form-group required">
+        <label for="codePostal">Code postal</label>
+        <input
+          type="text"
+          class="form-control"
+          id="codePostal"
+          autocomplete="null"
+          maxlength="5"
+          formControlName="codePostal"
+          [ngClass]="{ 'is-invalid': submitted && f.codePostal.errors }">
+        <div
+          *ngIf="submitted && f.codePostal.errors"
+          class="invalid-feedback">
+          Le code postal est obligatoire
+        </div>
+      </div>
+      <div class="col-md-6 form-group required">
+        <label for="ville">Ville</label>
+        <input
+          type="text"
+          class="form-control"
+          id="ville"
+          autocomplete="null"
+          formControlName="ville"
+          [ngClass]="{ 'is-invalid': submitted && f.ville.errors }">
+        <div
+          *ngIf="submitted && f.ville.errors"
+          class="invalid-feedback">
+          La ville est obligatoire
         </div>
       </div>
 
@@ -218,8 +230,7 @@
           required>
         <div
           *ngIf="submitted && f.phone.errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           <div
             *ngIf="submitted && f.phone.errors"
             class="invalid-feedback">
@@ -275,8 +286,7 @@
           [inputFormatter]="formatDepartement">
         <div
           *ngIf="submitted && f.departement.errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           Veuillez sélectionner un département
         </div>
         <input
@@ -310,8 +320,7 @@
           required>
         <div
           *ngIf="submitted && f.agrement.errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           Veuillez insérer un numéro d'agrément
         </div>
       </div>
@@ -340,8 +349,7 @@
           required>
         <div
           *ngIf="submitted && f.responsable.get('nom').errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           <div *ngIf="f.responsable.get('nom').errors.required">
             Le
             <b>nom</b>
@@ -361,8 +369,7 @@
           required>
         <div
           *ngIf="submitted && f.responsable.get('prenom').errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           <div *ngIf="f.responsable.get('prenom').errors.required">
             Le
             <b>Prénom</b>
@@ -383,42 +390,19 @@
           required>
         <div
           *ngIf="submitted && f.responsable.get('fonction').errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           <div *ngIf="f.responsable.get('fonction').errors.required">Votre fonction est obligatoire</div>
         </div>
       </div>
 
     </div>
     <div class="row">
-      <input
-        type="hidden"
-        formControlName="codePostal"
-        id="codePostal"
-        class="form-control"
-        value>
-      <input
-        type="hidden"
-        formControlName="adresse"
-        id="adresse"
-        class="form-control"
-        value>
-      <input
-        type="hidden"
-        formControlName="ville"
-        id="ville"
-        class="form-control"
-        value>
-
       <div class="col-md-12 text-center">
         <br>
-
         <button class="btn btn-primary">Enregistrer votre structure</button>
         <br>
       </div>
-
       <br>
     </div>
-
   </form>
 </div>

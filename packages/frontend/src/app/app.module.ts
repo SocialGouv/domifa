@@ -28,8 +28,10 @@ import { StructuresSearchComponent } from "./modules/structures/components/struc
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
+import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ServerErrorInterceptor } from "./services/server-error.interceptor";
+import { DateFrDirective } from "./shared/date-fr.directive";
 import { DigitOnlyDirective } from "./shared/digit-only.directive";
 
 // Add an icon to the library for convenient access in other components
@@ -49,7 +51,9 @@ library.add(fas, far);
     MentionsLegalesComponent,
     NotFoundComponent,
     StructuresSearchComponent,
-    DigitOnlyDirective
+    DigitOnlyDirective,
+    DateFrDirective,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

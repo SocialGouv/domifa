@@ -27,6 +27,7 @@ export class RegisterUserComponent implements OnInit {
   public success: boolean;
 
   public hidePassword: boolean;
+  public hidePasswordConfirm: boolean;
   public successMessage: string;
   public errorMessage: string;
 
@@ -46,6 +47,8 @@ export class RegisterUserComponent implements OnInit {
   public ngOnInit() {
     this.title = "Inscription";
     this.hidePassword = true;
+    this.hidePasswordConfirm = true;
+
     this.user = new User({});
     this.user.structureId = parseInt(this.route.snapshot.params.id, 10);
     this.success = false;
@@ -71,8 +74,8 @@ export class RegisterUserComponent implements OnInit {
       email: [this.user.email, [Validators.email, Validators.required]],
       fonction: [this.user.fonction, Validators.required],
       nom: [this.user.nom, Validators.required],
-      password: [this.user.phone, Validators.required],
-      phone: [this.user.phone, [Validators.pattern(regexp.phone)]],
+      password: ["", Validators.required],
+      passwordConfirm: ["", Validators.required],
       prenom: [this.user.prenom, Validators.required],
       structureId: [this.user.structureId, []]
     });
@@ -84,7 +87,7 @@ export class RegisterUserComponent implements OnInit {
       Object.keys(this.userForm.controls).forEach(key => {
         if (this.userForm.get(key).errors != null) {
           this.changeSuccessMessage(
-            "Un des champs du formulaire est incorrecte",
+            "veuillez vérifier les champs marqués en rouge dans le formulairee",
             true
           );
         }

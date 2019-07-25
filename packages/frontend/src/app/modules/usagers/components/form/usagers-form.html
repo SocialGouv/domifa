@@ -297,7 +297,8 @@
                   placement="bottom"
                   formControlName="dateNaissancePicker"
                   ngbDatepicker
-                  (keyup)="addSlash($event)"
+                  dateFr
+                  value
                   [ngClass]="{
                     'is-invalid': submitted && f.dateNaissancePicker.errors
                   }"
@@ -320,16 +321,16 @@
                 <div
                   *ngIf="f.dateNaissancePicker.errors"
                   class="invalid-feedback">
-                  <div *ngIf="f.dateNaissancePicker.value <= minDateNaissance.year">Pas de date avant 1900</div>
+
                   <div *ngIf="submitted && f.dateNaissancePicker.errors.required">
                     La
                     <b>date de naissance</b>
                     est obligatoire
                   </div>
-                  <div *ngIf="f.dateNaissancePicker.errors.ngbDate">
+                  <div *ngIf="submitted && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)">
                     La
-                    <b>date de naissance est incorrect</b>
-                    (ex: 20/12/1991)
+                    <b>date de naissance</b>
+                    est incorrecte (ex: 20/12/1991)
                   </div>
                 </div>
               </div>
@@ -555,11 +556,7 @@
                     submitted && f.ayantsDroits.controls[i].get('nom').errors
                   "
                   class="invalid-feedback">
-                  <div>
-                    Le
-                    <b>nom de l'ayant</b>
-                    est obligatoire
-                  </div>
+                  Le nom est obligatoire
                 </div>
               </div>
               <div class="col form-group required">
@@ -576,13 +573,11 @@
                   }"
                   placeholder="Prénom">
                 <div
-                  *ngIf="
-                    submitted && f.ayantsDroits.controls[i].get('prenom').errors
-                  "
+                  *ngIf="submitted && f.ayantsDroits.controls[i].get('prenom').errors"
                   class="invalid-feedback">
                   <div>
                     Le
-                    <b>prénom de l'ayant</b>
+                    <b>prénom</b>
                     est obligatoire
                   </div>
                 </div>
@@ -593,7 +588,7 @@
                   id="dateNaissance"
                   class="form-control"
                   placeholder="jj/mm/aaaa"
-                  (keyup)="addSlash($event)"
+                  dateFr
                   [ngClass]="{
                     'is-invalid':
                       submitted &&

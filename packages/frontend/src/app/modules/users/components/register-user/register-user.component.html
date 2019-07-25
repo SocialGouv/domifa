@@ -24,15 +24,13 @@
       class="fa-4x"
       [icon]="['far', 'check-circle']"></fa-icon>
     <br>
+    <br>
     <h3 class="text-success">
-      Félicitations, votre compte a bien été créé
+      Félicitations, votre demande de création de compte a bien été prise en compte.
     </h3>
+    <br>
     <p class="text-center">
-      <b>
-        Un email de confirmation vient de vous être envoyé.
-      </b>
-      <br>
-      Cliquez sur le lien pour confirmer votre compte et vous connecter.
+      Un email de confirmation vous sera envoyé dès validation de celui-ci par l'administrateur de votre structure, vous pourrez alors vous connecter.
     </p>
   </div>
 </div>
@@ -58,7 +56,6 @@
           class="form-control"
           id="nom"
           formControlName="nom"
-          placeholder="Nom"
           [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
           required>
         <div
@@ -79,7 +76,6 @@
           class="form-control"
           id="prenom"
           formControlName="prenom"
-          placeholder="Prénom"
           [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
           required>
         <div
@@ -102,7 +98,7 @@
           class="form-control"
           id="fonction"
           formControlName="fonction"
-          placeholder="Président.e, Directrice, etc."
+          placeholder="Président.e, Directrice, Chef de service, etc."
           [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"
           required>
         <div
@@ -114,14 +110,13 @@
       </div>
     </div>
     <div class="row">
-      <div class="col form-group required">
+      <div class="col-md-6 form-group required">
         <label for="email">Votre adresse email</label>
         <input
           type="email"
           class="form-control"
           id="email"
           formControlName="email"
-          placeholder="Email"
           [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
           required>
         <div
@@ -133,11 +128,17 @@
             <b>Email</b>
             est obligatoire
           </div>
+          <div *ngIf="f.email.errors.invalid">
+            L'adresse
+            <b>Email</b>
+            est incorrecte
+          </div>
         </div>
       </div>
-      <div
-        class="col form-group required"
-        id="passwordInput">
+    </div>
+    <div class="row">
+
+      <div class="col form-group required passwordInput">
         <label for="password">Mot de passe</label>
         <input
           class="form-control"
@@ -170,17 +171,59 @@
           </div>
         </div>
       </div>
+      <div
+        class="col form-group required passwordInput"
+        id="passwordConfirm">
+        <label for="passwordConfirm">Confirmez votre mot de passe</label>
+        <input
+          class="form-control"
+          [type]="!hidePassword ? 'text' : 'passwordConfirm'"
+          [ngClass]="{ 'is-invalid': submitted && f.passwordConfirm.errors }"
+          id="passwordConfirm"
+          formControlName="passwordConfirm"
+          placeholder="6 caractères mininum"
+          required>
+        <span>
+          <fa-icon
+            *ngIf="hidePasswordConfirm"
+            (click)="hidePasswordConfirm = false"
+            icon="eye"></fa-icon>
+        </span>
+        <span>
+          <fa-icon
+            *ngIf="!hidePasswordConfirm"
+            (click)="hidePasswordConfirm = true"
+            icon="eye-slash"></fa-icon>
+        </span>
+        <div
+          *ngIf="submitted && f.passwordConfirm.errors"
+          class="invalid-feedback">
+          <div *ngIf="f.passwordConfirm.errors.required">
+            Le
+            <b>Mot de passe</b>
+            est obligatoire
+          </div>
+        </div>
+        <div class="invalid-feedback">
+          <div *ngIf="f.passwordConfirm.value !== f.password.value">
+            Le
+            <b>Mot de passe</b>
+            est obligatoire
+          </div>
+        </div>
+      </div>
     </div>
     <br>
     <div class="text-center">
       <button class="btn btn-primary">Finaliser mon inscription</button>
       <br>
       <br>
-      <br>
+
       <a
-        href
+        routerLink="/structures"
+        routerLinkActive="router-link-active"
         class="btn btn-outline-dark">
-        Retour en arrière
+        Précédent
       </a>
     </div>
   </form>

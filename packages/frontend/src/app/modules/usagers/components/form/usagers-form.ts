@@ -12,7 +12,7 @@ import { Doc } from "src/app/modules/usagers/interfaces/document";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { isNumber } from "src/app/services/bootstrap-util";
+
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
@@ -553,23 +553,6 @@ export class UsagersFormComponent implements OnInit {
         this.changeSuccessMessage("Impossible de supprimer le document", true);
       }
     );
-  }
-
-  public addSlash(event: any) {
-    const dateValue = event.target.value;
-
-    if (event.key !== "Backspace") {
-      const lastChar = dateValue.substr(dateValue.length - 1);
-      if (lastChar !== "/" && !isNumber(lastChar)) {
-        event.target.value = dateValue.substr(0, dateValue.length - 1);
-      }
-
-      if (event.key === "/" && dateValue.substr(dateValue.length) === "/") {
-        event.target.value = dateValue.substr(0, dateValue.length - 1);
-      } else if (dateValue.length === 2 || dateValue.length === 5) {
-        event.target.value = dateValue + "/";
-      }
-    }
   }
 
   public goToTop() {

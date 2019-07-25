@@ -74,14 +74,13 @@ export class StructuresFormComponent implements OnInit {
   public initForm() {
     this.structureForm = this.formBuilder.group({
       adresse: [this.structure.adresse, [Validators.required]],
-      adresseAuto: [this.structure.adresse, [Validators.required]],
       adresseCourrier: [this.structure.adresseCourrier, []],
       adresseDifferente: [this.structure.adresseCourrier, []],
       agrement: [this.structure.agrement, []],
       codePostal: [this.structure.codePostal, [Validators.required]],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, []],
-      departementAuto: [this.structure.departement, []],
+      departementAuto: ["", []],
       email: [this.structure.email, [Validators.required, Validators.email]],
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
@@ -143,17 +142,6 @@ export class StructuresFormComponent implements OnInit {
       )
     );
 
-  public formatter = (x: { properties: { label: string } }) =>
-    x.properties.label;
-
-  public selectVille(event: NgbTypeaheadSelectItemEvent): void {
-    this.structureForm.controls.adresse.setValue(event.item.properties.label);
-    this.structureForm.controls.ville.setValue(event.item.properties.city);
-    this.structureForm.controls.codePostal.setValue(
-      event.item.properties.postcode
-    );
-  }
-
   public selectDepartement(event: NgbTypeaheadSelectItemEvent): void {
     this.structureForm.controls.departement.setValue(event.item.code);
   }
@@ -163,23 +151,6 @@ export class StructuresFormComponent implements OnInit {
       return x.name + ", " + x.code;
     }
   }
-
-  public search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      tap(() => (this.searching = true)),
-      switchMap(term =>
-        this.Autocomplete.search(term).pipe(
-          tap(() => (this.searchFailed = false)),
-          catchError(() => {
-            this.searchFailed = true;
-            return of([]);
-          })
-        )
-      ),
-      tap(() => (this.searching = false))
-    );
 
   public changeSuccessMessage(message: string, error?: boolean) {
     window.scroll({
