@@ -1,0 +1,49 @@
+#
+
+.quality_stage: &quality_stage
+  stage: "Code Quality"
+  dependencies: []
+
+.master_based_stage: &master_based_stage
+  variables:
+    GIT_STRATEGY: none
+  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  before_script:
+    - cd /app
+
+###########################################
+###                LINT                 ###
+###########################################
+Lint @domifa/frontend:
+  <<: *quality_stage
+  <<: *master_based_stage
+  allow_failure: true
+  script:
+    - yarn workspace @domifa/frontend lint
+
+Lint @domifa/backend:
+  <<: *quality_stage
+  <<: *master_based_stage
+  allow_failure: true
+  script:
+    - yarn workspace @domifa/backend lint
+
+###########################################
+###                TESTS                ###
+###########################################
+
+Test @domifa/frontend:
+  <<: *quality_stage
+  <<: *master_based_stage
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - yarn workspace @domifa/frontend test --coverage
+
+Test @domifa/backend:
+  <<: *quality_stage
+  <<: *master_based_stage
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - yarn workspace @domifa/backend test --coverage
