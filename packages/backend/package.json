@@ -1,11 +1,7 @@
 {
   "name": "@domifa/backend",
-<<<<<<< HEAD
   "private": true,
-  "version": "0.1.0",
-=======
   "version": "0.2.0",
->>>>>>> b841ebd066140ace199e24aa3069f220f32e6c9d
   "description": "",
   "author": "",
   "license": "MIT",
