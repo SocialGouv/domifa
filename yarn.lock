@@ -95,17 +95,6 @@
     rxjs "6.3.3"
     source-map "0.7.3"
 
-"@angular-devkit/core@8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-8.1.1.tgz#da7bb908ce42cb5c5fde08d600880b6fda486056"
-  integrity sha512-Wq/6HOkT3gSOQRiSmHijzy/bzEqzI44Ho4S/NIZ192M/m28f46Neu2LV9juniQKnAAZ8RmHnXecxq3KjvCRkNg==
-  dependencies:
-    ajv "6.10.0"
-    fast-json-stable-stringify "2.0.0"
-    magic-string "0.25.3"
-    rxjs "6.4.0"
-    source-map "0.7.3"
-
 "@angular-devkit/core@8.1.2":
   version "8.1.2"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-8.1.2.tgz#8220725a2251a415e0588e65febb5bf2a931f471"
@@ -117,14 +106,14 @@
     rxjs "6.4.0"
     source-map "0.7.3"
 
-"@angular-devkit/schematics-cli@0.801.1":
-  version "0.801.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-0.801.1.tgz#05d2bc37987113ca7fd6555e8ac7634895276ea6"
-  integrity sha512-Ip7MIXtZmcAISUEqQCCycpsqZyxa1vsBxqI7v+QduJYdxKcm2eErQzwJR6jfImTByvinAjqgl1GtJO0atSpTJA==
+"@angular-devkit/schematics-cli@0.801.2":
+  version "0.801.2"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-0.801.2.tgz#c8bd28f78a331adc0b517bf8a93ab83cf6084637"
+  integrity sha512-y/kCjlXAdmm+SVIj1VKGT80f2fByF+xtGRnVSPhmrh4uyACxuakQkjkzni5UGS28/3MXMNUPyT9pZF2fJ7dXOw==
   dependencies:
-    "@angular-devkit/core" "8.1.1"
-    "@angular-devkit/schematics" "8.1.1"
-    "@schematics/schematics" "0.801.1"
+    "@angular-devkit/core" "8.1.2"
+    "@angular-devkit/schematics" "8.1.2"
+    "@schematics/schematics" "0.801.2"
     inquirer "6.4.1"
     minimist "1.2.0"
     rxjs "6.4.0"
@@ -137,14 +126,6 @@
   dependencies:
     "@angular-devkit/core" "7.3.8"
     rxjs "6.3.3"
-
-"@angular-devkit/schematics@8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-8.1.1.tgz#9251d33eeeea7fccdbb48ddbd3e683ea5375871b"
-  integrity sha512-Hzq3eFo33XsWe5q4tFq7kxDAE4ZbTeBySLsgqRd6m3gjGOjYUpAa5dlXdsPtZlOI5/LfR/1j1ALutf/6RG3ugw==
-  dependencies:
-    "@angular-devkit/core" "8.1.1"
-    rxjs "6.4.0"
 
 "@angular-devkit/schematics@8.1.2":
   version "8.1.2"
@@ -1337,14 +1318,14 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nestjs/cli@^6.6.0":
-  version "6.6.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-6.6.0.tgz#f5ebee700b834b62d1b427dbf2a9353b4e2d9f56"
-  integrity sha512-hy6ge3p+1PMMMSBf8UHkfofBCNLIEXQUqiPYK9gn6YtDxtcjN7M/ou/0U5zfr87hS9Us+JlySTEaMTAwqk5wfw==
+"@nestjs/cli@^6.6.1":
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-6.6.1.tgz#2b64e8693ba8e64322d30d010028f6b8e27893ab"
+  integrity sha512-V/rPAR/ZabHvaym5+VsGxLmYWG4RxcscTz8TUZAzwTduUABryRSJ3DBkZ+JD0tRi+TU9qZtVBfDpguB9gaifLw==
   dependencies:
-    "@angular-devkit/core" "8.1.1"
-    "@angular-devkit/schematics" "8.1.1"
-    "@angular-devkit/schematics-cli" "0.801.1"
+    "@angular-devkit/core" "8.1.2"
+    "@angular-devkit/schematics" "8.1.2"
+    "@angular-devkit/schematics-cli" "0.801.2"
     "@nestjs/schematics" "^6.3.0"
     chalk "2.4.2"
     cli-table3 "0.5.1"
@@ -1523,13 +1504,13 @@
     "@angular-devkit/core" "8.1.2"
     "@angular-devkit/schematics" "8.1.2"
 
-"@schematics/schematics@0.801.1":
-  version "0.801.1"
-  resolved "https://registry.yarnpkg.com/@schematics/schematics/-/schematics-0.801.1.tgz#36cec783a57ba38fd8268d18e7953995ca9dc464"
-  integrity sha512-o6PFv2y0VxF6SOux4y1VqdJBt/bXWMdzVJYq44WYKLp01I3ljLHyUtJx8d28b7SzAvlBUMK0KnEdMuBULaOXFg==
+"@schematics/schematics@0.801.2":
+  version "0.801.2"
+  resolved "https://registry.yarnpkg.com/@schematics/schematics/-/schematics-0.801.2.tgz#ed4a1f614fe15de44829a51243f3b4a2eb82696d"
+  integrity sha512-0SFv/PCAOqLTxCnUjkxQbVfN2i5Uekk7jrXWZSIhv03ylHNEz4lh3KfFq0DLIg4PvfGd2G6hBufhTfx4sAorzQ==
   dependencies:
-    "@angular-devkit/core" "8.1.1"
-    "@angular-devkit/schematics" "8.1.1"
+    "@angular-devkit/core" "8.1.2"
+    "@angular-devkit/schematics" "8.1.2"
 
 "@schematics/update@0.801.2":
   version "0.801.2"
