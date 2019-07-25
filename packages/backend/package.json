@@ -45,7 +45,7 @@
     "node-pdftk": "^2.0.3",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "pg": "^7.11.0",
+    "pg": "^7.12.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.3",
     "rxjs": "^6.5.2"
