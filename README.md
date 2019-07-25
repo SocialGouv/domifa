@@ -6,6 +6,12 @@
 
 > Faciliter l'accès aux droits pour les personnes sans domicile stable, en simplifiant la gestion de la domiciliation
 
+## Docker
+
+```sh
+docker build --shm-size 900M -t socialgouv/domifa .
+```
+
 ## Release policy
 
 ### Auto
