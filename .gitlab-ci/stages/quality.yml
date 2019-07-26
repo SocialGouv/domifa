@@ -26,7 +26,6 @@ Lint @domifa/backend:
   <<: *master_based_stage
   allow_failure: true
   script:
-    - touch packages/backend/src/config/config.env
     - yarn workspace @domifa/backend lint
 
 ###########################################
@@ -36,15 +35,12 @@ Lint @domifa/backend:
 Test @domifa/frontend:
   <<: *quality_stage
   <<: *master_based_stage
-  variables:
-    GIT_STRATEGY: none
   script:
     - yarn workspace @domifa/frontend test --coverage
 
 Test @domifa/backend:
   <<: *quality_stage
   <<: *master_based_stage
-  variables:
-    GIT_STRATEGY: none
   script:
+    - touch packages/backend/src/config/config.env
     - yarn workspace @domifa/backend test --coverage
