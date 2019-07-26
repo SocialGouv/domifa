@@ -18,3 +18,6 @@ COPY ./packages/frontend/src /app/packages/frontend/src
 COPY ./packages/backend/src /app/packages/backend/src
 
 RUN yarn build --stream
+
+COPY ./packages/frontend/jest.config.js /app/packages/frontend/jest.config.js
+COPY ./packages/backend/jest.config.js /app/packages/backend/jest.config.js
