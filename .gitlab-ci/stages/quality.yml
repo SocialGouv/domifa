@@ -26,6 +26,7 @@ Lint @domifa/backend:
   <<: *master_based_stage
   allow_failure: true
   script:
+    - touch packages/backend/src/config/config.env
     - yarn workspace @domifa/backend lint
 
 ###########################################
