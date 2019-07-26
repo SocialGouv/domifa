@@ -21,4 +21,6 @@ COPY ./packages/frontend/src /app/packages/frontend/src
 RUN yarn build --stream
 
 COPY ./packages/backend/jest.config.js /app/packages/backend/jest.config.js
+COPY ./packages/backend/tslint.json /app/packages/backend/tslint.json
 COPY ./packages/frontend/jest.config.js /app/packages/frontend/jest.config.js
+COPY ./packages/frontend/tslint.json /app/packages/frontend/tslint.json
