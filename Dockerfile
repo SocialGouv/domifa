@@ -2,8 +2,9 @@ FROM node:12
 
 COPY ./lerna.json /app/lerna.json
 COPY ./package.json /app/package.json
-COPY ./packages/frontend/package.json /app/packages/frontend/package.json
 COPY ./packages/backend/package.json /app/packages/backend/package.json
+COPY ./packages/frontend/package.json /app/packages/frontend/package.json
+COPY ./yarn.lock /app/yarn.lock
 
 WORKDIR /app
 
