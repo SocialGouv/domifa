@@ -9,16 +9,18 @@ import { StructuresSearchComponent } from "./modules/structures/components/struc
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
+import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
+  { path: "connexion", component: LoginComponent },
   { path: "inscription", component: StructuresSearchComponent },
   { path: "structures/nouveau", component: StructuresFormComponent },
   {
-    path: "inscription/:id",
     canActivate: [StructureGuard],
-    component: RegisterUserComponent
+    component: RegisterUserComponent,
+    path: "inscription/:id"
   },
   { path: "usager/nouveau", component: UsagersFormComponent },
   { path: "usager/:id/edit", component: UsagersFormComponent },

@@ -2,11 +2,12 @@ import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: "app-mentions-legales",
-  templateUrl: "./mentions-legales.component.html",
-  styleUrls: ["./mentions-legales.component.css"]
+  styleUrls: ["./mentions-legales.component.css"],
+  templateUrl: "./mentions-legales.component.html"
 })
 export class MentionsLegalesComponent implements OnInit {
-  constructor() {}
-
-  public ngOnInit() {}
+  public title: string;
+  public ngOnInit() {
+    this.title = "Mentions-légales de Domifa";
+  }
 }

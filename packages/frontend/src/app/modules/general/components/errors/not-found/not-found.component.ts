@@ -6,7 +6,8 @@ import { Component, OnInit } from "@angular/core";
   templateUrl: "./not-found.component.html"
 })
 export class NotFoundComponent implements OnInit {
-  constructor() {}
-
-  public ngOnInit() {}
+  public title: string;
+  public ngOnInit() {
+    this.title = "La page que vous recherchez n'éxiste pas";
+  }
 }

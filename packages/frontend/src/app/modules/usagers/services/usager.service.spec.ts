@@ -89,69 +89,84 @@ describe("UsagerService", () => {
     const usagerToTest = JSON.parse(JSON.stringify(usagerFull));
     const usagerTestVariable = JSON.parse(
       JSON.stringify({
-        id: 2,
-        nom: "Test",
-        prenom: "Tester",
-        surnom: "Test Test",
-        sexe: "homme",
-        dateNaissance: "1991-12-20T01:12:00.000Z",
-        dateNaissancePicker: { day: 20, month: 12, year: 1991 },
-        villeNaissance: "Saint-denis",
-        email: null,
-        phone: null,
-        docs: [],
         agent: null,
-        structure: 2,
-        etapeDemande: 0,
-        historique: null,
-        rdv: {
-          dateRdv: new Date(usagerFull.rdv.dateRdv),
-          jourRdv: { day: 28, month: 6, year: 2019 },
-          heureRdv: { hour: 10, minute: 20 },
-          userId: null,
-          userName: null,
-          isNow: ""
-        },
-        lastInteraction: {
-          nbCourrier: 0,
-          courrierIn: null,
-          courrierOut: null,
-          recommandeIn: null,
-          recommandeOut: null,
-          appel: null,
-          visite: null
-        },
-        entretien: {
-          domiciliation: false,
-          revenus: false,
-          liencommune: null,
-          residence: null,
-          residenceDetail: null,
-          cause: null,
-          causeDetail: null,
-          raison: null,
-          raisonDetail: null,
-          accompagnement: null,
-          accompagnementDetail: null,
-          commentaires: null
-        },
-        ayantsDroitsExist: false,
         ayantsDroits: [],
-        preference: { aucun: false, email: false, phone: false },
+        ayantsDroitsExist: false,
+        dateNaissance: "1991-12-20T01:12:00.000Z",
+        dateNaissancePicker: {
+          day: 20,
+          month: 12,
+          year: 1991
+        },
         decision: {
           agent: "",
           dateInstruction: new Date(usagerFull.decision.dateInstruction),
-          statut: "instruction",
           motif: "",
-          userDecisionId: "",
-          userDecisionName: "",
-          userInstructionId: "",
-          userInstructionName: "",
-          userId: "",
           motifDetails: "",
           orientation: "",
-          orientationDetails: ""
-        }
+          orientationDetails: "",
+          statut: "instruction",
+          userDecisionId: "",
+          userDecisionName: "",
+          userId: "",
+          userInstructionId: "",
+          userInstructionName: ""
+        },
+        docs: [],
+        email: null,
+        entretien: {
+          accompagnement: null,
+          accompagnementDetail: null,
+          cause: null,
+          causeDetail: null,
+          commentaires: null,
+          domiciliation: false,
+          liencommune: null,
+          raison: null,
+          raisonDetail: null,
+          residence: null,
+          residenceDetail: null,
+          revenus: false
+        },
+        etapeDemande: 0,
+        historique: null,
+        id: 2,
+        lastInteraction: {
+          appel: null,
+          courrierIn: null,
+          courrierOut: null,
+          nbCourrier: 0,
+          recommandeIn: null,
+          recommandeOut: null,
+          visite: null
+        },
+        nom: "Test",
+        phone: null,
+        preference: {
+          aucun: false,
+          email: false,
+          phone: false
+        },
+        prenom: "Tester",
+        rdv: {
+          dateRdv: new Date(usagerFull.rdv.dateRdv),
+          heureRdv: {
+            hour: 10,
+            minute: 20
+          },
+          isNow: "",
+          jourRdv: {
+            day: 28,
+            month: 6,
+            year: 2019
+          },
+          userId: null,
+          userName: null
+        },
+        sexe: "homme",
+        structure: 2,
+        surnom: "Test Test",
+        villeNaissance: "Saint-denis"
       })
     );
 

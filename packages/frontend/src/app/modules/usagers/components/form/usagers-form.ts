@@ -13,6 +13,8 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
+import { User } from "src/app/modules/users/interfaces/user";
+import { UsersService } from "src/app/modules/users/services/users.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
@@ -127,6 +129,7 @@ export class UsagersFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
+    private userService: UsersService,
     private documentService: DocumentService,
     private structureService: StructureService,
     private route: ActivatedRoute,
@@ -281,7 +284,12 @@ export class UsagersFormComponent implements OnInit {
     /* get structure users */
     this.structureService.getStructure(2).subscribe((structure: Structure) => {
       this.structure = new Structure(structure);
-      this.rdvForm.controls.userId.setValue(this.structure.users[0].id, {
+    });
+
+    this.userService.getUsersByStructure(2).subscribe((users: any[]) => {
+      console.log(users);
+      this.agents = users;
+      this.rdvForm.controls.userId.setValue(users[0].id, {
         onlySelf: true
       });
     });
@@ -325,29 +333,18 @@ export class UsagersFormComponent implements OnInit {
           this.usagerForm.get("nom").value,
           this.usagerForm.get("prenom").value
         )
-        .subscribe(
-          (usagersDoublon: Usager[]) => {
-            if (usagersDoublon.length !== 0) {
-              this.changeSuccessMessage(
-                "Un homonyme potentiel a été détecté !",
-                true
-              );
-              this.doublons = [];
-              usagersDoublon.forEach(doublon => {
-                this.doublons.push(new Usager(doublon));
-              });
-            }
-          },
-          error => {
-            /* Todo : afficher le contenu des erreurs cote serveur */
-            if (error.statusCode && error.statusCode === 400) {
-              for (const message of error.message) {
-                console.log(message.constraints);
-              }
-            }
-            this.changeSuccessMessage("Une erreur dans le form", true);
+        .subscribe((usagersDoublon: Usager[]) => {
+          if (usagersDoublon.length !== 0) {
+            this.changeSuccessMessage(
+              "Un homonyme potentiel a été détecté !",
+              true
+            );
+            this.doublons = [];
+            usagersDoublon.forEach(doublon => {
+              this.doublons.push(new Usager(doublon));
+            });
           }
-        );
+        });
     }
   }
 
@@ -417,11 +414,8 @@ export class UsagersFormComponent implements OnInit {
         error => {
           /* Todo : afficher le contenu des erreurs cote serveur */
           if (error.statusCode && error.statusCode === 400) {
-            for (const message of error.message) {
-              console.log(message.constraints);
-            }
+            this.changeSuccessMessage("Une erreur dans le form", true);
           }
-          this.changeSuccessMessage("Une erreur dans le form", true);
         }
       );
     }

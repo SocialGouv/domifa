@@ -598,8 +598,7 @@
                 <div
                   *ngIf="
                     submitted &&
-                    f.ayantsDroits.controls[i].get('dateNaissance').errors
-                  "
+                    f.ayantsDroits.controls[i].get('dateNaissance').errors"
                   class="invalid-feedback">
                   <div>La date de naissance est obligatoire</div>
                 </div>
@@ -780,7 +779,7 @@
                     formControlName="userId"
                     class="custom-select">
                     <option
-                      *ngFor="let agent of structure.users"
+                      *ngFor="let agent of agents"
                       [ngValue]="agent.id">
                       {{ agent.nom }} {{ agent.prenom }}
                     </option>

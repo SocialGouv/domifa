@@ -24,11 +24,9 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         if (error.error instanceof ErrorEvent) {
           // client-side error
           errorMessage = `Error: ${error.error.message}`;
-          console.log(errorMessage);
         } else {
           // TODO : ACCES RESTREINTS
           if (error.status === 404) {
-            console.log("404 NOT FOUND");
             this.router.navigate(["/404"]);
             // refresh token
           } else {

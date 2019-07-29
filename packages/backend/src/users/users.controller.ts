@@ -29,12 +29,17 @@ export class UsersController {
     // return 'This action returns all USERS';
   }
 
+  @Get("structure/:id")
+  public findByStructure(@Param("id") id: number) {
+    return this.usersService.findByStructure(id);
+  }
+
   @Delete(":id")
   public deleteOne(@Param("id") id: number) {
     return this.usersService.deleteById(id);
   }
 
-  @Get("validate/:tokrn")
+  @Get("validate/:token")
   public validate(@Req() request: Request): Promise<User[]> {
     return this.usersService.findAll();
     // return 'This action returns all USERS';

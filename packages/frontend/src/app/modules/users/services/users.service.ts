@@ -18,6 +18,10 @@ export class UsersService {
     return this.http.get(`${this.endPoint}/${id}`);
   }
 
+  public getUsersByStructure(structureId: number) {
+    return this.http.get(`${this.endPoint}/structure/${structureId}`);
+  }
+
   public login(email: string, password: string) {
     return this.http.post<any>(`${this.endPoint}/login`, {
       email,

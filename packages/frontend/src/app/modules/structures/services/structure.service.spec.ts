@@ -15,19 +15,13 @@ describe("StructureService", () => {
     const service: StructureService = TestBed.get(StructureService);
     expect(service).toBeTruthy();
 
-    service.getAll().subscribe(
-      (structures: Structure[]) => {
-        console.log(structures);
-        expect(structures.length).toEqual(3);
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    service.getAll().subscribe((structures: Structure[]) => {
+      expect(structures.length).toEqual(3);
+    });
 
     service.getStructure(100).subscribe(
       (structures: Structure[]) => {
-        console.log(structures);
+        expect(structures).toBeTruthy();
       },
       error => {
         expect(error).toBeTruthy();

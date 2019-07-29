@@ -55,6 +55,16 @@ export class UsersService {
       .exec();
   }
 
+  public async findByStructure(id: number): Promise<User> {
+    return this.userModel
+      .find({
+        structureId: id
+      })
+      .select({ nom: 1, prenom: 1, email: 1, id: 1 })
+      .lean()
+      .exec();
+  }
+
   public async findById(id: number): Promise<User> {
     return this.userModel
       .findOne({

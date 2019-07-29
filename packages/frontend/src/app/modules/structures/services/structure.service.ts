@@ -16,7 +16,7 @@ export class StructureService {
   }
 
   public getStructure(id: number): Observable<any> {
-    return this.http.get(`${this.endPoint}/${id}/`);
+    return this.http.get(`${this.endPoint}/${id}`);
   }
 
   public getAll(): Observable<any> {

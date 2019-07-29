@@ -18,18 +18,12 @@ describe("AutocompleteAdresseService", () => {
     );
     expect(service).toBeTruthy();
 
-    service.search("110 route de saint-leu").subscribe(
-      (value: any) => {
-        expect(value.length).toEqual(10);
-      },
-      error => {}
-    );
+    service.search("110 route de saint-leu").subscribe((value: any) => {
+      expect(value.length).toEqual(10);
+    });
 
-    service.search("").subscribe(
-      (value: any) => {
-        expect(value.length).toEqual(0);
-      },
-      error => {}
-    );
+    service.search("").subscribe((value: any) => {
+      expect(value.length).toEqual(0);
+    });
   }));
 });

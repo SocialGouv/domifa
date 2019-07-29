@@ -116,13 +116,7 @@ export class StructuresFormComponent implements OnInit {
           this.router.navigate(["inscription/" + this.structure.id]);
         },
         error => {
-          /* Todo : afficher le contenu des erreurs cote serveur */
-          if (error.statusCode && error.statusCode === 400) {
-            for (const message of error.message) {
-              console.log(message.constraints);
-            }
-          }
-          this.changeSuccessMessage("Une erreur dans le form", true);
+          this.changeSuccessMessage("Veuillez vérifier le formulaire", true);
         }
       );
     }

@@ -55,7 +55,9 @@ describe("StructureGuard", () => {
   it("❌ Structure not exist - 404 error", async(() => {
     activatedRoute.params.id = 100;
     structureGuard.canActivate(activatedRoute).subscribe(
-      () => {},
+      response => {
+        expect(response).toBeDefined();
+      },
       error => {
         expect(error).toBeDefined();
       }

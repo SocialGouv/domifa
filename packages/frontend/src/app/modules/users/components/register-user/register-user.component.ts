@@ -1,13 +1,8 @@
-import { animate, style, transition, trigger } from "@angular/animations";
-import { error } from "@angular/compiler/src/util";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
-import { StructureService } from "src/app/modules/structures/services/structure.service";
-import { Structure } from "src/app/modules/structures/structure.interface";
-import { regexp } from "src/app/shared/validators";
 import { fadeInOut } from "../../../../shared/animations";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
@@ -93,30 +88,21 @@ export class RegisterUserComponent implements OnInit {
         }
       });
     } else {
-      this.userService.create(this.userForm.value).subscribe(
-        (user: User) => {
-          this.user = new User(user);
-          this.success = true;
-        },
-        error => {
-          /* Todo : afficher le contenu des erreurs cote serveur */
-          if (error.statusCode && error.statusCode === 400) {
-            for (const message of error.message) {
-              console.log(message.constraints);
-            }
-          }
-          this.changeSuccessMessage("Une erreur dans le form", true);
-        }
-      );
+      this.userService.create(this.userForm.value).subscribe((user: User) => {
+        this.user = new User(user);
+        this.success = true;
+      });
     }
   }
 
-  public changeSuccessMessage(message: string, error?: boolean) {
+  public changeSuccessMessage(message: string, erreur?: boolean) {
     window.scroll({
       behavior: "smooth",
       left: 0,
       top: 0
     });
-    error ? this.errorSubject.next(message) : this.successSubject.next(message);
+    erreur
+      ? this.errorSubject.next(message)
+      : this.successSubject.next(message);
   }
 }

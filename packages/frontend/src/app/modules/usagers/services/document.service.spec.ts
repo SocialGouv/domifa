@@ -46,12 +46,9 @@ describe("DocumentService", () => {
           })
         ];
 
-        ser.deleteDocument(2, 1).subscribe(
-          (receivedResponse: any) => {
-            response = receivedResponse;
-          },
-          (error: any) => {}
-        );
+        ser.deleteDocument(2, 1).subscribe((receivedResponse: any) => {
+          response = receivedResponse;
+        });
 
         backend
           .expectOne({
@@ -84,12 +81,9 @@ describe("DocumentService", () => {
           })
         ];
 
-        ser.deleteDocument(2, 1).subscribe(
-          (receivedResponse: any) => {
-            response = receivedResponse;
-          },
-          (error: any) => {}
-        );
+        ser.deleteDocument(2, 1).subscribe((receivedResponse: any) => {
+          response = receivedResponse;
+        });
 
         backend
           .expectOne({

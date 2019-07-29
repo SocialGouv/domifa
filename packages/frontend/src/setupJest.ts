@@ -5,5 +5,6 @@ Object.defineProperty(window, "ClipboardEvent", {
 });
 
 Object.defineProperty(window, "DragEvent", {
+  // tslint:disable-next-line: max-classes-per-file
   value: class DragEvent {}
 });
