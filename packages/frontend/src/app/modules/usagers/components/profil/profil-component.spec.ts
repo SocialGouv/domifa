@@ -17,6 +17,10 @@ import { StructuresFormComponent } from "src/app/modules/structures/components/s
 import { StructuresSearchComponent } from "src/app/modules/structures/components/structures-search/structures-search.component";
 import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
 import { routes } from "../../../../app-routing.module";
+import { LoginComponent } from "../../../users/components/login/login.component";
+import { LastInteraction } from "../../interfaces/last-interaction";
+import { Usager } from "../../interfaces/usager";
+import { UsagerService } from "../../services/usager.service";
 import { UsagersFormComponent } from "../form/usagers-form";
 import { ManageUsagersComponent } from "../manage/manage.component";
 import { UsagersProfilComponent } from "./profil-component";
@@ -26,6 +30,7 @@ describe("UsagersProfilComponent", () => {
   let app: any;
   let router: any;
   let location: Location;
+  let usagerService: UsagerService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,6 +42,7 @@ describe("UsagersProfilComponent", () => {
         UsagersProfilComponent,
         StructuresFormComponent,
         LoadingComponent,
+        LoginComponent,
         RegisterUserComponent,
         MentionsLegalesComponent,
         NotFoundComponent,
@@ -50,13 +56,14 @@ describe("UsagersProfilComponent", () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes(routes)
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [UsagerService, { provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(UsagersProfilComponent);
     fixture.detectChanges();
 
+    usagerService = TestBed.get(UsagerService);
     router = TestBed.get(Router);
     location = TestBed.get(Location);
 
@@ -94,5 +101,25 @@ describe("UsagersProfilComponent", () => {
 
   it("4. Routing functions", async(() => {
     expect(location.path()).toEqual("/404");
+  }));
+
+  it("5. Set interaction", async(() => {
+    usagerService
+      .setInteraction(2, {
+        content: "",
+        nbCourrier: 10,
+        type: "courrierIn"
+      })
+      .subscribe((usager: Usager) => {
+        expect(usager.lastInteraction.nbCourrier).toEqual(10);
+      });
+  }));
+  it("5. Set passage", async(() => {
+    usagerService.setPassage(2, "courrierOut").subscribe((usager: Usager) => {
+      const lastInteraction = new LastInteraction(usager.lastInteraction);
+      const today = new Date().getDate();
+      expect(lastInteraction.courrierOut).toEqual(0);
+      expect(lastInteraction.courrierOut.getDate()).toEqual(today);
+    });
   }));
 });

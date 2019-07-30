@@ -281,13 +281,7 @@ export class UsagersFormComponent implements OnInit {
       revenus: [this.usager.entretien.revenus, []]
     });
 
-    /* get structure users */
-    this.structureService.getStructure(2).subscribe((structure: Structure) => {
-      this.structure = new Structure(structure);
-    });
-
     this.userService.getUsersByStructure(2).subscribe((users: any[]) => {
-      console.log(users);
       this.agents = users;
       this.rdvForm.controls.userId.setValue(users[0].id, {
         onlySelf: true

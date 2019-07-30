@@ -15,6 +15,7 @@ import { MentionsLegalesComponent } from "src/app/modules/general/components/men
 import { LoadingComponent } from "src/app/modules/loading/loading.component";
 import { StructuresFormComponent } from "src/app/modules/structures/components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "src/app/modules/structures/components/structures-search/structures-search.component";
+import { LoginComponent } from "src/app/modules/users/components/login/login.component";
 import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
 import { LABELS } from "src/app/shared/labels";
 import { ManageUsagersComponent } from "../manage/manage.component";
@@ -31,6 +32,7 @@ describe("UsagersFormComponent", () => {
         UsagersFormComponent,
         AppComponent,
         HomeComponent,
+        LoginComponent,
         UsagersFormComponent,
         ManageUsagersComponent,
         UsagersProfilComponent,

@@ -17,6 +17,7 @@ import { StructuresSearchComponent } from "src/app/modules/structures/components
 
 import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
 import { AppRoutingModule, routes } from "../../../../app-routing.module";
+import { LoginComponent } from "../../../users/components/login/login.component";
 import { UsagersFormComponent } from "../form/usagers-form";
 import { UsagersProfilComponent } from "../profil/profil-component";
 import { ManageUsagersComponent } from "./manage.component";
@@ -30,6 +31,7 @@ describe("ManageUsagersComponent", () => {
       declarations: [
         AppComponent,
         HomeComponent,
+        LoginComponent,
         UsagersFormComponent,
         ManageUsagersComponent,
         UsagersProfilComponent,

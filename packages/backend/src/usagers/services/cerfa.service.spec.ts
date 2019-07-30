@@ -82,6 +82,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].FaitLeOrganisme1[0]": "05",
       "topmostSubform[0].Page1[0].FaitLeOrganisme2[0]": "07",
       "topmostSubform[0].Page1[0].FaitLeOrganisme3[0]": "2019",
+      "topmostSubform[0].Page1[0].Groupe_de_boutons_radio[0]": "1",
       "topmostSubform[0].Page1[0].Heureconvocation[0]": "15",
       "topmostSubform[0].Page1[0].Jourconvocation[0]": "05",
       "topmostSubform[0].Page1[0].LieuNaissance[0]": "MARTIGUES",
