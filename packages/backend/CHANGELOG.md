@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/SocialGouv/domifa/compare/v0.2.0...v0.3.0) (2019-07-30)
+
+
+### Bug Fixes
+
+* package.json conflict ([e17efdb](https://github.com/SocialGouv/domifa/commit/e17efdb))
+* private backend ([4609545](https://github.com/SocialGouv/domifa/commit/4609545))
+* **deps:** update dependency @types/mongoose to ^5.5.11 ([#81](https://github.com/SocialGouv/domifa/issues/81)) ([ff0eb5f](https://github.com/SocialGouv/domifa/commit/ff0eb5f))
+* **deps:** update dependency pg to ^7.12.0 ([#79](https://github.com/SocialGouv/domifa/issues/79)) ([78af8f4](https://github.com/SocialGouv/domifa/commit/78af8f4))
+* **tests:** ajout de tests aux directives ([6d2edc6](https://github.com/SocialGouv/domifa/commit/6d2edc6))
+
+
+### Features
+
+* **front:** login formulaire ([88a0ae6](https://github.com/SocialGouv/domifa/commit/88a0ae6))
+* **login:** intégration du formulaire ([831843a](https://github.com/SocialGouv/domifa/commit/831843a))
+
+
+
+
+
 # [0.2.0](https://github.com/SocialGouv/domifa/compare/v0.1.0...v0.2.0) (2019-07-25)
 
 
