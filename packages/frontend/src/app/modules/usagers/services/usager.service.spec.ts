@@ -10,16 +10,41 @@ import { Usager } from "../interfaces/usager";
 import { UsagerService } from "./usager.service";
 
 describe("UsagerService", () => {
+  let service: UsagerService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
       providers: [UsagerService]
     });
+    service = TestBed.get(UsagerService);
   });
 
   it("should be created", () => {
-    const service: UsagerService = TestBed.get(UsagerService);
     expect(service).toBeTruthy();
+  });
+
+  it("Doublon & Get usager", () => {
+    const rdv = new Rdv({
+      dateRdv: "2019-07-30T23:25:44.980Z",
+      heureRdv: { hour: 10, minute: 20 },
+      isNow: "oui",
+      jourRdv: { day: 31, month: 7, year: 2019 },
+      userId: 2
+    });
+
+    service.createRdv(rdv, 1).subscribe((usager: Usager) => {
+      expect(usager.rdv.userName).toEqual("Anguet Anaï");
+    });
+
+    service.findOne(1).subscribe((usager: Usager) => {
+      expect(usager.prenom).toEqual("Mamadou");
+    });
+
+    service.isDoublon("Mamadou", "Diallo").subscribe((doublons: any) => {
+      expect(doublons.length).toEqual(1);
+    });
+
+    service.attestation(1);
   });
 
   it("Interfaces", () => {

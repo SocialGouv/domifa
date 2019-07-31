@@ -5,6 +5,7 @@ import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import { fadeInOut } from "../../../../shared/animations";
 import { User } from "../../interfaces/user";
+import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 
 @Component({
@@ -65,15 +66,32 @@ export class RegisterUserComponent implements OnInit {
   }
 
   public initForm() {
-    this.userForm = this.formBuilder.group({
-      email: [this.user.email, [Validators.email, Validators.required]],
-      fonction: [this.user.fonction, Validators.required],
-      nom: [this.user.nom, Validators.required],
-      password: ["", Validators.required],
-      passwordConfirm: ["", Validators.required],
-      prenom: [this.user.prenom, Validators.required],
-      structureId: [this.user.structureId, []]
-    });
+    this.userForm = this.formBuilder.group(
+      {
+        confirmPassword: [null, Validators.compose([Validators.required])],
+        email: [this.user.email, [Validators.email, Validators.required]],
+        fonction: [this.user.fonction, Validators.required],
+        nom: [this.user.nom, Validators.required],
+        password: [
+          null,
+          Validators.compose([
+            Validators.required,
+            PasswordValidator.patternValidator(/\d/, {
+              hasNumber: true
+            }),
+            PasswordValidator.patternValidator(/[A-Z]/, {
+              hasCapitalCase: true
+            }),
+            Validators.minLength(8)
+          ])
+        ],
+        prenom: [this.user.prenom, Validators.required],
+        structureId: [this.user.structureId, []]
+      },
+      {
+        validator: PasswordValidator.passwordMatchValidator
+      }
+    );
   }
 
   public submitUser() {

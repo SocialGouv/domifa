@@ -11,7 +11,7 @@ export class UsagerService {
   public http: HttpClient;
   public loading: boolean;
 
-  private endPoint = environment.apiUrl + "usagers";
+  public endPoint = environment.apiUrl + "usagers";
 
   constructor(http: HttpClient, private loadingService: LoadingService) {
     this.http = http;

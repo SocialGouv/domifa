@@ -203,6 +203,7 @@ export class UsagersFormComponent implements OnInit {
     this.raisonList = Object.keys(this.raison);
 
     if (this.route.snapshot.params.id) {
+
       const id = this.route.snapshot.params.id;
 
       this.usagerService.findOne(id).subscribe(
@@ -328,18 +329,21 @@ export class UsagersFormComponent implements OnInit {
           this.usagerForm.get("prenom").value
         )
         .subscribe((usagersDoublon: Usager[]) => {
+          this.doublons = [];
+          this.errorMessage = null;
           if (usagersDoublon.length !== 0) {
             this.changeSuccessMessage(
               "Un homonyme potentiel a été détecté !",
               true
             );
-            this.doublons = [];
+
             usagersDoublon.forEach(doublon => {
               this.doublons.push(new Usager(doublon));
             });
           }
         });
     }
+    return false;
   }
 
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
