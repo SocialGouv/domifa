@@ -80,8 +80,9 @@ export class UsersController {
   ) {
     const today = new Date();
     const existUser = await this.usersService.findOneBy({
-      token: resetPasswordDto.token
+      "tokens.password": resetPasswordDto.token
     });
+
     if (!existUser || existUser === null) {
       throw new HttpException("USER_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }

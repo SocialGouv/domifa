@@ -51,6 +51,8 @@ export class ResetPasswordComponent implements OnInit {
   public ngOnInit() {
     this.title = "Mot de passe oublié ?";
     this.token = undefined;
+    this.hidePassword = true;
+    this.hidePasswordConfirm = true;
 
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
