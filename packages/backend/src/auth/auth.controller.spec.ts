@@ -1,3 +1,4 @@
+import { forwardRef } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../database/database.module";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -9,7 +10,7 @@ describe("Auth Controller", () => {
   it("should be defined", async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      imports: [DatabaseModule, UsersModule, UsagersModule],
+      imports: [DatabaseModule, forwardRef(() => UsersModule), UsagersModule],
       providers: [{ provide: AuthService, useValue: {} }]
     }).compile();
 

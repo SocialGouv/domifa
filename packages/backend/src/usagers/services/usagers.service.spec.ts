@@ -7,6 +7,8 @@ import { UsagersDto } from "../dto/usagers.dto";
 import { Usager } from "../interfaces/usagers";
 import { UsagerSchema } from "../usager.schema";
 import { UsagersProviders } from "../usagers.providers";
+
+import { forwardRef } from "@nestjs/common";
 import { CerfaService } from "./cerfa.service";
 import { UsagersService } from "./usagers.service";
 
@@ -26,7 +28,7 @@ describe("UsagersService", () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [DatabaseModule, UsersModule],
+      imports: [DatabaseModule, forwardRef(() => UsersModule)],
       providers: [UsagersService, CerfaService, ...UsagersProviders]
     }).compile();
 
@@ -43,9 +45,9 @@ describe("UsagersService", () => {
     expect(await service.findLast()).toEqual(5);
 
     // CREATE
-    const newUser = await service.create(fakeUsagerDto);
-    expect(await newUser).toBeDefined();
-    expect(await newUser.id).toEqual(5);
+    const usagerTest = await service.create(fakeUsagerDto);
+    expect(await usagerTest).toBeDefined();
+    expect(await usagerTest.id).toEqual(5);
 
     // READ
     const usager = await service.findById(5);

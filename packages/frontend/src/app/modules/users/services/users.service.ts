@@ -18,18 +18,23 @@ export class UsersService {
     return this.http.get(`${this.endPoint}/${id}`);
   }
 
+  public create(data: any) {
+    return this.http.post(`${this.endPoint}`, data);
+  }
+
   public getUsersByStructure(structureId: number) {
     return this.http.get(`${this.endPoint}/structure/${structureId}`);
   }
 
-  public login(email: string, password: string) {
-    return this.http.post<any>(`${this.endPoint}/login`, {
-      email,
-      password
-    });
+  public getPasswordToken(data: string) {
+    return this.http.post(`${this.endPoint}/get-password-token`, data);
   }
 
-  public create(data: any) {
-    return this.http.post(`${this.endPoint}`, data);
+  public checkPasswordToken(token: string) {
+    return this.http.get(`${this.endPoint}/check-password-token/${token}`);
+  }
+
+  public resetPassword(data: string) {
+    return this.http.post(`${this.endPoint}/reset-password`, data);
   }
 }

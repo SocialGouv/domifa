@@ -17,7 +17,9 @@ import { StructuresFormComponent } from "src/app/modules/structures/components/s
 import { StructuresSearchComponent } from "src/app/modules/structures/components/structures-search/structures-search.component";
 import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
 import { routes } from "../../../../app-routing.module";
+import { StructuresConfirmComponent } from "../../../structures/components/structures-confirm/structures-confirm.component";
 import { LoginComponent } from "../../../users/components/login/login.component";
+import { ResetPasswordComponent } from "../../../users/components/reset-password/reset-password.component";
 import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
@@ -35,18 +37,22 @@ describe("UsagersProfilComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        UsagersProfilComponent,
+        UsagersFormComponent,
         AppComponent,
         HomeComponent,
+        LoginComponent,
         UsagersFormComponent,
         ManageUsagersComponent,
         UsagersProfilComponent,
         StructuresFormComponent,
         LoadingComponent,
-        LoginComponent,
         RegisterUserComponent,
         MentionsLegalesComponent,
         NotFoundComponent,
-        StructuresSearchComponent
+        StructuresSearchComponent,
+        StructuresConfirmComponent,
+        ResetPasswordComponent
       ],
       imports: [
         NgbModule,

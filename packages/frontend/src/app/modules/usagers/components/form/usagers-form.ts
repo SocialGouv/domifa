@@ -203,7 +203,6 @@ export class UsagersFormComponent implements OnInit {
     this.raisonList = Object.keys(this.raison);
 
     if (this.route.snapshot.params.id) {
-
       const id = this.route.snapshot.params.id;
 
       this.usagerService.findOne(id).subscribe(

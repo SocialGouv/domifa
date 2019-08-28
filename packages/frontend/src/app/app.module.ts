@@ -23,6 +23,7 @@ import { NotFoundComponent } from "./modules/general/components/errors/not-found
 import { HomeComponent } from "./modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { LoadingComponent } from "./modules/loading/loading.component";
+import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
@@ -30,11 +31,11 @@ import { ManageUsagersComponent } from "./modules/usagers/components/manage/mana
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
+import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
 import { ServerErrorInterceptor } from "./services/server-error.interceptor";
 import { DateFrDirective } from "./shared/date-fr.directive";
 import { DigitOnlyDirective } from "./shared/digit-only.directive";
 
-// Add an icon to the library for convenient access in other components
 library.add(fas, far);
 
 @NgModule({
@@ -46,6 +47,7 @@ library.add(fas, far);
     ManageUsagersComponent,
     UsagersProfilComponent,
     StructuresFormComponent,
+    StructuresConfirmComponent,
     LoadingComponent,
     RegisterUserComponent,
     MentionsLegalesComponent,
@@ -53,7 +55,8 @@ library.add(fas, far);
     StructuresSearchComponent,
     DigitOnlyDirective,
     DateFrDirective,
-    LoginComponent
+    LoginComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import { Structure } from "../structures/structure-interface";
 
 export interface User extends Document {
   id: number;
@@ -8,5 +9,12 @@ export interface User extends Document {
   email: string;
   password: string;
   structureId: number;
-  structure: any;
+  structure: Structure;
+  role: string;
+  verified: boolean;
+  tokens: {
+    email: string;
+    password: string;
+    passwordValidity: Date;
+  };
 }

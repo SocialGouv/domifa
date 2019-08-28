@@ -8,7 +8,7 @@
         class="step"
         *ngFor="let etape of etapes; let i = index"
         id="step{{ i }}">
-        <div (click)="changeStep(i); submitted = false">
+        <div (click)="submitted = false">
           <span
             *ngIf="usager.etapeDemande > i"
             class="step_number step_check">
@@ -1457,20 +1457,16 @@
                 : {{ usager.entretien.residenceDetail }}
                 <br>
               </span>
-
               <br>
-
               <b>
                 Faites-vous l’objet d’un accompagnement social ?
               </b>
-              :
-              {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
+              : {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
               <br>
               <span *ngIf="accompagnement">
                 <b>Suivi par</b>
                 : {{ accompagnementDetail }}
               </span>
-
               <br>
               <br>
               <b>Commentaires</b>

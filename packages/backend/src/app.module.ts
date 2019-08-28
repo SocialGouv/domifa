@@ -12,6 +12,7 @@ import { UsagersModule } from "./usagers/usagers.module";
 import { MailerService } from "./users/mailer.service";
 import { UsersController } from "./users/users.controller";
 import { UsersModule } from "./users/users.module";
+import { UsersProviders } from "./users/users.providers";
 
 @Module({
   controllers: [

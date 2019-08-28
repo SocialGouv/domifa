@@ -16,6 +16,7 @@
     <strong>{{ successMessage }}</strong>
   </ngb-alert>
 </div>
+
 <div
   class="step_form"
   *ngIf="!success">
@@ -25,7 +26,7 @@
   <form
     [formGroup]="loginForm"
     class="col-md-6 offset-md-3"
-    (ngSubmit)="onSubmit()">
+    (ngSubmit)="login()">
     <div class="form-group">
       <label for="email">Adresse email</label>
       <input
@@ -58,10 +59,19 @@
         class="btn btn-primary">
         Connexion
       </button>
+    </div>
+
+    <div class="text-center">
       <a
-        routerLink="/structures"
+        routerLink="/inscription"
         class="btn btn-link">
         Inscription
+      </a>
+      |
+      <a
+        routerLink="/reset-password"
+        class="btn btn-link">
+        Mot de passe oublié
       </a>
     </div>
   </form>

@@ -27,3 +27,29 @@ form label {
   font-size: 80%;
   color: #dc3545;
 }
+
+.passwordInput {
+  position: relative;
+}
+
+.eye {
+  position: absolute;
+  top: 33px;
+  right: 16px;
+  padding: 6px 12px;
+  background-color: #fcfcfc;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.indications div {
+  padding-top: 5px;
+}
+
+.indications {
+  padding: 5px;
+}
+
+.indications .ng-fa-icon {
+  margin-right: 5px;
+}

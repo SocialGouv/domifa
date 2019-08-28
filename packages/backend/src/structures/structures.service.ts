@@ -1,19 +1,54 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import * as crypto from "crypto";
 import { Model } from "mongoose";
+import { ConfigService } from "../config/config.service";
+import { MailerService } from "../users/mailer.service";
 import { User } from "../users/user.interface";
 import { StructureDto } from "./structure-dto";
 import { Structure } from "./structure-interface";
 
 @Injectable()
 export class StructuresService {
+  public labels = {
+    asso: "Organisme agrée",
+    ccas: "CCAS / CIAS"
+  };
   constructor(
-    @Inject("STRUCTURE_MODEL") private readonly structureModel: Model<Structure>
+    @Inject("STRUCTURE_MODEL")
+    private readonly structureModel: Model<Structure>,
+    private readonly configService: ConfigService,
+    private readonly mailerService: MailerService
   ) {}
 
-  public async create(structureDto: StructureDto): Promise<Structure> {
+  public async create(structureDto: StructureDto): Promise<any> {
     const createdStructure = new this.structureModel(structureDto);
     createdStructure.id = await this.findLast();
-    return createdStructure.save();
+    createdStructure.token = crypto.randomBytes(35).toString("hex");
+    const structure = await createdStructure.save();
+    this.mailerService.newStructure(structure);
+    return structure;
+  }
+
+  public async checkToken(token: string): Promise<any> {
+    const structure = await this.structureModel
+      .findOneAndUpdate(
+        { token },
+        {
+          $set: {
+            token: "",
+            verified: true
+          }
+        },
+        {
+          new: true
+        }
+      )
+      .exec();
+    if (!structure || structure === null) {
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
+    } else {
+      return structure;
+    }
   }
 
   public async findById(structureId: number) {
@@ -22,7 +57,7 @@ export class StructuresService {
       .lean()
       .exec();
     if (!structure || structure.length === 0) {
-      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
     return structure;
   }
@@ -46,7 +81,7 @@ export class StructuresService {
 
   public async findAll() {
     return this.structureModel
-      .find()
+      .find({ verified: true })
       .limit(10)
       .lean()
       .exec();

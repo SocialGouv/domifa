@@ -33,7 +33,6 @@ describe("AuthGuardService", () => {
   ));
 
   it("CanActivate", () => {
-    authService.isAuth = true;
     authGuard = new AuthGuardService(authService, router);
     expect(authGuard.canActivate()).toEqual(true);
   });

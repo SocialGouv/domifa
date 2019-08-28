@@ -69,7 +69,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Annéeconvocation[0]": "2019",
       "topmostSubform[0].Page1[0].AyantsDroits[0]": "",
       "topmostSubform[0].Page1[0].Courriel[0]": "",
-      "topmostSubform[0].Page1[0].Courriel[1]": "marko@yopmail.com",
+      "topmostSubform[0].Page1[0].Courriel[1]": "domifa_structure2@yopmail.com",
       "topmostSubform[0].Page1[0].Datenaissance1[0]": "09",
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "12",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "1990",
@@ -144,7 +144,7 @@ describe("CerfaService", () => {
         "14 rue de Buzenval, CHRS, bleu, Paris, 75014",
       "topmostSubform[0].Page1[0].AyantsDroits[0]":
         "Diallo Cissé né(e) le 12/09/2002 - Diallo Djigo né(e) le 04/05/2010 - ",
-      "topmostSubform[0].Page1[0].Courriel[0]": "marko@yopmail.com",
+      "topmostSubform[0].Page1[0].Courriel[0]": "domifa_structure2@yopmail.com",
       "topmostSubform[0].Page1[0].Datenaissance1[0]": "09",
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "08",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "2000",
@@ -184,7 +184,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].AyantsDroits[0]":
         "Garideau martin né(e) le 09/02/1918 - ",
       "topmostSubform[0].Page1[0].Courriel[0]": "contact@garideau.fr",
-      "topmostSubform[0].Page1[0].Courriel[1]": "marko@yopmail.com",
+      "topmostSubform[0].Page1[0].Courriel[1]": "domifa_structure2@yopmail.com",
       "topmostSubform[0].Page1[0].Datenaissance1[0]": "19",
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "01",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "1933",

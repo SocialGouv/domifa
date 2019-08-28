@@ -10,45 +10,68 @@ import { UsersService } from "../../services/users.service";
 
 @Component({
   animations: [fadeInOut],
-  selector: "app-register-user",
-  styleUrls: ["./register-user.component.css"],
-  templateUrl: "./register-user.component.html"
+  selector: "app-reset-password",
+  styleUrls: ["./reset-password.component.css"],
+  templateUrl: "./reset-password.component.html"
 })
-export class RegisterUserComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit {
   public title: string;
-  public user: User;
-  public userForm: FormGroup;
+
+  public emailForm: FormGroup;
+  public resetForm: FormGroup;
 
   public submitted: boolean;
   public success: boolean;
+  public error: boolean;
 
   public hidePassword: boolean;
   public hidePasswordConfirm: boolean;
   public successMessage: string;
   public errorMessage: string;
+  public token: string;
 
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
 
+  get e() {
+    return this.emailForm.controls;
+  }
+
   get f() {
-    return this.userForm.controls;
+    return this.resetForm.controls;
   }
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   public ngOnInit() {
-    this.title = "Inscription";
-    this.hidePassword = true;
-    this.hidePasswordConfirm = true;
+    this.title = "Mot de passe oublié ?";
+    this.token = undefined;
 
-    this.user = new User({});
-    this.user.structureId = parseInt(this.route.snapshot.params.id, 10);
-    this.success = false;
-    this.initForm();
+    if (this.route.snapshot.params.token) {
+      const token = this.route.snapshot.params.token;
+      this.userService.checkPasswordToken(token).subscribe(
+        response => {
+          this.token = token;
+          this.initPasswordForm();
+        },
+        error => {
+          this.error = true;
+          this.errorMessage =
+            error.message === "TOKEN_EXPIRED"
+              ? "La procédure de renouvellement de votre mot de passe a expiré, veuillez renouveler votre demande"
+              : "Le lien est incorrect, veuillez recommencer la procédure";
+          this.changeSuccessMessage(this.errorMessage, true);
+          this.initEmailForm();
+        }
+      );
+    } else {
+      this.initEmailForm();
+    }
 
     this.successSubject.subscribe(message => {
       this.successMessage = message;
@@ -65,13 +88,16 @@ export class RegisterUserComponent implements OnInit {
       .subscribe(() => (this.successMessage = null));
   }
 
-  public initForm() {
-    this.userForm = this.formBuilder.group(
+  public initEmailForm() {
+    this.emailForm = this.formBuilder.group({
+      email: [null, [Validators.email, Validators.required]]
+    });
+  }
+
+  public initPasswordForm() {
+    this.resetForm = this.formBuilder.group(
       {
         confirmPassword: [null, Validators.compose([Validators.required])],
-        email: [this.user.email, [Validators.email, Validators.required]],
-        fonction: [this.user.fonction, Validators.required],
-        nom: [this.user.nom, Validators.required],
         password: [
           null,
           Validators.compose([
@@ -85,8 +111,7 @@ export class RegisterUserComponent implements OnInit {
             Validators.minLength(12)
           ])
         ],
-        prenom: [this.user.prenom, Validators.required],
-        structureId: [this.user.structureId, []]
+        token: [this.token, Validators.required]
       },
       {
         validator: PasswordValidator.passwordMatchValidator
@@ -94,37 +119,35 @@ export class RegisterUserComponent implements OnInit {
     );
   }
 
-  public submitUser() {
+  public submitEmailForm() {
     this.submitted = true;
-    if (this.userForm.invalid) {
-      Object.keys(this.userForm.controls).forEach(key => {
-        if (this.userForm.get(key).errors != null) {
-          this.changeSuccessMessage(
-            "veuillez vérifier les champs marqués en rouge dans le formulairee",
-            true
-          );
-        }
-      });
-    } else {
-      this.userService.create(this.userForm.value).subscribe(
-        (user: User) => {
-          this.user = new User(user);
+    if (!this.emailForm.invalid) {
+      this.userService.getPasswordToken(this.emailForm.value).subscribe(
+        (user: any) => {
           this.success = true;
+          this.error = false;
         },
         error => {
-          if (error.message === "EMAIL_EXIST") {
-            this.changeSuccessMessage(
-              "Il existe déjà un compte utilisant cette adresse email",
-              true
-            );
-          } else {
-            this.changeSuccessMessage(
-              "une erreur innatendue est survenue",
-              true
-            );
-          }
+          this.error = true;
+
+          this.errorMessage =
+            error.message === "EMAIL_NOT_EXIST"
+              ? "Veuillez vérifier l'adresse email"
+              : "Une erreur innatendue est survenue";
+          this.changeSuccessMessage(this.errorMessage, true);
         }
       );
+    }
+  }
+
+  public submitResetForm() {
+    this.submitted = true;
+    if (!this.resetForm.invalid) {
+      this.userService
+        .resetPassword(this.resetForm.value)
+        .subscribe((user: any) => {
+          this.success = true;
+        });
     }
   }
 

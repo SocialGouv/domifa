@@ -33,4 +33,8 @@ export class StructureService {
   public findOne(structureId: number): Observable<any> {
     return this.http.get(`${this.endPoint}/${structureId}`);
   }
+
+  public confirm(token: string): Observable<any> {
+    return this.http.get(`${this.endPoint}/confirm/${token}`);
+  }
 }

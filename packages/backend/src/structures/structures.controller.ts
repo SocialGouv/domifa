@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post
+} from "@nestjs/common";
 import { StructureDto } from "./structure-dto";
 import { Structure } from "./structure-interface";
 import { StructuresService } from "./structures.service";
@@ -16,6 +25,14 @@ export class StructuresController {
   @Get(":id")
   public getStructure(@Param("id") id: number): Promise<Structure> {
     return this.structuresService.findById(id);
+  }
+
+  @Get("confirm/:token")
+  public confim(@Param("token") token: string): Promise<Structure> {
+    if (token === "") {
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
+    }
+    return this.structuresService.checkToken(token);
   }
 
   @Get()

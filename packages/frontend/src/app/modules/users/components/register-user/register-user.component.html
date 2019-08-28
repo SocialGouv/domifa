@@ -148,39 +148,41 @@
           formControlName="password"
           placeholder="6 caractères mininum"
           required>
-        <span>
-          <fa-icon
-            *ngIf="hidePassword"
-            (click)="hidePassword = false"
-            icon="eye"></fa-icon>
+        <span
+          class="eye"
+          *ngIf="hidePassword"
+          (click)="hidePassword = false">
+          <fa-icon icon="eye"></fa-icon>
         </span>
-        <span>
-          <fa-icon
-            *ngIf="!hidePassword"
-            (click)="hidePassword = true"
-            icon="eye-slash"></fa-icon>
+        <span
+          class="eye"
+          *ngIf="!hidePassword"
+          (click)="hidePassword = true">
+          <fa-icon icon="eye-slash"></fa-icon>
         </span>
-        <div
-          class="col"
-          [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
-          <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('minlength') ? 'times-circle' : 'check-circle'"></fa-icon>
-          Au moins 8 caractères
-        </div>
-        <div
-          class="col"
-          [ngClass]="f.password.hasError('required') || f.password.hasError('hasNumber')  ? 'text-danger' : 'text-success'">
+        <div class="row indications">
 
-          <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('hasNumber') ? 'times-circle' : 'check-circle'"></fa-icon>
-          Au moins 1 chiffre
-        </div>
-        <div
-          class="col"
-          [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
-          <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('hasCapitalCase') ? 'times-circle' : 'check-circle'"></fa-icon>
-          Au moins une lettre en majuscule
+          <div
+            class="col-md-12"
+            [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
+            <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('minlength') ? 'times-circle' : 'check-circle'"></fa-icon>
+            Au moins 12 caractères
+          </div>
+          <div
+            class="col-md-12"
+            [ngClass]="f.password.hasError('required') || f.password.hasError('hasNumber')  ? 'text-danger' : 'text-success'">
+
+            <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('hasNumber') ? 'times-circle' : 'check-circle'"></fa-icon>
+            Au moins 1 chiffre
+          </div>
+          <div
+            class="col-md-12"
+            [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
+            <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('hasCapitalCase') ? 'times-circle' : 'check-circle'"></fa-icon>
+            Au moins une lettre en majuscule
+          </div>
         </div>
       </div>
-
       <div
         class="col form-group required passwordInput"
         id="confirmPassword">
@@ -188,43 +190,47 @@
 
         <input
           class="form-control"
-          [type]="!hidePassword ? 'text' : 'confirmPassword'"
+          [type]="!hidePasswordConfirm ? 'text' : 'password'"
           [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
           id="confirmPassword"
           formControlName="confirmPassword"
           [ngClass]="frmSignup.controls['confirmPassword'].invalid ? 'is-invalid' : ''"
           required>
-        <span>
-          <fa-icon
-            *ngIf="hidePasswordConfirm"
-            (click)="hidePasswordConfirm = false"
-            icon="eye"></fa-icon>
+        <span
+          class="eye"
+          *ngIf="hidePasswordConfirm"
+          (click)="hidePasswordConfirm = false">
+          <fa-icon icon="eye"></fa-icon>
         </span>
-        <span>
-          <fa-icon
-            *ngIf="!hidePasswordConfirm"
-            (click)="hidePasswordConfirm = true"
-            icon="eye-slash"></fa-icon>
+        <span
+          class="eye"
+          *ngIf="!hidePasswordConfirm"
+          (click)="hidePasswordConfirm = true">
+          <fa-icon icon="eye-slash"></fa-icon>
         </span>
         <div
           class="text-danger"
-          *ngIf="f.confirmPassword.hasError('required')">
+          *ngIf="submitted && f.confirmPassword.hasError('required')">
           La confirmation du mot de passe est obligatoire
         </div>
         <div
           class="text-danger"
-          *ngIf="f.confirmPassword.hasError('NoPassswordMatch')">
+          *ngIf="f.confirmPassword.dirty && f.confirmPassword.hasError('NoPassswordMatch')">
           Les mots de passe ne correspondent pas
         </div>
       </div>
     </div>
     <br>
     <div class="text-center">
-      <button class="btn btn-primary">Finaliser mon inscription</button>
+      <button
+        class="btn btn-primary"
+        [disabled]="userForm.invalid">
+        Finaliser mon inscription
+      </button>
       <br>
       <br>
       <a
-        routerLink="/structures"
+        routerLink="/inscription"
         routerLinkActive="router-link-active"
         class="btn btn-outline-dark">
         Précédent

@@ -16,4 +16,6 @@ export interface Structure extends Document {
     nom: string;
     prenom: string;
   };
+  token: string;
+  verified: boolean;
 }

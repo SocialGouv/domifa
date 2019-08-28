@@ -1,17 +1,56 @@
-// tslint:disable: object-literal-sort-keys
-
 import * as mongoose from "mongoose";
 import { StructureSchema } from "../structures/structure.schema";
-
 export const UserSchema = new mongoose.Schema({
-  id: { type: Number, unique: true },
-  email: { type: String, unique: true, required: true },
-  prenom: { type: String, required: true },
-  nom: { type: String, required: true },
-  password: { type: String, required: true },
-  structure: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Structure"
+  email: {
+    required: true,
+    type: String,
+    unique: true
   },
-  structureId: { type: Number, required: true }
+  id: {
+    type: Number,
+    unique: true
+  },
+  nom: {
+    required: true,
+    type: String
+  },
+  password: {
+    required: true,
+    type: String
+  },
+  prenom: {
+    required: true,
+    type: String
+  },
+  role: {
+    default: "simple",
+    type: String
+  },
+  structure: {
+    ref: "Structure",
+    type: mongoose.Schema.Types.ObjectId
+  },
+  structureId: {
+    required: true,
+    type: Number
+  },
+  tokens: {
+    email: {
+      default: "",
+      type: String,
+      unique: true
+    },
+    password: {
+      default: "",
+      type: String,
+      unique: true
+    },
+    passwordValidity: {
+      type: Date
+    }
+  },
+  verified: {
+    default: false,
+    type: Boolean
+  }
 });

@@ -1,8 +1,6 @@
 {
   "extends": ["@socialgouv/tslint-config-recommended"],
-  "rulesDirectory": [
-    "codelyzer"
-  ],
+  "rulesDirectory": ["codelyzer"],
   "rules": {
     "no-output-on-prefix": true,
     "no-inputs-metadata-property": true,

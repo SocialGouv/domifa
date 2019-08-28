@@ -3,50 +3,67 @@ import {
   Controller,
   Get,
   HttpCode,
+  HttpException,
   HttpStatus,
+  Inject,
+  Param,
   Post,
+  Req,
+  Request,
   Response
 } from "@nestjs/common";
+import * as bcrypt from "bcryptjs";
+import { Model } from "mongoose";
+import { LoginDto } from "../users/dto/login.dto";
 import { User } from "../users/user.interface";
 import { UsersService } from "../users/users.service";
 import { AuthService } from "./auth.service";
 
 @Controller("auth")
 export class AuthController {
-  /*
-    @Post('login')
-    public async loginUser(@Response() res: any, @Body() body: User) {
-      if (!(body && body.email && body.password)) {
-        return res.status(HttpStatus.FORBIDDEN).json({ message: 'Email and password are required!' });
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService
+  ) {}
+
+  @Post("login")
+  @HttpCode(HttpStatus.OK)
+  public async loginUser(@Response() res: any, @Body() loginDto: LoginDto) {
+    const user = await this.usersService.findByEmail(loginDto.email);
+
+    if (user) {
+      const isValidPass = await bcrypt.compare(
+        loginDto.password,
+        user.password
+      );
+      if (isValidPass) {
+        const accessToken = await this.authService.createToken(
+          user.email,
+          user.role
+        );
+
+        return res
+          .status(HttpStatus.OK)
+          .json(await this.authService.createToken(user.email, user.role));
+      } else {
+        throw new HttpException("USER_NOT_FOUND", HttpStatus.NOT_FOUND);
       }
-
-      const user = await this.UsersService.getUserByEmail(body.email);
-
-      if (user) {
-        if (await this.UsersService.compareHash(body.password, user.password)) {
-          return res.status(HttpStatus.OK).json(await this.authService.createToken(user.email));
-        }
-      }
-
-      return res.status(HttpStatus.FORBIDDEN).json({ message: 'Email or password wrong!' });
     }
 
-    @Post('register')
-    public async registerUser(@Response() res: any, @Body() body: User) {
-      if (!(body && body.email && body.password && body.last_name && body.first_name)) {
-        return res.status(HttpStatus.FORBIDDEN).json({ message: 'Username and password are required!' });
-      }
+    return res
+      .status(HttpStatus.FORBIDDEN)
+      .json({ message: "WRONG_CREDENTIALS" });
+  }
 
-      const user = await this.UsersService.getUserByEmail(body.email);
-
-      if (user) {
-        return res.status(HttpStatus.FORBIDDEN).json({ message: 'Email exists' });
-      } else {
-        const userSave = await this.UsersService.create(body);
-        if(userSave){
-          body.password=undefined;
-        }
-        return res.status(HttpStatus.OK).json(userSave);
-      }
-      */
+  @Get("validate/:token")
+  public async validate(@Param("token") token: string): Promise<User> {
+    const user = await this.usersService.findOneBy({ "token.email": token });
+    if (!user || user === null) {
+      throw new HttpException("Usager not found", HttpStatus.BAD_GATEWAY);
+    }
+    return this.usersService.updateOne(user.id, {
+      "token.email": "",
+      verified: true
+    });
+  }
 }

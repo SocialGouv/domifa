@@ -23,6 +23,8 @@ import { StructuresSearchComponent } from "src/app/modules/structures/components
 import { LoginComponent } from "src/app/modules/users/components/login/login.component";
 import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
 import { LABELS } from "src/app/shared/labels";
+import { StructuresConfirmComponent } from "../../../structures/components/structures-confirm/structures-confirm.component";
+import { ResetPasswordComponent } from "../../../users/components/reset-password/reset-password.component";
 import { Usager } from "../../interfaces/usager";
 import { ManageUsagersComponent } from "../manage/manage.component";
 import { UsagersProfilComponent } from "../profil/profil-component";
@@ -55,7 +57,9 @@ describe("UsagersFormComponent", () => {
         RegisterUserComponent,
         MentionsLegalesComponent,
         NotFoundComponent,
-        StructuresSearchComponent
+        StructuresSearchComponent,
+        ResetPasswordComponent,
+        StructuresConfirmComponent
       ],
       imports: [
         RouterTestingModule.withRoutes(routes),

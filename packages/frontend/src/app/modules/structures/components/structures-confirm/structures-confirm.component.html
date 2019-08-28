@@ -1,0 +1,33 @@
+<div
+  class="step_form"
+  *ngIf="success">
+  <div class="text-center">
+    <fa-icon
+      class="fa-4x text-success"
+      [icon]="['far', 'check-circle']"></fa-icon>
+    <br>
+    <br>
+    <h3 class="text-success">Nouvelle structure enregistrée</h3>
+    <br>
+    <p class="text-center">
+      Vous venez de valider la création de la structure suivante
+      <br>
+      Un mail vient de leur être transmis afin de les informer.
+    </p>
+  </div>
+</div>
+<div
+  class="step_form"
+  *ngIf="error">
+  <div class="text-center">
+    <fa-icon
+      class="fa-4x text-danger"
+      icon="times"></fa-icon>
+    <br>
+    <h3 class="text-danger">La structure n'a pas pu être validée</h3>
+    <br>
+    <p class="text-center">
+      Merci de vérifier le lien reçu par email.
+    </p>
+  </div>
+</div>

@@ -17,7 +17,9 @@ import { StructuresSearchComponent } from "src/app/modules/structures/components
 
 import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
 import { AppRoutingModule, routes } from "../../../../app-routing.module";
+import { StructuresConfirmComponent } from "../../../structures/components/structures-confirm/structures-confirm.component";
 import { LoginComponent } from "../../../users/components/login/login.component";
+import { ResetPasswordComponent } from "../../../users/components/reset-password/reset-password.component";
 import { UsagersFormComponent } from "../form/usagers-form";
 import { UsagersProfilComponent } from "../profil/profil-component";
 import { ManageUsagersComponent } from "./manage.component";
@@ -40,7 +42,9 @@ describe("ManageUsagersComponent", () => {
         RegisterUserComponent,
         MentionsLegalesComponent,
         NotFoundComponent,
-        StructuresSearchComponent
+        StructuresSearchComponent,
+        StructuresConfirmComponent,
+        ResetPasswordComponent
       ],
       imports: [
         NgbModule,
