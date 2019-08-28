@@ -80,7 +80,7 @@ export const StructureSchema = new mongoose.Schema({
   ],
   verified: {
     default: false,
-    type: String
+    type: Boolean
   },
   ville: {
     default: "",
