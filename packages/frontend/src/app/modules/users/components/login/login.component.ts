@@ -15,9 +15,10 @@ import { UsersService } from "../../services/users.service";
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
+  public userForm: FormGroup;
+
   public returnUrl: string;
   public title: string;
-  public userForm: FormGroup;
   public submitted: boolean;
   public hidePassword: boolean;
   public successMessage: string;
@@ -41,8 +42,8 @@ export class LoginComponent implements OnInit {
 
   public initForm() {
     this.loginForm = this.formBuilder.group({
-      email: ["yassine@solinum.org", [Validators.email, Validators.required]],
-      password: ["mamadou", Validators.required]
+      email: ["", [Validators.email, Validators.required]],
+      password: ["", Validators.required]
     });
   }
 

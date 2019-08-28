@@ -37,14 +37,8 @@ export class AuthController {
         user.password
       );
       if (isValidPass) {
-        const accessToken = await this.authService.createToken(
-          user.email,
-          user.role
-        );
-
-        return res
-          .status(HttpStatus.OK)
-          .json(await this.authService.createToken(user.email, user.role));
+        const accessToken = await this.authService.login(user);
+        return res.status(HttpStatus.OK).json(accessToken);
       } else {
         throw new HttpException("USER_NOT_FOUND", HttpStatus.NOT_FOUND);
       }

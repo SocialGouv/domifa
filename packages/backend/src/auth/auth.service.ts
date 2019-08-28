@@ -10,20 +10,22 @@ import { JwtPayload } from "./jwt-payload.interface";
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly userService: UsersService
+    private readonly usersService: UsersService
   ) {}
 
-  public async createToken(email, roles) {
-    const config = new ConfigService();
-    const secret = config.get("SECRET");
-    const expiresIn = 36000;
+  public async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.usersService.findByEmail(email);
+    if (user && user.password === pass) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
+  }
 
-    const userInfo = { email, roles };
-
-    const token = this.jwtService.sign(userInfo);
+  public async login(user: any) {
+    const payload = { username: user.username, sub: user.userId };
     return {
-      access_token: token,
-      expires_in: expiresIn
+      access_token: this.jwtService.sign(payload)
     };
   }
 }
