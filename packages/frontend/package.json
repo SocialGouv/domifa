@@ -27,7 +27,9 @@
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@ng-bootstrap/ng-bootstrap": "^5.1.0",
+    "@types/jwt-decode": "^2.2.1",
     "core-js": "^3.1.4",
+    "jwt-decode": "^2.2.0",
     "rxjs": "^6.5.2",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

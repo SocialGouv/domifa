@@ -19,6 +19,10 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { DateFrDirective } from "./directives/date-fr.directive";
+import { DigitOnlyDirective } from "./directives/digit-only.directive";
+import { JwtInterceptor } from "./interceptors/jwt.interceptor";
+import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
@@ -32,9 +36,6 @@ import { UsagersProfilComponent } from "./modules/usagers/components/profil/prof
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
-import { ServerErrorInterceptor } from "./services/server-error.interceptor";
-import { DateFrDirective } from "./shared/date-fr.directive";
-import { DigitOnlyDirective } from "./shared/digit-only.directive";
 
 library.add(fas, far);
 
@@ -70,6 +71,7 @@ library.add(fas, far);
     ReactiveFormsModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       multi: true,
       provide: HTTP_INTERCEPTORS,

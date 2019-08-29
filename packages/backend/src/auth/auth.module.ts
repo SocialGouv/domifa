@@ -1,6 +1,7 @@
 import { forwardRef, Module } from "@nestjs/common";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
+import { ConfigService } from "../config/config.service";
 import { DatabaseModule } from "../database/database.module";
 import { UsersModule } from "../users/users.module";
 import { UsersProviders } from "../users/users.providers";
@@ -14,7 +15,7 @@ import { JwtStrategy } from "./jwt.strategy";
   imports: [
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
-      secret: "secretKey",
+      secret: new ConfigService().get("SECRET"),
       signOptions: {
         expiresIn: 36000
       }

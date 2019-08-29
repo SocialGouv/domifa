@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Subject } from "rxjs";
-import { debounceTime, first } from "rxjs/operators";
+import { first } from "rxjs/operators";
 import { AuthService } from "src/app/services/auth.service";
 import { fadeInOut } from "src/app/shared/animations";
 import { UsersService } from "../../services/users.service";
@@ -60,15 +59,14 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.authService.login(this.f.email.value, this.f.password.value).subscribe(
-      user => {
-        if (user && user.token) {
-          localStorage.setItem("user", JSON.stringify(user));
+    this.authService
+      .login(this.f.email.value, this.f.password.value)
+      .pipe(first())
+      .subscribe(
+        user => {},
+        error => {
+          this.errorMessage = "Login incorrect";
         }
-      },
-      error => {
-        this.errorMessage = "Login incorrect";
-      }
-    );
+      );
   }
 }

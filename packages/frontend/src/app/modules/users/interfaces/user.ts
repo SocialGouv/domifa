@@ -3,9 +3,11 @@ export class User {
   public prenom: string;
   public email: string;
   public fonction: string;
+  public role: string;
   public password: string;
   public phone: string;
   public statut: string;
+  public token: string;
   public structureId: number;
 
   constructor(user?: any) {
@@ -14,8 +16,10 @@ export class User {
     this.nom = (user && user.nom) || null;
     this.email = (user && user.email) || null;
     this.fonction = (user && user.fonction) || null;
+    this.role = (user && user.role) || null;
     this.phone = (user && user.phone) || null;
     this.statut = (user && user.statut) || null;
+    this.token = (user && user.token) || null;
     this.structureId = (user && user.structureId) || null;
   }
 }

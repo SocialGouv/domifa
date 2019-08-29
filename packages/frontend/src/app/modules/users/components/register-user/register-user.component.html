@@ -185,13 +185,12 @@
       <div
         class="col form-group required passwordInput"
         id="confirmPassword">
-        <label for="confirmPassword">Confirmez votre mot de passe</label>
-
+        <label for="confirmPasswordInput">Confirmez votre mot de passe</label>
         <input
           class="form-control"
           [type]="!hidePasswordConfirm ? 'text' : 'password'"
           [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
-          id="confirmPassword"
+          id="confirmPasswordInput"
           formControlName="confirmPassword"
           [ngClass]="frmSignup.controls['confirmPassword'].invalid ? 'is-invalid' : ''"
           required>

@@ -24,5 +24,5 @@ export const LABELS = {
   sr3: "Hébergement social (sans service courrier)",
   sr4: "Hébergé chez un tiers",
   sr5: "Domicile mobile",
-  valide: "Nouvelle domiciliation enregisitrée"
+  valide: "Nouvelle domiciliation enregistrée"
 };

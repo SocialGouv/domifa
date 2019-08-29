@@ -1,7 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import * as fs from "fs";
-import * as mongoose from "mongoose";
-import pdftk = require("node-pdftk");
 import * as path from "path";
 import { DatabaseModule } from "../../database/database.module";
 import { StructuresModule } from "../../structures/structure.module";

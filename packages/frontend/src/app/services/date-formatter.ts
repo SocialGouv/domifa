@@ -3,7 +3,7 @@ import {
   NgbDateParserFormatter,
   NgbDateStruct
 } from "@ng-bootstrap/ng-bootstrap";
-import { isNumber, padNumber, toInteger } from "./bootstrap-util";
+import { isNumber, padNumber, toInteger } from "../shared/bootstrap-util";
 
 @Injectable()
 export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
