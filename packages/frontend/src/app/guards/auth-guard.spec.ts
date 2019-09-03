@@ -23,6 +23,18 @@ describe("AuthGuard", () => {
       imports: [HttpClientModule, RouterModule.forRoot([])],
       providers: [
         AuthGuard,
+        {
+          provide: ActivatedRouteSnapshot,
+          useValue: {
+            params: { id: 1 }
+          }
+        },
+        {
+          provide: RouterStateSnapshot,
+          useValue: {
+            params: { url: "/connexion" }
+          }
+        },
         AuthService,
         { provide: APP_BASE_HREF, useValue: "/" }
       ]
@@ -41,8 +53,10 @@ describe("AuthGuard", () => {
 
   it("CanActivate", () => {
     authGuard = new AuthGuard(router, authService);
-    expect(authGuard.canActivate(activatedSnapshot, routerSnapshot)).toEqual(
-      true
-    );
+    authGuard
+      .canActivate(activatedSnapshot, routerSnapshot)
+      .subscribe(result => {
+        expect(result).toEqual(false);
+      });
   });
 });

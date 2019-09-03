@@ -32,14 +32,9 @@ export class UsagersService {
 
   public async create(usagersDto: UsagersDto): Promise<Usager> {
     const createdUsager = new this.usagerModel(usagersDto);
-    const user = await this.usersService.findById(2);
     createdUsager.etapeDemande++;
     createdUsager.decision.dateInstruction = new Date();
-    createdUsager.decision.userInstructionName = user.prenom + " " + user.nom;
-    createdUsager.decision.userInstructionId = 2;
-
     createdUsager.id = await this.findLast();
-
     return createdUsager.save();
   }
 
@@ -203,33 +198,13 @@ export class UsagersService {
   public async addDocument(
     usagerId: number,
     filename: string,
-    filetype: string,
-    label: string
+    newDoc: any
   ): Promise<Usager> {
-    const usager = await this.usagerModel
-      .findOne({
-        id: usagerId
-      })
-      .exec();
-
-    usager.docs.push({
-      createdAt: new Date(),
-      createdBy: "Yassine",
-      filetype,
-      label
-    });
-
-    usager.docsPath.push(filename);
-
-    /* GET USER NAME ID */
     return this.usagerModel
       .findOneAndUpdate(
         { id: usagerId },
         {
-          $set: {
-            docs: usager.docs,
-            docsPath: usager.docsPath
-          }
+          $push: { docs: newDoc, docsPath: filename }
         },
         { new: true }
       )
@@ -292,9 +267,14 @@ export class UsagersService {
       .exec();
   }
 
-  public async search(query?: SearchDto): Promise<Usager[]> {
+  public async search(
+    query: SearchDto,
+    structureId: number
+  ): Promise<Usager[]> {
     this.sort = { nom: 1 };
     this.searchQuery = {};
+    this.searchQuery.structureId = structureId;
+
     const sortValues = {
       az: { nom: "ascending" },
       domiciliation: { "decision.dateDebut": "ascending" },

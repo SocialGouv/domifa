@@ -25,20 +25,35 @@
     </ul>
     <div class="my-2 my-lg-0">
       <a
+        *ngIf="!isAuth"
+        routerLink="/inscription"
+        class="btn btn-outline-primary">
+        S'inscrire
+      </a>
+      <a
+        *ngIf="!isAuth"
         routerLink="/connexion"
         class="btn btn-outline-primary">
         Se connecter
       </a>
       <a
+        *ngIf="isAuth"
         routerLink="/manage"
         class="btn btn-outline-primary">
         Liste des usagers
       </a>
       <a
-        routerLink="/usager/nouveau"
+        *ngIf="isAuth"
+        routerLink="/nouveau"
         class="btn btn-outline-secondary">
         <fa-icon icon="plus"></fa-icon>
         Créer une demande
+      </a>
+      <a
+        *ngIf="isAuth"
+        routerLink="/mon-compte"
+        class="btn btn-outline-primary">
+        <fa-icon icon="user"></fa-icon>
       </a>
     </div>
   </div>

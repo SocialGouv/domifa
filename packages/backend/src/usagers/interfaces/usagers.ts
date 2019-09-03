@@ -22,6 +22,7 @@ export interface Usager extends Document {
 
   ayantsDroits: AyantDroit[];
 
+  structureId: number;
   etapeDemande: number;
 
   agent: string;

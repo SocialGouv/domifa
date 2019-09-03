@@ -22,13 +22,14 @@ import { StructuresFormComponent } from "src/app/modules/structures/components/s
 import { StructuresSearchComponent } from "src/app/modules/structures/components/structures-search/structures-search.component";
 import { LoginComponent } from "src/app/modules/users/components/login/login.component";
 import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
-import { LABELS } from "src/app/shared/labels";
+import { ENTRETIEN_LABELS } from "src/app/shared/entretien.labels";
 import { StructuresConfirmComponent } from "../../../structures/components/structures-confirm/structures-confirm.component";
 import { ResetPasswordComponent } from "../../../users/components/reset-password/reset-password.component";
 import { Usager } from "../../interfaces/usager";
 import { ManageUsagersComponent } from "../manage/manage.component";
 import { UsagersProfilComponent } from "../profil/profil-component";
 import { UsagersFormComponent } from "./usagers-form";
+import { UserProfilComponent } from "src/app/modules/users/components/user-profil/user-profil.component";
 
 class MockActivatedRoute {
   public params = new Subject<any>();
@@ -59,7 +60,8 @@ describe("UsagersFormComponent", () => {
         NotFoundComponent,
         StructuresSearchComponent,
         ResetPasswordComponent,
-        StructuresConfirmComponent
+        StructuresConfirmComponent,
+        UserProfilComponent
       ],
       imports: [
         RouterTestingModule.withRoutes(routes),
@@ -93,7 +95,7 @@ describe("UsagersFormComponent", () => {
     expect(app.userId).toEqual(1);
     expect(app.structureId).toEqual(2);
     expect(app.uploadError).toEqual({});
-    expect(app.labels).toEqual(LABELS);
+    expect(app.labels).toEqual(ENTRETIEN_LABELS);
     expect(app.doublons).toEqual([]);
     expect(app.documents).toEqual([]);
 

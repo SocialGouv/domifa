@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import jwtDecode from "jwt-decode";
 import { BehaviorSubject, Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { catchError, filter, map, mergeMap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../modules/users/interfaces/user";
-import jwtDecode from "jwt-decode";
 
 @Injectable({
   providedIn: "root"
@@ -44,11 +44,20 @@ export class AuthService {
       );
   }
 
-  public isAuth(token: string) {
-    return this.http.get<any>(`${this.endPoint}/me`);
+  public isAuth(): Observable<any> {
+    return this.http.get<any>(`${this.endPoint}/me`).pipe(
+      map(
+        token => {
+          return true;
+        },
+        error => {
+          return false;
+        }
+      )
+    );
   }
+
   public logout() {
-    // remove user from local storage to log user out
     localStorage.removeItem("currentUser");
     this.currentUserSubject.next(null);
   }

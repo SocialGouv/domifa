@@ -81,14 +81,14 @@ describe("UsagersService", () => {
     searchDto.sort = "az";
     searchDto.statut = "valide";
 
-    service.search(searchDto);
+    service.search(searchDto, 2);
     expect(service.searchQuery).toEqual({ "decision.statut": "valide" });
     expect(service.sort).toEqual({ nom: "ascending" });
 
     searchDto.sort = "za";
     searchDto.interactionType = "courrierIn";
 
-    service.search(searchDto);
+    service.search(searchDto, 2);
     expect(service.sort).toEqual({ nom: "descending" });
     expect(service.searchQuery).toEqual({
       "decision.statut": "valide",
@@ -98,7 +98,7 @@ describe("UsagersService", () => {
     delete searchDto.interactionType;
     searchDto.name = "as";
 
-    service.search(searchDto);
+    service.search(searchDto, 2);
     expect(service.searchQuery).toEqual({
       $or: [
         { nom: { $regex: ".*as.*", $options: "-i" } },

@@ -14,28 +14,51 @@ import { UsagersProfilComponent } from "./modules/usagers/components/profil/prof
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
+import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "connexion", component: LoginComponent },
   { path: "inscription", component: StructuresSearchComponent },
-  { path: "structures/confirm/:token", component: StructuresConfirmComponent },
   { path: "structures/nouveau", component: StructuresFormComponent },
+  { path: "structures/confirm/:token", component: StructuresConfirmComponent },
   {
     canActivate: [StructureGuard],
     component: RegisterUserComponent,
     path: "inscription/:id"
   },
+  {
+    canActivate: [AuthGuard],
+    component: UserProfilComponent,
+    path: "mon-compte"
+  },
+  {
+    canActivate: [AuthGuard],
+    component: UsagersProfilComponent,
+    path: "usager/:id"
+  },
   { path: "reset-password", component: ResetPasswordComponent },
   { path: "reset-password/:token", component: ResetPasswordComponent },
-  { path: "usager/nouveau", component: UsagersFormComponent },
+  { path: "nouveau", component: UsagersFormComponent },
   {
     component: UsagersFormComponent,
     path: "usager/:id/edit"
   },
-  { path: "usager/:id/renouvellement", component: UsagersFormComponent },
-  { path: "usager/:id", component: UsagersProfilComponent },
-  { path: "manage", component: ManageUsagersComponent },
+  {
+    canActivate: [AuthGuard],
+    component: UsagersFormComponent,
+    path: "usager/:id/renouvellement"
+  },
+  {
+    canActivate: [AuthGuard],
+    component: UsagersProfilComponent,
+    path: "usager/:id"
+  },
+  {
+    canActivate: [AuthGuard],
+    component: ManageUsagersComponent,
+    path: "manage"
+  },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "404" }

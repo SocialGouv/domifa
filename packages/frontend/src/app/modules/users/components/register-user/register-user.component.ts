@@ -58,6 +58,7 @@ export class RegisterUserComponent implements OnInit {
     this.errorSubject.subscribe(message => {
       this.errorMessage = message;
       this.successMessage = null;
+      this.success = false;
     });
 
     this.successSubject

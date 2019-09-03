@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from "@angular/animations";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { debounceTime } from "rxjs/operators";
-import { LABELS } from "../../../../shared/labels";
+import { ENTRETIEN_LABELS } from "../../../../shared/entretien.labels";
 import { LoadingService } from "../../../loading/loading.service";
 import { DocumentService } from "../../services/document.service";
 
@@ -57,7 +57,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public ngOnInit() {
     this.title = "Fiche d'un domicilié ";
-    this.labels = LABELS;
+    this.labels = ENTRETIEN_LABELS;
 
     this.successSubject.subscribe((message: string) => {
       this.successMessage = message;

@@ -16,6 +16,7 @@ import { LoadingComponent } from "src/app/modules/loading/loading.component";
 import { StructuresFormComponent } from "src/app/modules/structures/components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "src/app/modules/structures/components/structures-search/structures-search.component";
 import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
+import { UserProfilComponent } from "src/app/modules/users/components/user-profil/user-profil.component";
 import { routes } from "../../../../app-routing.module";
 import { StructuresConfirmComponent } from "../../../structures/components/structures-confirm/structures-confirm.component";
 import { LoginComponent } from "../../../users/components/login/login.component";
@@ -52,7 +53,8 @@ describe("UsagersProfilComponent", () => {
         NotFoundComponent,
         StructuresSearchComponent,
         StructuresConfirmComponent,
-        ResetPasswordComponent
+        ResetPasswordComponent,
+        UserProfilComponent
       ],
       imports: [
         NgbModule,

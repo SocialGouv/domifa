@@ -129,9 +129,12 @@ export class StructuresFormComponent implements OnInit {
         term === ""
           ? []
           : this.departements
-              .filter(
-                dep => dep.name.toLowerCase().indexOf(term.toLowerCase()) > -1
-              )
+              .filter(dep => {
+                return (
+                  dep.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
+                  dep.code.toLowerCase().indexOf(term.toLowerCase()) > -1
+                );
+              })
               .slice(0, 10)
       )
     );

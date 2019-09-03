@@ -10,8 +10,10 @@ import {
   Post,
   Req,
   Request,
-  Response
+  Response,
+  UseGuards
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import * as bcrypt from "bcryptjs";
 import { Model } from "mongoose";
 import { LoginDto } from "../users/dto/login.dto";
@@ -30,34 +32,43 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   public async loginUser(@Response() res: any, @Body() loginDto: LoginDto) {
     const user = await this.usersService.findByEmail(loginDto.email);
-
     if (user) {
       const isValidPass = await bcrypt.compare(
         loginDto.password,
         user.password
       );
+
+      if (user.verified) {
+        return res
+          .status(HttpStatus.FORBIDDEN)
+          .json({ message: "ACCOUNT_NOT_ACTIVATED" });
+      }
+
       if (isValidPass) {
         const accessToken = await this.authService.login(user);
         return res.status(HttpStatus.OK).json(accessToken);
       } else {
-        throw new HttpException("USER_NOT_FOUND", HttpStatus.NOT_FOUND);
+        return res
+          .status(HttpStatus.FORBIDDEN)
+          .json({ message: "WRONG_CREDENTIALS" });
       }
     }
-
     return res
       .status(HttpStatus.FORBIDDEN)
       .json({ message: "WRONG_CREDENTIALS" });
   }
 
-  @Get("validate/:token")
-  public async validate(@Param("token") token: string): Promise<User> {
-    const user = await this.usersService.findOneBy({ "token.email": token });
-    if (!user || user === null) {
-      throw new HttpException("Usager not found", HttpStatus.BAD_GATEWAY);
-    }
-    return this.usersService.updateOne(user.id, {
-      "token.email": "",
-      verified: true
-    });
+  @UseGuards(AuthGuard("jwt"))
+  @Get("me")
+  public me(@Req() request: any) {
+    const user = request.user;
+    return {
+      email: user.email,
+      id: user.id,
+      nom: user.nom,
+      prenom: user.prenom,
+      role: user.role,
+      structureId: user.structureId
+    };
   }
 }

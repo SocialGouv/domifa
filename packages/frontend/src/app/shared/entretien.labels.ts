@@ -1,4 +1,4 @@
-export const LABELS = {
+export const ENTRETIEN_LABELS = {
   cause1: "Rupture familiale et/ou conjugale ",
   cause2: "Violence familiale et/ou conjugale",
   cause3: "Sortie d'une structure d'hébergement",

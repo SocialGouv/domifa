@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import { fadeInOut } from "../../../../shared/animations";
+import { ERROR_LABELS } from "../../../../shared/errors.labels";
 import { User } from "../../interfaces/user";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
@@ -15,6 +16,13 @@ import { UsersService } from "../../services/users.service";
   templateUrl: "./reset-password.component.html"
 })
 export class ResetPasswordComponent implements OnInit {
+  get e() {
+    return this.emailForm.controls;
+  }
+
+  get f() {
+    return this.resetForm.controls;
+  }
   public title: string;
 
   public emailForm: FormGroup;
@@ -29,17 +37,10 @@ export class ResetPasswordComponent implements OnInit {
   public successMessage: string;
   public errorMessage: string;
   public token: string;
+  public errorLabels: any;
 
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
-
-  get e() {
-    return this.emailForm.controls;
-  }
-
-  get f() {
-    return this.resetForm.controls;
-  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,22 +54,24 @@ export class ResetPasswordComponent implements OnInit {
     this.token = undefined;
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
+    this.errorLabels = ERROR_LABELS;
+    this.initPasswordForm();
+    this.initEmailForm();
 
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
       this.userService.checkPasswordToken(token).subscribe(
         response => {
           this.token = token;
-          this.initPasswordForm();
         },
         error => {
           this.error = true;
           this.errorMessage =
-            error.message === "TOKEN_EXPIRED"
-              ? "La procédure de renouvellement de votre mot de passe a expiré, veuillez renouveler votre demande"
+            (error.error.message === this.errorLabels[error.error.message]) !==
+            undefined
+              ? this.errorLabels[error.error.message]
               : "Le lien est incorrect, veuillez recommencer la procédure";
           this.changeSuccessMessage(this.errorMessage, true);
-          this.initEmailForm();
         }
       );
     } else {
@@ -133,7 +136,7 @@ export class ResetPasswordComponent implements OnInit {
           this.error = true;
 
           this.errorMessage =
-            error.message === "EMAIL_NOT_EXIST"
+            error.error.message === "EMAIL_NOT_EXIST"
               ? "Veuillez vérifier l'adresse email"
               : "Une erreur innatendue est survenue";
           this.changeSuccessMessage(this.errorMessage, true);

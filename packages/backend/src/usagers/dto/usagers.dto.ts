@@ -41,6 +41,10 @@ export class UsagersDto {
   public etapeDemande: number;
 
   @IsOptional()
+  @IsNumber()
+  public structureId: number;
+
+  @IsOptional()
   public preference: {
     email: boolean;
     phone: boolean;
@@ -52,6 +56,8 @@ export class UsagersDto {
     dateFin: Date;
     dateDemande: Date;
     dateInstruction: Date;
+    userInstructionName: string;
+    userInstructionId: number;
     statut: string;
     motif: string;
     userId: number;

@@ -1,20 +1,19 @@
-<div class="col-md-10 offset-md-1">
-  <div class="w-100"></div>
-  <ngb-alert
-    @fadeInOut
-    *ngIf="errorMessage"
-    type="danger"
-    (close)="errorMessage = null">
-    <strong>Erreur:</strong>
-    {{ errorMessage }}
-  </ngb-alert>
-  <ngb-alert
-    @fadeInOut
-    *ngIf="successMessage"
-    type="success"
-    (close)="successMessage = null">
-    <strong>{{ successMessage }}</strong>
-  </ngb-alert>
+<div
+  class="step_form text-center"
+  *ngIf="success">
+  <fa-icon
+    class="fa-4x text-success"
+    [icon]="['far', 'check-circle']"></fa-icon>
+  <br>
+  <h3 class="text-success">Connexion réussie !</h3>
+
+  <p class="text-center">
+    <a
+      [routerLink]="['/manage']"
+      routerLinkActive="router-link-active">
+      > Liste des domiciliés <
+    </a>
+  </p>
 </div>
 
 <div
@@ -23,15 +22,26 @@
   <div class=" text-center">
     <h5 class="title">Connexion à Domifa</h5>
   </div>
+
+  <div class="col-md-8 offset-md-2">
+    <ngb-alert
+      *ngIf="error"
+      type="danger"
+      (close)="error = false">
+      {{ errorMessage }}
+    </ngb-alert>
+  </div>
+
   <form
     [formGroup]="loginForm"
-    class="col-md-6 offset-md-3"
+    class="col-md-8 offset-md-2"
     (ngSubmit)="login()">
     <div class="form-group">
       <label for="email">Adresse email</label>
       <input
         type="text"
         formControlName="email"
+        autocomplete="username"
         class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
       <div
@@ -46,6 +56,7 @@
         type="password"
         formControlName="password"
         class="form-control"
+        autocomplete="current-password"
         [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
       <div
         *ngIf="submitted && f.password.errors"

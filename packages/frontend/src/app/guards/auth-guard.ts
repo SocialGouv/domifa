@@ -5,7 +5,10 @@ import {
   Router,
   RouterStateSnapshot
 } from "@angular/router";
-import { Observable } from "rxjs";
+import jwtDecode from "jwt-decode";
+import { Observable, of } from "rxjs";
+import { map } from "rxjs/operators";
+import { User } from "../modules/users/interfaces/user";
 import { AuthService } from "../services/auth.service";
 
 @Injectable({ providedIn: "root" })
@@ -15,16 +18,22 @@ export class AuthGuard implements CanActivate {
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ) {
-    const currentUser = this.authService.currentUserValue;
-    if (currentUser) {
-      console.log("USER  CONNECT");
-
-      return true;
+  ): Observable<boolean> {
+    if (this.authService.currentUserValue) {
+      return this.authService.isAuth().pipe(
+        map(
+          user => {
+            return true;
+          },
+          error => {
+            return false;
+          }
+        )
+      );
     }
-    console.log("USER NOT CONNECT");
-    // not logged in so redirect to login page with the return url
-    this.router.navigate(["/login"], { queryParams: { returnUrl: state.url } });
-    return false;
+    this.router.navigate(["/connexion"], {
+      queryParams: { returnUrl: state.url }
+    });
+    return of(false);
   }
 }

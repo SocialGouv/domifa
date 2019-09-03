@@ -1,6 +1,8 @@
-<div class="container" id="manage">
+<div
+  class="container"
+  id="manage">
   <h4 class="text-center">
-    <b>Bonjour Domifa</b>
+    <b>Bonjour {{ prenom }}</b>
   </h4>
   <div class="row">
     <div class="col-md-6 offset-md-3 ">
@@ -14,13 +16,11 @@
             [(ngModel)]="filters.name"
             #searchInput
             placeholder="Recherche par nom, prénom ou numéro de domicilié"
-            class="form-control"
-          />
+            class="form-control">
           <span
             *ngIf="searchInput.value !== ''"
             (click)="resetSearchBar()"
-            id="times_icon"
-          >
+            id="times_icon">
             <fa-icon icon="times-circle"></fa-icon>
           </span>
         </div>
@@ -35,8 +35,7 @@
         [ngClass]="
           filters.statut === 'valide' ? 'btn-primary' : 'btn-outline-dark'
         "
-        (click)="updateFilters('statut', 'valide')"
-      >
+        (click)="updateFilters('statut', 'valide')">
         Actif
         <b *ngIf="filters.statut === 'valide'">{{ usagers.length }}</b>
       </button>
@@ -45,8 +44,7 @@
         [ngClass]="
           filters.statut === 'instruction' ? 'btn-warning' : 'btn-outline-dark'
         "
-        (click)="updateFilters('statut', 'instruction')"
-      >
+        (click)="updateFilters('statut', 'instruction')">
         À compléter
       </button>
       <button
@@ -54,8 +52,7 @@
         [ngClass]="
           filters.statut === 'demande' ? 'btn-warning' : 'btn-outline-dark'
         "
-        (click)="updateFilters('statut', 'demande')"
-      >
+        (click)="updateFilters('statut', 'demande')">
         En attente de décision
       </button>
       <button
@@ -63,8 +60,7 @@
         [ngClass]="
           filters.statut === 'refus' ? 'btn-danger' : 'btn-outline-dark'
         "
-        (click)="updateFilters('statut', 'refus')"
-      >
+        (click)="updateFilters('statut', 'refus')">
         Refusé
       </button>
       <button
@@ -72,8 +68,7 @@
         [ngClass]="
           filters.statut === 'radie' ? 'btn-danger' : 'btn-outline-dark'
         "
-        (click)="updateFilters('statut', 'radie')"
-      >
+        (click)="updateFilters('statut', 'radie')">
         Radié
       </button>
     </div>
@@ -86,48 +81,59 @@
             ? 'btn-dark'
             : 'btn-outline-dark'
         "
-        (click)="updateFilters('interactionType', 'courrierIn')"
-      >
+        (click)="updateFilters('interactionType', 'courrierIn')">
         Courrier à récupérer
       </button>
     </div>
   </div>
 
-  <ngb-alert *ngIf="usagers.length === 0" [dismissible]="false" type="warning">
+  <ngb-alert
+    *ngIf="usagers.length === 0"
+    [dismissible]="false"
+    type="warning">
     <div class="text-center">
       <strong>Aucun résultat</strong>
       : aucun dossier ne correspond à votre recherche &nbsp;&nbsp;&nbsp;
-      <button (click)="resetFilters()" class="btn btn-outline-white">
+      <button
+        (click)="resetFilters()"
+        class="btn btn-outline-white">
         Réinitialiser les filtres
       </button>
     </div>
   </ngb-alert>
-  <div class="row" *ngIf="usagers.length !== 0">
-    <table class="table" *ngIf="usagers.length !== 0">
+  <div
+    class="row"
+    *ngIf="usagers.length !== 0">
+    <table
+      class="table"
+      *ngIf="usagers.length !== 0">
       <thead>
         <th>Nom prénom</th>
         <th>Fin de domiciliation</th>
-        <td colspan="2" class="text-right">
+        <td
+          colspan="2"
+          class="text-right">
           <div class="sort-structures form-group form-check-inline">
             <label for="sort">Trier par</label>
             <select
               class="form-control"
               id="sort"
-              (change)="updateFilters('sort', $event.target.value)"
-            >
+              (change)="updateFilters('sort', $event.target.value)">
               <option value="az">Alphabétique : A -> Z</option>
               <option value="za">Alphabétique : Z -> A</option>
               <option value="radiation">Date de radiation à venir</option>
-              <option value="domiciliation"
-                >Date de première domiciliation</option
-              >
+              <option value="domiciliation">Date de première domiciliation</option>
             </select>
           </div>
         </td>
       </thead>
       <tbody *ngFor="let usager of usagers; let i = index">
-        <tr *ngIf="differentLetter(usager.nom, i)" class="letter">
-          <td colspan="4" class=" text-center">
+        <tr
+          *ngIf="differentLetter(usager.nom, i)"
+          class="letter">
+          <td
+            colspan="4"
+            class=" text-center">
             {{ getLetter(usager.nom) }}
           </td>
         </tr>
@@ -135,14 +141,11 @@
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
             scope="row"
-            class="table_name"
-          >
+            class="table_name">
             {{ usager.sexe === "homme" ? "M." : "Mme" }}
             <b>{{ usager.nom }}</b>
             {{ usager.prenom }}
-            <b *ngIf="usager.surnom && usager.surnom !== null"
-              >- {{ usager.surnom }}</b
-            >
+            <b *ngIf="usager.surnom && usager.surnom !== null">- {{ usager.surnom }}</b>
           </td>
           <td (click)="goToProfil(usager.id, usager.decision.statut)">
             <span *ngIf="usager.decision.dateFin">
@@ -151,83 +154,87 @@
           </td>
           <td
             class="text-right icones_liste"
-            *ngIf="usager.decision.statut === 'valide'"
-          >
+            *ngIf="usager.decision.statut === 'valide'">
             <div>
               <span ngbTooltip="Ajouter un nouveau courrier">
-                <fa-icon class="courrier" icon="envelope"></fa-icon>
+                <fa-icon
+                  class="courrier"
+                  icon="envelope"></fa-icon>
               </span>
               <span
                 *ngIf="usager.lastInteraction.nbCourrier > 0"
-                ngbTooltip="Signaler un retrait de courrier"
-              >
-                <fa-icon class="courrier" icon="envelope-open-text"></fa-icon>
-                <b class="notification">{{
+                ngbTooltip="Signaler un retrait de courrier">
+                <fa-icon
+                  class="courrier"
+                  icon="envelope-open-text"></fa-icon>
+                <b class="notification">
+                  {{
                   usager.lastInteraction.nbCourrier
-                }}</b>
+                }}
+                </b>
               </span>
               <span ngbTooltip="Signaler un passage">
-                <fa-icon class="visite" icon="walking"></fa-icon>
+                <fa-icon
+                  class="visite"
+                  icon="walking"></fa-icon>
               </span>
               <span ngbTooltip="Signaler un appel">
-                <fa-icon class="appel" icon="phone"></fa-icon>
+                <fa-icon
+                  class="appel"
+                  icon="phone"></fa-icon>
               </span>
             </div>
           </td>
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
             class="text-right usager_informations"
-            *ngIf="usager.decision.statut !== 'valide'"
-          >
+            *ngIf="usager.decision.statut !== 'valide'">
             <span
               *ngIf="usager.decision.statut === 'instruction'"
-              class="text-warning2"
-            >
+              class="text-warning2">
               <fa-icon [icon]="['far', 'clock']"></fa-icon>
               &nbsp; Dossier à compléter
             </span>
             <span
               *ngIf="usager.decision.statut === 'demande'"
-              class="text-dark"
-            >
+              class="text-dark">
               Demande en cours
             </span>
             <span
               *ngIf="usager.decision.statut === 'radie'"
-              class="text-danger"
-            >
+              class="text-danger">
               Radié le
               <b>12/12/2019</b>
             </span>
             <span
               *ngIf="usager.decision.statut === 'refus'"
-              class="text-danger"
-            >
+              class="text-danger">
               Refusé le
-              <b>{{ usager.decision.dateDebut | date: "dd/MM/yyyy" }}</b>
+              <b>
+                {{ usager.decision.dateDebut | date: "dd/MM/yyyy" }}
+              </b>
             </span>
           </td>
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
-            class="text-right"
-          >
+            class="text-right">
             <span
               class="active"
               *ngIf="
                 usager.decision.statut !== 'demande' &&
                 usager.decision.statut !== 'instruction'
-              "
-            >
+              ">
               Accéder à sa fiche
             </span>
-            <span class="active" *ngIf="usager.decision.statut === 'demande'">
+            <span
+              class="active"
+              *ngIf="usager.decision.statut === 'demande'">
               <fa-icon [icon]="['fas', 'hourglass-half']"></fa-icon>
               &nbsp; Afficher la demande
             </span>
             <span
               class="active"
-              *ngIf="usager.decision.statut === 'instruction'"
-            >
+              *ngIf="usager.decision.statut === 'instruction'">
               Reprendre la demande
             </span>
           </td>

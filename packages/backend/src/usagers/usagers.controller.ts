@@ -6,19 +6,27 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Inject,
   Logger,
   Param,
   Patch,
   Post,
   Query,
+  Req,
+  Request,
   Res,
   UploadedFile,
+  UseGuards,
   UseInterceptors
 } from "@nestjs/common";
+import { REQUEST } from "@nestjs/core";
+import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
+import { RolesGuard } from "../auth/roles.guard";
+import { User } from "../users/user.interface";
 import { UsersService } from "../users/users.service";
 import { EntretienDto } from "./dto/entretien";
 import { RdvDto } from "./dto/rdv";
@@ -28,19 +36,33 @@ import { Decision } from "./interfaces/decision";
 import { CerfaService } from "./services/cerfa.service";
 import { UsagersService } from "./services/usagers.service";
 
+@UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
 export class UsagersController {
   private readonly logger = new Logger(UsagersController.name);
+  private user: any;
 
   constructor(
     private readonly usagersService: UsagersService,
     private readonly usersService: UsersService,
-    private readonly cerfaService: CerfaService
+    private readonly cerfaService: CerfaService,
+    @Inject(REQUEST) private readonly request: any
   ) {}
+
+  /* PROFILE & MANAGEMENT */
+  @Get("search")
+  public search(@Query() query: SearchDto) {
+    return this.usagersService.search(query, this.request.user.structureId);
+  }
 
   /* FORMULAIRE INFOS */
   @Post()
   public postUsager(@Body() usagerDto: UsagersDto) {
+    usagerDto.decision.userInstructionName =
+      this.request.user.prenom + " " + this.request.user.nom;
+    usagerDto.decision.userInstructionId = this.request.user.id;
+    usagerDto.structureId = this.request.user.structureId;
+
     return this.usagersService.create(usagerDto);
   }
 
@@ -48,7 +70,7 @@ export class UsagersController {
   public async patchUsager(@Body() usagerDto: UsagersDto) {
     const usager = await this.usagersService.findById(usagerDto.id);
     if (!usager) {
-      throw new HttpException("Usager not found", HttpStatus.BAD_GATEWAY);
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
     }
     return this.usagersService.patch(usagerDto);
   }
@@ -60,7 +82,7 @@ export class UsagersController {
     const user = await this.usersService.findById(rdvDto.userId);
 
     if (!user || !usager) {
-      throw new HttpException("Usager not found", HttpStatus.BAD_GATEWAY);
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
     }
 
     return this.usagersService.setRdv(usagerId, rdvDto, user);
@@ -76,18 +98,13 @@ export class UsagersController {
   }
 
   /* RDV  */
+  @UseGuards(RolesGuard)
   @Post("decision/:id")
   public setDecision(
     @Param("id") usagerId: number,
     @Body() decision: Decision
   ) {
     return this.usagersService.setDecision(usagerId, decision);
-  }
-
-  /* PROFILE & MANAGEMENT */
-  @Get("search")
-  public search(@Query() query: SearchDto) {
-    return this.usagersService.search(query);
   }
 
   /* DOUBLON */
@@ -100,7 +117,7 @@ export class UsagersController {
   public async findOne(@Param("id") usagerId: number) {
     const usager = await this.usagersService.findById(usagerId);
     if (usager === null) {
-      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.NOT_FOUND);
     }
     return usager;
   }
@@ -116,7 +133,7 @@ export class UsagersController {
     const user = await this.usersService.findById(2);
 
     if (!user || !usager || usager === null) {
-      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.NOT_FOUND);
     }
 
     this.cerfaService
@@ -129,7 +146,7 @@ export class UsagersController {
       .catch(err => {
         this.logger.log("Erreur Cerfa ");
         this.logger.log(err);
-        throw new HttpException("ERREUR CERFA", HttpStatus.BAD_REQUEST);
+        throw new HttpException("CERFA_ERROR", HttpStatus.BAD_REQUEST);
       });
   }
 
@@ -151,13 +168,13 @@ export class UsagersController {
     const fileInfos = await this.usagersService.getDocument(usagerId, index);
 
     if (fileInfos === null) {
-      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.NOT_FOUND);
     }
 
     const pathFile = path.resolve(__dirname, "../../uploads/" + fileInfos.path);
 
     if (!fs.existsSync(pathFile)) {
-      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.NOT_FOUND);
     }
 
     res.sendFile(pathFile);
@@ -194,11 +211,14 @@ export class UsagersController {
     @UploadedFile() file: any,
     @Body() postData
   ) {
-    return this.usagersService.addDocument(
-      usagerId,
-      file.filename,
-      file.mimetype,
-      postData.label
-    );
+    const userName = this.request.user.prenom + " " + this.request.user.nom;
+
+    const newDoc = {
+      createdAt: new Date(),
+      createdBy: userName,
+      filetype: file.mimetype,
+      label: postData.label
+    };
+    return this.usagersService.addDocument(usagerId, file.filename, newDoc);
   }
 }

@@ -22,6 +22,6 @@ import { JwtStrategy } from "./jwt.strategy";
     }),
     forwardRef(() => UsersModule)
   ],
-  providers: [AuthService]
+  providers: [AuthService, JwtStrategy]
 })
 export class AuthModule {}

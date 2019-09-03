@@ -25,7 +25,6 @@
       qui n’est pas encore référencée sur Domifa.
     </h4>
   </div>
-  <br>
   <form
     [formGroup]="structureForm"
     (ngSubmit)="submitStrucutre()"
@@ -41,15 +40,13 @@
               'btn-outline-primary': f.structureType.value !== 'ccas',
               'btn-outline-danger': submitted && f.structureType.value === ''
             }">
-          <label for="ccas">
-            CCAS, CIAS, Commune
-            <input
-              type="radio"
-              id="ccas"
-              class="d-none"
-              value="ccas"
-              formControlName="structureType">
-          </label>
+          <input
+            type="radio"
+            id="ccas"
+            class="d-none"
+            value="ccas"
+            formControlName="structureType">
+          <label for="ccas">CCAS, CIAS, Commune</label>
         </div>
         <div
           class="btn"
@@ -58,15 +55,13 @@
               'btn-outline-primary': f.structureType.value !== 'asso',
               'btn-outline-danger': submitted && f.structureType.value === ''
             }">
-          <label for="asso">
-            Organisme agréée
-            <input
-              type="radio"
-              id="asso"
-              class="d-none"
-              value="asso"
-              formControlName="structureType">
-          </label>
+          <input
+            type="radio"
+            id="asso"
+            class="d-none"
+            value="asso"
+            formControlName="structureType">
+          <label for="asso">Organisme agréée</label>
         </div>
       </div>
 
@@ -262,7 +257,6 @@
       </div>
     </div>
     <br>
-    <br>
     <div
       class="row"
       *ngIf="f.structureType.value === 'asso'">
@@ -324,11 +318,10 @@
           Veuillez insérer un numéro d'agrément
         </div>
       </div>
-    </div>
 
+    </div>
     <br>
-    <br>
-    <div class="text-center">
+    <div class="col-md-12  text-center">
       <h5 class="subtitle">Qui est son responsable légal ?</h5>
       Il s’agit du nom qui apparaîtra sur le Cerfa.
     </div>
@@ -336,7 +329,6 @@
     <div
       class="row"
       formGroupName="responsable">
-
       <div class="col-md-6 form-group required">
         <label for="responsable-nom">Nom</label>
         <input

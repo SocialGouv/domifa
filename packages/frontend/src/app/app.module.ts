@@ -36,6 +36,7 @@ import { UsagersProfilComponent } from "./modules/usagers/components/profil/prof
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
+import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
 
 library.add(fas, far);
 
@@ -57,7 +58,8 @@ library.add(fas, far);
     DigitOnlyDirective,
     DateFrDirective,
     LoginComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    UserProfilComponent
   ],
   imports: [
     BrowserModule,

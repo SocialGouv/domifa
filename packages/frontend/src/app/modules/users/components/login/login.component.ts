@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { AuthService } from "src/app/services/auth.service";
 import { fadeInOut } from "src/app/shared/animations";
+import { ERROR_LABELS } from "../../../../shared/errors.labels";
 import { UsersService } from "../../services/users.service";
 
 @Component({
@@ -22,7 +23,9 @@ export class LoginComponent implements OnInit {
   public hidePassword: boolean;
   public successMessage: string;
   public success: boolean;
+  public error: boolean;
   public errorMessage: string;
+  public errorLabels: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,7 +38,11 @@ export class LoginComponent implements OnInit {
   public ngOnInit() {
     this.title = "Connexion à DomiFa";
     this.successMessage = "";
-    this.errorMessage = "";
+    this.errorMessage = null;
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
+    this.success = false;
+    this.error = false;
+    this.errorLabels = ERROR_LABELS;
     this.initForm();
   }
 
@@ -63,9 +70,17 @@ export class LoginComponent implements OnInit {
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        user => {},
+        user => {
+          this.success = true;
+          this.error = true;
+          if (this.returnUrl !== "/") {
+            this.router.navigateByUrl(this.returnUrl);
+          }
+        },
         error => {
-          this.errorMessage = "Login incorrect";
+          this.error = true;
+          this.success = false;
+          this.errorMessage = this.errorLabels[error.error.message];
         }
       );
   }

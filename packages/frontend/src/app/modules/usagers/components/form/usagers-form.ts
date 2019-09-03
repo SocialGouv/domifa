@@ -13,15 +13,13 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
-import { User } from "src/app/modules/users/interfaces/user";
 import { UsersService } from "src/app/modules/users/services/users.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
-import { LABELS } from "../../../../shared/labels";
+import { ENTRETIEN_LABELS } from "../../../../shared/entretien.labels";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../../structures/services/structure.service";
-import { Structure } from "../../../structures/structure.interface";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 
 @Component({
@@ -144,7 +142,7 @@ export class UsagersFormComponent implements OnInit {
     this.userId = 1;
     this.structureId = 2;
     this.uploadError = {};
-    this.labels = LABELS;
+    this.labels = ENTRETIEN_LABELS;
     this.doublons = [];
     this.documents = [];
 

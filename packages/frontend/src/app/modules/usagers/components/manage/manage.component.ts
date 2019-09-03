@@ -4,6 +4,7 @@ import { fromEvent, Observable, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+import { AuthService } from "src/app/services/auth.service";
 import { Search } from "../../interfaces/search";
 
 @Component({
@@ -17,6 +18,7 @@ export class ManageUsagersComponent implements OnInit {
   public searching: boolean;
   public searchFailed: boolean;
   public usagers: Usager[];
+  public prenom: string;
 
   public filters: Search;
   public sort: string;
@@ -30,11 +32,13 @@ export class ManageUsagersComponent implements OnInit {
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
 
-  constructor(private usagerService: UsagerService, private router: Router) {}
+  constructor(
+    private usagerService: UsagerService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   public ngOnInit() {
-    // this.user = this.userService.getUser();
-
     this.filters = localStorage.getItem("filters")
       ? new Search(JSON.parse(localStorage.getItem("filters")))
       : new Search({});
@@ -42,6 +46,10 @@ export class ManageUsagersComponent implements OnInit {
     this.title = "Gérer vos domiciliés";
     this.usagers = [];
     this.searching = false;
+
+    this.authService.currentUser.subscribe(user => {
+      this.prenom = user.prenom;
+    });
 
     fromEvent(this.searchInput.nativeElement, "keyup")
       .pipe(
@@ -81,7 +89,6 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public updateFilters(filter: string, value: any) {
-    /* Filter */
     this.filters[filter] = this.filters[filter] === value ? null : value;
     this.search();
   }
@@ -91,6 +98,7 @@ export class ManageUsagersComponent implements OnInit {
       statut === "instruction" || statut === "demande" || statut === "refus"
         ? "/edit"
         : "";
+
     const url = "usager/" + id + urlParams;
     this.router.navigate([url]);
   }

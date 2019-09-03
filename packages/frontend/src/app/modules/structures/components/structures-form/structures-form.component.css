@@ -3,7 +3,16 @@
   padding: 0;
 }
 
+#structureForm input[type="radio"]:checked + label {
+  color: white !important;
+}
+
 .btn label {
+  color: var(--blue);
   margin: 0;
   padding: 12px 22px;
+}
+
+.btn label:hover {
+  color: white !important;
 }

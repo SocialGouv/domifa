@@ -8,8 +8,10 @@ import {
   Param,
   Post,
   Req,
-  Response
+  Response,
+  UseGuards
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
@@ -25,10 +27,10 @@ export class UsersController {
     private readonly mailerService: MailerService
   ) {}
 
+  @UseGuards(AuthGuard("jwt"))
   @Get()
   public findAll(@Req() request: Request): Promise<User[]> {
     return this.usersService.findAll();
-    // return 'This action returns all USERS';
   }
 
   @Get("structure/:id")
@@ -84,10 +86,14 @@ export class UsersController {
     });
 
     if (!existUser || existUser === null) {
-      throw new HttpException("USER_NOT_EXIST", HttpStatus.BAD_REQUEST);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "USER_NOT_EXIST" });
     }
     if (existUser.tokens.passwordValidity < today) {
-      throw new HttpException("TOKEN_EXPIRED", HttpStatus.BAD_REQUEST);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "TOKEN_EXPIRED" });
     }
 
     return this.usersService.updatePassword(resetPasswordDto);

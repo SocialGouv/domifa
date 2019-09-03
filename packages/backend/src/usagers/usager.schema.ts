@@ -10,7 +10,7 @@ export const UsagerSchema = new mongoose.Schema({
   },
 
   agent: String,
-  structure: { type: Number, default: 2 },
+  structureId: { type: Number, required: true },
 
   nom: { type: String, required: true },
   prenom: { type: String, required: true },
