@@ -3,6 +3,7 @@ import { ConfigService } from "../config/config.service";
 
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
+// mongoose.set("debug", true);
 
 const config = new ConfigService();
 const user = config.get("DB_USER");

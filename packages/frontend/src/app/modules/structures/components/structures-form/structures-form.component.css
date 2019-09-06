@@ -16,3 +16,14 @@
 .btn label:hover {
   color: white !important;
 }
+
+.separateur {
+  min-width: 140px;
+}
+.separateur_inactive {
+  min-width: 140px;
+}
+
+.step div {
+  max-width: 120px;
+}

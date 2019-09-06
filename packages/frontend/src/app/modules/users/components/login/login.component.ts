@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
 
   public ngOnInit() {
     this.title = "Connexion à DomiFa";
-    this.successMessage = "";
     this.errorMessage = null;
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
     this.success = false;
@@ -73,9 +72,9 @@ export class LoginComponent implements OnInit {
         user => {
           this.success = true;
           this.error = true;
-          if (this.returnUrl !== "/") {
-            this.router.navigateByUrl(this.returnUrl);
-          }
+          this.returnUrl !== "/"
+            ? this.router.navigateByUrl(this.returnUrl)
+            : this.router.navigate(["/manage"]);
         },
         error => {
           this.error = true;

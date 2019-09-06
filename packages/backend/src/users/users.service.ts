@@ -11,8 +11,10 @@ import {
 } from "@nestjs/common";
 import { Model } from "mongoose";
 
+import { Structure } from "../structures/structure-interface";
 import { StructuresService } from "../structures/structures.service";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { MailerService } from "./mailer.service";
 import { UserDto } from "./user.dto";
 import { User } from "./user.interface";
 
@@ -22,7 +24,8 @@ export class UsersService {
 
   constructor(
     @Inject("USER_MODEL") private readonly userModel: Model<User>,
-    private readonly structureService: StructuresService
+    private readonly structureService: StructuresService,
+    private readonly mailerService: MailerService
   ) {}
 
   public async findAll(): Promise<User[]> {
@@ -32,23 +35,23 @@ export class UsersService {
       .exec();
   }
 
-  public async create(userDto: UserDto): Promise<User> {
+  public async create(userDto: UserDto, structure: Structure): Promise<User> {
     const createdUser = new this.userModel(userDto);
-    const structure = await this.structureService.findById(
-      createdUser.structureId
-    );
+
+    // ADMIN PAR DEFAUT
+    const adminExist = await this.findOneBy({
+      structureId: userDto.structureId
+    });
+
+    if (!adminExist || adminExist === null) {
+      createdUser.role = "admin";
+    }
+
     createdUser.structure = structure;
     createdUser.id = await this.findLast();
     createdUser.password = await bcrypt.hash(createdUser.password, 10);
-    createdUser.tokens.email = crypto.randomBytes(20).toString("hex");
 
-    try {
-      const newUser = await createdUser.save();
-      this.structureService.addUser(newUser, createdUser.structureId);
-      return newUser;
-    } catch (error) {
-      throw new BadRequestException(error);
-    }
+    return createdUser.save();
   }
 
   public async findByEmail(email: string): Promise<User> {

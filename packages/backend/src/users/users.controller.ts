@@ -13,6 +13,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
+import { StructuresService } from "../structures/structures.service";
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserDto } from "./dto/user.dto";
@@ -24,6 +25,7 @@ import { UsersService } from "./users.service";
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
+    private readonly structureService: StructuresService,
     private readonly mailerService: MailerService
   ) {}
 
@@ -38,6 +40,7 @@ export class UsersController {
     return this.usersService.findByStructure(id);
   }
 
+  @UseGuards(AuthGuard("jwt"))
   @Delete(":id")
   public deleteOne(@Param("id") id: number) {
     return this.usersService.deleteById(id);
@@ -50,13 +53,30 @@ export class UsersController {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "EMAIL_EXIST" });
-    } else {
-      const userSave = await this.usersService.create(userDto);
-      if (userSave) {
-        userSave.password = undefined;
-      }
-      return res.status(HttpStatus.OK).json(userSave);
     }
+
+    const structure = await this.structureService.findById(userDto.structureId);
+
+    if (!structure || structure === null) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "STRUCTURE_NOT_EXIST" });
+    }
+
+    const newUser = await this.usersService.create(userDto, structure);
+    if (newUser) {
+      this.structureService.addUser(newUser, newUser.structureId);
+
+      if (newUser.role === "admin") {
+        this.mailerService.newStructure(structure, newUser);
+      } else {
+        const admin = await this.usersService.findOneBy({ role: "admin" });
+        this.mailerService.newUser(admin, newUser);
+      }
+      newUser.password = undefined;
+      return res.status(HttpStatus.OK).json(newUser);
+    }
+    throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @Get("check-password-token/:token")
@@ -96,7 +116,16 @@ export class UsersController {
         .json({ message: "TOKEN_EXPIRED" });
     }
 
-    return this.usersService.updatePassword(resetPasswordDto);
+    this.usersService.updatePassword(resetPasswordDto).then(
+      user => {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      },
+      error => {
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "MAIL_ERROR" });
+      }
+    );
   }
 
   @Post("get-password-token")

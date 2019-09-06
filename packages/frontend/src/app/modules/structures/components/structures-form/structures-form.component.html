@@ -1,3 +1,44 @@
+<div class="row">
+  <div id="steps">
+    <div
+      class="step"
+      *ngFor="let etape of etapes; let i = index"
+      id="step{{ i }}">
+      <div (click)="submitted = false">
+        <span
+          *ngIf="etapeInscription > i"
+          class="step_number step_check">
+          <fa-icon icon="check"></fa-icon>
+        </span>
+        <span
+          *ngIf="etapeInscription <= i"
+          [ngClass]="{
+              step_active: etapeInscription == i,
+               step_inactive: i > 0 && etapeInscription != i
+            }"
+          class="step_number">
+          {{ i + 1 }}
+        </span>
+        <span
+          [ngClass]="{
+              step_text_active: etapeInscription == i,
+              step_text_inactive: i > 0 && etapeInscription != i
+            }"
+          class="step_text">
+          {{ etape }}
+        </span>
+      </div>
+      <div
+        *ngIf="i < 1"
+        [className]="etapeInscription > i ? 'check_sep' : ''">
+        <span
+          class="separateur"
+          [ngClass]="{ separateur_inactive: i > 0 }"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="col-md-10 offset-md-1">
   <div class="w-100"></div>
   <ngb-alert
@@ -16,8 +57,9 @@
     <strong>La structure a été créée avec succès</strong>
   </ngb-alert>
 </div>
-
-<div class="step_form">
+<div
+  class="step_form"
+  *ngIf="etapeInscription == 0">
   <div class="text-center">
     <h4 class="title">
       Vous créez un compte administrateur pour votre structure,
@@ -273,7 +315,7 @@
           id="departementAuto"
           type="text"
           class="form-control"
-          formControlName="departement"
+          formControlName="departementAuto"
           [ngbTypeahead]="searchDepartement"
           (selectItem)="selectDepartement($event)"
           [resultTemplate]="rtDepartement"
@@ -397,4 +439,8 @@
       <br>
     </div>
   </form>
+</div>
+
+<div *ngIf="structureInscription.etapeInscription == 1">
+  <app-register-user [structureChild]="structureInscription"></app-register-user>
 </div>

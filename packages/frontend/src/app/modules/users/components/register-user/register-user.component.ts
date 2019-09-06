@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subject } from "rxjs";
@@ -15,6 +15,9 @@ import { UsersService } from "../../services/users.service";
   templateUrl: "./register-user.component.html"
 })
 export class RegisterUserComponent implements OnInit {
+  get f() {
+    return this.userForm.controls;
+  }
   public title: string;
   public user: User;
   public userForm: FormGroup;
@@ -27,12 +30,10 @@ export class RegisterUserComponent implements OnInit {
   public successMessage: string;
   public errorMessage: string;
 
+  @Input() public structureChild: any;
+
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
-
-  get f() {
-    return this.userForm.controls;
-  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,7 +47,12 @@ export class RegisterUserComponent implements OnInit {
     this.hidePasswordConfirm = true;
 
     this.user = new User({});
-    this.user.structureId = parseInt(this.route.snapshot.params.id, 10);
+
+    this.user.structureId =
+      this.structureChild !== undefined
+        ? this.structureChild.etapeInscription
+        : (this.user.structureId = parseInt(this.route.snapshot.params.id, 10));
+
     this.success = false;
     this.initForm();
 
@@ -101,7 +107,7 @@ export class RegisterUserComponent implements OnInit {
       Object.keys(this.userForm.controls).forEach(key => {
         if (this.userForm.get(key).errors != null) {
           this.changeSuccessMessage(
-            "veuillez vérifier les champs marqués en rouge dans le formulairee",
+            "veuillez vérifier les champs marqués en rouge dans le formulaire",
             true
           );
         }

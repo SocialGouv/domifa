@@ -16,8 +16,7 @@ export class StructuresService {
   constructor(
     @Inject("STRUCTURE_MODEL")
     private readonly structureModel: Model<Structure>,
-    private readonly configService: ConfigService,
-    private readonly mailerService: MailerService
+    private readonly configService: ConfigService
   ) {}
 
   public async create(structureDto: StructureDto): Promise<any> {
@@ -25,12 +24,11 @@ export class StructuresService {
     createdStructure.id = await this.findLast();
     createdStructure.token = crypto.randomBytes(35).toString("hex");
     const structure = await createdStructure.save();
-    this.mailerService.newStructure(structure);
     return structure;
   }
 
   public async checkToken(token: string): Promise<any> {
-    const structure = await this.structureModel
+    return this.structureModel
       .findOneAndUpdate(
         { token },
         {
@@ -44,14 +42,9 @@ export class StructuresService {
         }
       )
       .exec();
-    if (!structure || structure === null) {
-      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
-    } else {
-      return structure;
-    }
   }
 
-  public async findById(structureId: number) {
+  public async findById(structureId: number): Promise<any> {
     const structure = await this.structureModel
       .findOne({ id: structureId })
       .lean()
@@ -62,7 +55,7 @@ export class StructuresService {
     return structure;
   }
 
-  public async addUser(user: User, structureId: number) {
+  public async addUser(user: User, structureId: number): Promise<any> {
     const structure = await this.findById(structureId);
 
     structure.users.push(user);

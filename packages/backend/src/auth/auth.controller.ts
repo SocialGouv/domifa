@@ -38,7 +38,7 @@ export class AuthController {
         user.password
       );
 
-      if (user.verified) {
+      if (!user.verified) {
         return res
           .status(HttpStatus.FORBIDDEN)
           .json({ message: "ACCOUNT_NOT_ACTIVATED" });

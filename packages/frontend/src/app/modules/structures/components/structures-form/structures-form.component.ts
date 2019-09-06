@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -17,9 +17,9 @@ import {
 import { AutocompleteAdresseService } from "src/app/services/autocomplete-adresse";
 import { fadeInOut } from "../../../../shared/animations";
 import { DEPARTEMENTS } from "../../../../shared/departements";
+import { RegisterUserComponent } from "../../../users/components/register-user/register-user.component";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
-
 @Component({
   animations: [fadeInOut],
   selector: "app-structures-form",
@@ -39,8 +39,20 @@ export class StructuresFormComponent implements OnInit {
   public submitted: boolean = false;
   public searching: boolean = false;
   public searchFailed: boolean;
+
+  public etapeInscription: number;
+  public etapes = [
+    "Enregistrement de la structure",
+    "Création du compte personnel"
+  ];
+
   public successMessage: string;
   public errorMessage: string;
+
+  public structureInscription = {
+    etapeInscription: 0,
+    structureId: 0
+  };
 
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
@@ -57,6 +69,13 @@ export class StructuresFormComponent implements OnInit {
   public ngOnInit() {
     this.departements = DEPARTEMENTS;
     this.structure = new Structure({});
+
+    this.etapeInscription = 0;
+
+    this.structureInscription = {
+      etapeInscription: 0,
+      structureId: 0
+    };
 
     this.successSubject.subscribe(message => {
       this.successMessage = message;
@@ -110,13 +129,17 @@ export class StructuresFormComponent implements OnInit {
     } else {
       this.structureService.create(this.structureForm.value).subscribe(
         (structure: Structure) => {
-          this.changeSuccessMessage("La structure a bien été créée");
-          this.success = true;
+          this.changeSuccessMessage("La structure a bien été enregistrée");
           this.structure = new Structure(structure);
-          this.router.navigate(["inscription/" + this.structure.id]);
+          this.etapeInscription = 1;
+          this.structureInscription.etapeInscription = 1;
+          this.structureInscription.structureId = structure.id;
         },
         error => {
-          this.changeSuccessMessage("Veuillez vérifier le formulaire", true);
+          this.changeSuccessMessage(
+            "Veuillez vérifier les champs du formulaire",
+            true
+          );
         }
       );
     }

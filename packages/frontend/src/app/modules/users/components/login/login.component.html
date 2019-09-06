@@ -1,22 +1,4 @@
 <div
-  class="step_form text-center"
-  *ngIf="success">
-  <fa-icon
-    class="fa-4x text-success"
-    [icon]="['far', 'check-circle']"></fa-icon>
-  <br>
-  <h3 class="text-success">Connexion réussie !</h3>
-
-  <p class="text-center">
-    <a
-      [routerLink]="['/manage']"
-      routerLinkActive="router-link-active">
-      > Liste des domiciliés <
-    </a>
-  </p>
-</div>
-
-<div
   class="step_form"
   *ngIf="!success">
   <div class=" text-center">

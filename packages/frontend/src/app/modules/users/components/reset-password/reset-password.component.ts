@@ -55,14 +55,13 @@ export class ResetPasswordComponent implements OnInit {
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
     this.errorLabels = ERROR_LABELS;
-    this.initPasswordForm();
-    this.initEmailForm();
 
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
       this.userService.checkPasswordToken(token).subscribe(
         response => {
           this.token = token;
+          this.initPasswordForm();
         },
         error => {
           this.error = true;
@@ -74,9 +73,8 @@ export class ResetPasswordComponent implements OnInit {
           this.changeSuccessMessage(this.errorMessage, true);
         }
       );
-    } else {
-      this.initEmailForm();
     }
+    this.initEmailForm();
 
     this.successSubject.subscribe(message => {
       this.successMessage = message;
