@@ -47,23 +47,19 @@ export class StructuresService {
   public async findById(structureId: number): Promise<any> {
     const structure = await this.structureModel
       .findOne({ id: structureId })
-      .lean()
       .exec();
-    if (!structure || structure.length === 0) {
+    if (!structure || structure === null) {
       throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
     return structure;
   }
 
   public async addUser(user: User, structureId: number): Promise<any> {
-    const structure = await this.findById(structureId);
-
-    structure.users.push(user);
     return this.structureModel
       .findOneAndUpdate(
         { id: structureId },
         {
-          $set: structure
+          $push: { users: user }
         },
         {
           new: true

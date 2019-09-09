@@ -50,7 +50,7 @@ export class RegisterUserComponent implements OnInit {
 
     this.user.structureId =
       this.structureChild !== undefined
-        ? this.structureChild.etapeInscription
+        ? this.structureChild.structureId
         : (this.user.structureId = parseInt(this.route.snapshot.params.id, 10));
 
     this.success = false;

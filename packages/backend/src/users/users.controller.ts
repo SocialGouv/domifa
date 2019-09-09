@@ -65,14 +65,13 @@ export class UsersController {
 
     const newUser = await this.usersService.create(userDto, structure);
     if (newUser) {
-      this.structureService.addUser(newUser, newUser.structureId);
-
       if (newUser.role === "admin") {
         this.mailerService.newStructure(structure, newUser);
       } else {
         const admin = await this.usersService.findOneBy({ role: "admin" });
         this.mailerService.newUser(admin, newUser);
       }
+      this.structureService.addUser(newUser, userDto.structureId);
       newUser.password = undefined;
       return res.status(HttpStatus.OK).json(newUser);
     }
