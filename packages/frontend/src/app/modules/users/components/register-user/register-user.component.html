@@ -19,7 +19,7 @@
 
 <div
   class="step_form"
-  *ngIf="!structureInscription  && success">
+  *ngIf="!structureChild  && success">
   <div class="text-center">
     <fa-icon
       class="fa-4x"
@@ -36,7 +36,7 @@
 </div>
 <div
   class="container text-center"
-  *ngIf="structureInscription && success">
+  *ngIf="structureChild && success">
   <h4 class="text-primary">
     Félicitations, votre demande de création de nouvelle structure sur Domifa
     <br>
@@ -81,12 +81,12 @@
   class="step_form"
   *ngIf="!success">
   <div class=" text-center">
-    <div *ngIf="!structureInscription">
+    <div *ngIf="!structureChild">
       <h5 class="title">
         Vous pouvez désormais créer votre compte
       </h5>
     </div>
-    <div *ngIf="structureInscription">
+    <div *ngIf="structureChild">
       <h5 class="title">Création de votre compte administrateur</h5>
       Attention, les informations que vous allez saisir vous serviront à administrer votre compte Domifa. Lorsque celui-ci sera validé, vous pourrez alors inviter d'autres collaborateurs de votre structure à créer des comptes pour utiliser Domifa.
     </div>
@@ -274,7 +274,7 @@
         [disabled]="userForm.invalid">
         Créer mon compte
       </button>
-      <div *ngIf="structureInscription">
+      <div *ngIf="structureChild">
         <br>
         <br>
         <a
