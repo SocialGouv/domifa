@@ -44,10 +44,14 @@ export class AuthService {
       );
   }
 
-  public isAuth(): Observable<any> {
+  public isAuth(): Observable<boolean> {
     return this.http.get<any>(`${this.endPoint}/me`).pipe(
       map(
-        token => {
+        retour => {
+          const user = new User(retour);
+          user.token = this.currentUserValue.token;
+          localStorage.setItem("currentUser", JSON.stringify(user));
+          this.currentUserSubject.next(user);
           return true;
         },
         error => {

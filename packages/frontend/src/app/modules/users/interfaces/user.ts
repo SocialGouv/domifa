@@ -1,3 +1,5 @@
+import { Structure } from "../../structures/structure.interface";
+
 export class User {
   public nom: string;
   public prenom: string;
@@ -9,6 +11,7 @@ export class User {
   public statut: string;
   public token: string;
   public structureId: number;
+  public structure: Structure;
 
   constructor(user?: any) {
     this.statut = (user && user.statut) || "instructeur";
@@ -21,5 +24,7 @@ export class User {
     this.statut = (user && user.statut) || null;
     this.token = (user && user.token) || null;
     this.structureId = (user && user.structureId) || null;
+    this.structure =
+      (user && new Structure(user.structure)) || new Structure({});
   }
 }

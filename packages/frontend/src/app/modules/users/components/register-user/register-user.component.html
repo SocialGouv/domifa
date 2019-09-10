@@ -19,7 +19,7 @@
 
 <div
   class="step_form"
-  *ngIf="success">
+  *ngIf="!structureInscription  && success">
   <div class="text-center">
     <fa-icon
       class="fa-4x"
@@ -33,6 +33,49 @@
       Un email de confirmation vous sera envoyé dès validation de celui-ci par l'administrateur de votre structure, vous pourrez alors vous connecter.
     </p>
   </div>
+</div>
+<div
+  class="container text-center"
+  *ngIf="structureInscription && success">
+  <h4 class="text-primary">
+    Félicitations, votre demande de création de nouvelle structure sur Domifa
+    <br>
+    a bien été prise en compte.
+  </h4>
+  Un email de confirmation vous sera envoyé dès validation de celle-ci par l'administrateur Domifa.
+  <br>
+  Vous pourrez alors vous connecter à votre compte et :
+  <br>
+  <br>
+  <span>
+    <b class="text-primary">
+      <fa-icon icon="arrow-down"></fa-icon>
+      &nbsp;
+    </b>
+    importer vos domiciliations actuelles
+  </span>
+  <br>
+  <br>
+  <span>
+    <b class="text-primary">
+      <fa-icon icon="plus"></fa-icon>
+      &nbsp;
+    </b>
+    domicilier de nouvelles personnes
+  </span>
+  <br>
+  <br>
+  <span>
+    <b class="text-primary">
+      <fa-icon icon="user-plus"></fa-icon>
+      &nbsp;
+    </b>
+    créer des comptes pour vos collaborateurs
+  </span>
+  <br>
+  <br>
+  <br>
+  A très vite !
 </div>
 <div
   class="step_form"

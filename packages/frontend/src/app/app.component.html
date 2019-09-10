@@ -5,6 +5,11 @@
     <img
       src="../assets/images/logo.png"
       alt="Logo Domifa">
+    <span
+      id="nom-asso"
+      *ngIf="isAuth">
+      {{ structureName }}
+    </span>
   </a>
   <button
     class="navbar-toggler hidden-sm-up"

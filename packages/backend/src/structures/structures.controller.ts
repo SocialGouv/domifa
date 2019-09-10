@@ -55,7 +55,8 @@ export class StructuresController {
       throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     } else {
       const admin = await this.usersService.findOneBy({
-        role: "admin"
+        role: "admin",
+        structureId: structure.id
       });
 
       const updatedAdmin = await this.usersService.updateOne(admin.id, {

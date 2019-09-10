@@ -9,15 +9,16 @@ import { AuthService } from "src/app/services/auth.service";
 export class AppComponent implements OnInit {
   public title: string;
   public isAuth = false;
+  public structureName: string;
   public isNavbarCollapsed = false;
 
-  constructor(private authService: AuthService) {
-    this.authService.currentUser.subscribe(user => {
-      this.isAuth = user !== null;
-    });
-  }
+  constructor(private authService: AuthService) {}
 
   public ngOnInit() {
+    this.authService.currentUser.subscribe(user => {
+      this.isAuth = user !== null;
+      this.structureName = user.structure.nom;
+    });
     this.title = "Domifa";
   }
 }

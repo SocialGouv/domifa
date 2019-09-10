@@ -8158,9 +8158,9 @@ mongoose-sequence@^5.1.0:
     lodash "^4.17.11"
 
 mongoose@^5.6.6:
-  version "5.6.12"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.6.12.tgz#c40abe8ffdec5cb69c493b8fdab27d1ebaea7e2d"
-  integrity sha512-1E/wEGw1widyblhrLUBEOatm1COS0jyks0tKBiuvjPoncty4Msbk0X1EZWUxFtkZuhlbXeILJPYlKBDzxFmPfg==
+  version "5.6.13"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.6.13.tgz#de562ba1699b1eb7012fb1692c5d5a99aed7bea8"
+  integrity sha512-MGV2qSED8JFFwRXtR8ETxLRSaF15u5rAJQ0ejmp7/Z0gy6wFit32pKBQKvuEuYRoNYQmSsctUDngFnOByNPH4g==
   dependencies:
     async "2.6.2"
     bson "~1.1.1"

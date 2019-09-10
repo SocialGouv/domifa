@@ -3,13 +3,9 @@ import {
   Controller,
   Get,
   HttpCode,
-  HttpException,
   HttpStatus,
-  Inject,
-  Param,
   Post,
   Req,
-  Request,
   Response,
   UseGuards
 } from "@nestjs/common";
@@ -60,15 +56,16 @@ export class AuthController {
 
   @UseGuards(AuthGuard("jwt"))
   @Get("me")
-  public me(@Req() request: any) {
+  public me(@Response() res: any, @Req() request: any) {
     const user = request.user;
-    return {
+    return res.status(HttpStatus.OK).json({
       email: user.email,
       id: user.id,
       nom: user.nom,
       prenom: user.prenom,
       role: user.role,
+      structure: user.structure,
       structureId: user.structureId
-    };
+    });
   }
 }
