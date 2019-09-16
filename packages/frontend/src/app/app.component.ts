@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   public title: string;
   public isNavbarCollapsed = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(public readonly authService: AuthService) {}
 
   public ngOnInit() {
     this.title = "Domifa";

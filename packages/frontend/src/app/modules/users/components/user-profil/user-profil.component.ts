@@ -12,7 +12,9 @@ import { UsersService } from "../../services/users.service";
 export class UserProfilComponent implements OnInit {
   public title: string;
   public success: boolean;
+  public successMessage: string;
   public error: boolean;
+  public errorMessage: string;
   public users: User[];
 
   constructor(

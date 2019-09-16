@@ -2,9 +2,9 @@ import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
 import { DatabaseModule } from "../../database/database.module";
 import { UsersModule } from "../../users/users.module";
+import { UsersService } from "../../users/users.service";
 import { SearchDto } from "../dto/search";
 import { UsagersDto } from "../dto/usagers.dto";
-import { Usager } from "../interfaces/usagers";
 import { UsagerSchema } from "../usager.schema";
 import { UsagersProviders } from "../usagers.providers";
 
@@ -14,6 +14,8 @@ import { UsagersService } from "./usagers.service";
 
 describe("UsagersService", () => {
   let service: UsagersService;
+  let userService: UsersService;
+
   const fakeUsagerDto = new UsagersDto();
   const fakePatchUsagerDto = new UsagersDto();
   const searchDto = new SearchDto();
@@ -33,6 +35,7 @@ describe("UsagersService", () => {
     }).compile();
 
     service = module.get<UsagersService>(UsagersService);
+    userService = module.get<UsersService>(UsersService);
   });
 
   it("should be defined", () => {
@@ -45,25 +48,29 @@ describe("UsagersService", () => {
     expect(await service.findLast()).toEqual(5);
 
     // CREATE
+    const user = await userService.findOne({ id: 1 });
+
+    fakeUsagerDto.structureId = user.structureId;
     const usagerTest = await service.create(fakeUsagerDto);
-    expect(await usagerTest).toBeDefined();
-    expect(await usagerTest.id).toEqual(5);
+
+    expect(usagerTest).toBeDefined();
+    expect(usagerTest.id).toEqual(5);
 
     // READ
     const usager = await service.findById(5);
-    expect(await usager).toBeTruthy();
-    expect(await usager.nom).toEqual("Usager");
-    expect(await usager.sexe).toEqual("homme");
+    expect(usager).toBeTruthy();
+    expect(usager.nom).toEqual("Usager");
+    expect(usager.sexe).toEqual("homme");
 
     // UPDATE
     fakePatchUsagerDto.nom = "Nouveau nom";
     fakePatchUsagerDto.prenom = "Nouveau prénom";
     fakePatchUsagerDto.id = await usager.id;
 
-    const updatedUser = await service.patch(fakePatchUsagerDto);
+    const updatedUser = await service.patch(fakePatchUsagerDto, user);
 
-    expect(await updatedUser.nom).toEqual("Nouveau nom");
-    expect(await updatedUser.prenom).toEqual("Nouveau prénom");
+    expect(updatedUser.nom).toEqual("Nouveau nom");
+    expect(updatedUser.prenom).toEqual("Nouveau prénom");
 
     // DELETE
     const deletedUsager = await service.deleteById(5);
@@ -80,9 +87,15 @@ describe("UsagersService", () => {
 
     searchDto.sort = "az";
     searchDto.statut = "valide";
+    const user = await userService.findOne({ id: 2 });
 
-    service.search(searchDto, 2);
-    expect(service.searchQuery).toEqual({ "decision.statut": "valide" });
+    service.search(searchDto, user.structureId);
+
+    expect(service.searchQuery).toEqual({
+      "decision.statut": "valide",
+      structureId: 2
+    });
+
     expect(service.sort).toEqual({ nom: "ascending" });
 
     searchDto.sort = "za";
@@ -92,7 +105,8 @@ describe("UsagersService", () => {
     expect(service.sort).toEqual({ nom: "descending" });
     expect(service.searchQuery).toEqual({
       "decision.statut": "valide",
-      "lastInteraction.nbCourrier": { $gt: 0 }
+      "lastInteraction.nbCourrier": { $gt: 0 },
+      structureId: 2
     });
 
     delete searchDto.interactionType;
@@ -105,7 +119,8 @@ describe("UsagersService", () => {
         { prenom: { $regex: ".*as.*", $options: "-i" } },
         { surnom: { $regex: ".*as.*", $options: "-i" } }
       ],
-      "decision.statut": "valide"
+      "decision.statut": "valide",
+      structureId: 2
     });
   });
 
