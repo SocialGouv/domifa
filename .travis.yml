@@ -24,7 +24,11 @@ services:
     - touch packages/backend/src/config/config.env
     - echo "DB_USER=travis" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - cat /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - echo "MJ_APIKEY_PUBLIC=${MJ_APIKEY_PUBLIC_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - echo "MJ_APIKEY_PRIVATE=${MJ_APIKEY_PRIVATE_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - echo "API_URL=http://localhost:3000/" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - echo "FRONT_URL=http://localhost:4200/" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - echo "SECRET=O6RL8gsk4QpbKlLaazpdkqzpokdopzkdpokqz9!ç-rH4176OKPOKd8!29990xohuihHYNJQ6"  >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
 
   install:
     - yarn --frozen-lockfile

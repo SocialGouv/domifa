@@ -21,13 +21,9 @@ describe("CerfaService", () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule, UsersModule, UsagersModule, StructuresModule],
       providers: [
-        { provide: CerfaService, useValue: {} },
-        { provide: UsersService, useValue: {} },
-        { provide: UsagersService, useValue: {} },
-        {
-          provide: StructuresService,
-          useValue: {}
-        },
+        CerfaService,
+        UsersService,
+        UsagersService,
         ...UsagersProviders,
         ...UsersProviders
       ]
