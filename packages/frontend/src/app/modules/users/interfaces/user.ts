@@ -1,6 +1,7 @@
 import { Structure } from "../../structures/structure.interface";
 
 export class User {
+  public id: string;
   public nom: string;
   public prenom: string;
   public email: string;
@@ -10,6 +11,7 @@ export class User {
   public phone: string;
   public statut: string;
   public token: string;
+  public admin: boolean;
   public structureId: number;
   public structure: Structure;
 
@@ -23,7 +25,9 @@ export class User {
     this.phone = (user && user.phone) || null;
     this.statut = (user && user.statut) || null;
     this.token = (user && user.token) || null;
+    this.admin = (user && user.admin) || false;
     this.structureId = (user && user.structureId) || null;
+    this.id = (user && user.id) || null;
     this.structure =
       (user && new Structure(user.structure)) || new Structure({});
   }

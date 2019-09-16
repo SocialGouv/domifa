@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import jwtDecode from "jwt-decode";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import { catchError, filter, map, mergeMap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../modules/users/interfaces/user";
@@ -10,21 +10,29 @@ import { User } from "../modules/users/interfaces/user";
   providedIn: "root"
 })
 export class AuthService {
+  public isLogged: boolean;
+  public isAdmin: boolean;
+
   public http: HttpClient;
   public currentUser: Observable<User>;
+
   private endPoint = environment.apiUrl + "auth";
   private currentUserSubject: BehaviorSubject<User>;
 
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
+  }
+
   constructor(http: HttpClient) {
     this.http = http;
+    this.isLogged = false;
+    this.isAdmin = false;
+
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem("currentUser"))
     );
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
 
-  public get currentUserValue(): User {
-    return this.currentUserSubject.value;
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public login(email: string, password: string): Observable<any> {
@@ -36,6 +44,10 @@ export class AuthService {
       .pipe(
         map(token => {
           const user = new User(jwtDecode(token.access_token));
+
+          this.isLogged = true;
+          this.isAdmin = user && user.role === "admin";
+
           user.token = token.access_token;
           localStorage.setItem("currentUser", JSON.stringify(user));
           this.currentUserSubject.next(user);
@@ -45,24 +57,27 @@ export class AuthService {
   }
 
   public isAuth(): Observable<boolean> {
-    return this.http.get<any>(`${this.endPoint}/me`).pipe(
-      map(
-        retour => {
+    if (!this.currentUserValue) {
+      return of(false);
+    } else {
+      return this.http.get<any>(`${this.endPoint}/me`).pipe(
+        map(retour => {
           const user = new User(retour);
           user.token = this.currentUserValue.token;
           localStorage.setItem("currentUser", JSON.stringify(user));
+          this.isLogged = true;
+          this.isAdmin = user && user.role === "admin";
           this.currentUserSubject.next(user);
           return true;
-        },
-        error => {
-          return false;
-        }
-      )
-    );
+        })
+      );
+    }
   }
 
   public logout() {
     localStorage.removeItem("currentUser");
     this.currentUserSubject.next(null);
+    this.isLogged = false;
+    this.isAdmin = false;
   }
 }

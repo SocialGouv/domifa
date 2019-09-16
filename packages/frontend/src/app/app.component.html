@@ -7,8 +7,8 @@
       alt="Logo Domifa">
     <span
       id="nom-asso"
-      *ngIf="isAuth">
-      {{ structureName }}
+      *ngIf="authService.isLogged">
+      {{ authService.currentUserValue.structure.nom }}
     </span>
   </a>
   <button
@@ -30,32 +30,32 @@
     </ul>
     <div class="my-2 my-lg-0">
       <a
-        *ngIf="!isAuth"
+        *ngIf="!authService.isLogged"
         routerLink="/inscription"
         class="btn btn-outline-primary">
         S'inscrire
       </a>
       <a
-        *ngIf="!isAuth"
+        *ngIf="!authService.isLogged"
         routerLink="/connexion"
         class="btn btn-outline-primary">
         Se connecter
       </a>
       <a
-        *ngIf="isAuth"
+        *ngIf="authService.isLogged"
         routerLink="/manage"
         class="btn btn-outline-primary">
         Liste des usagers
       </a>
       <a
-        *ngIf="isAuth"
+        *ngIf="authService.isLogged"
         routerLink="/nouveau"
         class="btn btn-outline-secondary">
         <fa-icon icon="plus"></fa-icon>
         Créer une demande
       </a>
       <a
-        *ngIf="isAuth"
+        *ngIf="authService.isLogged"
         routerLink="/mon-compte"
         class="btn btn-outline-primary">
         <fa-icon icon="user"></fa-icon>
@@ -64,6 +64,7 @@
   </div>
 </nav>
 <div id="page">
+
   <router-outlet></router-outlet>
 </div>
 <footer class="page-footer">

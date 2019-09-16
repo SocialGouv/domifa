@@ -1,9 +1,72 @@
-<div class="step_form text-center">
-  <h1>Mon compte</h1>
+<div class="step_form">
+  <div class="col-md-10 offset-md-1">
+    <div class="w-100"></div>
+    <ngb-alert
+      @fadeInOut
+      *ngIf="errorMessage"
+      type="danger"
+      (close)="errorMessage = null">
+      <strong>Erreur:</strong>
+      {{ errorMessage }}
+    </ngb-alert>
+    <ngb-alert
+      @fadeInOut
+      *ngIf="successMessage"
+      type="success"
+      (close)="successMessage = null">
+      <strong>{{ successMessage }}</strong>
+    </ngb-alert>
+  </div>
 
+  <h3>Mon compte</h3>
   <button
     class="btn btn-primary"
     (click)="logout()">
     Déconnexion
   </button>
+  <br>
+  <br>
+  <div>
+    <h3>Utilisateurs de votre structure</h3>
+    <ul
+      *ngIf="users"
+      class="list-group">
+      <li
+        class="list-group-item"
+        *ngFor="let user of users">
+        <div class="row">
+          <div class="col text-left">
+            <b>{{ user.nom }} {{ user.prenom }}</b>
+            <span class="user-icon">
+              <fa-icon
+                class="not-verified"
+                *ngIf="!user.verified"
+                icon="times-circle"></fa-icon>
+              <fa-icon
+                class="verified"
+                *ngIf="user.verified"
+                icon="check-circle"></fa-icon>
+            </span>
+            <br>
+            {{ user.email }}
+          </div>
+          <div
+            *ngIf="authService.isAdmin && !user.verified"
+            class="col text-right">
+            <button
+              (click)="confirmUser(user.id)"
+              class="btn btn-primary">
+              Valider
+            </button>
+            &nbsp;
+            <button
+              (click)="deleteUser(user.id)"
+              class="btn btn-danger">
+              Supprimer
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>

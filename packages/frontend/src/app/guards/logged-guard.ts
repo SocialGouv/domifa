@@ -12,7 +12,7 @@ import { User } from "../modules/users/interfaces/user";
 import { AuthService } from "../services/auth.service";
 
 @Injectable({ providedIn: "root" })
-export class AuthGuard implements CanActivate {
+export class LoggedGuard implements CanActivate {
   constructor(private router: Router, private authService: AuthService) {}
 
   public canActivate(
@@ -22,12 +22,10 @@ export class AuthGuard implements CanActivate {
     return this.authService.isAuth().pipe(
       map(isLogged => {
         if (isLogged) {
-          return true;
-        } else {
-          this.router.navigate(["/connexion"], {
-            queryParams: { returnUrl: state.url }
-          });
+          this.router.navigate(["/manage"]);
           return false;
+        } else {
+          return true;
         }
       })
     );

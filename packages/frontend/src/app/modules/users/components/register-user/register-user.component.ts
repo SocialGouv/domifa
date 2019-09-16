@@ -126,7 +126,7 @@ export class RegisterUserComponent implements OnInit {
             );
           } else {
             this.changeSuccessMessage(
-              "une erreur innatendue est survenue",
+              "Une erreur inattendue est survenue, veuillez contacter l'équipe Domifa",
               true
             );
           }

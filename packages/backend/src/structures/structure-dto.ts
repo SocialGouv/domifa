@@ -29,6 +29,10 @@ export class StructureDto {
   @IsOptional()
   public complementAdresse: string;
 
+  @IsNumber()
+  @IsOptional()
+  public capacite: number;
+
   @IsNotEmpty()
   public codePostal: string;
 

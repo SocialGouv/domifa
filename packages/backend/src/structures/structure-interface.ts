@@ -7,6 +7,7 @@ export interface Structure extends Document {
   structureType: string;
   ville: string;
   departement: string;
+  capacite: number;
   codePostal: string;
   agrement: string;
   phone: string;

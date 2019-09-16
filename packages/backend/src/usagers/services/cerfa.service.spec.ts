@@ -60,7 +60,7 @@ describe("CerfaService", () => {
 
   it("3. Attestation de DEMANDE ⏳", async () => {
     const usager = await usagerService.findById(2);
-    const user = await userService.findById(1);
+    const user = await userService.findOne({ id: 1 });
     const datasAttendues = {
       "topmostSubform[0].Page1[0].AdressePostale[0]":
         "14 rue de Buzenval, CHRS, bleu, Paris, 75014",
@@ -119,7 +119,7 @@ describe("CerfaService", () => {
 
   it("4. Attestation de DOMICILIATION ✅", async () => {
     const usager = await usagerService.findById(1);
-    const user = await userService.findById(1);
+    const user = await userService.findOne({ id: 1 });
 
     expect(usager).toBeDefined();
     expect(user).toBeDefined();
@@ -167,7 +167,7 @@ describe("CerfaService", () => {
 
   it("5. Attestation de REFUS 🚫", async () => {
     const usager = await usagerService.findById(3);
-    const user = await userService.findById(1);
+    const user = await userService.findOne({ id: 1 });
 
     expect(usager).toBeDefined();
     expect(user).toBeDefined();

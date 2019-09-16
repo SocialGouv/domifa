@@ -14,6 +14,9 @@ export const StructureSchema = new mongoose.Schema({
     default: "",
     type: String
   },
+  capacite: {
+    type: Number
+  },
   codePostal: {
     default: "",
     required: true,

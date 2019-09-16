@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { of } from "rxjs";
 import { AuthService } from "src/app/services/auth.service";
 
 @Component({
@@ -8,17 +9,12 @@ import { AuthService } from "src/app/services/auth.service";
 })
 export class AppComponent implements OnInit {
   public title: string;
-  public isAuth = false;
-  public structureName: string;
   public isNavbarCollapsed = false;
 
   constructor(private authService: AuthService) {}
 
   public ngOnInit() {
-    this.authService.currentUser.subscribe(user => {
-      this.isAuth = user !== null;
-      this.structureName = user.structure.nom;
-    });
     this.title = "Domifa";
+    this.authService.isAuth().subscribe(isAllowed => {});
   }
 }

@@ -305,6 +305,7 @@
         <h5 class="subtitle">
           Quelles sont ses informations d’agrément ?
         </h5>
+        <br>
       </div>
 
       <div class="col form-group required">
@@ -341,9 +342,10 @@
           </ngb-highlight>
         </ng-template>
       </div>
+      <div class="w-100"></div>
 
       <div class="col form-group required">
-        <label for>Numéro d'agrément</label>
+        <label for="agrement">Numéro d'agrément</label>
         <input
           formControlName="agrement"
           class="form-control"
@@ -357,6 +359,17 @@
           class="invalid-feedback">
           Veuillez insérer un numéro d'agrément
         </div>
+      </div>
+
+      <div class="col form-group required">
+        <label for="capacite">Capacité d'accueil</label>
+        <input
+          formControlName="capacite"
+          class="form-control"
+          id="capacite"
+          placeholder="Numéro donné par la préfecture"
+          type="number"
+          [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }">
       </div>
 
     </div>

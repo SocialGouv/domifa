@@ -13,7 +13,9 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
+import { RolesGuard } from "../auth/roles.guard";
 import { StructuresService } from "../structures/structures.service";
+import { CurrentUser } from "./current-user.decorator";
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserDto } from "./dto/user.dto";
@@ -30,25 +32,45 @@ export class UsersController {
   ) {}
 
   @UseGuards(AuthGuard("jwt"))
-  @Get()
-  public findAll(@Req() request: Request): Promise<User[]> {
-    return this.usersService.findAll();
-  }
-
   @Get("structure/:id")
-  public findByStructure(@Param("id") id: number) {
-    return this.usersService.findByStructure(id);
+  public findByStructure(@Param("id") structureId: number) {
+    return this.usersService.findOne({ structureId });
   }
 
   @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get()
+  public findAll(
+    @Req() request: Request,
+    @CurrentUser() user: User
+  ): Promise<User[]> {
+    return this.usersService.findAll(user);
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get("confirm/:id")
+  public async confirmUser(@Param("id") id: number, @CurrentUser() user: User) {
+    const confirmerUser = await this.usersService.update(id, user.structureId, {
+      verified: true
+    });
+
+    if (confirmerUser) {
+      this.mailerService.confirmUser(confirmerUser);
+    }
+    return confirmerUser;
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
   @Delete(":id")
-  public deleteOne(@Param("id") id: number) {
-    return this.usersService.deleteById(id);
+  public deleteOne(@Param("id") id: number, @CurrentUser() user: User) {
+    return this.usersService.delete(id, user.structureId);
   }
 
   @Post()
   public async create(@Body() userDto: UserDto, @Response() res: any) {
-    const user = await this.usersService.findByEmail(userDto.email);
+    const user = await this.usersService.findOne({ email: userDto.email });
     if (user) {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -68,7 +90,7 @@ export class UsersController {
       if (newUser.role === "admin") {
         this.mailerService.newStructure(structure, newUser);
       } else {
-        const admin = await this.usersService.findOneBy({ role: "admin" });
+        const admin = await this.usersService.findOne({ role: "admin" });
         this.mailerService.newUser(admin, newUser);
       }
       this.structureService.addUser(newUser, userDto.structureId);
@@ -81,7 +103,7 @@ export class UsersController {
   @Get("check-password-token/:token")
   public async checkPasswordToken(@Param("token") token: string) {
     const today = new Date();
-    const existUser = await this.usersService.findOneBy({
+    const existUser = await this.usersService.findOne({
       "tokens.password": token
     });
 
@@ -100,7 +122,7 @@ export class UsersController {
     @Response() res: any
   ) {
     const today = new Date();
-    const existUser = await this.usersService.findOneBy({
+    const existUser = await this.usersService.findOne({
       "tokens.password": resetPasswordDto.token
     });
 
@@ -132,7 +154,7 @@ export class UsersController {
     @Body() emailDto: EmailDto,
     @Response() res: any
   ) {
-    const user = await this.usersService.findByEmail(emailDto.email);
+    const user = await this.usersService.findOne({ email: emailDto.email });
     if (!user) {
       return res
         .status(HttpStatus.BAD_REQUEST)

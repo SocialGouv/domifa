@@ -26,6 +26,7 @@ import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
 import { RolesGuard } from "../auth/roles.guard";
+import { CurrentUser } from "../users/current-user.decorator";
 import { User } from "../users/user.interface";
 import { UsersService } from "../users/users.service";
 import { EntretienDto } from "./dto/entretien";
@@ -45,41 +46,38 @@ export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly usersService: UsersService,
-    private readonly cerfaService: CerfaService,
-    @Inject(REQUEST) private readonly request: any
+    private readonly cerfaService: CerfaService
   ) {}
 
   /* PROFILE & MANAGEMENT */
   @Get("search")
-  public search(@Query() query: SearchDto) {
-    return this.usagersService.search(query, this.request.user.structureId);
+  public search(@Query() query: SearchDto, @CurrentUser() user: User) {
+    return this.usagersService.search(query, user.structureId);
   }
 
   /* FORMULAIRE INFOS */
   @Post()
-  public postUsager(@Body() usagerDto: UsagersDto) {
-    usagerDto.decision.userInstructionName =
-      this.request.user.prenom + " " + this.request.user.nom;
-    usagerDto.decision.userInstructionId = this.request.user.id;
-    usagerDto.structureId = this.request.user.structureId;
+  public postUsager(@Body() usagerDto: UsagersDto, @CurrentUser() user: User) {
+    usagerDto.decision.userInstructionName = user.prenom + " " + user.nom;
+    usagerDto.decision.userInstructionId = user.id;
+    usagerDto.structureId = user.structureId;
 
     return this.usagersService.create(usagerDto);
   }
 
   @Patch()
-  public async patchUsager(@Body() usagerDto: UsagersDto) {
-    const usager = await this.usagersService.findById(usagerDto.id);
-    if (!usager) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
-    }
-    return this.usagersService.patch(usagerDto);
+  public async patchUsager(
+    @Body() usagerDto: UsagersDto,
+    @CurrentUser() user: User
+  ) {
+    return this.usagersService.patch(usagerDto, user);
   }
 
   /* RDV  */
   @Post("rdv/:id")
   public async postRdv(@Param("id") usagerId: number, @Body() rdvDto: RdvDto) {
     const usager = await this.usagersService.findById(usagerId);
-    const user = await this.usersService.findById(rdvDto.userId);
+    const user = await this.usersService.findOne({ id: rdvDto.userId });
 
     if (!user || !usager) {
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
@@ -92,9 +90,10 @@ export class UsagersController {
   @Post("entretien/:id")
   public setEntretien(
     @Param("id") usagerId: number,
-    @Body() entretien: EntretienDto
+    @Body() entretien: EntretienDto,
+    @CurrentUser() user: User
   ) {
-    return this.usagersService.setEntretien(usagerId, entretien);
+    return this.usagersService.setEntretien(usagerId, entretien, user);
   }
 
   /* RDV  */
@@ -102,9 +101,10 @@ export class UsagersController {
   @Post("decision/:id")
   public setDecision(
     @Param("id") usagerId: number,
-    @Body() decision: Decision
+    @Body() decision: Decision,
+    @CurrentUser() user: User
   ) {
-    return this.usagersService.setDecision(usagerId, decision);
+    return this.usagersService.setDecision(usagerId, decision, user);
   }
 
   /* DOUBLON */
@@ -128,12 +128,14 @@ export class UsagersController {
   }
 
   @Get("attestation/:id")
-  public async getAttestation(@Param("id") usagerId: number, @Res() res) {
+  public async getAttestation(
+    @Param("id") usagerId: number,
+    @Res() res: any,
+    @CurrentUser() user: User
+  ) {
     const usager = await this.usagersService.findById(usagerId);
-    const user = await this.usersService.findById(2);
-
     if (!user || !usager || usager === null) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.NOT_FOUND);
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
     this.cerfaService
@@ -154,9 +156,10 @@ export class UsagersController {
   @Delete("document/:usagerId/:index")
   public async deleteDocument(
     @Param("usagerId") usagerId: number,
-    @Param("index") index: number
+    @Param("index") index: number,
+    @CurrentUser() user: User
   ) {
-    return this.usagersService.deleteDocument(usagerId, index);
+    return this.usagersService.deleteDocument(usagerId, index, user);
   }
 
   @Get("document/:usagerId/:index")
@@ -209,9 +212,10 @@ export class UsagersController {
   public uploadDoc(
     @Param("usagerId") usagerId: number,
     @UploadedFile() file: any,
-    @Body() postData
+    @Body() postData,
+    @CurrentUser() user: User
   ) {
-    const userName = this.request.user.prenom + " " + this.request.user.nom;
+    const userName = user.prenom + " " + user.nom;
 
     const newDoc = {
       createdAt: new Date(),

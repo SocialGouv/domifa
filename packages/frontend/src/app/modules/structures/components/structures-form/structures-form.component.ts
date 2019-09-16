@@ -96,6 +96,7 @@ export class StructuresFormComponent implements OnInit {
       adresseCourrier: [this.structure.adresseCourrier, []],
       adresseDifferente: [this.structure.adresseCourrier, []],
       agrement: [this.structure.agrement, []],
+      capacite: [this.structure.capacite, []],
       codePostal: [this.structure.codePostal, [Validators.required]],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, []],

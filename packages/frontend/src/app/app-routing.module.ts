@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./guards/auth-guard";
+import { LoggedGuard } from "./guards/logged-guard";
 import { StructureGuard } from "./guards/structure-guard";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
@@ -18,10 +19,17 @@ import { UserProfilComponent } from "./modules/users/components/user-profil/user
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: "connexion", component: LoginComponent },
+  {
+    canActivate: [LoggedGuard],
+    component: LoginComponent,
+    path: "connexion"
+  },
   { path: "inscription", component: StructuresSearchComponent },
   { path: "structures/nouveau", component: StructuresFormComponent },
-  { path: "structures/confirm/:token", component: StructuresConfirmComponent },
+  {
+    component: StructuresConfirmComponent,
+    path: "structures/confirm/:token"
+  },
   {
     canActivate: [StructureGuard],
     component: RegisterUserComponent,
@@ -37,8 +45,16 @@ export const routes: Routes = [
     component: UsagersProfilComponent,
     path: "usager/:id"
   },
-  { path: "reset-password", component: ResetPasswordComponent },
-  { path: "reset-password/:token", component: ResetPasswordComponent },
+  {
+    canActivate: [LoggedGuard],
+    component: ResetPasswordComponent,
+    path: "reset-password"
+  },
+  {
+    canActivate: [LoggedGuard],
+    component: ResetPasswordComponent,
+    path: "reset-password/:token"
+  },
   { path: "nouveau", component: UsagersFormComponent },
   {
     component: UsagersFormComponent,

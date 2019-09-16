@@ -4,6 +4,7 @@ export class Structure {
   public id: number;
   public adresse: string;
   public adresseCourrier: string;
+  public capacite: number;
   public complementAdresse: string;
   public adresseDifferente: boolean;
   public nom: string;
@@ -23,23 +24,23 @@ export class Structure {
 
   constructor(structure?: any) {
     this.id = (structure && structure.id) || 0;
+    this.capacite = (structure && structure.capacite) || null;
     this.adresse = (structure && structure.adresse) || null;
-    this.adresseCourrier =
-      (structure && structure.adresseCourrier) || "13 rue des pyrénées";
+    this.adresseCourrier = (structure && structure.adresseCourrier) || "";
     this.adresseDifferente = structure && structure.adresseCourrier !== "";
     this.complementAdresse = (structure && structure.complementAdresse) || "";
-    this.nom = (structure && structure.nom) || "Nom de la structure";
+    this.nom = (structure && structure.nom) || "";
     this.structureType = (structure && structure.structureType) || "";
-    this.ville = (structure && structure.ville) || "Paris";
+    this.ville = (structure && structure.ville) || "";
     this.departement = (structure && structure.departement) || "";
-    this.codePostal = (structure && structure.codePostal) || "75013";
+    this.codePostal = (structure && structure.codePostal) || "";
     this.agrement = (structure && structure.agrement) || "";
-    this.phone = (structure && structure.phone) || "0101010101";
-    this.email = (structure && structure.phone) || "yassine_test@yopmail.com";
+    this.phone = (structure && structure.phone) || "";
+    this.email = (structure && structure.phone) || "";
     this.responsable = (structure && structure.responsable) || {
-      fonction: "Président",
-      nom: "Nom du président",
-      prenom: "Prénom du président"
+      fonction: "",
+      nom: "",
+      prenom: ""
     };
     this.users = (structure && structure.users) || [];
   }

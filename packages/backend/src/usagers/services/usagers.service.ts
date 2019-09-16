@@ -38,14 +38,15 @@ export class UsagersService {
     return createdUsager.save();
   }
 
-  public async patch(usagersDto: UsagersDto): Promise<Usager> {
+  public async patch(usagersDto: UsagersDto, user: User): Promise<Usager> {
     if (!isNaN(usagersDto.etapeDemande)) {
       usagersDto.etapeDemande++;
     }
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usagersDto.id
+          id: usagersDto.id,
+          structureId: user.structureId
         },
         {
           $set: usagersDto
@@ -76,20 +77,20 @@ export class UsagersService {
 
   public async setDecision(
     usagerId: number,
-    decisionSent: Decision
+    decisionSent: Decision,
+    user: User
   ): Promise<Usager> {
-    const user = await this.usersService.findById(2);
     const agent = user.prenom + " " + user.nom;
 
     if (decisionSent.statut === "demande") {
       decisionSent.dateDemande = new Date();
-      decisionSent.userInstructionId = 2;
+      decisionSent.userInstructionId = user.id;
       decisionSent.userInstructionName = agent;
       /* Mail au responsable */
     }
 
     if (decisionSent.statut === "valide" || decisionSent.statut === "refus") {
-      decisionSent.userDecisionId = 2;
+      decisionSent.userDecisionId = user.id;
       decisionSent.userDecisionName = agent;
       decisionSent.dateDebut = new Date();
       /* Récupération du dernier ID lié à la structure */
@@ -105,7 +106,8 @@ export class UsagersService {
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usagerId
+          id: usagerId,
+          structureId: user.structureId
         },
         {
           $set: {
@@ -123,12 +125,14 @@ export class UsagersService {
 
   public async setEntretien(
     usagerId: number,
-    entretienForm: EntretienDto
+    entretienForm: EntretienDto,
+    user: User
   ): Promise<Usager> {
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usagerId
+          id: usagerId,
+          structureId: user.structureId
         },
         {
           $set: {
@@ -153,7 +157,8 @@ export class UsagersService {
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usagerId
+          id: usagerId,
+          structureId: user.structureId
         },
         {
           $set: {
@@ -171,17 +176,21 @@ export class UsagersService {
       .exec();
   }
 
-  public async deleteDocument(usagerId: number, index): Promise<Usager> {
+  public async deleteDocument(
+    usagerId: number,
+    index: number,
+    user: User
+  ): Promise<Usager> {
     const usager = await this.usagerModel.findOne({ id: usagerId }).exec();
     const newDocs = usager.docs;
     const newDocsPath = usager.docsPath;
-    newDocs.splice(parseInt(index, 2), 1);
-    newDocsPath.splice(parseInt(index, 2), 1);
+    newDocs.splice(index, 1);
+    newDocsPath.splice(index, 1);
 
     /* GET USER NAME ID */
     return this.usagerModel
       .findOneAndUpdate(
-        { id: usagerId },
+        { id: usagerId, structureId: user.structureId },
         {
           $set: {
             docs: usager.docs,

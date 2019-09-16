@@ -107,7 +107,7 @@
   </div>
   <div
     class="step_form"
-    *ngIf="usager.decision.statut === 'demande'">
+    *ngIf="usager.decision.statut === 'demande' && !authService.isAdmin">
     <div class="row">
       <div class="col text-center">
         <h5>
@@ -118,11 +118,8 @@
         <b>{{ usager.nom }} {{ usager.prenom }}</b>
         a été envoyée le
         <b>
-          {{ usager.decision.dateDemande | date: "dd/MM/yyyy" }}
+          {{ usager.decision.dateDemande | date: "dd/MM/yyyy" }}.
         </b>
-        .
-        <br>
-        Elle est actuellement en cours de traitement.
         <br>
         <br>
         La personne référente dans votre structure a reçu un mail l'invitant à
@@ -1337,8 +1334,7 @@
 
     <ngb-accordion
       *ngIf="
-        usager.etapeDemande === 4 && usager.decision.statut === 'instruction'
-      "
+        usager.etapeDemande === 4 && usager.decision.statut === 'instruction'"
       #acc="ngbAccordion"
       class="recap">
       <ngb-panel id="panel-0">
@@ -1480,9 +1476,7 @@
     <div
       class="step_form"
       id="step_form4"
-      *ngIf="
-        usager.etapeDemande === 4 && usager.decision.statut === 'instruction'
-      ">
+      *ngIf="usager.etapeDemande === 4 && usager.decision.statut === 'instruction'">
       <div class="row">
         <div class="col-md-8 offset-md-2">
           <h5 class="text-center">
@@ -1492,7 +1486,9 @@
           </h5>
           <h6 class="text-center">Quelle décision souhaitez-vous rendre ?</h6>
           <br>
-          <div class="row">
+          <div
+            class="row"
+            *ngIf="authService.isAdmin">
             <div class="col">
               <button
                 class="btn-block btn btn-danger"

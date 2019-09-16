@@ -1,0 +1,10 @@
+.user-icon {
+  margin-left: 10px;
+}
+
+.verified {
+  color: var(--success);
+}
+.not-verified {
+  color: var(--warning);
+}

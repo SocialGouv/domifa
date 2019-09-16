@@ -54,15 +54,18 @@ export class StructuresController {
     if (!structure || structure === null) {
       throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     } else {
-      const admin = await this.usersService.findOneBy({
+      const admin = await this.usersService.findOne({
         role: "admin",
         structureId: structure.id
       });
 
-      const updatedAdmin = await this.usersService.updateOne(admin.id, {
-        role: "admin",
-        verified: true
-      });
+      const updatedAdmin = await this.usersService.update(
+        admin.id,
+        structure.id,
+        {
+          verified: true
+        }
+      );
 
       this.mailerService.confirmationStructure(structure, updatedAdmin);
       return structure;

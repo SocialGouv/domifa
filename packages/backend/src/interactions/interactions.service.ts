@@ -3,11 +3,13 @@ import {
   HttpStatus,
   Inject,
   Injectable,
-  Logger
+  Logger,
+  UseGuards
 } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Usager } from "../usagers/interfaces/usagers";
 import { UsagersService } from "../usagers/services/usagers.service";
+import { User } from "../users/user.interface";
 import { UsersService } from "../users/users.service";
 import { InteractionDto } from "./interactions.dto";
 import { Interaction } from "./interactions.interface";
@@ -25,10 +27,10 @@ export class InteractionsService {
 
   public async create(
     usagerId: number,
+    user: User,
     usagersDto: InteractionDto
   ): Promise<Usager> {
     const createdInteraction = new this.interactionModel(usagersDto);
-    const user = await this.usersService.findById(2);
     const usager = await this.usagersService.findById(usagerId);
 
     if (!usager || usager === null) {

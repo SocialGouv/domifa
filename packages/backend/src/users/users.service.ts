@@ -1,18 +1,10 @@
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
 import * as crypto from "crypto";
-
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger
-} from "@nestjs/common";
 import { Model } from "mongoose";
-
 import { Structure } from "../structures/structure-interface";
 import { StructuresService } from "../structures/structures.service";
+import { CurrentUser } from "./current-user.decorator";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { MailerService } from "./mailer.service";
 import { UserDto } from "./user.dto";
@@ -28,9 +20,11 @@ export class UsersService {
     private readonly mailerService: MailerService
   ) {}
 
-  public async findAll(): Promise<User[]> {
+  public async findAll(user: User): Promise<User[]> {
     return this.userModel
-      .find()
+      .find({
+        structureId: user.structureId
+      })
       .lean()
       .exec();
   }
@@ -39,7 +33,7 @@ export class UsersService {
     const createdUser = new this.userModel(userDto);
 
     // ADMIN PAR DEFAUT
-    const adminExist = await this.findOneBy({
+    const adminExist = await this.findOne({
       structureId: userDto.structureId
     });
 
@@ -54,37 +48,24 @@ export class UsersService {
     return createdUser.save();
   }
 
-  public async findByEmail(email: string): Promise<User> {
-    return this.userModel
-      .findOne({
-        email
-      })
-      .lean()
-      .exec();
-  }
-
-  public async findOneBy(search: any): Promise<User> {
+  public async findOne(search: any): Promise<User> {
     return this.userModel
       .findOne(search)
+      .populate("structure")
       .lean()
       .exec();
   }
 
-  public async findByStructure(id: number): Promise<User> {
-    return this.userModel
-      .find({
-        structureId: id
-      })
-      .select({ nom: 1, prenom: 1, email: 1, id: 1 })
-      .lean()
-      .exec();
-  }
-
-  public async updateOne(userId: number, data: any): Promise<User> {
+  public async update(
+    userId: number,
+    structureId: number,
+    data: any
+  ): Promise<User> {
     return this.userModel
       .findOneAndUpdate(
         {
-          id: userId
+          id: userId,
+          structureId
         },
         {
           $set: data
@@ -122,12 +103,14 @@ export class UsersService {
   public async updatePassword(
     resetPasswordDto: ResetPasswordDto
   ): Promise<any> {
+    const newPassword = await bcrypt.hash(resetPasswordDto.password, 10);
+
     return this.userModel
       .findOneAndUpdate(
-        { token: resetPasswordDto.token },
+        { "tokens.password": resetPasswordDto.token },
         {
           $set: {
-            password: await bcrypt.hash(resetPasswordDto.password, 10)
+            password: newPassword
           }
         },
         {
@@ -139,17 +122,7 @@ export class UsersService {
       .exec();
   }
 
-  public async findById(id: number): Promise<User> {
-    return this.userModel
-      .findOne({
-        id
-      })
-      .populate("structure")
-      .lean()
-      .exec();
-  }
-
-  public async deleteById(id: number): Promise<User> {
+  public async delete(id: number, structureId): Promise<User> {
     return this.userModel
       .findOneAndDelete({
         id

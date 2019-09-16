@@ -66,6 +66,7 @@ export class MailerService {
   }
 
   public newUser(admin: User, user: User) {
+    const lienConnexion = this.configService.get("FRONT_URL") + "connexion";
     return this.mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
@@ -83,7 +84,7 @@ export class MailerService {
           ],
           Variables: {
             admin_prenom: admin.prenom,
-            lien: this.configService.get("FRONT_URL"),
+            lien: lienConnexion,
             user_email: user.email,
             user_nom: user.nom,
             user_prenom: user.prenom
@@ -123,10 +124,9 @@ export class MailerService {
     });
   }
 
-  public async confirmationStructure(
-    structure: Structure,
-    user: User
-  ): Promise<any> {
+  public confirmUser(user: User) {
+    const lienConnexion = this.configService.get("FRONT_URL") + "connexion";
+
     return this.mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
@@ -139,6 +139,34 @@ export class MailerService {
           TemplateLanguage: true,
           To: [
             {
+              Email: user.email
+            }
+          ],
+          Variables: {
+            lien: lienConnexion,
+            prenom: user.prenom
+          }
+        }
+      ]
+    });
+  }
+
+  public async confirmationStructure(
+    structure: Structure,
+    user: User
+  ): Promise<any> {
+    return this.mailjet.post("send", { version: "v3.1" }).request({
+      Messages: [
+        {
+          From: {
+            Email: "contact@domifa.beta.gouv.fr",
+            Name: "Domifa"
+          },
+          Subject: "Votre compte Domifa a été activé",
+          TemplateID: 1001644,
+          TemplateLanguage: true,
+          To: [
+            {
               Email: user.email,
               Name: "Domifa"
             }
@@ -146,8 +174,8 @@ export class MailerService {
 
           Variables: {
             lien: this.configService.get("FRONT_URL"),
-            prenom: user.prenom,
-            structure_nom: structure.nom
+            nom_structure: structure.nom,
+            prenom: user.prenom
           }
         }
       ]

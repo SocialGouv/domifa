@@ -13,7 +13,9 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
+import { User } from "src/app/modules/users/interfaces/user";
 import { UsersService } from "src/app/modules/users/services/users.service";
+import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
@@ -107,7 +109,7 @@ export class UsagersFormComponent implements OnInit {
   public structureId: number;
   public modal: any;
   public structure: any;
-  public agents: any[] = [];
+  public agents: User[] = [];
 
   public motifsRefus = {};
   public residence = {};
@@ -129,6 +131,7 @@ export class UsagersFormComponent implements OnInit {
     private usagerService: UsagerService,
     private userService: UsersService,
     private documentService: DocumentService,
+    private authService: AuthService,
     private structureService: StructureService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
@@ -279,7 +282,7 @@ export class UsagersFormComponent implements OnInit {
       revenus: [this.usager.entretien.revenus, []]
     });
 
-    this.userService.getUsersByStructure(2).subscribe((users: any[]) => {
+    this.userService.getUsers().subscribe((users: User[]) => {
       this.agents = users;
       this.rdvForm.controls.userId.setValue(users[0].id, {
         onlySelf: true

@@ -3,7 +3,7 @@ import { ConfigService } from "../config/config.service";
 
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
-// mongoose.set("debug", true);
+mongoose.set("debug", true);
 
 const config = new ConfigService();
 const user = config.get("DB_USER");
@@ -18,7 +18,8 @@ export const databaseProviders = [
         {
           reconnectInterval: 1000,
           reconnectTries: Number.MAX_VALUE,
-          useNewUrlParser: true
+          useNewUrlParser: true,
+          useUnifiedTopology: true
         }
       )
   }

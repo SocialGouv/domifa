@@ -22,8 +22,16 @@ export class UsersService {
     return this.http.post(`${this.endPoint}`, data);
   }
 
-  public getUsersByStructure(structureId: number) {
-    return this.http.get(`${this.endPoint}/structure/${structureId}`);
+  public getUsers() {
+    return this.http.get(`${this.endPoint}`);
+  }
+
+  public confirmUser(id: number) {
+    return this.http.get(`${this.endPoint}/confirm/${id}`);
+  }
+
+  public deleteUser(id: number) {
+    return this.http.delete(`${this.endPoint}/${id}`);
   }
 
   public getPasswordToken(data: string) {
