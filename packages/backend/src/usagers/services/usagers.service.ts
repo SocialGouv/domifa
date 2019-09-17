@@ -39,9 +39,6 @@ export class UsagersService {
   }
 
   public async patch(usagersDto: UsagersDto, user: User): Promise<Usager> {
-    if (!isNaN(usagersDto.etapeDemande)) {
-      usagersDto.etapeDemande++;
-    }
     return this.usagerModel
       .findOneAndUpdate(
         {
@@ -55,7 +52,7 @@ export class UsagersService {
           new: true
         }
       )
-      .select("-docsPath")
+      .select("-docsPath -interactions")
       .exec();
   }
 
@@ -70,8 +67,7 @@ export class UsagersService {
           new: true
         }
       )
-      .select("-docsPath")
-      .populate("interactions")
+      .select("-docsPath -interactions")
       .exec();
   }
 
@@ -119,7 +115,7 @@ export class UsagersService {
           new: true
         }
       )
-      .select("-docsPath")
+      .select("-docsPath -interactions")
       .exec();
   }
 
@@ -153,7 +149,6 @@ export class UsagersService {
     rdvDto: RdvDto,
     user: User
   ): Promise<Usager> {
-    /* GET USER NAME ID */
     return this.usagerModel
       .findOneAndUpdate(
         {
@@ -176,79 +171,22 @@ export class UsagersService {
       .exec();
   }
 
-  public async deleteDocument(
-    usagerId: number,
-    index: number,
-    user: User
-  ): Promise<Usager> {
-    const usager = await this.usagerModel.findOne({ id: usagerId }).exec();
-    const newDocs = usager.docs;
-    const newDocsPath = usager.docsPath;
-    newDocs.splice(index, 1);
-    newDocsPath.splice(index, 1);
-
-    /* GET USER NAME ID */
-    return this.usagerModel
-      .findOneAndUpdate(
-        { id: usagerId, structureId: user.structureId },
-        {
-          $set: {
-            docs: usager.docs,
-            docsPath: usager.docsPath
-          }
-        },
-        {
-          new: true
-        }
-      )
-      .exec();
-  }
-
-  public async addDocument(
-    usagerId: number,
-    filename: string,
-    newDoc: any
-  ): Promise<Usager> {
-    return this.usagerModel
-      .findOneAndUpdate(
-        { id: usagerId },
-        {
-          $push: { docs: newDoc, docsPath: filename }
-        },
-        { new: true }
-      )
-      .select("-docsPath")
-      .exec();
-  }
-
-  public async getDocument(usagerId: number, index: number): Promise<any> {
-    const usager = await this.usagerModel
-      .findOne({
-        id: usagerId
-      })
-      .exec();
-    if (
-      typeof usager.docs[index] === "undefined" ||
-      typeof usager.docsPath[index] === "undefined"
-    ) {
-      return null;
-    }
-
-    const fileInfos = usager.docs[index];
-    fileInfos.path = usager.docsPath[index];
-    return fileInfos;
-  }
-
   public async findAll(): Promise<Usager[]> {
     return this.usagerModel.find().exec();
   }
 
-  public async findById(usagerId: number): Promise<Usager> {
+  public async findById(
+    id: number,
+    structureId: number,
+    select?: string
+  ): Promise<Usager> {
+    const selectedFields = !select ? "-docsPath" : "";
     return this.usagerModel
       .findOne({
-        id: usagerId
+        id,
+        structureId
       })
-      .select("-docsPath")
+      .select(selectedFields)
       .exec();
   }
 

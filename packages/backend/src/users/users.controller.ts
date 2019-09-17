@@ -86,11 +86,14 @@ export class UsersController {
     }
 
     const newUser = await this.usersService.create(userDto, structure);
-    if (newUser) {
+    if (newUser && newUser !== null) {
       if (newUser.role === "admin") {
         this.mailerService.newStructure(structure, newUser);
       } else {
-        const admin = await this.usersService.findOne({ role: "admin" });
+        const admin = await this.usersService.findOne({
+          role: "admin",
+          structureId: newUser.structureId
+        });
         this.mailerService.newUser(admin, newUser);
       }
       this.structureService.addUser(newUser, userDto.structureId);

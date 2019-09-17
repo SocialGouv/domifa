@@ -137,7 +137,7 @@ ul {
   border: 1px solid rgba(0, 0, 0, 0.125) !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
   border-radius: 0.25rem !important;
-  max-width: 950px;
+  max-width: 900px;
 }
 
 .modal-dialog {
@@ -146,7 +146,7 @@ ul {
 }
 
 .alert {
-  max-width: 750px;
+  max-width: 900px;
   width: 98%;
   margin: 10px auto;
 }

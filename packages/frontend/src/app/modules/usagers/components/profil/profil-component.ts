@@ -6,7 +6,9 @@ import { ENTRETIEN_LABELS } from "../../../../shared/entretien.labels";
 import { LoadingService } from "../../../loading/loading.service";
 import { DocumentService } from "../../services/document.service";
 
-import { Subject } from "rxjs";
+import { error } from "@angular/compiler/src/util";
+import { of, Subject } from "rxjs";
+import { Interaction } from "../../interfaces/interaction";
 import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
@@ -29,8 +31,20 @@ const fadeInOut = trigger("fadeInOut", [
 export class UsagersProfilComponent implements OnInit {
   public title: string;
   public usager: Usager;
+  public interactions: Interaction[];
+
   public labels: any;
-  public notifLabels: string[] = ["courrierIn", "recommandeIn", "colisIn"];
+  public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
+  public interactionsLabel: any = {
+    appel: "Appel",
+    colisIn: "Colis reçu",
+    colisOut: "Colis récupéré",
+    courrierIn: "Courrier reçu",
+    courrierOut: "Courrier récupéré",
+    recommandeIn: "Recommandé reçu",
+    recommandeOut: "Recommandé récupéré",
+    visite: "Visite"
+  };
 
   public notifInputs: {} = {
     colisIn: 0,
@@ -85,11 +99,11 @@ export class UsagersProfilComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = new Usager(usager);
-
           this.callToday = this.isToday(new Date(usager.lastInteraction.appel));
           this.visitToday = this.isToday(
             new Date(usager.lastInteraction.visite)
           );
+          this.getInteractions();
         },
         error => {
           this.router.navigate(["/404"]);
@@ -97,11 +111,12 @@ export class UsagersProfilComponent implements OnInit {
       );
     } else {
       this.router.navigate(["/404"]);
+      return;
     }
   }
 
   public notifier() {
-    for (const item of this.notifLabels) {
+    for (const item of this.interactionsType) {
       if (this.notifInputs[item] !== 0) {
         this.usagerService
           .setInteraction(this.usager.id, {
@@ -113,11 +128,11 @@ export class UsagersProfilComponent implements OnInit {
             (usager: Usager) => {
               this.usager.lastInteraction = usager.lastInteraction;
               this.notifInputs[item] = 0;
-              this.changeSuccessMessage(this.messages[item]);
+              this.getInteractions();
             },
             error => {
               this.changeSuccessMessage(
-                "Impossible d'enregistrer cette interaction : ",
+                "Impossible d'enregistrer cette interaction",
                 true
               );
             }
@@ -127,20 +142,26 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public setPassage(type: string) {
-    this.usagerService.setPassage(this.usager.id, type).subscribe(
-      (usager: Usager) => {
-        this.changeSuccessMessage(this.messages[type]);
-        this.usager.lastInteraction = new LastInteraction(
-          usager.lastInteraction
-        );
-      },
-      error => {
-        this.changeSuccessMessage(
-          "Impossible d'enregistrer cette interaction : " + type,
-          true
-        );
-      }
-    );
+    this.usagerService
+      .setInteraction(this.usager.id, {
+        content: "",
+        type
+      })
+      .subscribe(
+        (usager: Usager) => {
+          this.changeSuccessMessage(this.messages[type]);
+          this.usager.lastInteraction = new LastInteraction(
+            usager.lastInteraction
+          );
+          this.getInteractions();
+        },
+        error => {
+          this.changeSuccessMessage(
+            "Impossible d'enregistrer cette interaction : " + type,
+            true
+          );
+        }
+      );
   }
 
   public getAttestation() {
@@ -164,6 +185,13 @@ export class UsagersProfilComponent implements OnInit {
     error ? this.errorSubject.next(message) : this.successSubject.next(message);
   }
 
+  private getInteractions() {
+    this.usagerService
+      .getInteractions(this.usager.id)
+      .subscribe((interactions: any) => {
+        this.interactions = interactions;
+      });
+  }
   private isToday(someDate?: Date) {
     if (!someDate) {
       return false;

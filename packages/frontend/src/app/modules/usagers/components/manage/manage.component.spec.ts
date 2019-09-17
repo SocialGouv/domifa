@@ -131,7 +131,7 @@ describe("ManageUsagersComponent", () => {
 
       app.goToProfil(1, "valide");
       tick();
-      expect(location.path()).toEqual("/usager/1");
+      expect(location.path()).toEqual("/connexion?returnUrl=%2Fusager%2F1");
     })
   ));
 });

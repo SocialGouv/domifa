@@ -72,7 +72,6 @@
       <strong>{{ successMessage }}</strong>
     </ngb-alert>
   </div>
-
   <div
     class="step_form"
     *ngIf="usager.decision.statut === 'valide'">
@@ -662,7 +661,6 @@
     <!-- ///////// -->
     <!-- ETAPE 2 RENDEZVOUS -->
     <!-- ///////// -->
-
     <div
       class="step_menu"
       *ngIf="
@@ -689,7 +687,6 @@
         </div>
       </div>
     </div>
-
     <div
       class="step_form"
       *ngIf="usager.etapeDemande === 1"
@@ -832,6 +829,7 @@
         </div>
       </form>
     </div>
+
     <!-- ///////// -->
     <!-- ETAPE 2.5 ECRAN ENTRETIEN 2 -->
     <!-- ///////// -->
@@ -884,6 +882,7 @@
         </div>
       </div>
     </div>
+
     <!-- ///////// -->
     <!-- ETAPE 3 QUESTIONS -->
     <!-- ///////// -->
@@ -1241,8 +1240,7 @@
               [disabled]="
                 !uploadError.fileType ||
                 !uploadError.fileSize ||
-                u.imageInput.errors
-              ">
+                u.imageInput.errors">
               Ajouter
             </button>
           </div>
@@ -1331,371 +1329,369 @@
         </table>
       </div>
     </div>
-
-    <ngb-accordion
-      *ngIf="
-        usager.etapeDemande === 4 && usager.decision.statut === 'instruction'"
-      #acc="ngbAccordion"
-      class="recap">
-      <ngb-panel id="panel-0">
-        <ng-template
-          ngbPanelHeader
-          let-opened="opened">
-          <div class="head-panel">
+  </div>
+  <!-- ///////// -->
+  <!-- ETAPE 4 UPLOAD DES PJ -->
+  <!-- ///////// -->
+  <div
+    class="step_form"
+    id="step_form4"
+    *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'instruction') || (authService.isAdmin && usager.decision.statut === 'demande')">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <h5 class="text-center">
+          Le dossier de
+          <b>{{ usager.nom }} {{ usager.prenom }}</b>
+          est complet
+        </h5>
+        <h6 class="text-center">Quelle décision souhaitez-vous rendre ?</h6>
+        <br>
+        <div
+          class="row"
+          *ngIf="authService.isAdmin">
+          <div class="col">
             <button
-              ngbPanelToggle
-              class="btn btn-link">
-              <span>FICHE RÉCAPITULATIVE</span>
-              <span class="arrows">
-                <fa-icon
-                  *ngIf="opened"
-                  icon="chevron-down"></fa-icon>
-                <fa-icon
-                  *ngIf="!opened"
-                  icon="chevron-right"></fa-icon>
-              </span>
+              class="btn-block btn btn-danger"
+              (click)="open(refus)">
+              <fa-icon icon="times"></fa-icon>
+              REFUSER LE DOSSIER
             </button>
           </div>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <h4>ÉTAT CIVIL</h4>
-          <div class="row">
-            <div class="col">
-              <b>Nom :</b>
-              {{ usager.nom }}
-              <br>
-              <b>Prénom :</b>
-              {{ usager.prenom }}
-              <br>
-            </div>
-            <div class="col">
-              <b>Date de naissance :</b>
-              {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
-              <br>
-              <b>Lieu de Naissance :</b>
-              {{ usager.villeNaissance }}
-              <br>
-            </div>
-          </div>
-
-          <h4>AYANTS-DROITS</h4>
-          <div *ngIf="usager.ayantsDroits.length === 0">
-            <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
-          </div>
-          <table
-            *ngIf="usager.ayantsDroits.length > 0"
-            class="table table-light">
-            <tbody>
-              <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Né le</th>
-                <th>Lien</th>
-              </tr>
-              <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-                <td>{{ ayantDroit.nom }}</td>
-                <td>{{ ayantDroit.prenom }}</td>
-                <td>{{ ayantDroit.dateNaissance }}</td>
-                <td>{{ ayantDroit.lien }}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h4>ENTRETIEN</h4>
-          <div class="row">
-            <div class="col">
-              <b>
-                Avez-vous déjà une domiciliation quelque part ?
-              </b>
-              {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
-              <br>
-
-              <b>Avez-vous des revenus ?</b>
-              :
-              {{ usager.entretien.revenus ? "Oui" : "Non" }}
-              <br>
-              <br>
-
-              <b>Quel est votre lien avec la commune ?</b>
-              <br>
-              {{ usager.entretien.liencommune || "Non renseigné" }}
-              <br>
-              <br>
-
-              <b>
-                Quel est le motif principal de demande de domiciliation ?
-              </b>
-              <br>
-              {{ labels[usager.entretien.raison] || "Non renseigné" }}
-              <br>
-              <br>
-
-              <b>
-                Quelle est la cause de l'instabilité de logement ?
-              </b>
-              <br>
-              {{ labels[usager.entretien.residence] || "Non renseigné" }}
-              <span *ngIf="usager.entretien.residence === 'residenceAutre'">
-                {{
-                usager.entretien.residenceDetail
-              }}
-              </span>
-              <br>
-              <br>
-            </div>
-            <div class="col">
-              <b>
-                Quel est le motif principal de demande de domiciliation ?
-              </b>
-              <br>
-              {{ labels[usager.entretien.cause] }}
-              <span *ngIf="usager.entretien.cause === 'causeAutre'">
-                : {{ usager.entretien.residenceDetail }}
-                <br>
-              </span>
-              <br>
-              <b>
-                Faites-vous l’objet d’un accompagnement social ?
-              </b>
-              : {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
-              <br>
-              <span *ngIf="accompagnement">
-                <b>Suivi par</b>
-                : {{ accompagnementDetail }}
-              </span>
-              <br>
-              <br>
-              <b>Commentaires</b>
-              <br>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-
-    <div
-      class="step_form"
-      id="step_form4"
-      *ngIf="usager.etapeDemande === 4 && usager.decision.statut === 'instruction'">
-      <div class="row">
-        <div class="col-md-8 offset-md-2">
-          <h5 class="text-center">
-            Le dossier de
-            <b>{{ usager.nom }} {{ usager.prenom }}</b>
-            est complet
-          </h5>
-          <h6 class="text-center">Quelle décision souhaitez-vous rendre ?</h6>
           <br>
-          <div
-            class="row"
-            *ngIf="authService.isAdmin">
-            <div class="col">
-              <button
-                class="btn-block btn btn-danger"
-                (click)="open(refus)">
-                <fa-icon icon="times"></fa-icon>
-                REFUSER LE DOSSIER
-              </button>
-            </div>
-            <br>
-            <div class="col">
-              <button
-                class="btn-block btn btn-secondary"
-                (click)="open(confirmation)">
-                <fa-icon icon="check"></fa-icon>
-                ACCEPTER LE DOSSIER
-              </button>
-            </div>
+          <div class="col">
+            <button
+              class="btn-block btn btn-secondary"
+              (click)="open(confirmation)">
+              <fa-icon icon="check"></fa-icon>
+              ACCEPTER LE DOSSIER
+            </button>
           </div>
-          <br>
-          <div class="row">
-            <div class="col-md-10 offset-md-1">
-              <button
-                (click)="setDecision('demande')"
-                class="btn btn-primary btn-block">
-                DEMANDER LA VALIDATION DU DOSSIER
-              </button>
-            </div>
+        </div>
+        <br>
+        <div
+          class="row"
+          *ngIf="!authService.isAdmin">
+          <div class="col-md-10 offset-md-1">
+            <button
+              (click)="setDecision('demande')"
+              class="btn btn-primary btn-block">
+              DEMANDER LA VALIDATION DU DOSSIER
+            </button>
           </div>
         </div>
       </div>
     </div>
-
-    <ng-template
-      #refus
-      let-modal>
-      <div class="modal-header">
-        <h4
-          class="modal-title"
-          id="modal-basic-title">
-          Motivez votre refus
-        </h4>
-        <button
-          type="button"
-          class="close"
-          aria-label="Close"
-          (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="col">
-          <div
-            class="form-row"
-            *ngFor="let key of motifsRefusList">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="motif"
-                id="{{ key }}"
-                [(ngModel)]="usager.decision.motif"
-                value="{{ key }}">
-              <label
-                class="form-check-label"
-                for="{{ key }}">
-                {{ motifsRefus[key] }}
-              </label>
-            </div>
+  </div>
+  <ngb-accordion
+    *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'instruction') || (authService.isAdmin && usager.decision.statut === 'demande')"
+    #acc="ngbAccordion"
+    class="recap">
+    <ngb-panel id="panel-0">
+      <ng-template
+        ngbPanelHeader
+        let-opened="opened">
+        <div class="head-panel">
+          <button
+            ngbPanelToggle
+            class="btn btn-link">
+            <span>FICHE RÉCAPITULATIVE</span>
+            <span class="arrows">
+              <fa-icon
+                *ngIf="opened"
+                icon="chevron-down"></fa-icon>
+              <fa-icon
+                *ngIf="!opened"
+                icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <h4>ÉTAT CIVIL</h4>
+        <div class="row">
+          <div class="col">
+            <b>Nom :</b>
+            {{ usager.nom }}
+            <br>
+            <b>Prénom :</b>
+            {{ usager.prenom }}
+            <br>
           </div>
-          <div
-            *ngIf="usager.decision.motif === 'refusAutre'"
-            class="form-row">
+          <div class="col">
+            <b>Date de naissance :</b>
+            {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
+            <br>
+            <b>Lieu de Naissance :</b>
+            {{ usager.villeNaissance }}
+            <br>
+          </div>
+        </div>
+
+        <h4>AYANTS-DROITS</h4>
+        <div *ngIf="usager.ayantsDroits.length === 0">
+          <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
+        </div>
+        <table
+          *ngIf="usager.ayantsDroits.length > 0"
+          class="table table-light">
+          <tbody>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Né le</th>
+              <th>Lien</th>
+            </tr>
+            <tr *ngFor="let ayantDroit of usager.ayantsDroits">
+              <td>{{ ayantDroit.nom }}</td>
+              <td>{{ ayantDroit.prenom }}</td>
+              <td>{{ ayantDroit.dateNaissance }}</td>
+              <td>{{ ayantDroit.lien }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>ENTRETIEN</h4>
+        <div class="row">
+          <div class="col">
+            <b>
+              Avez-vous déjà une domiciliation quelque part ?
+            </b>
+            {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
+            <br>
+
+            <b>Avez-vous des revenus ?</b>
+            :
+              {{ usager.entretien.revenus ? "Oui" : "Non" }}
+            <br>
+            <br>
+
+            <b>Quel est votre lien avec la commune ?</b>
+            <br>
+            {{ usager.entretien.liencommune || "Non renseigné" }}
+            <br>
+            <br>
+
+            <b>
+              Quel est le motif principal de demande de domiciliation ?
+            </b>
+            <br>
+            {{ labels[usager.entretien.raison] || "Non renseigné" }}
+            <br>
+            <br>
+
+            <b>
+              Quelle est la cause de l'instabilité de logement ?
+            </b>
+            <br>
+            {{ labels[usager.entretien.residence] || "Non renseigné" }}
+            <span *ngIf="usager.entretien.residence === 'residenceAutre'">
+              {{
+                usager.entretien.residenceDetail
+              }}
+            </span>
+            <br>
+            <br>
+          </div>
+          <div class="col">
+            <b>
+              Quel est le motif principal de demande de domiciliation ?
+            </b>
+            <br>
+            {{ labels[usager.entretien.cause] }}
+            <span *ngIf="usager.entretien.cause === 'causeAutre'">
+              : {{ usager.entretien.residenceDetail }}
+              <br>
+            </span>
+            <br>
+            <b>
+              Faites-vous l’objet d’un accompagnement social ?
+            </b>
+            : {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
+            <br>
+            <span *ngIf="accompagnement">
+              <b>Suivi par</b>
+              : {{ accompagnementDetail }}
+            </span>
+            <br>
+            <br>
+            <b>Commentaires</b>
+            <br>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+
+  <ng-template
+    #refus
+    let-modal>
+    <div class="modal-header">
+      <h4
+        class="modal-title"
+        id="modal-basic-title">
+        Motivez votre refus
+      </h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col">
+        <div
+          class="form-row"
+          *ngFor="let key of motifsRefusList">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="motif"
+              id="{{ key }}"
+              [(ngModel)]="usager.decision.motif"
+              value="{{ key }}">
             <label
               class="form-check-label"
-              for="motifRefusAutre">
-              Motif du refus
-              <span class="red">*</span>
+              for="{{ key }}">
+              {{ motifsRefus[key] }}
             </label>
-            <input
-              type="text"
-              class="form-control"
-              id="motifRefusAutre"
-              [(ngModel)]="usager.decision.motifDetails">
-            <small
-              id="refusAutres"
-              class="form-text text-muted">
-              20 caractères minimum
-            </small>
-          </div>
-          <br>
-          <div class="form-row">
-            <label for="orientationRefus">Orientation proposée</label>
-            <input
-              class="form-control"
-              type="text"
-              [(ngModel)]="usager.decision.orientationDetails"
-              id="orientationRefus">
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-outline-danger"
-          (click)="modal.close('Save click')">
-          Annuler
-        </button>
-        <button
-          class="btn btn-danger"
-          [disabled]="
-            usager.decision.motif === '' ||
-            (usager.decision.motif === 'refusAutre' &&
-              usager.decision.motifDetails.length < 10)
-          "
-          (click)="usager.decision.statut = 'refus'; setDecision('refus')">
-          Confirmer le refus
-        </button>
-      </div>
-    </ng-template>
-
-    <ng-template
-      #confirmation
-      let-modal>
-      <div class="modal-header">
-        <h4
-          class="modal-title"
-          id="modal-basic-title">
-          Validation définitive d'une domiciliation
-        </h4>
-        <button
-          type="button"
-          class="close"
-          aria-label="Close"
-          (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="col">
-          Vous êtes sur le point de domicilier
-          <b>{{ usager.nom }} {{ usager.prenom }}</b>
-          . Il n’y aura aucune validation par une autre personne que vous.
-          <br>
-          <br>
-          <b>Êtes-vous sûr ?</b>
+        <div
+          *ngIf="usager.decision.motif === 'refusAutre'"
+          class="form-row">
+          <label
+            class="form-check-label"
+            for="motifRefusAutre">
+            Motif du refus
+            <span class="red">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="motifRefusAutre"
+            [(ngModel)]="usager.decision.motifDetails">
+          <small
+            id="refusAutres"
+            class="form-text text-muted">
+            20 caractères minimum
+          </small>
+        </div>
+        <br>
+        <div class="form-row">
+          <label for="orientationRefus">Orientation proposée</label>
+          <input
+            class="form-control"
+            type="text"
+            [(ngModel)]="usager.decision.orientationDetails"
+            id="orientationRefus">
         </div>
       </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-outline-dark"
-          (click)="modal.close('Save click')">
-          Revenir au formulaire
-        </button>
-        <button
-          class="btn btn-success"
-          (click)="setDecision('valide'); modal.close('Close click')">
-          Confirmer
-        </button>
-      </div>
-    </ng-template>
+    </div>
+    <div class="modal-footer">
+      <button
+        class="btn btn-outline-danger"
+        (click)="modal.close('Save click')">
+        Annuler
+      </button>
+      <button
+        class="btn btn-danger"
+        [disabled]="usager.decision.motif === '' || (usager.decision.motif === 'refusAutre') && usager.decision.motifDetails.length < 10"
+        (click)="usager.decision.statut = 'refus'; setDecision('refus')">
+        Confirmer le refus
+      </button>
+    </div>
+  </ng-template>
 
-    <ng-template
-      #entretienConfirmation
-      let-modal>
-      <div class="modal-header">
-        <h4
-          class="modal-title"
-          id="modal-basic-title">
-          <fa-icon icon="info"></fa-icon>
-          Attention
-        </h4>
-        <button
-          type="button"
-          class="close"
-          aria-label="Close"
-          (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
+  <ng-template
+    #confirmation
+    let-modal>
+    <div class="modal-header">
+      <h4
+        class="modal-title"
+        id="modal-basic-title">
+        Validation définitive d'une domiciliation
+      </h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col">
+        Vous êtes sur le point de domicilier
+        <b>{{ usager.nom }} {{ usager.prenom }}</b>
+        . Il n’y aura aucune validation par une autre personne que vous.
+        <br>
+        <br>
+        <b>Êtes-vous sûr ?</b>
       </div>
-      <div class="modal-body">
-        <div class="col">
-          L’entretien préalable
-          <b>est obligatoire</b>
-          , il est l’occasion d’inscrire la domiciliation dans une démarche
+    </div>
+    <div class="modal-footer">
+      <button
+        class="btn btn-outline-dark"
+        (click)="modal.close('Save click')">
+        Revenir au formulaire
+      </button>
+      <button
+        class="btn btn-success"
+        (click)="setDecision('valide'); modal.close('Close click')">
+        Confirmer
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template
+    #entretienConfirmation
+    let-modal>
+    <div class="modal-header">
+      <h4
+        class="modal-title"
+        id="modal-basic-title">
+        <fa-icon icon="info"></fa-icon>
+        Attention
+      </h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col">
+        L’entretien préalable
+        <b>est obligatoire</b>
+        , il est l’occasion d’inscrire la domiciliation dans une démarche
           d’accompagnement social visant à favoriser l’insertion des personnes
           domiciliées et constitue une porte d’entrée pour intégrer la personne
           dans une logique de parcours.
-          <br>
-          <br>
-          Cette étape ne peut être passée que si votre structure met déjà en
+        <br>
+        <br>
+        Cette étape ne peut être passée que si votre structure met déjà en
           place un accompagnement social pour cette personne, en parallèle de sa
           domiciliation.
-        </div>
       </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-outline-dark"
-          (click)="modal.close('Save click')">
-          Revenir à l'entretien
-        </button>
-        <button
-          class="btn btn-success"
-          (click)="
+    </div>
+    <div class="modal-footer">
+      <button
+        class="btn btn-outline-dark"
+        (click)="modal.close('Save click')">
+        Revenir à l'entretien
+      </button>
+      <button
+        class="btn btn-success"
+        (click)="
             goToTop(); usager.etapeDemande = 3; modal.close('Close click')
           ">
-          Continuer sans entretien
-        </button>
-      </div>
-    </ng-template>
-  </div>
+        Continuer sans entretien
+      </button>
+    </div>
+  </ng-template>
 </div>

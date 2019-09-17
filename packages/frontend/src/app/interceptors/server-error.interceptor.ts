@@ -36,9 +36,6 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           if (error.status === 501) {
             this.router.navigate(["login"]);
           }
-          if (error.status === 404) {
-            this.router.navigate(["/404"]);
-          }
           return throwError(error);
         }
       })

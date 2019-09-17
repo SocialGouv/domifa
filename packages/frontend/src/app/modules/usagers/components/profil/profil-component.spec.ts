@@ -91,7 +91,7 @@ describe("UsagersProfilComponent", () => {
     expect(app.title).toBeDefined();
     expect(app.labels).toBeDefined();
     expect(app.messages).toBeDefined();
-    expect(app.notifLabels).toBeDefined();
+    expect(app.interactionsType).toBeDefined();
 
     expect(app.notifInputs).toEqual({
       colisIn: 0,
@@ -122,7 +122,7 @@ describe("UsagersProfilComponent", () => {
         expect(usager.lastInteraction.nbCourrier).toEqual(10);
       });
   }));
-  it("5. Set passage", async(() => {
+  it("6. Récupération du courrier", async(() => {
     usagerService.setPassage(2, "courrierOut").subscribe((usager: Usager) => {
       const lastInteraction = new LastInteraction(usager.lastInteraction);
       const today = new Date().getDate();

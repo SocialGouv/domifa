@@ -1,11 +1,12 @@
-// tslint:disable: object-literal-sort-keys
 import * as mongoose from "mongoose";
 
 export const InteractionSchema = new mongoose.Schema({
-  type: String,
-  date: Date,
-  nbCourrier: Number,
   content: String,
+  dateInteraction: Date,
+  nbCourrier: Number,
+  structureId: Number,
+  type: String,
+  usagerId: Number,
   userId: Number,
   userName: String
 });

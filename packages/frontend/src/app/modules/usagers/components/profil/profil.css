@@ -7,7 +7,14 @@
   max-width: 320px;
   max-width: 90%;
   margin: 0 auto;
+}
+
+#profil_head:after {
   border-bottom: 1px solid #2e384d;
+  content: "";
+  display: block;
+  width: 300px;
+  margin: 10px auto;
 }
 
 #profil_name {
@@ -21,6 +28,24 @@
   text-transform: uppercase;
 }
 
+#notif_container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#notif_button,
+#notif_form,
+#big_icons {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#notif_form {
+  width: 290px;
+}
+#notif_button {
+  width: 120px;
+}
 #notif_form div {
   margin: 5px auto;
 }
@@ -44,6 +69,7 @@ input[type="number"] {
 
 #big_icons div {
   width: 48%;
+  border-radius: 5px;
   padding: 0 5px;
   text-align: center;
   display: inline-block;
@@ -51,13 +77,16 @@ input[type="number"] {
 }
 
 #big_icons {
-  margin-left: 20px;
+  margin-left: 30px;
+  width: 340px;
   border-left: 1px solid #dfdfdf;
 }
 
 #big_icons span {
   font-size: 0.8rem;
   line-height: 1rem;
+  padding-top: 5px;
+  padding-bottom: 20px;
   display: block;
 }
 

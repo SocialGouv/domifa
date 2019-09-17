@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { AuthService } from "src/app/services/auth.service";
 import { environment } from "src/environments/environment";
 import { LoadingService } from "../../loading/loading.service";
+import { User } from "../../users/interfaces/user";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
@@ -10,43 +12,55 @@ import { Usager } from "../interfaces/usager";
 export class UsagerService {
   public http: HttpClient;
   public loading: boolean;
+  public user: User;
+  public endPointUsagers = environment.apiUrl + "usagers";
+  public endPointInteractions = environment.apiUrl + "interactions/";
 
-  public endPoint = environment.apiUrl + "usagers";
-
-  constructor(http: HttpClient, private loadingService: LoadingService) {
+  constructor(
+    http: HttpClient,
+    private loadingService: LoadingService,
+    private authService: AuthService
+  ) {
     this.http = http;
     this.loading = true;
+    this.user = this.authService.currentUserValue;
   }
 
   /* Ajout d'un domicilié */
   public create(usager: Usager) {
     return usager.id !== 0
-      ? this.http.patch(`${this.endPoint}`, usager)
-      : this.http.post(`${this.endPoint}`, usager);
+      ? this.http.patch(`${this.endPointUsagers}`, usager)
+      : this.http.post(`${this.endPointUsagers}`, usager);
   }
 
   /* Ajout d'un rendez-vous */
   public createRdv(rdv: Rdv, idUsager: number) {
-    return this.http.post(`${this.endPoint}/rdv/${idUsager}`, rdv);
+    return this.http.post(`${this.endPointUsagers}/rdv/${idUsager}`, rdv);
   }
 
   /* Ajout d'un rendez-vous */
   public entretien(entretien: Entretien, idUsager: number) {
-    return this.http.post(`${this.endPoint}/entretien/${idUsager}`, entretien);
+    return this.http.post(
+      `${this.endPointUsagers}/entretien/${idUsager}`,
+      entretien
+    );
   }
 
   /* Ajout d'un rendez-vous */
   public setDecision(idUsager: number, decision: any, statut: string) {
     decision.statut = statut;
-    return this.http.post(`${this.endPoint}/decision/${idUsager}`, decision);
+    return this.http.post(
+      `${this.endPointUsagers}/decision/${idUsager}`,
+      decision
+    );
   }
 
   public findOne(idUsager: number) {
-    return this.http.get(`${this.endPoint}/${idUsager}`);
+    return this.http.get(`${this.endPointUsagers}/${idUsager}`);
   }
 
   public isDoublon(nom: string, prenom: string) {
-    return this.http.get(`${this.endPoint}/doublon/${nom}/${prenom}`);
+    return this.http.get(`${this.endPointUsagers}/doublon/${nom}/${prenom}`);
   }
 
   /* Recherche */
@@ -57,7 +71,9 @@ export class UsagerService {
         httpParams = httpParams.append(key, filters[key]);
       }
     });
-    return this.http.get(`${this.endPoint}/search/`, { params: httpParams });
+    return this.http.get(`${this.endPointUsagers}/search/`, {
+      params: httpParams
+    });
   }
 
   public setInteraction(idUsager: number, interaction?: any) {
@@ -67,9 +83,14 @@ export class UsagerService {
     );
   }
 
+  public getInteractions(idUsager: number) {
+    return this.http.get(environment.apiUrl + `interactions/${idUsager}/10`);
+  }
+
   public setPassage(idUsager: number, type: string) {
-    return this.http.get(
-      environment.apiUrl + `interactions/${idUsager}/${type}`
+    return this.http.post(
+      environment.apiUrl + `interactions/${idUsager}/${type}`,
+      {}
     );
   }
 
@@ -78,7 +99,9 @@ export class UsagerService {
     this.loadingService.startLoading();
 
     this.http
-      .get(`${this.endPoint}/attestation/${idUsager}`, { responseType: "blob" })
+      .get(`${this.endPointUsagers}/attestation/${idUsager}`, {
+        responseType: "blob"
+      })
       .subscribe(x => {
         const newBlob = new Blob([x], { type: "application/pdf" });
 

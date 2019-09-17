@@ -38,14 +38,16 @@
           <div class="col text-left">
             <b>{{ user.nom }} {{ user.prenom }}</b>
             <span class="user-icon">
-              <fa-icon
-                class="not-verified"
+              <span
+                *ngIf="user.role === 'admin'"
+                class="badge badge-primary">
+                Administrateur
+              </span>
+              <span
                 *ngIf="!user.verified"
-                icon="times-circle"></fa-icon>
-              <fa-icon
-                class="verified"
-                *ngIf="user.verified"
-                icon="check-circle"></fa-icon>
+                class="badge badge-warning">
+                Non activé
+              </span>
             </span>
             <br>
             {{ user.email }}

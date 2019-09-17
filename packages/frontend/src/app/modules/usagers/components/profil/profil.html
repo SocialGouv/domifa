@@ -62,37 +62,19 @@
         (close)="successMessage = null">
         <strong>{{ successMessage }}</strong>
       </ngb-alert>
-      <ngb-alert
-        [dismissible]='false'
-        *ngIf="usager.lastInteraction.nbCourrier > 0"
-        type="dark">
-        <div class="text-center">
-          <fa-icon
-            id="courrier"
-            icon="envelope-open-text"></fa-icon>
-          &nbsp;&nbsp;{{ usager.lastInteraction.nbCourrier }} courriers en attente&nbsp;&nbsp;&nbsp;
-          <button
-            class="btn btn-primary"
-            (click)="setPassage('courrierOut')">
-            Confirmer la distribution
-          </button>
-        </div>
-      </ngb-alert>
     </div>
   </div>
-  <br>
+
   <div class="text-center">
-    <h5>
+    <h5 class="text-blac">
       <b>
         Signalez la réception d’un courrier ou un passage
       </b>
     </h5>
     <br>
   </div>
-  <div class="row">
-    <div
-      class="col-md-4 offset-md-1"
-      id="notif_form">
+  <div id="notif_container">
+    <div id="notif_form">
       <div>
         <fa-icon icon="envelope"></fa-icon>
         <input
@@ -128,9 +110,9 @@
       </div>
     </div>
 
-    <div class="col-md-2 text-center">
-      <br>
-      <br>
+    <div
+      id="notif_button"
+      class="text-center">
       <button
         (click)="notifier()"
         class="btn btn-primary btn-block">
@@ -138,9 +120,7 @@
       </button>
     </div>
 
-    <div
-      class="col-md-4"
-      id="big_icons">
+    <div id="big_icons">
       <div
         class="text-center"
         (click)="setPassage('visite')">
@@ -165,8 +145,22 @@
     </div>
   </div>
   <br>
-  <br>
-
+  <ngb-alert
+    [dismissible]='false'
+    *ngIf="usager.lastInteraction.nbCourrier > 0"
+    type="dark">
+    <div class="text-center">
+      <fa-icon
+        id="courrier"
+        icon="envelope-open-text"></fa-icon>
+      &nbsp;&nbsp;{{ usager.lastInteraction.nbCourrier }} courriers en attente&nbsp;&nbsp;&nbsp;
+      <button
+        class="btn btn-primary"
+        (click)="setPassage('courrierOut')">
+        Confirmer la distribution
+      </button>
+    </div>
+  </ngb-alert>
   <ngb-accordion
     #acc="ngbAccordion"
     activeIds="panel-0,panel-1,panel-2,panel-3,panel-4,panel-5,panel-6,panel-7,panel-8">
@@ -228,9 +222,20 @@
               </td>
               <td></td>
             </tr>
+            <tr *ngIf="interactions">
+              <td colspan="3">
+                <div *ngFor="let interaction of interactions">
+                  {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
+                  <span class="badge badge-primary">
+                    {{ interactionsLabel[interaction.type] }}
+                  </span>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </ng-template>
+
     </ngb-panel>
 
     <ngb-panel id="panel-1">
@@ -348,15 +353,13 @@
           <div
             class="col"
             *ngIf="usager.phone !== null">
-            <b>Numéro de téléphone</b>
-            <br>
+            <b>Numéro de téléphone :</b>
             <span>{{ usager.phone }}</span>
           </div>
           <div
             class="col"
-            *ngIf="usager.email !== null">
-            <b>Adresse email</b>
-            <br>
+            *ngIf="usager.email !== ''">
+            <b>Adresse email :</b>
             <span>{{ usager.email }}</span>
           </div>
         </div>

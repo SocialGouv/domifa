@@ -57,7 +57,7 @@ describe("UsagersService", () => {
     expect(usagerTest.id).toEqual(5);
 
     // READ
-    const usager = await service.findById(5);
+    const usager = await service.findById(5, user.structureId);
     expect(usager).toBeTruthy();
     expect(usager.nom).toEqual("Usager");
     expect(usager.sexe).toEqual("homme");
@@ -65,7 +65,7 @@ describe("UsagersService", () => {
     // UPDATE
     fakePatchUsagerDto.nom = "Nouveau nom";
     fakePatchUsagerDto.prenom = "Nouveau prénom";
-    fakePatchUsagerDto.id = await usager.id;
+    fakePatchUsagerDto.id = usager.id;
 
     const updatedUser = await service.patch(fakePatchUsagerDto, user);
 
@@ -122,19 +122,5 @@ describe("UsagersService", () => {
       "decision.statut": "valide",
       structureId: 2
     });
-  });
-
-  it("2. Document Functions 📁 ", async () => {
-    const doc = await service.getDocument(3, 0);
-    expect(doc).toEqual({
-      createdAt: new Date("2019-07-05T13:11:42.795Z"),
-      createdBy: "Yassine",
-      filetype: "image/jpeg",
-      label: "Lettre d'identité",
-      path: "1d94d21bb6e11d230a4b41c10a564102e2.jpg"
-    });
-
-    const docError = await service.getDocument(3, 10);
-    expect(docError).toBeNull();
   });
 });

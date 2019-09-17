@@ -48,7 +48,7 @@ export class ManageUsagersComponent implements OnInit {
     this.searching = false;
 
     this.authService.currentUser.subscribe(user => {
-      this.prenom = user.prenom;
+      this.prenom = user !== null ? user.prenom : "";
     });
 
     fromEvent(this.searchInput.nativeElement, "keyup")

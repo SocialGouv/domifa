@@ -35,6 +35,7 @@ import { SearchDto } from "./dto/search";
 import { UsagersDto } from "./dto/usagers.dto";
 import { Decision } from "./interfaces/decision";
 import { CerfaService } from "./services/cerfa.service";
+import { DocumentsService } from "./services/documents.service";
 import { UsagersService } from "./services/usagers.service";
 
 @UseGuards(AuthGuard("jwt"))
@@ -46,6 +47,7 @@ export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly usersService: UsersService,
+    private readonly docsService: DocumentsService,
     private readonly cerfaService: CerfaService
   ) {}
 
@@ -76,8 +78,11 @@ export class UsagersController {
   /* RDV  */
   @Post("rdv/:id")
   public async postRdv(@Param("id") usagerId: number, @Body() rdvDto: RdvDto) {
-    const usager = await this.usagersService.findById(usagerId);
     const user = await this.usersService.findOne({ id: rdvDto.userId });
+    const usager = await this.usagersService.findById(
+      usagerId,
+      user.structureId
+    );
 
     if (!user || !usager) {
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
@@ -114,8 +119,14 @@ export class UsagersController {
   }
 
   @Get(":id")
-  public async findOne(@Param("id") usagerId: number) {
-    const usager = await this.usagersService.findById(usagerId);
+  public async findOne(
+    @Param("id") usagerId: number,
+    @CurrentUser() user: User
+  ) {
+    const usager = await this.usagersService.findById(
+      usagerId,
+      user.structureId
+    );
     if (usager === null) {
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.NOT_FOUND);
     }
@@ -133,7 +144,10 @@ export class UsagersController {
     @Res() res: any,
     @CurrentUser() user: User
   ) {
-    const usager = await this.usagersService.findById(usagerId);
+    const usager = await this.usagersService.findById(
+      usagerId,
+      user.structureId
+    );
     if (!user || !usager || usager === null) {
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
@@ -159,25 +173,39 @@ export class UsagersController {
     @Param("index") index: number,
     @CurrentUser() user: User
   ) {
-    return this.usagersService.deleteDocument(usagerId, index, user);
+    return this.docsService.deleteDocument(usagerId, index, user);
   }
 
   @Get("document/:usagerId/:index")
   public async getDocument(
     @Param("usagerId") usagerId: number,
     @Param("index") index: number,
-    @Res() res: any
+    @Res() res: any,
+    @CurrentUser() user: User
   ) {
-    const fileInfos = await this.usagersService.getDocument(usagerId, index);
+    const usager = await this.usagersService.findById(
+      usagerId,
+      user.structureId,
+      "docsPath"
+    );
 
+    const fileInfos = await this.docsService.getDocument(usager, index);
     if (fileInfos === null) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.NOT_FOUND);
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
 
-    const pathFile = path.resolve(__dirname, "../../uploads/" + fileInfos.path);
+    const pathFile = path.resolve(
+      __dirname,
+      "../../uploads/" +
+        usager.structureId +
+        "/" +
+        usager.id +
+        "/" +
+        fileInfos.path
+    );
 
     if (!fs.existsSync(pathFile)) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.NOT_FOUND);
+      throw new HttpException("FILE_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
     res.sendFile(pathFile);
@@ -187,7 +215,16 @@ export class UsagersController {
   @UseInterceptors(
     FileInterceptor("file", {
       storage: diskStorage({
-        destination: path.resolve(__dirname, "../../uploads"),
+        destination: (req, file, cb) => {
+          const dir = path.resolve(
+            __dirname,
+            "../../uploads/" + req.user.structureId + "/" + req.params.usagerId
+          );
+          if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+          }
+          cb(null, dir);
+        },
         fileFilter: (req: any, file: any, cb: any) => {
           const mimeTest = !file.mimetype.match(/\/(jpg|jpeg|png|gif|pdf)$/);
           const sizeTest = file.size >= 5242880;
@@ -223,6 +260,6 @@ export class UsagersController {
       filetype: file.mimetype,
       label: postData.label
     };
-    return this.usagersService.addDocument(usagerId, file.filename, newDoc);
+    return this.docsService.addDocument(usagerId, file.filename, newDoc);
   }
 }

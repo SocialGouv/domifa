@@ -29,14 +29,12 @@ export class InteractionsController {
     return this.interactionService.create(usagerId, user, interactionDto);
   }
 
-  @Get(":usagerId/:type")
-  public setPassage(
+  @Get(":usagerId/:limit")
+  public getInteractions(
     @Param("usagerId") usagerId: number,
-    @Param("type") type: string,
+    @Param("limit") limit: number,
     @CurrentUser() user: User
   ) {
-    const interaction = new InteractionDto();
-    interaction.type = type;
-    return this.interactionService.create(usagerId, user, interaction);
+    return this.interactionService.find(usagerId, limit, user);
   }
 }
