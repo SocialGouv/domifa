@@ -1,0 +1,44 @@
+<div class="step_form text-center">
+
+  <div class="form-group">
+    <input
+      type="file"
+      (change)="onFileChange($event)"
+      class="form-control-file"
+      multiple="false">
+  </div>
+</div>
+<div
+  id="import-table"
+  *ngIf="showTable">
+  <table class="table table-striped table-hover">
+    <thead class>
+      <th class="required">Civilité (H/F)</th>
+      <th class="required">Nom</th>
+      <th class="required">Prénom</th>
+      <th class="required">Surnom</th>
+      <th class="required">Date Naissance (DD/MM/YYY)</th>
+      <th class="required">Lieu de naissance</th>
+      <th>Adresse Mail</th>
+      <th>Numéro Téléphone</th>
+      <th>Début DOM actuelle</th>
+      <th>Fin de DOM</th>
+      <th>1ere DOM</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data | slice:1">
+        <td [ngClass]="row[0] == 'H' || row[0] == 'F' ? '' : 'table-danger'">{{row[0]}}</td>
+        <td [ngClass]="row[1] != null ? '' : 'table-danger' ">{{ row[1] }}</td>
+        <td [ngClass]="row[2] != null ? '' : 'table-danger' ">{{ row[2] }}</td>
+        <td>{{row[3]}}</td>
+        <td [ngClass]="isValidDate(row[4], true) ? '' : 'table-danger' ">{{ row[4] }}</td>
+        <td [ngClass]="row[5] != null ? '' : 'table-danger' ">{{ row[5] }}</td>
+        <td [ngClass]="isValidEmail(row[6]) ? '' : 'table-danger' ">{{ row[6] }}</td>
+        <td [ngClass]="isValidPhone(row[7]) ? '' : 'table-danger' ">{{ row[7] }}</td>
+        <td [ngClass]="isValidDate(row[8], false) ? '' : 'table-danger' ">{{ row[8] }}</td>
+        <td [ngClass]="isValidDate(row[9], false) ? '' : 'table-danger' ">{{ row[9] }}</td>
+        <td [ngClass]="isValidDate(row[10], false) ? '' : 'table-danger' ">{{ row[10] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

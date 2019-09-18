@@ -16,6 +16,7 @@ import { LoginComponent } from "./modules/users/components/login/login.component
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
+import { ImportComponent } from "./modules/usagers/components/import/import.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -76,6 +77,11 @@ export const routes: Routes = [
     path: "manage"
   },
   { path: "mentions-legales", component: MentionsLegalesComponent },
+  {
+    canActivate: [AuthGuard],
+    component: ImportComponent,
+    path: "import"
+  },
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "404" }
 ];

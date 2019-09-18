@@ -997,8 +997,7 @@
                   class="autres form-control"
                   *ngIf="
                     key === 'residenceAutre' &&
-                    e.residence.value === 'residenceAutre'
-                  "
+                    e.residence.value === 'residenceAutre'"
                   formControlName="residenceDetail"
                   placeholder="Précisions">
               </div>
@@ -1526,11 +1525,11 @@
     #refus
     let-modal>
     <div class="modal-header">
-      <h4
+      <b
         class="modal-title"
         id="modal-basic-title">
         Motivez votre refus
-      </h4>
+      </b>
       <button
         type="button"
         class="close"
@@ -1540,7 +1539,8 @@
       </button>
     </div>
     <div class="modal-body">
-      <div class="col">
+      <div class="col-md-12">
+        <b>Pour quel motif ?</b>
         <div
           class="form-row"
           *ngFor="let key of motifsRefusList">
@@ -1579,14 +1579,52 @@
             20 caractères minimum
           </small>
         </div>
-        <br>
+      </div>
+      <br>
+      <div class="col-md-12">
+        <b>Orientation proposée</b>
         <div class="form-row">
-          <label for="orientationRefus">Orientation proposée</label>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="orientationRefus"
+              id="orientationRefusCcas"
+              [(ngModel)]="usager.decision.orientation"
+              value="ccas">
+            <label
+              class="form-check-label"
+              for="orientationRefusCcas">
+              CCAS, CIAS, Commune
+            </label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="orientationRefus"
+              id="orientationRefusAsso"
+              [(ngModel)]="usager.decision.orientation"
+              value="asso">
+            <label
+              class="form-check-label"
+              for="orientationRefusAsso">
+              Organisme agréée
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-row">
+          <label for="orientationRefusDetails">Précisez</label>
           <input
             class="form-control"
             type="text"
             [(ngModel)]="usager.decision.orientationDetails"
-            id="orientationRefus">
+            id="orientationRefusDetails">
         </div>
       </div>
     </div>

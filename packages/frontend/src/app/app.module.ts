@@ -37,6 +37,7 @@ import { LoginComponent } from "./modules/users/components/login/login.component
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
+import { ImportComponent } from './modules/usagers/components/import/import.component';
 
 library.add(fas, far);
 
@@ -59,7 +60,8 @@ library.add(fas, far);
     DateFrDirective,
     LoginComponent,
     ResetPasswordComponent,
-    UserProfilComponent
+    UserProfilComponent,
+    ImportComponent
   ],
   imports: [
     BrowserModule,

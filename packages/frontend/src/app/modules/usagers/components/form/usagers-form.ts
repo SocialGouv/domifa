@@ -439,7 +439,9 @@ export class UsagersFormComponent implements OnInit {
 
   public submitRdv() {
     if (this.rdvForm.get("isNow").value === "oui") {
-      this.rdvForm.controls.userId.setValue(2);
+      this.rdvForm.controls.userId.setValue(
+        this.authService.currentUserValue.id
+      );
       this.rdvForm.controls.dateRdv.setValue(new Date().toISOString());
     } else {
       if (this.rdvForm.invalid) {
