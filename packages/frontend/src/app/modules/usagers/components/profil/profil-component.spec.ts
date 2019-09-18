@@ -27,6 +27,7 @@ import { UsagerService } from "../../services/usager.service";
 import { UsagersFormComponent } from "../form/usagers-form";
 import { ManageUsagersComponent } from "../manage/manage.component";
 import { UsagersProfilComponent } from "./profil-component";
+import { ImportComponent } from "../import/import.component";
 
 describe("UsagersProfilComponent", () => {
   let fixture: any;
@@ -54,7 +55,8 @@ describe("UsagersProfilComponent", () => {
         StructuresSearchComponent,
         StructuresConfirmComponent,
         ResetPasswordComponent,
-        UserProfilComponent
+        UserProfilComponent,
+        ImportComponent
       ],
       imports: [
         NgbModule,

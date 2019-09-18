@@ -10,13 +10,13 @@ import { StructuresConfirmComponent } from "./modules/structures/components/stru
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
+import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
-import { ImportComponent } from "./modules/usagers/components/import/import.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },

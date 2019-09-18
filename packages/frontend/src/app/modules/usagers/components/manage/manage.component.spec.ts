@@ -24,6 +24,7 @@ import { ResetPasswordComponent } from "../../../users/components/reset-password
 import { UsagersFormComponent } from "../form/usagers-form";
 import { UsagersProfilComponent } from "../profil/profil-component";
 import { ManageUsagersComponent } from "./manage.component";
+import { ImportComponent } from "../import/import.component";
 
 describe("ManageUsagersComponent", () => {
   let app: any;
@@ -46,7 +47,8 @@ describe("ManageUsagersComponent", () => {
         StructuresSearchComponent,
         StructuresConfirmComponent,
         ResetPasswordComponent,
-        UserProfilComponent
+        UserProfilComponent,
+        ImportComponent
       ],
       imports: [
         NgbModule,

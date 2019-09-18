@@ -42,7 +42,7 @@ describe("Usagers Controller", () => {
     try {
       await controller.findOne(30, user);
     } catch (err) {
-      expect(err.message).toEqual("USAGER_NOT_FOUND");
+      expect(err.message).toEqual("BAD_REQUEST");
     }
   });
 
@@ -51,7 +51,7 @@ describe("Usagers Controller", () => {
     try {
       await controller.getDocument(2, 10, null, user);
     } catch (err) {
-      expect(err.message).toEqual("USAGER_NOT_FOUND");
+      expect(err.message).toEqual("BAD_REQUEST");
     }
   });
 });

@@ -30,6 +30,7 @@ import { Usager } from "../../interfaces/usager";
 import { ManageUsagersComponent } from "../manage/manage.component";
 import { UsagersProfilComponent } from "../profil/profil-component";
 import { UsagersFormComponent } from "./usagers-form";
+import { ImportComponent } from "../import/import.component";
 
 class MockActivatedRoute {
   public params = new Subject<any>();
@@ -61,7 +62,8 @@ describe("UsagersFormComponent", () => {
         StructuresSearchComponent,
         ResetPasswordComponent,
         StructuresConfirmComponent,
-        UserProfilComponent
+        UserProfilComponent,
+        ImportComponent
       ],
       imports: [
         RouterTestingModule.withRoutes(routes),
