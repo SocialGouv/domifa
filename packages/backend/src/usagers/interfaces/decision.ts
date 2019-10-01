@@ -1,21 +1,17 @@
 export interface Decision {
   dateDebut: Date;
   dateFin: Date;
-
-  dateDemande: Date;
-  dateInstruction: Date;
-  datePremiereDom: Date;
+  dateDecision: Date;
 
   statut: string;
+
   motif: string;
-  userId: number;
-  agent: string;
   motifDetails: string;
-  orientation: number;
+  orientation: string;
   orientationDetails: string;
 
-  userDecisionId: number;
-  userDecisionName: string;
-  userInstructionId: number;
-  userInstructionName: string;
+  userId: number;
+  userName: string;
+
+  typeDom: string;
 }

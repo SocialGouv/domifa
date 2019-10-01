@@ -1,5 +1,6 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpEventType, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { map } from "rxjs/operators";
 import { AuthService } from "src/app/services/auth.service";
 import { environment } from "src/environments/environment";
 import { LoadingService } from "../../loading/loading.service";
@@ -129,5 +130,28 @@ export class UsagerService {
           this.loadingService.stopLoading();
         }, 500);
       });
+  }
+
+  public import(data: any) {
+    const uploadURL = environment.apiUrl + "import";
+
+    return this.http
+      .post<any>(uploadURL, data, {
+        observe: "events",
+        reportProgress: true
+      })
+      .pipe(
+        map(event => {
+          switch (event.type) {
+            case HttpEventType.UploadProgress:
+              const progress = Math.round((100 * event.loaded) / event.total);
+              return { status: "progress", message: progress };
+            case HttpEventType.Response:
+              return { success: true, body: event.body };
+            default:
+              return `Unhandled event: ${event.type}`;
+          }
+        })
+      );
   }
 }

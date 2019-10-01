@@ -6,37 +6,33 @@ import {
   Get,
   HttpException,
   HttpStatus,
-  Inject,
   Logger,
   Param,
   Patch,
   Post,
   Query,
-  Req,
-  Request,
   Res,
   UploadedFile,
   UseGuards,
   UseInterceptors
 } from "@nestjs/common";
-import { REQUEST } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
-import { RolesGuard } from "../auth/roles.guard";
-import { CurrentUser } from "../users/current-user.decorator";
-import { User } from "../users/user.interface";
-import { UsersService } from "../users/users.service";
-import { EntretienDto } from "./dto/entretien";
-import { RdvDto } from "./dto/rdv";
-import { SearchDto } from "./dto/search";
-import { UsagersDto } from "./dto/usagers.dto";
-import { Decision } from "./interfaces/decision";
-import { CerfaService } from "./services/cerfa.service";
-import { DocumentsService } from "./services/documents.service";
-import { UsagersService } from "./services/usagers.service";
+import { RolesGuard } from "../../auth/roles.guard";
+import { CurrentUser } from "../../users/current-user.decorator";
+import { User } from "../../users/user.interface";
+import { UsersService } from "../../users/users.service";
+import { DecisionDto } from "../dto/decision.dto";
+import { EntretienDto } from "../dto/entretien";
+import { RdvDto } from "../dto/rdv";
+import { SearchDto } from "../dto/search";
+import { UsagersDto } from "../dto/usagers.dto";
+import { CerfaService } from "../services/cerfa.service";
+import { DocumentsService } from "../services/documents.service";
+import { UsagersService } from "../services/usagers.service";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
@@ -60,11 +56,7 @@ export class UsagersController {
   /* FORMULAIRE INFOS */
   @Post()
   public postUsager(@Body() usagerDto: UsagersDto, @CurrentUser() user: User) {
-    usagerDto.decision.userInstructionName = user.prenom + " " + user.nom;
-    usagerDto.decision.userInstructionId = user.id;
-    usagerDto.structureId = user.structureId;
-
-    return this.usagersService.create(usagerDto);
+    return this.usagersService.create(usagerDto, user);
   }
 
   @Patch()
@@ -104,12 +96,20 @@ export class UsagersController {
   /* RDV  */
   @UseGuards(RolesGuard)
   @Post("decision/:id")
-  public setDecision(
+  public async setDecision(
     @Param("id") usagerId: number,
-    @Body() decision: Decision,
+    @Body() decisionDto: DecisionDto,
     @CurrentUser() user: User
   ) {
-    return this.usagersService.setDecision(usagerId, decision, user);
+    const usager = await this.usagersService.findById(
+      usagerId,
+      user.structureId
+    );
+    if (!user || !usager || usager === null) {
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
+    }
+
+    return this.usagersService.setDecision(usager, decisionDto, user);
   }
 
   /* DOUBLON */

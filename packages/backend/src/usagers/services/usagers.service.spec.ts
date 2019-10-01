@@ -86,13 +86,13 @@ describe("UsagersService", () => {
     expect(service.findAll()).toBeTruthy();
 
     searchDto.sort = "az";
-    searchDto.statut = "valide";
+    searchDto.statut = "VALIDE";
     const user = await userService.findOne({ id: 2 });
 
     service.search(searchDto, user.structureId);
 
     expect(service.searchQuery).toEqual({
-      "decision.statut": "valide",
+      "decision.statut": "VALIDE",
       structureId: 2
     });
 
@@ -104,7 +104,7 @@ describe("UsagersService", () => {
     service.search(searchDto, 2);
     expect(service.sort).toEqual({ nom: "descending" });
     expect(service.searchQuery).toEqual({
-      "decision.statut": "valide",
+      "decision.statut": "VALIDE",
       "lastInteraction.nbCourrier": { $gt: 0 },
       structureId: 2
     });
@@ -119,7 +119,7 @@ describe("UsagersService", () => {
         { prenom: { $regex: ".*as.*", $options: "-i" } },
         { surnom: { $regex: ".*as.*", $options: "-i" } }
       ],
-      "decision.statut": "valide",
+      "decision.statut": "VALIDE",
       structureId: 2
     });
   });

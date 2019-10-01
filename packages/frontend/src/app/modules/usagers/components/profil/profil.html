@@ -1,635 +1,654 @@
-<div
-  class="container"
-  *ngIf="usager">
-  <div class="row">
-    <div class="col-md-3 text-left">
-      <a routerLink="/manage/">
-        <fa-icon icon="angle-left"></fa-icon>
-        Retour à la liste
-      </a>
-    </div>
-    <div class="col-md-6 text-center">
-      <div
-        id="profil_head"
-        [class]="usager.decision.statut">
-        <h2 id="profil_name">
-          {{ usager.prenom }}
-          <span>{{ usager.nom }}</span>
-        </h2>
-        Numéro domicilié :
-        <b>{{ usager.id }}</b>
-      </div>
-      <div
-        class="text-center"
-        *ngIf="usager.decision.statut === 'valide'">
-        Domiciliation valable jusqu'au
-        <span class="text-secondary">
-          <b>
-            {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}
-          </b>
-        </span>
-        <br>
-        <span *ngIf="usager.lastInteraction.visite !== null">
-          Dernier passage le
-          <b>
-            {{ usager.lastInteraction.visite | date: 'dd/MM/yyyy' }}
-          </b>
-        </span>
-      </div>
-      <br>
-      <ngb-alert
-        type="warning"
-        *ngIf="usager.decision.statut === 'demande'">
-        Demande en cours, à valider par un responsable
-      </ngb-alert>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-10 offset-md-1">
-      <ngb-alert
-        @fadeInOut
-        *ngIf="errorMessage"
-        type="danger"
-        (close)="errorMessage = null">
-        <strong>Erreur:</strong>
-        {{ errorMessage }}
-      </ngb-alert>
-      <ngb-alert
-        @fadeInOut
-        *ngIf="successMessage"
-        type="success"
-        (close)="successMessage = null">
-        <strong>{{ successMessage }}</strong>
-      </ngb-alert>
-    </div>
-  </div>
-
-  <div class="text-center">
-    <h5 class="text-blac">
-      <b>
-        Signalez la réception d’un courrier ou un passage
-      </b>
-    </h5>
-    <br>
-  </div>
-  <div id="notif_container">
-    <div id="notif_form">
-      <div>
-        <fa-icon icon="envelope"></fa-icon>
-        <input
-          min="0"
-          max="100"
-          [(ngModel)]="notifInputs.courrierIn"
-          class="form-control"
-          type="number">
-        <span>Courriers reçus</span>
-      </div>
-      <div>
-        <fa-icon icon="envelope"></fa-icon>
-        <input
-          min="0"
-          max="100"
-          [(ngModel)]="notifInputs.recommandeIn"
-          class="form-control"
-          type="number">
-        <span>
-          <b>Avis de passage</b>
-          reçus
-        </span>
-      </div>
-      <div>
-        <fa-icon icon="box"></fa-icon>
-        <input
-          min="0"
-          max="100"
-          [(ngModel)]="notifInputs.colisIn"
-          class="form-control"
-          type="number">
-        <span>Colis reçus</span>
-      </div>
-    </div>
-
-    <div
-      id="notif_button"
-      class="text-center">
-      <button
-        (click)="notifier()"
-        class="btn btn-primary btn-block">
-        Enregistrer
-      </button>
-    </div>
-
-    <div id="big_icons">
-      <div
-        class="text-center"
-        (click)="setPassage('visite')">
-        <fa-icon
-          icon="walking"
-          size="3x"
-          class="visite actions_icones">
-        </fa-icon>
-        <span>Passage sans récupérer de courrier</span>
-      </div>
-      <div
-        class="text-center"
-        [ngClass]="appelAuj"
-        (click)="setPassage('appel')">
-        <fa-icon
-          class="actions_icones appel"
-          icon="phone"
-          size="3x">
-        </fa-icon>
-        <span>A appelé</span>
-      </div>
-    </div>
-  </div>
-  <br>
-  <ngb-alert
-    [dismissible]='false'
-    *ngIf="usager.lastInteraction.nbCourrier > 0"
-    type="dark">
-    <div class="text-center">
-      <fa-icon
-        id="courrier"
-        icon="envelope-open-text"></fa-icon>
-      &nbsp;&nbsp;{{ usager.lastInteraction.nbCourrier }} courriers en attente&nbsp;&nbsp;&nbsp;
-      <button
-        class="btn btn-primary"
-        (click)="setPassage('courrierOut')">
-        Confirmer la distribution
-      </button>
-    </div>
-  </ngb-alert>
-  <ngb-accordion
-    #acc="ngbAccordion"
-    activeIds="panel-0,panel-1,panel-2,panel-3,panel-4,panel-5,panel-6,panel-7,panel-8">
-    <ngb-panel id="panel-0">
-      <ng-template
-        ngbPanelHeader
-        let-opened="opened">
-        <div class="head-panel">
-          <button
-            ngbPanelToggle
-            class="btn btn-link">
-            <span>SUIVI DU COURRIER ET DES PASSAGES</span>
-            <span class="arrows">
-              <fa-icon
-                *ngIf="opened"
-                icon="chevron-down"></fa-icon>
-              <fa-icon
-                *ngIf="!opened"
-                icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <table class="table table-light">
-          <tbody>
-            <tr>
-              <td>Courrier</td>
-              <td>
-                <span *ngIf="usager.lastInteraction.courrierIn">
-                  Notifié le {{ usager.lastInteraction.courrierIn | date: 'dd/MM/yyyy' }}
-                </span>
-                <span *ngIf="usager.lastInteraction.courrierIn === null">Aucun courrier enregistré</span>
-              </td>
-              <td>
-                <span *ngIf="usager.lastInteraction.nbCourrier !== null && usager.lastInteraction.nbCourrier !== 0">
-                  <b>
-                    {{ usager.lastInteraction.nbCourrier }} courriers en attente
-                  </b>
-                </span>
-                <span *ngIf="usager.lastInteraction.nbCourrier === 0">Aucun courrier en attente</span>
-              </td>
-            </tr>
-            <tr>
-              <td>Avis de passage</td>
-              <td>
-                <span *ngIf="usager.lastInteraction.recommandeIn">
-                  Notifié le {{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}
-                </span>
-                <span *ngIf="!usager.lastInteraction.recommandeIn">Aucun avis de passage enregistré</span>
-              </td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>Appel téléphonique</td>
-              <td>
-                {{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}
-              </td>
-              <td></td>
-            </tr>
-            <tr *ngIf="interactions">
-              <td colspan="3">
-                <div *ngFor="let interaction of interactions">
-                  {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
-                  <span class="badge badge-primary">
-                    {{ interactionsLabel[interaction.type] }}
-                  </span>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-template>
-
-    </ngb-panel>
-
-    <ngb-panel id="panel-1">
-      <ng-template
-        ngbPanelHeader
-        let-opened="opened">
-        <div class="head-panel">
-          <button
-            ngbPanelToggle
-            class="btn btn-link">
-            <span>HISTORIQUE DE LA DOMICILIATION</span>
-            <span class="arrows">
-              <fa-icon
-                *ngIf="opened"
-                icon="chevron-down"></fa-icon>
-              <fa-icon
-                *ngIf="!opened"
-                icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <div class="row">
-          <div class="col">
-            Dossier instruit le
-            <b>
-              {{ usager.decision.dateInstruction | date: 'dd/MM/yyyy' }}
-            </b>
-            <br>
-            <span *ngIf="usager.decision.userInstructionName === null">
-              Dossier instruit par
-              <b>
-                {{ usager.decision.userInstructionName }}
-              </b>
-            </span>
-          </div>
-          <div
-            *ngIf="usager.decision.statut === 'demande'"
-            class="col">
-            Demande effectuée le
-            <b>
-              {{ usager.decision.dateDemande | date: 'dd/MM/yyyy' }}
-            </b>
-            <span *ngIf="usager.decision.userDecisionName === null">
-              Dossier instruit par
-              <b>{{ usager.decision.userDecisionName }}</b>
-            </span>
-          </div>
-          <div
-            *ngIf="usager.decision.statut === 'valide'"
-            class="col">
-            Domiciliation accepté le
-            <b>
-              {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
-            </b>
-          </div>
-          <div
-            *ngIf="usager.decision.statut === 'refus'"
-            class="col">
-            Domiciliation refusée le
-            <b>
-              {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
-            </b>
-          </div>
-        </div>
-        <br>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-2">
-      <ng-template
-        ngbPanelHeader
-        let-opened="opened">
-        <div class="head-panel">
-          <button
-            ngbPanelToggle
-            class="btn btn-link">
-            <span>ÉTAT CIVIL</span>
-            <span class="arrows">
-              <fa-icon
-                *ngIf="opened"
-                icon="chevron-down"></fa-icon>
-              <fa-icon
-                *ngIf="!opened"
-                icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <div class="row">
-          <div class="col">
-            <b>Nom :</b>
-            {{ usager.nom }}
-            <br>
-            <b>Prénom :</b>
-            {{ usager.prenom }}
-            <br>
-          </div>
-
-          <div class="col">
-            <b>Date de naissance :</b>
-            {{ usager.dateNaissance | date: 'dd/MM/yyyy'  }}
-            <br>
-            <b>Lieu de Naissance :</b>
-            {{ usager.villeNaissance }}
-            <br>
-          </div>
-        </div>
-
-        <div class="row">
-          <div
-            class="col"
-            *ngIf="usager.phone !== null">
-            <b>Numéro de téléphone :</b>
-            <span>{{ usager.phone }}</span>
-          </div>
-          <div
-            class="col"
-            *ngIf="usager.email !== ''">
-            <b>Adresse email :</b>
-            <span>{{ usager.email }}</span>
-          </div>
-        </div>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-3">
-      <ng-template
-        ngbPanelHeader
-        let-opened="opened">
-        <div class="head-panel">
-          <button
-            ngbPanelToggle
-            class="btn btn-link">
-            <span>AYANTS-DROITS</span>
-            <span class="arrows">
-              <fa-icon
-                *ngIf="opened"
-                icon="chevron-down"></fa-icon>
-              <fa-icon
-                *ngIf="!opened"
-                icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <div *ngIf="usager.ayantsDroits.length === 0">
-          <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
-        </div>
-        <table
-          *ngIf="usager.ayantsDroits.length > 0"
-          class="table table-light">
-          <tbody>
-            <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Né le</th>
-              <th>Lien</th>
-            </tr>
-            <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-              <td>{{ ayantDroit.nom }}</td>
-              <td>{{ ayantDroit.prenom }}</td>
-              <td>{{ ayantDroit.dateNaissance }}</td>
-              <td>{{ ayantDroit.lien }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-4">
-      <ng-template
-        ngbPanelHeader
-        let-opened="opened">
-        <div class="head-panel">
-          <button
-            ngbPanelToggle
-            class="btn btn-link">
-            <span>ENTRETIEN</span>
-            <span class="arrows">
-              <fa-icon
-                *ngIf="opened"
-                icon="chevron-down"></fa-icon>
-              <fa-icon
-                *ngIf="!opened"
-                icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <div class="row">
-          <div class="col">
-            <b>
-              Avez-vous déjà une domiciliation quelque part ?
-            </b>
-            {{ usager.entretien.domiciliation ? 'Oui' : 'Non' }}
-            <br>
-
-            <b>Avez-vous des revenus ?</b>
-            {{ usager.entretien.revenus ? 'Oui' : 'Non' }}
-            <br>
-            <br>
-
-            <b>Quel est votre lien avec la commune ?</b>
-            <br>
-            {{ usager.entretien.liencommune || 'Non renseigné' }}
-            <br>
-            <br>
-
-            <b>
-              Quel est le motif principal de demande de domiciliation ?
-            </b>
-            <br>
-            {{ labels[usager.entretien.raison] || 'Non renseigné' }}
-            <br>
-            <br>
-            <b>
-              Quelle est la cause de l'instabilité de logement ?
-            </b>
-            <br>
-            {{ labels[ usager.entretien.residence ] || 'Non renseigné' }}
-            <span *ngIf="usager.entretien.residence === 'residenceAutre'">{{ usager.entretien.residenceDetail }}</span>
-            <br>
-            <br>
-          </div>
-          <div class="col">
-            <b>
-              Quelle est la cause de l'instabilité de logement ?
-            </b>
-            <br>
-            {{ labels[usager.entretien.cause] }}
-            <span *ngIf="usager.entretien.cause === 'causeAutre'">
-              : {{ usager.entretien.residenceDetail }}
-              <br>
-            </span>
-            <br>
-            <b>
-              Faites-vous l’objet d’un accompagnement social ?
-            </b>
-            {{ usager.entretien.accompagnement ? 'Oui' : 'Non' }}
-            <br>
-            <span *ngIf="accompagnement">
-              <b>Suivi par</b>
-              : {{ accompagnementDetail }}
-            </span>
-
-            <br>
-            <br>
-            <b>Commentaires</b>
-            <br>
-          </div>
-        </div>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-5">
-      <ng-template
-        ngbPanelHeader
-        let-opened="opened">
-        <div class="head-panel">
-          <button
-            ngbPanelToggle
-            class="btn btn-link">
-            <span>PIÈCES JOINTES</span>
-            <span class="arrows">
-              <fa-icon
-                *ngIf="opened"
-                icon="chevron-down"></fa-icon>
-              <fa-icon
-                *ngIf="!opened"
-                icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <div *ngIf="usager.docs.length === 0">
-          <ngb-alert [dismissible]="false">Aucune pièce-jointe enregistrée</ngb-alert>
-        </div>
-        <table
-          class="table table-light"
-          *ngIf="usager.docs.length > 0">
-          <tbody>
-            <tr>
-              <th>#</th>
-              <th>Nom de la pièce justificative</th>
-              <th>Ajoutée le</th>
-              <th>Ajoutée par</th>
-              <th></th>
-              <th></th>
-            </tr>
-            <tr *ngFor="let document of usager.docs; let indexDocs = index">
-              <td>{{ indexDocs }}</td>
-              <td>{{ document.label }}</td>
-              <td>
-                {{ document.createdAt | date: 'dd/MM/yyyy' }}
-              </td>
-              <td>{{ document.createdBy }}</td>
-              <td>
-                <button
-                  (click)="getDocument(indexDocs)"
-                  class="btn btn-primary"
-                  aria-label="Voir la pièce jointe">
-                  <fa-icon icon="download"></fa-icon>
-                  Télécharger
-                </button>
-              </td>
-              <td>
-                <button
-                  (click)="deleteDocument(indexDocs)"
-                  class="btn btn-danger"
-                  aria-label="Voir la pièce jointe">
-                  <fa-icon icon="trash"></fa-icon>
-                  Supprimer
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-template>
-    </ngb-panel>
-    <ngb-panel id="panel-6">
-      <ng-template
-        ngbPanelHeader
-        let-opened="opened">
-        <div class="head-panel">
-          <button
-            ngbPanelToggle
-            class="btn btn-link">
-            <span>ATTESTATIONS</span>
-            <span class="arrows">
-              <fa-icon
-                *ngIf="opened"
-                icon="chevron-down"></fa-icon>
-              <fa-icon
-                *ngIf="!opened"
-                icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <div class="row">
-          <div class="col">
-            Attestation de domiciliation à la date du jour
-          </div>
-
-          <div class="col">
-            <button
-              (click)="getAttestation()"
-              class="btn btn-outline-primary">
-              <fa-icon icon="file-pdf"></fa-icon>
-              &nbsp; Télécharger l'attestation
-            </button>
-          </div>
-          <div class="col">Courrier de radiation</div>
-          <div class="col">
-            <button class="btn btn-outline-danger">
-              <fa-icon icon="times"></fa-icon>
-              &nbsp; Radier et générer le courrier
-            </button>
-
-          </div>
-        </div>
-      </ng-template>
-    </ngb-panel>
-
-  </ngb-accordion>
+<div *ngIf="usager">
 
   <div
-    class="text-center"
-    *ngIf="usager.decision.statut === 'valide'">
-    <br>
+    class="step_form"
+    *ngIf="usager.decision.statut === 'REFUS'">
     <div class="row">
-      <div class="col">
-        <button class="btn btn-outline-danger">
-          <fa-icon icon="times"></fa-icon>
-          Radier le domicilié
-        </button>
-        &nbsp;&nbsp;&nbsp;
+      <div class="col text-center">
+        <h4>Demande refusée</h4>
+        <p>
+          La demande de
+          <b>{{ usager.nom }} {{ usager.prenom }}</b>
+          a été refusée le
+          {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+        </p>
+        <p class="font-weight-bold text-danger">
+          Motif :
+          {{ motifsRefus[usager.decision.motif] }}
+          <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
+        </p>
+        <p>
+          <b>Orientation proposée :</b>
+          {{ usager.decision.orientationDetails}}
+        </p>
         <button
-          class="btn btn-outline-secondary"
-          (click)="open(confirmation)">
-          <fa-icon icon="redo"></fa-icon>
-          Demande de renouvellement
+          (click)="getAttestation()"
+          class="btn btn-primary">
+          <fa-icon icon="download"></fa-icon>
+          Télécharger le CERFA de refus
         </button>
+        <br>
+        <br>
+        <p class="text-center">
+          <a
+            routerLink="/manage"
+            routerLinkActive="router-link-active">
+            Retour à la liste des domiciliés
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="container"
+    *ngIf="usager.decision.statut === 'VALIDE'">
+
+    <div class="row">
+      <div class="col-md-2 text-left">
+        <a routerLink="/manage/">
+          <fa-icon icon="angle-left"></fa-icon>
+          Retour à la liste
+        </a>
+      </div>
+      <div class="col-md-8 text-center">
+        <div
+          id="profil_head"
+          [class]="usager.decision.statut">
+          <h2 id="profil_name">
+            {{ usager.prenom }}
+            <span>{{ usager.nom }}</span>
+          </h2>
+          Numéro domicilié :
+          <b>{{ usager.id }}</b>
+        </div>
+        <div
+          class="text-center"
+          *ngIf="usager.decision.statut === 'VALIDE'">
+          Domiciliation valable jusqu'au
+          <span class="text-secondary">
+            <b>
+              {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}
+            </b>
+          </span>
+          <br>
+          <span *ngIf="usager.lastInteraction.visite !== null">
+            Dernier passage le
+            <b>
+              {{ usager.lastInteraction.visite | date: 'dd/MM/yyyy' }}
+            </b>
+          </span>
+        </div>
+        <br>
+        <ngb-alert
+          type="warning"
+          *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
+          Demande en cours, à valider par un responsable
+        </ngb-alert>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+        <ngb-alert
+          @fadeInOut
+          *ngIf="errorMessage"
+          type="danger"
+          (close)="errorMessage = null">
+          <strong>Erreur:</strong>
+          {{ errorMessage }}
+        </ngb-alert>
+        <ngb-alert
+          @fadeInOut
+          *ngIf="successMessage"
+          type="success"
+          (close)="successMessage = null">
+          <strong>{{ successMessage }}</strong>
+        </ngb-alert>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <h5 class="text-blac">
+        <b>
+          Signalez la réception d’un courrier ou un passage
+        </b>
+      </h5>
+      <br>
+    </div>
+    <div id="notif_container">
+      <div id="notif_form">
+        <div>
+          <fa-icon icon="envelope"></fa-icon>
+          <input
+            min="0"
+            max="100"
+            [(ngModel)]="notifInputs.courrierIn"
+            class="form-control"
+            type="number">
+          <span>Courriers reçus</span>
+        </div>
+        <div>
+          <fa-icon icon="envelope"></fa-icon>
+          <input
+            min="0"
+            max="100"
+            [(ngModel)]="notifInputs.recommandeIn"
+            class="form-control"
+            type="number">
+          <span>
+            <b>Avis de passage</b>
+            reçus
+          </span>
+        </div>
+        <div>
+          <fa-icon icon="box"></fa-icon>
+          <input
+            min="0"
+            max="100"
+            [(ngModel)]="notifInputs.colisIn"
+            class="form-control"
+            type="number">
+          <span>Colis reçus</span>
+        </div>
+      </div>
+
+      <div
+        id="notif_button"
+        class="text-center">
+        <button
+          (click)="notifier()"
+          class="btn btn-primary btn-block">
+          Enregistrer
+        </button>
+      </div>
+
+      <div id="big_icons">
+        <div
+          class="text-center"
+          (click)="setPassage('visite')">
+          <fa-icon
+            icon="walking"
+            size="3x"
+            class="visite actions_icones">
+          </fa-icon>
+          <span>Passage sans récupérer de courrier</span>
+        </div>
+        <div
+          class="text-center"
+          [ngClass]="appelAuj"
+          (click)="setPassage('appel')">
+          <fa-icon
+            class="actions_icones appel"
+            icon="phone"
+            size="3x">
+          </fa-icon>
+          <span>A appelé</span>
+        </div>
+      </div>
+    </div>
+    <br>
+    <ngb-alert
+      [dismissible]='false'
+      *ngIf="usager.lastInteraction.nbCourrier > 0"
+      type="dark">
+      <div class="text-center">
+        <fa-icon
+          id="courrier"
+          icon="envelope-open-text"></fa-icon>
+        &nbsp;&nbsp;{{ usager.lastInteraction.nbCourrier }} courriers en attente&nbsp;&nbsp;&nbsp;
+        <button
+          class="btn btn-primary"
+          (click)="setPassage('courrierOut')">
+          Confirmer la distribution
+        </button>
+      </div>
+    </ngb-alert>
+    <ngb-accordion
+      #acc="ngbAccordion"
+      activeIds="panel-0,panel-1,panel-2,panel-3,panel-4,panel-5,panel-6,panel-7,panel-8">
+      <ngb-panel id="panel-0">
+        <ng-template
+          ngbPanelHeader
+          let-opened="opened">
+          <div class="head-panel">
+            <button
+              ngbPanelToggle
+              class="btn btn-link">
+              <span>SUIVI DU COURRIER ET DES PASSAGES</span>
+              <span class="arrows">
+                <fa-icon
+                  *ngIf="opened"
+                  icon="chevron-down"></fa-icon>
+                <fa-icon
+                  *ngIf="!opened"
+                  icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <table class="table table-light">
+            <tbody>
+              <tr>
+                <td>Courrier</td>
+                <td>
+                  <span *ngIf="usager.lastInteraction.courrierIn">
+                    Notifié le {{ usager.lastInteraction.courrierIn | date: 'dd/MM/yyyy' }}
+                  </span>
+                  <span *ngIf="usager.lastInteraction.courrierIn === null">Aucun courrier enregistré</span>
+                </td>
+                <td>
+                  <span *ngIf="usager.lastInteraction.nbCourrier !== null && usager.lastInteraction.nbCourrier !== 0">
+                    <b>
+                      {{ usager.lastInteraction.nbCourrier }} courriers en attente
+                    </b>
+                  </span>
+                  <span *ngIf="usager.lastInteraction.nbCourrier === 0">Aucun courrier en attente</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Avis de passage</td>
+                <td>
+                  <span *ngIf="usager.lastInteraction.recommandeIn">
+                    Notifié le {{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}
+                  </span>
+                  <span *ngIf="!usager.lastInteraction.recommandeIn">Aucun avis de passage enregistré</span>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Appel téléphonique</td>
+                <td>
+                  {{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}
+                </td>
+                <td></td>
+              </tr>
+              <tr *ngIf="interactions">
+                <td colspan="3">
+                  <div *ngFor="let interaction of interactions">
+                    {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
+                    <span class="badge badge-primary">
+                      {{ interactionsLabel[interaction.type] }}
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="panel-1">
+        <ng-template
+          ngbPanelHeader
+          let-opened="opened">
+          <div class="head-panel">
+            <button
+              ngbPanelToggle
+              class="btn btn-link">
+              <span>HISTORIQUE DE LA DOMICILIATION</span>
+              <span class="arrows">
+                <fa-icon
+                  *ngIf="opened"
+                  icon="chevron-down"></fa-icon>
+                <fa-icon
+                  *ngIf="!opened"
+                  icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="row">
+            <div
+              *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
+              class="col">
+              Demande effectuée le
+              <b>
+                {{ usager.decision.dateDecision | date: 'dd/MM/yyyy' }}
+              </b>
+              <span *ngIf="usager.decision.userName === null">
+                Dossier instruit par
+                <b>{{ usager.decision.userName }}</b>
+              </span>
+            </div>
+            <div
+              *ngIf="usager.decision.statut === 'VALIDE'"
+              class="col">
+              Domiciliation accepté le
+              <b>
+                {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
+              </b>
+            </div>
+
+          </div>
+          <br>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-2">
+        <ng-template
+          ngbPanelHeader
+          let-opened="opened">
+          <div class="head-panel">
+            <button
+              ngbPanelToggle
+              class="btn btn-link">
+              <span>ÉTAT CIVIL</span>
+              <span class="arrows">
+                <fa-icon
+                  *ngIf="opened"
+                  icon="chevron-down"></fa-icon>
+                <fa-icon
+                  *ngIf="!opened"
+                  icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <div class="row">
+            <div class="col">
+              <b>Nom :</b>
+              {{ usager.nom }}
+              <br>
+              <b>Prénom :</b>
+              {{ usager.prenom }}
+              <br>
+            </div>
+
+            <div class="col">
+              <b>Date de naissance :</b>
+              {{ usager.dateNaissance | date: 'dd/MM/yyyy'  }}
+              <br>
+              <b>Lieu de Naissance :</b>
+              {{ usager.villeNaissance }}
+              <br>
+            </div>
+          </div>
+
+          <div class="row">
+            <div
+              class="col"
+              *ngIf="usager.phone !== null">
+              <b>Numéro de téléphone :</b>
+              <span>{{ usager.phone }}</span>
+            </div>
+            <div
+              class="col"
+              *ngIf="usager.email !== ''">
+              <b>Adresse email :</b>
+              <span>{{ usager.email }}</span>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-3">
+        <ng-template
+          ngbPanelHeader
+          let-opened="opened">
+          <div class="head-panel">
+            <button
+              ngbPanelToggle
+              class="btn btn-link">
+              <span>AYANTS-DROITS</span>
+              <span class="arrows">
+                <fa-icon
+                  *ngIf="opened"
+                  icon="chevron-down"></fa-icon>
+                <fa-icon
+                  *ngIf="!opened"
+                  icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <div *ngIf="usager.ayantsDroits.length === 0">
+            <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
+          </div>
+          <table
+            *ngIf="usager.ayantsDroits.length > 0"
+            class="table table-light">
+            <tbody>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Né le</th>
+                <th>Lien</th>
+              </tr>
+              <tr *ngFor="let ayantDroit of usager.ayantsDroits">
+                <td>{{ ayantDroit.nom }}</td>
+                <td>{{ ayantDroit.prenom }}</td>
+                <td>{{ ayantDroit.dateNaissance }}</td>
+                <td>{{ ayantDroit.lien }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-4">
+        <ng-template
+          ngbPanelHeader
+          let-opened="opened">
+          <div class="head-panel">
+            <button
+              ngbPanelToggle
+              class="btn btn-link">
+              <span>ENTRETIEN</span>
+              <span class="arrows">
+                <fa-icon
+                  *ngIf="opened"
+                  icon="chevron-down"></fa-icon>
+                <fa-icon
+                  *ngIf="!opened"
+                  icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <div class="row">
+            <div class="col">
+              <b>
+                Avez-vous déjà une domiciliation quelque part ?
+              </b>
+              {{ usager.entretien.domiciliation ? 'Oui' : 'Non' }}
+              <br>
+
+              <b>Avez-vous des revenus ?</b>
+              {{ usager.entretien.revenus ? 'Oui' : 'Non' }}
+              <br>
+              <br>
+
+              <b>Quel est votre lien avec la commune ?</b>
+              <br>
+              {{ usager.entretien.liencommune || 'Non renseigné' }}
+              <br>
+              <br>
+
+              <b>
+                Quel est le motif principal de demande de domiciliation ?
+              </b>
+              <br>
+              {{ labels[usager.entretien.raison] || 'Non renseigné' }}
+              <br>
+              <br>
+              <b>
+                Quelle est la cause de l'instabilité de logement ?
+              </b>
+              <br>
+              {{ labels[ usager.entretien.residence ] || 'Non renseigné' }}
+              <span *ngIf="usager.entretien.residence === 'residenceAutre'">{{ usager.entretien.residenceDetail }}</span>
+              <br>
+              <br>
+            </div>
+            <div class="col">
+              <b>
+                Quelle est la cause de l'instabilité de logement ?
+              </b>
+              <br>
+              {{ labels[usager.entretien.cause] }}
+              <span *ngIf="usager.entretien.cause === 'causeAutre'">
+                : {{ usager.entretien.residenceDetail }}
+                <br>
+              </span>
+              <br>
+              <b>
+                Faites-vous l’objet d’un accompagnement social ?
+              </b>
+              {{ usager.entretien.accompagnement ? 'Oui' : 'Non' }}
+              <br>
+              <span *ngIf="accompagnement">
+                <b>Suivi par</b>
+                : {{ accompagnementDetail }}
+              </span>
+
+              <br>
+              <br>
+              <b>Commentaires</b>
+              <br>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-5">
+        <ng-template
+          ngbPanelHeader
+          let-opened="opened">
+          <div class="head-panel">
+            <button
+              ngbPanelToggle
+              class="btn btn-link">
+              <span>PIÈCES JOINTES</span>
+              <span class="arrows">
+                <fa-icon
+                  *ngIf="opened"
+                  icon="chevron-down"></fa-icon>
+                <fa-icon
+                  *ngIf="!opened"
+                  icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div *ngIf="usager.docs.length === 0">
+            <ngb-alert [dismissible]="false">Aucune pièce-jointe enregistrée</ngb-alert>
+          </div>
+          <table
+            class="table table-light"
+            *ngIf="usager.docs.length > 0">
+            <tbody>
+              <tr>
+                <th>#</th>
+                <th>Nom de la pièce justificative</th>
+                <th>Ajoutée le</th>
+                <th>Ajoutée par</th>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr *ngFor="let document of usager.docs; let indexDocs = index">
+                <td>{{ indexDocs }}</td>
+                <td>{{ document.label }}</td>
+                <td>
+                  {{ document.createdAt | date: 'dd/MM/yyyy' }}
+                </td>
+                <td>{{ document.createdBy }}</td>
+                <td>
+                  <button
+                    (click)="getDocument(indexDocs)"
+                    class="btn btn-primary"
+                    aria-label="Voir la pièce jointe">
+                    <fa-icon icon="download"></fa-icon>
+                    Télécharger
+                  </button>
+                </td>
+                <td>
+                  <button
+                    (click)="deleteDocument(indexDocs)"
+                    class="btn btn-danger"
+                    aria-label="Voir la pièce jointe">
+                    <fa-icon icon="trash"></fa-icon>
+                    Supprimer
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel id="panel-6">
+        <ng-template
+          ngbPanelHeader
+          let-opened="opened">
+          <div class="head-panel">
+            <button
+              ngbPanelToggle
+              class="btn btn-link">
+              <span>ATTESTATIONS</span>
+              <span class="arrows">
+                <fa-icon
+                  *ngIf="opened"
+                  icon="chevron-down"></fa-icon>
+                <fa-icon
+                  *ngIf="!opened"
+                  icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="row">
+            <div class="col">
+              Attestation de domiciliation à la date du jour
+            </div>
+            <div class="col">
+              <button
+                (click)="getAttestation()"
+                class="btn btn-outline-primary">
+                <fa-icon icon="file-pdf"></fa-icon>
+                &nbsp; Télécharger l'attestation
+              </button>
+            </div>
+            <div class="col">Courrier de radiation</div>
+            <div class="col">
+              <a
+                [routerLink]="['/radiation/'+usager.id]"
+                routerLinkActive="router-link-active"
+                class="btn btn-outline-danger">
+                <fa-icon icon="times"></fa-icon>
+                &nbsp; Radier et générer le courrier
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+    <div
+      class="text-center"
+      *ngIf="usager.decision.statut === 'VALIDE'">
+      <br>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-outline-danger">
+            <fa-icon icon="times"></fa-icon>
+            Radier le domicilié
+          </button>
+          &nbsp;&nbsp;&nbsp;
+          <button
+            class="btn btn-outline-secondary"
+            (click)="open(confirmation)">
+            <fa-icon icon="redo"></fa-icon>
+            Demande de renouvellement
+          </button>
+        </div>
       </div>
     </div>
   </div>

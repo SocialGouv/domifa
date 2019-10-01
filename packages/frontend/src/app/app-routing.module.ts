@@ -13,6 +13,7 @@ import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
+import { RaftComponent } from "./modules/usagers/components/raft/raft.component";
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
@@ -45,6 +46,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     component: UsagersProfilComponent,
     path: "usager/:id"
+  },
+  {
+    canActivate: [AuthGuard],
+    component: RaftComponent,
+    path: "radiation/:id"
   },
   {
     canActivate: [LoggedGuard],

@@ -2,7 +2,10 @@ import { animate, style, transition, trigger } from "@angular/animations";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { debounceTime } from "rxjs/operators";
-import { ENTRETIEN_LABELS } from "../../../../shared/entretien.labels";
+import {
+  ENTRETIEN_LABELS,
+  motifsRefus
+} from "../../../../shared/entretien.labels";
 import { LoadingService } from "../../../loading/loading.service";
 import { DocumentService } from "../../services/document.service";
 
@@ -33,7 +36,9 @@ export class UsagersProfilComponent implements OnInit {
   public usager: Usager;
   public interactions: Interaction[];
 
+  public motifsRefus: any = motifsRefus;
   public labels: any;
+
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
   public interactionsLabel: any = {
     appel: "Appel",

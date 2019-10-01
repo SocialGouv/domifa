@@ -94,13 +94,15 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public goToProfil(id: number, statut: string) {
-    const urlParams =
-      statut === "instruction" || statut === "demande" || statut === "refus"
-        ? "/edit"
-        : "";
+    const url = {
+      ATTENTE_DECISION: "usager/" + id + "/edit",
+      INSTRUCTION: "usager/" + id + "/edit",
+      RADIE: "radiation/" + id,
+      REFUS: "usager/" + id,
+      VALIDE: "usager/" + id
+    };
 
-    const url = "usager/" + id + urlParams;
-    this.router.navigate([url]);
+    this.router.navigate([url[statut]]);
   }
 
   public getLetter(nom: string): string {

@@ -19,10 +19,8 @@ const I18N_VALUES = {
     ],
     weekdays: ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
   }
-  // other languages you would support
 };
 
-// Define custom service providing the months and weekdays translations
 @Injectable()
 export class CustomDatepickerI18n extends NgbDatepickerI18n {
   public getWeekdayShortName(weekday: number): string {

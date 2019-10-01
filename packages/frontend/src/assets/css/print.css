@@ -1,0 +1,17 @@
+@media print {
+  body {
+    margin-top: 50mm !important;
+    margin-bottom: 50mm !important;
+    margin-left: 60mm !important;
+    margin-right: 60mm !important;
+  }
+  @page {
+    margin: 6cm !important;
+  }
+
+  #courrier-radiation {
+    font-size: 14pt;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}

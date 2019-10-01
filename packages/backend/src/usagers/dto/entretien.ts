@@ -19,7 +19,6 @@ export class EntretienDto {
   public causeDetail: string;
   @IsOptional()
   public pourquoi: string;
-
   @IsOptional()
   public pourquoiDetail: string;
   @IsOptional()

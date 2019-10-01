@@ -7,7 +7,8 @@ import { InteractionsController } from "./interactions/interactions.controller";
 import { InteractionsModule } from "./interactions/interactions.module";
 import { StructuresModule } from "./structures/structure.module";
 import { StructuresController } from "./structures/structures.controller";
-import { UsagersController } from "./usagers/usagers.controller";
+import { ImportController } from "./usagers/controllers/import.controller";
+import { UsagersController } from "./usagers/controllers/usagers.controller";
 import { UsagersModule } from "./usagers/usagers.module";
 import { MailerService } from "./users/mailer.service";
 import { UsersController } from "./users/users.controller";
@@ -19,7 +20,8 @@ import { UsersModule } from "./users/users.module";
     UsagersController,
     UsersController,
     InteractionsController,
-    StructuresController
+    StructuresController,
+    ImportController
   ],
   exports: [ConfigService],
   imports: [

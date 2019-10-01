@@ -1,43 +1,173 @@
 <div class="step_form text-center">
+  <div class="row">
+    <div class="col-md-8 offset-2">
+      <h4 class="text-center">
+        <b>Bonjour {{ prenom }}</b>
+      </h4>
+      <p>
+        Avant de commencer à utiliser Domifa, nous vous invitons à importer le listing de vos domiciliés.
+      </p>
+    </div>
+    <div class="col-md-6 offset-3">
+      <button class="btn btn-block btn-outline-primary">
+        <b>Etape 1 :</b>
+        Télécharger le modèle Excel
+      </button>
+      <form
+        [formGroup]="uploadForm"
+        (ngSubmit)="submitFile()">
+        <div class="form-group custom-file">
+          <input
+            type="file"
+            id="fileExcel"
+            name="fileExcel"
+            (change)="onFileChange($event)"
+            multiple="false"
+            aria-describedby="pjHelp"
+            file="fileExcel"
+            required>
+          <input
+            type="hidden"
+            name="fileHidden"
+            formControlName="fileInput">
+          <label
+            class="btn btn-block btn-outline-primary"
+            for="fileExcel"
+            data-browse="Parcourir"
+            lang="fr">
+            <b>Etape 2 :</b>
+            Sélectionner et vérifier le fichier
+          </label>
+          <br>
+        </div>
+        <div class="form-group">
+          <div
+            *ngIf="!uploadForm.invalid && errorsId.length === 0"
+            class="text-success">
+            Parfait : votre fichier est prêt à être importé
+          </div>
+          <button
+            [disabled]="uploadForm.invalid || errorsId.length > 0"
+            type="submit"
+            class="btn btn-block btn-primary">
+            <b>Etape 3 :</b>
+            Importer vos domiciliés sur Domifa
+          </button>
+        </div>
+      </form>
 
-  <div class="form-group">
-    <input
-      type="file"
-      (change)="onFileChange($event)"
-      class="form-control-file"
-      multiple="false">
+      <div
+        *ngIf="errorsId.length > 0"
+        class="text-danger">
+        Attention : votre fichier contient
+        <b>{{ errorsId.length }}</b>
+        erreurs
+      </div>
+      <div
+        *ngIf="emailErrors > 0"
+        class="text-danger">
+        Email :
+        <b>{{ emailErrors }} doublons</b>
+      </div>
+      <div
+        *ngIf="phoneErrors > 0"
+        class="text-danger">
+        Téléphone :
+        <b>{{ phoneErrors }} doublons</b>
+      </div>
+      <div *ngIf="errorsId.length > 0">
+        <br>
+        <button class="btn btn-outline-secondary">Recommencer</button>
+      </div>
+    </div>
   </div>
 </div>
-<div
-  id="import-table"
-  *ngIf="showTable">
+<div id="import-table">
   <table class="table table-striped table-hover">
     <thead class>
+      <th>#</th>
       <th class="required">Civilité (H/F)</th>
       <th class="required">Nom</th>
       <th class="required">Prénom</th>
-      <th class="required">Surnom</th>
-      <th class="required">Date Naissance (DD/MM/YYY)</th>
-      <th class="required">Lieu de naissance</th>
+      <th>Surnom</th>
+      <th class="required">
+        Date Naissance
+        <br>
+        (jj/mm/aaaa)
+      </th>
+      <th class="required">Lieu naissance</th>
       <th>Adresse Mail</th>
-      <th>Numéro Téléphone</th>
-      <th>Début DOM actuelle</th>
+      <th>N° Téléphone</th>
+      <th class="required">Type demande</th>
+      <th class="required">Statut demande</th>
+      <th class="required">Début DOM actuelle</th>
       <th>Fin de DOM</th>
-      <th>1ere DOM</th>
+      <th>
+        Date de la 1
+        <sup>ère</sup>
+        DOM
+      </th>
+      <th>
+        MOTIF REFUS
+        <br>
+        (SEULEMENT SI REFUS)
+      </th>
+      <th>
+        MOTIF RADIATION
+        <br>
+        (SEULEMENT SI RADIATION)
+      </th>
+      <th class="required">COMPOSITION DU MÉNAGE</th>
+      <ng-container *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index">
+        <th>
+          NOM
+          <br>
+          Ayant-droit {{ indexRow + 1}}
+        </th>
+        <th>
+          PRÉNOM
+          <br>
+          Ayant-droit {{ indexRow + 1}}
+        </th>
+        <th>
+          DATE NAISSANCE
+          <br>
+          Ayant-droit {{ indexRow + 1}}
+        </th>
+        <th>
+          LIEN DE PARENTÉ
+          <br>
+          Ayant-droit {{ indexRow + 1}}
+        </th>
+      </ng-container>
     </thead>
-    <tbody>
-      <tr *ngFor="let row of data | slice:1">
-        <td [ngClass]="row[0] == 'H' || row[0] == 'F' ? '' : 'table-danger'">{{row[0]}}</td>
-        <td [ngClass]="row[1] != null ? '' : 'table-danger' ">{{ row[1] }}</td>
-        <td [ngClass]="row[2] != null ? '' : 'table-danger' ">{{ row[2] }}</td>
+    <tbody *ngIf="showTable">
+      <tr *ngFor="let row of data | slice:1; let index = index;">
+        <td>
+          <b>{{ index + 1 }}</b>
+        </td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 0)  }">{{row[0]}}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 1)  }">{{ row[1] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 2)  }">{{ row[2] }}</td>
         <td>{{row[3]}}</td>
-        <td [ngClass]="isValidDate(row[4], true) ? '' : 'table-danger' ">{{ row[4] }}</td>
-        <td [ngClass]="row[5] != null ? '' : 'table-danger' ">{{ row[5] }}</td>
-        <td [ngClass]="isValidEmail(row[6]) ? '' : 'table-danger' ">{{ row[6] }}</td>
-        <td [ngClass]="isValidPhone(row[7]) ? '' : 'table-danger' ">{{ row[7] }}</td>
-        <td [ngClass]="isValidDate(row[8], false) ? '' : 'table-danger' ">{{ row[8] }}</td>
-        <td [ngClass]="isValidDate(row[9], false) ? '' : 'table-danger' ">{{ row[9] }}</td>
-        <td [ngClass]="isValidDate(row[10], false) ? '' : 'table-danger' ">{{ row[10] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 4)  }">{{ row[4] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 5)  }">{{ row[5] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 6)  }">{{ row[6] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 7)  }">{{ row[7] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 9)  }">{{ row[9] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 8)  }">{{ row[8] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 10) }">{{ row[10] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 11) }">{{ row[11] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 12) }">{{ row[12] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 13) }">{{ row[13] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 14) }">{{ row[14] }}</td>
+        <td [ngClass]="{ 'table-danger': isAnError(index, 15) }">{{ row[15] }}</td>
+        <ng-container *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index">
+          <td [ngClass]="{ 'table-danger': isAnError(index, ayantDroit ) }">{{ row[ayantDroit] }}</td>
+          <td [ngClass]="{ 'table-danger': isAnError(index, ayantDroit + 1 ) }">{{ row[ayantDroit + 1] }}</td>
+          <td [ngClass]="{ 'table-danger': isAnError(index, ayantDroit + 2 ) }">{{ row[ayantDroit + 2] }}</td>
+          <td [ngClass]="{ 'table-danger': isAnError(index, ayantDroit + 3 ) }">{{ row[ayantDroit + 3] }}</td>
+        </ng-container>
       </tr>
     </tbody>
   </table>

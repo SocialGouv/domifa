@@ -26,13 +26,12 @@ export interface Usager extends Document {
   etapeDemande: number;
 
   agent: string;
-  historique: string;
 
-  contactPreference: string;
+  decision: Decision;
+  historique: Decision[];
 
   rdv: Rdv;
   entretien: Entretien;
-  decision: Decision;
 
   docs: Doc[];
   docsPath: string[];

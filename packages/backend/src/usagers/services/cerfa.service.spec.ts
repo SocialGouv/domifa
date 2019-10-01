@@ -128,7 +128,7 @@ describe("CerfaService", () => {
     });
 
     service.attestation(usager, user);
-    expect(service.motifRefus).toEqual("");
+    expect(service.motif).toEqual("");
     expect(service.sexe).toEqual("2");
 
     const datasAttendues = {
@@ -228,9 +228,9 @@ describe("CerfaService", () => {
 
     expect(await service.infosPdf).toEqual(datasAttendues);
 
-    usager.decision.motif = "refusAutre";
+    usager.decision.motif = "AUTRE";
     usager.decision.motifDetails = "TEST";
     service.attestation(usager, user);
-    expect(service.motifRefus).toEqual("Autre motif : TEST");
+    expect(service.motif).toEqual("Autre motif : TEST");
   });
 });

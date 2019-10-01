@@ -60,6 +60,12 @@
         class="btn btn-outline-primary">
         <fa-icon icon="user"></fa-icon>
       </a>
+      <a
+        *ngIf="authService.isLogged"
+        routerLink="/import"
+        class="btn btn-primary">
+        <fa-icon icon="upload"></fa-icon>
+      </a>
     </div>
   </div>
 </nav>

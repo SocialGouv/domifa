@@ -9,6 +9,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User } from "../../users/user.interface";
 import { UsersService } from "../../users/users.service";
+import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien";
 import { RdvDto } from "../dto/rdv";
 import { SearchDto } from "../dto/search";
@@ -26,14 +27,18 @@ export class UsagersService {
   private readonly logger = new Logger(UsagersService.name);
 
   constructor(
-    @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model,
-    private readonly usersService: UsersService
+    @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
   ) {}
 
-  public async create(usagersDto: UsagersDto): Promise<Usager> {
+  public async create(usagersDto: UsagersDto, user: User): Promise<Usager> {
     const createdUsager = new this.usagerModel(usagersDto);
+
+    createdUsager.decision.userName = user.prenom + " " + user.nom;
+    createdUsager.decision.userId = user.id;
+    createdUsager.decision.dateDecision = new Date();
+
+    createdUsager.structureId = user.structureId;
     createdUsager.etapeDemande++;
-    createdUsager.decision.dateInstruction = new Date();
     createdUsager.id = await this.findLast();
     return createdUsager.save();
   }
@@ -72,42 +77,50 @@ export class UsagersService {
   }
 
   public async setDecision(
-    usagerId: number,
-    decisionSent: Decision,
+    usager: Usager,
+    decision: DecisionDto,
     user: User
   ): Promise<Usager> {
-    const agent = user.prenom + " " + user.nom;
+    decision.userName = user.prenom + " " + user.nom;
+    decision.userId = user.id;
+    decision.dateDecision = new Date();
 
-    if (decisionSent.statut === "demande") {
-      decisionSent.dateDemande = new Date();
-      decisionSent.userInstructionId = user.id;
-      decisionSent.userInstructionName = agent;
+    const lastDecision = usager.decision;
+    if (decision.statut === "ATTENTE_DECISION") {
       /* Mail au responsable */
     }
 
-    if (decisionSent.statut === "valide" || decisionSent.statut === "refus") {
-      decisionSent.userDecisionId = user.id;
-      decisionSent.userDecisionName = agent;
-      decisionSent.dateDebut = new Date();
+    if (decision.statut === "REFUS") {
       /* Récupération du dernier ID lié à la structure */
       /* SMS & Mail pr prévenir */
     }
 
-    if (decisionSent.statut === "valide") {
-      decisionSent.dateFin = new Date(
-        new Date().setFullYear(new Date().getFullYear() + 1)
-      );
+    if (decision.statut === "RADIE") {
+      decision.dateFin = new Date();
+    }
+
+    if (decision.statut === "VALIDE") {
+      /* Récupération du dernier ID lié à la structure */
+      /* SMS & Mail pr prévenir */
+      if (decision.dateFin === undefined || decision.dateFin === null) {
+        decision.dateFin = new Date(decision.dateFin);
+      } else {
+        decision.dateFin = new Date(
+          new Date().setFullYear(new Date().getFullYear() + 1)
+        );
+      }
     }
 
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usagerId,
+          id: usager.id,
           structureId: user.structureId
         },
         {
+          $push: { historique: lastDecision },
           $set: {
-            decision: decisionSent,
+            decision,
             etapeDemande: 6
           }
         },
@@ -262,6 +275,12 @@ export class UsagersService {
       .sort(this.sort)
       .lean()
       .exec();
+  }
+
+  public async save(data: any) {
+    const createdUsager = new this.usagerModel(data);
+    createdUsager.id = await this.findLast();
+    return createdUsager.save();
   }
 
   public async findLast(): Promise<number> {

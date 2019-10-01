@@ -27,10 +27,10 @@ import { ENTRETIEN_LABELS } from "src/app/shared/entretien.labels";
 import { StructuresConfirmComponent } from "../../../structures/components/structures-confirm/structures-confirm.component";
 import { ResetPasswordComponent } from "../../../users/components/reset-password/reset-password.component";
 import { Usager } from "../../interfaces/usager";
+import { ImportComponent } from "../import/import.component";
 import { ManageUsagersComponent } from "../manage/manage.component";
 import { UsagersProfilComponent } from "../profil/profil-component";
 import { UsagersFormComponent } from "./usagers-form";
-import { ImportComponent } from "../import/import.component";
 
 class MockActivatedRoute {
   public params = new Subject<any>();
@@ -169,7 +169,7 @@ describe("UsagersFormComponent", () => {
   });
 
   it("X. General functions", async(() => {
-    app.usager.decision.statut = "instruction";
+    app.usager.decision.statut = "INSTRUCTION";
     app.changeStep(4);
     expect(app.usager.etapeDemande).toEqual(0);
     app.usager.id = 12;

@@ -1,21 +1,28 @@
-.sjs-table td {
-  min-width: 150px;
+#import-table table {
+  min-width: 7000px;
 }
 
-#import-table table {
-  min-width: 1800px;
-  table-layout: fixed;
+#import-table td {
+  min-width: 50px;
 }
+
+#import-table th {
+  vertical-align: middle;
+}
+
 #import-table {
-  width: 1200px;
+  width: 96%;
   border-radius: 5px;
   border: 1px solid #d2d2d2;
-  margin: 10px auto;
-
+  margin: 5px auto;
   overflow-x: scroll;
 }
 
 #import-table .required:after {
   color: red;
   content: " *";
+}
+
+#fileExcel {
+  opacity: 0;
 }

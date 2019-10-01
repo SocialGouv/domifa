@@ -19,7 +19,6 @@ export const UsagerSchema = new mongoose.Schema({
   phone: { type: String, default: "" },
   sexe: { type: String, required: true },
 
-  contactPreference: String,
   dateNaissance: { type: Date, required: true },
   villeNaissance: { type: String, required: true },
 
@@ -32,30 +31,56 @@ export const UsagerSchema = new mongoose.Schema({
     required: true
   },
 
+  imported: { type: Boolean, default: false },
+
   decision: {
-    agent: String,
-    dateDebut: Date,
-    dateDemande: Date,
-    dateFin: Date,
-    dateInstruction: Date,
-    motif: { type: String, default: "" },
-    motifDetails: { type: String, default: "" },
-    orientation: { type: String, default: "" },
-    orientationDetails: { type: String, default: "" },
-    statut: { type: String, default: "instruction" },
-
-    userDecisionId: Number,
-    userDecisionName: String,
-    userInstructionId: Number,
-    userInstructionName: String
-  },
-
-  historique: String,
-
-  rdv: {
-    dateRdv: Date,
+    dateDebut: {
+      default: null,
+      type: Date
+    },
+    dateDecision: Date,
+    dateFin: {
+      default: null,
+      type: Date
+    },
+    datePremiere: {
+      default: null,
+      type: Date
+    },
+    motif: {
+      default: "",
+      type: String
+    },
+    motifDetails: {
+      default: "",
+      type: String
+    },
+    orientation: {
+      default: "",
+      type: String
+    },
+    orientationDetails: {
+      default: "",
+      type: String
+    },
+    statut: {
+      default: "INSTRUCTION",
+      type: String
+    },
+    typeDom: {
+      default: "PREMIERE",
+      type: String
+    },
     userId: Number,
     userName: String
+  },
+
+  historique: { type: Array, default: [] },
+
+  rdv: {
+    dateRdv: { type: Date, default: null },
+    userId: { type: Number, default: 0 },
+    userName: { type: String, default: "" }
   },
 
   entretien: {

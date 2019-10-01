@@ -359,3 +359,11 @@ table .active {
   width: 90%;
   cursor: pointer;
 }
+
+@media print {
+  body {
+    font-size: 18pt !important;
+    width: 94% !important;
+    margin: 3.5cm auto !important;
+  }
+}

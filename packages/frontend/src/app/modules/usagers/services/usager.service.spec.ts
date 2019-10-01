@@ -125,17 +125,14 @@ describe("UsagerService", () => {
         },
         decision: {
           agent: "",
-          dateInstruction: new Date(usagerFull.decision.dateInstruction),
+          dateDecision: new Date(usagerFull.decision.dateDecision),
           motif: "",
           motifDetails: "",
           orientation: "",
           orientationDetails: "",
           statut: "instruction",
-          userDecisionId: "",
-          userDecisionName: "",
-          userId: "",
-          userInstructionId: "",
-          userInstructionName: ""
+          userId: 0,
+          userName: ""
         },
         docs: [],
         email: null,

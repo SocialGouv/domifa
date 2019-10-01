@@ -1,14 +1,14 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
-import { DatabaseModule } from "../database/database.module";
-import { UsersModule } from "../users/users.module";
-import { UsersService } from "../users/users.service";
-import { CerfaService } from "./services/cerfa.service";
-import { DocumentsService } from "./services/documents.service";
-import { UsagersService } from "./services/usagers.service";
+import { DatabaseModule } from "../../database/database.module";
+import { UsersModule } from "../../users/users.module";
+import { UsersService } from "../../users/users.service";
+import { CerfaService } from "../services/cerfa.service";
+import { DocumentsService } from "../services/documents.service";
+import { UsagersService } from "../services/usagers.service";
+import { UsagersModule } from "../usagers.module";
+import { UsagersProviders } from "../usagers.providers";
 import { UsagersController } from "./usagers.controller";
-import { UsagersModule } from "./usagers.module";
-import { UsagersProviders } from "./usagers.providers";
 
 describe("Usagers Controller", () => {
   let app: TestingModule;

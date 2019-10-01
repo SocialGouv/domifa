@@ -51,22 +51,5 @@ export class UsagersDto {
   };
 
   @IsOptional()
-  public decision: {
-    dateDebut: Date;
-    dateFin: Date;
-    dateDemande: Date;
-    dateInstruction: Date;
-    userInstructionName: string;
-    userInstructionId: number;
-    statut: string;
-    motif: string;
-    userId: number;
-    agent: string;
-    motifDetails: string;
-    orientation: number;
-    orientationDetails: string;
-  };
-
-  @IsOptional()
   public ayantsDroits: AyantDroit[];
 }

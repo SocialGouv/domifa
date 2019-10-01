@@ -5,6 +5,13 @@ import * as path from "path";
 import { User } from "../../users/user.interface";
 import { Usager } from "../interfaces/usagers";
 
+export const motifsRefus = {
+  AUTRE: "Autres",
+  HORS_AGREMENT: "En dehors des critères du public domicilié",
+  LIEN_COMMUNE: "Absence de lien avec la commune",
+  SATURATION: "Nombre maximal domiciliations atteint"
+};
+
 @Injectable()
 export class CerfaService {
   public pdfForm: string;
@@ -24,21 +31,12 @@ export class CerfaService {
     hours: string;
     minutes: string;
   };
-  public motifRefus: string;
+  public motif: string;
   public sexe: string;
 
   private readonly logger = new Logger(CerfaService.name);
 
   public async attestation(usager: Usager, user: User) {
-    const motifsRefusLabels = {
-      refus1: "Existence d'un hébergement stable",
-      refus2:
-        "Nombre de domiciliations de votre organisme prévu par l’agrément atteint (associations)",
-      refus3: "En dehors des critères du public domicilié (associations)",
-      refus4: "Absence de lien avec la commune (CCAS/commune)",
-      refusAutre: "Autre motif"
-    };
-
     let ayantsDroitsTexte = "";
 
     for (const ayantDroit of usager.ayantsDroits) {
@@ -59,15 +57,14 @@ export class CerfaService {
     this.logger.log(usager.dateNaissance);
     this.logger.log(this.dateNaissance);
 
-    this.dateDemande = this.convertDate(usager.decision.dateInstruction);
+    this.dateDemande = this.convertDate(usager.decision.dateDecision);
     this.dateRdv = this.convertDate(usager.rdv.dateRdv);
-    this.motifRefus = "";
+    this.motif = "";
 
-    if (usager.decision.statut === "refus") {
-      this.motifRefus = motifsRefusLabels[usager.decision.motif];
-      if (usager.decision.motif === "refusAutre") {
-        this.motifRefus =
-          this.motifRefus + " : " + usager.decision.motifDetails;
+    if (usager.decision.statut === "REFUS") {
+      this.motif = motifsRefus[usager.decision.motif];
+      if (usager.decision.motif === "AUTRE") {
+        this.motif = this.motif + " : " + usager.decision.motifDetails;
       }
     }
 
@@ -99,7 +96,7 @@ export class CerfaService {
         user.structure.departement
     };
 
-    if (usager.decision.statut === "valide") {
+    if (usager.decision.statut === "VALIDE") {
       this.pdfForm = "../../ressources/attestation.pdf";
 
       this.infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] =
@@ -239,12 +236,10 @@ export class CerfaService {
         "topmostSubform[0].Page1[0].EntretienAdresse[0]"
       ] = adresseStructure;
 
-      if (usager.decision.statut === "refus") {
+      if (usager.decision.statut === "REFUS") {
         this.infosPdf["topmostSubform[0].Page2[0].Décision[0]"] = "2";
 
-        this.infosPdf[
-          "topmostSubform[0].Page2[0].MotifRefus[0]"
-        ] = this.motifRefus;
+        this.infosPdf["topmostSubform[0].Page2[0].MotifRefus[0]"] = this.motif;
 
         this.infosPdf[
           "topmostSubform[0].Page2[0].OrientationProposée[0]"
@@ -262,7 +257,7 @@ export class CerfaService {
   }
 
   public convertDate(date: any) {
-    if (date !== null) {
+    if (date !== null && date !== undefined && date !== "") {
       return {
         annee: date.getFullYear().toString(),
         hours: date.getHours().toString(),

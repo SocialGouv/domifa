@@ -22,9 +22,9 @@ import { StructuresConfirmComponent } from "../../../structures/components/struc
 import { LoginComponent } from "../../../users/components/login/login.component";
 import { ResetPasswordComponent } from "../../../users/components/reset-password/reset-password.component";
 import { UsagersFormComponent } from "../form/usagers-form";
+import { ImportComponent } from "../import/import.component";
 import { UsagersProfilComponent } from "../profil/profil-component";
 import { ManageUsagersComponent } from "./manage.component";
-import { ImportComponent } from "../import/import.component";
 
 describe("ManageUsagersComponent", () => {
   let app: any;
@@ -87,7 +87,7 @@ describe("ManageUsagersComponent", () => {
 
   it("2. Update filter", async(() => {
     app.updateFilters("sort", "za");
-    app.updateFilters("statut", "refus");
+    app.updateFilters("statut", "REFUS");
     expect(app.filters).toEqual({
       echeance: null,
       id: null,
@@ -95,7 +95,7 @@ describe("ManageUsagersComponent", () => {
       interactionType: null,
       name: null,
       sort: "za",
-      statut: "refus"
+      statut: "REFUS"
     });
   }));
 
@@ -127,11 +127,11 @@ describe("ManageUsagersComponent", () => {
   it("4. Routing functions", fakeAsync(
     inject([Router, Location], (router: Router, location: Location) => {
       app = fixture.debugElement.componentInstance;
-      app.goToProfil(2, "instruction");
+      app.goToProfil(2, "INSTRUCTION");
       tick();
       expect(location.path()).toEqual("/usager/2/edit");
 
-      app.goToProfil(1, "valide");
+      app.goToProfil(1, "VALIDE");
       tick();
       expect(location.path()).toEqual("/connexion?returnUrl=%2Fusager%2F1");
     })

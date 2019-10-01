@@ -74,7 +74,7 @@
   </div>
   <div
     class="step_form"
-    *ngIf="usager.decision.statut === 'valide'">
+    *ngIf="usager.decision.statut === 'VALIDE'">
     <div class="row">
       <div class="col text-center">
         <h5>
@@ -106,7 +106,7 @@
   </div>
   <div
     class="step_form"
-    *ngIf="usager.decision.statut === 'demande' && !authService.isAdmin">
+    *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !authService.isAdmin">
     <div class="row">
       <div class="col text-center">
         <h5>
@@ -117,7 +117,7 @@
         <b>{{ usager.nom }} {{ usager.prenom }}</b>
         a été envoyée le
         <b>
-          {{ usager.decision.dateDemande | date: "dd/MM/yyyy" }}.
+          {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}.
         </b>
         <br>
         <br>
@@ -143,43 +143,7 @@
       </div>
     </div>
   </div>
-  <div
-    class="step_form"
-    *ngIf="usager.decision.statut === 'refus'">
-    <div class="row">
-      <div class="col text-center">
-        <h5>
-          <b>{{ usager.nom }} {{ usager.prenom }}</b>
-          a vu son dossier refusé le
-          {{ usager.decision.dateDebut | date: "dd/MM/yyyy" }}
-        </h5>
-        <br>
-        <b>
-          Motif : {{ motifsRefus[usager.decision.motif] }}
-        </b>
-        <br>
-        <i>{{ usager.decision.motifDetails }}</i>
-        <br>
-        <br>
-        <button
-          (click)="getAttestation()"
-          class="btn btn-primary">
-          <fa-icon icon="download"></fa-icon>
-          Télécharger le CERFA de refus
-        </button>
-        <br>
-        <br>
-        <p class="text-center">
-          <a
-            routerLink="/manage"
-            routerLinkActive="router-link-active">
-            Retour à la liste des domiciliés
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="usager.decision.statut === 'instruction'">
+  <div *ngIf="usager.decision.statut === 'INSTRUCTION'">
     <!-- ///////// -->
     <!-- ETAPE 1 INFOS -->
     <!-- ///////// -->
@@ -661,32 +625,6 @@
     <!-- ///////// -->
     <!-- ETAPE 2 RENDEZVOUS -->
     <!-- ///////// -->
-    <div
-      class="step_menu"
-      *ngIf="
-        usager.etapeDemande > 1 &&
-        usager.etapeDemande < 4 &&
-        usager.decision.statut !== 'valide'
-      ">
-      <div class="row">
-        <div class="col-md-6">
-          Dossier enregistré par
-          <br>
-          <b>
-            {{ usager.decision.userInstructionName }}, le
-            {{ usager.decision.dateInstruction | date: "dd/MM/yyyy à HH:mm" }}
-          </b>
-        </div>
-        <div class="col-md-6 text-right">
-          <button
-            class="btn btn-outline-primary"
-            (click)="getAttestation()">
-            <fa-icon icon="download"></fa-icon>
-            &nbsp; Attestation de demande
-          </button>
-        </div>
-      </div>
-    </div>
     <div
       class="step_form"
       *ngIf="usager.etapeDemande === 1"
@@ -1194,11 +1132,7 @@
                 name="pieceJointe"
                 aria-describedby="pjHelp"
                 (change)="onFileChange($event)"
-                [ngClass]="{
-                  'is-invalid':
-                    submittedFile &&
-                    (!uploadError.fileType || !uploadError.fileSize)
-                }"
+                [ngClass]="{ 'is-invalid': submittedFile && (!uploadError.fileType || !uploadError.fileSize)  }"
                 file="pieceJointe"
                 required>
               <small
@@ -1233,8 +1167,6 @@
           <div class="col-md-2">
             <label class="text-white">+</label>
             <button
-              [disabled]
-              type
               class="btn btn-primary btn-block"
               [disabled]="
                 !uploadError.fileType ||
@@ -1335,7 +1267,7 @@
   <div
     class="step_form"
     id="step_form4"
-    *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'instruction') || (authService.isAdmin && usager.decision.statut === 'demande')">
+    *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (authService.isAdmin && usager.decision.statut === 'ATTENTE_DECISION')">
     <div class="row">
       <div class="col-md-8 offset-md-2">
         <h5 class="text-center">
@@ -1366,13 +1298,22 @@
             </button>
           </div>
         </div>
-        <br>
+        <div class="text-center">
+          <br>
+          <button
+            (click)="getAttestation()"
+            class="btn btn-outline-primary">
+            <fa-icon icon="download"></fa-icon>
+            Télécharger l'attestation de Demande
+          </button>
+        </div>
         <div
           class="row"
           *ngIf="!authService.isAdmin">
+          <br>
           <div class="col-md-10 offset-md-1">
             <button
-              (click)="setDecision('demande')"
+              (click)="setDecision('ATTENTE_DECISION')"
               class="btn btn-primary btn-block">
               DEMANDER LA VALIDATION DU DOSSIER
             </button>
@@ -1382,7 +1323,7 @@
     </div>
   </div>
   <ngb-accordion
-    *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'instruction') || (authService.isAdmin && usager.decision.statut === 'demande')"
+    *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (authService.isAdmin && usager.decision.statut === 'ATTENTE_DECISION')"
     #acc="ngbAccordion"
     class="recap">
     <ngb-panel id="panel-0">
@@ -1457,10 +1398,8 @@
             </b>
             {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
             <br>
-
             <b>Avez-vous des revenus ?</b>
-            :
-              {{ usager.entretien.revenus ? "Oui" : "Non" }}
+            {{ usager.entretien.revenus ? "Oui" : "Non" }}
             <br>
             <br>
 
@@ -1469,7 +1408,6 @@
             {{ usager.entretien.liencommune || "Non renseigné" }}
             <br>
             <br>
-
             <b>
               Quel est le motif principal de demande de domiciliation ?
             </b>
@@ -1477,16 +1415,13 @@
             {{ labels[usager.entretien.raison] || "Non renseigné" }}
             <br>
             <br>
-
             <b>
               Quelle est la cause de l'instabilité de logement ?
             </b>
             <br>
             {{ labels[usager.entretien.residence] || "Non renseigné" }}
             <span *ngIf="usager.entretien.residence === 'residenceAutre'">
-              {{
-                usager.entretien.residenceDetail
-              }}
+              {{  usager.entretien.residenceDetail   }}
             </span>
             <br>
             <br>
@@ -1496,20 +1431,20 @@
               Quel est le motif principal de demande de domiciliation ?
             </b>
             <br>
-            {{ labels[usager.entretien.cause] }}
+            {{ labels[usager.entretien.cause] }} :
             <span *ngIf="usager.entretien.cause === 'causeAutre'">
-              : {{ usager.entretien.residenceDetail }}
+              {{ usager.entretien.residenceDetail }}
               <br>
             </span>
             <br>
             <b>
               Faites-vous l’objet d’un accompagnement social ?
             </b>
-            : {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
+            {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
             <br>
             <span *ngIf="accompagnement">
-              <b>Suivi par</b>
-              : {{ accompagnementDetail }}
+              <b>Suivi par :</b>
+              {{ accompagnementDetail }}
             </span>
             <br>
             <br>
@@ -1549,18 +1484,34 @@
               class="form-check-input"
               type="radio"
               name="motif"
-              id="{{ key }}"
+              id="motif-refus-{{ key }}"
               [(ngModel)]="usager.decision.motif"
               value="{{ key }}">
             <label
               class="form-check-label"
-              for="{{ key }}">
+              for="motif-refus-{{ key }}">
               {{ motifsRefus[key] }}
             </label>
           </div>
         </div>
+        <div class="form-row">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="motif"
+              id="motif-autre"
+              [(ngModel)]="usager.decision.motif"
+              value="AUTRE">
+            <label
+              class="form-check-label"
+              for="motif-autre">
+              Autre raison
+            </label>
+          </div>
+        </div>
         <div
-          *ngIf="usager.decision.motif === 'refusAutre'"
+          *ngIf="usager.decision.motif === 'AUTRE'"
           class="form-row">
           <label
             class="form-check-label"
@@ -1637,7 +1588,7 @@
       <button
         class="btn btn-danger"
         [disabled]="usager.decision.motif === '' || (usager.decision.motif === 'refusAutre') && usager.decision.motifDetails.length < 10"
-        (click)="usager.decision.statut = 'refus'; setDecision('refus')">
+        (click)="usager.decision.statut = 'REFUS'; setDecision('REFUS')">
         Confirmer le refus
       </button>
     </div>
@@ -1678,7 +1629,7 @@
       </button>
       <button
         class="btn btn-success"
-        (click)="setDecision('valide'); modal.close('Close click')">
+        (click)="setDecision('VALIDE'); modal.close('Close click')">
         Confirmer
       </button>
     </div>
@@ -1705,11 +1656,8 @@
     <div class="modal-body">
       <div class="col">
         L’entretien préalable
-        <b>est obligatoire</b>
-        , il est l’occasion d’inscrire la domiciliation dans une démarche
-          d’accompagnement social visant à favoriser l’insertion des personnes
-          domiciliées et constitue une porte d’entrée pour intégrer la personne
-          dans une logique de parcours.
+        <b>est obligatoire,</b>
+        il est l’occasion d’inscrire la domiciliation dans une démarche d’accompagnement social visant à favoriser l’insertion des personnes domiciliées et constitue une porte d’entrée pour intégrer la personne dans une logique de parcours.
         <br>
         <br>
         Cette étape ne peut être passée que si votre structure met déjà en

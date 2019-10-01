@@ -19,7 +19,11 @@ import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
-import { ENTRETIEN_LABELS } from "../../../../shared/entretien.labels";
+import {
+  ENTRETIEN_LABELS,
+  motifsRefus,
+  residence
+} from "../../../../shared/entretien.labels";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../../structures/services/structure.service";
 import { AyantDroit } from "../../interfaces/ayant-droit";
@@ -163,24 +167,8 @@ export class UsagersFormComponent implements OnInit {
       .pipe(debounceTime(10000))
       .subscribe(() => (this.successMessage = null));
 
-    this.motifsRefus = {
-      refus1: "Existence d'un hébergement stable",
-      refus2: "Nombre maximal domiciliations atteint",
-      refus3: "En dehors des critères du public domicilié",
-      refus4: "Absence de lien avec la commune",
-      refusAutre: "Autre (précisez le motif)"
-    };
-
-    this.residence = {
-      sr1: "Sans abris / Squat",
-      sr2: "Hôtel",
-      sr3: "Hébergement social (sans service courrier)",
-      sr4: "Hébergé chez un tiers",
-      sr5: "Domicile mobile (ex: caravane)",
-      // tslint:disable-next-line: object-literal-sort-keys
-      residenceAutre: "Autre"
-    };
-
+    this.motifsRefus = motifsRefus;
+    this.residence = residence;
     this.cause = {
       cause1: "Rupture familiale et/ou conjugale ",
       cause2: "Violence familiale et/ou conjugale",
@@ -379,7 +367,7 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public changeStep(i: number) {
-    if (this.usager.decision.statut === "instruction" && this.usager.id !== 0) {
+    if (this.usager.decision.statut === "INSTRUCTION" && this.usager.id !== 0) {
       this.usager.etapeDemande = i;
     }
   }
@@ -510,7 +498,6 @@ export class UsagersFormComponent implements OnInit {
     };
 
     const formData = new FormData();
-
     formData.append("file", this.uploadForm.get("imageInput").value);
     formData.append("label", this.uploadForm.get("label").value);
 

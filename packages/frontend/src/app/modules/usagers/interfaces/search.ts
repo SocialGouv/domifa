@@ -14,6 +14,6 @@ export class Search {
     this.id = (search && search.id) || null;
     this.name = (search && search.name) || null;
     this.sort = (search && search.sort) || "az";
-    this.statut = (search && search.statut) || "valide";
+    this.statut = (search && search.statut) || "VALIDE";
   }
 }

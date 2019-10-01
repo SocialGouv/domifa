@@ -17,6 +17,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgxPrintModule } from "ngx-print";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { DateFrDirective } from "./directives/date-fr.directive";
@@ -31,13 +32,14 @@ import { StructuresConfirmComponent } from "./modules/structures/components/stru
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
+import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
+import { RaftComponent } from "./modules/usagers/components/raft/raft.component";
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
-import { ImportComponent } from './modules/usagers/components/import/import.component';
 
 library.add(fas, far);
 
@@ -61,10 +63,12 @@ library.add(fas, far);
     LoginComponent,
     ResetPasswordComponent,
     UserProfilComponent,
-    ImportComponent
+    ImportComponent,
+    RaftComponent
   ],
   imports: [
     BrowserModule,
+    NgxPrintModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FontAwesomeModule,
