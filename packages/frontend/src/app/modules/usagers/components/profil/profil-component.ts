@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { debounceTime } from "rxjs/operators";
 import {
   ENTRETIEN_LABELS,
+  motifsRadiation,
   motifsRefus
 } from "../../../../shared/entretien.labels";
 import { LoadingService } from "../../../loading/loading.service";
@@ -36,6 +37,7 @@ export class UsagersProfilComponent implements OnInit {
   public usager: Usager;
   public interactions: Interaction[];
 
+  public motifsRadiation: any = motifsRadiation;
   public motifsRefus: any = motifsRefus;
   public labels: any;
 
@@ -62,6 +64,8 @@ export class UsagersProfilComponent implements OnInit {
   public successMessage: string;
   public errorMessage: string;
   public messages: any;
+  public statutColor: string;
+  public dayBeforeEnd: number;
 
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
@@ -103,11 +107,37 @@ export class UsagersProfilComponent implements OnInit {
       const id = this.route.snapshot.params.id;
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
+          const statusClass = {
+            ATTENTE_DECISION: "text-warning",
+            RADIE: "text-danger",
+            REFUS: "text-danger",
+            VALIDE: "text-secondary"
+          };
+
           this.usager = new Usager(usager);
+
+          /* interactions */
           this.callToday = this.isToday(new Date(usager.lastInteraction.appel));
           this.visitToday = this.isToday(
             new Date(usager.lastInteraction.visite)
           );
+
+          this.statutColor = statusClass[usager.decision.statut];
+
+          const today = new Date();
+          const msPerDay: number = 1000 * 60 * 60 * 24;
+          const start: number = today.getTime();
+          const end: number = this.usager.decision.dateFin.getTime();
+          this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
+
+          if (usager.decision.statut === "VALIDE") {
+            if (this.dayBeforeEnd <= 0) {
+              this.statutColor = "text-danger";
+            } else if (this.dayBeforeEnd < 30) {
+              this.statutColor = "text-warning";
+            }
+          }
+
           this.getInteractions();
         },
         error => {

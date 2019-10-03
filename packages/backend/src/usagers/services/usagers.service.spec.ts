@@ -51,7 +51,7 @@ describe("UsagersService", () => {
     const user = await userService.findOne({ id: 1 });
 
     fakeUsagerDto.structureId = user.structureId;
-    const usagerTest = await service.create(fakeUsagerDto);
+    const usagerTest = await service.create(fakeUsagerDto, user);
 
     expect(usagerTest).toBeDefined();
     expect(usagerTest.id).toEqual(5);

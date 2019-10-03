@@ -1,0 +1,34 @@
+#help-button-wrapper {
+  position: fixed;
+  bottom: 5%;
+  right: 1%;
+  text-align: right;
+}
+
+#help-button-wrapper button,
+#help-button-wrapper div {
+  vertical-align: middle;
+}
+
+#help-button {
+  border-radius: 50%;
+  border: 0 none;
+  background-color: var(--primary);
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 0px 5px 2px rgba(215, 210, 210, 0.2);
+}
+
+#help-text {
+  display: none;
+  width: 450px;
+  margin-right: 10px;
+  display: inline-block;
+  border-radius: 6px;
+  border: 1px solid #ebebeb;
+  background-color: white;
+  box-shadow: 0 0px 8px 2px rgba(215, 210, 210, 0.2);
+  padding: 10px 15px;
+}

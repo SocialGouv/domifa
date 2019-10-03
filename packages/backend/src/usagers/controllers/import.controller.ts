@@ -291,7 +291,9 @@ export class ImportController {
 
   private convertDate(dateFr: string) {
     const dateParts = dateFr.split("/");
-    return new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]);
+    const dateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+    const newDate = new Date(dateEn).toISOString();
+    return newDate;
   }
 
   private countErrors(variable: boolean, idRow: any, idColumn: number) {

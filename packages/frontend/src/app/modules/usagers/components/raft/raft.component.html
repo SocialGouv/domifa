@@ -1,18 +1,26 @@
 <div
   class="container"
   *ngIf="usager">
+  <div class="row">
+    <div class="col text-left">
+      <a [routerLink]="['/usager/' + usager.id ]">
+        <fa-icon icon="angle-left"></fa-icon>
+        Retour au profil
+      </a>
+    </div>
+    <div class="col text-right">
+      <a routerLink="/manage/">
+        Liste des domiciliés
+        <fa-icon icon="angle-right"></fa-icon>
+      </a>
+    </div>
+  </div>
   <div
     class="row"
     *ngIf="usager.decision.statut !== 'RADIE'">
-    <div class="col-md-2 text-left">
-      <a routerLink="/manage/">
-        <fa-icon icon="angle-left"></fa-icon>
-        Retour à la liste
-      </a>
-    </div>
     <div
       *ngIf="!success"
-      class="col-md-8 text-center">
+      class="col-md-8 offset-2 text-center">
       <h4 id="profil_name">Fin de domiciliation</h4>
       <br>
       Vous souhaitez mettre fin à la domiciliation de
@@ -22,7 +30,7 @@
       </b>
       <br>
       <br>
-      la radiation peut avoir de lourdes de conséquences et laisser une personne sans adresse.
+      la radiation peut avoir de lourdes conséquences et laisser une personne sans adresse.
       <br>
       Elle doit être notifiée par écrit à l’intéressé et motivée, avec mention des voies et délais de recours.
       <br>

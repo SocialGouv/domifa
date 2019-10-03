@@ -19,6 +19,15 @@ export class ManageUsagersComponent implements OnInit {
   public searchFailed: boolean;
   public usagers: Usager[];
   public prenom: string;
+  public dateLabel: string;
+
+  public labelsDateFin: any = {
+    ATTENTE_DECISION: "Demande effectuée le",
+    INSTRUCTION: "Dossier débuté le",
+    RADIE: "Radié le ",
+    REFUS: "Date de refus",
+    VALIDE: "Fin de domiciliation"
+  };
 
   public filters: Search;
   public sort: string;
@@ -46,7 +55,7 @@ export class ManageUsagersComponent implements OnInit {
     this.title = "Gérer vos domiciliés";
     this.usagers = [];
     this.searching = false;
-
+    this.dateLabel = "Fin de domiciliation";
     this.authService.currentUser.subscribe(user => {
       this.prenom = user !== null ? user.prenom : "";
     });
@@ -97,7 +106,7 @@ export class ManageUsagersComponent implements OnInit {
     const url = {
       ATTENTE_DECISION: "usager/" + id + "/edit",
       INSTRUCTION: "usager/" + id + "/edit",
-      RADIE: "radiation/" + id,
+      RADIE: "usager/" + id,
       REFUS: "usager/" + id,
       VALIDE: "usager/" + id
     };
@@ -120,6 +129,11 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public search() {
+    this.dateLabel =
+      this.filters.statut !== null
+        ? this.labelsDateFin[this.filters.statut]
+        : "Date de fin";
+
     localStorage.setItem("filters", JSON.stringify(this.filters));
     this.usagerService.search(this.filters).subscribe(
       (usagers: Usager[]) => {

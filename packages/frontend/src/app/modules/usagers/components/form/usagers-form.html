@@ -121,8 +121,7 @@
         </b>
         <br>
         <br>
-        La personne référente dans votre structure a reçu un mail l'invitant à
-        statuer sur ce dossier.
+        La personne référente dans votre structure est invitée à statuer sur cette demande
         <br>
         <br>
         <button
@@ -1298,15 +1297,6 @@
             </button>
           </div>
         </div>
-        <div class="text-center">
-          <br>
-          <button
-            (click)="getAttestation()"
-            class="btn btn-outline-primary">
-            <fa-icon icon="download"></fa-icon>
-            Télécharger l'attestation de Demande
-          </button>
-        </div>
         <div
           class="row"
           *ngIf="!authService.isAdmin">
@@ -1318,7 +1308,23 @@
               DEMANDER LA VALIDATION DU DOSSIER
             </button>
           </div>
+          <br>
         </div>
+
+        <div class="row text-center">
+
+          <div class="col-md-8 offset-md-2">
+            <br>
+            <button
+              (click)="getAttestation()"
+              class="btn btn-outline-primary">
+              <fa-icon icon="download"></fa-icon>
+              Télécharger l'attestation de Demande
+            </button>
+          </div>
+          <br>
+        </div>
+
       </div>
     </div>
   </div>

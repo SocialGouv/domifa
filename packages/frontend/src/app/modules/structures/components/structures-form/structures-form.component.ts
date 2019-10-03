@@ -174,6 +174,7 @@ export class StructuresFormComponent implements OnInit {
   }
 
   public changeSuccessMessage(message: string, error?: boolean) {
+    this.errorMessage = null;
     window.scroll({
       behavior: "smooth",
       left: 0,

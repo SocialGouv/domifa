@@ -22,7 +22,7 @@ export const DATE_FIN_DOM = 11;
 export const DATE_PREMIERE_DOM = 12;
 export const MOTIF_REFUS = 13;
 export const MOTIF_RADIATION = 14;
-export const MENAGE = 15;
+export const COMPOSITION_MENAGE = 15;
 export const AYANT_DROIT = [16, 20, 24, 28];
 
 type AOA = any[][];
@@ -51,6 +51,7 @@ export class ImportComponent implements OnInit {
   public nbreAyantsDroits: any[];
 
   public errorsId: any[];
+  public errorsColumn = new Array(32);
 
   public emailErrors: number = 0;
   public phoneErrors: number = 0;
@@ -87,6 +88,10 @@ export class ImportComponent implements OnInit {
     this.canUpload = false;
 
     this.nbreAyantsDroits = [16, 20, 24, 28];
+
+    for (let index = 0; index < 32; index++) {
+      this.errorsColumn[index] = 10;
+    }
 
     this.uploadForm = this.formBuilder.group({
       fileInput: [this.fileName, Validators.required]
@@ -177,7 +182,11 @@ export class ImportComponent implements OnInit {
           index,
           MOTIF_RADIATION
         );
-        this.countErrors(this.isValidValue(row[15], "menage", true), index, 15);
+        this.countErrors(
+          this.isValidValue(row[COMPOSITION_MENAGE], "menage"),
+          index,
+          COMPOSITION_MENAGE
+        );
 
         for (const indexAD of AYANT_DROIT) {
           const nom = row[indexAD];
@@ -214,16 +223,17 @@ export class ImportComponent implements OnInit {
   }
 
   public submitFile() {
+    this.loadingService.startLoading();
+
     const formData = new FormData();
     formData.append("file", this.uploadForm.get("fileInput").value);
-
-    this.loadingService.startLoading();
 
     this.usagerService.import(formData).subscribe(
       res => {
         this.uploadResponse = res;
-        this.loadingService.stopLoading();
+
         setTimeout(() => {
+          this.loadingService.stopLoading();
           this.router.navigate(["/manage"]);
         }, 1000);
       },
@@ -239,6 +249,11 @@ export class ImportComponent implements OnInit {
   }
 
   public countErrors(variable: boolean, idRow: any, idColumn: number) {
+    if (this.errorsColumn[idColumn] === undefined) {
+      this.errorsColumn[idColumn] = 1;
+    }
+    this.errorsColumn[idColumn]++;
+
     const position = idRow.toString() + "_" + idColumn.toString();
     if (variable !== true) {
       this.errorsId.push(position);
@@ -313,8 +328,12 @@ export class ImportComponent implements OnInit {
         "AUTRE"
       ],
       motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
-      statut: ["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE", "EXPIRE"]
+      statut: ["VALIDE", "REFUS", "RADIE"]
     };
     return types[rowName].indexOf(data) > -1;
+  }
+
+  public reload() {
+    location.reload();
   }
 }

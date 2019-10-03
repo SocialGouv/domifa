@@ -1,5 +1,4 @@
 <div *ngIf="usager">
-
   <div
     class="step_form"
     *ngIf="usager.decision.statut === 'REFUS'">
@@ -40,9 +39,8 @@
     </div>
   </div>
   <div
-    class="container"
-    *ngIf="usager.decision.statut === 'VALIDE'">
-
+    *ngIf="usager.decision.statut !== 'REFUS'"
+    class="container">
     <div class="row">
       <div class="col-md-2 text-left">
         <a routerLink="/manage/">
@@ -53,22 +51,50 @@
       <div class="col-md-8 text-center">
         <div
           id="profil_head"
-          [class]="usager.decision.statut">
+          [class]="statutColor">
           <h2 id="profil_name">
-            {{ usager.prenom }}
+            {{ usager.sexe === "homme" ? "M. " : "Mme " }} {{ usager.prenom }}
             <span>{{ usager.nom }}</span>
           </h2>
           Numéro domicilié :
           <b>{{ usager.id }}</b>
         </div>
+
+        <div
+          class="text-center font-weight-bold text-danger"
+          *ngIf="usager.decision.statut === 'RADIE'">
+          <p>
+            <fa-icon icon="ban"></fa-icon>
+            Radié{{ usager.sexe === "homme" ? "" : "e" }} le {{ usager.decision.dateDecision | date: 'dd/MM/yyyy à HH:MM' }}
+          </p>
+          <a
+            [routerLink]="['/radiation/'+usager.id]"
+            class="btn btn-outline-primary">
+            <fa-icon icon="print"></fa-icon>
+            &ensp;
+            IMPRIMER LE COURRIER DE RADIATION
+          </a>
+        </div>
         <div
           class="text-center"
           *ngIf="usager.decision.statut === 'VALIDE'">
-          Domiciliation valable jusqu'au
-          <span class="text-secondary">
+          <span
+            [class]="statutColor"
+            *ngIf="dayBeforeEnd > 0">
+            Domiciliation valable jusqu'au
             <b>
               {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}
             </b>
+          </span>
+          <span
+            [class]="statutColor"
+            *ngIf="dayBeforeEnd < 0">
+            <fa-icon icon="exclamation-triangle"></fa-icon>
+            Domiciliation expirée depuis le
+            <b>
+              {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}
+            </b>
+            (il y a {{ dayBeforeEnd*-1 }} jours)
           </span>
           <br>
           <span *ngIf="usager.lastInteraction.visite !== null">
@@ -78,13 +104,47 @@
             </b>
           </span>
         </div>
+
+        <div
+          *ngIf="usager.decision.statut === 'VALIDE'"
+          class="text-center row">
+          <div class="col-md-12">
+            <br>
+            <br>
+          </div>
+          <div class="col-md-5 offset-1">
+            <a
+              *ngIf="dayBeforeEnd < 30"
+              [routerLink]="['/radiation/'+usager.id]"
+              routerLinkActive="router-link-active"
+              class="btn btn-block btn-secondary">
+              <fa-icon icon="redo"></fa-icon>
+              &nbsp;
+            Demande de renouvellement
+            </a>
+          </div>
+          <div class="col-md-5">
+            <a
+              *ngIf="dayBeforeEnd < 0"
+              [routerLink]="['/radiation/'+usager.id]"
+              routerLinkActive="router-link-active"
+              class="btn btn-block btn-danger">
+              <fa-icon icon="times"></fa-icon>
+              &nbsp;
+            Radier le domicilié
+            </a>
+          </div>
+        </div>
         <br>
-        <ngb-alert
-          type="warning"
-          *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
-          Demande en cours, à valider par un responsable
-        </ngb-alert>
+        <br>
       </div>
+
+      <br>
+      <ngb-alert
+        type="warning"
+        *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
+        Demande en cours, à valider par un responsable
+      </ngb-alert>
     </div>
 
     <div class="row">
@@ -107,82 +167,80 @@
       </div>
     </div>
 
-    <div class="text-center">
-      <h5 class="text-blac">
-        <b>
-          Signalez la réception d’un courrier ou un passage
-        </b>
+    <div *ngIf="usager.decision.statut === 'VALIDE'">
+      <h5 class="text-center font-weight-bold">
+        Signalez la réception d’un courrier ou un passage
       </h5>
       <br>
-    </div>
-    <div id="notif_container">
-      <div id="notif_form">
-        <div>
-          <fa-icon icon="envelope"></fa-icon>
-          <input
-            min="0"
-            max="100"
-            [(ngModel)]="notifInputs.courrierIn"
-            class="form-control"
-            type="number">
-          <span>Courriers reçus</span>
+      <div id="notif-container">
+        <div id="notif-form">
+          <div>
+            <fa-icon icon="envelope"></fa-icon>
+            <input
+              min="0"
+              max="100"
+              [(ngModel)]="notifInputs.courrierIn"
+              class="form-control"
+              type="number">
+            <span>Courriers reçus</span>
+          </div>
+          <div>
+            <fa-icon icon="envelope"></fa-icon>
+            <input
+              min="0"
+              max="100"
+              [(ngModel)]="notifInputs.recommandeIn"
+              class="form-control"
+              type="number">
+            <span>
+              <b>Avis de passage</b>
+              reçus
+            </span>
+          </div>
+          <div>
+            <fa-icon icon="box"></fa-icon>
+            <input
+              min="0"
+              max="100"
+              [(ngModel)]="notifInputs.colisIn"
+              class="form-control"
+              type="number">
+            <span>Colis reçus</span>
+          </div>
         </div>
-        <div>
-          <fa-icon icon="envelope"></fa-icon>
-          <input
-            min="0"
-            max="100"
-            [(ngModel)]="notifInputs.recommandeIn"
-            class="form-control"
-            type="number">
-          <span>
-            <b>Avis de passage</b>
-            reçus
-          </span>
-        </div>
-        <div>
-          <fa-icon icon="box"></fa-icon>
-          <input
-            min="0"
-            max="100"
-            [(ngModel)]="notifInputs.colisIn"
-            class="form-control"
-            type="number">
-          <span>Colis reçus</span>
-        </div>
-      </div>
 
-      <div
-        id="notif_button"
-        class="text-center">
-        <button
-          (click)="notifier()"
-          class="btn btn-primary btn-block">
-          Enregistrer
-        </button>
-      </div>
-
-      <div id="big_icons">
         <div
-          class="text-center"
-          (click)="setPassage('visite')">
-          <fa-icon
-            icon="walking"
-            size="3x"
-            class="visite actions_icones">
-          </fa-icon>
-          <span>Passage sans récupérer de courrier</span>
+          id="notif_button"
+          class="text-center">
+          <button
+            (click)="notifier()"
+            class="btn btn-primary btn-block">
+            Enregistrer
+          </button>
         </div>
-        <div
-          class="text-center"
-          [ngClass]="appelAuj"
-          (click)="setPassage('appel')">
-          <fa-icon
-            class="actions_icones appel"
-            icon="phone"
-            size="3x">
-          </fa-icon>
-          <span>A appelé</span>
+
+        <div id="big_icons">
+          <div
+            class="text-center"
+            (click)="setPassage('visite')">
+            <fa-icon
+              icon="walking"
+              size="3x"
+              class="visite actions_icones">
+            </fa-icon>
+            <span>Passage sans récupérer de courrier</span>
+          </div>
+          <div
+            class="text-center"
+            [ngClass]="appelAuj"
+            (click)="setPassage('appel')">
+            <fa-icon
+              class="actions_icones appel"
+              icon="phone"
+              size="3x">
+            </fa-icon>
+            <span>A appelé</span>
+          </div>
         </div>
       </div>
     </div>
@@ -205,7 +263,7 @@
     </ngb-alert>
     <ngb-accordion
       #acc="ngbAccordion"
-      activeIds="panel-0,panel-1,panel-2,panel-3,panel-4,panel-5,panel-6,panel-7,panel-8">
+      activeIds="panel-0,panel-1,panel-6,panel-7,panel-8">
       <ngb-panel id="panel-0">
         <ng-template
           ngbPanelHeader
@@ -637,17 +695,21 @@
       <br>
       <div class="row">
         <div class="col">
-          <button class="btn btn-outline-danger">
+          <a
+            [routerLink]="['/radiation/'+usager.id]"
+            routerLinkActive="router-link-active"
+            class="btn btn-outline-danger">
             <fa-icon icon="times"></fa-icon>
             Radier le domicilié
-          </button>
+          </a>
           &nbsp;&nbsp;&nbsp;
-          <button
-            class="btn btn-outline-secondary"
-            (click)="open(confirmation)">
+          <a
+            [routerLink]="['/radiation/'+usager.id]"
+            routerLinkActive="router-link-active"
+            class="btn btn-outline-secondary">
             <fa-icon icon="redo"></fa-icon>
             Demande de renouvellement
-          </button>
+          </a>
         </div>
       </div>
     </div>

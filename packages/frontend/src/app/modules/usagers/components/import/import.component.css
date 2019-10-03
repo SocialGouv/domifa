@@ -1,20 +1,18 @@
 #import-table table {
-  min-width: 7000px;
+  min-width: 6500px;
 }
 
 #import-table td {
-  min-width: 50px;
+  min-width: 40px;
 }
 
 #import-table th {
+  border-top: none;
   vertical-align: middle;
 }
 
 #import-table {
-  width: 96%;
-  border-radius: 5px;
-  border: 1px solid #d2d2d2;
-  margin: 5px auto;
+  margin: 40px auto;
   overflow-x: scroll;
 }
 
@@ -23,6 +21,14 @@
   content: " *";
 }
 
+#import-menu .btn {
+  margin-top: 0.5rem;
+  width: 350px;
+  margin-left: auto;
+  display: block;
+  margin-right: auto;
+}
+
 #fileExcel {
-  opacity: 0;
+  display: none;
 }

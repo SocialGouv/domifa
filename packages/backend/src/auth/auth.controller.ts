@@ -27,7 +27,9 @@ export class AuthController {
   @Post("login")
   @HttpCode(HttpStatus.OK)
   public async loginUser(@Response() res: any, @Body() loginDto: LoginDto) {
-    const user = await this.usersService.findOne({ email: loginDto.email });
+    const user = await this.usersService.findOne({
+      email: loginDto.email.toLowerCase()
+    });
     if (user) {
       const isValidPass = await bcrypt.compare(
         loginDto.password,

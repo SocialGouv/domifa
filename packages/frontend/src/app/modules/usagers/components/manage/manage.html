@@ -87,8 +87,8 @@
     [dismissible]="false"
     type="warning">
     <div class="text-center">
-      <strong>Aucun résultat</strong>
-      : aucun dossier ne correspond à votre recherche &nbsp;&nbsp;&nbsp;
+      <b>Aucun résultat :</b>
+      aucun dossier ne correspond à votre recherche &nbsp;&nbsp;&nbsp;
       <button
         (click)="resetFilters()"
         class="btn btn-outline-white">
@@ -104,7 +104,7 @@
       *ngIf="usagers.length !== 0">
       <thead>
         <th>Nom prénom</th>
-        <th>Fin de domiciliation</th>
+        <th>{{ dateLabel }}</th>
         <td
           colspan="2"
           class="text-right">
@@ -140,11 +140,16 @@
             {{ usager.sexe === "homme" ? "M." : "Mme" }}
             <b>{{ usager.nom }}</b>
             {{ usager.prenom }}
-            <b *ngIf="usager.surnom && usager.surnom !== null">- {{ usager.surnom }}</b>
+            <span *ngIf="usager.surnom && usager.surnom !== null">({{ usager.surnom }})</span>
           </td>
-          <td (click)="goToProfil(usager.id, usager.decision.statut)">
-            <span *ngIf="usager.decision.dateFin">
+          <td
+            (click)="goToProfil(usager.id, usager.decision.statut)"
+            class="font-weight-bold">
+            <span *ngIf="usager.decision.statut === 'REFUS' || usager.decision.statut === 'RADIE' || usager.decision.statut === 'VALIDE'">
               {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
+            </span>
+            <span *ngIf="usager.decision.statut === 'INSTRUCTION' || usager.decision.statut === 'ATTENTE_DECISION'">
+              {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
             </span>
           </td>
           <td
@@ -162,11 +167,7 @@
                 <fa-icon
                   class="courrier"
                   icon="envelope-open-text"></fa-icon>
-                <b class="notification">
-                  {{
-                  usager.lastInteraction.nbCourrier
-                }}
-                </b>
+                <b class="notification">{{ usager.lastInteraction.nbCourrier }}</b>
               </span>
               <span ngbTooltip="Signaler un passage">
                 <fa-icon
@@ -188,7 +189,7 @@
               *ngIf="usager.decision.statut === 'INSTRUCTION'"
               class="text-warning2">
               <fa-icon [icon]="['far', 'clock']"></fa-icon>
-              &nbsp; Dossier à compléter
+              Dossier à compléter
             </span>
             <span
               *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
@@ -196,19 +197,16 @@
               Demande en cours
             </span>
             <span
-              *ngIf="usager.decision.statut === 'RADIE'"
-              class="text-danger">
-              Radié le
-              <b>12/12/2019</b>
+              *ngIf="usager.decision.statut === 'REFUS'"
+              class="font-weight-bold text-danger">
+              Demande refusée
             </span>
             <span
-              *ngIf="usager.decision.statut === 'REFUS'"
-              class="text-danger">
-              Refusé le
-              <b>
-                {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
-              </b>
+              *ngIf="usager.decision.statut === 'RADIE'"
+              class="font-weight-bold text-danger">
+              Radié
             </span>
+
           </td>
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"

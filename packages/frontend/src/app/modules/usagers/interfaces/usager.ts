@@ -93,6 +93,7 @@ export class Usager {
       phone: false
     };
 
-    this.decision = (usager && usager.decision) || new Decision({});
+    this.decision =
+      (usager && new Decision(usager.decision)) || new Decision({});
   }
 }

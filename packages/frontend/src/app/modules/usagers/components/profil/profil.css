@@ -28,25 +28,25 @@
   text-transform: uppercase;
 }
 
-#notif_container {
+#notif-container {
   max-width: 800px;
   margin: 0 auto;
 }
 
 #notif_button,
-#notif_form,
+#notif-form,
 #big_icons {
   display: inline-block;
   vertical-align: middle;
 }
 
-#notif_form {
+#notif-form {
   width: 290px;
 }
 #notif_button {
   width: 120px;
 }
-#notif_form div {
+#notif-form div {
   margin: 5px auto;
 }
 

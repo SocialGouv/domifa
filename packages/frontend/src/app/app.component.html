@@ -70,8 +70,30 @@
   </div>
 </nav>
 <div id="page">
-
   <router-outlet></router-outlet>
+</div>
+
+<div id="help-button-wrapper">
+  <div
+    id="help-text"
+    @fadeInOut
+    *ngIf="help">
+    <span>Vous rencontrez un problème technique ?</span>
+    <br>
+    <a
+      target="_blank"
+      href="mailto:support.domifa@fabrique.social.gouv.fr">
+      Contactez-nous :
+      <b>
+        support.domifa[at]fabrique.social.gouv.fr
+      </b>
+    </a>
+  </div>
+  <button
+    id="help-button"
+    (click)="help=!help">
+    <fa-icon icon="question-circle"></fa-icon>
+  </button>
 </div>
 <footer class="page-footer">
   <div>

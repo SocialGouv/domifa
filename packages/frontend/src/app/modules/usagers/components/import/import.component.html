@@ -1,88 +1,116 @@
 <div class="step_form text-center">
   <div class="row">
-    <div class="col-md-8 offset-2">
+    <div class="col-md-12">
       <h4 class="text-center">
-        <b>Bonjour {{ prenom }}</b>
+        <b>Importer vos domiciliés</b>
       </h4>
       <p>
         Avant de commencer à utiliser Domifa, nous vous invitons à importer le listing de vos domiciliés.
+        <br>
+        À l'aide du document explicatif, vous devrez remplir le tableau Excel fourni par Domifa.
+        <br>
       </p>
     </div>
-    <div class="col-md-6 offset-3">
-      <button class="btn btn-block btn-outline-primary">
+    <div
+      id="import-menu"
+      class="col-md-10 offset-1">
+      <a
+        href="/assets/files/modele.xlsx"
+        target="_blank"
+        class="btn btn-outline-primary"
+        download>
         <b>Etape 1 :</b>
-        Télécharger le modèle Excel
-      </button>
+        Téléchargez  le modèle Excel
+      </a>
+      <a
+        href="/assets/files/tuto-import.pdf"
+        target="_blank"
+        class="btn btn-outline-primary"
+        download>
+        <b>Etape 2 :</b>
+        Téléchargez et lisez la FAQ
+        <fa-icon icon="question-circle"></fa-icon>
+      </a>
+
       <form
         [formGroup]="uploadForm"
         (ngSubmit)="submitFile()">
-        <div class="form-group custom-file">
+        <div>
+          <label
+            class="btn btn-outline-primary"
+            for="fileExcel"
+            data-browse="Parcourir"
+            lang="fr">
+            <b>Etape 3 :</b>
+            Sélectionner et vérifier le fichier
+          </label>
           <input
             type="file"
             id="fileExcel"
             name="fileExcel"
             (change)="onFileChange($event)"
             multiple="false"
-            aria-describedby="pjHelp"
             file="fileExcel"
             required>
           <input
             type="hidden"
             name="fileHidden"
             formControlName="fileInput">
-          <label
-            class="btn btn-block btn-outline-primary"
-            for="fileExcel"
-            data-browse="Parcourir"
-            lang="fr">
-            <b>Etape 2 :</b>
-            Sélectionner et vérifier le fichier
-          </label>
-          <br>
         </div>
-        <div class="form-group">
-          <div
-            *ngIf="!uploadForm.invalid && errorsId.length === 0"
-            class="text-success">
-            Parfait : votre fichier est prêt à être importé
-          </div>
+        <div
+          class="form-group"
+          *ngIf="!uploadForm.invalid && errorsId.length == 0">
+          <br>
           <button
-            [disabled]="uploadForm.invalid || errorsId.length > 0"
             type="submit"
-            class="btn btn-block btn-primary">
-            <b>Etape 3 :</b>
+            class="btn btn-secondary">
+            <b>Etape 4 :</b>
             Importer vos domiciliés sur Domifa
           </button>
+          <br>
+          <div class="text-secondary">
+            <fa-icon icon="check-circle"></fa-icon>
+            Votre fichier est prêt à être importé
+          </div>
         </div>
       </form>
+
+      <button
+        *ngIf="errorsId.length > 0"
+        (click)="reload()"
+        class="btn btn-danger">
+        Recommencer
+      </button>
 
       <div
         *ngIf="errorsId.length > 0"
         class="text-danger">
-        Attention : votre fichier contient
-        <b>{{ errorsId.length }}</b>
-        erreurs
-      </div>
-      <div
-        *ngIf="emailErrors > 0"
-        class="text-danger">
-        Email :
-        <b>{{ emailErrors }} doublons</b>
-      </div>
-      <div
-        *ngIf="phoneErrors > 0"
-        class="text-danger">
-        Téléphone :
-        <b>{{ phoneErrors }} doublons</b>
-      </div>
-      <div *ngIf="errorsId.length > 0">
-        <br>
-        <button class="btn btn-outline-secondary">Recommencer</button>
+        <p>
+          Attention : votre fichier contient
+          <b>{{ errorsId.length }}</b>
+          erreurs
+        </p>
+        <p *ngIf="emailErrors > 0">
+          Doublons :
+          <b>
+            {{ emailErrors+1 }} emails sont identiques
+          </b>
+        </p>
+        <p *ngIf="phoneErrors > 0">
+          <b>
+            {{ phoneErrors+1 }} numéros de Téléphone sont identiques
+          </b>
+        </p>
+        <p>
+          Les champs incorrects sont marqués en rouge dans le tableau ci-dessous
+        </p>
       </div>
     </div>
   </div>
 </div>
-<div id="import-table">
+<div
+  id="import-table"
+  *ngIf="!uploadForm.invalid">
   <table class="table table-striped table-hover">
     <thead class>
       <th>#</th>
@@ -100,7 +128,11 @@
       <th>N° Téléphone</th>
       <th class="required">Type demande</th>
       <th class="required">Statut demande</th>
-      <th class="required">Début DOM actuelle</th>
+      <th class="required">
+        Date de Début
+        <br>
+        de la DOM actuelle
+      </th>
       <th>Fin de DOM</th>
       <th>
         Date de la 1
@@ -117,7 +149,7 @@
         <br>
         (SEULEMENT SI RADIATION)
       </th>
-      <th class="required">COMPOSITION DU MÉNAGE</th>
+      <th>COMPOSITION DU MÉNAGE</th>
       <ng-container *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index">
         <th>
           NOM

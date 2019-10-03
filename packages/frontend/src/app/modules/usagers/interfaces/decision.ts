@@ -13,9 +13,10 @@ export class Decision {
   public orientationDetails: string;
 
   constructor(decision?: any) {
-    this.dateDebut = (decision && decision.dateDebut) || undefined;
-    this.dateFin = (decision && decision.dateFin) || undefined;
-    this.dateDecision = (decision && decision.dateDecision) || new Date();
+    this.dateDebut = (decision && new Date(decision.dateDebut)) || undefined;
+    this.dateFin = (decision && new Date(decision.dateFin)) || undefined;
+    this.dateDecision =
+      (decision && new Date(decision.dateDecision)) || new Date();
     this.statut = (decision && decision.statut) || "INSTRUCTION";
     this.motif = (decision && decision.motif) || "";
     this.userName = (decision && decision.userName) || "";
