@@ -1,9 +1,8 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import * as crypto from "crypto";
 import { Model } from "mongoose";
-import { ConfigService } from "../config/config.service";
-import { MailerService } from "../users/mailer.service";
 import { User } from "../users/user.interface";
+
 import { StructureDto } from "./structure-dto";
 import { Structure } from "./structure-interface";
 
@@ -13,10 +12,12 @@ export class StructuresService {
     asso: "Organisme agrée",
     ccas: "CCAS / CIAS"
   };
+
   constructor(
     @Inject("STRUCTURE_MODEL")
-    private readonly structureModel: Model<Structure>,
-    private readonly configService: ConfigService
+    private structureModel: Model<Structure>,
+    @Inject("USER_MODEL")
+    private userModel: Model<User>
   ) {}
 
   public async create(structureDto: StructureDto): Promise<any> {
@@ -44,9 +45,20 @@ export class StructuresService {
       .exec();
   }
 
+  public async findOne(structureId: number): Promise<any> {
+    const structure = await this.structureModel
+      .findOne({ id: structureId })
+      .exec();
+    if (!structure || structure === null) {
+      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
+    }
+    return structure;
+  }
+
   public async findById(structureId: number): Promise<any> {
     const structure = await this.structureModel
       .findOne({ id: structureId })
+      .select("-users -token -email -phone -responsable")
       .exec();
     if (!structure || structure === null) {
       throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
@@ -73,12 +85,30 @@ export class StructuresService {
       .find({ verified: true })
       .limit(10)
       .lean()
+      .select("-users -token -email -phone -responsable")
       .exec();
   }
 
-  public async deleteById(structureId: number): Promise<any> {
+  public async delete(token: string): Promise<any> {
+    const structure = await this.structureModel
+      .findOne({ token })
+      .populate("users")
+      .exec();
+    if (!structure || structure === null) {
+      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
+    }
+
+    structure.users.forEach(user => {
+      return this.userModel
+        .deleteOne({
+          id: user.id,
+          structureId: user.structureId
+        })
+        .exec();
+    });
+
     return this.structureModel.deleteOne({
-      id: structureId
+      token
     });
   }
 

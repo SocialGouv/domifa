@@ -117,6 +117,8 @@ export class RegisterUserComponent implements OnInit {
         (user: User) => {
           this.user = new User(user);
           this.success = true;
+          this.errorSubject.next(null);
+          this.successSubject.next(null);
         },
         error => {
           if (error.message === "EMAIL_EXIST") {

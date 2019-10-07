@@ -7,7 +7,6 @@ import { JwtPayload } from "./jwt-payload.interface";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  private readonly logger = new Logger("JWTstrategy");
   constructor(private readonly authService: AuthService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -15,10 +14,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
   public async validate(payload: JwtPayload) {
-    const user = await this.authService.validateUser(payload);
-    if (!user) {
-      return new UnauthorizedException();
-    }
-    return user;
+    return this.authService.validateUser(payload);
   }
 }

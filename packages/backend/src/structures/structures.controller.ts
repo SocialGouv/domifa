@@ -39,9 +39,9 @@ export class StructuresController {
     return this.structureService.findAll();
   }
 
-  @Delete(":id")
-  public deleteOne(@Param("id") id: number) {
-    return this.structureService.deleteById(id);
+  @Delete(":token")
+  public deleteOne(@Param("token") token: string) {
+    return this.structureService.delete(token);
   }
 
   @Get("confirm/:token")

@@ -1,0 +1,457 @@
+<ngb-accordion
+  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (authService.isAdmin && usager.decision.statut === 'ATTENTE_DECISION')"
+  #acc="ngbAccordion"
+  class="recap">
+  <ngb-panel id="panel-0">
+    <ng-template
+      ngbPanelHeader
+      let-opened="opened">
+      <div class="head-panel">
+        <button
+          ngbPanelToggle
+          class="btn btn-link">
+          <span>FICHE RÉCAPITULATIVE</span>
+          <span class="arrows">
+            <fa-icon
+              *ngIf="opened"
+              icon="chevron-down"></fa-icon>
+            <fa-icon
+              *ngIf="!opened"
+              icon="chevron-right"></fa-icon>
+          </span>
+        </button>
+      </div>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <h4>ÉTAT CIVIL</h4>
+      <div class="row">
+        <div class="col">
+          <b>Nom :</b>
+          {{ usager.nom }}
+          <br>
+          <b>Prénom :</b>
+          {{ usager.prenom }}
+          <br>
+        </div>
+        <div class="col">
+          <b>Date de naissance :</b>
+          {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
+          <br>
+          <b>Lieu de Naissance :</b>
+          {{ usager.villeNaissance }}
+          <br>
+        </div>
+      </div>
+
+      <h4>AYANTS-DROITS</h4>
+      <div *ngIf="usager.ayantsDroits.length === 0">
+        <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
+      </div>
+      <table
+        *ngIf="usager.ayantsDroits.length > 0"
+        class="table table-light">
+        <tbody>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Né le</th>
+            <th>Lien</th>
+          </tr>
+          <tr *ngFor="let ayantDroit of usager.ayantsDroits">
+            <td>{{ ayantDroit.nom }}</td>
+            <td>{{ ayantDroit.prenom }}</td>
+            <td>{{ ayantDroit.dateNaissance }}</td>
+            <td>{{ ayantDroit.lien }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>ENTRETIEN</h4>
+      <div class="row">
+        <div class="col">
+          <b>
+            Avez-vous déjà une domiciliation quelque part ?
+          </b>
+          {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
+          <br>
+          <b>Avez-vous des revenus ?</b>
+          {{ usager.entretien.revenus ? "Oui" : "Non" }}
+          <br>
+          <br>
+
+          <b>Quel est votre lien avec la commune ?</b>
+          <br>
+          {{ usager.entretien.liencommune || "Non renseigné" }}
+          <br>
+          <br>
+          <b>
+            Quel est le motif principal de demande de domiciliation ?
+          </b>
+          <br>
+          {{ labels[usager.entretien.raison] || "Non renseigné" }}
+          <br>
+          <br>
+          <b>
+            Quelle est la cause de l'instabilité de logement ?
+          </b>
+          <br>
+          {{ labels[usager.entretien.residence] || "Non renseigné" }}
+          <span *ngIf="usager.entretien.residence === 'residenceAutre'">
+            {{  usager.entretien.residenceDetail   }}
+          </span>
+          <br>
+          <br>
+        </div>
+        <div class="col">
+          <b>
+            Quel est le motif principal de demande de domiciliation ?
+          </b>
+          <br>
+          {{ labels[usager.entretien.cause] }} :
+          <span *ngIf="usager.entretien.cause === 'causeAutre'">
+            {{ usager.entretien.residenceDetail }}
+            <br>
+          </span>
+          <br>
+          <b>
+            Faites-vous l’objet d’un accompagnement social ?
+          </b>
+          {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
+          <br>
+          <span *ngIf="accompagnement">
+            <b>Suivi par :</b>
+            {{ accompagnementDetail }}
+          </span>
+          <br>
+          <br>
+          <b>Commentaires</b>
+          <br>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
+<div
+  class="step_form"
+  id="step_form4"
+  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (authService.isAdmin && usager.decision.statut === 'ATTENTE_DECISION')">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h5 class="text-center">
+        Le dossier de
+        <b>{{ usager.nom }} {{ usager.prenom }}</b>
+        est complet
+      </h5>
+      <h6 class="text-center">Quelle décision souhaitez-vous rendre ?</h6>
+      <br>
+      <div
+        class="row"
+        *ngIf="authService.isAdmin">
+        <div class="col-md-6">
+          <button
+            class="btn-block btn btn-danger"
+            (click)="open(refus)">
+            <fa-icon icon="times"></fa-icon>
+            REFUSER LE DOSSIER
+          </button>
+        </div>
+        <br>
+        <div class="col-md-6">
+          <button
+            class="btn-block btn btn-secondary"
+            (click)="open(confirmation)">
+            <fa-icon icon="check"></fa-icon>
+            ACCEPTER LE DOSSIER
+          </button>
+        </div>
+
+      </div>
+      <div
+        class="row"
+        *ngIf="!authService.isAdmin">
+        <br>
+        <div class="col-md-10 offset-md-1">
+          <button
+            (click)="setDecision('ATTENTE_DECISION')"
+            class="btn btn-primary btn-block">
+            DEMANDER LA VALIDATION DU DOSSIER
+          </button>
+        </div>
+        <br>
+      </div>
+
+      <div class="row text-center">
+
+        <div class="col-md-8 offset-md-2">
+          <br>
+          <button
+            (click)="getAttestation()"
+            class="btn btn-outline-primary">
+            <fa-icon icon="download"></fa-icon>
+            Télécharger l'attestation de Demande
+          </button>
+        </div>
+        <br>
+      </div>
+
+    </div>
+  </div>
+</div>
+<ng-template
+  #refus
+  let-modal>
+  <div class="modal-header">
+    <b
+      class="modal-title"
+      id="modal-basic-title">
+      Motivez votre refus
+    </b>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form
+      [formGroup]="refusForm"
+      (ngSubmit)="setDecision('REFUS')"
+      autocomplete="off">
+      <div class="col-md-12">
+
+        <b>Pour quel motif ?</b>
+        <div
+          class="form-row"
+          *ngFor="let key of motifsRefusList">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="motif-refus-{{ key }}"
+              formControlName="motif"
+              value="{{ key }}">
+            <label
+              class="form-check-label"
+              for="motif-refus-{{ key }}">
+              {{ motifsRefus[key] }}
+            </label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="motif-autre"
+              formControlName="motif"
+              value="AUTRE">
+            <label
+              class="form-check-label"
+              for="motif-autre">
+              Autre raison
+            </label>
+          </div>
+        </div>
+        <div
+          *ngIf="r.motif.value === 'AUTRE'"
+          class="form-row">
+          <label
+            class="form-check-label"
+            for="motifRefusAutre">
+            Motif du refus
+            <span class="red">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="motifRefusAutre"
+            formControlName="motifDetails">
+          <small
+            id="refusAutres"
+            class="form-text text-muted">
+            20 caractères minimum
+          </small>
+        </div>
+
+      </div>
+      <br>
+      <div class="col-md-12">
+        <b>Orientation proposée</b>
+        <div class="form-row">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="orientationRefusCcas"
+              formControlName="orientation"
+              value="ccas">
+            <label
+              class="form-check-label"
+              for="orientationRefusCcas">
+              CCAS, CIAS, Commune
+            </label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="orientationRefusAsso"
+              formControlName="orientation"
+              value="asso">
+            <label
+              class="form-check-label"
+              for="orientationRefusAsso">
+              Organisme agréée
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-row">
+          <label for="orientationRefusDetails">Précisez</label>
+          <input
+            class="form-control"
+            type="text"
+            formControlName="orientationDetails"
+            id="orientationRefusDetails">
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-danger"
+      (click)="modal.close('Save click')">
+      Annuler
+    </button>
+    <button
+      class="btn btn-danger"
+      [disabled]="refusForm.invalid"
+      (click)="setDecision('REFUS')">
+      Confirmer le refus
+    </button>
+  </div>
+</ng-template>
+
+<ng-template
+  #confirmation
+  let-modal>
+  <div class="modal-header">
+    <span
+      class="modal-title"
+      id="modal-basic-title">
+      <b>Confirmer la décision</b>
+    </span>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <div class="col">
+      Vous êtes sur le point de domicilier
+      <b>{{ usager.nom }} {{ usager.prenom }}.</b>
+      <br>
+      Veuillez indiquer la date de début et de fin de la domiciliation
+      <br>
+      <br>
+      <form
+        [formGroup]="valideForm"
+        (ngSubmit)="setDecision('VALIDE')"
+        autocomplete="off">
+        <div class="row">
+          <div class="form-group col">
+            <label for="jourRdv">Date de début</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                placement="bottom"
+                ngbDatepicker
+                formControlName="dateDebutPicker"
+                #dDebut="ngbDatepicker"
+                dateFr
+                value
+                [ngClass]="{ 'is-invalid': v.dateDebutPicker.dirty && v.dateDebutPicker.errors     }"
+                maxlength="10"
+                required>
+              <div class="input-group-append">
+                <span
+                  class="btn btn-outline-primary"
+                  (click)="dDebut.toggle()">
+                  <fa-icon icon="calendar"></fa-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col">
+            <label for="jourRdv">Date de fin</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                placement="bottom"
+                ngbDatepicker
+                formControlName="dateFinPicker"
+                #dFin="ngbDatepicker"
+                dateFr
+                value
+                [ngClass]="{
+                    'is-invalid': v.dateFinPicker.dirty && v.dateFinPicker.errors
+                  }"
+                maxlength="10"
+                required>
+              <div class="input-group-append">
+                <span
+                  class="btn btn-outline-primary"
+                  (click)="dFin.toggle()">
+                  <fa-icon icon="calendar"></fa-icon>
+                </span>
+              </div>
+            </div>
+            <input
+              type="hidden"
+              formControlName="dateDebut"
+              class="form-control"
+              value>
+            <input
+              type="hidden"
+              formControlName="dateFin"
+              class="form-control"
+              value>
+            <div *ngIf="v.dateDebut.value >= v.dateFin.value">Dates incorrects</div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+  <div class="modal-footer text-center">
+    <button
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')">
+      Revenir au formulaire
+    </button>
+    <button
+      class="btn btn-primary"
+      [disabled]="valideForm.invalid"
+      (click)="setDecision('VALIDE')">
+      Confirmer la domiciliation
+    </button>
+  </div>
+</ng-template>

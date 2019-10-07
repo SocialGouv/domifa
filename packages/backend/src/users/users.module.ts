@@ -14,8 +14,12 @@ import { UsersService } from "./users.service";
 
 @Module({
   controllers: [UsersController],
-  exports: [UsersService, MailerService],
-  imports: [DatabaseModule, forwardRef(() => AuthModule), StructuresModule],
+  exports: [UsersService, ...UsersProviders, MailerService],
+  imports: [
+    DatabaseModule,
+    forwardRef(() => AuthModule),
+    forwardRef(() => StructuresModule)
+  ],
   providers: [UsersService, ...UsersProviders, MailerService, ConfigService]
 })
 export class UsersModule {}

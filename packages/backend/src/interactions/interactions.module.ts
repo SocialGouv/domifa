@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { DatabaseModule } from "../database/database.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
@@ -9,7 +9,11 @@ import { InteractionsService } from "./interactions.service";
 @Module({
   controllers: [InteractionsController],
   exports: [InteractionsService],
-  imports: [DatabaseModule, UsersModule, UsagersModule],
+  imports: [
+    DatabaseModule,
+    forwardRef(() => UsersModule),
+    forwardRef(() => UsagersModule)
+  ],
   providers: [InteractionsService, ...InteractionsProviders]
 })
 export class InteractionsModule {}

@@ -12,12 +12,15 @@ export class AppComponent implements OnInit {
   public title: string;
   public help: boolean = false;
   public isNavbarCollapsed: boolean = false;
+  public isAllowed: any;
 
   constructor(public readonly authService: AuthService) {}
 
   public ngOnInit() {
     this.title = "Domifa";
     this.help = false;
-    this.authService.isAuth().subscribe(isAllowed => {});
+    this.authService.isAuth().subscribe(isAllowed => {
+      this.isAllowed = isAllowed;
+    });
   }
 }

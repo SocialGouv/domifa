@@ -64,8 +64,22 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(RolesGuard)
   @Delete(":id")
-  public deleteOne(@Param("id") id: number, @CurrentUser() user: User) {
-    return this.usersService.delete(id, user.structureId);
+  public async deleteOne(
+    @Param("id") id: number,
+    @CurrentUser() user: User,
+    @Response() res: any
+  ) {
+    const userToDelete = await this.usersService.findOne({
+      id,
+      structureId: user.structureId
+    });
+    if (!userToDelete || userToDelete === null) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "USER_NOT_EXIST" });
+    }
+
+    return this.usersService.delete(userToDelete.id, user.structureId);
   }
 
   @Post()
@@ -77,7 +91,7 @@ export class UsersController {
         .json({ message: "EMAIL_EXIST" });
     }
 
-    const structure = await this.structureService.findById(userDto.structureId);
+    const structure = await this.structureService.findOne(userDto.structureId);
 
     if (!structure || structure === null) {
       return res

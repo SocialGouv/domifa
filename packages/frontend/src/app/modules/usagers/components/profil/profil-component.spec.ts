@@ -25,9 +25,9 @@ import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersFormComponent } from "../form/usagers-form";
+import { ImportComponent } from "../import/import.component";
 import { ManageUsagersComponent } from "../manage/manage.component";
 import { UsagersProfilComponent } from "./profil-component";
-import { ImportComponent } from "../import/import.component";
 
 describe("UsagersProfilComponent", () => {
   let fixture: any;

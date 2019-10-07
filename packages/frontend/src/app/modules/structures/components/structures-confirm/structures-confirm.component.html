@@ -1,6 +1,6 @@
 <div class="step_form">
   <div class="text-center">
-    <div *ngIf="success">
+    <div *ngIf="successConfirm">
       <fa-icon
         class="fa-4x text-success"
         [icon]="['far', 'check-circle']"></fa-icon>
@@ -10,6 +10,15 @@
       <p class="text-center">
         Un mail vient d'être transmis à l'administrateur pour l'informer.
       </p>
+    </div>
+    <div *ngIf="successDelete">
+      <fa-icon
+        class="fa-4x text-success"
+        [icon]="trash"></fa-icon>
+      <br>
+      <br>
+      <h3 class="text-success">Structure supprimée avec succès</h3>
+      <p class="text-center"></p>
     </div>
     <div *ngIf="error">
       <fa-icon

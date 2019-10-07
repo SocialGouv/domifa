@@ -4,7 +4,6 @@ import * as crypto from "crypto";
 import { Model } from "mongoose";
 import { Structure } from "../structures/structure-interface";
 import { StructuresService } from "../structures/structures.service";
-import { CurrentUser } from "./current-user.decorator";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { MailerService } from "./mailer.service";
 import { UserDto } from "./user.dto";
@@ -122,10 +121,11 @@ export class UsersService {
       .exec();
   }
 
-  public async delete(id: number, structureId): Promise<User> {
+  public async delete(id: number, structureId: number): Promise<any> {
     return this.userModel
-      .findOneAndDelete({
-        id
+      .deleteOne({
+        id,
+        structureId
       })
       .exec();
   }

@@ -10,14 +10,7 @@ export class DecisionDto {
   @IsOptional()
   public dateDecision: Date;
 
-  @IsIn([
-    "INSTRUCTION",
-    "VALIDE",
-    "ATTENTE_DECISION",
-    "REFUS",
-    "RADIE",
-    "EXPIRE"
-  ])
+  @IsIn(["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"])
   @IsNotEmpty()
   public statut: string;
 

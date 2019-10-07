@@ -17,7 +17,8 @@ export class ManageUsagersComponent implements OnInit {
   public title: string;
   public searching: boolean;
   public searchFailed: boolean;
-  public usagers: Usager[];
+  public usagers: Usager[] = [];
+
   public prenom: string;
   public dateLabel: string;
 
@@ -138,6 +139,7 @@ export class ManageUsagersComponent implements OnInit {
     this.usagerService.search(this.filters).subscribe(
       (usagers: Usager[]) => {
         this.usagers = usagers;
+
         this.searching = false;
       },
       error => {

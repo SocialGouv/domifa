@@ -47,6 +47,18 @@ export class UserProfilComponent implements OnInit {
     );
   }
 
+  public deleteUser(id: number) {
+    this.userService.deleteUser(id).subscribe(
+      (user: User) => {
+        this.loadUsers();
+        this.success = true;
+      },
+      error => {
+        this.error = true;
+      }
+    );
+  }
+
   private loadUsers() {
     this.userService.getUsers().subscribe((users: User[]) => {
       this.users = users;

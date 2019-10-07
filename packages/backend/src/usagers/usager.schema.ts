@@ -31,22 +31,18 @@ export const UsagerSchema = new mongoose.Schema({
     required: true
   },
 
+  datePremiereDom: {
+    default: null,
+    type: Date
+  },
+
   import: { type: Boolean, default: false },
 
   decision: {
-    dateDebut: {
-      default: null,
-      type: Date
-    },
+    dateDebut: Date,
+    dateFin: Date,
     dateDecision: Date,
-    dateFin: {
-      default: null,
-      type: Date
-    },
-    datePremiere: {
-      default: null,
-      type: Date
-    },
+
     motif: {
       default: "",
       type: String

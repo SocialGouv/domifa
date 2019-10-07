@@ -16,6 +16,7 @@ input[type="radio"]:checked + label {
   content: " *";
   color: red;
 }
+
 form label {
   color: #4a4a4a;
   cursor: pointer;
@@ -53,4 +54,9 @@ form label {
 
 .indications .ng-fa-icon {
   margin-right: 5px;
+}
+
+.modal-body .form-check {
+  padding: 5px 0 5px 1.5rem;
+  cursor: pointer;
 }

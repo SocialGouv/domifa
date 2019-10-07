@@ -1,8 +1,5 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable, Response } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { Model } from "mongoose";
-import { ConfigService } from "../config/config.service";
-import { User } from "../users/user.interface";
 import { UsersService } from "../users/users.service";
 import { JwtPayload } from "./jwt-payload.interface";
 
@@ -26,7 +23,12 @@ export class AuthService {
       access_token: this.jwtService.sign(payload)
     };
   }
+
   public async validateUser(payload: JwtPayload): Promise<any> {
-    return this.usersService.findOne({ id: payload.id });
+    const user = await this.usersService.findOne({ id: payload.id });
+    if (!user || user === null) {
+      return false;
+    }
+    return user;
   }
 }

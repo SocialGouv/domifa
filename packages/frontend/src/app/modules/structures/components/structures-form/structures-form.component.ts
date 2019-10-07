@@ -1,23 +1,15 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbModal,
   NgbTypeaheadSelectItemEvent
 } from "@ng-bootstrap/ng-bootstrap";
 import { Observable, of, Subject } from "rxjs";
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  switchMap,
-  tap
-} from "rxjs/operators";
+import { debounceTime, map } from "rxjs/operators";
 import { AutocompleteAdresseService } from "src/app/services/autocomplete-adresse";
 import { fadeInOut } from "../../../../shared/animations";
 import { DEPARTEMENTS } from "../../../../shared/departements";
-import { RegisterUserComponent } from "../../../users/components/register-user/register-user.component";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
 @Component({
@@ -27,9 +19,6 @@ import { Structure } from "../../structure.interface";
   templateUrl: "./structures-form.component.html"
 })
 export class StructuresFormComponent implements OnInit {
-  get f() {
-    return this.structureForm.controls;
-  }
   public title: string;
   public success: boolean = false;
   public structureForm: FormGroup;
@@ -65,6 +54,10 @@ export class StructuresFormComponent implements OnInit {
     private router: Router,
     private Autocomplete: AutocompleteAdresseService
   ) {}
+
+  get f() {
+    return this.structureForm.controls;
+  }
 
   public ngOnInit() {
     this.departements = DEPARTEMENTS;

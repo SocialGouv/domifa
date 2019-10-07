@@ -25,6 +25,8 @@ export interface Usager extends Document {
   structureId: number;
   etapeDemande: number;
 
+  datePremiereDom: Date;
+
   agent: string;
 
   decision: Decision;
@@ -35,6 +37,7 @@ export interface Usager extends Document {
 
   docs: Doc[];
   docsPath: string[];
+  typeDecision: string;
 
   lastInteraction: LastInteraction;
 

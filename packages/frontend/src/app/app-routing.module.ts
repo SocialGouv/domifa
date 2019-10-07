@@ -33,6 +33,10 @@ export const routes: Routes = [
     path: "structures/confirm/:token"
   },
   {
+    component: StructuresConfirmComponent,
+    path: "structures/delete/:token"
+  },
+  {
     canActivate: [StructureGuard],
     component: RegisterUserComponent,
     path: "inscription/:id"

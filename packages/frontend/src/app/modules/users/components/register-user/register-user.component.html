@@ -97,8 +97,7 @@
   <br>
   <form
     [formGroup]="userForm"
-    (ngSubmit)="submitUser()"
-    autocomplete="off">
+    (ngSubmit)="submitUser()">
     <div class="row">
       <div class="col form-group required">
         <label for="nom">Nom</label>
@@ -167,6 +166,7 @@
           type="email"
           class="form-control"
           id="email"
+          autocomplete="username"
           formControlName="email"
           [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
           required>
@@ -196,6 +196,7 @@
           [type]="!hidePassword ? 'text' : 'password'"
           [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
           id="password"
+          autocomplete="new-password"
           formControlName="password"
           required>
         <span
@@ -242,6 +243,7 @@
           [type]="!hidePasswordConfirm ? 'text' : 'password'"
           [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
           id="confirmPasswordInput"
+          autocomplete="new-password"
           formControlName="confirmPassword"
           [ngClass]="frmSignup.controls['confirmPassword'].invalid ? 'is-invalid' : ''"
           required>

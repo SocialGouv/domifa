@@ -1,20 +1,11 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger
-} from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import { Model } from "mongoose";
 import { User } from "../../users/user.interface";
-import { UsersService } from "../../users/users.service";
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien";
 import { RdvDto } from "../dto/rdv";
 import { SearchDto } from "../dto/search";
 import { UsagersDto } from "../dto/usagers.dto";
-import { Decision } from "../interfaces/decision";
 import { SearchQuery } from "../interfaces/search-query";
 import { Usager } from "../interfaces/usagers";
 
@@ -86,6 +77,7 @@ export class UsagersService {
     decision.dateDecision = new Date();
 
     const lastDecision = usager.decision;
+
     if (decision.statut === "ATTENTE_DECISION") {
       /* Mail au responsable */
     }
@@ -93,22 +85,29 @@ export class UsagersService {
     if (decision.statut === "REFUS") {
       /* Récupération du dernier ID lié à la structure */
       /* SMS & Mail pr prévenir */
+      decision.dateDebut = lastDecision.dateDebut;
+      decision.dateFin = new Date();
     }
 
     if (decision.statut === "RADIE") {
+      decision.dateDebut = lastDecision.dateDebut;
       decision.dateFin = new Date();
     }
 
     if (decision.statut === "VALIDE") {
       /* Récupération du dernier ID lié à la structure */
       /* SMS & Mail pr prévenir */
-      if (decision.dateFin === undefined || decision.dateFin === null) {
+      if (!usager.datePremiereDom) {
+        usager.typeDecision = "RENOUVELLEMENT";
+      }
+      if (decision.dateFin !== undefined && decision.dateFin !== null) {
         decision.dateFin = new Date(decision.dateFin);
       } else {
         decision.dateFin = new Date(
           new Date().setFullYear(new Date().getFullYear() + 1)
         );
       }
+      decision.dateDebut = new Date(decision.dateDebut);
     }
 
     return this.usagerModel
@@ -203,15 +202,20 @@ export class UsagersService {
       .exec();
   }
 
-  public async deleteById(usagerId: number): Promise<any> {
+  public async delete(usagerId: number, user: User): Promise<any> {
     return this.usagerModel
       .deleteOne({
-        id: usagerId
+        id: usagerId,
+        structureId: user.structureId
       })
       .exec();
   }
 
-  public async isDoublon(nom: string, prenom: string): Promise<Usager[]> {
+  public async isDoublon(
+    nom: string,
+    prenom: string,
+    user: User
+  ): Promise<Usager[]> {
     return this.usagerModel
       .find({
         $and: [
@@ -221,7 +225,8 @@ export class UsagersService {
           {
             prenom: { $regex: prenom, $options: "-i" }
           }
-        ]
+        ],
+        structureId: user.structureId
       })
       .lean()
       .exec();

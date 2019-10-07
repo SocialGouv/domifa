@@ -21,12 +21,12 @@ import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
 import {
   ENTRETIEN_LABELS,
-  motifsRefus,
   residence
 } from "../../../../shared/entretien.labels";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../../structures/services/structure.service";
 import { AyantDroit } from "../../interfaces/ayant-droit";
+import { Decision } from "../../interfaces/decision";
 
 @Component({
   animations: [fadeInOut],
@@ -44,9 +44,6 @@ export class UsagersFormComponent implements OnInit {
   public selected: any;
   get f() {
     return this.usagerForm.controls;
-  }
-  get u(): any {
-    return this.uploadForm.controls;
   }
   get r(): any {
     return this.rdvForm.controls;
@@ -93,15 +90,9 @@ export class UsagersFormComponent implements OnInit {
   /* RDV */
   public httpError: any;
 
-  /* Upload */
-  public uploadError: any;
-  public fileName = "";
-  public userId: number;
-  public uploadResponse: any;
   public documents: Doc[];
 
   public usager: Usager;
-  public uploadForm: FormGroup;
   public registerForm: FormGroup;
   public usagerForm: FormGroup;
   public rdvForm: FormGroup;
@@ -110,16 +101,14 @@ export class UsagersFormComponent implements OnInit {
   public submitted = false;
   public submittedFile = false;
 
-  public structureId: number;
   public modal: any;
   public structure: any;
   public agents: User[] = [];
 
-  public motifsRefus = {};
   public residence = {};
   public cause = {};
   public raison = {};
-  public motifsRefusList = [];
+
   public residenceList = [];
   public causeList = [];
   public raisonList = [];
@@ -145,10 +134,6 @@ export class UsagersFormComponent implements OnInit {
 
   public ngOnInit() {
     this.title = "Enregister une domiciliation";
-    this.uploadResponse = { status: "", message: "", filePath: "" };
-    this.userId = 1;
-    this.structureId = 2;
-    this.uploadError = {};
     this.labels = ENTRETIEN_LABELS;
     this.doublons = [];
     this.documents = [];
@@ -167,7 +152,6 @@ export class UsagersFormComponent implements OnInit {
       .pipe(debounceTime(10000))
       .subscribe(() => (this.successMessage = null));
 
-    this.motifsRefus = motifsRefus;
     this.residence = residence;
     this.cause = {
       cause1: "Rupture familiale et/ou conjugale ",
@@ -186,7 +170,6 @@ export class UsagersFormComponent implements OnInit {
       raisonAutre: "Autre"
     };
 
-    this.motifsRefusList = Object.keys(this.motifsRefus);
     this.residenceList = Object.keys(this.residence);
     this.causeList = Object.keys(this.cause);
     this.raisonList = Object.keys(this.raison);
@@ -200,6 +183,11 @@ export class UsagersFormComponent implements OnInit {
           this.initForm();
           for (const ayantDroit of this.usager.ayantsDroits) {
             this.addAyantDroit(ayantDroit);
+          }
+
+          if (this.route.snapshot.url[2].path === "edit") {
+            this.usager.etapeDemande = 1;
+            this.usager.decision = new Decision({});
           }
         },
         error => {
@@ -239,11 +227,6 @@ export class UsagersFormComponent implements OnInit {
       villeNaissance: [this.usager.villeNaissance, [Validators.required]]
     });
 
-    this.uploadForm = this.formBuilder.group({
-      imageInput: [this.fileName, Validators.required],
-      label: ["", Validators.required]
-    });
-
     this.rdvForm = this.formBuilder.group({
       dateRdv: [this.usager.rdv.dateRdv, [Validators.required]],
       heureRdv: [this.usager.rdv.heureRdv, [Validators.required]],
@@ -276,26 +259,6 @@ export class UsagersFormComponent implements OnInit {
         onlySelf: true
       });
     });
-  }
-
-  public setDecision(statut: string) {
-    this.usagerService
-      .setDecision(this.usager.id, this.usager.decision, statut)
-      .subscribe(
-        (usager: Usager) => {
-          if (this.modal) {
-            this.modal.close();
-          }
-          this.usager = new Usager(usager);
-          this.changeSuccessMessage(this.labels[statut]);
-        },
-        error => {
-          this.changeSuccessMessage(
-            "Une erreur a eu lieu lors de la validation",
-            true
-          );
-        }
-      );
   }
 
   public open(content: string) {
@@ -460,60 +423,6 @@ export class UsagersFormComponent implements OnInit {
       error => {
         this.changeSuccessMessage("Une erreur est survenu", true);
       }
-    );
-  }
-
-  public onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      const validFileExtensions = [
-        "image/jpg",
-        "application/pdf",
-        "image/jpeg",
-        "image/bmp",
-        "image/gif",
-        "image/png"
-      ];
-      const type = event.target.files[0].type;
-      const size = event.target.files[0].size;
-
-      this.fileName = event.target.files[0].name;
-      this.uploadError = {
-        fileSize: size < 5000000,
-        fileType: validFileExtensions.includes(type)
-      };
-
-      this.uploadForm.controls.imageInput.setValue(file); // <-- Set Value for Validation
-      if (!this.uploadError.fileSize || !this.uploadError.fileType) {
-        return false;
-      }
-    }
-  }
-
-  public submitFile() {
-    this.submittedFile = true;
-    this.uploadError = {
-      fileSize: true,
-      fileType: true
-    };
-
-    const formData = new FormData();
-    formData.append("file", this.uploadForm.get("imageInput").value);
-    formData.append("label", this.uploadForm.get("label").value);
-
-    this.documentService.upload(formData, this.usager.id).subscribe(
-      res => {
-        this.uploadResponse = res;
-        if (
-          this.uploadResponse.success !== undefined &&
-          this.uploadResponse.success
-        ) {
-          this.usager.docs = new Usager(this.uploadResponse.body).docs;
-          this.uploadForm.reset();
-          this.fileName = "";
-        }
-      },
-      err => (this.httpError = err)
     );
   }
 

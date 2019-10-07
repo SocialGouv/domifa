@@ -60,6 +60,12 @@ export class AuthController {
   @Get("me")
   public me(@Response() res: any, @Req() request: any) {
     const user = request.user;
+    if (!user || user === null) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "WRONG_CREDENTIALS" });
+    }
+
     return res.status(HttpStatus.OK).json({
       email: user.email,
       id: user.id,

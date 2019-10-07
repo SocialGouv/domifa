@@ -1,5 +1,4 @@
 import * as mongoose from "mongoose";
-import { StructureSchema } from "../structures/structure.schema";
 import { User } from "./user.interface";
 export const UserSchema = new mongoose.Schema({
   email: {
@@ -38,13 +37,11 @@ export const UserSchema = new mongoose.Schema({
   tokens: {
     email: {
       default: "",
-      type: String,
-      unique: true
+      type: String
     },
     password: {
       default: "",
-      type: String,
-      unique: true
+      type: String
     },
     passwordValidity: {
       type: Date

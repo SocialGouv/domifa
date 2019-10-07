@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import { User } from "../users/user.interface";
 
 export interface Structure extends Document {
   adresse: string;
@@ -19,4 +20,5 @@ export interface Structure extends Document {
   };
   token: string;
   verified: boolean;
+  users: User[];
 }

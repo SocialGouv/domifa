@@ -1,5 +1,7 @@
 import { HttpClient, HttpEventType, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+
+import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/services/auth.service";
 import { environment } from "src/environments/environment";
@@ -8,7 +10,6 @@ import { User } from "../../users/interfaces/user";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
-
 @Injectable()
 export class UsagerService {
   public http: HttpClient;
@@ -65,16 +66,26 @@ export class UsagerService {
   }
 
   /* Recherche */
-  public search(filters?: {}) {
+  public search(filters?: {}): Observable<Usager[]> {
     let httpParams = new HttpParams();
     Object.keys(filters).forEach(key => {
       if (filters[key] !== null) {
         httpParams = httpParams.append(key, filters[key]);
       }
     });
-    return this.http.get(`${this.endPointUsagers}/search/`, {
-      params: httpParams
-    });
+    return this.http
+      .get(`${this.endPointUsagers}/search/`, {
+        params: httpParams
+      })
+      .pipe(
+        map(response => {
+          if (Array.isArray(response)) {
+            return response.map(item => new Usager(item));
+          } else {
+            return [new Usager(response)];
+          }
+        })
+      );
   }
 
   public setInteraction(idUsager: number, interaction?: any) {

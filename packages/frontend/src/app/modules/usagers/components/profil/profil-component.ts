@@ -10,8 +10,7 @@ import {
 import { LoadingService } from "../../../loading/loading.service";
 import { DocumentService } from "../../services/document.service";
 
-import { error } from "@angular/compiler/src/util";
-import { of, Subject } from "rxjs";
+import { Subject } from "rxjs";
 import { Interaction } from "../../interfaces/interaction";
 import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
@@ -64,8 +63,6 @@ export class UsagersProfilComponent implements OnInit {
   public successMessage: string;
   public errorMessage: string;
   public messages: any;
-  public statutColor: string;
-  public dayBeforeEnd: number;
 
   private successSubject = new Subject<string>();
   private errorSubject = new Subject<string>();
@@ -121,23 +118,6 @@ export class UsagersProfilComponent implements OnInit {
           this.visitToday = this.isToday(
             new Date(usager.lastInteraction.visite)
           );
-
-          this.statutColor = statusClass[usager.decision.statut];
-
-          const today = new Date();
-          const msPerDay: number = 1000 * 60 * 60 * 24;
-          const start: number = today.getTime();
-          const end: number = this.usager.decision.dateFin.getTime();
-          this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
-
-          if (usager.decision.statut === "VALIDE") {
-            if (this.dayBeforeEnd <= 0) {
-              this.statutColor = "text-danger";
-            } else if (this.dayBeforeEnd < 30) {
-              this.statutColor = "text-warning";
-            }
-          }
-
           this.getInteractions();
         },
         error => {

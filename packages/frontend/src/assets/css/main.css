@@ -139,10 +139,8 @@ ul {
   border-radius: 0.25rem !important;
   max-width: 900px;
 }
-
-.modal-dialog {
-  max-width: 600px;
-  width: 96%;
+.modal-backdrop.show {
+  opacity: 0.7;
 }
 
 .alert {

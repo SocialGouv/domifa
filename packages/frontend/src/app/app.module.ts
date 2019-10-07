@@ -31,11 +31,7 @@ import { LoadingComponent } from "./modules/loading/loading.component";
 import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
-import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
-import { ImportComponent } from "./modules/usagers/components/import/import.component";
-import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
-import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
-import { RaftComponent } from "./modules/usagers/components/raft/raft.component";
+import { UsagersModule } from "./modules/usagers/usagers.module";
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
@@ -48,9 +44,6 @@ library.add(fas, far);
   declarations: [
     AppComponent,
     HomeComponent,
-    UsagersFormComponent,
-    ManageUsagersComponent,
-    UsagersProfilComponent,
     StructuresFormComponent,
     StructuresConfirmComponent,
     LoadingComponent,
@@ -58,15 +51,12 @@ library.add(fas, far);
     MentionsLegalesComponent,
     NotFoundComponent,
     StructuresSearchComponent,
-    DigitOnlyDirective,
-    DateFrDirective,
     LoginComponent,
     ResetPasswordComponent,
-    UserProfilComponent,
-    ImportComponent,
-    RaftComponent
+    UserProfilComponent
   ],
   imports: [
+    UsagersModule,
     BrowserModule,
     NgxPrintModule,
     BrowserAnimationsModule,

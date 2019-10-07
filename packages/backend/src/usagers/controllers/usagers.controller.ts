@@ -69,11 +69,19 @@ export class UsagersController {
 
   /* RDV  */
   @Post("rdv/:id")
-  public async postRdv(@Param("id") usagerId: number, @Body() rdvDto: RdvDto) {
-    const user = await this.usersService.findOne({ id: rdvDto.userId });
+  public async postRdv(
+    @Param("id") usagerId: number,
+    @Body() rdvDto: RdvDto,
+    @CurrentUser() currentUser: User
+  ) {
+    const user = await this.usersService.findOne({
+      id: rdvDto.userId,
+      structureId: currentUser.structureId
+    });
+
     const usager = await this.usagersService.findById(
       usagerId,
-      user.structureId
+      currentUser.structureId
     );
 
     if (!user || !usager) {
@@ -114,8 +122,12 @@ export class UsagersController {
 
   /* DOUBLON */
   @Get("doublon/:nom/:prenom")
-  public isDoublon(@Param("nom") nom: string, @Param("prenom") prenom: string) {
-    return this.usagersService.isDoublon(nom, prenom);
+  public isDoublon(
+    @Param("nom") nom: string,
+    @Param("prenom") prenom: string,
+    @CurrentUser() user: User
+  ) {
+    return this.usagersService.isDoublon(nom, prenom, user);
   }
 
   @Get(":id")
@@ -134,8 +146,11 @@ export class UsagersController {
   }
 
   @Delete(":id")
-  public deleteOne(@Param("id") usagerId: number) {
-    return this.usagersService.deleteById(usagerId);
+  public async deleteOne(
+    @Param("id") usagerId: number,
+    @CurrentUser() user: User
+  ) {
+    return this.usagersService.delete(usagerId, user);
   }
 
   @Get("attestation/:id")

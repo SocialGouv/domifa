@@ -40,6 +40,7 @@ export class Usager {
 
   public lastInteraction: LastInteraction;
 
+  public dayBeforeEnd: number;
   public decision: any;
 
   public dateNaissancePicker: any;
@@ -95,5 +96,17 @@ export class Usager {
 
     this.decision =
       (usager && new Decision(usager.decision)) || new Decision({});
+
+    this.dayBeforeEnd = 365;
+
+    if (this.decision.dateFin) {
+      const today = new Date();
+      const msPerDay: number = 1000 * 60 * 60 * 24;
+      const start: number = today.getTime();
+
+      const end: number = this.decision.dateFin.getTime();
+
+      this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
+    }
   }
 }

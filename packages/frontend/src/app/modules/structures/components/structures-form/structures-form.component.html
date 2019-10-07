@@ -68,8 +68,7 @@
   <form
     [formGroup]="structureForm"
     (ngSubmit)="submitStrucutre()"
-    id="structureForm"
-    autocomplete="off">
+    id="structureForm">
     <div class="row">
       <div class="col-md-12 text-center">Vous appartenez à…</div>
       <div class="col-md-12 text-center">
@@ -133,8 +132,7 @@
           required>
         <div
           *ngIf="submitted && f.nom.errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           <div *ngIf="f.nom.errors.required">
             Le
             <b>nom de la structure</b>
@@ -151,7 +149,6 @@
           class="form-control"
           formControlName="adresse"
           [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
-          autocomplete="null"
           placeholder="Cette adresse apparaîtra sur le Cerfa">
         <span *ngIf="searching">Recherche en cours...</span>
         <div
@@ -175,7 +172,6 @@
           type="text"
           class="form-control"
           id="complementAdresse"
-          autocomplete="null"
           formControlName="complementAdresse"
           placeholder="Lieu-dit, Bâtiment, étage, etc.."
           [ngClass]="{ 'is-invalid': submitted && f.complementAdresse.errors }">
@@ -191,7 +187,6 @@
           type="text"
           class="form-control"
           id="codePostal"
-          autocomplete="null"
           maxlength="5"
           formControlName="codePostal"
           [ngClass]="{ 'is-invalid': submitted && f.codePostal.errors }">
@@ -207,7 +202,6 @@
           type="text"
           class="form-control"
           id="ville"
-          autocomplete="null"
           formControlName="ville"
           [ngClass]="{ 'is-invalid': submitted && f.ville.errors }">
         <div
@@ -242,7 +236,6 @@
           type="text"
           class="form-control"
           id="adresseCourrier"
-          autocomplete="null"
           formControlName="adresseCourrier"
           placeholder="15 rue des bois, etc.."
           [ngClass]="{ 'is-invalid': submitted && f.adresseCourrier.errors }">
@@ -259,23 +252,14 @@
           digitOnly
           formControlName="phone"
           placeholder="0606060606"
-          autocomplete="null"
           maxlength="10"
           [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
           required>
         <div
           *ngIf="submitted && f.phone.errors"
           class="invalid-feedback">
-          <div
-            *ngIf="submitted && f.phone.errors"
-            class="invalid-feedback">
-            <div>Le numéro de téléphone est incorrect</div>
-          </div>
-          <small
-            id="phoneHelp"
-            class="form-text text-muted">
-            Optionnel
-          </small>
+          <div>Le numéro de téléphone est obligatoire</div>
+
         </div>
       </div>
       <div class="col form-group required">
@@ -286,7 +270,6 @@
           id="email"
           formControlName="email"
           placeholder="Email"
-          autocomplete="null"
           [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
           required>
         <div
@@ -318,6 +301,7 @@
           [ngbTypeahead]="searchDepartement"
           (selectItem)="selectDepartement($event)"
           [resultTemplate]="rtDepartement"
+          placeholder="Tapez le numéro du département"
           [inputFormatter]="formatDepartement">
         <div
           *ngIf="submitted && f.departement.errors"
@@ -361,7 +345,7 @@
         </div>
       </div>
 
-      <div class="col form-group required">
+      <div class="col form-group ">
         <label for="capacite">Capacité d'accueil</label>
         <input
           formControlName="capacite"
@@ -370,6 +354,11 @@
           placeholder="Numéro donné par la préfecture"
           type="number"
           [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }">
+        <small
+          id="capaciteHelp"
+          class="form-text text-muted">
+          Optionnel
+        </small>
       </div>
 
     </div>

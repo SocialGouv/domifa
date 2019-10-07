@@ -51,7 +51,10 @@
       <div class="col-md-8 text-center">
         <div
           id="profil_head"
-          [class]="statutColor">
+          [ngClass]="{
+              'text-danger': usager.dayBeforeEnd < 15,
+              'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
+            }">
           <h2 id="profil_name">
             {{ usager.sexe === "homme" ? "M. " : "Mme " }} {{ usager.prenom }}
             <span>{{ usager.nom }}</span>
@@ -79,22 +82,28 @@
           class="text-center"
           *ngIf="usager.decision.statut === 'VALIDE'">
           <span
-            [class]="statutColor"
-            *ngIf="dayBeforeEnd > 0">
+            [ngClass]="{
+              'text-danger': usager.dayBeforeEnd <= 15,
+              'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
+            }"
+            *ngIf="usager.dayBeforeEnd > 0">
             Domiciliation valable jusqu'au
-            <b>
+            <b [ngClass]="{
+              'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60,
+              'text-secondary': usager.dayBeforeEnd >= 60
+             }">
               {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}
             </b>
           </span>
           <span
-            [class]="statutColor"
-            *ngIf="dayBeforeEnd < 0">
+            class="text-danger"
+            *ngIf="usager.dayBeforeEnd < 0">
             <fa-icon icon="exclamation-triangle"></fa-icon>
             Domiciliation expirée depuis le
             <b>
               {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}
             </b>
-            (il y a {{ dayBeforeEnd*-1 }} jours)
+            (il y a {{ usager.dayBeforeEnd*-1 }} jours)
           </span>
           <br>
           <span *ngIf="usager.lastInteraction.visite !== null">
@@ -106,16 +115,16 @@
         </div>
 
         <div
-          *ngIf="usager.decision.statut === 'VALIDE'"
+          *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60"
           class="text-center row">
-          <div class="col-md-12">
-            <br>
+          <div class="w-100">
             <br>
           </div>
           <div class="col-md-5 offset-1">
+
             <a
-              *ngIf="dayBeforeEnd < 30"
-              [routerLink]="['/radiation/'+usager.id]"
+              *ngIf="usager.dayBeforeEnd < 60"
+              [routerLink]="['/radiation/'+usager.id+'+/edit']"
               routerLinkActive="router-link-active"
               class="btn btn-block btn-secondary">
               <fa-icon icon="redo"></fa-icon>
@@ -125,7 +134,7 @@
           </div>
           <div class="col-md-5">
             <a
-              *ngIf="dayBeforeEnd < 0"
+              *ngIf="usager.dayBeforeEnd < 0"
               [routerLink]="['/radiation/'+usager.id]"
               routerLinkActive="router-link-active"
               class="btn btn-block btn-danger">
@@ -134,9 +143,11 @@
             Radier le domicilié
             </a>
           </div>
+          <div class="w-100">
+            <br>
+          </div>
         </div>
-        <br>
-        <br>
+
       </div>
 
       <br>
@@ -597,6 +608,10 @@
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
+          <app-upload
+            *ngIf="usager.decision.statut !== 'RADIE'"
+            [usager]="usager"></app-upload>
+
           <div *ngIf="usager.docs.length === 0">
             <ngb-alert [dismissible]="false">Aucune pièce-jointe enregistrée</ngb-alert>
           </div>

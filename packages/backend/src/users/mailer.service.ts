@@ -24,6 +24,11 @@ export class MailerService {
       "structures/confirm/" +
       structure.token;
 
+    const deleteLink =
+      this.configService.get("FRONT_URL") +
+      "structures/delete/" +
+      structure.token;
+
     return this.mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
@@ -48,7 +53,7 @@ export class MailerService {
             departement: structure.departement,
             email: structure.email,
             lien_confirmation: confirmationLink,
-            lien_suppression: confirmationLink,
+            lien_suppression: deleteLink,
             phone: structure.phone,
             responsable_fonction: structure.responsable.fonction,
             responsable_nom: structure.responsable.nom,

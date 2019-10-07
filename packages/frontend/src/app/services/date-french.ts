@@ -12,10 +12,10 @@ const I18N_VALUES = {
       "Juin",
       "Juillet",
       "Août",
-      "Septembre",
-      "Octobre",
-      "Novembre",
-      "Décembre"
+      "Sept.",
+      "Oct.",
+      "Nov.",
+      "Déc."
     ],
     weekdays: ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
   }

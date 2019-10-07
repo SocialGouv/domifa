@@ -12,7 +12,8 @@ export class StructuresConfirmComponent implements OnInit {
   public title: string;
   public token: string;
   public structure: Structure;
-  public success: boolean;
+  public successDelete: boolean;
+  public successConfirm: boolean;
   public error: boolean;
 
   constructor(
@@ -25,17 +26,30 @@ export class StructuresConfirmComponent implements OnInit {
     this.title = "Inscription";
     this.token = this.route.snapshot.params.token;
 
-    this.success = false;
+    this.successDelete = false;
+    this.successConfirm = false;
+
     this.error = false;
 
-    this.structureService.confirm(this.token).subscribe(
-      structure => {
-        this.success = true;
-        this.structure = structure;
-      },
-      error => {
-        this.error = true;
-      }
-    );
+    if (this.route.snapshot.url[1].path === "delete") {
+      this.structureService.delete(this.token).subscribe(
+        structure => {
+          this.successDelete = true;
+        },
+        error => {
+          this.error = true;
+        }
+      );
+    } else if (this.route.snapshot.url[1].path === "confirm") {
+      this.structureService.confirm(this.token).subscribe(
+        structure => {
+          this.successConfirm = true;
+          this.structure = structure;
+        },
+        error => {
+          this.error = true;
+        }
+      );
+    }
   }
 }
