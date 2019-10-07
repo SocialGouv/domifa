@@ -134,6 +134,45 @@
 
 <div
   class="step_form"
+  *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !authService.isAdmin">
+  <div class="row">
+    <div class="col text-center">
+      <h5>
+        <b>Demande de domiciliation en cours</b>
+      </h5>
+      <br>
+      La demande d'élection de domicile de
+      <b>{{ usager.nom }} {{ usager.prenom }}</b>
+      a été envoyée le
+      <b>
+        {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}.
+      </b>
+      <br>
+      <br>
+      La personne référente dans votre structure est invitée à statuer sur cette demande
+      <br>
+      <br>
+      <button
+        (click)="getAttestation()"
+        class="btn btn-primary">
+        <fa-icon icon="download"></fa-icon>
+        Télécharger le CERFA de demande
+      </button>
+      <br>
+      <br>
+      <p class="text-center">
+        <a
+          routerLink="/manage"
+          routerLinkActive="router-link-active">
+          Retour à la liste des domiciliés
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div
+  class="step_form"
   id="step_form4"
   *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (authService.isAdmin && usager.decision.statut === 'ATTENTE_DECISION')">
   <div class="row">

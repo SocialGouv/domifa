@@ -142,7 +142,7 @@ export class ImportController {
           TYPE_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], true),
+          this.validDate(row[DATE_PREMIERE_DOM], false),
           index,
           DATE_PREMIERE_DOM
         );
@@ -207,6 +207,12 @@ export class ImportController {
               message: "ERRORS_IN_FILE"
             });
           }
+
+          try {
+            fs.unlinkSync(dir + "/" + file.filename);
+          } catch (err) {
+            this.logger.log("Impossible de supprimer le fichier d'import");
+          }
           return res
             .status(HttpStatus.OK)
             .json(await this.saveDatas(datas, user));
@@ -224,9 +230,17 @@ export class ImportController {
       const ayantsDroits = [];
 
       let motif = "";
+
       let dateDecision = this.notEmpty(row[DATE_DEBUT_DOM])
         ? this.convertDate(row[DATE_DEBUT_DOM])
         : new Date();
+
+      let datePremiereDom = new Date().toISOString();
+      if (this.notEmpty(row[DATE_PREMIERE_DOM])) {
+        datePremiereDom = this.convertDate(row[DATE_PREMIERE_DOM]);
+      } else if (!this.notEmpty(row[DATE_DEBUT_DOM])) {
+        datePremiereDom = this.convertDate(row[DATE_DEBUT_DOM]);
+      }
 
       const sexe = row[CIVILITE] === "H" ? "homme" : "femme";
 
@@ -258,6 +272,7 @@ export class ImportController {
         agent,
         ayantsDroits,
         dateNaissance: this.convertDate(row[DATE_NAISSANCE]),
+        datePremiereDom,
         decision: {
           agent,
           dateDebut: this.convertDate(row[DATE_DEBUT_DOM]),

@@ -24,6 +24,7 @@ import { ResetPasswordComponent } from "../../../users/components/reset-password
 import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
+import { UsagersModule } from "../../usagers.module";
 import { UsagersFormComponent } from "../form/usagers-form";
 import { ImportComponent } from "../import/import.component";
 import { ManageUsagersComponent } from "../manage/manage.component";
@@ -39,14 +40,9 @@ describe("UsagersProfilComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        UsagersProfilComponent,
-        UsagersFormComponent,
         AppComponent,
         HomeComponent,
         LoginComponent,
-        UsagersFormComponent,
-        ManageUsagersComponent,
-        UsagersProfilComponent,
         StructuresFormComponent,
         LoadingComponent,
         RegisterUserComponent,
@@ -55,11 +51,12 @@ describe("UsagersProfilComponent", () => {
         StructuresSearchComponent,
         StructuresConfirmComponent,
         ResetPasswordComponent,
-        UserProfilComponent,
-        ImportComponent
+        UserProfilComponent
       ],
       imports: [
+        UsagersModule,
         NgbModule,
+        UsagersModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,

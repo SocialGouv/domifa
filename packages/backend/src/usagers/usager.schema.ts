@@ -1,6 +1,5 @@
 // tslint:disable: object-literal-sort-keys
 import * as mongoose from "mongoose";
-import { InteractionSchema } from "../interactions/interaction.schema";
 import { Usager } from "./interfaces/usagers";
 
 export const UsagerSchema = new mongoose.Schema({

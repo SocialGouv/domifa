@@ -77,6 +77,7 @@ export class UsagersService {
     decision.dateDecision = new Date();
 
     const lastDecision = usager.decision;
+    const etapeDemande = 6;
 
     if (decision.statut === "ATTENTE_DECISION") {
       /* Mail au responsable */
@@ -119,8 +120,8 @@ export class UsagersService {
         {
           $push: { historique: lastDecision },
           $set: {
-            decision,
-            etapeDemande: 6
+            etapeDemande,
+            decision
           }
         },
         {

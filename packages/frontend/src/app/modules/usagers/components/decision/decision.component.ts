@@ -107,14 +107,14 @@ export class DecisionComponent implements OnInit {
   }
 
   public setDecision(statut: string) {
+    console.log(this.usager);
+
     if (statut === "REFUS") {
       if (this.refusForm.invalid) {
         return;
       }
       this.formDatas = this.refusForm.value;
-    }
-
-    if (statut === "VALIDE") {
+    } else if (statut === "VALIDE") {
       this.valideForm.controls.dateDebut.setValue(
         new Date(
           this.nbgDate.formatEn(this.valideForm.get("dateDebutPicker").value)
@@ -131,6 +131,8 @@ export class DecisionComponent implements OnInit {
         return;
       }
       this.formDatas = this.valideForm.value;
+    } else {
+      this.formDatas = { statut: "ATTENTE_DECISION" };
     }
 
     this.usagerService

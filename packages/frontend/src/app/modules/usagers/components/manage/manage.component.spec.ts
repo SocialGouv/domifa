@@ -21,9 +21,7 @@ import { AppRoutingModule, routes } from "../../../../app-routing.module";
 import { StructuresConfirmComponent } from "../../../structures/components/structures-confirm/structures-confirm.component";
 import { LoginComponent } from "../../../users/components/login/login.component";
 import { ResetPasswordComponent } from "../../../users/components/reset-password/reset-password.component";
-import { UsagersFormComponent } from "../form/usagers-form";
-import { ImportComponent } from "../import/import.component";
-import { UsagersProfilComponent } from "../profil/profil-component";
+import { UsagersModule } from "../../usagers.module";
 import { ManageUsagersComponent } from "./manage.component";
 
 describe("ManageUsagersComponent", () => {
@@ -36,9 +34,6 @@ describe("ManageUsagersComponent", () => {
         AppComponent,
         HomeComponent,
         LoginComponent,
-        UsagersFormComponent,
-        ManageUsagersComponent,
-        UsagersProfilComponent,
         StructuresFormComponent,
         LoadingComponent,
         RegisterUserComponent,
@@ -47,10 +42,10 @@ describe("ManageUsagersComponent", () => {
         StructuresSearchComponent,
         StructuresConfirmComponent,
         ResetPasswordComponent,
-        UserProfilComponent,
-        ImportComponent
+        UserProfilComponent
       ],
       imports: [
+        UsagersModule,
         NgbModule,
         RouterTestingModule.withRoutes(routes),
         ReactiveFormsModule,
@@ -81,7 +76,7 @@ describe("ManageUsagersComponent", () => {
       interactionType: null,
       name: null,
       sort: "az",
-      statut: "valide"
+      statut: "VALIDE"
     });
   }));
 
@@ -111,7 +106,7 @@ describe("ManageUsagersComponent", () => {
       interactionType: null,
       name: null,
       sort: "az",
-      statut: "valide"
+      statut: "VALIDE"
     });
   }));
 

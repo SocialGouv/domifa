@@ -185,7 +185,7 @@ export class UsagersFormComponent implements OnInit {
             this.addAyantDroit(ayantDroit);
           }
 
-          if (this.route.snapshot.url[2].path === "edit") {
+          if (this.route.snapshot.url[2].path === "renouvellement") {
             this.usager.etapeDemande = 1;
             this.usager.decision = new Decision({});
           }

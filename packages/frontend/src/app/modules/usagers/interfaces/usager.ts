@@ -28,7 +28,6 @@ export class Usager {
   public ayantsDroits: AyantDroit[];
 
   public agent: string;
-  public statut: string;
 
   public historique: string;
 

@@ -10,6 +10,7 @@ import { User } from "../../users/interfaces/user";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
+import { Decision } from "../interfaces/decision";
 @Injectable()
 export class UsagerService {
   public http: HttpClient;
@@ -49,7 +50,7 @@ export class UsagerService {
   }
 
   /* Ajout d'un rendez-vous */
-  public setDecision(idUsager: number, decision: any, statut: string) {
+  public setDecision(idUsager: number, decision: Decision, statut: string) {
     decision.statut = statut;
     return this.http.post(
       `${this.endPointUsagers}/decision/${idUsager}`,
