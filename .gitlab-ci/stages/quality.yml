@@ -32,15 +32,15 @@ Lint @domifa/backend:
 ###                TESTS                ###
 ###########################################
 
-Test @domifa/frontend:
-  <<: *quality_stage
-  <<: *master_based_stage
-  script:
-    - yarn workspace @domifa/frontend test --coverage
-
 Test @domifa/backend:
   <<: *quality_stage
   <<: *master_based_stage
   script:
     - touch packages/backend/src/config/config.env
     - yarn workspace @domifa/backend test --coverage
+
+Test @domifa/frontend:
+  <<: *quality_stage
+  <<: *master_based_stage
+  script:
+    - yarn workspace @domifa/frontend test --coverage
