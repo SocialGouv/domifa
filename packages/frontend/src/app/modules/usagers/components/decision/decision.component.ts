@@ -78,6 +78,8 @@ export class DecisionComponent implements OnInit {
     this.motifsRefusList = Object.keys(this.motifsRefus);
 
     this.refusForm = this.formBuilder.group({
+      dateFin: [this.usager.decision.dateFin, [Validators.required]],
+      dateFinPicker: [this.dateDebutPicker, [Validators.required]],
       motif: [this.usager.decision.motif, [Validators.required]],
       motifDetails: [this.usager.decision.motifDetails, []],
       orientation: [this.usager.decision.orientation, [Validators.required]],
@@ -105,6 +107,11 @@ export class DecisionComponent implements OnInit {
       if (this.refusForm.invalid) {
         return;
       }
+      this.refusForm.controls.dateFin.setValue(
+        new Date(
+          this.nbgDate.formatEn(this.refusForm.get("dateFinPicker").value)
+        ).toISOString()
+      );
       this.formDatas = this.refusForm.value;
     } else if (statut === "VALIDE") {
       this.valideForm.controls.dateDebut.setValue(

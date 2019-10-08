@@ -57,6 +57,13 @@ form label {
 }
 
 .modal-body .form-check {
-  padding: 5px 0 5px 1.5rem;
+  padding: 0 0 0 1.75rem;
   cursor: pointer;
+  width: 100%;
+}
+
+.modal-body .form-check-input {
+  font-weight: 300;
+  margin-top: 10px;
+  width: 100%;
 }

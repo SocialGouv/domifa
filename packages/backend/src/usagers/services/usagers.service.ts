@@ -87,7 +87,11 @@ export class UsagersService {
       /* Récupération du dernier ID lié à la structure */
       /* SMS & Mail pr prévenir */
       decision.dateDebut = lastDecision.dateDebut;
-      decision.dateFin = new Date();
+
+      decision.dateFin =
+        decision.dateFin !== undefined && decision.dateFin !== null
+          ? new Date(decision.dateFin)
+          : (decision.dateFin = new Date());
     }
 
     if (decision.statut === "RADIE") {
@@ -120,8 +124,8 @@ export class UsagersService {
         {
           $push: { historique: lastDecision },
           $set: {
-            etapeDemande,
-            decision
+            decision,
+            etapeDemande
           }
         },
         {

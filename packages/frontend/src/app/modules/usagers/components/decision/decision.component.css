@@ -1,4 +1,6 @@
 .form-check label {
   font-weight: 300;
   margin-left: 5px;
+  padding: 6px 0;
+  width: 100%;
 }
