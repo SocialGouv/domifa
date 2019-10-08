@@ -16,7 +16,7 @@ describe("StructureService", () => {
     expect(service).toBeTruthy();
 
     service.getAll().subscribe((structures: Structure[]) => {
-      expect(structures.length).toEqual(3);
+      expect(structures.length).toEqual(1);
     });
 
     service.getStructure(100).subscribe(

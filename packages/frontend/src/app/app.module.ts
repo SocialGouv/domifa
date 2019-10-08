@@ -28,14 +28,9 @@ import { NotFoundComponent } from "./modules/general/components/errors/not-found
 import { HomeComponent } from "./modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { LoadingComponent } from "./modules/loading/loading.component";
-import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
-import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
-import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
+import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
-import { LoginComponent } from "./modules/users/components/login/login.component";
-import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
-import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
-import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
+import { UsersModule } from "./modules/users/users.module";
 
 library.add(fas, far);
 
@@ -44,19 +39,16 @@ library.add(fas, far);
   declarations: [
     AppComponent,
     HomeComponent,
-    StructuresFormComponent,
-    StructuresConfirmComponent,
     LoadingComponent,
-    RegisterUserComponent,
     MentionsLegalesComponent,
     NotFoundComponent,
-    StructuresSearchComponent,
-    LoginComponent,
-    ResetPasswordComponent,
-    UserProfilComponent
+    DateFrDirective,
+    DigitOnlyDirective
   ],
   imports: [
     UsagersModule,
+    UsersModule,
+    StructuresModule,
     BrowserModule,
     NgxPrintModule,
     BrowserAnimationsModule,

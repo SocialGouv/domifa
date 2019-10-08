@@ -5,13 +5,19 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import {
+  ActivatedRoute,
+  Params,
+  RouterModule,
+  UrlSegment
+} from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { StructuresConfirmComponent } from "./structures-confirm.component";
 
 describe("StructuresConfirmComponent", () => {
   let component: StructuresConfirmComponent;
   let fixture: ComponentFixture<StructuresConfirmComponent>;
+  let activatedRoute: ActivatedRoute;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,9 +30,25 @@ describe("StructuresConfirmComponent", () => {
         HttpClientTestingModule,
         RouterModule.forRoot([])
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              params: { token: "ojopkopkpok" },
+              url: [
+                new UrlSegment("structures", {}),
+                new UrlSegment("confirm", {}),
+                new UrlSegment("1", {})
+              ]
+            }
+          }
+        }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
+    });
+    activatedRoute = TestBed.get(ActivatedRoute);
   }));
 
   beforeEach(() => {

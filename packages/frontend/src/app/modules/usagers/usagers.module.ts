@@ -8,8 +8,6 @@ import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxPrintModule } from "ngx-print";
-import { DateFrDirective } from "src/app/directives/date-fr.directive";
-import { DigitOnlyDirective } from "src/app/directives/digit-only.directive";
 import { DecisionComponent } from "./components/decision/decision.component";
 import { UsagersFormComponent } from "./components/form/usagers-form";
 import { ImportComponent } from "./components/import/import.component";
@@ -17,6 +15,8 @@ import { ManageUsagersComponent } from "./components/manage/manage.component";
 import { UsagersProfilComponent } from "./components/profil/profil-component";
 import { RaftComponent } from "./components/raft/raft.component";
 import { UploadComponent } from "./components/upload/upload.component";
+import { DocumentService } from "./services/document.service";
+import { UsagerService } from "./services/usager.service";
 
 @NgModule({
   declarations: [
@@ -26,8 +26,6 @@ import { UploadComponent } from "./components/upload/upload.component";
     ManageUsagersComponent,
     UsagersProfilComponent,
     ImportComponent,
-    DigitOnlyDirective,
-    DateFrDirective,
     RaftComponent
   ],
   exports: [
@@ -50,6 +48,7 @@ import { UploadComponent } from "./components/upload/upload.component";
     NgbModule,
     FormsModule,
     ReactiveFormsModule
-  ]
+  ],
+  providers: [DocumentService, UsagerService]
 })
 export class UsagersModule {}

@@ -4,15 +4,13 @@ import { User } from "../../users/user.interface";
 import { UsersService } from "../../users/users.service";
 import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usagers";
-import { UsagersService } from "./usagers.service";
 
 @Injectable()
 export class DocumentsService {
   private readonly logger = new Logger(UsersService.name);
 
   constructor(
-    @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model,
-    private readonly usagersService: UsagersService
+    @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
   ) {}
 
   public async deleteDocument(

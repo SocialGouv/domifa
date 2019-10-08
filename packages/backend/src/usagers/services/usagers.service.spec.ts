@@ -45,7 +45,7 @@ describe("UsagersService", () => {
   it("0. Create / Read / Update / Delete", async () => {
     // LAST ID
     expect(service.findAll()).toBeTruthy();
-    expect(await service.findLast()).toEqual(5);
+    expect(await service.findLast()).toEqual(6);
 
     // CREATE
     const user = await userService.findOne({ id: 1 });
@@ -54,10 +54,10 @@ describe("UsagersService", () => {
     const usagerTest = await service.create(fakeUsagerDto, user);
 
     expect(usagerTest).toBeDefined();
-    expect(usagerTest.id).toEqual(5);
+    expect(usagerTest.id).toEqual(6);
 
     // READ
-    const usager = await service.findById(5, user.structureId);
+    const usager = await service.findById(6, user.structureId);
     expect(usager).toBeTruthy();
     expect(usager.nom).toEqual("Usager");
     expect(usager.sexe).toEqual("homme");
@@ -73,12 +73,14 @@ describe("UsagersService", () => {
     expect(updatedUser.prenom).toEqual("Nouveau prénom");
 
     // DELETE
-    const deletedUsager = await service.deleteById(5);
+    const deletedUsager = await service.delete(6, user);
     expect(await deletedUsager.deletedCount).toEqual(1);
   });
 
   it("2. Doublons", async () => {
-    const doublons = await service.isDoublon("del", "Kar");
+    const user = await userService.findOne({ id: 1 });
+
+    const doublons = await service.isDoublon("Lou", "Li", user);
     expect(doublons.length).toEqual(1);
   });
 
@@ -93,7 +95,7 @@ describe("UsagersService", () => {
 
     expect(service.searchQuery).toEqual({
       "decision.statut": "VALIDE",
-      structureId: 2
+      structureId: user.structureId
     });
 
     expect(service.sort).toEqual({ nom: "ascending" });
@@ -101,18 +103,18 @@ describe("UsagersService", () => {
     searchDto.sort = "za";
     searchDto.interactionType = "courrierIn";
 
-    service.search(searchDto, 2);
+    service.search(searchDto, user.structureId);
     expect(service.sort).toEqual({ nom: "descending" });
     expect(service.searchQuery).toEqual({
       "decision.statut": "VALIDE",
       "lastInteraction.nbCourrier": { $gt: 0 },
-      structureId: 2
+      structureId: user.structureId
     });
 
     delete searchDto.interactionType;
     searchDto.name = "as";
 
-    service.search(searchDto, 2);
+    service.search(searchDto, user.structureId);
     expect(service.searchQuery).toEqual({
       $or: [
         { nom: { $regex: ".*as.*", $options: "-i" } },
@@ -120,7 +122,7 @@ describe("UsagersService", () => {
         { surnom: { $regex: ".*as.*", $options: "-i" } }
       ],
       "decision.statut": "VALIDE",
-      structureId: 2
+      structureId: user.structureId
     });
   });
 });

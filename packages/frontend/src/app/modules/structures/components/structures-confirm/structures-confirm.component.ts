@@ -18,20 +18,18 @@ export class StructuresConfirmComponent implements OnInit {
 
   constructor(
     private structureService: StructureService,
-    private router: Router,
     private route: ActivatedRoute
   ) {}
 
   public ngOnInit() {
     this.title = "Inscription";
-    this.token = this.route.snapshot.params.token;
-
     this.successDelete = false;
     this.successConfirm = false;
 
     this.error = false;
 
     if (this.route.snapshot.url[1].path === "delete") {
+      this.token = this.route.snapshot.url[2].path;
       this.structureService.delete(this.token).subscribe(
         structure => {
           this.successDelete = true;
@@ -41,6 +39,8 @@ export class StructuresConfirmComponent implements OnInit {
         }
       );
     } else if (this.route.snapshot.url[1].path === "confirm") {
+      this.token = this.route.snapshot.url[2].path;
+
       this.structureService.confirm(this.token).subscribe(
         structure => {
           this.successConfirm = true;

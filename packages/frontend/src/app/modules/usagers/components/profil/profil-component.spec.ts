@@ -5,7 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { Router, RouterModule } from "@angular/router";
+import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from "src/app/app.component";
@@ -13,21 +13,13 @@ import { NotFoundComponent } from "src/app/modules/general/components/errors/not
 import { HomeComponent } from "src/app/modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "src/app/modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { LoadingComponent } from "src/app/modules/loading/loading.component";
-import { StructuresFormComponent } from "src/app/modules/structures/components/structures-form/structures-form.component";
-import { StructuresSearchComponent } from "src/app/modules/structures/components/structures-search/structures-search.component";
-import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
-import { UserProfilComponent } from "src/app/modules/users/components/user-profil/user-profil.component";
+import { StructuresModule } from "src/app/modules/structures/structures.module";
+import { UsersModule } from "src/app/modules/users/users.module";
 import { routes } from "../../../../app-routing.module";
-import { StructuresConfirmComponent } from "../../../structures/components/structures-confirm/structures-confirm.component";
-import { LoginComponent } from "../../../users/components/login/login.component";
-import { ResetPasswordComponent } from "../../../users/components/reset-password/reset-password.component";
 import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
-import { UsagersFormComponent } from "../form/usagers-form";
-import { ImportComponent } from "../import/import.component";
-import { ManageUsagersComponent } from "../manage/manage.component";
 import { UsagersProfilComponent } from "./profil-component";
 
 describe("UsagersProfilComponent", () => {
@@ -42,19 +34,14 @@ describe("UsagersProfilComponent", () => {
       declarations: [
         AppComponent,
         HomeComponent,
-        LoginComponent,
-        StructuresFormComponent,
         LoadingComponent,
-        RegisterUserComponent,
         MentionsLegalesComponent,
-        NotFoundComponent,
-        StructuresSearchComponent,
-        StructuresConfirmComponent,
-        ResetPasswordComponent,
-        UserProfilComponent
+        NotFoundComponent
       ],
       imports: [
+        UsersModule,
         UsagersModule,
+        StructuresModule,
         NgbModule,
         UsagersModule,
         ReactiveFormsModule,

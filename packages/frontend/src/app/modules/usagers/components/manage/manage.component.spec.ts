@@ -3,24 +3,18 @@ import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { async, fakeAsync, inject, TestBed, tick } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { Router, RouterModule } from "@angular/router";
+import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from "src/app/app.component";
-import { AppModule } from "src/app/app.module";
 import { NotFoundComponent } from "src/app/modules/general/components/errors/not-found/not-found.component";
 import { HomeComponent } from "src/app/modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "src/app/modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { LoadingComponent } from "src/app/modules/loading/loading.component";
-import { StructuresFormComponent } from "src/app/modules/structures/components/structures-form/structures-form.component";
-import { StructuresSearchComponent } from "src/app/modules/structures/components/structures-search/structures-search.component";
 
-import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
-import { UserProfilComponent } from "src/app/modules/users/components/user-profil/user-profil.component";
-import { AppRoutingModule, routes } from "../../../../app-routing.module";
-import { StructuresConfirmComponent } from "../../../structures/components/structures-confirm/structures-confirm.component";
-import { LoginComponent } from "../../../users/components/login/login.component";
-import { ResetPasswordComponent } from "../../../users/components/reset-password/reset-password.component";
+import { StructuresModule } from "src/app/modules/structures/structures.module";
+import { UsersModule } from "src/app/modules/users/users.module";
+import { routes } from "../../../../app-routing.module";
 import { UsagersModule } from "../../usagers.module";
 import { ManageUsagersComponent } from "./manage.component";
 
@@ -33,19 +27,14 @@ describe("ManageUsagersComponent", () => {
       declarations: [
         AppComponent,
         HomeComponent,
-        LoginComponent,
-        StructuresFormComponent,
         LoadingComponent,
-        RegisterUserComponent,
         MentionsLegalesComponent,
-        NotFoundComponent,
-        StructuresSearchComponent,
-        StructuresConfirmComponent,
-        ResetPasswordComponent,
-        UserProfilComponent
+        NotFoundComponent
       ],
       imports: [
+        StructuresModule,
         UsagersModule,
+        UsersModule,
         NgbModule,
         RouterTestingModule.withRoutes(routes),
         ReactiveFormsModule,

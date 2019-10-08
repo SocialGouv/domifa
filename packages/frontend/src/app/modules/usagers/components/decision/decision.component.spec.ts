@@ -1,5 +1,9 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
+import { APP_BASE_HREF } from "@angular/common";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { UsagerService } from "../../services/usager.service";
+import { UsagersModule } from "../../usagers.module";
 import { DecisionComponent } from "./decision.component";
 
 describe("DecisionComponent", () => {
@@ -8,8 +12,11 @@ describe("DecisionComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DecisionComponent]
-    }).compileComponents();
+      declarations: [],
+      imports: [UsagersModule],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    });
   }));
 
   beforeEach(() => {

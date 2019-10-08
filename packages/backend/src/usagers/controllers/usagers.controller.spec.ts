@@ -42,7 +42,7 @@ describe("Usagers Controller", () => {
     try {
       await controller.findOne(30, user);
     } catch (err) {
-      expect(err.message).toEqual("BAD_REQUEST");
+      expect(err.message).toEqual("USAGER_NOT_FOUND");
     }
   });
 

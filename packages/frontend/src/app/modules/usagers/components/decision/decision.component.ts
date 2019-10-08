@@ -1,19 +1,15 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
-import { StructureService } from "src/app/modules/structures/services/structure.service";
-import { UsersService } from "src/app/modules/users/services/users.service";
-import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { ENTRETIEN_LABELS, motifsRefus } from "src/app/shared/entretien.labels";
 import { Usager } from "../../interfaces/usager";
-import { DocumentService } from "../../services/document.service";
 import { UsagerService } from "../../services/usager.service";
 
 @Component({
@@ -60,11 +56,6 @@ export class DecisionComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
-    private userService: UsersService,
-    private documentService: DocumentService,
-    private authService: AuthService,
-    private structureService: StructureService,
-    private route: ActivatedRoute,
     private modalService: NgbModal,
     private router: Router,
     private nbgDate: NgbDateCustomParserFormatter
@@ -107,8 +98,6 @@ export class DecisionComponent implements OnInit {
   }
 
   public setDecision(statut: string) {
-    console.log(this.usager);
-
     if (statut === "REFUS") {
       if (this.refusForm.invalid) {
         return;
@@ -148,5 +137,8 @@ export class DecisionComponent implements OnInit {
 
   public open(content: string) {
     this.modal = this.modalService.open(content);
+  }
+  public getAttestation() {
+    return this.usagerService.attestation(this.usager.id);
   }
 }

@@ -7,10 +7,10 @@ import { AuthService } from "src/app/services/auth.service";
 import { environment } from "src/environments/environment";
 import { LoadingService } from "../../loading/loading.service";
 import { User } from "../../users/interfaces/user";
+import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
-import { Decision } from "../interfaces/decision";
 @Injectable()
 export class UsagerService {
   public http: HttpClient;

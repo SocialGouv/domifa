@@ -12,11 +12,9 @@ import { NotFoundComponent } from "src/app/modules/general/components/errors/not
 import { HomeComponent } from "src/app/modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "src/app/modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { LoadingComponent } from "src/app/modules/loading/loading.component";
-import { UsagersFormComponent } from "src/app/modules/usagers/components/form/usagers-form";
-import { ManageUsagersComponent } from "src/app/modules/usagers/components/manage/manage.component";
-import { UsagersProfilComponent } from "src/app/modules/usagers/components/profil/profil-component";
-import { RegisterUserComponent } from "src/app/modules/users/components/register-user/register-user.component";
-import { StructuresFormComponent } from "../structures-form/structures-form.component";
+import { UsagersModule } from "src/app/modules/usagers/usagers.module";
+import { UsersModule } from "src/app/modules/users/users.module";
+import { StructuresModule } from "../../structures.module";
 import { StructuresSearchComponent } from "./structures-search.component";
 
 describe("StructuresSearchComponent", () => {
@@ -26,20 +24,16 @@ describe("StructuresSearchComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        UsagersFormComponent,
         AppComponent,
         HomeComponent,
-        UsagersFormComponent,
-        ManageUsagersComponent,
-        UsagersProfilComponent,
-        StructuresFormComponent,
         LoadingComponent,
-        RegisterUserComponent,
         MentionsLegalesComponent,
-        NotFoundComponent,
-        StructuresSearchComponent
+        NotFoundComponent
       ],
       imports: [
+        StructuresModule,
+        UsagersModule,
+        UsersModule,
         NgbModule,
         ReactiveFormsModule,
         FormsModule,

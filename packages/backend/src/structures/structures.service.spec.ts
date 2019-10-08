@@ -57,22 +57,22 @@ describe("Structure Service", () => {
   it("0. Create / Read / Update / Delete", async () => {
     // LAST ID
     expect(service.findAll()).toBeTruthy();
-    expect(await service.findLast()).toEqual(4);
+    expect(await service.findLast()).toEqual(2);
 
     // CREATE
     const newStructure = await service.create(structureDto);
     expect(await newStructure).toBeDefined();
-    expect(await newStructure.id).toEqual(4);
+    expect(await newStructure.id).toEqual(2);
 
     // READ
-    const structure = await service.findById(4);
+    const structure = await service.findOne(2);
     expect(await structure).toBeTruthy();
     expect(await structure.ville).toEqual("Paris");
     expect(await structure.nom).toEqual("Association Amicale");
     structureDto.id = await structure.id;
 
     // DELETE
-    const deletedstructure = await service.deleteById(4);
+    const deletedstructure = await service.delete(structure.token);
     expect(await deletedstructure.deletedCount).toEqual(1);
   });
 });
