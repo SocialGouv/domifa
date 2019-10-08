@@ -1133,7 +1133,9 @@
   <!-- ///////// -->
   <!-- ETAPE 5 DECISION
   <!-- ///////// -->
-  <app-decision [usager]="usager"></app-decision>
+  <app-decision
+    [usager]="usager"
+    [isAdmin]="authService.isAdmin"></app-decision>
 
   <ng-template
     #entretienConfirmation

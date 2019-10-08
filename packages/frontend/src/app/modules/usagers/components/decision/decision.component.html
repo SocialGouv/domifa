@@ -1,5 +1,5 @@
 <ngb-accordion
-  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (authService.isAdmin && usager.decision.statut === 'ATTENTE_DECISION')"
+  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (isAdmin && usager.decision.statut === 'ATTENTE_DECISION')"
   #acc="ngbAccordion"
   class="recap">
   <ngb-panel id="panel-0">
@@ -134,7 +134,7 @@
 
 <div
   class="step_form"
-  *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !authService.isAdmin">
+  *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin">
   <div class="row">
     <div class="col text-center">
       <h5>
@@ -174,7 +174,7 @@
 <div
   class="step_form"
   id="step_form4"
-  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (authService.isAdmin && usager.decision.statut === 'ATTENTE_DECISION')">
+  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (isAdmin && usager.decision.statut === 'ATTENTE_DECISION')">
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <h5 class="text-center">
@@ -186,7 +186,7 @@
       <br>
       <div
         class="row"
-        *ngIf="authService.isAdmin">
+        *ngIf="isAdmin">
         <div class="col-md-6">
           <button
             class="btn-block btn btn-danger"
@@ -208,7 +208,7 @@
       </div>
       <div
         class="row"
-        *ngIf="!authService.isAdmin">
+        *ngIf="!isAdmin">
         <br>
         <div class="col-md-10 offset-md-1">
           <button

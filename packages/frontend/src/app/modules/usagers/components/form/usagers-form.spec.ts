@@ -95,7 +95,6 @@ describe("UsagersFormComponent", () => {
   it("8. Message ERREUR", fakeAsync(() => {
     app.changeSuccessMessage("erreur", true);
     tick();
-
     expect(app.errorMessage).toEqual("erreur");
     expect(app.successMessage).toBeNull();
   }));

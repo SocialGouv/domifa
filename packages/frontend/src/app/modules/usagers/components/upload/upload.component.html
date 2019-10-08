@@ -69,7 +69,6 @@
     <div class="w-100"></div>
     <br>
     <div class="col-md-12">
-      <div *ngIf="error">{{ uploadError.message }}</div>
       <div *ngIf="uploadResponse">
         <div *ngIf="uploadResponse.status === 'error'">{{ uploadResponse.message }}</div>
         <div *ngIf="uploadResponse.status === 'progress'">

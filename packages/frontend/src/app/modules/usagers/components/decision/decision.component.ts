@@ -11,6 +11,7 @@ import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { ENTRETIEN_LABELS, motifsRefus } from "src/app/shared/entretien.labels";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
   providers: [
@@ -52,9 +53,11 @@ export class DecisionComponent implements OnInit {
   };
 
   @Input() public usager: Usager;
+  @Input() public isAdmin: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
+    private authService: AuthService,
     private usagerService: UsagerService,
     private modalService: NgbModal,
     private router: Router,
