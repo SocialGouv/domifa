@@ -8,8 +8,6 @@ import { UsagersModule } from "../../usagers.module";
 import { DecisionComponent } from "./decision.component";
 
 describe("DecisionComponent", () => {
-  let component: DecisionComponent;
-  let fixture: ComponentFixture<DecisionComponent>;
   let usagerService: UsagerService;
 
   beforeEach(async(() => {
@@ -19,8 +17,6 @@ describe("DecisionComponent", () => {
       providers: [UsagerService, { provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
-
-    usagerService = TestBed.get(UsagerService);
 
     /*
   usagerService.findOne(1).subscribe((usager: Usager) => {
@@ -32,5 +28,7 @@ describe("DecisionComponent", () => {
     */
   }));
 
-  it("should create", () => {});
+  it("should create", () => {
+    usagerService = TestBed.get(UsagerService);
+  });
 });

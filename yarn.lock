@@ -135,10 +135,10 @@
     "@angular-devkit/core" "8.3.6"
     rxjs "6.4.0"
 
-"@angular/animations@~8.1.3":
-  version "8.1.3"
-  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-8.1.3.tgz#369853b2d74c6e99086243a747d05f0f77286f96"
-  integrity sha512-IdWz2EcF+8ZM7LSZ+Kc64RNoLQK7t7hJr+3nKuiTZDncIwMcV3yPn98Jz5BncLNcK0vkYju/hPqnWJgI/0+w6A==
+"@angular/animations@^8.2.9":
+  version "8.2.9"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-8.2.9.tgz#2da26a6ebcb8041fe681c0f8214d65b543da1e61"
+  integrity sha512-l30AF0d9P5okTPM1wieUHgcnDyGSNvyaBcxXSOkT790wAP2v5zs7VrKq9Lm+ICu4Nkx07KrOr5XLUHhqsg3VXA==
   dependencies:
     tslib "^1.9.0"
 
@@ -8397,12 +8397,24 @@ next-tick@1, next-tick@^1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
+ngx-matomo@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ngx-matomo/-/ngx-matomo-0.1.4.tgz#93f3064208530388132207b1ecbd9361e0d3ce7b"
+  integrity sha512-AKZMnJGyytZqAxuSh+k/AulyQhgqlnnsmtkfvHMJyNuh5g+wVpIbwac36RyeFU3El6INgZVso2CCLElV3bQnBQ==
+
 ngx-print@^1.2.0-beta.3:
   version "1.2.0-beta.3"
   resolved "https://registry.yarnpkg.com/ngx-print/-/ngx-print-1.2.0-beta.3.tgz#429b0fc19e4aa06056d007323ab22eadf087fd6a"
   integrity sha512-woox8eUCsPnIZgKm36J4dE1gbt5P35nkqmmUqYcWegsfsP/jotAoxDy8W8Tb/LC8KqBoyOxACllG/ndKBBsUvA==
   dependencies:
     tslib "^1.9.3"
+
+ngx-toastr@^11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-11.1.0.tgz#b001ca7f2ce398faef728e9c30307375a4049c8e"
+  integrity sha512-eJ+Szrs7JPPLGGbirZULFX3XTfW4Nh16oWaMObpwx3hGX6R6//LZXqPASCZynupoextqmaYXGsFGY0pW1k6UMA==
+  dependencies:
+    tslib "^1.9.0"
 
 nice-try@^1.0.4:
   version "1.0.5"

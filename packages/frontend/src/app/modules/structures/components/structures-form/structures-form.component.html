@@ -38,25 +38,6 @@
     </div>
   </div>
 </div>
-
-<div class="col-md-10 offset-md-1">
-  <div class="w-100"></div>
-  <ngb-alert
-    @fadeInOut
-    *ngIf="errorMessage"
-    type="danger"
-    (close)="errorMessage = null">
-    <strong>Erreur:</strong>
-    {{ errorMessage }}
-  </ngb-alert>
-  <ngb-alert
-    @fadeInOut
-    *ngIf="successMessage"
-    type="success"
-    (close)="successMessage = null">
-    <strong>La structure a été créée avec succès</strong>
-  </ngb-alert>
-</div>
 <div
   class="step_form"
   *ngIf="etapeInscription == 0">

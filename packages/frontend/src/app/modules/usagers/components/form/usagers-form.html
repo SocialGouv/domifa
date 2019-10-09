@@ -47,29 +47,17 @@
     <div class="w-100"></div>
     <ngb-alert
       @fadeInOut
-      *ngIf="errorMessage"
-      type="warning"
-      (close)="errorMessage = null">
-      <strong>Erreur:</strong>
-      {{ errorMessage }}
-      <div *ngIf="doublons">
-        <ul>
-          <li *ngFor="let doublon of doublons">
-            <a routerLink="'/usager/'+doublon.id+'/edit'">
-              <b>{{ doublon.nom }}</b>
-              {{ doublon.prenom }}
-            </a>
-            né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
-          </li>
-        </ul>
-      </div>
-    </ngb-alert>
-    <ngb-alert
-      @fadeInOut
-      *ngIf="successMessage"
-      type="success"
-      (close)="successMessage = null">
-      <strong>{{ successMessage }}</strong>
+      *ngIf="doublons.length > 0"
+      type="warning">
+      <ul>
+        <li *ngFor="let doublon of doublons">
+          <a routerLink="'/usager/'+doublon.id+'/edit'">
+            <b>{{ doublon.nom }}</b>
+            {{ doublon.prenom }}
+          </a>
+          né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
+        </li>
+      </ul>
     </ngb-alert>
   </div>
   <div
@@ -208,7 +196,6 @@
           <div class="col">
             <div class="form-group required">
               <label for="dateNaissancePicker">Date de naissance</label>
-
               <div class="input-group">
                 <input
                   class="form-control"
@@ -240,15 +227,14 @@
                   <div *ngIf="f.dateNaissancePicker.value.year <= 1800">Pas de date avant 1900</div>
                 </div>
                 <div
-                  *ngIf="f.dateNaissancePicker.errors"
+                  *ngIf="f.dateNaissancePicker.invalid"
                   class="invalid-feedback">
-
                   <div *ngIf="submitted && f.dateNaissancePicker.errors.required">
                     La
                     <b>date de naissance</b>
                     est obligatoire
                   </div>
-                  <div *ngIf="submitted && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)">
+                  <div *ngIf="f.dateNaissancePicker.dirty && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)">
                     La
                     <b>date de naissance</b>
                     est incorrecte (ex: 20/12/1991)

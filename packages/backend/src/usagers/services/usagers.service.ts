@@ -30,7 +30,7 @@ export class UsagersService {
 
     createdUsager.structureId = user.structureId;
     createdUsager.etapeDemande++;
-    createdUsager.id = await this.findLast();
+    createdUsager.id = await this.findLast(user.structureId);
     return createdUsager.save();
   }
 
@@ -188,10 +188,6 @@ export class UsagersService {
       .exec();
   }
 
-  public async findAll(): Promise<Usager[]> {
-    return this.usagerModel.find().exec();
-  }
-
   public async findById(
     id: number,
     structureId: number,
@@ -287,20 +283,20 @@ export class UsagersService {
       .exec();
   }
 
-  public async save(data: any) {
+  public async save(data: any, user: User) {
     const createdUsager = new this.usagerModel(data);
-    createdUsager.id = await this.findLast();
+    createdUsager.id = await this.findLast(user.structureId);
     return createdUsager.save();
   }
 
-  public async findLast(): Promise<number> {
+  public async findLast(structureId: number): Promise<number> {
     try {
-      const lastUser = await this.usagerModel
-        .findOne({}, { id: 1 })
+      const lastUsager = await this.usagerModel
+        .findOne({ structureId }, { id: 1 })
         .sort({ id: -1 })
         .lean()
         .exec();
-      return lastUser.id === undefined ? 1 : lastUser.id + 1;
+      return lastUsager.id === undefined ? 1 : lastUsager.id + 1;
     } catch (e) {
       return 1;
     }

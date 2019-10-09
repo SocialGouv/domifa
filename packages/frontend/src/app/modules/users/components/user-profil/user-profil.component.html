@@ -1,23 +1,4 @@
 <div class="step_form">
-  <div class="col-md-10 offset-md-1">
-    <div class="w-100"></div>
-    <ngb-alert
-      @fadeInOut
-      *ngIf="errorMessage"
-      type="danger"
-      (close)="errorMessage = null">
-      <strong>Erreur:</strong>
-      {{ errorMessage }}
-    </ngb-alert>
-    <ngb-alert
-      @fadeInOut
-      *ngIf="successMessage"
-      type="success"
-      (close)="successMessage = null">
-      <strong>{{ successMessage }}</strong>
-    </ngb-alert>
-  </div>
-
   <h3>Mon compte</h3>
   <button
     class="btn btn-primary"

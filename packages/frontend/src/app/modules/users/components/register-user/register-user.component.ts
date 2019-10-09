@@ -1,9 +1,16 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Subject } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators
+} from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { of } from "rxjs";
+import { map } from "rxjs/operators";
 import { fadeInOut } from "../../../../shared/animations";
+import { regexp } from "../../../../shared/validators";
 import { User } from "../../interfaces/user";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
@@ -27,18 +34,16 @@ export class RegisterUserComponent implements OnInit {
 
   public hidePassword: boolean;
   public hidePasswordConfirm: boolean;
-  public successMessage: string;
-  public errorMessage: string;
+
+  public emailExist: boolean = false;
 
   @Input() public structureChild: any;
-
-  private successSubject = new Subject<string>();
-  private errorSubject = new Subject<string>();
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notifService: ToastrService
   ) {}
 
   public ngOnInit() {
@@ -55,28 +60,17 @@ export class RegisterUserComponent implements OnInit {
 
     this.success = false;
     this.initForm();
-
-    this.successSubject.subscribe(message => {
-      this.successMessage = message;
-      this.errorMessage = null;
-    });
-
-    this.errorSubject.subscribe(message => {
-      this.errorMessage = message;
-      this.successMessage = null;
-      this.success = false;
-    });
-
-    this.successSubject
-      .pipe(debounceTime(10000))
-      .subscribe(() => (this.successMessage = null));
   }
 
   public initForm() {
     this.userForm = this.formBuilder.group(
       {
         confirmPassword: [null, Validators.compose([Validators.required])],
-        email: [this.user.email, [Validators.email, Validators.required]],
+        email: [
+          this.user.email,
+          [Validators.email, Validators.required],
+          this.validateEmailNotTaken.bind(this)
+        ],
         fonction: [this.user.fonction, Validators.required],
         nom: [this.user.nom, Validators.required],
         password: [
@@ -104,45 +98,38 @@ export class RegisterUserComponent implements OnInit {
   public submitUser() {
     this.submitted = true;
     if (this.userForm.invalid) {
-      Object.keys(this.userForm.controls).forEach(key => {
-        if (this.userForm.get(key).errors != null) {
-          this.changeSuccessMessage(
-            "veuillez vérifier les champs marqués en rouge dans le formulaire",
-            true
-          );
-        }
-      });
+      this.notifService.error(
+        "veuillez vérifier les champs marqués en rouge dans le formulaire",
+        "Erreur dans le formulaire"
+      );
     } else {
       this.userService.create(this.userForm.value).subscribe(
         (user: User) => {
           this.user = new User(user);
           this.success = true;
+          this.notifService.success(
+            "Votre compte a été créé avec succès",
+            "Féliciations !"
+          );
         },
-        error => {
-          if (error.message === "EMAIL_EXIST") {
-            this.changeSuccessMessage(
-              "Il existe déjà un compte utilisant cette adresse email",
-              true
-            );
-          } else {
-            this.changeSuccessMessage(
-              "Une erreur inattendue est survenue, veuillez contacter l'équipe Domifa",
-              true
-            );
-          }
+        () => {
+          this.notifService.error(
+            "veuillez vérifier les champs marqués en rouge dans le formulaire",
+            "Erreur dans le formulaire"
+          );
         }
       );
     }
   }
 
-  public changeSuccessMessage(message: string, erreur?: boolean) {
-    window.scroll({
-      behavior: "smooth",
-      left: 0,
-      top: 0
-    });
-    erreur
-      ? this.errorSubject.next(message)
-      : this.successSubject.next(message);
+  public validateEmailNotTaken(control: AbstractControl) {
+    const testEmail = RegExp(regexp.email).test(control.value);
+    return testEmail
+      ? this.userService.validateEmail(control.value).pipe(
+          map((res: boolean) => {
+            return res === false ? null : { emailTaken: true };
+          })
+        )
+      : of(null);
   }
 }

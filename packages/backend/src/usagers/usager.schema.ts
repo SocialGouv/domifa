@@ -4,8 +4,7 @@ import { Usager } from "./interfaces/usagers";
 
 export const UsagerSchema = new mongoose.Schema({
   id: {
-    type: Number,
-    unique: true
+    type: Number
   },
 
   agent: String,

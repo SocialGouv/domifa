@@ -158,27 +158,8 @@
       </ngb-alert>
     </div>
 
-    <div class="row">
-      <div class="col-md-10 offset-md-1">
-        <ngb-alert
-          @fadeInOut
-          *ngIf="errorMessage"
-          type="danger"
-          (close)="errorMessage = null">
-          <strong>Erreur:</strong>
-          {{ errorMessage }}
-        </ngb-alert>
-        <ngb-alert
-          @fadeInOut
-          *ngIf="successMessage"
-          type="success"
-          (close)="successMessage = null">
-          <strong>{{ successMessage }}</strong>
-        </ngb-alert>
-      </div>
-    </div>
-
     <div *ngIf="usager.decision.statut === 'VALIDE'">
+      <br>
       <h5 class="text-center font-weight-bold">
         Signalez la réception d’un courrier ou un passage
       </h5>
@@ -274,7 +255,7 @@
     </ngb-alert>
     <ngb-accordion
       #acc="ngbAccordion"
-      activeIds="panel-0,panel-1,panel-6,panel-7,panel-8">
+      activeIds="panel-0,panel-1,panel-5">
       <ngb-panel id="panel-0">
         <ng-template
           ngbPanelHeader
@@ -657,59 +638,20 @@
           </table>
         </ng-template>
       </ngb-panel>
-      <ngb-panel id="panel-6">
-        <ng-template
-          ngbPanelHeader
-          let-opened="opened">
-          <div class="head-panel">
-            <button
-              ngbPanelToggle
-              class="btn btn-link">
-              <span>ATTESTATIONS</span>
-              <span class="arrows">
-                <fa-icon
-                  *ngIf="opened"
-                  icon="chevron-down"></fa-icon>
-                <fa-icon
-                  *ngIf="!opened"
-                  icon="chevron-right"></fa-icon>
-              </span>
-            </button>
-          </div>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <div class="row">
-            <div class="col">
-              Attestation de domiciliation à la date du jour
-            </div>
-            <div class="col">
-              <button
-                (click)="getAttestation()"
-                class="btn btn-outline-primary">
-                <fa-icon icon="file-pdf"></fa-icon>
-                &nbsp; Télécharger l'attestation
-              </button>
-            </div>
-            <div class="col">Courrier de radiation</div>
-            <div class="col">
-              <a
-                [routerLink]="['/radiation/'+usager.id]"
-                routerLinkActive="router-link-active"
-                class="btn btn-outline-danger">
-                <fa-icon icon="times"></fa-icon>
-                &nbsp; Radier et générer le courrier
-              </a>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-panel>
     </ngb-accordion>
     <div
       class="text-center"
       *ngIf="usager.decision.statut === 'VALIDE'">
       <br>
       <div class="row">
-        <div class="col">
+        <div class="col-md-12">
+          <button
+            (click)="getAttestation()"
+            class="btn btn-outline-primary">
+            <fa-icon icon="file-pdf"></fa-icon>
+            &nbsp; Télécharger l'attestation
+          </button>
+          &nbsp;
           <a
             [routerLink]="['/radiation/'+usager.id]"
             routerLinkActive="router-link-active"
@@ -717,7 +659,7 @@
             <fa-icon icon="times"></fa-icon>
             Radier le domicilié
           </a>
-          &nbsp;&nbsp;&nbsp;
+          &nbsp;
           <a
             [routerLink]="['/radiation/'+usager.id]"
             routerLinkActive="router-link-active"

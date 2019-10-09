@@ -7,6 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrModule } from "ngx-toastr";
 import { StructuresFormComponent } from "./structures-form.component";
 
 describe("StructuresFormComponent", () => {
@@ -22,6 +23,14 @@ describe("StructuresFormComponent", () => {
         FormsModule,
         HttpClientModule,
         HttpClientTestingModule,
+        ToastrModule.forRoot({
+          enableHtml: true,
+          positionClass: "toast-top-full-width",
+          preventDuplicates: true,
+          progressAnimation: "increasing",
+          progressBar: true,
+          timeOut: 2000
+        }),
         RouterModule.forRoot([])
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

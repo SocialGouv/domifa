@@ -296,7 +296,7 @@ export class ImportController {
         villeNaissance: row[LIEU_NAISSANCE]
       };
 
-      usagers.push(await this.usagersService.save(usager));
+      usagers.push(await this.usagersService.save(usager, user));
 
       if (index + 1 >= datas.length) {
         return usagers;

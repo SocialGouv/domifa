@@ -1,19 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import {
-  NgbModal,
-  NgbTypeaheadSelectItemEvent
-} from "@ng-bootstrap/ng-bootstrap";
-import { Observable, of, Subject } from "rxjs";
+import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs";
 import { debounceTime, map } from "rxjs/operators";
-import { AutocompleteAdresseService } from "src/app/services/autocomplete-adresse";
-import { fadeInOut } from "../../../../shared/animations";
+
 import { DEPARTEMENTS } from "../../../../shared/departements";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
+
 @Component({
-  animations: [fadeInOut],
   selector: "app-structures-form",
   styleUrls: ["./structures-form.component.css"],
   templateUrl: "./structures-form.component.html"
@@ -35,24 +31,15 @@ export class StructuresFormComponent implements OnInit {
     "Création du compte personnel"
   ];
 
-  public successMessage: string;
-  public errorMessage: string;
-
   public structureInscription = {
     etapeInscription: 0,
     structureId: 0
   };
 
-  private successSubject = new Subject<string>();
-  private errorSubject = new Subject<string>();
-
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
-    private route: ActivatedRoute,
-    private modalService: NgbModal,
-    private router: Router,
-    private Autocomplete: AutocompleteAdresseService
+    private notifService: ToastrService
   ) {}
 
   get f() {
@@ -69,16 +56,6 @@ export class StructuresFormComponent implements OnInit {
       etapeInscription: 0,
       structureId: 0
     };
-
-    this.successSubject.subscribe(message => {
-      this.successMessage = message;
-      this.errorMessage = null;
-    });
-
-    this.errorSubject.subscribe(message => {
-      this.errorMessage = message;
-      this.successMessage = null;
-    });
 
     this.initForm();
   }
@@ -112,28 +89,21 @@ export class StructuresFormComponent implements OnInit {
     this.submitted = true;
 
     if (this.structureForm.invalid) {
-      Object.keys(this.structureForm.controls).forEach(key => {
-        if (this.structureForm.get(key).errors !== null) {
-          this.changeSuccessMessage(
-            "veuillez vérifier les champs marqués en rouge dans le formulaire",
-            true
-          );
-        }
-      });
+      this.notifService.error(
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
+      );
     } else {
       this.structureService.create(this.structureForm.value).subscribe(
         (structure: Structure) => {
-          this.changeSuccessMessage("La structure a bien été enregistrée");
+          this.notifService.success("La structure a bien été enregistrée");
+
           this.structure = new Structure(structure);
           this.etapeInscription = 1;
           this.structureInscription.etapeInscription = 1;
           this.structureInscription.structureId = structure.id;
         },
         error => {
-          this.changeSuccessMessage(
-            "Veuillez vérifier les champs du formulaire",
-            true
-          );
+          this.notifService.error("Veuillez vérifier les champs du formulaire");
         }
       );
     }
@@ -164,15 +134,5 @@ export class StructuresFormComponent implements OnInit {
     if (x.name !== undefined) {
       return x.name + ", " + x.code;
     }
-  }
-
-  public changeSuccessMessage(message: string, error?: boolean) {
-    this.errorMessage = null;
-    window.scroll({
-      behavior: "smooth",
-      left: 0,
-      top: 0
-    });
-    error ? this.errorSubject.next(message) : this.successSubject.next(message);
   }
 }

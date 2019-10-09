@@ -3,12 +3,10 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { AuthService } from "src/app/services/auth.service";
-import { fadeInOut } from "src/app/shared/animations";
 import { ERROR_LABELS } from "../../../../shared/errors.labels";
 import { UsersService } from "../../services/users.service";
 
 @Component({
-  animations: [fadeInOut],
   selector: "app-login",
   styleUrls: ["./login.component.css"],
   templateUrl: "./login.component.html"
@@ -60,7 +58,6 @@ export class LoginComponent implements OnInit {
   public login() {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }

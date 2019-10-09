@@ -8,7 +8,8 @@ import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxPrintModule } from "ngx-print";
-import { RegisterUserComponent } from "../users/components/register-user/register-user.component";
+import { ToastrModule } from "ngx-toastr";
+import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { StructuresConfirmComponent } from "./components/structures-confirm/structures-confirm.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
@@ -30,9 +31,18 @@ import { StructuresSearchComponent } from "./components/structures-search/struct
     CommonModule,
     BrowserModule,
     NgxPrintModule,
+    SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
     RouterModule.forRoot([]),
+    ToastrModule.forRoot({
+      enableHtml: true,
+      positionClass: "toast-top-full-width",
+      preventDuplicates: true,
+      progressAnimation: "increasing",
+      progressBar: true,
+      timeOut: 2000
+    }),
     HttpClientModule,
     NgbModule,
     FormsModule,

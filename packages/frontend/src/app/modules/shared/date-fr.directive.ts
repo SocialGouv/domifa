@@ -1,6 +1,8 @@
+import { ReturnStatement } from "@angular/compiler";
 import { Directive, ElementRef, HostListener } from "@angular/core";
 
 @Directive({
+  // tslint:disable-next-line: directive-selector
   selector: "[dateFr]"
 })
 export class DateFrDirective {
@@ -26,6 +28,9 @@ export class DateFrDirective {
 
   @HostListener("keydown", ["$event"])
   public onKeyDown(e: any) {
+    if (typeof e.target === "undefined") {
+      return;
+    }
     const dateValue = e.target.value;
 
     if (

@@ -1,3 +1,4 @@
+import { isToday } from "../../../shared/bootstrap-util";
 import { Rdv } from "../interfaces/rdv";
 import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
@@ -43,6 +44,11 @@ export class Usager {
   public decision: any;
 
   public dateNaissancePicker: any;
+
+  public interactionsToday: {
+    appel: boolean;
+    visite: boolean;
+  };
 
   constructor(usager?: any) {
     this.id = (usager && usager.id) || 0;
@@ -107,5 +113,10 @@ export class Usager {
 
       this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
     }
+
+    this.interactionsToday = {
+      appel: isToday(new Date(this.lastInteraction.appel)),
+      visite: isToday(new Date(this.lastInteraction.visite))
+    };
   }
 }

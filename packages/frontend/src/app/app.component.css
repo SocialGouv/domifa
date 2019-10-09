@@ -13,12 +13,12 @@
 #help-button {
   border-radius: 50%;
   border: 0 none;
-  background-color: var(--primary);
-  color: white;
+  background-color: white;
+  color: var(--primary);
   font-size: 2rem;
   cursor: pointer;
-  padding: 0.5rem 1rem;
-  box-shadow: 0 0px 5px 2px rgba(215, 210, 210, 0.2);
+  padding: 0.5rem 1.4rem;
+  box-shadow: 0 0px 5px 2px rgba(215, 210, 210, 0.3);
 }
 
 #help-text {

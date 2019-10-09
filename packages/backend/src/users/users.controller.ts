@@ -117,6 +117,15 @@ export class UsersController {
     throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
+  @Post("validate-email")
+  public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
+    const existUser = await this.usersService.findOne({
+      email: emailDto.email
+    });
+    const emailExist = existUser !== null;
+    return res.status(HttpStatus.OK).json(emailExist);
+  }
+
   @Get("check-password-token/:token")
   public async checkPasswordToken(@Param("token") token: string) {
     const today = new Date();

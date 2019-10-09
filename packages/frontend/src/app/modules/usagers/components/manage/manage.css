@@ -159,6 +159,10 @@ th {
   vertical-align: bottom;
 }
 
+.icones_liste {
+  max-width: 120px;
+}
+
 .icones_liste span {
   font-size: 1.65rem;
   color: white;

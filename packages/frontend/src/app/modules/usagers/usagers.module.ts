@@ -8,6 +8,8 @@ import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxPrintModule } from "ngx-print";
+import { ToastrModule } from "ngx-toastr";
+import { SharedModule } from "../shared/shared.module";
 import { DecisionComponent } from "./components/decision/decision.component";
 import { UsagersFormComponent } from "./components/form/usagers-form";
 import { ImportComponent } from "./components/import/import.component";
@@ -41,9 +43,18 @@ import { UsagerService } from "./services/usager.service";
     CommonModule,
     BrowserModule,
     NgxPrintModule,
+    SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
     RouterModule.forRoot([]),
+    ToastrModule.forRoot({
+      enableHtml: true,
+      positionClass: "toast-top-full-width",
+      preventDuplicates: true,
+      progressAnimation: "increasing",
+      progressBar: true,
+      timeOut: 2000
+    }),
     HttpClientModule,
     NgbModule,
     FormsModule,

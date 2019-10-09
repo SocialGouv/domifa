@@ -6,12 +6,12 @@ import {
   NgbDatepickerI18n,
   NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
+import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { ENTRETIEN_LABELS, motifsRefus } from "src/app/shared/entretien.labels";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
-import { AuthService } from "src/app/services/auth.service";
 
 @Component({
   providers: [

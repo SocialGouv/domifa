@@ -84,13 +84,6 @@ describe("UsagersProfilComponent", () => {
       courrierIn: 0,
       recommandeIn: 0
     });
-
-    expect(app.callToday).toBeFalsy();
-    expect(app.visitToday).toBeFalsy();
-  }));
-
-  it("2. General functions", async(() => {
-    expect(app.isToday(new Date("march 30, 2019"))).toBeFalsy();
   }));
 
   it("4. Routing functions", async(() => {

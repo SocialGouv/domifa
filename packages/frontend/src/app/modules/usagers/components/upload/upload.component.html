@@ -4,13 +4,13 @@
   <div class="row">
     <div class="col">
       <div class="form-group">
-        <label for="label">Nom de la pièce</label>
+        <label for="label">Nom du document</label>
         <input
           type="text"
           class="form-control"
           formControlName="label"
           id="label"
-          placeholder="Lettre, impots, carte identité, etc..."
+          placeholder="Cerfa signé, impots, carte identité, etc..."
           required>
         <div
           *ngIf="u.label.errors"

@@ -8,6 +8,7 @@ import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxPrintModule } from "ngx-print";
+import { ToastrModule } from "ngx-toastr";
 import { LoginComponent } from "./components/login/login.component";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
@@ -33,6 +34,14 @@ import { UserProfilComponent } from "./components/user-profil/user-profil.compon
     BrowserAnimationsModule,
     FontAwesomeModule,
     RouterModule.forRoot([]),
+    ToastrModule.forRoot({
+      enableHtml: true,
+      positionClass: "toast-top-full-width",
+      preventDuplicates: true,
+      progressAnimation: "increasing",
+      progressBar: true,
+      timeOut: 2000
+    }),
     HttpClientModule,
     NgbModule,
     FormsModule,

@@ -11,6 +11,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Subject } from "rxjs";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastrModule } from "ngx-toastr";
 import { routes } from "src/app/app-routing.module";
 import { AppComponent } from "src/app/app.component";
 import { NotFoundComponent } from "src/app/modules/general/components/errors/not-found/not-found.component";
@@ -51,6 +52,14 @@ describe("UsagersFormComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
+        ToastrModule.forRoot({
+          enableHtml: true,
+          positionClass: "toast-top-full-width",
+          preventDuplicates: true,
+          progressAnimation: "increasing",
+          progressBar: true,
+          timeOut: 2000
+        }),
         BrowserAnimationsModule,
         HttpClientTestingModule
       ],
@@ -91,20 +100,6 @@ describe("UsagersFormComponent", () => {
     expect(app.usager.entretien).toBeTruthy();
     expect(app.usager.lastInteraction).toBeTruthy();
   });
-
-  it("8. Message ERREUR", fakeAsync(() => {
-    app.changeSuccessMessage("erreur", true);
-    tick();
-    expect(app.errorMessage).toEqual("erreur");
-    expect(app.successMessage).toBeNull();
-  }));
-
-  it("8. Message SUCCESS", fakeAsync(() => {
-    app.changeSuccessMessage("success");
-    expect(app.successMessage).toEqual("success");
-    expect(app.errorMessage).toBeNull();
-    tick(10000);
-  }));
 
   it("7. DOUBLON", async(() => {
     app.usagerForm.controls.nom.setValue("Mamadou");

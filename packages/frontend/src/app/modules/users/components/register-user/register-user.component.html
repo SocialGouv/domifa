@@ -1,22 +1,3 @@
-<div class="col-md-10 offset-md-1">
-  <div class="w-100"></div>
-  <ngb-alert
-    @fadeInOut
-    *ngIf="errorMessage"
-    type="danger"
-    (close)="errorMessage = null">
-    <strong>Erreur:</strong>
-    {{ errorMessage }}
-  </ngb-alert>
-  <ngb-alert
-    @fadeInOut
-    *ngIf="successMessage"
-    type="success"
-    (close)="successMessage = null">
-    <strong>{{ successMessage }}</strong>
-  </ngb-alert>
-</div>
-
 <div
   class="step_form"
   *ngIf="!structureChild && success">
@@ -110,8 +91,7 @@
           required>
         <div
           *ngIf="submitted && f.nom.errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           <div *ngIf="f.nom.errors.required">
             Le
             <b>nom</b>
@@ -130,8 +110,7 @@
           required>
         <div
           *ngIf="submitted && f.prenom.errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           <div *ngIf="f.prenom.errors.required">
             Le
             <b>Prénom</b>
@@ -153,8 +132,7 @@
           required>
         <div
           *ngIf="submitted && f.fonction.errors"
-          class="invalid-feedback"
-          autocomplete="null">
+          class="invalid-feedback">
           <div *ngIf="f.fonction.errors.required">Votre fonction est obligatoire</div>
         </div>
       </div>
@@ -168,18 +146,17 @@
           id="email"
           autocomplete="username"
           formControlName="email"
-          [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+          [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
           required>
+
         <div
-          *ngIf="submitted && f.email.errors"
-          class="invalid-feedback"
-          autocomplete="null">
-          <div *ngIf="f.email.errors.required">
-            L'adresse
-            <b>Email</b>
-            est obligatoire
+          *ngIf="f.email.errors"
+          class="invalid-feedback">
+          <div *ngIf="f.email.errors.emailTaken">
+            <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+            <b>L'adresse email est déjà utilisée</b>
           </div>
-          <div *ngIf="f.email.errors.invalid">
+          <div *ngIf="!f.email.errors.emailTaken">
             L'adresse
             <b>Email</b>
             est incorrecte
@@ -237,7 +214,7 @@
       <div
         class="col form-group required passwordInput"
         id="confirmPassword">
-        <label for="confirmPasswordInput">Confirmez votre mot de passe</label>
+        <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
         <input
           class="form-control"
           [type]="!hidePasswordConfirm ? 'text' : 'password'"
@@ -259,15 +236,19 @@
           (click)="hidePasswordConfirm = true">
           <fa-icon icon="eye-slash"></fa-icon>
         </span>
-        <div
-          class="text-danger"
-          *ngIf="submitted && f.confirmPassword.hasError('required')">
-          La confirmation du mot de passe est obligatoire
-        </div>
-        <div
-          class="text-danger"
-          *ngIf="f.confirmPassword.dirty && f.confirmPassword.hasError('NoPassswordMatch')">
-          Les mots de passe ne correspondent pas
+
+        <div class="row indications">
+          <div
+            class="text-danger col-md-12"
+            *ngIf="submitted && f.confirmPassword.hasError('required')">
+            La confirmation du mot de passe est obligatoire
+          </div>
+          <div
+            class="col-md-12"
+            [ngClass]="f.confirmPassword.dirty && !f.confirmPassword.hasError('NoPassswordMatch') ? 'text-success' : 'text-danger'">
+            <fa-icon [icon]="f.confirmPassword.dirty && !f.confirmPassword.hasError('NoPassswordMatch') ? 'check-circle' : 'times-circle'"></fa-icon>
+            Les mots de passe doivent être identiques
+          </div>
         </div>
       </div>
     </div>
@@ -275,7 +256,7 @@
     <div class="text-center">
       <button
         class="btn btn-primary"
-        [disabled]="userForm.invalid">
+        [disabled]="userForm.invalid && !emailExist">
         Créer mon compte
       </button>
       <div *ngIf="structureChild">

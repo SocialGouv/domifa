@@ -7,6 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrModule } from "ngx-toastr";
 import { RegisterUserComponent } from "./register-user.component";
 
 describe("RegisterUserComponent", () => {
@@ -20,6 +21,14 @@ describe("RegisterUserComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
+        ToastrModule.forRoot({
+          enableHtml: true,
+          positionClass: "toast-top-full-width",
+          preventDuplicates: true,
+          progressAnimation: "increasing",
+          progressBar: true,
+          timeOut: 2000
+        }),
         HttpClientModule,
         HttpClientTestingModule,
         RouterModule.forRoot([])

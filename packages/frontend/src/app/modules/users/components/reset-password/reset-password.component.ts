@@ -1,16 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
-import { fadeInOut } from "../../../../shared/animations";
+
 import { ERROR_LABELS } from "../../../../shared/errors.labels";
-import { User } from "../../interfaces/user";
+
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 
 @Component({
-  animations: [fadeInOut],
   selector: "app-reset-password",
   styleUrls: ["./reset-password.component.css"],
   templateUrl: "./reset-password.component.html"
@@ -39,14 +39,11 @@ export class ResetPasswordComponent implements OnInit {
   public token: string;
   public errorLabels: any;
 
-  private successSubject = new Subject<string>();
-  private errorSubject = new Subject<string>();
-
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private route: ActivatedRoute,
-    private router: Router
+    private notifService: ToastrService
   ) {}
 
   public ngOnInit() {
@@ -70,25 +67,11 @@ export class ResetPasswordComponent implements OnInit {
             undefined
               ? this.errorLabels[error.error.message]
               : "Le lien est incorrect, veuillez recommencer la procédure";
-          this.changeSuccessMessage(this.errorMessage, true);
+          this.notifService.error(this.errorMessage);
         }
       );
     }
     this.initEmailForm();
-
-    this.successSubject.subscribe(message => {
-      this.successMessage = message;
-      this.errorMessage = null;
-    });
-
-    this.errorSubject.subscribe(message => {
-      this.errorMessage = message;
-      this.successMessage = null;
-    });
-
-    this.successSubject
-      .pipe(debounceTime(10000))
-      .subscribe(() => (this.successMessage = null));
   }
 
   public initEmailForm() {
@@ -132,12 +115,11 @@ export class ResetPasswordComponent implements OnInit {
         },
         error => {
           this.error = true;
-
           this.errorMessage =
             error.error.message === "EMAIL_NOT_EXIST"
               ? "Veuillez vérifier l'adresse email"
               : "Une erreur innatendue est survenue";
-          this.changeSuccessMessage(this.errorMessage, true);
+          this.notifService.error(this.errorMessage);
         }
       );
     }
@@ -152,16 +134,5 @@ export class ResetPasswordComponent implements OnInit {
           this.success = true;
         });
     }
-  }
-
-  public changeSuccessMessage(message: string, erreur?: boolean) {
-    window.scroll({
-      behavior: "smooth",
-      left: 0,
-      top: 0
-    });
-    erreur
-      ? this.errorSubject.next(message)
-      : this.successSubject.next(message);
   }
 }

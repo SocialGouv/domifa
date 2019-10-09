@@ -18,10 +18,9 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxPrintModule } from "ngx-print";
+import { ToastrModule } from "ngx-toastr";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { DateFrDirective } from "./directives/date-fr.directive";
-import { DigitOnlyDirective } from "./directives/digit-only.directive";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
@@ -41,9 +40,7 @@ library.add(fas, far);
     HomeComponent,
     LoadingComponent,
     MentionsLegalesComponent,
-    NotFoundComponent,
-    DateFrDirective,
-    DigitOnlyDirective
+    NotFoundComponent
   ],
   imports: [
     UsagersModule,
@@ -52,6 +49,14 @@ library.add(fas, far);
     BrowserModule,
     NgxPrintModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      enableHtml: true,
+      positionClass: "toast-top-full-width",
+      preventDuplicates: true,
+      progressAnimation: "increasing",
+      progressBar: true,
+      timeOut: 2000
+    }),
     AppRoutingModule,
     FontAwesomeModule,
     RouterModule.forRoot([]),

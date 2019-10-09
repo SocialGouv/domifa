@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { fromEvent, Observable, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
@@ -33,19 +34,14 @@ export class ManageUsagersComponent implements OnInit {
   public filters: Search;
   public sort: string;
 
-  public successMessage: string;
-  public errorMessage: string;
-
   @ViewChild("searchInput", { static: true })
   public searchInput: ElementRef;
-
-  private successSubject = new Subject<string>();
-  private errorSubject = new Subject<string>();
 
   constructor(
     private usagerService: UsagerService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notifService: ToastrService
   ) {}
 
   public ngOnInit() {
@@ -139,24 +135,11 @@ export class ManageUsagersComponent implements OnInit {
     this.usagerService.search(this.filters).subscribe(
       (usagers: Usager[]) => {
         this.usagers = usagers;
-
         this.searching = false;
       },
       error => {
-        this.changeSuccessMessage(
-          "Une erreur a eu lieu lors de la recherche",
-          true
-        );
+        this.notifService.error("Une erreur a eu lieu lors de la recherche");
       }
     );
-  }
-
-  private changeSuccessMessage(message: string, error?: boolean) {
-    window.scroll({
-      behavior: "smooth",
-      left: 0,
-      top: 0
-    });
-    error ? this.errorSubject.next(message) : this.successSubject.next(message);
   }
 }

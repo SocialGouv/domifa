@@ -6,13 +6,14 @@ import {
   NgbDatepickerI18n,
   NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
-import { fromEvent, Subject } from "rxjs";
+import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import { Doc } from "src/app/modules/usagers/interfaces/document";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
+import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/modules/users/interfaces/user";
 import { UsersService } from "src/app/modules/users/services/users.service";
 import { AuthService } from "src/app/services/auth.service";
@@ -42,18 +43,6 @@ import { Decision } from "../../interfaces/decision";
 })
 export class UsagersFormComponent implements OnInit {
   public selected: any;
-  get f() {
-    return this.usagerForm.controls;
-  }
-  get r(): any {
-    return this.rdvForm.controls;
-  }
-  get e(): any {
-    return this.entretienForm.controls;
-  }
-  get ayantsDroits() {
-    return this.usagerForm.get("ayantsDroits") as FormArray;
-  }
 
   public title: string;
   public labels: any;
@@ -106,18 +95,40 @@ export class UsagersFormComponent implements OnInit {
   public agents: User[] = [];
 
   public residence = {};
-  public cause = {};
-  public raison = {};
+
+  public cause = {
+    cause1: "Rupture familiale et/ou conjugale ",
+    cause2: "Violence familiale et/ou conjugale",
+    cause3: "Sortie d'une structure d'hébergement",
+    cause4: "Expulsion",
+    cause5: "Hébergé, mais ne peut justifier d'une adresse",
+    cause6: "Errance",
+    cause7: "Personnes itinérantes",
+    causeAutre: "Autre"
+  };
+
+  public raison = {
+    raison1: "Accès aux prestations sociales",
+    raison2: "Exercice des droits civils ou civiques",
+    raisonAutre: "Autre"
+  };
 
   public residenceList = [];
   public causeList = [];
   public raisonList = [];
 
-  public successMessage: string;
-  public errorMessage: string;
-
-  private successSubject = new Subject<string>();
-  private errorSubject = new Subject<string>();
+  get f() {
+    return this.usagerForm.controls;
+  }
+  get r(): any {
+    return this.rdvForm.controls;
+  }
+  get e(): any {
+    return this.entretienForm.controls;
+  }
+  get ayantsDroits() {
+    return this.usagerForm.get("ayantsDroits") as FormArray;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -129,6 +140,7 @@ export class UsagersFormComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private router: Router,
+    private notifService: ToastrService,
     private nbgDate: NgbDateCustomParserFormatter
   ) {}
 
@@ -138,37 +150,7 @@ export class UsagersFormComponent implements OnInit {
     this.doublons = [];
     this.documents = [];
 
-    this.successSubject.subscribe(message => {
-      this.successMessage = message;
-      this.errorMessage = null;
-    });
-
-    this.errorSubject.subscribe(message => {
-      this.errorMessage = message;
-      this.successMessage = null;
-    });
-
-    this.successSubject
-      .pipe(debounceTime(10000))
-      .subscribe(() => (this.successMessage = null));
-
     this.residence = residence;
-    this.cause = {
-      cause1: "Rupture familiale et/ou conjugale ",
-      cause2: "Violence familiale et/ou conjugale",
-      cause3: "Sortie d'une structure d'hébergement",
-      cause4: "Expulsion",
-      cause5: "Hébergé, mais ne peut justifier d'une adresse",
-      cause6: "Errance",
-      cause7: "Personnes itinérantes",
-      causeAutre: "Autre"
-    };
-
-    this.raison = {
-      raison1: "Accès aux prestations sociales",
-      raison2: "Exercice des droits civils ou civiques",
-      raisonAutre: "Autre"
-    };
 
     this.residenceList = Object.keys(this.residence);
     this.causeList = Object.keys(this.cause);
@@ -281,13 +263,8 @@ export class UsagersFormComponent implements OnInit {
         )
         .subscribe((usagersDoublon: Usager[]) => {
           this.doublons = [];
-          this.errorMessage = null;
           if (usagersDoublon.length !== 0) {
-            this.changeSuccessMessage(
-              "Un homonyme potentiel a été détecté !",
-              true
-            );
-
+            this.notifService.warning("Un homonyme potentiel a été détecté !");
             usagersDoublon.forEach(doublon => {
               this.doublons.push(new Usager(doublon));
             });
@@ -340,9 +317,8 @@ export class UsagersFormComponent implements OnInit {
     if (this.usagerForm.invalid) {
       Object.keys(this.usagerForm.controls).forEach(key => {
         if (this.usagerForm.get(key).errors != null) {
-          this.changeSuccessMessage(
-            "Un des champs du formulaire n'est pas rempli ou contient une erreur",
-            true
+          this.notifService.error(
+            "Un des champs du formulaire n'est pas rempli ou contient une erreur"
           );
         }
       });
@@ -357,13 +333,15 @@ export class UsagersFormComponent implements OnInit {
 
       this.usagerService.create(this.usagerForm.value).subscribe(
         (usager: Usager) => {
-          this.changeSuccessMessage("Enregistrement réussi");
+          this.notifService.success("Enregistrement réussi");
           this.router.navigate(["usager/" + usager.id + "/edit"]);
         },
         error => {
-          /* Todo : afficher le contenu des erreurs cote serveur */
           if (error.statusCode && error.statusCode === 400) {
-            this.changeSuccessMessage("Une erreur dans le form", true);
+            this.goToTop();
+            this.notifService.error(
+              "Veuillez vérifiez les champs du formulaire"
+            );
           }
         }
       );
@@ -376,10 +354,11 @@ export class UsagersFormComponent implements OnInit {
       .subscribe(
         (usager: Usager) => {
           this.usager = new Usager(usager);
-          this.changeSuccessMessage("Enregistrement de l'entretien réussi");
+          this.goToTop();
+          this.notifService.success("Enregistrement de l'entretien réussi");
         },
         error => {
-          this.changeSuccessMessage("Une erreur est survenu", true);
+          this.notifService.error("Impossible d'enregistrer l'entretien");
         }
       );
   }
@@ -396,14 +375,7 @@ export class UsagersFormComponent implements OnInit {
       this.rdvForm.controls.dateRdv.setValue(new Date().toISOString());
     } else {
       if (this.rdvForm.invalid) {
-        Object.keys(this.rdvForm.controls).forEach(key => {
-          if (this.rdvForm.get(key).errors != null) {
-            this.changeSuccessMessage(
-              "Veuillez vérifier la date de rendez-vous",
-              true
-            );
-          }
-        });
+        this.notifService.error("Veuillez vérifier les champs du formulaire");
       } else {
         const heureRdv = this.rdvForm.get("heureRdv").value;
         const jourRdv = this.nbgDate.formatEn(
@@ -418,10 +390,11 @@ export class UsagersFormComponent implements OnInit {
     this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe(
       (usager: Usager) => {
         this.usager = new Usager(usager);
-        this.changeSuccessMessage("Rendez-vous enregistré");
+        this.goToTop();
+        this.notifService.success("Rendez-vous enregistré");
       },
       error => {
-        this.changeSuccessMessage("Une erreur est survenu", true);
+        this.notifService.error("Impossible d'enregistrer le rendez-vous");
       }
     );
   }
@@ -440,7 +413,7 @@ export class UsagersFormComponent implements OnInit {
         this.usager.docs = new Usager(usager).docs;
       },
       error => {
-        this.changeSuccessMessage("Impossible de supprimer le document", true);
+        this.notifService.error("Impossible de supprimer le document");
       }
     );
   }
@@ -451,10 +424,5 @@ export class UsagersFormComponent implements OnInit {
       left: 0,
       top: 0
     });
-  }
-
-  public changeSuccessMessage(message: string, error?: boolean) {
-    this.goToTop();
-    error ? this.errorSubject.next(message) : this.successSubject.next(message);
   }
 }
