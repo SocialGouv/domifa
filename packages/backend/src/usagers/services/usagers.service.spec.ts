@@ -43,12 +43,11 @@ describe("UsagersService", () => {
   });
 
   it("0. Create / Read / Update / Delete", async () => {
-    // LAST ID
-    expect(service.findAll()).toBeTruthy();
-    expect(await service.findLast()).toEqual(6);
-
     // CREATE
     const user = await userService.findOne({ id: 1 });
+
+    // LAST ID
+    expect(await service.findLast(user.structureId)).toEqual(6);
 
     fakeUsagerDto.structureId = user.structureId;
     const usagerTest = await service.create(fakeUsagerDto, user);
@@ -85,8 +84,6 @@ describe("UsagersService", () => {
   });
 
   it("2. Search", async () => {
-    expect(service.findAll()).toBeTruthy();
-
     searchDto.sort = "az";
     searchDto.statut = "VALIDE";
     const user = await userService.findOne({ id: 2 });
