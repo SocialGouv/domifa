@@ -13,6 +13,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./components/user-profil/user-profil.component";
+import { UsersService } from "./services/users.service";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { UserProfilComponent } from "./components/user-profil/user-profil.compon
     NgbModule,
     FormsModule,
     ReactiveFormsModule
-  ]
+  ],
+  providers: [UsersService]
 })
 export class UsersModule {}

@@ -14,6 +14,7 @@ import { UsersModule } from "../users/users.module";
 import { StructuresConfirmComponent } from "./components/structures-confirm/structures-confirm.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
+import { StructureService } from "./services/structure.service";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { StructuresSearchComponent } from "./components/structures-search/struct
     NgbModule,
     FormsModule,
     ReactiveFormsModule
-  ]
+  ],
+  providers: [StructureService]
 })
 export class StructuresModule {}
