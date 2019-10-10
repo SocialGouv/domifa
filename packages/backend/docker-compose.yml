@@ -1,12 +1,18 @@
 version: "3.2"
 services:
-  mongodb:
+  api:
+    depends_on:
+      - mongo
+    container_name: api
+    restart: always
+    build: .
+    ports:
+      - "3000"
+    links:
+      - mongo
+
+  mongo:
+    container_name: mongo
     image: "mongo:4.0.3"
     ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: "mongo"
-      MONGO_INITDB_ROOT_PASSWORD: "mongo"
-      MONGO_INITDB_DATABASE: "domifa"
-    volumes:
-      - /data/db
+      - "27017:27017"
