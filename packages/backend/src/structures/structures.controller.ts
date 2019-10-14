@@ -30,12 +30,12 @@ export class StructuresController {
   }
 
   @Get(":id")
-  public getStructure(@Param("id") id: number): Promise<Structure> {
+  public getStructure(@Param("id") id: number) {
     return this.structureService.findById(id);
   }
 
   @Get()
-  public getAllStructures(): Promise<Structure> {
+  public getAllStructures() {
     return this.structureService.findAll();
   }
 

@@ -3,10 +3,8 @@ import { Injectable } from "@angular/core";
 
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { AuthService } from "src/app/services/auth.service";
 import { environment } from "src/environments/environment";
 import { LoadingService } from "../../loading/loading.service";
-import { User } from "../../users/interfaces/user";
 import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
@@ -15,18 +13,12 @@ import { Usager } from "../interfaces/usager";
 export class UsagerService {
   public http: HttpClient;
   public loading: boolean;
-  public user: User;
   public endPointUsagers = environment.apiUrl + "usagers";
   public endPointInteractions = environment.apiUrl + "interactions/";
 
-  constructor(
-    http: HttpClient,
-    private loadingService: LoadingService,
-    private authService: AuthService
-  ) {
+  constructor(http: HttpClient, private loadingService: LoadingService) {
     this.http = http;
     this.loading = true;
-    this.user = this.authService.currentUserValue;
   }
 
   /* Ajout d'un domicilié */
