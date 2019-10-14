@@ -23,24 +23,23 @@ export class StructuresController {
     private readonly mailerService: MailerService
   ) {}
 
-  /* FORMULAIRE INFOS */
   @Post()
-  public postStructure(@Body() structureDto: StructureDto) {
+  public async postStructure(@Body() structureDto: StructureDto): Promise<any> {
     return this.structureService.create(structureDto);
   }
 
   @Get(":id")
-  public getStructure(@Param("id") id: number) {
+  public async getStructure(@Param("id") id: number): Promise<any> {
     return this.structureService.findById(id);
   }
 
   @Get()
-  public getAllStructures() {
+  public async getAllStructures(): Promise<any> {
     return this.structureService.findAll();
   }
 
   @Delete(":token")
-  public deleteOne(@Param("token") token: string) {
+  public async deleteOne(@Param("token") token: string) {
     return this.structureService.delete(token);
   }
 
