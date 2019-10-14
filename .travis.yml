@@ -21,7 +21,7 @@ services:
     - mongorestore --gzip --archive=dump_test.gzip
     - sleep 10
     - mongo domifa --eval "db.createUser({user:'travis', pwd:'test', roles:[{role:'readWrite', db:'domifa'}] });"
-    - touch packages/backend/src/config/config.env
+    - touch /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "DB_USER=travis" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "MJ_APIKEY_PUBLIC=${MJ_APIKEY_PUBLIC_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
