@@ -40,15 +40,15 @@ export class DocumentService {
   }
 
   /* DOCUMENT  */
-  public getDocument(idUsager: number, index: number, doc: Doc) {
+  public getDocument(usagerId: number, index: number, doc: Doc) {
     this.http
-      .get(`${this.endPoint}${idUsager}/${index}`, { responseType: "blob" })
+      .get(`${this.endPoint}${usagerId}/${index}`, { responseType: "blob" })
       .subscribe(x => {
-        this.download(idUsager, doc, x);
+        this.download(usagerId, doc, x);
       });
   }
 
-  public download(idUsager: number, doc: Doc, x: any) {
+  public download(usagerId: number, doc: Doc, x: any) {
     const extensionTmp = doc.filetype.split("/");
     const extension = extensionTmp[1];
 
@@ -61,7 +61,7 @@ export class DocumentService {
     const data = window.URL.createObjectURL(newBlob);
     const link = document.createElement("a");
     link.href = data;
-    link.download = "document_" + idUsager + "." + extension;
+    link.download = "document_" + usagerId + "." + extension;
 
     link.dispatchEvent(
       new MouseEvent("click", {

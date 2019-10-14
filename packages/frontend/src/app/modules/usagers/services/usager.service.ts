@@ -1,7 +1,7 @@
 import { HttpClient, HttpEventType, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/services/auth.service";
 import { environment } from "src/environments/environment";
@@ -36,30 +36,33 @@ export class UsagerService {
       : this.http.post(`${this.endPointUsagers}`, usager);
   }
 
-  /* Ajout d'un rendez-vous */
-  public createRdv(rdv: Rdv, idUsager: number) {
-    return this.http.post(`${this.endPointUsagers}/rdv/${idUsager}`, rdv);
+  public createRdv(rdv: Rdv, usagerId: number): Observable<any> {
+    return this.http.post(`${this.endPointUsagers}/rdv/${usagerId}`, rdv);
   }
 
-  /* Ajout d'un rendez-vous */
-  public entretien(entretien: Entretien, idUsager: number) {
+  public nextStep(usagerId: number, etapeDemande: number): Observable<any> {
+    return this.http.get(
+      `${this.endPointUsagers}/next-step/${usagerId}/${etapeDemande}`
+    );
+  }
+
+  public entretien(entretien: Entretien, usagerId: number) {
     return this.http.post(
-      `${this.endPointUsagers}/entretien/${idUsager}`,
+      `${this.endPointUsagers}/entretien/${usagerId}`,
       entretien
     );
   }
 
-  /* Ajout d'un rendez-vous */
-  public setDecision(idUsager: number, decision: Decision, statut: string) {
+  public setDecision(usagerId: number, decision: Decision, statut: string) {
     decision.statut = statut;
     return this.http.post(
-      `${this.endPointUsagers}/decision/${idUsager}`,
+      `${this.endPointUsagers}/decision/${usagerId}`,
       decision
     );
   }
 
-  public findOne(idUsager: number) {
-    return this.http.get(`${this.endPointUsagers}/${idUsager}`);
+  public findOne(usagerId: number) {
+    return this.http.get(`${this.endPointUsagers}/${usagerId}`);
   }
 
   public isDoublon(nom: string, prenom: string) {
@@ -89,30 +92,30 @@ export class UsagerService {
       );
   }
 
-  public setInteraction(idUsager: number, interaction?: any) {
+  public setInteraction(usagerId: number, interaction?: any) {
     return this.http.post(
-      environment.apiUrl + `interactions/${idUsager}`,
+      environment.apiUrl + `interactions/${usagerId}`,
       interaction
     );
   }
 
-  public getInteractions(idUsager: number) {
-    return this.http.get(environment.apiUrl + `interactions/${idUsager}/10`);
+  public getInteractions(usagerId: number) {
+    return this.http.get(environment.apiUrl + `interactions/${usagerId}/10`);
   }
 
-  public setPassage(idUsager: number, type: string) {
+  public setPassage(usagerId: number, type: string) {
     return this.http.post(
-      environment.apiUrl + `interactions/${idUsager}/${type}`,
+      environment.apiUrl + `interactions/${usagerId}/${type}`,
       {}
     );
   }
 
   /* Attestation */
-  public attestation(idUsager: number) {
+  public attestation(usagerId: number) {
     this.loadingService.startLoading();
 
     this.http
-      .get(`${this.endPointUsagers}/attestation/${idUsager}`, {
+      .get(`${this.endPointUsagers}/attestation/${usagerId}`, {
         responseType: "blob"
       })
       .subscribe(x => {
@@ -127,7 +130,7 @@ export class UsagerService {
         const randomNumber = Math.floor(Math.random() * 100) + 1;
 
         link.href = data;
-        link.download = "attestation_" + idUsager + "_" + randomNumber + ".pdf";
+        link.download = "attestation_" + usagerId + "_" + randomNumber + ".pdf";
         link.dispatchEvent(
           new MouseEvent("click", {
             bubbles: true,

@@ -3,7 +3,6 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../../database/database.module";
 import { UsersModule } from "../../users/users.module";
 import { UsersService } from "../../users/users.service";
-import { UsagersModule } from "../usagers.module";
 import { UsagersProviders } from "../usagers.providers";
 import { CerfaService } from "./cerfa.service";
 import { DocumentsService } from "./documents.service";

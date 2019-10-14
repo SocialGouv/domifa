@@ -280,12 +280,23 @@ export class ImportController {
           dateFin: this.convertDate(row[DATE_FIN_DOM]),
           motif,
           statut: row[STATUT_DOM],
-          typeDom: row[TYPE_DOM],
           userId: user.id,
           userName: agent
         },
         email: row[EMAIL],
         etapeDemande: 5,
+        historique: [
+          {
+            agent,
+            dateDebut: new Date(),
+            dateDecision: new Date(),
+            dateFin: new Date(),
+            motif,
+            statut: "IMPORT",
+            userId: user.id,
+            userName: agent
+          }
+        ],
         imported: true,
         nom: row[NOM],
         phone: row[PHONE],
@@ -293,6 +304,7 @@ export class ImportController {
         sexe,
         structureId: user.structureId,
         surnom: row[SURNOM],
+        typeDom: row[TYPE_DOM],
         villeNaissance: row[LIEU_NAISSANCE]
       };
 

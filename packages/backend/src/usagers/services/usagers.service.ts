@@ -52,12 +52,12 @@ export class UsagersService {
       .exec();
   }
 
-  public async updateUsager(usagerId: number, toUpdate: any) {
+  public async nextStep(usagerId: number, user: User, etapeDemande: number) {
     return this.usagerModel
       .findOneAndUpdate(
-        { id: usagerId },
+        { id: usagerId, structureId: user.structureId },
         {
-          $set: toUpdate
+          $set: { etapeDemande }
         },
         {
           new: true

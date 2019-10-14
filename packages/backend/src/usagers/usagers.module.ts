@@ -10,7 +10,12 @@ import { UsagersProviders } from "./usagers.providers";
 
 @Module({
   controllers: [UsagersController, ImportController],
-  exports: [UsagersService, CerfaService, DocumentsService],
+  exports: [
+    UsagersService,
+    CerfaService,
+    DocumentsService,
+    ...UsagersProviders
+  ],
   imports: [DatabaseModule, forwardRef(() => UsersModule)],
   providers: [
     UsagersService,

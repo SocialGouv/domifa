@@ -19,13 +19,8 @@ describe("StructureService", () => {
       expect(structures.length).toEqual(1);
     });
 
-    service.getStructure(100).subscribe(
-      (structures: Structure[]) => {
-        expect(structures).toBeTruthy();
-      },
-      error => {
-        expect(error).toBeTruthy();
-      }
-    );
+    service.getStructure(1).subscribe((structure: Structure) => {
+      expect(structure.structureType).toEqual("ccas");
+    });
   }));
 });

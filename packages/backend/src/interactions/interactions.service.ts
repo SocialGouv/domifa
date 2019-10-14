@@ -21,6 +21,8 @@ export class InteractionsService {
   constructor(
     @Inject("INTERACTION_MODEL")
     private readonly interactionModel: Model<Interaction>,
+    @Inject("USAGER_MODEL")
+    private readonly usagerModel: Model<Usager>,
     private readonly usagersService: UsagersService,
     private readonly usersService: UsersService
   ) {}
@@ -69,7 +71,25 @@ export class InteractionsService {
       interactions: usager.interactions,
       lastInteraction: usager.lastInteraction
     };
-    return this.usagersService.updateUsager(usagerId, toUpdate);
+
+    return this.usagerModel
+      .findOneAndUpdate(
+        {
+          id: usagerId,
+          structureId: user.structureId
+        },
+        {
+          $push: { interaction: savedInteraction },
+          $set: {
+            lastInteraction: usager.lastInteraction
+          }
+        },
+        {
+          new: true
+        }
+      )
+      .select("-docsPath -interactions")
+      .exec();
   }
 
   public async find(

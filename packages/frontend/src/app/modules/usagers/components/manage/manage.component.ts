@@ -92,8 +92,8 @@ export class ManageUsagersComponent implements OnInit {
     this.search();
   }
 
-  public getAttestation(idUsager: number) {
-    return this.usagerService.attestation(idUsager);
+  public getAttestation(usagerId: number) {
+    return this.usagerService.attestation(usagerId);
   }
 
   public resetFilters() {

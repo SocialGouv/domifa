@@ -43,12 +43,16 @@ export class DocumentsService {
 
   public async addDocument(
     usagerId: number,
+    user: User,
     filename: string,
     newDoc: any
   ): Promise<Usager> {
     return this.usagerModel
       .findOneAndUpdate(
-        { id: usagerId },
+        {
+          id: usagerId,
+          structureId: user.structureId
+        },
         {
           $push: { docs: newDoc, docsPath: filename }
         },

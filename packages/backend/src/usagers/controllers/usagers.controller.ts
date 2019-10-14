@@ -67,7 +67,6 @@ export class UsagersController {
     return this.usagersService.patch(usagerDto, user);
   }
 
-  /* RDV  */
   @Post("rdv/:id")
   public async postRdv(
     @Param("id") usagerId: number,
@@ -91,7 +90,6 @@ export class UsagersController {
     return this.usagersService.setRdv(usagerId, rdvDto, user);
   }
 
-  /* RDV  */
   @Post("entretien/:id")
   public setEntretien(
     @Param("id") usagerId: number,
@@ -101,7 +99,15 @@ export class UsagersController {
     return this.usagersService.setEntretien(usagerId, entretien, user);
   }
 
-  /* RDV  */
+  @Get("next-step/:usagerId/:etapeDemande")
+  public async nextStep(
+    @Param("usagerId") usagerId: number,
+    @Param("etapeDemande") etapeDemande: number,
+    @CurrentUser() user: User
+  ) {
+    return this.usagersService.nextStep(usagerId, user, etapeDemande);
+  }
+
   @UseGuards(RolesGuard)
   @Post("decision/:id")
   public async setDecision(
@@ -275,6 +281,7 @@ export class UsagersController {
       filetype: file.mimetype,
       label: postData.label
     };
-    return this.docsService.addDocument(usagerId, file.filename, newDoc);
+
+    return this.docsService.addDocument(usagerId, user, file.filename, newDoc);
   }
 }

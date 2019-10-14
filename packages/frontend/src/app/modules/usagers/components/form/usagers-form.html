@@ -1053,14 +1053,14 @@
       <br>
       <div class="col-md-4 offset-md-4 text-center">
         <button
-          (click)="goToTop(); usager.etapeDemande = 4"
+          (click)="nextStep(4)"
           type="submit"
           class="btn btn-primary btn-block">
           Enregistrer
         </button>
 
         <button
-          (click)="goToTop(); usager.etapeDemande = 4"
+          (click)="nextStep(4)"
           type="submit"
           class="btn btn-block">
           <u>Passer cette étape</u>
@@ -1161,7 +1161,7 @@
       </button>
       <button
         class="btn btn-success"
-        (click)="goToTop(); usager.etapeDemande = 3; modal.close('Close click')">
+        (click)="nextStep(3);modal.close()">
         Continuer sans entretien
       </button>
     </div>

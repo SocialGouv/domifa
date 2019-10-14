@@ -312,16 +312,21 @@ export class UsagersFormComponent implements OnInit {
     }
   }
 
+  public nextStep(step: number) {
+    this.usagerService
+      .nextStep(this.usager.id, step)
+      .subscribe((usager: Usager) => {
+        this.goToTop();
+        this.usager.etapeDemande = usager.etapeDemande;
+      });
+  }
+
   public submitInfos() {
     this.submitted = true;
     if (this.usagerForm.invalid) {
-      Object.keys(this.usagerForm.controls).forEach(key => {
-        if (this.usagerForm.get(key).errors != null) {
-          this.notifService.error(
-            "Un des champs du formulaire n'est pas rempli ou contient une erreur"
-          );
-        }
-      });
+      this.notifService.error(
+        "Un des champs du formulaire n'est pas rempli ou contient une erreur"
+      );
     } else {
       const dateTmp = this.nbgDate.formatEn(
         this.usagerForm.get("dateNaissancePicker").value
@@ -333,12 +338,12 @@ export class UsagersFormComponent implements OnInit {
 
       this.usagerService.create(this.usagerForm.value).subscribe(
         (usager: Usager) => {
+          this.goToTop();
           this.notifService.success("Enregistrement réussi");
           this.router.navigate(["usager/" + usager.id + "/edit"]);
         },
         error => {
           if (error.statusCode && error.statusCode === 400) {
-            this.goToTop();
             this.notifService.error(
               "Veuillez vérifiez les champs du formulaire"
             );

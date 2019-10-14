@@ -53,7 +53,7 @@ describe("StructureGuard", () => {
         expect(response).toBeDefined();
       },
       error => {
-        expect(error).toBeDefined();
+        expect(error.status).toEqual(400);
       }
     );
   }));
