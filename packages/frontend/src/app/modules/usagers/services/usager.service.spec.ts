@@ -1,6 +1,13 @@
-import { TestBed } from "@angular/core/testing";
+import { async, TestBed } from "@angular/core/testing";
 
-import { HttpClientModule } from "@angular/common/http";
+import { APP_BASE_HREF } from "@angular/common";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { first } from "rxjs/operators";
+import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
+import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
+import { AuthService } from "src/app/services/auth.service";
 import { AyantDroit } from "../interfaces/ayant-droit";
 import { Doc } from "../interfaces/document";
 import { Entretien } from "../interfaces/entretien";
@@ -11,19 +18,45 @@ import { UsagerService } from "./usager.service";
 
 describe("UsagerService", () => {
   let service: UsagerService;
-  beforeEach(() => {
+  let authService: AuthService;
+
+  beforeAll(async done => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [UsagerService]
+      imports: [HttpClientModule, RouterModule.forRoot([])],
+      providers: [
+        UsagerService,
+        AuthService,
+        { provide: APP_BASE_HREF, useValue: "/" },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        {
+          multi: true,
+          provide: HTTP_INTERCEPTORS,
+          useClass: ServerErrorInterceptor
+        }
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
     service = TestBed.get(UsagerService);
+    authService = TestBed.get(AuthService);
+
+    authService
+      .login("ccastest@yopmail.com", "Azerty012345")
+      .pipe(first())
+      .subscribe(
+        user => {
+          done();
+        },
+        error => {
+          done();
+        }
+      );
   });
 
   it("should be created", () => {
     expect(service).toBeTruthy();
   });
 
-  it("Doublon & Get usager", () => {
+  it("Doublon & Get usager", async(() => {
     const rdv = new Rdv({
       dateRdv: "2019-07-30T23:25:44.980Z",
       heureRdv: { hour: 10, minute: 20 },
@@ -33,19 +66,17 @@ describe("UsagerService", () => {
     });
 
     service.createRdv(rdv, 1).subscribe((usager: Usager) => {
-      expect(usager.rdv.userName).toEqual("Anguet Anaï");
+      expect(usager.rdv.userName).toEqual("Juste Isabelle");
     });
 
     service.findOne(1).subscribe((usager: Usager) => {
-      expect(usager.prenom).toEqual("Mamadou");
+      expect(usager.prenom).toEqual("Marta");
     });
 
-    service.isDoublon("Mamadou", "Diallo").subscribe((doublons: any) => {
+    service.isDoublon("Ram", "Marta").subscribe((doublons: any) => {
       expect(doublons.length).toEqual(1);
     });
-
-    service.attestation(1);
-  });
+  }));
 
   it("Interfaces", () => {
     const usager = new Usager({});
@@ -79,6 +110,7 @@ describe("UsagerService", () => {
       userId: 10,
       userName: "Domifa"
     });
+
     const lastInteractionFull = new LastInteraction({
       appel: new Date(),
       courrierIn: new Date(),

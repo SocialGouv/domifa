@@ -3,9 +3,9 @@ import { HttpClientModule } from "@angular/common/http";
 import { async, inject, TestBed } from "@angular/core/testing";
 import { ActivatedRouteSnapshot, RouterModule } from "@angular/router";
 import { StructureService } from "../modules/structures/services/structure.service";
+import { StructuresModule } from "../modules/structures/structures.module";
 import { AuthService } from "../services/auth.service";
 import { StructureGuard } from "./structure-guard";
-import { StructuresModule } from "../modules/structures/structures.module";
 
 describe("StructureGuard", () => {
   let structureGuard: StructureGuard;
@@ -15,6 +15,7 @@ describe("StructureGuard", () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, RouterModule.forRoot([]), StructuresModule],
       providers: [
+        StructureService,
         StructureGuard,
         AuthService,
         {

@@ -15,23 +15,18 @@ export class StructureService {
     this.http = http;
   }
 
-  public getStructure(id: number): Observable<any> {
-    return this.http.get(`${this.endPoint}/${id}`);
+  public findOne(structureId: number): Observable<any> {
+    return this.http.get(`${this.endPoint}/${structureId}`);
   }
 
   public getAll(): Observable<any> {
     return this.http.get(`${this.endPoint}`);
   }
 
-  /* Ajout d'un domicilié */
   public create(structure: Structure): Observable<any> {
     return structure.id !== 0
       ? this.http.patch(`${this.endPoint}`, structure)
       : this.http.post(`${this.endPoint}`, structure);
-  }
-
-  public findOne(structureId: number): Observable<any> {
-    return this.http.get(`${this.endPoint}/${structureId}`);
   }
 
   public confirm(token: string): Observable<any> {

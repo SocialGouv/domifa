@@ -23,12 +23,12 @@ export class StructuresService {
   public async create(structureDto: StructureDto): Promise<any> {
     const createdStructure = new this.structureModel(structureDto);
     createdStructure.id = await this.findLast();
-    createdStructure.token = crypto.randomBytes(35).toString("hex");
+    createdStructure.token = crypto.randomBytes(30).toString("hex");
     const structure = await createdStructure.save();
     return structure;
   }
 
-  public async checkToken(token: string): Promise<any> {
+  public async checkToken(token: string): Promise<Structure> {
     return this.structureModel
       .findOneAndUpdate(
         { token },
@@ -45,7 +45,7 @@ export class StructuresService {
       .exec();
   }
 
-  public async findOne(structureId: number): Promise<any> {
+  public async findOne(structureId: number): Promise<Structure> {
     const structure = await this.structureModel
       .findOne({ id: structureId })
       .exec();
@@ -55,7 +55,7 @@ export class StructuresService {
     return structure;
   }
 
-  public async findById(structureId: number): Promise<any> {
+  public async findById(structureId: number): Promise<Structure> {
     const structure = await this.structureModel
       .findOne({ id: structureId })
       .select("-users -token -email -phone -responsable")

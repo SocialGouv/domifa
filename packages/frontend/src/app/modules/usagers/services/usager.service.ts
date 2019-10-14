@@ -9,7 +9,10 @@ import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
-@Injectable()
+
+@Injectable({
+  providedIn: "root"
+})
 export class UsagerService {
   public http: HttpClient;
   public loading: boolean;
@@ -21,7 +24,6 @@ export class UsagerService {
     this.loading = true;
   }
 
-  /* Ajout d'un domicilié */
   public create(usager: Usager) {
     return usager.id !== 0
       ? this.http.patch(`${this.endPointUsagers}`, usager)
@@ -53,8 +55,12 @@ export class UsagerService {
     );
   }
 
-  public findOne(usagerId: number) {
-    return this.http.get(`${this.endPointUsagers}/${usagerId}`);
+  public findOne(usagerId: number): Observable<Usager> {
+    return this.http.get(`${this.endPointUsagers}/${usagerId}`).pipe(
+      map(response => {
+        return new Usager(response);
+      })
+    );
   }
 
   public isDoublon(nom: string, prenom: string) {

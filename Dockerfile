@@ -1,8 +1,5 @@
 FROM node:12
 
-ENV TZ Europe/Paris
-RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
-
 COPY ./lerna.json /app/lerna.json
 COPY ./package.json /app/package.json
 COPY ./packages/backend/package.json /app/packages/backend/package.json

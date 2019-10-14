@@ -24,17 +24,17 @@ export class StructuresController {
   ) {}
 
   @Post()
-  public async postStructure(@Body() structureDto: StructureDto): Promise<any> {
+  public async postStructure(@Body() structureDto: StructureDto) {
     return this.structureService.create(structureDto);
   }
 
   @Get(":id")
-  public async getStructure(@Param("id") id: number): Promise<any> {
+  public async getStructure(@Param("id") id: number) {
     return this.structureService.findById(id);
   }
 
   @Get()
-  public async getAllStructures(): Promise<any> {
+  public async getAllStructures() {
     return this.structureService.findAll();
   }
 

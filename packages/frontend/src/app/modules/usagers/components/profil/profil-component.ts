@@ -65,8 +65,6 @@ export class UsagersProfilComponent implements OnInit {
       const id = this.route.snapshot.params.id;
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
-          this.usager = new Usager(usager);
-
           this.getInteractions();
         },
         error => {
