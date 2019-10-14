@@ -13,11 +13,6 @@ export const ENTRETIEN_LABELS = {
   raisonDom2: "Exercice des droits civils ou civiques",
   raisonDomAutre: "Autres",
 
-  sr1: "Sans abris / squat",
-  sr2: "Hôtel",
-  sr3: "Hébergement social (sans service courrier)",
-  sr4: "Hébergé chez un tiers",
-  sr5: "Domicile mobile",
   valide: "Nouvelle domiciliation enregistrée"
 };
 

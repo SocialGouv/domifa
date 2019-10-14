@@ -1,5 +1,8 @@
 FROM node:12
 
+ENV TZ Europe/Paris
+RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
+
 COPY ./lerna.json /app/lerna.json
 COPY ./package.json /app/package.json
 COPY ./packages/backend/package.json /app/packages/backend/package.json
@@ -8,7 +11,7 @@ COPY ./yarn.lock /app/yarn.lock
 
 WORKDIR /app
 
-RUN yarn --frozen-lockfile --cache-folder /dev/shm/yarn
+RUN yarn --frozen-lockfile
 
 COPY ./packages/backend/nest-cli.json /app/packages/backend/nest-cli.json
 COPY ./packages/backend/tsconfig.build.json /app/packages/backend/tsconfig.build.json

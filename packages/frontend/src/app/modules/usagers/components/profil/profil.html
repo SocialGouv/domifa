@@ -278,51 +278,17 @@
         </ng-template>
 
         <ng-template ngbPanelContent>
-          <table class="table table-light">
+          <table class="table table-striped">
             <tbody>
-              <tr>
-                <td>Courrier</td>
+              <tr *ngFor="let interaction of interactions | slice:0:10; let i=index">
                 <td>
-                  <span *ngIf="usager.lastInteraction.courrierIn">
-                    Notifié le {{ usager.lastInteraction.courrierIn | date: 'dd/MM/yyyy' }}
-                  </span>
-                  <span *ngIf="usager.lastInteraction.courrierIn === null">Aucun courrier enregistré</span>
+                  {{ interactionsLabels[interaction.type] }}
                 </td>
                 <td>
-                  <span *ngIf="usager.lastInteraction.nbCourrier !== null && usager.lastInteraction.nbCourrier !== 0">
-                    <b>
-                      {{ usager.lastInteraction.nbCourrier }} courriers en attente
-                    </b>
-                  </span>
-                  <span *ngIf="usager.lastInteraction.nbCourrier === 0">Aucun courrier en attente</span>
+                  Notifié le {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
                 </td>
-              </tr>
-              <tr>
-                <td>Avis de passage</td>
-                <td>
-                  <span *ngIf="usager.lastInteraction.recommandeIn">
-                    Notifié le {{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}
-                  </span>
-                  <span *ngIf="!usager.lastInteraction.recommandeIn">Aucun avis de passage enregistré</span>
-                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Appel téléphonique</td>
-                <td>
-                  {{ usager.lastInteraction.appel | date: 'dd/MM/yyyy' }}
-                </td>
-                <td></td>
-              </tr>
-              <tr *ngIf="interactions">
-                <td colspan="3">
-                  <div *ngFor="let interaction of interactions">
-                    {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
-                    <span class="badge badge-primary">
-                      {{ interactionsLabel[interaction.type] }}
-                    </span>
-                  </div>
-                </td>
+                <td>Notifié par {{ interaction.userName }}</td>
+
               </tr>
             </tbody>
           </table>

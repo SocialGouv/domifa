@@ -5,6 +5,11 @@ import {
   motifsRadiation,
   motifsRefus
 } from "../../../../shared/entretien.labels";
+import {
+  interactionsLabels,
+  interactionsNotifs
+} from "../../interactions.labels";
+
 import { LoadingService } from "../../../loading/loading.service";
 import { DocumentService } from "../../services/document.service";
 
@@ -31,30 +36,13 @@ export class UsagersProfilComponent implements OnInit {
   public labels: any;
 
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
-  public interactionsLabel: any = {
-    appel: "Appel",
-    colisIn: "Colis reçu",
-    colisOut: "Colis récupéré",
-    courrierIn: "Courrier reçu",
-    courrierOut: "Courrier récupéré",
-    recommandeIn: "Recommandé reçu",
-    recommandeOut: "Recommandé récupéré",
-    visite: "Visite"
-  };
+  public notifs: any;
+  public interactionsLabels: any;
 
   public notifInputs: {} = {
     colisIn: 0,
     courrierIn: 0,
     recommandeIn: 0
-  };
-
-  public messages = {
-    appel: "Appel téléphonique enregistré",
-    courrierIn: "Nouveaux courriers enregistrés",
-    courrierOut: "Récupération du courrier enregistrée !",
-    recommandeIn: "Courrier recommandé enregistré !",
-    recommandeOut: "Avis de passage remis ",
-    visite: "Passage de l'usager enregistré"
   };
 
   constructor(
@@ -69,6 +57,9 @@ export class UsagersProfilComponent implements OnInit {
   public ngOnInit() {
     this.title = "Fiche d'un domicilié ";
     this.labels = ENTRETIEN_LABELS;
+
+    this.notifs = interactionsNotifs;
+    this.interactionsLabels = interactionsLabels;
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
@@ -121,7 +112,7 @@ export class UsagersProfilComponent implements OnInit {
       })
       .subscribe(
         (usager: Usager) => {
-          this.notifService.success(this.messages[type]);
+          this.notifService.success(this.notifs[type]);
           this.usager.lastInteraction = new LastInteraction(
             usager.lastInteraction
           );

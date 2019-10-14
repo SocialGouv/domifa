@@ -1,5 +1,11 @@
 version: "3.2"
 services:
+  mongo:
+    container_name: mongo
+    image: "mongo:4.0.3"
+    ports:
+      - "27017:27017"
+
   api:
     depends_on:
       - mongo
@@ -10,9 +16,3 @@ services:
       - "3000"
     links:
       - mongo
-
-  mongo:
-    container_name: mongo
-    image: "mongo:4.0.3"
-    ports:
-      - "27017:27017"

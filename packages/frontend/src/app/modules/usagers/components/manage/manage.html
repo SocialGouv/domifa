@@ -40,7 +40,7 @@
         <b *ngIf="filters.statut === 'VALIDE'">{{ usagers.length }}</b>
       </button>
       <button
-        class="btn "
+        class="btn"
         [ngClass]="
           filters.statut === 'INSTRUCTION' ? 'btn-warning' : 'btn-outline-dark'
         "
@@ -49,15 +49,13 @@
       </button>
       <button
         class="btn"
-        [ngClass]="  filters.statut === 'ATTENTE_DECISION' ? 'btn-warning' : 'btn-outline-dark' "
+        [ngClass]="filters.statut === 'ATTENTE_DECISION' ? 'btn-warning' : 'btn-outline-dark' "
         (click)="updateFilters('statut', 'ATTENTE_DECISION')">
         En attente de décision
       </button>
       <button
         class="btn"
-        [ngClass]="
-          filters.statut === 'REFUS' ? 'btn-danger' : 'btn-outline-dark'
-        "
+        [ngClass]="filters.statut === 'REFUS' ? 'btn-danger' : 'btn-outline-dark'  "
         (click)="updateFilters('statut', 'REFUS')">
         Refusé
       </button>
@@ -173,6 +171,7 @@
                   icon="envelope"></fa-icon>
               </span>
               <span
+                (click)="setPassage(usager, 'courrierOut')"
                 *ngIf="usager.lastInteraction.nbCourrier > 0"
                 ngbTooltip="Signaler un retrait de courrier">
                 <fa-icon
@@ -180,12 +179,16 @@
                   icon="envelope-open-text"></fa-icon>
                 <b class="notification">{{ usager.lastInteraction.nbCourrier }}</b>
               </span>
-              <span ngbTooltip="Signaler un passage">
+              <span
+                ngbTooltip="Signaler un passage"
+                (click)="setPassage(usager, 'visite')">
                 <fa-icon
                   class="visite"
                   icon="walking"></fa-icon>
               </span>
-              <span ngbTooltip="Signaler un appel">
+              <span
+                ngbTooltip="Signaler un appel"
+                (click)="setPassage(usager, 'appel')">
                 <fa-icon
                   class="appel"
                   icon="phone"></fa-icon>

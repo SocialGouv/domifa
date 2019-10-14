@@ -16,10 +16,10 @@ services:
     - export TZ=Europe/Paris
     - echo 'Europe/Paris' | sudo tee /etc/timezone
     - sudo dpkg-reconfigure --frontend noninteractive tzdata
-    - sudo apt-get install -y mongodb-org-tools  pdftk
+    - sudo apt-get install -y mongodb-org-tools pdftk
     - mongo domifa --eval "db.dropDatabase()"
     - mongorestore --gzip --archive=dump_test.gzip
-    - sleep 15
+    - sleep 10
     - mongo domifa --eval "db.createUser({user:'travis', pwd:'test', roles:[{role:'readWrite', db:'domifa'}] });"
     - touch packages/backend/src/config/config.env
     - echo "DB_USER=travis" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env

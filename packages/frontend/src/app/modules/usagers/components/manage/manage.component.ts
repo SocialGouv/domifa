@@ -6,6 +6,10 @@ import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AuthService } from "src/app/services/auth.service";
+import {
+  interactionsLabels,
+  interactionsNotifs
+} from "../../interactions.labels";
 import { Search } from "../../interfaces/search";
 
 @Component({
@@ -30,6 +34,9 @@ export class ManageUsagersComponent implements OnInit {
     REFUS: "Date de refus",
     VALIDE: "Fin de domiciliation"
   };
+
+  public notifs = interactionsNotifs;
+  public interactionsLabels = interactionsLabels;
 
   public filters: Search;
   public sort: string;
@@ -123,6 +130,22 @@ export class ManageUsagersComponent implements OnInit {
       );
     }
     return true;
+  }
+
+  public setPassage(usager: Usager, type: string) {
+    this.usagerService
+      .setInteraction(usager.id, {
+        content: "",
+        type
+      })
+      .subscribe(
+        () => {
+          this.notifService.success(this.notifs[type]);
+        },
+        error => {
+          this.notifService.error("Impossible d'enregistrer cette interaction");
+        }
+      );
   }
 
   public search() {
