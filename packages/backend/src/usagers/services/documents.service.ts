@@ -18,7 +18,9 @@ export class DocumentsService {
     index: number,
     user: User
   ): Promise<Usager> {
-    const usager = await this.usagerModel.findOne({ id: usagerId }).exec();
+    const usager = await this.usagerModel
+      .findOne({ id: usagerId, structureId: user.structureId })
+      .exec();
     const newDocs = usager.docs;
     const newDocsPath = usager.docsPath;
     newDocs.splice(index, 1);

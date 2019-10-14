@@ -5,18 +5,17 @@ import { ActivatedRouteSnapshot, RouterModule } from "@angular/router";
 import { StructureService } from "../modules/structures/services/structure.service";
 import { AuthService } from "../services/auth.service";
 import { StructureGuard } from "./structure-guard";
+import { StructuresModule } from "../modules/structures/structures.module";
 
 describe("StructureGuard", () => {
   let structureGuard: StructureGuard;
-
   let activatedRoute: ActivatedRouteSnapshot;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterModule.forRoot([])],
+      imports: [HttpClientModule, RouterModule.forRoot([]), StructuresModule],
       providers: [
         StructureGuard,
-        StructureService,
         AuthService,
         {
           provide: ActivatedRouteSnapshot,
@@ -29,7 +28,6 @@ describe("StructureGuard", () => {
     });
 
     activatedRoute = TestBed.get(ActivatedRouteSnapshot);
-
     structureGuard = TestBed.get(StructureGuard);
   }));
 
