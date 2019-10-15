@@ -5,6 +5,10 @@ services:
     image: "mongo:4.0.3"
     ports:
       - "27017:27017"
+    restart: always
+    build: .
+    networks:
+      - mongo
 
   api:
     depends_on:
@@ -12,7 +16,12 @@ services:
     container_name: api
     restart: always
     build: .
+    command: "yarn workspace @domifa/backend nodemon"
     ports:
       - "3000"
     links:
       - mongo
+
+networks:
+  mongo:
+    external: true

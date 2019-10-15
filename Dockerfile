@@ -19,9 +19,15 @@ COPY ./packages/frontend/tsconfig.json /app/packages/frontend/tsconfig.json
 COPY ./packages/backend/src /app/packages/backend/src
 COPY ./packages/frontend/src /app/packages/frontend/src
 
-RUN yarn build --stream
-
 COPY ./packages/backend/jest.config.js /app/packages/backend/jest.config.js
 COPY ./packages/backend/tslint.json /app/packages/backend/tslint.json
 COPY ./packages/frontend/jest.config.js /app/packages/frontend/jest.config.js
 COPY ./packages/frontend/tslint.json /app/packages/frontend/tslint.json
+
+
+RUN yarn workspace @domifa/backend nodemon
+
+
+#RUN yarn build --stream
+
+#RUN yarn workspace @domifa/backend nodemon

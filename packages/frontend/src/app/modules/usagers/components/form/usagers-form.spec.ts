@@ -3,7 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { global } from "@angular/compiler/src/util";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { async, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { RouterTestingModule } from "@angular/router/testing";

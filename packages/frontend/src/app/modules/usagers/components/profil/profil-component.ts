@@ -65,6 +65,7 @@ export class UsagersProfilComponent implements OnInit {
       const id = this.route.snapshot.params.id;
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
+          this.usager = usager;
           this.getInteractions();
         },
         error => {
@@ -88,6 +89,7 @@ export class UsagersProfilComponent implements OnInit {
           })
           .subscribe(
             (usager: Usager) => {
+              this.usager = usager;
               this.usager.lastInteraction = usager.lastInteraction;
               this.notifInputs[item] = 0;
               this.getInteractions();
@@ -110,6 +112,7 @@ export class UsagersProfilComponent implements OnInit {
       })
       .subscribe(
         (usager: Usager) => {
+          this.usager = usager;
           this.notifService.success(this.notifs[type]);
           this.usager.lastInteraction = new LastInteraction(
             usager.lastInteraction

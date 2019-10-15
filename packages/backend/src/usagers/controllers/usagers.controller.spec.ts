@@ -6,7 +6,6 @@ import { UsersService } from "../../users/users.service";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
-import { UsagersModule } from "../usagers.module";
 import { UsagersProviders } from "../usagers.providers";
 import { UsagersController } from "./usagers.controller";
 

@@ -8,7 +8,7 @@ import { ImportComponent } from "./import.component";
 describe("ImportComponent", () => {
   let component: ImportComponent;
   let fixture: ComponentFixture<ImportComponent>;
-
+  let app: any;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [],
@@ -16,13 +16,11 @@ describe("ImportComponent", () => {
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ImportComponent);
-    component = fixture.componentInstance;
+    app = fixture.debugElement.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
   it("should create", () => {
     expect(component).toBeTruthy();
