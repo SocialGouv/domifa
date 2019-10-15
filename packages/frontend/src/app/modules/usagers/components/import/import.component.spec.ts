@@ -2,16 +2,17 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { AppComponent } from "src/app/app.component";
 import { UsagersModule } from "../../usagers.module";
 import { ImportComponent } from "./import.component";
 
 describe("ImportComponent", () => {
-  let component: ImportComponent;
   let fixture: ComponentFixture<ImportComponent>;
-  let app: any;
+  let app: ImportComponent;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [],
+      declarations: [AppComponent],
       imports: [UsagersModule],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -23,6 +24,6 @@ describe("ImportComponent", () => {
   }));
 
   it("should create", () => {
-    expect(component).toBeTruthy();
+    expect(app).toBeTruthy();
   });
 });
