@@ -239,8 +239,11 @@
         <div
           *ngIf="submitted && f.phone.errors"
           class="invalid-feedback">
-          <div>Le numéro de téléphone est obligatoire</div>
-
+          <div>
+            Le
+            <b>numéro de téléphone</b>
+            est obligatoire
+          </div>
         </div>
       </div>
       <div class="col form-group required">
@@ -251,10 +254,11 @@
           id="email"
           formControlName="email"
           placeholder="Email"
-          [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+          [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
           required>
+
         <div
-          *ngIf="submitted && f.email.errors"
+          *ngIf="f.email.dirty && f.email.errors"
           class="invalid-feedback">
           Veuillez vérifier l'adresse email
         </div>

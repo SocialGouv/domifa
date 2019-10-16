@@ -15,14 +15,14 @@ h1 {
   background: url("/assets/images/image_fond.jpg") no-repeat center;
   -webkit-background-size: cover;
   background-size: cover;
-  padding: 3rem 1rem;
+  padding: 4rem 1rem;
   text-align: center;
   color: white;
 }
 
 .big_number {
   display: block;
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   font-weight: bold;
   line-height: 4rem;
   padding: 1rem 0;
@@ -35,7 +35,12 @@ h1 {
   margin: 2rem auto;
 }
 
+#team b {
+  display: block;
+}
+
 #team img {
   display: block;
   max-height: 150px;
+  margin-bottom: 20px;
 }

@@ -20,14 +20,17 @@
           href="#"
           routerLink="{{ structure.id}}">
           <b>{{ structure.nom }}</b>
-          - {{ structure.adresse }}
+          - {{ structure.adresse }},
+          <b>
+            {{ structure.ville }} ({{ structure.codePostal }})
+          </b>
         </a>
       </div>
     </div>
     <br>
-    <br>
-    Si votre structure n'est pas dans la liste, vous pouvez la créer en cliquant sur le bouton ci-dessous
-    <br>
+    <p>
+      Si votre structure n'est pas dans la liste, vous pouvez la créer en cliquant sur le bouton ci-dessous
+    </p>
     <br>
     <a
       class="btn btn-primary"

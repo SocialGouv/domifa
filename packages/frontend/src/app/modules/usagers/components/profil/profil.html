@@ -122,15 +122,14 @@
           </div>
           <div class="col-md-5 offset-1">
 
-            <a
+            <button
+              (click)="open(renewConfirmation)"
               *ngIf="usager.dayBeforeEnd < 60"
-              [routerLink]="['/radiation/'+usager.id+'+/edit']"
-              routerLinkActive="router-link-active"
               class="btn btn-block btn-secondary">
               <fa-icon icon="redo"></fa-icon>
               &nbsp;
             Demande de renouvellement
-            </a>
+            </button>
           </div>
           <div class="col-md-5">
             <a
@@ -637,3 +636,43 @@
     </div>
   </div>
 </div>
+
+<ng-template
+  #renewConfirmation
+  let-modal>
+  <div class="modal-header">
+    <h4
+      class="modal-title"
+      id="modal-basic-title">
+      <fa-icon icon="info"></fa-icon>
+      Attention
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col">
+      <p>
+        Démarrer un renouvellement retirera le domicilié de la catégories "Actif"
+          Pour le retrouver, vous devrez aller sur le bouton "A compléter"
+      </p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')">
+      Revenir au profil
+    </button>
+    <button
+      class="btn btn-success"
+      (click)="renew();modal.close()">
+      Demander un renouvellement
+    </button>
+  </div>
+</ng-template>

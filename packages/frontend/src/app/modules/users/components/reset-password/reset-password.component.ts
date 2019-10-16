@@ -1,9 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { Subject } from "rxjs";
-import { debounceTime } from "rxjs/operators";
 
 import { ERROR_LABELS } from "../../../../shared/errors.labels";
 

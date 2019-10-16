@@ -148,6 +148,7 @@ export class DecisionComponent implements OnInit {
   public open(content: string) {
     this.modal = this.modalService.open(content);
   }
+
   public getAttestation() {
     return this.usagerService.attestation(this.usager.id);
   }

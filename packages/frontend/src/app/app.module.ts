@@ -55,7 +55,7 @@ library.add(fas, far);
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 2000
+      timeOut: 3000
     }),
     AppRoutingModule,
     FontAwesomeModule,

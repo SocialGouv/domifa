@@ -10,6 +10,8 @@ import {
   interactionsNotifs
 } from "../../interactions.labels";
 
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+
 import { LoadingService } from "../../../loading/loading.service";
 import { DocumentService } from "../../services/document.service";
 
@@ -31,6 +33,8 @@ export class UsagersProfilComponent implements OnInit {
   public usager: Usager;
   public interactions: Interaction[];
 
+  public modal: any;
+
   public motifsRadiation: any = motifsRadiation;
   public motifsRefus: any = motifsRefus;
   public labels: any;
@@ -50,6 +54,7 @@ export class UsagersProfilComponent implements OnInit {
     private route: ActivatedRoute,
     private documentService: DocumentService,
     private loadingService: LoadingService,
+    private modalService: NgbModal,
     private notifService: ToastrService,
     private router: Router
   ) {}
@@ -78,6 +83,11 @@ export class UsagersProfilComponent implements OnInit {
     }
   }
 
+  public renew() {}
+
+  public open(content: string) {
+    this.modal = this.modalService.open(content);
+  }
   public notifier() {
     for (const item of this.interactionsType) {
       if (this.notifInputs[item] !== 0) {
@@ -89,6 +99,7 @@ export class UsagersProfilComponent implements OnInit {
           })
           .subscribe(
             (usager: Usager) => {
+              this.notifService.success(this.notifs[item]);
               this.usager = usager;
               this.usager.lastInteraction = usager.lastInteraction;
               this.notifInputs[item] = 0;

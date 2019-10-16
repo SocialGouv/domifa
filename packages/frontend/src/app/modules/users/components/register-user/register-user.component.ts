@@ -99,7 +99,7 @@ export class RegisterUserComponent implements OnInit {
     this.submitted = true;
     if (this.userForm.invalid) {
       this.notifService.error(
-        "veuillez vérifier les champs marqués en rouge dans le formulaire",
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire",
         "Erreur dans le formulaire"
       );
     } else {
