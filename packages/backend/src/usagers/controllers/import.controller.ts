@@ -199,9 +199,8 @@ export class ImportController {
 
         if (index + 1 >= datas.length) {
           this.logger.log("FIN DU FICHIER");
-          this.logger.log("Erreurs -> " + this.errorsId.length);
-
           if (this.errorsId.length > 0) {
+            this.logger.log("Erreurs -> " + this.errorsId.length);
             return res.status(HttpStatus.NOT_ACCEPTABLE).json({
               errorsNbre: this.errorsId.length,
               message: "ERRORS_IN_FILE"
@@ -213,6 +212,7 @@ export class ImportController {
           } catch (err) {
             this.logger.log("Impossible de supprimer le fichier d'import");
           }
+
           return res
             .status(HttpStatus.OK)
             .json(await this.saveDatas(datas, user));
@@ -297,7 +297,6 @@ export class ImportController {
             userName: agent
           }
         ],
-        imported: true,
         nom: row[NOM],
         phone: row[PHONE],
         prenom: row[PRENOM],
