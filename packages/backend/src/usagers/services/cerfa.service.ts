@@ -23,7 +23,11 @@ export class CerfaService {
 
   public phone: string;
   public dateNaissance: any;
+
   public dateDemande: any;
+  public dateDebut: any;
+  public dateFin: any;
+
   public dateRdv: {
     annee: string;
     jour: string;
@@ -54,10 +58,9 @@ export class CerfaService {
     this.dateNaissance = this.convertDate(usager.dateNaissance);
 
     this.logger.log("--- Erreur Cerfa ");
-    this.logger.log(usager.dateNaissance);
-    this.logger.log(this.dateNaissance);
 
     this.dateDemande = this.convertDate(usager.decision.dateDecision);
+
     this.dateRdv = this.convertDate(usager.rdv.dateRdv);
     this.motif = "";
 
@@ -97,6 +100,9 @@ export class CerfaService {
     };
 
     if (usager.decision.statut === "VALIDE") {
+      this.dateDebut = this.convertDate(usager.decision.dateDebut);
+      this.dateFin = this.convertDate(usager.decision.dateFin);
+
       this.pdfForm = "../../ressources/attestation.pdf";
 
       this.infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] =
@@ -130,6 +136,25 @@ export class CerfaService {
       this.infosPdf[
         "topmostSubform[0].Page1[0].AdressePostale[0]"
       ] = adresseStructure;
+
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].JourValidité1[0]"
+      ] = this.dateDebut.jour;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].MoisValidité1[0]"
+      ] = this.dateDebut.mois;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].AnnéeValidité1[0]"
+      ] = this.dateDebut.annee;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].JourValidité2[0]"
+      ] = this.dateFin.jour;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].MoisValidité2[0]"
+      ] = this.dateFin.mois;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].AnnéeValidité2[0]"
+      ] = this.dateFin.annee;
     } else {
       this.pdfForm = "../../ressources/demande.pdf";
 

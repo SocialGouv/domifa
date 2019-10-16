@@ -140,6 +140,9 @@ export class ManageUsagersComponent implements OnInit {
       })
       .subscribe(
         () => {
+          if (type === "courrierOut") {
+            usager.lastInteraction.nbCourrier = 0;
+          }
           this.notifService.success(this.notifs[type]);
         },
         error => {

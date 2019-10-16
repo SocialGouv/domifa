@@ -19,7 +19,7 @@ export class Rdv {
     this.dateRdv = (rdv && new Date(rdv.dateRdv)) || today;
 
     this.jourRdv =
-      rdv && rdv.dateRdv
+      rdv && rdv.dateRdv && rdv.dateRdv !== null
         ? {
             day: this.dateRdv.getDate(),
             month: this.dateRdv.getMonth() + 1,

@@ -62,6 +62,7 @@ export class UsagersFormComponent implements OnInit {
     month: this.dToday.getMonth() + 1,
     year: this.dToday.getFullYear()
   };
+
   public maxDateRdv = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,
@@ -161,7 +162,7 @@ export class UsagersFormComponent implements OnInit {
 
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
-          this.usager = new Usager(usager);
+          this.usager = usager;
           this.initForm();
           for (const ayantDroit of this.usager.ayantsDroits) {
             this.addAyantDroit(ayantDroit);

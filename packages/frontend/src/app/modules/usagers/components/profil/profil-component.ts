@@ -83,7 +83,7 @@ export class UsagersProfilComponent implements OnInit {
     }
   }
 
-  public renew() {}
+  // public renew() {}
 
   public open(content: string) {
     this.modal = this.modalService.open(content);

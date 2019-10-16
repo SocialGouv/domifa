@@ -158,9 +158,9 @@ export class ImportComponent implements OnInit {
           TYPE_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], false),
+          this.validDate(row[DATE_DEBUT_DOM], true),
           index,
-          DATE_PREMIERE_DOM
+          DATE_DEBUT_DOM
         );
         this.countErrors(
           this.validDate(row[DATE_FIN_DOM], true),
