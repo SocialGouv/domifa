@@ -166,7 +166,7 @@ export class ImportController {
           index,
           MOTIF_RADIATION
         );
-        this.countErrors(this.isValidValue(row[15], "menage", true), index, 15);
+        this.countErrors(this.isValidValue(row[15], "menage"), index, 15);
 
         for (const indexAD of AYANT_DROIT) {
           const nom = row[indexAD];
