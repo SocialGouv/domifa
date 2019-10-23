@@ -44,7 +44,7 @@ Test @domifa/backend:
     DB_PORT: 27017
   script:
     - apt-get update && apt-get install -y mongodb
-    - mongo domifa --eval "db.createUser({user:'${DB_USER}', pwd:'${DB_PASS}', roles:[{role:'readWrite', db:'domifa'}],   passwordDigestor:"server" });"
+    - mongo domifa --eval "db.createUser({user:'${DB_USER}', pwd:'${DB_PASS}', roles:[{role:'readWrite', db:'domifa'}], passwordDigestor:'server'});"
     - yarn workspace @domifa/backend test --coverage
 
 Test @domifa/frontend:
