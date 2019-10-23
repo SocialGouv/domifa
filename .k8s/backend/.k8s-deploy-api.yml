@@ -1,0 +1,13 @@
+.k8s-deploy-api:
+  extends: .base_docker_kube_image_stage
+  script:
+    - export POSTGRESQL_USER=emjpm
+    - export POSTGRESQL_PASSWORD=$(kubectl get secret emjpm-secret -o jsonpath='{.data.POSTGRES_EMJPM_PASSWORD}' | base64 --decode)
+    #
+    - envsubst < ./.k8s/api/deployment.yml > ./deployment.yml
+    - envsubst < ./.k8s/api/service.yml > ./service.yml
+    - envsubst < ./.k8s/api/ingress.yml > ./ingress.yml
+    #
+    - kubectl apply -f ./deployment.yml
+    - kubectl apply -f ./service.yml
+    - kubectl apply -f ./ingress.yml

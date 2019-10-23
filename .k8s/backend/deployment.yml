@@ -1,0 +1,89 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ${K8S_PROJECT}-${CONTEXT}-${BRANCH_HASH}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${K8S_PROJECT}-${CONTEXT}-${BRANCH_HASH}
+  template:
+    metadata:
+      labels:
+        app: ${K8S_PROJECT}-${CONTEXT}-${BRANCH_HASH}
+        git/branch: ${BRANCH_NAME}
+        git/commit: ${COMMIT}
+        gitlab/job: "${JOB_ID}"
+    spec:
+      containers:
+        - image: ${IMAGE_NAME}:${IMAGE_TAG}
+          name: ${K8S_PROJECT}-${CONTEXT}
+          ports:
+            - containerPort: ${PORT}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: ${PORT}
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: ${PORT}
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+
+          #
+
+          env:
+            - name: APP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: emjpm-secret
+                  key: APP_URL
+            - name: DATABASE_URL
+              value: "psql://${POSTGRESQL_USER}:${POSTGRESQL_PASSWORD}@${POSTGRES_HOST}/${POSTGRES_DATABASE}"
+            - name: PORT
+              value: "${PORT}"
+            - name: NODE_ENV
+              value: "${NODE_ENV}"
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: emjpm-secret
+                  key: SMTP_HOST
+            - name: SMTP_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: emjpm-secret
+                  key: SMTP_PORT
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: emjpm-secret
+                  key: SMTP_USER
+            - name: SMTP_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: emjpm-secret
+                  key: SMTP_PASS
+            - name: SMTP_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: emjpm-secret
+                  key: SMTP_FROM
+            - name: SENTRY_PUBLIC_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: emjpm-secret
+                  key: SENTRY_PUBLIC_DSN
+            - name: SENTRY_ENV
+              value: "${NODE_ENV}"

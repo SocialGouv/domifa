@@ -42,18 +42,19 @@ Deploy backend:
   <<: *dev_stage
   extends: .base_docker_helm_image_stage
   script:
-    - envsubst < ./.k8s/backend/values.yaml > ./values.yaml
-    - cat ./values.yaml
     #
-    - helm init --client-only
-    - helm repo add socialgouv https://github.com/SocialGouv/helm-charts/releases/download/${HELM_CHART_VERSION}
-    - helm upgrade
-        ${K8S_PROJECT}-backend-${BRANCH_HASH}
-        socialgouv/webapp
-        --install
-        --namespace ${K8S_NAMESPACE}
-        --values ./values.yaml
-        --wait || helm delete --purge ${K8S_PROJECT}-backend-${BRANCH_HASH}
+    - envsubst < ./.k8s/api/deployment.yml > ./deployment.yml
+    - envsubst < ./.k8s/api/service.yml > ./service.yml
+    - envsubst < ./.k8s/api/ingress.yml > ./ingress.yml
+    #
+    - cat ./deployment.yaml
+    - cat ./service.yaml
+    - cat ./ingress.yaml
+    #
+    - kubectl apply -f ./deployment.yml
+    - kubectl apply -f ./service.yml
+    - kubectl apply -f ./ingress.yml
+
 
 Deploy MongoDB:
   <<: *deploy_stage
