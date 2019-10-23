@@ -9,8 +9,21 @@
     IMAGE_TAG: $CI_COMMIT_SHA
     REGISTRY: $CI_REGISTRY_IMAGE
 
+.dev_stage: &dev_stage
+  environment:
+    name: fabrique-dev
+  only:
+    refs:
+      - branches
+      - tags
+  except:
+    variables:
+      - $PRODUCTION
+
+
 Create namespace:
   <<: *deploy_stage
+  <<: *dev_stage
   extends: .base_docker_kube_image_stage
   stage: "Registration"
   script:
@@ -26,6 +39,7 @@ Create namespace:
 
 Deploy mongodb:
   <<: *deploy_stage
+  <<: *dev_stage
   extends: .base_docker_helm_image_stage
   script:
     - envsubst < ./.k8s/mongodb/values.yaml > ./values.yaml
