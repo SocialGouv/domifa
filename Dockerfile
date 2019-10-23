@@ -28,4 +28,4 @@ COPY ./packages/frontend/tslint.json /app/packages/frontend/tslint.json
 
 RUN yarn build --stream
 
-COPY ./packages/dump_test.gzip /app/dump_test.gzip
+COPY ./dump_test.gzip /app/dump_test.gzip
