@@ -11,7 +11,6 @@
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
-    "prestart:prod": "rimraf dist && npm run build && cp -i src/config/config.env dist/config/config.env && cp -r -i src/ressources dist/ressources && forever stopall",
     "start:prod": "forever start dist/main.js",
     "lint": "tslint -p tsconfig.json -t stylish",
     "test": "jest",
