@@ -42,6 +42,12 @@ Test @domifa/backend:
     DB_PASS: test
     DB_HOST: localhost
     DB_PORT: 27017
+    FRONT_URL: http://localhost:4200/
+    API_URL: http://localhost:3000/
+    SECRET: lol
+    MJ_APIKEY_PUBLIC: 9b4593a46c936e6f999e1443b5526633
+    MJ_APIKEY_PRIVATE: 17be9fcd81da8cc6a07478c95036ec46
+    ADMIN_EMAIL: domifa@yopmail.com
   script:
     - apt-get update && apt-get install -y mongodb
     - mongo domifa --eval "db.createUser({user:'${DB_USER}', pwd:'${DB_PASS}', roles:[{role:'readWrite', db:'domifa'}], passwordDigestor:'server'});"
