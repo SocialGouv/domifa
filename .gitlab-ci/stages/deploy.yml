@@ -25,6 +25,7 @@ Create namespace:
 
 
 Deploy mongodb:
+  <<: *deploy_stage
   extends: .base_docker_helm_image_stage
   script:
     - envsubst < ./.k8s/mongodb/values.yaml > ./values.yaml

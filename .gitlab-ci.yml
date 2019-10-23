@@ -16,7 +16,7 @@ include:
 stages:
   # - "Prepare"
   # - "Code Quality"
-  # - "Registration"
+  - "Registration"
   # - "Integration test"
   - "Deploy"
   #- "Notify Finished Deployment"
