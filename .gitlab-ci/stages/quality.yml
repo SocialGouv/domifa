@@ -43,6 +43,7 @@ Test @domifa/backend:
     DB_HOST: localhost
     DB_PORT: 27017
   script:
+    - sudo apt-get install -y mongodb-org-tools
     - mongo domifa --eval "db.createUser({user:'${DB_USER}', pwd:'${DB_PASS}', roles:[{role:'readWrite', db:'domifa'}] });"
     - yarn workspace @domifa/backend test --coverage
 
