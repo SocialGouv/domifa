@@ -4,6 +4,9 @@ FROM ${BASE_IMAGE} as domifa
 
 FROM node:12
 
+ENV TZ Europe/Paris
+RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
+
 RUN apt-get update && apt-get install -y pdftk
 
 WORKDIR /app

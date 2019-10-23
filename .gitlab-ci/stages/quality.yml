@@ -55,6 +55,6 @@ Test @domifa/backend:
     - apt-get update && apt-get install -y mongodb pdftk
     - mongo domifa --eval "db.createUser({user:'gitlab', pwd:'test', roles:[{role:'readWrite', db:'domifa'}], passwordDigestor:'server'});"
     - mongorestore --gzip --archive=./dump_test.gzip
-    - yarn workspace @domifa/backend test || true
+    - yarn workspace @domifa/backend test
     - yarn workspace @domifa/backend start:prod
     - yarn workspace @domifa/frontend test
