@@ -7,7 +7,7 @@
 .master_based_stage: &master_based_stage
   variables:
     GIT_STRATEGY: none
-  image: $CI_REGISTRY_IMAGE:master
+  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   before_script:
     - cd /app
 
@@ -57,5 +57,5 @@ Test @domifa/backend:
     - ls -l
     - mongorestore --gzip --archive=./dump_test.gzip
     - yarn workspace @domifa/backend test --coverage
-    - docker run -p 3000 --env-file ./packages/backend/.env $CI_REGISTRY_IMAGE/backend:master
+    - docker run -p 3000 --env-file ./packages/backend/.env $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHA
     - yarn workspace @domifa/frontend test --coverage
