@@ -6,7 +6,7 @@
   services:
     - docker:$DOCKER_VERSION-dind
   variables: &deploy_stage_variables
-    IMAGE_TAG: $CI_COMMIT_SHA
+    IMAGE_TAG: master
     REGISTRY: $CI_REGISTRY_IMAGE
 
 .dev_stage: &dev_stage
