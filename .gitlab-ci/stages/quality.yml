@@ -54,8 +54,8 @@ Test @domifa/backend:
     - cat ./packages/backend/.env
     - apt-get update && apt-get install -y mongodb
     - mongo domifa --eval "db.createUser({user:'gitlab', pwd:'test', roles:[{role:'readWrite', db:'domifa'}], passwordDigestor:'server'});"
-    - ls $CI_PROJECT_DIR
-    - mongorestore --gzip --archive=$CI_PROJECT_DIR/dump_test.gzip
+    - ls -l
+    - mongorestore --gzip --archive=./dump_test.gzip
     - yarn workspace @domifa/backend test --coverage
     - docker run -p 3000 --env-file ./packages/backend/.env $CI_REGISTRY_IMAGE/backend:master
     - yarn workspace @domifa/frontend test --coverage
