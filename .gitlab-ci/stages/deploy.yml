@@ -46,5 +46,11 @@ Deploy mongodb:
     - cat ./values.yaml
     #
     - helm init --client-only
-    - helm upgrade --install ${MONGODB_HOST} --wait -f ./values.yaml stable/mongodb --namespace ${K8S_NAMESPACE}
+    - helm upgrade
+        ${MONGODB_HOST}
+        stable/mongodb
+        --install
+        --namespace ${K8S_NAMESPACE}
+        --values ./values.yaml
+        --wait || helm delete --purge ${MONGODB_HOST}
 
