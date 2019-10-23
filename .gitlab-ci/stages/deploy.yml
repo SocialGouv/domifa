@@ -1,0 +1,9 @@
+Deploy mongodb:
+  extends: .base_docker_helm_image_stage
+  script:
+    - envsubst < ./.k8s/mongodb/values.yaml > ./values.yaml
+    - cat ./values.yaml
+    #
+    - helm init --client-only
+    - helm upgrade --install ${MONGODB_HOST} --wait -f ./values.yaml stable/mongodb --namespace ${K8S_NAMESPACE}
+
