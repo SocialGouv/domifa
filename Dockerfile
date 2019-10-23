@@ -8,7 +8,7 @@ COPY ./yarn.lock /app/yarn.lock
 
 WORKDIR /app
 
-RUN yarn --frozen-lockfile
+RUN yarn --frozen-lockfile  --cache-folder /dev/shm/yarn
 
 COPY ./packages/backend/nest-cli.json /app/packages/backend/nest-cli.json
 COPY ./packages/backend/tsconfig.build.json /app/packages/backend/tsconfig.build.json
@@ -16,17 +16,15 @@ COPY ./packages/backend/tsconfig.json /app/packages/backend/tsconfig.json
 COPY ./packages/frontend/angular.json /app/packages/frontend/angular.json
 COPY ./packages/frontend/tsconfig.json /app/packages/frontend/tsconfig.json
 
+
 COPY ./packages/backend/src /app/packages/backend/src
 COPY ./packages/frontend/src /app/packages/frontend/src
+
+RUN touch /app/packages/backend/src/config/config.env
 
 COPY ./packages/backend/jest.config.js /app/packages/backend/jest.config.js
 COPY ./packages/backend/tslint.json /app/packages/backend/tslint.json
 COPY ./packages/frontend/jest.config.js /app/packages/frontend/jest.config.js
 COPY ./packages/frontend/tslint.json /app/packages/frontend/tslint.json
 
-#RUN yarn workspace @domifa/backend start:dev
-
 RUN yarn build --stream
-
-RUN yarn workspace @domifa/backend start:prod
-#RUN yarn workspace @domifa/backend nodemon

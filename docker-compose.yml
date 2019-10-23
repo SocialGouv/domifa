@@ -8,3 +8,14 @@ services:
     ports:
       - "27017:27017"
     restart: always
+
+  api:
+    depends_on:
+      - mongo
+    container_name: api
+    restart: always
+    build: .
+    ports:
+      - "3000"
+    links:
+      - mongo
