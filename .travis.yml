@@ -24,6 +24,8 @@ services:
     - touch /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "DB_USER=travis" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - echo "DB_HOST=127.0.0.1" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - echo "DB_PORT=27017" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "MJ_APIKEY_PUBLIC=${MJ_APIKEY_PUBLIC_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "MJ_APIKEY_PRIVATE=${MJ_APIKEY_PRIVATE_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
     - echo "API_URL=http://localhost:3000/" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
