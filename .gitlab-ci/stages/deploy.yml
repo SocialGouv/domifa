@@ -37,7 +37,25 @@ Create namespace:
     - kubectl annotate namespace ${K8S_NAMESPACE} git/branch=${CI_COMMIT_REF_NAME}
 
 
-Deploy mongodb:
+Deploy backend:
+  <<: *deploy_stage
+  <<: *dev_stage
+  extends: .base_docker_helm_image_stage
+  script:
+    - envsubst < ./.k8s/backend/values.yaml > ./values.yaml
+    - cat ./values.yaml
+    #
+    - helm init --client-only
+    - helm repo add socialgouv https://github.com/SocialGouv/helm-charts/releases/download/${HELM_CHART_VERSION}
+    - helm upgrade
+        ${K8S_PROJECT}-backend-${BRANCH_HASH}
+        socialgouv/webapp
+        --install
+        --namespace ${K8S_NAMESPACE}
+        --values ./values.yaml
+        --wait || helm delete --purge ${K8S_PROJECT}-backend-${BRANCH_HASH}
+
+Deploy MongoDB:
   <<: *deploy_stage
   <<: *dev_stage
   extends: .base_docker_helm_image_stage

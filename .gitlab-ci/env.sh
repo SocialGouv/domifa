@@ -46,7 +46,12 @@ else
   #
 fi
 
+export API_HOST="api.${DOMAIN}";
 export MONGODB_HOST="${K8S_PROJECT}-mongodb-${BRANCH_HASH}"
+
+#
+
+export API_URL="https://${API_HOST}"
 
 #
 
@@ -67,6 +72,8 @@ printenv | grep \
   -e REGISTRY \
   -e REGISTRY \
   \
+  -e API_HOST \
+  -e API_URL \
   -e MONGODB_HOST \
   \
   -e CONTEXT \
