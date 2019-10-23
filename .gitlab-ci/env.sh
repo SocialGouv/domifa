@@ -18,7 +18,6 @@ export BRANCH_HASH=${BRANCH_HASH:="$BRANCH_NAME_HASHED"}
 export DOMAIN="domifa.dev.fabrique.social.gouv.fr";
 
 export K8S_PROJECT="domifa"
-export CONTEXT="domifa"
 export K8S_NAMESPACE="${K8S_PROJECT}-feature-${BRANCH_HASH}"
 
 #

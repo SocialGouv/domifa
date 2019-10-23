@@ -41,6 +41,11 @@ Deploy backend:
   <<: *deploy_stage
   <<: *dev_stage
   extends: .base_docker_helm_image_stage
+  variables:
+    <<: *deploy_stage_variables
+    CONTEXT: backend
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/backend
+    PORT: 3000
   script:
     #
     - envsubst < ./.k8s/backend/deployment.yml > ./deployment.yml
