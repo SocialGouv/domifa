@@ -1,4 +1,6 @@
-FROM socialgouv/domifa:master as domifa
+ARG BASE_IMAGE=socialgouv/domifa:master
+
+FROM ${BASE_IMAGE} as domifa
 
 FROM nginx:latest
 
