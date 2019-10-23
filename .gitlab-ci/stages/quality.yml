@@ -37,25 +37,25 @@ Test @domifa/backend:
   <<: *master_based_stage
   services:
     - name: mongo:4.0.3
-  variables:
-    DB_USER: gitlab
-    DB_PASS: test
-    DB_HOST: localhost
-    DB_PORT: 27017
-    FRONT_URL: http://localhost:4200/
-    API_URL: http://localhost:3000/
-    SECRET: lol
-    MJ_APIKEY_PUBLIC: 9b4593a46c936e6f999e1443b5526633
-    MJ_APIKEY_PRIVATE: 17be9fcd81da8cc6a07478c95036ec46
-    ADMIN_EMAIL: domifa@yopmail.com
   script:
+    - |
+      cat <<EOF > ./packages/backend/.env
+      DB_USER: gitlab
+      DB_PASS: test
+      DB_HOST: localhost
+      DB_PORT: 27017
+      FRONT_URL: http://localhost:4200/
+      API_URL: http://localhost:3000/
+      SECRET: lol
+      MJ_APIKEY_PUBLIC: 9b4593a46c936e6f999e1443b5526633
+      MJ_APIKEY_PRIVATE: 17be9fcd81da8cc6a07478c95036ec46
+      ADMIN_EMAIL: domifa@yopmail.com
+      EOF
+
     - apt-get update && apt-get install -y mongodb
     - mongo domifa --eval "db.createUser({user:'${DB_USER}', pwd:'${DB_PASS}', roles:[{role:'readWrite', db:'domifa'}], passwordDigestor:'server'});"
+    - ls $CI_PROJECT_DIR
+    - mongorestore --gzip --archive=$CI_PROJECT_DIR/dump_test.gzip
     - yarn workspace @domifa/backend test --coverage
-
-Test @domifa/frontend:
-  <<: *quality_stage
-  stage: "Integration test"
-  <<: *master_based_stage
-  script:
+    - docker build ./packages/backend -t socialgouv/domifa/backend && docker run -p 8080:3000 socialgouv/domifa/backend
     - yarn workspace @domifa/frontend test --coverage
