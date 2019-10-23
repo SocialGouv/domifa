@@ -37,7 +37,13 @@ Test @domifa/backend:
   <<: *master_based_stage
   services:
     - name: mongo:4.0.3
+  variables:
+    DB_USER: gitlab
+    DB_PASS: test
+    DB_HOST: localhost
+    DB_PORT: 27017
   script:
+    - mongo domifa --eval "db.createUser({user:'${DB_USER}', pwd:'${DB_PASS}', roles:[{role:'readWrite', db:'domifa'}] });"
     - yarn workspace @domifa/backend test --coverage
 
 Test @domifa/frontend:
