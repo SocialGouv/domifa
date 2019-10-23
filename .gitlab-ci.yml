@@ -5,8 +5,8 @@ include:
   - /.gitlab-ci/variables.yml
   - /.gitlab-ci/extends.yml
   #
-  - /.gitlab-ci/stages/prepare.yml
-  - /.gitlab-ci/stages/quality.yml
+  # - /.gitlab-ci/stages/prepare.yml
+  # - /.gitlab-ci/stages/quality.yml
   # /.gitlab-ci/stages/register.yml
   #- /.gitlab-ci/stages/notify.yml
   #- /.gitlab-ci/stages/deploy.yml
@@ -14,10 +14,10 @@ include:
 #
 
 stages:
-  - "Prepare"
-  - "Code Quality"
-  - "Registration"
-  - "Integration test"
-  #- "Deploy"
+  # - "Prepare"
+  # - "Code Quality"
+  # - "Registration"
+  # - "Integration test"
+  - "Deploy"
   #- "Notify Finished Deployment"
 #
