@@ -5,12 +5,10 @@ import * as path from "path";
 
 @Injectable()
 export class ConfigService {
-  private readonly envConfig: { [key: string]: string };
+  private readonly envConfig: any;
 
   constructor() {
-    this.envConfig = dotenv.parse(
-      fs.readFileSync(path.resolve(__dirname, "config.env"))
-    );
+    this.envConfig = dotenv.config().parsed;
   }
 
   public get(key: string): string {
