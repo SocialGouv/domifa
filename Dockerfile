@@ -16,7 +16,6 @@ COPY ./packages/backend/tsconfig.json /app/packages/backend/tsconfig.json
 COPY ./packages/frontend/angular.json /app/packages/frontend/angular.json
 COPY ./packages/frontend/tsconfig.json /app/packages/frontend/tsconfig.json
 
-
 COPY ./packages/backend/src /app/packages/backend/src
 COPY ./packages/frontend/src /app/packages/frontend/src
 

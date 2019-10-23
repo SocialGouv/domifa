@@ -14,7 +14,7 @@ export const databaseProviders = [
     provide: "DATABASE_CONNECTION",
     useFactory: async (): Promise<typeof mongoose> =>
       mongoose.connect(
-        "mongodb://" + user + ":" + password + "@127.0.0.1:27017/domifa",
+        "mongodb://" + user + ":" + password + "@mongo:27017/domifa",
         {
           reconnectInterval: 1000,
           reconnectTries: Number.MAX_VALUE,

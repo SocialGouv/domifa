@@ -31,12 +31,12 @@ Lint @domifa/backend:
 ###########################################
 ###                TESTS                ###
 ###########################################
-
 Test @domifa/backend:
   <<: *quality_stage
   <<: *master_based_stage
+  services:
+    - name: mongo:4.0.3
   script:
-    - touch packages/backend/src/config/config.env
     - yarn workspace @domifa/backend test --coverage
 
 Test @domifa/frontend:
