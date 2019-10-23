@@ -15,6 +15,10 @@ const host = config.get("DB_HOST");
 
 const port = config.get("DB_PORT");
 
+console.log(
+  "mongodb://" + user + ":" + password + "@" + host + ":" + port + "/domifa"
+);
+
 export const databaseProviders = [
   {
     provide: "DATABASE_CONNECTION",
