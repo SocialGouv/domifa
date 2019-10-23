@@ -33,6 +33,7 @@ Lint @domifa/backend:
 ###########################################
 Test @domifa/backend:
   <<: *quality_stage
+  stage: "Integration test"
   <<: *master_based_stage
   services:
     - name: mongo:4.0.3
@@ -41,6 +42,7 @@ Test @domifa/backend:
 
 Test @domifa/frontend:
   <<: *quality_stage
+  stage: "Integration test"
   <<: *master_based_stage
   script:
     - yarn workspace @domifa/frontend test --coverage

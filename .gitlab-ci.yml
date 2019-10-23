@@ -17,6 +17,7 @@ stages:
   - "Prepare"
   - "Code Quality"
   - "Registration"
+  - "Integration test"
   #- "Deploy"
   #- "Notify Finished Deployment"
 #
