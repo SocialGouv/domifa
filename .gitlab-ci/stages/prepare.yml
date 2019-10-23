@@ -12,5 +12,5 @@ Register socialgouv/domifa base image:
   variables:
     CONTEXT: .
     DOCKER_BUILD_ARGS: >-
-      --shm-size 2048M
+      --shm-size 1024M
     IMAGE_NAME: $CI_REGISTRY_IMAGE
