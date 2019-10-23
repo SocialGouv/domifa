@@ -47,9 +47,9 @@ Deploy backend:
     - envsubst < ./.k8s/backend/service.yml > ./service.yml
     - envsubst < ./.k8s/backend/ingress.yml > ./ingress.yml
     #git
-    - cat ./deployment.yaml
-    - cat ./service.yaml
-    - cat ./ingress.yaml
+    - cat ./deployment.yml
+    - cat ./service.yml
+    - cat ./ingress.yml
     #
     - kubectl apply -f ./deployment.yml
     - kubectl apply -f ./service.yml
