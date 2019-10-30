@@ -73,7 +73,7 @@ export class ImportController {
           cb(null, dir);
         },
         fileFilter: (req: any, file: any, cb: any) => {
-          if (file.mimetype !== "xlsx") {
+          if (file.mimetype !== "xlsx" && file.mimetype !== "xls") {
             throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
           }
           cb(null, true);
@@ -94,7 +94,6 @@ export class ImportController {
     @CurrentUser() user: User
   ) {
     const dir = path.resolve(__dirname, "../../imports/");
-
     const buffer = fs.readFileSync(dir + "/" + file.filename);
     const wb = XLSX.read(buffer, { type: "buffer" });
 
