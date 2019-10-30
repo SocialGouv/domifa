@@ -33,17 +33,17 @@
             <br>
             {{ user.email }}
           </div>
-          <div
-            *ngIf="authService.isAdmin && !user.verified"
-            class="col text-right">
+          <div class="col text-right">
             <button
+              *ngIf="authService.isAdmin && !user.verified"
               (click)="confirmUser(user.id)"
               class="btn btn-primary">
               Valider
             </button>
             &nbsp;
             <button
-              (click)="deleteUser(user.id)"
+              *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
+              (click)="open(confirmation)"
               class="btn btn-danger">
               Supprimer
             </button>
@@ -53,3 +53,44 @@
     </ul>
   </div>
 </div>
+
+<ng-template
+  #confirmation
+  let-modal>
+  <div class="modal-header">
+    <span
+      class="modal-title"
+      id="modal-basic-title">
+      <b>Confirmer la suppression</b>
+    </span>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <div class="col">
+      Vous êtes sur le point de supprimer le compte de cet utilisateur.
+      Une fois supprimé, l'utilisateur ne pourra plus se connecter.
+      <br>
+      Veuillez indiquer la date de début et de fin de la domiciliation
+      <br>
+      <br>
+    </div>
+  </div>
+  <div class="modal-footer text-center">
+    <button
+      class="btn btn-outline-dark"
+      (click)="modal.close()">
+      Annuler
+    </button>
+    <button
+      class="btn btn-primary"
+      (click)="deleteUser(190)">
+      Confirmer la suppression
+    </button>
+  </div>
+</ng-template>

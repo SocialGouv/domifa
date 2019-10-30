@@ -7,7 +7,6 @@ export class ConfigService {
 
   constructor() {
     dotenv.config();
-
     this.envConfig = {
       ADMIN_EMAIL: process.env.ADMIN_EMAIL,
       API_URL: process.env.API_URL,

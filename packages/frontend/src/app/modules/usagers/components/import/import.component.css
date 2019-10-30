@@ -12,8 +12,9 @@
 }
 
 #import-table {
-  margin: 40px auto;
+  margin: 20px auto;
   overflow-x: scroll;
+  border: 1px solid #dbdbdb;
 }
 
 #import-table .required:after {
@@ -31,4 +32,48 @@
 
 #fileExcel {
   display: none;
+}
+
+.separateur {
+  min-width: 140px;
+}
+
+.separateur_inactive {
+  min-width: 140px;
+}
+
+.step div {
+  max-width: 120px;
+}
+
+#upload-zone .ng-fa-icon {
+  font-size: 4rem;
+  line-height: 0;
+  display: block;
+  padding-bottom: 10px;
+}
+
+#upload-zone {
+  text-align: center;
+  border-radius: 2px;
+  padding: 25px 40px;
+  max-width: 500px;
+  margin: 0 auto;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+#upload-zone:hover {
+  border-color: var(--blue);
+  box-shadow: 0 1px 6px 0 rgba(124, 124, 124, 0.15);
+  border: 1px solid var(--primary);
+}
+
+.upload-ok {
+  border: 1px dotted var(--primary);
+  color: var(--primary);
+}
+.upload-error {
+  border: 1px dotted var(--danger);
+  color: var(--danger);
 }

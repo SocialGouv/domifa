@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AuthService } from "src/app/services/auth.service";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
@@ -16,11 +17,12 @@ export class UserProfilComponent implements OnInit {
   public error: boolean;
   public errorMessage: string;
   public users: User[];
-
+  public modal: any;
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
-    private readonly router: Router
+    private readonly router: Router,
+    private modalService: NgbModal
   ) {}
 
   public ngOnInit() {
@@ -59,6 +61,9 @@ export class UserProfilComponent implements OnInit {
     );
   }
 
+  public open(content: string) {
+    this.modal = this.modalService.open(content);
+  }
   private loadUsers() {
     this.userService.getUsers().subscribe((users: User[]) => {
       this.users = users;

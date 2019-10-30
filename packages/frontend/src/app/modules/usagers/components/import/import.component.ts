@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoadingService } from "src/app/modules/loading/loading.service";
@@ -45,7 +45,7 @@ export class ImportComponent implements OnInit {
 
   public canUpload: boolean;
   public success: boolean;
-  public error: boolean;
+  public uploadError: boolean;
   public showTable: boolean;
 
   public nbreAyantsDroits: any[];
@@ -61,6 +61,14 @@ export class ImportComponent implements OnInit {
 
   public rowNumber: number;
 
+  public etapeImport: number;
+  public etapes = [
+    "Enregistrement de la structure",
+    "Création du compte personnel"
+  ];
+
+  @ViewChild("form", { static: true }) public form;
+
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
@@ -73,8 +81,13 @@ export class ImportComponent implements OnInit {
     return this.uploadForm.controls;
   }
 
+  public reset() {
+    this.form.nativeElement.reset();
+  }
   public ngOnInit() {
+    this.etapeImport = 0;
     this.showTable = false;
+
     this.title = "Importer vos domiciliés";
     this.uploadResponse = {
       filePath: "",
@@ -103,19 +116,28 @@ export class ImportComponent implements OnInit {
   }
 
   public onFileChange(evt: any) {
-    this.showTable = true;
-    this.data = null;
+    this.uploadError = false;
 
     const target: DataTransfer = evt.target as DataTransfer;
     const file = evt.target.files[0];
 
-    if (target.files.length !== 1) {
-      throw new Error("Cannot use multiple files");
+    if (
+      target.files.length !== 1 ||
+      (target.files[0].type !== "application/vnd.ms-excel" &&
+        target.files[0].type !==
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    ) {
+      this.uploadError = true;
+      return;
     }
 
+    this.showTable = true;
+    this.data = null;
+    this.etapeImport = 1;
     this.uploadForm.controls.fileInput.setValue(file);
 
     const reader: FileReader = new FileReader();
+
     reader.onload = (e: any) => {
       const bstr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(bstr, { type: "binary" });
@@ -217,6 +239,7 @@ export class ImportComponent implements OnInit {
           }
         }
       });
+
       this.data = datas;
     };
     reader.readAsBinaryString(target.files[0]);

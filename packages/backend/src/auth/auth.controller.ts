@@ -11,9 +11,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as bcrypt from "bcryptjs";
-import { Model } from "mongoose";
 import { LoginDto } from "../users/dto/login.dto";
-import { User } from "../users/user.interface";
 import { UsersService } from "../users/users.service";
 import { AuthService } from "./auth.service";
 
