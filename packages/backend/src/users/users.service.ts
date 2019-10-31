@@ -123,7 +123,7 @@ export class UsersService {
 
   public async delete(id: number, structureId: number): Promise<any> {
     return this.userModel
-      .deleteOne({
+      .findByIdAndRemove({
         id,
         structureId
       })

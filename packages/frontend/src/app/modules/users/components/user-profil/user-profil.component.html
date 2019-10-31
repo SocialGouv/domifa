@@ -43,7 +43,7 @@
             &nbsp;
             <button
               *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
-              (click)="open(confirmation)"
+              (click)="open(confirmation);selectedUser = user.id"
               class="btn btn-danger">
               Supprimer
             </button>
@@ -89,7 +89,7 @@
     </button>
     <button
       class="btn btn-primary"
-      (click)="deleteUser(190)">
+      (click)="deleteUser()">
       Confirmer la suppression
     </button>
   </div>

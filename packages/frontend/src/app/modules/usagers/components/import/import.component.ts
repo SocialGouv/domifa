@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -74,7 +75,8 @@ export class ImportComponent implements OnInit {
     private usagerService: UsagerService,
     private authService: AuthService,
     private loadingService: LoadingService,
-    private router: Router
+    private router: Router,
+    public http: HttpClient
   ) {}
 
   get u(): any {
@@ -140,14 +142,19 @@ export class ImportComponent implements OnInit {
 
     reader.onload = (e: any) => {
       const bstr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: "binary" });
+      const wb: XLSX.WorkBook = XLSX.read(bstr, {
+        dateNF: "dd/mm/yyyy",
+        type: "binary"
+      });
 
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
       const datas = XLSX.utils.sheet_to_json(ws, {
         blankrows: false,
-        header: 1
+        dateNF: "dd/mm/yyyy",
+        header: 1,
+        raw: false
       }) as AOA;
 
       datas.slice(1).forEach((row, index: any) => {

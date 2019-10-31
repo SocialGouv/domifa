@@ -108,6 +108,21 @@ export class UsagersController {
     return this.usagersService.nextStep(usagerId, user, etapeDemande);
   }
 
+  @Get("renouvellement/:usagerId")
+  public async renouvellement(
+    @Param("usagerId") usagerId: number,
+    @CurrentUser() user: User
+  ) {
+    const usager = await this.usagersService.findById(
+      usagerId,
+      user.structureId
+    );
+    if (!user || !usager || usager === null) {
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
+    }
+    return this.usagersService.renouvellement(usager, user);
+  }
+
   @UseGuards(RolesGuard)
   @Post("decision/:id")
   public async setDecision(

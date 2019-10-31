@@ -37,9 +37,9 @@ export const UsagerSchema = new mongoose.Schema({
   import: { type: Boolean, default: false },
 
   decision: {
-    dateDebut: Date,
-    dateFin: Date,
-    dateDecision: Date,
+    dateDebut: { type: Date },
+    dateFin: { type: Date, default: Date.now },
+    dateDecision: { type: Date, default: Date.now },
 
     motif: {
       default: "",

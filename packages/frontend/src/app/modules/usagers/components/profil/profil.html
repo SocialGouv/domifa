@@ -277,7 +277,14 @@
         </ng-template>
 
         <ng-template ngbPanelContent>
-          <table class="table table-striped">
+          <ngb-alert
+            *ngIf="interactions.length == 0"
+            [dismissible]="false">
+            Aucune interaction enregistrée
+          </ngb-alert>
+          <table
+            class="table table-striped"
+            *ngIf="interactions.length >0">
             <tbody>
               <tr *ngFor="let interaction of interactions | slice:0:10; let i=index">
                 <td>
@@ -313,30 +320,46 @@
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="row">
-            <div
-              *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
-              class="col">
-              Demande effectuée le
-              <b>
-                {{ usager.decision.dateDecision | date: 'dd/MM/yyyy' }}
-              </b>
-              <span *ngIf="usager.decision.userName === null">
-                Dossier instruit par
-                <b>{{ usager.decision.userName }}</b>
-              </span>
-            </div>
-            <div
-              *ngIf="usager.decision.statut === 'VALIDE'"
-              class="col">
-              Domiciliation accepté le
-              <b>
-                {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
-              </b>
-            </div>
+          <table
+            *ngIf="usager.historique.length > 0"
+            class="table table-light">
+            <tbody>
+              <tr>
+                <th>Type de décision</th>
+                <th>Date décision</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th></th>
+              </tr>
+              <tr>
+                <td>
+                  {{ decisionLabels[usager.decision.statut] }}
+                </td>
+                <td>
+                  {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
+                </td>
+                <td>
+                  {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
+                </td>
+                <td>
+                  {{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}
+                </td>
+                <td>{{ usager.decision.userName }}</td>
+              </tr>
+              <tr *ngFor="let histo of usager.historique">
+                <td>{{ decisionLabels[histo.statut] }}</td>
+                <td>
+                  {{ histo.dateDebut | date: 'dd/MM/yyyy' }}
+                </td>
+                <td>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                  {{ histo.dateDecision | date: 'dd/MM/yyyy'}}
+                </td>
+                <td>{{ histo.userName }}</td>
+              </tr>
+            </tbody>
+          </table>
 
-          </div>
-          <br>
         </ng-template>
       </ngb-panel>
 
@@ -641,12 +664,12 @@
   #renewConfirmation
   let-modal>
   <div class="modal-header">
-    <h4
-      class="modal-title"
+    <b
+      class="modal-title text-center"
       id="modal-basic-title">
-      <fa-icon icon="info"></fa-icon>
+      <fa-icon icon="exclamation-circle"></fa-icon>
       Attention
-    </h4>
+    </b>
     <button
       type="button"
       class="close"
@@ -671,7 +694,7 @@
     </button>
     <button
       class="btn btn-success"
-      (click)="renew();modal.close()">
+      (click)="renouvellement();">
       Demander un renouvellement
     </button>
   </div>

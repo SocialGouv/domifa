@@ -78,7 +78,6 @@ export class UsersController {
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "USER_NOT_EXIST" });
     }
-
     return this.usersService.delete(userToDelete.id, user.structureId);
   }
 

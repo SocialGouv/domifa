@@ -39,6 +39,10 @@ export const StructureSchema = new mongoose.Schema({
     type: Number,
     unique: true
   },
+  import: {
+    default: false,
+    type: Boolean
+  },
   nom: {
     default: "",
     required: true,

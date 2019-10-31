@@ -18,6 +18,8 @@ export class UserProfilComponent implements OnInit {
   public errorMessage: string;
   public users: User[];
   public modal: any;
+  public selectedUser: number;
+
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
@@ -29,6 +31,7 @@ export class UserProfilComponent implements OnInit {
     this.title = "Mon compte Domifa";
     this.error = false;
     this.success = false;
+
     this.loadUsers();
   }
 
@@ -49,8 +52,8 @@ export class UserProfilComponent implements OnInit {
     );
   }
 
-  public deleteUser(id: number) {
-    this.userService.deleteUser(id).subscribe(
+  public deleteUser() {
+    this.userService.deleteUser(this.selectedUser).subscribe(
       (user: User) => {
         this.loadUsers();
         this.success = true;

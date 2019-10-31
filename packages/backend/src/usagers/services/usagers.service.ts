@@ -67,6 +67,35 @@ export class UsagersService {
       .exec();
   }
 
+  public async renouvellement(usager: Usager, user: User) {
+    const lastDecision = usager.decision;
+    const decision = new DecisionDto();
+
+    decision.dateDebut = new Date();
+    decision.dateDecision = new Date();
+    decision.statut = "INSTRUCTION";
+    decision.userId = user.id;
+    decision.userName = user.prenom + " " + user.nom;
+
+    return this.usagerModel
+      .findOneAndUpdate(
+        { id: usager.id, structureId: user.structureId },
+        {
+          $push: { historique: lastDecision },
+          $set: {
+            decision,
+            etapeDemande: 0,
+            typeDom: "RENOUVELLEMENT"
+          }
+        },
+        {
+          new: true
+        }
+      )
+      .select("-docsPath -interactions")
+      .exec();
+  }
+
   public async setDecision(
     usager: Usager,
     decision: DecisionDto,
@@ -100,8 +129,6 @@ export class UsagersService {
     }
 
     if (decision.statut === "VALIDE") {
-      /* Récupération du dernier ID lié à la structure */
-      /* SMS & Mail pr prévenir */
       if (!usager.datePremiereDom) {
         usager.typeDecision = "RENOUVELLEMENT";
       }

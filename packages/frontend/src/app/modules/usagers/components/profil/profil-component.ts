@@ -43,6 +43,15 @@ export class UsagersProfilComponent implements OnInit {
   public notifs: any;
   public interactionsLabels: any;
 
+  public decisionLabels = {
+    ATTENTE_DECISION: "Demande déposée",
+    IMPORT: "Dossier importé",
+    INSTRUCTION: "Instruction",
+    RADIE: "Radiation",
+    REFUS: "Demande refusée",
+    VALIDE: "Domiciliation acceptée"
+  };
+
   public notifInputs: {} = {
     colisIn: 0,
     courrierIn: 0,
@@ -83,11 +92,25 @@ export class UsagersProfilComponent implements OnInit {
     }
   }
 
-  // public renew() {}
+  public renouvellement() {
+    this.usagerService.renouvellement(this.usager.id).subscribe(
+      (usager: Usager) => {
+        this.usager = usager;
+        this.router.navigate(["usager/" + usager.id + "/edit"]);
+        this.notifService.success(
+          "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"
+        );
+      },
+      error => {
+        this.notifService.error("Impossible d'enregistrer cette interaction");
+      }
+    );
+  }
 
   public open(content: string) {
     this.modal = this.modalService.open(content);
   }
+
   public notifier() {
     for (const item of this.interactionsType) {
       if (this.notifInputs[item] !== 0) {

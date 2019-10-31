@@ -40,6 +40,10 @@ export class UsagerService {
     );
   }
 
+  public renouvellement(usagerId: number): Observable<any> {
+    return this.http.get(`${this.endPointUsagers}/renouvellement/${usagerId}`);
+  }
+
   public entretien(entretien: Entretien, usagerId: number) {
     return this.http.post(
       `${this.endPointUsagers}/entretien/${usagerId}`,
