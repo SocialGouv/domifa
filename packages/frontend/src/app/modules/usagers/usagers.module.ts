@@ -18,6 +18,7 @@ import { UsagersProfilComponent } from "./components/profil/profil-component";
 import { RaftComponent } from "./components/raft/raft.component";
 import { UploadComponent } from "./components/upload/upload.component";
 import { DocumentService } from "./services/document.service";
+import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
 
 @NgModule({
@@ -60,6 +61,6 @@ import { UsagerService } from "./services/usager.service";
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [DocumentService, UsagerService]
+  providers: [DocumentService, UsagerService, InteractionService]
 })
 export class UsagersModule {}

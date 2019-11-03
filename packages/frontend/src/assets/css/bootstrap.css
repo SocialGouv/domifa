@@ -1636,7 +1636,7 @@ pre code {
 }
 
 .table tbody+tbody {
-  border-top: 2px solid #dee2e6;
+  border-top: 1px solid #dee2e6;
 }
 
 .table .table {

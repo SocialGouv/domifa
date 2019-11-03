@@ -67,6 +67,7 @@ export class UserProfilComponent implements OnInit {
   public open(content: string) {
     this.modal = this.modalService.open(content);
   }
+
   private loadUsers() {
     this.userService.getUsers().subscribe((users: User[]) => {
       this.users = users;

@@ -98,3 +98,51 @@ input[type="number"] {
 .btn-pink:hover {
   background-color: #bd10e0;
 }
+
+.interactions-actions {
+  width: 50px;
+  padding: 0.3rem;
+}
+
+.delete-interaction .btn {
+  margin: 0 5px;
+}
+
+.delete-interaction {
+  padding: 0.5rem;
+  text-align: center;
+  font-weight: 600;
+  background: rgba(247, 247, 247, 0.95);
+}
+
+.interactions-actions .edit:hover {
+  background: var(--primary);
+}
+.interactions-actions .delete:hover {
+  background: var(--danger);
+}
+
+.interactions-actions .ng-fa-icon:hover {
+  color: white;
+}
+
+.interactions-actions .ng-fa-icon {
+  padding: 6px 5px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  width: 35px;
+  text-align: center;
+  margin: 0 4px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+#interactions-table > tbody > tr:hover > td.interactions-actions > span {
+  visibility: visible;
+  opacity: 1;
+}
+
+#interactions-table > tbody > tr > td.interactions-actions > span {
+  visibility: hidden;
+  opacity: 0;
+}

@@ -20,6 +20,7 @@ import { ToastrService } from "ngx-toastr";
 import { Interaction } from "../../interfaces/interaction";
 import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
+import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 
 @Component({
@@ -41,8 +42,8 @@ export class UsagersProfilComponent implements OnInit {
 
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
   public notifs: any;
-  public interactionsLabels: any;
 
+  public interactionsLabels: any;
   public decisionLabels = {
     ATTENTE_DECISION: "Demande déposée",
     IMPORT: "Dossier importé",
@@ -60,6 +61,7 @@ export class UsagersProfilComponent implements OnInit {
 
   constructor(
     private usagerService: UsagerService,
+    private interactionService: InteractionService,
     private route: ActivatedRoute,
     private documentService: DocumentService,
     private loadingService: LoadingService,
@@ -69,9 +71,10 @@ export class UsagersProfilComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.title = "Fiche d'un domicilié ";
+    this.title = "Fiche d'un domicilié";
     this.labels = ENTRETIEN_LABELS;
 
+    this.interactions = [];
     this.notifs = interactionsNotifs;
     this.interactionsLabels = interactionsLabels;
 
@@ -111,10 +114,22 @@ export class UsagersProfilComponent implements OnInit {
     this.modal = this.modalService.open(content);
   }
 
+  public editInteraction(idInteraction: string) {}
+
+  public deleteInteraction(idInteraction: string) {
+    this.interactionService
+      .delete(this.usager.id, idInteraction)
+      .subscribe((result: any) => {
+        if (result && result.ok) {
+          this.getInteractions();
+        }
+      });
+  }
+
   public notifier() {
     for (const item of this.interactionsType) {
       if (this.notifInputs[item] !== 0) {
-        this.usagerService
+        this.interactionService
           .setInteraction(this.usager.id, {
             content: "",
             nbCourrier: this.notifInputs[item],
@@ -139,7 +154,7 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public setPassage(type: string) {
-    this.usagerService
+    this.interactionService
       .setInteraction(this.usager.id, {
         content: "",
         type
@@ -183,9 +198,9 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   private getInteractions() {
-    this.usagerService
+    this.interactionService
       .getInteractions(this.usager.id)
-      .subscribe((interactions: any) => {
+      .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;
       });
   }

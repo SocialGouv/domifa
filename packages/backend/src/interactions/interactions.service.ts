@@ -107,4 +107,18 @@ export class InteractionsService {
       .lean()
       .exec();
   }
+
+  public async delete(
+    usagerId: number,
+    interactionId: string,
+    user: User
+  ): Promise<any> {
+    return this.interactionModel
+      .deleteOne({
+        _id: interactionId,
+        structureId: user.structureId,
+        usagerId
+      })
+      .exec();
+  }
 }

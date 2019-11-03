@@ -9,6 +9,7 @@ import { LastInteraction } from "./last-interaction";
 export class Usager {
   public id: number;
   public nom: string;
+  public nomComplet: string;
   public prenom: string;
   public surnom: string;
 
@@ -55,6 +56,13 @@ export class Usager {
 
     this.nom = (usager && usager.nom) || "";
     this.prenom = (usager && usager.prenom) || "";
+
+    this.nomComplet =
+      (this.sexe === "homme" ? "M. " : "Mme ") +
+      this.prenom +
+      " " +
+      this.nom.toUpperCase();
+
     this.surnom = (usager && usager.surnom) || "";
     this.sexe = (usager && usager.sexe) || "homme";
     this.dateNaissance = null;

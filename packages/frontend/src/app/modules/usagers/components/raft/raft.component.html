@@ -25,8 +25,7 @@
       <br>
       Vous souhaitez mettre fin à la domiciliation de
       <b>
-        {{ usager.prenom }} {{ usager.nom }}
-      né le {{ usager.dateNaissance | date: 'dd/MM/yyyy'  }}.
+        {{ usager.nomComplet }} né le {{ usager.dateNaissance | date: 'dd/MM/yyyy'  }}.
       </b>
       <br>
       <br>
@@ -39,7 +38,6 @@
       <br>
       <div class="row">
         <div class="col-md-8 offset-2 text-center">
-
           <div
             class="form-row"
             *ngFor="let motif of motifList">

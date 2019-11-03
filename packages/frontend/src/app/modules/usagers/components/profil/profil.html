@@ -55,10 +55,7 @@
               'text-danger': usager.dayBeforeEnd < 15,
               'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
             }">
-          <h2 id="profil_name">
-            {{ usager.sexe === "homme" ? "M. " : "Mme " }} {{ usager.prenom }}
-            <span>{{ usager.nom }}</span>
-          </h2>
+          <h2 id="profil_name">{{ usager.nomComplet }}</h2>
           Numéro domicilié :
           <b>{{ usager.id }}</b>
         </div>
@@ -275,7 +272,6 @@
             </button>
           </div>
         </ng-template>
-
         <ng-template ngbPanelContent>
           <ngb-alert
             *ngIf="interactions.length == 0"
@@ -283,17 +279,78 @@
             Aucune interaction enregistrée
           </ngb-alert>
           <table
-            class="table table-striped"
+            id="interactions-table"
+            class="table table-light table-hover"
             *ngIf="interactions.length >0">
-            <tbody>
-              <tr *ngFor="let interaction of interactions | slice:0:10; let i=index">
+            <thead>
+              <tr>
+                <th>Type d'interaction</th>
+                <th>Date</th>
+                <th>Notifié par</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let interaction of interactions | slice:0:10; let i=index;">
+              <tr *ngIf="interaction.delete === true">
+                <td
+                  colspan="4"
+                  class="delete-interaction">
+                  Êtes-vous sur de vouloir supprimer cette interaction ?
+                  <button
+                    class="btn btn-danger"
+                    (click)="deleteInteraction(interaction.id)">
+                    Oui
+                  </button>
+                  <button
+                    class="btn btn-dark"
+                    (click)="interaction.delete = false">
+                    Non
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="!interaction.delete">
                 <td>
-                  {{ interactionsLabels[interaction.type] }}
+                  <b *ngIf="!interaction.edit">{{ this.interaction.label }}</b>
+                  <div *ngIf="interaction.edit">
+                    <select>
+                      <option value>CHIPS</option>
+                      <option value>COCA</option>
+                      <option value></option>
+                    </select>
+                  </div>
                 </td>
                 <td>
-                  Notifié le {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
+                  {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
                 </td>
-                <td>Notifié par {{ interaction.userName }}</td>
+                <td>{{ interaction.userName }}</td>
+                <td
+                  class="interactions-actions edit-interaction"
+                  *ngIf="interaction.edit === true">
+                  <fa-icon
+                    icon="times"
+                    (click)="interaction.edit = false"
+                    class="btn btn-dark"></fa-icon>
+                  <fa-icon
+                    icon="check"
+                    (click)="interaction.edit = false"
+                    class="success btn btn-success"></fa-icon>
+                </td>
+                <td
+                  class="interactions-actions"
+                  *ngIf="!interaction.delete && !interaction.edit">
+                  <span (click)="interaction.edit = false; interaction.delete = true">
+                    <fa-icon
+                      icon="trash-alt"
+                      class="delete"></fa-icon>
+                  </span>
+                  <span
+                    *ngIf="false"
+                    (click)="interaction.edit = true;interaction.delete = false">
+                    <fa-icon
+                      icon="pencil-alt"
+                      class="edit"></fa-icon>
+                  </span>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -322,8 +379,8 @@
         <ng-template ngbPanelContent>
           <table
             *ngIf="usager.historique.length > 0"
-            class="table table-light">
-            <tbody>
+            class="table table-light table-hover">
+            <thead>
               <tr>
                 <th>Type de décision</th>
                 <th>Date décision</th>
@@ -331,6 +388,8 @@
                 <th>Date de fin</th>
                 <th></th>
               </tr>
+            </thead>
+            <tbody>
               <tr>
                 <td>
                   {{ decisionLabels[usager.decision.statut] }}

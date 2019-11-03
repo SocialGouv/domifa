@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Logger,
   Param,
@@ -36,5 +37,14 @@ export class InteractionsController {
     @CurrentUser() user: User
   ) {
     return this.interactionService.find(usagerId, limit, user);
+  }
+
+  @Delete(":usagerId/:interactionId")
+  public deleteInteraction(
+    @Param("usagerId") usagerId: number,
+    @Param("interactionId") interactionId: string,
+    @CurrentUser() user: User
+  ) {
+    return this.interactionService.delete(usagerId, interactionId, user);
   }
 }

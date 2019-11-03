@@ -282,6 +282,10 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public deleteAyantDroit(i: number): void {
+    if (i === 0) {
+      this.usagerForm.controls.ayantsDroitsExist.setValue(false);
+    }
+
     (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
   }
 

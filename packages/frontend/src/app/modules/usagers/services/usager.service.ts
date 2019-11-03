@@ -17,7 +17,6 @@ export class UsagerService {
   public http: HttpClient;
   public loading: boolean;
   public endPointUsagers = environment.apiUrl + "usagers";
-  public endPointInteractions = environment.apiUrl + "interactions/";
 
   constructor(http: HttpClient, private loadingService: LoadingService) {
     this.http = http;
@@ -85,31 +84,11 @@ export class UsagerService {
       })
       .pipe(
         map(response => {
-          if (Array.isArray(response)) {
-            return response.map(item => new Usager(item));
-          } else {
-            return [new Usager(response)];
-          }
+          return Array.isArray(response)
+            ? response.map(item => new Usager(item))
+            : [new Usager(response)];
         })
       );
-  }
-
-  public setInteraction(usagerId: number, interaction?: any) {
-    return this.http.post(
-      environment.apiUrl + `interactions/${usagerId}`,
-      interaction
-    );
-  }
-
-  public getInteractions(usagerId: number) {
-    return this.http.get(environment.apiUrl + `interactions/${usagerId}/10`);
-  }
-
-  public setPassage(usagerId: number, type: string) {
-    return this.http.post(
-      environment.apiUrl + `interactions/${usagerId}/${type}`,
-      {}
-    );
   }
 
   /* Attestation */

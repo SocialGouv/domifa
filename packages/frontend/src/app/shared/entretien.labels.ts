@@ -26,12 +26,12 @@ export const residence = {
 };
 
 export const motifsRadiation = {
-  A_SA_DEMANDE: "A la demande de la personne ",
-  ENTREE_LOGEMENT: "Plus de lien avec la commune ",
+  A_SA_DEMANDE: "A la demande de la personne",
+  ENTREE_LOGEMENT: "Plus de lien avec la commune",
   NON_MANIFESTATION_3_MOIS:
-    "Non manifestation de la personne pendant plus de 3 mois consécutifs ",
+    "Non manifestation de la personne pendant plus de 3 mois consécutifs",
   NON_RESPECT_REGLEMENT: "Non-respect du règlement",
-  PLUS_DE_LIEN_COMMUNE: "Entrée dans un logement/hébergement stable "
+  PLUS_DE_LIEN_COMMUNE: "Entrée dans un logement/hébergement stable"
 };
 
 export const motifsRefus = {

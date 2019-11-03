@@ -42,4 +42,7 @@ export interface Usager extends Document {
   lastInteraction: LastInteraction;
 
   interactions: Interaction[];
+
+  transfert: boolean;
+  transfertAddress: string;
 }

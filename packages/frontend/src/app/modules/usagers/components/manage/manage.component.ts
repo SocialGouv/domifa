@@ -11,6 +11,7 @@ import {
   interactionsNotifs
 } from "../../interactions.labels";
 import { Search } from "../../interfaces/search";
+import { InteractionService } from "../../services/interaction.service";
 
 @Component({
   providers: [UsagerService],
@@ -46,6 +47,7 @@ export class ManageUsagersComponent implements OnInit {
 
   constructor(
     private usagerService: UsagerService,
+    private interactionService: InteractionService,
     private authService: AuthService,
     private router: Router,
     private notifService: ToastrService
@@ -133,7 +135,7 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public setPassage(usager: Usager, type: string) {
-    this.usagerService
+    this.interactionService
       .setInteraction(usager.id, {
         content: "",
         type
