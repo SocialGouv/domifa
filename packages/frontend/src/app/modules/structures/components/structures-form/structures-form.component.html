@@ -1,3 +1,4 @@
+<br>
 <div class="row">
   <div id="steps">
     <div
@@ -170,9 +171,9 @@
           id="codePostal"
           maxlength="5"
           formControlName="codePostal"
-          [ngClass]="{ 'is-invalid': submitted && f.codePostal.errors }">
+          [ngClass]="{ 'is-invalid': f.codePostal.dirty && f.codePostal.errors }">
         <div
-          *ngIf="submitted && f.codePostal.errors"
+          *ngIf="f.codePostal.dirty && f.codePostal.errors"
           class="invalid-feedback">
           Le code postal est obligatoire
         </div>
@@ -218,7 +219,7 @@
           class="form-control"
           id="adresseCourrier"
           formControlName="adresseCourrier"
-          placeholder="15 rue des bois, etc.."
+          placeholder="Indiquez l'adresse complète : rue, ville, code postal"
           [ngClass]="{ 'is-invalid': submitted && f.adresseCourrier.errors }">
       </div>
     </div>
@@ -336,7 +337,7 @@
           formControlName="capacite"
           class="form-control"
           id="capacite"
-          placeholder="Numéro donné par la préfecture"
+          placeholder="Nombre maxi de domiciliés"
           type="number"
           [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }">
         <small

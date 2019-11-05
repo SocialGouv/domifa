@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
+import { regexp } from "src/app/shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
 
@@ -9,11 +12,51 @@ import { Structure } from "../../structure.interface";
 })
 export class StructuresSearchComponent implements OnInit {
   public structures: Structure[];
+  public searching: boolean;
+  public searchFailed: boolean;
 
-  constructor(private structureService: StructureService) {}
+  public codePostal: string;
+  public codePostalForm: FormGroup;
+
+  constructor(
+    private structureService: StructureService,
+    private formBuilder: FormBuilder,
+    private notifService: ToastrService
+  ) {}
+
+  get f() {
+    return this.codePostalForm.controls;
+  }
+
   public ngOnInit() {
-    this.structureService.getAll().subscribe((structures: Structure[]) => {
-      this.structures = structures;
+    this.searchFailed = false;
+
+    this.structures = [];
+
+    this.codePostalForm = this.formBuilder.group({
+      codePostal: [
+        this.codePostal,
+        [Validators.pattern(regexp.postcode), Validators.required]
+      ]
     });
+  }
+
+  public submitCodePostal() {
+    if (this.codePostalForm.invalid) {
+      this.notifService.error(
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
+      );
+    } else {
+      this.structureService
+        .find(this.f.codePostal.value)
+        .subscribe((structures: Structure[]) => {
+          if (structures.length <= 0) {
+            this.searchFailed = true;
+          } else {
+            this.searchFailed = false;
+            this.structures = structures;
+          }
+        });
+    }
   }
 }

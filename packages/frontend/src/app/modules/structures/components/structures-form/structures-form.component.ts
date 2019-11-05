@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 import { debounceTime, map } from "rxjs/operators";
 
+import { regexp } from "src/app/shared/validators";
 import { DEPARTEMENTS } from "../../../../shared/departements";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
@@ -67,7 +68,10 @@ export class StructuresFormComponent implements OnInit {
       adresseDifferente: [this.structure.adresseCourrier, []],
       agrement: [this.structure.agrement, []],
       capacite: [this.structure.capacite, []],
-      codePostal: [this.structure.codePostal, [Validators.required]],
+      codePostal: [
+        this.structure.codePostal,
+        [Validators.pattern(regexp.postcode), Validators.required]
+      ],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, []],
       departementAuto: ["", []],

@@ -234,7 +234,8 @@
                     <b>date de naissance</b>
                     est obligatoire
                   </div>
-                  <div *ngIf="f.dateNaissancePicker.dirty && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)">
+                  <div *ngIf="f.dateNaissancePicker.dirty
+                  && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)">
                     La
                     <b>date de naissance</b>
                     est incorrecte (ex: 20/12/1991)

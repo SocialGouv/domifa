@@ -33,6 +33,11 @@ export class StructuresController {
     return this.structureService.findById(id);
   }
 
+  @Get("code-postal/:codePostal")
+  public async getByCity(@Param("codePostal") codePostal: string) {
+    return this.structureService.findAll(codePostal);
+  }
+
   @Get()
   public async getAllStructures() {
     return this.structureService.findAll();

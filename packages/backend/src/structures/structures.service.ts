@@ -6,6 +6,11 @@ import { User } from "../users/user.interface";
 import { StructureDto } from "./structure-dto";
 import { Structure } from "./structure-interface";
 
+export interface StructureQuery {
+  codePostal?: string;
+  verified: boolean;
+}
+
 @Injectable()
 export class StructuresService {
   public labels = {
@@ -80,10 +85,18 @@ export class StructuresService {
       .exec();
   }
 
-  public async findAll() {
+  public async findAll(codePostal?: string) {
+    const params: StructureQuery = {
+      verified: true
+    };
+
+    if (typeof codePostal !== undefined) {
+      params.codePostal = codePostal;
+    }
+
     return this.structureModel
-      .find({ verified: true })
-      .limit(10)
+      .find(params)
+      .limit(100)
       .lean()
       .select("-users -token -email -phone -responsable")
       .exec();

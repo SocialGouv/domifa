@@ -114,8 +114,6 @@ export class UsagersProfilComponent implements OnInit {
     this.modal = this.modalService.open(content);
   }
 
-  public editInteraction(idInteraction: string) {}
-
   public deleteInteraction(idInteraction: string) {
     this.interactionService
       .delete(this.usager.id, idInteraction)
