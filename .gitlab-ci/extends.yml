@@ -8,14 +8,14 @@
 #
 
 .base_docker_kube_image_stage:
-  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/kubectl:0.11.1
+  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/kubectl:0.11.2
   before_script:
     - source ./.gitlab-ci/env.sh
     - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
 
 .base_docker_helm_image_stage:
   extends: .base_docker_kube_image_stage
-  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/helm:0.11.1
+  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/helm:0.11.2
 
 #
 
