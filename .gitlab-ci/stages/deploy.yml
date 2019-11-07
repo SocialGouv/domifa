@@ -35,6 +35,10 @@ Create namespace:
     - kubectl create namespace ${K8S_NAMESPACE}
     - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/projectId=${RANCHER_PROJECT_ID}
     - kubectl annotate namespace ${K8S_NAMESPACE} git/branch=${CI_COMMIT_REF_NAME}
+    # Create secrets
+    - export FRONT_URL=$(echo $FRONTEND_URL | base64)
+    - envsubst < ./.k8s/secret.yml > ./secret.yml
+    - kubectl apply -f ./secret.yml -n ${K8S_NAMESPACE}
 
 
 Deploy backend:
