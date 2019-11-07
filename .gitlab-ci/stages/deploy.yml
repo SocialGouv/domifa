@@ -33,14 +33,23 @@ Create namespace:
     # - kubectl delete namespaces ${K8S_NAMESPACE} || true
     #
     - kubectl create namespace ${K8S_NAMESPACE}
+    #
+    # Fake rancher namespace creation
+    - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/containerDefaultResourceLimit='{}'
+    - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/creatorId=gitlab
     - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/projectId=${RANCHER_PROJECT_ID}
+    - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/resourceQuota='{"limit":{"limitsCpu":"2000m","limitsMemory":"3072Mi","requestsCpu":"145m","requestsMemory":"1536Mi"}}'
+    - kubectl annotate namespace ${K8S_NAMESPACE} lifecycle.cattle.io/create.namespace-auth=true
+    # Link the namespace to a git branch
     - kubectl annotate namespace ${K8S_NAMESPACE} git/branch=${CI_COMMIT_REF_NAME}
+    #
     # Create secrets
     - export FRONT_URL=$(echo $FRONTEND_URL | base64)
     - export MJ_APIKEY_PRIVATE=$(echo "MJ_APIKEY_PRIVATE" | base64)
     - export MJ_APIKEY_PUBLIC=$(echo "MJ_APIKEY_PUBLIC" | base64)
     - export SECRET=$(echo "SECRET" | base64)
     - envsubst < ./.k8s/secret.yml > ./secret.yml
+    #
     - kubectl apply -f ./secret.yml -n ${K8S_NAMESPACE}
 
 
