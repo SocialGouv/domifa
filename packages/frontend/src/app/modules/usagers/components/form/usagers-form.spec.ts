@@ -8,23 +8,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { Subject } from "rxjs";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 import { routes } from "src/app/app-routing.module";
 import { AppComponent } from "src/app/app.component";
-import { NotFoundComponent } from "src/app/modules/general/components/errors/not-found/not-found.component";
-import { HomeComponent } from "src/app/modules/general/components/home/home.component";
-import { MentionsLegalesComponent } from "src/app/modules/general/components/mentions/mentions-legales/mentions-legales.component";
-import { LoadingComponent } from "src/app/modules/loading/loading.component";
+import { GeneralModule } from "src/app/modules/general/general.module";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { UsagersModule } from "../../usagers.module";
 import { UsagersFormComponent } from "./usagers-form";
-
-class MockActivatedRoute {
-  public params = new Subject<any>();
-}
 
 describe("UsagersFormComponent", () => {
   let app: any;
@@ -36,14 +28,9 @@ describe("UsagersFormComponent", () => {
   beforeEach(async(() => {
     Object.defineProperty(global.window, "scrollTo", { value: spyScrollTo });
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        HomeComponent,
-        LoadingComponent,
-        MentionsLegalesComponent,
-        NotFoundComponent
-      ],
+      declarations: [AppComponent],
       imports: [
+        GeneralModule,
         UsagersModule,
         StructuresModule,
         RouterTestingModule.withRoutes(routes),

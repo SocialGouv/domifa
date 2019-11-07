@@ -7,25 +7,16 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { AppComponent } from "src/app/app.component";
-import { GeneralModule } from "src/app/modules/general/general.module";
-import { UsagersModule } from "src/app/modules/usagers/usagers.module";
-import { UsersModule } from "src/app/modules/users/users.module";
-import { StructuresModule } from "../../structures.module";
-import { StructuresSearchComponent } from "./structures-search.component";
+import { FaqComponent } from "./faq.component";
 
-describe("StructuresSearchComponent", () => {
-  let component: StructuresSearchComponent;
-  let fixture: ComponentFixture<StructuresSearchComponent>;
+describe("FaqComponent", () => {
+  let component: FaqComponent;
+  let fixture: ComponentFixture<FaqComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [FaqComponent],
       imports: [
-        StructuresModule,
-        GeneralModule,
-        UsagersModule,
-        UsersModule,
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
@@ -39,7 +30,7 @@ describe("StructuresSearchComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StructuresSearchComponent);
+    fixture = TestBed.createComponent(FaqComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

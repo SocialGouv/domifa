@@ -23,10 +23,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
-import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
-import { HomeComponent } from "./modules/general/components/home/home.component";
-import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
-import { LoadingComponent } from "./modules/loading/loading.component";
+import { GeneralModule } from "./modules/general/general.module";
 import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
@@ -35,14 +32,9 @@ library.add(fas, far);
 
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    LoadingComponent,
-    MentionsLegalesComponent,
-    NotFoundComponent
-  ],
+  declarations: [AppComponent],
   imports: [
+    GeneralModule,
     UsagersModule,
     UsersModule,
     StructuresModule,

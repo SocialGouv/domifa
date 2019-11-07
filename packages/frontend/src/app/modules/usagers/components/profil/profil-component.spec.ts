@@ -1,5 +1,5 @@
 import { APP_BASE_HREF, Location } from "@angular/common";
-import { async, fakeAsync, inject, TestBed, tick } from "@angular/core/testing";
+import { async, TestBed } from "@angular/core/testing";
 
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -9,38 +9,30 @@ import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from "src/app/app.component";
-import { NotFoundComponent } from "src/app/modules/general/components/errors/not-found/not-found.component";
-import { HomeComponent } from "src/app/modules/general/components/home/home.component";
-import { MentionsLegalesComponent } from "src/app/modules/general/components/mentions/mentions-legales/mentions-legales.component";
-import { LoadingComponent } from "src/app/modules/loading/loading.component";
+import { GeneralModule } from "src/app/modules/general/general.module";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { UsersModule } from "src/app/modules/users/users.module";
 import { routes } from "../../../../app-routing.module";
 import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
+import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
 import { UsagersProfilComponent } from "./profil-component";
-import { InteractionService } from "../../services/interaction.service";
 
 describe("UsagersProfilComponent", () => {
   let fixture: any;
   let app: any;
   let router: any;
   let location: Location;
-  let usagerService: UsagerService;
+
   let interactionService: InteractionService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        HomeComponent,
-        LoadingComponent,
-        MentionsLegalesComponent,
-        NotFoundComponent
-      ],
+      declarations: [AppComponent],
       imports: [
+        GeneralModule,
         UsersModule,
         UsagersModule,
         StructuresModule,
@@ -59,7 +51,6 @@ describe("UsagersProfilComponent", () => {
     fixture = TestBed.createComponent(UsagersProfilComponent);
     fixture.detectChanges();
 
-    usagerService = TestBed.get(UsagerService);
     interactionService = TestBed.get(InteractionService);
     router = TestBed.get(Router);
     location = TestBed.get(Location);

@@ -4,6 +4,7 @@ import { AuthGuard } from "./guards/auth-guard";
 import { LoggedGuard } from "./guards/logged-guard";
 import { StructureGuard } from "./guards/structure-guard";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
+import { FaqComponent } from "./modules/general/components/faq/faq.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
@@ -86,6 +87,7 @@ export const routes: Routes = [
     component: ManageUsagersComponent,
     path: "manage"
   },
+  { path: "faq", component: FaqComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   {
     canActivate: [AuthGuard],

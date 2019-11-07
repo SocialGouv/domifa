@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg">
   <a
     class="navbar-brand"
-    href="#">
+    routerLink="/">
     <img
       src="../assets/images/logo.png"
       alt="Logo Domifa">
@@ -103,19 +103,23 @@
       title="Logo Domifa">
   </div>
   <div>
-    <span>FAQ</span>
+    <a
+      [routerLink]="['/faq']"
+      routerLinkActive="router-link-active">
+      FAQ
+    </a>
   </div>
   <div>
     <span>Conditions d'utilisation</span>
   </div>
   <div>
-    <span>
-      <a
-        [routerLink]="['/mentions-legales']"
-        routerLinkActive="router-link-active">
-        Mentions légales
-      </a>
-    </span>
+
+    <a
+      [routerLink]="['/mentions-legales']"
+      routerLinkActive="router-link-active">
+      Mentions légales
+    </a>
+
   </div>
   <div>
     <span>Contactez-nous</span>

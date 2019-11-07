@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { TerminusModule } from "@nestjs/terminus";
 import { AuthController } from "./auth/auth.controller";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigService } from "./config/config.service";
@@ -7,6 +8,7 @@ import { InteractionsController } from "./interactions/interactions.controller";
 import { InteractionsModule } from "./interactions/interactions.module";
 import { StructuresModule } from "./structures/structure.module";
 import { StructuresController } from "./structures/structures.controller";
+import { TerminusOptionsService } from "./terminus-options.service";
 import { ImportController } from "./usagers/controllers/import.controller";
 import { UsagersController } from "./usagers/controllers/usagers.controller";
 import { UsagersModule } from "./usagers/usagers.module";
@@ -30,10 +32,14 @@ import { UsersModule } from "./users/users.module";
     UsersModule,
     AuthModule,
     StructuresModule,
-    InteractionsModule
+    InteractionsModule,
+    TerminusModule.forRootAsync({
+      useClass: TerminusOptionsService
+    })
   ],
   providers: [
     MailerService,
+
     {
       provide: ConfigService,
       useValue: new ConfigService()

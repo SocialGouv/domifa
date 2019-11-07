@@ -7,11 +7,8 @@ import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from "src/app/app.component";
-import { NotFoundComponent } from "src/app/modules/general/components/errors/not-found/not-found.component";
-import { HomeComponent } from "src/app/modules/general/components/home/home.component";
-import { MentionsLegalesComponent } from "src/app/modules/general/components/mentions/mentions-legales/mentions-legales.component";
-import { LoadingComponent } from "src/app/modules/loading/loading.component";
 
+import { GeneralModule } from "src/app/modules/general/general.module";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { UsersModule } from "src/app/modules/users/users.module";
 import { routes } from "../../../../app-routing.module";
@@ -24,16 +21,11 @@ describe("ManageUsagersComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        HomeComponent,
-        LoadingComponent,
-        MentionsLegalesComponent,
-        NotFoundComponent
-      ],
+      declarations: [AppComponent],
       imports: [
         StructuresModule,
         UsagersModule,
+        GeneralModule,
         UsersModule,
         NgbModule,
         RouterTestingModule.withRoutes(routes),
