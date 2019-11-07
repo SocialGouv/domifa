@@ -35,7 +35,6 @@ import { UsersModule } from "./users/users.module";
   ],
   providers: [
     MailerService,
-
     {
       provide: ConfigService,
       useValue: new ConfigService()
