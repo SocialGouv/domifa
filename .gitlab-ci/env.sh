@@ -47,7 +47,7 @@ else
 fi
 
 export API_HOST="api.${DOMAIN}";
-export FRONTEND_HOST="api.${DOMAIN}";
+export FRONTEND_HOST="${DOMAIN}";
 export MONGODB_HOST="${K8S_PROJECT}-mongodb-${BRANCH_HASH}"
 
 #
