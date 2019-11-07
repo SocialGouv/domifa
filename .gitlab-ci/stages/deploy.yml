@@ -48,17 +48,11 @@ Deploy backend:
     PORT: 3000
   script:
     #
-    - envsubst < ./.k8s/backend/deployment.yml > ./deployment.yml
-    - envsubst < ./.k8s/backend/service.yml > ./service.yml
-    - envsubst < ./.k8s/backend/ingress.yml > ./ingress.yml
-    #git
-    - cat ./deployment.yml
-    - cat ./service.yml
-    - cat ./ingress.yml
-    #
-    - kubectl apply -f ./deployment.yml
-    - kubectl apply -f ./service.yml
-    - kubectl apply -f ./ingress.yml
+    - curl -L https://github.com/SocialGouv/helm-charts/releases/download/v2.6.0/helm-just-linux-2.6.0.tgz | tar -C $(helm home) -xzv
+    - helm repo add socialgouv https://github.com/SocialGouv/helm-charts/releases/download/v2.6.0
+    - helm just fetch "socialgouv/nodejs#2.6.0"
+    - helm just render domifa-backend-${BRANCH_HASH} nodejs
+    - helm just apply domifa-backend-${BRANCH_HASH}
 
 
 Deploy MongoDB:
