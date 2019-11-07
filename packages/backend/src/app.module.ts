@@ -1,5 +1,4 @@
 import { Module } from "@nestjs/common";
-import { TerminusModule } from "@nestjs/terminus";
 import { AuthController } from "./auth/auth.controller";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigService } from "./config/config.service";
