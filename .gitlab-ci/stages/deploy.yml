@@ -33,7 +33,7 @@ Create namespace:
     # - kubectl delete namespaces ${K8S_NAMESPACE} || true
     #
     - kubectl create namespace ${K8S_NAMESPACE}
-    - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/projectId =${RANCHER_PROJECT_ID}
+    - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/projectId=${RANCHER_PROJECT_ID}
     #
     # Fake rancher namespace creation
     - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/containerDefaultResourceLimit='{}'
