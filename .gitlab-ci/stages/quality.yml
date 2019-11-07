@@ -58,4 +58,4 @@ Test @domifa/backend:
     - yarn workspace @domifa/backend test
     - yarn workspace @domifa/backend start:prod &
     - yarn workspace @domifa/frontend test
-    - kill $!
+    - killall node
