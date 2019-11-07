@@ -37,6 +37,9 @@ Create namespace:
     - kubectl annotate namespace ${K8S_NAMESPACE} git/branch=${CI_COMMIT_REF_NAME}
     # Create secrets
     - export FRONT_URL=$(echo $FRONTEND_URL | base64)
+    - export MJ_APIKEY_PRIVATE=$(echo "MJ_APIKEY_PRIVATE" | base64)
+    - export MJ_APIKEY_PUBLIC=$(echo "MJ_APIKEY_PUBLIC" | base64)
+    - export SECRET=$(echo "SECRET" | base64)
     - envsubst < ./.k8s/secret.yml > ./secret.yml
     - kubectl apply -f ./secret.yml -n ${K8S_NAMESPACE}
 
