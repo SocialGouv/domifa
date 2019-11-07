@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { RavenModule, RavenInterceptor } from "nest-raven";
 import { AuthController } from "./auth/auth.controller";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigService } from "./config/config.service";
@@ -13,7 +14,7 @@ import { UsagersModule } from "./usagers/usagers.module";
 import { MailerService } from "./users/mailer.service";
 import { UsersController } from "./users/users.controller";
 import { UsersModule } from "./users/users.module";
-
+import { APP_INTERCEPTOR } from "@nestjs/core";
 @Module({
   controllers: [
     AuthController,
@@ -30,10 +31,15 @@ import { UsersModule } from "./users/users.module";
     UsersModule,
     AuthModule,
     StructuresModule,
-    InteractionsModule
+    InteractionsModule,
+    RavenModule
   ],
   providers: [
     MailerService,
+    {
+      provide: APP_INTERCEPTOR,
+      useValue: new RavenInterceptor()
+    },
     {
       provide: ConfigService,
       useValue: new ConfigService()

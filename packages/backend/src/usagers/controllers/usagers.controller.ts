@@ -18,8 +18,10 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
+import * as Sentry from "@sentry/types";
 import * as fs from "fs";
 import { diskStorage } from "multer";
+import { RavenInterceptor } from "nest-raven";
 import * as path from "path";
 import { RolesGuard } from "../../auth/roles.guard";
 import { CurrentUser } from "../../users/current-user.decorator";
@@ -175,6 +177,11 @@ export class UsagersController {
   }
 
   @Get("attestation/:id")
+  @UseInterceptors(
+    new RavenInterceptor({
+      level: Sentry.Severity.Critical
+    })
+  )
   public async getAttestation(
     @Param("id") usagerId: number,
     @Res() res: any,

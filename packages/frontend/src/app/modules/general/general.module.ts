@@ -13,6 +13,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxPrintModule } from "ngx-print";
 import { ToastrModule } from "ngx-toastr";
 import { LoadingComponent } from "../loading/loading.component";
+import { LoadingService } from "../loading/loading.service";
 import { SharedModule } from "../shared/shared.module";
 import { NotFoundComponent } from "./components/errors/not-found/not-found.component";
 import { FaqComponent } from "./components/faq/faq.component";
@@ -20,8 +21,16 @@ import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
 
 library.add(fas, far);
+
 @NgModule({
   declarations: [
+    HomeComponent,
+    LoadingComponent,
+    MentionsLegalesComponent,
+    NotFoundComponent,
+    FaqComponent
+  ],
+  exports: [
     HomeComponent,
     LoadingComponent,
     MentionsLegalesComponent,
@@ -49,6 +58,7 @@ library.add(fas, far);
     NgbModule,
     FormsModule,
     ReactiveFormsModule
-  ]
+  ],
+  providers: [LoadingService]
 })
 export class GeneralModule {}
