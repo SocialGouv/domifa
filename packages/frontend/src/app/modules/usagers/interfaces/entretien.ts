@@ -11,6 +11,7 @@ export class Entretien {
   public accompagnement: boolean;
   public accompagnementDetail: string;
   public commentaires: string;
+  public typeMenage: string;
 
   constructor(entretien?: any) {
     this.domiciliation = (entretien && entretien.domiciliation) || false;
@@ -26,5 +27,6 @@ export class Entretien {
     this.accompagnementDetail =
       (entretien && entretien.accompagnementDetail) || null;
     this.commentaires = (entretien && entretien.commentaires) || null;
+    this.typeMenage = (entretien && entretien.typeMenage) || null;
   }
 }

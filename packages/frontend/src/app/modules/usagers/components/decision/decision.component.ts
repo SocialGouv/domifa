@@ -9,7 +9,7 @@ import {
 import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
-import { ENTRETIEN_LABELS, motifsRefus } from "src/app/shared/entretien.labels";
+import * as labels from "src/app/shared/entretien.labels";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 
@@ -31,7 +31,6 @@ export class DecisionComponent implements OnInit {
   public refusForm: FormGroup;
   public valideForm: FormGroup;
 
-  public motifsRefus = {};
   public motifsRefusList = [];
 
   public formDatas: any;
@@ -73,9 +72,8 @@ export class DecisionComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.labels = ENTRETIEN_LABELS;
-    this.motifsRefus = motifsRefus;
-    this.motifsRefusList = Object.keys(this.motifsRefus);
+    this.labels = labels;
+    this.motifsRefusList = Object.keys(this.labels.motifsRefus);
 
     this.refusForm = this.formBuilder.group({
       dateFin: [this.usager.decision.dateFin, [Validators.required]],

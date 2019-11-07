@@ -4,3 +4,15 @@
   padding: 6px 0;
   width: 100%;
 }
+
+.reponses {
+  margin: 10px auto;
+}
+
+.reponses .question {
+  font-weight: bold;
+}
+
+.reponses .valeur {
+  display: block;
+}

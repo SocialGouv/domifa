@@ -1,10 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  ENTRETIEN_LABELS,
-  motifsRadiation,
-  motifsRefus
-} from "../../../../shared/entretien.labels";
+import * as entretienLabels from "../../../../shared/entretien.labels";
 import {
   interactionsLabels,
   interactionsNotifs
@@ -36,8 +32,8 @@ export class UsagersProfilComponent implements OnInit {
 
   public modal: any;
 
-  public motifsRadiation: any = motifsRadiation;
-  public motifsRefus: any = motifsRefus;
+  public motifsRadiation: any = entretienLabels.motifsRadiation;
+  public motifsRefus: any = entretienLabels.motifsRefus;
   public labels: any;
 
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
@@ -72,7 +68,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public ngOnInit() {
     this.title = "Fiche d'un domicilié";
-    this.labels = ENTRETIEN_LABELS;
+    this.labels = entretienLabels;
 
     this.interactions = [];
     this.notifs = interactionsNotifs;

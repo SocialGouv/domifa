@@ -78,18 +78,34 @@ export const UsagerSchema = new mongoose.Schema({
   },
 
   entretien: {
-    domiciliation: Boolean,
-    liencommune: String,
-    residence: String,
-    residenceDetail: String,
-    revenus: Boolean,
-    cause: String,
-    causeDetail: String,
-    pourquoi: String,
-    pourquoiDetail: String,
-    accompagnement: Boolean,
-    accompagnementDetail: String,
-    commentaires: String
+    type: {
+      domiciliation: Boolean,
+      liencommune: String,
+      residence: String,
+      residenceDetail: String,
+      revenus: Boolean,
+      cause: String,
+      causeDetail: String,
+      pourquoi: String,
+      pourquoiDetail: String,
+      accompagnement: Boolean,
+      accompagnementDetail: String,
+      commentaires: String
+    },
+    default: {
+      domiciliation: null,
+      liencommune: null,
+      residence: null,
+      residenceDetail: null,
+      revenus: null,
+      cause: null,
+      causeDetail: null,
+      pourquoi: null,
+      pourquoiDetail: null,
+      accompagnement: null,
+      accompagnementDetail: null,
+      commentaires: null
+    }
   },
 
   lastInteraction: {

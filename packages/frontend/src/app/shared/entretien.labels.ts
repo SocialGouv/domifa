@@ -1,23 +1,4 @@
-export const ENTRETIEN_LABELS = {
-  cause1: "Rupture familiale et/ou conjugale ",
-  cause2: "Violence familiale et/ou conjugale",
-  cause3: "Sortie d'une structure d'hébergement",
-  cause4: "Expulsion",
-  cause5: "Hébergé, mais ne peut justifier d'une adresse",
-  cause6: "Errance",
-  cause7: "Personnes itinérantes",
-  causeAutre: "Autre (Préciser)",
-  demande: "La validation a bien été demandée au référent",
-
-  raisonDom1: "Accès aux prestations sociales",
-  raisonDom2: "Exercice des droits civils ou civiques",
-  raisonDomAutre: "Autres",
-
-  valide: "Nouvelle domiciliation enregistrée"
-};
-
 export const residence = {
-  AUTRE: "Autre",
   DOMICILE_MOBILE: "Domicile mobile (ex: caravane)",
   HEBERGEMENT_SOCIAL: "Hébergement social (sans service courrier)",
   HEBERGEMENT_TIERS: "Hébergé chez un tiers",
@@ -48,4 +29,19 @@ export const typeMenage = {
   HOMME_ISOLE_AVEC_ENFANT: "Homme isolé avec enfant(s)",
   HOMME_ISOLE_SANS_ENFANT: "Homme isolé sans enfant",
   MINEUR: "Mineur"
+};
+
+export const cause = {
+  ERRANCE: "Errance",
+  EXPULSION: "Expulsion",
+  HEBERGE_SANS_ADRESSE: "Hébergé, mais ne peut justifier d'une adresse",
+  ITINERANT: "Personnes itinérantes",
+  RUPTURE: "Rupture familiale et/ou conjugale ",
+  SORTIE_STRUCTURE: "Sortie d'une structure d'hébergement",
+  VIOLENCE: "Violence familiale et/ou conjugale"
+};
+
+export const raison = {
+  EXERCICE_DROITS: "Exercice des droits civils ou civiques",
+  PRESTATIONS_SOCIALES: "Accès aux prestations sociales"
 };

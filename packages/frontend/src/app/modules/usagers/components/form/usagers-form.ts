@@ -20,10 +20,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
-import {
-  ENTRETIEN_LABELS,
-  residence
-} from "../../../../shared/entretien.labels";
+import * as labels from "../../../../shared/entretien.labels";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../../structures/services/structure.service";
 import { AyantDroit } from "../../interfaces/ayant-droit";
@@ -97,23 +94,7 @@ export class UsagersFormComponent implements OnInit {
 
   public residence = {};
 
-  public cause = {
-    cause1: "Rupture familiale et/ou conjugale ",
-    cause2: "Violence familiale et/ou conjugale",
-    cause3: "Sortie d'une structure d'hébergement",
-    cause4: "Expulsion",
-    cause5: "Hébergé, mais ne peut justifier d'une adresse",
-    cause6: "Errance",
-    cause7: "Personnes itinérantes",
-    causeAutre: "Autre"
-  };
-
-  public raison = {
-    raison1: "Accès aux prestations sociales",
-    raison2: "Exercice des droits civils ou civiques",
-    raisonAutre: "Autre"
-  };
-
+  public typeMenageList = [];
   public residenceList = [];
   public causeList = [];
   public raisonList = [];
@@ -147,15 +128,16 @@ export class UsagersFormComponent implements OnInit {
 
   public ngOnInit() {
     this.title = "Enregister une domiciliation";
-    this.labels = ENTRETIEN_LABELS;
+    this.labels = labels;
     this.doublons = [];
     this.documents = [];
 
-    this.residence = residence;
+    this.residence = this.labels.residence;
 
     this.residenceList = Object.keys(this.residence);
-    this.causeList = Object.keys(this.cause);
-    this.raisonList = Object.keys(this.raison);
+    this.causeList = Object.keys(this.labels.cause);
+    this.raisonList = Object.keys(this.labels.raison);
+    this.typeMenageList = Object.keys(this.labels.typeMenage);
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
@@ -233,7 +215,8 @@ export class UsagersFormComponent implements OnInit {
       raisonDetail: [this.usager.entretien.raisonDetail, []],
       residence: [this.usager.entretien.residence, [Validators.required]],
       residenceDetail: [this.usager.entretien.residenceDetail, []],
-      revenus: [this.usager.entretien.revenus, []]
+      revenus: [this.usager.entretien.revenus, []],
+      typeMenage: [this.usager.entretien.typeMenage, [Validators.required]]
     });
 
     this.userService.getUsers().subscribe((users: User[]) => {

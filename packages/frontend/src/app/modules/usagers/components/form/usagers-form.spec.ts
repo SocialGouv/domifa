@@ -19,7 +19,6 @@ import { HomeComponent } from "src/app/modules/general/components/home/home.comp
 import { MentionsLegalesComponent } from "src/app/modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { LoadingComponent } from "src/app/modules/loading/loading.component";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
-import { ENTRETIEN_LABELS } from "src/app/shared/entretien.labels";
 import { UsagersModule } from "../../usagers.module";
 import { UsagersFormComponent } from "./usagers-form";
 
@@ -78,13 +77,12 @@ describe("UsagersFormComponent", () => {
   it("should update header", () => {
     expect(app.title).toEqual("Enregister une domiciliation");
 
-    expect(app.labels).toEqual(ENTRETIEN_LABELS);
     expect(app.doublons).toEqual([]);
     expect(app.documents).toEqual([]);
 
-    expect(app.residence).toBeDefined();
-    expect(app.cause).toBeDefined();
-    expect(app.raison).toBeDefined();
+    expect(app.labels.residence).toBeDefined();
+    expect(app.labels.cause).toBeDefined();
+    expect(app.labels.raison).toBeDefined();
 
     expect(Array.isArray(app.residenceList)).toBeTruthy();
     expect(Array.isArray(app.causeList)).toBeTruthy();

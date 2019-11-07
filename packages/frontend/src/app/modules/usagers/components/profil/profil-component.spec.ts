@@ -21,6 +21,7 @@ import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
 import { UsagersProfilComponent } from "./profil-component";
+import { InteractionService } from "../../services/interaction.service";
 
 describe("UsagersProfilComponent", () => {
   let fixture: any;
@@ -28,6 +29,7 @@ describe("UsagersProfilComponent", () => {
   let router: any;
   let location: Location;
   let usagerService: UsagerService;
+  let interactionService: InteractionService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,6 +60,7 @@ describe("UsagersProfilComponent", () => {
     fixture.detectChanges();
 
     usagerService = TestBed.get(UsagerService);
+    interactionService = TestBed.get(InteractionService);
     router = TestBed.get(Router);
     location = TestBed.get(Location);
 
@@ -92,7 +95,7 @@ describe("UsagersProfilComponent", () => {
   }));
 
   it("5. Set interaction", async(() => {
-    usagerService
+    interactionService
       .setInteraction(2, {
         content: "",
         nbCourrier: 10,
@@ -103,11 +106,13 @@ describe("UsagersProfilComponent", () => {
       });
   }));
   it("6. Récupération du courrier", async(() => {
-    usagerService.setPassage(2, "courrierOut").subscribe((usager: Usager) => {
-      const lastInteraction = new LastInteraction(usager.lastInteraction);
-      const today = new Date().getDate();
-      expect(lastInteraction.courrierOut).toEqual(0);
-      expect(lastInteraction.courrierOut.getDate()).toEqual(today);
-    });
+    interactionService
+      .setPassage(2, "courrierOut")
+      .subscribe((usager: Usager) => {
+        const lastInteraction = new LastInteraction(usager.lastInteraction);
+        const today = new Date().getDate();
+        expect(lastInteraction.courrierOut).toEqual(0);
+        expect(lastInteraction.courrierOut.getDate()).toEqual(today);
+      });
   }));
 });

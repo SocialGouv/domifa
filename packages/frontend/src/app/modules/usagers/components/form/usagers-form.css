@@ -33,6 +33,10 @@ label {
   margin-left: 5px;
 }
 
+.questions {
+  margin: 15px auto;
+}
+
 .questions .form-check {
   display: inline-block;
   margin-bottom: 12px;
