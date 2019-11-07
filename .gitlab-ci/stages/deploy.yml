@@ -39,7 +39,6 @@ Create namespace:
     - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/creatorId=gitlab
     - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/projectId=${RANCHER_PROJECT_ID}
     - kubectl annotate namespace ${K8S_NAMESPACE} field.cattle.io/resourceQuota='{"limit":{"limitsCpu":"2000m","limitsMemory":"3072Mi","requestsCpu":"145m","requestsMemory":"1536Mi"}}'
-    - kubectl annotate namespace ${K8S_NAMESPACE} lifecycle.cattle.io/create.namespace-auth=true
     # Link the namespace to a git branch
     - kubectl annotate namespace ${K8S_NAMESPACE} git/branch=${CI_COMMIT_REF_NAME}
     #
