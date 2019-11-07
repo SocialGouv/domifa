@@ -22,6 +22,35 @@ deployment:
     - name: NODE_ENV
       value: "production"
 
+    - name: DB_HOST
+      value: domifa-mongodb-7b63a6b
+    - name: DB_PASS
+      valueFrom:
+        secretKeyRef:
+          name: domifa-mongodb-7b63a6b
+          key: mongodb-root-password
+    - name: DB_PORT
+      value: "27017"
+    - name: DB_USER
+      value: "admin"
+    - name: FRONT_URL
+      value: "${FRONTEND_URL}"
+    - name: MJ_APIKEY_PRIVATE
+      valueFrom:
+        secretKeyRef:
+          name: domifa-secret
+          key: MJ_APIKEY_PRIVATE
+    - name: MJ_APIKEY_PUBLIC
+      valueFrom:
+        secretKeyRef:
+          name: domifa-secret
+          key: MJ_APIKEY_PUBLIC
+    - name: SECRET
+      valueFrom:
+        secretKeyRef:
+          name: domifa-secret
+          key: SECRET
+
 ingress:
   enabled: true
   annotations:
