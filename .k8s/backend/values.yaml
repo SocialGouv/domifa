@@ -8,6 +8,12 @@ image:
   tag: master
 
 deployment:
+
+  livenessProbe:
+    initialDelaySeconds: 15
+  readinessProbe:
+    initialDelaySeconds: 15
+
   resources:
     limits:
       cpu: 250m
