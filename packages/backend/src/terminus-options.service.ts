@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import {
-  DNSHealthIndicator,
   MongooseHealthIndicator,
   TerminusEndpoint,
   TerminusModuleOptions,

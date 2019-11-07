@@ -2,7 +2,6 @@ import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
 import { DatabaseModule } from "../database/database.module";
 import { UsagersModule } from "../usagers/usagers.module";
-import { UsagersProviders } from "../usagers/usagers.providers";
 import { UsersModule } from "../users/users.module";
 import { UsersService } from "../users/users.service";
 import { InteractionsController } from "./interactions.controller";

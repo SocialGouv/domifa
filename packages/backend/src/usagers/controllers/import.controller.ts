@@ -94,7 +94,10 @@ export class ImportController {
   ) {
     const dir = path.resolve(__dirname, "../../imports/");
     const buffer = fs.readFileSync(dir + "/" + file.filename);
-    const wb = XLSX.read(buffer, { type: "buffer" });
+    const wb = XLSX.read(buffer, {
+      dateNF: "dd/mm/yyyy",
+      type: "buffer"
+    });
 
     if (!buffer) {
       return false;
@@ -104,7 +107,9 @@ export class ImportController {
 
       const datas = XLSX.utils.sheet_to_json(ws, {
         blankrows: false,
-        header: 1
+        dateNF: "dd/mm/yyyy",
+        header: 1,
+        raw: false
       }) as AOA;
 
       for (let index = 1, len = datas.length; index < len; index++) {

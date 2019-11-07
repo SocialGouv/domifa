@@ -8,7 +8,6 @@ import { InteractionsController } from "./interactions/interactions.controller";
 import { InteractionsModule } from "./interactions/interactions.module";
 import { StructuresModule } from "./structures/structure.module";
 import { StructuresController } from "./structures/structures.controller";
-import { TerminusOptionsService } from "./terminus-options.service";
 import { ImportController } from "./usagers/controllers/import.controller";
 import { UsagersController } from "./usagers/controllers/usagers.controller";
 import { UsagersModule } from "./usagers/usagers.module";
@@ -32,10 +31,7 @@ import { UsersModule } from "./users/users.module";
     UsersModule,
     AuthModule,
     StructuresModule,
-    InteractionsModule,
-    TerminusModule.forRootAsync({
-      useClass: TerminusOptionsService
-    })
+    InteractionsModule
   ],
   providers: [
     MailerService,
