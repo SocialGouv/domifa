@@ -1,0 +1,31 @@
+# Default values for nodejs.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+image:
+  repository: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend
+  tag: master
+
+deployment:
+  env:
+    - name: PORT
+      value: "80"
+    - name: NODE_ENV
+      value: "production"
+
+ingress:
+  enabled: true
+  annotations:
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+    kubernetes.io/ingress.class: "azure/application-gateway"
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: 7b63a6b.domifa.dev.fabrique.social.gouv.fr
+      paths:
+        - /
+  tls:
+    - hosts:
+        - 7b63a6b.domifa.dev.fabrique.social.gouv.fr
+      secretName: domifa-certificate-7b63a6b-secret

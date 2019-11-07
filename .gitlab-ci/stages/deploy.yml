@@ -52,6 +52,7 @@ Deploy backend:
     - helm repo add socialgouv https://github.com/SocialGouv/helm-charts/releases/download/v2.6.0
     - helm just fetch "socialgouv/nodejs#2.6.0"
     - helm just render domifa-backend-${BRANCH_HASH} nodejs
+        --values ./.k8s/backend/values.yaml
     - helm just apply domifa-backend-${BRANCH_HASH}
 
 
