@@ -1,4 +1,8 @@
 
+mongodbDatabase: domifa
+mongodbPassword: ${MONGODB_ROOT_PASSWORD}
+mongodbUsername: domifa
+
 mongodbRootPassword: ${MONGODB_ROOT_PASSWORD}
 
 resources:

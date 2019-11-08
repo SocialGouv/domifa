@@ -38,7 +38,7 @@ deployment:
     - name: DB_PORT
       value: "27017"
     - name: DB_USER
-      value: "root"
+      value: "domifa"
     - name: FRONT_URL
       value: "${FRONTEND_URL}"
     - name: MJ_APIKEY_PRIVATE
