@@ -5,13 +5,15 @@
 
 image:
   repository: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend
-  tag: master
+  tag: local
 
 deployment:
 
   livenessProbe:
+    path: /health
     initialDelaySeconds: 30
   readinessProbe:
+    path: /health
     initialDelaySeconds: 30
 
   resources:
@@ -29,11 +31,11 @@ deployment:
       value: "production"
 
     - name: DB_HOST
-      value: domifa-mongodb-7b63a6b
+      value: domifa-mongodb-${BRANCH_HASH}
     - name: DB_PASS
       valueFrom:
         secretKeyRef:
-          name: domifa-mongodb-7b63a6b
+          name: domifa-mongodb-${BRANCH_HASH}
           key: mongodb-password
     - name: DB_PORT
       value: "27017"
@@ -65,10 +67,10 @@ ingress:
     kubernetes.io/ingress.class: "azure/application-gateway"
     kubernetes.io/tls-acme: "true"
   hosts:
-    - host: 7b63a6b.domifa.dev.fabrique.social.gouv.fr
+    - host: api.local.domifa.dev.fabrique.social.gouv.fr
       paths:
         - /
   tls:
     - hosts:
-        - 7b63a6b.domifa.dev.fabrique.social.gouv.fr
-      secretName: domifa-certificate-7b63a6b-secret
+        - api.local.domifa.dev.fabrique.social.gouv.fr
+      secretName: domifa-certificate-${BRANCH_HASH}-secret

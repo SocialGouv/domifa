@@ -59,6 +59,7 @@ Deploy backend:
   variables:
     <<: *deploy_stage_variables
     CONTEXT: backend
+    LETSENCRYPT_ISSUER: letsencrypt-staging
     IMAGE_NAME: $CI_REGISTRY_IMAGE/backend
     PORT: 3000
   script:
@@ -68,6 +69,10 @@ Deploy backend:
     - helm just fetch "socialgouv/nodejs#2.6.0"
     - envsubst < ./.k8s/backend/values.yaml > ./values.yaml
     - helm just render domifa-backend-${BRANCH_HASH} nodejs
+        --set image.tag=${IMAGE_TAG}
+        --set ingress.annotations."certmanager\.k8s\.io/cluster-issuer"=${LETSENCRYPT_ISSUER}
+        --set ingress.hosts[0].host=${FRONTEND_HOST}
+        --set ingress.tls[0].hosts[0]=${FRONTEND_HOST}
         --values ./values.yaml
     - helm just apply domifa-backend-${BRANCH_HASH}
 
