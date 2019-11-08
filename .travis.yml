@@ -5,6 +5,11 @@ git:
   depth: 5
 services:
   - mongodb
+addons:
+  apt:
+    packages:
+      - mongodb-org-tools
+      - pdftk
 #
 
 .node_stage: &node_stage
@@ -17,7 +22,7 @@ services:
     - export TZ=Europe/Paris
     - echo 'Europe/Paris' | sudo tee /etc/timezone
     - sudo dpkg-reconfigure --frontend noninteractive tzdata
-    - sudo apt-get install -y mongodb-org-tools pdftk
+    #
     - mongo domifa --eval "db.dropDatabase()"
     - mongorestore --gzip --archive=dump_test.gzip
     - sleep 10
