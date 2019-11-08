@@ -9,7 +9,8 @@ services:
 
 .node_stage: &node_stage
   language: node_js
-  node_js: "10"
+  node_js: "12"
+  cache: yarn
   before_install:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - export PATH="$HOME/.yarn/bin:$PATH"
@@ -21,16 +22,16 @@ services:
     - mongorestore --gzip --archive=dump_test.gzip
     - sleep 10
     - mongo domifa --eval "db.createUser({user:'travis', pwd:'test', roles:[{role:'readWrite', db:'domifa'}] });"
-    - touch /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - echo "DB_USER=travis" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - echo "DB_HOST=127.0.0.1" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - echo "DB_PORT=27017" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - echo "MJ_APIKEY_PUBLIC=${MJ_APIKEY_PUBLIC_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - echo "MJ_APIKEY_PRIVATE=${MJ_APIKEY_PRIVATE_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - echo "API_URL=http://localhost:3000/" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - echo "FRONT_URL=http://localhost:4200/" >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
-    - echo "SECRET=O6RL8gsk4QpbKlLaazpdkqzpokdopzkdpokqz9!ç-rH4176OKPOKd8!29990xohuihHYNJQ6"  >> /home/travis/build/SocialGouv/domifa/packages/backend/src/config/config.env
+    - touch /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "DB_USER=travis" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "DB_HOST=127.0.0.1" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "DB_PORT=27017" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "MJ_APIKEY_PUBLIC=${MJ_APIKEY_PUBLIC_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "MJ_APIKEY_PRIVATE=${MJ_APIKEY_PRIVATE_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "API_URL=http://localhost:3000/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "FRONT_URL=http://localhost:4200/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "SECRET=O6RL8gsk4QpbKlLaazpdkqzpokdopzkdpokqz9!ç-rH4176OKPOKd8!29990xohuihHYNJQ6"  >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
 
   install:
     - yarn --frozen-lockfile
@@ -54,14 +55,18 @@ jobs:
       script:
         - travis_fold start "yarn.build"
         - yarn build --stream
-        - cp -r -i src/ressources dist/src/ressources && forever stopall && node start dist/src/main.js &
+        #
+        - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
         - travis_fold end "yarn.build"
         #
         - travis_fold start "yarn.test"
-        - yarn run -- test --stream -- --coverage --silent --detectOpenHandles --forceExit
+        - yarn workspace @domifa/backend test --coverage --detectOpenHandles --forceExit
+        - yarn workspace @domifa/backend start:prod &
+        - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
         - travis_fold end "yarn.test"
       after_script:
         - npx codecov
+        - killall node
 
     - <<: *node_stage
       stage: Release
