@@ -1,6 +1,6 @@
 
 mongodbDatabase: domifa
-mongodbPassword: ${MONGODB_ROOT_PASSWORD}
+mongodbPassword: ${MONGODB_PASSWORD}
 mongodbUsername: domifa
 
 mongodbRootPassword: ${MONGODB_ROOT_PASSWORD}

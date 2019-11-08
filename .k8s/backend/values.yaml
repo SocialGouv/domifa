@@ -17,7 +17,7 @@ deployment:
   resources:
     limits:
       cpu: 250m
-      memory: 256Mi
+      memory: 512Mi
     requests:
       cpu: 10m
       memory: 128Mi
@@ -34,7 +34,7 @@ deployment:
       valueFrom:
         secretKeyRef:
           name: domifa-mongodb-7b63a6b
-          key: mongodb-root-password
+          key: mongodb-password
     - name: DB_PORT
       value: "27017"
     - name: DB_USER
