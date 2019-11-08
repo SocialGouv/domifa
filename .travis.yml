@@ -56,11 +56,12 @@ jobs:
         - yarn build --stream
         #
         - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
-        - yarn workspace @domifa/backend start:prod &
         - travis_fold end "yarn.build"
         #
         - travis_fold start "yarn.test"
-        - yarn run -- test --stream -- --coverage --silent --detectOpenHandles --forceExit
+        - yarn workspace @domifa/backend run -- test --stream -- --coverage --silent --detectOpenHandles --forceExit
+        - yarn workspace @domifa/backend start:prod &
+        - yarn workspace @domifa/frontend run -- test --stream -- --coverage --silent --detectOpenHandles --forceExit
         - travis_fold end "yarn.test"
       after_script:
         - npx codecov
