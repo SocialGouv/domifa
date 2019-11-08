@@ -54,8 +54,9 @@ jobs:
       script:
         - travis_fold start "yarn.build"
         - yarn build --stream
-        - cp -r -i src/ressources dist/src/ressources
-        - node start dist/src/main.js &
+        #
+        - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/src/ressources
+        - yarn workspace @domifa/backend start:prod &
         - travis_fold end "yarn.build"
         #
         - travis_fold start "yarn.test"
