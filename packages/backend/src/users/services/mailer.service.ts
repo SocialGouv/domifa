@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { ConfigService } from "../config/config.service";
-import { Structure } from "../structures/structure-interface";
-import { User } from "./user.interface";
+import { ConfigService } from "../../config/config.service";
+import { Structure } from "../../structures/structure-interface";
+import { User } from "../user.interface";
 
 @Injectable()
 export class MailerService {

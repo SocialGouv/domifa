@@ -2,24 +2,20 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
 import * as crypto from "crypto";
 import { Model } from "mongoose";
-import { Structure } from "../structures/structure-interface";
-import { StructuresService } from "../structures/structures.service";
-import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { Structure } from "../../structures/structure-interface";
+import { StructuresService } from "../../structures/structures.service";
+import { ResetPasswordDto } from "../dto/reset-password.dto";
+import { UserDto } from "../user.dto";
+import { User } from "../user.interface";
 import { MailerService } from "./mailer.service";
-import { UserDto } from "./user.dto";
-import { User } from "./user.interface";
 
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
 
-  constructor(
-    @Inject("USER_MODEL") private readonly userModel: Model<User>,
-    private readonly structureService: StructuresService,
-    private readonly mailerService: MailerService
-  ) {}
+  constructor(@Inject("USER_MODEL") private readonly userModel: Model<User>) {}
 
-  public async findAll(user: User): Promise<User[]> {
+  public async findAll(user: User): Promise<any> {
     return this.userModel
       .find({
         structureId: user.structureId
@@ -47,7 +43,7 @@ export class UsersService {
     return createdUser.save();
   }
 
-  public async findOne(search: any): Promise<User> {
+  public async findOne(search: any): Promise<any> {
     return this.userModel
       .findOne(search)
       .populate("structure")
@@ -132,12 +128,12 @@ export class UsersService {
 
   public async findLast(): Promise<number> {
     try {
-      const lastUser = await this.userModel
+      const lastUser: any = await this.userModel
         .findOne({}, { id: 1 })
         .sort({ id: -1 })
         .lean()
         .exec();
-      return lastUser.id === undefined ? 1 : lastUser.id + 1;
+      return lastUser !== {} ? 1 : lastUser.id + 1;
     } catch (e) {
       return 1;
     }

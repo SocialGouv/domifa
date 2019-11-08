@@ -9,8 +9,8 @@ import {
 import { Model } from "mongoose";
 import { Usager } from "../usagers/interfaces/usagers";
 import { UsagersService } from "../usagers/services/usagers.service";
+import { UsersService } from "../users/services/users.service";
 import { User } from "../users/user.interface";
-import { UsersService } from "../users/users.service";
 import { InteractionDto } from "./interactions.dto";
 import { Interaction } from "./interactions.interface";
 
@@ -92,11 +92,7 @@ export class InteractionsService {
       .exec();
   }
 
-  public async find(
-    usagerId: number,
-    limit: number,
-    user: User
-  ): Promise<Usager> {
+  public async find(usagerId: number, limit: number, user: User): Promise<any> {
     return this.interactionModel
       .find({
         structureId: user.structureId,

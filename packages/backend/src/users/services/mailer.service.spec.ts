@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { ConfigService } from "../config/config.service";
+import { ConfigService } from "../../config/config.service";
 import { MailerService } from "./mailer.service";
 
 describe("MailerService", () => {

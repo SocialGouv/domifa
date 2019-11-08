@@ -9,8 +9,8 @@ import {
   Post
 } from "@nestjs/common";
 import * as fs from "fs";
-import { MailerService } from "../users/mailer.service";
-import { UsersService } from "../users/users.service";
+import { MailerService } from "../users/services/mailer.service";
+import { UsersService } from "../users/services/users.service";
 import { StructureDto } from "./structure-dto";
 import { Structure } from "./structure-interface";
 import { StructuresService } from "./structures.service";

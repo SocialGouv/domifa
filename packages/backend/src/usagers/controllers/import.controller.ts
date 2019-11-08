@@ -17,7 +17,7 @@ import * as path from "path";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../users/current-user.decorator";
 import { User } from "../../users/user.interface";
-import { UsersService } from "../../users/users.service";
+import { UsersService } from "../../users/services/users.service";
 import { UsagersService } from "../services/usagers.service";
 
 export const regexp = {

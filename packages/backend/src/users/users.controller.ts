@@ -19,9 +19,9 @@ import { CurrentUser } from "./current-user.decorator";
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserDto } from "./dto/user.dto";
-import { MailerService } from "./mailer.service";
+import { MailerService } from "./services/mailer.service";
+import { UsersService } from "./services/users.service";
 import { User } from "./user.interface";
-import { UsersService } from "./users.service";
 
 @Controller("users")
 export class UsersController {

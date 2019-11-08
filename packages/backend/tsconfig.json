@@ -3,6 +3,7 @@
     "paths": {
       "*": ["types/*"]
     },
+    "lib": ["es2018.promise"],
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,

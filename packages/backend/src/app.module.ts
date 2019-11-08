@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
-import { RavenModule, RavenInterceptor } from "nest-raven";
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { RavenInterceptor, RavenModule } from "nest-raven";
 import { AuthController } from "./auth/auth.controller";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigService } from "./config/config.service";
@@ -11,10 +12,9 @@ import { StructuresController } from "./structures/structures.controller";
 import { ImportController } from "./usagers/controllers/import.controller";
 import { UsagersController } from "./usagers/controllers/usagers.controller";
 import { UsagersModule } from "./usagers/usagers.module";
-import { MailerService } from "./users/mailer.service";
+import { MailerService } from "./users/services/mailer.service";
 import { UsersController } from "./users/users.controller";
 import { UsersModule } from "./users/users.module";
-import { APP_INTERCEPTOR } from "@nestjs/core";
 @Module({
   controllers: [
     AuthController,

@@ -3,7 +3,7 @@ import * as mongoose from "mongoose";
 import { DatabaseModule } from "../database/database.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
-import { UsersService } from "../users/users.service";
+import { UsersService } from "../users/services/users.service";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsProviders } from "./interactions.providers";

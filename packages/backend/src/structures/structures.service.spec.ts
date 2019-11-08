@@ -3,7 +3,7 @@ import * as mongoose from "mongoose";
 import { ConfigService } from "../config/config.service";
 import { DatabaseModule } from "../database/database.module";
 import { UsagersProviders } from "../usagers/usagers.providers";
-import { MailerService } from "../users/mailer.service";
+import { MailerService } from "../users/services/mailer.service";
 import { UsersProviders } from "../users/users.providers";
 import { StructureDto } from "./structure-dto";
 import { StructuresProviders } from "./structures-providers";

@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
 import { User } from "./user.interface";
+
 export const UserSchema = new mongoose.Schema({
   email: {
     required: true,

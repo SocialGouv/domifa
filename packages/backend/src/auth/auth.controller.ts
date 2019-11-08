@@ -12,7 +12,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import * as bcrypt from "bcryptjs";
 import { LoginDto } from "../users/dto/login.dto";
-import { UsersService } from "../users/users.service";
+import { UsersService } from "../users/services/users.service";
 import { AuthService } from "./auth.service";
 
 @Controller("auth")

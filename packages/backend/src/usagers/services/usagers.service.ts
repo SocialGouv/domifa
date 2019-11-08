@@ -243,7 +243,7 @@ export class UsagersService {
     nom: string,
     prenom: string,
     user: User
-  ): Promise<Usager[]> {
+  ): Promise<any> {
     return this.usagerModel
       .find({
         $and: [
@@ -260,10 +260,7 @@ export class UsagersService {
       .exec();
   }
 
-  public async search(
-    query: SearchDto,
-    structureId: number
-  ): Promise<Usager[]> {
+  public async search(query: SearchDto, structureId: number): Promise<any> {
     this.sort = { nom: 1 };
     this.searchQuery = {};
     this.searchQuery.structureId = structureId;
@@ -318,7 +315,7 @@ export class UsagersService {
 
   public async findLast(structureId: number): Promise<number> {
     try {
-      const lastUsager = await this.usagerModel
+      const lastUsager: any = await this.usagerModel
         .findOne({ structureId }, { id: 1 })
         .sort({ id: -1 })
         .lean()
