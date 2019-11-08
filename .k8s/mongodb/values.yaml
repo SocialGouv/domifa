@@ -1,4 +1,6 @@
 
+mongodbRootPassword: ${MONGODB_ROOT_PASSWORD}
+
 resources:
   limits:
     cpu: 250m

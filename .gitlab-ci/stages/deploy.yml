@@ -77,6 +77,8 @@ Deploy MongoDB:
   <<: *dev_stage
   extends: .base_docker_helm_image_stage
   script:
+    - export MONGODB_ROOT_PASSWORD=$(kubectl get secret domifa-secret -o jsonpath='{.data.MONGODB_ROOT_PASSWORD}' | base64 --decode)
+    #
     - envsubst < ./.k8s/mongodb/values.yaml > ./values.yaml
     - cat ./values.yaml
     #
