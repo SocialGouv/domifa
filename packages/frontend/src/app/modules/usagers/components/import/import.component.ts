@@ -8,6 +8,11 @@ import * as XLSX from "xlsx";
 import { regexp } from "../../../../shared/validators";
 import { UsagerService } from "../../services/usager.service";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+library.add(fas, far);
+
 export const CIVILITE = 0;
 export const NOM = 1;
 export const PRENOM = 2;

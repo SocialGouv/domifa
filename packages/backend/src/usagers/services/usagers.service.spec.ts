@@ -1,11 +1,9 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import * as mongoose from "mongoose";
 import { DatabaseModule } from "../../database/database.module";
-import { UsersModule } from "../../users/users.module";
 import { UsersService } from "../../users/services/users.service";
+import { UsersModule } from "../../users/users.module";
 import { SearchDto } from "../dto/search";
 import { UsagersDto } from "../dto/usagers.dto";
-import { UsagerSchema } from "../usager.schema";
 import { UsagersProviders } from "../usagers.providers";
 
 import { forwardRef } from "@nestjs/common";

@@ -1,8 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
 import { DatabaseModule } from "../../database/database.module";
-import { UsersModule } from "../../users/users.module";
 import { UsersService } from "../../users/services/users.service";
+import { UsersModule } from "../../users/users.module";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";

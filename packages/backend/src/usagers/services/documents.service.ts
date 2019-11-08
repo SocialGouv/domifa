@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { Model } from "mongoose";
-import { User } from "../../users/user.interface";
 import { UsersService } from "../../users/services/users.service";
+import { User } from "../../users/user.interface";
 import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usagers";
 

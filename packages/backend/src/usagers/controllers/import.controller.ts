@@ -16,8 +16,8 @@ import { diskStorage } from "multer";
 import * as path from "path";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../users/current-user.decorator";
-import { User } from "../../users/user.interface";
 import { UsersService } from "../../users/services/users.service";
+import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
 
 export const regexp = {
