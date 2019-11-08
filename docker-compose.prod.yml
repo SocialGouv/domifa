@@ -3,7 +3,7 @@ services:
   frontend:
     image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:master
     ports:
-      - 8080:80
+      - 80:80
 
   backend:
     env_file:
