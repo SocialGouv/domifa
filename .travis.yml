@@ -9,7 +9,8 @@ services:
 
 .node_stage: &node_stage
   language: node_js
-  node_js: "10"
+  node_js: "12"
+  cache: yarn
   before_install:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - export PATH="$HOME/.yarn/bin:$PATH"
@@ -59,9 +60,9 @@ jobs:
         - travis_fold end "yarn.build"
         #
         - travis_fold start "yarn.test"
-        - yarn workspace @domifa/backend run -- test --stream -- --coverage --silent --detectOpenHandles --forceExit
+        - yarn workspace @domifa/backend test --stream -- --coverage --silent --detectOpenHandles --forceExit
         - yarn workspace @domifa/backend start:prod &
-        - yarn workspace @domifa/frontend run -- test --stream -- --coverage --silent --detectOpenHandles --forceExit
+        - yarn workspace @domifa/frontend test --stream -- --coverage --silent --detectOpenHandles --forceExit
         - travis_fold end "yarn.test"
       after_script:
         - npx codecov
