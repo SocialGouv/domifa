@@ -18,6 +18,8 @@ services:
     image: "mongo:4.0.3"
     volumes:
       - domifa-data:/data/db
+    ports:
+      - 27017:27017
 
 volumes:
   domifa-data:
