@@ -1,4 +1,3 @@
 {
-  "arrow-parens": false,
   "extends": ["@socialgouv/tslint-config-recommended"]
 }

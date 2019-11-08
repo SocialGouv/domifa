@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
-    "paths": {
-      "*": ["types/*"]
-    },
-    "lib": ["es2018.promise"],
-    "module": "commonjs",
+    "baseUrl": "./",
     "declaration": true,
-    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "esnext",
-    "sourceMap": true,
+    "lib": ["es2018.promise"],
+    "module": "commonjs",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext",
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"]
   },
   "exclude": ["node_modules", "dist"]
