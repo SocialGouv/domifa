@@ -17,6 +17,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { MatomoModule } from "ngx-matomo";
 import { NgxPrintModule } from "ngx-print";
 import { ToastrModule } from "ngx-toastr";
 import { AppRoutingModule } from "./app-routing.module";
@@ -35,6 +36,7 @@ library.add(fas, far);
   declarations: [AppComponent],
   imports: [
     GeneralModule,
+    MatomoModule,
     UsagersModule,
     UsersModule,
     StructuresModule,

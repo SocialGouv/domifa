@@ -11,7 +11,7 @@ COPY ./yarn.lock /app/yarn.lock
 
 WORKDIR /app
 
-RUN yarn --frozen-lockfile  --cache-folder /dev/shm/yarn
+RUN yarn --frozen-lockfile --cache-folder /dev/shm/yarn --shm-size 1024M
 
 COPY ./packages/backend/nest-cli.json /app/packages/backend/nest-cli.json
 COPY ./packages/backend/tsconfig.build.json /app/packages/backend/tsconfig.build.json
