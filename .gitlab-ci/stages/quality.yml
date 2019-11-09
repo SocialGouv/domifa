@@ -53,7 +53,7 @@ Test @domifa/backend:
       EOF
     - cat ./packages/backend/.env
     - apt-get update && apt-get install -y mongodb pdftk psmisc
-    - mongo domifa --eval "db.createUser({user:'domifa', pwd:'r_mzmlaBCTQenk2_ZKJ', roles:[{role:'readWrite', db:'domifa'}], passwordDigestor:'server'});"
+    - mongo domifa --eval "db.createUser({user:'gitlab', pwd:'test', roles:[{role:'readWrite', db:'domifa'}], passwordDigestor:'server'});"
     - mongorestore --gzip --archive=./dump_test.gzip
     - yarn workspace @domifa/backend test
     - yarn workspace @domifa/backend start:prod &
