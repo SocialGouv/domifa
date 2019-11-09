@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { async, TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MatomoInjector, MatomoModule } from "ngx-matomo";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { AppComponent } from "./app.component";
 
 describe("AppComponent", () => {
@@ -21,6 +21,12 @@ describe("AppComponent", () => {
           provide: MatomoInjector,
           useValue: {
             init: jest.fn()
+          }
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn()
           }
         }
       ],
