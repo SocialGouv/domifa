@@ -12582,7 +12582,7 @@ tslint-plugin-prettier@~2.0.1:
     lines-and-columns "^1.1.6"
     tslib "^1.7.1"
 
-tslint@^5.20.0:
+tslint@^5.20.1:
   version "5.20.1"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.20.1.tgz#e401e8aeda0152bc44dd07e614034f3f80c67b7d"
   integrity sha512-EcMxhzCFt8k+/UP5r8waCf/lzmeSyVlqxqMEDQE7rWYiQky8KpIBz1JAoYXfROHrPZ1XXd43q8yQnULOLiBRQg==
