@@ -1,4 +1,4 @@
 export const environment = {
-  apiUrl: "%%API_URL%%",
+  apiUrl: "https://domifa-api.fabrique.social.gouv.fr/",
   production: true
 };
