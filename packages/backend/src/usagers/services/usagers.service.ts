@@ -314,15 +314,16 @@ export class UsagersService {
   }
 
   public async findLast(structureId: number): Promise<number> {
-    try {
-      const lastUsager: any = await this.usagerModel
-        .findOne({ structureId }, { id: 1 })
-        .sort({ id: -1 })
-        .lean()
-        .exec();
-      return lastUsager.id === undefined ? 1 : lastUsager.id + 1;
-    } catch (e) {
-      return 1;
-    }
+    const lastUsager: any = await this.usagerModel
+      .findOne({ structureId }, { id: 1 })
+      .sort({ id: -1 })
+      .lean()
+      .exec();
+
+    return lastUsager.id === undefined ||
+      lastUsager === {} ||
+      lastUsager === null
+      ? 1
+      : lastUsager.id + 1;
   }
 }

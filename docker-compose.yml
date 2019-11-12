@@ -1,21 +1,11 @@
 version: "3"
 services:
   mongo:
-    container_name: mongo
     image: "mongo:4.0.3"
-    expose:
-      - 27017
+    volumes:
+      - domifa-data:/data/db
     ports:
-      - "27017:27017"
-    restart: always
+      - 27017:27017
 
-  api:
-    depends_on:
-      - mongo
-    container_name: api
-    restart: always
-    build: .
-    ports:
-      - "3000"
-    links:
-      - mongo
+volumes:
+  domifa-data:

@@ -126,16 +126,14 @@ export class StructuresService {
   }
 
   public async findLast(): Promise<number> {
-    try {
-      const lastStructure: any = await this.structureModel
-        .findOne({}, { id: 1 })
-        .sort({ id: -1 })
-        .lean()
-        .exec();
+    const lastStructure: any = await this.structureModel
+      .findOne({}, { id: 1 })
+      .sort({ id: -1 })
+      .lean()
+      .exec();
 
-      return lastStructure.id === undefined ? 1 : lastStructure.id + 1;
-    } catch (e) {
-      return 1;
-    }
+    return lastStructure === {} || lastStructure === null
+      ? 1
+      : lastStructure.id + 1;
   }
 }

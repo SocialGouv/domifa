@@ -9,6 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from "src/app/app.component";
 
 import { GeneralModule } from "src/app/modules/general/general.module";
+import { StatsModule } from "src/app/modules/stats/stats.module";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { UsersModule } from "src/app/modules/users/users.module";
 import { routes } from "../../../../app-routing.module";
@@ -23,6 +24,7 @@ describe("ManageUsagersComponent", () => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
+        StatsModule,
         StructuresModule,
         UsagersModule,
         GeneralModule,

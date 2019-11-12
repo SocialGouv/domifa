@@ -45,7 +45,10 @@ describe("DocumentsService", () => {
       path: "373144a3d9d0b3f4c84bd527a5cff880.jpg"
     });
 
-    const docError = await service.getDocument(usager, 10);
-    expect(docError).toBeNull();
+    try {
+      await service.getDocument(usager, 10);
+    } catch (err) {
+      expect(err.message).toEqual("DOC_NOT_FOUND");
+    }
   });
 });

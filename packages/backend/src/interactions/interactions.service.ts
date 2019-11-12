@@ -3,8 +3,7 @@ import {
   HttpStatus,
   Inject,
   Injectable,
-  Logger,
-  UseGuards
+  Logger
 } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Usager } from "../usagers/interfaces/usagers";
@@ -16,15 +15,12 @@ import { Interaction } from "./interactions.interface";
 
 @Injectable()
 export class InteractionsService {
-  private readonly logger = new Logger(InteractionsService.name);
-
   constructor(
     @Inject("INTERACTION_MODEL")
     private readonly interactionModel: Model<Interaction>,
     @Inject("USAGER_MODEL")
     private readonly usagerModel: Model<Usager>,
-    private readonly usagersService: UsagersService,
-    private readonly usersService: UsersService
+    private readonly usagersService: UsagersService
   ) {}
 
   public async create(
@@ -34,7 +30,7 @@ export class InteractionsService {
   ): Promise<Usager> {
     const createdInteraction = new this.interactionModel(interactionDto);
 
-    const usager = await this.usagersService.findById(
+    const usager: Usager = await this.usagersService.findById(
       usagerId,
       user.structureId
     );
@@ -66,11 +62,6 @@ export class InteractionsService {
 
     const savedInteraction = await createdInteraction.save();
     usager.interactions.push(savedInteraction);
-
-    const toUpdate = {
-      interactions: usager.interactions,
-      lastInteraction: usager.lastInteraction
-    };
 
     return this.usagerModel
       .findOneAndUpdate(

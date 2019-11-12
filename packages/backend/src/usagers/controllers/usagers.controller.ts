@@ -258,7 +258,7 @@ export class UsagersController {
   @UseInterceptors(
     FileInterceptor("file", {
       storage: diskStorage({
-        destination: (req, file, cb) => {
+        destination: (req: any, file: any, cb: any) => {
           const dir = path.resolve(
             __dirname,
             "../../uploads/" + req.user.structureId + "/" + req.params.usagerId
@@ -279,7 +279,7 @@ export class UsagersController {
           }
           cb(null, true);
         },
-        filename: (req, file, cb) => {
+        filename: (req: any, file: any, cb: any) => {
           const randomName = Array(32)
             .fill(null)
             .map(() => Math.round(Math.random() * 16).toString(16))
@@ -292,7 +292,7 @@ export class UsagersController {
   public uploadDoc(
     @Param("usagerId") usagerId: number,
     @UploadedFile() file: any,
-    @Body() postData,
+    @Body() postData: any,
     @CurrentUser() user: User
   ) {
     const userName = user.prenom + " " + user.nom;

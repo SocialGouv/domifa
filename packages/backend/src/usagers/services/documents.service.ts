@@ -1,14 +1,12 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { UsersService } from "../../users/services/users.service";
+
 import { User } from "../../users/user.interface";
 import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usagers";
 
 @Injectable()
 export class DocumentsService {
-  private readonly logger = new Logger(UsersService.name);
-
   constructor(
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
   ) {}
@@ -69,7 +67,7 @@ export class DocumentsService {
       typeof usager.docs[index] === "undefined" ||
       typeof usager.docsPath[index] === "undefined"
     ) {
-      return null;
+      throw new HttpException("DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
     const fileInfos = usager.docs[index];

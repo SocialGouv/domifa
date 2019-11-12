@@ -50,21 +50,23 @@ type AOA = any[][];
 @UseGuards(AuthGuard("jwt"))
 @Controller("import")
 export class ImportController {
-  public errorsId = [];
+  public errorsId: string[];
   public rowNumber: number;
   private readonly logger = new Logger(ImportController.name);
-  private user: any;
 
   constructor(
     private readonly usagersService: UsagersService,
     private readonly usersService: UsersService
-  ) {}
+  ) {
+    this.errorsId = [];
+    this.rowNumber = 0;
+  }
 
   @Post()
   @UseInterceptors(
     FileInterceptor("file", {
       storage: diskStorage({
-        destination: (req, file, cb) => {
+        destination: (req: any, file: any, cb: any) => {
           const dir = path.resolve(__dirname, "../../imports/");
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -77,7 +79,7 @@ export class ImportController {
           }
           cb(null, true);
         },
-        filename: (req, file, cb) => {
+        filename: (req: any, file: any, cb: any) => {
           const randomName = Array(32)
             .fill(null)
             .map(() => Math.round(Math.random() * 16).toString(16))

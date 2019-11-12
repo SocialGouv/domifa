@@ -50,7 +50,7 @@ describe("Usagers Controller", () => {
     try {
       await controller.getDocument(2, 10, null, user);
     } catch (err) {
-      expect(err.message).toEqual("BAD_REQUEST");
+      expect(err.message).toEqual("DOC_NOT_FOUND");
     }
   });
 });

@@ -3,16 +3,12 @@ import * as bcrypt from "bcryptjs";
 import * as crypto from "crypto";
 import { Model } from "mongoose";
 import { Structure } from "../../structures/structure-interface";
-import { StructuresService } from "../../structures/structures.service";
 import { ResetPasswordDto } from "../dto/reset-password.dto";
 import { UserDto } from "../user.dto";
 import { User } from "../user.interface";
-import { MailerService } from "./mailer.service";
 
 @Injectable()
 export class UsersService {
-  private readonly logger = new Logger(UsersService.name);
-
   constructor(@Inject("USER_MODEL") private readonly userModel: Model<User>) {}
 
   public async findAll(user: User): Promise<any> {
@@ -127,15 +123,12 @@ export class UsersService {
   }
 
   public async findLast(): Promise<number> {
-    try {
-      const lastUser: any = await this.userModel
-        .findOne({}, { id: 1 })
-        .sort({ id: -1 })
-        .lean()
-        .exec();
-      return lastUser !== {} ? 1 : lastUser.id + 1;
-    } catch (e) {
-      return 1;
-    }
+    const lastUser: any = await this.userModel
+      .findOne({}, { id: 1 })
+      .sort({ id: -1 })
+      .lean()
+      .exec();
+
+    return lastUser === {} || lastUser === null ? 1 : lastUser.id + 1;
   }
 }

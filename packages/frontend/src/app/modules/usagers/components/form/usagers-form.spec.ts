@@ -10,10 +10,12 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MatomoModule } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { routes } from "src/app/app-routing.module";
 import { AppComponent } from "src/app/app.component";
 import { GeneralModule } from "src/app/modules/general/general.module";
+import { StatsModule } from "src/app/modules/stats/stats.module";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { UsagersModule } from "../../usagers.module";
 import { UsagersFormComponent } from "./usagers-form";
@@ -30,8 +32,10 @@ describe("UsagersFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
+        MatomoModule,
         GeneralModule,
         UsagersModule,
+        StatsModule,
         StructuresModule,
         RouterTestingModule.withRoutes(routes),
         NgbModule,

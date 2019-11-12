@@ -25,6 +25,7 @@ import { AppComponent } from "./app.component";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { GeneralModule } from "./modules/general/general.module";
+import { StatsModule } from "./modules/stats/stats.module";
 import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
@@ -35,6 +36,7 @@ library.add(fas, far);
   bootstrap: [AppComponent],
   declarations: [AppComponent],
   imports: [
+    StatsModule,
     GeneralModule,
     MatomoModule,
     UsagersModule,

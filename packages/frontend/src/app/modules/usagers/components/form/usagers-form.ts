@@ -6,13 +6,13 @@ import {
   NgbDatepickerI18n,
   NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
-import { Subject } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+
 import { Doc } from "src/app/modules/usagers/interfaces/document";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
+import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/modules/users/interfaces/user";
 import { UsersService } from "src/app/modules/users/services/users.service";
@@ -22,7 +22,7 @@ import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
 import * as labels from "../../../../shared/entretien.labels";
 import { regexp } from "../../../../shared/validators";
-import { StructureService } from "../../../structures/services/structure.service";
+
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Decision } from "../../interfaces/decision";
 
@@ -118,7 +118,7 @@ export class UsagersFormComponent implements OnInit {
     private userService: UsersService,
     private documentService: DocumentService,
     private authService: AuthService,
-    private structureService: StructureService,
+    private matomoTracker: MatomoTracker,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private router: Router,
@@ -328,6 +328,7 @@ export class UsagersFormComponent implements OnInit {
         (usager: Usager) => {
           this.goToTop();
           this.notifService.success("Enregistrement réussi");
+          this.matomoTracker.trackEvent("dossiers", "demande", "etape", 1);
           this.router.navigate(["usager/" + usager.id + "/edit"]);
         },
         error => {
