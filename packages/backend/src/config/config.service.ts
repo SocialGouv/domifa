@@ -15,7 +15,8 @@ export class ConfigService {
       FRONT_URL: process.env.FRONT_URL,
       MJ_APIKEY_PRIVATE: process.env.MJ_APIKEY_PRIVATE,
       MJ_APIKEY_PUBLIC: process.env.MJ_APIKEY_PUBLIC,
-      SECRET: process.env.SECRET
+      SECRET: process.env.SECRET,
+      UPLOADS_FOLDER: process.env.UPLOADS_FOLDER
     };
   }
 

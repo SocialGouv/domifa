@@ -33,7 +33,7 @@ export class MailerService {
       Messages: [
         {
           From: {
-            Email: "contact@domifa.beta.gouv.fr",
+            Email: "contact.domifa@fabrique.social.gouv.fr",
             Name: "Domifa"
           },
           Subject: "Nouvelle structure sur Domifa : " + structure.nom,
@@ -41,7 +41,7 @@ export class MailerService {
           TemplateLanguage: true,
           To: [
             {
-              Email: "domifa@yopmail.com",
+              Email: "contact.domifa@fabrique.social.gouv.fr",
               Name: "Domifa"
             }
           ],
@@ -76,7 +76,7 @@ export class MailerService {
       Messages: [
         {
           From: {
-            Email: "contact@domifa.beta.gouv.fr",
+            Email: "contact.domifa@fabrique.social.gouv.fr",
             Name: "Domifa"
           },
           Subject: "Nouvelle création de compte à valider",
@@ -108,7 +108,7 @@ export class MailerService {
       Messages: [
         {
           From: {
-            Email: "contact@domifa.beta.gouv.fr",
+            Email: "contact.domifa@fabrique.social.gouv.fr",
             Name: "Domifa"
           },
           Subject: "Changement du mot de passe Domifa",
@@ -136,7 +136,7 @@ export class MailerService {
       Messages: [
         {
           From: {
-            Email: "contact@domifa.beta.gouv.fr",
+            Email: "contact.domifa@fabrique.social.gouv.fr",
             Name: "Domifa"
           },
           Subject: "Votre compte Domifa a été activé",
@@ -164,7 +164,7 @@ export class MailerService {
       Messages: [
         {
           From: {
-            Email: "contact@domifa.beta.gouv.fr",
+            Email: "contact.domifa@fabrique.social.gouv.fr",
             Name: "Domifa"
           },
           Subject: "Votre compte Domifa a été activé",

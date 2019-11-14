@@ -24,6 +24,7 @@ import { diskStorage } from "multer";
 import { RavenInterceptor } from "nest-raven";
 import * as path from "path";
 import { RolesGuard } from "../../auth/roles.guard";
+import { ConfigService } from "../../config/config.service";
 import { CurrentUser } from "../../users/current-user.decorator";
 import { UsersService } from "../../users/services/users.service";
 import { User } from "../../users/user.interface";
@@ -238,8 +239,7 @@ export class UsagersController {
     }
 
     const pathFile = path.resolve(
-      __dirname,
-      "../../uploads/" +
+      new ConfigService().get("UPLOADS_FOLDER") +
         usager.structureId +
         "/" +
         usager.id +
@@ -259,10 +259,12 @@ export class UsagersController {
     FileInterceptor("file", {
       storage: diskStorage({
         destination: (req: any, file: any, cb: any) => {
-          const dir = path.resolve(
-            __dirname,
-            "../../uploads/" + req.user.structureId + "/" + req.params.usagerId
-          );
+          const dir =
+            new ConfigService().get("UPLOADS_FOLDER") +
+            req.user.structureId +
+            "/" +
+            req.params.usagerId;
+
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
           }
