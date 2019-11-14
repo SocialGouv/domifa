@@ -29,7 +29,10 @@
           name="pieceJointe"
           aria-describedby="pjHelp"
           (change)="onFileChange($event)"
-          [ngClass]="{ 'is-invalid': submittedFile && (!uploadError.fileType || !uploadError.fileSize)  }"
+          [ngClass]="{
+            'is-invalid':
+              submittedFile && (!uploadError.fileType || !uploadError.fileSize)
+          }"
           file="pieceJointe"
           required>
         <small
@@ -60,9 +63,11 @@
       <button
         class="btn btn-primary btn-block"
         [disabled]="
+          uploadForm.invalid ||
           !uploadError.fileType ||
           !uploadError.fileSize ||
-          u.imageInput.errors">
+          u.imageInput.errors
+        ">
         Ajouter
       </button>
     </div>

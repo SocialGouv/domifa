@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
+
 import { RavenInterceptor, RavenModule } from "nest-raven";
 import { AuthController } from "./auth/auth.controller";
 import { AuthModule } from "./auth/auth.module";
@@ -35,7 +36,6 @@ import { UsersModule } from "./users/users.module";
     RavenModule
   ],
   providers: [
-    MailerService,
     {
       provide: APP_INTERCEPTOR,
       useValue: new RavenInterceptor()
@@ -43,7 +43,8 @@ import { UsersModule } from "./users/users.module";
     {
       provide: ConfigService,
       useValue: new ConfigService()
-    }
+    },
+    MailerService
   ]
 })
 export class AppModule {}

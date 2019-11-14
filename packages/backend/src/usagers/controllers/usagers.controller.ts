@@ -41,7 +41,6 @@ import { UsagersService } from "../services/usagers.service";
 @Controller("usagers")
 export class UsagersController {
   private readonly logger = new Logger(UsagersController.name);
-  private user: any;
 
   constructor(
     private readonly usagersService: UsagersService,
@@ -58,6 +57,11 @@ export class UsagersController {
 
   /* FORMULAIRE INFOS */
   @Post()
+  @UseInterceptors(
+    new RavenInterceptor({
+      level: Sentry.Severity.Critical
+    })
+  )
   public postUsager(@Body() usagerDto: UsagersDto, @CurrentUser() user: User) {
     return this.usagersService.create(usagerDto, user);
   }

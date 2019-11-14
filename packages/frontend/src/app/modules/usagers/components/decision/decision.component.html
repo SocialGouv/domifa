@@ -1,5 +1,5 @@
 <ngb-accordion
-  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (isAdmin && usager.decision.statut === 'ATTENTE_DECISION')"
+  *ngIf="usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION'"
   #acc="ngbAccordion"
   class="recap">
   <ngb-panel id="panel-0">
@@ -138,20 +138,24 @@
               *ngIf="usager.entretien.cause != 'AUTRE'">
               {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
             </span>
-
-            <b>
+          </div>
+          <div class="reponses">
+            <span class="question">
               Faites-vous l’objet d’un accompagnement social ?
-            </b>
-            {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
-            <br>
-            <span *ngIf="accompagnement">
-              <b>Suivi par :</b>
-              {{ accompagnementDetail }}
             </span>
-
-            <b>Commentaires</b>
+            <span class="valeur">
+              {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
+              <span *ngIf="accompagnement">
+                <br>
+                <b>Suivi par :</b>
+                {{ accompagnementDetail }}
+              </span>
+            </span>
+          </div>
+          <div class="reponses">
+            <span class="question">Commentaires:</span>
+            <span class="valeur">{{ usager.entretien.commentaires }}</span>
             <br>
-
           </div>
         </div>
       </div>
@@ -237,10 +241,10 @@
         class="row"
         *ngIf="!isAdmin">
         <br>
-        <div class="col-md-10 offset-md-1">
+        <div class="col">
           <button
             (click)="setDecision('ATTENTE_DECISION')"
-            class="btn btn-primary btn-block">
+            class="btn btn-primary ">
             DEMANDER LA VALIDATION DU DOSSIER
           </button>
         </div>

@@ -320,10 +320,6 @@ export class UsagersService {
       .lean()
       .exec();
 
-    return lastUsager.id === undefined ||
-      lastUsager === {} ||
-      lastUsager === null
-      ? 1
-      : lastUsager.id + 1;
+    return lastUsager === {} || lastUsager === null ? 1 : lastUsager.id + 1;
   }
 }
