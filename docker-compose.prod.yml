@@ -5,6 +5,8 @@ services:
     restart: always
     ports:
       - 80:80
+    environment:
+      - API_URL=//domifa-api.fabrique.social.gouv.fr
 
   backend:
     env_file:
