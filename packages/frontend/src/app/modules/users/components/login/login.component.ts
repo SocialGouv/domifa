@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   public ngOnInit() {
     this.title = "Connexion à DomiFa";
     this.errorMessage = null;
+    this.hidePassword = true;
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
     this.success = false;
     this.error = false;
