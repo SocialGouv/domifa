@@ -50,7 +50,7 @@
     "@socialgouv/tslint-config-recommended": "^0.10.3",
     "@types/jest": "^24.0.23",
     "@types/node": "^8.9.5",
-    "codelyzer": "^5.1.2",
+    "codelyzer": "^5.2.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
     "jest": "^24.9.0",
