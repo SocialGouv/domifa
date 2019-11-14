@@ -1872,10 +1872,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nestjs/cli@^6.12.0":
-  version "6.12.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-6.12.0.tgz#7d3d15f6c3c51d5a2cbf598aa86b5753beea84d4"
-  integrity sha512-VVRSVDi9SfCZv6h2Ik+MIpEu6Wj5V/8z20rc3qH6xBYZ8pb9jJsdHobKhl6Dzmsb1aNDmvBATNR0ZUPHzL1V0w==
+"@nestjs/cli@^6.12.1":
+  version "6.12.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-6.12.1.tgz#196e6aae004b8140abdf55f3d1599ecf05724672"
+  integrity sha512-kv0wVoUfM/0JNx0tumOpKvHy0MVKgXqSIhXbdNdBqSogrrzUn/pG1LCzmkaPTo65lvh4fs9pKynHorTv0hfOvw==
   dependencies:
     "@angular-devkit/core" "8.3.19"
     "@angular-devkit/schematics" "8.3.19"
