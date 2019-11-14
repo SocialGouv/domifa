@@ -33,6 +33,16 @@ env:
     - RELEASE=true
 ```
 
+## Database
+
+### Backup database
+
+```bash
+sudo docker-compose exec mongo mongodump --out --gzip > /mnt/database/dump_`date "+%Y-%m-%d-%H-%M"`
+```
+
+You need an [Github token](https://github.com/settings/tokens/new) to release.
+
 ### Manual
 
 You need an [Github token](https://github.com/settings/tokens/new) to release.
