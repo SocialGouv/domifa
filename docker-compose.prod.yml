@@ -2,6 +2,7 @@ version: "3"
 services:
   frontend:
     image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:master
+    restart: always
     ports:
       - 80:80
 
@@ -9,6 +10,7 @@ services:
     env_file:
       - ./packages/backend/.env
     image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:master
+    restart: always
     depends_on:
       - mongo
     ports:
@@ -16,6 +18,7 @@ services:
 
   mongo:
     image: "mongo:4.0.3"
+    restart: always
     volumes:
       - domifa-data:/data/db
     ports:
