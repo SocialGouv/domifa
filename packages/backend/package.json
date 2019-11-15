@@ -46,7 +46,7 @@
     "raven": "^2.6.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.3",
-    "xlsx": "^0.15.1"
+    "xlsx": "^0.15.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.12.1",
