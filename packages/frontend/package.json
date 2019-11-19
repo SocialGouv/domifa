@@ -39,7 +39,7 @@
     "path": "^0.12.7",
     "rxjs": "^6.5.3",
     "tslib": "^1.10.0",
-    "xlsx": "^0.15.1",
+    "xlsx": "^0.15.2",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
@@ -57,7 +57,7 @@
     "jest-preset-angular": "^7.1.1",
     "prettier": "^1.19.1",
     "ts-jest": "^24.1.0",
-    "ts-node": "~8.5.0",
+    "ts-node": "~8.5.2",
     "tslint": "^5.20.1",
     "typescript": "3.4.5"
   }
