@@ -50,8 +50,9 @@ export class InteractionsService {
       interactionDto.type === "courrierIn" &&
       typeof interactionDto.nbCourrier === "undefined"
     ) {
-      usager.lastInteraction.nbCourrier = 1;
+      usager.lastInteraction.nbCourrier = usager.lastInteraction.nbCourrier + 1;
     }
+
     if (
       interactionDto.type === "courrierOut" ||
       interactionDto.type === "recommandeOut"
