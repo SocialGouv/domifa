@@ -167,8 +167,14 @@ export const UsagerSchema = new mongoose.Schema({
   docs: [],
   docsPath: [],
 
-  transfert: { type: Boolean, default: false },
-  transfertAddress: { type: String, default: "" }
+  transfert: {
+    type: {
+      statut: { type: Boolean, default: false },
+      address: { type: String, default: "" },
+      name: { type: String, default: "" }
+    },
+    default: false
+  }
 });
 
 UsagerSchema.pre<Usager>("save", function(next) {

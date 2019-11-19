@@ -113,7 +113,9 @@
     <div
       class="form-group"
       *ngIf="!uploadForm.invalid && errorsId.length == 0">
-      <div class="text-center">
+      <div
+        class="text-center"
+        *ngIf="data">
         <h4 class="text-primary">Votre fichier est prêt à être importé !</h4>
         <b>{{ data.length - 1 }} domiciliés</b>
         seront importés sur Domifa

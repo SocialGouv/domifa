@@ -125,6 +125,24 @@ export class StructuresService {
     });
   }
 
+  public async importSuccess(id: number) {
+    return this.structureModel
+      .findOneAndUpdate(
+        {
+          id
+        },
+        {
+          $set: {
+            import: true
+          }
+        },
+        {
+          new: true
+        }
+      )
+      .exec();
+  }
+
   public async findLast(): Promise<number> {
     const lastStructure: any = await this.structureModel
       .findOne({}, { id: 1 })

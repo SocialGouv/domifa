@@ -121,15 +121,6 @@
         </td>
       </thead>
       <tbody *ngFor="let usager of usagers; let i = index">
-        <tr
-          *ngIf="differentLetter(usager.nom, i)"
-          class="letter">
-          <td
-            colspan="4"
-            class=" text-center">
-            {{ getLetter(usager.nom) }}
-          </td>
-        </tr>
         <tr>
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
@@ -165,13 +156,15 @@
             class="text-right icones_liste"
             *ngIf="usager.decision.statut === 'VALIDE'">
             <div>
-              <span ngbTooltip="Ajouter un nouveau courrier">
+              <span
+                (click)="setInteraction(usager, 'courrierIn')"
+                ngbTooltip="Ajouter un nouveau courrier">
                 <fa-icon
                   class="courrier"
                   icon="envelope"></fa-icon>
               </span>
               <span
-                (click)="setPassage(usager, 'courrierOut')"
+                (click)="setInteraction(usager, 'courrierOut')"
                 *ngIf="usager.lastInteraction.nbCourrier > 0"
                 ngbTooltip="Signaler un retrait de courrier">
                 <fa-icon
@@ -181,14 +174,14 @@
               </span>
               <span
                 ngbTooltip="Signaler un passage"
-                (click)="setPassage(usager, 'visite')">
+                (click)="setInteraction(usager, 'visite')">
                 <fa-icon
                   class="visite"
                   icon="walking"></fa-icon>
               </span>
               <span
                 ngbTooltip="Signaler un appel"
-                (click)="setPassage(usager, 'appel')">
+                (click)="setInteraction(usager, 'appel')">
                 <fa-icon
                   class="appel"
                   icon="phone"></fa-icon>

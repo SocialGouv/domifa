@@ -47,7 +47,6 @@ export class ImportComponent implements OnInit {
 
   public uploadForm: FormGroup;
   public fileName: string;
-  public uploadResponse: any;
 
   public canUpload: boolean;
   public success: boolean;
@@ -96,11 +95,6 @@ export class ImportComponent implements OnInit {
     this.showTable = false;
 
     this.title = "Importer vos domiciliés";
-    this.uploadResponse = {
-      filePath: "",
-      message: "",
-      status: ""
-    };
 
     this.emails = [];
     this.phones = [];
@@ -265,8 +259,6 @@ export class ImportComponent implements OnInit {
 
     this.usagerService.import(formData).subscribe(
       res => {
-        this.uploadResponse = res;
-
         setTimeout(() => {
           this.loadingService.stopLoading();
           this.router.navigate(["/manage"]);

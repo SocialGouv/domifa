@@ -120,31 +120,15 @@ export class ManageUsagersComponent implements OnInit {
     this.router.navigate([url[statut]]);
   }
 
-  public getLetter(nom: string): string {
-    return nom.charAt(0).toUpperCase();
-  }
-
-  public differentLetter(nom: string, i: number): boolean {
-    if (i !== undefined && i > 0) {
-      return (
-        this.usagers[i - 1].nom.charAt(0).toUpperCase() !==
-        nom.charAt(0).toUpperCase()
-      );
-    }
-    return true;
-  }
-
-  public setPassage(usager: Usager, type: string) {
+  public setInteraction(usager: Usager, type: string) {
     this.interactionService
       .setInteraction(usager.id, {
         content: "",
         type
       })
       .subscribe(
-        () => {
-          if (type === "courrierOut") {
-            usager.lastInteraction.nbCourrier = 0;
-          }
+        (response: Usager) => {
+          usager.lastInteraction = response.lastInteraction;
           this.notifService.success(this.notifs[type]);
         },
         error => {

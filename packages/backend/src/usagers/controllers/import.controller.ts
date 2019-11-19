@@ -15,6 +15,7 @@ import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
 import * as XLSX from "xlsx";
+import { StructuresService } from "../../structures/structures.service";
 import { CurrentUser } from "../../users/current-user.decorator";
 import { UsersService } from "../../users/services/users.service";
 import { User } from "../../users/user.interface";
@@ -56,7 +57,8 @@ export class ImportController {
 
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly structureService: StructuresService
   ) {
     this.errorsId = [];
     this.rowNumber = 0;
@@ -215,12 +217,21 @@ export class ImportController {
           try {
             fs.unlinkSync(dir + "/" + file.filename);
           } catch (err) {
-            this.logger.log("Impossible de supprimer le fichier d'import");
+            throw new HttpException(
+              "Impossible de supprimer le fichier",
+              HttpStatus.BAD_REQUEST
+            );
           }
 
-          return res
-            .status(HttpStatus.OK)
-            .json(await this.saveDatas(datas, user));
+          if (await this.saveDatas(datas, user)) {
+            this.structureService.importSuccess(user.structureId);
+            return res.status(HttpStatus.OK).json({ success: true });
+          } else {
+            throw new HttpException(
+              "IMPORT_NOT_COMPLETED",
+              HttpStatus.BAD_REQUEST
+            );
+          }
         }
       }
     }
@@ -315,7 +326,7 @@ export class ImportController {
       usagers.push(await this.usagersService.save(usager, user));
 
       if (index + 1 >= datas.length) {
-        return usagers;
+        return true;
       }
     }
   }

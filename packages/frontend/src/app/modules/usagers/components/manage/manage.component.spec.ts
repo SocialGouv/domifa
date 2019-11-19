@@ -97,7 +97,6 @@ describe("ManageUsagersComponent", () => {
     fixture = TestBed.createComponent(ManageUsagersComponent);
     app = fixture.debugElement.componentInstance;
     app.ngOnInit();
-    expect(app.getLetter("Yassine")).toEqual("Y");
     app.resetSearchBar();
     expect(app.filters.name).toEqual("");
   });
