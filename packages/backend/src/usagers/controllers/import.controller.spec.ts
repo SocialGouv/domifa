@@ -1,5 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../../database/database.module";
+import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
@@ -13,7 +14,7 @@ describe("Import Controller", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ImportController],
-      imports: [DatabaseModule, UsersModule],
+      imports: [DatabaseModule, UsersModule, StructuresModule],
       providers: [
         CerfaService,
         UsagersService,
