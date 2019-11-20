@@ -95,6 +95,7 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.renouvellement(this.usager.id).subscribe(
       (usager: Usager) => {
         this.usager = usager;
+        this.modal.close();
         this.router.navigate(["usager/" + usager.id + "/edit"]);
         this.notifService.success(
           "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"

@@ -362,6 +362,23 @@ table .active {
   cursor: pointer;
 }
 
+.reponses {
+  margin: 12px auto;
+  vertical-align: middle;
+}
+
+.reponses .question {
+  color: #212529;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+.reponses .valeur {
+  display: block;
+  font-weight: bold;
+  color: #4a4a4a;
+}
+
 @media print {
   body {
     font-size: 18pt !important;
