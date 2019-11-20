@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+import { Structure } from "./structure-interface";
 
 export const StructureSchema = new mongoose.Schema({
   adresse: {
@@ -94,4 +95,21 @@ export const StructureSchema = new mongoose.Schema({
     required: true,
     type: String
   }
+});
+
+StructureSchema.pre<Structure>("save", function(next) {
+  this.adresse = this.adresse.charAt(0).toUpperCase() + this.adresse.slice(1);
+  this.nom = this.nom.charAt(0).toUpperCase() + this.nom.slice(1);
+  this.responsable.fonction =
+    this.responsable.fonction.charAt(0).toUpperCase() +
+    this.responsable.fonction.slice(1);
+  this.responsable.nom =
+    this.responsable.nom.charAt(0).toUpperCase() +
+    this.responsable.nom.slice(1);
+  this.responsable.prenom =
+    this.responsable.prenom.charAt(0).toUpperCase() +
+    this.responsable.prenom.slice(1);
+  this.ville = this.ville.charAt(0).toUpperCase() + this.ville.slice(1);
+  this.email = this.email.toLowerCase();
+  next();
 });

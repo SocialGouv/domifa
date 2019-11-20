@@ -115,7 +115,7 @@ export class UsersService {
 
   public async delete(id: number, structureId: number): Promise<any> {
     return this.userModel
-      .findOneAndRemove({
+      .deleteOne({
         id,
         structureId
       })

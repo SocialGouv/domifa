@@ -1,8 +1,13 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators
+} from "@angular/forms";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { debounceTime, map } from "rxjs/operators";
 
 import { regexp } from "src/app/shared/validators";
@@ -75,7 +80,11 @@ export class StructuresFormComponent implements OnInit {
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, []],
       departementAuto: ["", []],
-      email: [this.structure.email, [Validators.required, Validators.email]],
+      email: [
+        this.structure.email,
+        [Validators.required, Validators.email],
+        this.validateEmailNotTaken.bind(this)
+      ],
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
       phone: [this.structure.phone, [Validators.required]],
@@ -138,5 +147,16 @@ export class StructuresFormComponent implements OnInit {
     if (x.name !== undefined) {
       return x.name + ", " + x.code;
     }
+  }
+
+  public validateEmailNotTaken(control: AbstractControl) {
+    const testEmail = RegExp(regexp.email).test(control.value);
+    return testEmail
+      ? this.structureService.validateEmail(control.value).pipe(
+          map((res: boolean) => {
+            return res === false ? null : { emailTaken: true };
+          })
+        )
+      : of(null);
   }
 }

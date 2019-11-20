@@ -60,14 +60,11 @@ export class StructuresService {
     return structure;
   }
 
-  public async findById(structureId: number): Promise<Structure> {
+  public async findOneBasic(param: any): Promise<Structure> {
     const structure = await this.structureModel
-      .findOne({ id: structureId })
+      .findOne(param)
       .select("-users -token -email -phone -responsable")
       .exec();
-    if (!structure || structure === null) {
-      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
     return structure;
   }
 
@@ -90,7 +87,7 @@ export class StructuresService {
       verified: true
     };
 
-    if (typeof codePostal !== undefined) {
+    if (codePostal) {
       params.codePostal = codePostal;
     }
 

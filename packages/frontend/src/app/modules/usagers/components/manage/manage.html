@@ -101,6 +101,7 @@
       class="table"
       *ngIf="usagers.length !== 0">
       <thead>
+        <th>#</th>
         <th>Nom prénom</th>
         <th>{{ dateLabel }}</th>
         <td
@@ -125,8 +126,13 @@
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
             scope="row"
+            class="table_name text-black-50">
+            {{ usager.id }}
+          </td>
+          <td
+            (click)="goToProfil(usager.id, usager.decision.statut)"
+            scope="row"
             class="table_name">
-            {{ usager.sexe === "homme" ? "M." : "Mme" }}
             <b>{{ usager.nom }}</b>
             {{ usager.prenom }}
             <span *ngIf="usager.surnom && usager.surnom !== null">({{ usager.surnom }})</span>

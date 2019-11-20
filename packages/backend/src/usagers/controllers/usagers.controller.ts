@@ -21,7 +21,6 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import * as Sentry from "@sentry/types";
 import * as fs from "fs";
 import { diskStorage } from "multer";
-import { RavenInterceptor } from "nest-raven";
 import * as path from "path";
 import { RolesGuard } from "../../auth/roles.guard";
 import { ConfigService } from "../../config/config.service";
@@ -57,11 +56,6 @@ export class UsagersController {
 
   /* FORMULAIRE INFOS */
   @Post()
-  @UseInterceptors(
-    new RavenInterceptor({
-      level: Sentry.Severity.Critical
-    })
-  )
   public postUsager(@Body() usagerDto: UsagersDto, @CurrentUser() user: User) {
     return this.usagersService.create(usagerDto, user);
   }
@@ -182,11 +176,6 @@ export class UsagersController {
   }
 
   @Get("attestation/:id")
-  @UseInterceptors(
-    new RavenInterceptor({
-      level: Sentry.Severity.Critical
-    })
-  )
   public async getAttestation(
     @Param("id") usagerId: number,
     @Res() res: any,
@@ -210,7 +199,16 @@ export class UsagersController {
       .catch(err => {
         this.logger.log("Erreur Cerfa ");
         this.logger.log(err);
-        throw new HttpException("CERFA_ERROR", HttpStatus.BAD_REQUEST);
+        const erreur = {
+          err,
+          statut: "CERFA_ERROR",
+          usager
+        };
+
+        throw new HttpException(
+          JSON.stringify(erreur),
+          HttpStatus.INTERNAL_SERVER_ERROR
+        );
       });
   }
 

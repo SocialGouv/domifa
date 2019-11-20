@@ -15,6 +15,10 @@ COPY --from=domifa /app/node_modules /node_modules
 COPY --from=domifa /app/packages/backend/node_modules /app/node_modules
 COPY --from=domifa /app/packages/backend/dist /app/dist
 
+COPY ./ressources/attestation.pdf /app/dist/ressources/attestation.pdf
+COPY ./ressources/demande.pdf /app/dist/ressources/demande.pdf
+
 COPY ./package.json /app/package.json
+
 
 ENTRYPOINT [ "yarn", "start:prod"]

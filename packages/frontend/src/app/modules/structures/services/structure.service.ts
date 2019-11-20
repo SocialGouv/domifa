@@ -23,6 +23,10 @@ export class StructureService {
     return this.http.get(`${this.endPoint}/code-postal/${codePostal}`);
   }
 
+  public findAll(): Observable<any> {
+    return this.http.get(`${this.endPoint}`);
+  }
+
   public create(structure: Structure): Observable<any> {
     return structure.id !== 0
       ? this.http.patch(`${this.endPoint}`, structure)
@@ -35,5 +39,9 @@ export class StructureService {
 
   public delete(token: string): Observable<any> {
     return this.http.delete(`${this.endPoint}/${token}`);
+  }
+
+  public validateEmail(email: string): Observable<any> {
+    return this.http.post(`${this.endPoint}/validate-email`, { email });
   }
 }

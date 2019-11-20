@@ -4,6 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MatomoModule } from "ngx-matomo";
+import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { DashboardComponent } from "./dashboard.component";
 
 describe("DashboardComponent", () => {
@@ -14,6 +15,7 @@ describe("DashboardComponent", () => {
     TestBed.configureTestingModule({
       declarations: [DashboardComponent],
       imports: [
+        StructuresModule,
         HttpClientModule,
         HttpClientTestingModule,
         MatomoModule,

@@ -34,13 +34,12 @@ export class DigitOnlyDirective {
       (e.key === "a" && e.metaKey === true) || // Allow: Cmd+A (Mac)
       (e.key === "c" && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.key === "v" && e.metaKey === true) || // Allow: Cmd+V (Mac)
-      (e.key === "x" && e.metaKey === true) // Allow: Cmd+X (Mac)
+      (e.key === "x" && e.metaKey === true)
     ) {
       // let it happen, don't do anything
       return;
     }
-    // Ensure that it is a number and stop the keypress
-    if (isNaN(Number(e.key))) {
+    if (isNaN(Number(e.key)) || e.keyCode === 32) {
       e.preventDefault();
     }
   }

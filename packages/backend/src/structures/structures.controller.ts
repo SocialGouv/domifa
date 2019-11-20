@@ -6,8 +6,10 @@ import {
   HttpException,
   HttpStatus,
   Param,
-  Post
+  Post,
+  Response
 } from "@nestjs/common";
+import { EmailDto } from "../users/dto/email.dto";
 import { MailerService } from "../users/services/mailer.service";
 import { UsersService } from "../users/services/users.service";
 import { StructureDto } from "./structure-dto";
@@ -28,7 +30,7 @@ export class StructuresController {
 
   @Get(":id")
   public async getStructure(@Param("id") id: number) {
-    return this.structureService.findById(id);
+    return this.structureService.findOneBasic({ id });
   }
 
   @Get("code-postal/:codePostal")
@@ -73,5 +75,14 @@ export class StructuresController {
       this.mailerService.confirmationStructure(structure, updatedAdmin);
       return structure;
     }
+  }
+
+  @Post("validate-email")
+  public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
+    const existUser = await this.structureService.findOneBasic({
+      email: emailDto.email
+    });
+    const emailExist = existUser !== null;
+    return res.status(HttpStatus.OK).json(emailExist);
   }
 }

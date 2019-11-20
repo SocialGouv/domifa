@@ -10,6 +10,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxPrintModule } from "ngx-print";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
+import { StructuresModule } from "../structures/structures.module";
 import { UsersModule } from "../users/users.module";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { StatsService } from "./stats.service";
@@ -19,6 +20,7 @@ import { StatsService } from "./stats.service";
   exports: [DashboardComponent],
   imports: [
     UsersModule,
+    StructuresModule,
     CommonModule,
     BrowserModule,
     NgxPrintModule,

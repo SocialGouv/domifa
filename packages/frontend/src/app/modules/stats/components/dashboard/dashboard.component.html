@@ -1,13 +1,17 @@
 <div class="container">
-  <div class="row">
-    <div class="offset-2 col-10">
-      <h3>Statut</h3>
-
-      <h3>Sexe</h3>
-
-      <h3>Ayant-droits</h3>
-
-      <h3>Entretien</h3>
+  <div class="step_form text-center">
+    <h4>Structures existantes</h4>
+    <div
+      class="card col-md-6 text-left"
+      *ngFor="let structure of structures">
+      <a class="nav-link">
+        <b>{{ structure.nom }}</b>
+        <br>
+        {{ structure.adresse }},
+        <i>
+          {{ structure.ville }} ({{ structure.codePostal }})
+        </i>
+      </a>
     </div>
   </div>
 </div>
