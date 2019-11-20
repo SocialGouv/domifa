@@ -15,8 +15,8 @@ COPY --from=domifa /app/node_modules /node_modules
 COPY --from=domifa /app/packages/backend/node_modules /app/node_modules
 COPY --from=domifa /app/packages/backend/dist /app/dist
 
-COPY --from=domifa /app/packages/backend/ressources/attestation.pdf /app/dist/ressources/attestation.pdf
-COPY --from=domifa /app/packages/backend/ressources/demande.pdf /app/dist/ressources/demande.pdf
+COPY /app/packages/backend/src/ressources/attestation.pdf /app/dist/ressources/attestation.pdf
+COPY /app/packages/backend/src/ressources/demande.pdf /app/dist/ressources/demande.pdf
 
 COPY ./package.json /app/package.json
 
