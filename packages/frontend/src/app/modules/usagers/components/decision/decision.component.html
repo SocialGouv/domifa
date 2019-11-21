@@ -23,165 +23,216 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <h4>ÉTAT CIVIL</h4>
-      <div class="row">
+      <div id="fiche-recap">
+        <h4>ÉTAT CIVIL</h4>
+        <div class="row">
 
-        <div class="col-md-4 reponses">
-          <span class="question">NOM</span>
-          <span class="valeur">{{ usager.nom }}</span>
-        </div>
+          <div class="col-md-4 reponses">
+            <span class="question">NOM</span>
+            <span class="valeur">{{ usager.nom }}</span>
+          </div>
 
-        <div class="col-md-4 reponses">
-          <span class="question">PRÉNOM</span>
-          <span class="valeur">{{ usager.prenom }}</span>
-        </div>
-        <div class="col-md-4 reponses">
-          <span class="question">SURNOM</span>
-          <span class="valeur">{{ usager.surnom }}</span>
-        </div>
+          <div class="col-md-4 reponses">
+            <span class="question">PRÉNOM</span>
+            <span class="valeur">{{ usager.prenom }}</span>
+          </div>
+          <div class="col-md-4 reponses">
+            <span class="question">SURNOM</span>
+            <span class="valeur">{{ usager.surnom }}</span>
+          </div>
 
-        <div class="col-md-4 reponses">
-          <span class="question">Date de naissance</span>
-          <span class="valeur">
-            {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
-          </span>
-        </div>
+          <div class="col-md-4 reponses">
+            <span class="question">SEXE</span>
+            <span class="valeur">{{ usager.sexe }}</span>
+          </div>
 
-        <div class="col-md-4 reponses">
-          <span class="question">VILLE de naissance</span>
-          <span class="valeur">{{ usager.villeNaissance }}</span>
-        </div>
-
-        <div class="col-md-4 reponses"></div>
-
-        <div class="col-md-4 reponses">
-          <span class="question">Numéro de téléphone</span>
-          <span class="valeur">{{ usager.phone }}</span>
-        </div>
-        <div class="col-md-4 reponses">
-          <span class="question">Adresse email</span>
-          <span class="valeur">{{ usager.email }}</span>
-        </div>
-
-        <div class="col-md-4 reponses"></div>
-
-      </div>
-
-      <h4>AYANTS-DROITS</h4>
-      <div *ngIf="usager.ayantsDroits.length === 0">
-        <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
-      </div>
-      <table
-        *ngIf="usager.ayantsDroits.length > 0"
-        class="table table-light">
-        <tbody>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Né le</th>
-            <th>Lien</th>
-          </tr>
-          <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-            <td>{{ ayantDroit.nom }}</td>
-            <td>{{ ayantDroit.prenom }}</td>
-            <td>{{ ayantDroit.dateNaissance }}</td>
-            <td>{{ ayantDroit.lien }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h4>ENTRETIEN</h4>
-      <div class="row">
-        <div class="col-md-4 reponses">
-          <span class="question">DOMICILIATION EXISTANTE</span>
-          <span class="valeur">
-            {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
-          </span>
-        </div>
-
-        <div class="col-md-4 reponses">
-          <span class="question">REVENUS</span>
-          <span class="valeur">
-            {{ usager.entretien.revenus ? "Oui" : "Non" }}
-          </span>
-        </div>
-
-        <div class="col-md-4 reponses">
-          <span class="question">LIEN COMMUNE</span>
-          <span class="valeur">
-            {{ usager.entretien.liencommune || "Non renseigné" }}
-          </span>
-        </div>
-
-        <div class="col-md-4 reponses">
-          <span class="question">MOTIF DE LA DEMANDE</span>
-          <span
-            class="valeur"
-            *ngIf="usager.entretien.raison == 'AUTRE'">
-            Autre : {{ usager.entretien.raisonDetail }}
-          </span>
-          <span
-            class="valeur"
-            *ngIf="usager.entretien.raison != 'AUTRE'">
-            {{ labels.raison[usager.entretien.raison] || "Non renseigné" }}
-          </span>
-        </div>
-
-        <div class="col-md-4 reponses">
-          <span class="question">SITUATION RESIDENTIELLE</span>
-          <span
-            class="valeur"
-            *ngIf="usager.entretien.residence == 'AUTRE'">
-            Autre : {{ usager.entretien.residenceDetail }}
-          </span>
-          <span
-            class="valeur"
-            *ngIf="usager.entretien.residence != 'AUTRE'">
-            {{ labels.residence[usager.entretien.residence] || "Non renseigné" }}
-          </span>
-        </div>
-        <div class="col-md-4 reponses">
-          <span class="question">COMPOSITION MÉNAGE</span>
-          <span class="valeur">
-            {{ labels.residence[usager.entretien.typeMenage] || "Non renseigné" }}
-          </span>
-        </div>
-
-        <div class="col-md-4 reponses">
-          <span class="question">CAUSE DE L'INSTABILITÉ LOGEMENT</span>
-          <span
-            class="valeur"
-            *ngIf="usager.entretien.cause == 'AUTRE'">
-            Autre : {{ usager.entretien.causeDetail }}
-          </span>
-          <span
-            class="valeur"
-            *ngIf="usager.entretien.cause != 'AUTRE'">
-            {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
-          </span>
-        </div>
-
-        <div class="col-md-4 reponses">
-          <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
-          <span class="valeur">
-            {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
-            <span *ngIf="accompagnement">
-              <br>
-              <b>Suivi par :</b>
-              {{ accompagnementDetail }}
+          <div class="col-md-4 reponses">
+            <span class="question">Date de naissance</span>
+            <span class="valeur">
+              {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
             </span>
-          </span>
+          </div>
+
+          <div class="col-md-4 reponses">
+            <span class="question">VILLE de naissance</span>
+            <span class="valeur">{{ usager.villeNaissance }}</span>
+          </div>
+
+          <div class="col-md-4 reponses">
+            <span class="question">Numéro de téléphone</span>
+            <span class="valeur">{{ usager.phone }}</span>
+          </div>
+          <div class="col-md-4 reponses">
+            <span class="question">Adresse email</span>
+            <span class="valeur">{{ usager.email }}</span>
+          </div>
+
+          <div class="col-md-4 reponses"></div>
+
         </div>
 
-        <div class="col-md-4 reponses"></div>
-        <br>
-        <div class="col-md-12 reponses">
-          <span class="question">NOTES SUPPLÉMENTAIRES:</span>
-          <span class="valeur">{{ usager.entretien.commentaires }}</span>
+        <h4>AYANTS-DROITS</h4>
+        <div *ngIf="usager.ayantsDroits.length === 0">
+          <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
+        </div>
+        <table
+          *ngIf="usager.ayantsDroits.length > 0"
+          class="table table-light">
+          <tbody>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Né le</th>
+              <th>Lien</th>
+            </tr>
+            <tr *ngFor="let ayantDroit of usager.ayantsDroits">
+              <td>{{ ayantDroit.nom }}</td>
+              <td>{{ ayantDroit.prenom }}</td>
+              <td>{{ ayantDroit.dateNaissance }}</td>
+              <td>{{ ayantDroit.lien }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>ENTRETIEN</h4>
+        <div class="row">
+          <div class="col-md-4 reponses">
+            <span class="question">DOMICILIATION EXISTANTE</span>
+            <span class="valeur">
+              {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
+            </span>
+          </div>
+
+          <div class="col-md-4 reponses">
+            <span class="question">REVENUS</span>
+            <span class="valeur">
+              {{ usager.entretien.revenus ? "Oui" : "Non" }}
+            </span>
+          </div>
+
+          <div class="col-md-4 reponses">
+            <span class="question">LIEN COMMUNE</span>
+            <span class="valeur">
+              {{ usager.entretien.liencommune || "Non renseigné" }}
+            </span>
+          </div>
+
+          <div class="col-md-4 reponses">
+            <span class="question">MOTIF DE LA DEMANDE</span>
+            <span
+              class="valeur"
+              *ngIf="usager.entretien.raison == 'AUTRE'">
+              Autre : {{ usager.entretien.raisonDetail }}
+            </span>
+            <span
+              class="valeur"
+              *ngIf="usager.entretien.raison != 'AUTRE'">
+              {{ labels.raison[usager.entretien.raison] || "Non renseigné" }}
+            </span>
+          </div>
+
+          <div class="col-md-4 reponses">
+            <span class="question">SITUATION RESIDENTIELLE</span>
+            <span
+              class="valeur"
+              *ngIf="usager.entretien.residence == 'AUTRE'">
+              Autre : {{ usager.entretien.residenceDetail }}
+            </span>
+            <span
+              class="valeur"
+              *ngIf="usager.entretien.residence != 'AUTRE'">
+              {{ labels.residence[usager.entretien.residence] || "Non renseigné" }}
+            </span>
+          </div>
+          <div class="col-md-4 reponses">
+            <span class="question">COMPOSITION MÉNAGE</span>
+            <span class="valeur">
+              {{ labels.residence[usager.entretien.typeMenage] || "Non renseigné" }}
+            </span>
+          </div>
+
+          <div class="col-md-4 reponses">
+            <span class="question">CAUSE DE L'INSTABILITÉ LOGEMENT</span>
+            <span
+              class="valeur"
+              *ngIf="usager.entretien.cause == 'AUTRE'">
+              Autre : {{ usager.entretien.causeDetail }}
+            </span>
+            <span
+              class="valeur"
+              *ngIf="usager.entretien.cause != 'AUTRE'">
+              {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
+            </span>
+          </div>
+
+          <div class="col-md-4 reponses">
+            <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
+            <span class="valeur">
+              {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
+              <span *ngIf="accompagnement">
+                <br>
+                <b>Suivi par :</b>
+                {{ accompagnementDetail }}
+              </span>
+            </span>
+          </div>
+
+          <div class="col-md-4 reponses"></div>
           <br>
+          <div class="col-md-12 reponses">
+            <span class="question">NOTES SUPPLÉMENTAIRES:</span>
+            <span class="valeur">{{ usager.entretien.commentaires }}</span>
+            <br>
+          </div>
+        </div>
+
+        <h4>Pièces-jointes</h4>
+        <div class="row">
+          <div class="col">
+            <div *ngIf="usager.docs.length === 0">
+              <ngb-alert [dismissible]="false">Aucune pièce-jointe enregistrée</ngb-alert>
+            </div>
+            <table
+              class="table table-light"
+              *ngIf="usager.docs.length > 0">
+              <tbody>
+                <tr>
+                  <th>Nom de la pièce justificative</th>
+                  <th>Ajoutée le</th>
+                  <th>Ajoutée par</th>
+                  <th></th>
+                </tr>
+                <tr *ngFor="let document of usager.docs; let indexDocs = index">
+                  <td>{{ document.label }}</td>
+                  <td>
+                    {{ document.createdAt | date: 'dd/MM/yyyy' }}
+                  </td>
+                  <td>{{ document.createdBy }}</td>
+                  <td>
+                    <button
+                      (click)="getDocument(indexDocs)"
+                      class="btn btn-primary"
+                      aria-label="Voir la pièce jointe">
+                      <fa-icon icon="download"></fa-icon>
+                      Télécharger
+                    </button>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-
+      <button
+        printSectionId="fiche-recap"
+        class="btn btn-primary"
+        [useExistingCss]="true"
+        ngxPrint>
+        <fa-icon icon="print"></fa-icon>
+        &ensp;
+        IMPRIMER LE RÉCAPITULATIF
+      </button>
     </ng-template>
   </ngb-panel>
 </ngb-accordion>

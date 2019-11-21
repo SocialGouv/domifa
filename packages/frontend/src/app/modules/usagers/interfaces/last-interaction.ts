@@ -1,6 +1,7 @@
 export class LastInteraction {
   public nbCourrier: number;
   public courrierIn: Date;
+  public dateInteraction: Date;
   public courrierOut: Date;
   public recommandeIn: Date;
   public recommandeOut: Date;
@@ -9,6 +10,10 @@ export class LastInteraction {
 
   constructor(lastInteraction?: any) {
     this.nbCourrier = (lastInteraction && lastInteraction.nbCourrier) || 0;
+    this.dateInteraction =
+      lastInteraction && lastInteraction.dateInteraction !== null
+        ? new Date(lastInteraction.dateInteraction)
+        : null;
     this.courrierIn =
       lastInteraction && lastInteraction.courrierIn !== null
         ? new Date(lastInteraction.courrierIn)

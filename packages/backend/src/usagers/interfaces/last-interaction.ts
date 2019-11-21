@@ -6,4 +6,5 @@ export interface LastInteraction {
   recommandeOut: Date;
   appel: Date;
   visite: Date;
+  dateInteraction: Date;
 }

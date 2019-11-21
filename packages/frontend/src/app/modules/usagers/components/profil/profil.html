@@ -103,10 +103,10 @@
             (il y a {{ usager.dayBeforeEnd*-1 }} jours)
           </span>
           <br>
-          <span *ngIf="usager.lastInteraction.visite !== null">
+          <span *ngIf="usager.lastInteraction.dateInteraction !== null">
             Dernier passage le
             <b>
-              {{ usager.lastInteraction.visite | date: 'dd/MM/yyyy' }}
+              {{ usager.lastInteraction.dateInteraction | date: 'dd/MM/yyyy' }}
             </b>
           </span>
         </div>
@@ -459,6 +459,10 @@
               <span class="question">SURNOM</span>
               <span class="valeur">{{ usager.surnom }}</span>
             </div>
+            <div class="col-md-4 reponses">
+              <span class="question">SEXE</span>
+              <span class="valeur">{{ usager.sexe }}</span>
+            </div>
 
             <div class="col-md-4 reponses">
               <span class="question">Date de naissance</span>
@@ -471,8 +475,6 @@
               <span class="question">VILLE de naissance</span>
               <span class="valeur">{{ usager.villeNaissance }}</span>
             </div>
-
-            <div class="col-md-4 reponses"></div>
 
             <div class="col-md-4 reponses">
               <span class="question">Numéro de téléphone</span>
@@ -676,7 +678,6 @@
           <app-upload
             *ngIf="usager.decision.statut !== 'RADIE'"
             [usager]="usager"></app-upload>
-
           <div *ngIf="usager.docs.length === 0">
             <ngb-alert [dismissible]="false">Aucune pièce-jointe enregistrée</ngb-alert>
           </div>

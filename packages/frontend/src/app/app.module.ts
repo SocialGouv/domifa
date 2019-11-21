@@ -12,8 +12,11 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  FaIconLibrary,
+  FontAwesomeModule
+} from "@fortawesome/angular-fontawesome";
+
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -29,8 +32,6 @@ import { StatsModule } from "./modules/stats/stats.module";
 import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
-
-library.add(fas, far);
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -71,4 +72,9 @@ library.add(fas, far);
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(library: FaIconLibrary) {
+    library.addIconPacks(fas);
+    library.addIconPacks(far);
+  }
+}

@@ -40,6 +40,7 @@ export class InteractionsService {
     }
 
     usager.lastInteraction[interactionDto.type] = new Date();
+    usager.lastInteraction.dateInteraction = new Date();
 
     if (interactionDto.nbCourrier) {
       usager.lastInteraction.nbCourrier =

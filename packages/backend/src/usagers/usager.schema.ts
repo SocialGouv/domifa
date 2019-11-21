@@ -114,6 +114,10 @@ export const UsagerSchema = new mongoose.Schema({
         type: Number,
         default: 0
       },
+      dateInteraction: {
+        type: Date,
+        default: null
+      },
       courrierIn: {
         type: Date,
         default: null
@@ -146,6 +150,7 @@ export const UsagerSchema = new mongoose.Schema({
       recommandeIn: null,
       recommandeOut: null,
       appel: null,
+      dateInteraction: null,
       visite: null
     }
   },

@@ -170,10 +170,14 @@
           class="form-control"
           id="codePostal"
           maxlength="5"
+          required
           formControlName="codePostal"
-          [ngClass]="{ 'is-invalid': f.codePostal.dirty && f.codePostal.errors }">
+          [ngClass]="{
+            'is-invalid': (f.codePostal.dirty && f.codePostal.errors) ||
+             submitted  && f.codePostal.errors
+            }">
         <div
-          *ngIf="f.codePostal.dirty && f.codePostal.errors"
+          *ngIf="f.codePostal.errors"
           class="invalid-feedback">
           Le code postal est obligatoire
         </div>
@@ -223,7 +227,7 @@
           [ngClass]="{ 'is-invalid': submitted && f.adresseCourrier.errors }">
       </div>
     </div>
-
+    <br>
     <div class="row">
       <div class="col form-group required">
         <label for="phone">Numéro de téléphone</label>
@@ -254,7 +258,7 @@
           class="form-control"
           id="email"
           formControlName="email"
-          [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+          [ngClass]="{ 'is-invalid': (submitted && f.email.errors) || (f.email.dirty && f.email.errors) }"
           required>
         <div
           *ngIf="f.email.errors"
@@ -264,7 +268,7 @@
             <b>L'adresse email est déjà utilisée</b>
           </div>
           <div
-            *ngIf="f.email.dirty && f.email.errors && !f.email.errors.emailTaken"
+            *ngIf="!f.email.errors.emailTaken"
             class="invalid-feedback">
             Veuillez vérifier l'adresse email
           </div>
@@ -427,7 +431,7 @@
         <br>
         <button
           class="btn btn-primary"
-          [disabled]="structureForm.invalid && !emailExist">
+          [disabled]="emailExist">
           Enregistrer votre structure
         </button>
         <br>

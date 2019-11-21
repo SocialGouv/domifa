@@ -222,26 +222,53 @@ export class ImportComponent implements OnInit {
           const dateNaissance = row[indexAD + 2];
           const lienParente = row[indexAD + 3];
 
-          if (nom && prenom && dateNaissance && lienParente) {
-            this.countErrors(this.notEmpty(nom), this.rowNumber, indexAD);
+          if (
+            typeof nom !== "undefined" ||
+            typeof prenom !== "undefined" ||
+            typeof dateNaissance !== "undefined" ||
+            typeof lienParente !== "undefined"
+          ) {
+            if (nom && prenom && dateNaissance && lienParente) {
+              this.countErrors(this.notEmpty(nom), this.rowNumber, indexAD);
 
-            this.countErrors(
-              this.notEmpty(prenom),
-              this.rowNumber,
-              indexAD + 1
-            );
+              this.countErrors(
+                this.notEmpty(prenom),
+                this.rowNumber,
+                indexAD + 1
+              );
 
-            this.countErrors(
-              this.validDate(dateNaissance, true),
-              this.rowNumber,
-              indexAD + 2
-            );
+              this.countErrors(
+                this.validDate(dateNaissance, true),
+                this.rowNumber,
+                indexAD + 2
+              );
 
-            this.countErrors(
-              this.isValidValue(lienParente, "lienParente", true),
-              this.rowNumber,
-              indexAD + 3
-            );
+              this.countErrors(
+                this.isValidValue(lienParente, "lienParente", true),
+                this.rowNumber,
+                indexAD + 3
+              );
+            } else {
+              this.countErrors(this.notEmpty(nom), this.rowNumber, indexAD);
+
+              this.countErrors(
+                this.notEmpty(prenom),
+                this.rowNumber,
+                indexAD + 1
+              );
+
+              this.countErrors(
+                this.notEmpty(dateNaissance),
+                this.rowNumber,
+                indexAD + 2
+              );
+
+              this.countErrors(
+                this.notEmpty(lienParente),
+                this.rowNumber,
+                indexAD + 3
+              );
+            }
           }
         }
       });
