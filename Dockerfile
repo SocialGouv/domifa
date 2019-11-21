@@ -31,4 +31,5 @@ COPY ./packages/frontend/tslint.json /app/packages/frontend/tslint.json
 
 RUN yarn build --stream
 
+COPY ./packages/backend/src/ressources /app/packages/backend/dist/ressources
 COPY ./dump_test.gzip /app/dump_test.gzip
