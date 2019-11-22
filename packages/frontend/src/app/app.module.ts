@@ -1,8 +1,4 @@
-import {
-  HTTP_INTERCEPTORS,
-  HttpClient,
-  HttpClientModule
-} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   NgModule,
@@ -19,6 +15,7 @@ import {
 
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule } from "ngx-matomo";
 import { NgxPrintModule } from "ngx-print";
@@ -72,9 +69,4 @@ import { UsersModule } from "./modules/users/users.module";
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
-export class AppModule {
-  constructor(library: FaIconLibrary) {
-    library.addIconPacks(fas);
-    library.addIconPacks(far);
-  }
-}
+export class AppModule {}

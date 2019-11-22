@@ -53,7 +53,7 @@ export class Usager {
 
   constructor(usager?: any) {
     this.id = (usager && usager.id) || 0;
-
+    this.sexe = (usager && usager.sexe) || "homme";
     this.nom = (usager && usager.nom) || "";
     this.prenom = (usager && usager.prenom) || "";
 
@@ -64,7 +64,6 @@ export class Usager {
       this.nom.toUpperCase();
 
     this.surnom = (usager && usager.surnom) || "";
-    this.sexe = (usager && usager.sexe) || "homme";
     this.dateNaissance = null;
     this.dateNaissancePicker = {};
     if (usager && usager.dateNaissance !== null) {
