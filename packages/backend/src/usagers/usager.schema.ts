@@ -35,7 +35,10 @@ export const UsagerSchema = new mongoose.Schema({
   },
 
   import: { type: Boolean, default: false },
-
+  typeDom: {
+    default: "PREMIERE",
+    type: String
+  },
   decision: {
     dateDebut: { type: Date },
     dateFin: { type: Date, default: Date.now },
@@ -59,10 +62,6 @@ export const UsagerSchema = new mongoose.Schema({
     },
     statut: {
       default: "INSTRUCTION",
-      type: String
-    },
-    typeDom: {
-      default: "PREMIERE",
       type: String
     },
     userId: Number,

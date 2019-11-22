@@ -1,46 +1,5 @@
 <div *ngIf="usager">
-  <div
-    class="step_form"
-    *ngIf="usager.decision.statut === 'REFUS'">
-    <div class="row">
-      <div class="col text-center">
-        <h4>Demande refusée</h4>
-        <p>
-          La demande de
-          <b>{{ usager.nom }} {{ usager.prenom }}</b>
-          a été refusée le
-          {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
-        </p>
-        <p class="font-weight-bold text-danger">
-          Motif :
-          {{ motifsRefus[usager.decision.motif] }}
-          <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
-        </p>
-        <p>
-          <b>Orientation proposée :</b>
-          {{ usager.decision.orientationDetails}}
-        </p>
-        <button
-          (click)="getAttestation()"
-          class="btn btn-primary">
-          <fa-icon icon="download"></fa-icon>
-          Télécharger le CERFA de refus
-        </button>
-        <br>
-        <br>
-        <p class="text-center">
-          <a
-            routerLink="/manage"
-            routerLinkActive="router-link-active">
-            Retour à la liste des domiciliés
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div
-    *ngIf="usager.decision.statut !== 'REFUS'"
-    class="container">
+  <div class="container">
     <div class="row">
       <div class="col-md-2 text-left">
         <a routerLink="/manage/">
@@ -58,6 +17,32 @@
           <h2 id="profil_name">{{ usager.nomComplet }}</h2>
           Numéro domicilié :
           <b>{{ usager.id }}</b>
+        </div>
+        <div
+          class=" text-center"
+          *ngIf="usager.decision.statut === 'REFUS'">
+
+          <h4 class="text-danger">
+            Demande refusée le {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+          </h4>
+
+          <p class="font-weight-bold text-danger">
+            Motif :
+            <span *ngIf="usager.decision.motif !== 'AUTRE'">
+              {{ motifsRefus[usager.decision.motif] }}
+            </span>
+            <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
+            <br>
+            <b>Orientation proposée :</b>
+            {{ usager.decision.orientationDetails}}
+          </p>
+          <button
+            (click)="getAttestation()"
+            class="btn btn-primary">
+            <fa-icon icon="download"></fa-icon>
+            Télécharger le CERFA de refus
+          </button>
+
         </div>
 
         <div
@@ -110,7 +95,6 @@
             </b>
           </span>
         </div>
-
         <div
           *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60"
           class="text-center row">
@@ -118,14 +102,12 @@
             <br>
           </div>
           <div class="col-md-5 offset-1">
-
             <button
               (click)="open(renewConfirmation)"
               *ngIf="usager.dayBeforeEnd < 60"
               class="btn btn-block btn-secondary">
               <fa-icon icon="redo"></fa-icon>
-              &nbsp;
-            Demande de renouvellement
+              Demande de renouvellement
             </button>
           </div>
           <div class="col-md-5">
@@ -135,8 +117,7 @@
               routerLinkActive="router-link-active"
               class="btn btn-block btn-danger">
               <fa-icon icon="times"></fa-icon>
-              &nbsp;
-            Radier le domicilié
+              Radier le domicilié
             </a>
           </div>
           <div class="w-100">
@@ -252,7 +233,9 @@
     <ngb-accordion
       #acc="ngbAccordion"
       activeIds="panel-0,panel-1,panel-5">
-      <ngb-panel id="panel-0">
+      <ngb-panel
+        id="panel-0"
+        *ngIf="usager.decision.statut !== 'REFUS'">
         <ng-template
           ngbPanelHeader
           let-opened="opened">
@@ -634,11 +617,9 @@
             <div class="col-md-4 reponses">
               <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
               <span class="valeur">
-                {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
-                <span *ngIf="accompagnement">
-                  <br>
-                  <b>Suivi par :</b>
-                  {{ accompagnementDetail }}
+                {{ usager.entretien.accompagnement ? "Oui : " : "Non" }}
+                <span *ngIf="usager.entretien.accompagnement">
+                  {{ usager.entretien.accompagnementDetail }}
                 </span>
               </span>
             </div>
@@ -745,13 +726,12 @@
             Radier le domicilié
           </a>
           &nbsp;
-          <a
-            [routerLink]="['/radiation/'+usager.id]"
-            routerLinkActive="router-link-active"
+          <button
+            (click)="open(renewConfirmation)"
             class="btn btn-outline-secondary">
             <fa-icon icon="redo"></fa-icon>
             Demande de renouvellement
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -761,28 +741,18 @@
 <ng-template
   #renewConfirmation
   let-modal>
-  <div class="modal-header">
-    <b
-      class="modal-title text-center"
-      id="modal-basic-title">
-      <fa-icon icon="exclamation-circle"></fa-icon>
-      Attention
+  <div class="modal-body text-center">
+    <b>Attention</b>
+    <br>
+    <br>
+    Si vous commencer un renouvellement,
+    <br>
+    <b>
+      ce dossier ne sera plus compté comme "actif"
     </b>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="col">
-      <p>
-        Démarrer un renouvellement retirera le domicilié de la catégories "Actif"
-          Pour le retrouver, vous devrez aller sur le bouton "A compléter"
-      </p>
-    </div>
+    <br>
+    <br>
+    Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre "A compléter
   </div>
   <div class="modal-footer">
     <button
@@ -791,7 +761,7 @@
       Revenir au profil
     </button>
     <button
-      class="btn btn-success"
+      class="btn btn-secondary"
       (click)="renouvellement();">
       Demander un renouvellement
     </button>

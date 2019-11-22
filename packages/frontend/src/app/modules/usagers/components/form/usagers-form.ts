@@ -189,6 +189,7 @@ export class UsagersFormComponent implements OnInit {
       sexe: [this.usager.sexe, Validators.required],
       structure: [this.usager.structure, []],
       surnom: [this.usager.surnom, []],
+      typeDom: [this.usager.typeDom, [Validators.required]],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]]
     });
 
@@ -329,6 +330,11 @@ export class UsagersFormComponent implements OnInit {
           this.goToTop();
           this.notifService.success("Enregistrement réussi");
           this.matomoTracker.trackEvent("dossiers", "demande", "etape", 1);
+
+          if (usager.typeDom === "RENOUVELLEMENT") {
+            this.usager = usager;
+          }
+
           this.router.navigate(["usager/" + usager.id + "/edit"]);
         },
         error => {

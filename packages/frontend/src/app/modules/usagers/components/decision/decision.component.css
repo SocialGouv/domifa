@@ -4,3 +4,8 @@
   padding: 6px 0;
   width: 100%;
 }
+
+.modal-body .col-md-12,
+.modal-body .col-md-6 {
+  padding: 5px !important;
+}

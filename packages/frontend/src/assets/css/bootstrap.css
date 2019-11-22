@@ -5602,7 +5602,7 @@ button.close {
 .modal-footer {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 1rem;
   border-top: 1px solid #e9ecef;
 }
@@ -5625,8 +5625,8 @@ button.close {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 500px;
-    margin: 1.75rem auto;
+    max-width: 600px;
+    margin: 1.8rem auto;
   }
 
   .modal-dialog-centered {

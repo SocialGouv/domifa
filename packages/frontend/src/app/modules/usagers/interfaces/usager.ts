@@ -30,6 +30,7 @@ export class Usager {
   public ayantsDroits: AyantDroit[];
 
   public agent: string;
+  public typeDom: string;
 
   public historique: string;
 
@@ -56,6 +57,7 @@ export class Usager {
     this.sexe = (usager && usager.sexe) || "homme";
     this.nom = (usager && usager.nom) || "";
     this.prenom = (usager && usager.prenom) || "";
+    this.typeDom = (usager && usager.typeDom) || "";
 
     this.nomComplet =
       (this.sexe === "homme" ? "M. " : "Mme ") +

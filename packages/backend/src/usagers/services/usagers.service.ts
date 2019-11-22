@@ -15,7 +15,6 @@ export class UsagersService {
   public sort: {};
   public searchByName: {};
   public searchQuery: SearchQuery;
-  private readonly logger = new Logger(UsagersService.name);
 
   constructor(
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
@@ -35,6 +34,10 @@ export class UsagersService {
   }
 
   public async patch(usagersDto: UsagersDto, user: User): Promise<Usager> {
+    if (usagersDto.typeDom === "RENOUVELLEMENT") {
+      usagersDto.etapeDemande = 1;
+    }
+
     return this.usagerModel
       .findOneAndUpdate(
         {

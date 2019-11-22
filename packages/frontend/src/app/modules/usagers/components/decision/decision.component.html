@@ -40,20 +40,25 @@
 <div
   class="step_form"
   id="step_form4"
-  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (isAdmin && usager.decision.statut === 'ATTENTE_DECISION')">
+  *ngIf="usager.etapeDemande >= 4 && isAdmin">
   <div class="row">
-    <div class="col">
-      <h5 class="text-center">
+    <div class="col text-center">
+      <h5>
         Le dossier de
         <b>{{ usager.nom }} {{ usager.prenom }}</b>
         est complet
       </h5>
-      <h6 class="text-center">Quelle décision souhaitez-vous rendre ?</h6>
+      <b *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
+        Ce dossier a été mis en attente d'une décision.
+        <br>
+      </b>
+      Quelle décision souhaitez-vous rendre ?
+      <br>
       <br>
       <div class="row text-center">
         <div
           class="col"
-          *ngIf="isAdmin">
+          *ngIf="isAdmin && usager.decision.statut !== 'ATTENTE_DECISION'">
           <button
             (click)="setDecision('ATTENTE_DECISION')"
             class="btn btn-block btn-primary ">
@@ -100,7 +105,7 @@
 <div
   class="step_form"
   id="fiche-recap"
-  *ngIf="usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION'">
+  *ngIf="usager.etapeDemande >= 4">
   <h4>ÉTAT CIVIL</h4>
   <div class="row">
     <div class="col-md-4 reponses">
@@ -245,11 +250,9 @@
     <div class="col-md-4 reponses">
       <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
       <span class="valeur">
-        {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
-        <span *ngIf="accompagnement">
-          <br>
-          <b>Suivi par :</b>
-          {{ accompagnementDetail }}
+        {{ usager.entretien.accompagnement ? "Oui : " : "Non" }}
+        <span *ngIf="usager.entretien.accompagnement">
+          {{ usager.entretien.accompagnementDetail }}
         </span>
       </span>
     </div>
@@ -328,82 +331,111 @@
 <ng-template
   #refus
   let-modal>
-  <div class="modal-header">
-    <b
-      class="modal-title"
-      id="modal-basic-title">
-      Motivez votre refus
-    </b>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
   <div class="modal-body">
     <form
       [formGroup]="refusForm"
       (ngSubmit)="setDecision('REFUS')"
       autocomplete="off">
-      <div class="form-group col-md-12">
-        <b>Pour quel motif ?</b>
-        <div
-          class="form-row"
-          *ngFor="let key of motifsRefusList">
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="motif-refus-{{ key }}"
-              formControlName="motif"
-              value="{{ key }}">
-            <label
-              class="form-check-label"
-              for="motif-refus-{{ key }}">
-              {{ motifsRefus[key] }}
-            </label>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="motif-autre"
-              formControlName="motif"
-              value="AUTRE">
-            <label
-              class="form-check-label"
-              for="motif-autre">
-              Autre raison
-            </label>
-          </div>
-        </div>
-        <div
-          *ngIf="r.motif.value === 'AUTRE'"
-          class="form-row">
-          <label
-            class="form-check-label"
-            for="motifRefusAutre">
-            Motif du refus
-            <span class="red">*</span>
+      <div class="col-md-12">
+        <h4>Motivez votre refus</h4>
+        <div class="form-row col-md-6">
+          <label for="dateFinRefus">
+            Date du refus
+            <span class="text-danger">*</span>
           </label>
-          <input
-            type="text"
-            class="form-control"
-            id="motifRefusAutre"
-            formControlName="motifDetails">
-          <small
-            id="refusAutres"
-            class="form-text text-muted">
-            20 caractères minimum
-          </small>
+          <div class="input-group">
+            <input
+              class="form-control"
+              placeholder="jj/mm/aaaa"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              placement="bottom"
+              ngbDatepicker
+              id="dateFinRefus"
+              formControlName="dateFinPicker"
+              #dFin="ngbDatepicker"
+              dateFr
+              value
+              [ngClass]="{ 'is-invalid': v.dateFinPicker.dirty && v.dateFinPicker.errors }"
+              maxlength="10"
+              required>
+            <div class="input-group-append">
+              <span
+                class="btn btn-outline-primary"
+                (click)="dFin.toggle()">
+                <fa-icon icon="calendar"></fa-icon>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6"></div>
+        <div class="col-md-12">
+          <b>
+            Pour quel motif ?
+            <span class="text-danger">*</span>
+          </b>
+          <div
+            class="form-row"
+            *ngFor="let key of motifsRefusList">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="motif-refus-{{ key }}"
+                formControlName="motif"
+                value="{{ key }}">
+              <label
+                class="form-check-label"
+                for="motif-refus-{{ key }}">
+                {{ labels.motifsRefus[key] }}
+              </label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="motif-autre"
+                formControlName="motif"
+                value="AUTRE">
+              <label
+                class="form-check-label"
+                for="motif-autre">
+                Autre raison
+              </label>
+            </div>
+          </div>
+
+          <div
+            *ngIf="r.motif.value === 'AUTRE'"
+            class="form-row">
+            <label
+              class="form-check-label"
+              for="motifRefusAutre">
+              Autre motif de refus
+              <span class="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="motifRefusAutre"
+              formControlName="motifDetails">
+            <small
+              id="refusAutres"
+              class="form-text text-muted">
+              10 caractères minimum
+            </small>
+          </div>
         </div>
       </div>
       <div class="form-group col-md-12">
-        <b>Orientation proposée</b>
+        <b>
+          Orientation proposée
+          <span class="text-danger">*</span>
+        </b>
         <div class="form-row">
           <div class="form-check">
             <input
@@ -435,43 +467,15 @@
           </div>
         </div>
         <div class="form-row">
-          <label for="orientationRefusDetails">Précisez</label>
+          <label for="orientationRefusDetails">
+            Précisez
+            <span class="text-danger">*</span>
+          </label>
           <input
             class="form-control"
             type="text"
             formControlName="orientationDetails"
             id="orientationRefusDetails">
-        </div>
-      </div>
-
-      <div class="form-group col-md-6">
-        <label for="dateFinRefus">
-          Date du refus
-          <fa-icon [icon]="info"></fa-icon>
-        </label>
-        <div class="input-group">
-          <input
-            class="form-control"
-            placeholder="jj/mm/aaaa"
-            [minDate]="minDate"
-            [maxDate]="maxDate"
-            placement="bottom"
-            ngbDatepicker
-            id="dateFinRefus"
-            formControlName="dateFinPicker"
-            #dFin="ngbDatepicker"
-            dateFr
-            value
-            [ngClass]="{ 'is-invalid': v.dateFinPicker.dirty && v.dateFinPicker.errors }"
-            maxlength="10"
-            required>
-          <div class="input-group-append">
-            <span
-              class="btn btn-outline-primary"
-              (click)="dFin.toggle()">
-              <fa-icon icon="calendar"></fa-icon>
-            </span>
-          </div>
         </div>
       </div>
       <input
@@ -500,22 +504,9 @@
 <ng-template
   #confirmation
   let-modal>
-  <div class="modal-header">
-    <span
-      class="modal-title"
-      id="modal-basic-title">
-      <b>Confirmer la décision</b>
-    </span>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
   <div class="modal-body text-center">
     <div class="col">
+      <h4>Confirmer la décision</h4>
       Vous êtes sur le point de domicilier
       <b>{{ usager.nom }} {{ usager.prenom }}.</b>
       <br>
@@ -554,7 +545,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group col">
+          <div class="form-group  col-md-6 required">
             <label for="dateFinValide">Date de fin</label>
             <div class="input-group">
               <input

@@ -45,6 +45,10 @@ export class UsagersDto {
   public structureId: number;
 
   @IsOptional()
+  @IsIn(["RENOUVELLEMENT", "PREMIERE"])
+  public typeDom: string;
+
+  @IsOptional()
   public preference: {
     email: boolean;
     phone: boolean;
