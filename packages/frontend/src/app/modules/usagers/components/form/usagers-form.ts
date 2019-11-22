@@ -189,7 +189,7 @@ export class UsagersFormComponent implements OnInit {
       sexe: [this.usager.sexe, Validators.required],
       structure: [this.usager.structure, []],
       surnom: [this.usager.surnom, []],
-      typeDom: [this.usager.typeDom, [Validators.required]],
+      typeDom: [this.usager.typeDom],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]]
     });
 
