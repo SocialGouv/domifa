@@ -94,3 +94,9 @@
   border: 1px dotted var(--danger);
   color: var(--danger);
 }
+
+#errors-list {
+  margin: 20px auto;
+  padding: 15px 10px;
+  border: 1px solid var(--danger);
+}

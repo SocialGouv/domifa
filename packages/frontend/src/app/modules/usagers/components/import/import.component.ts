@@ -8,11 +8,6 @@ import * as XLSX from "xlsx";
 import { regexp } from "../../../../shared/validators";
 import { UsagerService } from "../../services/usager.service";
 
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { far } from "@fortawesome/free-regular-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-library.add(fas, far);
-
 export const CIVILITE = 0;
 export const NOM = 1;
 export const PRENOM = 2;
@@ -30,6 +25,42 @@ export const MOTIF_REFUS = 13;
 export const MOTIF_RADIATION = 14;
 export const COMPOSITION_MENAGE = 15;
 export const AYANT_DROIT = [16, 20, 24, 28];
+
+export const colNames = [
+  "Civilité",
+  "Nom",
+  "Prénom",
+  "Surnom",
+  "Date naissance",
+  "Lieu naissance",
+  "Email",
+  "Téléphone",
+  "Statut de la domiciliation",
+  "Type de domiciliation",
+  "Date de début",
+  "Dom actuelle",
+  "Date début de la DOM actuelle",
+  "Date 1ere domiciliation",
+  "Motif de refus",
+  "Motif de radiation",
+  "Composition du ménage",
+  "Ayant-droit 1: nom",
+  "Ayant-droit 1: prénom",
+  "Ayant-droit 1: date naissance",
+  "Ayant-droit 1: lien parenté",
+  "Ayant-droit 2: nom",
+  "Ayant-droit 2: prénom",
+  "Ayant-droit 2: date naissance",
+  "Ayant-droit 2: lien parenté",
+  "Ayant-droit 3: nom",
+  "Ayant-droit 3: prénom",
+  "Ayant-droit 3: date naissance",
+  "Ayant-droit 3: lien parenté",
+  "Ayant-droit 4: nom",
+  "Ayant-droit 4: prénom",
+  "Ayant-droit 4: date de naissance",
+  "Ayant-droit 4: ien parenté"
+];
 
 type AOA = any[][];
 
@@ -53,16 +84,17 @@ export class ImportComponent implements OnInit {
   public success: boolean;
   public uploadError: boolean;
   public showTable: boolean;
-
+  public showErrors: boolean;
   public nbreAyantsDroits: any[];
 
   public errorsId: any[];
   public errorsColumn = new Array(32);
 
-  public errorsRow: any;
+  public errorsRow: any[][];
 
   public rowNumber: number;
 
+  public colNames: string[];
   public etapeImport: number;
   public etapes = [
     "Enregistrement de la structure",
@@ -91,11 +123,13 @@ export class ImportComponent implements OnInit {
     this.etapeImport = 0;
     this.showTable = false;
 
+    this.colNames = colNames;
     this.title = "Importer vos domiciliés";
 
     this.errorsId = [];
-    this.errorsRow = {};
+    this.errorsRow = [];
 
+    this.showErrors = false;
     this.errorsList = {};
     this.canUpload = false;
 
@@ -294,11 +328,6 @@ export class ImportComponent implements OnInit {
     );
   }
 
-  public showErrors() {
-    this.errorsList = this.errorsRow;
-    this.errorsList = { ...this.errorsRow };
-  }
-
   public isAnError(idRow: number, idColumn: number) {
     const position = idRow.toString() + "_" + idColumn.toString();
     return this.errorsId.indexOf(position) > -1;
@@ -311,12 +340,13 @@ export class ImportComponent implements OnInit {
     this.errorsColumn[idColumn]++;
 
     const position = idRow.toString() + "_" + idColumn.toString();
+
     if (variable !== true) {
-      if (this.errorsRow["Ligne " + idRow.toString()] === undefined) {
-        this.errorsRow["Ligne " + idRow.toString()] = [];
+      if (this.errorsRow[idRow] === undefined) {
+        this.errorsRow[idRow] = [];
       }
 
-      this.errorsRow["Ligne " + idRow.toString()].push(idColumn);
+      this.errorsRow[idRow].push(idColumn);
       this.errorsId.push(position);
     }
     return variable;

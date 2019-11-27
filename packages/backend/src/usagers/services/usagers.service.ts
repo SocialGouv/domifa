@@ -87,7 +87,9 @@ export class UsagersService {
       .findOneAndUpdate(
         { id: usager.id, structureId: user.structureId },
         {
-          $push: { historique: lastDecision },
+          $push: {
+            historique: lastDecision
+          },
           $set: {
             decision,
             etapeDemande: 0,

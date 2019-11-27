@@ -32,7 +32,7 @@ export class Usager {
   public agent: string;
   public typeDom: string;
 
-  public historique: string;
+  public historique: Decision[];
 
   public preference: {
     email: boolean;
@@ -43,6 +43,7 @@ export class Usager {
   public lastInteraction: LastInteraction;
 
   public dayBeforeEnd: number;
+
   public decision: any;
 
   public dateNaissancePicker: any;
@@ -86,7 +87,16 @@ export class Usager {
 
     this.structure = (usager && parseInt(usager.structure, 10)) || 2;
     this.etapeDemande = (usager && parseInt(usager.etapeDemande, 10)) || 0;
-    this.historique = (usager && usager.historique) || "";
+
+    if (usager && usager.historique) {
+      this.historique = [];
+      usager.historique.forEach((decision: Decision) => {
+        this.historique.push(new Decision(decision));
+      });
+      this.historique.sort((a, b) => {
+        return b.dateDecision.getTime() - a.dateDecision.getTime();
+      });
+    }
 
     this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv({});
     this.lastInteraction =

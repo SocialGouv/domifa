@@ -41,9 +41,9 @@ export class UsagersProfilComponent implements OnInit {
 
   public interactionsLabels: any;
   public decisionLabels = {
-    ATTENTE_DECISION: "Demande déposée",
+    ATTENTE_DECISION: "Demande de domiciliation déposée",
     IMPORT: "Dossier importé",
-    INSTRUCTION: "Instruction",
+    INSTRUCTION: "Instruction du dossier",
     RADIE: "Radiation",
     REFUS: "Demande refusée",
     VALIDE: "Domiciliation acceptée"

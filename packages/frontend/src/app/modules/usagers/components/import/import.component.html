@@ -160,6 +160,35 @@
       class="btn btn-danger">
       Recommencer
     </button>
+    &nbsp;
+    <button
+      *ngIf="errorsId.length > 0"
+      (click)="showErrors = !showErrors"
+      class="btn btn-outline-danger">
+      <fa-icon icon="eye"></fa-icon>
+      {{ showErrors ? "Masquer" : "Voir" }} les erreurs
+    </button>
+
+    <div
+      class="row"
+      id="errors-list"
+      *ngIf="showErrors">
+      <ng-container *ngFor="let rowError of errorsRow; let i = index">
+        <div
+          class="col text-left"
+          *ngIf="rowError && rowError.length > 0">
+          <b>Ligne {{ i+1 }}</b>
+          <br>
+          <span *ngFor="let colError of rowError">
+            - {{ colNames[colError] }}
+            <br>
+          </span>
+          <br>
+        </div>
+      </ng-container>
+
+    </div>
+
     <div
       id="import-table"
       *ngIf="!uploadForm.invalid">

@@ -127,9 +127,7 @@
             <br>
           </div>
         </div>
-
       </div>
-
       <br>
       <ngb-alert
         type="warning"
@@ -368,38 +366,56 @@
             class="table table-light table-hover">
             <thead>
               <tr>
+                <th>Date</th>
                 <th>Type de décision</th>
-                <th>Date décision</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>
-                  {{ decisionLabels[usager.decision.statut] }}
-                </td>
-                <td>
-                  {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
-                </td>
-                <td>
-                  {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
-                </td>
-                <td>
                   {{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}
                 </td>
+                <td>
+                  {{ decisionLabels[usager.decision.statut] }}
+                  <b *ngIf="usager.decision.statut === 'VALIDE'">
+                    du {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
+                    au {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
+                  </b>
+                  <b *ngIf="usager.decision.statut === 'RADIE'">
+                    -
+                    <span *ngIf="usager.decision.motif !== 'AUTRE'">
+                      {{ motifsRadiation[usager.decision.motif] }}
+                    </span>
+                    <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
+                  </b>
+                </td>
+
                 <td>{{ usager.decision.userName }}</td>
               </tr>
               <tr *ngFor="let histo of usager.historique">
-                <td>{{ decisionLabels[histo.statut] }}</td>
-                <td>
-                  {{ histo.dateDebut | date: 'dd/MM/yyyy' }}
-                </td>
-                <td>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</td>
                 <td>
                   {{ histo.dateDecision | date: 'dd/MM/yyyy'}}
                 </td>
+                <td>
+                  {{ decisionLabels[histo.statut] }}
+                  <span *ngIf="histo.statut === 'VALIDE'">
+                    du
+                    <b>
+                      {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
+                    </b>
+                    au
+                    <b>
+                      {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
+                    </b>
+                  </span>
+                  <div *ngIf="histo.statut === 'RADIE'">
+                    -
+                    <span *ngIf="histo.motif !== 'AUTRE'">{{ motifsRadiation[histo.motif] }}</span>
+                    <span *ngIf="histo.motif === 'AUTRE'">{{ histo.motifDetails }}</span>
+                  </div>
+                </td>
+
                 <td>{{ histo.userName }}</td>
               </tr>
             </tbody>
@@ -660,7 +676,7 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <app-upload
-            *ngIf="usager.decision.statut !== 'RADIE'"
+            *ngIf="usager.decision.statut === 'VALIDE'"
             [usager]="usager"></app-upload>
           <div *ngIf="usager.docs.length === 0">
             <ngb-alert [dismissible]="false">Aucune pièce-jointe enregistrée</ngb-alert>

@@ -217,7 +217,7 @@ export class UsagersFormComponent implements OnInit {
       residence: [this.usager.entretien.residence, []],
       residenceDetail: [this.usager.entretien.residenceDetail, []],
       revenus: [this.usager.entretien.revenus, []],
-      revenusDetail: [this.usager.entretien.revenus, []],
+      revenusDetail: [this.usager.entretien.revenusDetail, []],
       typeMenage: [this.usager.entretien.typeMenage, []]
     });
 
