@@ -18,7 +18,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
-import * as Sentry from "@sentry/types";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
@@ -122,6 +121,12 @@ export class UsagersController {
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
     return this.usagersService.renouvellement(usager, user);
+  }
+
+  @UseGuards(RolesGuard)
+  @Get("stats")
+  public async stats() {
+    return this.usagersService.stats();
   }
 
   @UseGuards(RolesGuard)

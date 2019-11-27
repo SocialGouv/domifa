@@ -1,19 +1,29 @@
-<div class="container">
-  <div class="row ">
-    <div class="text-center col-md-12">
-      <h4>Structures existantes</h4>
-    </div>
+<div
+  id="stats"
+  class="row">
+  <div class="col-6 offset-3">
+
+    <h4 class="text-center ">Structures existantes</h4>
+
     <div
-      class="card col-md-6 text-left"
-      *ngFor="let structure of structures">
-      <a class="nav-link">
-        <b>{{ structure.nom }}</b>
-        <br>
-        {{ structure.adresse }},
-        <i>
-          {{ structure.ville }} ({{ structure.codePostal }})
-        </i>
-      </a>
+      class="card"
+      *ngFor="let structure of structures; let i = index">
+      <div class="row">
+        <div class="col-md-7">
+          <b>#{{i+1}} {{ structure.nom }}</b>
+          <br>
+          {{ structure.adresse }},
+          <i>
+            {{ structure.ville }} ({{ structure.codePostal }})
+          </i>
+        </div>
+        <ul class="list-inline">
+          <li *ngFor="let stat of stats[structure.id]">
+            <b>{{stat.statut}} :</b>
+            {{ stat.sum }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

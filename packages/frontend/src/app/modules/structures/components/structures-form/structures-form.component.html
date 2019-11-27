@@ -298,7 +298,8 @@
           (selectItem)="selectDepartement($event)"
           [resultTemplate]="rtDepartement"
           placeholder="Tapez le numéro du département"
-          [inputFormatter]="formatDepartement">
+          [inputFormatter]="formatDepartement"
+          required>
         <div
           *ngIf="submitted && f.departement.errors"
           class="invalid-feedback">

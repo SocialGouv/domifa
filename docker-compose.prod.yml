@@ -16,7 +16,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - /mnt/files/:/files
+      - /mnt/files/:/files/
 
   mongo:
     image: "mongo:4.2.1"

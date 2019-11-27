@@ -57,7 +57,6 @@ export class Usager {
     this.sexe = (usager && usager.sexe) || "homme";
     this.nom = (usager && usager.nom) || "";
     this.prenom = (usager && usager.prenom) || "";
-    this.typeDom = (usager && usager.typeDom) || "";
 
     this.nomComplet =
       (this.sexe === "homme" ? "M. " : "Mme ") +
@@ -127,5 +126,7 @@ export class Usager {
       appel: isToday(new Date(this.lastInteraction.appel)),
       visite: isToday(new Date(this.lastInteraction.visite))
     };
+
+    this.typeDom = (usager && usager.typeDom) || "PREMIERE";
   }
 }

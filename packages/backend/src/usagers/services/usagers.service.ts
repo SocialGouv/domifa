@@ -34,7 +34,10 @@ export class UsagersService {
   }
 
   public async patch(usagersDto: UsagersDto, user: User): Promise<Usager> {
-    if (usagersDto.typeDom === "RENOUVELLEMENT") {
+    if (
+      usagersDto.typeDom === "RENOUVELLEMENT" ||
+      usagersDto.etapeDemande === 0
+    ) {
       usagersDto.etapeDemande = 1;
     }
 
@@ -314,6 +317,26 @@ export class UsagersService {
     const createdUsager = new this.usagerModel(data);
     createdUsager.id = await this.findLast(user.structureId);
     return createdUsager.save();
+  }
+
+  public async stats() {
+    return this.usagerModel
+      .aggregate([
+        {
+          $group: {
+            _id: { structureId: "$structureId", statut: "$decision.statut" },
+            statuts: { $push: "$decision.statut" },
+            total: { $sum: 1 }
+          }
+        },
+        {
+          $group: {
+            _id: { structureId: "$_id.structureId" },
+            statut: { $addToSet: { statut: "$_id.statut", sum: "$total" } }
+          }
+        }
+      ])
+      .exec();
   }
 
   public async findLast(structureId: number): Promise<number> {

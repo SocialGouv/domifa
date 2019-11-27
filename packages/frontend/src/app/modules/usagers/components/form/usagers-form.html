@@ -851,6 +851,23 @@
                 </label>
               </div>
             </div>
+
+            <div
+              *ngIf="e.revenus.value === true"
+              class="form-group">
+              <br>
+              <label
+                class="form-check-label"
+                for="revenusDetail">
+                De quelle nature ?
+              </label>
+              <textarea
+                class="form-control"
+                formControlName="revenusDetail"
+                name="revenusDetail"
+                id="revenusDetail"></textarea>
+            </div>
+
             <div>
               <span class="label">Quel est votre lien avec la commune ?</span>
               <textarea

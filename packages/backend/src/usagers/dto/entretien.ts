@@ -8,7 +8,10 @@ export class EntretienDto {
   public revenus: boolean;
 
   @IsOptional()
-  public typeRevenus: string;
+  public revenusDetail: string;
+
+  @IsOptional()
+  public typeMenage: string;
 
   @IsOptional()
   public liencommune: string;
@@ -36,6 +39,7 @@ export class EntretienDto {
 
   @IsOptional()
   public accompagnementDetail: string;
+
   @IsOptional()
   public commentaires: string;
 }

@@ -83,12 +83,14 @@ export const UsagerSchema = new mongoose.Schema({
       residence: String,
       residenceDetail: String,
       revenus: Boolean,
+      revenusDetail: String,
       cause: String,
       causeDetail: String,
       pourquoi: String,
       pourquoiDetail: String,
       accompagnement: Boolean,
       accompagnementDetail: String,
+      typeMenage: String,
       commentaires: String
     },
     default: {
@@ -97,13 +99,15 @@ export const UsagerSchema = new mongoose.Schema({
       residence: null,
       residenceDetail: null,
       revenus: null,
+      revenusDetail: null,
       cause: null,
       causeDetail: null,
       pourquoi: null,
       pourquoiDetail: null,
       accompagnement: null,
       accompagnementDetail: null,
-      commentaires: null
+      commentaires: null,
+      typeMenage: null
     }
   },
 

@@ -1,6 +1,7 @@
 export class Entretien {
   public domiciliation: boolean;
   public revenus: boolean;
+  public revenusDetail: string;
   public liencommune: string;
   public residence: string;
   public residenceDetail: string;
@@ -16,6 +17,7 @@ export class Entretien {
   constructor(entretien?: any) {
     this.domiciliation = (entretien && entretien.domiciliation) || false;
     this.revenus = (entretien && entretien.revenus) || false;
+    this.revenusDetail = (entretien && entretien.revenusDetail) || null;
     this.liencommune = (entretien && entretien.liencommune) || null;
     this.residence = (entretien && entretien.residence) || null;
     this.residenceDetail = (entretien && entretien.residenceDetail) || null;

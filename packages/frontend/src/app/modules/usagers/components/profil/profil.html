@@ -21,11 +21,9 @@
         <div
           class=" text-center"
           *ngIf="usager.decision.statut === 'REFUS'">
-
           <h4 class="text-danger">
-            Demande refusée le {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+            Demande refusée le {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}
           </h4>
-
           <p class="font-weight-bold text-danger">
             Motif :
             <span *ngIf="usager.decision.motif !== 'AUTRE'">
@@ -48,16 +46,21 @@
         <div
           class="text-center font-weight-bold text-danger"
           *ngIf="usager.decision.statut === 'RADIE'">
-          <p>
-            <fa-icon icon="ban"></fa-icon>
+
+          <h4 class="text-danger">
             Radié{{ usager.sexe === "homme" ? "" : "e" }} le {{ usager.decision.dateDecision | date: 'dd/MM/yyyy à HH:MM' }}
-          </p>
+            <br>
+            <span *ngIf="usager.decision.motif !== 'AUTRE'">
+              {{ motifsRadiation[usager.decision.motif] }}
+            </span>
+            <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
+          </h4>
           <a
             [routerLink]="['/radiation/'+usager.id]"
-            class="btn btn-outline-primary">
+            class="btn btn-primary">
             <fa-icon icon="print"></fa-icon>
             &ensp;
-            IMPRIMER LE COURRIER DE RADIATION
+            Imprimer le courrier de radiation
           </a>
         </div>
         <div
@@ -555,7 +558,7 @@
             <div class="col-md-4 reponses">
               <span class="question">REVENUS</span>
               <span class="valeur">
-                {{ usager.entretien.revenus ? "Oui" : "Non" }}
+                {{ usager.entretien.revenus ? "Oui: " + usager.entretien.revenusDetail : "Non" }}
               </span>
             </div>
 
@@ -596,7 +599,7 @@
             <div class="col-md-4 reponses">
               <span class="question">COMPOSITION MÉNAGE</span>
               <span class="valeur">
-                {{ labels.residence[usager.entretien.typeMenage] || "Non renseigné" }}
+                {{ labels.typeMenage[usager.entretien.typeMenage] || "Non renseigné" }}
               </span>
             </div>
 

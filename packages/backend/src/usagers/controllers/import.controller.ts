@@ -314,7 +314,7 @@ export class ImportController {
           }
         ],
         nom: row[NOM],
-        phone: row[PHONE],
+        phone: row[PHONE].replace(/\D/g, ""),
         prenom: row[PRENOM],
         sexe,
         structureId: user.structureId,

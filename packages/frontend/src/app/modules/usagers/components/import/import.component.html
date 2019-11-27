@@ -152,15 +152,6 @@
         <br>
         Les champs incorrects sont marqués en rouge dans le tableau ci-dessous
       </p>
-      <p *ngIf="emailErrors > 0 || phoneErrors > 0">
-        <b *ngIf="emailErrors > 0">
-          {{ emailErrors+1 }} emails sont identiques
-        </b>
-        <br>
-        <b *ngIf="phoneErrors > 0">
-          {{ phoneErrors+1 }} numéros de Téléphone sont identiques
-        </b>
-      </p>
     </div>
 
     <button
@@ -169,7 +160,6 @@
       class="btn btn-danger">
       Recommencer
     </button>
-
     <div
       id="import-table"
       *ngIf="!uploadForm.invalid">
@@ -265,6 +255,7 @@
           </tr>
         </tbody>
       </table>
+
     </div>
   </div>
 </div>

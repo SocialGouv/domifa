@@ -6,7 +6,6 @@ mongoose.set("useCreateIndex", true);
 // mongoose.set("debug", true);
 
 const config = new ConfigService();
-
 const user = config.get("DB_USER");
 const password = config.get("DB_PASS");
 const host = config.get("DB_HOST");

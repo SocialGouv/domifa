@@ -47,6 +47,7 @@ export class ImportComponent implements OnInit {
 
   public uploadForm: FormGroup;
   public fileName: string;
+  public errorsList: any;
 
   public canUpload: boolean;
   public success: boolean;
@@ -58,11 +59,7 @@ export class ImportComponent implements OnInit {
   public errorsId: any[];
   public errorsColumn = new Array(32);
 
-  public emailErrors: number = 0;
-  public phoneErrors: number = 0;
-
-  public emails: string[];
-  public phones: string[];
+  public errorsRow: any;
 
   public rowNumber: number;
 
@@ -96,9 +93,10 @@ export class ImportComponent implements OnInit {
 
     this.title = "Importer vos domiciliés";
 
-    this.emails = [];
-    this.phones = [];
     this.errorsId = [];
+    this.errorsRow = {};
+
+    this.errorsList = {};
     this.canUpload = false;
 
     this.nbreAyantsDroits = [16, 20, 24, 28];
@@ -230,7 +228,6 @@ export class ImportComponent implements OnInit {
           ) {
             if (nom && prenom && dateNaissance && lienParente) {
               this.countErrors(this.notEmpty(nom), this.rowNumber, indexAD);
-
               this.countErrors(
                 this.notEmpty(prenom),
                 this.rowNumber,
@@ -297,6 +294,11 @@ export class ImportComponent implements OnInit {
     );
   }
 
+  public showErrors() {
+    this.errorsList = this.errorsRow;
+    this.errorsList = { ...this.errorsRow };
+  }
+
   public isAnError(idRow: number, idColumn: number) {
     const position = idRow.toString() + "_" + idColumn.toString();
     return this.errorsId.indexOf(position) > -1;
@@ -310,6 +312,11 @@ export class ImportComponent implements OnInit {
 
     const position = idRow.toString() + "_" + idColumn.toString();
     if (variable !== true) {
+      if (this.errorsRow["Ligne " + idRow.toString()] === undefined) {
+        this.errorsRow["Ligne " + idRow.toString()] = [];
+      }
+
+      this.errorsRow["Ligne " + idRow.toString()].push(idColumn);
       this.errorsId.push(position);
     }
     return variable;
@@ -331,28 +338,13 @@ export class ImportComponent implements OnInit {
       return true;
     }
 
-    if (this.phones.indexOf(phone) > -1) {
-      this.phoneErrors++;
-      return false;
-    }
-
-    this.phones.push(phone);
-
-    return RegExp(regexp.phone).test(phone);
+    return RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
   }
 
   public validEmail(email: string): boolean {
     if (!email || email === null || email === "") {
       return true;
     }
-
-    if (this.emails.indexOf(email) > -1) {
-      this.emailErrors++;
-
-      return false;
-    }
-
-    this.emails.push(email);
     return RegExp(regexp.email).test(email);
   }
 

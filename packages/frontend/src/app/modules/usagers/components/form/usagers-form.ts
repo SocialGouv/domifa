@@ -207,17 +207,18 @@ export class UsagersFormComponent implements OnInit {
         [Validators.required]
       ],
       accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
-      cause: [this.usager.entretien.cause, [Validators.required]],
+      cause: [this.usager.entretien.cause, []],
       causeDetail: [this.usager.entretien.causeDetail, []],
       commentaires: [this.usager.entretien.commentaires, []],
       domiciliation: [this.usager.entretien.domiciliation, []],
       liencommune: [this.usager.entretien.liencommune, []],
-      raison: [this.usager.entretien.raison, [Validators.required]],
+      raison: [this.usager.entretien.raison, []],
       raisonDetail: [this.usager.entretien.raisonDetail, []],
-      residence: [this.usager.entretien.residence, [Validators.required]],
+      residence: [this.usager.entretien.residence, []],
       residenceDetail: [this.usager.entretien.residenceDetail, []],
       revenus: [this.usager.entretien.revenus, []],
-      typeMenage: [this.usager.entretien.typeMenage, [Validators.required]]
+      revenusDetail: [this.usager.entretien.revenus, []],
+      typeMenage: [this.usager.entretien.typeMenage, []]
     });
 
     this.userService.getUsers().subscribe((users: User[]) => {
@@ -330,11 +331,7 @@ export class UsagersFormComponent implements OnInit {
           this.goToTop();
           this.notifService.success("Enregistrement réussi");
           this.matomoTracker.trackEvent("dossiers", "demande", "etape", 1);
-
-          if (usager.typeDom === "RENOUVELLEMENT") {
-            this.usager = usager;
-          }
-
+          this.usager = usager;
           this.router.navigate(["usager/" + usager.id + "/edit"]);
         },
         error => {

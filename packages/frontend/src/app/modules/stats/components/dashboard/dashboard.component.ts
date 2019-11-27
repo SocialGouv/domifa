@@ -10,6 +10,7 @@ import { StatsService } from "../../stats.service";
 })
 export class DashboardComponent implements OnInit {
   public title: string;
+  public stats: any;
   public structures: Structure[];
   constructor(
     public statsService: StatsService,
@@ -18,8 +19,15 @@ export class DashboardComponent implements OnInit {
 
   public ngOnInit() {
     this.title = "Statistiques";
+    this.stats = [];
     this.structureService.findAll().subscribe((structures: Structure[]) => {
       this.structures = structures;
+    });
+
+    this.statsService.getStatuts().subscribe((stats: any[]) => {
+      stats.forEach(stat => {
+        this.stats[stat._id.structureId] = stat.statut;
+      });
     });
   }
 }

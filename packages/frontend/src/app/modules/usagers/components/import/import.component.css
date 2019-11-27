@@ -11,6 +11,23 @@
   vertical-align: middle;
 }
 
+#import-table th:first-child,
+#import-table td:first-child {
+  position: sticky;
+  left: 0px;
+  width: 60px;
+}
+
+#import-table tbody tr:nth-of-type(odd) th:first-child,
+#import-table tbody tr:nth-of-type(odd) td:first-child {
+  background-color: #f1f2f1 !important;
+}
+
+#import-table tbody tr:nth-of-type(even) th:first-child,
+#import-table tbody tr:nth-of-type(even) td:first-child {
+  background-color: white !important;
+}
+
 #import-table {
   margin: 20px auto;
   overflow-x: scroll;

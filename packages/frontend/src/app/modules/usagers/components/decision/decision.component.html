@@ -8,12 +8,11 @@
       </h5>
       <br>
       La demande d'élection de domicile de
-      <b>{{ usager.nom }} {{ usager.prenom }}</b>
+      <b>{{ usager.nomComplet }}</b>
       a été envoyée le
       <b>
-        {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}.
+        {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}.
       </b>
-      <br>
       <br>
       La personne référente dans votre structure est invitée à statuer sur cette demande
       <br>
@@ -40,66 +39,77 @@
 <div
   class="step_form"
   id="step_form4"
-  *ngIf="usager.etapeDemande >= 4 && isAdmin">
+  *ngIf="usager.etapeDemande >= 4 && !isAdmin && usager.decision.statut === 'INSTRUCTION'">
   <div class="row">
-    <div class="col text-center">
+    <div class="col-md-12 text-center">
       <h5>
         Le dossier de
         <b>{{ usager.nom }} {{ usager.prenom }}</b>
         est complet
       </h5>
-      <b *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
-        Ce dossier a été mis en attente d'une décision.
-        <br>
-      </b>
-      Quelle décision souhaitez-vous rendre ?
-      <br>
-      <br>
-      <div class="row text-center">
-        <div
-          class="col"
-          *ngIf="isAdmin && usager.decision.statut !== 'ATTENTE_DECISION'">
-          <button
-            (click)="setDecision('ATTENTE_DECISION')"
-            class="btn btn-block btn-primary ">
-            <fa-icon icon="clock"></fa-icon>
-            METTRE EN ATTENTE
-          </button>
-        </div>
-        <div
-          class="col"
-          *ngIf="!isAdmin">
-          <button
-            (click)="setDecision('ATTENTE_DECISION')"
-            class="btn btn-block btn-primary ">
-            <fa-icon icon="clock"></fa-icon>
-            DEMANDER LA VALIDATION DU DOSSIER
-          </button>
-        </div>
-
-        <div
-          class="col"
-          *ngIf="isAdmin">
-          <button
-            class="btn-block btn btn-danger"
-            (click)="open(refus)">
-            <fa-icon icon="times"></fa-icon>
-            REFUSER LE DOSSIER
-          </button>
-        </div>
-        <div
-          class="col"
-          *ngIf="isAdmin">
-          <button
-            class="btn-block btn btn-secondary"
-            (click)="open(confirmation)">
-            <fa-icon icon="check"></fa-icon>
-            ACCEPTER LE DOSSIER
-          </button>
-        </div>
-
-      </div>
     </div>
+    <div class="col-md-6 offset-3">
+      <button
+        (click)="setDecision('ATTENTE_DECISION')"
+        class="btn btn-block btn-primary ">
+        <fa-icon icon="clock"></fa-icon>
+        DEMANDER LA VALIDATION DU DOSSIER
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  class="step_form"
+  id="step_form4"
+  *ngIf="usager.etapeDemande >= 4 && isAdmin">
+  <div class="col text-center">
+    <h5>
+      Le dossier de
+      <b>{{ usager.nom }} {{ usager.prenom }}</b>
+      est complet
+    </h5>
+    <br>
+    <p *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
+      Ce dossier a été mis en attente d'une décision par
+      <br>
+      <b>
+        {{ usager.decision.userName }}
+        le {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}
+      </b>
+    </p>
+    <p>Quelle décision souhaitez-vous rendre ?</p>
+
+    <div class="row text-center">
+      <div
+        class="col"
+        *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'">
+        <button
+          (click)="setDecision('ATTENTE_DECISION')"
+          class="btn btn-block btn-primary ">
+          <fa-icon icon="clock"></fa-icon>
+          METTRE EN ATTENTE
+        </button>
+      </div>
+      <div class="col">
+        <button
+          class="btn-block btn btn-danger"
+          (click)="open(refus)">
+          <fa-icon icon="times"></fa-icon>
+          REFUSER LE DOSSIER
+        </button>
+      </div>
+      <div class="col">
+        <button
+          class="btn-block btn btn-secondary"
+          (click)="open(confirmation)">
+          <fa-icon icon="check"></fa-icon>
+          ACCEPTER LE DOSSIER
+        </button>
+      </div>
+
+    </div>
+
   </div>
 </div>
 <div
@@ -188,7 +198,7 @@
     <div class="col-md-4 reponses">
       <span class="question">REVENUS</span>
       <span class="valeur">
-        {{ usager.entretien.revenus ? "Oui" : "Non" }}
+        {{ usager.entretien.revenus ? "Oui, " + usager.entretien.revenusDetail : "Non" }}
       </span>
     </div>
 
@@ -229,7 +239,7 @@
     <div class="col-md-4 reponses">
       <span class="question">COMPOSITION MÉNAGE</span>
       <span class="valeur">
-        {{ labels.residence[usager.entretien.typeMenage] || "Non renseigné" }}
+        {{ labels.typeMenage[usager.entretien.typeMenage] || "Non renseigné" }}
       </span>
     </div>
 
