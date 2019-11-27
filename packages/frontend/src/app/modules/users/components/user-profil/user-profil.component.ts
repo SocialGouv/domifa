@@ -21,7 +21,7 @@ export class UserProfilComponent implements OnInit {
   public selectedUser: number;
 
   constructor(
-    private readonly authService: AuthService,
+    public readonly authService: AuthService,
     private readonly userService: UsersService,
     private readonly router: Router,
     private modalService: NgbModal
