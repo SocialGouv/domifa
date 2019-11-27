@@ -284,6 +284,9 @@ export class ImportController {
         }
       }
 
+      const phone = !row[PHONE] ? null : row[PHONE].replace(/\D/g, "");
+      const email = !row[EMAIL] ? null : row[EMAIL].toLowerCase();
+
       const usager = {
         agent,
         ayantsDroits,
@@ -299,7 +302,7 @@ export class ImportController {
           userId: user.id,
           userName: agent
         },
-        email: row[EMAIL],
+        email,
         etapeDemande: 5,
         historique: [
           {
@@ -314,7 +317,7 @@ export class ImportController {
           }
         ],
         nom: row[NOM],
-        phone: row[PHONE].replace(/\D/g, ""),
+        phone,
         prenom: row[PRENOM],
         sexe,
         structureId: user.structureId,
