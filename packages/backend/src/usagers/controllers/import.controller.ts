@@ -303,6 +303,9 @@ export class ImportController {
           userName: agent
         },
         email,
+        entretien: {
+          typeMenage: row[MENAGE]
+        },
         etapeDemande: 5,
         historique: [
           {
