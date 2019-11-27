@@ -9,6 +9,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxPrintModule } from "ngx-print";
 import { ToastrModule } from "ngx-toastr";
+import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { SharedModule } from "../shared/shared.module";
 import { DecisionComponent } from "./components/decision/decision.component";
 import { UsagersFormComponent } from "./components/form/usagers-form";
@@ -61,6 +62,11 @@ import { UsagerService } from "./services/usager.service";
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [DocumentService, UsagerService, InteractionService]
+  providers: [
+    DocumentService,
+    UsagerService,
+    InteractionService,
+    NgbDateCustomParserFormatter
+  ]
 })
 export class UsagersModule {}

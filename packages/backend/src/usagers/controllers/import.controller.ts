@@ -207,11 +207,11 @@ export class ImportController {
         if (index + 1 >= datas.length) {
           this.logger.log("FIN DU FICHIER");
           if (this.errorsId.length > 0) {
-            this.logger.log("Erreurs -> " + this.errorsId.length);
-            return res.status(HttpStatus.NOT_ACCEPTABLE).json({
-              errorsNbre: this.errorsId.length,
-              message: "ERRORS_IN_FILE"
-            });
+            const error = {
+              errors: this.errorsId,
+              message: "IMPORT_ERRORS_BACKEND"
+            };
+            throw new HttpException(error, HttpStatus.BAD_REQUEST);
           }
 
           try {
@@ -369,7 +369,7 @@ export class ImportController {
     if (!phone || phone === null || phone === "") {
       return true;
     }
-    return RegExp(regexp.phone).test(phone);
+    return RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
   }
 
   private validEmail(email: string): boolean {

@@ -233,7 +233,7 @@
     </ngb-alert>
     <ngb-accordion
       #acc="ngbAccordion"
-      activeIds="panel-0,panel-1,panel-5">
+      activeIds="panel-0,panel-1,panel-2,panel-5">
       <ngb-panel
         id="panel-0"
         *ngIf="usager.decision.statut !== 'REFUS'">
@@ -378,10 +378,16 @@
                 </td>
                 <td>
                   {{ decisionLabels[usager.decision.statut] }}
-                  <b *ngIf="usager.decision.statut === 'VALIDE'">
-                    du {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
-                    au {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
-                  </b>
+                  <span *ngIf="usager.decision.statut === 'VALIDE'">
+                    du
+                    <b>
+                      {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
+                    </b>
+                    au
+                    <b>
+                      {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
+                    </b>
+                  </span>
                   <b *ngIf="usager.decision.statut === 'RADIE'">
                     -
                     <span *ngIf="usager.decision.motif !== 'AUTRE'">
@@ -402,12 +408,10 @@
                   <span *ngIf="histo.statut === 'VALIDE'">
                     du
                     <b>
-                      {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
+                      {{ histo.dateDebut | date: 'dd/MM/yyyy' }}
                     </b>
                     au
-                    <b>
-                      {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
-                    </b>
+                    <b>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</b>
                   </span>
                   <div *ngIf="histo.statut === 'RADIE'">
                     -
@@ -415,12 +419,10 @@
                     <span *ngIf="histo.motif === 'AUTRE'">{{ histo.motifDetails }}</span>
                   </div>
                 </td>
-
                 <td>{{ histo.userName }}</td>
               </tr>
             </tbody>
           </table>
-
         </ng-template>
       </ngb-panel>
 
@@ -446,7 +448,9 @@
         </ng-template>
 
         <ng-template ngbPanelContent>
-          <div class="row">
+          <div
+            class="row"
+            *ngIf="!editInfos">
 
             <div class="col-md-4 reponses">
               <span class="question">NOM</span>
@@ -489,7 +493,207 @@
 
             <div class="col-md-4 reponses"></div>
 
+            <div class="col-md-12 text-center">
+              <br>
+              <button
+                class="btn btn-dark"
+                (click)="editInfos = !editInfos">
+                <fa-icon icon="edit"></fa-icon>
+                Modifier les informations
+              </button>
+            </div>
+
           </div>
+
+          <form
+            *ngIf="editInfos"
+            [formGroup]="usagerForm"
+            (ngSubmit)="updateInfos()"
+            autocomplete="off">
+
+            <div class="row">
+
+              <div class="col-md-4  form-group required">
+                <label for="nom">Nom</label>
+                <input
+                  type="text"
+                  class="form-control "
+                  id="nom"
+                  formControlName="nom"
+                  placeholder="Précisez nom de naissance si nécessaire"
+                  [ngClass]="{ 'is-invalid': f.nom.errors }"
+                  required>
+                <div
+                  *ngIf="f.nom.errors"
+                  class="invalid-feedback"
+                  autocomplete="null">
+                  <div *ngIf="f.nom.errors.required">
+                    Le
+                    <b>nom</b>
+                    du demandeur est obligatoire
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4  form-group required">
+                <label for="prenom">Prénom(s)</label>
+                <input
+                  type="text"
+                  class="form-control "
+                  id="prenom"
+                  formControlName="prenom"
+                  placeholder="Prénom(s) du demandeur"
+                  [ngClass]="{ 'is-invalid': f.prenom.errors }"
+                  required>
+                <div
+                  *ngIf="f.prenom.errors"
+                  class="invalid-feedback"
+                  autocomplete="null">
+                  <div *ngIf="f.prenom.errors.required">
+                    Le
+                    <b>Prénom</b>
+                    est obligatoire
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4  form-group">
+                <label for="surnom">Surnom ou prénom d'usage</label>
+                <input
+                  type="text"
+                  class="form-control "
+                  id="surnom"
+                  formControlName="surnom"
+                  placeholder="Surnom / Nom d'usage"
+                  [ngClass]="{ 'is-invalid': f.prenom.surnom }">
+              </div>
+
+              <div class="col-md-4 form-group required">
+                <label for="dateNaissancePicker">Date de naissance</label>
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="jj/mm/aaaa"
+                    [minDate]="minDateNaissance"
+                    [maxDate]="maxDateNaissance"
+                    placement="bottom"
+                    formControlName="dateNaissancePicker"
+                    ngbDatepicker
+                    dateFr
+                    value
+                    [ngClass]="{ 'is-invalid': f.dateNaissancePicker.errors  }"
+                    #d="ngbDatepicker"
+                    maxlength="10"
+                    required>
+                  <div class="input-group-append">
+                    <span
+                      class="btn btn-outline-primary"
+                      (click)="d.toggle()">
+                      <fa-icon icon="calendar"></fa-icon>
+                    </span>
+                  </div>
+                  <div
+                    *ngIf="f.dateNaissancePicker.value !== null && f.dateNaissancePicker.value.year"
+                    class="invalid-feedback-custom">
+                    <div *ngIf="f.dateNaissancePicker.value.year <= 1800">Pas de date avant 1900</div>
+                  </div>
+                  <div
+                    *ngIf="f.dateNaissancePicker.invalid"
+                    class="invalid-feedback">
+                    <div *ngIf="f.dateNaissancePicker.errors.required">
+                      La
+                      <b>date de naissance</b>
+                      est obligatoire
+                    </div>
+                    <div *ngIf="f.dateNaissancePicker.dirty
+                  && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)">
+                      La
+                      <b>date de naissance</b>
+                      est incorrecte (ex: 20/12/1991)
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 form-group required">
+                <label for="villeNaissance">Ville de naissance</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="villeNaissance"
+                  formControlName="villeNaissance"
+                  placeholder="Ville (préciser le pays si à l'étranger)"
+                  autocomplete="null"
+                  [ngClass]="{     'is-invalid': f.villeNaissance.errors   }"
+                  required>
+                <div
+                  *ngIf="f.villeNaissance.errors"
+                  class="invalid-feedback">
+                  La
+                  <b>ville de naissance</b>
+                  est obligatoire
+                </div>
+
+              </div>
+
+              <div class="col-md-4"></div>
+
+              <div class="col-md-4  form-group">
+                <label for="phone">Numéro de téléphone</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phone"
+                  digitOnly
+                  formControlName="phone"
+                  aria-describedby="phoneHelp"
+                  [ngClass]="{ 'is-invalid': f.phone.errors }"
+                  placeholder="0606060606"
+                  autocomplete="null"
+                  maxlength="10">
+                <div
+                  *ngIf="f.phone.errors"
+                  class="invalid-feedback">
+                  <div>Le numéro de téléphone est incorrect</div>
+                </div>
+
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="email">Adresse e-mail</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email"
+                    aria-describedby="emailHelp"
+                    [ngClass]="{ 'is-invalid': f.email.errors }"
+                    placeholder="adresse@mail.com"
+                    autocomplete="null">
+                  <div
+                    *ngIf="f.email.errors"
+                    class="invalid-feedback">
+                    <div *ngIf="f.email.errors.email">L'adresse email est incorrecte</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-md-4"></div>
+
+              <div class="col-md-4 offset-md-4 text-center">
+                <br>
+                <input
+                  formControlName="dateNaissance"
+                  type="hidden">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block">
+                  Enregistrer
+                </button>
+              </div>
+            </div>
+          </form>
 
         </ng-template>
       </ngb-panel>

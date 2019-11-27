@@ -373,11 +373,3 @@ table .active {
   color: #4a4a4a;
   word-break: break-word;
 }
-
-@media print {
-  body {
-    font-size: 18pt !important;
-    width: 94% !important;
-    margin: 3.5cm auto !important;
-  }
-}
