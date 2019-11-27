@@ -285,7 +285,6 @@ export class ImportController {
       }
 
       const phone = !row[PHONE] ? null : row[PHONE].replace(/\D/g, "");
-      const email = !row[EMAIL] ? null : row[EMAIL].toLowerCase();
 
       const usager = {
         agent,
@@ -302,7 +301,7 @@ export class ImportController {
           userId: user.id,
           userName: agent
         },
-        email,
+        email: row[EMAIL],
         entretien: {
           typeMenage: row[MENAGE]
         },
