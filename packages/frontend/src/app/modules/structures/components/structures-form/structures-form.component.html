@@ -267,11 +267,7 @@
             <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
             <b>L'adresse email est déjà utilisée</b>
           </div>
-          <div
-            *ngIf="!f.email.errors.emailTaken"
-            class="invalid-feedback">
-            Veuillez vérifier l'adresse email
-          </div>
+          <div *ngIf="!f.email.errors.emailTaken">Veuillez vérifier l'adresse email</div>
         </div>
       </div>
     </div>

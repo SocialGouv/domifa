@@ -82,12 +82,15 @@ export class StructuresFormComponent implements OnInit {
       departementAuto: ["", []],
       email: [
         this.structure.email,
-        [Validators.required, Validators.email],
+        [Validators.required, Validators.pattern(regexp.email)],
         this.validateEmailNotTaken.bind(this)
       ],
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
-      phone: [this.structure.phone, [Validators.required]],
+      phone: [
+        this.structure.phone,
+        [Validators.required, Validators.pattern(regexp.phone)]
+      ],
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],

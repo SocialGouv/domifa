@@ -112,8 +112,8 @@
     <div class="col-md-12 text-center">
       <h4 id="profil_name">Radiation confirmée</h4>
       <p>
-        {{ usager.sexe === "homme" ? "Monsieur" : "Madame" }} {{ usager.nom }} {{ usager.prenom }}
-         a été radié{{ usager.sexe === "homme" ? "" : "e" }} le {{ usager.decision.dateDecision | date: 'dd/MM/yyyy à HH:MM' }}
+        {{ usager.nomComplet }}
+         a été radié{{ usager.sexe === "homme" ? "" : "e" }} le {{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}
         pour le motif suivant :
       </p>
       <p class="font-weight-bold">
@@ -121,7 +121,7 @@
         <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
       </p>
       <p>
-        Cette personne ne fait plus parti de la liste des domiciliées dans votre structure.
+        Cette personne ne fait plus partie de la liste des domiciliées dans votre structure.
         <br>
         Vous pourrez retrouver son dossier sous
         <b>le filtre « Radiés ».</b>

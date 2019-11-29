@@ -68,7 +68,7 @@ export class RegisterUserComponent implements OnInit {
         confirmPassword: [null, Validators.compose([Validators.required])],
         email: [
           this.user.email,
-          [Validators.email, Validators.required],
+          [Validators.pattern(regexp.email), Validators.required],
           this.validateEmailNotTaken.bind(this)
         ],
         fonction: [this.user.fonction, Validators.required],

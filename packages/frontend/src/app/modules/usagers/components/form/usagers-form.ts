@@ -175,14 +175,17 @@ export class UsagersFormComponent implements OnInit {
         [Validators.required]
       ],
       decision: [this.usager.decision, []],
-      email: [this.usager.email, [Validators.email]],
+      email: [this.usager.email, [Validators.pattern(regexp.email)]],
       etapeDemande: [this.usager.etapeDemande, []],
       id: [this.usager.id, []],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       preference: this.formBuilder.group({
         aucun: [this.usager.preference.aucun, []],
-        email: [this.usager.preference.email, []],
+        email: [
+          this.usager.preference.email,
+          [Validators.pattern(regexp.email)]
+        ],
         phone: [this.usager.preference.phone, []]
       }),
       prenom: [this.usager.prenom, Validators.required],
