@@ -52,7 +52,7 @@
     "@nestjs/cli": "^6.12.9",
     "@nestjs/jwt": "^6.1.1",
     "@nestjs/testing": "^6.10.6",
-    "@socialgouv/tslint-config-recommended": "^0.10.3",
+    "@socialgouv/tslint-config-recommended": "^0.10.4",
     "@types/bcryptjs": "^2.4.2",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^4.17.2",
