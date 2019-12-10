@@ -37,7 +37,7 @@
         "
         (click)="updateFilters('statut', 'VALIDE')">
         Actif
-        <b *ngIf="filters.statut === 'VALIDE'">{{ usagers.length }}</b>
+        <b>{{ stats.VALIDE }}</b>
       </button>
       <button
         class="btn"
@@ -46,24 +46,28 @@
         "
         (click)="updateFilters('statut', 'INSTRUCTION')">
         À compléter
+        <b>{{ stats.INSTRUCTION }}</b>
       </button>
       <button
         class="btn"
         [ngClass]="filters.statut === 'ATTENTE_DECISION' ? 'btn-warning' : 'btn-outline-dark' "
         (click)="updateFilters('statut', 'ATTENTE_DECISION')">
         En attente de décision
+        <b>{{ stats.ATTENTE_DECISION }}</b>
       </button>
       <button
         class="btn"
         [ngClass]="filters.statut === 'REFUS' ? 'btn-danger' : 'btn-outline-dark'  "
         (click)="updateFilters('statut', 'REFUS')">
         Refusé
+        <b>{{ stats.REFUS }}</b>
       </button>
       <button
         class="btn"
         [ngClass]="filters.statut === 'RADIE' ? 'btn-danger' : 'btn-outline-dark'"
         (click)="updateFilters('statut', 'RADIE')">
         Radié
+        <b>{{ stats.RADIE }}</b>
       </button>
     </div>
     <div class="row">

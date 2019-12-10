@@ -59,6 +59,7 @@ describe("InteractionsService", () => {
     interaction.type = "courrierIn";
     interaction.content = "Le Loyer";
     interaction.nbCourrier = 5;
+
     const usager2 = await service.create(2, user, interaction);
     expect(usager2.lastInteraction.nbCourrier).toEqual(15);
   }, 30000);

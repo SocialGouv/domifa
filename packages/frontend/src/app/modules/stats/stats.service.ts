@@ -16,6 +16,6 @@ export class StatsService {
   }
 
   public getStatuts() {
-    return this.http.get(`${this.endPointUsagers}stats`);
+    return this.http.get(`${this.endPointUsagers}stats-domifa`);
   }
 }

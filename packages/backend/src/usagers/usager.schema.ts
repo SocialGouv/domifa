@@ -35,10 +35,12 @@ export const UsagerSchema = new mongoose.Schema({
   },
 
   import: { type: Boolean, default: false },
+
   typeDom: {
     default: "PREMIERE",
     type: String
   },
+
   decision: {
     dateDebut: { type: Date },
     dateFin: { type: Date, default: Date.now },
@@ -118,30 +120,6 @@ export const UsagerSchema = new mongoose.Schema({
         default: 0
       },
       dateInteraction: {
-        type: Date,
-        default: null
-      },
-      courrierIn: {
-        type: Date,
-        default: null
-      },
-      courrierOut: {
-        type: Date,
-        default: null
-      },
-      recommandeIn: {
-        type: Date,
-        default: null
-      },
-      recommandeOut: {
-        type: Date,
-        default: null
-      },
-      appel: {
-        type: Date,
-        default: null
-      },
-      visite: {
         type: Date,
         default: null
       }

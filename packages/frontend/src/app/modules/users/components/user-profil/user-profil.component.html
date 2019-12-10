@@ -8,10 +8,10 @@
   </button>
   <br>
   <h4>Utilisateurs de votre structure</h4>
-  <ul
+  <div
     *ngIf="users"
     class="list-group">
-    <li
+    <div
       class="list-group-item"
       *ngFor="let user of users">
       <div class="row">
@@ -32,6 +32,25 @@
           <br>
           {{ user.email }}
         </div>
+        <div
+          *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
+          class="col">
+          <select
+            id="role_{{i}}"
+            (change)="updateRole(user.id, $event.target.value)"
+            class="custom-select">
+            <option
+              [selected]="user.role === 'admin' "
+              value="admin">
+              Administrateur
+            </option>
+            <option
+              [selected]="user.role === 'simple' "
+              value="simple">
+              Instructeur
+            </option>
+          </select>
+        </div>
         <div class="col text-right">
           <button
             *ngIf="authService.isAdmin && !user.verified"
@@ -44,12 +63,14 @@
             *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
             (click)="open(confirmation);selectedUser = user.id"
             class="btn btn-danger">
+            <fa-icon icon="trash"></fa-icon>
             Supprimer
           </button>
         </div>
       </div>
-    </li>
-  </ul>
+
+    </div>
+  </div>
 
   <br>
 

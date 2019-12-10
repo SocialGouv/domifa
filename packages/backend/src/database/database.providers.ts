@@ -26,8 +26,6 @@ export const databaseProviders = [
           port +
           "/domifa",
         {
-          reconnectInterval: 1000,
-          reconnectTries: Number.MAX_VALUE,
           useNewUrlParser: true,
           useUnifiedTopology: true
         }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/services/auth.service";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
@@ -12,10 +13,7 @@ import { UsersService } from "../../services/users.service";
 })
 export class UserProfilComponent implements OnInit {
   public title: string;
-  public success: boolean;
-  public successMessage: string;
-  public error: boolean;
-  public errorMessage: string;
+
   public users: User[];
   public modal: any;
   public selectedUser: number;
@@ -24,14 +22,12 @@ export class UserProfilComponent implements OnInit {
     public readonly authService: AuthService,
     private readonly userService: UsersService,
     private readonly router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private notifService: ToastrService
   ) {}
 
   public ngOnInit() {
     this.title = "Mon compte Domifa";
-    this.error = false;
-    this.success = false;
-
     this.loadUsers();
   }
 
@@ -44,10 +40,36 @@ export class UserProfilComponent implements OnInit {
     this.userService.confirmUser(id).subscribe(
       (user: User) => {
         this.loadUsers();
-        this.success = true;
+        this.notifService.success(
+          "Le compte de " +
+            user.nom +
+            " " +
+            user.prenom +
+            " est désormais actif"
+        );
       },
       error => {
-        this.error = true;
+        this.notifService.error("Impossible de confirmer l'utilisateur");
+      }
+    );
+  }
+
+  public updateRole(id: number, role: string) {
+    this.userService.updateRole(id, role).subscribe(
+      (user: User) => {
+        this.loadUsers();
+        this.notifService.success(
+          "Les droits de " +
+            user.nom +
+            " " +
+            user.prenom +
+            " ont été mit à jour avec succès"
+        );
+      },
+      error => {
+        this.notifService.error(
+          "Impossible de mettre à jour le rôle de l'utilisateur"
+        );
       }
     );
   }
@@ -56,10 +78,10 @@ export class UserProfilComponent implements OnInit {
     this.userService.deleteUser(this.selectedUser).subscribe(
       (user: User) => {
         this.loadUsers();
-        this.success = true;
+        this.notifService.success("Utilisateur supprimé avec succès");
       },
       error => {
-        this.error = true;
+        this.notifService.error("Impossible de supprimer l'utilisateur");
       }
     );
   }

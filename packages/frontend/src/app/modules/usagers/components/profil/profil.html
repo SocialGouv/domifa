@@ -294,42 +294,24 @@
               </tr>
               <tr *ngIf="!interaction.delete">
                 <td>
-                  <b *ngIf="!interaction.edit">{{ this.interaction.label }}</b>
-                  <div *ngIf="interaction.edit">
-                    <select>
-                      <option value>CHIPS</option>
-                      <option value>COCA</option>
-                      <option value></option>
-                    </select>
-                  </div>
+                  <b>{{ this.interaction.label }}</b>
+
                 </td>
                 <td>
                   {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
                 </td>
                 <td>{{ interaction.userName }}</td>
                 <td
-                  class="interactions-actions edit-interaction"
-                  *ngIf="interaction.edit === true">
-                  <fa-icon
-                    icon="times"
-                    (click)="interaction.edit = false"
-                    class="btn btn-dark"></fa-icon>
-                  <fa-icon
-                    icon="check"
-                    (click)="interaction.edit = false"
-                    class="success btn btn-success"></fa-icon>
-                </td>
-                <td
                   class="interactions-actions"
-                  *ngIf="!interaction.delete && !interaction.edit">
-                  <span (click)="interaction.edit = false; interaction.delete = true">
+                  *ngIf="!interaction.delete">
+                  <span (click)="interaction.delete = true">
                     <fa-icon
                       icon="trash-alt"
                       class="delete"></fa-icon>
                   </span>
                   <span
                     *ngIf="false"
-                    (click)="interaction.edit = true;interaction.delete = false">
+                    (click)="interaction.delete = false">
                     <fa-icon
                       icon="pencil-alt"
                       class="edit"></fa-icon>
@@ -880,7 +862,7 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <app-upload
-            *ngIf="usager.decision.statut === 'VALIDE'"
+            *ngIf="usager.decision.statut === 'VALIDE' || usager.decision.statut === 'RADIE'"
             [usager]="usager"></app-upload>
           <div *ngIf="usager.docs.length === 0">
             <ngb-alert [dismissible]="false">Aucune pièce-jointe enregistrée</ngb-alert>

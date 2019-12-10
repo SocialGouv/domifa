@@ -14,7 +14,6 @@ import { StatsModule } from "src/app/modules/stats/stats.module";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { UsersModule } from "src/app/modules/users/users.module";
 import { routes } from "../../../../app-routing.module";
-import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
@@ -102,10 +101,8 @@ describe("UsagersProfilComponent", () => {
     interactionService
       .setPassage(2, "courrierOut")
       .subscribe((usager: Usager) => {
-        const lastInteraction = new LastInteraction(usager.lastInteraction);
-        const today = new Date().getDate();
-        expect(lastInteraction.courrierOut).toEqual(0);
-        expect(lastInteraction.courrierOut.getDate()).toEqual(today);
+        const lastInteraction = usager.lastInteraction;
+        expect(lastInteraction.nbCourrier).toEqual(0);
       });
   }));
 });

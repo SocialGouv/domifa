@@ -40,10 +40,7 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(RolesGuard)
   @Get()
-  public findAll(
-    @Req() request: Request,
-    @CurrentUser() user: User
-  ): Promise<User[]> {
+  public findAll(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll(user);
   }
 
@@ -59,6 +56,33 @@ export class UsersController {
       this.mailerService.confirmUser(confirmerUser);
     }
     return confirmerUser;
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get("update-role/:id/:role")
+  public async updateRole(
+    @Param("id") id: number,
+    @Param("role") role: string,
+    @CurrentUser() user: User
+  ) {
+    if (role !== "simple" && role !== "admin") {
+      throw new HttpException(
+        "BAD_ROLE_USER",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+
+    if (id === user.id) {
+      throw new HttpException(
+        "CANNOT_UPDATE_SELF_ROLE",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+
+    return this.usersService.update(id, user.structureId, {
+      role
+    });
   }
 
   @UseGuards(AuthGuard("jwt"))

@@ -40,7 +40,6 @@ export class InteractionsService {
     }
 
     usager.lastInteraction[interactionDto.type] = new Date();
-    usager.lastInteraction.dateInteraction = new Date();
 
     if (interactionDto.nbCourrier) {
       usager.lastInteraction.nbCourrier =
@@ -59,6 +58,15 @@ export class InteractionsService {
       interactionDto.type === "recommandeOut"
     ) {
       usager.lastInteraction.nbCourrier = 0;
+    }
+
+    if (
+      interactionDto.type === "courrierOut" ||
+      interactionDto.type === "recommandeOut" ||
+      interactionDto.type === "visite" ||
+      interactionDto.type === "appel"
+    ) {
+      usager.lastInteraction.dateInteraction = new Date();
     }
 
     createdInteraction.userName = user.prenom + " " + user.nom;

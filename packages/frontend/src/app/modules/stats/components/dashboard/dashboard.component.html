@@ -9,7 +9,7 @@
       class="card"
       *ngFor="let structure of structures; let i = index">
       <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-12">
           <b>#{{i+1}} {{ structure.nom }}</b>
           <br>
           {{ structure.adresse }},
@@ -17,12 +17,16 @@
             {{ structure.ville }} ({{ structure.codePostal }})
           </i>
         </div>
-        <ul class="list-inline">
-          <li *ngFor="let stat of stats[structure.id]">
-            <b>{{stat.statut}} :</b>
+        <div class="col-md-12">
+          <button
+            *ngFor="let stat of stats[structure.id]"
+            class="btn stats-button"
+            [ngClass]="statutClass[stat.statut]">
+            <b>{{ stat.statut}} :</b>
             {{ stat.sum }}
-          </li>
-        </ul>
+          </button>
+
+        </div>
       </div>
     </div>
   </div>

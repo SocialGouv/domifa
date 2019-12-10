@@ -11,7 +11,6 @@ import { AuthService } from "src/app/services/auth.service";
 import { AyantDroit } from "../interfaces/ayant-droit";
 import { Doc } from "../interfaces/document";
 import { Entretien } from "../interfaces/entretien";
-import { LastInteraction } from "../interfaces/last-interaction";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
 import { UsagerService } from "./usager.service";
@@ -82,7 +81,6 @@ describe("UsagerService", () => {
     const usager = new Usager({});
     const entretien = new Entretien({});
     const rdv = new Rdv({});
-    const lastInteraction = new LastInteraction({});
     const doc = new Doc({});
     const today = new Date();
     today.setSeconds(0);
@@ -92,7 +90,6 @@ describe("UsagerService", () => {
     expect(usager).toBeDefined();
     expect(entretien).toBeDefined();
     expect(rdv).toBeDefined();
-    expect(lastInteraction).toBeDefined();
 
     const usagerFull = new Usager({
       dateNaissance: new Date("December 20, 1991 02:12:00"),
@@ -109,16 +106,6 @@ describe("UsagerService", () => {
       dateRdv: new Date("December 20, 1991 02:12:00"),
       userId: 10,
       userName: "Domifa"
-    });
-
-    const lastInteractionFull = new LastInteraction({
-      appel: new Date(),
-      courrierIn: new Date(),
-      courrierOut: new Date(),
-      nbCourrier: 90,
-      recommandeIn: new Date(),
-      recommandeOut: new Date(),
-      visite: new Date()
     });
 
     const docFull = new Doc({
@@ -143,87 +130,6 @@ describe("UsagerService", () => {
       prenom: "Le prénom"
     });
 
-    const usagerToTest = JSON.parse(JSON.stringify(usagerFull));
-    const usagerTestVariable = JSON.parse(
-      JSON.stringify({
-        agent: null,
-        ayantsDroits: [],
-        ayantsDroitsExist: false,
-        dateNaissance: "1991-12-20T01:12:00.000Z",
-        dateNaissancePicker: {
-          day: 20,
-          month: 12,
-          year: 1991
-        },
-        decision: {
-          agent: "",
-          dateDecision: new Date(usagerFull.decision.dateDecision),
-          motif: "",
-          motifDetails: "",
-          orientation: "",
-          orientationDetails: "",
-          statut: "instruction",
-          userId: 0,
-          userName: ""
-        },
-        docs: [],
-        email: null,
-        entretien: {
-          accompagnement: null,
-          accompagnementDetail: null,
-          cause: null,
-          causeDetail: null,
-          commentaires: null,
-          domiciliation: false,
-          liencommune: null,
-          raison: null,
-          raisonDetail: null,
-          residence: null,
-          residenceDetail: null,
-          revenus: false
-        },
-        etapeDemande: 0,
-        historique: null,
-        id: 2,
-        lastInteraction: {
-          appel: null,
-          courrierIn: null,
-          courrierOut: null,
-          nbCourrier: 0,
-          recommandeIn: null,
-          recommandeOut: null,
-          visite: null
-        },
-        nom: "Test",
-        phone: null,
-        preference: {
-          aucun: false,
-          email: false,
-          phone: false
-        },
-        prenom: "Tester",
-        rdv: {
-          dateRdv: new Date(usagerFull.rdv.dateRdv),
-          heureRdv: {
-            hour: 10,
-            minute: 20
-          },
-          isNow: "",
-          jourRdv: {
-            day: 28,
-            month: 6,
-            year: 2019
-          },
-          userId: null,
-          userName: null
-        },
-        sexe: "homme",
-        structure: 2,
-        surnom: "Test Test",
-        villeNaissance: "Saint-denis"
-      })
-    );
-
     expect(rdvFull).toEqual({
       dateRdv: new Date("December 20, 1991 02:12:00"),
       heureRdv: { hour: 2, minute: 12 },
@@ -236,6 +142,5 @@ describe("UsagerService", () => {
       userId: 10,
       userName: "Domifa"
     });
-    expect(lastInteractionFull).toBeDefined();
   });
 });

@@ -123,9 +123,14 @@ export class UsagersController {
     return this.usagersService.renouvellement(usager, user);
   }
 
-  @UseGuards(RolesGuard)
   @Get("stats")
-  public async stats() {
+  public async stats(@CurrentUser() user: User) {
+    return this.usagersService.stats(user.structureId);
+  }
+
+  @UseGuards(RolesGuard)
+  @Get("stats-domifa")
+  public async statsDomifa() {
     return this.usagersService.stats();
   }
 

@@ -321,9 +321,12 @@ export class UsagersService {
     return createdUsager.save();
   }
 
-  public async stats() {
+  public async stats(structureId?: number) {
+    const query = structureId ? { structureId: { $eq: structureId } } : {};
+
     return this.usagerModel
       .aggregate([
+        { $match: query },
         {
           $group: {
             _id: { structureId: "$structureId", statut: "$decision.statut" },

@@ -42,6 +42,14 @@ export class ManageUsagersComponent implements OnInit {
   public filters: Search;
   public sort: string;
 
+  public stats: {
+    ATTENTE_DECISION: number;
+    INSTRUCTION: number;
+    RADIE: number;
+    REFUS: number;
+    VALIDE: number;
+  };
+
   @ViewChild("searchInput", { static: true })
   public searchInput: ElementRef;
 
@@ -66,12 +74,20 @@ export class ManageUsagersComponent implements OnInit {
       this.prenom = user !== null ? user.prenom : "";
     });
 
+    this.stats = {
+      ATTENTE_DECISION: 0,
+      INSTRUCTION: 0,
+      RADIE: 0,
+      REFUS: 0,
+      VALIDE: 0
+    };
+
     fromEvent(this.searchInput.nativeElement, "keyup")
       .pipe(
         map((event: any) => {
           return event.target.value;
         }),
-        debounceTime(300),
+        debounceTime(400),
         distinctUntilChanged()
       )
       .subscribe((text: any) => {
@@ -82,6 +98,7 @@ export class ManageUsagersComponent implements OnInit {
       });
 
     this.search();
+    this.getStats();
   }
 
   public getSearchBar() {
@@ -135,6 +152,14 @@ export class ManageUsagersComponent implements OnInit {
           this.notifService.error("Impossible d'enregistrer cette interaction");
         }
       );
+  }
+
+  public getStats() {
+    this.usagerService.getStats().subscribe((stats: any) => {
+      stats[0].statut.forEach((stat: any) => {
+        this.stats[stat.statut] = stat.sum;
+      });
+    });
   }
 
   public search() {

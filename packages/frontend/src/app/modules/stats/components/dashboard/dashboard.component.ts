@@ -12,6 +12,23 @@ export class DashboardComponent implements OnInit {
   public title: string;
   public stats: any;
   public structures: Structure[];
+
+  public statutClass = {
+    ATTENTE_DECISION: "btn-warning",
+    INSTRUCTION: "btn-primary",
+    RADIE: "btn-danger",
+    REFUS: "btn-danger",
+    VALIDE: "btn-secondary"
+  };
+  public decisionLabels = {
+    ATTENTE_DECISION: "Demande de domiciliation déposée",
+    IMPORT: "Dossier importé",
+    INSTRUCTION: "Instruction du dossier",
+    RADIE: "Radiation",
+    REFUS: "Demande refusée",
+    VALIDE: "Domiciliation acceptée"
+  };
+
   constructor(
     public statsService: StatsService,
     private structureService: StructureService

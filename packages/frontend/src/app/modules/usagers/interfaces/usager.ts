@@ -4,7 +4,6 @@ import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
 import { Doc } from "./document";
 import { Entretien } from "./entretien";
-import { LastInteraction } from "./last-interaction";
 
 export class Usager {
   public id: number;
@@ -40,7 +39,10 @@ export class Usager {
     aucun: boolean;
   };
 
-  public lastInteraction: LastInteraction;
+  public lastInteraction: {
+    nbCourrier: number;
+    dateInteraction: Date;
+  };
 
   public dayBeforeEnd: number;
 
@@ -99,9 +101,10 @@ export class Usager {
     }
 
     this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv({});
-    this.lastInteraction =
-      (usager && new LastInteraction(usager.lastInteraction)) ||
-      new LastInteraction({});
+    this.lastInteraction = (usager && usager.lastInteraction) || {
+      dateInteraction: null,
+      nbCourrier: 0
+    };
 
     this.entretien =
       (usager && new Entretien(usager.entretien)) || new Entretien({});
@@ -133,8 +136,8 @@ export class Usager {
     }
 
     this.interactionsToday = {
-      appel: isToday(new Date(this.lastInteraction.appel)),
-      visite: isToday(new Date(this.lastInteraction.visite))
+      appel: null,
+      visite: null
     };
 
     this.typeDom = (usager && usager.typeDom) || "PREMIERE";

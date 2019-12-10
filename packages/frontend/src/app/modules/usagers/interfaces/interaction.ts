@@ -11,7 +11,6 @@ export class Interaction {
   public userName?: string;
   public userId: number;
 
-  public edit: boolean;
   public delete: boolean;
 
   public label: string;
@@ -26,7 +25,6 @@ export class Interaction {
     this.nbCourrier = (interaction && interaction.nbCourrier) || 0;
     this.userName = (interaction && interaction.userName) || "";
 
-    this.edit = false;
     this.delete = false;
 
     this.id = interaction._id;

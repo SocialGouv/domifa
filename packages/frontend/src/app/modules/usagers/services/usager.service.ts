@@ -70,6 +70,10 @@ export class UsagerService {
     return this.http.get(`${this.endPointUsagers}/doublon/${nom}/${prenom}`);
   }
 
+  public getStats() {
+    return this.http.get(`${this.endPointUsagers}/stats`);
+  }
+
   /* Recherche */
   public search(filters?: {}): Observable<Usager[]> {
     let httpParams = new HttpParams();

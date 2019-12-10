@@ -34,6 +34,10 @@ export class UsersService {
     return this.http.get(`${this.endPoint}/confirm/${id}`);
   }
 
+  public updateRole(id: number, role: string) {
+    return this.http.get(`${this.endPoint}/update-role/${id}/${role}`);
+  }
+
   public deleteUser(id: number) {
     return this.http.delete(`${this.endPoint}/${id}`);
   }

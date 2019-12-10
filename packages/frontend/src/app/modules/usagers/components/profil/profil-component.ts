@@ -22,7 +22,6 @@ import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { regexp } from "src/app/shared/validators";
 import { Interaction } from "../../interfaces/interaction";
-import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
@@ -226,9 +225,7 @@ export class UsagersProfilComponent implements OnInit {
         (usager: Usager) => {
           this.usager = usager;
           this.notifService.success(this.notifs[type]);
-          this.usager.lastInteraction = new LastInteraction(
-            usager.lastInteraction
-          );
+          this.usager.lastInteraction = usager.lastInteraction;
           this.getInteractions();
         },
         error => {
