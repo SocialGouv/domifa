@@ -32,7 +32,7 @@ export class DecisionComponent implements OnInit {
   public refusForm: FormGroup;
   public valideForm: FormGroup;
 
-  public motifsRefusList = Array;
+  public motifsRefusList = [];
 
   public formDatas: any;
 
