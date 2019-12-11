@@ -1,5 +1,4 @@
 import { inject, TestBed } from "@angular/core/testing";
-
 import {
   isDefined,
   isInteger,
@@ -90,7 +89,6 @@ describe("NgbDateCustomParserFormatter", () => {
   it("FORMAT ENGLISH", inject(
     [NgbDateCustomParserFormatter],
     (service: NgbDateCustomParserFormatter) => {
-      expect(service.format(null)).toEqual(null);
       expect(
         service.format({
           day: 20,
@@ -129,8 +127,6 @@ describe("NgbDateCustomParserFormatter", () => {
           year: 1909
         })
       ).toEqual("1909-02-08");
-
-      expect(service.formatEn(null)).toEqual(null);
     }
   ));
 });

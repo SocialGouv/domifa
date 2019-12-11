@@ -32,7 +32,7 @@ export class DecisionComponent implements OnInit {
   public refusForm: FormGroup;
   public valideForm: FormGroup;
 
-  public motifsRefusList = [];
+  public motifsRefusList = Array;
 
   public formDatas: any;
 
@@ -57,7 +57,7 @@ export class DecisionComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService,
     private notifService: ToastrService,
     private usagerService: UsagerService,
     private modalService: NgbModal,

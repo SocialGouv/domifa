@@ -11,6 +11,10 @@ export const UserSchema = new mongoose.Schema({
     type: Number,
     unique: true
   },
+  lastLogin: {
+    default: null,
+    type: Date
+  },
   nom: {
     required: true,
     type: String
