@@ -3,7 +3,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { DatabaseModule } from "../../database/database.module";
 import { StructuresModule } from "../../structures/structure.module";
-import { StructuresService } from "../../structures/structures.service";
 import { UsersService } from "../../users/services/users.service";
 import { UsersModule } from "../../users/users.module";
 import { UsersProviders } from "../../users/users.providers";
@@ -59,7 +58,7 @@ describe("CerfaService", () => {
     const usager = await usagerService.findById(5, user.structureId);
     const datasAttendues = {
       "topmostSubform[0].Page1[0].AdressePostale[0]":
-        "1 place de l'hôtel de ville, , Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
       "topmostSubform[0].Page1[0].Annéeconvocation[0]": "2019",
       "topmostSubform[0].Page1[0].AyantsDroits[0]":
         "Inspecteur Gadget né(e) le 12/10/1990 - ",
@@ -69,7 +68,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "05",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "1911",
       "topmostSubform[0].Page1[0].EntretienAdresse[0]":
-        "1 place de l'hôtel de ville, , Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
       "topmostSubform[0].Page1[0].EntretienAvec[0]": "Juste Isabelle",
       "topmostSubform[0].Page1[0].FaitLeDemandeur1[0]": "07",
       "topmostSubform[0].Page1[0].FaitLeDemandeur2[0]": "10",
@@ -179,7 +178,7 @@ describe("CerfaService", () => {
     service.attestation(usager, user);
     const datasAttendues = {
       "topmostSubform[0].Page1[0].AdressePostale[0]":
-        "1 place de l'hôtel de ville, , Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
       "topmostSubform[0].Page1[0].Annéeconvocation[0]": "",
       "topmostSubform[0].Page1[0].AyantsDroits[0]": "",
       "topmostSubform[0].Page1[0].Courriel[0]": "",
@@ -188,7 +187,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "08",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "1940",
       "topmostSubform[0].Page1[0].EntretienAdresse[0]":
-        "1 place de l'hôtel de ville, , Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
       "topmostSubform[0].Page1[0].EntretienAvec[0]": "",
       "topmostSubform[0].Page1[0].FaitLeDemandeur1[0]": "12",
       "topmostSubform[0].Page1[0].FaitLeDemandeur2[0]": "09",

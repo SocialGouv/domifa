@@ -17,10 +17,6 @@ export class CerfaService {
   public pdfForm: string;
   public infosPdf: any;
 
-  public moisDemande: string;
-  public jourDemande: string;
-  public anneeDemande: string;
-
   public phone: string;
   public dateNaissance: any;
 
@@ -84,6 +80,8 @@ export class CerfaService {
       ", " +
       user.structure.codePostal;
 
+    this.pdfForm = "../../ressources/attestation.pdf";
+
     this.infosPdf = {
       "topmostSubform[0].Page1[0].AyantsDroits[0]": ayantsDroitsTexte,
       "topmostSubform[0].Page1[0].Datenaissance1[0]": this.dateNaissance.jour,
@@ -102,8 +100,6 @@ export class CerfaService {
     if (usager.decision.statut === "VALIDE") {
       this.dateDebut = this.convertDate(usager.decision.dateDebut);
       this.dateFin = this.convertDate(usager.decision.dateFin);
-
-      this.pdfForm = "../../ressources/attestation.pdf";
 
       this.infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] =
         user.structure.nom;

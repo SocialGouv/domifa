@@ -51,7 +51,7 @@ export class UsersService {
     userId: number,
     structureId: number,
     data: any
-  ): Promise<User> {
+  ): Promise<any> {
     return this.userModel
       .findOneAndUpdate(
         {
@@ -69,7 +69,7 @@ export class UsersService {
       .exec();
   }
 
-  public async generateTokenPassword(email: string): Promise<User> {
+  public async generateTokenPassword(email: string): Promise<any> {
     const d = new Date();
     const twoDays = d.setDate(d.getDate() + 2);
     return this.userModel

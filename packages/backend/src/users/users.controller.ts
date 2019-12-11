@@ -134,7 +134,9 @@ export class UsersController {
         this.mailerService.newUser(admin, newUser);
       }
       this.structureService.addUser(newUser, userDto.structureId);
-      newUser.password = undefined;
+
+      newUser.password = "";
+
       return res.status(HttpStatus.OK).json(newUser);
     }
     throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);

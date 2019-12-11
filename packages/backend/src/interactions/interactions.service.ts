@@ -27,7 +27,7 @@ export class InteractionsService {
     usagerId: number,
     user: User,
     interactionDto: InteractionDto
-  ): Promise<Usager> {
+  ): Promise<any> {
     const createdInteraction = new this.interactionModel(interactionDto);
 
     const usager: Usager = await this.usagersService.findById(

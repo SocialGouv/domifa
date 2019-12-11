@@ -33,7 +33,7 @@ export class StructuresService {
     return structure;
   }
 
-  public async checkToken(token: string): Promise<Structure> {
+  public async checkToken(token: string): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
         { token },
@@ -60,7 +60,7 @@ export class StructuresService {
     return structure;
   }
 
-  public async findOneBasic(param: any): Promise<Structure> {
+  public async findOneBasic(param: any): Promise<any> {
     const structure = await this.structureModel
       .findOne(param)
       .select("-users -token -email -phone -responsable")
