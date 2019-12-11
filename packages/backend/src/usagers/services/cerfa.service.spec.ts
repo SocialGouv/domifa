@@ -133,9 +133,10 @@ describe("CerfaService", () => {
 
     const datasAttendues = {
       "topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]":
-        "1 place de l'hôtel de ville, , Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
       "topmostSubform[0].Page1[0].AdressePostale[0]":
-        "1 place de l'hôtel de ville, , Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
+      "topmostSubform[0].Page1[0].AnneePremiereDomic[0]": "2018",
       "topmostSubform[0].Page1[0].AnnéeValidité1[0]": "2019",
       "topmostSubform[0].Page1[0].AnnéeValidité2[0]": "2020",
       "topmostSubform[0].Page1[0].AyantsDroits[0]":
@@ -144,10 +145,12 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Datenaissance1[0]": "07",
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "08",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "1998",
+      "topmostSubform[0].Page1[0].JourPremiereDomic[0]": "11",
       "topmostSubform[0].Page1[0].JourValidité1[0]": "12",
       "topmostSubform[0].Page1[0].JourValidité2[0]": "12",
       "topmostSubform[0].Page1[0].LieuNaissance[0]": "BOUAKÉ, CÔTE D'IVOIRE",
       "topmostSubform[0].Page1[0].Mme-Monsieur1[0]": "2",
+      "topmostSubform[0].Page1[0].MoisPremiereDomic[0]": "01",
       "topmostSubform[0].Page1[0].MoisValidité1[0]": "02",
       "topmostSubform[0].Page1[0].MoisValidité2[0]": "02",
       "topmostSubform[0].Page1[0].Nomdelorganisme[0]": "CCAS de test",

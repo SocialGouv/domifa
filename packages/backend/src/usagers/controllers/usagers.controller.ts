@@ -131,7 +131,7 @@ export class UsagersController {
 
   @UseGuards(RolesGuard)
   @Get("stats-domifa")
-  public async statsDomifa() {
+  public async statsDomifa(@CurrentUser() user: User) {
     return this.usagersService.stats();
   }
 

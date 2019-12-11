@@ -30,6 +30,7 @@ describe("StructureService", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
+
     service = TestBed.get(StructureService);
     authService = TestBed.get(AuthService);
 
