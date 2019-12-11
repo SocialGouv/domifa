@@ -27,6 +27,7 @@ export class CerfaService {
   public dateDemande: any;
   public dateDebut: any;
   public dateFin: any;
+  public datePremiereDom: any;
 
   public dateRdv: {
     annee: string;
@@ -55,13 +56,12 @@ export class CerfaService {
     }
 
     this.sexe = usager.sexe === "femme" ? "1" : "2";
+
     this.dateNaissance = this.convertDate(usager.dateNaissance);
-
-    this.logger.log("--- Erreur Cerfa ");
-
-    this.dateDemande = this.convertDate(usager.decision.dateDecision);
-
     this.dateRdv = this.convertDate(usager.rdv.dateRdv);
+    this.dateDemande = this.convertDate(usager.decision.dateDecision);
+    this.datePremiereDom = this.convertDate(usager.datePremiereDom);
+
     this.motif = "";
 
     if (usager.decision.statut === "REFUS") {
@@ -76,9 +76,9 @@ export class CerfaService {
     usager.prenom = usager.prenom.toUpperCase();
 
     const adresseStructure =
+      user.structure.nom +
+      "\n" +
       user.structure.adresse +
-      ", " +
-      user.structure.complementAdresse +
       ", " +
       user.structure.ville +
       ", " +
@@ -140,21 +140,38 @@ export class CerfaService {
       this.infosPdf[
         "topmostSubform[0].Page1[0].JourValidité1[0]"
       ] = this.dateDebut.jour;
+
       this.infosPdf[
         "topmostSubform[0].Page1[0].MoisValidité1[0]"
       ] = this.dateDebut.mois;
+
       this.infosPdf[
         "topmostSubform[0].Page1[0].AnnéeValidité1[0]"
       ] = this.dateDebut.annee;
+
       this.infosPdf[
         "topmostSubform[0].Page1[0].JourValidité2[0]"
       ] = this.dateFin.jour;
+
       this.infosPdf[
         "topmostSubform[0].Page1[0].MoisValidité2[0]"
       ] = this.dateFin.mois;
+
       this.infosPdf[
         "topmostSubform[0].Page1[0].AnnéeValidité2[0]"
       ] = this.dateFin.annee;
+
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].JourPremiereDomic[0]"
+      ] = this.datePremiereDom.jour;
+
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].MoisPremiereDomic[0]"
+      ] = this.datePremiereDom.mois;
+
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].AnneePremiereDomic[0]"
+      ] = this.datePremiereDom.annee;
     } else {
       this.pdfForm = "../../ressources/demande.pdf";
 
@@ -163,7 +180,7 @@ export class CerfaService {
       this.infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] = usager.email;
 
       this.infosPdf["topmostSubform[0].Page1[0].Groupe_de_boutons_radio[0]"] =
-        "1";
+        usager.typeDom === "RENOUVELLEMENT" ? "2" : "1";
 
       this.infosPdf["topmostSubform[0].Page1[0].LieuNaissance[1]"] =
         usager.villeNaissance;

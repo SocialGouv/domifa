@@ -21,6 +21,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
+import * as rimraf from "rimraf";
 import { RolesGuard } from "../../auth/roles.guard";
 import { ConfigService } from "../../config/config.service";
 import { CurrentUser } from "../../users/current-user.decorator";
@@ -177,12 +178,31 @@ export class UsagersController {
     return usager;
   }
 
+  @UseGuards(RolesGuard)
   @Delete(":id")
   public async deleteOne(
     @Param("id") usagerId: number,
     @CurrentUser() user: User
   ) {
-    return this.usagersService.delete(usagerId, user);
+    const pathFile = path.resolve(
+      new ConfigService().get("UPLOADS_FOLDER") +
+        user.structureId +
+        "/" +
+        usagerId
+    );
+    const deleteUsager = await this.usagersService.delete(usagerId, user);
+
+    if (deleteUsager && deleteUsager.deletedCount === 1) {
+      if (fs.existsSync(pathFile)) {
+        rimraf(pathFile, error => {
+          throw new HttpException(
+            "DELETE_FILES_NOT_POSSIBLE",
+            HttpStatus.BAD_REQUEST
+          );
+        });
+        return true;
+      }
+    }
   }
 
   @Get("attestation/:id")
@@ -269,6 +289,17 @@ export class UsagersController {
   @Post("document/:usagerId")
   @UseInterceptors(
     FileInterceptor("file", {
+      fileFilter: (req: any, file: any, cb: any) => {
+        const mimeTest = !file.mimetype.match(/\/(jpg|jpeg|png|gif|pdf)$/);
+        const sizeTest = file.size >= 5242880;
+        if (sizeTest || mimeTest) {
+          throw new BadRequestException({
+            fileSize: sizeTest,
+            fileType: mimeTest
+          });
+        }
+        cb(null, true);
+      },
       storage: diskStorage({
         destination: (req: any, file: any, cb: any) => {
           const dir =
@@ -282,17 +313,7 @@ export class UsagersController {
           }
           cb(null, dir);
         },
-        fileFilter: (req: any, file: any, cb: any) => {
-          const mimeTest = !file.mimetype.match(/\/(jpg|jpeg|png|gif|pdf)$/);
-          const sizeTest = file.size >= 5242880;
-          if (sizeTest || mimeTest) {
-            throw new BadRequestException({
-              fileSize: sizeTest,
-              fileType: mimeTest
-            });
-          }
-          cb(null, true);
-        },
+
         filename: (req: any, file: any, cb: any) => {
           const randomName = Array(32)
             .fill(null)

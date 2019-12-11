@@ -915,28 +915,45 @@
       *ngIf="usager.decision.statut === 'VALIDE'">
       <br>
       <div class="row">
-        <div class="col-md-12">
-          <button
-            (click)="getAttestation()"
-            class="btn btn-outline-primary">
-            <fa-icon icon="file-pdf"></fa-icon>
-            &nbsp; Télécharger l'attestation
-          </button>
-          &nbsp;
-          <a
-            [routerLink]="['/radiation/'+usager.id]"
-            routerLinkActive="router-link-active"
-            class="btn btn-outline-danger">
-            <fa-icon icon="times"></fa-icon>
-            Radier le domicilié
-          </a>
-          &nbsp;
-          <button
-            (click)="open(renewConfirmation)"
-            class="btn btn-outline-secondary">
-            <fa-icon icon="redo"></fa-icon>
-            Demande de renouvellement
-          </button>
+        <div class="col-md-8 offset-2">
+          <div class="row">
+
+            <button
+              (click)="getAttestation()"
+              class="col btn btn-outline-primary">
+              <fa-icon icon="file-pdf"></fa-icon>
+              Télécharger l'attestation
+            </button>
+            &nbsp;&nbsp;
+            <a
+              [routerLink]="['/radiation/'+usager.id]"
+              routerLinkActive="router-link-active"
+              class="col btn btn-outline-danger">
+              <fa-icon icon="times"></fa-icon>
+              Radier le domicilié
+            </a>
+            &nbsp;&nbsp;
+            <button
+              (click)="open(renewConfirmation)"
+              class="col btn btn-outline-secondary">
+              <fa-icon icon="redo"></fa-icon>
+              Demande de renouvellement
+            </button>
+
+            <div
+              class="col-md-12 text-center text-danger"
+              *ngIf="authService.isAdmin">
+              <br>
+              <br>
+              <span
+                id="delete-usager"
+                (click)="open(deleteConfirmation)">
+                <fa-icon icon="trash"></fa-icon>
+                &nbsp;
+                Supprimer le domicilié
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -969,6 +986,44 @@
       class="btn btn-secondary"
       (click)="renouvellement();">
       Demander un renouvellement
+    </button>
+  </div>
+</ng-template>
+
+<ng-template
+  #deleteConfirmation
+  let-modal>
+  <div class="modal-body text-center">
+    <b class="text-danger">Attention !</b>
+    <br>
+    <br>
+    Si vous supprimez un utilisateur, vous ne pourrez plus retrouver sa fiche !
+    <br>
+    <br>
+    <b class="text-danger">
+      <fa-icon icon="exclamation-triangle"></fa-icon>
+      Toutes les informations liés à cet usager disparaitront définitivement
+      <br>
+      - Les fichiers uploadés sur Domifa
+      <br>
+      - L'historique de la domiciliation
+      <br>
+      - L'historique des interactions
+    </b>
+    <br>
+    <br>
+    Ce dossier n'apparaitra ni dans les rapports d'activités ni dans la liste des domiciliés.
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')">
+      Revenir au profil
+    </button>
+    <button
+      class="btn btn-danger"
+      (click)="deleteUsager();">
+      Supprimer l'usager
     </button>
   </div>
 </ng-template>

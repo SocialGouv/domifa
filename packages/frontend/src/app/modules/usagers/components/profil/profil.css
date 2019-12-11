@@ -146,3 +146,8 @@ input[type="number"] {
   visibility: hidden;
   opacity: 0;
 }
+
+#delete-usager:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

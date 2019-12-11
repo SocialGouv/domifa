@@ -6,6 +6,7 @@ import {
   NgbDatepickerI18n,
   NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
@@ -57,6 +58,7 @@ export class DecisionComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private notifService: ToastrService,
     private usagerService: UsagerService,
     private modalService: NgbModal,
     private router: Router,
@@ -149,5 +151,18 @@ export class DecisionComponent implements OnInit {
 
   public getAttestation() {
     return this.usagerService.attestation(this.usager.id);
+  }
+
+  public deleteUsager() {
+    this.usagerService.delete(this.usager.id).subscribe(
+      (result: any) => {
+        this.modal.close();
+        this.notifService.success("Usager supprimé avec succès");
+        this.router.navigate(["/manage"]);
+      },
+      error => {
+        this.notifService.error("Impossible de supprimer la fiche");
+      }
+    );
   }
 }

@@ -45,6 +45,8 @@ export interface Usager extends Document {
 
   interactions: Interaction[];
 
+  typeDom: string;
+
   transfert: boolean;
   transfertAddress: string;
 }

@@ -67,6 +67,16 @@ export class ImportController {
   @Post()
   @UseInterceptors(
     FileInterceptor("file", {
+      fileFilter: (req: any, file: any, cb: any) => {
+        if (
+          file.mimetype !==
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
+          file.mimetype !== "application/vnd.ms-excel"
+        ) {
+          throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
+        }
+        cb(null, true);
+      },
       storage: diskStorage({
         destination: (req: any, file: any, cb: any) => {
           const dir = path.resolve(__dirname, "../../imports/");
@@ -75,12 +85,7 @@ export class ImportController {
           }
           cb(null, dir);
         },
-        fileFilter: (req: any, file: any, cb: any) => {
-          if (file.mimetype !== "xlsx" && file.mimetype !== "xls") {
-            throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
-          }
-          cb(null, true);
-        },
+
         filename: (req: any, file: any, cb: any) => {
           const randomName = Array(32)
             .fill(null)

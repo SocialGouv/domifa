@@ -70,6 +70,10 @@ export class UsagerService {
     return this.http.get(`${this.endPointUsagers}/doublon/${nom}/${prenom}`);
   }
 
+  public delete(usagerId: number) {
+    return this.http.delete(`${this.endPointUsagers}/${usagerId}`);
+  }
+
   public getStats() {
     return this.http.get(`${this.endPointUsagers}/stats`);
   }

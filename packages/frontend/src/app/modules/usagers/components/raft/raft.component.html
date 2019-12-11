@@ -22,22 +22,23 @@
       *ngIf="!success"
       class="col-md-8 offset-2 text-center">
       <h4 id="profil_name">Fin de domiciliation</h4>
-      <br>
-      Vous souhaitez mettre fin à la domiciliation de
-      <b>
-        {{ usager.nomComplet }} né le {{ usager.dateNaissance | date: 'dd/MM/yyyy'  }}.
-      </b>
-      <br>
-      <br>
-      la radiation peut avoir de lourdes conséquences et laisser une personne sans adresse.
-      <br>
-      Elle doit être notifiée par écrit à l’intéressé et motivée, avec mention des voies et délais de recours.
-      <br>
-      <br>
-      Merci d’indiquer le motif :
-      <br>
+      <p>
+        Vous souhaitez mettre fin à la domiciliation de
+        <b>
+          {{ usager.nomComplet }} né le {{ usager.dateNaissance | date: 'dd/MM/yyyy'  }}.
+        </b>
+        <br>
+        <br>
+        la radiation peut avoir de lourdes conséquences et laisser une personne sans adresse.
+        <br>
+        Elle doit être notifiée par écrit à l’intéressé et motivée, avec mention des voies et délais de recours.
+        <br>
+      </p>
+
       <div class="row">
-        <div class="col-md-8 offset-2 text-center">
+        <div class="col-md-8 offset-2 text-left">
+          <p class="text-center font-weight-bold">Merci d’indiquer le motif :</p>
+
           <div
             class="form-row"
             *ngFor="let motif of motifList">
@@ -69,7 +70,7 @@
               <label
                 class="form-check-label"
                 for="AUTRE">
-                Autres
+                Autre motif
               </label>
             </div>
           </div>
@@ -94,14 +95,16 @@
             </small>
           </div>
           <br>
-          <button
-            [disabled]="
-            ( usager.decision.motif === 'AUTRE' && usager.decision.motifDetails.length < 10) ||
+          <div class="text-center">
+            <button
+              [disabled]="
+            (usager.decision.motif === 'AUTRE' && usager.decision.motifDetails.length < 10) ||
             usager.decision.motif === ''"
-            class="btn btn-primary"
-            (click)="setDecision('RADIE')">
-            Confirmer la radiation
-          </button>
+              class="btn btn-primary"
+              (click)="setDecision('RADIE')">
+              Confirmer la radiation
+            </button>
+          </div>
         </div>
       </div>
     </div>

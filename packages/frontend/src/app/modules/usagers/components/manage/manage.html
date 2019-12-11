@@ -137,7 +137,7 @@
             (click)="goToProfil(usager.id, usager.decision.statut)"
             scope="row"
             class="table_name">
-            <b>{{ usager.nom }}</b>
+            <b>{{ usager.nom | uppercase }}</b>
             {{ usager.prenom }}
             <span *ngIf="usager.surnom && usager.surnom !== null">({{ usager.surnom }})</span>
           </td>

@@ -127,7 +127,7 @@ export class UsagersFormComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.title = "Enregister une domiciliation";
+    this.title = "Enregistrer une domiciliation";
     this.labels = labels;
     this.doublons = [];
     this.documents = [];

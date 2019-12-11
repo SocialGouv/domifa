@@ -18,6 +18,7 @@ import { DocumentService } from "../../services/document.service";
 import { ToastrService } from "ngx-toastr";
 
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { regexp } from "src/app/shared/validators";
@@ -71,6 +72,7 @@ export class UsagersProfilComponent implements OnInit {
     private formBuilder: FormBuilder,
     private interactionService: InteractionService,
     private loadingService: LoadingService,
+    private authService: AuthService,
     private modalService: NgbModal,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
@@ -186,6 +188,19 @@ export class UsagersProfilComponent implements OnInit {
           this.getInteractions();
         }
       });
+  }
+
+  public deleteUsager() {
+    this.usagerService.delete(this.usager.id).subscribe(
+      (result: any) => {
+        this.modal.close();
+        this.notifService.success("Usager supprimé avec succès");
+        this.router.navigate(["/manage"]);
+      },
+      error => {
+        this.notifService.error("Impossible de supprimer la fiche");
+      }
+    );
   }
 
   public notifier() {

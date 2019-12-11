@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { AuthService } from "src/app/services/auth.service";
+import { regexp } from "src/app/shared/validators";
 import { ERROR_LABELS } from "../../../../shared/errors.labels";
 import { UsersService } from "../../services/users.service";
 
@@ -46,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   public initForm() {
     this.loginForm = this.formBuilder.group({
-      email: ["", [Validators.email, Validators.required]],
+      email: ["", [Validators.pattern(regexp.email), Validators.required]],
       password: ["", Validators.required]
     });
   }
