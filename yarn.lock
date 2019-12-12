@@ -1913,7 +1913,7 @@
     webpack "4.41.2"
     webpack-node-externals "1.7.2"
 
-"@nestjs/common@^6.10.8":
+"@nestjs/common@^6.10.10":
   version "6.10.10"
   resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-6.10.10.tgz#8489b1d32e6e63b82dc8e275fd341431b8eef7af"
   integrity sha512-QOPcRLrw5Ra/wRoWYJRnN+Je9xUMGeXGQqyefK0hnKBIne8VMui7N3Vn0HBwijgT/od8TbQ0CGY6iiwKtWqFCQ==
@@ -1922,7 +1922,7 @@
     cli-color "2.0.0"
     uuid "3.3.3"
 
-"@nestjs/core@^6.10.8":
+"@nestjs/core@^6.10.10":
   version "6.10.10"
   resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-6.10.10.tgz#7bd586e007d5d17f85cd977d10470152a0663870"
   integrity sha512-VCXrYG+ggvJehoUo9QM7ad34Bn/p4PQGN6e/kZuea9NqcYC14U4L/+WThJ1q3OJHssQAMXKjReiEdIbCau6ZwA==
@@ -1968,7 +1968,7 @@
   resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-6.1.1.tgz#991b8736c0ebffabb85a6455f0288055e5b52755"
   integrity sha512-wMhvi3Ru965nftCLUhFUqWNwyzSxVDmGgTEYVyWbOOmHFjNg5US47jzV2NresuUP2vjgg8J8S6DviKTVuLfkRw==
 
-"@nestjs/platform-express@^6.10.8":
+"@nestjs/platform-express@^6.10.10":
   version "6.10.10"
   resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-6.10.10.tgz#17b300697761622d3d67f635f4ca55d0ab6934f3"
   integrity sha512-UcHMrFwWfdq15ZW2u6q0oda/XI3oR79GEdCvYWfl4anjLxxOc01AH9hjjdcADkHyKrxbwCSjr/H31c04Cvl9FQ==
@@ -1989,7 +1989,7 @@
     ts-morph "^4.0.0"
     typescript "3.4.5"
 
-"@nestjs/testing@^6.10.8":
+"@nestjs/testing@^6.10.10":
   version "6.10.10"
   resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-6.10.10.tgz#f16f13bd2c904cd374db58c981ab94bee0d286fe"
   integrity sha512-dusjypkEyiqaQiA4zReb3dE9SGDjkgtOozJXVG12MyUHtKwDkD/ok5dAzynqgbhVIiykIzozUwUPOjauMstTxA==
