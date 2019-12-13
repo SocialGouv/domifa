@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import jwtDecode from "jwt-decode";
 import { BehaviorSubject, Observable, of } from "rxjs";
-import { catchError, filter, map, mergeMap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../modules/users/interfaces/user";
 

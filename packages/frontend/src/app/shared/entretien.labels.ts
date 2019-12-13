@@ -47,3 +47,10 @@ export const raison = {
   EXERCICE_DROITS: "Exercice des droits civils ou civiques",
   PRESTATIONS_SOCIALES: "Accès aux prestations sociales"
 };
+
+export const lienParente = {
+  AUTRE: "Autre personne à la charge du domicilié",
+  CONJOINT: "Conjoint.e",
+  ENFANT: "Enfant",
+  PARENT: "Parent"
+};

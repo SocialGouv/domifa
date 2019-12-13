@@ -1,7 +1,7 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { fromEvent, Observable, Subject } from "rxjs";
+import { fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";

@@ -399,6 +399,7 @@ export class ImportComponent implements OnInit {
         "NON_MANIFESTATION_3_MOIS",
         "A_SA_DEMANDE",
         "ENTREE_LOGEMENT",
+        "FIN_DE_DOMICILIATION",
         "PLUS_DE_LIEN_COMMUNE",
         "NON_RESPECT_REGLEMENT",
         "AUTRE"

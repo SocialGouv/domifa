@@ -68,10 +68,6 @@ form label {
   width: 100%;
 }
 
-.row .btn .ng-fa-icon {
-  margin-right: 7px;
-}
-
 .input-group-append .btn .ng-fa-icon {
   margin: 0 !important;
 }

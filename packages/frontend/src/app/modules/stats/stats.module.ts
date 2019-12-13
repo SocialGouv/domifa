@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxPrintModule } from "ngx-print";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
 import { StructuresModule } from "../structures/structures.module";
@@ -23,7 +22,6 @@ import { StatsService } from "./stats.service";
     StructuresModule,
     CommonModule,
     BrowserModule,
-    NgxPrintModule,
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,

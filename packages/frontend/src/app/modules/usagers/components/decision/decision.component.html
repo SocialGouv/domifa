@@ -173,14 +173,14 @@
     class="table table-light">
     <tbody>
       <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
+        <th>NOM Prénom</th>
         <th>Né le</th>
         <th>Lien</th>
       </tr>
       <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-        <td>{{ ayantDroit.nom }}</td>
-        <td>{{ ayantDroit.prenom }}</td>
+        <td>
+          {{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}
+        </td>
         <td>{{ ayantDroit.dateNaissance }}</td>
         <td>{{ ayantDroit.lien }}</td>
       </tr>
@@ -320,10 +320,8 @@
   <div class="row">
     <div class="col">
       <button
-        printSectionId="fiche-recap"
-        class="btn-block btn btn-primary"
-        [useExistingCss]="true"
-        ngxPrint>
+        (click)="this.printService.printDiv('fiche-recap')"
+        class="btn-block btn btn-primary">
         <fa-icon icon="print"></fa-icon>
         Imprimer le récapitulatif
       </button>

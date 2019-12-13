@@ -7,6 +7,7 @@ import {
   NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+import { PrintService } from "src/app/modules/shared/print.service";
 import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
@@ -59,6 +60,7 @@ export class DecisionComponent implements OnInit {
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private notifService: ToastrService,
+    private printService: PrintService,
     private usagerService: UsagerService,
     private modalService: NgbModal,
     private router: Router,

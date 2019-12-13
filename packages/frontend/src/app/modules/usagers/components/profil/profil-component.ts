@@ -17,11 +17,12 @@ import { DocumentService } from "../../services/document.service";
 
 import { ToastrService } from "ngx-toastr";
 
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { regexp } from "src/app/shared/validators";
+import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction } from "../../interfaces/interaction";
 import { Usager } from "../../interfaces/usager";
 import { InteractionService } from "../../services/interaction.service";
@@ -40,17 +41,29 @@ import { UsagerService } from "../../services/usager.service";
 })
 export class UsagersProfilComponent implements OnInit {
   public editInfos: boolean;
+  public editEntretien: boolean;
+  public editAyantsDroits: boolean;
+
   public interactions: Interaction[];
-  public interactionsLabels: any;
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
+
+  public interactionsNotifs: any = interactionsNotifs;
+  public interactionsLabels: any = interactionsLabels;
+
   public labels: any;
+  public liensLabels: any;
   public modal: any;
+
   public motifsRadiation: any = entretienLabels.motifsRadiation;
   public motifsRefus: any = entretienLabels.motifsRefus;
-  public notifs: any;
+
   public title: string;
+
   public usager: Usager;
+
   public usagerForm: FormGroup;
+  public entretienForm: FormGroup;
+  public ayantsDroitsForm: FormGroup;
 
   public decisionLabels = {
     ATTENTE_DECISION: "Demande de domiciliation déposée",
@@ -84,15 +97,22 @@ export class UsagersProfilComponent implements OnInit {
   public ngOnInit() {
     this.title = "Fiche d'un domicilié";
     this.labels = entretienLabels;
-    this.editInfos = false;
+
+    this.liensLabels = Object.keys(this.labels.lienParente);
+
     this.interactions = [];
-    this.notifs = interactionsNotifs;
-    this.interactionsLabels = interactionsLabels;
+
+    this.editInfos = false;
+    this.editAyantsDroits = false;
+    this.editEntretien = false;
 
     if (this.route.snapshot.params.id) {
-      const id = this.route.snapshot.params.id;
-      this.usagerService.findOne(id).subscribe(
+      this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {
+          if (usager.decision.statut === "ATTENTE_DECISION") {
+            this.router.navigate(["/usager/" + usager.id + "/edit"]);
+          }
+
           this.usager = usager;
           this.getInteractions();
           this.initForms();
@@ -111,8 +131,14 @@ export class UsagersProfilComponent implements OnInit {
     return this.usagerForm.controls;
   }
 
+  get ayantsDroits() {
+    return this.usagerForm.get("ayantsDroits") as FormArray;
+  }
+
   public initForms() {
     this.usagerForm = this.formBuilder.group({
+      ayantsDroits: this.formBuilder.array([]),
+      ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
       dateNaissance: [this.usager.dateNaissance, []],
       dateNaissancePicker: [
         this.usager.dateNaissancePicker,
@@ -128,6 +154,29 @@ export class UsagersProfilComponent implements OnInit {
       surnom: [this.usager.surnom, []],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]]
     });
+
+    this.entretienForm = this.formBuilder.group({
+      accompagnement: [
+        this.usager.entretien.accompagnement,
+        [Validators.required]
+      ],
+      accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
+      cause: [this.usager.entretien.cause, []],
+      causeDetail: [this.usager.entretien.causeDetail, []],
+      commentaires: [this.usager.entretien.commentaires, []],
+      domiciliation: [this.usager.entretien.domiciliation, []],
+      liencommune: [this.usager.entretien.liencommune, []],
+      raison: [this.usager.entretien.raison, []],
+      raisonDetail: [this.usager.entretien.raisonDetail, []],
+      residence: [this.usager.entretien.residence, []],
+      residenceDetail: [this.usager.entretien.residenceDetail, []],
+      revenus: [this.usager.entretien.revenus, []],
+      revenusDetail: [this.usager.entretien.revenusDetail, []],
+      typeMenage: [this.usager.entretien.typeMenage, []]
+    });
+    for (const ayantDroit of this.usager.ayantsDroits) {
+      this.addAyantDroit(ayantDroit);
+    }
   }
 
   public updateInfos() {
@@ -148,6 +197,7 @@ export class UsagersProfilComponent implements OnInit {
           this.notifService.success("Enregistrement réussi");
           this.usager = new Usager(usager);
           this.editInfos = false;
+          this.editAyantsDroits = false;
         },
         error => {
           if (error.statusCode && error.statusCode === 400) {
@@ -158,6 +208,46 @@ export class UsagersProfilComponent implements OnInit {
         }
       );
     }
+  }
+
+  public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
+    (this.usagerForm.controls.ayantsDroits as FormArray).push(
+      this.newAyantDroit(ayantDroit)
+    );
+  }
+
+  public deleteAyantDroit(i: number): void {
+    if (i === 0) {
+      this.usagerForm.controls.ayantsDroitsExist.setValue(false);
+    }
+
+    (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
+  }
+
+  public newAyantDroit(ayantDroit: AyantDroit) {
+    return this.formBuilder.group({
+      dateNaissance: [
+        ayantDroit.dateNaissance,
+        [Validators.pattern(regexp.date), Validators.required]
+      ],
+      lien: [ayantDroit.lien, Validators.required],
+      nom: [ayantDroit.nom, Validators.required],
+      prenom: [ayantDroit.prenom, Validators.required]
+    });
+  }
+
+  public updateEntretien() {
+    this.usagerService
+      .entretien(this.entretienForm.value, this.usager.id)
+      .subscribe(
+        (usager: Usager) => {
+          this.usager = new Usager(usager);
+          this.notifService.success("Mise à jour de l'entretien réussie");
+        },
+        error => {
+          this.notifService.error("Impossible d'enregistrer l'entretien");
+        }
+      );
   }
 
   public renouvellement() {
@@ -214,7 +304,7 @@ export class UsagersProfilComponent implements OnInit {
           })
           .subscribe(
             (usager: Usager) => {
-              this.notifService.success(this.notifs[item]);
+              this.notifService.success(this.interactionsNotifs[item]);
               this.usager = usager;
               this.usager.lastInteraction = usager.lastInteraction;
               this.notifInputs[item] = 0;
@@ -239,7 +329,7 @@ export class UsagersProfilComponent implements OnInit {
       .subscribe(
         (usager: Usager) => {
           this.usager = usager;
-          this.notifService.success(this.notifs[type]);
+          this.notifService.success(this.interactionsNotifs[type]);
           this.usager.lastInteraction = usager.lastInteraction;
           this.getInteractions();
         },

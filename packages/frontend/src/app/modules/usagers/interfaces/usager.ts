@@ -112,6 +112,7 @@ export class Usager {
     this.docs = (usager && usager.docs) || [];
 
     this.ayantsDroitsExist = (usager && usager.ayantsDroitsExist) || false;
+
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
 
     this.preference = (usager && usager.preference) || {
@@ -129,7 +130,6 @@ export class Usager {
       const today = new Date();
       const msPerDay: number = 1000 * 60 * 60 * 24;
       const start: number = today.getTime();
-
       const end: number = this.decision.dateFin.getTime();
 
       this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);

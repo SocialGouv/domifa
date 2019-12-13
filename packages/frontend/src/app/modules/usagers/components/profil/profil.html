@@ -233,7 +233,7 @@
     </ngb-alert>
     <ngb-accordion
       #acc="ngbAccordion"
-      activeIds="panel-0,panel-1,panel-2,panel-5">
+      activeIds="panel-0,panel-1,panel-2,panel-3,panel-5">
       <ngb-panel
         id="panel-0"
         *ngIf="usager.decision.statut !== 'REFUS'">
@@ -295,7 +295,6 @@
               <tr *ngIf="!interaction.delete">
                 <td>
                   <b>{{ this.interaction.label }}</b>
-
                 </td>
                 <td>
                   {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
@@ -475,7 +474,9 @@
 
             <div class="col-md-4 reponses"></div>
 
-            <div class="col-md-12 text-center">
+            <div
+              class="col-md-12 text-center"
+              *ngIf="usager.decision.statut === 'VALIDE'">
               <br>
               <button
                 class="btn btn-dark"
@@ -492,9 +493,7 @@
             [formGroup]="usagerForm"
             (ngSubmit)="updateInfos()"
             autocomplete="off">
-
             <div class="row">
-
               <div class="col-md-4  form-group required">
                 <label for="nom">Nom</label>
                 <input
@@ -702,27 +701,153 @@
         </ng-template>
 
         <ng-template ngbPanelContent>
-          <div *ngIf="usager.ayantsDroits.length === 0">
-            <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
+
+          <div *ngIf="editAyantsDroits">
+            <form
+              [formGroup]="usagerForm"
+              (ngSubmit)="updateInfos()"
+              autocomplete="off">
+
+              <div
+                formArrayName="ayantsDroits"
+                *ngFor="let ayantDroit of f.ayantsDroits.controls; let i = index">
+                <div
+                  [formGroupName]="i"
+                  class="row">
+                  <div class="col form-group required">
+                    <label for="nom_{{i}}">Nom</label>
+                    <input
+                      id="nom_{{i}}"
+                      type="text"
+                      class="form-control"
+                      formControlName="nom"
+                      [ngClass]="{  'is-invalid':     submitted && f.ayantsDroits.controls[i].get('nom').errors }"
+                      placeholder="Nom de l'ayant droit">
+                    <div
+                      *ngIf="   submitted && f.ayantsDroits.controls[i].get('nom').errors "
+                      class="invalid-feedback">
+                      Le nom est obligatoire
+                    </div>
+                  </div>
+                  <div class="col form-group required">
+                    <label for="prennom_{{i}}">Prénom</label>
+                    <input
+                      type="text"
+                      id="prennom_{{i}}"
+                      class="form-control"
+                      formControlName="prenom"
+                      [ngClass]="{    'is-invalid':      submitted &&      f.ayantsDroits.controls[i].get('prenom').errors  }"
+                      placeholder="Prénom">
+                    <div
+                      *ngIf="submitted && f.ayantsDroits.controls[i].get('prenom').errors"
+                      class="invalid-feedback">
+                      <div>
+                        Le
+                        <b>prénom</b>
+                        est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col form-group required">
+                    <label for="dateNaissance_{{ i }}">Date de naissance</label>
+                    <input
+                      id="dateNaissance_{{ i }}"
+                      class="form-control"
+                      placeholder="jj/mm/aaaa"
+                      dateFr
+                      [ngClass]="{ 'is-invalid': submitted &&  f.ayantsDroits.controls[i].get('dateNaissance').errors  }"
+                      formControlName="dateNaissance">
+                    <div
+                      *ngIf="submitted && f.ayantsDroits.controls[i].get('dateNaissance').errors"
+                      class="invalid-feedback">
+                      <div>La date de naissance est obligatoire</div>
+                    </div>
+                  </div>
+                  <div class="col form-group">
+                    <label for="lien_{{i}}">Lien</label>
+                    <select
+                      formControlName="lien"
+                      id="lien_{{i}}"
+                      class="custom-select">
+                      <option
+                        *ngFor="let lien of liensLabels"
+                        [ngValue]="lien">
+                        {{ labels.lienParente[lien] }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <label
+                      for
+                      class="text-white">
+                      c
+                    </label>
+                    <div>
+                      <span
+                        (click)="deleteAyantDroit(i)"
+                        class="btn btn-danger">
+                        <fa-icon icon="trash"></fa-icon>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span
+                (click)="addAyantDroit()"
+                class="btn btn-primary">
+                <fa-icon icon="plus"></fa-icon>
+                Ajouter des ayants droits
+              </span>
+              <br>
+              <br>
+              <div class="row">
+                <div class="col-md-4 offset-4">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-block">
+                    Enregistrer
+                  </button>
+                </div>
+              </div>
+              <br>
+            </form>
           </div>
-          <table
-            *ngIf="usager.ayantsDroits.length > 0"
-            class="table table-light">
-            <tbody>
-              <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Né le</th>
-                <th>Lien</th>
-              </tr>
-              <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-                <td>{{ ayantDroit.nom }}</td>
-                <td>{{ ayantDroit.prenom }}</td>
-                <td>{{ ayantDroit.dateNaissance }}</td>
-                <td>{{ ayantDroit.lien }}</td>
-              </tr>
-            </tbody>
-          </table>
+
+          <div *ngIf="!editAyantsDroits">
+            <div *ngIf="usager.ayantsDroits.length === 0">
+              <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
+            </div>
+            <table
+              *ngIf="usager.ayantsDroits.length > 0"
+              class="table table-light">
+              <tbody>
+                <tr>
+                  <th>NOM Prénom</th>
+                  <th>Né le</th>
+                  <th>Lien</th>
+                </tr>
+                <tr *ngFor="let ayantDroit of usager.ayantsDroits">
+                  <td>
+                    <b>{{ ayantDroit.nom | uppercase }}</b>
+                    {{ ayantDroit.prenom }}
+                  </td>
+                  <td>{{ ayantDroit.dateNaissance }}</td>
+                  <td>{{ ayantDroit.lien }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div
+              class="col-md-12 text-center"
+              *ngIf="usager.decision.statut === 'VALIDE'">
+              <br>
+              <button
+                class="btn btn-dark"
+                (click)="editAyantsDroits = !editAyantsDroits">
+                <fa-icon icon="edit"></fa-icon>
+                Modifier les ayants-droits
+              </button>
+            </div>
+          </div>
         </ng-template>
       </ngb-panel>
 

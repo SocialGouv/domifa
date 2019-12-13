@@ -94,10 +94,11 @@ export class UsagersFormComponent implements OnInit {
 
   public residence = {};
 
-  public typeMenageList = [];
-  public residenceList = [];
-  public causeList = [];
-  public raisonList = [];
+  public typeMenageList: any;
+  public residenceList: any;
+  public causeList: any;
+  public raisonList: any;
+  public liensLabels: any;
 
   get f() {
     return this.usagerForm.controls;
@@ -138,6 +139,7 @@ export class UsagersFormComponent implements OnInit {
     this.causeList = Object.keys(this.labels.cause);
     this.raisonList = Object.keys(this.labels.raison);
     this.typeMenageList = Object.keys(this.labels.typeMenage);
+    this.liensLabels = Object.keys(this.labels.lienParente);
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;

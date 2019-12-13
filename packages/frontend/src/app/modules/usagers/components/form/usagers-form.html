@@ -493,7 +493,7 @@
               <div class="col form-group required">
                 <label for="dateNaissance">Date de naissance</label>
                 <input
-                  id="dateNaissance"
+                  id="dateNaissance_{{i}}"
                   class="form-control"
                   placeholder="jj/mm/aaaa"
                   dateFr
@@ -517,10 +517,11 @@
                   formControlName="lien"
                   id="lien_{{i}}"
                   class="custom-select">
-                  <option value="enfant">Enfant</option>
-                  <option value="parent">Parent</option>
-                  <option value="conjoint">Conjoint</option>
-                  <option value="autre">Autre personne à la charge du domicilié</option>
+                  <option
+                    *ngFor="let lien of liensLabels"
+                    [ngValue]="lien">
+                    {{ labels.lienParente[lien] }}
+                  </option>
                 </select>
               </div>
               <div class="col-md-1">

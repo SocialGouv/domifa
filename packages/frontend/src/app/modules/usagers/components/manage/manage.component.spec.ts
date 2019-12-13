@@ -1,4 +1,4 @@
-import { APP_BASE_HREF, Location } from "@angular/common";
+import { APP_BASE_HREF } from "@angular/common";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { async, TestBed } from "@angular/core/testing";

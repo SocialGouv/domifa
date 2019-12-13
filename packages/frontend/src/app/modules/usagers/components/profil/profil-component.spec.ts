@@ -71,7 +71,6 @@ describe("UsagersProfilComponent", () => {
   it("1. Variables", async(() => {
     expect(app.title).toBeDefined();
     expect(app.labels).toBeDefined();
-    expect(app.notifs).toBeDefined();
     expect(app.interactionsLabels).toBeDefined();
     expect(app.interactionsType).toBeDefined();
 

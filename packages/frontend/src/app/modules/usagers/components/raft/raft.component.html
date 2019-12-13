@@ -130,10 +130,8 @@
         <b>le filtre « Radiés ».</b>
       </p>
       <button
-        printSectionId="courrier-radiation"
-        class="btn btn-primary"
-        [useExistingCss]="true"
-        ngxPrint>
+        (click)="printService.printDiv('courrier-radiation')"
+        class="btn btn-primary">
         <fa-icon icon="print"></fa-icon>
         &ensp;
         IMPRIMER LE COURRIER DE RADIATION
@@ -155,7 +153,6 @@
         {{ user.structure.adresse }}
         <br>
         {{ user.structure.ville }}, {{ user.structure.codePostal }}
-        <br>
         <br>
         <br>
         Le {{ today | date: 'dd/MM/yyyy' }}
