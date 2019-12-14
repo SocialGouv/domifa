@@ -2,7 +2,7 @@ ARG BASE_IMAGE=socialgouv/domifa:master
 
 FROM ${BASE_IMAGE} as domifa
 
-FROM node:13
+FROM node:12
 
 ENV TZ Europe/Paris
 RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
