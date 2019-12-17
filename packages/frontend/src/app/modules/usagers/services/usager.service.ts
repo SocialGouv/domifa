@@ -44,10 +44,13 @@ export class UsagerService {
   }
 
   public entretien(entretien: Entretien, usagerId: number) {
-    return this.http.post(
-      `${this.endPointUsagers}/entretien/${usagerId}`,
-      entretien
-    );
+    return this.http
+      .post(`${this.endPointUsagers}/entretien/${usagerId}`, entretien)
+      .pipe(
+        map(response => {
+          return new Usager(response);
+        })
+      );
   }
 
   public setDecision(usagerId: number, decision: Decision, statut: string) {

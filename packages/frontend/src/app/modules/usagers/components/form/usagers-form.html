@@ -1209,35 +1209,86 @@
     [usager]="usager"
     [isAdmin]="authService.isAdmin"></app-decision>
 
-  <ng-template
-    #entretienConfirmation
-    let-modal>
-    <div class="modal-body">
-      <div class="col">
-        <h4 class="text-center">Attention</h4>
-        L’entretien préalable
-        <b>est obligatoire,</b>
-        il est l’occasion d’inscrire la domiciliation dans une démarche d’accompagnement social visant à
+  <div
+    class="col-md-12 text-center text-danger"
+    *ngIf="(usager.decision.statut === 'ATTENTE_DECISION' || usager.decision.statut === 'INSTRUCTION')
+     && authService.isAdmin &&usager.etapeDemande >= 1">
+    <button
+      class="btn btn-outline-danger"
+      id="delete-usager"
+      (click)="open(deleteConfirmation)">
+      <fa-icon icon="trash"></fa-icon>
+      &nbsp;Supprimer la demande
+    </button>
+  </div>
+</div>
+
+<ng-template
+  #deleteConfirmation
+  let-modal>
+  <div class="modal-body text-center">
+    <b class="text-danger">Attention !</b>
+    <br>
+    <br>
+    Si vous supprimez un utilisateur, vous ne pourrez plus retrouver sa fiche !
+    <br>
+    <br>
+    <b class="text-danger">
+      <fa-icon icon="exclamation-triangle"></fa-icon>
+      Toutes les informations liés à cet usager disparaitront définitivement
+      <br>
+      - Les fichiers uploadés sur Domifa
+      <br>
+      - L'historique de la domiciliation
+      <br>
+      - L'historique des interactions
+    </b>
+    <br>
+    <br>
+    Ce dossier n'apparaitra ni dans les rapports d'activités ni dans la liste des domiciliés.
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')">
+      Revenir au profil
+    </button>
+    <button
+      class="btn btn-danger"
+      (click)="deleteUsager();">
+      Supprimer l'usager
+    </button>
+  </div>
+</ng-template>
+
+<ng-template
+  #entretienConfirmation
+  let-modal>
+  <div class="modal-body">
+    <div class="col">
+      <h4 class="text-center">Attention</h4>
+      L’entretien préalable
+      <b>est obligatoire,</b>
+      il est l’occasion d’inscrire la domiciliation dans une démarche d’accompagnement social visant à
         favoriser l’insertion des personnes domiciliées et constitue une porte d’entrée
         pour intégrer la personne dans une logique de parcours.
-        <br>
-        <br>
-        Cette étape ne peut être passée que si votre structure met déjà en
+      <br>
+      <br>
+      Cette étape ne peut être passée que si votre structure met déjà en
         place un accompagnement social pour cette personne, en parallèle de sa
         domiciliation.
-      </div>
     </div>
-    <div class="modal-footer">
-      <button
-        class="btn btn-outline-dark"
-        (click)="modal.close('Save click')">
-        Revenir à l'entretien
-      </button>
-      <button
-        class="btn btn-success"
-        (click)="nextStep(3); modal.close()">
-        Continuer sans entretien
-      </button>
-    </div>
-  </ng-template>
-</div>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')">
+      Revenir à l'entretien
+    </button>
+    <button
+      class="btn btn-success"
+      (click)="nextStep(3); modal.close()">
+      Continuer sans entretien
+    </button>
+  </div>
+</ng-template>

@@ -90,6 +90,11 @@ export class UserProfilComponent implements OnInit {
     this.modal = this.modalService.open(content);
   }
 
+  public hardReset() {
+    this.userService.hardReset().subscribe((retour: any) => {
+      this.notifService.success("Utilisateur supprimé avec succès");
+    });
+  }
   private loadUsers() {
     this.userService.getUsers().subscribe((users: User[]) => {
       this.users = users;

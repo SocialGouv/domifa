@@ -53,4 +53,8 @@ export class UsersService {
   public resetPassword(data: string) {
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
+
+  public hardReset() {
+    return this.http.get(`${this.endPoint}/hard-reset`);
+  }
 }

@@ -56,6 +56,12 @@ export class UsagersProfilComponent implements OnInit {
 
   public motifsRadiation: any = entretienLabels.motifsRadiation;
   public motifsRefus: any = entretienLabels.motifsRefus;
+  public residence = {};
+
+  public typeMenageList: any;
+  public residenceList: any;
+  public causeList: any;
+  public raisonList: any;
 
   public title: string;
 
@@ -67,8 +73,9 @@ export class UsagersProfilComponent implements OnInit {
 
   public decisionLabels = {
     ATTENTE_DECISION: "Demande de domiciliation déposée",
-    IMPORT: "Dossier importé",
+    IMPORT: "Dossier importé sur Domifa",
     INSTRUCTION: "Instruction du dossier",
+    PREMIERE_DOM: "Première domiciliation",
     RADIE: "Radiation",
     REFUS: "Demande refusée",
     VALIDE: "Domiciliation acceptée"
@@ -96,8 +103,8 @@ export class UsagersProfilComponent implements OnInit {
 
   public ngOnInit() {
     this.title = "Fiche d'un domicilié";
-    this.labels = entretienLabels;
 
+    this.labels = entretienLabels;
     this.liensLabels = Object.keys(this.labels.lienParente);
 
     this.interactions = [];
@@ -105,6 +112,13 @@ export class UsagersProfilComponent implements OnInit {
     this.editInfos = false;
     this.editAyantsDroits = false;
     this.editEntretien = false;
+
+    this.residence = this.labels.residence;
+    this.residenceList = Object.keys(this.residence);
+    this.causeList = Object.keys(this.labels.cause);
+    this.raisonList = Object.keys(this.labels.raison);
+    this.typeMenageList = Object.keys(this.labels.typeMenage);
+    this.liensLabels = Object.keys(this.labels.lienParente);
 
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
@@ -114,6 +128,7 @@ export class UsagersProfilComponent implements OnInit {
           }
 
           this.usager = usager;
+          this.goToTop();
           this.getInteractions();
           this.initForms();
         },
@@ -133,6 +148,10 @@ export class UsagersProfilComponent implements OnInit {
 
   get ayantsDroits() {
     return this.usagerForm.get("ayantsDroits") as FormArray;
+  }
+
+  get e(): any {
+    return this.entretienForm.controls;
   }
 
   public initForms() {
@@ -174,6 +193,7 @@ export class UsagersProfilComponent implements OnInit {
       revenusDetail: [this.usager.entretien.revenusDetail, []],
       typeMenage: [this.usager.entretien.typeMenage, []]
     });
+
     for (const ayantDroit of this.usager.ayantsDroits) {
       this.addAyantDroit(ayantDroit);
     }
@@ -241,8 +261,9 @@ export class UsagersProfilComponent implements OnInit {
       .entretien(this.entretienForm.value, this.usager.id)
       .subscribe(
         (usager: Usager) => {
-          this.usager = new Usager(usager);
+          this.usager = usager;
           this.notifService.success("Mise à jour de l'entretien réussie");
+          this.editEntretien = false;
         },
         error => {
           this.notifService.error("Impossible d'enregistrer l'entretien");
@@ -360,6 +381,14 @@ export class UsagersProfilComponent implements OnInit {
         this.notifService.error("Impossible de supprimer le document");
       }
     );
+  }
+
+  public goToTop() {
+    window.scroll({
+      behavior: "smooth",
+      left: 0,
+      top: 0
+    });
   }
 
   private getInteractions() {

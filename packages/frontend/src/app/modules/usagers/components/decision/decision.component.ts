@@ -154,17 +154,4 @@ export class DecisionComponent implements OnInit {
   public getAttestation() {
     return this.usagerService.attestation(this.usager.id);
   }
-
-  public deleteUsager() {
-    this.usagerService.delete(this.usager.id).subscribe(
-      (result: any) => {
-        this.modal.close();
-        this.notifService.success("Usager supprimé avec succès");
-        this.router.navigate(["/manage"]);
-      },
-      error => {
-        this.notifService.error("Impossible de supprimer la fiche");
-      }
-    );
-  }
 }

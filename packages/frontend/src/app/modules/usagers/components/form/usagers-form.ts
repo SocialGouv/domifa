@@ -134,7 +134,6 @@ export class UsagersFormComponent implements OnInit {
     this.documents = [];
 
     this.residence = this.labels.residence;
-
     this.residenceList = Object.keys(this.residence);
     this.causeList = Object.keys(this.labels.cause);
     this.raisonList = Object.keys(this.labels.raison);
@@ -352,9 +351,9 @@ export class UsagersFormComponent implements OnInit {
       .entretien(this.entretienForm.value, this.usager.id)
       .subscribe(
         (usager: Usager) => {
-          this.usager = new Usager(usager);
-          this.goToTop();
+          this.usager = usager;
           this.notifService.success("Enregistrement de l'entretien réussi");
+          this.goToTop();
         },
         error => {
           this.notifService.error("Impossible d'enregistrer l'entretien");
@@ -413,6 +412,19 @@ export class UsagersFormComponent implements OnInit {
       },
       error => {
         this.notifService.error("Impossible de supprimer le document");
+      }
+    );
+  }
+
+  public deleteUsager() {
+    this.usagerService.delete(this.usager.id).subscribe(
+      (result: any) => {
+        this.modal.close();
+        this.notifService.success("Usager supprimé avec succès");
+        this.router.navigate(["/manage"]);
+      },
+      error => {
+        this.notifService.error("Impossible de supprimer la fiche");
       }
     );
   }

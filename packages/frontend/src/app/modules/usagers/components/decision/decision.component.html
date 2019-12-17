@@ -337,18 +337,6 @@
   </div>
 </div>
 
-<div
-  class="col-md-12 text-center text-danger"
-  *ngIf="(usager.decision.statut === 'ATTENTE_DECISION' || usager.decision.statut === 'INSTRUCTION') && authService.isAdmin">
-  <button
-    class="btn btn-outline-danger"
-    id="delete-usager"
-    (click)="open(deleteConfirmation)">
-    <fa-icon icon="trash"></fa-icon>
-    &nbsp;Supprimer la demande
-  </button>
-</div>
-
 <ng-template
   #refus
   let-modal>
@@ -621,44 +609,6 @@
       [disabled]="valideForm.invalid"
       (click)="setDecision('VALIDE')">
       Confirmer la domiciliation
-    </button>
-  </div>
-</ng-template>
-
-<ng-template
-  #deleteConfirmation
-  let-modal>
-  <div class="modal-body text-center">
-    <b class="text-danger">Attention !</b>
-    <br>
-    <br>
-    Si vous supprimez un utilisateur, vous ne pourrez plus retrouver sa fiche !
-    <br>
-    <br>
-    <b class="text-danger">
-      <fa-icon icon="exclamation-triangle"></fa-icon>
-      Toutes les informations liés à cet usager disparaitront définitivement
-      <br>
-      - Les fichiers uploadés sur Domifa
-      <br>
-      - L'historique de la domiciliation
-      <br>
-      - L'historique des interactions
-    </b>
-    <br>
-    <br>
-    Ce dossier n'apparaitra ni dans les rapports d'activités ni dans la liste des domiciliés.
-  </div>
-  <div class="modal-footer">
-    <button
-      class="btn btn-outline-dark"
-      (click)="modal.close('Save click')">
-      Revenir au profil
-    </button>
-    <button
-      class="btn btn-danger"
-      (click)="deleteUsager();">
-      Supprimer l'usager
     </button>
   </div>
 </ng-template>
