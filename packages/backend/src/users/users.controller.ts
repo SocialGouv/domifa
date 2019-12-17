@@ -6,6 +6,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Req,
   Response,
@@ -18,6 +19,7 @@ import { StructuresService } from "../structures/structures.service";
 import { CurrentUser } from "./current-user.decorator";
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
 import { MailerService } from "./services/mailer.service";
 import { UsersService } from "./services/users.service";
@@ -140,6 +142,15 @@ export class UsersController {
       return res.status(HttpStatus.OK).json(newUser);
     }
     throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @Patch()
+  public async patch(
+    @CurrentUser() user: User,
+    @Body() userDto: UserEditDto,
+    @Response() res: any
+  ) {
+    return this.usersService.update(user.id, user.structureId, userDto);
   }
 
   @Post("validate-email")

@@ -311,6 +311,9 @@ export class UsagersService {
       .find(this.searchQuery)
       .collation({ locale: "en" })
       .sort(this.sort)
+      .select(
+        "-import -docsPath -interactions -preference -ayansDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+      )
       .lean()
       .exec();
   }

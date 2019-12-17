@@ -4,7 +4,7 @@ import * as crypto from "crypto";
 import { Model } from "mongoose";
 import { Structure } from "../../structures/structure-interface";
 import { ResetPasswordDto } from "../dto/reset-password.dto";
-import { UserDto } from "../user.dto";
+import { UserDto } from "../dto/user.dto";
 import { User } from "../user.interface";
 
 @Injectable()

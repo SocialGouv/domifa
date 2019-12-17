@@ -10,9 +10,11 @@ import {
   UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+
 import * as bcrypt from "bcryptjs";
 import { LoginDto } from "../users/dto/login.dto";
 import { UsersService } from "../users/services/users.service";
+import { User } from "../users/user.interface";
 import { AuthService } from "./auth.service";
 
 @Controller("auth")
@@ -25,7 +27,7 @@ export class AuthController {
   @Post("login")
   @HttpCode(HttpStatus.OK)
   public async loginUser(@Response() res: any, @Body() loginDto: LoginDto) {
-    const user = await this.usersService.findOne({
+    const user: User = await this.usersService.findOne({
       email: loginDto.email.toLowerCase()
     });
     if (user) {
@@ -34,14 +36,19 @@ export class AuthController {
         user.password
       );
 
-      if (!user.verified) {
-        return res
-          .status(HttpStatus.FORBIDDEN)
-          .json({ message: "ACCOUNT_NOT_ACTIVATED" });
-      }
-
       if (isValidPass) {
+        if (!user.verified) {
+          return res
+            .status(HttpStatus.FORBIDDEN)
+            .json({ message: "ACCOUNT_NOT_ACTIVATED" });
+        }
+
         const accessToken = await this.authService.login(user);
+
+        this.usersService.update(user.id, user.structureId, {
+          lastLogin: new Date()
+        });
+
         return res.status(HttpStatus.OK).json(accessToken);
       } else {
         return res

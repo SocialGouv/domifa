@@ -10,10 +10,10 @@ export const UsagerSchema = new mongoose.Schema({
   agent: String,
   structureId: { type: Number, required: true },
 
-  nom: { type: String, required: true },
-  prenom: { type: String, required: true },
-  surnom: { type: String, default: "" },
-  email: { type: String, default: "" },
+  nom: { type: String, required: true, trim: true },
+  prenom: { type: String, required: true, trim: true },
+  surnom: { type: String, default: "", trim: true },
+  email: { type: String, default: "", trim: true },
   phone: { type: String, default: "" },
   sexe: { type: String, required: true },
 
@@ -155,11 +155,15 @@ export const UsagerSchema = new mongoose.Schema({
 
   transfert: {
     type: {
-      statut: { type: Boolean, default: false },
-      address: { type: String, default: "" },
-      name: { type: String, default: "" }
+      active: { type: Boolean, default: false },
+      address: { type: String, default: null },
+      name: { type: String, default: null }
     },
-    default: false
+    default: {
+      active: false,
+      address: null,
+      name: null
+    }
   }
 });
 

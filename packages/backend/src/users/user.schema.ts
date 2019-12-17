@@ -4,6 +4,7 @@ import { User } from "./user.interface";
 export const UserSchema = new mongoose.Schema({
   email: {
     required: true,
+    trim: true,
     type: String,
     unique: true
   },
@@ -17,6 +18,7 @@ export const UserSchema = new mongoose.Schema({
   },
   nom: {
     required: true,
+    trim: true,
     type: String
   },
   password: {
@@ -25,6 +27,7 @@ export const UserSchema = new mongoose.Schema({
   },
   prenom: {
     required: true,
+    trim: true,
     type: String
   },
   role: {

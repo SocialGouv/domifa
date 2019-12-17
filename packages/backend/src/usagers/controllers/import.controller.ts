@@ -245,11 +245,11 @@ export class ImportController {
   public async saveDatas(datas: any, @CurrentUser() user: User) {
     const agent = user.prenom + " " + user.nom;
     const usagers = [];
-
     for (let index = 1, len = datas.length; index < len; index++) {
       const row = datas[index];
       const ayantsDroits = [];
-
+      const historique = [];
+      const sexe = row[CIVILITE] === "H" ? "homme" : "femme";
       let motif = "";
 
       let dateDecision = this.notEmpty(row[DATE_DEBUT_DOM])
@@ -259,11 +259,36 @@ export class ImportController {
       let datePremiereDom = new Date().toISOString();
       if (this.notEmpty(row[DATE_PREMIERE_DOM])) {
         datePremiereDom = this.convertDate(row[DATE_PREMIERE_DOM]);
+
+        const dateFinPremiereDom = new Date(datePremiereDom);
+        dateFinPremiereDom.setFullYear(
+          dateFinPremiereDom.setFullYear(dateFinPremiereDom.getFullYear() + 1)
+        );
+
+        historique.push({
+          agent,
+          dateDebut: datePremiereDom,
+          dateDecision: datePremiereDom,
+          dateFin: dateFinPremiereDom,
+          motif,
+          statut: "PREMIERE_DOM",
+          userId: user.id,
+          userName: agent
+        });
       } else if (!this.notEmpty(row[DATE_DEBUT_DOM])) {
         datePremiereDom = this.convertDate(row[DATE_DEBUT_DOM]);
       }
 
-      const sexe = row[CIVILITE] === "H" ? "homme" : "femme";
+      historique.push({
+        agent,
+        dateDebut: new Date(),
+        dateDecision: new Date(),
+        dateFin: new Date(),
+        motif,
+        statut: "IMPORT",
+        userId: user.id,
+        userName: agent
+      });
 
       if (row[STATUT_DOM] === "REFUS") {
         motif = this.notEmpty(row[MOTIF_REFUS]) ? row[MOTIF_REFUS] : "AUTRE";
@@ -311,18 +336,7 @@ export class ImportController {
           typeMenage: row[MENAGE]
         },
         etapeDemande: 5,
-        historique: [
-          {
-            agent,
-            dateDebut: new Date(),
-            dateDecision: new Date(),
-            dateFin: new Date(),
-            motif,
-            statut: "IMPORT",
-            userId: user.id,
-            userName: agent
-          }
-        ],
+        historique,
         nom: row[NOM],
         phone,
         prenom: row[PRENOM],
