@@ -21,6 +21,8 @@ export class EntretienComponent implements OnInit {
 
   public residence = {};
 
+  public modal: any;
+
   public typeMenageList: any;
   public residenceList: any;
   public causeList: any;
@@ -34,6 +36,9 @@ export class EntretienComponent implements OnInit {
 
   @Input() public editEntretien: boolean;
   @Output() public editEntretienChange = new EventEmitter<boolean>();
+
+  @Output()
+  public nextStep = new EventEmitter<number>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -92,5 +97,12 @@ export class EntretienComponent implements OnInit {
           this.notifService.error("Impossible d'enregistrer l'entretien");
         }
       );
+  }
+  public open(content: string) {
+    this.modal = this.modalService.open(content);
+  }
+
+  public next(step: number) {
+    this.nextStep.emit(3);
   }
 }
