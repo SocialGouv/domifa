@@ -77,7 +77,6 @@ describe("UsagersFormComponent", () => {
 
     expect(app.f).toEqual(app.usagerForm.controls);
     expect(app.r).toEqual(app.rdvForm.controls);
-    expect(app.e).toEqual(app.entretienForm.controls);
   });
 
   it("2. Initialisation de l'usager", () => {
