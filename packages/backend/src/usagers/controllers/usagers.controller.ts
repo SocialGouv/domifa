@@ -28,9 +28,9 @@ import { CurrentUser } from "../../users/current-user.decorator";
 import { UsersService } from "../../users/services/users.service";
 import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";
-import { EntretienDto } from "../dto/entretien";
-import { RdvDto } from "../dto/rdv";
-import { SearchDto } from "../dto/search";
+import { EntretienDto } from "../dto/entretien.dto";
+import { RdvDto } from "../dto/rdv.dto";
+import { SearchDto } from "../dto/search.dto";
 import { UsagersDto } from "../dto/usagers.dto";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
@@ -203,6 +203,29 @@ export class UsagersController {
         return true;
       }
     }
+  }
+
+  @Post("transfert/:id")
+  public async editTransfert(
+    @Param("id") usagerId: number,
+    @Body() rdvDto: RdvDto,
+    @CurrentUser() currentUser: User
+  ) {
+    const user = await this.usersService.findOne({
+      id: rdvDto.userId,
+      structureId: currentUser.structureId
+    });
+
+    const usager = await this.usagersService.findById(
+      usagerId,
+      currentUser.structureId
+    );
+
+    if (!user || !usager) {
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
+    }
+
+    return this.usagersService.setRdv(usagerId, rdvDto, user);
   }
 
   @Get("attestation/:id")

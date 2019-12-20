@@ -68,7 +68,6 @@ export class UsagersProfilComponent implements OnInit {
   public usager: Usager;
 
   public usagerForm: FormGroup;
-  public entretienForm: FormGroup;
   public ayantsDroitsForm: FormGroup;
 
   public decisionLabels = {
@@ -113,13 +112,6 @@ export class UsagersProfilComponent implements OnInit {
     this.editAyantsDroits = false;
     this.editEntretien = false;
 
-    this.residence = this.labels.residence;
-    this.residenceList = Object.keys(this.residence);
-    this.causeList = Object.keys(this.labels.cause);
-    this.raisonList = Object.keys(this.labels.raison);
-    this.typeMenageList = Object.keys(this.labels.typeMenage);
-    this.liensLabels = Object.keys(this.labels.lienParente);
-
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {
@@ -150,10 +142,6 @@ export class UsagersProfilComponent implements OnInit {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
-  get e(): any {
-    return this.entretienForm.controls;
-  }
-
   public initForms() {
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
@@ -172,26 +160,6 @@ export class UsagersProfilComponent implements OnInit {
       structure: [this.usager.structure, []],
       surnom: [this.usager.surnom, []],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]]
-    });
-
-    this.entretienForm = this.formBuilder.group({
-      accompagnement: [
-        this.usager.entretien.accompagnement,
-        [Validators.required]
-      ],
-      accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
-      cause: [this.usager.entretien.cause, []],
-      causeDetail: [this.usager.entretien.causeDetail, []],
-      commentaires: [this.usager.entretien.commentaires, []],
-      domiciliation: [this.usager.entretien.domiciliation, []],
-      liencommune: [this.usager.entretien.liencommune, []],
-      raison: [this.usager.entretien.raison, []],
-      raisonDetail: [this.usager.entretien.raisonDetail, []],
-      residence: [this.usager.entretien.residence, []],
-      residenceDetail: [this.usager.entretien.residenceDetail, []],
-      revenus: [this.usager.entretien.revenus, []],
-      revenusDetail: [this.usager.entretien.revenusDetail, []],
-      typeMenage: [this.usager.entretien.typeMenage, []]
     });
 
     for (const ayantDroit of this.usager.ayantsDroits) {
@@ -254,21 +222,6 @@ export class UsagersProfilComponent implements OnInit {
       nom: [ayantDroit.nom, Validators.required],
       prenom: [ayantDroit.prenom, Validators.required]
     });
-  }
-
-  public updateEntretien() {
-    this.usagerService
-      .entretien(this.entretienForm.value, this.usager.id)
-      .subscribe(
-        (usager: Usager) => {
-          this.usager = usager;
-          this.notifService.success("Mise à jour de l'entretien réussie");
-          this.editEntretien = false;
-        },
-        error => {
-          this.notifService.error("Impossible d'enregistrer l'entretien");
-        }
-      );
   }
 
   public renouvellement() {

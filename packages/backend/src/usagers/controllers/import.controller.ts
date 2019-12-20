@@ -45,6 +45,7 @@ export const MOTIF_REFUS = 13;
 export const MOTIF_RADIATION = 14;
 export const MENAGE = 15;
 export const AYANT_DROIT = [16, 20, 24, 28];
+export const ID = [29];
 
 type AOA = any[][];
 
@@ -210,7 +211,6 @@ export class ImportController {
         }
 
         if (index + 1 >= datas.length) {
-          this.logger.log("FIN DU FICHIER");
           if (this.errorsId.length > 0) {
             const error = {
               errors: this.errorsId,

@@ -8,7 +8,8 @@ export async function bootstrap() {
   config();
 
   Sentry.init({
-    dsn: process.env.SENTRY_DSN
+    dsn: process.env.SENTRY_DSN,
+    release: "domifa@" + process.env.npm_package_version
   });
 
   const app = await NestFactory.create(AppModule);

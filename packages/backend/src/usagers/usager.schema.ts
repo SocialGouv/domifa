@@ -7,11 +7,27 @@ export const UsagerSchema = new mongoose.Schema({
     type: Number
   },
 
+  customId: {
+    type: String,
+    maxlength: 20
+  },
+
   agent: String,
+
+  suivi: {
+    type: {
+      userId: {
+        type: String
+      },
+      userName: { type: String }
+    },
+    default: {}
+  },
+
   structureId: { type: Number, required: true },
 
-  nom: { type: String, required: true, trim: true },
-  prenom: { type: String, required: true, trim: true },
+  nom: { type: String, required: true, trim: true, maxlength: 100 },
+  prenom: { type: String, required: true, trim: true, maxlength: 100 },
   surnom: { type: String, default: "", trim: true },
   email: { type: String, default: "", trim: true },
   phone: { type: String, default: "" },
@@ -86,6 +102,8 @@ export const UsagerSchema = new mongoose.Schema({
       residenceDetail: String,
       revenus: Boolean,
       revenusDetail: String,
+      orientation: Boolean,
+      orientationDetail: String,
       cause: String,
       causeDetail: String,
       pourquoi: String,
@@ -126,13 +144,7 @@ export const UsagerSchema = new mongoose.Schema({
     },
     default: {
       nbCourrier: 0,
-      courrierIn: null,
-      courrierOut: null,
-      recommandeIn: null,
-      recommandeOut: null,
-      appel: null,
-      dateInteraction: null,
-      visite: null
+      dateInteraction: null
     }
   },
 
@@ -150,19 +162,20 @@ export const UsagerSchema = new mongoose.Schema({
     ],
     default: []
   },
+
   docs: [],
   docsPath: [],
 
   transfert: {
     type: {
-      active: { type: Boolean, default: false },
+      actif: { type: Boolean, default: false },
       address: { type: String, default: null },
-      name: { type: String, default: null }
+      nom: { type: String, default: null }
     },
     default: {
-      active: false,
-      address: null,
-      name: null
+      actif: false,
+      adresse: null,
+      nom: null
     }
   }
 });

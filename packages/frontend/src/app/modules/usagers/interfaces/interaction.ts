@@ -20,6 +20,7 @@ export class Interaction {
       interaction && interaction.dateInteraction !== null
         ? new Date(interaction.dateInteraction)
         : null;
+
     this.type = (interaction && interaction.type) || "";
     this.content = (interaction && interaction.content) || "";
     this.nbCourrier = (interaction && interaction.nbCourrier) || 0;
@@ -32,7 +33,7 @@ export class Interaction {
     this.label = interactionsLabels[this.type];
 
     if (this.nbCourrier && this.nbCourrier > 0) {
-      this.label = this.nbCourrier.toString() + " " + this.label;
+      this.label = this.nbCourrier.toString() + " " + this.label.toLowerCase();
     }
   }
 }

@@ -9,11 +9,11 @@ export const interactionsNotifs = {
 
 export const interactionsLabels = {
   appel: "Appel téléphonique",
-  colisIn: "colis reçu",
-  colisOut: "colis récupéré",
-  courrierIn: "courriers reçus",
-  courrierOut: "courriers récupérés",
-  recommandeIn: "avis de passage reçu",
-  recommandeOut: "avis de passage récupéré",
+  colisIn: "Colis reçu",
+  colisOut: "Colis récupéré",
+  courrierIn: "Courriers reçus",
+  courrierOut: "Courriers récupérés",
+  recommandeIn: "Avis de passage reçu",
+  recommandeOut: "Avis de passage récupéré",
   visite: "Passage"
 };

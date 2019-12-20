@@ -79,10 +79,9 @@ describe("ManageUsagersComponent", () => {
     expect(app).toBeTruthy();
   });
 
-  it("1. NgOnInit", async(() => {
-    expect(app.title).toEqual("Gérer vos domiciliés");
+  it("1. NgOnInit", () => {
+    app.ngOnInit();
     expect(app.searching).toEqual(false);
-
     expect(app.filters).toEqual({
       echeance: null,
       id: null,
@@ -92,7 +91,7 @@ describe("ManageUsagersComponent", () => {
       sort: "az",
       statut: "VALIDE"
     });
-  }));
+  });
 
   it("2. Update filter", async(() => {
     app.updateFilters("sort", "za");

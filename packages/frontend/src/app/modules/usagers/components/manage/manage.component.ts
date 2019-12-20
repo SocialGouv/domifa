@@ -6,10 +6,7 @@ import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AuthService } from "src/app/services/auth.service";
-import {
-  interactionsLabels,
-  interactionsNotifs
-} from "../../interactions.labels";
+import { interactionsNotifs } from "../../interactions.labels";
 import { Search } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
 
@@ -37,7 +34,6 @@ export class ManageUsagersComponent implements OnInit {
   };
 
   public notifs = interactionsNotifs;
-  public interactionsLabels = interactionsLabels;
 
   public filters: Search;
   public sort: string;

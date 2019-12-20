@@ -2,12 +2,13 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { UsagersModule } from "../../usagers.module";
-import { UploadComponent } from "./upload.component";
+import { Usager } from "src/app/modules/usagers/interfaces/usager";
+import { UsagersModule } from "src/app/modules/usagers/usagers.module";
+import { EntretienComponent } from "./entretien.component";
 
-describe("UploadComponent", () => {
-  let component: UploadComponent;
-  let fixture: ComponentFixture<UploadComponent>;
+describe("EntretienComponent", () => {
+  let component: EntretienComponent;
+  let fixture: ComponentFixture<EntretienComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,9 +20,10 @@ describe("UploadComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UploadComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture = TestBed.createComponent(EntretienComponent);
+    component = fixture.debugElement.componentInstance;
+    const usager: Usager = new Usager();
+    component.usager = usager;
   });
 
   it("should create", () => {

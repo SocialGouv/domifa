@@ -2,9 +2,11 @@
   *ngIf="usager"
   class="container">
   <div class="row">
-    <div class="col-md-2 text-left">
+    <div class="col-md-2 text-center">
+      <br>
       <a routerLink="/manage/">
         <fa-icon icon="angle-left"></fa-icon>
+        &ensp;
         Retour à la liste
       </a>
     </div>
@@ -12,9 +14,9 @@
       <div
         id="profil_head"
         [ngClass]="{
-              'text-danger': usager.dayBeforeEnd < 15,
-              'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
-            }">
+           'text-danger': usager.dayBeforeEnd < 15,
+           'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
+         }">
         <h2 id="profil_name">{{ usager.nomComplet }}</h2>
         Numéro domicilié :
         <b>{{ usager.id }}</b>
@@ -61,7 +63,7 @@
           class="btn btn-primary">
           <fa-icon icon="print"></fa-icon>
           &ensp;
-            Imprimer le courrier de radiation
+          Imprimer le courrier de radiation
         </a>
       </div>
       <div
@@ -113,7 +115,6 @@
             <fa-icon icon="redo"></fa-icon>
             Demande de renouvellement
           </button>
-
           <a
             *ngIf="usager.dayBeforeEnd < 0"
             [routerLink]="['/radiation/'+usager.id]"
@@ -123,7 +124,6 @@
             Radier le domicilié
           </a>
         </div>
-
         <div class="w-100">
           <br>
         </div>
@@ -137,7 +137,7 @@
     </ngb-alert>
   </div>
 
-  <div *ngIf="usager.decision.statut === 'VALIDE'">
+  <div *ngIf="usager.decision.statut === 'VALIDE' || usager.decision.statut === 'RADIE' ">
     <br>
     <h5 class="text-center font-weight-bold">
       Signaler la réception d’un courrier ou un passage
@@ -265,17 +265,17 @@
         </ngb-alert>
         <table
           id="interactions-table"
-          class="table table-light table-hover"
-          *ngIf="interactions.length >0">
+          class="profil-table table table-light table-hover"
+          *ngIf="interactions.length > 0">
           <thead>
             <tr>
-              <th>Type d'interaction</th>
               <th>Date</th>
+              <th>Type d'interaction</th>
               <th>Notifié par</th>
               <th></th>
             </tr>
           </thead>
-          <tbody *ngFor="let interaction of interactions | slice:0:10; let i=index;">
+          <tbody *ngFor="let interaction of interactions | slice:0:5; let i=index;">
             <tr *ngIf="interaction.delete === true">
               <td
                 colspan="4"
@@ -293,13 +293,13 @@
                 </button>
               </td>
             </tr>
-            <tr *ngIf="!interaction.delete">
-              <td>
-                <b>{{ this.interaction.label }}</b>
-              </td>
+            <tr
+              *ngIf="!interaction.delete"
+              [ngClass]="{ 'font-weight-bold' : interaction.type === 'courrierOut' }">
               <td>
                 {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
               </td>
+              <td>{{ interaction.label }}</td>
               <td>{{ interaction.userName }}</td>
               <td
                 class="interactions-actions"
@@ -345,11 +345,12 @@
       <ng-template ngbPanelContent>
         <table
           *ngIf="usager.historique.length > 0"
-          class="table table-light table-hover">
+          class="profil-table table table-light table-hover">
           <thead>
             <tr>
               <th>Date</th>
               <th>Type de décision</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -378,8 +379,8 @@
                   <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
                 </b>
               </td>
-
               <td>{{ usager.decision.userName }}</td>
+              <td></td>
             </tr>
             <tr *ngFor="let histo of usager.historique">
               <td>
@@ -402,6 +403,8 @@
                 </div>
               </td>
               <td>{{ histo.userName }}</td>
+              <td></td>
+
             </tr>
           </tbody>
         </table>
@@ -445,11 +448,11 @@
           </div>
           <div class="col-md-4 reponses">
             <span class="question">SURNOM</span>
-            <span class="valeur">{{ usager.surnom }}</span>
+            <span class="valeur">{{ usager.surnom  | titlecase }}</span>
           </div>
           <div class="col-md-4 reponses">
             <span class="question">SEXE</span>
-            <span class="valeur">{{ usager.sexe }}</span>
+            <span class="valeur">{{ usager.sexe  | titlecase }}</span>
           </div>
 
           <div class="col-md-4 reponses">
@@ -461,16 +464,18 @@
 
           <div class="col-md-4 reponses">
             <span class="question">VILLE de naissance</span>
-            <span class="valeur">{{ usager.villeNaissance }}</span>
+            <span class="valeur">
+              {{ usager.villeNaissance  | titlecase }}
+            </span>
           </div>
 
           <div class="col-md-4 reponses">
             <span class="question">Numéro de téléphone</span>
-            <span class="valeur">{{ usager.phone }}</span>
+            <span class="valeur">{{ usager.phone || "Non renseigné" }}</span>
           </div>
           <div class="col-md-4 reponses">
             <span class="question">Adresse email</span>
-            <span class="valeur">{{ usager.email }}</span>
+            <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
           </div>
 
           <div class="col-md-4 reponses"></div>
@@ -548,7 +553,16 @@
                 placeholder="Surnom / Nom d'usage"
                 [ngClass]="{ 'is-invalid': f.prenom.surnom }">
             </div>
-
+            <div class="col-md-4 form-group required">
+              <label for="sexe">Sexe</label>
+              <select
+                formControlName="sexe"
+                id="sexe"
+                class="custom-select">
+                <option value="homme">Homme</option>
+                <option value="femme">Femme</option>
+              </select>
+            </div>
             <div class="col-md-4 form-group required">
               <label for="dateNaissancePicker">Date de naissance</label>
               <div class="input-group">
@@ -605,7 +619,7 @@
                 formControlName="villeNaissance"
                 placeholder="Ville (préciser le pays si à l'étranger)"
                 autocomplete="null"
-                [ngClass]="{     'is-invalid': f.villeNaissance.errors   }"
+                [ngClass]="{ 'is-invalid': f.villeNaissance.errors   }"
                 required>
               <div
                 *ngIf="f.villeNaissance.errors"
@@ -614,10 +628,7 @@
                 <b>ville de naissance</b>
                 est obligatoire
               </div>
-
             </div>
-
-            <div class="col-md-4"></div>
 
             <div class="col-md-4  form-group">
               <label for="phone">Numéro de téléphone</label>
@@ -637,7 +648,6 @@
                 class="invalid-feedback">
                 <div>Le numéro de téléphone est incorrect</div>
               </div>
-
             </div>
 
             <div class="col-md-4">
@@ -658,10 +668,7 @@
                   <div *ngIf="f.email.errors.email">L'adresse email est incorrecte</div>
                 </div>
               </div>
-
             </div>
-
-            <div class="col-md-4"></div>
 
             <div class="col-md-4 offset-md-4 text-center">
               <br>
@@ -670,6 +677,7 @@
                 type="hidden">
               <button
                 type="submit"
+                [disabled]="usagerForm.invalid"
                 class="btn btn-primary btn-block">
                 Enregistrer
               </button>
@@ -708,7 +716,6 @@
             [formGroup]="usagerForm"
             (ngSubmit)="updateInfos()"
             autocomplete="off">
-
             <div
               formArrayName="ayantsDroits"
               *ngFor="let ayantDroit of f.ayantsDroits.controls; let i = index">
@@ -725,7 +732,7 @@
                     [ngClass]="{  'is-invalid':     submitted && f.ayantsDroits.controls[i].get('nom').errors }"
                     placeholder="Nom de l'ayant droit">
                   <div
-                    *ngIf="   submitted && f.ayantsDroits.controls[i].get('nom').errors "
+                    *ngIf=" submitted && f.ayantsDroits.controls[i].get('nom').errors "
                     class="invalid-feedback">
                     Le nom est obligatoire
                   </div>
@@ -737,7 +744,7 @@
                     id="prennom_{{i}}"
                     class="form-control"
                     formControlName="prenom"
-                    [ngClass]="{    'is-invalid':      submitted &&      f.ayantsDroits.controls[i].get('prenom').errors  }"
+                    [ngClass]="{  'is-invalid': submitted && f.ayantsDroits.controls[i].get('prenom').errors  }"
                     placeholder="Prénom">
                   <div
                     *ngIf="submitted && f.ayantsDroits.controls[i].get('prenom').errors"
@@ -764,7 +771,7 @@
                     <div>La date de naissance est obligatoire</div>
                   </div>
                 </div>
-                <div class="col form-group">
+                <div class="col form-group required">
                   <label for="lien_{{i}}">Lien</label>
                   <select
                     formControlName="lien"
@@ -805,6 +812,7 @@
               <div class="col-md-4 offset-4">
                 <button
                   type="submit"
+                  [disabled]="usagerForm.invalid"
                   class="btn btn-primary btn-block">
                   Enregistrer
                 </button>
@@ -819,6 +827,7 @@
             <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
           </div>
           <table
+            id="ayants-droits-table"
             *ngIf="usager.ayantsDroits.length > 0"
             class="table table-light">
             <tbody>
@@ -875,337 +884,22 @@
 
       <ng-template ngbPanelContent>
 
-        <form
+        <app-entretien
           *ngIf="editEntretien"
-          [formGroup]="entretienForm"
-          (ngSubmit)="updateEntretien()">
-          <div class="row">
-            <div class="col-md-12">
-              <div>
-                <span class="label">Avez-vous déjà une domiciliation ?</span>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    formControlName="domiciliation"
-                    id="domiciliation_oui"
-                    [value]="true">
-                  <label
-                    class="form-check-label"
-                    for="domiciliation_oui">
-                    Oui
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    formControlName="domiciliation"
-                    id="domiciliation_non"
-                    [value]="false">
-                  <label
-                    class="form-check-label"
-                    for="domiciliation_non">
-                    Non
-                  </label>
-                </div>
-              </div>
-
-              <div>
-                <span class="label">Avez-vous des revenus ?</span>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    formControlName="revenus"
-                    id="revenus_oui"
-                    [value]="true">
-                  <label
-                    class="form-check-label"
-                    for="revenus_oui">
-                    Oui
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    formControlName="revenus"
-                    id="revenus_non"
-                    [value]="false">
-                  <label
-                    class="form-check-label"
-                    for="revenus_non">
-                    Non
-                  </label>
-                </div>
-              </div>
-
-              <div
-                *ngIf="e.revenus.value === true"
-                class="form-group">
-                <br>
-                <label
-                  class="form-check-label"
-                  for="revenusDetail">
-                  De quelle nature ?
-                </label>
-                <textarea
-                  class="form-control"
-                  formControlName="revenusDetail"
-                  name="revenusDetail"
-                  id="revenusDetail"></textarea>
-              </div>
-
-              <div>
-                <span class="label">Quel est votre lien avec la commune ?</span>
-                <textarea
-                  class="form-control"
-                  formControlName="liencommune"
-                  name="liencommune"
-                  id="liencommune"></textarea>
-              </div>
-
-              <div class="questions">
-                <span class="label">
-                  Quelle est la composition de votre ménage ?
-                </span>
-                <div
-                  class="form-check"
-                  *ngFor="let key of typeMenageList">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    formControlName="typeMenage"
-                    id="{{ key }}"
-                    value="{{ key }}">
-                  <label
-                    class="form-check-label"
-                    for="{{ key }}">
-                    {{ labels.typeMenage[key] }}
-                  </label>
-
-                </div>
-              </div>
-
-              <div class="questions">
-                <div>
-                  <span class="label">
-                    Quelle est votre situation résidentielle ?
-                  </span>
-                  <div
-                    class="form-check"
-                    *ngFor="let key of residenceList">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      formControlName="residence"
-                      id="{{ key }}"
-                      value="{{ key }}">
-                    <label
-                      class="form-check-label"
-                      for="{{ key }}">
-                      {{ labels.residence[key] }}
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      formControlName="residence"
-                      id="residenceAutre"
-                      value="AUTRE">
-                    <label
-                      class="form-check-label"
-                      for="residenceAutre">
-                      Autre lieu de vie
-                    </label>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    *ngIf="e.residence.value === 'AUTRE'"
-                    formControlName="residenceDetail"
-                    placeholder="Précisions">
-                </div>
-              </div>
-
-              <div class="questions">
-                <div>
-                  <span class="label">
-                    Quelle est la cause de l'instabilité de logement ?
-                  </span>
-                  <div
-                    class="form-check"
-                    *ngFor="let key of causeList">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      formControlName="cause"
-                      id="{{ key }}"
-                      value="{{ key }}">
-                    <label
-                      class="form-check-label"
-                      for="{{ key }}">
-                      {{ labels.cause[key] }}
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      formControlName="cause"
-                      id="causeAutre"
-                      value="AUTRE">
-                    <label
-                      class="form-check-label"
-                      for="causeAutre">
-                      Autre raison
-                    </label>
-
-                  </div>
-                </div>
-                <div
-                  class="form-group"
-                  *ngIf="e.cause.value === 'AUTRE'">
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="causeDetail"
-                    placeholder="Précisions">
-                </div>
-              </div>
-
-              <div class="questions">
-                <div>
-                  <span class="label">
-                    Quel est le motif principal de demande de domiciliation ?
-                  </span>
-                  <div
-                    class="form-check"
-                    *ngFor="let key of raisonList">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      formControlName="raison"
-                      id="{{ key }}"
-                      value="{{ key }}">
-                    <label
-                      class="form-check-label"
-                      for="{{ key }}">
-                      {{ labels.raison[key] }}
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      formControlName="raison"
-                      id="raisonAutre"
-                      value="AUTRE">
-                    <label
-                      class="form-check-label"
-                      for="raisonAutre">
-                      Autre raison
-                    </label>
-                  </div>
-                </div>
-                <div
-                  *ngIf="e.raison.value === 'AUTRE'"
-                  class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="raisonDetail"
-                    placeholder="Précisions">
-                </div>
-              </div>
-
-              <div>
-                <span class="label">
-                  Faites-vous l’objet d’un accompagnement social ?
-                </span>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    formControlName="accompagnement"
-                    id="accompagnement_oui"
-                    [value]="true">
-                  <label
-                    class="form-check-label"
-                    for="accompagnement_oui">
-                    Oui
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    formControlName="accompagnement"
-                    id="accompagnement_non"
-                    [value]="false">
-                  <label
-                    class="form-check-label"
-                    for="accompagnement_non">
-                    Non
-                  </label>
-                </div>
-              </div>
-
-              <div
-                *ngIf="e.accompagnement.value === true"
-                class="form-group">
-                <br>
-                <label
-                  class="form-check-label"
-                  for="accompagnement_non">
-                  Par quelle structure ?
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="accompagnementDetail">
-              </div>
-
-              <div>
-                <span class="label">Commentaires</span>
-                <textarea
-                  class="form-control"
-                  id="commentaires"
-                  formControlName="commentaires"
-                  id="commentaires"></textarea>
-              </div>
-            </div>
-
-            <div class="w-100">
-              <br>
-            </div>
-            <br>
-            <br>
-
-            <div class="col-md-6 offset-md-3 text-center">
-              <span
-                (click)="!editEntretien"
-                class="btn btn-outline-dark ">
-                Annuler
-              </span>
-              &nbsp;
-              <button
-                type="submit"
-                class="btn btn-primary ">
-                Enregistrer
-              </button>
-
-            </div>
-          </div>
-        </form>
+          [(editEntretien)]="editEntretien"
+          [(usager)]="usager"></app-entretien>
 
         <div
           class="row"
           *ngIf="!editEntretien">
+
+          <div class="col-md-4 reponses">
+            <span class="question">ORIENTATION</span>
+            <span class="valeur">
+              {{ usager.entretien.orientation ? "Oui: " + usager.entretien.orientationDetail : "Non" }}
+            </span>
+          </div>
+
           <div class="col-md-4 reponses">
             <span class="question">DOMICILIATION EXISTANTE</span>
             <span class="valeur">
@@ -1330,9 +1024,6 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <app-upload
-          *ngIf="usager.decision.statut === 'VALIDE' || usager.decision.statut === 'RADIE'"
-          [usager]="usager"></app-upload>
         <div *ngIf="usager.docs.length === 0">
           <ngb-alert [dismissible]="false">Aucune pièce-jointe enregistrée</ngb-alert>
         </div>
@@ -1341,7 +1032,6 @@
           *ngIf="usager.docs.length > 0">
           <tbody>
             <tr>
-              <th>#</th>
               <th>Nom de la pièce justificative</th>
               <th>Ajoutée le</th>
               <th>Ajoutée par</th>
@@ -1349,7 +1039,6 @@
               <th></th>
             </tr>
             <tr *ngFor="let document of usager.docs; let indexDocs = index">
-              <td>{{ indexDocs }}</td>
               <td>{{ document.label }}</td>
               <td>
                 {{ document.createdAt | date: 'dd/MM/yyyy' }}
@@ -1376,6 +1065,11 @@
             </tr>
           </tbody>
         </table>
+        <br>
+        <br>
+        <app-upload
+          *ngIf="usager.decision.statut === 'VALIDE' || usager.decision.statut === 'RADIE'"
+          [usager]="usager"></app-upload>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>

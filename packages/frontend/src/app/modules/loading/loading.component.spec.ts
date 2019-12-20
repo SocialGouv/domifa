@@ -32,7 +32,6 @@ describe("LoadingComponent", () => {
 
   it("should create", async(() => {
     expect(component).toBeTruthy();
-    expect(component.ngOnInit).toBeTruthy();
     expect(component.loading).toBeFalsy();
 
     service.startLoading();

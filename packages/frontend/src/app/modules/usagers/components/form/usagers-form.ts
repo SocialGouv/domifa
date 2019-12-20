@@ -39,11 +39,11 @@ import { Decision } from "../../interfaces/decision";
   templateUrl: "./usagers-form.html"
 })
 export class UsagersFormComponent implements OnInit {
-  public selected: any;
-
   public title: string;
   public labels: any;
   public doublons: Usager[];
+
+  public selected: any;
 
   /* Config datepickers */
   public dToday = new Date();
@@ -83,7 +83,6 @@ export class UsagersFormComponent implements OnInit {
   public registerForm: FormGroup;
   public usagerForm: FormGroup;
   public rdvForm: FormGroup;
-  public entretienForm: FormGroup;
 
   public submitted = false;
   public submittedFile = false;
@@ -92,23 +91,13 @@ export class UsagersFormComponent implements OnInit {
   public structure: any;
   public agents: User[] = [];
 
-  public residence = {};
-
-  public typeMenageList: any;
-  public residenceList: any;
-  public causeList: any;
-  public raisonList: any;
-  public liensLabels: any;
-
   get f() {
     return this.usagerForm.controls;
   }
   get r(): any {
     return this.rdvForm.controls;
   }
-  get e(): any {
-    return this.entretienForm.controls;
-  }
+
   get ayantsDroits() {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
@@ -132,13 +121,6 @@ export class UsagersFormComponent implements OnInit {
     this.labels = labels;
     this.doublons = [];
     this.documents = [];
-
-    this.residence = this.labels.residence;
-    this.residenceList = Object.keys(this.residence);
-    this.causeList = Object.keys(this.labels.cause);
-    this.raisonList = Object.keys(this.labels.raison);
-    this.typeMenageList = Object.keys(this.labels.typeMenage);
-    this.liensLabels = Object.keys(this.labels.lienParente);
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
@@ -200,26 +182,6 @@ export class UsagersFormComponent implements OnInit {
       isNow: [this.usager.rdv.isNow, []],
       jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
       userId: [this.usager.id, Validators.required]
-    });
-
-    this.entretienForm = this.formBuilder.group({
-      accompagnement: [
-        this.usager.entretien.accompagnement,
-        [Validators.required]
-      ],
-      accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
-      cause: [this.usager.entretien.cause, []],
-      causeDetail: [this.usager.entretien.causeDetail, []],
-      commentaires: [this.usager.entretien.commentaires, []],
-      domiciliation: [this.usager.entretien.domiciliation, []],
-      liencommune: [this.usager.entretien.liencommune, []],
-      raison: [this.usager.entretien.raison, []],
-      raisonDetail: [this.usager.entretien.raisonDetail, []],
-      residence: [this.usager.entretien.residence, []],
-      residenceDetail: [this.usager.entretien.residenceDetail, []],
-      revenus: [this.usager.entretien.revenus, []],
-      revenusDetail: [this.usager.entretien.revenusDetail, []],
-      typeMenage: [this.usager.entretien.typeMenage, []]
     });
 
     this.userService.getUsers().subscribe((users: User[]) => {
@@ -344,21 +306,6 @@ export class UsagersFormComponent implements OnInit {
         }
       );
     }
-  }
-
-  public submitEntretien() {
-    this.usagerService
-      .entretien(this.entretienForm.value, this.usager.id)
-      .subscribe(
-        (usager: Usager) => {
-          this.usager = usager;
-          this.notifService.success("Enregistrement de l'entretien réussi");
-          this.goToTop();
-        },
-        error => {
-          this.notifService.error("Impossible d'enregistrer l'entretien");
-        }
-      );
   }
 
   public setValueRdv(value: string) {

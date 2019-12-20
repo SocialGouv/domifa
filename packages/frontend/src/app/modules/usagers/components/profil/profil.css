@@ -151,3 +151,27 @@ input[type="number"] {
   cursor: pointer;
   text-decoration: underline;
 }
+
+#ayants-droits-table th,
+#ayants-droits-table td {
+  width: 33.3%;
+}
+
+.profil-table th:first-child,
+.profil-table td:first-child {
+  width: 20%;
+}
+
+.profil-table th:nth-child(2),
+.profil-table td:nth-child(2) {
+  width: 55%;
+}
+.profil-table th:nth-child(3),
+.profil-table td:nth-child(3) {
+  width: 20%;
+}
+
+.profil-table th:nth-child(4),
+.profil-table td:nth-child(4) {
+  width: 5%;
+}

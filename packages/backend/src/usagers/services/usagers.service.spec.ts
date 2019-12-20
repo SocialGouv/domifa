@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../../database/database.module";
 import { UsersService } from "../../users/services/users.service";
 import { UsersModule } from "../../users/users.module";
-import { SearchDto } from "../dto/search";
+import { SearchDto } from "../dto/search.dto";
 import { UsagersDto } from "../dto/usagers.dto";
 import { UsagersProviders } from "../usagers.providers";
 

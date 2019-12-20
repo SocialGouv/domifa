@@ -75,10 +75,6 @@ describe("UsagersFormComponent", () => {
     expect(app.labels.cause).toBeDefined();
     expect(app.labels.raison).toBeDefined();
 
-    expect(Array.isArray(app.residenceList)).toBeTruthy();
-    expect(Array.isArray(app.causeList)).toBeTruthy();
-    expect(Array.isArray(app.raisonList)).toBeTruthy();
-
     expect(app.f).toEqual(app.usagerForm.controls);
     expect(app.r).toEqual(app.rdvForm.controls);
     expect(app.e).toEqual(app.entretienForm.controls);
