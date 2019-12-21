@@ -234,6 +234,7 @@ export class UsagersService {
         id,
         structureId
       })
+      .populate("structure")
       .select(selectedFields)
       .exec();
   }

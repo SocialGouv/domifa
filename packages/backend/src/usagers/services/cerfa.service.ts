@@ -83,14 +83,26 @@ export class CerfaService {
     this.pdfForm = "../../ressources/attestation.pdf";
 
     this.infosPdf = {
+      "topmostSubform[0].Page1[0].AdressePostale[0]": adresseStructure,
       "topmostSubform[0].Page1[0].AyantsDroits[0]": ayantsDroitsTexte,
+      "topmostSubform[0].Page1[0].Courriel[0]": user.structure.email,
       "topmostSubform[0].Page1[0].Datenaissance1[0]": this.dateNaissance.jour,
       "topmostSubform[0].Page1[0].Datenaissance2[0]": this.dateNaissance.mois,
       "topmostSubform[0].Page1[0].Datenaissance3[0]": this.dateNaissance.annee,
       "topmostSubform[0].Page1[0].LieuNaissance[0]": usager.villeNaissance,
       "topmostSubform[0].Page1[0].Mme-Monsieur1[0]": this.sexe,
+      "topmostSubform[0].Page1[0].Nomdelorganisme[0]": user.structure.nom,
       "topmostSubform[0].Page1[0].Noms[0]": usager.nom,
+      "topmostSubform[0].Page1[0].PréfectureayantDélivré[0]":
+        user.structure.departement,
       "topmostSubform[0].Page1[0].Prénoms[0]": usager.prenom,
+      "topmostSubform[0].Page1[0].RespOrganisme[0]":
+        user.structure.responsable.nom +
+        " " +
+        user.structure.responsable.prenom +
+        ", " +
+        user.structure.responsable.fonction,
+      "topmostSubform[0].Page1[0].téléphone[0]": user.structure.phone,
       "topmostSubform[0].Page2[0].NomOrgaDomiciliataire[0]": user.structure.nom,
       "topmostSubform[0].Page2[0].NuméroAgrément[0]": user.structure.agrement,
       "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]":
@@ -101,17 +113,6 @@ export class CerfaService {
       this.dateDebut = this.convertDate(usager.decision.dateDebut);
       this.dateFin = this.convertDate(usager.decision.dateFin);
 
-      this.infosPdf["topmostSubform[0].Page1[0].Nomdelorganisme[0]"] =
-        user.structure.nom;
-
-      this.infosPdf["topmostSubform[0].Page1[0].RespOrganisme[0]"] =
-        user.structure.responsable.nom +
-        " " +
-        user.structure.responsable.prenom;
-
-      this.infosPdf["topmostSubform[0].Page1[0].PréfectureayantDélivré[0]"] =
-        user.structure.departement;
-
       this.infosPdf["topmostSubform[0].Page1[0].NumAgrement[0]"] =
         user.structure.agrement;
 
@@ -119,19 +120,9 @@ export class CerfaService {
         "topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]"
       ] = adresseStructure;
 
-      this.infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] =
-        user.structure.email;
-
-      this.infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] =
-        user.structure.phone;
-
       this.infosPdf["topmostSubform[0].Page1[0].Noms2[0]"] = usager.nom;
 
       this.infosPdf["topmostSubform[0].Page1[0].Prénoms2[0]"] = usager.prenom;
-
-      this.infosPdf[
-        "topmostSubform[0].Page1[0].AdressePostale[0]"
-      ] = adresseStructure;
 
       this.infosPdf[
         "topmostSubform[0].Page1[0].JourValidité1[0]"
@@ -178,8 +169,9 @@ export class CerfaService {
       this.infosPdf["topmostSubform[0].Page1[0].Groupe_de_boutons_radio[0]"] =
         usager.typeDom === "RENOUVELLEMENT" ? "2" : "1";
 
-      this.infosPdf["topmostSubform[0].Page1[0].LieuNaissance[1]"] =
-        usager.villeNaissance;
+      this.infosPdf[
+        "topmostSubform[0].Page1[0].LieuNaissance[1]"
+      ] = usager.id.toString();
 
       this.infosPdf["topmostSubform[0].Page2[0].Mme-Monsieur2[0]"] = this.sexe;
 

@@ -12,7 +12,6 @@ import {
   UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { Request } from "express";
 import { RolesGuard } from "../auth/roles.guard";
 import { StructuresService } from "../structures/structures.service";
 import { CurrentUser } from "./current-user.decorator";

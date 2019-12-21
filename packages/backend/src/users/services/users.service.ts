@@ -45,10 +45,7 @@ export class UsersService {
   public async findOne(search: any): Promise<any> {
     return this.userModel
       .findOne(search)
-      .populate(
-        "structure",
-        "adresse adressePostale codePostal complementAdresse email id nom phone responsable structureType ville"
-      )
+      .populate("structure", "-import -token -users -verified")
       .lean()
       .exec();
   }
