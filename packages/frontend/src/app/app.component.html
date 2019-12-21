@@ -70,9 +70,47 @@
   </div>
 </nav>
 <div id="page">
-  <router-outlet></router-outlet>
-</div>
 
+  <router-outlet></router-outlet>
+  <ng-template
+    #newsCenter
+    let-modal>
+    <div class="modal-body text-center">
+      <h4 class="text-center">
+        🎉 Les dernières nouveautés de Domifa 🎉
+      </h4>
+      <br>
+      <div
+        class="text-left"
+        *ngFor="let news of domifaNews ">
+        <p>
+          <b>{{ news.date | date: 'dd/MM/yyyy' }}</b>
+          - {{ news.description }}
+        </p>
+        <div
+          *ngFor="let content of news.content"
+          class="text-left">
+          <span
+            class="badge badge-pill"
+            [ngClass]=" { 'badge-primary': content.type === 'new','badge-danger': content.type === 'bug' } ">
+            {{ newsLabels[content.type] }}
+          </span>
+          &nbsp;
+          <b>{{ content.categorie}}</b>
+          <br>
+          <span>{{content.message}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        class="btn btn-primary"
+        (click)="closeModal()">
+        Continuer sur Domifa
+      </button>
+    </div>
+  </ng-template>
+</div>
 <div id="help-button-wrapper">
   <div
     id="help-text"
@@ -113,13 +151,11 @@
     <span>Conditions d'utilisation</span>
   </div>
   <div>
-
     <a
       [routerLink]="['/mentions-legales']"
       routerLinkActive="router-link-active">
       Mentions légales
     </a>
-
   </div>
   <div>
     <span>Contactez-nous</span>

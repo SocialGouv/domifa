@@ -30,6 +30,7 @@ export class AuthController {
     const user: User = await this.usersService.findOne({
       email: loginDto.email.toLowerCase()
     });
+
     if (user) {
       const isValidPass = await bcrypt.compare(
         loginDto.password,
@@ -74,6 +75,7 @@ export class AuthController {
     return res.status(HttpStatus.OK).json({
       email: user.email,
       id: user.id,
+      lastLogin: user.lastLogin,
       nom: user.nom,
       prenom: user.prenom,
       role: user.role,

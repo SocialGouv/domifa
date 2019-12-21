@@ -13,6 +13,7 @@ export class User {
   public admin: boolean;
   public structureId: number;
   public structure: Structure;
+  public lastLogin: Date;
 
   constructor(user?: any) {
     this.prenom = (user && user.prenom) || null;
@@ -27,5 +28,6 @@ export class User {
     this.id = (user && user.id) || null;
     this.structure =
       (user && new Structure(user.structure)) || new Structure({});
+    this.lastLogin = (user && new Date(user.lastLogin)) || null;
   }
 }

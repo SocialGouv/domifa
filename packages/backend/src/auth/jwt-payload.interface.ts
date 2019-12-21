@@ -4,4 +4,6 @@ export interface JwtPayload {
   nom: string;
   prenom: string;
   role: string;
+  lastLogin: Date;
+  structureId: number;
 }

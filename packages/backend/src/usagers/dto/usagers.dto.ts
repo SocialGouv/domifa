@@ -15,6 +15,9 @@ export class UsagersDto {
   @IsOptional()
   public id: number;
 
+  @IsOptional()
+  public customId: string;
+
   @IsNotEmpty()
   public nom: string;
 

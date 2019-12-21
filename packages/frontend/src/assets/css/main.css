@@ -139,8 +139,13 @@ ul {
   border-radius: 0.25rem !important;
   max-width: 900px;
 }
+
 .modal-backdrop.show {
-  opacity: 0.7;
+  opacity: 0.75;
+}
+.modal-content {
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
 }
 
 .alert {
@@ -400,4 +405,22 @@ table .active {
   display: inline-block;
   margin-bottom: 12px;
   min-width: 345px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0.1;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
 }

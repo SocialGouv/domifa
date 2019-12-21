@@ -138,7 +138,7 @@ export class UsagersService {
 
     if (decision.statut === "VALIDE") {
       if (!usager.datePremiereDom) {
-        usager.typeDecision = "RENOUVELLEMENT";
+        usager.typeDom = "RENOUVELLEMENT";
       }
       if (decision.dateFin !== undefined && decision.dateFin !== null) {
         decision.dateFin = new Date(decision.dateFin);
@@ -312,7 +312,7 @@ export class UsagersService {
       .collation({ locale: "en" })
       .sort(this.sort)
       .select(
-        "-import -docsPath -interactions -preference -ayansDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+        "-structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -ayansDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
       )
       .lean()
       .exec();

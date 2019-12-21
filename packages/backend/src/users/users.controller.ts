@@ -8,7 +8,6 @@ import {
   Param,
   Patch,
   Post,
-  Req,
   Response,
   UseGuards
 } from "@nestjs/common";
@@ -34,13 +33,6 @@ export class UsersController {
   ) {}
 
   @UseGuards(AuthGuard("jwt"))
-  @Get("structure/:id")
-  public findByStructure(@Param("id") structureId: number) {
-    return this.usersService.findOne({ structureId });
-  }
-
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
   @Get()
   public findAll(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll(user);
@@ -144,7 +136,8 @@ export class UsersController {
     throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  @Patch()
+  @UseGuards(AuthGuard("jwt"))
+  @Patch(":id")
   public async patch(
     @CurrentUser() user: User,
     @Body() userDto: UserEditDto,

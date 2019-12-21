@@ -1,0 +1,53 @@
+[
+  {
+    "date": "2019-12-20",
+    "description": "Cette semaine, de nombreuses modifications ont été apportés à la fiche domicilié suite à vos retours",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Domiciliés",
+        "message": "Les administrateurs peuvent désormais supprimer la fiche d'un.e domicilié.e"
+      },
+      {
+        "type": "new",
+        "categorie": "Domiciliés",
+        "message": "Vous pouvez désormais voir le nombre de dossier dans chaque catégorie (radiés, actifs, etc)"
+      },
+      {
+        "type": "new",
+        "categorie": "Entretien social",
+        "message": "Vous pouvez désormais enregistrer qui a orienter une personne "
+      },
+      {
+        "type": "new",
+        "categorie": "Entretien social",
+        "message": "Vous pouvez désormais éditer la situation sociale d'une domicilié"
+      },
+      {
+        "type": "new",
+        "categorie": "Demande de domiciliation",
+        "message": "Vous pouvez désormais imprimer la fiche récapitulative à la fin d'une demande de domiciliation"
+      },
+      {
+        "type": "new",
+        "categorie": "Général",
+        "message": "Votre liste de domiciliés se charge plus vite qu'avant !"
+      },
+      {
+        "type": "bug",
+        "categorie": "",
+        "message": "La date de première domiciliation est désormais enregistrée lors de l'import"
+      },
+      {
+        "type": "bug",
+        "categorie": "",
+        "message": "Il est désormais possible de changer le sexe d'une personne"
+      },
+      {
+        "type": "bug",
+        "categorie": "",
+        "message": "Les informations manquantes de l'entretien sociale ont été ajouté sur la fiche domicilée"
+      }
+    ]
+  }
+]

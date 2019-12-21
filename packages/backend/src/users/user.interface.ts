@@ -12,6 +12,7 @@ export interface User extends Document {
   structure: Structure;
   role: string;
   verified: boolean;
+  lastLogin: Date;
   tokens: {
     email: string;
     password: string;

@@ -13,6 +13,8 @@ export interface Usager extends Document {
   surnom: string;
   sexe: string;
 
+  customId: string;
+
   dateNaissance: Date;
   villeNaissance: string;
 
@@ -24,8 +26,6 @@ export interface Usager extends Document {
   structureId: number;
   etapeDemande: number;
 
-  datePremiereDom: Date;
-
   agent: string;
 
   decision: Decision;
@@ -36,7 +36,6 @@ export interface Usager extends Document {
 
   docs: Doc[];
   docsPath: string[];
-  typeDecision: string;
 
   lastInteraction: {
     nbCourrier: number;
@@ -46,7 +45,7 @@ export interface Usager extends Document {
   interactions: Interaction[];
 
   typeDom: string;
+  datePremiereDom: Date;
 
-  transfert: boolean;
-  transfertAddress: string;
+  transfert: {};
 }
