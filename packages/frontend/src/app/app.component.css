@@ -32,3 +32,8 @@
   box-shadow: 0 0px 8px 2px rgba(215, 210, 210, 0.2);
   padding: 10px 15px;
 }
+
+.news {
+  margin: 10px 0;
+  display: block;
+}

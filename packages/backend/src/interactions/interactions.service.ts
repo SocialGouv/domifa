@@ -8,7 +8,6 @@ import {
 import { Model } from "mongoose";
 import { Usager } from "../usagers/interfaces/usagers";
 import { UsagersService } from "../usagers/services/usagers.service";
-import { UsersService } from "../users/services/users.service";
 import { User } from "../users/user.interface";
 import { InteractionDto } from "./interactions.dto";
 import { Interaction } from "./interactions.interface";
@@ -105,7 +104,7 @@ export class InteractionsService {
         structureId: user.structureId,
         usagerId
       })
-      .limit(12)
+      .limit(8)
       .sort({ dateInteraction: -1 })
       .lean()
       .exec();
@@ -120,6 +119,15 @@ export class InteractionsService {
       .deleteOne({
         _id: interactionId,
         structureId: user.structureId,
+        usagerId
+      })
+      .exec();
+  }
+
+  public async deleteAll(usagerId: number, structureId: number): Promise<any> {
+    return this.interactionModel
+      .deleteMany({
+        structureId,
         usagerId
       })
       .exec();

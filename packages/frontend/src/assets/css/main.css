@@ -424,3 +424,7 @@ table .active {
     opacity: 1;
   }
 }
+
+.modal-header h4 {
+  margin: 2px 0;
+}

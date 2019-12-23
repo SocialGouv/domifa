@@ -35,6 +35,7 @@ import { UsagersDto } from "../dto/usagers.dto";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
+import { InteractionsService } from "../../interactions/interactions.service";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
@@ -45,6 +46,7 @@ export class UsagersController {
     private readonly usagersService: UsagersService,
     private readonly usersService: UsersService,
     private readonly docsService: DocumentsService,
+    private readonly interactionService: InteractionsService,
     private readonly cerfaService: CerfaService
   ) {}
 
@@ -190,6 +192,14 @@ export class UsagersController {
         "/" +
         usagerId
     );
+
+    const deleteInteractions = await this.interactionService.deleteAll(
+      usagerId,
+      user.structureId
+    );
+
+    console.log(deleteInteractions);
+
     const deleteUsager = await this.usagersService.delete(usagerId, user);
 
     if (deleteUsager && deleteUsager.deletedCount === 1) {

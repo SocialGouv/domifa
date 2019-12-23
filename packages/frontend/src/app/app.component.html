@@ -75,11 +75,21 @@
   <ng-template
     #newsCenter
     let-modal>
-    <div class="modal-body text-center">
-      <h4 class="text-center">
+    <div class="modal-header">
+      <h4
+        class="modal-title"
+        id="modal-basic-title">
         🎉 Les dernières nouveautés de Domifa 🎉
       </h4>
-      <br>
+      <button
+        type="button"
+        class="close"
+        aria-label="Fermer la fenêtre"
+        (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body text-center">
       <div
         class="text-left"
         *ngFor="let news of domifaNews ">
@@ -89,16 +99,18 @@
         </p>
         <div
           *ngFor="let content of news.content"
-          class="text-left">
+          class="text-left news">
           <span
             class="badge badge-pill"
             [ngClass]=" { 'badge-primary': content.type === 'new','badge-danger': content.type === 'bug' } ">
             {{ newsLabels[content.type] }}
           </span>
           &nbsp;
-          <b>{{ content.categorie}}</b>
+          <b>{{ content.categorie }}</b>
           <br>
-          <span>{{content.message}}</span>
+          <ul>
+            <li *ngFor="let message of content.message">{{ message }}</li>
+          </ul>
         </div>
       </div>
     </div>

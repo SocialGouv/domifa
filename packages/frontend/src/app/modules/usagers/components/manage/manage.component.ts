@@ -22,7 +22,6 @@ export class ManageUsagersComponent implements OnInit {
   public searchFailed: boolean;
   public usagers: Usager[] = [];
 
-  public prenom: string;
   public dateLabel: string;
 
   public labelsDateFin: any = {
@@ -66,9 +65,6 @@ export class ManageUsagersComponent implements OnInit {
     this.usagers = [];
     this.searching = false;
     this.dateLabel = "Fin de domiciliation";
-    this.authService.currentUser.subscribe(user => {
-      this.prenom = user !== null ? user.prenom : "";
-    });
 
     this.stats = {
       ATTENTE_DECISION: 0,
@@ -77,6 +73,9 @@ export class ManageUsagersComponent implements OnInit {
       REFUS: 0,
       VALIDE: 0
     };
+
+    this.getStats();
+    this.search();
 
     fromEvent(this.searchInput.nativeElement, "keyup")
       .pipe(
@@ -92,9 +91,6 @@ export class ManageUsagersComponent implements OnInit {
         this.searching = true;
         this.search();
       });
-
-    this.search();
-    this.getStats();
   }
 
   public getSearchBar() {
@@ -165,6 +161,7 @@ export class ManageUsagersComponent implements OnInit {
         : "Date de fin";
 
     localStorage.setItem("filters", JSON.stringify(this.filters));
+
     this.usagerService.search(this.filters).subscribe(
       (usagers: Usager[]) => {
         this.usagers = usagers;

@@ -4,7 +4,8 @@ import { Usager } from "./interfaces/usagers";
 
 export const UsagerSchema = new mongoose.Schema({
   id: {
-    type: Number
+    type: Number,
+    index: true
   },
 
   customId: {
@@ -24,7 +25,7 @@ export const UsagerSchema = new mongoose.Schema({
     default: {}
   },
 
-  structureId: { type: Number, required: true },
+  structureId: { type: Number, required: true, index: true },
 
   nom: { type: String, required: true, trim: true, maxlength: 100 },
   prenom: { type: String, required: true, trim: true, maxlength: 100 },
@@ -80,7 +81,8 @@ export const UsagerSchema = new mongoose.Schema({
     },
     statut: {
       default: "INSTRUCTION",
-      type: String
+      type: String,
+      index: true
     },
     userId: Number,
     userName: String

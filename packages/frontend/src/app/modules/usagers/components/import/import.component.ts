@@ -25,6 +25,7 @@ export const MOTIF_REFUS = 13;
 export const MOTIF_RADIATION = 14;
 export const COMPOSITION_MENAGE = 15;
 export const AYANT_DROIT = [16, 20, 24, 28];
+export const CUSTOM_ID = 29;
 
 export const colNames = [
   "Civilité",
@@ -59,7 +60,8 @@ export const colNames = [
   "Ayant-droit 4: nom",
   "Ayant-droit 4: prénom",
   "Ayant-droit 4: date de naissance",
-  "Ayant-droit 4: ien parenté"
+  "Ayant-droit 4: lien parenté",
+  "Numéro d'identification"
 ];
 
 type AOA = any[][];
