@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
 import { DatabaseModule } from "../../database/database.module";
+import { InteractionsModule } from "../../interactions/interactions.module";
 import { UsersService } from "../../users/services/users.service";
 import { UsersModule } from "../../users/users.module";
 import { CerfaService } from "../services/cerfa.service";
@@ -17,7 +18,7 @@ describe("Usagers Controller", () => {
   beforeAll(async () => {
     app = await Test.createTestingModule({
       controllers: [UsagersController],
-      imports: [DatabaseModule, UsersModule],
+      imports: [DatabaseModule, UsersModule, InteractionsModule],
       providers: [
         CerfaService,
         UsagersService,

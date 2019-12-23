@@ -24,6 +24,7 @@ import * as path from "path";
 import * as rimraf from "rimraf";
 import { RolesGuard } from "../../auth/roles.guard";
 import { ConfigService } from "../../config/config.service";
+import { InteractionsService } from "../../interactions/interactions.service";
 import { CurrentUser } from "../../users/current-user.decorator";
 import { UsersService } from "../../users/services/users.service";
 import { User } from "../../users/user.interface";
@@ -35,7 +36,6 @@ import { UsagersDto } from "../dto/usagers.dto";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
-import { InteractionsService } from "../../interactions/interactions.service";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
@@ -197,8 +197,6 @@ export class UsagersController {
       usagerId,
       user.structureId
     );
-
-    console.log(deleteInteractions);
 
     const deleteUsager = await this.usagersService.delete(usagerId, user);
 
