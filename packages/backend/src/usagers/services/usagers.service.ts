@@ -11,11 +11,6 @@ import { Usager } from "../interfaces/usagers";
 
 @Injectable()
 export class UsagersService {
-  public limit: number;
-  public sort: {};
-  public searchByName: {};
-  public searchQuery: SearchQuery;
-
   constructor(
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
   ) {}
@@ -270,9 +265,10 @@ export class UsagersService {
   }
 
   public async search(query: SearchDto, structureId: number): Promise<any> {
-    this.sort = { nom: 1 };
-    this.searchQuery = {};
-    this.searchQuery.structureId = structureId;
+    let sort: any = { nom: 1 };
+    let searchQuery: SearchQuery = {};
+
+    searchQuery.structureId = structureId;
 
     const sortValues = {
       az: { nom: "ascending" },
@@ -283,7 +279,7 @@ export class UsagersService {
 
     /* ID DE LA STRUCTURE DE LUSER */
     if (query.name) {
-      this.searchQuery.$or = [
+      searchQuery.$or = [
         {
           nom: { $regex: ".*" + query.name + ".*", $options: "-i" }
         },
@@ -297,21 +293,21 @@ export class UsagersService {
     }
 
     if (query.statut) {
-      this.searchQuery["decision.statut"] = query.statut;
+      searchQuery["decision.statut"] = query.statut;
     }
 
     if (query.interactionType) {
-      this.searchQuery["lastInteraction.nbCourrier"] = { $gt: 0 };
+      searchQuery["lastInteraction.nbCourrier"] = { $gt: 0 };
     }
 
     if (query.sort) {
-      this.sort = sortValues[query.sort];
+      sort = sortValues[query.sort];
     }
 
     return this.usagerModel
-      .find(this.searchQuery)
+      .find(searchQuery)
       .collation({ locale: "en" })
-      .sort(this.sort)
+      .sort(sort)
       .select(
         "-structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -ayansDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
       )

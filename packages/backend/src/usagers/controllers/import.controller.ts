@@ -402,7 +402,7 @@ export class ImportController {
       return true;
     }
 
-    const types = {
+    const types: any = {
       demande: ["PREMIERE", "RENOUVELLEMENT"],
       lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
       menage: [

@@ -115,10 +115,11 @@ export class UsagersFormComponent implements OnInit {
     private router: Router,
     private notifService: ToastrService,
     private nbgDate: NgbDateCustomParserFormatter
-  ) {}
+  ) {
+    this.title = "Enregistrer une domiciliation";
+  }
 
   public ngOnInit() {
-    this.title = "Enregistrer une domiciliation";
     this.labels = labels;
 
     this.doublons = [];
@@ -360,7 +361,7 @@ export class UsagersFormComponent implements OnInit {
       (usager: Usager) => {
         this.usager.docs = new Usager(usager).docs;
       },
-      error => {
+      (error: any) => {
         this.notifService.error("Impossible de supprimer le document");
       }
     );

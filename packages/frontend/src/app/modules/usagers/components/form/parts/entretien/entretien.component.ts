@@ -17,8 +17,6 @@ import * as labels from "src/app/shared/entretien.labels";
 })
 export class EntretienComponent implements OnInit {
   public labels: any;
-  public title: string;
-
   public residence = {};
 
   public modal: any;

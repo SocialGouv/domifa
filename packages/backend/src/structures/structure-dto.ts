@@ -1,12 +1,4 @@
-import {
-  IsDate,
-  IsEmail,
-  IsIn,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsPhoneNumber
-} from "class-validator";
+import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 
 export class StructureDto {
   @IsNumber()

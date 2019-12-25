@@ -4,6 +4,6 @@ export interface SearchQuery {
   interactionType?: string;
   interactionStatut?: boolean;
   "decision.statut"?: {};
-  "lastInteraction.nbre"?: {};
+  "lastInteraction.nbCourrier"?: {};
   structureId?: number;
 }

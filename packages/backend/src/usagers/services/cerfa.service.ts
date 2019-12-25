@@ -14,10 +14,8 @@ export const motifsRefus = {
 
 @Injectable()
 export class CerfaService {
-  public pdfForm: string;
   public infosPdf: any;
 
-  public phone: string;
   public dateNaissance: any;
 
   public dateDemande: any;
@@ -80,7 +78,7 @@ export class CerfaService {
       ", " +
       user.structure.codePostal;
 
-    this.pdfForm = "../../ressources/attestation.pdf";
+    let pdfForm = "../../ressources/attestation.pdf";
 
     this.infosPdf = {
       "topmostSubform[0].Page1[0].AdressePostale[0]": adresseStructure,
@@ -160,7 +158,7 @@ export class CerfaService {
         "topmostSubform[0].Page1[0].AnneePremiereDomic[0]"
       ] = this.datePremiereDom.annee;
     } else {
-      this.pdfForm = "../../ressources/demande.pdf";
+      pdfForm = "../../ressources/demande.pdf";
 
       this.infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = usager.phone;
 
@@ -281,7 +279,7 @@ export class CerfaService {
     this.logger.log(this.infosPdf);
 
     return pdftk
-      .input(fs.readFileSync(path.resolve(__dirname, this.pdfForm)))
+      .input(fs.readFileSync(path.resolve(__dirname, pdfForm)))
       .fillForm(this.infosPdf)
       .output();
   }

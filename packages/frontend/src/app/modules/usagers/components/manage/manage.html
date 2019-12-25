@@ -142,8 +142,7 @@
             (click)="goToProfil(usager.id, usager.decision.statut)"
             class="font-weight-bold">
             <span
-              *ngIf="usager.decision.statut === 'REFUS' ||
-            usager.decision.statut === 'RADIE'"
+              *ngIf="usager.decision.statut === 'REFUS' || usager.decision.statut === 'RADIE'"
               class="text-danger">
               {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
             </span>

@@ -26,7 +26,7 @@ export class UsersService {
   public async create(userDto: UserDto, structure: Structure): Promise<User> {
     const createdUser = new this.userModel(userDto);
 
-    // ADMIN PAR DEFAUT
+    /* Admin par défaut */
     const adminExist = await this.findOne({
       structureId: userDto.structureId
     });

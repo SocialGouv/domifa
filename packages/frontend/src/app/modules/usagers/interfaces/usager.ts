@@ -67,7 +67,10 @@ export class Usager {
       this.nom.toUpperCase();
 
     this.surnom = (usager && usager.surnom) || "";
+
     this.dateNaissance = null;
+
+    this.historique = [];
     this.dateNaissancePicker = {};
     if (usager && usager.dateNaissance !== null) {
       this.dateNaissance = new Date(usager.dateNaissance);
@@ -133,8 +136,8 @@ export class Usager {
     }
 
     this.interactionsToday = {
-      appel: null,
-      visite: null
+      appel: false,
+      visite: false
     };
 
     this.typeDom = (usager && usager.typeDom) || "PREMIERE";

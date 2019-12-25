@@ -6,7 +6,7 @@ export const InteractionSchema = new mongoose.Schema({
   nbCourrier: Number,
   structureId: Number,
   type: String,
-  usagerId: Number,
+  usagerId: { type: Number, index: true },
   userId: Number,
   userName: String
 });
