@@ -109,8 +109,7 @@ describe("CerfaService", () => {
     expect(user).toBeDefined();
 
     service.attestation(usager, user);
-    expect(service.sexe).toEqual("2");
-    expect(service.pdfForm).toEqual("../../ressources/demande.pdf");
+
     expect(await service.infosPdf).toEqual(datasAttendues);
   });
 
@@ -130,7 +129,6 @@ describe("CerfaService", () => {
 
     service.attestation(usager, user);
     expect(service.motif).toEqual("");
-    expect(service.sexe).toEqual("2");
 
     const datasAttendues = {
       "topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]":
@@ -230,9 +228,6 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]": "",
       "topmostSubform[0].Page2[0].PrénomsDemandeur[0]": "FRED"
     };
-
-    expect(service.sexe).toEqual("2");
-    expect(service.pdfForm).toEqual("../../ressources/demande.pdf");
 
     expect(await service.infosPdf).toEqual(datasAttendues);
 

@@ -31,7 +31,6 @@ export class CerfaService {
     minutes: string;
   };
   public motif: string;
-  public sexe: string;
 
   private readonly logger = new Logger(CerfaService.name);
 
@@ -49,7 +48,7 @@ export class CerfaService {
         " - ";
     }
 
-    this.sexe = usager.sexe === "femme" ? "1" : "2";
+    const sexe = usager.sexe === "femme" ? "1" : "2";
 
     this.dateNaissance = this.convertDate(usager.dateNaissance);
     this.dateRdv = this.convertDate(usager.rdv.dateRdv);
@@ -88,7 +87,7 @@ export class CerfaService {
       "topmostSubform[0].Page1[0].Datenaissance2[0]": this.dateNaissance.mois,
       "topmostSubform[0].Page1[0].Datenaissance3[0]": this.dateNaissance.annee,
       "topmostSubform[0].Page1[0].LieuNaissance[0]": usager.villeNaissance,
-      "topmostSubform[0].Page1[0].Mme-Monsieur1[0]": this.sexe,
+      "topmostSubform[0].Page1[0].Mme-Monsieur1[0]": sexe,
       "topmostSubform[0].Page1[0].Nomdelorganisme[0]": user.structure.nom,
       "topmostSubform[0].Page1[0].Noms[0]": usager.nom,
       "topmostSubform[0].Page1[0].PréfectureayantDélivré[0]":
@@ -171,7 +170,7 @@ export class CerfaService {
         "topmostSubform[0].Page1[0].LieuNaissance[1]"
       ] = usager.id.toString();
 
-      this.infosPdf["topmostSubform[0].Page2[0].Mme-Monsieur2[0]"] = this.sexe;
+      this.infosPdf["topmostSubform[0].Page2[0].Mme-Monsieur2[0]"] = sexe;
 
       this.infosPdf["topmostSubform[0].Page2[0].NomsDemandeur[0]"] = usager.nom;
 
