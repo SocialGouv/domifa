@@ -27,7 +27,6 @@ export class EntretienComponent implements OnInit {
   public residenceList: any;
   public causeList: any;
   public raisonList: any;
-  public liensLabels: any;
 
   public entretienForm: FormGroup;
 
@@ -59,7 +58,6 @@ export class EntretienComponent implements OnInit {
     this.causeList = Object.keys(this.labels.cause);
     this.raisonList = Object.keys(this.labels.raison);
     this.typeMenageList = Object.keys(this.labels.typeMenage);
-    this.liensLabels = Object.keys(this.labels.lienParente);
 
     this.entretienForm = this.formBuilder.group({
       accompagnement: [

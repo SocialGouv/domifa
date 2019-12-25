@@ -90,6 +90,7 @@ export class UsagersFormComponent implements OnInit {
   public modal: any;
   public structure: any;
   public agents: User[] = [];
+  public liensLabels: any;
 
   get f() {
     return this.usagerForm.controls;
@@ -119,8 +120,10 @@ export class UsagersFormComponent implements OnInit {
   public ngOnInit() {
     this.title = "Enregistrer une domiciliation";
     this.labels = labels;
+
     this.doublons = [];
     this.documents = [];
+    this.liensLabels = Object.keys(this.labels.lienParente);
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;

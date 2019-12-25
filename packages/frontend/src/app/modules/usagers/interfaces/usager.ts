@@ -28,7 +28,6 @@ export class Usager {
   public ayantsDroitsExist: boolean;
   public ayantsDroits: AyantDroit[];
 
-  public agent: string;
   public typeDom: string;
 
   public historique: Decision[];
@@ -85,8 +84,6 @@ export class Usager {
     this.phone = (usager && usager.phone) || "";
     this.docs = (usager && usager.docs) || [];
 
-    this.agent = (usager && usager.agent) || "";
-
     this.structure = (usager && parseInt(usager.structure, 10)) || 2;
     this.etapeDemande = (usager && parseInt(usager.etapeDemande, 10)) || 0;
 
@@ -111,9 +108,9 @@ export class Usager {
 
     this.docs = (usager && usager.docs) || [];
 
-    this.ayantsDroitsExist = (usager && usager.ayantsDroitsExist) || false;
-
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
+
+    this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
 
     this.preference = (usager && usager.preference) || {
       aucun: false,

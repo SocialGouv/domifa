@@ -10,19 +10,7 @@ export const UsagerSchema = new mongoose.Schema({
 
   customId: {
     type: String,
-    maxlength: 20
-  },
-
-  agent: String,
-
-  suivi: {
-    type: {
-      userId: {
-        type: String
-      },
-      userName: { type: String }
-    },
-    default: {}
+    maxlength: 30
   },
 
   structureId: { type: Number, required: true, index: true },
@@ -38,7 +26,6 @@ export const UsagerSchema = new mongoose.Schema({
   villeNaissance: { type: String, required: true },
 
   ayantsDroits: { type: Array, default: [] },
-  ayantsDroitsExist: Boolean,
 
   etapeDemande: {
     type: Number,
@@ -51,8 +38,6 @@ export const UsagerSchema = new mongoose.Schema({
     type: Date
   },
 
-  import: { type: Boolean, default: false },
-
   typeDom: {
     default: "PREMIERE",
     type: String
@@ -63,20 +48,12 @@ export const UsagerSchema = new mongoose.Schema({
     dateFin: { type: Date, default: Date.now },
     dateDecision: { type: Date, default: Date.now },
 
-    motif: {
-      default: "",
-      type: String
-    },
-    motifDetails: {
-      default: "",
-      type: String
-    },
+    motif: { type: String },
+    motifDetails: { type: String },
     orientation: {
-      default: "",
       type: String
     },
     orientationDetails: {
-      default: "",
       type: String
     },
     statut: {
@@ -168,16 +145,31 @@ export const UsagerSchema = new mongoose.Schema({
   docs: [],
   docsPath: [],
 
-  transfert: {
+  suivi: {
     type: {
-      actif: { type: Boolean, default: false },
-      address: { type: String, default: null },
-      nom: { type: String, default: null }
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      },
+      userName: { type: String }
     },
-    default: {
-      actif: false,
-      adresse: null,
-      nom: null
+    default: {}
+  },
+
+  optionsCourrier: {
+    transfert: {
+      type: {
+        actif: { type: Boolean, default: false },
+        address: { type: String, default: null },
+        nom: { type: String, default: null }
+      }
+    },
+    procuration: {
+      actif: { type: Boolean, default: false },
+      autorisations: { type: Array, default: [] }
+    },
+    dnp: {
+      actif: { type: Boolean, default: false }
     }
   }
 });

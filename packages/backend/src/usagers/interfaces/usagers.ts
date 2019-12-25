@@ -26,8 +26,6 @@ export interface Usager extends Document {
   structureId: number;
   etapeDemande: number;
 
-  agent: string;
-
   decision: Decision;
   historique: Decision[];
 
@@ -46,6 +44,4 @@ export interface Usager extends Document {
 
   typeDom: string;
   datePremiereDom: Date;
-
-  transfert: {};
 }

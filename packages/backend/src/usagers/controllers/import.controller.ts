@@ -317,7 +317,6 @@ export class ImportController {
       const phone = !row[PHONE] ? null : row[PHONE].replace(/\D/g, "");
 
       const usager = {
-        agent,
         ayantsDroits,
         dateNaissance: this.convertDate(row[DATE_NAISSANCE]),
         datePremiereDom,
