@@ -81,7 +81,7 @@ describe("ManageUsagersComponent", () => {
 
   it("1. NgOnInit", () => {
     app.ngOnInit();
-    expect(app.searching).toEqual(false);
+    expect(app.searching).toEqual(true);
     expect(app.filters).toEqual({
       echeance: null,
       id: null,
