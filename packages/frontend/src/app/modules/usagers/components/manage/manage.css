@@ -233,3 +233,39 @@ th {
 .sort-structures {
   margin: 0;
 }
+
+#usagers-list {
+  position: relative;
+}
+
+.content-overlay {
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 100%;
+  min-height: 500px;
+  background-color: white;
+  z-index: 4000;
+}
+
+.content-overlay div {
+  margin: 50px auto;
+  text-align: center;
+}
+
+.spinner {
+  font-size: 4rem;
+  color: var(--primary);
+  -webkit-text-stroke-width: 20px;
+  stroke-width: 20px;
+  -webkit-text-stroke-color: white;
+  stroke: white;
+  margin-bottom: 10px;
+}
+
+.content-overlay span {
+  width: 300px;
+  line-height: 100%;
+  color: var(--primary);
+  font-size: 1.1rem;
+}

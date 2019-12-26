@@ -150,11 +150,7 @@
               *ngIf="submitted && f.nom.errors"
               class="invalid-feedback"
               autocomplete="null">
-              <div *ngIf="f.nom.errors.required">
-                Le
-                <b>nom</b>
-                du demandeur est obligatoire
-              </div>
+              <div *ngIf="f.nom.errors.required">Le nom du demandeur est obligatoire</div>
             </div>
           </div>
           <div class="col form-group required">
@@ -170,13 +166,8 @@
               required>
             <div
               *ngIf="submitted && f.prenom.errors"
-              class="invalid-feedback"
-              autocomplete="null">
-              <div *ngIf="f.prenom.errors.required">
-                Le
-                <b>Prénom</b>
-                est obligatoire
-              </div>
+              class="invalid-feedback">
+              <div *ngIf="f.prenom.errors.required">Le prénom est obligatoire</div>
             </div>
           </div>
         </div>
@@ -226,19 +217,14 @@
                   class="invalid-feedback-custom">
                   <div *ngIf="f.dateNaissancePicker.value.year <= 1800">Pas de date avant 1900</div>
                 </div>
+
                 <div
                   *ngIf="f.dateNaissancePicker.invalid"
                   class="invalid-feedback">
-                  <div *ngIf="submitted && f.dateNaissancePicker.errors.required">
-                    La
-                    <b>date de naissance</b>
-                    est obligatoire
-                  </div>
+                  <div>La date de naissance est obligatoire</div>
                   <div *ngIf="f.dateNaissancePicker.dirty
                   && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)">
-                    La
-                    <b>date de naissance</b>
-                    est incorrecte (ex: 20/12/1991)
+                    Format de date incorrect (ex: 20/12/1991)
                   </div>
                 </div>
               </div>
@@ -261,9 +247,7 @@
               <div
                 *ngIf="f.villeNaissance.errors"
                 class="invalid-feedback">
-                La
-                <b>ville de naissance</b>
-                est obligatoire
+                La ville de naissance est obligatoire
               </div>
             </div>
           </div>
@@ -483,11 +467,7 @@
                 <div
                   *ngIf="submitted && f.ayantsDroits.controls[i].get('prenom').errors"
                   class="invalid-feedback">
-                  <div>
-                    Le
-                    <b>prénom</b>
-                    est obligatoire
-                  </div>
+                  Le prénom est obligatoire
                 </div>
               </div>
               <div class="col form-group required">

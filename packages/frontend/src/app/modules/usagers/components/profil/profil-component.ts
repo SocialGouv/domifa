@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import * as entretienLabels from "../../../../shared/entretien.labels";
 import {
   interactionsLabels,
   interactionsNotifs
@@ -27,6 +26,7 @@ import { Interaction } from "../../interfaces/interaction";
 import { Usager } from "../../interfaces/usager";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
+import * as usagersLabels from "../../usagers.labels";
 
 @Component({
   providers: [
@@ -54,8 +54,6 @@ export class UsagersProfilComponent implements OnInit {
   public liensLabels: any;
   public modal: any;
 
-  public motifsRadiation: any = entretienLabels.motifsRadiation;
-  public motifsRefus: any = entretienLabels.motifsRefus;
   public residence = {};
 
   public typeMenageList: any;
@@ -69,16 +67,6 @@ export class UsagersProfilComponent implements OnInit {
 
   public usagerForm: FormGroup;
   public ayantsDroitsForm: FormGroup;
-
-  public decisionLabels = {
-    ATTENTE_DECISION: "Demande de domiciliation déposée",
-    IMPORT: "Dossier importé sur Domifa",
-    INSTRUCTION: "Instruction du dossier",
-    PREMIERE_DOM: "Première domiciliation",
-    RADIE: "Radiation",
-    REFUS: "Demande refusée",
-    VALIDE: "Domiciliation acceptée"
-  };
 
   public notifInputs: {} = {
     colisIn: 0,
@@ -103,7 +91,7 @@ export class UsagersProfilComponent implements OnInit {
   public ngOnInit() {
     this.title = "Fiche d'un domicilié";
 
-    this.labels = entretienLabels;
+    this.labels = usagersLabels;
     this.liensLabels = Object.keys(this.labels.lienParente);
 
     this.interactions = [];

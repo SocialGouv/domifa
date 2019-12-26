@@ -8,7 +8,8 @@ import { environment } from "src/environments/environment";
 export class StatsService {
   public http: HttpClient;
   public loading: boolean;
-  public endPointUsagers = environment.apiUrl + "usagers/";
+  public epUsagers = environment.apiUrl + "usagers/";
+  public epInteractions = environment.apiUrl + "interactions/";
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -16,6 +17,10 @@ export class StatsService {
   }
 
   public getStatuts() {
-    return this.http.get(`${this.endPointUsagers}stats-domifa`);
+    return this.http.get(`${this.epUsagers}stats-domifa`);
+  }
+
+  public getInteractionsStats() {
+    return this.http.get(`${this.epInteractions}stats-domifa`);
   }
 }

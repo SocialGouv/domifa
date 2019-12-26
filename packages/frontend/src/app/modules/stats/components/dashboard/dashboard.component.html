@@ -2,9 +2,7 @@
   id="stats"
   class="row">
   <div class="col-6 offset-3">
-
     <h4 class="text-center ">Structures existantes</h4>
-
     <div
       class="card"
       *ngFor="let structure of structures; let i = index">
@@ -12,20 +10,33 @@
         <div class="col-md-12">
           <b>#{{i+1}} {{ structure.nom }}</b>
           <br>
+          <b>Adresse :</b>
           {{ structure.adresse }},
           <i>
             {{ structure.ville }} ({{ structure.codePostal }})
           </i>
+          <br>
         </div>
-        <div class="col-md-12">
-          <button
-            *ngFor="let stat of stats[structure.id]"
-            class="btn stats-button"
-            [ngClass]="statutClass[stat.statut]">
-            <b>{{ stat.statut}} :</b>
-            {{ stat.sum }}
-          </button>
-
+        <div class="col-md-6">
+          <b>Domiciliations</b>
+          <ul>
+            <li *ngFor="let stat of stats[structure.id]">
+              {{ labels[stat.statut] }} :
+              <b [ngClass]="statutClass[stat.statut]">{{ stat.sum }}</b>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <b>Interactions</b>
+          <ul *ngIf="interactions[structure.id]">
+            <li *ngFor="let interaction of interactions[structure.id]">
+              {{ interactionsLabels[interaction.type] }} :
+              <b>{{ interaction.sum }}</b>
+            </li>
+          </ul>
+          <div *ngIf="!interactions[structure.id]">
+            Aucune interaction enregistrée pour cette structure
+          </div>
         </div>
       </div>
     </div>

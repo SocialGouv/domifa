@@ -1,10 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger
-} from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Usager } from "../usagers/interfaces/usagers";
 import { UsagersService } from "../usagers/services/usagers.service";
@@ -130,6 +124,29 @@ export class InteractionsService {
         structureId,
         usagerId
       })
+      .exec();
+  }
+
+  public async stats(structureId?: number) {
+    const query = structureId ? { structureId: { $eq: structureId } } : {};
+
+    return this.interactionModel
+      .aggregate([
+        { $match: query },
+        {
+          $group: {
+            _id: { structureId: "$structureId", type: "$type" },
+            total: { $sum: 1 },
+            types: { $push: "$type" }
+          }
+        },
+        {
+          $group: {
+            _id: { structureId: "$_id.structureId" },
+            type: { $addToSet: { type: "$_id.type", sum: "$total" } }
+          }
+        }
+      ])
       .exec();
   }
 }

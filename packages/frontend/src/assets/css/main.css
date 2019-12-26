@@ -143,9 +143,10 @@ ul {
 .modal-backdrop.show {
   opacity: 0.75;
 }
+
 .modal-content {
   animation-name: fadeIn;
-  animation-duration: 0.5s;
+  animation-duration: 300ms;
 }
 
 .alert {

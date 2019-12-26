@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
 import { Structure } from "src/app/modules/structures/structure.interface";
+import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
+import { decision } from "src/app/modules/usagers/usagers.labels";
 import { StatsService } from "../../stats.service";
 
 @Component({
@@ -10,33 +12,34 @@ import { StatsService } from "../../stats.service";
 })
 export class DashboardComponent implements OnInit {
   public title: string;
-  public stats: any;
+
+  public interactionsLabels: any;
   public structures: Structure[];
 
+  public stats: any;
+  public interactions: any;
+  public labels: any;
+
   public statutClass = {
-    ATTENTE_DECISION: "btn-warning",
-    INSTRUCTION: "btn-primary",
-    RADIE: "btn-danger",
-    REFUS: "btn-danger",
-    VALIDE: "btn-secondary"
-  };
-  public decisionLabels = {
-    ATTENTE_DECISION: "Demande de domiciliation déposée",
-    IMPORT: "Dossier importé",
-    INSTRUCTION: "Instruction du dossier",
-    RADIE: "Radiation",
-    REFUS: "Demande refusée",
-    VALIDE: "Domiciliation acceptée"
+    ATTENTE_DECISION: "text-warning",
+    INSTRUCTION: "text-primary",
+    RADIE: "text-danger",
+    REFUS: "text-danger",
+    VALIDE: "text-secondary"
   };
 
   constructor(
     public statsService: StatsService,
     private structureService: StructureService
-  ) {}
-
-  public ngOnInit() {
+  ) {
+    this.interactionsLabels = interactionsLabels;
+    this.labels = decision;
     this.title = "Statistiques";
     this.stats = [];
+    this.interactions = [];
+  }
+
+  public ngOnInit() {
     this.structureService.findAll().subscribe((structures: Structure[]) => {
       this.structures = structures;
     });
@@ -44,6 +47,12 @@ export class DashboardComponent implements OnInit {
     this.statsService.getStatuts().subscribe((stats: any[]) => {
       stats.forEach(stat => {
         this.stats[stat._id.structureId] = stat.statut;
+      });
+    });
+
+    this.statsService.getInteractionsStats().subscribe((stats: any[]) => {
+      stats.forEach(stat => {
+        this.interactions[stat._id.structureId] = stat.type;
       });
     });
   }

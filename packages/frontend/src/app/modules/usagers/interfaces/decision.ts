@@ -1,3 +1,8 @@
+import {
+  motifsRadiation,
+  motifsRefus
+} from "src/app/modules/usagers/usagers.labels";
+
 export class Decision {
   public dateDebut: Date;
   public dateFin: Date;
@@ -18,7 +23,20 @@ export class Decision {
     this.dateDecision =
       (decision && new Date(decision.dateDecision)) || new Date();
     this.statut = (decision && decision.statut) || "INSTRUCTION";
-    this.motif = (decision && decision.motif) || "";
+
+    this.motif = "";
+
+    if (this.statut === "REFUS" || this.statut === "RADIE") {
+      this.motif =
+        this.statut === "REFUS"
+          ? motifsRefus[decision.motif]
+          : motifsRadiation[decision.motif];
+
+      if (this.motif === "AUTRE") {
+        this.motif = this.motifDetails;
+      }
+    }
+
     this.userName = (decision && decision.userName) || "";
     this.userId = (decision && decision.userId) || "";
     this.motifDetails = (decision && decision.motifDetails) || "";

@@ -1,11 +1,22 @@
-export const residence = {
-  DOMICILE_MOBILE: "Domicile mobile (ex: caravane)",
-  HEBERGEMENT_SOCIAL: "Hébergement social (sans service courrier)",
-  HEBERGEMENT_TIERS: "Hébergé chez un tiers",
-  HOTEL: "Hôtel",
-  SANS_ABRI: "Sans abris / Squat"
+/* LIENS DE PARENTÉ */
+export const lienParente = {
+  AUTRE: "Autre personne à la charge du domicilié",
+  CONJOINT: "Conjoint.e",
+  ENFANT: "Enfant",
+  PARENT: "Parent"
 };
 
+/* DÉCISIONS */
+export const decision = {
+  ATTENTE_DECISION: "Demande de domiciliation déposée",
+  IMPORT: "Dossier importé",
+  INSTRUCTION: "Instruction du dossier",
+  RADIE: "Radiation",
+  REFUS: "Demande refusée",
+  VALIDE: "Domiciliation acceptée"
+};
+
+/* MOTIFS DE RADIATION ET REFUS */
 export const motifsRadiation = {
   A_SA_DEMANDE: "A la demande de la personne",
   ENTREE_LOGEMENT: "Plus de lien avec la commune",
@@ -21,6 +32,15 @@ export const motifsRefus = {
   HORS_AGREMENT: "En dehors des critères du public domicilié",
   LIEN_COMMUNE: "Absence de lien avec la commune",
   SATURATION: "Nombre maximal domiciliations atteint"
+};
+
+/* QUESTIONS RÉPONSES DE L'ENTRETIEN SOCIAL */
+export const residence = {
+  DOMICILE_MOBILE: "Domicile mobile (ex: caravane)",
+  HEBERGEMENT_SOCIAL: "Hébergement social (sans service courrier)",
+  HEBERGEMENT_TIERS: "Hébergé chez un tiers",
+  HOTEL: "Hôtel",
+  SANS_ABRI: "Sans abris / Squat"
 };
 
 export const typeMenage = {
@@ -46,11 +66,4 @@ export const cause = {
 export const raison = {
   EXERCICE_DROITS: "Exercice des droits civils ou civiques",
   PRESTATIONS_SOCIALES: "Accès aux prestations sociales"
-};
-
-export const lienParente = {
-  AUTRE: "Autre personne à la charge du domicilié",
-  CONJOINT: "Conjoint.e",
-  ENFANT: "Enfant",
-  PARENT: "Parent"
 };

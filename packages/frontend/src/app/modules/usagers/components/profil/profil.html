@@ -25,18 +25,15 @@
         class=" text-center"
         *ngIf="usager.decision.statut === 'REFUS'">
         <h4 class="text-danger">
-          Demande refusée le {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}
+          Demande refusée le {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
         </h4>
+
         <p class="font-weight-bold text-danger">
-          Motif :
-          <span *ngIf="usager.decision.motif !== 'AUTRE'">
-            {{ motifsRefus[usager.decision.motif] }}
-          </span>
-          <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
+          Motif : {{ usager.decision.motif }}
           <br>
-          <b>Orientation proposée :</b>
-          {{ usager.decision.orientationDetails}}
+          Orientation proposée : {{ usager.decision.orientationDetails}}
         </p>
+
         <button
           (click)="getAttestation()"
           class="btn btn-primary">
@@ -53,11 +50,9 @@
         <h4 class="text-danger">
           Radié{{ usager.sexe === "homme" ? "" : "e" }} le {{ usager.decision.dateDecision | date: 'dd/MM/yyyy à HH:MM' }}
           <br>
-          <span *ngIf="usager.decision.motif !== 'AUTRE'">
-            {{ motifsRadiation[usager.decision.motif] }}
-          </span>
-          <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
+          {{ usager.decision.motif }}
         </h4>
+
         <a
           [routerLink]="['/radiation/'+usager.id]"
           class="btn btn-primary">
@@ -66,6 +61,7 @@
           Imprimer le courrier de radiation
         </a>
       </div>
+
       <div
         class="text-center"
         *ngIf="usager.decision.statut === 'VALIDE'">
@@ -89,17 +85,19 @@
           <fa-icon icon="exclamation-triangle"></fa-icon>
           Domiciliation expirée depuis le
           <b>
-            {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}
+            {{ usager.decision.dateFin | date: 'dd/MM/yyyy'  }}, il y a {{ usager.dayBeforeEnd * -1 }} jours
           </b>
-          (il y a {{ usager.dayBeforeEnd*-1 }} jours)
         </span>
+
         <br>
+
         <span *ngIf="usager.lastInteraction.dateInteraction !== null">
           Dernier passage le
           <b>
             {{ usager.lastInteraction.dateInteraction | date: 'dd/MM/yyyy' }}
           </b>
         </span>
+
       </div>
       <div
         *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60"
@@ -163,10 +161,7 @@
             [(ngModel)]="notifInputs.recommandeIn"
             class="form-control"
             type="number">
-          <span>
-            <b>Avis de passage</b>
-            reçus
-          </span>
+          <span>Avis de passage reçus</span>
         </div>
         <div>
           <fa-icon icon="box"></fa-icon>
@@ -216,6 +211,7 @@
     </div>
   </div>
   <br>
+
   <ngb-alert
     [dismissible]='false'
     *ngIf="usager.lastInteraction.nbCourrier > 0"
@@ -232,6 +228,7 @@
       </button>
     </div>
   </ngb-alert>
+
   <ngb-accordion
     #acc="ngbAccordion"
     activeIds="panel-0,panel-1,panel-2,panel-4,panel-5">
@@ -257,6 +254,7 @@
           </button>
         </div>
       </ng-template>
+
       <ng-template ngbPanelContent>
         <ngb-alert
           *ngIf="interactions.length == 0"
@@ -360,7 +358,7 @@
                 {{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}
               </td>
               <td>
-                {{ decisionLabels[usager.decision.statut] }}
+                {{ labels.decision[usager.decision.statut] }}
                 <span *ngIf="usager.decision.statut === 'VALIDE'">
                   du
                   <b>
@@ -371,13 +369,7 @@
                     {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
                   </b>
                 </span>
-                <b *ngIf="usager.decision.statut === 'RADIE'">
-                  -
-                  <span *ngIf="usager.decision.motif !== 'AUTRE'">
-                    {{ motifsRadiation[usager.decision.motif] }}
-                  </span>
-                  <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
-                </b>
+                <b *ngIf="usager.decision.statut === 'RADIE'">- {{ usager.decision.motif }}</b>
               </td>
               <td>{{ usager.decision.userName }}</td>
               <td></td>
@@ -387,7 +379,7 @@
                 {{ histo.dateDecision | date: 'dd/MM/yyyy'}}
               </td>
               <td>
-                {{ decisionLabels[histo.statut] }}
+                {{ labels.decision[histo.statut] }}
                 <span *ngIf="histo.statut === 'VALIDE'">
                   du
                   <b>
@@ -396,15 +388,10 @@
                   au
                   <b>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</b>
                 </span>
-                <div *ngIf="histo.statut === 'RADIE'">
-                  -
-                  <span *ngIf="histo.motif !== 'AUTRE'">{{ motifsRadiation[histo.motif] }}</span>
-                  <span *ngIf="histo.motif === 'AUTRE'">{{ histo.motifDetails }}</span>
-                </div>
+                <div *ngIf="histo.statut === 'RADIE'">- {{ histo.motif }}</div>
               </td>
               <td>{{ histo.userName }}</td>
               <td></td>
-
             </tr>
           </tbody>
         </table>
@@ -441,32 +428,28 @@
             <span class="question">NOM</span>
             <span class="valeur">{{ usager.nom }}</span>
           </div>
-
           <div class="col-md-4 reponses">
             <span class="question">PRÉNOM</span>
             <span class="valeur">{{ usager.prenom }}</span>
           </div>
           <div class="col-md-4 reponses">
             <span class="question">SURNOM</span>
-            <span class="valeur">{{ usager.surnom  | titlecase }}</span>
-          </div>
-          <div class="col-md-4 reponses">
-            <span class="question">SEXE</span>
-            <span class="valeur">{{ usager.sexe  | titlecase }}</span>
+            <span class="valeur">{{ usager.surnom | titlecase }}</span>
           </div>
 
+          <div class="col-md-4 reponses">
+            <span class="question">SEXE</span>
+            <span class="valeur">{{ usager.sexe | titlecase }}</span>
+          </div>
           <div class="col-md-4 reponses">
             <span class="question">Date de naissance</span>
             <span class="valeur">
               {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
             </span>
           </div>
-
           <div class="col-md-4 reponses">
             <span class="question">VILLE de naissance</span>
-            <span class="valeur">
-              {{ usager.villeNaissance  | titlecase }}
-            </span>
+            <span class="valeur">{{ usager.villeNaissance | titlecase }}</span>
           </div>
 
           <div class="col-md-4 reponses">
@@ -477,7 +460,6 @@
             <span class="question">Adresse email</span>
             <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
           </div>
-
           <div class="col-md-4 reponses"></div>
 
           <div
@@ -514,11 +496,7 @@
                 *ngIf="f.nom.errors"
                 class="invalid-feedback"
                 autocomplete="null">
-                <div *ngIf="f.nom.errors.required">
-                  Le
-                  <b>nom</b>
-                  du demandeur est obligatoire
-                </div>
+                <div *ngIf="f.nom.errors.required">Le nom du demandeur est obligatoire</div>
               </div>
             </div>
             <div class="col-md-4  form-group required">
@@ -535,11 +513,7 @@
                 *ngIf="f.prenom.errors"
                 class="invalid-feedback"
                 autocomplete="null">
-                <div *ngIf="f.prenom.errors.required">
-                  Le
-                  <b>Prénom</b>
-                  est obligatoire
-                </div>
+                <div *ngIf="f.prenom.errors.required">Le prénom est obligatoire</div>
               </div>
             </div>
 
@@ -595,16 +569,10 @@
                 <div
                   *ngIf="f.dateNaissancePicker.invalid"
                   class="invalid-feedback">
-                  <div *ngIf="f.dateNaissancePicker.errors.required">
-                    La
-                    <b>date de naissance</b>
-                    est obligatoire
-                  </div>
+                  <div *ngIf="f.dateNaissancePicker.errors.required">La date de naissance est obligatoire</div>
                   <div *ngIf="f.dateNaissancePicker.dirty
                   && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)">
-                    La
-                    <b>date de naissance</b>
-                    est incorrecte (ex: 20/12/1991)
+                    La date de naissance est incorrecte (ex: 20/12/1991)
                   </div>
                 </div>
               </div>
@@ -624,9 +592,7 @@
               <div
                 *ngIf="f.villeNaissance.errors"
                 class="invalid-feedback">
-                La
-                <b>ville de naissance</b>
-                est obligatoire
+                La ville de naissance est obligatoire
               </div>
             </div>
 
@@ -732,7 +698,7 @@
                     [ngClass]="{  'is-invalid':     submitted && f.ayantsDroits.controls[i].get('nom').errors }"
                     placeholder="Nom de l'ayant droit">
                   <div
-                    *ngIf=" submitted && f.ayantsDroits.controls[i].get('nom').errors "
+                    *ngIf="submitted && f.ayantsDroits.controls[i].get('nom').errors "
                     class="invalid-feedback">
                     Le nom est obligatoire
                   </div>
@@ -749,11 +715,7 @@
                   <div
                     *ngIf="submitted && f.ayantsDroits.controls[i].get('prenom').errors"
                     class="invalid-feedback">
-                    <div>
-                      Le
-                      <b>prénom</b>
-                      est obligatoire
-                    </div>
+                    Le prénom est obligatoire
                   </div>
                 </div>
                 <div class="col form-group required">

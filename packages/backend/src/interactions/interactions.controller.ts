@@ -9,6 +9,7 @@ import {
   UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { RolesGuard } from "../auth/roles.guard";
 import { CurrentUser } from "../users/current-user.decorator";
 import { User } from "../users/user.interface";
 import { InteractionDto } from "./interactions.dto";
@@ -46,5 +47,11 @@ export class InteractionsController {
     @CurrentUser() user: User
   ) {
     return this.interactionService.delete(usagerId, interactionId, user);
+  }
+
+  @UseGuards(RolesGuard)
+  @Get("stats-domifa")
+  public async statsDomifa(@CurrentUser() user: User) {
+    return this.interactionService.stats();
   }
 }

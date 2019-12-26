@@ -20,8 +20,8 @@ import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
-import * as labels from "../../../../shared/entretien.labels";
 import { regexp } from "../../../../shared/validators";
+import * as labels from "../../usagers.labels";
 
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Decision } from "../../interfaces/decision";

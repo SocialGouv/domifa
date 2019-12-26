@@ -1,19 +1,11 @@
-import { animate, style, transition, trigger } from "@angular/animations";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { debounceTime } from "rxjs/operators";
+import { fadeInOutSlow } from "src/app/shared/animations";
 import { LoadingService } from "./loading.service";
 
-const fadeInOut = trigger("fadeInOut", [
-  transition(":enter", [
-    style({ opacity: 0 }),
-    animate(500, style({ opacity: 1 }))
-  ]),
-  transition(":leave", [animate(700, style({ opacity: 0 }))])
-]);
-
 @Component({
-  animations: [fadeInOut],
+  animations: [fadeInOutSlow],
   selector: "app-loading",
   styleUrls: ["./loading.component.css"],
   templateUrl: "./loading.component.html"

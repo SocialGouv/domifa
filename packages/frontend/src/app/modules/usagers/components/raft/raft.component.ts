@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PrintService } from "src/app/modules/shared/print.service";
 import { User } from "src/app/modules/users/interfaces/user";
 import { AuthService } from "src/app/services/auth.service";
-import { motifsRadiation } from "../../../../shared/entretien.labels";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
+import { motifsRadiation } from "../../usagers.labels";
 
 @Component({
   providers: [UsagerService, AuthService],

@@ -7,7 +7,7 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
 import { ToastrService } from "ngx-toastr";
-import * as labels from "src/app/shared/entretien.labels";
+import * as labels from "src/app/modules/usagers/usagers.labels";
 
 @Component({
   providers: [UsagerService],
@@ -17,8 +17,6 @@ import * as labels from "src/app/shared/entretien.labels";
 })
 export class EntretienComponent implements OnInit {
   public labels: any;
-  public residence = {};
-
   public modal: any;
 
   public typeMenageList: any;
@@ -51,8 +49,7 @@ export class EntretienComponent implements OnInit {
   public ngOnInit() {
     this.labels = labels;
 
-    this.residence = this.labels.residence;
-    this.residenceList = Object.keys(this.residence);
+    this.residenceList = Object.keys(this.labels.residence);
     this.causeList = Object.keys(this.labels.cause);
     this.raisonList = Object.keys(this.labels.raison);
     this.typeMenageList = Object.keys(this.labels.typeMenage);

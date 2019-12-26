@@ -29,18 +29,14 @@
       <span>Statut :</span>
       <button
         class="btn"
-        [ngClass]="
-          filters.statut === 'VALIDE' ? 'btn-primary' : 'btn-outline-dark'
-        "
+        [ngClass]="filters.statut === 'VALIDE' ? 'btn-primary' : 'btn-outline-dark'"
         (click)="updateFilters('statut', 'VALIDE')">
         Actif
         <b>{{ stats.VALIDE }}</b>
       </button>
       <button
         class="btn"
-        [ngClass]="
-          filters.statut === 'INSTRUCTION' ? 'btn-warning' : 'btn-outline-dark'
-        "
+        [ngClass]="filters.statut === 'INSTRUCTION' ? 'btn-warning' : 'btn-outline-dark'"
         (click)="updateFilters('statut', 'INSTRUCTION')">
         À compléter
         <b>{{ stats.INSTRUCTION }}</b>
@@ -82,7 +78,7 @@
   </div>
 
   <ngb-alert
-    *ngIf="usagers.length === 0"
+    *ngIf="usagers.length === 0 && !searching"
     [dismissible]="false"
     type="warning">
     <div class="text-center">
@@ -95,9 +91,25 @@
       </button>
     </div>
   </ngb-alert>
+
   <div
     class="row"
-    *ngIf="usagers.length !== 0">
+    id="usagers-list">
+    <div
+      *ngIf="searching"
+      class="text-center content-overlay">
+      <div
+        *ngIf="searching"
+        @fadeInOutSlow>
+        <fa-icon
+          [icon]="['fas', 'spinner']"
+          class="spinner"
+          [spin]="true"></fa-icon>
+        <br>
+        <span class="loading_message">Chargement des dossiers...</span>
+      </div>
+    </div>
+
     <table
       class="table"
       *ngIf="usagers.length !== 0">
@@ -149,9 +161,9 @@
             <span
               *ngIf="usager.decision.statut === 'VALIDE'"
               [ngClass]="{
-              'text-danger': usager.dayBeforeEnd < 15,
-              'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
-            }">
+                'text-danger': usager.dayBeforeEnd < 15,
+                'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
+              }">
               {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
             </span>
             <span *ngIf="usager.decision.statut === 'INSTRUCTION' || usager.decision.statut === 'ATTENTE_DECISION'">
@@ -219,8 +231,8 @@
               class="font-weight-bold text-danger">
               Radié
             </span>
-
           </td>
+
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
             class="text-right">

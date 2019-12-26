@@ -6,11 +6,13 @@ import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AuthService } from "src/app/services/auth.service";
+import { fadeInOutSlow } from "src/app/shared/animations";
 import { interactionsNotifs } from "../../interactions.labels";
 import { Search } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
 
 @Component({
+  animations: [fadeInOutSlow],
   providers: [UsagerService],
   selector: "app-manage-usagers",
   styleUrls: ["./manage.css"],
@@ -63,7 +65,7 @@ export class ManageUsagersComponent implements OnInit {
 
     this.title = "Gérer vos domiciliés";
     this.usagers = [];
-    this.searching = false;
+    this.searching = true;
     this.dateLabel = "Fin de domiciliation";
 
     this.stats = {
@@ -88,7 +90,6 @@ export class ManageUsagersComponent implements OnInit {
       .subscribe((text: any) => {
         text = text.trim();
         this.filters.name = text;
-        this.searching = true;
         this.search();
       });
   }
@@ -155,6 +156,8 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public search() {
+    this.searching = true;
+
     this.dateLabel =
       this.filters.statut !== null
         ? this.labelsDateFin[this.filters.statut]
@@ -168,6 +171,7 @@ export class ManageUsagersComponent implements OnInit {
         this.searching = false;
       },
       error => {
+        this.searching = false;
         this.notifService.error("Une erreur a eu lieu lors de la recherche");
       }
     );
