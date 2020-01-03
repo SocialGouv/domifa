@@ -356,7 +356,6 @@ export class UsagersProfilComponent implements OnInit {
         (usager: any) => {
           this.editTransfertForm = false;
           this.usager.options = new Options(usager.options);
-
           this.notifService.success("Transfert ajouté avec succès");
         },
         error => {

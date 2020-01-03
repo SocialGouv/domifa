@@ -60,11 +60,11 @@ describe("UsagersService", () => {
     expect(usager.sexe).toEqual("homme");
 
     // UPDATE
-    fakePatchUsagerDto.nom = "Nouveau nom";
-    fakePatchUsagerDto.prenom = "Nouveau prénom";
-    fakePatchUsagerDto.id = usager.id;
+    usager.nom = "Nouveau nom";
+    usager.prenom = "Nouveau prénom";
+    usager.id = usager.id;
 
-    const updatedUser = await service.patch(fakePatchUsagerDto, user);
+    const updatedUser = await service.patch(usager, user);
 
     expect(updatedUser.nom).toEqual("Nouveau nom");
     expect(updatedUser.prenom).toEqual("Nouveau prénom");
