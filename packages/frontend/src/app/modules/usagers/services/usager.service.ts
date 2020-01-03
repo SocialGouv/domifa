@@ -8,7 +8,6 @@ import { LoadingService } from "../../loading/loading.service";
 import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
-import { Options } from "../interfaces/options";
 import { Usager } from "../interfaces/usager";
 
 @Injectable({

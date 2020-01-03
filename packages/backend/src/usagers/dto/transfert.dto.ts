@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmpty, MinLength } from "class-validator";
+import { IsEmpty, IsNotEmpty, MinLength } from "class-validator";
 
 export class TransfertDto {
   @IsEmpty()
