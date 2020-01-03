@@ -30,7 +30,7 @@ export class UsagersService {
     return createdUsager.save();
   }
 
-  public async patch(update: any, usagerId: number): Promise<Usager> {
+  public async patch(update: any, usagerId: string): Promise<Usager> {
     return this.usagerModel
       .findOneAndUpdate(
         {

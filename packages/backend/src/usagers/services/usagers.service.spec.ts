@@ -63,7 +63,7 @@ describe("UsagersService", () => {
     usager.nom = "Nouveau nom";
     usager.prenom = "Nouveau prénom";
 
-    await service.patch(usager, usager.id);
+    await service.patch(usager, usager._id);
     const updatedUsager = await service.findById(6, user.structureId);
 
     expect(updatedUsager.nom).toEqual("Nouveau nom");
