@@ -22,7 +22,7 @@
         <b>{{ usager.id }}</b>
       </div>
       <div
-        class=" text-center"
+        class="text-center"
         *ngIf="usager.decision.statut === 'REFUS'">
         <h4 class="text-danger">
           Demande refusée le {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
@@ -141,6 +141,22 @@
       Signaler la réception d’un courrier ou un passage
     </h5>
     <br>
+
+    <div
+      class="row"
+      *ngIf="usager.options.transfert.actif"
+      class="text-center text-warning">
+      <div class="font-weight-bold">
+        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+        Le courrier est a transféré à l'adresse suivante :
+        <br>
+        {{ usager.options.transfert.nom }}
+      </div>
+      {{ usager.options.transfert.adresse }}
+      <br>
+      <br>
+    </div>
+
     <div id="notif-container">
       <div id="notif-form">
         <div>
@@ -220,7 +236,9 @@
       <fa-icon
         id="courrier"
         icon="envelope-open-text"></fa-icon>
-      &nbsp;&nbsp;{{ usager.lastInteraction.nbCourrier }} courriers en attente&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;
+      {{ usager.lastInteraction.nbCourrier }} courriers en attente
+      &nbsp;&nbsp;&nbsp;
       <button
         class="btn btn-primary"
         (click)="setPassage('courrierOut')">
@@ -231,7 +249,8 @@
 
   <ngb-accordion
     #acc="ngbAccordion"
-    activeIds="panel-0,panel-1,panel-2,panel-4,panel-5">
+    activeIds="panel-0,panel-9,panel-1,panel-2,panel-4,panel-5">
+
     <ngb-panel
       id="panel-0"
       *ngIf="usager.decision.statut !== 'REFUS'">
@@ -315,83 +334,6 @@
                     class="edit"></fa-icon>
                 </span>
               </td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-template>
-    </ngb-panel>
-    <ngb-panel id="panel-1">
-      <ng-template
-        ngbPanelHeader
-        let-opened="opened">
-        <div class="head-panel">
-          <button
-            ngbPanelToggle
-            class="btn btn-link">
-            <span>HISTORIQUE DE LA DOMICILIATION</span>
-            <span class="arrows">
-              <fa-icon
-                *ngIf="opened"
-                icon="chevron-down"></fa-icon>
-              <fa-icon
-                *ngIf="!opened"
-                icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <table
-          *ngIf="usager.historique.length > 0"
-          class="profil-table table table-light table-hover">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type de décision</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                {{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}
-              </td>
-              <td>
-                {{ labels.decision[usager.decision.statut] }}
-                <span *ngIf="usager.decision.statut === 'VALIDE'">
-                  du
-                  <b>
-                    {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
-                  </b>
-                  au
-                  <b>
-                    {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
-                  </b>
-                </span>
-                <b *ngIf="usager.decision.statut === 'RADIE'">- {{ usager.decision.motif }}</b>
-              </td>
-              <td>{{ usager.decision.userName }}</td>
-              <td></td>
-            </tr>
-            <tr *ngFor="let histo of usager.historique">
-              <td>
-                {{ histo.dateDecision | date: 'dd/MM/yyyy'}}
-              </td>
-              <td>
-                {{ labels.decision[histo.statut] }}
-                <span *ngIf="histo.statut === 'VALIDE'">
-                  du
-                  <b>
-                    {{ histo.dateDebut | date: 'dd/MM/yyyy' }}
-                  </b>
-                  au
-                  <b>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</b>
-                </span>
-                <div *ngIf="histo.statut === 'RADIE'">- {{ histo.motif }}</div>
-              </td>
-              <td>{{ histo.userName }}</td>
-              <td></td>
             </tr>
           </tbody>
         </table>
@@ -818,6 +760,225 @@
               <fa-icon icon="edit"></fa-icon>
               Modifier les ayants-droits
             </button>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel id="panel-1">
+      <ng-template
+        ngbPanelHeader
+        let-opened="opened">
+        <div class="head-panel">
+          <button
+            ngbPanelToggle
+            class="btn btn-link">
+            <span>HISTORIQUE DE LA DOMICILIATION</span>
+            <span class="arrows">
+              <fa-icon
+                *ngIf="opened"
+                icon="chevron-down"></fa-icon>
+              <fa-icon
+                *ngIf="!opened"
+                icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <table
+          *ngIf="usager.historique.length > 0"
+          class="profil-table table table-light table-hover">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type de décision</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                {{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}
+              </td>
+              <td>
+                {{ labels.decision[usager.decision.statut] }}
+                <span *ngIf="usager.decision.statut === 'VALIDE'">
+                  du
+                  <b>
+                    {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
+                  </b>
+                  au
+                  <b>
+                    {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
+                  </b>
+                </span>
+                <b *ngIf="usager.decision.statut === 'RADIE'">- {{ usager.decision.motif }}</b>
+              </td>
+              <td>{{ usager.decision.userName }}</td>
+              <td></td>
+            </tr>
+            <tr *ngFor="let histo of usager.historique">
+              <td>
+                {{ histo.dateDecision | date: 'dd/MM/yyyy'}}
+              </td>
+              <td>
+                {{ labels.decision[histo.statut] }}
+                <span *ngIf="histo.statut === 'VALIDE'">
+                  du
+                  <b>
+                    {{ histo.dateDebut | date: 'dd/MM/yyyy' }}
+                  </b>
+                  au
+                  <b>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</b>
+                </span>
+                <div *ngIf="histo.statut === 'RADIE'">- {{ histo.motif }}</div>
+              </td>
+              <td>{{ histo.userName }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel id="panel-9">
+      <ng-template
+        ngbPanelHeader
+        let-opened="opened">
+        <div class="head-panel">
+          <button
+            ngbPanelToggle
+            class="btn btn-link">
+            <span>TRANSFERT DE COURRIER ET PROCURATIONS</span>
+            <span class="arrows">
+              <fa-icon
+                *ngIf="opened"
+                icon="chevron-down"></fa-icon>
+              <fa-icon
+                *ngIf="!opened"
+                icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+
+      <ng-template ngbPanelContent>
+        <div class="row">
+          <div class="col-12">
+            <button
+              *ngIf="!usager.options.transfert.actif && !editTransfertForm"
+              (click)="editTransfertForm = true"
+              class="btn btn-large btn-outline-primary">
+              Activer le transfert de courrier
+            </button>
+
+            <div
+              *ngIf="usager.options.transfert.actif && !editTransfertForm"
+              class="row">
+              <div class="col-md-12 ">
+                Transfert de courrier actif depuis le
+                <b>
+                  {{ usager.options.transfert.dateDebut | date: 'dd/MM/yyyy' }}
+                </b>
+              </div>
+              <div class="col-md-5 reponses">
+                <span class="question">Nom de l'établissement</span>
+                <span class="valeur">{{ usager.options.transfert.nom }}</span>
+              </div>
+
+              <div class="col-md-5 reponses">
+                <span class="question">Adresse</span>
+                <span class="valeur">{{ usager.options.transfert.adresse }}</span>
+              </div>
+
+              <div class="col-md-2 text-left">
+                <br>
+                <button
+                  *ngIf="usager.options.transfert.actif && !editTransfertForm"
+                  (click)="editTransfertForm = true"
+                  class="btn btn-outline-primary">
+                  <fa-icon
+                    icon="pencil-alt"
+                    class="edit"></fa-icon>
+                </button>
+                &nbsp;&nbsp;
+                <button
+                  type="button"
+                  (click)="deleteTransfert()"
+                  class="btn btn-outline-danger">
+                  <fa-icon
+                    icon="trash"
+                    class="trash"></fa-icon>
+                </button>
+              </div>
+            </div>
+            <form
+              *ngIf="editTransfertForm"
+              [formGroup]="transfertForm"
+              (ngSubmit)="editTransfert()"
+              autocomplete="off">
+              <div class="row">
+                <div class="col-6 form-group required">
+                  <label for="transfert_nom">Nom de l'établissement</label>
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="transfert_nom"
+                    formControlName="nom"
+                    placeholder="Ex: Maison d'arrêt, Hôpital saint-louis, Association ..."
+                    [ngClass]="{ 'is-invalid': t.nom.dirty && t.nom.errors }"
+                    required>
+                  <div
+                    *ngIf="t.nom.dirty && t.nom.errors"
+                    class="invalid-feedback"
+                    autocomplete="null">
+                    <div *ngIf="t.nom.errors.required">
+                      Le nom de l'établissement est obligatoire
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 form-group required">
+                  <label for="transfert_adresse">Adresse complète de l'établissement</label>
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="transfert_adresse"
+                    formControlName="adresse"
+                    placeholder="Numéro, rue, bâtiment, ville, code postal, etc."
+                    [ngClass]="{ 'is-invalid': t.adresse.dirty && t.adresse.errors }"
+                    required>
+                  <div
+                    *ngIf="t.adresse.dirty && t.adresse.errors"
+                    class="invalid-feedback">
+                    <div *ngIf="t.adresse.errors.minlength">
+                      L'adresse doit contenir 10 caractères minimum
+                    </div>
+                    <div *ngIf="t.adresse.errors.required">L'adresse complète est obligatoire</div>
+                  </div>
+                </div>
+
+                <div class="col text-center">
+                  <span
+                    class="btn btn-dark"
+                    (click)="editTransfertForm = false">
+                    Annuler
+                  </span>
+                  &nbsp;&nbsp;
+                  <button
+                    class="btn btn-primary"
+                    type="submit"
+                    [disabled]="!transfertForm.valid">
+                    Enregistrer le transfert
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div
+            id="procuration"
+            class="col">
           </div>
         </div>
       </ng-template>

@@ -4,6 +4,7 @@ import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
 import { Doc } from "./doc";
 import { Entretien } from "./entretien";
+import { Options } from "./options";
 import { Rdv } from "./rdv";
 
 export interface Usager extends Document {
@@ -44,4 +45,6 @@ export interface Usager extends Document {
 
   typeDom: string;
   datePremiereDom: Date;
+
+  options: Options;
 }

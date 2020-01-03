@@ -6,13 +6,13 @@ import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AuthService } from "src/app/services/auth.service";
-import { fadeInOutSlow } from "src/app/shared/animations";
+import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { interactionsNotifs } from "../../interactions.labels";
 import { Search } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
 
 @Component({
-  animations: [fadeInOutSlow],
+  animations: [fadeInOutSlow, fadeInOut],
   providers: [UsagerService],
   selector: "app-manage-usagers",
   styleUrls: ["./manage.css"],

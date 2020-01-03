@@ -32,6 +32,7 @@ import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
 import { SearchDto } from "../dto/search.dto";
+import { TransfertDto } from "../dto/transfert.dto";
 import { UsagersDto } from "../dto/usagers.dto";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
@@ -62,12 +63,28 @@ export class UsagersController {
     return this.usagersService.create(usagerDto, user);
   }
 
-  @Patch()
+  @Patch(":id")
   public async patchUsager(
+    @Param("id") usagerId: number,
     @Body() usagerDto: UsagersDto,
     @CurrentUser() user: User
   ) {
-    return this.usagersService.patch(usagerDto, user);
+    const usager = await this.usagersService.findById(
+      usagerId,
+      user.structureId
+    );
+    if (!user || !usager || usager === null) {
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
+    }
+
+    if (
+      usagerDto.typeDom === "RENOUVELLEMENT" ||
+      usagerDto.etapeDemande === 0
+    ) {
+      usagerDto.etapeDemande = 1;
+    }
+
+    return this.usagersService.patch(usagerDto, usager._id);
   }
 
   @Post("rdv/:id")
@@ -141,7 +158,7 @@ export class UsagersController {
   @Post("decision/:id")
   public async setDecision(
     @Param("id") usagerId: number,
-    @Body() decisionDto: DecisionDto,
+    @Body() decision: DecisionDto,
     @CurrentUser() user: User
   ) {
     const usager = await this.usagersService.findById(
@@ -152,7 +169,52 @@ export class UsagersController {
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
-    return this.usagersService.setDecision(usager, decisionDto, user);
+    decision.userName = user.prenom + " " + user.nom;
+    decision.userId = user.id;
+    decision.dateDecision = new Date();
+
+    const lastDecision = usager.decision;
+
+    if (decision.statut === "ATTENTE_DECISION") {
+      /* Mail au responsable */
+    }
+
+    if (decision.statut === "REFUS") {
+      /* Récupération du dernier ID lié à la structure */
+      /* SMS & Mail pr prévenir */
+      decision.dateDebut = lastDecision.dateDebut;
+
+      decision.dateFin =
+        decision.dateFin !== undefined && decision.dateFin !== null
+          ? new Date(decision.dateFin)
+          : (decision.dateFin = new Date());
+    }
+
+    if (decision.statut === "RADIE") {
+      decision.dateDebut = lastDecision.dateDebut;
+      decision.dateFin = new Date();
+    }
+
+    if (decision.statut === "VALIDE") {
+      if (!usager.datePremiereDom) {
+        usager.typeDom = "RENOUVELLEMENT";
+      }
+      if (decision.dateFin !== undefined && decision.dateFin !== null) {
+        decision.dateFin = new Date(decision.dateFin);
+      } else {
+        decision.dateFin = new Date(
+          new Date().setFullYear(new Date().getFullYear() + 1)
+        );
+      }
+      decision.dateDebut = new Date(decision.dateDebut);
+    }
+
+    return this.usagersService.setDecision(
+      usager.id,
+      user.structureId,
+      decision,
+      lastDecision
+    );
   }
 
   /* DOUBLON */
@@ -193,10 +255,7 @@ export class UsagersController {
         usagerId
     );
 
-    const deleteInteractions = await this.interactionService.deleteAll(
-      usagerId,
-      user.structureId
-    );
+    await this.interactionService.deleteAll(usagerId, user.structureId);
 
     const deleteUsager = await this.usagersService.delete(usagerId, user);
 
@@ -216,24 +275,48 @@ export class UsagersController {
   @Post("transfert/:id")
   public async editTransfert(
     @Param("id") usagerId: number,
-    @Body() rdvDto: RdvDto,
-    @CurrentUser() currentUser: User
+    @Body() transfertDto: TransfertDto,
+    @CurrentUser() user: User
   ) {
-    const user = await this.usersService.findOne({
-      id: rdvDto.userId,
-      structureId: currentUser.structureId
-    });
-
     const usager = await this.usagersService.findById(
       usagerId,
-      currentUser.structureId
+      user.structureId
     );
-
     if (!user || !usager) {
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
     }
 
-    return this.usagersService.setRdv(usagerId, rdvDto, user);
+    usager.options.transfert = {
+      actif: true,
+      adresse: transfertDto.adresse,
+      dateDebut: new Date(),
+      nom: transfertDto.nom
+    };
+
+    return this.usagersService.patch(usager, usager._id);
+  }
+
+  @Delete("transfert/:id")
+  public async deleteTransfert(
+    @Param("id") usagerId: number,
+    @CurrentUser() user: User
+  ) {
+    const usager = await this.usagersService.findById(
+      usagerId,
+      user.structureId
+    );
+    if (!user || !usager) {
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
+    }
+
+    usager.options.transfert = {
+      actif: false,
+      adresse: "",
+      dateDebut: null,
+      nom: ""
+    };
+
+    return this.usagersService.patch(usager, usager._id);
   }
 
   @Get("attestation/:id")

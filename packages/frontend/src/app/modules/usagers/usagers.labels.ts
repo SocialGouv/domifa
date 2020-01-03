@@ -1,3 +1,9 @@
+/* TYPE DE STRUCTURE */
+export const structureType = {
+  asso: "Organisme agrée",
+  ccas: "CCAS / CIAS"
+};
+
 /* LIENS DE PARENTÉ */
 export const lienParente = {
   AUTRE: "Autre personne à la charge du domicilié",
@@ -11,6 +17,7 @@ export const decision = {
   ATTENTE_DECISION: "Demande de domiciliation déposée",
   IMPORT: "Dossier importé",
   INSTRUCTION: "Instruction du dossier",
+  PREMIERE_DOM: "Première domiciliation",
   RADIE: "Radiation",
   REFUS: "Demande refusée",
   VALIDE: "Domiciliation acceptée"

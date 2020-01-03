@@ -68,7 +68,6 @@ input[type="number"] {
 }
 
 #big_icons div {
-  width: 48%;
   border-radius: 5px;
   padding: 0 5px;
   text-align: center;
@@ -174,4 +173,12 @@ input[type="number"] {
 .profil-table th:nth-child(4),
 .profil-table td:nth-child(4) {
   width: 5%;
+}
+
+.sous-titre {
+  color: #212529;
+  text-transform: uppercase;
+  display: block;
+  margin: 10px 0;
+  font-size: 1.02rem;
 }

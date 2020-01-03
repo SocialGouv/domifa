@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
-import { decision } from "src/app/modules/usagers/usagers.labels";
+import * as labels from "src/app/modules/usagers/usagers.labels";
 import { StatsService } from "../../stats.service";
 
 @Component({
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
     private structureService: StructureService
   ) {
     this.interactionsLabels = interactionsLabels;
-    this.labels = decision;
+    this.labels = labels;
     this.title = "Statistiques";
     this.stats = [];
     this.interactions = [];

@@ -23,6 +23,7 @@ import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { regexp } from "src/app/shared/validators";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction } from "../../interfaces/interaction";
+import { Options } from "../../interfaces/options";
 import { Usager } from "../../interfaces/usager";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
@@ -43,6 +44,7 @@ export class UsagersProfilComponent implements OnInit {
   public editInfos: boolean;
   public editEntretien: boolean;
   public editAyantsDroits: boolean;
+  public editTransfertForm: boolean;
 
   public interactions: Interaction[];
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
@@ -67,6 +69,8 @@ export class UsagersProfilComponent implements OnInit {
 
   public usagerForm: FormGroup;
   public ayantsDroitsForm: FormGroup;
+  public transfertForm: FormGroup;
+  public procurationForm: FormGroup;
 
   public notifInputs: {} = {
     colisIn: 0,
@@ -99,6 +103,7 @@ export class UsagersProfilComponent implements OnInit {
     this.editInfos = false;
     this.editAyantsDroits = false;
     this.editEntretien = false;
+    this.editTransfertForm = false;
 
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
@@ -130,7 +135,19 @@ export class UsagersProfilComponent implements OnInit {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
+  get t() {
+    return this.transfertForm.controls;
+  }
+
   public initForms() {
+    this.transfertForm = this.formBuilder.group({
+      adresse: [
+        this.usager.options.transfert.adresse,
+        [Validators.required, Validators.minLength(10)]
+      ],
+      nom: [this.usager.options.transfert.nom, [Validators.required]]
+    });
+
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
@@ -330,6 +347,36 @@ export class UsagersProfilComponent implements OnInit {
       left: 0,
       top: 0
     });
+  }
+
+  public editTransfert() {
+    this.usagerService
+      .editTransfert(this.transfertForm.value, this.usager.id)
+      .subscribe(
+        (usager: any) => {
+          this.editTransfertForm = false;
+          this.usager.options = new Options(usager.options);
+
+          this.notifService.success("Transfert ajouté avec succès");
+        },
+        error => {
+          this.notifService.error("Impossible d'ajouter le transfert'");
+        }
+      );
+  }
+
+  public deleteTransfert() {
+    this.usagerService.deleteTransfert(this.usager.id).subscribe(
+      (usager: any) => {
+        this.editTransfertForm = false;
+        this.transfertForm.reset();
+        this.usager.options = new Options(usager.options);
+        this.notifService.success("Transfert supprimé avec succès");
+      },
+      error => {
+        this.notifService.error("Impossible de supprimer la fiche");
+      }
+    );
   }
 
   private getInteractions() {

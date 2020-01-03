@@ -121,6 +121,7 @@ export class ImportComponent implements OnInit {
   public reset() {
     this.form.nativeElement.reset();
   }
+
   public ngOnInit() {
     this.etapeImport = 0;
     this.showTable = false;

@@ -1,15 +1,16 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsEmpty, MinLength } from "class-validator";
 
 export class TransfertDto {
-  @IsNotEmpty()
+  @IsEmpty()
   public actif: boolean;
 
   @IsNotEmpty()
   public nom: string;
 
   @IsNotEmpty()
+  @MinLength(10)
   public adresse: string;
 
-  @IsNotEmpty()
-  public adresseComplement: string;
+  @IsEmpty()
+  public dateDebut: Date;
 }

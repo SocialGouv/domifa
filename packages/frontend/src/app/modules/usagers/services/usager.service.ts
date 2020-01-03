@@ -8,6 +8,7 @@ import { LoadingService } from "../../loading/loading.service";
 import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
+import { Options } from "../interfaces/options";
 import { Usager } from "../interfaces/usager";
 
 @Injectable({
@@ -25,12 +26,23 @@ export class UsagerService {
 
   public create(usager: Usager) {
     return usager.id !== 0
-      ? this.http.patch(`${this.endPointUsagers}`, usager)
+      ? this.http.patch(`${this.endPointUsagers}/${usager.id}`, usager)
       : this.http.post(`${this.endPointUsagers}`, usager);
   }
 
   public createRdv(rdv: Rdv, usagerId: number): Observable<any> {
     return this.http.post(`${this.endPointUsagers}/rdv/${usagerId}`, rdv);
+  }
+
+  public editTransfert(transfert: any, usagerId: number): Observable<any> {
+    return this.http.post(
+      `${this.endPointUsagers}/transfert/${usagerId}`,
+      transfert
+    );
+  }
+
+  public deleteTransfert(usagerId: number): Observable<any> {
+    return this.http.delete(`${this.endPointUsagers}/transfert/${usagerId}`);
   }
 
   public nextStep(usagerId: number, etapeDemande: number): Observable<any> {

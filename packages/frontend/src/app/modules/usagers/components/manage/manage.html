@@ -97,6 +97,7 @@
     id="usagers-list">
     <div
       *ngIf="searching"
+      @fadeInOut
       class="text-center content-overlay">
       <div
         *ngIf="searching"
@@ -117,6 +118,7 @@
         <th>#</th>
         <th>Nom prénom</th>
         <th>{{ dateLabel }}</th>
+        <th></th>
         <td
           colspan="2"
           class="text-right">
@@ -206,16 +208,23 @@
               </span>
             </div>
           </td>
+
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
-            class="text-right usager_informations"
-            *ngIf="usager.decision.statut !== 'VALIDE'">
+            class="text-right usager_informations">
+            <span
+              class="text-warning"
+              *ngIf="usager.options.transfert.actif">
+              <fa-icon icon="share"></fa-icon>
+              Courrier à transférer &nbsp;&nbsp;
+            </span>
             <span
               *ngIf="usager.decision.statut === 'INSTRUCTION'"
               class="text-warning2">
               <fa-icon [icon]="['far', 'clock']"></fa-icon>
               Dossier à compléter
             </span>
+
             <span
               *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
               class="text-dark">
@@ -236,6 +245,7 @@
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
             class="text-right">
+
             <span
               class="active"
               *ngIf="

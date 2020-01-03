@@ -4,6 +4,7 @@ import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
 import { Doc } from "./document";
 import { Entretien } from "./entretien";
+import { Options } from "./options";
 
 export class Usager {
   public id: number;
@@ -53,6 +54,8 @@ export class Usager {
     appel: boolean;
     visite: boolean;
   };
+
+  public options: Options;
 
   constructor(usager?: any) {
     this.id = (usager && usager.id) || 0;
@@ -141,5 +144,7 @@ export class Usager {
     };
 
     this.typeDom = (usager && usager.typeDom) || "PREMIERE";
+
+    this.options = (usager && new Options(usager.options)) || new Options({});
   }
 }

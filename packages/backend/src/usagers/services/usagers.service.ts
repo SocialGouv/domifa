@@ -5,7 +5,9 @@ import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
 import { SearchDto } from "../dto/search.dto";
+import { TransfertDto } from "../dto/transfert.dto";
 import { UsagersDto } from "../dto/usagers.dto";
+import { Decision } from "../interfaces/decision";
 import { SearchQuery } from "../interfaces/search-query";
 import { Usager } from "../interfaces/usagers";
 
@@ -28,22 +30,14 @@ export class UsagersService {
     return createdUsager.save();
   }
 
-  public async patch(usagersDto: UsagersDto, user: User): Promise<Usager> {
-    if (
-      usagersDto.typeDom === "RENOUVELLEMENT" ||
-      usagersDto.etapeDemande === 0
-    ) {
-      usagersDto.etapeDemande = 1;
-    }
-
+  public async patch(update: any, usagerId: number): Promise<Usager> {
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usagersDto.id,
-          structureId: user.structureId
+          _id: usagerId
         },
         {
-          $set: usagersDto
+          $set: update
         },
         {
           new: true
@@ -100,62 +94,22 @@ export class UsagersService {
   }
 
   public async setDecision(
-    usager: Usager,
+    usagerId: number,
+    structureId: number,
     decision: DecisionDto,
-    user: User
+    lastDecision: Decision
   ): Promise<Usager> {
-    decision.userName = user.prenom + " " + user.nom;
-    decision.userId = user.id;
-    decision.dateDecision = new Date();
-
-    const lastDecision = usager.decision;
-    const etapeDemande = 6;
-
-    if (decision.statut === "ATTENTE_DECISION") {
-      /* Mail au responsable */
-    }
-
-    if (decision.statut === "REFUS") {
-      /* Récupération du dernier ID lié à la structure */
-      /* SMS & Mail pr prévenir */
-      decision.dateDebut = lastDecision.dateDebut;
-
-      decision.dateFin =
-        decision.dateFin !== undefined && decision.dateFin !== null
-          ? new Date(decision.dateFin)
-          : (decision.dateFin = new Date());
-    }
-
-    if (decision.statut === "RADIE") {
-      decision.dateDebut = lastDecision.dateDebut;
-      decision.dateFin = new Date();
-    }
-
-    if (decision.statut === "VALIDE") {
-      if (!usager.datePremiereDom) {
-        usager.typeDom = "RENOUVELLEMENT";
-      }
-      if (decision.dateFin !== undefined && decision.dateFin !== null) {
-        decision.dateFin = new Date(decision.dateFin);
-      } else {
-        decision.dateFin = new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1)
-        );
-      }
-      decision.dateDebut = new Date(decision.dateDebut);
-    }
-
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usager.id,
-          structureId: user.structureId
+          id: usagerId,
+          structureId
         },
         {
           $push: { historique: lastDecision },
           $set: {
             decision,
-            etapeDemande
+            etapeDemande: 6
           }
         },
         {
@@ -187,7 +141,7 @@ export class UsagersService {
           new: true
         }
       )
-      .select("-docsPath")
+      .select("-docsPath -interactions")
       .exec();
   }
 
@@ -266,7 +220,7 @@ export class UsagersService {
 
   public async search(query: SearchDto, structureId: number): Promise<any> {
     let sort: any = { nom: 1 };
-    let searchQuery: SearchQuery = {};
+    const searchQuery: SearchQuery = {};
 
     searchQuery.structureId = structureId;
 

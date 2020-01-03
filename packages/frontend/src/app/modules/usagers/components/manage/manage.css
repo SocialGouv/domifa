@@ -1,7 +1,7 @@
 #manage {
-  max-width: 1050px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 90%;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
 #filters {
@@ -103,7 +103,7 @@
 
 table {
   border-collapse: separate;
-  border-spacing: 0 12px;
+  border-spacing: 0 9px;
   margin: 0 auto;
 }
 
@@ -160,7 +160,7 @@ th {
 }
 
 .icones_liste {
-  max-width: 115px;
+  width: 220px;
 }
 
 .icones_liste span {
@@ -178,21 +178,6 @@ th {
 .icones_liste span:hover {
   -webkit-text-stroke-width: 10px;
   stroke-width: 10px;
-}
-
-.notification {
-  background-color: #e42f2f;
-  border-radius: 16px;
-  color: white;
-  -webkit-text-stroke-width: 0px;
-  stroke-width: 0px;
-  padding: 3px 6px;
-  font-size: 13px;
-  line-height: 100%;
-  position: absolute;
-  box-shadow: 0 1px 3px rgba(74, 74, 74, 0.6);
-  top: -2px;
-  right: -10px;
 }
 
 .letter {
@@ -243,7 +228,8 @@ th {
   top: 0;
   display: block;
   width: 100%;
-  min-height: 500px;
+  min-height: 800px;
+  min-height: 100%;
   background-color: white;
   z-index: 4000;
 }

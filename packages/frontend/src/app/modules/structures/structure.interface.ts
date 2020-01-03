@@ -21,13 +21,14 @@ export class Structure {
     prenom: string;
   };
   public users: User[];
+  public createdAt: Date = null;
 
   constructor(structure?: any) {
     this.id = (structure && structure.id) || 0;
     this.capacite = (structure && structure.capacite) || null;
     this.adresse = (structure && structure.adresse) || null;
     this.adresseCourrier = (structure && structure.adresseCourrier) || "";
-    this.adresseDifferente = structure && structure.adresseCourrier !== "";
+    this.adresseDifferente = structure && structure.adresseDifferente !== "";
     this.complementAdresse = (structure && structure.complementAdresse) || "";
     this.nom = (structure && structure.nom) || "";
     this.structureType = (structure && structure.structureType) || "";
@@ -36,12 +37,17 @@ export class Structure {
     this.codePostal = (structure && structure.codePostal) || "";
     this.agrement = (structure && structure.agrement) || "";
     this.phone = (structure && structure.phone) || "";
-    this.email = (structure && structure.phone) || "";
+    this.email = (structure && structure.email) || "";
     this.responsable = (structure && structure.responsable) || {
       fonction: "",
       nom: "",
       prenom: ""
     };
     this.users = (structure && structure.users) || [];
+
+    this.createdAt = null;
+    if (structure && structure.createdAt) {
+      this.createdAt = new Date(structure.createdAt);
+    }
   }
 }

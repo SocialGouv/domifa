@@ -8,7 +8,18 @@
       *ngFor="let structure of structures; let i = index">
       <div class="row">
         <div class="col-md-12">
-          <b>#{{i+1}} {{ structure.nom }}</b>
+          <b>
+            #{{i+1}} {{ structure.nom }}
+            &nbsp;&nbsp;
+            <span
+              class="badge"
+              [ngClass]="{
+              'badge-info': structure.structureType === 'asso',
+              'badge-dark': structure.structureType === 'ccas'
+            }">
+              {{ labels.structureType[structure.structureType]}}
+            </span>
+          </b>
           <br>
           <b>Adresse :</b>
           {{ structure.adresse }},
@@ -16,12 +27,21 @@
             {{ structure.ville }} ({{ structure.codePostal }})
           </i>
           <br>
+          <p *ngIf="structure.structureType === 'asso'">
+            <b>Capacité maximale :</b>
+            {{ structure.capacite }}
+          </p>
+          <p *ngIf="structure.createdAt">
+            <b>Date d'inscription :</b>
+            {{ structure.createdAt | date: "dd/MM/yyyy"  }}
+          </p>
+          <br>
         </div>
         <div class="col-md-6">
           <b>Domiciliations</b>
           <ul>
             <li *ngFor="let stat of stats[structure.id]">
-              {{ labels[stat.statut] }} :
+              {{ labels.decision[stat.statut] }} :
               <b [ngClass]="statutClass[stat.statut]">{{ stat.sum }}</b>
             </li>
           </ul>
