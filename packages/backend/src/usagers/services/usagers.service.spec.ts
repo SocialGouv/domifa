@@ -64,10 +64,11 @@ describe("UsagersService", () => {
     usager.prenom = "Nouveau prénom";
     usager.id = usager.id;
 
-    const updatedUser = await service.patch(usager, user);
+    await service.patch(usager, user);
+    const updatedUsager = await service.findById(6, user.structureId);
 
-    expect(updatedUser.nom).toEqual("Nouveau nom");
-    expect(updatedUser.prenom).toEqual("Nouveau prénom");
+    expect(updatedUsager.nom).toEqual("Nouveau nom");
+    expect(updatedUsager.prenom).toEqual("Nouveau prénom");
 
     // DELETE
     const deletedUsager = await service.delete(6, user);
