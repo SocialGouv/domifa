@@ -9397,10 +9397,10 @@ next-tick@1, next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-ngx-cookie-service@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-2.2.0.tgz#79fe67863b3b93ee226c9ea8d60e1542c7115a58"
-  integrity sha512-2kaC1itlEMxiMAPJ320hOpcwU9vhvjbKQCZ1Go6bGhYjJtqG7eYvhNP7mM9IhFz1/afG2tBryJPySWmFUGhRpA==
+ngx-cookie-service@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-2.3.0.tgz#290e6f55047ad9e9f1aa4ddf30d1ab8d41927949"
+  integrity sha512-Cegg6ifVuAwhsdrj0sGDyS9lg2o/Uc6FkR8HLcI40rpNMu5tzMd8w23cUiB81a8jDUr/MC44f1S+G6zmWmoy0A==
 
 ngx-matomo@^0.1.4:
   version "0.1.4"
