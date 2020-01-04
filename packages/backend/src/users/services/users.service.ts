@@ -11,13 +11,9 @@ import { User } from "../user.interface";
 export class UsersService {
   constructor(@Inject("USER_MODEL") private readonly userModel: Model<User>) {}
 
-  public async findAll(user: User): Promise<any> {
+  public async findAll(request: any): Promise<any> {
     return this.userModel
-      .find({
-        structureId: user.structureId,
-        verified: true
-      })
-
+      .find(request)
       .select("-password -tokens -structureId")
       .lean()
       .exec();

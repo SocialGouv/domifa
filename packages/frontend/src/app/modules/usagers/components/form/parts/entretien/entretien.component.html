@@ -1,13 +1,15 @@
 <form
   [formGroup]="entretienForm"
   (ngSubmit)="submitEntretien()">
-  <div class="text-center">
+  <div
+    class="text-center"
+    *ngIf="!editEntretien">
     <h5 class="title">Entretien avec le demandeur</h5>
+    <br>
   </div>
-  <br>
+
   <div class="row">
     <div class="col">
-
       <div>
         <span class="label">Avez-vous été orienté ?</span>
         <div class="form-check form-check-inline">

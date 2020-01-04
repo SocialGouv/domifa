@@ -10,7 +10,6 @@ export class User {
   public password: string;
   public phone: string;
   public token: string;
-  public admin: boolean;
   public structureId: number;
   public structure: Structure;
   public lastLogin: Date;
@@ -23,7 +22,6 @@ export class User {
     this.role = (user && user.role) || null;
     this.phone = (user && user.phone) || null;
     this.token = (user && user.token) || null;
-    this.admin = (user && user.admin) || false;
     this.structureId = (user && user.structureId) || null;
     this.id = (user && user.id) || null;
     this.structure =

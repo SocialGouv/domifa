@@ -9,6 +9,11 @@ export const UserSchema = new mongoose.Schema(
       type: String,
       unique: true
     },
+    fonction: {
+      default: null,
+      trim: true,
+      type: String
+    },
     id: {
       type: Number,
       unique: true

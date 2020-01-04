@@ -158,7 +158,7 @@ input[type="number"] {
 
 .profil-table th:first-child,
 .profil-table td:first-child {
-  width: 20%;
+  width: 25%;
 }
 
 .profil-table th:nth-child(2),
@@ -181,4 +181,19 @@ input[type="number"] {
   display: block;
   margin: 10px 0;
   font-size: 1.02rem;
+}
+
+.text-radiation {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4rem;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  display: block;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 1.3rem;
+  font-weight: 600;
 }

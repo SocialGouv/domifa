@@ -15,6 +15,7 @@ export class UserProfilComponent implements OnInit {
   public title: string;
 
   public users: User[];
+  public newUsers: User[];
   public modal: any;
   public selectedUser: number;
 
@@ -28,7 +29,9 @@ export class UserProfilComponent implements OnInit {
 
   public ngOnInit() {
     this.title = "Mon compte Domifa";
-    this.loadUsers();
+    this.users = [];
+    this.newUsers = [];
+    this.getUsers();
   }
 
   public logout() {
@@ -39,7 +42,7 @@ export class UserProfilComponent implements OnInit {
   public confirmUser(id: number) {
     this.userService.confirmUser(id).subscribe(
       (user: User) => {
-        this.loadUsers();
+        this.getUsers();
         this.notifService.success(
           "Le compte de " +
             user.nom +
@@ -57,7 +60,7 @@ export class UserProfilComponent implements OnInit {
   public updateRole(id: number, role: string) {
     this.userService.updateRole(id, role).subscribe(
       (user: User) => {
-        this.loadUsers();
+        this.getUsers();
         this.notifService.success(
           "Les droits de " +
             user.nom +
@@ -77,7 +80,7 @@ export class UserProfilComponent implements OnInit {
   public deleteUser() {
     this.userService.deleteUser(this.selectedUser).subscribe(
       (user: User) => {
-        this.loadUsers();
+        this.getUsers();
         this.notifService.success("Utilisateur supprimé avec succès");
       },
       error => {
@@ -95,7 +98,13 @@ export class UserProfilComponent implements OnInit {
       this.notifService.success("Utilisateur supprimé avec succès");
     });
   }
-  private loadUsers() {
+
+  private getUsers() {
+    if (this.authService.currentUserValue.role === "admin") {
+      this.userService.getNewUsers().subscribe((users: User[]) => {
+        this.newUsers = users;
+      });
+    }
     this.userService.getUsers().subscribe((users: User[]) => {
       this.users = users;
     });

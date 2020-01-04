@@ -32,9 +32,22 @@ export class UsersController {
   ) {}
 
   @UseGuards(AuthGuard("jwt"))
-  @Get()
-  public findAll(@CurrentUser() user: User): Promise<User[]> {
-    return this.usersService.findAll(user);
+  @Get("")
+  public getAll(@CurrentUser() user: User): Promise<User[]> {
+    return this.usersService.findAll({
+      structureId: user.structureId,
+      verified: true
+    });
+  }
+
+  @Get("to-confirm")
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard("jwt"))
+  public getVerifiedUsers(@CurrentUser() user: User): Promise<User[]> {
+    return this.usersService.findAll({
+      structureId: user.structureId,
+      verified: false
+    });
   }
 
   @UseGuards(AuthGuard("jwt"))

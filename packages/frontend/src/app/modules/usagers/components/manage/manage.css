@@ -92,13 +92,7 @@
   cursor: pointer;
 }
 
-.table_name span {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 100px;
-  margin-top: -10px;
-  text-transform: capitalize;
+.table-name {
 }
 
 table {
@@ -118,15 +112,20 @@ tbody th {
 
 tbody td:first-child,
 tbody th:first-child {
-  padding: 6px 25px;
+  padding: 6px 12px;
   border-left: 1px solid #d2d2d2;
   border-radius: 4px 0px 0 4px;
+}
+
+tbody td:nth-child(2),
+tbody th:nth-child(2) {
+  min-width: 220px;
 }
 
 tbody td:last-child,
 tbody th:last-child {
   border-right: 1px solid #d2d2d2;
-  padding: 6px 10px;
+  padding: 6px 12px;
   text-align: right;
   border-radius: 0 4px 4px 0;
 }

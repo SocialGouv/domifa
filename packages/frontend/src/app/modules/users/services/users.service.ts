@@ -30,6 +30,10 @@ export class UsersService {
     return this.http.get(`${this.endPoint}`);
   }
 
+  public getNewUsers() {
+    return this.http.get(`${this.endPoint}/to-confirm`);
+  }
+
   public confirmUser(id: number) {
     return this.http.get(`${this.endPoint}/confirm/${id}`);
   }

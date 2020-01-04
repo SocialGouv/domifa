@@ -5,6 +5,16 @@
 .verified {
   color: var(--success);
 }
+
 .not-verified {
   color: var(--warning);
+}
+
+#new-users {
+  background-color: #e42f2f;
+  border-radius: 1rem;
+  color: white;
+  padding: 4px 10px;
+  font-size: 1rem;
+  line-height: 100%;
 }

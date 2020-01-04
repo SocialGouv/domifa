@@ -5,8 +5,9 @@
     <div class="col-md-2 text-center">
       <br>
       <a routerLink="/manage/">
-        <fa-icon icon="angle-left"></fa-icon>
-        &ensp;
+        <fa-icon
+          icon="angle-left"
+          class="btn-icon"></fa-icon>
         Retour à la liste
       </a>
     </div>
@@ -24,15 +25,14 @@
       <div
         class="text-center"
         *ngIf="usager.decision.statut === 'REFUS'">
-        <h4 class="text-danger">
-          Demande refusée le {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
-        </h4>
 
-        <p class="font-weight-bold text-danger">
+        <div class="text-radiation text-danger">
+          Demande refusée le {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+          <br>
           Motif : {{ usager.decision.motif }}
           <br>
           Orientation proposée : {{ usager.decision.orientationDetails}}
-        </p>
+        </div>
 
         <button
           (click)="getAttestation()"
@@ -44,22 +44,34 @@
       </div>
 
       <div
-        class="text-center font-weight-bold text-danger"
+        class="text-center text-danger"
         *ngIf="usager.decision.statut === 'RADIE'">
 
-        <h4 class="text-danger">
-          Radié{{ usager.sexe === "homme" ? "" : "e" }} le {{ usager.decision.dateDecision | date: 'dd/MM/yyyy à HH:MM' }}
+        <div class="text-radiation">
+          Cette personne a été radiée le {{ usager.decision.dateDecision | date: 'dd/MM/yyyy' }}
           <br>
-          {{ usager.decision.motif }}
-        </h4>
+          Motif : {{ usager.decision.motif }}
+        </div>
 
-        <a
-          [routerLink]="['/radiation/'+usager.id]"
-          class="btn btn-primary">
-          <fa-icon icon="print"></fa-icon>
-          &ensp;
-          Imprimer le courrier de radiation
-        </a>
+        <div class="col-md-12">
+          <button
+            (click)="open(renewConfirmation)"
+            class="btn btn-outline-secondary">
+            <fa-icon
+              icon="redo"
+              class="btn-icon"></fa-icon>
+            Créer une nouvelle demande
+          </button>
+          &nbsp;&nbsp;
+          <a
+            [routerLink]="['/radiation/'+usager.id]"
+            class="btn btn-outline-primary">
+            <fa-icon
+              icon="print"
+              class="btn-icon"></fa-icon>
+            Imprimer le courrier de radiation
+          </a>
+        </div>
       </div>
 
       <div
@@ -109,16 +121,21 @@
           <button
             (click)="open(renewConfirmation)"
             *ngIf="usager.dayBeforeEnd < 60"
-            class="btn col-5 btn-secondary">
-            <fa-icon icon="redo"></fa-icon>
+            class="btn col-5 btn-outline-secondary">
+            <fa-icon
+              icon="redo"
+              class="btn-icon"></fa-icon>
             Demande de renouvellement
           </button>
+          &ensp;&ensp;
           <a
             *ngIf="usager.dayBeforeEnd < 0"
             [routerLink]="['/radiation/'+usager.id]"
             routerLinkActive="router-link-active"
-            class="btn col-5 btn-danger">
-            <fa-icon icon="times"></fa-icon>
+            class="btn col-5 btn-outline-danger">
+            <fa-icon
+              icon="times"
+              class="btn-icon"></fa-icon>
             Radier le domicilié
           </a>
         </div>
@@ -148,11 +165,11 @@
       class="text-center text-warning">
       <div class="font-weight-bold">
         <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-        Le courrier est a transféré à l'adresse suivante :
+        Le courrier est à transférer à l'adresse suivante :
         <br>
-        {{ usager.options.transfert.nom }}
+        {{ usager.options.transfert.nom | titlecase }}
       </div>
-      {{ usager.options.transfert.adresse }}
+      {{ usager.options.transfert.adresse | titlecase }}
       <br>
       <br>
     </div>
@@ -331,7 +348,7 @@
                   (click)="interaction.delete = false">
                   <fa-icon
                     icon="pencil-alt"
-                    class="edit"></fa-icon>
+                    class="btn-icon"></fa-icon>
                 </span>
               </td>
             </tr>
@@ -409,9 +426,11 @@
             *ngIf="usager.decision.statut === 'VALIDE'">
             <br>
             <button
-              class="btn btn-dark"
+              class="btn btn-outline-dark"
               (click)="editInfos = !editInfos">
-              <fa-icon icon="edit"></fa-icon>
+              <fa-icon
+                icon="pencil-alt"
+                class="btn-icon"></fa-icon>
               Modifier les informations
             </button>
           </div>
@@ -698,7 +717,9 @@
                     <span
                       (click)="deleteAyantDroit(i)"
                       class="btn btn-danger">
-                      <fa-icon icon="trash"></fa-icon>
+                      <fa-icon
+                        icon="trash"
+                        class="btn-icon"></fa-icon>
                     </span>
                   </div>
                 </div>
@@ -755,9 +776,11 @@
             *ngIf="usager.decision.statut === 'VALIDE'">
             <br>
             <button
-              class="btn btn-dark"
+              class="btn btn-outline-dark"
               (click)="editAyantsDroits = !editAyantsDroits">
-              <fa-icon icon="edit"></fa-icon>
+              <fa-icon
+                icon="pencil-alt"
+                class="btn-icon"></fa-icon>
               Modifier les ayants-droits
             </button>
           </div>
@@ -851,7 +874,7 @@
           <button
             ngbPanelToggle
             class="btn btn-link">
-            <span>TRANSFERT DE COURRIER ET PROCURATIONS</span>
+            <span>TRANSFERT DE COURRIER</span>
             <span class="arrows">
               <fa-icon
                 *ngIf="opened"
@@ -867,33 +890,45 @@
       <ng-template ngbPanelContent>
         <div class="row">
           <div class="col-12">
-            <button
-              *ngIf="!usager.options.transfert.actif && !editTransfertForm"
-              (click)="editTransfertForm = true"
-              class="btn btn-large btn-outline-primary">
-              Activer le transfert de courrier
-            </button>
+
+            <div
+              class="text-center"
+              *ngIf="!usager.options.transfert.actif && !editTransfertForm">
+              <p>
+                Il n'y a aucun transfert de courrier actuellement.
+              </p>
+              <button
+                (click)="editTransfertForm = true"
+                class="btn btn-outline-primary">
+                <fa-icon
+                  icon="plus"
+                  class="btn-icon"></fa-icon>
+                Activer le transfert de courrier
+              </button>
+            </div>
 
             <div
               *ngIf="usager.options.transfert.actif && !editTransfertForm"
               class="row">
-              <div class="col-md-12 ">
-                Transfert de courrier actif depuis le
-                <b>
-                  {{ usager.options.transfert.dateDebut | date: 'dd/MM/yyyy' }}
-                </b>
-              </div>
-              <div class="col-md-5 reponses">
+
+              <div class="col-md-3 reponses">
                 <span class="question">Nom de l'établissement</span>
                 <span class="valeur">{{ usager.options.transfert.nom }}</span>
               </div>
 
-              <div class="col-md-5 reponses">
+              <div class="col-md-6 reponses">
                 <span class="question">Adresse</span>
                 <span class="valeur">{{ usager.options.transfert.adresse }}</span>
               </div>
 
-              <div class="col-md-2 text-left">
+              <div class="col-md-3 reponses">
+                <span class="question">Actif depuis le</span>
+                <span class="valeur">
+                  {{ usager.options.transfert.dateDebut | date: 'dd/MM/yyyy' }}
+                </span>
+              </div>
+
+              <div class="col-12 text-center">
                 <br>
                 <button
                   *ngIf="usager.options.transfert.actif && !editTransfertForm"
@@ -901,7 +936,8 @@
                   class="btn btn-outline-primary">
                   <fa-icon
                     icon="pencil-alt"
-                    class="edit"></fa-icon>
+                    class="btn-icon"></fa-icon>
+                  Editer le transfert
                 </button>
                 &nbsp;&nbsp;
                 <button
@@ -911,8 +947,10 @@
                   <fa-icon
                     icon="trash"
                     class="trash"></fa-icon>
+                  Supprimer le transfert
                 </button>
               </div>
+
             </div>
             <form
               *ngIf="editTransfertForm"
@@ -975,10 +1013,6 @@
                 </div>
               </div>
             </form>
-          </div>
-          <div
-            id="procuration"
-            class="col">
           </div>
         </div>
       </ng-template>
@@ -1106,7 +1140,9 @@
           <br>
           <div class="col-md-12 reponses">
             <span class="question">NOTES SUPPLÉMENTAIRES:</span>
-            <span class="valeur">{{ usager.entretien.commentaires }}</span>
+            <span class="valeur">
+              {{ usager.entretien.commentaires || "Non renseigné"}}
+            </span>
             <br>
           </div>
         </div>
@@ -1116,10 +1152,12 @@
           *ngIf="usager.decision.statut === 'VALIDE'">
           <br>
           <button
-            class="btn btn-dark"
+            class="btn btn-outline-dark"
             *ngIf="!editEntretien"
             (click)="editEntretien = !editEntretien">
-            <fa-icon icon="edit"></fa-icon>
+            <fa-icon
+              icon="pencil-alt"
+              class="btn-icon"></fa-icon>
             Modifier la situation sociale
           </button>
         </div>
@@ -1172,7 +1210,9 @@
                   (click)="getDocument(indexDocs)"
                   class="btn btn-primary"
                   aria-label="Voir la pièce jointe">
-                  <fa-icon icon="download"></fa-icon>
+                  <fa-icon
+                    icon="download"
+                    class="btn-icon"></fa-icon>
                   Télécharger
                 </button>
               </td>
@@ -1181,7 +1221,9 @@
                   (click)="deleteDocument(indexDocs)"
                   class="btn btn-danger"
                   aria-label="Voir la pièce jointe">
-                  <fa-icon icon="trash"></fa-icon>
+                  <fa-icon
+                    icon="trash"
+                    class="btn-icon"></fa-icon>
                   Supprimer
                 </button>
               </td>
@@ -1207,7 +1249,9 @@
           <button
             (click)="getAttestation()"
             class="col btn btn-outline-primary">
-            <fa-icon icon="file-pdf"></fa-icon>
+            <fa-icon
+              icon="file-pdf"
+              class="btn-icon"></fa-icon>
             Télécharger l'attestation
           </button>
           &nbsp;&nbsp;
@@ -1215,14 +1259,18 @@
             [routerLink]="['/radiation/'+usager.id]"
             routerLinkActive="router-link-active"
             class="col btn btn-outline-danger">
-            <fa-icon icon="times"></fa-icon>
+            <fa-icon
+              icon="times"
+              class="btn-icon"></fa-icon>
             Radier le domicilié
           </a>
           &nbsp;&nbsp;
           <button
             (click)="open(renewConfirmation)"
             class="col btn btn-outline-secondary">
-            <fa-icon icon="redo"></fa-icon>
+            <fa-icon
+              icon="redo"
+              class="btn-icon"></fa-icon>
             Demande de renouvellement
           </button>
 
@@ -1234,9 +1282,10 @@
             <span
               id="delete-usager"
               (click)="open(deleteConfirmation)">
-              <fa-icon icon="trash"></fa-icon>
-              &nbsp;
-                Supprimer le domicilié
+              <fa-icon
+                icon="trash"
+                class="btn-icon"></fa-icon>
+              Supprimer le domicilié
             </span>
           </div>
         </div>
@@ -1249,15 +1298,23 @@
   #renewConfirmation
   let-modal>
   <div class="modal-body text-center">
-    <b>Attention</b>
+    <span class="modal-title">Attention</span>
     <br>
     <br>
-    Si vous commencer un renouvellement,
-    <br>
-    <b>
-      ce dossier ne sera plus compté comme "actif"
-    </b>
-    <br>
+    <p *ngIf="usager.decision.statut !== 'RADIE'">
+      Si vous commencer un renouvellement,
+      <br>
+      <b>
+        ce dossier ne sera plus compté comme "actif"
+      </b>
+    </p>
+    <p *ngIf="usager.decision.statut === 'RADIE'">
+      Si vous commencer lancer une nouvelle demande
+      <br>
+      <b>
+        ce dossier ne sera plus comptabilisé parimis les radiés
+      </b>
+    </p>
     <br>
     Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre "A compléter
   </div>

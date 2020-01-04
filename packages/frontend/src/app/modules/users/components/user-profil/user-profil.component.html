@@ -1,115 +1,156 @@
-<div class="step_form">
-  <h4>Mon compte</h4>
-  <button
-    class="btn btn-primary"
-    (click)="logout()">
-    Déconnexion
-    <fa-icon icon="sign-out-alt"></fa-icon>
-  </button>
-  <br>
-  <h4>Utilisateurs de votre structure</h4>
-  <div
-    *ngIf="users"
-    class="list-group">
-    <div
-      class="list-group-item"
-      *ngFor="let user of users">
-      <div class="row">
-        <div class="col text-left">
-          <b>{{ user.nom }} {{ user.prenom }}</b>
-          <span class="user-icon">
-            <span
-              *ngIf="user.role === 'admin'"
-              class="badge badge-primary">
-              Administrateur
-            </span>
-            <span
-              *ngIf="!user.verified"
-              class="badge badge-warning">
-              Non activé
-            </span>
-          </span>
-          <br>
-          {{ user.email }}
-        </div>
-        <div
-          *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
-          class="col">
-          <select
-            id="role_{{i}}"
-            (change)="updateRole(user.id, $event.target.value)"
-            class="custom-select">
-            <option
-              [selected]="user.role === 'admin' "
-              value="admin">
-              Administrateur
-            </option>
-            <option
-              [selected]="user.role === 'simple' "
-              value="simple">
-              Instructeur
-            </option>
-          </select>
-        </div>
-        <div class="col text-right">
-          <button
-            *ngIf="authService.isAdmin && !user.verified"
-            (click)="confirmUser(user.id)"
-            class="btn btn-primary">
-            Valider
-          </button>
-          &nbsp;
-          <button
-            *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
-            (click)="open(confirmation);selectedUser = user.id"
-            class="btn btn-danger">
-            <fa-icon icon="trash"></fa-icon>
-            Supprimer
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <br>
-
-  <h4>Votre structure</h4>
-  <div class="list-group-item">
-    <b>
-      {{ authService.currentUserValue.structure.nom }}
-    </b>
-    <br>
-    {{ authService.currentUserValue.structure.adresse }},
-    {{ authService.currentUserValue.structure.ville }}
-    ({{ authService.currentUserValue.structure.codePostal }})
-  </div>
-
-  <ng-template
-    #confirmation
-    let-modal>
-    <div class="modal-body text-center">
-      <h4>Confirmer la suppression</h4>
-      <div class="col">
-        Vous êtes sur le point de supprimer le compte de cet utilisateur.
-      Une fois supprimé, l'utilisateur ne pourra plus se connecter.
-        <br>
-        Veuillez indiquer la date de début et de fin de la domiciliation
-        <br>
-        <br>
-      </div>
-    </div>
-    <div class="modal-footer text-center">
-      <button
-        class="btn btn-outline-dark"
-        (click)="modal.close()">
-        Annuler
-      </button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 offset-1">
+      <h4>Mon compte</h4>
       <button
         class="btn btn-primary"
-        (click)="deleteUser()">
-        Confirmer la suppression
+        (click)="logout()">
+        Déconnexion
+        <fa-icon icon="sign-out-alt"></fa-icon>
       </button>
+      <br>
+      <br>
+
+      <h4 *ngIf="newUsers && newUsers.length > 0">
+        Nouveaux utilisateurs à confirmer
+        <span id="new-users">{{ newUsers.length }}</span>
+      </h4>
+      <div
+        *ngIf="newUsers"
+        class="list-group">
+        <div
+          class="list-group-item"
+          *ngFor="let user of newUsers">
+          <div class="row">
+            <div class="col text-left">
+              <b>{{ user.nom }} {{ user.prenom }}</b>
+              <br>
+              {{ user.email }}
+            </div>
+            <div class="col text-right">
+              <button
+                *ngIf="authService.isAdmin && !user.verified"
+                (click)="confirmUser(user.id)"
+                class="btn btn-secondary">
+                <fa-icon
+                  icon="check"
+                  class="btn-icon"></fa-icon>
+                Valider
+              </button>
+              &nbsp;
+              <button
+                *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
+                (click)="open(confirmation);selectedUser = user.id"
+                class="btn btn-danger">
+                <fa-icon
+                  icon="trash"
+                  class="btn-icon"></fa-icon>
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <h4 *ngIf="newUsers">Membres actifs</h4>
+      <div
+        *ngIf="users"
+        class="list-group">
+        <div
+          class="list-group-item"
+          *ngFor="let user of users">
+          <div class="row">
+            <div class="col-5 text-left">
+              <b>{{ user.nom }} {{ user.prenom }}</b>
+              <span class="user-icon">
+                <span
+                  *ngIf="user.role === 'admin'"
+                  class="badge badge-primary">
+                  Administrateur
+                </span>
+                <span
+                  *ngIf="!user.verified"
+                  class="badge badge-warning">
+                  Non activé
+                </span>
+              </span>
+              <br>
+              {{ user.email }}
+            </div>
+            <div
+              *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
+              class="col-4">
+              <select
+                id="role_{{i}}"
+                (change)="updateRole(user.id, $event.target.value)"
+                class="custom-select">
+                <option
+                  [selected]="user.role === 'admin' "
+                  value="admin">
+                  Administrateur
+                </option>
+                <option
+                  [selected]="user.role === 'simple' "
+                  value="simple">
+                  Instructeur
+                </option>
+              </select>
+            </div>
+            <div class="col-3 text-right">
+              <button
+                *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
+                (click)="open(confirmation);selectedUser = user.id"
+                class="btn btn-danger">
+                <fa-icon icon="trash"></fa-icon>
+                Supprimer
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <br>
+
+      <h4>Votre structure</h4>
+      <div class="list-group-item">
+        <b>
+          {{ authService.currentUserValue.structure.nom }}
+        </b>
+        <br>
+        {{ authService.currentUserValue.structure.adresse }},
+    {{ authService.currentUserValue.structure.ville }}
+    ({{ authService.currentUserValue.structure.codePostal }})
+      </div>
+
+      <ng-template
+        #confirmation
+        let-modal>
+        <div class="modal-body text-center">
+          <h4>Confirmer la suppression</h4>
+          <div class="col">
+            Vous êtes sur le point de supprimer le compte de cet utilisateur.
+      Une fois supprimé, l'utilisateur ne pourra plus se connecter.
+            <br>
+            Veuillez indiquer la date de début et de fin de la domiciliation
+            <br>
+            <br>
+          </div>
+        </div>
+        <div class="modal-footer text-center">
+          <button
+            class="btn btn-outline-dark"
+            (click)="modal.close()">
+            Annuler
+          </button>
+          <button
+            class="btn btn-primary"
+            (click)="deleteUser()">
+            Confirmer la suppression
+          </button>
+        </div>
+      </ng-template>
     </div>
-  </ng-template>
+  </div>
 </div>

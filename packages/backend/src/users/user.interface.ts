@@ -9,6 +9,7 @@ export interface User extends Document {
   email: string;
   password: string;
   structureId: number;
+  fonction: string;
   structure: Structure;
   role: string;
   verified: boolean;

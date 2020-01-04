@@ -115,12 +115,12 @@
       class="table"
       *ngIf="usagers.length !== 0">
       <thead>
-        <th>#</th>
+        <th class="text-center">#</th>
         <th>Nom prénom</th>
         <th>{{ dateLabel }}</th>
-        <th></th>
+
         <td
-          colspan="2"
+          colspan="3"
           class="text-right">
           <div class="sort-structures form-group form-check-inline">
             <label for="sort">Trier par</label>
@@ -141,28 +141,27 @@
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
             scope="row"
-            class="table_name text-black-50">
+            class="text-center">
             {{ usager.id }}
           </td>
           <td
             (click)="goToProfil(usager.id, usager.decision.statut)"
             scope="row"
-            class="table_name">
+            class="table-name td-name">
             <b>{{ usager.nom | uppercase }}</b>
             {{ usager.prenom }}
             <span *ngIf="usager.surnom && usager.surnom !== null">({{ usager.surnom }})</span>
           </td>
-          <td
-            (click)="goToProfil(usager.id, usager.decision.statut)"
-            class="font-weight-bold">
+          <td (click)="goToProfil(usager.id, usager.decision.statut)">
             <span
               *ngIf="usager.decision.statut === 'REFUS' || usager.decision.statut === 'RADIE'"
-              class="text-danger">
+              class="text-danger font-weight-bold">
               {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
             </span>
             <span
               *ngIf="usager.decision.statut === 'VALIDE'"
               [ngClass]="{
+                'font-weight-bold':  usager.dayBeforeEnd < 60,
                 'text-danger': usager.dayBeforeEnd < 15,
                 'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
               }">
