@@ -29,7 +29,7 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.4",
     "@types/jwt-decode": "^2.2.1",
     "add": "^2.0.6",
-    "core-js": "^3.6.0",
+    "core-js": "^3.6.2",
     "fs": "^0.0.1-security",
     "jwt-decode": "^2.2.0",
     "ngx-cookie-service": "^2.3.0",
