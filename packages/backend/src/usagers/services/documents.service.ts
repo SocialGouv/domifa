@@ -42,16 +42,16 @@ export class DocumentsService {
   }
 
   public async addDocument(
-    usagerId: number,
-    user: User,
+    id: number,
+    structureId: number,
     filename: string,
     newDoc: any
   ): Promise<Usager> {
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usagerId,
-          structureId: user.structureId
+          id,
+          structureId
         },
         {
           $push: { docs: newDoc, docsPath: filename }
@@ -60,18 +60,5 @@ export class DocumentsService {
       )
       .select("-docsPath")
       .exec();
-  }
-
-  public async getDocument(usager: Usager, index: number): Promise<Doc> {
-    if (
-      typeof usager.docs[index] === "undefined" ||
-      typeof usager.docsPath[index] === "undefined"
-    ) {
-      throw new HttpException("DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
-    }
-
-    const fileInfos = usager.docs[index];
-    fileInfos.path = usager.docsPath[index];
-    return fileInfos;
   }
 }

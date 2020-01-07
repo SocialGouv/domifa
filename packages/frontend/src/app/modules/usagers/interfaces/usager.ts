@@ -1,4 +1,5 @@
-import { isToday } from "../../../shared/bootstrap-util";
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { formatDateToNgb, isToday } from "../../../shared/bootstrap-util";
 import { Rdv } from "../interfaces/rdv";
 import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
@@ -8,6 +9,7 @@ import { Options } from "./options";
 
 export class Usager {
   public id: number;
+  public customId: string;
   public nom: string;
   public nomComplet: string;
   public prenom: string;
@@ -48,7 +50,7 @@ export class Usager {
 
   public decision: any;
 
-  public dateNaissancePicker: any;
+  public dateNaissancePicker: NgbDateStruct;
 
   public interactionsToday: {
     appel: boolean;
@@ -59,6 +61,7 @@ export class Usager {
 
   constructor(usager?: any) {
     this.id = (usager && usager.id) || 0;
+    this.customId = (usager && usager.customId) || null;
     this.sexe = (usager && usager.sexe) || "homme";
     this.nom = (usager && usager.nom) || "";
     this.prenom = (usager && usager.prenom) || "";
@@ -74,14 +77,10 @@ export class Usager {
     this.dateNaissance = null;
 
     this.historique = [];
-    this.dateNaissancePicker = {};
+    this.dateNaissancePicker = null;
     if (usager && usager.dateNaissance !== null) {
       this.dateNaissance = new Date(usager.dateNaissance);
-      this.dateNaissancePicker = {
-        day: this.dateNaissance.getDate(),
-        month: this.dateNaissance.getMonth() + 1,
-        year: this.dateNaissance.getFullYear()
-      };
+      this.dateNaissancePicker = formatDateToNgb(this.dateNaissance);
     }
 
     this.villeNaissance = (usager && usager.villeNaissance) || "";

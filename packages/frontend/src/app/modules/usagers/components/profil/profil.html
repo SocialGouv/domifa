@@ -20,7 +20,7 @@
          }">
         <h2 id="profil_name">{{ usager.nomComplet }}</h2>
         Numéro domicilié :
-        <b>{{ usager.id }}</b>
+        <b>{{ usager.customId|| usager.id }}</b>
       </div>
       <div
         class="text-center"
@@ -127,7 +127,7 @@
               class="btn-icon"></fa-icon>
             Demande de renouvellement
           </button>
-          &ensp;&ensp;
+          &nbsp;&nbsp;
           <a
             *ngIf="usager.dayBeforeEnd < 0"
             [routerLink]="['/radiation/'+usager.id]"
@@ -266,7 +266,7 @@
 
   <ngb-accordion
     #acc="ngbAccordion"
-    activeIds="panel-0,panel-9,panel-1,panel-2,panel-4,panel-5">
+    activeIds="panel-0,panel-9,panel-1,panel-10,panel-2,panel-4,panel-5">
 
     <ngb-panel
       id="panel-0"
@@ -911,17 +911,17 @@
               *ngIf="usager.options.transfert.actif && !editTransfertForm"
               class="row">
 
-              <div class="col-md-3 reponses">
+              <div class="col-md-4 reponses">
                 <span class="question">Nom de l'établissement</span>
                 <span class="valeur">{{ usager.options.transfert.nom }}</span>
               </div>
 
-              <div class="col-md-6 reponses">
+              <div class="col-md-4 reponses">
                 <span class="question">Adresse</span>
                 <span class="valeur">{{ usager.options.transfert.adresse }}</span>
               </div>
 
-              <div class="col-md-3 reponses">
+              <div class="col-md-4 reponses">
                 <span class="question">Actif depuis le</span>
                 <span class="valeur">
                   {{ usager.options.transfert.dateDebut | date: 'dd/MM/yyyy' }}
@@ -1018,6 +1018,180 @@
       </ng-template>
     </ngb-panel>
 
+    <ngb-panel id="panel-10">
+      <ng-template
+        ngbPanelHeader
+        let-opened="opened">
+        <div class="head-panel">
+          <button
+            ngbPanelToggle
+            class="btn btn-link">
+            <span>PROCURATION DE COURRIER</span>
+            <span class="arrows">
+              <fa-icon
+                *ngIf="opened"
+                icon="chevron-down"></fa-icon>
+              <fa-icon
+                *ngIf="!opened"
+                icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+
+      <ng-template ngbPanelContent>
+        <div class="row">
+          <div class="col-12">
+            <div
+              class="text-center"
+              *ngIf="!usager.options.procuration.actif && !editProcurationForm">
+              <p>Il n'y a aucun procuration actuellement</p>
+              <button
+                (click)="editProcurationForm = true"
+                class="btn btn-outline-primary">
+                <fa-icon
+                  icon="plus"
+                  class="btn-icon"></fa-icon>
+                Activer la procuration
+              </button>
+            </div>
+
+            <div
+              *ngIf="usager.options.procuration.actif && !editProcurationForm"
+              class="row">
+
+              <div class="col-md-4 reponses">
+                <span class="question">Nom</span>
+                <span class="valeur">{{ usager.options.procuration.nom }}</span>
+              </div>
+
+              <div class="col-md-4 reponses">
+                <span class="question">Prénom</span>
+                <span class="valeur">{{ usager.options.procuration.prenom }}</span>
+              </div>
+
+              <div class="col-md-4 reponses">
+                <span class="question">Date de fin de validité</span>
+                <span class="valeur">
+                  {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy' }}
+                </span>
+              </div>
+
+              <div class="col-12 text-center">
+                <br>
+                <button
+                  *ngIf="usager.options.procuration.actif && !editProcurationForm"
+                  (click)="editProcurationForm = true"
+                  class="btn btn-outline-primary">
+                  <fa-icon
+                    icon="pencil-alt"
+                    class="btn-icon"></fa-icon>
+                  Éditer la procuration
+                </button>
+                &nbsp;&nbsp;
+                <button
+                  type="button"
+                  (click)="deleteProcuration()"
+                  class="btn btn-outline-danger">
+                  <fa-icon
+                    icon="trash"
+                    class="trash"></fa-icon>
+                  Supprimer la procuration
+                </button>
+              </div>
+            </div>
+            <form
+              *ngIf="editProcurationForm"
+              [formGroup]="procurationForm"
+              (ngSubmit)="editProcuration()"
+              autocomplete="off">
+              <div class="row">
+                <div class="col-4 form-group required">
+                  <label for="procuration_nom">Nom</label>
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="procuration_nom"
+                    formControlName="nom"
+                    [ngClass]="{ 'is-invalid': p.nom.dirty && p.nom.errors }"
+                    required>
+                  <div
+                    *ngIf="p.nom.dirty && p.nom.errors"
+                    class="invalid-feedback"
+                    autocomplete="null">
+                    <div *ngIf="p.nom.errors.required">Le nom est obligatoire</div>
+                  </div>
+                </div>
+                <div class="col-4 form-group required">
+                  <label for="procuration_prenom">Prenom</label>
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="procuration_prenom"
+                    formControlName="prenom"
+                    [ngClass]="{ 'is-invalid': p.prenom.dirty && p.prenom.errors }"
+                    required>
+                  <div
+                    *ngIf="p.prenom.dirty && p.prenom.errors"
+                    class="invalid-feedback">
+                    <div *ngIf="p.prenom.errors.required">Prénom obligatoire</div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 form-group required">
+                  <label for="dateFinPicker">Date de fin de validité</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      placeholder="jj/mm/aaaa"
+                      placement="bottom"
+                      formControlName="dateFinPicker"
+                      ngbDatepicker
+                      dateFr
+                      value
+                      [ngClass]="{ 'is-invalid': p.dateFinPicker.errors  }"
+                      #d="ngbDatepicker"
+                      maxlength="10"
+                      required>
+                    <div class="input-group-append">
+                      <span
+                        class="btn btn-outline-primary"
+                        (click)="d.toggle()">
+                        <fa-icon icon="calendar"></fa-icon>
+                      </span>
+                    </div>
+
+                    <div
+                      *ngIf="p.dateFinPicker.invalid"
+                      class="invalid-feedback">
+                      <div *ngIf="p.dateFinPicker.dirty && p.dateFinPicker.errors.required">La date de fin est obligatoire</div>
+                      <div *ngIf="p.dateFinPicker.dirty && p.dateFinPicker.errors.ngbDate">
+                        La date de naissance est incorrecte (ex: 20/12/1991)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col text-center">
+                  <span
+                    class="btn btn-dark"
+                    (click)="editProcurationForm = false">
+                    Annuler
+                  </span>
+                  &nbsp;&nbsp;
+                  <button
+                    class="btn btn-primary"
+                    type="submit"
+                    [disabled]="!procurationForm.valid">
+                    Enregistrer le procuration
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
     <ngb-panel id="panel-4">
       <ng-template
         ngbPanelHeader

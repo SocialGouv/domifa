@@ -15,8 +15,8 @@ import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
 import * as XLSX from "xlsx";
+import { CurrentUser } from "../../auth/current-user.decorator";
 import { StructuresService } from "../../structures/structures.service";
-import { CurrentUser } from "../../users/current-user.decorator";
 import { UsersService } from "../../users/services/users.service";
 import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
@@ -45,7 +45,7 @@ export const MOTIF_REFUS = 13;
 export const MOTIF_RADIATION = 14;
 export const MENAGE = 15;
 export const AYANT_DROIT = [16, 20, 24, 28];
-export const ID = [29];
+export const CUSTOM_ID = 29;
 
 type AOA = any[][];
 
@@ -179,6 +179,7 @@ export class ImportController {
           index,
           MOTIF_RADIATION
         );
+
         this.countErrors(this.isValidValue(row[15], "menage"), index, 15);
 
         for (const indexAD of AYANT_DROIT) {
@@ -318,6 +319,7 @@ export class ImportController {
 
       const usager = {
         ayantsDroits,
+        customId: row[CUSTOM_ID],
         dateNaissance: this.convertDate(row[DATE_NAISSANCE]),
         datePremiereDom,
         decision: {

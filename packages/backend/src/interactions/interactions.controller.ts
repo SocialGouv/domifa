@@ -9,8 +9,11 @@ import {
   UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { AccessGuard } from "../auth/access.guard";
+import { CurrentUsager } from "../auth/current-usager.decorator";
+import { CurrentUser } from "../auth/current-user.decorator";
 import { RolesGuard } from "../auth/roles.guard";
-import { CurrentUser } from "../users/current-user.decorator";
+import { Usager } from "../usagers/interfaces/usagers";
 import { User } from "../users/user.interface";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsService } from "./interactions.service";
@@ -21,32 +24,34 @@ export class InteractionsController {
   private readonly logger = new Logger(InteractionsController.name);
 
   constructor(private readonly interactionService: InteractionsService) {}
-
-  @Post(":usagerId")
+  @UseGuards(AccessGuard)
+  @Post(":id")
   public postInteraction(
-    @Param("usagerId") usagerId: number,
     @Body() interactionDto: InteractionDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
-    return this.interactionService.create(usagerId, user, interactionDto);
+    return this.interactionService.create(usager, user, interactionDto);
   }
 
-  @Get(":usagerId/:limit")
+  @UseGuards(AccessGuard)
+  @Get(":id/:limit")
   public getInteractions(
-    @Param("usagerId") usagerId: number,
     @Param("limit") limit: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
-    return this.interactionService.find(usagerId, limit, user);
+    return this.interactionService.find(usager.id, limit, user);
   }
 
-  @Delete(":usagerId/:interactionId")
+  @UseGuards(AccessGuard)
+  @Delete(":id/:interactionId")
   public deleteInteraction(
-    @Param("usagerId") usagerId: number,
     @Param("interactionId") interactionId: string,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
-    return this.interactionService.delete(usagerId, interactionId, user);
+    return this.interactionService.delete(usager.id, interactionId, user);
   }
 
   @UseGuards(RolesGuard)

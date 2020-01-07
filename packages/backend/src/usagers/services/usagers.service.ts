@@ -172,19 +172,13 @@ export class UsagersService {
       .exec();
   }
 
-  public async findById(
-    id: number,
-    structureId: number,
-    select?: string
-  ): Promise<Usager> {
-    const selectedFields = !select ? "-docsPath" : "";
+  public async findById(id: number, structureId: number): Promise<Usager> {
     return this.usagerModel
       .findOne({
         id,
         structureId
       })
       .populate("structure")
-      .select(selectedFields)
       .exec();
   }
 

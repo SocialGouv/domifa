@@ -1,3 +1,5 @@
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+
 export function toInteger(value: any): number {
   return parseInt(`${value}`, 10);
 }
@@ -43,4 +45,15 @@ export function isToday(someDate?: Date): boolean {
     someDate.getMonth() === today.getMonth() &&
     someDate.getFullYear() === today.getFullYear()
   );
+}
+
+export function formatDateToNgb(date: Date): NgbDateStruct {
+  if (date === null) {
+    return null;
+  }
+  return {
+    day: date.getDate(),
+    month: date.getMonth() + 1,
+    year: date.getFullYear()
+  };
 }

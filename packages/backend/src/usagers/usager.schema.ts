@@ -168,7 +168,9 @@ export const UsagerSchema = new mongoose.Schema(
       },
       procuration: {
         actif: { type: Boolean, default: false },
-        noms: { type: Array, default: [] }
+        nom: { type: String },
+        prenom: { type: String },
+        dateFin: { type: Date }
       },
       dnp: {
         actif: { type: Boolean, default: false },

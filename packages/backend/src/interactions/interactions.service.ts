@@ -17,20 +17,11 @@ export class InteractionsService {
   ) {}
 
   public async create(
-    usagerId: number,
+    usager: Usager,
     user: User,
     interactionDto: InteractionDto
   ): Promise<any> {
     const createdInteraction = new this.interactionModel(interactionDto);
-
-    const usager: Usager = await this.usagersService.findById(
-      usagerId,
-      user.structureId
-    );
-
-    if (!usager || usager === null) {
-      throw new HttpException("NOT_FOUND", HttpStatus.NOT_FOUND);
-    }
 
     usager.lastInteraction[interactionDto.type] = new Date();
 
@@ -64,7 +55,7 @@ export class InteractionsService {
 
     createdInteraction.userName = user.prenom + " " + user.nom;
     createdInteraction.userId = user.id;
-    createdInteraction.usagerId = usagerId;
+    createdInteraction.usagerId = usager.id;
     createdInteraction.structureId = user.structureId;
 
     createdInteraction.dateInteraction = new Date();
@@ -75,7 +66,7 @@ export class InteractionsService {
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usagerId,
+          id: usager.id,
           structureId: user.structureId
         },
         {

@@ -213,9 +213,19 @@
             class="text-right usager_informations">
             <span
               class="text-warning"
+              *ngIf="usager.options.dnp.actif">
+              <fa-icon
+                icon="share"
+                class="btn-icon"></fa-icon>
+              DNP
+            </span>
+            <span
+              class="text-warning"
               *ngIf="usager.options.transfert.actif">
-              <fa-icon icon="share"></fa-icon>
-              Courrier à transférer &nbsp;&nbsp;
+              <fa-icon
+                icon="share"
+                class="btn-icon"></fa-icon>
+              Courrier à transférer
             </span>
             <span
               *ngIf="usager.decision.statut === 'INSTRUCTION'"

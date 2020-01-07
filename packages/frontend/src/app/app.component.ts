@@ -34,10 +34,7 @@ export class AppComponent implements OnInit {
     private modalService: NgbModal,
     private http: HttpClient
   ) {
-    this.matomoInjector.init(
-      "https://matomo.tools.factory.social.gouv.fr/",
-      17
-    );
+    this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
     this.authService.isAuth().subscribe(isAuth => {
       if (isAuth) {
         this.getJSON().subscribe(domifaNews => {

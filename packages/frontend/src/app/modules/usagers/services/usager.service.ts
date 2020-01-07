@@ -44,6 +44,17 @@ export class UsagerService {
     return this.http.delete(`${this.endPointUsagers}/transfert/${usagerId}`);
   }
 
+  public editProcuration(transfert: any, usagerId: number): Observable<any> {
+    return this.http.post(
+      `${this.endPointUsagers}/procuration/${usagerId}`,
+      transfert
+    );
+  }
+
+  public deleteProcuration(usagerId: number): Observable<any> {
+    return this.http.delete(`${this.endPointUsagers}/procuration/${usagerId}`);
+  }
+
   public nextStep(usagerId: number, etapeDemande: number): Observable<any> {
     return this.http.get(
       `${this.endPointUsagers}/next-step/${usagerId}/${etapeDemande}`

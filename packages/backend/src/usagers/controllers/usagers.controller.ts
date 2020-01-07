@@ -22,18 +22,22 @@ import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
 import * as rimraf from "rimraf";
+import { AccessGuard } from "../../auth/access.guard";
+import { CurrentUsager } from "../../auth/current-usager.decorator";
+import { CurrentUser } from "../../auth/current-user.decorator";
 import { RolesGuard } from "../../auth/roles.guard";
 import { ConfigService } from "../../config/config.service";
 import { InteractionsService } from "../../interactions/interactions.service";
-import { CurrentUser } from "../../users/current-user.decorator";
 import { UsersService } from "../../users/services/users.service";
 import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
+import { ProcurationDto } from "../dto/procuration.dto";
 import { RdvDto } from "../dto/rdv.dto";
 import { SearchDto } from "../dto/search.dto";
 import { TransfertDto } from "../dto/transfert.dto";
 import { UsagersDto } from "../dto/usagers.dto";
+import { Usager } from "../interfaces/usagers";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
@@ -62,21 +66,12 @@ export class UsagersController {
   public postUsager(@Body() usagerDto: UsagersDto, @CurrentUser() user: User) {
     return this.usagersService.create(usagerDto, user);
   }
-
+  @UseGuards(AccessGuard)
   @Patch(":id")
   public async patchUsager(
-    @Param("id") usagerId: number,
     @Body() usagerDto: UsagersDto,
-    @CurrentUser() user: User
+    @CurrentUsager() usager: Usager
   ) {
-    const usager = await this.usagersService.findById(
-      usagerId,
-      user.structureId
-    );
-    if (!user || !usager || usager === null) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
-    }
-
     if (
       usagerDto.typeDom === "RENOUVELLEMENT" ||
       usagerDto.etapeDemande === 0
@@ -88,26 +83,20 @@ export class UsagersController {
   }
 
   @Post("rdv/:id")
+  @UseGuards(AccessGuard)
   public async postRdv(
-    @Param("id") usagerId: number,
     @Body() rdvDto: RdvDto,
-    @CurrentUser() currentUser: User
+    @CurrentUser() currentUser: User,
+    @CurrentUsager() usager: Usager
   ) {
     const user = await this.usersService.findOne({
       id: rdvDto.userId,
       structureId: currentUser.structureId
     });
-
-    const usager = await this.usagersService.findById(
-      usagerId,
-      currentUser.structureId
-    );
-
-    if (!user || !usager) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
+    if (!user) {
+      throw new HttpException("USER_NOT_EXIST", HttpStatus.BAD_GATEWAY);
     }
-
-    return this.usagersService.setRdv(usagerId, rdvDto, user);
+    return this.usagersService.setRdv(usager.id, rdvDto, user);
   }
 
   @Post("entretien/:id")
@@ -128,18 +117,13 @@ export class UsagersController {
     return this.usagersService.nextStep(usagerId, user, etapeDemande);
   }
 
+  @UseGuards(AccessGuard)
   @Get("renouvellement/:usagerId")
   public async renouvellement(
     @Param("usagerId") usagerId: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
-    const usager = await this.usagersService.findById(
-      usagerId,
-      user.structureId
-    );
-    if (!user || !usager || usager === null) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
-    }
     return this.usagersService.renouvellement(usager, user);
   }
 
@@ -154,21 +138,15 @@ export class UsagersController {
     return this.usagersService.stats();
   }
 
+  @UseGuards(AccessGuard)
   @UseGuards(RolesGuard)
   @Post("decision/:id")
   public async setDecision(
     @Param("id") usagerId: number,
     @Body() decision: DecisionDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
-    const usager = await this.usagersService.findById(
-      usagerId,
-      user.structureId
-    );
-    if (!user || !usager || usager === null) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
-    }
-
     decision.userName = user.prenom + " " + user.nom;
     decision.userId = user.id;
     decision.dateDecision = new Date();
@@ -227,22 +205,8 @@ export class UsagersController {
     return this.usagersService.isDoublon(nom, prenom, user);
   }
 
-  @Get(":id")
-  public async findOne(
-    @Param("id") usagerId: number,
-    @CurrentUser() user: User
-  ) {
-    const usager = await this.usagersService.findById(
-      usagerId,
-      user.structureId
-    );
-    if (usager === null) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.NOT_FOUND);
-    }
-    return usager;
-  }
-
   @UseGuards(RolesGuard)
+  @UseGuards(AccessGuard)
   @Delete(":id")
   public async deleteOne(
     @Param("id") usagerId: number,
@@ -271,21 +235,14 @@ export class UsagersController {
       }
     }
   }
-
+  @UseGuards(AccessGuard)
   @Post("transfert/:id")
   public async editTransfert(
     @Param("id") usagerId: number,
     @Body() transfertDto: TransfertDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
-    const usager = await this.usagersService.findById(
-      usagerId,
-      user.structureId
-    );
-    if (!user || !usager) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
-    }
-
     usager.options.transfert = {
       actif: true,
       adresse: transfertDto.adresse,
@@ -296,43 +253,64 @@ export class UsagersController {
     return this.usagersService.patch(usager, usager._id);
   }
 
+  @UseGuards(AccessGuard)
   @Delete("transfert/:id")
   public async deleteTransfert(
     @Param("id") usagerId: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
-    const usager = await this.usagersService.findById(
-      usagerId,
-      user.structureId
-    );
-    if (!user || !usager) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_GATEWAY);
-    }
-
     usager.options.transfert = {
       actif: false,
       adresse: "",
       dateDebut: null,
       nom: ""
     };
+    return this.usagersService.patch(usager, usager._id);
+  }
+
+  @UseGuards(AccessGuard)
+  @Post("procuration/:id")
+  public async editProcuration(
+    @Body() procurationDto: ProcurationDto,
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
+  ) {
+    usager.options.procuration = {
+      actif: true,
+      dateFin: new Date(),
+      nom: procurationDto.nom,
+      prenom: procurationDto.prenom
+    };
 
     return this.usagersService.patch(usager, usager._id);
   }
 
+  @UseGuards(AccessGuard)
+  @Delete("procuration/:id")
+  public async deleteProcuration(
+    @Param("id") usagerId: number,
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
+  ) {
+    usager.options.procuration = {
+      actif: false,
+      dateFin: null,
+      nom: "",
+      prenom: ""
+    };
+
+    return this.usagersService.patch(usager, usager._id);
+  }
+
+  @UseGuards(AccessGuard)
   @Get("attestation/:id")
   public async getAttestation(
     @Param("id") usagerId: number,
     @Res() res: any,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
-    const usager = await this.usagersService.findById(
-      usagerId,
-      user.structureId
-    );
-    if (!user || !usager || usager === null) {
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
-    }
-
     this.cerfaService
       .attestation(usager, user)
       .then(buffer => {
@@ -357,32 +335,61 @@ export class UsagersController {
   }
 
   /* DOCUMENT */
-  @Delete("document/:usagerId/:index")
+  @UseGuards(AccessGuard)
+  @Delete("document/:id/:index")
   public async deleteDocument(
-    @Param("usagerId") usagerId: number,
+    @Param("id") usagerId: number,
     @Param("index") index: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
+    if (
+      typeof usager.docs[index] === "undefined" ||
+      typeof usager.docsPath[index] === "undefined"
+    ) {
+      throw new HttpException("DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
+    }
+
+    const fileInfos = usager.docs[index];
+    fileInfos.path = usager.docsPath[index];
+
+    const pathFile = path.resolve(
+      new ConfigService().get("UPLOADS_FOLDER") +
+        usager.structureId +
+        "/" +
+        usager.id +
+        "/" +
+        fileInfos.path
+    );
+    try {
+      fs.unlinkSync(pathFile);
+    } catch (err) {
+      throw new HttpException(
+        "Impossible de supprimer le fichier",
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
     return this.docsService.deleteDocument(usagerId, index, user);
   }
 
-  @Get("document/:usagerId/:index")
+  @UseGuards(AccessGuard)
+  @Get("document/:id/:index")
   public async getDocument(
-    @Param("usagerId") usagerId: number,
+    @Param("id") id: number,
     @Param("index") index: number,
     @Res() res: any,
-    @CurrentUser() user: User
+    @CurrentUsager() usager: Usager
   ) {
-    const usager = await this.usagersService.findById(
-      usagerId,
-      user.structureId,
-      "docsPath"
-    );
-
-    const fileInfos = await this.docsService.getDocument(usager, index);
-    if (fileInfos === null) {
-      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
+    if (
+      typeof usager.docs[index] === "undefined" ||
+      typeof usager.docsPath[index] === "undefined"
+    ) {
+      throw new HttpException("DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
+
+    const fileInfos = usager.docs[index];
+    fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
       new ConfigService().get("UPLOADS_FOLDER") +
@@ -400,7 +407,8 @@ export class UsagersController {
     res.sendFile(pathFile);
   }
 
-  @Post("document/:usagerId")
+  @Post("document/:id")
+  @UseGuards(AccessGuard)
   @UseInterceptors(
     FileInterceptor("file", {
       fileFilter: (req: any, file: any, cb: any) => {
@@ -420,7 +428,7 @@ export class UsagersController {
             new ConfigService().get("UPLOADS_FOLDER") +
             req.user.structureId +
             "/" +
-            req.params.usagerId;
+            req.usager.id;
 
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -439,7 +447,7 @@ export class UsagersController {
     })
   )
   public uploadDoc(
-    @Param("usagerId") usagerId: number,
+    @Param("id") usagerId: number,
     @UploadedFile() file: any,
     @Body() postData: any,
     @CurrentUser() user: User
@@ -453,6 +461,17 @@ export class UsagersController {
       label: postData.label
     };
 
-    return this.docsService.addDocument(usagerId, user, file.filename, newDoc);
+    return this.docsService.addDocument(
+      usagerId,
+      user.structureId,
+      file.filename,
+      newDoc
+    );
+  }
+
+  @UseGuards(AccessGuard)
+  @Get(":id")
+  public async findOne(@CurrentUsager() usager: Usager) {
+    return usager;
   }
 }

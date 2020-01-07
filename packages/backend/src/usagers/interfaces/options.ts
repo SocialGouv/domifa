@@ -7,7 +7,9 @@ export interface Options {
   };
   procuration: {
     actif: boolean;
-    noms: string[];
+    nom: string;
+    prenom: string;
+    dateFin: Date;
   };
   dnp: {
     actif: boolean;
