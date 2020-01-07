@@ -42,7 +42,7 @@ describe("Interactions Controller", () => {
     interaction.type = "courrierOut";
     interaction.content = "Les impôts";
     const user = await userService.findOne({ id: 2 });
-    const usager = await usagerService.findById(2, 1);
+    const usager = await usagerService.findById(1, 1);
 
     try {
       const testFc = await controller.postInteraction(
