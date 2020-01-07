@@ -176,13 +176,6 @@
             *ngIf="usager.decision.statut === 'VALIDE'">
             <div>
               <span
-                (click)="setInteraction(usager, 'courrierIn')"
-                ngbTooltip="Ajouter un nouveau courrier">
-                <fa-icon
-                  class="courrier"
-                  icon="envelope"></fa-icon>
-              </span>
-              <span
                 (click)="setInteraction(usager, 'courrierOut')"
                 *ngIf="usager.lastInteraction.nbCourrier > 0"
                 ngbTooltip="Signaler un retrait de courrier">
@@ -190,6 +183,13 @@
                   class="courrier"
                   icon="envelope-open-text"></fa-icon>
                 <b class="notification">{{ usager.lastInteraction.nbCourrier }}</b>
+              </span>
+              <span
+                (click)="setInteraction(usager, 'courrierIn')"
+                ngbTooltip="Ajouter un nouveau courrier">
+                <fa-icon
+                  class="courrier"
+                  icon="envelope"></fa-icon>
               </span>
               <span
                 ngbTooltip="Signaler un passage"

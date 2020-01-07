@@ -1,7 +1,38 @@
 [
   {
+    "date": "2020-01-07",
+    "description": "De nouvelles fonctionnalités attendues ont été mises en ligne, notamment le transfert de courrier !",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Général",
+        "message": [
+          "Une page 'nouveautés' de suivre les mises à jour de Domifa",
+          "Nouvelle mise en page de la gestion des utilisateurs"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Domiciliés",
+        "message": [
+          "Ajout du transfert du courriers !",
+          "Ajout de la procuration pour la récupération de courrier",
+          "Réouvrir le dossier d'une personne radiée",
+          "Possibilité de continuer à signaler l'arrivée de courriers pour une personne radiée"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "",
+        "message": [
+          "Amélioration du temps de chargement de la liste des domiciliés"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2019-12-20",
-    "description": "Suite à vos retours, nous avons apporté de nombreuses modifications ont été apportées aux fiches des usagers",
+    "description": "Suite à vos retours, nous avons apporté de nombreuses modification aux fiches des domiciliés",
     "content": [
       {
         "type": "new",
@@ -36,12 +67,8 @@
       {
         "type": "bug",
         "categorie": "",
-        "message": ["Ajout de la date de première domiciliation au Cerfa"]
-      },
-      {
-        "type": "bug",
-        "categorie": "",
         "message": [
+          "Ajout de la date de première domiciliation au Cerfa",
           "Les informations manquantes de l'entretien social ont été ajoutées sur la fiche des usagers"
         ]
       }

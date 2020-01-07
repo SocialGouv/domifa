@@ -51,7 +51,9 @@
         *ngIf="authService.isLogged"
         routerLink="/nouveau"
         class="btn btn-outline-secondary">
-        <fa-icon icon="plus"></fa-icon>
+        <fa-icon
+          icon="plus"
+          class="btn-icon"></fa-icon>
         Créer une demande
       </a>
       <a
@@ -90,19 +92,19 @@
       </button>
     </div>
     <div class="modal-body text-center">
-      <div
-        class="text-left"
-        *ngFor="let news of domifaNews ">
+      <div class="text-left">
         <p>
-          <b>{{ news.date | date: 'dd/MM/yyyy' }}</b>
-          - {{ news.description }}
+          <b>
+            {{ domifaNews.date | date: 'dd/MM/yyyy' }}
+          </b>
+          - {{ domifaNews.description }}
         </p>
         <div
-          *ngFor="let content of news.content"
+          *ngFor="let content of domifaNews.content"
           class="text-left news">
           <span
             class="badge badge-pill"
-            [ngClass]=" { 'badge-primary': content.type === 'new','badge-danger': content.type === 'bug' } ">
+            [ngClass]=" { 'badge-primary': content.type === 'new','badge-warning': content.type === 'bug' } ">
             {{ newsLabels[content.type] }}
           </span>
           &nbsp;
@@ -151,6 +153,14 @@
       src="../assets/images/logoministere.jpg"
       alt="Logo Domifa"
       title="Logo Domifa">
+    <br>
+  </div>
+  <div>
+    <a
+      [routerLink]="['/news']"
+      routerLinkActive="router-link-active">
+      Nouveautés et mises à jour
+    </a>
   </div>
   <div>
     <a
@@ -170,10 +180,7 @@
     </a>
   </div>
   <div>
-    <span>Contactez-nous</span>
-  </div>
-  <div class="text-right ">
-    <span>© 2019 Incubateur des affaires sociales</span>
+    <span class="small">© 2019 Incubateur des affaires sociales</span>
   </div>
 </footer>
 <app-loading></app-loading>

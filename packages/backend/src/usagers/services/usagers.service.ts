@@ -47,10 +47,10 @@ export class UsagersService {
       .exec();
   }
 
-  public async nextStep(usagerId: number, user: User, etapeDemande: number) {
+  public async nextStep(usagerId: string, etapeDemande: number) {
     return this.usagerModel
       .findOneAndUpdate(
-        { id: usagerId, structureId: user.structureId },
+        { _id: usagerId },
         {
           $set: { etapeDemande }
         },
@@ -122,15 +122,11 @@ export class UsagersService {
 
   public async setEntretien(
     usagerId: number,
-    entretienForm: EntretienDto,
-    user: User
+    entretienForm: EntretienDto
   ): Promise<Usager> {
     return this.usagerModel
       .findOneAndUpdate(
-        {
-          id: usagerId,
-          structureId: user.structureId
-        },
+        { _id: usagerId },
         {
           $set: {
             entretien: entretienForm,
@@ -182,13 +178,8 @@ export class UsagersService {
       .exec();
   }
 
-  public async delete(usagerId: number, user: User): Promise<any> {
-    return this.usagerModel
-      .deleteOne({
-        id: usagerId,
-        structureId: user.structureId
-      })
-      .exec();
+  public async delete(usagerId: string): Promise<any> {
+    return this.usagerModel.deleteOne({ id: usagerId }).exec();
   }
 
   public async isDoublon(

@@ -71,3 +71,7 @@ form label {
 .input-group-append .btn .ng-fa-icon {
   margin: 0 !important;
 }
+
+.btn-icon {
+  margin-right: 6px;
+}

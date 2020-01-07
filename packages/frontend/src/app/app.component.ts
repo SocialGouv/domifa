@@ -38,11 +38,12 @@ export class AppComponent implements OnInit {
     this.authService.isAuth().subscribe(isAuth => {
       if (isAuth) {
         this.getJSON().subscribe(domifaNews => {
-          this.domifaNews = domifaNews;
+          this.domifaNews = domifaNews[0];
           const lastNews = localStorage.getItem("lastNews");
+
           if (
             !lastNews ||
-            (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
+            (lastNews && new Date(lastNews) <= new Date(domifaNews[0].date))
           ) {
             this.modal = this.modalService.open(this.newsCenter, {
               backdrop: "static"
@@ -56,7 +57,7 @@ export class AppComponent implements OnInit {
     this.title = "Domifa";
     this.help = false;
     this.newsLabels = {
-      bug: "Bug corrigé",
+      bug: "Petites améliorations",
       new: "Nouveauté"
     };
     this.matomoTracker.setUserId("0");
@@ -68,7 +69,6 @@ export class AppComponent implements OnInit {
 
   public closeModal() {
     this.modal.close();
-
     localStorage.setItem("lastNews", new Date().toISOString());
   }
 }

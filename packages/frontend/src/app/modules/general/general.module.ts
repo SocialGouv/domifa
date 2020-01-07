@@ -20,6 +20,7 @@ import { NotFoundComponent } from "./components/errors/not-found/not-found.compo
 import { FaqComponent } from "./components/faq/faq.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
+import { NewsComponent } from "./components/news/news.component";
 
 library.add(fas, far);
 
@@ -29,7 +30,8 @@ library.add(fas, far);
     LoadingComponent,
     MentionsLegalesComponent,
     NotFoundComponent,
-    FaqComponent
+    FaqComponent,
+    NewsComponent
   ],
   exports: [
     HomeComponent,

@@ -98,29 +98,27 @@ export class UsagersController {
     }
     return this.usagersService.setRdv(usager.id, rdvDto, user);
   }
-
+  @UseGuards(AccessGuard)
   @Post("entretien/:id")
   public setEntretien(
-    @Param("id") usagerId: number,
     @Body() entretien: EntretienDto,
-    @CurrentUser() user: User
+    @CurrentUsager() usager: Usager
   ) {
-    return this.usagersService.setEntretien(usagerId, entretien, user);
-  }
-
-  @Get("next-step/:usagerId/:etapeDemande")
-  public async nextStep(
-    @Param("usagerId") usagerId: number,
-    @Param("etapeDemande") etapeDemande: number,
-    @CurrentUser() user: User
-  ) {
-    return this.usagersService.nextStep(usagerId, user, etapeDemande);
+    return this.usagersService.setEntretien(usager._id, entretien);
   }
 
   @UseGuards(AccessGuard)
-  @Get("renouvellement/:usagerId")
+  @Get("next-step/:id/:etapeDemande")
+  public async nextStep(
+    @Param("etapeDemande") etapeDemande: number,
+    @CurrentUsager() usager: Usager
+  ) {
+    return this.usagersService.nextStep(usager._id, etapeDemande);
+  }
+
+  @UseGuards(AccessGuard)
+  @Get("renouvellement/:id")
   public async renouvellement(
-    @Param("usagerId") usagerId: number,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
   ) {
@@ -142,7 +140,6 @@ export class UsagersController {
   @UseGuards(RolesGuard)
   @Post("decision/:id")
   public async setDecision(
-    @Param("id") usagerId: number,
     @Body() decision: DecisionDto,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
@@ -209,19 +206,19 @@ export class UsagersController {
   @UseGuards(AccessGuard)
   @Delete(":id")
   public async deleteOne(
-    @Param("id") usagerId: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
   ) {
     const pathFile = path.resolve(
       new ConfigService().get("UPLOADS_FOLDER") +
         user.structureId +
         "/" +
-        usagerId
+        usager.id
     );
 
-    await this.interactionService.deleteAll(usagerId, user.structureId);
+    await this.interactionService.deleteAll(usager.id, user.structureId);
 
-    const deleteUsager = await this.usagersService.delete(usagerId, user);
+    const deleteUsager = await this.usagersService.delete(usager._id);
 
     if (deleteUsager && deleteUsager.deletedCount === 1) {
       if (fs.existsSync(pathFile)) {
@@ -235,12 +232,12 @@ export class UsagersController {
       }
     }
   }
+
   @UseGuards(AccessGuard)
   @Post("transfert/:id")
   public async editTransfert(
     @Param("id") usagerId: number,
     @Body() transfertDto: TransfertDto,
-    @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
   ) {
     usager.options.transfert = {

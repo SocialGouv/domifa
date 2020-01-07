@@ -87,7 +87,9 @@
         <button
           (click)="setDecision('ATTENTE_DECISION')"
           class="btn btn-block btn-primary ">
-          <fa-icon icon="clock"></fa-icon>
+          <fa-icon
+            icon="clock"
+            class="btn-icon"></fa-icon>
           METTRE EN ATTENTE
         </button>
       </div>
@@ -95,7 +97,9 @@
         <button
           class="btn-block btn btn-danger"
           (click)="open(refus)">
-          <fa-icon icon="times"></fa-icon>
+          <fa-icon
+            icon="times"
+            class="btn-icon"></fa-icon>
           REFUSER LE DOSSIER
         </button>
       </div>
@@ -103,7 +107,9 @@
         <button
           class="btn-block btn btn-secondary"
           (click)="open(confirmation)">
-          <fa-icon icon="check"></fa-icon>
+          <fa-icon
+            icon="check"
+            class="btn-icon"></fa-icon>
           ACCEPTER LE DOSSIER
         </button>
       </div>
@@ -312,7 +318,9 @@
                 (click)="getDocument(indexDocs)"
                 class="btn btn-primary"
                 aria-label="Voir la pièce jointe">
-                <fa-icon icon="download"></fa-icon>
+                <fa-icon
+                  icon="download"
+                  class="btn-icon"></fa-icon>
                 Télécharger
               </button>
             </td>
@@ -330,7 +338,9 @@
       <button
         (click)="this.printService.printDiv('fiche-recap')"
         class="btn-block btn btn-primary">
-        <fa-icon icon="print"></fa-icon>
+        <fa-icon
+          icon="print"
+          class="btn-icon"></fa-icon>
         Imprimer le récapitulatif
       </button>
     </div>
@@ -338,7 +348,9 @@
       <button
         (click)="getAttestation()"
         class="btn-block btn btn-primary">
-        <fa-icon icon="download"></fa-icon>
+        <fa-icon
+          icon="download"
+          class="btn-icon"></fa-icon>
         Télécharger l'attestation de Demande
       </button>
     </div>

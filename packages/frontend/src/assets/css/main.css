@@ -448,6 +448,7 @@ table .active {
   right: -10px;
 }
 
-.btn-icon {
-  margin-right: 6px;
+.news {
+  margin: 10px 0;
+  display: block;
 }

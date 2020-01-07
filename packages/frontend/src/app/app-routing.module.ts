@@ -7,6 +7,7 @@ import { NotFoundComponent } from "./modules/general/components/errors/not-found
 import { FaqComponent } from "./modules/general/components/faq/faq.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
+import { NewsComponent } from "./modules/general/components/news/news.component";
 import { DashboardComponent } from "./modules/stats/components/dashboard/dashboard.component";
 import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
@@ -94,6 +95,7 @@ export const routes: Routes = [
     path: "stats"
   },
   { path: "faq", component: FaqComponent },
+  { path: "news", component: NewsComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   {
     canActivate: [AuthGuard],

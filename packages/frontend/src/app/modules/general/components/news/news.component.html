@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row">
+    <div class="col-10 offset-1">
+      <h4>Développements à venir</h4>
+
+      <div class="card">
+        <b>Notifications par SMS</b>
+        Les usagers pourront recevoir des SMS automatiquement afin de leur indiquer :
+        <ul>
+          <li>
+            La réception d'un nouveau courrier courrier
+          </li>
+          <li>
+            Une évolution de demande de domiciliation
+          </li>
+          <li>
+            Une échéance à venir (entretien ou fin de domiciliation)
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <b>Statistiques et rapport d'activité</b>
+        Chaque structure pourra obtenir des statistiques détaillés sur son activité.
+        Ces chiffres pourront être utilisés pour les rapports d'activités.
+        <ul>
+          <li>
+            Nombre de domicilié, radiés, refusés, etc
+          </li>
+          <li>Profil des personnes domiciliés</li>
+          <li>Et bien d'autres statistiques !</li>
+        </ul>
+      </div>
+
+      <h4>Dernières mises à jour</h4>
+
+      <div class="text-center">
+        <div
+          class="card text-left"
+          *ngFor="let news of domifaNews ">
+          <p>
+            <b>{{ news.date | date: 'dd/MM/yyyy' }}</b>
+            - {{ news.description }}
+          </p>
+          <div
+            *ngFor="let content of news.content"
+            class="text-left news">
+            <span
+              class="badge badge-pill"
+              [ngClass]=" { 'badge-primary': content.type === 'new','badge-warning': content.type === 'bug' } ">
+              {{ newsLabels[content.type] }}
+            </span>
+            &nbsp;
+            <b>{{ content.categorie }}</b>
+            <br>
+            <ul>
+              <li *ngFor="let message of content.message">{{ message }}</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
