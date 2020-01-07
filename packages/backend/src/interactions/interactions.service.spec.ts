@@ -2,6 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
 import { DatabaseModule } from "../database/database.module";
 import { StructuresModule } from "../structures/structure.module";
+import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
@@ -13,6 +14,8 @@ import { InteractionsService } from "./interactions.service";
 describe("InteractionsService", () => {
   let service: InteractionsService;
   let userService: UsersService;
+
+  let usagerService: UsagersService;
 
   beforeAll(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -28,6 +31,7 @@ describe("InteractionsService", () => {
 
     service = app.get<InteractionsService>(InteractionsService);
     userService = app.get<UsersService>(UsersService);
+    usagerService = app.get<UsagersService>(UsagersService);
   });
 
   afterAll(async () => {
@@ -45,7 +49,7 @@ describe("InteractionsService", () => {
     interaction.content = "Les impôts";
 
     const user = await userService.findOne({ id: 1 });
-    const usager = await userService.findOne({ id: 1 });
+    const usager = await usagerService.findById(1, 1);
 
     /* COURRIER A ZERO */
     await service.create(usager, user, interaction);
