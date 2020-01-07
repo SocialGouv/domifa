@@ -16,11 +16,19 @@ export class StatsService {
     this.loading = true;
   }
 
-  public getStatuts() {
-    return this.http.get(`${this.epUsagers}stats-domifa`);
+  public getAllStatuts() {
+    return this.http.get(`${this.epUsagers}stats-domifa/all`);
   }
 
-  public getInteractionsStats() {
-    return this.http.get(`${this.epInteractions}stats-domifa`);
+  public getStructuresStats() {
+    return this.http.get(`${this.epUsagers}stats-domifa/structures`);
+  }
+
+  public getAllInteractions() {
+    return this.http.get(`${this.epInteractions}stats-domifa/all`);
+  }
+
+  public getStructuresInteractions() {
+    return this.http.get(`${this.epInteractions}stats-domifa/structures`);
   }
 }

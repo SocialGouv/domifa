@@ -23,6 +23,15 @@ export const decision = {
   VALIDE: "Domiciliation acceptée"
 };
 
+/* DÉCISIONS */
+export const decisionStats = {
+  ATTENTE_DECISION: "Demandes déposées",
+  INSTRUCTION: "DOSSIERS EN cours",
+  RADIE: "radiés",
+  REFUS: "Demandes refusées",
+  VALIDE: "DOMICILIÉS ACTIFS"
+};
+
 /* MOTIFS DE RADIATION ET REFUS */
 export const motifsRadiation = {
   A_SA_DEMANDE: "A la demande de la personne",

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import pdftk = require("node-pdftk");
 import * as path from "path";
@@ -31,8 +31,6 @@ export class CerfaService {
     minutes: string;
   };
   public motif: string;
-
-  private readonly logger = new Logger(CerfaService.name);
 
   public async attestation(usager: Usager, user: User) {
     let ayantsDroitsTexte = "";
@@ -273,9 +271,6 @@ export class CerfaService {
         ] = usager.decision.orientationDetails.toString();
       }
     }
-
-    this.logger.log("------- >this.pdfForm");
-    this.logger.log(this.infosPdf);
 
     return pdftk
       .input(fs.readFileSync(path.resolve(__dirname, pdfForm)))

@@ -1,16 +1,37 @@
 <div
   id="stats"
   class="row">
-  <div class="col-6 offset-3">
-    <h4 class="text-center ">Structures existantes</h4>
+  <div class="col-10 offset-1">
+    <div class="col-md-12 text-center">
+      <br>
+
+      <span class="stats-structure">TOTAL DOMICILIATIONS DOMIFA</span>
+      <div class="stats-blocks">
+        <div *ngFor="let stat of allStats | keyvalue">
+          <span
+            class="stats-chiffres"
+            [ngClass]="statutClass[stat.key]">
+            {{ stat.value }}
+          </span>
+          <span class="stats-labels">{{ labels.decisionStats[stat.key] }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 text-center">
+      <br>    <br>
+      <span class="stats-structure">STRUCTURES EXISTANTES</span>
+
+    </div>
+
     <div
       class="card"
       *ngFor="let structure of structures; let i = index">
       <div class="row">
-        <div class="col-md-12">
-          <b>
+        <div class="col-md-12 text-center">
+          <span class="stats-structure">
             #{{i+1}} {{ structure.nom }}
-            &nbsp;&nbsp;
+            &nbsp;
             <span
               class="badge"
               [ngClass]="{
@@ -19,9 +40,8 @@
             }">
               {{ labels.structureType[structure.structureType]}}
             </span>
-          </b>
+          </span>
           <br>
-          <b>Adresse :</b>
           {{ structure.adresse }},
           <i>
             {{ structure.ville }} ({{ structure.codePostal }})
@@ -37,26 +57,39 @@
           </p>
           <br>
         </div>
-        <div class="col-md-6">
-          <b>Domiciliations</b>
-          <ul>
-            <li *ngFor="let stat of stats[structure.id]">
-              {{ labels.decision[stat.statut] }} :
-              <b [ngClass]="statutClass[stat.statut]">{{ stat.sum }}</b>
-            </li>
-          </ul>
+
+        <div class="col-md-6 text-center">
+          <span class="stats-titre">Domiciliations</span>
+          <div
+            class="stats-blocks"
+            *ngIf="stats[structure.id]">
+            <div *ngFor="let stat of stats[structure.id]">
+              <span
+                class="stats-chiffres"
+                [ngClass]="statutClass[stat.statut]">
+                {{ stat.sum }}
+              </span>
+              <span class="stats-labels">{{ labels.decisionStats[stat.statut] }}</span>
+            </div>
+          </div>
         </div>
-        <div class="col-md-6">
-          <b>Interactions</b>
-          <ul *ngIf="interactions[structure.id]">
-            <li *ngFor="let interaction of interactions[structure.id]">
-              {{ interactionsLabels[interaction.type] }} :
-              <b>{{ interaction.sum }}</b>
-            </li>
-          </ul>
+        <div class="col-md-6 text-center">
+          <span class="stats-titre">Interactions</span>
+          <div
+            class="stats-blocks"
+            *ngIf="interactions[structure.id]">
+            <div *ngFor="let interaction of interactions[structure.id]">
+              <span class="stats-chiffres">{{ interaction.sum }}</span>
+              <span class="stats-labels">
+                {{ interactionsLabels[interaction.type] }}
+              </span>
+            </div>
+          </div>
+
           <div *ngIf="!interactions[structure.id]">
             Aucune interaction enregistrée pour cette structure
           </div>
+
         </div>
       </div>
     </div>

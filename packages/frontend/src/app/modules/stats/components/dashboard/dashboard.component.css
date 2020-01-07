@@ -6,3 +6,44 @@
 .stats-button {
   margin: 5px;
 }
+
+.stats-blocks {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stats-blocks div {
+  width: 32%;
+  margin-right: 6px;
+  margin-top: 6px;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  padding: 6px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.stats-chiffres {
+  font-weight: 600;
+  font-size: 2.5rem;
+  display: block;
+  line-height: 2.75rem;
+}
+
+.stats-structure {
+  font-size: 1.3rem;
+  margin: 8px auto;
+  font-weight: 600;
+}
+
+.stats-titre {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.stats-labels {
+  font-size: 0.85rem;
+}

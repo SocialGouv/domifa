@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Logger,
   Param,
   Post,
   UseGuards
@@ -21,9 +20,20 @@ import { InteractionsService } from "./interactions.service";
 @UseGuards(AuthGuard("jwt"))
 @Controller("interactions")
 export class InteractionsController {
-  private readonly logger = new Logger(InteractionsController.name);
-
   constructor(private readonly interactionService: InteractionsService) {}
+
+  @UseGuards(RolesGuard)
+  @Get("stats-domifa/structures")
+  public async statsByStructures(@CurrentUser() user: User) {
+    return this.interactionService.stats();
+  }
+
+  @UseGuards(RolesGuard)
+  @Get("stats-domifa/all")
+  public async statsDomifa(@CurrentUser() user: User) {
+    return this.interactionService.stats();
+  }
+
   @UseGuards(AccessGuard)
   @Post(":id")
   public postInteraction(
@@ -52,11 +62,5 @@ export class InteractionsController {
     @CurrentUsager() usager: Usager
   ) {
     return this.interactionService.delete(usager.id, interactionId, user);
-  }
-
-  @UseGuards(RolesGuard)
-  @Get("stats-domifa")
-  public async statsDomifa(@CurrentUser() user: User) {
-    return this.interactionService.stats();
   }
 }

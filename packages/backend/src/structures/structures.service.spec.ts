@@ -66,9 +66,9 @@ describe("Structure Service", () => {
 
     // READ
     const structure = await service.findOne(2);
-    expect(await structure).toBeTruthy();
-    expect(await structure.ville).toEqual("Paris");
-    expect(await structure.nom).toEqual("Association Amicale");
+    expect(structure).toBeTruthy();
+    expect(structure.ville).toEqual("Paris");
+    expect(structure.nom).toEqual("Association Amicale");
     structureDto.id = await structure.id;
 
     // DELETE

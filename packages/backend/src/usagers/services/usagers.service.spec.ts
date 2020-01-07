@@ -70,7 +70,7 @@ describe("UsagersService", () => {
     expect(updatedUsager.prenom).toEqual("Nouveau prénom");
 
     // DELETE
-    const deletedUsager = await service.delete(6, user);
+    const deletedUsager = await service.delete(updatedUsager._id);
     expect(await deletedUsager.deletedCount).toEqual(1);
   });
 

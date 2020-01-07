@@ -6,7 +6,6 @@ import {
   Get,
   HttpException,
   HttpStatus,
-  Logger,
   Param,
   Patch,
   Post,
@@ -45,8 +44,6 @@ import { UsagersService } from "../services/usagers.service";
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
 export class UsagersController {
-  private readonly logger = new Logger(UsagersController.name);
-
   constructor(
     private readonly usagersService: UsagersService,
     private readonly usersService: UsersService,
@@ -127,13 +124,19 @@ export class UsagersController {
 
   @Get("stats")
   public async stats(@CurrentUser() user: User) {
-    return this.usagersService.stats(user.structureId);
+    return this.usagersService.getStatsByStructure(user.structureId);
   }
 
   @UseGuards(RolesGuard)
-  @Get("stats-domifa")
-  public async statsDomifa(@CurrentUser() user: User) {
-    return this.usagersService.stats();
+  @Get("stats-domifa/all")
+  public async allStats() {
+    return this.usagersService.getStats();
+  }
+
+  @UseGuards(RolesGuard)
+  @Get("stats-domifa/structures")
+  public async structuresStats() {
+    return this.usagersService.getStatsByStructure();
   }
 
   @UseGuards(AccessGuard)
@@ -311,13 +314,10 @@ export class UsagersController {
     this.cerfaService
       .attestation(usager, user)
       .then(buffer => {
-        this.logger.log("BUFFER");
         res.setHeader("content-type", "application/pdf");
         res.send(buffer);
       })
       .catch(err => {
-        this.logger.log("Erreur Cerfa ");
-        this.logger.log(err);
         const erreur = {
           err,
           statut: "CERFA_ERROR",

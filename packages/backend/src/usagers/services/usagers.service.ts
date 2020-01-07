@@ -74,7 +74,7 @@ export class UsagersService {
 
     return this.usagerModel
       .findOneAndUpdate(
-        { id: usager.id, structureId: user.structureId },
+        { _id: usager._id },
         {
           $push: {
             historique: lastDecision
@@ -179,7 +179,7 @@ export class UsagersService {
   }
 
   public async delete(usagerId: string): Promise<any> {
-    return this.usagerModel.deleteOne({ id: usagerId }).exec();
+    return this.usagerModel.deleteOne({ _id: usagerId }).exec();
   }
 
   public async isDoublon(
@@ -248,7 +248,7 @@ export class UsagersService {
       .collation({ locale: "en" })
       .sort(sort)
       .select(
-        "-structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -ayansDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+        "-structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
       )
       .lean()
       .exec();
@@ -260,7 +260,7 @@ export class UsagersService {
     return createdUsager.save();
   }
 
-  public async stats(structureId?: number) {
+  public async getStatsByStructure(structureId?: number) {
     const query = structureId ? { structureId: { $eq: structureId } } : {};
 
     return this.usagerModel
@@ -277,6 +277,27 @@ export class UsagersService {
           $group: {
             _id: { structureId: "$_id.structureId" },
             statut: { $addToSet: { statut: "$_id.statut", sum: "$total" } }
+          }
+        }
+      ])
+      .exec();
+  }
+
+  public async getStats() {
+    return this.usagerModel
+      .aggregate([
+        { $match: {} },
+        {
+          $group: {
+            _id: { statut: "$decision.statut" },
+            statuts: { $push: "$decision.statut" },
+            total: { $sum: 1 }
+          }
+        },
+        {
+          $group: {
+            _id: { statut: "$_id.statut" },
+            sum: { $addToSet: "$total" }
           }
         }
       ])

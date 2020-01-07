@@ -17,7 +17,10 @@ export class DashboardComponent implements OnInit {
   public structures: Structure[];
 
   public stats: any;
+  public allStats: any;
   public interactions: any;
+  public allInteractions: any;
+
   public labels: any;
 
   public statutClass = {
@@ -36,6 +39,7 @@ export class DashboardComponent implements OnInit {
     this.labels = labels;
     this.title = "Statistiques";
     this.stats = [];
+    this.allStats = [];
     this.interactions = [];
   }
 
@@ -44,13 +48,19 @@ export class DashboardComponent implements OnInit {
       this.structures = structures;
     });
 
-    this.statsService.getStatuts().subscribe((stats: any[]) => {
+    this.statsService.getAllStatuts().subscribe((stats: any[]) => {
+      stats.forEach(stat => {
+        this.allStats[stat._id.statut] = stat.sum[0];
+      });
+    });
+
+    this.statsService.getStructuresStats().subscribe((stats: any[]) => {
       stats.forEach(stat => {
         this.stats[stat._id.structureId] = stat.statut;
       });
     });
 
-    this.statsService.getInteractionsStats().subscribe((stats: any[]) => {
+    this.statsService.getStructuresInteractions().subscribe((stats: any[]) => {
       stats.forEach(stat => {
         this.interactions[stat._id.structureId] = stat.type;
       });
