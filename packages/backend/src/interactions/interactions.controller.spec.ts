@@ -38,18 +38,15 @@ describe("Interactions Controller", () => {
     interaction.type = "courrierOut";
     interaction.content = "Les impôts";
     const user = await userService.findOne({ id: 2 });
+    const usager = await userService.findOne({ id: 2 });
 
     try {
-      const testFc = await controller.postInteraction(1, interaction, user);
+      const testFc = await controller.postInteraction(
+        interaction,
+        user,
+        usager
+      );
       expect(testFc).toBeDefined();
-    } catch (err) {
-      expect(err.message).toEqual("NOT_FOUND");
-    }
-
-    try {
-      expect(
-        await controller.postInteraction(100, interaction, user)
-      ).toBeDefined();
     } catch (err) {
       expect(err.message).toEqual("NOT_FOUND");
     }

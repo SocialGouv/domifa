@@ -45,22 +45,23 @@ describe("InteractionsService", () => {
     interaction.content = "Les impôts";
 
     const user = await userService.findOne({ id: 1 });
+    const usager = await userService.findOne({ id: 1 });
 
     /* COURRIER A ZERO */
-    const usager = await service.create(2, user, interaction);
-    service.create(2, user, interaction);
+    await service.create(usager, user, interaction);
+
     expect(usager.lastInteraction.nbCourrier).toEqual(0);
 
     interaction.type = "courrierIn";
     interaction.content = "Les impôts";
     interaction.nbCourrier = 10;
-    await service.create(2, user, interaction);
+    await service.create(usager, user, interaction);
 
     interaction.type = "courrierIn";
     interaction.content = "Le Loyer";
     interaction.nbCourrier = 5;
 
-    const usager2 = await service.create(2, user, interaction);
+    const usager2 = await service.create(usager, user, interaction);
     expect(usager2.lastInteraction.nbCourrier).toEqual(15);
   }, 30000);
 });
