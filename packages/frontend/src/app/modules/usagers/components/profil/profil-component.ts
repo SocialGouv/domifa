@@ -20,6 +20,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
+
 import { regexp } from "src/app/shared/validators";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction } from "../../interfaces/interaction";
@@ -154,13 +155,17 @@ export class UsagersProfilComponent implements OnInit {
     });
 
     this.procurationForm = this.formBuilder.group({
-      dateFin: [this.usager.options.procuration, [Validators.required]],
+      dateFin: [this.usager.options.procuration.dateFin],
       dateFinPicker: [
         this.usager.options.procuration.dateFinPicker,
         [Validators.required]
       ],
+      dateNaissance: [
+        this.usager.options.procuration.dateNaissance,
+        [Validators.required]
+      ],
       nom: [this.usager.options.procuration.nom, [Validators.required]],
-      prenom: [this.usager.options.procuration.nom, [Validators.required]]
+      prenom: [this.usager.options.procuration.prenom, [Validators.required]]
     });
 
     this.usagerForm = this.formBuilder.group({

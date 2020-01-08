@@ -16,25 +16,25 @@
 
 .stats-blocks div {
   width: 19%;
-  max-width: 180px;
-  margin-right: 6px;
-  margin-top: 6px;
+  max-width: 160px;
+  margin-right: 5px;
+  margin-top: 5px;
   display: inline-block;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
-  padding: 10px 6px;
+  padding: 8px 4px;
   text-align: center;
   text-transform: uppercase;
 }
 
 .stats-chiffres {
-  font-weight: 600;
-  font-size: 2.5rem;
+  font-weight: 700;
+  font-size: 2.3rem;
   display: block;
-  line-height: 2.75rem;
+  line-height: 2.5rem;
 }
 
-.stats-structure > div {
+.stats-head {
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
   max-width: 60%;
@@ -43,6 +43,7 @@
   margin-left: auto;
   margin-right: auto;
 }
+
 .stats-structure {
   font-size: 1.3rem;
   margin: 8px auto;
@@ -57,5 +58,6 @@
 }
 
 .stats-labels {
-  font-size: 0.85rem;
+  letter-spacing: -0.1px;
+  font-size: 0.77rem;
 }

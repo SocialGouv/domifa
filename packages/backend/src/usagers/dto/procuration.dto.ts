@@ -12,4 +12,7 @@ export class ProcurationDto {
 
   @IsNotEmpty()
   public dateFin: Date;
+
+  @IsNotEmpty()
+  public dateNaissance: string;
 }

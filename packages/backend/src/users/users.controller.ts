@@ -32,8 +32,15 @@ export class UsersController {
   ) {}
 
   @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get("stats-domifa/all")
+  public async allStats() {
+    return this.usersService.getStats();
+  }
+
+  @UseGuards(AuthGuard("jwt"))
   @Get("")
-  public getAll(@CurrentUser() user: User): Promise<User[]> {
+  public getUsers(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
       verified: true
@@ -43,7 +50,7 @@ export class UsersController {
   @Get("to-confirm")
   @UseGuards(RolesGuard)
   @UseGuards(AuthGuard("jwt"))
-  public getVerifiedUsers(@CurrentUser() user: User): Promise<User[]> {
+  public getUsersToConfirm(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
       verified: false
@@ -111,6 +118,16 @@ export class UsersController {
     return this.usersService.delete(userToDelete.id, user.structureId);
   }
 
+  @UseGuards(AuthGuard("jwt"))
+  @Patch(":id")
+  public async patch(
+    @CurrentUser() user: User,
+    @Body() userDto: UserEditDto,
+    @Response() res: any
+  ) {
+    return this.usersService.update(user.id, user.structureId, userDto);
+  }
+
   @Post()
   public async create(@Body() userDto: UserDto, @Response() res: any) {
     const user = await this.usersService.findOne({ email: userDto.email });
@@ -146,16 +163,6 @@ export class UsersController {
       return res.status(HttpStatus.OK).json(newUser);
     }
     throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  @UseGuards(AuthGuard("jwt"))
-  @Patch(":id")
-  public async patch(
-    @CurrentUser() user: User,
-    @Body() userDto: UserEditDto,
-    @Response() res: any
-  ) {
-    return this.usersService.update(user.id, user.structureId, userDto);
   }
 
   @Post("validate-email")

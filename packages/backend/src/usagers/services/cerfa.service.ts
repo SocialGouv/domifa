@@ -93,7 +93,7 @@ export class CerfaService {
       "topmostSubform[0].Page1[0].Prénoms[0]": usager.prenom,
       "topmostSubform[0].Page1[0].RespOrganisme[0]":
         user.structure.responsable.nom +
-        " " +
+        ", " +
         user.structure.responsable.prenom +
         ", " +
         user.structure.responsable.fonction,

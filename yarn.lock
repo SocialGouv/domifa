@@ -9455,6 +9455,13 @@ ngx-cookie-service@^2.3.0:
   resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-2.3.0.tgz#290e6f55047ad9e9f1aa4ddf30d1ab8d41927949"
   integrity sha512-Cegg6ifVuAwhsdrj0sGDyS9lg2o/Uc6FkR8HLcI40rpNMu5tzMd8w23cUiB81a8jDUr/MC44f1S+G6zmWmoy0A==
 
+ngx-hotjar@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ngx-hotjar/-/ngx-hotjar-0.0.5.tgz#9f52e05ecb19caadf3aaf5b5d8f0be3c2ef66c67"
+  integrity sha512-04CqcvHBPeCPGoze5RlG+0RAT16CcJoB2uM976G3ZuqCWLIrVDKa04a65y4ycypHUXuUY71G+5TKsfU680lhEQ==
+  dependencies:
+    tslib "^1.9.0"
+
 ngx-matomo@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/ngx-matomo/-/ngx-matomo-0.1.4.tgz#93f3064208530388132207b1ecbd9361e0d3ce7b"

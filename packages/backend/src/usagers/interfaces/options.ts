@@ -10,6 +10,7 @@ export interface Options {
     nom: string;
     prenom: string;
     dateFin: Date;
+    dateNaissance: string;
   };
   dnp: {
     actif: boolean;

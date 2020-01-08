@@ -17,6 +17,7 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgxHotjarModule } from "ngx-hotjar";
 import { MatomoModule } from "ngx-matomo";
 import { NgxPrintModule } from "ngx-print";
 import { ToastrModule } from "ngx-toastr";
@@ -57,7 +58,8 @@ import { UsersModule } from "./modules/users/users.module";
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxHotjarModule.forRoot("1350012")
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

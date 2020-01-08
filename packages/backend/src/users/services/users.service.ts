@@ -120,6 +120,10 @@ export class UsersService {
       .exec();
   }
 
+  public async getStats() {
+    return this.userModel.countDocuments().exec();
+  }
+
   public async findLast(): Promise<number> {
     const lastUser: any = await this.userModel
       .findOne({}, { id: 1 })

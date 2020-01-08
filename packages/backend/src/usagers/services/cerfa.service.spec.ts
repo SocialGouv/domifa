@@ -90,7 +90,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].PréfectureayantDélivré[0]": "",
       "topmostSubform[0].Page1[0].Prénoms[0]": "INSPECTEUR",
       "topmostSubform[0].Page1[0].RespOrganisme[0]":
-        "Romero Patrick, Directeur",
+        "Romero, Patrick, Directeur",
       "topmostSubform[0].Page1[0].téléphone[0]": "",
       "topmostSubform[0].Page1[0].téléphone[1]": "0101010101",
       "topmostSubform[0].Page2[0].AnnéeNaissanceDemandeur[0]": "1911",
@@ -160,7 +160,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Prénoms2[0]": "MAURICE",
       "topmostSubform[0].Page1[0].Prénoms[0]": "MAURICE",
       "topmostSubform[0].Page1[0].RespOrganisme[0]":
-        "Romero Patrick, Directeur",
+        "Romero, Patrick, Directeur",
       "topmostSubform[0].Page1[0].téléphone[0]": "0101010101",
       "topmostSubform[0].Page2[0].NomOrgaDomiciliataire[0]": "CCAS de test",
       "topmostSubform[0].Page2[0].NuméroAgrément[0]": "",
@@ -210,7 +210,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].PréfectureayantDélivré[0]": "",
       "topmostSubform[0].Page1[0].Prénoms[0]": "FRED",
       "topmostSubform[0].Page1[0].RespOrganisme[0]":
-        "Romero Patrick, Directeur",
+        "Romero, Patrick, Directeur",
       "topmostSubform[0].Page1[0].téléphone[0]": "",
       "topmostSubform[0].Page1[0].téléphone[1]": "0101010101",
       "topmostSubform[0].Page2[0].AnnéeNaissanceDemandeur[0]": "1940",

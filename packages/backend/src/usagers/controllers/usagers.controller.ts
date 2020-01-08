@@ -279,6 +279,7 @@ export class UsagersController {
     usager.options.procuration = {
       actif: true,
       dateFin: new Date(),
+      dateNaissance: procurationDto.dateNaissance,
       nom: procurationDto.nom,
       prenom: procurationDto.prenom
     };
@@ -296,6 +297,7 @@ export class UsagersController {
     usager.options.procuration = {
       actif: false,
       dateFin: null,
+      dateNaissance: null,
       nom: "",
       prenom: ""
     };

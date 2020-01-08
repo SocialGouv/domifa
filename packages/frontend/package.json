@@ -33,6 +33,7 @@
     "fs": "^0.0.1-security",
     "jwt-decode": "^2.2.0",
     "ngx-cookie-service": "^2.3.0",
+    "ngx-hotjar": "^0.0.5",
     "ngx-matomo": "^0.1.4",
     "ngx-print": "^1.2.0-beta.3",
     "ngx-toastr": "^11.2.1",

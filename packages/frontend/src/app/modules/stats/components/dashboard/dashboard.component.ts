@@ -20,6 +20,8 @@ export class DashboardComponent implements OnInit {
   public allStats: any;
   public interactions: any;
   public allInteractions: any;
+  public users: number;
+  public allUsers: any;
 
   public labels: any;
 
@@ -38,6 +40,7 @@ export class DashboardComponent implements OnInit {
     this.interactionsLabels = interactionsLabels;
     this.labels = labels;
     this.title = "Statistiques";
+    this.users = 0;
     this.stats = [];
     this.allStats = [];
     this.interactions = [];
@@ -48,6 +51,9 @@ export class DashboardComponent implements OnInit {
       this.structures = structures;
     });
 
+    this.statsService.getAllUsers().subscribe((stats: number) => {
+      this.users = stats;
+    });
     this.statsService.getAllStatuts().subscribe((stats: any[]) => {
       stats.forEach(stat => {
         this.allStats[stat._id.statut] = stat.sum[0];

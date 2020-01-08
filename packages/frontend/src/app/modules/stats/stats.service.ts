@@ -9,6 +9,7 @@ export class StatsService {
   public http: HttpClient;
   public loading: boolean;
   public epUsagers = environment.apiUrl + "usagers/";
+  public epUsers = environment.apiUrl + "users/";
   public epInteractions = environment.apiUrl + "interactions/";
 
   constructor(http: HttpClient) {
@@ -18,6 +19,10 @@ export class StatsService {
 
   public getAllStatuts() {
     return this.http.get(`${this.epUsagers}stats-domifa/all`);
+  }
+
+  public getAllUsers() {
+    return this.http.get(`${this.epUsers}stats-domifa/all`);
   }
 
   public getStructuresStats() {

@@ -15,6 +15,7 @@ export class Options {
     prenom: string;
     dateFin: Date;
     dateFinPicker: NgbDateStruct;
+    dateNaissance: string;
   };
 
   public dnp: {
@@ -39,6 +40,7 @@ export class Options {
       actif: false,
       dateFin: null,
       dateFinPicker: null,
+      dateNaissance: null,
       nom: null,
       prenom: null
     };
@@ -61,6 +63,8 @@ export class Options {
         this.procuration.actif = options.procuration.actif || false;
         this.procuration.nom = options.procuration.nom || "";
         this.procuration.prenom = options.procuration.prenom || "";
+        this.procuration.dateNaissance =
+          options.procuration.dateNaissance || "";
 
         if (
           options.procuration.dateFin &&

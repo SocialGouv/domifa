@@ -12,7 +12,7 @@ export const interactionsLabels = {
   colisIn: "Colis reçu",
   colisOut: "Colis récupéré",
   courrierIn: "Courriers reçus",
-  courrierOut: "Courriers récupérés",
+  courrierOut: "Courriers distribuées",
   recommandeIn: "Avis de passage reçu",
   recommandeOut: "Avis de passage récupéré",
   visite: "Passage"
