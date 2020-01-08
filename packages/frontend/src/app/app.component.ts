@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
     this.title = "Domifa";
     this.help = false;
     this.newsLabels = {
-      bug: "Petites améliorations",
+      bug: "Améliorations",
       new: "Nouveauté"
     };
     this.matomoTracker.setUserId("0");

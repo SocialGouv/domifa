@@ -18,7 +18,7 @@ export class NewsComponent implements OnInit {
 
   public ngOnInit() {
     this.newsLabels = {
-      bug: "Petites améliorations",
+      bug: "Améliorations",
       new: "Nouveauté"
     };
 

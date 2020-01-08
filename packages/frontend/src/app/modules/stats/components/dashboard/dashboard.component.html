@@ -16,12 +16,8 @@
         </div>
       </div>
     </div>
-
-    <div class="col-md-12 text-center">
-      <br>    <br>
-      <span class="stats-structure">STRUCTURES EXISTANTES</span>
-
-    </div>
+    <br>
+    <br>
 
     <div
       class="card"
@@ -29,8 +25,9 @@
       <div class="row">
         <div class="col-md-12 text-center">
           <span class="stats-structure">
-            #{{i+1}} {{ structure.nom }}
-            &nbsp;
+            <div>
+              #{{i+1}} {{ structure.nom }} {{ structure.structureType === 'ccas' ? " - " + structure.ville  : "" }}
+            </div>
             <span
               class="badge"
               [ngClass]="{
@@ -57,7 +54,7 @@
           <br>
         </div>
 
-        <div class="col-md-6 text-center">
+        <div class="col-md-12 text-center">
           <span class="stats-titre">Domiciliations</span>
           <div
             class="stats-blocks"
@@ -71,8 +68,18 @@
               <span class="stats-labels">{{ labels.decisionStats[stat.statut] }}</span>
             </div>
           </div>
+          <div
+            *ngIf="!stats[structure.id]"
+            class="text-warning">
+            <fa-icon
+              class="btn-icon"
+              icon="times"></fa-icon>
+            Aucun dossier enregistré
+          </div>
         </div>
-        <div class="col-md-6 text-center">
+        <br>
+        <div class="col-md-12 text-center">
+          <br>
           <span class="stats-titre">Interactions</span>
           <div
             class="stats-blocks"
@@ -84,11 +91,14 @@
               </span>
             </div>
           </div>
-
-          <div *ngIf="!interactions[structure.id]">
-            Aucune interaction enregistrée pour cette structure
+          <div
+            *ngIf="!interactions[structure.id]"
+            class="text-warning">
+            <fa-icon
+              class="btn-icon"
+              icon="times"></fa-icon>
+            Aucune interaction enregistré
           </div>
-
         </div>
       </div>
     </div>

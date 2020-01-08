@@ -1,6 +1,6 @@
 #stats .card {
   padding: 15px 20px;
-  margin: 10px auto;
+  margin: 25px auto;
 }
 
 .stats-button {
@@ -10,16 +10,19 @@
 .stats-blocks {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .stats-blocks div {
-  width: 32%;
+  width: 19%;
+  max-width: 180px;
   margin-right: 6px;
   margin-top: 6px;
   display: inline-block;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
-  padding: 6px;
+  padding: 10px 6px;
   text-align: center;
   text-transform: uppercase;
 }
@@ -31,6 +34,15 @@
   line-height: 2.75rem;
 }
 
+.stats-structure > div {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  max-width: 60%;
+  background-color: white;
+  margin-top: -30px;
+  margin-left: auto;
+  margin-right: auto;
+}
 .stats-structure {
   font-size: 1.3rem;
   margin: 8px auto;

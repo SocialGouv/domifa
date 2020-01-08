@@ -1,23 +1,23 @@
 [
   {
-    "date": "2020-01-07",
-    "description": "De nouvelles fonctionnalités attendues ont été mises en ligne, notamment le transfert de courrier !",
+    "date": "2020-01-08",
+    "description": "De nouvelles fonctionnalités attendues ont été mises en ligne, notamment le transfert de courrier et la procuration !",
     "content": [
       {
         "type": "new",
         "categorie": "Général",
         "message": [
-          "Une page 'nouveautés' de suivre les mises à jour de Domifa",
-          "Nouvelle mise en page de la gestion des utilisateurs"
+          "Ajout d'une page 'nouveautés' pour suivre les mises à jour de Domifa",
+          "Nouveau design pour de gestion des utilisateurs"
         ]
       },
       {
         "type": "new",
         "categorie": "Domiciliés",
         "message": [
-          "Ajout du transfert du courriers !",
-          "Ajout de la procuration pour la récupération de courrier",
-          "Réouvrir le dossier d'une personne radiée",
+          "Ajout du transfert de courriers !",
+          "Ajout de la gestion de la procuration permettant la récupération de courrier par un tiers",
+          "Possibilité de rouvrir le dossier d'une personne radiée",
           "Possibilité de continuer à signaler l'arrivée de courriers pour une personne radiée"
         ]
       },
@@ -32,7 +32,7 @@
   },
   {
     "date": "2019-12-20",
-    "description": "Suite à vos retours, nous avons apporté de nombreuses modification aux fiches des domiciliés",
+    "description": "À la suite de vos retours, nous avons apporté de nombreuses modifications aux fiches des domiciliés.",
     "content": [
       {
         "type": "new",
@@ -43,9 +43,9 @@
         "type": "new",
         "categorie": "Domiciliés",
         "message": [
-          "Supprimer une fiche (fonctionnalité réservée aux administrateurs)",
-          "Affichage du nombre d'usagers par statut : radiés, actifs, etc.",
-          "Ajouter ou supprimer des ayants-droit"
+          "Possibilité de supprimer une fiche (fonctionnalité réservée aux administrateurs)",
+          "Ajout du nombre d'usagers par statut : radiés, actifs, etc.",
+          "Possibilité d'ajouter ou supprimer des ayants-droit"
         ]
       },
 
@@ -54,7 +54,7 @@
         "categorie": "Entretien social",
         "message": [
           "Nouvelle question : l'usager a-t-il été orienté, si oui par qui ?",
-          "Vous pouvez éditer la situation sociale depuis la fiche de l'usager"
+          "L'entretien est désormais éditable à tout moment depuis la fiche de l'usager"
         ]
       },
       {
@@ -68,8 +68,8 @@
         "type": "bug",
         "categorie": "",
         "message": [
-          "Ajout de la date de première domiciliation au Cerfa",
-          "Les informations manquantes de l'entretien social ont été ajoutées sur la fiche des usagers"
+          "Ajout de la date de première domiciliation dans les Cerfa",
+          "Des informations manquantes de l'entretien social ont été ajoutées sur la fiche des usagers"
         ]
       }
     ]
