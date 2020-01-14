@@ -8,8 +8,8 @@ export class ResetPasswordDto {
   @MaxLength(100, {
     message: "PASSWORD_TOO_LONG"
   })
-  public readonly password: string;
+  public readonly password!: string;
 
   @IsNotEmpty()
-  public readonly token: string;
+  public readonly token!: string;
 }

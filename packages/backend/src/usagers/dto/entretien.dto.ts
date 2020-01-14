@@ -2,44 +2,44 @@ import { IsOptional } from "class-validator";
 
 export class EntretienDto {
   @IsOptional()
-  public domiciliation: boolean;
+  public domiciliation: boolean = false;
 
   @IsOptional()
-  public revenus: boolean;
+  public revenus: boolean = false;
 
   @IsOptional()
-  public revenusDetail: string;
+  public revenusDetail!: string;
 
   @IsOptional()
-  public typeMenage: string;
+  public typeMenage!: string;
 
   @IsOptional()
-  public liencommune: string;
+  public liencommune!: string;
 
   @IsOptional()
-  public residence: string;
+  public residence!: string;
 
   @IsOptional()
-  public residenceDetail: string;
+  public residenceDetail!: string;
 
   @IsOptional()
-  public cause: string;
+  public cause!: string;
 
   @IsOptional()
-  public causeDetail: string;
+  public causeDetail!: string;
 
   @IsOptional()
-  public pourquoi: string;
+  public pourquoi!: string;
 
   @IsOptional()
-  public pourquoiDetail: string;
+  public pourquoiDetail!: string;
 
   @IsOptional()
-  public accompagnement: boolean;
+  public accompagnement: boolean = false;
 
   @IsOptional()
-  public accompagnementDetail: string;
+  public accompagnementDetail!: string;
 
   @IsOptional()
-  public commentaires: string;
+  public commentaires!: string;
 }

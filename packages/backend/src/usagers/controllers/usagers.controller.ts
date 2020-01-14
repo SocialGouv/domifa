@@ -263,7 +263,6 @@ export class UsagersController {
     usager.options.transfert = {
       actif: false,
       adresse: "",
-      dateDebut: null,
       nom: ""
     };
     return this.usagersService.patch(usager, usager._id);
@@ -297,7 +296,7 @@ export class UsagersController {
     usager.options.procuration = {
       actif: false,
       dateFin: null,
-      dateNaissance: null,
+      dateNaissance: "null",
       nom: "",
       prenom: ""
     };

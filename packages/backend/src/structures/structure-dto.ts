@@ -3,48 +3,48 @@ import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 export class StructureDto {
   @IsNumber()
   @IsOptional()
-  public id: number;
+  public id!: number;
 
   @IsNotEmpty()
   @IsIn(["asso", "ccas", "hopital"])
-  public structureType: string;
+  public structureType!: string;
 
   @IsNotEmpty()
-  public adresse: string;
+  public adresse!: string;
 
   @IsNotEmpty()
-  public nom: string;
+  public nom!: string;
 
   @IsOptional()
-  public adresseCourrier: string;
+  public adresseCourrier!: string;
 
   @IsOptional()
-  public complementAdresse: string;
+  public complementAdresse!: string;
 
   @IsNumber()
   @IsOptional()
-  public capacite: number;
+  public capacite!: number;
 
   @IsNotEmpty()
-  public codePostal: string;
+  public codePostal!: string;
 
   @IsNotEmpty()
-  public ville: string;
+  public ville!: string;
 
   @IsOptional()
-  public agrement: string;
+  public agrement!: string;
 
   @IsOptional()
-  public departement: string;
+  public departement!: string;
 
   @IsNotEmpty()
-  public email: string;
+  public email!: string;
 
   @IsNotEmpty()
-  public phone: string;
+  public phone!: string;
 
   @IsNotEmpty()
-  public responsable: {
+  public responsable!: {
     fonction: string;
     nom: string;
     prenom: string;

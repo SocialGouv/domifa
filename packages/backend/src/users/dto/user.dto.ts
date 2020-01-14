@@ -15,7 +15,7 @@ export class UserDto {
     message: "PRENOM_TOO_LONG"
   })
   @IsNotEmpty()
-  public readonly prenom: string;
+  public readonly prenom!: string;
 
   @MinLength(2, {
     message: "NOM_TOO_SMALL"
@@ -24,11 +24,11 @@ export class UserDto {
     message: "NOM_TOO_LONG"
   })
   @IsNotEmpty()
-  public readonly nom: string;
+  public readonly nom!: string;
 
   @IsNotEmpty()
   @IsEmail()
-  public readonly email: string;
+  public readonly email!: string;
 
   @IsNotEmpty()
   @MinLength(11, {
@@ -37,15 +37,15 @@ export class UserDto {
   @MaxLength(100, {
     message: "PASSWORD_TOO_LONG"
   })
-  public readonly password: string;
+  public readonly password!: string;
 
   @IsNotEmpty()
   @IsNumber()
-  public readonly structureId: number;
+  public readonly structureId!: number;
 
   @IsOptional()
-  public readonly structure: {};
+  public readonly structure!: {};
 
   @IsOptional()
-  public readonly phone: string;
+  public readonly phone!: string;
 }

@@ -23,8 +23,6 @@ export class InteractionsService {
   ): Promise<any> {
     const createdInteraction = new this.interactionModel(interactionDto);
 
-    usager.lastInteraction[interactionDto.type] = new Date();
-
     if (interactionDto.nbCourrier) {
       usager.lastInteraction.nbCourrier =
         usager.lastInteraction.nbCourrier + interactionDto.nbCourrier;

@@ -10,8 +10,6 @@ import { UsagersService } from "./usagers.service";
 
 describe("DocumentsService", () => {
   let service: DocumentsService;
-  let userService: UsersService;
-  let usagerService: UsagersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -25,8 +23,6 @@ describe("DocumentsService", () => {
     }).compile();
 
     service = module.get<DocumentsService>(DocumentsService);
-    userService = module.get<UsersService>(UsersService);
-    usagerService = module.get<UsagersService>(UsagersService);
   });
 
   it("should be defined", () => {

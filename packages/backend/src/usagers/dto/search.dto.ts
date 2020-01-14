@@ -2,21 +2,21 @@ import { IsBoolean, IsIn, IsNumber, IsOptional } from "class-validator";
 
 export class SearchDto {
   @IsOptional()
-  public statut: string;
+  public statut!: string;
 
   @IsOptional()
   @IsIn(["az", "za", "radiation", "domiciliation"])
-  public sort: string;
+  public sort!: string;
 
   @IsOptional()
-  public name: string;
+  public name!: string;
 
   @IsOptional()
-  public echeance: string;
+  public echeance!: string;
 
   @IsBoolean()
   @IsOptional()
-  public interactionStatut: boolean;
+  public interactionStatut!: boolean;
 
   @IsOptional()
   @IsIn([
@@ -27,9 +27,9 @@ export class SearchDto {
     "appel",
     "visite"
   ])
-  public interactionType: string;
+  public interactionType!: string;
 
   @IsNumber()
   @IsOptional()
-  public id: number;
+  public id!: number;
 }

@@ -3,6 +3,7 @@
     "paths": {
       "*": ["types/*"]
     },
+    "strict": true,
     "lib": ["es2018.promise"],
     "module": "commonjs",
     "declaration": true,

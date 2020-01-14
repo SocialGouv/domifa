@@ -9,54 +9,54 @@ import { AyantDroit } from "../interfaces/ayant-droit";
 
 export class UsagersDto {
   @IsIn(["homme", "femme"])
-  public sexe: string;
+  public sexe!: string;
 
   @IsNumber()
   @IsOptional()
-  public id: number;
+  public id!: number;
 
   @IsOptional()
-  public customId: string;
+  public customId!: string;
 
   @IsNotEmpty()
-  public nom: string;
+  public nom!: string;
 
   @IsNotEmpty()
-  public prenom: string;
+  public prenom!: string;
 
   @IsOptional()
-  public surnom: string;
+  public surnom!: string;
 
   @IsNotEmpty()
-  public dateNaissance: Date;
+  public dateNaissance!: Date;
 
   @IsNotEmpty()
-  public villeNaissance: string;
+  public villeNaissance!: string;
 
   @IsOptional()
-  public email: string;
+  public email!: string;
 
   @IsOptional()
-  public phone: string;
+  public phone!: string;
 
   @IsOptional()
   @IsNumber()
-  public etapeDemande: number;
+  public etapeDemande!: number;
 
   @IsOptional()
   @IsNumber()
-  public structureId: number;
+  public structureId!: number;
 
   @IsOptional()
   @IsIn(["RENOUVELLEMENT", "PREMIERE"])
-  public typeDom: string;
+  public typeDom!: string;
 
   @IsOptional()
-  public preference: {
+  public preference!: {
     email: boolean;
     phone: boolean;
   };
 
   @IsOptional()
-  public ayantsDroits: AyantDroit[];
+  public ayantsDroits!: AyantDroit[];
 }

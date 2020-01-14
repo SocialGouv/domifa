@@ -6,10 +6,6 @@ import { User } from "../user.interface";
 @Injectable()
 export class MailerService {
   public mailjet: any;
-  public labels = {
-    asso: "Organisme agrée",
-    ccas: "CCAS / CIAS"
-  };
 
   constructor(private readonly configService: ConfigService) {
     this.mailjet = require("node-mailjet").connect(
@@ -59,7 +55,10 @@ export class MailerService {
             responsable_nom: structure.responsable.nom,
             responsable_prenom: structure.responsable.prenom,
             structure_name: structure.nom,
-            structure_type: this.labels[structure.structureType],
+            structure_type:
+              structure.structureType === "asso"
+                ? "Organisme agrée"
+                : "CCAS / CIAS",
             user_email: user.email,
             user_nom: user.nom,
             user_prenom: user.prenom,

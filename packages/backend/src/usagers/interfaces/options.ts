@@ -3,17 +3,17 @@ export interface Options {
     actif: boolean;
     nom: string;
     adresse: string;
-    dateDebut: Date;
+    dateDebut?: Date | null;
   };
   procuration: {
     actif: boolean;
     nom: string;
     prenom: string;
-    dateFin: Date;
-    dateNaissance: string;
+    dateFin: Date | null;
+    dateNaissance: string | null;
   };
   dnp: {
     actif: boolean;
-    dateDebut: Date;
+    dateDebut: Date | null;
   };
 }

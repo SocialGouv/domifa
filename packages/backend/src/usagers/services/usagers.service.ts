@@ -209,7 +209,9 @@ export class UsagersService {
 
     searchQuery.structureId = structureId;
 
-    const sortValues = {
+    const sortValues: {
+      [key: string]: {};
+    } = {
       az: { nom: "ascending" },
       domiciliation: { "decision.dateDebut": "ascending" },
       radiation: { "decision.dateFin": "descending" },

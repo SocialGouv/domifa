@@ -1,7 +1,7 @@
 import { AppModule } from "./app.module";
 
 describe("AppModule", () => {
-  let appModule;
+  let appModule: AppModule;
 
   beforeAll(() => {
     appModule = new AppModule();

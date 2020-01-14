@@ -1,16 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import * as fs from "fs";
-import pdftk = require("node-pdftk");
+import * as pdftk from "node-pdftk";
 import * as path from "path";
 import { User } from "../../users/user.interface";
 import { Usager } from "../interfaces/usagers";
-
-export const motifsRefus = {
-  AUTRE: "Autres",
-  HORS_AGREMENT: "En dehors des critères du public domicilié",
-  LIEN_COMMUNE: "Absence de lien avec la commune",
-  SATURATION: "Nombre maximal domiciliations atteint"
-};
 
 @Injectable()
 export class CerfaService {
@@ -31,6 +24,21 @@ export class CerfaService {
     minutes: string;
   };
   public motif: string;
+  public motifsRefus: {
+    [key: string]: string;
+  };
+
+  constructor() {
+    this.dateRdv = { annee: "", jour: "", mois: "", hours: "", minutes: "" };
+    this.motif = "";
+
+    this.motifsRefus = {
+      AUTRE: "Autres",
+      HORS_AGREMENT: "En dehors des critères du public domicilié",
+      LIEN_COMMUNE: "Absence de lien avec la commune",
+      SATURATION: "Nombre maximal domiciliations atteint"
+    };
+  }
 
   public async attestation(usager: Usager, user: User) {
     let ayantsDroitsTexte = "";
@@ -53,10 +61,8 @@ export class CerfaService {
     this.dateDemande = this.convertDate(usager.decision.dateDecision);
     this.datePremiereDom = this.convertDate(usager.datePremiereDom);
 
-    this.motif = "";
-
     if (usager.decision.statut === "REFUS") {
-      this.motif = motifsRefus[usager.decision.motif];
+      this.motif = this.motifsRefus[usager.decision.motif];
       if (usager.decision.motif === "AUTRE") {
         this.motif = this.motif + " : " + usager.decision.motifDetails;
       }

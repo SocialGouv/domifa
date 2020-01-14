@@ -12,12 +12,12 @@ export class InteractionDto {
     "visite"
   ])
   @IsNotEmpty()
-  public type: string;
+  public type!: string;
 
   @IsOptional()
-  public content: string;
+  public content!: string;
 
   @IsOptional()
   @IsNumber()
-  public nbCourrier: number;
+  public nbCourrier!: number;
 }

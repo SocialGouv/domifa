@@ -1,8 +1,7 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 
 import { User } from "../../users/user.interface";
-import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usagers";
 
 @Injectable()

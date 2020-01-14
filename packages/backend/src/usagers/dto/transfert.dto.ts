@@ -2,15 +2,15 @@ import { IsEmpty, IsNotEmpty, MinLength } from "class-validator";
 
 export class TransfertDto {
   @IsEmpty()
-  public actif: boolean;
+  public actif: boolean = false;
 
   @IsNotEmpty()
-  public nom: string;
+  public nom!: string;
 
   @IsNotEmpty()
   @MinLength(10)
-  public adresse: string;
+  public adresse!: string;
 
   @IsEmpty()
-  public dateDebut: Date;
+  public dateDebut!: Date;
 }
