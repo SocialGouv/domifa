@@ -14,7 +14,9 @@ export class LoadingComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
   public loadingSubscription: Subscription;
 
-  constructor(private loadingService: LoadingService) {}
+  constructor(private loadingService: LoadingService) {
+    this.loadingSubscription = new Subscription();
+  }
 
   public ngOnInit() {
     this.loadingSubscription = this.loadingService.loadingStatus

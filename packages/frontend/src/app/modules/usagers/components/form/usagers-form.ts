@@ -118,15 +118,13 @@ export class UsagersFormComponent implements OnInit {
     private nbgDate: NgbDateCustomParserFormatter
   ) {
     this.title = "Enregistrer une domiciliation";
-  }
-
-  public ngOnInit() {
     this.labels = labels;
-
     this.doublons = [];
     this.documents = [];
     this.liensLabels = Object.keys(this.labels.lienParente);
+  }
 
+  public ngOnInit() {
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 

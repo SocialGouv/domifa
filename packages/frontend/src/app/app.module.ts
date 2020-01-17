@@ -7,7 +7,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import {
   FaIconLibrary,
   FontAwesomeModule
@@ -30,6 +30,7 @@ import { StatsModule } from "./modules/stats/stats.module";
 import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
+import { AuthService } from "./services/auth.service";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -64,9 +65,12 @@ import { UsersModule } from "./modules/users/users.module";
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
+      deps: [Router, AuthService],
       multi: true,
       provide: HTTP_INTERCEPTORS,
-      useClass: ServerErrorInterceptor
+      useFactory(router: Router, authService: AuthService) {
+        return new ServerErrorInterceptor(router, authService);
+      }
     }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]

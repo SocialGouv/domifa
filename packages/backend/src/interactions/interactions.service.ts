@@ -39,24 +39,39 @@ export class InteractionsService {
       interactionDto.type === "courrierOut" ||
       interactionDto.type === "recommandeOut"
     ) {
+      if (interactionDto.procuration) {
+        interactionDto.content =
+          "Courrier remis au mandataire : " +
+          usager.options.procuration.prenom +
+          " " +
+          usager.options.procuration.nom.toUpperCase();
+      } else if (interactionDto.transfert) {
+        interactionDto.content =
+          "Courrier transféré à : " +
+          usager.options.transfert.nom +
+          " - " +
+          usager.options.transfert.adresse.toUpperCase();
+      }
+
       usager.lastInteraction.nbCourrier = 0;
     }
 
     if (
-      interactionDto.type === "courrierOut" ||
-      interactionDto.type === "recommandeOut" ||
-      interactionDto.type === "visite" ||
-      interactionDto.type === "appel"
+      (interactionDto.type === "courrierOut" ||
+        interactionDto.type === "recommandeOut" ||
+        interactionDto.type === "visite" ||
+        interactionDto.type === "appel") &&
+      !interactionDto.procuration
     ) {
       usager.lastInteraction.dateInteraction = new Date();
     }
 
-    createdInteraction.userName = user.prenom + " " + user.nom;
-    createdInteraction.userId = user.id;
-    createdInteraction.usagerId = usager.id;
-    createdInteraction.structureId = user.structureId;
-
+    createdInteraction.content = interactionDto.content;
     createdInteraction.dateInteraction = new Date();
+    createdInteraction.structureId = user.structureId;
+    createdInteraction.usagerId = usager.id;
+    createdInteraction.userId = user.id;
+    createdInteraction.userName = user.prenom + " " + user.nom;
 
     const savedInteraction = await createdInteraction.save();
     usager.interactions.push(savedInteraction);
@@ -64,8 +79,7 @@ export class InteractionsService {
     return this.usagerModel
       .findOneAndUpdate(
         {
-          id: usager.id,
-          structureId: user.structureId
+          _id: usager._id
         },
         {
           $push: { interaction: savedInteraction },

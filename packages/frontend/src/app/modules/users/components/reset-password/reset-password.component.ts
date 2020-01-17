@@ -28,13 +28,10 @@ export class ResetPasswordComponent implements OnInit {
 
   public submitted: boolean;
   public success: boolean;
-  public error: boolean;
 
   public hidePassword: boolean;
   public hidePasswordConfirm: boolean;
-  public successMessage: string;
-  public errorMessage: string;
-  public token: string;
+  public token?: string;
   public errorLabels: any;
 
   constructor(
@@ -42,15 +39,16 @@ export class ResetPasswordComponent implements OnInit {
     private userService: UsersService,
     private route: ActivatedRoute,
     private notifService: ToastrService
-  ) {}
-
-  public ngOnInit() {
+  ) {
     this.title = "Mot de passe oublié ?";
-    this.token = undefined;
+    this.success = false;
+    this.submitted = false;
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
     this.errorLabels = ERROR_LABELS;
+  }
 
+  public ngOnInit() {
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
       this.userService.checkPasswordToken(token).subscribe(
@@ -59,13 +57,12 @@ export class ResetPasswordComponent implements OnInit {
           this.initPasswordForm();
         },
         error => {
-          this.error = true;
-          this.errorMessage =
+          const errorMessage =
             (error.error.message === this.errorLabels[error.error.message]) !==
             undefined
               ? this.errorLabels[error.error.message]
               : "Le lien est incorrect, veuillez recommencer la procédure";
-          this.notifService.error(this.errorMessage);
+          this.notifService.error(errorMessage);
         }
       );
     }
@@ -109,15 +106,13 @@ export class ResetPasswordComponent implements OnInit {
       this.userService.getPasswordToken(this.emailForm.value).subscribe(
         (user: any) => {
           this.success = true;
-          this.error = false;
         },
         error => {
-          this.error = true;
-          this.errorMessage =
+          const errorMessage =
             error.error.message === "EMAIL_NOT_EXIST"
               ? "Veuillez vérifier l'adresse email"
               : "Une erreur innatendue est survenue";
-          this.notifService.error(this.errorMessage);
+          this.notifService.error(errorMessage);
         }
       );
     }

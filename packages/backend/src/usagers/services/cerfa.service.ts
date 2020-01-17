@@ -1,6 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import * as fs from "fs";
-import * as pdftk from "node-pdftk";
+
+// tslint:disable-next-line: no-var-requires
+const pdftk = require("node-pdftk");
+
 import * as path from "path";
 import { User } from "../../users/user.interface";
 import { Usager } from "../interfaces/usagers";

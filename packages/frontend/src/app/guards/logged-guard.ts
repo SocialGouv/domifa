@@ -5,10 +5,10 @@ import {
   Router,
   RouterStateSnapshot
 } from "@angular/router";
-import jwtDecode from "jwt-decode";
-import { Observable, of } from "rxjs";
+
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { User } from "../modules/users/interfaces/user";
+
 import { AuthService } from "../services/auth.service";
 
 @Injectable({ providedIn: "root" })

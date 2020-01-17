@@ -10,8 +10,7 @@ import { Structure } from "../../structure.interface";
 })
 export class StructuresConfirmComponent implements OnInit {
   public title: string;
-  public token: string;
-  public structure: Structure;
+
   public successDelete: boolean;
   public successConfirm: boolean;
   public error: boolean;
@@ -19,18 +18,17 @@ export class StructuresConfirmComponent implements OnInit {
   constructor(
     private structureService: StructureService,
     private route: ActivatedRoute
-  ) {}
-
-  public ngOnInit() {
+  ) {
     this.title = "Inscription";
     this.successDelete = false;
     this.successConfirm = false;
-
     this.error = false;
+  }
 
+  public ngOnInit() {
+    const token = this.route.snapshot.url[2].path;
     if (this.route.snapshot.url[1].path === "delete") {
-      this.token = this.route.snapshot.url[2].path;
-      this.structureService.delete(this.token).subscribe(
+      this.structureService.delete(token).subscribe(
         structure => {
           this.successDelete = true;
         },
@@ -39,12 +37,9 @@ export class StructuresConfirmComponent implements OnInit {
         }
       );
     } else if (this.route.snapshot.url[1].path === "confirm") {
-      this.token = this.route.snapshot.url[2].path;
-
-      this.structureService.confirm(this.token).subscribe(
+      this.structureService.confirm(token).subscribe(
         structure => {
           this.successConfirm = true;
-          this.structure = structure;
         },
         error => {
           this.error = true;

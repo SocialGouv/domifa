@@ -5,7 +5,7 @@ export class PasswordValidator {
     regex: RegExp,
     error: ValidationErrors
   ): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) {
         return null;
       }

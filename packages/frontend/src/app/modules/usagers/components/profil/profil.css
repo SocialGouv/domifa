@@ -41,6 +41,7 @@
 }
 
 #notif-form {
+  text-align: left;
   width: 290px;
 }
 #notif_button {
@@ -79,6 +80,7 @@ input[type="number"] {
   margin-left: 30px;
   width: 340px;
   border-left: 1px solid #dfdfdf;
+  text-align: center;
 }
 
 #big_icons span {

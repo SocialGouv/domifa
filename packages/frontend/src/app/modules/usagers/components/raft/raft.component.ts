@@ -20,9 +20,6 @@ export class RaftComponent implements OnInit {
 
   public today: Date;
 
-  public success: boolean;
-  public error: boolean;
-
   public motifList: any;
   public motifsRadiation: any = motifsRadiation;
 
@@ -32,11 +29,12 @@ export class RaftComponent implements OnInit {
     private printService: PrintService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.title = "Radier un domicilié";
+    this.today = new Date();
+  }
 
   public ngOnInit() {
-    this.today = new Date();
-
     if (this.route.snapshot.params.id) {
       this.authService.currentUser.subscribe(user => {
         this.user = user;
@@ -67,11 +65,8 @@ export class RaftComponent implements OnInit {
       .subscribe(
         (usager: Usager) => {
           this.usager = usager;
-          this.success = true;
         },
-        error => {
-          this.error = true;
-        }
+        error => {}
       );
   }
 }

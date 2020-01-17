@@ -1,4 +1,9 @@
-import { HttpClient, HttpEventType, HttpParams } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpEvent,
+  HttpEventType,
+  HttpParams
+} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { Observable } from "rxjs";
@@ -23,10 +28,17 @@ export class UsagerService {
     this.loading = true;
   }
 
-  public create(usager: Usager) {
-    return usager.id !== 0
-      ? this.http.patch(`${this.endPointUsagers}/${usager.id}`, usager)
-      : this.http.post(`${this.endPointUsagers}`, usager);
+  public create(usager: Usager): Observable<Usager> {
+    const response =
+      usager.id !== 0
+        ? this.http.patch(`${this.endPointUsagers}/${usager.id}`, usager)
+        : this.http.post(`${this.endPointUsagers}`, usager);
+
+    return response.pipe(
+      map(updatedUsager => {
+        return new Usager(updatedUsager);
+      })
+    );
   }
 
   public createRdv(rdv: Rdv, usagerId: number): Observable<any> {
@@ -51,21 +63,47 @@ export class UsagerService {
     );
   }
 
-  public deleteProcuration(usagerId: number): Observable<any> {
-    return this.http.delete(`${this.endPointUsagers}/procuration/${usagerId}`);
+  public deleteProcuration(usagerId: number): Observable<Usager> {
+    return this.http
+      .delete(`${this.endPointUsagers}/procuration/${usagerId}`)
+      .pipe(
+        map(response => {
+          return new Usager(response);
+        })
+      );
   }
 
-  public nextStep(usagerId: number, etapeDemande: number): Observable<any> {
-    return this.http.get(
-      `${this.endPointUsagers}/next-step/${usagerId}/${etapeDemande}`
-    );
+  public nextStep(usagerId: number, etapeDemande: number): Observable<Usager> {
+    return this.http
+      .get(`${this.endPointUsagers}/next-step/${usagerId}/${etapeDemande}`)
+      .pipe(
+        map(response => {
+          return new Usager(response);
+        })
+      );
   }
 
-  public renouvellement(usagerId: number): Observable<any> {
-    return this.http.get(`${this.endPointUsagers}/renouvellement/${usagerId}`);
+  public stopCourrier(usagerId: number): Observable<Usager> {
+    return this.http
+      .get(`${this.endPointUsagers}/stop-courrier/${usagerId}`)
+      .pipe(
+        map(response => {
+          return new Usager(response);
+        })
+      );
   }
 
-  public entretien(entretien: Entretien, usagerId: number) {
+  public renouvellement(usagerId: number): Observable<Usager> {
+    return this.http
+      .get(`${this.endPointUsagers}/renouvellement/${usagerId}`)
+      .pipe(
+        map(response => {
+          return new Usager(response);
+        })
+      );
+  }
+
+  public entretien(entretien: Entretien, usagerId: number): Observable<Usager> {
     return this.http
       .post(`${this.endPointUsagers}/entretien/${usagerId}`, entretien)
       .pipe(
@@ -77,10 +115,13 @@ export class UsagerService {
 
   public setDecision(usagerId: number, decision: Decision, statut: string) {
     decision.statut = statut;
-    return this.http.post(
-      `${this.endPointUsagers}/decision/${usagerId}`,
-      decision
-    );
+    return this.http
+      .post(`${this.endPointUsagers}/decision/${usagerId}`, decision)
+      .pipe(
+        map(response => {
+          return new Usager(response);
+        })
+      );
   }
 
   public findOne(usagerId: number): Observable<Usager> {
@@ -104,17 +145,18 @@ export class UsagerService {
   }
 
   /* Recherche */
-  public search(filters?: {}): Observable<Usager[]> {
-    let httpParams = new HttpParams();
-    Object.keys(filters).forEach(key => {
-      if (filters[key] !== null) {
-        httpParams = httpParams.append(key, filters[key]);
+  public search(search: any): Observable<Usager[]> {
+    let data = new HttpParams();
+
+    Object.keys(search).forEach(key => {
+      const value = search[key];
+      if (value !== null) {
+        data = data.append(key, value);
       }
     });
+
     return this.http
-      .get(`${this.endPointUsagers}/search/`, {
-        params: httpParams
-      })
+      .get(`${this.endPointUsagers}/search/`, { params: data })
       .pipe(
         map(response => {
           return Array.isArray(response)
@@ -170,16 +212,19 @@ export class UsagerService {
         reportProgress: true
       })
       .pipe(
-        map(event => {
-          switch (event.type) {
-            case HttpEventType.UploadProgress:
+        map((event: HttpEvent<any>) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            if (event.total) {
               const progress = Math.round((100 * event.loaded) / event.total);
-              return { status: "progress", message: progress };
-            case HttpEventType.Response:
-              return { success: true, body: event.body };
-            default:
-              return `Unhandled event: ${event.type}`;
+              return {
+                message: progress,
+                status: "progress"
+              };
+            }
+          } else if (event.type === HttpEventType.Response) {
+            return { success: true, body: event.body };
           }
+          return `Unhandled event: ${event.type}`;
         })
       );
   }

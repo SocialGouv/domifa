@@ -6,11 +6,7 @@ import {
   HttpRequest
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot
-} from "@angular/router";
+import { Router } from "@angular/router";
 import { Observable, throwError } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 import { AuthService } from "../services/auth.service";
@@ -25,20 +21,23 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       retry(1),
-      catchError((error: HttpErrorResponse) => {
-        let errorMessage = "";
-        if (error.error instanceof ErrorEvent) {
-          errorMessage = `Error: ${error.error.message}`;
-        } else {
-          if (error.status === 401) {
-            this.authService.logout();
-          }
-          if (error.status === 501) {
-            this.router.navigate(["login"]);
-          }
-          return throwError(error);
-        }
-      })
+      catchError(x => this.handleError(x))
     );
+  }
+
+  public handleError(error: HttpErrorResponse): Observable<any> {
+    let errorMessage = "";
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      if (error.status === 401) {
+        this.authService.logout();
+        this.router.navigate(["login"]);
+      }
+      if (error.status === 501) {
+        this.router.navigate(["login"]);
+      }
+    }
+    return throwError(error);
   }
 }

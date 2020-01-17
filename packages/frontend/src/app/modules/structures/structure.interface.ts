@@ -21,7 +21,7 @@ export class Structure {
     prenom: string;
   };
   public users: User[];
-  public createdAt: Date = null;
+  public createdAt: Date | null;
 
   constructor(structure?: any) {
     this.id = (structure && structure.id) || 0;

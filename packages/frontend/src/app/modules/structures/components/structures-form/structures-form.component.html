@@ -285,11 +285,11 @@
 
       <div class="col form-group required">
         <label for="departementAuto">Préfecture ayant délivré l’agrément</label>
+
         <input
           id="departementAuto"
           type="text"
           class="form-control"
-          formControlName="departementAuto"
           [ngbTypeahead]="searchDepartement"
           (selectItem)="selectDepartement($event)"
           [resultTemplate]="rtDepartement"

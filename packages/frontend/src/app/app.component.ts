@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   public modal: any;
 
   @ViewChild("newsCenter", { static: true })
-  public newsCenter: TemplateRef<any>;
+  public newsCenter!: TemplateRef<any>;
 
   private newsJson = "assets/files/news.json";
 
@@ -34,7 +34,17 @@ export class AppComponent implements OnInit {
     private modalService: NgbModal,
     private http: HttpClient
   ) {
+    this.title = "Domifa";
+    this.help = false;
+    this.newsLabels = {
+      bug: "Améliorations",
+      new: "Nouveauté"
+    };
+
+    this.domifaNews = [];
+
     this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
+
     this.authService.isAuth().subscribe(isAuth => {
       if (isAuth) {
         this.getJSON().subscribe(domifaNews => {
@@ -54,12 +64,6 @@ export class AppComponent implements OnInit {
     });
   }
   public ngOnInit() {
-    this.title = "Domifa";
-    this.help = false;
-    this.newsLabels = {
-      bug: "Améliorations",
-      new: "Nouveauté"
-    };
     this.matomoTracker.setUserId("0");
   }
 

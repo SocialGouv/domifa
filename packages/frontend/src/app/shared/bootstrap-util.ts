@@ -47,7 +47,7 @@ export function isToday(someDate?: Date): boolean {
   );
 }
 
-export function formatDateToNgb(date: Date): NgbDateStruct {
+export function formatDateToNgb(date: Date): NgbDateStruct | null {
   if (date === null) {
     return null;
   }

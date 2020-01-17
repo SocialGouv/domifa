@@ -25,12 +25,14 @@ export class UserProfilComponent implements OnInit {
     private readonly router: Router,
     private modalService: NgbModal,
     private notifService: ToastrService
-  ) {}
-
-  public ngOnInit() {
+  ) {
     this.title = "Mon compte Domifa";
     this.users = [];
     this.newUsers = [];
+    this.selectedUser = 0;
+  }
+
+  public ngOnInit() {
     this.getUsers();
   }
 
@@ -79,7 +81,7 @@ export class UserProfilComponent implements OnInit {
 
   public deleteUser() {
     this.userService.deleteUser(this.selectedUser).subscribe(
-      (user: User) => {
+      (response: any) => {
         this.getUsers();
         this.notifService.success("Utilisateur supprimé avec succès");
       },

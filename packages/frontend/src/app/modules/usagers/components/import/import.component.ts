@@ -76,7 +76,6 @@ export class ImportComponent implements OnInit {
   public data: AOA = [[], []];
 
   public title: string;
-  public prenom: string;
 
   public uploadForm: FormGroup;
   public fileName: string;
@@ -95,15 +94,16 @@ export class ImportComponent implements OnInit {
   public errorsRow: any[][];
 
   public rowNumber: number;
-
   public colNames: string[];
   public etapeImport: number;
+
   public etapes = [
     "Enregistrement de la structure",
     "Création du compte personnel"
   ];
 
-  @ViewChild("form", { static: true }) public form;
+  @ViewChild("form", { static: true })
+  public form;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -112,7 +112,22 @@ export class ImportComponent implements OnInit {
     private loadingService: LoadingService,
     private router: Router,
     public http: HttpClient
-  ) {}
+  ) {
+    this.canUpload = false;
+    this.colNames = colNames;
+    this.errorsId = [];
+    this.errorsList = {};
+    this.errorsRow = [];
+    this.etapeImport = 0;
+    this.fileName = "";
+    this.nbreAyantsDroits = [16, 20, 24, 28];
+    this.rowNumber = 0;
+    this.showErrors = false;
+    this.showTable = false;
+    this.success = false;
+    this.title = "Importer vos domiciliés sur Domifa";
+    this.uploadError = false;
+  }
 
   get u(): any {
     return this.uploadForm.controls;
@@ -123,31 +138,12 @@ export class ImportComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.etapeImport = 0;
-    this.showTable = false;
-
-    this.colNames = colNames;
-    this.title = "Importer vos domiciliés";
-
-    this.errorsId = [];
-    this.errorsRow = [];
-
-    this.showErrors = false;
-    this.errorsList = {};
-    this.canUpload = false;
-
-    this.nbreAyantsDroits = [16, 20, 24, 28];
-
     for (let index = 0; index < 32; index++) {
       this.errorsColumn[index] = 10;
     }
 
     this.uploadForm = this.formBuilder.group({
       fileInput: [this.fileName, Validators.required]
-    });
-
-    this.authService.currentUser.subscribe(user => {
-      this.prenom = user !== null ? user.prenom : "";
     });
   }
 
@@ -168,7 +164,7 @@ export class ImportComponent implements OnInit {
     }
 
     this.showTable = true;
-    this.data = null;
+    this.data = [[], []];
     this.etapeImport = 1;
     this.uploadForm.controls.fileInput.setValue(file);
 

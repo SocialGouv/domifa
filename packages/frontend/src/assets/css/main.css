@@ -176,6 +176,21 @@ ul {
   color: #4668ff !important;
 }
 
+.bannir {
+  -webkit-text-stroke-color: var(--danger);
+  stroke: var(--danger);
+}
+
+.bannir:hover {
+  color: var(--danger) !important;
+}
+
+.npai {
+  -webkit-text-stroke-width: 0px;
+  stroke-width: 0px;
+  color: var(--danger) !important;
+}
+
 .courrier {
   -webkit-text-stroke-color: #c62bd9;
   stroke: #c62bd9;

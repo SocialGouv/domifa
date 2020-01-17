@@ -9,12 +9,14 @@ import { Observable } from "rxjs";
 })
 export class NewsComponent implements OnInit {
   public title: string;
-  public domifaNews: [];
+  public domifaNews: any;
   public newsLabels: any;
   public newsCenter: TemplateRef<any>;
   private newsJson = "assets/files/news.json";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.title = "Les dernières mises à jour de Domifa";
+  }
 
   public ngOnInit() {
     this.newsLabels = {

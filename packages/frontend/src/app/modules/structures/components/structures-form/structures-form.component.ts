@@ -11,7 +11,7 @@ import { Observable, of } from "rxjs";
 import { debounceTime, map } from "rxjs/operators";
 
 import { regexp } from "src/app/shared/validators";
-import { DEPARTEMENTS } from "../../../../shared/departements";
+import { departements } from "../../../../shared/departements";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
 
@@ -23,7 +23,7 @@ import { Structure } from "../../structure.interface";
 export class StructuresFormComponent implements OnInit {
   public title: string;
   public success: boolean = false;
-  public structureForm: FormGroup;
+  public structureForm!: FormGroup;
   public structure: Structure;
   public departements: any;
   public model: any;
@@ -46,23 +46,24 @@ export class StructuresFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private structureService: StructureService,
     private notifService: ToastrService
-  ) {}
+  ) {
+    this.departements = departements;
+    this.etapeInscription = 0;
+    this.searchFailed = false;
+    this.structure = new Structure({});
+    this.title = "Inscrivez votre structure sur Domifa";
+
+    this.structureInscription = {
+      etapeInscription: 0,
+      structureId: 0
+    };
+  }
 
   get f() {
     return this.structureForm.controls;
   }
 
   public ngOnInit() {
-    this.departements = DEPARTEMENTS;
-    this.structure = new Structure({});
-
-    this.etapeInscription = 0;
-
-    this.structureInscription = {
-      etapeInscription: 0,
-      structureId: 0
-    };
-
     this.initForm();
   }
 
@@ -132,7 +133,7 @@ export class StructuresFormComponent implements OnInit {
         term === ""
           ? []
           : this.departements
-              .filter(dep => {
+              .filter((dep: any) => {
                 return (
                   dep.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
                   dep.code.toLowerCase().indexOf(term.toLowerCase()) > -1

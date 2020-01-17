@@ -1,8 +1,9 @@
-import { HttpClient, HttpEventType } from "@angular/common/http";
+import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Doc } from "../interfaces/document";
+import { Usager } from "../interfaces/usager";
 
 @Injectable({
   providedIn: "root"
@@ -25,16 +26,19 @@ export class DocumentService {
         reportProgress: true
       })
       .pipe(
-        map(event => {
-          switch (event.type) {
-            case HttpEventType.UploadProgress:
+        map((event: HttpEvent<any>) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            if (event.total) {
               const progress = Math.round((100 * event.loaded) / event.total);
-              return { status: "progress", message: progress };
-            case HttpEventType.Response:
-              return { success: true, body: event.body };
-            default:
-              return `Unhandled event: ${event.type}`;
+              return {
+                message: progress,
+                status: "progress"
+              };
+            }
+          } else if (event.type === HttpEventType.Response) {
+            return { success: true, body: event.body };
           }
+          return `Unhandled event: ${event.type}`;
         })
       );
   }
@@ -78,6 +82,10 @@ export class DocumentService {
   }
 
   public deleteDocument(usagerId: number, index: number) {
-    return this.http.delete(`${this.endPoint}${usagerId}/${index}`);
+    return this.http.delete(`${this.endPoint}${usagerId}/${index}`).pipe(
+      map(response => {
+        return new Usager(response);
+      })
+    );
   }
 }

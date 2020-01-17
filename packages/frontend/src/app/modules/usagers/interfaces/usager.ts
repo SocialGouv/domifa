@@ -16,7 +16,7 @@ export class Usager {
   public surnom: string;
 
   public sexe: string;
-  public dateNaissance: Date;
+  public dateNaissance: Date | null;
   public villeNaissance: string;
 
   public email: string;
@@ -50,7 +50,7 @@ export class Usager {
 
   public decision: any;
 
-  public dateNaissancePicker: NgbDateStruct;
+  public dateNaissancePicker: NgbDateStruct | null;
 
   public interactionsToday: {
     appel: boolean;

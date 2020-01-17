@@ -5,9 +5,9 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./not-found.component.css"],
   templateUrl: "./not-found.component.html"
 })
-export class NotFoundComponent implements OnInit {
+export class NotFoundComponent {
   public title: string;
-  public ngOnInit() {
+  constructor() {
     this.title = "La page que vous recherchez n'éxiste pas";
   }
 }

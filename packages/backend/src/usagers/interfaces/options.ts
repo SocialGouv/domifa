@@ -12,7 +12,7 @@ export interface Options {
     dateFin: Date | null;
     dateNaissance: string | null;
   };
-  dnp: {
+  npai: {
     actif: boolean;
     dateDebut: Date | null;
   };

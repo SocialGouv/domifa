@@ -114,6 +114,14 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @Get("stop-courrier/:id")
+  public async stopCourrier(@CurrentUsager() usager: Usager) {
+    usager.options.npai.actif = true;
+    usager.options.npai.dateDebut = new Date();
+    return this.usagersService.patch(usager, usager._id);
+  }
+
+  @UseGuards(AccessGuard)
   @Get("renouvellement/:id")
   public async renouvellement(
     @CurrentUser() user: User,

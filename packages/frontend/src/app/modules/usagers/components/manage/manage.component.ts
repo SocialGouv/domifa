@@ -1,5 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from "@angular/core";
 import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
@@ -8,7 +15,8 @@ import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AuthService } from "src/app/services/auth.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { interactionsNotifs } from "../../interactions.labels";
-import { Search } from "../../interfaces/search";
+import { InteractionTypes } from "../../interfaces/interaction";
+import { Filters, Search } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
 
 @Component({
@@ -21,7 +29,6 @@ import { InteractionService } from "../../services/interaction.service";
 export class ManageUsagersComponent implements OnInit {
   public title: string;
   public searching: boolean;
-  public searchFailed: boolean;
   public usagers: Usager[] = [];
 
   public dateLabel: string;
@@ -34,39 +41,36 @@ export class ManageUsagersComponent implements OnInit {
     VALIDE: "Fin de domiciliation"
   };
 
-  public notifs = interactionsNotifs;
+  public notifs: { [key: string]: any } = interactionsNotifs;
 
-  public filters: Search;
-  public sort: string;
-
-  public stats: {
-    ATTENTE_DECISION: number;
-    INSTRUCTION: number;
-    RADIE: number;
-    REFUS: number;
-    VALIDE: number;
+  public filters: {
+    [key: string]: any;
   };
 
+  public stats: { [key: string]: any };
+
+  public selectedUsager: Usager;
+
   @ViewChild("searchInput", { static: true })
-  public searchInput: ElementRef;
+  public searchInput!: ElementRef;
+
+  @ViewChild("distributionConfirm", { static: true })
+  public distributionConfirm!: TemplateRef<any>;
 
   constructor(
     private usagerService: UsagerService,
     private interactionService: InteractionService,
     private authService: AuthService,
+    private modalService: NgbModal,
     private router: Router,
     private notifService: ToastrService
-  ) {}
-
-  public ngOnInit() {
-    this.filters = localStorage.getItem("filters")
-      ? new Search(JSON.parse(localStorage.getItem("filters")))
-      : new Search({});
-
+  ) {
     this.title = "Gérer vos domiciliés";
     this.usagers = [];
     this.searching = true;
     this.dateLabel = "Fin de domiciliation";
+    this.filters = new Search(this.getFilters());
+    this.selectedUsager = new Usager();
 
     this.stats = {
       ATTENTE_DECISION: 0,
@@ -75,7 +79,9 @@ export class ManageUsagersComponent implements OnInit {
       REFUS: 0,
       VALIDE: 0
     };
+  }
 
+  public ngOnInit() {
     this.getStats();
     this.search();
 
@@ -94,10 +100,6 @@ export class ManageUsagersComponent implements OnInit {
       });
   }
 
-  public getSearchBar() {
-    return this.searchInput.nativeElement.value;
-  }
-
   public resetSearchBar() {
     this.searchInput.nativeElement.value = "";
     this.filters.name = "";
@@ -113,38 +115,81 @@ export class ManageUsagersComponent implements OnInit {
     this.search();
   }
 
-  public updateFilters(filter: string, value: any) {
-    this.filters[filter] = this.filters[filter] === value ? null : value;
+  public updateFilters(element: Filters, value: string | boolean | null) {
+    Object.getOwnPropertyNames(this);
+    if (
+      element === "interactionType" ||
+      element === "interactionStatut" ||
+      element === "statut" ||
+      element === "echeance" ||
+      element === "name"
+    ) {
+      const newValue = this.filters[element] === value ? null : value;
+      this.filters[element] = newValue;
+    } else {
+      this.filters[element] = value;
+    }
     this.search();
   }
 
-  public goToProfil(id: number, statut: string) {
-    const url = {
-      ATTENTE_DECISION: "usager/" + id + "/edit",
-      INSTRUCTION: "usager/" + id + "/edit",
-      RADIE: "usager/" + id,
-      REFUS: "usager/" + id,
-      VALIDE: "usager/" + id
+  public goToProfil(usager: Usager) {
+    const url: { [key: string]: any } = {
+      ATTENTE_DECISION: "usager/" + usager.id + "/edit",
+      INSTRUCTION: "usager/" + usager.id + "/edit",
+      RADIE: "usager/" + usager.id,
+      REFUS: "usager/" + usager.id,
+      VALIDE: "usager/" + usager.id
     };
 
-    this.router.navigate([url[statut]]);
+    if (
+      usager.decision.statut === "INSTRUCTION" &&
+      usager.typeDom === "RENOUVELLEMENT"
+    ) {
+      this.router.navigate(["usager/" + usager.id]);
+      return;
+    }
+    this.router.navigate([url[usager.decision.statut]]);
   }
 
-  public setInteraction(usager: Usager, type: string) {
-    this.interactionService
-      .setInteraction(usager.id, {
-        content: "",
-        type
-      })
-      .subscribe(
-        (response: Usager) => {
-          usager.lastInteraction = response.lastInteraction;
-          this.notifService.success(this.notifs[type]);
-        },
-        error => {
-          this.notifService.error("Impossible d'enregistrer cette interaction");
-        }
-      );
+  public setInteraction(
+    usager: Usager,
+    type: InteractionTypes,
+    procuration?: boolean
+  ) {
+    const interaction: {
+      content?: string;
+      type?: string;
+      procuration?: boolean;
+      transfert?: boolean;
+    } = {
+      content: "",
+      type
+    };
+
+    if (type === "courrierOut" && usager.options.procuration.actif) {
+      if (typeof procuration === "undefined") {
+        this.selectedUsager = usager;
+        this.modalService.open(this.distributionConfirm);
+        // open
+        return;
+      }
+      this.modalService.dismissAll();
+      interaction.procuration = procuration;
+    }
+
+    if (type === "courrierOut" && usager.options.transfert.actif) {
+      interaction.transfert = true;
+    }
+
+    this.interactionService.setInteraction(usager, interaction).subscribe(
+      (response: Usager) => {
+        usager.lastInteraction = response.lastInteraction;
+        this.notifService.success(this.notifs[type]);
+      },
+      error => {
+        this.notifService.error("Impossible d'enregistrer cette interaction");
+      }
+    );
   }
 
   public getStats() {
@@ -175,5 +220,10 @@ export class ManageUsagersComponent implements OnInit {
         this.notifService.error("Une erreur a eu lieu lors de la recherche");
       }
     );
+  }
+
+  private getFilters() {
+    const filters = localStorage.getItem("filters");
+    return filters === null ? {} : JSON.parse(filters);
   }
 }

@@ -1,4 +1,4 @@
-export const DEPARTEMENTS = [
+export const departements = [
   {
     code: "01",
     name: "Ain",

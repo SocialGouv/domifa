@@ -8,8 +8,16 @@ import { Component, OnInit } from "@angular/core";
 export class FaqComponent implements OnInit {
   public title: string;
 
-  public ngOnInit() {
+  constructor() {
     this.title = "Foire aux question de Domifa";
+  }
+
+  public ngOnInit() {
+    window.scroll({
+      behavior: "smooth",
+      left: 0,
+      top: 0
+    });
   }
 
   public scrollTo(el: HTMLElement) {

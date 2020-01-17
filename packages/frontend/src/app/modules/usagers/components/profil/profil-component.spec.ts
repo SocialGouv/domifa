@@ -86,8 +86,10 @@ describe("UsagersProfilComponent", () => {
   }));
 
   it("5. Set interaction", async(() => {
+    const usagerTest = new Usager();
+    usagerTest.id = 2;
     interactionService
-      .setInteraction(2, {
+      .setInteraction(usagerTest, {
         content: "",
         nbCourrier: 10,
         type: "courrierIn"
@@ -97,8 +99,10 @@ describe("UsagersProfilComponent", () => {
       });
   }));
   it("6. Récupération du courrier", async(() => {
+    const usagerTest = new Usager();
+    usagerTest.id = 2;
     interactionService
-      .setPassage(2, "courrierOut")
+      .setInteraction(usagerTest, "courrierOut")
       .subscribe((usager: Usager) => {
         const lastInteraction = usager.lastInteraction;
         expect(lastInteraction.nbCourrier).toEqual(0);

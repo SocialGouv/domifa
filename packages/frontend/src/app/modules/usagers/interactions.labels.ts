@@ -7,7 +7,9 @@ export const interactionsNotifs = {
   visite: "Passage de l'usager enregistré"
 };
 
-export const interactionsLabels = {
+export const interactionsLabels: {
+  [key: string]: any;
+} = {
   appel: "Appel téléphonique",
   colisIn: "Colis reçu",
   colisOut: "Colis récupéré",

@@ -119,7 +119,6 @@
         <th class="text-center">#</th>
         <th>Nom prénom</th>
         <th>{{ dateLabel }}</th>
-
         <td
           colspan="3"
           class="text-right">
@@ -140,20 +139,20 @@
       <tbody *ngFor="let usager of usagers; let i = index">
         <tr>
           <td
-            (click)="goToProfil(usager.id, usager.decision.statut)"
+            (click)="goToProfil(usager)"
             scope="row"
             class="text-center">
             {{ usager.id }}
           </td>
           <td
-            (click)="goToProfil(usager.id, usager.decision.statut)"
+            (click)="goToProfil(usager)"
             scope="row"
             class="table-name td-name">
             <b>{{ usager.nom | uppercase }}</b>
             {{ usager.prenom }}
             <span *ngIf="usager.surnom && usager.surnom !== null">({{ usager.surnom }})</span>
           </td>
-          <td (click)="goToProfil(usager.id, usager.decision.statut)">
+          <td (click)="goToProfil(usager)">
             <span
               *ngIf="usager.decision.statut === 'REFUS' || usager.decision.statut === 'RADIE'"
               class="text-danger font-weight-bold">
@@ -172,10 +171,12 @@
               {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
             </span>
           </td>
-          <td
-            class="text-right icones_liste"
-            *ngIf="usager.decision.statut === 'VALIDE'">
-            <div>
+          <td class="text-right icones_liste">
+            <div *ngIf="
+              usager.decision.statut === 'VALIDE' ||
+              (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT') ||
+              (usager.decision.statut === 'RADIE' && !usager.options.npai)
+            ">
               <span
                 (click)="setInteraction(usager, 'courrierOut')"
                 *ngIf="usager.lastInteraction.nbCourrier > 0"
@@ -210,15 +211,15 @@
           </td>
 
           <td
-            (click)="goToProfil(usager.id, usager.decision.statut)"
-            class="text-right usager_informations">
+            (click)="goToProfil(usager)"
+            class="text-center usager_informations">
             <span
-              class="text-warning"
-              *ngIf="usager.options.dnp.actif">
+              class="text-danger font-weight-bold"
+              *ngIf="usager.options.npai.actif">
               <fa-icon
-                icon="share"
+                icon="ban"
                 class="btn-icon"></fa-icon>
-              DNP
+              Pli non distribuable
             </span>
             <span
               class="text-warning"
@@ -229,40 +230,58 @@
               Courrier à transférer
             </span>
             <span
-              *ngIf="usager.decision.statut === 'INSTRUCTION'"
-              class="text-warning2">
-              <fa-icon [icon]="['far', 'clock']"></fa-icon>
-              Dossier à compléter
+              class="text-warning"
+              *ngIf="usager.options.procuration.actif">
+              <fa-icon
+                icon="exclamation-triangle"
+                class="btn-icon"></fa-icon>
+              <b>Procuration :</b>
+              {{ usager.options.procuration.nomComplet }}
+            </span>
+
+            <span *ngIf="filters.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT'">
+              <span class="text-secondary">Renouvellement en cours</span>
+            </span>
+            <span *ngIf="filters.statut === 'INSTRUCTION' && usager.typeDom !== 'RENOUVELLEMENT'">
+              <span class="text-dark">Première demande</span>
             </span>
 
             <span
-              *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
-              class="text-dark">
-              Demande en cours
+              *ngIf="filters.statut === null"
+              class="font-weight-bold">
+              <span
+                *ngIf="usager.decision.statut === 'INSTRUCTION'"
+                class="text-warning2">
+                <fa-icon [icon]="['far', 'clock']"></fa-icon>
+                Dossier à compléter
+              </span>
+              <span
+                *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
+                class="text-dark">
+                Demande en cours
+              </span>
+              <span
+                *ngIf="usager.decision.statut === 'REFUS'"
+                class="text-danger">
+                Demande refusée
+              </span>
+              <span
+                *ngIf="usager.decision.statut === 'RADIE'"
+                class="text-danger">
+                Radié
+              </span>
             </span>
-            <span
-              *ngIf="usager.decision.statut === 'REFUS'"
-              class="font-weight-bold text-danger">
-              Demande refusée
-            </span>
-            <span
-              *ngIf="usager.decision.statut === 'RADIE'"
-              class="font-weight-bold text-danger">
-              Radié
-            </span>
+
           </td>
 
-          <td
-            (click)="goToProfil(usager.id, usager.decision.statut)"
-            class="text-right">
-
+          <td (click)="goToProfil(usager)">
             <span
               class="active"
               *ngIf="
-                usager.decision.statut !== 'ATTENTE_DECISION' &&
-                usager.decision.statut !== 'INSTRUCTION'
+                usager.decision.statut !== 'ATTENTE_DECISION' ||
+                (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT')
               ">
-              Accéder à sa fiche
+              Accéder à la fiche
             </span>
             <span
               class="active"
@@ -271,7 +290,7 @@
             </span>
             <span
               class="active"
-              *ngIf="usager.decision.statut === 'INSTRUCTION'">
+              *ngIf="(usager.decision.statut === 'INSTRUCTION' && usager.typeDom !== 'RENOUVELLEMENT')">
               Reprendre la demande
             </span>
           </td>
@@ -280,3 +299,49 @@
     </table>
   </div>
 </div>
+
+<ng-template
+  #distributionConfirm
+  let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <fa-icon icon="exclamation-triangle"></fa-icon>
+      Attention, procuration active !
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Fermer la fenêtre"
+      (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    Qui est venu récupérer le courrier ?
+    <br>
+    <br>
+    <button
+      (click)="setInteraction(selectedUsager, 'courrierOut', true)"
+      class="btn btn-outline-primary">
+      <b>LE MANDATAIRE</b>
+      <br>
+      {{ selectedUsager.options.procuration.nom | uppercase }} {{ selectedUsager.options.procuration.prenom }}
+    </button>
+    &nbsp;&nbsp;
+    <button
+      (click)="setInteraction(selectedUsager, 'courrierOut', false)"
+      class="btn btn-outline-primary">
+      <b>LE DOMICILIÉ</b>
+      <br>
+      {{ selectedUsager.nom }} {{ selectedUsager.prenom }}
+    </button>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')">
+      Revenir à la liste
+    </button>
+
+  </div>
+</ng-template>

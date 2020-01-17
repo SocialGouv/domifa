@@ -1,7 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { User } from "../interfaces/user";
 
 @Injectable({
   providedIn: "root"
@@ -15,7 +17,11 @@ export class UsersService {
   }
 
   public getUser(id: number) {
-    return this.http.get(`${this.endPoint}/${id}`);
+    return this.http.get(`${this.endPoint}/${id}`).pipe(
+      map(response => {
+        return new User(response);
+      })
+    );
   }
 
   public validateEmail(email: string): Observable<any> {
@@ -23,23 +29,47 @@ export class UsersService {
   }
 
   public create(data: any) {
-    return this.http.post(`${this.endPoint}`, data);
+    return this.http.post(`${this.endPoint}`, data).pipe(
+      map(response => {
+        return new User(response);
+      })
+    );
   }
 
-  public getUsers() {
-    return this.http.get(`${this.endPoint}`);
+  public getUsers(): Observable<User[]> {
+    return this.http.get(`${this.endPoint}`).pipe(
+      map(response => {
+        return Array.isArray(response)
+          ? response.map(item => new User(item))
+          : [new User(response)];
+      })
+    );
   }
 
   public getNewUsers() {
-    return this.http.get(`${this.endPoint}/to-confirm`);
+    return this.http.get(`${this.endPoint}/to-confirm`).pipe(
+      map(response => {
+        return Array.isArray(response)
+          ? response.map(item => new User(item))
+          : [new User(response)];
+      })
+    );
   }
 
   public confirmUser(id: number) {
-    return this.http.get(`${this.endPoint}/confirm/${id}`);
+    return this.http.get(`${this.endPoint}/confirm/${id}`).pipe(
+      map(response => {
+        return new User(response);
+      })
+    );
   }
 
   public updateRole(id: number, role: string) {
-    return this.http.get(`${this.endPoint}/update-role/${id}/${role}`);
+    return this.http.get(`${this.endPoint}/update-role/${id}/${role}`).pipe(
+      map(response => {
+        return new User(response);
+      })
+    );
   }
 
   public deleteUser(id: number) {

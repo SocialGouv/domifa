@@ -173,7 +173,7 @@ export const UsagerSchema = new mongoose.Schema(
         dateFin: { type: Date },
         dateNaissance: { type: String }
       },
-      dnp: {
+      npai: {
         actif: { type: Boolean, default: false },
         dateDebut: { type: Date }
       }

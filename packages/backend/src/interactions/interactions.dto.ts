@@ -1,4 +1,10 @@
-import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import {
+  IsBoolean,
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional
+} from "class-validator";
 
 export class InteractionDto {
   @IsIn([
@@ -16,6 +22,14 @@ export class InteractionDto {
 
   @IsOptional()
   public content!: string;
+
+  @IsOptional()
+  @IsBoolean()
+  public transfert!: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  public procuration!: boolean;
 
   @IsOptional()
   @IsNumber()

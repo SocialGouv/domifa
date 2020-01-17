@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   interactionsLabels,
@@ -23,7 +23,7 @@ import { CustomDatepickerI18n } from "src/app/services/date-french";
 
 import { regexp } from "src/app/shared/validators";
 import { AyantDroit } from "../../interfaces/ayant-droit";
-import { Interaction } from "../../interfaces/interaction";
+import { Interaction, InteractionTypes } from "../../interfaces/interaction";
 import { Options } from "../../interfaces/options";
 import { Usager } from "../../interfaces/usager";
 import { InteractionService } from "../../services/interaction.service";
@@ -56,9 +56,6 @@ export class UsagersProfilComponent implements OnInit {
 
   public labels: any;
   public liensLabels: any;
-  public modal: any;
-
-  public residence = {};
 
   public typeMenageList: any;
   public residenceList: any;
@@ -68,17 +65,15 @@ export class UsagersProfilComponent implements OnInit {
   public title: string;
 
   public usager: Usager;
+  public usagerForm!: FormGroup;
+  public ayantsDroitsForm!: FormGroup;
+  public transfertForm!: FormGroup;
+  public procurationForm!: FormGroup;
 
-  public usagerForm: FormGroup;
-  public ayantsDroitsForm: FormGroup;
-  public transfertForm: FormGroup;
-  public procurationForm: FormGroup;
+  public notifInputs: { [key: string]: any };
 
-  public notifInputs: {} = {
-    colisIn: 0,
-    courrierIn: 0,
-    recommandeIn: 0
-  };
+  @ViewChild("distributionConfirm", { static: true })
+  public distributionConfirm!: TemplateRef<any>;
 
   constructor(
     private documentService: DocumentService,
@@ -92,22 +87,28 @@ export class UsagersProfilComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private usagerService: UsagerService
-  ) {}
-
-  public ngOnInit() {
-    this.title = "Fiche d'un domicilié";
-
-    this.labels = usagersLabels;
-    this.liensLabels = Object.keys(this.labels.lienParente);
-
-    this.interactions = [];
-
-    this.editInfos = false;
+  ) {
     this.editAyantsDroits = false;
     this.editEntretien = false;
-    this.editTransfertForm = false;
+    this.editInfos = false;
     this.editProcurationForm = false;
+    this.editTransfertForm = false;
 
+    this.interactions = [];
+    this.labels = usagersLabels;
+
+    this.liensLabels = Object.keys(this.labels.lienParente);
+    this.title = "Fiche d'un domicilié";
+    this.usager = new Usager();
+
+    this.notifInputs = {
+      colisIn: 0,
+      courrierIn: 0,
+      recommandeIn: 0
+    };
+  }
+
+  public ngOnInit() {
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {
@@ -199,15 +200,22 @@ export class UsagersProfilComponent implements OnInit {
       );
     } else {
       const dateTmp = this.nbgDate.formatEn(
-        this.usagerForm.get("dateNaissancePicker").value
+        this.usagerForm.controls.dateNaissancePicker.value
       );
-      const dateTmpN = new Date(dateTmp).toISOString();
-      this.usagerForm.controls.dateNaissance.setValue(dateTmpN);
+
+      if (dateTmp === null) {
+        this.notifService.error("La date de naissance semble incorrecte.");
+        return;
+      }
+
+      this.usagerForm.controls.dateNaissance.setValue(
+        new Date(dateTmp).toISOString()
+      );
 
       this.usagerService.create(this.usagerForm.value).subscribe(
         (usager: Usager) => {
           this.notifService.success("Enregistrement réussi");
-          this.usager = new Usager(usager);
+          this.usager = usager;
           this.editInfos = false;
           this.editAyantsDroits = false;
         },
@@ -252,7 +260,7 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.renouvellement(this.usager.id).subscribe(
       (usager: Usager) => {
         this.usager = usager;
-        this.modal.close();
+        this.modalService.dismissAll();
         this.router.navigate(["usager/" + usager.id + "/edit"]);
         this.notifService.success(
           "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"
@@ -265,7 +273,7 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public open(content: string) {
-    this.modal = this.modalService.open(content);
+    this.modalService.open(content);
   }
 
   public deleteInteraction(idInteraction: string) {
@@ -281,7 +289,7 @@ export class UsagersProfilComponent implements OnInit {
   public deleteUsager() {
     this.usagerService.delete(this.usager.id).subscribe(
       (result: any) => {
-        this.modal.close();
+        this.modalService.dismissAll();
         this.notifService.success("Usager supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
@@ -295,7 +303,7 @@ export class UsagersProfilComponent implements OnInit {
     for (const item of this.interactionsType) {
       if (this.notifInputs[item] !== 0) {
         this.interactionService
-          .setInteraction(this.usager.id, {
+          .setInteraction(this.usager, {
             content: "",
             nbCourrier: this.notifInputs[item],
             type: item
@@ -318,23 +326,42 @@ export class UsagersProfilComponent implements OnInit {
     }
   }
 
-  public setPassage(type: string) {
-    this.interactionService
-      .setInteraction(this.usager.id, {
-        content: "",
-        type
-      })
-      .subscribe(
-        (usager: Usager) => {
-          this.usager = usager;
-          this.notifService.success(this.interactionsNotifs[type]);
-          this.usager.lastInteraction = usager.lastInteraction;
-          this.getInteractions();
-        },
-        error => {
-          this.notifService.error("Impossible d'enregistrer cette interaction");
-        }
-      );
+  public setInteraction(type: InteractionTypes, procuration?: boolean) {
+    const interaction: {
+      content?: string;
+      type?: string;
+      procuration?: boolean;
+      transfert?: boolean;
+    } = {
+      content: "",
+      type
+    };
+
+    if (type === "courrierOut" && this.usager.options.procuration.actif) {
+      if (typeof procuration === "undefined") {
+        this.modalService.open(this.distributionConfirm);
+        // open
+        return;
+      }
+      this.modalService.dismissAll();
+      interaction.procuration = procuration;
+    }
+
+    if (type === "courrierOut" && this.usager.options.transfert.actif) {
+      interaction.transfert = true;
+    }
+
+    this.interactionService.setInteraction(this.usager, interaction).subscribe(
+      (usager: Usager) => {
+        this.usager = usager;
+        this.notifService.success(this.interactionsNotifs[type]);
+        this.usager.lastInteraction = usager.lastInteraction;
+        this.getInteractions();
+      },
+      error => {
+        this.notifService.error("Impossible d'enregistrer cette interaction");
+      }
+    );
   }
 
   public getAttestation() {
@@ -352,9 +379,9 @@ export class UsagersProfilComponent implements OnInit {
   public deleteDocument(i: number): void {
     this.documentService.deleteDocument(this.usager.id, i).subscribe(
       (usager: Usager) => {
-        this.usager.docs = new Usager(usager).docs;
+        this.usager.docs = usager.docs;
       },
-      error => {
+      (error: any) => {
         this.notifService.error("Impossible de supprimer le document");
       }
     );
@@ -385,10 +412,19 @@ export class UsagersProfilComponent implements OnInit {
 
   public editProcuration() {
     const dateTmp = this.nbgDate.formatEn(
-      this.procurationForm.get("dateFinPicker").value
+      this.procurationForm.controls.dateFinPicker.value
     );
-    const dateTmpN = new Date(dateTmp).toISOString();
-    this.procurationForm.controls.dateFin.setValue(dateTmpN);
+
+    if (dateTmp === null) {
+      this.notifService.error(
+        "La date de fin de la procuration semble incorrecte."
+      );
+      return;
+    }
+
+    this.procurationForm.controls.dateFin.setValue(
+      new Date(dateTmp).toISOString()
+    );
 
     this.usagerService
       .editProcuration(this.procurationForm.value, this.usager.id)
@@ -402,6 +438,20 @@ export class UsagersProfilComponent implements OnInit {
           this.notifService.error("Impossible d'ajouter la procuration'");
         }
       );
+  }
+
+  public stopCourrier() {
+    this.usagerService.stopCourrier(this.usager.id).subscribe(
+      (usager: Usager) => {
+        this.editTransfertForm = false;
+        this.transfertForm.reset();
+        this.usager.options = new Options(usager.options);
+        this.notifService.success("Transfert supprimé avec succès");
+      },
+      error => {
+        this.notifService.error("Impossible de supprimer la fiche");
+      }
+    );
   }
 
   public deleteProcuration() {

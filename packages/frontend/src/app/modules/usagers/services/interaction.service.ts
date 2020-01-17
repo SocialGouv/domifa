@@ -21,11 +21,9 @@ export class InteractionService {
     this.loading = true;
   }
 
-  public setInteraction(
-    usagerId: number,
-    interaction?: any
-  ): Observable<Usager> {
-    return this.http.post(`${this.endPoint}${usagerId}`, interaction).pipe(
+  public setInteraction(usager: Usager, interaction?: any): Observable<Usager> {
+    /* Procuration */
+    return this.http.post(`${this.endPoint}${usager.id}`, interaction).pipe(
       map(response => {
         return new Usager(response);
       })
@@ -41,11 +39,6 @@ export class InteractionService {
       })
     );
   }
-
-  public setPassage(usagerId: number, type: string) {
-    return this.http.post(`${this.endPoint}${usagerId}/${type}`, {});
-  }
-
   public delete(usagerId: number, interactionId: string) {
     return this.http.delete(`${this.endPoint}${usagerId}/${interactionId}`);
   }
