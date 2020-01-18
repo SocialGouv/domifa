@@ -1,3 +1,4 @@
+import { global } from "@angular/compiler/src/util";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -12,8 +13,10 @@ import { FaqComponent } from "./faq.component";
 describe("FaqComponent", () => {
   let component: FaqComponent;
   let fixture: ComponentFixture<FaqComponent>;
+  const spyScrollTo = jest.fn();
 
   beforeEach(async(() => {
+    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
       declarations: [FaqComponent],
       imports: [
