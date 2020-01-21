@@ -115,9 +115,9 @@
       *ngIf="!uploadForm.invalid && errorsId.length == 0">
       <div
         class="text-center"
-        *ngIf="data">
+        *ngIf="datas">
         <h4 class="text-primary">Votre fichier est prêt à être importé !</h4>
-        <b>{{ data.length - 1 }} domiciliés</b>
+        <b>{{ datas.length }} domiciliés</b>
         seront importés sur Domifa
       </div>
       <br>
@@ -255,7 +255,7 @@
           </ng-container>
         </thead>
         <tbody *ngIf="showTable">
-          <tr *ngFor="let row of data | slice:1; let index = index;">
+          <tr *ngFor="let row of datas ; let index = index;">
             <td>
               <b>{{ index + 1 }}</b>
             </td>

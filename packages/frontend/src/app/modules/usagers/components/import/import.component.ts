@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoadingService } from "src/app/modules/loading/loading.service";
@@ -73,11 +73,11 @@ type AOA = any[][];
   templateUrl: "./import.component.html"
 })
 export class ImportComponent implements OnInit {
-  public data: AOA = [[], []];
+  public datas: AOA = [[], []];
 
   public title: string;
 
-  public uploadForm: FormGroup;
+  public uploadForm!: FormGroup;
   public fileName: string;
   public errorsList: any;
 
@@ -91,7 +91,7 @@ export class ImportComponent implements OnInit {
   public errorsId: any[];
   public errorsColumn = new Array(32);
 
-  public errorsRow: any[][];
+  public errorsRow: any[];
 
   public rowNumber: number;
   public colNames: string[];
@@ -103,7 +103,7 @@ export class ImportComponent implements OnInit {
   ];
 
   @ViewChild("form", { static: true })
-  public form;
+  public form!: ElementRef<any>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -164,7 +164,7 @@ export class ImportComponent implements OnInit {
     }
 
     this.showTable = true;
-    this.data = [[], []];
+    this.datas = [[], []];
     this.etapeImport = 1;
     this.uploadForm.controls.fileInput.setValue(file);
 
@@ -180,14 +180,15 @@ export class ImportComponent implements OnInit {
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      const datas = XLSX.utils.sheet_to_json(ws, {
+      this.datas = XLSX.utils.sheet_to_json(ws, {
         blankrows: false,
         dateNF: "dd/mm/yyyy",
         header: 1,
         raw: false
       }) as AOA;
 
-      datas.slice(1).forEach((row, index: any) => {
+      this.datas = this.datas.slice(1);
+      this.datas.forEach((row, index: any) => {
         this.rowNumber = index;
         const sexeCheck = row[0] === "H" || row[0] === "F";
 
@@ -216,6 +217,7 @@ export class ImportComponent implements OnInit {
           index,
           TYPE_DOM
         );
+
         this.countErrors(
           this.validDate(row[DATE_DEBUT_DOM], true),
           index,
@@ -302,8 +304,6 @@ export class ImportComponent implements OnInit {
           }
         }
       });
-
-      this.data = datas;
     };
     reader.readAsBinaryString(target.files[0]);
   }
@@ -332,19 +332,26 @@ export class ImportComponent implements OnInit {
     return this.errorsId.indexOf(position) > -1;
   }
 
-  public countErrors(variable: boolean, idRow: any, idColumn: number) {
-    if (this.errorsColumn[idColumn] === undefined) {
-      this.errorsColumn[idColumn] = 1;
+  public countErrors(variable: boolean, idRow: number, idColumn: number) {
+    if (
+      this.datas[idRow][STATUT_DOM] === "REFUS" &&
+      (idColumn === DATE_DEBUT_DOM ||
+        idColumn === DATE_FIN_DOM ||
+        idColumn === DATE_PREMIERE_DOM)
+    ) {
+      variable = true;
+      return true;
     }
-    this.errorsColumn[idColumn]++;
 
+    this.errorsColumn[idColumn] === undefined
+      ? (this.errorsColumn[idColumn] = 1)
+      : this.errorsColumn[idColumn]++;
     const position = idRow.toString() + "_" + idColumn.toString();
 
     if (variable !== true) {
       if (this.errorsRow[idRow] === undefined) {
         this.errorsRow[idRow] = [];
       }
-
       this.errorsRow[idRow].push(idColumn);
       this.errorsId.push(position);
     }
@@ -359,6 +366,7 @@ export class ImportComponent implements OnInit {
     if ((date === undefined || date === null || date === "") && !required) {
       return true;
     }
+
     return RegExp(regexp.date).test(date);
   }
 
