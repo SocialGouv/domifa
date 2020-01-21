@@ -31,7 +31,7 @@ export class InteractionsController {
   @UseGuards(RolesGuard)
   @Get("stats-domifa/all")
   public async statsDomifa(@CurrentUser() user: User) {
-    return this.interactionService.stats();
+    return this.interactionService.statsAll();
   }
 
   @UseGuards(AccessGuard)

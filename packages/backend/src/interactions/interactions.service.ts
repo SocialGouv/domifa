@@ -152,4 +152,25 @@ export class InteractionsService {
       ])
       .exec();
   }
+
+  public async statsAll() {
+    return this.interactionModel
+      .aggregate([
+        { $match: {} },
+        {
+          $group: {
+            _id: { statut: "$type" },
+            statuts: { $push: "$type" },
+            total: { $sum: 1 }
+          }
+        },
+        {
+          $group: {
+            _id: { statut: "$_id.statut" },
+            sum: { $addToSet: "$total" }
+          }
+        }
+      ])
+      .exec();
+  }
 }

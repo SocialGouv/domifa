@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit {
     this.stats = [];
     this.allStats = [];
     this.interactions = [];
+    this.allInteractions = [];
   }
 
   public ngOnInit() {
@@ -54,9 +55,16 @@ export class DashboardComponent implements OnInit {
     this.statsService.getAllUsers().subscribe((stats: number) => {
       this.users = stats;
     });
+
     this.statsService.getAllStatuts().subscribe((stats: any[]) => {
       stats.forEach(stat => {
         this.allStats[stat._id.statut] = stat.sum[0];
+      });
+    });
+
+    this.statsService.getAllInteractions().subscribe((stats: any[]) => {
+      stats.forEach(stat => {
+        this.allInteractions[stat._id.statut] = stat.sum[0];
       });
     });
 
