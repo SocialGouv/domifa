@@ -32,6 +32,8 @@ export class RaftComponent implements OnInit {
   ) {
     this.title = "Radier un domicilié";
     this.today = new Date();
+    this.usager = new Usager();
+    this.user = new User();
   }
 
   public ngOnInit() {
@@ -62,11 +64,8 @@ export class RaftComponent implements OnInit {
   public setDecision(statut: string) {
     this.usagerService
       .setDecision(this.usager.id, this.usager.decision, statut)
-      .subscribe(
-        (usager: Usager) => {
-          this.usager = usager;
-        },
-        error => {}
-      );
+      .subscribe((usager: Usager) => {
+        this.usager = usager;
+      });
   }
 }

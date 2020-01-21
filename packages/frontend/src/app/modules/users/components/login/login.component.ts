@@ -13,8 +13,8 @@ import { UsersService } from "../../services/users.service";
   templateUrl: "./login.component.html"
 })
 export class LoginComponent implements OnInit {
-  public loginForm: FormGroup;
-  public userForm: FormGroup;
+  public loginForm!: FormGroup;
+  public userForm!: FormGroup;
 
   public returnUrl: string;
   public title: string;
@@ -32,16 +32,19 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private userService: UsersService,
     private authService: AuthService
-  ) {}
-
-  public ngOnInit() {
+  ) {
     this.title = "Connexion à DomiFa";
-    this.errorMessage = null;
+    this.errorMessage = "";
+    this.successMessage = "";
     this.hidePassword = true;
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
     this.success = false;
+    this.submitted = false;
     this.error = false;
     this.errorLabels = ERROR_LABELS;
+  }
+
+  public ngOnInit() {
     this.initForm();
   }
 

@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -17,23 +18,23 @@ export class StatsService {
     this.loading = true;
   }
 
-  public getAllStatuts() {
+  public getAllStatuts(): Observable<any> {
     return this.http.get(`${this.epUsagers}stats-domifa/all`);
   }
 
-  public getAllUsers() {
+  public getAllUsers(): Observable<any> {
     return this.http.get(`${this.epUsers}stats-domifa/all`);
   }
 
-  public getStructuresStats() {
+  public getStructuresStats(): Observable<any> {
     return this.http.get(`${this.epUsagers}stats-domifa/structures`);
   }
 
-  public getAllInteractions() {
+  public getAllInteractions(): Observable<any> {
     return this.http.get(`${this.epInteractions}stats-domifa/all`);
   }
 
-  public getStructuresInteractions() {
+  public getStructuresInteractions(): Observable<any> {
     return this.http.get(`${this.epInteractions}stats-domifa/structures`);
   }
 }

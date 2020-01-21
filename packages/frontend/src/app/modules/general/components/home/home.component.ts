@@ -5,10 +5,10 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./home.component.css"],
   templateUrl: "./home.component.html"
 })
-export class HomeComponent implements OnInit {
-  public title = null;
+export class HomeComponent {
+  public title: string;
 
-  public ngOnInit() {
+  constructor() {
     this.title = "Domifa : faciliter la vie des CCAS";
   }
 }

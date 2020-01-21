@@ -12,27 +12,26 @@ import { Structure } from "../../structure.interface";
 })
 export class StructuresSearchComponent implements OnInit {
   public structures: Structure[];
-  public searching: boolean;
   public searchFailed: boolean;
 
   public codePostal: string;
-  public codePostalForm: FormGroup;
+  public codePostalForm!: FormGroup;
 
   constructor(
     private structureService: StructureService,
     private formBuilder: FormBuilder,
     private notifService: ToastrService
-  ) {}
+  ) {
+    this.searchFailed = false;
+    this.structures = [];
+    this.codePostal = "";
+  }
 
   get f() {
     return this.codePostalForm.controls;
   }
 
   public ngOnInit() {
-    this.searchFailed = false;
-
-    this.structures = [];
-
     this.codePostalForm = this.formBuilder.group({
       codePostal: [
         this.codePostal,

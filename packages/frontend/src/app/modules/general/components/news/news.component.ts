@@ -11,7 +11,7 @@ export class NewsComponent implements OnInit {
   public title: string;
   public domifaNews: any;
   public newsLabels: any;
-  public newsCenter: TemplateRef<any>;
+  public newsCenter!: TemplateRef<any>;
   private newsJson = "assets/files/news.json";
 
   constructor(private http: HttpClient) {

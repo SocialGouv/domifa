@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit {
     this.labels = labels;
     this.title = "Statistiques";
     this.users = 0;
+    this.structures = [];
     this.stats = [];
     this.allStats = [];
     this.interactions = [];

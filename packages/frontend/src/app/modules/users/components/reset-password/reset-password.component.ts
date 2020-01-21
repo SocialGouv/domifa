@@ -23,8 +23,8 @@ export class ResetPasswordComponent implements OnInit {
   }
   public title: string;
 
-  public emailForm: FormGroup;
-  public resetForm: FormGroup;
+  public emailForm!: FormGroup;
+  public resetForm!: FormGroup;
 
   public submitted: boolean;
   public success: boolean;

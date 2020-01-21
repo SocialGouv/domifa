@@ -30,10 +30,8 @@ export class DecisionComponent implements OnInit {
   public labels: any;
   public modal: any;
 
-  public refusForm: FormGroup;
-  public valideForm: FormGroup;
-
-  public motifsRefusList = [];
+  public refusForm!: FormGroup;
+  public valideForm!: FormGroup;
 
   public formDatas: any;
 
@@ -53,8 +51,8 @@ export class DecisionComponent implements OnInit {
     year: this.dToday.getFullYear() + 1
   };
 
-  @Input() public usager: Usager;
-  @Input() public isAdmin: boolean;
+  @Input() public usager!: Usager;
+  @Input() public isAdmin!: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,7 +63,9 @@ export class DecisionComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     private nbgDate: NgbDateCustomParserFormatter
-  ) {}
+  ) {
+    this.labels = labels;
+  }
 
   get r(): any {
     return this.refusForm.controls;
@@ -76,8 +76,17 @@ export class DecisionComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.labels = labels;
-    this.motifsRefusList = Object.keys(this.labels.motifsRefus);
+    this.usager.decision.dateDebut = new Date();
+    this.usager.decision.dateFin = new Date(
+      new Date().setFullYear(new Date().getFullYear() + 1)
+    );
+
+    this.valideForm = this.formBuilder.group({
+      dateDebut: [this.usager.decision.dateDebut, [Validators.required]],
+      dateDebutPicker: [this.dateDebutPicker, [Validators.required]],
+      dateFin: [this.usager.decision.dateFin, [Validators.required]],
+      dateFinPicker: [this.dateFinPicker, [Validators.required]]
+    });
 
     this.refusForm = this.formBuilder.group({
       dateFin: [this.usager.decision.dateFin, [Validators.required]],
@@ -90,18 +99,6 @@ export class DecisionComponent implements OnInit {
         [Validators.required]
       ]
     });
-
-    this.usager.decision.dateDebut = new Date();
-    this.usager.decision.dateFin = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    );
-
-    this.valideForm = this.formBuilder.group({
-      dateDebut: [this.usager.decision.dateDebut, [Validators.required]],
-      dateDebutPicker: [this.dateDebutPicker, [Validators.required]],
-      dateFin: [this.usager.decision.dateFin, [Validators.required]],
-      dateFinPicker: [this.dateFinPicker, [Validators.required]]
-    });
   }
 
   public setDecision(statut: string) {
@@ -111,7 +108,7 @@ export class DecisionComponent implements OnInit {
       }
       this.refusForm.controls.dateFin.setValue(
         new Date(
-          this.nbgDate.formatEn(this.refusForm.get("dateFinPicker").value)
+          this.nbgDate.formatEn(this.refusForm.controls.dateFinPicker.value)
         ).toISOString()
       );
       this.formDatas = this.refusForm.value;

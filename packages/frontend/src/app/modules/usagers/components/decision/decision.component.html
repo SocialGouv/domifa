@@ -406,18 +406,18 @@
           </b>
           <div
             class="form-row"
-            *ngFor="let key of motifsRefusList">
+            *ngFor="let motif of labels.motifsRefus | keyvalue">
             <div class="form-check">
               <input
                 class="form-check-input"
                 type="radio"
-                id="motif-refus-{{ key }}"
+                id="motif-refus-{{ motif.key }}"
                 formControlName="motif"
-                value="{{ key }}">
+                value="{{ motif.key }}">
               <label
                 class="form-check-label"
-                for="motif-refus-{{ key }}">
-                {{ labels.motifsRefus[key] }}
+                for="motif-refus-{{ motif.key }}">
+                {{ motif.value }}
               </label>
             </div>
           </div>

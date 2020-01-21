@@ -5,9 +5,9 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./mentions-legales.component.css"],
   templateUrl: "./mentions-legales.component.html"
 })
-export class MentionsLegalesComponent implements OnInit {
+export class MentionsLegalesComponent {
   public title: string;
-  public ngOnInit() {
+  public constructor() {
     this.title = "Mentions-légales de Domifa";
   }
 }

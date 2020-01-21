@@ -28,9 +28,7 @@ export class AuthService {
     this.isLogged = false;
     this.isAdmin = false;
 
-    this.currentUserSubject = new BehaviorSubject<User>(
-      JSON.parse(localStorage.getItem("currentUser"))
-    );
+    this.currentUserSubject = new BehaviorSubject<User>(this.getStoredUser());
 
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -76,8 +74,13 @@ export class AuthService {
 
   public logout() {
     localStorage.removeItem("currentUser");
-    this.currentUserSubject.next(null);
+    this.currentUserSubject.next(new User());
     this.isLogged = false;
     this.isAdmin = false;
+  }
+
+  private getStoredUser() {
+    const user = localStorage.getItem("currentUser");
+    return user === null ? {} : JSON.parse(user);
   }
 }
