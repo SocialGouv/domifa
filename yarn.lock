@@ -2041,10 +2041,10 @@
   dependencies:
     uuid "3.3.3"
 
-"@ng-bootstrap/ng-bootstrap@^5.1.4":
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-5.1.5.tgz#862f82c0c51c02076538fd266141f45e4209e608"
-  integrity sha512-DpeKD2LOv2LFSzYOOiWd6qv52i7KS2VY9SQs4533OPspJKq7mKo6zZ3jgAV+tPP+Bit1+pF3hkVpfh+rFMCejA==
+"@ng-bootstrap/ng-bootstrap@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-5.2.0.tgz#5ab2173ae04ecc5419686b5d5d853ba8f8ab2e60"
+  integrity sha512-qrZRzYRVbZ0p1L2dBO/hfzT96h29h9R/VLt2/RNW/tO1EdWV6nAexU0aDqBpgZHDRNi/UKHSGnThzj5Bl7i8sw==
   dependencies:
     tslib "^1.9.0"
 
@@ -9408,10 +9408,10 @@ ngx-print@^1.2.0-beta.3:
   dependencies:
     tslib "^1.9.3"
 
-ngx-toastr@^11.3.0:
-  version "11.3.0"
-  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-11.3.0.tgz#364574b31ecf7b5b76815fb74756b24e953e2aa1"
-  integrity sha512-GsrDO75N8DjNefUaI6qUqFfT6z/vdsQjcQqqiYMcXpr0GeaPF6eAlnNKLtLHTltjZ1MFRgjufoPDPLy0JiGB0w==
+ngx-toastr@^11.3.2:
+  version "11.3.2"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-11.3.2.tgz#0e18aefee90fc273c55f912254077fcadf92740f"
+  integrity sha512-2gWZEjK2gnwoWkR8+R2AD9IaSbRGPwQcRSmepieRwsRIYBPSEYBE3X3xiSKLD0K0XG6zgGgg4Y9GTda8ijeObQ==
   dependencies:
     tslib "^1.9.0"
 
