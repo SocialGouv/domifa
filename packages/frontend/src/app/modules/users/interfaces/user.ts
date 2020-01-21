@@ -17,6 +17,7 @@ export class User {
   constructor(user?: any) {
     this.prenom = (user && user.prenom) || null;
     this.nom = (user && user.nom) || null;
+    this.password = "";
     this.email = (user && user.email) || null;
     this.fonction = (user && user.fonction) || null;
     this.role = (user && user.role) || null;

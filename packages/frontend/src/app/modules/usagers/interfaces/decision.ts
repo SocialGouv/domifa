@@ -25,6 +25,11 @@ export class Decision {
     this.statut = (decision && decision.statut) || "INSTRUCTION";
 
     this.motif = "";
+    this.userName = (decision && decision.userName) || "";
+    this.userId = (decision && decision.userId) || "";
+    this.motifDetails = (decision && decision.motifDetails) || "";
+    this.orientation = (decision && decision.orientation) || "";
+    this.orientationDetails = (decision && decision.orientationDetails) || "";
 
     if (this.statut === "REFUS" || this.statut === "RADIE") {
       this.motif =
@@ -36,11 +41,5 @@ export class Decision {
         this.motif = this.motifDetails;
       }
     }
-
-    this.userName = (decision && decision.userName) || "";
-    this.userId = (decision && decision.userId) || "";
-    this.motifDetails = (decision && decision.motifDetails) || "";
-    this.orientation = (decision && decision.orientation) || "";
-    this.orientationDetails = (decision && decision.orientationDetails) || "";
   }
 }

@@ -19,7 +19,7 @@ export class UploadComponent implements OnInit {
   public uploadResponse: any;
 
   public submittedFile = false;
-  public uploadForm: FormGroup;
+  public uploadForm!: FormGroup;
 
   public uploadError: {
     fileSize: boolean;
@@ -28,7 +28,7 @@ export class UploadComponent implements OnInit {
 
   public httpError: any;
 
-  @Input() public usager: Usager;
+  @Input() public usager!: Usager;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,7 +37,14 @@ export class UploadComponent implements OnInit {
     private documentService: DocumentService,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.uploadResponse = { status: "", message: "", filePath: "" };
+
+    this.uploadError = {
+      fileSize: true,
+      fileType: true
+    };
+  }
 
   public ngOnInit() {
     this.uploadResponse = { status: "", message: "", filePath: "" };
@@ -92,8 +99,8 @@ export class UploadComponent implements OnInit {
     };
 
     const formData = new FormData();
-    formData.append("file", this.uploadForm.get("imageInput").value);
-    formData.append("label", this.uploadForm.get("label").value);
+    formData.append("file", this.uploadForm.controls.imageInput.value);
+    formData.append("label", this.uploadForm.controls.label.value);
 
     this.documentService.upload(formData, this.usager.id).subscribe(
       res => {

@@ -24,12 +24,12 @@ export class EntretienComponent implements OnInit {
   public causeList: any;
   public raisonList: any;
 
-  public entretienForm: FormGroup;
+  public entretienForm!: FormGroup;
 
-  @Input() public usager: Usager;
+  @Input() public usager!: Usager;
   @Output() public usagerChange = new EventEmitter<Usager>();
 
-  @Input() public editEntretien: boolean;
+  @Input() public editEntretien!: boolean;
   @Output() public editEntretienChange = new EventEmitter<boolean>();
 
   @Output()

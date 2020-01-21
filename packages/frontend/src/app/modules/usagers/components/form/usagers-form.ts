@@ -80,9 +80,9 @@ export class UsagersFormComponent implements OnInit {
   public documents: Doc[];
 
   public usager: Usager;
-  public registerForm: FormGroup;
-  public usagerForm: FormGroup;
-  public rdvForm: FormGroup;
+  public registerForm!: FormGroup;
+  public usagerForm!: FormGroup;
+  public rdvForm!: FormGroup;
 
   public submitted = false;
   public submittedFile = false;
@@ -122,6 +122,7 @@ export class UsagersFormComponent implements OnInit {
     this.doublons = [];
     this.documents = [];
     this.liensLabels = Object.keys(this.labels.lienParente);
+    this.usager = new Usager({});
   }
 
   public ngOnInit() {
@@ -146,7 +147,6 @@ export class UsagersFormComponent implements OnInit {
         }
       );
     } else {
-      this.usager = new Usager({});
       this.initForm();
     }
   }
@@ -201,17 +201,17 @@ export class UsagersFormComponent implements OnInit {
 
   public isDoublon() {
     if (
-      this.usagerForm.get("nom").value !== "" &&
-      this.usagerForm.get("prenom").value !== "" &&
-      this.usagerForm.get("nom").value !== null &&
-      this.usagerForm.get("nom").value &&
-      this.usagerForm.get("prenom").value !== null &&
-      this.usagerForm.get("prenom").value
+      this.usagerForm.controls.nom.value !== "" &&
+      this.usagerForm.controls.prenom.value !== "" &&
+      this.usagerForm.controls.nom.value !== null &&
+      this.usagerForm.controls.nom.value &&
+      this.usagerForm.controls.prenom.value !== null &&
+      this.usagerForm.controls.prenom.value
     ) {
       this.usagerService
         .isDoublon(
-          this.usagerForm.get("nom").value,
-          this.usagerForm.get("prenom").value
+          this.usagerForm.controls.nom.value,
+          this.usagerForm.controls.prenom.value
         )
         .subscribe((usagersDoublon: Usager[]) => {
           this.doublons = [];
@@ -285,7 +285,7 @@ export class UsagersFormComponent implements OnInit {
       );
     } else {
       const dateTmp = this.nbgDate.formatEn(
-        this.usagerForm.get("dateNaissancePicker").value
+        this.usagerForm.controls.dateNaissancePicker.value
       );
 
       const dateTmpN = new Date(dateTmp).toISOString();
@@ -316,7 +316,7 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public submitRdv() {
-    if (this.rdvForm.get("isNow").value === "oui") {
+    if (this.rdvForm.controls.isNow.value.value === "oui") {
       this.rdvForm.controls.userId.setValue(
         this.authService.currentUserValue.id
       );
@@ -325,9 +325,9 @@ export class UsagersFormComponent implements OnInit {
       if (this.rdvForm.invalid) {
         this.notifService.error("Veuillez vérifier les champs du formulaire");
       } else {
-        const heureRdv = this.rdvForm.get("heureRdv").value;
+        const heureRdv = this.rdvForm.controls.heureRdv.value.value;
         const jourRdv = this.nbgDate.formatEn(
-          this.rdvForm.get("jourRdv").value
+          this.rdvForm.controls.jourRdv.value.value
         );
         const dateTmp = new Date(jourRdv);
         dateTmp.setHours(heureRdv.hour, heureRdv.minute, 0);

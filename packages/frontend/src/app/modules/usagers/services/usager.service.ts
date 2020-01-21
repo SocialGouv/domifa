@@ -133,7 +133,15 @@ export class UsagerService {
   }
 
   public isDoublon(nom: string, prenom: string) {
-    return this.http.get(`${this.endPointUsagers}/doublon/${nom}/${prenom}`);
+    return this.http
+      .get(`${this.endPointUsagers}/doublon/${nom}/${prenom}`)
+      .pipe(
+        map(response => {
+          return Array.isArray(response)
+            ? response.map(item => new Usager(item))
+            : [new Usager(response)];
+        })
+      );
   }
 
   public delete(usagerId: number) {
