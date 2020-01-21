@@ -1,7 +1,7 @@
-import { IsEmpty, IsNotEmpty, MinLength } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 
 export class ProcurationDto {
-  @IsEmpty()
+  @IsOptional()
   public actif!: boolean;
 
   @IsNotEmpty()

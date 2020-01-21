@@ -285,7 +285,7 @@ export class UsagersController {
   ) {
     usager.options.procuration = {
       actif: true,
-      dateFin: new Date(),
+      dateFin: procurationDto.dateFin,
       dateNaissance: procurationDto.dateNaissance,
       nom: procurationDto.nom,
       prenom: procurationDto.prenom
