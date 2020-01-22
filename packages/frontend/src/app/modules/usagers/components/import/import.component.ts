@@ -290,7 +290,7 @@ export class ImportComponent implements OnInit {
     this.loadingService.startLoading();
 
     const formData = new FormData();
-    formData.append("file", this.uploadForm.get("fileInput").value);
+    formData.append("file", this.uploadForm.controls.fileInput.value);
 
     this.usagerService.import(formData).subscribe(
       res => {
@@ -368,7 +368,9 @@ export class ImportComponent implements OnInit {
       return true;
     }
 
-    const types = {
+    const types: {
+      [key: string]: any;
+    } = {
       demande: ["PREMIERE", "RENOUVELLEMENT"],
       lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
       menage: [

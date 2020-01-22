@@ -68,9 +68,7 @@ import { AuthService } from "./services/auth.service";
       deps: [Router, AuthService],
       multi: true,
       provide: HTTP_INTERCEPTORS,
-      useFactory(router: Router, authService: AuthService) {
-        return new ServerErrorInterceptor(router, authService);
-      }
+      useClass: ServerErrorInterceptor
     }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]

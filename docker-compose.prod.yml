@@ -1,7 +1,7 @@
 version: "3"
 services:
   frontend:
-    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:b1e9526a5e4ab2a681c28bdc5bfddf9b78aff721
+    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:master
     restart: always
     ports:
       - 80:80

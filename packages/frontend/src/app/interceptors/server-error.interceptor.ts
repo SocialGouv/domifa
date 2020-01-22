@@ -31,11 +31,11 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           errorMessage = `Error: ${error.error.message}`;
         } else {
           if (error.status === 401) {
-            this.router.navigate(["login"]);
             this.authService.logout();
+            this.router.navigate(["connexion"]);
           }
           if (error.status === 501) {
-            this.router.navigate(["login"]);
+            this.router.navigate(["connexion"]);
           }
           return throwError(error);
         }

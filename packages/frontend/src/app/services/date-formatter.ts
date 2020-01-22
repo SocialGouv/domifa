@@ -47,10 +47,7 @@ export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
     }/${date.year}`;
   }
 
-  public formatEn(date: NgbDateStruct): string | null {
-    if (date === null) {
-      return null;
-    }
+  public formatEn(date: NgbDateStruct): string {
     return `${date.year}-${isNumber(date.month) ? padNumber(date.month) : ""}-${
       isNumber(date.day) ? padNumber(date.day) : ""
     }`;
