@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     private userService: UsersService,
     private authService: AuthService
   ) {
-    console.log("OIAJOISJAOIJS");
     this.title = "Connexion à DomiFa";
     this.errorMessage = "";
     this.successMessage = "";
