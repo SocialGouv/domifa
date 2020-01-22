@@ -23,6 +23,7 @@ import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
 import * as labels from "../../usagers.labels";
 
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Decision } from "../../interfaces/decision";
 
@@ -79,7 +80,7 @@ export class UsagersFormComponent implements OnInit {
 
   public documents: Doc[];
 
-  public usager: Usager;
+  public usager!: Usager;
   public registerForm!: FormGroup;
   public usagerForm!: FormGroup;
   public rdvForm!: FormGroup;
@@ -122,7 +123,6 @@ export class UsagersFormComponent implements OnInit {
     this.doublons = [];
     this.documents = [];
     this.liensLabels = Object.keys(this.labels.lienParente);
-    this.usager = new Usager({});
   }
 
   public ngOnInit() {
@@ -147,6 +147,7 @@ export class UsagersFormComponent implements OnInit {
         }
       );
     } else {
+      this.usager = new Usager({});
       this.initForm();
     }
   }
@@ -316,7 +317,7 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public submitRdv() {
-    if (this.rdvForm.controls.isNow.value.value === "oui") {
+    if (this.rdvForm.controls.isNow.value === "oui") {
       this.rdvForm.controls.userId.setValue(
         this.authService.currentUserValue.id
       );
@@ -325,9 +326,9 @@ export class UsagersFormComponent implements OnInit {
       if (this.rdvForm.invalid) {
         this.notifService.error("Veuillez vérifier les champs du formulaire");
       } else {
-        const heureRdv = this.rdvForm.controls.heureRdv.value.value;
+        const heureRdv = this.rdvForm.controls.heureRdv.value;
         const jourRdv = this.nbgDate.formatEn(
-          this.rdvForm.controls.jourRdv.value.value
+          this.rdvForm.controls.jourRdv.value
         );
         const dateTmp = new Date(jourRdv);
         dateTmp.setHours(heureRdv.hour, heureRdv.minute, 0);

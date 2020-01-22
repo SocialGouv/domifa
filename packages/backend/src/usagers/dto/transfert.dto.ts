@@ -1,7 +1,14 @@
-import { IsEmpty, IsNotEmpty, MinLength } from "class-validator";
+import {
+  IsEmpty,
+  IsNotEmpty,
+  MinLength,
+  IsBoolean,
+  IsOptional
+} from "class-validator";
 
 export class TransfertDto {
-  @IsEmpty()
+  @IsOptional()
+  @IsBoolean()
   public actif: boolean = false;
 
   @IsNotEmpty()

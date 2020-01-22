@@ -24,11 +24,11 @@
         formControlName="email"
         autocomplete="username"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }">
       <div
-        *ngIf="submitted && f.email.errors"
+        *ngIf="f.email.dirty && f.email.errors"
         class="invalid-feedback">
-        <div *ngIf="f.email.errors.required">L'email est obligatoire</div>
+        Veuillez vérifier l'adresse email
       </div>
     </div>
     <div class="col form-group required passwordInput">
@@ -39,7 +39,7 @@
         [type]="!hidePassword ? 'text' : 'password'"
         class="form-control"
         autocomplete="current-password"
-        [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }">
       <span
         class="eye"
         *ngIf="hidePassword"

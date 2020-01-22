@@ -76,6 +76,7 @@ export class AuthService {
   public logout() {
     this.currentUserSubject = new BehaviorSubject(null);
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("filters");
     this.isLogged = false;
     this.isAdmin = false;
   }
