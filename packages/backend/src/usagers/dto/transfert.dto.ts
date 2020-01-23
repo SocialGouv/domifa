@@ -1,9 +1,9 @@
 import {
+  IsBoolean,
   IsEmpty,
   IsNotEmpty,
-  MinLength,
-  IsBoolean,
-  IsOptional
+  IsOptional,
+  MinLength
 } from "class-validator";
 
 export class TransfertDto {

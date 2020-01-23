@@ -54,6 +54,7 @@ type AOA = any[][];
 export class ImportController {
   public errorsId: string[];
   public rowNumber: number;
+  public datas: AOA = [[], []];
   private readonly logger = new Logger(ImportController.name);
 
   constructor(
@@ -63,6 +64,7 @@ export class ImportController {
   ) {
     this.errorsId = [];
     this.rowNumber = 0;
+    this.datas = [[], []];
   }
 
   @Post()
@@ -115,16 +117,18 @@ export class ImportController {
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      const datas = XLSX.utils.sheet_to_json(ws, {
+      this.datas = XLSX.utils.sheet_to_json(ws, {
         blankrows: false,
         dateNF: "dd/mm/yyyy",
         header: 1,
         raw: false
       }) as AOA;
 
-      for (let index = 1, len = datas.length; index < len; index++) {
+      this.datas = this.datas.slice(1);
+
+      for (let index = 1, len = this.datas.length; index < len; index++) {
         this.rowNumber = index;
-        const row = datas[index];
+        const row = this.datas[index];
         const sexeCheck = row[CIVILITE] === "H" || row[CIVILITE] === "F";
 
         this.countErrors(sexeCheck, index, CIVILITE);
@@ -211,7 +215,7 @@ export class ImportController {
           }
         }
 
-        if (index + 1 >= datas.length) {
+        if (index + 1 >= this.datas.length) {
           if (this.errorsId.length > 0) {
             const error = {
               errors: this.errorsId,
@@ -229,7 +233,7 @@ export class ImportController {
             );
           }
 
-          if (await this.saveDatas(datas, user)) {
+          if (await this.saveDatas(this.datas, user)) {
             this.structureService.importSuccess(user.structureId);
             return res.status(HttpStatus.OK).json({ success: true });
           } else {
@@ -276,7 +280,7 @@ export class ImportController {
           userId: user.id,
           userName: agent
         });
-      } else if (!this.notEmpty(row[DATE_DEBUT_DOM])) {
+      } else if (this.notEmpty(row[DATE_DEBUT_DOM])) {
         datePremiereDom = this.convertDate(row[DATE_DEBUT_DOM]);
       }
 
@@ -317,6 +321,13 @@ export class ImportController {
 
       const phone = !row[PHONE] ? null : row[PHONE].replace(/\D/g, "");
 
+      const dateDebut = this.notEmpty(row[DATE_FIN_DOM])
+        ? this.convertDate(row[DATE_DEBUT_DOM])
+        : null;
+      const dateFin = this.notEmpty(row[DATE_FIN_DOM])
+        ? this.convertDate(row[DATE_FIN_DOM])
+        : null;
+
       const usager = {
         ayantsDroits,
         customId: row[CUSTOM_ID],
@@ -324,9 +335,9 @@ export class ImportController {
         datePremiereDom,
         decision: {
           agent,
-          dateDebut: this.convertDate(row[DATE_DEBUT_DOM]),
+          dateDebut,
           dateDecision,
-          dateFin: this.convertDate(row[DATE_FIN_DOM]),
+          dateFin,
           motif,
           statut: row[STATUT_DOM],
           userId: user.id,
@@ -365,6 +376,16 @@ export class ImportController {
 
   private countErrors(variable: boolean, idRow: any, idColumn: number) {
     const position = idRow.toString() + "_" + idColumn.toString();
+    if (
+      this.datas[idRow][STATUT_DOM] === "REFUS" &&
+      (idColumn === DATE_DEBUT_DOM ||
+        idColumn === DATE_FIN_DOM ||
+        idColumn === DATE_PREMIERE_DOM)
+    ) {
+      variable = true;
+      return true;
+    }
+
     if (variable !== true) {
       this.logger.log(
         "ID row : " + idRow + " -- " + variable + " Col " + idColumn
