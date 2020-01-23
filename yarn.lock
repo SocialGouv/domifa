@@ -2689,10 +2689,10 @@
   dependencies:
     "@types/mongoose" "*"
 
-"@types/mongoose@*", "@types/mongoose@^5.5.42":
-  version "5.5.42"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.5.42.tgz#7c31da71af7deca0f2a82ad10d6acc20008c21c2"
-  integrity sha512-xEQZ9Rika0qALAwj+9SJrWB8el4x/3XgMDM6vb14POQoxVpaZRL8zrDYqMZaf9Jubpr8YCHZ0JHwZZ6cGN4ipA==
+"@types/mongoose@*", "@types/mongoose@^5.5.43":
+  version "5.5.43"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.5.43.tgz#7a96a3bc3ca2cbb9dd56c1b0072f24bbc1ac70bf"
+  integrity sha512-ZZ/KnIyl81zrTfjwcbLBgb8bR9dnYJDQfcaEpOAz2B7cv1bm8FyOPonKcnAmbDHCTWkAFjsF/J3JhnLtUdWZSg==
   dependencies:
     "@types/mongodb" "*"
     "@types/node" "*"
