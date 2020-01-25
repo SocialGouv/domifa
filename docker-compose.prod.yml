@@ -19,7 +19,7 @@ services:
       - /mnt/files/:/files/
 
   mongo:
-    image: "mongo:4.2.2"
+    image: "mongo:4.2.3"
     restart: always
     volumes:
       - domifa-data:/data/db
