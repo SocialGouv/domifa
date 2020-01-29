@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxPrintModule } from "ngx-print";
 import { ToastrModule } from "ngx-toastr";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { SharedModule } from "../shared/shared.module";
@@ -49,7 +48,6 @@ import { UsagerService } from "./services/usager.service";
   imports: [
     CommonModule,
     BrowserModule,
-    NgxPrintModule,
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,

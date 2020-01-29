@@ -9577,11 +9577,6 @@ next-tick@1, next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-ngx-cookie-service@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-2.3.0.tgz#290e6f55047ad9e9f1aa4ddf30d1ab8d41927949"
-  integrity sha512-Cegg6ifVuAwhsdrj0sGDyS9lg2o/Uc6FkR8HLcI40rpNMu5tzMd8w23cUiB81a8jDUr/MC44f1S+G6zmWmoy0A==
-
 ngx-hotjar@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/ngx-hotjar/-/ngx-hotjar-0.0.5.tgz#9f52e05ecb19caadf3aaf5b5d8f0be3c2ef66c67"
@@ -9593,13 +9588,6 @@ ngx-matomo@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/ngx-matomo/-/ngx-matomo-0.1.4.tgz#93f3064208530388132207b1ecbd9361e0d3ce7b"
   integrity sha512-AKZMnJGyytZqAxuSh+k/AulyQhgqlnnsmtkfvHMJyNuh5g+wVpIbwac36RyeFU3El6INgZVso2CCLElV3bQnBQ==
-
-ngx-print@^1.2.0-beta.3:
-  version "1.2.0-beta.3"
-  resolved "https://registry.yarnpkg.com/ngx-print/-/ngx-print-1.2.0-beta.3.tgz#429b0fc19e4aa06056d007323ab22eadf087fd6a"
-  integrity sha512-woox8eUCsPnIZgKm36J4dE1gbt5P35nkqmmUqYcWegsfsP/jotAoxDy8W8Tb/LC8KqBoyOxACllG/ndKBBsUvA==
-  dependencies:
-    tslib "^1.9.3"
 
 ngx-toastr@^11.3.2:
   version "11.3.2"

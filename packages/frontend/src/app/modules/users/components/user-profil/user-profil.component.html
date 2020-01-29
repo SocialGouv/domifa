@@ -120,37 +120,36 @@
         </b>
         <br>
         {{ authService.currentUserValue.structure.adresse }},
-    {{ authService.currentUserValue.structure.ville }}
-    ({{ authService.currentUserValue.structure.codePostal }})
+        {{ authService.currentUserValue.structure.ville }}
+        ({{ authService.currentUserValue.structure.codePostal }})
       </div>
-
-      <ng-template
-        #confirmation
-        let-modal>
-        <div class="modal-body text-center">
-          <h4>Confirmer la suppression</h4>
-          <div class="col">
-            Vous êtes sur le point de supprimer le compte de cet utilisateur.
-      Une fois supprimé, l'utilisateur ne pourra plus se connecter.
-            <br>
-            Veuillez indiquer la date de début et de fin de la domiciliation
-            <br>
-            <br>
-          </div>
-        </div>
-        <div class="modal-footer text-center">
-          <button
-            class="btn btn-outline-dark"
-            (click)="modal.close()">
-            Annuler
-          </button>
-          <button
-            class="btn btn-primary"
-            (click)="deleteUser()">
-            Confirmer la suppression
-          </button>
-        </div>
-      </ng-template>
     </div>
   </div>
 </div>
+<ng-template
+  #confirmation
+  let-modal>
+  <div class="modal-body text-center">
+    <h4>Confirmer la suppression</h4>
+    <div class="col">
+      Vous êtes sur le point de supprimer le compte de cet utilisateur.
+            Une fois supprimé, l'utilisateur ne pourra plus se connecter.
+      <br>
+      Veuillez indiquer la date de début et de fin de la domiciliation
+      <br>
+      <br>
+    </div>
+  </div>
+  <div class="modal-footer text-center">
+    <button
+      class="btn btn-outline-dark"
+      (click)="modal.close()">
+      Annuler
+    </button>
+    <button
+      class="btn btn-primary"
+      (click)="deleteUser()">
+      Confirmer la suppression
+    </button>
+  </div>
+</ng-template>

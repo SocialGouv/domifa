@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxPrintModule } from "ngx-print";
+
 import { ToastrModule } from "ngx-toastr";
 import { LoginComponent } from "./components/login/login.component";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
@@ -31,7 +31,6 @@ import { UsersService } from "./services/users.service";
   imports: [
     CommonModule,
     BrowserModule,
-    NgxPrintModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
     RouterModule.forRoot([]),
