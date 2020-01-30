@@ -121,13 +121,20 @@ export class InteractionsService {
       .exec();
   }
 
-  public async deleteAll(usagerId: number, structureId: number): Promise<any> {
+  public async deleteByUsager(
+    usagerId: number,
+    structureId: number
+  ): Promise<any> {
     return this.interactionModel
       .deleteMany({
         structureId,
         usagerId
       })
       .exec();
+  }
+
+  public async deleteAll(structureId: number): Promise<any> {
+    return this.interactionModel.deleteMany({ structureId }).exec();
   }
 
   public async stats(structureId?: number) {

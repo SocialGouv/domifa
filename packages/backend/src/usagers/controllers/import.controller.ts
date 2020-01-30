@@ -312,7 +312,11 @@ export class ImportController {
         const nom = row[indexAD];
         const prenom = row[indexAD + 1];
         const dateNaissance = row[indexAD + 2];
-        const lienParente = row[indexAD + 3];
+        let lienParente = row[indexAD + 3];
+
+        if (lienParente === "AUTRES") {
+          lienParente = "AUTRE";
+        }
 
         if (nom && prenom && dateNaissance && lienParente) {
           ayantsDroits.push({ nom, prenom, dateNaissance, lien: lienParente });
@@ -327,6 +331,10 @@ export class ImportController {
       const dateFin = this.notEmpty(row[DATE_FIN_DOM])
         ? this.convertDate(row[DATE_FIN_DOM])
         : null;
+
+      if (motif === "AUTRES") {
+        motif = "AUTRE";
+      }
 
       const usager = {
         ayantsDroits,
@@ -427,7 +435,7 @@ export class ImportController {
 
     const types: any = {
       demande: ["PREMIERE", "RENOUVELLEMENT"],
-      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
+      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE", "AUTRES"],
       menage: [
         "HOMME_ISOLE_SANS_ENFANT",
         "FEMME_ISOLE_SANS_ENFANT",
@@ -444,9 +452,16 @@ export class ImportController {
         "FIN_DE_DOMICILIATION",
         "PLUS_DE_LIEN_COMMUNE",
         "NON_RESPECT_REGLEMENT",
-        "AUTRE"
+        "AUTRE",
+        "AUTRES"
       ],
-      motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
+      motifRefus: [
+        "LIEN_COMMUNE",
+        "SATURATION",
+        "HORS_AGREMENT",
+        "AUTRE",
+        "AUTRES"
+      ],
       statut: ["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE", "EXPIRE"]
     };
 

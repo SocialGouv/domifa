@@ -194,9 +194,19 @@ export class ManageUsagersComponent implements OnInit {
 
   public getStats() {
     this.usagerService.getStats().subscribe((stats: any) => {
-      stats[0].statut.forEach((stat: any) => {
-        this.stats[stat.statut] = stat.sum;
-      });
+      if (stats.length > 0) {
+        stats[0].statut.forEach((stat: any) => {
+          this.stats[stat.statut] = stat.sum;
+        });
+      } else {
+        this.stats = {
+          ATTENTE_DECISION: 0,
+          INSTRUCTION: 0,
+          RADIE: 0,
+          REFUS: 0,
+          VALIDE: 0
+        };
+      }
     });
   }
 

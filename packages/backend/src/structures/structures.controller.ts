@@ -7,11 +7,18 @@ import {
   HttpStatus,
   Param,
   Post,
-  Response
+  Response,
+  UseGuards
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import { CurrentUser } from "../auth/current-user.decorator";
+import { RolesGuard } from "../auth/roles.guard";
+import { InteractionsService } from "../interactions/interactions.service";
+import { UsagersService } from "../usagers/services/usagers.service";
 import { EmailDto } from "../users/dto/email.dto";
 import { MailerService } from "../users/services/mailer.service";
 import { UsersService } from "../users/services/users.service";
+import { User } from "../users/user.interface";
 import { StructureDto } from "./structure-dto";
 import { StructuresService } from "./structures.service";
 
@@ -20,6 +27,8 @@ export class StructuresController {
   constructor(
     private readonly structureService: StructuresService,
     private readonly usersService: UsersService,
+    private readonly usagersService: UsagersService,
+    private readonly interactionsService: InteractionsService,
     private readonly mailerService: MailerService
   ) {}
 
@@ -28,16 +37,13 @@ export class StructuresController {
     return this.structureService.create(structureDto);
   }
 
-  @Get(":id")
-  public async getStructure(@Param("id") id: number) {
-    return this.structureService.findOneBasic({ id });
-  }
-
   @Get("code-postal/:codePostal")
   public async getByCity(@Param("codePostal") codePostal: string) {
     return this.structureService.findAll(codePostal);
   }
 
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
   @Get()
   public async getAllStructures() {
     return this.structureService.findAll();
@@ -84,5 +90,73 @@ export class StructuresController {
     });
     const emailExist = existUser !== null;
     return res.status(HttpStatus.OK).json(emailExist);
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get("hard-reset")
+  public async hardReset(@Response() res: any, @CurrentUser() user: User) {
+    const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const expireAt = new Date();
+    expireAt.setDate(expireAt.getDate() + 1);
+
+    let token = "";
+    for (let i = 0; i < 7; i++) {
+      token += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    const hardResetToken = { token, expireAt, userId: user._id };
+    const structure = await this.structureService.hardReset(
+      user.structureId,
+      hardResetToken
+    );
+    if (structure) {
+      await this.mailerService.hardReset(user, hardResetToken.token);
+      return res.status(HttpStatus.OK).json({ message: expireAt });
+    } else {
+      throw new HttpException(
+        "HARD_RESET_ERROR",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get("hard-reset-confirm/:token")
+  public async hardResetConfirm(
+    @Response() res: any,
+    @Param("token") token: string,
+    @CurrentUser() user: User
+  ) {
+    const structure = await this.structureService.checkHardResetToken(
+      user._id,
+      token
+    );
+
+    if (!structure || structure === null) {
+      throw new HttpException(
+        "HARD_RESET_INCORRECT_TOKEN",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+
+    const today = new Date();
+    if (structure.hardReset.expireAt < today) {
+      throw new HttpException(
+        "HARD_RESET_EXPIRED_TOKEN",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+
+    await this.usagersService.deleteAll(user.structureId);
+
+    await this.interactionsService.deleteAll(user.structureId);
+
+    return res.status(HttpStatus.OK).json({ message: "success" });
+  }
+
+  @Get(":id")
+  public async getStructure(@Param("id") id: number) {
+    return this.structureService.findOneBasic({ id });
   }
 }

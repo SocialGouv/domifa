@@ -227,7 +227,7 @@ export class UsagersController {
         usager.id
     );
 
-    await this.interactionService.deleteAll(usager.id, user.structureId);
+    await this.interactionService.deleteByUsager(usager.id, user.structureId);
 
     const deleteUsager = await this.usagersService.delete(usager._id);
 

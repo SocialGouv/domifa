@@ -7,6 +7,7 @@ import { StructuresModule } from "../structures/structure.module";
 
 import { MailerService } from "./services/mailer.service";
 
+import { UsagersModule } from "../usagers/usagers.module";
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { UsersProviders } from "./users.providers";

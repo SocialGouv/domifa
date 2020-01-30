@@ -14,7 +14,7 @@ import { InteractionsService } from "./interactions.service";
     DatabaseModule,
     forwardRef(() => UsersModule),
     forwardRef(() => UsagersModule),
-    StructuresModule
+    forwardRef(() => StructuresModule)
   ],
   providers: [InteractionsService, ...InteractionsProviders]
 })

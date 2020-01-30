@@ -17,14 +17,7 @@ import { MailerService } from "./users/services/mailer.service";
 import { UsersController } from "./users/users.controller";
 import { UsersModule } from "./users/users.module";
 @Module({
-  controllers: [
-    AuthController,
-    UsagersController,
-    UsersController,
-    InteractionsController,
-    StructuresController,
-    ImportController
-  ],
+  controllers: [],
   exports: [ConfigService],
   imports: [
     DatabaseModule,

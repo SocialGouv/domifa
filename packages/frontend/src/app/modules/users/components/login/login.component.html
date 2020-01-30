@@ -53,7 +53,7 @@
         <fa-icon icon="eye-slash"></fa-icon>
       </span>
       <div
-        *ngIf="submitted && f.password.errors"
+        *ngIf="f.password.dirty && f.password.errors"
         class="invalid-feedback">
         <div *ngIf="f.password.errors.required">Le mot de passe est obligatoire</div>
       </div>

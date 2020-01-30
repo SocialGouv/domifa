@@ -182,6 +182,10 @@ export class UsagersService {
     return this.usagerModel.deleteOne({ _id: usagerId }).exec();
   }
 
+  public async deleteAll(structureId: number): Promise<any> {
+    return this.usagerModel.deleteMany({ structureId }).exec();
+  }
+
   public async isDoublon(
     nom: string,
     prenom: string,

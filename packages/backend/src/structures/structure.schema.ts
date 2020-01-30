@@ -37,7 +37,23 @@ export const StructureSchema = new mongoose.Schema(
       required: true,
       type: String
     },
+    hardReset: {
+      select: false,
+      type: {
+        expireAt: {
+          type: Date
+        },
+        token: {
+          default: "",
+          type: String
+        },
+        userId: {
+          type: String
+        }
+      }
+    },
     id: {
+      index: true,
       type: Number,
       unique: true
     },

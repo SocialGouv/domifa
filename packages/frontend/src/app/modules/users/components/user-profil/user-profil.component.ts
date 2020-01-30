@@ -1,8 +1,11 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+import { StructureService } from "src/app/modules/structures/services/structure.service";
 import { AuthService } from "src/app/services/auth.service";
+import { ERROR_LABELS } from "src/app/shared/errors.labels";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
 
@@ -18,22 +21,39 @@ export class UserProfilComponent implements OnInit {
   public newUsers: User[];
   public modal: any;
   public selectedUser: number;
+  public showHardReset: boolean;
+  public hardResetCode: boolean;
+  public hardResetForm: FormGroup;
+  public errorLabels: any;
 
   constructor(
     public readonly authService: AuthService,
     private readonly userService: UsersService,
+    private readonly structureService: StructureService,
     private readonly router: Router,
     private modalService: NgbModal,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    private formBuilder: FormBuilder
   ) {
     this.title = "Mon compte Domifa";
     this.users = [];
     this.newUsers = [];
     this.selectedUser = 0;
+    this.showHardReset = false;
+    this.hardResetCode = null;
+    this.errorLabels = ERROR_LABELS;
+  }
+
+  get f() {
+    return this.hardResetForm.controls;
   }
 
   public ngOnInit() {
     this.getUsers();
+
+    this.hardResetForm = this.formBuilder.group({
+      token: ["", [Validators.required]]
+    });
   }
 
   public logout() {
@@ -96,9 +116,32 @@ export class UserProfilComponent implements OnInit {
   }
 
   public hardReset() {
-    this.userService.hardReset().subscribe((retour: any) => {
-      this.notifService.success("Utilisateur supprimé avec succès");
+    this.structureService.hardReset().subscribe((retour: any) => {
+      this.showHardReset = true;
     });
+  }
+
+  public hardResetConfirm() {
+    if (this.hardResetForm.invalid) {
+      this.notifService.error("Veuillez vérifier le formulaire");
+      return;
+    }
+
+    this.structureService
+      .hardResetConfirm(this.hardResetForm.controls.token.value)
+      .subscribe(
+        (retour: any) => {
+          this.notifService.success(
+            "La remise à zéro a été effectuée avec succès !"
+          );
+          this.modalService.dismissAll();
+          this.showHardReset = false;
+        },
+        (error: any) => {
+          const message = this.errorLabels[error.error.message];
+          this.notifService.error(message);
+        }
+      );
   }
 
   private getUsers() {

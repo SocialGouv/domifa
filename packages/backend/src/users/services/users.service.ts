@@ -69,8 +69,8 @@ export class UsersService {
   }
 
   public async generateTokenPassword(email: string): Promise<any> {
-    const d = new Date();
-    const twoDays = d.setDate(d.getDate() + 2);
+    const twoDays = new Date();
+    twoDays.setDate(twoDays.getDate() + 2);
     return this.userModel
       .findOneAndUpdate(
         { email },

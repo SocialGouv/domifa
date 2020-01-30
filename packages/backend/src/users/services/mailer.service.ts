@@ -185,4 +185,29 @@ export class MailerService {
       ]
     });
   }
+
+  public hardReset(user: User, token: string) {
+    return this.mailjet.post("send", { version: "v3.1" }).request({
+      Messages: [
+        {
+          From: {
+            Email: "contact.domifa@fabrique.social.gouv.fr",
+            Name: "Domifa"
+          },
+          Subject: "Code de confirmation Domifa",
+          TemplateID: 1206179,
+          TemplateLanguage: true,
+          To: [
+            {
+              Email: user.email
+            }
+          ],
+          Variables: {
+            code: token,
+            prenom: user.prenom
+          }
+        }
+      ]
+    });
+  }
 }

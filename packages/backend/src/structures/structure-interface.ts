@@ -18,6 +18,10 @@ export interface Structure extends Document {
     nom: string;
     prenom: string;
   };
+  hardReset: {
+    token: string;
+    expireAt: Date;
+  };
   token: string;
   verified: boolean;
   users: User[];

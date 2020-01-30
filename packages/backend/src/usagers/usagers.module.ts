@@ -20,8 +20,8 @@ import { UsagersProviders } from "./usagers.providers";
   ],
   imports: [
     DatabaseModule,
+    forwardRef(() => StructuresModule),
     forwardRef(() => UsersModule),
-    StructuresModule,
     forwardRef(() => InteractionsModule)
   ],
   providers: [

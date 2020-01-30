@@ -36,9 +36,8 @@ export const colNames = [
   "Lieu naissance",
   "Email",
   "Téléphone",
-  "Type de domiciliation",
-  "Statut de la domiciliation",
-  "Date de début",
+  "Type demande",
+  "Statut demande",
   "Date de Début de la DOM actuelle",
   "Date de FIN de la DOM actuelle",
   "Date 1ere domiciliation",
@@ -372,7 +371,7 @@ export class ImportComponent implements OnInit {
       [key: string]: any;
     } = {
       demande: ["PREMIERE", "RENOUVELLEMENT"],
-      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
+      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE", "AUTRES"],
       menage: [
         "HOMME_ISOLE_SANS_ENFANT",
         "FEMME_ISOLE_SANS_ENFANT",
@@ -389,9 +388,16 @@ export class ImportComponent implements OnInit {
         "FIN_DE_DOMICILIATION",
         "PLUS_DE_LIEN_COMMUNE",
         "NON_RESPECT_REGLEMENT",
-        "AUTRE"
+        "AUTRE",
+        "AUTRES"
       ],
-      motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
+      motifRefus: [
+        "LIEN_COMMUNE",
+        "SATURATION",
+        "HORS_AGREMENT",
+        "AUTRE",
+        "AUTRES"
+      ],
       statut: ["VALIDE", "REFUS", "RADIE"]
     };
     return types[rowName].indexOf(data) > -1;

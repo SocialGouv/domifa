@@ -68,6 +68,16 @@ export class StructuresService {
     return structure;
   }
 
+  public async checkHardResetToken(
+    userId: string,
+    token: string
+  ): Promise<Structure | null> {
+    return this.structureModel
+      .findOne({ "hardReset.token": token, "hardReset.userId": userId })
+      .select("+hardReset")
+      .exec();
+  }
+
   public async addUser(user: User, structureId: number): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
@@ -124,19 +134,13 @@ export class StructuresService {
 
   public async importSuccess(id: number) {
     return this.structureModel
-      .findOneAndUpdate(
-        {
-          id
-        },
-        {
-          $set: {
-            import: true
-          }
-        },
-        {
-          new: true
-        }
-      )
+      .findOneAndUpdate({ id }, { $set: { import: true } }, { new: true })
+      .exec();
+  }
+
+  public async hardReset(id: number, token: any) {
+    return this.structureModel
+      .findOneAndUpdate({ id }, { $set: { hardReset: token } }, { new: true })
       .exec();
   }
 

@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
 
   public returnUrl: string;
   public title: string;
-  public submitted: boolean;
   public hidePassword: boolean;
   public successMessage: string;
   public success: boolean;
@@ -39,7 +38,6 @@ export class LoginComponent implements OnInit {
     this.hidePassword = true;
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
     this.success = false;
-    this.submitted = false;
     this.error = false;
     this.errorLabels = ERROR_LABELS;
   }
@@ -60,8 +58,6 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
-    this.submitted = true;
-
     if (this.loginForm.invalid) {
       return;
     }

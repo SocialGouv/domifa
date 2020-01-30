@@ -40,7 +40,7 @@
               &nbsp;
               <button
                 *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
-                (click)="open(confirmation);selectedUser = user.id"
+                (click)="open(deleteUserConfirmation);selectedUser = user.id"
                 class="btn btn-danger">
                 <fa-icon
                   icon="trash"
@@ -100,7 +100,7 @@
             <div class="col-3 text-right">
               <button
                 *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
-                (click)="open(confirmation);selectedUser = user.id"
+                (click)="open(deleteUserConfirmation);selectedUser = user.id"
                 class="btn btn-danger">
                 <fa-icon icon="trash"></fa-icon>
                 Supprimer
@@ -115,25 +115,54 @@
 
       <h4>Votre structure</h4>
       <div class="list-group-item">
-        <b>
-          {{ authService.currentUserValue.structure.nom }}
-        </b>
-        <br>
-        {{ authService.currentUserValue.structure.adresse }},
-        {{ authService.currentUserValue.structure.ville }}
-        ({{ authService.currentUserValue.structure.codePostal }})
+        <div class="col">
+          <b>
+            {{ authService.currentUserValue.structure.nom }}
+          </b>
+          <br>
+          {{ authService.currentUserValue.structure.adresse }},
+          {{ authService.currentUserValue.structure.ville }}
+          ({{ authService.currentUserValue.structure.codePostal }})
+        </div>
+        <div class="col text-right">
+          <button
+            *ngIf="authService.isAdmin && authService.currentUserValue.verified"
+            (click)="editStructure()"
+            class="btn btn-secondary">
+            <fa-icon
+              icon="check"
+              class="btn-icon"></fa-icon>
+            Éditer les infos
+          </button>
+
+        </div>
+      </div>
+      <br>
+
+      <h4>Remise à zéro</h4>
+      <div class="list-group">
+        <div class="list-group-item">
+          <button
+            (click)="open(hardResetConfirmation);"
+            class="btn btn-outline-danger">
+            <fa-icon
+              icon="trash"
+              class="btn-icon"></fa-icon>
+            Supprimer tous les usagers
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <ng-template
-  #confirmation
+  #deleteUserConfirmation
   let-modal>
   <div class="modal-body text-center">
     <h4>Confirmer la suppression</h4>
     <div class="col">
       Vous êtes sur le point de supprimer le compte de cet utilisateur.
-            Une fois supprimé, l'utilisateur ne pourra plus se connecter.
+      Une fois supprimé, l'utilisateur ne pourra plus se connecter.
       <br>
       Veuillez indiquer la date de début et de fin de la domiciliation
       <br>
@@ -149,6 +178,84 @@
     <button
       class="btn btn-primary"
       (click)="deleteUser()">
+      Confirmer la suppression
+    </button>
+  </div>
+</ng-template>
+<ng-template
+  #hardResetConfirmation
+  let-modal>
+  <div class="modal-body">
+    <h4 class="text-danger">Suppression de tous les dossiers</h4>
+    <div
+      class="col"
+      *ngIf="!hardResetCode">
+      Vous êtes sur le point de
+      <b>supprimer TOUS LES DOMICILIÉS</b>
+      de votre structure.
+      <br>
+      Si vous choisissez de continuer, les données suivantes seront supprimées:
+      <br>
+      <ul class="text-left">
+        <li>
+          Tous les dossiers : demandes, domiciliés actifs, radiés, etc.
+        </li>
+        <li>L'historique de toutes les décisions</li>
+        <li>
+          Toutes les interactions (courriers, appels, etc.)
+        </li>
+      </ul>
+      <br>
+      <b>
+        Vous n'aurez aucun moyen de restaurer les dossiers effacés.
+      </b>
+      <br>
+      Pour finaliser cette procédure, cliquez sur "continuer".
+      <br>
+    </div>
+    <div
+      class="col text-center"
+      *ngIf="showHardReset">
+      <br>
+      <br>
+      <form
+        [formGroup]="hardResetForm"
+        (ngSubmit)="hardResetConfirm()"
+        class="col-12">
+        <div class="form-group">
+          <label for="hard-reset-input">Veuillez saisir le code reçu par email</label>
+          <div class=" offset-md-2 col-md-8">
+            <input
+              type="text"
+              class="form-control"
+              id="hard-reset-input"
+              [ngClass]="{ 'is-invalid': f.token.dirty && f.token.errors }"
+              formControlName="token"
+              maxlength="7"
+              minlength="7"
+              required>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer text-center">
+    <button
+      class="btn btn-outline-dark"
+      (click)="modal.close()">
+      Annuler
+    </button>
+    <button
+      class="btn btn-danger"
+      *ngIf="!showHardReset"
+      (click)="hardReset()">
+      Continuer
+    </button>
+    <button
+      class="btn btn-danger"
+      *ngIf="showHardReset"
+      [disabled]="hardResetForm.invalid"
+      (click)="hardResetConfirm()">
       Confirmer la suppression
     </button>
   </div>
