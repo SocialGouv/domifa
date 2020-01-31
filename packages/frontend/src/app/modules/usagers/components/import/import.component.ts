@@ -36,8 +36,8 @@ export const colNames = [
   "Lieu naissance",
   "Email",
   "Téléphone",
-  "Type demande",
   "Statut demande",
+  "Type demande",
   "Date de Début de la DOM actuelle",
   "Date de FIN de la DOM actuelle",
   "Date 1ere domiciliation",
@@ -329,6 +329,7 @@ export class ImportComponent implements OnInit {
       if (this.errorsRow[idRow] === undefined) {
         this.errorsRow[idRow] = [];
       }
+
       this.errorsRow[idRow].push(idColumn);
       this.errorsId.push(position);
     }

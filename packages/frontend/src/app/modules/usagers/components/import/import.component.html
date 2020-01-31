@@ -177,7 +177,7 @@
         <div
           class="col text-left"
           *ngIf="rowError && rowError.length > 0">
-          <b>Ligne {{ i+1 }}</b>
+          <b>Ligne {{ i + 1 }}</b>
           <br>
           <span *ngFor="let colError of rowError">
             - {{ colNames[colError] }}
@@ -207,14 +207,14 @@
           <th class="required">Lieu naissance</th>
           <th>Adresse Mail</th>
           <th>N° Téléphone</th>
-          <th class="required">Type demande</th>
           <th class="required">Statut demande</th>
+          <th class="required">Type demande</th>
           <th class="required">
             Date de Début
             <br>
             de la DOM actuelle
           </th>
-          <th>Fin de DOM</th>
+          <th>Date de FIN de la DOM actuelle</th>
           <th>
             Date de la 1
             <sup>ère</sup>
@@ -267,8 +267,8 @@
             <td [ngClass]="{ 'table-danger': isAnError(index, 5)  }">{{ row[5] }}</td>
             <td [ngClass]="{ 'table-danger': isAnError(index, 6)  }">{{ row[6] }}</td>
             <td [ngClass]="{ 'table-danger': isAnError(index, 7)  }">{{ row[7] }}</td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 9)  }">{{ row[9] }}</td>
             <td [ngClass]="{ 'table-danger': isAnError(index, 8)  }">{{ row[8] }}</td>
+            <td [ngClass]="{ 'table-danger': isAnError(index, 9)  }">{{ row[9] }}</td>
             <td [ngClass]="{ 'table-danger': isAnError(index, 10) }">{{ row[10] }}</td>
             <td [ngClass]="{ 'table-danger': isAnError(index, 11) }">{{ row[11] }}</td>
             <td [ngClass]="{ 'table-danger': isAnError(index, 12) }">{{ row[12] }}</td>

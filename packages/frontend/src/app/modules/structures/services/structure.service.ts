@@ -19,6 +19,10 @@ export class StructureService {
     return this.http.get(`${this.endPoint}/${structureId}`);
   }
 
+  public find(codePostal: string): Observable<any> {
+    return this.http.get(`${this.endPoint}/code-postal/${codePostal}`);
+  }
+
   public findAll(): Observable<any> {
     return this.http.get(`${this.endPoint}`);
   }

@@ -3,6 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { ToastrModule } from "ngx-toastr";
 import { UserProfilComponent } from "./user-profil.component";
@@ -18,6 +19,8 @@ describe("UserProfilComponent", () => {
         RouterTestingModule,
         HttpClientModule,
         HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule,
         ToastrModule.forRoot({
           enableHtml: true,
           positionClass: "toast-top-full-width",
