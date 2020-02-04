@@ -1,48 +1,46 @@
 <br>
-<div class="row">
-  <div id="steps">
-    <div
-      class="step"
-      *ngFor="let etape of etapes; let i = index"
-      id="step{{ i }}">
-      <div>
-        <span
-          *ngIf="etapeImport > i"
-          class="step_number step_check">
-          <fa-icon icon="check"></fa-icon>
-        </span>
-        <span
-          *ngIf="etapeImport <= i"
-          [ngClass]="{
+
+<div id="steps">
+  <div
+    class="step"
+    *ngFor="let etape of etapes; let i = index"
+    id="step{{ i }}">
+    <div>
+      <span
+        *ngIf="etapeImport > i"
+        class="step_number step_check">
+        <fa-icon icon="check"></fa-icon>
+      </span>
+      <span
+        *ngIf="etapeImport <= i"
+        [ngClass]="{
               step_active: etapeImport == i,
                step_inactive: i > 0 && etapeImport != i
             }"
-          class="step_number">
-          {{ i + 1 }}
-        </span>
-        <span
-          [ngClass]="{
+        class="step_number">
+        {{ i + 1 }}
+      </span>
+      <span
+        [ngClass]="{
               step_text_active: etapeImport == i,
               step_text_inactive: i > 0 && etapeImport != i
             }"
-          class="step_text">
-          {{ etape }}
-        </span>
-      </div>
-      <div
-        *ngIf="i < 1"
-        [className]="etapeImport > i ? 'check_sep' : ''">
-        <span
-          class="separateur"
-          [ngClass]="{ separateur_inactive: i > 0 }"></span>
-      </div>
+        class="step_text">
+        {{ etape }}
+      </span>
+    </div>
+    <div
+      *ngIf="i < 1"
+      [className]="etapeImport > i ? 'check_sep' : ''">
+      <span
+        class="separateur"
+        [ngClass]="{ separateur_inactive: i > 0 }"></span>
     </div>
   </div>
 </div>
+
 <br>
-<div
-  class="row"
-  *ngIf="etapeImport == 0">
+<div *ngIf="etapeImport == 0">
   <div class="col-md-8 offset-md-2 text-center">
     <h4 class="text-center">
       Étape 1 : Télécharger et compléter le modèle
@@ -106,9 +104,7 @@
   </div>
 </div>
 
-<div
-  class="row"
-  *ngIf="etapeImport == 1">
+<div *ngIf="etapeImport == 1">
   <div class="col-md-10 offset-md-1 text-center">
     <div
       class="form-group"

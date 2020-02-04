@@ -3,7 +3,11 @@ import { async, TestBed } from "@angular/core/testing";
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { ToastrModule } from "ngx-toastr";
 import { first } from "rxjs/operators";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
@@ -14,10 +18,6 @@ import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
 import { UsagerService } from "./usager.service";
-import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { ToastrModule } from "ngx-toastr";
 
 describe("UsagerService", () => {
   let service: UsagerService;

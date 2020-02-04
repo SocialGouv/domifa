@@ -28,17 +28,21 @@ export class Decision {
     this.userName = (decision && decision.userName) || "";
     this.userId = (decision && decision.userId) || "";
     this.motifDetails = (decision && decision.motifDetails) || "";
+
     this.orientation = (decision && decision.orientation) || "";
     this.orientationDetails = (decision && decision.orientationDetails) || "";
 
     if (this.statut === "REFUS" || this.statut === "RADIE") {
-      this.motif =
-        this.statut === "REFUS"
-          ? motifsRefus[decision.motif]
-          : motifsRadiation[decision.motif];
-
-      if (this.motif === "AUTRE") {
-        this.motif = this.motifDetails;
+      if (decision.motif === "AUTRE") {
+        this.motif =
+          this.motifDetails !== ""
+            ? this.motifDetails
+            : "Autre motif non précisé";
+      } else {
+        this.motif =
+          this.statut === "REFUS"
+            ? motifsRefus[decision.motif]
+            : motifsRadiation[decision.motif];
       }
     }
   }

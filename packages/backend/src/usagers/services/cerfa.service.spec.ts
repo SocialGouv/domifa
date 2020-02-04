@@ -62,12 +62,12 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Annéeconvocation[0]": "2019",
       "topmostSubform[0].Page1[0].AyantsDroits[0]":
         "Inspecteur Gadget né(e) le 12/10/1990 - ",
-      "topmostSubform[0].Page1[0].Cias[0]": "",
       "topmostSubform[0].Page1[0].Courriel[0]": "",
       "topmostSubform[0].Page1[0].Courriel[1]": "ccastest@yopmail.com",
       "topmostSubform[0].Page1[0].Datenaissance1[0]": "24",
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "05",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "1911",
+      "topmostSubform[0].Page2[0].Cias[0]": "",
       "topmostSubform[0].Page1[0].EntretienAdresse[0]":
         "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
       "topmostSubform[0].Page1[0].EntretienAvec[0]": "Juste Isabelle",

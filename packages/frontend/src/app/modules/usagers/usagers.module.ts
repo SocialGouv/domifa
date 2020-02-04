@@ -9,7 +9,9 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
+import { GeneralModule } from "../general/general.module";
 import { SharedModule } from "../shared/shared.module";
+import { UsersModule } from "../users/users.module";
 import { DecisionComponent } from "./components/decision/decision.component";
 import { EntretienComponent } from "./components/form/parts/entretien/entretien.component";
 import { UploadComponent } from "./components/form/parts/upload/upload.component";
@@ -21,8 +23,6 @@ import { RaftComponent } from "./components/raft/raft.component";
 import { DocumentService } from "./services/document.service";
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
-import { GeneralModule } from "../general/general.module";
-import { UsersModule } from "../users/users.module";
 
 @NgModule({
   declarations: [
