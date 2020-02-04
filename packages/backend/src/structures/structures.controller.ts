@@ -149,9 +149,8 @@ export class StructuresController {
     }
 
     await this.usagersService.deleteAll(user.structureId);
-
     await this.interactionsService.deleteAll(user.structureId);
-
+    await this.structureService.hardResetClean(structure._id);
     return res.status(HttpStatus.OK).json({ message: "success" });
   }
 

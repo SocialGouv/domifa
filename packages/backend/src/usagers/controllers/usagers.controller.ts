@@ -332,11 +332,9 @@ export class UsagersController {
           statut: "CERFA_ERROR",
           usager
         };
-
-        throw new HttpException(
-          JSON.stringify(erreur),
-          HttpStatus.INTERNAL_SERVER_ERROR
-        );
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ success: false });
       });
   }
 

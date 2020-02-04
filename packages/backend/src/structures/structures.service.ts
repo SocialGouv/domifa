@@ -144,6 +144,12 @@ export class StructuresService {
       .exec();
   }
 
+  public async hardResetClean(structureId: string) {
+    return this.structureModel
+      .findOneAndUpdate({ _id: structureId }, { $set: { hardReset: {} } })
+      .exec();
+  }
+
   public async findLast(): Promise<number> {
     const lastStructure: any = await this.structureModel
       .findOne({}, { id: 1 })

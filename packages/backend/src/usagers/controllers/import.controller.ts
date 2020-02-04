@@ -124,8 +124,6 @@ export class ImportController {
         raw: false
       }) as AOA;
 
-      this.datas = this.datas.slice(1);
-
       for (let index = 1, len = this.datas.length; index < len; index++) {
         this.rowNumber = index;
         const row = this.datas[index];

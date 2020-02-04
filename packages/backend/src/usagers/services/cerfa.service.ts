@@ -107,6 +107,7 @@ export class CerfaService {
         ", " +
         user.structure.responsable.fonction,
       "topmostSubform[0].Page1[0].téléphone[0]": user.structure.phone,
+
       "topmostSubform[0].Page2[0].NomOrgaDomiciliataire[0]": user.structure.nom,
       "topmostSubform[0].Page2[0].NuméroAgrément[0]": user.structure.agrement,
       "topmostSubform[0].Page2[0].PrefectureDelivrAgrément[0]":
@@ -127,6 +128,7 @@ export class CerfaService {
       this.infosPdf["topmostSubform[0].Page1[0].Noms2[0]"] = usager.nom;
 
       this.infosPdf["topmostSubform[0].Page1[0].Prénoms2[0]"] = usager.prenom;
+      this.infosPdf["topmostSubform[0].Page1[0].Cias[0]"] = "";
 
       this.infosPdf[
         "topmostSubform[0].Page1[0].JourValidité1[0]"
@@ -167,6 +169,7 @@ export class CerfaService {
       pdfForm = "../../ressources/demande.pdf";
 
       this.infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = usager.phone;
+      this.infosPdf["topmostSubform[0].Page2[0].Cias[0]"] = "";
 
       this.infosPdf["topmostSubform[0].Page1[0].Courriel[0]"] = usager.email;
 

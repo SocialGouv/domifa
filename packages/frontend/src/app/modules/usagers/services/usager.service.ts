@@ -14,6 +14,7 @@ import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root"
@@ -23,7 +24,11 @@ export class UsagerService {
   public loading: boolean;
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(http: HttpClient, private loadingService: LoadingService) {
+  constructor(
+    http: HttpClient,
+    private loadingService: LoadingService,
+    private notifService: ToastrService
+  ) {
     this.http = http;
     this.loading = true;
   }
@@ -182,33 +187,42 @@ export class UsagerService {
       .get(`${this.endPointUsagers}/attestation/${usagerId}`, {
         responseType: "blob"
       })
-      .subscribe(x => {
-        const newBlob = new Blob([x], { type: "application/pdf" });
+      .subscribe(
+        x => {
+          const newBlob = new Blob([x], { type: "application/pdf" });
 
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          window.navigator.msSaveOrOpenBlob(newBlob);
-          return;
-        }
-        const data = window.URL.createObjectURL(newBlob);
-        const link = document.createElement("a");
-        const randomNumber = Math.floor(Math.random() * 100) + 1;
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(newBlob);
+            return;
+          }
+          const data = window.URL.createObjectURL(newBlob);
+          const link = document.createElement("a");
+          const randomNumber = Math.floor(Math.random() * 100) + 1;
 
-        link.href = data;
-        link.download = "attestation_" + usagerId + "_" + randomNumber + ".pdf";
-        link.dispatchEvent(
-          new MouseEvent("click", {
-            bubbles: true,
-            cancelable: true,
-            view: window
-          })
-        );
+          link.href = data;
+          link.download =
+            "attestation_" + usagerId + "_" + randomNumber + ".pdf";
+          link.dispatchEvent(
+            new MouseEvent("click", {
+              bubbles: true,
+              cancelable: true,
+              view: window
+            })
+          );
 
-        setTimeout(() => {
-          window.URL.revokeObjectURL(data);
-          link.remove();
+          setTimeout(() => {
+            window.URL.revokeObjectURL(data);
+            link.remove();
+            this.loadingService.stopLoading();
+          }, 500);
+        },
+        (error: any) => {
+          this.notifService.error(
+            "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          );
           this.loadingService.stopLoading();
-        }, 500);
-      });
+        }
+      );
   }
 
   public import(data: any) {

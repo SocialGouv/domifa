@@ -21,10 +21,7 @@ import { UsersService } from "../../services/users.service";
   styleUrls: ["./register-user.component.css"],
   templateUrl: "./register-user.component.html"
 })
-export class RegisterUserComponent {
-  get f() {
-    return this.userForm.controls;
-  }
+export class RegisterUserComponent implements OnInit {
   public title: string;
   public user: User;
   public userForm: FormGroup;
@@ -39,6 +36,10 @@ export class RegisterUserComponent {
 
   @Input() public structureChild: any;
 
+  get f() {
+    return this.userForm.controls;
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
@@ -50,12 +51,16 @@ export class RegisterUserComponent {
     this.hidePasswordConfirm = true;
     this.user = new User({});
     this.submitted = false;
+
+    this.success = false;
+  }
+
+  public ngOnInit(): void {
     this.user.structureId =
       this.structureChild !== undefined
         ? this.structureChild.structureId
         : (this.user.structureId = parseInt(this.route.snapshot.params.id, 10));
 
-    this.success = false;
     this.userForm = this.formBuilder.group(
       {
         confirmPassword: [null, Validators.compose([Validators.required])],

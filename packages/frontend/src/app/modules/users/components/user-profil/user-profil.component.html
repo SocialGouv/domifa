@@ -139,17 +139,19 @@
       </div>
       <br>
 
-      <h4>Remise à zéro</h4>
-      <div class="list-group">
-        <div class="list-group-item">
-          <button
-            (click)="open(hardResetConfirmation);"
-            class="btn btn-outline-danger">
-            <fa-icon
-              icon="trash"
-              class="btn-icon"></fa-icon>
-            Supprimer tous les usagers
-          </button>
+      <div *ngIf="authService.isAdmin">
+        <h4>Remise à zéro</h4>
+        <div class="list-group">
+          <div class="list-group-item">
+            <button
+              (click)="open(hardResetConfirmation);"
+              class="btn btn-outline-danger">
+              <fa-icon
+                icon="trash"
+                class="btn-icon"></fa-icon>
+              Supprimer tous les usagers
+            </button>
+          </div>
         </div>
       </div>
     </div>
