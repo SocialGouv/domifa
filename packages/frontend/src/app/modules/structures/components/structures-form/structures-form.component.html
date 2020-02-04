@@ -1,44 +1,44 @@
 <br>
-<div class="row">
-  <div id="steps">
-    <div
-      class="step"
-      *ngFor="let etape of etapes; let i = index"
-      id="step{{ i }}">
-      <div (click)="submitted = false">
-        <span
-          *ngIf="etapeInscription > i"
-          class="step_number step_check">
-          <fa-icon icon="check"></fa-icon>
-        </span>
-        <span
-          *ngIf="etapeInscription <= i"
-          [ngClass]="{
+
+<div id="steps">
+  <div
+    class="step"
+    *ngFor="let etape of etapes; let i = index"
+    id="step{{ i }}">
+    <div (click)="submitted = false">
+      <span
+        *ngIf="etapeInscription > i"
+        class="step_number step_check">
+        <fa-icon icon="check"></fa-icon>
+      </span>
+      <span
+        *ngIf="etapeInscription <= i"
+        [ngClass]="{
               step_active: etapeInscription == i,
                step_inactive: i > 0 && etapeInscription != i
             }"
-          class="step_number">
-          {{ i + 1 }}
-        </span>
-        <span
-          [ngClass]="{
+        class="step_number">
+        {{ i + 1 }}
+      </span>
+      <span
+        [ngClass]="{
               step_text_active: etapeInscription == i,
               step_text_inactive: i > 0 && etapeInscription != i
             }"
-          class="step_text">
-          {{ etape }}
-        </span>
-      </div>
-      <div
-        *ngIf="i < 1"
-        [className]="etapeInscription > i ? 'check_sep' : ''">
-        <span
-          class="separateur"
-          [ngClass]="{ separateur_inactive: i > 0 }"></span>
-      </div>
+        class="step_text">
+        {{ etape }}
+      </span>
+    </div>
+    <div
+      *ngIf="i < 1"
+      [className]="etapeInscription > i ? 'check_sep' : ''">
+      <span
+        class="separateur"
+        [ngClass]="{ separateur_inactive: i > 0 }"></span>
     </div>
   </div>
 </div>
+
 <div
   class="step_form"
   *ngIf="etapeInscription == 0">

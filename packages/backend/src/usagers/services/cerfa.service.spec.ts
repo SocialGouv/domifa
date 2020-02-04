@@ -67,7 +67,6 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Datenaissance1[0]": "24",
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "05",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "1911",
-      "topmostSubform[0].Page2[0].Cias[0]": "",
       "topmostSubform[0].Page1[0].EntretienAdresse[0]":
         "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
       "topmostSubform[0].Page1[0].EntretienAvec[0]": "Juste Isabelle",
@@ -95,6 +94,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].téléphone[0]": "",
       "topmostSubform[0].Page1[0].téléphone[1]": "0101010101",
       "topmostSubform[0].Page2[0].AnnéeNaissanceDemandeur[0]": "1911",
+      "topmostSubform[0].Page2[0].Cias[0]": "",
       "topmostSubform[0].Page2[0].JourNaissanceDemandeur[0]": "24",
       "topmostSubform[0].Page2[0].LieuNaissanceDemandeur[0]": "BERGERAC",
       "topmostSubform[0].Page2[0].Mme-Monsieur2[0]": "2",

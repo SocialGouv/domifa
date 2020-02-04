@@ -45,7 +45,7 @@ export const MOTIF_REFUS = 13;
 export const MOTIF_RADIATION = 14;
 export const MENAGE = 15;
 export const AYANT_DROIT = [16, 20, 24, 28];
-export const CUSTOM_ID = 29;
+export const CUSTOM_ID = 32;
 
 type AOA = any[][];
 
@@ -330,13 +330,15 @@ export class ImportController {
         ? this.convertDate(row[DATE_FIN_DOM])
         : null;
 
+      const customId = this.notEmpty(row[CUSTOM_ID]) ? row[CUSTOM_ID] : null;
+
       if (motif === "AUTRES") {
         motif = "AUTRE";
       }
 
       const usager = {
         ayantsDroits,
-        customId: row[CUSTOM_ID],
+        customId,
         dateNaissance: this.convertDate(row[DATE_NAISSANCE]),
         datePremiereDom,
         decision: {

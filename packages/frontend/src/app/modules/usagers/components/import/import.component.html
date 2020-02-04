@@ -249,6 +249,7 @@
               Ayant-droit {{ indexRow + 1}}
             </th>
           </ng-container>
+          <th>Identifiant personnalisé</th>
         </thead>
         <tbody *ngIf="showTable">
           <tr *ngFor="let row of datas ; let index = index;">
@@ -277,6 +278,8 @@
               <td [ngClass]="{ 'table-danger': isAnError(index, ayantDroit + 2 ) }">{{ row[ayantDroit + 2] }}</td>
               <td [ngClass]="{ 'table-danger': isAnError(index, ayantDroit + 3 ) }">{{ row[ayantDroit + 3] }}</td>
             </ng-container>
+            <td [ngClass]="{ 'table-danger': isAnError(index, 32) }">{{ row[32] }}</td>
+
           </tr>
         </tbody>
       </table>

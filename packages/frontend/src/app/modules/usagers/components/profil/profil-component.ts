@@ -47,6 +47,7 @@ export class UsagersProfilComponent implements OnInit {
   public editAyantsDroits: boolean;
   public editTransfertForm: boolean;
   public editProcurationForm: boolean;
+  public editCustomId: boolean;
 
   public interactions: Interaction[];
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
@@ -96,7 +97,7 @@ export class UsagersProfilComponent implements OnInit {
 
     this.interactions = [];
     this.labels = usagersLabels;
-
+    this.editCustomId = false;
     this.liensLabels = Object.keys(this.labels.lienParente);
     this.title = "Fiche d'un domicilié";
     this.usager = new Usager();
@@ -172,6 +173,7 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
+      customId: [this.usager.customId, []],
       dateNaissance: [this.usager.dateNaissance, []],
       dateNaissancePicker: [
         this.usager.dateNaissancePicker,

@@ -22,7 +22,8 @@
          }">
         <h2 id="profil_name">{{ usager.nomComplet }}</h2>
         Numéro domicilié :
-        <b>{{ usager.customId|| usager.id }}</b>
+        <b>{{ usager.customId || usager.id }}</b>
+
       </div>
       <div
         class="text-center"
@@ -466,7 +467,17 @@
               <span class="question">Adresse email</span>
               <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
             </div>
-            <div class="col-md-4 reponses"></div>
+            <div
+              class="col-md-4 reponses"
+              *ngIf="usager.customId !== null">
+              <span class="question">Identifiant personnalisé</span>
+              <span class="valeur">{{ usager.customId }}</span>
+            </div>
+            <div
+              class="col-md-4 reponses"
+              *ngIf="usager.customId === null">
+
+            </div>
 
             <div
               class="col-md-12 text-center"
@@ -640,6 +651,27 @@
                     *ngIf="f.email.errors"
                     class="invalid-feedback">
                     <div *ngIf="f.email.errors.email">L'adresse email est incorrecte</div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="col-md-4"
+                *ngIf="usager.customId !== null">
+                <div class="form-group">
+                  <label for="email">Identifiant personnalisé</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="customId"
+                    maxlength="30"
+                    formControlName="customId"
+                    [ngClass]="{ 'is-invalid': f.customId.errors }"
+                    autocomplete="null">
+                  <div
+                    *ngIf="f.customId.errors"
+                    class="invalid-feedback">
+                    L'adresse email est incorrecte
                   </div>
                 </div>
               </div>

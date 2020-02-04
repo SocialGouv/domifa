@@ -142,7 +142,7 @@
             (click)="goToProfil(usager)"
             scope="row"
             class="text-center">
-            {{ usager.id }}
+            {{  usager.customId || usager.id }}
           </td>
           <td
             (click)="goToProfil(usager)"
