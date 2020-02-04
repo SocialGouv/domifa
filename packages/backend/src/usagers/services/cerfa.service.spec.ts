@@ -62,6 +62,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Annéeconvocation[0]": "2019",
       "topmostSubform[0].Page1[0].AyantsDroits[0]":
         "Inspecteur Gadget né(e) le 12/10/1990 - ",
+      "topmostSubform[0].Page1[0].Cias[0]": "",
       "topmostSubform[0].Page1[0].Courriel[0]": "",
       "topmostSubform[0].Page1[0].Courriel[1]": "ccastest@yopmail.com",
       "topmostSubform[0].Page1[0].Datenaissance1[0]": "24",
@@ -140,6 +141,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].AnnéeValidité2[0]": "2020",
       "topmostSubform[0].Page1[0].AyantsDroits[0]":
         "Karamoko Mauricette né(e) le 20/12/1978 - ",
+      "topmostSubform[0].Page1[0].Cias[0]": "",
       "topmostSubform[0].Page1[0].Courriel[0]": "ccastest@yopmail.com",
       "topmostSubform[0].Page1[0].Datenaissance1[0]": "07",
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "08",
@@ -214,6 +216,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].téléphone[0]": "",
       "topmostSubform[0].Page1[0].téléphone[1]": "0101010101",
       "topmostSubform[0].Page2[0].AnnéeNaissanceDemandeur[0]": "1940",
+      "topmostSubform[0].Page2[0].Cias[0]": "",
       "topmostSubform[0].Page2[0].Décision[0]": "2",
       "topmostSubform[0].Page2[0].JourNaissanceDemandeur[0]": "07",
       "topmostSubform[0].Page2[0].LieuNaissanceDemandeur[0]": "MACON",

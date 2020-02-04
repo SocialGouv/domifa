@@ -21,6 +21,8 @@ import { RaftComponent } from "./components/raft/raft.component";
 import { DocumentService } from "./services/document.service";
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
+import { GeneralModule } from "../general/general.module";
+import { UsersModule } from "../users/users.module";
 
 @NgModule({
   declarations: [
@@ -39,7 +41,6 @@ import { UsagerService } from "./services/usager.service";
     DecisionComponent,
     UsagersFormComponent,
     EntretienComponent,
-
     ManageUsagersComponent,
     UsagersProfilComponent,
     ImportComponent,
@@ -48,6 +49,8 @@ import { UsagerService } from "./services/usager.service";
   imports: [
     CommonModule,
     BrowserModule,
+    GeneralModule,
+    UsersModule,
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,

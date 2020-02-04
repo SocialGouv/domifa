@@ -1,6 +1,6 @@
 import { async, TestBed } from "@angular/core/testing";
 
-import { APP_BASE_HREF } from "@angular/common";
+import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { RouterModule } from "@angular/router";
@@ -14,6 +14,10 @@ import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
 import { UsagerService } from "./usager.service";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { ToastrModule } from "ngx-toastr";
 
 describe("UsagerService", () => {
   let service: UsagerService;
@@ -21,7 +25,22 @@ describe("UsagerService", () => {
 
   beforeAll(async done => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterModule.forRoot([])],
+      imports: [
+        HttpClientModule,
+        CommonModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        FontAwesomeModule,
+        RouterModule.forRoot([]),
+        ToastrModule.forRoot({
+          enableHtml: true,
+          positionClass: "toast-top-full-width",
+          preventDuplicates: true,
+          progressAnimation: "increasing",
+          progressBar: true,
+          timeOut: 2000
+        })
+      ],
       providers: [
         UsagerService,
         AuthService,
