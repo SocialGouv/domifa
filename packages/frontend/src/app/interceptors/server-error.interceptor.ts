@@ -32,9 +32,8 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         } else {
           if (error.status === 401) {
             this.authService.logout();
-            this.router.navigate(["connexion"]);
-          }
-          if (error.status === 501) {
+          } else if (error.status === 501) {
+            this.authService.logout();
             this.router.navigate(["connexion"]);
           }
           return throwError(error);

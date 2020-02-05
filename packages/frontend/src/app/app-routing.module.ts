@@ -60,12 +60,10 @@ export const routes: Routes = [
     path: "radiation/:id"
   },
   {
-    canActivate: [LoggedGuard],
     component: ResetPasswordComponent,
     path: "reset-password"
   },
   {
-    canActivate: [LoggedGuard],
     component: ResetPasswordComponent,
     path: "reset-password/:token"
   },

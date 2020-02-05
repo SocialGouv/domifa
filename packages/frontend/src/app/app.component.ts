@@ -50,7 +50,6 @@ export class AppComponent implements OnInit {
         this.getJSON().subscribe(domifaNews => {
           this.domifaNews = domifaNews[0];
           const lastNews = localStorage.getItem("lastNews");
-
           if (
             !lastNews ||
             (lastNews && new Date(lastNews) <= new Date(domifaNews[0].date))

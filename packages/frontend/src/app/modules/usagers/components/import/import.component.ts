@@ -97,8 +97,8 @@ export class ImportComponent implements OnInit {
   public etapeImport: number;
 
   public etapes = [
-    "Enregistrement de la structure",
-    "Création du compte personnel"
+    "Téléchargement de votre fichier",
+    "Vérification des données"
   ];
 
   @ViewChild("form", { static: true })
