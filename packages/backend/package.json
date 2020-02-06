@@ -29,7 +29,7 @@
     "@nestjs/typeorm": "^6.2.0",
     "@sentry/node": "5.11.1",
     "@types/mongoose": "^5.7.0",
-    "@types/multer": "^1.4.0",
+    "@types/multer": "^1.4.2",
     "@types/passport-jwt": "^3.0.3",
     "@types/rimraf": "^2.0.3",
     "add": "^2.0.6",
