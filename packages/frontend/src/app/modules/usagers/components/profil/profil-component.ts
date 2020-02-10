@@ -103,7 +103,6 @@ export class UsagersProfilComponent implements OnInit {
     this.liensLabels = Object.keys(this.labels.lienParente);
     this.structure = this.authService.currentUserValue.structure;
 
-    console.log(this.structure.options);
     this.title = "Fiche d'un domicilié";
     this.usager = new Usager();
 
