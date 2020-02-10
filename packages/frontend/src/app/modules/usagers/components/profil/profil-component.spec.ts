@@ -45,21 +45,19 @@ describe("UsagersProfilComponent", () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes(routes)
       ],
-      providers: [UsagerService, { provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        InteractionService,
+        UsagerService,
+        { provide: APP_BASE_HREF, useValue: "/" }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-
-    fixture = TestBed.createComponent(UsagersProfilComponent);
-    fixture.detectChanges();
 
     interactionService = TestBed.get(InteractionService);
     router = TestBed.get(Router);
     location = TestBed.get(Location);
 
-    fixture.ngZone.run(() => {
-      router.initialNavigation();
-    });
-
+    fixture = TestBed.createComponent(UsagersProfilComponent);
     app = fixture.debugElement.componentInstance;
     app.ngOnInit();
   }));
@@ -69,7 +67,6 @@ describe("UsagersProfilComponent", () => {
   });
 
   it("1. Variables", async(() => {
-    expect(app.title).toBeDefined();
     expect(app.labels).toBeDefined();
     expect(app.interactionsLabels).toBeDefined();
     expect(app.interactionsType).toBeDefined();

@@ -98,7 +98,6 @@ describe("UsagersFormComponent", () => {
     app.usagerForm.controls.surnom.setValue("Test Surnom");
     app.usagerForm.controls.dateNaissance.setValue("20/12/1991");
     app.usagerForm.controls.villeNaissance.setValue("Paris");
-
     expect(app.usagerForm.valid).toBeTruthy();
   });
 

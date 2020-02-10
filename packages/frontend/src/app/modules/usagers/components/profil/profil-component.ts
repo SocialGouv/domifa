@@ -152,6 +152,7 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public initForms() {
+    console.log(this.usager);
     this.transfertForm = this.formBuilder.group({
       adresse: [
         this.usager.options.transfert.adresse,
