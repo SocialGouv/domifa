@@ -142,7 +142,8 @@
             (click)="goToProfil(usager)"
             scope="row"
             class="text-center">
-            {{  usager.customId || usager.id }}
+            <span *ngIf="usager.customId && structure.options.customId">{{ usager.customId }}</span>
+            <span *ngIf="!structure.options.customId || !usager.customId ">{{ usager.id }}</span>
           </td>
           <td
             (click)="goToProfil(usager)"

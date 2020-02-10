@@ -66,6 +66,11 @@ export const StructureSchema = new mongoose.Schema(
       required: true,
       type: String
     },
+    options: {
+      colis: { type: Boolean, default: false },
+      customId: { type: Boolean, default: false },
+      numeroBoite: { type: Boolean, default: false }
+    },
     phone: {
       default: "",
       required: true,

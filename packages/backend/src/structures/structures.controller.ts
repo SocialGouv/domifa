@@ -8,7 +8,8 @@ import {
   Param,
   Post,
   Response,
-  UseGuards
+  UseGuards,
+  Patch
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
@@ -19,8 +20,9 @@ import { EmailDto } from "../users/dto/email.dto";
 import { MailerService } from "../users/services/mailer.service";
 import { UsersService } from "../users/services/users.service";
 import { User } from "../users/user.interface";
-import { StructureDto } from "./structure-dto";
+import { StructureDto } from "./dto/structure.dto";
 import { StructuresService } from "./structures.service";
+import { StructureEditDto } from "./dto/structure-edit.dto";
 
 @Controller("structures")
 export class StructuresController {
@@ -37,9 +39,25 @@ export class StructuresController {
     return this.structureService.create(structureDto);
   }
 
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Patch()
+  public async patchStructure(
+    @Body() structureDto: StructureEditDto,
+    @CurrentUser() user: User
+  ) {
+    return this.structureService.patch(structureDto, user);
+  }
+
   @Get("code-postal/:codePostal")
   public async getByCity(@Param("codePostal") codePostal: string) {
     return this.structureService.findAll(codePostal);
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @Get("ma-structure")
+  public async getMyStructure(@CurrentUser() user: User) {
+    return user.structure;
   }
 
   @UseGuards(AuthGuard("jwt"))

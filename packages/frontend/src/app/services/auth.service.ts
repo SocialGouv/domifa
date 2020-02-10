@@ -62,19 +62,18 @@ export class AuthService {
   public isAuth(): Observable<boolean> {
     if (!this.currentUserValue) {
       return of(false);
-    } else {
-      return this.me().pipe(
-        map(retour => {
-          const user = new User(retour);
-          user.token = this.currentUserValue.token;
-          localStorage.setItem("currentUser", JSON.stringify(user));
-          this.isLogged = true;
-          this.isAdmin = user && user.role === "admin";
-          this.currentUserSubject.next(user);
-          return true;
-        })
-      );
     }
+    return this.me().pipe(
+      map(retour => {
+        const user = new User(retour);
+        user.token = this.currentUserValue.token;
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        this.isLogged = true;
+        this.isAdmin = user && user.role === "admin";
+        this.currentUserSubject.next(user);
+        return true;
+      })
+    );
   }
 
   public logout() {

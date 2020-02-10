@@ -79,10 +79,13 @@ export class CerfaService {
       user.structure.nom +
       "\n" +
       user.structure.adresse +
-      ", " +
-      user.structure.ville +
-      ", " +
-      user.structure.codePostal;
+      (user.structure.complementAdresse !== ""
+        ? "\n" + user.structure.complementAdresse
+        : "") +
+      "\n" +
+      user.structure.codePostal +
+      " - " +
+      user.structure.ville;
 
     let pdfForm = "../../ressources/attestation.pdf";
 

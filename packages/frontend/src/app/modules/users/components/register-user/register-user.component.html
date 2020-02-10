@@ -77,6 +77,7 @@
   <br>
   <br>
   <form
+    *ngIf="user.structureId"
     [formGroup]="userForm"
     (ngSubmit)="submitUser()">
     <div class="row">

@@ -17,6 +17,7 @@ import { DocumentService } from "../../services/document.service";
 import { ToastrService } from "ngx-toastr";
 
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Structure } from "src/app/modules/structures/structure.interface";
 import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
@@ -73,6 +74,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public notifInputs: { [key: string]: any };
 
+  public structure: Structure;
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
 
@@ -99,6 +101,9 @@ export class UsagersProfilComponent implements OnInit {
     this.labels = usagersLabels;
     this.editCustomId = false;
     this.liensLabels = Object.keys(this.labels.lienParente);
+    this.structure = this.authService.currentUserValue.structure;
+
+    console.log(this.structure.options);
     this.title = "Fiche d'un domicilié";
     this.usager = new Usager();
 

@@ -1,61 +1,46 @@
-<br>
-
-<div id="steps">
-  <div
-    class="step"
-    *ngFor="let etape of etapes; let i = index"
-    id="step{{ i }}">
-    <div (click)="submitted = false">
-      <span
-        *ngIf="etapeInscription > i"
-        class="step_number step_check">
-        <fa-icon icon="check"></fa-icon>
-      </span>
-      <span
-        *ngIf="etapeInscription <= i"
-        [ngClass]="{
-              step_active: etapeInscription == i,
-               step_inactive: i > 0 && etapeInscription != i
-            }"
-        class="step_number">
-        {{ i + 1 }}
-      </span>
-      <span
-        [ngClass]="{
-              step_text_active: etapeInscription == i,
-              step_text_inactive: i > 0 && etapeInscription != i
-            }"
-        class="step_text">
-        {{ etape }}
-      </span>
-    </div>
-    <div
-      *ngIf="i < 1"
-      [className]="etapeInscription > i ? 'check_sep' : ''">
-      <span
-        class="separateur"
-        [ngClass]="{ separateur_inactive: i > 0 }"></span>
-    </div>
+<div class="row">
+  <div class="col-8 offset-2 text-left">
+    <br>
+    <a
+      [routerLink]="['/mon-compte']"
+      routerLinkActive="router-link-active"
+      class="active">
+      <fa-icon icon="arrow-left"></fa-icon>
+      Retour à mon compte
+    </a>
   </div>
 </div>
+<form
+  *ngIf="structure"
+  id="structureForm"
+  [formGroup]="structureEdit"
+  (ngSubmit)="submitStrucutre()">
+  <div class="step_form">
 
-<br>
-
-<div
-  class="step_form"
-  *ngIf="etapeInscription == 0">
-  <div class="text-center">
-    <h4 class="title">
-      Inscription de votre structure sur Domifa
+    <h4
+      class="title"
+      class="text-center">
+      Modifier les informations de votre structure
     </h4>
-  </div>
-  <form
-    [formGroup]="structureForm"
-    (ngSubmit)="submitStrucutre()"
-    id="structureForm">
+
     <div class="row">
-      <div class="col-md-12 text-center">Vous appartenez à…</div>
+      <div class="col-md-12 text-center">Votre structure est :</div>
       <div class="col-md-12 text-center">
+        <div
+          class="btn"
+          [ngClass]="{
+              'btn-primary': f.structureType.value === 'cias',
+              'btn-outline-primary': f.structureType.value !== 'cias',
+              'btn-outline-danger': submitted && f.structureType.value === ''
+            }">
+          <input
+            type="radio"
+            id="cias"
+            class="d-none"
+            value="cias"
+            formControlName="structureType">
+          <label for="cias">CIAS</label>
+        </div>
         <div
           class="btn"
           [ngClass]="{
@@ -69,8 +54,9 @@
             class="d-none"
             value="ccas"
             formControlName="structureType">
-          <label for="ccas">CCAS, CIAS, Commune</label>
+          <label for="ccas">CCAS ou commune</label>
         </div>
+
         <div
           class="btn"
           [ngClass]="{
@@ -88,23 +74,8 @@
         </div>
       </div>
 
-      <div
-        *ngIf="submitted && f.structureType.value === ''"
-        class="col-md-12 text-danger text-center">
-        Veuillez sélectionner un des deux types d'organisme : CCAS ou organisme agréé
-        <br>
-      </div>
-
-    </div>
-    <br>
-
-    <div class="text-center subtitle">
-      Veuillez saisir les coordonnées de votre structure, celles-ci apparaitront sur le Cerfa d’attestation :
-      <br>
-    </div>
-    <br>
-    <div class="row">
       <div class="col-md-12 form-group required">
+        <br>
         <label for="nom">Raison sociale (nom de la structure)</label>
         <input
           type="text"
@@ -268,10 +239,7 @@
       </div>
     </div>
     <br>
-    <div
-      class="row"
-      *ngIf="f.structureType.value === 'asso'">
-
+    <div class="row">
       <div class="col-md-12 text-center ">
         <h5 class="subtitle">
           Quelles sont ses informations d’agrément ?
@@ -291,6 +259,7 @@
             {{ departement.key }} - {{ departement.value }}
           </option>
         </select>
+
         <div
           *ngIf="submitted && f.departement.errors"
           class="invalid-feedback">
@@ -354,11 +323,7 @@
         <div
           *ngIf="submitted && f.responsable.get('nom').errors"
           class="invalid-feedback">
-          <div *ngIf="f.responsable.get('nom').errors.required">
-            Le
-            nom
-            du demandeur est obligatoire
-          </div>
+          <div *ngIf="f.responsable.get('nom').errors.required">Le nom du demandeur est obligatoire</div>
         </div>
       </div>
       <div class="col-md-6  form-group required">
@@ -399,22 +364,70 @@
         </div>
       </div>
 
+      <br>
+
     </div>
+  </div>
+
+  <div
+    class="step_form"
+    formGroupName="options">
     <div class="row">
-      <div class="col-md-12 text-center">
-        <br>
-        <button
-          class="btn btn-primary"
-          [disabled]="emailExist">
-          Enregistrer votre structure
-        </button>
+      <div class="col-md-12  text-center">
+        <h5 class="subtitle">Paramètres de la structure</h5>
         <br>
       </div>
+
+      <div class="col-8">
+        Ma structure utilise des identifiants personnalisés pour les dossiers :
+      </div>
+      <div class="col-4 text-right ">
+        <div
+          formControlName="customId"
+          class="btn-group btn-group-toggle"
+          ngbRadioGroup
+          name="customId">
+          <label
+            ngbButtonLabel
+            [ngClass]="f.options.get('customId')  === true ? 'btn-primary' : 'btn-outline-primary'">
+            <input
+              ngbButton
+              type="radio"
+              [value]="true">
+            Oui
+          </label>
+          <label
+            ngbButtonLabel
+            [ngClass]="f.options.get('customId')  === false ? 'btn-danger' : 'btn-outline-danger'">
+            <input
+              ngbButton
+              type="radio"
+              [value]="false">
+            Non
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <br>
+      <a
+        [routerLink]="['/mon-compte']"
+        routerLinkActive="router-link-active"
+        class="btn btn-outline-dark">
+        Retour à mon compte
+      </a>
+      &nbsp;&nbsp;
+      <button
+        class="btn btn-primary"
+        [disabled]="emailExist">
+        Enregistrer les modifications
+      </button>
       <br>
     </div>
-  </form>
-</div>
+    <br>
+  </div>
 
-<div *ngIf="structureInscription.etapeInscription == 1">
-  <app-register-user [structureChild]="structureInscription"></app-register-user>
-</div>
+</form>

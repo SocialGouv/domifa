@@ -22,8 +22,8 @@
          }">
         <h2 id="profil_name">{{ usager.nomComplet }}</h2>
         Numéro domicilié :
-        <b>{{ usager.customId || usager.id }}</b>
-
+        <b *ngIf="usager.customId && structure.options.customId">{{ usager.customId }}</b>
+        <b *ngIf="!structure.options.customId">{{ usager.id }}</b>
       </div>
       <div
         class="text-center"
@@ -469,14 +469,15 @@
             </div>
             <div
               class="col-md-4 reponses"
-              *ngIf="usager.customId !== null">
+              *ngIf="structure.options.customId === true">
               <span class="question">Identifiant personnalisé</span>
-              <span class="valeur">{{ usager.customId }}</span>
+              <span class="valeur">
+                {{ usager.customId || "Non renseigné" }}
+              </span>
             </div>
             <div
               class="col-md-4 reponses"
               *ngIf="usager.customId === null">
-
             </div>
 
             <div
@@ -657,7 +658,7 @@
 
               <div
                 class="col-md-4"
-                *ngIf="usager.customId !== null">
+                *ngIf="structure.options.customId === true">
                 <div class="form-group">
                   <label for="email">Identifiant personnalisé</label>
                   <input
@@ -1029,7 +1030,6 @@
                     Supprimer le transfert
                   </button>
                 </div>
-
               </div>
               <form
                 *ngIf="editTransfertForm"

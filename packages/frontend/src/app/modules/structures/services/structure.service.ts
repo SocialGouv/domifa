@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Structure } from "../structure.interface";
 
@@ -19,6 +20,14 @@ export class StructureService {
     return this.http.get(`${this.endPoint}/${structureId}`);
   }
 
+  public findMyStructure(): Observable<Structure> {
+    return this.http.get(`${this.endPoint}/ma-structure`).pipe(
+      map(response => {
+        return new Structure(response);
+      })
+    );
+  }
+
   public find(codePostal: string): Observable<any> {
     return this.http.get(`${this.endPoint}/code-postal/${codePostal}`);
   }
@@ -28,9 +37,15 @@ export class StructureService {
   }
 
   public create(structure: Structure): Observable<any> {
-    return structure.id !== 0
-      ? this.http.patch(`${this.endPoint}`, structure)
-      : this.http.post(`${this.endPoint}`, structure);
+    return this.http.post(`${this.endPoint}`, structure);
+  }
+
+  public patch(structure: Structure): Observable<any> {
+    return this.http.patch(`${this.endPoint}`, structure).pipe(
+      map(response => {
+        return new Structure(response);
+      })
+    );
   }
 
   public confirm(token: string): Observable<any> {

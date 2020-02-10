@@ -5,7 +5,7 @@ import { DatabaseModule } from "../database/database.module";
 import { UsagersProviders } from "../usagers/usagers.providers";
 import { MailerService } from "../users/services/mailer.service";
 import { UsersProviders } from "../users/users.providers";
-import { StructureDto } from "./structure-dto";
+import { StructureDto } from "./dto/structure.dto";
 import { StructuresProviders } from "./structures-providers";
 import { StructuresService } from "./structures.service";
 
@@ -61,15 +61,14 @@ describe("Structure Service", () => {
 
     // CREATE
     const newStructure = await service.create(structureDto);
-    expect(await newStructure).toBeDefined();
-    expect(await newStructure.id).toEqual(2);
+    expect(newStructure).toBeDefined();
+    expect(newStructure.id).toEqual(2);
 
     // READ
     const structure = await service.findOne(2);
     expect(structure).toBeTruthy();
     expect(structure.ville).toEqual("Paris");
     expect(structure.nom).toEqual("Association Amicale");
-    structureDto.id = await structure.id;
 
     // DELETE
     const deletedstructure = await service.delete(structure.token);

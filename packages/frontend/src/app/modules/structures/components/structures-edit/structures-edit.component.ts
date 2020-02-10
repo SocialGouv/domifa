@@ -5,66 +5,54 @@ import {
   FormGroup,
   Validators
 } from "@angular/forms";
+import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 
+import { AuthService } from "src/app/services/auth.service";
+import { departements } from "src/app/shared/departements";
 import { regexp } from "src/app/shared/validators";
-import { departements } from "../../../../shared/departements";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
 
 @Component({
-  selector: "app-structures-form",
-  styleUrls: ["./structures-form.component.css"],
-  templateUrl: "./structures-form.component.html"
+  selector: "app-structures-edit",
+  styleUrls: ["./structures-edit.component.css"],
+  templateUrl: "./structures-edit.component.html"
 })
-export class StructuresFormComponent implements OnInit {
+export class StructuresEditComponent implements OnInit {
   public title: string;
   public success: boolean = false;
-  public structureForm!: FormGroup;
+  public structureEdit: FormGroup;
   public structure: Structure;
   public departements: any;
   public submitted: boolean = false;
 
-  public etapeInscription: number;
-  public etapes = [
-    "Enregistrement de la structure",
-    "Création du compte personnel"
-  ];
-
-  public structureInscription = {
-    etapeInscription: 0,
-    structureId: 0
-  };
-
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    private router: Router,
+    private authService: AuthService
   ) {
+    this.title = "Editer votre structure";
     this.departements = departements;
-    this.etapeInscription = 0;
-
-    this.structure = new Structure();
-    this.title = "Inscrivez votre structure sur Domifa";
-
-    this.structureInscription = {
-      etapeInscription: 0,
-      structureId: 0
-    };
   }
 
   get f() {
-    return this.structureForm.controls;
+    return this.structureEdit.controls;
   }
 
   public ngOnInit() {
-    this.initForm();
+    this.structureService.findMyStructure().subscribe((structure: any) => {
+      this.structure = structure;
+      this.initForm();
+    });
   }
 
   public initForm() {
-    this.structureForm = this.formBuilder.group({
+    this.structureEdit = this.formBuilder.group({
       adresse: [this.structure.adresse, [Validators.required]],
       adresseCourrier: [this.structure.adresseCourrier, []],
       adresseDifferente: [this.structure.adresseCourrier, []],
@@ -78,11 +66,15 @@ export class StructuresFormComponent implements OnInit {
       departement: [this.structure.departement, []],
       email: [
         this.structure.email,
-        [Validators.required, Validators.pattern(regexp.email)],
-        this.validateEmailNotTaken.bind(this)
+        [Validators.required, Validators.pattern(regexp.email)]
       ],
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
+      options: this.formBuilder.group({
+        colis: [this.structure.options.colis, []],
+        customId: [this.structure.options.customId, []],
+        numeroBoite: [this.structure.options.numeroBoite, []]
+      }),
       phone: [
         this.structure.phone,
         [Validators.required, Validators.pattern(regexp.phone)]
@@ -99,20 +91,16 @@ export class StructuresFormComponent implements OnInit {
 
   public submitStrucutre() {
     this.submitted = true;
-
-    if (this.structureForm.invalid) {
+    if (this.structureEdit.invalid) {
       this.notifService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
-      this.structureService.create(this.structureForm.value).subscribe(
+      this.structureService.patch(this.structureEdit.value).subscribe(
         (structure: Structure) => {
           this.notifService.success("La structure a bien été enregistrée");
-
-          this.structure = new Structure(structure);
-          this.etapeInscription = 1;
-          this.structureInscription.etapeInscription = 1;
-          this.structureInscription.structureId = structure.id;
+          this.authService.currentUserValue.structure = structure;
+          this.router.navigate(["/mon-compte"]);
         },
         error => {
           this.notifService.error("Veuillez vérifier les champs du formulaire");

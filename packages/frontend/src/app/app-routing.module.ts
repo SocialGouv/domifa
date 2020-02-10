@@ -10,6 +10,7 @@ import { MentionsLegalesComponent } from "./modules/general/components/mentions/
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { DashboardComponent } from "./modules/stats/components/dashboard/dashboard.component";
 import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
+import { StructuresEditComponent } from "./modules/structures/components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
@@ -31,6 +32,7 @@ export const routes: Routes = [
   },
   { path: "inscription", component: StructuresSearchComponent },
   { path: "structures/nouveau", component: StructuresFormComponent },
+  { path: "structure-edit", component: StructuresEditComponent },
   {
     component: StructuresConfirmComponent,
     path: "structures/confirm/:token"

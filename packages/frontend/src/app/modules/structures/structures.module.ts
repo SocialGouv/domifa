@@ -12,6 +12,7 @@ import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { StructuresConfirmComponent } from "./components/structures-confirm/structures-confirm.component";
+import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
 import { StructureService } from "./services/structure.service";
@@ -20,7 +21,8 @@ import { StructureService } from "./services/structure.service";
   declarations: [
     StructuresConfirmComponent,
     StructuresSearchComponent,
-    StructuresFormComponent
+    StructuresFormComponent,
+    StructuresEditComponent
   ],
   exports: [
     StructuresConfirmComponent,
@@ -31,7 +33,6 @@ import { StructureService } from "./services/structure.service";
     UsersModule,
     CommonModule,
     BrowserModule,
-
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,

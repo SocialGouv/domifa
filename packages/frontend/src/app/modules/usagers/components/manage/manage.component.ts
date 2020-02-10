@@ -14,6 +14,7 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AuthService } from "src/app/services/auth.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
+import { Structure } from "../../../structures/structure.interface";
 import { interactionsNotifs } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
 import { Filters, Search } from "../../interfaces/search";
@@ -30,7 +31,6 @@ export class ManageUsagersComponent implements OnInit {
   public title: string;
   public searching: boolean;
   public usagers: Usager[] = [];
-
   public dateLabel: string;
 
   public labelsDateFin: any = {
@@ -48,7 +48,7 @@ export class ManageUsagersComponent implements OnInit {
   };
 
   public stats: { [key: string]: any };
-
+  public structure: Structure;
   public selectedUsager: Usager;
 
   @ViewChild("searchInput", { static: true })
@@ -71,6 +71,7 @@ export class ManageUsagersComponent implements OnInit {
     this.dateLabel = "Fin de domiciliation";
     this.filters = new Search(this.getFilters());
     this.selectedUsager = new Usager();
+    this.structure = this.authService.currentUserValue.structure;
 
     this.stats = {
       ATTENTE_DECISION: 0,

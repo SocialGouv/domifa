@@ -20,6 +20,13 @@ export class Structure {
     nom: string;
     prenom: string;
   };
+
+  public options: {
+    colis: boolean;
+    customId: boolean;
+    numeroBoite: boolean;
+  };
+
   public users: User[];
   public createdAt: Date | null;
 
@@ -43,6 +50,13 @@ export class Structure {
       nom: "",
       prenom: ""
     };
+
+    this.options = (structure && structure.options) || {
+      colis: false,
+      customId: false,
+      numeroBoite: false
+    };
+
     this.users = (structure && structure.users) || [];
 
     this.createdAt = null;

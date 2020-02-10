@@ -3,8 +3,9 @@ import * as crypto from "crypto";
 import { Model } from "mongoose";
 import { User } from "../users/user.interface";
 
-import { StructureDto } from "./structure-dto";
+import { StructureDto } from "./dto/structure.dto";
 import { Structure } from "./structure-interface";
+import { StructureEditDto } from "./dto/structure-edit.dto";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -33,19 +34,22 @@ export class StructuresService {
     return structure;
   }
 
+  public async patch(structureDto: StructureEditDto, user: User): Promise<any> {
+    return this.structureModel
+      .findOneAndUpdate(
+        { _id: user.structure._id },
+        { $set: structureDto },
+        { new: true }
+      )
+      .exec();
+  }
+
   public async checkToken(token: string): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
         { token },
-        {
-          $set: {
-            token: "",
-            verified: true
-          }
-        },
-        {
-          new: true
-        }
+        { $set: { token: "", verified: true } },
+        { new: true }
       )
       .exec();
   }
@@ -82,12 +86,8 @@ export class StructuresService {
     return this.structureModel
       .findOneAndUpdate(
         { id: structureId },
-        {
-          $push: { users: user }
-        },
-        {
-          new: true
-        }
+        { $push: { users: user } },
+        { new: true }
       )
       .exec();
   }
