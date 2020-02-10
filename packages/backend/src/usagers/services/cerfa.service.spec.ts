@@ -58,7 +58,7 @@ describe("CerfaService", () => {
     const usager = await usagerService.findById(5, user.structureId);
     const datasAttendues = {
       "topmostSubform[0].Page1[0].AdressePostale[0]":
-        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville\n92600 - Asnieres-sur-seine",
       "topmostSubform[0].Page1[0].Annéeconvocation[0]": "2019",
       "topmostSubform[0].Page1[0].AyantsDroits[0]":
         "Inspecteur Gadget né(e) le 12/10/1990 - ",
@@ -68,7 +68,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "05",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "1911",
       "topmostSubform[0].Page1[0].EntretienAdresse[0]":
-        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville\n92600 - Asnieres-sur-seine",
       "topmostSubform[0].Page1[0].EntretienAvec[0]": "Juste Isabelle",
       "topmostSubform[0].Page1[0].FaitLeDemandeur1[0]": "07",
       "topmostSubform[0].Page1[0].FaitLeDemandeur2[0]": "10",
@@ -133,9 +133,9 @@ describe("CerfaService", () => {
 
     const datasAttendues = {
       "topmostSubform[0].Page1[0].AdressePostaleOrganisme[0]":
-        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville\n92600 - Asnieres-sur-seine",
       "topmostSubform[0].Page1[0].AdressePostale[0]":
-        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville\n92600 - Asnieres-sur-seine",
       "topmostSubform[0].Page1[0].AnneePremiereDomic[0]": "2018",
       "topmostSubform[0].Page1[0].AnnéeValidité1[0]": "2019",
       "topmostSubform[0].Page1[0].AnnéeValidité2[0]": "2020",
@@ -181,7 +181,7 @@ describe("CerfaService", () => {
     service.attestation(usager, user);
     const datasAttendues = {
       "topmostSubform[0].Page1[0].AdressePostale[0]":
-        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville\n92600 - Asnieres-sur-seine",
       "topmostSubform[0].Page1[0].Annéeconvocation[0]": "",
       "topmostSubform[0].Page1[0].AyantsDroits[0]": "",
       "topmostSubform[0].Page1[0].Courriel[0]": "",
@@ -190,7 +190,7 @@ describe("CerfaService", () => {
       "topmostSubform[0].Page1[0].Datenaissance2[0]": "08",
       "topmostSubform[0].Page1[0].Datenaissance3[0]": "1940",
       "topmostSubform[0].Page1[0].EntretienAdresse[0]":
-        "CCAS de test\n1 place de l'hôtel de ville, Asnieres-sur-seine, 92600",
+        "CCAS de test\n1 place de l'hôtel de ville\n92600 - Asnieres-sur-seine",
       "topmostSubform[0].Page1[0].EntretienAvec[0]": "",
       "topmostSubform[0].Page1[0].FaitLeDemandeur1[0]": "12",
       "topmostSubform[0].Page1[0].FaitLeDemandeur2[0]": "09",
