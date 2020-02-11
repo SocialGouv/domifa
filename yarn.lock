@@ -2174,11 +2174,11 @@
     tslib "1.10.0"
 
 "@nestjs/typeorm@^6.2.0":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/typeorm/-/typeorm-6.2.0.tgz#6b8e3d80e3fbd9dc5e0a9d1ebf3028f7adb1ace9"
-  integrity sha512-CRDYV3oxTUa6mTDJfdW+RPLtVUpGx0RpigQdLlvMFLM56v+bYnrTuuy4vurKDgLNFC+AttL9JLZOgRhW8fGdgQ==
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/typeorm/-/typeorm-6.3.1.tgz#65e1a666a06290bfe3007293c6aa78152f109056"
+  integrity sha512-Au40kKTpRU8p0Z45psrGTdKKJeIIXNt/2iwSUtA1RODCQZfJQrr/Sg6aLo2373LU9FY4GHGTaI3hmadYCL5Pdg==
   dependencies:
-    uuid "3.3.3"
+    uuid "3.4.0"
 
 "@ng-bootstrap/ng-bootstrap@^5.2.1":
   version "5.2.2"
@@ -2776,10 +2776,15 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.0.tgz#b417deda18cf8400f278733499ad5547ed1abec4"
   integrity sha512-GnZbirvmqZUzMgkFn70c74OQpTTUcCzlhQliTzYjQMqg+hVKcDnxdL19Ne3UdYzdMA/+W3eb646FWn/ZaT1NfQ==
 
-"@types/node@^10.1.0", "@types/node@^10.12.18":
+"@types/node@^10.1.0":
   version "10.17.14"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.14.tgz#b6c60ebf2fb5e4229fdd751ff9ddfae0f5f31541"
   integrity sha512-G0UmX5uKEmW+ZAhmZ6PLTQ5eu/VPaT+d/tdLd5IFsKRPcbe6lPxocBtcYBFSaLaCW8O60AX90e91Nsp8lVHCNw==
+
+"@types/node@^10.12.18":
+  version "10.17.15"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.15.tgz#bfff4e23e9e70be6eec450419d51e18de1daf8e7"
+  integrity sha512-daFGV9GSs6USfPgxceDA8nlSe48XrVCJfDeYm7eokxq/ye7iuOH87hKXgMtEAVLFapkczbZsx868PMDT1Y0a6A==
 
 "@types/node@^12.6.2":
   version "12.12.21"

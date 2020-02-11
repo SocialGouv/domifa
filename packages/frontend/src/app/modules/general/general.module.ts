@@ -6,10 +6,6 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-
-import { far } from "@fortawesome/free-regular-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ToastrModule } from "ngx-toastr";
@@ -21,8 +17,6 @@ import { FaqComponent } from "./components/faq/faq.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./components/news/news.component";
-
-library.add(fas, far);
 
 @NgModule({
   declarations: [
@@ -44,7 +38,6 @@ library.add(fas, far);
     CommonModule,
     CommonModule,
     BrowserModule,
-
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
