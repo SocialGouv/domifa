@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.23",
-    "@angular/cli": "~8.3.23",
+    "@angular/cli": "~9.0.1",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
     "@socialgouv/tslint-config-recommended": "^0.16.0",
