@@ -2766,7 +2766,7 @@
   dependencies:
     "@types/express" "*"
 
-"@types/node-mailjet@^3.3.1":
+"@types/node-mailjet@^3.3.3":
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/@types/node-mailjet/-/node-mailjet-3.3.3.tgz#ddde7d853b3ac8cf5117fc5d435120546b136e5b"
   integrity sha512-/GlRgVDiCU5eabpwbMsMPHFohEb4IZuuwWPXviLVxaLYll8rjrLAmwthYd5O55+vSBtD6jt77NDRiOuQ+FRX+A==
