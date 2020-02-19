@@ -27,7 +27,7 @@
     "@nestjs/passport": "^6.1.1",
     "@nestjs/platform-express": "^6.11.7",
     "@nestjs/typeorm": "^6.3.1",
-    "@sentry/node": "5.12.3",
+    "@sentry/node": "5.12.4",
     "@types/mongoose": "^5.7.1",
     "@types/multer": "^1.4.2",
     "@types/passport-jwt": "^3.0.3",
