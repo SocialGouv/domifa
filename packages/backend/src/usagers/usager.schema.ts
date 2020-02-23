@@ -118,8 +118,7 @@ export const UsagerSchema = new mongoose.Schema(
           default: 0
         },
         dateInteraction: {
-          type: Date,
-          default: null
+          type: Date
         }
       },
       default: {

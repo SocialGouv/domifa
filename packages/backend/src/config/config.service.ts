@@ -12,6 +12,8 @@ export class ConfigService {
       DB_PASS: process.env.DB_PASS,
       DB_PORT: process.env.DB_PORT,
       DB_USER: process.env.DB_USER,
+      FILES_IV: process.env.FILES_IV,
+      FILES_PRIVATE: process.env.FILES_PRIVATE,
       FRONT_URL: process.env.FRONT_URL,
       MJ_APIKEY_PRIVATE: process.env.MJ_APIKEY_PRIVATE,
       MJ_APIKEY_PUBLIC: process.env.MJ_APIKEY_PUBLIC,

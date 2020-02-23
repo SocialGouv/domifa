@@ -10,13 +10,13 @@
     </a>
   </div>
 </div>
+
 <form
   *ngIf="structure"
   id="structureForm"
   [formGroup]="structureEdit"
   (ngSubmit)="submitStrucutre()">
   <div class="step_form">
-
     <h4
       class="title"
       class="text-center">
@@ -24,56 +24,6 @@
     </h4>
 
     <div class="row">
-      <div class="col-md-12 text-center">Votre structure est :</div>
-      <div class="col-md-12 text-center">
-        <div
-          class="btn"
-          [ngClass]="{
-              'btn-primary': f.structureType.value === 'cias',
-              'btn-outline-primary': f.structureType.value !== 'cias',
-              'btn-outline-danger': submitted && f.structureType.value === ''
-            }">
-          <input
-            type="radio"
-            id="cias"
-            class="d-none"
-            value="cias"
-            formControlName="structureType">
-          <label for="cias">CIAS</label>
-        </div>
-        <div
-          class="btn"
-          [ngClass]="{
-              'btn-primary': f.structureType.value === 'ccas',
-              'btn-outline-primary': f.structureType.value !== 'ccas',
-              'btn-outline-danger': submitted && f.structureType.value === ''
-            }">
-          <input
-            type="radio"
-            id="ccas"
-            class="d-none"
-            value="ccas"
-            formControlName="structureType">
-          <label for="ccas">CCAS ou commune</label>
-        </div>
-
-        <div
-          class="btn"
-          [ngClass]="{
-              'btn-primary': f.structureType.value === 'asso',
-              'btn-outline-primary': f.structureType.value !== 'asso',
-              'btn-outline-danger': submitted && f.structureType.value === ''
-            }">
-          <input
-            type="radio"
-            id="asso"
-            class="d-none"
-            value="asso"
-            formControlName="structureType">
-          <label for="asso">Organisme agréée</label>
-        </div>
-      </div>
-
       <div class="col-md-12 form-group required">
         <br>
         <label for="nom">Raison sociale (nom de la structure)</label>
@@ -108,10 +58,7 @@
         <div
           *ngIf="submitted && f.adresse.errors"
           class="invalid-feedback">
-          <div *ngIf="f.adresse.errors.required">
-            <b>L'adresse</b>
-            est obligatoire
-          </div>
+          <div *ngIf="f.adresse.errors.required">L'adresse est obligatoire</div>
         </div>
       </div>
 
@@ -211,11 +158,7 @@
         <div
           *ngIf="submitted && f.phone.errors"
           class="invalid-feedback">
-          <div>
-            Le
-            <b>numéro de téléphone</b>
-            est obligatoire
-          </div>
+          <div>Le numéro de téléphone est obligatoire</div>
         </div>
       </div>
       <div class="col form-group required">

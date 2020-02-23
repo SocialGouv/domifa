@@ -59,6 +59,21 @@
         <div
           class="btn"
           [ngClass]="{
+              'btn-primary': f.structureType.value === 'cias',
+              'btn-outline-primary': f.structureType.value !== 'cias',
+              'btn-outline-danger': submitted && f.structureType.value === ''
+            }">
+          <input
+            type="radio"
+            id="cias"
+            class="d-none"
+            value="cias"
+            formControlName="structureType">
+          <label for="cias">CIAS / COMMUNE</label>
+        </div>
+        <div
+          class="btn"
+          [ngClass]="{
               'btn-primary': f.structureType.value === 'ccas',
               'btn-outline-primary': f.structureType.value !== 'ccas',
               'btn-outline-danger': submitted && f.structureType.value === ''
@@ -69,7 +84,7 @@
             class="d-none"
             value="ccas"
             formControlName="structureType">
-          <label for="ccas">CCAS, CIAS, Commune</label>
+          <label for="ccas">CCAS</label>
         </div>
         <div
           class="btn"

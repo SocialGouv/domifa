@@ -1,6 +1,7 @@
 export type Filters =
   | "statut"
   | "name"
+  | "passage"
   | "echeance"
   | "interactionType"
   | "interactionStatut"

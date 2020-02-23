@@ -117,11 +117,11 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public updateFilters(element: Filters, value: string | boolean | null) {
-    Object.getOwnPropertyNames(this);
     if (
       element === "interactionType" ||
       element === "interactionStatut" ||
       element === "statut" ||
+      element === "passage" ||
       element === "echeance" ||
       element === "name"
     ) {
@@ -205,6 +205,8 @@ export class ManageUsagersComponent implements OnInit {
           INSTRUCTION: 0,
           RADIE: 0,
           REFUS: 0,
+          RENOUVELLEMENT: 0,
+          TOUS: 0,
           VALIDE: 0
         };
       }

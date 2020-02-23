@@ -19,9 +19,7 @@ export class RaftComponent implements OnInit {
   public user: User;
 
   public today: Date;
-
-  public motifList: any;
-  public motifsRadiation: any = motifsRadiation;
+  public motifsRadiation: any;
 
   constructor(
     private usagerService: UsagerService,
@@ -34,18 +32,18 @@ export class RaftComponent implements OnInit {
     this.today = new Date();
     this.usager = new Usager();
     this.user = new User();
+    this.motifsRadiation = motifsRadiation;
   }
 
   public ngOnInit() {
     if (this.route.snapshot.params.id) {
       this.authService.currentUser.subscribe(user => {
         this.user = user;
-        this.motifList = Object.keys(motifsRadiation);
       });
 
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {
-          this.usager = new Usager(usager);
+          this.usager = usager;
         },
         error => {
           this.router.navigate(["/404"]);

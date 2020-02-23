@@ -1,97 +1,157 @@
 <div
   class="container"
   id="manage">
+  <br>
+
+  <div
+    id="filters"
+    class="row">
+    <div
+      class="col"
+      [ngClass]="filters.statut === 'TOUS' ? 'filter-primary' : 'filter-dark'"
+      (click)="updateFilters('statut', 'TOUS')">
+      Tous
+    </div>
+    <div
+      class="col"
+      [ngClass]="filters.statut === 'VALIDE' ? 'filter-primary' : 'filter-dark'"
+      (click)="updateFilters('statut', 'VALIDE')">
+      Actifs ({{ stats.VALIDE }})
+    </div>
+    <div
+      class="col"
+      [ngClass]="filters.statut === 'RENOUVELLEMENT' ? 'filter-secondary' : 'filter-dark'"
+      (click)="updateFilters('statut', 'RENOUVELLEMENT')">
+      Renouvellements
+    </div>
+    <div
+      class="col"
+      [ngClass]="filters.statut === 'INSTRUCTION' ? 'filter-warning' : 'filter-dark'"
+      (click)="updateFilters('statut', 'INSTRUCTION')">
+      À compléter ({{ stats.INSTRUCTION }})
+    </div>
+    <div
+      class="col"
+      [ngClass]="filters.statut === 'ATTENTE_DECISION' ? 'filter-warning' : 'filter-dark' "
+      (click)="updateFilters('statut', 'ATTENTE_DECISION')">
+      Attente de décision ({{ stats.ATTENTE_DECISION }})
+    </div>
+    <div
+      class="col"
+      [ngClass]="filters.statut === 'REFUS' ? 'filter-danger' : 'filter-dark'  "
+      (click)="updateFilters('statut', 'REFUS')">
+      Refusés ({{ stats.REFUS }})
+    </div>
+    <div
+      class="col"
+      [ngClass]="filters.statut === 'RADIE' ? 'filter-danger' : 'filter-dark'"
+      (click)="updateFilters('statut', 'RADIE')">
+      Radiés ({{ stats.RADIE }})
+    </div>
+  </div>
   <div class="row">
-    <div class="col-6 offset-3 ">
-      <br>
-      <div class="form-group ">
-        <div id="searchbar">
-          <span id="search_icon">
-            <fa-icon icon="search"></fa-icon>
-          </span>
-          <input
-            type="text"
-            [(ngModel)]="filters.name"
-            #searchInput
-            placeholder="Recherche par nom, prénom ou numéro de domicilié"
-            class="form-control">
-          <span
-            *ngIf="searchInput.value !== ''"
-            (click)="resetSearchBar()"
-            id="times_icon">
-            <fa-icon icon="times-circle"></fa-icon>
-          </span>
-        </div>
+
+    <div
+      id="searchbar"
+      class="form-group ">
+      <span id="search_icon">
+        <fa-icon icon="search"></fa-icon>
+      </span>
+      <input
+        type="text"
+        [(ngModel)]="filters.name"
+        #searchInput
+        placeholder="Recherche par nom, prénom ou numéro de domicilié"
+        class="form-control">
+      <span
+        *ngIf="searchInput.value !== ''"
+        (click)="resetSearchBar()"
+        id="times_icon">
+        <fa-icon icon="times-circle"></fa-icon>
+      </span>
+    </div>
+  </div>
+  <div
+    class="row"
+    id="filters-btn">
+    <div class="col-4 text-left">
+      <span>Dernier passage</span>
+
+      <div
+        class="btn-group btn-group-toggle"
+        role="group"
+        aria-label="Basic example">
+        <button
+          class="btn"
+          (click)="updateFilters('passage', 'DEUX_MOIS')"
+          [ngClass]="filters.passage === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'">
+          Plus de 2 mois
+        </button>
+        <button
+          class="btn"
+          (click)="updateFilters('passage', 'TROIS_MOIS')"
+          [ngClass]="filters.passage === 'TROIS_MOIS' ? 'btn-dark' : 'btn-outline-dark'">
+          Plus de 3 mois
+        </button>
+      </div>
+    </div>
+    <div class="col-5">
+      <span>Échéance de la domicliation</span>
+
+      <div
+        class="btn-group btn-group-toggle"
+        role="group"
+        aria-label="Basic example">
+        <button
+          class="btn"
+          (click)="updateFilters('echeance', 'DEUX_MOIS')"
+          [ngClass]="filters.echeance === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'">
+          Moins de 2 mois
+        </button>
+        <button
+          class="btn"
+          (click)="updateFilters('echeance', 'DEUX_SEMAINES')"
+          [ngClass]="filters.echeance === 'DEUX_SEMAINES' ? 'btn-dark' : 'btn-outline-dark'">
+          Moins de 2 semaines
+        </button>
+        <button
+          class="btn"
+          (click)="updateFilters('echeance', 'DEPASSEE')"
+          [ngClass]="filters.echeance === 'DEPASSEE' ? 'btn-dark' : 'btn-outline-dark'">
+          Dépassée
+        </button>
+      </div>
+    </div>
+    <div class="col-3 text-right">
+      <span>Courrier à récupérer</span>
+      <div class="btn-group btn-group-toggle">
+        <button
+          class="btn"
+          (click)="updateFilters('interactionType', 'courrierIn')"
+          [ngClass]="filters.interactionType === 'courrierIn' ? 'btn-dark' : 'btn-outline-dark'">
+          Oui
+        </button>
+
       </div>
     </div>
   </div>
-  <div id="filters">
-    <div class="row">
-      <span>Statut :</span>
-      <button
-        class="btn"
-        [ngClass]="filters.statut === 'VALIDE' ? 'btn-primary' : 'btn-outline-dark'"
-        (click)="updateFilters('statut', 'VALIDE')">
-        Actif
-        <b>{{ stats.VALIDE }}</b>
-      </button>
-      <button
-        class="btn"
-        [ngClass]="filters.statut === 'INSTRUCTION' ? 'btn-warning' : 'btn-outline-dark'"
-        (click)="updateFilters('statut', 'INSTRUCTION')">
-        À compléter
-        <b>{{ stats.INSTRUCTION }}</b>
-      </button>
-      <button
-        class="btn"
-        [ngClass]="filters.statut === 'ATTENTE_DECISION' ? 'btn-warning' : 'btn-outline-dark' "
-        (click)="updateFilters('statut', 'ATTENTE_DECISION')">
-        En attente de décision
-        <b>{{ stats.ATTENTE_DECISION }}</b>
-      </button>
-      <button
-        class="btn"
-        [ngClass]="filters.statut === 'REFUS' ? 'btn-danger' : 'btn-outline-dark'  "
-        (click)="updateFilters('statut', 'REFUS')">
-        Refusé
-        <b>{{ stats.REFUS }}</b>
-      </button>
-      <button
-        class="btn"
-        [ngClass]="filters.statut === 'RADIE' ? 'btn-danger' : 'btn-outline-dark'"
-        (click)="updateFilters('statut', 'RADIE')">
-        Radié
-        <b>{{ stats.RADIE }}</b>
-      </button>
-    </div>
-    <div class="row">
-      <span>Courrier :</span>
-      <button
-        class="btn"
-        [ngClass]="
-          filters.interactionType === 'courrierIn'
-            ? 'btn-dark'
-            : 'btn-outline-dark'"
-        (click)="updateFilters('interactionType', 'courrierIn')">
-        Courrier à récupérer
-      </button>
-    </div>
+  <div *ngIf="usagers.length === 0 && !searching">
+    <br>
+    <br>
+    <ngb-alert
+      [dismissible]="false"
+      type="warning">
+      <div class="text-center">
+        <b>Aucun résultat :</b>
+        aucun dossier ne correspond à votre recherche &nbsp;&nbsp;&nbsp;
+        <button
+          (click)="resetFilters()"
+          class="btn btn-outline-white">
+          Réinitialiser les filtres
+        </button>
+      </div>
+    </ngb-alert>
   </div>
-
-  <ngb-alert
-    *ngIf="usagers.length === 0 && !searching"
-    [dismissible]="false"
-    type="warning">
-    <div class="text-center">
-      <b>Aucun résultat :</b>
-      aucun dossier ne correspond à votre recherche &nbsp;&nbsp;&nbsp;
-      <button
-        (click)="resetFilters()"
-        class="btn btn-outline-white">
-        Réinitialiser les filtres
-      </button>
-    </div>
-  </ngb-alert>
 
   <div
     class="row"
@@ -123,16 +183,20 @@
           colspan="3"
           class="text-right">
           <div class="sort-structures form-group form-check-inline">
-            <label for="sort">Trier par</label>
-            <select
-              class="form-control"
-              id="sort"
-              (change)="updateFilters('sort', $event.target.value)">
-              <option value="az">Alphabétique : A -> Z</option>
-              <option value="za">Alphabétique : Z -> A</option>
-              <option value="radiation">Date de radiation à venir</option>
-              <option value="domiciliation">Date de première domiciliation</option>
-            </select>
+            <button
+              class="btn"
+              [ngClass]="filters.sort === 'az' ? 'btn-dark' : 'btn-outline-dark'"
+              (click)="updateFilters('sort', 'az')"
+              title="Alphabétique : A -> Z">
+              <fa-icon icon="sort-alpha-down"></fa-icon>
+            </button>
+            <button
+              class="btn"
+              [ngClass]=" filters.sort === 'za'   ? 'btn-dark'  : 'btn-outline-dark'"
+              (click)="updateFilters('sort', 'za')"
+              title="Alphabétique : Z -> A">
+              <fa-icon icon="sort-alpha-down-alt"></fa-icon>
+            </button>
           </div>
         </td>
       </thead>
@@ -248,7 +312,7 @@
             </span>
 
             <span
-              *ngIf="filters.statut === null"
+              *ngIf="filters.statut === 'TOUS'"
               class="font-weight-bold">
               <span
                 *ngIf="usager.decision.statut === 'INSTRUCTION'"
@@ -272,7 +336,6 @@
                 Radié
               </span>
             </span>
-
           </td>
 
           <td (click)="goToProfil(usager)">
@@ -326,7 +389,8 @@
       class="btn btn-outline-primary">
       <b>LE MANDATAIRE</b>
       <br>
-      {{ selectedUsager.options.procuration.nom | uppercase }} {{ selectedUsager.options.procuration.prenom }}
+      {{ selectedUsager.options.procuration.nom | uppercase }} {{
+      selectedUsager.options.procuration.prenom }}
     </button>
     &nbsp;&nbsp;
     <button
@@ -343,6 +407,5 @@
       (click)="modal.close('Save click')">
       Revenir à la liste
     </button>
-
   </div>
 </ng-template>

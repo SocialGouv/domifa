@@ -43,7 +43,6 @@ export class AuthService {
       .pipe(
         map(token => {
           const user = new User(jwtDecode(token.access_token));
-
           this.isLogged = true;
           this.isAdmin = user && user.role === "admin";
 

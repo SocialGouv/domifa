@@ -17,6 +17,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
+import * as crypto from "crypto";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
@@ -408,7 +409,20 @@ export class UsagersController {
       throw new HttpException("FILE_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
-    res.sendFile(pathFile);
+    const key = new ConfigService().get("FILES_PRIVATE");
+    const iv = new ConfigService().get("FILES_IV");
+
+    const decipher = crypto.createDecipheriv("aes-256-cfb", key, iv);
+
+    const input = fs.createReadStream(pathFile + ".encrypted");
+    const output = fs.createWriteStream(pathFile + ".unencrypted");
+
+    input
+      .pipe(decipher)
+      .pipe(output)
+      .on("finish", () => {
+        res.sendFile(output.path);
+      });
   }
 
   @Post("document/:id")
@@ -465,6 +479,16 @@ export class UsagersController {
       label: postData.label
     };
 
+    const fileName =
+      new ConfigService().get("UPLOADS_FOLDER") +
+      user.structureId +
+      "/" +
+      usagerId +
+      "/" +
+      file.filename;
+
+    this.encryptFile(fileName);
+
     return this.docsService.addDocument(
       usagerId,
       user.structureId,
@@ -477,5 +501,22 @@ export class UsagersController {
   @Get(":id")
   public async findOne(@CurrentUsager() usager: Usager) {
     return usager;
+  }
+
+  private encryptFile(fileName: string) {
+    const key = new ConfigService().get("FILES_PRIVATE");
+    const iv = new ConfigService().get("FILES_IV");
+
+    const cipher = crypto.createCipheriv("aes-256-cfb", key, iv);
+
+    const input = fs.createReadStream(fileName);
+    const output = fs.createWriteStream(fileName + ".encrypted");
+
+    return input
+      .pipe(cipher)
+      .pipe(output)
+      .on("finish", () => {
+        return output.path;
+      });
   }
 }

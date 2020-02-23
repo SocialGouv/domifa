@@ -39,19 +39,19 @@
 
           <div
             class="form-row"
-            *ngFor="let motif of motifList">
+            *ngFor="let motif of motifsRadiation | keyvalue">
             <div class="form-check">
               <input
                 class="form-check-input"
                 type="radio"
                 name="motif"
-                id="{{ motif }}"
+                id="{{ motif.key }}"
                 [(ngModel)]="usager.decision.motif"
-                value="{{ motif }}">
+                value="{{ motif.key }}">
               <label
                 class="form-check-label"
-                for="{{ motif }}">
-                {{ motifsRadiation[motif] }}
+                for="{{ motif.key }}">
+                {{ motif.value }}
               </label>
             </div>
           </div>
@@ -173,10 +173,7 @@
           Vous avez été informé(e) des modalités de durée et de renouvellement de la domiciliation.
         Mes services m’ont indiqué que :
         </p>
-        <p class="font-weight-bold text-center">
-          {{ motifsRadiation[usager.decision.motif] }}
-          <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
-        </p>
+        <p class="font-weight-bold text-center">{{ usager.decision.motif }}</p>
         <p>
           C’est pourquoi je porte à votre connaissance que je fais procéder à la fin de votre domiciliation auprès
           <b>

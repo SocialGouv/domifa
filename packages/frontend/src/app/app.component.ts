@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   private newsJson = "assets/files/news.json";
 
   constructor(
-    public readonly authService: AuthService,
+    public authService: AuthService,
     private matomoInjector: MatomoInjector,
     private matomoTracker: MatomoTracker,
     private modalService: NgbModal,

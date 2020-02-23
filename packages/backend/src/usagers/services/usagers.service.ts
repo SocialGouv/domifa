@@ -209,9 +209,17 @@ export class UsagersService {
 
   public async search(query: SearchDto, structureId: number): Promise<any> {
     let sort: any = { nom: 1 };
-    const searchQuery: SearchQuery = {};
+    const searchQuery: SearchQuery = {
+      structureId
+    };
 
-    searchQuery.structureId = structureId;
+    const today = new Date();
+
+    const deuxMois: Date = new Date(new Date().setDate(today.getDate() + 60));
+    const deuxSemaines: Date = new Date(
+      new Date().setDate(today.getDate() + 14)
+    );
+    const troisMois: Date = new Date(new Date().setDate(today.getDate() + 90));
 
     const sortValues: {
       [key: string]: {};
@@ -220,6 +228,21 @@ export class UsagersService {
       domiciliation: { "decision.dateDebut": "ascending" },
       radiation: { "decision.dateFin": "descending" },
       za: { nom: "descending" }
+    };
+
+    const echeances: {
+      [key: string]: {};
+    } = {
+      DEPASSEE: { $lte: today },
+      DEUX_MOIS: { $lte: deuxMois, $gte: today },
+      DEUX_SEMAINES: { $lte: deuxSemaines, $gte: today }
+    };
+
+    const passages: {
+      [key: string]: {};
+    } = {
+      DEUX_MOIS: { $gte: deuxMois },
+      TROIS_MOIS: { $lte: troisMois }
     };
 
     /* ID DE LA STRUCTURE DE LUSER */
@@ -237,12 +260,25 @@ export class UsagersService {
       ];
     }
 
-    if (query.statut) {
+    if (query.statut && query.statut !== "TOUS") {
       searchQuery["decision.statut"] = query.statut;
+
+      if (query.statut === "RENOUVELLEMENT") {
+        searchQuery["decision.statut"] = "INSTRUCTION";
+        searchQuery.typeDom = "RENOUVELLEMENT";
+      }
     }
 
-    if (query.interactionType) {
+    if (query.interactionType && query.interactionType === "courrierIn") {
       searchQuery["lastInteraction.nbCourrier"] = { $gt: 0 };
+    }
+
+    if (query.echeance) {
+      searchQuery["decision.dateFin"] = echeances[query.echeance];
+    }
+
+    if (query.passage) {
+      searchQuery["lastInteraction.dateInteraction"] = passages[query.passage];
     }
 
     if (query.sort) {
