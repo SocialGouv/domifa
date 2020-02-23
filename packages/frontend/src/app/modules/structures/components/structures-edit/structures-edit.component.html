@@ -38,11 +38,26 @@
         <div
           *ngIf="submitted && f.nom.errors"
           class="invalid-feedback">
-          <div *ngIf="f.nom.errors.required">
-            Le
-            <b>nom de la structure</b>
-            est requis
-          </div>
+          <div *ngIf="f.nom.errors.required">Le nom de la structure est requis</div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="f.structureType.value === 'cias'"
+        class="col-md-12 form-group required">
+        <label for="rattachement">
+          Commune ou arrondissement de rattachement
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="rattachement"
+          formControlName="rattachement"
+          [ngClass]="{ 'is-invalid': submitted && f.rattachement.errors }">
+        <div
+          *ngIf="submitted && f.rattachement.errors"
+          class="invalid-feedback">
+          Commune ou arrondissement obligatoire
         </div>
       </div>
 
@@ -96,6 +111,7 @@
           Le code postal est obligatoire
         </div>
       </div>
+
       <div class="col-md-6 form-group required">
         <label for="ville">Ville</label>
         <input

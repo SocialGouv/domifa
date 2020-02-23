@@ -87,6 +87,7 @@ export class StructuresFormComponent implements OnInit {
         this.structure.phone,
         [Validators.required, Validators.pattern(regexp.phone)]
       ],
+      rattachement: [this.structure.rattachement, []],
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],

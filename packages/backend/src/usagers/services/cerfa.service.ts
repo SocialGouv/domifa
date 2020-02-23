@@ -87,7 +87,7 @@ export class CerfaService {
       " - " +
       user.structure.ville;
 
-    let pdfForm = "../../ressources/attestation.pdf";
+    let pdfForm = "../../ressources/attestationv.pdf";
 
     this.infosPdf = {
       "topmostSubform[0].Page1[0].AdressePostale[0]": adresseStructure,
@@ -169,7 +169,7 @@ export class CerfaService {
         "topmostSubform[0].Page1[0].AnneePremiereDomic[0]"
       ] = this.datePremiereDom.annee;
     } else {
-      pdfForm = "../../ressources/demande.pdf";
+      pdfForm = "../../ressources/demandev.pdf";
 
       this.infosPdf["topmostSubform[0].Page1[0].téléphone[0]"] = usager.phone;
       this.infosPdf["topmostSubform[0].Page2[0].Cias[0]"] = "";

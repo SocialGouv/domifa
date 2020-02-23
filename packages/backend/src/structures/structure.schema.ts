@@ -76,6 +76,10 @@ export const StructureSchema = new mongoose.Schema(
       required: true,
       type: String
     },
+    rattachement: {
+      default: "",
+      type: String
+    },
     responsable: {
       fonction: {
         default: "",

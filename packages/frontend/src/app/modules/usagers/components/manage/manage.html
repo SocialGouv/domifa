@@ -240,7 +240,8 @@
             <div *ngIf="
               usager.decision.statut === 'VALIDE' ||
               (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT') ||
-              (usager.decision.statut === 'RADIE' && !usager.options.npai)
+              (usager.decision.statut === 'ATTENTE_DECISION' && usager.typeDom === 'RENOUVELLEMENT') ||
+              (usager.decision.statut === 'RADIE' && usager.options.npai !== true)
             ">
               <span
                 (click)="setInteraction(usager, 'courrierOut')"

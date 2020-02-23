@@ -40,6 +40,9 @@ export class StructureEditDto {
   public phone!: string;
 
   @IsOptional()
+  public rattachement!: string;
+
+  @IsOptional()
   public responsable!: {
     fonction: string;
     nom: string;
