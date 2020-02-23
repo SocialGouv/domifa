@@ -17,6 +17,7 @@ import { FaqComponent } from "./components/faq/faq.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./components/news/news.component";
+import { CguComponent } from './components/cgu/cgu.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NewsComponent } from "./components/news/news.component";
     MentionsLegalesComponent,
     NotFoundComponent,
     FaqComponent,
-    NewsComponent
+    NewsComponent,
+    CguComponent
   ],
   exports: [
     HomeComponent,

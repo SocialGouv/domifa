@@ -55,7 +55,7 @@ ul {
 }
 
 .page-footer img {
-  max-height: 40px;
+  max-height: 55px;
 }
 
 .page-footer {
@@ -63,7 +63,7 @@ ul {
   margin-top: 100px;
   width: 100%;
   padding: 0.5rem 3rem;
-  border: 1px solid #e6e6e6;
+  border-top: 1px solid #e6e6e6;
 }
 
 .btn-white {

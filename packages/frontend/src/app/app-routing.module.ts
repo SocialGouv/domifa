@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./guards/auth-guard";
 import { LoggedGuard } from "./guards/logged-guard";
 import { StructureGuard } from "./guards/structure-guard";
+import { CguComponent } from "./modules/general/components/cgu/cgu.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { FaqComponent } from "./modules/general/components/faq/faq.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
@@ -97,6 +98,7 @@ export const routes: Routes = [
   { path: "faq", component: FaqComponent },
   { path: "news", component: NewsComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },
+  { path: "cgu", component: CguComponent },
   {
     canActivate: [AuthGuard],
     component: ImportComponent,

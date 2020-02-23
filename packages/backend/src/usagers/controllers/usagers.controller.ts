@@ -248,7 +248,6 @@ export class UsagersController {
   @UseGuards(AccessGuard)
   @Post("transfert/:id")
   public async editTransfert(
-    @Param("id") usagerId: number,
     @Body() transfertDto: TransfertDto,
     @CurrentUsager() usager: Usager
   ) {
@@ -264,11 +263,7 @@ export class UsagersController {
 
   @UseGuards(AccessGuard)
   @Delete("transfert/:id")
-  public async deleteTransfert(
-    @Param("id") usagerId: number,
-    @CurrentUser() user: User,
-    @CurrentUsager() usager: Usager
-  ) {
+  public async deleteTransfert(@CurrentUsager() usager: Usager) {
     usager.options.transfert = {
       actif: false,
       adresse: "",
@@ -405,8 +400,12 @@ export class UsagersController {
         fileInfos.path
     );
 
-    if (!fs.existsSync(pathFile)) {
-      throw new HttpException("FILE_NOT_FOUND", HttpStatus.BAD_REQUEST);
+    if (!fs.existsSync(pathFile + ".encrypted")) {
+      if (!fs.existsSync(pathFile)) {
+        throw new HttpException("FILE_NOT_FOUND", HttpStatus.BAD_REQUEST);
+      } else {
+        this.encryptFile(pathFile);
+      }
     }
 
     const key = new ConfigService().get("FILES_PRIVATE");
@@ -422,6 +421,7 @@ export class UsagersController {
       .pipe(output)
       .on("finish", () => {
         res.sendFile(output.path);
+        this.deleteFile(pathFile + ".unencrypted");
       });
   }
 
@@ -503,6 +503,18 @@ export class UsagersController {
     return usager;
   }
 
+  private deleteFile(pathFile: string) {
+    setTimeout(() => {
+      try {
+        fs.unlinkSync(pathFile);
+      } catch (err) {
+        throw new HttpException(
+          "Impossible de supprimer le fichier",
+          HttpStatus.INTERNAL_SERVER_ERROR
+        );
+      }
+    }, 2500);
+  }
   private encryptFile(fileName: string) {
     const key = new ConfigService().get("FILES_PRIVATE");
     const iv = new ConfigService().get("FILES_IV");
@@ -516,6 +528,14 @@ export class UsagersController {
       .pipe(cipher)
       .pipe(output)
       .on("finish", () => {
+        try {
+          fs.unlinkSync(fileName);
+        } catch (err) {
+          throw new HttpException(
+            "Impossible de supprimer le fichier",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
         return output.path;
       });
   }

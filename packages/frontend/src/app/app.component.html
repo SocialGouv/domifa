@@ -150,7 +150,7 @@
 <footer class="page-footer">
   <div>
     <img
-      src="../assets/images/logoministere.jpg"
+      src="../assets/images/logoministere.svg"
       alt="Logo Domifa"
       title="Logo Domifa">
     <br>
@@ -170,7 +170,11 @@
     </a>
   </div>
   <div>
-    <span>Conditions d'utilisation</span>
+    <a
+      [routerLink]="['/cgu']"
+      routerLinkActive="router-link-active">
+      Conditions d'utilisation
+    </a>
   </div>
   <div>
     <a
@@ -181,6 +185,8 @@
   </div>
   <div>
     <span class="small">© 2019 Incubateur des affaires sociales</span>
+
   </div>
 </footer>
+
 <app-loading></app-loading>
