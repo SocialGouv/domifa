@@ -2737,14 +2737,12 @@
     "@types/bson" "*"
     "@types/node" "*"
 
-"@types/mongoose-sequence@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/mongoose-sequence/-/mongoose-sequence-3.0.3.tgz#beaefaa02caa198ce81961350e9756a000714448"
-  integrity sha512-jynUTE7MNA2R/VcvtUojuC0mSZCXtNnuXhd2vT+I3mT/aVVAWg1p+IAPVfwtYZMqEhNeN+fk26pKWBNTAlVppg==
-  dependencies:
-    "@types/mongoose" "*"
+"@types/mongoose-sequence@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@types/mongoose-sequence/-/mongoose-sequence-3.0.4.tgz#dce94e418dc00b5854b1d23073f003d5b7942990"
+  integrity sha512-5zIwgVa6EQRBoztZs8gtnrrnquw2aI9LlatpQKAAw5qMFOD8+yUo+LkCyId5ZM3lurEKHh1pJQ7YUPfe+jTqxQ==
 
-"@types/mongoose@*", "@types/mongoose@^5.7.1":
+"@types/mongoose@^5.7.1":
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.7.1.tgz#503d902e873dce8546f2fed6b8ed9c6474cb353d"
   integrity sha512-lCe+ctykvXgI58bWlEAgladuVHmgSWbAuCMapy9+2m+aUm4DfjYGJ1HXIqubr+YflDN8hfjDaX7BGVxO/Fl06Q==
