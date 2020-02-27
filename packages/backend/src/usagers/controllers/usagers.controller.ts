@@ -325,10 +325,8 @@ export class UsagersController {
       .catch(err => {
         const erreur = {
           err,
-          statut: "CERFA_ERROR",
-          usager
+          statut: "CERFA_ERROR"
         };
-
         throw new HttpException(erreur, HttpStatus.INTERNAL_SERVER_ERROR);
       });
   }

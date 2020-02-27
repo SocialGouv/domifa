@@ -1,13 +1,13 @@
-import { Module, forwardRef } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
+import { ConfigService } from "../config/config.service";
+import { DatabaseModule } from "../database/database.module";
+import { InteractionsModule } from "../interactions/interactions.module";
+import { StructuresModule } from "../structures/structure.module";
+import { UsagersModule } from "../usagers/usagers.module";
+import { UsersModule } from "../users/users.module";
+import { StatsProviders } from "./stats-providers";
 import { StatsController } from "./stats.controller";
 import { StatsService } from "./stats.service";
-import { StructuresModule } from "../structures/structure.module";
-import { StatsProviders } from "./stats-providers";
-import { DatabaseModule } from "../database/database.module";
-import { UsersModule } from "../users/users.module";
-import { UsagersModule } from "../usagers/usagers.module";
-import { ConfigService } from "../config/config.service";
-import { InteractionsModule } from "../interactions/interactions.module";
 
 @Module({
   controllers: [StatsController],

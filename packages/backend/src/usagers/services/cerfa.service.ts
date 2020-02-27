@@ -149,8 +149,8 @@ export class CerfaService {
       nomOrga2: user.structure.nom.toUpperCase(),
       noms1: usager.nom,
       noms2: usager.nom,
-      numeroUsager: usager.id.toString(),
-      orientation: usager.decision.orientationDetails.toString(),
+      numeroUsager: this.toString(usager.id),
+      orientation: this.toString(usager.decision.orientationDetails),
       prefecture1: user.structure.departement,
       prefecture2: user.structure.departement,
       prenoms1: usager.prenom,
@@ -159,11 +159,12 @@ export class CerfaService {
       responsable: this.responsable,
       sexe1: sexe,
       sexe2: sexe,
-      signature1A: "",
-      signature1B: "",
-      signature2: "",
-      telephone: usager.phone.toString(),
-      telephoneOrga: user.structure.phone.toString(),
+      signature1A: user.structure.ville.toUpperCase(),
+      signature1B: user.structure.ville.toUpperCase(),
+      signature2: user.structure.ville.toUpperCase(),
+
+      telephone: this.toString(usager.phone),
+      telephoneOrga: this.toString(user.structure.phone),
       typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1"
     };
 
@@ -171,5 +172,9 @@ export class CerfaService {
       .input(fs.readFileSync(path.resolve(__dirname, pdfForm)))
       .fillForm(this.infosPdf)
       .output();
+  }
+
+  private toString(value: any) {
+    return value === undefined || value === null ? "" : value.toString();
   }
 }
