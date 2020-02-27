@@ -2,6 +2,7 @@ import { Document } from "mongoose";
 import { User } from "../users/user.interface";
 
 export interface Structure extends Document {
+  id: number;
   adresse: string;
   complementAdresse: string;
   nom: string;

@@ -10,7 +10,7 @@ import { StructuresService } from "./structures.service";
 
 @Module({
   controllers: [StructuresController],
-  exports: [StructuresService],
+  exports: [StructuresService, ...StructuresProviders],
   imports: [
     DatabaseModule,
     forwardRef(() => UsersModule),

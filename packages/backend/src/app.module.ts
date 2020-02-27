@@ -16,6 +16,7 @@ import { UsagersModule } from "./usagers/usagers.module";
 import { MailerService } from "./users/services/mailer.service";
 import { UsersController } from "./users/users.controller";
 import { UsersModule } from "./users/users.module";
+import { StatsModule } from './stats/stats.module';
 @Module({
   controllers: [],
   exports: [ConfigService],
@@ -26,7 +27,8 @@ import { UsersModule } from "./users/users.module";
     AuthModule,
     StructuresModule,
     InteractionsModule,
-    RavenModule
+    RavenModule,
+    StatsModule
   ],
   providers: [
     {

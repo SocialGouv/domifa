@@ -3,7 +3,8 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators
+  Validators,
+  ValidationErrors
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
@@ -60,10 +61,6 @@ export class StructuresFormComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.initForm();
-  }
-
-  public initForm() {
     this.structureForm = this.formBuilder.group({
       adresse: [this.structure.adresse, [Validators.required]],
       adresseCourrier: [this.structure.adresseCourrier, []],
@@ -96,12 +93,49 @@ export class StructuresFormComponent implements OnInit {
       structureType: [this.structure.structureType, [Validators.required]],
       ville: [this.structure.ville, [Validators.required]]
     });
+
+    this.structureForm.get("structureType").valueChanges.subscribe(value => {
+      this.structureForm.get("agrement").setValidators(null);
+      this.structureForm.get("departement").setValidators(null);
+      this.structureForm.get("rattachement").setValidators(null);
+
+      if (value === "asso") {
+        this.structureForm.get("agrement").setValidators(Validators.required);
+        this.structureForm
+          .get("departement")
+          .setValidators(Validators.required);
+      } else if (value === "cias") {
+        this.structureForm
+          .get("rattachement")
+          .setValidators(Validators.required);
+      }
+
+      this.structureForm.get("agrement").updateValueAndValidity();
+      this.structureForm.get("departement").updateValueAndValidity();
+      this.structureForm.get("rattachement").updateValueAndValidity();
+    });
   }
 
   public submitStrucutre() {
     this.submitted = true;
 
     if (this.structureForm.invalid) {
+      Object.keys(this.structureForm.controls).forEach(key => {
+        const controlErrors: ValidationErrors = this.structureForm.get(key)
+          .errors;
+        if (controlErrors != null) {
+          Object.keys(controlErrors).forEach(keyError => {
+            console.log(
+              "Key control: " +
+                key +
+                ", keyError: " +
+                keyError +
+                ", err value: ",
+              controlErrors[keyError]
+            );
+          });
+        }
+      });
       this.notifService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );

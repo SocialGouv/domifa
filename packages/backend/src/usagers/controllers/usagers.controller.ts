@@ -316,7 +316,7 @@ export class UsagersController {
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
   ) {
-    this.cerfaService
+    return this.cerfaService
       .attestation(usager, user)
       .then(buffer => {
         res.setHeader("content-type", "application/pdf");
@@ -328,6 +328,7 @@ export class UsagersController {
           statut: "CERFA_ERROR",
           usager
         };
+
         throw new HttpException(erreur, HttpStatus.INTERNAL_SERVER_ERROR);
       });
   }

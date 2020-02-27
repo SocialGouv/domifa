@@ -3,9 +3,9 @@ import * as crypto from "crypto";
 import { Model } from "mongoose";
 import { User } from "../users/user.interface";
 
+import { StructureEditDto } from "./dto/structure-edit.dto";
 import { StructureDto } from "./dto/structure.dto";
 import { Structure } from "./structure-interface";
-import { StructureEditDto } from "./dto/structure-edit.dto";
 
 export interface StructureQuery {
   codePostal?: string;
