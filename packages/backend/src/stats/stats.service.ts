@@ -14,4 +14,8 @@ export class StatsService {
     @Inject("USER_MODEL")
     private userModel: Model<User>
   ) {}
+
+  public async question10() {
+    return true;
+  }
 }

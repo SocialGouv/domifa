@@ -18,12 +18,20 @@ export interface Stats extends Document {
     Q_11: number;
 
     Q_12: {
+      TOTAL: number;
       A_SA_DEMANDE: number;
       ENTREE_LOGEMENT: number;
       FIN_DE_DOMICILIATION: number;
       NON_MANIFESTATION_3_MOIS: number;
       NON_RESPECT_REGLEMENT: number;
       PLUS_DE_LIEN_COMMUNE: number;
+    };
+    Q_13: {
+      TOTAL: number;
+      AUTRE: number;
+      HORS_AGREMENT: number;
+      LIEN_COMMUNE: number;
+      SATURATION: number;
     };
   };
 }

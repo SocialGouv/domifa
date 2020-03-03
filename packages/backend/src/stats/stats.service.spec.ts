@@ -5,6 +5,7 @@ import { InteractionsModule } from "../interactions/interactions.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
+import { StatsProviders } from "./stats-providers";
 import { StatsService } from "./stats.service";
 
 describe("StatsService", () => {
@@ -19,7 +20,7 @@ describe("StatsService", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule)
       ],
-      providers: [StatsService]
+      providers: [StatsService, ...StatsProviders]
     }).compile();
 
     service = module.get<StatsService>(StatsService);

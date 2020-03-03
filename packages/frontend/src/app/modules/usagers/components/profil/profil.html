@@ -143,20 +143,14 @@
       </div>
     </div>
     <br>
-    <ngb-alert
-      type="warning"
-      *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
-      Demande en cours, à valider par un responsable
-    </ngb-alert>
   </div>
 
-  <div *ngIf="usager.decision.statut === 'VALIDE' || usager.decision.statut === 'RADIE' || (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT')">
+  <div *ngIf="usager.decision.statut !== 'REFUS' || (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)">
     <br>
     <h5 class="text-center font-weight-bold">
       Signaler la réception d’un courrier ou un passage
     </h5>
     <br>
-
     <div
       class="row"
       *ngIf="usager.options.transfert.actif"
@@ -306,6 +300,23 @@
           icon="redo"
           class="btn-icon"></fa-icon>
         Compléter la demande
+      </a>
+    </ngb-alert>
+
+    <ngb-alert
+      type="info"
+      [dismissible]="false"
+      class="text-center"
+      *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && usager.typeDom === 'RENOUVELLEMENT'">
+      Cette demande de renouvellement est actuellement en attente d'une décision
+      &nbsp;
+      <a
+        [routerLink]="['/usager/'+usager.id+'/edit']"
+        class="btn btn-light">
+        <fa-icon
+          icon="redo"
+          class="btn-icon"></fa-icon>
+        Voir le récapitulatif
       </a>
     </ngb-alert>
 

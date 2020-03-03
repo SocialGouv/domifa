@@ -305,10 +305,17 @@
               {{ usager.options.procuration.nomComplet }}
             </span>
 
-            <span *ngIf="filters.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT'">
+            <span *ngIf="filters.statut === 'RENOUVELLEMENT' && usager.decision.statut === 'ATTENTE_DECISION'">
+              <span class="text-warning">En attente d'une décision</span>
+            </span>
+            <span *ngIf="filters.statut === 'RENOUVELLEMENT' && usager.decision.statut === 'INSTRUCTION'">
+              <span class="text-warning">Dossier à compléter</span>
+            </span>
+
+            <span *ngIf="(filters.statut === 'INSTRUCTION' || filters.statut === 'ATTENTE_DECISION') && usager.typeDom === 'RENOUVELLEMENT'">
               <span class="text-secondary">Renouvellement en cours</span>
             </span>
-            <span *ngIf="filters.statut === 'INSTRUCTION' && usager.typeDom !== 'RENOUVELLEMENT'">
+            <span *ngIf="(filters.statut === 'INSTRUCTION' || filters.statut === 'ATTENTE_DECISION') && usager.typeDom !== 'RENOUVELLEMENT'">
               <span class="text-dark">Première demande</span>
             </span>
 

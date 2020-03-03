@@ -64,6 +64,7 @@ export class UsagersController {
   public postUsager(@Body() usagerDto: UsagersDto, @CurrentUser() user: User) {
     return this.usagersService.create(usagerDto, user);
   }
+
   @UseGuards(AccessGuard)
   @Patch(":id")
   public async patchUsager(

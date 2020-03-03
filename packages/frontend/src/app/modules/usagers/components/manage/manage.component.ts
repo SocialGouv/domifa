@@ -143,8 +143,9 @@ export class ManageUsagersComponent implements OnInit {
     };
 
     if (
-      usager.decision.statut === "INSTRUCTION" &&
-      usager.typeDom === "RENOUVELLEMENT"
+      usager.typeDom === "RENOUVELLEMENT" &&
+      (usager.decision.statut === "ATTENTE_DECISION" ||
+        usager.decision.statut === "INSTRUCTION")
     ) {
       this.router.navigate(["usager/" + usager.id]);
       return;

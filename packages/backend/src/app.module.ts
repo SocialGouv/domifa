@@ -1,22 +1,17 @@
 import { Module } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
-
+import { TerminusModule } from "@nestjs/terminus";
 import { RavenInterceptor, RavenModule } from "nest-raven";
-import { AuthController } from "./auth/auth.controller";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigService } from "./config/config.service";
 import { DatabaseModule } from "./database/database.module";
-import { InteractionsController } from "./interactions/interactions.controller";
 import { InteractionsModule } from "./interactions/interactions.module";
+import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
-import { StructuresController } from "./structures/structures.controller";
-import { ImportController } from "./usagers/controllers/import.controller";
-import { UsagersController } from "./usagers/controllers/usagers.controller";
+import { TerminusOptionsService } from "./terminus-options.service";
 import { UsagersModule } from "./usagers/usagers.module";
 import { MailerService } from "./users/services/mailer.service";
-import { UsersController } from "./users/users.controller";
 import { UsersModule } from "./users/users.module";
-import { StatsModule } from './stats/stats.module';
 @Module({
   controllers: [],
   exports: [ConfigService],
@@ -28,7 +23,10 @@ import { StatsModule } from './stats/stats.module';
     StructuresModule,
     InteractionsModule,
     RavenModule,
-    StatsModule
+    StatsModule,
+    TerminusModule.forRootAsync({
+      useClass: TerminusOptionsService
+    })
   ],
   providers: [
     {
@@ -39,7 +37,8 @@ import { StatsModule } from './stats/stats.module';
       provide: ConfigService,
       useValue: new ConfigService()
     },
-    MailerService
+    MailerService,
+    TerminusOptionsService
   ]
 })
 export class AppModule {}

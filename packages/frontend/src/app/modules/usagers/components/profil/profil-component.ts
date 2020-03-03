@@ -117,7 +117,10 @@ export class UsagersProfilComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {
-          if (usager.decision.statut === "ATTENTE_DECISION") {
+          if (
+            usager.decision.statut === "ATTENTE_DECISION" &&
+            usager.typeDom === "PREMIERE_DOM"
+          ) {
             this.router.navigate(["/usager/" + usager.id + "/edit"]);
           }
           this.usager = usager;

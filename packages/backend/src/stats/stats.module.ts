@@ -11,7 +11,7 @@ import { StatsService } from "./stats.service";
 
 @Module({
   controllers: [StatsController],
-  exports: [StatsService],
+  exports: [StatsService, ...StatsProviders],
   imports: [
     DatabaseModule,
     forwardRef(() => UsersModule),

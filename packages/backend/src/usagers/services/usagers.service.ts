@@ -264,7 +264,9 @@ export class UsagersService {
       searchQuery["decision.statut"] = query.statut;
 
       if (query.statut === "RENOUVELLEMENT") {
-        searchQuery["decision.statut"] = "INSTRUCTION";
+        searchQuery["decision.statut"] = {
+          $in: ["INSTRUCTION", "ATTENTE_DECISION"]
+        };
         searchQuery.typeDom = "RENOUVELLEMENT";
       }
     }
