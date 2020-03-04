@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
-import { TerminusModule } from "@nestjs/terminus";
 import { RavenInterceptor, RavenModule } from "nest-raven";
 import { AuthModule } from "./auth/auth.module";
 import { ConfigService } from "./config/config.service";

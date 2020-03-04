@@ -2,7 +2,8 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Structure } from "../structures/structure-interface";
 import { User } from "../users/user.interface";
-import { Stats } from "./stats.interface";
+
+import { StatsDocument } from "./stats.interface";
 
 @Injectable()
 export class StatsService {
@@ -10,7 +11,7 @@ export class StatsService {
     @Inject("STRUCTURE_MODEL")
     private structureModel: Model<Structure>,
     @Inject("STATS_MODEL")
-    private statsModel: Model<Stats>,
+    private statsModel: Model<StatsDocument>,
     @Inject("USER_MODEL")
     private userModel: Model<User>
   ) {}
