@@ -8,7 +8,8 @@ import { DatabaseModule } from "./database/database.module";
 import { InteractionsModule } from "./interactions/interactions.module";
 import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
-import { TerminusOptionsService } from "./terminus-options.service";
+
+import { HealthModule } from "./health/health.module";
 import { UsagersModule } from "./usagers/usagers.module";
 import { MailerService } from "./users/services/mailer.service";
 import { UsersModule } from "./users/users.module";
@@ -24,9 +25,7 @@ import { UsersModule } from "./users/users.module";
     InteractionsModule,
     RavenModule,
     StatsModule,
-    TerminusModule.forRootAsync({
-      useClass: TerminusOptionsService
-    })
+    HealthModule
   ],
   providers: [
     {
@@ -37,8 +36,7 @@ import { UsersModule } from "./users/users.module";
       provide: ConfigService,
       useValue: new ConfigService()
     },
-    MailerService,
-    TerminusOptionsService
+    MailerService
   ]
 })
 export class AppModule {}
