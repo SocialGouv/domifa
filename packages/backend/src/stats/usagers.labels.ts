@@ -27,10 +27,10 @@ export const decision: { [key: string]: any } = {
 /* DÉCISIONS */
 export const decisionStats: { [key: string]: any } = {
   ATTENTE_DECISION: "Demandes déposées",
-  INSTRUCTION: "Dossiers cours",
-  RADIE: "Eadiés",
+  INSTRUCTION: "DOSSIERS EN cours",
+  RADIE: "radiés",
   REFUS: "Demandes refusées",
-  VALIDE: "Domiciliés actifs"
+  VALIDE: "DOMICILIÉS ACTIFS"
 };
 
 /* MOTIFS DE RADIATION ET REFUS */

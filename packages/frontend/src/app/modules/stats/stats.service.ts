@@ -9,6 +9,7 @@ import { environment } from "src/environments/environment";
 export class StatsService {
   public http: HttpClient;
   public loading: boolean;
+  public baseUrl = environment.apiUrl + "stats/";
   public epUsagers = environment.apiUrl + "usagers/";
   public epUsers = environment.apiUrl + "users/";
   public epInteractions = environment.apiUrl + "interactions/";
@@ -16,6 +17,10 @@ export class StatsService {
   constructor(http: HttpClient) {
     this.http = http;
     this.loading = true;
+  }
+
+  public getToday(): Observable<any> {
+    return this.http.get(`${this.baseUrl}today`);
   }
 
   public getAllStatuts(): Observable<any> {

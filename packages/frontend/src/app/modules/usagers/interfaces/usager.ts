@@ -142,7 +142,14 @@ export class Usager {
       visite: false
     };
 
-    this.typeDom = (usager && usager.typeDom) || "PREMIERE";
+    if (usager && usager.typeDom) {
+      this.typeDom =
+        usager.typeDom === "PREMIERE_DOM" || usager.typeDom === "PREMIERE"
+          ? "PREMIERE"
+          : "RENOUVELLEMENT";
+    } else {
+      this.typeDom = "PREMIERE";
+    }
 
     this.options = (usager && new Options(usager.options)) || new Options({});
   }

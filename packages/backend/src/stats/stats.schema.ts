@@ -3,6 +3,7 @@ import * as mongoose from "mongoose";
 export const StatsSchema = new mongoose.Schema({
   capacite: Number,
   codePostal: String,
+  date: { type: Date, default: Date.now },
   departement: String,
   nom: String,
   questions: {
@@ -34,6 +35,6 @@ export const StatsSchema = new mongoose.Schema({
       TOTAL: Number
     }
   },
-  structureType: String,
-  structureId: Number
+  structureId: Number,
+  structureType: String
 });

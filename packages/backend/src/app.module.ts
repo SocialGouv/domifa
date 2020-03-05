@@ -8,10 +8,12 @@ import { InteractionsModule } from "./interactions/interactions.module";
 import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
 
+import { ScheduleModule } from "@nestjs/schedule";
 import { HealthModule } from "./health/health.module";
 import { UsagersModule } from "./usagers/usagers.module";
 import { MailerService } from "./users/services/mailer.service";
 import { UsersModule } from "./users/users.module";
+
 @Module({
   controllers: [],
   exports: [ConfigService],
@@ -24,7 +26,8 @@ import { UsersModule } from "./users/users.module";
     InteractionsModule,
     RavenModule,
     StatsModule,
-    HealthModule
+    HealthModule,
+    ScheduleModule.forRoot()
   ],
   providers: [
     {

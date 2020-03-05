@@ -10,6 +10,7 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { DashboardComponent } from "./modules/stats/components/dashboard/dashboard.component";
+import { RapportComponent } from "./modules/stats/components/rapport/rapport.component";
 import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
 import { StructuresEditComponent } from "./modules/structures/components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
@@ -94,6 +95,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     component: DashboardComponent,
     path: "stats"
+  },
+  {
+    canActivate: [AuthGuard],
+    component: RapportComponent,
+    path: "rapport"
   },
   { path: "faq", component: FaqComponent },
   { path: "news", component: NewsComponent },

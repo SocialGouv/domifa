@@ -13,9 +13,10 @@ import { StructuresModule } from "../structures/structures.module";
 import { UsersModule } from "../users/users.module";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { StatsService } from "./stats.service";
+import { RapportComponent } from './components/rapport/rapport.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, RapportComponent],
   exports: [DashboardComponent],
   imports: [
     UsersModule,

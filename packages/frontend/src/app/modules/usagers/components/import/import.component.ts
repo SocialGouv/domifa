@@ -344,8 +344,13 @@ export class ImportComponent implements OnInit {
     if ((date === undefined || date === null || date === "") && !required) {
       return true;
     }
-
-    return RegExp(regexp.date).test(date);
+    if (RegExp(regexp.date).test(date)) {
+      const dateParts = date.split("/");
+      const jour = parseInt(dateParts[0], 10);
+      const mois = parseInt(dateParts[1], 10);
+      return jour <= 31 && jour > 0 && mois <= 12 && mois > 0;
+    }
+    return false;
   }
 
   public validPhone(phone: string): boolean {

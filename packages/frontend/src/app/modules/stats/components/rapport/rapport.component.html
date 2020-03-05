@@ -1,0 +1,45 @@
+<div
+  id="stats"
+  class="row">
+  <div class="col-md-6 offset-3 text-left">
+    <br>
+    <h1>Rapport d'activité</h1>
+    <br>
+    <div *ngIf="!stats.questions">
+      <b>Aucune donnée enregistrée</b>
+    </div>
+    <table
+      class="table"
+      *ngIf="stats.questions">
+      <tbody>
+        <tr>
+          <td>{{ statsLabels.Q_10 }}</td>
+          <td>{{ stats.questions.Q_10 }}</td>
+        </tr>
+        <tr>
+          <td>>> {{ statsLabels.Q_10_A }}</td>
+          <td>{{ stats.questions.Q_10_A }}</td>
+        </tr>
+        <tr>
+          <td>>> {{ statsLabels.Q_10_B }}</td>
+          <td>{{ stats.questions.Q_10_B }}</td>
+        </tr>
+        <tr>
+          <td>{{ statsLabels.Q_11 }}</td>
+          <td>{{ stats.questions.Q_11 }}</td>
+        </tr>
+        <tr>
+          <td>Q 12 : Total Radiations</td>
+          <td>{{ stats.questions.Q_12.TOTAL }}</td>
+        </tr>
+        <tr *ngFor="let decision of labels.motifsRadiation | keyvalue">
+          <td>>> Q12 : {{ decision.value }}</td>
+          <td>
+            {{ stats.questions.Q_12[decision.key] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

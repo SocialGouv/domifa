@@ -68,7 +68,6 @@ export class StructuresEditComponent implements OnInit {
         this.structure.email,
         [Validators.required, Validators.pattern(regexp.email)]
       ],
-      id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
       options: this.formBuilder.group({
         colis: [this.structure.options.colis, []],
@@ -85,7 +84,7 @@ export class StructuresEditComponent implements OnInit {
         nom: [this.structure.responsable.nom, [Validators.required]],
         prenom: [this.structure.responsable.prenom, [Validators.required]]
       }),
-      structureType: [this.structure.structureType, [Validators.required]],
+      structureType: [this.structure.structureType, []],
       ville: [this.structure.ville, [Validators.required]]
     });
   }

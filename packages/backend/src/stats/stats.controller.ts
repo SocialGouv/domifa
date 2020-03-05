@@ -1,9 +1,13 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Logger, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import { AccessGuard } from "../auth/access.guard";
+import { CurrentUser } from "../auth/current-user.decorator";
+import { RolesGuard } from "../auth/roles.guard";
 import { InteractionsService } from "../interactions/interactions.service";
 import { StructuresService } from "../structures/structures.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsersService } from "../users/services/users.service";
-import { Stats } from "./stats.class";
+import { User } from "../users/user.interface";
 import { StatsService } from "./stats.service";
 
 @Controller("stats")
@@ -15,14 +19,10 @@ export class StatsController {
     private readonly usagersService: UsagersService,
     private readonly interactionsService: InteractionsService
   ) {}
-
-  @Get("generate")
-  public async generate() {
-    const structure = await this.structureService.findOne(17);
-
-    const stat = new Stats();
-    stat.capacite = structure.capacite;
-    stat.structureId = structure.capacite;
-    return stat;
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get("today")
+  public async today(@CurrentUser() user: User) {
+    return this.statsService.getToday(user.structureId);
   }
 }

@@ -14,6 +14,7 @@ import { StatsService } from "./stats.service";
   exports: [StatsService, ...StatsProviders],
   imports: [
     DatabaseModule,
+
     forwardRef(() => UsersModule),
     forwardRef(() => StructuresModule),
     forwardRef(() => UsagersModule),

@@ -3,127 +3,126 @@
   class="row">
 
   <div class="col-md-12 text-center">
-    <div class="col-md-12 text-center">
-      <br>
-      <span class="stats-structure">TOTAL DOMICILIATIONS DOMIFA</span>
-      <div class="stats-blocks">
-        <div *ngFor="let stat of allStats | keyvalue">
-          <span
-            class="stats-chiffres"
-            [ngClass]="statutClass[stat.key]">
-            {{ stat.value }}
-          </span>
-          <span class="stats-labels">{{ labels.decisionStats[stat.key] }}</span>
-        </div>
+    <br>
+    <span class="stats-structure">TOTAL DOMICILIATIONS DOMIFA</span>
+    <div class="stats-blocks">
+      <div *ngFor="let stat of allStats | keyvalue">
+        <span
+          class="stats-chiffres"
+          [ngClass]="statutClass[stat.key]">
+          {{ stat.value }}
+        </span>
+        <span class="stats-labels">{{ labels.decisionStats[stat.key] }}</span>
       </div>
     </div>
+  </div>
 
-    <div class="col-md-12">
-      <div class="stats-blocks">
-        <div>
-          <span class="stats-chiffres">{{ users }}</span>
-          <span class="stats-labels">UTILISATEURS</span>
-        </div>
-      </div>
-      <span class="stats-titre">Interactions</span>
-      <div
-        class="stats-blocks"
-        *ngIf="allInteractions">
-        <div *ngFor="let interaction of allInteractions | keyvalue">
-          <span class="stats-chiffres">{{ interaction.value }}</span>
-          <span class="stats-labels">
-            {{ interactionsLabels[interaction.key] }}
-          </span>
-        </div>
+  <div class="col-md-12">
+    <div class="stats-blocks">
+      <div>
+        <span class="stats-chiffres">{{ users }}</span>
+        <span class="stats-labels">UTILISATEURS</span>
       </div>
     </div>
+    <span class="stats-titre">Interactions</span>
+    <div
+      class="stats-blocks"
+      *ngIf="allInteractions">
+      <div *ngFor="let interaction of allInteractions | keyvalue">
+        <span class="stats-chiffres">{{ interaction.value }}</span>
+        <span class="stats-labels">
+          {{ interactionsLabels[interaction.key] }}
+        </span>
+      </div>
+    </div>
+  </div>
 
-    <br>
-    <br>
-    <div class="row">
-      <div
-        class="card col-6 structure-card"
-        *ngFor="let structure of structures; let i = index">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <span class="stats-structure">
-              <div>
-                #{{i+1}} {{ structure.nom }} {{ structure.structureType === 'ccas' ? " - " + structure.ville  : "" }}
-              </div>
-              <span
-                class="badge"
-                [ngClass]="{
+  <br>
+  <br>
+  <div class="text-center">
+    <div
+      class="card structure-card"
+      *ngFor="let structure of structures; let i = index">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <span class="stats-structure">
+            <div>
+              #{{i+1}} {{ structure.nom }} {{ structure.structureType === 'ccas' ? " - " + structure.ville  : "" }}
+            </div>
+            <span
+              class="badge"
+              [ngClass]="{
               'badge-info': structure.structureType === 'asso',
               'badge-dark': structure.structureType === 'ccas'
             }">
-                {{ labels.structureType[structure.structureType]}}
-              </span>
+              {{ labels.structureType[structure.structureType]}}
             </span>
-            <br>
-            {{ structure.adresse }},
-            <i>
-              {{ structure.ville }} ({{ structure.codePostal }})
-            </i>
-            <br>
-            <p *ngIf="structure.structureType === 'asso'">
-              <b>Capacité maximale :</b>
-              {{ structure.capacite }}
-            </p>
-            <p *ngIf="structure.createdAt">
-              <b>Date d'inscription :</b>
-              {{ structure.createdAt | date: "dd/MM/yyyy"  }}
-            </p>
-            <br>
-          </div>
-
-          <div class="col-md-12 text-center">
-            <span class="stats-titre">Domiciliations</span>
-            <div
-              class="stats-blocks"
-              *ngIf="stats[structure.id]">
-              <div *ngFor="let stat of stats[structure.id]">
-                <span
-                  class="stats-chiffres"
-                  [ngClass]="statutClass[stat.statut]">
-                  {{ stat.sum }}
-                </span>
-                <span class="stats-labels">{{ labels.decisionStats[stat.statut] }}</span>
-              </div>
-            </div>
-            <div
-              *ngIf="!stats[structure.id]"
-              class="text-warning">
-              <fa-icon
-                class="btn-icon"
-                icon="times"></fa-icon>
-              Aucun dossier enregistré
-            </div>
-          </div>
+          </span>
           <br>
-          <div class="col-md-12 text-center">
-            <br>
-            <span class="stats-titre">Interactions</span>
-            <div
-              class="stats-blocks"
-              *ngIf="interactions[structure.id]">
-              <div *ngFor="let interaction of interactions[structure.id]">
-                <span class="stats-chiffres">{{ interaction.sum }}</span>
-                <span class="stats-labels">
-                  {{ interactionsLabels[interaction.type] }}
-                </span>
-              </div>
+          {{ structure.adresse }},
+          <i>
+            {{ structure.ville }} ({{ structure.codePostal }})
+          </i>
+          <br>
+          <p *ngIf="structure.structureType === 'asso'">
+            <b>Capacité maximale :</b>
+            {{ structure.capacite }}
+          </p>
+          <p *ngIf="structure.createdAt">
+            <b>Date d'inscription :</b>
+            {{ structure.createdAt | date: "dd/MM/yyyy"  }}
+          </p>
+          <br>
+        </div>
+
+        <div class="col-md-12 text-center">
+          <span class="stats-titre">Domiciliations</span>
+          <div
+            class="stats-blocks"
+            *ngIf="stats[structure.id]">
+            <div *ngFor="let stat of stats[structure.id]">
+              <span
+                class="stats-chiffres"
+                [ngClass]="statutClass[stat.statut]">
+                {{ stat.sum }}
+              </span>
+              <span class="stats-labels">{{ labels.decisionStats[stat.statut] }}</span>
             </div>
-            <div
-              *ngIf="!interactions[structure.id]"
-              class="text-warning">
-              <fa-icon
-                class="btn-icon"
-                icon="times"></fa-icon>
-              Aucune interaction enregistré
+          </div>
+          <div
+            *ngIf="!stats[structure.id]"
+            class="text-warning">
+            <fa-icon
+              class="btn-icon"
+              icon="times"></fa-icon>
+            Aucun dossier enregistré
+          </div>
+        </div>
+        <br>
+        <div class="col-md-12 text-center">
+          <br>
+          <span class="stats-titre">Interactions</span>
+          <div
+            class="stats-blocks"
+            *ngIf="interactions[structure.id]">
+            <div *ngFor="let interaction of interactions[structure.id]">
+              <span class="stats-chiffres">{{ interaction.sum }}</span>
+              <span class="stats-labels">
+                {{ interactionsLabels[interaction.type] }}
+              </span>
             </div>
+          </div>
+          <div
+            *ngIf="!interactions[structure.id]"
+            class="text-warning">
+            <fa-icon
+              class="btn-icon"
+              icon="times"></fa-icon>
+            Aucune interaction enregistré
           </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>

@@ -61,3 +61,10 @@
   letter-spacing: -0.1px;
   font-size: 0.77rem;
 }
+
+.structure-card {
+  margin: 20px !important;
+  width: 46%;
+  max-width: 1000px;
+  display: inline-block;
+}
