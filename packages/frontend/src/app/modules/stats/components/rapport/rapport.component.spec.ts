@@ -5,6 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule } from "ngx-matomo";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { RapportComponent } from "./rapport.component";
@@ -21,6 +22,7 @@ describe("RapportComponent", () => {
         HttpClientModule,
         HttpClientTestingModule,
         MatomoModule,
+        NgbModule,
         RouterTestingModule
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
