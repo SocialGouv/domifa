@@ -40,9 +40,29 @@ export class StatsService {
     this.finAnnee = new Date("December 31, " + this.annee + " 23:59:00");
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_11AM)
+  @Cron(CronExpression.EVERY_MINUTE)
   public async handleCron() {
-    const structure = await this.structureService.findOne(20);
+    const structure = await this.structureService.findOneBasic({
+      $or: [
+        {
+          lastExport: {
+            $lte: this.today.toDate()
+          }
+        },
+        {
+          lastExport: {
+            $exists: false
+          }
+        },
+        {
+          lastExport: null
+        }
+      ]
+    });
+
+    if (!structure || structure === null) {
+      return;
+    }
 
     const stat = new Stats();
     stat.capacite = structure.capacite;
@@ -115,7 +135,16 @@ export class StatsService {
       "REFUS"
     );
 
-    return new this.statsModel(stat).save();
+    const retourStructure = await this.structureService.updateLastExport(
+      structure._id
+    );
+
+    const retourStats = await new this.statsModel(stat).save();
+    if (retourStructure && retourStats) {
+      this.handleCron();
+    } else {
+      throw new HttpException("BUG_STAT", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   public async getToday(structureId: number): Promise<Stats> {
@@ -127,7 +156,23 @@ export class StatsService {
             .endOf("day")
             .toDate()
         },
-        structureId: 20
+        structureId
+      })
+      .exec();
+    if (!stats || stats === null) {
+      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
+    }
+    return stats;
+  }
+  public async getAll(structureId: number): Promise<Stats[]> {
+    const stats = await this.statsModel
+      .find({
+        date: {
+          $gte: this.today.toDate(),
+          $lte: moment(this.today)
+            .endOf("day")
+            .toDate()
+        }
       })
       .exec();
     if (!stats || stats === null) {
@@ -159,6 +204,7 @@ export class StatsService {
             }
           }
         ],
+        structureId,
         typeDom: typeDemande
       })
       .exec();
@@ -175,7 +221,8 @@ export class StatsService {
   ): Promise<number> {
     const response = await this.usagerModel
       .countDocuments({
-        "decision.statut": statut
+        "decision.statut": statut,
+        structureId
       })
       .exec();
 
@@ -196,7 +243,8 @@ export class StatsService {
         $lte: this.finAnnee
       },
       "decision.motif": motif,
-      "decision.statut": statut
+      "decision.statut": statut,
+      structureId
     };
 
     if (!motif) {

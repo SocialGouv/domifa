@@ -44,7 +44,7 @@
 
       <div
         *ngIf="f.structureType.value === 'cias'"
-        class="col-md-12 form-group required">
+        class="col-md-12 form-group ">
         <label for="rattachement">
           Commune ou arrondissement de rattachement
         </label>
@@ -118,6 +118,7 @@
           type="text"
           class="form-control"
           id="ville"
+          required
           formControlName="ville"
           [ngClass]="{ 'is-invalid': submitted && f.ville.errors }">
         <div
@@ -208,7 +209,7 @@
         <br>
       </div>
 
-      <div class="col-6 form-group required">
+      <div class="col-6 form-group ">
         <label for="departement">Préfecture ayant délivré l’agrément</label>
         <select
           id="departement"
@@ -228,7 +229,7 @@
         </div>
       </div>
 
-      <div class="col-6 form-group required">
+      <div class="col-6 form-group ">
         <label for="agrement">Numéro d'agrément</label>
         <input
           formControlName="agrement"
@@ -236,8 +237,7 @@
           id="agrement"
           placeholder="Numéro donné par la préfecture"
           type="text"
-          [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
-          required>
+          [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }">
         <div
           *ngIf="submitted && f.agrement.errors"
           class="invalid-feedback">
@@ -300,11 +300,7 @@
         <div
           *ngIf="submitted && f.responsable.get('prenom').errors"
           class="invalid-feedback">
-          <div *ngIf="f.responsable.get('prenom').errors.required">
-            Le
-            prénom
-            est obligatoire
-          </div>
+          <div *ngIf="f.responsable.get('prenom').errors.required">Le prénom est obligatoire</div>
         </div>
 
       </div>

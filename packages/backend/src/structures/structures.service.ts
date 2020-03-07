@@ -16,7 +16,8 @@ export interface StructureQuery {
 export class StructuresService {
   public labels = {
     asso: "Organisme agrée",
-    ccas: "CCAS / CIAS"
+    ccas: "CCAS",
+    cias: "CIAS ou commune"
   };
 
   constructor(
@@ -40,6 +41,15 @@ export class StructuresService {
         { _id: user.structure._id },
         { $set: structureDto },
         { new: true }
+      )
+      .exec();
+  }
+
+  public async updateLastExport(structureId: string): Promise<any> {
+    return this.structureModel
+      .findOneAndUpdate(
+        { _id: structureId },
+        { $set: { lastExport: new Date() } }
       )
       .exec();
   }

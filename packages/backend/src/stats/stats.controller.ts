@@ -25,4 +25,11 @@ export class StatsController {
   public async today(@CurrentUser() user: User) {
     return this.statsService.getToday(user.structureId);
   }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get("all")
+  public async getAll(@CurrentUser() user: User) {
+    return this.statsService.getAll(user.structureId);
+  }
 }

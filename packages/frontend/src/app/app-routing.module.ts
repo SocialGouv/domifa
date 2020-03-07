@@ -94,12 +94,12 @@ export const routes: Routes = [
   {
     canActivate: [AuthGuard],
     component: DashboardComponent,
-    path: "stats"
+    path: "statsdomifa"
   },
   {
     canActivate: [AuthGuard],
     component: RapportComponent,
-    path: "rapport"
+    path: "rapportdomifa"
   },
   { path: "faq", component: FaqComponent },
   { path: "news", component: NewsComponent },

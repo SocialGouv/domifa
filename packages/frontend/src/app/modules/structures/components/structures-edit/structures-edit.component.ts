@@ -84,9 +84,22 @@ export class StructuresEditComponent implements OnInit {
         nom: [this.structure.responsable.nom, [Validators.required]],
         prenom: [this.structure.responsable.prenom, [Validators.required]]
       }),
-      structureType: [this.structure.structureType, []],
       ville: [this.structure.ville, [Validators.required]]
     });
+
+    if (this.structure.structureType === "asso") {
+      this.structureEdit.get("agrement").setValidators(Validators.required);
+      this.structureEdit.get("departement").setValidators(Validators.required);
+    } else if (this.structure.structureType === "cias") {
+      this.structureEdit.get("rattachement").setValidators(Validators.required);
+    } else {
+      this.structureEdit.get("agrement").setValidators(null);
+      this.structureEdit.get("departement").setValidators(null);
+      this.structureEdit.get("rattachement").setValidators(null);
+    }
+    this.structureEdit.get("agrement").updateValueAndValidity();
+    this.structureEdit.get("departement").updateValueAndValidity();
+    this.structureEdit.get("rattachement").updateValueAndValidity();
   }
 
   public submitStrucutre() {

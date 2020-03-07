@@ -3,8 +3,8 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators,
-  ValidationErrors
+  ValidationErrors,
+  Validators
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
@@ -120,22 +120,6 @@ export class StructuresFormComponent implements OnInit {
     this.submitted = true;
 
     if (this.structureForm.invalid) {
-      Object.keys(this.structureForm.controls).forEach(key => {
-        const controlErrors: ValidationErrors = this.structureForm.get(key)
-          .errors;
-        if (controlErrors != null) {
-          Object.keys(controlErrors).forEach(keyError => {
-            console.log(
-              "Key control: " +
-                key +
-                ", keyError: " +
-                keyError +
-                ", err value: ",
-              controlErrors[keyError]
-            );
-          });
-        }
-      });
       this.notifService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );

@@ -11,6 +11,7 @@ import { StatsService } from "../../stats.service";
 export class RapportComponent implements OnInit {
   public title: string;
   public stats: any;
+  public statistiques: any;
   public labels: any;
   public statsLabels: any;
 
@@ -22,8 +23,11 @@ export class RapportComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.statsService.getToday().subscribe((response: any) => {
+    /* this.statsService.getToday().subscribe((response: any) => {
       this.stats = response;
+    });*/
+    this.statsService.findAll().subscribe((response: any) => {
+      this.statistiques = response;
     });
   }
 }

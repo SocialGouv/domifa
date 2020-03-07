@@ -5,41 +5,53 @@
     <br>
     <h1>Rapport d'activité</h1>
     <br>
-    <div *ngIf="!stats.questions">
+    <div *ngIf="!statistiques">
       <b>Aucune donnée enregistrée</b>
     </div>
-    <table
-      class="table"
-      *ngIf="stats.questions">
-      <tbody>
-        <tr>
-          <td>{{ statsLabels.Q_10 }}</td>
-          <td>{{ stats.questions.Q_10 }}</td>
-        </tr>
-        <tr>
-          <td>>> {{ statsLabels.Q_10_A }}</td>
-          <td>{{ stats.questions.Q_10_A }}</td>
-        </tr>
-        <tr>
-          <td>>> {{ statsLabels.Q_10_B }}</td>
-          <td>{{ stats.questions.Q_10_B }}</td>
-        </tr>
-        <tr>
-          <td>{{ statsLabels.Q_11 }}</td>
-          <td>{{ stats.questions.Q_11 }}</td>
-        </tr>
-        <tr>
-          <td>Q 12 : Total Radiations</td>
-          <td>{{ stats.questions.Q_12.TOTAL }}</td>
-        </tr>
-        <tr *ngFor="let decision of labels.motifsRadiation | keyvalue">
-          <td>>> Q12 : {{ decision.value }}</td>
-          <td>
-            {{ stats.questions.Q_12[decision.key] }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <ngb-accordion
+      *ngIf="statistiques"
+      #acc="ngbAccordion"
+      activeIds="ngb-panel-0">
 
+      <ngb-panel
+        title="{{stats.nom}}"
+        *ngFor="let stats of statistiques">
+        <ng-template ngbPanelContent>
+          <table
+            class="table"
+            *ngIf="stats.questions">
+            <tbody>
+              <tr>
+                <td>{{ statsLabels.Q_10 }}</td>
+                <td>{{ stats.questions.Q_10 }}</td>
+              </tr>
+              <tr>
+                <td>>> {{ statsLabels.Q_10_A }}</td>
+                <td>{{ stats.questions.Q_10_A }}</td>
+              </tr>
+              <tr>
+                <td>>> {{ statsLabels.Q_10_B }}</td>
+                <td>{{ stats.questions.Q_10_B }}</td>
+              </tr>
+              <tr>
+                <td>{{ statsLabels.Q_11 }}</td>
+                <td>{{ stats.questions.Q_11 }}</td>
+              </tr>
+              <tr>
+                <td>Q 12 : Total Radiations</td>
+                <td>{{ stats.questions.Q_12.TOTAL }}</td>
+              </tr>
+              <tr *ngFor="let decision of labels.motifsRadiation | keyvalue">
+                <td>>> Q12 : {{ decision.value }}</td>
+                <td>
+                  {{ stats.questions.Q_12[decision.key] }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </ngb-panel>
+
+    </ngb-accordion>
   </div>
 </div>

@@ -23,6 +23,10 @@ export class StatsService {
     return this.http.get(`${this.baseUrl}today`);
   }
 
+  public findAll(): Observable<any> {
+    return this.http.get(`${this.baseUrl}all`);
+  }
+
   public getAllStatuts(): Observable<any> {
     return this.http.get(`${this.epUsagers}stats-domifa/all`);
   }

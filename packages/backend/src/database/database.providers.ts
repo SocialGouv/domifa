@@ -3,7 +3,7 @@ import { ConfigService } from "../config/config.service";
 
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
-// mongoose.set("debug", true);
+mongoose.set("debug", true);
 
 const config = new ConfigService();
 const user = config.get("DB_USER");
@@ -15,20 +15,9 @@ export const databaseProviders = [
   {
     provide: "DATABASE_CONNECTION",
     useFactory: async (): Promise<typeof mongoose> =>
-      mongoose.connect(
-        "mongodb://" +
-          user +
-          ":" +
-          password +
-          "@" +
-          host +
-          ":" +
-          port +
-          "/domifa",
-        {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        }
-      )
+      mongoose.connect(`mongodb://${user}:${password}@${host}:${port}/domifa`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
   }
 ];
