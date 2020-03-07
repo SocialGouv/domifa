@@ -14,11 +14,9 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.900.5",
     "@angular/animations": "^9.0.5",
     "@angular/common": "^9.0.5",
     "@angular/compiler": "^9.0.5",
-    "@angular/compiler-cli": "^9.0.5",
     "@angular/core": "^9.0.5",
     "@angular/forms": "^9.0.5",
     "@angular/language-service": "^9.0.5",
@@ -42,7 +40,6 @@
     "path": "^0.12.7",
     "rxjs": "^6.5.4",
     "tslib": "^1.11.1",
-    "typescript": "^3.7",
     "xlsx": "^0.15.5",
     "zone.js": "~0.10.2"
   },
