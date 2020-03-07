@@ -143,12 +143,10 @@
     "@angular-devkit/core" "8.3.25"
     rxjs "6.4.0"
 
-"@angular/animations@^8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-8.2.14.tgz#76736b21e56165e6ca4925fb69605bdcc56aba7d"
-  integrity sha512-3Vc9TnNpKdtvKIXcWDFINSsnwgEMiDmLzjceWg1iYKwpeZGQahUXPoesLwQazBMmxJzQiA4HOMj0TTXKZ+Jzkg==
-  dependencies:
-    tslib "^1.9.0"
+"@angular/animations@^9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-9.0.5.tgz#ac64c9f702e78d5e2d6bff645daf047c4865cc02"
+  integrity sha512-WGs4Jxw5sr8GCpxMcwEVuZnDIkdNp9qtmuI2j13v/XAaMjvJ7jssCj9+JG5uI8joCi7PFVAWokPT1DdPwWb13Q==
 
 "@angular/cli@~8.3.23":
   version "8.3.25"
@@ -176,75 +174,63 @@
     universal-analytics "^0.4.20"
     uuid "^3.3.2"
 
-"@angular/common@^8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/common/-/common-8.2.14.tgz#027e52b2951c14082d6e3af1a4ffa1356220e439"
-  integrity sha512-Qmt+aX2quUW54kaNT7QH7WGXnFxr/cC2C6sf5SW5SdkZfDQSiz8IaItvieZfXVQUbBOQKFRJ7TlSkt0jI/yjvw==
-  dependencies:
-    tslib "^1.9.0"
+"@angular/common@^9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-9.0.5.tgz#80e5ebbd5ec9b7f33bace0d6f70267b07cba9090"
+  integrity sha512-AwZKYK5M/3762woK+3290JnBdlBvZXqxX5vVze6wk23IiBlwIV+l79+Lyfjo/4s031kibq47taaZdC7qkkBkNA==
 
-"@angular/compiler-cli@~8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-8.2.14.tgz#1997bec04a6b9d022954e5747505fe8906994594"
-  integrity sha512-XDrTyrlIZM+0NquVT+Kbg5bn48AaWFT+B3bAT288PENrTdkuxuF9AhjFRZj8jnMdmaE4O2rioEkXBtl6z3zptA==
+"@angular/compiler-cli@~9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-9.0.5.tgz#b7b7dba46a9495e2ca7efd412f6555e2544fc59d"
+  integrity sha512-lFlasm8UBApTq4/MkxnYrRAMfpOvvg3YYBEMibuEGlaJjW/Xd1JcisUuFiooCxCIKF5phyORHmxjywGPhHqQgQ==
   dependencies:
     canonical-path "1.0.0"
-    chokidar "^2.1.1"
+    chokidar "^3.0.0"
     convert-source-map "^1.5.1"
     dependency-graph "^0.7.2"
+    fs-extra "4.0.2"
     magic-string "^0.25.0"
     minimist "^1.2.0"
     reflect-metadata "^0.1.2"
+    semver "^6.3.0"
     source-map "^0.6.1"
-    tslib "^1.9.0"
+    sourcemap-codec "^1.4.8"
     yargs "13.1.0"
 
-"@angular/compiler@~8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-8.2.14.tgz#46db7a9d1c17f236126518ff26480c160d5a6183"
-  integrity sha512-ABZO4E7eeFA1QyJ2trDezxeQM5ZFa1dXw1Mpl/+1vuXDKNjJgNyWYwKp/NwRkLmrsuV0yv4UDCDe4kJOGbPKnw==
-  dependencies:
-    tslib "^1.9.0"
+"@angular/compiler@~9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-9.0.5.tgz#823dd4df25a9f1a641346712e7b7097ed1176105"
+  integrity sha512-TeyhRGefTOtA9N3udMrvheafoXcz/dvTTdZLcieeZQxm1SSeaQDUQ/rUH6QTOiHVNMtjOCrZ9J5rk1A4mPYuag==
 
-"@angular/core@^8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-8.2.14.tgz#35566f5b19480369229477e7e0e0fde740bd5204"
-  integrity sha512-zeePkigi+hPh3rN7yoNENG/YUBUsIvUXdxx+AZq+QPaFeKEA2FBSrKn36ojHFrdJUjKzl0lPMEiGC2b6a6bo6g==
-  dependencies:
-    tslib "^1.9.0"
+"@angular/core@^9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-9.0.5.tgz#71df41a45e60619fb7454ab9fe604d6ce7d0d8da"
+  integrity sha512-7VznrYjaAIzeq/zQ7v6tbeoOI7JJKgChKwG7s8jRoEpENu+w2pRlRdyQul88iJLsXgObR+/TfBNm/K+G4cqAFw==
 
-"@angular/forms@^8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-8.2.14.tgz#7d357c346a3884881beb044c50ec4a09d3d7ee8e"
-  integrity sha512-zhyKL3CFIqcyHJ/TQF/h1OZztK611a6rxuPHCrt/5Sn1SuBTJJQ1pPTkOYIDy6IrCrtyANc8qB6P17Mao71DNQ==
-  dependencies:
-    tslib "^1.9.0"
+"@angular/forms@^9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-9.0.5.tgz#3bc96364754a50e03595873045b72ab886ee0748"
+  integrity sha512-579PXAfT92J4mghjWKiZ3Zj3xee4h3RP70YHSlsfbi94MONvryWDrnXxvUZ0zJJCVnEJQ7x+nGEp3wwWqR12Jw==
 
-"@angular/language-service@~8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-8.2.14.tgz#e18b27a6841577ce489ad31540150da5a444ca37"
-  integrity sha512-7EhN9JJbAJcH2xCa+rIOmekjiEuB0qwPdHuD5qn/wwMfRzMZo+Db4hHbR9KHrLH6H82PTwYKye/LLpDaZqoHOA==
+"@angular/language-service@~9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-9.0.5.tgz#c663aef7f9bba0b395379e33f667bae25af4787b"
+  integrity sha512-9ykFNYZpWdoggFPK3LuTJobBZjoCEQP6kKt88ZZV7GTMIXoE7iY413KfhINoXdMwxIAbba0xlPMR/4p6jFAa4Q==
 
-"@angular/platform-browser-dynamic@~8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-8.2.14.tgz#4439a79fe10ec45170e6940a28835e9ff0918950"
-  integrity sha512-mO2JPR5kLU/A3AQngy9+R/Q5gaF9csMStBQjwsCRI0wNtlItOIGL6+wTYpiTuh/ux+WVN1F2sLcEYU4Zf1ud9A==
-  dependencies:
-    tslib "^1.9.0"
+"@angular/platform-browser-dynamic@~9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-9.0.5.tgz#df569a99d9d077733e53d3323e9f88f410f5f3df"
+  integrity sha512-NRfsAwbgxOvEcpqlERDAG0wap5xJa0wKwnudTCnyvf4B0D6kLkT1Idjqv22NDW5rfM2oDWaZ/qpgpDnAo6/ZBQ==
 
-"@angular/platform-browser@~8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-8.2.14.tgz#31f082e8ba977f9b89964d721c38cbc32ce0e433"
-  integrity sha512-MtJptptyKzsE37JZ2VB/tI4cvMrdAH+cT9pMBYZd66YSZfKjIj5s+AZo7z8ncoskQSB1o3HMfDjSK7QXGx1mLQ==
-  dependencies:
-    tslib "^1.9.0"
+"@angular/platform-browser@~9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-9.0.5.tgz#a760fa7d5921d7b58875b07dfe0a408c92abf143"
+  integrity sha512-24QGcQXthYXB/wT8okJjxqss/JOk4A6O1/Fmva79k0AvwtYkl2tikcyEc5T3xZtjoi8g32AN9nbZAobtkxlqTA==
 
-"@angular/router@~8.2.14":
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-8.2.14.tgz#5f9f9707710983c2143aead79dcd2da520ae3eb8"
-  integrity sha512-DHA2BhODqV7F0g6ZKgFaZgbsqzHHWRcfWchCOrOVKu2rYiKUTwwHVLBgZAhrpNeinq2pWanVYSIhMr7wy+LfEA==
-  dependencies:
-    tslib "^1.9.0"
+"@angular/router@~9.0.5":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-9.0.5.tgz#97f23adc933e96ba04c0ef93b3a8f0c2e7777e77"
+  integrity sha512-Sz3DQUxlzAk9aZ9eVtZRh6xF5SMg/Gb3rc5I7dL1M+mycSNoFJ4HPTXleZkKM69mMkKQ5fEtza4x26MSlF+O9w==
 
 "@apollo/protobufjs@^1.0.3":
   version "1.0.3"
@@ -4637,7 +4623,7 @@ chokidar@3.1.1:
   optionalDependencies:
     fsevents "^2.0.6"
 
-"chokidar@>=2.0.0 <4.0.0", chokidar@^3.2.2:
+"chokidar@>=2.0.0 <4.0.0", chokidar@^3.0.0, chokidar@^3.2.2:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.3.1.tgz#c84e5b3d18d9a4d77558fef466b1bf16bbeb3450"
   integrity sha512-4QYCEWOcK3OJrxwvyyAOxFuhpvOVCYkr33LPfFNBjAD/w3sEzWsp2BUOkI4l9bHvWioAd0rc6NlHUOEaWkTeqg==
@@ -4652,7 +4638,7 @@ chokidar@3.1.1:
   optionalDependencies:
     fsevents "~2.1.2"
 
-chokidar@^2.0.2, chokidar@^2.1.1, chokidar@^2.1.8:
+chokidar@^2.0.2, chokidar@^2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"
   integrity sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==
@@ -7076,6 +7062,15 @@ fs-capacitor@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/fs-capacitor/-/fs-capacitor-2.0.4.tgz#5a22e72d40ae5078b4fe64fe4d08c0d3fc88ad3c"
   integrity sha512-8S4f4WsCryNw2mJJchi46YgB6CR5Ze+4L1h8ewl9tEpL4SJ3ZO+c/bS4BWhB8bK+O3TMqhuZarTitd0S0eh2pA==
+
+fs-extra@4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.2.tgz#f91704c53d1b461f893452b0c307d9997647ab6b"
+  integrity sha1-+RcExT0bRh+JNFKwwwfZmXZHq2s=
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
 
 fs-extra@8.1.0, fs-extra@^8.1.0:
   version "8.1.0"
@@ -13179,7 +13174,7 @@ source-map@~0.4.1:
   dependencies:
     amdefine ">=0.0.4"
 
-sourcemap-codec@^1.4.4:
+sourcemap-codec@^1.4.4, sourcemap-codec@^1.4.8:
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
