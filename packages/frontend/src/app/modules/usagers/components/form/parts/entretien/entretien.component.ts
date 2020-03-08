@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -91,7 +98,7 @@ export class EntretienComponent implements OnInit {
         }
       );
   }
-  public open(content: string) {
+  public open(content: TemplateRef<any>) {
     this.modal = this.modalService.open(content);
   }
 

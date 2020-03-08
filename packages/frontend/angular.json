@@ -25,7 +25,7 @@
               "src/assets/css/fonts.css",
               "src/assets/css/main.css",
               "src/assets/css/print.css",
-              "../../node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [],
             "es5BrowserSupport": false

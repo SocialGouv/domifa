@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -196,7 +196,7 @@ export class UsagersFormComponent implements OnInit {
     });
   }
 
-  public open(content: string) {
+  public open(content: TemplateRef<any>) {
     this.modal = this.modalService.open(content);
   }
 

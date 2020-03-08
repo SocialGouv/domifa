@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import {
@@ -13,6 +13,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/services/date-french";
 import { Usager } from "../../interfaces/usager";
+import { DocumentService } from "../../services/document.service";
 import { UsagerService } from "../../services/usager.service";
 
 @Component({
@@ -58,7 +59,8 @@ export class DecisionComponent implements OnInit {
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private notifService: ToastrService,
-    private printService: PrintService,
+    public printService: PrintService,
+    public documentService: DocumentService,
     private usagerService: UsagerService,
     private modalService: NgbModal,
     private router: Router,
@@ -144,11 +146,19 @@ export class DecisionComponent implements OnInit {
       });
   }
 
-  public open(content: string) {
+  public open(content: TemplateRef<any>) {
     this.modal = this.modalService.open(content);
   }
 
   public getAttestation() {
     return this.usagerService.attestation(this.usager.id);
+  }
+
+  public getDocument(i: number) {
+    return this.documentService.getDocument(
+      this.usager.id,
+      i,
+      this.usager.docs[i]
+    );
   }
 }

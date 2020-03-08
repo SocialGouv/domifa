@@ -10,8 +10,22 @@
   "devDependencies": {
     "lerna": "^3.20.2"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@angular/*",
+      "**/@angular/*/**",
+      "**/@angular/compiler-cli/*",
+      "**/@angular/compiler-cli/**",
+      "**/@ngrx/*",
+      "**/@ngrx/*/**",
+      "**/@angular-builders/*",
+      "**/@angular-builders/*/**",
+      "**/@angular-devkit/*",
+      "**/@angular-devkit/*/**"
+    ]
+  },
   "name": "domifa"
 }
