@@ -12,12 +12,12 @@ import { ToastrModule } from "ngx-toastr";
 import { LoadingComponent } from "../loading/loading.component";
 import { LoadingService } from "../loading/loading.service";
 import { SharedModule } from "../shared/shared.module";
+import { CguComponent } from "./components/cgu/cgu.component";
 import { NotFoundComponent } from "./components/errors/not-found/not-found.component";
 import { FaqComponent } from "./components/faq/faq.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./components/news/news.component";
-import { CguComponent } from './components/cgu/cgu.component';
 
 @NgModule({
   declarations: [
