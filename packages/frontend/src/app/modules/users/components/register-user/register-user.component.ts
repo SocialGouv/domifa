@@ -21,7 +21,7 @@ import { UsersService } from "../../services/users.service";
   styleUrls: ["./register-user.component.css"],
   templateUrl: "./register-user.component.html"
 })
-export class RegisterUserComponent implements OnInit {
+export class RegisterUserComponent {
   public title: string;
   public user: User;
   public userForm: FormGroup;
@@ -89,8 +89,6 @@ export class RegisterUserComponent implements OnInit {
       }
     );
   }
-
-  public ngOnInit() {}
 
   public submitUser() {
     this.submitted = true;

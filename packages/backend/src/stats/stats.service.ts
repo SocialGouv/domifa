@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger
+} from "@nestjs/common";
 import { Model } from "mongoose";
 import { Structure } from "../structures/structure-interface";
 import { User } from "../users/user.interface";
@@ -12,7 +18,6 @@ import { UsagersService } from "../usagers/services/usagers.service";
 import { UsersService } from "../users/services/users.service";
 import { Stats } from "./stats.class";
 import { StatsDocument } from "./stats.interface";
-import { motifsRadiation } from "./usagers.labels";
 
 @Injectable()
 export class StatsService {
@@ -40,7 +45,7 @@ export class StatsService {
     this.finAnnee = new Date("December 31, " + this.annee + " 23:59:00");
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_1AM)
+  @Cron(CronExpression.EVERY_5_MINUTES)
   public async handleCron() {
     const structure = await this.structureService.findOneBasic({
       $or: [
@@ -61,6 +66,7 @@ export class StatsService {
     });
 
     if (!structure || structure === null) {
+      Logger.log("Export déjà en place : " + new Date(), "debug");
       return;
     }
 

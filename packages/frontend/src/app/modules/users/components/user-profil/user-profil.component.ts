@@ -108,16 +108,13 @@ export class UserProfilComponent implements OnInit {
   }
 
   public deleteUser() {
-    console.log(this.selectedUser);
     this.userService.deleteUser(this.selectedUser).subscribe(
       (response: any) => {
-        console.log(response);
         this.getUsers();
         this.modalService.dismissAll();
         this.notifService.success("Utilisateur supprimé avec succès");
       },
       error => {
-        console.log(error);
         this.notifService.error("Impossible de supprimer l'utilisateur");
       }
     );

@@ -15,6 +15,7 @@ export class ConfigService {
       FILES_IV: process.env.FILES_IV,
       FILES_PRIVATE: process.env.FILES_PRIVATE,
       FRONT_URL: process.env.FRONT_URL,
+      IS_LOCAL: process.env.IS_LOCAL,
       MJ_APIKEY_PRIVATE: process.env.MJ_APIKEY_PRIVATE,
       MJ_APIKEY_PUBLIC: process.env.MJ_APIKEY_PUBLIC,
       SECRET: process.env.SECRET,
