@@ -1,5 +1,30 @@
 [
   {
+    "date": "2020-03-09",
+    "description": "De nouvelles fonctionnalités attendues ont été mises en ligne, notamment un nouveau design de filtres pour mieux gérer la liste des domiciliés !",
+    "content": [
+       {
+        "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Refonte des filtres sur la page de gestion des domiciliés",
+          "Résolution d’un bug d’affichage du nom de la structure sur la plateforme",
+          "Implémentation de nouveaux cerfa"
+          "Amélioration du formulaire d’inscription d’une structure"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Sécurité",
+        "message": [
+          "Chiffrement des pièces jointes ajoutées sur la plateforme",
+          "Mise à jour des mentions légales",
+          "Mise à jour des conditions d’utilisation"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2020-03-03",
     "description": "De nouvelles fonctionnalités attendues ont été mises en ligne, notamment la possibilité d'utiliser une nomenclature personnalisée dans la gestion des domiciliés !",
     "content": [
