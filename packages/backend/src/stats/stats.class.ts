@@ -39,7 +39,12 @@ export class Stats {
       SATURATION: number;
     };
 
-    /* */
+    /* Q_14: réorientation suite au refus d'élection de domicile  */
+    Q_14: {
+      TOTAL: number;
+      CCAS: number;
+      ASSO: number;
+    };
 
     /* */
   };
@@ -71,6 +76,11 @@ export class Stats {
         HORS_AGREMENT: 0,
         LIEN_COMMUNE: 0,
         SATURATION: 0,
+        TOTAL: 0
+      },
+      Q_14: {
+        ASSO: 0,
+        CCAS: 0,
         TOTAL: 0
       }
     };

@@ -281,7 +281,7 @@ export class UsagersProfilComponent implements OnInit {
     );
   }
 
-  public open(content: string) {
+  public open(content: TemplateRef<any>) {
     this.modalService.open(content);
   }
 

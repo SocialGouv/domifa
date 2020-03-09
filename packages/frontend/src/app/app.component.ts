@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   public isNavbarCollapsed: boolean = false;
   public isAllowed: any;
 
-  public domifaNews: [];
+  public domifaNews: any;
   public newsLabels: any;
 
   public modal: any;
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
       new: "Nouveauté"
     };
 
-    this.domifaNews = [];
+    this.domifaNews = null;
 
     this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
 

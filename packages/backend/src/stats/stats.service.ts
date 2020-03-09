@@ -141,6 +141,29 @@ export class StatsService {
       "REFUS"
     );
 
+    stat.questions.Q_13.TOTAL = await this.totalParStatutCetteAnnee(
+      structure.id,
+      "REFUS"
+    );
+
+    stat.questions.Q_13.HORS_AGREMENT = await this.totalParStatutCetteAnnee(
+      structure.id,
+      "REFUS",
+      "HORS_AGREMENT"
+    );
+
+    stat.questions.Q_13.LIEN_COMMUNE = await this.totalParStatutCetteAnnee(
+      structure.id,
+      "REFUS",
+      "LIEN_COMMUNE"
+    );
+
+    stat.questions.Q_13.SATURATION = await this.totalParStatutCetteAnnee(
+      structure.id,
+      "REFUS",
+      "SATURATION"
+    );
+
     const retourStructure = await this.structureService.updateLastExport(
       structure._id
     );

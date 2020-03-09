@@ -33,6 +33,11 @@ export const StatsSchema = new mongoose.Schema({
       LIEN_COMMUNE: Number,
       SATURATION: Number,
       TOTAL: Number
+    },
+    Q_14: {
+      ASSO: Number,
+      CCAS: Number,
+      TOTAL: Number
     }
   },
   structureId: Number,

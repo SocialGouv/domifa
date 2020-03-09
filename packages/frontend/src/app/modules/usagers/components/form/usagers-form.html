@@ -180,7 +180,7 @@
               id="surnom"
               formControlName="surnom"
               placeholder="Surnom / Nom d'usage"
-              [ngClass]="{ 'is-invalid': submitted && f.prenom.surnom }">
+              [ngClass]="{ 'is-invalid': submitted && f.surnom }">
           </div>
         </div>
         <div class="row">
@@ -670,7 +670,6 @@
                   <label for="heureRdv">Heure du rendez-vous</label>
                   <div class="input-group">
                     <ngb-timepicker
-                      [spinners]="OFF"
                       id="heureRdv"
                       formControlName="heureRdv"></ngb-timepicker>
                   </div>

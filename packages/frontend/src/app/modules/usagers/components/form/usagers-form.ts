@@ -110,7 +110,7 @@ export class UsagersFormComponent implements OnInit {
     private usagerService: UsagerService,
     private userService: UsersService,
     private documentService: DocumentService,
-    private authService: AuthService,
+    public authService: AuthService,
     private matomoTracker: MatomoTracker,
     private route: ActivatedRoute,
     private modalService: NgbModal,
@@ -241,7 +241,7 @@ export class UsagersFormComponent implements OnInit {
     (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
   }
 
-  public resetAyantDroit(i: number): void {
+  public resetAyantDroit(): void {
     while ((this.usagerForm.controls.ayantsDroits as FormArray).length !== 0) {
       (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(0);
     }

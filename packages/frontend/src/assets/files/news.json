@@ -1,15 +1,15 @@
 [
   {
-    "date": "2020-03-09",
-    "description": "De nouvelles fonctionnalités attendues ont été mises en ligne, notamment un nouveau design de filtres pour mieux gérer la liste des domiciliés !",
+    "date": "2020-03-10",
+    "description": "Les nouveaux Cerfa sont arrivés !",
     "content": [
-       {
+      {
         "type": "new",
         "categorie": "Structure",
         "message": [
+          "Implémentation des nouveaux cerfa (Cerfa 16029*01 et Cerfa 16030*01)",
           "Refonte des filtres sur la page de gestion des domiciliés",
           "Résolution d’un bug d’affichage du nom de la structure sur la plateforme",
-          "Implémentation de nouveaux cerfa"
           "Amélioration du formulaire d’inscription d’une structure"
         ]
       },
@@ -26,7 +26,7 @@
   },
   {
     "date": "2020-03-03",
-    "description": "De nouvelles fonctionnalités attendues ont été mises en ligne, notamment la possibilité d'utiliser une nomenclature personnalisée dans la gestion des domiciliés !",
+    "description": "Plus d'autonomie pour les structure et amélioration de l'import",
     "content": [
       {
         "type": "new",

@@ -47,6 +47,16 @@
                   {{ stats.questions.Q_12[decision.key] }}
                 </td>
               </tr>
+              <tr>
+                <td>Q 13 : Total Refus</td>
+                <td>{{ stats.questions.Q_13.TOTAL }}</td>
+              </tr>
+              <tr *ngFor="let decision of labels.motifsRefus | keyvalue">
+                <td>>> Q13 : {{ decision.value }}</td>
+                <td>
+                  {{ stats.questions.Q_13[decision.key] }}
+                </td>
+              </tr>
             </tbody>
           </table>
         </ng-template>
