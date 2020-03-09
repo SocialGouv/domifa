@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -58,6 +58,7 @@ export class UserProfilComponent implements OnInit {
       .subscribe((structure: Structure) => {
         this.structure = structure;
       });
+
     this.hardResetForm = this.formBuilder.group({
       token: ["", [Validators.required]]
     });
@@ -107,18 +108,22 @@ export class UserProfilComponent implements OnInit {
   }
 
   public deleteUser() {
+    console.log(this.selectedUser);
     this.userService.deleteUser(this.selectedUser).subscribe(
       (response: any) => {
+        console.log(response);
         this.getUsers();
+        this.modalService.dismissAll();
         this.notifService.success("Utilisateur supprimé avec succès");
       },
       error => {
+        console.log(error);
         this.notifService.error("Impossible de supprimer l'utilisateur");
       }
     );
   }
 
-  public open(content: string) {
+  public open(content: TemplateRef<any>) {
     this.modal = this.modalService.open(content);
   }
 

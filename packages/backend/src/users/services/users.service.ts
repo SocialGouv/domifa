@@ -111,11 +111,10 @@ export class UsersService {
       .exec();
   }
 
-  public async delete(id: number, structureId: number): Promise<any> {
+  public async delete(id: number): Promise<any> {
     return this.userModel
       .deleteOne({
-        id,
-        structureId
+        _id: id
       })
       .exec();
   }

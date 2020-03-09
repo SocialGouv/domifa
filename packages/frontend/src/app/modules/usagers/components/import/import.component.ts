@@ -348,7 +348,15 @@ export class ImportComponent implements OnInit {
       const dateParts = date.split("/");
       const jour = parseInt(dateParts[0], 10);
       const mois = parseInt(dateParts[1], 10);
-      return jour <= 31 && jour > 0 && mois <= 12 && mois > 0;
+      const annee = parseInt(dateParts[2], 10);
+      return (
+        jour <= 31 &&
+        jour > 0 &&
+        mois <= 12 &&
+        mois > 0 &&
+        annee > 1900 &&
+        annee < 2030
+      );
     }
     return false;
   }

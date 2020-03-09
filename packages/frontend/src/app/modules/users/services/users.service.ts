@@ -72,7 +72,7 @@ export class UsersService {
     );
   }
 
-  public deleteUser(id: number) {
+  public deleteUser(id: number): Observable<any> {
     return this.http.delete(`${this.endPoint}/${id}`);
   }
 

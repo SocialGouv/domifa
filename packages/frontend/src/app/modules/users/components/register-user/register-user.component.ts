@@ -24,7 +24,7 @@ import { UsersService } from "../../services/users.service";
 export class RegisterUserComponent implements OnInit {
   public title: string;
   public user: User;
-  public userForm!: FormGroup;
+  public userForm: FormGroup;
 
   public submitted: boolean;
   public success: boolean;
@@ -35,6 +35,10 @@ export class RegisterUserComponent implements OnInit {
   public emailExist: boolean = false;
 
   @Input() public structureChild: any;
+
+  get f() {
+    return this.userForm.controls;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,11 +51,8 @@ export class RegisterUserComponent implements OnInit {
     this.hidePasswordConfirm = true;
     this.user = new User({});
     this.submitted = false;
-
     this.success = false;
-  }
 
-  public ngOnInit() {
     this.user.structureId =
       this.structureChild !== undefined
         ? this.structureChild.structureId
@@ -89,9 +90,7 @@ export class RegisterUserComponent implements OnInit {
     );
   }
 
-  get f() {
-    return this.userForm.controls;
-  }
+  public ngOnInit() {}
 
   public submitUser() {
     this.submitted = true;

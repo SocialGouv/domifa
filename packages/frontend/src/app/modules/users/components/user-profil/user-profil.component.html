@@ -2,13 +2,22 @@
   <div class="row">
     <div class="col-md-10 offset-1">
       <h4>Mon compte</h4>
-      <button
-        class="btn btn-primary"
-        (click)="logout()">
-        Déconnexion
-        <fa-icon icon="sign-out-alt"></fa-icon>
-      </button>
-      <br>
+      <div class="row">
+        <div class="col-md-10">
+          Bienvenue
+          {{ authService.currentUserValue.nom }}
+          {{ authService.currentUserValue.prenom }}
+        </div>
+        <div class="col-md-2">
+          <button
+            class="btn btn-primary"
+            (click)="logout()">
+            Déconnexion
+            <fa-icon icon="sign-out-alt"></fa-icon>
+          </button>
+        </div>
+      </div>
+
       <br>
 
       <h4 *ngIf="newUsers && newUsers.length > 0">
@@ -40,7 +49,7 @@
               &nbsp;
               <button
                 *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
-                (click)="open(deleteUserConfirmation);selectedUser = user.id"
+                (click)="open(deleteUserConfirmation); selectedUser = user.id"
                 class="btn btn-danger">
                 <fa-icon
                   icon="trash"

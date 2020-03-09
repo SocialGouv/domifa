@@ -110,12 +110,16 @@ export class UsersController {
       id,
       structureId: user.structureId
     });
+
     if (!userToDelete || userToDelete === null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "USER_NOT_EXIST" });
     }
-    return this.usersService.delete(userToDelete.id, user.structureId);
+
+    const retour = await this.usersService.delete(userToDelete._id);
+
+    return res.status(HttpStatus.OK).json({ success: true, message: retour });
   }
 
   @UseGuards(AuthGuard("jwt"))
