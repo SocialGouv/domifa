@@ -40,7 +40,7 @@ export class StatsService {
     this.finAnnee = new Date("December 31, " + this.annee + " 23:59:00");
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_DAY_AT_1AM)
   public async handleCron() {
     const structure = await this.structureService.findOneBasic({
       $or: [

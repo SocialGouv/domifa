@@ -1,10 +1,6 @@
 import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 
 export class StructureEditDto {
-  @IsNotEmpty()
-  @IsIn(["asso", "ccas", "cias", "hopital"])
-  public structureType!: string;
-
   @IsOptional()
   public adresse!: string;
 

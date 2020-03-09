@@ -43,7 +43,7 @@
       </div>
 
       <div
-        *ngIf="f.structureType.value === 'cias'"
+        *ngIf="structure.structureType=== 'cias'"
         class="col-md-12 form-group ">
         <label for="rattachement">
           Commune ou arrondissement de rattachement
@@ -201,7 +201,7 @@
     <br>
     <div
       class="row"
-      *ngIf="f.structureType.value === 'asso'">
+      *ngIf="structure.structureType=== 'asso'">
       <div class="col-md-12 text-center ">
         <h5 class="subtitle">
           Quelles sont ses informations d’agrément ?
