@@ -2185,13 +2185,13 @@
     path-to-regexp "3.2.0"
     tslib "1.10.0"
 
-"@nestjs/schedule@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-0.2.0.tgz#748c9ba59de0dc9a5baebb100d7734490b58572c"
-  integrity sha512-VkPPQYzsKexltKYf3yE2f1ZmUebGlkd4hfJ8kNtzLYfcfn4ZN+nn7zsJ0yyNvWlCeq3oD1cFLW3Y5qoS4+Glag==
+"@nestjs/schedule@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-0.2.1.tgz#d878f1c0906238c4f2ee23b0e360283358f546c9"
+  integrity sha512-cEeupUPMjz5zSHlmsrxSW4YWwFNl3kVTvxus6w8SsPJT3KTQtH0wf/YcXF7gvStx/+zml+BOidLMHwVFT3X9Aw==
   dependencies:
     cron "1.8.2"
-    uuid "3.4.0"
+    uuid "7.0.2"
 
 "@nestjs/schematics@^6.8.2":
   version "6.8.2"
@@ -15257,6 +15257,11 @@ uuid@7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.1.tgz#95ed6ff3d8c881cbf85f0f05cc3915ef994818ef"
   integrity sha512-yqjRXZzSJm9Dbl84H2VDHpM3zMjzSJQ+hn6C4zqd5ilW+7P4ZmLEEqwho9LjP+tGuZlF4xrHQXT0h9QZUS/pWA==
+
+uuid@7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
+  integrity sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw==
 
 v8-compile-cache@^2.0.3:
   version "2.1.0"
