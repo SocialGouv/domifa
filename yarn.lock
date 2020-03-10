@@ -2185,24 +2185,14 @@
     path-to-regexp "3.2.0"
     tslib "1.10.0"
 
-"@nestjs/platform-fastify@^6.11.11":
-  version "6.11.11"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-fastify/-/platform-fastify-6.11.11.tgz#659e48015b0fca3808eae15a767d40381f1cbf49"
-  integrity sha512-9j13Gr+XjZyjpBClrCbX3kNFti8XV3LdF2rEbb5Ifx0U64EgPTUpJ4YtaNFMXfCO8Hgk6ZVp7Yn628p75yRpRA==
-  dependencies:
-    fastify "2.11.0"
-    fastify-cors "3.0.2"
-    fastify-formbody "3.1.0"
-    path-to-regexp "3.2.0"
-    tslib "1.11.1"
 
-"@nestjs/schedule@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-0.2.0.tgz#748c9ba59de0dc9a5baebb100d7734490b58572c"
-  integrity sha512-VkPPQYzsKexltKYf3yE2f1ZmUebGlkd4hfJ8kNtzLYfcfn4ZN+nn7zsJ0yyNvWlCeq3oD1cFLW3Y5qoS4+Glag==
+"@nestjs/schedule@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-0.2.1.tgz#d878f1c0906238c4f2ee23b0e360283358f546c9"
+  integrity sha512-cEeupUPMjz5zSHlmsrxSW4YWwFNl3kVTvxus6w8SsPJT3KTQtH0wf/YcXF7gvStx/+zml+BOidLMHwVFT3X9Aw==
   dependencies:
     cron "1.8.2"
-    uuid "3.4.0"
+    uuid "7.0.2"
 
 "@nestjs/schematics@^6.8.2":
   version "6.8.2"
@@ -2845,10 +2835,10 @@
   resolved "https://registry.yarnpkg.com/@types/mongoose-sequence/-/mongoose-sequence-3.0.4.tgz#dce94e418dc00b5854b1d23073f003d5b7942990"
   integrity sha512-5zIwgVa6EQRBoztZs8gtnrrnquw2aI9LlatpQKAAw5qMFOD8+yUo+LkCyId5ZM3lurEKHh1pJQ7YUPfe+jTqxQ==
 
-"@types/mongoose@^5.7.4":
-  version "5.7.4"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.7.4.tgz#53e0f0ba7fb243f079ffb6897a3a5e5dcd2347d8"
-  integrity sha512-o+jx6oXsCzajlTxqke24jPioMiNOPCv9xS4HiFu6E9hzGrx9+A7yTAKdHABEQOZTOdRuCO4oMYLGEStHOcs2og==
+"@types/mongoose@^5.7.5":
+  version "5.7.5"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.7.5.tgz#d6d9a37894f67daf0fd11f182cb96e74f36c5c0e"
+  integrity sha512-AB9wZk88qD0jHoIDwIcZNP070lti2jTG2rJXdZspYN2K3iNDB+eb2Yha2DVKXgYr8Vys+4b89CZpUN+1befzEw==
   dependencies:
     "@types/mongodb" "*"
     "@types/node" "*"
@@ -15283,6 +15273,11 @@ uuid@7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.1.tgz#95ed6ff3d8c881cbf85f0f05cc3915ef994818ef"
   integrity sha512-yqjRXZzSJm9Dbl84H2VDHpM3zMjzSJQ+hn6C4zqd5ilW+7P4ZmLEEqwho9LjP+tGuZlF4xrHQXT0h9QZUS/pWA==
+
+uuid@7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
+  integrity sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw==
 
 v8-compile-cache@^2.0.3:
   version "2.1.0"
