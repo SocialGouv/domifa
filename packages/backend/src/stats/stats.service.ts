@@ -11,6 +11,7 @@ import { User } from "../users/user.interface";
 
 import { Cron, CronExpression } from "@nestjs/schedule";
 import * as moment from "moment";
+import { Interaction } from "../interactions/interactions.interface";
 import { InteractionsService } from "../interactions/interactions.service";
 import { StructuresService } from "../structures/structures.service";
 import { Usager } from "../usagers/interfaces/usagers";
@@ -35,6 +36,8 @@ export class StatsService {
     private userModel: Model<User>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
+    @Inject("INTERACTION_MODEL")
+    private interactionModel: Model<Interaction>,
     private readonly structureService: StructuresService,
     private readonly usersService: UsersService,
     private readonly usagersService: UsagersService,
@@ -45,7 +48,7 @@ export class StatsService {
     this.finAnnee = new Date("December 31, " + this.annee + " 23:59:00");
   }
 
-  @Cron(CronExpression.EVERY_5_MINUTES)
+  @Cron(CronExpression.EVERY_2_HOURS)
   public async handleCron() {
     const structure = await this.structureService.findOneBasic({
       $or: [
@@ -80,6 +83,8 @@ export class StatsService {
     stat.questions.Q_10 = await this.getDomiciliations(structure.id, {
       $in: ["PREMIERE", "RENOUVELLEMENT"]
     });
+
+    // TODO : Ajouter le nombre de domiciliés ayant été importé cette année avec un début de dom cette année
 
     stat.questions.Q_10_A = await this.getDomiciliations(
       structure.id,
@@ -162,6 +167,41 @@ export class StatsService {
       structure.id,
       "REFUS",
       "SATURATION"
+    );
+
+    stat.questions.Q_20.appel = await this.totalInteraction(
+      structure.id,
+      "appel"
+    );
+
+    stat.questions.Q_20.colisIn = await this.totalInteraction(
+      structure.id,
+      "colisIn"
+    );
+
+    stat.questions.Q_20.colisOut = await this.totalInteraction(
+      structure.id,
+      "colisOut"
+    );
+
+    stat.questions.Q_20.courrierIn = await this.totalInteraction(
+      structure.id,
+      "courrierIn"
+    );
+
+    stat.questions.Q_20.courrierOut = await this.totalInteraction(
+      structure.id,
+      "courrierOut"
+    );
+
+    stat.questions.Q_20.recommandeIn = await this.totalInteraction(
+      structure.id,
+      "recommandeIn"
+    );
+
+    stat.questions.Q_20.visite = await this.totalInteraction(
+      structure.id,
+      "visite"
     );
 
     const retourStructure = await this.structureService.updateLastExport(
@@ -281,6 +321,23 @@ export class StatsService {
     }
 
     const response = await this.usagerModel.countDocuments(query).exec();
+
+    if (!response || response === null) {
+      return 0;
+    }
+    return response;
+  }
+
+  private async totalInteraction(
+    structureId: number,
+    type: string
+  ): Promise<number> {
+    const response = await this.interactionModel
+      .countDocuments({
+        structureId,
+        type
+      })
+      .exec();
 
     if (!response || response === null) {
       return 0;

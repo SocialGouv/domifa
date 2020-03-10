@@ -13,8 +13,8 @@ export const interactionsLabels: {
   appel: "Appel téléphonique",
   colisIn: "Colis reçu",
   colisOut: "Colis récupéré",
-  courrierIn: "Courriers reçus",
-  courrierOut: "Courriers distribuées",
+  courrierIn: "Courrier reçu",
+  courrierOut: "Courrier distribué",
   recommandeIn: "Avis de passage reçu",
   recommandeOut: "Avis de passage récupéré",
   visite: "Passage"

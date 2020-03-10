@@ -38,6 +38,28 @@ export const StatsSchema = new mongoose.Schema({
       ASSO: Number,
       CCAS: Number,
       TOTAL: Number
+    },
+
+    Q_19: {
+      COUPLE_AVEC_ENFANT: Number,
+      COUPLE_SANS_ENFANT: Number,
+      FEMME_ISOLE_AVEC_ENFANT: Number,
+      FEMME_ISOLE_SANS_ENFANT: Number,
+      HOMME_ISOLE_AVEC_ENFANT: Number,
+      HOMME_ISOLE_SANS_ENFANT: Number,
+      MINEUR: Number
+    },
+
+    /* NOMBRE D'INTERACTIONS GLOBALES */
+    Q_20: {
+      appel: Number,
+      colisIn: Number,
+      colisOut: Number,
+      courrierIn: Number,
+      courrierOut: Number,
+      recommandeIn: Number,
+      recommandeOut: Number,
+      visite: Number
     }
   },
   structureId: Number,

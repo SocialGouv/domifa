@@ -16,8 +16,20 @@ export const UsagerSchema = new mongoose.Schema(
 
     structureId: { type: Number, required: true, index: true },
 
-    nom: { type: String, required: true, trim: true, maxlength: 100 },
-    prenom: { type: String, required: true, trim: true, maxlength: 100 },
+    nom: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+      maxlength: 200
+    },
+    prenom: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+      maxlength: 200
+    },
     surnom: { type: String, default: "", trim: true },
     email: { type: String, default: "", trim: true },
     phone: { type: String, default: "" },
@@ -41,6 +53,7 @@ export const UsagerSchema = new mongoose.Schema(
 
     typeDom: {
       default: "PREMIERE",
+      index: true,
       type: String
     },
 

@@ -46,7 +46,50 @@ export class Stats {
       ASSO: number;
     };
 
-    /* */
+    /* Q 16 : DOMICILIES VALIDE + AYANTS-DROIT*/
+    // TODO : Convertir en date les date de naissance des Ayant-droit
+
+    /* ----------------------------------- */
+    // TODO : Convertir en date les date de naissance des Ayant-droit
+    /* DONNEES A CALCULER A PARTIR DES DATES DE NAISSANCE */
+    /* Q 17 : Nombre total de mineurs domiciliés au 31/12/2018 : */
+    /* Q 18 : Nombre total de majeurs domiciliés au 31/12/2018 : */
+    /* ----------------------------------- */
+
+    /* ----------------------------------- */
+    /* STATS Q19 : PARTIE SUR LES QUESTIONS DE L'ENTRETIEN */
+    /* Nombre total d'hommes isolés avec enfant(s), (familles monoparentales) domiciliés */
+    /* Nombre total de femmes isolées sans enfant  */
+    /* Nombre total de femmes isolées avec enfant(s),*/
+    /* Nombre total de couples sans enfant domiciliés */
+    /* Nombre total de couples avec enfant(s) domiciliés */
+    /* ----------------------------------- */
+
+    Q_19: {
+      COUPLE_AVEC_ENFANT: number;
+      COUPLE_SANS_ENFANT: number;
+      FEMME_ISOLE_AVEC_ENFANT: number;
+      FEMME_ISOLE_SANS_ENFANT: number;
+      HOMME_ISOLE_AVEC_ENFANT: number;
+      HOMME_ISOLE_SANS_ENFANT: number;
+      MINEUR: number;
+    };
+
+    /* NOMBRE D'INTERACTIONS GLOBALES */
+    Q_20: {
+      appel: number;
+      colisIn: number;
+      colisOut: number;
+      courrierIn: number;
+      courrierOut: number;
+      recommandeIn: number;
+      recommandeOut: number;
+      visite: number;
+    };
+
+    /* AUTRES QUESTIONS DE L'ENTRETIEN */
+
+    /* NOMBRE ACTUEL PAR STATUT  */
   };
 
   constructor(data?: any) {
@@ -82,6 +125,16 @@ export class Stats {
         ASSO: 0,
         CCAS: 0,
         TOTAL: 0
+      },
+      Q_20: {
+        appel: 0,
+        colisIn: 0,
+        colisOut: 0,
+        courrierIn: 0,
+        courrierOut: 0,
+        recommandeIn: 0,
+        recommandeOut: 0,
+        visite: 0
       }
     };
   }

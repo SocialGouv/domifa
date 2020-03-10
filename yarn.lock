@@ -2185,6 +2185,17 @@
     path-to-regexp "3.2.0"
     tslib "1.10.0"
 
+"@nestjs/platform-fastify@^6.11.11":
+  version "6.11.11"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-fastify/-/platform-fastify-6.11.11.tgz#659e48015b0fca3808eae15a767d40381f1cbf49"
+  integrity sha512-9j13Gr+XjZyjpBClrCbX3kNFti8XV3LdF2rEbb5Ifx0U64EgPTUpJ4YtaNFMXfCO8Hgk6ZVp7Yn628p75yRpRA==
+  dependencies:
+    fastify "2.11.0"
+    fastify-cors "3.0.2"
+    fastify-formbody "3.1.0"
+    path-to-regexp "3.2.0"
+    tslib "1.11.1"
+
 "@nestjs/schedule@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-0.2.0.tgz#748c9ba59de0dc9a5baebb100d7734490b58572c"
@@ -2613,6 +2624,13 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
+
+"@types/compression@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@types/compression/-/compression-1.7.0.tgz#8dc2a56604873cf0dd4e746d9ae4d31ae77b2390"
+  integrity sha512-3LzWUM+3k3XdWOUk/RO+uSjv7YWOatYq2QADJntK1pjkk4DfVP0KrIEPDnXRJxAAGKe0VpIPRmlINLDuCedZWw==
+  dependencies:
+    "@types/express" "*"
 
 "@types/connect@*":
   version "3.4.32"
@@ -6948,6 +6966,14 @@ fastify-cors@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/fastify-cors/-/fastify-cors-3.0.1.tgz#6773aa3756beb886637736ee97a3d6063d9d0f10"
   integrity sha512-NVaYO8iMqlnMcnKo2jrmbY3DbMsgXJfn4uzDcBLFGOgbKXjJ70plqtBi2XlEjWahty1uCkcrvRDHXaXgiruzww==
+  dependencies:
+    fastify-plugin "^1.6.0"
+    vary "^1.1.2"
+
+fastify-cors@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/fastify-cors/-/fastify-cors-3.0.2.tgz#38f380512da513ab5ae4b071756a3dfc461cca4a"
+  integrity sha512-emqorS6s4W0+v+ZbTwHUwpmT3R1rCQtIh3K69e+QUxbufkxvweJ5MbFrLTEyolMlOCOGAk8NcnUJBDd1aRceCw==
   dependencies:
     fastify-plugin "^1.6.0"
     vary "^1.1.2"
