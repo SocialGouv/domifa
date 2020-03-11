@@ -79,7 +79,7 @@
     "ts-jest": "^25.2.1",
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
-    "tslint": "^5.20.1",
+    "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "typeorm": "^0.2.24",
     "typescript": "^3.5.2"
