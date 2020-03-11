@@ -166,6 +166,23 @@
       <br>
     </div>
 
+    <div
+      class="row"
+      *ngIf="usager.options.procuration.actif"
+      class="text-center text-warning">
+      <div class="font-weight-bold">
+        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+        Attention, il existe une procuration au nom de
+       {{ usager.options.procuration.nom | uppercase }} {{ usager.options.procuration.prenom }}
+        <br>
+        <u>
+          Valable jusqu'au {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy' }}
+        </u>
+        <br>
+        <br>
+      </div>
+    </div>
+
     <div id="notif-container">
       <div id="notif-form">
         <div>

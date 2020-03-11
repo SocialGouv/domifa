@@ -141,11 +141,6 @@ export class StatsService {
       "PLUS_DE_LIEN_COMMUNE"
     );
 
-    stat.questions.Q_13.TOTAL = await this.getDomiciliations(
-      structure.id,
-      "REFUS"
-    );
-
     stat.questions.Q_13.TOTAL = await this.totalParStatutCetteAnnee(
       structure.id,
       "REFUS"

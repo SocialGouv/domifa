@@ -32,17 +32,7 @@ export class UsagersService {
 
   public async patch(update: any, usagerId: string): Promise<Usager> {
     return this.usagerModel
-      .findOneAndUpdate(
-        {
-          _id: usagerId
-        },
-        {
-          $set: update
-        },
-        {
-          new: true
-        }
-      )
+      .findOneAndUpdate({ _id: usagerId }, { $set: update }, { new: true })
       .select("-docsPath -interactions")
       .exec();
   }

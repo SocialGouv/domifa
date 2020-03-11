@@ -20,6 +20,11 @@
           <table
             class="table"
             *ngIf="stats.questions">
+            <thead>
+              <tr>
+                <th colspan="2">Questions du rapport annuel</th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
                 <td>{{ statsLabels.Q_10 }}</td>
@@ -55,6 +60,19 @@
                 <td>>> Q13 : {{ decision.value }}</td>
                 <td>
                   {{ stats.questions.Q_13[decision.key] }}
+                </td>
+              </tr>
+            </tbody>
+            <thead>
+              <tr>
+                <th colspan="2">Résumé des interactions sur l'année</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let interaction of interactionsLabels | keyvalue">
+                <td>{{ interaction.value }}</td>
+                <td>
+                  {{ stats.questions.Q_20[interaction.key] }}
                 </td>
               </tr>
             </tbody>
