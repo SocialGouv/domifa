@@ -16,8 +16,13 @@ export const StatsSchema = new mongoose.Schema({
     /* Dont renouvellement */
     Q_10_B: Number,
 
-    /* Nombre total d'attestations d'élection de domicile en cours de validité à la fin de l'année */
-    Q_11: Number,
+    /* Domicilié par statut au 31/12 */
+    Q_11: {
+      REFUS: Number,
+      RADIE: Number,
+      VALIDE: Number
+    },
+
     Q_12: {
       A_SA_DEMANDE: Number,
       ENTREE_LOGEMENT: Number,
@@ -27,6 +32,7 @@ export const StatsSchema = new mongoose.Schema({
       PLUS_DE_LIEN_COMMUNE: Number,
       TOTAL: Number
     },
+
     Q_13: {
       AUTRE: Number,
       HORS_AGREMENT: Number,
@@ -34,11 +40,17 @@ export const StatsSchema = new mongoose.Schema({
       SATURATION: Number,
       TOTAL: Number
     },
+
     Q_14: {
       ASSO: Number,
-      CCAS: Number,
-      TOTAL: Number
+      CCAS: Number
     },
+
+    /* Nombre total de mineurs domiciliés (usagers + ayant-droit) au 31/12 */
+    Q_17: Number,
+
+    /* Nombre total de majeurs domiciliés (usagers + ayant-droit) au 31/12 */
+    Q_18: Number,
 
     Q_19: {
       COUPLE_AVEC_ENFANT: Number,
@@ -60,6 +72,16 @@ export const StatsSchema = new mongoose.Schema({
       recommandeIn: Number,
       recommandeOut: Number,
       visite: Number
+    },
+
+    Q_21: {
+      ERRANCE: Number,
+      EXPULSION: Number,
+      HEBERGE_SANS_ADRESSE: Number,
+      ITINERANT: Number,
+      RUPTURE: Number,
+      SORTIE_STRUCTURE: Number,
+      VIOLENCE: Number
     }
   },
   structureId: Number,

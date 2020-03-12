@@ -14,7 +14,7 @@ export class Decision {
 
   public motif: string;
   public motifDetails: string;
-  public orientation: number;
+  public orientation: string;
   public orientationDetails: string;
 
   constructor(decision?: any) {

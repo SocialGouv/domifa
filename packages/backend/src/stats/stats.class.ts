@@ -16,8 +16,12 @@ export class Stats {
     /* Dont renouvellement */
     Q_10_B: number;
 
-    /* Nombre total d'attestations d'élection de domicile en cours de validité à la fin de l'année */
-    Q_11: number;
+    /* NOMBRE D'USAGER PAR STATUT au 31/12 */
+    Q_11: {
+      REFUS: number;
+      RADIE: number;
+      VALIDE: number;
+    };
 
     /* Q12 :Nombre total de radiations durant l'année:*/
     Q_12: {
@@ -41,7 +45,6 @@ export class Stats {
 
     /* Q_14: réorientation suite au refus d'élection de domicile  */
     Q_14: {
-      TOTAL: number;
       CCAS: number;
       ASSO: number;
     };
@@ -55,6 +58,8 @@ export class Stats {
     /* Q 17 : Nombre total de mineurs domiciliés au 31/12/2018 : */
     /* Q 18 : Nombre total de majeurs domiciliés au 31/12/2018 : */
     /* ----------------------------------- */
+    Q_17: number;
+    Q_18: number;
 
     /* ----------------------------------- */
     /* STATS Q19 : PARTIE SUR LES QUESTIONS DE L'ENTRETIEN */
@@ -88,8 +93,15 @@ export class Stats {
     };
 
     /* AUTRES QUESTIONS DE L'ENTRETIEN */
-
-    /* NOMBRE ACTUEL PAR STATUT  */
+    Q_21: {
+      ERRANCE: number;
+      EXPULSION: number;
+      HEBERGE_SANS_ADRESSE: number;
+      ITINERANT: number;
+      RUPTURE: number;
+      SORTIE_STRUCTURE: number;
+      VIOLENCE: number;
+    };
   };
 
   constructor(data?: any) {
@@ -104,7 +116,11 @@ export class Stats {
       Q_10: 0,
       Q_10_A: 0,
       Q_10_B: 0,
-      Q_11: 0,
+      Q_11: {
+        REFUS: 0,
+        RADIE: 0,
+        VALIDE: 0
+      },
       Q_12: {
         A_SA_DEMANDE: 0,
         ENTREE_LOGEMENT: 0,
@@ -123,8 +139,18 @@ export class Stats {
       },
       Q_14: {
         ASSO: 0,
-        CCAS: 0,
-        TOTAL: 0
+        CCAS: 0
+      },
+      Q_17: 0,
+      Q_18: 0,
+      Q_19: {
+        COUPLE_AVEC_ENFANT: 0,
+        COUPLE_SANS_ENFANT: 0,
+        FEMME_ISOLE_AVEC_ENFANT: 0,
+        FEMME_ISOLE_SANS_ENFANT: 0,
+        HOMME_ISOLE_AVEC_ENFANT: 0,
+        HOMME_ISOLE_SANS_ENFANT: 0,
+        MINEUR: 0
       },
       Q_20: {
         appel: 0,
@@ -135,6 +161,24 @@ export class Stats {
         recommandeIn: 0,
         recommandeOut: 0,
         visite: 0
+      },
+      Q_21: {
+        ERRANCE: 0,
+        EXPULSION: 0,
+        HEBERGE_SANS_ADRESSE: 0,
+        ITINERANT: 0,
+        RUPTURE: 0,
+        SORTIE_STRUCTURE: 0,
+        VIOLENCE: 0
+      },
+      Q_22: {
+        ERRANCE: 0,
+        EXPULSION: 0,
+        HEBERGE_SANS_ADRESSE: 0,
+        ITINERANT: 0,
+        RUPTURE: 0,
+        SORTIE_STRUCTURE: 0,
+        VIOLENCE: 0
       }
     };
   }

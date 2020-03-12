@@ -26,7 +26,7 @@ const getTerminusOptions = (
         async () => mongoose.pingCheck("mongo"),
         async () => dns.pingCheck("frontend", frontUrl)
       ],
-      url: "/health"
+      url: "/"
     }
   ]
 });

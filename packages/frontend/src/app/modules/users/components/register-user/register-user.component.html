@@ -77,7 +77,7 @@
   <br>
   <br>
   <form
-    *ngIf="user.structureId"
+    *ngIf="user"
     [formGroup]="userForm"
     (ngSubmit)="submitUser()">
     <div class="row">
@@ -93,11 +93,7 @@
         <div
           *ngIf="submitted && f.nom.errors"
           class="invalid-feedback">
-          <div *ngIf="f.nom.errors.required">
-            Le
-            nom
-            du demandeur est obligatoire
-          </div>
+          <div *ngIf="f.nom.errors.required">Le nom du demandeur est obligatoire</div>
         </div>
       </div>
       <div class="col form-group required">
@@ -112,11 +108,7 @@
         <div
           *ngIf="submitted && f.prenom.errors"
           class="invalid-feedback">
-          <div *ngIf="f.prenom.errors.required">
-            Le
-            prénom
-            est obligatoire
-          </div>
+          <div *ngIf="f.prenom.errors.required">Le prénom est obligatoire</div>
         </div>
       </div>
     </div>
@@ -156,11 +148,7 @@
             <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
             <b>L'adresse email est déjà utilisée</b>
           </div>
-          <div *ngIf="!f.email.errors.emailTaken">
-            L'adresse
-            <b>Email</b>
-            est incorrecte
-          </div>
+          <div *ngIf="!f.email.errors.emailTaken">L'adresse Email est incorrecte</div>
         </div>
       </div>
     </div>
@@ -189,7 +177,6 @@
           <fa-icon icon="eye-slash"></fa-icon>
         </span>
         <div class="row indications">
-
           <div
             class="col-md-12"
             [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
@@ -199,7 +186,6 @@
           <div
             class="col-md-12"
             [ngClass]="f.password.hasError('required') || f.password.hasError('hasNumber')  ? 'text-danger' : 'text-success'">
-
             <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('hasNumber') ? 'times-circle' : 'check-circle'"></fa-icon>
             Au moins 1 chiffre
           </div>

@@ -22,32 +22,30 @@
             *ngIf="stats.questions">
             <thead>
               <tr>
-                <th colspan="2">Questions du rapport annuel</th>
+                <th colspan="2">Partie 1 : total au cours de l'année</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>{{ statsLabels.Q_10 }}</td>
+                <td>
+                  Nombre d'attestations d'élection de domicile délivrées au cours de l'année
+                </td>
                 <td>{{ stats.questions.Q_10 }}</td>
               </tr>
               <tr>
-                <td>>> {{ statsLabels.Q_10_A }}</td>
+                <td class="sous-table">{{ statsLabels.Q_10_A }}</td>
                 <td>{{ stats.questions.Q_10_A }}</td>
               </tr>
               <tr>
-                <td>>> {{ statsLabels.Q_10_B }}</td>
+                <td class="sous-table">{{ statsLabels.Q_10_B }}</td>
                 <td>{{ stats.questions.Q_10_B }}</td>
-              </tr>
-              <tr>
-                <td>{{ statsLabels.Q_11 }}</td>
-                <td>{{ stats.questions.Q_11 }}</td>
               </tr>
               <tr>
                 <td>Q 12 : Total Radiations</td>
                 <td>{{ stats.questions.Q_12.TOTAL }}</td>
               </tr>
               <tr *ngFor="let decision of labels.motifsRadiation | keyvalue">
-                <td>>> Q12 : {{ decision.value }}</td>
+                <td class="sous-table">Q12 : {{ decision.value }}</td>
                 <td>
                   {{ stats.questions.Q_12[decision.key] }}
                 </td>
@@ -57,15 +55,39 @@
                 <td>{{ stats.questions.Q_13.TOTAL }}</td>
               </tr>
               <tr *ngFor="let decision of labels.motifsRefus | keyvalue">
-                <td>>> Q13 : {{ decision.value }}</td>
+                <td class="sous-table">Q13 : {{ decision.value }}</td>
                 <td>
                   {{ stats.questions.Q_13[decision.key] }}
                 </td>
               </tr>
             </tbody>
+
             <thead>
               <tr>
-                <th colspan="2">Résumé des interactions sur l'année</th>
+                <th colspan="2">
+                  Partie 2 : données au 31 décembre de cette année
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Domiciliés actifs</td>
+                <td>{{ stats.questions.Q_11.VALIDE }}</td>
+              </tr>
+              <tr>
+                <td>Domiciliés radiés</td>
+                <td>{{ stats.questions.Q_11.RADIE }}</td>
+              </tr>
+              <tr>
+                <td>Demandes d'élection de domicile refusés</td>
+                <td>{{ stats.questions.Q_11.REFUS }}</td>
+              </tr>
+            </tbody>
+            <thead>
+              <tr>
+                <th colspan="2">
+                  Partie 3 : Résumé des interactions sur l'année
+                </th>
               </tr>
             </thead>
             <tbody>

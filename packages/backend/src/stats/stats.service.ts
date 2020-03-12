@@ -26,6 +26,7 @@ export class StatsService {
   public debutAnnee: Date;
   public finAnnee: Date;
   public today = moment().startOf("day");
+  public tomorrow = moment().endOf("day");
 
   constructor(
     @Inject("STRUCTURE_MODEL")
@@ -96,9 +97,19 @@ export class StatsService {
       "RENOUVELLEMENT"
     );
 
-    stat.questions.Q_11 = await this.totalParStatutMaintenant(
+    stat.questions.Q_11.VALIDE = await this.totalParStatutMaintenant(
       structure.id,
       "VALIDE"
+    );
+
+    stat.questions.Q_11.REFUS = await this.totalParStatutMaintenant(
+      structure.id,
+      "REFUS"
+    );
+
+    stat.questions.Q_11.RADIE = await this.totalParStatutMaintenant(
+      structure.id,
+      "RADIE"
     );
 
     stat.questions.Q_12.TOTAL = await this.totalParStatutCetteAnnee(
@@ -164,6 +175,19 @@ export class StatsService {
       "SATURATION"
     );
 
+    stat.questions.Q_14.ASSO = await this.totalParStatutCetteAnnee(
+      structure.id,
+      "REFUS",
+      "",
+      "asso"
+    );
+    stat.questions.Q_14.CCAS = await this.totalParStatutCetteAnnee(
+      structure.id,
+      "REFUS",
+      "",
+      "ccas"
+    );
+
     stat.questions.Q_20.appel = await this.totalInteraction(
       structure.id,
       "appel"
@@ -197,6 +221,101 @@ export class StatsService {
     stat.questions.Q_20.visite = await this.totalInteraction(
       structure.id,
       "visite"
+    );
+
+    stat.questions.Q_19.COUPLE_AVEC_ENFANT = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "COUPLE_AVEC_ENFANT"
+    );
+
+    stat.questions.Q_19.COUPLE_SANS_ENFANT = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "COUPLE_SANS_ENFANT"
+    );
+
+    stat.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "FEMME_ISOLE_AVEC_ENFANT"
+    );
+
+    stat.questions.Q_19.FEMME_ISOLE_SANS_ENFANT = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "FEMME_ISOLE_SANS_ENFANT"
+    );
+
+    stat.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "HOMME_ISOLE_AVEC_ENFANT"
+    );
+
+    stat.questions.Q_19.HOMME_ISOLE_SANS_ENFANT = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "HOMME_ISOLE_SANS_ENFANT"
+    );
+
+    stat.questions.Q_21.ERRANCE = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "ERRANCE"
+    );
+
+    stat.questions.Q_21.EXPULSION = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "EXPULSION"
+    );
+
+    stat.questions.Q_21.HEBERGE_SANS_ADRESSE = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "HEBERGE_SANS_ADRESSE"
+    );
+
+    stat.questions.Q_21.ITINERANT = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "ITINERANT"
+    );
+
+    stat.questions.Q_21.SORTIE_STRUCTURE = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "SORTIE_STRUCTURE"
+    );
+    stat.questions.Q_21.VIOLENCE = await this.totalParStatutMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "VIOLENCE"
     );
 
     const retourStructure = await this.structureService.updateLastExport(
@@ -253,7 +372,7 @@ export class StatsService {
       .countDocuments({
         $or: [
           {
-            "decision.dateDecision": {
+            "decision.dateDebut": {
               $gte: this.debutAnnee,
               $lte: this.finAnnee
             },
@@ -262,7 +381,7 @@ export class StatsService {
           {
             historique: {
               $elemMatch: {
-                dateDecision: { $gte: this.debutAnnee, $lte: this.finAnnee },
+                dateDebut: { $gte: this.debutAnnee, $lte: this.finAnnee },
                 statut: "VALIDE"
               }
             }
@@ -281,14 +400,36 @@ export class StatsService {
 
   private async totalParStatutMaintenant(
     structureId: number,
-    statut: string
+    statut: string,
+    motif?: string,
+    orientation?: string,
+    cause?: string
   ): Promise<number> {
-    const response = await this.usagerModel
-      .countDocuments({
-        "decision.statut": statut,
-        structureId
-      })
-      .exec();
+    const query = {
+      "decision.dateDebut": {
+        $gte: this.debutAnnee,
+        $lte: this.finAnnee
+      },
+      "decision.motif": motif,
+      "decision.statut": statut,
+      "decision.orientation": orientation,
+      "entretien.cause": cause,
+      structureId
+    };
+
+    if (!motif || motif === "") {
+      delete query["decision.motif"];
+    }
+
+    if (statut !== "REFUS") {
+      delete query["decision.orientation"];
+    }
+
+    if (!cause || cause === "") {
+      delete query["entretien.cause"];
+    }
+
+    const response = await this.usagerModel.countDocuments(query).exec();
 
     if (!response || response === null) {
       return 0;
@@ -299,21 +440,47 @@ export class StatsService {
   private async totalParStatutCetteAnnee(
     structureId: number,
     statut: string,
-    motif?: string
+    motif?: string,
+    orientation?: string
   ): Promise<number> {
-    const query = {
-      "decision.dateDecision": {
+    const firstCondition = {
+      "decision.dateDebut": {
         $gte: this.debutAnnee,
         $lte: this.finAnnee
       },
       "decision.motif": motif,
       "decision.statut": statut,
-      structureId
+      "decision.orientation": orientation
     };
 
-    if (!motif) {
-      delete query["decision.motif"];
+    const secondCondition = {
+      historique: {
+        $elemMatch: {
+          dateDebut: {
+            $gte: this.debutAnnee,
+            $lte: this.finAnnee
+          },
+          motif,
+          statut,
+          orientation
+        }
+      }
+    };
+
+    if (!motif || motif === "") {
+      delete firstCondition["decision.motif"];
+      delete secondCondition.historique.$elemMatch.motif;
     }
+
+    if (statut !== "REFUS") {
+      delete firstCondition["decision.orientation"];
+      delete secondCondition.historique.$elemMatch.orientation;
+    }
+
+    const query = {
+      $or: [firstCondition, secondCondition],
+      structureId
+    };
 
     const response = await this.usagerModel.countDocuments(query).exec();
 
@@ -338,5 +505,20 @@ export class StatsService {
       return 0;
     }
     return response;
+  }
+
+  public async clean() {
+    await this.structureModel
+      .updateMany({}, { $set: { lastExport: null } })
+      .exec();
+
+    return this.statsModel
+      .deleteMany({
+        date: {
+          $gte: this.today,
+          $lte: this.tomorrow
+        }
+      })
+      .exec();
   }
 }

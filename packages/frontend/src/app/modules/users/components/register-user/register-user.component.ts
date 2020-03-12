@@ -21,7 +21,7 @@ import { UsersService } from "../../services/users.service";
   styleUrls: ["./register-user.component.css"],
   templateUrl: "./register-user.component.html"
 })
-export class RegisterUserComponent {
+export class RegisterUserComponent implements OnInit {
   public title: string;
   public user: User;
   public userForm: FormGroup;
@@ -34,7 +34,10 @@ export class RegisterUserComponent {
 
   public emailExist: boolean = false;
 
-  @Input() public structureChild: any;
+  @Input() public structureChild!: {
+    etapeInscription: number;
+    structureId: number;
+  };
 
   get f() {
     return this.userForm.controls;
@@ -52,7 +55,9 @@ export class RegisterUserComponent {
     this.user = new User({});
     this.submitted = false;
     this.success = false;
+  }
 
+  public ngOnInit() {
     this.user.structureId =
       this.structureChild !== undefined
         ? this.structureChild.structureId

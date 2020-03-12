@@ -58,7 +58,6 @@ export class DecisionComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public authService: AuthService,
-    private notifService: ToastrService,
     public printService: PrintService,
     public documentService: DocumentService,
     private usagerService: UsagerService,

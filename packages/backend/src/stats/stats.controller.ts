@@ -32,4 +32,10 @@ export class StatsController {
   public async getAll(@CurrentUser() user: User) {
     return this.statsService.getAll(user.structureId);
   }
+
+  @Get("force-regenerate")
+  public async generate() {
+    await this.statsService.clean();
+    return this.statsService.handleCron();
+  }
 }
