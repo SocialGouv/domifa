@@ -75,6 +75,20 @@
                 <td>{{ stats.questions.Q_11.VALIDE }}</td>
               </tr>
               <tr>
+                <td class="sous-table">Mineurs</td>
+                <td>{{ stats.questions.Q_17 }}</td>
+              </tr>
+              <tr>
+                <td class="sous-table">Majeurs</td>
+                <td>{{ stats.questions.Q_18 }}</td>
+              </tr>
+              <tr *ngFor="let decision of labels.typeMenage | keyvalue">
+                <td class="sous-table">Q19 : {{ decision.value }}</td>
+                <td>
+                  {{ stats.questions.Q_19[decision.key] }}
+                </td>
+              </tr>
+              <tr>
                 <td>Domiciliés radiés</td>
                 <td>{{ stats.questions.Q_11.RADIE }}</td>
               </tr>
