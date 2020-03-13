@@ -508,17 +508,21 @@ export class StatsService {
   }
 
   public async clean() {
-    await this.structureModel
+    const retour1 = await this.structureModel
       .updateMany({}, { $set: { lastExport: null } })
       .exec();
-
-    return this.statsModel
+    const retour2 = await this.statsModel
       .deleteMany({
         date: {
-          $gte: this.today,
-          $lte: this.tomorrow
+          $gte: this.today.toDate(),
+          $lte: this.tomorrow.toDate()
         }
       })
       .exec();
+
+    if (retour1 && retour2) {
+      this.handleCron();
+      return true;
+    } else return false;
   }
 }

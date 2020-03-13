@@ -16,10 +16,10 @@
       <ngb-panel
         title="{{stats.nom}}"
         *ngFor="let stats of statistiques">
-        <ng-template ngbPanelContent>
-          <table
-            class="table"
-            *ngIf="stats.questions">
+        <ng-template
+          ngbPanelContent
+          *ngIf="stats.questions">
+          <table class="table">
             <thead>
               <tr>
                 <th colspan="2">Partie 1 : total au cours de l'année</th>
@@ -27,76 +27,102 @@
             </thead>
             <tbody>
               <tr>
-                <td>
-                  Nombre d'attestations d'élection de domicile délivrées au cours de l'année
+                <td class="font-weight-bold">
+                  Q 10: Nombre d'attestations d'élection de domicile
+                  délivrées
                 </td>
                 <td>{{ stats.questions.Q_10 }}</td>
               </tr>
               <tr>
-                <td class="sous-table">{{ statsLabels.Q_10_A }}</td>
+                <td class="soustable">{{ statsLabels.Q_10_A }}</td>
                 <td>{{ stats.questions.Q_10_A }}</td>
               </tr>
               <tr>
-                <td class="sous-table">{{ statsLabels.Q_10_B }}</td>
+                <td class="soustable">{{ statsLabels.Q_10_B }}</td>
                 <td>{{ stats.questions.Q_10_B }}</td>
               </tr>
               <tr>
-                <td>Q 12 : Total Radiations</td>
+                <td class="font-weight-bold">Q 12 : Total Radiations</td>
                 <td>{{ stats.questions.Q_12.TOTAL }}</td>
               </tr>
+              <tr>
+                <td colspan="2">Répartition des radiations par motif</td>
+              </tr>
               <tr *ngFor="let decision of labels.motifsRadiation | keyvalue">
-                <td class="sous-table">Q12 : {{ decision.value }}</td>
+                <td class="soustable">{{ decision.value }}</td>
                 <td>
                   {{ stats.questions.Q_12[decision.key] }}
                 </td>
               </tr>
               <tr>
-                <td>Q 13 : Total Refus</td>
+                <td class="font-weight-bold">
+                  Q 13 : Nombre de
+                  <b>demandes refusées</b>
+                </td>
                 <td>{{ stats.questions.Q_13.TOTAL }}</td>
               </tr>
+              <tr>
+                <td colspan="2">Répartition par motif de refus</td>
+              </tr>
               <tr *ngFor="let decision of labels.motifsRefus | keyvalue">
-                <td class="sous-table">Q13 : {{ decision.value }}</td>
+                <td class="soustable">{{ decision.value }}</td>
                 <td>
                   {{ stats.questions.Q_13[decision.key] }}
                 </td>
               </tr>
             </tbody>
-
+          </table>
+          <br>
+          <table class="table">
             <thead>
               <tr>
                 <th colspan="2">
-                  Partie 2 : données au 31 décembre de cette année
+                  Partie 2 : nombre d'usager par statut au 31 décembre de cette année
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Domiciliés actifs</td>
+                <td>Q 11 : Domiciliés actifs</td>
                 <td>{{ stats.questions.Q_11.VALIDE }}</td>
               </tr>
               <tr>
-                <td class="sous-table">Mineurs</td>
+                <td colspan="2">
+                  Q 19 : Nombre de domiciliés actifs par type de ménage
+                </td>
+              </tr>
+
+              <tr>
+                <td class="soustable">Mineurs</td>
                 <td>{{ stats.questions.Q_17 }}</td>
               </tr>
               <tr>
-                <td class="sous-table">Majeurs</td>
+                <td class="soustable">Majeurs</td>
                 <td>{{ stats.questions.Q_18 }}</td>
               </tr>
-              <tr *ngFor="let decision of labels.typeMenage | keyvalue">
-                <td class="sous-table">Q19 : {{ decision.value }}</td>
+
+              <ng-container *ngFor="let decision of labels.typeMenage | keyvalue">
+                <tr *ngIf="decision.key != 'MINEUR'">
+                  <td class="soustable">{{ decision.value }}</td>
+                  <td>
+                    {{ stats.questions.Q_19[decision.key] }}
+                  </td>
+                </tr>
+              </ng-container>
+              <tr>
+                <td colspan="2">Cause de l'instabilité de logement</td>
+              </tr>
+              <tr *ngFor="let decision of labels.cause | keyvalue">
+                <td class="soustable">{{ decision.value }}</td>
                 <td>
-                  {{ stats.questions.Q_19[decision.key] }}
+                  {{ stats.questions.Q_21[decision.key] }}
                 </td>
               </tr>
-              <tr>
-                <td>Domiciliés radiés</td>
-                <td>{{ stats.questions.Q_11.RADIE }}</td>
-              </tr>
-              <tr>
-                <td>Demandes d'élection de domicile refusés</td>
-                <td>{{ stats.questions.Q_11.REFUS }}</td>
-              </tr>
+
             </tbody>
+          </table>
+          <br>
+          <table class="table">
             <thead>
               <tr>
                 <th colspan="2">
