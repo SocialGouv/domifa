@@ -8,7 +8,7 @@
     "ng": "ng",
     "start": "ng serve -o",
     "build": "ng build --prod",
-    "test": "jest",
+    "test": "ng test",
     "lint": "ng lint --format stylish",
     "e2e": "ng e2e"
   },
