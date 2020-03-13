@@ -112,11 +112,7 @@ export class UsersService {
   }
 
   public async delete(id: number): Promise<any> {
-    return this.userModel
-      .deleteOne({
-        _id: id
-      })
-      .exec();
+    return this.userModel.deleteOne({ id }).exec();
   }
 
   public async getStats() {
