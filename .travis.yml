@@ -67,7 +67,7 @@ jobs:
         - travis_fold start "yarn.test"
         - yarn workspace @domifa/backend test --coverage --detectOpenHandles --forceExit
         - yarn workspace @domifa/backend start:prod &
-        - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+        - yarn workspace @domifa/frontend test
         - travis_fold end "yarn.test"
       after_script:
         - npx codecov
