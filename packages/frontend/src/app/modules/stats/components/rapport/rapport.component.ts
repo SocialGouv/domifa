@@ -1,10 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { statsLabels } from "src/app/modules/stats/stats.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { StatsService } from "../../stats.service";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: "app-rapport",
   styleUrls: ["./rapport.component.css"],
   templateUrl: "./rapport.component.html"

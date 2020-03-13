@@ -53,22 +53,14 @@ jobs:
       stage: Test
       # if: type = pull_request
       name: Test
-      before_script:
-        # Code folding and timing in Travis CI
-        # from http://www.garbers.co.za/2017/11/01/code-folding-and-timing-in-travis-ci/
-        - export -f travis_fold travis_nanoseconds travis_time_finish
       script:
-        - travis_fold start "yarn.build"
         - yarn build --stream
         #
         - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
-        - travis_fold end "yarn.build"
         #
-        - travis_fold start "yarn.test"
         - yarn workspace @domifa/backend test --coverage --detectOpenHandles --forceExit
         - yarn workspace @domifa/backend start:prod &
-        - yarn workspace @domifa/frontend test
-        - travis_fold end "yarn.test"
+        - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
       after_script:
         - npx codecov
         - killall node

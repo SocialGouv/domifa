@@ -35,7 +35,6 @@ export class StatsController {
 
   @Get("force-regenerate")
   public async generate() {
-    await this.statsService.clean();
-    return this.statsService.handleCron();
+    return this.statsService.clean();
   }
 }

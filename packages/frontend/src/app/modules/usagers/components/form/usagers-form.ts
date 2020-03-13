@@ -23,7 +23,6 @@ import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
 import * as labels from "../../usagers.labels";
 
-import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Decision } from "../../interfaces/decision";
 
