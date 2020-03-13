@@ -2022,20 +2022,20 @@
     webpack "4.42.0"
     webpack-node-externals "1.7.2"
 
-"@nestjs/common@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-7.0.0.tgz#618535b1cc7ce7e097b1ed2efb2d1eee79862b07"
-  integrity sha512-f2MMrKPB0I4hhqyVteH4IP1aGuvnCT84fKMhdmsQ42rE0xpRNS/5Be+E5xV5zy2cItWy74IDHNLDvb18fCMQXg==
+"@nestjs/common@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-7.0.1.tgz#5d897c2a6949dbb5118b0e751a83ef61e3ff1040"
+  integrity sha512-1VcJpRsr3w+sPlOumFpwonxtZ6ywnU6ifYvDHzh2Kx9TlKoJzbAdEa1Xa0djQTN9QMxk7mmk1QEc+x1SaHjYmg==
   dependencies:
     axios "0.19.2"
     cli-color "2.0.0"
     tslib "1.11.1"
     uuid "7.0.2"
 
-"@nestjs/core@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-7.0.0.tgz#ad9e7cf2a30044ff4f1300abcb428a75343f0344"
-  integrity sha512-ZFDk5SbeuQhHihhgwnAGj5Bj4uKzQHRFgvvLz0K/XwTFhoeY2Usfj0EqhFdaD6WrGJh+fJEYyYpdzID8XoRRHg==
+"@nestjs/core@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-7.0.1.tgz#39b295c56d92377c5254b1b2dd62ec348dcdaca1"
+  integrity sha512-ATk6b087SV3338hpU/2HsxqOSDbcyJcru6JjZ6n47AShc3nycG77Kvqa5ieAZ+/pyCg6wk73pDJRYA6lo+mxtw==
   dependencies:
     "@nuxtjs/opencollective" "0.2.2"
     fast-safe-stringify "2.0.7"
@@ -2100,10 +2100,10 @@
     multer "1.4.2"
     tslib "1.10.0"
 
-"@nestjs/platform-express@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-7.0.0.tgz#b7ed68fbf1bb5d20d06df75800a551b17f2bc5f5"
-  integrity sha512-+CbK6tfYeX/L5EB9hR3Z9LdSE1yCQ3xduTXaFsg4EvF2rTK1VhEKTRw2QozYMjog6IvxqAxZq95+5MMAN1O2NQ==
+"@nestjs/platform-express@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-7.0.1.tgz#9bb774623dec2180b0c6d43915263cda7623de04"
+  integrity sha512-QB7gG8iubug+xRbVnCQviK0OlJ4HcS+6cl+hZFN6FlVQB6DJpHxF2eqJ+mJUgE7nnP5Bj/p00CHbb+A9NimUlw==
   dependencies:
     body-parser "1.19.0"
     cors "2.8.5"
@@ -2161,10 +2161,10 @@
     redis "2.8.0"
     typeorm "0.2.22"
 
-"@nestjs/testing@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.0.0.tgz#b81610a4220b5a8c3f58089696640688d8664da6"
-  integrity sha512-Mk2dMJNC8zGTM/BIK9dE7yrDoB8ZLLLquMT1XqjhYC0hZ4SgC/3myAX8truag8xDAd6lJHOQug9ySbsyE7oxTQ==
+"@nestjs/testing@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.0.1.tgz#07832d45f42636821232d693750dc400e304b046"
+  integrity sha512-I0an8kHUtDiaUmuA3aeMutz8g9b2Nhm8t5YYKIEPszRaLTU6CMhvR850RLX5gd9cb+RcforA6LjGtyeYPh7xgw==
   dependencies:
     optional "0.1.4"
     tslib "1.11.1"
