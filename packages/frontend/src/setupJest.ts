@@ -1,4 +1,5 @@
 import "jest-preset-angular";
+import "./jestGlobalMocks";
 
 Object.defineProperty(window, "ClipboardEvent", {
   value: class ClipboardEvent {}
