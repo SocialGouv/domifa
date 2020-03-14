@@ -2145,10 +2145,10 @@
     path-to-regexp "3.2.0"
     tslib "1.10.0"
 
-"@nestjs/schedule@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-0.2.1.tgz#d878f1c0906238c4f2ee23b0e360283358f546c9"
-  integrity sha512-cEeupUPMjz5zSHlmsrxSW4YWwFNl3kVTvxus6w8SsPJT3KTQtH0wf/YcXF7gvStx/+zml+BOidLMHwVFT3X9Aw==
+"@nestjs/schedule@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-0.3.0.tgz#876ef9ec7677be5012eeefaf2749dad74e8694a8"
+  integrity sha512-TBW/k1y3WRy3Dx5rYOkFrCLS+3VAvsYGHAnwWS2s8IMity26Vo52aeW3HTSaZHUTj5LTxRf387q7nxrvR3r88A==
   dependencies:
     cron "1.8.2"
     uuid "7.0.2"
