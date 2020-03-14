@@ -2097,10 +2097,15 @@
     json-socket "0.3.0"
     tslib "1.10.0"
 
-"@nestjs/mongoose@6.3.1", "@nestjs/mongoose@^6.3.1":
+"@nestjs/mongoose@6.3.1":
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-6.3.1.tgz#542b73a8a9b2b8d42c52c9738eb3e7450018bb93"
   integrity sha512-yILdv4ZNXUTNNvLC2qB6F30xsapv4U4xEttoP9S4p6xkK5bh9gbtAXOdnV/U7VH8oLKP29Rr6VRSRd3098+h5w==
+
+"@nestjs/mongoose@^6.4.0":
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-6.4.0.tgz#3ea2773528f8c4948b76377d24008f5b663b4e14"
+  integrity sha512-Q+W1ydZEYG24AnYYbgtNBXE2iIMwfiCUSMilt8swFE8Gl1dAum10NCPLbMgFc31JRKDJFmvxUBftTD0JiGYlmQ==
 
 "@nestjs/passport@^6.2.0":
   version "6.2.0"
