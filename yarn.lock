@@ -2199,13 +2199,6 @@
   dependencies:
     uuid "3.3.3"
 
-"@nestjs/typeorm@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/typeorm/-/typeorm-7.0.0.tgz#0993a949bba81756317e8e865882184bd7f16133"
-  integrity sha512-oIiQRihMVNQPE6PzEaB7UDfGlktCtkHNxI2HeSf/Uyrjl7DspPSHNLg9IVVSztk+L9kJquYMXhzApr2PxoK3EQ==
-  dependencies:
-    uuid "7.0.2"
-
 "@ng-bootstrap/ng-bootstrap@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-6.0.0.tgz#03b80acd711dd38a653b34339224d5063c50bd62"

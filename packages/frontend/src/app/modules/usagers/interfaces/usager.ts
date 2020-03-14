@@ -1,5 +1,5 @@
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { formatDateToNgb, isToday } from "../../../shared/bootstrap-util";
+import { formatDateToNgb } from "../../../shared/bootstrap-util";
 import { Rdv } from "../interfaces/rdv";
 import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
