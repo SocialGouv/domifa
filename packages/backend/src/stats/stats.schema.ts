@@ -5,6 +5,7 @@ export const StatsSchema = new mongoose.Schema({
   codePostal: String,
   date: { type: Date, default: Date.now },
   departement: String,
+  ville: String,
   nom: String,
   questions: {
     /* Nombre attestations delivres durant l'année */
@@ -20,7 +21,9 @@ export const StatsSchema = new mongoose.Schema({
     Q_11: {
       REFUS: Number,
       RADIE: Number,
-      VALIDE: Number
+      VALIDE: Number,
+      VALIDE_AYANTS_DROIT: Number,
+      VALIDE_TOTAL: Number
     },
 
     Q_12: {

@@ -97,6 +97,7 @@ export class UsagersController {
     }
     return this.usagersService.setRdv(usager.id, rdvDto, user);
   }
+
   @UseGuards(AccessGuard)
   @Post("entretien/:id")
   public setEntretien(

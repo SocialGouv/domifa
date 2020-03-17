@@ -1,5 +1,3 @@
-import { Document } from "mongoose";
-
 export class Stats {
   public date: Date;
   public nom: string;
@@ -22,8 +20,8 @@ export class Stats {
       REFUS: number;
       RADIE: number;
       VALIDE: number;
-      VALIDE_TOTAL: number;
       VALIDE_AYANTS_DROIT: number;
+      VALIDE_TOTAL: number;
     };
 
     /* Q12 :Nombre total de radiations durant l'année:*/
@@ -53,10 +51,8 @@ export class Stats {
     };
 
     /* Q 16 : DOMICILIES VALIDE + AYANTS-DROIT*/
-    // TODO : Convertir en date les date de naissance des Ayant-droit
 
     /* ----------------------------------- */
-    // TODO : Convertir en date les date de naissance des Ayant-droit
     /* DONNEES A CALCULER A PARTIR DES DATES DE NAISSANCE */
     /* Q 17 : Nombre total de mineurs domiciliés au 31/12/2018 : */
     /* Q 18 : Nombre total de majeurs domiciliés au 31/12/2018 : */

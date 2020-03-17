@@ -197,6 +197,10 @@ export class UsagersService {
       .exec();
   }
 
+  // TODO: Filtrer uniquement les validés pour les "échénaces de dom dépassé"
+
+  // TODO: ajouter le tri par date d'écéhance
+
   public async search(query: SearchDto, structureId: number): Promise<any> {
     let sort: any = { nom: 1 };
     const searchQuery: SearchQuery = {

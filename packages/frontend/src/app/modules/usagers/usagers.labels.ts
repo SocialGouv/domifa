@@ -48,7 +48,7 @@ export const motifsRadiation: { [key: string]: any } = {
 export const motifsRefus: { [key: string]: any } = {
   HORS_AGREMENT: "En dehors des critères du public domicilié",
   LIEN_COMMUNE: "Absence de lien avec la commune",
-  SATURATION: "Nombre maximal domiciliations atteint"
+  SATURATION: "Nombre maximal de domiciliations atteint"
 };
 
 /* QUESTIONS RÉPONSES DE L'ENTRETIEN SOCIAL */

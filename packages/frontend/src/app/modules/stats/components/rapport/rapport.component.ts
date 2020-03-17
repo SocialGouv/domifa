@@ -3,6 +3,7 @@ import { statsLabels } from "src/app/modules/stats/stats.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { StatsService } from "../../stats.service";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
+import { Stats } from "../../stats.interface";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -30,7 +31,7 @@ export class RapportComponent implements OnInit {
     /* this.statsService.getToday().subscribe((response: any) => {
       this.stats = response;
     });*/
-    this.statsService.findAll().subscribe((response: any) => {
+    this.statsService.findAll().subscribe((response: Stats[]) => {
       this.statistiques = response;
     });
   }

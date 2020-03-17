@@ -19,6 +19,7 @@ import { UsagersService } from "../usagers/services/usagers.service";
 import { UsersService } from "../users/services/users.service";
 import { Stats } from "./stats.class";
 import { StatsDocument } from "./stats.interface";
+import { exit } from "process";
 
 @Injectable()
 export class StatsService {
@@ -51,7 +52,7 @@ export class StatsService {
 
   @Cron(CronExpression.EVERY_2_HOURS)
   public async handleCron() {
-    const structure = await this.structureService.findOneBasic({
+    const structure: Structure = await this.structureService.findOneBasic({
       $or: [
         {
           lastExport: {
@@ -79,6 +80,7 @@ export class StatsService {
     stat.structureId = structure.id;
     stat.nom = structure.nom;
     stat.structureType = structure.structureType;
+    stat.ville = structure.ville;
     stat.codePostal = structure.codePostal;
 
     stat.questions.Q_10 = await this.getDomiciliations(structure.id, {
@@ -86,6 +88,8 @@ export class StatsService {
     });
 
     // TODO : Ajouter le nombre de domiciliés ayant été importé cette année avec un début de dom cette année
+
+    // TODO : Comptabiliser les domiciliés + leurs ayants-droits
 
     stat.questions.Q_10_A = await this.getDomiciliations(
       structure.id,
@@ -97,91 +101,92 @@ export class StatsService {
       "RENOUVELLEMENT"
     );
 
-    stat.questions.Q_11.VALIDE = await this.totalParStatutMaintenant(
+    stat.questions.Q_11.VALIDE = await this.totalMaintenant(
       structure.id,
       "VALIDE"
     );
 
-    stat.questions.Q_11.REFUS = await this.totalParStatutMaintenant(
+    stat.questions.Q_11.VALIDE_AYANTS_DROIT = await this.totalAyantsDroitsMaintenant(
+      structure.id
+    );
+
+    stat.questions.Q_11.VALIDE_TOTAL =
+      stat.questions.Q_11.VALIDE_AYANTS_DROIT + stat.questions.Q_11.VALIDE;
+
+    stat.questions.Q_11.REFUS = await this.totalMaintenant(
       structure.id,
       "REFUS"
     );
 
-    stat.questions.Q_11.RADIE = await this.totalParStatutMaintenant(
+    stat.questions.Q_11.RADIE = await this.totalMaintenant(
       structure.id,
       "RADIE"
     );
 
-    stat.questions.Q_12.TOTAL = await this.totalParStatutCetteAnnee(
-      structure.id,
-      "RADIE"
-    );
+    stat.questions.Q_12.TOTAL = await this.totalAnnee(structure.id, "RADIE");
 
-    stat.questions.Q_12.A_SA_DEMANDE = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_12.A_SA_DEMANDE = await this.totalAnnee(
       structure.id,
       "RADIE",
       "A_SA_DEMANDE"
     );
-    stat.questions.Q_12.ENTREE_LOGEMENT = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_12.ENTREE_LOGEMENT = await this.totalAnnee(
       structure.id,
       "RADIE",
       "ENTREE_LOGEMENT"
     );
 
-    stat.questions.Q_12.FIN_DE_DOMICILIATION = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_12.FIN_DE_DOMICILIATION = await this.totalAnnee(
       structure.id,
       "RADIE",
       "FIN_DE_DOMICILIATION"
     );
 
-    stat.questions.Q_12.NON_MANIFESTATION_3_MOIS = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_12.NON_MANIFESTATION_3_MOIS = await this.totalAnnee(
       structure.id,
       "RADIE",
       "NON_MANIFESTATION_3_MOIS"
     );
 
-    stat.questions.Q_12.NON_RESPECT_REGLEMENT = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_12.NON_RESPECT_REGLEMENT = await this.totalAnnee(
       structure.id,
       "RADIE",
       "NON_RESPECT_REGLEMENT"
     );
 
-    stat.questions.Q_12.PLUS_DE_LIEN_COMMUNE = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_12.PLUS_DE_LIEN_COMMUNE = await this.totalAnnee(
       structure.id,
       "RADIE",
       "PLUS_DE_LIEN_COMMUNE"
     );
 
-    stat.questions.Q_13.TOTAL = await this.totalParStatutCetteAnnee(
-      structure.id,
-      "REFUS"
-    );
+    stat.questions.Q_13.TOTAL = await this.totalAnnee(structure.id, "REFUS");
 
-    stat.questions.Q_13.HORS_AGREMENT = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_13.HORS_AGREMENT = await this.totalAnnee(
       structure.id,
       "REFUS",
       "HORS_AGREMENT"
     );
 
-    stat.questions.Q_13.LIEN_COMMUNE = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_13.LIEN_COMMUNE = await this.totalAnnee(
       structure.id,
       "REFUS",
       "LIEN_COMMUNE"
     );
 
-    stat.questions.Q_13.SATURATION = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_13.SATURATION = await this.totalAnnee(
       structure.id,
       "REFUS",
       "SATURATION"
     );
 
-    stat.questions.Q_14.ASSO = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_14.ASSO = await this.totalAnnee(
       structure.id,
       "REFUS",
       "",
       "asso"
     );
-    stat.questions.Q_14.CCAS = await this.totalParStatutCetteAnnee(
+    stat.questions.Q_14.CCAS = await this.totalAnnee(
       structure.id,
       "REFUS",
       "",
@@ -223,7 +228,7 @@ export class StatsService {
       "visite"
     );
 
-    stat.questions.Q_19.COUPLE_AVEC_ENFANT = await this.totalParStatutMaintenant(
+    stat.questions.Q_19.COUPLE_AVEC_ENFANT = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -231,7 +236,7 @@ export class StatsService {
       "COUPLE_AVEC_ENFANT"
     );
 
-    stat.questions.Q_19.COUPLE_SANS_ENFANT = await this.totalParStatutMaintenant(
+    stat.questions.Q_19.COUPLE_SANS_ENFANT = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -239,7 +244,7 @@ export class StatsService {
       "COUPLE_SANS_ENFANT"
     );
 
-    stat.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT = await this.totalParStatutMaintenant(
+    stat.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -247,7 +252,7 @@ export class StatsService {
       "FEMME_ISOLE_AVEC_ENFANT"
     );
 
-    stat.questions.Q_19.FEMME_ISOLE_SANS_ENFANT = await this.totalParStatutMaintenant(
+    stat.questions.Q_19.FEMME_ISOLE_SANS_ENFANT = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -255,7 +260,7 @@ export class StatsService {
       "FEMME_ISOLE_SANS_ENFANT"
     );
 
-    stat.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT = await this.totalParStatutMaintenant(
+    stat.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -263,7 +268,7 @@ export class StatsService {
       "HOMME_ISOLE_AVEC_ENFANT"
     );
 
-    stat.questions.Q_19.HOMME_ISOLE_SANS_ENFANT = await this.totalParStatutMaintenant(
+    stat.questions.Q_19.HOMME_ISOLE_SANS_ENFANT = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -271,7 +276,7 @@ export class StatsService {
       "HOMME_ISOLE_SANS_ENFANT"
     );
 
-    stat.questions.Q_21.ERRANCE = await this.totalParStatutMaintenant(
+    stat.questions.Q_21.ERRANCE = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -279,7 +284,7 @@ export class StatsService {
       "ERRANCE"
     );
 
-    stat.questions.Q_21.EXPULSION = await this.totalParStatutMaintenant(
+    stat.questions.Q_21.EXPULSION = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -287,7 +292,7 @@ export class StatsService {
       "EXPULSION"
     );
 
-    stat.questions.Q_21.HEBERGE_SANS_ADRESSE = await this.totalParStatutMaintenant(
+    stat.questions.Q_21.HEBERGE_SANS_ADRESSE = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -295,7 +300,7 @@ export class StatsService {
       "HEBERGE_SANS_ADRESSE"
     );
 
-    stat.questions.Q_21.ITINERANT = await this.totalParStatutMaintenant(
+    stat.questions.Q_21.ITINERANT = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -303,14 +308,14 @@ export class StatsService {
       "ITINERANT"
     );
 
-    stat.questions.Q_21.SORTIE_STRUCTURE = await this.totalParStatutMaintenant(
+    stat.questions.Q_21.SORTIE_STRUCTURE = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
       "",
       "SORTIE_STRUCTURE"
     );
-    stat.questions.Q_21.VIOLENCE = await this.totalParStatutMaintenant(
+    stat.questions.Q_21.VIOLENCE = await this.totalMaintenant(
       structure.id,
       "VALIDE",
       "",
@@ -347,6 +352,7 @@ export class StatsService {
     }
     return stats;
   }
+
   public async getAll(structureId: number): Promise<Stats[]> {
     const stats = await this.statsModel
       .find({
@@ -398,7 +404,7 @@ export class StatsService {
     return response;
   }
 
-  private async totalParStatutMaintenant(
+  private async totalMaintenant(
     structureId: number,
     statut: string,
     motif?: string,
@@ -406,10 +412,6 @@ export class StatsService {
     cause?: string
   ): Promise<number> {
     const query = {
-      "decision.dateDebut": {
-        $gte: this.debutAnnee,
-        $lte: this.finAnnee
-      },
       "decision.motif": motif,
       "decision.statut": statut,
       "decision.orientation": orientation,
@@ -421,7 +423,7 @@ export class StatsService {
       delete query["decision.motif"];
     }
 
-    if (statut !== "REFUS") {
+    if (statut !== "REFUS" || !orientation || orientation === "") {
       delete query["decision.orientation"];
     }
 
@@ -436,8 +438,32 @@ export class StatsService {
     }
     return response;
   }
+  private async totalAyantsDroitsMaintenant(
+    structureId: number
+  ): Promise<number> {
+    const response = await this.usagerModel
+      .aggregate([
+        {
+          $match: {
+            "decision.statut": "VALIDE",
+            structureId
+          }
+        },
+        {
+          $group: {
+            _id: "$structureId",
+            total: { $sum: { $size: "$ayantsDroits" } }
+          }
+        }
+      ])
+      .exec();
+    if (!response || response === null || response.length === 0) {
+      return 0;
+    }
+    return response[0].total;
+  }
 
-  private async totalParStatutCetteAnnee(
+  private async totalAnnee(
     structureId: number,
     statut: string,
     motif?: string,
@@ -472,7 +498,7 @@ export class StatsService {
       delete secondCondition.historique.$elemMatch.motif;
     }
 
-    if (statut !== "REFUS") {
+    if (statut !== "REFUS" || !orientation || orientation === "") {
       delete firstCondition["decision.orientation"];
       delete secondCondition.historique.$elemMatch.orientation;
     }
