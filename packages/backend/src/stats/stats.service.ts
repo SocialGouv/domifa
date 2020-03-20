@@ -19,7 +19,6 @@ import { UsagersService } from "../usagers/services/usagers.service";
 import { UsersService } from "../users/services/users.service";
 import { Stats } from "./stats.class";
 import { StatsDocument } from "./stats.interface";
-import { exit } from "process";
 
 @Injectable()
 export class StatsService {
@@ -534,21 +533,33 @@ export class StatsService {
   }
 
   public async clean() {
-    const retour1 = await this.structureModel
+    return this.structureModel
       .updateMany({}, { $set: { lastExport: null } })
-      .exec();
-    const retour2 = await this.statsModel
-      .deleteMany({
-        date: {
-          $gte: this.today.toDate(),
-          $lte: this.tomorrow.toDate()
-        }
-      })
-      .exec();
+      .exec((retour: any) => {
+        Logger.log("Nettoyage des date de dernier export  : ");
+        Logger.log(retour);
 
-    if (retour1 && retour2) {
-      this.handleCron();
-      return true;
-    } else return false;
+        Logger.log("");
+
+        this.statsModel
+          .deleteMany({
+            date: {
+              $gte: this.today.toDate(),
+              $lte: this.tomorrow.toDate()
+            }
+          })
+          .exec((retour2: any) => {
+            Logger.log("- Suppression du dernier Export  ");
+            Logger.log(retour2);
+            Logger.log("");
+            Logger.log("-- Appel du Cron dans 5 sec");
+            Logger.log("");
+            setTimeout(() => {
+              Logger.log(" ---> DEMARRAGE du Cron");
+              this.handleCron();
+              return true;
+            }, 5000);
+          });
+      });
   }
 }
