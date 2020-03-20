@@ -61,7 +61,7 @@ export const StructureSchema = new mongoose.Schema(
       default: false,
       type: Boolean
     },
-    lastExport: { type: Date },
+    lastExport: { type: Date, default: null },
     nom: {
       default: "",
       required: true,

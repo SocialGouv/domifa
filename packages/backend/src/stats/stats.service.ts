@@ -537,8 +537,7 @@ export class StatsService {
       .updateMany({}, { $set: { lastExport: null } })
       .exec((retour: any) => {
         Logger.log("Nettoyage des date de dernier export  : ");
-        Logger.log(retour);
-
+        Logger.log(JSON.stringify(retour));
         Logger.log("");
 
         this.statsModel
@@ -550,10 +549,11 @@ export class StatsService {
           })
           .exec((retour2: any) => {
             Logger.log("- Suppression du dernier Export  ");
-            Logger.log(retour2);
+            Logger.log(JSON.stringify(retour2));
             Logger.log("");
             Logger.log("-- Appel du Cron dans 5 sec");
             Logger.log("");
+
             setTimeout(() => {
               Logger.log(" ---> DEMARRAGE du Cron");
               this.handleCron();
