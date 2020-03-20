@@ -473,6 +473,10 @@ export class StatsService {
         $gte: this.debutAnnee,
         $lte: this.finAnnee
       },
+      "decision.dateDecision": {
+        $gte: this.debutAnnee,
+        $lte: this.finAnnee
+      },
       "decision.motif": motif,
       "decision.statut": statut,
       "decision.orientation": orientation
@@ -481,6 +485,10 @@ export class StatsService {
     const secondCondition = {
       historique: {
         $elemMatch: {
+          dateDecision: {
+            $gte: this.debutAnnee,
+            $lte: this.finAnnee
+          },
           dateDebut: {
             $gte: this.debutAnnee,
             $lte: this.finAnnee
@@ -491,6 +499,17 @@ export class StatsService {
         }
       }
     };
+
+    /* ---- FIX EXPLICATION --- */
+    /* Au départ, les dates de début enregistrées pour les refus et radié n'étaient pas les bonnes */
+    /* On prend en compte la date de décision, qui elle correspond bien */
+    if (statut === "REFUS" || statut === "RADIE") {
+      delete secondCondition.historique.$elemMatch.dateDebut;
+      delete firstCondition["decision.dateDebut"];
+    } else {
+      delete secondCondition.historique.$elemMatch.dateDecision;
+      delete firstCondition["decision.dateDecision"];
+    }
 
     if (!motif || motif === "") {
       delete firstCondition["decision.motif"];

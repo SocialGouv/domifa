@@ -171,7 +171,7 @@ export class UsagersController {
     if (decision.statut === "REFUS") {
       /* Récupération du dernier ID lié à la structure */
       /* SMS & Mail pr prévenir */
-      decision.dateDebut = lastDecision.dateDebut;
+      decision.dateDebut = new Date(decision.dateDebut);
 
       decision.dateFin =
         decision.dateFin !== undefined && decision.dateFin !== null
@@ -180,7 +180,7 @@ export class UsagersController {
     }
 
     if (decision.statut === "RADIE") {
-      decision.dateDebut = lastDecision.dateDebut;
+      decision.dateDebut = new Date();
       decision.dateFin = new Date();
     }
 
