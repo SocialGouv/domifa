@@ -48,7 +48,7 @@
     "@angular/compiler-cli": "^9.0.7",
     "@angular/language-service": "^9.0.7",
     "@schematics/update": "^0.900.7",
-    "@socialgouv/tslint-config-recommended": "^0.18.0",
+    "@socialgouv/tslint-config-recommended": "^0.19.0",
     "@types/jest": "^25.1.4",
     "@types/node": "^8.9.5",
     "codelyzer": "^5.2.1",
