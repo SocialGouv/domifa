@@ -41,7 +41,7 @@
     "class-validator": "^0.11.0",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.9.5",
+    "mongoose": "^5.9.6",
     "multer": "^1.4.2",
     "nest-raven": "^5.0.0",
     "node-mailjet": "^3.3.1",
