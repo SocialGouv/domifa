@@ -19,3 +19,14 @@ export const interactionsLabels: {
   recommandeOut: "Avis de passage récupéré",
   visite: "Passage"
 };
+
+export const interactionsLabelsPluriel: {
+  [key: string]: any;
+} = {
+  colisIn: "Colis reçus",
+  colisOut: "Colis récupérés",
+  courrierIn: "Courriers reçus",
+  courrierOut: "Courriers distribués",
+  recommandeIn: "Avis de passage reçus",
+  recommandeOut: "Avis de passage récupérés"
+};

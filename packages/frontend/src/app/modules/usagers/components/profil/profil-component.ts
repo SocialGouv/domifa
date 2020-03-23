@@ -339,6 +339,7 @@ export class UsagersProfilComponent implements OnInit {
     const interaction: {
       content?: string;
       type?: string;
+      nbCourrier?: number;
       procuration?: boolean;
       transfert?: boolean;
     } = {
@@ -346,18 +347,21 @@ export class UsagersProfilComponent implements OnInit {
       type
     };
 
-    if (type === "courrierOut" && this.usager.options.procuration.actif) {
-      if (typeof procuration === "undefined") {
-        this.modalService.open(this.distributionConfirm);
-        // open
-        return;
+    if (type === "courrierOut") {
+      if (this.usager.options.procuration.actif) {
+        if (typeof procuration === "undefined") {
+          this.modalService.open(this.distributionConfirm);
+          // open
+          return;
+        }
+        this.modalService.dismissAll();
+        interaction.procuration = procuration;
       }
-      this.modalService.dismissAll();
-      interaction.procuration = procuration;
-    }
 
-    if (type === "courrierOut" && this.usager.options.transfert.actif) {
-      interaction.transfert = true;
+      if (this.usager.options.transfert.actif) {
+        interaction.transfert = true;
+      }
+      interaction.nbCourrier = this.usager.lastInteraction.nbCourrier;
     }
 
     this.interactionService.setInteraction(this.usager, interaction).subscribe(

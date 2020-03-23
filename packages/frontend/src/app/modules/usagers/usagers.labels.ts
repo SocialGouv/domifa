@@ -35,7 +35,7 @@ export const decisionStats: { [key: string]: any } = {
 
 /* MOTIFS DE RADIATION ET REFUS */
 export const motifsRadiation: { [key: string]: any } = {
-  A_SA_DEMANDE: "A la demande de la personne",
+  A_SA_DEMANDE: "À la demande de la personne",
   ENTREE_LOGEMENT: "Plus de lien avec la commune",
   FIN_DE_DOMICILIATION:
     "La domiciliation est arrivée à échéance (1 an) et son renouvellement n'a pas été sollicité",

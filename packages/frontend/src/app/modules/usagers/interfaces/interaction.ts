@@ -1,4 +1,7 @@
-import { interactionsLabels } from "../interactions.labels";
+import {
+  interactionsLabels,
+  interactionsLabelsPluriel
+} from "../interactions.labels";
 
 export type InteractionTypes =
   | "courrierIn"
@@ -40,13 +43,17 @@ export class Interaction {
     this.userName = (interaction && interaction.userName) || "";
 
     this.delete = false;
-
     this.id = interaction._id;
 
-    this.label = interactionsLabels[this.type];
-
-    if (this.nbCourrier && this.nbCourrier > 0) {
-      this.label = this.nbCourrier.toString() + " " + this.label.toLowerCase();
+    if (this.type !== "appel" && this.type !== "visite") {
+      const nbCourrierTemp = !this.nbCourrier ? 1 : this.nbCourrier;
+      this.label = nbCourrierTemp.toString() + " ";
+      this.label =
+        nbCourrierTemp > 1
+          ? this.label + interactionsLabelsPluriel[this.type].toLowerCase()
+          : this.label + interactionsLabels[this.type].toLowerCase();
+    } else {
+      this.label = interactionsLabels[this.type];
     }
   }
 }

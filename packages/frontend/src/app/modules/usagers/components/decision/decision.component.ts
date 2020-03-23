@@ -38,7 +38,7 @@ export class DecisionComponent implements OnInit {
 
   public dToday = new Date();
 
-  public minDate = { day: 1, month: 1, year: 2018 };
+  public minDate = { day: 1, month: 1, year: this.dToday.getFullYear() - 1 };
   public maxDate = { day: 1, month: 1, year: this.dToday.getFullYear() + 2 };
 
   public dateDebutPicker = {
@@ -46,11 +46,14 @@ export class DecisionComponent implements OnInit {
     month: this.dToday.getMonth() + 1,
     year: this.dToday.getFullYear()
   };
+
   public dateFinPicker = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,
     year: this.dToday.getFullYear() + 1
   };
+
+  public maxDateRefus = this.dateDebutPicker;
 
   @Input() public usager!: Usager;
   @Input() public isAdmin!: boolean;
