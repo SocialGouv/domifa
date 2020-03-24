@@ -13,7 +13,7 @@ import {
   Res,
   UploadedFile,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -90,7 +90,7 @@ export class UsagersController {
   ) {
     const user = await this.usersService.findOne({
       id: rdvDto.userId,
-      structureId: currentUser.structureId
+      structureId: currentUser.structureId,
     });
     if (!user) {
       throw new HttpException("USER_NOT_EXIST", HttpStatus.BAD_GATEWAY);
@@ -236,7 +236,7 @@ export class UsagersController {
 
     if (deleteUsager && deleteUsager.deletedCount === 1) {
       if (fs.existsSync(pathFile)) {
-        rimraf(pathFile, error => {
+        rimraf(pathFile, (error) => {
           throw new HttpException(
             "DELETE_FILES_NOT_POSSIBLE",
             HttpStatus.BAD_REQUEST
@@ -257,7 +257,7 @@ export class UsagersController {
       actif: true,
       adresse: transfertDto.adresse,
       dateDebut: new Date(),
-      nom: transfertDto.nom
+      nom: transfertDto.nom,
     };
 
     return this.usagersService.patch(usager, usager._id);
@@ -269,7 +269,7 @@ export class UsagersController {
     usager.options.transfert = {
       actif: false,
       adresse: "",
-      nom: ""
+      nom: "",
     };
     return this.usagersService.patch(usager, usager._id);
   }
@@ -286,7 +286,7 @@ export class UsagersController {
       dateFin: procurationDto.dateFin,
       dateNaissance: procurationDto.dateNaissance,
       nom: procurationDto.nom,
-      prenom: procurationDto.prenom
+      prenom: procurationDto.prenom,
     };
 
     return this.usagersService.patch(usager, usager._id);
@@ -304,7 +304,7 @@ export class UsagersController {
       dateFin: null,
       dateNaissance: "null",
       nom: "",
-      prenom: ""
+      prenom: "",
     };
 
     return this.usagersService.patch(usager, usager._id);
@@ -320,14 +320,14 @@ export class UsagersController {
   ) {
     return this.cerfaService
       .attestation(usager, user)
-      .then(buffer => {
+      .then((buffer) => {
         res.setHeader("content-type", "application/pdf");
         res.send(buffer);
       })
-      .catch(err => {
+      .catch((err) => {
         const erreur = {
           err,
-          statut: "CERFA_ERROR"
+          statut: "CERFA_ERROR",
         };
         throw new HttpException(erreur, HttpStatus.INTERNAL_SERVER_ERROR);
       });
@@ -434,7 +434,7 @@ export class UsagersController {
         if (sizeTest || mimeTest) {
           throw new BadRequestException({
             fileSize: sizeTest,
-            fileType: mimeTest
+            fileType: mimeTest,
           });
         }
         cb(null, true);
@@ -459,8 +459,8 @@ export class UsagersController {
             .map(() => Math.round(Math.random() * 16).toString(16))
             .join("");
           return cb(null, `${randomName}${path.extname(file.originalname)}`);
-        }
-      })
+        },
+      }),
     })
   )
   public uploadDoc(
@@ -475,7 +475,7 @@ export class UsagersController {
       createdAt: new Date(),
       createdBy: userName,
       filetype: file.mimetype,
-      label: postData.label
+      label: postData.label,
     };
 
     const fileName =

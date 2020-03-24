@@ -2,7 +2,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   NgModule,
-  NO_ERRORS_SCHEMA
+  NO_ERRORS_SCHEMA,
+  ErrorHandler,
 } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
@@ -10,8 +11,9 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Router, RouterModule } from "@angular/router";
 import {
   FaIconLibrary,
-  FontAwesomeModule
+  FontAwesomeModule,
 } from "@fortawesome/angular-fontawesome";
+import * as Raven from "raven-js";
 
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -29,6 +31,11 @@ import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
 import { AuthService } from "./services/auth.service";
+import { RavenErrorHandler } from "./interceptors/sentry.interceptor";
+
+Raven.config(
+  "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31"
+).install();
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -48,7 +55,7 @@ import { AuthService } from "./services/auth.service";
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 3000
+      timeOut: 3000,
     }),
     AppRoutingModule,
     FontAwesomeModule,
@@ -56,7 +63,7 @@ import { AuthService } from "./services/auth.service";
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -64,9 +71,10 @@ import { AuthService } from "./services/auth.service";
       deps: [Router, AuthService],
       multi: true,
       provide: HTTP_INTERCEPTORS,
-      useClass: ServerErrorInterceptor
-    }
+      useClass: ServerErrorInterceptor,
+    },
+    { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class AppModule {}

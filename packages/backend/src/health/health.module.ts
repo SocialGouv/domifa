@@ -4,7 +4,7 @@ import {
   DNSHealthIndicator,
   MongooseHealthIndicator,
   TerminusModule,
-  TerminusModuleOptions
+  TerminusModuleOptions,
 } from "@nestjs/terminus";
 
 import { ConfigService } from "../config/config.service";
@@ -24,12 +24,13 @@ const getTerminusOptions = (
     {
       healthIndicators: [
         async () => mongoose.pingCheck("mongo"),
-        async () => dns.pingCheck("frontend", frontUrl)
+        async () => dns.pingCheck("frontend", frontUrl),
       ],
-      url: "/"
-    }
-  ]
+      url: "/",
+    },
+  ],
 });
+
 @Module({
   imports: [
     MongooseModule.forRoot(
@@ -37,8 +38,8 @@ const getTerminusOptions = (
     ),
     TerminusModule.forRootAsync({
       inject: [MongooseHealthIndicator, DNSHealthIndicator],
-      useFactory: getTerminusOptions
-    })
-  ]
+      useFactory: getTerminusOptions,
+    }),
+  ],
 })
 export class HealthModule {}
