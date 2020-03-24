@@ -3,13 +3,13 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
   Router,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from "@angular/router";
 import { Observable, throwError } from "rxjs";
 import { catchError, retry } from "rxjs/operators";

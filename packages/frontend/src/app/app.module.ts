@@ -33,10 +33,6 @@ import { UsersModule } from "./modules/users/users.module";
 import { AuthService } from "./services/auth.service";
 import { RavenErrorHandler } from "./interceptors/sentry.interceptor";
 
-Raven.config(
-  "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31"
-).install();
-
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],
