@@ -17,7 +17,7 @@ export class StructuresService {
   public labels = {
     asso: "Organisme agrée",
     ccas: "CCAS",
-    cias: "CIAS ou commune"
+    cias: "CIAS ou commune",
   };
 
   constructor(
@@ -104,7 +104,7 @@ export class StructuresService {
 
   public async findAll(codePostal?: string) {
     const params: StructureQuery = {
-      verified: true
+      verified: true,
     };
 
     if (codePostal) {
@@ -128,17 +128,17 @@ export class StructuresService {
       throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
 
-    structure.users.forEach(user => {
+    structure.users.forEach((user: any) => {
       return this.userModel
         .deleteOne({
           id: user.id,
-          structureId: user.structureId
+          structureId: user.structureId,
         })
         .exec();
     });
 
     return this.structureModel.deleteOne({
-      token
+      token,
     });
   }
 

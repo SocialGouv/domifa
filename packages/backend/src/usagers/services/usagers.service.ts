@@ -1,21 +1,93 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
-import { Model } from "mongoose";
+import { Model, NativeError } from "mongoose";
 import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
 import { SearchDto } from "../dto/search.dto";
-import { TransfertDto } from "../dto/transfert.dto";
 import { UsagersDto } from "../dto/usagers.dto";
 import { Decision } from "../interfaces/decision";
 import { SearchQuery } from "../interfaces/search-query";
 import { Usager } from "../interfaces/usagers";
+import { of } from "rxjs";
+import { AyantDroit } from "../interfaces/ayant-droit";
 
 @Injectable()
 export class UsagersService {
   constructor(
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
   ) {}
+
+  public async debug(): Promise<any> {
+    const count = await this.usagerModel
+      .countDocuments({
+        ayantsDroits: { $exists: true, $not: { $size: 0 } },
+        $or: [
+          {
+            migration: { $exists: false },
+          },
+          {
+            migration: false,
+          },
+        ],
+      })
+
+      .exec();
+
+    Logger.log("");
+    Logger.log(count);
+    Logger.log("");
+
+    this.usagerModel
+      .findOne({
+        ayantsDroits: { $exists: true, $not: { $size: 0 } },
+        $or: [
+          {
+            migration: { $exists: false },
+          },
+          {
+            migration: false,
+          },
+        ],
+      })
+      .lean()
+      .exec((err: any, usager: Usager) => {
+        Logger.log("");
+        Logger.log(usager.id);
+        Logger.log(usager.nom + " - " + usager.ayantsDroits.length);
+
+        for (let index = 0; index <= usager.ayantsDroits.length; index++) {
+          const ayantDroit = usager.ayantsDroits[index];
+          if (index === usager.ayantsDroits.length) {
+            Logger.log("  ");
+            Logger.log("-  ");
+            Logger.log(usager.ayantsDroits);
+            Logger.log("-  ");
+            Logger.log("  ");
+
+            usager.migration = true;
+
+            this.usagerModel
+              .findOneAndUpdate({ _id: usager._id }, { $set: usager })
+              .select("-docsPath -interactions")
+              .exec((_err: NativeError, ret: any) => {
+                this.debug();
+              });
+            return;
+          }
+
+          if (
+            typeof Date.parse(usager.ayantsDroits[index].dateNaissance) ===
+            "undefined"
+          ) {
+            usager.ayantsDroits[index].dateNaissance = this.convertDate(
+              ayantDroit.dateNaissance
+            );
+          }
+        }
+      });
+    return of(true);
+  }
 
   public async create(usagersDto: UsagersDto, user: User): Promise<Usager> {
     const createdUsager = new this.usagerModel(usagersDto);
@@ -42,10 +114,10 @@ export class UsagersService {
       .findOneAndUpdate(
         { _id: usagerId },
         {
-          $set: { etapeDemande }
+          $set: { etapeDemande },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-docsPath -interactions")
@@ -67,16 +139,16 @@ export class UsagersService {
         { _id: usager._id },
         {
           $push: {
-            historique: lastDecision
+            historique: lastDecision,
           },
           $set: {
             decision,
             etapeDemande: 0,
-            typeDom: "RENOUVELLEMENT"
-          }
+            typeDom: "RENOUVELLEMENT",
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-docsPath -interactions")
@@ -93,17 +165,17 @@ export class UsagersService {
       .findOneAndUpdate(
         {
           id: usagerId,
-          structureId
+          structureId,
         },
         {
           $push: { historique: lastDecision },
           $set: {
             decision,
-            etapeDemande: 6
-          }
+            etapeDemande: 6,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-docsPath -interactions")
@@ -120,11 +192,11 @@ export class UsagersService {
         {
           $set: {
             entretien: entretienForm,
-            etapeDemande: 3
-          }
+            etapeDemande: 3,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-docsPath -interactions")
@@ -140,18 +212,18 @@ export class UsagersService {
       .findOneAndUpdate(
         {
           id: usagerId,
-          structureId: user.structureId
+          structureId: user.structureId,
         },
         {
           $set: {
             etapeDemande: 2,
             "rdv.dateRdv": rdvDto.dateRdv,
             "rdv.userId": rdvDto.userId,
-            "rdv.userName": user.nom + " " + user.prenom
-          }
+            "rdv.userName": user.nom + " " + user.prenom,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-docsPath")
@@ -162,7 +234,7 @@ export class UsagersService {
     return this.usagerModel
       .findOne({
         id,
-        structureId
+        structureId,
       })
       .populate("structure")
       .exec();
@@ -185,13 +257,13 @@ export class UsagersService {
       .find({
         $and: [
           {
-            nom: { $regex: nom, $options: "-i" }
+            nom: { $regex: nom, $options: "-i" },
           },
           {
-            prenom: { $regex: prenom, $options: "-i" }
-          }
+            prenom: { $regex: prenom, $options: "-i" },
+          },
         ],
-        structureId: user.structureId
+        structureId: user.structureId,
       })
       .lean()
       .exec();
@@ -204,7 +276,7 @@ export class UsagersService {
   public async search(query: SearchDto, structureId: number): Promise<any> {
     let sort: any = { nom: 1 };
     const searchQuery: SearchQuery = {
-      structureId
+      structureId,
     };
 
     const today = new Date();
@@ -221,7 +293,7 @@ export class UsagersService {
       az: { nom: "ascending" },
       domiciliation: { "decision.dateDebut": "ascending" },
       radiation: { "decision.dateFin": "descending" },
-      za: { nom: "descending" }
+      za: { nom: "descending" },
     };
 
     const echeances: {
@@ -229,28 +301,28 @@ export class UsagersService {
     } = {
       DEPASSEE: { $lte: today },
       DEUX_MOIS: { $lte: deuxMois, $gte: today },
-      DEUX_SEMAINES: { $lte: deuxSemaines, $gte: today }
+      DEUX_SEMAINES: { $lte: deuxSemaines, $gte: today },
     };
 
     const passages: {
       [key: string]: {};
     } = {
       DEUX_MOIS: { $gte: deuxMois },
-      TROIS_MOIS: { $lte: troisMois }
+      TROIS_MOIS: { $lte: troisMois },
     };
 
     /* ID DE LA STRUCTURE DE LUSER */
     if (query.name) {
       searchQuery.$or = [
         {
-          nom: { $regex: ".*" + query.name + ".*", $options: "-i" }
+          nom: { $regex: ".*" + query.name + ".*", $options: "-i" },
         },
         {
-          prenom: { $regex: ".*" + query.name + ".*", $options: "-i" }
+          prenom: { $regex: ".*" + query.name + ".*", $options: "-i" },
         },
         {
-          surnom: { $regex: ".*" + query.name + ".*", $options: "-i" }
-        }
+          surnom: { $regex: ".*" + query.name + ".*", $options: "-i" },
+        },
       ];
     }
 
@@ -259,7 +331,7 @@ export class UsagersService {
 
       if (query.statut === "RENOUVELLEMENT") {
         searchQuery["decision.statut"] = {
-          $in: ["INSTRUCTION", "ATTENTE_DECISION"]
+          $in: ["INSTRUCTION", "ATTENTE_DECISION"],
         };
         searchQuery.typeDom = "RENOUVELLEMENT";
       }
@@ -308,15 +380,15 @@ export class UsagersService {
           $group: {
             _id: { structureId: "$structureId", statut: "$decision.statut" },
             statuts: { $push: "$decision.statut" },
-            total: { $sum: 1 }
-          }
+            total: { $sum: 1 },
+          },
         },
         {
           $group: {
             _id: { structureId: "$_id.structureId" },
-            statut: { $addToSet: { statut: "$_id.statut", sum: "$total" } }
-          }
-        }
+            statut: { $addToSet: { statut: "$_id.statut", sum: "$total" } },
+          },
+        },
       ])
       .exec();
   }
@@ -329,15 +401,15 @@ export class UsagersService {
           $group: {
             _id: { statut: "$decision.statut" },
             statuts: { $push: "$decision.statut" },
-            total: { $sum: 1 }
-          }
+            total: { $sum: 1 },
+          },
         },
         {
           $group: {
             _id: { statut: "$_id.statut" },
-            sum: { $addToSet: "$total" }
-          }
-        }
+            sum: { $addToSet: "$total" },
+          },
+        },
       ])
       .exec();
   }
@@ -350,5 +422,16 @@ export class UsagersService {
       .exec();
 
     return lastUsager === {} || lastUsager === null ? 1 : lastUsager.id + 1;
+  }
+
+  private convertDate(dateFr: string) {
+    // Logger.log("");
+    // Logger.log("DATE FR");
+    // Logger.log(dateFr);
+    // Logger.log("");
+    const dateParts = dateFr.split("/");
+    const dateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+    const newDate = new Date(dateEn).toISOString();
+    return newDate;
   }
 }

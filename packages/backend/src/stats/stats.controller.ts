@@ -37,4 +37,10 @@ export class StatsController {
   public async generate() {
     return this.statsService.clean();
   }
+
+  /* PROFILE & MANAGEMENT */
+  @Get("debug")
+  public debug() {
+    return this.usagersService.debug();
+  }
 }

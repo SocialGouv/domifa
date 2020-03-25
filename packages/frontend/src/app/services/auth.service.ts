@@ -7,7 +7,7 @@ import { environment } from "src/environments/environment";
 import { User } from "../modules/users/interfaces/user";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class AuthService {
   public isLogged: boolean;
@@ -38,10 +38,10 @@ export class AuthService {
     return this.http
       .post<any>(`${this.endPoint}/login`, {
         email,
-        password
+        password,
       })
       .pipe(
-        map(token => {
+        map((token) => {
           const user = new User(jwtDecode(token.access_token));
           this.isLogged = true;
           this.isAdmin = user && user.role === "admin";
@@ -63,7 +63,7 @@ export class AuthService {
       return of(false);
     }
     return this.me().pipe(
-      map(retour => {
+      map((retour) => {
         const user = new User(retour);
         user.token = this.currentUserValue.token;
         localStorage.setItem("currentUser", JSON.stringify(user));

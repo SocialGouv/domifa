@@ -23,7 +23,7 @@ export const StatsSchema = new mongoose.Schema({
       RADIE: Number,
       VALIDE: Number,
       VALIDE_AYANTS_DROIT: Number,
-      VALIDE_TOTAL: Number
+      VALIDE_TOTAL: Number,
     },
 
     Q_12: {
@@ -33,7 +33,7 @@ export const StatsSchema = new mongoose.Schema({
       NON_MANIFESTATION_3_MOIS: Number,
       NON_RESPECT_REGLEMENT: Number,
       PLUS_DE_LIEN_COMMUNE: Number,
-      TOTAL: Number
+      TOTAL: Number,
     },
 
     Q_13: {
@@ -41,12 +41,12 @@ export const StatsSchema = new mongoose.Schema({
       HORS_AGREMENT: Number,
       LIEN_COMMUNE: Number,
       SATURATION: Number,
-      TOTAL: Number
+      TOTAL: Number,
     },
 
     Q_14: {
       ASSO: Number,
-      CCAS: Number
+      CCAS: Number,
     },
 
     /* Nombre total de mineurs domiciliés (usagers + ayant-droit) au 31/12 */
@@ -62,7 +62,7 @@ export const StatsSchema = new mongoose.Schema({
       FEMME_ISOLE_SANS_ENFANT: Number,
       HOMME_ISOLE_AVEC_ENFANT: Number,
       HOMME_ISOLE_SANS_ENFANT: Number,
-      MINEUR: Number
+      MINEUR: Number,
     },
 
     /* NOMBRE D'INTERACTIONS GLOBALES */
@@ -74,7 +74,7 @@ export const StatsSchema = new mongoose.Schema({
       courrierOut: Number,
       recommandeIn: Number,
       recommandeOut: Number,
-      visite: Number
+      visite: Number,
     },
 
     Q_21: {
@@ -84,9 +84,10 @@ export const StatsSchema = new mongoose.Schema({
       ITINERANT: Number,
       RUPTURE: Number,
       SORTIE_STRUCTURE: Number,
-      VIOLENCE: Number
-    }
+      VIOLENCE: Number,
+      NON_RENSEIGNE: Number,
+    },
   },
   structureId: Number,
-  structureType: String
+  structureType: String,
 });

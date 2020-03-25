@@ -6,12 +6,12 @@ export const UsagerSchema = new mongoose.Schema(
   {
     id: {
       type: Number,
-      index: true
+      index: true,
     },
 
     customId: {
       type: String,
-      maxlength: 30
+      maxlength: 30,
     },
 
     structureId: { type: Number, required: true, index: true },
@@ -21,14 +21,14 @@ export const UsagerSchema = new mongoose.Schema(
       required: true,
       trim: true,
       index: true,
-      maxlength: 200
+      maxlength: 200,
     },
     prenom: {
       type: String,
       required: true,
       trim: true,
       index: true,
-      maxlength: 200
+      maxlength: 200,
     },
     surnom: { type: String, default: "", trim: true },
     email: { type: String, default: "", trim: true },
@@ -43,18 +43,18 @@ export const UsagerSchema = new mongoose.Schema(
     etapeDemande: {
       type: Number,
       default: 1,
-      required: true
+      required: true,
     },
 
     datePremiereDom: {
       default: null,
-      type: Date
+      type: Date,
     },
 
     typeDom: {
       default: "PREMIERE",
       index: true,
-      type: String
+      type: String,
     },
 
     decision: {
@@ -65,18 +65,18 @@ export const UsagerSchema = new mongoose.Schema(
       motif: { type: String },
       motifDetails: { type: String },
       orientation: {
-        type: String
+        type: String,
       },
       orientationDetails: {
-        type: String
+        type: String,
       },
       statut: {
         default: "INSTRUCTION",
         type: String,
-        index: true
+        index: true,
       },
       userId: Number,
-      userName: String
+      userName: String,
     },
 
     historique: { type: Array, default: [] },
@@ -84,7 +84,7 @@ export const UsagerSchema = new mongoose.Schema(
     rdv: {
       dateRdv: { type: Date, default: null },
       userId: { type: Number, default: 0 },
-      userName: { type: String, default: "" }
+      userName: { type: String, default: "" },
     },
 
     entretien: {
@@ -104,7 +104,7 @@ export const UsagerSchema = new mongoose.Schema(
         accompagnement: Boolean,
         accompagnementDetail: String,
         typeMenage: String,
-        commentaires: String
+        commentaires: String,
       },
       default: {
         domiciliation: null,
@@ -120,39 +120,39 @@ export const UsagerSchema = new mongoose.Schema(
         accompagnement: null,
         accompagnementDetail: null,
         commentaires: null,
-        typeMenage: null
-      }
+        typeMenage: null,
+      },
     },
 
     lastInteraction: {
       type: {
         nbCourrier: {
           type: Number,
-          default: 0
+          default: 0,
         },
         dateInteraction: {
-          type: Date
-        }
+          type: Date,
+        },
       },
       default: {
         nbCourrier: 0,
-        dateInteraction: null
-      }
+        dateInteraction: null,
+      },
     },
 
     preference: {
       email: { type: Boolean, default: false },
-      phone: { type: Boolean, default: false }
+      phone: { type: Boolean, default: false },
     },
 
     interactions: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Interaction"
-        }
+          ref: "Interaction",
+        },
       ],
-      default: []
+      default: [],
     },
 
     docs: [],
@@ -162,11 +162,11 @@ export const UsagerSchema = new mongoose.Schema(
       type: {
         _id: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User"
+          ref: "User",
         },
-        userName: { type: String }
+        userName: { type: String },
       },
-      default: {}
+      default: {},
     },
 
     options: {
@@ -175,28 +175,29 @@ export const UsagerSchema = new mongoose.Schema(
           actif: { type: Boolean, default: false },
           adresse: { type: String, default: null },
           nom: { type: String, default: null },
-          dateDebut: { type: Date }
-        }
+          dateDebut: { type: Date },
+        },
       },
       procuration: {
         actif: { type: Boolean, default: false },
         nom: { type: String },
         prenom: { type: String },
         dateFin: { type: Date },
-        dateNaissance: { type: String }
+        dateNaissance: { type: String },
       },
       npai: {
         actif: { type: Boolean, default: false },
-        dateDebut: { type: Date }
-      }
-    }
+        dateDebut: { type: Date },
+      },
+    },
+    migration: { type: Boolean, default: false },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-UsagerSchema.pre<Usager>("save", function(next) {
+UsagerSchema.pre<Usager>("save", function (next) {
   this.nom = this.nom.charAt(0).toUpperCase() + this.nom.slice(1);
   this.prenom = this.prenom.charAt(0).toUpperCase() + this.prenom.slice(1);
   this.email = this.email.toLowerCase();

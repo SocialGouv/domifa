@@ -3,7 +3,7 @@ import {
   HttpStatus,
   Inject,
   Injectable,
-  Logger
+  Logger,
 } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Structure } from "../structures/structure-interface";
@@ -55,18 +55,18 @@ export class StatsService {
       $or: [
         {
           lastExport: {
-            $lte: this.today.toDate()
-          }
+            $lte: this.today.toDate(),
+          },
         },
         {
           lastExport: {
-            $exists: false
-          }
+            $exists: false,
+          },
         },
         {
-          lastExport: null
-        }
-      ]
+          lastExport: null,
+        },
+      ],
     });
 
     if (!structure || structure === null) {
@@ -83,7 +83,7 @@ export class StatsService {
     stat.codePostal = structure.codePostal;
 
     stat.questions.Q_10 = await this.getDomiciliations(structure.id, {
-      $in: ["PREMIERE", "RENOUVELLEMENT"]
+      $in: ["PREMIERE", "RENOUVELLEMENT"],
     });
 
     // TODO : Ajouter le nombre de domiciliés ayant été importé cette année avec un début de dom cette année
@@ -322,6 +322,14 @@ export class StatsService {
       "VIOLENCE"
     );
 
+    stat.questions.Q_21.NON_RENSEIGNE = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      ""
+    );
+
     const retourStructure = await this.structureService.updateLastExport(
       structure._id
     );
@@ -339,11 +347,9 @@ export class StatsService {
       .findOne({
         date: {
           $gte: this.today.toDate(),
-          $lte: moment(this.today)
-            .endOf("day")
-            .toDate()
+          $lte: moment(this.today).endOf("day").toDate(),
         },
-        structureId
+        structureId,
       })
       .exec();
     if (!stats || stats === null) {
@@ -357,10 +363,8 @@ export class StatsService {
       .find({
         date: {
           $gte: this.today.toDate(),
-          $lte: moment(this.today)
-            .endOf("day")
-            .toDate()
-        }
+          $lte: moment(this.today).endOf("day").toDate(),
+        },
       })
       .exec();
     if (!stats || stats === null) {
@@ -379,21 +383,21 @@ export class StatsService {
           {
             "decision.dateDebut": {
               $gte: this.debutAnnee,
-              $lte: this.finAnnee
+              $lte: this.finAnnee,
             },
-            "decision.statut": "VALIDE"
+            "decision.statut": "VALIDE",
           },
           {
             historique: {
               $elemMatch: {
                 dateDebut: { $gte: this.debutAnnee, $lte: this.finAnnee },
-                statut: "VALIDE"
-              }
-            }
-          }
+                statut: "VALIDE",
+              },
+            },
+          },
         ],
         structureId,
-        typeDom: typeDemande
+        typeDom: typeDemande,
       })
       .exec();
 
@@ -402,7 +406,6 @@ export class StatsService {
     }
     return response;
   }
-
   private async totalMaintenant(
     structureId: number,
     statut: string,
@@ -415,7 +418,7 @@ export class StatsService {
       "decision.statut": statut,
       "decision.orientation": orientation,
       "entretien.cause": cause,
-      structureId
+      structureId,
     };
 
     if (!motif || motif === "") {
@@ -426,7 +429,7 @@ export class StatsService {
       delete query["decision.orientation"];
     }
 
-    if (!cause || cause === "") {
+    if (!cause) {
       delete query["entretien.cause"];
     }
 
@@ -445,15 +448,15 @@ export class StatsService {
         {
           $match: {
             "decision.statut": "VALIDE",
-            structureId
-          }
+            structureId,
+          },
         },
         {
           $group: {
             _id: "$structureId",
-            total: { $sum: { $size: "$ayantsDroits" } }
-          }
-        }
+            total: { $sum: { $size: "$ayantsDroits" } },
+          },
+        },
       ])
       .exec();
     if (!response || response === null || response.length === 0) {
@@ -471,15 +474,15 @@ export class StatsService {
     const firstCondition = {
       "decision.dateDebut": {
         $gte: this.debutAnnee,
-        $lte: this.finAnnee
+        $lte: this.finAnnee,
       },
       "decision.dateDecision": {
         $gte: this.debutAnnee,
-        $lte: this.finAnnee
+        $lte: this.finAnnee,
       },
       "decision.motif": motif,
       "decision.statut": statut,
-      "decision.orientation": orientation
+      "decision.orientation": orientation,
     };
 
     const secondCondition = {
@@ -487,17 +490,17 @@ export class StatsService {
         $elemMatch: {
           dateDecision: {
             $gte: this.debutAnnee,
-            $lte: this.finAnnee
+            $lte: this.finAnnee,
           },
           dateDebut: {
             $gte: this.debutAnnee,
-            $lte: this.finAnnee
+            $lte: this.finAnnee,
           },
           motif,
           statut,
-          orientation
-        }
-      }
+          orientation,
+        },
+      },
     };
 
     /* ---- FIX EXPLICATION --- */
@@ -523,7 +526,7 @@ export class StatsService {
 
     const query = {
       $or: [firstCondition, secondCondition],
-      structureId
+      structureId,
     };
 
     const response = await this.usagerModel.countDocuments(query).exec();
@@ -541,7 +544,7 @@ export class StatsService {
     const response = await this.interactionModel
       .countDocuments({
         structureId,
-        type
+        type,
       })
       .exec();
 
@@ -563,8 +566,8 @@ export class StatsService {
           .deleteMany({
             date: {
               $gte: this.today.toDate(),
-              $lte: this.tomorrow.toDate()
-            }
+              $lte: this.tomorrow.toDate(),
+            },
           })
           .exec((retour2: any) => {
             Logger.log("- Suppression du dernier Export  ");

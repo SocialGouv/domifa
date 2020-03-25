@@ -20,9 +20,9 @@ describe("Stats Controller", () => {
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),
         forwardRef(() => UsagersModule),
-        forwardRef(() => InteractionsModule)
+        forwardRef(() => InteractionsModule),
       ],
-      providers: [StatsService, ...StatsProviders]
+      providers: [StatsService, ...StatsProviders],
     }).compile();
 
     controller = module.get<StatsController>(StatsController);
