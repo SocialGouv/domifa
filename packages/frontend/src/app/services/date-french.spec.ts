@@ -4,7 +4,7 @@ import { CustomDatepickerI18n } from "./date-french";
 describe("CustomDatepickerI18n", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CustomDatepickerI18n]
+      providers: [CustomDatepickerI18n],
     });
   });
 
@@ -25,7 +25,7 @@ describe("CustomDatepickerI18n", () => {
         service.getDayAriaLabel({
           day: 20,
           month: 12,
-          year: 1991
+          year: 1991,
         })
       ).toEqual("20-12-1991");
     }
