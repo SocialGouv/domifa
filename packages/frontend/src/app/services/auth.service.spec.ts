@@ -7,7 +7,7 @@ describe("AuthService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
-      providers: [AuthService]
+      providers: [AuthService],
     });
   });
 

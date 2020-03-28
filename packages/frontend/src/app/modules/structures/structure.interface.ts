@@ -50,13 +50,13 @@ export class Structure {
     this.responsable = (structure && structure.responsable) || {
       fonction: "",
       nom: "",
-      prenom: ""
+      prenom: "",
     };
 
     this.options = (structure && structure.options) || {
       colis: false,
       customId: false,
-      numeroBoite: false
+      numeroBoite: false,
     };
 
     this.users = (structure && structure.users) || [];

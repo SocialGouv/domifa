@@ -27,11 +27,11 @@ describe("UserProfilComponent", () => {
           preventDuplicates: true,
           progressAnimation: "increasing",
           progressBar: true,
-          timeOut: 2000
-        })
+          timeOut: 2000,
+        }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
     fixture = TestBed.createComponent(UserProfilComponent);
     component = fixture.componentInstance;

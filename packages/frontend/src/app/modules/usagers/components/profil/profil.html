@@ -251,11 +251,7 @@
           </fa-icon>
           <span>Passage sans récupérer de courrier</span>
         </div>
-        <div
-          class="text-center"
-          [ngClass]="appelAuj"
-          (click)="setInteraction('appel')"
-        >
+        <div class="text-center" (click)="setInteraction('appel')">
           <fa-icon class="actions_icones appel" icon="phone" size="3x">
           </fa-icon>
           <span>Appel téléphonique</span>
@@ -699,7 +695,7 @@
             >
               <div
                 formArrayName="ayantsDroits"
-                *ngFor="let ayantDroit of f.ayantsDroits.controls; let i = index"
+                *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
               >
                 <div [formGroupName]="i" class="row">
                   <div class="col form-group required">
@@ -709,11 +705,11 @@
                       type="text"
                       class="form-control"
                       formControlName="nom"
-                      [ngClass]="{  'is-invalid': submitted && f.ayantsDroits.controls[i].get('nom').errors }"
+                      [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('nom').errors }"
                       placeholder="Nom de l'ayant droit"
                     />
                     <div
-                      *ngIf="submitted && f.ayantsDroits.controls[i].get('nom').errors "
+                      *ngIf="submitted && ayantsDroits.controls[i].get('nom').errors "
                       class="invalid-feedback"
                     >
                       Le nom est obligatoire
@@ -726,11 +722,11 @@
                       id="prennom_{{i}}"
                       class="form-control"
                       formControlName="prenom"
-                      [ngClass]="{  'is-invalid': submitted && f.ayantsDroits.controls[i].get('prenom').errors  }"
+                      [ngClass]="{  'is-invalid': submitted && ayantsDroits.controls[i].get('prenom').errors  }"
                       placeholder="Prénom"
                     />
                     <div
-                      *ngIf="submitted && f.ayantsDroits.controls[i].get('prenom').errors"
+                      *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
                       class="invalid-feedback"
                     >
                       Le prénom est obligatoire
@@ -743,11 +739,11 @@
                       class="form-control"
                       placeholder="jj/mm/aaaa"
                       dateFr
-                      [ngClass]="{ 'is-invalid': submitted &&  f.ayantsDroits.controls[i].get('dateNaissance').errors  }"
+                      [ngClass]="{ 'is-invalid': submitted &&  ayantsDroits.controls[i].get('dateNaissance').errors  }"
                       formControlName="dateNaissance"
                     />
                     <div
-                      *ngIf="submitted && f.ayantsDroits.controls[i].get('dateNaissance').errors"
+                      *ngIf="submitted && ayantsDroits.controls[i].get('dateNaissance').errors"
                       class="invalid-feedback"
                     >
                       <div>La date de naissance est obligatoire</div>

@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
-  NgbModal
+  NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { PrintService } from "src/app/modules/shared/print.service";
@@ -21,11 +21,11 @@ import { UsagerService } from "../../services/usager.service";
     UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-decision",
   styleUrls: ["./decision.component.css"],
-  templateUrl: "./decision.component.html"
+  templateUrl: "./decision.component.html",
 })
 export class DecisionComponent implements OnInit {
   public labels: any;
@@ -44,13 +44,13 @@ export class DecisionComponent implements OnInit {
   public dateDebutPicker = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear()
+    year: this.dToday.getFullYear(),
   };
 
   public dateFinPicker = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear() + 1
+    year: this.dToday.getFullYear() + 1,
   };
 
   public maxDateRefus = this.dateDebutPicker;
@@ -89,7 +89,7 @@ export class DecisionComponent implements OnInit {
       dateDebut: [this.usager.decision.dateDebut, [Validators.required]],
       dateDebutPicker: [this.dateDebutPicker, [Validators.required]],
       dateFin: [this.usager.decision.dateFin, [Validators.required]],
-      dateFinPicker: [this.dateFinPicker, [Validators.required]]
+      dateFinPicker: [this.dateFinPicker, [Validators.required]],
     });
 
     this.refusForm = this.formBuilder.group({
@@ -100,8 +100,8 @@ export class DecisionComponent implements OnInit {
       orientation: [this.usager.decision.orientation, [Validators.required]],
       orientationDetails: [
         this.usager.decision.orientationDetails,
-        [Validators.required]
-      ]
+        [Validators.required],
+      ],
     });
   }
 

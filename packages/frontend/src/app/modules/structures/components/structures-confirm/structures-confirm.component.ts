@@ -6,7 +6,7 @@ import { Structure } from "../../structure.interface";
 @Component({
   selector: "app-structures-confirm",
   styleUrls: ["./structures-confirm.component.css"],
-  templateUrl: "./structures-confirm.component.html"
+  templateUrl: "./structures-confirm.component.html",
 })
 export class StructuresConfirmComponent implements OnInit {
   public title: string;
@@ -29,19 +29,19 @@ export class StructuresConfirmComponent implements OnInit {
     const token = this.route.snapshot.url[2].path;
     if (this.route.snapshot.url[1].path === "delete") {
       this.structureService.delete(token).subscribe(
-        structure => {
+        (structure) => {
           this.successDelete = true;
         },
-        error => {
+        (error) => {
           this.error = true;
         }
       );
     } else if (this.route.snapshot.url[1].path === "confirm") {
       this.structureService.confirm(token).subscribe(
-        structure => {
+        (structure) => {
           this.successConfirm = true;
         },
-        error => {
+        (error) => {
           this.error = true;
         }
       );

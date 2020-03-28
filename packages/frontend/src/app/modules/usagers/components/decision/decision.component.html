@@ -52,7 +52,7 @@
     <div class="col-md-6 offset-3">
       <button
         (click)="setDecision('ATTENTE_DECISION')"
-        class="btn btn-block btn-primary "
+        class="btn btn-block btn-primary"
       >
         <fa-icon icon="clock"></fa-icon>
         DEMANDER LA VALIDATION DU DOSSIER
@@ -87,7 +87,7 @@
       <div class="col" *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'">
         <button
           (click)="setDecision('ATTENTE_DECISION')"
-          class="btn btn-block btn-primary "
+          class="btn btn-block btn-primary"
         >
           <fa-icon icon="clock" class="btn-icon"></fa-icon>
           METTRE EN ATTENTE
@@ -484,11 +484,7 @@
     <button class="btn btn-outline-danger" (click)="modal.close('Save click')">
       Annuler
     </button>
-    <button
-      class="btn btn-danger"
-      [disabled]="refusForm.invalid"
-      (click)="setDecision('REFUS')"
-    >
+    <button class="btn btn-danger" (click)="setDecision('REFUS')">
       Confirmer le refus
     </button>
   </div>
@@ -539,7 +535,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group  col-md-6 required">
+          <div class="form-group col-md-6 required">
             <label for="dateFinValide">Date de fin</label>
             <div class="input-group">
               <input

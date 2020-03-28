@@ -60,7 +60,7 @@ export const colNames = [
   "Ayant-droit 4: prénom",
   "Ayant-droit 4: date de naissance",
   "Ayant-droit 4: lien parenté",
-  "Numéro d'identification"
+  "Numéro d'identification",
 ];
 
 type AOA = any[][];
@@ -69,7 +69,7 @@ type AOA = any[][];
   providers: [UsagerService],
   selector: "app-import",
   styleUrls: ["./import.component.css"],
-  templateUrl: "./import.component.html"
+  templateUrl: "./import.component.html",
 })
 export class ImportComponent implements OnInit {
   public datas: AOA = [[], []];
@@ -98,7 +98,7 @@ export class ImportComponent implements OnInit {
 
   public etapes = [
     "Téléchargement de votre fichier",
-    "Vérification des données"
+    "Vérification des données",
   ];
 
   @ViewChild("form", { static: true })
@@ -142,7 +142,7 @@ export class ImportComponent implements OnInit {
     }
 
     this.uploadForm = this.formBuilder.group({
-      fileInput: [this.fileName, Validators.required]
+      fileInput: [this.fileName, Validators.required],
     });
   }
 
@@ -173,7 +173,7 @@ export class ImportComponent implements OnInit {
       const bstr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(bstr, {
         dateNF: "dd/mm/yyyy",
-        type: "binary"
+        type: "binary",
       });
 
       const wsname: string = wb.SheetNames[0];
@@ -183,7 +183,7 @@ export class ImportComponent implements OnInit {
         blankrows: false,
         dateNF: "dd/mm/yyyy",
         header: 1,
-        raw: false
+        raw: false,
       }) as AOA;
 
       this.datas = this.datas.slice(1);
@@ -292,13 +292,13 @@ export class ImportComponent implements OnInit {
     formData.append("file", this.uploadForm.controls.fileInput.value);
 
     this.usagerService.import(formData).subscribe(
-      res => {
+      (res) => {
         setTimeout(() => {
           this.loadingService.stopLoading();
           this.router.navigate(["/manage"]);
         }, 1000);
       },
-      err => {
+      (err) => {
         this.loadingService.stopLoading();
       }
     );
@@ -393,7 +393,7 @@ export class ImportComponent implements OnInit {
         "FEMME_ISOLE_AVEC_ENFANT",
         "COUPLE_SANS_ENFANT",
         "COUPLE_AVEC_ENFANT",
-        "MINEUR"
+        "MINEUR",
       ],
       motifRadiation: [
         "NON_MANIFESTATION_3_MOIS",
@@ -403,16 +403,16 @@ export class ImportComponent implements OnInit {
         "PLUS_DE_LIEN_COMMUNE",
         "NON_RESPECT_REGLEMENT",
         "AUTRE",
-        "AUTRES"
+        "AUTRES",
       ],
       motifRefus: [
         "LIEN_COMMUNE",
         "SATURATION",
         "HORS_AGREMENT",
         "AUTRE",
-        "AUTRES"
+        "AUTRES",
       ],
-      statut: ["VALIDE", "REFUS", "RADIE"]
+      statut: ["VALIDE", "REFUS", "RADIE"],
     };
     return types[rowName].indexOf(data) > -1;
   }

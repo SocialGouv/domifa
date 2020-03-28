@@ -10,7 +10,7 @@ import { UsersService } from "../../services/users.service";
 @Component({
   selector: "app-login",
   styleUrls: ["./login.component.css"],
-  templateUrl: "./login.component.html"
+  templateUrl: "./login.component.html",
 })
 export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   public successMessage: string;
   public success: boolean;
   public error: boolean;
+  public loading: boolean;
   public errorMessage: string;
   public errorLabels: any;
 
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
     this.success = false;
     this.error = false;
+    this.loading = false;
     this.errorLabels = ERROR_LABELS;
   }
 
@@ -49,7 +51,7 @@ export class LoginComponent implements OnInit {
   public initForm() {
     this.loginForm = this.formBuilder.group({
       email: ["", [Validators.pattern(regexp.email), Validators.required]],
-      password: ["", Validators.required]
+      password: ["", Validators.required],
     });
   }
 
@@ -62,18 +64,20 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
     this.authService
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        user => {
+        (user) => {
+          this.loading = false;
           this.success = true;
           this.error = true;
           this.returnUrl !== "/"
             ? this.router.navigateByUrl(this.returnUrl)
             : this.router.navigate(["/manage"]);
         },
-        error => {
+        (error) => {
           this.error = true;
           this.success = false;
           this.errorMessage = this.errorLabels[error.error.message];

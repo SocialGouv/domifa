@@ -1,10 +1,11 @@
 <div class="row">
   <div class="col-8 offset-2 text-left">
-    <br>
+    <br />
     <a
       [routerLink]="['/mon-compte']"
       routerLinkActive="router-link-active"
-      class="active">
+      class="active"
+    >
       <fa-icon icon="arrow-left"></fa-icon>
       Retour à mon compte
     </a>
@@ -15,17 +16,16 @@
   *ngIf="structure"
   id="structureForm"
   [formGroup]="structureEdit"
-  (ngSubmit)="submitStrucutre()">
+  (ngSubmit)="submitStrucutre()"
+>
   <div class="step_form">
-    <h4
-      class="title"
-      class="text-center">
+    <h4 class="title" class="text-center">
       Modifier les informations de votre structure
     </h4>
 
     <div class="row">
       <div class="col-md-12 form-group required">
-        <br>
+        <br />
         <label for="nom">Raison sociale (nom de la structure)</label>
         <input
           type="text"
@@ -34,17 +34,19 @@
           formControlName="nom"
           placeholder="Nom"
           [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
-          required>
-        <div
-          *ngIf="submitted && f.nom.errors"
-          class="invalid-feedback">
-          <div *ngIf="f.nom.errors.required">Le nom de la structure est requis</div>
+          required
+        />
+        <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+          <div *ngIf="f.nom.errors.required">
+            Le nom de la structure est requis
+          </div>
         </div>
       </div>
 
       <div
-        *ngIf="structure.structureType=== 'cias'"
-        class="col-md-12 form-group ">
+        *ngIf="structure.structureType === 'cias'"
+        class="col-md-12 form-group"
+      >
         <label for="rattachement">
           Commune ou arrondissement de rattachement
         </label>
@@ -53,10 +55,12 @@
           class="form-control"
           id="rattachement"
           formControlName="rattachement"
-          [ngClass]="{ 'is-invalid': submitted && f.rattachement.errors }">
+          [ngClass]="{ 'is-invalid': submitted && f.rattachement.errors }"
+        />
         <div
           *ngIf="submitted && f.rattachement.errors"
-          class="invalid-feedback">
+          class="invalid-feedback"
+        >
           Commune ou arrondissement obligatoire
         </div>
       </div>
@@ -69,10 +73,9 @@
           class="form-control"
           formControlName="adresse"
           [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
-          placeholder="Cette adresse apparaîtra sur le Cerfa">
-        <div
-          *ngIf="submitted && f.adresse.errors"
-          class="invalid-feedback">
+          placeholder="Cette adresse apparaîtra sur le Cerfa"
+        />
+        <div *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
           <div *ngIf="f.adresse.errors.required">L'adresse est obligatoire</div>
         </div>
       </div>
@@ -85,10 +88,12 @@
           id="complementAdresse"
           formControlName="complementAdresse"
           placeholder="Lieu-dit, Bâtiment, étage, etc.."
-          [ngClass]="{ 'is-invalid': submitted && f.complementAdresse.errors }">
+          [ngClass]="{ 'is-invalid': submitted && f.complementAdresse.errors }"
+        />
         <div
           *ngIf="submitted && f.complementAdresse.errors"
-          class="invalid-feedback">
+          class="invalid-feedback"
+        >
           <b>L'adresse est obligatoire</b>
         </div>
       </div>
@@ -102,12 +107,12 @@
           required
           formControlName="codePostal"
           [ngClass]="{
-            'is-invalid': (f.codePostal.dirty && f.codePostal.errors) ||
-             submitted  && f.codePostal.errors
-            }">
-        <div
-          *ngIf="f.codePostal.errors"
-          class="invalid-feedback">
+            'is-invalid':
+              (f.codePostal.dirty && f.codePostal.errors) ||
+              (submitted && f.codePostal.errors)
+          }"
+        />
+        <div *ngIf="f.codePostal.errors" class="invalid-feedback">
           Le code postal est obligatoire
         </div>
       </div>
@@ -120,10 +125,9 @@
           id="ville"
           required
           formControlName="ville"
-          [ngClass]="{ 'is-invalid': submitted && f.ville.errors }">
-        <div
-          *ngIf="submitted && f.ville.errors"
-          class="invalid-feedback">
+          [ngClass]="{ 'is-invalid': submitted && f.ville.errors }"
+        />
+        <div *ngIf="submitted && f.ville.errors" class="invalid-feedback">
           La ville est obligatoire
         </div>
       </div>
@@ -135,18 +139,16 @@
             type="checkbox"
             formControlName="adresseDifferente"
             value="true"
-            id="adresseDifferente">
-          <label
-            class="form-check-label"
-            for="adresseDifferente">
-            L'adresse de réception du courrier est différente de celle de l'association ?
+            id="adresseDifferente"
+          />
+          <label class="form-check-label" for="adresseDifferente">
+            L'adresse de réception du courrier est différente de celle de
+            l'association ?
           </label>
         </div>
       </div>
     </div>
-    <div
-      class="row"
-      *ngIf="f.adresseDifferente.value === true">
+    <div class="row" *ngIf="f.adresseDifferente.value === true">
       <div class="col-md-12 form-group">
         <label for="adresseCourrier">Adresse de réception du courrier</label>
         <input
@@ -155,10 +157,11 @@
           id="adresseCourrier"
           formControlName="adresseCourrier"
           placeholder="Indiquez l'adresse complète : rue, ville, code postal"
-          [ngClass]="{ 'is-invalid': submitted && f.adresseCourrier.errors }">
+          [ngClass]="{ 'is-invalid': submitted && f.adresseCourrier.errors }"
+        />
       </div>
     </div>
-    <br>
+    <br />
     <div class="row">
       <div class="col form-group required">
         <label for="phone">Numéro de téléphone</label>
@@ -171,10 +174,9 @@
           placeholder="0606060606"
           maxlength="10"
           [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
-          required>
-        <div
-          *ngIf="submitted && f.phone.errors"
-          class="invalid-feedback">
+          required
+        />
+        <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
           <div>Le numéro de téléphone est obligatoire</div>
         </div>
       </div>
@@ -185,51 +187,53 @@
           class="form-control"
           id="email"
           formControlName="email"
-          [ngClass]="{ 'is-invalid': (submitted && f.email.errors) || (f.email.dirty && f.email.errors) }"
-          required>
-        <div
-          *ngIf="f.email.errors"
-          class="invalid-feedback">
+          [ngClass]="{
+            'is-invalid':
+              (submitted && f.email.errors) || (f.email.dirty && f.email.errors)
+          }"
+          required
+        />
+        <div *ngIf="f.email.errors" class="invalid-feedback">
           <div *ngIf="f.email.errors.emailTaken">
             <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
             <b>L'adresse email est déjà utilisée</b>
           </div>
-          <div *ngIf="!f.email.errors.emailTaken">Veuillez vérifier l'adresse email</div>
+          <div *ngIf="!f.email.errors.emailTaken">
+            Veuillez vérifier l'adresse email
+          </div>
         </div>
       </div>
     </div>
-    <br>
-    <div
-      class="row"
-      *ngIf="structure.structureType=== 'asso'">
-      <div class="col-md-12 text-center ">
+    <br />
+    <div class="row" *ngIf="structure.structureType === 'asso'">
+      <div class="col-md-12 text-center">
         <h5 class="subtitle">
           Quelles sont ses informations d’agrément ?
         </h5>
-        <br>
+        <br />
       </div>
 
-      <div class="col-6 form-group ">
+      <div class="col-6 form-group">
         <label for="departement">Préfecture ayant délivré l’agrément</label>
         <select
           id="departement"
           formControlName="departement"
-          class="custom-select">
+          class="custom-select"
+        >
           <option
             *ngFor="let departement of departements | keyvalue"
-            [ngValue]="departement.key">
+            [ngValue]="departement.key"
+          >
             {{ departement.key }} - {{ departement.value }}
           </option>
         </select>
 
-        <div
-          *ngIf="submitted && f.departement.errors"
-          class="invalid-feedback">
+        <div *ngIf="submitted && f.departement.errors" class="invalid-feedback">
           Veuillez sélectionner un département
         </div>
       </div>
 
-      <div class="col-6 form-group ">
+      <div class="col-6 form-group">
         <label for="agrement">Numéro d'agrément</label>
         <input
           formControlName="agrement"
@@ -237,15 +241,14 @@
           id="agrement"
           placeholder="Numéro donné par la préfecture"
           type="text"
-          [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }">
-        <div
-          *ngIf="submitted && f.agrement.errors"
-          class="invalid-feedback">
+          [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
+        />
+        <div *ngIf="submitted && f.agrement.errors" class="invalid-feedback">
           Veuillez insérer un numéro d'agrément
         </div>
       </div>
 
-      <div class="col-6 form-group ">
+      <div class="col-6 form-group">
         <label for="capacite">Capacité d'accueil</label>
         <input
           formControlName="capacite"
@@ -253,24 +256,20 @@
           id="capacite"
           placeholder="Nombre maxi de domiciliés"
           type="number"
-          [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }">
-        <small
-          id="capaciteHelp"
-          class="form-text text-muted">
+          [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
+        />
+        <small id="capaciteHelp" class="form-text text-muted">
           Optionnel
         </small>
       </div>
-
     </div>
-    <br>
-    <div class="col-md-12  text-center">
+    <br />
+    <div class="col-md-12 text-center">
       <h5 class="subtitle">Qui est son responsable légal ?</h5>
       Il s’agit du nom qui apparaîtra sur le Cerfa.
     </div>
-    <br>
-    <div
-      class="row"
-      formGroupName="responsable">
+    <br />
+    <div class="row" formGroupName="responsable">
       <div class="col-md-6 form-group required">
         <label for="responsable-nom">Nom</label>
         <input
@@ -279,15 +278,21 @@
           id="responsable-nom"
           formControlName="nom"
           placeholder="Nom d'un.e responsable"
-          [ngClass]="{ 'is-invalid': submitted && f.responsable.get('nom').errors }"
-          required>
+          [ngClass]="{
+            'is-invalid': submitted && f.responsable.get('nom').errors
+          }"
+          required
+        />
         <div
           *ngIf="submitted && f.responsable.get('nom').errors"
-          class="invalid-feedback">
-          <div *ngIf="f.responsable.get('nom').errors.required">Le nom du demandeur est obligatoire</div>
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.responsable.get('nom').errors.required">
+            Le nom du demandeur est obligatoire
+          </div>
         </div>
       </div>
-      <div class="col-md-6  form-group required">
+      <div class="col-md-6 form-group required">
         <label for="responsable-prenom">Prénom(s)</label>
         <input
           type="text"
@@ -295,14 +300,19 @@
           id="responsable-prenom"
           formControlName="prenom"
           placeholder="Prénom(s)"
-          [ngClass]="{ 'is-invalid': submitted && f.responsable.get('prenom').errors }"
-          required>
+          [ngClass]="{
+            'is-invalid': submitted && f.responsable.get('prenom').errors
+          }"
+          required
+        />
         <div
           *ngIf="submitted && f.responsable.get('prenom').errors"
-          class="invalid-feedback">
-          <div *ngIf="f.responsable.get('prenom').errors.required">Le prénom est obligatoire</div>
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.responsable.get('prenom').errors.required">
+            Le prénom est obligatoire
+          </div>
         </div>
-
       </div>
       <div class="col-md-12 form-group required">
         <label for="fonction">Fonction</label>
@@ -312,52 +322,61 @@
           id="fonction"
           formControlName="fonction"
           placeholder="Président.e, Directrice, etc."
-          [ngClass]="{ 'is-invalid': submitted && f.responsable.get('fonction').errors }"
-          required>
+          [ngClass]="{
+            'is-invalid': submitted && f.responsable.get('fonction').errors
+          }"
+          required
+        />
         <div
           *ngIf="submitted && f.responsable.get('fonction').errors"
-          class="invalid-feedback">
-          <div *ngIf="f.responsable.get('fonction').errors.required">Votre fonction est obligatoire</div>
+          class="invalid-feedback"
+        >
+          <div *ngIf="f.responsable.get('fonction').errors.required">
+            Votre fonction est obligatoire
+          </div>
         </div>
       </div>
-      <br>
+      <br />
     </div>
   </div>
 
-  <div
-    class="step_form"
-    formGroupName="options">
+  <div class="step_form" formGroupName="options">
     <div class="row">
-      <div class="col-md-12  text-center">
+      <div class="col-md-12 text-center">
         <h5 class="subtitle">Paramètres de la structure</h5>
-        <br>
+        <br />
       </div>
 
       <div class="col-8">
         Ma structure utilise des identifiants personnalisés pour les dossiers :
       </div>
-      <div class="col-4 text-right ">
+      <div class="col-4 text-right">
         <div
           formControlName="customId"
           class="btn-group btn-group-toggle"
           ngbRadioGroup
-          name="customId">
+          name="customId"
+        >
           <label
             ngbButtonLabel
-            [ngClass]="f.options.get('customId')  === true ? 'btn-primary' : 'btn-outline-primary'">
-            <input
-              ngbButton
-              type="radio"
-              [value]="true">
+            [ngClass]="
+              f.options.get('customId') === true
+                ? 'btn-primary'
+                : 'btn-outline-primary'
+            "
+          >
+            <input ngbButton type="radio" [value]="true" />
             Oui
           </label>
           <label
             ngbButtonLabel
-            [ngClass]="f.options.get('customId')  === false ? 'btn-danger' : 'btn-outline-danger'">
-            <input
-              ngbButton
-              type="radio"
-              [value]="false">
+            [ngClass]="
+              f.options.get('customId') === false
+                ? 'btn-danger'
+                : 'btn-outline-danger'
+            "
+          >
+            <input ngbButton type="radio" [value]="false" />
             Non
           </label>
         </div>
@@ -367,18 +386,18 @@
 
   <div class="row">
     <div class="col-md-12 text-center">
-      <br>
+      <br />
       <a
         [routerLink]="['/mon-compte']"
         routerLinkActive="router-link-active"
-        class="btn btn-outline-dark">
+        class="btn btn-outline-dark"
+      >
         Retour à mon compte
       </a>
       &nbsp;&nbsp;
       <button class="btn btn-primary">Enregistrer les modifications</button>
-      <br>
+      <br />
     </div>
-    <br>
+    <br />
   </div>
-
 </form>

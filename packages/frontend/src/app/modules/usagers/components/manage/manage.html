@@ -1,59 +1,59 @@
-<div
-  class="container"
-  id="manage">
-  <br>
+<div class="container" id="manage">
+  <br />
 
-  <div
-    id="filters"
-    class="row">
+  <div id="filters" class="row">
     <div
       class="col"
       [ngClass]="filters.statut === 'TOUS' ? 'filter-primary' : 'filter-dark'"
-      (click)="updateFilters('statut', 'TOUS')">
+      (click)="updateFilters('statut', 'TOUS')"
+    >
       Tous
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'VALIDE' ? 'filter-primary' : 'filter-dark'"
-      (click)="updateFilters('statut', 'VALIDE')">
+      (click)="updateFilters('statut', 'VALIDE')"
+    >
       Actifs ({{ stats.VALIDE }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'RENOUVELLEMENT' ? 'filter-secondary' : 'filter-dark'"
-      (click)="updateFilters('statut', 'RENOUVELLEMENT')">
+      (click)="updateFilters('statut', 'RENOUVELLEMENT')"
+    >
       Renouvellements
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'INSTRUCTION' ? 'filter-warning' : 'filter-dark'"
-      (click)="updateFilters('statut', 'INSTRUCTION')">
+      (click)="updateFilters('statut', 'INSTRUCTION')"
+    >
       À compléter ({{ stats.INSTRUCTION }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'ATTENTE_DECISION' ? 'filter-warning' : 'filter-dark' "
-      (click)="updateFilters('statut', 'ATTENTE_DECISION')">
+      (click)="updateFilters('statut', 'ATTENTE_DECISION')"
+    >
       Attente de décision ({{ stats.ATTENTE_DECISION }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'REFUS' ? 'filter-danger' : 'filter-dark'  "
-      (click)="updateFilters('statut', 'REFUS')">
+      (click)="updateFilters('statut', 'REFUS')"
+    >
       Refusés ({{ stats.REFUS }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'RADIE' ? 'filter-danger' : 'filter-dark'"
-      (click)="updateFilters('statut', 'RADIE')">
+      (click)="updateFilters('statut', 'RADIE')"
+    >
       Radiés ({{ stats.RADIE }})
     </div>
   </div>
   <div class="row">
-
-    <div
-      id="searchbar"
-      class="form-group ">
+    <div id="searchbar" class="form-group">
       <span id="search_icon">
         <fa-icon icon="search"></fa-icon>
       </span>
@@ -62,35 +62,38 @@
         [(ngModel)]="filters.name"
         #searchInput
         placeholder="Recherche par nom, prénom ou numéro de domicilié"
-        class="form-control">
+        class="form-control"
+      />
       <span
         *ngIf="searchInput.value !== ''"
         (click)="resetSearchBar()"
-        id="times_icon">
+        id="times_icon"
+      >
         <fa-icon icon="times-circle"></fa-icon>
       </span>
     </div>
   </div>
-  <div
-    class="row"
-    id="filters-btn">
+  <div class="row" id="filters-btn">
     <div class="col-4 text-left">
       <span>Dernier passage</span>
 
       <div
         class="btn-group btn-group-toggle"
         role="group"
-        aria-label="Basic example">
+        aria-label="Basic example"
+      >
         <button
           class="btn"
           (click)="updateFilters('passage', 'DEUX_MOIS')"
-          [ngClass]="filters.passage === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'">
+          [ngClass]="filters.passage === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
+        >
           Plus de 2 mois
         </button>
         <button
           class="btn"
           (click)="updateFilters('passage', 'TROIS_MOIS')"
-          [ngClass]="filters.passage === 'TROIS_MOIS' ? 'btn-dark' : 'btn-outline-dark'">
+          [ngClass]="filters.passage === 'TROIS_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
+        >
           Plus de 3 mois
         </button>
       </div>
@@ -101,23 +104,27 @@
       <div
         class="btn-group btn-group-toggle"
         role="group"
-        aria-label="Basic example">
+        aria-label="Basic example"
+      >
         <button
           class="btn"
           (click)="updateFilters('echeance', 'DEUX_MOIS')"
-          [ngClass]="filters.echeance === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'">
+          [ngClass]="filters.echeance === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
+        >
           Moins de 2 mois
         </button>
         <button
           class="btn"
           (click)="updateFilters('echeance', 'DEUX_SEMAINES')"
-          [ngClass]="filters.echeance === 'DEUX_SEMAINES' ? 'btn-dark' : 'btn-outline-dark'">
+          [ngClass]="filters.echeance === 'DEUX_SEMAINES' ? 'btn-dark' : 'btn-outline-dark'"
+        >
           Moins de 2 semaines
         </button>
         <button
           class="btn"
           (click)="updateFilters('echeance', 'DEPASSEE')"
-          [ngClass]="filters.echeance === 'DEPASSEE' ? 'btn-dark' : 'btn-outline-dark'">
+          [ngClass]="filters.echeance === 'DEPASSEE' ? 'btn-dark' : 'btn-outline-dark'"
+        >
           Dépassée
         </button>
       </div>
@@ -128,73 +135,61 @@
         <button
           class="btn"
           (click)="updateFilters('interactionType', 'courrierIn')"
-          [ngClass]="filters.interactionType === 'courrierIn' ? 'btn-dark' : 'btn-outline-dark'">
+          [ngClass]="filters.interactionType === 'courrierIn' ? 'btn-dark' : 'btn-outline-dark'"
+        >
           Oui
         </button>
-
       </div>
     </div>
   </div>
   <div *ngIf="usagers.length === 0 && !searching">
-    <br>
-    <br>
-    <ngb-alert
-      [dismissible]="false"
-      type="warning">
+    <br />
+    <br />
+    <ngb-alert [dismissible]="false" type="warning">
       <div class="text-center">
         <b>Aucun résultat :</b>
         aucun dossier ne correspond à votre recherche &nbsp;&nbsp;&nbsp;
-        <button
-          (click)="resetFilters()"
-          class="btn btn-outline-white">
+        <button (click)="resetFilters()" class="btn btn-outline-white">
           Réinitialiser les filtres
         </button>
       </div>
     </ngb-alert>
   </div>
 
-  <div
-    class="row"
-    id="usagers-list">
-    <div
-      *ngIf="searching"
-      @fadeInOut
-      class="text-center content-overlay">
-      <div
-        *ngIf="searching"
-        @fadeInOutSlow>
+  <div class="row" id="usagers-list">
+    <div *ngIf="searching" @fadeInOut class="text-center content-overlay">
+      <div *ngIf="searching" @fadeInOutSlow>
         <fa-icon
           [icon]="['fas', 'spinner']"
           class="spinner"
-          [spin]="true"></fa-icon>
-        <br>
+          [spin]="true"
+        ></fa-icon>
+        <br />
         <span class="loading_message">Chargement des dossiers...</span>
       </div>
     </div>
 
-    <table
-      class="table"
-      *ngIf="usagers.length !== 0">
+    <table class="table" *ngIf="usagers.length !== 0">
       <thead>
         <th class="text-center">#</th>
         <th>Nom prénom</th>
         <th>{{ dateLabel }}</th>
-        <td
-          colspan="3"
-          class="text-right">
+        <td colspan="3" class="text-right">
           <div class="sort-structures form-group form-check-inline">
             <button
               class="btn"
               [ngClass]="filters.sort === 'az' ? 'btn-dark' : 'btn-outline-dark'"
               (click)="updateFilters('sort', 'az')"
-              title="Alphabétique : A -> Z">
+              title="Alphabétique : A -> Z"
+            >
               <fa-icon icon="sort-alpha-down"></fa-icon>
             </button>
             <button
               class="btn"
               [ngClass]=" filters.sort === 'za'   ? 'btn-dark'  : 'btn-outline-dark'"
               (click)="updateFilters('sort', 'za')"
-              title="Alphabétique : Z -> A">
+              title="Alphabétique : Z -> A"
+            >
               <fa-icon icon="sort-alpha-down-alt"></fa-icon>
             </button>
           </div>
@@ -202,25 +197,30 @@
       </thead>
       <tbody *ngFor="let usager of usagers; let i = index">
         <tr>
-          <td
-            (click)="goToProfil(usager)"
-            scope="row"
-            class="text-center">
-            <span *ngIf="usager.customId && structure.options.customId">{{ usager.customId }}</span>
-            <span *ngIf="!structure.options.customId || !usager.customId ">{{ usager.id }}</span>
+          <td (click)="goToProfil(usager)" scope="row" class="text-center">
+            <span *ngIf="usager.customId && structure.options.customId"
+              >{{ usager.customId }}</span
+            >
+            <span *ngIf="!structure.options.customId || !usager.customId "
+              >{{ usager.id }}</span
+            >
           </td>
           <td
             (click)="goToProfil(usager)"
             scope="row"
-            class="table-name td-name">
+            class="table-name td-name"
+          >
             <b>{{ usager.nom | uppercase }}</b>
             {{ usager.prenom }}
-            <span *ngIf="usager.surnom && usager.surnom !== null">({{ usager.surnom }})</span>
+            <span *ngIf="usager.surnom && usager.surnom !== null"
+              >({{ usager.surnom }})</span
+            >
           </td>
           <td (click)="goToProfil(usager)">
             <span
               *ngIf="usager.decision.statut === 'REFUS' || usager.decision.statut === 'RADIE'"
-              class="text-danger font-weight-bold">
+              class="text-danger font-weight-bold"
+            >
               {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
             </span>
             <span
@@ -229,118 +229,123 @@
                 'font-weight-bold':  usager.dayBeforeEnd < 60,
                 'text-danger': usager.dayBeforeEnd < 15,
                 'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
-              }">
+              }"
+            >
               {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
             </span>
-            <span *ngIf="usager.decision.statut === 'INSTRUCTION' || usager.decision.statut === 'ATTENTE_DECISION'">
+            <span
+              *ngIf="usager.decision.statut === 'INSTRUCTION' || usager.decision.statut === 'ATTENTE_DECISION'"
+            >
               {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
             </span>
           </td>
           <td class="text-right icones_liste">
-            <div *ngIf="
+            <div
+              *ngIf="
               usager.decision.statut === 'VALIDE' ||
               (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT') ||
               (usager.decision.statut === 'ATTENTE_DECISION' && usager.typeDom === 'RENOUVELLEMENT') ||
               (usager.decision.statut === 'RADIE' && usager.options.npai !== true)
-            ">
+            "
+            >
               <span
                 (click)="setInteraction(usager, 'courrierOut')"
                 *ngIf="usager.lastInteraction.nbCourrier > 0"
-                ngbTooltip="Signaler un retrait de courrier">
-                <fa-icon
-                  class="courrier"
-                  icon="envelope-open-text"></fa-icon>
-                <b class="notification">{{ usager.lastInteraction.nbCourrier }}</b>
+                ngbTooltip="Signaler un retrait de courrier"
+              >
+                <fa-icon class="courrier" icon="envelope-open-text"></fa-icon>
+                <b class="notification"
+                  >{{ usager.lastInteraction.nbCourrier }}</b
+                >
               </span>
               <span
                 (click)="setInteraction(usager, 'courrierIn')"
-                ngbTooltip="Ajouter un nouveau courrier">
-                <fa-icon
-                  class="courrier"
-                  icon="envelope"></fa-icon>
+                ngbTooltip="Ajouter un nouveau courrier"
+              >
+                <fa-icon class="courrier" icon="envelope"></fa-icon>
               </span>
               <span
                 ngbTooltip="Signaler un passage"
-                (click)="setInteraction(usager, 'visite')">
-                <fa-icon
-                  class="visite"
-                  icon="walking"></fa-icon>
+                (click)="setInteraction(usager, 'visite')"
+              >
+                <fa-icon class="visite" icon="walking"></fa-icon>
               </span>
               <span
                 ngbTooltip="Signaler un appel"
-                (click)="setInteraction(usager, 'appel')">
-                <fa-icon
-                  class="appel"
-                  icon="phone"></fa-icon>
+                (click)="setInteraction(usager, 'appel')"
+              >
+                <fa-icon class="appel" icon="phone"></fa-icon>
               </span>
             </div>
           </td>
 
           <td
             (click)="goToProfil(usager)"
-            class="text-center usager_informations">
+            class="text-center usager_informations"
+          >
             <span
               class="text-danger font-weight-bold"
-              *ngIf="usager.options.npai.actif">
-              <fa-icon
-                icon="ban"
-                class="btn-icon"></fa-icon>
+              *ngIf="usager.options.npai.actif"
+            >
+              <fa-icon icon="ban" class="btn-icon"></fa-icon>
               Pli non distribuable
             </span>
-            <span
-              class="text-warning"
-              *ngIf="usager.options.transfert.actif">
-              <fa-icon
-                icon="share"
-                class="btn-icon"></fa-icon>
+            <span class="text-warning" *ngIf="usager.options.transfert.actif">
+              <fa-icon icon="share" class="btn-icon"></fa-icon>
               Courrier à transférer
             </span>
-            <span
-              class="text-warning"
-              *ngIf="usager.options.procuration.actif">
-              <fa-icon
-                icon="exclamation-triangle"
-                class="btn-icon"></fa-icon>
+            <span class="text-warning" *ngIf="usager.options.procuration.actif">
+              <fa-icon icon="exclamation-triangle" class="btn-icon"></fa-icon>
               <b>Procuration :</b>
               {{ usager.options.procuration.nomComplet }}
             </span>
 
-            <span *ngIf="filters.statut === 'RENOUVELLEMENT' && usager.decision.statut === 'ATTENTE_DECISION'">
+            <span
+              *ngIf="filters.statut === 'RENOUVELLEMENT' && usager.decision.statut === 'ATTENTE_DECISION'"
+            >
               <span class="text-warning">En attente d'une décision</span>
             </span>
-            <span *ngIf="filters.statut === 'RENOUVELLEMENT' && usager.decision.statut === 'INSTRUCTION'">
+            <span
+              *ngIf="filters.statut === 'RENOUVELLEMENT' && usager.decision.statut === 'INSTRUCTION'"
+            >
               <span class="text-warning">Dossier à compléter</span>
             </span>
 
-            <span *ngIf="(filters.statut === 'INSTRUCTION' || filters.statut === 'ATTENTE_DECISION') && usager.typeDom === 'RENOUVELLEMENT'">
+            <span
+              *ngIf="(filters.statut === 'INSTRUCTION' || filters.statut === 'ATTENTE_DECISION') && usager.typeDom === 'RENOUVELLEMENT'"
+            >
               <span class="text-secondary">Renouvellement en cours</span>
             </span>
-            <span *ngIf="(filters.statut === 'INSTRUCTION' || filters.statut === 'ATTENTE_DECISION') && usager.typeDom !== 'RENOUVELLEMENT'">
+            <span
+              *ngIf="(filters.statut === 'INSTRUCTION' || filters.statut === 'ATTENTE_DECISION') && usager.typeDom !== 'RENOUVELLEMENT'"
+            >
               <span class="text-dark">Première demande</span>
             </span>
 
-            <span
-              *ngIf="filters.statut === 'TOUS'"
-              class="font-weight-bold">
+            <span *ngIf="filters.statut === 'TOUS'" class="font-weight-bold">
               <span
                 *ngIf="usager.decision.statut === 'INSTRUCTION'"
-                class="text-warning2">
+                class="text-warning2"
+              >
                 <fa-icon [icon]="['far', 'clock']"></fa-icon>
                 Dossier à compléter
               </span>
               <span
                 *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
-                class="text-dark">
+                class="text-dark"
+              >
                 Demande en cours
               </span>
               <span
                 *ngIf="usager.decision.statut === 'REFUS'"
-                class="text-danger">
+                class="text-danger"
+              >
                 Demande refusée
               </span>
               <span
                 *ngIf="usager.decision.statut === 'RADIE'"
-                class="text-danger">
+                class="text-danger"
+              >
                 Radié
               </span>
             </span>
@@ -352,17 +357,20 @@
               *ngIf="
                 usager.decision.statut !== 'ATTENTE_DECISION' ||
                 (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT')
-              ">
+              "
+            >
               Accéder à la fiche
             </span>
             <span
               class="active"
-              *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
+              *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
+            >
               Afficher la demande
             </span>
             <span
               class="active"
-              *ngIf="(usager.decision.statut === 'INSTRUCTION' && usager.typeDom !== 'RENOUVELLEMENT')">
+              *ngIf="(usager.decision.statut === 'INSTRUCTION' && usager.typeDom !== 'RENOUVELLEMENT')"
+            >
               Reprendre la demande
             </span>
           </td>
@@ -372,9 +380,7 @@
   </div>
 </div>
 
-<ng-template
-  #distributionConfirm
-  let-modal>
+<ng-template #distributionConfirm let-modal>
   <div class="modal-header">
     <h4 class="modal-title">
       <fa-icon icon="exclamation-triangle"></fa-icon>
@@ -384,35 +390,36 @@
       type="button"
       class="close"
       aria-label="Fermer la fenêtre"
-      (click)="closeModal()">
+      (click)="modalService.dismissAll()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body text-center">
     Qui est venu récupérer le courrier ?
-    <br>
-    <br>
+    <br />
+    <br />
     <button
       (click)="setInteraction(selectedUsager, 'courrierOut', true)"
-      class="btn btn-outline-primary">
+      class="btn btn-outline-primary"
+    >
       <b>LE MANDATAIRE</b>
-      <br>
+      <br />
       {{ selectedUsager.options.procuration.nom | uppercase }} {{
       selectedUsager.options.procuration.prenom }}
     </button>
     &nbsp;&nbsp;
     <button
       (click)="setInteraction(selectedUsager, 'courrierOut', false)"
-      class="btn btn-outline-primary">
+      class="btn btn-outline-primary"
+    >
       <b>LE DOMICILIÉ</b>
-      <br>
+      <br />
       {{ selectedUsager.nom }} {{ selectedUsager.prenom }}
     </button>
   </div>
   <div class="modal-footer">
-    <button
-      class="btn btn-outline-dark"
-      (click)="modal.close('Save click')">
+    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
       Revenir à la liste
     </button>
   </div>

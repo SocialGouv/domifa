@@ -81,7 +81,7 @@
               class="col-3 text-center"
             >
               <select
-                id="role_{{ i }}"
+                id="role_{{ user.id }}"
                 (change)="updateRole(user.id, $event.target.value)"
                 class="custom-select"
               >

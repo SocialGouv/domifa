@@ -6,5 +6,5 @@ export const ERROR_LABELS = {
   TOKEN_EXPIRED:
     "La procédure de renouvellement de votre mot de passe a expiré, veuillez renouveler votre demande",
   USER_NOT_EXIST: "Le lien est incorrect, merci de recommencer la procédure",
-  WRONG_CREDENTIALS: "Email et / ou mot de passe incorrect"
+  WRONG_CREDENTIALS: "Email et / ou mot de passe incorrect",
 };

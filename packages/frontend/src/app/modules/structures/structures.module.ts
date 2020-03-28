@@ -22,12 +22,12 @@ import { StructureService } from "./services/structure.service";
     StructuresConfirmComponent,
     StructuresSearchComponent,
     StructuresFormComponent,
-    StructuresEditComponent
+    StructuresEditComponent,
   ],
   exports: [
     StructuresConfirmComponent,
     StructuresSearchComponent,
-    StructuresFormComponent
+    StructuresFormComponent,
   ],
   imports: [
     UsersModule,
@@ -43,13 +43,13 @@ import { StructureService } from "./services/structure.service";
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 2000
+      timeOut: 2000,
     }),
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [StructureService]
+  providers: [StructureService],
 })
 export class StructuresModule {}

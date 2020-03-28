@@ -3,7 +3,7 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators
+  Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
@@ -19,7 +19,7 @@ import { Structure } from "../../structure.interface";
 @Component({
   selector: "app-structures-edit",
   styleUrls: ["./structures-edit.component.css"],
-  templateUrl: "./structures-edit.component.html"
+  templateUrl: "./structures-edit.component.html",
 })
 export class StructuresEditComponent implements OnInit {
   public title: string;
@@ -60,31 +60,31 @@ export class StructuresEditComponent implements OnInit {
       capacite: [this.structure.capacite, []],
       codePostal: [
         this.structure.codePostal,
-        [Validators.pattern(regexp.postcode), Validators.required]
+        [Validators.pattern(regexp.postcode), Validators.required],
       ],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, []],
       email: [
         this.structure.email,
-        [Validators.required, Validators.pattern(regexp.email)]
+        [Validators.required, Validators.pattern(regexp.email)],
       ],
       nom: [this.structure.nom, [Validators.required]],
       options: this.formBuilder.group({
         colis: [this.structure.options.colis, []],
         customId: [this.structure.options.customId, []],
-        numeroBoite: [this.structure.options.numeroBoite, []]
+        numeroBoite: [this.structure.options.numeroBoite, []],
       }),
       phone: [
         this.structure.phone,
-        [Validators.required, Validators.pattern(regexp.phone)]
+        [Validators.required, Validators.pattern(regexp.phone)],
       ],
       rattachement: [this.structure.rattachement, []],
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
-        prenom: [this.structure.responsable.prenom, [Validators.required]]
+        prenom: [this.structure.responsable.prenom, [Validators.required]],
       }),
-      ville: [this.structure.ville, [Validators.required]]
+      ville: [this.structure.ville, [Validators.required]],
     });
 
     if (this.structure.structureType === "asso") {
@@ -115,7 +115,7 @@ export class StructuresEditComponent implements OnInit {
           this.authService.currentUserValue.structure = structure;
           this.router.navigate(["/mon-compte"]);
         },
-        error => {
+        (error) => {
           this.notifService.error("Veuillez vérifier les champs du formulaire");
         }
       );

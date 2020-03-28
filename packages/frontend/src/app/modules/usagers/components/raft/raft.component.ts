@@ -11,7 +11,7 @@ import { motifsRadiation } from "../../usagers.labels";
   providers: [UsagerService, AuthService],
   selector: "app-raft",
   styleUrls: ["./raft.component.css"],
-  templateUrl: "./raft.component.html"
+  templateUrl: "./raft.component.html",
 })
 export class RaftComponent implements OnInit {
   public title: string;
@@ -24,7 +24,7 @@ export class RaftComponent implements OnInit {
   constructor(
     private usagerService: UsagerService,
     private authService: AuthService,
-    private printService: PrintService,
+    public printService: PrintService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -37,7 +37,7 @@ export class RaftComponent implements OnInit {
 
   public ngOnInit() {
     if (this.route.snapshot.params.id) {
-      this.authService.currentUser.subscribe(user => {
+      this.authService.currentUser.subscribe((user) => {
         this.user = user;
       });
 
@@ -45,7 +45,7 @@ export class RaftComponent implements OnInit {
         (usager: Usager) => {
           this.usager = usager;
         },
-        error => {
+        (error) => {
           this.router.navigate(["/404"]);
         }
       );

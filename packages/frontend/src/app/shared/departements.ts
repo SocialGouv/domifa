@@ -101,5 +101,5 @@ export const departements = {
   "974": "La Réunion",
   "976": "Mayotte",
   "987": "Polynésie Française",
-  "988": "Nouvelle Calédonie"
+  "988": "Nouvelle Calédonie",
 };

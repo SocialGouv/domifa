@@ -8,7 +8,7 @@ import { Structure } from "../../structure.interface";
 @Component({
   selector: "app-structures-search",
   styleUrls: ["./structures-search.component.css"],
-  templateUrl: "./structures-search.component.html"
+  templateUrl: "./structures-search.component.html",
 })
 export class StructuresSearchComponent implements OnInit {
   public structures: Structure[];
@@ -35,8 +35,8 @@ export class StructuresSearchComponent implements OnInit {
     this.codePostalForm = this.formBuilder.group({
       codePostal: [
         this.codePostal,
-        [Validators.pattern(regexp.postcode), Validators.required]
-      ]
+        [Validators.pattern(regexp.postcode), Validators.required],
+      ],
     });
   }
 

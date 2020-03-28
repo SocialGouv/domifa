@@ -9,6 +9,7 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbModal,
+  NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { LoadingService } from "../../../loading/loading.service";
@@ -30,6 +31,10 @@ import { Usager } from "../../interfaces/usager";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
+import {
+  minDateNaissance,
+  maxDateNaissance,
+} from "src/app/shared/bootstrap-util";
 
 @Component({
   providers: [
@@ -49,6 +54,7 @@ export class UsagersProfilComponent implements OnInit {
   public editTransfertForm: boolean;
   public editProcurationForm: boolean;
   public editCustomId: boolean;
+  public submitted: boolean;
 
   public interactions: Interaction[];
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
@@ -75,8 +81,12 @@ export class UsagersProfilComponent implements OnInit {
   public notifInputs: { [key: string]: any };
 
   public structure: Structure;
+
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
+
+  public minDateNaissance: NgbDateStruct;
+  public maxDateNaissance: NgbDateStruct;
 
   constructor(
     private documentService: DocumentService,
@@ -96,12 +106,16 @@ export class UsagersProfilComponent implements OnInit {
     this.editInfos = false;
     this.editProcurationForm = false;
     this.editTransfertForm = false;
+    this.submitted = false;
 
     this.interactions = [];
     this.labels = usagersLabels;
     this.editCustomId = false;
     this.liensLabels = Object.keys(this.labels.lienParente);
     this.structure = this.authService.currentUserValue.structure;
+
+    this.minDateNaissance = minDateNaissance;
+    this.maxDateNaissance = maxDateNaissance;
 
     this.title = "Fiche d'un domicilié";
     this.usager = new Usager();
@@ -203,6 +217,7 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public updateInfos() {
+    this.submitted = true;
     if (this.usagerForm.invalid) {
       this.notifService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
@@ -223,6 +238,7 @@ export class UsagersProfilComponent implements OnInit {
 
       this.usagerService.create(this.usagerForm.value).subscribe(
         (usager: Usager) => {
+          this.submitted = false;
           this.notifService.success("Enregistrement réussi");
           this.usager = usager;
           this.editInfos = false;
@@ -485,6 +501,10 @@ export class UsagersProfilComponent implements OnInit {
         this.notifService.error("Impossible de supprimer la fiche");
       }
     );
+  }
+
+  public closeModal() {
+    this.modalService.dismissAll();
   }
 
   private getInteractions() {

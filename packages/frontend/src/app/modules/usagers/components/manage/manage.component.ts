@@ -3,7 +3,7 @@ import {
   ElementRef,
   OnInit,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -25,7 +25,7 @@ import { InteractionService } from "../../services/interaction.service";
   providers: [UsagerService],
   selector: "app-manage-usagers",
   styleUrls: ["./manage.css"],
-  templateUrl: "./manage.html"
+  templateUrl: "./manage.html",
 })
 export class ManageUsagersComponent implements OnInit {
   public title: string;
@@ -38,7 +38,7 @@ export class ManageUsagersComponent implements OnInit {
     INSTRUCTION: "Dossier débuté le",
     RADIE: "Radié le ",
     REFUS: "Date de refus",
-    VALIDE: "Fin de domiciliation"
+    VALIDE: "Fin de domiciliation",
   };
 
   public notifs: { [key: string]: any } = interactionsNotifs;
@@ -61,7 +61,7 @@ export class ManageUsagersComponent implements OnInit {
     private usagerService: UsagerService,
     private interactionService: InteractionService,
     private authService: AuthService,
-    private modalService: NgbModal,
+    public modalService: NgbModal,
     private router: Router,
     private notifService: ToastrService
   ) {
@@ -78,7 +78,7 @@ export class ManageUsagersComponent implements OnInit {
       INSTRUCTION: 0,
       RADIE: 0,
       REFUS: 0,
-      VALIDE: 0
+      VALIDE: 0,
     };
   }
 
@@ -139,7 +139,7 @@ export class ManageUsagersComponent implements OnInit {
       INSTRUCTION: "usager/" + usager.id + "/edit",
       RADIE: "usager/" + usager.id,
       REFUS: "usager/" + usager.id,
-      VALIDE: "usager/" + usager.id
+      VALIDE: "usager/" + usager.id,
     };
 
     if (
@@ -165,7 +165,7 @@ export class ManageUsagersComponent implements OnInit {
       transfert?: boolean;
     } = {
       content: "",
-      type
+      type,
     };
 
     if (type === "courrierOut" && usager.options.procuration.actif) {
@@ -188,7 +188,7 @@ export class ManageUsagersComponent implements OnInit {
         usager.lastInteraction = response.lastInteraction;
         this.notifService.success(this.notifs[type]);
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
       }
     );
@@ -208,7 +208,7 @@ export class ManageUsagersComponent implements OnInit {
           REFUS: 0,
           RENOUVELLEMENT: 0,
           TOUS: 0,
-          VALIDE: 0
+          VALIDE: 0,
         };
       }
     });
@@ -229,7 +229,7 @@ export class ManageUsagersComponent implements OnInit {
         this.usagers = usagers;
         this.searching = false;
       },
-      error => {
+      (error) => {
         this.searching = false;
         this.notifService.error("Une erreur a eu lieu lors de la recherche");
       }

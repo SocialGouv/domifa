@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
 import { Structure } from "../structure.interface";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class StructureService {
   public http: HttpClient;
@@ -22,7 +22,7 @@ export class StructureService {
 
   public findMyStructure(): Observable<Structure> {
     return this.http.get(`${this.endPoint}/ma-structure`).pipe(
-      map(response => {
+      map((response) => {
         return new Structure(response);
       })
     );
@@ -42,7 +42,7 @@ export class StructureService {
 
   public patch(structure: Structure): Observable<any> {
     return this.http.patch(`${this.endPoint}`, structure).pipe(
-      map(response => {
+      map((response) => {
         return new Structure(response);
       })
     );

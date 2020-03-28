@@ -3,8 +3,7 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
-  Validators
+  Validators,
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
@@ -18,7 +17,7 @@ import { Structure } from "../../structure.interface";
 @Component({
   selector: "app-structures-form",
   styleUrls: ["./structures-form.component.css"],
-  templateUrl: "./structures-form.component.html"
+  templateUrl: "./structures-form.component.html",
 })
 export class StructuresFormComponent implements OnInit {
   public title: string;
@@ -31,12 +30,12 @@ export class StructuresFormComponent implements OnInit {
   public etapeInscription: number;
   public etapes = [
     "Enregistrement de la structure",
-    "Création du compte personnel"
+    "Création du compte personnel",
   ];
 
   public structureInscription = {
     etapeInscription: 0,
-    structureId: 0
+    structureId: 0,
   };
 
   constructor(
@@ -52,7 +51,7 @@ export class StructuresFormComponent implements OnInit {
 
     this.structureInscription = {
       etapeInscription: 0,
-      structureId: 0
+      structureId: 0,
     };
   }
 
@@ -69,32 +68,32 @@ export class StructuresFormComponent implements OnInit {
       capacite: [this.structure.capacite, []],
       codePostal: [
         this.structure.codePostal,
-        [Validators.pattern(regexp.postcode), Validators.required]
+        [Validators.pattern(regexp.postcode), Validators.required],
       ],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, []],
       email: [
         this.structure.email,
         [Validators.required, Validators.pattern(regexp.email)],
-        this.validateEmailNotTaken.bind(this)
+        this.validateEmailNotTaken.bind(this),
       ],
       id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
       phone: [
         this.structure.phone,
-        [Validators.required, Validators.pattern(regexp.phone)]
+        [Validators.required, Validators.pattern(regexp.phone)],
       ],
       rattachement: [this.structure.rattachement, []],
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
-        prenom: [this.structure.responsable.prenom, [Validators.required]]
+        prenom: [this.structure.responsable.prenom, [Validators.required]],
       }),
       structureType: [this.structure.structureType, [Validators.required]],
-      ville: [this.structure.ville, [Validators.required]]
+      ville: [this.structure.ville, [Validators.required]],
     });
 
-    this.structureForm.get("structureType").valueChanges.subscribe(value => {
+    this.structureForm.get("structureType").valueChanges.subscribe((value) => {
       this.structureForm.get("agrement").setValidators(null);
       this.structureForm.get("departement").setValidators(null);
       this.structureForm.get("rattachement").setValidators(null);
@@ -133,7 +132,7 @@ export class StructuresFormComponent implements OnInit {
           this.structureInscription.etapeInscription = 1;
           this.structureInscription.structureId = structure.id;
         },
-        error => {
+        (error) => {
           this.notifService.error("Veuillez vérifier les champs du formulaire");
         }
       );

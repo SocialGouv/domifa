@@ -1,9 +1,7 @@
-<div
-  class="container"
-  *ngIf="usager">
+<div class="container" *ngIf="usager">
   <div class="row">
     <div class="col text-left">
-      <a [routerLink]="['/usager/' + usager.id ]">
+      <a [routerLink]="['/usager/' + usager.id]">
         <fa-icon icon="angle-left"></fa-icon>
         Retour au profil
       </a>
@@ -15,31 +13,35 @@
       </a>
     </div>
   </div>
-  <div
-    class="row"
-    *ngIf="usager.decision.statut !== 'RADIE'">
+  <div class="row" *ngIf="usager.decision.statut !== 'RADIE'">
     <div class="col-md-8 offset-2 text-center">
       <h4 id="profil_name">Fin de domiciliation</h4>
       <p>
         Vous souhaitez mettre fin à la domiciliation de
         <b>
-          {{ usager.nomComplet }} né le {{ usager.dateNaissance | date: 'dd/MM/yyyy'  }}.
+          {{ usager.nomComplet }} né le
+          {{ usager.dateNaissance | date: "dd/MM/yyyy" }}.
         </b>
-        <br>
-        <br>
-        la radiation peut avoir de lourdes conséquences et laisser une personne sans adresse.
-        <br>
-        Elle doit être notifiée par écrit à l’intéressé et motivée, avec mention des voies et délais de recours.
-        <br>
+        <br />
+        <br />
+        la radiation peut avoir de lourdes conséquences et laisser une personne
+        sans adresse.
+        <br />
+        Elle doit être notifiée par écrit à l’intéressé et motivée, avec mention
+        des voies et délais de recours.
+        <br />
       </p>
 
       <div class="row">
         <div class="col-md-8 offset-2 text-left">
-          <p class="text-center font-weight-bold">Merci d’indiquer le motif :</p>
+          <p class="text-center font-weight-bold">
+            Merci d’indiquer le motif :
+          </p>
 
           <div
             class="form-row"
-            *ngFor="let motif of motifsRadiation | keyvalue">
+            *ngFor="let motif of motifsRadiation | keyvalue"
+          >
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -47,10 +49,9 @@
                 name="motif"
                 id="{{ motif.key }}"
                 [(ngModel)]="usager.decision.motif"
-                value="{{ motif.key }}">
-              <label
-                class="form-check-label"
-                for="{{ motif.key }}">
+                value="{{ motif.key }}"
+              />
+              <label class="form-check-label" for="{{ motif.key }}">
                 {{ motif.value }}
               </label>
             </div>
@@ -64,20 +65,15 @@
                 name="motif"
                 id="AUTRE"
                 [(ngModel)]="usager.decision.motif"
-                value="AUTRE">
-              <label
-                class="form-check-label"
-                for="AUTRE">
+                value="AUTRE"
+              />
+              <label class="form-check-label" for="AUTRE">
                 Autre motif
               </label>
             </div>
           </div>
-          <div
-            *ngIf="usager.decision.motif === 'AUTRE'"
-            class="form-row">
-            <label
-              class="form-check-label"
-              for="motifRadiationAutre">
+          <div *ngIf="usager.decision.motif === 'AUTRE'" class="form-row">
+            <label class="form-check-label" for="motifRadiationAutre">
               Motif de la radiation
               <span class="red">*</span>
             </label>
@@ -85,21 +81,23 @@
               type="text"
               class="form-control"
               id="motifRadiationAutre"
-              [(ngModel)]="usager.decision.motifDetails">
-            <small
-              id="radiationAutres"
-              class="form-text text-muted">
+              [(ngModel)]="usager.decision.motifDetails"
+            />
+            <small id="radiationAutres" class="form-text text-muted">
               10 caractères minimum
             </small>
           </div>
-          <br>
+          <br />
           <div class="text-center">
             <button
               [disabled]="
-            (usager.decision.motif === 'AUTRE' && usager.decision.motifDetails.length < 10) ||
-            usager.decision.motif === ''"
+                (usager.decision.motif === 'AUTRE' &&
+                  usager.decision.motifDetails.length < 10) ||
+                usager.decision.motif === ''
+              "
               class="btn btn-primary"
-              (click)="setDecision('RADIE')">
+              (click)="setDecision('RADIE')"
+            >
               Confirmer la radiation
             </button>
           </div>
@@ -107,86 +105,97 @@
       </div>
     </div>
   </div>
-  <div
-    class="row"
-    *ngIf="usager.decision.statut === 'RADIE'">
+  <div class="row" *ngIf="usager.decision.statut === 'RADIE'">
     <div class="col-md-12 text-center">
       <h4 id="profil_name">Radiation confirmée</h4>
       <p>
         {{ usager.nomComplet }}
-         a été radié{{ usager.sexe === "homme" ? "" : "e" }} le {{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}
+        a été radié{{ usager.sexe === "homme" ? "" : "e" }} le
+        {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
         pour le motif suivant :
       </p>
       <p class="font-weight-bold">
         {{ motifsRadiation[usager.decision.motif] }}
-        <span *ngIf="usager.decision.motif === 'AUTRE'">{{ usager.decision.motifDetails }}</span>
+        <span *ngIf="usager.decision.motif === 'AUTRE'">{{
+          usager.decision.motifDetails
+        }}</span>
       </p>
       <p>
-        Cette personne ne fait plus partie de la liste des domiciliées dans votre structure.
-        <br>
+        Cette personne ne fait plus partie de la liste des domiciliées dans
+        votre structure.
+        <br />
         Vous pourrez retrouver son dossier sous
         <b>le filtre « Radiés ».</b>
       </p>
       <button
         (click)="printService.printDiv('courrier-radiation')"
-        class="btn btn-primary">
+        class="btn btn-primary"
+      >
         <fa-icon icon="print"></fa-icon>
-        &ensp;
-        IMPRIMER LE COURRIER DE RADIATION
+        &ensp; IMPRIMER LE COURRIER DE RADIATION
       </button>
-      <br>
-      <br>
+      <br />
+      <br />
       <a routerLink="/manage/">
         <fa-icon icon="angle-left"></fa-icon>
         Retour à la liste des domiciliés
       </a>
-      <br>
+      <br />
     </div>
     <div id="courrier-radiation">
       <div class="text-right">
-        {{ usager.nom }} {{ usager.prenom }}
-        <br>
+        {{ usager.nom }} {{ usager.prenom }}
+        <br />
         {{ user.structure.nom }}
-        <br>
+        <br />
         {{ user.structure.adresse }}
-        <br>
+        <br />
         {{ user.structure.ville }}, {{ user.structure.codePostal }}
-        <br>
-        <br>
-        Le {{ today | date: 'dd/MM/yyyy' }}
+        <br />
+        <br />
+        Le {{ today | date: "dd/MM/yyyy" }}
       </div>
-      <br>
-      <br>
+      <br />
+      <br />
       <div class="text-left">
         {{ usager.sexe === "homme" ? "Monsieur" : "Madame" }},
-        <br>
-        <br>
+        <br />
+        <br />
         <p>
-          Conformément aux dispositions des articles L. 264-1 et suivants et D.264-1 et suivants
-        du code de l’action sociale et des familles relatifs à la domiciliation des personnes sans domicile,
-        vous bénéficiez d’une élection de domicile
-          <span *ngIf="user.structure.structureType === 'asso'">au sein de l'organisme</span>
+          Conformément aux dispositions des articles L. 264-1 et suivants et
+          D.264-1 et suivants du code de l’action sociale et des familles
+          relatifs à la domiciliation des personnes sans domicile, vous
+          bénéficiez d’une élection de domicile
+          <span *ngIf="user.structure.structureType === 'asso'"
+            >au sein de l'organisme</span
+          >
           <span *ngIf="user.structure.structureType === 'ccas '">au</span>
           {{ user.structure.nom }}
         </p>
         <p>
-          Vous avez été informé(e) des modalités de durée et de renouvellement de la domiciliation.
-        Mes services m’ont indiqué que :
+          Vous avez été informé(e) des modalités de durée et de renouvellement
+          de la domiciliation. Mes services m’ont indiqué que :
         </p>
         <p class="font-weight-bold text-center">{{ usager.decision.motif }}</p>
         <p>
-          C’est pourquoi je porte à votre connaissance que je fais procéder à la fin de votre domiciliation auprès
+          C’est pourquoi je porte à votre connaissance que je fais procéder à la
+          fin de votre domiciliation auprès
           <b>
-            <span *ngIf="user.structure.structureType === 'asso'">de l'organisme</span>
+            <span *ngIf="user.structure.structureType === 'asso'"
+              >de l'organisme</span
+            >
             <span *ngIf="user.structure.structureType === 'ccas '">du</span>
             {{ user.structure.nom }}
           </b>
         </p>
         <p>
-          Vos courriers seront donc réexpédiés avec la mention « Pli Non Distribuable ».
-          <br>
-          <br>
-          En application des dispositions des articles R 312-1 et R 421-1 du code de justice administrative, la présente décision peut être contestée dans un délai de 2 mois à compter de sa notification :
+          Vos courriers seront donc réexpédiés avec la mention « Pli Non
+          Distribuable ».
+          <br />
+          <br />
+          En application des dispositions des articles R 312-1 et R 421-1 du
+          code de justice administrative, la présente décision peut être
+          contestée dans un délai de 2 mois à compter de sa notification :
         </p>
         <ul>
           <li>
@@ -196,20 +205,23 @@
             Par recours contentieux devant le tribunal administratif référent
           </li>
         </ul>
-        <br>
+        <br />
         <p>
-          Je vous prie de croire, {{ usager.sexe === "homme" ? "Monsieur" : "Madame" }}, en l’assurance de mes salutations distinguées.
+          Je vous prie de croire,
+          {{ usager.sexe === "homme" ? "Monsieur" : "Madame" }}, en l’assurance
+          de mes salutations distinguées.
         </p>
-        <br>
+        <br />
         <div class="text-right">
           <b>
-            {{ user.structure.responsable.nom }} {{ user.structure.responsable.prenom }}
+            {{ user.structure.responsable.nom }}
+            {{ user.structure.responsable.prenom }}
           </b>
-          <br>
-          {{ user.structure.responsable.fonction}}
-          <br>
+          <br />
+          {{ user.structure.responsable.fonction }}
+          <br />
           {{ user.structure.adresse }}
-          <br>
+          <br />
           {{ user.structure.ville }}, {{ user.structure.codePostal }}
         </div>
       </div>

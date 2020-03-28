@@ -14,7 +14,7 @@ describe("StructureService", () => {
   let service: StructureService;
   let authService: AuthService;
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, RouterModule.forRoot([])],
       providers: [
@@ -25,10 +25,10 @@ describe("StructureService", () => {
         {
           multi: true,
           provide: HTTP_INTERCEPTORS,
-          useClass: ServerErrorInterceptor
-        }
+          useClass: ServerErrorInterceptor,
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
     service = TestBed.get(StructureService);
@@ -38,10 +38,10 @@ describe("StructureService", () => {
       .login("ccastest@yopmail.com", "Azerty012345")
       .pipe(first())
       .subscribe(
-        user => {
+        (user) => {
           done();
         },
-        error => {
+        (error) => {
           done();
         }
       );

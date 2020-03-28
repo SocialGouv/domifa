@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
-  NgbModal
+  NgbModal,
+  NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { Doc } from "src/app/modules/usagers/interfaces/document";
@@ -25,6 +26,10 @@ import * as labels from "../../usagers.labels";
 
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Decision } from "../../interfaces/decision";
+import {
+  minDateNaissance,
+  maxDateNaissance,
+} from "src/app/shared/bootstrap-util";
 
 @Component({
   animations: [fadeInOut],
@@ -32,11 +37,11 @@ import { Decision } from "../../interfaces/decision";
     UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-usagers-form",
   styleUrls: ["./usagers-form.css"],
-  templateUrl: "./usagers-form.html"
+  templateUrl: "./usagers-form.html",
 })
 export class UsagersFormComponent implements OnInit {
   public title: string;
@@ -47,23 +52,19 @@ export class UsagersFormComponent implements OnInit {
 
   /* Config datepickers */
   public dToday = new Date();
-  public maxDateNaissance = {
-    day: this.dToday.getDate(),
-    month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear()
-  };
-  public minDateNaissance = { day: 1, month: 1, year: 1900 };
+  public maxDateNaissance: NgbDateStruct;
+  public minDateNaissance: NgbDateStruct;
 
   public minDateRdv = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear()
+    year: this.dToday.getFullYear(),
   };
 
   public maxDateRdv = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear() + 2
+    year: this.dToday.getFullYear() + 2,
   };
 
   public etapes = [
@@ -71,7 +72,7 @@ export class UsagersFormComponent implements OnInit {
     "Prise de RDV",
     "Entretien",
     "Pièces justificatives",
-    "Décision finale"
+    "Décision finale",
   ];
 
   /* RDV */
@@ -122,6 +123,9 @@ export class UsagersFormComponent implements OnInit {
     this.doublons = [];
     this.documents = [];
     this.liensLabels = Object.keys(this.labels.lienParente);
+
+    this.minDateNaissance = minDateNaissance;
+    this.maxDateNaissance = maxDateNaissance;
   }
 
   public ngOnInit() {
@@ -141,7 +145,7 @@ export class UsagersFormComponent implements OnInit {
             this.usager.decision = new Decision({});
           }
         },
-        error => {
+        (error) => {
           this.router.navigate(["404"]);
         }
       );
@@ -158,7 +162,7 @@ export class UsagersFormComponent implements OnInit {
       dateNaissance: [this.usager.dateNaissance, []],
       dateNaissancePicker: [
         this.usager.dateNaissancePicker,
-        [Validators.required]
+        [Validators.required],
       ],
       decision: [this.usager.decision, []],
       email: [this.usager.email, [Validators.email]],
@@ -169,14 +173,14 @@ export class UsagersFormComponent implements OnInit {
       preference: this.formBuilder.group({
         aucun: [this.usager.preference.aucun, []],
         email: [this.usager.preference.email, []],
-        phone: [this.usager.preference.phone, []]
+        phone: [this.usager.preference.phone, []],
       }),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       structure: [this.usager.structure, []],
       surnom: [this.usager.surnom, []],
       typeDom: [this.usager.typeDom],
-      villeNaissance: [this.usager.villeNaissance, [Validators.required]]
+      villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });
 
     this.rdvForm = this.formBuilder.group({
@@ -184,13 +188,13 @@ export class UsagersFormComponent implements OnInit {
       heureRdv: [this.usager.rdv.heureRdv, [Validators.required]],
       isNow: [this.usager.rdv.isNow, []],
       jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
-      userId: [this.usager.id, Validators.required]
+      userId: [this.usager.id, Validators.required],
     });
 
     this.userService.getUsers().subscribe((users: User[]) => {
       this.agents = users;
       this.rdvForm.controls.userId.setValue(users[0].id, {
-        onlySelf: true
+        onlySelf: true,
       });
     });
   }
@@ -217,7 +221,7 @@ export class UsagersFormComponent implements OnInit {
           this.doublons = [];
           if (usagersDoublon.length !== 0) {
             this.notifService.warning("Un homonyme potentiel a été détecté !");
-            usagersDoublon.forEach(doublon => {
+            usagersDoublon.forEach((doublon) => {
               this.doublons.push(new Usager(doublon));
             });
           }
@@ -250,11 +254,11 @@ export class UsagersFormComponent implements OnInit {
     return this.formBuilder.group({
       dateNaissance: [
         ayantDroit.dateNaissance,
-        [Validators.pattern(regexp.date), Validators.required]
+        [Validators.pattern(regexp.date), Validators.required],
       ],
       lien: [ayantDroit.lien, Validators.required],
       nom: [ayantDroit.nom, Validators.required],
-      prenom: [ayantDroit.prenom, Validators.required]
+      prenom: [ayantDroit.prenom, Validators.required],
     });
   }
 
@@ -300,7 +304,7 @@ export class UsagersFormComponent implements OnInit {
           this.usager = usager;
           this.router.navigate(["usager/" + usager.id + "/edit"]);
         },
-        error => {
+        (error) => {
           if (error.statusCode && error.statusCode === 400) {
             this.notifService.error(
               "Veuillez vérifiez les champs du formulaire"
@@ -341,7 +345,7 @@ export class UsagersFormComponent implements OnInit {
         this.goToTop();
         this.notifService.success("Rendez-vous enregistré");
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible d'enregistrer le rendez-vous");
       }
     );
@@ -373,7 +377,7 @@ export class UsagersFormComponent implements OnInit {
         this.notifService.success("Usager supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible de supprimer la fiche");
       }
     );
@@ -383,7 +387,7 @@ export class UsagersFormComponent implements OnInit {
     window.scroll({
       behavior: "smooth",
       left: 0,
-      top: 0
+      top: 0,
     });
   }
 }

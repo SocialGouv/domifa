@@ -13,7 +13,7 @@ import { UsersService } from "../../services/users.service";
 @Component({
   selector: "app-user-profil",
   styleUrls: ["./user-profil.component.css"],
-  templateUrl: "./user-profil.component.html"
+  templateUrl: "./user-profil.component.html",
 })
 export class UserProfilComponent implements OnInit {
   public title: string;
@@ -60,7 +60,7 @@ export class UserProfilComponent implements OnInit {
       });
 
     this.hardResetForm = this.formBuilder.group({
-      token: ["", [Validators.required]]
+      token: ["", [Validators.required]],
     });
   }
 
@@ -81,7 +81,7 @@ export class UserProfilComponent implements OnInit {
             " est désormais actif"
         );
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible de confirmer l'utilisateur");
       }
     );
@@ -99,7 +99,7 @@ export class UserProfilComponent implements OnInit {
             " ont été mit à jour avec succès"
         );
       },
-      error => {
+      (error) => {
         this.notifService.error(
           "Impossible de mettre à jour le rôle de l'utilisateur"
         );
@@ -114,7 +114,7 @@ export class UserProfilComponent implements OnInit {
         this.modalService.dismissAll();
         this.notifService.success("Utilisateur supprimé avec succès");
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible de supprimer l'utilisateur");
       }
     );

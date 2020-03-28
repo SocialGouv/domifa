@@ -7,14 +7,14 @@ import {
   isToday,
   padNumber,
   toInteger,
-  toString
+  toString,
 } from "../shared/bootstrap-util";
 
 import { NgbDateCustomParserFormatter } from "./date-formatter";
 describe("NgbDateCustomParserFormatter", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [NgbDateCustomParserFormatter]
+      providers: [NgbDateCustomParserFormatter],
     });
   });
 
@@ -59,7 +59,7 @@ describe("NgbDateCustomParserFormatter", () => {
       expect(service.parse("20/12/1991")).toEqual({
         day: 20,
         month: 12,
-        year: 1991
+        year: 1991,
       });
     }
   ));
@@ -70,7 +70,7 @@ describe("NgbDateCustomParserFormatter", () => {
       expect(service.parse("20/12")).toEqual({
         day: 20,
         month: 12,
-        year: null
+        year: null,
       });
     }
   ));
@@ -81,7 +81,7 @@ describe("NgbDateCustomParserFormatter", () => {
       expect(service.parse("20")).toEqual({
         day: 20,
         month: null,
-        year: null
+        year: null,
       });
     }
   ));
@@ -93,14 +93,14 @@ describe("NgbDateCustomParserFormatter", () => {
         service.format({
           day: 20,
           month: 12,
-          year: 1991
+          year: 1991,
         })
       ).toEqual("20/12/1991");
       expect(
         service.format({
           day: 1,
           month: 2,
-          year: 1991
+          year: 1991,
         })
       ).toEqual("01/02/1991");
 
@@ -108,7 +108,7 @@ describe("NgbDateCustomParserFormatter", () => {
         service.format({
           day: 8,
           month: 9,
-          year: 1991
+          year: 1991,
         })
       ).toEqual("08/09/1991");
 
@@ -116,7 +116,7 @@ describe("NgbDateCustomParserFormatter", () => {
         service.formatEn({
           day: 20,
           month: 12,
-          year: 1991
+          year: 1991,
         })
       ).toEqual("1991-12-20");
 
@@ -124,7 +124,7 @@ describe("NgbDateCustomParserFormatter", () => {
         service.formatEn({
           day: 8,
           month: 2,
-          year: 1909
+          year: 1909,
         })
       ).toEqual("1909-02-08");
     }

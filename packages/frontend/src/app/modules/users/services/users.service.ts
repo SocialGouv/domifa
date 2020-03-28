@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
 import { User } from "../interfaces/user";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class UsersService {
   public http: HttpClient;
@@ -18,7 +18,7 @@ export class UsersService {
 
   public getUser(id: number) {
     return this.http.get(`${this.endPoint}/${id}`).pipe(
-      map(response => {
+      map((response) => {
         return new User(response);
       })
     );
@@ -30,7 +30,7 @@ export class UsersService {
 
   public create(data: any) {
     return this.http.post(`${this.endPoint}`, data).pipe(
-      map(response => {
+      map((response) => {
         return new User(response);
       })
     );
@@ -38,9 +38,9 @@ export class UsersService {
 
   public getUsers(): Observable<User[]> {
     return this.http.get(`${this.endPoint}`).pipe(
-      map(response => {
+      map((response) => {
         return Array.isArray(response)
-          ? response.map(item => new User(item))
+          ? response.map((item) => new User(item))
           : [new User(response)];
       })
     );
@@ -48,9 +48,9 @@ export class UsersService {
 
   public getNewUsers() {
     return this.http.get(`${this.endPoint}/to-confirm`).pipe(
-      map(response => {
+      map((response) => {
         return Array.isArray(response)
-          ? response.map(item => new User(item))
+          ? response.map((item) => new User(item))
           : [new User(response)];
       })
     );
@@ -58,7 +58,7 @@ export class UsersService {
 
   public confirmUser(id: number) {
     return this.http.get(`${this.endPoint}/confirm/${id}`).pipe(
-      map(response => {
+      map((response) => {
         return new User(response);
       })
     );
@@ -66,7 +66,7 @@ export class UsersService {
 
   public updateRole(id: number, role: string) {
     return this.http.get(`${this.endPoint}/update-role/${id}/${role}`).pipe(
-      map(response => {
+      map((response) => {
         return new User(response);
       })
     );

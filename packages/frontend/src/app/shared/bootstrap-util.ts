@@ -54,6 +54,13 @@ export function formatDateToNgb(date: Date): NgbDateStruct | null {
   return {
     day: date.getDate(),
     month: date.getMonth() + 1,
-    year: date.getFullYear()
+    year: date.getFullYear(),
   };
 }
+
+export const minDateNaissance = { day: 1, month: 1, year: 1900 };
+export const maxDateNaissance = {
+  day: this.dToday.getDate(),
+  month: this.dToday.getMonth() + 1,
+  year: this.dToday.getFullYear(),
+};

@@ -3,28 +3,25 @@
     <div *ngIf="successConfirm">
       <fa-icon
         class="fa-4x text-success"
-        [icon]="['far', 'check-circle']"></fa-icon>
-      <br>
-      <br>
+        [icon]="['far', 'check-circle']"
+      ></fa-icon>
+      <br />
+      <br />
       <h3 class="text-success">Nouvelle structure enregistrée</h3>
       <p class="text-center">
         Un mail vient d'être transmis à l'administrateur pour l'informer.
       </p>
     </div>
     <div *ngIf="successDelete">
-      <fa-icon
-        class="fa-4x text-success"
-        icon="trash"></fa-icon>
-      <br>
-      <br>
+      <fa-icon class="fa-4x text-success" icon="trash"></fa-icon>
+      <br />
+      <br />
       <h3 class="text-success">Structure supprimée avec succès</h3>
       <p class="text-center"></p>
     </div>
     <div *ngIf="error">
-      <fa-icon
-        class="fa-4x text-danger"
-        icon="times"></fa-icon>
-      <br>
+      <fa-icon class="fa-4x text-danger" icon="times"></fa-icon>
+      <br />
       <h3 class="text-danger">La structure n'a pas pu être validée</h3>
       <p class="text-center">
         Merci de vérifier le lien reçu par email.
@@ -33,7 +30,8 @@
     <a
       [routerLink]="['/']"
       class="btn btn-primary"
-      routerLinkActive="router-link-active">
+      routerLinkActive="router-link-active"
+    >
       Retour à l'accueil
     </a>
   </div>

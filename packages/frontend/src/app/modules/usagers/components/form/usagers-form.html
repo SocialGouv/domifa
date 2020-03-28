@@ -126,7 +126,7 @@
             <label for="nom">Nom</label>
             <input
               type="text"
-              class="form-control "
+              class="form-control"
               id="nom"
               formControlName="nom"
               (blur)="isDoublon()"
@@ -148,7 +148,7 @@
             <label for="prenom">Prénom(s)</label>
             <input
               type="text"
-              class="form-control "
+              class="form-control"
               id="prenom"
               formControlName="prenom"
               (blur)="isDoublon()"
@@ -168,7 +168,7 @@
             <label for="surnom">Surnom ou prénom d'usage</label>
             <input
               type="text"
-              class="form-control "
+              class="form-control"
               id="surnom"
               formControlName="surnom"
               placeholder="Surnom / Nom d'usage"
@@ -416,7 +416,7 @@
           <br />
           <div
             formArrayName="ayantsDroits"
-            *ngFor="let ayantDroit of f.ayantsDroits.controls; let i = index"
+            *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
           >
             <div [formGroupName]="i" class="row">
               <div class="col form-group required">
@@ -428,13 +428,13 @@
                   formControlName="nom"
                   [ngClass]="{
                     'is-invalid':
-                      submitted && f.ayantsDroits.controls[i].get('nom').errors
+                      submitted && ayantsDroits.controls[i].get('nom').errors
                   }"
                   placeholder="Nom de l'ayant droit"
                 />
                 <div
                   *ngIf="
-                    submitted && f.ayantsDroits.controls[i].get('nom').errors
+                    submitted && ayantsDroits.controls[i].get('nom').errors
                   "
                   class="invalid-feedback"
                 >
@@ -451,12 +451,12 @@
                   [ngClass]="{
                     'is-invalid':
                       submitted &&
-                      f.ayantsDroits.controls[i].get('prenom').errors
+                      ayantsDroits.controls[i].get('prenom').errors
                   }"
                   placeholder="Prénom"
                 />
                 <div
-                  *ngIf="submitted && f.ayantsDroits.controls[i].get('prenom').errors"
+                  *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
                   class="invalid-feedback"
                 >
                   Le prénom est obligatoire
@@ -472,14 +472,14 @@
                   [ngClass]="{
                     'is-invalid':
                       submitted &&
-                      f.ayantsDroits.controls[i].get('dateNaissance').errors
+                      ayantsDroits.controls[i].get('dateNaissance').errors
                   }"
                   formControlName="dateNaissance"
                 />
                 <div
                   *ngIf="
                     submitted &&
-                    f.ayantsDroits.controls[i].get('dateNaissance').errors"
+                    ayantsDroits.controls[i].get('dateNaissance').errors"
                   class="invalid-feedback"
                 >
                   <div>La date de naissance est obligatoire</div>
