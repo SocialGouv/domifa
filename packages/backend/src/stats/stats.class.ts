@@ -177,6 +177,7 @@ export class Stats {
         RUPTURE: 0,
         SORTIE_STRUCTURE: 0,
         VIOLENCE: 0,
+        NON_RENSEIGNE: 0,
       },
       Q_22: {
         ERRANCE: 0,

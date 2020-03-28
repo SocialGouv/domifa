@@ -3,7 +3,7 @@ import {
   ExecutionContext,
   HttpException,
   HttpStatus,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { UsagersService } from "../usagers/services/usagers.service";

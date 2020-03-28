@@ -3,12 +3,13 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from "@angular/router";
 
 import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { AuthService } from "../services/auth.service";
+import { User } from "../modules/users/interfaces/user";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivate {
@@ -19,12 +20,12 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
     return this.authService.me().pipe(
-      map(isLogged => {
+      map((user: User) => {
         return true;
       }),
       catchError((err: any) => {
         this.router.navigate(["/connexion"], {
-          queryParams: { returnUrl: state.url }
+          queryParams: { returnUrl: state.url },
         });
         return of(false);
       })

@@ -3,7 +3,7 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from "@angular/router";
 
 import { Observable } from "rxjs";
@@ -18,15 +18,14 @@ export class LoggedGuard implements CanActivate {
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean> | boolean {
+  ): Observable<boolean> {
     return this.authService.isAuth().pipe(
-      map(isLogged => {
+      map((isLogged: boolean) => {
         if (isLogged) {
           this.router.navigate(["/manage"]);
           return false;
-        } else {
-          return true;
         }
+        return true;
       })
     );
   }

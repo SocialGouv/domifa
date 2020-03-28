@@ -1,170 +1,153 @@
-<div class="container">
+<div class="container" *ngIf="authService.currentUserValue !== null">
   <div class="row">
     <div class="col-md-10 offset-1">
       <h4>Mon compte</h4>
       <div class="row">
         <div class="col-md-10">
           Bienvenue
-          {{ authService.currentUserValue.nom }}
-          {{ authService.currentUserValue.prenom }}
+          {{ authService.currentUserValue.nom }}
+          {{ authService.currentUserValue.prenom }}
         </div>
         <div class="col-md-2">
-          <button
-            class="btn btn-primary"
-            (click)="logout()">
+          <button class="btn btn-primary" (click)="logout()">
             Déconnexion
             <fa-icon icon="sign-out-alt"></fa-icon>
           </button>
         </div>
       </div>
 
-      <br>
+      <br />
 
       <h4 *ngIf="newUsers && newUsers.length > 0">
         Nouveaux utilisateurs à confirmer
         <span id="new-users">{{ newUsers.length }}</span>
       </h4>
-      <div
-        *ngIf="newUsers"
-        class="list-group">
-        <div
-          class="list-group-item"
-          *ngFor="let user of newUsers">
+      <div *ngIf="newUsers" class="list-group">
+        <div class="list-group-item" *ngFor="let user of newUsers">
           <div class="row">
             <div class="col text-left">
               <b>{{ user.nom }} {{ user.prenom }}</b>
-              <br>
+              <br />
               {{ user.email }}
             </div>
             <div class="col text-right">
               <button
                 *ngIf="authService.isAdmin && !user.verified"
                 (click)="confirmUser(user.id)"
-                class="btn btn-secondary">
-                <fa-icon
-                  icon="check"
-                  class="btn-icon"></fa-icon>
+                class="btn btn-secondary"
+              >
+                <fa-icon icon="check" class="btn-icon"></fa-icon>
                 Valider
               </button>
               &nbsp;
               <button
-                *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
+                *ngIf="
+                  authService.isAdmin &&
+                  authService.currentUserValue.id !== user.id
+                "
                 (click)="open(deleteUserConfirmation); selectedUser = user.id"
-                class="btn btn-danger">
-                <fa-icon
-                  icon="trash"
-                  class="btn-icon"></fa-icon>
+                class="btn btn-danger"
+              >
+                <fa-icon icon="trash" class="btn-icon"></fa-icon>
                 Supprimer
               </button>
             </div>
           </div>
         </div>
-
       </div>
 
       <h4 *ngIf="newUsers">Membres actifs</h4>
-      <div
-        *ngIf="users"
-        class="list-group">
-        <div
-          class="list-group-item"
-          *ngFor="let user of users">
+      <div *ngIf="users" class="list-group">
+        <div class="list-group-item" *ngFor="let user of users">
           <div class="row">
             <div class="col-5 text-left">
               <b>{{ user.nom }} {{ user.prenom }}</b>
               <span class="user-icon">
-                <span
-                  *ngIf="user.role === 'admin'"
-                  class="badge badge-primary">
+                <span *ngIf="user.role === 'admin'" class="badge badge-primary">
                   Administrateur
                 </span>
-                <span
-                  *ngIf="!user.verified"
-                  class="badge badge-warning">
+                <span *ngIf="!user.verified" class="badge badge-warning">
                   Non activé
                 </span>
               </span>
-              <br>
+              <br />
               {{ user.email }}
             </div>
             <div
-              *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
-              class="col-3 text-center">
+              *ngIf="
+                authService.isAdmin &&
+                authService.currentUserValue.id !== user.id
+              "
+              class="col-3 text-center"
+            >
               <select
-                id="role_{{i}}"
+                id="role_{{ i }}"
                 (change)="updateRole(user.id, $event.target.value)"
-                class="custom-select">
-                <option
-                  [selected]="user.role === 'admin' "
-                  value="admin">
+                class="custom-select"
+              >
+                <option [selected]="user.role === 'admin'" value="admin">
                   Administrateur
                 </option>
-                <option
-                  [selected]="user.role === 'simple' "
-                  value="simple">
+                <option [selected]="user.role === 'simple'" value="simple">
                   Instructeur
                 </option>
               </select>
             </div>
             <div class="col-4 text-right">
               <button
-                *ngIf="authService.isAdmin && authService.currentUserValue.id !== user.id"
-                (click)="open(deleteUserConfirmation);selectedUser = user.id"
-                class="btn btn-danger">
+                *ngIf="
+                  authService.isAdmin &&
+                  authService.currentUserValue.id !== user.id
+                "
+                (click)="open(deleteUserConfirmation); selectedUser = user.id"
+                class="btn btn-danger"
+              >
                 <fa-icon icon="trash"></fa-icon>
                 Supprimer
               </button>
             </div>
           </div>
-
         </div>
       </div>
 
-      <br>
+      <br />
 
       <h4>Informations de ma structure</h4>
-      <div
-        class="list-group-item"
-        *ngIf="structure">
-
+      <div class="list-group-item" *ngIf="structure">
         <div class="row">
           <div class="col-8">
             <b>{{ structure.nom }}</b>
-            <br>
+            <br />
             {{ structure.adresse }}
             <span *ngIf="structure.complementAdresse">
               , {{ structure.complementAdresse }}
-              <br>
+              <br />
             </span>
             {{ structure.ville }} - {{ structure.codePostal }}
           </div>
-          <div
-            class="col-4 text-right"
-            *ngIf="authService.isAdmin">
+          <div class="col-4 text-right" *ngIf="authService.isAdmin">
             <a
               [routerLink]="['/structure-edit']"
               routerLinkActive="router-link-active"
-              class="btn btn-outline-dark">
-              <fa-icon
-                icon="edit"
-                class="btn-icon"></fa-icon>
+              class="btn btn-outline-dark"
+            >
+              <fa-icon icon="edit" class="btn-icon"></fa-icon>
               Modifier les informations
             </a>
           </div>
         </div>
       </div>
 
-      <br>
+      <br />
       <div *ngIf="authService.isAdmin">
         <h4>Remise à zéro</h4>
         <div class="list-group">
           <div class="list-group-item">
             <button
-              (click)="open(hardResetConfirmation);"
-              class="btn btn-outline-danger">
-              <fa-icon
-                icon="trash"
-                class="btn-icon"></fa-icon>
+              (click)="open(hardResetConfirmation)"
+              class="btn btn-outline-danger"
+            >
+              <fa-icon icon="trash" class="btn-icon"></fa-icon>
               Supprimer tous les usagers
             </button>
           </div>
@@ -173,47 +156,37 @@
     </div>
   </div>
 </div>
-<ng-template
-  #deleteUserConfirmation
-  let-modal>
+<ng-template #deleteUserConfirmation let-modal>
   <div class="modal-body text-center">
     <h4>Confirmer la suppression</h4>
     <div class="col">
-      Vous êtes sur le point de supprimer le compte de cet utilisateur.
-      Une fois supprimé, l'utilisateur ne pourra plus se connecter.
-      <br>
+      Vous êtes sur le point de supprimer le compte de cet utilisateur. Une fois
+      supprimé, l'utilisateur ne pourra plus se connecter.
+      <br />
       Veuillez indiquer la date de début et de fin de la domiciliation
-      <br>
-      <br>
+      <br />
+      <br />
     </div>
   </div>
   <div class="modal-footer text-center">
-    <button
-      class="btn btn-outline-dark"
-      (click)="modal.close()">
+    <button class="btn btn-outline-dark" (click)="modal.close()">
       Annuler
     </button>
-    <button
-      class="btn btn-primary"
-      (click)="deleteUser()">
+    <button class="btn btn-primary" (click)="deleteUser()">
       Confirmer la suppression
     </button>
   </div>
 </ng-template>
-<ng-template
-  #hardResetConfirmation
-  let-modal>
+<ng-template #hardResetConfirmation let-modal>
   <div class="modal-body">
     <h4 class="text-danger">Suppression de tous les dossiers</h4>
-    <div
-      class="col"
-      *ngIf="!hardResetCode">
+    <div class="col" *ngIf="!hardResetCode">
       Vous êtes sur le point de
       <b>supprimer TOUS LES DOMICILIÉS</b>
       de votre structure.
-      <br>
+      <br />
       Si vous choisissez de continuer, les données suivantes seront supprimées:
-      <br>
+      <br />
       <ul class="text-left">
         <li>
           Tous les dossiers : demandes, domiciliés actifs, radiés, etc.
@@ -223,26 +196,27 @@
           Toutes les interactions (courriers, appels, etc.)
         </li>
       </ul>
-      <br>
+      <br />
       <b>
         Vous n'aurez aucun moyen de restaurer les dossiers effacés.
       </b>
-      <br>
+      <br />
       Pour finaliser cette procédure, cliquez sur "continuer".
-      <br>
+      <br />
     </div>
-    <div
-      class="col text-center"
-      *ngIf="showHardReset">
-      <br>
-      <br>
+    <div class="col text-center" *ngIf="showHardReset">
+      <br />
+      <br />
       <form
         [formGroup]="hardResetForm"
         (ngSubmit)="hardResetConfirm()"
-        class="col-12">
+        class="col-12"
+      >
         <div class="form-group">
-          <label for="hard-reset-input">Veuillez saisir le code reçu par email</label>
-          <div class=" offset-md-2 col-md-8">
+          <label for="hard-reset-input"
+            >Veuillez saisir le code reçu par email</label
+          >
+          <div class="offset-md-2 col-md-8">
             <input
               type="text"
               class="form-control"
@@ -251,29 +225,26 @@
               formControlName="token"
               maxlength="7"
               minlength="7"
-              required>
+              required
+            />
           </div>
         </div>
       </form>
     </div>
   </div>
   <div class="modal-footer text-center">
-    <button
-      class="btn btn-outline-dark"
-      (click)="modal.close()">
+    <button class="btn btn-outline-dark" (click)="modal.close()">
       Annuler
     </button>
-    <button
-      class="btn btn-danger"
-      *ngIf="!showHardReset"
-      (click)="hardReset()">
+    <button class="btn btn-danger" *ngIf="!showHardReset" (click)="hardReset()">
       Continuer
     </button>
     <button
       class="btn btn-danger"
       *ngIf="showHardReset"
       [disabled]="hardResetForm.invalid"
-      (click)="hardResetConfirm()">
+      (click)="hardResetConfirm()"
+    >
       Confirmer la suppression
     </button>
   </div>

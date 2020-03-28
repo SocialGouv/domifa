@@ -9,7 +9,7 @@ import { fadeInOut } from "./shared/animations";
   animations: [fadeInOut],
   selector: "app-root",
   styleUrls: ["./app.component.css"],
-  templateUrl: "./app.component.html"
+  templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
   public title: string;
@@ -38,16 +38,16 @@ export class AppComponent implements OnInit {
     this.help = false;
     this.newsLabels = {
       bug: "Améliorations",
-      new: "Nouveauté"
+      new: "Nouveauté",
     };
 
     this.domifaNews = null;
 
     this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
 
-    this.authService.isAuth().subscribe(isAuth => {
+    this.authService.isAuth().subscribe((isAuth) => {
       if (isAuth) {
-        this.getJSON().subscribe(domifaNews => {
+        this.getJSON().subscribe((domifaNews) => {
           this.domifaNews = domifaNews[0];
           const lastNews = localStorage.getItem("lastNews");
           if (
@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
             (lastNews && new Date(lastNews) <= new Date(domifaNews[0].date))
           ) {
             this.modal = this.modalService.open(this.newsCenter, {
-              backdrop: "static"
+              backdrop: "static",
             });
           }
         });

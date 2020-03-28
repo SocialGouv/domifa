@@ -15,11 +15,11 @@ import { JwtStrategy } from "./jwt.strategy";
     JwtModule.register({
       secret: new ConfigService().get("SECRET"),
       signOptions: {
-        expiresIn: 36000
-      }
+        expiresIn: 36000,
+      },
     }),
-    forwardRef(() => UsersModule)
+    forwardRef(() => UsersModule),
   ],
-  providers: [AuthService, JwtStrategy]
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

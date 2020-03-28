@@ -32,6 +32,7 @@ import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
 import { AuthService } from "./services/auth.service";
 import { RavenErrorHandler } from "./interceptors/sentry.interceptor";
+import { environment } from "src/environments/environment";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -62,6 +63,9 @@ import { RavenErrorHandler } from "./interceptors/sentry.interceptor";
     ReactiveFormsModule,
   ],
   providers: [
+    environment.production
+      ? { provide: ErrorHandler, useClass: RavenErrorHandler }
+      : [],
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       deps: [Router, AuthService],
@@ -69,7 +73,6 @@ import { RavenErrorHandler } from "./interceptors/sentry.interceptor";
       provide: HTTP_INTERCEPTORS,
       useClass: ServerErrorInterceptor,
     },
-    { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

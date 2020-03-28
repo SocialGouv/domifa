@@ -3,7 +3,7 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators
+  Validators,
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
@@ -19,7 +19,7 @@ import { UsersService } from "../../services/users.service";
   animations: [fadeInOut],
   selector: "app-register-user",
   styleUrls: ["./register-user.component.css"],
-  templateUrl: "./register-user.component.html"
+  templateUrl: "./register-user.component.html",
 })
 export class RegisterUserComponent implements OnInit {
   public title: string;
@@ -69,7 +69,7 @@ export class RegisterUserComponent implements OnInit {
         email: [
           this.user.email,
           [Validators.pattern(regexp.email), Validators.required],
-          this.validateEmailNotTaken.bind(this)
+          this.validateEmailNotTaken.bind(this),
         ],
         fonction: [this.user.fonction, Validators.required],
         nom: [this.user.nom, Validators.required],
@@ -78,19 +78,19 @@ export class RegisterUserComponent implements OnInit {
           Validators.compose([
             Validators.required,
             PasswordValidator.patternValidator(/\d/, {
-              hasNumber: true
+              hasNumber: true,
             }),
             PasswordValidator.patternValidator(/[A-Z]/, {
-              hasCapitalCase: true
+              hasCapitalCase: true,
             }),
-            Validators.minLength(12)
-          ])
+            Validators.minLength(12),
+          ]),
         ],
         prenom: [this.user.prenom, Validators.required],
-        structureId: [this.user.structureId, []]
+        structureId: [this.user.structureId, []],
       },
       {
-        validator: PasswordValidator.passwordMatchValidator
+        validator: PasswordValidator.passwordMatchValidator,
       }
     );
   }

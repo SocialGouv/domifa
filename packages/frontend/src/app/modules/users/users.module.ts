@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -20,13 +20,13 @@ import { UsersService } from "./services/users.service";
     RegisterUserComponent,
     LoginComponent,
     ResetPasswordComponent,
-    UserProfilComponent
+    UserProfilComponent,
   ],
   exports: [
     RegisterUserComponent,
     LoginComponent,
     ResetPasswordComponent,
-    UserProfilComponent
+    UserProfilComponent,
   ],
   imports: [
     CommonModule,
@@ -40,13 +40,14 @@ import { UsersService } from "./services/users.service";
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 2000
+      timeOut: 2000,
     }),
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [UsersService]
+  providers: [UsersService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class UsersModule {}

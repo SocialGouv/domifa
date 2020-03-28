@@ -30,7 +30,7 @@ export class MailerService {
         {
           From: {
             Email: "contact.domifa@fabrique.social.gouv.fr",
-            Name: "Domifa"
+            Name: "Domifa",
           },
           Subject: "Nouvelle structure sur Domifa : " + structure.nom,
           TemplateID: 987764,
@@ -38,8 +38,8 @@ export class MailerService {
           To: [
             {
               Email: "contact.domifa@fabrique.social.gouv.fr",
-              Name: "Domifa"
-            }
+              Name: "Domifa",
+            },
           ],
           Variables: {
             adresse: structure.adresse,
@@ -62,10 +62,10 @@ export class MailerService {
             user_email: user.email,
             user_nom: user.nom,
             user_prenom: user.prenom,
-            ville: structure.ville
-          }
-        }
-      ]
+            ville: structure.ville,
+          },
+        },
+      ],
     });
   }
 
@@ -76,25 +76,25 @@ export class MailerService {
         {
           From: {
             Email: "contact.domifa@fabrique.social.gouv.fr",
-            Name: "Domifa"
+            Name: "Domifa",
           },
           Subject: "Nouvelle création de compte à valider",
           TemplateID: 988278,
           TemplateLanguage: true,
           To: [
             {
-              Email: admin.email
-            }
+              Email: admin.email,
+            },
           ],
           Variables: {
             admin_prenom: admin.prenom,
             lien: lienConnexion,
             user_email: user.email,
             user_nom: user.nom,
-            user_prenom: user.prenom
-          }
-        }
-      ]
+            user_prenom: user.prenom,
+          },
+        },
+      ],
     });
   }
 
@@ -108,7 +108,7 @@ export class MailerService {
         {
           From: {
             Email: "contact.domifa@fabrique.social.gouv.fr",
-            Name: "Domifa"
+            Name: "Domifa",
           },
           Subject: "Changement du mot de passe Domifa",
           TemplateID: 973152,
@@ -116,15 +116,15 @@ export class MailerService {
           To: [
             {
               Email: user.email,
-              Name: "Domifa"
-            }
+              Name: "Domifa",
+            },
           ],
           Variables: {
             lien: confirmationLink,
-            prenom: user.prenom
-          }
-        }
-      ]
+            prenom: user.prenom,
+          },
+        },
+      ],
     });
   }
 
@@ -136,22 +136,22 @@ export class MailerService {
         {
           From: {
             Email: "contact.domifa@fabrique.social.gouv.fr",
-            Name: "Domifa"
+            Name: "Domifa",
           },
           Subject: "Votre compte Domifa a été activé",
           TemplateID: 986336,
           TemplateLanguage: true,
           To: [
             {
-              Email: user.email
-            }
+              Email: user.email,
+            },
           ],
           Variables: {
             lien: lienConnexion,
-            prenom: user.prenom
-          }
-        }
-      ]
+            prenom: user.prenom,
+          },
+        },
+      ],
     });
   }
 
@@ -164,7 +164,7 @@ export class MailerService {
         {
           From: {
             Email: "contact.domifa@fabrique.social.gouv.fr",
-            Name: "Domifa"
+            Name: "Domifa",
           },
           Subject: "Votre compte Domifa a été activé",
           TemplateID: 1001644,
@@ -172,17 +172,17 @@ export class MailerService {
           To: [
             {
               Email: user.email,
-              Name: "Domifa"
-            }
+              Name: "Domifa",
+            },
           ],
 
           Variables: {
             lien: this.configService.get("FRONT_URL"),
             nom_structure: structure.nom,
-            prenom: user.prenom
-          }
-        }
-      ]
+            prenom: user.prenom,
+          },
+        },
+      ],
     });
   }
 
@@ -192,22 +192,22 @@ export class MailerService {
         {
           From: {
             Email: "contact.domifa@fabrique.social.gouv.fr",
-            Name: "Domifa"
+            Name: "Domifa",
           },
           Subject: "Code de confirmation Domifa",
           TemplateID: 1206179,
           TemplateLanguage: true,
           To: [
             {
-              Email: user.email
-            }
+              Email: user.email,
+            },
           ],
           Variables: {
             code: token,
-            prenom: user.prenom
-          }
-        }
-      ]
+            prenom: user.prenom,
+          },
+        },
+      ],
     });
   }
 }

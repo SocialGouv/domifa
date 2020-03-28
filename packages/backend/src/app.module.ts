@@ -27,18 +27,18 @@ import { UsersModule } from "./users/users.module";
     RavenModule,
     StatsModule,
     HealthModule,
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
   ],
   providers: [
     {
       provide: APP_INTERCEPTOR,
-      useValue: new RavenInterceptor()
+      useValue: new RavenInterceptor(),
     },
     {
       provide: ConfigService,
-      useValue: new ConfigService()
+      useValue: new ConfigService(),
     },
-    MailerService
-  ]
+    MailerService,
+  ],
 })
 export class AppModule {}

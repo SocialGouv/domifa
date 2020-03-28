@@ -7,7 +7,7 @@ import {
   Post,
   Req,
   Response,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
@@ -28,7 +28,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   public async loginUser(@Response() res: any, @Body() loginDto: LoginDto) {
     const user: User = await this.usersService.findOne({
-      email: loginDto.email.toLowerCase()
+      email: loginDto.email.toLowerCase(),
     });
 
     if (user) {
@@ -47,7 +47,7 @@ export class AuthController {
         const accessToken = await this.authService.login(user);
 
         this.usersService.update(user.id, user.structureId, {
-          lastLogin: new Date()
+          lastLogin: new Date(),
         });
 
         return res.status(HttpStatus.OK).json(accessToken);
@@ -67,9 +67,7 @@ export class AuthController {
   public me(@Response() res: any, @Req() request: any) {
     const user = request.user;
     if (!user || user === null) {
-      return res
-        .status(HttpStatus.FORBIDDEN)
-        .json({ message: "WRONG_CREDENTIALS" });
+      return res.status(HttpStatus.UNAUTHORIZED).json({});
     }
 
     return res.status(HttpStatus.OK).json({
@@ -80,7 +78,7 @@ export class AuthController {
       prenom: user.prenom,
       role: user.role,
       structure: user.structure,
-      structureId: user.structureId
+      structureId: user.structureId,
     });
   }
 }

@@ -4,10 +4,11 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpHeaderResponse,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable, throwError } from "rxjs";
+import { Observable, throwError, of } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 import { AuthService } from "../services/auth.service";
 
@@ -20,7 +21,6 @@ export class ServerErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      retry(1),
       catchError((error: HttpErrorResponse) => {
         let errorMessage = "";
         if (error.error instanceof ErrorEvent) {
@@ -28,14 +28,9 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         } else {
           if (error.status === 401) {
             this.authService.logout();
-            return;
-          } else if (error.status === 501) {
-            this.authService.logout();
-            this.router.navigate(["connexion"]);
-          } else {
-            return throwError(error);
           }
         }
+        return throwError(error);
       })
     );
   }

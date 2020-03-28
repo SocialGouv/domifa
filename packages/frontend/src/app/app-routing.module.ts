@@ -33,9 +33,21 @@ export const routes: Routes = [
     component: LoginComponent,
     path: "connexion",
   },
-  { path: "inscription", component: StructuresSearchComponent },
-  { path: "structures/nouveau", component: StructuresFormComponent },
-  { path: "structure-edit", component: StructuresEditComponent },
+  {
+    canActivate: [LoggedGuard],
+    path: "inscription",
+    component: StructuresSearchComponent,
+  },
+  {
+    canActivate: [LoggedGuard],
+    path: "structures/nouveau",
+    component: StructuresFormComponent,
+  },
+  {
+    canActivate: [AuthGuard],
+    path: "structure-edit",
+    component: StructuresEditComponent,
+  },
   {
     component: StructuresConfirmComponent,
     path: "structures/confirm/:token",
@@ -72,8 +84,13 @@ export const routes: Routes = [
     component: ResetPasswordComponent,
     path: "reset-password/:token",
   },
-  { path: "nouveau", component: UsagersFormComponent },
   {
+    canActivate: [AuthGuard],
+    path: "nouveau",
+    component: UsagersFormComponent,
+  },
+  {
+    canActivate: [AuthGuard],
     component: UsagersFormComponent,
     path: "usager/:id/edit",
   },

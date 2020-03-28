@@ -10,7 +10,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: new ConfigService().get("SECRET")
+      secretOrKey: new ConfigService().get("SECRET"),
     });
   }
   public async validate(payload: JwtPayload) {

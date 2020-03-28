@@ -6,7 +6,7 @@ import {
   ActivatedRouteSnapshot,
   Router,
   RouterModule,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from "@angular/router";
 import { AuthService } from "../services/auth.service";
 import { AuthGuard } from "./auth-guard";
@@ -26,18 +26,18 @@ describe("AuthGuard", () => {
         {
           provide: ActivatedRouteSnapshot,
           useValue: {
-            params: { id: 1 }
-          }
+            params: { id: 1 },
+          },
         },
         {
           provide: RouterStateSnapshot,
           useValue: {
-            params: { url: "/connexion" }
-          }
+            params: { url: "/connexion" },
+          },
         },
         AuthService,
-        { provide: APP_BASE_HREF, useValue: "/" }
-      ]
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
     });
 
     authService = TestBed.get(AuthService);

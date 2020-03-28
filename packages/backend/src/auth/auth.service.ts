@@ -19,10 +19,10 @@ export class AuthService {
       nom: user.nom,
       prenom: user.prenom,
       role: user.role,
-      structure: user.structure
+      structure: user.structure,
     };
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -35,7 +35,7 @@ export class AuthService {
 
     if (!user.lastLogin) {
       return this.usersService.update(user.id, user.structureId, {
-        lastLogin: new Date()
+        lastLogin: new Date(),
       });
     }
     return user;

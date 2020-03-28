@@ -62,8 +62,14 @@ export class AuthService {
     if (!this.currentUserValue) {
       return of(false);
     }
+
     return this.me().pipe(
-      map((retour) => {
+      map((retour: any) => {
+        if (Object.keys(retour).length === 0) {
+          this.logout();
+          return false;
+        }
+
         const user = new User(retour);
         user.token = this.currentUserValue.token;
         localStorage.setItem("currentUser", JSON.stringify(user));

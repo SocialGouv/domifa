@@ -11,16 +11,9 @@ import { UsersService } from "../../services/users.service";
 @Component({
   selector: "app-reset-password",
   styleUrls: ["./reset-password.component.css"],
-  templateUrl: "./reset-password.component.html"
+  templateUrl: "./reset-password.component.html",
 })
 export class ResetPasswordComponent implements OnInit {
-  get e() {
-    return this.emailForm.controls;
-  }
-
-  get f() {
-    return this.resetForm.controls;
-  }
   public title: string;
 
   public emailForm!: FormGroup;
@@ -33,6 +26,14 @@ export class ResetPasswordComponent implements OnInit {
   public hidePasswordConfirm: boolean;
   public token?: string;
   public errorLabels: any;
+
+  get e() {
+    return this.emailForm.controls;
+  }
+
+  get f() {
+    return this.resetForm.controls;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,11 +53,11 @@ export class ResetPasswordComponent implements OnInit {
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
       this.userService.checkPasswordToken(token).subscribe(
-        response => {
+        (response) => {
           this.token = token;
           this.initPasswordForm();
         },
-        error => {
+        (error) => {
           const errorMessage =
             (error.error.message === this.errorLabels[error.error.message]) !==
             undefined
@@ -71,7 +72,7 @@ export class ResetPasswordComponent implements OnInit {
 
   public initEmailForm() {
     this.emailForm = this.formBuilder.group({
-      email: [null, [Validators.email, Validators.required]]
+      email: [null, [Validators.email, Validators.required]],
     });
   }
 
@@ -84,18 +85,18 @@ export class ResetPasswordComponent implements OnInit {
           Validators.compose([
             Validators.required,
             PasswordValidator.patternValidator(/\d/, {
-              hasNumber: true
+              hasNumber: true,
             }),
             PasswordValidator.patternValidator(/[A-Z]/, {
-              hasCapitalCase: true
+              hasCapitalCase: true,
             }),
-            Validators.minLength(12)
-          ])
+            Validators.minLength(12),
+          ]),
         ],
-        token: [this.token, Validators.required]
+        token: [this.token, Validators.required],
       },
       {
-        validator: PasswordValidator.passwordMatchValidator
+        validator: PasswordValidator.passwordMatchValidator,
       }
     );
   }
@@ -107,7 +108,7 @@ export class ResetPasswordComponent implements OnInit {
         (user: any) => {
           this.success = true;
         },
-        error => {
+        (error) => {
           const errorMessage =
             error.error.message === "EMAIL_NOT_EXIST"
               ? "Veuillez vérifier l'adresse email"

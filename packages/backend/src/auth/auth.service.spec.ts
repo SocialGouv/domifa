@@ -14,12 +14,12 @@ describe("AuthService", () => {
         JwtModule.register({
           secretOrPrivateKey: "secretKey",
           signOptions: {
-            expiresIn: 3600
-          }
+            expiresIn: 3600,
+          },
         }),
-        UsersModule
+        UsersModule,
       ],
-      providers: [AuthService]
+      providers: [AuthService],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
