@@ -20,7 +20,7 @@ describe("Interactions Controller", () => {
     app = await Test.createTestingModule({
       controllers: [InteractionsController],
       imports: [DatabaseModule, UsersModule, UsagersModule],
-      providers: [InteractionsService, ...InteractionsProviders]
+      providers: [InteractionsService, ...InteractionsProviders],
     }).compile();
     controller = app.get<InteractionsController>(InteractionsController);
 

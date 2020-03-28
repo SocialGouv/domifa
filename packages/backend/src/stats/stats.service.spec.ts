@@ -18,9 +18,9 @@ describe("StatsService", () => {
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),
         forwardRef(() => UsagersModule),
-        forwardRef(() => InteractionsModule)
+        forwardRef(() => InteractionsModule),
       ],
-      providers: [StatsService, ...StatsProviders]
+      providers: [StatsService, ...StatsProviders],
     }).compile();
 
     service = module.get<StatsService>(StatsService);

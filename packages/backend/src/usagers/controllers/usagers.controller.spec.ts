@@ -23,8 +23,8 @@ describe("Usagers Controller", () => {
         CerfaService,
         UsagersService,
         DocumentsService,
-        ...UsagersProviders
-      ]
+        ...UsagersProviders,
+      ],
     }).compile();
 
     controller = app.get<UsagersController>(UsagersController);

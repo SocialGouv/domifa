@@ -5,19 +5,26 @@ module.exports = {
       stringifyContentPathRegex: "\\.html$",
       astTransformers: [
         "./node_modules/jest-preset-angular/build/InlineFilesTransformer",
-        "./node_modules/jest-preset-angular/build/StripStylesTransformer"
-      ]
-    }
+        "./node_modules/jest-preset-angular/build/StripStylesTransformer",
+      ],
+    },
   },
-  preset: "jest-preset-angular",
-  snapshotSerializers: [
-    "./node_modules/jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js",
-    "./node_modules/jest-preset-angular/build/AngularSnapshotSerializer.js",
-    "./node_modules/jest-preset-angular/build/HTMLCommentSerializer.js"
-  ],
+
+  transform: {
+    "^.+\\.(ts|js|html)$": "ts-jest",
+  },
+  moduleFileExtensions: ["ts", "html", "js", "json"],
   moduleNameMapper: {
-    "\\.(jpg|jpeg|png)$": "<rootDir>/__mocks__/image.js",
-    "^@lib/(.*)$": "<rootDir>/src/lib/$1"
+    "^src/(.*)$": "<rootDir>/src/$1",
+    "^app/(.*)$": "<rootDir>/src/app/$1",
+    "^assets/(.*)$": "<rootDir>/src/assets/$1",
+    "^environments/(.*)$": "<rootDir>/src/environments/$1",
   },
-  setupFilesAfterEnv: ["<rootDir>/src/setupJest.ts"]
+  transformIgnorePatterns: ["node_modules/(?!@ngrx)"],
+  setupFilesAfterEnv: ["<rootDir>/src/setupJest.ts"],
+  snapshotSerializers: [
+    "jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js",
+    "jest-preset-angular/build/AngularSnapshotSerializer.js",
+    "jest-preset-angular/build/HTMLCommentSerializer.js",
+  ],
 };

@@ -18,8 +18,8 @@ describe("DocumentsService", () => {
         UsagersService,
         CerfaService,
         DocumentsService,
-        ...UsagersProviders
-      ]
+        ...UsagersProviders,
+      ],
     }).compile();
 
     service = module.get<DocumentsService>(DocumentsService);

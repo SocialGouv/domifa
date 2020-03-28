@@ -5,6 +5,5 @@
     "types": ["jest", "node"]
   },
   "files": ["polyfills.ts"],
-
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

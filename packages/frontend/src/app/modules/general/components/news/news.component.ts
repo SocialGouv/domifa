@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 @Component({
   selector: "app-news",
   styleUrls: ["./news.component.css"],
-  templateUrl: "./news.component.html"
+  templateUrl: "./news.component.html",
 })
 export class NewsComponent implements OnInit {
   public title: string;
@@ -21,17 +21,11 @@ export class NewsComponent implements OnInit {
   public ngOnInit() {
     this.newsLabels = {
       bug: "Améliorations",
-      new: "Nouveauté"
+      new: "Nouveauté",
     };
 
-    this.getJSON().subscribe(domifaNews => {
+    this.getJSON().subscribe((domifaNews) => {
       this.domifaNews = domifaNews;
-    });
-
-    window.scroll({
-      behavior: "smooth",
-      left: 0,
-      top: 0
     });
   }
 

@@ -1,13 +1,7 @@
 <nav class="navbar navbar-expand-lg">
-  <a
-    class="navbar-brand"
-    routerLink="/">
-    <img
-      src="../assets/images/logo.png"
-      alt="Logo Domifa">
-    <span
-      id="nom-asso"
-      *ngIf="authService.isLogged">
+  <a class="navbar-brand" routerLink="/">
+    <img src="../assets/images/logo.png" alt="Logo Domifa" />
+    <span id="nom-asso" *ngIf="authService.isLogged">
       {{ authService.currentUserValue.structure.nom }}
     </span>
   </a>
@@ -18,13 +12,15 @@
     data-target="#navbarsDefault"
     aria-controls="navbarsDefault"
     aria-expanded="false"
-    aria-label="Toggle navigation">
+    aria-label="Toggle navigation"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
   <div
     [ngbCollapse]="isNavbarCollapsed"
     class="collapse navbar-collapse"
-    id="navbarsDefault">
+    id="navbarsDefault"
+  >
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active"></li>
     </ul>
@@ -32,62 +28,62 @@
       <a
         *ngIf="!authService.isLogged"
         routerLink="/inscription"
-        class="btn btn-outline-primary">
+        class="btn btn-outline-primary"
+      >
         S'inscrire
       </a>
       <a
         *ngIf="!authService.isLogged"
         routerLink="/connexion"
-        class="btn btn-outline-primary">
+        class="btn btn-outline-primary"
+      >
         Se connecter
       </a>
       <a
         *ngIf="authService.isLogged"
         routerLink="/manage"
-        class="btn btn-outline-primary">
+        class="btn btn-outline-primary"
+      >
         Liste des usagers
       </a>
       <a
         *ngIf="authService.isLogged"
         routerLink="/nouveau"
-        class="btn btn-outline-secondary">
-        <fa-icon
-          icon="plus"
-          class="btn-icon"></fa-icon>
+        class="btn btn-outline-secondary"
+      >
+        <fa-icon icon="plus" class="btn-icon"></fa-icon>
         Créer une demande
       </a>
       <a
         *ngIf="authService.isLogged"
         routerLink="/mon-compte"
-        class="btn btn-outline-primary">
+        class="btn btn-outline-primary"
+      >
         <fa-icon icon="user"></fa-icon>
       </a>
       <a
         *ngIf="authService.isLogged"
         routerLink="/import"
-        class="btn btn-primary">
+        class="btn btn-primary"
+      >
         <fa-icon icon="upload"></fa-icon>
       </a>
     </div>
   </div>
 </nav>
 <div id="page">
-
   <router-outlet></router-outlet>
-  <ng-template
-    #newsCenter
-    let-modal>
+  <ng-template #newsCenter let-modal>
     <div class="modal-header">
-      <h4
-        class="modal-title"
-        id="modal-basic-title">
+      <h4 class="modal-title" id="modal-basic-title">
         🎉 Les dernières nouveautés de Domifa 🎉
       </h4>
       <button
         type="button"
         class="close"
         aria-label="Fermer la fenêtre"
-        (click)="closeModal()">
+        (click)="closeModal()"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -95,21 +91,23 @@
       <div class="text-left">
         <p>
           <b>
-            {{ domifaNews.date | date: 'dd/MM/yyyy' }}
+            {{ domifaNews.date | date: "dd/MM/yyyy" }}
           </b>
           - {{ domifaNews.description }}
         </p>
-        <div
-          *ngFor="let content of domifaNews.content"
-          class="text-left news">
+        <div *ngFor="let content of domifaNews.content" class="text-left news">
           <span
             class="badge badge-pill"
-            [ngClass]=" { 'badge-primary': content.type === 'new','badge-warning': content.type === 'bug' } ">
-            {{ newsLabels[content.type] }}
+            [ngClass]="{
+              'badge-primary': content.type === 'new',
+              'badge-warning': content.type === 'bug'
+            }"
+          >
+            {{ newsLabels[content.type] }}
           </span>
           &nbsp;
           <b>{{ content.categorie }}</b>
-          <br>
+          <br />
           <ul>
             <li *ngFor="let message of content.message">{{ message }}</li>
           </ul>
@@ -117,33 +115,24 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button
-        class="btn btn-primary"
-        (click)="closeModal()">
+      <button class="btn btn-primary" (click)="closeModal()">
         Continuer sur Domifa
       </button>
     </div>
   </ng-template>
 </div>
 <div id="help-button-wrapper">
-  <div
-    id="help-text"
-    @fadeInOut
-    *ngIf="help">
+  <div id="help-text" @fadeInOut *ngIf="help">
     <span>Vous rencontrez un problème technique ?</span>
-    <br>
-    <a
-      target="_blank"
-      href="mailto:support.domifa@fabrique.social.gouv.fr">
+    <br />
+    <a target="_blank" href="mailto:support.domifa@fabrique.social.gouv.fr">
       Contactez-nous :
       <b>
         support.domifa[at]fabrique.social.gouv.fr
       </b>
     </a>
   </div>
-  <button
-    id="help-button"
-    (click)="help=!help">
+  <button id="help-button" (click)="help = !help">
     <fa-icon icon="question"></fa-icon>
   </button>
 </div>
@@ -152,40 +141,43 @@
     <img
       src="../assets/images/logoministere.svg"
       alt="Logo Domifa"
-      title="Logo Domifa">
-    <br>
+      title="Logo Domifa"
+    />
+    <br />
   </div>
   <div>
-    <a
-      [routerLink]="['/news']"
-      routerLinkActive="router-link-active">
+    <a [routerLink]="['/news']" routerLinkActive="router-link-active">
       Nouveautés
     </a>
   </div>
   <div>
-    <a
-      [routerLink]="['/faq']"
-      routerLinkActive="router-link-active">
+    <a [routerLink]="['/faq']" routerLinkActive="router-link-active">
       FAQ
     </a>
   </div>
   <div>
-    <a
-      [routerLink]="['/cgu']"
-      routerLinkActive="router-link-active">
+    <a [routerLink]="['/cgu']" routerLinkActive="router-link-active">
       Conditions d'utilisation
     </a>
   </div>
   <div>
     <a
       [routerLink]="['/mentions-legales']"
-      routerLinkActive="router-link-active">
+      routerLinkActive="router-link-active"
+    >
       Mentions légales
     </a>
   </div>
   <div>
+    <a
+      [routerLink]="['/confidentialite']"
+      routerLinkActive="router-link-active"
+    >
+      Politique de confidentialité
+    </a>
+  </div>
+  <div>
     <span class="small">© 2020 Fabrique des Ministères Sociaux</span>
-
   </div>
 </footer>
 

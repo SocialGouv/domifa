@@ -27,7 +27,7 @@ describe("Structure Service", () => {
   structureDto.responsable = {
     fonction: "Président",
     nom: "Hidalin",
-    prenom: "Marc"
+    prenom: "Marc",
   };
 
   beforeAll(async () => {
@@ -39,8 +39,8 @@ describe("Structure Service", () => {
         ...UsagersProviders,
         ...UsersProviders,
         ConfigService,
-        MailerService
-      ]
+        MailerService,
+      ],
     }).compile();
     service = module.get<StructuresService>(StructuresService);
   });

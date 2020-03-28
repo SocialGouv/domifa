@@ -11,7 +11,7 @@ describe("Stuctures Controller", () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [StructuresController],
       imports: [DatabaseModule, UsersModule, UsagersModule, InteractionsModule],
-      providers: [{ provide: StructuresService, useValue: {} }]
+      providers: [{ provide: StructuresService, useValue: {} }],
     }).compile();
 
     const controller = module.get<StructuresController>(StructuresController);

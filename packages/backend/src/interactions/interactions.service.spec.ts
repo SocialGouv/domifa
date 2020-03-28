@@ -24,9 +24,9 @@ describe("InteractionsService", () => {
         InteractionsModule,
         UsagersModule,
         UsersModule,
-        StructuresModule
+        StructuresModule,
       ],
-      providers: [InteractionsService, ...InteractionsProviders]
+      providers: [InteractionsService, ...InteractionsProviders],
     }).compile();
 
     service = app.get<InteractionsService>(InteractionsService);

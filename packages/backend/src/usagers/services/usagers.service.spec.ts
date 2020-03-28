@@ -29,7 +29,7 @@ describe("UsagersService", () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule, forwardRef(() => UsersModule)],
-      providers: [UsagersService, CerfaService, ...UsagersProviders]
+      providers: [UsagersService, CerfaService, ...UsagersProviders],
     }).compile();
 
     service = module.get<UsagersService>(UsagersService);

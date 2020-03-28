@@ -11,7 +11,7 @@ describe("UsersService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule, StructuresModule, UsersModule],
-      providers: [UsersService, ...UsersProviders]
+      providers: [UsersService, ...UsersProviders],
     }).compile();
     service = module.get<UsersService>(UsersService);
   });

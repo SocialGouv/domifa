@@ -5,6 +5,7 @@ import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/services/auth.service";
 import { fadeInOut } from "./shared/animations";
+import { Router, NavigationEnd } from "@angular/router";
 @Component({
   animations: [fadeInOut],
   selector: "app-root",
@@ -32,7 +33,8 @@ export class AppComponent implements OnInit {
     private matomoInjector: MatomoInjector,
     private matomoTracker: MatomoTracker,
     private modalService: NgbModal,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
     this.title = "Domifa";
     this.help = false;
@@ -63,6 +65,17 @@ export class AppComponent implements OnInit {
     });
   }
   public ngOnInit() {
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scroll({
+        behavior: "smooth",
+        left: 0,
+        top: 0,
+      });
+    });
+
     this.matomoTracker.setUserId("0");
   }
 

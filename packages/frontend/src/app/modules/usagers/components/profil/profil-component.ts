@@ -2,13 +2,13 @@ import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   interactionsLabels,
-  interactionsNotifs
+  interactionsNotifs,
 } from "../../interactions.labels";
 
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
-  NgbModal
+  NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { LoadingService } from "../../../loading/loading.service";
@@ -36,11 +36,11 @@ import * as usagersLabels from "../../usagers.labels";
     UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-profil",
   styleUrls: ["./profil.css"],
-  templateUrl: "./profil.html"
+  templateUrl: "./profil.html",
 })
 export class UsagersProfilComponent implements OnInit {
   public editInfos: boolean;
@@ -109,7 +109,7 @@ export class UsagersProfilComponent implements OnInit {
     this.notifInputs = {
       colisIn: 0,
       courrierIn: 0,
-      recommandeIn: 0
+      recommandeIn: 0,
     };
   }
 
@@ -124,11 +124,11 @@ export class UsagersProfilComponent implements OnInit {
             this.router.navigate(["/usager/" + usager.id + "/edit"]);
           }
           this.usager = usager;
-          this.goToTop();
+
           this.getInteractions();
           this.initForms();
         },
-        error => {
+        (error) => {
           this.router.navigate(["/404"]);
         }
       );
@@ -158,23 +158,23 @@ export class UsagersProfilComponent implements OnInit {
     this.transfertForm = this.formBuilder.group({
       adresse: [
         this.usager.options.transfert.adresse,
-        [Validators.required, Validators.minLength(10)]
+        [Validators.required, Validators.minLength(10)],
       ],
-      nom: [this.usager.options.transfert.nom, [Validators.required]]
+      nom: [this.usager.options.transfert.nom, [Validators.required]],
     });
 
     this.procurationForm = this.formBuilder.group({
       dateFin: [this.usager.options.procuration.dateFin],
       dateFinPicker: [
         this.usager.options.procuration.dateFinPicker,
-        [Validators.required]
+        [Validators.required],
       ],
       dateNaissance: [
         this.usager.options.procuration.dateNaissance,
-        [Validators.required]
+        [Validators.required],
       ],
       nom: [this.usager.options.procuration.nom, [Validators.required]],
-      prenom: [this.usager.options.procuration.prenom, [Validators.required]]
+      prenom: [this.usager.options.procuration.prenom, [Validators.required]],
     });
 
     this.usagerForm = this.formBuilder.group({
@@ -184,7 +184,7 @@ export class UsagersProfilComponent implements OnInit {
       dateNaissance: [this.usager.dateNaissance, []],
       dateNaissancePicker: [
         this.usager.dateNaissancePicker,
-        [Validators.required]
+        [Validators.required],
       ],
       email: [this.usager.email, [Validators.email]],
       id: [this.usager.id, []],
@@ -194,7 +194,7 @@ export class UsagersProfilComponent implements OnInit {
       sexe: [this.usager.sexe, Validators.required],
       structure: [this.usager.structure, []],
       surnom: [this.usager.surnom, []],
-      villeNaissance: [this.usager.villeNaissance, [Validators.required]]
+      villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });
 
     for (const ayantDroit of this.usager.ayantsDroits) {
@@ -228,7 +228,7 @@ export class UsagersProfilComponent implements OnInit {
           this.editInfos = false;
           this.editAyantsDroits = false;
         },
-        error => {
+        (error) => {
           if (error.statusCode && error.statusCode === 400) {
             this.notifService.error(
               "Veuillez vérifiez les champs du formulaire"
@@ -257,11 +257,11 @@ export class UsagersProfilComponent implements OnInit {
     return this.formBuilder.group({
       dateNaissance: [
         ayantDroit.dateNaissance,
-        [Validators.pattern(regexp.date), Validators.required]
+        [Validators.pattern(regexp.date), Validators.required],
       ],
       lien: [ayantDroit.lien, Validators.required],
       nom: [ayantDroit.nom, Validators.required],
-      prenom: [ayantDroit.prenom, Validators.required]
+      prenom: [ayantDroit.prenom, Validators.required],
     });
   }
 
@@ -275,7 +275,7 @@ export class UsagersProfilComponent implements OnInit {
           "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"
         );
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
       }
     );
@@ -302,7 +302,7 @@ export class UsagersProfilComponent implements OnInit {
         this.notifService.success("Usager supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible de supprimer la fiche");
       }
     );
@@ -315,7 +315,7 @@ export class UsagersProfilComponent implements OnInit {
           .setInteraction(this.usager, {
             content: "",
             nbCourrier: this.notifInputs[item],
-            type: item
+            type: item,
           })
           .subscribe(
             (usager: Usager) => {
@@ -325,7 +325,7 @@ export class UsagersProfilComponent implements OnInit {
               this.notifInputs[item] = 0;
               this.getInteractions();
             },
-            error => {
+            (error) => {
               this.notifService.error(
                 "Impossible d'enregistrer cette interaction"
               );
@@ -344,7 +344,7 @@ export class UsagersProfilComponent implements OnInit {
       transfert?: boolean;
     } = {
       content: "",
-      type
+      type,
     };
 
     if (type === "courrierOut") {
@@ -371,7 +371,7 @@ export class UsagersProfilComponent implements OnInit {
         this.usager.lastInteraction = usager.lastInteraction;
         this.getInteractions();
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
       }
     );
@@ -400,14 +400,6 @@ export class UsagersProfilComponent implements OnInit {
     );
   }
 
-  public goToTop() {
-    window.scroll({
-      behavior: "smooth",
-      left: 0,
-      top: 0
-    });
-  }
-
   public editTransfert() {
     this.usagerService
       .editTransfert(this.transfertForm.value, this.usager.id)
@@ -417,7 +409,7 @@ export class UsagersProfilComponent implements OnInit {
           this.usager.options = new Options(usager.options);
           this.notifService.success("Transfert ajouté avec succès");
         },
-        error => {
+        (error) => {
           this.notifService.error("Impossible d'ajouter le transfert'");
         }
       );
@@ -447,7 +439,7 @@ export class UsagersProfilComponent implements OnInit {
           this.usager.options = new Options(usager.options);
           this.notifService.success("Procuration ajoutée avec succès");
         },
-        error => {
+        (error) => {
           this.notifService.error("Impossible d'ajouter la procuration'");
         }
       );
@@ -461,7 +453,7 @@ export class UsagersProfilComponent implements OnInit {
         this.usager.options = new Options(usager.options);
         this.notifService.success("Transfert supprimé avec succès");
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible de supprimer la fiche");
       }
     );
@@ -475,7 +467,7 @@ export class UsagersProfilComponent implements OnInit {
         this.usager.options = new Options(usager.options);
         this.notifService.success("Transfert supprimé avec succès");
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible de supprimer la fiche");
       }
     );
@@ -489,7 +481,7 @@ export class UsagersProfilComponent implements OnInit {
         this.usager.options = new Options(usager.options);
         this.notifService.success("Transfert supprimé avec succès");
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible de supprimer la fiche");
       }
     );
