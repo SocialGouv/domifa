@@ -1,13 +1,13 @@
 export class Doc {
-  public documentName: string;
-  public cteatedAt: Date;
-  public importBy: string;
+  public label: string;
+  public createdAt: Date;
+  public createdBy: string;
   public filetype: string;
 
   constructor(doc?: any) {
-    this.documentName = (doc && doc.documentName) || "";
-    this.importBy = (doc && doc.importBy) || "";
+    this.label = (doc && doc.label) || "";
+    this.createdBy = (doc && doc.createdBy) || "";
     this.filetype = (doc && doc.filetype) || "";
-    this.cteatedAt = (doc && new Date(doc.cteatedAt)) || new Date();
+    this.createdAt = (doc && new Date(doc.createdAt)) || new Date();
   }
 }

@@ -24,7 +24,7 @@ export class UsersService {
 
     /* Admin par défaut */
     const adminExist = await this.findOne({
-      structureId: userDto.structureId
+      structureId: userDto.structureId,
     });
 
     if (!adminExist || adminExist === null) {
@@ -55,13 +55,13 @@ export class UsersService {
       .findOneAndUpdate(
         {
           id: userId,
-          structureId
+          structureId,
         },
         {
-          $set: data
+          $set: data,
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-password")
@@ -78,12 +78,12 @@ export class UsersService {
           $set: {
             tokens: {
               password: crypto.randomBytes(30).toString("hex"),
-              passwordValidity: twoDays
-            }
-          }
+              passwordValidity: twoDays,
+            },
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-password")
@@ -100,19 +100,19 @@ export class UsersService {
         { "tokens.password": resetPasswordDto.token },
         {
           $set: {
-            password: newPassword
-          }
+            password: newPassword,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-password -tokens")
       .exec();
   }
 
-  public async delete(id: number): Promise<any> {
-    return this.userModel.deleteOne({ id }).exec();
+  public async delete(id: string): Promise<any> {
+    return this.userModel.deleteOne({ _id: id }).exec();
   }
 
   public async getStats() {

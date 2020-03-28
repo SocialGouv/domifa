@@ -3,7 +3,7 @@ import { fakeAsync, inject, TestBed, tick } from "@angular/core/testing";
 
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from "@angular/common/http/testing";
 import { Doc } from "../interfaces/document";
 import { Usager } from "../interfaces/usager";
@@ -14,7 +14,7 @@ describe("DocumentService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [DocumentService]
+      providers: [DocumentService],
     });
     service = TestBed.get(DocumentService);
   });
@@ -34,16 +34,16 @@ describe("DocumentService", () => {
         responseObject.docs = [
           new Doc({
             dateImport: new Date(),
-            documentName: "A",
+            label: "A",
             filetype: "image/jpeg",
-            importBy: "A"
+            importBy: "A",
           }),
           new Doc({
             dateImport: new Date(),
-            documentName: "B",
+            label: "B",
             filetype: "applications/pdf",
-            importBy: "B"
-          })
+            importBy: "B",
+          }),
         ];
 
         ser.deleteDocument(2, 1).subscribe((receivedResponse: any) => {
@@ -52,7 +52,7 @@ describe("DocumentService", () => {
 
         backend
           .expectOne({
-            url: "http://localhost:3000/usagers/document/2/1"
+            url: "http://localhost:3000/usagers/document/2/1",
           })
           .flush(responseObject);
       }
@@ -69,16 +69,16 @@ describe("DocumentService", () => {
         responseObject.docs = [
           new Doc({
             dateImport: new Date(),
-            documentName: "A",
+            label: "A",
             filetype: "image/jpeg",
-            importBy: "A"
+            importBy: "A",
           }),
           new Doc({
             dateImport: new Date(),
-            documentName: "B",
+            label: "B",
             filetype: "applications/pdf",
-            importBy: "B"
-          })
+            importBy: "B",
+          }),
         ];
 
         ser.deleteDocument(2, 1).subscribe((receivedResponse: any) => {
@@ -87,7 +87,7 @@ describe("DocumentService", () => {
 
         backend
           .expectOne({
-            url: "http://localhost:3000/usagers/document/2/1"
+            url: "http://localhost:3000/usagers/document/2/1",
           })
           .flush(responseObject);
       }

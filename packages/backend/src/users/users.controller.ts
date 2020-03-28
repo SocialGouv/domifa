@@ -9,7 +9,7 @@ import {
   Patch,
   Post,
   Response,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
@@ -43,7 +43,7 @@ export class UsersController {
   public getUsers(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
-      verified: true
+      verified: true,
     });
   }
 
@@ -53,7 +53,7 @@ export class UsersController {
   public getUsersToConfirm(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
-      verified: false
+      verified: false,
     });
   }
 
@@ -62,7 +62,7 @@ export class UsersController {
   @Get("confirm/:id")
   public async confirmUser(@Param("id") id: number, @CurrentUser() user: User) {
     const confirmerUser = await this.usersService.update(id, user.structureId, {
-      verified: true
+      verified: true,
     });
 
     if (confirmerUser) {
@@ -94,7 +94,7 @@ export class UsersController {
     }
 
     return this.usersService.update(id, user.structureId, {
-      role
+      role,
     });
   }
 
@@ -108,7 +108,7 @@ export class UsersController {
   ) {
     const userToDelete = await this.usersService.findOne({
       id,
-      structureId: user.structureId
+      structureId: user.structureId,
     });
 
     if (!userToDelete || userToDelete === null) {
@@ -156,7 +156,7 @@ export class UsersController {
       } else {
         const admin = await this.usersService.findOne({
           role: "admin",
-          structureId: newUser.structureId
+          structureId: newUser.structureId,
         });
         this.mailerService.newUser(admin, newUser);
       }
@@ -172,7 +172,7 @@ export class UsersController {
   @Post("validate-email")
   public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
     const existUser = await this.usersService.findOne({
-      email: emailDto.email
+      email: emailDto.email,
     });
     const emailExist = existUser !== null;
     return res.status(HttpStatus.OK).json(emailExist);
@@ -182,7 +182,7 @@ export class UsersController {
   public async checkPasswordToken(@Param("token") token: string) {
     const today = new Date();
     const existUser = await this.usersService.findOne({
-      "tokens.password": token
+      "tokens.password": token,
     });
 
     if (!existUser || existUser === null) {
@@ -201,7 +201,7 @@ export class UsersController {
   ) {
     const today = new Date();
     const existUser = await this.usersService.findOne({
-      "tokens.password": resetPasswordDto.token
+      "tokens.password": resetPasswordDto.token,
     });
 
     if (!existUser || existUser === null) {
@@ -216,10 +216,10 @@ export class UsersController {
     }
 
     this.usersService.updatePassword(resetPasswordDto).then(
-      user => {
+      (user) => {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       },
-      error => {
+      (error) => {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: "MAIL_ERROR" });
@@ -244,10 +244,10 @@ export class UsersController {
 
       if (updatedUser) {
         this.mailerService.newPassword(updatedUser).then(
-          result => {
+          (result) => {
             return res.status(HttpStatus.OK).json({ message: "OK" });
           },
-          error => {
+          (error) => {
             return res
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .json({ message: "MAIL_ERROR" });

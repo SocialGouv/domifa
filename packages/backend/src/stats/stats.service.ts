@@ -25,8 +25,9 @@ export class StatsService {
   public annee: number;
   public debutAnnee: Date;
   public finAnnee: Date;
-  public today = moment().startOf("day");
-  public tomorrow = moment().endOf("day");
+  public dateMajorite: Date;
+  public today: Date;
+  public demain: Date;
 
   constructor(
     @Inject("STRUCTURE_MODEL")
@@ -44,9 +45,12 @@ export class StatsService {
     private readonly usagersService: UsagersService,
     private readonly interactionsService: InteractionsService
   ) {
+    this.today = moment().startOf("day").toDate();
+    this.demain = moment().endOf("day").toDate();
     this.annee = new Date().getFullYear();
     this.debutAnnee = new Date("January 01, " + this.annee + " 00:01:00");
     this.finAnnee = new Date("December 31, " + this.annee + " 23:59:00");
+    this.dateMajorite = moment().subtract(18, "year").endOf("day").toDate();
   }
 
   @Cron(CronExpression.EVERY_2_HOURS)
@@ -55,7 +59,7 @@ export class StatsService {
       $or: [
         {
           lastExport: {
-            $lte: this.today.toDate(),
+            $lte: this.today,
           },
         },
         {
@@ -192,39 +196,22 @@ export class StatsService {
       "ccas"
     );
 
-    stat.questions.Q_20.appel = await this.totalInteraction(
+    stat.questions.Q_17 = await this.totalMaintenant(
       structure.id,
-      "appel"
+      "VALIDE",
+      "",
+      "",
+      "",
+      "mineurs"
     );
 
-    stat.questions.Q_20.colisIn = await this.totalInteraction(
+    stat.questions.Q_18 = await this.totalMaintenant(
       structure.id,
-      "colisIn"
-    );
-
-    stat.questions.Q_20.colisOut = await this.totalInteraction(
-      structure.id,
-      "colisOut"
-    );
-
-    stat.questions.Q_20.courrierIn = await this.totalInteraction(
-      structure.id,
-      "courrierIn"
-    );
-
-    stat.questions.Q_20.courrierOut = await this.totalInteraction(
-      structure.id,
-      "courrierOut"
-    );
-
-    stat.questions.Q_20.recommandeIn = await this.totalInteraction(
-      structure.id,
-      "recommandeIn"
-    );
-
-    stat.questions.Q_20.visite = await this.totalInteraction(
-      structure.id,
-      "visite"
+      "VALIDE",
+      "",
+      "",
+      "",
+      "majeurs"
     );
 
     stat.questions.Q_19.COUPLE_AVEC_ENFANT = await this.totalMaintenant(
@@ -273,6 +260,41 @@ export class StatsService {
       "",
       "",
       "HOMME_ISOLE_SANS_ENFANT"
+    );
+
+    stat.questions.Q_20.appel = await this.totalInteraction(
+      structure.id,
+      "appel"
+    );
+
+    stat.questions.Q_20.colisIn = await this.totalInteraction(
+      structure.id,
+      "colisIn"
+    );
+
+    stat.questions.Q_20.colisOut = await this.totalInteraction(
+      structure.id,
+      "colisOut"
+    );
+
+    stat.questions.Q_20.courrierIn = await this.totalInteraction(
+      structure.id,
+      "courrierIn"
+    );
+
+    stat.questions.Q_20.courrierOut = await this.totalInteraction(
+      structure.id,
+      "courrierOut"
+    );
+
+    stat.questions.Q_20.recommandeIn = await this.totalInteraction(
+      structure.id,
+      "recommandeIn"
+    );
+
+    stat.questions.Q_20.visite = await this.totalInteraction(
+      structure.id,
+      "visite"
     );
 
     stat.questions.Q_21.ERRANCE = await this.totalMaintenant(
@@ -327,7 +349,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      ""
+      "NON_RENSEIGNE"
     );
 
     const retourStructure = await this.structureService.updateLastExport(
@@ -346,7 +368,7 @@ export class StatsService {
     const stats = await this.statsModel
       .findOne({
         date: {
-          $gte: this.today.toDate(),
+          $gte: this.today,
           $lte: moment(this.today).endOf("day").toDate(),
         },
         structureId,
@@ -362,7 +384,7 @@ export class StatsService {
     const stats = await this.statsModel
       .find({
         date: {
-          $gte: this.today.toDate(),
+          $gte: this.today,
           $lte: moment(this.today).endOf("day").toDate(),
         },
       })
@@ -411,13 +433,28 @@ export class StatsService {
     statut: string,
     motif?: string,
     orientation?: string,
-    cause?: string
+    cause?: string,
+    age?: string
   ): Promise<number> {
-    const query = {
+    const query: {
+      "decision.motif"?: string;
+      "decision.statut": string;
+      "decision.orientation"?: string;
+      "entretien.cause"?: string | {};
+      dateNaissance: {
+        $gte: Date;
+        $lte: Date;
+      };
+      structureId: number;
+    } = {
       "decision.motif": motif,
       "decision.statut": statut,
       "decision.orientation": orientation,
       "entretien.cause": cause,
+      dateNaissance: {
+        $gte: this.dateMajorite,
+        $lte: this.dateMajorite,
+      },
       structureId,
     };
 
@@ -431,6 +468,19 @@ export class StatsService {
 
     if (!cause) {
       delete query["entretien.cause"];
+    }
+
+    // Aucune cause renseignée
+    if (cause && cause === "NON_RENSEIGNE") {
+      query["entretien.cause"] = { $in: [null, ""] };
+    }
+
+    if (age) {
+      age === "majeurs"
+        ? delete query.dateNaissance.$gte
+        : delete query.dateNaissance.$lte;
+    } else {
+      delete query.dateNaissance;
     }
 
     const response = await this.usagerModel.countDocuments(query).exec();
@@ -565,8 +615,8 @@ export class StatsService {
         this.statsModel
           .deleteMany({
             date: {
-              $gte: this.today.toDate(),
-              $lte: this.tomorrow.toDate(),
+              $gte: this.today,
+              $lte: this.demain,
             },
           })
           .exec((retour2: any) => {

@@ -1,5 +1,5 @@
 export class AyantDroit {
-  public dateNaissance: string;
+  public dateNaissance: Date;
   public lien: string;
   public nom: string;
   public prenom: string;

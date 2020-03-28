@@ -23,7 +23,7 @@ describe("UsagerService", () => {
   let service: UsagerService;
   let authService: AuthService;
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
@@ -38,8 +38,8 @@ describe("UsagerService", () => {
           preventDuplicates: true,
           progressAnimation: "increasing",
           progressBar: true,
-          timeOut: 2000
-        })
+          timeOut: 2000,
+        }),
       ],
       providers: [
         UsagerService,
@@ -49,10 +49,10 @@ describe("UsagerService", () => {
         {
           multi: true,
           provide: HTTP_INTERCEPTORS,
-          useClass: ServerErrorInterceptor
-        }
+          useClass: ServerErrorInterceptor,
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     service = TestBed.get(UsagerService);
     authService = TestBed.get(AuthService);
@@ -61,10 +61,10 @@ describe("UsagerService", () => {
       .login("ccastest@yopmail.com", "Azerty012345")
       .pipe(first())
       .subscribe(
-        user => {
+        (user) => {
           done();
         },
-        error => {
+        (error) => {
           done();
         }
       );
@@ -80,7 +80,7 @@ describe("UsagerService", () => {
       heureRdv: { hour: 10, minute: 20 },
       isNow: "oui",
       jourRdv: { day: 31, month: 7, year: 2019 },
-      userId: 2
+      userId: 2,
     });
 
     service.createRdv(rdv, 1).subscribe((usager: Usager) => {
@@ -118,20 +118,20 @@ describe("UsagerService", () => {
       sexe: "homme",
       structure: "2",
       surnom: "Test Test",
-      villeNaissance: "Saint-denis"
+      villeNaissance: "Saint-denis",
     });
 
     const rdvFull = new Rdv({
       dateRdv: new Date("December 20, 1991 02:12:00"),
       userId: 10,
-      userName: "Domifa"
+      userName: "Domifa",
     });
 
     const docFull = new Doc({
       dateImport: new Date(),
-      documentName: "A",
+      label: "A",
       filetype: "image/jpeg",
-      importBy: "A"
+      importBy: "A",
     });
     expect(docFull).toEqual(docFull);
 
@@ -139,14 +139,14 @@ describe("UsagerService", () => {
       dateNaissance: "20/12/1991",
       lien: "enfant",
       nom: "Le nom",
-      prenom: "Le prénom"
+      prenom: "Le prénom",
     });
 
     expect(ayantDroit).toEqual({
       dateNaissance: "20/12/1991",
       lien: "enfant",
       nom: "Le nom",
-      prenom: "Le prénom"
+      prenom: "Le prénom",
     });
 
     expect(rdvFull).toEqual({
@@ -156,10 +156,10 @@ describe("UsagerService", () => {
       jourRdv: {
         day: 20,
         month: 12,
-        year: 1991
+        year: 1991,
       },
       userId: 10,
-      userName: "Domifa"
+      userName: "Domifa",
     });
   });
 });

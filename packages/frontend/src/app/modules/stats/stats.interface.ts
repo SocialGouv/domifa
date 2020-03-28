@@ -121,7 +121,7 @@ export class Stats {
         RADIE: 0,
         VALIDE: 0,
         VALIDE_AYANTS_DROIT: 0,
-        VALIDE_TOTAL: 0
+        VALIDE_TOTAL: 0,
       },
       Q_12: {
         A_SA_DEMANDE: 0,
@@ -130,18 +130,18 @@ export class Stats {
         NON_MANIFESTATION_3_MOIS: 0,
         NON_RESPECT_REGLEMENT: 0,
         PLUS_DE_LIEN_COMMUNE: 0,
-        TOTAL: 0
+        TOTAL: 0,
       },
       Q_13: {
         AUTRE: 0,
         HORS_AGREMENT: 0,
         LIEN_COMMUNE: 0,
         SATURATION: 0,
-        TOTAL: 0
+        TOTAL: 0,
       },
       Q_14: {
         ASSO: 0,
-        CCAS: 0
+        CCAS: 0,
       },
       Q_17: 0,
       Q_18: 0,
@@ -152,7 +152,7 @@ export class Stats {
         FEMME_ISOLE_SANS_ENFANT: 0,
         HOMME_ISOLE_AVEC_ENFANT: 0,
         HOMME_ISOLE_SANS_ENFANT: 0,
-        MINEUR: 0
+        MINEUR: 0,
       },
       Q_20: {
         appel: 0,
@@ -162,16 +162,17 @@ export class Stats {
         courrierOut: 0,
         recommandeIn: 0,
         recommandeOut: 0,
-        visite: 0
+        visite: 0,
       },
       Q_21: {
         ERRANCE: 0,
         EXPULSION: 0,
         HEBERGE_SANS_ADRESSE: 0,
         ITINERANT: 0,
+        NON_RENSEIGNE: 0,
         RUPTURE: 0,
         SORTIE_STRUCTURE: 0,
-        VIOLENCE: 0
+        VIOLENCE: 0,
       },
       Q_22: {
         ERRANCE: 0,
@@ -180,8 +181,8 @@ export class Stats {
         ITINERANT: 0,
         RUPTURE: 0,
         SORTIE_STRUCTURE: 0,
-        VIOLENCE: 0
-      }
+        VIOLENCE: 0,
+      },
     };
   }
 }
