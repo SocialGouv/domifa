@@ -40,7 +40,7 @@ export class CerfaService {
       AUTRE: "Autres",
       HORS_AGREMENT: "En dehors des critères du public domicilié",
       LIEN_COMMUNE: "Absence de lien avec la commune",
-      SATURATION: "Nombre maximal domiciliations atteint"
+      SATURATION: "Nombre maximal domiciliations atteint",
     };
   }
 
@@ -165,7 +165,7 @@ export class CerfaService {
 
       telephone: this.toString(usager.phone),
       telephoneOrga: this.toString(user.structure.phone),
-      typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1"
+      typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1",
     };
 
     return pdftk

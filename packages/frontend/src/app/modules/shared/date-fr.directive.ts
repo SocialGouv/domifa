@@ -3,7 +3,7 @@ import { Directive, ElementRef, HostListener } from "@angular/core";
 
 @Directive({
   // tslint:disable-next-line: directive-selector
-  selector: "[dateFr]"
+  selector: "[dateFr]",
 })
 export class DateFrDirective {
   public inputElement: HTMLElement;
@@ -20,7 +20,7 @@ export class DateFrDirective {
     "ArrowRight",
     "Clear",
     "Copy",
-    "Paste"
+    "Paste",
   ];
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;

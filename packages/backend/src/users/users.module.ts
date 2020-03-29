@@ -18,8 +18,8 @@ import { UsersProviders } from "./users.providers";
   imports: [
     DatabaseModule,
     forwardRef(() => AuthModule),
-    forwardRef(() => StructuresModule)
+    forwardRef(() => StructuresModule),
   ],
-  providers: [UsersService, ...UsersProviders, MailerService, ConfigService]
+  providers: [UsersService, ...UsersProviders, MailerService, ConfigService],
 })
 export class UsersModule {}

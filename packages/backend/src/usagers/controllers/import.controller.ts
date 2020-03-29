@@ -7,7 +7,7 @@ import {
   Response,
   UploadedFile,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -25,7 +25,7 @@ export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
   email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, // tslint:disable max-line-length
   phone: /^((\+)33|0)[1-9](\d{2}){4}$/,
-  postcode: /^[0-9][0-9AB][0-9]{3}$/
+  postcode: /^[0-9][0-9AB][0-9]{3}$/,
 };
 
 export const CIVILITE = 0;
@@ -95,8 +95,8 @@ export class ImportController {
             .map(() => Math.round(Math.random() * 16).toString(16))
             .join("");
           return cb(null, `${randomName}${path.extname(file.originalname)}`);
-        }
-      })
+        },
+      }),
     })
   )
   public async importExcel(
@@ -108,7 +108,7 @@ export class ImportController {
     const buffer = fs.readFileSync(dir + "/" + file.filename);
     const wb = XLSX.read(buffer, {
       dateNF: "dd/mm/yyyy",
-      type: "buffer"
+      type: "buffer",
     });
 
     if (!buffer) {
@@ -121,7 +121,7 @@ export class ImportController {
         blankrows: false,
         dateNF: "dd/mm/yyyy",
         header: 1,
-        raw: false
+        raw: false,
       }) as AOA;
 
       for (let index = 1, len = this.datas.length; index < len; index++) {
@@ -217,7 +217,7 @@ export class ImportController {
           if (this.errorsId.length > 0) {
             const error = {
               errors: this.errorsId,
-              message: "IMPORT_ERRORS_BACKEND"
+              message: "IMPORT_ERRORS_BACKEND",
             };
             throw new HttpException(error, HttpStatus.BAD_REQUEST);
           }
@@ -276,7 +276,7 @@ export class ImportController {
           motif,
           statut: "PREMIERE_DOM",
           userId: user.id,
-          userName: agent
+          userName: agent,
         });
       } else if (this.notEmpty(row[DATE_DEBUT_DOM])) {
         datePremiereDom = this.convertDate(row[DATE_DEBUT_DOM]);
@@ -290,7 +290,7 @@ export class ImportController {
         motif,
         statut: "IMPORT",
         userId: user.id,
-        userName: agent
+        userName: agent,
       });
 
       if (row[STATUT_DOM] === "REFUS") {
@@ -349,11 +349,11 @@ export class ImportController {
           motif,
           statut: row[STATUT_DOM],
           userId: user.id,
-          userName: agent
+          userName: agent,
         },
         email: row[EMAIL],
         entretien: {
-          typeMenage: row[MENAGE]
+          typeMenage: row[MENAGE],
         },
         etapeDemande: 5,
         historique,
@@ -364,7 +364,7 @@ export class ImportController {
         structureId: user.structureId,
         surnom: row[SURNOM],
         typeDom: row[TYPE_DOM],
-        villeNaissance: row[LIEU_NAISSANCE]
+        villeNaissance: row[LIEU_NAISSANCE],
       };
 
       usagers.push(await this.usagersService.save(usager, user));
@@ -443,7 +443,7 @@ export class ImportController {
         "FEMME_ISOLE_AVEC_ENFANT",
         "COUPLE_SANS_ENFANT",
         "COUPLE_AVEC_ENFANT",
-        "MINEUR"
+        "MINEUR",
       ],
       motifRadiation: [
         "NON_MANIFESTATION_3_MOIS",
@@ -453,16 +453,16 @@ export class ImportController {
         "PLUS_DE_LIEN_COMMUNE",
         "NON_RESPECT_REGLEMENT",
         "AUTRE",
-        "AUTRES"
+        "AUTRES",
       ],
       motifRefus: [
         "LIEN_COMMUNE",
         "SATURATION",
         "HORS_AGREMENT",
         "AUTRE",
-        "AUTRES"
+        "AUTRES",
       ],
-      statut: ["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE", "EXPIRE"]
+      statut: ["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE", "EXPIRE"],
     };
 
     return types[rowName].indexOf(data) > -1;

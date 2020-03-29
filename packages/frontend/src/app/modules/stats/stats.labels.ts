@@ -8,5 +8,5 @@ export const statsLabels = {
     "Q11 : Nombre total d'attestations d'élection de domicile en cours de validité au 31 décembre de cette année",
   Q_12: "Q12 :Nombre total de radiations en 2018, tous organismes confondus",
   Q_12_A:
-    "Q12A : Principaux motifs de radiations indiqués par les organismes non-visés par un agrément préfectoral"
+    "Q12A : Principaux motifs de radiations indiqués par les organismes non-visés par un agrément préfectoral",
 };

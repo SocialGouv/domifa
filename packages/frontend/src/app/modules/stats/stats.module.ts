@@ -33,13 +33,13 @@ import { StatsService } from "./stats.service";
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 2000
+      timeOut: 2000,
     }),
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [StatsService]
+  providers: [StatsService],
 })
 export class StatsModule {}

@@ -24,8 +24,8 @@ describe("CerfaService", () => {
         UsersService,
         UsagersService,
         ...UsagersProviders,
-        ...UsersProviders
-      ]
+        ...UsersProviders,
+      ],
     }).compile();
 
     service = module.get<CerfaService>(CerfaService);

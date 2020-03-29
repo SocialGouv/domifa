@@ -21,11 +21,11 @@ describe("StructureGuard", () => {
         {
           provide: ActivatedRouteSnapshot,
           useValue: {
-            params: { id: 1 }
-          }
+            params: { id: 1 },
+          },
         },
-        { provide: APP_BASE_HREF, useValue: "/" }
-      ]
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
     });
 
     activatedRoute = TestBed.get(ActivatedRouteSnapshot);
@@ -48,10 +48,10 @@ describe("StructureGuard", () => {
   it("❌ Structure not exist - 404 error", async(() => {
     activatedRoute.params.id = 100;
     structureGuard.canActivate(activatedRoute).subscribe(
-      response => {
+      (response) => {
         expect(response).toBeDefined();
       },
-      error => {
+      (error) => {
         expect(error.status).toEqual(400);
       }
     );

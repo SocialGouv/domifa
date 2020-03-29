@@ -7,71 +7,71 @@ export const UserSchema = new mongoose.Schema(
       required: true,
       trim: true,
       type: String,
-      unique: true
+      unique: true,
     },
     fonction: {
       default: null,
       trim: true,
-      type: String
+      type: String,
     },
     id: {
       type: Number,
-      unique: true
+      unique: true,
     },
     lastLogin: {
       default: null,
-      type: Date
+      type: Date,
     },
     nom: {
       required: true,
       trim: true,
-      type: String
+      type: String,
     },
     password: {
       required: true,
-      type: String
+      type: String,
     },
     prenom: {
       required: true,
       trim: true,
-      type: String
+      type: String,
     },
     role: {
       default: "simple",
-      type: String
+      type: String,
     },
     structure: {
       ref: "Structure",
-      type: mongoose.Schema.Types.ObjectId
+      type: mongoose.Schema.Types.ObjectId,
     },
     structureId: {
       required: true,
-      type: Number
+      type: Number,
     },
     tokens: {
       email: {
         default: "",
-        type: String
+        type: String,
       },
       password: {
         default: "",
-        type: String
+        type: String,
       },
       passwordValidity: {
-        type: Date
-      }
+        type: Date,
+      },
     },
     verified: {
       default: false,
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-UserSchema.pre<User>("save", function(next) {
+UserSchema.pre<User>("save", function (next) {
   this.nom = this.nom.charAt(0).toUpperCase() + this.nom.slice(1);
   this.prenom = this.prenom.charAt(0).toUpperCase() + this.prenom.slice(1);
   this.email = this.email.toLowerCase();

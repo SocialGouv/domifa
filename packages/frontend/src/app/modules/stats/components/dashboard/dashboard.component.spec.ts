@@ -21,10 +21,10 @@ describe("DashboardComponent", () => {
         HttpClientModule,
         HttpClientTestingModule,
         MatomoModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

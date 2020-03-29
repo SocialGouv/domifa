@@ -18,7 +18,7 @@ export const databaseProviders = [
     useFactory: async (): Promise<typeof mongoose> =>
       mongoose.connect(`mongodb://${user}:${password}@${host}:${port}/domifa`, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
-      })
-  }
+        useUnifiedTopology: true,
+      }),
+  },
 ];

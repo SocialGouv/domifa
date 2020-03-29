@@ -48,13 +48,13 @@ describe("UsagersFormComponent", () => {
           preventDuplicates: true,
           progressAnimation: "increasing",
           progressBar: true,
-          timeOut: 2000
+          timeOut: 2000,
         }),
         BrowserAnimationsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
     fixture = TestBed.createComponent(UsagersFormComponent);
     app = fixture.debugElement.componentInstance;

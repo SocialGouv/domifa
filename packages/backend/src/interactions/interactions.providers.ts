@@ -6,6 +6,6 @@ export const InteractionsProviders = [
     inject: ["DATABASE_CONNECTION"],
     provide: "INTERACTION_MODEL",
     useFactory: (connection: Connection) =>
-      connection.model("Interaction", InteractionSchema)
-  }
+      connection.model("Interaction", InteractionSchema),
+  },
 ];

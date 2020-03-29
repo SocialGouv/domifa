@@ -79,16 +79,16 @@ export class InteractionsService {
     return this.usagerModel
       .findOneAndUpdate(
         {
-          _id: usager._id
+          _id: usager._id,
         },
         {
           $push: { interaction: savedInteraction },
           $set: {
-            lastInteraction: usager.lastInteraction
-          }
+            lastInteraction: usager.lastInteraction,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-docsPath -interactions")
@@ -99,7 +99,7 @@ export class InteractionsService {
     return this.interactionModel
       .find({
         structureId: user.structureId,
-        usagerId
+        usagerId,
       })
       .limit(8)
       .sort({ dateInteraction: -1 })
@@ -116,7 +116,7 @@ export class InteractionsService {
       .deleteOne({
         _id: interactionId,
         structureId: user.structureId,
-        usagerId
+        usagerId,
       })
       .exec();
   }
@@ -128,7 +128,7 @@ export class InteractionsService {
     return this.interactionModel
       .deleteMany({
         structureId,
-        usagerId
+        usagerId,
       })
       .exec();
   }
@@ -147,15 +147,15 @@ export class InteractionsService {
           $group: {
             _id: { structureId: "$structureId", type: "$type" },
             total: { $sum: 1 },
-            types: { $push: "$type" }
-          }
+            types: { $push: "$type" },
+          },
         },
         {
           $group: {
             _id: { structureId: "$_id.structureId" },
-            type: { $addToSet: { type: "$_id.type", sum: "$total" } }
-          }
-        }
+            type: { $addToSet: { type: "$_id.type", sum: "$total" } },
+          },
+        },
       ])
       .exec();
   }
@@ -168,15 +168,15 @@ export class InteractionsService {
           $group: {
             _id: { statut: "$type" },
             statuts: { $push: "$type" },
-            total: { $sum: 1 }
-          }
+            total: { $sum: 1 },
+          },
         },
         {
           $group: {
             _id: { statut: "$_id.statut" },
-            sum: { $addToSet: "$total" }
-          }
-        }
+            sum: { $addToSet: "$total" },
+          },
+        },
       ])
       .exec();
   }

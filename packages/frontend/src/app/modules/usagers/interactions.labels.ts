@@ -4,7 +4,7 @@ export const interactionsNotifs = {
   courrierOut: "Récupération du courrier enregistrée !",
   recommandeIn: "Courrier recommandé enregistré !",
   recommandeOut: "Avis de passage remis ",
-  visite: "Passage de l'usager enregistré"
+  visite: "Passage de l'usager enregistré",
 };
 
 export const interactionsLabels: {
@@ -17,7 +17,7 @@ export const interactionsLabels: {
   courrierOut: "Courrier distribué",
   recommandeIn: "Avis de passage reçu",
   recommandeOut: "Avis de passage récupéré",
-  visite: "Passage"
+  visite: "Passage",
 };
 
 export const interactionsLabelsPluriel: {
@@ -28,5 +28,5 @@ export const interactionsLabelsPluriel: {
   courrierIn: "Courriers reçus",
   courrierOut: "Courriers distribués",
   recommandeIn: "Avis de passage reçus",
-  recommandeOut: "Avis de passage récupérés"
+  recommandeOut: "Avis de passage récupérés",
 };

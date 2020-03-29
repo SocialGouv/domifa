@@ -14,6 +14,7 @@ export class Search {
   public interactionType: string;
   public interactionStatut: boolean;
   public sort: string;
+  public page: number;
 
   constructor(search?: any) {
     this.interactionType = (search && search.interactionType) || null;
@@ -22,5 +23,6 @@ export class Search {
     this.name = (search && search.name) || null;
     this.sort = (search && search.sort) || "az";
     this.statut = (search && search.statut) || "VALIDE";
+    this.page = (search && search.page) || 0;
   }
 }

@@ -26,7 +26,7 @@ describe("ManageUsagersComponent", () => {
   let fixture: any;
   let authService: AuthService;
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
@@ -40,7 +40,7 @@ describe("ManageUsagersComponent", () => {
         RouterTestingModule.withRoutes(routes),
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
       ],
       providers: [
         UsagerService,
@@ -50,10 +50,10 @@ describe("ManageUsagersComponent", () => {
         {
           multi: true,
           provide: HTTP_INTERCEPTORS,
-          useClass: ServerErrorInterceptor
-        }
+          useClass: ServerErrorInterceptor,
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     authService = TestBed.get(AuthService);
@@ -65,11 +65,11 @@ describe("ManageUsagersComponent", () => {
       .login("ccastest@yopmail.com", "Azerty012345")
       .pipe(first())
       .subscribe(
-        user => {
+        (user) => {
           app.ngOnInit();
           done();
         },
-        error => {
+        (error) => {
           done();
         }
       );
@@ -88,7 +88,7 @@ describe("ManageUsagersComponent", () => {
       interactionType: null,
       name: null,
       sort: "az",
-      statut: "VALIDE"
+      statut: "VALIDE",
     });
   });
 
@@ -101,7 +101,7 @@ describe("ManageUsagersComponent", () => {
       interactionType: null,
       name: null,
       sort: "za",
-      statut: "REFUS"
+      statut: "REFUS",
     });
   }));
 
@@ -113,7 +113,7 @@ describe("ManageUsagersComponent", () => {
       interactionType: null,
       name: null,
       sort: "az",
-      statut: "VALIDE"
+      statut: "VALIDE",
     });
   }));
 

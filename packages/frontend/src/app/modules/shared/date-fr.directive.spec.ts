@@ -5,15 +5,13 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { DateFrDirective } from "./date-fr.directive";
 
 @Component({
-  template: `
-    <input type="text" name="dateNaissance" dateFr />
-  `
+  template: ` <input type="text" name="dateNaissance" dateFr /> `,
 })
 class TestHoverFocusComponent {
   public value: any;
@@ -26,7 +24,7 @@ describe("Directive: Date FR", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TestHoverFocusComponent, DateFrDirective]
+      declarations: [TestHoverFocusComponent, DateFrDirective],
     });
 
     fixture = TestBed.createComponent(TestHoverFocusComponent);

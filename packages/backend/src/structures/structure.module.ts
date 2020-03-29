@@ -15,8 +15,8 @@ import { StructuresService } from "./structures.service";
     DatabaseModule,
     forwardRef(() => UsersModule),
     forwardRef(() => UsagersModule),
-    forwardRef(() => InteractionsModule)
+    forwardRef(() => InteractionsModule),
   ],
-  providers: [StructuresService, ...StructuresProviders, ConfigService]
+  providers: [StructuresService, ...StructuresProviders, ConfigService],
 })
 export class StructuresModule {}

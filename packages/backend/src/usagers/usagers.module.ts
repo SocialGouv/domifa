@@ -18,20 +18,20 @@ import { UsagersProviders } from "./usagers.providers";
     CerfaService,
     DocumentsService,
     ...UsagersProviders,
-    ...InteractionsProviders
+    ...InteractionsProviders,
   ],
   imports: [
     DatabaseModule,
     forwardRef(() => StructuresModule),
     forwardRef(() => UsersModule),
-    forwardRef(() => InteractionsModule)
+    forwardRef(() => InteractionsModule),
   ],
   providers: [
     UsagersService,
     CerfaService,
     DocumentsService,
     ...UsagersProviders,
-    ...InteractionsProviders
-  ]
+    ...InteractionsProviders,
+  ],
 })
 export class UsagersModule {}

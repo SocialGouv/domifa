@@ -3,7 +3,7 @@ import {
   IsIn,
   IsNotEmpty,
   IsNumber,
-  IsOptional
+  IsOptional,
 } from "class-validator";
 import { AyantDroit } from "../interfaces/ayant-droit";
 

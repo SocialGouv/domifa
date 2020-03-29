@@ -4,7 +4,7 @@ import {
   async,
   ComponentFixture,
   fakeAsync,
-  TestBed
+  TestBed,
 } from "@angular/core/testing";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -21,7 +21,7 @@ describe("LoadingComponent", () => {
       declarations: [LoadingComponent],
       imports: [NgbModule, RouterModule.forRoot([])],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoadingComponent);

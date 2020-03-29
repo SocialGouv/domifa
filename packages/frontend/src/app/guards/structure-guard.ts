@@ -5,7 +5,7 @@ import { map } from "rxjs/operators";
 import { StructureService } from "../modules/structures/services/structure.service";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class StructureGuard implements CanActivate {
   constructor(private structureService: StructureService) {}

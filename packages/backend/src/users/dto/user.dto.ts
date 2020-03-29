@@ -4,24 +4,24 @@ import {
   IsNumber,
   IsOptional,
   MaxLength,
-  MinLength
+  MinLength,
 } from "class-validator";
 
 export class UserDto {
   @MinLength(2, {
-    message: "PRENOM_TOO_SMALL"
+    message: "PRENOM_TOO_SMALL",
   })
   @MaxLength(100, {
-    message: "PRENOM_TOO_LONG"
+    message: "PRENOM_TOO_LONG",
   })
   @IsNotEmpty()
   public readonly prenom!: string;
 
   @MinLength(2, {
-    message: "NOM_TOO_SMALL"
+    message: "NOM_TOO_SMALL",
   })
   @MaxLength(100, {
-    message: "NOM_TOO_LONG"
+    message: "NOM_TOO_LONG",
   })
   @IsNotEmpty()
   public readonly nom!: string;
@@ -32,10 +32,10 @@ export class UserDto {
 
   @IsNotEmpty()
   @MinLength(11, {
-    message: "PASSWORD_TOO_SMALL"
+    message: "PASSWORD_TOO_SMALL",
   })
   @MaxLength(100, {
-    message: "PASSWORD_TOO_LONG"
+    message: "PASSWORD_TOO_LONG",
   })
   public readonly password!: string;
 

@@ -8,5 +8,5 @@ export const InteractionSchema = new mongoose.Schema({
   type: String,
   usagerId: { type: Number, index: true },
   userId: Number,
-  userName: String
+  userName: String,
 });

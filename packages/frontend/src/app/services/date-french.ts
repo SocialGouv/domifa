@@ -15,10 +15,10 @@ const I18N_VALUES = {
       "Sept.",
       "Oct.",
       "Nov.",
-      "Déc."
+      "Déc.",
     ],
-    weekdays: ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
-  }
+    weekdays: ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"],
+  },
 };
 
 @Injectable()

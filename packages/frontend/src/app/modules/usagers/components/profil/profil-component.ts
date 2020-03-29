@@ -33,7 +33,7 @@ import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
 import {
   minDateNaissance,
-  maxDateNaissance,
+  formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
 
 @Component({
@@ -115,7 +115,7 @@ export class UsagersProfilComponent implements OnInit {
     this.structure = this.authService.currentUserValue.structure;
 
     this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = maxDateNaissance;
+    this.maxDateNaissance = formatDateToNgb(new Date());
 
     this.title = "Fiche d'un domicilié";
     this.usager = new Usager();

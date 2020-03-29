@@ -2,7 +2,7 @@ import {
   HttpClient,
   HttpEvent,
   HttpEventType,
-  HttpParams
+  HttpParams,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
@@ -17,7 +17,7 @@ import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class UsagerService {
   public http: HttpClient;
@@ -40,7 +40,7 @@ export class UsagerService {
         : this.http.post(`${this.endPointUsagers}`, usager);
 
     return response.pipe(
-      map(updatedUsager => {
+      map((updatedUsager) => {
         return new Usager(updatedUsager);
       })
     );
@@ -72,7 +72,7 @@ export class UsagerService {
     return this.http
       .delete(`${this.endPointUsagers}/procuration/${usagerId}`)
       .pipe(
-        map(response => {
+        map((response) => {
           return new Usager(response);
         })
       );
@@ -82,7 +82,7 @@ export class UsagerService {
     return this.http
       .get(`${this.endPointUsagers}/next-step/${usagerId}/${etapeDemande}`)
       .pipe(
-        map(response => {
+        map((response) => {
           return new Usager(response);
         })
       );
@@ -92,7 +92,7 @@ export class UsagerService {
     return this.http
       .get(`${this.endPointUsagers}/stop-courrier/${usagerId}`)
       .pipe(
-        map(response => {
+        map((response) => {
           return new Usager(response);
         })
       );
@@ -102,7 +102,7 @@ export class UsagerService {
     return this.http
       .get(`${this.endPointUsagers}/renouvellement/${usagerId}`)
       .pipe(
-        map(response => {
+        map((response) => {
           return new Usager(response);
         })
       );
@@ -112,7 +112,7 @@ export class UsagerService {
     return this.http
       .post(`${this.endPointUsagers}/entretien/${usagerId}`, entretien)
       .pipe(
-        map(response => {
+        map((response) => {
           return new Usager(response);
         })
       );
@@ -123,7 +123,7 @@ export class UsagerService {
     return this.http
       .post(`${this.endPointUsagers}/decision/${usagerId}`, decision)
       .pipe(
-        map(response => {
+        map((response) => {
           return new Usager(response);
         })
       );
@@ -131,7 +131,7 @@ export class UsagerService {
 
   public findOne(usagerId: number): Observable<Usager> {
     return this.http.get(`${this.endPointUsagers}/${usagerId}`).pipe(
-      map(response => {
+      map((response) => {
         return new Usager(response);
       })
     );
@@ -141,9 +141,9 @@ export class UsagerService {
     return this.http
       .get(`${this.endPointUsagers}/doublon/${nom}/${prenom}`)
       .pipe(
-        map(response => {
+        map((response) => {
           return Array.isArray(response)
-            ? response.map(item => new Usager(item))
+            ? response.map((item) => new Usager(item))
             : [new Usager(response)];
         })
       );
@@ -161,7 +161,7 @@ export class UsagerService {
   public search(search: any): Observable<Usager[]> {
     let data = new HttpParams();
 
-    Object.keys(search).forEach(key => {
+    Object.keys(search).forEach((key) => {
       const value = search[key];
       if (value !== null) {
         data = data.append(key, value);
@@ -171,9 +171,9 @@ export class UsagerService {
     return this.http
       .get(`${this.endPointUsagers}/search/`, { params: data })
       .pipe(
-        map(response => {
+        map((response) => {
           return Array.isArray(response)
-            ? response.map(item => new Usager(item))
+            ? response.map((item) => new Usager(item))
             : [new Usager(response)];
         })
       );
@@ -185,10 +185,10 @@ export class UsagerService {
 
     this.http
       .get(`${this.endPointUsagers}/attestation/${usagerId}`, {
-        responseType: "blob"
+        responseType: "blob",
       })
       .subscribe(
-        x => {
+        (x) => {
           const newBlob = new Blob([x], { type: "application/pdf" });
 
           if (window.navigator && window.navigator.msSaveOrOpenBlob) {
@@ -206,7 +206,7 @@ export class UsagerService {
             new MouseEvent("click", {
               bubbles: true,
               cancelable: true,
-              view: window
+              view: window,
             })
           );
 
@@ -231,7 +231,7 @@ export class UsagerService {
     return this.http
       .post<any>(uploadURL, data, {
         observe: "events",
-        reportProgress: true
+        reportProgress: true,
       })
       .pipe(
         map((event: HttpEvent<any>) => {
@@ -240,7 +240,7 @@ export class UsagerService {
               const progress = Math.round((100 * event.loaded) / event.total);
               return {
                 message: progress,
-                status: "progress"
+                status: "progress",
               };
             }
           } else if (event.type === HttpEventType.Response) {

@@ -9,7 +9,7 @@ import { Interaction } from "../interfaces/interaction";
 import { Usager } from "../interfaces/usager";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class InteractionService {
   public http: HttpClient;
@@ -24,7 +24,7 @@ export class InteractionService {
   public setInteraction(usager: Usager, interaction?: any): Observable<Usager> {
     /* Procuration */
     return this.http.post(`${this.endPoint}${usager.id}`, interaction).pipe(
-      map(response => {
+      map((response) => {
         return new Usager(response);
       })
     );
@@ -32,9 +32,9 @@ export class InteractionService {
 
   public getInteractions(usagerId: number): Observable<Interaction[]> {
     return this.http.get(`${this.endPoint}${usagerId}/10`).pipe(
-      map(response => {
+      map((response) => {
         return Array.isArray(response)
-          ? response.map(item => new Interaction(item))
+          ? response.map((item) => new Interaction(item))
           : [new Interaction(response)];
       })
     );

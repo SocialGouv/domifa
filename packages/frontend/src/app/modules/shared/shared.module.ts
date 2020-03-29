@@ -11,7 +11,7 @@ import { PrintService } from "./print.service";
   declarations: [DigitOnlyDirective, DateFrDirective],
   exports: [DigitOnlyDirective, DateFrDirective],
   imports: [CommonModule],
-  providers: [PrintService, FaIconLibrary, FaConfig]
+  providers: [PrintService, FaIconLibrary, FaConfig],
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {

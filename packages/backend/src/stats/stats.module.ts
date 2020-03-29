@@ -18,8 +18,8 @@ import { StatsService } from "./stats.service";
     forwardRef(() => UsersModule),
     forwardRef(() => StructuresModule),
     forwardRef(() => UsagersModule),
-    forwardRef(() => InteractionsModule)
+    forwardRef(() => InteractionsModule),
   ],
-  providers: [StatsService, ...StatsProviders, ConfigService]
+  providers: [StatsService, ...StatsProviders, ConfigService],
 })
 export class StatsModule {}

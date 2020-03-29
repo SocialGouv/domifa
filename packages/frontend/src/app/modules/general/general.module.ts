@@ -18,7 +18,7 @@ import { FaqComponent } from "./components/faq/faq.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./components/news/news.component";
-import { PolitiqueComponent } from './components/politique/politique.component';
+import { PolitiqueComponent } from "./components/politique/politique.component";
 
 @NgModule({
   declarations: [
@@ -29,14 +29,14 @@ import { PolitiqueComponent } from './components/politique/politique.component';
     FaqComponent,
     NewsComponent,
     CguComponent,
-    PolitiqueComponent
+    PolitiqueComponent,
   ],
   exports: [
     HomeComponent,
     LoadingComponent,
     MentionsLegalesComponent,
     NotFoundComponent,
-    FaqComponent
+    FaqComponent,
   ],
   imports: [
     CommonModule,
@@ -52,13 +52,13 @@ import { PolitiqueComponent } from './components/politique/politique.component';
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 2000
+      timeOut: 2000,
     }),
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [LoadingService]
+  providers: [LoadingService],
 })
 export class GeneralModule {}

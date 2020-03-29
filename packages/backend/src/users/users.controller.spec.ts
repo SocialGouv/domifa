@@ -14,8 +14,8 @@ describe("Users Controller", () => {
       providers: [
         { provide: UsersService, useValue: {} },
         MailerService,
-        ConfigService
-      ]
+        ConfigService,
+      ],
     }).compile();
 
     const controller = module.get<UsersController>(UsersController);

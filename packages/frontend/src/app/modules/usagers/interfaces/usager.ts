@@ -105,7 +105,7 @@ export class Usager {
     this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv({});
     this.lastInteraction = (usager && usager.lastInteraction) || {
       dateInteraction: null,
-      nbCourrier: 0
+      nbCourrier: 0,
     };
 
     this.entretien =
@@ -120,7 +120,7 @@ export class Usager {
     this.preference = (usager && usager.preference) || {
       aucun: false,
       email: false,
-      phone: false
+      phone: false,
     };
 
     this.decision =
@@ -139,7 +139,7 @@ export class Usager {
 
     this.interactionsToday = {
       appel: false,
-      visite: false
+      visite: false,
     };
 
     if (usager && usager.typeDom) {

@@ -9,7 +9,7 @@ export class InteractionSearchDto {
     "colisIn",
     "colisOut",
     "appel",
-    "visite"
+    "visite",
   ])
   @IsNotEmpty()
   public type!: string;

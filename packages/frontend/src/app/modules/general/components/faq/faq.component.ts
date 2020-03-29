@@ -5,14 +5,12 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./faq.component.css"],
   templateUrl: "./faq.component.html",
 })
-export class FaqComponent implements OnInit {
+export class FaqComponent {
   public title: string;
 
   constructor() {
     this.title = "Foire aux question de Domifa";
   }
-
-  public ngOnInit() {}
 
   public scrollTo(el: HTMLElement) {
     el.scrollIntoView({

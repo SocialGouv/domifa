@@ -30,11 +30,11 @@ export class DocumentsService {
         {
           $set: {
             docs: usager.docs,
-            docsPath: usager.docsPath
-          }
+            docsPath: usager.docsPath,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .exec();
@@ -50,10 +50,10 @@ export class DocumentsService {
       .findOneAndUpdate(
         {
           id,
-          structureId
+          structureId,
         },
         {
-          $push: { docs: newDoc, docsPath: filename }
+          $push: { docs: newDoc, docsPath: filename },
         },
         { new: true }
       )

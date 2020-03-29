@@ -3,7 +3,7 @@ import {
   IsEmpty,
   IsNotEmpty,
   IsOptional,
-  MinLength
+  MinLength,
 } from "class-validator";
 
 export class TransfertDto {

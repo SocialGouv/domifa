@@ -5,15 +5,13 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { DigitOnlyDirective } from "./digit-only.directive";
 
 @Component({
-  template: `
-    <input type="text" name="chips" digitOnly />
-  `
+  template: ` <input type="text" name="chips" digitOnly /> `,
 })
 class TestHoverFocusComponent {
   public value: any;
@@ -26,7 +24,7 @@ describe("Directive: Digit Only", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TestHoverFocusComponent, DigitOnlyDirective]
+      declarations: [TestHoverFocusComponent, DigitOnlyDirective],
     });
 
     fixture = TestBed.createComponent(TestHoverFocusComponent);

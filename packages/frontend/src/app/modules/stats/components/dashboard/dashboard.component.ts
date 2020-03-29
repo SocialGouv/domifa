@@ -8,7 +8,7 @@ import { StatsService } from "../../stats.service";
 @Component({
   selector: "app-dashboard",
   styleUrls: ["./dashboard.component.css"],
-  templateUrl: "./dashboard.component.html"
+  templateUrl: "./dashboard.component.html",
 })
 export class DashboardComponent implements OnInit {
   public title: string;
@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
     INSTRUCTION: "text-primary",
     RADIE: "text-danger",
     REFUS: "text-danger",
-    VALIDE: "text-secondary"
+    VALIDE: "text-secondary",
   };
 
   constructor(
@@ -59,25 +59,25 @@ export class DashboardComponent implements OnInit {
     });
 
     this.statsService.getAllStatuts().subscribe((stats: any[]) => {
-      stats.forEach(stat => {
+      stats.forEach((stat) => {
         this.allStats[stat._id.statut] = stat.sum[0];
       });
     });
 
     this.statsService.getAllInteractions().subscribe((stats: any[]) => {
-      stats.forEach(stat => {
+      stats.forEach((stat) => {
         this.allInteractions[stat._id.statut] = stat.sum[0];
       });
     });
 
     this.statsService.getStructuresStats().subscribe((stats: any[]) => {
-      stats.forEach(stat => {
+      stats.forEach((stat) => {
         this.stats[stat._id.structureId] = stat.statut;
       });
     });
 
     this.statsService.getStructuresInteractions().subscribe((stats: any[]) => {
-      stats.forEach(stat => {
+      stats.forEach((stat) => {
         this.interactions[stat._id.structureId] = stat.type;
       });
     });

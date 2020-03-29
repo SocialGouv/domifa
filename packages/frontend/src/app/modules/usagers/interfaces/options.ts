@@ -7,6 +7,8 @@ export class Options {
     nom: string | null;
     adresse: string | null;
     dateDebut: Date | null;
+    dateFin: Date | null;
+    dateFinPicker: NgbDateStruct | null;
   };
 
   public procuration: {
@@ -17,6 +19,7 @@ export class Options {
     dateFin: Date | null;
     dateFinPicker: NgbDateStruct | null;
     dateNaissance: string | null;
+    dateDebut: Date | null;
   };
 
   public npai: {
@@ -29,22 +32,25 @@ export class Options {
       actif: false,
       adresse: "",
       dateDebut: null,
-      nom: ""
+      dateFin: null,
+      dateFinPicker: null,
+      nom: "",
     };
 
     this.npai = {
       actif: false,
-      dateDebut: null
+      dateDebut: null,
     };
 
     this.procuration = {
       actif: false,
+      dateDebut: null,
       dateFin: null,
       dateFinPicker: null,
       dateNaissance: null,
       nom: "",
       nomComplet: "",
-      prenom: ""
+      prenom: "",
     };
 
     if (options) {
@@ -59,6 +65,13 @@ export class Options {
         ) {
           this.transfert.dateDebut = new Date(options.transfert.dateDebut);
         }
+
+        if (options.transfert.dateFin && options.transfert.dateFin !== null) {
+          this.transfert.dateFin = new Date(options.transfert.dateFin);
+          this.transfert.dateFinPicker = formatDateToNgb(
+            this.transfert.dateFin
+          );
+        }
       }
 
       if (typeof options.procuration !== "undefined") {
@@ -70,6 +83,9 @@ export class Options {
           "";
         this.procuration.dateNaissance =
           options.procuration.dateNaissance || "";
+
+        this.procuration.dateDebut =
+          new Date(options.procuration.dateDebut) || null;
 
         if (
           options.procuration.dateFin &&

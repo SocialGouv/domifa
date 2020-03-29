@@ -43,14 +43,14 @@ describe("UsagersProfilComponent", () => {
         FormsModule,
         HttpClientModule,
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes(routes),
       ],
       providers: [
         InteractionService,
         UsagerService,
-        { provide: APP_BASE_HREF, useValue: "/" }
+        { provide: APP_BASE_HREF, useValue: "/" },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     interactionService = TestBed.get(InteractionService);
@@ -74,7 +74,7 @@ describe("UsagersProfilComponent", () => {
     expect(app.notifInputs).toEqual({
       colisIn: 0,
       courrierIn: 0,
-      recommandeIn: 0
+      recommandeIn: 0,
     });
   }));
 
@@ -89,7 +89,7 @@ describe("UsagersProfilComponent", () => {
       .setInteraction(usagerTest, {
         content: "",
         nbCourrier: 10,
-        type: "courrierIn"
+        type: "courrierIn",
       })
       .subscribe((usager: Usager) => {
         expect(usager.lastInteraction.nbCourrier).toEqual(10);

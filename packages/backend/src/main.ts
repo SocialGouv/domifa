@@ -10,7 +10,7 @@ export async function bootstrap() {
 
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
-    release: "domifa@" + process.env.npm_package_version
+    release: "domifa@" + process.env.npm_package_version,
   });
 
   const app = await NestFactory.create(AppModule);
@@ -20,7 +20,7 @@ export async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true
+      whitelist: true,
     })
   );
   await app.listen(3000);

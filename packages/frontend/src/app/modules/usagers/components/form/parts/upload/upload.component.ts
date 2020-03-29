@@ -11,7 +11,7 @@ import { UsagerService } from "../../../../services/usager.service";
 @Component({
   selector: "app-upload",
   styleUrls: ["./upload.component.css"],
-  templateUrl: "./upload.component.html"
+  templateUrl: "./upload.component.html",
 })
 export class UploadComponent implements OnInit {
   /* Upload */
@@ -42,7 +42,7 @@ export class UploadComponent implements OnInit {
 
     this.uploadError = {
       fileSize: true,
-      fileType: true
+      fileType: true,
     };
   }
 
@@ -51,12 +51,12 @@ export class UploadComponent implements OnInit {
 
     this.uploadForm = this.formBuilder.group({
       imageInput: [this.fileName, Validators.required],
-      label: ["", Validators.required]
+      label: ["", Validators.required],
     });
 
     this.uploadError = {
       fileSize: true,
-      fileType: true
+      fileType: true,
     };
   }
 
@@ -73,7 +73,7 @@ export class UploadComponent implements OnInit {
         "image/jpeg",
         "image/bmp",
         "image/gif",
-        "image/png"
+        "image/png",
       ];
       const type = event.target.files[0].type;
       const size = event.target.files[0].size;
@@ -81,7 +81,7 @@ export class UploadComponent implements OnInit {
       this.fileName = event.target.files[0].name;
       this.uploadError = {
         fileSize: size < 5000000,
-        fileType: validFileExtensions.includes(type)
+        fileType: validFileExtensions.includes(type),
       };
 
       this.uploadForm.controls.imageInput.setValue(file); // <-- Set Value for Validation
@@ -95,7 +95,7 @@ export class UploadComponent implements OnInit {
     this.submittedFile = true;
     this.uploadError = {
       fileSize: true,
-      fileType: true
+      fileType: true,
     };
 
     const formData = new FormData();
@@ -103,7 +103,7 @@ export class UploadComponent implements OnInit {
     formData.append("label", this.uploadForm.controls.label.value);
 
     this.documentService.upload(formData, this.usager.id).subscribe(
-      res => {
+      (res) => {
         this.uploadResponse = res;
         if (
           this.uploadResponse.success !== undefined &&
@@ -114,7 +114,7 @@ export class UploadComponent implements OnInit {
           this.fileName = "";
         }
       },
-      err => (this.httpError = err)
+      (err) => (this.httpError = err)
     );
   }
 }

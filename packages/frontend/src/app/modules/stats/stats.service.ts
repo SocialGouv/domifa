@@ -6,7 +6,7 @@ import { Stats } from "./stats.interface";
 import { map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class StatsService {
   public http: HttpClient;
@@ -27,9 +27,9 @@ export class StatsService {
 
   public findAll(): Observable<Stats[]> {
     return this.http.get(`${this.baseUrl}all`).pipe(
-      map(response => {
+      map((response) => {
         return Array.isArray(response)
-          ? response.map(item => new Stats(item))
+          ? response.map((item) => new Stats(item))
           : [new Stats(response)];
       })
     );

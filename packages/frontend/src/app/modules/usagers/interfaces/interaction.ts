@@ -1,6 +1,6 @@
 import {
   interactionsLabels,
-  interactionsLabelsPluriel
+  interactionsLabelsPluriel,
 } from "../interactions.labels";
 
 export type InteractionTypes =

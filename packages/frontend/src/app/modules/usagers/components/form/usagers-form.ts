@@ -28,7 +28,7 @@ import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Decision } from "../../interfaces/decision";
 import {
   minDateNaissance,
-  maxDateNaissance,
+  formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
 
 @Component({
@@ -125,7 +125,7 @@ export class UsagersFormComponent implements OnInit {
     this.liensLabels = Object.keys(this.labels.lienParente);
 
     this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = maxDateNaissance;
+    this.maxDateNaissance = formatDateToNgb(new Date());
   }
 
   public ngOnInit() {

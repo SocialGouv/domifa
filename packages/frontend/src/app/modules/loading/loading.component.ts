@@ -8,7 +8,7 @@ import { LoadingService } from "./loading.service";
   animations: [fadeInOutSlow],
   selector: "app-loading",
   styleUrls: ["./loading.component.css"],
-  templateUrl: "./loading.component.html"
+  templateUrl: "./loading.component.html",
 })
 export class LoadingComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
@@ -21,7 +21,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.loadingSubscription = this.loadingService.loadingStatus
       .pipe(debounceTime(200))
-      .subscribe(value => {
+      .subscribe((value) => {
         this.loading = value;
       });
   }

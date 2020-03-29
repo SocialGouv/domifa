@@ -8,7 +8,7 @@ describe("CguComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CguComponent]
+      declarations: [CguComponent],
     }).compileComponents();
   }));
 

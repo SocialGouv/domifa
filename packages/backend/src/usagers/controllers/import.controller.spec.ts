@@ -19,8 +19,8 @@ describe("Import Controller", () => {
         CerfaService,
         UsagersService,
         DocumentsService,
-        ...UsagersProviders
-      ]
+        ...UsagersProviders,
+      ],
     }).compile();
 
     controller = module.get<ImportController>(ImportController);

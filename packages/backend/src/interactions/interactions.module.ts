@@ -14,8 +14,8 @@ import { InteractionsService } from "./interactions.service";
     DatabaseModule,
     forwardRef(() => UsersModule),
     forwardRef(() => UsagersModule),
-    forwardRef(() => StructuresModule)
+    forwardRef(() => StructuresModule),
   ],
-  providers: [InteractionsService, ...InteractionsProviders]
+  providers: [InteractionsService, ...InteractionsProviders],
 })
 export class InteractionsModule {}

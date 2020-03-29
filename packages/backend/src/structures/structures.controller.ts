@@ -9,7 +9,7 @@ import {
   Patch,
   Post,
   Response,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
@@ -85,14 +85,14 @@ export class StructuresController {
     } else {
       const admin = await this.usersService.findOne({
         role: "admin",
-        structureId: structure.id
+        structureId: structure.id,
       });
 
       const updatedAdmin = await this.usersService.update(
         admin.id,
         structure.id,
         {
-          verified: true
+          verified: true,
         }
       );
 
@@ -104,7 +104,7 @@ export class StructuresController {
   @Post("validate-email")
   public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
     const existUser = await this.structureService.findOneBasic({
-      email: emailDto.email
+      email: emailDto.email,
     });
     const emailExist = existUser !== null;
     return res.status(HttpStatus.OK).json(emailExist);

@@ -34,7 +34,7 @@ import { UsagerService } from "./services/usager.service";
     UsagersProfilComponent,
     ImportComponent,
     RaftComponent,
-    EntretienComponent
+    EntretienComponent,
   ],
   exports: [
     UploadComponent,
@@ -44,7 +44,7 @@ import { UsagerService } from "./services/usager.service";
     ManageUsagersComponent,
     UsagersProfilComponent,
     ImportComponent,
-    RaftComponent
+    RaftComponent,
   ],
   imports: [
     CommonModule,
@@ -61,18 +61,18 @@ import { UsagerService } from "./services/usager.service";
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 2000
+      timeOut: 2000,
     }),
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     DocumentService,
     UsagerService,
     InteractionService,
-    NgbDateCustomParserFormatter
-  ]
+    NgbDateCustomParserFormatter,
+  ],
 })
 export class UsagersModule {}

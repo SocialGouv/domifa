@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener } from "@angular/core";
 
 @Directive({
-  selector: "[digitOnly]"
+  selector: "[digitOnly]",
 })
 export class DigitOnlyDirective {
   public inputElement: HTMLElement;
@@ -17,7 +17,7 @@ export class DigitOnlyDirective {
     "ArrowRight",
     "Clear",
     "Copy",
-    "Paste"
+    "Paste",
   ];
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;

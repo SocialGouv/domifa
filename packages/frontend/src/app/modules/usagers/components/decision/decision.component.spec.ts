@@ -13,7 +13,7 @@ describe("DecisionComponent", () => {
       declarations: [],
       imports: [UsagersModule],
       providers: [UsagerService, { provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
     /*

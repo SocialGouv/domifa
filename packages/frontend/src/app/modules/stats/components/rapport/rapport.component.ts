@@ -9,7 +9,7 @@ import { Stats } from "../../stats.interface";
   encapsulation: ViewEncapsulation.None,
   selector: "app-rapport",
   styleUrls: ["./rapport.component.css"],
-  templateUrl: "./rapport.component.html"
+  templateUrl: "./rapport.component.html",
 })
 export class RapportComponent implements OnInit {
   public title: string;

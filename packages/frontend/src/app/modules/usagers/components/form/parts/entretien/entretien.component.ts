@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
   Output,
-  TemplateRef
+  TemplateRef,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
@@ -20,7 +20,7 @@ import * as labels from "src/app/modules/usagers/usagers.labels";
   providers: [UsagerService],
   selector: "app-entretien",
   styleUrls: ["./entretien.component.css"],
-  templateUrl: "./entretien.component.html"
+  templateUrl: "./entretien.component.html",
 })
 export class EntretienComponent implements OnInit {
   public labels: any;
@@ -64,7 +64,7 @@ export class EntretienComponent implements OnInit {
     this.entretienForm = this.formBuilder.group({
       accompagnement: [
         this.usager.entretien.accompagnement,
-        [Validators.required]
+        [Validators.required],
       ],
       accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
       cause: [this.usager.entretien.cause, []],
@@ -80,7 +80,7 @@ export class EntretienComponent implements OnInit {
       residenceDetail: [this.usager.entretien.residenceDetail, []],
       revenus: [this.usager.entretien.revenus, []],
       revenusDetail: [this.usager.entretien.revenusDetail, []],
-      typeMenage: [this.usager.entretien.typeMenage, []]
+      typeMenage: [this.usager.entretien.typeMenage, []],
     });
   }
 
@@ -93,7 +93,7 @@ export class EntretienComponent implements OnInit {
           this.editEntretienChange.emit(false);
           this.notifService.success("Enregistrement de l'entretien réussi");
         },
-        error => {
+        (error) => {
           this.notifService.error("Impossible d'enregistrer l'entretien");
         }
       );

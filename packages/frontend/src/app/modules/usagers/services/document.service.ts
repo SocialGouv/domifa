@@ -6,7 +6,7 @@ import { Doc } from "../interfaces/document";
 import { Usager } from "../interfaces/usager";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class DocumentService {
   public http: HttpClient;
@@ -23,7 +23,7 @@ export class DocumentService {
     return this.http
       .post<any>(uploadURL, data, {
         observe: "events",
-        reportProgress: true
+        reportProgress: true,
       })
       .pipe(
         map((event: HttpEvent<any>) => {
@@ -32,7 +32,7 @@ export class DocumentService {
               const progress = Math.round((100 * event.loaded) / event.total);
               return {
                 message: progress,
-                status: "progress"
+                status: "progress",
               };
             }
           } else if (event.type === HttpEventType.Response) {
@@ -47,7 +47,7 @@ export class DocumentService {
   public getDocument(usagerId: number, index: number, doc: Doc) {
     this.http
       .get(`${this.endPoint}${usagerId}/${index}`, { responseType: "blob" })
-      .subscribe(x => {
+      .subscribe((x) => {
         this.download(usagerId, doc, x);
       });
   }
@@ -71,7 +71,7 @@ export class DocumentService {
       new MouseEvent("click", {
         bubbles: true,
         cancelable: true,
-        view: window
+        view: window,
       })
     );
 
@@ -83,7 +83,7 @@ export class DocumentService {
 
   public deleteDocument(usagerId: number, index: number) {
     return this.http.delete(`${this.endPoint}${usagerId}/${index}`).pipe(
-      map(response => {
+      map((response) => {
         return new Usager(response);
       })
     );

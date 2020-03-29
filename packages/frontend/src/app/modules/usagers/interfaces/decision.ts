@@ -1,6 +1,6 @@
 import {
   motifsRadiation,
-  motifsRefus
+  motifsRefus,
 } from "src/app/modules/usagers/usagers.labels";
 
 export class Decision {

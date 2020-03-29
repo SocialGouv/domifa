@@ -16,7 +16,7 @@ describe("NewsComponent", () => {
     Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
       declarations: [NewsComponent],
-      imports: [HttpClientModule, HttpClientTestingModule, RouterTestingModule]
+      imports: [HttpClientModule, HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
   }));
 

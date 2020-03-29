@@ -2,7 +2,7 @@
 export const structureType = {
   asso: "Organisme agrée",
   ccas: "CCAS ",
-  cias: "CIAS ou commune"
+  cias: "CIAS ou commune",
 };
 
 /* LIENS DE PARENTÉ */
@@ -10,7 +10,7 @@ export const lienParente: { [key: string]: any } = {
   AUTRE: "Autre personne à la charge du domicilié",
   CONJOINT: "Conjoint.e",
   ENFANT: "Enfant",
-  PARENT: "Parent"
+  PARENT: "Parent",
 };
 
 /* DÉCISIONS */
@@ -22,7 +22,7 @@ export const decision: { [key: string]: any } = {
   PREMIERE_DOM: "Première domiciliation",
   RADIE: "Radiation",
   REFUS: "Demande refusée",
-  VALIDE: "Domiciliation acceptée"
+  VALIDE: "Domiciliation acceptée",
 };
 
 /* DÉCISIONS */
@@ -31,7 +31,7 @@ export const decisionStats: { [key: string]: any } = {
   INSTRUCTION: "DOSSIERS EN cours",
   RADIE: "radiés",
   REFUS: "Demandes refusées",
-  VALIDE: "DOMICILIÉS ACTIFS"
+  VALIDE: "DOMICILIÉS ACTIFS",
 };
 
 /* MOTIFS DE RADIATION ET REFUS */
@@ -43,13 +43,13 @@ export const motifsRadiation: { [key: string]: any } = {
   NON_MANIFESTATION_3_MOIS:
     "Non manifestation de la personne pendant plus de 3 mois consécutifs",
   NON_RESPECT_REGLEMENT: "Non-respect du règlement",
-  PLUS_DE_LIEN_COMMUNE: "Entrée dans un logement/hébergement stable"
+  PLUS_DE_LIEN_COMMUNE: "Entrée dans un logement/hébergement stable",
 };
 
 export const motifsRefus: { [key: string]: any } = {
   HORS_AGREMENT: "En dehors des critères du public domicilié",
   LIEN_COMMUNE: "Absence de lien avec la commune",
-  SATURATION: "Nombre maximal domiciliations atteint"
+  SATURATION: "Nombre maximal domiciliations atteint",
 };
 
 /* QUESTIONS RÉPONSES DE L'ENTRETIEN SOCIAL */
@@ -58,7 +58,7 @@ export const residence = {
   HEBERGEMENT_SOCIAL: "Hébergement social (sans service courrier)",
   HEBERGEMENT_TIERS: "Hébergé chez un tiers",
   HOTEL: "Hôtel",
-  SANS_ABRI: "Sans abris / Squat"
+  SANS_ABRI: "Sans abris / Squat",
 };
 
 export const typeMenage = {
@@ -68,7 +68,7 @@ export const typeMenage = {
   FEMME_ISOLE_SANS_ENFANT: "Femme isolée sans enfant",
   HOMME_ISOLE_AVEC_ENFANT: "Homme isolé avec enfant(s)",
   HOMME_ISOLE_SANS_ENFANT: "Homme isolé sans enfant",
-  MINEUR: "Mineur"
+  MINEUR: "Mineur",
 };
 
 export const cause = {
@@ -78,10 +78,10 @@ export const cause = {
   ITINERANT: "Personnes itinérantes",
   RUPTURE: "Rupture familiale et/ou conjugale ",
   SORTIE_STRUCTURE: "Sortie d'une structure d'hébergement",
-  VIOLENCE: "Violence familiale et/ou conjugale"
+  VIOLENCE: "Violence familiale et/ou conjugale",
 };
 
 export const raison = {
   EXERCICE_DROITS: "Exercice des droits civils ou civiques",
-  PRESTATIONS_SOCIALES: "Accès aux prestations sociales"
+  PRESTATIONS_SOCIALES: "Accès aux prestations sociales",
 };

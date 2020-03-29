@@ -3,7 +3,7 @@ import {
   IsIn,
   IsNotEmpty,
   IsNumber,
-  IsOptional
+  IsOptional,
 } from "class-validator";
 
 export class InteractionDto {
@@ -15,7 +15,7 @@ export class InteractionDto {
     "colisIn",
     "colisOut",
     "appel",
-    "visite"
+    "visite",
   ])
   @IsNotEmpty()
   public type!: string;

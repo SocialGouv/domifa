@@ -10,7 +10,7 @@ export class SearchDto {
     "RADIE",
     "INSTRUCTION",
     "EXPIRE",
-    "RENOUVELLEMENT"
+    "RENOUVELLEMENT",
   ])
   public statut!: string;
 
@@ -40,7 +40,7 @@ export class SearchDto {
     "recommandeIn",
     "recommandeOut",
     "appel",
-    "visite"
+    "visite",
   ])
   public interactionType!: string;
 

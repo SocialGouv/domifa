@@ -5,6 +5,7 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbModal,
+  NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { PrintService } from "src/app/modules/shared/print.service";
@@ -41,17 +42,9 @@ export class DecisionComponent implements OnInit {
   public minDate = { day: 1, month: 1, year: this.dToday.getFullYear() - 1 };
   public maxDate = { day: 1, month: 1, year: this.dToday.getFullYear() + 2 };
 
-  public dateDebutPicker = {
-    day: this.dToday.getDate(),
-    month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear(),
-  };
+  public dateDebutPicker: NgbDateStruct;
 
-  public dateFinPicker = {
-    day: this.dToday.getDate(),
-    month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear() + 1,
-  };
+  public dateFinPicker: NgbDateStruct;
 
   public maxDateRefus = this.dateDebutPicker;
 
@@ -80,6 +73,18 @@ export class DecisionComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.dateDebutPicker = {
+      day: this.dToday.getDate(),
+      month: this.dToday.getMonth() + 1,
+      year: this.dToday.getFullYear(),
+    };
+
+    this.dateFinPicker = {
+      day: this.dToday.getDate(),
+      month: this.dToday.getMonth() + 1,
+      year: this.dToday.getFullYear() + 1,
+    };
+
     this.usager.decision.dateDebut = new Date();
     this.usager.decision.dateFin = new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)

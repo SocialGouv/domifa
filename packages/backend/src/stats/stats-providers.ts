@@ -7,6 +7,6 @@ export const StatsProviders = [
     inject: ["DATABASE_CONNECTION"],
     provide: "STATS_MODEL",
     useFactory: (connection: Connection) =>
-      connection.model<StatsDocument>("Stats", StatsSchema)
-  }
+      connection.model<StatsDocument>("Stats", StatsSchema),
+  },
 ];

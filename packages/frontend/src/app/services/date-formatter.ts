@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import {
   NgbDateParserFormatter,
-  NgbDateStruct
+  NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { isNumber, padNumber, toInteger } from "../shared/bootstrap-util";
 
@@ -20,7 +20,7 @@ export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
         return {
           day: toInteger(dateParts[0]),
           month: toInteger(dateParts[1]),
-          year: null
+          year: null,
         };
       } else if (
         dateParts.length === 3 &&
@@ -31,7 +31,7 @@ export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
         return {
           day: toInteger(dateParts[0]),
           month: toInteger(dateParts[1]),
-          year: toInteger(dateParts[2])
+          year: toInteger(dateParts[2]),
         };
       }
     }
