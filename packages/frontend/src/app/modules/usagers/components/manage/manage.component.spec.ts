@@ -84,9 +84,9 @@ describe("ManageUsagersComponent", () => {
     expect(app.searching).toEqual(true);
     expect(app.filters).toEqual({
       echeance: null,
-      interactionStatut: null,
       interactionType: null,
       name: null,
+      page: 0,
       sort: "az",
       statut: "VALIDE",
     });
@@ -97,9 +97,9 @@ describe("ManageUsagersComponent", () => {
     app.updateFilters("statut", "REFUS");
     expect(app.filters).toEqual({
       echeance: null,
-      interactionStatut: null,
       interactionType: null,
       name: null,
+      page: 0,
       sort: "za",
       statut: "REFUS",
     });
@@ -109,9 +109,9 @@ describe("ManageUsagersComponent", () => {
     app.resetFilters();
     expect(app.filters).toEqual({
       echeance: null,
-      interactionStatut: null,
       interactionType: null,
       name: null,
+      page: 0,
       sort: "az",
       statut: "VALIDE",
     });

@@ -428,9 +428,10 @@ export class StatsService {
     }
     return response;
   }
-  private async totalMaintenant(
+
+  public async totalMaintenant(
     structureId: number,
-    statut: string,
+    statut?: string,
     motif?: string,
     orientation?: string,
     cause?: string,
@@ -438,7 +439,7 @@ export class StatsService {
   ): Promise<number> {
     const query: {
       "decision.motif"?: string;
-      "decision.statut": string;
+      "decision.statut"?: string | {};
       "decision.orientation"?: string;
       "entretien.cause"?: string | {};
       dateNaissance: {
@@ -446,6 +447,7 @@ export class StatsService {
         $lte: Date;
       };
       structureId: number;
+      typeDom?: string;
     } = {
       "decision.motif": motif,
       "decision.statut": statut,
@@ -460,6 +462,17 @@ export class StatsService {
 
     if (!motif || motif === "") {
       delete query["decision.motif"];
+    }
+
+    if (!statut || statut === "") {
+      delete query["decision.statut"];
+    }
+
+    if (statut && statut === "RENOUVELLEMENT") {
+      query["decision.statut"] = {
+        $in: ["INSTRUCTION", "ATTENTE_DECISION"],
+      };
+      query.typeDom = "RENOUVELLEMENT";
     }
 
     if (statut !== "REFUS" || !orientation || orientation === "") {

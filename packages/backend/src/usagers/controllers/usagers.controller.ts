@@ -9,7 +9,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   Res,
   UploadedFile,
   UseGuards,
@@ -34,7 +33,7 @@ import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { ProcurationDto } from "../dto/procuration.dto";
 import { RdvDto } from "../dto/rdv.dto";
-import { SearchDto } from "../dto/search.dto";
+
 import { TransfertDto } from "../dto/transfert.dto";
 import { UsagersDto } from "../dto/usagers.dto";
 import { Usager } from "../interfaces/usagers";
@@ -52,12 +51,6 @@ export class UsagersController {
     private readonly interactionService: InteractionsService,
     private readonly cerfaService: CerfaService
   ) {}
-
-  /* PROFILE & MANAGEMENT */
-  @Get("search")
-  public search(@Query() query: SearchDto, @CurrentUser() user: User) {
-    return this.usagersService.search(query, user.structureId);
-  }
 
   /* FORMULAIRE INFOS */
   @Post()
@@ -131,11 +124,6 @@ export class UsagersController {
     @CurrentUsager() usager: Usager
   ) {
     return this.usagersService.renouvellement(usager, user);
-  }
-
-  @Get("stats")
-  public async stats(@CurrentUser() user: User) {
-    return this.usagersService.getStatsByStructure(user.structureId);
   }
 
   @UseGuards(RolesGuard)
@@ -514,6 +502,7 @@ export class UsagersController {
       }
     }, 2500);
   }
+
   private encryptFile(fileName: string) {
     const key = new ConfigService().get("FILES_PRIVATE");
     const iv = new ConfigService().get("FILES_IV");

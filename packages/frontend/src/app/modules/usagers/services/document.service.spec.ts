@@ -5,7 +5,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from "@angular/common/http/testing";
-import { Doc } from "../interfaces/document";
+import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usager";
 import { DocumentService } from "./document.service";
 describe("DocumentService", () => {

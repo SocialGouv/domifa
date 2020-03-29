@@ -2,7 +2,7 @@ import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { Doc } from "../interfaces/document";
+import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usager";
 
 @Injectable({

@@ -4,6 +4,7 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  HostListener,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -43,11 +44,19 @@ export class ManageUsagersComponent implements OnInit {
 
   public notifs: { [key: string]: any } = interactionsNotifs;
 
-  public filters: {
-    [key: string]: any;
+  public filters: Search;
+  public nbResults: number;
+
+  public stats: {
+    INSTRUCTION: number;
+    VALIDE: number;
+    ATTENTE_DECISION: number;
+    RENOUVELLEMENT: number;
+    REFUS: number;
+    RADIE: number;
+    TOUS: number;
   };
 
-  public stats: { [key: string]: any };
   public structure: Structure;
   public selectedUsager: Usager;
 
@@ -70,15 +79,19 @@ export class ManageUsagersComponent implements OnInit {
     this.searching = true;
     this.dateLabel = "Fin de domiciliation";
     this.filters = new Search(this.getFilters());
+    this.filters.page = 0;
+    this.nbResults = 0;
     this.selectedUsager = new Usager();
     this.structure = this.authService.currentUserValue.structure;
 
     this.stats = {
-      ATTENTE_DECISION: 0,
       INSTRUCTION: 0,
-      RADIE: 0,
-      REFUS: 0,
       VALIDE: 0,
+      ATTENTE_DECISION: 0,
+      RENOUVELLEMENT: 0,
+      REFUS: 0,
+      RADIE: 0,
+      TOUS: 0,
     };
   }
 
@@ -116,10 +129,9 @@ export class ManageUsagersComponent implements OnInit {
     this.search();
   }
 
-  public updateFilters(element: Filters, value: string | boolean | null) {
+  public updateFilters(element: Filters, value: string | null) {
     if (
       element === "interactionType" ||
-      element === "interactionStatut" ||
       element === "statut" ||
       element === "passage" ||
       element === "echeance" ||
@@ -130,6 +142,7 @@ export class ManageUsagersComponent implements OnInit {
     } else {
       this.filters[element] = value;
     }
+    this.filters.page = 0;
     this.search();
   }
 
@@ -196,21 +209,7 @@ export class ManageUsagersComponent implements OnInit {
 
   public getStats() {
     this.usagerService.getStats().subscribe((stats: any) => {
-      if (stats.length > 0) {
-        stats[0].statut.forEach((stat: any) => {
-          this.stats[stat.statut] = stat.sum;
-        });
-      } else {
-        this.stats = {
-          ATTENTE_DECISION: 0,
-          INSTRUCTION: 0,
-          RADIE: 0,
-          REFUS: 0,
-          RENOUVELLEMENT: 0,
-          TOUS: 0,
-          VALIDE: 0,
-        };
-      }
+      this.stats = stats;
     });
   }
 
@@ -225,8 +224,23 @@ export class ManageUsagersComponent implements OnInit {
     localStorage.setItem("filters", JSON.stringify(this.filters));
 
     this.usagerService.search(this.filters).subscribe(
-      (usagers: Usager[]) => {
-        this.usagers = usagers;
+      (response: { results: Usager[] | Usager; nbResults: number }) => {
+        const usagers = Array.isArray(response.results)
+          ? response.results.map((item) => new Usager(item))
+          : [new Usager(response)];
+
+        if (this.filters.page === 0) {
+          this.nbResults = response.nbResults;
+          this.usagers = usagers;
+
+          window.scroll({
+            behavior: "smooth",
+            left: 0,
+            top: 0,
+          });
+        } else {
+          this.usagers = this.usagers.concat(usagers);
+        }
         this.searching = false;
       },
       (error) => {
@@ -239,5 +253,19 @@ export class ManageUsagersComponent implements OnInit {
   private getFilters() {
     const filters = localStorage.getItem("filters");
     return filters === null ? {} : JSON.parse(filters);
+  }
+
+  @HostListener("window:scroll", ["$event"])
+  onScroll($event: Event): void {
+    const pos =
+      (document.documentElement.scrollTop || document.body.scrollTop) +
+      document.documentElement.offsetHeight;
+    const max = document.documentElement.scrollHeight;
+    const pourcent = (pos / max) * 100;
+
+    if (pourcent >= 70 && this.usagers.length < this.nbResults) {
+      this.filters.page = this.filters.page + 1;
+      this.search();
+    }
   }
 }

@@ -22,6 +22,7 @@ import { Usager } from "../interfaces/usager";
 export class UsagerService {
   public http: HttpClient;
   public loading: boolean;
+
   public endPointUsagers = environment.apiUrl + "usagers";
 
   constructor(
@@ -154,11 +155,11 @@ export class UsagerService {
   }
 
   public getStats() {
-    return this.http.get(`${this.endPointUsagers}/stats`);
+    return this.http.get(`${environment.apiUrl}search/stats`);
   }
 
   /* Recherche */
-  public search(search: any): Observable<Usager[]> {
+  public search(search: any): Observable<any> {
     let data = new HttpParams();
 
     Object.keys(search).forEach((key) => {
@@ -168,15 +169,7 @@ export class UsagerService {
       }
     });
 
-    return this.http
-      .get(`${this.endPointUsagers}/search/`, { params: data })
-      .pipe(
-        map((response) => {
-          return Array.isArray(response)
-            ? response.map((item) => new Usager(item))
-            : [new Usager(response)];
-        })
-      );
+    return this.http.get(`${environment.apiUrl}search/`, { params: data });
   }
 
   /* Attestation */
@@ -227,7 +220,6 @@ export class UsagerService {
 
   public import(data: any) {
     const uploadURL = environment.apiUrl + "import";
-
     return this.http
       .post<any>(uploadURL, data, {
         observe: "events",

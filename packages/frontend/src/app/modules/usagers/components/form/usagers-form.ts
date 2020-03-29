@@ -8,7 +8,7 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { Doc } from "src/app/modules/usagers/interfaces/document";
+import { Doc } from "src/app/modules/usagers/interfaces/doc";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";

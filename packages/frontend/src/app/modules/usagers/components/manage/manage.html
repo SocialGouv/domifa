@@ -7,7 +7,7 @@
       [ngClass]="filters.statut === 'TOUS' ? 'filter-primary' : 'filter-dark'"
       (click)="updateFilters('statut', 'TOUS')"
     >
-      Tous
+      Tous ({{ stats.TOUS }})
     </div>
     <div
       class="col"
@@ -21,7 +21,7 @@
       [ngClass]="filters.statut === 'RENOUVELLEMENT' ? 'filter-secondary' : 'filter-dark'"
       (click)="updateFilters('statut', 'RENOUVELLEMENT')"
     >
-      Renouvellements
+      Renouvellements ({{ stats.RENOUVELLEMENT }})
     </div>
     <div
       class="col"
@@ -157,7 +157,11 @@
   </div>
 
   <div class="row" id="usagers-list">
-    <div *ngIf="searching" @fadeInOut class="text-center content-overlay">
+    <div
+      *ngIf="searching && filters.page === 0"
+      @fadeInOut
+      class="text-center content-overlay"
+    >
       <div *ngIf="searching" @fadeInOutSlow>
         <fa-icon
           [icon]="['fas', 'spinner']"

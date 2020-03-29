@@ -3,7 +3,7 @@ import { formatDateToNgb } from "../../../shared/bootstrap-util";
 import { Rdv } from "../interfaces/rdv";
 import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
-import { Doc } from "./document";
+import { Doc } from "./doc";
 import { Entretien } from "./entretien";
 import { Options } from "./options";
 

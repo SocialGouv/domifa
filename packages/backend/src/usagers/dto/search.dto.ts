@@ -29,10 +29,6 @@ export class SearchDto {
   @IsOptional()
   public passage!: string;
 
-  @IsBoolean()
-  @IsOptional()
-  public interactionStatut!: boolean;
-
   @IsOptional()
   @IsIn([
     "courrierIn",
@@ -47,4 +43,7 @@ export class SearchDto {
   @IsNumber()
   @IsOptional()
   public id!: number;
+
+  @IsOptional()
+  public page!: number;
 }

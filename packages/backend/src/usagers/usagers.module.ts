@@ -10,9 +10,11 @@ import { CerfaService } from "./services/cerfa.service";
 import { DocumentsService } from "./services/documents.service";
 import { UsagersService } from "./services/usagers.service";
 import { UsagersProviders } from "./usagers.providers";
+import { SearchController } from "./controllers/search.controller";
+import { StatsModule } from "../stats/stats.module";
 
 @Module({
-  controllers: [UsagersController, ImportController],
+  controllers: [UsagersController, ImportController, SearchController],
   exports: [
     UsagersService,
     CerfaService,
@@ -23,6 +25,7 @@ import { UsagersProviders } from "./usagers.providers";
   imports: [
     DatabaseModule,
     forwardRef(() => StructuresModule),
+    forwardRef(() => StatsModule),
     forwardRef(() => UsersModule),
     forwardRef(() => InteractionsModule),
   ],

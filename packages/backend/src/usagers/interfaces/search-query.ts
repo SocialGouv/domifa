@@ -3,7 +3,7 @@ export interface SearchQuery {
   $or?: any[];
   interactionType?: string;
   typeDom?: string;
-  interactionStatut?: boolean;
+
   "decision.statut"?: {};
   "decision.dateFin"?: {};
   "lastInteraction.nbCourrier"?: {};
