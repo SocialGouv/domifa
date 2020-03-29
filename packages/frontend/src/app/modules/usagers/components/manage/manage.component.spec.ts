@@ -87,6 +87,7 @@ describe("ManageUsagersComponent", () => {
       interactionType: null,
       name: null,
       page: 0,
+      passage: null,
       sort: "az",
       statut: "VALIDE",
     });
@@ -100,6 +101,7 @@ describe("ManageUsagersComponent", () => {
       interactionType: null,
       name: null,
       page: 0,
+      passage: null,
       sort: "za",
       statut: "REFUS",
     });
@@ -112,6 +114,7 @@ describe("ManageUsagersComponent", () => {
       interactionType: null,
       name: null,
       page: 0,
+      passage: null,
       sort: "az",
       statut: "VALIDE",
     });

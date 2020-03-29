@@ -39,6 +39,7 @@ export class ManageUsagersComponent implements OnInit {
     INSTRUCTION: "Dossier débuté le",
     RADIE: "Radié le ",
     REFUS: "Date de refus",
+    TOUS: "Fin de domiciliation",
     VALIDE: "Fin de domiciliation",
   };
 

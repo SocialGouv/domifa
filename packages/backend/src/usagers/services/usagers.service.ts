@@ -269,9 +269,6 @@ export class UsagersService {
       .exec();
   }
 
-  // TODO: Filtrer uniquement les validés pour les "échénaces de dom dépassé"
-
-  // TODO: ajouter le tri par date d'écéhance
   public async search(query: any, sort: any, page: number): Promise<any> {
     return this.usagerModel
       .find(query)

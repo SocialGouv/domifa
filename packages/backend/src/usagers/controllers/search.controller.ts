@@ -6,6 +6,7 @@ import { User } from "../../users/user.interface";
 import { SearchQuery } from "../interfaces/search-query";
 import { AuthGuard } from "@nestjs/passport";
 import { StatsService } from "../../stats/stats.service";
+import * as moment from "moment";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("search")
@@ -23,13 +24,22 @@ export class SearchController {
       structureId: user.structureId,
     };
 
-    const today = new Date();
+    const today = moment().startOf("day").toDate();
+    const nextTwoMonths: Date = moment()
+      .startOf("day")
+      .add(2, "months")
+      .toDate();
 
-    const deuxMois: Date = new Date(new Date().setDate(today.getDate() + 60));
-    const deuxSemaines: Date = new Date(
-      new Date().setDate(today.getDate() + 14)
-    );
-    const troisMois: Date = new Date(new Date().setDate(today.getDate() + 90));
+    const nextTwoWeeks: Date = moment().startOf("day").add(14, "days").toDate();
+
+    const lastTwoMonths: Date = moment()
+      .startOf("day")
+      .subtract(2, "months")
+      .toDate();
+    const lastThreeMonths: Date = moment()
+      .startOf("day")
+      .subtract(3, "months")
+      .toDate();
 
     const sortValues: {
       [key: string]: {};
@@ -44,15 +54,15 @@ export class SearchController {
       [key: string]: {};
     } = {
       DEPASSEE: { $lte: today },
-      DEUX_MOIS: { $lte: deuxMois, $gte: today },
-      DEUX_SEMAINES: { $lte: deuxSemaines, $gte: today },
+      DEUX_MOIS: { $lte: nextTwoMonths, $gte: today },
+      DEUX_SEMAINES: { $lte: nextTwoWeeks, $gte: today },
     };
 
     const passages: {
       [key: string]: {};
     } = {
-      DEUX_MOIS: { $gte: deuxMois },
-      TROIS_MOIS: { $lte: troisMois },
+      DEUX_MOIS: { $lte: lastTwoMonths },
+      TROIS_MOIS: { $lte: lastThreeMonths },
     };
 
     /* ID DE LA STRUCTURE DE LUSER */
@@ -87,15 +97,33 @@ export class SearchController {
 
     if (query.echeance) {
       searchQuery["decision.dateFin"] = echeances[query.echeance];
+      searchQuery["decision.statut"] = "VALIDE";
+      sort = { "decision.dateFin": "descending", nom: "acending" };
     }
 
     if (query.passage) {
-      searchQuery["lastInteraction.dateInteraction"] = passages[query.passage];
+      searchQuery["decision.statut"] = "VALIDE";
+      searchQuery.$or = [
+        {
+          "lastInteraction.dateInteraction": passages[query.passage],
+        },
+        {
+          "decision.dateDebut": passages[query.passage],
+          "lastInteraction.dateInteraction": null,
+        },
+      ];
+
+      sort = {
+        "lastInteraction.dateInteraction": "descending",
+        nom: "acending",
+      };
     }
 
     if (query.sort) {
       sort = sortValues[query.sort];
     }
+
+    // TODO: ajouter le tri par date d'écéhance
 
     return {
       results: await this.usagersService.search(searchQuery, sort, query.page),

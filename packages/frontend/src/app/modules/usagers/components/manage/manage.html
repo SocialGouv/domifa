@@ -76,7 +76,6 @@
   <div class="row" id="filters-btn">
     <div class="col-4 text-left">
       <span>Dernier passage</span>
-
       <div
         class="btn-group btn-group-toggle"
         role="group"
@@ -177,7 +176,13 @@
       <thead>
         <th class="text-center">#</th>
         <th>Nom prénom</th>
-        <th>{{ dateLabel }}</th>
+        <th class="text-center" *ngIf="filters.passage !== null">
+          Dernier passage
+        </th>
+        <th class="text-center" *ngIf="filters.passage !== null">
+          Domicilié depuis le
+        </th>
+        <th *ngIf="filters.passage === null">{{ dateLabel }}</th>
         <td colspan="3" class="text-right">
           <div class="sort-structures form-group form-check-inline">
             <button
@@ -209,6 +214,7 @@
               >{{ usager.id }}</span
             >
           </td>
+
           <td
             (click)="goToProfil(usager)"
             scope="row"
@@ -220,7 +226,23 @@
               >({{ usager.surnom }})</span
             >
           </td>
-          <td (click)="goToProfil(usager)">
+
+          <td
+            class="text-center"
+            (click)="goToProfil(usager)"
+            *ngIf="filters.passage !== null"
+          >
+            {{ usager.lastInteraction.dateInteraction || "Aucun passage "}}
+          </td>
+          <td
+            class="text-center"
+            (click)="goToProfil(usager)"
+            *ngIf="filters.passage !== null"
+          >
+            {{ usager.decision.dateDebut | date: "dd/MM/yyyy" }}
+          </td>
+
+          <td (click)="goToProfil(usager)" *ngIf="filters.passage === null">
             <span
               *ngIf="usager.decision.statut === 'REFUS' || usager.decision.statut === 'RADIE'"
               class="text-danger font-weight-bold"

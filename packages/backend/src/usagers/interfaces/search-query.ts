@@ -1,12 +1,11 @@
 export interface SearchQuery {
   name?: string;
-  $or?: any[];
+  $or?: any;
   interactionType?: string;
   typeDom?: string;
-
   "decision.statut"?: {};
   "decision.dateFin"?: {};
   "lastInteraction.nbCourrier"?: {};
-  "lastInteraction.dateInteraction"?: {};
+  "lastInteraction.dateInteraction"?: any;
   structureId: number;
 }

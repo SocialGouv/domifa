@@ -11,11 +11,13 @@ export class Search {
   public name?: string;
   public echeance?: string;
   public interactionType?: string;
+  public passage?: string;
   public sort?: string;
   public page: number;
 
   constructor(search?: any) {
     this.interactionType = (search && search.interactionType) || null;
+    this.passage = (search && search.passage) || null;
     this.echeance = (search && search.echeance) || null;
     this.name = (search && search.name) || null;
     this.sort = (search && search.sort) || "az";

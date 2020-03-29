@@ -181,8 +181,9 @@ tbody tr:hover {
 }
 
 thead th {
-  opacity: 0.9;
-  font-weight: 500;
+  opacity: 0.95;
+  font-weight: 600;
+  font-size: 1rem;
   padding-bottom: 10px;
 }
 
@@ -213,27 +214,6 @@ th {
 .icones_liste span:hover {
   -webkit-text-stroke-width: 10px;
   stroke-width: 10px;
-}
-
-.letter {
-  display: none;
-}
-.letter:hover,
-.letter td:hover {
-  border: none;
-  box-shadow: 0 0 0 white !important;
-  background: white;
-}
-
-.letter td {
-  border: none !important;
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 0;
-  height: 13px;
-  padding: 15px 0 0 2px;
-  color: #505d68;
-  opacity: 0.8;
 }
 
 .usager_informations span {
