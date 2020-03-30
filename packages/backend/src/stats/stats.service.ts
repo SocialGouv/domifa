@@ -604,17 +604,24 @@ export class StatsService {
     structureId: number,
     type: string
   ): Promise<number> {
-    const response = await this.interactionModel
-      .countDocuments({
+    const search = {
+      $match: {
         structureId,
         type,
-      })
+      },
+    };
+
+    const groupBy = { $group: { _id: null, total: { $sum: "$nbCourrier" } } };
+
+    const response = await this.interactionModel
+      .aggregate([search, groupBy])
       .exec();
 
-    if (!response || response === null) {
-      return 0;
+    if (response.length) {
+      return typeof response[0].total !== "undefined" ? response[0].total : 0;
     }
-    return response;
+
+    return 0;
   }
 
   public async clean() {

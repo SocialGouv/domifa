@@ -39,6 +39,8 @@ export class InteractionsService {
       interactionDto.type === "courrierOut" ||
       interactionDto.type === "recommandeOut"
     ) {
+      interactionDto.nbCourrier = usager.lastInteraction.nbCourrier;
+
       if (interactionDto.procuration) {
         interactionDto.content =
           "Courrier remis au mandataire : " +

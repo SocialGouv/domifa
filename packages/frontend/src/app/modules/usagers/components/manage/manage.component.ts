@@ -79,7 +79,7 @@ export class ManageUsagersComponent implements OnInit {
     this.usagers = [];
     this.searching = true;
     this.dateLabel = "Fin de domiciliation";
-    this.filters = new Search(this.getFilters());
+    this.filters = new Search();
     this.filters.page = 0;
     this.nbResults = 0;
     this.selectedUsager = new Usager();
@@ -97,6 +97,7 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.filters = new Search(this.getFilters());
     this.getStats();
     this.search();
 
