@@ -128,11 +128,9 @@ export const UsagerSchema = new mongoose.Schema(
       type: {
         nbCourrier: {
           type: Number,
-          default: 0,
         },
         dateInteraction: {
           type: Date,
-          default: Date.now,
         },
       },
       default: {
