@@ -396,9 +396,6 @@ export class ImportController {
         },
         etapeDemande: 5,
         historique,
-        lastInteraction: {
-          dateInteraction: new Date(),
-        },
         nom: row[NOM],
         phone,
         prenom: row[PRENOM],

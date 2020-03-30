@@ -132,6 +132,7 @@ export const UsagerSchema = new mongoose.Schema(
         },
         dateInteraction: {
           type: Date,
+          default: Date.now,
         },
       },
       default: {
