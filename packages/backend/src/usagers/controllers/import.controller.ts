@@ -47,12 +47,49 @@ export const MENAGE = 15;
 export const AYANT_DROIT = [16, 20, 24, 28];
 export const CUSTOM_ID = 32;
 
+export const colNames = [
+  "Civilité",
+  "Nom",
+  "Prénom",
+  "Surnom",
+  "Date naissance",
+  "Lieu naissance",
+  "Email",
+  "Téléphone",
+  "Statut demande",
+  "Type demande",
+  "Date de Début de la DOM actuelle",
+  "Date de FIN de la DOM actuelle",
+  "Date 1ere domiciliation",
+  "Motif de refus",
+  "Motif de radiation",
+  "Composition du ménage",
+  "Ayant-droit 1: nom",
+  "Ayant-droit 1: prénom",
+  "Ayant-droit 1: date naissance",
+  "Ayant-droit 1: lien parenté",
+  "Ayant-droit 2: nom",
+  "Ayant-droit 2: prénom",
+  "Ayant-droit 2: date naissance",
+  "Ayant-droit 2: lien parenté",
+  "Ayant-droit 3: nom",
+  "Ayant-droit 3: prénom",
+  "Ayant-droit 3: date naissance",
+  "Ayant-droit 3: lien parenté",
+  "Ayant-droit 4: nom",
+  "Ayant-droit 4: prénom",
+  "Ayant-droit 4: date de naissance",
+  "Ayant-droit 4: lien parenté",
+  "Numéro d'identification",
+];
+
 type AOA = any[][];
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("import")
 export class ImportController {
   public errorsId: string[];
+  public colNames: string[];
   public rowNumber: number;
   public datas: AOA = [[], []];
   private readonly logger = new Logger(ImportController.name);
@@ -65,6 +102,8 @@ export class ImportController {
     this.errorsId = [];
     this.rowNumber = 0;
     this.datas = [[], []];
+
+    this.colNames = colNames;
   }
 
   @Post()
@@ -357,6 +396,9 @@ export class ImportController {
         },
         etapeDemande: 5,
         historique,
+        lastInteraction: {
+          dateInteraction: new Date(),
+        },
         nom: row[NOM],
         phone,
         prenom: row[PRENOM],
@@ -383,7 +425,14 @@ export class ImportController {
   }
 
   private countErrors(variable: boolean, idRow: any, idColumn: number) {
-    const position = idRow.toString() + "_" + idColumn.toString();
+    const position =
+      "ID row : " +
+      idRow.toString() +
+      " -- " +
+      this.colNames[idColumn] +
+      "  - " +
+      variable;
+
     if (
       this.datas[idRow][STATUT_DOM] === "REFUS" &&
       (idColumn === DATE_DEBUT_DOM ||
@@ -395,9 +444,6 @@ export class ImportController {
     }
 
     if (variable !== true) {
-      this.logger.log(
-        "ID row : " + idRow + " -- " + variable + " Col " + idColumn
-      );
       this.errorsId.push(position);
     }
     return variable;
