@@ -17,14 +17,12 @@
 Lint @domifa/frontend:
   <<: *quality_stage
   <<: *master_based_stage
-  allow_failure: true
   script:
     - yarn workspace @domifa/frontend lint
 
 Lint @domifa/backend:
   <<: *quality_stage
   <<: *master_based_stage
-  allow_failure: true
   script:
     - yarn workspace @domifa/backend lint
 
