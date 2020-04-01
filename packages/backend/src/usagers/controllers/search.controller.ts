@@ -24,21 +24,27 @@ export class SearchController {
       structureId: user.structureId,
     };
 
-    const today = moment().startOf("day").toDate();
+    const today = moment().utc().startOf("day").toDate();
 
     const nextTwoMonths: Date = moment()
       .startOf("day")
       .add(2, "months")
       .toDate();
 
-    const nextTwoWeeks: Date = moment().startOf("day").add(14, "days").toDate();
+    const nextTwoWeeks: Date = moment()
+      .utc()
+      .startOf("day")
+      .add(14, "days")
+      .toDate();
 
     const lastTwoMonths: Date = moment()
+      .utc()
       .startOf("day")
       .subtract(2, "months")
       .toDate();
 
     const lastThreeMonths: Date = moment()
+      .utc()
       .startOf("day")
       .subtract(3, "months")
       .toDate();
@@ -116,8 +122,6 @@ export class SearchController {
     if (query.sort) {
       sort = sortValues[query.sort];
     }
-
-    // TODO: ajouter le tri par date d'écéhance
 
     return {
       results: await this.usagersService.search(searchQuery, sort, query.page),

@@ -22,7 +22,6 @@ import { StatsDocument } from "./stats.interface";
 
 @Injectable()
 export class StatsService {
-  public annee: number;
   public debutAnnee: Date;
   public finAnnee: Date;
   public dateMajorite: Date;
@@ -45,12 +44,15 @@ export class StatsService {
     private readonly usagersService: UsagersService,
     private readonly interactionsService: InteractionsService
   ) {
-    this.today = moment().startOf("day").toDate();
-    this.demain = moment().endOf("day").toDate();
-    this.annee = new Date().getFullYear();
-    this.debutAnnee = new Date("January 01, " + this.annee + " 00:01:00");
-    this.finAnnee = new Date("December 31, " + this.annee + " 23:59:00");
-    this.dateMajorite = moment().subtract(18, "year").endOf("day").toDate();
+    this.today = moment().utc().startOf("day").toDate();
+    this.demain = moment().utc().endOf("day").toDate();
+    this.debutAnnee = moment().utc().startOf("year").toDate();
+    this.finAnnee = moment().utc().endOf("year").toDate();
+    this.dateMajorite = moment()
+      .utc()
+      .subtract(18, "year")
+      .endOf("day")
+      .toDate();
   }
 
   @Cron(CronExpression.EVERY_2_HOURS)
@@ -369,7 +371,7 @@ export class StatsService {
       .findOne({
         date: {
           $gte: this.today,
-          $lte: moment(this.today).endOf("day").toDate(),
+          $lte: this.demain,
         },
         structureId,
       })
@@ -381,14 +383,19 @@ export class StatsService {
   }
 
   public async getAll(structureId: number): Promise<Stats[]> {
+    Logger.log("------------------- ");
+    Logger.log(this.today);
+    Logger.log(this.demain);
+    Logger.log("------------------- ");
     const stats = await this.statsModel
       .find({
         date: {
           $gte: this.today,
-          $lte: moment(this.today).endOf("day").toDate(),
+          $lte: this.demain,
         },
       })
       .exec();
+
     if (!stats || stats === null) {
       throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
