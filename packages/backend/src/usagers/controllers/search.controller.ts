@@ -25,6 +25,7 @@ export class SearchController {
     };
 
     const today = moment().startOf("day").toDate();
+
     const nextTwoMonths: Date = moment()
       .startOf("day")
       .add(2, "months")
@@ -36,6 +37,7 @@ export class SearchController {
       .startOf("day")
       .subtract(2, "months")
       .toDate();
+
     const lastThreeMonths: Date = moment()
       .startOf("day")
       .subtract(3, "months")
@@ -103,15 +105,7 @@ export class SearchController {
 
     if (query.passage) {
       searchQuery["decision.statut"] = "VALIDE";
-      searchQuery.$or = [
-        {
-          "lastInteraction.dateInteraction": passages[query.passage],
-        },
-        {
-          "decision.dateDebut": passages[query.passage],
-          "lastInteraction.dateInteraction": null,
-        },
-      ];
+      searchQuery["lastInteraction.dateInteraction"] = passages[query.passage];
 
       sort = {
         "lastInteraction.dateInteraction": "descending",

@@ -144,6 +144,13 @@ export class ManageUsagersComponent implements OnInit {
     } else {
       this.filters[element] = value;
     }
+
+    if (element === "statut") {
+      if (value !== "TOUS" && value !== "VALIDE") {
+        this.filters.passage = null;
+        this.filters.echeance = null;
+      }
+    }
     this.filters.page = 0;
     this.search();
   }

@@ -87,6 +87,10 @@
           [ngClass]="filters.passage === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
         >
           Plus de 2 mois
+          <fa-icon
+            *ngIf="filters.passage === 'DEUX_MOIS'"
+            icon="times-circle"
+          ></fa-icon>
         </button>
         <button
           class="btn"
@@ -94,6 +98,10 @@
           [ngClass]="filters.passage === 'TROIS_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
         >
           Plus de 3 mois
+          <fa-icon
+            *ngIf="filters.passage === 'TROIS_MOIS'"
+            icon="times-circle"
+          ></fa-icon>
         </button>
       </div>
     </div>
@@ -111,6 +119,10 @@
           [ngClass]="filters.echeance === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
         >
           Moins de 2 mois
+          <fa-icon
+            *ngIf="filters.echeance === 'DEUX_MOIS'"
+            icon="times-circle"
+          ></fa-icon>
         </button>
         <button
           class="btn"
@@ -118,6 +130,10 @@
           [ngClass]="filters.echeance === 'DEUX_SEMAINES' ? 'btn-dark' : 'btn-outline-dark'"
         >
           Moins de 2 semaines
+          <fa-icon
+            *ngIf="filters.echeance === 'DEUX_SEMAINES'"
+            icon="times-circle"
+          ></fa-icon>
         </button>
         <button
           class="btn"
@@ -125,6 +141,10 @@
           [ngClass]="filters.echeance === 'DEPASSEE' ? 'btn-dark' : 'btn-outline-dark'"
         >
           Dépassée
+          <fa-icon
+            *ngIf="filters.echeance === 'DEPASSEE'"
+            icon="times-circle"
+          ></fa-icon>
         </button>
       </div>
     </div>

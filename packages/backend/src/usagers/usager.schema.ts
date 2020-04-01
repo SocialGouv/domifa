@@ -125,17 +125,13 @@ export const UsagerSchema = new mongoose.Schema(
     },
 
     lastInteraction: {
-      type: {
-        nbCourrier: {
-          type: Number,
-        },
-        dateInteraction: {
-          type: Date,
-        },
+      nbCourrier: {
+        type: Number,
+        default: 0,
       },
-      default: {
-        nbCourrier: 0,
-        dateInteraction: null,
+      dateInteraction: {
+        type: Date,
+        default: Date.now,
       },
     },
 
