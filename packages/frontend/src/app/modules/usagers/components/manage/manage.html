@@ -83,6 +83,7 @@
       >
         <button
           class="btn"
+          [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
           (click)="updateFilters('passage', 'DEUX_MOIS')"
           [ngClass]="filters.passage === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
         >
@@ -94,6 +95,7 @@
         </button>
         <button
           class="btn"
+          [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
           (click)="updateFilters('passage', 'TROIS_MOIS')"
           [ngClass]="filters.passage === 'TROIS_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
         >
@@ -115,6 +117,7 @@
       >
         <button
           class="btn"
+          [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
           (click)="updateFilters('echeance', 'DEUX_MOIS')"
           [ngClass]="filters.echeance === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
         >
@@ -126,6 +129,7 @@
         </button>
         <button
           class="btn"
+          [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
           (click)="updateFilters('echeance', 'DEUX_SEMAINES')"
           [ngClass]="filters.echeance === 'DEUX_SEMAINES' ? 'btn-dark' : 'btn-outline-dark'"
         >
@@ -137,6 +141,7 @@
         </button>
         <button
           class="btn"
+          [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
           (click)="updateFilters('echeance', 'DEPASSEE')"
           [ngClass]="filters.echeance === 'DEPASSEE' ? 'btn-dark' : 'btn-outline-dark'"
         >

@@ -73,6 +73,8 @@ export class SearchController {
       TROIS_MOIS: { $lte: lastThreeMonths },
     };
 
+    sort = query.sort ? (sort = sortValues[query.sort]) : { nom: "ascending" };
+
     /* ID DE LA STRUCTURE DE LUSER */
     if (query.name) {
       searchQuery.$or = [
@@ -106,7 +108,7 @@ export class SearchController {
     if (query.echeance) {
       searchQuery["decision.dateFin"] = echeances[query.echeance];
       searchQuery["decision.statut"] = "VALIDE";
-      sort = { "decision.dateFin": "descending", nom: "acending" };
+      sort = { "decision.dateFin": "ascending", nom: "ascending" };
     }
 
     if (query.passage) {
@@ -115,12 +117,8 @@ export class SearchController {
 
       sort = {
         "lastInteraction.dateInteraction": "descending",
-        nom: "acending",
+        nom: "ascending",
       };
-    }
-
-    if (query.sort) {
-      sort = sortValues[query.sort];
     }
 
     return {

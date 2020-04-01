@@ -1,5 +1,5 @@
 [
-    {
+  {
     "date": "2020-04-01",
     "description": "Diverses améliorations sur la plateforme",
     "content": [
@@ -9,17 +9,14 @@
         "message": [
           "Visualisation du nom de la structure à tout moment sur le site (en haut à gauche)",
           "Réception de courrier possible pour un domicilié en attente de décision (cas d'un renouvellement par exemple)",
-          "Affichage de la procuration en haut de la fiche du domicilié et sur la liste des usagers",
+          "Affichage de la procuration en haut de la fiche du domicilié et sur la liste des usagers"
         ]
       },
       {
         "type": "bug",
         "message": [
           "Ajout de contrôles sur les dates de l'import",
-          "Bug sur la suppression d'un utilisateur",
-          "Bug sur la modification des informations d'une structure"
-          "Bug sur le refus d'une domiciliation",
-          "Bug sur la modification du mot de passe d'un compte utilisateur",          
+          "Bug sur la modification du mot de passe d'un compte utilisateur"
         ]
       }
     ]
