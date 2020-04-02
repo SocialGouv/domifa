@@ -159,6 +159,7 @@
         <button
           class="btn"
           (click)="updateFilters('interactionType', 'courrierIn')"
+          [disabled]="filters.statut === 'REFUS'"
           [ngClass]="filters.interactionType === 'courrierIn' ? 'btn-dark' : 'btn-outline-dark'"
         >
           Oui
@@ -257,7 +258,7 @@
             (click)="goToProfil(usager)"
             *ngIf="filters.passage !== null"
           >
-            {{ usager.lastInteraction.dateInteraction || "Aucun passage "}}
+            {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
           </td>
           <td
             class="text-center"

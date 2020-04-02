@@ -149,6 +149,7 @@ export class ManageUsagersComponent implements OnInit {
       if (value !== "TOUS" && value !== "VALIDE") {
         this.filters.passage = null;
         this.filters.echeance = null;
+        this.filters.interactionType = null;
       }
     }
     this.filters.page = 0;

@@ -135,6 +135,7 @@ export class StatsService {
       "RADIE",
       "A_SA_DEMANDE"
     );
+
     stat.questions.Q_12.ENTREE_LOGEMENT = await this.totalAnnee(
       structure.id,
       "RADIE",
@@ -338,6 +339,7 @@ export class StatsService {
       "",
       "SORTIE_STRUCTURE"
     );
+
     stat.questions.Q_21.VIOLENCE = await this.totalMaintenant(
       structure.id,
       "VALIDE",
@@ -352,6 +354,14 @@ export class StatsService {
       "",
       "",
       "NON_RENSEIGNE"
+    );
+
+    stat.questions.Q_21.AUTRE = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "AUTRE"
     );
 
     const retourStructure = await this.structureService.updateLastExport(
@@ -384,8 +394,8 @@ export class StatsService {
 
   public async getAll(structureId: number): Promise<Stats[]> {
     Logger.log("------------------- ");
-    Logger.log(this.today);
-    Logger.log(this.demain);
+    Logger.log(this.today.toDateString());
+    Logger.log(this.demain.toDateString());
     Logger.log("------------------- ");
     const stats = await this.statsModel
       .find({

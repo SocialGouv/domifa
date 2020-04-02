@@ -268,3 +268,7 @@ th {
   color: var(--primary);
   font-size: 1.1rem;
 }
+
+#filters-btn .btn fa-icon {
+  margin-left: 4px;
+}

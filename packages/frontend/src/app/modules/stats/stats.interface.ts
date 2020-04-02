@@ -94,6 +94,7 @@ export class Stats {
     /* AUTRES QUESTIONS DE L'ENTRETIEN */
     Q_21: {
       ERRANCE: number;
+      AUTRE: number;
       EXPULSION: number;
       HEBERGE_SANS_ADRESSE: number;
       ITINERANT: number;
@@ -165,6 +166,7 @@ export class Stats {
         visite: 0,
       },
       Q_21: {
+        AUTRE: 0,
         ERRANCE: 0,
         EXPULSION: 0,
         HEBERGE_SANS_ADRESSE: 0,

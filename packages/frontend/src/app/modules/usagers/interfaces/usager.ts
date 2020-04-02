@@ -103,10 +103,18 @@ export class Usager {
     }
 
     this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv({});
-    this.lastInteraction = (usager && usager.lastInteraction) || {
+
+    this.lastInteraction = {
       dateInteraction: null,
       nbCourrier: 0,
     };
+
+    if (usager && usager.lastInteraction) {
+      this.lastInteraction = {
+        dateInteraction: new Date(usager.lastInteraction.dateInteraction),
+        nbCourrier: usager.lastInteraction.nbCourrier,
+      };
+    }
 
     this.entretien =
       (usager && new Entretien(usager.entretien)) || new Entretien({});
