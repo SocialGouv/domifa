@@ -113,17 +113,23 @@
 
               <tr>
                 <td class="font-weight-bold" colspan="2">
-                  Q 19 : Nombre de domiciliés actifs par type de ménage
+                  Nombre de domiciliés actifs tranche d'âge
                 </td>
               </tr>
 
               <tr>
+                <td class="soustable">Majeurs</td>
+                <td>{{ stats.questions.Q_18 }}</td>
+              </tr>
+              <tr>
                 <td class="soustable">Mineurs</td>
                 <td>{{ stats.questions.Q_17 }}</td>
               </tr>
+              <tr></tr>
               <tr>
-                <td class="soustable">Majeurs</td>
-                <td>{{ stats.questions.Q_18 }}</td>
+                <td class="font-weight-bold" colspan="2">
+                  Q 19 : Nombre de domiciliés actifs par type de ménage
+                </td>
               </tr>
 
               <ng-container
@@ -137,12 +143,20 @@
                 </tr>
               </ng-container>
               <tr>
-                <td colspan="2">Cause de l'instabilité de logement</td>
+                <td class="font-weight-bold" colspan="2">
+                  Cause de l'instabilité de logement
+                </td>
               </tr>
               <tr *ngFor="let decision of labels.cause | keyvalue">
                 <td class="soustable">{{ decision.value }}</td>
                 <td>
                   {{ stats.questions.Q_21[decision.key] }}
+                </td>
+              </tr>
+              <tr>
+                <td class="soustable">Autre cause</td>
+                <td>
+                  {{ stats.questions.Q_21.AUTRE }}
                 </td>
               </tr>
               <tr>

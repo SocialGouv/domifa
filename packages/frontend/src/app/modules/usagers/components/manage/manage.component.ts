@@ -273,7 +273,7 @@ export class ManageUsagersComponent implements OnInit {
     const max = document.documentElement.scrollHeight;
     const pourcent = (pos / max) * 100;
 
-    if (pourcent >= 70 && this.usagers.length < this.nbResults) {
+    if (pourcent >= 80 && this.usagers.length < this.nbResults) {
       this.filters.page = this.filters.page + 1;
       this.search();
     }

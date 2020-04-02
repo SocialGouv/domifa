@@ -48,7 +48,7 @@ export class Usager {
 
   public dayBeforeEnd: number;
 
-  public decision: any;
+  public decision: Decision;
 
   public dateNaissancePicker: NgbDateStruct | null;
 

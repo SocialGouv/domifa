@@ -330,119 +330,131 @@
 </div>
 
 <ng-template #refus let-modal>
-  <div class="modal-body">
+  <div class="modal-body decision-form">
     <form
       [formGroup]="refusForm"
       (ngSubmit)="setDecision('REFUS')"
       autocomplete="off"
     >
       <div class="col-md-12">
-        <h4>Motivez votre refus</h4>
-        <div class="form-row col-md-6">
-          <label for="dateFinRefus">
-            Date du refus
-            <span class="text-danger">*</span>
-          </label>
-          <div class="input-group">
-            <input
-              class="form-control"
-              placeholder="jj/mm/aaaa"
-              [minDate]="minDate"
-              [maxDate]="maxDateRefus"
-              placement="bottom"
-              ngbDatepicker
-              id="dateFinRefus"
-              formControlName="dateFinPicker"
-              #dFin="ngbDatepicker"
-              dateFr
-              value
-              [ngClass]="{
-                'is-invalid': v.dateFinPicker.dirty && v.dateFinPicker.errors
-              }"
-              maxlength="10"
-              required
-            />
-            <div class="input-group-append">
-              <span class="btn btn-outline-primary" (click)="dFin.toggle()">
-                <fa-icon icon="calendar"></fa-icon>
-              </span>
-            </div>
+        <h3>Motivez votre refus</h3>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="dateFinRefus">
+          Date du refus
+          <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            [minDate]="minDate"
+            [maxDate]="maxDateRefus"
+            placement="bottom"
+            ngbDatepicker
+            id="dateFinRefus"
+            formControlName="dateFinPicker"
+            #dFin="ngbDatepicker"
+            dateFr
+            value
+            [ngClass]="{
+              'is-invalid': r.dateFinPicker.dirty && r.dateFinPicker.errors
+            }"
+            maxlength="10"
+            required
+          />
+          <div class="input-group-append">
+            <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+              <fa-icon icon="calendar"></fa-icon>
+            </span>
           </div>
         </div>
-
-        <div class="col-md-6"></div>
-        <div class="col-md-12">
-          <b>
-            Pour quel motif ?
-            <span class="text-danger">*</span>
-          </b>
-          <div
-            class="form-row"
-            *ngFor="let motif of labels.motifsRefus | keyvalue"
-          >
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="motif-refus-{{ motif.key }}"
-                formControlName="motif"
-                value="{{ motif.key }}"
-              />
-              <label class="form-check-label" for="motif-refus-{{ motif.key }}">
-                {{ motif.value }}
-              </label>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="motif-autre"
-                formControlName="motif"
-                value="AUTRE"
-              />
-              <label class="form-check-label" for="motif-autre">
-                Autre raison
-              </label>
-            </div>
-          </div>
-          <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
-            <label class="form-check-label" for="motifRefusAutre">
-              Autre motif de refus
-              <span class="text-danger">*</span>
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              id="motifRefusAutre"
-              formControlName="motifDetails"
-            />
-            <small id="refusAutres" class="form-text text-muted">
-              10 caractères minimum
-            </small>
-          </div>
+        <div
+          *ngIf="submitted && r.dateFinPicker.errors"
+          class="invalid-feedback"
+        >
+          La date de refus est incorrecte
         </div>
       </div>
+
+      <div class="col-md-6"></div>
       <div class="form-group col-md-12">
         <b>
-          Orientation proposée
+          Pour quel motif ?
           <span class="text-danger">*</span>
         </b>
+        <div
+          class="form-row"
+          *ngFor="let motif of labels.motifsRefus | keyvalue"
+        >
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="motif-refus-{{ motif.key }}"
+              formControlName="motif"
+              value="{{ motif.key }}"
+            />
+            <label class="form-check-label" for="motif-refus-{{ motif.key }}">
+              {{ motif.value }}
+            </label>
+          </div>
+        </div>
+
         <div class="form-row">
           <div class="form-check">
             <input
               class="form-check-input"
               type="radio"
-              id="orientationRefusCcas"
-              formControlName="orientation"
-              value="ccas"
+              id="motif-autre"
+              formControlName="motif"
+              value="AUTRE"
             />
-            <label class="form-check-label" for="orientationRefusCcas">
-              CCAS, CIAS, Commune
+            <label class="form-check-label" for="motif-autre">
+              Autre raison
             </label>
           </div>
+        </div>
+
+        <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
+          <label class="form-check-label" for="motifRefusAutre">
+            Autre motif de refus
+            <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="motifRefusAutre"
+            formControlName="motifDetails"
+          />
+        </div>
+        <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
+          Veuillez choisir un motif de refus (10 caractères minimum)
+        </div>
+        <div
+          *ngIf="submitted && r.motifDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez indiquer un autre motif
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <b>
+          Orientation proposée
+          <span class="text-danger">*</span>
+        </b>
+        <div class="form-row form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="orientationRefusCcas"
+            formControlName="orientation"
+            value="ccas"
+          />
+          <label class="form-check-label" for="orientationRefusCcas">
+            CCAS, CIAS, Commune
+          </label>
         </div>
         <div class="form-row">
           <div class="form-check">
@@ -457,6 +469,12 @@
               Organisme agréée
             </label>
           </div>
+          <div
+            *ngIf="submitted && r.orientation.errors"
+            class="invalid-feedback"
+          >
+            Veuillez proposer une orientation
+          </div>
         </div>
         <div class="form-row">
           <label for="orientationRefusDetails">
@@ -469,6 +487,12 @@
             formControlName="orientationDetails"
             id="orientationRefusDetails"
           />
+        </div>
+        <div
+          *ngIf="submitted && r.orientationDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez indiquer vers quel organisme vous souhaitez orienter
         </div>
       </div>
       <input
@@ -534,6 +558,12 @@
                 </span>
               </div>
             </div>
+            <div
+              *ngIf="submitted && v.dateDebutPicker.errors"
+              class="invalid-feedback"
+            >
+              La date de début de domiciliation est incorrecte
+            </div>
           </div>
           <div class="form-group col-md-6 required">
             <label for="dateFinValide">Date de fin</label>
@@ -562,6 +592,12 @@
                 </span>
               </div>
             </div>
+            <div
+              *ngIf="submitted && v.dateFinPicker.errors"
+              class="invalid-feedback"
+            >
+              La date de fin de domiciliation est incorrecte
+            </div>
             <input
               type="hidden"
               formControlName="dateDebut"
@@ -586,11 +622,7 @@
     <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
       Revenir au formulaire
     </button>
-    <button
-      class="btn btn-primary"
-      [disabled]="valideForm.invalid"
-      (click)="setDecision('VALIDE')"
-    >
+    <button class="btn btn-primary" (click)="setDecision('VALIDE')">
       Confirmer la domiciliation
     </button>
   </div>

@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 
 export const StatsSchema = new mongoose.Schema({
-  capacite: Number,
+  capacite: { type: Number, default: 0 },
   codePostal: String,
   date: { type: Date, default: Date.now },
   departement: String,
@@ -9,83 +9,84 @@ export const StatsSchema = new mongoose.Schema({
   nom: String,
   questions: {
     /* Nombre attestations delivres durant l'année */
-    Q_10: Number,
+    Q_10: { type: Number, default: 0 },
 
     /* Dont première demande  */
-    Q_10_A: Number,
+    Q_10_A: { type: Number, default: 0 },
 
     /* Dont renouvellement */
-    Q_10_B: Number,
+    Q_10_B: { type: Number, default: 0 },
 
     /* Domicilié par statut au 31/12 */
     Q_11: {
-      REFUS: Number,
-      RADIE: Number,
-      VALIDE: Number,
-      VALIDE_AYANTS_DROIT: Number,
-      VALIDE_TOTAL: Number,
+      REFUS: { type: Number, default: 0 },
+      RADIE: { type: Number, default: 0 },
+      VALIDE: { type: Number, default: 0 },
+      VALIDE_AYANTS_DROIT: { type: Number, default: 0 },
+      VALIDE_TOTAL: { type: Number, default: 0 },
     },
 
     Q_12: {
-      A_SA_DEMANDE: Number,
-      ENTREE_LOGEMENT: Number,
-      FIN_DE_DOMICILIATION: Number,
-      NON_MANIFESTATION_3_MOIS: Number,
-      NON_RESPECT_REGLEMENT: Number,
-      PLUS_DE_LIEN_COMMUNE: Number,
-      TOTAL: Number,
+      A_SA_DEMANDE: { type: Number, default: 0 },
+      ENTREE_LOGEMENT: { type: Number, default: 0 },
+      FIN_DE_DOMICILIATION: { type: Number, default: 0 },
+      NON_MANIFESTATION_3_MOIS: { type: Number, default: 0 },
+      NON_RESPECT_REGLEMENT: { type: Number, default: 0 },
+      PLUS_DE_LIEN_COMMUNE: { type: Number, default: 0 },
+      TOTAL: { type: Number, default: 0 },
     },
 
     Q_13: {
-      AUTRE: Number,
-      HORS_AGREMENT: Number,
-      LIEN_COMMUNE: Number,
-      SATURATION: Number,
-      TOTAL: Number,
+      AUTRE: { type: Number, default: 0 },
+      HORS_AGREMENT: { type: Number, default: 0 },
+      LIEN_COMMUNE: { type: Number, default: 0 },
+      SATURATION: { type: Number, default: 0 },
+      TOTAL: { type: Number, default: 0 },
     },
 
     Q_14: {
-      ASSO: Number,
-      CCAS: Number,
+      ASSO: { type: Number, default: 0 },
+      CCAS: { type: Number, default: 0 },
     },
 
     /* Nombre total de mineurs domiciliés (usagers + ayant-droit) au 31/12 */
-    Q_17: Number,
+    Q_17: { type: Number, default: 0 },
 
     /* Nombre total de majeurs domiciliés (usagers + ayant-droit) au 31/12 */
-    Q_18: Number,
+    Q_18: { type: Number, default: 0 },
 
     Q_19: {
-      COUPLE_AVEC_ENFANT: Number,
-      COUPLE_SANS_ENFANT: Number,
-      FEMME_ISOLE_AVEC_ENFANT: Number,
-      FEMME_ISOLE_SANS_ENFANT: Number,
-      HOMME_ISOLE_AVEC_ENFANT: Number,
-      HOMME_ISOLE_SANS_ENFANT: Number,
-      MINEUR: Number,
+      COUPLE_AVEC_ENFANT: { type: Number, default: 0 },
+      COUPLE_SANS_ENFANT: { type: Number, default: 0 },
+      FEMME_ISOLE_AVEC_ENFANT: { type: Number, default: 0 },
+      FEMME_ISOLE_SANS_ENFANT: { type: Number, default: 0 },
+      HOMME_ISOLE_AVEC_ENFANT: { type: Number, default: 0 },
+      HOMME_ISOLE_SANS_ENFANT: { type: Number, default: 0 },
+      MINEUR: { type: Number, default: 0 },
     },
 
     /* NOMBRE D'INTERACTIONS GLOBALES */
     Q_20: {
-      appel: Number,
-      colisIn: Number,
-      colisOut: Number,
-      courrierIn: Number,
-      courrierOut: Number,
-      recommandeIn: Number,
-      recommandeOut: Number,
-      visite: Number,
+      appel: { type: Number, default: 0 },
+      colisIn: { type: Number, default: 0 },
+      colisOut: { type: Number, default: 0 },
+      courrierIn: { type: Number, default: 0 },
+      courrierOut: { type: Number, default: 0 },
+      recommandeIn: { type: Number, default: 0 },
+      recommandeOut: { type: Number, default: 0 },
+      visite: { type: Number, default: 0 },
     },
 
     Q_21: {
-      ERRANCE: Number,
-      EXPULSION: Number,
-      HEBERGE_SANS_ADRESSE: Number,
-      ITINERANT: Number,
-      RUPTURE: Number,
-      SORTIE_STRUCTURE: Number,
-      VIOLENCE: Number,
-      NON_RENSEIGNE: Number,
+      AUTRE: { type: Number, default: 0 },
+      ERRANCE: { type: Number, default: 0 },
+      EXPULSION: { type: Number, default: 0 },
+      HEBERGE_SANS_ADRESSE: { type: Number, default: 0 },
+      ITINERANT: { type: Number, default: 0 },
+      RUPTURE: { type: Number, default: 0 },
+      SORTIE_STRUCTURE: { type: Number, default: 0 },
+      VIOLENCE: { type: Number, default: 0 },
+      NON_RENSEIGNE: { type: Number, default: 0 },
     },
   },
   structureId: Number,
