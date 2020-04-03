@@ -11,6 +11,7 @@ export async function bootstrap() {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     release: "domifa@" + process.env.npm_package_version,
+    serverName: process.env.BA,
   });
 
   const app = await NestFactory.create(AppModule);

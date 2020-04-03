@@ -2,50 +2,45 @@
   <div class="text-center">
     <h4 class="title">
       Prêt(e) à faciliter la domiciliation ?
-      <br>
+      <br />
       L’inscription se fait en moins d’une minute !
     </h4>
 
-    <div
-      class="row"
-      *ngIf="!searchFailed && structures.length <= 0">
-      <br>
+    <div class="row" *ngIf="!searchFailed && structures.length <= 0">
+      <br />
       <form
         [formGroup]="codePostalForm"
         (ngSubmit)="submitCodePostal()"
-        class="offset-md-3 col-md-6">
+        class="offset-md-3 col-md-6"
+      >
         <div class="form-group">
-
           <label for="structure-search">
             Quel est le code-postal de votre structure ?
           </label>
 
-          <div class=" offset-md-2 col-md-8">
+          <div class="offset-md-2 col-md-8">
             <input
               type="text"
               class="form-control"
               id="structure-search"
-              [ngClass]="{ 'is-invalid': f.codePostal.dirty && f.codePostal.errors }"
+              [ngClass]="{
+                'is-invalid': f.codePostal.dirty && f.codePostal.errors
+              }"
               formControlName="codePostal"
               placeholder="Code-postal"
-              required>
-
-            <div
-              *ngIf="f.codePostal.errors"
-              class="invalid-feedback">
-              <fa-icon
-                icon="exclamation-triangle"
-                class="btn-icon"></fa-icon>
+              required
+            />
+            <div *ngIf="f.codePostal.errors" class="invalid-feedback">
+              <fa-icon icon="exclamation-triangle" class="btn-icon"></fa-icon>
               Code-postal incorrect
             </div>
-            <br>
+            <br />
             <button
               title="Rechercher"
-              [disabled]="f.codePostal.invalid  "
-              class="btn btn-block btn-primary ">
-              <fa-icon
-                icon="search"
-                class="btn-icon"></fa-icon>
+              [disabled]="f.codePostal.invalid"
+              class="btn btn-block btn-primary"
+            >
+              <fa-icon icon="search" class="btn-icon"></fa-icon>
               Rechercher
             </button>
           </div>
@@ -53,66 +48,53 @@
       </form>
     </div>
 
-    <div
-      class="text-center"
-      *ngIf="searchFailed && structures.length == 0">
-      <br>
+    <div class="text-center" *ngIf="searchFailed && structures.length == 0">
+      <br />
       <b class="text-danger">
         Aucune structure n'est enregistrée dans votre ville.
       </b>
-      <br>
+      <br />
       Cliquez sur le lien ci-dessous pour inscrire votre structure.
-      <br>
-      <br>
+      <br />
+      <br />
       <a
         class="btn btn-primary"
         [routerLink]="['/structures/nouveau']"
-        routerLinkActive="router-link-active">
+        routerLinkActive="router-link-active"
+      >
         J'inscris ma structure
-        <fa-icon
-          icon="arrow-alt-circle-right"
-          class="btn-icon"></fa-icon>
+        <fa-icon icon="arrow-alt-circle-right" class="btn-icon"></fa-icon>
       </a>
-
     </div>
-    <div
-      class="text-center"
-      *ngIf="structures.length > 0">
-      <br>
+    <div class="text-center" *ngIf="structures.length > 0">
+      <br />
       <b>
-        Si vous appartenez à l’une de ces structures, cliquez dessus pour vous inscrire :
+        Si vous appartenez à l’une de ces structures, cliquez dessus pour vous
+        inscrire :
       </b>
-      <div
-        class="card"
-        *ngFor="let structure of structures">
-        <a
-          class="nav-link"
-          href="#"
-          routerLink="{{ structure.id}}">
+      <div class="card" *ngFor="let structure of structures">
+        <a class="nav-link" href="#" routerLink="{{ structure.id }}">
           <b>{{ structure.nom }}</b>
-          <br>
+          <br />
           {{ structure.adresse }},
-          <i>
-            {{ structure.ville }} ({{ structure.codePostal }})
-          </i>
+          <i> {{ structure.ville }} ({{ structure.codePostal }}) </i>
         </a>
       </div>
-      <br>
+      <br />
       <p>
         Si votre structure n'est pas dans la liste,
-        <br>
+        <br />
         vous pouvez la créer en cliquant sur le bouton ci-dessous
       </p>
-      <br>
       <a
         class="btn btn-primary"
         [routerLink]="['/structures/nouveau']"
-        routerLinkActive="router-link-active">
+        routerLinkActive="router-link-active"
+      >
         J'inscris ma structure
       </a>
-
     </div>
   </div>
-  <br>
-
+  <br />
 </div>
+

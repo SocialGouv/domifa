@@ -16,7 +16,7 @@ export class StructuresSearchComponent implements OnInit {
 
   public codePostal: string;
   public codePostalForm!: FormGroup;
-
+  public etape: number;
   constructor(
     private structureService: StructureService,
     private formBuilder: FormBuilder,
@@ -25,6 +25,7 @@ export class StructuresSearchComponent implements OnInit {
     this.searchFailed = false;
     this.structures = [];
     this.codePostal = "";
+    this.etape = 1;
   }
 
   get f() {
@@ -49,7 +50,8 @@ export class StructuresSearchComponent implements OnInit {
       this.structureService
         .find(this.f.codePostal.value)
         .subscribe((structures: Structure[]) => {
-          if (structures.length <= 0) {
+          this.etape = 2;
+          if (structures.length === 0) {
             this.searchFailed = true;
           } else {
             this.searchFailed = false;

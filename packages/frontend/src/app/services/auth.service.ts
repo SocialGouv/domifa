@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import jwtDecode from "jwt-decode";
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { BehaviorSubject, Observable, of, empty } from "rxjs";
+import { map, catchError } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../modules/users/interfaces/user";
 
@@ -19,7 +19,7 @@ export class AuthService {
   private endPoint = environment.apiUrl + "auth";
   private currentUserSubject: BehaviorSubject<User>;
 
-  public get currentUserValue(): User {
+  public get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
 
@@ -28,8 +28,8 @@ export class AuthService {
     this.isLogged = false;
     this.isAdmin = false;
 
-    this.currentUserSubject = new BehaviorSubject<User>(
-      JSON.parse(localStorage.getItem("currentUser") || "{}")
+    this.currentUserSubject = new BehaviorSubject<User | null>(
+      JSON.parse(localStorage.getItem("currentUser") || null)
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -69,7 +69,6 @@ export class AuthService {
           this.logout();
           return false;
         }
-
         const user = new User(retour);
         user.token = this.currentUserValue.token;
         localStorage.setItem("currentUser", JSON.stringify(user));
@@ -77,6 +76,9 @@ export class AuthService {
         this.isAdmin = user && user.role === "admin";
         this.currentUserSubject.next(user);
         return true;
+      }),
+      catchError((err) => {
+        return of(false);
       })
     );
   }

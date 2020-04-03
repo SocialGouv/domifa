@@ -23,14 +23,12 @@ export class ServerErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMessage = "";
-        if (error.error instanceof ErrorEvent) {
-          errorMessage = `Error: ${error.error.message}`;
-        } else {
-          if (error.status === 401) {
-            this.authService.logout();
-          }
-        }
-        return throwError(error);
+        errorMessage =
+          error.error instanceof ErrorEvent
+            ? `FRONT ERROR : ${error.error.message}`
+            : `API ERROR Code: ${error.status}\nMessage: ${error.message}`;
+
+        return throwError({ errorMessage, error });
       })
     );
   }

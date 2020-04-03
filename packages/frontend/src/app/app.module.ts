@@ -62,9 +62,6 @@ import { environment } from "src/environments/environment";
     ReactiveFormsModule,
   ],
   providers: [
-    environment.production
-      ? { provide: ErrorHandler, useClass: RavenErrorHandler }
-      : [],
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       deps: [Router, AuthService],
@@ -72,6 +69,7 @@ import { environment } from "src/environments/environment";
       provide: HTTP_INTERCEPTORS,
       useClass: ServerErrorInterceptor,
     },
+    { provide: ErrorHandler, useClass: RavenErrorHandler },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
