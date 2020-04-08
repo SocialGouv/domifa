@@ -40,6 +40,9 @@ import { Usager } from "../interfaces/usagers";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
+import * as Raven from "raven-js";
+import { Exception } from "@sentry/node";
+import { Http } from "@sentry/node/dist/integrations";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
@@ -209,7 +212,8 @@ export class UsagersController {
   @Delete(":id")
   public async deleteOne(
     @CurrentUser() user: User,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: Usager,
+    @Res() res: any
   ) {
     const pathFile = path.resolve(
       new ConfigService().get("UPLOADS_FOLDER") +
@@ -224,10 +228,11 @@ export class UsagersController {
 
     if (deleteUsager && deleteUsager.deletedCount === 1) {
       if (fs.existsSync(pathFile)) {
-        rimraf(pathFile, (error) => {
-          throw new HttpException(
-            "DELETE_FILES_NOT_POSSIBLE",
-            HttpStatus.BAD_REQUEST
+        rimraf(pathFile, (error: any) => {
+          this.captureErrors(
+            { message: "CANNOT_DELETE_FOLDER", err: error },
+            HttpStatus.BAD_REQUEST,
+            res
           );
         });
         return true;
@@ -312,12 +317,12 @@ export class UsagersController {
         res.setHeader("content-type", "application/pdf");
         res.send(buffer);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         const erreur = {
           err,
-          statut: "CERFA_ERROR",
+          message: "CERFA_ERROR",
         };
-        throw new HttpException(erreur, HttpStatus.INTERNAL_SERVER_ERROR);
+        this.captureErrors(erreur, HttpStatus.INTERNAL_SERVER_ERROR, res);
       });
   }
 
@@ -328,13 +333,22 @@ export class UsagersController {
     @Param("id") usagerId: number,
     @Param("index") index: number,
     @CurrentUser() user: User,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: Usager,
+    @Res() res: any
   ) {
     if (
       typeof usager.docs[index] === "undefined" ||
       typeof usager.docsPath[index] === "undefined"
     ) {
-      throw new HttpException("DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
+      this.captureErrors(
+        {
+          message: "DOC_NOT_FOUND_DELETE",
+          usagerId,
+          structureId: usager.structureId,
+        },
+        HttpStatus.BAD_REQUEST,
+        res
+      );
     }
 
     const fileInfos = usager.docs[index];
@@ -351,9 +365,10 @@ export class UsagersController {
     try {
       fs.unlinkSync(pathFile);
     } catch (err) {
-      throw new HttpException(
-        "Impossible de supprimer le fichier",
-        HttpStatus.BAD_REQUEST
+      this.captureErrors(
+        { message: "CANNOT_DELETE_FILE", file: pathFile, err },
+        HttpStatus.BAD_REQUEST,
+        res
       );
     }
 
@@ -363,7 +378,7 @@ export class UsagersController {
   @UseGuards(AccessGuard)
   @Get("document/:id/:index")
   public async getDocument(
-    @Param("id") id: number,
+    @Param("id") usagerId: number,
     @Param("index") index: number,
     @Res() res: any,
     @CurrentUsager() usager: Usager
@@ -372,7 +387,16 @@ export class UsagersController {
       typeof usager.docs[index] === "undefined" ||
       typeof usager.docsPath[index] === "undefined"
     ) {
-      throw new HttpException("DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
+      this.captureErrors(
+        {
+          message: "DOC_NOT_FOUND_GET",
+          usagerId,
+          structureId: usager.structureId,
+        },
+
+        HttpStatus.BAD_REQUEST,
+        res
+      );
     }
 
     const fileInfos = usager.docs[index];
@@ -389,9 +413,13 @@ export class UsagersController {
 
     if (!fs.existsSync(pathFile + ".encrypted")) {
       if (!fs.existsSync(pathFile)) {
-        throw new HttpException("FILE_NOT_FOUND", HttpStatus.BAD_REQUEST);
+        this.captureErrors(
+          { message: "UNENCRYPTED_FILE_NOT_FOUND", file: pathFile },
+          HttpStatus.BAD_REQUEST,
+          res
+        );
       } else {
-        this.encryptFile(pathFile);
+        this.encryptFile(pathFile, res);
       }
     }
 
@@ -408,7 +436,7 @@ export class UsagersController {
       .pipe(output)
       .on("finish", () => {
         res.sendFile(output.path);
-        this.deleteFile(pathFile + ".unencrypted");
+        this.deleteFile(pathFile + ".unencrypted", res);
       });
   }
 
@@ -455,7 +483,8 @@ export class UsagersController {
     @Param("id") usagerId: number,
     @UploadedFile() file: any,
     @Body() postData: any,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
+    @Res() res: any
   ) {
     const userName = user.prenom + " " + user.nom;
 
@@ -474,7 +503,7 @@ export class UsagersController {
       "/" +
       file.filename;
 
-    this.encryptFile(fileName);
+    this.encryptFile(fileName, res);
 
     return this.docsService.addDocument(
       usagerId,
@@ -490,20 +519,25 @@ export class UsagersController {
     return usager;
   }
 
-  private deleteFile(pathFile: string) {
+  private deleteFile(pathFile: string, @Res() res: any) {
     setTimeout(() => {
       try {
         fs.unlinkSync(pathFile);
       } catch (err) {
-        throw new HttpException(
-          "Impossible de supprimer le fichier",
-          HttpStatus.INTERNAL_SERVER_ERROR
+        this.captureErrors(
+          {
+            message: "CANNOT_DELETE_FILE",
+            file: pathFile,
+            err,
+          },
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          res
         );
       }
     }, 2500);
   }
 
-  private encryptFile(fileName: string) {
+  private encryptFile(fileName: string, @Res() res: any) {
     const key = new ConfigService().get("FILES_PRIVATE");
     const iv = new ConfigService().get("FILES_IV");
 
@@ -519,12 +553,22 @@ export class UsagersController {
         try {
           fs.unlinkSync(fileName);
         } catch (err) {
-          throw new HttpException(
-            "Impossible de supprimer le fichier",
-            HttpStatus.INTERNAL_SERVER_ERROR
+          this.captureErrors(
+            {
+              message: "CANNOT_ENCRYPT_FILE",
+              file: fileName,
+              err,
+            },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            res
           );
         }
         return output.path;
       });
+  }
+
+  private captureErrors(err: any, statuts: HttpStatus, @Res() res: any) {
+    Raven.captureException(err);
+    return res.status(statuts).json({ success: false, message: err.message });
   }
 }

@@ -78,7 +78,7 @@ export class StructuresEditComponent implements OnInit {
         this.structure.phone,
         [Validators.required, Validators.pattern(regexp.phone)],
       ],
-      rattachement: [this.structure.rattachement, []],
+
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
@@ -90,16 +90,12 @@ export class StructuresEditComponent implements OnInit {
     if (this.structure.structureType === "asso") {
       this.structureEdit.get("agrement").setValidators(Validators.required);
       this.structureEdit.get("departement").setValidators(Validators.required);
-    } else if (this.structure.structureType === "cias") {
-      this.structureEdit.get("rattachement").setValidators(Validators.required);
     } else {
       this.structureEdit.get("agrement").setValidators(null);
       this.structureEdit.get("departement").setValidators(null);
-      this.structureEdit.get("rattachement").setValidators(null);
     }
     this.structureEdit.get("agrement").updateValueAndValidity();
     this.structureEdit.get("departement").updateValueAndValidity();
-    this.structureEdit.get("rattachement").updateValueAndValidity();
   }
 
   public submitStrucutre() {

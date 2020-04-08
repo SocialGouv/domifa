@@ -39,6 +39,19 @@ export class StructuresController {
     return this.structureService.create(structureDto);
   }
 
+  @Post("pre-post")
+  public async prePostStructure(@Body() structureDto: StructureDto) {
+    return this.structureService.prePost(structureDto);
+  }
+
+  @Post("validate-email")
+  public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
+    const exist = await this.structureService.findOneBasic({
+      email: emailDto.email,
+    });
+    return res.status(HttpStatus.OK).json(exist !== null);
+  }
+
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(RolesGuard)
   @Patch()
@@ -99,15 +112,6 @@ export class StructuresController {
       this.mailerService.confirmationStructure(structure, updatedAdmin);
       return structure;
     }
-  }
-
-  @Post("validate-email")
-  public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
-    const existUser = await this.structureService.findOneBasic({
-      email: emailDto.email,
-    });
-    const emailExist = existUser !== null;
-    return res.status(HttpStatus.OK).json(emailExist);
   }
 
   @UseGuards(AuthGuard("jwt"))

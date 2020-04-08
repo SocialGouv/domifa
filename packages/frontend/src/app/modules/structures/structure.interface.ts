@@ -15,7 +15,7 @@ export class Structure {
   public agrement: string;
   public phone: string;
   public email: string;
-  public rattachement: string;
+
   public responsable: {
     fonction: string;
     nom: string;
@@ -46,7 +46,7 @@ export class Structure {
     this.agrement = (structure && structure.agrement) || "";
     this.phone = (structure && structure.phone) || "";
     this.email = (structure && structure.email) || "";
-    this.rattachement = (structure && structure.rattachement) || "";
+
     this.responsable = (structure && structure.responsable) || {
       fonction: "",
       nom: "",

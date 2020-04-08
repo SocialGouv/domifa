@@ -43,28 +43,6 @@
         </div>
       </div>
 
-      <div
-        *ngIf="structure.structureType === 'cias'"
-        class="col-md-12 form-group"
-      >
-        <label for="rattachement">
-          Commune ou arrondissement de rattachement
-        </label>
-        <input
-          type="text"
-          class="form-control"
-          id="rattachement"
-          formControlName="rattachement"
-          [ngClass]="{ 'is-invalid': submitted && f.rattachement.errors }"
-        />
-        <div
-          *ngIf="submitted && f.rattachement.errors"
-          class="invalid-feedback"
-        >
-          Commune ou arrondissement obligatoire
-        </div>
-      </div>
-
       <div class="col-md-12 form-group required">
         <label for="adresse">Adresse de l'organisme domiciliataire</label>
         <input

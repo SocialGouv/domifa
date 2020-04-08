@@ -27,6 +27,10 @@ export class StructuresService {
     private userModel: Model<User>
   ) {}
 
+  public async prePost(structureDto: StructureDto): Promise<any> {
+    return new this.structureModel(structureDto);
+  }
+
   public async create(structureDto: StructureDto): Promise<any> {
     const createdStructure = new this.structureModel(structureDto);
     createdStructure.id = await this.findLast();

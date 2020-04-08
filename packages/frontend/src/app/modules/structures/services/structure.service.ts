@@ -37,7 +37,19 @@ export class StructureService {
   }
 
   public create(structure: Structure): Observable<any> {
-    return this.http.post(`${this.endPoint}`, structure);
+    return this.http.post(`${this.endPoint}`, structure).pipe(
+      map((response) => {
+        return new Structure(response);
+      })
+    );
+  }
+
+  public prePost(structure: Structure): Observable<any> {
+    return this.http.post(`${this.endPoint}/pre-post`, structure).pipe(
+      map((response) => {
+        return new Structure(response);
+      })
+    );
   }
 
   public patch(structure: Structure): Observable<any> {
@@ -66,5 +78,9 @@ export class StructureService {
 
   public hardResetConfirm(token: string) {
     return this.http.get(`${this.endPoint}/hard-reset-confirm/${token}`);
+  }
+
+  public continueRegister() {
+    return this.http.get(`${this.endPoint}/continue-register`);
   }
 }

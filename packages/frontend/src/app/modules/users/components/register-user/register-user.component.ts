@@ -14,6 +14,8 @@ import { regexp } from "../../../../shared/validators";
 import { User } from "../../interfaces/user";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
+import { Structure } from "src/app/modules/structures/structure.interface";
+import { StructureService } from "src/app/modules/structures/services/structure.service";
 
 @Component({
   animations: [fadeInOut],
@@ -37,6 +39,7 @@ export class RegisterUserComponent implements OnInit {
   @Input() public structureChild!: {
     etapeInscription: number;
     structureId: number;
+    structure: Structure;
   };
 
   get f() {
@@ -47,6 +50,7 @@ export class RegisterUserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private route: ActivatedRoute,
+    private structureService: StructureService,
     private notifService: ToastrService
   ) {
     this.title = "Inscription";
@@ -103,23 +107,43 @@ export class RegisterUserComponent implements OnInit {
         "Erreur dans le formulaire"
       );
     } else {
-      this.userService.create(this.userForm.value).subscribe(
-        (user: User) => {
-          this.user = new User(user);
-          this.success = true;
-          this.notifService.success(
-            "Votre compte a été créé avec succès",
-            "Féliciations !"
-          );
-        },
-        () => {
-          this.notifService.error(
-            "veuillez vérifier les champs marqués en rouge dans le formulaire",
-            "Erreur dans le formulaire"
-          );
-        }
-      );
+      if (this.structureChild.structure) {
+        this.structureService.create(this.structureChild.structure).subscribe(
+          (structure: Structure) => {
+            this.userForm.controls.structureId.setValue(structure.id);
+            this.structureChild.structureId = structure.id;
+            this.user.structureId = structure.id;
+            this.postUser();
+          },
+          (error) => {
+            this.notifService.error(
+              "Veuillez vérifier les champs du formulaire"
+            );
+          }
+        );
+      } else {
+        this.postUser();
+      }
     }
+  }
+
+  public postUser() {
+    this.userService.create(this.userForm.value).subscribe(
+      (user: User) => {
+        this.user = new User(user);
+        this.success = true;
+        this.notifService.success(
+          "Votre compte a été créé avec succès",
+          "Féliciations !"
+        );
+      },
+      () => {
+        this.notifService.error(
+          "veuillez vérifier les champs marqués en rouge dans le formulaire",
+          "Erreur dans le formulaire"
+        );
+      }
+    );
   }
 
   public validateEmailNotTaken(control: AbstractControl) {

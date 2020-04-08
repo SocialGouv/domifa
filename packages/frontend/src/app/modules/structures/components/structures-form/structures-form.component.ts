@@ -33,10 +33,13 @@ export class StructuresFormComponent implements OnInit {
     "Création du compte personnel",
   ];
 
-  public structureInscription = {
-    etapeInscription: 0,
-    structureId: 0,
+  public structureInscription: {
+    etapeInscription: number;
+    structureId: number;
+    structure: Structure;
   };
+
+  public accountExist: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,7 +55,10 @@ export class StructuresFormComponent implements OnInit {
     this.structureInscription = {
       etapeInscription: 0,
       structureId: 0,
+      structure: this.structure,
     };
+
+    this.accountExist = false;
   }
 
   get f() {
@@ -83,7 +89,6 @@ export class StructuresFormComponent implements OnInit {
         this.structure.phone,
         [Validators.required, Validators.pattern(regexp.phone)],
       ],
-      rattachement: [this.structure.rattachement, []],
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
@@ -96,22 +101,16 @@ export class StructuresFormComponent implements OnInit {
     this.structureForm.get("structureType").valueChanges.subscribe((value) => {
       this.structureForm.get("agrement").setValidators(null);
       this.structureForm.get("departement").setValidators(null);
-      this.structureForm.get("rattachement").setValidators(null);
 
       if (value === "asso") {
         this.structureForm.get("agrement").setValidators(Validators.required);
         this.structureForm
           .get("departement")
           .setValidators(Validators.required);
-      } else if (value === "cias") {
-        this.structureForm
-          .get("rattachement")
-          .setValidators(Validators.required);
       }
 
       this.structureForm.get("agrement").updateValueAndValidity();
       this.structureForm.get("departement").updateValueAndValidity();
-      this.structureForm.get("rattachement").updateValueAndValidity();
     });
   }
 
@@ -123,14 +122,12 @@ export class StructuresFormComponent implements OnInit {
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
-      this.structureService.create(this.structureForm.value).subscribe(
+      this.structureService.prePost(this.structureForm.value).subscribe(
         (structure: Structure) => {
-          this.notifService.success("La structure a bien été enregistrée");
-
-          this.structure = new Structure(structure);
           this.etapeInscription = 1;
           this.structureInscription.etapeInscription = 1;
           this.structureInscription.structureId = structure.id;
+          this.structureInscription.structure = structure;
         },
         (error) => {
           this.notifService.error("Veuillez vérifier les champs du formulaire");

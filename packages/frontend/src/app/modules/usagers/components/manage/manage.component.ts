@@ -70,7 +70,7 @@ export class ManageUsagersComponent implements OnInit {
   constructor(
     private usagerService: UsagerService,
     private interactionService: InteractionService,
-    private authService: AuthService,
+    public authService: AuthService,
     public modalService: NgbModal,
     private router: Router,
     private notifService: ToastrService
@@ -83,7 +83,10 @@ export class ManageUsagersComponent implements OnInit {
     this.filters.page = 0;
     this.nbResults = 0;
     this.selectedUsager = new Usager();
-    this.structure = this.authService.currentUserValue.structure;
+    this.structure =
+      this.authService.currentUserValue !== null
+        ? this.authService.currentUserValue.structure
+        : new Structure();
 
     this.stats = {
       INSTRUCTION: 0,

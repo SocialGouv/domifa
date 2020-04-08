@@ -64,7 +64,6 @@ export class UsagersProfilComponent implements OnInit {
 
   public labels: any;
   public liensLabels: any;
-
   public typeMenageList: any;
   public residenceList: any;
   public causeList: any;
@@ -112,7 +111,10 @@ export class UsagersProfilComponent implements OnInit {
     this.labels = usagersLabels;
     this.editCustomId = false;
     this.liensLabels = Object.keys(this.labels.lienParente);
-    this.structure = this.authService.currentUserValue.structure;
+    this.structure =
+      this.authService.currentUserValue !== null
+        ? this.authService.currentUserValue.structure
+        : new Structure();
 
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());

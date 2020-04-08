@@ -1,4 +1,10 @@
-import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import {
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsObject,
+} from "class-validator";
 
 export class StructureDto {
   @IsNotEmpty()
@@ -40,6 +46,7 @@ export class StructureDto {
   public phone!: string;
 
   @IsNotEmpty()
+  @IsObject()
   public responsable!: {
     fonction: string;
     nom: string;
