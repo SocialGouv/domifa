@@ -364,6 +364,14 @@ export class StatsService {
       "AUTRE"
     );
 
+    stat.questions.Q_21.RUPTURE = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      "RUPTURE"
+    );
+
     const retourStructure = await this.structureService.updateLastExport(
       structure._id
     );
