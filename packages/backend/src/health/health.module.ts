@@ -36,10 +36,7 @@ const getTerminusOptions = (
     MongooseModule.forRoot(
       "mongodb://" + user + ":" + password + "@" + host + ":" + port + "/domifa"
     ),
-    TerminusModule.forRootAsync({
-      inject: [MongooseHealthIndicator, DNSHealthIndicator],
-      useFactory: getTerminusOptions,
-    }),
+    TerminusModule,
   ],
 })
 export class HealthModule {}

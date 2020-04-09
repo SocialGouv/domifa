@@ -156,13 +156,12 @@ export class ImportController {
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      this.datas =
-        XLSX.utils.sheet_to_json(ws, {
-          blankrows: false,
-          dateNF: "dd/mm/yyyy",
-          header: 1,
-          raw: false,
-        }) as AOA;
+      this.datas = XLSX.utils.sheet_to_json(ws, {
+        blankrows: false,
+        dateNF: "dd/mm/yyyy",
+        header: 1,
+        raw: false,
+      }) as AOA;
 
       for (let index = 1, len = this.datas.length; index < len; index++) {
         this.rowNumber = index;
