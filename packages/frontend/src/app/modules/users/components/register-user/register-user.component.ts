@@ -107,7 +107,7 @@ export class RegisterUserComponent implements OnInit {
         "Erreur dans le formulaire"
       );
     } else {
-      if (this.structureChild.structure) {
+      if (this.structureChild) {
         this.structureService.create(this.structureChild.structure).subscribe(
           (structure: Structure) => {
             this.userForm.controls.structureId.setValue(structure.id);
