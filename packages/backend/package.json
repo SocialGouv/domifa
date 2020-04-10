@@ -30,7 +30,7 @@
     "@nestjs/schedule": "^0.3.0",
     "@nestjs/terminus": "^7.0.0",
     "@nestjs/testing": "^7.0.7",
-    "@sentry/node": "5.15.0",
+    "@sentry/node": "5.15.4",
     "@types/compression": "^1.7.0",
     "@types/cron": "^1.7.2",
     "@types/inline-css": "^0.0.32",
