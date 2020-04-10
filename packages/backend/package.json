@@ -86,6 +86,6 @@
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "typeorm": "^0.2.24",
-    "typescript": "^3.5.2"
+    "typescript": "^3.8.3"
   }
 }
