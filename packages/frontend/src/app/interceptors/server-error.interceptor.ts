@@ -11,10 +11,15 @@ import { Router } from "@angular/router";
 import { Observable, throwError, of } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 import { AuthService } from "../services/auth.service";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable()
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private notifService: ToastrService
+  ) {}
 
   public intercept(
     request: HttpRequest<any>,
@@ -22,13 +27,15 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        let errorMessage = "";
-        errorMessage =
-          error.error instanceof ErrorEvent
-            ? `FRONT ERROR : ${error.error.message}`
-            : `API ERROR Code: ${error.status}\nMessage: ${error.message}`;
-
-        return throwError({ errorMessage, error });
+        if (!navigator.onLine) {
+          this.notifService.error(
+            "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
+          );
+        }
+        if (error.status !== 401) {
+          return;
+        }
+        return throwError(error);
       })
     );
   }
