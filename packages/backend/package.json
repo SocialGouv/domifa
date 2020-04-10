@@ -71,7 +71,7 @@
     "@types/node-mailjet": "^3.3.3",
     "@types/supertest": "^2.0.8",
     "check-disk-space": "^2.1.0",
-    "jest": "^25.1.0",
+    "jest": "^25.3.0",
     "nodemon": "^2.0.2",
     "prettier": "^2.0.1",
     "supertest": "^4.0.2",
