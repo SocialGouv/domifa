@@ -31,7 +31,7 @@
     "@schematics/angular": "^9.1.1",
     "@types/jwt-decode": "^2.2.1",
     "add": "^2.0.6",
-    "core-js": "^3.6.4",
+    "core-js": "^3.6.5",
     "fs": "^0.0.2",
     "jwt-decode": "^2.2.0",
     "ngx-matomo": "^0.1.4",
