@@ -6,7 +6,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { regexp } from "src/app/shared/validators";
 import { ERROR_LABELS } from "../../../../shared/errors.labels";
 import { UsersService } from "../../services/users.service";
-
+import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-login",
   styleUrls: ["./login.component.css"],
@@ -31,7 +31,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UsersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private notifService: ToastrService
   ) {
     this.title = "Connexion à DomiFa";
     this.errorMessage = "";
@@ -65,6 +66,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
+
     this.authService
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
@@ -78,9 +80,10 @@ export class LoginComponent implements OnInit {
             : this.router.navigate(["/manage"]);
         },
         (error) => {
+          this.loading = false;
           this.error = true;
           this.success = false;
-          this.errorMessage = this.errorLabels[error.error.message];
+          this.notifService.error(this.errorLabels[error.error.message]);
         }
       );
   }
