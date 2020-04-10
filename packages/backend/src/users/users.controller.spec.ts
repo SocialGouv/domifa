@@ -5,6 +5,7 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { MailJetService } from "./services/mailjet.service";
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
+import { TipimailService } from "./services/tipimail.service";
 
 describe("Users Controller", () => {
   it("should be defined", async () => {
@@ -13,6 +14,15 @@ describe("Users Controller", () => {
       imports: [StructuresModule, UsagersModule],
       providers: [
         { provide: UsersService, useValue: {} },
+        {
+          provide: "MailerService",
+          useValue: {
+            sendMail(options: any) {
+              return Promise.resolve(options);
+            },
+          },
+        },
+        TipimailService,
         MailJetService,
         ConfigService,
       ],

@@ -69,11 +69,11 @@ mongoose.set("debug", config.get("IS_LOCAL") !== undefined);
       },
       defaults: {
         replyTo: {
-          personalName: "Domifa",
+          name: "Domifa",
           address: "contact.domifa@fabrique.social.gouv.fr",
         },
         from: {
-          personalName: "Domifa",
+          name: "Domifa",
           address: "diffusion@fabrique.social.gouv.fr",
         },
       },

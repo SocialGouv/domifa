@@ -1,7 +1,6 @@
 import { MailerService } from "@nestjs-modules/mailer";
 import { Injectable } from "@nestjs/common";
 import { User } from "../user.interface";
-import { Address } from "cluster";
 
 @Injectable()
 export class TipimailService {

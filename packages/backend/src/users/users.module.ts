@@ -12,6 +12,7 @@ import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { UsersProviders } from "./users.providers";
 import { TipimailService } from "./services/tipimail.service";
+import { MailerService, MailerModule } from "@nestjs-modules/mailer";
 
 @Module({
   controllers: [UsersController],
@@ -27,6 +28,14 @@ import { TipimailService } from "./services/tipimail.service";
     MailJetService,
     TipimailService,
     ConfigService,
+    {
+      provide: "MailerService",
+      useValue: {
+        sendMail(options: any) {
+          return Promise.resolve(options);
+        },
+      },
+    },
   ],
 })
 export class UsersModule {}
