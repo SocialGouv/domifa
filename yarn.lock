@@ -2305,10 +2305,10 @@
     "@angular-devkit/schematics" "9.0.6"
     fs-extra "8.1.0"
 
-"@nestjs/terminus@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/terminus/-/terminus-7.0.0.tgz#54019c4f3155a3ce61dfa47efce7bd51f37f20bc"
-  integrity sha512-XRt9tBrdNJgeg+ooC6j5C5vFC8FWD+GXXMqzJtfKJeaAJ8gZcUE6NkD01YCKBaT/W4Fej7s2HMy50f3dX/msGg==
+"@nestjs/terminus@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/terminus/-/terminus-7.0.1.tgz#7d748f8c18973d60023a8ab16760d0adab145b8b"
+  integrity sha512-OKg1QQDb+whHJM3Xt+3RRUPiyZSyD0qLacfldK0TXcFpKyexA0yyY3GKeaBNApf01FEzJgkK3ARCUoELnAfXDA==
   dependencies:
     check-disk-space "2.1.0"
     deprecate "^1.1.1"
@@ -14976,6 +14976,21 @@ typescript@~3.7.2:
   version "3.7.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
   integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
+
+uc.micro@^1.0.1:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
+  integrity sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
+
+uglify-js@^2.6.1:
+  version "2.8.29"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.29.tgz#29c5733148057bb4e1f75df35b7a9cb72e6a59dd"
+  integrity sha1-KcVzMUgFe7Th913zW3qcty5qWd0=
+  dependencies:
+    source-map "~0.5.1"
+    yargs "~3.10.0"
+  optionalDependencies:
+    uglify-to-browserify "~1.0.0"
 
 uc.micro@^1.0.1:
   version "1.0.6"

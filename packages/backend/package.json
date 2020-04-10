@@ -28,7 +28,7 @@
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.0.7",
     "@nestjs/schedule": "^0.3.0",
-    "@nestjs/terminus": "^7.0.0",
+    "@nestjs/terminus": "^7.0.1",
     "@nestjs/testing": "^7.0.7",
     "@sentry/node": "5.15.4",
     "@types/compression": "^1.7.0",
