@@ -3009,10 +3009,10 @@
   resolved "https://registry.yarnpkg.com/@types/mongoose-sequence/-/mongoose-sequence-3.0.4.tgz#dce94e418dc00b5854b1d23073f003d5b7942990"
   integrity sha512-5zIwgVa6EQRBoztZs8gtnrrnquw2aI9LlatpQKAAw5qMFOD8+yUo+LkCyId5ZM3lurEKHh1pJQ7YUPfe+jTqxQ==
 
-"@types/mongoose@^5.7.7":
-  version "5.7.9"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.7.9.tgz#2af0daa2c044f9d6c7428980c1af8ecb17247b90"
-  integrity sha512-Rr9TSa3E/hkoX6UPr1UgOdkZBNne/l/nukLQYqs47TbE2x1TM9teS+wjeVi3FQkpEzd6i0OnEvIk+MRbfVfkyA==
+"@types/mongoose@^5.7.10":
+  version "5.7.10"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.7.10.tgz#af8a08cab03c64fa7b5568fc4ea66ef5ec6ad0fe"
+  integrity sha512-qXO0fBHczeTouCtOVySknSMeZj0KANQ1jvYj1KDcAx3DR/KwIYpJAKGsTv0Zy5z1+sPqx8DsT9hsqq7twuFzJg==
   dependencies:
     "@types/mongodb" "*"
     "@types/node" "*"
@@ -10589,7 +10589,7 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
 
-mongoose@^5.9.6:
+mongoose@^5.9.7:
   version "5.9.7"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.9.7.tgz#03c581860d0e2f60f6008f9457ab0c2905609875"
   integrity sha512-WJOBh9WMvivqBK8my9HFtSzSySKdUxJPNGAwswEakAasWUcPXJl3yHMtZ4ngGnKbwTT9KnAr75xamlt/PouR9w==
