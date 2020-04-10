@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.4.2",
     "@nestjs/common": "^7.0.7",
     "@nestjs/core": "^7.0.7",
     "@nestjs/jwt": "^7.0.0",
@@ -32,6 +33,7 @@
     "@sentry/node": "5.15.0",
     "@types/compression": "^1.7.0",
     "@types/cron": "^1.7.2",
+    "@types/inline-css": "^0.0.32",
     "@types/mongoose": "^5.7.7",
     "@types/multer": "^1.4.2",
     "@types/passport-jwt": "^3.0.3",
@@ -43,17 +45,20 @@
     "class-validator": "^0.11.0",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
+    "inline-css": "^2.6.3",
     "mongoose": "^5.9.6",
     "multer": "^1.4.2",
     "nest-raven": "^5.0.0",
     "node-mailjet": "^3.3.1",
     "node-pdftk": "^2.1.2",
+    "nodemailer": "^6.4.6",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "raven": "^2.6.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
+    "twing": "^4.0.3",
     "xlsx": "^0.15.6"
   },
   "devDependencies": {

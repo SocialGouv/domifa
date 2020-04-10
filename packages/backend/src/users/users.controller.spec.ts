@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { ConfigService } from "../config/config.service";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
-import { MailerService } from "./services/mailer.service";
+import { MailJetService } from "./services/mailjet.service";
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 
@@ -13,7 +13,7 @@ describe("Users Controller", () => {
       imports: [StructuresModule, UsagersModule],
       providers: [
         { provide: UsersService, useValue: {} },
-        MailerService,
+        MailJetService,
         ConfigService,
       ],
     }).compile();

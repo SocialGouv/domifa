@@ -5,21 +5,28 @@ import { ConfigService } from "../config/config.service";
 import { DatabaseModule } from "../database/database.module";
 import { StructuresModule } from "../structures/structure.module";
 
-import { MailerService } from "./services/mailer.service";
+import { MailJetService } from "./services/mailjet.service";
 
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { UsersProviders } from "./users.providers";
+import { TipimailService } from "./services/tipimail.service";
 
 @Module({
   controllers: [UsersController],
-  exports: [UsersService, ...UsersProviders, MailerService],
+  exports: [UsersService, ...UsersProviders, MailJetService, TipimailService],
   imports: [
     DatabaseModule,
     forwardRef(() => AuthModule),
     forwardRef(() => StructuresModule),
   ],
-  providers: [UsersService, ...UsersProviders, MailerService, ConfigService],
+  providers: [
+    UsersService,
+    ...UsersProviders,
+    MailJetService,
+    TipimailService,
+    ConfigService,
+  ],
 })
 export class UsersModule {}

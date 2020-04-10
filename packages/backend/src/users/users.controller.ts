@@ -19,17 +19,26 @@ import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
-import { MailerService } from "./services/mailer.service";
+import { MailJetService } from "./services/mailjet.service";
 import { UsersService } from "./services/users.service";
 import { User } from "./user.interface";
+import { TipimailService } from "./services/tipimail.service";
 
 @Controller("users")
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly structureService: StructuresService,
-    private readonly mailerService: MailerService
+    private readonly mailjetService: MailJetService,
+    private readonly tipimailService: TipimailService
   ) {}
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get("tipi")
+  public async testEmail(@CurrentUser() user: User) {
+    return this.tipimailService.guideUtilisateur(user);
+  }
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(RolesGuard)
@@ -66,7 +75,7 @@ export class UsersController {
     });
 
     if (confirmerUser) {
-      this.mailerService.confirmUser(confirmerUser);
+      this.mailjetService.confirmUser(confirmerUser);
     }
     return confirmerUser;
   }
@@ -152,13 +161,13 @@ export class UsersController {
     const newUser = await this.usersService.create(userDto, structure);
     if (newUser && newUser !== null) {
       if (newUser.role === "admin") {
-        this.mailerService.newStructure(structure, newUser);
+        this.mailjetService.newStructure(structure, newUser);
       } else {
         const admin = await this.usersService.findOne({
           role: "admin",
           structureId: newUser.structureId,
         });
-        this.mailerService.newUser(admin, newUser);
+        this.mailjetService.newUser(admin, newUser);
       }
       this.structureService.addUser(newUser, userDto.structureId);
 
@@ -243,7 +252,7 @@ export class UsersController {
       );
 
       if (updatedUser) {
-        this.mailerService.newPassword(updatedUser).then(
+        this.mailjetService.newPassword(updatedUser).then(
           (result) => {
             return res.status(HttpStatus.OK).json({ message: "OK" });
           },

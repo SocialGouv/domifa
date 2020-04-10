@@ -9,6 +9,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { ERROR_LABELS } from "src/app/shared/errors.labels";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
+import { ConstantPool } from "@angular/compiler";
 
 @Component({
   selector: "app-user-profil",
@@ -153,6 +154,13 @@ export class UserProfilComponent implements OnInit {
       );
   }
 
+  public sendMail() {
+    this.userService.tipi().subscribe((variable: any) => {
+      console.log("APPEL FINI");
+      console.log(variable);
+      alert("Envoi du mail réussi");
+    });
+  }
   private getUsers() {
     if (this.authService.currentUserValue.role === "admin") {
       this.userService.getNewUsers().subscribe((users: User[]) => {

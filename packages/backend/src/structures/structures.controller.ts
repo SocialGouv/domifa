@@ -17,7 +17,7 @@ import { RolesGuard } from "../auth/roles.guard";
 import { InteractionsService } from "../interactions/interactions.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { EmailDto } from "../users/dto/email.dto";
-import { MailerService } from "../users/services/mailer.service";
+import { MailJetService } from "../users/services/mailjet.service";
 import { UsersService } from "../users/services/users.service";
 import { User } from "../users/user.interface";
 import { StructureEditDto } from "./dto/structure-edit.dto";
@@ -31,7 +31,7 @@ export class StructuresController {
     private readonly usersService: UsersService,
     private readonly usagersService: UsagersService,
     private readonly interactionsService: InteractionsService,
-    private readonly mailerService: MailerService
+    private readonly mailjetService: MailJetService
   ) {}
 
   @Post()
@@ -109,7 +109,7 @@ export class StructuresController {
         }
       );
 
-      this.mailerService.confirmationStructure(structure, updatedAdmin);
+      this.mailjetService.confirmationStructure(structure, updatedAdmin);
       return structure;
     }
   }
@@ -132,7 +132,7 @@ export class StructuresController {
       hardResetToken
     );
     if (structure) {
-      await this.mailerService.hardReset(user, hardResetToken.token);
+      await this.mailjetService.hardReset(user, hardResetToken.token);
       return res.status(HttpStatus.OK).json({ message: expireAt });
     } else {
       throw new HttpException(

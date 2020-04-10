@@ -4,7 +4,7 @@ import { Structure } from "../../structures/structure-interface";
 import { User } from "../user.interface";
 
 @Injectable()
-export class MailerService {
+export class MailJetService {
   public mailjet: any;
 
   constructor(private readonly configService: ConfigService) {
