@@ -40,7 +40,6 @@ import { PolitiqueComponent } from "./components/politique/politique.component";
   ],
   imports: [
     CommonModule,
-    CommonModule,
     BrowserModule,
     SharedModule,
     BrowserAnimationsModule,

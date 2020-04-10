@@ -125,6 +125,10 @@ export const UsagerSchema = new mongoose.Schema(
     },
 
     lastInteraction: {
+      enAttente: { type: Boolean, default: false },
+      courrierIn: { type: Number, default: 0 },
+      recommandeIn: { type: Number, default: 0 },
+      colisIn: { type: Number, default: 0 },
       nbCourrier: {
         type: Number,
         default: 0,

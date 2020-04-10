@@ -568,7 +568,6 @@ export class UsagersController {
   }
 
   private captureErrors(err: any, statuts: HttpStatus, @Res() res: any) {
-    Raven.captureException(err);
-    return res.status(statuts).json({ success: false, message: err.message });
+    throw new HttpException(err, statuts);
   }
 }

@@ -73,21 +73,27 @@ export class SearchController {
       TROIS_MOIS: { $lte: lastThreeMonths },
     };
 
+    const regexInt = RegExp("^[0-9]*$");
+
     sort = query.sort ? (sort = sortValues[query.sort]) : { nom: "ascending" };
 
     /* ID DE LA STRUCTURE DE LUSER */
     if (query.name) {
-      searchQuery.$or = [
-        {
-          nom: { $regex: ".*" + query.name + ".*", $options: "-i" },
-        },
-        {
-          prenom: { $regex: ".*" + query.name + ".*", $options: "-i" },
-        },
-        {
-          surnom: { $regex: ".*" + query.name + ".*", $options: "-i" },
-        },
-      ];
+      if (regexInt.test(query.name)) {
+        searchQuery.id = parseInt(query.name, 10);
+      } else {
+        searchQuery.$or = [
+          {
+            nom: { $regex: ".*" + query.name + ".*", $options: "-i" },
+          },
+          {
+            prenom: { $regex: ".*" + query.name + ".*", $options: "-i" },
+          },
+          {
+            surnom: { $regex: ".*" + query.name + ".*", $options: "-i" },
+          },
+        ];
+      }
     }
 
     if (query.statut && query.statut !== "TOUS") {

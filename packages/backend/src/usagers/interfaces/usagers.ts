@@ -39,6 +39,10 @@ export interface Usager extends Document {
   lastInteraction: {
     nbCourrier: number;
     dateInteraction: Date;
+    enAttente: boolean;
+    courrierIn: number;
+    recommandeIn: number;
+    colisIn: number;
   };
 
   interactions: Interaction[];

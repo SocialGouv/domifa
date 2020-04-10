@@ -44,6 +44,10 @@ export class Usager {
   public lastInteraction: {
     nbCourrier: number;
     dateInteraction: Date;
+    enAttente: boolean;
+    courrierIn: number;
+    recommandeIn: number;
+    colisIn: number;
   };
 
   public dayBeforeEnd: number;
@@ -107,12 +111,20 @@ export class Usager {
     this.lastInteraction = {
       dateInteraction: null,
       nbCourrier: 0,
+      enAttente: false,
+      courrierIn: 0,
+      recommandeIn: 0,
+      colisIn: 0,
     };
 
     if (usager && usager.lastInteraction) {
       this.lastInteraction = {
         dateInteraction: new Date(usager.lastInteraction.dateInteraction),
         nbCourrier: usager.lastInteraction.nbCourrier,
+        enAttente: usager.lastInteraction.enAttente,
+        courrierIn: usager.lastInteraction.courrierIn,
+        recommandeIn: usager.lastInteraction.recommandeIn,
+        colisIn: usager.lastInteraction.colisIn,
       };
     }
 
