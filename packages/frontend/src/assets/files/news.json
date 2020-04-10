@@ -11,14 +11,14 @@
           "Amélioration du processus de création d’une structure",
           "Mise à jour de la politique de confidentialité",
           "Ajout de divers messages d’erreur pour faciliter l’utilisation de la plateforme",
-          "Optimisation des filtres en fonction du statut du domicilié",
+          "Optimisation des filtres en fonction du statut du domicilié"
         ]
       },
       {
         "type": "bug",
         "message": [
           "Bug sur la date de dernier passage",
-          "Bug sur le nombre total de domiciliés dans la colonne “Tous”",
+          "Bug sur le nombre total de domiciliés dans la colonne “Tous”"
         ]
       }
     ]
