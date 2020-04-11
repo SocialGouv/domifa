@@ -15,7 +15,11 @@ import { ToastrService } from "ngx-toastr";
 
 @Injectable()
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(private notifService: ToastrService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private notifService: ToastrService
+  ) {}
 
   public intercept(
     request: HttpRequest<any>,
@@ -27,9 +31,6 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           this.notifService.error(
             "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
           );
-        }
-        if (error.status === 401 || error.status === 403) {
-          return;
         }
         return throwError(error);
       })
