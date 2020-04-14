@@ -42,10 +42,7 @@ export class UsersController {
         res.send(response.data);
       },
       (error: any) => {
-        throw new HttpException(
-          { message: "BAD_ROLE_USER", data: error },
-          HttpStatus.INTERNAL_SERVER_ERROR
-        );
+        throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     );
   }
