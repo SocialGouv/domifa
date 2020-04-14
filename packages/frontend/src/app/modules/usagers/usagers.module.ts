@@ -8,7 +8,7 @@ import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
-import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
+import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { GeneralModule } from "../general/general.module";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";

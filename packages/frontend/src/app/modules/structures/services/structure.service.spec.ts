@@ -6,7 +6,7 @@ import { RouterModule } from "@angular/router";
 import { first } from "rxjs/operators";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Structure } from "../structure.interface";
 import { StructureService } from "./structure.service";
 

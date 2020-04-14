@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoadingService } from "src/app/modules/loading/loading.service";
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import * as XLSX from "xlsx";
 import { regexp } from "../../../../shared/validators";
 import { UsagerService } from "../../services/usager.service";

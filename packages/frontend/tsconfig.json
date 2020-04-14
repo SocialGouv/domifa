@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "allowJs": true,
     "baseUrl": "./",
     "declaration": false,
     "downlevelIteration": true,

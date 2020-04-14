@@ -10,7 +10,7 @@ import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { departements } from "src/app/shared/departements";
 import { regexp } from "src/app/shared/validators";
 import { StructureService } from "../../services/structure.service";

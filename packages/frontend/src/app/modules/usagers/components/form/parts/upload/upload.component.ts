@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { UsersService } from "src/app/modules/users/services/users.service";
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "../../../../interfaces/usager";
 import { DocumentService } from "../../../../services/document.service";
 import { UsagerService } from "../../../../services/usager.service";

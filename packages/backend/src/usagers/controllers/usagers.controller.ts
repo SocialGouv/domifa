@@ -40,9 +40,6 @@ import { Usager } from "../interfaces/usagers";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
-import * as Raven from "raven-js";
-import { Exception } from "@sentry/node";
-import { Http } from "@sentry/node/dist/integrations";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")

@@ -19,9 +19,9 @@ import { ToastrService } from "ngx-toastr";
 
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Structure } from "src/app/modules/structures/structure.interface";
-import { AuthService } from "src/app/services/auth.service";
-import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
-import { CustomDatepickerI18n } from "src/app/services/date-french";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
+import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 
 import { regexp } from "src/app/shared/validators";
 import { AyantDroit } from "../../interfaces/ayant-droit";

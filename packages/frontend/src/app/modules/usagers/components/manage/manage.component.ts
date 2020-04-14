@@ -13,7 +13,7 @@ import { fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { Structure } from "../../../structures/structure.interface";
 import { interactionsNotifs } from "../../interactions.labels";

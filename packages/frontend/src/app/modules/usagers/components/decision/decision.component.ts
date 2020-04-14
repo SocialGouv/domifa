@@ -8,11 +8,11 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { PrintService } from "src/app/modules/shared/print.service";
+import { PrintService } from "src/app/modules/shared/services/print.service";
 import * as labels from "src/app/modules/usagers/usagers.labels";
-import { AuthService } from "src/app/services/auth.service";
-import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
-import { CustomDatepickerI18n } from "src/app/services/date-french";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
+import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import { Usager } from "../../interfaces/usager";
 import { DocumentService } from "../../services/document.service";
 import { UsagerService } from "../../services/usager.service";

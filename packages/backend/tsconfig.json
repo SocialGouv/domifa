@@ -10,6 +10,7 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "inlineSources": true,
     "target": "esnext",
     "sourceMap": true,
     "outDir": "./dist",

@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { PrintService } from "src/app/modules/shared/print.service";
+import { PrintService } from "src/app/modules/shared/services/print.service";
 import { User } from "src/app/modules/users/interfaces/user";
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 import { motifsRadiation } from "../../usagers.labels";

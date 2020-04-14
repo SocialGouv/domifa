@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { regexp } from "src/app/shared/validators";
 import { ERROR_LABELS } from "../../../../shared/errors.labels";
 import { UsersService } from "../../services/users.service";

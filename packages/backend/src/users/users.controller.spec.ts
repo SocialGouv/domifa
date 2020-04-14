@@ -6,12 +6,13 @@ import { MailJetService } from "./services/mailjet.service";
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { TipimailService } from "./services/tipimail.service";
+import { HttpModule } from "@nestjs/common";
 
 describe("Users Controller", () => {
   it("should be defined", async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
-      imports: [StructuresModule, UsagersModule],
+      imports: [StructuresModule, UsagersModule, HttpModule],
       providers: [
         { provide: UsersService, useValue: {} },
         {

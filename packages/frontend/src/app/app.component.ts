@@ -3,7 +3,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { Observable } from "rxjs";
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { fadeInOut } from "./shared/animations";
 import { Router, NavigationEnd } from "@angular/router";
 @Component({

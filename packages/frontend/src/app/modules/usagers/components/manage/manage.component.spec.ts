@@ -15,7 +15,7 @@ import { GeneralModule } from "src/app/modules/general/general.module";
 import { StatsModule } from "src/app/modules/stats/stats.module";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { UsersModule } from "src/app/modules/users/users.module";
-import { AuthService } from "src/app/services/auth.service";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { routes } from "../../../../app-routing.module";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
