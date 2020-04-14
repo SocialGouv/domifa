@@ -27,15 +27,6 @@ import { TipimailService } from "./services/tipimail.service";
     MailJetService,
     TipimailService,
     ConfigService,
-
-    {
-      provide: "MailerService",
-      useValue: {
-        sendMail(options: any) {
-          return Promise.resolve(options);
-        },
-      },
-    },
   ],
 })
 export class UsersModule {}

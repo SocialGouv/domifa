@@ -4,7 +4,6 @@ import { ConfigService } from "./config/config.service";
 import { HealthController } from "./health.controller";
 import { HealthModule } from "./health/health.module";
 import { InteractionsModule } from "./interactions/interactions.module";
-import { MailerModule } from "@nestjs-modules/mailer";
 import { MailJetService } from "./users/services/mailjet.service";
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -17,7 +16,6 @@ import { TerminusModule } from "@nestjs/terminus";
 import { UsagersModule } from "./usagers/usagers.module";
 import { UsersModule } from "./users/users.module";
 import * as mongoose from "mongoose";
-import { TwingAdapter } from "./adapters/twing.adapters";
 
 const config = new ConfigService();
 const user = config.get("DB_USER");
@@ -57,31 +55,6 @@ mongoose.set("debug", config.get("IS_LOCAL") !== undefined);
         useCreateIndex: true,
       }
     ),
-    MailerModule.forRoot({
-      transport: {
-        host: config.get("SMTP_HOST"),
-        port: 25,
-        secure: false,
-        auth: {
-          user: config.get("SMTP_USER"),
-          pass: config.get("SMTP_PASS"),
-        },
-      },
-      defaults: {
-        replyTo: {
-          name: "Domifa",
-          address: "contact.domifa@fabrique.social.gouv.fr",
-        },
-        from: {
-          name: "Domifa",
-          address: "diffusion@fabrique.social.gouv.fr",
-        },
-      },
-      template: {
-        dir: process.cwd() + "/src/templates/",
-        adapter: new TwingAdapter(),
-      },
-    }),
     TerminusModule,
   ],
   providers: [

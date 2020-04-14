@@ -15,14 +15,7 @@ describe("Users Controller", () => {
       imports: [StructuresModule, UsagersModule, HttpModule],
       providers: [
         { provide: UsersService, useValue: {} },
-        {
-          provide: "MailerService",
-          useValue: {
-            sendMail(options: any) {
-              return Promise.resolve(options);
-            },
-          },
-        },
+
         TipimailService,
         MailJetService,
         ConfigService,

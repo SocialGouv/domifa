@@ -1,19 +1,11 @@
-import { MailerService } from "@nestjs-modules/mailer";
 import { Injectable, HttpService } from "@nestjs/common";
 import { User } from "../user.interface";
-import { Observable } from "rxjs";
-import { AxiosResponse } from "axios";
-import { ConfigService } from "../../config/config.service";
 
 @Injectable()
 export class TipimailService {
-  constructor(
-    private readonly mailerService: MailerService,
-    private httpService: HttpService
-  ) {}
+  constructor(private httpService: HttpService) {}
 
   public guideUtilisateur(user: User) {
-    const config = new ConfigService();
     const post = {
       to: [
         {
@@ -52,25 +44,10 @@ export class TipimailService {
       post,
       {
         headers: {
-          "X-Tipimail-ApiUser": config.get("SMTP_USER"),
-          "X-Tipimail-ApiKey": config.get("SMTP_PASS"),
+          "X-Tipimail-ApiUser": process.env.SMTP_USER,
+          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
         },
       }
     );
-  }
-
-  public async guideUtilisateurNatif(user: User) {
-    return this.mailerService.sendMail({
-      to: user.email,
-      from: {
-        name: "Domifa",
-        address: "diffusion@fabrique.social.gouv.fr",
-      },
-      subject: "Découvrez le guide utilisateur DomiFa !",
-      template: "guide_utilisateur", // The `.twig` extension is appended automatically.
-      context: {
-        nom: user.prenom,
-      },
-    });
   }
 }
