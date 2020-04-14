@@ -82,15 +82,19 @@ export class SearchController {
       if (regexInt.test(query.name)) {
         searchQuery.id = parseInt(query.name, 10);
       } else {
+        console.log(query.name);
+        const name = query.name.replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gi, "");
+        console.log(name);
+
         searchQuery.$or = [
           {
-            nom: { $regex: ".*" + query.name + ".*", $options: "-i" },
+            nom: { $regex: ".*" + name + ".*", $options: "-i" },
           },
           {
-            prenom: { $regex: ".*" + query.name + ".*", $options: "-i" },
+            prenom: { $regex: ".*" + name + ".*", $options: "-i" },
           },
           {
-            surnom: { $regex: ".*" + query.name + ".*", $options: "-i" },
+            surnom: { $regex: ".*" + name + ".*", $options: "-i" },
           },
         ];
       }
