@@ -20,6 +20,7 @@ export class ConfigService {
       MJ_APIKEY_PUBLIC: process.env.MJ_APIKEY_PUBLIC,
       SECRET: process.env.SECRET,
       UPLOADS_FOLDER: process.env.UPLOADS_FOLDER,
+      DOMAIN: process.env.DOMAIN || "",
     };
   }
 

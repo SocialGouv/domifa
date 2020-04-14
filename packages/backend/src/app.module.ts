@@ -60,7 +60,9 @@ mongoose.set("debug", config.get("IS_LOCAL") !== undefined);
   providers: [
     {
       provide: APP_INTERCEPTOR,
-      useValue: new RavenInterceptor(),
+      useValue: new RavenInterceptor({
+        tags: { serverName: config.get("DOMAIN") },
+      }),
     },
     {
       provide: ConfigService,

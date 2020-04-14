@@ -8,18 +8,14 @@ import {
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable, throwError, of } from "rxjs";
-import { catchError, retry } from "rxjs/operators";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable()
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private notifService: ToastrService
-  ) {}
+  constructor(private notifService: ToastrService) {}
 
   public intercept(
     request: HttpRequest<any>,
@@ -31,8 +27,14 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           this.notifService.error(
             "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
           );
+        } else {
+          const errorMessage =
+            error.error instanceof ErrorEvent
+              ? `Error: ${error.error.message}`
+              : `Error Code: ${error.status}\nMessage: ${error.message}`;
+
+          return throwError(errorMessage);
         }
-        return throwError(error);
       })
     );
   }
