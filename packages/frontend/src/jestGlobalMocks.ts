@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 Object.defineProperty(window, "CSS", { value: null });
 
 Object.defineProperty(document, "doctype", {

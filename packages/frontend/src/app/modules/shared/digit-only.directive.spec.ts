@@ -11,7 +11,8 @@ import { By } from "@angular/platform-browser";
 import { DigitOnlyDirective } from "./digit-only.directive";
 
 @Component({
-  template: ` <input type="text" name="chips" digitOnly /> `,
+  // eslint-disable-next-line quotes
+  template: ' <input type="text" name="chips" digitOnly /> ',
 })
 class TestHoverFocusComponent {
   public value: any;

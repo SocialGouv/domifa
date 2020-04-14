@@ -6,7 +6,7 @@ import { Injectable } from "@angular/core";
 export class PrintService {
   public printDiv(div: string) {
     const printContents = document.getElementById(div);
-    if (!!printContents) {
+    if (printContents) {
       const originalContents = document.body.innerHTML;
       document.body.innerHTML = printContents.innerHTML;
       window.print();

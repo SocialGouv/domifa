@@ -158,6 +158,7 @@ export class UserProfilComponent implements OnInit {
       alert("Envoi du mail réussi");
     });
   }
+  
   private getUsers() {
     if (this.authService.currentUserValue.role === "admin") {
       this.userService.getNewUsers().subscribe((users: User[]) => {

@@ -1,0 +1,18 @@
+Error: multiple output @typescript-eslint/consistent-type-assertions ESLint rule options were generated, but tslint-to-eslint-config doesn't have "merger" logic to deal with this.
+Please file an issue at https://github.com/typescript-eslint/tslint-to-eslint-config/issues/new?template=missing_merger.md 🙏
+
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "component-class-suffix"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "directive-class-suffix"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "jsdoc-format"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "no-host-metadata-property"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "no-input-rename"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "no-inputs-metadata-property"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "no-output-on-prefix"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "no-output-rename"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "no-outputs-metadata-property"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "no-reference-import"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "prefer-conditional-expression"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "prettier"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "use-lifecycle-interface"[39m
+[33mtslint-to-eslint-config does not know the ESLint equivalent for TSLint's "use-pipe-transform-interface"[39m
+[33m[39m

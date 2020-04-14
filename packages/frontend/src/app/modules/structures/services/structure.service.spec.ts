@@ -52,7 +52,7 @@ describe("StructureService", () => {
   }));
 
   it("1. getStructure & getAll", async(() => {
-    /*service.find("").subscribe((structures: Structure[]) => {
+    /* service.find("").subscribe((structures: Structure[]) => {
       expect(structures.length).toEqual(1);
     });*/
 
