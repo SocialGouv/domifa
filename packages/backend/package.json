@@ -40,6 +40,7 @@
     "@types/passport-jwt": "^3.0.3",
     "@types/rimraf": "^3.0.0",
     "add": "^2.0.6",
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "braces": "^3.0.2",
     "class-transformer": "^0.2.3",

@@ -36,8 +36,18 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(RolesGuard)
   @Get("tipi")
-  public async testEmail(@CurrentUser() user: User) {
-    return this.tipimailService.guideUtilisateur(user);
+  public async testEmail(@CurrentUser() user: User, @Response() res: any) {
+    return this.tipimailService.guideUtilisateur(user).subscribe(
+      (response: any) => {
+        res.send(response.data);
+      },
+      (error: any) => {
+        throw new HttpException(
+          { message: "BAD_ROLE_USER", data: error },
+          HttpStatus.INTERNAL_SERVER_ERROR
+        );
+      }
+    );
   }
 
   @UseGuards(AuthGuard("jwt"))
