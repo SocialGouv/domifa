@@ -29,7 +29,7 @@ import { StatsModule } from "./modules/stats/stats.module";
 import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
-import { AuthService } from "./services/auth.service";
+import { AuthService } from "./modules/shared/services/auth.service";
 import { RavenErrorHandler } from "./interceptors/sentry.interceptor";
 import { environment } from "src/environments/environment";
 

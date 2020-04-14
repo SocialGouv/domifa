@@ -8,7 +8,7 @@ import {
   padNumber,
   toInteger,
   toString,
-} from "../shared/bootstrap-util";
+} from "../../../shared/bootstrap-util";
 
 import { NgbDateCustomParserFormatter } from "./date-formatter";
 describe("NgbDateCustomParserFormatter", () => {

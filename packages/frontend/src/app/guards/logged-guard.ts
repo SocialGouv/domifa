@@ -6,10 +6,10 @@ import {
   RouterStateSnapshot,
 } from "@angular/router";
 
-import { Observable, empty, of } from "rxjs";
-import { map, catchError } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../modules/shared/services/auth.service";
 
 @Injectable({ providedIn: "root" })
 export class LoggedGuard implements CanActivate {

@@ -4,7 +4,7 @@ import jwtDecode from "jwt-decode";
 import { BehaviorSubject, Observable, of, empty } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { User } from "../modules/users/interfaces/user";
+import { User } from "../../users/interfaces/user";
 
 @Injectable({
   providedIn: "root",

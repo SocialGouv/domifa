@@ -1,14 +1,13 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule, HttpHandler } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { inject, TestBed } from "@angular/core/testing";
 import {
-  ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
   RouterModule,
   RouterStateSnapshot,
 } from "@angular/router";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../modules/shared/services/auth.service";
 import { AuthGuard } from "./auth-guard";
 
 describe("AuthGuard", () => {

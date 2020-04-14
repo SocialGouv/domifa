@@ -1,11 +1,6 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import {
-  async,
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-} from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LoadingComponent } from "./loading.component";
