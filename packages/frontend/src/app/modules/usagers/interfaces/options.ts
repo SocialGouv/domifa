@@ -4,22 +4,22 @@ import { formatDateToNgb } from "src/app/shared/bootstrap-util";
 export class Options {
   public transfert: {
     actif: boolean;
-    nom: string | null;
     adresse: string | null;
     dateDebut: Date | null;
     dateFin: Date | null;
     dateFinPicker: NgbDateStruct | null;
+    nom: string | null;
   };
 
   public procuration: {
     actif: boolean;
-    nom: string;
-    prenom: string;
-    nomComplet: string;
+    dateDebut: Date | null;
     dateFin: Date | null;
     dateFinPicker: NgbDateStruct | null;
-    dateNaissance: string | null;
-    dateDebut: Date | null;
+    dateNaissance: Date | null;
+    nom: string;
+    nomComplet: string;
+    prenom: string;
   };
 
   public npai: {

@@ -146,42 +146,6 @@
     <h5 class="text-center font-weight-bold">
       Signaler la réception d’un courrier ou un passage
     </h5>
-    <br />
-    <div
-      class="row"
-      *ngIf="usager.options.transfert.actif"
-      class="text-center text-warning"
-    >
-      <div class="font-weight-bold">
-        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-        Le courrier est à transférer à l'adresse suivante :
-        <br />
-        {{ usager.options.transfert.nom | titlecase }}
-      </div>
-      {{ usager.options.transfert.adresse | titlecase }}
-      <br />
-      <br />
-    </div>
-
-    <div
-      class="row"
-      *ngIf="usager.options.procuration.actif"
-      class="text-center text-warning"
-    >
-      <div class="font-weight-bold">
-        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-        Attention, il existe une procuration au nom de {{
-        usager.options.procuration.nom | uppercase }} {{
-        usager.options.procuration.prenom }}
-        <br />
-        <u>
-          Valable jusqu'au {{ usager.options.procuration.dateFin | date:
-          'dd/MM/yyyy' }}
-        </u>
-        <br />
-        <br />
-      </div>
-    </div>
 
     <div id="notif-container">
       <div id="notif-form">
@@ -259,19 +223,62 @@
       </div>
     </div>
     <br />
+    <div class="row" *ngIf="usager.options.transfert.actif" class="text-center">
+      <ngb-alert
+        [dismissible]="false"
+        *ngIf="usager.options.transfert.dateFin <= today"
+        type="danger"
+      >
+        <b>Attention : </b> le transfert de courrier était valable jusqu'au {{
+        usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}.
+        <br />
+        Veuillez mettre à jour cette information auprès de l'usager
+      </ngb-alert>
+
+      <ngb-alert
+        [dismissible]="false"
+        *ngIf="usager.options.transfert.dateFin  today"
+        type="warning"
+      >
+        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+        Le courrier est à transférer à l'adresse suivante :
+        <br />
+        {{ usager.options.transfert.nom | titlecase }}
+        {{ usager.options.transfert.adresse | titlecase }}
+      </ngb-alert>
+    </div>
 
     <ngb-alert
       [dismissible]="false"
-      *ngIf="usager.lastInteraction.nbCourrier > 0"
-      type="dark"
+      *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin > today"
+      type="warning"
     >
-      <div class="text-center">
-        <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
-        &nbsp;&nbsp; {{ usager.lastInteraction.nbCourrier }} courriers en
-        attente &nbsp;&nbsp;&nbsp;
-        <button class="btn btn-primary" (click)="setInteraction('courrierOut')">
-          Confirmer la distribution
-        </button>
+      <div class="row" class="text-center">
+        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+        Une procuration au nom de {{ usager.options.procuration.nomComplet }}
+        est actuellement active.
+        <br />
+        <b *ngIf="usager.options.procuration.dateFin > today">
+          Valable jusqu'au {{ usager.options.procuration.dateFin | date:
+          'dd/MM/yyyy' }}
+        </b>
+      </div>
+    </ngb-alert>
+    <ngb-alert
+      [dismissible]="false"
+      *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin <= today"
+      type="danger"
+    >
+      <div class="row" class="text-center">
+        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+
+        La procuration au nom de {{ usager.options.procuration.nomComplet }}
+        <b
+          >a expiré le {{ usager.options.procuration.dateFin | date:
+          'dd/MM/yyyy' }}</b
+        >
+        <br />
+        Veuillez mettre à jour cette information auprès de l'usager
       </div>
     </ngb-alert>
 
@@ -300,6 +307,20 @@
         <fa-icon icon="redo" class="btn-icon"></fa-icon>
         Voir le récapitulatif
       </a>
+    </ngb-alert>
+    <ngb-alert
+      [dismissible]="false"
+      *ngIf="usager.lastInteraction.nbCourrier > 0"
+      type="info"
+    >
+      <div class="text-center">
+        <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
+        &nbsp;&nbsp; {{ usager.lastInteraction.nbCourrier }} courriers en
+        attente &nbsp;&nbsp;&nbsp;
+        <button class="btn btn-primary" (click)="setInteraction('courrierOut')">
+          Confirmer la distribution
+        </button>
+      </div>
     </ngb-alert>
 
     <ngb-accordion
@@ -524,7 +545,7 @@
                   id="surnom"
                   formControlName="surnom"
                   placeholder="Surnom / Nom d'usage"
-                  [ngClass]="{ 'is-invalid': f.surnom }"
+                  [ngClass]="{ 'is-invalid': f.surnom.errors }"
                 />
               </div>
               <div class="col-md-4 form-group required">
@@ -973,10 +994,9 @@
                 </div>
 
                 <div class="col-md-4 reponses">
-                  <span class="question">Actif depuis le</span>
+                  <span class="question">Actif jusqu'au</span>
                   <span class="valeur">
-                    {{ usager.options.transfert.dateDebut | date: 'dd/MM/yyyy'
-                    }}
+                    {{ usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}
                   </span>
                 </div>
 
@@ -988,7 +1008,7 @@
                     class="btn btn-outline-primary"
                   >
                     <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
-                    Editer le transfert
+                    Éditer le transfert
                   </button>
                   &nbsp;&nbsp;
                   <button
@@ -1008,7 +1028,7 @@
                 autocomplete="off"
               >
                 <div class="row">
-                  <div class="col-6 form-group required">
+                  <div class="col-4 form-group required">
                     <label for="transfert_nom">Nom de l'établissement</label>
                     <input
                       type="text"
@@ -1029,7 +1049,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-6 form-group required">
+                  <div class="col-5 form-group required">
                     <label for="transfert_adresse"
                       >Adresse complète de l'établissement</label
                     >
@@ -1054,7 +1074,44 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-3 form-group required">
+                    <label for="dateFinPicker">Valide jusqu'au</label>
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="jj/mm/aaaa"
+                        placement="bottom"
+                        formControlName="dateFinPicker"
+                        ngbDatepicker
+                        dateFr
+                        value
+                        [minDate]="minDateToday"
+                        [ngClass]="{ 'is-invalid':  t.dateFinPicker.dirty &&  t.dateFinPicker.errors  }"
+                        #d="ngbDatepicker"
+                        maxlength="10"
+                        required
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="btn btn-outline-primary"
+                          (click)="d.toggle()"
+                        >
+                          <fa-icon icon="calendar"></fa-icon>
+                        </span>
+                      </div>
 
+                      <div
+                        *ngIf="t.dateFinPicker.invalid"
+                        class="invalid-feedback"
+                      >
+                        <div
+                          *ngIf="t.dateFinPicker.dirty && t.dateFinPicker.errors.ngbDate"
+                        >
+                          La date de fin est incorrecte
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col text-center">
                     <span
                       class="btn btn-dark"

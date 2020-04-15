@@ -20,4 +20,7 @@ export class TransfertDto {
 
   @IsEmpty()
   public dateDebut!: Date;
+
+  @IsNotEmpty()
+  public dateFin!: Date;
 }

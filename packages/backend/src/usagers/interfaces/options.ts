@@ -4,6 +4,7 @@ export interface Options {
     nom: string;
     adresse: string;
     dateDebut?: Date | null;
+    dateFin: Date | null;
   };
   procuration: {
     actif: boolean;

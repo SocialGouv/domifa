@@ -20,7 +20,7 @@ export class CleanStrDirective {
   validateFields(event) {
     setTimeout(() => {
       this.el.nativeElement.value = this.el.nativeElement.value
-        .replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gg, "")
+        .replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gi, "")
         .replace(/\s/g, "");
       event.preventDefault();
     }, 100);

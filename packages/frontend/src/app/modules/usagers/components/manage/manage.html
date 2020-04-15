@@ -61,6 +61,7 @@
         type="text"
         [(ngModel)]="filters.name"
         #searchInput
+        cleanStr
         placeholder="Recherche par nom, prénom ou numéro de domicilié"
         class="form-control"
       />
@@ -342,14 +343,34 @@
               <fa-icon icon="ban" class="btn-icon"></fa-icon>
               Pli non distribuable
             </span>
-            <span class="text-warning" *ngIf="usager.options.transfert.actif">
+            <span
+              class="text-warning"
+              *ngIf="usager.options.transfert.actif && usager.options.transfert.dateFin > today"
+            >
               <fa-icon icon="share" class="btn-icon"></fa-icon>
               Courrier à transférer
             </span>
-            <span class="text-warning" *ngIf="usager.options.procuration.actif">
+            <span
+              class="text-danger"
+              *ngIf="usager.options.transfert.actif && usager.options.transfert.dateFin <= today"
+            >
+              Transfert expiré le {{ usager.options.transfert.dateFin | date:
+              "dd/MM/yyyy" }}
+            </span>
+            <span
+              class="text-warning"
+              *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin > today"
+            >
               <fa-icon icon="exclamation-triangle" class="btn-icon"></fa-icon>
-              <b>Procuration :</b>
-              {{ usager.options.procuration.nomComplet }}
+              Procuration : {{ usager.options.procuration.nomComplet }}
+            </span>
+            <span
+              class="text-danger"
+              *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin <= today"
+            >
+              <fa-icon icon="exclamation-triangle" class="btn-icon"></fa-icon>
+              Procuration expirée : {{ usager.options.procuration.dateFin |
+              date: "dd/MM/yyyy" }}
             </span>
 
             <span

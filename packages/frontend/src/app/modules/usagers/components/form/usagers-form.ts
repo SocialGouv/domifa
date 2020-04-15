@@ -55,12 +55,6 @@ export class UsagersFormComponent implements OnInit {
   public maxDateNaissance: NgbDateStruct;
   public minDateNaissance: NgbDateStruct;
 
-  public minDateRdv = {
-    day: this.dToday.getDate(),
-    month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear(),
-  };
-
   public maxDateRdv = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,

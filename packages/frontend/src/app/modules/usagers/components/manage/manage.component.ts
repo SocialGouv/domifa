@@ -33,7 +33,7 @@ export class ManageUsagersComponent implements OnInit {
   public searching: boolean;
   public usagers: Usager[] = [];
   public dateLabel: string;
-
+  public today: Date;
   public labelsDateFin: any = {
     ATTENTE_DECISION: "Demande effectuée le",
     INSTRUCTION: "Dossier débuté le",
@@ -88,6 +88,7 @@ export class ManageUsagersComponent implements OnInit {
         ? this.authService.currentUserValue.structure
         : new Structure();
 
+    this.today = new Date();
     this.stats = {
       INSTRUCTION: 0,
       VALIDE: 0,

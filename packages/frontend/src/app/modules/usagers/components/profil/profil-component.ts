@@ -33,6 +33,7 @@ import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
 import {
   minDateNaissance,
+  minDateToday,
   formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
 
@@ -81,11 +82,14 @@ export class UsagersProfilComponent implements OnInit {
 
   public structure: Structure;
 
+  public today: Date;
+
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
 
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
+  public minDateToday: NgbDateStruct;
 
   constructor(
     private documentService: DocumentService,
@@ -107,6 +111,8 @@ export class UsagersProfilComponent implements OnInit {
     this.editTransfertForm = false;
     this.submitted = false;
 
+    this.today = new Date();
+
     this.interactions = [];
     this.labels = usagersLabels;
     this.editCustomId = false;
@@ -116,6 +122,7 @@ export class UsagersProfilComponent implements OnInit {
         ? this.authService.currentUserValue.structure
         : new Structure();
 
+    this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
 
@@ -175,6 +182,11 @@ export class UsagersProfilComponent implements OnInit {
       adresse: [
         this.usager.options.transfert.adresse,
         [Validators.required, Validators.minLength(10)],
+      ],
+      dateFin: [this.usager.options.transfert.dateFin],
+      dateFinPicker: [
+        this.usager.options.transfert.dateFinPicker,
+        [Validators.required],
       ],
       nom: [this.usager.options.transfert.nom, [Validators.required]],
     });
@@ -419,6 +431,18 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public editTransfert() {
+    const dateTmp = this.nbgDate.formatEn(
+      this.transfertForm.controls.dateFinPicker.value
+    );
+
+    if (dateTmp === null) {
+      this.notifService.error("La date de fin du transfert est incorrecte.");
+      return;
+    }
+
+    this.transfertForm.controls.dateFin.setValue(
+      new Date(dateTmp).toISOString()
+    );
     this.usagerService
       .editTransfert(this.transfertForm.value, this.usager.id)
       .subscribe(

@@ -13,7 +13,7 @@ ul {
 .navbar {
   border: 1px solid #e0e0e0;
   background-color: white;
-  box-shadow: 0 0px 8px 2px rgba(215, 210, 210, 0.4);
+  box-shadow: 0 0 8px 2px rgba(215, 210, 210, 0.4);
   position: fixed;
   z-index: 1000;
   width: 100%;
@@ -186,8 +186,8 @@ ul {
 }
 
 .npai {
-  -webkit-text-stroke-width: 0px;
-  stroke-width: 0px;
+  -webkit-text-stroke-width: 0;
+  stroke-width: 0;
   color: var(--danger) !important;
 }
 
@@ -452,8 +452,8 @@ table .active {
   background-color: #e42f2f;
   border-radius: 1rem;
   color: white;
-  -webkit-text-stroke-width: 0px;
-  stroke-width: 0px;
+  -webkit-text-stroke-width: 0;
+  stroke-width: 0;
   padding: 3px 6px;
   font-size: 1rem;
   line-height: 100%;

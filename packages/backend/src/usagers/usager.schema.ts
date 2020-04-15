@@ -170,18 +170,18 @@ export const UsagerSchema = new mongoose.Schema(
 
     options: {
       transfert: {
-        type: {
-          actif: { type: Boolean, default: false },
-          adresse: { type: String, default: null },
-          nom: { type: String, default: null },
-          dateDebut: { type: Date },
-        },
+        actif: { type: Boolean, default: false },
+        adresse: { type: String, default: null },
+        nom: { type: String, default: null },
+        dateDebut: { type: Date },
+        dateFin: { type: Date },
       },
       procuration: {
         actif: { type: Boolean, default: false },
         nom: { type: String },
         prenom: { type: String },
         dateFin: { type: Date },
+        dateDebut: { type: Date },
         dateNaissance: { type: String },
       },
       npai: {

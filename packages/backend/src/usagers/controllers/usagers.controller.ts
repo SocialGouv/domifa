@@ -247,6 +247,7 @@ export class UsagersController {
       actif: true,
       adresse: transfertDto.adresse,
       dateDebut: new Date(),
+      dateFin: new Date(transfertDto.dateFin),
       nom: transfertDto.nom,
     };
 
@@ -260,6 +261,8 @@ export class UsagersController {
       actif: false,
       adresse: "",
       nom: "",
+      dateDebut: null,
+      dateFin: null,
     };
     return this.usagersService.patch(usager, usager._id);
   }
