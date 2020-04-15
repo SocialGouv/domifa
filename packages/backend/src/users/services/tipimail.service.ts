@@ -35,7 +35,7 @@ export class TipimailService {
           address: "contact.domifa@fabrique.social.gouv.fr",
         },
         subject: "Subject",
-        html: "<p>Coucou</p>",
+        html: "<p>Test</p>",
       },
     };
 

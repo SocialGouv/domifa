@@ -96,7 +96,6 @@ export class ImportController {
 
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly usersService: UsersService,
     private readonly structureService: StructuresService
   ) {
     this.errorsId = [];
@@ -201,7 +200,7 @@ export class ImportController {
           DATE_PREMIERE_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_FIN_DOM], true),
+          this.validDate(row[DATE_FIN_DOM], true, true),
           index,
           DATE_FIN_DOM
         );
@@ -447,14 +446,39 @@ export class ImportController {
   }
 
   private notEmpty(value: string): boolean {
-    return value !== undefined && value !== null && value !== "";
+    return (
+      typeof value !== "undefined" && value !== null && value.trim() !== ""
+    );
   }
 
-  private validDate(date: string, required: boolean): boolean {
+  public validDate(
+    date: string,
+    required: boolean,
+    futureDate?: boolean
+  ): boolean {
     if ((date === undefined || date === null || date === "") && !required) {
       return true;
     }
-    return RegExp(regexp.date).test(date);
+
+    const maxAnnee = futureDate
+      ? new Date().getFullYear() + 1
+      : new Date().getFullYear();
+
+    if (RegExp(regexp.date).test(date)) {
+      const dateParts = date.split("/");
+      const jour = parseInt(dateParts[0], 10);
+      const mois = parseInt(dateParts[1], 10);
+      const annee = parseInt(dateParts[2], 10);
+      return (
+        jour <= 31 &&
+        jour > 0 &&
+        mois <= 12 &&
+        mois > 0 &&
+        annee > 1900 &&
+        annee <= maxAnnee
+      );
+    }
+    return false;
   }
 
   private validPhone(phone: string): boolean {

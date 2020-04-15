@@ -223,7 +223,7 @@ export class ImportComponent implements OnInit {
           DATE_DEBUT_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_FIN_DOM], true),
+          this.validDate(row[DATE_FIN_DOM], true, true),
           index,
           DATE_FIN_DOM
         );
@@ -337,13 +337,24 @@ export class ImportComponent implements OnInit {
   }
 
   public notEmpty(value: string): boolean {
-    return value !== undefined && value !== null && value !== "";
+    return (
+      typeof value !== "undefined" && value !== null && value.trim() !== ""
+    );
   }
 
-  public validDate(date: string, required: boolean): boolean {
+  public validDate(
+    date: string,
+    required: boolean,
+    futureDate?: boolean
+  ): boolean {
     if ((date === undefined || date === null || date === "") && !required) {
       return true;
     }
+
+    const maxAnnee = futureDate
+      ? new Date().getFullYear() + 1
+      : new Date().getFullYear();
+
     if (RegExp(regexp.date).test(date)) {
       const dateParts = date.split("/");
       const jour = parseInt(dateParts[0], 10);
@@ -355,7 +366,7 @@ export class ImportComponent implements OnInit {
         mois <= 12 &&
         mois > 0 &&
         annee > 1900 &&
-        annee < 2030
+        annee < maxAnnee
       );
     }
     return false;
