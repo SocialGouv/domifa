@@ -24,8 +24,6 @@ export class InteractionsService {
     const len = interactionDto.type.length;
     const interactionOut = interactionDto.type.substring(len - 3) === "Out";
     const interactionIn = interactionDto.type.substring(len - 2) === "In";
-    console.log(interactionIn);
-    console.log(usager.lastInteraction);
 
     if (interactionIn) {
       const newNbCourrier =
@@ -73,9 +71,6 @@ export class InteractionsService {
     createdInteraction.userId = user.id;
     createdInteraction.userName = user.prenom + " " + user.nom;
 
-    console.log(usager.lastInteraction);
-    console.log(createdInteraction);
-
     const savedInteraction = await createdInteraction.save();
     usager.interactions.push(savedInteraction);
 
@@ -115,13 +110,18 @@ export class InteractionsService {
     interactionId: string,
     user: User
   ): Promise<any> {
-    return this.interactionModel
+    const retour = this.interactionModel
       .deleteOne({
         _id: interactionId,
         structureId: user.structureId,
         usagerId,
       })
       .exec();
+
+    if (retour !== null) {
+      throw new HttpException("CANNOT_DELETE_USAGER", 500);
+    }
+    return retour;
   }
 
   public async deleteByUsager(

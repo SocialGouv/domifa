@@ -117,7 +117,7 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(RolesGuard)
   @Delete(":id")
-  public async deleteOne(
+  public async delete(
     @Param("id") id: number,
     @CurrentUser() user: User,
     @Response() res: any

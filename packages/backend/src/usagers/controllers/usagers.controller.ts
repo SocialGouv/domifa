@@ -207,7 +207,7 @@ export class UsagersController {
   @UseGuards(RolesGuard)
   @UseGuards(AccessGuard)
   @Delete(":id")
-  public async deleteOne(
+  public async delete(
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager,
     @Res() res: any
@@ -221,20 +221,25 @@ export class UsagersController {
 
     await this.interactionService.deleteByUsager(usager.id, user.structureId);
 
-    const deleteUsager = await this.usagersService.delete(usager._id);
-
-    if (deleteUsager && deleteUsager.deletedCount === 1) {
-      if (fs.existsSync(pathFile)) {
-        rimraf(pathFile, (error: any) => {
-          this.captureErrors(
-            { message: "CANNOT_DELETE_FOLDER", err: error },
-            HttpStatus.BAD_REQUEST,
-            res
-          );
-        });
-        return true;
-      }
+    if (fs.existsSync(pathFile)) {
+      rimraf(pathFile, (error: any) => {
+        this.captureErrors(
+          { message: "CANNOT_DELETE_FOLDER", err: error },
+          HttpStatus.BAD_REQUEST,
+          res
+        );
+      });
+      return true;
     }
+
+    const usagerToDelete = await this.usagersService.delete(usager._id);
+    if (!usagerToDelete || usagerToDelete === null) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_DELETE_USAGER" });
+    }
+
+    return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
 
   @UseGuards(AccessGuard)
