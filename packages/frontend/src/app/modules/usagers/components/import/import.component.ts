@@ -312,9 +312,7 @@ export class ImportComponent implements OnInit {
   public countErrors(variable: boolean, idRow: number, idColumn: number) {
     if (
       this.datas[idRow][STATUT_DOM] === "REFUS" &&
-      (idColumn === DATE_DEBUT_DOM ||
-        idColumn === DATE_FIN_DOM ||
-        idColumn === DATE_PREMIERE_DOM)
+      (idColumn === DATE_DEBUT_DOM || idColumn === DATE_FIN_DOM)
     ) {
       variable = true;
       return true;
@@ -347,7 +345,10 @@ export class ImportComponent implements OnInit {
     required: boolean,
     futureDate?: boolean
   ): boolean {
-    if ((date === undefined || date === null || date === "") && !required) {
+    if (
+      (typeof date === "undefined" || date === null || date === "") &&
+      !required
+    ) {
       return true;
     }
 
@@ -366,7 +367,7 @@ export class ImportComponent implements OnInit {
         mois <= 12 &&
         mois > 0 &&
         annee > 1900 &&
-        annee < maxAnnee
+        annee <= maxAnnee
       );
     }
     return false;

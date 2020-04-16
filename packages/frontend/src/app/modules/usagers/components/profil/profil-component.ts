@@ -338,30 +338,36 @@ export class UsagersProfilComponent implements OnInit {
     );
   }
 
-  public notifier() {
-    for (const item of this.interactionsType) {
-      if (this.notifInputs[item] !== 0) {
-        this.interactionService
-          .setInteraction(this.usager, {
-            content: "",
-            nbCourrier: this.notifInputs[item],
-            type: item,
-          })
-          .subscribe(
-            (usager: Usager) => {
-              this.notifService.success(this.interactionsNotifs[item]);
-              this.usager = usager;
-              this.usager.lastInteraction = usager.lastInteraction;
-              this.notifInputs[item] = 0;
-              this.getInteractions();
-            },
-            (error) => {
-              this.notifService.error(
-                "Impossible d'enregistrer cette interaction"
-              );
-            }
-          );
-      }
+  public notifier(cpt: number) {
+    if (cpt >= this.interactionsType.length) {
+      return;
+    }
+
+    const item = this.interactionsType[cpt];
+    if (this.notifInputs[item] === 0) {
+      this.notifier(cpt + 1);
+    } else {
+      this.interactionService
+        .setInteraction(this.usager, {
+          content: "",
+          nbCourrier: this.notifInputs[item],
+          type: item,
+        })
+        .subscribe(
+          (usager: Usager) => {
+            this.notifService.success(this.interactionsNotifs[item]);
+            this.usager = usager;
+            this.usager.lastInteraction = usager.lastInteraction;
+            this.notifInputs[item] = 0;
+            this.getInteractions();
+            this.notifier(cpt + 1);
+          },
+          (error) => {
+            this.notifService.error(
+              "Impossible d'enregistrer cette interaction"
+            );
+          }
+        );
     }
   }
 

@@ -51,6 +51,7 @@ export interface Usager extends Document {
   datePremiereDom: Date;
 
   options: Options;
+  lastOptions: [{ type: string; content: any }];
 
   migration: boolean;
 }

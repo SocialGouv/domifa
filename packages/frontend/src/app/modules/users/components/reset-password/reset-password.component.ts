@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
-import { ERROR_LABELS } from "../../../../shared/errors.labels";
-
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 
@@ -46,7 +44,13 @@ export class ResetPasswordComponent implements OnInit {
     this.submitted = false;
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
-    this.errorLabels = ERROR_LABELS;
+    this.errorLabels = {
+      HARD_RESET_EXPIRED: "Le code a expiré, merci de recommencer la procédure",
+      HARD_RESET_INCORRECT_TOKEN:
+        "Le code de confirmation inséré est incorrect.",
+      TOKEN_EXPIRED:
+        "La procédure de renouvellement de votre mot de passe a expiré, veuillez renouveler votre demande",
+    };
   }
 
   public ngOnInit() {
@@ -59,9 +63,8 @@ export class ResetPasswordComponent implements OnInit {
         },
         (error) => {
           const errorMessage =
-            (error.error.message === this.errorLabels[error.error.message]) !==
-            undefined
-              ? this.errorLabels[error.error.message]
+            (error.message === this.errorLabels[error.message]) !== undefined
+              ? this.errorLabels[error.message]
               : "Le lien est incorrect, veuillez recommencer la procédure";
           this.notifService.error(errorMessage);
         }
@@ -110,7 +113,7 @@ export class ResetPasswordComponent implements OnInit {
         },
         (error) => {
           const errorMessage =
-            error.error.message === "EMAIL_NOT_EXIST"
+            error.message === "EMAIL_NOT_EXIST"
               ? "Veuillez vérifier l'adresse email"
               : "Une erreur innatendue est survenue";
           this.notifService.error(errorMessage);

@@ -32,7 +32,7 @@ export const UsagerSchema = new mongoose.Schema(
     },
     surnom: { type: String, default: "", trim: true },
     email: { type: String, default: "", trim: true },
-    phone: { type: String, default: "" },
+    phone: { type: String, default: "", maxlength: 12 },
     sexe: { type: String, required: true },
 
     dateNaissance: { type: Date, required: true },

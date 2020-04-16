@@ -99,6 +99,8 @@ export class UsagersService {
     createdUsager.structureId = user.structureId;
     createdUsager.etapeDemande++;
     createdUsager.id = await this.findLast(user.structureId);
+    createdUsager.customId = createdUsager.id;
+
     return createdUsager.save();
   }
 

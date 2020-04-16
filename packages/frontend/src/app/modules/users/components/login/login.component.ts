@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { regexp } from "src/app/shared/validators";
-import { ERROR_LABELS } from "../../../../shared/errors.labels";
+
 import { UsersService } from "../../services/users.service";
 import { ToastrService } from "ngx-toastr";
 @Component({
@@ -42,7 +42,10 @@ export class LoginComponent implements OnInit {
     this.success = false;
     this.error = false;
     this.loading = false;
-    this.errorLabels = ERROR_LABELS;
+    this.errorLabels = {
+      ACCOUNT_NOT_ACTIVATED: "Compte non activé par l'administrateur",
+      WRONG_CREDENTIALS: "Email et / ou mot de passe incorrect",
+    };
   }
 
   public ngOnInit() {
@@ -83,7 +86,7 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           this.error = true;
           this.success = false;
-          this.notifService.error(this.errorLabels[error.error.message]);
+          this.notifService.error(this.errorLabels[error.message]);
         }
       );
   }

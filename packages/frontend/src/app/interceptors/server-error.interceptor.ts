@@ -28,11 +28,16 @@ export class ServerErrorInterceptor implements HttpInterceptor {
             "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
           );
         } else {
-          const errorMessage =
-            error.error instanceof ErrorEvent
-              ? `Error: ${error.error.message}`
-              : `Error Code: ${error.status}\nMessage: ${error.message}`;
-
+          let errorMessage = {};
+          if (error.error instanceof ErrorEvent) {
+            errorMessage = { message: `Error: ${error.error.message}` };
+          } else {
+            const message =
+              typeof error.error.message !== "undefined"
+                ? error.error.message
+                : error.message;
+            errorMessage = { status: error.status, message };
+          }
           return throwError(errorMessage);
         }
       })

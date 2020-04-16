@@ -80,7 +80,10 @@ export class SearchController {
     /* ID DE LA STRUCTURE DE LUSER */
     if (query.name) {
       if (regexInt.test(query.name)) {
-        searchQuery.id = parseInt(query.name, 10);
+        searchQuery.customId = {
+          $regex: ".*" + query.name + ".*",
+          $options: "-i",
+        };
       } else {
         const name = query.name.replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gi, "");
 

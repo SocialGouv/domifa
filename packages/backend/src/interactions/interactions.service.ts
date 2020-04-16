@@ -21,24 +21,23 @@ export class InteractionsService {
     user: User,
     interactionDto: InteractionDto
   ): Promise<any> {
-    const createdInteraction = new this.interactionModel(interactionDto);
+    const len = interactionDto.type.length;
+    const interactionOut = interactionDto.type.substring(len - 3) === "Out";
+    const interactionIn = interactionDto.type.substring(len - 2) === "In";
+    console.log(interactionIn);
+    console.log(usager.lastInteraction);
 
-    if (interactionDto.nbCourrier) {
+    if (interactionIn) {
+      const newNbCourrier =
+        typeof interactionDto.nbCourrier !== "undefined"
+          ? interactionDto.nbCourrier
+          : 1;
+
       usager.lastInteraction.nbCourrier =
-        usager.lastInteraction.nbCourrier + interactionDto.nbCourrier;
+        usager.lastInteraction.nbCourrier + newNbCourrier;
     }
 
-    if (
-      interactionDto.type === "courrierIn" &&
-      typeof interactionDto.nbCourrier === "undefined"
-    ) {
-      usager.lastInteraction.nbCourrier = usager.lastInteraction.nbCourrier + 1;
-    }
-
-    if (
-      interactionDto.type === "courrierOut" ||
-      interactionDto.type === "recommandeOut"
-    ) {
+    if (interactionOut) {
       interactionDto.nbCourrier = usager.lastInteraction.nbCourrier;
 
       if (interactionDto.procuration) {
@@ -54,7 +53,6 @@ export class InteractionsService {
           " - " +
           usager.options.transfert.adresse.toUpperCase();
       }
-
       usager.lastInteraction.nbCourrier = 0;
     }
 
@@ -68,12 +66,15 @@ export class InteractionsService {
       usager.lastInteraction.dateInteraction = new Date();
     }
 
-    createdInteraction.content = interactionDto.content;
-    createdInteraction.dateInteraction = new Date();
+    const createdInteraction = new this.interactionModel(interactionDto);
+
     createdInteraction.structureId = user.structureId;
     createdInteraction.usagerId = usager.id;
     createdInteraction.userId = user.id;
     createdInteraction.userName = user.prenom + " " + user.nom;
+
+    console.log(usager.lastInteraction);
+    console.log(createdInteraction);
 
     const savedInteraction = await createdInteraction.save();
     usager.interactions.push(savedInteraction);

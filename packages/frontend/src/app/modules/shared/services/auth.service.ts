@@ -48,6 +48,8 @@ export class AuthService {
 
           user.token = token.access_token;
           localStorage.setItem("currentUser", JSON.stringify(user));
+          localStorage.removeItem("filters");
+
           this.currentUserSubject.next(user);
           return user;
         })

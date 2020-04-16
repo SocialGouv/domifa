@@ -185,7 +185,7 @@
       </div>
 
       <div id="notif_button" class="text-center">
-        <button (click)="notifier()" class="btn btn-primary btn-block">
+        <button (click)="notifier(0)" class="btn btn-primary btn-block">
           Enregistrer
         </button>
       </div>
@@ -231,13 +231,11 @@
       >
         <b>Attention : </b> le transfert de courrier était valable jusqu'au {{
         usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}.
-        <br />
-        Veuillez mettre à jour cette information auprès de l'usager
       </ngb-alert>
 
       <ngb-alert
         [dismissible]="false"
-        *ngIf="usager.options.transfert.dateFin  today"
+        *ngIf="usager.options.transfert.dateFin > today"
         type="warning"
       >
         <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
@@ -255,13 +253,10 @@
     >
       <div class="row" class="text-center">
         <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-        Une procuration au nom de {{ usager.options.procuration.nomComplet }}
-        est actuellement active.
-        <br />
-        <b *ngIf="usager.options.procuration.dateFin > today">
-          Valable jusqu'au {{ usager.options.procuration.dateFin | date:
-          'dd/MM/yyyy' }}
-        </b>
+        Une procuration au nom de
+        <b>{{ usager.options.procuration.nomComplet }}</b>
+        est active et valable jusqu'au {{ usager.options.procuration.dateFin |
+        date: 'dd/MM/yyyy' }}
       </div>
     </ngb-alert>
     <ngb-alert
@@ -271,14 +266,11 @@
     >
       <div class="row" class="text-center">
         <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-
         La procuration au nom de {{ usager.options.procuration.nomComplet }}
         <b
           >a expiré le {{ usager.options.procuration.dateFin | date:
           'dd/MM/yyyy' }}</b
         >
-        <br />
-        Veuillez mettre à jour cette information auprès de l'usager
       </div>
     </ngb-alert>
 
