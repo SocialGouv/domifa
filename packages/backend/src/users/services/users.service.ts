@@ -14,7 +14,7 @@ export class UsersService {
   public async findAll(request: any): Promise<any> {
     return this.userModel
       .find(request)
-      .select("-password -tokens -structureId")
+      .select("-password -tokens -structureId -mails")
       .lean()
       .exec();
   }
@@ -41,7 +41,7 @@ export class UsersService {
   public async findOne(search: any): Promise<any> {
     return this.userModel
       .findOne(search)
-      .populate("structure", "-import -token -users -verified")
+      .populate("structure", "-import -token -users -verified -mails")
       .lean()
       .exec();
   }
@@ -64,7 +64,7 @@ export class UsersService {
           new: true,
         }
       )
-      .select("-password")
+      .select("-password -mails")
       .exec();
   }
 
