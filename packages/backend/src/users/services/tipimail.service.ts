@@ -21,7 +21,7 @@ export class TipimailService {
     this.lastWeek = moment().utc().subtract(7, "days").endOf("day").toDate();
   }
 
-  @Cron(CronExpression.EVERY_15_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_10AM)
   public async cronGuide() {
     // console.log("---- ENTER CRON");
     const user = await this.userModel

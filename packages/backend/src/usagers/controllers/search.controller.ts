@@ -113,7 +113,7 @@ export class SearchController {
     }
 
     if (query.interactionType && query.interactionType === "courrierIn") {
-      searchQuery["lastInteraction.nbCourrier"] = { $gt: 0 };
+      searchQuery["lastInteraction.enAttente"] = true;
     }
 
     if (query.echeance) {

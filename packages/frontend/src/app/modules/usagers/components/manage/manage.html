@@ -303,14 +303,15 @@
             >
               <span
                 (click)="setInteraction(usager, 'courrierOut')"
-                *ngIf="usager.lastInteraction.nbCourrier > 0"
+                *ngIf="usager.lastInteraction.courrierIn > 0"
                 ngbTooltip="Signaler un retrait de courrier"
               >
                 <fa-icon class="courrier" icon="envelope-open-text"></fa-icon>
                 <b class="notification"
-                  >{{ usager.lastInteraction.nbCourrier }}</b
+                  >{{ usager.lastInteraction.courrierIn }}</b
                 >
               </span>
+
               <span
                 (click)="setInteraction(usager, 'courrierIn')"
                 ngbTooltip="Ajouter un nouveau courrier"

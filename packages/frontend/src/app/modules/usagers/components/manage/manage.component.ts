@@ -80,14 +80,14 @@ export class ManageUsagersComponent implements OnInit {
     this.searching = true;
     this.dateLabel = "Fin de domiciliation";
     this.filters = new Search();
-    this.filters.page = 0;
+
     this.nbResults = 0;
     this.selectedUsager = new Usager();
     this.structure =
       this.authService.currentUserValue !== null
         ? this.authService.currentUserValue.structure
         : new Structure();
-
+    this.filters.page = 0;
     this.today = new Date();
     this.stats = {
       INSTRUCTION: 0,
@@ -102,6 +102,7 @@ export class ManageUsagersComponent implements OnInit {
 
   public ngOnInit() {
     this.filters = new Search(this.getFilters());
+    this.filters.page = 0;
     this.getStats();
     this.search();
 
@@ -116,6 +117,7 @@ export class ManageUsagersComponent implements OnInit {
       .subscribe((text: any) => {
         text = text.trim();
         this.filters.name = text;
+        this.filters.page = 0;
         this.search();
       });
   }

@@ -7,16 +7,18 @@ import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { TipimailService } from "./services/tipimail.service";
 import { HttpModule } from "@nestjs/common";
+import { UsersProviders } from "./users.providers";
+import { DatabaseModule } from "../database/database.module";
 
 describe("Users Controller", () => {
   it("should be defined", async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
-      imports: [StructuresModule, UsagersModule, HttpModule],
+      imports: [DatabaseModule, StructuresModule, UsagersModule, HttpModule],
       providers: [
         { provide: UsersService, useValue: {} },
-
         TipimailService,
+        ...UsersProviders,
         MailJetService,
         ConfigService,
       ],
