@@ -224,55 +224,48 @@
     </div>
     <br />
     <div class="row" *ngIf="usager.options.transfert.actif" class="text-center">
-      <ngb-alert
-        [dismissible]="false"
+      <div
         *ngIf="usager.options.transfert.dateFin <= today"
-        type="danger"
+        class="alert alert-danger"
       >
         <b>Attention : </b> le transfert de courrier était valable jusqu'au {{
         usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}.
-      </ngb-alert>
+      </div>
 
-      <ngb-alert
-        [dismissible]="false"
+      <div
         *ngIf="usager.options.transfert.dateFin > today"
-        type="warning"
+        class="alert alert-warning"
       >
-        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+        <fa-icon [icon]="['fas', 'share']"></fa-icon>
         Le courrier est à transférer à l'adresse suivante :
         <br />
         {{ usager.options.transfert.nom | titlecase }}
         {{ usager.options.transfert.adresse | titlecase }}
-      </ngb-alert>
+      </div>
     </div>
 
-    <ngb-alert
-      [dismissible]="false"
+    <div
+      class="text-center alert alert-warning"
       *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin > today"
-      type="warning"
     >
-      <div class="row" class="text-center">
-        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-        Une procuration au nom de
-        <b>{{ usager.options.procuration.nomComplet }}</b>
-        est active et valable jusqu'au {{ usager.options.procuration.dateFin |
-        date: 'dd/MM/yyyy' }}
-      </div>
-    </ngb-alert>
-    <ngb-alert
-      [dismissible]="false"
+      <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+      Une procuration au nom de
+      <b>{{ usager.options.procuration.nomComplet }}</b>
+      est active et valable jusqu'au {{ usager.options.procuration.dateFin |
+      date: 'dd/MM/yyyy' }}
+    </div>
+
+    <div
       *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin <= today"
-      type="danger"
+      class="alert alert-danger text-center"
     >
-      <div class="row" class="text-center">
-        <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-        La procuration au nom de {{ usager.options.procuration.nomComplet }}
-        <b
-          >a expiré le {{ usager.options.procuration.dateFin | date:
-          'dd/MM/yyyy' }}</b
-        >
-      </div>
-    </ngb-alert>
+      <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+      La procuration au nom de {{ usager.options.procuration.nomComplet }}
+      <b
+        >a expiré le {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy'
+        }}</b
+      >
+    </div>
 
     <ngb-alert
       type="info"
@@ -300,20 +293,37 @@
         Voir le récapitulatif
       </a>
     </ngb-alert>
-    <ngb-alert
-      [dismissible]="false"
-      *ngIf="usager.lastInteraction.nbCourrier > 0"
-      type="info"
+
+    <div
+      class="text-center alert alert-info"
+      *ngIf="usager.lastInteraction.courrierIn > 0"
     >
-      <div class="text-center">
-        <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
-        &nbsp;&nbsp; {{ usager.lastInteraction.nbCourrier }} courriers en
-        attente &nbsp;&nbsp;&nbsp;
-        <button class="btn btn-primary" (click)="setInteraction('courrierOut')">
-          Confirmer la distribution
-        </button>
-      </div>
-    </ngb-alert>
+      <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
+      {{ usager.lastInteraction.courrierIn }} courriers en attente
+      <button class="btn btn-primary" (click)="setInteraction('courrierOut')">
+        Confirmer la distribution
+      </button>
+    </div>
+    <div
+      class="text-center alert alert-info"
+      *ngIf="usager.lastInteraction.colisIn > 0"
+    >
+      <fa-icon id="courrier" icon="box"></fa-icon>
+      {{ usager.lastInteraction.colisIn }} colis en attente
+      <button class="btn btn-primary" (click)="setInteraction('colisOut')">
+        Confirmer la distribution
+      </button>
+    </div>
+    <div
+      class="text-center alert alert-info"
+      *ngIf="usager.lastInteraction.recommandeIn > 0"
+    >
+      <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
+      {{ usager.lastInteraction.recommandeIn }} avis de passage en attente
+      <button class="btn btn-primary" (click)="setInteraction('recommandeOut')">
+        Confirmer la distribution
+      </button>
+    </div>
 
     <ngb-accordion
       #acc="ngbAccordion"
@@ -371,7 +381,7 @@
               </tr>
               <tr
                 *ngIf="!interaction.delete"
-                [ngClass]="{ 'font-weight-bold' : interaction.type === 'courrierOut' }"
+                [ngClass]="{ 'font-weight-bold' : interaction.type === 'courrierOut' || interaction.type === 'recommandeOut' || interaction.type === 'colisOut' }"
               >
                 <td>
                   {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
@@ -1662,7 +1672,7 @@
     <br />
     <br />
     <button
-      (click)="setInteraction( 'courrierOut', true)"
+      (click)="setInteraction( typeInteraction, true)"
       class="btn btn-outline-primary"
     >
       <b>LE MANDATAIRE :</b>
@@ -1672,7 +1682,7 @@
     <br />
     <br />
     <button
-      (click)="setInteraction('courrierOut', false)"
+      (click)="setInteraction(typeInteraction, false)"
       class="btn btn-outline-primary"
     >
       <b>LE DOMICILIÉ :</b>

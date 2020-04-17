@@ -37,6 +37,7 @@ export interface Usager extends Document {
   docsPath: string[];
 
   lastInteraction: {
+    [key: string]: any;
     nbCourrier: number;
     dateInteraction: Date;
     enAttente: boolean;

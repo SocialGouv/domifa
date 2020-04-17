@@ -31,13 +31,21 @@ export class InteractionsService {
           ? interactionDto.nbCourrier
           : 1;
 
+      const count =
+        typeof interactionDto.nbCourrier !== "undefined"
+          ? interactionDto.nbCourrier
+          : 1;
+
       usager.lastInteraction.nbCourrier =
         usager.lastInteraction.nbCourrier + newNbCourrier;
+
+      usager.lastInteraction[interactionDto.type] =
+        usager.lastInteraction[interactionDto.type] + count;
+
+      usager.lastInteraction.enAttente = true;
     }
 
     if (interactionOut) {
-      interactionDto.nbCourrier = usager.lastInteraction.nbCourrier;
-
       if (interactionDto.procuration) {
         interactionDto.content =
           "Courrier remis au mandataire : " +
@@ -51,12 +59,21 @@ export class InteractionsService {
           " - " +
           usager.options.transfert.adresse.toUpperCase();
       }
+
+      const inType = interactionDto.type.substring(0, len - 3) + "In";
+      //  interactionDto.nbCourrier = usager.lastInteraction.nbCourrier;
+      interactionDto.nbCourrier = usager.lastInteraction[inType];
+      usager.lastInteraction[inType] = 0;
       usager.lastInteraction.nbCourrier = 0;
+
+      usager.lastInteraction.enAttente =
+        usager.lastInteraction.courrierIn > 0 ||
+        usager.lastInteraction.colisIn > 0 ||
+        usager.lastInteraction.recommandeIn > 0;
     }
 
     if (
-      (interactionDto.type === "courrierOut" ||
-        interactionDto.type === "recommandeOut" ||
+      (interactionOut ||
         interactionDto.type === "visite" ||
         interactionDto.type === "appel") &&
       !interactionDto.procuration

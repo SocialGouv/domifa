@@ -61,6 +61,16 @@ export const UserSchema = new mongoose.Schema(
         type: Date,
       },
     },
+    mails: {
+      guide: {
+        default: false,
+        type: Boolean,
+      },
+      import: {
+        default: false,
+        type: Boolean,
+      },
+    },
     verified: {
       default: false,
       type: Boolean,

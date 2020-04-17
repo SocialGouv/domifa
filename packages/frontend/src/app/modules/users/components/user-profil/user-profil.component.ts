@@ -81,7 +81,7 @@ export class UserProfilComponent implements OnInit {
             " est désormais actif"
         );
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible de confirmer l'utilisateur");
       }
     );
@@ -99,7 +99,7 @@ export class UserProfilComponent implements OnInit {
             " ont été mit à jour avec succès"
         );
       },
-      (error) => {
+      () => {
         this.notifService.error(
           "Impossible de mettre à jour le rôle de l'utilisateur"
         );
@@ -109,12 +109,12 @@ export class UserProfilComponent implements OnInit {
 
   public deleteUser() {
     this.userService.deleteUser(this.selectedUser).subscribe(
-      (response: any) => {
+      () => {
         this.getUsers();
         this.modalService.dismissAll();
         this.notifService.success("Utilisateur supprimé avec succès");
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible de supprimer l'utilisateur");
       }
     );
@@ -153,11 +153,6 @@ export class UserProfilComponent implements OnInit {
       );
   }
 
-  public sendMail() {
-    this.userService.tipi().subscribe((variable: any) => {
-      alert("Envoi du mail réussi");
-    });
-  }
   private getUsers() {
     if (this.authService.currentUserValue.role === "admin") {
       this.userService.getNewUsers().subscribe((users: User[]) => {

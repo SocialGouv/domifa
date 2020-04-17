@@ -56,6 +56,7 @@ export class UsagersProfilComponent implements OnInit {
   public editProcurationForm: boolean;
   public editCustomId: boolean;
   public submitted: boolean;
+  public typeInteraction: InteractionTypes;
 
   public interactions: Interaction[];
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
@@ -362,7 +363,7 @@ export class UsagersProfilComponent implements OnInit {
             this.getInteractions();
             this.notifier(cpt + 1);
           },
-          (error) => {
+          () => {
             this.notifService.error(
               "Impossible d'enregistrer cette interaction"
             );
@@ -383,9 +384,10 @@ export class UsagersProfilComponent implements OnInit {
       type,
     };
 
-    if (type === "courrierOut") {
+    if (type.substring(type.length - 3) === "Out") {
       if (this.usager.options.procuration.actif) {
         if (typeof procuration === "undefined") {
+          this.typeInteraction = type;
           this.modalService.open(this.distributionConfirm);
           // open
           return;
@@ -397,7 +399,9 @@ export class UsagersProfilComponent implements OnInit {
       if (this.usager.options.transfert.actif) {
         interaction.transfert = true;
       }
-      interaction.nbCourrier = this.usager.lastInteraction.nbCourrier;
+      const outType = type.substring(0, type.length - 3) + "In";
+
+      // interaction.nbCourrier = this.usager.lastInteraction.nbCourrier;
     }
 
     this.interactionService.setInteraction(this.usager, interaction).subscribe(
@@ -430,7 +434,7 @@ export class UsagersProfilComponent implements OnInit {
       (usager: Usager) => {
         this.usager.docs = usager.docs;
       },
-      (error: any) => {
+      () => {
         this.notifService.error("Impossible de supprimer le document");
       }
     );
