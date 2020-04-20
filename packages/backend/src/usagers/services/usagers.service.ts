@@ -135,51 +135,16 @@ export class UsagersService {
     decision.statut = "INSTRUCTION";
     decision.userId = user.id;
     decision.userName = user.prenom + " " + user.nom;
+    decision.typeDom = "RENOUVELLEMENT";
+
+    usager.historique.push(lastDecision);
+    usager.decision = decision;
+    usager.etapeDemande = 0;
+    usager.typeDom = "RENOUVELLEMENT";
+    usager.decision.typeDom = "RENOUVELLEMENT";
 
     return this.usagerModel
-      .findOneAndUpdate(
-        { _id: usager._id },
-        {
-          $push: {
-            historique: lastDecision,
-          },
-          $set: {
-            decision,
-            etapeDemande: 0,
-            typeDom: "RENOUVELLEMENT",
-          },
-        },
-        {
-          new: true,
-        }
-      )
-      .select("-docsPath -interactions")
-      .exec();
-  }
-
-  public async setDecision(
-    usagerId: number,
-    structureId: number,
-    decision: DecisionDto,
-    lastDecision: Decision
-  ): Promise<Usager> {
-    return this.usagerModel
-      .findOneAndUpdate(
-        {
-          id: usagerId,
-          structureId,
-        },
-        {
-          $push: { historique: lastDecision },
-          $set: {
-            decision,
-            etapeDemande: 6,
-          },
-        },
-        {
-          new: true,
-        }
-      )
+      .findOneAndUpdate({ _id: usager._id }, { $set: usager }, { new: true })
       .select("-docsPath -interactions")
       .exec();
   }

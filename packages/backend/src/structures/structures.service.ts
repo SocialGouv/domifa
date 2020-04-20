@@ -160,7 +160,17 @@ export class StructuresService {
 
   public async hardResetClean(structureId: string) {
     return this.structureModel
-      .findOneAndUpdate({ _id: structureId }, { $set: { hardReset: {} } })
+      .findOneAndUpdate(
+        { _id: structureId },
+        {
+          $set: {
+            hardReset: {
+              token: "",
+              expireAt: null,
+            },
+          },
+        }
+      )
       .exec();
   }
 

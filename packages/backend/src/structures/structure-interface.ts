@@ -22,7 +22,7 @@ export interface Structure extends Document {
   };
   hardReset: {
     token: string;
-    expireAt: Date;
+    expireAt: Date | null;
   };
   lastExport: Date;
   token: string;

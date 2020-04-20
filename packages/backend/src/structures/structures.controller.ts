@@ -163,7 +163,7 @@ export class StructuresController {
     }
 
     const today = new Date();
-    if (structure.hardReset.expireAt < today) {
+    if (structure.hardReset.expireAt && structure.hardReset.expireAt < today) {
       throw new HttpException(
         "HARD_RESET_EXPIRED_TOKEN",
         HttpStatus.INTERNAL_SERVER_ERROR

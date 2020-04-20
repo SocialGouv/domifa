@@ -15,7 +15,6 @@ export interface User extends Document {
   verified: boolean;
   lastLogin: Date;
   tokens: {
-    email: string;
     password: string;
     passwordValidity: Date;
   };

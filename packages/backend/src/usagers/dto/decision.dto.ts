@@ -31,4 +31,7 @@ export class DecisionDto {
 
   @IsOptional()
   public userName!: string;
+
+  @IsOptional()
+  public typeDom!: string;
 }

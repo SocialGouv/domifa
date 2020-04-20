@@ -186,12 +186,10 @@ export class UsagersController {
       decision.dateDebut = new Date(decision.dateDebut);
     }
 
-    return this.usagersService.setDecision(
-      usager.id,
-      user.structureId,
-      decision,
-      lastDecision
-    );
+    usager.historique.push(lastDecision);
+    usager.decision = decision;
+    usager.etapeDemande = 6;
+    return this.usagersService.patch(usager, usager._id);
   }
 
   /* DOUBLON */
@@ -489,6 +487,7 @@ export class UsagersController {
     @UploadedFile() file: any,
     @Body() postData: any,
     @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager,
     @Res() res: any
   ) {
     const userName = user.prenom + " " + user.nom;
@@ -510,12 +509,10 @@ export class UsagersController {
 
     this.encryptFile(fileName, res);
 
-    return this.docsService.addDocument(
-      usagerId,
-      user.structureId,
-      file.filename,
-      newDoc
-    );
+    usager.docs.push(newDoc);
+    usager.docsPath.push(file.filename);
+
+    return this.usagersService.patch(usager, usager._id);
   }
 
   @UseGuards(AccessGuard)

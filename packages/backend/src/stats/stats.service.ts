@@ -295,6 +295,11 @@ export class StatsService {
       "recommandeIn"
     );
 
+    stat.questions.Q_20.recommandeOut = await this.totalInteraction(
+      structure.id,
+      "recommandeOut"
+    );
+
     stat.questions.Q_20.visite = await this.totalInteraction(
       structure.id,
       "visite"
@@ -651,7 +656,7 @@ export class StatsService {
 
   public async clean() {
     return this.structureModel
-      .updateMany({}, { $set: { lastExport: null } })
+      .updateMany({}, { $set: { lastExport: undefined } })
       .exec((retour: any) => {
         Logger.log("Nettoyage des date de dernier export  : ");
         Logger.log(JSON.stringify(retour));

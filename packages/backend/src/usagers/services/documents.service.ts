@@ -39,25 +39,4 @@ export class DocumentsService {
       )
       .exec();
   }
-
-  public async addDocument(
-    id: number,
-    structureId: number,
-    filename: string,
-    newDoc: any
-  ): Promise<Usager> {
-    return this.usagerModel
-      .findOneAndUpdate(
-        {
-          id,
-          structureId,
-        },
-        {
-          $push: { docs: newDoc, docsPath: filename },
-        },
-        { new: true }
-      )
-      .select("-docsPath")
-      .exec();
-  }
 }
