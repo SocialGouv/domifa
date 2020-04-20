@@ -60,7 +60,10 @@ import "@angular/localize/init";
  * Zone JS is required by default for Angular itself.
  */
 import "zone.js/dist/zone"; // Included with Angular CLI.
+import smoothscroll from "smoothscroll-polyfill";
 
+// kick off the polyfill!
+smoothscroll.polyfill();
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
