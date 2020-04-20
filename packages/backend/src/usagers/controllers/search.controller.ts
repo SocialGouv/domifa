@@ -73,20 +73,20 @@ export class SearchController {
       TROIS_MOIS: { $lte: lastThreeMonths },
     };
 
-    const regexInt = RegExp("^[0-9]*$");
-
     sort = query.sort ? (sort = sortValues[query.sort]) : { nom: "ascending" };
 
     /* ID DE LA STRUCTURE DE LUSER */
     if (query.name) {
+      const regexInt = RegExp("^[0-9]*$");
+      const name = query.name
+        .replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gi, "")
+        .trim();
       if (regexInt.test(query.name)) {
         searchQuery.customId = {
-          $regex: ".*" + query.name + ".*",
-          $options: "-i",
+          $regex: name,
+          $options: "i",
         };
       } else {
-        const name = query.name.replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gi, "");
-
         searchQuery.$or = [
           {
             nom: { $regex: ".*" + name + ".*", $options: "-i" },

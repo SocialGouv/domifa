@@ -20,6 +20,7 @@ import { StructuresService } from "../../structures/structures.service";
 import { UsersService } from "../../users/services/users.service";
 import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
+import { Usager } from "../interfaces/usagers";
 
 export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -171,7 +172,7 @@ export class ImportController {
         this.countErrors(this.notEmpty(row[NOM]), index, NOM);
         this.countErrors(this.notEmpty(row[PRENOM]), index, PRENOM);
         this.countErrors(
-          this.validDate(row[DATE_NAISSANCE], true),
+          this.validDate(row[DATE_NAISSANCE], true, false),
           index,
           DATE_NAISSANCE
         );
@@ -195,7 +196,7 @@ export class ImportController {
           TYPE_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], false),
+          this.validDate(row[DATE_PREMIERE_DOM], false, false),
           index,
           DATE_PREMIERE_DOM
         );
@@ -205,7 +206,7 @@ export class ImportController {
           DATE_FIN_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], false),
+          this.validDate(row[DATE_PREMIERE_DOM], false, false),
           index,
           DATE_PREMIERE_DOM
         );
@@ -238,7 +239,7 @@ export class ImportController {
             );
 
             this.countErrors(
-              this.validDate(dateNaissance, true),
+              this.validDate(dateNaissance, true, false),
               this.rowNumber,
               indexAD + 2
             );

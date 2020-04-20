@@ -195,7 +195,7 @@ export class ImportComponent implements OnInit {
         this.countErrors(this.notEmpty(row[NOM]), index, NOM);
         this.countErrors(this.notEmpty(row[PRENOM]), index, PRENOM);
         this.countErrors(
-          this.validDate(row[DATE_NAISSANCE], true),
+          this.validDate(row[DATE_NAISSANCE], true, false),
           index,
           DATE_NAISSANCE
         );
@@ -218,7 +218,7 @@ export class ImportComponent implements OnInit {
         );
 
         this.countErrors(
-          this.validDate(row[DATE_DEBUT_DOM], true),
+          this.validDate(row[DATE_DEBUT_DOM], true, false),
           index,
           DATE_DEBUT_DOM
         );
@@ -228,7 +228,7 @@ export class ImportComponent implements OnInit {
           DATE_FIN_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], false),
+          this.validDate(row[DATE_PREMIERE_DOM], false, false),
           index,
           DATE_PREMIERE_DOM
         );
@@ -268,7 +268,7 @@ export class ImportComponent implements OnInit {
             );
 
             this.countErrors(
-              this.validDate(dateNaissance, true),
+              this.validDate(dateNaissance, true, false),
               this.rowNumber,
               indexAD + 2
             );
@@ -361,6 +361,7 @@ export class ImportComponent implements OnInit {
       const jour = parseInt(dateParts[0], 10);
       const mois = parseInt(dateParts[1], 10);
       const annee = parseInt(dateParts[2], 10);
+
       return (
         jour <= 31 &&
         jour > 0 &&

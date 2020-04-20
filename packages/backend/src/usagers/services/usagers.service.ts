@@ -295,6 +295,8 @@ export class UsagersService {
   public async save(data: any, user: User) {
     const createdUsager = new this.usagerModel(data);
     createdUsager.id = await this.findLast(user.structureId);
+    createdUsager.customId =
+      data.customId === null ? createdUsager.id.toString() : data.customId;
     return createdUsager.save();
   }
 
