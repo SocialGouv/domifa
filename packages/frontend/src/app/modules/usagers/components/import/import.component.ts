@@ -310,12 +310,11 @@ export class ImportComponent implements OnInit {
   }
 
   public countErrors(variable: boolean, idRow: number, idColumn: number) {
-    if (
-      this.datas[idRow][STATUT_DOM] === "REFUS" &&
-      (idColumn === DATE_DEBUT_DOM || idColumn === DATE_FIN_DOM)
-    ) {
-      variable = true;
-      return true;
+    if (this.datas[idRow][STATUT_DOM] === "REFUS") {
+      if (idColumn === DATE_DEBUT_DOM || idColumn === DATE_FIN_DOM) {
+        variable = true;
+        return true;
+      }
     }
 
     this.errorsColumn[idColumn] === undefined
