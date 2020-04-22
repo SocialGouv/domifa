@@ -470,8 +470,6 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public editProcuration() {
-    console.log(this.procurationForm);
-    return;
     const dateTmp = this.nbgDate.formatEn(
       this.procurationForm.controls.dateFinPicker.value
     );
@@ -488,6 +486,10 @@ export class UsagersProfilComponent implements OnInit {
 
     this.procurationForm.controls.dateFin.setValue(
       new Date(dateTmp).toISOString()
+    );
+
+    this.procurationForm.controls.dateNaissance.setValue(
+      new Date(dateNaissanceTmp).toISOString()
     );
 
     this.usagerService
