@@ -1,12 +1,3 @@
-export const interactionsNotifs = {
-  appel: "Appel téléphonique enregistré",
-  courrierIn: "Nouveaux courriers enregistrés",
-  courrierOut: "Récupération du courrier enregistrée !",
-  recommandeIn: "Courrier recommandé enregistré !",
-  recommandeOut: "Avis de passage remis ",
-  visite: "Passage de l'usager enregistré",
-};
-
 export const interactionsLabels: {
   [key: string]: any;
 } = {
@@ -17,16 +8,16 @@ export const interactionsLabels: {
   courrierOut: "Courrier remis",
   recommandeIn: "Avis de passage enregistré",
   recommandeOut: "Avis de passage remis",
-  visite: "Passage",
+  visite: "Passage enregistré",
 };
 
 export const interactionsLabelsPluriel: {
   [key: string]: any;
 } = {
-  colisIn: "Colis reçus",
-  colisOut: "Colis récupérés",
-  courrierIn: "Courriers reçus",
-  courrierOut: "Courriers distribués",
-  recommandeIn: "Avis de passage reçus",
-  recommandeOut: "Avis de passage récupérés",
+  colisIn: "Colis enregistrés",
+  colisOut: "Colis remis",
+  courrierIn: "Courriers enregistrés",
+  courrierOut: "Courriers remis",
+  recommandeIn: "Avis de passage enregistrés",
+  recommandeOut: "Avis de passage remis",
 };

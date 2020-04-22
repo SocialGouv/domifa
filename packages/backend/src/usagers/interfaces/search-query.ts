@@ -7,7 +7,6 @@ export interface SearchQuery {
   typeDom?: string;
   "decision.statut"?: {};
   "decision.dateFin"?: {};
-  "lastInteraction.nbCourrier"?: {};
   "lastInteraction.enAttente"?: boolean;
   "lastInteraction.dateInteraction"?: any;
   structureId: number;

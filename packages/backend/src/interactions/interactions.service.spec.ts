@@ -54,7 +54,7 @@ describe("InteractionsService", () => {
     /* COURRIER A ZERO */
     await service.create(usager, user, interaction);
 
-    expect(usager.lastInteraction.nbCourrier).toEqual(0);
+    expect(usager.lastInteraction.courrierIn).toEqual(0);
 
     interaction.type = "courrierIn";
     interaction.content = "Les impôts";
@@ -66,6 +66,6 @@ describe("InteractionsService", () => {
     interaction.nbCourrier = 5;
 
     const usager2 = await service.create(usager, user, interaction);
-    expect(usager2.lastInteraction.nbCourrier).toEqual(15);
+    expect(usager2.lastInteraction.courrierIn).toEqual(15);
   }, 30000);
 });

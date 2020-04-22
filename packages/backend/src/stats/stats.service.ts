@@ -7,16 +7,14 @@ import {
 } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Structure } from "../structures/structure-interface";
-import { User } from "../users/user.interface";
 
 import { Cron, CronExpression } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Interaction } from "../interactions/interactions.interface";
-import { InteractionsService } from "../interactions/interactions.service";
+
 import { StructuresService } from "../structures/structures.service";
 import { Usager } from "../usagers/interfaces/usagers";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { UsersService } from "../users/services/users.service";
+
 import { Stats } from "./stats.class";
 import { StatsDocument } from "./stats.interface";
 
@@ -33,16 +31,11 @@ export class StatsService {
     private structureModel: Model<Structure>,
     @Inject("STATS_MODEL")
     private statsModel: Model<StatsDocument>,
-    @Inject("USER_MODEL")
-    private userModel: Model<User>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
     @Inject("INTERACTION_MODEL")
     private interactionModel: Model<Interaction>,
-    private readonly structureService: StructuresService,
-    private readonly usersService: UsersService,
-    private readonly usagersService: UsagersService,
-    private readonly interactionsService: InteractionsService
+    private readonly structureService: StructuresService
   ) {
     this.today = moment().utc().startOf("day").toDate();
     this.demain = moment().utc().endOf("day").toDate();

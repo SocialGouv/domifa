@@ -3,10 +3,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
-import {
-  interactionsLabels,
-  interactionsNotifs,
-} from "../../interactions.labels";
+import { interactionsLabels } from "../../interactions.labels";
 import * as usagersLabels from "../../usagers.labels";
 
 import {
@@ -62,8 +59,9 @@ export class UsagersProfilComponent implements OnInit {
   public interactions: Interaction[];
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
 
-  public interactionsNotifs: any = interactionsNotifs;
-  public interactionsLabels: any = interactionsLabels;
+  public interactionsLabels: {
+    [key: string]: any;
+  };
 
   public labels: any;
   public liensLabels: any;
@@ -114,6 +112,8 @@ export class UsagersProfilComponent implements OnInit {
     this.submitted = false;
 
     this.today = new Date();
+
+    this.interactionsLabels = interactionsLabels;
 
     this.interactions = [];
     this.labels = usagersLabels;
@@ -358,7 +358,7 @@ export class UsagersProfilComponent implements OnInit {
         })
         .subscribe(
           (usager: Usager) => {
-            this.notifService.success(this.interactionsNotifs[item]);
+            this.notifService.success(interactionsLabels[item]);
             this.usager = usager;
             this.usager.lastInteraction = usager.lastInteraction;
             this.notifInputs[item] = 0;
@@ -401,15 +401,12 @@ export class UsagersProfilComponent implements OnInit {
       if (this.usager.options.transfert.actif) {
         interaction.transfert = true;
       }
-      const outType = type.substring(0, type.length - 3) + "In";
-
-      // interaction.nbCourrier = this.usager.lastInteraction.nbCourrier;
     }
 
     this.interactionService.setInteraction(this.usager, interaction).subscribe(
       (usager: Usager) => {
         this.usager = usager;
-        this.notifService.success(this.interactionsNotifs[type]);
+        this.notifService.success(interactionsLabels[type]);
         this.usager.lastInteraction = usager.lastInteraction;
         this.getInteractions();
       },

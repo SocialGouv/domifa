@@ -16,7 +16,7 @@ import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { Structure } from "../../../structures/structure.interface";
-import { interactionsNotifs } from "../../interactions.labels";
+import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
 import { Filters, Search } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
@@ -42,8 +42,6 @@ export class ManageUsagersComponent implements OnInit {
     TOUS: "Fin de domiciliation",
     VALIDE: "Fin de domiciliation",
   };
-
-  public notifs: { [key: string]: any } = interactionsNotifs;
 
   public filters: Search;
   public nbResults: number;
@@ -215,7 +213,7 @@ export class ManageUsagersComponent implements OnInit {
     this.interactionService.setInteraction(usager, interaction).subscribe(
       (response: Usager) => {
         usager.lastInteraction = response.lastInteraction;
-        this.notifService.success(this.notifs[type]);
+        this.notifService.success(interactionsLabels[type]);
       },
       (error) => {
         this.notifService.error("Impossible d'enregistrer cette interaction");

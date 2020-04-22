@@ -92,7 +92,7 @@ describe("UsagersProfilComponent", () => {
         type: "courrierIn",
       })
       .subscribe((usager: Usager) => {
-        expect(usager.lastInteraction.nbCourrier).toEqual(10);
+        expect(usager.lastInteraction.courrierIn).toEqual(10);
       });
   }));
   it("6. Récupération du courrier", async(() => {
@@ -102,7 +102,7 @@ describe("UsagersProfilComponent", () => {
       .setInteraction(usagerTest, "courrierOut")
       .subscribe((usager: Usager) => {
         const lastInteraction = usager.lastInteraction;
-        expect(lastInteraction.nbCourrier).toEqual(0);
+        expect(lastInteraction.courrierIn).toEqual(0);
       });
   }));
 });
