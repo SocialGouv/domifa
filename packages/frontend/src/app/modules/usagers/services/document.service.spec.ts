@@ -21,7 +21,7 @@ describe("DocumentService", () => {
 
   it("should be created", () => {
     expect(service).toBeTruthy();
-    expect(service.endPoint).toEqual("http://localhost:3000/usagers/document/");
+    expect(service.endPoint).toEqual("http://localhost:3000/docs/");
   });
 
   it("Delete document", fakeAsync(
@@ -52,7 +52,7 @@ describe("DocumentService", () => {
 
         backend
           .expectOne({
-            url: "http://localhost:3000/usagers/document/2/1",
+            url: "http://localhost:3000/docs/2/1",
           })
           .flush(responseObject);
       }
@@ -87,7 +87,7 @@ describe("DocumentService", () => {
 
         backend
           .expectOne({
-            url: "http://localhost:3000/usagers/document/2/1",
+            url: "http://localhost:3000/docs/2/1",
           })
           .flush(responseObject);
       }

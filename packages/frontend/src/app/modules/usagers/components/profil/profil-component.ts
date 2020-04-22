@@ -1,9 +1,13 @@
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+
 import {
   interactionsLabels,
   interactionsNotifs,
 } from "../../interactions.labels";
+import * as usagersLabels from "../../usagers.labels";
 
 import {
   NgbDateParserFormatter,
@@ -14,23 +18,20 @@ import {
 
 import { LoadingService } from "../../../loading/loading.service";
 import { DocumentService } from "../../services/document.service";
-
-import { ToastrService } from "ngx-toastr";
-
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Structure } from "src/app/modules/structures/structure.interface";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { InteractionService } from "../../services/interaction.service";
+import { UsagerService } from "../../services/usager.service";
+
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-
 import { regexp } from "src/app/shared/validators";
+
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction, InteractionTypes } from "../../interfaces/interaction";
 import { Options } from "../../interfaces/options";
+import { Structure } from "src/app/modules/structures/structure.interface";
 import { Usager } from "../../interfaces/usager";
-import { InteractionService } from "../../services/interaction.service";
-import { UsagerService } from "../../services/usager.service";
-import * as usagersLabels from "../../usagers.labels";
+
 import {
   minDateNaissance,
   minDateToday,
@@ -198,10 +199,11 @@ export class UsagersProfilComponent implements OnInit {
         this.usager.options.procuration.dateFinPicker,
         [Validators.required],
       ],
-      dateNaissance: [
-        this.usager.options.procuration.dateNaissance,
+      dateNaissancePicker: [
+        this.usager.options.procuration.dateFinPicker,
         [Validators.required],
       ],
+      dateNaissance: [this.usager.options.procuration.dateNaissance],
       nom: [this.usager.options.procuration.nom, [Validators.required]],
       prenom: [this.usager.options.procuration.prenom, [Validators.required]],
     });
@@ -468,13 +470,18 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public editProcuration() {
+    console.log(this.procurationForm);
+    return;
     const dateTmp = this.nbgDate.formatEn(
       this.procurationForm.controls.dateFinPicker.value
     );
+    const dateNaissanceTmp = this.nbgDate.formatEn(
+      this.procurationForm.controls.dateNaissancePicker.value
+    );
 
-    if (dateTmp === null) {
+    if (dateTmp === null || dateNaissanceTmp === null) {
       this.notifService.error(
-        "La date de fin de la procuration semble incorrecte."
+        "Vérifier la date de naissance ou la date de fin de procuration."
       );
       return;
     }

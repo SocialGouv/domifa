@@ -43,7 +43,6 @@ export class DocumentService {
       );
   }
 
-  /* DOCUMENT  */
   public getDocument(usagerId: number, index: number, doc: Doc) {
     this.http
       .get(`${this.endPoint}${usagerId}/${index}`, { responseType: "blob" })

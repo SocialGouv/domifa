@@ -1077,12 +1077,13 @@
                     </div>
                   </div>
                   <div class="col-md-3 form-group required">
-                    <label for="dateFinPicker">Valide jusqu'au</label>
+                    <label for="dateFinPickerTransfert">Valide jusqu'au</label>
                     <div class="input-group">
                       <input
                         class="form-control"
                         placeholder="jj/mm/aaaa"
                         placement="bottom"
+                        id="dateFinPickerTransfert"
                         formControlName="dateFinPicker"
                         ngbDatepicker
                         dateFr
@@ -1263,40 +1264,20 @@
                   </div>
 
                   <div class="col-md-3 form-group required">
-                    <label for="procDateNaissance">Date de naissance</label>
+                    <label for="dateNaissancePicker">Date de naissance</label>
                     <div class="input-group">
                       <input
                         class="form-control"
                         placeholder="jj/mm/aaaa"
-                        formControlName="dateNaissance"
-                        id="procDateNaissance"
-                        dateFr
-                        [ngClass]="{ 'is-invalid': p.dateNaissance.dirty && p.dateNaissance.errors  }"
-                        maxlength="10"
-                        required
-                      />
-                      <div
-                        *ngIf="p.dateNaissance.invalid"
-                        class="invalid-feedback"
-                      >
-                        <div>
-                          La date de naissance est incorrecte (ex: 20/12/1991)
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 form-group required">
-                    <label for="dateFinPicker">Date de fin de validité</label>
-                    <div class="input-group">
-                      <input
-                        class="form-control"
-                        placeholder="jj/mm/aaaa"
+                        [minDate]="minDateNaissance"
+                        [maxDate]="maxDateNaissance"
                         placement="bottom"
-                        formControlName="dateFinPicker"
+                        formControlName="dateNaissancePicker"
                         ngbDatepicker
                         dateFr
                         value
-                        [ngClass]="{ 'is-invalid':  p.dateFinPicker.dirty &&  p.dateFinPicker.errors  }"
+                        id="dateNaissancePicker"
+                        [ngClass]="{ 'is-invalid':  p.dateNaissancePicker.dirty &&  p.dateNaissancePicker.errors  }"
                         #d="ngbDatepicker"
                         maxlength="10"
                         required
@@ -1311,17 +1292,49 @@
                       </div>
 
                       <div
-                        *ngIf="p.dateFinPicker.invalid"
+                        *ngIf="p.dateNaissancePicker.dirty && p.dateNaissancePicker.invalid"
                         class="invalid-feedback"
                       >
-                        <div
-                          *ngIf="p.dateFinPicker.dirty && p.dateFinPicker.errors.ngbDate"
-                        >
-                          La date de fin est incorrecte (ex: 20/12/1991)
-                        </div>
+                        La date de naissance est incorrecte (ex: 20/12/1991)
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-3 form-group required">
+                    <label for="dateFinPicker">Date de fin de validité</label>
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        placeholder="jj/mm/aaaa"
+                        placement="bottom"
+                        formControlName="dateFinPicker"
+                        ngbDatepicker
+                        dateFr
+                        value
+                        id="dateFinPicker"
+                        [minDate]="minDateToday"
+                        [ngClass]="{ 'is-invalid': p.dateFinPicker.dirty &&  p.dateFinPicker.errors }"
+                        #df="ngbDatepicker"
+                        maxlength="10"
+                        required
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="btn btn-outline-primary"
+                          (click)="df.toggle()"
+                        >
+                          <fa-icon icon="calendar"></fa-icon>
+                        </span>
+                      </div>
+
+                      <div
+                        *ngIf="p.dateFinPicker.dirty && p.dateFinPicker.invalid"
+                        class="invalid-feedback"
+                      >
+                        La date de fin est incorrecte (ex: 20/12/1991)
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="col text-center">
                     <span
                       class="btn btn-dark"

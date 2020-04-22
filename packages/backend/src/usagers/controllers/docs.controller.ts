@@ -28,7 +28,6 @@ import { CurrentUser } from "../../auth/current-user.decorator";
 import { User } from "../../users/user.interface";
 import { Usager } from "../interfaces/usagers";
 
-import { UsersService } from "../../users/services/users.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { ConfigService } from "../../config/config.service";
@@ -38,7 +37,6 @@ import { ConfigService } from "../../config/config.service";
 export class DocsController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly usersService: UsersService,
     private readonly docsService: DocumentsService
   ) {}
 

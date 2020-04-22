@@ -1,11 +1,13 @@
+import * as XLSX from "xlsx";
+
 import { HttpClient } from "@angular/common/http";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { LoadingService } from "src/app/modules/loading/loading.service";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import * as XLSX from "xlsx";
 import { regexp } from "../../../../shared/validators";
+
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { LoadingService } from "src/app/modules/loading/loading.service";
 import { UsagerService } from "../../services/usager.service";
 
 export const CIVILITE = 0;
