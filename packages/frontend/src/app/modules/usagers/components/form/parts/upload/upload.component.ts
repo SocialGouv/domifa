@@ -109,7 +109,7 @@ export class UploadComponent implements OnInit {
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
-          this.usager.docs = new Usager(this.uploadResponse.body).docs;
+          this.usager.docs = new Usager(this.uploadResponse.body.usager).docs;
           this.uploadForm.reset();
           this.fileName = "";
         }

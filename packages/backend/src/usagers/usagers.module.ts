@@ -12,9 +12,15 @@ import { UsagersService } from "./services/usagers.service";
 import { UsagersProviders } from "./usagers.providers";
 import { SearchController } from "./controllers/search.controller";
 import { StatsModule } from "../stats/stats.module";
+import { DocsController } from "./controllers/docs.controller";
 
 @Module({
-  controllers: [UsagersController, ImportController, SearchController],
+  controllers: [
+    UsagersController,
+    ImportController,
+    SearchController,
+    DocsController,
+  ],
   exports: [
     UsagersService,
     CerfaService,

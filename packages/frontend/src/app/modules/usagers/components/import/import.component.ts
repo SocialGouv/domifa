@@ -351,24 +351,30 @@ export class ImportComponent implements OnInit {
       return true;
     }
 
-    const maxAnnee = futureDate
-      ? new Date().getFullYear() + 1
-      : new Date().getFullYear();
-
     if (RegExp(regexp.date).test(date)) {
+      const today = new Date();
+      const maxAnnee = futureDate
+        ? today.getFullYear() + 1
+        : today.getFullYear();
+
       const dateParts = date.split("/");
       const jour = parseInt(dateParts[0], 10);
       const mois = parseInt(dateParts[1], 10);
       const annee = parseInt(dateParts[2], 10);
 
-      return (
+      const isValidFormat =
         jour <= 31 &&
         jour > 0 &&
         mois <= 12 &&
         mois > 0 &&
         annee > 1900 &&
-        annee <= maxAnnee
-      );
+        annee <= maxAnnee;
+
+      if (!isValidFormat) return false;
+
+      const dateToCheck = new Date(annee, mois - 1, jour);
+
+      return futureDate || dateToCheck <= today;
     }
     return false;
   }

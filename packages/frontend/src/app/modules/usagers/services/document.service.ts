@@ -14,7 +14,7 @@ export class DocumentService {
 
   constructor(http: HttpClient) {
     this.http = http;
-    this.endPoint = environment.apiUrl + "usagers/document/";
+    this.endPoint = environment.apiUrl + "docs/";
   }
 
   public upload(data: any, usagerId: number) {

@@ -9,18 +9,20 @@ import {
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { FileInterceptor } from "@nestjs/platform-express";
 import * as fs from "fs";
-import { diskStorage } from "multer";
-import * as path from "path";
 import * as XLSX from "xlsx";
+import * as path from "path";
+
+import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { AuthGuard } from "@nestjs/passport";
+
 import { CurrentUser } from "../../auth/current-user.decorator";
+
 import { StructuresService } from "../../structures/structures.service";
-import { UsersService } from "../../users/services/users.service";
-import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
-import { Usager } from "../interfaces/usagers";
+
+import { User } from "../../users/user.interface";
 
 export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -265,7 +267,7 @@ export class ImportController {
             fs.unlinkSync(dir + "/" + file.filename);
           } catch (err) {
             throw new HttpException(
-              "Impossible de supprimer le fichier",
+              "IMPORTE_DELETE_FILE_IMPOSSIBLE",
               HttpStatus.BAD_REQUEST
             );
           }
@@ -457,27 +459,37 @@ export class ImportController {
     required: boolean,
     futureDate?: boolean
   ): boolean {
-    if ((date === undefined || date === null || date === "") && !required) {
+    if (
+      (typeof date === "undefined" || date === null || date === "") &&
+      !required
+    ) {
       return true;
     }
 
-    const maxAnnee = futureDate
-      ? new Date().getFullYear() + 1
-      : new Date().getFullYear();
-
     if (RegExp(regexp.date).test(date)) {
+      const today = new Date();
+      const maxAnnee = futureDate
+        ? today.getFullYear() + 1
+        : today.getFullYear();
+
       const dateParts = date.split("/");
       const jour = parseInt(dateParts[0], 10);
       const mois = parseInt(dateParts[1], 10);
       const annee = parseInt(dateParts[2], 10);
-      return (
+
+      const isValidFormat =
         jour <= 31 &&
         jour > 0 &&
         mois <= 12 &&
         mois > 0 &&
         annee > 1900 &&
-        annee <= maxAnnee
-      );
+        annee <= maxAnnee;
+
+      if (!isValidFormat) return false;
+
+      const dateToCheck = new Date(annee, mois - 1, jour);
+
+      return futureDate || dateToCheck <= today;
     }
     return false;
   }

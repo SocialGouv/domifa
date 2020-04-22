@@ -26,8 +26,7 @@ export class TipimailService {
     // console.log("---- ENTER CRON");
     const user = await this.userModel
       .findOne({
-        structureId: 1,
-        // createdAt: { $lte: this.lastWeek },
+        createdAt: { $lte: this.lastWeek },
         "mails.guide": false,
       })
       .select("-import -token -users -verified")

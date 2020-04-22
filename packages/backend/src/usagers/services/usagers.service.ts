@@ -320,10 +320,6 @@ export class UsagersService {
   }
 
   private convertDate(dateFr: string) {
-    // Logger.log("");
-    // Logger.log("DATE FR");
-    // Logger.log(dateFr);
-    // Logger.log("");
     const dateParts = dateFr.split("/");
     const dateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
     const newDate = new Date(dateEn).toISOString();

@@ -400,7 +400,7 @@ export class StatsService {
       })
       .exec();
     if (!stats || stats === null) {
-      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
+      throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
     return stats;
   }
@@ -420,7 +420,7 @@ export class StatsService {
       .exec();
 
     if (!stats || stats === null) {
-      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
+      throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
     return stats;
   }
