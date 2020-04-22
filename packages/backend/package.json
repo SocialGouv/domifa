@@ -29,7 +29,7 @@
     "@nestjs/schedule": "^0.3.1",
     "@nestjs/terminus": "^7.0.1",
     "@nestjs/testing": "^7.0.8",
-    "@sentry/node": "5.15.4",
+    "@sentry/node": "5.15.5",
     "@types/compression": "^1.7.0",
     "@types/cron": "^1.7.2",
     "@types/mongoose": "^5.7.12",
