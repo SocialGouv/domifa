@@ -1183,15 +1183,14 @@
                 <div class="col-md-4 reponses">
                   <span class="question">Date de naissance</span>
                   <span class="valeur">
-                    {{ usager.options.procuration.dateNaissance }}
+                    {{ usager.options.procuration.dateNaissance | date: 'dd/MM/yyyy' }}
                   </span>
                 </div>
 
                 <div class="col-md-4 reponses">
                   <span class="question">Date de fin de validité</span>
                   <span class="valeur">
-                    {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy'
-                    }}
+                    {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy' }}
                   </span>
                 </div>
 

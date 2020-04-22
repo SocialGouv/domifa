@@ -77,28 +77,24 @@ export class SearchController {
 
     /* ID DE LA STRUCTURE DE LUSER */
     if (query.name) {
-      const regexInt = RegExp("^[0-9]*$");
       const name = query.name
         .replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gi, "")
         .trim();
-      if (regexInt.test(query.name)) {
-        searchQuery.customId = {
-          $regex: name,
-          $options: "i",
-        };
-      } else {
-        searchQuery.$or = [
-          {
-            nom: { $regex: ".*" + name + ".*", $options: "-i" },
-          },
-          {
-            prenom: { $regex: ".*" + name + ".*", $options: "-i" },
-          },
-          {
-            surnom: { $regex: ".*" + name + ".*", $options: "-i" },
-          },
-        ];
-      }
+
+      searchQuery.$or = [
+        {
+          customId: { $regex: ".*" + name + ".*", $options: "-i" },
+        },
+        {
+          nom: { $regex: ".*" + name + ".*", $options: "-i" },
+        },
+        {
+          prenom: { $regex: ".*" + name + ".*", $options: "-i" },
+        },
+        {
+          surnom: { $regex: ".*" + name + ".*", $options: "-i" },
+        },
+      ];
     }
 
     if (query.statut && query.statut !== "TOUS") {

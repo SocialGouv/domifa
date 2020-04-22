@@ -11,12 +11,12 @@ export const interactionsLabels: {
   [key: string]: any;
 } = {
   appel: "Appel téléphonique",
-  colisIn: "Colis reçu",
-  colisOut: "Colis récupéré",
-  courrierIn: "Courrier reçu",
-  courrierOut: "Courrier distribué",
-  recommandeIn: "Avis de passage reçu",
-  recommandeOut: "Avis de passage récupéré",
+  colisIn: "Colis enregistré",
+  colisOut: "Colis remis",
+  courrierIn: "Courrier enregistré",
+  courrierOut: "Courrier remis",
+  recommandeIn: "Avis de passage enregistré",
+  recommandeOut: "Avis de passage remis",
   visite: "Passage",
 };
 
