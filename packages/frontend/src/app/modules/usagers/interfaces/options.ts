@@ -81,8 +81,9 @@ export class Options {
         this.procuration.nomComplet =
           this.procuration.nom.toUpperCase() + " " + this.procuration.prenom ||
           "";
+
         this.procuration.dateNaissance =
-          options.procuration.dateNaissance || "";
+          new Date(options.procuration.dateNaissance) || null;
 
         this.procuration.dateDebut =
           new Date(options.procuration.dateDebut) || null;

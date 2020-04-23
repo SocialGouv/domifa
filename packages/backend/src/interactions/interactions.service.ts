@@ -33,7 +33,6 @@ export class InteractionsService {
 
       usager.lastInteraction[interactionDto.type] =
         usager.lastInteraction[interactionDto.type] + count;
-
       usager.lastInteraction.enAttente = true;
     } else if (interactionOut) {
       if (interactionDto.procuration) {
@@ -51,7 +50,7 @@ export class InteractionsService {
       }
 
       const inType = interactionDto.type.substring(0, len - 3) + "In";
-      interactionDto.nbCourrier = usager.lastInteraction[inType];
+      interactionDto.nbCourrier = usager.lastInteraction[inType] || 1;
 
       usager.lastInteraction[inType] = 0;
 

@@ -4,10 +4,8 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpHeaderResponse,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
@@ -15,7 +13,10 @@ import { ToastrService } from "ngx-toastr";
 
 @Injectable()
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(private notifService: ToastrService) {}
+  constructor(
+    private notifService: ToastrService,
+    private authService: AuthService
+  ) {}
 
   public intercept(
     request: HttpRequest<any>,
@@ -32,6 +33,10 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           if (error.error instanceof ErrorEvent) {
             errorMessage = { message: `Error: ${error.error.message}` };
           } else {
+            if (error.status === 401) {
+              this.authService.logout();
+              return;
+            }
             const message =
               typeof error.error.message !== "undefined"
                 ? error.error.message

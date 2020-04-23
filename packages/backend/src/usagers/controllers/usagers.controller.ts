@@ -215,14 +215,13 @@ export class UsagersController {
     await this.interactionService.deleteByUsager(usager.id, user.structureId);
 
     if (fs.existsSync(pathFile)) {
-      rimraf(pathFile, (error: any) => {
-        this.captureErrors(
+      rimraf(pathFile, (error: Error) => {
+        throw new HttpException(
           { message: "CANNOT_DELETE_FOLDER", err: error },
-          HttpStatus.BAD_REQUEST,
-          res
+          HttpStatus.INTERNAL_SERVER_ERROR
         );
       });
-      return true;
+      return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
     }
 
     const usagerToDelete = await this.usagersService.delete(usager._id);
