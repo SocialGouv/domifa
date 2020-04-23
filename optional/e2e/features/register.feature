@@ -11,6 +11,6 @@ Scénario:
   Quand je clique sur "S'inscrire"
   Alors je vois "Prêt(e) à faciliter la domiciliation ?"
   Alors je vois "Quel est le code-postal de votre structure ?"
-  Alors je rentre "93430" dans "Code-postal"
+  Alors je rentre "92600" dans "Code-postal"
   Quand je clique sur "Rechercher"
   Alors je vois "Si vous appartenez à l’une de ces structures, cliquez dessus pour vous inscrire :"
