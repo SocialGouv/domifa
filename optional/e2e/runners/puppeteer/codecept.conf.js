@@ -18,7 +18,7 @@ exports.config = {
           : true,
       },
       restart: false,
-      url: process.env.CODECEPT_BASEURL || "http://localhost:3000",
+      url: "http://localhost:4200",
     },
   },
   include: {
