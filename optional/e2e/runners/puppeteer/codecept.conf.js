@@ -10,7 +10,7 @@ exports.config = {
           width: 1024,
           height: 1024,
         },
-        executablePath: process.env.CI && "/usr/bin/chromium-browser",
+        executablePath: "/usr/bin/google-chrome-stable",
         headless: process.env.CI
           ? true
           : process.env.CODECEPT_HEADED
