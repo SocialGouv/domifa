@@ -16,28 +16,38 @@ Quand("je pause le test", () => {
   pause();
 });
 
-Quand("je recherche {string}", searchText => {
+Quand("je recherche {string}", (searchText) => {
   I.fillField("q", searchText);
+});
+
+Quand("je rentre {string} dans {string}", (value, placeholder) => {
+  I.fillField(placeholder, value);
+});
+
+Quand("je remplis les champs suivants", (table) => {
+  table.rows.forEach(({ cells: [{ value: label }, { value }] }) => {
+    I.fillField(label, value);
+  });
 });
 
 Quand(
   "je cherche {string} dans le champ {string}",
   (searchText, searchInput) => {
     I.fillField(searchInput, searchText);
-  },
+  }
 );
 
-Quand("je clique sur {string}", text => {
+Quand("je clique sur {string}", (text) => {
   I.click(text);
 });
 
-Quand("j'attends {string} secondes", duration => {
+Quand("j'attends {string} secondes", (duration) => {
   I.wait(parseInt(duration, 10));
 });
 
 //
 
-Alors("je vois {string}", text => {
+Alors("je vois {string}", (text) => {
   I.see(text);
 });
 

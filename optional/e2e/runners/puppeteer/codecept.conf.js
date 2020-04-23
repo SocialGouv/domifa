@@ -10,7 +10,7 @@ exports.config = {
           width: 1024,
           height: 1024,
         },
-        executablePath: "/usr/bin/google-chrome-stable",
+        executablePath: process.env.CI && "/usr/bin/google-chrome-stable",
         headless: process.env.CI
           ? true
           : process.env.CODECEPT_HEADED

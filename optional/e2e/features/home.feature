@@ -9,4 +9,3 @@ Fonctionnalité: Page d'acceuil
 Scénario:
   Soit un navigateur web sur le site
   Alors je vois "FACILITER L'ACCÈS AUX DROITS DES PERSONNES SANS DOMICILE STABLE"
-  Alors je vois "le Code du travail numériqu"

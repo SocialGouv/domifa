@@ -5,7 +5,8 @@
     "dev": "lerna run dev --parallel",
     "lint": "lerna run lint --parallel",
     "test": "lerna run test --parallel",
-    "start": "lerna run start --parallel"
+    "start": "lerna run start --parallel",
+    "e2e": "yarn --cwd optional/e2e/runners/puppeteer test"
   },
   "devDependencies": {
     "lerna": "^3.20.2"
