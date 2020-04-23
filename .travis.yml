@@ -6,6 +6,7 @@ git:
 services:
   - mongodb
 addons:
+  chrome: stable
   apt:
     packages:
       - mongodb-org-tools
@@ -61,6 +62,10 @@ jobs:
         - yarn workspace @domifa/backend test --coverage --detectOpenHandles --forceExit
         - yarn workspace @domifa/backend start:prod &
         - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+        - yarn workspace @domifa/frontend start --prod &
+        - cd optionnal/e2e/runners/puppeteer/
+        - yarn --frozen-lockfile
+        - yarn test --debug
       after_script:
         - npx codecov
         - killall node
