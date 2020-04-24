@@ -56,6 +56,12 @@ jobs:
       # if: type = pull_request
       name: Test
       script:
+        # HACK(douglasduteil): ensure run production build with localhost api
+        # The build production will be used to run local e2e tests.
+        - mv
+            packages/frontend/src/environments/environment.travis.ts
+            packages/frontend/src/environments/environment.prod.ts
+        #
         - yarn build --stream
         #
         - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources

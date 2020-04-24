@@ -1,12 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "build": "lerna run build",
-    "dev": "lerna run dev --parallel",
-    "lint": "lerna run lint --parallel",
-    "test": "lerna run test --parallel",
-    "start": "lerna run start --parallel",
-    "e2e": "yarn --cwd optional/e2e/runners/puppeteer test"
+    "build": "lerna run build --stream",
+    "dev": "lerna run dev --parallel --stream",
+    "e2e": "yarn --cwd optional/e2e/runners/puppeteer test",
+    "lint": "lerna run lint --parallel --stream",
+    "start": "lerna run start --parallel --stream",
+    "test": "lerna run test --parallel --stream"
   },
   "devDependencies": {
     "lerna": "^3.20.2"

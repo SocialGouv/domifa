@@ -4,5 +4,5 @@
     "outDir": "../out-tsc/app",
     "types": []
   },
-  "exclude": ["test.ts", "**/*.spec.ts", "**/*.d.ts"]
+  "exclude": ["jestGlobalMocks.ts", "setupJest.ts", "**/*.spec.ts", "**/*.d.ts"]
 }

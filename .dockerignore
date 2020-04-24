@@ -1,5 +1,4 @@
 *.md
 .git
-**/dist
 **/node_modules
 **/coverage
