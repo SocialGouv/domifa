@@ -63,6 +63,7 @@ jobs:
         - yarn workspace @domifa/backend start:prod &
         - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
         - npx serve packages/frontend/dist/domifa -l 4200 &
+        - yarn workspace @domifa/backend start:prod &
         - cd optional/e2e/runners/puppeteer/
         - yarn --frozen-lockfile
         - yarn test --debug
