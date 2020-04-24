@@ -29,6 +29,7 @@ addons:
     - sleep 10
     - mongo domifa --eval "db.createUser({user:'travis', pwd:'test', roles:[{role:'readWrite', db:'domifa'}] });"
     - touch /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - cp /home/travis/build/SocialGouv/domifa/packages/frontend/src/environments/environment.test.ts /home/travis/build/SocialGouv/domifa/packages/frontend/src/environments/environment.prod.ts
     - echo "DB_USER=travis" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DB_HOST=127.0.0.1" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
@@ -63,7 +64,6 @@ jobs:
         - yarn workspace @domifa/backend start:prod &
         - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
         - npx serve packages/frontend/dist/domifa -l 4200 &
-        - yarn workspace @domifa/backend start:prod &
         - cd optional/e2e/runners/puppeteer/
         - yarn --frozen-lockfile
         - yarn test --debug
