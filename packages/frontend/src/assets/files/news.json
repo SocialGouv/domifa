@@ -1,4 +1,23 @@
 [
+   {
+    "date": "2020-04-27",
+    "description": "Diverses améliorations sur la plateforme",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Suite à l’inscription, envoi d’un mail présentant notre guide utilisateur pour une prise en mains facilitée",
+        ]
+      },
+      {
+        "type": "bug",
+        "message": [
+          "Divers bugs sur certaines fonctionnalités de la plateforme",
+        ]
+      }
+    ]
+  },
   {
     "date": "2020-04-10",
     "description": "Diverses améliorations sur la plateforme",
