@@ -26,8 +26,10 @@ import * as labels from "../../usagers.labels";
 
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Decision } from "../../interfaces/decision";
+
 import {
   minDateNaissance,
+  minDateToday,
   formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
 
@@ -54,6 +56,7 @@ export class UsagersFormComponent implements OnInit {
   public dToday = new Date();
   public maxDateNaissance: NgbDateStruct;
   public minDateNaissance: NgbDateStruct;
+  public minDateToday: NgbDateStruct;
 
   public maxDateRdv = {
     day: this.dToday.getDate(),
@@ -118,6 +121,7 @@ export class UsagersFormComponent implements OnInit {
     this.documents = [];
     this.liensLabels = Object.keys(this.labels.lienParente);
 
+    this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
   }

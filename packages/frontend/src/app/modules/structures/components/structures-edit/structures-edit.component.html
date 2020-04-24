@@ -338,7 +338,7 @@
           <label
             ngbButtonLabel
             [ngClass]="
-              f.options.get('customId') === true
+              f.options.get('customId').value === true
                 ? 'btn-primary'
                 : 'btn-outline-primary'
             "
@@ -349,7 +349,7 @@
           <label
             ngbButtonLabel
             [ngClass]="
-              f.options.get('customId') === false
+              f.options.get('customId').value === false
                 ? 'btn-danger'
                 : 'btn-outline-danger'
             "

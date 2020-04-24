@@ -185,6 +185,7 @@ export class StatsService {
       "",
       "asso"
     );
+
     stat.questions.Q_14.CCAS = await this.totalAnnee(
       structure.id,
       "REFUS",
@@ -197,7 +198,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "",
+      { key: "", value: "" },
       "mineurs"
     );
 
@@ -206,7 +207,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "",
+      { key: "", value: "" },
       "majeurs"
     );
 
@@ -215,7 +216,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "COUPLE_AVEC_ENFANT"
+      { key: "typeMenage", value: "COUPLE_AVEC_ENFANT" }
     );
 
     stat.questions.Q_19.COUPLE_SANS_ENFANT = await this.totalMaintenant(
@@ -223,7 +224,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "COUPLE_SANS_ENFANT"
+      { key: "typeMenage", value: "COUPLE_SANS_ENFANT" }
     );
 
     stat.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT = await this.totalMaintenant(
@@ -231,7 +232,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "FEMME_ISOLE_AVEC_ENFANT"
+      { key: "typeMenage", value: "FEMME_ISOLE_AVEC_ENFANT" }
     );
 
     stat.questions.Q_19.FEMME_ISOLE_SANS_ENFANT = await this.totalMaintenant(
@@ -239,7 +240,8 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "FEMME_ISOLE_SANS_ENFANT"
+
+      { key: "typeMenage", value: "FEMME_ISOLE_SANS_ENFANT" }
     );
 
     stat.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT = await this.totalMaintenant(
@@ -247,7 +249,8 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "HOMME_ISOLE_AVEC_ENFANT"
+
+      { key: "typeMenage", value: "HOMME_ISOLE_AVEC_ENFANT" }
     );
 
     stat.questions.Q_19.HOMME_ISOLE_SANS_ENFANT = await this.totalMaintenant(
@@ -255,7 +258,8 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "HOMME_ISOLE_SANS_ENFANT"
+
+      { key: "typeMenage", value: "HOMME_ISOLE_SANS_ENFANT" }
     );
 
     stat.questions.Q_20.appel = await this.totalInteraction(
@@ -303,7 +307,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "ERRANCE"
+      { key: "cause", value: "ERRANCE" }
     );
 
     stat.questions.Q_21.EXPULSION = await this.totalMaintenant(
@@ -311,7 +315,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "EXPULSION"
+      { key: "cause", value: "EXPULSION" }
     );
 
     stat.questions.Q_21.HEBERGE_SANS_ADRESSE = await this.totalMaintenant(
@@ -319,7 +323,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "HEBERGE_SANS_ADRESSE"
+      { key: "cause", value: "HEBERGE_SANS_ADRESSE" }
     );
 
     stat.questions.Q_21.ITINERANT = await this.totalMaintenant(
@@ -327,7 +331,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "ITINERANT"
+      { key: "cause", value: "ITINERANT" }
     );
 
     stat.questions.Q_21.SORTIE_STRUCTURE = await this.totalMaintenant(
@@ -335,7 +339,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "SORTIE_STRUCTURE"
+      { key: "cause", value: "SORTIE_STRUCTURE" }
     );
 
     stat.questions.Q_21.VIOLENCE = await this.totalMaintenant(
@@ -343,7 +347,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "VIOLENCE"
+      { key: "cause", value: "VIOLENCE" }
     );
 
     stat.questions.Q_21.NON_RENSEIGNE = await this.totalMaintenant(
@@ -351,7 +355,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "NON_RENSEIGNE"
+      { key: "cause", value: "NON_RENSEIGNE" }
     );
 
     stat.questions.Q_21.AUTRE = await this.totalMaintenant(
@@ -359,7 +363,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "AUTRE"
+      { key: "cause", value: "AUTRE" }
     );
 
     stat.questions.Q_21.RUPTURE = await this.totalMaintenant(
@@ -367,7 +371,7 @@ export class StatsService {
       "VALIDE",
       "",
       "",
-      "RUPTURE"
+      { key: "cause", value: "RUPTURE" }
     );
 
     const retourStructure = await this.structureService.updateLastExport(
@@ -457,7 +461,7 @@ export class StatsService {
     statut?: string,
     motif?: string,
     orientation?: string,
-    cause?: string,
+    entretien?: { key: string; value: string },
     age?: string
   ): Promise<number> {
     const query: {
@@ -465,6 +469,7 @@ export class StatsService {
       "decision.statut"?: string | {};
       "decision.orientation"?: string;
       "entretien.cause"?: string | {};
+      "entretien.typeMenage"?: string | {};
       dateNaissance: {
         $gte: Date;
         $lte: Date;
@@ -475,7 +480,6 @@ export class StatsService {
       "decision.motif": motif,
       "decision.statut": statut,
       "decision.orientation": orientation,
-      "entretien.cause": cause,
       dateNaissance: {
         $gte: this.dateMajorite,
         $lte: this.dateMajorite,
@@ -502,13 +506,18 @@ export class StatsService {
       delete query["decision.orientation"];
     }
 
-    if (!cause) {
-      delete query["entretien.cause"];
-    }
-
-    // Aucune cause renseignée
-    if (cause && cause === "NON_RENSEIGNE") {
-      query["entretien.cause"] = { $in: [null, ""] };
+    if (entretien && entretien.key !== "") {
+      if (entretien.key === "cause") {
+        query["entretien.cause"] = entretien.value;
+        if (entretien.key === "cause" && entretien.value === "NON_RENSEIGNE") {
+          query["entretien.cause"] = { $in: [null, ""] };
+        }
+      } else if (entretien.key === "typeMenage") {
+        query["entretien.typeMenage"] = entretien.value;
+      } else {
+        delete query["entretien.cause"];
+        delete query["entretien.typeMenage"];
+      }
     }
 
     if (age) {

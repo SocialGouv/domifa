@@ -53,11 +53,16 @@ export class Structure {
       prenom: "",
     };
 
-    this.options = (structure && structure.options) || {
+    this.options = {
       colis: false,
       customId: false,
       numeroBoite: false,
     };
+    if (structure && structure.options) {
+      this.options.colis = structure.options.colis || false;
+      this.options.customId = structure.options.customId || false;
+      this.options.numeroBoite = structure.options.numeroBoite || false;
+    }
 
     this.users = (structure && structure.users) || [];
 

@@ -139,9 +139,7 @@
     <br />
   </div>
 
-  <div
-    *ngIf="usager.decision.statut !== 'REFUS' || (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)"
-  >
+  <div *ngIf="usager.decision.statut !== 'REFUS'">
     <br />
     <h5 class="text-center font-weight-bold">
       Signaler la réception d’un courrier ou un passage
