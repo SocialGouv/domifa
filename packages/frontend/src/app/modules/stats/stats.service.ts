@@ -21,12 +21,10 @@ export class StatsService {
     this.loading = true;
   }
 
-  public getToday(): Observable<any> {
+  public getToday(): Observable<Stats> {
     return this.http.get(`${this.baseUrl}today`).pipe(
       map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) => new Stats(item))
-          : [new Stats(response)];
+        return new Stats(response);
       })
     );
   }

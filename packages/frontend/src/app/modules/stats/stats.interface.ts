@@ -114,6 +114,7 @@ export class Stats {
     this.ville = (data && data.ville) || null;
     this.capacite = (data && data.capacite) || null;
     this.codePostal = (data && data.codePostal) || null;
+
     this.questions = (data && data.questions) || {
       Q_10: 0,
       Q_10_A: 0,
