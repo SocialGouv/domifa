@@ -9,6 +9,8 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { ERROR_LABELS } from "src/app/shared/errors.labels";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
+import { LoadingService } from "src/app/modules/loading/loading.service";
+import { saveAs } from "file-saver";
 
 @Component({
   selector: "app-user-profil",
@@ -35,7 +37,8 @@ export class UserProfilComponent implements OnInit {
     private readonly router: Router,
     private modalService: NgbModal,
     private notifService: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private loadingService: LoadingService
   ) {
     this.title = "Mon compte Domifa";
     this.users = [];
@@ -151,6 +154,27 @@ export class UserProfilComponent implements OnInit {
           this.notifService.error(message);
         }
       );
+  }
+
+  public export() {
+    this.structureService.export().subscribe(
+      (x: any) => {
+        const newBlob = new Blob([x], {
+          type:
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        saveAs(newBlob, "nameFile" + ".xlsx");
+        setTimeout(() => {
+          this.loadingService.stopLoading();
+        }, 500);
+      },
+      (error: any) => {
+        this.notifService.error(
+          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+        );
+        this.loadingService.stopLoading();
+      }
+    );
   }
 
   private getUsers() {

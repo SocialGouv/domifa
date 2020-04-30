@@ -22,7 +22,13 @@ export class StatsService {
   }
 
   public getToday(): Observable<any> {
-    return this.http.get(`${this.baseUrl}today`);
+    return this.http.get(`${this.baseUrl}today`).pipe(
+      map((response) => {
+        return Array.isArray(response)
+          ? response.map((item) => new Stats(item))
+          : [new Stats(response)];
+      })
+    );
   }
 
   public getAllStatuts(): Observable<any> {

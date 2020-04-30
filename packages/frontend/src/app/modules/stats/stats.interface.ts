@@ -98,6 +98,7 @@ export class Stats {
       EXPULSION: number;
       HEBERGE_SANS_ADRESSE: number;
       ITINERANT: number;
+      NON_RENSEIGNE: number;
       RUPTURE: number;
       SORTIE_STRUCTURE: number;
       VIOLENCE: number;

@@ -13,22 +13,21 @@ import { Stats } from "../../stats.interface";
 })
 export class RapportComponent implements OnInit {
   public title: string;
-  public stats: any;
-  public statistiques: any;
+  public stats: Stats;
   public labels: any;
   public statsLabels: any;
   public interactionsLabels: any;
 
   constructor(public statsService: StatsService) {
-    this.title = "Rapport Annuel";
-    this.stats = {};
+    this.title = "Rapport d'activité annuel";
+    this.stats = new Stats();
     this.labels = labels;
     this.interactionsLabels = interactionsLabels;
     this.statsLabels = statsLabels;
   }
 
   public ngOnInit() {
-    this.statsService.getToday().subscribe((response: any) => {
+    this.statsService.getToday().subscribe((response: Stats) => {
       this.stats = response;
     });
   }

@@ -153,9 +153,14 @@
       </div>
       <br />
       <div *ngIf="authService.isAdmin">
-        <h4>Remise à zéro</h4>
+        <h4>Vos données</h4>
         <div class="list-group">
           <div class="list-group-item">
+            <button (click)="export()" class="btn btn-outline-primary">
+              <fa-icon icon="download" class="btn-icon"></fa-icon>
+              Exprorter tous les usagers
+            </button>
+            &nbsp;
             <button
               (click)="open(hardResetConfirmation)"
               class="btn btn-outline-danger"

@@ -13,6 +13,7 @@ import { UsagersProviders } from "./usagers.providers";
 import { SearchController } from "./controllers/search.controller";
 import { StatsModule } from "../stats/stats.module";
 import { DocsController } from "./controllers/docs.controller";
+import { ExportController } from "./controllers/export.controller";
 
 @Module({
   controllers: [
@@ -20,6 +21,7 @@ import { DocsController } from "./controllers/docs.controller";
     ImportController,
     SearchController,
     DocsController,
+    ExportController,
   ],
   exports: [
     UsagersService,

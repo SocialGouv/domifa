@@ -34,3 +34,7 @@ Object.defineProperty(window, "DragEvent", {
   // tslint:disable-next-line: max-classes-per-file
   value: class DragEvent {},
 });
+
+// tslint:disable-next-line:no-empty
+const noop = () => {};
+Object.defineProperty(window, "scrollTo", { value: noop, writable: true });

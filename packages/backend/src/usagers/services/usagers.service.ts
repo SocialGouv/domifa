@@ -305,6 +305,15 @@ export class UsagersService {
       .exec();
   }
 
+  public async export(structureId: number): Promise<any> {
+    return this.usagerModel
+      .find({ structureId })
+      .select(
+        "-createdAt -updatedAt -rdv -structureId -import -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+      )
+      .lean()
+      .exec();
+  }
   public async findLast(structureId: number): Promise<number> {
     const lastUsager: any = await this.usagerModel
       .findOne({ structureId }, { id: 1 })

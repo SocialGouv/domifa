@@ -4,6 +4,8 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Structure } from "../structure.interface";
+import { LoadingService } from "../../loading/loading.service";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root",
@@ -82,5 +84,11 @@ export class StructureService {
 
   public continueRegister() {
     return this.http.get(`${this.endPoint}/continue-register`);
+  }
+
+  public export() {
+    return this.http.get(`${environment.apiUrl}export`, {
+      responseType: "blob",
+    });
   }
 }
