@@ -117,7 +117,7 @@ export const routes: Routes = [
   {
     canActivate: [AuthGuard],
     component: RapportComponent,
-    path: "rapportdomifa",
+    path: "rapport-activite",
   },
   { path: "faq", component: FaqComponent },
   { path: "news", component: NewsComponent },

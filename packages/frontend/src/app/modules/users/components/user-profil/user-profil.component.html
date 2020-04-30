@@ -139,6 +139,19 @@
       </div>
 
       <br />
+      <h4>Rapport d'activité de ma structure</h4>
+      <div class="list-group">
+        <div class="list-group-item">
+          <a
+            [routerLink]="['/rapport-activite']"
+            routerLinkActive="router-link-active"
+            class="btn btn-outline-primary"
+          >
+            Consulter le rapport d'activité
+          </a>
+        </div>
+      </div>
+      <br />
       <div *ngIf="authService.isAdmin">
         <h4>Remise à zéro</h4>
         <div class="list-group">

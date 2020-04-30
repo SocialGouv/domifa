@@ -4,13 +4,9 @@ import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
-import { SearchDto } from "../dto/search.dto";
 import { UsagersDto } from "../dto/usagers.dto";
-import { Decision } from "../interfaces/decision";
-import { SearchQuery } from "../interfaces/search-query";
 import { Usager } from "../interfaces/usagers";
 import { of } from "rxjs";
-import { AyantDroit } from "../interfaces/ayant-droit";
 
 @Injectable()
 export class UsagersService {

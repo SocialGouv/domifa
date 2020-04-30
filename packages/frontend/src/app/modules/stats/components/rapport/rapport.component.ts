@@ -28,11 +28,8 @@ export class RapportComponent implements OnInit {
   }
 
   public ngOnInit() {
-    /* this.statsService.getToday().subscribe((response: any) => {
+    this.statsService.getToday().subscribe((response: any) => {
       this.stats = response;
-    });*/
-    this.statsService.findAll().subscribe((response: Stats[]) => {
-      this.statistiques = response;
     });
   }
 }

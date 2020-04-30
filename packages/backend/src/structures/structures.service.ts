@@ -49,11 +49,14 @@ export class StructuresService {
       .exec();
   }
 
-  public async updateLastExport(structureId: string): Promise<any> {
+  public async updateLastExport(
+    structureId: string,
+    dateExport: Date
+  ): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
         { _id: structureId },
-        { $set: { lastExport: new Date() } }
+        { $set: { lastExport: dateExport } }
       )
       .exec();
   }

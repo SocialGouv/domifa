@@ -25,16 +25,6 @@ export class StatsService {
     return this.http.get(`${this.baseUrl}today`);
   }
 
-  public findAll(): Observable<Stats[]> {
-    return this.http.get(`${this.baseUrl}all`).pipe(
-      map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) => new Stats(item))
-          : [new Stats(response)];
-      })
-    );
-  }
-
   public getAllStatuts(): Observable<any> {
     return this.http.get(`${this.epUsagers}stats-domifa/all`);
   }
