@@ -403,7 +403,7 @@ export class StatsService {
       .findOne({
         structureId,
       })
-      .sort("-createdAt")
+      .sort({ _id: -1 })
       .exec();
     if (!stats || stats === null) {
       throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);

@@ -309,7 +309,7 @@ export class UsagersService {
     return this.usagerModel
       .find({ structureId })
       .select(
-        "-createdAt -updatedAt -rdv -structureId -import -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+        "-rdv -structureId -import -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
       )
       .lean()
       .exec();
