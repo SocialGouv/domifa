@@ -400,10 +400,7 @@ export class StatsService {
 
   public async getToday(structureId: number): Promise<Stats> {
     const stats = await this.statsModel
-      .findOne({
-        structureId,
-      })
-      .sort({ _id: -1 })
+      .findOne({ structureId }, {}, { sort: { _id: -1 } })
       .exec();
     if (!stats || stats === null) {
       throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
