@@ -314,6 +314,7 @@ export class UsagersService {
       .lean()
       .exec();
   }
+
   public async findLast(structureId: number): Promise<number> {
     const lastUsager: any = await this.usagerModel
       .findOne({ structureId }, { id: 1 })
