@@ -47,13 +47,7 @@ export class ExportController {
   ) {
     this.datas = [
       {
-        A: new Date().toLocaleDateString("fr-FR", {
-          year: "numeric",
-          month: "numeric",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-        }),
+        A: this.dateFr(new Date(), true),
       },
       {
         A: "ID",
@@ -99,12 +93,9 @@ export class ExportController {
           type: "buffer",
           bookType: "xlsx",
         });
-
-        /* send to client */
         res.status(200).send(buf);
       } else {
         const usager: Usager = usagers[i];
-        const options = { year: "numeric", month: "numeric", day: "numeric" };
 
         if (
           usager.decision.statut === "REFUS" ||
@@ -127,11 +118,11 @@ export class ExportController {
 
         const formattedUsager = {
           A: usager.id,
+          E: usager.sexe,
           B: usager.nom,
           C: usager.prenom,
           D: usager.surnom,
-          E: usager.sexe,
-          F: usager.dateNaissance.toLocaleDateString("fr-FR", options),
+          F: this.dateFr(usager.dateNaissance),
           G: usager.villeNaissance,
           H: usager.phone,
           I: usager.email,
@@ -141,18 +132,39 @@ export class ExportController {
           M: usager.decision.typeDom,
           N:
             usager.decision.dateDebut && usager.decision.dateDebut !== null
-              ? usager.decision.dateDebut.toLocaleDateString("fr-FR", options)
+              ? this.dateFr(usager.decision.dateDebut)
               : "",
           O:
             usager.decision.dateFin && usager.decision.dateFin !== null
-              ? usager.decision.dateFin.toLocaleDateString("fr-FR", options)
+              ? this.dateFr(usager.decision.dateFin)
               : "",
           P:
             usager.datePremiereDom && usager.datePremiereDom !== null
-              ? usager.datePremiereDom.toLocaleDateString("fr-FR", options)
+              ? this.dateFr(usager.datePremiereDom)
               : "",
         };
         this.datas.push(formattedUsager);
       }
+  }
+
+  private padNumber(value: number) {
+    return `0${value}`.slice(-2);
+  }
+
+  private dateFr(date: Date, complete?: boolean): string {
+    const dateString =
+      this.padNumber(date.getUTCDate()) +
+      "/" +
+      this.padNumber(date.getUTCMonth() + 1) +
+      "/" +
+      date.getUTCFullYear();
+
+    return complete
+      ? dateString +
+          " à " +
+          this.padNumber(date.getUTCHours()) +
+          ":" +
+          this.padNumber(date.getUTCMinutes())
+      : dateString;
   }
 }

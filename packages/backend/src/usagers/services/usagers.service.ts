@@ -122,7 +122,7 @@ export class UsagersService {
       .exec();
   }
 
-  public async renouvellement(usager: Usager, user: User) {
+  public async renouvellement(usager: Usager, user: User): Promise<Usager> {
     const lastDecision = usager.decision;
     const decision = new DecisionDto();
 
@@ -305,13 +305,12 @@ export class UsagersService {
       .exec();
   }
 
-  public async export(structureId: number): Promise<any> {
+  public async export(structureId: number): Promise<Usager[]> {
     return this.usagerModel
       .find({ structureId })
       .select(
         "-rdv -structureId -import -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
       )
-      .lean()
       .exec();
   }
 

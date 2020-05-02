@@ -429,7 +429,7 @@
               <span class="valeur">{{ usager.prenom }}</span>
             </div>
             <div class="col-md-4 reponses">
-              <span class="question">SURNOM</span>
+              <span class="question">NOM D'USAGE / SURNOM</span>
               <span class="valeur">{{ usager.surnom | titlecase }}</span>
             </div>
 
@@ -538,13 +538,13 @@
               </div>
 
               <div class="col-md-4 form-group">
-                <label for="surnom">Surnom ou prénom d'usage</label>
+                <label for="surnom">Nom d'usage / Surnom</label>
                 <input
                   type="text"
                   class="form-control"
                   id="surnom"
                   formControlName="surnom"
-                  placeholder="Surnom / Nom d'usage"
+                  placeholder="Nom d'usage / Surnom"
                   [ngClass]="{ 'is-invalid': f.surnom.errors }"
                 />
               </div>

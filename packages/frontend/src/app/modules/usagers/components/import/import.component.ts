@@ -33,7 +33,7 @@ export const colNames = [
   "Civilité",
   "Nom",
   "Prénom",
-  "Surnom",
+  "Nom d'usage / Surnom",
   "Date naissance",
   "Lieu naissance",
   "Email",

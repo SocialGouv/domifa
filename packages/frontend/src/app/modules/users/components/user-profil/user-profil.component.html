@@ -156,9 +156,19 @@
         <h4>Vos données</h4>
         <div class="list-group">
           <div class="list-group-item">
-            <button (click)="export()" class="btn btn-outline-primary">
-              <fa-icon icon="download" class="btn-icon"></fa-icon>
-              Exprorter tous les usagers
+            <button
+              (click)="export()"
+              [disabled]="exportLoading"
+              class="btn btn-outline-primary"
+            >
+              <span *ngIf="!exportLoading">
+                <fa-icon icon="download" class="btn-icon"></fa-icon>
+                Exporter tous les usagers</span
+              >
+              <span *ngIf="exportLoading"
+                ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export
+                en cours, veuillez patienter...</span
+              >
             </button>
             &nbsp;
             <button

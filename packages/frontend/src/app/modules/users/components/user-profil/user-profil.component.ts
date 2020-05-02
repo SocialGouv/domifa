@@ -27,6 +27,7 @@ export class UserProfilComponent implements OnInit {
   public selectedUser: number;
   public showHardReset: boolean;
   public hardResetCode: boolean;
+  public exportLoading: boolean;
   public hardResetForm: FormGroup;
   public errorLabels: any;
 
@@ -45,6 +46,7 @@ export class UserProfilComponent implements OnInit {
     this.newUsers = [];
     this.selectedUser = 0;
     this.showHardReset = false;
+    this.exportLoading = false;
     this.hardResetCode = null;
     this.errorLabels = ERROR_LABELS;
   }
@@ -157,22 +159,24 @@ export class UserProfilComponent implements OnInit {
   }
 
   public export() {
+    this.exportLoading = true;
     this.structureService.export().subscribe(
       (x: any) => {
         const newBlob = new Blob([x], {
           type:
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
-        saveAs(newBlob, "nameFile" + ".xlsx");
+
+        saveAs(newBlob, "export_domifa" + ".xlsx");
         setTimeout(() => {
-          this.loadingService.stopLoading();
+          this.exportLoading = false;
         }, 500);
       },
       (error: any) => {
         this.notifService.error(
           "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
-        this.loadingService.stopLoading();
+        this.exportLoading = false;
       }
     );
   }

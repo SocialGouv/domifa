@@ -48,8 +48,9 @@ export class StatsService {
       .toDate();
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_4AM)
+  @Cron(CronExpression.EVERY_HOUR)
   public async handleCron() {
+    Logger.log("CRON : " + new Date(), "debug");
     const structure: Structure = await this.structureService.findOneBasic({
       $or: [
         {

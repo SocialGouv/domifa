@@ -521,7 +521,7 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.deleteProcuration(this.usager.id).subscribe(
       (usager: any) => {
         this.editTransfertForm = false;
-        this.transfertForm.reset();
+        this.procurationForm.reset();
         this.usager.options = new Options(usager.options);
         this.notifService.success("Transfert supprimé avec succès");
       },
