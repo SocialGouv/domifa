@@ -16,8 +16,8 @@ export class Structure {
   public phone: string;
   public email: string;
   public import: boolean;
-  public importDate: Date | null;
-  public lastLogin: Date | null;
+  public importDate: Date;
+  public lastLogin: Date;
 
   public responsable: {
     fonction: string;
@@ -36,8 +36,9 @@ export class Structure {
 
   constructor(structure?: any) {
     this.createdAt = null;
-    this.importDate = structure.importDate = null;
-    this.lastLogin = structure.lastLogin = null;
+    this.importDate = null;
+    this.lastLogin = null;
+
     this.id = (structure && structure.id) || 0;
     this.capacite = (structure && structure.capacite) || null;
     this.adresse = (structure && structure.adresse) || null;
@@ -53,10 +54,6 @@ export class Structure {
     this.phone = (structure && structure.phone) || "";
     this.email = (structure && structure.email) || "";
     this.import = (structure && structure.import) || false;
-    this.importDate =
-      structure && structure.importDate ? new Date(structure.importDate) : null;
-    this.lastLogin =
-      structure && structure.lastLogin ? new Date(structure.lastLogin) : null;
 
     this.responsable = (structure && structure.responsable) || {
       fonction: "",
@@ -80,5 +77,10 @@ export class Structure {
     if (structure && structure.createdAt) {
       this.createdAt = new Date(structure.createdAt);
     }
+
+    this.importDate =
+      structure && structure.importDate ? new Date(structure.importDate) : null;
+    this.lastLogin =
+      structure && structure.lastLogin ? new Date(structure.lastLogin) : null;
   }
 }

@@ -19,6 +19,7 @@ import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
 import { UsagersProfilComponent } from "./profil-component";
+import { global } from "@angular/compiler/src/util";
 
 describe("UsagersProfilComponent", () => {
   let fixture: any;
@@ -27,8 +28,9 @@ describe("UsagersProfilComponent", () => {
   let location: Location;
 
   let interactionService: InteractionService;
-
+  const spyScrollTo = jest.fn();
   beforeEach(async(() => {
+    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [

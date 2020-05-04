@@ -38,3 +38,5 @@ Object.defineProperty(window, "DragEvent", {
 // tslint:disable-next-line:no-empty
 const noop = () => {};
 Object.defineProperty(window, "scrollTo", { value: noop, writable: true });
+
+Object.defineProperty(window, "scroll", { value: jest.fn() });

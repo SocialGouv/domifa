@@ -20,13 +20,16 @@ import { routes } from "../../../../app-routing.module";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
 import { ManageUsagersComponent } from "./manage.component";
+import { global } from "@angular/compiler/src/util";
 
 describe("ManageUsagersComponent", () => {
   let app: any;
   let fixture: any;
   let authService: AuthService;
 
+  const spyScrollTo = jest.fn();
   beforeAll(async (done) => {
+    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [

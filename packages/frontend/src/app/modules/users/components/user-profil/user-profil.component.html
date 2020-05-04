@@ -3,16 +3,25 @@
     <div class="col-md-10 offset-1">
       <h4>Mon compte</h4>
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
           Bienvenue
           {{ authService.currentUserValue.nom }}
           {{ authService.currentUserValue.prenom }}
-        </div>
-        <div class="col-md-2">
+          <br />
+
           <button class="btn btn-primary" (click)="logout()">
             Déconnexion
             <fa-icon icon="sign-out-alt"></fa-icon>
           </button>
+        </div>
+        <div class="col-md-4 text-right">
+          <a
+            [routerLink]="['/rapport-activite']"
+            routerLinkActive="router-link-active"
+            class="btn btn-primary"
+          >
+            Mes statistiques
+          </a>
         </div>
       </div>
 
@@ -139,19 +148,7 @@
       </div>
 
       <br />
-      <h4>Rapport d'activité de ma structure</h4>
-      <div class="list-group">
-        <div class="list-group-item">
-          <a
-            [routerLink]="['/rapport-activite']"
-            routerLinkActive="router-link-active"
-            class="btn btn-outline-primary"
-          >
-            Consulter le rapport d'activité
-          </a>
-        </div>
-      </div>
-      <br />
+
       <div *ngIf="authService.isAdmin">
         <h4>Vos données</h4>
         <div class="list-group">
