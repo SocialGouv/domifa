@@ -26,8 +26,6 @@ export class AppComponent implements OnInit {
   @ViewChild("newsCenter", { static: true })
   public newsCenter!: TemplateRef<any>;
 
-  private newsJson = "assets/files/news.json";
-
   constructor(
     public authService: AuthService,
     private matomoInjector: MatomoInjector,
@@ -51,10 +49,12 @@ export class AppComponent implements OnInit {
       if (isAuth) {
         this.getJSON().subscribe((domifaNews) => {
           this.domifaNews = domifaNews[0];
+
           const lastNews = localStorage.getItem("lastNews");
+
           if (
             !lastNews ||
-            (lastNews && new Date(lastNews) <= new Date(domifaNews[0].date))
+            (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
           ) {
             this.modal = this.modalService.open(this.newsCenter, {
               backdrop: "static",
@@ -80,11 +80,14 @@ export class AppComponent implements OnInit {
   }
 
   public getJSON(): Observable<any> {
-    return this.http.get(this.newsJson);
+    return this.http.get("assets/files/news.json");
   }
 
   public closeModal() {
     this.modal.close();
-    localStorage.setItem("lastNews", new Date().toISOString());
+    localStorage.setItem(
+      "lastNews",
+      new Date(this.domifaNews.date).toISOString()
+    );
   }
 }

@@ -1,12 +1,13 @@
-<div class="alert alert-info">
-  Merci de n'inscrire aucune donnée sensible au sens du RGPD (orientation
-  sexuelle et politique, données de santé, etc.) et de limiter au maximum la
-  présence de données à caractère personnel.
-</div>
 <form [formGroup]="entretienForm" (ngSubmit)="submitEntretien()">
   <div class="text-center" *ngIf="!editEntretien">
     <h5 class="title">Entretien avec le demandeur</h5>
-    <br />
+  </div>
+  <div class="row">
+    <div class="alert alert-info">
+      Merci de n'inscrire aucune donnée sensible au sens du RGPD (orientation
+      sexuelle et politique, données de santé, etc.) et de limiter au maximum la
+      présence de données à caractère personnel.
+    </div>
   </div>
 
   <div class="row">

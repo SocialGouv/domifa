@@ -155,18 +155,18 @@ export class ExportController {
 
   private dateFr(date: Date, complete?: boolean): string {
     const dateString =
-      this.padNumber(date.getUTCDate()) +
+      this.padNumber(date.getDate()) +
       "/" +
-      this.padNumber(date.getUTCMonth() + 1) +
+      this.padNumber(date.getMonth() + 1) +
       "/" +
-      date.getUTCFullYear();
+      date.getFullYear();
 
     return complete
       ? dateString +
           " à " +
-          this.padNumber(date.getUTCHours()) +
+          this.padNumber(date.getHours()) +
           ":" +
-          this.padNumber(date.getUTCMinutes())
+          this.padNumber(date.getMinutes())
       : dateString;
   }
 }

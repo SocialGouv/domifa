@@ -298,7 +298,7 @@
               usager.decision.statut === 'VALIDE' ||
               (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT') ||
               (usager.decision.statut === 'ATTENTE_DECISION' && usager.typeDom === 'RENOUVELLEMENT') ||
-              (usager.decision.statut === 'RADIE' && usager.options.npai !== true)
+              (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)
             "
             >
               <span

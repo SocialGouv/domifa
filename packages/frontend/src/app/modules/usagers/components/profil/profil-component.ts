@@ -52,6 +52,7 @@ export class UsagersProfilComponent implements OnInit {
   public editAyantsDroits: boolean;
   public editTransfertForm: boolean;
   public editProcurationForm: boolean;
+  public acceptInteractions: boolean;
   public editCustomId: boolean;
   public submitted: boolean;
   public typeInteraction: InteractionTypes;
@@ -110,7 +111,7 @@ export class UsagersProfilComponent implements OnInit {
     this.editProcurationForm = false;
     this.editTransfertForm = false;
     this.submitted = false;
-
+    this.acceptInteractions = true;
     this.today = new Date();
 
     this.interactionsLabels = interactionsLabels;
