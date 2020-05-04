@@ -4,6 +4,7 @@ import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usager";
+import { saveAs } from "file-saver";
 
 @Injectable({
   providedIn: "root",
@@ -54,30 +55,8 @@ export class DocumentService {
   public download(usagerId: number, doc: Doc, x: any) {
     const extensionTmp = doc.filetype.split("/");
     const extension = extensionTmp[1];
-
     const newBlob = new Blob([x], { type: doc.filetype });
-
-    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveOrOpenBlob(newBlob);
-      return;
-    }
-    const data = window.URL.createObjectURL(newBlob);
-    const link = document.createElement("a");
-    link.href = data;
-    link.download = "document_" + usagerId + "." + extension;
-
-    link.dispatchEvent(
-      new MouseEvent("click", {
-        bubbles: true,
-        cancelable: true,
-        view: window,
-      })
-    );
-
-    setTimeout(() => {
-      window.URL.revokeObjectURL(data);
-      link.remove();
-    }, 100);
+    saveAs(newBlob, "document_" + usagerId + "." + extension);
   }
 
   public deleteDocument(usagerId: number, index: number) {

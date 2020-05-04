@@ -15,6 +15,7 @@ import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
+import { saveAs } from "file-saver";
 
 @Injectable({
   providedIn: "root",
@@ -184,28 +185,14 @@ export class UsagerService {
         (x) => {
           const newBlob = new Blob([x], { type: "application/pdf" });
 
-          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            window.navigator.msSaveOrOpenBlob(newBlob);
-            return;
-          }
-          const data = window.URL.createObjectURL(newBlob);
-          const link = document.createElement("a");
           const randomNumber = Math.floor(Math.random() * 100) + 1;
 
-          link.href = data;
-          link.download =
-            "attestation_" + usagerId + "_" + randomNumber + ".pdf";
-          link.dispatchEvent(
-            new MouseEvent("click", {
-              bubbles: true,
-              cancelable: true,
-              view: window,
-            })
+          saveAs(
+            newBlob,
+            "attestation_" + usagerId + "_" + randomNumber + ".pdf"
           );
 
           setTimeout(() => {
-            window.URL.revokeObjectURL(data);
-            link.remove();
             this.loadingService.stopLoading();
           }, 500);
         },
