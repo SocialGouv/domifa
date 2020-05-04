@@ -16,7 +16,6 @@ export class User {
   public verified: boolean;
 
   constructor(user?: any) {
-    console.log(user);
     this.email = (user && user.email) || null;
     this.fonction = (user && user.fonction) || null;
     this.id = (user && user.id) || null;

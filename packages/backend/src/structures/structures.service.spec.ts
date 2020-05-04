@@ -56,7 +56,7 @@ describe("Structure Service", () => {
 
   it("0. Create / Read / Update / Delete", async () => {
     // LAST ID
-    expect(service.findAll()).toBeTruthy();
+    expect(service.findAllPublic()).toBeTruthy();
     expect(await service.findLast()).toEqual(2);
 
     // CREATE
