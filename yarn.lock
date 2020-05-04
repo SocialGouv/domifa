@@ -14199,7 +14199,7 @@ tslint-plugin-prettier@~2.3.0:
     lines-and-columns "^1.1.6"
     tslib "^1.7.1"
 
-tslint@^6.1.1:
+tslint@^6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-6.1.2.tgz#2433c248512cc5a7b2ab88ad44a6b1b34c6911cf"
   integrity sha512-UyNrLdK3E0fQG/xWNqAFAC5ugtFyPO4JJR1KyyfQAyzR8W0fTRrC91A8Wej4BntFzcvETdCSDa/4PnNYJQLYiA==
