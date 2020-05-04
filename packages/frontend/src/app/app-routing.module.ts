@@ -25,6 +25,7 @@ import { RegisterUserComponent } from "./modules/users/components/register-user/
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
+import { DomifaGuard } from "./guards/domifa-guard";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -110,7 +111,7 @@ export const routes: Routes = [
     path: "manage",
   },
   {
-    canActivate: [AuthGuard],
+    canActivate: [DomifaGuard],
     component: DashboardComponent,
     path: "statsdomifa",
   },

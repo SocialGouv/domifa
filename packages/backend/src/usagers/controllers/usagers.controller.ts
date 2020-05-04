@@ -207,7 +207,7 @@ export class UsagersController {
   ) {
     const pathFile = path.resolve(
       new ConfigService().get("UPLOADS_FOLDER") +
-        user.structureId +
+        usager.structureId +
         "/" +
         usager.id
     );
@@ -217,7 +217,13 @@ export class UsagersController {
     if (fs.existsSync(pathFile)) {
       rimraf(pathFile, (error: Error) => {
         throw new HttpException(
-          { message: "CANNOT_DELETE_FOLDER", err: error },
+          {
+            message:
+              "CANNOT_DELETE_FOLDER : " +
+              pathFile +
+              "\n Err: " +
+              JSON.stringify(error),
+          },
           HttpStatus.INTERNAL_SERVER_ERROR
         );
       });

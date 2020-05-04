@@ -61,6 +61,15 @@ export class StructuresService {
       .exec();
   }
 
+  public async updateLastLogin(structureId: number): Promise<any> {
+    return this.structureModel
+      .findOneAndUpdate(
+        { id: structureId },
+        { $set: { lastLogin: new Date() } }
+      )
+      .exec();
+  }
+
   public async checkToken(token: string): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
@@ -109,7 +118,7 @@ export class StructuresService {
       .exec();
   }
 
-  public async findAll(codePostal?: string) {
+  public async findAllPublic(codePostal?: string) {
     const params: StructureQuery = {
       verified: true,
     };
@@ -151,7 +160,11 @@ export class StructuresService {
 
   public async importSuccess(id: number) {
     return this.structureModel
-      .findOneAndUpdate({ id }, { $set: { import: true } }, { new: true })
+      .findOneAndUpdate(
+        { id },
+        { $set: { import: true, importDate: new Date() } },
+        { new: true }
+      )
       .exec();
   }
 
@@ -175,6 +188,36 @@ export class StructuresService {
         }
       )
       .exec();
+  }
+
+  // ----------------------
+  // STATS
+  // ----------------------
+
+  // TODO : Search options - tri par élément
+  public async findAllDomifa(): Promise<Structure[]> {
+    return this.structureModel.find().limit(20).select("-token").exec();
+  }
+
+  public async countByType(): Promise<Structure[]> {
+    return this.structureModel.aggregate([
+      {
+        $project: {
+          _id: "$_id",
+          ___group: { structureType: "$structureType" },
+        },
+      },
+      { $group: { _id: "$___group", count: { $sum: 1 } } },
+      { $sort: { _id: 1 } },
+      {
+        $project: {
+          _id: false,
+          structureType: "$_id.structureType",
+          count: true,
+        },
+      },
+      { $sort: { count: -1, structureType: 1 } },
+    ]);
   }
 
   public async findLast(): Promise<number> {

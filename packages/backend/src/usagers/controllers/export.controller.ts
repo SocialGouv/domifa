@@ -45,6 +45,18 @@ export class ExportController {
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
   ) {
+    this.datas = [];
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
+  @Get("")
+  public async export(
+    @Param("id") id: number,
+    @Param("role") role: string,
+    @CurrentUser() user: User,
+    @Res() res: any
+  ) {
     this.datas = [
       {
         A: this.dateFr(new Date(), true),
@@ -68,17 +80,7 @@ export class ExportController {
         P: "Date 1ere dom",
       },
     ];
-  }
 
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
-  @Get("")
-  public async export(
-    @Param("id") id: number,
-    @Param("role") role: string,
-    @CurrentUser() user: User,
-    @Res() res: any
-  ) {
     const usagers = await this.usagersService.export(user.structureId);
 
     for (let i = 0; i <= usagers.length; i++)

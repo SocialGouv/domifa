@@ -6,17 +6,17 @@ import {
   Logger,
 } from "@nestjs/common";
 import { Model } from "mongoose";
-import { Structure } from "../structures/structure-interface";
+import { Structure } from "../../structures/structure-interface";
 
 import { Cron, CronExpression } from "@nestjs/schedule";
 import * as moment from "moment";
-import { Interaction } from "../interactions/interactions.interface";
+import { Interaction } from "../../interactions/interactions.interface";
 
-import { StructuresService } from "../structures/structures.service";
-import { Usager } from "../usagers/interfaces/usagers";
+import { StructuresService } from "../../structures/structures.service";
+import { Usager } from "../../usagers/interfaces/usagers";
 
-import { Stats } from "./stats.class";
-import { StatsDocument } from "./stats.interface";
+import { Stats } from "../stats.class";
+import { StatsDocument } from "../stats.interface";
 
 @Injectable()
 export class StatsService {
@@ -37,6 +37,15 @@ export class StatsService {
     private interactionModel: Model<Interaction>,
     private readonly structureService: StructuresService
   ) {
+    this.today = new Date();
+    this.demain = new Date();
+    this.debutAnnee = new Date();
+    this.finAnnee = new Date();
+    this.dateMajorite = new Date();
+  }
+
+  @Cron(CronExpression.EVERY_HOUR)
+  public async handleCron() {
     this.today = moment().utc().startOf("day").toDate();
     this.demain = moment().utc().endOf("day").toDate();
     this.debutAnnee = moment().utc().startOf("year").toDate();
@@ -46,10 +55,7 @@ export class StatsService {
       .subtract(18, "year")
       .endOf("day")
       .toDate();
-  }
 
-  @Cron(CronExpression.EVERY_HOUR)
-  public async handleCron() {
     Logger.log("CRON : " + new Date(), "debug");
     const structure: Structure = await this.structureService.findOneBasic({
       $or: [

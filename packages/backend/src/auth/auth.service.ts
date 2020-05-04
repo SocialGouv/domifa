@@ -3,11 +3,13 @@ import { JwtService } from "@nestjs/jwt";
 import { UsersService } from "../users/services/users.service";
 import { User } from "../users/user.interface";
 import { JwtPayload } from "./jwt-payload.interface";
+import { StructuresService } from "../structures/structures.service";
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
+    private readonly structuresService: StructuresService,
     private readonly usersService: UsersService
   ) {}
 
@@ -33,11 +35,17 @@ export class AuthService {
       return false;
     }
 
-    if (!user.lastLogin) {
-      return this.usersService.update(user.id, user.structureId, {
+    const structureUpdated = await this.structuresService.updateLastLogin(
+      user.structureId
+    );
+    const userUpdated = await this.usersService.update(
+      user.id,
+      user.structureId,
+      {
         lastLogin: new Date(),
-      });
-    }
+      }
+    );
+
     return user;
   }
 }

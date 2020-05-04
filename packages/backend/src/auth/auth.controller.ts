@@ -16,6 +16,7 @@ import { LoginDto } from "../users/dto/login.dto";
 import { UsersService } from "../users/services/users.service";
 import { User } from "../users/user.interface";
 import { AuthService } from "./auth.service";
+import { CurrentUser } from "./current-user.decorator";
 
 @Controller("auth")
 export class AuthController {
@@ -60,6 +61,15 @@ export class AuthController {
     return res
       .status(HttpStatus.FORBIDDEN)
       .json({ message: "WRONG_CREDENTIALS" });
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @Get("domifa")
+  public isDomifa(@Response() res: any, @CurrentUser() user: User) {
+    if (!user || user === null || user.structureId !== 1) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({});
+    }
+    return res.status(HttpStatus.OK).json({});
   }
 
   @UseGuards(AuthGuard("jwt"))

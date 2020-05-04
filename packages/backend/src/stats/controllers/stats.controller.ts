@@ -1,14 +1,14 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
-import { CurrentUser } from "../auth/current-user.decorator";
-import { RolesGuard } from "../auth/roles.guard";
-import { InteractionsService } from "../interactions/interactions.service";
-import { StructuresService } from "../structures/structures.service";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { UsersService } from "../users/services/users.service";
-import { User } from "../users/user.interface";
-import { StatsService } from "./stats.service";
+import { CurrentUser } from "../../auth/current-user.decorator";
+import { RolesGuard } from "../../auth/roles.guard";
+import { InteractionsService } from "../../interactions/interactions.service";
+import { StructuresService } from "../../structures/structures.service";
+import { UsagersService } from "../../usagers/services/usagers.service";
+import { UsersService } from "../../users/services/users.service";
+import { User } from "../../users/user.interface";
+import { StatsService } from "../services/stats.service";
 
 @Controller("stats")
 export class StatsController {

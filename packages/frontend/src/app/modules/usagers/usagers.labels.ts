@@ -28,7 +28,7 @@ export const decision: { [key: string]: any } = {
 export const decisionStats: { [key: string]: any } = {
   ATTENTE_DECISION: "Demandes déposées",
   INSTRUCTION: "Dossiers cours",
-  RADIE: "Eadiés",
+  RADIE: "Radiés",
   REFUS: "Demandes refusées",
   VALIDE: "Domiciliés actifs",
 };

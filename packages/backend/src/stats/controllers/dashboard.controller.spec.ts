@@ -1,20 +1,20 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { SearchController } from "./search.controller";
-import { DatabaseModule } from "../../database/database.module";
 import { forwardRef } from "@nestjs/common";
-import { UsersModule } from "../../users/users.module";
-import { StructuresModule } from "../../structures/structure.module";
-import { UsagersModule } from "../usagers.module";
+import { Test, TestingModule } from "@nestjs/testing";
+import { DatabaseModule } from "../../database/database.module";
 import { InteractionsModule } from "../../interactions/interactions.module";
-import { StatsService } from "../../stats/services/stats.service";
-import { StatsProviders } from "../../stats/stats-providers";
+import { StructuresModule } from "../../structures/structure.module";
+import { UsagersModule } from "../../usagers/usagers.module";
+import { UsersModule } from "../../users/users.module";
+import { StatsProviders } from "../stats-providers";
+import { DashboardController } from "./dashboard.controller";
+import { StatsService } from "../services/stats.service";
 
-describe("Search Controller", () => {
-  let controller: SearchController;
+describe("Stats Controller", () => {
+  let controller: DashboardController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [SearchController],
+      controllers: [DashboardController],
       imports: [
         DatabaseModule,
         forwardRef(() => UsersModule),
@@ -25,7 +25,7 @@ describe("Search Controller", () => {
       providers: [StatsService, ...StatsProviders],
     }).compile();
 
-    controller = module.get<SearchController>(SearchController);
+    controller = module.get<DashboardController>(DashboardController);
   });
 
   it("should be defined", () => {
