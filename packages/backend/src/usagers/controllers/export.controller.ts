@@ -106,7 +106,7 @@ export class ExportController {
           if (usager.decision.motif === "AUTRE") {
             usager.decision.motif =
               usager.decision.motifDetails !== ""
-                ? usager.decision.motifDetails
+                ? "Autre motif" + usager.decision.motifDetails
                 : "Autre motif non précisé";
           } else {
             usager.decision.motif =
@@ -119,19 +119,19 @@ export class ExportController {
         }
 
         const formattedUsager = {
-          A: usager.id,
-          E: usager.sexe,
-          B: usager.nom,
-          C: usager.prenom,
-          D: usager.surnom,
+          A: usager.customId,
+          B: usager.sexe,
+          C: usager.nom,
+          D: usager.prenom,
+          E: usager.surnom,
           F: this.dateFr(usager.dateNaissance),
           G: usager.villeNaissance,
           H: usager.phone,
           I: usager.email,
           J: decisionLabels[usager.decision.statut],
-          K: usager.decision.motif,
-          L: usager.decision.motif,
-          M: usager.decision.typeDom,
+          K: usager.decision.statut === "REFUS" ? usager.decision.motif : "",
+          L: usager.decision.statut === "RADIE" ? usager.decision.motif : "",
+          M: usager.typeDom,
           N:
             usager.decision.dateDebut && usager.decision.dateDebut !== null
               ? this.dateFr(usager.decision.dateDebut)
