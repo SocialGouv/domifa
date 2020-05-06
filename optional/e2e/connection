@@ -1,0 +1,17 @@
+#language: fr
+
+@connection
+Fonctionnalité: Connexion
+  Pour pouvoir me connecter sur Domifa
+  En tant que visiteur
+  Je veux pouvoir vérifier si mon adresse email et mot de passe sont valides
+
+Scénario:
+  Soit un navigateur web sur le site
+  Quand je clique sur "Se connecter"
+  Alors je vois "Connexion à Domifa"
+  Alors je vois "Adresse email" et "Mot de passe"
+  Alors je rentre "annelaure.pilloy@fabrique.social.gouv.fr" dans "Adresse email"
+  Alors je rentre "XXX" dans "Mot de passe"
+  Quand je clique sur "Connexion"
+  Alors je vois la page https://domifa.num.social.gouv.fr/manage
