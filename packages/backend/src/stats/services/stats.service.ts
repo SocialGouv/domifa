@@ -6,17 +6,17 @@ import {
   Logger,
 } from "@nestjs/common";
 import { Model } from "mongoose";
-import { Structure } from "../structures/structure-interface";
+import { Structure } from "../../structures/structure-interface";
 
 import { Cron, CronExpression } from "@nestjs/schedule";
 import * as moment from "moment";
-import { Interaction } from "../interactions/interactions.interface";
+import { Interaction } from "../../interactions/interactions.interface";
 
-import { StructuresService } from "../structures/structures.service";
-import { Usager } from "../usagers/interfaces/usagers";
+import { StructuresService } from "../../structures/structures.service";
+import { Usager } from "../../usagers/interfaces/usagers";
 
-import { Stats } from "./stats.class";
-import { StatsDocument } from "./stats.interface";
+import { Stats } from "../stats.class";
+import { StatsDocument } from "../stats.interface";
 
 @Injectable()
 export class StatsService {
@@ -37,6 +37,15 @@ export class StatsService {
     private interactionModel: Model<Interaction>,
     private readonly structureService: StructuresService
   ) {
+    this.today = new Date();
+    this.demain = new Date();
+    this.debutAnnee = new Date();
+    this.finAnnee = new Date();
+    this.dateMajorite = new Date();
+  }
+
+  @Cron(CronExpression.EVERY_HOUR)
+  public async handleCron() {
     this.today = moment().utc().startOf("day").toDate();
     this.demain = moment().utc().endOf("day").toDate();
     this.debutAnnee = moment().utc().startOf("year").toDate();
@@ -46,10 +55,8 @@ export class StatsService {
       .subtract(18, "year")
       .endOf("day")
       .toDate();
-  }
 
-  @Cron(CronExpression.EVERY_2_HOURS)
-  public async handleCron() {
+    Logger.log("CRON : " + new Date(), "debug");
     const structure: Structure = await this.structureService.findOneBasic({
       $or: [
         {
@@ -374,12 +381,24 @@ export class StatsService {
       { key: "cause", value: "RUPTURE" }
     );
 
+    const dateExport = moment()
+      .utc()
+      .startOf("day")
+      .set("hour", 11)
+      .set("minute", 11)
+      .toDate();
     const retourStructure = await this.structureService.updateLastExport(
-      structure._id
+      structure._id,
+      dateExport
     );
 
     const retourStats = await new this.statsModel(stat).save();
-    if (retourStructure && retourStats) {
+    if (
+      retourStructure &&
+      retourStructure !== null &&
+      retourStats &&
+      retourStats !== null
+    ) {
       this.handleCron();
     } else {
       throw new HttpException("BUG_STAT", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -388,13 +407,8 @@ export class StatsService {
 
   public async getToday(structureId: number): Promise<Stats> {
     const stats = await this.statsModel
-      .findOne({
-        date: {
-          $gte: this.today,
-          $lte: this.demain,
-        },
-        structureId,
-      })
+      .findOne({ structureId }, {}, { sort: { createdAt: -1 } })
+      .lean()
       .exec();
     if (!stats || stats === null) {
       throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);

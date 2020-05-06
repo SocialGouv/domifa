@@ -50,10 +50,6 @@ export class DashboardComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.structureService.findAll().subscribe((structures: Structure[]) => {
-      this.structures = structures;
-    });
-
     this.statsService.getAllUsers().subscribe((stats: number) => {
       this.users = stats;
     });
@@ -80,6 +76,10 @@ export class DashboardComponent implements OnInit {
       stats.forEach((stat) => {
         this.interactions[stat._id.structureId] = stat.type;
       });
+    });
+
+    this.statsService.getStructures().subscribe((structures: Structure[]) => {
+      this.structures = structures;
     });
   }
 }

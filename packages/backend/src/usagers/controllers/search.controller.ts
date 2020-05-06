@@ -5,7 +5,7 @@ import { UsagersService } from "../services/usagers.service";
 import { User } from "../../users/user.interface";
 import { SearchQuery } from "../interfaces/search-query";
 import { AuthGuard } from "@nestjs/passport";
-import { StatsService } from "../../stats/stats.service";
+import { StatsService } from "../../stats/services/stats.service";
 import * as moment from "moment";
 
 @UseGuards(AuthGuard("jwt"))

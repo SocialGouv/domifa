@@ -1,13 +1,13 @@
 import { forwardRef } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { DatabaseModule } from "../database/database.module";
-import { InteractionsModule } from "../interactions/interactions.module";
-import { StructuresModule } from "../structures/structure.module";
-import { UsagersModule } from "../usagers/usagers.module";
-import { UsersModule } from "../users/users.module";
-import { StatsProviders } from "./stats-providers";
+import { DatabaseModule } from "../../database/database.module";
+import { InteractionsModule } from "../../interactions/interactions.module";
+import { StructuresModule } from "../../structures/structure.module";
+import { UsagersModule } from "../../usagers/usagers.module";
+import { UsersModule } from "../../users/users.module";
+import { StatsProviders } from "../stats-providers";
 import { StatsController } from "./stats.controller";
-import { StatsService } from "./stats.service";
+import { StatsService } from "../services/stats.service";
 
 describe("Stats Controller", () => {
   let controller: StatsController;

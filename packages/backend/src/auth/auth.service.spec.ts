@@ -3,6 +3,7 @@ import { PassportModule } from "@nestjs/passport";
 import { Test, TestingModule } from "@nestjs/testing";
 import { UsersModule } from "../users/users.module";
 import { AuthService } from "./auth.service";
+import { StructuresModule } from "../structures/structure.module";
 
 describe("AuthService", () => {
   let service: AuthService;
@@ -18,6 +19,7 @@ describe("AuthService", () => {
           },
         }),
         UsersModule,
+        StructuresModule,
       ],
       providers: [AuthService],
     }).compile();

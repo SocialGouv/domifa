@@ -3,16 +3,25 @@
     <div class="col-md-10 offset-1">
       <h4>Mon compte</h4>
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
           Bienvenue
           {{ authService.currentUserValue.nom }}
           {{ authService.currentUserValue.prenom }}
-        </div>
-        <div class="col-md-2">
+          <br />
+
           <button class="btn btn-primary" (click)="logout()">
             Déconnexion
             <fa-icon icon="sign-out-alt"></fa-icon>
           </button>
+        </div>
+        <div class="col-md-4 text-right">
+          <a
+            [routerLink]="['/rapport-activite']"
+            routerLinkActive="router-link-active"
+            class="btn btn-primary"
+          >
+            Mes statistiques
+          </a>
         </div>
       </div>
 
@@ -139,10 +148,26 @@
       </div>
 
       <br />
+
       <div *ngIf="authService.isAdmin">
-        <h4>Remise à zéro</h4>
+        <h4>Vos données</h4>
         <div class="list-group">
           <div class="list-group-item">
+            <button
+              (click)="export()"
+              [disabled]="exportLoading"
+              class="btn btn-outline-primary"
+            >
+              <span *ngIf="!exportLoading">
+                <fa-icon icon="download" class="btn-icon"></fa-icon>
+                Exporter tous les usagers</span
+              >
+              <span *ngIf="exportLoading"
+                ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export
+                en cours, veuillez patienter...</span
+              >
+            </button>
+            &nbsp;
             <button
               (click)="open(hardResetConfirmation)"
               class="btn btn-outline-danger"

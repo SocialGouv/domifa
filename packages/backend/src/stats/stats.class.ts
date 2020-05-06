@@ -1,7 +1,6 @@
 import { Document } from "mongoose";
 
 export class Stats {
-  public date: Date;
   public nom: string;
   public structureId: number;
   public structureType: string;
@@ -110,7 +109,6 @@ export class Stats {
   };
 
   constructor(data?: any) {
-    this.date = (data && new Date(data.date)) || new Date();
     this.nom = (data && data.nom) || null;
     this.structureType = (data && data.structureType) || null;
     this.structureId = (data && data.structureId) || null;

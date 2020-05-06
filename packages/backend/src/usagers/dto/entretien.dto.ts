@@ -23,6 +23,12 @@ export class EntretienDto {
   public residenceDetail!: string;
 
   @IsOptional()
+  public orientation!: string;
+
+  @IsOptional()
+  public orientationDetail!: string;
+
+  @IsOptional()
   public cause!: string;
 
   @IsOptional()
@@ -33,6 +39,12 @@ export class EntretienDto {
 
   @IsOptional()
   public pourquoiDetail!: string;
+
+  @IsOptional()
+  public raison!: string;
+
+  @IsOptional()
+  public raisonDetail!: string;
 
   @IsOptional()
   public accompagnement: boolean = false;

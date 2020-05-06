@@ -125,8 +125,8 @@ export class InteractionsService {
       })
       .exec();
 
-    if (retour !== null) {
-      throw new HttpException("CANNOT_DELETE_USAGER", 500);
+    if (!retour || retour === null) {
+      throw new HttpException("CANNOT_DELETE_INTERACTION", 500);
     }
     return retour;
   }

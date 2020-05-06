@@ -1,5 +1,5 @@
 export class Stats {
-  public date: Date;
+  public createdAt: Date;
   public nom: string;
   public structureId: number;
   public structureType: string;
@@ -98,6 +98,7 @@ export class Stats {
       EXPULSION: number;
       HEBERGE_SANS_ADRESSE: number;
       ITINERANT: number;
+      NON_RENSEIGNE: number;
       RUPTURE: number;
       SORTIE_STRUCTURE: number;
       VIOLENCE: number;
@@ -105,7 +106,7 @@ export class Stats {
   };
 
   constructor(data?: any) {
-    this.date = (data && new Date(data.date)) || new Date();
+    this.createdAt = (data && new Date(data.createdAt)) || new Date();
     this.nom = (data && data.nom) || null;
     this.structureType = (data && data.structureType) || null;
     this.structureId = (data && data.structureId) || null;
@@ -113,6 +114,7 @@ export class Stats {
     this.ville = (data && data.ville) || null;
     this.capacite = (data && data.capacite) || null;
     this.codePostal = (data && data.codePostal) || null;
+
     this.questions = (data && data.questions) || {
       Q_10: 0,
       Q_10_A: 0,

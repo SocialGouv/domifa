@@ -10,7 +10,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MatomoModule } from "ngx-matomo";
+import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { routes } from "src/app/app-routing.module";
 import { AppComponent } from "src/app/app.component";
@@ -53,7 +53,21 @@ describe("UsagersFormComponent", () => {
         BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
     fixture = TestBed.createComponent(UsagersFormComponent);

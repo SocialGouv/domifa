@@ -60,6 +60,10 @@ export class AuthService {
     return this.http.get<any>(`${this.endPoint}/me`);
   }
 
+  public isDomifa(): Observable<any> {
+    return this.http.get<any>(`${this.endPoint}/domifa`);
+  }
+
   public isAuth(): Observable<boolean> {
     if (!this.currentUserValue) {
       return of(false);

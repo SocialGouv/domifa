@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Stats } from "./stats.interface";
 import { map } from "rxjs/operators";
+import { Structure } from "../structures/structure.interface";
 
 @Injectable({
   providedIn: "root",
@@ -21,16 +22,10 @@ export class StatsService {
     this.loading = true;
   }
 
-  public getToday(): Observable<any> {
-    return this.http.get(`${this.baseUrl}today`);
-  }
-
-  public findAll(): Observable<Stats[]> {
-    return this.http.get(`${this.baseUrl}all`).pipe(
+  public getToday(): Observable<Stats> {
+    return this.http.get(`${this.baseUrl}today`).pipe(
       map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) => new Stats(item))
-          : [new Stats(response)];
+        return new Stats(response);
       })
     );
   }
@@ -53,5 +48,15 @@ export class StatsService {
 
   public getStructuresInteractions(): Observable<any> {
     return this.http.get(`${this.epInteractions}stats-domifa/structures`);
+  }
+
+  public getStructures(): Observable<any> {
+    return this.http.get(environment.apiUrl + `dashboard/structures`).pipe(
+      map((response) => {
+        return Array.isArray(response)
+          ? response.map((item) => new Structure(item))
+          : [new Structure(response)];
+      })
+    );
   }
 }

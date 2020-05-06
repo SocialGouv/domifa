@@ -187,7 +187,6 @@ export class UsagersController {
     return this.usagersService.patch(usager, usager._id);
   }
 
-  /* DOUBLON */
   @Get("doublon/:nom/:prenom")
   public isDoublon(
     @Param("nom") nom: string,
@@ -207,7 +206,7 @@ export class UsagersController {
   ) {
     const pathFile = path.resolve(
       new ConfigService().get("UPLOADS_FOLDER") +
-        user.structureId +
+        usager.structureId +
         "/" +
         usager.id
     );
@@ -215,13 +214,37 @@ export class UsagersController {
     await this.interactionService.deleteByUsager(usager.id, user.structureId);
 
     if (fs.existsSync(pathFile)) {
-      rimraf(pathFile, (error: Error) => {
-        throw new HttpException(
-          { message: "CANNOT_DELETE_FOLDER", err: error },
-          HttpStatus.INTERNAL_SERVER_ERROR
-        );
+      fs.readdir(pathFile, (err, files) => {
+        if (err) {
+          throw new HttpException(
+            {
+              message:
+                "CANNOT_READ_FOLDER : " +
+                pathFile +
+                "\n Err: " +
+                JSON.stringify(err),
+            },
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+
+        for (const file of files) {
+          fs.unlink(path.join(pathFile, file), (error: any) => {
+            if (err) {
+              throw new HttpException(
+                {
+                  message:
+                    "CANNOT_DELETE_FILE: " +
+                    file +
+                    "\n Err: " +
+                    JSON.stringify(error),
+                },
+                HttpStatus.INTERNAL_SERVER_ERROR
+              );
+            }
+          });
+        }
       });
-      return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
     }
 
     const usagerToDelete = await this.usagersService.delete(usager._id);

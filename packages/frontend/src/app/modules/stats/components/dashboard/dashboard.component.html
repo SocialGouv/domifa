@@ -1,33 +1,18 @@
-<div
-  id="stats"
-  class="row">
-
-  <div class="col-md-12 text-center">
-    <br>
-    <span class="stats-structure">TOTAL DOMICILIATIONS DOMIFA</span>
+<div id="stats" class="row">
+  <div class="col-md-12">
+    <br />
+    <span class="stats-structure">Chiffres de la domiciliation</span>
     <div class="stats-blocks">
       <div *ngFor="let stat of allStats | keyvalue">
-        <span
-          class="stats-chiffres"
-          [ngClass]="statutClass[stat.key]">
+        <span class="stats-chiffres" [ngClass]="statutClass[stat.key]">
           {{ stat.value }}
         </span>
         <span class="stats-labels">{{ labels.decisionStats[stat.key] }}</span>
       </div>
     </div>
-  </div>
-
-  <div class="col-md-12">
-    <div class="stats-blocks">
-      <div>
-        <span class="stats-chiffres">{{ users }}</span>
-        <span class="stats-labels">UTILISATEURS</span>
-      </div>
-    </div>
+    <br />
     <span class="stats-titre">Interactions</span>
-    <div
-      class="stats-blocks"
-      *ngIf="allInteractions">
+    <div class="stats-blocks" *ngIf="allInteractions">
       <div *ngFor="let interaction of allInteractions | keyvalue">
         <span class="stats-chiffres">{{ interaction.value }}</span>
         <span class="stats-labels">
@@ -35,10 +20,57 @@
         </span>
       </div>
     </div>
+    <br />
+    <span class="stats-titre">Chiffre des structures</span>
+    <div class="stats-blocks">
+      <div>
+        <span class="stats-chiffres">{{ users }}</span>
+        <span class="stats-labels">UTILISATEURS</span>
+      </div>
+    </div>
   </div>
 
-  <br>
-  <br>
+  <br />
+
+  <div class="col-md-12">
+    <br />
+    <span class="stats-titre">Liste des structures</span>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nom de la structure</th>
+          <th>Date d'inscription</th>
+          <th>Date d'import</th>
+          <th>Nombre de comptes</th>
+          <th>Nombre de domiciliés</th>
+          <th>Date de dernière connexion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let structure of structures; let i = index">
+          <td>
+            {{ structure.nom }}
+            {{
+              structure.structureType === "ccas" ? " - " + structure.ville : ""
+            }}
+          </td>
+          <td>{{ structure.createdAt | date: "dd/MM/yyyy" }}</td>
+          <td>
+            {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
+          </td>
+          <td>{{ structure.users.length }}</td>
+          <td>{{ stats[structure.id] | json }}</td>
+          <td>
+            {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--
+      <div class="card structure-card">
   <div class="text-center">
     <div
       class="card structure-card"
@@ -47,7 +79,7 @@
         <div class="col-md-12 text-center">
           <span class="stats-structure">
             <div>
-              #{{i+1}} {{ structure.nom }} {{ structure.structureType === 'ccas' ? " - " + structure.ville  : "" }}
+              #{{i+1}}
             </div>
             <span
               class="badge"
@@ -61,7 +93,7 @@
           <br>
           {{ structure.adresse }},
           <i>
-            {{ structure.ville }} ({{ structure.codePostal }})
+
           </i>
           <br>
           <p *ngIf="structure.structureType === 'asso'">
@@ -124,5 +156,5 @@
       </div>
     </div>
   </div>
-
 </div>
+--></div>

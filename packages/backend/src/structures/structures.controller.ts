@@ -64,20 +64,13 @@ export class StructuresController {
 
   @Get("code-postal/:codePostal")
   public async getByCity(@Param("codePostal") codePostal: string) {
-    return this.structureService.findAll(codePostal);
+    return this.structureService.findAllPublic(codePostal);
   }
 
   @UseGuards(AuthGuard("jwt"))
   @Get("ma-structure")
   public async getMyStructure(@CurrentUser() user: User) {
     return user.structure;
-  }
-
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
-  @Get()
-  public async getAllStructures() {
-    return this.structureService.findAll();
   }
 
   @Delete(":token")

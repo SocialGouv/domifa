@@ -4,13 +4,9 @@ import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
-import { SearchDto } from "../dto/search.dto";
 import { UsagersDto } from "../dto/usagers.dto";
-import { Decision } from "../interfaces/decision";
-import { SearchQuery } from "../interfaces/search-query";
 import { Usager } from "../interfaces/usagers";
 import { of } from "rxjs";
-import { AyantDroit } from "../interfaces/ayant-droit";
 
 @Injectable()
 export class UsagersService {
@@ -126,7 +122,7 @@ export class UsagersService {
       .exec();
   }
 
-  public async renouvellement(usager: Usager, user: User) {
+  public async renouvellement(usager: Usager, user: User): Promise<Usager> {
     const lastDecision = usager.decision;
     const decision = new DecisionDto();
 
@@ -306,6 +302,15 @@ export class UsagersService {
           },
         },
       ])
+      .exec();
+  }
+
+  public async export(structureId: number): Promise<Usager[]> {
+    return this.usagerModel
+      .find({ structureId })
+      .select(
+        "-rdv -structureId -import -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+      )
       .exec();
   }
 

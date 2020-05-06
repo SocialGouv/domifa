@@ -9,6 +9,8 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { ERROR_LABELS } from "src/app/shared/errors.labels";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
+import { LoadingService } from "src/app/modules/loading/loading.service";
+import { saveAs } from "file-saver";
 
 @Component({
   selector: "app-user-profil",
@@ -25,6 +27,7 @@ export class UserProfilComponent implements OnInit {
   public selectedUser: number;
   public showHardReset: boolean;
   public hardResetCode: boolean;
+  public exportLoading: boolean;
   public hardResetForm: FormGroup;
   public errorLabels: any;
 
@@ -35,13 +38,15 @@ export class UserProfilComponent implements OnInit {
     private readonly router: Router,
     private modalService: NgbModal,
     private notifService: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private loadingService: LoadingService
   ) {
     this.title = "Mon compte Domifa";
     this.users = [];
     this.newUsers = [];
     this.selectedUser = 0;
     this.showHardReset = false;
+    this.exportLoading = false;
     this.hardResetCode = null;
     this.errorLabels = ERROR_LABELS;
   }
@@ -151,6 +156,29 @@ export class UserProfilComponent implements OnInit {
           this.notifService.error(message);
         }
       );
+  }
+
+  public export() {
+    this.exportLoading = true;
+    this.structureService.export().subscribe(
+      (x: any) => {
+        const newBlob = new Blob([x], {
+          type:
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        saveAs(newBlob, "export_domifa" + ".xlsx");
+        setTimeout(() => {
+          this.exportLoading = false;
+        }, 500);
+      },
+      (error: any) => {
+        this.notifService.error(
+          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+        );
+        this.exportLoading = false;
+      }
+    );
   }
 
   private getUsers() {

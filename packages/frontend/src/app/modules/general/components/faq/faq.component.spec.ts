@@ -16,7 +16,6 @@ describe("FaqComponent", () => {
   const spyScrollTo = jest.fn();
 
   beforeEach(async(() => {
-    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
       declarations: [FaqComponent],
       imports: [
