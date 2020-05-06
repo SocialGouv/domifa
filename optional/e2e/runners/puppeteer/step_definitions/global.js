@@ -44,3 +44,7 @@ Quand("je clique sur {string}", (text) => {
 Alors("je vois {string}", (text) => {
   I.see(text);
 });
+
+Alors("je suis redirigé vers la page: {string}", (url) => {
+  I.waitInUrl(url, 5);
+});

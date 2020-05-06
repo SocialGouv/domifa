@@ -13,6 +13,6 @@ Scénario:
   Alors je vois "Adresse email"
   Alors je vois "Mot de passe"
   Alors je rentre "ccastest@yopmail.com" dans "Adresse email"
-  Alors je rentre "Azerty012345!" dans "Mot de passe"
+  Alors je rentre "Azerty012345" dans "Mot de passe"
   Quand je clique sur "Connexion"
-  Alors je vois la page "Échéance de la domicliation"
+  Alors je suis redirigé vers la page: "/manage"

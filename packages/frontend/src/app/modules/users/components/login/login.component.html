@@ -48,7 +48,11 @@
       </div>
     </div>
     <div class="form-group text-center">
-      <button [disabled]="loading || loginForm.invalid" class="btn btn-primary">
+      <button
+        [disabled]="loading || loginForm.invalid"
+        aria-label="Connexion"
+        class="btn btn-primary"
+      >
         <span *ngIf="!loading">
           Connexion
         </span>
