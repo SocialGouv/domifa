@@ -10,8 +10,9 @@ Scénario:
   Soit un navigateur web sur le site
   Quand je clique sur "Se connecter"
   Alors je vois "Connexion à Domifa"
-  Alors je vois "Adresse email" et "Mot de passe"
-  Alors je rentre "annelaure.pilloy@fabrique.social.gouv.fr" dans "Adresse email"
-  Alors je rentre "XXX" dans "Mot de passe"
+  Alors je vois "Adresse email"
+  Alors je vois "Mot de passe"
+  Alors je rentre "ccastest@yopmail.com" dans "Adresse email"
+  Alors je rentre "Azerty012345!" dans "Mot de passe"
   Quand je clique sur "Connexion"
-  Alors je vois la page https://domifa.num.social.gouv.fr/manage
+  Alors je vois la page "Échéance de la domicliation"

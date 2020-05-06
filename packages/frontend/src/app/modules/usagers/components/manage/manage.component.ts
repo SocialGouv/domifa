@@ -99,6 +99,7 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.title = "Gérer vos domiciliés";
     this.filters = new Search(this.getFilters());
     this.filters.page = 0;
     this.getStats();

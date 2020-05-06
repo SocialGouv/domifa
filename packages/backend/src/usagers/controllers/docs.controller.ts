@@ -221,7 +221,7 @@ export class DocsController {
     if (!fs.existsSync(pathFile + ".encrypted")) {
       if (!fs.existsSync(pathFile)) {
         throw new HttpException(
-          { message: "UNENCRYPTED_FILE_NOT_FOUND", file: pathFile },
+          { message: "UNENCRYPTED_FILE_NOT_FOUND" },
           HttpStatus.BAD_REQUEST
         );
       } else {
@@ -252,11 +252,7 @@ export class DocsController {
         fs.unlinkSync(pathFile);
       } catch (err) {
         throw new HttpException(
-          {
-            message: "CANNOT_DELETE_FILE",
-            file: pathFile,
-            err,
-          },
+          { message: "CANNOT_DELETE_FILE" },
           HttpStatus.INTERNAL_SERVER_ERROR
         );
       }

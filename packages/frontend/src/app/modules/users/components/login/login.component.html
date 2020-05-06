@@ -13,6 +13,7 @@
         type="text"
         formControlName="email"
         autocomplete="username"
+        placeholder="Adresse email"
         class="form-control"
         [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
       />
@@ -27,6 +28,7 @@
         formControlName="password"
         [type]="!hidePassword ? 'text' : 'password'"
         class="form-control"
+        placeholder="Mot de passe"
         autocomplete="current-password"
         [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
       />

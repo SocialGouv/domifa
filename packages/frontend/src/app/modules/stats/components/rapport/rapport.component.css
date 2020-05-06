@@ -1,3 +1,13 @@
-table tr .soustable {
+#stats table tr .soustable {
   padding-left: 40px !important;
+}
+
+#stats table tr th:first-child,
+#stats table tr td:first-child {
+  width: 93%;
+}
+
+#stats table tr th:last-child,
+#stats table tr td:last-child {
+  width: 6%;
 }
