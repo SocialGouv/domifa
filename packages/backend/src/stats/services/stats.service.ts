@@ -381,6 +381,61 @@ export class StatsService {
       { key: "cause", value: "RUPTURE" }
     );
 
+    stat.questions.Q_22.AUTRE = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      { key: "residence", value: "AUTRE" }
+    );
+    stat.questions.Q_22.DOMICILE_MOBILE = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      { key: "residence", value: "DOMICILE_MOBILE" }
+    );
+
+    stat.questions.Q_22.HEBERGEMENT_SOCIAL = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      { key: "residence", value: "HEBERGEMENT_SOCIAL" }
+    );
+
+    stat.questions.Q_22.HEBERGEMENT_TIERS = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      { key: "residence", value: "HEBERGEMENT_TIERS" }
+    );
+
+    stat.questions.Q_22.HOTEL = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      { key: "residence", value: "HOTEL" }
+    );
+
+    stat.questions.Q_22.SANS_ABRI = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      { key: "residence", value: "SANS_ABRI" }
+    );
+
+    stat.questions.Q_22.NON_RENSEIGNE = await this.totalMaintenant(
+      structure.id,
+      "VALIDE",
+      "",
+      "",
+      { key: "residence", value: "NON_RENSEIGNE" }
+    );
+
     const dateExport = moment()
       .utc()
       .startOf("day")
@@ -482,11 +537,12 @@ export class StatsService {
       "decision.motif"?: string;
       "decision.statut"?: string | {};
       "decision.orientation"?: string;
+      "entretien.residence"?: string | {};
       "entretien.cause"?: string | {};
       "entretien.typeMenage"?: string | {};
-      dateNaissance: {
-        $gte: Date;
-        $lte: Date;
+      dateNaissance?: {
+        $gte?: Date;
+        $lte?: Date;
       };
       structureId: number;
       typeDom?: string;
@@ -494,10 +550,6 @@ export class StatsService {
       "decision.motif": motif,
       "decision.statut": statut,
       "decision.orientation": orientation,
-      dateNaissance: {
-        $gte: this.dateMajorite,
-        $lte: this.dateMajorite,
-      },
       structureId,
     };
 
@@ -528,18 +580,31 @@ export class StatsService {
         }
       } else if (entretien.key === "typeMenage") {
         query["entretien.typeMenage"] = entretien.value;
-      } else {
-        delete query["entretien.cause"];
-        delete query["entretien.typeMenage"];
+        if (
+          entretien.key === "typeMenage" &&
+          entretien.value === "NON_RENSEIGNE"
+        ) {
+          query["entretien.typeMenage"] = { $in: [null, ""] };
+        }
+      } else if (entretien.key === "residence") {
+        query["entretien.residence"] = entretien.value;
+        if (
+          entretien.key === "residence" &&
+          entretien.value === "NON_RENSEIGNE"
+        ) {
+          query["entretien.residence"] = { $in: [null, ""] };
+        }
       }
     }
 
     if (age) {
+      query.dateNaissance = {
+        $gte: this.dateMajorite,
+        $lte: this.dateMajorite,
+      };
       age === "majeurs"
         ? delete query.dateNaissance.$gte
         : delete query.dateNaissance.$lte;
-    } else {
-      delete query.dateNaissance;
     }
 
     const response = await this.usagerModel.countDocuments(query).exec();

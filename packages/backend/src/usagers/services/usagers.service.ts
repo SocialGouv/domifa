@@ -123,7 +123,7 @@ export class UsagersService {
   }
 
   public async renouvellement(usager: Usager, user: User): Promise<Usager> {
-    const lastDecision = usager.decision;
+    usager.historique.push(usager.decision);
     const decision = new DecisionDto();
 
     decision.dateDebut = new Date();
@@ -133,14 +133,19 @@ export class UsagersService {
     decision.userName = user.prenom + " " + user.nom;
     decision.typeDom = "RENOUVELLEMENT";
 
-    usager.historique.push(lastDecision);
-    usager.decision = decision;
-    usager.etapeDemande = 0;
-    usager.typeDom = "RENOUVELLEMENT";
-    usager.decision.typeDom = "RENOUVELLEMENT";
-
     return this.usagerModel
-      .findOneAndUpdate({ _id: usager._id }, { $set: usager }, { new: true })
+      .findOneAndUpdate(
+        { _id: usager._id },
+        {
+          $set: {
+            decision,
+            historique: usager.historique,
+            etapeDemande: 0,
+            typeDom: "RENOUVELLEMENT",
+          },
+        },
+        { new: true }
+      )
       .select("-docsPath -interactions")
       .exec();
   }
@@ -156,6 +161,31 @@ export class UsagersService {
           $set: {
             entretien: entretienForm,
             etapeDemande: 3,
+          },
+        },
+        {
+          new: true,
+        }
+      )
+      .select("-docsPath -interactions")
+      .exec();
+  }
+
+  public async setDecision(
+    usagerId: string,
+    decision: DecisionDto,
+    usager: Usager
+  ): Promise<Usager> {
+    return this.usagerModel
+      .findOneAndUpdate(
+        { _id: usagerId },
+        {
+          $set: {
+            decision,
+            historique: usager.historique,
+            typeDom: usager.typeDom,
+            datePremiereDom: usager.datePremiereDom,
+            etapeDemande: 6,
           },
         },
         {

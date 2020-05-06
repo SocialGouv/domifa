@@ -15,7 +15,6 @@ import { AuthGuard } from "@nestjs/passport";
 
 import * as fs from "fs";
 import * as path from "path";
-import * as rimraf from "rimraf";
 
 import { AccessGuard } from "../../auth/access.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
@@ -144,8 +143,7 @@ export class UsagersController {
     decision.userName = user.prenom + " " + user.nom;
     decision.userId = user.id;
     decision.dateDecision = new Date();
-
-    const lastDecision = usager.decision;
+    usager.historique.push(usager.decision);
 
     if (decision.statut === "ATTENTE_DECISION") {
       /* Mail au responsable */
@@ -168,9 +166,13 @@ export class UsagersController {
     }
 
     if (decision.statut === "VALIDE") {
-      if (!usager.datePremiereDom) {
+      if (usager.datePremiereDom !== null) {
         usager.typeDom = "RENOUVELLEMENT";
+      } else {
+        usager.typeDom = "PREMIERE";
+        usager.datePremiereDom = new Date(decision.dateDebut);
       }
+
       if (decision.dateFin !== undefined && decision.dateFin !== null) {
         decision.dateFin = new Date(decision.dateFin);
       } else {
@@ -178,13 +180,11 @@ export class UsagersController {
           new Date().setFullYear(new Date().getFullYear() + 1)
         );
       }
+
       decision.dateDebut = new Date(decision.dateDebut);
     }
 
-    usager.historique.push(lastDecision);
-    usager.decision = decision;
-    usager.etapeDemande = 6;
-    return this.usagersService.patch(usager, usager._id);
+    return this.usagersService.setDecision(usager._id, decision, usager);
   }
 
   @Get("doublon/:nom/:prenom")
