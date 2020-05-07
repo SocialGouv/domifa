@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { fadeInOut } from "./shared/animations";
 import { Router, NavigationEnd } from "@angular/router";
+import { Title } from "@angular/platform-browser";
 @Component({
   animations: [fadeInOut],
   selector: "app-root",
@@ -13,7 +14,6 @@ import { Router, NavigationEnd } from "@angular/router";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  public title: string;
   public help: boolean = false;
   public isNavbarCollapsed: boolean = false;
   public isAllowed: any;
@@ -32,9 +32,9 @@ export class AppComponent implements OnInit {
     private matomoTracker: MatomoTracker,
     private modalService: NgbModal,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) {
-    this.title = "Domifa";
     this.help = false;
     this.newsLabels = {
       bug: "Améliorations",
@@ -64,7 +64,12 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
   public ngOnInit() {
+    this.titleService.setTitle(
+      "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
+    );
+
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;

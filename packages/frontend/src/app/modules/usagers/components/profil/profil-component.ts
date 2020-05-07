@@ -34,6 +34,7 @@ import {
   minDateToday,
   formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   providers: [
@@ -71,8 +72,6 @@ export class UsagersProfilComponent implements OnInit {
   public causeList: any;
   public raisonList: any;
 
-  public title: string;
-
   public usager: Usager;
   public usagerForm!: FormGroup;
   public ayantsDroitsForm!: FormGroup;
@@ -103,7 +102,8 @@ export class UsagersProfilComponent implements OnInit {
     private notifService: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private usagerService: UsagerService
+    private usagerService: UsagerService,
+    private titleService: Title
   ) {
     this.editAyantsDroits = false;
     this.editEntretien = false;
@@ -129,7 +129,6 @@ export class UsagersProfilComponent implements OnInit {
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
 
-    this.title = "Fiche d'un domicilié";
     this.usager = new Usager();
 
     this.notifInputs = {
@@ -140,6 +139,8 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Fiche d'un domicilié");
+
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {

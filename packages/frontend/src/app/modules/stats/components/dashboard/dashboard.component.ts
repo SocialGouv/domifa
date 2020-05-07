@@ -4,6 +4,7 @@ import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { StatsService } from "../../stats.service";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-dashboard",
@@ -11,8 +12,6 @@ import { StatsService } from "../../stats.service";
   templateUrl: "./dashboard.component.html",
 })
 export class DashboardComponent implements OnInit {
-  public title: string;
-
   public interactionsLabels: any;
   public structures: Structure[];
 
@@ -36,11 +35,12 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     public statsService: StatsService,
-    private structureService: StructureService
+    private structureService: StructureService,
+    private titleService: Title
   ) {
     this.interactionsLabels = interactionsLabels;
     this.labels = labels;
-    this.title = "Statistiques";
+
     this.users = 0;
     this.structures = [];
     this.stats = [];
@@ -50,6 +50,8 @@ export class DashboardComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Dashboard de suivi");
+
     this.statsService.getAllUsers().subscribe((stats: number) => {
       this.users = stats;
     });

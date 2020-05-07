@@ -9,6 +9,7 @@ import { regexp } from "../../../../shared/validators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { LoadingService } from "src/app/modules/loading/loading.service";
 import { UsagerService } from "../../services/usager.service";
+import { Title } from "@angular/platform-browser";
 
 export const CIVILITE = 0;
 export const NOM = 1;
@@ -76,8 +77,6 @@ type AOA = any[][];
 export class ImportComponent implements OnInit {
   public datas: AOA = [[], []];
 
-  public title: string;
-
   public uploadForm!: FormGroup;
   public fileName: string;
   public errorsList: any;
@@ -112,7 +111,8 @@ export class ImportComponent implements OnInit {
     private authService: AuthService,
     private loadingService: LoadingService,
     private router: Router,
-    public http: HttpClient
+    public http: HttpClient,
+    private titleService: Title
   ) {
     this.canUpload = false;
     this.colNames = colNames;
@@ -126,7 +126,6 @@ export class ImportComponent implements OnInit {
     this.showErrors = false;
     this.showTable = false;
     this.success = false;
-    this.title = "Importer vos domiciliés sur Domifa";
     this.uploadError = false;
   }
 
@@ -139,6 +138,7 @@ export class ImportComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Importer vos domiciliés sur Domifa");
     for (let index = 0; index < 32; index++) {
       this.errorsColumn[index] = 10;
     }

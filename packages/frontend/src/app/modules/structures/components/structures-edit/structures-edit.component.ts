@@ -15,6 +15,7 @@ import { departements } from "src/app/shared/departements";
 import { regexp } from "src/app/shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-structures-edit",
@@ -22,7 +23,6 @@ import { Structure } from "../../structure.interface";
   templateUrl: "./structures-edit.component.html",
 })
 export class StructuresEditComponent implements OnInit {
-  public title: string;
   public success: boolean = false;
   public structureEdit: FormGroup;
   public structure: Structure;
@@ -34,9 +34,9 @@ export class StructuresEditComponent implements OnInit {
     private structureService: StructureService,
     private notifService: ToastrService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private titleService: Title
   ) {
-    this.title = "Editer votre structure";
     this.departements = departements;
   }
 
@@ -45,6 +45,8 @@ export class StructuresEditComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Editer votre structure");
+
     this.structureService.findMyStructure().subscribe((structure: any) => {
       this.structure = structure;
       this.initForm();

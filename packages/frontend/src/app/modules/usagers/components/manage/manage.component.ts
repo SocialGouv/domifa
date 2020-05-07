@@ -20,6 +20,7 @@ import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
 import { Filters, Search } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   animations: [fadeInOutSlow, fadeInOut],
@@ -29,7 +30,6 @@ import { InteractionService } from "../../services/interaction.service";
   templateUrl: "./manage.html",
 })
 export class ManageUsagersComponent implements OnInit {
-  public title: string;
   public searching: boolean;
   public usagers: Usager[] = [];
   public dateLabel: string;
@@ -71,9 +71,9 @@ export class ManageUsagersComponent implements OnInit {
     public authService: AuthService,
     public modalService: NgbModal,
     private router: Router,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    private titleService: Title
   ) {
-    this.title = "Gérer vos domiciliés";
     this.usagers = [];
     this.searching = true;
     this.dateLabel = "Fin de domiciliation";
@@ -99,7 +99,8 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.title = "Gérer vos domiciliés";
+    this.titleService.setTitle("Gérer vos domiciliés");
+
     this.filters = new Search(this.getFilters());
     this.filters.page = 0;
     this.getStats();

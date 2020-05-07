@@ -6,6 +6,7 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 import { motifsRadiation } from "../../usagers.labels";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   providers: [UsagerService, AuthService],
@@ -14,7 +15,6 @@ import { motifsRadiation } from "../../usagers.labels";
   templateUrl: "./raft.component.html",
 })
 export class RaftComponent implements OnInit {
-  public title: string;
   public usager: Usager;
   public user: User;
 
@@ -26,9 +26,9 @@ export class RaftComponent implements OnInit {
     private authService: AuthService,
     public printService: PrintService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) {
-    this.title = "Radier un domicilié";
     this.today = new Date();
     this.usager = new Usager();
     this.user = new User();
@@ -36,6 +36,7 @@ export class RaftComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Radier un domicilié");
     if (this.route.snapshot.params.id) {
       this.authService.currentUser.subscribe((user) => {
         this.user = user;

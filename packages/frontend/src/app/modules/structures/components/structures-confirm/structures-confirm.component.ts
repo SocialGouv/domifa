@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-structures-confirm",
@@ -9,23 +10,22 @@ import { Structure } from "../../structure.interface";
   templateUrl: "./structures-confirm.component.html",
 })
 export class StructuresConfirmComponent implements OnInit {
-  public title: string;
-
   public successDelete: boolean;
   public successConfirm: boolean;
   public error: boolean;
 
   constructor(
     private structureService: StructureService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private titleService: Title
   ) {
-    this.title = "Inscription";
     this.successDelete = false;
     this.successConfirm = false;
     this.error = false;
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Inscription sur Domifa");
     const token = this.route.snapshot.url[2].path;
     if (this.route.snapshot.url[1].path === "delete") {
       this.structureService.delete(token).subscribe(

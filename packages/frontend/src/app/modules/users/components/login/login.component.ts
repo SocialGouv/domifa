@@ -7,6 +7,7 @@ import { regexp } from "src/app/shared/validators";
 
 import { UsersService } from "../../services/users.service";
 import { ToastrService } from "ngx-toastr";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-login",
   styleUrls: ["./login.component.css"],
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   public userForm!: FormGroup;
 
   public returnUrl: string;
-  public title: string;
+
   public hidePassword: boolean;
   public successMessage: string;
   public success: boolean;
@@ -30,11 +31,11 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private titleService: Title,
     private userService: UsersService,
     private authService: AuthService,
     private notifService: ToastrService
   ) {
-    this.title = "Connexion à DomiFa";
     this.errorMessage = "";
     this.successMessage = "";
     this.hidePassword = true;
@@ -49,6 +50,8 @@ export class LoginComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Connexion à DomiFa");
+
     this.initForm();
   }
 

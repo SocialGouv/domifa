@@ -4,6 +4,7 @@ import { ToastrService } from "ngx-toastr";
 import { regexp } from "src/app/shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-structures-search",
@@ -16,11 +17,11 @@ export class StructuresSearchComponent implements OnInit {
 
   public codePostal: string;
   public codePostalForm!: FormGroup;
-
   constructor(
     private structureService: StructureService,
     private formBuilder: FormBuilder,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    private titleService: Title
   ) {
     this.searchFailed = false;
     this.structures = [];
@@ -32,6 +33,7 @@ export class StructuresSearchComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Inscrivez-vous sur Domifa");
     this.codePostalForm = this.formBuilder.group({
       codePostal: [
         this.codePostal,
