@@ -14,8 +14,8 @@ import { Title } from "@angular/platform-browser";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  public help: boolean = false;
-  public isNavbarCollapsed: boolean = false;
+  public help: boolean;
+  public isNavbarCollapsed: boolean;
   public isAllowed: any;
 
   public domifaNews: any;
@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
     private titleService: Title
   ) {
     this.help = false;
+    this.isNavbarCollapsed = false;
     this.newsLabels = {
       bug: "Améliorations",
       new: "Nouveauté",
