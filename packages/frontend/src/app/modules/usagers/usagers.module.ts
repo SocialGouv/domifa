@@ -49,7 +49,6 @@ import { UsagerService } from "./services/usager.service";
   imports: [
     CommonModule,
     BrowserModule,
-    NgxPrintModule,
     GeneralModule,
     UsersModule,
     SharedModule,
