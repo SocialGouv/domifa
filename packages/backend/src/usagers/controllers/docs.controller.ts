@@ -80,7 +80,7 @@ export class DocsController {
     })
   )
   public async uploadDoc(
-    @Param("id") usagerId: number,
+    @Param(":id") usagerId: number,
     @UploadedFile() file: any,
     @Body() postData: any,
     @CurrentUser() user: User,
