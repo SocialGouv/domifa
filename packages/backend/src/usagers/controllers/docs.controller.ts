@@ -126,7 +126,6 @@ export class DocsController {
       .json({ usager, message: "IMPORT_SUCCESS" });
   }
 
-  /* DOCUMENT */
   @UseGuards(AccessGuard)
   @Delete(":id/:index")
   public async deleteDocument(

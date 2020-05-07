@@ -14,11 +14,9 @@ export async function bootstrap() {
     serverName: process.env.BA,
   });
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors();
   app.use(compression());
-
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
