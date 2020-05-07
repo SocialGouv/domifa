@@ -33,17 +33,14 @@
   <br />
 
   <div class="col-md-12">
-    <br />
-    <span class="stats-titre">Liste des structures</span>
-
-    <table class="table">
+    <table class="table table-hover">
       <thead>
         <tr>
           <th>Nom de la structure</th>
           <th>Date d'inscription</th>
           <th>Date d'import</th>
-          <th>Nombre de comptes</th>
-          <th>Nombre de domiciliés</th>
+          <th>Comptes</th>
+          <th>Domiciliés</th>
           <th>Date de dernière connexion</th>
         </tr>
       </thead>
@@ -54,13 +51,40 @@
             {{
               structure.structureType === "ccas" ? " - " + structure.ville : ""
             }}
+            <br />
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-info': structure.structureType === 'asso',
+                'badge-primary': structure.structureType === 'cias',
+                'badge-dark': structure.structureType === 'ccas'
+              }"
+            >
+              {{ labels.structureType[structure.structureType] }}
+            </span>
           </td>
+
           <td>{{ structure.createdAt | date: "dd/MM/yyyy" }}</td>
           <td>
+            {{ structure.import ? "✅" : "❌" }}
             {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>
           <td>{{ structure.users.length }}</td>
-          <td>{{ stats[structure.id] | json }}</td>
+          <td>
+            <div class="stats-blocks" *ngIf="stats[structure.id]">
+              <div *ngFor="let stat of stats[structure.id]">
+                <span
+                  class="stats-chiffres"
+                  [ngClass]="statutClass[stat.statut]"
+                >
+                  {{ stat.sum }}
+                </span>
+                <span class="stats-labels">{{
+                  labels.decisionStats[stat.statut]
+                }}</span>
+              </div>
+            </div>
+          </td>
           <td>
             {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>

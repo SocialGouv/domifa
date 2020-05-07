@@ -1,12 +1,11 @@
 @media print {
   body {
-    font-size: 18pt !important;
     width: 100% !important;
     margin: 1% auto !important;
   }
 
   #courrier-radiation {
-    font-size: 12pt !important;
+    font-size: 13pt !important;
     margin: 0 auto !important;
     max-width: 1600px !important;
     border: none !important;

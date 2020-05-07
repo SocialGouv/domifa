@@ -196,7 +196,11 @@ export class StructuresService {
 
   // TODO : Search options - tri par élément
   public async findAllDomifa(): Promise<Structure[]> {
-    return this.structureModel.find().limit(20).select("-token").exec();
+    return this.structureModel
+      .find()
+      .select("-token")
+      .sort("-createdAt")
+      .exec();
   }
 
   public async countByType(): Promise<Structure[]> {

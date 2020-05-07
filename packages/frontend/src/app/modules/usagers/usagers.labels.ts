@@ -1,7 +1,8 @@
 /* TYPE DE STRUCTURE */
 export const structureType = {
   asso: "Organisme agrée",
-  ccas: "CCAS / CIAS",
+  ccas: "CCAS",
+  cias: "CIAS",
 };
 
 /* LIENS DE PARENTÉ */
