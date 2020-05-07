@@ -89,9 +89,8 @@ export class ExportController {
           skipHeader: true,
         });
         const wb = XLSX.utils.book_new();
-        wb.SheetNames.push("Liste des usagers");
 
-        XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+        XLSX.utils.book_append_sheet(wb, ws, "Liste des usagers");
         const buf = XLSX.write(wb, {
           type: "buffer",
           bookType: "xlsx",

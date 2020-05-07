@@ -44,6 +44,12 @@ export class AppComponent implements OnInit {
     this.domifaNews = null;
 
     this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
+  }
+
+  public ngOnInit() {
+    this.titleService.setTitle(
+      "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
+    );
 
     this.authService.isAuth().subscribe((isAuth) => {
       if (isAuth) {
@@ -63,12 +69,6 @@ export class AppComponent implements OnInit {
         });
       }
     });
-  }
-
-  public ngOnInit() {
-    this.titleService.setTitle(
-      "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
-    );
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
