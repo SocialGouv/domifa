@@ -19,10 +19,8 @@ export class DocumentService {
   }
 
   public upload(data: any, usagerId: number) {
-    const uploadURL = `${this.endPoint}${usagerId}`;
-
     return this.http
-      .post<any>(uploadURL, data, {
+      .post<any>(environment.apiUrl + "usagers/document/" + usagerId, data, {
         observe: "events",
         reportProgress: true,
       })
