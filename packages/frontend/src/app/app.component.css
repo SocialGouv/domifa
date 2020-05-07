@@ -13,8 +13,8 @@
 #help-button {
   border-radius: 50%;
   border: 0 none;
-  background-color: white;
-  color: var(--primary);
+  background-color: var(--primary);
+  color: white;
   font-size: 2rem;
   cursor: pointer;
   padding: 0.5rem 1.4rem;
@@ -22,7 +22,6 @@
 }
 
 #help-text {
-  display: none;
   width: 450px;
   margin-right: 10px;
   border-radius: 6px;
