@@ -1,6 +1,4 @@
-<form
-  [formGroup]="uploadForm"
-  (ngSubmit)="submitFile()">
+<form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
   <div class="row">
     <div class="col">
       <div class="form-group">
@@ -11,11 +9,12 @@
           formControlName="label"
           id="label"
           placeholder="Cerfa signé, impots, carte identité, etc..."
-          required>
-        <div
-          *ngIf="u.label.errors"
-          class="invalid-feedback">
-          <div *ngIf="u.label.errors && u.imageInput.errors">Indiquez le type de pièce</div>
+          required
+        />
+        <div *ngIf="u.label.errors" class="invalid-feedback">
+          <div *ngIf="u.label.errors && u.imageInput.errors">
+            Indiquez le type de pièce
+          </div>
         </div>
       </div>
     </div>
@@ -34,27 +33,28 @@
               submittedFile && (!uploadError.fileType || !uploadError.fileSize)
           }"
           file="pieceJointe"
-          required>
-        <small
-          id="pjHelp"
-          class="form-text text-muted">
-          Formats autorisés PDF, JPG ou PNG (4mo maxi)
+          required
+        />
+        <small id="pjHelp" class="form-text text-muted">
+          Formats autorisés PDF, JPG ou PNG (1mo maxi)
         </small>
-        <input
-          type="hidden"
-          name="fileHidden"
-          formControlName="imageInput">
+        <input type="hidden" name="fileHidden" formControlName="imageInput" />
         <label
           class="custom-file-label"
           for="pieceJointe"
           data-browse="Parcourir"
-          lang="fr">
+          lang="fr"
+        >
           {{ fileName }}
         </label>
         <div class="text-danger">
-          <div *ngIf="u.imageInput.dirty && u.imageInput.errors.required">Veuillez ajouter un fichier</div>
+          <div *ngIf="u.imageInput.dirty && u.imageInput.errors.required">
+            Veuillez ajouter un fichier
+          </div>
           <div *ngIf="!uploadError.fileType">Format de fichier invalide</div>
-          <div *ngIf="!uploadError.fileSize">La taille du fichier est trop grande</div>
+          <div *ngIf="!uploadError.fileSize">
+            La taille du fichier est trop grande
+          </div>
         </div>
       </div>
     </div>
@@ -67,21 +67,25 @@
           !uploadError.fileType ||
           !uploadError.fileSize ||
           u.imageInput.errors
-        ">
+        "
+      >
         Ajouter
       </button>
     </div>
     <div class="w-100"></div>
-    <br>
+    <br />
     <div class="col-md-12">
       <div *ngIf="uploadResponse">
-        <div *ngIf="uploadResponse.status === 'error'">{{ uploadResponse.message }}</div>
+        <div *ngIf="uploadResponse.status === 'error'">
+          {{ uploadResponse.message }}
+        </div>
         <div *ngIf="uploadResponse.status === 'progress'">
           <ngb-progressbar
             type="success"
             [striped]="true"
             [animated]="true"
-            [value]="uploadResponse.message">
+            [value]="uploadResponse.message"
+          >
             {{ uploadResponse.message }} %
           </ngb-progressbar>
         </div>

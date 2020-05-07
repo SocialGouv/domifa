@@ -10,15 +10,11 @@ import {
   Post,
   Res,
   UseGuards,
-  UseInterceptors,
-  BadRequestException,
-  UploadedFile,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
 import * as fs from "fs";
 import * as path from "path";
-import * as crypto from "crypto";
 
 import { AccessGuard } from "../../auth/access.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
@@ -39,8 +35,6 @@ import { Usager } from "../interfaces/usagers";
 import { CerfaService } from "../services/cerfa.service";
 
 import { UsagersService } from "../services/usagers.service";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
@@ -358,120 +352,6 @@ export class UsagersController {
     return usager;
   }
 
-  @Post("document/:id")
-  @UseGuards(AccessGuard)
-  @UseInterceptors(
-    FileInterceptor("file", {
-      fileFilter: (req: any, file: any, cb: any) => {
-        const mimeTest = !file.mimetype.match(/\/(jpg|jpeg|png|gif|pdf)$/);
-        const sizeTest = file.size >= 5242880;
-        if (sizeTest || mimeTest) {
-          throw new BadRequestException({
-            fileSize: sizeTest,
-            fileType: mimeTest,
-          });
-        }
-        cb(null, true);
-      },
-      storage: diskStorage({
-        destination: (req: any, file: any, cb: any) => {
-          const dir =
-            new ConfigService().get("UPLOADS_FOLDER") +
-            req.user.structureId +
-            "/" +
-            req.usager.id;
-
-          if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-          }
-          cb(null, dir);
-        },
-
-        filename: (req: any, file: any, cb: any) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join("");
-          return cb(null, `${randomName}${path.extname(file.originalname)}`);
-        },
-      }),
-    })
-  )
-  public async uploadDoc(
-    @Param("id") usagerId: number,
-    @UploadedFile() file: any,
-    @Body() postData: any,
-    @CurrentUser() user: User,
-    @CurrentUsager() usager: Usager,
-    @Res() res: any
-  ) {
-    const userName = user.prenom + " " + user.nom;
-
-    const newDoc = {
-      createdAt: new Date(),
-      createdBy: userName,
-      filetype: file.mimetype,
-      label: postData.label,
-    };
-
-    const fileName =
-      new ConfigService().get("UPLOADS_FOLDER") +
-      user.structureId +
-      "/" +
-      usagerId +
-      "/" +
-      file.filename;
-
-    this.encryptFile(fileName, res);
-
-    const toUpdate = {
-      docs: usager.docs,
-      docsPath: usager.docsPath,
-    };
-
-    toUpdate.docs.push(newDoc);
-    toUpdate.docsPath.push(file.filename);
-
-    const retour = await this.usagersService.patch(toUpdate, usager._id);
-    if (!retour || retour === null) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "CANNOT_ADD_FILE" });
-    }
-
-    return res
-      .status(HttpStatus.OK)
-      .json({ usager, message: "IMPORT_SUCCESS" });
-  }
-
-  private encryptFile(fileName: string, @Res() res: any) {
-    const key = new ConfigService().get("FILES_PRIVATE");
-    const iv = new ConfigService().get("FILES_IV");
-
-    const cipher = crypto.createCipheriv("aes-256-cfb", key, iv);
-
-    const input = fs.createReadStream(fileName);
-    const output = fs.createWriteStream(fileName + ".encrypted");
-
-    return input
-      .pipe(cipher)
-      .pipe(output)
-      .on("finish", () => {
-        try {
-          fs.unlinkSync(fileName);
-        } catch (err) {
-          throw new HttpException(
-            {
-              message: "CANNOT_ENCRYPT_FILE",
-              file: fileName,
-              err,
-            },
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-        return output.path;
-      });
-  }
   private captureErrors(err: any, statuts: HttpStatus, @Res() res: any) {
     throw new HttpException(err, statuts);
   }

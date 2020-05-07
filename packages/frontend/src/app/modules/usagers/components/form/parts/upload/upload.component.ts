@@ -80,11 +80,11 @@ export class UploadComponent implements OnInit {
 
       this.fileName = event.target.files[0].name;
       this.uploadError = {
-        fileSize: size < 5000000,
+        fileSize: size < 1000000,
         fileType: validFileExtensions.includes(type),
       };
 
-      this.uploadForm.controls.imageInput.setValue(file); // <-- Set Value for Validation
+      this.uploadForm.controls.imageInput.setValue(file);
       if (!this.uploadError.fileSize || !this.uploadError.fileType) {
         return false;
       }
