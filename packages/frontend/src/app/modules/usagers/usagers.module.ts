@@ -23,7 +23,7 @@ import { RaftComponent } from "./components/raft/raft.component";
 import { DocumentService } from "./services/document.service";
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
-
+import { NgxPrintModule } from "ngx-print";
 @NgModule({
   declarations: [
     UploadComponent,
@@ -49,6 +49,7 @@ import { UsagerService } from "./services/usager.service";
   imports: [
     CommonModule,
     BrowserModule,
+    NgxPrintModule,
     GeneralModule,
     UsersModule,
     SharedModule,

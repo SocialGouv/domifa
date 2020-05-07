@@ -45,6 +45,7 @@ import { environment } from "src/environments/environment";
     GeneralModule,
     HttpClientModule,
     MatomoModule,
+
     NgbModule,
     ReactiveFormsModule,
     RouterModule.forRoot([]),
