@@ -16,7 +16,6 @@ Scénario:
 
   Soit un navigateur web sur le site
   Quand je vois l'élément "#lien-beta-gouv"
-  Quand je clique sur "#lien-beta-gouv"
   Alors le lien "le site officiel des start-ups d'Etat" pointe sur "https://beta.gouv.fr/startups/domifa.html"
 
 
@@ -27,10 +26,6 @@ Scénario:
   Soit un navigateur web sur le site
   Quand je clique sur "FAQ"
   Alors je vois "La foire aux questions Domifa"
-
-  Soit un navigateur web sur le site
-  Quand je clique sur "Conditions d'utilisation"
-  Alors je vois "Conditions d'utilisation de Domifa"
 
   Soit un navigateur web sur le site
   Quand je clique sur "Mentions légales"
