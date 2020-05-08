@@ -45,6 +45,28 @@ Alors("je vois {string}", (text) => {
   I.see(text);
 });
 
+Alors("je vois l'élément {string}", (text) => {
+  I.seeElement(text);
+});
+
 Alors("je suis redirigé vers la page: {string}", (url) => {
   I.waitInUrl(url, 5);
+});
+
+Alors("le lien {string} pointe sur {string}", (text, url) => {
+  I.seeElement(
+    `//a[starts-with(., "${text}") and contains(./@href, "${url}")]`
+  );
+});
+
+Alors("je vois le bouton {string}", (text) => {
+  I.seeElement(`//button[contains(., "${text}")]`);
+});
+
+Alors("je vois que le bouton {string} est désactivé", (text) => {
+  I.seeElement(`//button[contains(., "${text}") and @disabled="disabled"]`);
+});
+
+Alors("je vois que l'enregistrement est désactivé", () => {
+  I.seeElement("input[type=submit]:disabled");
 });

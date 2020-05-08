@@ -14,3 +14,42 @@ Scénario:
   Alors je rentre "92600" dans "Code-postal"
   Quand je clique sur "Rechercher"
   Alors je vois "Si vous appartenez à l’une de ces structures, cliquez dessus pour vous inscrire :"
+
+  Alors je clique sur "CCAS de test"
+
+  Alors je vois "Vous pouvez désormais créer votre compte"
+
+  Alors je vois que l'enregistrement est désactivé
+
+  Alors je remplis les champs suivants
+    | Votre adresse email                | caribou@email.com               |
+    | Mot de passe                       | JaimeLesFrites123456?        |
+    | Confirmer votre mot de passe       | JaimeLesFrites12345?         |
+    | Nom                                | Caribou                      |
+    | Prénom                             | Jean                         |
+    | Fonction                           | Président                    |
+
+  Alors je vois que l'enregistrement est désactivé
+
+  Alors je remplis les champs suivants
+    | Votre adresse email                | domicilie1@yopmail.com       |
+    | Mot de passe                       | JaimeLesFrites123456?        |
+    | Confirmer votre mot de passe       | JaimeLesFrites123456?        |
+    | Nom                                | Caribou                      |
+    | Prénom                             | Jean                         |
+    | Fonction                           | Président                    |
+
+  Alors je vois "L'adresse email est déjà utilisée"
+  Alors je vois que l'enregistrement est désactivé
+
+  Alors je remplis les champs suivants
+      | Votre adresse email                | caribou@email.com               |
+      | Mot de passe                       | JaimeLesFrites123456?        |
+      | Confirmer votre mot de passe       | JaimeLesFrites123456?        |
+      | Nom                                | Caribou                      |
+      | Prénom                             | Jean                         |
+      | Fonction                           | Président                    |
+
+  Alors je clique sur "Créer mon compte"
+
+  Alors je vois "Félicitations, votre demande de création de compte a bien été prise en compte."

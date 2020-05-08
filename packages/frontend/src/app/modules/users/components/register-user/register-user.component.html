@@ -284,12 +284,14 @@
     </div>
     <br />
     <div class="text-center">
-      <button
+      <input
+        type="submit"
+        aria-label="Créer mon compte"
         class="btn btn-primary"
+        value="Créer mon compte"
         [disabled]="userForm.invalid && !emailExist"
-      >
-        Créer mon compte
-      </button>
+      />
+
       <div *ngIf="structureChild">
         <br />
         <br />

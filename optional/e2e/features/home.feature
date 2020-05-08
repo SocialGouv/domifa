@@ -13,15 +13,17 @@ Scénario:
   Soit un navigateur web sur le site
   Quand je clique sur "Je m'inscris"
   Alors je suis redirigé vers la page: "/inscription"
-  
+
   Soit un navigateur web sur le site
-  Quand je clique sur "le site officiel des start-ups d'Etat"
-  Alors je suis redirigé vers le site: "https://beta.gouv.fr/startups/domifa.html"
+  Quand je vois l'élément "#lien-beta-gouv"
+  Quand je clique sur "#lien-beta-gouv"
+  Alors le lien "le site officiel des start-ups d'Etat" pointe sur "https://beta.gouv.fr/startups/domifa.html"
+
 
   Soit un navigateur web sur le site
   Quand je clique sur "Nouveautés"
   Alors je vois "Dernières mises à jour"
-  
+
   Soit un navigateur web sur le site
   Quand je clique sur "FAQ"
   Alors je vois "La foire aux questions Domifa"
@@ -33,7 +35,7 @@ Scénario:
   Soit un navigateur web sur le site
   Quand je clique sur "Mentions légales"
   Alors je vois "Mentions légales de Domifa"
-  
+
   Soit un navigateur web sur le site
   Quand je clique sur "Politique de confidentialité"
   Alors je vois "Politique de confidentialité"
