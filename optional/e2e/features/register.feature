@@ -32,7 +32,7 @@ Scénario:
   Alors je vois que l'enregistrement est désactivé
 
   Alors je remplis les champs suivants
-    | Votre adresse email                | domicilie1@yopmail.com       |
+    | Votre adresse email                | ccastest@yopmail.com       |
     | Mot de passe                       | JaimeLesFrites123456?        |
     | Confirmer votre mot de passe       | JaimeLesFrites123456?        |
     | Nom                                | Caribou                      |

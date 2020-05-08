@@ -66,7 +66,7 @@
   }
   #page,
   .container {
-    min-width: 100% !important;
+    min-width: 96% !important;
     padding: 0 !important;
     margin: 0 !important;
   }
