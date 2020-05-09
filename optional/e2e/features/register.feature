@@ -19,7 +19,7 @@ Scénario:
 
   Alors je vois "Vous pouvez désormais créer votre compte"
 
-  Alors je vois que l'enregistrement est désactivé
+  Alors je vois que l'envoi du formulaire est désactivé
 
   Alors je remplis les champs suivants
     | Votre adresse email                | caribou@email.com               |
@@ -29,7 +29,7 @@ Scénario:
     | Prénom                             | Jean                         |
     | Fonction                           | Président                    |
 
-  Alors je vois que l'enregistrement est désactivé
+  Alors je vois que l'envoi du formulaire est désactivé
 
   Alors je remplis les champs suivants
     | Votre adresse email                | ccastest@yopmail.com       |
@@ -40,10 +40,10 @@ Scénario:
     | Fonction                           | Président                    |
 
   Alors je vois "L'adresse email est déjà utilisée"
-  Alors je vois que l'enregistrement est désactivé
+  Alors je vois que l'envoi du formulaire est désactivé
 
   Alors je remplis les champs suivants
-      | Votre adresse email                | caribou@email.com               |
+      | Votre adresse email                | caribou12@email.com               |
       | Mot de passe                       | JaimeLesFrites123456?        |
       | Confirmer votre mot de passe       | JaimeLesFrites123456?        |
       | Nom                                | Caribou                      |
@@ -52,4 +52,4 @@ Scénario:
 
   Alors je clique sur "Créer mon compte"
 
-  Alors je vois "Félicitations, votre demande de création de compte a bien été prise en compte."
+  Alors j'attends que le message "Félicitations, votre demande de création de compte a bien été prise en compte." apparaisse

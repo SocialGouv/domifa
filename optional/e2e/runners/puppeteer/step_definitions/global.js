@@ -67,6 +67,11 @@ Alors("je vois que le bouton {string} est désactivé", (text) => {
   I.seeElement(`//button[contains(., "${text}") and @disabled="disabled"]`);
 });
 
-Alors("je vois que l'enregistrement est désactivé", () => {
+Alors("je vois que l'envoi du formulaire est désactivé", () => {
   I.seeElement("input[type=submit]:disabled");
+});
+
+Quand("j'attends que le message {string} apparaisse", (title) => {
+  I.scrollPageToTop();
+  I.waitForElement(`//h3[contains(., "${title}")]`, 3);
 });
