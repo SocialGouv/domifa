@@ -6,21 +6,19 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { far } from "@fortawesome/free-regular-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxPrintModule } from "ngx-print";
+
 import { ToastrModule } from "ngx-toastr";
 import { LoadingComponent } from "../loading/loading.component";
 import { LoadingService } from "../loading/loading.service";
 import { SharedModule } from "../shared/shared.module";
+import { CguComponent } from "./components/cgu/cgu.component";
 import { NotFoundComponent } from "./components/errors/not-found/not-found.component";
 import { FaqComponent } from "./components/faq/faq.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
-
-library.add(fas, far);
+import { NewsComponent } from "./components/news/news.component";
+import { PolitiqueComponent } from "./components/politique/politique.component";
 
 @NgModule({
   declarations: [
@@ -28,20 +26,21 @@ library.add(fas, far);
     LoadingComponent,
     MentionsLegalesComponent,
     NotFoundComponent,
-    FaqComponent
+    FaqComponent,
+    NewsComponent,
+    CguComponent,
+    PolitiqueComponent,
   ],
   exports: [
     HomeComponent,
     LoadingComponent,
     MentionsLegalesComponent,
     NotFoundComponent,
-    FaqComponent
+    FaqComponent,
   ],
   imports: [
     CommonModule,
-    CommonModule,
     BrowserModule,
-    NgxPrintModule,
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
@@ -52,13 +51,13 @@ library.add(fas, far);
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 2000
+      timeOut: 2000,
     }),
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [LoadingService]
+  providers: [LoadingService],
 })
 export class GeneralModule {}

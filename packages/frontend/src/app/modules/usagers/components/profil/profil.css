@@ -5,7 +5,7 @@
 #profil_head {
   padding: 5px 20px;
   max-width: 320px;
-  max-width: 90%;
+  width: 90%;
   margin: 0 auto;
 }
 
@@ -41,6 +41,7 @@
 }
 
 #notif-form {
+  text-align: left;
   width: 290px;
 }
 #notif_button {
@@ -68,7 +69,6 @@ input[type="number"] {
 }
 
 #big_icons div {
-  width: 48%;
   border-radius: 5px;
   padding: 0 5px;
   text-align: center;
@@ -80,6 +80,7 @@ input[type="number"] {
   margin-left: 30px;
   width: 340px;
   border-left: 1px solid #dfdfdf;
+  text-align: center;
 }
 
 #big_icons span {
@@ -145,4 +146,56 @@ input[type="number"] {
 #interactions-table > tbody > tr > td.interactions-actions > span {
   visibility: hidden;
   opacity: 0;
+}
+
+#delete-usager:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#ayants-droits-table th,
+#ayants-droits-table td {
+  width: 33.3%;
+}
+
+.profil-table th:first-child,
+.profil-table td:first-child {
+  width: 25%;
+}
+
+.profil-table th:nth-child(2),
+.profil-table td:nth-child(2) {
+  width: 55%;
+}
+.profil-table th:nth-child(3),
+.profil-table td:nth-child(3) {
+  width: 20%;
+}
+
+.profil-table th:nth-child(4),
+.profil-table td:nth-child(4) {
+  width: 5%;
+}
+
+.sous-titre {
+  color: #212529;
+  text-transform: uppercase;
+  display: block;
+  margin: 10px 0;
+  font-size: 1.02rem;
+}
+
+.text-radiation {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4rem;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  display: block;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 1.3rem;
+  font-weight: 600;
 }

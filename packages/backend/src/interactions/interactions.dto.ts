@@ -1,4 +1,10 @@
-import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import {
+  IsBoolean,
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+} from "class-validator";
 
 export class InteractionDto {
   @IsIn([
@@ -9,15 +15,23 @@ export class InteractionDto {
     "colisIn",
     "colisOut",
     "appel",
-    "visite"
+    "visite",
   ])
   @IsNotEmpty()
-  public type: string;
+  public type!: string;
 
   @IsOptional()
-  public content: string;
+  public content!: string;
+
+  @IsOptional()
+  @IsBoolean()
+  public transfert!: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  public procuration!: boolean;
 
   @IsOptional()
   @IsNumber()
-  public nbCourrier: number;
+  public nbCourrier!: number;
 }

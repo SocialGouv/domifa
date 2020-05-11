@@ -1,8 +1,9 @@
-import { JwtModule, JwtService } from "@nestjs/jwt";
-import { PassportModule, PassportStrategy } from "@nestjs/passport";
+import { JwtModule } from "@nestjs/jwt";
+import { PassportModule } from "@nestjs/passport";
 import { Test, TestingModule } from "@nestjs/testing";
 import { UsersModule } from "../users/users.module";
 import { AuthService } from "./auth.service";
+import { StructuresModule } from "../structures/structure.module";
 
 describe("AuthService", () => {
   let service: AuthService;
@@ -14,12 +15,13 @@ describe("AuthService", () => {
         JwtModule.register({
           secretOrPrivateKey: "secretKey",
           signOptions: {
-            expiresIn: 3600
-          }
+            expiresIn: 3600,
+          },
         }),
-        UsersModule
+        UsersModule,
+        StructuresModule,
       ],
-      providers: [AuthService]
+      providers: [AuthService],
     }).compile();
 
     service = module.get<AuthService>(AuthService);

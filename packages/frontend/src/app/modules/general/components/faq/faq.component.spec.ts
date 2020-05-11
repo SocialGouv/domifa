@@ -1,3 +1,4 @@
+import { global } from "@angular/compiler/src/util";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -12,6 +13,7 @@ import { FaqComponent } from "./faq.component";
 describe("FaqComponent", () => {
   let component: FaqComponent;
   let fixture: ComponentFixture<FaqComponent>;
+  const spyScrollTo = jest.fn();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -22,10 +24,10 @@ describe("FaqComponent", () => {
         FormsModule,
         HttpClientModule,
         HttpClientTestingModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

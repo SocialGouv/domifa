@@ -1,34 +1,24 @@
-<div
-  class="step_form"
-  *ngIf="!success">
-  <div class=" text-center">
+<div class="step_form" *ngIf="!success">
+  <div class="text-center">
     <h5 class="title">Connexion à Domifa</h5>
   </div>
-  <div class="col-md-8 offset-md-2">
-    <ngb-alert
-      *ngIf="error"
-      type="danger"
-      (close)="error = false">
-      {{ errorMessage }}
-    </ngb-alert>
-  </div>
-
   <form
     [formGroup]="loginForm"
     class="col-md-8 offset-md-2"
-    (ngSubmit)="login()">
+    (ngSubmit)="login()"
+  >
     <div class="col form-group required">
       <label for="email">Adresse email</label>
       <input
         type="text"
         formControlName="email"
         autocomplete="username"
+        placeholder="Adresse email"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-      <div
-        *ngIf="submitted && f.email.errors"
-        class="invalid-feedback">
-        <div *ngIf="f.email.errors.required">L'email est obligatoire</div>
+        [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+      />
+      <div *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
+        Veuillez vérifier l'adresse email
       </div>
     </div>
     <div class="col form-group required passwordInput">
@@ -38,44 +28,48 @@
         formControlName="password"
         [type]="!hidePassword ? 'text' : 'password'"
         class="form-control"
+        placeholder="Mot de passe"
         autocomplete="current-password"
-        [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
-      <span
-        class="eye"
-        *ngIf="hidePassword"
-        (click)="hidePassword = false">
+        [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }"
+      />
+      <span class="eye" *ngIf="hidePassword" (click)="hidePassword = false">
         <fa-icon icon="eye"></fa-icon>
       </span>
-      <span
-        class="eye"
-        *ngIf="!hidePassword"
-        (click)="hidePassword = true">
+      <span class="eye" *ngIf="!hidePassword" (click)="hidePassword = true">
         <fa-icon icon="eye-slash"></fa-icon>
       </span>
       <div
-        *ngIf="submitted && f.password.errors"
-        class="invalid-feedback">
-        <div *ngIf="f.password.errors.required">Le mot de passe est obligatoire</div>
+        *ngIf="f.password.dirty && f.password.errors"
+        class="invalid-feedback"
+      >
+        <div *ngIf="f.password.errors.required">
+          Le mot de passe est obligatoire
+        </div>
       </div>
     </div>
     <div class="form-group text-center">
       <button
         [disabled]="loading || loginForm.invalid"
-        class="btn btn-primary">
-        Connexion
+        aria-label="Connexion"
+        class="btn btn-primary"
+      >
+        <span *ngIf="!loading">
+          Connexion
+        </span>
+
+        <span *ngIf="loading"
+          ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Connexion en
+          cours...</span
+        >
       </button>
     </div>
 
     <div class="text-center">
-      <a
-        routerLink="/inscription"
-        class="btn btn-link">
+      <a routerLink="/inscription" class="btn btn-link">
         Inscription
       </a>
       |
-      <a
-        routerLink="/reset-password"
-        class="btn btn-link">
+      <a routerLink="/reset-password" class="btn btn-link">
         Mot de passe oublié
       </a>
     </div>

@@ -7,24 +7,28 @@ import {
   Response,
   UploadedFile,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { FileInterceptor } from "@nestjs/platform-express";
 import * as fs from "fs";
-import { diskStorage } from "multer";
-import * as path from "path";
 import * as XLSX from "xlsx";
-import { CurrentUser } from "../../users/current-user.decorator";
-import { UsersService } from "../../users/services/users.service";
-import { User } from "../../users/user.interface";
+import * as path from "path";
+
+import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { AuthGuard } from "@nestjs/passport";
+
+import { CurrentUser } from "../../auth/current-user.decorator";
+
+import { StructuresService } from "../../structures/structures.service";
 import { UsagersService } from "../services/usagers.service";
+
+import { User } from "../../users/user.interface";
 
 export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
   email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, // tslint:disable max-line-length
   phone: /^((\+)33|0)[1-9](\d{2}){4}$/,
-  postcode: /^[0-9][0-9AB][0-9]{3}$/
+  postcode: /^[0-9][0-9AB][0-9]{3}$/,
 };
 
 export const CIVILITE = 0;
@@ -44,6 +48,43 @@ export const MOTIF_REFUS = 13;
 export const MOTIF_RADIATION = 14;
 export const MENAGE = 15;
 export const AYANT_DROIT = [16, 20, 24, 28];
+export const CUSTOM_ID = 32;
+
+export const colNames = [
+  "Civilité",
+  "Nom",
+  "Prénom",
+  "Surnom",
+  "Date naissance",
+  "Lieu naissance",
+  "Email",
+  "Téléphone",
+  "Statut demande",
+  "Type demande",
+  "Date de Début de la DOM actuelle",
+  "Date de FIN de la DOM actuelle",
+  "Date 1ere domiciliation",
+  "Motif de refus",
+  "Motif de radiation",
+  "Composition du ménage",
+  "Ayant-droit 1: nom",
+  "Ayant-droit 1: prénom",
+  "Ayant-droit 1: date naissance",
+  "Ayant-droit 1: lien parenté",
+  "Ayant-droit 2: nom",
+  "Ayant-droit 2: prénom",
+  "Ayant-droit 2: date naissance",
+  "Ayant-droit 2: lien parenté",
+  "Ayant-droit 3: nom",
+  "Ayant-droit 3: prénom",
+  "Ayant-droit 3: date naissance",
+  "Ayant-droit 3: lien parenté",
+  "Ayant-droit 4: nom",
+  "Ayant-droit 4: prénom",
+  "Ayant-droit 4: date de naissance",
+  "Ayant-droit 4: lien parenté",
+  "Numéro d'identification",
+];
 
 type AOA = any[][];
 
@@ -51,20 +92,35 @@ type AOA = any[][];
 @Controller("import")
 export class ImportController {
   public errorsId: string[];
+  public colNames: string[];
   public rowNumber: number;
+  public datas: AOA = [[], []];
   private readonly logger = new Logger(ImportController.name);
 
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly usersService: UsersService
+    private readonly structureService: StructuresService
   ) {
     this.errorsId = [];
     this.rowNumber = 0;
+    this.datas = [[], []];
+
+    this.colNames = colNames;
   }
 
   @Post()
   @UseInterceptors(
     FileInterceptor("file", {
+      fileFilter: (req: any, file: any, cb: any) => {
+        if (
+          file.mimetype !==
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
+          file.mimetype !== "application/vnd.ms-excel"
+        ) {
+          throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
+        }
+        cb(null, true);
+      },
       storage: diskStorage({
         destination: (req: any, file: any, cb: any) => {
           const dir = path.resolve(__dirname, "../../imports/");
@@ -73,20 +129,15 @@ export class ImportController {
           }
           cb(null, dir);
         },
-        fileFilter: (req: any, file: any, cb: any) => {
-          if (file.mimetype !== "xlsx" && file.mimetype !== "xls") {
-            throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
-          }
-          cb(null, true);
-        },
+
         filename: (req: any, file: any, cb: any) => {
           const randomName = Array(32)
             .fill(null)
             .map(() => Math.round(Math.random() * 16).toString(16))
             .join("");
           return cb(null, `${randomName}${path.extname(file.originalname)}`);
-        }
-      })
+        },
+      }),
     })
   )
   public async importExcel(
@@ -98,7 +149,7 @@ export class ImportController {
     const buffer = fs.readFileSync(dir + "/" + file.filename);
     const wb = XLSX.read(buffer, {
       dateNF: "dd/mm/yyyy",
-      type: "buffer"
+      type: "buffer",
     });
 
     if (!buffer) {
@@ -107,23 +158,23 @@ export class ImportController {
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      const datas = XLSX.utils.sheet_to_json(ws, {
+      this.datas = XLSX.utils.sheet_to_json(ws, {
         blankrows: false,
         dateNF: "dd/mm/yyyy",
         header: 1,
-        raw: false
+        raw: false,
       }) as AOA;
 
-      for (let index = 1, len = datas.length; index < len; index++) {
+      for (let index = 1, len = this.datas.length; index < len; index++) {
         this.rowNumber = index;
-        const row = datas[index];
+        const row = this.datas[index];
         const sexeCheck = row[CIVILITE] === "H" || row[CIVILITE] === "F";
 
         this.countErrors(sexeCheck, index, CIVILITE);
         this.countErrors(this.notEmpty(row[NOM]), index, NOM);
         this.countErrors(this.notEmpty(row[PRENOM]), index, PRENOM);
         this.countErrors(
-          this.validDate(row[DATE_NAISSANCE], true),
+          this.validDate(row[DATE_NAISSANCE], true, false),
           index,
           DATE_NAISSANCE
         );
@@ -147,17 +198,17 @@ export class ImportController {
           TYPE_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], false),
+          this.validDate(row[DATE_PREMIERE_DOM], false, false),
           index,
           DATE_PREMIERE_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_FIN_DOM], true),
+          this.validDate(row[DATE_FIN_DOM], true, true),
           index,
           DATE_FIN_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], false),
+          this.validDate(row[DATE_PREMIERE_DOM], false, false),
           index,
           DATE_PREMIERE_DOM
         );
@@ -171,6 +222,7 @@ export class ImportController {
           index,
           MOTIF_RADIATION
         );
+
         this.countErrors(this.isValidValue(row[15], "menage"), index, 15);
 
         for (const indexAD of AYANT_DROIT) {
@@ -189,7 +241,7 @@ export class ImportController {
             );
 
             this.countErrors(
-              this.validDate(dateNaissance, true),
+              this.validDate(dateNaissance, true, false),
               this.rowNumber,
               indexAD + 2
             );
@@ -202,25 +254,33 @@ export class ImportController {
           }
         }
 
-        if (index + 1 >= datas.length) {
-          this.logger.log("FIN DU FICHIER");
+        if (index + 1 >= this.datas.length) {
           if (this.errorsId.length > 0) {
-            this.logger.log("Erreurs -> " + this.errorsId.length);
-            return res.status(HttpStatus.NOT_ACCEPTABLE).json({
-              errorsNbre: this.errorsId.length,
-              message: "ERRORS_IN_FILE"
-            });
+            const error = {
+              errors: this.errorsId,
+              message: "IMPORT_ERRORS_BACKEND",
+            };
+            throw new HttpException(error, HttpStatus.BAD_REQUEST);
           }
 
           try {
             fs.unlinkSync(dir + "/" + file.filename);
           } catch (err) {
-            this.logger.log("Impossible de supprimer le fichier d'import");
+            throw new HttpException(
+              "IMPORTE_DELETE_FILE_IMPOSSIBLE",
+              HttpStatus.BAD_REQUEST
+            );
           }
 
-          return res
-            .status(HttpStatus.OK)
-            .json(await this.saveDatas(datas, user));
+          if (await this.saveDatas(this.datas, user)) {
+            this.structureService.importSuccess(user.structureId);
+            return res.status(HttpStatus.OK).json({ success: true });
+          } else {
+            throw new HttpException(
+              "IMPORT_NOT_COMPLETED",
+              HttpStatus.BAD_REQUEST
+            );
+          }
         }
       }
     }
@@ -229,11 +289,11 @@ export class ImportController {
   public async saveDatas(datas: any, @CurrentUser() user: User) {
     const agent = user.prenom + " " + user.nom;
     const usagers = [];
-
     for (let index = 1, len = datas.length; index < len; index++) {
       const row = datas[index];
       const ayantsDroits = [];
-
+      const historique = [];
+      const sexe = row[CIVILITE] === "H" ? "homme" : "femme";
       let motif = "";
 
       let dateDecision = this.notEmpty(row[DATE_DEBUT_DOM])
@@ -243,11 +303,36 @@ export class ImportController {
       let datePremiereDom = new Date().toISOString();
       if (this.notEmpty(row[DATE_PREMIERE_DOM])) {
         datePremiereDom = this.convertDate(row[DATE_PREMIERE_DOM]);
-      } else if (!this.notEmpty(row[DATE_DEBUT_DOM])) {
+
+        const dateFinPremiereDom = new Date(datePremiereDom);
+        dateFinPremiereDom.setFullYear(
+          dateFinPremiereDom.setFullYear(dateFinPremiereDom.getFullYear() + 1)
+        );
+
+        historique.push({
+          agent,
+          dateDebut: datePremiereDom,
+          dateDecision: datePremiereDom,
+          dateFin: dateFinPremiereDom,
+          motif,
+          statut: "PREMIERE_DOM",
+          userId: user.id,
+          userName: agent,
+        });
+      } else if (this.notEmpty(row[DATE_DEBUT_DOM])) {
         datePremiereDom = this.convertDate(row[DATE_DEBUT_DOM]);
       }
 
-      const sexe = row[CIVILITE] === "H" ? "homme" : "femme";
+      historique.push({
+        agent,
+        dateDebut: new Date(),
+        dateDecision: new Date(),
+        dateFin: new Date(),
+        motif,
+        statut: "IMPORT",
+        userId: user.id,
+        userName: agent,
+      });
 
       if (row[STATUT_DOM] === "REFUS") {
         motif = this.notEmpty(row[MOTIF_REFUS]) ? row[MOTIF_REFUS] : "AUTRE";
@@ -266,56 +351,67 @@ export class ImportController {
         const nom = row[indexAD];
         const prenom = row[indexAD + 1];
         const dateNaissance = row[indexAD + 2];
-        const lienParente = row[indexAD + 3];
+        let lienParente = row[indexAD + 3];
+
+        if (lienParente === "AUTRES") {
+          lienParente = "AUTRE";
+        }
 
         if (nom && prenom && dateNaissance && lienParente) {
           ayantsDroits.push({ nom, prenom, dateNaissance, lien: lienParente });
         }
       }
 
+      const phone = !row[PHONE] ? null : row[PHONE].replace(/\D/g, "");
+
+      const dateDebut = this.notEmpty(row[DATE_FIN_DOM])
+        ? this.convertDate(row[DATE_DEBUT_DOM])
+        : null;
+      const dateFin = this.notEmpty(row[DATE_FIN_DOM])
+        ? this.convertDate(row[DATE_FIN_DOM])
+        : null;
+
+      const customId = this.notEmpty(row[CUSTOM_ID]) ? row[CUSTOM_ID] : null;
+
+      if (motif === "AUTRES") {
+        motif = "AUTRE";
+      }
+
       const usager = {
-        agent,
         ayantsDroits,
+        customId,
         dateNaissance: this.convertDate(row[DATE_NAISSANCE]),
         datePremiereDom,
         decision: {
           agent,
-          dateDebut: this.convertDate(row[DATE_DEBUT_DOM]),
+          dateDebut,
           dateDecision,
-          dateFin: this.convertDate(row[DATE_FIN_DOM]),
+          dateFin,
           motif,
           statut: row[STATUT_DOM],
           userId: user.id,
-          userName: agent
+          userName: agent,
         },
         email: row[EMAIL],
+        entretien: {
+          typeMenage: row[MENAGE],
+        },
         etapeDemande: 5,
-        historique: [
-          {
-            agent,
-            dateDebut: new Date(),
-            dateDecision: new Date(),
-            dateFin: new Date(),
-            motif,
-            statut: "IMPORT",
-            userId: user.id,
-            userName: agent
-          }
-        ],
+        historique,
         nom: row[NOM],
-        phone: row[PHONE],
+        phone,
         prenom: row[PRENOM],
         sexe,
         structureId: user.structureId,
         surnom: row[SURNOM],
         typeDom: row[TYPE_DOM],
-        villeNaissance: row[LIEU_NAISSANCE]
+        villeNaissance: row[LIEU_NAISSANCE],
       };
 
       usagers.push(await this.usagersService.save(usager, user));
 
       if (index + 1 >= datas.length) {
-        return usagers;
+        return true;
       }
     }
   }
@@ -328,32 +424,81 @@ export class ImportController {
   }
 
   private countErrors(variable: boolean, idRow: any, idColumn: number) {
-    const position = idRow.toString() + "_" + idColumn.toString();
+    const position =
+      "ID row : " +
+      idRow.toString() +
+      " -- " +
+      this.colNames[idColumn] +
+      "  - " +
+      variable;
+
+    if (
+      this.datas[idRow][STATUT_DOM] === "REFUS" &&
+      (idColumn === DATE_DEBUT_DOM ||
+        idColumn === DATE_FIN_DOM ||
+        idColumn === DATE_PREMIERE_DOM)
+    ) {
+      variable = true;
+      return true;
+    }
+
     if (variable !== true) {
-      this.logger.log(
-        "ID row : " + idRow + " -- " + variable + " Col " + idColumn
-      );
       this.errorsId.push(position);
     }
     return variable;
   }
 
   private notEmpty(value: string): boolean {
-    return value !== undefined && value !== null && value !== "";
+    return (
+      typeof value !== "undefined" && value !== null && value.trim() !== ""
+    );
   }
 
-  private validDate(date: string, required: boolean): boolean {
-    if ((date === undefined || date === null || date === "") && !required) {
+  public validDate(
+    date: string,
+    required: boolean,
+    futureDate?: boolean
+  ): boolean {
+    if (
+      (typeof date === "undefined" || date === null || date === "") &&
+      !required
+    ) {
       return true;
     }
-    return RegExp(regexp.date).test(date);
+
+    if (RegExp(regexp.date).test(date)) {
+      const today = new Date();
+      const maxAnnee = futureDate
+        ? today.getFullYear() + 1
+        : today.getFullYear();
+
+      const dateParts = date.split("/");
+      const jour = parseInt(dateParts[0], 10);
+      const mois = parseInt(dateParts[1], 10);
+      const annee = parseInt(dateParts[2], 10);
+
+      const isValidFormat =
+        jour <= 31 &&
+        jour > 0 &&
+        mois <= 12 &&
+        mois > 0 &&
+        annee > 1900 &&
+        annee <= maxAnnee;
+
+      if (!isValidFormat) return false;
+
+      const dateToCheck = new Date(annee, mois - 1, jour);
+
+      return futureDate || dateToCheck <= today;
+    }
+    return false;
   }
 
   private validPhone(phone: string): boolean {
     if (!phone || phone === null || phone === "") {
       return true;
     }
-    return RegExp(regexp.phone).test(phone);
+    return RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
   }
 
   private validEmail(email: string): boolean {
@@ -368,9 +513,9 @@ export class ImportController {
       return true;
     }
 
-    const types = {
+    const types: any = {
       demande: ["PREMIERE", "RENOUVELLEMENT"],
-      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
+      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE", "AUTRES"],
       menage: [
         "HOMME_ISOLE_SANS_ENFANT",
         "FEMME_ISOLE_SANS_ENFANT",
@@ -378,18 +523,26 @@ export class ImportController {
         "FEMME_ISOLE_AVEC_ENFANT",
         "COUPLE_SANS_ENFANT",
         "COUPLE_AVEC_ENFANT",
-        "MINEUR"
+        "MINEUR",
       ],
       motifRadiation: [
         "NON_MANIFESTATION_3_MOIS",
         "A_SA_DEMANDE",
         "ENTREE_LOGEMENT",
+        "FIN_DE_DOMICILIATION",
         "PLUS_DE_LIEN_COMMUNE",
         "NON_RESPECT_REGLEMENT",
-        "AUTRE"
+        "AUTRE",
+        "AUTRES",
       ],
-      motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
-      statut: ["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE", "EXPIRE"]
+      motifRefus: [
+        "LIEN_COMMUNE",
+        "SATURATION",
+        "HORS_AGREMENT",
+        "AUTRE",
+        "AUTRES",
+      ],
+      statut: ["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE", "EXPIRE"],
     };
 
     return types[rowName].indexOf(data) > -1;

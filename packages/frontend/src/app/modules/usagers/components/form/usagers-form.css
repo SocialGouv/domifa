@@ -15,39 +15,6 @@ label {
   font-weight: 600;
 }
 
-.label {
-  display: block;
-  font-weight: 600;
-  padding: 10px 0;
-}
-
-.autres {
-  display: inline-block;
-  width: 220px;
-  margin-left: 10px;
-  margin-top: -15px;
-}
-
-.form-check label {
-  font-weight: 300;
-  margin-left: 5px;
-}
-
-.questions {
-  margin: 15px auto;
-}
-
-.questions .form-check {
-  display: inline-block;
-  margin-bottom: 12px;
-  min-width: 345px;
-}
-
 #heureRdv {
   margin: 0 auto;
-}
-
-.recap .card {
-  max-width: 750px;
-  margin: 0.5rem auto;
 }

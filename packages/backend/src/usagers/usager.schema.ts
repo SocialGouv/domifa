@@ -2,176 +2,197 @@
 import * as mongoose from "mongoose";
 import { Usager } from "./interfaces/usagers";
 
-export const UsagerSchema = new mongoose.Schema({
-  id: {
-    type: Number
-  },
-
-  agent: String,
-  structureId: { type: Number, required: true },
-
-  nom: { type: String, required: true },
-  prenom: { type: String, required: true },
-  surnom: { type: String, default: "" },
-  email: { type: String, default: "" },
-  phone: { type: String, default: "" },
-  sexe: { type: String, required: true },
-
-  dateNaissance: { type: Date, required: true },
-  villeNaissance: { type: String, required: true },
-
-  ayantsDroits: { type: Array, default: [] },
-  ayantsDroitsExist: Boolean,
-
-  etapeDemande: {
-    type: Number,
-    default: 1,
-    required: true
-  },
-
-  datePremiereDom: {
-    default: null,
-    type: Date
-  },
-
-  import: { type: Boolean, default: false },
-
-  decision: {
-    dateDebut: { type: Date },
-    dateFin: { type: Date, default: Date.now },
-    dateDecision: { type: Date, default: Date.now },
-
-    motif: {
-      default: "",
-      type: String
+export const UsagerSchema = new mongoose.Schema(
+  {
+    id: {
+      type: Number,
+      index: true,
     },
-    motifDetails: {
-      default: "",
-      type: String
+
+    customId: {
+      type: String,
+      maxlength: 30,
     },
-    orientation: {
-      default: "",
-      type: String
+
+    structureId: { type: Number, required: true, index: true },
+
+    nom: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+      maxlength: 200,
     },
-    orientationDetails: {
-      default: "",
-      type: String
+    prenom: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+      maxlength: 200,
     },
-    statut: {
-      default: "INSTRUCTION",
-      type: String
+    surnom: { type: String, default: "", trim: true },
+    email: { type: String, default: "", trim: true },
+    phone: { type: String, default: "", maxlength: 12 },
+    sexe: { type: String, required: true },
+
+    dateNaissance: { type: Date, required: true },
+    villeNaissance: { type: String, required: true },
+
+    ayantsDroits: { type: Array, default: [] },
+
+    etapeDemande: {
+      type: Number,
+      default: 1,
+      required: true,
     },
+
+    datePremiereDom: {
+      default: null,
+      type: Date,
+    },
+
     typeDom: {
       default: "PREMIERE",
-      type: String
+      index: true,
+      type: String,
     },
-    userId: Number,
-    userName: String
-  },
 
-  historique: { type: Array, default: [] },
+    decision: {
+      dateDebut: { type: Date },
+      dateFin: { type: Date, default: Date.now },
+      dateDecision: { type: Date, default: Date.now },
 
-  rdv: {
-    dateRdv: { type: Date, default: null },
-    userId: { type: Number, default: 0 },
-    userName: { type: String, default: "" }
-  },
-
-  entretien: {
-    type: {
-      domiciliation: Boolean,
-      liencommune: String,
-      residence: String,
-      residenceDetail: String,
-      revenus: Boolean,
-      cause: String,
-      causeDetail: String,
-      pourquoi: String,
-      pourquoiDetail: String,
-      accompagnement: Boolean,
-      accompagnementDetail: String,
-      commentaires: String
+      motif: { type: String },
+      motifDetails: { type: String },
+      orientation: {
+        type: String,
+      },
+      orientationDetails: {
+        type: String,
+      },
+      statut: {
+        default: "INSTRUCTION",
+        type: String,
+        index: true,
+      },
+      userId: Number,
+      userName: String,
     },
-    default: {
-      domiciliation: null,
-      liencommune: null,
-      residence: null,
-      residenceDetail: null,
-      revenus: null,
-      cause: null,
-      causeDetail: null,
-      pourquoi: null,
-      pourquoiDetail: null,
-      accompagnement: null,
-      accompagnementDetail: null,
-      commentaires: null
-    }
-  },
 
-  lastInteraction: {
-    type: {
-      nbCourrier: {
-        type: Number,
-        default: 0
-      },
-      courrierIn: {
-        type: Date,
-        default: null
-      },
-      courrierOut: {
-        type: Date,
-        default: null
-      },
-      recommandeIn: {
-        type: Date,
-        default: null
-      },
-      recommandeOut: {
-        type: Date,
-        default: null
-      },
-      appel: {
-        type: Date,
-        default: null
-      },
-      visite: {
-        type: Date,
-        default: null
-      }
+    historique: { type: Array, default: [] },
+
+    rdv: {
+      dateRdv: { type: Date, default: null },
+      userId: { type: Number, default: 0 },
+      userName: { type: String, default: "" },
     },
-    default: {
-      nbCourrier: 0,
-      courrierIn: null,
-      courrierOut: null,
-      recommandeIn: null,
-      recommandeOut: null,
-      appel: null,
-      visite: null
-    }
+
+    entretien: {
+      type: {
+        domiciliation: Boolean,
+        liencommune: String,
+        residence: String,
+        residenceDetail: String,
+        revenus: Boolean,
+        revenusDetail: String,
+        orientation: Boolean,
+        orientationDetail: String,
+        cause: String,
+        causeDetail: String,
+        pourquoi: String,
+        pourquoiDetail: String,
+        accompagnement: Boolean,
+        accompagnementDetail: String,
+        typeMenage: String,
+        commentaires: String,
+      },
+      default: {
+        domiciliation: null,
+        liencommune: null,
+        residence: null,
+        residenceDetail: null,
+        revenus: null,
+        revenusDetail: null,
+        cause: null,
+        causeDetail: null,
+        pourquoi: null,
+        pourquoiDetail: null,
+        accompagnement: null,
+        accompagnementDetail: null,
+        commentaires: null,
+        typeMenage: null,
+      },
+    },
+
+    lastInteraction: {
+      enAttente: { type: Boolean, default: false },
+      courrierIn: { type: Number, default: 0 },
+      recommandeIn: { type: Number, default: 0 },
+      colisIn: { type: Number, default: 0 },
+      dateInteraction: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+
+    preference: {
+      email: { type: Boolean, default: false },
+      phone: { type: Boolean, default: false },
+    },
+
+    interactions: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Interaction",
+        },
+      ],
+      default: [],
+    },
+
+    docs: [],
+    docsPath: [],
+
+    suivi: {
+      type: {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        userName: { type: String },
+      },
+      default: {},
+    },
+
+    options: {
+      transfert: {
+        actif: { type: Boolean, default: false },
+        adresse: { type: String, default: null },
+        nom: { type: String, default: null },
+        dateDebut: { type: Date },
+        dateFin: { type: Date },
+      },
+      procuration: {
+        actif: { type: Boolean, default: false },
+        nom: { type: String },
+        prenom: { type: String },
+        dateFin: { type: Date },
+        dateDebut: { type: Date },
+        dateNaissance: { type: String },
+      },
+      npai: {
+        actif: { type: Boolean, default: false },
+        dateDebut: { type: Date },
+      },
+    },
+    migration: { type: Boolean, default: false },
   },
+  {
+    timestamps: true,
+  }
+);
 
-  preference: {
-    email: { type: Boolean, default: false },
-    phone: { type: Boolean, default: false }
-  },
-
-  interactions: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Interaction"
-      }
-    ],
-    default: []
-  },
-  docs: [],
-  docsPath: [],
-
-  transfert: { type: Boolean, default: false },
-  transfertAddress: { type: String, default: "" }
-});
-
-UsagerSchema.pre<Usager>("save", function(next) {
+UsagerSchema.pre<Usager>("save", function (next) {
   this.nom = this.nom.charAt(0).toUpperCase() + this.nom.slice(1);
   this.prenom = this.prenom.charAt(0).toUpperCase() + this.prenom.slice(1);
   this.email = this.email.toLowerCase();

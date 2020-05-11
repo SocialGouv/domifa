@@ -1,13 +1,14 @@
 import { Component, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-not-found",
   styleUrls: ["./not-found.component.css"],
-  templateUrl: "./not-found.component.html"
+  templateUrl: "./not-found.component.html",
 })
 export class NotFoundComponent implements OnInit {
-  public title: string;
+  constructor(private titleService: Title) {}
   public ngOnInit() {
-    this.title = "La page que vous recherchez n'éxiste pas";
+    this.titleService.setTitle("La page que vous recherchez n'éxiste pas");
   }
 }

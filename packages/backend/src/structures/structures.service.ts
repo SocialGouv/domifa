@@ -3,7 +3,8 @@ import * as crypto from "crypto";
 import { Model } from "mongoose";
 import { User } from "../users/user.interface";
 
-import { StructureDto } from "./structure-dto";
+import { StructureEditDto } from "./dto/structure-edit.dto";
+import { StructureDto } from "./dto/structure.dto";
 import { Structure } from "./structure-interface";
 
 export interface StructureQuery {
@@ -15,7 +16,8 @@ export interface StructureQuery {
 export class StructuresService {
   public labels = {
     asso: "Organisme agrée",
-    ccas: "CCAS / CIAS"
+    ccas: "CCAS",
+    cias: "CIAS ou commune",
   };
 
   constructor(
@@ -25,6 +27,10 @@ export class StructuresService {
     private userModel: Model<User>
   ) {}
 
+  public async prePost(structureDto: StructureDto): Promise<any> {
+    return new this.structureModel(structureDto);
+  }
+
   public async create(structureDto: StructureDto): Promise<any> {
     const createdStructure = new this.structureModel(structureDto);
     createdStructure.id = await this.findLast();
@@ -33,19 +39,43 @@ export class StructuresService {
     return structure;
   }
 
-  public async checkToken(token: string): Promise<Structure> {
+  public async patch(structureDto: StructureEditDto, user: User): Promise<any> {
+    return this.structureModel
+      .findOneAndUpdate(
+        { _id: user.structure._id },
+        { $set: structureDto },
+        { new: true }
+      )
+      .exec();
+  }
+
+  public async updateLastExport(
+    structureId: string,
+    dateExport: Date
+  ): Promise<any> {
+    return this.structureModel
+      .findOneAndUpdate(
+        { _id: structureId },
+        { $set: { lastExport: dateExport } }
+      )
+      .exec();
+  }
+
+  public async updateLastLogin(structureId: number): Promise<any> {
+    return this.structureModel
+      .findOneAndUpdate(
+        { id: structureId },
+        { $set: { lastLogin: new Date() } }
+      )
+      .exec();
+  }
+
+  public async checkToken(token: string): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
         { token },
-        {
-          $set: {
-            token: "",
-            verified: true
-          }
-        },
-        {
-          new: true
-        }
+        { $set: { token: "", verified: true } },
+        { new: true }
       )
       .exec();
   }
@@ -60,37 +90,40 @@ export class StructuresService {
     return structure;
   }
 
-  public async findById(structureId: number): Promise<Structure> {
+  public async findOneBasic(param: any): Promise<any> {
     const structure = await this.structureModel
-      .findOne({ id: structureId })
+      .findOne(param)
       .select("-users -token -email -phone -responsable")
       .exec();
-    if (!structure || structure === null) {
-      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
     return structure;
+  }
+
+  public async checkHardResetToken(
+    userId: string,
+    token: string
+  ): Promise<Structure | null> {
+    return this.structureModel
+      .findOne({ "hardReset.token": token, "hardReset.userId": userId })
+      .select("+hardReset")
+      .exec();
   }
 
   public async addUser(user: User, structureId: number): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
         { id: structureId },
-        {
-          $push: { users: user }
-        },
-        {
-          new: true
-        }
+        { $push: { users: user } },
+        { new: true }
       )
       .exec();
   }
 
-  public async findAll(codePostal?: string) {
+  public async findAllPublic(codePostal?: string) {
     const params: StructureQuery = {
-      verified: true
+      verified: true,
     };
 
-    if (typeof codePostal !== undefined) {
+    if (codePostal) {
       params.codePostal = codePostal;
     }
 
@@ -111,18 +144,84 @@ export class StructuresService {
       throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
 
-    structure.users.forEach(user => {
+    structure.users.forEach((user: any) => {
       return this.userModel
         .deleteOne({
           id: user.id,
-          structureId: user.structureId
+          structureId: user.structureId,
         })
         .exec();
     });
 
     return this.structureModel.deleteOne({
-      token
+      token,
     });
+  }
+
+  public async importSuccess(id: number) {
+    return this.structureModel
+      .findOneAndUpdate(
+        { id },
+        { $set: { import: true, importDate: new Date() } },
+        { new: true }
+      )
+      .exec();
+  }
+
+  public async hardReset(id: number, token: any) {
+    return this.structureModel
+      .findOneAndUpdate({ id }, { $set: { hardReset: token } }, { new: true })
+      .exec();
+  }
+
+  public async hardResetClean(structureId: string) {
+    return this.structureModel
+      .findOneAndUpdate(
+        { _id: structureId },
+        {
+          $set: {
+            hardReset: {
+              token: "",
+              expireAt: null,
+            },
+          },
+        }
+      )
+      .exec();
+  }
+
+  // ----------------------
+  // STATS
+  // ----------------------
+
+  // TODO : Search options - tri par élément
+  public async findAllDomifa(): Promise<Structure[]> {
+    return this.structureModel
+      .find()
+      .select("-token")
+      .sort("-createdAt")
+      .exec();
+  }
+
+  public async countByType(): Promise<Structure[]> {
+    return this.structureModel.aggregate([
+      {
+        $project: {
+          _id: "$_id",
+          ___group: { structureType: "$structureType" },
+        },
+      },
+      { $group: { _id: "$___group", count: { $sum: 1 } } },
+      { $sort: { _id: 1 } },
+      {
+        $project: {
+          _id: false,
+          structureType: "$_id.structureType",
+          count: true,
+        },
+      },
+      { $sort: { count: -1, structureType: 1 } },
+    ]);
   }
 
   public async findLast(): Promise<number> {

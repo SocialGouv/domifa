@@ -10,7 +10,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MatomoModule } from "ngx-matomo";
+import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { routes } from "src/app/app-routing.module";
 import { AppComponent } from "src/app/app.component";
@@ -48,13 +48,27 @@ describe("UsagersFormComponent", () => {
           preventDuplicates: true,
           progressAnimation: "increasing",
           progressBar: true,
-          timeOut: 2000
+          timeOut: 2000,
         }),
         BrowserAnimationsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
     fixture = TestBed.createComponent(UsagersFormComponent);
     app = fixture.debugElement.componentInstance;
@@ -66,8 +80,6 @@ describe("UsagersFormComponent", () => {
   });
 
   it("should update header", () => {
-    expect(app.title).toEqual("Enregister une domiciliation");
-
     expect(app.doublons).toEqual([]);
     expect(app.documents).toEqual([]);
 
@@ -75,13 +87,8 @@ describe("UsagersFormComponent", () => {
     expect(app.labels.cause).toBeDefined();
     expect(app.labels.raison).toBeDefined();
 
-    expect(Array.isArray(app.residenceList)).toBeTruthy();
-    expect(Array.isArray(app.causeList)).toBeTruthy();
-    expect(Array.isArray(app.raisonList)).toBeTruthy();
-
     expect(app.f).toEqual(app.usagerForm.controls);
     expect(app.r).toEqual(app.rdvForm.controls);
-    expect(app.e).toEqual(app.entretienForm.controls);
   });
 
   it("2. Initialisation de l'usager", () => {
@@ -103,7 +110,6 @@ describe("UsagersFormComponent", () => {
     app.usagerForm.controls.surnom.setValue("Test Surnom");
     app.usagerForm.controls.dateNaissance.setValue("20/12/1991");
     app.usagerForm.controls.villeNaissance.setValue("Paris");
-
     expect(app.usagerForm.valid).toBeTruthy();
   });
 

@@ -1,6 +1,10 @@
 export interface Entretien {
   domiciliation: boolean;
   revenus: boolean;
+  revenusDetail: string;
+  orientation: boolean;
+  orientationDetail: string;
+  typeMenage: string;
   liencommune: string;
   residence: string;
   residenceDetail: string;

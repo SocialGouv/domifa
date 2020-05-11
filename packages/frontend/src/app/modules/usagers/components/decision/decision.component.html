@@ -1,196 +1,30 @@
-<ngb-accordion
-  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (isAdmin && usager.decision.statut === 'ATTENTE_DECISION')"
-  #acc="ngbAccordion"
-  class="recap">
-  <ngb-panel id="panel-0">
-    <ng-template
-      ngbPanelHeader
-      let-opened="opened">
-      <div class="head-panel">
-        <button
-          ngbPanelToggle
-          class="btn btn-link">
-          <span>FICHE RÉCAPITULATIVE</span>
-          <span class="arrows">
-            <fa-icon
-              *ngIf="opened"
-              icon="chevron-down"></fa-icon>
-            <fa-icon
-              *ngIf="!opened"
-              icon="chevron-right"></fa-icon>
-          </span>
-        </button>
-      </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <h4>ÉTAT CIVIL</h4>
-      <div class="row">
-        <div class="col">
-          <b>Nom :</b>
-          {{ usager.nom }}
-          <br>
-          <b>Prénom :</b>
-          {{ usager.prenom }}
-          <br>
-        </div>
-        <div class="col">
-          <b>Date de naissance :</b>
-          {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
-          <br>
-          <b>Lieu de Naissance :</b>
-          {{ usager.villeNaissance }}
-          <br>
-        </div>
-      </div>
-
-      <h4>AYANTS-DROITS</h4>
-      <div *ngIf="usager.ayantsDroits.length === 0">
-        <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
-      </div>
-      <table
-        *ngIf="usager.ayantsDroits.length > 0"
-        class="table table-light">
-        <tbody>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Né le</th>
-            <th>Lien</th>
-          </tr>
-          <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-            <td>{{ ayantDroit.nom }}</td>
-            <td>{{ ayantDroit.prenom }}</td>
-            <td>{{ ayantDroit.dateNaissance }}</td>
-            <td>{{ ayantDroit.lien }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h4>ENTRETIEN</h4>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="reponses">
-            <span class="question">
-              Avez-vous déjà une domiciliation quelque part ?
-            </span>
-            <span class="valeur">
-              {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
-            </span>
-          </div>
-
-          <div class="reponses">
-            <span class="question">Avez-vous des revenus ?</span>
-            <span class="valeur">
-              {{ usager.entretien.revenus ? "Oui" : "Non" }}
-            </span>
-          </div>
-
-          <div class="reponses">
-            <span class="question">Quel est votre lien avec la commune ?</span>
-            <span class="valeur">
-              {{ usager.entretien.liencommune || "Non renseigné" }}
-            </span>
-          </div>
-
-          <div class="reponses">
-            <span class="question">
-              Quel est le motif principal de demande de domiciliation ?
-            </span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.raison == 'AUTRE'">
-              Autre : {{ usager.entretien.raisonDetail }}
-            </span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.raison != 'AUTRE'">
-              {{ labels.raison[usager.entretien.raison] || "Non renseigné" }}
-            </span>
-          </div>
-
-          <div class="reponses">
-            <span class="question">
-              Quelle est la cause de l'instabilité de logement ?
-            </span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.residence == 'AUTRE'">
-              Autre : {{ usager.entretien.residenceDetail }}
-            </span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.residence != 'AUTRE'">
-              {{ labels.residence[usager.entretien.residence] || "Non renseigné" }}
-            </span>
-          </div>
-
-          <div class="reponses">
-            <span class="question">
-              Quelle est la cause de l'instabilité de logement ?
-            </span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.cause == 'AUTRE'">
-              Autre : {{ usager.entretien.causeDetail }}
-            </span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.cause != 'AUTRE'">
-              {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
-            </span>
-
-            <b>
-              Faites-vous l’objet d’un accompagnement social ?
-            </b>
-            {{ usager.entretien.accompagnement ? "Oui" : "Non" }}
-            <br>
-            <span *ngIf="accompagnement">
-              <b>Suivi par :</b>
-              {{ accompagnementDetail }}
-            </span>
-
-            <b>Commentaires</b>
-            <br>
-
-          </div>
-        </div>
-      </div>
-    </ng-template>
-  </ngb-panel>
-</ngb-accordion>
-
 <div
   class="step_form"
-  *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin">
+  *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin"
+>
   <div class="row">
     <div class="col text-center">
       <h5>
         <b>Demande de domiciliation en cours</b>
       </h5>
-      <br>
+      <br />
       La demande d'élection de domicile de
-      <b>{{ usager.nom }} {{ usager.prenom }}</b>
+      <b>{{ usager.nomComplet }}</b>
       a été envoyée le
-      <b>
-        {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}.
-      </b>
-      <br>
-      <br>
-      La personne référente dans votre structure est invitée à statuer sur cette demande
-      <br>
-      <br>
-      <button
-        (click)="getAttestation()"
-        class="btn btn-primary">
+      <b> {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}. </b>
+      <br />
+      La personne référente dans votre structure est invitée à statuer sur cette
+      demande
+      <br />
+      <br />
+      <button (click)="getAttestation()" class="btn btn-primary">
         <fa-icon icon="download"></fa-icon>
         Télécharger le CERFA de demande
       </button>
-      <br>
-      <br>
+      <br />
+      <br />
       <p class="text-center">
-        <a
-          routerLink="/manage"
-          routerLinkActive="router-link-active">
+        <a routerLink="/manage" routerLinkActive="router-link-active">
           Retour à la liste des domiciliés
         </a>
       </p>
@@ -201,110 +35,372 @@
 <div
   class="step_form"
   id="step_form4"
-  *ngIf="(usager.etapeDemande === 4 && usager.decision.statut === 'INSTRUCTION') || (isAdmin && usager.decision.statut === 'ATTENTE_DECISION')">
+  *ngIf="
+    usager.etapeDemande >= 4 &&
+    !isAdmin &&
+    usager.decision.statut === 'INSTRUCTION'
+  "
+>
   <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <h5 class="text-center">
+    <div class="col-md-12 text-center">
+      <h5>
         Le dossier de
         <b>{{ usager.nom }} {{ usager.prenom }}</b>
         est complet
       </h5>
-      <h6 class="text-center">Quelle décision souhaitez-vous rendre ?</h6>
-      <br>
-      <div
-        class="row"
-        *ngIf="isAdmin">
-        <div class="col-md-6">
-          <button
-            class="btn-block btn btn-danger"
-            (click)="open(refus)">
-            <fa-icon icon="times"></fa-icon>
-            REFUSER LE DOSSIER
-          </button>
-        </div>
-        <br>
-        <div class="col-md-6">
-          <button
-            class="btn-block btn btn-secondary"
-            (click)="open(confirmation)">
-            <fa-icon icon="check"></fa-icon>
-            ACCEPTER LE DOSSIER
-          </button>
-        </div>
-
-      </div>
-      <div
-        class="row"
-        *ngIf="!isAdmin">
-        <br>
-        <div class="col-md-10 offset-md-1">
-          <button
-            (click)="setDecision('ATTENTE_DECISION')"
-            class="btn btn-primary btn-block">
-            DEMANDER LA VALIDATION DU DOSSIER
-          </button>
-        </div>
-        <br>
-      </div>
-
-      <div class="row text-center">
-
-        <div class="col-md-8 offset-md-2">
-          <br>
-          <button
-            (click)="getAttestation()"
-            class="btn btn-outline-primary">
-            <fa-icon icon="download"></fa-icon>
-            Télécharger l'attestation de Demande
-          </button>
-        </div>
-        <br>
-      </div>
-
+    </div>
+    <div class="col-md-6 offset-3">
+      <button
+        (click)="setDecision('ATTENTE_DECISION')"
+        class="btn btn-block btn-primary"
+      >
+        <fa-icon icon="clock"></fa-icon>
+        DEMANDER LA VALIDATION DU DOSSIER
+      </button>
     </div>
   </div>
 </div>
-<ng-template
-  #refus
-  let-modal>
-  <div class="modal-header">
-    <b
-      class="modal-title"
-      id="modal-basic-title">
-      Motivez votre refus
-    </b>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+
+<div
+  class="step_form"
+  id="step_form4"
+  *ngIf="usager.etapeDemande >= 4 && isAdmin"
+>
+  <div class="col text-center">
+    <h5>
+      Le dossier de
+      <b>{{ usager.nom }} {{ usager.prenom }}</b>
+      est complet
+    </h5>
+    <br />
+    <p *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
+      Ce dossier a été mis en attente d'une décision par
+      <br />
+      <b>
+        {{ usager.decision.userName }}
+        le {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}
+      </b>
+    </p>
+    <p>Quelle décision souhaitez-vous rendre ?</p>
+
+    <div class="row text-center">
+      <div class="col" *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'">
+        <button
+          (click)="setDecision('ATTENTE_DECISION')"
+          class="btn btn-block btn-primary"
+        >
+          <fa-icon icon="clock" class="btn-icon"></fa-icon>
+          METTRE EN ATTENTE
+        </button>
+      </div>
+      <div class="col">
+        <button class="btn-block btn btn-danger" (click)="open(refus)">
+          <fa-icon icon="times" class="btn-icon"></fa-icon>
+          REFUSER LE DOSSIER
+        </button>
+      </div>
+      <div class="col">
+        <button
+          class="btn-block btn btn-secondary"
+          (click)="open(confirmation)"
+        >
+          <fa-icon icon="check" class="btn-icon"></fa-icon>
+          ACCEPTER LE DOSSIER
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="modal-body">
+</div>
+
+<div class="step_form" id="fiche-recap" *ngIf="usager.etapeDemande >= 4">
+  <h4>ÉTAT CIVIL</h4>
+  <div class="row">
+    <div class="col-md-4 reponses">
+      <span class="question">NOM</span>
+      <span class="valeur">{{ usager.nom }}</span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">PRÉNOM</span>
+      <span class="valeur">{{ usager.prenom }}</span>
+    </div>
+    <div class="col-md-4 reponses">
+      <span class="question">NOM D'USAGE / SURNOM</span>
+      <span class="valeur">{{ usager.surnom | titlecase }}</span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">SEXE</span>
+      <span class="valeur">{{ usager.sexe | titlecase }}</span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">Date de naissance</span>
+      <span class="valeur">
+        {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
+      </span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">VILLE de naissance</span>
+      <span class="valeur">{{ usager.villeNaissance }}</span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">Numéro de téléphone</span>
+      <span class="valeur">{{ usager.phone || "Non renseigné" }}</span>
+    </div>
+    <div class="col-md-4 reponses">
+      <span class="question">Adresse email</span>
+      <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
+    </div>
+
+    <div class="col-md-4 reponses"></div>
+  </div>
+
+  <h4>AYANTS-DROITS</h4>
+
+  <div *ngIf="usager.ayantsDroits.length === 0">
+    <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
+  </div>
+  <table *ngIf="usager.ayantsDroits.length > 0" class="table table-light">
+    <tbody>
+      <tr>
+        <th>NOM Prénom</th>
+        <th>Né le</th>
+        <th>Lien</th>
+      </tr>
+      <tr *ngFor="let ayantDroit of usager.ayantsDroits">
+        <td>{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</td>
+        <td>{{ ayantDroit.dateNaissance }}</td>
+        <td>{{ ayantDroit.lien }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>ENTRETIEN</h4>
+  <div class="row">
+    <div class="col-md-4 reponses">
+      <span class="question">DOMICILIATION EXISTANTE</span>
+      <span class="valeur">
+        {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
+      </span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">ORIENTATION</span>
+      <span class="valeur">
+        {{
+          usager.entretien.orientation
+            ? "Oui: " + usager.entretien.orientationDetail
+            : "Non"
+        }}
+      </span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">REVENUS</span>
+      <span class="valeur">
+        {{
+          usager.entretien.revenus
+            ? "Oui, " + usager.entretien.revenusDetail
+            : "Non"
+        }}
+      </span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">LIEN COMMUNE</span>
+      <span class="valeur">
+        {{ usager.entretien.liencommune || "Non renseigné" }}
+      </span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">MOTIF DE LA DEMANDE</span>
+      <span class="valeur" *ngIf="usager.entretien.raison == 'AUTRE'">
+        Autre : {{ usager.entretien.raisonDetail }}
+      </span>
+      <span class="valeur" *ngIf="usager.entretien.raison != 'AUTRE'">
+        {{ labels.raison[usager.entretien.raison] || "Non renseigné" }}
+      </span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">SITUATION RESIDENTIELLE</span>
+      <span class="valeur" *ngIf="usager.entretien.residence == 'AUTRE'">
+        Autre : {{ usager.entretien.residenceDetail }}
+      </span>
+      <span class="valeur" *ngIf="usager.entretien.residence != 'AUTRE'">
+        {{ labels.residence[usager.entretien.residence] || "Non renseigné" }}
+      </span>
+    </div>
+    <div class="col-md-4 reponses">
+      <span class="question">COMPOSITION MÉNAGE</span>
+      <span class="valeur">
+        {{ labels.typeMenage[usager.entretien.typeMenage] || "Non renseigné" }}
+      </span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">CAUSE DE L'INSTABILITÉ LOGEMENT</span>
+      <span class="valeur" *ngIf="usager.entretien.cause == 'AUTRE'">
+        Autre : {{ usager.entretien.causeDetail }}
+      </span>
+      <span class="valeur" *ngIf="usager.entretien.cause != 'AUTRE'">
+        {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
+      </span>
+    </div>
+
+    <div class="col-md-4 reponses">
+      <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
+      <span class="valeur">
+        {{ usager.entretien.accompagnement ? "Oui : " : "Non" }}
+        <span *ngIf="usager.entretien.accompagnement">
+          {{ usager.entretien.accompagnementDetail }}
+        </span>
+      </span>
+    </div>
+
+    <div class="col-md-4 reponses"></div>
+    <br />
+    <div class="col-md-12 reponses">
+      <span class="question">NOTES SUPPLÉMENTAIRES:</span>
+      <span class="valeur">{{ usager.entretien.commentaires }}</span>
+      <br />
+    </div>
+  </div>
+
+  <h4>Pièces-jointes</h4>
+  <div class="row">
+    <div class="col">
+      <div *ngIf="usager.docs.length === 0">
+        <ngb-alert [dismissible]="false"
+          >Aucune pièce-jointe enregistrée</ngb-alert
+        >
+      </div>
+      <table class="table table-light" *ngIf="usager.docs.length > 0">
+        <tbody>
+          <tr>
+            <th>Nom de la pièce justificative</th>
+            <th>Ajoutée le</th>
+            <th>Ajoutée par</th>
+            <th></th>
+          </tr>
+          <tr *ngFor="let document of usager.docs; let indexDocs = index">
+            <td>{{ document.label }}</td>
+            <td>
+              {{ document.createdAt | date: "dd/MM/yyyy" }}
+            </td>
+            <td>{{ document.createdBy }}</td>
+            <td>
+              <button
+                (click)="getDocument(indexDocs)"
+                class="btn btn-primary"
+                aria-label="Voir la pièce jointe"
+              >
+                <fa-icon icon="download" class="btn-icon"></fa-icon>
+                Télécharger
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br />
+
+  <div class="row">
+    <div class="col">
+      <button
+        (click)="this.printService.printDiv('fiche-recap')"
+        class="btn-block btn btn-primary"
+      >
+        <fa-icon icon="print" class="btn-icon"></fa-icon>
+        Imprimer le récapitulatif
+      </button>
+    </div>
+    <div class="col">
+      <button (click)="getAttestation()" class="btn-block btn btn-primary">
+        <fa-icon icon="download" class="btn-icon"></fa-icon>
+        Télécharger l'attestation de Demande
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #refus let-modal>
+  <div class="modal-body decision-form">
     <form
       [formGroup]="refusForm"
       (ngSubmit)="setDecision('REFUS')"
-      autocomplete="off">
-      <div class="form-group  col-md-12">
-        <b>Pour quel motif ?</b>
+      autocomplete="off"
+    >
+      <div class="col-md-12">
+        <h3>Motivez votre refus</h3>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="dateFinRefus">
+          Date du refus
+          <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            [minDate]="minDate"
+            [maxDate]="maxDateRefus"
+            placement="bottom"
+            ngbDatepicker
+            id="dateFinRefus"
+            formControlName="dateFinPicker"
+            #dFin="ngbDatepicker"
+            dateFr
+            value
+            [ngClass]="{
+              'is-invalid': r.dateFinPicker.dirty && r.dateFinPicker.errors
+            }"
+            maxlength="10"
+            required
+          />
+          <div class="input-group-append">
+            <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+              <fa-icon icon="calendar"></fa-icon>
+            </span>
+          </div>
+        </div>
+        <div
+          *ngIf="submitted && r.dateFinPicker.errors"
+          class="invalid-feedback"
+        >
+          La date de refus est incorrecte
+        </div>
+      </div>
+
+      <div class="col-md-6"></div>
+      <div class="form-group col-md-12">
+        <b>
+          Pour quel motif ?
+          <span class="text-danger">*</span>
+        </b>
         <div
           class="form-row"
-          *ngFor="let key of motifsRefusList">
+          *ngFor="let motif of labels.motifsRefus | keyvalue"
+        >
           <div class="form-check">
             <input
               class="form-check-input"
               type="radio"
-              id="motif-refus-{{ key }}"
+              id="motif-refus-{{ motif.key }}"
               formControlName="motif"
-              value="{{ key }}">
-            <label
-              class="form-check-label"
-              for="motif-refus-{{ key }}">
-              {{ motifsRefus[key] }}
+              value="{{ motif.key }}"
+            />
+            <label class="form-check-label" for="motif-refus-{{ motif.key }}">
+              {{ motif.value }}
             </label>
           </div>
         </div>
+
         <div class="form-row">
           <div class="form-check">
             <input
@@ -312,51 +408,53 @@
               type="radio"
               id="motif-autre"
               formControlName="motif"
-              value="AUTRE">
-            <label
-              class="form-check-label"
-              for="motif-autre">
+              value="AUTRE"
+            />
+            <label class="form-check-label" for="motif-autre">
               Autre raison
             </label>
           </div>
         </div>
-        <div
-          *ngIf="r.motif.value === 'AUTRE'"
-          class="form-row">
-          <label
-            class="form-check-label"
-            for="motifRefusAutre">
-            Motif du refus
-            <span class="red">*</span>
+
+        <div *ngIf="r.motif.value === 'AUTRE'" class="form-row">
+          <label class="form-check-label" for="motifRefusAutre">
+            Autre motif de refus
+            <span class="text-danger">*</span>
           </label>
           <input
             type="text"
             class="form-control"
             id="motifRefusAutre"
-            formControlName="motifDetails">
-          <small
-            id="refusAutres"
-            class="form-text text-muted">
-            20 caractères minimum
-          </small>
+            formControlName="motifDetails"
+          />
+        </div>
+        <div *ngIf="submitted && r.motif.errors" class="invalid-feedback">
+          Veuillez choisir un motif de refus (10 caractères minimum)
+        </div>
+        <div
+          *ngIf="submitted && r.motifDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez indiquer un autre motif
         </div>
       </div>
+
       <div class="form-group col-md-12">
-        <b>Orientation proposée</b>
-        <div class="form-row">
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="orientationRefusCcas"
-              formControlName="orientation"
-              value="ccas">
-            <label
-              class="form-check-label"
-              for="orientationRefusCcas">
-              CCAS, CIAS, Commune
-            </label>
-          </div>
+        <b>
+          Orientation proposée
+          <span class="text-danger">*</span>
+        </b>
+        <div class="form-row form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="orientationRefusCcas"
+            formControlName="orientation"
+            value="ccas"
+          />
+          <label class="form-check-label" for="orientationRefusCcas">
+            CCAS, CIAS, Commune
+          </label>
         </div>
         <div class="form-row">
           <div class="form-check">
@@ -365,106 +463,72 @@
               type="radio"
               id="orientationRefusAsso"
               formControlName="orientation"
-              value="asso">
-            <label
-              class="form-check-label"
-              for="orientationRefusAsso">
+              value="asso"
+            />
+            <label class="form-check-label" for="orientationRefusAsso">
               Organisme agréée
             </label>
           </div>
+          <div
+            *ngIf="submitted && r.orientation.errors"
+            class="invalid-feedback"
+          >
+            Veuillez proposer une orientation
+          </div>
         </div>
         <div class="form-row">
-          <label for="orientationRefusDetails">Précisez</label>
+          <label for="orientationRefusDetails">
+            Précisez
+            <span class="text-danger">*</span>
+          </label>
           <input
             class="form-control"
             type="text"
             formControlName="orientationDetails"
-            id="orientationRefusDetails">
+            id="orientationRefusDetails"
+          />
         </div>
-      </div>
-
-      <div class="form-group col-md-6">
-        <label for="dateFinRefus">
-          Date du refus
-          <fa-icon [icon]="info"></fa-icon>
-        </label>
-        <div class="input-group">
-          <input
-            class="form-control"
-            placeholder="jj/mm/aaaa"
-            [minDate]="minDate"
-            [maxDate]="maxDate"
-            placement="bottom"
-            ngbDatepicker
-            id="dateFinRefus"
-            formControlName="dateFinPicker"
-            #dFin="ngbDatepicker"
-            dateFr
-            value
-            [ngClass]="{ 'is-invalid': v.dateFinPicker.dirty && v.dateFinPicker.errors }"
-            maxlength="10"
-            required>
-          <div class="input-group-append">
-            <span
-              class="btn btn-outline-primary"
-              (click)="dFin.toggle()">
-              <fa-icon icon="calendar"></fa-icon>
-            </span>
-          </div>
+        <div
+          *ngIf="submitted && r.orientationDetails.errors"
+          class="invalid-feedback"
+        >
+          Veuillez indiquer vers quel organisme vous souhaitez orienter
         </div>
       </div>
       <input
         type="hidden"
         formControlName="dateFin"
         class="form-control"
-        value>
+        value
+      />
     </form>
   </div>
 
   <div class="modal-footer">
-    <button
-      class="btn btn-outline-danger"
-      (click)="modal.close('Save click')">
+    <button class="btn btn-outline-danger" (click)="modal.close('Save click')">
       Annuler
     </button>
-    <button
-      class="btn btn-danger"
-      [disabled]="refusForm.invalid"
-      (click)="setDecision('REFUS')">
+    <button class="btn btn-danger" (click)="setDecision('REFUS')">
       Confirmer le refus
     </button>
   </div>
 </ng-template>
 
-<ng-template
-  #confirmation
-  let-modal>
-  <div class="modal-header">
-    <span
-      class="modal-title"
-      id="modal-basic-title">
-      <b>Confirmer la décision</b>
-    </span>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
+<ng-template #confirmation let-modal>
   <div class="modal-body text-center">
     <div class="col">
+      <h4>Confirmer la décision</h4>
       Vous êtes sur le point de domicilier
       <b>{{ usager.nom }} {{ usager.prenom }}.</b>
-      <br>
+      <br />
       Veuillez indiquer la date de début et de fin de la domiciliation
-      <br>
-      <br>
+      <br />
+      <br />
       <form
         [formGroup]="valideForm"
         (ngSubmit)="setDecision('VALIDE')"
-        autocomplete="off">
+        autocomplete="off"
+      >
         <div class="row">
           <div class="form-group col-md-6 required">
             <label for="dateDebutValide">Date de début</label>
@@ -481,19 +545,27 @@
                 #dDebut="ngbDatepicker"
                 dateFr
                 value
-                [ngClass]="{ 'is-invalid': v.dateDebutPicker.dirty && v.dateDebutPicker.errors     }"
+                [ngClass]="{
+                  'is-invalid':
+                    v.dateDebutPicker.dirty && v.dateDebutPicker.errors
+                }"
                 maxlength="10"
-                required>
+                required
+              />
               <div class="input-group-append">
-                <span
-                  class="btn btn-outline-primary"
-                  (click)="dDebut.toggle()">
+                <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
                   <fa-icon icon="calendar"></fa-icon>
                 </span>
               </div>
             </div>
+            <div
+              *ngIf="submitted && v.dateDebutPicker.errors"
+              class="invalid-feedback"
+            >
+              La date de début de domiciliation est incorrecte
+            </div>
           </div>
-          <div class="form-group col">
+          <div class="form-group col-md-6 required">
             <label for="dateFinValide">Date de fin</label>
             <div class="input-group">
               <input
@@ -509,45 +581,48 @@
                 id="dateFinValide"
                 value
                 [ngClass]="{
-                    'is-invalid': v.dateFinPicker.dirty && v.dateFinPicker.errors
-                  }"
+                  'is-invalid': v.dateFinPicker.dirty && v.dateFinPicker.errors
+                }"
                 maxlength="10"
-                required>
+                required
+              />
               <div class="input-group-append">
-                <span
-                  class="btn btn-outline-primary"
-                  (click)="dFin.toggle()">
+                <span class="btn btn-outline-primary" (click)="dFin.toggle()">
                   <fa-icon icon="calendar"></fa-icon>
                 </span>
               </div>
+            </div>
+            <div
+              *ngIf="submitted && v.dateFinPicker.errors"
+              class="invalid-feedback"
+            >
+              La date de fin de domiciliation est incorrecte
             </div>
             <input
               type="hidden"
               formControlName="dateDebut"
               class="form-control"
-              value>
+              value
+            />
             <input
               type="hidden"
               formControlName="dateFin"
               class="form-control"
-              value>
-            <div *ngIf="v.dateDebut.value >= v.dateFin.value">Dates incorrects</div>
+              value
+            />
+            <div *ngIf="v.dateDebut.value >= v.dateFin.value">
+              Dates incorrects
+            </div>
           </div>
         </div>
       </form>
-
     </div>
   </div>
   <div class="modal-footer text-center">
-    <button
-      class="btn btn-outline-dark"
-      (click)="modal.close('Save click')">
+    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
       Revenir au formulaire
     </button>
-    <button
-      class="btn btn-primary"
-      [disabled]="valideForm.invalid"
-      (click)="setDecision('VALIDE')">
+    <button class="btn btn-primary" (click)="setDecision('VALIDE')">
       Confirmer la domiciliation
     </button>
   </div>

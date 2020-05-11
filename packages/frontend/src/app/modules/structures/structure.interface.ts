@@ -15,19 +15,35 @@ export class Structure {
   public agrement: string;
   public phone: string;
   public email: string;
+  public import: boolean;
+  public importDate: Date;
+  public lastLogin: Date;
+
   public responsable: {
     fonction: string;
     nom: string;
     prenom: string;
   };
+
+  public options: {
+    colis: boolean;
+    customId: boolean;
+    numeroBoite: boolean;
+  };
+
   public users: User[];
+  public createdAt: Date | null;
 
   constructor(structure?: any) {
+    this.createdAt = null;
+    this.importDate = null;
+    this.lastLogin = null;
+
     this.id = (structure && structure.id) || 0;
     this.capacite = (structure && structure.capacite) || null;
     this.adresse = (structure && structure.adresse) || null;
     this.adresseCourrier = (structure && structure.adresseCourrier) || "";
-    this.adresseDifferente = structure && structure.adresseCourrier !== "";
+    this.adresseDifferente = structure && structure.adresseDifferente !== "";
     this.complementAdresse = (structure && structure.complementAdresse) || "";
     this.nom = (structure && structure.nom) || "";
     this.structureType = (structure && structure.structureType) || "";
@@ -36,12 +52,35 @@ export class Structure {
     this.codePostal = (structure && structure.codePostal) || "";
     this.agrement = (structure && structure.agrement) || "";
     this.phone = (structure && structure.phone) || "";
-    this.email = (structure && structure.phone) || "";
+    this.email = (structure && structure.email) || "";
+    this.import = (structure && structure.import) || false;
+
     this.responsable = (structure && structure.responsable) || {
       fonction: "",
       nom: "",
-      prenom: ""
+      prenom: "",
     };
+
+    this.options = {
+      colis: false,
+      customId: false,
+      numeroBoite: false,
+    };
+    if (structure && structure.options) {
+      this.options.colis = structure.options.colis || false;
+      this.options.customId = structure.options.customId || false;
+      this.options.numeroBoite = structure.options.numeroBoite || false;
+    }
+
     this.users = (structure && structure.users) || [];
+
+    if (structure && structure.createdAt) {
+      this.createdAt = new Date(structure.createdAt);
+    }
+
+    this.importDate =
+      structure && structure.importDate ? new Date(structure.importDate) : null;
+    this.lastLogin =
+      structure && structure.lastLogin ? new Date(structure.lastLogin) : null;
   }
 }

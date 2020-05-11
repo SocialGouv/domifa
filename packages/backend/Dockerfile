@@ -2,7 +2,7 @@ ARG BASE_IMAGE=socialgouv/domifa:master
 
 FROM ${BASE_IMAGE} as domifa
 
-FROM node:12
+FROM node:13
 
 ENV TZ Europe/Paris
 RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
@@ -15,6 +15,8 @@ COPY --from=domifa /app/node_modules /node_modules
 COPY --from=domifa /app/packages/backend/node_modules /app/node_modules
 COPY --from=domifa /app/packages/backend/dist /app/dist
 
+
 COPY ./package.json /app/package.json
+
 
 ENTRYPOINT [ "yarn", "start:prod"]

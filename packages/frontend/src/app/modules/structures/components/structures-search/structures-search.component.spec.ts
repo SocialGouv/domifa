@@ -31,10 +31,10 @@ describe("StructuresSearchComponent", () => {
         FormsModule,
         HttpClientModule,
         HttpClientTestingModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

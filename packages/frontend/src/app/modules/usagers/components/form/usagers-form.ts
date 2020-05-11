@@ -1,13 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
-  NgbModal
+  NgbModal,
+  NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { Doc } from "src/app/modules/usagers/interfaces/document";
+import { Doc } from "src/app/modules/usagers/interfaces/doc";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { DocumentService } from "src/app/modules/usagers/services/document.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
@@ -16,15 +17,22 @@ import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/modules/users/interfaces/user";
 import { UsersService } from "src/app/modules/users/services/users.service";
-import { AuthService } from "src/app/services/auth.service";
-import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
-import { CustomDatepickerI18n } from "src/app/services/date-french";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
+import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import { fadeInOut } from "../../../../shared/animations";
-import * as labels from "../../../../shared/entretien.labels";
 import { regexp } from "../../../../shared/validators";
+import * as labels from "../../usagers.labels";
 
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Decision } from "../../interfaces/decision";
+
+import {
+  minDateNaissance,
+  minDateToday,
+  formatDateToNgb,
+} from "src/app/shared/bootstrap-util";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   animations: [fadeInOut],
@@ -32,38 +40,28 @@ import { Decision } from "../../interfaces/decision";
     UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-usagers-form",
   styleUrls: ["./usagers-form.css"],
-  templateUrl: "./usagers-form.html"
+  templateUrl: "./usagers-form.html",
 })
 export class UsagersFormComponent implements OnInit {
-  public selected: any;
-
-  public title: string;
   public labels: any;
   public doublons: Usager[];
 
+  public selected: any;
+
   /* Config datepickers */
   public dToday = new Date();
-  public maxDateNaissance = {
-    day: this.dToday.getDate(),
-    month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear()
-  };
-  public minDateNaissance = { day: 1, month: 1, year: 1900 };
-
-  public minDateRdv = {
-    day: this.dToday.getDate(),
-    month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear()
-  };
+  public maxDateNaissance: NgbDateStruct;
+  public minDateNaissance: NgbDateStruct;
+  public minDateToday: NgbDateStruct;
 
   public maxDateRdv = {
     day: this.dToday.getDate(),
     month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear() + 2
+    year: this.dToday.getFullYear() + 2,
   };
 
   public etapes = [
@@ -71,7 +69,7 @@ export class UsagersFormComponent implements OnInit {
     "Prise de RDV",
     "Entretien",
     "Pièces justificatives",
-    "Décision finale"
+    "Décision finale",
   ];
 
   /* RDV */
@@ -79,11 +77,10 @@ export class UsagersFormComponent implements OnInit {
 
   public documents: Doc[];
 
-  public usager: Usager;
-  public registerForm: FormGroup;
-  public usagerForm: FormGroup;
-  public rdvForm: FormGroup;
-  public entretienForm: FormGroup;
+  public usager!: Usager;
+  public registerForm!: FormGroup;
+  public usagerForm!: FormGroup;
+  public rdvForm!: FormGroup;
 
   public submitted = false;
   public submittedFile = false;
@@ -91,23 +88,16 @@ export class UsagersFormComponent implements OnInit {
   public modal: any;
   public structure: any;
   public agents: User[] = [];
-
-  public residence = {};
-
-  public typeMenageList = [];
-  public residenceList = [];
-  public causeList = [];
-  public raisonList = [];
+  public liensLabels: any;
 
   get f() {
     return this.usagerForm.controls;
   }
+
   get r(): any {
     return this.rdvForm.controls;
   }
-  get e(): any {
-    return this.entretienForm.controls;
-  }
+
   get ayantsDroits() {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
@@ -117,27 +107,27 @@ export class UsagersFormComponent implements OnInit {
     private usagerService: UsagerService,
     private userService: UsersService,
     private documentService: DocumentService,
-    private authService: AuthService,
+    public authService: AuthService,
     private matomoTracker: MatomoTracker,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private router: Router,
     private notifService: ToastrService,
-    private nbgDate: NgbDateCustomParserFormatter
-  ) {}
-
-  public ngOnInit() {
-    this.title = "Enregister une domiciliation";
+    private nbgDate: NgbDateCustomParserFormatter,
+    private titleService: Title
+  ) {
     this.labels = labels;
     this.doublons = [];
     this.documents = [];
+    this.liensLabels = Object.keys(this.labels.lienParente);
 
-    this.residence = this.labels.residence;
+    this.minDateToday = minDateToday;
+    this.minDateNaissance = minDateNaissance;
+    this.maxDateNaissance = formatDateToNgb(new Date());
+  }
 
-    this.residenceList = Object.keys(this.residence);
-    this.causeList = Object.keys(this.labels.cause);
-    this.raisonList = Object.keys(this.labels.raison);
-    this.typeMenageList = Object.keys(this.labels.typeMenage);
+  public ngOnInit() {
+    this.titleService.setTitle("Demande de domiciliation");
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
@@ -155,7 +145,7 @@ export class UsagersFormComponent implements OnInit {
             this.usager.decision = new Decision({});
           }
         },
-        error => {
+        (error) => {
           this.router.navigate(["404"]);
         }
       );
@@ -172,7 +162,7 @@ export class UsagersFormComponent implements OnInit {
       dateNaissance: [this.usager.dateNaissance, []],
       dateNaissancePicker: [
         this.usager.dateNaissancePicker,
-        [Validators.required]
+        [Validators.required],
       ],
       decision: [this.usager.decision, []],
       email: [this.usager.email, [Validators.email]],
@@ -183,13 +173,14 @@ export class UsagersFormComponent implements OnInit {
       preference: this.formBuilder.group({
         aucun: [this.usager.preference.aucun, []],
         email: [this.usager.preference.email, []],
-        phone: [this.usager.preference.phone, []]
+        phone: [this.usager.preference.phone, []],
       }),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
       structure: [this.usager.structure, []],
       surnom: [this.usager.surnom, []],
-      villeNaissance: [this.usager.villeNaissance, [Validators.required]]
+      typeDom: [this.usager.typeDom],
+      villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });
 
     this.rdvForm = this.formBuilder.group({
@@ -197,59 +188,40 @@ export class UsagersFormComponent implements OnInit {
       heureRdv: [this.usager.rdv.heureRdv, [Validators.required]],
       isNow: [this.usager.rdv.isNow, []],
       jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
-      userId: [this.usager.id, Validators.required]
-    });
-
-    this.entretienForm = this.formBuilder.group({
-      accompagnement: [
-        this.usager.entretien.accompagnement,
-        [Validators.required]
-      ],
-      accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
-      cause: [this.usager.entretien.cause, [Validators.required]],
-      causeDetail: [this.usager.entretien.causeDetail, []],
-      commentaires: [this.usager.entretien.commentaires, []],
-      domiciliation: [this.usager.entretien.domiciliation, []],
-      liencommune: [this.usager.entretien.liencommune, []],
-      raison: [this.usager.entretien.raison, [Validators.required]],
-      raisonDetail: [this.usager.entretien.raisonDetail, []],
-      residence: [this.usager.entretien.residence, [Validators.required]],
-      residenceDetail: [this.usager.entretien.residenceDetail, []],
-      revenus: [this.usager.entretien.revenus, []],
-      typeMenage: [this.usager.entretien.typeMenage, [Validators.required]]
+      userId: [this.usager.id, Validators.required],
     });
 
     this.userService.getUsers().subscribe((users: User[]) => {
       this.agents = users;
       this.rdvForm.controls.userId.setValue(users[0].id, {
-        onlySelf: true
+        onlySelf: true,
       });
     });
   }
 
-  public open(content: string) {
+  public open(content: TemplateRef<any>) {
     this.modal = this.modalService.open(content);
   }
 
   public isDoublon() {
     if (
-      this.usagerForm.get("nom").value !== "" &&
-      this.usagerForm.get("prenom").value !== "" &&
-      this.usagerForm.get("nom").value !== null &&
-      this.usagerForm.get("nom").value &&
-      this.usagerForm.get("prenom").value !== null &&
-      this.usagerForm.get("prenom").value
+      this.usagerForm.controls.nom.value !== "" &&
+      this.usagerForm.controls.prenom.value !== "" &&
+      this.usagerForm.controls.nom.value !== null &&
+      this.usagerForm.controls.nom.value &&
+      this.usagerForm.controls.prenom.value !== null &&
+      this.usagerForm.controls.prenom.value
     ) {
       this.usagerService
         .isDoublon(
-          this.usagerForm.get("nom").value,
-          this.usagerForm.get("prenom").value
+          this.usagerForm.controls.nom.value,
+          this.usagerForm.controls.prenom.value
         )
         .subscribe((usagersDoublon: Usager[]) => {
           this.doublons = [];
           if (usagersDoublon.length !== 0) {
             this.notifService.warning("Un homonyme potentiel a été détecté !");
-            usagersDoublon.forEach(doublon => {
+            usagersDoublon.forEach((doublon) => {
               this.doublons.push(new Usager(doublon));
             });
           }
@@ -272,7 +244,7 @@ export class UsagersFormComponent implements OnInit {
     (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
   }
 
-  public resetAyantDroit(i: number): void {
+  public resetAyantDroit(): void {
     while ((this.usagerForm.controls.ayantsDroits as FormArray).length !== 0) {
       (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(0);
     }
@@ -282,11 +254,11 @@ export class UsagersFormComponent implements OnInit {
     return this.formBuilder.group({
       dateNaissance: [
         ayantDroit.dateNaissance,
-        [Validators.pattern(regexp.date), Validators.required]
+        [Validators.pattern(regexp.date), Validators.required],
       ],
       lien: [ayantDroit.lien, Validators.required],
       nom: [ayantDroit.nom, Validators.required],
-      prenom: [ayantDroit.prenom, Validators.required]
+      prenom: [ayantDroit.prenom, Validators.required],
     });
   }
 
@@ -317,7 +289,7 @@ export class UsagersFormComponent implements OnInit {
       );
     } else {
       const dateTmp = this.nbgDate.formatEn(
-        this.usagerForm.get("dateNaissancePicker").value
+        this.usagerForm.controls.dateNaissancePicker.value
       );
 
       const dateTmpN = new Date(dateTmp).toISOString();
@@ -329,9 +301,10 @@ export class UsagersFormComponent implements OnInit {
           this.goToTop();
           this.notifService.success("Enregistrement réussi");
           this.matomoTracker.trackEvent("dossiers", "demande", "etape", 1);
+          this.usager = usager;
           this.router.navigate(["usager/" + usager.id + "/edit"]);
         },
-        error => {
+        (error) => {
           if (error.statusCode && error.statusCode === 400) {
             this.notifService.error(
               "Veuillez vérifiez les champs du formulaire"
@@ -342,27 +315,12 @@ export class UsagersFormComponent implements OnInit {
     }
   }
 
-  public submitEntretien() {
-    this.usagerService
-      .entretien(this.entretienForm.value, this.usager.id)
-      .subscribe(
-        (usager: Usager) => {
-          this.usager = new Usager(usager);
-          this.goToTop();
-          this.notifService.success("Enregistrement de l'entretien réussi");
-        },
-        error => {
-          this.notifService.error("Impossible d'enregistrer l'entretien");
-        }
-      );
-  }
-
   public setValueRdv(value: string) {
     this.rdvForm.controls.isNow.setValue(value);
   }
 
   public submitRdv() {
-    if (this.rdvForm.get("isNow").value === "oui") {
+    if (this.rdvForm.controls.isNow.value === "oui") {
       this.rdvForm.controls.userId.setValue(
         this.authService.currentUserValue.id
       );
@@ -371,9 +329,9 @@ export class UsagersFormComponent implements OnInit {
       if (this.rdvForm.invalid) {
         this.notifService.error("Veuillez vérifier les champs du formulaire");
       } else {
-        const heureRdv = this.rdvForm.get("heureRdv").value;
+        const heureRdv = this.rdvForm.controls.heureRdv.value;
         const jourRdv = this.nbgDate.formatEn(
-          this.rdvForm.get("jourRdv").value
+          this.rdvForm.controls.jourRdv.value
         );
         const dateTmp = new Date(jourRdv);
         dateTmp.setHours(heureRdv.hour, heureRdv.minute, 0);
@@ -387,7 +345,7 @@ export class UsagersFormComponent implements OnInit {
         this.goToTop();
         this.notifService.success("Rendez-vous enregistré");
       },
-      error => {
+      (error) => {
         this.notifService.error("Impossible d'enregistrer le rendez-vous");
       }
     );
@@ -406,8 +364,21 @@ export class UsagersFormComponent implements OnInit {
       (usager: Usager) => {
         this.usager.docs = new Usager(usager).docs;
       },
-      error => {
+      (error: any) => {
         this.notifService.error("Impossible de supprimer le document");
+      }
+    );
+  }
+
+  public deleteUsager() {
+    this.usagerService.delete(this.usager.id).subscribe(
+      (result: any) => {
+        this.modal.close();
+        this.notifService.success("Usager supprimé avec succès");
+        this.router.navigate(["/manage"]);
+      },
+      (error) => {
+        this.notifService.error("Impossible de supprimer la fiche");
       }
     );
   }
@@ -416,7 +387,7 @@ export class UsagersFormComponent implements OnInit {
     window.scroll({
       behavior: "smooth",
       left: 0,
-      top: 0
+      top: 0,
     });
   }
 }

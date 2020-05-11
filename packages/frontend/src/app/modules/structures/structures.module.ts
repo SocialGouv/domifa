@@ -1,17 +1,18 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxPrintModule } from "ngx-print";
+
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { StructuresConfirmComponent } from "./components/structures-confirm/structures-confirm.component";
+import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
 import { StructureService } from "./services/structure.service";
@@ -20,18 +21,18 @@ import { StructureService } from "./services/structure.service";
   declarations: [
     StructuresConfirmComponent,
     StructuresSearchComponent,
-    StructuresFormComponent
+    StructuresFormComponent,
+    StructuresEditComponent,
   ],
   exports: [
     StructuresConfirmComponent,
     StructuresSearchComponent,
-    StructuresFormComponent
+    StructuresFormComponent,
   ],
   imports: [
     UsersModule,
     CommonModule,
     BrowserModule,
-    NgxPrintModule,
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
@@ -42,13 +43,14 @@ import { StructureService } from "./services/structure.service";
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 2000
+      timeOut: 2000,
     }),
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [StructureService]
+  providers: [StructureService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class StructuresModule {}

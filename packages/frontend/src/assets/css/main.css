@@ -13,7 +13,7 @@ ul {
 .navbar {
   border: 1px solid #e0e0e0;
   background-color: white;
-  box-shadow: 0 0px 8px 2px rgba(215, 210, 210, 0.4);
+  box-shadow: 0 0 8px 2px rgba(215, 210, 210, 0.4);
   position: fixed;
   z-index: 1000;
   width: 100%;
@@ -55,7 +55,7 @@ ul {
 }
 
 .page-footer img {
-  max-height: 40px;
+  max-height: 55px;
 }
 
 .page-footer {
@@ -63,7 +63,7 @@ ul {
   margin-top: 100px;
   width: 100%;
   padding: 0.5rem 3rem;
-  border: 1px solid #e6e6e6;
+  border-top: 1px solid #e6e6e6;
 }
 
 .btn-white {
@@ -116,20 +116,23 @@ ul {
   padding: 0;
   margin-bottom: 0;
   background-color: white;
-  border-radius: 2px;
+  border-radius: 1px;
 }
 
 .card-header button:hover {
   background-color: #f1f1f1;
 }
+
 .card-header button {
-  padding: 10px 20px;
+  padding: 7px 16px;
   background-color: #fafafa;
   width: 100%;
+  font-size: 1rem;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 600;
   text-align: left;
-  color: black;
+  transition: 0.5s all;
+  color: #2e384d;
 }
 
 .accordion .card {
@@ -139,8 +142,14 @@ ul {
   border-radius: 0.25rem !important;
   max-width: 900px;
 }
+
 .modal-backdrop.show {
-  opacity: 0.7;
+  opacity: 0.75;
+}
+
+.modal-content {
+  animation-name: fadeIn;
+  animation-duration: 300ms;
 }
 
 .alert {
@@ -165,6 +174,21 @@ ul {
 
 .visite:hover {
   color: #4668ff !important;
+}
+
+.bannir {
+  -webkit-text-stroke-color: var(--danger);
+  stroke: var(--danger);
+}
+
+.bannir:hover {
+  color: var(--danger) !important;
+}
+
+.npai {
+  -webkit-text-stroke-width: 0;
+  stroke-width: 0;
+  color: var(--danger) !important;
 }
 
 .courrier {
@@ -195,17 +219,11 @@ table .active {
 }
 
 .step_form {
-  padding: 2rem 1.5rem;
+  padding: 1.8rem 1.4rem;
   border: 1px solid #d2d2d2;
-  max-width: 750px;
+  max-width: 800px;
   margin: 1rem auto;
-  border-radius: 4px;
-}
-
-.recap {
-  max-width: 750px;
-  margin: 1rem auto;
-  display: block;
+  border-radius: 3px;
 }
 
 .tooltip-inner {
@@ -362,10 +380,90 @@ table .active {
   cursor: pointer;
 }
 
-@media print {
-  body {
-    font-size: 18pt !important;
-    width: 94% !important;
-    margin: 3.5cm auto !important;
+.reponses {
+  margin: 15px auto;
+  vertical-align: middle;
+}
+
+.reponses .question {
+  color: #212529;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+.reponses .valeur {
+  display: block;
+  font-weight: bold;
+  color: #4a4a4a;
+  word-break: break-word;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  padding: 10px 0;
+}
+
+.autres {
+  display: inline-block;
+  width: 220px;
+  margin-left: 10px;
+  margin-top: -15px;
+}
+
+.form-check label {
+  font-weight: 300;
+  margin-left: 5px;
+}
+
+.questions {
+  margin: 15px auto;
+}
+
+.questions .form-check {
+  display: inline-block;
+  margin-bottom: 12px;
+  min-width: 345px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0.1;
   }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.modal-header h4 {
+  margin: 2px 0;
+}
+
+.notification {
+  background-color: #e42f2f;
+  border-radius: 1rem;
+  color: white;
+  -webkit-text-stroke-width: 0;
+  stroke-width: 0;
+  padding: 3px 6px;
+  font-size: 1rem;
+  line-height: 100%;
+  position: absolute;
+  box-shadow: 0 1px 3px rgba(74, 74, 74, 0.6);
+  top: -2px;
+  right: -10px;
+}
+
+.news {
+  margin: 10px 0;
+  display: block;
 }

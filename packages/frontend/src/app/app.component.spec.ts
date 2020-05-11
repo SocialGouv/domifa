@@ -14,23 +14,23 @@ describe("AppComponent", () => {
         HttpClientModule,
         HttpClientTestingModule,
         MatomoModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       providers: [
         {
           provide: MatomoInjector,
           useValue: {
-            init: jest.fn()
-          }
+            init: jest.fn(),
+          },
         },
         {
           provide: MatomoTracker,
           useValue: {
-            setUserId: jest.fn()
-          }
-        }
+            setUserId: jest.fn(),
+          },
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -39,7 +39,7 @@ describe("AppComponent", () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
     app.ngOnInit();
-    expect(app.title).toEqual("Domifa");
+
     expect(app.isNavbarCollapsed).toEqual(false);
   });
 });

@@ -9,7 +9,7 @@ import {
   ActivatedRoute,
   Params,
   RouterModule,
-  UrlSegment
+  UrlSegment,
 } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { StructuresConfirmComponent } from "./structures-confirm.component";
@@ -28,7 +28,7 @@ describe("StructuresConfirmComponent", () => {
         FormsModule,
         HttpClientModule,
         HttpClientTestingModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: "/" },
@@ -40,13 +40,13 @@ describe("StructuresConfirmComponent", () => {
               url: [
                 new UrlSegment("structures", {}),
                 new UrlSegment("confirm", {}),
-                new UrlSegment("1", {})
-              ]
-            }
-          }
-        }
+                new UrlSegment("1", {}),
+              ],
+            },
+          },
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     activatedRoute = TestBed.get(ActivatedRoute);
   }));

@@ -4,18 +4,17 @@ import * as crypto from "crypto";
 import { Model } from "mongoose";
 import { Structure } from "../../structures/structure-interface";
 import { ResetPasswordDto } from "../dto/reset-password.dto";
-import { UserDto } from "../user.dto";
+import { UserDto } from "../dto/user.dto";
 import { User } from "../user.interface";
 
 @Injectable()
 export class UsersService {
   constructor(@Inject("USER_MODEL") private readonly userModel: Model<User>) {}
 
-  public async findAll(user: User): Promise<any> {
+  public async findAll(request: any): Promise<any> {
     return this.userModel
-      .find({
-        structureId: user.structureId
-      })
+      .find(request)
+      .select("-password -tokens -structureId -mails")
       .lean()
       .exec();
   }
@@ -23,9 +22,9 @@ export class UsersService {
   public async create(userDto: UserDto, structure: Structure): Promise<User> {
     const createdUser = new this.userModel(userDto);
 
-    // ADMIN PAR DEFAUT
+    /* Admin par défaut */
     const adminExist = await this.findOne({
-      structureId: userDto.structureId
+      structureId: userDto.structureId,
     });
 
     if (!adminExist || adminExist === null) {
@@ -42,7 +41,7 @@ export class UsersService {
   public async findOne(search: any): Promise<any> {
     return this.userModel
       .findOne(search)
-      .populate("structure")
+      .populate("structure", "-import -token -users -verified -mails")
       .lean()
       .exec();
   }
@@ -51,27 +50,27 @@ export class UsersService {
     userId: number,
     structureId: number,
     data: any
-  ): Promise<User> {
+  ): Promise<any> {
     return this.userModel
       .findOneAndUpdate(
         {
           id: userId,
-          structureId
+          structureId,
         },
         {
-          $set: data
+          $set: data,
         },
         {
-          new: true
+          new: true,
         }
       )
-      .select("-password")
+      .select("-password -mails")
       .exec();
   }
 
-  public async generateTokenPassword(email: string): Promise<User> {
-    const d = new Date();
-    const twoDays = d.setDate(d.getDate() + 2);
+  public async generateTokenPassword(email: string): Promise<any> {
+    const twoDays = new Date();
+    twoDays.setDate(twoDays.getDate() + 2);
     return this.userModel
       .findOneAndUpdate(
         { email },
@@ -79,12 +78,12 @@ export class UsersService {
           $set: {
             tokens: {
               password: crypto.randomBytes(30).toString("hex"),
-              passwordValidity: twoDays
-            }
-          }
+              passwordValidity: twoDays,
+            },
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-password")
@@ -101,25 +100,23 @@ export class UsersService {
         { "tokens.password": resetPasswordDto.token },
         {
           $set: {
-            password: newPassword
-          }
+            password: newPassword,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
-      .select("-password")
-      .select("-tokens")
+      .select("-password -tokens")
       .exec();
   }
 
-  public async delete(id: number, structureId: number): Promise<any> {
-    return this.userModel
-      .findByIdAndRemove({
-        id,
-        structureId
-      })
-      .exec();
+  public async delete(id: string): Promise<any> {
+    return this.userModel.deleteOne({ _id: id }).exec();
+  }
+
+  public async getStats() {
+    return this.userModel.countDocuments().exec();
   }
 
   public async findLast(): Promise<number> {

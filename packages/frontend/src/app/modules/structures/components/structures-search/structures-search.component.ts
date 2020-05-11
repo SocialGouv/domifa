@@ -4,40 +4,41 @@ import { ToastrService } from "ngx-toastr";
 import { regexp } from "src/app/shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-structures-search",
   styleUrls: ["./structures-search.component.css"],
-  templateUrl: "./structures-search.component.html"
+  templateUrl: "./structures-search.component.html",
 })
 export class StructuresSearchComponent implements OnInit {
   public structures: Structure[];
-  public searching: boolean;
   public searchFailed: boolean;
 
   public codePostal: string;
-  public codePostalForm: FormGroup;
-
+  public codePostalForm!: FormGroup;
   constructor(
     private structureService: StructureService,
     private formBuilder: FormBuilder,
-    private notifService: ToastrService
-  ) {}
+    private notifService: ToastrService,
+    private titleService: Title
+  ) {
+    this.searchFailed = false;
+    this.structures = [];
+    this.codePostal = "";
+  }
 
   get f() {
     return this.codePostalForm.controls;
   }
 
   public ngOnInit() {
-    this.searchFailed = false;
-
-    this.structures = [];
-
+    this.titleService.setTitle("Inscrivez-vous sur Domifa");
     this.codePostalForm = this.formBuilder.group({
       codePostal: [
         this.codePostal,
-        [Validators.pattern(regexp.postcode), Validators.required]
-      ]
+        [Validators.pattern(regexp.postcode), Validators.required],
+      ],
     });
   }
 
@@ -50,7 +51,7 @@ export class StructuresSearchComponent implements OnInit {
       this.structureService
         .find(this.f.codePostal.value)
         .subscribe((structures: Structure[]) => {
-          if (structures.length <= 0) {
+          if (structures.length === 0) {
             this.searchFailed = true;
           } else {
             this.searchFailed = false;

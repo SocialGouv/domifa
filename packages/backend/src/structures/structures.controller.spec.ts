@@ -1,5 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../database/database.module";
+import { InteractionsModule } from "../interactions/interactions.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { StructuresController } from "./structures.controller";
@@ -9,8 +10,8 @@ describe("Stuctures Controller", () => {
   it("should be defined", async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [StructuresController],
-      imports: [DatabaseModule, UsersModule, UsagersModule],
-      providers: [{ provide: StructuresService, useValue: {} }]
+      imports: [DatabaseModule, UsersModule, UsagersModule, InteractionsModule],
+      providers: [{ provide: StructuresService, useValue: {} }],
     }).compile();
 
     const controller = module.get<StructuresController>(StructuresController);

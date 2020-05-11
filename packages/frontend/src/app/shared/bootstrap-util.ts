@@ -1,3 +1,5 @@
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+
 export function toInteger(value: any): number {
   return parseInt(`${value}`, 10);
 }
@@ -44,3 +46,22 @@ export function isToday(someDate?: Date): boolean {
     someDate.getFullYear() === today.getFullYear()
   );
 }
+
+export function formatDateToNgb(date: Date): NgbDateStruct | null {
+  if (date === null) {
+    return null;
+  }
+  return {
+    day: date.getDate(),
+    month: date.getMonth() + 1,
+    year: date.getFullYear(),
+  };
+}
+
+export const minDateNaissance = { day: 1, month: 1, year: 1900 };
+
+export const minDateToday = {
+  day: new Date().getDate(),
+  month: new Date().getMonth() + 1,
+  year: new Date().getFullYear(),
+};

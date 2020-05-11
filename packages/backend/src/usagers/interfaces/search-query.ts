@@ -1,9 +1,13 @@
 export interface SearchQuery {
+  customId?: any;
   name?: string;
-  $or?: any[];
+  $or?: any;
+  id?: {};
   interactionType?: string;
-  interactionStatut?: boolean;
+  typeDom?: string;
   "decision.statut"?: {};
-  "lastInteraction.nbre"?: {};
-  structureId?: number;
+  "decision.dateFin"?: {};
+  "lastInteraction.enAttente"?: boolean;
+  "lastInteraction.dateInteraction"?: any;
+  structureId: number;
 }

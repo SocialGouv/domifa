@@ -3,53 +3,60 @@ import {
   IsIn,
   IsNotEmpty,
   IsNumber,
-  IsOptional
+  IsOptional,
 } from "class-validator";
 import { AyantDroit } from "../interfaces/ayant-droit";
 
 export class UsagersDto {
   @IsIn(["homme", "femme"])
-  public sexe: string;
+  public sexe!: string;
 
   @IsNumber()
   @IsOptional()
-  public id: number;
-
-  @IsNotEmpty()
-  public nom: string;
-
-  @IsNotEmpty()
-  public prenom: string;
+  public id!: number;
 
   @IsOptional()
-  public surnom: string;
+  public customId!: string;
 
   @IsNotEmpty()
-  public dateNaissance: Date;
+  public nom!: string;
 
   @IsNotEmpty()
-  public villeNaissance: string;
+  public prenom!: string;
 
   @IsOptional()
-  public email: string;
+  public surnom!: string;
+
+  @IsNotEmpty()
+  public dateNaissance!: Date;
+
+  @IsNotEmpty()
+  public villeNaissance!: string;
 
   @IsOptional()
-  public phone: string;
+  public email!: string;
+
+  @IsOptional()
+  public phone!: string;
 
   @IsOptional()
   @IsNumber()
-  public etapeDemande: number;
+  public etapeDemande!: number;
 
   @IsOptional()
   @IsNumber()
-  public structureId: number;
+  public structureId!: number;
 
   @IsOptional()
-  public preference: {
+  @IsIn(["RENOUVELLEMENT", "PREMIERE"])
+  public typeDom!: string;
+
+  @IsOptional()
+  public preference!: {
     email: boolean;
     phone: boolean;
   };
 
   @IsOptional()
-  public ayantsDroits: AyantDroit[];
+  public ayantsDroits!: AyantDroit[];
 }

@@ -3,13 +3,13 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from "@angular/router";
-import jwtDecode from "jwt-decode";
+
 import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
+import { AuthService } from "../modules/shared/services/auth.service";
 import { User } from "../modules/users/interfaces/user";
-import { AuthService } from "../services/auth.service";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivate {
@@ -19,16 +19,16 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
-    return this.authService.isAuth().pipe(
-      map(isLogged => {
-        if (isLogged) {
-          return true;
-        } else {
-          this.router.navigate(["/connexion"], {
-            queryParams: { returnUrl: state.url }
-          });
-          return false;
-        }
+    return this.authService.me().pipe(
+      map((user: User) => {
+        return true;
+      }),
+      catchError((err: any) => {
+        this.authService.logout();
+        this.router.navigate(["/connexion"], {
+          queryParams: { returnUrl: state.url },
+        });
+        return of(false);
       })
     );
   }

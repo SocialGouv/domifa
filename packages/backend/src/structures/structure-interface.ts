@@ -2,10 +2,12 @@ import { Document } from "mongoose";
 import { User } from "../users/user.interface";
 
 export interface Structure extends Document {
+  id: number;
   adresse: string;
   complementAdresse: string;
   nom: string;
   structureType: string;
+  rattachement: string;
   ville: string;
   departement: string;
   capacite: number;
@@ -18,6 +20,11 @@ export interface Structure extends Document {
     nom: string;
     prenom: string;
   };
+  hardReset: {
+    token: string;
+    expireAt: Date | null;
+  };
+  lastExport: Date;
   token: string;
   verified: boolean;
   users: User[];

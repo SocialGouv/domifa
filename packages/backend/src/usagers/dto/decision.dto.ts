@@ -2,33 +2,36 @@ import { IsIn, IsNotEmpty, IsOptional } from "class-validator";
 
 export class DecisionDto {
   @IsOptional()
-  public dateDebut: Date;
+  public dateDebut!: Date;
 
   @IsOptional()
-  public dateFin: Date;
+  public dateFin!: Date;
 
   @IsOptional()
-  public dateDecision: Date;
+  public dateDecision!: Date;
 
   @IsIn(["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"])
   @IsNotEmpty()
-  public statut: string;
+  public statut!: string;
 
   @IsOptional()
-  public motif: string;
+  public motif!: string;
 
   @IsOptional()
-  public motifDetails: string;
+  public motifDetails!: string;
 
   @IsOptional()
-  public orientation: string;
+  public orientation!: string;
 
   @IsOptional()
-  public orientationDetails: string;
+  public orientationDetails!: string;
 
   @IsOptional()
-  public userId: number;
+  public userId!: number;
 
   @IsOptional()
-  public userName: string;
+  public userName!: string;
+
+  @IsOptional()
+  public typeDom!: string;
 }

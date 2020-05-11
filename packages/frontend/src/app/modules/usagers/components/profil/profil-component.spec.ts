@@ -14,12 +14,12 @@ import { StatsModule } from "src/app/modules/stats/stats.module";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { UsersModule } from "src/app/modules/users/users.module";
 import { routes } from "../../../../app-routing.module";
-import { LastInteraction } from "../../interfaces/last-interaction";
 import { Usager } from "../../interfaces/usager";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
 import { UsagersProfilComponent } from "./profil-component";
+import { global } from "@angular/compiler/src/util";
 
 describe("UsagersProfilComponent", () => {
   let fixture: any;
@@ -28,8 +28,9 @@ describe("UsagersProfilComponent", () => {
   let location: Location;
 
   let interactionService: InteractionService;
-
+  const spyScrollTo = jest.fn();
   beforeEach(async(() => {
+    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
@@ -44,23 +45,21 @@ describe("UsagersProfilComponent", () => {
         FormsModule,
         HttpClientModule,
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes(routes),
       ],
-      providers: [UsagerService, { provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      providers: [
+        InteractionService,
+        UsagerService,
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-
-    fixture = TestBed.createComponent(UsagersProfilComponent);
-    fixture.detectChanges();
 
     interactionService = TestBed.get(InteractionService);
     router = TestBed.get(Router);
     location = TestBed.get(Location);
 
-    fixture.ngZone.run(() => {
-      router.initialNavigation();
-    });
-
+    fixture = TestBed.createComponent(UsagersProfilComponent);
     app = fixture.debugElement.componentInstance;
     app.ngOnInit();
   }));
@@ -70,16 +69,14 @@ describe("UsagersProfilComponent", () => {
   });
 
   it("1. Variables", async(() => {
-    expect(app.title).toBeDefined();
     expect(app.labels).toBeDefined();
-    expect(app.notifs).toBeDefined();
     expect(app.interactionsLabels).toBeDefined();
     expect(app.interactionsType).toBeDefined();
 
     expect(app.notifInputs).toEqual({
       colisIn: 0,
       courrierIn: 0,
-      recommandeIn: 0
+      recommandeIn: 0,
     });
   }));
 
@@ -88,24 +85,26 @@ describe("UsagersProfilComponent", () => {
   }));
 
   it("5. Set interaction", async(() => {
+    const usagerTest = new Usager();
+    usagerTest.id = 2;
     interactionService
-      .setInteraction(2, {
+      .setInteraction(usagerTest, {
         content: "",
         nbCourrier: 10,
-        type: "courrierIn"
+        type: "courrierIn",
       })
       .subscribe((usager: Usager) => {
-        expect(usager.lastInteraction.nbCourrier).toEqual(10);
+        expect(usager.lastInteraction.courrierIn).toEqual(10);
       });
   }));
   it("6. Récupération du courrier", async(() => {
+    const usagerTest = new Usager();
+    usagerTest.id = 2;
     interactionService
-      .setPassage(2, "courrierOut")
+      .setInteraction(usagerTest, "courrierOut")
       .subscribe((usager: Usager) => {
-        const lastInteraction = new LastInteraction(usager.lastInteraction);
-        const today = new Date().getDate();
-        expect(lastInteraction.courrierOut).toEqual(0);
-        expect(lastInteraction.courrierOut.getDate()).toEqual(today);
+        const lastInteraction = usager.lastInteraction;
+        expect(lastInteraction.courrierIn).toEqual(0);
       });
   }));
 });

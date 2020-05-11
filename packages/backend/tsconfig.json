@@ -3,12 +3,14 @@
     "paths": {
       "*": ["types/*"]
     },
+    "strict": true,
     "lib": ["es2018.promise"],
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "inlineSources": true,
     "target": "esnext",
     "sourceMap": true,
     "outDir": "./dist",

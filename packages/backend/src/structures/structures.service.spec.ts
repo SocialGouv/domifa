@@ -3,9 +3,9 @@ import * as mongoose from "mongoose";
 import { ConfigService } from "../config/config.service";
 import { DatabaseModule } from "../database/database.module";
 import { UsagersProviders } from "../usagers/usagers.providers";
-import { MailerService } from "../users/services/mailer.service";
+import { MailJetService } from "../users/services/mailjet.service";
 import { UsersProviders } from "../users/users.providers";
-import { StructureDto } from "./structure-dto";
+import { StructureDto } from "./dto/structure.dto";
 import { StructuresProviders } from "./structures-providers";
 import { StructuresService } from "./structures.service";
 
@@ -27,7 +27,7 @@ describe("Structure Service", () => {
   structureDto.responsable = {
     fonction: "Président",
     nom: "Hidalin",
-    prenom: "Marc"
+    prenom: "Marc",
   };
 
   beforeAll(async () => {
@@ -39,8 +39,8 @@ describe("Structure Service", () => {
         ...UsagersProviders,
         ...UsersProviders,
         ConfigService,
-        MailerService
-      ]
+        MailJetService,
+      ],
     }).compile();
     service = module.get<StructuresService>(StructuresService);
   });
@@ -56,20 +56,19 @@ describe("Structure Service", () => {
 
   it("0. Create / Read / Update / Delete", async () => {
     // LAST ID
-    expect(service.findAll()).toBeTruthy();
+    expect(service.findAllPublic()).toBeTruthy();
     expect(await service.findLast()).toEqual(2);
 
     // CREATE
     const newStructure = await service.create(structureDto);
-    expect(await newStructure).toBeDefined();
-    expect(await newStructure.id).toEqual(2);
+    expect(newStructure).toBeDefined();
+    expect(newStructure.id).toEqual(2);
 
     // READ
     const structure = await service.findOne(2);
-    expect(await structure).toBeTruthy();
-    expect(await structure.ville).toEqual("Paris");
-    expect(await structure.nom).toEqual("Association Amicale");
-    structureDto.id = await structure.id;
+    expect(structure).toBeTruthy();
+    expect(structure.ville).toEqual("Paris");
+    expect(structure.nom).toEqual("Association Amicale");
 
     // DELETE
     const deletedstructure = await service.delete(structure.token);

@@ -1,25 +1,89 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
-import { Model } from "mongoose";
+import { Inject, Injectable, Logger, HttpException } from "@nestjs/common";
+import { Model, NativeError } from "mongoose";
 import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";
-import { EntretienDto } from "../dto/entretien";
-import { RdvDto } from "../dto/rdv";
-import { SearchDto } from "../dto/search";
+import { EntretienDto } from "../dto/entretien.dto";
+import { RdvDto } from "../dto/rdv.dto";
 import { UsagersDto } from "../dto/usagers.dto";
-import { SearchQuery } from "../interfaces/search-query";
 import { Usager } from "../interfaces/usagers";
+import { of } from "rxjs";
 
 @Injectable()
 export class UsagersService {
-  public limit: number;
-  public sort: {};
-  public searchByName: {};
-  public searchQuery: SearchQuery;
-  private readonly logger = new Logger(UsagersService.name);
-
   constructor(
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
   ) {}
+
+  public async debug(): Promise<any> {
+    const count = await this.usagerModel
+      .countDocuments({
+        ayantsDroits: { $exists: true, $not: { $size: 0 } },
+        $or: [
+          {
+            migration: { $exists: false },
+          },
+          {
+            migration: false,
+          },
+        ],
+      })
+
+      .exec();
+
+    Logger.log("");
+    Logger.log(count);
+    Logger.log("");
+
+    this.usagerModel
+      .findOne({
+        ayantsDroits: { $exists: true, $not: { $size: 0 } },
+        $or: [
+          {
+            migration: { $exists: false },
+          },
+          {
+            migration: false,
+          },
+        ],
+      })
+      .lean()
+      .exec((err: any, usager: Usager) => {
+        Logger.log("");
+        Logger.log(usager.id);
+        Logger.log(usager.nom + " - " + usager.ayantsDroits.length);
+
+        for (let index = 0; index <= usager.ayantsDroits.length; index++) {
+          const ayantDroit = usager.ayantsDroits[index];
+          if (index === usager.ayantsDroits.length) {
+            Logger.log("  ");
+            Logger.log("-  ");
+            Logger.log(usager.ayantsDroits);
+            Logger.log("-  ");
+            Logger.log("  ");
+
+            usager.migration = true;
+
+            this.usagerModel
+              .findOneAndUpdate({ _id: usager._id }, { $set: usager })
+              .select("-docsPath -interactions")
+              .exec((_err: NativeError, ret: any) => {
+                this.debug();
+              });
+            return;
+          }
+
+          if (
+            typeof Date.parse(usager.ayantsDroits[index].dateNaissance) ===
+            "undefined"
+          ) {
+            usager.ayantsDroits[index].dateNaissance = this.convertDate(
+              ayantDroit.dateNaissance
+            );
+          }
+        }
+      });
+    return of(true);
+  }
 
   public async create(usagersDto: UsagersDto, user: User): Promise<Usager> {
     const createdUsager = new this.usagerModel(usagersDto);
@@ -31,44 +95,35 @@ export class UsagersService {
     createdUsager.structureId = user.structureId;
     createdUsager.etapeDemande++;
     createdUsager.id = await this.findLast(user.structureId);
+    createdUsager.customId = createdUsager.id;
+
     return createdUsager.save();
   }
 
-  public async patch(usagersDto: UsagersDto, user: User): Promise<Usager> {
+  public async patch(update: any, usagerId: string): Promise<Usager> {
+    return this.usagerModel
+      .findOneAndUpdate({ _id: usagerId }, { $set: update }, { new: true })
+      .select("-docsPath -interactions")
+      .exec();
+  }
+
+  public async nextStep(usagerId: string, etapeDemande: number) {
     return this.usagerModel
       .findOneAndUpdate(
+        { _id: usagerId },
         {
-          id: usagersDto.id,
-          structureId: user.structureId
+          $set: { etapeDemande },
         },
         {
-          $set: usagersDto
-        },
-        {
-          new: true
+          new: true,
         }
       )
       .select("-docsPath -interactions")
       .exec();
   }
 
-  public async nextStep(usagerId: number, user: User, etapeDemande: number) {
-    return this.usagerModel
-      .findOneAndUpdate(
-        { id: usagerId, structureId: user.structureId },
-        {
-          $set: { etapeDemande }
-        },
-        {
-          new: true
-        }
-      )
-      .select("-docsPath -interactions")
-      .exec();
-  }
-
-  public async renouvellement(usager: Usager, user: User) {
-    const lastDecision = usager.decision;
+  public async renouvellement(usager: Usager, user: User): Promise<Usager> {
+    usager.historique.push(usager.decision);
     const decision = new DecisionDto();
 
     decision.dateDebut = new Date();
@@ -76,88 +131,20 @@ export class UsagersService {
     decision.statut = "INSTRUCTION";
     decision.userId = user.id;
     decision.userName = user.prenom + " " + user.nom;
+    decision.typeDom = "RENOUVELLEMENT";
 
     return this.usagerModel
       .findOneAndUpdate(
-        { id: usager.id, structureId: user.structureId },
+        { _id: usager._id },
         {
-          $push: { historique: lastDecision },
           $set: {
             decision,
+            historique: usager.historique,
             etapeDemande: 0,
-            typeDom: "RENOUVELLEMENT"
-          }
+            typeDom: "RENOUVELLEMENT",
+          },
         },
-        {
-          new: true
-        }
-      )
-      .select("-docsPath -interactions")
-      .exec();
-  }
-
-  public async setDecision(
-    usager: Usager,
-    decision: DecisionDto,
-    user: User
-  ): Promise<Usager> {
-    decision.userName = user.prenom + " " + user.nom;
-    decision.userId = user.id;
-    decision.dateDecision = new Date();
-
-    const lastDecision = usager.decision;
-    const etapeDemande = 6;
-
-    if (decision.statut === "ATTENTE_DECISION") {
-      /* Mail au responsable */
-    }
-
-    if (decision.statut === "REFUS") {
-      /* Récupération du dernier ID lié à la structure */
-      /* SMS & Mail pr prévenir */
-      decision.dateDebut = lastDecision.dateDebut;
-
-      decision.dateFin =
-        decision.dateFin !== undefined && decision.dateFin !== null
-          ? new Date(decision.dateFin)
-          : (decision.dateFin = new Date());
-    }
-
-    if (decision.statut === "RADIE") {
-      decision.dateDebut = lastDecision.dateDebut;
-      decision.dateFin = new Date();
-    }
-
-    if (decision.statut === "VALIDE") {
-      if (!usager.datePremiereDom) {
-        usager.typeDecision = "RENOUVELLEMENT";
-      }
-      if (decision.dateFin !== undefined && decision.dateFin !== null) {
-        decision.dateFin = new Date(decision.dateFin);
-      } else {
-        decision.dateFin = new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1)
-        );
-      }
-      decision.dateDebut = new Date(decision.dateDebut);
-    }
-
-    return this.usagerModel
-      .findOneAndUpdate(
-        {
-          id: usager.id,
-          structureId: user.structureId
-        },
-        {
-          $push: { historique: lastDecision },
-          $set: {
-            decision,
-            etapeDemande
-          }
-        },
-        {
-          new: true
-        }
+        { new: true }
       )
       .select("-docsPath -interactions")
       .exec();
@@ -165,26 +152,47 @@ export class UsagersService {
 
   public async setEntretien(
     usagerId: number,
-    entretienForm: EntretienDto,
-    user: User
+    entretienForm: EntretienDto
   ): Promise<Usager> {
     return this.usagerModel
       .findOneAndUpdate(
-        {
-          id: usagerId,
-          structureId: user.structureId
-        },
+        { _id: usagerId },
         {
           $set: {
             entretien: entretienForm,
-            etapeDemande: 3
-          }
+            etapeDemande: 3,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
-      .select("-docsPath")
+      .select("-docsPath -interactions")
+      .exec();
+  }
+
+  public async setDecision(
+    usagerId: string,
+    decision: DecisionDto,
+    usager: Usager
+  ): Promise<Usager> {
+    return this.usagerModel
+      .findOneAndUpdate(
+        { _id: usagerId },
+        {
+          $set: {
+            decision,
+            historique: usager.historique,
+            typeDom: usager.typeDom,
+            datePremiereDom: usager.datePremiereDom,
+            etapeDemande: 6,
+          },
+        },
+        {
+          new: true,
+        }
+      )
+      .select("-docsPath -interactions")
       .exec();
   }
 
@@ -197,46 +205,40 @@ export class UsagersService {
       .findOneAndUpdate(
         {
           id: usagerId,
-          structureId: user.structureId
+          structureId: user.structureId,
         },
         {
           $set: {
             etapeDemande: 2,
             "rdv.dateRdv": rdvDto.dateRdv,
             "rdv.userId": rdvDto.userId,
-            "rdv.userName": user.nom + " " + user.prenom
-          }
+            "rdv.userName": user.nom + " " + user.prenom,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .select("-docsPath")
       .exec();
   }
 
-  public async findById(
-    id: number,
-    structureId: number,
-    select?: string
-  ): Promise<Usager> {
-    const selectedFields = !select ? "-docsPath" : "";
+  public async findById(id: number, structureId: number): Promise<Usager> {
     return this.usagerModel
       .findOne({
         id,
-        structureId
+        structureId,
       })
-      .select(selectedFields)
+      .populate("structure")
       .exec();
   }
 
-  public async delete(usagerId: number, user: User): Promise<any> {
-    return this.usagerModel
-      .deleteOne({
-        id: usagerId,
-        structureId: user.structureId
-      })
-      .exec();
+  public async delete(usagerId: string): Promise<any> {
+    return this.usagerModel.deleteOne({ _id: usagerId }).exec();
+  }
+
+  public async deleteAll(structureId: number): Promise<any> {
+    return this.usagerModel.deleteMany({ structureId }).exec();
   }
 
   public async isDoublon(
@@ -248,69 +250,98 @@ export class UsagersService {
       .find({
         $and: [
           {
-            nom: { $regex: nom, $options: "-i" }
+            nom: { $regex: nom, $options: "-i" },
           },
           {
-            prenom: { $regex: prenom, $options: "-i" }
-          }
+            prenom: { $regex: prenom, $options: "-i" },
+          },
         ],
-        structureId: user.structureId
+        structureId: user.structureId,
       })
       .lean()
       .exec();
   }
 
-  public async search(query: SearchDto, structureId: number): Promise<any> {
-    this.sort = { nom: 1 };
-    this.searchQuery = {};
-    this.searchQuery.structureId = structureId;
-
-    const sortValues = {
-      az: { nom: "ascending" },
-      domiciliation: { "decision.dateDebut": "ascending" },
-      radiation: { "decision.dateFin": "descending" },
-      za: { nom: "descending" }
-    };
-
-    /* ID DE LA STRUCTURE DE LUSER */
-    if (query.name) {
-      this.searchQuery.$or = [
-        {
-          nom: { $regex: ".*" + query.name + ".*", $options: "-i" }
-        },
-        {
-          prenom: { $regex: ".*" + query.name + ".*", $options: "-i" }
-        },
-        {
-          surnom: { $regex: ".*" + query.name + ".*", $options: "-i" }
-        }
-      ];
-    }
-
-    if (query.statut) {
-      this.searchQuery["decision.statut"] = query.statut;
-    }
-
-    if (query.interactionType) {
-      this.searchQuery["lastInteraction.nbCourrier"] = { $gt: 0 };
-    }
-
-    if (query.sort) {
-      this.sort = sortValues[query.sort];
-    }
-
+  public async search(query: any, sort: any, page: number): Promise<any> {
     return this.usagerModel
-      .find(this.searchQuery)
+      .find(query)
       .collation({ locale: "en" })
-      .sort(this.sort)
+      .sort(sort)
+      .select(
+        "-createdAt -updatedAt -rdv -structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -etapeDemande"
+      )
+      .limit(40)
+      .skip(page && page !== 0 ? 40 * page : 0)
       .lean()
+      .exec();
+  }
+
+  public async count(query: any): Promise<any> {
+    return this.usagerModel
+      .countDocuments(query)
+      .collation({ locale: "en" })
       .exec();
   }
 
   public async save(data: any, user: User) {
     const createdUsager = new this.usagerModel(data);
     createdUsager.id = await this.findLast(user.structureId);
+    createdUsager.customId =
+      data.customId === null ? createdUsager.id.toString() : data.customId;
     return createdUsager.save();
+  }
+
+  public async getStatsByStructure(structureId?: number) {
+    const query = structureId ? { structureId: { $eq: structureId } } : {};
+
+    return this.usagerModel
+      .aggregate([
+        { $match: query },
+        {
+          $group: {
+            _id: { structureId: "$structureId", statut: "$decision.statut" },
+            statuts: { $push: "$decision.statut" },
+            total: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: { structureId: "$_id.structureId" },
+            statut: { $addToSet: { statut: "$_id.statut", sum: "$total" } },
+          },
+        },
+      ])
+      .exec();
+  }
+
+  public async getStats() {
+    return this.usagerModel
+      .aggregate([
+        { $match: {} },
+        {
+          $group: {
+            _id: { statut: "$decision.statut" },
+            statuts: { $push: "$decision.statut" },
+            total: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: { statut: "$_id.statut" },
+            sum: { $addToSet: "$total" },
+          },
+        },
+      ])
+      .exec();
+  }
+
+  public async export(structureId: number): Promise<Usager[]> {
+    return this.usagerModel
+      .find({ structureId })
+      .select(
+        "-rdv -structureId -import -docsPath -interactions -preference -historique -entretien -docs -etapeDemande"
+      )
+      .exec();
   }
 
   public async findLast(structureId: number): Promise<number> {
@@ -320,10 +351,13 @@ export class UsagersService {
       .lean()
       .exec();
 
-    return lastUsager.id === undefined ||
-      lastUsager === {} ||
-      lastUsager === null
-      ? 1
-      : lastUsager.id + 1;
+    return lastUsager === {} || lastUsager === null ? 1 : lastUsager.id + 1;
+  }
+
+  private convertDate(dateFr: string) {
+    const dateParts = dateFr.split("/");
+    const dateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+    const newDate = new Date(dateEn).toISOString();
+    return newDate;
   }
 }

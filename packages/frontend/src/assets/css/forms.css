@@ -65,5 +65,31 @@ form label {
 .modal-body .form-check-input {
   font-weight: 300;
   margin-top: 10px;
-  width: 100%;
+}
+
+.input-group-append .btn .ng-fa-icon {
+  margin: 0 !important;
+}
+
+.btn-icon {
+  margin-right: 6px;
+}
+
+#structureForm div.btn {
+  margin: 10px 15px;
+  padding: 0;
+}
+
+#structureForm input[type="radio"]:checked + label {
+  color: white !important;
+}
+
+#structureForm .btn label {
+  color: var(--blue);
+  margin: 0;
+  padding: 12px 22px;
+}
+
+#structureForm .btn label:hover {
+  color: white !important;
 }

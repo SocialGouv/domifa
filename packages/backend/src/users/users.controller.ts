@@ -6,45 +6,57 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
-  Req,
   Response,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { Request } from "express";
+import { CurrentUser } from "../auth/current-user.decorator";
 import { RolesGuard } from "../auth/roles.guard";
 import { StructuresService } from "../structures/structures.service";
-import { CurrentUser } from "./current-user.decorator";
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
-import { MailerService } from "./services/mailer.service";
+import { MailJetService } from "./services/mailjet.service";
 import { UsersService } from "./services/users.service";
 import { User } from "./user.interface";
+import { TipimailService } from "./services/tipimail.service";
 
 @Controller("users")
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly structureService: StructuresService,
-    private readonly mailerService: MailerService
+    private readonly mailjetService: MailJetService,
+    private readonly tipimailService: TipimailService
   ) {}
 
   @UseGuards(AuthGuard("jwt"))
-  @Get("structure/:id")
-  public findByStructure(@Param("id") structureId: number) {
-    return this.usersService.findOne({ structureId });
+  @UseGuards(RolesGuard)
+  @Get("stats-domifa/all")
+  public async allStats() {
+    return this.usersService.getStats();
   }
 
   @UseGuards(AuthGuard("jwt"))
+  @Get("")
+  public getUsers(@CurrentUser() user: User): Promise<User[]> {
+    return this.usersService.findAll({
+      structureId: user.structureId,
+      verified: true,
+    });
+  }
+
+  @Get("to-confirm")
   @UseGuards(RolesGuard)
-  @Get()
-  public findAll(
-    @Req() request: Request,
-    @CurrentUser() user: User
-  ): Promise<User[]> {
-    return this.usersService.findAll(user);
+  @UseGuards(AuthGuard("jwt"))
+  public getUsersToConfirm(@CurrentUser() user: User): Promise<User[]> {
+    return this.usersService.findAll({
+      structureId: user.structureId,
+      verified: false,
+    });
   }
 
   @UseGuards(AuthGuard("jwt"))
@@ -52,33 +64,74 @@ export class UsersController {
   @Get("confirm/:id")
   public async confirmUser(@Param("id") id: number, @CurrentUser() user: User) {
     const confirmerUser = await this.usersService.update(id, user.structureId, {
-      verified: true
+      verified: true,
     });
 
     if (confirmerUser) {
-      this.mailerService.confirmUser(confirmerUser);
+      this.mailjetService.confirmUser(confirmerUser);
     }
     return confirmerUser;
   }
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(RolesGuard)
+  @Get("update-role/:id/:role")
+  public async updateRole(
+    @Param("id") id: number,
+    @Param("role") role: string,
+    @CurrentUser() user: User
+  ) {
+    if (role !== "simple" && role !== "admin") {
+      throw new HttpException(
+        "BAD_ROLE_USER",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+
+    if (id === user.id) {
+      throw new HttpException(
+        "CANNOT_UPDATE_SELF_ROLE",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+
+    return this.usersService.update(id, user.structureId, {
+      role,
+    });
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(RolesGuard)
   @Delete(":id")
-  public async deleteOne(
+  public async delete(
     @Param("id") id: number,
     @CurrentUser() user: User,
     @Response() res: any
   ) {
     const userToDelete = await this.usersService.findOne({
       id,
-      structureId: user.structureId
+      structureId: user.structureId,
     });
+
     if (!userToDelete || userToDelete === null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "USER_NOT_EXIST" });
     }
-    return this.usersService.delete(userToDelete.id, user.structureId);
+
+    const retour = await this.usersService.delete(userToDelete._id);
+
+    return res.status(HttpStatus.OK).json({ success: true, message: retour });
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @Patch(":id")
+  public async patch(
+    @CurrentUser() user: User,
+    @Body() userDto: UserEditDto,
+    @Response() res: any
+  ) {
+    return this.usersService.update(user.id, user.structureId, userDto);
   }
 
   @Post()
@@ -101,16 +154,18 @@ export class UsersController {
     const newUser = await this.usersService.create(userDto, structure);
     if (newUser && newUser !== null) {
       if (newUser.role === "admin") {
-        this.mailerService.newStructure(structure, newUser);
+        this.mailjetService.newStructure(structure, newUser);
       } else {
         const admin = await this.usersService.findOne({
           role: "admin",
-          structureId: newUser.structureId
+          structureId: newUser.structureId,
         });
-        this.mailerService.newUser(admin, newUser);
+        this.mailjetService.newUser(admin, newUser);
       }
       this.structureService.addUser(newUser, userDto.structureId);
-      newUser.password = undefined;
+
+      newUser.password = "";
+
       return res.status(HttpStatus.OK).json(newUser);
     }
     throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -119,7 +174,7 @@ export class UsersController {
   @Post("validate-email")
   public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
     const existUser = await this.usersService.findOne({
-      email: emailDto.email
+      email: emailDto.email,
     });
     const emailExist = existUser !== null;
     return res.status(HttpStatus.OK).json(emailExist);
@@ -129,7 +184,7 @@ export class UsersController {
   public async checkPasswordToken(@Param("token") token: string) {
     const today = new Date();
     const existUser = await this.usersService.findOne({
-      "tokens.password": token
+      "tokens.password": token,
     });
 
     if (!existUser || existUser === null) {
@@ -148,7 +203,7 @@ export class UsersController {
   ) {
     const today = new Date();
     const existUser = await this.usersService.findOne({
-      "tokens.password": resetPasswordDto.token
+      "tokens.password": resetPasswordDto.token,
     });
 
     if (!existUser || existUser === null) {
@@ -163,10 +218,10 @@ export class UsersController {
     }
 
     this.usersService.updatePassword(resetPasswordDto).then(
-      user => {
+      (user) => {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       },
-      error => {
+      (error) => {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: "MAIL_ERROR" });
@@ -190,11 +245,11 @@ export class UsersController {
       );
 
       if (updatedUser) {
-        this.mailerService.newPassword(updatedUser).then(
-          result => {
+        this.mailjetService.newPassword(updatedUser).then(
+          (result) => {
             return res.status(HttpStatus.OK).json({ message: "OK" });
           },
-          error => {
+          (error) => {
             return res
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .json({ message: "MAIL_ERROR" });

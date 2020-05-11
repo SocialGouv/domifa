@@ -3,40 +3,53 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot
-} from "@angular/router";
 import { Observable, throwError } from "rxjs";
-import { catchError, retry } from "rxjs/operators";
-import { AuthService } from "../services/auth.service";
+import { catchError } from "rxjs/operators";
+import { AuthService } from "../modules/shared/services/auth.service";
+import { ToastrService } from "ngx-toastr";
+import { Router, RouterState } from "@angular/router";
 
 @Injectable()
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private notifService: ToastrService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      retry(1),
       catchError((error: HttpErrorResponse) => {
-        let errorMessage = "";
-        if (error.error instanceof ErrorEvent) {
-          errorMessage = `Error: ${error.error.message}`;
+        if (!navigator.onLine) {
+          this.notifService.error(
+            "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
+          );
         } else {
-          if (error.status === 401) {
-            this.authService.logout();
+          let errorMessage = {};
+          if (error.error instanceof ErrorEvent) {
+            errorMessage = { message: `Error: ${error.error.message}` };
+          } else {
+            if (error.status === 401) {
+              const state: RouterState = this.router.routerState;
+              this.authService.logout();
+              this.router.navigate(["/connexion"], {
+                queryParams: { returnUrl: state.snapshot.url },
+              });
+              return;
+            }
+            const message =
+              typeof error.error.message !== "undefined"
+                ? error.error.message
+                : error.message;
+            errorMessage = { status: error.status, message };
           }
-          if (error.status === 501) {
-            this.router.navigate(["login"]);
-          }
-          return throwError(error);
+          return throwError(errorMessage);
         }
       })
     );

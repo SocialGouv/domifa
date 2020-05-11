@@ -1,6 +1,13 @@
-<div *ngIf="loading" class="overlay">
-  <div *ngIf="loading" @fadeInOut>
-    <fa-icon [icon]="['fas', 'spinner']" class="spinner" [spin]="true"></fa-icon>
+<div
+  *ngIf="loading"
+  class="overlay">
+  <div
+    *ngIf="loading"
+    @fadeInOutSlow>
+    <fa-icon
+      [icon]="['fas', 'spinner']"
+      class="spinner"
+      [spin]="true"></fa-icon>
     <span class="loading_message">Chargement en cours, veuillez patienter</span>
   </div>
 </div>

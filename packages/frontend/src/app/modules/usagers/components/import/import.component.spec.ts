@@ -14,7 +14,7 @@ describe("ImportComponent", () => {
       declarations: [],
       imports: [UsagersModule],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImportComponent);

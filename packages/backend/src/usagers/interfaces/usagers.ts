@@ -4,7 +4,7 @@ import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
 import { Doc } from "./doc";
 import { Entretien } from "./entretien";
-import { LastInteraction } from "./last-interaction";
+import { Options } from "./options";
 import { Rdv } from "./rdv";
 
 export interface Usager extends Document {
@@ -13,6 +13,8 @@ export interface Usager extends Document {
   prenom: string;
   surnom: string;
   sexe: string;
+
+  customId: string;
 
   dateNaissance: Date;
   villeNaissance: string;
@@ -25,10 +27,6 @@ export interface Usager extends Document {
   structureId: number;
   etapeDemande: number;
 
-  datePremiereDom: Date;
-
-  agent: string;
-
   decision: Decision;
   historique: Decision[];
 
@@ -37,12 +35,24 @@ export interface Usager extends Document {
 
   docs: Doc[];
   docsPath: string[];
-  typeDecision: string;
 
-  lastInteraction: LastInteraction;
+  lastInteraction: {
+    [key: string]: any;
+
+    dateInteraction: Date;
+    enAttente: boolean;
+    courrierIn: number;
+    recommandeIn: number;
+    colisIn: number;
+  };
 
   interactions: Interaction[];
 
-  transfert: boolean;
-  transfertAddress: string;
+  typeDom: string;
+  datePremiereDom: Date;
+
+  options: Options;
+  lastOptions: [{ type: string; content: any }];
+
+  migration: boolean;
 }

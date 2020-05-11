@@ -1,38 +1,99 @@
-import { Component, OnInit } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { AuthService } from "src/app/services/auth.service";
+import { Observable } from "rxjs";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { fadeInOut } from "./shared/animations";
-
+import { Router, NavigationEnd } from "@angular/router";
+import { Title } from "@angular/platform-browser";
 @Component({
   animations: [fadeInOut],
   selector: "app-root",
   styleUrls: ["./app.component.css"],
-  templateUrl: "./app.component.html"
+  templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  public title: string;
-  public help: boolean = false;
-  public isNavbarCollapsed: boolean = false;
+  public help: boolean;
+  public isNavbarCollapsed: boolean;
   public isAllowed: any;
 
+  public domifaNews: any;
+  public newsLabels: any;
+
+  public modal: any;
+
+  @ViewChild("newsCenter", { static: true })
+  public newsCenter!: TemplateRef<any>;
+
   constructor(
-    public readonly authService: AuthService,
+    public authService: AuthService,
     private matomoInjector: MatomoInjector,
-    private matomoTracker: MatomoTracker
+    private matomoTracker: MatomoTracker,
+    private modalService: NgbModal,
+    private http: HttpClient,
+    private router: Router,
+    private titleService: Title
   ) {
-    this.matomoInjector.init(
-      "https://matomo.tools.factory.social.gouv.fr/",
-      17
-    );
-  }
-  public ngOnInit() {
-    this.title = "Domifa";
     this.help = false;
+    this.isNavbarCollapsed = false;
+    this.newsLabels = {
+      bug: "Améliorations",
+      new: "Nouveauté",
+    };
+
+    this.domifaNews = null;
+
+    this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
+  }
+
+  public ngOnInit() {
+    this.titleService.setTitle(
+      "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
+    );
+
+    this.authService.isAuth().subscribe((isAuth) => {
+      if (isAuth) {
+        this.getJSON().subscribe((domifaNews) => {
+          this.domifaNews = domifaNews[0];
+
+          const lastNews = localStorage.getItem("lastNews");
+
+          if (
+            !lastNews ||
+            (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
+          ) {
+            this.modal = this.modalService.open(this.newsCenter, {
+              backdrop: "static",
+            });
+          }
+        });
+      }
+    });
+
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scroll({
+        behavior: "smooth",
+        left: 0,
+        top: 0,
+      });
+    });
 
     this.matomoTracker.setUserId("0");
+  }
 
-    this.authService.isAuth().subscribe(isAllowed => {
-      this.isAllowed = isAllowed;
-    });
+  public getJSON(): Observable<any> {
+    return this.http.get("assets/files/news.json");
+  }
+
+  public closeModal() {
+    this.modal.close();
+    localStorage.setItem(
+      "lastNews",
+      new Date(this.domifaNews.date).toISOString()
+    );
   }
 }

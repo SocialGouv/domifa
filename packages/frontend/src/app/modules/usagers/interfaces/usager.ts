@@ -1,20 +1,22 @@
-import { isToday } from "../../../shared/bootstrap-util";
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { formatDateToNgb } from "../../../shared/bootstrap-util";
 import { Rdv } from "../interfaces/rdv";
 import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
-import { Doc } from "./document";
+import { Doc } from "./doc";
 import { Entretien } from "./entretien";
-import { LastInteraction } from "./last-interaction";
+import { Options } from "./options";
 
 export class Usager {
   public id: number;
+  public customId: string;
   public nom: string;
   public nomComplet: string;
   public prenom: string;
   public surnom: string;
 
   public sexe: string;
-  public dateNaissance: Date;
+  public dateNaissance: Date | null;
   public villeNaissance: string;
 
   public email: string;
@@ -29,9 +31,9 @@ export class Usager {
   public ayantsDroitsExist: boolean;
   public ayantsDroits: AyantDroit[];
 
-  public agent: string;
+  public typeDom: string;
 
-  public historique: string;
+  public historique: Decision[];
 
   public preference: {
     email: boolean;
@@ -39,21 +41,31 @@ export class Usager {
     aucun: boolean;
   };
 
-  public lastInteraction: LastInteraction;
+  public lastInteraction: {
+    dateInteraction: Date;
+    enAttente: boolean;
+    courrierIn: number;
+    recommandeIn: number;
+    colisIn: number;
+  };
 
   public dayBeforeEnd: number;
-  public decision: any;
 
-  public dateNaissancePicker: any;
+  public decision: Decision;
+
+  public dateNaissancePicker: NgbDateStruct | null;
 
   public interactionsToday: {
     appel: boolean;
     visite: boolean;
   };
 
+  public options: Options;
+
   constructor(usager?: any) {
     this.id = (usager && usager.id) || 0;
-
+    this.customId = (usager && usager.customId) || null;
+    this.sexe = (usager && usager.sexe) || "homme";
     this.nom = (usager && usager.nom) || "";
     this.prenom = (usager && usager.prenom) || "";
 
@@ -64,16 +76,14 @@ export class Usager {
       this.nom.toUpperCase();
 
     this.surnom = (usager && usager.surnom) || "";
-    this.sexe = (usager && usager.sexe) || "homme";
+
     this.dateNaissance = null;
-    this.dateNaissancePicker = {};
+
+    this.historique = [];
+    this.dateNaissancePicker = null;
     if (usager && usager.dateNaissance !== null) {
       this.dateNaissance = new Date(usager.dateNaissance);
-      this.dateNaissancePicker = {
-        day: this.dateNaissance.getDate(),
-        month: this.dateNaissance.getMonth() + 1,
-        year: this.dateNaissance.getFullYear()
-      };
+      this.dateNaissancePicker = formatDateToNgb(this.dateNaissance);
     }
 
     this.villeNaissance = (usager && usager.villeNaissance) || "";
@@ -82,29 +92,52 @@ export class Usager {
     this.phone = (usager && usager.phone) || "";
     this.docs = (usager && usager.docs) || [];
 
-    this.agent = (usager && usager.agent) || "";
-
     this.structure = (usager && parseInt(usager.structure, 10)) || 2;
     this.etapeDemande = (usager && parseInt(usager.etapeDemande, 10)) || 0;
-    this.historique = (usager && usager.historique) || "";
+
+    if (usager && usager.historique) {
+      this.historique = [];
+      usager.historique.forEach((decision: Decision) => {
+        this.historique.push(new Decision(decision));
+      });
+      this.historique.sort((a, b) => {
+        return b.dateDecision.getTime() - a.dateDecision.getTime();
+      });
+    }
 
     this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv({});
-    this.lastInteraction =
-      (usager && new LastInteraction(usager.lastInteraction)) ||
-      new LastInteraction({});
+
+    this.lastInteraction = {
+      dateInteraction: null,
+      enAttente: false,
+      courrierIn: 0,
+      recommandeIn: 0,
+      colisIn: 0,
+    };
+
+    if (usager && usager.lastInteraction) {
+      this.lastInteraction = {
+        dateInteraction: new Date(usager.lastInteraction.dateInteraction),
+        enAttente: usager.lastInteraction.enAttente || 0,
+        courrierIn: usager.lastInteraction.courrierIn || 0,
+        recommandeIn: usager.lastInteraction.recommandeIn || 0,
+        colisIn: usager.lastInteraction.colisIn,
+      };
+    }
 
     this.entretien =
       (usager && new Entretien(usager.entretien)) || new Entretien({});
 
     this.docs = (usager && usager.docs) || [];
 
-    this.ayantsDroitsExist = (usager && usager.ayantsDroitsExist) || false;
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
+
+    this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
 
     this.preference = (usager && usager.preference) || {
       aucun: false,
       email: false,
-      phone: false
+      phone: false,
     };
 
     this.decision =
@@ -116,15 +149,25 @@ export class Usager {
       const today = new Date();
       const msPerDay: number = 1000 * 60 * 60 * 24;
       const start: number = today.getTime();
-
       const end: number = this.decision.dateFin.getTime();
 
       this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
     }
 
     this.interactionsToday = {
-      appel: isToday(new Date(this.lastInteraction.appel)),
-      visite: isToday(new Date(this.lastInteraction.visite))
+      appel: false,
+      visite: false,
     };
+
+    if (usager && usager.typeDom) {
+      this.typeDom =
+        usager.typeDom === "PREMIERE_DOM" || usager.typeDom === "PREMIERE"
+          ? "PREMIERE"
+          : "RENOUVELLEMENT";
+    } else {
+      this.typeDom = "PREMIERE";
+    }
+
+    this.options = (usager && new Options(usager.options)) || new Options({});
   }
 }

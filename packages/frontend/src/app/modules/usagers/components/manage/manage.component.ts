@@ -1,91 +1,125 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  HostListener,
+} from "@angular/core";
 import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { fromEvent, Observable, Subject } from "rxjs";
+import { fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AuthService } from "src/app/services/auth.service";
-import {
-  interactionsLabels,
-  interactionsNotifs
-} from "../../interactions.labels";
-import { Search } from "../../interfaces/search";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
+import { Structure } from "../../../structures/structure.interface";
+import { interactionsLabels } from "../../interactions.labels";
+import { InteractionTypes } from "../../interfaces/interaction";
+import { Filters, Search } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
+import { Title } from "@angular/platform-browser";
 
 @Component({
+  animations: [fadeInOutSlow, fadeInOut],
   providers: [UsagerService],
   selector: "app-manage-usagers",
   styleUrls: ["./manage.css"],
-  templateUrl: "./manage.html"
+  templateUrl: "./manage.html",
 })
 export class ManageUsagersComponent implements OnInit {
-  public title: string;
   public searching: boolean;
-  public searchFailed: boolean;
   public usagers: Usager[] = [];
-
-  public prenom: string;
   public dateLabel: string;
-
+  public today: Date;
   public labelsDateFin: any = {
     ATTENTE_DECISION: "Demande effectuée le",
     INSTRUCTION: "Dossier débuté le",
     RADIE: "Radié le ",
     REFUS: "Date de refus",
-    VALIDE: "Fin de domiciliation"
+    TOUS: "Fin de domiciliation",
+    VALIDE: "Fin de domiciliation",
   };
 
-  public notifs = interactionsNotifs;
-  public interactionsLabels = interactionsLabels;
-
   public filters: Search;
-  public sort: string;
+  public nbResults: number;
+
+  public stats: {
+    INSTRUCTION: number;
+    VALIDE: number;
+    ATTENTE_DECISION: number;
+    RENOUVELLEMENT: number;
+    REFUS: number;
+    RADIE: number;
+    TOUS: number;
+  };
+
+  public structure: Structure;
+  public selectedUsager: Usager;
 
   @ViewChild("searchInput", { static: true })
-  public searchInput: ElementRef;
+  public searchInput!: ElementRef;
+
+  @ViewChild("distributionConfirm", { static: true })
+  public distributionConfirm!: TemplateRef<any>;
 
   constructor(
     private usagerService: UsagerService,
     private interactionService: InteractionService,
-    private authService: AuthService,
+    public authService: AuthService,
+    public modalService: NgbModal,
     private router: Router,
-    private notifService: ToastrService
-  ) {}
+    private notifService: ToastrService,
+    private titleService: Title
+  ) {
+    this.usagers = [];
+    this.searching = true;
+    this.dateLabel = "Fin de domiciliation";
+    this.filters = new Search();
+
+    this.nbResults = 0;
+    this.selectedUsager = new Usager();
+    this.structure =
+      this.authService.currentUserValue !== null
+        ? this.authService.currentUserValue.structure
+        : new Structure();
+    this.filters.page = 0;
+    this.today = new Date();
+    this.stats = {
+      INSTRUCTION: 0,
+      VALIDE: 0,
+      ATTENTE_DECISION: 0,
+      RENOUVELLEMENT: 0,
+      REFUS: 0,
+      RADIE: 0,
+      TOUS: 0,
+    };
+  }
 
   public ngOnInit() {
-    this.filters = localStorage.getItem("filters")
-      ? new Search(JSON.parse(localStorage.getItem("filters")))
-      : new Search({});
+    this.titleService.setTitle("Gérer vos domiciliés");
 
-    this.title = "Gérer vos domiciliés";
-    this.usagers = [];
-    this.searching = false;
-    this.dateLabel = "Fin de domiciliation";
-    this.authService.currentUser.subscribe(user => {
-      this.prenom = user !== null ? user.prenom : "";
-    });
+    this.filters = new Search(this.getFilters());
+    this.filters.page = 0;
+    this.getStats();
+    this.search();
 
     fromEvent(this.searchInput.nativeElement, "keyup")
       .pipe(
         map((event: any) => {
           return event.target.value;
         }),
-        debounceTime(300),
+        debounceTime(400),
         distinctUntilChanged()
       )
       .subscribe((text: any) => {
         text = text.trim();
         this.filters.name = text;
-        this.searching = true;
+        this.filters.page = 0;
         this.search();
       });
-
-    this.search();
-  }
-
-  public getSearchBar() {
-    return this.searchInput.nativeElement.value;
   }
 
   public resetSearchBar() {
@@ -103,71 +137,151 @@ export class ManageUsagersComponent implements OnInit {
     this.search();
   }
 
-  public updateFilters(filter: string, value: any) {
-    this.filters[filter] = this.filters[filter] === value ? null : value;
+  public updateFilters(element: Filters, value: string | null) {
+    if (
+      element === "interactionType" ||
+      element === "statut" ||
+      element === "passage" ||
+      element === "echeance" ||
+      element === "name"
+    ) {
+      const newValue = this.filters[element] === value ? null : value;
+      this.filters[element] = newValue;
+    } else {
+      this.filters[element] = value;
+    }
+
+    if (element === "statut") {
+      if (value !== "TOUS" && value !== "VALIDE") {
+        this.filters.passage = null;
+        this.filters.echeance = null;
+        this.filters.interactionType = null;
+      }
+    }
+    this.filters.page = 0;
     this.search();
   }
 
-  public goToProfil(id: number, statut: string) {
-    const url = {
-      ATTENTE_DECISION: "usager/" + id + "/edit",
-      INSTRUCTION: "usager/" + id + "/edit",
-      RADIE: "usager/" + id,
-      REFUS: "usager/" + id,
-      VALIDE: "usager/" + id
+  public goToProfil(usager: Usager) {
+    const url: { [key: string]: any } = {
+      ATTENTE_DECISION: "usager/" + usager.id + "/edit",
+      INSTRUCTION: "usager/" + usager.id + "/edit",
+      RADIE: "usager/" + usager.id,
+      REFUS: "usager/" + usager.id,
+      VALIDE: "usager/" + usager.id,
     };
 
-    this.router.navigate([url[statut]]);
-  }
-
-  public getLetter(nom: string): string {
-    return nom.charAt(0).toUpperCase();
-  }
-
-  public differentLetter(nom: string, i: number): boolean {
-    if (i !== undefined && i > 0) {
-      return (
-        this.usagers[i - 1].nom.charAt(0).toUpperCase() !==
-        nom.charAt(0).toUpperCase()
-      );
+    if (
+      usager.typeDom === "RENOUVELLEMENT" &&
+      (usager.decision.statut === "ATTENTE_DECISION" ||
+        usager.decision.statut === "INSTRUCTION")
+    ) {
+      this.router.navigate(["usager/" + usager.id]);
+      return;
     }
-    return true;
+    this.router.navigate([url[usager.decision.statut]]);
   }
 
-  public setPassage(usager: Usager, type: string) {
-    this.interactionService
-      .setInteraction(usager.id, {
-        content: "",
-        type
-      })
-      .subscribe(
-        () => {
-          if (type === "courrierOut") {
-            usager.lastInteraction.nbCourrier = 0;
-          }
-          this.notifService.success(this.notifs[type]);
-        },
-        error => {
-          this.notifService.error("Impossible d'enregistrer cette interaction");
-        }
-      );
+  public setInteraction(
+    usager: Usager,
+    type: InteractionTypes,
+    procuration?: boolean
+  ) {
+    const interaction: {
+      content?: string;
+      type?: string;
+      procuration?: boolean;
+      transfert?: boolean;
+    } = {
+      content: "",
+      type,
+    };
+
+    if (type === "courrierOut" && usager.options.procuration.actif) {
+      if (typeof procuration === "undefined") {
+        this.selectedUsager = usager;
+        this.modalService.open(this.distributionConfirm);
+        // open
+        return;
+      }
+      this.modalService.dismissAll();
+      interaction.procuration = procuration;
+    }
+
+    if (type === "courrierOut" && usager.options.transfert.actif) {
+      interaction.transfert = true;
+    }
+
+    this.interactionService.setInteraction(usager, interaction).subscribe(
+      (response: Usager) => {
+        usager.lastInteraction = response.lastInteraction;
+        this.notifService.success(interactionsLabels[type]);
+      },
+      (error) => {
+        this.notifService.error("Impossible d'enregistrer cette interaction");
+      }
+    );
+  }
+
+  public getStats() {
+    this.usagerService.getStats().subscribe((stats: any) => {
+      this.stats = stats;
+    });
   }
 
   public search() {
+    this.searching = true;
+
     this.dateLabel =
       this.filters.statut !== null
         ? this.labelsDateFin[this.filters.statut]
         : "Date de fin";
 
     localStorage.setItem("filters", JSON.stringify(this.filters));
+
     this.usagerService.search(this.filters).subscribe(
-      (usagers: Usager[]) => {
-        this.usagers = usagers;
+      (response: { results: Usager[] | Usager; nbResults: number }) => {
+        const usagers = Array.isArray(response.results)
+          ? response.results.map((item) => new Usager(item))
+          : [new Usager(response)];
+
+        if (this.filters.page === 0) {
+          this.nbResults = response.nbResults;
+          this.usagers = usagers;
+
+          window.scroll({
+            behavior: "smooth",
+            left: 0,
+            top: 0,
+          });
+        } else {
+          this.usagers = this.usagers.concat(usagers);
+        }
         this.searching = false;
       },
-      error => {
+      (error) => {
+        this.searching = false;
         this.notifService.error("Une erreur a eu lieu lors de la recherche");
       }
     );
+  }
+
+  private getFilters() {
+    const filters = localStorage.getItem("filters");
+    return filters === null ? {} : JSON.parse(filters);
+  }
+
+  @HostListener("window:scroll", ["$event"])
+  onScroll($event: Event): void {
+    const pos =
+      (document.documentElement.scrollTop || document.body.scrollTop) +
+      document.documentElement.offsetHeight;
+    const max = document.documentElement.scrollHeight;
+    const pourcent = (pos / max) * 100;
+
+    if (pourcent >= 80 && this.usagers.length < this.nbResults) {
+      this.filters.page = this.filters.page + 1;
+      this.search();
+    }
   }
 }

@@ -27,14 +27,14 @@ describe("RegisterUserComponent", () => {
           preventDuplicates: true,
           progressAnimation: "increasing",
           progressBar: true,
-          timeOut: 2000
+          timeOut: 2000,
         }),
         HttpClientModule,
         HttpClientTestingModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

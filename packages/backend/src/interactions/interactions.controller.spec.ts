@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
 import { DatabaseModule } from "../database/database.module";
+import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
@@ -13,15 +14,18 @@ describe("Interactions Controller", () => {
   let app: TestingModule;
   let controller: InteractionsController;
   let userService: UsersService;
+  let usagerService: UsagersService;
+
   beforeAll(async () => {
     app = await Test.createTestingModule({
       controllers: [InteractionsController],
       imports: [DatabaseModule, UsersModule, UsagersModule],
-      providers: [InteractionsService, ...InteractionsProviders]
+      providers: [InteractionsService, ...InteractionsProviders],
     }).compile();
     controller = app.get<InteractionsController>(InteractionsController);
 
     userService = app.get<UsersService>(UsersService);
+    usagerService = app.get<UsagersService>(UsagersService);
   });
 
   afterAll(async () => {
@@ -38,18 +42,15 @@ describe("Interactions Controller", () => {
     interaction.type = "courrierOut";
     interaction.content = "Les impôts";
     const user = await userService.findOne({ id: 2 });
+    const usager = await usagerService.findById(1, 1);
 
     try {
-      const testFc = await controller.postInteraction(1, interaction, user);
+      const testFc = await controller.postInteraction(
+        interaction,
+        user,
+        usager
+      );
       expect(testFc).toBeDefined();
-    } catch (err) {
-      expect(err.message).toEqual("NOT_FOUND");
-    }
-
-    try {
-      expect(
-        await controller.postInteraction(100, interaction, user)
-      ).toBeDefined();
     } catch (err) {
       expect(err.message).toEqual("NOT_FOUND");
     }

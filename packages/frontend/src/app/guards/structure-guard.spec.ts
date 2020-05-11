@@ -4,7 +4,7 @@ import { async, inject, TestBed } from "@angular/core/testing";
 import { ActivatedRouteSnapshot, RouterModule } from "@angular/router";
 import { StructureService } from "../modules/structures/services/structure.service";
 import { StructuresModule } from "../modules/structures/structures.module";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../modules/shared/services/auth.service";
 import { StructureGuard } from "./structure-guard";
 
 describe("StructureGuard", () => {
@@ -21,11 +21,11 @@ describe("StructureGuard", () => {
         {
           provide: ActivatedRouteSnapshot,
           useValue: {
-            params: { id: 1 }
-          }
+            params: { id: 1 },
+          },
         },
-        { provide: APP_BASE_HREF, useValue: "/" }
-      ]
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
     });
 
     activatedRoute = TestBed.get(ActivatedRouteSnapshot);
@@ -48,10 +48,10 @@ describe("StructureGuard", () => {
   it("❌ Structure not exist - 404 error", async(() => {
     activatedRoute.params.id = 100;
     structureGuard.canActivate(activatedRoute).subscribe(
-      response => {
+      (response) => {
         expect(response).toBeDefined();
       },
-      error => {
+      (error) => {
         expect(error.status).toEqual(400);
       }
     );

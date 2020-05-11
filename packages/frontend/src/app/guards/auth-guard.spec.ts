@@ -1,14 +1,13 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule, HttpHandler } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { inject, TestBed } from "@angular/core/testing";
 import {
-  ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
   RouterModule,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from "@angular/router";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../modules/shared/services/auth.service";
 import { AuthGuard } from "./auth-guard";
 
 describe("AuthGuard", () => {
@@ -26,18 +25,18 @@ describe("AuthGuard", () => {
         {
           provide: ActivatedRouteSnapshot,
           useValue: {
-            params: { id: 1 }
-          }
+            params: { id: 1 },
+          },
         },
         {
           provide: RouterStateSnapshot,
           useValue: {
-            params: { url: "/connexion" }
-          }
+            params: { url: "/connexion" },
+          },
         },
         AuthService,
-        { provide: APP_BASE_HREF, useValue: "/" }
-      ]
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
     });
 
     authService = TestBed.get(AuthService);

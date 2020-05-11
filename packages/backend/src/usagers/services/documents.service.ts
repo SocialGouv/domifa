@@ -1,8 +1,7 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 
 import { User } from "../../users/user.interface";
-import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usagers";
 
 @Injectable()
@@ -31,47 +30,13 @@ export class DocumentsService {
         {
           $set: {
             docs: usager.docs,
-            docsPath: usager.docsPath
-          }
+            docsPath: usager.docsPath,
+          },
         },
         {
-          new: true
+          new: true,
         }
       )
       .exec();
-  }
-
-  public async addDocument(
-    usagerId: number,
-    user: User,
-    filename: string,
-    newDoc: any
-  ): Promise<Usager> {
-    return this.usagerModel
-      .findOneAndUpdate(
-        {
-          id: usagerId,
-          structureId: user.structureId
-        },
-        {
-          $push: { docs: newDoc, docsPath: filename }
-        },
-        { new: true }
-      )
-      .select("-docsPath")
-      .exec();
-  }
-
-  public async getDocument(usager: Usager, index: number): Promise<Doc> {
-    if (
-      typeof usager.docs[index] === "undefined" ||
-      typeof usager.docsPath[index] === "undefined"
-    ) {
-      throw new HttpException("DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
-    }
-
-    const fileInfos = usager.docs[index];
-    fileInfos.path = usager.docsPath[index];
-    return fileInfos;
   }
 }

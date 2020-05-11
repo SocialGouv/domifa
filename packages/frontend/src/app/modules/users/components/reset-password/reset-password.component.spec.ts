@@ -9,6 +9,7 @@ import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { ResetPasswordComponent } from "./reset-password.component";
+import Zone from "zone.js/dist/zone-testing";
 
 describe("ResetPasswordComponent", () => {
   let component: ResetPasswordComponent;
@@ -29,12 +30,12 @@ describe("ResetPasswordComponent", () => {
           preventDuplicates: true,
           progressAnimation: "increasing",
           progressBar: true,
-          timeOut: 2000
+          timeOut: 2000,
         }),
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

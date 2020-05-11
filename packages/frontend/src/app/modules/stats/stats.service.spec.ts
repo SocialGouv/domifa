@@ -18,10 +18,10 @@ describe("StatsService", () => {
         {
           multi: true,
           provide: HTTP_INTERCEPTORS,
-          useClass: ServerErrorInterceptor
-        }
+          useClass: ServerErrorInterceptor,
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
   );
 

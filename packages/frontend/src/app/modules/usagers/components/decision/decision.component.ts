@@ -1,16 +1,20 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
-  NgbModal
+  NgbModal,
+  NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
-import { AuthService } from "src/app/services/auth.service";
-import { NgbDateCustomParserFormatter } from "src/app/services/date-formatter";
-import { CustomDatepickerI18n } from "src/app/services/date-french";
-import * as labels from "src/app/shared/entretien.labels";
+import { ToastrService } from "ngx-toastr";
+import { PrintService } from "src/app/modules/shared/services/print.service";
+import * as labels from "src/app/modules/usagers/usagers.labels";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
+import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import { Usager } from "../../interfaces/usager";
+import { DocumentService } from "../../services/document.service";
 import { UsagerService } from "../../services/usager.service";
 
 @Component({
@@ -18,50 +22,49 @@ import { UsagerService } from "../../services/usager.service";
     UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-decision",
   styleUrls: ["./decision.component.css"],
-  templateUrl: "./decision.component.html"
+  templateUrl: "./decision.component.html",
 })
 export class DecisionComponent implements OnInit {
   public labels: any;
   public modal: any;
-
-  public refusForm: FormGroup;
-  public valideForm: FormGroup;
-
-  public motifsRefusList = [];
+  public submitted: boolean;
+  public refusForm!: FormGroup;
+  public valideForm!: FormGroup;
 
   public formDatas: any;
 
-  public dToday = new Date();
+  public minDate: NgbDateStruct;
+  public maxDate: NgbDateStruct;
 
-  public minDate = { day: 1, month: 1, year: 2018 };
-  public maxDate = { day: 1, month: 1, year: this.dToday.getFullYear() + 2 };
+  public dateDebutPicker: NgbDateStruct;
+  public dateFinPicker: NgbDateStruct;
+  public maxDateRefus: NgbDateStruct;
 
-  public dateDebutPicker = {
-    day: this.dToday.getDate(),
-    month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear()
-  };
-  public dateFinPicker = {
-    day: this.dToday.getDate(),
-    month: this.dToday.getMonth() + 1,
-    year: this.dToday.getFullYear() + 1
-  };
-
-  @Input() public usager: Usager;
-  @Input() public isAdmin: boolean;
+  @Input() public usager!: Usager;
+  @Input() public isAdmin!: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService,
+    public printService: PrintService,
+    public documentService: DocumentService,
     private usagerService: UsagerService,
     private modalService: NgbModal,
     private router: Router,
-    private nbgDate: NgbDateCustomParserFormatter
-  ) {}
+    private nbgDate: NgbDateCustomParserFormatter,
+    private notifService: ToastrService
+  ) {
+    this.labels = labels;
+    this.submitted = false;
+
+    const dToday = new Date();
+    this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
+    this.maxDate = { day: 1, month: 1, year: dToday.getFullYear() + 2 };
+  }
 
   get r(): any {
     return this.refusForm.controls;
@@ -72,46 +75,76 @@ export class DecisionComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.labels = labels;
-    this.motifsRefusList = Object.keys(this.labels.motifsRefus);
-
-    this.refusForm = this.formBuilder.group({
-      dateFin: [this.usager.decision.dateFin, [Validators.required]],
-      dateFinPicker: [this.dateDebutPicker, [Validators.required]],
-      motif: [this.usager.decision.motif, [Validators.required]],
-      motifDetails: [this.usager.decision.motifDetails, []],
-      orientation: [this.usager.decision.orientation, [Validators.required]],
-      orientationDetails: [
-        this.usager.decision.orientationDetails,
-        [Validators.required]
-      ]
-    });
-
     this.usager.decision.dateDebut = new Date();
     this.usager.decision.dateFin = new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)
     );
 
+    this.dateDebutPicker = this.nbgDate.parseEn(
+      this.usager.decision.dateDebut.toISOString()
+    );
+
+    this.dateFinPicker = this.nbgDate.parseEn(
+      this.usager.decision.dateFin.toISOString()
+    );
+
+    this.maxDateRefus = this.dateDebutPicker;
+
     this.valideForm = this.formBuilder.group({
       dateDebut: [this.usager.decision.dateDebut, [Validators.required]],
       dateDebutPicker: [this.dateDebutPicker, [Validators.required]],
       dateFin: [this.usager.decision.dateFin, [Validators.required]],
-      dateFinPicker: [this.dateFinPicker, [Validators.required]]
+      dateFinPicker: [this.dateFinPicker, [Validators.required]],
+    });
+
+    this.refusForm = this.formBuilder.group({
+      dateFin: [this.usager.decision.dateFin, [Validators.required]],
+      dateFinPicker: [this.dateDebutPicker, [Validators.required]],
+      motif: [
+        this.usager.decision.motif,
+        [Validators.required, Validators.minLength(4)],
+      ],
+      motifDetails: [this.usager.decision.motifDetails, []],
+      orientation: [
+        this.usager.decision.orientation,
+        [Validators.required, Validators.minLength(4)],
+      ],
+      orientationDetails: [
+        this.usager.decision.orientationDetails,
+        [Validators.required],
+      ],
+    });
+
+    this.refusForm.get("motif").valueChanges.subscribe((value) => {
+      const customValidator = value === "AUTRE" ? Validators.required : null;
+      this.refusForm.get("motifDetails").setValidators(customValidator);
     });
   }
 
   public setDecision(statut: string) {
+    this.submitted = true;
+
     if (statut === "REFUS") {
       if (this.refusForm.invalid) {
+        this.notifService.error(
+          "Le formulaire contient une erreur, veuillez vérifier les champs"
+        );
         return;
       }
       this.refusForm.controls.dateFin.setValue(
         new Date(
-          this.nbgDate.formatEn(this.refusForm.get("dateFinPicker").value)
+          this.nbgDate.formatEn(this.refusForm.controls.dateFinPicker.value)
         ).toISOString()
       );
       this.formDatas = this.refusForm.value;
     } else if (statut === "VALIDE") {
+      if (this.valideForm.invalid) {
+        this.notifService.error(
+          "Le formulaire contient une erreur, veuillez vérifier les champs"
+        );
+        return;
+      }
+
       this.valideForm.controls.dateDebut.setValue(
         new Date(
           this.nbgDate.formatEn(this.valideForm.get("dateDebutPicker").value)
@@ -124,9 +157,6 @@ export class DecisionComponent implements OnInit {
         ).toISOString()
       );
 
-      if (this.valideForm.invalid) {
-        return;
-      }
       this.formDatas = this.valideForm.value;
     } else {
       this.formDatas = { statut: "ATTENTE_DECISION" };
@@ -135,19 +165,30 @@ export class DecisionComponent implements OnInit {
     this.usagerService
       .setDecision(this.usager.id, this.formDatas, statut)
       .subscribe((usager: Usager) => {
+        this.usager = usager;
+
+        this.submitted = false;
+        this.notifService.success("Décision enregistrée avec succès ! ");
         if (this.modal) {
           this.modal.close();
           this.router.navigate(["usager/" + usager.id]);
         }
-        this.usager = new Usager(usager);
       });
   }
 
-  public open(content: string) {
+  public open(content: TemplateRef<any>) {
     this.modal = this.modalService.open(content);
   }
 
   public getAttestation() {
     return this.usagerService.attestation(this.usager.id);
+  }
+
+  public getDocument(i: number) {
+    return this.documentService.getDocument(
+      this.usager.id,
+      i,
+      this.usager.docs[i]
+    );
   }
 }

@@ -1,33 +1,30 @@
-<div
-  class="step_form"
-  *ngIf="!structureChild && success">
+<div class="step_form" *ngIf="!structureChild && success">
   <div class="text-center">
-    <fa-icon
-      class="fa-4x"
-      [icon]="['far', 'check-circle']"></fa-icon>
-    <br>
+    <fa-icon class="fa-4x" [icon]="['far', 'check-circle']"></fa-icon>
+    <br />
     <h3 class="text-success">
-      Félicitations, votre demande de création de compte a bien été prise en compte.
+      Félicitations, votre demande de création de compte a bien été prise en
+      compte.
     </h3>
-    <br>
+    <br />
     <p class="text-center">
-      Un email de confirmation vous sera envoyé dès validation de celui-ci par l'administrateur de votre structure, vous pourrez alors vous connecter.
+      Un email de confirmation vous sera envoyé dès validation de celui-ci par
+      l'administrateur de votre structure, vous pourrez alors vous connecter.
     </p>
   </div>
 </div>
-<div
-  class="container text-center"
-  *ngIf="structureChild && success">
+<div class="container text-center" *ngIf="structureChild && success">
   <h4 class="text-primary">
     Félicitations, votre demande de création de nouvelle structure sur Domifa
-    <br>
+    <br />
     a bien été prise en compte.
   </h4>
-  Un email de confirmation vous sera envoyé dès validation de celle-ci par l'administrateur Domifa.
-  <br>
+  Un email de confirmation vous sera envoyé dès validation de celle-ci par
+  l'administrateur Domifa.
+  <br />
   Vous pourrez alors vous connecter à votre compte et :
-  <br>
-  <br>
+  <br />
+  <br />
   <span>
     <b class="text-primary">
       <fa-icon icon="arrow-down"></fa-icon>
@@ -35,8 +32,8 @@
     </b>
     importer vos domiciliations actuelles
   </span>
-  <br>
-  <br>
+  <br />
+  <br />
   <span>
     <b class="text-primary">
       <fa-icon icon="plus"></fa-icon>
@@ -44,8 +41,8 @@
     </b>
     domicilier de nouvelles personnes
   </span>
-  <br>
-  <br>
+  <br />
+  <br />
   <span>
     <b class="text-primary">
       <fa-icon icon="user-plus"></fa-icon>
@@ -53,15 +50,13 @@
     </b>
     créer des comptes pour vos collaborateurs
   </span>
-  <br>
-  <br>
-  <br>
+  <br />
+  <br />
+  <br />
   A très vite !
 </div>
-<div
-  class="step_form"
-  *ngIf="!success">
-  <div class=" text-center">
+<div class="step_form" *ngIf="!success">
+  <div class="text-center">
     <div *ngIf="!structureChild">
       <h5 class="title">
         Vous pouvez désormais créer votre compte
@@ -71,14 +66,15 @@
       <h5 class="title">
         Création du compte administrateur de votre structure sur Domifa
       </h5>
-      Attention, les informations que vous allez saisir vous serviront à administrer votre compte Domifa. Lorsque celui-ci sera validé, vous pourrez alors inviter d'autres collaborateurs de votre structure à créer des comptes pour se connecter à votre compte Domifa.
+      Attention, les informations que vous allez saisir vous serviront à
+      administrer votre compte Domifa. Lorsque celui-ci sera validé, vous
+      pourrez alors inviter d'autres collaborateurs de votre structure à créer
+      des comptes pour se connecter à votre compte Domifa.
     </div>
   </div>
-  <br>
-  <br>
-  <form
-    [formGroup]="userForm"
-    (ngSubmit)="submitUser()">
+  <br />
+  <br />
+  <form *ngIf="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
     <div class="row">
       <div class="col form-group required">
         <label for="nom">Nom</label>
@@ -88,14 +84,11 @@
           id="nom"
           formControlName="nom"
           [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
-          required>
-        <div
-          *ngIf="submitted && f.nom.errors"
-          class="invalid-feedback">
+          required
+        />
+        <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
           <div *ngIf="f.nom.errors.required">
-            Le
-            <b>nom</b>
-            du demandeur est obligatoire
+            Le nom du demandeur est obligatoire
           </div>
         </div>
       </div>
@@ -107,15 +100,10 @@
           id="prenom"
           formControlName="prenom"
           [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
-          required>
-        <div
-          *ngIf="submitted && f.prenom.errors"
-          class="invalid-feedback">
-          <div *ngIf="f.prenom.errors.required">
-            Le
-            <b>Prénom</b>
-            est obligatoire
-          </div>
+          required
+        />
+        <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+          <div *ngIf="f.prenom.errors.required">Le prénom est obligatoire</div>
         </div>
       </div>
     </div>
@@ -129,11 +117,12 @@
           formControlName="fonction"
           placeholder="Président.e, Directrice, Chef de service, etc."
           [ngClass]="{ 'is-invalid': submitted && f.fonction.errors }"
-          required>
-        <div
-          *ngIf="submitted && f.fonction.errors"
-          class="invalid-feedback">
-          <div *ngIf="f.fonction.errors.required">Votre fonction est obligatoire</div>
+          required
+        />
+        <div *ngIf="submitted && f.fonction.errors" class="invalid-feedback">
+          <div *ngIf="f.fonction.errors.required">
+            Votre fonction est obligatoire
+          </div>
         </div>
       </div>
     </div>
@@ -147,24 +136,20 @@
           autocomplete="username"
           formControlName="email"
           [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
-          required>
-        <div
-          *ngIf="f.email.errors"
-          class="invalid-feedback">
+          required
+        />
+        <div *ngIf="f.email.errors" class="invalid-feedback">
           <div *ngIf="f.email.errors.emailTaken">
             <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
             <b>L'adresse email est déjà utilisée</b>
           </div>
           <div *ngIf="!f.email.errors.emailTaken">
-            L'adresse
-            <b>Email</b>
-            est incorrecte
+            L'adresse Email est incorrecte
           </div>
         </div>
       </div>
     </div>
     <div class="row">
-
       <div class="col form-group required passwordInput">
         <label for="password">Mot de passe</label>
         <input
@@ -174,45 +159,75 @@
           id="password"
           autocomplete="new-password"
           formControlName="password"
-          required>
-        <span
-          class="eye"
-          *ngIf="hidePassword"
-          (click)="hidePassword = false">
+          required
+        />
+        <span class="eye" *ngIf="hidePassword" (click)="hidePassword = false">
           <fa-icon icon="eye"></fa-icon>
         </span>
-        <span
-          class="eye"
-          *ngIf="!hidePassword"
-          (click)="hidePassword = true">
+        <span class="eye" *ngIf="!hidePassword" (click)="hidePassword = true">
           <fa-icon icon="eye-slash"></fa-icon>
         </span>
         <div class="row indications">
-
           <div
             class="col-md-12"
-            [ngClass]="f.password.hasError('required') || f.password.hasError('minlength')  ? 'text-danger' : 'text-success'">
-            <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('minlength') ? 'times-circle' : 'check-circle'"></fa-icon>
+            [ngClass]="
+              f.password.hasError('required') ||
+              f.password.hasError('minlength')
+                ? 'text-danger'
+                : 'text-success'
+            "
+          >
+            <fa-icon
+              [icon]="
+                f.password.hasError('required') ||
+                f.password.hasError('minlength')
+                  ? 'times-circle'
+                  : 'check-circle'
+              "
+            ></fa-icon>
             Au moins 12 caractères
           </div>
           <div
             class="col-md-12"
-            [ngClass]="f.password.hasError('required') || f.password.hasError('hasNumber')  ? 'text-danger' : 'text-success'">
-
-            <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('hasNumber') ? 'times-circle' : 'check-circle'"></fa-icon>
+            [ngClass]="
+              f.password.hasError('required') ||
+              f.password.hasError('hasNumber')
+                ? 'text-danger'
+                : 'text-success'
+            "
+          >
+            <fa-icon
+              [icon]="
+                f.password.hasError('required') ||
+                f.password.hasError('hasNumber')
+                  ? 'times-circle'
+                  : 'check-circle'
+              "
+            ></fa-icon>
             Au moins 1 chiffre
           </div>
           <div
             class="col-md-12"
-            [ngClass]="f.password.hasError('required') || f.password.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
-            <fa-icon [icon]="f.password.hasError('required') || f.password.hasError('hasCapitalCase') ? 'times-circle' : 'check-circle'"></fa-icon>
+            [ngClass]="
+              f.password.hasError('required') ||
+              f.password.hasError('hasCapitalCase')
+                ? 'text-danger'
+                : 'text-success'
+            "
+          >
+            <fa-icon
+              [icon]="
+                f.password.hasError('required') ||
+                f.password.hasError('hasCapitalCase')
+                  ? 'times-circle'
+                  : 'check-circle'
+              "
+            ></fa-icon>
             Au moins une lettre en majuscule
           </div>
         </div>
       </div>
-      <div
-        class="col form-group required passwordInput"
-        id="confirmPassword">
+      <div class="col form-group required passwordInput" id="confirmPassword">
         <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
         <input
           class="form-control"
@@ -221,50 +236,70 @@
           id="confirmPasswordInput"
           autocomplete="new-password"
           formControlName="confirmPassword"
-          [ngClass]="frmSignup.controls['confirmPassword'].invalid ? 'is-invalid' : ''"
-          required>
+          required
+        />
         <span
           class="eye"
           *ngIf="hidePasswordConfirm"
-          (click)="hidePasswordConfirm = false">
+          (click)="hidePasswordConfirm = false"
+        >
           <fa-icon icon="eye"></fa-icon>
         </span>
         <span
           class="eye"
           *ngIf="!hidePasswordConfirm"
-          (click)="hidePasswordConfirm = true">
+          (click)="hidePasswordConfirm = true"
+        >
           <fa-icon icon="eye-slash"></fa-icon>
         </span>
 
         <div class="row indications">
           <div
             class="text-danger col-md-12"
-            *ngIf="submitted && f.confirmPassword.hasError('required')">
+            *ngIf="submitted && f.confirmPassword.hasError('required')"
+          >
             La confirmation du mot de passe est obligatoire
           </div>
           <div
             class="col-md-12"
-            [ngClass]="f.confirmPassword.dirty && !f.confirmPassword.hasError('NoPassswordMatch') ? 'text-success' : 'text-danger'">
-            <fa-icon [icon]="f.confirmPassword.dirty && !f.confirmPassword.hasError('NoPassswordMatch') ? 'check-circle' : 'times-circle'"></fa-icon>
+            [ngClass]="
+              f.confirmPassword.dirty &&
+              !f.confirmPassword.hasError('NoPassswordMatch')
+                ? 'text-success'
+                : 'text-danger'
+            "
+          >
+            <fa-icon
+              [icon]="
+                f.confirmPassword.dirty &&
+                !f.confirmPassword.hasError('NoPassswordMatch')
+                  ? 'check-circle'
+                  : 'times-circle'
+              "
+            ></fa-icon>
             Les mots de passe doivent être identiques
           </div>
         </div>
       </div>
     </div>
-    <br>
+    <br />
     <div class="text-center">
-      <button
+      <input
+        type="submit"
+        aria-label="Créer mon compte"
         class="btn btn-primary"
-        [disabled]="userForm.invalid && !emailExist">
-        Créer mon compte
-      </button>
+        value="Créer mon compte"
+        [disabled]="userForm.invalid && !emailExist"
+      />
+
       <div *ngIf="structureChild">
-        <br>
-        <br>
+        <br />
+        <br />
         <a
           routerLink="/inscription"
           routerLinkActive="router-link-active"
-          class="btn btn-outline-dark">
+          class="btn btn-outline-dark"
+        >
           Précédent
         </a>
       </div>

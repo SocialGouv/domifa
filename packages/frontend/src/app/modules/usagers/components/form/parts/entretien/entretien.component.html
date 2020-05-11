@@ -1,0 +1,383 @@
+<form [formGroup]="entretienForm" (ngSubmit)="submitEntretien()">
+  <div class="text-center" *ngIf="!editEntretien">
+    <h5 class="title">Entretien avec le demandeur</h5>
+  </div>
+  <div class="row">
+    <div class="alert alert-info">
+      Merci de n'inscrire aucune donnée sensible au sens du RGPD (orientation
+      sexuelle et politique, données de santé, etc.) et de limiter au maximum la
+      présence de données à caractère personnel.
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div>
+        <span class="label">Avez-vous été orienté ?</span>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="orientation"
+            id="orientation_oui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="orientation_oui">
+            Oui
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="orientation"
+            id="orientation_non"
+            [value]="false"
+          />
+          <label class="form-check-label" for="orientation_non">
+            Non
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="e.orientation.value === true" class="form-group">
+        <br />
+        <label class="form-check-label" for="orientationDetail">
+          Par quelle structure ou personne ?
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="orientationDetail"
+          id="orientationDetail"
+        />
+      </div>
+
+      <div>
+        <span class="label">
+          Avez-vous déjà une domiciliation ?
+          <fa-icon
+            icon="question-circle"
+            placement="top"
+            ngbTooltip="Une domiciliation existante n’est pas un motif de refus. Néanmoins, il faut rechercher pourquoi la personne formule une nouvelle demande et l’inviter à choisir quelle domiciliation elle souhaite conserver."
+          >
+          </fa-icon>
+        </span>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="domiciliation"
+            id="domiciliation_oui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="domiciliation_oui">
+            Oui
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="domiciliation"
+            id="domiciliation_non"
+            [value]="false"
+          />
+          <label class="form-check-label" for="domiciliation_non">
+            Non
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <span class="label">Avez-vous des revenus ?</span>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="revenus"
+            id="revenus_oui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="revenus_oui">
+            Oui
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="revenus"
+            id="revenus_non"
+            [value]="false"
+          />
+          <label class="form-check-label" for="revenus_non">
+            Non
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="e.revenus.value === true" class="form-group">
+        <br />
+        <label class="form-check-label" for="revenusDetail">
+          De quelle nature ?
+        </label>
+        <textarea
+          class="form-control"
+          formControlName="revenusDetail"
+          name="revenusDetail"
+          id="revenusDetail"
+        ></textarea>
+      </div>
+
+      <div>
+        <span class="label">Quel est votre lien avec la commune ?</span>
+        <textarea
+          class="form-control"
+          formControlName="liencommune"
+          name="liencommune"
+          id="liencommune"
+        ></textarea>
+      </div>
+
+      <div class="questions">
+        <span class="label">
+          Quelle est la composition de votre ménage ?
+        </span>
+        <div class="form-check" *ngFor="let key of typeMenageList">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="typeMenage"
+            id="{{ key }}"
+            value="{{ key }}"
+          />
+          <label class="form-check-label" for="{{ key }}">
+            {{ labels.typeMenage[key] }}
+          </label>
+        </div>
+      </div>
+
+      <div class="questions">
+        <div>
+          <span class="label">
+            Quelle est votre situation résidentielle ?
+          </span>
+          <div class="form-check" *ngFor="let key of residenceList">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="residence"
+              id="{{ key }}"
+              value="{{ key }}"
+            />
+            <label class="form-check-label" for="{{ key }}">
+              {{ labels.residence[key] }}
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="residence"
+              id="residenceAutre"
+              value="AUTRE"
+            />
+            <label class="form-check-label" for="residenceAutre">
+              Autre lieu de vie
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            *ngIf="e.residence.value === 'AUTRE'"
+            formControlName="residenceDetail"
+            placeholder="Précisions"
+          />
+        </div>
+      </div>
+
+      <div class="questions">
+        <div>
+          <span class="label">
+            Quelle est la cause de l'instabilité de logement ?
+          </span>
+          <div class="form-check" *ngFor="let key of causeList">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="cause"
+              id="{{ key }}"
+              value="{{ key }}"
+            />
+            <label class="form-check-label" for="{{ key }}">
+              {{ labels.cause[key] }}
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="cause"
+              id="causeAutre"
+              value="AUTRE"
+            />
+            <label class="form-check-label" for="causeAutre">
+              Autre raison
+            </label>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="e.cause.value === 'AUTRE'">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="causeDetail"
+            placeholder="Précisions"
+          />
+        </div>
+      </div>
+
+      <div class="questions">
+        <div>
+          <span class="label">
+            Quel est le motif principal de demande de domiciliation ?
+          </span>
+          <div class="form-check" *ngFor="let key of raisonList">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="raison"
+              id="{{ key }}"
+              value="{{ key }}"
+            />
+            <label class="form-check-label" for="{{ key }}">
+              {{ labels.raison[key] }}
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="raison"
+              id="raisonAutre"
+              value="AUTRE"
+            />
+            <label class="form-check-label" for="raisonAutre">
+              Autre raison
+            </label>
+          </div>
+        </div>
+        <div *ngIf="e.raison.value === 'AUTRE'" class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="raisonDetail"
+            placeholder="Précisions"
+          />
+        </div>
+      </div>
+
+      <div>
+        <span class="label">
+          Faites-vous l’objet d’un accompagnement social ?
+        </span>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="accompagnement"
+            id="accompagnement_oui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="accompagnement_oui">
+            Oui
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="accompagnement"
+            id="accompagnement_non"
+            [value]="false"
+          />
+          <label class="form-check-label" for="accompagnement_non">
+            Non
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="e.accompagnement.value === true" class="form-group">
+        <br />
+        <label class="form-check-label" for="accompagnement_non">
+          Par quelle structure ?
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="accompagnementDetail"
+        />
+      </div>
+
+      <div>
+        <span class="label">Commentaires</span>
+        <textarea
+          class="form-control"
+          id="commentaires"
+          formControlName="commentaires"
+          id="commentaires"
+        ></textarea>
+      </div>
+    </div>
+    <div class="w-100">
+      <br />
+    </div>
+    <br />
+    <br />
+    <div class="col-md-4 offset-md-4 text-center">
+      <button type="submit" class="btn btn-primary btn-block">
+        Enregistrer
+      </button>
+      <br />
+      <span
+        class="btn btn-block"
+        *ngIf="usager.decision.statut === 'INSTRUCTION'"
+        (click)="open(entretienConfirmation)"
+      >
+        <u>Passer cette étape</u>
+        &nbsp;
+        <fa-icon icon="angle-right"></fa-icon>
+      </span>
+    </div>
+  </div>
+</form>
+
+<ng-template #entretienConfirmation let-modal>
+  <div class="modal-body">
+    <div class="col">
+      <h4 class="text-center">Attention</h4>
+      L’entretien préalable
+      <b>est obligatoire,</b>
+      il est l’occasion d’inscrire la domiciliation dans une démarche
+      d’accompagnement social visant à favoriser l’insertion des personnes
+      domiciliées et constitue une porte d’entrée pour intégrer la personne dans
+      une logique de parcours.
+      <br />
+      <br />
+      Cette étape ne peut être passée que si votre structure met déjà en place
+      un accompagnement social pour cette personne, en parallèle de sa
+      domiciliation.
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      Revenir à l'entretien
+    </button>
+    <button class="btn btn-success" (click)="next(3); modal.close()">
+      Continuer sans entretien
+    </button>
+  </div>
+</ng-template>

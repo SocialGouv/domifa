@@ -1,0 +1,201 @@
+[
+  {
+    "date": "2020-05-27",
+    "description": "Diverses améliorations sur la plateforme",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Suite à l’inscription, envoi d’un mail présentant notre guide utilisateur pour une prise en mains facilitée"
+        ]
+      },
+      {
+        "type": "bug",
+        "message": [
+          "Divers bugs sur certaines fonctionnalités de la plateforme"
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2020-04-10",
+    "description": "Diverses améliorations sur la plateforme",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Amélioration du chargement de la liste des domiciliés",
+          "Amélioration du processus de création d’une structure",
+          "Mise à jour de la politique de confidentialité",
+          "Ajout de divers messages d’erreur pour faciliter l’utilisation de la plateforme",
+          "Optimisation des filtres en fonction du statut du domicilié"
+        ]
+      },
+      {
+        "type": "bug",
+        "message": [
+          "Bug sur la date de dernier passage",
+          "Bug sur le nombre total de domiciliés dans la colonne “Tous”"
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2020-04-01",
+    "description": "Diverses améliorations sur la plateforme",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Visualisation du nom de la structure à tout moment sur le site (en haut à gauche)",
+          "Réception de courrier possible pour un domicilié en attente de décision (cas d'un renouvellement par exemple)",
+          "Affichage de la procuration en haut de la fiche du domicilié et sur la liste des usagers"
+        ]
+      },
+      {
+        "type": "bug",
+        "message": [
+          "Ajout de contrôles sur les dates de l'import",
+          "Bug sur la modification du mot de passe d'un compte utilisateur"
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2020-03-10",
+    "description": "Les nouveaux Cerfa sont arrivés !",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Implémentation des nouveaux cerfa (Cerfa 16029*01 et Cerfa 16030*01)",
+          "Refonte des filtres sur la page de gestion des domiciliés",
+          "Résolution d’un bug d’affichage du nom de la structure sur la plateforme",
+          "Amélioration du formulaire d’inscription d’une structure"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Sécurité",
+        "message": [
+          "Chiffrement des pièces jointes ajoutées sur la plateforme",
+          "Mise à jour des mentions légales",
+          "Mise à jour des conditions d’utilisation"
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2020-03-03",
+    "description": "Plus d'autonomie pour les structure et amélioration de l'import",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Rôle administrateur",
+        "message": [
+          "Modification des informations d'une structure",
+          "Suppression de toutes les données domiciliés liées à une structure (en cas de tests par exemple)",
+          "Choix d'utilisation d'un système de nomenclature personnalisée pour les domiciliés d'une structure"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Domiciliés",
+        "message": [
+          "Affichage des identifiants personnalisés sur la liste des domiciliés",
+          "Edition des identifiants personnalisés des domiciliés sur leur fiche",
+          "Possibilité de continuer à signaler l'arrivée de courriers pour une personne radiée"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "",
+        "message": [
+          "Correction d'un bug lié à la réinitialisation du mot de passe",
+          "Amélioration de la cohérence des messages d'erreur lors d'un import",
+          "Correction de l'erreur lors d'un import comprenant un motif Autre",
+          "Réglage de l'affichage du motif d'une radiation ou d'un refus sur la fiche d'un domicilié"
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2020-01-08",
+    "description": "De nouvelles fonctionnalités attendues ont été mises en ligne, notamment le transfert de courrier et la procuration !",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Général",
+        "message": [
+          "Ajout d'une page 'nouveautés' pour suivre les mises à jour de Domifa",
+          "Nouveau design de la gestion des utilisateurs"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Domiciliés",
+        "message": [
+          "Ajout du transfert de courriers !",
+          "Ajout de la gestion de la procuration permettant la récupération de courrier par un tiers",
+          "Possibilité de rouvrir le dossier d'une personne radiée",
+          "Possibilité de continuer à signaler l'arrivée de courriers pour une personne radiée"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "",
+        "message": [
+          "Amélioration du temps de chargement de la liste des domiciliés"
+        ]
+      }
+    ]
+  },
+  {
+    "date": "2019-12-20",
+    "description": "À la suite de vos retours, nous avons apporté de nombreuses modifications aux fiches des domiciliés.",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Général",
+        "message": ["La liste des domiciliés se charge plus vite qu'avant"]
+      },
+      {
+        "type": "new",
+        "categorie": "Domiciliés",
+        "message": [
+          "Possibilité de supprimer une fiche (fonctionnalité réservée aux administrateurs)",
+          "Ajout du nombre d'usagers par statut : radiés, actifs, etc.",
+          "Possibilité d'ajouter ou supprimer des ayants-droit"
+        ]
+      },
+
+      {
+        "type": "new",
+        "categorie": "Entretien social",
+        "message": [
+          "Nouvelle question : l'usager a-t-il été orienté, si oui par qui ?",
+          "L'entretien est désormais éditable à tout moment depuis la fiche de l'usager"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Demande de domiciliation",
+        "message": [
+          "Vous pouvez désormais imprimer la fiche récapitulative à la fin d'une demande de domiciliation"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "",
+        "message": [
+          "Ajout de la date de première domiciliation dans les Cerfa",
+          "Des informations manquantes de l'entretien social ont été ajoutées sur la fiche des usagers"
+        ]
+      }
+    ]
+  }
+]

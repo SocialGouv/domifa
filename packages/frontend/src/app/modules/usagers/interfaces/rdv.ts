@@ -23,12 +23,12 @@ export class Rdv {
         ? {
             day: this.dateRdv.getDate(),
             month: this.dateRdv.getMonth() + 1,
-            year: this.dateRdv.getFullYear()
+            year: this.dateRdv.getFullYear(),
           }
         : {
             day: today.getDate(),
             month: today.getMonth() + 1,
-            year: today.getFullYear()
+            year: today.getFullYear(),
           };
 
     this.heureRdv =

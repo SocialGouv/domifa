@@ -1,53 +1,52 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { PrintService } from "src/app/modules/shared/services/print.service";
 import { User } from "src/app/modules/users/interfaces/user";
-import { AuthService } from "src/app/services/auth.service";
-import { motifsRadiation } from "../../../../shared/entretien.labels";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
+import { motifsRadiation } from "../../usagers.labels";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   providers: [UsagerService, AuthService],
   selector: "app-raft",
   styleUrls: ["./raft.component.css"],
-  templateUrl: "./raft.component.html"
+  templateUrl: "./raft.component.html",
 })
 export class RaftComponent implements OnInit {
-  public title: string;
   public usager: Usager;
   public user: User;
 
   public today: Date;
-
-  public success: boolean;
-  public error: boolean;
-
-  public motifList: any;
-  public motifsRadiation: any = motifsRadiation;
+  public motifsRadiation: any;
 
   constructor(
     private usagerService: UsagerService,
     private authService: AuthService,
+    public printService: PrintService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private titleService: Title
+  ) {
+    this.today = new Date();
+    this.usager = new Usager();
+    this.user = new User();
+    this.motifsRadiation = motifsRadiation;
+  }
 
   public ngOnInit() {
-    this.today = new Date();
-
+    this.titleService.setTitle("Radier un domicilié");
     if (this.route.snapshot.params.id) {
-      const id = this.route.snapshot.params.id;
-
-      this.authService.currentUser.subscribe(user => {
+      this.authService.currentUser.subscribe((user) => {
         this.user = user;
-        this.motifList = Object.keys(motifsRadiation);
       });
 
-      this.usagerService.findOne(id).subscribe(
+      this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {
-          this.usager = new Usager(usager);
+          this.usager = usager;
         },
-        error => {
+        (error) => {
           this.router.navigate(["/404"]);
         }
       );
@@ -57,17 +56,15 @@ export class RaftComponent implements OnInit {
     }
   }
 
+  public printPage() {
+    window.print();
+  }
+
   public setDecision(statut: string) {
     this.usagerService
       .setDecision(this.usager.id, this.usager.decision, statut)
-      .subscribe(
-        (usager: Usager) => {
-          this.usager = usager;
-          this.success = true;
-        },
-        error => {
-          this.error = true;
-        }
-      );
+      .subscribe((usager: Usager) => {
+        this.usager = usager;
+      });
   }
 }

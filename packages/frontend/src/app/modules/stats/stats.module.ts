@@ -1,27 +1,28 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxPrintModule } from "ngx-print";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
+import { StructuresModule } from "../structures/structures.module";
 import { UsersModule } from "../users/users.module";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { RapportComponent } from "./components/rapport/rapport.component";
 import { StatsService } from "./stats.service";
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, RapportComponent],
   exports: [DashboardComponent],
   imports: [
     UsersModule,
+    StructuresModule,
     CommonModule,
     BrowserModule,
-    NgxPrintModule,
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
@@ -32,13 +33,14 @@ import { StatsService } from "./stats.service";
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 2000
+      timeOut: 2000,
     }),
     HttpClientModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [StatsService]
+  providers: [StatsService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class StatsModule {}

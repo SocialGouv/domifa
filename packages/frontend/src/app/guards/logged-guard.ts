@@ -3,13 +3,13 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from "@angular/router";
-import jwtDecode from "jwt-decode";
-import { Observable, of } from "rxjs";
+
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { User } from "../modules/users/interfaces/user";
-import { AuthService } from "../services/auth.service";
+
+import { AuthService } from "../modules/shared/services/auth.service";
 
 @Injectable({ providedIn: "root" })
 export class LoggedGuard implements CanActivate {
@@ -18,15 +18,14 @@ export class LoggedGuard implements CanActivate {
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean> | boolean {
+  ): Observable<boolean> {
     return this.authService.isAuth().pipe(
-      map(isLogged => {
+      map((isLogged: boolean) => {
         if (isLogged) {
           this.router.navigate(["/manage"]);
           return false;
-        } else {
-          return true;
         }
+        return true;
       })
     );
   }

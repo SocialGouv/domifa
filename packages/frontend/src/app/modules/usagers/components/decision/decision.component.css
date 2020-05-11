@@ -5,14 +5,11 @@
   width: 100%;
 }
 
-.reponses {
-  margin: 10px auto;
+.modal-body .col-md-12,
+.modal-body .col-md-6 {
+  padding: 5px !important;
 }
 
-.reponses .question {
-  font-weight: bold;
-}
-
-.reponses .valeur {
-  display: block;
+.decision-form .invalid-feedback {
+  display: block !important;
 }
