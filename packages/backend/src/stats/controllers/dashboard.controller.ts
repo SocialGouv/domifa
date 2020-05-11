@@ -28,4 +28,10 @@ export class DashboardController {
     // 1. Liste des structures
     return this.structureService.findAllDomifa();
   }
+
+  @Get("structures/type")
+  public async countByType(@CurrentUser() user: User) {
+    // 1. Liste des structures
+    return this.structureService.countByType();
+  }
 }

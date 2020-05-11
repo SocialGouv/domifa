@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   public allInteractions: any;
   public users: number;
   public allUsers: any;
+  public structuresType: any;
 
   public labels: any;
   public todayStats: any;
@@ -47,11 +48,25 @@ export class DashboardComponent implements OnInit {
     this.allStats = [];
     this.interactions = [];
     this.allInteractions = [];
+    this.structuresType = [];
   }
 
   public ngOnInit() {
     this.titleService.setTitle("Dashboard de suivi");
 
+    // Liste des structures
+    this.statsService.getStructures().subscribe((structures: Structure[]) => {
+      this.structures = structures;
+    });
+
+    // Structures par type
+    this.statsService
+      .getStructuresByType()
+      .subscribe((structuresType: any[]) => {
+        this.structuresType = structuresType;
+      });
+
+    // Nombre d'utilisateurs total
     this.statsService.getAllUsers().subscribe((stats: number) => {
       this.users = stats;
     });
@@ -78,10 +93,6 @@ export class DashboardComponent implements OnInit {
       stats.forEach((stat) => {
         this.interactions[stat._id.structureId] = stat.type;
       });
-    });
-
-    this.statsService.getStructures().subscribe((structures: Structure[]) => {
-      this.structures = structures;
     });
   }
 }

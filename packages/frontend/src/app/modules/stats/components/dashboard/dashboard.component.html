@@ -21,79 +21,98 @@
       </div>
     </div>
     <br />
-    <span class="stats-titre">Chiffre des structures</span>
-    <div class="stats-blocks">
-      <div>
-        <span class="stats-chiffres">{{ users }}</span>
-        <span class="stats-labels">UTILISATEURS</span>
+    <div class="row">
+      <div class="col-12">
+        <span class="stats-titre">Chiffre des structures</span>
       </div>
-    </div>
-  </div>
-
-  <br />
-
-  <div class="col-md-12">
-    <table id="dashboard" class="table table-hover">
-      <thead>
-        <tr>
-          <th>Nom de la structure</th>
-          <th>Date d'inscription</th>
-          <th>Date d'import</th>
-          <th>Comptes</th>
-          <th>Domiciliés</th>
-          <th>Date de dernière connexion</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let structure of structures; let i = index">
-          <td>
-            {{ structure.nom }}
-            {{
-              structure.structureType === "ccas" ? " - " + structure.ville : ""
-            }}
-            <br />
-            <span
-              class="badge"
-              [ngClass]="{
-                'badge-info': structure.structureType === 'asso',
-                'badge-primary': structure.structureType === 'cias',
-                'badge-dark': structure.structureType === 'ccas'
-              }"
-            >
+      <div class="col-9" *ngIf="structuresType">
+        <div class="stats-blocks">
+          <div *ngFor="let structure of structuresType">
+            <span class="stats-chiffres">{{ structure.count }}</span>
+            <span class="stats-labels">
               {{ labels.structureType[structure.structureType] }}
             </span>
-          </td>
+          </div>
+        </div>
+      </div>
+      <div class="col-3 text-right">
+        <div class="stats-blocks">
+          <div>
+            <span class="stats-chiffres">{{ users }}</span>
+            <span class="stats-labels">UTILISATEURS</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-          <td>{{ structure.createdAt | date: "dd/MM/yyyy" }}</td>
-          <td>
-            {{ structure.import ? "✅" : "❌" }}
-            {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
-          </td>
-          <td>{{ structure.users.length }}</td>
-          <td>
-            <div class="stats-blocks" *ngIf="stats[structure.id]">
-              <div *ngFor="let stat of stats[structure.id]">
-                <span
-                  class="stats-chiffres"
-                  [ngClass]="statutClass[stat.statut]"
-                >
-                  {{ stat.sum }}
-                </span>
-                <span class="stats-labels">{{
-                  labels.decisionStats[stat.statut]
-                }}</span>
+    <br />
+
+    <div class="col-md-12">
+      <table id="dashboard" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Nom de la structure</th>
+            <th>Date d'inscription</th>
+            <th>Date d'import</th>
+            <th>Comptes</th>
+            <th>Domiciliés</th>
+            <th>Date de dernière connexion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let structure of structures; let i = index">
+            <td>
+              {{ structure.nom }}
+              {{
+                structure.structureType === "ccas"
+                  ? " - " + structure.ville
+                  : ""
+              }}
+              <br />
+              <span
+                class="badge"
+                [ngClass]="{
+                  'badge-info': structure.structureType === 'asso',
+                  'badge-primary': structure.structureType === 'cias',
+                  'badge-dark': structure.structureType === 'ccas'
+                }"
+              >
+                {{ labels.structureType[structure.structureType] }}
+              </span>
+            </td>
+
+            <td>{{ structure.createdAt | date: "dd/MM/yyyy" }}</td>
+            <td>
+              {{ structure.import ? "✅" : "❌" }}
+              {{
+                structure.importDate | date: "dd/MM/yyyy" || "Info manquante"
+              }}
+            </td>
+            <td>{{ structure.users.length }}</td>
+            <td>
+              <div class="stats-blocks" *ngIf="stats[structure.id]">
+                <div *ngFor="let stat of stats[structure.id]">
+                  <span
+                    class="stats-chiffres"
+                    [ngClass]="statutClass[stat.statut]"
+                  >
+                    {{ stat.sum }}
+                  </span>
+                  <span class="stats-labels">{{
+                    labels.decisionStats[stat.statut]
+                  }}</span>
+                </div>
               </div>
-            </div>
-          </td>
-          <td>
-            {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+            </td>
+            <td>
+              {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <!--
+    <!--
       <div class="card structure-card">
   <div class="text-center">
     <div
@@ -181,4 +200,6 @@
     </div>
   </div>
 </div>
---></div>
+-->
+  </div>
+</div>

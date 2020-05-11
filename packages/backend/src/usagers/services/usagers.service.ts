@@ -268,7 +268,7 @@ export class UsagersService {
       .collation({ locale: "en" })
       .sort(sort)
       .select(
-        "-createdAt -updatedAt -rdv -structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+        "-createdAt -updatedAt -rdv -structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -etapeDemande"
       )
       .limit(40)
       .skip(page && page !== 0 ? 40 * page : 0)
@@ -339,7 +339,7 @@ export class UsagersService {
     return this.usagerModel
       .find({ structureId })
       .select(
-        "-rdv -structureId -import -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+        "-rdv -structureId -import -docsPath -interactions -preference -historique -entretien -docs -etapeDemande"
       )
       .exec();
   }

@@ -78,6 +78,12 @@ export class ExportController {
         N: "Date début dom actuelle",
         O: "Date fin de dom",
         P: "Date 1ere dom",
+        Q: "Date de dernier passage",
+        R: "Nombre d'ayants-droit",
+        S: "Nom Ayant-Droit",
+        T: "Prénom Ayant-Droit",
+        U: "Date Naissance Ayant-Droit",
+        V: "Lien parenté  Ayant-Droit",
       },
     ];
 
@@ -144,6 +150,12 @@ export class ExportController {
             usager.datePremiereDom && usager.datePremiereDom !== null
               ? this.dateFr(usager.datePremiereDom)
               : "",
+          Q:
+            usager.lastInteraction.dateInteraction &&
+            usager.lastInteraction.dateInteraction !== null
+              ? this.dateFr(usager.lastInteraction.dateInteraction)
+              : "",
+          R: usager.ayantsDroits.length,
         };
         this.datas.push(formattedUsager);
       }
