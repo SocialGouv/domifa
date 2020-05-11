@@ -1,5 +1,5 @@
 [
-   {
+  {
     "date": "2020-05-12",
     "description": "Un export de votre base de domiciliés et une page de statistiques",
     "content": [
@@ -9,14 +9,12 @@
         "message": [
           "Possibilité d'exporter l'ensemble de votre base domiciliés",
           "Accès à vos statistiques pour votre rapport d'activité",
-          "Ajout de texte de sensibilisation RGPD",
+          "Ajout de texte de sensibilisation aux questions de RGPD"
         ]
       },
       {
         "type": "bug",
-        "message": [
-          "Souci sur l'ajout de pièce jointe",
-        ]
+        "message": ["Souci sur l'ajout de pièce jointe"]
       }
     ]
   },

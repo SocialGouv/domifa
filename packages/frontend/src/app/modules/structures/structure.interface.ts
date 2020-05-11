@@ -18,6 +18,7 @@ export class Structure {
   public import: boolean;
   public importDate: Date;
   public lastLogin: Date;
+  public verified: boolean;
 
   public responsable: {
     fonction: string;
@@ -54,6 +55,7 @@ export class Structure {
     this.phone = (structure && structure.phone) || "";
     this.email = (structure && structure.email) || "";
     this.import = (structure && structure.import) || false;
+    this.verified = (structure && structure.verified) || false;
 
     this.responsable = (structure && structure.responsable) || {
       fonction: "",

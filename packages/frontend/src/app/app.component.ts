@@ -52,21 +52,19 @@ export class AppComponent implements OnInit {
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
-    this.authService.isAuth().subscribe((isAuth) => {
-      if (isAuth) {
-        this.getJSON().subscribe((domifaNews) => {
-          this.domifaNews = domifaNews[0];
+    this.authService.isAuth();
 
-          const lastNews = localStorage.getItem("lastNews");
+    this.getJSON().subscribe((domifaNews) => {
+      this.domifaNews = domifaNews[0];
 
-          if (
-            !lastNews ||
-            (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
-          ) {
-            this.modal = this.modalService.open(this.newsCenter, {
-              backdrop: "static",
-            });
-          }
+      const lastNews = localStorage.getItem("news");
+
+      if (
+        !lastNews ||
+        (lastNews && new Date(lastNews) <= new Date(domifaNews[0].date))
+      ) {
+        this.modal = this.modalService.open(this.newsCenter, {
+          backdrop: "static",
         });
       }
     });

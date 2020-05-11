@@ -51,9 +51,12 @@
       <table id="dashboard" class="table table-hover">
         <thead>
           <tr>
-            <th>Nom de la structure</th>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Type</th>
             <th>Date d'inscription</th>
-            <th>Date d'import</th>
+            <th>Importé ?</th>
+            <th>Date import</th>
             <th>Comptes</th>
             <th>Domiciliés</th>
             <th>Date de dernière connexion</th>
@@ -61,6 +64,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let structure of structures; let i = index">
+            <td># {{ structure.id }}</td>
             <td>
               {{ structure.nom }}
               {{
@@ -68,22 +72,22 @@
                   ? " - " + structure.ville
                   : ""
               }}
-              <br />
               <span
                 class="badge"
-                [ngClass]="{
-                  'badge-info': structure.structureType === 'asso',
-                  'badge-primary': structure.structureType === 'cias',
-                  'badge-dark': structure.structureType === 'ccas'
-                }"
+                [className]="structure.verified ? 'hide' : 'badge-warning'"
               >
-                {{ labels.structureType[structure.structureType] }}
+                Structure non validée
               </span>
+            </td>
+            <td>
+              {{ labels.structureType[structure.structureType] }}
             </td>
 
             <td>{{ structure.createdAt | date: "dd/MM/yyyy" }}</td>
             <td>
               {{ structure.import ? "✅" : "❌" }}
+            </td>
+            <td>
               {{
                 structure.importDate | date: "dd/MM/yyyy" || "Info manquante"
               }}
