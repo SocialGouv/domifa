@@ -20,15 +20,15 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/common": "^7.0.9",
-    "@nestjs/core": "^7.0.9",
+    "@nestjs/common": "^7.0.10",
+    "@nestjs/core": "^7.0.10",
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/mongoose": "^7.0.0",
     "@nestjs/passport": "^7.0.0",
-    "@nestjs/platform-express": "^7.0.9",
+    "@nestjs/platform-express": "^7.0.10",
     "@nestjs/schedule": "^0.3.1",
     "@nestjs/terminus": "^7.0.1",
-    "@nestjs/testing": "^7.0.9",
+    "@nestjs/testing": "^7.0.10",
     "@sentry/node": "5.15.5",
     "@types/compression": "^1.7.0",
     "@types/cron": "^1.7.2",
@@ -60,7 +60,7 @@
   "devDependencies": {
     "@nestjs/cli": "^7.1.5",
     "@nestjs/jwt": "^7.0.0",
-    "@nestjs/testing": "^7.0.9",
+    "@nestjs/testing": "^7.0.10",
     "@socialgouv/tslint-config-recommended": "^0.21.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cron": "^1.7.2",
