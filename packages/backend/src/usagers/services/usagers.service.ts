@@ -291,50 +291,6 @@ export class UsagersService {
     return createdUsager.save();
   }
 
-  public async getStatsByStructure(structureId?: number) {
-    const query = structureId ? { structureId: { $eq: structureId } } : {};
-
-    return this.usagerModel
-      .aggregate([
-        { $match: query },
-        {
-          $group: {
-            _id: { structureId: "$structureId", statut: "$decision.statut" },
-            statuts: { $push: "$decision.statut" },
-            total: { $sum: 1 },
-          },
-        },
-        {
-          $group: {
-            _id: { structureId: "$_id.structureId" },
-            statut: { $addToSet: { statut: "$_id.statut", sum: "$total" } },
-          },
-        },
-      ])
-      .exec();
-  }
-
-  public async getStats() {
-    return this.usagerModel
-      .aggregate([
-        { $match: {} },
-        {
-          $group: {
-            _id: { statut: "$decision.statut" },
-            statuts: { $push: "$decision.statut" },
-            total: { $sum: 1 },
-          },
-        },
-        {
-          $group: {
-            _id: { statut: "$_id.statut" },
-            sum: { $addToSet: "$total" },
-          },
-        },
-      ])
-      .exec();
-  }
-
   public async export(structureId: number): Promise<Usager[]> {
     return this.usagerModel
       .find({ structureId })

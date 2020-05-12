@@ -715,24 +715,29 @@ export class StatsService {
     structureId: number,
     type: string
   ): Promise<number> {
-    const search = {
-      $match: {
+    if (type === "appel" || type === "visite") {
+      return this.usagerModel.countDocuments({
         structureId,
         type,
-      },
-    };
+      });
+    } else {
+      const search = {
+        $match: {
+          structureId,
+          type,
+        },
+      };
 
-    const groupBy = { $group: { _id: null, total: { $sum: "$nbCourrier" } } };
+      const groupBy = { $group: { _id: null, total: { $sum: "$nbCourrier" } } };
+      const response = await this.interactionModel
+        .aggregate([search, groupBy])
+        .exec();
 
-    const response = await this.interactionModel
-      .aggregate([search, groupBy])
-      .exec();
-
-    if (response.length) {
-      return typeof response[0].total !== "undefined" ? response[0].total : 0;
+      if (response.length) {
+        return typeof response[0].total !== "undefined" ? response[0].total : 0;
+      }
+      return 0;
     }
-
-    return 0;
   }
 
   public async clean() {

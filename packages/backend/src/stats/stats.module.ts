@@ -9,10 +9,11 @@ import { StatsProviders } from "./stats-providers";
 import { StatsController } from "./controllers/stats.controller";
 import { StatsService } from "./services/stats.service";
 import { DashboardController } from "./controllers/dashboard.controller";
+import { DashboardService } from "./services/dashboard.service";
 
 @Module({
   controllers: [StatsController, DashboardController],
-  exports: [StatsService, ...StatsProviders],
+  exports: [StatsService, DashboardService, ...StatsProviders],
   imports: [
     DatabaseModule,
     forwardRef(() => UsersModule),
@@ -20,6 +21,6 @@ import { DashboardController } from "./controllers/dashboard.controller";
     forwardRef(() => UsagersModule),
     forwardRef(() => InteractionsModule),
   ],
-  providers: [StatsService, ...StatsProviders, ConfigService],
+  providers: [StatsService, DashboardService, ...StatsProviders, ConfigService],
 })
 export class StatsModule {}

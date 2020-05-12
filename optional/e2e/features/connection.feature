@@ -8,6 +8,7 @@ Fonctionnalité: Connexion
 
 Scénario:
   Soit un navigateur web sur le site
+  Alors je clique sur "Continuer sur Domifa"
   Quand je clique sur "Se connecter"
   Alors je vois "Connexion à Domifa"
   Alors je vois "Adresse email"

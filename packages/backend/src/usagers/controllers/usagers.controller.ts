@@ -120,18 +120,6 @@ export class UsagersController {
     return this.usagersService.renouvellement(usager, user);
   }
 
-  @UseGuards(RolesGuard)
-  @Get("stats-domifa/all")
-  public async allStats() {
-    return this.usagersService.getStats();
-  }
-
-  @UseGuards(RolesGuard)
-  @Get("stats-domifa/structures")
-  public async structuresStats() {
-    return this.usagersService.getStatsByStructure();
-  }
-
   @UseGuards(AccessGuard)
   @UseGuards(RolesGuard)
   @Post("decision/:id")

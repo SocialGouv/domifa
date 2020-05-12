@@ -3,7 +3,7 @@
     <br />
     <span class="stats-structure">Chiffres de la domiciliation</span>
     <div class="stats-blocks">
-      <div *ngFor="let stat of allStats | keyvalue">
+      <div *ngFor="let stat of usagers | keyvalue">
         <span class="stats-chiffres" [ngClass]="statutClass[stat.key]">
           {{ stat.value }}
         </span>
@@ -27,12 +27,20 @@
       </div>
       <div class="col-9" *ngIf="structuresType">
         <div class="stats-blocks">
-          <div *ngFor="let structure of structuresType">
-            <span class="stats-chiffres">{{ structure.count }}</span>
-            <span class="stats-labels">
-              {{ labels.structureType[structure.structureType] }}
+          <div>
+            <span class="stats-chiffres">{{ structuresType.total }}</span>
+            <span class="font-weight-bold stats-labels">
+              Total
             </span>
           </div>
+          <ng-container *ngFor="let structure of structuresType | keyvalue">
+            <div *ngIf="structure.key !== 'total'">
+              <span class="stats-chiffres">{{ structure.value }}</span>
+              <span class="stats-labels">
+                {{ labels.structureType[structure.key] }}
+              </span>
+            </div>
+          </ng-container>
         </div>
       </div>
       <div class="col-3 text-right">
@@ -54,12 +62,12 @@
             <th>ID</th>
             <th>Nom</th>
             <th>Type</th>
-            <th>Date d'inscription</th>
+            <th>Date inscription</th>
             <th>Importé ?</th>
             <th>Date import</th>
             <th>Comptes</th>
             <th>Domiciliés</th>
-            <th>Date de dernière connexion</th>
+            <th>Dernière connexion</th>
           </tr>
         </thead>
         <tbody>
@@ -72,11 +80,8 @@
                   ? " - " + structure.ville
                   : ""
               }}
-              <span
-                class="badge"
-                [className]="structure.verified ? 'hide' : 'badge-warning'"
-              >
-                Structure non validée
+              <span *ngIf="structure.verified" class="badge badge-warning">
+                Non validée
               </span>
             </td>
             <td>
@@ -94,19 +99,7 @@
             </td>
             <td>{{ structure.users.length }}</td>
             <td>
-              <div class="stats-blocks" *ngIf="stats[structure.id]">
-                <div *ngFor="let stat of stats[structure.id]">
-                  <span
-                    class="stats-chiffres"
-                    [ngClass]="statutClass[stat.statut]"
-                  >
-                    {{ stat.sum }}
-                  </span>
-                  <span class="stats-labels">{{
-                    labels.decisionStats[stat.statut]
-                  }}</span>
-                </div>
-              </div>
+              {{ usagersValide[structure.id] || 0 }}
             </td>
             <td>
               {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
@@ -115,95 +108,5 @@
         </tbody>
       </table>
     </div>
-
-    <!--
-      <div class="card structure-card">
-  <div class="text-center">
-    <div
-      class="card structure-card"
-      *ngFor="let structure of structures; let i = index">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <span class="stats-structure">
-            <div>
-              #{{i+1}}
-            </div>
-            <span
-              class="badge"
-              [ngClass]="{
-              'badge-info': structure.structureType === 'asso',
-              'badge-dark': structure.structureType === 'ccas'
-            }">
-              {{ labels.structureType[structure.structureType]}}
-            </span>
-          </span>
-          <br>
-          {{ structure.adresse }},
-          <i>
-
-          </i>
-          <br>
-          <p *ngIf="structure.structureType === 'asso'">
-            <b>Capacité maximale :</b>
-            {{ structure.capacite }}
-          </p>
-          <p *ngIf="structure.createdAt">
-            <b>Date d'inscription :</b>
-            {{ structure.createdAt | date: "dd/MM/yyyy"  }}
-          </p>
-          <br>
-        </div>
-
-        <div class="col-md-12 text-center">
-          <span class="stats-titre">Domiciliations</span>
-          <div
-            class="stats-blocks"
-            *ngIf="stats[structure.id]">
-            <div *ngFor="let stat of stats[structure.id]">
-              <span
-                class="stats-chiffres"
-                [ngClass]="statutClass[stat.statut]">
-                {{ stat.sum }}
-              </span>
-              <span class="stats-labels">{{ labels.decisionStats[stat.statut] }}</span>
-            </div>
-          </div>
-          <div
-            *ngIf="!stats[structure.id]"
-            class="text-warning">
-            <fa-icon
-              class="btn-icon"
-              icon="times"></fa-icon>
-            Aucun dossier enregistré
-          </div>
-        </div>
-        <br>
-        <div class="col-md-12 text-center">
-          <br>
-          <span class="stats-titre">Interactions</span>
-          <div
-            class="stats-blocks"
-            *ngIf="interactions[structure.id]">
-            <div *ngFor="let interaction of interactions[structure.id]">
-              <span class="stats-chiffres">{{ interaction.sum }}</span>
-              <span class="stats-labels">
-                {{ interactionsLabels[interaction.type] }}
-              </span>
-            </div>
-          </div>
-          <div
-            *ngIf="!interactions[structure.id]"
-            class="text-warning">
-            <fa-icon
-              class="btn-icon"
-              icon="times"></fa-icon>
-            Aucune interaction enregistré
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
--->
   </div>
 </div>

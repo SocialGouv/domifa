@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
 
       if (
         !lastNews ||
-        (lastNews && new Date(lastNews) <= new Date(domifaNews[0].date))
+        (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
       ) {
         this.modal = this.modalService.open(this.newsCenter, {
           backdrop: "static",
@@ -89,9 +89,6 @@ export class AppComponent implements OnInit {
 
   public closeModal() {
     this.modal.close();
-    localStorage.setItem(
-      "lastNews",
-      new Date(this.domifaNews.date).toISOString()
-    );
+    localStorage.setItem("news", new Date(this.domifaNews.date).toISOString());
   }
 }

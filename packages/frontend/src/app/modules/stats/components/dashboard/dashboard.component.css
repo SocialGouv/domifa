@@ -68,6 +68,22 @@
   display: inline-block;
 }
 
-#dashboard td {
+#dashboard tr th:not(:first-child),
+#dashboard tr td:not(:first-child) {
   max-width: 500px;
+  min-width: 140px;
+}
+
+#dashboard tr > th:first-child,
+#dashboard tr > td:first-child {
+  width: 80px;
+  font-weight: bold;
+}
+
+#dashboard {
+  margin: 20px auto;
+  overflow-x: scroll;
+  min-width: 1500px;
+  border: 1px solid #dbdbdb;
+  border-radius: 1px solid #fafafa;
 }
