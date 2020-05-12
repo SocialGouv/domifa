@@ -716,7 +716,7 @@ export class StatsService {
     type: string
   ): Promise<number> {
     if (type === "appel" || type === "visite") {
-      return this.usagerModel.countDocuments({
+      return this.interactionModel.countDocuments({
         structureId,
         type,
       });
