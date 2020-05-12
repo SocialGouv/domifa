@@ -43,7 +43,6 @@ export class AppComponent implements OnInit {
     };
 
     this.domifaNews = null;
-
     this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
   }
 
@@ -52,7 +51,7 @@ export class AppComponent implements OnInit {
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
-    this.authService.isAuth();
+    this.authService.isAuth().subscribe();
 
     this.getJSON().subscribe((domifaNews) => {
       this.domifaNews = domifaNews[0];

@@ -5,6 +5,9 @@ Raven.config(
   "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
   {
     ignoreUrls: ["http://localhost:4200/"],
+    tags: {
+      user: "TEST_TAG",
+    },
   }
 ).install();
 
