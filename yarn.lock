@@ -3020,10 +3020,10 @@
   resolved "https://registry.yarnpkg.com/@types/mongoose-sequence/-/mongoose-sequence-3.0.4.tgz#dce94e418dc00b5854b1d23073f003d5b7942990"
   integrity sha512-5zIwgVa6EQRBoztZs8gtnrrnquw2aI9LlatpQKAAw5qMFOD8+yUo+LkCyId5ZM3lurEKHh1pJQ7YUPfe+jTqxQ==
 
-"@types/mongoose@^5.7.16":
-  version "5.7.16"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.7.16.tgz#ea23f027fdb2ee2a79c42114c0a1a1d1fc8bf38a"
-  integrity sha512-QuWb8Tqjq1r/ZEpBi9MBWpuu8upe+4Co89GExyIFb0Q7TCmeMQsxG1lVfkmjk8GVm/qMIwUMdpuopVLPhmnFUA==
+"@types/mongoose@^5.7.17":
+  version "5.7.17"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.7.17.tgz#19ec78dc8077cf7bac493ba0aadd85a8bec10dad"
+  integrity sha512-0n4Sny+lcirgnMNs/k+dLybQHJsbtpdsWia/91nX+Nf7Z+ojMs+4vhXLfStvC4KcMwNJ9osW8vi6tKYURvNCOA==
   dependencies:
     "@types/mongodb" "*"
     "@types/node" "*"
