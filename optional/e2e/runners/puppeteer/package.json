@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "codeceptjs": "^2.6.3",
+    "execa": "^4.0.1",
     "puppeteer": "^3.0.4"
   }
 }

@@ -80,7 +80,7 @@ export class UploadComponent implements OnInit {
 
       this.fileName = event.target.files[0].name;
       this.uploadError = {
-        fileSize: size < 20000000,
+        fileSize: size < 10000000,
         fileType: validFileExtensions.includes(type),
       };
 

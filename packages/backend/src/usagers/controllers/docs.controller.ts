@@ -46,7 +46,7 @@ export class DocsController {
     FileInterceptor("file", {
       fileFilter: (req: any, file: any, cb: any) => {
         const mimeTest = !file.mimetype.match(/\/(jpg|jpeg|png|gif|pdf)$/);
-        const sizeTest = file.size >= 5242880;
+        const sizeTest = file.size >= 10000000;
         if (sizeTest || mimeTest) {
           throw new BadRequestException({
             fileSize: sizeTest,
