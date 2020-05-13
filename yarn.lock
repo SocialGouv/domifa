@@ -2239,29 +2239,29 @@
     webpack "4.43.0"
     webpack-node-externals "1.7.2"
 
-"@nestjs/common@^7.0.9":
-  version "7.0.9"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-7.0.9.tgz#b2818b0ea4617a37525341fc0233de84abd3c36a"
-  integrity sha512-rmx955Oa5qXDuupYpOeT6wVcI5fS3A89Xzf7+yqIB9NFdWht1vdAhAviuBWtWskyGet3PyDiCOUY7LKSXaql5w==
+"@nestjs/common@^7.0.10":
+  version "7.0.10"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-7.0.10.tgz#df652629165d49508056465497a7a69a349140fd"
+  integrity sha512-WlHgZ5VTJnrviuVudTCBlBuYlUddsgdPbDdv23NT5zHYo4bQ9ays01fiakmmKN8NjyTKmvgWPWNH3EvNB34IsQ==
   dependencies:
     axios "0.19.2"
     cli-color "2.0.0"
     iterare "1.2.0"
-    tslib "1.11.1"
-    uuid "7.0.3"
+    tslib "1.11.2"
+    uuid "8.0.0"
 
-"@nestjs/core@^7.0.9":
-  version "7.0.9"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-7.0.9.tgz#7b17c0f844225fc38a24543f3ca598eb266ccb35"
-  integrity sha512-+aK0ihzxWOLxUGssx61ogOOe6Jl/Oac+45q/7tAKNNcVvNwh+IJyCx5stA3S4m7yXPCIbI8kjhWd5ugGT4tyoA==
+"@nestjs/core@^7.0.10":
+  version "7.0.10"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-7.0.10.tgz#5eec82a57b9adb9673f76a3fef17903faca6b261"
+  integrity sha512-mpMp1nXypS7z8H8GPmlZ8HMNl8Kit++WQksdgUxb8ewrcBtnvS9wXsZqQjTa6/hX7aRPJo3y7NC3GuyFHSllhA==
   dependencies:
     "@nuxtjs/opencollective" "0.2.2"
     fast-safe-stringify "2.0.7"
     iterare "1.2.0"
     object-hash "2.0.3"
     path-to-regexp "3.2.0"
-    tslib "1.11.1"
-    uuid "7.0.3"
+    tslib "1.11.2"
+    uuid "8.0.0"
 
 "@nestjs/graphql@^6.2.4":
   version "6.6.2"
@@ -2301,16 +2301,16 @@
   resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-7.0.0.tgz#c59617779b7e5888a0c72039a6980e28fd659518"
   integrity sha512-ZJk08zqLxSXY1rXIt9dAK7tcCos3DETQ88Nn/UGmA136SHMG5P0sbw+PU1zfLQyEsU5uHyr7MTD+/S+aOxXS6w==
 
-"@nestjs/platform-express@^7.0.9":
-  version "7.0.9"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-7.0.9.tgz#abfa9ae8855ddc889f644d4c4664682a4b11ff29"
-  integrity sha512-Ba6xuHOyc1iSZBGvNPfe66wetMadDO139xbIMkdnkHvTCxSxSLRPRwLUFQX4MFtGFQrllglrttqZjXXmZ8ZIZw==
+"@nestjs/platform-express@^7.0.10":
+  version "7.0.10"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-7.0.10.tgz#897f92d5358b114087f78a1b1ee0e9df07b11c83"
+  integrity sha512-PYPSxLCn2t2038+xy2qCRlFLGRYv3RnEzShYYYfT7S+En7A3Fcss4hh+8Bk08ntGQN2tdyCGa9TZ/R6MpKa3iA==
   dependencies:
     body-parser "1.19.0"
     cors "2.8.5"
     express "4.17.1"
     multer "1.4.2"
-    tslib "1.11.1"
+    tslib "1.11.2"
 
 "@nestjs/schedule@^0.3.1":
   version "0.3.1"
@@ -2337,13 +2337,13 @@
     check-disk-space "2.1.0"
     deprecate "^1.1.1"
 
-"@nestjs/testing@^7.0.9":
-  version "7.0.9"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.0.9.tgz#c6b342dd34f060f18406bd7eb753edc5ecbb35c7"
-  integrity sha512-dbcnKV5QfYkdyxVXuvRb/435MB/vP+OPqC3h4o3wb/39cL0EU7duANoMzjHxfI0K4kQCsM9iIbeNGFOAOaEBDA==
+"@nestjs/testing@^7.0.10":
+  version "7.0.10"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.0.10.tgz#190079e1fdf383ce48e7f401e552fc99c4399687"
+  integrity sha512-WBm2v1a/wYO/SkURttjUWWXFPGTUPki0WCG8SgjDX6SWXF7x4FjGAIFukNBbz9ugvZNn2rW9k5pncvS0CuM6Xw==
   dependencies:
     optional "0.1.4"
-    tslib "1.11.1"
+    tslib "1.11.2"
 
 "@ng-bootstrap/ng-bootstrap@^6.1.0":
   version "6.1.0"
@@ -2679,10 +2679,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/tslint-config-recommended@^0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/tslint-config-recommended/-/tslint-config-recommended-0.20.0.tgz#778da7ab3b31d996a83717d2360e304234ccf5d0"
-  integrity sha512-gy92VcFhdWjXswWLO484v1TGMLX68QoHdNX7Qanfo7w9LERSvC/LhtFSaGvGI/NcURKhChdAfKRsx6Vpd0ZQeg==
+"@socialgouv/tslint-config-recommended@^0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/tslint-config-recommended/-/tslint-config-recommended-0.21.0.tgz#932ad7badc7fd4847ae18084e7eb6ef1715caad5"
+  integrity sha512-6ieq/44l/ZulLIR5vFUn5LHiO0Jmwro32woJzBnm0qSvBjjV7SAK18vJpMjzpKa7DSl56jPb9czjWIJqhIFF0Q==
   dependencies:
     tslint-config-prettier "~1.18.0"
     tslint-plugin-prettier "~2.3.0"
@@ -3020,10 +3020,10 @@
   resolved "https://registry.yarnpkg.com/@types/mongoose-sequence/-/mongoose-sequence-3.0.4.tgz#dce94e418dc00b5854b1d23073f003d5b7942990"
   integrity sha512-5zIwgVa6EQRBoztZs8gtnrrnquw2aI9LlatpQKAAw5qMFOD8+yUo+LkCyId5ZM3lurEKHh1pJQ7YUPfe+jTqxQ==
 
-"@types/mongoose@^5.7.16":
-  version "5.7.16"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.7.16.tgz#ea23f027fdb2ee2a79c42114c0a1a1d1fc8bf38a"
-  integrity sha512-QuWb8Tqjq1r/ZEpBi9MBWpuu8upe+4Co89GExyIFb0Q7TCmeMQsxG1lVfkmjk8GVm/qMIwUMdpuopVLPhmnFUA==
+"@types/mongoose@^5.7.18":
+  version "5.7.18"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.7.18.tgz#351820a4a5c803e2e684606b40124ae0eda78479"
+  integrity sha512-HEYEuxxQvydrLzb0zKT52adGpsBSVE29Lult61rOa7SFAUMi7ATtA6Pl7BVfqoAcU3gvaLbOVQoJ09J4/B7GIQ==
   dependencies:
     "@types/mongodb" "*"
     "@types/node" "*"
@@ -14291,10 +14291,15 @@ tslib@1.11.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
   integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
 
-tslib@>=1.9.0, tslib@^1.10.0, tslib@^1.11.2, tslib@^1.7.1, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
+tslib@1.11.2, tslib@>=1.9.0, tslib@^1.10.0, tslib@^1.7.1, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.11.2"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.2.tgz#9c79d83272c9a7aaf166f73915c9667ecdde3cc9"
   integrity sha512-tTSkux6IGPnUGUd1XAZHcpu85MOkIl5zX49pO+jfsie3eP0B6pyhOlLXm3cAC6T7s+euSDDUUV+Acop5WmtkVg==
+
+tslib@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.12.0.tgz#d1fc9cacd06a1456c62f2902b361573e83d66473"
+  integrity sha512-5rxCQkP0kytf4H1T4xz1imjxaUUPMvc5aWp0rJ/VMIN7ClRiH1FwFvBt8wOeMasp/epeUnmSW6CixSIePtiLqA==
 
 tslint-config-prettier@^1.18.0, tslint-config-prettier@~1.18.0:
   version "1.18.0"
@@ -14748,6 +14753,11 @@ uuid@7.0.3, uuid@^7.0.3:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
   integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
+
+uuid@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.0.0.tgz#bc6ccf91b5ff0ac07bbcdbf1c7c4e150db4dbb6c"
+  integrity sha512-jOXGuXZAWdsTH7eZLtyXMqUb9EcWMGZNbL9YcGBJl4MH4nrxHmZJhEHvyLFrkxo+28uLb/NYRcStH48fnD0Vzw==
 
 uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
   version "3.4.0"
