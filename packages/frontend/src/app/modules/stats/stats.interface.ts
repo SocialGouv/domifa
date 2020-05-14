@@ -116,7 +116,13 @@ export class Stats {
   };
 
   constructor(data?: any) {
-    this.createdAt = (data && new Date(data.createdAt)) || new Date();
+    if (data && data.createdAt) {
+      const createdAt = new Date(data.createdAt);
+      this.createdAt = new Date(createdAt.getTime() - 24 * 60 * 60 * 1000);
+    } else {
+      this.createdAt = new Date();
+    }
+
     this.nom = (data && data.nom) || null;
     this.structureType = (data && data.structureType) || null;
     this.structureId = (data && data.structureId) || null;

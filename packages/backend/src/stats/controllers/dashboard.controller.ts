@@ -34,14 +34,12 @@ export class DashboardController {
   // 2. Liste des structures par type
   @Get("structures/type")
   public async countByType() {
-    const result = await this.dashboardService.getStructuresByType();
     const structures: { [key: string]: any } = {};
-    let total = 0;
+    structures.total = await this.dashboardService.countStructures();
+    const result = await this.dashboardService.getStructuresByType();
     for (const structure of result) {
       structures[structure.structureType] = structure.count;
-      total += structure.count;
     }
-    structures.total = total;
     return structures;
   }
 

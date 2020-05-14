@@ -1,20 +1,12 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger,
-} from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Structure } from "../../structures/structure-interface";
 
-import * as moment from "moment";
 import { Interaction } from "../../interactions/interactions.interface";
 
 import { StructuresService } from "../../structures/structures.service";
 import { Usager } from "../../usagers/interfaces/usagers";
 
-import { Stats } from "../stats.class";
 import { StatsDocument } from "../stats.interface";
 import { User } from "../../users/user.interface";
 
@@ -53,6 +45,11 @@ export class DashboardService {
       .select("-token")
       .sort("+createdAt")
       .exec();
+  }
+
+  // TODO : Search options - tri par élément
+  public async countStructures(): Promise<number> {
+    return this.structureModel.countDocuments().exec();
   }
 
   public async getStructuresByType(): Promise<any> {

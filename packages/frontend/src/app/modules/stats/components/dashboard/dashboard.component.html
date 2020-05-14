@@ -89,7 +89,7 @@
           {{
             structure.structureType === "ccas" ? " - " + structure.ville : ""
           }}
-          <span *ngIf="structure.verified" class="badge badge-warning">
+          <span *ngIf="structure.verified == false" class="badge badge-warning">
             Non validée
           </span>
         </td>

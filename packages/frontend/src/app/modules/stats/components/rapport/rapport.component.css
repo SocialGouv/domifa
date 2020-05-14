@@ -1,13 +1,18 @@
-#stats table tr .soustable {
+#rapport table tr .soustable {
   padding-left: 40px !important;
 }
 
-#stats table tr th:first-child,
-#stats table tr td:first-child {
+#rapport table tr th:first-child,
+#rapport table tr td:first-child {
   width: 93%;
 }
 
-#stats table tr th:last-child,
-#stats table tr td:last-child {
+#rapport table tr th:last-child,
+#rapport table tr td:last-child {
   width: 6%;
+}
+
+#rapport {
+  max-width: 900px;
+  margin: 20px auto;
 }
