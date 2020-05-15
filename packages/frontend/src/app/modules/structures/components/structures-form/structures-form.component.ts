@@ -13,6 +13,7 @@ import { regexp } from "src/app/shared/validators";
 import { departements } from "../../../../shared/departements";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-structures-form",
@@ -20,7 +21,6 @@ import { Structure } from "../../structure.interface";
   templateUrl: "./structures-form.component.html",
 })
 export class StructuresFormComponent implements OnInit {
-  public title: string;
   public success: boolean = false;
   public structureForm!: FormGroup;
   public structure: Structure;
@@ -44,13 +44,13 @@ export class StructuresFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    private titleService: Title
   ) {
     this.departements = departements;
     this.etapeInscription = 0;
 
     this.structure = new Structure();
-    this.title = "Inscrivez votre structure sur Domifa";
 
     this.structureInscription = {
       etapeInscription: 0,
@@ -66,6 +66,7 @@ export class StructuresFormComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Inscrivez votre structure sur Domifa");
     this.structureForm = this.formBuilder.group({
       adresse: [this.structure.adresse, [Validators.required]],
       adresseCourrier: [this.structure.adresseCourrier, []],

@@ -14,10 +14,12 @@ export const interactionsLabels: {
 export const interactionsLabelsPluriel: {
   [key: string]: any;
 } = {
+  appel: "Appels téléphoniques",
   colisIn: "Colis enregistrés",
   colisOut: "Colis remis",
   courrierIn: "Courriers enregistrés",
   courrierOut: "Courriers remis",
   recommandeIn: "Avis de passage enregistrés",
   recommandeOut: "Avis de passage remis",
+  visite: "Passages enregistrés",
 };

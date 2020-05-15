@@ -8,6 +8,7 @@ import { UsersModule } from "../../users/users.module";
 import { StatsProviders } from "../stats-providers";
 import { DashboardController } from "./dashboard.controller";
 import { StatsService } from "../services/stats.service";
+import { DashboardService } from "../services/dashboard.service";
 
 describe("Stats Controller", () => {
   let controller: DashboardController;
@@ -22,7 +23,7 @@ describe("Stats Controller", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [StatsService, ...StatsProviders],
+      providers: [DashboardService, StatsService, ...StatsProviders],
     }).compile();
 
     controller = module.get<DashboardController>(DashboardController);

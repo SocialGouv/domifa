@@ -123,7 +123,7 @@ export class UsagersService {
   }
 
   public async renouvellement(usager: Usager, user: User): Promise<Usager> {
-    const lastDecision = usager.decision;
+    usager.historique.push(usager.decision);
     const decision = new DecisionDto();
 
     decision.dateDebut = new Date();
@@ -133,14 +133,19 @@ export class UsagersService {
     decision.userName = user.prenom + " " + user.nom;
     decision.typeDom = "RENOUVELLEMENT";
 
-    usager.historique.push(lastDecision);
-    usager.decision = decision;
-    usager.etapeDemande = 0;
-    usager.typeDom = "RENOUVELLEMENT";
-    usager.decision.typeDom = "RENOUVELLEMENT";
-
     return this.usagerModel
-      .findOneAndUpdate({ _id: usager._id }, { $set: usager }, { new: true })
+      .findOneAndUpdate(
+        { _id: usager._id },
+        {
+          $set: {
+            decision,
+            historique: usager.historique,
+            etapeDemande: 0,
+            typeDom: "RENOUVELLEMENT",
+          },
+        },
+        { new: true }
+      )
       .select("-docsPath -interactions")
       .exec();
   }
@@ -156,6 +161,31 @@ export class UsagersService {
           $set: {
             entretien: entretienForm,
             etapeDemande: 3,
+          },
+        },
+        {
+          new: true,
+        }
+      )
+      .select("-docsPath -interactions")
+      .exec();
+  }
+
+  public async setDecision(
+    usagerId: string,
+    decision: DecisionDto,
+    usager: Usager
+  ): Promise<Usager> {
+    return this.usagerModel
+      .findOneAndUpdate(
+        { _id: usagerId },
+        {
+          $set: {
+            decision,
+            historique: usager.historique,
+            typeDom: usager.typeDom,
+            datePremiereDom: usager.datePremiereDom,
+            etapeDemande: 6,
           },
         },
         {
@@ -238,7 +268,7 @@ export class UsagersService {
       .collation({ locale: "en" })
       .sort(sort)
       .select(
-        "-createdAt -updatedAt -rdv -structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+        "-createdAt -updatedAt -rdv -structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -etapeDemande"
       )
       .limit(40)
       .skip(page && page !== 0 ? 40 * page : 0)
@@ -261,55 +291,11 @@ export class UsagersService {
     return createdUsager.save();
   }
 
-  public async getStatsByStructure(structureId?: number) {
-    const query = structureId ? { structureId: { $eq: structureId } } : {};
-
-    return this.usagerModel
-      .aggregate([
-        { $match: query },
-        {
-          $group: {
-            _id: { structureId: "$structureId", statut: "$decision.statut" },
-            statuts: { $push: "$decision.statut" },
-            total: { $sum: 1 },
-          },
-        },
-        {
-          $group: {
-            _id: { structureId: "$_id.structureId" },
-            statut: { $addToSet: { statut: "$_id.statut", sum: "$total" } },
-          },
-        },
-      ])
-      .exec();
-  }
-
-  public async getStats() {
-    return this.usagerModel
-      .aggregate([
-        { $match: {} },
-        {
-          $group: {
-            _id: { statut: "$decision.statut" },
-            statuts: { $push: "$decision.statut" },
-            total: { $sum: 1 },
-          },
-        },
-        {
-          $group: {
-            _id: { statut: "$_id.statut" },
-            sum: { $addToSet: "$total" },
-          },
-        },
-      ])
-      .exec();
-  }
-
   public async export(structureId: number): Promise<Usager[]> {
     return this.usagerModel
       .find({ structureId })
       .select(
-        "-rdv -structureId -import -docsPath -interactions -preference -ayantsDroits -historique -entretien -docs -ayantsDroits -etapeDemande"
+        "-rdv -structureId -import -docsPath -interactions -preference -historique -entretien -docs -etapeDemande"
       )
       .exec();
   }

@@ -7,6 +7,7 @@ import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { StatsProviders } from "../stats-providers";
 import { StatsService } from "./stats.service";
+import { DashboardService } from "./dashboard.service";
 
 describe("StatsService", () => {
   let service: StatsService;
@@ -20,7 +21,7 @@ describe("StatsService", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [StatsService, ...StatsProviders],
+      providers: [DashboardService, StatsService, ...StatsProviders],
     }).compile();
 
     service = module.get<StatsService>(StatsService);

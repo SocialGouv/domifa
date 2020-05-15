@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-reset-password",
@@ -12,8 +13,6 @@ import { UsersService } from "../../services/users.service";
   templateUrl: "./reset-password.component.html",
 })
 export class ResetPasswordComponent implements OnInit {
-  public title: string;
-
   public emailForm!: FormGroup;
   public resetForm!: FormGroup;
 
@@ -37,9 +36,9 @@ export class ResetPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private route: ActivatedRoute,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    private titleService: Title
   ) {
-    this.title = "Mot de passe oublié ?";
     this.success = false;
     this.submitted = false;
     this.hidePassword = true;
@@ -54,6 +53,8 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Mot de passe oublié ?");
+
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
       this.userService.checkPasswordToken(token).subscribe(

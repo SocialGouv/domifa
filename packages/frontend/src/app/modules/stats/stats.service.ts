@@ -30,27 +30,8 @@ export class StatsService {
     );
   }
 
-  public getAllStatuts(): Observable<any> {
-    return this.http.get(`${this.epUsagers}stats-domifa/all`);
-  }
-
-  public getAllUsers(): Observable<any> {
-    return this.http.get(`${this.epUsers}stats-domifa/all`);
-  }
-
-  public getStructuresStats(): Observable<any> {
-    return this.http.get(`${this.epUsagers}stats-domifa/structures`);
-  }
-
-  public getAllInteractions(): Observable<any> {
-    return this.http.get(`${this.epInteractions}stats-domifa/all`);
-  }
-
-  public getStructuresInteractions(): Observable<any> {
-    return this.http.get(`${this.epInteractions}stats-domifa/structures`);
-  }
-
-  public getStructures(): Observable<any> {
+  // DASHBOARD
+  public getStructures(): Observable<Structure[]> {
     return this.http.get(environment.apiUrl + `dashboard/structures`).pipe(
       map((response) => {
         return Array.isArray(response)
@@ -58,5 +39,25 @@ export class StatsService {
           : [new Structure(response)];
       })
     );
+  }
+
+  public getStructuresByType(): Observable<any> {
+    return this.http.get(environment.apiUrl + `dashboard/structures/type`);
+  }
+
+  public getInteractions(): Observable<any> {
+    return this.http.get(environment.apiUrl + `dashboard/interactions`);
+  }
+
+  public getUsers(): Observable<any> {
+    return this.http.get(environment.apiUrl + `dashboard/users`);
+  }
+
+  public getUsagersValide(): Observable<any> {
+    return this.http.get(environment.apiUrl + `dashboard/usagers/valide`);
+  }
+
+  public getUsagers(): Observable<any> {
+    return this.http.get(environment.apiUrl + `dashboard/usagers`);
   }
 }

@@ -65,11 +65,24 @@ export class AuthController {
 
   @UseGuards(AuthGuard("jwt"))
   @Get("domifa")
-  public isDomifa(@Response() res: any, @CurrentUser() user: User) {
-    if (!user || user === null || user.structureId !== 28) {
+  public authDomifa(@Response() res: any, @CurrentUser() user: User) {
+    if (
+      !user ||
+      user === null ||
+      (user.structureId !== 28 && user.structureId !== 1)
+    ) {
       return res.status(HttpStatus.UNAUTHORIZED).json({});
     }
-    return res.status(HttpStatus.OK).json({});
+    return res.status(HttpStatus.OK).json({
+      email: user.email,
+      id: user.id,
+      lastLogin: user.lastLogin,
+      nom: user.nom,
+      prenom: user.prenom,
+      role: user.role,
+      structure: user.structure,
+      structureId: user.structureId,
+    });
   }
 
   @UseGuards(AuthGuard("jwt"))

@@ -34,13 +34,6 @@ export class UsersController {
   ) {}
 
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
-  @Get("stats-domifa/all")
-  public async allStats() {
-    return this.usersService.getStats();
-  }
-
-  @UseGuards(AuthGuard("jwt"))
   @Get("")
   public getUsers(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({

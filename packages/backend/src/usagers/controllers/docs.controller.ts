@@ -46,7 +46,7 @@ export class DocsController {
     FileInterceptor("file", {
       fileFilter: (req: any, file: any, cb: any) => {
         const mimeTest = !file.mimetype.match(/\/(jpg|jpeg|png|gif|pdf)$/);
-        const sizeTest = file.size >= 5242880;
+        const sizeTest = file.size >= 10000000;
         if (sizeTest || mimeTest) {
           throw new BadRequestException({
             fileSize: sizeTest,
@@ -126,7 +126,6 @@ export class DocsController {
       .json({ usager, message: "IMPORT_SUCCESS" });
   }
 
-  /* DOCUMENT */
   @UseGuards(AccessGuard)
   @Delete(":id/:index")
   public async deleteDocument(
@@ -221,7 +220,7 @@ export class DocsController {
     if (!fs.existsSync(pathFile + ".encrypted")) {
       if (!fs.existsSync(pathFile)) {
         throw new HttpException(
-          { message: "UNENCRYPTED_FILE_NOT_FOUND", file: pathFile },
+          { message: "UNENCRYPTED_FILE_NOT_FOUND" },
           HttpStatus.BAD_REQUEST
         );
       } else {
@@ -252,11 +251,7 @@ export class DocsController {
         fs.unlinkSync(pathFile);
       } catch (err) {
         throw new HttpException(
-          {
-            message: "CANNOT_DELETE_FILE",
-            file: pathFile,
-            err,
-          },
+          { message: "CANNOT_DELETE_FILE" },
           HttpStatus.INTERNAL_SERVER_ERROR
         );
       }

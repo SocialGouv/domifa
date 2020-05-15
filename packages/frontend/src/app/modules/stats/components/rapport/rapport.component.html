@@ -1,5 +1,5 @@
-<div id="stats" class="row">
-  <div class="col-md-6 offset-3 text-left">
+<div id="rapport" class="row">
+  <div class="col-md-12 text-left">
     <br />
     <h1>Rapport d'activité de votre structure</h1>
     <br />
@@ -18,7 +18,7 @@
 
     <b>Date du rapport : </b>{{ stats.createdAt | date: "dd/MM/yyyy" }}
     <br /><br />
-    <table class="table" *ngIf="stats">
+    <table class="table table-hover" *ngIf="stats">
       <thead>
         <tr>
           <th colspan="2">Partie 1 - Total au cours de l'année</th>
@@ -89,7 +89,7 @@
       </tbody>
     </table>
     <br />
-    <table class="table">
+    <table class="table table-hover">
       <thead>
         <tr>
           <th colspan="2">
@@ -144,6 +144,31 @@
             </td>
           </tr>
         </ng-container>
+
+        <tr>
+          <td class="font-weight-bold" colspan="2">
+            Situation résidentielle
+          </td>
+        </tr>
+        <tr *ngFor="let decision of labels.residence | keyvalue">
+          <td class="soustable">{{ decision.value }}</td>
+          <td>
+            {{ stats.questions.Q_22[decision.key] }}
+          </td>
+        </tr>
+        <tr>
+          <td class="soustable">Autre situation</td>
+          <td>
+            {{ stats.questions.Q_22.AUTRE }}
+          </td>
+        </tr>
+        <tr>
+          <td class="soustable">Non renseigné</td>
+          <td>
+            {{ stats.questions.Q_22.NON_RENSEIGNE }}
+          </td>
+        </tr>
+
         <tr>
           <td class="font-weight-bold" colspan="2">
             Cause de l'instabilité de logement
@@ -170,7 +195,7 @@
       </tbody>
     </table>
     <br />
-    <table class="table">
+    <table class="table table-hover">
       <thead>
         <tr>
           <th colspan="2">

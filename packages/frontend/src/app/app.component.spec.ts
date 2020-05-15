@@ -39,7 +39,7 @@ describe("AppComponent", () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
     app.ngOnInit();
-    expect(app.title).toEqual("Domifa");
+
     expect(app.isNavbarCollapsed).toEqual(false);
   });
 });

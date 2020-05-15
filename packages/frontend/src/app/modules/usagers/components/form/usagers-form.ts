@@ -32,6 +32,7 @@ import {
   minDateToday,
   formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   animations: [fadeInOut],
@@ -46,7 +47,6 @@ import {
   templateUrl: "./usagers-form.html",
 })
 export class UsagersFormComponent implements OnInit {
-  public title: string;
   public labels: any;
   public doublons: Usager[];
 
@@ -113,9 +113,9 @@ export class UsagersFormComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     private notifService: ToastrService,
-    private nbgDate: NgbDateCustomParserFormatter
+    private nbgDate: NgbDateCustomParserFormatter,
+    private titleService: Title
   ) {
-    this.title = "Enregistrer une domiciliation";
     this.labels = labels;
     this.doublons = [];
     this.documents = [];
@@ -127,6 +127,8 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Demande de domiciliation");
+
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 

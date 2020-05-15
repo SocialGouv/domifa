@@ -103,10 +103,26 @@ export class Stats {
       SORTIE_STRUCTURE: number;
       VIOLENCE: number;
     };
+
+    Q_22: {
+      DOMICILE_MOBILE: number;
+      HEBERGEMENT_SOCIAL: number;
+      HEBERGEMENT_TIERS: number;
+      HOTEL: number;
+      SANS_ABRI: number;
+      NON_RENSEIGNE: number;
+      AUTRE: number;
+    };
   };
 
   constructor(data?: any) {
-    this.createdAt = (data && new Date(data.createdAt)) || new Date();
+    if (data && data.createdAt) {
+      const createdAt = new Date(data.createdAt);
+      this.createdAt = new Date(createdAt.getTime() - 24 * 60 * 60 * 1000);
+    } else {
+      this.createdAt = new Date();
+    }
+
     this.nom = (data && data.nom) || null;
     this.structureType = (data && data.structureType) || null;
     this.structureId = (data && data.structureId) || null;
@@ -179,13 +195,13 @@ export class Stats {
         VIOLENCE: 0,
       },
       Q_22: {
-        ERRANCE: 0,
-        EXPULSION: 0,
-        HEBERGE_SANS_ADRESSE: 0,
-        ITINERANT: 0,
-        RUPTURE: 0,
-        SORTIE_STRUCTURE: 0,
-        VIOLENCE: 0,
+        AUTRE: 0,
+        DOMICILE_MOBILE: 0,
+        HEBERGEMENT_SOCIAL: 0,
+        HEBERGEMENT_TIERS: 0,
+        HOTEL: 0,
+        SANS_ABRI: 0,
+        NON_RENSEIGNE: 0,
       },
     };
   }

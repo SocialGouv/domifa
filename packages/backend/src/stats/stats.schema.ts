@@ -88,6 +88,16 @@ export const StatsSchema = new mongoose.Schema(
         VIOLENCE: { type: Number, default: 0 },
         NON_RENSEIGNE: { type: Number, default: 0 },
       },
+
+      Q_22: {
+        AUTRE: { type: Number, default: 0 },
+        DOMICILE_MOBILE: { type: Number, default: 0 },
+        HEBERGEMENT_SOCIAL: { type: Number, default: 0 },
+        HEBERGEMENT_TIERS: { type: Number, default: 0 },
+        HOTEL: { type: Number, default: 0 },
+        SANS_ABRI: { type: Number, default: 0 },
+        NON_RENSEIGNE: { type: Number, default: 0 },
+      },
     },
     structureId: Number,
     structureType: String,

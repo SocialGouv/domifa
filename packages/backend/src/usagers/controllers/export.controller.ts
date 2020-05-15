@@ -10,7 +10,7 @@ import { Usager } from "../interfaces/usagers";
 
 /* DÉCISIONS */
 export const decisionLabels: { [key: string]: any } = {
-  ATTENTE_DECISION: "attente de décision",
+  ATTENTE_DECISION: "Attente de décision",
   INSTRUCTION: "À compléter",
   RADIE: "Radié",
   REFUS: "Refusé",
@@ -78,6 +78,12 @@ export class ExportController {
         N: "Date début dom actuelle",
         O: "Date fin de dom",
         P: "Date 1ere dom",
+        Q: "Date de dernier passage",
+        R: "Nombre d'ayants-droit",
+        S: "Nom Ayant-Droit",
+        T: "Prénom Ayant-Droit",
+        U: "Date Naissance Ayant-Droit",
+        V: "Lien parenté Ayant-Droit",
       },
     ];
 
@@ -90,7 +96,7 @@ export class ExportController {
         });
         const wb = XLSX.utils.book_new();
 
-        XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+        XLSX.utils.book_append_sheet(wb, ws, "Liste des usagers");
         const buf = XLSX.write(wb, {
           type: "buffer",
           bookType: "xlsx",
@@ -144,6 +150,12 @@ export class ExportController {
             usager.datePremiereDom && usager.datePremiereDom !== null
               ? this.dateFr(usager.datePremiereDom)
               : "",
+          Q:
+            usager.lastInteraction.dateInteraction &&
+            usager.lastInteraction.dateInteraction !== null
+              ? this.dateFr(usager.lastInteraction.dateInteraction)
+              : "",
+          R: usager.ayantsDroits.length,
         };
         this.datas.push(formattedUsager);
       }

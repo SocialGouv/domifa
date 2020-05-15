@@ -1,17 +1,17 @@
 import { Component, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-faq",
   styleUrls: ["./faq.component.css"],
   templateUrl: "./faq.component.html",
 })
-export class FaqComponent {
-  public title: string;
+export class FaqComponent implements OnInit {
+  constructor(private titleService: Title) {}
 
-  constructor() {
-    this.title = "Foire aux question de Domifa";
+  public ngOnInit() {
+    this.titleService.setTitle("Foire aux question de Domifa");
   }
-
   public scrollTo(el: HTMLElement) {
     el.scrollIntoView({
       behavior: "smooth",

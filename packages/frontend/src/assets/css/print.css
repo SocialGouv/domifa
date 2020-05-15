@@ -1,18 +1,14 @@
 @media print {
   body {
-    font-size: 18pt !important;
-    width: 94% !important;
-    margin: 3.5cm auto !important;
-  }
-
-  @page {
-    margin: 6cm !important;
+    width: 100% !important;
+    margin: 1% auto !important;
   }
 
   #courrier-radiation {
-    font-size: 14pt;
-    max-width: 600px;
-    margin: 0 auto;
+    font-size: 13pt !important;
+    margin: 0 auto !important;
+    max-width: 1600px !important;
+    border: none !important;
   }
 
   *,
@@ -62,19 +58,24 @@
   }
 
   @page {
-    size: a3;
+    size: a4;
   }
 
   body {
-    min-width: 992px !important;
+    min-width: 96% !important;
   }
-
+  #page,
   .container {
-    min-width: 992px !important;
+    min-width: 96% !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
+  footer,
+  #help-button,
+  .not-print,
   .navbar {
-    display: none;
+    display: none !important;
   }
 
   .badge {

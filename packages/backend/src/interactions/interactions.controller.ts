@@ -22,18 +22,6 @@ import { InteractionsService } from "./interactions.service";
 export class InteractionsController {
   constructor(private readonly interactionService: InteractionsService) {}
 
-  @UseGuards(RolesGuard)
-  @Get("stats-domifa/structures")
-  public async statsByStructures(@CurrentUser() user: User) {
-    return this.interactionService.stats();
-  }
-
-  @UseGuards(RolesGuard)
-  @Get("stats-domifa/all")
-  public async statsDomifa(@CurrentUser() user: User) {
-    return this.interactionService.statsAll();
-  }
-
   @UseGuards(AccessGuard)
   @Post(":id")
   public postInteraction(

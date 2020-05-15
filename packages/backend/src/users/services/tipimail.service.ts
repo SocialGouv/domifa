@@ -5,20 +5,33 @@ import {
   HttpStatus,
   HttpException,
 } from "@nestjs/common";
-import { User } from "../user.interface";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { Model } from "mongoose";
 import * as moment from "moment";
 
+import { Structure } from "../../structures/structure-interface";
+import { User } from "../user.interface";
+
 @Injectable()
 export class TipimailService {
   public lastWeek: Date;
-
+  public listOfStructures: any;
+  public lienGuide: string;
+  public lienImport: string;
+  public lienFaq: string;
   constructor(
     @Inject("USER_MODEL") private readonly userModel: Model<User>,
+    @Inject("STRUCTURE_MODEL")
+    private readonly structureModel: Model<Structure>,
     private httpService: HttpService
   ) {
     this.lastWeek = moment().utc().subtract(7, "days").endOf("day").toDate();
+    this.listOfStructures = [];
+
+    this.lienGuide =
+      process.env.FRONT_URL + "assets/files/guide_utilisateur_domifa.pdf";
+    this.lienImport = process.env.FRONT_URL + "import";
+    this.lienFaq = process.env.FRONT_URL + "faq";
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_10AM)
@@ -38,9 +51,6 @@ export class TipimailService {
       return;
     }
 
-    const lienGuide =
-      process.env.FRONT_URL + "assets/files/guide_utilisateur_domifa.pdf";
-
     const post = {
       to: [
         {
@@ -55,7 +65,7 @@ export class TipimailService {
             email: user.email,
             values: {
               nom: user.prenom,
-              lien: lienGuide,
+              lien: this.lienGuide,
             },
             meta: {},
           },
@@ -116,12 +126,26 @@ export class TipimailService {
       );
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_11AM)
+  @Cron(CronExpression.EVERY_DAY_AT_3PM)
   public async cronImport() {
-    // console.log("---- ENTER CRON");
+    this.listOfStructures = [];
+    this.structureModel
+      .find({ import: false }, { id: 1 })
+      .lean()
+      .exec((erreur: any, structures: any) => {
+        for (const structure of structures) {
+          this.listOfStructures.push(structure.id);
+        }
+        this.sentImportGuide();
+      });
+  }
+
+  private async sentImportGuide() {
     const user = await this.userModel
       .findOne({
-        createdAt: { $lte: this.lastWeek },
+        // structureId: { $in: this.listOfStructures },
+        structureId: 28,
+        // createdAt: { $lte: this.lastWeek },
         "mails.import": false,
       })
       .select("-import -token -users -verified")
@@ -132,11 +156,6 @@ export class TipimailService {
       // console.log("---- LEAVE CRON NO STRUCTURE");
       return;
     }
-
-    const lienGuide =
-      process.env.FRONT_URL + "assets/files/guide_utilisateur_domifa.pdf";
-    const lienImport = process.env.FRONT_URL + "import";
-    const lienFaq = process.env.FRONT_URL + "faq";
 
     const post = {
       to: [
@@ -151,9 +170,9 @@ export class TipimailService {
           {
             email: user.email,
             values: {
-              lienImport,
-              lienGuide,
-              lienFaq,
+              lienImport: this.lienImport,
+              lienGuide: this.lienGuide,
+              lienFaq: this.lienFaq,
             },
             meta: {},
           },
@@ -184,22 +203,16 @@ export class TipimailService {
         (retour: any) => {
           this.userModel
             .findOneAndUpdate(
-              {
-                _id: user._id,
-              },
-              {
-                $set: {
-                  "mails.guide": true,
-                },
-              }
+              { _id: user._id },
+              { $set: { "mails.import": true } }
             )
             .exec((erreur: any) => {
               // console.log("-- UPDATE MAIL VALUE");
               if (erreur === null) {
-                this.cronGuide();
+                this.sentImportGuide();
               } else {
                 throw new HttpException(
-                  "CANNOT_UPDATE_MAIL_GUIDE",
+                  "CANNOT_UPDATE_MAIL_IMPORT",
                   HttpStatus.INTERNAL_SERVER_ERROR
                 );
               }
@@ -207,7 +220,7 @@ export class TipimailService {
         },
         (erreur: any) => {
           throw new HttpException(
-            "TIPIMAIL_GUIDE_ERROR",
+            "TIPIMAIL_IMPORT_ERROR",
             HttpStatus.INTERNAL_SERVER_ERROR
           );
         }

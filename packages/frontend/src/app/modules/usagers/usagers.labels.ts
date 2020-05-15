@@ -1,7 +1,8 @@
 /* TYPE DE STRUCTURE */
 export const structureType = {
   asso: "Organisme agrée",
-  ccas: "CCAS / CIAS",
+  ccas: "CCAS",
+  cias: "CIAS",
 };
 
 /* LIENS DE PARENTÉ */
@@ -26,11 +27,12 @@ export const decision: { [key: string]: any } = {
 
 /* DÉCISIONS */
 export const decisionStats: { [key: string]: any } = {
-  ATTENTE_DECISION: "Demandes déposées",
-  INSTRUCTION: "Dossiers cours",
+  TOUS: "Tous",
+  ATTENTE_DECISION: "Attente de décision",
+  INSTRUCTION: "À compléter",
   RADIE: "Radiés",
-  REFUS: "Demandes refusées",
-  VALIDE: "Domiciliés actifs",
+  REFUS: "Refusés",
+  VALIDE: "Actifs",
 };
 
 /* MOTIFS DE RADIATION ET REFUS */

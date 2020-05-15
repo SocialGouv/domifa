@@ -80,8 +80,6 @@ describe("UsagersFormComponent", () => {
   });
 
   it("should update header", () => {
-    expect(app.title).toEqual("Enregistrer une domiciliation");
-
     expect(app.doublons).toEqual([]);
     expect(app.documents).toEqual([]);
 

@@ -146,48 +146,4 @@ export class InteractionsService {
   public async deleteAll(structureId: number): Promise<any> {
     return this.interactionModel.deleteMany({ structureId }).exec();
   }
-
-  public async stats(structureId?: number) {
-    const query = structureId ? { structureId: { $eq: structureId } } : {};
-
-    return this.interactionModel
-      .aggregate([
-        { $match: query },
-        {
-          $group: {
-            _id: { structureId: "$structureId", type: "$type" },
-            total: { $sum: 1 },
-            types: { $push: "$type" },
-          },
-        },
-        {
-          $group: {
-            _id: { structureId: "$_id.structureId" },
-            type: { $addToSet: { type: "$_id.type", sum: "$total" } },
-          },
-        },
-      ])
-      .exec();
-  }
-
-  public async statsAll() {
-    return this.interactionModel
-      .aggregate([
-        { $match: {} },
-        {
-          $group: {
-            _id: { statut: "$type" },
-            statuts: { $push: "$type" },
-            total: { $sum: 1 },
-          },
-        },
-        {
-          $group: {
-            _id: { statut: "$_id.statut" },
-            sum: { $addToSet: "$total" },
-          },
-        },
-      ])
-      .exec();
-  }
 }

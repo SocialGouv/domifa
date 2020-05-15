@@ -9,8 +9,9 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { ERROR_LABELS } from "src/app/shared/errors.labels";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
-import { LoadingService } from "src/app/modules/loading/loading.service";
+
 import { saveAs } from "file-saver";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-user-profil",
@@ -18,8 +19,6 @@ import { saveAs } from "file-saver";
   templateUrl: "./user-profil.component.html",
 })
 export class UserProfilComponent implements OnInit {
-  public title: string;
-
   public users: User[];
   public structure: Structure;
   public newUsers: User[];
@@ -39,9 +38,8 @@ export class UserProfilComponent implements OnInit {
     private modalService: NgbModal,
     private notifService: ToastrService,
     private formBuilder: FormBuilder,
-    private loadingService: LoadingService
+    private titleService: Title
   ) {
-    this.title = "Mon compte Domifa";
     this.users = [];
     this.newUsers = [];
     this.selectedUser = 0;
@@ -56,6 +54,8 @@ export class UserProfilComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Mon compte Domifa");
+
     this.getUsers();
 
     this.structureService

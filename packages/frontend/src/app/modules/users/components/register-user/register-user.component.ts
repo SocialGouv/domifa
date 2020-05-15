@@ -16,6 +16,7 @@ import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   animations: [fadeInOut],
@@ -24,7 +25,6 @@ import { StructureService } from "src/app/modules/structures/services/structure.
   templateUrl: "./register-user.component.html",
 })
 export class RegisterUserComponent implements OnInit {
-  public title: string;
   public user: User;
   public userForm: FormGroup;
 
@@ -51,9 +51,9 @@ export class RegisterUserComponent implements OnInit {
     private userService: UsersService,
     private route: ActivatedRoute,
     private structureService: StructureService,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    private titleService: Title
   ) {
-    this.title = "Inscription";
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
     this.user = new User({});
@@ -62,6 +62,7 @@ export class RegisterUserComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Inscription sur Domifa");
     this.user.structureId =
       this.structureChild !== undefined
         ? this.structureChild.structureId

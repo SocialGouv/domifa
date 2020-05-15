@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { fadeInOut } from "./shared/animations";
 import { Router, NavigationEnd } from "@angular/router";
+import { Title } from "@angular/platform-browser";
 @Component({
   animations: [fadeInOut],
   selector: "app-root",
@@ -13,9 +14,8 @@ import { Router, NavigationEnd } from "@angular/router";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  public title: string;
-  public help: boolean = false;
-  public isNavbarCollapsed: boolean = false;
+  public help: boolean;
+  public isNavbarCollapsed: boolean;
   public isAllowed: any;
 
   public domifaNews: any;
@@ -32,39 +32,42 @@ export class AppComponent implements OnInit {
     private matomoTracker: MatomoTracker,
     private modalService: NgbModal,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) {
-    this.title = "Domifa";
     this.help = false;
+    this.isNavbarCollapsed = false;
     this.newsLabels = {
       bug: "Améliorations",
       new: "Nouveauté",
     };
 
     this.domifaNews = null;
-
     this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
+  }
 
-    this.authService.isAuth().subscribe((isAuth) => {
-      if (isAuth) {
-        this.getJSON().subscribe((domifaNews) => {
-          this.domifaNews = domifaNews[0];
+  public ngOnInit() {
+    this.titleService.setTitle(
+      "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
+    );
 
-          const lastNews = localStorage.getItem("lastNews");
+    this.authService.isAuth().subscribe();
 
-          if (
-            !lastNews ||
-            (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
-          ) {
-            this.modal = this.modalService.open(this.newsCenter, {
-              backdrop: "static",
-            });
-          }
+    this.getJSON().subscribe((domifaNews) => {
+      this.domifaNews = domifaNews[0];
+
+      const lastNews = localStorage.getItem("news");
+
+      if (
+        !lastNews ||
+        (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
+      ) {
+        this.modal = this.modalService.open(this.newsCenter, {
+          backdrop: "static",
         });
       }
     });
-  }
-  public ngOnInit() {
+
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
@@ -85,9 +88,6 @@ export class AppComponent implements OnInit {
 
   public closeModal() {
     this.modal.close();
-    localStorage.setItem(
-      "lastNews",
-      new Date(this.domifaNews.date).toISOString()
-    );
+    localStorage.setItem("news", new Date(this.domifaNews.date).toISOString());
   }
 }
