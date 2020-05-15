@@ -47,11 +47,6 @@ export class DashboardService {
       .exec();
   }
 
-  // TODO : Search options - tri par élément
-  public async countStructures(): Promise<number> {
-    return this.structureModel.countDocuments().exec();
-  }
-
   public async getStructuresByType(): Promise<any> {
     return this.structureModel.aggregate([
       {

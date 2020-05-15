@@ -1,13 +1,10 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
-import { CurrentUser } from "../../auth/current-user.decorator";
-
 import { InteractionsService } from "../../interactions/interactions.service";
 import { StructuresService } from "../../structures/structures.service";
 import { UsagersService } from "../../usagers/services/usagers.service";
 import { UsersService } from "../../users/services/users.service";
-import { User } from "../../users/user.interface";
 import { StatsService } from "../services/stats.service";
 import { DomifaGuard } from "../../auth/domifa.guard";
 import { DashboardService } from "../services/dashboard.service";
@@ -35,7 +32,6 @@ export class DashboardController {
   @Get("structures/type")
   public async countByType() {
     const structures: { [key: string]: any } = {};
-    structures.total = await this.dashboardService.countStructures();
     const result = await this.dashboardService.getStructuresByType();
     for (const structure of result) {
       structures[structure.structureType] = structure.count;
@@ -68,7 +64,15 @@ export class DashboardController {
   }
 
   @Get("usagers")
-  public async getUsagerss() {
-    return this.dashboardService.getUsagers();
+  public async getUsagers() {
+    const result = await this.dashboardService.getUsagers();
+    const usagers: { [key: string]: any } = {};
+    let total = 0;
+    for (const usager of result) {
+      usagers[usager._id.statut] = usager.sum[0];
+      total += usager.sum[0];
+    }
+    usagers.TOUS = total;
+    return usagers;
   }
 }

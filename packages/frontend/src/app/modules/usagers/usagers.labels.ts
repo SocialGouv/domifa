@@ -27,6 +27,7 @@ export const decision: { [key: string]: any } = {
 
 /* DÉCISIONS */
 export const decisionStats: { [key: string]: any } = {
+  TOUS: "Tous",
   ATTENTE_DECISION: "Attente de décision",
   INSTRUCTION: "À compléter",
   RADIE: "Radiés",

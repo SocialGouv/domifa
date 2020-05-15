@@ -79,10 +79,8 @@ export class DashboardComponent implements OnInit {
       this.users = stats;
     });
 
-    this.statsService.getUsagers().subscribe((stats: any[]) => {
-      stats.forEach((stat) => {
-        this.usagers[stat._id.statut] = stat.sum[0];
-      });
+    this.statsService.getUsagers().subscribe((retour: any[]) => {
+      this.usagers = retour;
     });
 
     this.statsService.getUsagersValide().subscribe((usagersValide: any[]) => {

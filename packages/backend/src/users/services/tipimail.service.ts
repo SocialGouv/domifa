@@ -126,7 +126,7 @@ export class TipimailService {
       );
   }
 
-  // @Cron(CronExpression.EVERY_DAY_AT_11AM)
+  @Cron(CronExpression.EVERY_DAY_AT_3PM)
   public async cronImport() {
     this.listOfStructures = [];
     this.structureModel

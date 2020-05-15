@@ -10,7 +10,7 @@ import { Usager } from "../interfaces/usagers";
 
 /* DÉCISIONS */
 export const decisionLabels: { [key: string]: any } = {
-  ATTENTE_DECISION: "attente de décision",
+  ATTENTE_DECISION: "Attente de décision",
   INSTRUCTION: "À compléter",
   RADIE: "Radié",
   REFUS: "Refusé",
@@ -83,7 +83,7 @@ export class ExportController {
         S: "Nom Ayant-Droit",
         T: "Prénom Ayant-Droit",
         U: "Date Naissance Ayant-Droit",
-        V: "Lien parenté  Ayant-Droit",
+        V: "Lien parenté Ayant-Droit",
       },
     ];
 

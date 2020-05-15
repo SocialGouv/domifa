@@ -37,7 +37,7 @@
       </div>
       <div class="stats-blocks">
         <div>
-          <span class="stats-chiffres">{{ structuresType.total }}</span>
+          <span class="stats-chiffres">{{ structures.length }}</span>
           <span class="font-weight-bold stats-labels">
             Total
           </span>
@@ -70,7 +70,7 @@
   <table id="dashboard" class="table table-hover">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>#</th>
         <th>Nom</th>
         <th>Type</th>
         <th>Date inscription</th>
@@ -83,7 +83,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let structure of structures; let i = index">
-        <td># {{ structure.id }}</td>
+        <td>{{ i + 1 }}</td>
         <td>
           {{ structure.nom }}
           {{
