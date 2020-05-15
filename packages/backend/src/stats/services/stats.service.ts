@@ -462,7 +462,8 @@ export class StatsService {
 
   public async getToday(structureId: number): Promise<Stats> {
     const stats = await this.statsModel
-      .findOne({ structureId }, {}, { sort: { createdAt: -1 } })
+      .findOne({ structureId })
+      .sort("+createdAt")
       .lean()
       .exec();
     if (!stats || stats === null) {
