@@ -18,6 +18,6 @@ Scénario:
   Quand je clique sur "Envoyer"
   Alors je vois "Veuillez vérifier l'adresse email"
   Alors je rentre "ccastest@yopmail.com" dans "Adresse email"
-  Quand je clique sur "Envoyer"
-  Alors j'attends que le message "Vous venez de recevoir un mail pour réinitialiser votre mot de passe" apparaisse
+  #Quand je clique sur "Envoyer"
+  #Alors j'attends que le message "Vous venez de recevoir un mail pour réinitialiser votre mot de passe" apparaisse
 
