@@ -1,23 +1,68 @@
----
 #
 
 include:
-  - /.gitlab-ci/variables.yml
-  - /.gitlab-ci/extends.yml
-  #
-  - /.gitlab-ci/stages/prepare.yml
-  - /.gitlab-ci/stages/quality.yml
-  - /.gitlab-ci/stages/register.yml
-  #- /.gitlab-ci/stages/notify.yml
-  # /.gitlab-ci/stages/deploy.yml
+  - project: SocialGouv/gitlab-ci-yml
+    file: /base_yarn_stage.yml
+    ref: v15.3.0
+  - project: SocialGouv/gitlab-ci-yml
+    file: /base_register_stage.yml
+    ref: v15.3.0
 
 #
+
+variables:
+  # Globals
+  PYTHON_VERSION: "3.6-alpine"
 
 stages:
-  - "Prepare"
-  - "Code Quality"
+  - "Install"
   - "Registration"
-  - "Integration test"
-  - "Deploy"
-  #- "Notify Finished Deployment"
+
 #
+
+Build:
+  extends: .base_yarn_script
+  stage: Install
+  image: node:13
+  interruptible: true
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - packages/frontend/node_modules/.cache
+  services:
+    - name: mongo:4.0.3
+  before_script:
+    # NOTE(douglasduteil): yarn caching
+    - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
+  script:
+    - yarn --frozen-lockfile --prefer-offline
+    - yarn --cwd packages/backend build
+    - yarn --cwd packages/frontend build --prod
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - packages/backend/dist
+      - packages/frontend/dist
+#
+
+Register frontend image:
+  extends: .base_register_stage
+  interruptible: true
+  variables:
+    CONTEXT: .
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
+    DOCKER_BUILD_ARGS: >-
+      -f packages/frontend/Dockerfile
+
+Register backend image:
+  extends: .base_register_stage
+  interruptible: true
+  variables:
+    CONTEXT: .
+    IMAGE_NAME: $CI_REGISTRY_IMAGE/backend
+    DOCKER_BUILD_ARGS: >-
+      --shm-size 512M
+      -f packages/backend/Dockerfile

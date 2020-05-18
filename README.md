@@ -10,7 +10,16 @@
 ## Docker
 
 ```sh
-docker build --shm-size 900M -t socialgouv/domifa .
+$ yarn
+$ yarn build
+#
+$ docker build --shm-size 512M -f packages/backend/Dockerfile -t socialgouv/domifa/backend .
+$ docker build -f packages/frontend/Dockerfile -t socialgouv/domifa/frontend .
+#
+#
+# Tested with
+$ docker run --rm -p 3000:3000 socialgouv/domifa/backend
+$ docker run --rm --env API_URL=https://domifa-api.fabrique.social.gouv.fr/ --env PORT=4200 -p 4200:4200 socialgouv/domifa/frontend
 ```
 
 ## Release policy
