@@ -2679,10 +2679,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@socialgouv/tslint-config-recommended@^0.21.0":
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/@socialgouv/tslint-config-recommended/-/tslint-config-recommended-0.21.0.tgz#932ad7badc7fd4847ae18084e7eb6ef1715caad5"
-  integrity sha512-6ieq/44l/ZulLIR5vFUn5LHiO0Jmwro32woJzBnm0qSvBjjV7SAK18vJpMjzpKa7DSl56jPb9czjWIJqhIFF0Q==
+"@socialgouv/tslint-config-recommended@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@socialgouv/tslint-config-recommended/-/tslint-config-recommended-0.22.1.tgz#8d4f7cd593fac9da303dc83781fc73214042f14a"
+  integrity sha512-lpvVwxPty28q3bvb57j/qEoGZWwr/d4ytuZo5jy5n35cP6S7LmQdkO7eYiNrMM3EpuSozdCPDDhkYRpEDUVY/A==
   dependencies:
     tslint-config-prettier "~1.18.0"
     tslint-plugin-prettier "~2.3.0"
