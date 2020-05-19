@@ -12,6 +12,7 @@ WORKDIR /app
 RUN yarn --production --frozen-lockfile --cache-folder /dev/shm/yarn
 
 COPY ./packages/backend/dist /app/dist
+COPY ./packages/backend/src/ressources /app/dist/ressources
 
 
 ENTRYPOINT [ "yarn", "start:prod"]
