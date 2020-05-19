@@ -6,9 +6,9 @@ services:
     ports:
       - 80:80
     environment:
-      - API_URL=https://domifa-api.fabrique.social.gouv.fr
+      - API_URL=https://domifa-api.fabrique.social.gouv.fr/
       # Or locally
-      - API_URL=//localhost:3000/
+      # - API_URL=//localhost:3000/
 
   backend:
     env_file:

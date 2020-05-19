@@ -124,7 +124,9 @@ export class ExportController {
           usager.decision.motif = "";
         }
 
-        const formattedUsager = {
+        const formattedUsager: {
+          [key: string]: {};
+        } = {
           A: usager.customId,
           B: usager.sexe,
           C: usager.nom,
@@ -157,8 +159,40 @@ export class ExportController {
               : "",
           R: usager.ayantsDroits.length,
         };
+
+        let indexColumn = 18;
+        let indexAd = 1;
+
+        for (const ayantDroit of usager.ayantsDroits) {
+          this.datas[1][this.numToAlpha(indexColumn)] =
+            "Nom Ayant-droit " + indexAd;
+          this.datas[1][this.numToAlpha(indexColumn + 1)] =
+            "Prénom Ayant-droit " + indexAd;
+          this.datas[1][this.numToAlpha(indexColumn + 2)] =
+            "Date Naissance Ayant-Droit " + indexAd;
+          this.datas[1][this.numToAlpha(indexColumn + 3)] =
+            "Lien parenté Ayant-droit " + indexAd;
+
+          formattedUsager[this.numToAlpha(indexColumn)] = ayantDroit.nom;
+          formattedUsager[this.numToAlpha(indexColumn + 1)] = ayantDroit.prenom;
+          formattedUsager[this.numToAlpha(indexColumn + 2)] =
+            ayantDroit.dateNaissance;
+          formattedUsager[this.numToAlpha(indexColumn + 3)] = ayantDroit.lien;
+
+          indexAd++;
+          indexColumn += 4;
+        }
+
         this.datas.push(formattedUsager);
       }
+  }
+
+  private numToAlpha(num: number) {
+    let alpha = "";
+    for (; num >= 0; num = num / 26 - 1) {
+      alpha = String.fromCharCode((num % 26) + 0x41) + alpha;
+    }
+    return alpha;
   }
 
   private padNumber(value: number) {
