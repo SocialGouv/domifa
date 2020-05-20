@@ -17,8 +17,8 @@ Scénario:
   Alors je rentre "Azerty012345" dans "Mot de passe"
   Quand je clique sur "Connexion"
   Alors je suis redirigé vers la page: "/manage"
-  # Alors je vois (icône mon compte?)
-  # Quand je clique sur (icône mon compte?)
-  # Alors je vois "Déconnexion"
-  # Quand je clique sur "Déconnexion"
- #  Alors je suis redirigé vers la page: "/connexion"
+  Alors je vois "Mon compte"
+  Quand je clique sur "Mon compte"
+  Alors je vois "Déconnexion"
+  Quand je clique sur "Déconnexion"
+  Alors je suis redirigé vers la page: "/connexion"
