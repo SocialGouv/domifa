@@ -69,7 +69,6 @@ export const typeMenage = {
   FEMME_ISOLE_SANS_ENFANT: "Femme isolée sans enfant",
   HOMME_ISOLE_AVEC_ENFANT: "Homme isolé avec enfant(s)",
   HOMME_ISOLE_SANS_ENFANT: "Homme isolé sans enfant",
-  MINEUR: "Mineur",
 };
 
 export const cause = {

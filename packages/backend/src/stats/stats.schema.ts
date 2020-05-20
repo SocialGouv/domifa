@@ -62,7 +62,6 @@ export const StatsSchema = new mongoose.Schema(
         FEMME_ISOLE_SANS_ENFANT: { type: Number, default: 0 },
         HOMME_ISOLE_AVEC_ENFANT: { type: Number, default: 0 },
         HOMME_ISOLE_SANS_ENFANT: { type: Number, default: 0 },
-        MINEUR: { type: Number, default: 0 },
       },
 
       /* NOMBRE D'INTERACTIONS GLOBALES */

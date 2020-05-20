@@ -76,7 +76,6 @@ export class Stats {
       FEMME_ISOLE_SANS_ENFANT: number;
       HOMME_ISOLE_AVEC_ENFANT: number;
       HOMME_ISOLE_SANS_ENFANT: number;
-      MINEUR: number;
     };
 
     /* NOMBRE D'INTERACTIONS GLOBALES */
@@ -171,7 +170,6 @@ export class Stats {
         FEMME_ISOLE_SANS_ENFANT: 0,
         HOMME_ISOLE_AVEC_ENFANT: 0,
         HOMME_ISOLE_SANS_ENFANT: 0,
-        MINEUR: 0,
       },
       Q_20: {
         appel: 0,

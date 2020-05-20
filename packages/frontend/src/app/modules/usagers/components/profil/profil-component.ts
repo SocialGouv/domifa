@@ -511,10 +511,10 @@ export class UsagersProfilComponent implements OnInit {
         this.editTransfertForm = false;
         this.transfertForm.reset();
         this.usager.options = new Options(usager.options);
-        this.notifService.success("Transfert supprimé avec succès");
+        this.notifService.success("Pli non distribuable enregistré");
       },
       (error) => {
-        this.notifService.error("Impossible de supprimer la fiche");
+        this.notifService.error("Cette opération a échoué");
       }
     );
   }
@@ -525,7 +525,7 @@ export class UsagersProfilComponent implements OnInit {
         this.editTransfertForm = false;
         this.procurationForm.reset();
         this.usager.options = new Options(usager.options);
-        this.notifService.success("Transfert supprimé avec succès");
+        this.notifService.success("Procuration supprimée avec succès");
       },
       (error) => {
         this.notifService.error("Impossible de supprimer la fiche");

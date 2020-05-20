@@ -413,7 +413,6 @@ export class ImportComponent implements OnInit {
         "FEMME_ISOLE_AVEC_ENFANT",
         "COUPLE_SANS_ENFANT",
         "COUPLE_AVEC_ENFANT",
-        "MINEUR",
       ],
       motifRadiation: [
         "NON_MANIFESTATION_3_MOIS",

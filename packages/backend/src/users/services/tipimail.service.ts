@@ -34,7 +34,7 @@ export class TipimailService {
     this.lienFaq = process.env.FRONT_URL + "faq";
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_10AM)
+  @Cron(CronExpression.EVERY_DAY_AT_4PM)
   public async cronGuide() {
     // console.log("---- ENTER CRON");
     const user = await this.userModel
@@ -126,7 +126,7 @@ export class TipimailService {
       );
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_2PM)
+  @Cron(CronExpression.EVERY_DAY_AT_8AM)
   public async cronImport() {
     this.listOfStructures = [];
     this.structureModel
@@ -166,11 +166,10 @@ export class TipimailService {
         "X-TM-TEMPLATE": "guide-import",
         "X-TM-SUB": [
           {
-            email: user.email,
             values: {
-              lienImport: this.lienImport,
-              lienGuide: this.lienGuide,
-              lienFaq: this.lienFaq,
+              import: this.lienImport,
+              guide: this.lienGuide,
+              faq: this.lienFaq,
             },
             meta: {},
           },
