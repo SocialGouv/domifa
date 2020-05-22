@@ -75,3 +75,8 @@ Quand("j'attends que le message {string} apparaisse", (title) => {
   I.scrollPageToTop();
   I.waitForElement(`//h3[contains(., "${title}")]`, 3);
 });
+
+Quand("j'attends que le texte {string} s'affiche", (title) => {
+  I.scrollPageToTop();
+  I.waitForText(title, 3);
+});

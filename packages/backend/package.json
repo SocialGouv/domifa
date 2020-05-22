@@ -36,7 +36,6 @@
     "@types/multer": "^1.4.3",
     "@types/passport-jwt": "^3.0.3",
     "@types/rimraf": "^3.0.0",
-    "add": "^2.0.6",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "braces": "^3.0.2",
@@ -81,7 +80,6 @@
     "tsconfig-paths": "^3.9.0",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typeorm": "^0.2.24",
     "typescript": "^3.8.3"
   }
 }

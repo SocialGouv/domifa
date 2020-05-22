@@ -17,7 +17,7 @@ Scénario:
   Alors je rentre "Azerty012345" dans "Mot de passe"
   Quand je clique sur "Connexion"
   Alors je suis redirigé vers la page: "/manage"
-  Alors je vois "Mon compte"
+  Alors je vois "CCAS de test"
   Quand je clique sur "Mon compte"
   Alors je vois "Déconnexion"
   Quand je clique sur "Déconnexion"
