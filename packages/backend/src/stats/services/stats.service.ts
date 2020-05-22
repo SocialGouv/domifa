@@ -462,14 +462,15 @@ export class StatsService {
 
   public async getToday(structureId: number): Promise<Stats> {
     const stats = await this.statsModel
-      .findOne({ structureId })
-      .sort("+createdAt")
+      .find({ structureId })
+      .sort({ createdAt: -1 })
+      .limit(1)
       .lean()
       .exec();
     if (!stats || stats === null) {
       throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
-    return stats;
+    return stats[0];
   }
 
   public async getAll(structureId: number): Promise<Stats[]> {

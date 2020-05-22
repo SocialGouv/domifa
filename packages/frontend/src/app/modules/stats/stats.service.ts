@@ -24,7 +24,7 @@ export class StatsService {
 
   public getToday(): Observable<Stats> {
     return this.http.get(`${this.baseUrl}today`).pipe(
-      map((response) => {
+      map((response: any) => {
         return new Stats(response);
       })
     );
