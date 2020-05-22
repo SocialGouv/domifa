@@ -57,18 +57,16 @@
       <a
         *ngIf="authService.isLogged"
         routerLink="/mon-compte"
-        title="Mon compte"
         class="btn btn-outline-primary"
       >
-        <fa-icon icon="user"></fa-icon>
+        <fa-icon aria-hidden="true" title="Mon compte" icon="user"></fa-icon>
       </a>
       <a
         *ngIf="authService.isLogged"
         routerLink="/import"
-        title="Importer"
         class="btn btn-primary"
       >
-        <fa-icon icon="upload"></fa-icon>
+        <fa-icon aria-hidden="true" title="Importer" icon="upload"></fa-icon>
       </a>
     </div>
   </div>
