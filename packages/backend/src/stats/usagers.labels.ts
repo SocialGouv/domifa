@@ -35,6 +35,15 @@ export const decisionStats: { [key: string]: any } = {
   VALIDE: "DOMICILIÉS ACTIFS",
 };
 
+/* DÉCISIONS */
+export const decisionLabels: { [key: string]: any } = {
+  ATTENTE_DECISION: "Attente de décision",
+  INSTRUCTION: "À compléter",
+  RADIE: "Radié",
+  REFUS: "Refusé",
+  VALIDE: "Actif",
+};
+
 /* MOTIFS DE RADIATION ET REFUS */
 export const motifsRadiation: { [key: string]: any } = {
   A_SA_DEMANDE: "A la demande de la personne",
@@ -54,7 +63,8 @@ export const motifsRefus: { [key: string]: any } = {
 };
 
 /* QUESTIONS RÉPONSES DE L'ENTRETIEN SOCIAL */
-export const residence = {
+export const residence: { [key: string]: any } = {
+  AUTRE: "Autre",
   DOMICILE_MOBILE: "Domicile mobile (ex: caravane)",
   HEBERGEMENT_SOCIAL: "Hébergement social (sans service courrier)",
   HEBERGEMENT_TIERS: "Hébergé chez un tiers",
@@ -62,7 +72,7 @@ export const residence = {
   SANS_ABRI: "Sans abris / Squat",
 };
 
-export const typeMenage = {
+export const typeMenage: { [key: string]: any } = {
   COUPLE_AVEC_ENFANT: "Couple avec enfant(s)",
   COUPLE_SANS_ENFANT: "Couple sans enfant",
   FEMME_ISOLE_AVEC_ENFANT: "Femme isolée avec enfant(s)",
@@ -71,7 +81,8 @@ export const typeMenage = {
   HOMME_ISOLE_SANS_ENFANT: "Homme isolé sans enfant",
 };
 
-export const cause = {
+export const cause: { [key: string]: any } = {
+  AUTRE: "Autre",
   ERRANCE: "Errance",
   EXPULSION: "Expulsion",
   HEBERGE_SANS_ADRESSE: "Hébergé, mais ne peut justifier d'une adresse",
@@ -81,7 +92,8 @@ export const cause = {
   VIOLENCE: "Violence familiale et/ou conjugale",
 };
 
-export const raison = {
+export const raison: { [key: string]: any } = {
+  AUTRE: "Autre",
   EXERCICE_DROITS: "Exercice des droits civils ou civiques",
   PRESTATIONS_SOCIALES: "Accès aux prestations sociales",
 };

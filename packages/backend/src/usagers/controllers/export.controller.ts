@@ -7,37 +7,20 @@ import { StructuresService } from "../../structures/structures.service";
 import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
 import { Usager } from "../interfaces/usagers";
-
-/* DÉCISIONS */
-export const decisionLabels: { [key: string]: any } = {
-  ATTENTE_DECISION: "Attente de décision",
-  INSTRUCTION: "À compléter",
-  RADIE: "Radié",
-  REFUS: "Refusé",
-  VALIDE: "Actif",
-};
-
-/* MOTIFS DE RADIATION ET REFUS */
-export const motifsRadiation: { [key: string]: any } = {
-  A_SA_DEMANDE: "À la demande de la personne",
-  ENTREE_LOGEMENT: "Plus de lien avec la commune",
-  FIN_DE_DOMICILIATION:
-    "La domiciliation est arrivée à échéance (1 an) et son renouvellement n'a pas été sollicité",
-  NON_MANIFESTATION_3_MOIS:
-    "Non-manifestation de la personne pendant plus de 3 mois consécutifs",
-  NON_RESPECT_REGLEMENT: "Non-respect du règlement",
-  PLUS_DE_LIEN_COMMUNE: "Entrée dans un logement/hébergement stable",
-};
-
-export const motifsRefus: { [key: string]: any } = {
-  HORS_AGREMENT: "En dehors des critères du public domicilié",
-  LIEN_COMMUNE: "Absence de lien avec la commune",
-  SATURATION: "Nombre maximal de domiciliations atteint",
-};
+import * as labels from "../../stats/usagers.labels";
 
 @Controller("export")
 export class ExportController {
-  public datas: {
+  // Données des usagers + ayant-droit
+  public dataSheet1: {
+    [key: string]: {};
+  }[];
+  // Données usagers + entretiens
+  public dataSheet2: {
+    [key: string]: {};
+  }[];
+  // Données usagers + courriers
+  public dataSheet3: {
     [key: string]: {};
   }[];
 
@@ -45,7 +28,9 @@ export class ExportController {
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
   ) {
-    this.datas = [];
+    this.dataSheet1 = [];
+    this.dataSheet2 = [];
+    this.dataSheet3 = [];
   }
 
   @UseGuards(AuthGuard("jwt"))
@@ -57,7 +42,7 @@ export class ExportController {
     @CurrentUser() user: User,
     @Res() res: any
   ) {
-    this.datas = [
+    this.dataSheet1 = [
       {
         A: this.dateFr(new Date(), true),
       },
@@ -87,16 +72,52 @@ export class ExportController {
       },
     ];
 
+    this.dataSheet2 = [
+      {
+        A: this.dateFr(new Date(), true),
+      },
+      {
+        A: "ID",
+        B: "Civilité",
+        C: "Nom",
+        D: "Prénom",
+        E: "Nom d'usage / Surnom",
+        F: "Date de naissance",
+        G: "Avez-vous été orienté ?",
+        H: "Si OUI, par quelle structure ou personne ?",
+        I: "Avez-vous déjà une domiciliation ?",
+        J: "Avez-vous des revenus ?",
+        K: "Si OUI, de quelle nature ?",
+        L: "Quelle est votre lien avec la commune ?",
+        M: "Quelle est la composition de votre ménage ?",
+        N: "Quelle est votre situation résidentielle ?",
+        O: "Si AUTRE LIEU DE VIE, précisions",
+        P: "Quelle est la cause de l'instabilité de logement ?",
+        Q: "Si AUTRE RAISON, précisions",
+        R: "Quel est le motif principal de demande de domiciliation ?",
+        S: "Si AUTRE RAISON, précisions",
+        T: "Faites-vous l’objet d’un accompagnement social ?",
+        U: "Si OUI, par quelle structure ?",
+      },
+    ];
+
     const usagers = await this.usagersService.export(user.structureId);
 
     for (let i = 0; i <= usagers.length; i++)
       if (i === usagers.length) {
-        const ws = XLSX.utils.json_to_sheet(this.datas, {
+        const sheet1 = XLSX.utils.json_to_sheet(this.dataSheet1, {
           skipHeader: true,
         });
+
+        const sheet2 = XLSX.utils.json_to_sheet(this.dataSheet2, {
+          skipHeader: true,
+        });
+
         const wb = XLSX.utils.book_new();
 
-        XLSX.utils.book_append_sheet(wb, ws, "Liste des usagers");
+        XLSX.utils.book_append_sheet(wb, sheet1, "Liste des usagers");
+        XLSX.utils.book_append_sheet(wb, sheet2, "Entretiens");
+
         const buf = XLSX.write(wb, {
           type: "buffer",
           bookType: "xlsx",
@@ -117,14 +138,14 @@ export class ExportController {
           } else {
             usager.decision.motif =
               usager.decision.statut === "REFUS"
-                ? motifsRefus[usager.decision.motif]
-                : motifsRadiation[usager.decision.motif];
+                ? labels.motifsRefus[usager.decision.motif]
+                : labels.motifsRadiation[usager.decision.motif];
           }
         } else {
           usager.decision.motif = "";
         }
 
-        const formattedUsager: {
+        const usagerSheet1: {
           [key: string]: {};
         } = {
           A: usager.customId,
@@ -136,7 +157,7 @@ export class ExportController {
           G: usager.villeNaissance,
           H: usager.phone,
           I: usager.email,
-          J: decisionLabels[usager.decision.statut],
+          J: labels.decisionLabels[usager.decision.statut],
           K: usager.decision.statut === "REFUS" ? usager.decision.motif : "",
           L: usager.decision.statut === "RADIE" ? usager.decision.motif : "",
           M: usager.typeDom,
@@ -160,30 +181,70 @@ export class ExportController {
           R: usager.ayantsDroits.length,
         };
 
+        const usagerSheet2: {
+          [key: string]: {};
+        } = {
+          A: usager.customId,
+          B: usager.sexe,
+          C: usager.nom,
+          D: usager.prenom,
+          E: usager.surnom,
+          F: this.dateFr(usager.dateNaissance),
+          G: usager.entretien.orientation ? "OUI" : "NON",
+          H: usager.entretien.orientation
+            ? usager.entretien.orientationDetail
+            : "",
+          I: usager.entretien.domiciliation ? "OUI" : "NON",
+          J: usager.entretien.revenus ? "OUI" : "NON",
+          K: usager.entretien.revenus ? usager.entretien.revenusDetail : "",
+          L: usager.entretien.liencommune || "",
+          M: labels.typeMenage[usager.entretien.typeMenage],
+          N: labels.residence[usager.entretien.residence],
+          O:
+            usager.entretien.residence === "AUTRE"
+              ? usager.entretien.residenceDetail
+              : "",
+          P: labels.cause[usager.entretien.cause],
+          Q:
+            usager.entretien.cause === "AUTRE"
+              ? usager.entretien.causeDetail
+              : "",
+          R: labels.raison[usager.entretien.raison],
+          S:
+            usager.entretien.raison === "AUTRE"
+              ? usager.entretien.raisonDetail
+              : "",
+          T: usager.entretien.accompagnement ? "OUI" : "NON",
+          U: usager.entretien.accompagnement
+            ? usager.entretien.accompagnementDetail
+            : "",
+        };
+
         let indexColumn = 18;
         let indexAd = 1;
 
         for (const ayantDroit of usager.ayantsDroits) {
-          this.datas[1][this.numToAlpha(indexColumn)] =
+          this.dataSheet1[1][this.numToAlpha(indexColumn)] =
             "Nom Ayant-droit " + indexAd;
-          this.datas[1][this.numToAlpha(indexColumn + 1)] =
+          this.dataSheet1[1][this.numToAlpha(indexColumn + 1)] =
             "Prénom Ayant-droit " + indexAd;
-          this.datas[1][this.numToAlpha(indexColumn + 2)] =
+          this.dataSheet1[1][this.numToAlpha(indexColumn + 2)] =
             "Date Naissance Ayant-Droit " + indexAd;
-          this.datas[1][this.numToAlpha(indexColumn + 3)] =
+          this.dataSheet1[1][this.numToAlpha(indexColumn + 3)] =
             "Lien parenté Ayant-droit " + indexAd;
 
-          formattedUsager[this.numToAlpha(indexColumn)] = ayantDroit.nom;
-          formattedUsager[this.numToAlpha(indexColumn + 1)] = ayantDroit.prenom;
-          formattedUsager[this.numToAlpha(indexColumn + 2)] =
+          usagerSheet1[this.numToAlpha(indexColumn)] = ayantDroit.nom;
+          usagerSheet1[this.numToAlpha(indexColumn + 1)] = ayantDroit.prenom;
+          usagerSheet1[this.numToAlpha(indexColumn + 2)] =
             ayantDroit.dateNaissance;
-          formattedUsager[this.numToAlpha(indexColumn + 3)] = ayantDroit.lien;
+          usagerSheet1[this.numToAlpha(indexColumn + 3)] = ayantDroit.lien;
 
           indexAd++;
           indexColumn += 4;
         }
 
-        this.datas.push(formattedUsager);
+        this.dataSheet1.push(usagerSheet1);
+        this.dataSheet2.push(usagerSheet2);
       }
   }
 

@@ -6,13 +6,16 @@ import { ToastrService } from "ngx-toastr";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { ERROR_LABELS } from "src/app/shared/errors.labels";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
 
 import { saveAs } from "file-saver";
 import { Title } from "@angular/platform-browser";
 
+export const errorLabels = {
+  EMAIL_EXIST: "L'adresse email indiquée est déjà utilisée",
+  USER_NOT_EXIST: "Le lien est incorrect, merci de recommencer la procédure",
+};
 @Component({
   selector: "app-user-profil",
   styleUrls: ["./user-profil.component.css"],
@@ -46,7 +49,7 @@ export class UserProfilComponent implements OnInit {
     this.showHardReset = false;
     this.exportLoading = false;
     this.hardResetCode = null;
-    this.errorLabels = ERROR_LABELS;
+    this.errorLabels = errorLabels;
   }
 
   get f() {

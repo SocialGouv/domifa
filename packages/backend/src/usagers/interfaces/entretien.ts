@@ -12,6 +12,8 @@ export interface Entretien {
   causeDetail: string;
   pourquoi: string;
   pourquoiDetail: string;
+  raison: string;
+  raisonDetail: string;
   accompagnement: boolean;
   accompagnementDetail: string;
   commentaires: string;
