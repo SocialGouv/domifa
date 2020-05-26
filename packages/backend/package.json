@@ -57,7 +57,7 @@
     "xlsx": "^0.16.1"
   },
   "devDependencies": {
-    "@nestjs/cli": "^7.1.5",
+    "@nestjs/cli": "^7.2.0",
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/testing": "^7.1.0",
     "@socialgouv/tslint-config-recommended": "^0.22.1",
