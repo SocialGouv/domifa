@@ -13,7 +13,6 @@ export class AuthService {
   public isLogged: boolean;
   public isAdmin: boolean;
 
-  public http: HttpClient;
   public currentUser: Observable<User>;
 
   private endPoint = environment.apiUrl + "auth";
@@ -23,7 +22,7 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  constructor(http: HttpClient) {
+  constructor(public http: HttpClient) {
     this.http = http;
     this.isLogged = false;
     this.isAdmin = false;

@@ -17,7 +17,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   constructor(
     private notifService: ToastrService,
     private authService: AuthService,
-    private router: Router
+    public router: Router
   ) {}
 
   public intercept(

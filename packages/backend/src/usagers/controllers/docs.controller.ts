@@ -163,15 +163,9 @@ export class DocsController {
         fileInfos.path
     );
 
-    if (fs.existsSync(pathFile)) {
-      // console.log("File exist : " + pathFile);
-      this.deleteFile(pathFile);
-    }
+    this.deleteFile(pathFile);
 
-    if (fs.existsSync(pathFile + ".encrypted")) {
-      // console.log("File exist : " + pathFile + ".encrypted");
-      this.deleteFile(pathFile + ".encrypted");
-    }
+    this.deleteFile(pathFile + ".encrypted");
 
     const retour = await this.docsService.deleteDocument(usagerId, index, user);
 
@@ -246,16 +240,18 @@ export class DocsController {
   }
 
   private deleteFile(pathFile: string) {
-    setTimeout(() => {
-      try {
-        fs.unlinkSync(pathFile);
-      } catch (err) {
-        throw new HttpException(
-          { message: "CANNOT_DELETE_FILE" },
-          HttpStatus.INTERNAL_SERVER_ERROR
-        );
-      }
-    }, 2500);
+    if (fs.existsSync(pathFile)) {
+      setTimeout(() => {
+        try {
+          fs.unlinkSync(pathFile);
+        } catch (err) {
+          throw new HttpException(
+            { message: "CANNOT_DELETE_FILE" },
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      }, 2500);
+    }
   }
 
   private encryptFile(fileName: string, @Res() res: any) {

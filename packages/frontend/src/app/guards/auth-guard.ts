@@ -13,7 +13,7 @@ import { User } from "../modules/users/interfaces/user";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(public router: Router, private authService: AuthService) {}
 
   public canActivate(
     route: ActivatedRouteSnapshot,
