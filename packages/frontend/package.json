@@ -52,7 +52,7 @@
     "@angular/compiler-cli": "^9.1.7",
     "@angular/language-service": "^9.1.7",
     "@schematics/update": "^0.901.7",
-    "@socialgouv/tslint-config-recommended": "^0.22.1",
+    "@socialgouv/tslint-config-recommended": "^0.23.0",
     "@types/jest": "^25.2.3",
     "@types/node": "^8.9.5",
     "codelyzer": "^5.2.2",
