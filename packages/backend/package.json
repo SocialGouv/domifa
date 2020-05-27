@@ -60,7 +60,7 @@
     "@nestjs/cli": "^7.2.0",
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/testing": "^7.1.0",
-    "@socialgouv/tslint-config-recommended": "^0.23.0",
+    "@socialgouv/tslint-config-recommended": "^0.24.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cron": "^1.7.2",
     "@types/dotenv": "^6.1.1",
