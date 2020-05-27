@@ -32,6 +32,10 @@ export const StructureSchema = new mongoose.Schema(
       default: "",
       type: String,
     },
+    region: {
+      default: "",
+      type: String,
+    },
     email: {
       default: "",
       required: true,

@@ -6,6 +6,7 @@ import { User } from "../users/user.interface";
 import { StructureEditDto } from "./dto/structure-edit.dto";
 import { StructureDto } from "./dto/structure.dto";
 import { Structure } from "./structure-interface";
+import { regions } from "./regions.labels";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -35,6 +36,10 @@ export class StructuresService {
     const createdStructure = new this.structureModel(structureDto);
     createdStructure.id = await this.findLast();
     createdStructure.token = crypto.randomBytes(30).toString("hex");
+
+    const cp: string = createdStructure.codePostal.substring(0, 2);
+    createdStructure.region = regions[cp].regionCode;
+
     const structure = await createdStructure.save();
     return structure;
   }
@@ -59,6 +64,34 @@ export class StructuresService {
         { $set: { lastExport: dateExport } }
       )
       .exec();
+  }
+  public async updateRegions(): Promise<any> {
+    this.structureModel
+      .findOne({ region: { $exists: false } })
+      .exec((erreur: any, structure: Structure) => {
+        if (erreur || structure === null) {
+          return "RIEN A UPDATE";
+        }
+
+        const dep: string = structure.codePostal.substring(0, 2);
+        const region =
+          typeof regions[dep] === "undefined"
+            ? "ERREUR_REGION"
+            : regions[dep].regionCode;
+
+        this.structureModel
+          .findOneAndUpdate(
+            { _id: structure._id },
+            { $set: { region, departement: dep } }
+          )
+          .exec((err: any, ret: any) => {
+            if (err === null) {
+              this.updateRegions();
+              return "UPDATE 1 ";
+            }
+            return "FIN DES UPDATES";
+          });
+      });
   }
 
   public async updateLastLogin(structureId: number): Promise<any> {

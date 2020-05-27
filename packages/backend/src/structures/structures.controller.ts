@@ -176,4 +176,9 @@ export class StructuresController {
   public async getStructure(@Param("id") id: number) {
     return this.structureService.findOneBasic({ id });
   }
+
+  @Get("admin/regions")
+  public async regions() {
+    return this.structureService.updateRegions();
+  }
 }

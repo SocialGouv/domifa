@@ -10,6 +10,7 @@ export interface Structure extends Document {
   rattachement: string;
   ville: string;
   departement: string;
+  region: string;
   capacite: number;
   codePostal: string;
   agrement: string;

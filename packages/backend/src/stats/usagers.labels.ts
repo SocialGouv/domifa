@@ -1,5 +1,5 @@
 /* TYPE DE STRUCTURE */
-export const structureType = {
+export const structureType: { [key: string]: any } = {
   asso: "Organisme agrée",
   ccas: "CCAS ",
   cias: "CIAS ou commune",
