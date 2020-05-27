@@ -3,6 +3,7 @@ import { StructureService } from "src/app/modules/structures/services/structure.
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabelsPluriel } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
+import { regions } from "../../regions.labels";
 import { StatsService } from "../../stats.service";
 import { Title } from "@angular/platform-browser";
 
@@ -26,9 +27,12 @@ export class DashboardComponent implements OnInit {
 
   public nbStructures: number;
   public structuresType: any;
+  public structuresRegions: any;
 
   public labels: any;
   public todayStats: any;
+
+  public regions: any;
 
   public statutClass = {
     ATTENTE_DECISION: "text-warning",
@@ -45,6 +49,7 @@ export class DashboardComponent implements OnInit {
   ) {
     this.interactionsLabels = interactionsLabelsPluriel;
     this.labels = labels;
+    this.regions = regions;
 
     this.users = 0;
     this.nbStructures = 0;
@@ -86,6 +91,12 @@ export class DashboardComponent implements OnInit {
     this.statsService.getUsagersValide().subscribe((usagersValide: any[]) => {
       this.usagersValide = usagersValide;
     });
+
+    this.statsService
+      .getStructuresByRegion()
+      .subscribe((structuresRegions: any) => {
+        this.structuresRegions = structuresRegions;
+      });
 
     this.statsService.getInteractions().subscribe((stats: any[]) => {
       stats.forEach((stat) => {

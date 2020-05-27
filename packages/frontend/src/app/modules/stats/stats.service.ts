@@ -57,6 +57,10 @@ export class StatsService {
     return this.http.get(environment.apiUrl + `dashboard/usagers/valide`);
   }
 
+  public getStructuresByRegion(): Observable<any> {
+    return this.http.get(environment.apiUrl + `dashboard/structures/regions`);
+  }
+
   public getUsagers(): Observable<any> {
     return this.http.get(environment.apiUrl + `dashboard/usagers`);
   }

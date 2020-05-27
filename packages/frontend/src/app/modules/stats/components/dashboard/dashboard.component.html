@@ -1,3 +1,5 @@
+<br />
+<br />
 <div id="stats">
   <div class="row">
     <div class="col-md-6">
@@ -13,27 +15,12 @@
           <span class="stats-labels">{{ labels.decisionStats[stat.key] }}</span>
         </div>
       </div>
-    </div>
-    <div class="col-md-6">
-      <span class="stats-titre">INDICATEURS INTERACTIONS</span>
-      <div class="stats-blocks" *ngIf="allInteractions">
-        <div *ngFor="let interaction of allInteractions | keyvalue">
-          <span class="stats-chiffres">{{ interaction.value }}</span>
-          <span class="stats-labels">
-            {{ interactionsLabels[interaction.key] }}
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <br />
-  <br />
+      <br />
+      <br />
 
-  <div class="row">
-    <div class="col-6" *ngIf="structuresType">
       <div>
-        <span class="stats-titre">INDICATEURS STRUCTURES</span>
+        <span class="stats-titre"> STRUCTURES</span>
       </div>
       <div class="stats-blocks">
         <div>
@@ -51,10 +38,11 @@
           </div>
         </ng-container>
       </div>
-    </div>
-    <div class="col-6">
+
+      <br />
+      <br />
       <div>
-        <span class="stats-titre">INDICATEURS UTILISATEURS</span>
+        <span class="stats-titre">UTILISATEURS</span>
       </div>
       <div class="stats-blocks">
         <div>
@@ -62,56 +50,94 @@
           <span class="stats-labels">UTILISATEURS</span>
         </div>
       </div>
+
+      <br />
+      <br />
+      <span class="stats-titre">INTERACTIONS</span>
+      <div class="stats-blocks" *ngIf="allInteractions">
+        <div *ngFor="let interaction of allInteractions | keyvalue">
+          <span class="stats-chiffres">{{ interaction.value }}</span>
+          <span class="stats-labels">
+            {{ interactionsLabels[interaction.key] }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <span class="stats-titre">REGIONS</span>
+      <table class="table table-striped table-hover">
+        <thead>
+          <th>Région</th>
+          <th>Structures</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let structure of structuresRegions">
+            <td>
+              {{ regions[structure.region].regionName }}
+            </td>
+            <td>{{ structure.count }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
   <br />
 
-  <table id="dashboard" class="table table-hover">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Nom</th>
-        <th>Type</th>
-        <th>Date inscription</th>
-        <th>Importé ?</th>
-        <th>Date import</th>
-        <th>Comptes</th>
-        <th>Domiciliés</th>
-        <th>Dernière connexion</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let structure of structures; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>
-          {{ structure.nom }}
-          {{
-            structure.structureType === "ccas" ? " - " + structure.ville : ""
-          }}
-          <span *ngIf="structure.verified == false" class="badge badge-warning">
-            Non validée
-          </span>
-        </td>
-        <td>
-          {{ labels.structureType[structure.structureType] }}
-        </td>
+  <div id="dashboard">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nom</th>
+          <th>Type</th>
+          <th>Date inscription</th>
+          <th>Importé ?</th>
+          <th>Date import</th>
+          <th>Comptes</th>
+          <th>Domiciliés</th>
+          <th>Dernière connexion</th>
+          <th>Région</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let structure of structures; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>
+            {{ structure.nom }}
+            {{
+              structure.structureType === "ccas" ? " - " + structure.ville : ""
+            }}
+            <span
+              *ngIf="structure.verified == false"
+              class="badge badge-warning"
+            >
+              Non validée
+            </span>
+          </td>
+          <td>
+            {{ labels.structureType[structure.structureType] }}
+          </td>
 
-        <td>{{ structure.createdAt | date: "dd/MM/yyyy" }}</td>
-        <td>
-          {{ structure.import ? "✅" : "❌" }}
-        </td>
-        <td>
-          {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
-        </td>
-        <td>{{ structure.users.length }}</td>
-        <td>
-          {{ usagersValide[structure.id] || 0 }}
-        </td>
-        <td>
-          {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <td>{{ structure.createdAt | date: "dd/MM/yyyy" }}</td>
+          <td>
+            {{ structure.import ? "✅" : "❌" }}
+          </td>
+          <td>
+            {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
+          </td>
+          <td>{{ structure.users.length }}</td>
+          <td>
+            {{ usagersValide[structure.id] || 0 }}
+          </td>
+          <td>
+            {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
+          </td>
+          <td>
+            {{ regions[structure.region].regionName }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

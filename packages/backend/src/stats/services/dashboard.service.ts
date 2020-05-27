@@ -163,4 +163,16 @@ export class DashboardService {
       ])
       .exec();
   }
+
+  public async getRegions() {
+    return this.structureModel
+      .aggregate([
+        { $project: { _id: "$_id", ___group: { region: "$region" } } },
+        { $group: { _id: "$___group", count: { $sum: 1 } } },
+        { $sort: { _id: 1 } },
+        { $project: { _id: false, region: "$_id.region", count: true } },
+        { $sort: { count: -1, region: 1 } },
+      ])
+      .exec();
+  }
 }

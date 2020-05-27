@@ -50,7 +50,6 @@ export class ManageUsagersComponent implements OnInit {
     INSTRUCTION: number;
     VALIDE: number;
     ATTENTE_DECISION: number;
-    RENOUVELLEMENT: number;
     REFUS: number;
     RADIE: number;
     TOUS: number;
@@ -91,7 +90,6 @@ export class ManageUsagersComponent implements OnInit {
       INSTRUCTION: 0,
       VALIDE: 0,
       ATTENTE_DECISION: 0,
-      RENOUVELLEMENT: 0,
       REFUS: 0,
       RADIE: 0,
       TOUS: 0,

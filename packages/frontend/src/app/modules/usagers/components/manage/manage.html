@@ -18,13 +18,6 @@
     </div>
     <div
       class="col"
-      [ngClass]="filters.statut === 'RENOUVELLEMENT' ? 'filter-secondary' : 'filter-dark'"
-      (click)="updateFilters('statut', 'RENOUVELLEMENT')"
-    >
-      Renouvellements ({{ stats.RENOUVELLEMENT }})
-    </div>
-    <div
-      class="col"
       [ngClass]="filters.statut === 'INSTRUCTION' ? 'filter-warning' : 'filter-dark'"
       (click)="updateFilters('statut', 'INSTRUCTION')"
     >
@@ -375,27 +368,18 @@
             </span>
 
             <span
-              *ngIf="filters.statut === 'RENOUVELLEMENT' && usager.decision.statut === 'ATTENTE_DECISION'"
+              *ngIf="filters.statut === 'ATTENTE_DECISION' || filters.statut === 'INSTRUCTION' "
             >
-              <span class="text-warning">En attente d'une décision</span>
+              <span
+                class="text-secondary"
+                *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+              >
+                Renouvellement en cours
+              </span>
+              <span *ngIf="usager.typeDom !== 'RENOUVELLEMENT'">
+                Première demande
+              </span>
             </span>
-            <span
-              *ngIf="filters.statut === 'RENOUVELLEMENT' && usager.decision.statut === 'INSTRUCTION'"
-            >
-              <span class="text-warning">Dossier à compléter</span>
-            </span>
-
-            <span
-              *ngIf="(filters.statut === 'INSTRUCTION' || filters.statut === 'ATTENTE_DECISION') && usager.typeDom === 'RENOUVELLEMENT'"
-            >
-              <span class="text-secondary">Renouvellement en cours</span>
-            </span>
-            <span
-              *ngIf="(filters.statut === 'INSTRUCTION' || filters.statut === 'ATTENTE_DECISION') && usager.typeDom !== 'RENOUVELLEMENT'"
-            >
-              <span class="text-dark">Première demande</span>
-            </span>
-
             <span *ngIf="filters.statut === 'TOUS'" class="font-weight-bold">
               <span
                 *ngIf="usager.decision.statut === 'INSTRUCTION'"

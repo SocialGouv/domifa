@@ -12,6 +12,7 @@ export class Structure {
   public ville: string;
   public departement: string;
   public codePostal: string;
+  public region: string;
   public agrement: string;
   public phone: string;
   public email: string;
@@ -51,6 +52,7 @@ export class Structure {
     this.ville = (structure && structure.ville) || "";
     this.departement = (structure && structure.departement) || "";
     this.codePostal = (structure && structure.codePostal) || "";
+    this.region = (structure && structure.region) || "";
     this.agrement = (structure && structure.agrement) || "";
     this.phone = (structure && structure.phone) || "";
     this.email = (structure && structure.email) || "";

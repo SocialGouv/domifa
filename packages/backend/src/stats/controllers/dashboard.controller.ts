@@ -1,12 +1,14 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
+import { regions } from "../../structures/regions.labels";
+import { DomifaGuard } from "../../auth/domifa.guard";
+
 import { InteractionsService } from "../../interactions/interactions.service";
 import { StructuresService } from "../../structures/structures.service";
 import { UsagersService } from "../../usagers/services/usagers.service";
 import { UsersService } from "../../users/services/users.service";
 import { StatsService } from "../services/stats.service";
-import { DomifaGuard } from "../../auth/domifa.guard";
 import { DashboardService } from "../services/dashboard.service";
 
 @UseGuards(AuthGuard("jwt"))
@@ -74,5 +76,10 @@ export class DashboardController {
     }
     usagers.TOUS = total;
     return usagers;
+  }
+
+  @Get("structures/regions")
+  public async getRegions() {
+    return this.dashboardService.getRegions();
   }
 }
