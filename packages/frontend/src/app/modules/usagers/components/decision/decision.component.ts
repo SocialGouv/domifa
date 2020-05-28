@@ -80,6 +80,10 @@ export class DecisionComponent implements OnInit {
       new Date().setFullYear(new Date().getFullYear() + 1)
     );
 
+    this.usager.decision.dateFin.setDate(
+      this.usager.decision.dateFin.getDate() - 1
+    );
+
     this.dateDebutPicker = this.nbgDate.parseEn(
       this.usager.decision.dateDebut.toISOString()
     );
