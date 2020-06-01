@@ -119,6 +119,32 @@ export class DecisionComponent implements OnInit {
       ],
     });
 
+    this.valideForm.get("dateFinPicker").valueChanges.subscribe((value) => {
+      this.valideForm.controls.dateFin.setValue(
+        new Date(this.nbgDate.formatEn(value))
+      );
+    });
+
+    this.valideForm.get("dateDebutPicker").valueChanges.subscribe((value) => {
+      const newDateDebut = new Date(this.nbgDate.formatEn(value));
+
+      this.usager.decision.dateFin = new Date(
+        newDateDebut.setFullYear(new Date().getFullYear() + 1)
+      );
+      this.usager.decision.dateFin.setDate(
+        this.usager.decision.dateFin.getDate() - 1
+      );
+      this.dateFinPicker = this.nbgDate.parseEn(
+        this.usager.decision.dateFin.toISOString()
+      );
+
+      this.valideForm.controls.dateDebut.setValue(
+        new Date(this.nbgDate.formatEn(value))
+      );
+      this.valideForm.controls.dateFin.setValue(this.usager.decision.dateFin);
+      this.valideForm.controls.dateFinPicker.setValue(this.dateFinPicker);
+    });
+
     this.refusForm.get("motif").valueChanges.subscribe((value) => {
       const customValidator = value === "AUTRE" ? Validators.required : null;
       this.refusForm.get("motifDetails").setValidators(customValidator);

@@ -12,10 +12,11 @@ export class FaqComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("Foire aux question de Domifa");
   }
+
   public scrollTo(el: HTMLElement) {
     el.scrollIntoView({
       behavior: "smooth",
-      block: "start",
+      block: "center",
     });
   }
 }

@@ -541,6 +541,7 @@
                 placement="bottom"
                 ngbDatepicker
                 id="dateDebutValide"
+                (change)="setDateFin()"
                 formControlName="dateDebutPicker"
                 #dDebut="ngbDatepicker"
                 dateFr
@@ -610,9 +611,12 @@
               class="form-control"
               value
             />
-            <div *ngIf="v.dateDebut.value >= v.dateFin.value">
-              Dates incorrects
-            </div>
+          </div>
+          <div
+            class="text-danger text-center col-12"
+            *ngIf="v.dateDebut.value > v.dateFin.value"
+          >
+            La date de fin doit être supérieure à la date de début
           </div>
         </div>
       </form>
@@ -622,7 +626,11 @@
     <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
       Revenir au formulaire
     </button>
-    <button class="btn btn-primary" (click)="setDecision('VALIDE')">
+    <button
+      class="btn btn-primary"
+      [disabled]="v.dateDebut.value > v.dateFin.value"
+      (click)="setDecision('VALIDE')"
+    >
       Confirmer la domiciliation
     </button>
   </div>
