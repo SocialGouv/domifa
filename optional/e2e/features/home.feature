@@ -26,7 +26,7 @@ Scénario:
 
   Soit un navigateur web sur le site
   Quand je clique sur "FAQ"
-  Alors je vois "La foire aux questions Domifa"
+  Alors je vois "Questions / Réponses sur Domifa"
 
   Soit un navigateur web sur le site
   Quand je clique sur "Mentions légales"
