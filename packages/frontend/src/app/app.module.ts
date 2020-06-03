@@ -30,9 +30,18 @@ import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
 import { AuthService } from "./modules/shared/services/auth.service";
-import { RavenErrorHandler } from "./interceptors/sentry.interceptor";
+import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
+
+import * as Sentry from "@sentry/browser";
 import { environment } from "src/environments/environment";
 
+//if (environment.production) {
+
+//}
+Sentry.init({
+  dsn:
+    "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
+});
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],
@@ -70,7 +79,7 @@ import { environment } from "src/environments/environment";
       provide: HTTP_INTERCEPTORS,
       useClass: ServerErrorInterceptor,
     },
-    { provide: ErrorHandler, useClass: RavenErrorHandler },
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

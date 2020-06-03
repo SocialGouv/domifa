@@ -1,18 +1,10 @@
 import { ErrorHandler } from "@angular/core";
-import Raven from "raven-js";
 
-Raven.config(
-  "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
-  {
-    ignoreUrls: ["http://localhost:4200/"],
-    tags: {
-      user: "TEST_TAG",
-    },
-  }
-).install();
+import * as Sentry from "@sentry/browser";
 
-export class RavenErrorHandler implements ErrorHandler {
+export class SentryErrorHandler implements ErrorHandler {
   handleError(err: any): void {
-    Raven.captureException(err);
+    console.log("SENTRU");
+    Sentry.captureException(new Error(err));
   }
 }

@@ -1,11 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import jwtDecode from "jwt-decode";
-import { BehaviorSubject, Observable, of, empty } from "rxjs";
+import { BehaviorSubject, Observable, of, empty, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../../users/interfaces/user";
-
+import * as Sentry from "@sentry/browser";
 @Injectable({
   providedIn: "root",
 })
@@ -77,9 +77,21 @@ export class AuthService {
         const user = new User(retour);
         user.token = this.currentUserValue.token;
         localStorage.setItem("currentUser", JSON.stringify(user));
+
         this.isLogged = true;
         this.isAdmin = user && user.role === "admin";
         this.currentUserSubject.next(user);
+
+        // Ajout d'infos pour Sentry
+        Sentry.configureScope((scope) => {
+          scope.setTag("structure", user.structureId.toString());
+          scope.setUser({
+            email: user.email,
+            username:
+              "STRUCTURE " + user.structureId.toString() + " : " + user.prenom,
+          });
+        });
+
         return true;
       }),
       catchError((err) => {
@@ -94,5 +106,11 @@ export class AuthService {
     localStorage.removeItem("filters");
     this.isLogged = false;
     this.isAdmin = false;
+
+    // Ajout d'infos pour Sentry
+    Sentry.configureScope((scope) => {
+      scope.setTag("structure", "none");
+      scope.setUser({});
+    });
   }
 }
