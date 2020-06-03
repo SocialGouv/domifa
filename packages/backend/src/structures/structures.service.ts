@@ -45,6 +45,9 @@ export class StructuresService {
   }
 
   public async patch(structureDto: StructureEditDto, user: User): Promise<any> {
+    const cp: string = structureDto.codePostal.substring(0, 2);
+    structureDto.region = regions[cp].regionCode;
+
     return this.structureModel
       .findOneAndUpdate(
         { _id: user.structure._id },

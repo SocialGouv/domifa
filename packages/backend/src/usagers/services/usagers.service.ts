@@ -138,6 +138,8 @@ export class UsagersService {
         { _id: usager._id },
         {
           $set: {
+            "options.npai.actif": false,
+            "options.npai.dateDebut": null,
             decision,
             historique: usager.historique,
             etapeDemande: 0,

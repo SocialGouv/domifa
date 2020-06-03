@@ -7,7 +7,6 @@ export interface Structure extends Document {
   complementAdresse: string;
   nom: string;
   structureType: string;
-  rattachement: string;
   ville: string;
   departement: string;
   region: string;

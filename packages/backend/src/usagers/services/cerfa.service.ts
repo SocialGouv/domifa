@@ -97,7 +97,7 @@ export class CerfaService {
 
     const sexe = usager.sexe === "femme" ? "1" : "2";
 
-    const rattachement = user.structure.rattachement || "";
+    const rattachement = "";
     const pdfForm =
       usager.decision.statut === "VALIDE"
         ? "../../ressources/attestation.pdf"

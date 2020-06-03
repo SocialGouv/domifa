@@ -142,7 +142,7 @@ export class TipimailService {
   public async sentImportGuide() {
     const user = await this.userModel
       .findOne({
-        structureId: { $in: [28] },
+        structureId: { $in: [1] },
         createdAt: { $lte: this.lastWeek },
         "mails.import": false,
       })

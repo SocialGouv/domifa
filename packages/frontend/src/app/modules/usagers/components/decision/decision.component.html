@@ -592,12 +592,7 @@
                 </span>
               </div>
             </div>
-            <div
-              *ngIf="submitted && v.dateFinPicker.errors"
-              class="invalid-feedback"
-            >
-              La date de fin de domiciliation est incorrecte
-            </div>
+
             <input
               type="hidden"
               formControlName="dateDebut"
@@ -611,11 +606,19 @@
               value
             />
           </div>
-          <div
-            class="text-danger text-center col-12"
-            *ngIf="v.dateDebut.value > v.dateFin.value"
-          >
-            La date de fin doit être supérieure à la date de début
+          <div class="text-center text-danger col-12">
+            <div *ngIf="v.dateDebutPicker.errors">
+              La date de début est incorrecte
+            </div>
+            <div *ngIf="v.dateFinPicker.errors">
+              La date de fin est incorrecte
+            </div>
+            <div
+              class="text-danger"
+              *ngIf="v.dateDebut.value > v.dateFin.value"
+            >
+              La date de fin doit être supérieure à la date de début
+            </div>
           </div>
         </div>
       </form>

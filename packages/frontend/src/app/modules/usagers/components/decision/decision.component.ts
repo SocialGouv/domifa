@@ -63,7 +63,7 @@ export class DecisionComponent implements OnInit {
 
     const dToday = new Date();
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
-    this.maxDate = { day: 1, month: 1, year: dToday.getFullYear() + 2 };
+    this.maxDate = { day: 31, month: 12, year: dToday.getFullYear() + 2 };
   }
 
   get r(): any {
@@ -142,6 +142,7 @@ export class DecisionComponent implements OnInit {
         this.valideForm.controls.dateDebut.setValue(
           new Date(this.nbgDate.formatEn(value))
         );
+
         this.valideForm.controls.dateFin.setValue(this.usager.decision.dateFin);
         this.valideForm.controls.dateFinPicker.setValue(this.dateFinPicker);
       }

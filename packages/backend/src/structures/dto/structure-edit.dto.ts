@@ -36,7 +36,7 @@ export class StructureEditDto {
   public phone!: string;
 
   @IsOptional()
-  public rattachement!: string;
+  public region!: string;
 
   @IsOptional()
   public responsable!: {
