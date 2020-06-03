@@ -16,7 +16,7 @@ export class FaqComponent implements OnInit {
   public scrollTo(el: HTMLElement) {
     el.scrollIntoView({
       behavior: "smooth",
-      block: "center",
+      block: "start",
     });
   }
 }

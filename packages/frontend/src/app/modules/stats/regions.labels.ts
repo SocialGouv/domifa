@@ -6,7 +6,7 @@ export const regions: {
   "93": "Provence-Alpes-Côte d'Azur",
   "28": "Normandie",
   "84": "Auvergne-Rhône-Alpes",
-  "75": "Grand Est",
+  "75": "Nouvelle-Aquitaine",
   "27": "Bourgogne-Franche-Comté",
   "24": "Centre-Val de Loire",
   "53": "Bretagne",
