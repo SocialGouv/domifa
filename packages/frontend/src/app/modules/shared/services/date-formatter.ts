@@ -83,8 +83,19 @@ export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
   }
 
   public formatEn(date: NgbDateStruct): string {
-    return `${date.year}-${isNumber(date.month) ? padNumber(date.month) : ""}-${
-      isNumber(date.day) ? padNumber(date.day) : ""
-    }`;
+    return date === null
+      ? null
+      : `${date.year}-${isNumber(date.month) ? padNumber(date.month) : ""}-${
+          isNumber(date.day) ? padNumber(date.day) : ""
+        }`;
+  }
+
+  public isValid(date: any): boolean {
+    return (
+      isNumber(date.year) &&
+      date.year > 2000 &&
+      isNumber(date.month) &&
+      isNumber(date.day)
+    );
   }
 }
