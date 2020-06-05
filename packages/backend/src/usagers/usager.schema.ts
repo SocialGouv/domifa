@@ -1,193 +1,353 @@
-// tslint:disable: object-literal-sort-keys
 import * as mongoose from "mongoose";
 import { Usager } from "./interfaces/usagers";
 
 export const UsagerSchema = new mongoose.Schema(
   {
-    id: {
-      type: Number,
-      index: true,
+    ayantsDroits: {
+      default: [],
+      type: Array,
     },
-
     customId: {
-      type: String,
       maxlength: 30,
-    },
-
-    structureId: { type: Number, required: true, index: true },
-
-    nom: {
       type: String,
-      required: true,
-      trim: true,
-      index: true,
-      maxlength: 200,
     },
-    prenom: {
-      type: String,
+    dateNaissance: {
       required: true,
-      trim: true,
-      index: true,
-      maxlength: 200,
+      type: Date,
     },
-    surnom: { type: String, default: "", trim: true },
-    email: { type: String, default: "", trim: true },
-    phone: { type: String, default: "", maxlength: 12 },
-    sexe: { type: String, required: true },
-
-    dateNaissance: { type: Date, required: true },
-    villeNaissance: { type: String, required: true },
-
-    ayantsDroits: { type: Array, default: [] },
-
-    etapeDemande: {
-      type: Number,
-      default: 1,
-      required: true,
-    },
-
     datePremiereDom: {
       default: null,
       type: Date,
     },
-
+    decision: {
+      dateDebut: {
+        type: Date,
+      },
+      dateDecision: {
+        default: Date.now,
+        type: Date,
+      },
+      dateFin: {
+        default: Date.now,
+        type: Date,
+      },
+      motif: {
+        type: String,
+      },
+      motifDetails: {
+        maxlength: 300,
+        trim: true,
+        type: String,
+      },
+      orientation: {
+        type: String,
+      },
+      orientationDetails: {
+        default: null,
+        maxlength: 200,
+        trim: true,
+        type: String,
+      },
+      statut: {
+        default: "INSTRUCTION",
+        index: true,
+        type: String,
+      },
+      userId: Number,
+      userName: String,
+    },
+    docs: [],
+    docsPath: [],
+    email: {
+      default: "",
+      maxlength: 200,
+      trim: true,
+      type: String,
+    },
+    entretien: {
+      default: {
+        accompagnement: null,
+        accompagnementDetail: null,
+        cause: null,
+        causeDetail: null,
+        commentaires: null,
+        domiciliation: null,
+        liencommune: null,
+        pourquoi: null,
+        pourquoiDetail: null,
+        raison: null,
+        raisonDetail: null,
+        residence: null,
+        residenceDetail: null,
+        revenus: null,
+        revenusDetail: null,
+        typeMenage: null,
+      },
+      type: {
+        accompagnement: {
+          default: null,
+          type: Boolean,
+        },
+        accompagnementDetail: {
+          default: null,
+          maxlength: 300,
+          trim: true,
+          type: String,
+        },
+        cause: {
+          default: null,
+          type: String,
+        },
+        causeDetail: {
+          default: null,
+          maxlength: 300,
+          trim: true,
+          type: String,
+        },
+        commentaires: {
+          default: null,
+          maxlength: 1000,
+          trim: true,
+          type: String,
+        },
+        domiciliation: {
+          default: null,
+          type: Boolean,
+        },
+        liencommune: {
+          default: null,
+          maxlength: 300,
+          trim: true,
+          type: String,
+        },
+        orientation: {
+          default: null,
+          type: Boolean,
+        },
+        orientationDetail: {
+          default: null,
+          maxlength: 300,
+          trim: true,
+          type: String,
+        },
+        pourquoi: {
+          default: null,
+          type: String,
+        },
+        pourquoiDetail: {
+          default: null,
+          maxlength: 300,
+          trim: true,
+          type: String,
+        },
+        raison: {
+          default: null,
+          type: Boolean,
+        },
+        raisonDetail: {
+          default: null,
+          maxlength: 300,
+          trim: true,
+          type: String,
+        },
+        residence: {
+          default: null,
+          type: String,
+        },
+        residenceDetail: {
+          default: null,
+          maxlength: 300,
+          trim: true,
+          type: String,
+        },
+        typeMenage: {
+          default: null,
+          type: String,
+        },
+      },
+    },
+    etapeDemande: {
+      default: 1,
+      required: true,
+      type: Number,
+    },
+    historique: {
+      default: [],
+      type: Array,
+    },
+    id: {
+      index: true,
+      type: Number,
+    },
+    interactions: {
+      default: [],
+      type: [
+        {
+          ref: "Interaction",
+          type: mongoose.Schema.Types.ObjectId,
+        },
+      ],
+    },
+    lastInteraction: {
+      colisIn: {
+        default: 0,
+        type: Number,
+      },
+      courrierIn: {
+        default: 0,
+        type: Number,
+      },
+      dateInteraction: {
+        default: Date.now,
+        type: Date,
+      },
+      enAttente: {
+        default: false,
+        type: Boolean,
+      },
+      recommandeIn: {
+        default: 0,
+        type: Number,
+      },
+    },
+    migration: {
+      default: false,
+      type: Boolean,
+    },
+    nom: {
+      index: true,
+      maxlength: 200,
+      required: true,
+      trim: true,
+      type: String,
+    },
+    options: {
+      npai: {
+        actif: {
+          default: false,
+          type: Boolean,
+        },
+        dateDebut: {
+          type: Date,
+        },
+      },
+      procuration: {
+        actif: {
+          default: false,
+          type: Boolean,
+        },
+        dateDebut: {
+          type: Date,
+        },
+        dateFin: {
+          type: Date,
+        },
+        dateNaissance: {
+          type: String,
+        },
+        nom: {
+          type: String,
+        },
+        prenom: {
+          type: String,
+        },
+      },
+      transfert: {
+        actif: {
+          default: false,
+          type: Boolean,
+        },
+        adresse: {
+          default: null,
+          type: String,
+        },
+        dateDebut: {
+          type: Date,
+        },
+        dateFin: {
+          type: Date,
+        },
+        nom: {
+          default: null,
+          type: String,
+        },
+      },
+    },
+    phone: {
+      default: "",
+      maxlength: 12,
+      trim: true,
+      type: String,
+    },
+    preference: {
+      email: {
+        default: false,
+        type: Boolean,
+      },
+      phone: {
+        default: false,
+        type: Boolean,
+      },
+    },
+    prenom: {
+      index: true,
+      maxlength: 200,
+      required: true,
+      trim: true,
+      type: String,
+    },
+    rdv: {
+      dateRdv: {
+        default: null,
+        type: Date,
+      },
+      userId: {
+        default: 0,
+        type: Number,
+      },
+      userName: {
+        default: "",
+        type: String,
+      },
+    },
+    sexe: {
+      required: true,
+      type: String,
+    },
+    structureId: {
+      index: true,
+      required: true,
+      type: Number,
+    },
+    suivi: {
+      default: {},
+      type: {
+        _id: {
+          ref: "User",
+          type: mongoose.Schema.Types.ObjectId,
+        },
+        userName: {
+          type: String,
+        },
+      },
+    },
+    surnom: {
+      default: "",
+      maxlength: 200,
+      trim: true,
+      type: String,
+    },
     typeDom: {
       default: "PREMIERE",
       index: true,
       type: String,
     },
-
-    decision: {
-      dateDebut: { type: Date },
-      dateFin: { type: Date, default: Date.now },
-      dateDecision: { type: Date, default: Date.now },
-
-      motif: { type: String },
-      motifDetails: { type: String },
-      orientation: {
-        type: String,
-      },
-      orientationDetails: {
-        type: String,
-      },
-      statut: {
-        default: "INSTRUCTION",
-        type: String,
-        index: true,
-      },
-      userId: Number,
-      userName: String,
+    villeNaissance: {
+      maxlength: 200,
+      required: true,
+      trim: true,
+      type: String,
     },
-
-    historique: { type: Array, default: [] },
-
-    rdv: {
-      dateRdv: { type: Date, default: null },
-      userId: { type: Number, default: 0 },
-      userName: { type: String, default: "" },
-    },
-
-    entretien: {
-      type: {
-        domiciliation: Boolean,
-        liencommune: String,
-        residence: String,
-        residenceDetail: String,
-        raison: Boolean,
-        raisonDetail: String,
-        orientation: Boolean,
-        orientationDetail: String,
-        cause: String,
-        causeDetail: String,
-        pourquoi: String,
-        pourquoiDetail: String,
-        accompagnement: Boolean,
-        accompagnementDetail: String,
-        typeMenage: String,
-        commentaires: String,
-      },
-      default: {
-        domiciliation: null,
-        liencommune: null,
-        residence: null,
-        residenceDetail: null,
-        raison: null,
-        raisonDetail: null,
-        revenus: null,
-        revenusDetail: null,
-        cause: null,
-        causeDetail: null,
-        pourquoi: null,
-        pourquoiDetail: null,
-        accompagnement: null,
-        accompagnementDetail: null,
-        commentaires: null,
-        typeMenage: null,
-      },
-    },
-
-    lastInteraction: {
-      enAttente: { type: Boolean, default: false },
-      courrierIn: { type: Number, default: 0 },
-      recommandeIn: { type: Number, default: 0 },
-      colisIn: { type: Number, default: 0 },
-      dateInteraction: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-
-    preference: {
-      email: { type: Boolean, default: false },
-      phone: { type: Boolean, default: false },
-    },
-
-    interactions: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Interaction",
-        },
-      ],
-      default: [],
-    },
-
-    docs: [],
-    docsPath: [],
-
-    suivi: {
-      type: {
-        _id: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        userName: { type: String },
-      },
-      default: {},
-    },
-
-    options: {
-      transfert: {
-        actif: { type: Boolean, default: false },
-        adresse: { type: String, default: null },
-        nom: { type: String, default: null },
-        dateDebut: { type: Date },
-        dateFin: { type: Date },
-      },
-      procuration: {
-        actif: { type: Boolean, default: false },
-        nom: { type: String },
-        prenom: { type: String },
-        dateFin: { type: Date },
-        dateDebut: { type: Date },
-        dateNaissance: { type: String },
-      },
-      npai: {
-        actif: { type: Boolean, default: false },
-        dateDebut: { type: Date },
-      },
-    },
-    migration: { type: Boolean, default: false },
   },
   {
     timestamps: true,

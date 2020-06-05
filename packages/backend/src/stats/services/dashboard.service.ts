@@ -43,6 +43,7 @@ export class DashboardService {
     return this.structureModel
       .find()
       .select("-token")
+      .populate("users", "verified")
       .sort("+createdAt")
       .exec();
   }

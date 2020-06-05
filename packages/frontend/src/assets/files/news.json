@@ -1,5 +1,5 @@
 [
-   {
+  {
     "date": "2020-06-05",
     "description": "Nouvelle version de l’export des données domiciliés et refonte de la page FAQ",
     "content": [
@@ -9,13 +9,13 @@
         "message": [
           "Possibilité d'exporter les données entretien de votre base domiciliés",
           "Accès à notre guide utilisateur depuis la FAQ",
-          "Harmonisation des filtres et champs de l’entretien",
+          "Harmonisation des filtres et champs de l’entretien"
         ]
       },
       {
         "type": "bug",
         "message": [
-          "Correction d’un souci de distribution de courrier pour un domicilié radié",
+          "Correction d’un souci de distribution de courrier pour un domicilié radié"
         ]
       }
     ]
