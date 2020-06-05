@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get, UseGuards, Query } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
 import { regions } from "../../structures/regions.labels";
@@ -10,6 +10,7 @@ import { UsagersService } from "../../usagers/services/usagers.service";
 import { UsersService } from "../../users/services/users.service";
 import { StatsService } from "../services/stats.service";
 import { DashboardService } from "../services/dashboard.service";
+import { DashboardDto } from "../dashboard.dto";
 
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(DomifaGuard)
@@ -26,8 +27,8 @@ export class DashboardController {
 
   // 1. Liste des structures
   @Get("structures")
-  public async structures() {
-    return this.dashboardService.getStructures();
+  public async structures(@Query() query: DashboardDto) {
+    return this.dashboardService.getStructures(query);
   }
 
   // 2. Liste des structures par type

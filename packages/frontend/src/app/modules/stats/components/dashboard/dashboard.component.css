@@ -89,3 +89,12 @@
 #dashboard table {
   min-width: 2000px;
 }
+
+#dashboard th:hover {
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+#dashboard th span {
+  float: right;
+}

@@ -35,6 +35,7 @@ import {
   formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
 import { Title } from "@angular/platform-browser";
+import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   providers: [
@@ -103,7 +104,8 @@ export class UsagersProfilComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private usagerService: UsagerService,
-    private titleService: Title
+    private titleService: Title,
+    private matomoTracker: MatomoTracker
   ) {
     this.editAyantsDroits = false;
     this.editEntretien = false;
@@ -352,6 +354,7 @@ export class UsagersProfilComponent implements OnInit {
     if (this.notifInputs[item] === 0) {
       this.notifier(cpt + 1);
     } else {
+      this.matomoTracker.trackEvent("interactions", "profil_icones", item);
       this.interactionService
         .setInteraction(this.usager, {
           content: "",
@@ -387,6 +390,8 @@ export class UsagersProfilComponent implements OnInit {
       content: "",
       type,
     };
+
+    this.matomoTracker.trackEvent("interactions", "profil_icones", type);
 
     if (type.substring(type.length - 3) === "Out") {
       if (this.usager.options.procuration.actif) {

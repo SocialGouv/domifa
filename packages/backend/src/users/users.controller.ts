@@ -74,9 +74,9 @@ export class UsersController {
     @Param("role") role: string,
     @CurrentUser() user: User
   ) {
-    if (role !== "simple" && role !== "admin") {
+    if (role !== "simple" && role !== "admin" && role !== "facteur") {
       throw new HttpException(
-        "BAD_ROLE_USER",
+        "ROLE_INCORRECT",
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
@@ -231,7 +231,7 @@ export class UsersController {
     if (!user) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "EMAIL_NOT_EXIST" });
+        .json({ message: "RESET_EMAIL_NOT_EXIST" });
     } else {
       const updatedUser = await this.usersService.generateTokenPassword(
         emailDto.email
@@ -245,13 +245,13 @@ export class UsersController {
           (error) => {
             return res
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .json({ message: "MAIL_ERROR" });
+              .json({ message: "MAIL_NEW_PASSWORD_ERROR" });
           }
         );
       } else {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "ERROR" });
+          .json({ message: "RESET_USER_IMPOSSIBLE" });
       }
     }
   }

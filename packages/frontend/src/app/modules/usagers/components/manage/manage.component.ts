@@ -21,6 +21,7 @@ import { InteractionTypes } from "../../interfaces/interaction";
 import { Filters, Search } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
 import { Title } from "@angular/platform-browser";
+import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   animations: [fadeInOutSlow, fadeInOut],
@@ -71,7 +72,8 @@ export class ManageUsagersComponent implements OnInit {
     public modalService: NgbModal,
     private router: Router,
     private notifService: ToastrService,
-    private titleService: Title
+    private titleService: Title,
+    private matomoTracker: MatomoTracker
   ) {
     this.usagers = [];
     this.searching = true;
@@ -209,6 +211,8 @@ export class ManageUsagersComponent implements OnInit {
     if (type === "courrierOut" && usager.options.transfert.actif) {
       interaction.transfert = true;
     }
+
+    this.matomoTracker.trackEvent("interactions", "manage", type);
 
     this.interactionService.setInteraction(usager, interaction).subscribe(
       (response: Usager) => {

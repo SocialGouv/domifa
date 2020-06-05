@@ -1481,7 +1481,10 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="panel-5">
+    <ngb-panel
+      id="panel-5"
+      *ngIf="authService.currentUserValue.role !== 'facteur'"
+    >
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">

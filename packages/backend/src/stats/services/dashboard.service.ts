@@ -9,6 +9,7 @@ import { Usager } from "../../usagers/interfaces/usagers";
 
 import { StatsDocument } from "../stats.interface";
 import { User } from "../../users/user.interface";
+import { DashboardDto } from "../dashboard.dto";
 
 @Injectable()
 export class DashboardService {
@@ -39,12 +40,12 @@ export class DashboardService {
   }
 
   // TODO : Search options - tri par élément
-  public async getStructures(): Promise<Structure[]> {
+  public async getStructures(query?: DashboardDto): Promise<Structure[]> {
     return this.structureModel
       .find()
       .select("-token")
       .populate("users", "verified")
-      .sort("+createdAt")
+      .sort(query || "+createdAt")
       .exec();
   }
 

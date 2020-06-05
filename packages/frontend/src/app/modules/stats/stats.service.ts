@@ -31,7 +31,7 @@ export class StatsService {
   }
 
   // DASHBOARD
-  public getStructures(): Observable<Structure[]> {
+  public getStructures(sort?: string): Observable<Structure[]> {
     return this.http.get(environment.apiUrl + `dashboard/structures`).pipe(
       map((response) => {
         return Array.isArray(response)

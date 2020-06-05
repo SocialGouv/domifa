@@ -7,7 +7,6 @@ import {
 } from "@nestjs/terminus";
 
 import { ConfigService } from "./config/config.service";
-import { databaseProviders } from "./database/database.providers";
 
 const config = new ConfigService();
 

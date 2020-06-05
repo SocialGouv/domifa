@@ -88,8 +88,13 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Nom</th>
-          <th>Type</th>
+          <th (click)="sort('nom')">
+            Nom
+            <fa-icon icon="sort-amount-up"></fa-icon>
+          </th>
+          <th>
+            Type
+          </th>
           <th>Date inscription</th>
           <th>Importé ?</th>
           <th>Date import</th>

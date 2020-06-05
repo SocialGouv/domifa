@@ -34,6 +34,8 @@ export class DashboardComponent implements OnInit {
 
   public regions: any;
 
+  public sortValue: string;
+
   public statutClass = {
     ATTENTE_DECISION: "text-warning",
     INSTRUCTION: "text-primary",
@@ -68,9 +70,7 @@ export class DashboardComponent implements OnInit {
     this.titleService.setTitle("Dashboard de suivi");
 
     // Liste des structures
-    this.statsService.getStructures().subscribe((structures: Structure[]) => {
-      this.structures = structures;
-    });
+    this.getStructures();
 
     // Structures par type
     this.statsService
@@ -103,5 +103,16 @@ export class DashboardComponent implements OnInit {
         this.allInteractions[stat._id.statut] = stat.sum[0];
       });
     });
+  }
+
+  public getStructures() {
+    this.statsService.getStructures().subscribe((structures: Structure[]) => {
+      this.structures = structures;
+    });
+  }
+
+  public sort(newvalue: string) {
+    const actualValue = this.sortValue.substr(1);
+    const sortValue = newvalue.substr(1);
   }
 }

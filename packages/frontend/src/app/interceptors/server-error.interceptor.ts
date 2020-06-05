@@ -10,14 +10,16 @@ import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
 import { ToastrService } from "ngx-toastr";
-import { Router, RouterState } from "@angular/router";
+import { Router } from "@angular/router";
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class ServerErrorInterceptor implements HttpInterceptor {
   constructor(
     private notifService: ToastrService,
     private authService: AuthService,
-    public router: Router
+    private router: Router
   ) {}
 
   public intercept(
@@ -36,10 +38,11 @@ export class ServerErrorInterceptor implements HttpInterceptor {
             errorMessage = { message: `Error: ${error.error.message}` };
           } else {
             if (error.status === 401) {
-              const state: RouterState = this.router.routerState;
               this.authService.logout();
               this.router.navigate(["/connexion"], {
-                queryParams: { returnUrl: state.snapshot.url },
+                queryParams: {
+                  returnUrl: this.router.routerState.snapshot.url,
+                },
               });
               return;
             }

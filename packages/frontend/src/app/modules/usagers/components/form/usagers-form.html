@@ -157,9 +157,7 @@
               required
             />
             <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-              <div *ngIf="f.prenom.errors.required">
-                Le prénom est obligatoire
-              </div>
+              Le prénom est incorrect
             </div>
           </div>
         </div>
@@ -823,7 +821,7 @@
   <div
     class="col-md-12 text-center text-danger"
     *ngIf="(usager.decision.statut === 'ATTENTE_DECISION' || usager.decision.statut === 'INSTRUCTION')
-     && authService.isAdmin &&usager.etapeDemande >= 1"
+     && authService.isAdmin && usager.etapeDemande >= 1"
   >
     <button
       class="btn btn-outline-danger"
