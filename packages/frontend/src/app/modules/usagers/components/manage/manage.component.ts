@@ -212,7 +212,7 @@ export class ManageUsagersComponent implements OnInit {
       interaction.transfert = true;
     }
 
-    this.matomoTracker.trackEvent("interactions", "manage", type);
+    this.matomoTracker.trackEvent("interactions", "manage", type, 1);
 
     this.interactionService.setInteraction(usager, interaction).subscribe(
       (response: Usager) => {
