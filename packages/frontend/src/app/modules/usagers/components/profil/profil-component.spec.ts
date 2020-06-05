@@ -20,6 +20,7 @@ import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
 import { UsagersProfilComponent } from "./profil-component";
 import { global } from "@angular/compiler/src/util";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("UsagersProfilComponent", () => {
   let fixture: any;
@@ -50,6 +51,18 @@ describe("UsagersProfilComponent", () => {
       providers: [
         InteractionService,
         UsagerService,
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
         { provide: APP_BASE_HREF, useValue: "/" },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

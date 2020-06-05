@@ -21,6 +21,7 @@ import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
 import { ManageUsagersComponent } from "./manage.component";
 import { global } from "@angular/compiler/src/util";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("ManageUsagersComponent", () => {
   let app: any;
@@ -48,6 +49,18 @@ describe("ManageUsagersComponent", () => {
       providers: [
         UsagerService,
         AuthService,
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
         { provide: APP_BASE_HREF, useValue: "/" },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         {
