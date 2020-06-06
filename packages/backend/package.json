@@ -43,7 +43,7 @@
     "class-validator": "^0.12.2",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.9.17",
+    "mongoose": "^5.9.18",
     "multer": "^1.4.2",
     "nest-raven": "^5.0.0",
     "node-mailjet": "^3.3.1",
@@ -54,7 +54,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.5",
-    "xlsx": "^0.16.1"
+    "xlsx": "^0.16.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.2.0",
