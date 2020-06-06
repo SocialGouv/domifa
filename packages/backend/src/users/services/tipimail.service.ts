@@ -34,7 +34,7 @@ export class TipimailService {
     this.lienFaq = process.env.FRONT_URL + "faq";
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_8AM)
+  @Cron("0 8 * * TUE")
   public async cronGuide() {
     const user = await this.userModel
       .findOne({
@@ -125,7 +125,7 @@ export class TipimailService {
       );
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_3PM)
+  @Cron("0 15 * * TUE")
   public async cronImport() {
     this.listOfStructures = [];
     this.structureModel
@@ -142,7 +142,7 @@ export class TipimailService {
   public async sentImportGuide() {
     const user = await this.userModel
       .findOne({
-        structureId: { $in: [1] },
+        structureId: { $in: this.listOfStructures },
         createdAt: { $lte: this.lastWeek },
         "mails.import": false,
       })
