@@ -34,7 +34,10 @@ export class DashboardComponent implements OnInit {
 
   public regions: any;
 
-  public sortValue: string;
+  public sort: {
+    type: string;
+    value: string;
+  };
 
   public statutClass = {
     ATTENTE_DECISION: "text-warning",
@@ -64,6 +67,11 @@ export class DashboardComponent implements OnInit {
     this.interactions = [];
     this.allInteractions = [];
     this.structuresType = [];
+
+    this.sort = {
+      type: "descending",
+      value: "id",
+    };
   }
 
   public ngOnInit() {
@@ -106,13 +114,22 @@ export class DashboardComponent implements OnInit {
   }
 
   public getStructures() {
-    this.statsService.getStructures().subscribe((structures: Structure[]) => {
-      this.structures = structures;
-    });
+    this.structures = [];
+    this.statsService
+      .getStructures(this.sort.value, this.sort.type)
+      .subscribe((structures: Structure[]) => {
+        this.structures = structures;
+      });
   }
 
-  public sort(newvalue: string) {
-    const actualValue = this.sortValue.substr(1);
-    const sortValue = newvalue.substr(1);
+  public sortDashboard(value: string) {
+    if (value !== this.sort.value) {
+      this.sort.value = value;
+      this.sort.type = "ascending";
+    } else {
+      this.sort.type =
+        this.sort.type === "ascending" ? "descending" : "ascending";
+    }
+    this.getStructures();
   }
 }

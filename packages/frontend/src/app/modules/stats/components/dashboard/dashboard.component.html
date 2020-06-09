@@ -88,20 +88,23 @@
       <thead>
         <tr>
           <th>#</th>
-          <th (click)="sort('nom')">
+          <th (click)="sortDashboard('nom')">
             Nom
-            <fa-icon icon="sort-amount-up"></fa-icon>
           </th>
-          <th>
+          <th (click)="sortDashboard('structureType')">
             Type
           </th>
-          <th>Date inscription</th>
-          <th>Importé ?</th>
-          <th>Date import</th>
+          <th (click)="sortDashboard('createdAt')">Date inscription</th>
+          <th (click)="sortDashboard('import')">
+            Importé ?
+          </th>
+          <th (click)="sortDashboard('importDate')">
+            Date import
+          </th>
           <th>Comptes</th>
           <th>Domiciliés</th>
           <th>Dernière connexion</th>
-          <th>Région</th>
+          <th (click)="sortDashboard('region')">Région</th>
         </tr>
       </thead>
       <tbody>

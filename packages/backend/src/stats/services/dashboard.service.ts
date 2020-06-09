@@ -40,12 +40,13 @@ export class DashboardService {
   }
 
   // TODO : Search options - tri par élément
-  public async getStructures(query?: DashboardDto): Promise<Structure[]> {
+  public async getStructures(query: DashboardDto): Promise<Structure[]> {
     return this.structureModel
       .find()
+      .collation({ locale: "en" })
       .select("-token")
       .populate("users", "verified")
-      .sort(query || "+createdAt")
+      .sort({ [query.value]: query.type })
       .exec();
   }
 
