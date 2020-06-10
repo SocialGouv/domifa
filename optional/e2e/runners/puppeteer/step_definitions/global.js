@@ -80,3 +80,11 @@ Quand("j'attends que le texte {string} s'affiche", (title) => {
   I.scrollPageToTop();
   I.waitForText(title, 3);
 });
+
+Alors("je coche la case {string}", (text) => {
+  I.checkOption(text);
+});
+
+Alors("j'actualise", () => {
+  I.refreshPage();
+});

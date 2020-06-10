@@ -157,7 +157,7 @@
               required
             />
             <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-              Le prénom est incorrect
+              Le prénom du demandeur est obligatoire
             </div>
           </div>
         </div>
@@ -187,6 +187,7 @@
                   placement="bottom"
                   formControlName="dateNaissancePicker"
                   ngbDatepicker
+                  id="dateNaissancePicker"
                   dateFr
                   value
                   [ngClass]="{
