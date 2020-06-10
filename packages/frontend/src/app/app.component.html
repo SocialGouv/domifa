@@ -47,12 +47,15 @@
         Liste des usagers
       </a>
       <a
-        *ngIf="authService.isLogged"
+        *ngIf="
+          authService.isLogged &&
+          authService.currentUserValue.role !== 'facteur'
+        "
         routerLink="/nouveau"
         class="btn btn-outline-secondary"
       >
         <fa-icon icon="plus" class="btn-icon"></fa-icon>
-        Créer une demande
+        Créer une demande {{ authService.currentUserValue.role }}
       </a>
       <a
         *ngIf="authService.isLogged"

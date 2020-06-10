@@ -105,7 +105,7 @@
       </div>
 
       <div
-        *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60"
+        *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60 && authService.currentUserValue.role !== 'facteur'"
         class="text-center row"
       >
         <div class="w-100">
@@ -476,7 +476,7 @@
 
           <div
             class="col-md-12 text-center"
-            *ngIf="usager.decision.statut === 'VALIDE'"
+            *ngIf="usager.decision.statut === 'VALIDE' && authService.currentUserValue.role !== 'facteur'"
           >
             <br />
             <button
@@ -846,7 +846,7 @@
           </table>
           <div
             class="col-md-12 text-center"
-            *ngIf="usager.decision.statut === 'VALIDE'"
+            *ngIf="usager.decision.statut === 'VALIDE' && authService.currentUserValue.role !== 'facteur'"
           >
             <br />
             <button
@@ -1466,7 +1466,7 @@
 
         <div
           class="col-md-12 text-center"
-          *ngIf="usager.decision.statut === 'VALIDE'"
+          *ngIf="usager.decision.statut === 'VALIDE' && authService.currentUserValue.role !== 'facteur'"
         >
           <br />
           <button
@@ -1549,7 +1549,10 @@
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
-  <div class="text-center" *ngIf="usager.decision.statut === 'VALIDE'">
+  <div
+    class="text-center"
+    *ngIf="usager.decision.statut === 'VALIDE' && authService.currentUserValue.role !== 'facteur'"
+  >
     <br />
     <div class="row">
       <div class="col-md-8 offset-2">
