@@ -39,9 +39,10 @@ Scénario:
 
 
   # Test 2 : Champ prénom vide
-  Alors j'actualise
+  Quand je clique sur "Liste des usagers"
+  Quand je clique sur "Créer une demande"
   Alors je remplis les champs suivants
-    | Nom                                | Test        ""            |
+    | Nom                                | Test                    |
     | Prénom(s)                          |                         |
     | Nom d'usage / Surnom               | Test                    |
     | Date de naissance                  | 12/08/1990              |
@@ -54,7 +55,8 @@ Scénario:
 
 
   # Test 3 : Date de naissance
-  Alors j'actualise
+  Quand je clique sur "Liste des usagers"
+  Quand je clique sur "Créer une demande"
   Alors je remplis les champs suivants
     | Nom                                | Test                    |
     | Prénom(s)                          | Test                    |
@@ -69,7 +71,8 @@ Scénario:
 
 
   # Test 3 : Ville de naissance
-  Alors j'actualise
+  Quand je clique sur "Liste des usagers"
+  Quand je clique sur "Créer une demande"
   Alors je remplis les champs suivants
     | Nom                                | Test                    |
     | Prénom(s)                          | Test                    |
@@ -99,7 +102,8 @@ Scénario:
   Alors je vois "Le prénom est obligatoire"
 
 
-  Alors j'actualise
+  Quand je clique sur "Liste des usagers"
+  Quand je clique sur "Créer une demande"
   Alors je remplis les champs suivants
     | Nom                                | Test                    |
     | Prénom(s)                          | Test                    |
@@ -118,7 +122,8 @@ Scénario:
   Alors je vois "Le nom est obligatoire"
 
 
-  Alors j'actualise
+  Quand je clique sur "Liste des usagers"
+  Quand je clique sur "Créer une demande"
   Alors je remplis les champs suivants
     | Nom                                | Test                    |
     | Prénom(s)                          | Test                    |
@@ -136,7 +141,8 @@ Scénario:
   Quand je clique sur "Suivant"
   Alors je vois "Le nom est obligatoire"
 
-  Alors j'actualise
+  Quand je clique sur "Liste des usagers"
+  Quand je clique sur "Créer une demande"
   Alors je remplis les champs suivants
     | Nom                                | Test                    |
     | Prénom(s)                          | Test                    |
@@ -155,7 +161,8 @@ Scénario:
   Alors je vois "Le prénom est obligatoire"
 
 
-  Alors j'actualise
+  Quand je clique sur "Liste des usagers"
+  Quand je clique sur "Créer une demande"
   Alors je remplis les champs suivants
     | Nom                                | Test                    |
     | Prénom(s)                          | Test                    |
