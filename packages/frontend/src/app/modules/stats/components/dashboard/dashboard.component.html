@@ -107,9 +107,11 @@
             Date import
             <fa-icon icon="sort"></fa-icon>
           </th>
-          <th>Comptes <fa-icon icon="sort"></fa-icon></th>
+          <th>Comptes</th>
           <th>Domiciliés</th>
-          <th>Dernière connexion <fa-icon icon="sort"></fa-icon></th>
+          <th (click)="sortDashboard('lastLogin')">
+            Dernière connexion <fa-icon icon="sort"></fa-icon>
+          </th>
           <th (click)="sortDashboard('region')">
             Région <fa-icon icon="sort"></fa-icon>
           </th>
