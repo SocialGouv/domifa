@@ -26,8 +26,8 @@ Scénario:
   # Test 1 :
   Alors je coche la case "Monsieur"
   Alors je remplis les champs suivants
-    | Nom                                |                         |
     | Prénom(s)                          | Test                    |
+    | Nom                                |                         |
     | Nom d'usage / Surnom               | Test                    |
     | Date de naissance                  | 12/08/1990              |
     | Ville de naissance                 | Test                    |

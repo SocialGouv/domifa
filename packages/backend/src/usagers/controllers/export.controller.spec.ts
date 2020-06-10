@@ -7,6 +7,7 @@ import { CerfaService } from "../services/cerfa.service";
 import { UsagersService } from "../services/usagers.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersProviders } from "../usagers.providers";
+import { InteractionsModule } from "../../interactions/interactions.module";
 
 describe("Export Controller", () => {
   let controller: ExportController;
@@ -14,7 +15,12 @@ describe("Export Controller", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ExportController],
-      imports: [DatabaseModule, UsersModule, StructuresModule],
+      imports: [
+        DatabaseModule,
+        UsersModule,
+        InteractionsModule,
+        StructuresModule,
+      ],
       providers: [
         CerfaService,
         UsagersService,
