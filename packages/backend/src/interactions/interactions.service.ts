@@ -146,4 +146,36 @@ export class InteractionsService {
   public async deleteAll(structureId: number): Promise<any> {
     return this.interactionModel.deleteMany({ structureId }).exec();
   }
+
+  public async totalInteraction(
+    structureId: number,
+    usagerId: number,
+    type: string
+  ): Promise<number> {
+    if (type === "appel" || type === "visite") {
+      return this.interactionModel.countDocuments({
+        structureId,
+        usagerId,
+        type,
+      });
+    } else {
+      const search = {
+        $match: {
+          structureId,
+          usagerId,
+          type,
+        },
+      };
+
+      const groupBy = { $group: { _id: null, total: { $sum: "$nbCourrier" } } };
+      const response = await this.interactionModel
+        .aggregate([search, groupBy])
+        .exec();
+
+      if (response.length) {
+        return typeof response[0].total !== "undefined" ? response[0].total : 0;
+      }
+      return 0;
+    }
+  }
 }

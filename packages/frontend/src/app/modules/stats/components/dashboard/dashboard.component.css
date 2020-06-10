@@ -71,7 +71,7 @@
 #dashboard tr th:not(:first-child),
 #dashboard tr td:not(:first-child) {
   max-width: 500px;
-  min-width: 130px;
+  min-width: 100px;
 }
 
 #dashboard tr > th:first-child,
@@ -95,6 +95,6 @@
   background-color: #f0f0f0;
 }
 
-#dashboard th span {
+#dashboard th .ng-fa-icon {
   float: right;
 }

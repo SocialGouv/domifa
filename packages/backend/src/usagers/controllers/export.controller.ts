@@ -9,6 +9,8 @@ import { UsagersService } from "../services/usagers.service";
 import { Usager } from "../interfaces/usagers";
 import * as labels from "../../stats/usagers.labels";
 
+import { InteractionsService } from "../../interactions/interactions.service";
+
 @Controller("export")
 export class ExportController {
   // Données des usagers + ayant-droit
@@ -26,7 +28,8 @@ export class ExportController {
 
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly structureService: StructuresService
+    private readonly structureService: StructuresService,
+    private readonly interactionsService: InteractionsService
   ) {
     this.dataSheet1 = [];
     this.dataSheet2 = [];
@@ -101,6 +104,28 @@ export class ExportController {
       },
     ];
 
+    this.dataSheet3 = [
+      {
+        A: this.dateFr(new Date(), true),
+      },
+      {
+        A: "ID",
+        B: "Civilité",
+        C: "Nom",
+        D: "Prénom",
+        E: "Nom d'usage / Surnom",
+        F: "Date de naissance",
+        G: "Courriers enregistrés",
+        H: "Courriers distribués",
+        I: "Colis enregistrés",
+        J: "Colis distribués",
+        K: "Avis de passage enregistré",
+        L: "Avis de passage distribué",
+        M: "Appels",
+        N: "Passages",
+      },
+    ];
+
     const usagers = await this.usagersService.export(user.structureId);
 
     for (let i = 0; i <= usagers.length; i++)
@@ -113,10 +138,15 @@ export class ExportController {
           skipHeader: true,
         });
 
+        const sheet3 = XLSX.utils.json_to_sheet(this.dataSheet3, {
+          skipHeader: true,
+        });
+
         const wb = XLSX.utils.book_new();
 
         XLSX.utils.book_append_sheet(wb, sheet1, "Liste des usagers");
         XLSX.utils.book_append_sheet(wb, sheet2, "Entretiens");
+        XLSX.utils.book_append_sheet(wb, sheet3, "Courriers");
 
         const buf = XLSX.write(wb, {
           type: "buffer",
@@ -220,6 +250,57 @@ export class ExportController {
             : "",
         };
 
+        const usagerSheet3: {
+          [key: string]: {};
+        } = {
+          A: usager.customId,
+          B: usager.sexe,
+          C: usager.nom,
+          D: usager.prenom,
+          E: usager.surnom,
+          F: this.dateFr(usager.dateNaissance),
+          G: await this.interactionsService.totalInteraction(
+            user.structureId,
+            usager.id,
+            "courrierIn"
+          ),
+          H: await this.interactionsService.totalInteraction(
+            user.structureId,
+            usager.id,
+            "courrierOut"
+          ),
+          I: await this.interactionsService.totalInteraction(
+            user.structureId,
+            usager.id,
+            "recommandeIn"
+          ),
+          J: await this.interactionsService.totalInteraction(
+            user.structureId,
+            usager.id,
+            "recommandeOut"
+          ),
+          K: await this.interactionsService.totalInteraction(
+            user.structureId,
+            usager.id,
+            "colisIn"
+          ),
+          L: await this.interactionsService.totalInteraction(
+            user.structureId,
+            usager.id,
+            "colisOut"
+          ),
+          M: await this.interactionsService.totalInteraction(
+            user.structureId,
+            usager.id,
+            "appel"
+          ),
+          N: await this.interactionsService.totalInteraction(
+            user.structureId,
+            usager.id,
+            "visite"
+          ),
+        };
+
         let indexColumn = 18;
         let indexAd = 1;
 
@@ -245,6 +326,7 @@ export class ExportController {
 
         this.dataSheet1.push(usagerSheet1);
         this.dataSheet2.push(usagerSheet2);
+        this.dataSheet3.push(usagerSheet3);
       }
   }
 

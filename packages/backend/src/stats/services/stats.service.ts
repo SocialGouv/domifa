@@ -713,7 +713,7 @@ export class StatsService {
     return response;
   }
 
-  private async totalInteraction(
+  public async totalInteraction(
     structureId: number,
     type: string
   ): Promise<number> {
