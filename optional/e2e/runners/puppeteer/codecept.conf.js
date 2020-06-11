@@ -5,11 +5,12 @@ exports.config = {
       chrome: {
         args: process.env.CI
           ? ["--no-sandbox", "--disable-setuid-sandbox"]
-          : ["--window-size=1024,1024"],
+          : ["--window-size=1080,1080"],
         defaultViewport: {
-          width: 1024,
-          height: 1024,
+          width: 1080,
+          height: 1080,
         },
+
         executablePath: process.env.CI && "/usr/bin/google-chrome-stable",
         headless: process.env.CI
           ? true
@@ -18,6 +19,7 @@ exports.config = {
           : true,
       },
       restart: false,
+      show: true,
       url: "http://localhost:4200",
     },
   },

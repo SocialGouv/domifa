@@ -294,6 +294,17 @@
               (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)
             "
             >
+              <!--
+              <span
+                (click)="setInteraction(usager, 'courrierIn')"
+                *ngIf="usager.lastInteraction.colisIn > 0"
+                ngbTooltip="5 colis et 3 avis de passage"
+              >
+                <b class="notification">{{ usager.lastInteraction.colisIn }}</b>
+                <fa-icon class="courrier" icon="mail-bulk"></fa-icon>
+              </span>
+              -->
+
               <span
                 (click)="setInteraction(usager, 'courrierOut')"
                 *ngIf="usager.lastInteraction.courrierIn > 0"

@@ -52,6 +52,7 @@
 
         <div class="col-md-12">
           <button
+            *ngIf="authService.currentUserValue.role !== 'facteur'"
             (click)="open(renewConfirmation)"
             class="btn btn-outline-secondary"
           >
@@ -276,7 +277,7 @@
     type="info"
     [dismissible]="false"
     class="text-center"
-    *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT'"
+    *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT' && authService.currentUserValue.role !== 'facteur'"
   >
     Une demande de renouvellement est actuellement en cours &nbsp;
     <a [routerLink]="['/usager/'+usager.id+'/edit']" class="btn btn-light">
@@ -1354,7 +1355,10 @@
         </div>
       </ng-template>
     </ngb-panel>
-    <ngb-panel id="panel-4">
+    <ngb-panel
+      id="panel-4"
+      *ngIf="authService.currentUserValue.role !== 'facteur'"
+    >
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">

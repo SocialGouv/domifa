@@ -172,12 +172,20 @@ export class ManageUsagersComponent implements OnInit {
     };
 
     if (
-      usager.typeDom === "RENOUVELLEMENT" &&
-      (usager.decision.statut === "ATTENTE_DECISION" ||
-        usager.decision.statut === "INSTRUCTION")
+      usager.decision.statut === "ATTENTE_DECISION" ||
+      usager.decision.statut === "INSTRUCTION"
     ) {
-      this.router.navigate(["usager/" + usager.id]);
-      return;
+      if (usager.typeDom === "RENOUVELLEMENT") {
+        this.router.navigate(["usager/" + usager.id]);
+        return;
+      }
+
+      if (this.authService.currentUserValue.role === "facteur") {
+        this.notifService.error(
+          "Vos droits ne vous permettent pas d'accéder à cette page"
+        );
+        return;
+      }
     }
     this.router.navigate([url[usager.decision.statut]]);
   }

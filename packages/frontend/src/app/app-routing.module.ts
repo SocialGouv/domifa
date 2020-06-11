@@ -26,6 +26,7 @@ import { ResetPasswordComponent } from "./modules/users/components/reset-passwor
 import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
 import { DomifaGuard } from "./guards/domifa-guard";
+import { FacteurGuard } from "./guards/facteur-guard";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -45,7 +46,7 @@ export const routes: Routes = [
     component: StructuresFormComponent,
   },
   {
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, FacteurGuard],
     path: "structure-edit",
     component: StructuresEditComponent,
   },
@@ -67,36 +68,34 @@ export const routes: Routes = [
     component: UserProfilComponent,
     path: "mon-compte",
   },
+
   {
-    canActivate: [AuthGuard],
-    component: UsagersProfilComponent,
-    path: "usager/:id",
-  },
-  {
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, FacteurGuard],
     component: RaftComponent,
     path: "radiation/:id",
   },
   {
+    canActivate: [LoggedGuard],
     component: ResetPasswordComponent,
     path: "reset-password",
   },
   {
+    canActivate: [LoggedGuard],
     component: ResetPasswordComponent,
     path: "reset-password/:token",
   },
   {
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, FacteurGuard],
     path: "nouveau",
     component: UsagersFormComponent,
   },
   {
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, FacteurGuard],
     component: UsagersFormComponent,
     path: "usager/:id/edit",
   },
   {
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, FacteurGuard],
     component: UsagersFormComponent,
     path: "usager/:id/renouvellement",
   },
@@ -111,12 +110,12 @@ export const routes: Routes = [
     path: "manage",
   },
   {
-    canActivate: [DomifaGuard],
+    canActivate: [DomifaGuard, FacteurGuard],
     component: DashboardComponent,
     path: "statsdomifa",
   },
   {
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, FacteurGuard],
     component: RapportComponent,
     path: "rapport-activite",
   },
@@ -126,7 +125,7 @@ export const routes: Routes = [
   { path: "confidentialite", component: PolitiqueComponent },
   { path: "cgu", component: CguComponent },
   {
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, FacteurGuard],
     component: ImportComponent,
     path: "import",
   },

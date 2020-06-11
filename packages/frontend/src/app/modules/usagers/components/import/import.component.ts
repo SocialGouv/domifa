@@ -10,6 +10,7 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { LoadingService } from "src/app/modules/loading/loading.service";
 import { UsagerService } from "../../services/usager.service";
 import { Title } from "@angular/platform-browser";
+import { ToastrService } from "ngx-toastr";
 
 export const CIVILITE = 0;
 export const NOM = 1;
