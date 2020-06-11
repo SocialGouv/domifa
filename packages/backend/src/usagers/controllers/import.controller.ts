@@ -115,6 +115,7 @@ export class ImportController {
         if (
           file.mimetype !==
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
+          "application/vnd.oasis.opendocument.spreadsheet" &&
           file.mimetype !== "application/vnd.ms-excel"
         ) {
           throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);

@@ -159,7 +159,9 @@ export class ImportComponent implements OnInit {
       target.files.length !== 1 ||
       (target.files[0].type !== "application/vnd.ms-excel" &&
         target.files[0].type !==
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
+        target.files[0].type !==
+          "application/vnd.oasis.opendocument.spreadsheet")
     ) {
       this.uploadError = true;
       return;
