@@ -48,8 +48,8 @@ Scénario:
 
 
   Alors je remplis les champs suivants
-    | Nom                                | Test                    |
     | Prénom(s)                          |                         |
+    | Nom                                | Test                    |
     | Nom d'usage / Surnom               | Test                    |
     | Date de naissance                  | 12/08/1990              |
     | Ville de naissance                 | Test                    |
