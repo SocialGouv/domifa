@@ -1,3 +1,3 @@
-FROM registry.gitlab.factory.social.gouv.fr/socialgouv/docker/nginx4spa:1.32.0
+FROM registry.gitlab.factory.social.gouv.fr/socialgouv/docker/nginx4spa:1.32.2
 
 COPY ./packages/frontend/dist/domifa /usr/share/nginx/html
