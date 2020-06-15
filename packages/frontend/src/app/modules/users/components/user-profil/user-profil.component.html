@@ -17,6 +17,7 @@
         <div class="col-md-4 text-right">
           <a
             [routerLink]="['/rapport-activite']"
+            *ngIf="authService.currentUserValue.role !== 'facteur'"
             routerLinkActive="router-link-active"
             class="btn btn-primary"
           >

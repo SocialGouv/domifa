@@ -152,6 +152,20 @@ export class UsagersProfilComponent implements OnInit {
           ) {
             this.router.navigate(["/usager/" + usager.id + "/edit"]);
           }
+
+          // Refus : interdits pour les facteurs
+          if (
+            (usager.decision.statut === "REFUS" &&
+              this.authService.currentUserValue.role) !== "admin" &&
+            this.authService.currentUserValue.role !== "instructeur"
+          ) {
+            this.notifService.error(
+              "Vos droits ne vous permettent pas d'accéder à cette page"
+            );
+            this.router.navigate(["/manage"]);
+            return false;
+          }
+
           this.usager = usager;
 
           this.getInteractions();
