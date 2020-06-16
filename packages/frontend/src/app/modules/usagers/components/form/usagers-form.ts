@@ -300,7 +300,6 @@ export class UsagersFormComponent implements OnInit {
         (usager: Usager) => {
           this.goToTop();
           this.notifService.success("Enregistrement réussi");
-          this.matomoTracker.trackEvent("dossiers", "demande", "etape", 1);
           this.usager = usager;
           this.router.navigate(["usager/" + usager.id + "/edit"]);
         },

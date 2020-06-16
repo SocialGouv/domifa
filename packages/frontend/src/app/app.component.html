@@ -129,12 +129,23 @@
 </div>
 <div id="help-button-wrapper">
   <div id="help-text" @fadeInOut *ngIf="help">
-    <span>Vous rencontrez un problème technique ?</span>
+    <a
+      href="/assets/files/guide_utilisateur_domifa.pdf"
+      target="_blank"
+      download
+    >
+      Télécharger notre guide utilisateur </a
+    ><br /><br />
+    <a [routerLink]="['/faq']" routerLinkActive="router-link-active" title="">
+      Consultez notre FAQ </a
+    ><br />
+
     <br />
-    <a target="_blank" href="mailto:support.domifa@fabrique.social.gouv.fr">
-      Contactez-nous :
+    <span>Contactez-nous :</span>
+    <br />
+    <a target="_blank" href="mailto:contact.domifa@fabrique.social.gouv.fr">
       <b>
-        support.domifa[at]fabrique.social.gouv.fr
+        contact.domifa[at]fabrique.social.gouv.fr
       </b>
     </a>
   </div>
@@ -152,17 +163,29 @@
     <br />
   </div>
   <div>
-    <a [routerLink]="['/news']" routerLinkActive="router-link-active">
+    <a
+      [routerLink]="['/news']"
+      routerLinkActive="router-link-active"
+      title="Nouveautés"
+    >
       Nouveautés
     </a>
   </div>
   <div>
-    <a [routerLink]="['/faq']" routerLinkActive="router-link-active">
+    <a
+      [routerLink]="['/faq']"
+      routerLinkActive="router-link-active"
+      title="FAQ"
+    >
       FAQ
     </a>
   </div>
   <div>
-    <a [routerLink]="['/cgu']" routerLinkActive="router-link-active">
+    <a
+      [routerLink]="['/cgu']"
+      routerLinkActive="router-link-active"
+      title="Conditions d'utilisation"
+    >
       Conditions d'utilisation
     </a>
   </div>

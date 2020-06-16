@@ -15,15 +15,16 @@ export class FacteurGuard implements CanActivate {
   ) {}
 
   public canActivate(): Observable<boolean> | boolean {
-    const role = this.authService.currentUserValue.role;
-
-    if (role !== "admin" && role !== "instructeur") {
-      this.notifService.error(
-        "Vos droits ne vous permettent pas d'accéder à cette page"
-      );
-      this.router.navigate(["/manage"]);
-      return false;
+    if (this.authService.currentUserValue !== null) {
+      const role = this.authService.currentUserValue.role;
+      if (role === "admin" || role === "instructeur") {
+        return true;
+      }
     }
-    return true;
+    this.notifService.error(
+      "Vos droits ne vous permettent pas d'accéder à cette page"
+    );
+    this.router.navigate(["/manage"]);
+    return false;
   }
 }
