@@ -1,7 +1,7 @@
 #language: fr
 
 @deconnection
-Fonctionnalité: Déonnexion
+Fonctionnalité: Déconnexion
   Pour pouvoir me deconnecter sur Domifa
   En tant que visiteur
   Je veux pouvoir vérifier si je peux me connecter

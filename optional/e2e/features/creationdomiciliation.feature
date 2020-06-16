@@ -8,6 +8,7 @@ Fonctionnalité: Création d'une demande de domiciliation
 
 Scénario:
   Soit un navigateur web sur le site
+
   Alors je clique sur "Continuer sur Domifa"
   Quand je clique sur "Se connecter"
   Alors je vois "Connexion à Domifa"
