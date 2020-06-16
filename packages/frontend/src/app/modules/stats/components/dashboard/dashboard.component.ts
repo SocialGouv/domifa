@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
     this.structuresType = [];
 
     this.sort = {
-      type: "ascending",
+      type: "descending",
       value: "createdAt",
     };
   }
