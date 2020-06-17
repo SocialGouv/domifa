@@ -8,15 +8,18 @@
         "categorie": "Structure",
         "message": [
           "Nouveau profil Facteur disponible pour réceptionner et distribuer du courrier",
-          "Possibilité d'exporter les données courrier/colis/avis de passage de votre base domiciliés",
-          "Mise à jour de notre FAQ"
+          "Possibilité d'exporter les données courrier/colis/avis de passage de votre base domiciliés"
         ]
       },
       {
-        "type": "sécurité",
-        "message": [
-          "Mise à jour de notre politique de confidentialité"
-        ]
+        "type": "new",
+        "categorie": "Mise à jour de notre FAQ",
+        "message": []
+      },
+      {
+        "type": "new",
+        "categorie": "Mise à jour de notre politique de confidentialité",
+        "message": []
       }
     ]
   },
