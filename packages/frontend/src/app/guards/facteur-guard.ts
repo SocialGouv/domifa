@@ -17,7 +17,7 @@ export class FacteurGuard implements CanActivate {
   public canActivate(): Observable<boolean> | boolean {
     if (this.authService.currentUserValue !== null) {
       const role = this.authService.currentUserValue.role;
-      if (role === "admin" || role === "instructeur") {
+      if (role === "admin" || role === "simple") {
         return true;
       }
     }

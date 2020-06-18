@@ -157,7 +157,7 @@ export class UsagersProfilComponent implements OnInit {
           if (usager.decision.statut === "REFUS") {
             if (
               this.authService.currentUserValue.role !== "admin" &&
-              this.authService.currentUserValue.role !== "instructeur"
+              this.authService.currentUserValue.role !== "simple"
             ) {
               this.notifService.error(
                 "Vos droits ne vous permettent pas d'accéder à cette page"
