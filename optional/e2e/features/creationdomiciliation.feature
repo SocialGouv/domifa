@@ -64,7 +64,6 @@ Scénario: Champs date de naissance vide
   Alors je coche la case "Non"
   Quand je clique sur "Suivant"
   Alors je vois "La date de naissance est obligatoire"
-  Alors je pause le test
 
 Scénario: Champs ville de naissance vide
   Alors je remplis les champs suivants
