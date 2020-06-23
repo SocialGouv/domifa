@@ -6,9 +6,9 @@ Fonctionnalité: Création d'une demande de domiciliation
   En tant que visiteur
   Je veux pouvoir me connecter et remplir un formulaire de création
 
-Scénario:
-  Soit un navigateur web sur le site
 
+Contexte: Connexion utilisateur
+  Soit un navigateur web sur le site
   Alors je clique sur "Continuer sur Domifa"
   Quand je clique sur "Se connecter"
   Alors je vois "Connexion à Domifa"
@@ -20,14 +20,14 @@ Scénario:
   Alors je suis redirigé vers la page: "/manage"
   Quand je clique sur "Créer une demande"
   Alors je vois "État-civil du demandeur"
-
+Scénario: Champs nom vide
   Quand je clique sur "Suivant"
   Alors je vois "Le nom du demandeur est obligatoire"
 
   # Test 1 :
   Alors je coche la case "Monsieur"
   Alors je remplis les champs suivants
-    | Prénom(s)                          | Test                    |
+    | Prénom(s)                          | Test NOM VIDE           |
     | Nom                                |                         |
     | Nom d'usage / Surnom               | Test                    |
     | Date de naissance                  | 12/08/1990              |
@@ -38,99 +38,83 @@ Scénario:
   Quand je clique sur "Suivant"
   Alors je vois "Le nom du demandeur est obligatoire"
 
+Scénario: Champs prénom vide
 
-  # Test 2 : Champ prénom vide
-  Quand je clique sur "Liste des usagers"
+  Alors je remplis les champs suivants
+    | Nom                                | Test PRENOM VIDE        |
+    | Nom d'usage / Surnom               | Test                    |
+    | Date de naissance                  | 12/08/1990              |
+    | Ville de naissance                 | Test                    |
+    | Numéro de téléphone                | 0600000000              |
+    | Adresse e-mail                     | test@test.com           |
+  Alors je coche la case "Non"
+  Quand je clique sur "Suivant"
+  Alors je vois "Le prénom du demandeur est obligatoire"
 
-  Quand je clique sur "Créer une demande"
 
-  Alors je vois "État-civil du demandeur"
+Scénario: Champs date de naissance vide
 
-#
-#  Alors je remplis les champs suivants
-#    | Prénom(s)                          |                         |
-#    | Nom                                | Test                    |
-#    | Nom d'usage / Surnom               | Test                    |
-#    | Date de naissance                  | 12/08/1990              |
-#    | Ville de naissance                 | Test                    |
-#    | Numéro de téléphone                | 0600000000              |
-#    | Adresse e-mail                     | test@test.com           |
-#  Alors je coche la case "Non"
-#
-#  Quand je clique sur "Suivant"
-#  Alors je vois "Le prénom du demandeur est obligatoire"
-#
-#
-#  # Test 3 : Date de naissance
-#  Quand je clique sur "Liste des usagers"
-#  Quand je clique sur "Créer une demande"
-#  Alors je vois "État-civil du demandeur"
-#
-#  Alors je remplis les champs suivants
-#    | Nom                                | Test                    |
-#    | Prénom(s)                          | Test                    |
-#    | Nom d'usage / Surnom               | Test                    |
-#    | Date de naissance                  |                         |
-#    | Ville de naissance                 | Test                    |
-#    | Numéro de téléphone                | 0600000000              |
-#    | Adresse e-mail                     | test@test.com           |
-#  Alors je coche la case "Non"
-#  Quand je clique sur "Suivant"
-#  Alors je vois "La date de naissance est obligatoire"
-#
-#
-#  # Test 3 : Ville de naissance
-#  Quand je clique sur "Liste des usagers"
-#  Quand je clique sur "Créer une demande"
-#  Alors je vois "État-civil du demandeur"
-#
-#  Alors je remplis les champs suivants
-#    | Nom                                | Test                    |
-#    | Prénom(s)                          | Test                    |
-#    | Nom d'usage / Surnom               | Test                    |
-#    | Date de naissance                  | 12/08/1990              |
-#    | Ville de naissance                 |                         |
-#    | Numéro de téléphone                | 0600000000              |
-#    | Adresse e-mail                     | test@test.com           |
-#  Alors je coche la case "Non"
-#  Quand je clique sur "Suivant"
-#  Alors je vois "La ville de naissance est obligatoire"
-#
+  Alors je remplis les champs suivants
+    | Nom                                | Test  DATE  NAISSANCE   |
+    | Prénom(s)                          | Test                    |
+    | Nom d'usage / Surnom               | Test                    |
+    | Ville de naissance                 | Test                    |
+    | Numéro de téléphone                | 0600000000              |
+    | Adresse e-mail                     | test@test.com           |
+  Alors je coche la case "Non"
+  Quand je clique sur "Suivant"
+  Alors je vois "La date de naissance est obligatoire"
+  Alors je pause le test
+
+Scénario: Champs ville de naissance vide
+  Alors je remplis les champs suivants
+    | Nom                                | Test                    |
+    | Prénom(s)                          | Test                    |
+    | Nom d'usage / Surnom               | Test                    |
+    | Date de naissance                  | 12/08/1990              |
+    | Ville de naissance                 |                         |
+    | Numéro de téléphone                | 0600000000              |
+    | Adresse e-mail                     | test@test.com           |
+  Alors je coche la case "Non"
+  Quand je clique sur "Suivant"
+  Alors je vois "La ville de naissance est obligatoire"
+
 #
 #  #
 #  #   TESTS AYANT-DROITS
 #  #
-#  Alors je remplis les champs suivants
-#    | Nom                                | Test                    |
-#    | Prénom(s)                          | Test                    |
-#    | Nom d'usage / Surnom               | Test                    |
-#    | Date de naissance                  | 12/08/1990              |
-#    | Ville de naissance                 | Test                    |
-#    | Numéro de téléphone                | 0600000000              |
-#    | Adresse e-mail                     | test@test.com           |
-#  Alors je coche la case "Oui"
-#  Quand je clique sur "Suivant"
-#  Alors je vois "Le prénom est obligatoire"
-#
-#
-#  Quand je clique sur "Liste des usagers"
-#  Quand je clique sur "Créer une demande"
-#  Alors je remplis les champs suivants
-#    | Nom                                | Test                    |
-#    | Prénom(s)                          | Test                    |
-#    | Nom d'usage / Surnom               | Test                    |
-#    | Date de naissance                  | 12/08/1990              |
-#    | Ville de naissance                 | Test                    |
-#    | Numéro de téléphone                | 0600000000              |
-#    | Adresse e-mail                     | test@test.com           |
-#  Alors je coche la case "Oui"
-#  Alors je remplis les champs suivants
-#    | Nom                                |                         |
-#    | Prénom                             | Test                    |
-#    | Date de naissance                  | 12/08/1991              |
-#    | Lien                               | Enfant                  |
-#  Quand je clique sur "Suivant"
-#  Alors je vois "Le nom est obligatoire"
+
+Scénario: Ayants-droit : aucune donnée
+  Alors je remplis les champs suivants
+    | Nom                                | Test                    |
+    | Prénom(s)                          | Test                    |
+    | Nom d'usage / Surnom               | Test                    |
+    | Date de naissance                  | 12/08/1990              |
+    | Ville de naissance                 | Test                    |
+    | Numéro de téléphone                | 0600000000              |
+    | Adresse e-mail                     | test@test.com           |
+  Alors je coche la case "Oui"
+  Quand je clique sur "Suivant"
+  Alors je vois "Le prénom est obligatoire"
+
+
+Scénario: Ayants-droit : nom vide
+  Alors je remplis les champs suivants
+    | Nom                                | Test                    |
+    | Prénom(s)                          | Test                    |
+    | Nom d'usage / Surnom               | Test                    |
+    | Date de naissance                  | 12/08/1990              |
+    | Ville de naissance                 | Test                    |
+    | Numéro de téléphone                | 0600000000              |
+    | Adresse e-mail                     | test@test.com           |
+  Alors je coche la case "Oui"
+  Alors je remplis les champs suivants
+    | Nom                                |                         |
+    | Prénom                             | Test                    |
+    | Date de naissance                  | 12/08/1991              |
+    | Lien                               | Enfant                  |
+  Quand je clique sur "Suivant"
+  Alors je vois "Le nom est obligatoire"
 #
 #
 #  Quand je clique sur "Liste des usagers"

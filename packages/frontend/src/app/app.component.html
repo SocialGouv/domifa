@@ -25,118 +25,146 @@
       <li class="nav-item active"></li>
     </ul>
     <div class="my-2 my-lg-0">
-      <a
-        *ngIf="!authService.isLogged"
-        routerLink="/inscription"
-        class="btn btn-outline-primary"
-      >
-        S'inscrire
-      </a>
-      <a
-        *ngIf="!authService.isLogged"
-        routerLink="/connexion"
-        class="btn btn-outline-primary"
-      >
-        Se connecter
-      </a>
-      <a
-        *ngIf="authService.isLogged"
-        routerLink="/manage"
-        class="btn btn-outline-primary"
-      >
-        Liste des usagers
-      </a>
-      <a
-        *ngIf="
-          authService.isLogged &&
-          authService.currentUserValue.role !== 'facteur'
-        "
-        routerLink="/nouveau"
-        class="btn btn-outline-secondary"
-      >
-        <fa-icon icon="plus" class="btn-icon"></fa-icon>
-        Créer une demande
-      </a>
-      <a
-        *ngIf="authService.isLogged"
-        routerLink="/mon-compte"
-        class="btn btn-outline-primary"
-      >
-        <fa-icon aria-hidden="true" title="Mon compte" icon="user"></fa-icon>
-      </a>
-      <a
-        *ngIf="
-          authService.isLogged &&
-          authService.currentUserValue.role !== 'facteur'
-        "
-        routerLink="/import"
-        class="btn btn-primary"
-      >
-        <fa-icon aria-hidden="true" title="Importer" icon="upload"></fa-icon>
-      </a>
+      <ng-container *ngIf="!authService.isLogged">
+        <a
+          *ngIf="!authService.isLogged"
+          routerLink="/inscription"
+          class="btn btn-outline-primary"
+        >
+          S'inscrire
+        </a>
+        <a
+          *ngIf="!authService.isLogged"
+          routerLink="/connexion"
+          aria-hidden="true"
+          title="Se connecter"
+          class="btn btn-outline-primary"
+        >
+          Se connecter
+        </a>
+      </ng-container>
+
+      <ng-container *ngIf="authService.isLogged">
+        <a
+          routerLink="/manage"
+          aria-hidden="true"
+          title="Liste des usagers"
+          class="btn btn-outline-primary"
+        >
+          Liste des usagers
+        </a>
+        <a
+          *ngIf="authService.currentUserValue.role !== 'facteur'"
+          routerLink="/nouveau"
+          class="btn btn-outline-secondary"
+        >
+          <fa-icon icon="plus" class="btn-icon"></fa-icon>
+          Créer une demande
+        </a>
+        <a routerLink="/mon-compte" class="btn btn-outline-primary">
+          <fa-icon aria-hidden="true" title="Mon compte" icon="user"></fa-icon>
+        </a>
+        <a
+          *ngIf="authService.currentUserValue.role !== 'facteur'"
+          routerLink="/import"
+          class="btn btn-primary"
+        >
+          <fa-icon aria-hidden="true" title="Importer" icon="upload"></fa-icon>
+        </a>
+      </ng-container>
     </div>
   </div>
 </nav>
 <div id="page">
   <router-outlet></router-outlet>
-  <ng-template #newsCenter let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">
-        🎉 Les dernières nouveautés de Domifa 🎉
-      </h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Fermer la fenêtre"
-        (click)="closeModal()"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body text-center">
-      <div class="text-left">
-        <p>
-          <b>
-            {{ domifaNews.date | date: "dd/MM/yyyy" }}
-          </b>
-          - {{ domifaNews.description }}
-        </p>
-        <div *ngFor="let content of domifaNews.content" class="text-left news">
-          <span
-            class="badge badge-pill"
-            [ngClass]="{
-              'badge-primary': content.type === 'new',
-              'badge-warning': content.type === 'bug'
-            }"
-          >
-            {{ newsLabels[content.type] }}
-          </span>
-          &nbsp;
-          <b>{{ content.categorie }}</b>
-          <br />
-          <ul>
-            <li *ngFor="let message of content.message">{{ message }}</li>
-          </ul>
-        </div>
+</div>
+
+<div id="help-button-wrapper">
+  <button id="help-button" (click)="openModal(helpCenter)">
+    <fa-icon icon="question"></fa-icon>
+  </button>
+</div>
+
+<ng-template #newsCenter let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      🎉 Les dernières nouveautés de Domifa 🎉
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Fermer la fenêtre"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <div class="text-left">
+      <p>
+        <b>
+          {{ domifaNews.date | date: "dd/MM/yyyy" }}
+        </b>
+        - {{ domifaNews.description }}
+      </p>
+      <div *ngFor="let content of domifaNews.content" class="text-left news">
+        <span
+          class="badge badge-pill"
+          [ngClass]="{
+            'badge-primary': content.type === 'new',
+            'badge-warning': content.type === 'bug'
+          }"
+        >
+          {{ newsLabels[content.type] }}
+        </span>
+        &nbsp;
+        <b>{{ content.categorie }}</b>
+        <br />
+        <ul>
+          <li *ngFor="let message of content.message">{{ message }}</li>
+        </ul>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary" (click)="closeModal()">
-        Continuer sur Domifa
-      </button>
-    </div>
-  </ng-template>
-</div>
-<div id="help-button-wrapper">
-  <div id="help-text" @fadeInOut *ngIf="help">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="closeModal()">
+      Continuer sur Domifa
+    </button>
+  </div>
+</ng-template>
+<ng-template #helpCenter let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Centre d'aide Domifa
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Fermer la fenêtre"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <p>Notre guide d'utilisateur peut vous accompagner :</p>
+
     <a
       href="/assets/files/guide_utilisateur_domifa.pdf"
       target="_blank"
+      class="btn btn-primary"
       download
+      ><fa-icon icon="download"></fa-icon>
+      Télécharger notre guide utilisateur
+    </a>
+    <br /><br />
+    <p>Vous vous posez une question ?</p>
+    <a
+      [routerLink]="['/faq']"
+      class="btn btn-primary"
+      routerLinkActive="router-link-active"
+      title=""
     >
-      Télécharger notre guide utilisateur </a
-    ><br /><br />
-    <a [routerLink]="['/faq']" routerLinkActive="router-link-active" title="">
       Consultez notre FAQ </a
     ><br />
 
@@ -148,11 +176,10 @@
         contact.domifa[at]fabrique.social.gouv.fr
       </b>
     </a>
+    <br />
   </div>
-  <button id="help-button" (click)="help = !help">
-    <fa-icon icon="question"></fa-icon>
-  </button>
-</div>
+</ng-template>
+
 <footer class="page-footer">
   <div>
     <img
@@ -160,6 +187,8 @@
       alt="Logo Domifa"
       title="Logo Domifa"
     />
+    <br />
+    <span class="small">© 2020 Fabrique des Ministères Sociaux</span>
     <br />
   </div>
   <div>
@@ -206,7 +235,15 @@
     </a>
   </div>
   <div>
-    <span class="small">© 2020 Fabrique des Ministères Sociaux</span>
+    <a
+      href="https://voxusagers.numerique.gouv.fr/Demarches/2495?&view-mode=formulaire-avis&nd_mode=en-ligne-enti%C3%A8rement&nd_source=button&key=7b9d610111ea41e1af555b1343146d12"
+    >
+      <img
+        src="https://voxusagers.numerique.gouv.fr/static/bouton-blanc.svg"
+        alt="Je donne mon avis"
+        title="Je donne mon avis sur cette démarche"
+      />
+    </a>
   </div>
 </footer>
 

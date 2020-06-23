@@ -133,11 +133,16 @@ input[type="number"] {
   transition: all 0.2s;
   width: 35px;
   text-align: center;
-  margin: 0 4px;
   cursor: pointer;
   display: inline-block;
 }
 
+#interactions-table thead,
+#interactions-table tbody tr {
+  display: table;
+  width: 99%;
+  table-layout: fixed; /* even columns width , fix width of table too*/
+}
 #interactions-table > tbody > tr:hover > td.interactions-actions > span {
   visibility: visible;
   opacity: 1;
@@ -146,6 +151,12 @@ input[type="number"] {
 #interactions-table > tbody > tr > td.interactions-actions > span {
   visibility: hidden;
   opacity: 0;
+}
+
+#interactions-table tbody {
+  display: block;
+  height: 250px;
+  overflow: auto;
 }
 
 #delete-usager:hover {
@@ -165,7 +176,7 @@ input[type="number"] {
 
 .profil-table th:nth-child(2),
 .profil-table td:nth-child(2) {
-  width: 55%;
+  width: 45%;
 }
 .profil-table th:nth-child(3),
 .profil-table td:nth-child(3) {

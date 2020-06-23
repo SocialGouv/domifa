@@ -86,6 +86,10 @@ export class AppComponent implements OnInit {
     return this.http.get("assets/files/news.json");
   }
 
+  public openModal(content: TemplateRef<any>) {
+    this.modal = this.modalService.open(content);
+  }
+
   public closeModal() {
     this.modal.close();
     localStorage.setItem("news", new Date(this.domifaNews.date).toISOString());

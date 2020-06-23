@@ -106,7 +106,7 @@ export class InteractionsService {
         structureId: user.structureId,
         usagerId,
       })
-      .limit(8)
+      .limit(30)
       .sort({ dateInteraction: -1 })
       .lean()
       .exec();
