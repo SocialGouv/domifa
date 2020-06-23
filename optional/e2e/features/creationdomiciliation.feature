@@ -114,64 +114,41 @@ Scénario: Ayants-droit : nom vide
     | Lien                               | Enfant                  |
   Quand je clique sur "Suivant"
   Alors je vois "Le nom est obligatoire"
-#
-#
-#  Quand je clique sur "Liste des usagers"
-#  Quand je clique sur "Créer une demande"
-#  Alors je remplis les champs suivants
-#    | Nom                                | Test                    |
-#    | Prénom(s)                          | Test                    |
-#    | Nom d'usage / Surnom               | Test                    |
-#    | Date de naissance                  | 12/08/1990              |
-#    | Ville de naissance                 | Test                    |
-#    | Numéro de téléphone                | 0600000000              |
-#    | Adresse e-mail                     | test@test.com           |
-#  Alors je coche la case "Oui"
-#  Alors je remplis les champs suivants
-#    | Nom                                |                         |
-#    | Prénom                             | Test                    |
-#    | Date de naissance                  | 12/08/1991              |
-#    | Lien                               | Enfant                  |
-#  Quand je clique sur "Suivant"
-#  Alors je vois "Le nom est obligatoire"
-#
-#  Quand je clique sur "Liste des usagers"
-#  Quand je clique sur "Créer une demande"
-#  Alors je remplis les champs suivants
-#    | Nom                                | Test                    |
-#    | Prénom(s)                          | Test                    |
-#    | Nom d'usage / Surnom               | Test                    |
-#    | Date de naissance                  | 12/08/1990              |
-#    | Ville de naissance                 | Test                    |
-#    | Numéro de téléphone                | 0600000000              |
-#    | Adresse e-mail                     | test@test.com           |
-#  Alors je coche la case "Oui"
-#  Alors je remplis les champs suivants
-#    | Nom                                | Test                    |
-#    | Prénom                             |                         |
-#    | Date de naissance                  | 12/08/1991              |
-#    | Lien                               | Enfant                  |
-#  Quand je clique sur "Suivant"
-#  Alors je vois "Le prénom est obligatoire"
-#
-#
-#  Quand je clique sur "Liste des usagers"
-#  Quand je clique sur "Créer une demande"
-#  Alors je remplis les champs suivants
-#    | Nom                                | Test                    |
-#    | Prénom(s)                          | Test                    |
-#    | Nom d'usage / Surnom               | Test                    |
-#    | Date de naissance                  | 12/08/1990              |
-#    | Ville de naissance                 | Test                    |
-#    | Numéro de téléphone                | 0600000000              |
-#    | Adresse e-mail                     | test@test.com           |
-#  Alors je coche la case "Oui"
-#  Alors je remplis les champs suivants
-#    | Nom                                | Test                    |
-#    | Prénom                             | Test                    |
-#    | Date de naissance                  |                         |
-#    | Lien                               | Enfant                  |
-#  Quand je clique sur "Suivant"
-#  Alors je vois "La date de naissance est obligatoire"
+
+Scénario: Ayants-droit : aucune donnée
+  Alors je remplis les champs suivants
+    | Nom                                | Test                    |
+    | Prénom(s)                          | Test                    |
+    | Nom d'usage / Surnom               | Test                    |
+    | Date de naissance                  | 12/08/1990              |
+    | Ville de naissance                 | Test                    |
+    | Numéro de téléphone                | 0600000000              |
+    | Adresse e-mail                     | test@test.com           |
+  Alors je coche la case "Oui"
+  Alors je remplis les champs suivants
+    | Nom                                | Test nom                |
+    | Date de naissance                  | 12/08/1991              |
+    | Lien                               | Enfant                  |
+  Quand je clique sur "Suivant"
+  Alors je vois "Le prénom est obligatoire"
+
+
+Scénario: Ayants-droit : Date de naissance
+  Alors je remplis les champs suivants
+    | Nom                                | Test                    |
+    | Prénom(s)                          | Test                    |
+    | Nom d'usage / Surnom               | Test                    |
+    | Date de naissance                  | 12/08/1990              |
+    | Ville de naissance                 | Test                    |
+    | Numéro de téléphone                | 0600000000              |
+    | Adresse e-mail                     | test@test.com           |
+  Alors je coche la case "Oui"
+  Alors je remplis les champs suivants
+    | Nom                                | Test                    |
+    | Prénom                             | Test                    |
+    | Date de naissance                  |                         |
+    | Lien                               | Enfant                  |
+  Quand je clique sur "Suivant"
+  Alors je vois "La date de naissance est obligatoire"
 
 
