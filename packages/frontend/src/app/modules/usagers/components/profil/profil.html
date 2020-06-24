@@ -1587,20 +1587,17 @@
             <fa-icon icon="redo" class="btn-icon"></fa-icon>
             Demande de renouvellement
           </button>
-          <div
-            class="col-md-12 text-center text-danger"
-            *ngIf="authService.isAdmin "
-          >
-            <br />
-            <br />
-            <span id="delete-usager" (click)="open(deleteConfirmation)">
-              <fa-icon icon="trash" class="btn-icon"></fa-icon>
-              Supprimer le domicilié
-            </span>
-          </div>
         </div>
       </div>
     </div>
+  </div>
+  <div class="col-md-12 text-center text-danger" *ngIf="authService.isAdmin">
+    <br />
+    <br />
+    <span id="delete-usager" (click)="open(deleteConfirmation)">
+      <fa-icon icon="trash" class="btn-icon"></fa-icon>
+      Supprimer le domicilié
+    </span>
   </div>
 </div>
 
