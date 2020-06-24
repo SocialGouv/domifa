@@ -54,7 +54,7 @@
     "@angular/language-service": "^9.1.11",
     "@schematics/update": "^0.901.9",
     "@socialgouv/tslint-config-recommended": "^0.35.0",
-    "@types/jest": "^26.0.2",
+    "@types/jest": "^26.0.3",
     "@types/node": "^8.9.5",
     "codelyzer": "^5.2.2",
     "eslint-plugin-import": "^2.21.2",
