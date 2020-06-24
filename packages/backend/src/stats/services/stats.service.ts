@@ -448,6 +448,14 @@ export class StatsService {
     );
 
     const retourStats = await new this.statsModel(stat).save();
+
+    const updateStructureStats = await this.structureService.updateStructureStats(
+      structure._id,
+      stat.questions.Q_11.VALIDE,
+      stat.questions.Q_11.REFUS,
+      stat.questions.Q_11.RADIE
+    );
+
     if (
       retourStructure &&
       retourStructure !== null &&

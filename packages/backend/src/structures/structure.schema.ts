@@ -102,6 +102,21 @@ export const StructureSchema = new mongoose.Schema(
         type: String,
       },
     },
+    stats: {
+      default: {
+        VALIDE: 0,
+        REFUS: 0,
+        RADIE: 0,
+        TOTAL: 0,
+      },
+      type: {
+        VALIDE: Number,
+        REFUS: Number,
+        RADIE: Number,
+        TOTAL: Number,
+      },
+      select: false,
+    },
     structureType: {
       default: "",
       required: true,

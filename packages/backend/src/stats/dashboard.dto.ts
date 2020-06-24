@@ -6,6 +6,7 @@ export class DashboardDto {
     "region",
     "nom",
     "createdAt",
+    "domicilies",
     "importDate",
     "lastLogin",
     "structureType",

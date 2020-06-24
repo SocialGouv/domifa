@@ -25,6 +25,7 @@ export interface Structure extends Document {
     expireAt: Date | null;
   };
   lastExport: Date;
+  stats: { VALIDE: number; REFUS: number; RADIE: number; TOTAL: number };
   token: string;
   verified: boolean;
   users: User[];

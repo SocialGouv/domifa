@@ -68,6 +68,26 @@ export class StructuresService {
       )
       .exec();
   }
+
+  public async updateStructureStats(
+    structureId: string,
+    valide: number,
+    refus: number,
+    radie: number
+  ): Promise<any> {
+    const total = valide + refus + radie;
+    return this.structureModel
+      .findOneAndUpdate(
+        { _id: structureId },
+        {
+          $set: {
+            stats: { TOTAL: total, VALIDE: valide, REFUS: refus, RADIE: radie },
+          },
+        }
+      )
+      .exec();
+  }
+
   public async updateRegions(): Promise<any> {
     this.structureModel
       .findOne({ region: { $exists: false } })
