@@ -10,6 +10,7 @@ export const UsagerSchema = new mongoose.Schema(
     customId: {
       maxlength: 30,
       type: String,
+      trim: true,
     },
     dateNaissance: {
       required: true,
@@ -33,6 +34,7 @@ export const UsagerSchema = new mongoose.Schema(
       },
       motif: {
         type: String,
+        trim: true,
       },
       motifDetails: {
         maxlength: 300,
@@ -41,6 +43,7 @@ export const UsagerSchema = new mongoose.Schema(
       },
       orientation: {
         type: String,
+        trim: true,
       },
       orientationDetails: {
         default: null,

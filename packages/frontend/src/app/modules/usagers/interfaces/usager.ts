@@ -31,6 +31,9 @@ export class Usager {
   public ayantsDroitsExist: boolean;
   public ayantsDroits: AyantDroit[];
 
+  // Recherche : si la requête fait remonté un ayant-droit
+  public isAyantDroit: boolean;
+
   public typeDom: string;
 
   public historique: Decision[];
@@ -62,7 +65,7 @@ export class Usager {
 
   public options: Options;
 
-  constructor(usager?: any) {
+  constructor(usager?: any, search?: string) {
     this.id = (usager && usager.id) || 0;
     this.customId = (usager && usager.customId) || null;
     this.sexe = (usager && usager.sexe) || "homme";
@@ -132,6 +135,8 @@ export class Usager {
 
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
 
+    this.isAyantDroit = (usager && usager.isAyantDroit) || false;
+
     this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
 
     this.preference = (usager && usager.preference) || {
@@ -169,5 +174,15 @@ export class Usager {
     }
 
     this.options = (usager && new Options(usager.options)) || new Options({});
+
+    this.isAyantDroit = false;
+    if (search && search !== null) {
+      const substring = search.toUpperCase();
+
+      this.isAyantDroit =
+        !this.nom.toUpperCase().includes(substring) &&
+        !this.prenom.toUpperCase().includes(substring) &&
+        !this.surnom.toUpperCase().includes(substring);
+    }
   }
 }

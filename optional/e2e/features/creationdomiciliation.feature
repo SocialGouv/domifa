@@ -20,6 +20,7 @@ Contexte: Connexion utilisateur
   Alors je suis redirigé vers la page: "/manage"
   Quand je clique sur "Créer une demande"
   Alors je vois "État-civil du demandeur"
+
 Scénario: Champs nom vide
   Quand je clique sur "Suivant"
   Alors je vois "Le nom du demandeur est obligatoire"

@@ -252,8 +252,8 @@ export class ManageUsagersComponent implements OnInit {
     this.usagerService.search(this.filters).subscribe(
       (response: { results: Usager[] | Usager; nbResults: number }) => {
         const usagers = Array.isArray(response.results)
-          ? response.results.map((item) => new Usager(item))
-          : [new Usager(response)];
+          ? response.results.map((item) => new Usager(item, this.filters.name))
+          : [new Usager(response, this.filters.name)];
 
         if (this.filters.page === 0) {
           this.nbResults = response.nbResults;

@@ -245,6 +245,12 @@
             <span *ngIf="usager.surnom && usager.surnom !== null"
               >({{ usager.surnom }})</span
             >
+
+            <ng-container *ngIf="filters.name && !searching">
+              <span class="badge badge-info" *ngIf="usager.isAyantDroit">
+                Ayant-droit
+              </span>
+            </ng-container>
           </td>
 
           <td

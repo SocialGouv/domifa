@@ -7,14 +7,17 @@ export const StructureSchema = new mongoose.Schema(
       default: "",
       required: true,
       type: String,
+      trim: true,
     },
     adressePostale: {
       default: "",
       type: String,
+      trim: true,
     },
     agrement: {
       default: "",
       type: String,
+      trim: true,
     },
     capacite: {
       type: Number,
@@ -22,6 +25,7 @@ export const StructureSchema = new mongoose.Schema(
     codePostal: {
       default: "",
       required: true,
+      trim: true,
       type: String,
     },
     complementAdresse: {
@@ -73,6 +77,7 @@ export const StructureSchema = new mongoose.Schema(
     nom: {
       default: "",
       required: true,
+      trim: true,
       type: String,
     },
     options: {
@@ -83,17 +88,20 @@ export const StructureSchema = new mongoose.Schema(
     phone: {
       default: "",
       required: true,
+      trim: true,
       type: String,
     },
     responsable: {
       fonction: {
         default: "",
         required: true,
+        trim: true,
         type: String,
       },
       nom: {
         default: "",
         required: true,
+        trim: true,
         type: String,
       },
       prenom: {
@@ -144,6 +152,7 @@ export const StructureSchema = new mongoose.Schema(
     ville: {
       default: "",
       required: true,
+      trim: true,
       type: String,
     },
   },

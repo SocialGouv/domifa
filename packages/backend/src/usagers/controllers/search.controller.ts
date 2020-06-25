@@ -94,6 +94,20 @@ export class SearchController {
         {
           surnom: { $regex: ".*" + name + ".*", $options: "-i" },
         },
+        {
+          ayantsDroits: {
+            $elemMatch: {
+              nom: { $regex: ".*" + name + ".*", $options: "-i" },
+            },
+          },
+        },
+        {
+          ayantsDroits: {
+            $elemMatch: {
+              prenom: { $regex: ".*" + name + ".*", $options: "-i" },
+            },
+          },
+        },
       ];
     }
 
