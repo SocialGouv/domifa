@@ -69,7 +69,7 @@
     "@types/mongoose-sequence": "^3.0.4",
     "@types/node": "^10.12.18",
     "@types/node-mailjet": "^3.3.3",
-    "@types/supertest": "^2.0.9",
+    "@types/supertest": "^2.0.10",
     "check-disk-space": "^2.1.0",
     "jest": "^26.1.0",
     "nodemon": "^2.0.4",
