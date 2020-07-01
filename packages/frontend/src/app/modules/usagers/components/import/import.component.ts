@@ -12,42 +12,34 @@ import { UsagerService } from "../../services/usager.service";
 import { Title } from "@angular/platform-browser";
 import { ToastrService } from "ngx-toastr";
 
-export const CIVILITE = 0;
-export const NOM = 1;
-export const PRENOM = 2;
-export const SURNOM = 3;
-export const DATE_NAISSANCE = 4;
-export const LIEU_NAISSANCE = 5;
-export const EMAIL = 6;
-export const PHONE = 7;
-export const STATUT_DOM = 8;
-export const TYPE_DOM = 9;
-export const DATE_DEBUT_DOM = 10;
-export const DATE_FIN_DOM = 11;
-export const DATE_PREMIERE_DOM = 12;
-export const MOTIF_REFUS = 13;
-export const MOTIF_RADIATION = 14;
-export const COMPOSITION_MENAGE = 15;
-export const AYANT_DROIT = [16, 20, 24, 28];
-export const CUSTOM_ID = 32;
-
 export const colNames = [
+  "Numéro d'identification",
   "Civilité",
   "Nom",
   "Prénom",
   "Nom d'usage / Surnom",
   "Date naissance",
   "Lieu naissance",
-  "Email",
   "Téléphone",
+  "Email",
   "Statut demande",
-  "Type demande",
+  "Motif de refus",
+  "Motif de radiation",
+  "Type de domiciliation",
   "Date de Début de la DOM actuelle",
   "Date de FIN de la DOM actuelle",
   "Date 1ere domiciliation",
-  "Motif de refus",
-  "Motif de radiation",
+  "Orientation",
+  "Détails de l'orientation",
+  "La personne a t-elle déjà une domiciliation ?",
+  "Le domicilié possède t-il des revenus ?",
+  "Seulement si revenus, de quelle nature ?",
+  "Lien avec la commune",
   "Composition du ménage",
+  "Cause instabilité logement",
+  "Situation résidentielle",
+  "Accompagnement social",
+  "Détail de l'accompagnement social",
   "Ayant-droit 1: nom",
   "Ayant-droit 1: prénom",
   "Ayant-droit 1: date naissance",
@@ -64,7 +56,6 @@ export const colNames = [
   "Ayant-droit 4: prénom",
   "Ayant-droit 4: date de naissance",
   "Ayant-droit 4: lien parenté",
-  "Numéro d'identification",
 ];
 
 type AOA = any[][];
@@ -103,6 +94,35 @@ export class ImportComponent implements OnInit {
     "Vérification des données",
   ];
 
+  public CUSTOM_ID = 0;
+  public CIVILITE = 1;
+  public NOM = 2;
+  public PRENOM = 3;
+  public SURNOM = 4;
+  public DATE_NAISSANCE = 5;
+  public LIEU_NAISSANCE = 6;
+  public PHONE = 7;
+  public EMAIL = 8;
+  public STATUT_DOM = 9;
+  public MOTIF_REFUS = 10;
+  public MOTIF_RADIATION = 11;
+  public TYPE_DOM = 12;
+  public DATE_DEBUT_DOM = 13;
+  public DATE_FIN_DOM = 14;
+  public DATE_PREMIERE_DOM = 15;
+  public ORIENTATION = 16;
+  public ORIENTATION_DETAILS = 17;
+  public DOMICILIATION_EXISTANTE = 18;
+  public REVENUS = 19;
+  public REVENUS_DETAILS = 20;
+  public LIEN_COMMUNE = 21;
+  public COMPOSITION_MENAGE = 22;
+  public CAUSE_INSTABILITE = 23;
+  public SITUATION_RESIDENTIELLE = 24;
+  public ACCOMPAGNEMENT = 25;
+  public ACCOMPAGNEMENT_DETAILS = 26;
+  public AYANT_DROIT = [27, 31, 35, 39];
+
   @ViewChild("form", { static: true })
   public form!: ElementRef<any>;
 
@@ -122,7 +142,7 @@ export class ImportComponent implements OnInit {
     this.errorsRow = [];
     this.etapeImport = 0;
     this.fileName = "";
-    this.nbreAyantsDroits = [16, 20, 24, 28];
+    this.nbreAyantsDroits = [27, 31, 35, 39];
     this.rowNumber = 0;
     this.showErrors = false;
     this.showTable = false;
@@ -194,66 +214,106 @@ export class ImportComponent implements OnInit {
       this.datas = this.datas.slice(1);
       this.datas.forEach((row, index: any) => {
         this.rowNumber = index;
-        const sexeCheck = row[0] === "H" || row[0] === "F";
 
-        this.countErrors(sexeCheck, index, CIVILITE);
-        this.countErrors(this.notEmpty(row[NOM]), index, NOM);
-        this.countErrors(this.notEmpty(row[PRENOM]), index, PRENOM);
-        this.countErrors(
-          this.validDate(row[DATE_NAISSANCE], true, false),
-          index,
-          DATE_NAISSANCE
-        );
-        this.countErrors(
-          this.notEmpty(row[LIEU_NAISSANCE]),
-          index,
-          LIEU_NAISSANCE
-        );
-        this.countErrors(this.validEmail(row[EMAIL]), index, EMAIL);
-        this.countErrors(this.validPhone(row[PHONE]), index, PHONE);
-        this.countErrors(
-          this.isValidValue(row[STATUT_DOM], "statut", true),
-          index,
-          STATUT_DOM
-        );
-        this.countErrors(
-          this.isValidValue(row[TYPE_DOM], "demande", true),
-          index,
-          TYPE_DOM
-        );
+        const sexeCheck =
+          row[this.CIVILITE] === "H" || row[this.CIVILITE] === "F";
+        this.countErrors(sexeCheck, index, this.CIVILITE);
 
+        this.countErrors(this.notEmpty(row[this.NOM]), index, this.NOM);
+        this.countErrors(this.notEmpty(row[this.PRENOM]), index, this.PRENOM);
         this.countErrors(
-          this.validDate(row[DATE_DEBUT_DOM], true, false),
+          this.validDate(row[this.DATE_NAISSANCE], true, false),
           index,
-          DATE_DEBUT_DOM
+          this.DATE_NAISSANCE
         );
         this.countErrors(
-          this.validDate(row[DATE_FIN_DOM], true, true),
+          this.notEmpty(row[this.LIEU_NAISSANCE]),
           index,
-          DATE_FIN_DOM
+          this.LIEU_NAISSANCE
+        );
+        this.countErrors(this.validEmail(row[this.EMAIL]), index, this.EMAIL);
+        this.countErrors(this.validPhone(row[this.PHONE]), index, this.PHONE);
+        this.countErrors(
+          this.isValidValue(row[this.STATUT_DOM], "statut", true),
+          index,
+          this.STATUT_DOM
         );
         this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], false, false),
+          this.isValidValue(row[this.TYPE_DOM], "demande", true),
           index,
-          DATE_PREMIERE_DOM
-        );
-        this.countErrors(
-          this.isValidValue(row[MOTIF_REFUS], "motifRefus"),
-          index,
-          MOTIF_REFUS
-        );
-        this.countErrors(
-          this.isValidValue(row[MOTIF_RADIATION], "motifRadiation"),
-          index,
-          MOTIF_RADIATION
-        );
-        this.countErrors(
-          this.isValidValue(row[COMPOSITION_MENAGE], "menage"),
-          index,
-          COMPOSITION_MENAGE
+          this.TYPE_DOM
         );
 
-        for (const indexAD of AYANT_DROIT) {
+        this.countErrors(
+          this.validDate(row[this.DATE_DEBUT_DOM], true, false),
+          index,
+          this.DATE_DEBUT_DOM
+        );
+        this.countErrors(
+          this.validDate(row[this.DATE_FIN_DOM], true, true),
+          index,
+          this.DATE_FIN_DOM
+        );
+        this.countErrors(
+          this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
+          index,
+          this.DATE_PREMIERE_DOM
+        );
+        this.countErrors(
+          this.isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
+          index,
+          this.MOTIF_REFUS
+        );
+        this.countErrors(
+          this.isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
+          index,
+          this.MOTIF_RADIATION
+        );
+        this.countErrors(
+          this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
+          index,
+          this.COMPOSITION_MENAGE
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
+          index,
+          this.CAUSE_INSTABILITE
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
+          index,
+          this.SITUATION_RESIDENTIELLE
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.ORIENTATION], "choix"),
+          index,
+          this.ORIENTATION
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
+          index,
+          this.DOMICILIATION_EXISTANTE
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.REVENUS], "choix"),
+          index,
+          this.REVENUS
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
+          index,
+          this.ACCOMPAGNEMENT
+        );
+
+        // CHoix OUI OU NON
+
+        for (const indexAD of this.AYANT_DROIT) {
           const nom = row[indexAD];
           const prenom = row[indexAD + 1];
           const dateNaissance = row[indexAD + 2];
@@ -315,8 +375,8 @@ export class ImportComponent implements OnInit {
   }
 
   public countErrors(variable: boolean, idRow: number, idColumn: number) {
-    if (this.datas[idRow][STATUT_DOM] === "REFUS") {
-      if (idColumn === DATE_DEBUT_DOM || idColumn === DATE_FIN_DOM) {
+    if (this.datas[idRow][this.STATUT_DOM] === "REFUS") {
+      if (idColumn === this.DATE_DEBUT_DOM || idColumn === this.DATE_FIN_DOM) {
         variable = true;
         return true;
       }
@@ -434,7 +494,29 @@ export class ImportComponent implements OnInit {
         "AUTRE",
         "AUTRES",
       ],
+      residence: [
+        "DOMICILE_MOBILE",
+        "HEBERGEMENT_SOCIAL",
+        "HEBERGEMENT_TIERS",
+        "HOTEL",
+        "SANS_ABRI",
+        "NON_RENSEIGNE",
+        "AUTRE",
+      ],
+      cause: [
+        "ERRANCE",
+        "AUTRE",
+        "EXPULSION",
+        "HEBERGE_SANS_ADRESSE",
+        "ITINERANT",
+        "NON_RENSEIGNE",
+        "RUPTURE",
+        "SORTIE_STRUCTURE",
+        "VIOLENCE",
+        "AUTRE",
+      ],
       statut: ["VALIDE", "REFUS", "RADIE"],
+      choix: ["OUI", "NON"],
     };
     return types[rowName].indexOf(data) > -1;
   }

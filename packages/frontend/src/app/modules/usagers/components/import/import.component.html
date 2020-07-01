@@ -173,6 +173,7 @@
       <table class="table table-striped table-hover">
         <thead class>
           <th>#</th>
+          <th>ID</th>
           <th class="required">Civilité (H/F)</th>
           <th class="required">Nom</th>
           <th class="required">Prénom</th>
@@ -183,9 +184,20 @@
             (jj/mm/aaaa)
           </th>
           <th class="required">Lieu naissance</th>
-          <th>Adresse Mail</th>
           <th>N° Téléphone</th>
+          <th>Adresse Mail</th>
+
           <th class="required">Statut demande</th>
+          <th>
+            MOTIF REFUS
+            <br />
+            (SEULEMENT SI REFUS)
+          </th>
+          <th>
+            MOTIF RADIATION
+            <br />
+            (SEULEMENT SI RADIATION)
+          </th>
           <th class="required">Type demande</th>
           <th class="required">
             Date de Début
@@ -198,17 +210,19 @@
             <sup>ère</sup>
             DOM
           </th>
-          <th>
-            MOTIF REFUS
-            <br />
-            (SEULEMENT SI REFUS)
-          </th>
-          <th>
-            MOTIF RADIATION
-            <br />
-            (SEULEMENT SI RADIATION)
-          </th>
-          <th>COMPOSITION DU MÉNAGE</th>
+
+          <th>Orientation</th>
+          <th>Détails de l'orientation</th>
+          <th>La personne a t-elle déjà une domiciliation ?</th>
+          <th>Le domicilié possède t-il des revenus ?</th>
+          <th>Seulement si revenus, de quelle nature ?</th>
+          <th>Lien avec la commune</th>
+          <th>Composition du ménage</th>
+          <th>Cause instabilité logement</th>
+          <th>Situation résidentielle</th>
+          <th>Accompagnement social</th>
+          <th>Détail de l'accompagnement social</th>
+
           <ng-container
             *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index"
           >
@@ -233,7 +247,6 @@
               Ayant-droit {{ indexRow + 1 }}
             </th>
           </ng-container>
-          <th>Identifiant personnalisé</th>
         </thead>
         <tbody *ngIf="showTable">
           <tr *ngFor="let row of datas; let index = index">
@@ -241,51 +254,130 @@
               <b>{{ index + 1 }}</b>
             </td>
             <td [ngClass]="{ 'table-danger': isAnError(index, 0) }">
-              {{ row[0] }}
+              {{ row[CUSTOM_ID] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 1) }">
-              {{ row[1] }}
+
+            <td [ngClass]="{ 'table-danger': isAnError(index, CIVILITE) }">
+              {{ row[CIVILITE] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 2) }">
-              {{ row[2] }}
+            <td [ngClass]="{ 'table-danger': isAnError(index, NOM) }">
+              {{ row[NOM] }}
             </td>
-            <td>{{ row[3] }}</td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 4) }">
-              {{ row[4] }}
+            <td [ngClass]="{ 'table-danger': isAnError(index, PRENOM) }">
+              {{ row[PRENOM] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 5) }">
-              {{ row[5] }}
+
+            <td [ngClass]="{ 'table-danger': isAnError(index, SURNOM) }">
+              {{ row[SURNOM] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 6) }">
-              {{ row[6] }}
+
+            <td
+              [ngClass]="{ 'table-danger': isAnError(index, DATE_NAISSANCE) }"
+            >
+              {{ row[DATE_NAISSANCE] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 7) }">
-              {{ row[7] }}
+            <td
+              [ngClass]="{ 'table-danger': isAnError(index, LIEU_NAISSANCE) }"
+            >
+              {{ row[LIEU_NAISSANCE] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 8) }">
-              {{ row[8] }}
+            <td [ngClass]="{ 'table-danger': isAnError(index, PHONE) }">
+              {{ row[PHONE] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 9) }">
-              {{ row[9] }}
+            <td [ngClass]="{ 'table-danger': isAnError(index, EMAIL) }">
+              {{ row[EMAIL] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 10) }">
-              {{ row[10] }}
+            <td [ngClass]="{ 'table-danger': isAnError(index, STATUT_DOM) }">
+              {{ row[STATUT_DOM] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 11) }">
-              {{ row[11] }}
+            <td [ngClass]="{ 'table-danger': isAnError(index, MOTIF_REFUS) }">
+              {{ row[MOTIF_REFUS] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 12) }">
-              {{ row[12] }}
+            <td
+              [ngClass]="{ 'table-danger': isAnError(index, MOTIF_RADIATION) }"
+            >
+              {{ row[MOTIF_RADIATION] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 13) }">
-              {{ row[13] }}
+            <td [ngClass]="{ 'table-danger': isAnError(index, TYPE_DOM) }">
+              {{ row[TYPE_DOM] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 14) }">
-              {{ row[14] }}
+            <td
+              [ngClass]="{ 'table-danger': isAnError(index, DATE_DEBUT_DOM) }"
+            >
+              {{ row[DATE_DEBUT_DOM] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 15) }">
-              {{ row[15] }}
+            <td [ngClass]="{ 'table-danger': isAnError(index, DATE_FIN_DOM) }">
+              {{ row[DATE_FIN_DOM] }}
             </td>
+            <td
+              [ngClass]="{
+                'table-danger': isAnError(index, DATE_PREMIERE_DOM)
+              }"
+            >
+              {{ row[DATE_PREMIERE_DOM] }}
+            </td>
+            <td [ngClass]="{ 'table-danger': isAnError(index, ORIENTATION) }">
+              {{ row[ORIENTATION] }}
+            </td>
+            <td
+              [ngClass]="{
+                'table-danger': isAnError(index, ORIENTATION_DETAILS)
+              }"
+            >
+              {{ row[ORIENTATION_DETAILS] }}
+            </td>
+            <td
+              [ngClass]="{
+                'table-danger': isAnError(index, DOMICILIATION_EXISTANTE)
+              }"
+            >
+              {{ row[DOMICILIATION_EXISTANTE] }}
+            </td>
+            <td [ngClass]="{ 'table-danger': isAnError(index, REVENUS) }">
+              {{ row[REVENUS] }}
+            </td>
+            <td
+              [ngClass]="{ 'table-danger': isAnError(index, REVENUS_DETAILS) }"
+            >
+              {{ row[REVENUS_DETAILS] }}
+            </td>
+            <td [ngClass]="{ 'table-danger': isAnError(index, LIEN_COMMUNE) }">
+              {{ row[LIEN_COMMUNE] }}
+            </td>
+            <td
+              [ngClass]="{
+                'table-danger': isAnError(index, COMPOSITION_MENAGE)
+              }"
+            >
+              {{ row[COMPOSITION_MENAGE] }}
+            </td>
+            <td
+              [ngClass]="{
+                'table-danger': isAnError(index, CAUSE_INSTABILITE)
+              }"
+            >
+              {{ row[CAUSE_INSTABILITE] }}
+            </td>
+            <td
+              [ngClass]="{
+                'table-danger': isAnError(index, SITUATION_RESIDENTIELLE)
+              }"
+            >
+              {{ row[SITUATION_RESIDENTIELLE] }}
+            </td>
+            <td
+              [ngClass]="{ 'table-danger': isAnError(index, ACCOMPAGNEMENT) }"
+            >
+              {{ row[ACCOMPAGNEMENT] }}
+            </td>
+            <td
+              [ngClass]="{
+                'table-danger': isAnError(index, ACCOMPAGNEMENT_DETAILS)
+              }"
+            >
+              {{ row[ACCOMPAGNEMENT_DETAILS] }}
+            </td>
+
             <ng-container
               *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index"
             >
@@ -308,9 +400,6 @@
                 {{ row[ayantDroit + 3] }}
               </td>
             </ng-container>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 32) }">
-              {{ row[32] }}
-            </td>
           </tr>
         </tbody>
       </table>
