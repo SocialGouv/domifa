@@ -32,7 +32,7 @@
     "@sentry/node": "5.19.0",
     "@types/compression": "^1.7.0",
     "@types/cron": "^1.7.2",
-    "@types/mongoose": "^5.7.28",
+    "@types/mongoose": "^5.7.29",
     "@types/multer": "^1.4.3",
     "@types/passport-jwt": "^3.0.3",
     "@types/rimraf": "^3.0.0",
