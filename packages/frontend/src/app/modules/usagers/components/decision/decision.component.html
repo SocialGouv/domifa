@@ -112,7 +112,7 @@
   </div>
 </div>
 
-<div class="step_form" id="fiche-recap" *ngIf="usager.etapeDemande >= 4">
+<div class="step_form" id="ficheRecap" *ngIf="usager.etapeDemande >= 4">
   <h4>ÉTAT CIVIL</h4>
   <div class="row">
     <div class="col-md-4 reponses">
@@ -313,7 +313,9 @@
   <div class="row">
     <div class="col">
       <button
-        (click)="this.printService.printDiv('fiche-recap')"
+        [useExistingCss]="true"
+        printSectionId="ficheRecap"
+        ngxPrint
         class="btn-block btn btn-primary"
       >
         <fa-icon icon="print" class="btn-icon"></fa-icon>

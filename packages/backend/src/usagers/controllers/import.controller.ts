@@ -31,61 +31,6 @@ export const regexp = {
   postcode: /^[0-9][0-9AB][0-9]{3}$/,
 };
 
-export const CIVILITE = 0;
-export const NOM = 1;
-export const PRENOM = 2;
-export const SURNOM = 3;
-export const DATE_NAISSANCE = 4;
-export const LIEU_NAISSANCE = 5;
-export const EMAIL = 6;
-export const PHONE = 7;
-export const STATUT_DOM = 8;
-export const TYPE_DOM = 9;
-export const DATE_DEBUT_DOM = 10;
-export const DATE_FIN_DOM = 11;
-export const DATE_PREMIERE_DOM = 12;
-export const MOTIF_REFUS = 13;
-export const MOTIF_RADIATION = 14;
-export const MENAGE = 15;
-export const AYANT_DROIT = [16, 20, 24, 28];
-export const CUSTOM_ID = 32;
-
-export const colNames = [
-  "Civilité",
-  "Nom",
-  "Prénom",
-  "Surnom",
-  "Date naissance",
-  "Lieu naissance",
-  "Email",
-  "Téléphone",
-  "Statut demande",
-  "Type demande",
-  "Date de Début de la DOM actuelle",
-  "Date de FIN de la DOM actuelle",
-  "Date 1ere domiciliation",
-  "Motif de refus",
-  "Motif de radiation",
-  "Composition du ménage",
-  "Ayant-droit 1: nom",
-  "Ayant-droit 1: prénom",
-  "Ayant-droit 1: date naissance",
-  "Ayant-droit 1: lien parenté",
-  "Ayant-droit 2: nom",
-  "Ayant-droit 2: prénom",
-  "Ayant-droit 2: date naissance",
-  "Ayant-droit 2: lien parenté",
-  "Ayant-droit 3: nom",
-  "Ayant-droit 3: prénom",
-  "Ayant-droit 3: date naissance",
-  "Ayant-droit 3: lien parenté",
-  "Ayant-droit 4: nom",
-  "Ayant-droit 4: prénom",
-  "Ayant-droit 4: date de naissance",
-  "Ayant-droit 4: lien parenté",
-  "Numéro d'identification",
-];
-
 type AOA = any[][];
 
 @UseGuards(AuthGuard("jwt"))
@@ -95,6 +40,36 @@ export class ImportController {
   public colNames: string[];
   public rowNumber: number;
   public datas: AOA = [[], []];
+
+  public CUSTOM_ID = 0;
+  public CIVILITE = 1;
+  public NOM = 2;
+  public PRENOM = 3;
+  public SURNOM = 4;
+  public DATE_NAISSANCE = 5;
+  public LIEU_NAISSANCE = 6;
+  public PHONE = 7;
+  public EMAIL = 8;
+  public STATUT_DOM = 9;
+  public MOTIF_REFUS = 10;
+  public MOTIF_RADIATION = 11;
+  public TYPE_DOM = 12;
+  public DATE_DEBUT_DOM = 13;
+  public DATE_FIN_DOM = 14;
+  public DATE_PREMIERE_DOM = 15;
+  public ORIENTATION = 16;
+  public ORIENTATION_DETAILS = 17;
+  public DOMICILIATION_EXISTANTE = 18;
+  public REVENUS = 19;
+  public REVENUS_DETAILS = 20;
+  public LIEN_COMMUNE = 21;
+  public COMPOSITION_MENAGE = 22;
+  public CAUSE_INSTABILITE = 23;
+  public SITUATION_RESIDENTIELLE = 24;
+  public ACCOMPAGNEMENT = 25;
+  public ACCOMPAGNEMENT_DETAILS = 26;
+  public AYANT_DROIT = [27, 31, 35, 39];
+
   private readonly logger = new Logger(ImportController.name);
 
   constructor(
@@ -105,7 +80,51 @@ export class ImportController {
     this.rowNumber = 0;
     this.datas = [[], []];
 
-    this.colNames = colNames;
+    this.colNames = [
+      "Numéro d'identification",
+      "Civilité",
+      "Nom",
+      "Prénom",
+      "Nom d'usage / Surnom",
+      "Date naissance",
+      "Lieu naissance",
+      "Téléphone",
+      "Email",
+      "Statut demande",
+      "Motif de refus",
+      "Motif de radiation",
+      "Type de domiciliation",
+      "Date de Début de la DOM actuelle",
+      "Date de FIN de la DOM actuelle",
+      "Date 1ere domiciliation",
+      "Orientation",
+      "Détails de l'orientation",
+      "La personne a t-elle déjà une domiciliation ?",
+      "Le domicilié possède t-il des revenus ?",
+      "Seulement si revenus, de quelle nature ?",
+      "Lien avec la commune",
+      "Composition du ménage",
+      "Cause instabilité logement",
+      "Situation résidentielle",
+      "Accompagnement social",
+      "Détail de l'accompagnement social",
+      "Ayant-droit 1: nom",
+      "Ayant-droit 1: prénom",
+      "Ayant-droit 1: date naissance",
+      "Ayant-droit 1: lien parenté",
+      "Ayant-droit 2: nom",
+      "Ayant-droit 2: prénom",
+      "Ayant-droit 2: date naissance",
+      "Ayant-droit 2: lien parenté",
+      "Ayant-droit 3: nom",
+      "Ayant-droit 3: prénom",
+      "Ayant-droit 3: date naissance",
+      "Ayant-droit 3: lien parenté",
+      "Ayant-droit 4: nom",
+      "Ayant-droit 4: prénom",
+      "Ayant-droit 4: date de naissance",
+      "Ayant-droit 4: lien parenté",
+    ];
   }
 
   @Post()
@@ -169,64 +188,111 @@ export class ImportController {
       for (let index = 1, len = this.datas.length; index < len; index++) {
         this.rowNumber = index;
         const row = this.datas[index];
-        const sexeCheck = row[CIVILITE] === "H" || row[CIVILITE] === "F";
+        const sexeCheck =
+          row[this.CIVILITE] === "H" || row[this.CIVILITE] === "F";
 
-        this.countErrors(sexeCheck, index, CIVILITE);
-        this.countErrors(this.notEmpty(row[NOM]), index, NOM);
-        this.countErrors(this.notEmpty(row[PRENOM]), index, PRENOM);
+        this.countErrors(sexeCheck, index, this.CIVILITE);
+        this.countErrors(this.notEmpty(row[this.NOM]), index, this.NOM);
+        this.countErrors(this.notEmpty(row[this.PRENOM]), index, this.PRENOM);
         this.countErrors(
-          this.validDate(row[DATE_NAISSANCE], true, false),
+          this.validDate(row[this.DATE_NAISSANCE], true, false),
           index,
-          DATE_NAISSANCE
+          this.DATE_NAISSANCE
         );
         this.countErrors(
-          this.notEmpty(row[LIEU_NAISSANCE]),
+          this.notEmpty(row[this.LIEU_NAISSANCE]),
           index,
-          LIEU_NAISSANCE
+          this.LIEU_NAISSANCE
         );
-        this.countErrors(this.validEmail(row[EMAIL]), index, EMAIL);
-        this.countErrors(this.validPhone(row[PHONE]), index, PHONE);
-
-        this.countErrors(
-          this.isValidValue(row[STATUT_DOM], "statut", true),
-          index,
-          STATUT_DOM
-        );
+        this.countErrors(this.validEmail(row[this.EMAIL]), index, this.EMAIL);
+        this.countErrors(this.validPhone(row[this.PHONE]), index, this.PHONE);
 
         this.countErrors(
-          this.isValidValue(row[TYPE_DOM], "demande", true),
+          this.isValidValue(row[this.STATUT_DOM], "statut", true),
           index,
-          TYPE_DOM
-        );
-        this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], false, false),
-          index,
-          DATE_PREMIERE_DOM
-        );
-        this.countErrors(
-          this.validDate(row[DATE_FIN_DOM], true, true),
-          index,
-          DATE_FIN_DOM
-        );
-        this.countErrors(
-          this.validDate(row[DATE_PREMIERE_DOM], false, false),
-          index,
-          DATE_PREMIERE_DOM
-        );
-        this.countErrors(
-          this.isValidValue(row[MOTIF_REFUS], "motifRefus"),
-          index,
-          MOTIF_REFUS
-        );
-        this.countErrors(
-          this.isValidValue(row[MOTIF_RADIATION], "motifRadiation"),
-          index,
-          MOTIF_RADIATION
+          this.STATUT_DOM
         );
 
-        this.countErrors(this.isValidValue(row[15], "menage"), index, 15);
+        this.countErrors(
+          this.isValidValue(row[this.TYPE_DOM], "demande", true),
+          index,
+          this.TYPE_DOM
+        );
+        this.countErrors(
+          this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
+          index,
+          this.DATE_PREMIERE_DOM
+        );
+        this.countErrors(
+          this.validDate(row[this.DATE_FIN_DOM], true, true),
+          index,
+          this.DATE_FIN_DOM
+        );
+        this.countErrors(
+          this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
+          index,
+          this.DATE_PREMIERE_DOM
+        );
+        this.countErrors(
+          this.isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
+          index,
+          this.MOTIF_REFUS
+        );
+        this.countErrors(
+          this.isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
+          index,
+          this.MOTIF_RADIATION
+        );
 
-        for (const indexAD of AYANT_DROIT) {
+        this.countErrors(
+          this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
+          index,
+          this.COMPOSITION_MENAGE
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
+          index,
+          this.COMPOSITION_MENAGE
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
+          index,
+          this.CAUSE_INSTABILITE
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
+          index,
+          this.SITUATION_RESIDENTIELLE
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.ORIENTATION], "choix"),
+          index,
+          this.ORIENTATION
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
+          index,
+          this.DOMICILIATION_EXISTANTE
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.REVENUS], "choix"),
+          index,
+          this.REVENUS
+        );
+
+        this.countErrors(
+          this.isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
+          index,
+          this.ACCOMPAGNEMENT
+        );
+
+        for (const indexAD of this.AYANT_DROIT) {
           const nom = row[indexAD];
           const prenom = row[indexAD + 1];
           const dateNaissance = row[indexAD + 2];
@@ -258,7 +324,7 @@ export class ImportController {
         if (index + 1 >= this.datas.length) {
           if (this.errorsId.length > 0) {
             const error = {
-              errors: this.errorsId,
+              ids: JSON.stringify(this.errorsId),
               message: "IMPORT_ERRORS_BACKEND",
             };
             throw new HttpException(error, HttpStatus.BAD_REQUEST);
@@ -294,16 +360,16 @@ export class ImportController {
       const row = datas[index];
       const ayantsDroits = [];
       const historique = [];
-      const sexe = row[CIVILITE] === "H" ? "homme" : "femme";
+      const sexe = row[this.CIVILITE] === "H" ? "homme" : "femme";
       let motif = "";
 
-      let dateDecision = this.notEmpty(row[DATE_DEBUT_DOM])
-        ? this.convertDate(row[DATE_DEBUT_DOM])
+      let dateDecision = this.notEmpty(row[this.DATE_DEBUT_DOM])
+        ? this.convertDate(row[this.DATE_DEBUT_DOM])
         : new Date();
 
       let datePremiereDom = new Date().toISOString();
-      if (this.notEmpty(row[DATE_PREMIERE_DOM])) {
-        datePremiereDom = this.convertDate(row[DATE_PREMIERE_DOM]);
+      if (this.notEmpty(row[this.DATE_PREMIERE_DOM])) {
+        datePremiereDom = this.convertDate(row[this.DATE_PREMIERE_DOM]);
 
         const dateFinPremiereDom = new Date(datePremiereDom);
         dateFinPremiereDom.setFullYear(
@@ -320,8 +386,8 @@ export class ImportController {
           userId: user.id,
           userName: agent,
         });
-      } else if (this.notEmpty(row[DATE_DEBUT_DOM])) {
-        datePremiereDom = this.convertDate(row[DATE_DEBUT_DOM]);
+      } else if (this.notEmpty(row[this.DATE_DEBUT_DOM])) {
+        datePremiereDom = this.convertDate(row[this.DATE_DEBUT_DOM]);
       }
 
       historique.push({
@@ -335,20 +401,22 @@ export class ImportController {
         userName: agent,
       });
 
-      if (row[STATUT_DOM] === "REFUS") {
-        motif = this.notEmpty(row[MOTIF_REFUS]) ? row[MOTIF_REFUS] : "AUTRE";
-      }
-
-      if (row[STATUT_DOM] === "RADIE") {
-        dateDecision = this.notEmpty(row[DATE_FIN_DOM])
-          ? this.convertDate(row[DATE_FIN_DOM])
-          : new Date();
-        motif = this.notEmpty(row[MOTIF_RADIATION])
-          ? row[MOTIF_RADIATION]
+      if (row[this.STATUT_DOM] === "REFUS") {
+        motif = this.notEmpty(row[this.MOTIF_REFUS])
+          ? row[this.MOTIF_REFUS]
           : "AUTRE";
       }
 
-      for (const indexAD of AYANT_DROIT) {
+      if (row[this.STATUT_DOM] === "RADIE") {
+        dateDecision = this.notEmpty(row[this.DATE_FIN_DOM])
+          ? this.convertDate(row[this.DATE_FIN_DOM])
+          : new Date();
+        motif = this.notEmpty(row[this.MOTIF_RADIATION])
+          ? row[this.MOTIF_RADIATION]
+          : "AUTRE";
+      }
+
+      for (const indexAD of this.AYANT_DROIT) {
         const nom = row[indexAD];
         const prenom = row[indexAD + 1];
         const dateNaissance = row[indexAD + 2];
@@ -363,25 +431,43 @@ export class ImportController {
         }
       }
 
-      const phone = !row[PHONE] ? null : row[PHONE].replace(/\D/g, "");
+      const phone = !row[this.PHONE]
+        ? null
+        : row[this.PHONE].replace(/\D/g, "");
 
-      const dateDebut = this.notEmpty(row[DATE_FIN_DOM])
-        ? this.convertDate(row[DATE_DEBUT_DOM])
+      const dateDebut = this.notEmpty(row[this.DATE_FIN_DOM])
+        ? this.convertDate(row[this.DATE_DEBUT_DOM])
         : null;
-      const dateFin = this.notEmpty(row[DATE_FIN_DOM])
-        ? this.convertDate(row[DATE_FIN_DOM])
+      const dateFin = this.notEmpty(row[this.DATE_FIN_DOM])
+        ? this.convertDate(row[this.DATE_FIN_DOM])
         : null;
 
-      const customId = this.notEmpty(row[CUSTOM_ID]) ? row[CUSTOM_ID] : null;
+      const customId = this.notEmpty(row[this.CUSTOM_ID])
+        ? row[this.CUSTOM_ID]
+        : null;
 
       if (motif === "AUTRES") {
         motif = "AUTRE";
       }
 
+      const entretien = {
+        typeMenage: row[this.COMPOSITION_MENAGE],
+        domiciliation: this.convertChoix(row[this.DOMICILIATION_EXISTANTE]),
+        accompagnement: this.convertChoix(row[this.ACCOMPAGNEMENT]),
+        accompagnementDetail: row[this.ACCOMPAGNEMENT_DETAILS],
+        revenus: this.convertChoix(row[this.REVENUS]),
+        revenusDetail: row[this.REVENUS_DETAILS],
+        orientation: this.convertChoix(row[this.ORIENTATION]),
+        orientationDetail: row[this.ORIENTATION_DETAILS],
+        liencommune: row[this.LIEN_COMMUNE],
+        residence: row[this.SITUATION_RESIDENTIELLE],
+        cause: row[this.CAUSE_INSTABILITE],
+      };
+
       const usager = {
         ayantsDroits,
         customId,
-        dateNaissance: this.convertDate(row[DATE_NAISSANCE]),
+        dateNaissance: this.convertDate(row[this.DATE_NAISSANCE]),
         datePremiereDom,
         decision: {
           agent,
@@ -389,24 +475,23 @@ export class ImportController {
           dateDecision,
           dateFin,
           motif,
-          statut: row[STATUT_DOM],
+          statut: row[this.STATUT_DOM],
           userId: user.id,
           userName: agent,
         },
-        email: row[EMAIL],
-        entretien: {
-          typeMenage: row[MENAGE],
-        },
+
+        email: row[this.EMAIL],
+        entretien,
         etapeDemande: 5,
         historique,
-        nom: row[NOM],
+        nom: row[this.NOM],
         phone,
-        prenom: row[PRENOM],
+        prenom: row[this.PRENOM],
         sexe,
         structureId: user.structureId,
-        surnom: row[SURNOM],
-        typeDom: row[TYPE_DOM],
-        villeNaissance: row[LIEU_NAISSANCE],
+        surnom: row[this.SURNOM],
+        typeDom: row[this.TYPE_DOM],
+        villeNaissance: row[this.LIEU_NAISSANCE],
       };
 
       usagers.push(await this.usagersService.save(usager, user));
@@ -414,6 +499,16 @@ export class ImportController {
       if (index + 1 >= datas.length) {
         return true;
       }
+    }
+  }
+
+  private convertChoix(value: any) {
+    if (value === "OUI") {
+      return true;
+    } else if (value === "NON") {
+      return false;
+    } else {
+      return null;
     }
   }
 
@@ -434,10 +529,10 @@ export class ImportController {
       variable;
 
     if (
-      this.datas[idRow][STATUT_DOM] === "REFUS" &&
-      (idColumn === DATE_DEBUT_DOM ||
-        idColumn === DATE_FIN_DOM ||
-        idColumn === DATE_PREMIERE_DOM)
+      this.datas[idRow][this.STATUT_DOM] === "REFUS" &&
+      (idColumn === this.DATE_DEBUT_DOM ||
+        idColumn === this.DATE_FIN_DOM ||
+        idColumn === this.DATE_PREMIERE_DOM)
     ) {
       variable = true;
       return true;
@@ -542,7 +637,29 @@ export class ImportController {
         "AUTRE",
         "AUTRES",
       ],
-      statut: ["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE", "EXPIRE"],
+      residence: [
+        "DOMICILE_MOBILE",
+        "HEBERGEMENT_SOCIAL",
+        "HEBERGEMENT_TIERS",
+        "HOTEL",
+        "SANS_ABRI",
+        "NON_RENSEIGNE",
+        "AUTRE",
+      ],
+      cause: [
+        "ERRANCE",
+        "AUTRE",
+        "EXPULSION",
+        "HEBERGE_SANS_ADRESSE",
+        "ITINERANT",
+        "NON_RENSEIGNE",
+        "RUPTURE",
+        "SORTIE_STRUCTURE",
+        "VIOLENCE",
+        "AUTRE",
+      ],
+      statut: ["VALIDE", "REFUS", "RADIE"],
+      choix: ["OUI", "NON"],
     };
 
     return types[rowName].indexOf(data) > -1;

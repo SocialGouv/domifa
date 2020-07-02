@@ -454,13 +454,13 @@ table .active {
   color: white;
   -webkit-text-stroke-width: 0;
   stroke-width: 0;
-  padding: 3px 6px;
+  padding: 2px 6px;
   font-size: 1rem;
-  line-height: 100%;
+  line-height: 1;
   position: absolute;
   box-shadow: 0 1px 3px rgba(74, 74, 74, 0.6);
-  top: -2px;
-  right: -10px;
+  top: -4px;
+  right: -12px;
 }
 
 .news {

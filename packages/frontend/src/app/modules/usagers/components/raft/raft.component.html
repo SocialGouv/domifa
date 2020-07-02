@@ -127,8 +127,11 @@
         Vous pourrez retrouver son dossier sous
         <b>le filtre « Radiés ».</b>
       </p>
+
       <button
-        (click)="printService.printDiv('courrier-radiation')"
+        [useExistingCss]="true"
+        printSectionId="courrierRadiation"
+        ngxPrint
         class="btn btn-primary"
       >
         <fa-icon icon="print"></fa-icon>
@@ -142,7 +145,7 @@
       </a>
       <br />
     </div>
-    <div id="courrier-radiation">
+    <div id="courrierRadiation">
       <div class="text-right">
         {{ usager.nom }} {{ usager.prenom }}
         <br />

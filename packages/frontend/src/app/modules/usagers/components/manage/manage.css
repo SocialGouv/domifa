@@ -196,7 +196,7 @@ th {
 }
 
 .icones_liste {
-  width: 220px;
+  min-width: 280px;
 }
 
 .icones_liste span {

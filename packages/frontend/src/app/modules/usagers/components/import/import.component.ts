@@ -132,6 +132,7 @@ export class ImportComponent implements OnInit {
     private authService: AuthService,
     private loadingService: LoadingService,
     private router: Router,
+    private notifService: ToastrService,
     public http: HttpClient,
     private titleService: Title
   ) {
@@ -364,6 +365,7 @@ export class ImportComponent implements OnInit {
         }, 1000);
       },
       (err) => {
+        this.notifService.error("Le fichier n'a pas pu être importé ");
         this.loadingService.stopLoading();
       }
     );

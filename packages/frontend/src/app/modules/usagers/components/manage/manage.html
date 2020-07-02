@@ -300,16 +300,22 @@
               (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)
             "
             >
-              <!--
+              <ng-template #colisAttente>
+                {{ usager.lastInteraction.colisIn }} colis et {{
+                usager.lastInteraction.recommandeIn }} avis de passage en
+                attente
+              </ng-template>
               <span
-                (click)="setInteraction(usager, 'courrierIn')"
-                *ngIf="usager.lastInteraction.colisIn > 0"
-                ngbTooltip="5 colis et 3 avis de passage"
+                (click)="goToProfil(usager)"
+                *ngIf="usager.lastInteraction.colisIn > 0 || usager.lastInteraction.colisIn"
+                [ngbTooltip]="colisAttente"
               >
-                <b class="notification">{{ usager.lastInteraction.colisIn }}</b>
+                <b class="notification"
+                  >{{ usager.lastInteraction.colisIn +
+                  usager.lastInteraction.recommandeIn }}</b
+                >
                 <fa-icon class="courrier" icon="mail-bulk"></fa-icon>
               </span>
-              -->
 
               <span
                 (click)="setInteraction(usager, 'courrierOut')"

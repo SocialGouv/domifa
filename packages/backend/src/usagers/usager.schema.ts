@@ -87,8 +87,16 @@ export const UsagerSchema = new mongoose.Schema(
         typeMenage: null,
       },
       type: {
-        accompagnement: {
+        revenus: {
+          type: Boolean,
+        },
+        revenusDetail: {
           default: null,
+          maxlength: 300,
+          trim: true,
+          type: String,
+        },
+        accompagnement: {
           type: Boolean,
         },
         accompagnementDetail: {

@@ -179,7 +179,7 @@
           <th class="required">Prénom</th>
           <th>Nom d'usage / Surnom</th>
           <th class="required">
-            Date Naissance
+            Date de naissance
             <br />
             (jj/mm/aaaa)
           </th>
@@ -189,22 +189,26 @@
 
           <th class="required">Statut demande</th>
           <th>
-            MOTIF REFUS
+            Motif de refus
             <br />
-            (SEULEMENT SI REFUS)
+            <u>(SEULEMENT SI REFUS)</u>
           </th>
           <th>
-            MOTIF RADIATION
+            Motif de radiation
             <br />
-            (SEULEMENT SI RADIATION)
+            <u> (SEULEMENT SI RADIATION)</u>
           </th>
-          <th class="required">Type demande</th>
+          <th class="required">Type de demande</th>
           <th class="required">
             Date de Début
             <br />
-            de la DOM actuelle
+            domiciliation actuelle
           </th>
-          <th>Date de FIN de la DOM actuelle</th>
+          <th>
+            Date fin de domiciliation OU <br />
+            Date de radiation si radié OU <br />
+            Date de refus si refusé
+          </th>
           <th>
             Date de la 1
             <sup>ère</sup>
@@ -227,22 +231,22 @@
             *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index"
           >
             <th>
-              NOM
+              Nom
               <br />
               Ayant-droit {{ indexRow + 1 }}
             </th>
             <th>
-              PRÉNOM
+              Prénom
               <br />
               Ayant-droit {{ indexRow + 1 }}
             </th>
             <th>
-              DATE NAISSANCE
+              Date de naissance
               <br />
               Ayant-droit {{ indexRow + 1 }}
             </th>
             <th>
-              LIEN DE PARENTÉ
+              Lien de parenté
               <br />
               Ayant-droit {{ indexRow + 1 }}
             </th>

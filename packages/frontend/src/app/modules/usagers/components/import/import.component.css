@@ -2,8 +2,8 @@
   min-width: 6500px;
 }
 
-#import-table td {
-  min-width: 40px;
+#import-table td:nth-child(n + 3) {
+  min-width: 150px;
 }
 
 #import-table th {
@@ -14,7 +14,7 @@
 #import-table th:first-child,
 #import-table td:first-child {
   position: sticky;
-  left: 0px;
+  left: 0;
   width: 60px;
 }
 
