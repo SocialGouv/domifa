@@ -180,6 +180,8 @@ export class Usager {
       const substring = search.toUpperCase();
 
       this.isAyantDroit =
+        !this.id.toString().toUpperCase().includes(substring) &&
+        !this.customId.toUpperCase().includes(substring) &&
         !this.nom.toUpperCase().includes(substring) &&
         !this.prenom.toUpperCase().includes(substring) &&
         !this.surnom.toUpperCase().includes(substring);

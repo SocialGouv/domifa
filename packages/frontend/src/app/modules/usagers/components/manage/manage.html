@@ -307,7 +307,7 @@
               </ng-template>
               <span
                 (click)="goToProfil(usager)"
-                *ngIf="usager.lastInteraction.colisIn > 0 || usager.lastInteraction.colisIn"
+                *ngIf="usager.lastInteraction.recommandeIn > 0 || usager.lastInteraction.colisIn > 0"
                 [ngbTooltip]="colisAttente"
               >
                 <b class="notification"
