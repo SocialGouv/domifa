@@ -1,27 +1,17 @@
 [
-  {
-    "date": "2020-06-18",
-    "description": "Arrivée du profil Facteur et nouvelle version de l’export des données domiciliés",
+ {
+    "date": "2020-07-03",
+    "description": "Laissez votre avis sur notre plateforme en bas de page",
     "content": [
       {
         "type": "new",
         "categorie": "Structure",
         "message": [
-          "Nouveau profil Facteur disponible pour réceptionner et distribuer du courrier",
-          "Possibilité d'exporter les données courrier/colis/avis de passage de votre base domiciliés"
+          "Possibilité de retrouver un ayant-droit via la barre de recherche",
+          "Amélioration du bouton aide avec accès à notre guide utilisateur et notre FAQ"
+          "Possibilité de supprimer les radiés et les refusés"
+          "Accès à plus d’interactions sur la fiche domicilié"
         ]
-      },
-      {
-        "type": "new",
-        "categorie": "Mise à jour de notre FAQ",
-        "message": []
-      },
-      {
-        "type": "new",
-        "categorie": "Mise à jour de notre politique de confidentialité",
-        "message": []
-      }
-    ]
   },
   {
     "date": "2020-06-05",
