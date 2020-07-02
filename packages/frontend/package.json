@@ -41,7 +41,7 @@
     "ngx-toastr": "^12.1.0",
     "path": "^0.12.7",
     "raven-js": "^3.27.2",
-    "rxjs": "^6.5.5",
+    "rxjs": "^6.6.0",
     "smoothscroll-polyfill": "^0.4.4",
     "tslib": "^2.0.0",
     "xlsx": "^0.16.3",
