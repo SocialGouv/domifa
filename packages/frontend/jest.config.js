@@ -9,22 +9,17 @@ module.exports = {
       ],
     },
   },
-
-  transform: {
-    "^.+\\.(ts|js|html|tsx)$": "ts-jest",
-  },
-  moduleFileExtensions: ["ts", "html", "js", "json"],
+  moduleFileExtensions: ["ts", "html", "js", "tsx", "json"],
   moduleNameMapper: {
     "^src/(.*)$": "<rootDir>/src/$1",
     "^app/(.*)$": "<rootDir>/src/app/$1",
     "^assets/(.*)$": "<rootDir>/src/assets/$1",
     "^environments/(.*)$": "<rootDir>/src/environments/$1",
   },
-  transformIgnorePatterns: [
-    "node_modules/(?!@ngrx)",
-    "node_modules/(?!countup.js)",
-    "../node_modules/(?!countup.js)",
-  ],
+  transform: {
+    "^.+\\.(js|ts|tsx|html)$": "ts-jest",
+  },
+  transformIgnorePatterns: ["node_modules/(?!@ngrx" + "|countup.js)"],
   setupFilesAfterEnv: ["<rootDir>/src/setupJest.ts"],
   snapshotSerializers: [
     "jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js",
