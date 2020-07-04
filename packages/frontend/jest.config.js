@@ -23,6 +23,7 @@ module.exports = {
   transformIgnorePatterns: [
     "node_modules/(?!@ngrx)",
     "node_modules/(?!countup.js)",
+    "../node_modules/(?!countup.js)",
   ],
   setupFilesAfterEnv: ["<rootDir>/src/setupJest.ts"],
   snapshotSerializers: [
