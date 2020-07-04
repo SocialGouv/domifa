@@ -2,12 +2,14 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { HomeComponent } from "./home.component";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { SharedModule } from "src/app/modules/shared/shared.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CountUpModule } from "ngx-countup";
+import { HttpClientModule } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -23,7 +25,10 @@ describe("HomeComponent", () => {
         BrowserAnimationsModule,
         FontAwesomeModule,
         CountUpModule,
+        HttpClientModule,
+        HttpClientTestingModule,
       ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
