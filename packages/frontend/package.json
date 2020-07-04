@@ -57,7 +57,7 @@
     "@socialgouv/tslint-config-recommended": "^0.35.0",
     "@types/jest": "^26.0.3",
     "@types/node": "^8.9.5",
-    "codelyzer": "^5.2.2",
+    "codelyzer": "^6.0.0",
     "eslint-plugin-import": "^2.22.0",
     "jest": "^26.1.0",
     "jest-preset-angular": "^8.2.1",
