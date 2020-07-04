@@ -1,6 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
+import {
+  NgModule,
+  CUSTOM_ELEMENTS_SCHEMA,
+  NO_ERRORS_SCHEMA,
+} from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -62,5 +66,6 @@ import { CountUpModule } from "ngx-countup";
     ReactiveFormsModule,
   ],
   providers: [LoadingService, HomeService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class GeneralModule {}

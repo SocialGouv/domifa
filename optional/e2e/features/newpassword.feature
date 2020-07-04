@@ -16,7 +16,7 @@ Scénario:
   Alors je vois "Adresse email"
   Alors je rentre "mailinvalide@test.com" dans "Adresse email"
   Quand je clique sur "Envoyer"
-  Alors je vois "Veuillez vérifier l'adresse email"
+  Alors je vois un message d'erreur s'afficher "Veuillez vérifier l'adresse email"
   Alors je rentre "ccastest@yopmail.com" dans "Adresse email"
   Quand je clique sur "Envoyer"
   Alors j'attends que le texte "Vous venez de recevoir un mail pour réinitialiser votre mot de passe" s'affiche

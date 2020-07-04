@@ -85,6 +85,10 @@ Alors("je coche la case {string}", (text) => {
   I.checkOption(text);
 });
 
+Alors("je vois un message d'erreur s'afficher {string}", (text) => {
+  I.waitForElement(`.toast-error`, 2);
+});
+
 Alors("j'actualise", () => {
   I.refreshPage();
 });
