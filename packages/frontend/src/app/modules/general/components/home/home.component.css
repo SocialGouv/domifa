@@ -1,21 +1,21 @@
 h1 {
   font-weight: 600;
-  font-size: 2.6rem;
-  line-height: 3.2rem;
+  font-size: 2.3rem;
+  line-height: 2.8rem;
   max-width: 780px;
-  margin: 0.5rem auto;
+  margin: 0.4rem auto;
 }
 
 #home1 p {
   max-width: 650px;
-  margin: 0.5rem auto;
+  margin: 0.4rem auto;
 }
 
 #home1 {
   background: url("/assets/images/image_fond.jpg") no-repeat center;
   -webkit-background-size: cover;
   background-size: cover;
-  padding: 4rem 1rem;
+  padding: 2rem 0.75rem;
   text-align: center;
   color: white;
 }
@@ -43,4 +43,16 @@ h1 {
   display: block;
   max-height: 150px;
   margin-bottom: 20px;
+}
+
+.counter {
+  font-weight: 600;
+  font-size: 4rem;
+  color: #486bff;
+  display: block;
+}
+
+.counter-title {
+  font-weight: 500;
+  font-size: 1.2rem;
 }

@@ -30,4 +30,14 @@ export class StatsController {
   public async generate() {
     return this.statsService.clean();
   }
+
+  @Get("home-stats")
+  public async home() {
+    const statsHome = {
+      structures: await this.statsService.countStructures(),
+      interactions: await this.statsService.countInteractions(),
+      usagers: await this.statsService.countUsagers(),
+    };
+    return statsHome;
+  }
 }

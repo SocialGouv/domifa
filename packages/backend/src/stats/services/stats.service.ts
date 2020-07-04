@@ -780,4 +780,16 @@ export class StatsService {
           });
       });
   }
+
+  public async countStructures(): Promise<any> {
+    return this.structureModel.count({}).exec();
+  }
+
+  public async countInteractions(): Promise<any> {
+    return this.interactionModel.count({ type: "courrierIn" }).exec();
+  }
+
+  public async countUsagers(): Promise<any> {
+    return this.usagerModel.count({}).exec();
+  }
 }

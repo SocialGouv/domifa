@@ -1,5 +1,5 @@
 [
- {
+  {
     "date": "2020-07-03",
     "description": "Laissez votre avis sur notre plateforme en bas de page",
     "content": [
@@ -8,10 +8,12 @@
         "categorie": "Structure",
         "message": [
           "Possibilité de retrouver un ayant-droit via la barre de recherche",
-          "Amélioration du bouton aide avec accès à notre guide utilisateur et notre FAQ"
-          "Possibilité de supprimer les radiés et les refusés"
+          "Amélioration du bouton aide avec accès à notre guide utilisateur et notre FAQ",
+          "Possibilité de supprimer les radiés et les refusés",
           "Accès à plus d’interactions sur la fiche domicilié"
         ]
+      }
+    ]
   },
   {
     "date": "2020-06-05",

@@ -5711,6 +5711,11 @@ cosmiconfig@^6.0.0:
     path-type "^4.0.0"
     yaml "^1.7.2"
 
+countup.js@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-2.0.5.tgz#7f6b5a329c1bedea9bdb702e628e2bf7bef3c75c"
+  integrity sha512-cyEnorbu6PyvbCnPBKoQh1SG7RGzAGFkIWeB+XErjRSelqRQaSKX1OQbPZGddBYiaNja89536NqbnbAySKap/A==
+
 crc-32@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/crc-32/-/crc-32-1.2.0.tgz#cb2db6e29b88508e32d9dd0ec1693e7b41a18208"
@@ -10526,6 +10531,14 @@ next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
+
+ngx-countup@^7.3.1:
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/ngx-countup/-/ngx-countup-7.3.1.tgz#16bb21947ce40fc4485aece12fce8215c9cb43d8"
+  integrity sha512-+nw3Axg/5R/09hjG1uOyOItdIxAxv8V1GNz0oR8MlB27tB5sH9aknCUPJiEfdPAGSCfMfG7nsURlz4WAoIDrhA==
+  dependencies:
+    countup.js "^2.0.5"
+    tslib "^1.9.0"
 
 ngx-matomo@^0.1.4:
   version "0.1.4"

@@ -18,6 +18,39 @@
     </a>
   </div>
 </div>
+<div class="container text-center section" *ngIf="stats">
+  <h2>Domifa en chiffres</h2>
+  <br />
+  <div class="row" id="home_pictos">
+    <div class="col-md-4 text-center">
+      <span
+        [countUp]="stats.structures"
+        [options]="countOptions"
+        class="counter"
+      >
+      </span>
+      <span class="counter-title">structures inscrites</span>
+    </div>
+    <div class="col-md-4 text-center">
+      <span [countUp]="stats.usagers" [options]="countOptions" class="counter">
+      </span>
+      <span class="counter-title">domiciliés</span>
+    </div>
+
+    <div class="col-md-4 text-center">
+      <span
+        [countUp]="stats.interactions"
+        [options]="countOptions"
+        class="counter"
+      >
+      </span>
+      <span class="counter-title">courriers enregistrés</span>
+    </div>
+  </div>
+  <br />
+  <br />
+  <br />
+</div>
 <div class="container text-center section">
   <h2>Comment ça marche ?</h2>
   <div class="row" id="home_pictos">
@@ -50,16 +83,16 @@
         <h2 class="text-white">À quoi ça sert ?</h2>
         <br />
       </div>
-      <div class="col">
+      <div class="col-md-4">
         <span class="text-secondary big_number">1</span>
         Retrouver facilement les dossiers et limiter les ruptures de prise en
         charge
       </div>
-      <div class="col">
+      <div class="col-md-4">
         <span class="text-secondary big_number">2</span>
         Libérer du temps pour l'accompagnement social
       </div>
-      <div class="col">
+      <div class="col-md-4">
         <span class="text-secondary big_number">3</span>
         Améliorer les services proposés aux domiciliés
       </div>

@@ -62,16 +62,17 @@ export class ExportController {
         J: "Statut de la domiciliation",
         K: "Motif si refusé",
         L: "Motif si radié",
-        M: "Type de domiciliation",
-        N: "Date début dom actuelle",
-        O: "Date fin de dom",
-        P: "Date 1ere dom",
-        Q: "Date de dernier passage",
-        R: "Nombre d'ayants-droit",
-        S: "Nom Ayant-Droit",
-        T: "Prénom Ayant-Droit",
-        U: "Date Naissance Ayant-Droit",
-        V: "Lien parenté Ayant-Droit",
+        M: "Date de radiation",
+        N: "Type de domiciliation",
+        O: "Date début dom actuelle",
+        P: "Date fin de dom",
+        Q: "Date 1ere dom",
+        R: "Date de dernier passage",
+        S: "Nombre d'ayants-droit",
+        T: "Nom Ayant-Droit",
+        U: "Prénom Ayant-Droit",
+        V: "Date Naissance Ayant-Droit",
+        W: "Lien parenté Ayant-Droit",
       },
     ];
 
@@ -189,26 +190,31 @@ export class ExportController {
           I: usager.email,
           J: labels.decisionLabels[usager.decision.statut],
           K: usager.decision.statut === "REFUS" ? usager.decision.motif : "",
+
           L: usager.decision.statut === "RADIE" ? usager.decision.motif : "",
-          M: usager.typeDom,
-          N:
+          M:
+            usager.decision.statut === "RADIE"
+              ? this.dateFr(usager.decision.dateDecision)
+              : "",
+          N: usager.typeDom,
+          O:
             usager.decision.dateDebut && usager.decision.dateDebut !== null
               ? this.dateFr(usager.decision.dateDebut)
               : "",
-          O:
+          P:
             usager.decision.dateFin && usager.decision.dateFin !== null
               ? this.dateFr(usager.decision.dateFin)
               : "",
-          P:
+          Q:
             usager.datePremiereDom && usager.datePremiereDom !== null
               ? this.dateFr(usager.datePremiereDom)
               : "",
-          Q:
+          R:
             usager.lastInteraction.dateInteraction &&
             usager.lastInteraction.dateInteraction !== null
               ? this.dateFr(usager.lastInteraction.dateInteraction)
               : "",
-          R: usager.ayantsDroits.length,
+          S: usager.ayantsDroits.length,
         };
 
         const usagerSheet2: {
@@ -301,7 +307,7 @@ export class ExportController {
           ),
         };
 
-        let indexColumn = 18;
+        let indexColumn = 19;
         let indexAd = 1;
 
         for (const ayantDroit of usager.ayantsDroits) {

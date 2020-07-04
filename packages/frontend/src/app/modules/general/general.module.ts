@@ -19,6 +19,8 @@ import { HomeComponent } from "./components/home/home.component";
 import { MentionsLegalesComponent } from "./components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./components/news/news.component";
 import { PolitiqueComponent } from "./components/politique/politique.component";
+import { HomeService } from "./components/home/home.service";
+import { CountUpModule } from "ngx-countup";
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import { PolitiqueComponent } from "./components/politique/politique.component";
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
+    CountUpModule,
     RouterModule.forRoot([]),
     ToastrModule.forRoot({
       enableHtml: true,
@@ -58,6 +61,6 @@ import { PolitiqueComponent } from "./components/politique/politique.component";
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [LoadingService],
+  providers: [LoadingService, HomeService],
 })
 export class GeneralModule {}

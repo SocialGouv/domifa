@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { StructureService } from "src/app/modules/structures/services/structure.service";
+
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabelsPluriel } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
@@ -47,11 +47,7 @@ export class DashboardComponent implements OnInit {
     VALIDE: "text-secondary",
   };
 
-  constructor(
-    public statsService: StatsService,
-    private structureService: StructureService,
-    private titleService: Title
-  ) {
+  constructor(public statsService: StatsService, private titleService: Title) {
     this.interactionsLabels = interactionsLabelsPluriel;
     this.labels = labels;
     this.regions = regions;

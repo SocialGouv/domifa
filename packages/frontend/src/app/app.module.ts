@@ -32,6 +32,7 @@ import { UsersModule } from "./modules/users/users.module";
 import { AuthService } from "./modules/shared/services/auth.service";
 import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
 import { NgxPrintModule } from "ngx-print";
+import { CountUpModule } from "ngx-countup";
 
 import * as Sentry from "@sentry/browser";
 import { environment } from "src/environments/environment";
@@ -62,6 +63,7 @@ if (environment.production) {
     StatsModule,
     StructuresModule,
     UsagersModule,
+    CountUpModule,
     UsersModule,
     ToastrModule.forRoot({
       enableHtml: true,
