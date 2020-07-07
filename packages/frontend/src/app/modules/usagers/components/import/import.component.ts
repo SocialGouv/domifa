@@ -29,6 +29,7 @@ export const colNames = [
   "Date de Début de la DOM actuelle",
   "Date de FIN de la DOM actuelle",
   "Date 1ere domiciliation",
+  "Date de dernier passage",
   "Orientation",
   "Détails de l'orientation",
   "La personne a t-elle déjà une domiciliation ?",
@@ -36,10 +37,15 @@ export const colNames = [
   "Seulement si revenus, de quelle nature ?",
   "Lien avec la commune",
   "Composition du ménage",
-  "Cause instabilité logement",
   "Situation résidentielle",
+  "Si autre situation résidentielle, précisez",
+  "Cause instabilité logement",
+  "Si autre cause, précisez",
+  "Motif principal de la demande",
+  "Si autre motif, précisez",
   "Accompagnement social",
-  "Détail de l'accompagnement social",
+  "Par quelle structure est fait l'accompagnement ?",
+  "Commentaires",
   "Ayant-droit 1: nom",
   "Ayant-droit 1: prénom",
   "Ayant-droit 1: date naissance",
@@ -57,7 +63,6 @@ export const colNames = [
   "Ayant-droit 4: date de naissance",
   "Ayant-droit 4: lien parenté",
 ];
-
 type AOA = any[][];
 
 @Component({
@@ -110,18 +115,30 @@ export class ImportComponent implements OnInit {
   public DATE_DEBUT_DOM = 13;
   public DATE_FIN_DOM = 14;
   public DATE_PREMIERE_DOM = 15;
-  public ORIENTATION = 16;
-  public ORIENTATION_DETAILS = 17;
-  public DOMICILIATION_EXISTANTE = 18;
-  public REVENUS = 19;
-  public REVENUS_DETAILS = 20;
-  public LIEN_COMMUNE = 21;
-  public COMPOSITION_MENAGE = 22;
-  public CAUSE_INSTABILITE = 23;
+  public DATE_DERNIER_PASSAGE = 16;
+
+  public ORIENTATION = 17;
+  public ORIENTATION_DETAILS = 18;
+  public DOMICILIATION_EXISTANTE = 19;
+  public REVENUS = 20;
+  public REVENUS_DETAILS = 21;
+  public LIEN_COMMUNE = 22;
+
+  public COMPOSITION_MENAGE = 23;
   public SITUATION_RESIDENTIELLE = 24;
-  public ACCOMPAGNEMENT = 25;
-  public ACCOMPAGNEMENT_DETAILS = 26;
-  public AYANT_DROIT = [27, 31, 35, 39];
+  public SITUATION_DETAILS = 25;
+
+  public CAUSE_INSTABILITE = 26;
+  public CAUSE_DETAILS = 27;
+
+  public MOTIF_DEMANDE = 28;
+  public MOTIF_DETAILS = 29;
+
+  public ACCOMPAGNEMENT = 30;
+  public ACCOMPAGNEMENT_DETAILS = 31;
+  public COMMENTAIRES = 32;
+
+  public AYANT_DROIT = [33, 37, 41, 45];
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<any>;
@@ -143,7 +160,7 @@ export class ImportComponent implements OnInit {
     this.errorsRow = [];
     this.etapeImport = 0;
     this.fileName = "";
-    this.nbreAyantsDroits = [27, 31, 35, 39];
+    this.nbreAyantsDroits = [33, 37, 41, 45];
     this.rowNumber = 0;
     this.showErrors = false;
     this.showTable = false;
@@ -515,9 +532,9 @@ export class ImportComponent implements OnInit {
         "RUPTURE",
         "SORTIE_STRUCTURE",
         "VIOLENCE",
-        "AUTRE",
       ],
       statut: ["VALIDE", "REFUS", "RADIE"],
+      raison: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
       choix: ["OUI", "NON"],
     };
     return types[rowName].indexOf(data) > -1;

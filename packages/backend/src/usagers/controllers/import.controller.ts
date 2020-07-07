@@ -57,18 +57,30 @@ export class ImportController {
   public DATE_DEBUT_DOM = 13;
   public DATE_FIN_DOM = 14;
   public DATE_PREMIERE_DOM = 15;
-  public ORIENTATION = 16;
-  public ORIENTATION_DETAILS = 17;
-  public DOMICILIATION_EXISTANTE = 18;
-  public REVENUS = 19;
-  public REVENUS_DETAILS = 20;
-  public LIEN_COMMUNE = 21;
-  public COMPOSITION_MENAGE = 22;
-  public CAUSE_INSTABILITE = 23;
+  public DATE_DERNIER_PASSAGE = 16;
+
+  public ORIENTATION = 17;
+  public ORIENTATION_DETAILS = 18;
+  public DOMICILIATION_EXISTANTE = 19;
+  public REVENUS = 20;
+  public REVENUS_DETAILS = 21;
+  public LIEN_COMMUNE = 22;
+
+  public COMPOSITION_MENAGE = 23;
   public SITUATION_RESIDENTIELLE = 24;
-  public ACCOMPAGNEMENT = 25;
-  public ACCOMPAGNEMENT_DETAILS = 26;
-  public AYANT_DROIT = [27, 31, 35, 39];
+  public SITUATION_DETAILS = 25;
+
+  public CAUSE_INSTABILITE = 26;
+  public CAUSE_DETAILS = 27;
+
+  public MOTIF_DEMANDE = 28;
+  public MOTIF_DETAILS = 29;
+
+  public ACCOMPAGNEMENT = 30;
+  public ACCOMPAGNEMENT_DETAILS = 31;
+  public COMMENTAIRES = 32;
+
+  public AYANT_DROIT = [33, 37, 41, 45];
 
   private readonly logger = new Logger(ImportController.name);
 
@@ -97,6 +109,7 @@ export class ImportController {
       "Date de Début de la DOM actuelle",
       "Date de FIN de la DOM actuelle",
       "Date 1ere domiciliation",
+      "Date de dernier passage",
       "Orientation",
       "Détails de l'orientation",
       "La personne a t-elle déjà une domiciliation ?",
@@ -104,10 +117,15 @@ export class ImportController {
       "Seulement si revenus, de quelle nature ?",
       "Lien avec la commune",
       "Composition du ménage",
-      "Cause instabilité logement",
       "Situation résidentielle",
+      "Si autre situation résidentielle, précisez",
+      "Cause instabilité logement",
+      "Si autre cause, précisez",
+      "Motif principal de la demande",
+      "Si autre motif, précisez",
       "Accompagnement social",
-      "Détail de l'accompagnement social",
+      "Par quelle structure est fait l'accompagnement ?",
+      "Commentaires",
       "Ayant-droit 1: nom",
       "Ayant-droit 1: prénom",
       "Ayant-droit 1: date naissance",
@@ -192,19 +210,25 @@ export class ImportController {
           row[this.CIVILITE] === "H" || row[this.CIVILITE] === "F";
 
         this.countErrors(sexeCheck, index, this.CIVILITE);
+
         this.countErrors(this.notEmpty(row[this.NOM]), index, this.NOM);
+
         this.countErrors(this.notEmpty(row[this.PRENOM]), index, this.PRENOM);
+
         this.countErrors(
           this.validDate(row[this.DATE_NAISSANCE], true, false),
           index,
           this.DATE_NAISSANCE
         );
+
         this.countErrors(
           this.notEmpty(row[this.LIEU_NAISSANCE]),
           index,
           this.LIEU_NAISSANCE
         );
+
         this.countErrors(this.validEmail(row[this.EMAIL]), index, this.EMAIL);
+
         this.countErrors(this.validPhone(row[this.PHONE]), index, this.PHONE);
 
         this.countErrors(
@@ -218,26 +242,31 @@ export class ImportController {
           index,
           this.TYPE_DOM
         );
+
         this.countErrors(
           this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
           index,
           this.DATE_PREMIERE_DOM
         );
+
         this.countErrors(
           this.validDate(row[this.DATE_FIN_DOM], true, true),
           index,
           this.DATE_FIN_DOM
         );
+
         this.countErrors(
-          this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
+          this.validDate(row[this.DATE_DERNIER_PASSAGE], false, false),
           index,
-          this.DATE_PREMIERE_DOM
+          this.DATE_DERNIER_PASSAGE
         );
+
         this.countErrors(
           this.isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
           index,
           this.MOTIF_REFUS
         );
+
         this.countErrors(
           this.isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
           index,
@@ -251,9 +280,9 @@ export class ImportController {
         );
 
         this.countErrors(
-          this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
+          this.isValidValue(row[this.MOTIF_DEMANDE], "raison"),
           index,
-          this.COMPOSITION_MENAGE
+          this.MOTIF_DEMANDE
         );
 
         this.countErrors(
@@ -450,6 +479,12 @@ export class ImportController {
         motif = "AUTRE";
       }
 
+      const dernierPassage =
+        row[this.DATE_DERNIER_PASSAGE] !== "" &&
+        row[this.DATE_DERNIER_PASSAGE] !== null
+          ? this.convertDate(row[this.DATE_DERNIER_PASSAGE])
+          : new Date();
+
       const entretien = {
         typeMenage: row[this.COMPOSITION_MENAGE],
         domiciliation: this.convertChoix(row[this.DOMICILIATION_EXISTANTE]),
@@ -459,9 +494,13 @@ export class ImportController {
         revenusDetail: row[this.REVENUS_DETAILS],
         orientation: this.convertChoix(row[this.ORIENTATION]),
         orientationDetail: row[this.ORIENTATION_DETAILS],
+        motif: row[this.MOTIF_DEMANDE],
         liencommune: row[this.LIEN_COMMUNE],
         residence: row[this.SITUATION_RESIDENTIELLE],
+        residenceDetail: row[this.SITUATION_DETAILS],
         cause: row[this.CAUSE_INSTABILITE],
+        causeDetails: row[this.CAUSE_DETAILS],
+        commentaires: row[this.COMMENTAIRES],
       };
 
       const usager = {
@@ -475,11 +514,14 @@ export class ImportController {
           dateDecision,
           dateFin,
           motif,
+          motifDetails: row[this.MOTIF_DETAILS],
           statut: row[this.STATUT_DOM],
           userId: user.id,
           userName: agent,
         },
-
+        lastInteraction: {
+          dateInteraction: dernierPassage,
+        },
         email: row[this.EMAIL],
         entretien,
         etapeDemande: 5,
@@ -656,8 +698,8 @@ export class ImportController {
         "RUPTURE",
         "SORTIE_STRUCTURE",
         "VIOLENCE",
-        "AUTRE",
       ],
+      raison: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
       statut: ["VALIDE", "REFUS", "RADIE"],
       choix: ["OUI", "NON"],
     };
