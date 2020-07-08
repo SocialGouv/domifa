@@ -479,11 +479,9 @@ export class ImportController {
         motif = "AUTRE";
       }
 
-      const dernierPassage =
-        row[this.DATE_DERNIER_PASSAGE] !== "" &&
-        row[this.DATE_DERNIER_PASSAGE] !== null
-          ? this.convertDate(row[this.DATE_DERNIER_PASSAGE])
-          : new Date();
+      const dernierPassage = this.notEmpty(row[this.DATE_DERNIER_PASSAGE])
+        ? this.convertDate(row[this.DATE_DERNIER_PASSAGE])
+        : new Date();
 
       const entretien = {
         typeMenage: row[this.COMPOSITION_MENAGE],
@@ -491,16 +489,28 @@ export class ImportController {
         accompagnement: this.convertChoix(row[this.ACCOMPAGNEMENT]),
         accompagnementDetail: row[this.ACCOMPAGNEMENT_DETAILS],
         revenus: this.convertChoix(row[this.REVENUS]),
-        revenusDetail: row[this.REVENUS_DETAILS],
+        revenusDetail: this.notEmpty(row[this.REVENUS_DETAILS])
+          ? row[this.REVENUS_DETAILS].trim()
+          : "",
         orientation: this.convertChoix(row[this.ORIENTATION]),
-        orientationDetail: row[this.ORIENTATION_DETAILS],
+        orientationDetail: this.notEmpty(row[this.ORIENTATION_DETAILS])
+          ? row[this.ORIENTATION_DETAILS].trim()
+          : "",
         motif: row[this.MOTIF_DEMANDE],
-        liencommune: row[this.LIEN_COMMUNE],
+        liencommune: this.notEmpty(row[this.LIEN_COMMUNE])
+          ? row[this.LIEN_COMMUNE].trim()
+          : "",
         residence: row[this.SITUATION_RESIDENTIELLE],
-        residenceDetail: row[this.SITUATION_DETAILS],
+        residenceDetail: this.notEmpty(row[this.SITUATION_DETAILS])
+          ? row[this.SITUATION_DETAILS].trim()
+          : "",
         cause: row[this.CAUSE_INSTABILITE],
-        causeDetails: row[this.CAUSE_DETAILS],
-        commentaires: row[this.COMMENTAIRES],
+        causeDetails: this.notEmpty(row[this.CAUSE_DETAILS])
+          ? row[this.CAUSE_DETAILS].trim()
+          : "",
+        commentaires: this.notEmpty(row[this.COMMENTAIRES])
+          ? row[this.COMMENTAIRES].trim()
+          : "",
       };
 
       const usager = {

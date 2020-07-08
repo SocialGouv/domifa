@@ -267,26 +267,31 @@ export class ImportComponent implements OnInit {
           index,
           this.DATE_DEBUT_DOM
         );
+
         this.countErrors(
           this.validDate(row[this.DATE_FIN_DOM], true, true),
           index,
           this.DATE_FIN_DOM
         );
+
         this.countErrors(
           this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
           index,
           this.DATE_PREMIERE_DOM
         );
+
         this.countErrors(
           this.isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
           index,
           this.MOTIF_REFUS
         );
+
         this.countErrors(
           this.isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
           index,
           this.MOTIF_RADIATION
         );
+
         this.countErrors(
           this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
           index,
@@ -495,6 +500,7 @@ export class ImportComponent implements OnInit {
         "FEMME_ISOLE_AVEC_ENFANT",
         "COUPLE_SANS_ENFANT",
         "COUPLE_AVEC_ENFANT",
+        "AUTRE",
       ],
       motifRadiation: [
         "NON_MANIFESTATION_3_MOIS",
@@ -528,7 +534,6 @@ export class ImportComponent implements OnInit {
         "EXPULSION",
         "HEBERGE_SANS_ADRESSE",
         "ITINERANT",
-        "NON_RENSEIGNE",
         "RUPTURE",
         "SORTIE_STRUCTURE",
         "VIOLENCE",
