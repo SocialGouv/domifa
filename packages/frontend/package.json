@@ -27,7 +27,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-regular-svg-icons": "^5.13.1",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
-    "@ng-bootstrap/ng-bootstrap": "^6.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^6.2.0",
     "@schematics/angular": "^9.1.9",
     "@types/file-saver": "^2.0.1",
     "@types/jwt-decode": "^2.2.1",
