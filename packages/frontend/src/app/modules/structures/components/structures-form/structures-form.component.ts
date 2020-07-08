@@ -75,7 +75,11 @@ export class StructuresFormComponent implements OnInit {
       capacite: [this.structure.capacite, []],
       codePostal: [
         this.structure.codePostal,
-        [Validators.pattern(regexp.postcode), Validators.required],
+        [
+          Validators.required,
+          Validators.maxLength(5),
+          this.structureService.validateCodePostal.bind(this),
+        ],
       ],
       complementAdresse: [this.structure.complementAdresse, []],
       departement: [this.structure.departement, []],

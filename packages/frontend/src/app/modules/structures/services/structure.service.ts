@@ -1,11 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Structure } from "../structure.interface";
 import { LoadingService } from "../../loading/loading.service";
 import { ToastrService } from "ngx-toastr";
+import { AbstractControl } from "@angular/forms";
+import { regexp } from "src/app/shared/validators";
 
 @Injectable({
   providedIn: "root",
@@ -90,5 +92,32 @@ export class StructureService {
     return this.http.get(`${environment.apiUrl}export`, {
       responseType: "blob",
     });
+  }
+
+  public validateCodePostal(control: AbstractControl) {
+    const testCode = RegExp(regexp.postcode).test(control.value);
+
+    if (testCode) {
+      const debutCode = control.value.substring(0, 2);
+      if (!isNaN(debutCode)) {
+        if (parseInt(debutCode, 10) < 98 && parseInt(debutCode, 10) > 0) {
+          return null;
+        }
+        return {
+          codePostal: false,
+        };
+      }
+      if (
+        debutCode.toLowerCase() === "2a" ||
+        debutCode.toLowerCase() === "2b"
+      ) {
+        return null;
+      }
+      return {
+        codePostal: false,
+      };
+    }
+
+    return { codepostal: false };
   }
 }

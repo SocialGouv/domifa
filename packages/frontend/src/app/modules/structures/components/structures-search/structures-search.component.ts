@@ -37,7 +37,11 @@ export class StructuresSearchComponent implements OnInit {
     this.codePostalForm = this.formBuilder.group({
       codePostal: [
         this.codePostal,
-        [Validators.pattern(regexp.postcode), Validators.required],
+        [
+          Validators.required,
+          Validators.maxLength(5),
+          this.structureService.validateCodePostal.bind(this),
+        ],
       ],
     });
   }
