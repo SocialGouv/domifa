@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { PrintService } from "src/app/modules/shared/services/print.service";
 import { User } from "src/app/modules/users/interfaces/user";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "../../interfaces/usager";
@@ -24,7 +23,6 @@ export class RaftComponent implements OnInit {
   constructor(
     private usagerService: UsagerService,
     private authService: AuthService,
-    public printService: PrintService,
     private route: ActivatedRoute,
     private router: Router,
     private titleService: Title

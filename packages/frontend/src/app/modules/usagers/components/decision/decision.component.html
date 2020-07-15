@@ -312,12 +312,7 @@
 
   <div class="row">
     <div class="col">
-      <button
-        [useExistingCss]="true"
-        printSectionId="ficheRecap"
-        ngxPrint
-        class="btn-block btn btn-primary"
-      >
+      <button (click)="printPage()" class="btn-block btn btn-primary">
         <fa-icon icon="print" class="btn-icon"></fa-icon>
         Imprimer le récapitulatif
       </button>

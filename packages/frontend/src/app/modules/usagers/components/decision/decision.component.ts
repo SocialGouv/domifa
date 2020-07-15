@@ -8,7 +8,6 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { PrintService } from "src/app/modules/shared/services/print.service";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
@@ -50,7 +49,6 @@ export class DecisionComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public authService: AuthService,
-    public printService: PrintService,
     public documentService: DocumentService,
     private usagerService: UsagerService,
     private modalService: NgbModal,
@@ -223,5 +221,9 @@ export class DecisionComponent implements OnInit {
       i,
       this.usager.docs[i]
     );
+  }
+
+  public printPage() {
+    window.print();
   }
 }

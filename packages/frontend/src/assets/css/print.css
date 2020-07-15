@@ -72,6 +72,7 @@
   }
 
   footer,
+  #steps,
   #help-button,
   .not-print,
   .navbar {
@@ -110,5 +111,11 @@
   .table .thead-dark th {
     color: inherit;
     border-color: #dee2e6;
+  }
+
+  .col-md-4,
+  .responses {
+    width: 30% !important;
+    display: inline-block !important;
   }
 }
