@@ -7,6 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { UsagersModule } from "../../usagers.module";
 import { RaftComponent } from "./raft.component";
+import { MatomoTracker, MatomoInjector } from "ngx-matomo";
 
 describe("RaftComponent", () => {
   let component: RaftComponent;
@@ -21,7 +22,21 @@ describe("RaftComponent", () => {
         HttpClientModule,
         HttpClientTestingModule,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
