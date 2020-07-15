@@ -46,7 +46,11 @@ export class StructuresService {
 
   public async patch(structureDto: StructureEditDto, user: User): Promise<any> {
     const cp: string = structureDto.codePostal.substring(0, 2);
-    structureDto.region = regions[cp].regionCode;
+
+    structureDto.region =
+      cp === "97" || cp === "98"
+        ? regions[structureDto.codePostal.substring(0, 3)].regionCode
+        : regions[cp].regionCode;
 
     return this.structureModel
       .findOneAndUpdate(
