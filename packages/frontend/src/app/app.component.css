@@ -30,6 +30,10 @@
   padding: 10px 15px;
 }
 
+#matomo-info > div {
+  font-size: 0.9rem;
+}
+
 #matomo-info div {
   display: inline-block;
   vertical-align: middle;

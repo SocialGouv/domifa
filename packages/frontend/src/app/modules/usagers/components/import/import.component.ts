@@ -239,18 +239,22 @@ export class ImportComponent implements OnInit {
 
         this.countErrors(this.notEmpty(row[this.NOM]), index, this.NOM);
         this.countErrors(this.notEmpty(row[this.PRENOM]), index, this.PRENOM);
+
         this.countErrors(
           this.validDate(row[this.DATE_NAISSANCE], true, false),
           index,
           this.DATE_NAISSANCE
         );
+
         this.countErrors(
           this.notEmpty(row[this.LIEU_NAISSANCE]),
           index,
           this.LIEU_NAISSANCE
         );
+
         this.countErrors(this.validEmail(row[this.EMAIL]), index, this.EMAIL);
         this.countErrors(this.validPhone(row[this.PHONE]), index, this.PHONE);
+
         this.countErrors(
           this.isValidValue(row[this.STATUT_DOM], "statut", true),
           index,
@@ -281,7 +285,7 @@ export class ImportComponent implements OnInit {
         );
 
         this.countErrors(
-          this.validDate(row[this.DATE_DERNIER_PASSAGE], false, true),
+          this.validDate(row[this.DATE_DERNIER_PASSAGE], false, false),
           index,
           this.DATE_DERNIER_PASSAGE
         );

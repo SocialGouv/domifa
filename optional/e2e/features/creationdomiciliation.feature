@@ -91,96 +91,96 @@ Scénario: Champs ville de naissance vide
 #  #
 #  #   TESTS AYANT-DROITS
 #  #
-
-Scénario: Ayants-droit : aucune donnée
-
-  Alors je remplis les champs suivants
-    | Nom                                | Test AYANT DROIT VIDE   |
-    | Prénom(s)                          | Test                    |
-    | Nom d'usage / Surnom               | Test                    |
-    | Date de naissance                  | 12/08/1990              |
-    | Ville de naissance                 | Test                    |
-    | Numéro de téléphone                | 0600000000              |
-    | Adresse e-mail                     | test@test.com           |
-  Alors je coche la case "Oui"
-  Quand je clique sur "Suivant"
-  Alors je vois "Le prénom est obligatoire"
-
-
-Scénario: Ayants-droit : nom vide
-
-  Alors je remplis les champs suivants
-    | Nom                                | Test AD NOM VIDE        |
-    | Prénom(s)                          | Test                    |
-    | Nom d'usage / Surnom               | Test                    |
-    | Date de naissance                  | 12/08/1990              |
-    | Ville de naissance                 | Test                    |
-    | Numéro de téléphone                | 0600000000              |
-    | Adresse e-mail                     | test@test.com           |
-  Alors je coche la case "Oui"
-  Alors je remplis les champs suivants
-    | Prénom                             | Test                    |
-    | Date de naissance                  | 12/08/1991              |
-    | Lien                               | Enfant                  |
-  Quand je clique sur "Suivant"
-  Alors je vois "Le nom est obligatoire"
-
-Scénario: Ayants-droit : prénom vide
-
-  Alors je remplis les champs suivants
-    | Nom                                | Test AD PRENOM VIDE     |
-    | Prénom(s)                          | Test                    |
-    | Nom d'usage / Surnom               | Test                    |
-    | Date de naissance                  | 12/08/1990              |
-    | Ville de naissance                 | Test                    |
-    | Numéro de téléphone                | 0600000000              |
-    | Adresse e-mail                     | test@test.com           |
-  Alors je coche la case "Oui"
-  Alors je remplis les champs suivants
-    | Nom                                | Test nom                |
-    | Date de naissance                  | 12/08/1991              |
-    | Lien                               | Enfant                  |
-  Quand je clique sur "Suivant"
-  Alors je vois "Le prénom est obligatoire"
-
-
-Scénario: Ayants-droit : Date de naissance vide
-
-  Alors je remplis les champs suivants
-    | Nom                                | Test AD DDN VIDE        |
-    | Prénom(s)                          | Test                    |
-    | Nom d'usage / Surnom               | Test                    |
-    | Date de naissance                  | 12/08/1990              |
-    | Ville de naissance                 | Test                    |
-    | Numéro de téléphone                | 0600000000              |
-    | Adresse e-mail                     | test@test.com           |
-  Alors je coche la case "Oui"
-  Alors je remplis les champs suivants
-    | Nom                                | Test                    |
-    | Prénom                             | Test                    |
-    | Lien                               | Enfant                  |
-  Quand je clique sur "Suivant"
-  Alors je vois "La date de naissance est obligatoire"
-
-
-Scénario: Ayants-droit : Lien vide
-
-  Alors je remplis les champs suivants
-    | Nom                                | Test AD LIEN VIDE       |
-    | Prénom(s)                          | Test                    |
-    | Nom d'usage / Surnom               | Test                    |
-    | Date de naissance                  | 12/08/1990              |
-    | Ville de naissance                 | Test                    |
-    | Numéro de téléphone                | 0600000000              |
-    | Adresse e-mail                     | test@test.com           |
-  Alors je coche la case "Oui"
-  Alors je remplis les champs suivants
-    | Nom                                | Test                    |
-    | Prénom                             | Test                    |
-    | Date de naissance                  | 12/08/1991              |
-  Quand je clique sur "Suivant"
-  Alors je vois "Un des champs du formulaire n'est pas rempli ou contient une erreur"
-
+#
+#Scénario: Ayants-droit : aucune donnée
+#
+  #Alors je remplis les champs suivants
+    #| Nom                                | Test AYANT DROIT VIDE   |
+    #| Prénom(s)                          | Test                    |
+    #| Nom d'usage / Surnom               | Test                    |
+    #| Date de naissance                  | 12/08/1990              |
+    #| Ville de naissance                 | Test                    |
+    #| Numéro de téléphone                | 0600000000              |
+    #| Adresse e-mail                     | test@test.com           |
+  #Alors je coche la case "Oui"
+  #Quand je clique sur "Suivant"
+  #Alors je vois "Le prénom est obligatoire"
+#
+#
+#Scénario: Ayants-droit : nom vide
+#
+  #Alors je remplis les champs suivants
+    #| Nom                                | Test AD NOM VIDE        |
+    #| Prénom(s)                          | Test                    |
+    #| Nom d'usage / Surnom               | Test                    |
+    #| Date de naissance                  | 12/08/1990              |
+    #| Ville de naissance                 | Test                    |
+    #| Numéro de téléphone                | 0600000000              |
+    #| Adresse e-mail                     | test@test.com           |
+  #Alors je coche la case "Oui"
+  #Alors je remplis les champs suivants
+    #| Prénom                             | Test                    |
+    #| Date de naissance                  | 12/08/1991              |
+    #| Lien                               | Enfant                  |
+  #Quand je clique sur "Suivant"
+  #Alors je vois "Le nom est obligatoire"
+#
+#Scénario: Ayants-droit : prénom vide
+#
+  #Alors je remplis les champs suivants
+    #| Nom                                | Test AD PRENOM VIDE     |
+    #| Prénom(s)                          | Test                    |
+    #| Nom d'usage / Surnom               | Test                    |
+    #| Date de naissance                  | 12/08/1990              |
+    #| Ville de naissance                 | Test                    |
+    #| Numéro de téléphone                | 0600000000              |
+    #| Adresse e-mail                     | test@test.com           |
+  #Alors je coche la case "Oui"
+  #Alors je remplis les champs suivants
+    #| Nom                                | Test nom                |
+    #| Date de naissance                  | 12/08/1991              |
+    #| Lien                               | Enfant                  |
+  #Quand je clique sur "Suivant"
+  #Alors je vois "Le prénom est obligatoire"
+#
+#
+#Scénario: Ayants-droit : Date de naissance vide
+#
+  #Alors je remplis les champs suivants
+    #| Nom                                | Test AD DDN VIDE        |
+    #| Prénom(s)                          | Test                    |
+    #| Nom d'usage / Surnom               | Test                    |
+    #| Date de naissance                  | 12/08/1990              |
+    #| Ville de naissance                 | Test                    |
+    #| Numéro de téléphone                | 0600000000              |
+    #| Adresse e-mail                     | test@test.com           |
+  #Alors je coche la case "Oui"
+  #Alors je remplis les champs suivants
+    #| Nom                                | Test                    |
+    #| Prénom                             | Test                    |
+    #| Lien                               | Enfant                  |
+  #Quand je clique sur "Suivant"
+  #Alors je vois "La date de naissance est obligatoire"
+#
+#
+#Scénario: Ayants-droit : Lien vide
+#
+  #Alors je remplis les champs suivants
+    #| Nom                                | Test AD LIEN VIDE       |
+    #| Prénom(s)                          | Test                    |
+    #| Nom d'usage / Surnom               | Test                    |
+    #| Date de naissance                  | 12/08/1990              |
+    #| Ville de naissance                 | Test                    |
+    #| Numéro de téléphone                | 0600000000              |
+    #| Adresse e-mail                     | test@test.com           |
+  #Alors je coche la case "Oui"
+  #Alors je remplis les champs suivants
+    #| Nom                                | Test                    |
+    #| Prénom                             | Test                    |
+    #| Date de naissance                  | 12/08/1991              |
+  #Quand je clique sur "Suivant"
+  #Alors je vois "Un des champs du formulaire n'est pas rempli ou contient une erreur"
+#
 
   #
 #  #
