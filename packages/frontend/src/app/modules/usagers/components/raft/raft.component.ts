@@ -6,6 +6,7 @@ import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 import { motifsRadiation } from "../../usagers.labels";
 import { Title } from "@angular/platform-browser";
+import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   providers: [UsagerService, AuthService],
@@ -25,7 +26,8 @@ export class RaftComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private titleService: Title
+    private titleService: Title,
+    private matomoTracker: MatomoTracker
   ) {
     this.today = new Date();
     this.usager = new Usager();
@@ -56,6 +58,12 @@ export class RaftComponent implements OnInit {
 
   public printPage() {
     window.print();
+    this.matomoTracker.trackEvent(
+      "tests",
+      "impression_courrier_radiation",
+      "null",
+      1
+    );
   }
 
   public setDecision(statut: string) {

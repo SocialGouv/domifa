@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   public newsLabels: any;
 
   public modal: any;
+  public matomoInfo: boolean;
 
   @ViewChild("newsCenter", { static: true })
   public newsCenter!: TemplateRef<any>;
@@ -79,6 +80,9 @@ export class AppComponent implements OnInit {
       });
     });
 
+    const matomo = localStorage.getItem("matomo");
+    this.matomoInfo = matomo === "done";
+
     this.matomoTracker.setUserId("0");
   }
 
@@ -93,5 +97,10 @@ export class AppComponent implements OnInit {
   public closeModal() {
     this.modal.close();
     localStorage.setItem("news", new Date(this.domifaNews.date).toISOString());
+  }
+
+  public closeMatomo() {
+    this.matomoInfo = true;
+    localStorage.setItem("matomo", "done");
   }
 }

@@ -15,6 +15,7 @@ import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-frenc
 import { Usager } from "../../interfaces/usager";
 import { DocumentService } from "../../services/document.service";
 import { UsagerService } from "../../services/usager.service";
+import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   providers: [
@@ -54,7 +55,8 @@ export class DecisionComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     private nbgDate: NgbDateCustomParserFormatter,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    private matomoTracker: MatomoTracker
   ) {
     this.labels = labels;
     this.submitted = false;
@@ -225,5 +227,11 @@ export class DecisionComponent implements OnInit {
 
   public printPage() {
     window.print();
+    this.matomoTracker.trackEvent(
+      "tests",
+      "impression_recapitulatif_decision",
+      "null",
+      1
+    );
   }
 }

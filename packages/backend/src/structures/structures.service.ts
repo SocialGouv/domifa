@@ -38,7 +38,11 @@ export class StructuresService {
     createdStructure.token = crypto.randomBytes(30).toString("hex");
 
     const cp: string = createdStructure.codePostal.substring(0, 2);
-    createdStructure.region = regions[cp].regionCode;
+
+    createdStructure.region =
+      cp === "97" || cp === "98"
+        ? regions[structureDto.codePostal.substring(0, 3)].regionCode
+        : regions[cp].regionCode;
 
     const structure = await createdStructure.save();
     return structure;

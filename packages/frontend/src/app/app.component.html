@@ -78,11 +78,19 @@
 <div id="page">
   <router-outlet></router-outlet>
 </div>
-
 <div id="help-button-wrapper">
   <button id="help-button" (click)="openModal(helpCenter)">
     <fa-icon icon="question"></fa-icon>
   </button>
+</div>
+
+<div id="matomo-info" *ngIf="!matomoInfo">
+  <ngb-alert type="info" (close)="closeMatomo()"
+    >Nous collectons des données anonymisées à des fins statistiques via l'outil
+    français Matomo. <br />
+    Pour tout savoir sur notre utilisation des données, consultez notre
+    politique de confidentialité.</ngb-alert
+  >
 </div>
 
 <ng-template #newsCenter let-modal>
