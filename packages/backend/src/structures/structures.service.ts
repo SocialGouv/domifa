@@ -29,6 +29,16 @@ export class StructuresService {
   ) {}
 
   public async prePost(structureDto: StructureDto): Promise<any> {
+    const cp: string = structureDto.codePostal.substring(0, 2);
+
+    const region =
+      cp === "97" || cp === "98"
+        ? regions[structureDto.codePostal.substring(0, 3)].regionCode
+        : regions[cp].regionCode;
+
+    if (!region) {
+      throw new HttpException("REGION_PROBLEM", HttpStatus.BAD_REQUEST);
+    }
     return new this.structureModel(structureDto);
   }
 

@@ -276,9 +276,11 @@
             <td [ngClass]="{ 'table-danger': isAnError(index, CIVILITE) }">
               {{ row[CIVILITE] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, NOM) }">
               {{ row[NOM] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, PRENOM) }">
               {{ row[PRENOM] }}
             </td>
@@ -292,20 +294,25 @@
             >
               {{ row[DATE_NAISSANCE] }}
             </td>
+
             <td
               [ngClass]="{ 'table-danger': isAnError(index, LIEU_NAISSANCE) }"
             >
               {{ row[LIEU_NAISSANCE] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, PHONE) }">
               {{ row[PHONE] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, EMAIL) }">
               {{ row[EMAIL] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, STATUT_DOM) }">
               {{ row[STATUT_DOM] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, MOTIF_REFUS) }">
               {{ row[MOTIF_REFUS] }}
             </td>
@@ -314,14 +321,17 @@
             >
               {{ row[MOTIF_RADIATION] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, TYPE_DOM) }">
               {{ row[TYPE_DOM] }}
             </td>
+
             <td
               [ngClass]="{ 'table-danger': isAnError(index, DATE_DEBUT_DOM) }"
             >
               {{ row[DATE_DEBUT_DOM] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, DATE_FIN_DOM) }">
               {{ row[DATE_FIN_DOM] }}
             </td>
@@ -334,9 +344,14 @@
               {{ row[DATE_PREMIERE_DOM] }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, DATE_FIN_DOM) }">
+            <td
+              [ngClass]="{
+                'table-danger': isAnError(index, DATE_DERNIER_PASSAGE)
+              }"
+            >
               {{ row[DATE_DERNIER_PASSAGE] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, ORIENTATION) }">
               {{ row[ORIENTATION] }}
             </td>
@@ -347,6 +362,7 @@
             >
               {{ row[ORIENTATION_DETAILS] }}
             </td>
+
             <td
               [ngClass]="{
                 'table-danger': isAnError(index, DOMICILIATION_EXISTANTE)
@@ -354,17 +370,21 @@
             >
               {{ row[DOMICILIATION_EXISTANTE] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, REVENUS) }">
               {{ row[REVENUS] }}
             </td>
+
             <td
               [ngClass]="{ 'table-danger': isAnError(index, REVENUS_DETAILS) }"
             >
               {{ row[REVENUS_DETAILS] }}
             </td>
+
             <td [ngClass]="{ 'table-danger': isAnError(index, LIEN_COMMUNE) }">
               {{ row[LIEN_COMMUNE] }}
             </td>
+
             <td
               [ngClass]="{
                 'table-danger': isAnError(index, COMPOSITION_MENAGE)
@@ -380,9 +400,11 @@
             >
               {{ row[SITUATION_RESIDENTIELLE] }}
             </td>
+
             <td>
               {{ row[SITUATION_DETAILS] }}
             </td>
+
             <td
               [ngClass]="{
                 'table-danger': isAnError(index, CAUSE_INSTABILITE)
@@ -390,9 +412,11 @@
             >
               {{ row[CAUSE_INSTABILITE] }}
             </td>
+
             <td>
               {{ row[CAUSE_DETAILS] }}
             </td>
+
             <td
               [ngClass]="{ 'table-danger': isAnError(index, ACCOMPAGNEMENT) }"
             >

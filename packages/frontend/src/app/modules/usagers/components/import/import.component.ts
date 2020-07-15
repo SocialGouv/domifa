@@ -26,8 +26,8 @@ export const colNames = [
   "Motif de refus",
   "Motif de radiation",
   "Type de domiciliation",
-  "Date de Début de la DOM actuelle",
-  "Date de FIN de la DOM actuelle",
+  "Date de Début de la domiciliation",
+  "Date de fin de la domiciliation",
   "Date 1ere domiciliation",
   "Date de dernier passage",
   "Orientation",
@@ -278,6 +278,12 @@ export class ImportComponent implements OnInit {
           this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
           index,
           this.DATE_PREMIERE_DOM
+        );
+
+        this.countErrors(
+          this.validDate(row[this.DATE_DERNIER_PASSAGE], false, true),
+          index,
+          this.DATE_DERNIER_PASSAGE
         );
 
         this.countErrors(
