@@ -1,7 +1,28 @@
 @media print {
   body {
-    width: 100% !important;
-    margin: 1% auto !important;
+    display: table;
+    table-layout: fixed;
+    padding-top: 2cm;
+    padding-bottom: 2cm;
+    padding-left: 1.5cm;
+    padding-right: 1.5cm;
+    height: auto;
+  }
+
+  @page {
+    size: a4;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #page,
+  .container {
+    min-width: 96% !important;
+    max-width: 10000px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    clear: both;
+    display: block;
   }
 
   #courrier-radiation {
@@ -55,20 +76,6 @@
   h2,
   h3 {
     page-break-after: avoid;
-  }
-
-  @page {
-    size: a4;
-  }
-
-  body {
-    min-width: 96% !important;
-  }
-  #page,
-  .container {
-    min-width: 96% !important;
-    padding: 0 !important;
-    margin: 0 !important;
   }
 
   footer,

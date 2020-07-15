@@ -85,12 +85,26 @@
 </div>
 
 <div id="matomo-info" *ngIf="!matomoInfo">
-  <ngb-alert type="info" (close)="closeMatomo()"
-    >Nous collectons des données anonymisées à des fins statistiques via l'outil
-    français Matomo. <br />
+  <div>
+    Nous collectons des données anonymisées à des fins statistiques via l'outil
+    français Matomo.
+    <br />
+
     Pour tout savoir sur notre utilisation des données, consultez notre
-    politique de confidentialité.</ngb-alert
-  >
+    <a [routerLink]="['/confidentialite']" routerLinkActive="router-link-active"
+      >politique de confidentialité.</a
+    >
+  </div>
+  <div>
+    <button
+      type="button"
+      class="btn btn-white"
+      aria-label="Fermer le message"
+      (click)="closeMatomo()"
+    >
+      Fermer <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 </div>
 
 <ng-template #newsCenter let-modal>

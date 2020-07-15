@@ -695,7 +695,7 @@ export class ImportController {
         "HEBERGEMENT_TIERS",
         "HOTEL",
         "SANS_ABRI",
-        "NON_RENSEIGNE",
+
         "AUTRE",
       ],
       cause: [
@@ -704,7 +704,7 @@ export class ImportController {
         "EXPULSION",
         "HEBERGE_SANS_ADRESSE",
         "ITINERANT",
-        "NON_RENSEIGNE",
+
         "RUPTURE",
         "SORTIE_STRUCTURE",
         "VIOLENCE",

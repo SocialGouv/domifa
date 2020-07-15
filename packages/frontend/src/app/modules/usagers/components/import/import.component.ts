@@ -531,7 +531,6 @@ export class ImportComponent implements OnInit {
         "HEBERGEMENT_TIERS",
         "HOTEL",
         "SANS_ABRI",
-        "NON_RENSEIGNE",
         "AUTRE",
       ],
       cause: [
