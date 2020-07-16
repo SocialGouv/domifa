@@ -28,7 +28,6 @@ export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
   email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, // tslint:disable max-line-length
   phone: /^((\+)33|0)[1-9](\d{2}){4}$/,
-  postcode: /^[0-9][0-9AB][0-9]{3}$/,
 };
 
 type AOA = any[][];
@@ -102,7 +101,7 @@ export class ImportController {
       "Lieu naissance",
       "Téléphone",
       "Email",
-      "Statut demande",
+      "Statut domiciliation",
       "Motif de refus",
       "Motif de radiation",
       "Type de domiciliation",
@@ -244,15 +243,21 @@ export class ImportController {
         );
 
         this.countErrors(
-          this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
+          this.validDate(row[this.DATE_DEBUT_DOM], true, false),
           index,
-          this.DATE_PREMIERE_DOM
+          this.DATE_DEBUT_DOM
         );
 
         this.countErrors(
           this.validDate(row[this.DATE_FIN_DOM], true, true),
           index,
           this.DATE_FIN_DOM
+        );
+
+        this.countErrors(
+          this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
+          index,
+          this.DATE_PREMIERE_DOM
         );
 
         this.countErrors(
@@ -460,13 +465,22 @@ export class ImportController {
         }
       }
 
+      if (motif === "AUTRES") {
+        motif = "AUTRE";
+      }
+
       const phone = !row[this.PHONE]
         ? null
         : row[this.PHONE].replace(/\D/g, "");
 
+      const dernierPassage = this.notEmpty(row[this.DATE_DERNIER_PASSAGE])
+        ? this.convertDate(row[this.DATE_DERNIER_PASSAGE])
+        : new Date();
+
       const dateDebut = this.notEmpty(row[this.DATE_FIN_DOM])
         ? this.convertDate(row[this.DATE_DEBUT_DOM])
         : null;
+
       const dateFin = this.notEmpty(row[this.DATE_FIN_DOM])
         ? this.convertDate(row[this.DATE_FIN_DOM])
         : null;
@@ -474,14 +488,6 @@ export class ImportController {
       const customId = this.notEmpty(row[this.CUSTOM_ID])
         ? row[this.CUSTOM_ID]
         : null;
-
-      if (motif === "AUTRES") {
-        motif = "AUTRE";
-      }
-
-      const dernierPassage = this.notEmpty(row[this.DATE_DERNIER_PASSAGE])
-        ? this.convertDate(row[this.DATE_DERNIER_PASSAGE])
-        : new Date();
 
       const entretien = {
         typeMenage: row[this.COMPOSITION_MENAGE],
@@ -573,18 +579,21 @@ export class ImportController {
 
   private countErrors(variable: boolean, idRow: any, idColumn: number) {
     const position =
-      "ID row : " +
+      "Ligne " +
       idRow.toString() +
-      " -- " +
+      ":  --" +
+      this.datas[idRow][idColumn] +
+      "-- " +
       this.colNames[idColumn] +
-      "  - " +
+      " - Retour :  " +
       variable;
 
     if (
       this.datas[idRow][this.STATUT_DOM] === "REFUS" &&
       (idColumn === this.DATE_DEBUT_DOM ||
         idColumn === this.DATE_FIN_DOM ||
-        idColumn === this.DATE_PREMIERE_DOM)
+        idColumn === this.DATE_PREMIERE_DOM ||
+        idColumn === this.DATE_DERNIER_PASSAGE)
     ) {
       variable = true;
       return true;

@@ -253,6 +253,7 @@ export class ImportComponent implements OnInit {
         );
 
         this.countErrors(this.validEmail(row[this.EMAIL]), index, this.EMAIL);
+
         this.countErrors(this.validPhone(row[this.PHONE]), index, this.PHONE);
 
         this.countErrors(
@@ -410,7 +411,12 @@ export class ImportComponent implements OnInit {
 
   public countErrors(variable: boolean, idRow: number, idColumn: number) {
     if (this.datas[idRow][this.STATUT_DOM] === "REFUS") {
-      if (idColumn === this.DATE_DEBUT_DOM || idColumn === this.DATE_FIN_DOM) {
+      if (
+        idColumn === this.DATE_DEBUT_DOM ||
+        idColumn === this.DATE_FIN_DOM ||
+        idColumn === this.DATE_PREMIERE_DOM ||
+        idColumn === this.DATE_DERNIER_PASSAGE
+      ) {
         variable = true;
         return true;
       }
@@ -510,7 +516,6 @@ export class ImportComponent implements OnInit {
         "FEMME_ISOLE_AVEC_ENFANT",
         "COUPLE_SANS_ENFANT",
         "COUPLE_AVEC_ENFANT",
-        "AUTRE",
       ],
       motifRadiation: [
         "NON_MANIFESTATION_3_MOIS",

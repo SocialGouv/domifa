@@ -1,5 +1,5 @@
 [
- {
+  {
     "date": "2020-07-18",
     "description": "Laissez votre avis sur notre plateforme en bas de page et visualisez nos statistiques dès la page d'accueil",
     "content": [
@@ -16,11 +16,14 @@
         ]
       },
       {
-        "type": "sécurité",
+        "type": "new",
+        "categorie": "Sécurité",
         "message": [
           "Ajout d’un bandeau d’information sur la collecte de données anonymisées"
         ]
-  }
+      }
+    ]
+  },
   {
     "date": "2020-06-05",
     "description": "Nouvelle version de l’export des données domiciliés et refonte de la page FAQ",
