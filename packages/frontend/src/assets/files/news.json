@@ -1,20 +1,26 @@
 [
-  {
-    "date": "2020-07-03",
-    "description": "Laissez votre avis sur notre plateforme en bas de page",
+ {
+    "date": "2020-07-18",
+    "description": "Laissez votre avis sur notre plateforme en bas de page et visualisez nos statistiques dès la page d'accueil",
     "content": [
       {
         "type": "new",
         "categorie": "Structure",
         "message": [
           "Possibilité de retrouver un ayant-droit via la barre de recherche",
+          "Visualisation de l’arrivée d’un colis ou avis de passage dès la page de gestion des domiciliés",
           "Amélioration du bouton aide avec accès à notre guide utilisateur et notre FAQ",
           "Possibilité de supprimer les radiés et les refusés",
-          "Accès à plus d’interactions sur la fiche domicilié"
+          "Accès à plus d’interactions sur la fiche domicilié",
+          "Ajout de la date de radiation dans l’export"
         ]
-      }
-    ]
-  },
+      },
+      {
+        "type": "sécurité",
+        "message": [
+          "Ajout d’un bandeau d’information sur la collecte de données anonymisées"
+        ]
+  }
   {
     "date": "2020-06-05",
     "description": "Nouvelle version de l’export des données domiciliés et refonte de la page FAQ",
