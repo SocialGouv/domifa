@@ -37,7 +37,7 @@ export const UsagerSchema = new mongoose.Schema(
         trim: true,
       },
       motifDetails: {
-        maxlength: 300,
+        maxlength: 500,
         trim: true,
         type: String,
       },

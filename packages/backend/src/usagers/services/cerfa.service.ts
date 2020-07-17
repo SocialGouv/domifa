@@ -37,7 +37,8 @@ export class CerfaService {
     this.motif = "";
     this.responsable = "";
     this.motifsRefus = {
-      AUTRE: "Autres",
+      AUTRE: "Autre motif : ",
+      AUTRES: "Autre motif : ",
       HORS_AGREMENT: "En dehors des critères du public domicilié",
       LIEN_COMMUNE: "Absence de lien avec la commune",
       SATURATION: "Nombre maximal domiciliations atteint",
@@ -55,8 +56,12 @@ export class CerfaService {
     if (usager.decision.statut === "REFUS") {
       this.motif = this.motifsRefus[usager.decision.motif];
       if (usager.decision.motif === "AUTRE") {
-        this.motif = this.motif + " : " + usager.decision.motifDetails;
+        this.motif = usager.decision.motifDetails
+          ? this.motif + " : " + usager.decision.motifDetails
+          : (this.motif = "Autre motif");
       }
+    } else {
+      this.motif = "";
     }
 
     usager.villeNaissance = usager.villeNaissance.toUpperCase();
