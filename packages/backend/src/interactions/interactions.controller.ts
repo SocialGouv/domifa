@@ -11,7 +11,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { AccessGuard } from "../auth/access.guard";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
-import { RolesGuard } from "../auth/roles.guard";
+import { AdminGuard } from "../auth/admin.guard";
 import { Usager } from "../usagers/interfaces/usagers";
 import { User } from "../users/user.interface";
 import { InteractionDto } from "./interactions.dto";

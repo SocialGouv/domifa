@@ -13,7 +13,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
-import { RolesGuard } from "../auth/roles.guard";
+import { AdminGuard } from "../auth/admin.guard";
 import { InteractionsService } from "../interactions/interactions.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { EmailDto } from "../users/dto/email.dto";
@@ -53,7 +53,7 @@ export class StructuresController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @Patch()
   public async patchStructure(
     @Body() structureDto: StructureEditDto,
@@ -111,7 +111,7 @@ export class StructuresController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @Get("hard-reset")
   public async hardReset(@Response() res: any, @CurrentUser() user: User) {
     const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -139,7 +139,7 @@ export class StructuresController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @Get("hard-reset-confirm/:token")
   public async hardResetConfirm(
     @Response() res: any,

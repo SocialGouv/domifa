@@ -13,7 +13,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
-import { RolesGuard } from "../auth/roles.guard";
+import { AdminGuard } from "../auth/admin.guard";
 import { StructuresService } from "../structures/structures.service";
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
@@ -23,6 +23,7 @@ import { MailJetService } from "./services/mailjet.service";
 import { UsersService } from "./services/users.service";
 import { User } from "./user.interface";
 import { TipimailService } from "./services/tipimail.service";
+import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 
 @Controller("users")
 export class UsersController {
@@ -43,7 +44,7 @@ export class UsersController {
   }
 
   @Get("to-confirm")
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @UseGuards(AuthGuard("jwt"))
   public getUsersToConfirm(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
@@ -53,7 +54,7 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @Get("confirm/:id")
   public async confirmUser(@Param("id") id: number, @CurrentUser() user: User) {
     const confirmerUser = await this.usersService.update(id, user.structureId, {
@@ -67,7 +68,7 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @Get("update-role/:id/:role")
   public async updateRole(
     @Param("id") id: number,
@@ -94,7 +95,7 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @Delete(":id")
   public async delete(
     @Param("id") id: number,
@@ -254,5 +255,32 @@ export class UsersController {
           .json({ message: "RESET_USER_IMPOSSIBLE" });
       }
     }
+  }
+
+  @Post("register")
+  @UseGuards(AdminGuard)
+  @UseGuards(AuthGuard("jwt"))
+  public async registerUser(
+    @CurrentUser() user: User,
+    @Body() registerUserDto: RegisterUserAdminDto
+  ): Promise<any> {
+    registerUserDto.structureId = user.structureId;
+    registerUserDto.structure = user.structure;
+    return registerUserDto;
+
+    // TODO: Générer le token
+
+    // TODO: Envoyer le mail avec le lien
+
+    // TODO: Donner le role d'admin
+  }
+
+  @Post("register-password/:token")
+  public async registerUserPassword(
+    @Param("token") token: string,
+    @CurrentUser() user: User,
+    @Body() resetPasswordDto: ResetPasswordDto
+  ): Promise<any> {
+    return resetPasswordDto;
   }
 }

@@ -2,7 +2,7 @@ import { Controller, Get, Param, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { RolesGuard } from "../../auth/roles.guard";
+import { AdminGuard } from "../../auth/admin.guard";
 import { StructuresService } from "../../structures/structures.service";
 import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
@@ -37,7 +37,7 @@ export class ExportController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @Get("")
   public async export(
     @Param("id") id: number,

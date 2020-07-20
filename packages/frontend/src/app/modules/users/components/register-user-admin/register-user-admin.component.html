@@ -1,0 +1,88 @@
+<div class="step_form">
+  <div class="text-center">
+    <h5 class="title">
+      Créer un utilisateur
+    </h5>
+  </div>
+  <br />
+  <br />
+  <form *ngIf="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
+    <div class="row">
+      <div class="col-md-3 form-group required">
+        <label for="nom">Nom</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nom"
+          formControlName="nom"
+          [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+          required
+        />
+        <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+          <div *ngIf="f.nom.errors.required">
+            Le nom du demandeur est obligatoire
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 form-group required">
+        <label for="prenom">Prénom</label>
+        <input
+          type="text"
+          class="form-control"
+          id="prenom"
+          formControlName="prenom"
+          [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+          required
+        />
+        <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+          <div *ngIf="f.prenom.errors.required">Le prénom est obligatoire</div>
+        </div>
+      </div>
+      <div class="col-md-3 form-group required">
+        <label for="email">Adresse email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          autocomplete="username"
+          formControlName="email"
+          [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+          required
+        />
+        <div *ngIf="f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.emailTaken">
+            <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+            <b>L'adresse email est déjà utilisée</b>
+          </div>
+          <div *ngIf="!f.email.errors.emailTaken">
+            L'adresse Email est incorrecte
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 form-group required">
+        <label for="role">Rôle</label>
+        <select id="role" formControlName="role" class="custom-select">
+          <option value="admin">
+            Administrateur
+          </option>
+          <option value="simple">
+            Instructeur
+          </option>
+          <option value="facteur">
+            Facteur
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <input
+        type="submit"
+        aria-label="Ajouter cet utilisateur"
+        class="btn btn-primary"
+        value="Ajouter cet utilisateur"
+        [disabled]="userForm.invalid && !emailExist"
+      />
+    </div>
+  </form>
+</div>

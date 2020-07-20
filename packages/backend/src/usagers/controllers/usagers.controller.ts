@@ -19,7 +19,7 @@ import * as path from "path";
 import { AccessGuard } from "../../auth/access.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { RolesGuard } from "../../auth/roles.guard";
+import { AdminGuard } from "../../auth/admin.guard";
 import { ConfigService } from "../../config/config.service";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { UsersService } from "../../users/services/users.service";
@@ -121,7 +121,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @Post("decision/:id")
   public async setDecision(
     @Body() decision: DecisionDto,
@@ -184,7 +184,7 @@ export class UsagersController {
     return this.usagersService.isDoublon(nom, prenom, user);
   }
 
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @UseGuards(AccessGuard)
   @Delete(":id")
   public async delete(

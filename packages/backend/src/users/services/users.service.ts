@@ -6,6 +6,7 @@ import { Structure } from "../../structures/structure-interface";
 import { ResetPasswordDto } from "../dto/reset-password.dto";
 import { UserDto } from "../dto/user.dto";
 import { User } from "../user.interface";
+import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 
 @Injectable()
 export class UsersService {
@@ -113,6 +114,19 @@ export class UsersService {
 
   public async delete(id: string): Promise<any> {
     return this.userModel.deleteOne({ _id: id }).exec();
+  }
+
+  public async register(
+    userDto: RegisterUserAdminDto,
+    structure: Structure
+  ): Promise<User> {
+    const createdUser = new this.userModel(userDto);
+
+    createdUser.structure = structure;
+    createdUser.id = await this.findLast();
+    createdUser.password = await bcrypt.hash(createdUser.password, 10);
+
+    return createdUser.save();
   }
 
   public async findLast(): Promise<number> {

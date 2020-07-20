@@ -91,4 +91,8 @@ export class UsersService {
   public resetPassword(data: string) {
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
+
+  public registerUser(data: string) {
+    return this.http.post(`${this.endPoint}/register`, data);
+  }
 }

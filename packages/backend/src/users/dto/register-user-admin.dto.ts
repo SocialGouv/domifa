@@ -1,13 +1,13 @@
 import {
   IsEmail,
   IsNotEmpty,
-  IsNumber,
-  IsOptional,
   MaxLength,
   MinLength,
+  IsIn,
+  IsEmpty,
 } from "class-validator";
 
-export class UserDto {
+export class RegisterUserAdminDto {
   @MinLength(2, {
     message: "PRENOM_TOO_SMALL",
   })
@@ -31,21 +31,12 @@ export class UserDto {
   public readonly email!: string;
 
   @IsNotEmpty()
-  @MinLength(12, {
-    message: "PASSWORD_TOO_SMALL",
-  })
-  @MaxLength(100, {
-    message: "PASSWORD_TOO_LONG",
-  })
-  public readonly password!: string;
+  @IsIn(["admin", "simple", "facteur", "responsable"])
+  public readonly role!: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  public readonly structureId!: number;
+  @IsEmpty()
+  public structureId!: number;
 
-  @IsOptional()
-  public readonly structure!: {};
-
-  @IsOptional()
-  public readonly phone!: string;
+  @IsEmpty()
+  public structure!: {};
 }

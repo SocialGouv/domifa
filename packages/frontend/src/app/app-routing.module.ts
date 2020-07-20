@@ -27,6 +27,7 @@ import { UserProfilComponent } from "./modules/users/components/user-profil/user
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
 import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
+import { RegisterUserAdminComponent } from "./modules/users/components/register-user-admin/register-user-admin.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -67,6 +68,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     component: UserProfilComponent,
     path: "mon-compte",
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
+    component: RegisterUserAdminComponent,
+    path: "ajout-user",
   },
 
   {

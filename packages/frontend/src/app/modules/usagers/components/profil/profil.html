@@ -1467,12 +1467,17 @@
 
           <div class="col-md-4 reponses">
             <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
-            <span class="valeur">
+            <span class="valeur" *ngIf="usager.entretien.revenus !== null">
               {{ usager.entretien.accompagnement ? "Oui : " : "Non" }}
               <span *ngIf="usager.entretien.accompagnement">
                 {{ usager.entretien.accompagnementDetail }}
               </span>
             </span>
+            <span
+              class="valeur"
+              *ngIf="usager.entretien.accompagnement === null"
+              >Non renseigné</span
+            >
           </div>
 
           <div class="col-md-4 reponses"></div>

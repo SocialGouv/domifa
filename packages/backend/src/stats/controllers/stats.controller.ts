@@ -2,7 +2,7 @@ import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { RolesGuard } from "../../auth/roles.guard";
+import { AdminGuard } from "../../auth/admin.guard";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { StructuresService } from "../../structures/structures.service";
 import { UsagersService } from "../../usagers/services/usagers.service";
@@ -20,7 +20,7 @@ export class StatsController {
     private readonly interactionsService: InteractionsService
   ) {}
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(RolesGuard)
+  @UseGuards(AdminGuard)
   @Get("today")
   public async today(@CurrentUser() user: User) {
     return this.statsService.getToday(user.structureId);
