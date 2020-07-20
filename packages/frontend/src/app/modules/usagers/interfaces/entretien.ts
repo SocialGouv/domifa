@@ -18,9 +18,11 @@ export class Entretien {
 
   constructor(entretien?: any) {
     this.domiciliation = (entretien && entretien.domiciliation) || null;
-    this.revenus = (entretien && entretien.revenus) || null;
+    this.revenus =
+      (entretien && typeof entretien.revenus !== "undefined") || null;
     this.revenusDetail = (entretien && entretien.revenusDetail) || null;
-    this.orientation = (entretien && entretien.orientation) || null;
+    this.orientation =
+      (entretien && typeof entretien.orientation !== "undefined") || null;
     this.orientationDetail = (entretien && entretien.orientationDetail) || null;
     this.liencommune = (entretien && entretien.liencommune) || null;
     this.residence = (entretien && entretien.residence) || null;
@@ -29,7 +31,8 @@ export class Entretien {
     this.causeDetail = (entretien && entretien.causeDetail) || null;
     this.raison = (entretien && entretien.raison) || null;
     this.raisonDetail = (entretien && entretien.raisonDetail) || null;
-    this.accompagnement = (entretien && entretien.accompagnement) || null;
+    this.accompagnement =
+      (entretien && typeof entretien.accompagnement !== "undefined") || null;
     this.accompagnementDetail =
       (entretien && entretien.accompagnementDetail) || null;
     this.commentaires = (entretien && entretien.commentaires) || null;
