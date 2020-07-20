@@ -124,7 +124,7 @@ export class UsersService {
 
     createdUser.structure = structure;
     createdUser.id = await this.findLast();
-    createdUser.password = await bcrypt.hash(createdUser.password, 10);
+    createdUser.tokens.creation = await bcrypt.hash(createdUser.password, 10);
 
     return createdUser.save();
   }

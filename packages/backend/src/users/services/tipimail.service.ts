@@ -223,4 +223,60 @@ export class TipimailService {
         }
       );
   }
+
+  public async registerConfirm(user: User) {
+    const token = "";
+    const post = {
+      to: [
+        {
+          address: user.email,
+          personalName: user.nom + " " + user.prenom,
+        },
+      ],
+      headers: {
+        "X-TM-TEMPLATE": "creation-compte",
+        "X-TM-SUB": [
+          {
+            email: user.email,
+            values: {
+              prenom: user.prenom,
+              lien: token,
+            },
+            meta: {},
+          },
+        ],
+      },
+      msg: {
+        from: {
+          personalName: "Domifa",
+          address: "contact.domifa@diffusion.social.gouv.fr",
+        },
+        replyTo: {
+          personalName: "Domifa",
+          address: "contact.domifa@fabrique.social.gouv.fr",
+        },
+        subject: "Subject",
+        html: "<p>Test</p>",
+      },
+    };
+
+    this.httpService
+      .post("https://api.tipimail.com/v1/messages/send", post, {
+        headers: {
+          "X-Tipimail-ApiUser": process.env.SMTP_USER,
+          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+        },
+      })
+      .subscribe(
+        (retour: any) => {
+          return true;
+        },
+        (erreur: any) => {
+          throw new HttpException(
+            "MAIL_CONFIRMATION_CREATION_ADMIN",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      );
+  }
 }

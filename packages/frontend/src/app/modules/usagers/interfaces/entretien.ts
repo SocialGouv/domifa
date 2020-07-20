@@ -17,13 +17,28 @@ export class Entretien {
   public typeMenage: string;
 
   constructor(entretien?: any) {
-    this.domiciliation =
-      (entretien && typeof entretien.domiciliation !== "undefined") || null;
-    this.revenus =
-      (entretien && typeof entretien.revenus !== "undefined") || null;
+    this.domiciliation = null;
+    this.revenus = null;
+    this.orientation = null;
+    this.accompagnementDetail = null;
+
+    if (entretien && typeof entretien.domiciliation !== "undefined") {
+      this.domiciliation = entretien.domiciliation;
+    }
+
+    if (entretien && typeof entretien.revenus !== "undefined") {
+      this.revenus = entretien.revenus;
+    }
+
+    if (entretien && typeof entretien.orientation !== "undefined") {
+      this.orientation = entretien.orientation;
+    }
+
+    if (entretien && typeof entretien.accompagnement !== "undefined") {
+      this.accompagnement = entretien.accompagnement;
+    }
+
     this.revenusDetail = (entretien && entretien.revenusDetail) || null;
-    this.orientation =
-      (entretien && typeof entretien.orientation !== "undefined") || null;
     this.orientationDetail = (entretien && entretien.orientationDetail) || null;
     this.liencommune = (entretien && entretien.liencommune) || null;
     this.residence = (entretien && entretien.residence) || null;
@@ -32,8 +47,7 @@ export class Entretien {
     this.causeDetail = (entretien && entretien.causeDetail) || null;
     this.raison = (entretien && entretien.raison) || null;
     this.raisonDetail = (entretien && entretien.raisonDetail) || null;
-    this.accompagnement =
-      (entretien && typeof entretien.accompagnement !== "undefined") || null;
+
     this.accompagnementDetail =
       (entretien && entretien.accompagnementDetail) || null;
     this.commentaires = (entretien && entretien.commentaires) || null;

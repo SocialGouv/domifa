@@ -49,7 +49,7 @@ export const UserSchema = new mongoose.Schema(
       type: Number,
     },
     tokens: {
-      email: {
+      creation: {
         default: "",
         type: String,
       },

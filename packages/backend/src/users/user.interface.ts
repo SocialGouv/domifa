@@ -9,13 +9,15 @@ export interface User extends Document {
   email: string;
   password: string;
   structureId: number;
-  fonction: string;
+  fonction?: string;
   structure: Structure;
   role: string;
   verified: boolean;
   lastLogin: Date;
+
   tokens: {
-    password: string;
-    passwordValidity: Date;
+    creation?: string;
+    password?: string;
+    passwordValidity?: Date;
   };
 }
