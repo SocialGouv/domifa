@@ -17,7 +17,8 @@ export class Entretien {
   public typeMenage: string;
 
   constructor(entretien?: any) {
-    this.domiciliation = (entretien && entretien.domiciliation) || null;
+    this.domiciliation =
+      (entretien && typeof entretien.domiciliation !== "undefined") || null;
     this.revenus =
       (entretien && typeof entretien.revenus !== "undefined") || null;
     this.revenusDetail = (entretien && entretien.revenusDetail) || null;
