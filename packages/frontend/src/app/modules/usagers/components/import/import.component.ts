@@ -115,8 +115,8 @@ export class ImportComponent implements OnInit {
   public CAUSE_INSTABILITE = 26;
   public CAUSE_DETAILS = 27;
 
-  public MOTIF_DEMANDE = 28;
-  public MOTIF_DETAILS = 29;
+  public RAISON_DEMANDE = 28;
+  public RAISON_DEMANDE_DETAILS = 29;
 
   public ACCOMPAGNEMENT = 30;
   public ACCOMPAGNEMENT_DETAILS = 31;

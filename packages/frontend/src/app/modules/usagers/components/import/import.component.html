@@ -432,11 +432,13 @@
             >
               {{ row[ACCOMPAGNEMENT_DETAILS] }}
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, MOTIF_DEMANDE) }">
-              {{ row[MOTIF_DEMANDE] }}
+            <td
+              [ngClass]="{ 'table-danger': isAnError(index, RAISON_DEMANDE) }"
+            >
+              {{ row[RAISON_DEMANDE] }}
             </td>
             <td>
-              {{ row[MOTIF_DETAILS] }}
+              {{ row[RAISON_DEMANDE_DETAILS] }}
             </td>
             <td>
               {{ row[COMMENTAIRES] }}

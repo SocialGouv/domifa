@@ -73,8 +73,8 @@ export class ImportController {
   public CAUSE_INSTABILITE = 26;
   public CAUSE_DETAILS = 27;
 
-  public MOTIF_DEMANDE = 28;
-  public MOTIF_DETAILS = 29;
+  public RAISON_DEMANDE = 28;
+  public RAISON_DEMANDE_DETAILS = 29;
 
   public ACCOMPAGNEMENT = 30;
   public ACCOMPAGNEMENT_DETAILS = 31;
@@ -286,9 +286,9 @@ export class ImportController {
         );
 
         this.countErrors(
-          this.isValidValue(row[this.MOTIF_DEMANDE], "raison"),
+          this.isValidValue(row[this.RAISON_DEMANDE], "raison"),
           index,
-          this.MOTIF_DEMANDE
+          this.RAISON_DEMANDE
         );
 
         this.countErrors(
@@ -403,6 +403,7 @@ export class ImportController {
         : new Date();
 
       let datePremiereDom = new Date().toISOString();
+
       if (this.notEmpty(row[this.DATE_PREMIERE_DOM])) {
         datePremiereDom = this.convertDate(row[this.DATE_PREMIERE_DOM]);
 
@@ -436,22 +437,6 @@ export class ImportController {
         userName: agent,
       });
 
-      if (row[this.STATUT_DOM] === "REFUS") {
-        motif = this.notEmpty(row[this.MOTIF_REFUS])
-          ? row[this.MOTIF_REFUS]
-          : "AUTRE";
-      }
-
-      if (row[this.STATUT_DOM] === "RADIE") {
-        dateDecision = this.notEmpty(row[this.DATE_FIN_DOM])
-          ? this.convertDate(row[this.DATE_FIN_DOM])
-          : new Date();
-
-        motif = this.notEmpty(row[this.MOTIF_RADIATION])
-          ? row[this.MOTIF_RADIATION]
-          : "AUTRE";
-      }
-
       for (const indexAD of this.AYANT_DROIT) {
         const nom = row[indexAD];
         const prenom = row[indexAD + 1];
@@ -484,7 +469,7 @@ export class ImportController {
         ? this.convertDate(row[this.DATE_DERNIER_PASSAGE])
         : new Date();
 
-      const dateDebut = this.notEmpty(row[this.DATE_FIN_DOM])
+      let dateDebut = this.notEmpty(row[this.DATE_DEBUT_DOM])
         ? this.convertDate(row[this.DATE_DEBUT_DOM])
         : null;
 
@@ -497,6 +482,25 @@ export class ImportController {
         : null;
 
       const entretien: Entretien = {};
+
+      if (row[this.STATUT_DOM] === "REFUS") {
+        motif = this.notEmpty(row[this.MOTIF_REFUS])
+          ? row[this.MOTIF_REFUS]
+          : "AUTRE";
+
+        dateDebut = this.convertDate(row[this.DATE_FIN_DOM]);
+        dateDecision = this.convertDate(row[this.DATE_FIN_DOM]);
+      }
+
+      if (row[this.STATUT_DOM] === "RADIE") {
+        dateDecision = this.notEmpty(row[this.DATE_FIN_DOM])
+          ? this.convertDate(row[this.DATE_FIN_DOM])
+          : new Date();
+
+        motif = this.notEmpty(row[this.MOTIF_RADIATION])
+          ? row[this.MOTIF_RADIATION]
+          : "AUTRE";
+      }
 
       if (this.notEmpty(row[this.COMPOSITION_MENAGE])) {
         entretien.typeMenage = row[this.COMPOSITION_MENAGE];
@@ -540,12 +544,12 @@ export class ImportController {
         }
       }
 
-      if (this.notEmpty(row[this.MOTIF_DEMANDE])) {
-        entretien.raison = row[this.MOTIF_DEMANDE];
+      if (this.notEmpty(row[this.RAISON_DEMANDE])) {
+        entretien.raison = row[this.RAISON_DEMANDE];
       }
 
-      if (this.notEmpty(row[this.MOTIF_DETAILS])) {
-        entretien.raisonDetail = row[this.MOTIF_DETAILS];
+      if (this.notEmpty(row[this.RAISON_DEMANDE_DETAILS])) {
+        entretien.raisonDetail = row[this.RAISON_DEMANDE_DETAILS];
       }
 
       if (this.notEmpty(row[this.LIEN_COMMUNE])) {
