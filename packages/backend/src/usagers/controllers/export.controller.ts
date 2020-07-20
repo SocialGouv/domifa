@@ -218,7 +218,7 @@ export class ExportController {
         };
 
         const usagerSheet2: {
-          [key: string]: {};
+          [key: string]: any;
         } = {
           A: usager.customId,
           B: usager.sexe,
@@ -234,18 +234,18 @@ export class ExportController {
           J: usager.entretien.revenus ? "OUI" : "NON",
           K: usager.entretien.revenus ? usager.entretien.revenusDetail : "",
           L: usager.entretien.liencommune || "",
-          M: labels.typeMenage[usager.entretien.typeMenage],
-          N: labels.residence[usager.entretien.residence],
+          M: labels.typeMenage[this.convertNull(usager.entretien.typeMenage)],
+          N: labels.residence[this.convertNull(usager.entretien.residence)],
           O:
             usager.entretien.residence === "AUTRE"
               ? usager.entretien.residenceDetail
               : "",
-          P: labels.cause[usager.entretien.cause],
+          P: labels.cause[this.convertNull(usager.entretien.cause)],
           Q:
             usager.entretien.cause === "AUTRE"
               ? usager.entretien.causeDetail
               : "",
-          R: labels.raison[usager.entretien.raison],
+          R: labels.raison[this.convertNull(usager.entretien.raison)],
           S:
             usager.entretien.raison === "AUTRE"
               ? usager.entretien.raisonDetail
@@ -334,6 +334,10 @@ export class ExportController {
         this.dataSheet2.push(usagerSheet2);
         this.dataSheet3.push(usagerSheet3);
       }
+  }
+
+  private convertNull(value: any) {
+    return value || "";
   }
 
   private numToAlpha(num: number) {

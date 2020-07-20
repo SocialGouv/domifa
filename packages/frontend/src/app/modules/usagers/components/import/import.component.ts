@@ -46,22 +46,6 @@ export const colNames = [
   "Accompagnement social",
   "Par quelle structure est fait l'accompagnement ?",
   "Commentaires",
-  "Ayant-droit 1: nom",
-  "Ayant-droit 1: prénom",
-  "Ayant-droit 1: date naissance",
-  "Ayant-droit 1: lien parenté",
-  "Ayant-droit 2: nom",
-  "Ayant-droit 2: prénom",
-  "Ayant-droit 2: date naissance",
-  "Ayant-droit 2: lien parenté",
-  "Ayant-droit 3: nom",
-  "Ayant-droit 3: prénom",
-  "Ayant-droit 3: date naissance",
-  "Ayant-droit 3: lien parenté",
-  "Ayant-droit 4: nom",
-  "Ayant-droit 4: prénom",
-  "Ayant-droit 4: date de naissance",
-  "Ayant-droit 4: lien parenté",
 ];
 type AOA = any[][];
 
@@ -138,7 +122,7 @@ export class ImportComponent implements OnInit {
   public ACCOMPAGNEMENT_DETAILS = 31;
   public COMMENTAIRES = 32;
 
-  public AYANT_DROIT = [33, 37, 41, 45];
+  public AYANT_DROIT = [33, 37, 41, 45, 49, 53, 57, 61, 65];
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<any>;
@@ -160,12 +144,19 @@ export class ImportComponent implements OnInit {
     this.errorsRow = [];
     this.etapeImport = 0;
     this.fileName = "";
-    this.nbreAyantsDroits = [33, 37, 41, 45];
+    this.nbreAyantsDroits = [33, 37, 41, 45, 49, 53, 57, 61, 65];
     this.rowNumber = 0;
     this.showErrors = false;
     this.showTable = false;
     this.success = false;
     this.uploadError = false;
+
+    for (let cpt = 0; cpt < 10; cpt++) {
+      this.colNames.push("Ayant-droit " + cpt + ": nom");
+      this.colNames.push("Ayant-droit " + cpt + ": prénom");
+      this.colNames.push("Ayant-droit " + cpt + ": date naissance");
+      this.colNames.push("Ayant-droit " + cpt + ": lien parenté");
+    }
   }
 
   get u(): any {
@@ -432,6 +423,8 @@ export class ImportComponent implements OnInit {
         this.errorsRow[idRow] = [];
       }
 
+      console.log(this.datas[idRow][idColumn]);
+      console.log(idColumn);
       this.errorsRow[idRow].push(idColumn);
       this.errorsId.push(position);
     }
@@ -556,7 +549,7 @@ export class ImportComponent implements OnInit {
       raison: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
       choix: ["OUI", "NON"],
     };
-    return types[rowName].indexOf(data) > -1;
+    return types[rowName].indexOf(data.toUpperCase()) > -1;
   }
 
   public reload() {

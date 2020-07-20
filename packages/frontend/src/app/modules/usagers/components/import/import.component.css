@@ -3,7 +3,7 @@
 }
 
 #import-table td:nth-child(n + 3) {
-  min-width: 150px;
+  min-width: 220px;
 }
 
 #import-table th {

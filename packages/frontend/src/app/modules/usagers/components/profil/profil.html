@@ -1400,7 +1400,8 @@
             <span class="question">REVENUS</span>
             <span class="valeur">
               {{ usager.entretien.revenus ? "Oui: " +
-              usager.entretien.revenusDetail : "Non" }}
+              (usager.entretien.revenusDetail ? usager.entretien.revenusDetail :
+              "Non renseigné") : "Non" }}
             </span>
           </div>
 

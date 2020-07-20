@@ -23,6 +23,7 @@ import { StructuresService } from "../../structures/structures.service";
 import { UsagersService } from "../services/usagers.service";
 
 import { User } from "../../users/user.interface";
+import { Entretien } from "../interfaces/entretien";
 
 export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -79,7 +80,7 @@ export class ImportController {
   public ACCOMPAGNEMENT_DETAILS = 31;
   public COMMENTAIRES = 32;
 
-  public AYANT_DROIT = [33, 37, 41, 45];
+  public AYANT_DROIT = [33, 37, 41, 45, 49, 53, 57, 61, 65];
 
   private readonly logger = new Logger(ImportController.name);
 
@@ -461,7 +462,12 @@ export class ImportController {
         }
 
         if (nom && prenom && dateNaissance && lienParente) {
-          ayantsDroits.push({ nom, prenom, dateNaissance, lien: lienParente });
+          ayantsDroits.push({
+            nom,
+            prenom,
+            dateNaissance,
+            lien: lienParente.toString().toUpperCase(),
+          });
         }
       }
 
@@ -489,35 +495,76 @@ export class ImportController {
         ? row[this.CUSTOM_ID]
         : null;
 
-      const entretien = {
-        typeMenage: row[this.COMPOSITION_MENAGE],
-        domiciliation: this.convertChoix(row[this.DOMICILIATION_EXISTANTE]),
-        accompagnement: this.convertChoix(row[this.ACCOMPAGNEMENT]),
-        accompagnementDetail: row[this.ACCOMPAGNEMENT_DETAILS],
-        revenus: this.convertChoix(row[this.REVENUS]),
-        revenusDetail: this.notEmpty(row[this.REVENUS_DETAILS])
-          ? row[this.REVENUS_DETAILS].trim()
-          : "",
-        orientation: this.convertChoix(row[this.ORIENTATION]),
-        orientationDetail: this.notEmpty(row[this.ORIENTATION_DETAILS])
-          ? row[this.ORIENTATION_DETAILS].trim()
-          : "",
-        motif: row[this.MOTIF_DEMANDE],
-        liencommune: this.notEmpty(row[this.LIEN_COMMUNE])
-          ? row[this.LIEN_COMMUNE].trim()
-          : "",
-        residence: row[this.SITUATION_RESIDENTIELLE],
-        residenceDetail: this.notEmpty(row[this.SITUATION_DETAILS])
-          ? row[this.SITUATION_DETAILS].trim()
-          : "",
-        cause: row[this.CAUSE_INSTABILITE],
-        causeDetails: this.notEmpty(row[this.CAUSE_DETAILS])
-          ? row[this.CAUSE_DETAILS].trim()
-          : "",
-        commentaires: this.notEmpty(row[this.COMMENTAIRES])
-          ? row[this.COMMENTAIRES].trim()
-          : "",
-      };
+      const entretien: Entretien = {};
+
+      if (this.notEmpty(row[this.COMPOSITION_MENAGE])) {
+        entretien.typeMenage = row[this.COMPOSITION_MENAGE];
+      }
+
+      if (this.notEmpty(row[this.DOMICILIATION_EXISTANTE])) {
+        entretien.domiciliation = this.convertChoix(
+          row[this.DOMICILIATION_EXISTANTE]
+        );
+      }
+
+      if (this.notEmpty(row[this.ACCOMPAGNEMENT])) {
+        entretien.accompagnement = this.convertChoix(row[this.ACCOMPAGNEMENT]);
+      }
+
+      if (this.notEmpty(row[this.ACCOMPAGNEMENT_DETAILS])) {
+        entretien.accompagnementDetail = row[this.ACCOMPAGNEMENT_DETAILS];
+      }
+
+      if (this.notEmpty(row[this.REVENUS]) && row[this.REVENUS] === "OUI") {
+        entretien.revenus = this.convertChoix(row[this.REVENUS]);
+      }
+
+      if (this.notEmpty(row[this.REVENUS_DETAILS])) {
+        entretien.revenusDetail = row[this.REVENUS_DETAILS];
+      }
+
+      if (
+        this.notEmpty(row[this.ORIENTATION]) &&
+        row[this.ORIENTATION] === "OUI"
+      ) {
+        entretien.orientation = this.convertChoix(row[this.ORIENTATION]);
+      }
+
+      if (this.notEmpty(row[this.ORIENTATION_DETAILS])) {
+        entretien.orientationDetail = row[this.ORIENTATION_DETAILS];
+      }
+
+      if (this.notEmpty(row[this.MOTIF_DEMANDE])) {
+        entretien.raison = row[this.MOTIF_DEMANDE];
+      }
+
+      if (this.notEmpty(row[this.MOTIF_DETAILS])) {
+        entretien.raisonDetail = row[this.MOTIF_DETAILS];
+      }
+
+      if (this.notEmpty(row[this.LIEN_COMMUNE])) {
+        entretien.liencommune = row[this.LIEN_COMMUNE];
+      }
+
+      if (this.notEmpty(row[this.SITUATION_RESIDENTIELLE])) {
+        entretien.residence = row[this.SITUATION_RESIDENTIELLE];
+      }
+
+      if (this.notEmpty(row[this.SITUATION_DETAILS])) {
+        entretien.residenceDetail = row[this.SITUATION_DETAILS];
+      }
+
+      if (this.notEmpty(row[this.CAUSE_INSTABILITE])) {
+        entretien.cause = row[this.CAUSE_INSTABILITE];
+      }
+
+      if (this.notEmpty(row[this.CAUSE_DETAILS])) {
+        entretien.causeDetail = row[this.CAUSE_DETAILS];
+      }
+
+      if (this.notEmpty(row[this.COMMENTAIRES])) {
+        entretien.commentaires = row[this.COMMENTAIRES];
+      }
 
       const usager = {
         ayantsDroits,
@@ -561,13 +608,7 @@ export class ImportController {
   }
 
   private convertChoix(value: any) {
-    if (value === "OUI") {
-      return true;
-    } else if (value === "NON") {
-      return false;
-    } else {
-      return null;
-    }
+    return value === "OUI" ? true : false;
   }
 
   private convertDate(dateFr: string) {
@@ -723,6 +764,6 @@ export class ImportController {
       choix: ["OUI", "NON"],
     };
 
-    return types[rowName].indexOf(data) > -1;
+    return types[rowName].indexOf(data.toUpperCase()) > -1;
   }
 }
