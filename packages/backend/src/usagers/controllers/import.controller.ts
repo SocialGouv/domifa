@@ -446,6 +446,7 @@ export class ImportController {
         dateDecision = this.notEmpty(row[this.DATE_FIN_DOM])
           ? this.convertDate(row[this.DATE_FIN_DOM])
           : new Date();
+
         motif = this.notEmpty(row[this.MOTIF_RADIATION])
           ? row[this.MOTIF_RADIATION]
           : "AUTRE";
@@ -582,7 +583,7 @@ export class ImportController {
           dateDecision,
           dateFin,
           motif,
-          motifDetails: row[this.MOTIF_DETAILS],
+          motifDetails: "",
           statut: row[this.STATUT_DOM],
           userId: user.id,
           userName: agent,

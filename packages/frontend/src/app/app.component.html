@@ -78,13 +78,13 @@
 <div id="page">
   <router-outlet></router-outlet>
 </div>
-<div id="help-button-wrapper">
+<div class="not-print" id="help-button-wrapper">
   <button id="help-button" (click)="openModal(helpCenter)">
     <fa-icon icon="question"></fa-icon>
   </button>
 </div>
 
-<div id="matomo-info" *ngIf="!matomoInfo">
+<div class="not-print" id="matomo-info" *ngIf="!matomoInfo">
   <div>
     Nous collectons des données anonymisées à des fins statistiques via l'outil
     français Matomo. Pour tout savoir sur notre utilisation des données,
@@ -201,7 +201,7 @@
   </div>
 </ng-template>
 
-<footer class="page-footer">
+<footer class="not-print page-footer">
   <div>
     <img
       src="../assets/images/logoministere.svg"
