@@ -509,29 +509,34 @@ export class ImportController {
 
       if (this.notEmpty(row[this.ACCOMPAGNEMENT])) {
         entretien.accompagnement = this.convertChoix(row[this.ACCOMPAGNEMENT]);
+
+        if (
+          this.notEmpty(row[this.ACCOMPAGNEMENT_DETAILS]) &&
+          row[this.ACCOMPAGNEMENT] === "OUI"
+        ) {
+          entretien.accompagnementDetail = row[this.ACCOMPAGNEMENT_DETAILS];
+        }
       }
 
-      if (this.notEmpty(row[this.ACCOMPAGNEMENT_DETAILS])) {
-        entretien.accompagnementDetail = row[this.ACCOMPAGNEMENT_DETAILS];
-      }
-
-      if (this.notEmpty(row[this.REVENUS]) && row[this.REVENUS] === "OUI") {
+      if (this.notEmpty(row[this.REVENUS])) {
         entretien.revenus = this.convertChoix(row[this.REVENUS]);
+        if (
+          this.notEmpty(row[this.REVENUS_DETAILS]) &&
+          row[this.REVENUS] === "OUI"
+        ) {
+          entretien.revenusDetail = row[this.REVENUS_DETAILS];
+        }
       }
 
-      if (this.notEmpty(row[this.REVENUS_DETAILS])) {
-        entretien.revenusDetail = row[this.REVENUS_DETAILS];
-      }
-
-      if (
-        this.notEmpty(row[this.ORIENTATION]) &&
-        row[this.ORIENTATION] === "OUI"
-      ) {
+      if (this.notEmpty(row[this.ORIENTATION])) {
         entretien.orientation = this.convertChoix(row[this.ORIENTATION]);
-      }
 
-      if (this.notEmpty(row[this.ORIENTATION_DETAILS])) {
-        entretien.orientationDetail = row[this.ORIENTATION_DETAILS];
+        if (
+          this.notEmpty(row[this.ORIENTATION_DETAILS]) &&
+          row[this.ORIENTATION] === "OUI"
+        ) {
+          entretien.orientationDetail = row[this.ORIENTATION_DETAILS];
+        }
       }
 
       if (this.notEmpty(row[this.MOTIF_DEMANDE])) {

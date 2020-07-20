@@ -26,6 +26,11 @@ export interface Structure extends Document {
   };
   lastExport: Date;
   stats: { VALIDE: number; REFUS: number; RADIE: number; TOTAL: number };
+  options: {
+    colis: boolean;
+    customId: boolean;
+    numeroBoite: boolean;
+  };
   token: string;
   verified: boolean;
   users: User[];

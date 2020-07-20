@@ -1383,25 +1383,40 @@
         <div class="row" *ngIf="!editEntretien">
           <div class="col-md-4 reponses">
             <span class="question">ORIENTATION</span>
-            <span class="valeur">
+            <span class="valeur" *ngIf="usager.entretien.orientation !== null">
               {{ usager.entretien.orientation ? "Oui: " +
               usager.entretien.orientationDetail : "Non" }}
+            </span>
+            <span class="valeur" *ngIf="usager.entretien.orientation === null">
+              Non renseigné
             </span>
           </div>
 
           <div class="col-md-4 reponses">
             <span class="question">DOMICILIATION EXISTANTE</span>
-            <span class="valeur">
+            <span
+              class="valeur"
+              *ngIf="usager.entretien.domiciliation !== null"
+            >
               {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
+            </span>
+            <span
+              class="valeur"
+              *ngIf="usager.entretien.domiciliation === null"
+            >
+              Non renseigné
             </span>
           </div>
 
           <div class="col-md-4 reponses">
             <span class="question">REVENUS</span>
-            <span class="valeur">
-              {{ usager.entretien.revenus ? "Oui: " +
-              (usager.entretien.revenusDetail ? usager.entretien.revenusDetail :
-              "Non renseigné") : "Non" }}
+            <span class="valeur" *ngIf="usager.entretien.revenus !== null">
+              {{ usager.entretien.revenus ? "Oui" +
+              (usager.entretien.revenusDetail ? " : " +
+              usager.entretien.revenusDetail : "") : "Non" }}
+            </span>
+            <span class="valeur" *ngIf="usager.entretien.revenus === null">
+              Non renseigné
             </span>
           </div>
 

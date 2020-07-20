@@ -324,7 +324,9 @@
         <h5 class="subtitle">Paramètres de la structure</h5>
         <br />
       </div>
+    </div>
 
+    <div class="row">
       <div class="col-8">
         Ma structure utilise des identifiants personnalisés pour les dossiers :
       </div>
@@ -350,6 +352,46 @@
             ngbButtonLabel
             [ngClass]="
               f.options.get('customId').value === false
+                ? 'btn-danger'
+                : 'btn-outline-danger'
+            "
+          >
+            <input ngbButton type="radio" [value]="false" />
+            Non
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+      <div class="col-8">
+        Ma structure souhaite afficher l'ID des domiciliés la section "Adresse
+        Postale" du cerfa d'attestation du domicilié
+      </div>
+      <div class="col-4 text-right">
+        <div
+          formControlName="numeroBoite"
+          class="btn-group btn-group-toggle"
+          ngbRadioGroup
+          name="numeroBoite"
+        >
+          <label
+            ngbButtonLabel
+            [ngClass]="
+              f.options.get('numeroBoite').value === true
+                ? 'btn-primary'
+                : 'btn-outline-primary'
+            "
+          >
+            <input ngbButton type="radio" [value]="true" />
+            Oui
+          </label>
+          <label
+            ngbButtonLabel
+            [ngClass]="
+              f.options.get('numeroBoite').value === false
                 ? 'btn-danger'
                 : 'btn-outline-danger'
             "

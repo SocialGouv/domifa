@@ -17,10 +17,10 @@ export class Entretien {
   public typeMenage: string;
 
   constructor(entretien?: any) {
-    this.domiciliation = (entretien && entretien.domiciliation) || false;
-    this.revenus = (entretien && entretien.revenus) || false;
+    this.domiciliation = (entretien && entretien.domiciliation) || null;
+    this.revenus = (entretien && entretien.revenus) || null;
     this.revenusDetail = (entretien && entretien.revenusDetail) || null;
-    this.orientation = (entretien && entretien.orientation) || false;
+    this.orientation = (entretien && entretien.orientation) || null;
     this.orientationDetail = (entretien && entretien.orientationDetail) || null;
     this.liencommune = (entretien && entretien.liencommune) || null;
     this.residence = (entretien && entretien.residence) || null;

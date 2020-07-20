@@ -54,11 +54,12 @@ export class CerfaService {
     this.dateFin = new DateCerfa(usager.decision.dateFin);
 
     if (usager.decision.statut === "REFUS") {
-      this.motif = this.motifsRefus[usager.decision.motif];
       if (usager.decision.motif === "AUTRE") {
         this.motif = usager.decision.motifDetails
-          ? this.motif + " : " + usager.decision.motifDetails
+          ? "Autre motif : " + usager.decision.motifDetails
           : (this.motif = "Autre motif");
+      } else {
+        this.motif = this.motifsRefus[usager.decision.motif];
       }
     } else {
       this.motif = "";
@@ -108,8 +109,13 @@ export class CerfaService {
         ? "../../ressources/attestation.pdf"
         : "../../ressources/demande.pdf";
 
+    let adresseDomicilie = adresseStructure;
+    if (user.structure.options.numeroBoite) {
+      adresseDomicilie = "Boite " + usager.customId + "\n" + adresseStructure;
+    }
+
     this.infosPdf = {
-      adresse: adresseStructure,
+      adresse: adresseDomicilie,
       adresseOrga1: adresseStructure,
       agrement: user.structure.agrement,
       anneeDebut: this.dateDebut.annee,
