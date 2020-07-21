@@ -131,6 +131,7 @@ export class UsersController {
   @Post()
   public async create(@Body() userDto: UserDto, @Response() res: any) {
     const user = await this.usersService.findOne({ email: userDto.email });
+
     if (user) {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -170,7 +171,9 @@ export class UsersController {
     const existUser = await this.usersService.findOne({
       email: emailDto.email,
     });
+
     const emailExist = existUser !== null;
+
     return res.status(HttpStatus.OK).json(emailExist);
   }
 
@@ -218,7 +221,7 @@ export class UsersController {
       (error) => {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "MAIL_ERROR" });
+          .json({ message: "UPDATE_PASSWORD" });
       }
     );
   }
@@ -262,17 +265,28 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"))
   public async registerUser(
     @CurrentUser() user: User,
+    @Response() res: any,
     @Body() registerUserDto: RegisterUserAdminDto
   ): Promise<any> {
     registerUserDto.structureId = user.structureId;
     registerUserDto.structure = user.structure;
+    const newUser = await this.usersService.register(registerUserDto);
+
+    if (newUser && newUser !== null) {
+      this.tipimailService.registerConfirm(newUser).then(
+        (result) => {
+          return res.status(HttpStatus.OK).json({ message: "OK" });
+        },
+        (error) => {
+          return res
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "REGISTER_ERROR" });
+        }
+      );
+    } else {
+      return false;
+    }
     return registerUserDto;
-
-    // TODO: Générer le token
-
-    // TODO: Envoyer le mail avec le lien
-
-    // TODO: Donner le role d'admin
   }
 
   @Post("register-password/:token")

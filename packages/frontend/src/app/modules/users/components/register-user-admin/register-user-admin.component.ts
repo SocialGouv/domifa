@@ -20,7 +20,7 @@ import { Title } from "@angular/platform-browser";
 
 @Component({
   animations: [fadeInOut],
-  selector: "app-register-user",
+  selector: "app-register-user-admin",
   styleUrls: ["./register-user-admin.component.css"],
   templateUrl: "./register-user-admin.component.html",
 })

@@ -5,7 +5,7 @@ import {
   HttpStatus,
   HttpException,
 } from "@nestjs/common";
-import { Cron, CronExpression } from "@nestjs/schedule";
+import { Cron } from "@nestjs/schedule";
 import { Model } from "mongoose";
 import * as moment from "moment";
 
@@ -225,7 +225,8 @@ export class TipimailService {
   }
 
   public async registerConfirm(user: User) {
-    const token = "";
+    const lien =
+      process.env.FRONT_URL + "finaliser-compte/" + user.tokens.creation;
     const post = {
       to: [
         {
@@ -240,7 +241,7 @@ export class TipimailService {
             email: user.email,
             values: {
               prenom: user.prenom,
-              lien: token,
+              lien,
             },
             meta: {},
           },

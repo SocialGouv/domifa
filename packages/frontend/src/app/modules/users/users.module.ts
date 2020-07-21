@@ -14,7 +14,7 @@ import { RegisterUserComponent } from "./components/register-user/register-user.
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./components/user-profil/user-profil.component";
 import { UsersService } from "./services/users.service";
-import { RegisterUserAdminComponent } from './components/register-user-admin/register-user-admin.component';
+import { RegisterUserAdminComponent } from "./components/register-user-admin/register-user-admin.component";
 
 @NgModule({
   declarations: [
@@ -29,6 +29,7 @@ import { RegisterUserAdminComponent } from './components/register-user-admin/reg
     LoginComponent,
     ResetPasswordComponent,
     UserProfilComponent,
+    RegisterUserAdminComponent,
   ],
   imports: [
     CommonModule,

@@ -103,6 +103,11 @@ export class UsersService {
           $set: {
             password: newPassword,
           },
+          $unset: {
+            "tokens.password": "",
+            "tokens.creation": "",
+            "tokens.passwordValidity": "",
+          },
         },
         {
           new: true,
@@ -116,17 +121,40 @@ export class UsersService {
     return this.userModel.deleteOne({ _id: id }).exec();
   }
 
-  public async register(
-    userDto: RegisterUserAdminDto,
-    structure: Structure
-  ): Promise<User> {
+  public async register(userDto: RegisterUserAdminDto): Promise<User> {
     const createdUser = new this.userModel(userDto);
 
-    createdUser.structure = structure;
+    createdUser.verified = false;
     createdUser.id = await this.findLast();
-    createdUser.tokens.creation = await bcrypt.hash(createdUser.password, 10);
+    createdUser.password = crypto.randomBytes(30).toString("hex");
+    createdUser.tokens.creation = crypto.randomBytes(30).toString("hex");
 
     return createdUser.save();
+  }
+
+  public async createPassword(
+    resetPasswordDto: ResetPasswordDto
+  ): Promise<any> {
+    const newPassword = await bcrypt.hash(resetPasswordDto.password, 10);
+
+    return this.userModel
+      .findOneAndUpdate(
+        { "tokens.creation": resetPasswordDto.token },
+        {
+          $set: {
+            password: newPassword,
+            verified: true,
+          },
+          $unset: {
+            "tokens.password": "",
+            "tokens.creation": "",
+            "tokens.passwordValidity": "",
+          },
+        },
+        { new: true }
+      )
+      .select("-password -tokens")
+      .exec();
   }
 
   public async findLast(): Promise<number> {
