@@ -8,28 +8,29 @@
     </div>
     -->
     <div class="col-md-10 offset-1">
-      <h4>Mon compte</h4>
       <div class="row">
-        <div class="col-md-8">
-          Bienvenue
-          {{ authService.currentUserValue.nom }}
-          {{ authService.currentUserValue.prenom }}
-          <br />
-
-          <button class="btn btn-primary" (click)="logout()">
-            Déconnexion
-            <fa-icon icon="sign-out-alt"></fa-icon>
-          </button>
+        <div class="col-md-12">
+          <h4>
+            Informations personnelles
+          </h4>
         </div>
-        <div class="col-md-4 text-right">
-          <a
-            [routerLink]="['/rapport-activite']"
-            *ngIf="authService.currentUserValue.role !== 'facteur'"
-            routerLinkActive="router-link-active"
-            class="btn btn-primary"
-          >
-            Mes statistiques
-          </a>
+        <div class="col-md-4 reponses">
+          <span class="question">PRÉNOM</span>
+          <span class="valeur">
+            {{ authService.currentUserValue.prenom }}
+          </span>
+        </div>
+        <div class="col-md-4 reponses">
+          <span class="question">NOM</span>
+          <span class="valeur">
+            {{ authService.currentUserValue.nom }}
+          </span>
+        </div>
+        <div class="col-md-4 reponses">
+          <span class="question">EMAIL</span>
+          <span class="valeur">
+            {{ authService.currentUserValue.email }}
+          </span>
         </div>
       </div>
 

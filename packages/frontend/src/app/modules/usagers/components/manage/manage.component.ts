@@ -73,7 +73,7 @@ export class ManageUsagersComponent implements OnInit {
     private router: Router,
     private notifService: ToastrService,
     private titleService: Title,
-    private matomoTracker: MatomoTracker
+    private matomo: MatomoTracker
   ) {
     this.usagers = [];
     this.searching = true;
@@ -220,7 +220,7 @@ export class ManageUsagersComponent implements OnInit {
       interaction.transfert = true;
     }
 
-    this.matomoTracker.trackEvent("interactions", "manage", type, 1);
+    this.matomo.trackEvent("interactions", "manage", type, 1);
 
     this.interactionService.setInteraction(usager, interaction).subscribe(
       (response: Usager) => {

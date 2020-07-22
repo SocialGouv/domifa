@@ -72,11 +72,6 @@ export class UserProfilComponent implements OnInit {
     });
   }
 
-  public logout() {
-    this.authService.logout();
-    this.router.navigate(["/connexion"]);
-  }
-
   public confirmUser(id: number) {
     this.userService.confirmUser(id).subscribe(
       (user: User) => {

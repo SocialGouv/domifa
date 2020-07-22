@@ -105,7 +105,7 @@ export class UsagersProfilComponent implements OnInit {
     private router: Router,
     private usagerService: UsagerService,
     private titleService: Title,
-    private matomoTracker: MatomoTracker
+    private matomo: MatomoTracker
   ) {
     this.editAyantsDroits = false;
     this.editEntretien = false;
@@ -338,12 +338,7 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public deleteInteraction(idInteraction: string) {
-    this.matomoTracker.trackEvent(
-      "tests",
-      "delete_interaction_profil",
-      "null",
-      1
-    );
+    this.matomo.trackEvent("tests", "delete_interaction_profil", "null", 1);
     this.interactionService
       .delete(this.usager.id, idInteraction)
       .subscribe((result: any) => {
@@ -375,7 +370,7 @@ export class UsagersProfilComponent implements OnInit {
     if (this.notifInputs[item] === 0) {
       this.notifier(cpt + 1);
     } else {
-      this.matomoTracker.trackEvent("interactions", "profil_icones", item, 1);
+      this.matomo.trackEvent("interactions", "profil_icones", item, 1);
       this.interactionService
         .setInteraction(this.usager, {
           content: "",
@@ -412,7 +407,7 @@ export class UsagersProfilComponent implements OnInit {
       type,
     };
 
-    this.matomoTracker.trackEvent("interactions", "profil_icones", type, 1);
+    this.matomo.trackEvent("interactions", "profil_icones", type, 1);
 
     if (type.substring(type.length - 3) === "Out") {
       if (this.usager.options.procuration.actif) {

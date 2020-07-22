@@ -56,7 +56,7 @@ export class DecisionComponent implements OnInit {
     private router: Router,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
-    private matomoTracker: MatomoTracker
+    private matomo: MatomoTracker
   ) {
     this.labels = labels;
     this.submitted = false;
@@ -227,7 +227,7 @@ export class DecisionComponent implements OnInit {
 
   public printPage() {
     window.print();
-    this.matomoTracker.trackEvent(
+    this.matomo.trackEvent(
       "tests",
       "impression_recapitulatif_decision",
       "null",

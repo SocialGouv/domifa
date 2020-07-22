@@ -21,7 +21,6 @@ export class CerfaService {
   public dateRdv: DateCerfa;
 
   public responsable: string;
-  public motif: string;
   public motifsRefus: {
     [key: string]: string;
   };
@@ -34,7 +33,6 @@ export class CerfaService {
     this.datePremiereDom = new DateCerfa();
     this.dateRdv = new DateCerfa();
 
-    this.motif = "";
     this.responsable = "";
     this.motifsRefus = {
       AUTRE: "Autre motif : ",
@@ -46,24 +44,23 @@ export class CerfaService {
   }
 
   public async attestation(usager: Usager, user: User) {
+    const pdfForm =
+      usager.decision.statut === "VALIDE"
+        ? "../../ressources/attestation.pdf"
+        : "../../ressources/demande.pdf";
+
+    let usagerId = this.toString(usager.id);
+
+    if (user.structure.options.customId === true) {
+      usagerId = this.toString(usager.customId);
+    }
+
     this.dateNaissance = new DateCerfa(usager.dateNaissance);
     this.dateRdv = new DateCerfa(usager.rdv.dateRdv);
     this.dateDecision = new DateCerfa(usager.decision.dateDecision);
     this.datePremiereDom = new DateCerfa(usager.datePremiereDom);
     this.dateDebut = new DateCerfa(usager.decision.dateDebut);
     this.dateFin = new DateCerfa(usager.decision.dateFin);
-
-    if (usager.decision.statut === "REFUS") {
-      if (usager.decision.motif === "AUTRE") {
-        this.motif = usager.decision.motifDetails
-          ? "Autre motif : " + usager.decision.motifDetails
-          : (this.motif = "Autre motif");
-      } else {
-        this.motif = this.motifsRefus[usager.decision.motif];
-      }
-    } else {
-      this.motif = "";
-    }
 
     usager.villeNaissance = usager.villeNaissance.toUpperCase();
     usager.nom = usager.nom.toUpperCase();
@@ -88,6 +85,12 @@ export class CerfaService {
       " - " +
       user.structure.ville;
 
+    let adresseDomicilie = adresseStructure;
+
+    if (user.structure.options.numeroBoite === true) {
+      adresseDomicilie = "Boite " + usagerId + "\n" + adresseStructure;
+    }
+
     let ayantsDroitsTexte = "";
 
     for (const ayantDroit of usager.ayantsDroits) {
@@ -104,14 +107,20 @@ export class CerfaService {
     const sexe = usager.sexe === "femme" ? "1" : "2";
 
     const rattachement = "";
-    const pdfForm =
-      usager.decision.statut === "VALIDE"
-        ? "../../ressources/attestation.pdf"
-        : "../../ressources/demande.pdf";
 
-    let adresseDomicilie = adresseStructure;
-    if (user.structure.options.numeroBoite) {
-      adresseDomicilie = "Boite " + usager.customId + "\n" + adresseStructure;
+    let motif = "";
+
+    if (usager.decision.statut === "REFUS") {
+      if (
+        usager.decision.motif === "AUTRE" ||
+        usager.decision.motif === "AUTRES"
+      ) {
+        motif = usager.decision.motifDetails
+          ? "Autre motif : " + usager.decision.motifDetails
+          : "Autre motif non précisé";
+      } else {
+        motif = this.motifsRefus[usager.decision.motif];
+      }
     }
 
     this.infosPdf = {
@@ -155,12 +164,12 @@ export class CerfaService {
       moisNaissance2: this.dateNaissance.mois,
       moisPremiereDom: this.datePremiereDom.mois,
       moisRdv: this.dateRdv.mois,
-      motifRefus: this.motif,
+      motifRefus: motif,
       nomOrga1: user.structure.nom.toUpperCase(),
       nomOrga2: user.structure.nom.toUpperCase(),
       noms1: usager.nom,
       noms2: usager.nom,
-      numeroUsager: this.toString(usager.id),
+      numeroUsager: usagerId,
       orientation: this.toString(usager.decision.orientationDetails),
       prefecture1: user.structure.departement,
       prefecture2: user.structure.departement,

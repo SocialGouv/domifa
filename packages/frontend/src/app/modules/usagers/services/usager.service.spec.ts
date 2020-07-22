@@ -18,6 +18,7 @@ import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
 import { UsagerService } from "./usager.service";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("UsagerService", () => {
   let service: UsagerService;
@@ -50,6 +51,18 @@ describe("UsagerService", () => {
           multi: true,
           provide: HTTP_INTERCEPTORS,
           useClass: ServerErrorInterceptor,
+        },
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

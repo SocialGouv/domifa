@@ -20,6 +20,7 @@ export class Entretien {
     this.domiciliation = null;
     this.revenus = null;
     this.orientation = null;
+    this.accompagnement = null;
     this.accompagnementDetail = null;
 
     if (entretien && typeof entretien.domiciliation !== "undefined") {
@@ -50,6 +51,7 @@ export class Entretien {
 
     this.accompagnementDetail =
       (entretien && entretien.accompagnementDetail) || null;
+
     this.commentaires = (entretien && entretien.commentaires) || null;
     this.typeMenage = (entretien && entretien.typeMenage) || null;
   }

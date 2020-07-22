@@ -16,6 +16,7 @@ import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Usager } from "../interfaces/usager";
 import { saveAs } from "file-saver";
+import { MatomoTracker } from "ngx-matomo";
 
 @Injectable({
   providedIn: "root",
@@ -29,7 +30,8 @@ export class UsagerService {
   constructor(
     http: HttpClient,
     private loadingService: LoadingService,
-    private notifService: ToastrService
+    private notifService: ToastrService,
+    private matomo: MatomoTracker
   ) {
     this.http = http;
     this.loading = true;
@@ -177,6 +179,8 @@ export class UsagerService {
   public attestation(usagerId: number) {
     this.loadingService.startLoading();
 
+    this.matomo.trackEvent("stats", "telechargement_cerfa", "null", 1);
+
     this.http
       .get(`${this.endPointUsagers}/attestation/${usagerId}`, {
         responseType: "blob",
@@ -184,7 +188,6 @@ export class UsagerService {
       .subscribe(
         (x) => {
           const newBlob = new Blob([x], { type: "application/pdf" });
-
           const randomNumber = Math.floor(Math.random() * 100) + 1;
 
           saveAs(

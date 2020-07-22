@@ -27,7 +27,7 @@ export class RaftComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: Title,
-    private matomoTracker: MatomoTracker
+    private matomo: MatomoTracker
   ) {
     this.today = new Date();
     this.usager = new Usager();
@@ -58,12 +58,7 @@ export class RaftComponent implements OnInit {
 
   public printPage() {
     window.print();
-    this.matomoTracker.trackEvent(
-      "tests",
-      "impression_courrier_radiation",
-      "null",
-      1
-    );
+    this.matomo.trackEvent("tests", "impression_courrier_radiation", "null", 1);
   }
 
   public setDecision(statut: string) {

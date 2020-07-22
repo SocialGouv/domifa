@@ -61,9 +61,7 @@
           <fa-icon icon="plus" class="btn-icon"></fa-icon>
           Créer une demande
         </a>
-        <a routerLink="/mon-compte" class="btn btn-outline-primary">
-          <fa-icon aria-hidden="true" title="Mon compte" icon="user"></fa-icon>
-        </a>
+
         <a
           *ngIf="authService.currentUserValue.role !== 'facteur'"
           routerLink="/import"
@@ -71,6 +69,48 @@
         >
           <fa-icon aria-hidden="true" title="Importer" icon="upload"></fa-icon>
         </a>
+
+        <div
+          ngbDropdown
+          id="dropdownBasic1"
+          display="dynamic"
+          placement="bottom-right"
+          class="d-inline-block"
+        >
+          <button class="btn btn-outline-primary" ngbDropdownToggle>
+            <fa-icon
+              aria-hidden="true"
+              title="Mon compte"
+              icon="user"
+            ></fa-icon>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <a ngbDropdownItem routerLink="/mon-compte">
+              <fa-icon
+                aria-hidden="true"
+                title="Mon compte"
+                icon="user"
+              ></fa-icon>
+              Mon compte</a
+            >
+            <a ngbDropdownItem routerLink="/rapport-activite">
+              <fa-icon
+                aria-hidden="true"
+                title="Statistiques"
+                icon="chart-bar"
+              ></fa-icon>
+              Statistiques</a
+            >
+            <a ngbDropdownItem (click)="logout()">
+              <fa-icon
+                aria-hidden="true"
+                title="Statistiques"
+                icon="sign-out-alt"
+              ></fa-icon>
+              Déconnexion
+            </a>
+          </div>
+        </div>
       </ng-container>
     </div>
   </div>

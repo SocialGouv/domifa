@@ -108,7 +108,7 @@ export class UsagersFormComponent implements OnInit {
     private userService: UsersService,
     private documentService: DocumentService,
     public authService: AuthService,
-    private matomoTracker: MatomoTracker,
+    private matomo: MatomoTracker,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private router: Router,

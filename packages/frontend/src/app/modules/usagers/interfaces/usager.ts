@@ -178,10 +178,15 @@ export class Usager {
     this.isAyantDroit = false;
     if (search && search !== null) {
       const substring = search.toUpperCase();
+      let customId = this.customId;
+
+      if (!this.customId || this.customId === null) {
+        customId = "";
+      }
 
       this.isAyantDroit =
         !this.id.toString().toUpperCase().includes(substring) &&
-        !this.customId.toUpperCase().includes(substring) &&
+        !customId.toUpperCase().includes(substring) &&
         !this.nom.toUpperCase().includes(substring) &&
         !this.prenom.toUpperCase().includes(substring) &&
         !this.surnom.toUpperCase().includes(substring);

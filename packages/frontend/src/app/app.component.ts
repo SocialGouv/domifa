@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private matomoInjector: MatomoInjector,
-    private matomoTracker: MatomoTracker,
+    private matomo: MatomoTracker,
     private modalService: NgbModal,
     private http: HttpClient,
     private router: Router,
@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
     const matomo = localStorage.getItem("matomo");
     this.matomoInfo = matomo === "done";
 
-    this.matomoTracker.setUserId("0");
+    this.matomo.setUserId("0");
   }
 
   public getJSON(): Observable<any> {
@@ -102,5 +102,10 @@ export class AppComponent implements OnInit {
   public closeMatomo() {
     this.matomoInfo = true;
     localStorage.setItem("matomo", "done");
+  }
+
+  public logout() {
+    this.authService.logout();
+    this.router.navigate(["/connexion"]);
   }
 }

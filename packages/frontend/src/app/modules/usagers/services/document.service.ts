@@ -5,6 +5,7 @@ import { environment } from "src/environments/environment";
 import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usager";
 import { saveAs } from "file-saver";
+import { MatomoTracker } from "ngx-matomo";
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +14,7 @@ export class DocumentService {
   public http: HttpClient;
   public endPoint: string;
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient, private matomo: MatomoTracker) {
     this.http = http;
     this.endPoint = environment.apiUrl + "docs/";
   }
@@ -57,6 +58,7 @@ export class DocumentService {
     const extension = extensionTmp[1];
     const newBlob = new Blob([x], { type: doc.filetype });
     saveAs(newBlob, "document_" + usagerId + "." + extension);
+    this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
   }
 
   public deleteDocument(usagerId: number, index: number) {
