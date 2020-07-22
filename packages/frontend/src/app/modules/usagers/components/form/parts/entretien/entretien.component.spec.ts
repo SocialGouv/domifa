@@ -5,6 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagersModule } from "src/app/modules/usagers/usagers.module";
 import { EntretienComponent } from "./entretien.component";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("EntretienComponent", () => {
   let component: EntretienComponent;
@@ -14,7 +15,21 @@ describe("EntretienComponent", () => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [UsagersModule],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

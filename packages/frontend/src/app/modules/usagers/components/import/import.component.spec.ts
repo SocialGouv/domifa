@@ -4,6 +4,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { UsagersModule } from "../../usagers.module";
 import { ImportComponent } from "./import.component";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("ImportComponent", () => {
   let fixture: ComponentFixture<ImportComponent>;
@@ -13,7 +14,21 @@ describe("ImportComponent", () => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [UsagersModule],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

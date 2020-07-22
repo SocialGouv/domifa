@@ -1385,7 +1385,8 @@
             <span class="question">ORIENTATION</span>
             <span class="valeur" *ngIf="usager.entretien.orientation !== null">
               {{ usager.entretien.orientation ? "Oui: " +
-              usager.entretien.orientationDetail : "Non" }}
+              (usager.entretien.orientationDetail ? " : " +
+              usager.entretien.orientationDetail : "") : "Non" }}
             </span>
             <span class="valeur" *ngIf="usager.entretien.orientation === null">
               Non renseigné
