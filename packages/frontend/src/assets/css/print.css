@@ -1,23 +1,21 @@
 @media print {
+  html,
   body {
-    display: table;
-    table-layout: fixed;
-    padding-top: 2cm;
-    padding-bottom: 2cm;
-    padding-left: 1.5cm;
-    padding-right: 1.5cm;
-    height: auto;
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background-color: white;
   }
-
   @page {
-    size: a4;
+    size: A4 !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 
   #page,
   .container {
-    min-width: 96% !important;
+    width: 100% !important;
     max-width: 10000px !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -25,11 +23,20 @@
     display: block;
   }
 
+  .impression,
   #courrier-radiation {
+    width: 100% !important;
     font-size: 13pt !important;
     margin: 0 auto !important;
-    max-width: 1600px !important;
-    border: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    display: table;
+    table-layout: fixed;
+    max-width: 10000px !important;
+    padding-top: 2cm !important;
+    padding-bottom: 2cm !important;
+    padding-left: 1.5cm !important;
+    padding-right: 1.5cm !important;
   }
 
   *,
@@ -78,6 +85,7 @@
     page-break-after: avoid;
   }
 
+  header,
   footer,
   #steps,
   #help-button,

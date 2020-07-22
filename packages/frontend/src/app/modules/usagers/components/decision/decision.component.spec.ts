@@ -4,6 +4,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("DecisionComponent", () => {
   let usagerService: UsagerService;
@@ -12,7 +13,21 @@ describe("DecisionComponent", () => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [UsagersModule],
-      providers: [UsagerService, { provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 

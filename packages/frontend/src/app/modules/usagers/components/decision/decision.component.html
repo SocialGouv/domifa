@@ -62,7 +62,7 @@
 </div>
 
 <div
-  class="step_form"
+  class="step_form not-print"
   id="step_form4"
   *ngIf="usager.etapeDemande >= 4 && isAdmin"
 >
@@ -112,7 +112,7 @@
   </div>
 </div>
 
-<div class="step_form" id="ficheRecap" *ngIf="usager.etapeDemande >= 4">
+<div class="step_form impression" *ngIf="usager.etapeDemande >= 4">
   <h4>ÉTAT CIVIL</h4>
   <div class="row">
     <div class="col-md-4 reponses">
@@ -310,7 +310,7 @@
   </div>
   <br />
 
-  <div class="row">
+  <div class="row not-print">
     <div class="col">
       <button (click)="printPage()" class="btn-block btn btn-primary">
         <fa-icon icon="print" class="btn-icon"></fa-icon>

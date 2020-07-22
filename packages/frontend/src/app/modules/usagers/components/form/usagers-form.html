@@ -820,7 +820,7 @@
   ></app-decision>
 
   <div
-    class="col-md-12 text-center text-danger"
+    class="not-print col-md-12 text-center text-danger"
     *ngIf="(usager.decision.statut === 'ATTENTE_DECISION' || usager.decision.statut === 'INSTRUCTION')
      && authService.isAdmin && usager.etapeDemande >= 1"
   >
