@@ -29,6 +29,7 @@ import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { RegisterUserAdminComponent } from "./modules/users/components/register-user-admin/register-user-admin.component";
 import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
+import { ResponsableGuard } from "./guards/responsable-guard";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -121,7 +122,7 @@ export const routes: Routes = [
     path: "manage",
   },
   {
-    canActivate: [DomifaGuard, FacteurGuard],
+    canActivate: [DomifaGuard, ResponsableGuard],
     component: DashboardComponent,
     path: "statsdomifa",
   },

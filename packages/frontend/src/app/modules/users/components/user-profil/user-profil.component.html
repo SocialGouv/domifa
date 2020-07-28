@@ -73,6 +73,12 @@
                 <option [selected]="user.role === 'admin'" value="admin">
                   Administrateur
                 </option>
+                <option
+                  [selected]="user.role === 'responsable'"
+                  value="responsable"
+                >
+                  Gestionnaire
+                </option>
                 <option [selected]="user.role === 'simple'" value="simple">
                   Instructeur
                 </option>
@@ -137,7 +143,7 @@
 
       <br />
 
-      <div *ngIf="authService.isAdmin">
+      <div *ngIf="me.role === 'admin' || me.role === 'responsable'">
         <h4>Vos données</h4>
         <div class="list-group">
           <div class="list-group-item">
@@ -157,6 +163,7 @@
             </button>
             &nbsp;
             <button
+              *ngIf="me.role === 'admin'"
               (click)="open(hardResetConfirmation)"
               class="btn btn-outline-danger"
             >

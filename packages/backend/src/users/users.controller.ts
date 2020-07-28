@@ -75,7 +75,12 @@ export class UsersController {
     @Param("role") role: string,
     @CurrentUser() user: User
   ) {
-    if (role !== "simple" && role !== "admin" && role !== "facteur") {
+    if (
+      role !== "simple" &&
+      role !== "admin" &&
+      role !== "facteur" &&
+      role !== "responsable"
+    ) {
       throw new HttpException(
         "ROLE_INCORRECT",
         HttpStatus.INTERNAL_SERVER_ERROR

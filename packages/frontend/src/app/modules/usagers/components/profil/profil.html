@@ -1616,7 +1616,10 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12 text-center text-danger" *ngIf="authService.isAdmin">
+  <div
+    class="col-md-12 text-center text-danger"
+    *ngIf="me.role === 'admin' || me.role === 'responsable'"
+  >
     <br />
     <br />
     <span id="delete-usager" (click)="open(deleteConfirmation)">

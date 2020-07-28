@@ -7,6 +7,7 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { fadeInOut } from "./shared/animations";
 import { Router, NavigationEnd } from "@angular/router";
 import { Title } from "@angular/platform-browser";
+import { User } from "./modules/users/interfaces/user";
 @Component({
   animations: [fadeInOut],
   selector: "app-root",
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit {
 
   public modal: any;
   public matomoInfo: boolean;
+
+  public me: User;
 
   @ViewChild("newsCenter", { static: true })
   public newsCenter!: TemplateRef<any>;
@@ -53,6 +56,7 @@ export class AppComponent implements OnInit {
     );
 
     this.authService.isAuth().subscribe();
+    this.me = this.authService.currentUserValue;
 
     this.getJSON().subscribe((domifaNews) => {
       this.domifaNews = domifaNews[0];

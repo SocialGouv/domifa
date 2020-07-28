@@ -93,7 +93,11 @@
               ></fa-icon>
               Mon compte</a
             >
-            <a ngbDropdownItem routerLink="/admin">
+            <a
+              ngbDropdownItem
+              *ngIf="me.role === 'admin' || me.role === 'responsable'"
+              routerLink="/admin"
+            >
               <fa-icon
                 aria-hidden="true"
                 title="Administration"
@@ -101,7 +105,11 @@
               ></fa-icon>
               Administration</a
             >
-            <a ngbDropdownItem routerLink="/rapport-activite">
+            <a
+              ngbDropdownItem
+              *ngIf="me.role === 'admin' || me.role === 'responsable'"
+              routerLink="/rapport-activite"
+            >
               <fa-icon
                 aria-hidden="true"
                 title="Statistiques"

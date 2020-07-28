@@ -36,6 +36,7 @@ import {
 } from "src/app/shared/bootstrap-util";
 import { Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo";
+import { User } from "src/app/modules/users/interfaces/user";
 
 @Component({
   providers: [
@@ -84,6 +85,8 @@ export class UsagersProfilComponent implements OnInit {
   public structure: Structure;
 
   public today: Date;
+
+  public me: User;
 
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
@@ -142,7 +145,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Fiche d'un domicilié");
-
+    this.me = this.authService.currentUserValue;
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {

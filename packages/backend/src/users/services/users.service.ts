@@ -40,6 +40,7 @@ export class UsersService {
   }
 
   public async findOne(search: any): Promise<any> {
+    console.log(search);
     return this.userModel
       .findOne(search)
       .populate("structure", "-import -token -users -verified -mails")

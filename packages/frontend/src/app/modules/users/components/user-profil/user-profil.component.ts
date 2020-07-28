@@ -23,6 +23,7 @@ export const errorLabels = {
 })
 export class UserProfilComponent implements OnInit {
   public users: User[];
+  public me: User;
   public structure: Structure;
   public newUsers: User[];
   public modal: any;
@@ -70,6 +71,8 @@ export class UserProfilComponent implements OnInit {
     this.hardResetForm = this.formBuilder.group({
       token: ["", [Validators.required]],
     });
+
+    this.me = this.authService.currentUserValue;
   }
 
   public confirmUser(id: number) {

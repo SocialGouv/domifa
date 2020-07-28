@@ -7,7 +7,7 @@ import { AuthService } from "../modules/shared/services/auth.service";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable({ providedIn: "root" })
-export class FacteurGuard implements CanActivate {
+export class ResponsableGuard implements CanActivate {
   constructor(
     public router: Router,
     public authService: AuthService,
@@ -17,7 +17,7 @@ export class FacteurGuard implements CanActivate {
   public canActivate(): Observable<boolean> | boolean {
     if (this.authService.currentUserValue !== null) {
       const role = this.authService.currentUserValue.role;
-      if (role === "admin" || role === "simple" || role === "responsable") {
+      if (role === "admin" || role === "responsable") {
         return true;
       }
     }
