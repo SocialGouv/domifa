@@ -18,7 +18,7 @@ import { Router } from "@angular/router";
 export class ServerErrorInterceptor implements HttpInterceptor {
   constructor(
     private notifService: ToastrService,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) {}
 

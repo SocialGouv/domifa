@@ -23,7 +23,7 @@ export class RaftComponent implements OnInit {
 
   constructor(
     private usagerService: UsagerService,
-    private authService: AuthService,
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private titleService: Title,

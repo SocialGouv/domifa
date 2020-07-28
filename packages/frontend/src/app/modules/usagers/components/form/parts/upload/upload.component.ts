@@ -35,7 +35,7 @@ export class UploadComponent implements OnInit {
     private usagerService: UsagerService,
     private userService: UsersService,
     private documentService: DocumentService,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) {
     this.uploadResponse = { status: "", message: "", filePath: "" };

@@ -34,7 +34,7 @@ export class StructuresEditComponent implements OnInit {
     private structureService: StructureService,
     private notifService: ToastrService,
     private router: Router,
-    private authService: AuthService,
+    public authService: AuthService,
     private titleService: Title
   ) {
     this.departements = departements;

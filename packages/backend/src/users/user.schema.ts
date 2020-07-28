@@ -71,6 +71,9 @@ export const UserSchema = new mongoose.Schema(
         type: Boolean,
       },
     },
+    passwordLastUpdate: {
+      type: Date,
+    },
     verified: {
       default: false,
       type: Boolean,

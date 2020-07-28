@@ -1,10 +1,6 @@
-<div class="text-center">
-  <h5 class="title">
-    Créer un utilisateur
-  </h5>
-</div>
-<br />
-<br />
+<h4 class="title">
+  Créer un utilisateur
+</h4>
 <form *ngIf="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
   <div class="row">
     <div class="col-md-3 form-group required">
@@ -84,3 +80,5 @@
     />
   </div>
 </form>
+
+<br />

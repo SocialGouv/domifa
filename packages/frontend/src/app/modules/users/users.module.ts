@@ -15,6 +15,9 @@ import { ResetPasswordComponent } from "./components/reset-password/reset-passwo
 import { UserProfilComponent } from "./components/user-profil/user-profil.component";
 import { UsersService } from "./services/users.service";
 import { RegisterUserAdminComponent } from "./components/register-user-admin/register-user-admin.component";
+import { EditUserComponent } from "./components/edit-user/edit-user.component";
+
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -23,6 +26,7 @@ import { RegisterUserAdminComponent } from "./components/register-user-admin/reg
     ResetPasswordComponent,
     UserProfilComponent,
     RegisterUserAdminComponent,
+    EditUserComponent,
   ],
   exports: [
     RegisterUserComponent,
@@ -30,10 +34,12 @@ import { RegisterUserAdminComponent } from "./components/register-user-admin/reg
     ResetPasswordComponent,
     UserProfilComponent,
     RegisterUserAdminComponent,
+    EditUserComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
+    SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
     RouterModule.forRoot([]),

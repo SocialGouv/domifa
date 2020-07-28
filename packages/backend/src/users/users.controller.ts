@@ -119,13 +119,24 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @Patch(":id")
+  @Patch()
   public async patch(
     @CurrentUser() user: User,
     @Body() userDto: UserEditDto,
     @Response() res: any
   ) {
-    return this.usersService.update(user.id, user.structureId, userDto);
+    const userToUpdate = await this.usersService.update(
+      user.id,
+      user.structureId,
+      userDto
+    );
+
+    if (!userToUpdate || userToUpdate === null) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "USER_EDIT_FAIL" });
+    }
+    return res.status(HttpStatus.OK).json(userToUpdate);
   }
 
   @Post()
@@ -267,13 +278,18 @@ export class UsersController {
     @CurrentUser() user: User,
     @Response() res: any,
     @Body() registerUserDto: RegisterUserAdminDto
-  ): Promise<any> {
+  ): Promise<boolean> {
     registerUserDto.structureId = user.structureId;
     registerUserDto.structure = user.structure;
+
     const newUser = await this.usersService.register(registerUserDto);
 
-    if (newUser && newUser !== null) {
-      this.tipimailService.registerConfirm(newUser).then(
+    const updatedUser = await this.usersService.generateTokenPassword(
+      newUser.email
+    );
+
+    if (updatedUser && updatedUser !== null) {
+      this.tipimailService.registerConfirm(updatedUser).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },
@@ -286,15 +302,6 @@ export class UsersController {
     } else {
       return false;
     }
-    return registerUserDto;
-  }
-
-  @Post("register-password/:token")
-  public async registerUserPassword(
-    @Param("token") token: string,
-    @CurrentUser() user: User,
-    @Body() resetPasswordDto: ResetPasswordDto
-  ): Promise<any> {
-    return resetPasswordDto;
+    return true;
   }
 }

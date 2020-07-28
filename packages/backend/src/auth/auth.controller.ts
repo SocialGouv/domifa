@@ -21,7 +21,7 @@ import { CurrentUser } from "./current-user.decorator";
 @Controller("auth")
 export class AuthController {
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private usersService: UsersService
   ) {}
 

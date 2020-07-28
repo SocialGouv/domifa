@@ -130,7 +130,7 @@ export class ImportComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
-    private authService: AuthService,
+    public authService: AuthService,
     private loadingService: LoadingService,
     private router: Router,
     private notifService: ToastrService,

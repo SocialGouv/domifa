@@ -6,6 +6,7 @@ import { map, catchError } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../../users/interfaces/user";
 import * as Sentry from "@sentry/browser";
+
 @Injectable({
   providedIn: "root",
 })
@@ -14,13 +15,9 @@ export class AuthService {
   public isAdmin: boolean;
 
   public currentUser: Observable<User>;
+  public currentUserSubject: BehaviorSubject<User>;
 
   private endPoint = environment.apiUrl + "auth";
-  private currentUserSubject: BehaviorSubject<User>;
-
-  public get currentUserValue(): User | null {
-    return this.currentUserSubject.value;
-  }
 
   constructor(public http: HttpClient) {
     this.http = http;
@@ -30,7 +27,12 @@ export class AuthService {
     this.currentUserSubject = new BehaviorSubject<User | null>(
       JSON.parse(localStorage.getItem("currentUser") || null)
     );
+
     this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  public get currentUserValue(): User | null {
+    return this.currentUserSubject.value;
   }
 
   public login(email: string, password: string): Observable<any> {
@@ -74,13 +76,16 @@ export class AuthService {
           this.logout();
           return false;
         }
+
         const user = new User(retour);
+
         user.token = this.currentUserValue.token;
-        localStorage.setItem("currentUser", JSON.stringify(user));
 
         this.isLogged = true;
         this.isAdmin = user && user.role === "admin";
         this.currentUserSubject.next(user);
+
+        localStorage.setItem("currentUser", JSON.stringify(user));
 
         // Ajout d'infos pour Sentry
         Sentry.configureScope((scope) => {
@@ -101,9 +106,10 @@ export class AuthService {
   }
 
   public logout() {
-    this.currentUserSubject = new BehaviorSubject(null);
     localStorage.removeItem("currentUser");
     localStorage.removeItem("filters");
+
+    this.currentUserSubject = new BehaviorSubject(null);
     this.isLogged = false;
     this.isAdmin = false;
 

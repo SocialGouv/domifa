@@ -33,12 +33,6 @@ export class RegisterUserAdminComponent implements OnInit {
 
   public emailExist: boolean = false;
 
-  @Input() public structureChild!: {
-    etapeInscription: number;
-    structureId: number;
-    structure: Structure;
-  };
-
   get f() {
     return this.userForm.controls;
   }
@@ -47,7 +41,7 @@ export class RegisterUserAdminComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private route: ActivatedRoute,
-    private structureService: StructureService,
+
     private notifService: ToastrService,
     private titleService: Title
   ) {
@@ -55,17 +49,13 @@ export class RegisterUserAdminComponent implements OnInit {
     this.user.nom = "chips";
     this.user.role = "admin";
     this.user.prenom = "coca";
-    this.user.email = "coca@test.fr";
+    this.user.email = "mamadou@yopmail.fr";
     this.submitted = false;
     this.success = false;
   }
 
   public ngOnInit() {
     this.titleService.setTitle("Inscription sur Domifa");
-    this.user.structureId =
-      this.structureChild !== undefined
-        ? this.structureChild.structureId
-        : (this.user.structureId = parseInt(this.route.snapshot.params.id, 10));
 
     this.userForm = this.formBuilder.group({
       email: [
@@ -91,8 +81,8 @@ export class RegisterUserAdminComponent implements OnInit {
         (retour: boolean) => {
           this.success = true;
           this.notifService.success(
-            "Votre compte a été créé avec succès",
-            "Féliciations !"
+            "Votre collaborateur vient de recevoir un email pour ajouter son mot de passe.",
+            "Le nouveau compte a été créé avec succès !"
           );
         },
         () => {

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private userService: UsersService,
-    private authService: AuthService,
+    public authService: AuthService,
     private notifService: ToastrService
   ) {
     this.errorMessage = "";

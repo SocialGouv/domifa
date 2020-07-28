@@ -36,6 +36,14 @@ export class UsersService {
     );
   }
 
+  public patch(data: any) {
+    return this.http.patch(`${this.endPoint}`, data).pipe(
+      map((response) => {
+        return new User(response);
+      })
+    );
+  }
+
   public getUsers(): Observable<User[]> {
     return this.http.get(`${this.endPoint}`).pipe(
       map((response) => {

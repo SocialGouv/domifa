@@ -1,39 +1,6 @@
 <div class="container" *ngIf="authService.currentUserValue !== null">
   <div class="row">
-    <!--
-   <div class="col-md-10 offset-1">
-      <div *ngIf="authService.isAdmin">
-        <app-register-user-admin></app-register-user-admin>
-      </div>
-    </div>
-    -->
     <div class="col-md-10 offset-1">
-      <div class="row">
-        <div class="col-md-12">
-          <h4>
-            Informations personnelles
-          </h4>
-        </div>
-        <div class="col-md-4 reponses">
-          <span class="question">PRÉNOM</span>
-          <span class="valeur">
-            {{ authService.currentUserValue.prenom }}
-          </span>
-        </div>
-        <div class="col-md-4 reponses">
-          <span class="question">NOM</span>
-          <span class="valeur">
-            {{ authService.currentUserValue.nom }}
-          </span>
-        </div>
-        <div class="col-md-4 reponses">
-          <span class="question">EMAIL</span>
-          <span class="valeur">
-            {{ authService.currentUserValue.email }}
-          </span>
-        </div>
-      </div>
-
       <br />
 
       <h4 *ngIf="newUsers && newUsers.length > 0">
@@ -128,6 +95,15 @@
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <br />
+      <br />
+
+      <div class="">
+        <div *ngIf="authService.isAdmin">
+          <app-register-user-admin></app-register-user-admin>
         </div>
       </div>
 

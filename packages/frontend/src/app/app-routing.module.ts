@@ -28,6 +28,7 @@ import { PolitiqueComponent } from "./modules/general/components/politique/polit
 import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { RegisterUserAdminComponent } from "./modules/users/components/register-user-admin/register-user-admin.component";
+import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -52,6 +53,11 @@ export const routes: Routes = [
     component: StructuresEditComponent,
   },
   {
+    canActivate: [AuthGuard],
+    path: "mon-compte",
+    component: EditUserComponent,
+  },
+  {
     component: StructuresConfirmComponent,
     path: "structures/confirm/:token",
   },
@@ -67,14 +73,8 @@ export const routes: Routes = [
   {
     canActivate: [AuthGuard],
     component: UserProfilComponent,
-    path: "mon-compte",
+    path: "admin",
   },
-  {
-    canActivate: [AuthGuard, FacteurGuard],
-    component: RegisterUserAdminComponent,
-    path: "ajout-user",
-  },
-
   {
     canActivate: [AuthGuard, FacteurGuard],
     component: RaftComponent,
@@ -84,6 +84,11 @@ export const routes: Routes = [
     canActivate: [LoggedGuard],
     component: ResetPasswordComponent,
     path: "reset-password",
+  },
+  {
+    canActivate: [LoggedGuard],
+    component: ResetPasswordComponent,
+    path: "reset-password/:token",
   },
   {
     canActivate: [LoggedGuard],

@@ -10,7 +10,7 @@ import { StructuresModule } from "../structures/structure.module";
 
 @Module({
   controllers: [AuthController],
-  exports: [PassportModule, AuthService],
+  exports: [PassportModule],
   imports: [
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({

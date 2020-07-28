@@ -124,7 +124,7 @@ export class UsersService {
   public async register(userDto: RegisterUserAdminDto): Promise<User> {
     const createdUser = new this.userModel(userDto);
 
-    createdUser.verified = false;
+    createdUser.verified = true;
     createdUser.id = await this.findLast();
     createdUser.password = crypto.randomBytes(30).toString("hex");
     createdUser.tokens.creation = crypto.randomBytes(30).toString("hex");

@@ -1,0 +1,263 @@
+<div class="container">
+  <div class="col-md-10 offset-1">
+    <div class="row">
+      <div class="col-md-12">
+        <h4>
+          Informations personnelles
+        </h4>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="!editUser">
+      <div class="col-md-4 reponses">
+        <span class="question">PRÉNOM</span>
+        <span class="valeur">
+          {{ user.prenom }}
+        </span>
+      </div>
+      <div class="col-md-4 reponses">
+        <span class="question">NOM</span>
+        <span class="valeur">
+          {{ user.nom }}
+        </span>
+      </div>
+      <div class="col-md-4 reponses">
+        <span class="question">EMAIL</span>
+        <span class="valeur">
+          {{ user.email }}
+        </span>
+      </div>
+      <div class="col-md-12 text-center">
+        <br />
+        <button (click)="initUserForm()" class="btn btn-outline-dark">
+          <fa-icon icon="edit" class="btn-icon"></fa-icon>
+          Modifier les informations
+        </button>
+      </div>
+    </div>
+
+    <form
+      [formGroup]="userForm"
+      class="row"
+      (ngSubmit)="updateUser()"
+      *ngIf="editUser"
+    >
+      <div class="col-md-4 form-group required">
+        <label for="prenom">Prénom</label>
+        <input
+          type="text"
+          class="form-control"
+          id="prenom"
+          formControlName="prenom"
+          [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+          required
+        />
+        <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+          <div *ngIf="f.prenom.errors.required">
+            Le prénom est obligatoire
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 form-group required">
+        <label for="nom">Nom</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nom"
+          formControlName="nom"
+          [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+          required
+        />
+        <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+          <div *ngIf="f.nom.errors.required">
+            Le nom du demandeur est obligatoire
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 form-group required">
+        <label for="email">Votre adresse email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          autocomplete="username"
+          formControlName="email"
+          [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+          required
+        />
+        <div *ngIf="f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.emailTaken">
+            <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+            <b>L'adresse email est déjà utilisée</b>
+          </div>
+          <div *ngIf="!f.email.errors.emailTaken">
+            L'adresse Email est incorrecte
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 text-center">
+        <button (click)="editUser = false" class="btn btn-outline-dark">
+          <fa-icon icon="edit" class="btn-icon"></fa-icon>
+          Annuler
+        </button>
+        &nbsp;&nbsp;
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!userForm.valid"
+        >
+          Enregistrer
+        </button>
+      </div>
+    </form>
+
+    <div class="row">
+      <h4 class="col-md-12">
+        Mot de passe
+      </h4>
+    </div>
+    <div class="row" *ngIf="editPassword">
+      <div class="col-md-4 form-group required passwordInput">
+        <label for="password">Mot de passe</label>
+        <input
+          class="form-control"
+          [type]="!hidePassword ? 'text' : 'password'"
+          [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+          id="password"
+          autocomplete="new-password"
+          formControlName="password"
+          required
+        />
+        <span class="eye" *ngIf="hidePassword" (click)="hidePassword = false">
+          <fa-icon icon="eye"></fa-icon>
+        </span>
+        <span class="eye" *ngIf="!hidePassword" (click)="hidePassword = true">
+          <fa-icon icon="eye-slash"></fa-icon>
+        </span>
+        <div class="row indications">
+          <div
+            class="col-md-12"
+            [ngClass]="
+              f.password.hasError('required') ||
+              f.password.hasError('minlength')
+                ? 'text-danger'
+                : 'text-success'
+            "
+          >
+            <fa-icon
+              [icon]="
+                f.password.hasError('required') ||
+                f.password.hasError('minlength')
+                  ? 'times-circle'
+                  : 'check-circle'
+              "
+            ></fa-icon>
+            Au moins 12 caractères
+          </div>
+          <div
+            class="col-md-12"
+            [ngClass]="
+              f.password.hasError('required') ||
+              f.password.hasError('hasNumber')
+                ? 'text-danger'
+                : 'text-success'
+            "
+          >
+            <fa-icon
+              [icon]="
+                f.password.hasError('required') ||
+                f.password.hasError('hasNumber')
+                  ? 'times-circle'
+                  : 'check-circle'
+              "
+            ></fa-icon>
+            Au moins 1 chiffre
+          </div>
+          <div
+            class="col-md-12"
+            [ngClass]="
+              f.password.hasError('required') ||
+              f.password.hasError('hasCapitalCase')
+                ? 'text-danger'
+                : 'text-success'
+            "
+          >
+            <fa-icon
+              [icon]="
+                f.password.hasError('required') ||
+                f.password.hasError('hasCapitalCase')
+                  ? 'times-circle'
+                  : 'check-circle'
+              "
+            ></fa-icon>
+            Au moins une lettre en majuscule
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-md-4 form-group required passwordInput"
+        id="confirmPassword"
+      >
+        <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
+        <input
+          class="form-control"
+          [type]="!hidePasswordConfirm ? 'text' : 'password'"
+          [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
+          id="confirmPasswordInput"
+          autocomplete="new-password"
+          formControlName="confirmPassword"
+          required
+        />
+        <span
+          class="eye"
+          *ngIf="hidePasswordConfirm"
+          (click)="hidePasswordConfirm = false"
+        >
+          <fa-icon icon="eye"></fa-icon>
+        </span>
+        <span
+          class="eye"
+          *ngIf="!hidePasswordConfirm"
+          (click)="hidePasswordConfirm = true"
+        >
+          <fa-icon icon="eye-slash"></fa-icon>
+        </span>
+
+        <div class="row indications">
+          <div
+            class="text-danger col-md-12"
+            *ngIf="submitted && f.confirmPassword.hasError('required')"
+          >
+            La confirmation du mot de passe est obligatoire
+          </div>
+          <div
+            class="col-md-12"
+            [ngClass]="
+              f.confirmPassword.dirty &&
+              !f.confirmPassword.hasError('NoPassswordMatch')
+                ? 'text-success'
+                : 'text-danger'
+            "
+          >
+            <fa-icon
+              [icon]="
+                f.confirmPassword.dirty &&
+                !f.confirmPassword.hasError('NoPassswordMatch')
+                  ? 'check-circle'
+                  : 'times-circle'
+              "
+            ></fa-icon>
+            Les mots de passe doivent être identiques
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <span class="question">EMAIL</span>
+        <span class="valeur">
+          {{ user.email }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

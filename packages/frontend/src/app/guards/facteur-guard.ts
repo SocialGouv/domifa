@@ -10,7 +10,7 @@ import { ToastrService } from "ngx-toastr";
 export class FacteurGuard implements CanActivate {
   constructor(
     public router: Router,
-    private authService: AuthService,
+    public authService: AuthService,
     private notifService: ToastrService
   ) {}
 

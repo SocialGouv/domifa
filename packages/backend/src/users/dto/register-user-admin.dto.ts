@@ -39,4 +39,7 @@ export class RegisterUserAdminDto {
 
   @IsEmpty()
   public structure!: {};
+
+  @IsEmpty()
+  public verified!: boolean;
 }

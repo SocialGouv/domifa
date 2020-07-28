@@ -226,7 +226,7 @@ export class TipimailService {
 
   public async registerConfirm(user: User) {
     const lien =
-      process.env.FRONT_URL + "finaliser-compte/" + user.tokens.creation;
+      process.env.FRONT_URL + "reset-password/" + user.tokens.password;
     const post = {
       to: [
         {
