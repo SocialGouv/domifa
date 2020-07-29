@@ -10,14 +10,9 @@ import { AuthService } from "./services/auth.service";
 
 @NgModule({
   declarations: [DigitOnlyDirective, DateFrDirective, CleanStrDirective],
-  exports: [
-    DigitOnlyDirective,
-    DateFrDirective,
-    CleanStrDirective,
-    AuthService,
-  ],
+  exports: [DigitOnlyDirective, DateFrDirective, CleanStrDirective],
   imports: [CommonModule],
-  providers: [FaIconLibrary, FaConfig, AuthService],
+  providers: [FaIconLibrary, FaConfig],
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {

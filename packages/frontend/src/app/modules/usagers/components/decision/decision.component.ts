@@ -16,6 +16,7 @@ import { Usager } from "../../interfaces/usager";
 import { DocumentService } from "../../services/document.service";
 import { UsagerService } from "../../services/usager.service";
 import { MatomoTracker } from "ngx-matomo";
+import { User } from "src/app/modules/users/interfaces/user";
 
 @Component({
   providers: [
@@ -45,7 +46,9 @@ export class DecisionComponent implements OnInit {
   public maxDateRefus: NgbDateStruct;
 
   @Input() public usager!: Usager;
-  @Input() public isAdmin!: boolean;
+  public isAdmin!: boolean;
+
+  public me: User;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -64,6 +67,9 @@ export class DecisionComponent implements OnInit {
     const dToday = new Date();
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: dToday.getFullYear() + 2 };
+
+    this.me = this.authService.currentUserValue;
+    this.isAdmin = this.me.role === "admin" || this.me.role === "responsable";
   }
 
   get r(): any {
