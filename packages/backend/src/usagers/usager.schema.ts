@@ -78,6 +78,7 @@ export const UsagerSchema = new mongoose.Schema(
         liencommune: null,
         pourquoi: null,
         pourquoiDetail: null,
+        rattachement: null,
         raison: null,
         raisonDetail: null,
         residence: null,

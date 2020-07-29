@@ -30,6 +30,7 @@ export class Structure {
   public options: {
     colis: boolean;
     customId: boolean;
+    rattachement: boolean;
     numeroBoite: boolean;
   };
 
@@ -69,11 +70,13 @@ export class Structure {
       colis: false,
       customId: false,
       numeroBoite: false,
+      rattachement: false,
     };
     if (structure && structure.options) {
       this.options.colis = structure.options.colis || false;
       this.options.customId = structure.options.customId || false;
       this.options.numeroBoite = structure.options.numeroBoite || false;
+      this.options.rattachement = structure.options.rattachement || false;
     }
 
     this.users = (structure && structure.users) || [];

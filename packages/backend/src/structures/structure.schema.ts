@@ -82,6 +82,7 @@ export const StructureSchema = new mongoose.Schema(
     },
     options: {
       colis: { type: Boolean, default: false },
+      rattachement: { type: Boolean, default: false },
       customId: { type: Boolean, default: false },
       numeroBoite: { type: Boolean, default: false },
     },

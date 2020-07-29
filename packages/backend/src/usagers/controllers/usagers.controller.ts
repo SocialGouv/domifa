@@ -138,7 +138,6 @@ export class UsagersController {
     }
 
     if (decision.statut === "REFUS") {
-      /* Récupération du dernier ID lié à la structure */
       /* SMS & Mail pr prévenir */
 
       decision.dateFin =
@@ -167,6 +166,15 @@ export class UsagersController {
         decision.dateFin = new Date(
           new Date().setFullYear(new Date().getFullYear() + 1)
         );
+      }
+
+      // Rattachement territorial
+      if (
+        decision.rattachement !== undefined &&
+        decision.rattachement !== null
+      ) {
+        usager.entretien.rattachement = decision.rattachement;
+        delete decision.rattachement;
       }
 
       decision.dateDebut = new Date(decision.dateDebut);

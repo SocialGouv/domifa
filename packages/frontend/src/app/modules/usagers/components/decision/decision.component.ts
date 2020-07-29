@@ -105,6 +105,7 @@ export class DecisionComponent implements OnInit {
       dateDebutPicker: [this.dateDebutPicker, [Validators.required]],
       dateFin: [this.usager.decision.dateFin, [Validators.required]],
       dateFinPicker: [this.dateFinPicker, [Validators.required]],
+      rattachement: [this.usager.entretien.rattachement, []],
     });
 
     this.refusForm = this.formBuilder.group({

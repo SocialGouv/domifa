@@ -17,6 +17,9 @@ export class EntretienDto {
   public liencommune!: string;
 
   @IsOptional()
+  public rattachement!: string;
+
+  @IsOptional()
   public residence!: string;
 
   @IsOptional()

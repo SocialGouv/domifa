@@ -34,4 +34,7 @@ export class DecisionDto {
 
   @IsOptional()
   public typeDom!: string;
+
+  @IsOptional()
+  public rattachement!: string;
 }

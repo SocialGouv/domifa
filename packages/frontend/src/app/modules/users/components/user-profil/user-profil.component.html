@@ -51,6 +51,12 @@
                 <span *ngIf="user.role === 'admin'" class="badge badge-primary">
                   Administrateur
                 </span>
+                <span
+                  *ngIf="user.role === 'responsable'"
+                  class="badge badge-info"
+                >
+                  Gestionnaire
+                </span>
                 <span *ngIf="!user.verified" class="badge badge-warning">
                   Non activé
                 </span>

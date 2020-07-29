@@ -29,6 +29,7 @@ export interface Structure extends Document {
   options: {
     colis: boolean;
     customId: boolean;
+    rattachement: boolean;
     numeroBoite: boolean;
   };
   token: string;

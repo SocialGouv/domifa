@@ -145,7 +145,9 @@ export class UsagersProfilComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Fiche d'un domicilié");
+
     this.me = this.authService.currentUserValue;
+
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {

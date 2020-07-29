@@ -9,9 +9,23 @@
       présence de données à caractère personnel.
     </div>
   </div>
-
+  <br />
   <div class="row">
     <div class="col">
+      <div *ngIf="me.structure.options.rattachement">
+        <label class="form-label" for="rattachement">
+          Quelle est la commune / l'arrondissement de rattachement ?
+        </label>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="rattachement"
+            id="rattachement"
+          />
+        </div>
+      </div>
+
       <div>
         <span class="label">Avez-vous été orienté ?</span>
         <div class="form-check form-check-inline">

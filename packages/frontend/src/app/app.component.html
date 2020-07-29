@@ -107,6 +107,18 @@
             >
             <a
               ngbDropdownItem
+              *ngIf="me.role === 'admin'"
+              routerLink="/structure-edit"
+            >
+              <fa-icon
+                aria-hidden="true"
+                title="Ma structure"
+                icon="home"
+              ></fa-icon>
+              Ma structure</a
+            >
+            <a
+              ngbDropdownItem
               *ngIf="me.role === 'admin' || me.role === 'responsable'"
               routerLink="/rapport-activite"
             >

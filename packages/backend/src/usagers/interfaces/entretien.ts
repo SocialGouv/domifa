@@ -12,6 +12,7 @@ export interface Entretien {
   causeDetail?: string;
   pourquoi?: string;
   pourquoiDetail?: string;
+  rattachement?: string;
   raison?: string;
   raisonDetail?: string;
   accompagnement?: boolean;

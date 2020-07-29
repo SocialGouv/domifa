@@ -15,6 +15,8 @@ import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
 import { ToastrService } from "ngx-toastr";
 import * as labels from "src/app/modules/usagers/usagers.labels";
+import { User } from "src/app/modules/users/interfaces/user";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 
 @Component({
   providers: [UsagerService],
@@ -41,13 +43,17 @@ export class EntretienComponent implements OnInit {
 
   @Output()
   public nextStep = new EventEmitter<number>();
+  public me: User;
 
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
     private notifService: ToastrService,
-    private modalService: NgbModal
-  ) {}
+    private modalService: NgbModal,
+    public authService: AuthService
+  ) {
+    this.me = this.authService.currentUserValue;
+  }
 
   get e(): any {
     return this.entretienForm.controls;
@@ -74,6 +80,7 @@ export class EntretienComponent implements OnInit {
       liencommune: [this.usager.entretien.liencommune, []],
       orientation: [this.usager.entretien.orientation, []],
       orientationDetail: [this.usager.entretien.orientationDetail, []],
+      rattachement: [this.usager.entretien.rattachement, []],
       raison: [this.usager.entretien.raison, []],
       raisonDetail: [this.usager.entretien.raisonDetail, []],
       residence: [this.usager.entretien.residence, []],

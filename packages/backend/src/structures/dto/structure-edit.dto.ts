@@ -1,4 +1,10 @@
-import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import {
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsObject,
+} from "class-validator";
 
 export class StructureEditDto {
   @IsOptional()
@@ -46,9 +52,11 @@ export class StructureEditDto {
   };
 
   @IsNotEmpty()
+  @IsObject()
   public options!: {
     colis: boolean;
     customId: boolean;
+    rattachement: boolean;
     numeroBoite: boolean;
   };
 }

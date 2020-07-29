@@ -184,6 +184,7 @@ export class UsagersService {
         {
           $set: {
             decision,
+            "entretien.rattachement": usager.entretien.rattachement,
             historique: usager.historique,
             typeDom: usager.typeDom,
             datePremiereDom: usager.datePremiereDom,

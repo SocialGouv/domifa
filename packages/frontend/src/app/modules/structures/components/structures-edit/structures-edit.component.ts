@@ -79,6 +79,7 @@ export class StructuresEditComponent implements OnInit {
         colis: [this.structure.options.colis, []],
         customId: [this.structure.options.customId, []],
         numeroBoite: [this.structure.options.numeroBoite, []],
+        rattachement: [this.structure.options.rattachement, []],
       }),
       phone: [
         this.structure.phone,

@@ -10,6 +10,7 @@ export class Entretien {
   public cause: string;
   public causeDetail: string;
   public raison: string;
+  public rattachement: string;
   public raisonDetail: string;
   public accompagnement: boolean;
   public accompagnementDetail: string;
@@ -46,6 +47,7 @@ export class Entretien {
     this.residenceDetail = (entretien && entretien.residenceDetail) || null;
     this.cause = (entretien && entretien.cause) || null;
     this.causeDetail = (entretien && entretien.causeDetail) || null;
+    this.rattachement = (entretien && entretien.rattachement) || null;
     this.raison = (entretien && entretien.raison) || null;
     this.raisonDetail = (entretien && entretien.raisonDetail) || null;
 
