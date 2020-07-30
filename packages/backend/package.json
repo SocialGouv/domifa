@@ -80,6 +80,6 @@
     "tsconfig-paths": "^3.9.0",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   }
 }
