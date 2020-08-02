@@ -776,8 +776,6 @@ export class ImportController {
       choix: ["OUI", "NON"],
     };
 
-    console.log("DATA : " + data);
-
     return types[rowName].indexOf(data.toUpperCase()) > -1;
   }
 }

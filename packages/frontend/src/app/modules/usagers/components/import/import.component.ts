@@ -424,8 +424,6 @@ export class ImportComponent implements OnInit {
         this.errorsRow[idRow] = [];
       }
 
-      console.log(this.datas[idRow][idColumn]);
-      console.log(idColumn);
       this.errorsRow[idRow].push(idColumn);
       this.errorsId.push(position);
     }
