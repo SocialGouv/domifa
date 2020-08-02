@@ -721,6 +721,10 @@ export class ImportController {
       return true;
     }
 
+    if ((data === undefined || data === null || data === "") && required) {
+      return false;
+    }
+
     const types: any = {
       demande: ["PREMIERE", "RENOUVELLEMENT"],
       lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE", "AUTRES"],
@@ -755,7 +759,6 @@ export class ImportController {
         "HEBERGEMENT_TIERS",
         "HOTEL",
         "SANS_ABRI",
-
         "AUTRE",
       ],
       cause: [
@@ -764,15 +767,16 @@ export class ImportController {
         "EXPULSION",
         "HEBERGE_SANS_ADRESSE",
         "ITINERANT",
-
         "RUPTURE",
         "SORTIE_STRUCTURE",
         "VIOLENCE",
       ],
-      raison: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
       statut: ["VALIDE", "REFUS", "RADIE"],
+      raison: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
       choix: ["OUI", "NON"],
     };
+
+    console.log("DATA : " + data);
 
     return types[rowName].indexOf(data.toUpperCase()) > -1;
   }

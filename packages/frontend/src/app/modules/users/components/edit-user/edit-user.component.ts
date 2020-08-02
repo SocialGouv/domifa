@@ -50,7 +50,6 @@ export class EditUserComponent implements OnInit {
     public titleService: Title
   ) {
     this.user = new User({});
-    this.user = this.authenticationService.currentUserValue;
 
     this.submitted = false;
     this.success = false;
@@ -67,6 +66,7 @@ export class EditUserComponent implements OnInit {
 
   public initUserForm() {
     this.editUser = true;
+    this.user = this.authenticationService.currentUserValue;
     this.userForm = this.formBuilder.group({
       email: [
         this.user.email,

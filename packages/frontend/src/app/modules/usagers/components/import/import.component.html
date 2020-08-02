@@ -157,7 +157,7 @@
 
     <div class="row" id="errors-list" *ngIf="showErrors">
       <ng-container *ngFor="let rowError of errorsRow; let i = index">
-        <div class="col text-left" *ngIf="rowError && rowError.length > 0">
+        <div class="col-md-3 text-left" *ngIf="rowError && rowError.length > 0">
           <b>Ligne {{ i + 1 }}</b>
           <br />
           <span *ngFor="let colError of rowError">

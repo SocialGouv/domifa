@@ -252,6 +252,7 @@ export class ImportComponent implements OnInit {
           index,
           this.STATUT_DOM
         );
+
         this.countErrors(
           this.isValidValue(row[this.TYPE_DOM], "demande", true),
           index,
@@ -497,6 +498,10 @@ export class ImportComponent implements OnInit {
       return true;
     }
 
+    if ((data === undefined || data === null || data === "") && required) {
+      return false;
+    }
+
     const types: {
       [key: string]: any;
     } = {
@@ -549,6 +554,7 @@ export class ImportComponent implements OnInit {
       raison: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
       choix: ["OUI", "NON"],
     };
+
     return types[rowName].indexOf(data.toUpperCase()) > -1;
   }
 
