@@ -14,6 +14,12 @@ export const StructureSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    adresseCourrier: {
+      actif: { type: Boolean, default: false },
+      adresse: { type: String, default: "" },
+      ville: { type: String, default: "" },
+      codePostal: { type: String, default: "" },
+    },
     agrement: {
       default: "",
       type: String,

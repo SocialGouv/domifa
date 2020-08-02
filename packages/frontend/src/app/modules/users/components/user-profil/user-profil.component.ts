@@ -9,13 +9,8 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { User } from "../../interfaces/user";
 import { UsersService } from "../../services/users.service";
 
-import { saveAs } from "file-saver";
 import { Title } from "@angular/platform-browser";
 
-export const errorLabels = {
-  EMAIL_EXIST: "L'adresse email indiquée est déjà utilisée",
-  USER_NOT_EXIST: "Le lien est incorrect, merci de recommencer la procédure",
-};
 @Component({
   selector: "app-user-profil",
   styleUrls: ["./user-profil.component.css"],
@@ -50,7 +45,6 @@ export class UserProfilComponent implements OnInit {
     this.showHardReset = false;
     this.exportLoading = false;
     this.hardResetCode = null;
-    this.errorLabels = errorLabels;
   }
 
   get f() {
@@ -67,10 +61,6 @@ export class UserProfilComponent implements OnInit {
       .subscribe((structure: Structure) => {
         this.structure = structure;
       });
-
-    this.hardResetForm = this.formBuilder.group({
-      token: ["", [Validators.required]],
-    });
 
     this.me = this.authService.currentUserValue;
   }
@@ -128,58 +118,6 @@ export class UserProfilComponent implements OnInit {
 
   public open(content: TemplateRef<any>) {
     this.modal = this.modalService.open(content);
-  }
-
-  public hardReset() {
-    this.structureService.hardReset().subscribe((retour: any) => {
-      this.showHardReset = true;
-    });
-  }
-
-  public hardResetConfirm() {
-    if (this.hardResetForm.invalid) {
-      this.notifService.error("Veuillez vérifier le formulaire");
-      return;
-    }
-
-    this.structureService
-      .hardResetConfirm(this.hardResetForm.controls.token.value)
-      .subscribe(
-        (retour: any) => {
-          this.notifService.success(
-            "La remise à zéro a été effectuée avec succès !"
-          );
-          this.modalService.dismissAll();
-          this.showHardReset = false;
-        },
-        (error: any) => {
-          const message = this.errorLabels[error.error.message];
-          this.notifService.error(message);
-        }
-      );
-  }
-
-  public export() {
-    this.exportLoading = true;
-    this.structureService.export().subscribe(
-      (x: any) => {
-        const newBlob = new Blob([x], {
-          type:
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
-
-        saveAs(newBlob, "export_domifa" + ".xlsx");
-        setTimeout(() => {
-          this.exportLoading = false;
-        }, 500);
-      },
-      (error: any) => {
-        this.notifService.error(
-          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
-        );
-        this.exportLoading = false;
-      }
-    );
   }
 
   private getUsers() {

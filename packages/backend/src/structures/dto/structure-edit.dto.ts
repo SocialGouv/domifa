@@ -14,9 +14,6 @@ export class StructureEditDto {
   public nom!: string;
 
   @IsOptional()
-  public adresseCourrier!: string;
-
-  @IsOptional()
   public complementAdresse!: string;
 
   @IsNumber()
@@ -58,5 +55,14 @@ export class StructureEditDto {
     customId: boolean;
     rattachement: boolean;
     numeroBoite: boolean;
+  };
+
+  @IsOptional()
+  @IsObject()
+  public adresseCourrier!: {
+    actif: boolean;
+    adresse: string;
+    ville: string;
+    codePostal: string;
   };
 }

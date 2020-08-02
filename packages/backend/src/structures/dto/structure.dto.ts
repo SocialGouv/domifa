@@ -18,9 +18,6 @@ export class StructureDto {
   public nom!: string;
 
   @IsOptional()
-  public adresseCourrier!: string;
-
-  @IsOptional()
   public complementAdresse!: string;
 
   @IsNumber()
@@ -51,5 +48,14 @@ export class StructureDto {
     fonction: string;
     nom: string;
     prenom: string;
+  };
+
+  @IsOptional()
+  @IsObject()
+  public adresseCourrier!: {
+    actif: boolean;
+    adresse: string;
+    ville: string;
+    codePostal: string;
   };
 }

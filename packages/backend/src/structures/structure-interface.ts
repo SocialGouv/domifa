@@ -15,15 +15,25 @@ export interface Structure extends Document {
   agrement: string;
   phone: string;
   email: string;
+
   responsable: {
     fonction: string;
     nom: string;
     prenom: string;
   };
+
   hardReset: {
     token: string;
     expireAt: Date | null;
   };
+
+  adresseCourrier: {
+    actif: boolean;
+    adresse: string;
+    ville: string;
+    codePostal: string;
+  };
+
   lastExport: Date;
   stats: { VALIDE: number; REFUS: number; RADIE: number; TOTAL: number };
   options: {

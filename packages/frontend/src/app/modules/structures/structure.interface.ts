@@ -3,10 +3,10 @@ import { User } from "../users/interfaces/user";
 export class Structure {
   public id: number;
   public adresse: string;
-  public adresseCourrier: string;
+
   public capacite: number;
   public complementAdresse: string;
-  public adresseDifferente: boolean;
+
   public nom: string;
   public structureType: string;
   public ville: string;
@@ -34,6 +34,13 @@ export class Structure {
     numeroBoite: boolean;
   };
 
+  public adresseCourrier: {
+    actif: boolean;
+    adresse: string;
+    ville: string;
+    codePostal: string;
+  };
+
   public users: User[];
   public createdAt: Date | null;
 
@@ -45,8 +52,7 @@ export class Structure {
     this.id = (structure && structure.id) || 0;
     this.capacite = (structure && structure.capacite) || null;
     this.adresse = (structure && structure.adresse) || null;
-    this.adresseCourrier = (structure && structure.adresseCourrier) || "";
-    this.adresseDifferente = structure && structure.adresseDifferente !== "";
+
     this.complementAdresse = (structure && structure.complementAdresse) || "";
     this.nom = (structure && structure.nom) || "";
     this.structureType = (structure && structure.structureType) || "";
@@ -59,6 +65,13 @@ export class Structure {
     this.email = (structure && structure.email) || "";
     this.import = (structure && structure.import) || false;
     this.verified = (structure && structure.verified) || false;
+
+    this.adresseCourrier = (structure && structure.adresseCourrier) || {
+      actif: false,
+      adresse: "",
+      ville: "",
+      codePostal: "",
+    };
 
     this.responsable = (structure && structure.responsable) || {
       fonction: "",

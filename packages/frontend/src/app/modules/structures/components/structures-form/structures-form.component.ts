@@ -69,7 +69,12 @@ export class StructuresFormComponent implements OnInit {
     this.titleService.setTitle("Inscrivez votre structure sur Domifa");
     this.structureForm = this.formBuilder.group({
       adresse: [this.structure.adresse, [Validators.required]],
-      adresseCourrier: [this.structure.adresseCourrier, []],
+      adresseCourrier: this.formBuilder.group({
+        actif: [this.structure.adresseCourrier.actif, []],
+        adresse: [this.structure.adresseCourrier.adresse, []],
+        ville: [this.structure.adresseCourrier.ville, []],
+        codePostal: [this.structure.adresseCourrier.codePostal, []],
+      }),
       adresseDifferente: [this.structure.adresseCourrier, []],
       agrement: [this.structure.agrement, []],
       capacite: [this.structure.capacite, []],
@@ -117,6 +122,24 @@ export class StructuresFormComponent implements OnInit {
       this.structureForm.get("agrement").updateValueAndValidity();
       this.structureForm.get("departement").updateValueAndValidity();
     });
+
+    this.structureForm
+      .get("adresseCourrier")
+      .get("actif")
+      .valueChanges.subscribe((value) => {
+        this.structureForm.get("agrement").setValidators(null);
+        this.structureForm.get("departement").setValidators(null);
+
+        if (value === "asso") {
+          this.structureForm.get("agrement").setValidators(Validators.required);
+          this.structureForm
+            .get("departement")
+            .setValidators(Validators.required);
+        }
+
+        this.structureForm.get("agrement").updateValueAndValidity();
+        this.structureForm.get("departement").updateValueAndValidity();
+      });
   }
 
   public submitStrucutre() {

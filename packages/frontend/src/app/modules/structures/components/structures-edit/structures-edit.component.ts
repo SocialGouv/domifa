@@ -1,21 +1,22 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { departements } from "src/app/shared/departements";
 import { regexp } from "src/app/shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
-import { Title } from "@angular/platform-browser";
+import { User } from "src/app/modules/users/interfaces/user";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-structures-edit",
@@ -29,12 +30,20 @@ export class StructuresEditComponent implements OnInit {
   public departements: any;
   public submitted: boolean = false;
 
+  public modal: any;
+  public showHardReset: boolean;
+  public hardResetCode: boolean;
+  public exportLoading: boolean;
+  public hardResetForm: FormGroup;
+  public me: User;
+
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
     private notifService: ToastrService,
     private router: Router,
     public authService: AuthService,
+    public modalService: NgbModal,
     private titleService: Title
   ) {
     this.departements = departements;
@@ -47,18 +56,30 @@ export class StructuresEditComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("Editer votre structure");
 
+    this.hardResetForm = this.formBuilder.group({
+      token: ["", [Validators.required]],
+    });
+
     this.structureService.findMyStructure().subscribe((structure: any) => {
       this.structure = structure;
       this.initForm();
     });
+
+    this.me = this.authService.currentUserValue;
   }
 
   public initForm() {
+    const adresseRequired =
+      this.structure.adresseCourrier.actif === true
+        ? Validators.required
+        : null;
+
+    const assoRequired =
+      this.structure.structureType === "asso" ? Validators.required : null;
+
     this.structureEdit = this.formBuilder.group({
       adresse: [this.structure.adresse, [Validators.required]],
-      adresseCourrier: [this.structure.adresseCourrier, []],
-      adresseDifferente: [this.structure.adresseCourrier, []],
-      agrement: [this.structure.agrement, []],
+      agrement: [this.structure.agrement, [assoRequired]],
       capacite: [this.structure.capacite, []],
       codePostal: [
         this.structure.codePostal,
@@ -69,7 +90,10 @@ export class StructuresEditComponent implements OnInit {
         ],
       ],
       complementAdresse: [this.structure.complementAdresse, []],
-      departement: [this.structure.departement, []],
+      departement: [
+        this.structure.departement,
+        [this.structure.structureType === "asso" ? Validators.required : null],
+      ],
       email: [
         this.structure.email,
         [Validators.required, Validators.pattern(regexp.email)],
@@ -80,6 +104,15 @@ export class StructuresEditComponent implements OnInit {
         customId: [this.structure.options.customId, []],
         numeroBoite: [this.structure.options.numeroBoite, []],
         rattachement: [this.structure.options.rattachement, []],
+      }),
+      adresseCourrier: this.formBuilder.group({
+        actif: [this.structure.adresseCourrier.actif, []],
+        adresse: [this.structure.adresseCourrier.adresse, [adresseRequired]],
+        ville: [this.structure.adresseCourrier.ville, [adresseRequired]],
+        codePostal: [
+          this.structure.adresseCourrier.codePostal,
+          [adresseRequired],
+        ],
       }),
       phone: [
         this.structure.phone,
@@ -94,15 +127,25 @@ export class StructuresEditComponent implements OnInit {
       ville: [this.structure.ville, [Validators.required]],
     });
 
-    if (this.structure.structureType === "asso") {
-      this.structureEdit.get("agrement").setValidators(Validators.required);
-      this.structureEdit.get("departement").setValidators(Validators.required);
-    } else {
-      this.structureEdit.get("agrement").setValidators(null);
-      this.structureEdit.get("departement").setValidators(null);
-    }
-    this.structureEdit.get("agrement").updateValueAndValidity();
-    this.structureEdit.get("departement").updateValueAndValidity();
+    this.structureEdit
+      .get("adresseCourrier")
+      .get("actif")
+      .valueChanges.subscribe((value) => {
+        const isRequired = value === true ? Validators.required : null;
+
+        this.structureEdit
+          .get("adresseCourrier")
+          .get("adresse")
+          .setValidators(isRequired);
+        this.structureEdit
+          .get("adresseCourrier")
+          .get("codePostal")
+          .setValidators(isRequired);
+        this.structureEdit
+          .get("adresseCourrier")
+          .get("ville")
+          .setValidators(isRequired);
+      });
   }
 
   public submitStrucutre() {
@@ -114,17 +157,74 @@ export class StructuresEditComponent implements OnInit {
     } else {
       this.structureService.patch(this.structureEdit.value).subscribe(
         (structure: Structure) => {
-          this.notifService.success("La structure a bien été enregistrée");
+          this.notifService.success(
+            "Les modifications ont bien été prises en compte"
+          );
           this.authService.currentUserValue.structure = structure;
-          this.router.navigate(["/mon-compte"]);
         },
         (error) => {
-          this.notifService.error("Veuillez vérifier les champs du formulaire");
+          this.notifService.error("Une erreur est survenue");
         }
       );
     }
   }
 
+  public open(content: TemplateRef<any>) {
+    this.modal = this.modalService.open(content);
+  }
+
+  public hardReset() {
+    this.structureService.hardReset().subscribe((retour: any) => {
+      this.showHardReset = true;
+    });
+  }
+
+  public hardResetConfirm() {
+    if (this.hardResetForm.invalid) {
+      this.notifService.error("Veuillez vérifier le formulaire");
+      return;
+    }
+
+    this.structureService
+      .hardResetConfirm(this.hardResetForm.controls.token.value)
+      .subscribe(
+        (retour: any) => {
+          this.notifService.success(
+            "La remise à zéro a été effectuée avec succès !"
+          );
+          this.modalService.dismissAll();
+          this.showHardReset = false;
+        },
+        (error: any) => {
+          this.notifService.error(
+            "La remise à zéro n'a pas pu être effectuée !"
+          );
+        }
+      );
+  }
+
+  public export() {
+    this.exportLoading = true;
+    this.structureService.export().subscribe(
+      (x: any) => {
+        const newBlob = new Blob([x], {
+          type:
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        saveAs(newBlob, "export_domifa" + ".xlsx");
+        setTimeout(() => {
+          this.exportLoading = false;
+        }, 500);
+      },
+      (error: any) => {
+        this.notifService.error(
+          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+        );
+        this.exportLoading = false;
+      }
+    );
+  }
   public validateEmailNotTaken(control: AbstractControl) {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail
