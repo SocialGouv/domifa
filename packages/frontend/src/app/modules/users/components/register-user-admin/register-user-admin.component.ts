@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
@@ -14,8 +14,7 @@ import { regexp } from "../../../../shared/validators";
 import { User } from "../../interfaces/user";
 
 import { UsersService } from "../../services/users.service";
-import { Structure } from "src/app/modules/structures/structure.interface";
-import { StructureService } from "src/app/modules/structures/services/structure.service";
+
 import { Title } from "@angular/platform-browser";
 
 @Component({
@@ -40,16 +39,10 @@ export class RegisterUserAdminComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
-    private route: ActivatedRoute,
-
     private notifService: ToastrService,
     private titleService: Title
   ) {
     this.user = new User({});
-    this.user.nom = "chips";
-    this.user.role = "admin";
-    this.user.prenom = "coca";
-    this.user.email = "mamadou@yopmail.fr";
     this.submitted = false;
     this.success = false;
   }

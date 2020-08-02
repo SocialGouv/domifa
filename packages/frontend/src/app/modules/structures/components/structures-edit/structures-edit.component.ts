@@ -71,15 +71,15 @@ export class StructuresEditComponent implements OnInit {
   public initForm() {
     const adresseRequired =
       this.structure.adresseCourrier.actif === true
-        ? Validators.required
+        ? [Validators.required]
         : null;
 
     const assoRequired =
-      this.structure.structureType === "asso" ? Validators.required : null;
+      this.structure.structureType === "asso" ? [Validators.required] : null;
 
     this.structureEdit = this.formBuilder.group({
       adresse: [this.structure.adresse, [Validators.required]],
-      agrement: [this.structure.agrement, [assoRequired]],
+      agrement: [this.structure.agrement, assoRequired],
       capacite: [this.structure.capacite, []],
       codePostal: [
         this.structure.codePostal,
@@ -90,10 +90,7 @@ export class StructuresEditComponent implements OnInit {
         ],
       ],
       complementAdresse: [this.structure.complementAdresse, []],
-      departement: [
-        this.structure.departement,
-        [this.structure.structureType === "asso" ? Validators.required : null],
-      ],
+      departement: [this.structure.departement, assoRequired],
       email: [
         this.structure.email,
         [Validators.required, Validators.pattern(regexp.email)],
@@ -107,11 +104,11 @@ export class StructuresEditComponent implements OnInit {
       }),
       adresseCourrier: this.formBuilder.group({
         actif: [this.structure.adresseCourrier.actif, []],
-        adresse: [this.structure.adresseCourrier.adresse, [adresseRequired]],
-        ville: [this.structure.adresseCourrier.ville, [adresseRequired]],
+        adresse: [this.structure.adresseCourrier.adresse, adresseRequired],
+        ville: [this.structure.adresseCourrier.ville, adresseRequired],
         codePostal: [
           this.structure.adresseCourrier.codePostal,
-          [adresseRequired],
+          adresseRequired,
         ],
       }),
       phone: [
@@ -124,6 +121,7 @@ export class StructuresEditComponent implements OnInit {
         nom: [this.structure.responsable.nom, [Validators.required]],
         prenom: [this.structure.responsable.prenom, [Validators.required]],
       }),
+
       ville: [this.structure.ville, [Validators.required]],
     });
 
@@ -131,7 +129,7 @@ export class StructuresEditComponent implements OnInit {
       .get("adresseCourrier")
       .get("actif")
       .valueChanges.subscribe((value) => {
-        const isRequired = value === true ? Validators.required : null;
+        const isRequired = value === true ? [Validators.required] : null;
 
         this.structureEdit
           .get("adresseCourrier")

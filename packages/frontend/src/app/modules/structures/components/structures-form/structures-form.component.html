@@ -242,9 +242,11 @@
             class="form-control"
             id="adresse2"
             formControlName="adresse"
-            placeholder="Indiquez l'adresse complète : numéro et nom de rue, batiment, etc."
+            placeholder="Numéro et nom de rue, batiment, etc."
             [ngClass]="{
-              'is-invalid': submitted && f.adresseCourrier.get('adresse').errors
+              'is-invalid':
+                f.adresseCourrier.get('actif').value === true &&
+                f.adresseCourrier.get('adresse').errors
             }"
           />
         </div>
@@ -255,16 +257,20 @@
             class="form-control"
             id="codePostal2"
             maxlength="5"
-            required
             formControlName="codePostal"
             [ngClass]="{
               'is-invalid':
-                (f.adresseCourrier.get('codePostal').dirty &&
-                  f.adresseCourrier.get('codePostal').errors) ||
-                (submitted && f.adresseCourrier.get('codePostal').errors)
+                f.adresseCourrier.get('actif').value === true &&
+                f.adresseCourrier.get('codePostal').errors
             }"
           />
-          <div *ngIf="f.codePostal.errors" class="invalid-feedback">
+          <div
+            *ngIf="
+              f.adresseCourrier.get('actif').value === true &&
+              f.adresseCourrier.get('codePostal').errors
+            "
+            class="invalid-feedback"
+          >
             Le code postal est obligatoire
           </div>
         </div>
@@ -276,11 +282,16 @@
             id="ville2"
             formControlName="ville"
             [ngClass]="{
-              'is-invalid': submitted && f.adresseCourrier.get('ville').errors
+              'is-invalid':
+                f.adresseCourrier.get('actif').value === true &&
+                f.adresseCourrier.get('ville').errors
             }"
           />
           <div
-            *ngIf="submitted && f.adresseCourrier.get('ville').errors"
+            *ngIf="
+              f.adresseCourrier.get('actif').value === true &&
+              f.adresseCourrier.get('ville').errors
+            "
             class="invalid-feedback"
           >
             La ville est obligatoire

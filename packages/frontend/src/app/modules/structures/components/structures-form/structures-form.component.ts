@@ -127,18 +127,20 @@ export class StructuresFormComponent implements OnInit {
       .get("adresseCourrier")
       .get("actif")
       .valueChanges.subscribe((value) => {
-        this.structureForm.get("agrement").setValidators(null);
-        this.structureForm.get("departement").setValidators(null);
+        const isRequired = value === true ? [Validators.required] : null;
 
-        if (value === "asso") {
-          this.structureForm.get("agrement").setValidators(Validators.required);
-          this.structureForm
-            .get("departement")
-            .setValidators(Validators.required);
-        }
-
-        this.structureForm.get("agrement").updateValueAndValidity();
-        this.structureForm.get("departement").updateValueAndValidity();
+        this.structureForm
+          .get("adresseCourrier")
+          .get("adresse")
+          .setValidators(isRequired);
+        this.structureForm
+          .get("adresseCourrier")
+          .get("codePostal")
+          .setValidators(isRequired);
+        this.structureForm
+          .get("adresseCourrier")
+          .get("ville")
+          .setValidators(isRequired);
       });
   }
 
