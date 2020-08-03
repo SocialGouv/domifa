@@ -11,7 +11,6 @@ import * as Sentry from "@sentry/browser";
   providedIn: "root",
 })
 export class AuthService {
-  public isLogged: boolean;
   public isAdmin: boolean;
 
   public currentUser: Observable<User>;
@@ -21,7 +20,6 @@ export class AuthService {
 
   constructor(public http: HttpClient) {
     this.http = http;
-    this.isLogged = false;
     this.isAdmin = false;
 
     this.currentUserSubject = new BehaviorSubject<User | null>(
@@ -44,14 +42,16 @@ export class AuthService {
       .pipe(
         map((token) => {
           const user = new User(jwtDecode(token.access_token));
-          this.isLogged = true;
+
           this.isAdmin = user && user.role === "admin";
 
           user.token = token.access_token;
+
           localStorage.setItem("currentUser", JSON.stringify(user));
           localStorage.removeItem("filters");
 
           this.currentUserSubject.next(user);
+
           return user;
         })
       );
@@ -80,11 +80,9 @@ export class AuthService {
         const user = new User(retour);
 
         user.token = this.currentUserValue.token;
-
-        this.isLogged = true;
         this.isAdmin = user && user.role === "admin";
-        this.currentUserSubject.next(user);
 
+        this.currentUserSubject.next(user);
         localStorage.setItem("currentUser", JSON.stringify(user));
 
         // Ajout d'infos pour Sentry
@@ -109,8 +107,8 @@ export class AuthService {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("filters");
 
-    this.currentUserSubject = new BehaviorSubject(null);
-    this.isLogged = false;
+    this.currentUserSubject.next(null);
+
     this.isAdmin = false;
 
     // Ajout d'infos pour Sentry

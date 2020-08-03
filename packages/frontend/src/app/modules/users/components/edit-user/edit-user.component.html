@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="me">
   <div class="col-md-10 offset-1">
     <div class="row">
       <div class="col-md-12">
@@ -12,19 +12,19 @@
       <div class="col-md-4 reponses">
         <span class="question">PRÉNOM</span>
         <span class="valeur">
-          {{ user.prenom }}
+          {{ me.prenom }}
         </span>
       </div>
       <div class="col-md-4 reponses">
         <span class="question">NOM</span>
         <span class="valeur">
-          {{ user.nom }}
+          {{ me.nom }}
         </span>
       </div>
       <div class="col-md-4 reponses">
         <span class="question">EMAIL</span>
         <span class="valeur">
-          {{ user.email }}
+          {{ me.email }}
         </span>
       </div>
       <div class="col-md-12 text-center">
@@ -255,7 +255,7 @@
       <div class="col-md-4">
         <span class="question">EMAIL</span>
         <span class="valeur">
-          {{ user.email }}
+          {{ me.email }}
         </span>
       </div>
     </div>

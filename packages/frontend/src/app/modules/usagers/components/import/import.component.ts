@@ -402,10 +402,12 @@ export class ImportComponent implements OnInit {
   }
 
   public countErrors(variable: boolean, idRow: number, idColumn: number) {
-    if (this.datas[idRow][this.STATUT_DOM] === "REFUS") {
+    if (
+      this.datas[idRow][this.STATUT_DOM] === "REFUS" ||
+      this.datas[idRow][this.STATUT_DOM] === "RADIE"
+    ) {
       if (
         idColumn === this.DATE_DEBUT_DOM ||
-        idColumn === this.DATE_FIN_DOM ||
         idColumn === this.DATE_PREMIERE_DOM ||
         idColumn === this.DATE_DERNIER_PASSAGE
       ) {

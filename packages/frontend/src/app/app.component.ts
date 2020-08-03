@@ -46,17 +46,19 @@ export class AppComponent implements OnInit {
       new: "Nouveauté",
     };
 
+    this.me = null;
     this.domifaNews = null;
     this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
+
+    this.authService.currentUser.subscribe((x) => {
+      this.me = x;
+    });
   }
 
   public ngOnInit() {
     this.titleService.setTitle(
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
-
-    this.authService.isAuth().subscribe();
-    this.me = this.authService.currentUserValue;
 
     this.getJSON().subscribe((domifaNews) => {
       this.domifaNews = domifaNews[0];

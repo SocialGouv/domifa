@@ -640,9 +640,9 @@ export class ImportController {
       variable;
 
     if (
-      this.datas[idRow][this.STATUT_DOM] === "REFUS" &&
+      (this.datas[idRow][this.STATUT_DOM] === "REFUS" ||
+        this.datas[idRow][this.STATUT_DOM] === "RADIE") &&
       (idColumn === this.DATE_DEBUT_DOM ||
-        idColumn === this.DATE_FIN_DOM ||
         idColumn === this.DATE_PREMIERE_DOM ||
         idColumn === this.DATE_DERNIER_PASSAGE)
     ) {

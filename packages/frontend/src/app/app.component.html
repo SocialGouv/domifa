@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg">
   <a class="navbar-brand" routerLink="/">
     <img src="../assets/images/logo.png" alt="Logo Domifa" />
-    <span id="nom-asso" *ngIf="authService.isLogged">
-      {{ authService.currentUserValue.structure.nom }}
+    <span id="nom-asso" *ngIf="me">
+      {{ me.structure.nom }}
     </span>
   </a>
   <button
@@ -25,16 +25,11 @@
       <li class="nav-item active"></li>
     </ul>
     <div class="my-2 my-lg-0">
-      <ng-container *ngIf="!authService.isLogged">
-        <a
-          *ngIf="!authService.isLogged"
-          routerLink="/inscription"
-          class="btn btn-outline-primary"
-        >
+      <ng-container *ngIf="!me">
+        <a routerLink="/inscription" class="btn btn-outline-primary">
           S'inscrire
         </a>
         <a
-          *ngIf="!authService.isLogged"
           routerLink="/connexion"
           aria-hidden="true"
           title="Se connecter"
@@ -44,7 +39,7 @@
         </a>
       </ng-container>
 
-      <ng-container *ngIf="authService.isLogged">
+      <ng-container *ngIf="me">
         <a
           routerLink="/manage"
           aria-hidden="true"
@@ -54,7 +49,7 @@
           Liste des usagers
         </a>
         <a
-          *ngIf="authService.currentUserValue.role !== 'facteur'"
+          *ngIf="me.role !== 'facteur'"
           routerLink="/nouveau"
           class="btn btn-outline-secondary"
         >
@@ -63,7 +58,7 @@
         </a>
 
         <a
-          *ngIf="authService.currentUserValue.role !== 'facteur'"
+          *ngIf="me.role !== 'facteur'"
           routerLink="/import"
           class="btn btn-primary"
         >

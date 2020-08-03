@@ -8,6 +8,7 @@ import { regexp } from "src/app/shared/validators";
 import { UsersService } from "../../services/users.service";
 import { ToastrService } from "ngx-toastr";
 import { Title } from "@angular/platform-browser";
+import { User } from "../../interfaces/user";
 @Component({
   selector: "app-login",
   styleUrls: ["./login.component.css"],
@@ -77,11 +78,12 @@ export class LoginComponent implements OnInit {
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        (user) => {
+        (user: User) => {
           this.loading = false;
           this.success = true;
           this.error = true;
-          this.returnUrl !== "/"
+
+          return this.returnUrl !== "/"
             ? this.router.navigateByUrl(this.returnUrl)
             : this.router.navigate(["/manage"]);
         },

@@ -22,7 +22,7 @@ import { of } from "rxjs";
   styleUrls: ["./edit-user.component.css"],
 })
 export class EditUserComponent implements OnInit {
-  public user: User | null;
+  public me: User | null;
 
   public submitted: boolean;
   public success: boolean;
@@ -42,15 +42,13 @@ export class EditUserComponent implements OnInit {
   }
 
   constructor(
-    private authenticationService: AuthService,
+    public authService: AuthService,
     public userService: UsersService,
     public router: Router,
     public notifService: ToastrService,
     public formBuilder: FormBuilder,
     public titleService: Title
   ) {
-    this.user = new User({});
-
     this.submitted = false;
     this.success = false;
     this.editPassword = false;
@@ -62,19 +60,20 @@ export class EditUserComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle("Editer mes informations");
+    this.me = this.authService.currentUserValue;
   }
 
   public initUserForm() {
     this.editUser = true;
-    this.user = this.authenticationService.currentUserValue;
+
     this.userForm = this.formBuilder.group({
       email: [
-        this.user.email,
+        this.me.email,
         [Validators.pattern(regexp.email), Validators.required],
         this.validateEmailNotTaken.bind(this),
       ],
-      nom: [this.user.nom, Validators.required],
-      prenom: [this.user.prenom, Validators.required],
+      nom: [this.me.nom, Validators.required],
+      prenom: [this.me.prenom, Validators.required],
     });
   }
 
@@ -112,7 +111,7 @@ export class EditUserComponent implements OnInit {
     } else {
       this.userService.patch(this.userForm.value).subscribe(
         (user: User) => {
-          this.user = new User(user);
+          this.me = new User(user);
           this.editUser = false;
           this.notifService.success(
             "Vos informations ont été modifiées avec succès",
@@ -141,7 +140,7 @@ export class EditUserComponent implements OnInit {
   }
 
   public validateEmailNotTaken(control: AbstractControl) {
-    if (control.value === this.user.email) {
+    if (control.value === this.me.email) {
       return of(null);
     }
     const testEmail = RegExp(regexp.email).test(control.value);
