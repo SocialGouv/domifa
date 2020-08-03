@@ -1,4 +1,4 @@
-<div class="container" *ngIf="authService.currentUserValue !== null">
+<div class="container" *ngIf="me !== null">
   <div class="row">
     <div class="col-md-10 offset-1">
       <br />
@@ -17,7 +17,7 @@
             </div>
             <div class="col text-right">
               <button
-                *ngIf="authService.isAdmin && !user.verified"
+                *ngIf="me.role === 'admin' && !user.verified"
                 (click)="confirmUser(user.id)"
                 class="btn btn-secondary"
               >
@@ -26,10 +26,7 @@
               </button>
               &nbsp;
               <button
-                *ngIf="
-                  authService.isAdmin &&
-                  authService.currentUserValue.id !== user.id
-                "
+                *ngIf="me.role === 'admin' && me.id !== user.id"
                 (click)="open(deleteUserConfirmation); selectedUser = user.id"
                 class="btn btn-danger"
               >
@@ -65,10 +62,7 @@
               {{ user.email }}
             </div>
             <div
-              *ngIf="
-                authService.isAdmin &&
-                authService.currentUserValue.id !== user.id
-              "
+              *ngIf="me.role === 'admin' && me.id !== user.id"
               class="col-3 text-center"
             >
               <select
@@ -95,10 +89,7 @@
             </div>
             <div class="col-4 text-right">
               <button
-                *ngIf="
-                  authService.isAdmin &&
-                  authService.currentUserValue.id !== user.id
-                "
+                *ngIf="me.role === 'admin' && me.id !== user.id"
                 (click)="open(deleteUserConfirmation); selectedUser = user.id"
                 class="btn btn-danger"
               >
@@ -114,7 +105,7 @@
       <br />
 
       <div class="">
-        <div *ngIf="authService.isAdmin">
+        <div *ngIf="me.role === 'admin'">
           <app-register-user-admin></app-register-user-admin>
         </div>
       </div>

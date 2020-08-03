@@ -62,7 +62,9 @@ export class UserProfilComponent implements OnInit {
         this.structure = structure;
       });
 
-    this.me = this.authService.currentUserValue;
+    this.authService.currentUser.subscribe((user) => {
+      this.me = user;
+    });
   }
 
   public confirmUser(id: number) {

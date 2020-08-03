@@ -90,6 +90,8 @@ export class UsagersFormComponent implements OnInit {
   public agents: User[] = [];
   public liensLabels: any;
 
+  public me: User;
+
   get f() {
     return this.usagerForm.controls;
   }
@@ -128,6 +130,10 @@ export class UsagersFormComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Demande de domiciliation");
+
+    this.authService.currentUser.subscribe((user) => {
+      this.me = user;
+    });
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;

@@ -819,7 +819,8 @@
   <div
     class="not-print col-md-12 text-center text-danger"
     *ngIf="(usager.decision.statut === 'ATTENTE_DECISION' || usager.decision.statut === 'INSTRUCTION')
-     && authService.isAdmin && usager.etapeDemande >= 1"
+     && (me.role === 'admin' || me.role === 'responsable')
+     && usager.etapeDemande >= 1"
   >
     <button
       class="btn btn-outline-danger"
