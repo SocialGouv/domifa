@@ -10,6 +10,7 @@ import { Usager } from "../interfaces/usagers";
 import * as labels from "../../stats/usagers.labels";
 
 import { InteractionsService } from "../../interactions/interactions.service";
+import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 
 @Controller("export")
 export class ExportController {
@@ -37,7 +38,7 @@ export class ExportController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @UseGuards(AdminGuard)
+  @UseGuards(ResponsableGuard)
   @Get("")
   public async export(
     @Param("id") id: number,
