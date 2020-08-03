@@ -35,6 +35,7 @@ import { Usager } from "../interfaces/usagers";
 import { CerfaService } from "../services/cerfa.service";
 
 import { UsagersService } from "../services/usagers.service";
+import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
@@ -121,7 +122,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
-  @UseGuards(AdminGuard)
+  @UseGuards(ResponsableGuard)
   @Post("decision/:id")
   public async setDecision(
     @Body() decision: DecisionDto,
