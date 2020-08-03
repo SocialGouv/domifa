@@ -6,7 +6,7 @@ import {
   Injectable,
 } from "@nestjs/common";
 
-import { UsagersService } from "../usagers/services/usagers.service";
+import { UsagersService } from "../../usagers/services/usagers.service";
 
 @Injectable()
 export class AccessGuard implements CanActivate {

@@ -8,10 +8,10 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { AccessGuard } from "../auth/access.guard";
+import { AccessGuard } from "../auth/guards/access.guard";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
-import { AdminGuard } from "../auth/admin.guard";
+import { AdminGuard } from "../auth/guards/admin.guard";
 import { Usager } from "../usagers/interfaces/usagers";
 import { User } from "../users/user.interface";
 import { InteractionDto } from "./interactions.dto";

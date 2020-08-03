@@ -13,7 +13,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
-import { AdminGuard } from "../auth/admin.guard";
+import { AdminGuard } from "../auth/guards/admin.guard";
 import { InteractionsService } from "../interactions/interactions.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { EmailDto } from "../users/dto/email.dto";

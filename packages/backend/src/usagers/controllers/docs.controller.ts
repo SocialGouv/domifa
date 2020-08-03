@@ -20,7 +20,7 @@ import * as path from "path";
 import { diskStorage } from "multer";
 import { FileInterceptor } from "@nestjs/platform-express";
 
-import { AccessGuard } from "../../auth/access.guard";
+import { AccessGuard } from "../../auth/guards/access.guard";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";

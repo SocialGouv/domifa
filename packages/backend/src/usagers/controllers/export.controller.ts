@@ -2,7 +2,7 @@ import { Controller, Get, Param, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { AdminGuard } from "../../auth/admin.guard";
+import { AdminGuard } from "../../auth/guards/admin.guard";
 import { StructuresService } from "../../structures/structures.service";
 import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";

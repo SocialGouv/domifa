@@ -16,10 +16,10 @@ import { AuthGuard } from "@nestjs/passport";
 import * as fs from "fs";
 import * as path from "path";
 
-import { AccessGuard } from "../../auth/access.guard";
+import { AccessGuard } from "../../auth/guards/access.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { AdminGuard } from "../../auth/admin.guard";
+import { AdminGuard } from "../../auth/guards/admin.guard";
 import { ConfigService } from "../../config/config.service";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { UsersService } from "../../users/services/users.service";
