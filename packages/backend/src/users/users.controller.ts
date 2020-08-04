@@ -284,6 +284,16 @@ export class UsersController {
     @Response() res: any,
     @Body() registerUserDto: RegisterUserAdminDto
   ): Promise<boolean> {
+    const userExist = await this.usersService.findOne({
+      email: registerUserDto.email,
+    });
+
+    if (userExist) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "EMAIL_EXIST" });
+    }
+
     registerUserDto.structureId = user.structureId;
     registerUserDto.structure = user.structure;
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -28,9 +28,11 @@ export class RegisterUserAdminComponent implements OnInit {
   public userForm: FormGroup;
 
   public submitted: boolean;
-  public success: boolean;
 
   public emailExist: boolean = false;
+
+  @ViewChild("form", { static: true })
+  public form!: ElementRef<any>;
 
   get f() {
     return this.userForm.controls;
@@ -44,7 +46,6 @@ export class RegisterUserAdminComponent implements OnInit {
   ) {
     this.user = new User({});
     this.submitted = false;
-    this.success = false;
   }
 
   public ngOnInit() {
@@ -72,7 +73,7 @@ export class RegisterUserAdminComponent implements OnInit {
     } else {
       this.userService.registerUser(this.userForm.value).subscribe(
         (retour: boolean) => {
-          this.success = true;
+          this.form.nativeElement.reset();
           this.notifService.success(
             "Votre collaborateur vient de recevoir un email pour ajouter son mot de passe.",
             "Le nouveau compte a été créé avec succès !"

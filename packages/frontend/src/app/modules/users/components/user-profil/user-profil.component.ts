@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
@@ -23,10 +23,7 @@ export class UserProfilComponent implements OnInit {
   public newUsers: User[];
   public modal: any;
   public selectedUser: number;
-  public showHardReset: boolean;
-  public hardResetCode: boolean;
   public exportLoading: boolean;
-  public hardResetForm: FormGroup;
   public errorLabels: any;
 
   constructor(
@@ -42,13 +39,7 @@ export class UserProfilComponent implements OnInit {
     this.users = [];
     this.newUsers = [];
     this.selectedUser = 0;
-    this.showHardReset = false;
     this.exportLoading = false;
-    this.hardResetCode = null;
-  }
-
-  get f() {
-    return this.hardResetForm.controls;
   }
 
   public ngOnInit() {

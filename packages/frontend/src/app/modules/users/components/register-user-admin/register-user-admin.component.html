@@ -1,7 +1,7 @@
 <h4 class="title">
   Créer un utilisateur
 </h4>
-<form *ngIf="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
+<form #form [formGroup]="userForm" (ngSubmit)="submitUser()">
   <div class="row">
     <div class="col-md-3 form-group required">
       <label for="nom">Nom</label>
@@ -10,7 +10,7 @@
         class="form-control"
         id="nom"
         formControlName="nom"
-        [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+        [ngClass]="{ 'is-invalid': f.nom.dirty && f.nom.errors }"
         required
       />
       <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
@@ -26,7 +26,7 @@
         class="form-control"
         id="prenom"
         formControlName="prenom"
-        [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+        [ngClass]="{ 'is-invalid': f.prenom.dirty && f.prenom.errors }"
         required
       />
       <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="col-md-3 form-group required">
-      <label for="role">Rôle</label>
+      <label for="role">Accès</label>
       <select id="role" formControlName="role" class="custom-select">
         <option value="admin">
           Administrateur

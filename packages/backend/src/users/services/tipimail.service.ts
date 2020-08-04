@@ -4,6 +4,7 @@ import {
   Inject,
   HttpStatus,
   HttpException,
+  UseFilters,
 } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { Model } from "mongoose";
@@ -36,6 +37,10 @@ export class TipimailService {
 
   @Cron("0 8 * * TUE")
   public async cronGuide() {
+    if (process.env.FRONT_URL !== "http://domifa.fabrique.social.gouv.fr/") {
+      return;
+    }
+
     const user = await this.userModel
       .findOne({
         createdAt: { $lte: this.lastWeek },
@@ -127,6 +132,9 @@ export class TipimailService {
 
   @Cron("0 15 * * TUE")
   public async cronImport() {
+    if (process.env.FRONT_URL !== "http://domifa.fabrique.social.gouv.fr/") {
+      return;
+    }
     this.listOfStructures = [];
     this.structureModel
       .find({ import: false })

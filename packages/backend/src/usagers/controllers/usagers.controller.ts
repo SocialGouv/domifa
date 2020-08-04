@@ -19,7 +19,7 @@ import * as path from "path";
 import { AccessGuard } from "../../auth/guards/access.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { AdminGuard } from "../../auth/guards/admin.guard";
+
 import { ConfigService } from "../../config/config.service";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { UsersService } from "../../users/services/users.service";
@@ -36,6 +36,7 @@ import { CerfaService } from "../services/cerfa.service";
 
 import { UsagersService } from "../services/usagers.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
+import { FacteurGuard } from "../../auth/guards/facteur.guard";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
@@ -54,6 +55,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Patch(":id")
   public async patchUsager(
     @Body() usagerDto: UsagersDto,
@@ -122,7 +124,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
-  @UseGuards(ResponsableGuard)
+  @UseGuards(FacteurGuard)
   @Post("decision/:id")
   public async setDecision(
     @Body() decision: DecisionDto,
@@ -193,7 +195,7 @@ export class UsagersController {
     return this.usagersService.isDoublon(nom, prenom, user);
   }
 
-  @UseGuards(AdminGuard)
+  @UseGuards(ResponsableGuard)
   @UseGuards(AccessGuard)
   @Delete(":id")
   public async delete(

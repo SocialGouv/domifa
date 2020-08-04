@@ -42,8 +42,9 @@
       <div *ngIf="users" class="list-group">
         <div class="list-group-item" *ngFor="let user of users">
           <div class="row">
-            <div class="col-5 text-left">
+            <div class="col-md-4 text-left">
               <b>{{ user.nom }} {{ user.prenom }}</b>
+
               <span class="user-icon">
                 <span *ngIf="user.role === 'admin'" class="badge badge-primary">
                   Administrateur
@@ -54,16 +55,23 @@
                 >
                   Gestionnaire
                 </span>
-                <span *ngIf="!user.verified" class="badge badge-warning">
+                <span *ngIf="user.role === 'simple'" class="badge badge-dark">
+                  Instructeur
+                </span>
+                <span *ngIf="user.role === 'facteur'" class="badge badge-dark">
+                  Facteur
+                </span>
+                <span *ngIf="!user.verified" class="badge badge-danger">
                   Non activé
                 </span>
               </span>
-              <br />
+            </div>
+            <div class="col-md-4">
               {{ user.email }}
             </div>
             <div
               *ngIf="me.role === 'admin' && me.id !== user.id"
-              class="col-3 text-center"
+              class="col-md-3 text-center"
             >
               <select
                 id="role_{{ user.id }}"
@@ -87,14 +95,13 @@
                 </option>
               </select>
             </div>
-            <div class="col-4 text-right">
+            <div class="col-md-1 text-right">
               <button
                 *ngIf="me.role === 'admin' && me.id !== user.id"
                 (click)="open(deleteUserConfirmation); selectedUser = user.id"
-                class="btn btn-danger"
+                class="btn btn-outline-danger"
               >
                 <fa-icon icon="trash"></fa-icon>
-                Supprimer
               </button>
             </div>
           </div>

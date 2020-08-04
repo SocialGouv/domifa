@@ -31,10 +31,12 @@ export class StructuresEditComponent implements OnInit {
   public submitted: boolean = false;
 
   public modal: any;
+  public exportLoading: boolean;
+
   public showHardReset: boolean;
   public hardResetCode: boolean;
-  public exportLoading: boolean;
-  public hardResetForm: FormGroup;
+  public hardResetForm!: FormGroup;
+
   public me: User;
 
   constructor(
@@ -47,28 +49,34 @@ export class StructuresEditComponent implements OnInit {
     private titleService: Title
   ) {
     this.departements = departements;
+    this.showHardReset = false;
+    this.hardResetCode = null;
   }
 
   get f() {
     return this.structureEdit.controls;
   }
 
+  get h() {
+    return this.hardResetForm.controls;
+  }
+
   public ngOnInit() {
     this.titleService.setTitle("Editer votre structure");
 
-    this.hardResetForm = this.formBuilder.group({
-      token: ["", [Validators.required]],
-    });
-
     this.structureService.findMyStructure().subscribe((structure: any) => {
       this.structure = structure;
-      this.initForm();
+      this.initForms();
     });
 
     this.me = this.authService.currentUserValue;
   }
 
-  public initForm() {
+  public initForms() {
+    this.hardResetForm = this.formBuilder.group({
+      token: ["", [Validators.required]],
+    });
+
     const adresseRequired =
       this.structure.adresseCourrier.actif === true
         ? [Validators.required]
@@ -180,25 +188,24 @@ export class StructuresEditComponent implements OnInit {
   public hardResetConfirm() {
     if (this.hardResetForm.invalid) {
       this.notifService.error("Veuillez vérifier le formulaire");
-      return;
+    } else {
+      this.structureService
+        .hardResetConfirm(this.hardResetForm.controls.token.value)
+        .subscribe(
+          (retour: any) => {
+            this.notifService.success(
+              "La remise à zéro a été effectuée avec succès !"
+            );
+            this.modalService.dismissAll();
+            this.showHardReset = false;
+          },
+          (error: any) => {
+            this.notifService.error(
+              "La remise à zéro n'a pas pu être effectuée !"
+            );
+          }
+        );
     }
-
-    this.structureService
-      .hardResetConfirm(this.hardResetForm.controls.token.value)
-      .subscribe(
-        (retour: any) => {
-          this.notifService.success(
-            "La remise à zéro a été effectuée avec succès !"
-          );
-          this.modalService.dismissAll();
-          this.showHardReset = false;
-        },
-        (error: any) => {
-          this.notifService.error(
-            "La remise à zéro n'a pas pu être effectuée !"
-          );
-        }
-      );
   }
 
   public export() {
@@ -223,6 +230,7 @@ export class StructuresEditComponent implements OnInit {
       }
     );
   }
+
   public validateEmailNotTaken(control: AbstractControl) {
     const testEmail = RegExp(regexp.email).test(control.value);
     return testEmail

@@ -10,6 +10,7 @@ import { UsersService } from "../../users/services/users.service";
 import { User } from "../../users/user.interface";
 import { StatsService } from "../services/stats.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
+import { FacteurGuard } from "../../auth/guards/facteur.guard";
 
 @Controller("stats")
 export class StatsController {
@@ -21,7 +22,7 @@ export class StatsController {
     private readonly interactionsService: InteractionsService
   ) {}
 
-  @UseGuards(ResponsableGuard)
+  @UseGuards(FacteurGuard)
   @UseGuards(AuthGuard("jwt"))
   @Get("today")
   public async today(@CurrentUser() user: User) {
