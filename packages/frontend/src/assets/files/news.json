@@ -1,5 +1,5 @@
 [
- {
+  {
     "date": "2020-08-06",
     "description": "Une refonte de l’interface utilisateur ainsi qu’un nouveau rôle de gestionnaire !",
     "content": [
@@ -12,8 +12,9 @@
           "Possibilité d’afficher l’ID du domicilié sur le cerfa d’attestation",
           "Possibilité d’ajouter une commune de rattachement aux domiciliés"
         ]
-      },
-  }
+      }
+    ]
+  },
   {
     "date": "2020-07-21",
     "description": "Laissez votre avis sur notre plateforme en bas de page et visualisez nos statistiques dès la page d'accueil",

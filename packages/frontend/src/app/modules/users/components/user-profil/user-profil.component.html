@@ -51,14 +51,17 @@
                 </span>
                 <span
                   *ngIf="user.role === 'responsable'"
-                  class="badge badge-info"
+                  class="badge badge-secondary"
                 >
                   Gestionnaire
                 </span>
-                <span *ngIf="user.role === 'simple'" class="badge badge-dark">
+                <span *ngIf="user.role === 'simple'" class="badge badge-info">
                   Instructeur
                 </span>
-                <span *ngIf="user.role === 'facteur'" class="badge badge-dark">
+                <span
+                  *ngIf="user.role === 'facteur'"
+                  class="badge badge-warning"
+                >
                   Facteur
                 </span>
                 <span *ngIf="!user.verified" class="badge badge-danger">
