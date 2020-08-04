@@ -973,6 +973,7 @@
               <button
                 (click)="editTransfertForm = true"
                 class="btn btn-outline-primary"
+                *ngIf="me.role !== 'facteur'"
               >
                 <fa-icon icon="plus" class="btn-icon"></fa-icon>
                 Activer le transfert de courrier
@@ -1002,7 +1003,7 @@
                 </span>
               </div>
 
-              <div class="col-12 text-center">
+              <div class="col-12 text-center" *ngIf="me.role !== 'facteur'">
                 <br />
                 <button
                   *ngIf="usager.options.transfert.actif && !editTransfertForm"
@@ -1024,7 +1025,7 @@
               </div>
             </div>
             <form
-              *ngIf="editTransfertForm"
+              *ngIf="editTransfertForm && me.role !== 'facteur'"
               [formGroup]="transfertForm"
               (ngSubmit)="editTransfert()"
               autocomplete="off"
@@ -1161,6 +1162,7 @@
               <p>Il n'y a aucun procuration actuellement</p>
               <button
                 (click)="editProcurationForm = true"
+                *ngIf="me.role !== 'facteur'"
                 class="btn btn-outline-primary"
               >
                 <fa-icon icon="plus" class="btn-icon"></fa-icon>
@@ -1217,7 +1219,7 @@
               </div>
             </div>
             <form
-              *ngIf="editProcurationForm"
+              *ngIf="editProcurationForm && me.role !== 'facteur'"
               [formGroup]="procurationForm"
               (ngSubmit)="editProcuration()"
               autocomplete="off"
@@ -1357,6 +1359,7 @@
         </div>
       </ng-template>
     </ngb-panel>
+
     <ngb-panel
       id="panel-4"
       *ngIf="authService.currentUserValue.role !== 'facteur'"

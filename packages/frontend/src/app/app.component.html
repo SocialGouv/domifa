@@ -102,7 +102,7 @@
             >
             <a
               ngbDropdownItem
-              *ngIf="me.role === 'admin'"
+              *ngIf="me.role === 'admin' || me.role === 'responsable'"
               routerLink="/structure-edit"
             >
               <fa-icon
@@ -114,7 +114,11 @@
             >
             <a
               ngbDropdownItem
-              *ngIf="me.role === 'admin' || me.role === 'responsable'"
+              *ngIf="
+                me.role === 'admin' ||
+                me.role === 'responsable' ||
+                me.role === 'simple'
+              "
               routerLink="/rapport-activite"
             >
               <fa-icon

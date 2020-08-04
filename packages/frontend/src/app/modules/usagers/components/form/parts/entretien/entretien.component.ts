@@ -52,7 +52,9 @@ export class EntretienComponent implements OnInit {
     private modalService: NgbModal,
     public authService: AuthService
   ) {
-    this.me = this.authService.currentUserValue;
+    this.authService.currentUser.subscribe((x) => {
+      this.me = x;
+    });
   }
 
   get e(): any {
