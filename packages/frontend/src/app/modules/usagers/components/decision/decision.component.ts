@@ -206,7 +206,7 @@ export class DecisionComponent implements OnInit {
       .setDecision(this.usager.id, this.formDatas, statut)
       .subscribe((usager: Usager) => {
         this.usager = usager;
-
+        console.log("CHIPS");
         this.submitted = false;
         this.notifService.success("Décision enregistrée avec succès ! ");
         if (this.modal) {

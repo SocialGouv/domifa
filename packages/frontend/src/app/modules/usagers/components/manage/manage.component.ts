@@ -181,9 +181,7 @@ export class ManageUsagersComponent implements OnInit {
       }
 
       if (this.authService.currentUserValue.role === "facteur") {
-        this.notifService.error(
-          "Vos droits ne vous permettent pas d'accéder à cette page"
-        );
+        this.notifService.error("Vous ne pouvez pas accéder à ce profil");
         return;
       }
     }

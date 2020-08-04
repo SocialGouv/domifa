@@ -21,6 +21,7 @@ export class FacteurGuard implements CanActivate {
         return true;
       }
     }
+    console.log("FacteurGuard");
     this.notifService.error(
       "Vos droits ne vous permettent pas d'accéder à cette page"
     );

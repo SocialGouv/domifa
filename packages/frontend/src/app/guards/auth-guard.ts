@@ -9,7 +9,6 @@ import {
 import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
-import { User } from "../modules/users/interfaces/user";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivate {
@@ -20,7 +19,14 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
     return this.authService.me().pipe(
-      map((user: User) => {
+      map((canAccess: boolean) => {
+        if (!canAccess) {
+          this.authService.logout();
+          this.router.navigate(["/connexion"], {
+            queryParams: { returnUrl: state.url },
+          });
+          return false;
+        }
         return true;
       }),
       catchError((err: any) => {

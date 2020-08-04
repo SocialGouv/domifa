@@ -58,7 +58,36 @@ export class AuthService {
   }
 
   public me(): Observable<any> {
-    return this.http.get<any>(`${this.endPoint}/me`);
+    return this.http.get<any>(`${this.endPoint}/me`).pipe(
+      map((retour: any) => {
+        if (Object.keys(retour).length === 0) {
+          return false;
+        }
+
+        const user = new User(retour);
+
+        user.token = this.currentUserValue.token;
+        this.isAdmin = user && user.role === "admin";
+
+        this.currentUserSubject.next(user);
+        localStorage.setItem("currentUser", JSON.stringify(user));
+
+        // Ajout d'infos pour Sentry
+        Sentry.configureScope((scope) => {
+          scope.setTag("structure", user.structureId.toString());
+          scope.setUser({
+            email: user.email,
+            username:
+              "STRUCTURE " + user.structureId.toString() + " : " + user.prenom,
+          });
+        });
+
+        return true;
+      }),
+      catchError((err) => {
+        return of(false);
+      })
+    );
   }
 
   public isDomifa(): Observable<any> {
@@ -94,7 +123,6 @@ export class AuthService {
               "STRUCTURE " + user.structureId.toString() + " : " + user.prenom,
           });
         });
-
         return true;
       }),
       catchError((err) => {

@@ -162,6 +162,7 @@ export class UsagersProfilComponent implements OnInit {
           if (usager.decision.statut === "REFUS") {
             if (
               this.authService.currentUserValue.role !== "admin" &&
+              this.authService.currentUserValue.role !== "responsable" &&
               this.authService.currentUserValue.role !== "simple"
             ) {
               this.notifService.error(
