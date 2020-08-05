@@ -87,7 +87,7 @@ export class UserProfilComponent implements OnInit {
             user.nom +
             " " +
             user.prenom +
-            " ont été mit à jour avec succès"
+            " ont été mis à jour avec succès"
         );
       },
       () => {

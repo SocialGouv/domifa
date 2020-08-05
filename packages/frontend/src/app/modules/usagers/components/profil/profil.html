@@ -1489,6 +1489,19 @@
 
           <div class="col-md-4 reponses"></div>
           <br />
+          <div
+            class="col-md-12 reponses"
+            *ngIf="structure.options.rattachement"
+          >
+            <span class="question"
+              >Rattachement à une ville ou un arrondissement :
+            </span>
+            <span class="valeur">
+              {{ usager.entretien.rattachement || "Non renseigné"}}
+            </span>
+            <br />
+          </div>
+          <br />
           <div class="col-md-12 reponses">
             <span class="question">NOTES SUPPLÉMENTAIRES:</span>
             <span class="valeur">
