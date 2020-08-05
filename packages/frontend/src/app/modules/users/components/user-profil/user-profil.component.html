@@ -110,7 +110,296 @@
           </div>
         </div>
       </div>
+      <br />
+      <button
+        class="btn btn-outline-primary"
+        (click)="usersInfos = !usersInfos"
+      >
+        <fa-icon icon="question"></fa-icon>
+        &nbsp; En savoir plus sur les rôles utilisateurs
+      </button>
+      <br />
+      <br />
 
+      <div class="" *ngIf="usersInfos">
+        <table class="table table-striped table-hover" id="user-infos">
+          <tbody>
+            <tr>
+              <th>
+                Fonctionnalit&eacute;
+              </th>
+              <th>
+                Facteur
+              </th>
+              <th>
+                Instructeur
+              </th>
+              <th>
+                Gestionnaire
+              </th>
+              <th>
+                Administrateur
+              </th>
+            </tr>
+            <tr>
+              <td>
+                Cr&eacute;ation et suppression d&rsquo;un utilisateur
+              </td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Acc&egrave;s &agrave; la liste des membres actifs
+              </td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Changement de r&ocirc;le d&rsquo;un utilisateur
+              </td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Modification des informations de votre structure
+              </td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Param&egrave;tres (SMS, ID personnalis&eacute;s etc.)
+              </td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Suppression de la liste des usagers li&eacute;e &agrave; votre
+                structure
+              </td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Export des donn&eacute;es
+              </td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Page statistiques de la structure
+              </td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Cr&eacute;ation du dossier d&rsquo;un domicili&eacute;
+              </td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Validation ou refus d&rsquo;une demande de domicili&eacute;
+              </td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Modification de la fiche d&rsquo;un domicili&eacute; :
+
+                <ul>
+                  <li>
+                    &eacute;tat civil*
+                  </li>
+                  <li>
+                    ayants-droits*
+                  </li>
+                  <li>
+                    transfert de courrier*
+                  </li>
+                  <li>
+                    procuration de courrier*
+                  </li>
+                  <li>
+                    entretien
+                  </li>
+                  <li>
+                    pi&egrave;ces jointes
+                  </li>
+                </ul>
+              </td>
+              <td>
+                * Lecture des informations seulement
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Gestion de la r&eacute;ception des courriers/colis/avis
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                D&eacute;claration d&rsquo;un passage/appel&nbsp;
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Radiation du dossier d&rsquo;un domicili&eacute;
+              </td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Renouvellement du dossier d&rsquo;un domicili&eacute;
+              </td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                T&eacute;l&eacute;chargement des pi&egrave;ces jointes
+                li&eacute;es au dossier&nbsp;
+              </td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Suppression du dossier d&rsquo;un domicili&eacute;
+              </td>
+              <td class=""></td>
+              <td class=""></td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+              <td class="bg-success">
+                <fa-icon icon="check"></fa-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <br />
       <br />
 
@@ -125,6 +414,7 @@
   </div>
 </div>
 <br /><br />
+
 <ng-template #deleteUserConfirmation let-modal>
   <div class="modal-body text-center">
     <h4>Confirmer la suppression</h4>

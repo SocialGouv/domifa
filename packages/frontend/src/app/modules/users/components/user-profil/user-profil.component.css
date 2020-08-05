@@ -22,3 +22,7 @@
 .danger-zone {
   border: 1px solid var(--danger);
 }
+
+#user-infos tr td:not(:first-child) {
+  text-align: center;
+}

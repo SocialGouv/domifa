@@ -23,6 +23,7 @@ export class UserProfilComponent implements OnInit {
   public newUsers: User[];
   public modal: any;
   public selectedUser: number;
+  public usersInfos: boolean;
   public exportLoading: boolean;
   public errorLabels: any;
 
@@ -39,6 +40,7 @@ export class UserProfilComponent implements OnInit {
     this.users = [];
     this.newUsers = [];
     this.selectedUser = 0;
+    this.usersInfos = false;
     this.exportLoading = false;
   }
 
