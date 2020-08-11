@@ -5,7 +5,7 @@ import { UsagersService } from "../services/usagers.service";
 import { User } from "../../users/user.interface";
 import { SearchQuery } from "../interfaces/search-query";
 import { AuthGuard } from "@nestjs/passport";
-import { StatsService } from "../../stats/services/stats.service";
+import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
 import * as moment from "moment";
 
 @UseGuards(AuthGuard("jwt"))
@@ -13,7 +13,7 @@ import * as moment from "moment";
 export class SearchController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly statsService: StatsService
+    private readonly statsService: StatsGeneratorService
   ) {}
 
   @Get("")

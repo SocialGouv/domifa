@@ -1,5 +1,5 @@
-<div id="rapport" class="row">
-  <div class="col-md-12 text-left">
+<div id="rapport" class="text-left row">
+  <div class="col-md-12">
     <br />
     <h1>Rapport d'activité de votre structure</h1>
     <br />
@@ -15,9 +15,55 @@
     <div *ngIf="!stats">
       <b>Aucune donnée enregistrée</b>
     </div>
+  </div>
+  <br />
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="inputstat" class="control-label"
+        >Liste des rapport disponibles:</label
+      >
+      <div class="col-sm-10">
+        <select
+          name="stat"
+          id="inputstat"
+          (change)="getStatById($event.target.value)"
+          class="form-control"
+        >
+          <option
+            [selected]="stat._id === stats._id"
+            *ngFor="let stat of statsList"
+            [value]="stat._id"
+          >
+            {{ statDate(stat.createdAt) | date: "dd/MM/yyyy" }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
 
+  <div class="col-md-12"><br /></div>
+  <div class="col-md-6">
     <b>Date du rapport : </b>{{ stats.createdAt | date: "dd/MM/yyyy" }}
-    <br /><br />
+  </div>
+  <div class="col-md-6 text-right">
+    <button
+      (click)="export()"
+      [disabled]="exportLoading"
+      class="btn btn-outline-primary"
+    >
+      <span *ngIf="!exportLoading">
+        <fa-icon icon="download" class="btn-icon"></fa-icon>
+        Exporter les statitstiques</span
+      >
+      <span *ngIf="exportLoading"
+        ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en cours,
+        veuillez patienter...</span
+      >
+    </button>
+  </div>
+
+  <div class="col-md-12">
+    <br />
     <table class="table table-hover" *ngIf="stats">
       <thead>
         <tr>

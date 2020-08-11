@@ -6,8 +6,9 @@ import { UsersModule } from "../../users/users.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../usagers.module";
 import { InteractionsModule } from "../../interactions/interactions.module";
-import { StatsService } from "../../stats/services/stats.service";
+import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
 import { StatsProviders } from "../../stats/stats-providers";
+import { StatsService } from "../../stats/services/stats.service";
 
 describe("Search Controller", () => {
   let controller: SearchController;
@@ -22,7 +23,7 @@ describe("Search Controller", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [StatsService, ...StatsProviders],
+      providers: [StatsService, StatsGeneratorService, ...StatsProviders],
     }).compile();
 
     controller = module.get<SearchController>(SearchController);

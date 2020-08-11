@@ -1,4 +1,5 @@
 export class Stats {
+  public _id: string;
   public createdAt: Date;
   public nom: string;
   public structureId: number;
@@ -123,6 +124,7 @@ export class Stats {
     }
 
     this.nom = (data && data.nom) || null;
+    this._id = (data && data._id) || null;
     this.structureType = (data && data.structureType) || null;
     this.structureId = (data && data.structureId) || null;
     this.departement = (data && data.departement) || null;

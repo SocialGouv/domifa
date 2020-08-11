@@ -7,6 +7,7 @@ import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { StatsProviders } from "../stats-providers";
 import { StatsController } from "./stats.controller";
+import { StatsGeneratorService } from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
 
 describe("Stats Controller", () => {
@@ -22,7 +23,7 @@ describe("Stats Controller", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [StatsService, ...StatsProviders],
+      providers: [StatsService, StatsGeneratorService, ...StatsProviders],
     }).compile();
 
     controller = module.get<StatsController>(StatsController);

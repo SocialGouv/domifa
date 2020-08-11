@@ -8,16 +8,16 @@ import { InteractionsService } from "../../interactions/interactions.service";
 import { StructuresService } from "../../structures/structures.service";
 import { UsagersService } from "../../usagers/services/usagers.service";
 import { UsersService } from "../../users/services/users.service";
-import { StatsService } from "../services/stats.service";
+import { StatsGeneratorService } from "../services/stats-generator.service";
 import { DashboardService } from "../services/dashboard.service";
-import { DashboardDto } from "../dashboard.dto";
+import { DashboardDto } from "../dto/dashboard.dto";
 
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(DomifaGuard)
 @Controller("dashboard")
 export class DashboardController {
   constructor(
-    private readonly statsService: StatsService,
+    private readonly statsService: StatsGeneratorService,
     private readonly dashboardService: DashboardService,
     private readonly structureService: StructuresService,
     private readonly usersService: UsersService,

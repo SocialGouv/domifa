@@ -30,6 +30,18 @@ export class StatsService {
     );
   }
 
+  public getStatById(id: string): Observable<Stats> {
+    return this.http.get(`${this.baseUrl}id/${id}`).pipe(
+      map((response: any) => {
+        return new Stats(response);
+      })
+    );
+  }
+
+  public getAvailabelStats(): Observable<any> {
+    return this.http.get(`${this.baseUrl}available`);
+  }
+
   // DASHBOARD
   public getStructures(value: string, type: string): Observable<Structure[]> {
     let data = new HttpParams();
@@ -72,5 +84,11 @@ export class StatsService {
 
   public getUsagers(): Observable<any> {
     return this.http.get(environment.apiUrl + `dashboard/usagers`);
+  }
+
+  public export(statId: string) {
+    return this.http.get(`${this.baseUrl}export/` + statId, {
+      responseType: "blob",
+    });
   }
 }

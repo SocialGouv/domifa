@@ -10,10 +10,16 @@ import { StatsController } from "./controllers/stats.controller";
 import { StatsService } from "./services/stats.service";
 import { DashboardController } from "./controllers/dashboard.controller";
 import { DashboardService } from "./services/dashboard.service";
+import { StatsGeneratorService } from "./services/stats-generator.service";
 
 @Module({
   controllers: [StatsController, DashboardController],
-  exports: [StatsService, DashboardService, ...StatsProviders],
+  exports: [
+    StatsService,
+    StatsGeneratorService,
+    DashboardService,
+    ...StatsProviders,
+  ],
   imports: [
     DatabaseModule,
     forwardRef(() => UsersModule),
@@ -21,6 +27,12 @@ import { DashboardService } from "./services/dashboard.service";
     forwardRef(() => UsagersModule),
     forwardRef(() => InteractionsModule),
   ],
-  providers: [StatsService, DashboardService, ...StatsProviders, ConfigService],
+  providers: [
+    StatsService,
+    StatsGeneratorService,
+    DashboardService,
+    ...StatsProviders,
+    ConfigService,
+  ],
 })
 export class StatsModule {}
