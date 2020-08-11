@@ -44,7 +44,7 @@
     "raven-js": "^3.27.2",
     "rxjs": "^6.6.2",
     "smoothscroll-polyfill": "^0.4.4",
-    "tslib": "^2.0.0",
+    "tslib": "^2.0.1",
     "xlsx": "^0.16.5",
     "zone.js": "~0.10.3"
   },
