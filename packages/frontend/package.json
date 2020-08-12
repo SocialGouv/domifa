@@ -45,7 +45,7 @@
     "rxjs": "^6.6.2",
     "smoothscroll-polyfill": "^0.4.4",
     "tslib": "^2.0.1",
-    "xlsx": "^0.16.5",
+    "xlsx": "^0.16.6",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
