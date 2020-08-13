@@ -5,6 +5,7 @@ import { UsagersService } from "../usagers/services/usagers.service";
 import { User } from "../users/user.interface";
 import { InteractionDto } from "./interactions.dto";
 import { Interaction } from "./interactions.interface";
+import { type } from "os";
 
 @Injectable()
 export class InteractionsService {
@@ -112,6 +113,57 @@ export class InteractionsService {
       .exec();
   }
 
+  public async findOne(
+    usagerId: number,
+    interactionId: string,
+    user: User
+  ): Promise<Interaction | null> {
+    return this.interactionModel
+      .findOne({
+        _id: interactionId,
+        structureId: user.structureId,
+        usagerId,
+      })
+      .exec();
+  }
+
+  public async deuxDerniersPassages(
+    usagerId: number,
+    user: User
+  ): Promise<Interaction[] | [] | null> {
+    return this.interactionModel
+      .find({
+        structureId: user.structureId,
+        type: {
+          $in: ["courrierOut", "visite", "appel", "colisOut", "recommandeOut"],
+        },
+        usagerId,
+      })
+      .sort({ dateInteraction: -1 })
+      .limit(2)
+      .exec();
+  }
+
+  public async findLastInteraction(
+    usagerId: number,
+    dateInteraction: Date,
+    typeInteraction: string,
+    user: User,
+    isIn: string
+  ): Promise<Interaction | null> {
+    const dateQuery =
+      isIn === "in" ? { $lte: dateInteraction } : { $gte: dateInteraction };
+
+    return this.interactionModel
+      .findOne({
+        structureId: user.structureId,
+        usagerId,
+        type: typeInteraction,
+        dateInteraction: dateQuery,
+      })
+      .exec();
+  }
+
   public async delete(
     usagerId: number,
     interactionId: string,
@@ -150,13 +202,13 @@ export class InteractionsService {
   public async totalInteraction(
     structureId: number,
     usagerId: number,
-    type: string
+    interactionType: string
   ): Promise<number> {
-    if (type === "appel" || type === "visite") {
+    if (interactionType === "appel" || interactionType === "visite") {
       return this.interactionModel.countDocuments({
         structureId,
         usagerId,
-        type,
+        type: interactionType,
       });
     } else {
       const search = {

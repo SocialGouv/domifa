@@ -347,10 +347,9 @@ export class UsagersProfilComponent implements OnInit {
     this.matomo.trackEvent("tests", "delete_interaction_profil", "null", 1);
     this.interactionService
       .delete(this.usager.id, idInteraction)
-      .subscribe((result: any) => {
-        if (result && result.ok) {
-          this.getInteractions();
-        }
+      .subscribe((usager: Usager) => {
+        this.usager = new Usager(usager);
+        this.getInteractions();
       });
   }
 

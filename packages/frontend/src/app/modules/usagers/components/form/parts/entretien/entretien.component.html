@@ -13,21 +13,6 @@
 
   <div class="row">
     <div class="col">
-      <div *ngIf="me.structure.options.rattachement">
-        <label class="form-label" for="rattachement">
-          Cette domiciliation est-elle réalisée au titre d'une autre commune ou
-          d'un autre arrondissement ? Si oui, compléter champ ci-dessous
-        </label>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="rattachement"
-            id="rattachement"
-          />
-        </div>
-      </div>
-
       <div>
         <span class="label">Avez-vous été orienté ?</span>
         <div class="form-check form-check-inline">
@@ -339,6 +324,20 @@
           class="form-control"
           formControlName="accompagnementDetail"
         />
+      </div>
+      <div *ngIf="me.structure.options.rattachement">
+        <label class="form-label" for="rattachement">
+          Cette domiciliation est-elle réalisée au titre d'une autre commune ou
+          d'un autre arrondissement ? Si oui, compléter champ ci-dessous
+        </label>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="rattachement"
+            id="rattachement"
+          />
+        </div>
       </div>
 
       <div>
