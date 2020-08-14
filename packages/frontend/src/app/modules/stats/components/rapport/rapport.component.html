@@ -17,7 +17,68 @@
     </div>
   </div>
   <br />
-  <div class="col-md-6">
+
+  <div class="col-md-8">
+    <ngb-datepicker
+      #dp
+      (dateSelect)="onDateSelection($event)"
+      [displayMonths]="2"
+      [dayTemplate]="t"
+      [maxDate]="maxDate"
+      [minDate]="minDate"
+      outsideDays="hidden"
+    >
+    </ngb-datepicker>
+
+    <ng-template #t let-date let-focused="focused">
+      <span
+        class="custom-day"
+        [class.focused]="focused"
+        [class.range]="isRange(date)"
+        [class.faded]="isHovered(date) || isInside(date)"
+        (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null"
+      >
+        {{ date.day }}
+      </span>
+    </ng-template>
+  </div>
+  <div class="col-md-4">
+    <div *ngIf="end !== null">
+      Du <b>{{ start | date: "dd/MM/yyyy" }} </b> au
+      <b>{{ end | date: "dd/MM/yyyy" }} </b>
+    </div>
+    <div *ngIf="end === null">
+      Le <b>{{ start | date: "dd/MM/yyyy" }} </b>
+    </div>
+
+    <button class="btn btn-outline-primary" (click)="compare()">
+      <fa-icon icon="sync-alt" class="btn-icon"></fa-icon>
+      Actualiser les statistiques
+    </button>
+
+    <br />
+    <br />
+
+    <button
+      (click)="export()"
+      [disabled]="exportLoading"
+      class="btn btn-outline-primary"
+    >
+      <span *ngIf="!exportLoading">
+        <fa-icon icon="download" class="btn-icon"></fa-icon>
+        Exporter les statitstiques</span
+      >
+      <span *ngIf="exportLoading"
+        ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en cours,
+        veuillez patienter...</span
+      >
+    </button>
+  </div>
+
+  <!--
+  <div class="col-md-6" >
+    <br /><br /><br />
     <div class="form-group">
       <label for="inputstat" class="control-label"
         >Liste des rapport disponibles:</label
@@ -40,26 +101,18 @@
       </div>
     </div>
   </div>
+  -->
 
   <div class="col-md-12"><br /></div>
-  <div class="col-md-6">
-    <b>Date du rapport : </b>{{ stats.createdAt | date: "dd/MM/yyyy" }}
-  </div>
-  <div class="col-md-6 text-right">
-    <button
-      (click)="export()"
-      [disabled]="exportLoading"
-      class="btn btn-outline-primary"
-    >
-      <span *ngIf="!exportLoading">
-        <fa-icon icon="download" class="btn-icon"></fa-icon>
-        Exporter les statitstiques</span
-      >
-      <span *ngIf="exportLoading"
-        ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en cours,
-        veuillez patienter...</span
-      >
-    </button>
+
+  <div class="col-md-6 font-weight-bold">
+    <div *ngIf="end !== null">
+      Date du rapport : du {{ start | date: "dd/MM/yyyy" }} au
+      {{ end | date: "dd/MM/yyyy" }}
+    </div>
+    <div *ngIf="end === null">
+      Date du rapport : le {{ start | date: "dd/MM/yyyy" }}
+    </div>
   </div>
 
   <div class="col-md-12">

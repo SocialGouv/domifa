@@ -9,6 +9,7 @@ import { Model } from "mongoose";
 
 import { Stats } from "../stats.class";
 import { StatsDocument } from "../stats.interface";
+import moment = require("moment");
 
 @Injectable()
 export class StatsService {
@@ -45,9 +46,15 @@ export class StatsService {
     return stats[0];
   }
 
-  public async getByDate(structureId: number, date: any): Promise<Stats> {
+  public async getByDate(structureId: number, date: Date): Promise<Stats> {
     const stats = await this.statsModel
-      .find({ structureId })
+      .find({
+        structureId,
+        createdAt: {
+          $gte: moment(date).utc().startOf("day").toDate(),
+          $lte: moment(date).utc().endOf("day").toDate(),
+        },
+      })
       .sort({ createdAt: -1 })
       .limit(1)
       .lean()

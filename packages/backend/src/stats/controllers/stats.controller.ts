@@ -1,4 +1,12 @@
-import { Controller, Get, UseGuards, Body, Param, Res } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  UseGuards,
+  Body,
+  Param,
+  Res,
+  Post,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
@@ -23,6 +31,7 @@ import {
   raison,
 } from "../usagers.labels";
 
+import { Stats } from "../stats.class";
 import moment = require("moment");
 
 @Controller("stats")
@@ -76,6 +85,78 @@ export class StatsController {
     @Res() res: any
   ) {
     const stats = await this.statsService.getStatById(id, user.structureId);
+    res.status(200).send(this.exportData(stats));
+  }
+
+  // Récupérer les stats disponibles
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(FacteurGuard)
+  @Get("available")
+  public async getAvailableStats(@CurrentUser() user: User) {
+    return this.statsService.getAvailableStats(user.structureId);
+  }
+
+  @Get("force-regenerate")
+  public async generate() {
+    return this.statsGeneratorService.clean();
+  }
+
+  @Get("home-stats")
+  public async home() {
+    const statsHome = {
+      structures: await this.statsGeneratorService.countStructures(),
+      interactions: await this.statsGeneratorService.countInteractions(),
+      usagers: await this.statsGeneratorService.countUsagers(),
+    };
+    return statsHome;
+  }
+
+  @UseGuards(FacteurGuard)
+  @UseGuards(AuthGuard("jwt"))
+  @Post("")
+  public async getByDate(
+    @CurrentUser() user: User,
+    @Body() statsDto: StatsDto
+  ) {
+    console.log("START");
+    const start = moment(new Date(statsDto.start)).add(1, "days").toDate();
+    const A: Stats = await this.statsService.getByDate(user.structureId, start);
+    console.log(A.createdAt);
+
+    if (statsDto.end) {
+      console.log("ENDDD");
+      const end = moment(new Date(statsDto.end)).add(1, "days").toDate();
+      const B: Stats = await this.statsService.getByDate(user.structureId, end);
+
+      console.log(B.createdAt);
+      return this.compare(A, B);
+    }
+    return A;
+  }
+
+  @UseGuards(FacteurGuard)
+  @UseGuards(AuthGuard("jwt"))
+  @Post("export")
+  public async exportByDate(
+    @CurrentUser() user: User,
+    @Body() statsDto: StatsDto,
+    @Res() res: any
+  ) {
+    const start = moment(new Date(statsDto.start)).add(1, "days").toDate();
+    const A: Stats = await this.statsService.getByDate(user.structureId, start);
+
+    let C: Stats = A;
+    if (statsDto.end) {
+      const end = moment(new Date(statsDto.end)).add(1, "days").toDate();
+      const B: Stats = await this.statsService.getByDate(user.structureId, end);
+
+      C = this.compare(A, B);
+    }
+
+    res.status(200).send(this.exportData(C));
+  }
+
+  private exportData(stats: Stats) {
     this.sheet = [
       {
         A: "PARTIE 1 - TOTAL AU COURS DE L'ANNÉE",
@@ -358,60 +439,138 @@ export class StatsController {
       type: "buffer",
       bookType: "xlsx",
     });
-    res.status(200).send(buf);
+    return buf;
   }
+  private compare(A: Stats, B: Stats) {
+    const questions = {
+      Q_10: B.questions.Q_10 - A.questions.Q_10,
 
-  // Récupérer les stats disponibles
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(FacteurGuard)
-  @Get("available")
-  public async getAvailableStats(@CurrentUser() user: User) {
-    return this.statsService.getAvailableStats(user.structureId);
-  }
+      Q_10_A: B.questions.Q_10_A - A.questions.Q_10_A,
 
-  @Get("force-regenerate")
-  public async generate() {
-    return this.statsGeneratorService.clean();
-  }
+      Q_10_B: B.questions.Q_10_B - A.questions.Q_10_B,
 
-  @Get("home-stats")
-  public async home() {
-    const statsHome = {
-      structures: await this.statsGeneratorService.countStructures(),
-      interactions: await this.statsGeneratorService.countInteractions(),
-      usagers: await this.statsGeneratorService.countUsagers(),
-    };
-    return statsHome;
-  }
+      Q_11: {
+        REFUS: B.questions.Q_11.REFUS - A.questions.Q_11.REFUS,
+        RADIE: B.questions.Q_11.RADIE - A.questions.Q_11.RADIE,
+        VALIDE: B.questions.Q_11.VALIDE - A.questions.Q_11.VALIDE,
+        VALIDE_TOTAL:
+          B.questions.Q_11.VALIDE_TOTAL - A.questions.Q_11.VALIDE_TOTAL,
+        VALIDE_AYANTS_DROIT:
+          B.questions.Q_11.VALIDE_AYANTS_DROIT -
+          A.questions.Q_11.VALIDE_AYANTS_DROIT,
+      },
 
-  @UseGuards(FacteurGuard)
-  @UseGuards(AuthGuard("jwt"))
-  @Get("")
-  public async getByDate(
-    @CurrentUser() user: User,
-    @Body() statsDto: StatsDto
-  ) {
-    // TODO: Filtrer la date
-    // TODO: Créer la fonction de select de la date
+      Q_12: {
+        TOTAL: B.questions.Q_12.TOTAL - A.questions.Q_12.TOTAL,
+        A_SA_DEMANDE:
+          B.questions.Q_12.A_SA_DEMANDE - A.questions.Q_12.A_SA_DEMANDE,
+        ENTREE_LOGEMENT:
+          B.questions.Q_12.ENTREE_LOGEMENT - A.questions.Q_12.ENTREE_LOGEMENT,
+        FIN_DE_DOMICILIATION:
+          B.questions.Q_12.FIN_DE_DOMICILIATION -
+          A.questions.Q_12.FIN_DE_DOMICILIATION,
+        NON_MANIFESTATION_3_MOIS:
+          B.questions.Q_12.NON_MANIFESTATION_3_MOIS -
+          A.questions.Q_12.NON_MANIFESTATION_3_MOIS,
+        NON_RESPECT_REGLEMENT:
+          B.questions.Q_12.NON_RESPECT_REGLEMENT -
+          A.questions.Q_12.NON_RESPECT_REGLEMENT,
+        PLUS_DE_LIEN_COMMUNE:
+          B.questions.Q_12.PLUS_DE_LIEN_COMMUNE -
+          A.questions.Q_12.PLUS_DE_LIEN_COMMUNE,
+      },
 
-    let start = statsDto.start || new Date();
-    let end = statsDto.end || new Date();
+      Q_13: {
+        TOTAL: B.questions.Q_13.TOTAL - A.questions.Q_13.TOTAL,
+        AUTRE: B.questions.Q_13.AUTRE - A.questions.Q_13.AUTRE,
+        HORS_AGREMENT:
+          B.questions.Q_13.HORS_AGREMENT - A.questions.Q_13.HORS_AGREMENT,
+        LIEN_COMMUNE:
+          B.questions.Q_13.LIEN_COMMUNE - A.questions.Q_13.LIEN_COMMUNE,
+        SATURATION: B.questions.Q_13.SATURATION - A.questions.Q_13.SATURATION,
+      },
 
-    start = moment(start).utc().startOf("day").toDate();
-    end = moment(end).utc().endOf("day").toDate();
+      Q_14: {
+        CCAS: B.questions.Q_14.CCAS - A.questions.Q_14.CCAS,
+        ASSO: B.questions.Q_14.ASSO - A.questions.Q_14.ASSO,
+      },
 
-    const query: {
-      createdAt: {
-        $lte: Date;
-        $gte: Date;
-      };
-    } = {
-      createdAt: {
-        $lte: start,
-        $gte: end,
+      Q_17: B.questions.Q_17 - A.questions.Q_17,
+      Q_18: B.questions.Q_18 - A.questions.Q_18,
+
+      Q_19: {
+        COUPLE_AVEC_ENFANT:
+          B.questions.Q_19.COUPLE_AVEC_ENFANT -
+          A.questions.Q_19.COUPLE_AVEC_ENFANT,
+        COUPLE_SANS_ENFANT:
+          B.questions.Q_19.COUPLE_SANS_ENFANT -
+          A.questions.Q_19.COUPLE_SANS_ENFANT,
+        FEMME_ISOLE_AVEC_ENFANT:
+          B.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT -
+          A.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT,
+        FEMME_ISOLE_SANS_ENFANT:
+          B.questions.Q_19.FEMME_ISOLE_SANS_ENFANT -
+          A.questions.Q_19.FEMME_ISOLE_SANS_ENFANT,
+        HOMME_ISOLE_AVEC_ENFANT:
+          B.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT -
+          A.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT,
+        HOMME_ISOLE_SANS_ENFANT:
+          B.questions.Q_19.HOMME_ISOLE_SANS_ENFANT -
+          A.questions.Q_19.HOMME_ISOLE_SANS_ENFANT,
+      },
+
+      /* NOMBRE D'INTERACTIONS GLOBALES */
+      Q_20: {
+        appel: B.questions.Q_20.appel - A.questions.Q_20.appel,
+        colisIn: B.questions.Q_20.colisIn - A.questions.Q_20.colisIn,
+        colisOut: B.questions.Q_20.colisOut - A.questions.Q_20.colisOut,
+        courrierIn: B.questions.Q_20.courrierIn - A.questions.Q_20.courrierIn,
+        courrierOut:
+          B.questions.Q_20.courrierOut - A.questions.Q_20.courrierOut,
+        recommandeIn:
+          B.questions.Q_20.recommandeIn - A.questions.Q_20.recommandeIn,
+        recommandeOut:
+          B.questions.Q_20.recommandeOut - A.questions.Q_20.recommandeOut,
+        visite: B.questions.Q_20.visite - A.questions.Q_20.visite,
+      },
+
+      /* AUTRES QUESTIONS DE L'ENTRETIEN */
+      Q_21: {
+        AUTRE: B.questions.Q_21.AUTRE - A.questions.Q_21.AUTRE,
+        ERRANCE: B.questions.Q_21.ERRANCE - A.questions.Q_21.ERRANCE,
+        EXPULSION: B.questions.Q_21.EXPULSION - A.questions.Q_21.EXPULSION,
+        HEBERGE_SANS_ADRESSE:
+          B.questions.Q_21.HEBERGE_SANS_ADRESSE -
+          A.questions.Q_21.HEBERGE_SANS_ADRESSE,
+        ITINERANT: B.questions.Q_21.ITINERANT - A.questions.Q_21.ITINERANT,
+        RUPTURE: B.questions.Q_21.RUPTURE - A.questions.Q_21.RUPTURE,
+        SORTIE_STRUCTURE:
+          B.questions.Q_21.SORTIE_STRUCTURE - A.questions.Q_21.SORTIE_STRUCTURE,
+        VIOLENCE: B.questions.Q_21.VIOLENCE - A.questions.Q_21.VIOLENCE,
+        NON_RENSEIGNE:
+          B.questions.Q_21.NON_RENSEIGNE - A.questions.Q_21.NON_RENSEIGNE,
+      },
+
+      /* SITUATION RESIDENTIELLE */
+      Q_22: {
+        AUTRE: B.questions.Q_22.AUTRE - A.questions.Q_22.AUTRE,
+        DOMICILE_MOBILE:
+          B.questions.Q_22.DOMICILE_MOBILE - A.questions.Q_22.DOMICILE_MOBILE,
+        HEBERGEMENT_SOCIAL:
+          B.questions.Q_22.HEBERGEMENT_SOCIAL -
+          A.questions.Q_22.HEBERGEMENT_SOCIAL,
+        HEBERGEMENT_TIERS:
+          B.questions.Q_22.HEBERGEMENT_TIERS -
+          A.questions.Q_22.HEBERGEMENT_TIERS,
+        HOTEL: B.questions.Q_22.HOTEL - A.questions.Q_22.HOTEL,
+        SANS_ABRI: B.questions.Q_22.SANS_ABRI - A.questions.Q_22.SANS_ABRI,
+        NON_RENSEIGNE:
+          B.questions.Q_22.NON_RENSEIGNE - A.questions.Q_22.NON_RENSEIGNE,
       },
     };
 
-    return this.statsService.getByDate(user.structureId, query);
+    const C = A;
+    C.questions = questions;
+    return C;
   }
 }

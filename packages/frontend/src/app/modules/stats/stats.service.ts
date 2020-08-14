@@ -38,6 +38,20 @@ export class StatsService {
     );
   }
 
+  // DASHBOARD
+  public getStats(start: Date, end?: Date): Observable<Stats> {
+    return this.http
+      .post(this.baseUrl, {
+        start,
+        end,
+      })
+      .pipe(
+        map((response) => {
+          return new Stats(response);
+        })
+      );
+  }
+
   public getAvailabelStats(): Observable<any> {
     return this.http.get(`${this.baseUrl}available`);
   }
@@ -86,7 +100,18 @@ export class StatsService {
     return this.http.get(environment.apiUrl + `dashboard/usagers`);
   }
 
-  public export(statId: string) {
+  public export(start, end) {
+    return this.http.post(
+      `${this.baseUrl}export/`,
+      {
+        start,
+        end,
+      },
+      { responseType: "blob" as "json" }
+    );
+  }
+
+  public exportId(statId: string) {
     return this.http.get(`${this.baseUrl}export/` + statId, {
       responseType: "blob",
     });

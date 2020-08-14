@@ -1,8 +1,8 @@
-import { IsIn, IsOptional, IsDateString } from "class-validator";
+import { IsOptional, IsNotEmpty, IsDate, IsDateString } from "class-validator";
 
 export class StatsDto {
   @IsDateString()
-  @IsOptional()
+  @IsNotEmpty()
   public start!: string;
 
   @IsDateString()
