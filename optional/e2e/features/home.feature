@@ -19,7 +19,6 @@ Scénario:
   Quand je vois l'élément "#lien-beta-gouv"
   Alors le lien "le site officiel des start-ups d'Etat" pointe sur "https://beta.gouv.fr/startups/domifa.html"
 
-
   Soit un navigateur web sur le site
   Quand je clique sur "Nouveautés"
   Alors je vois "Dernières mises à jour"

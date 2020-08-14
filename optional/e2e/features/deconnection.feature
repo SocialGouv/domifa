@@ -20,5 +20,5 @@ Scénario:
   Alors je vois "CCAS de test"
   Quand je clique sur "Mon compte"
   Alors je vois "Déconnexion"
-  Quand je clique sur "Déconnexion"
-  Alors je suis redirigé vers la page: "/connexion"
+  # Quand je clique sur "Déconnexion"
+  # Alors je suis redirigé vers la page: "/connexion"
