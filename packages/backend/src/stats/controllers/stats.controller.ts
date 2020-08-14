@@ -28,7 +28,6 @@ import {
   typeMenage,
   residence,
   cause,
-  raison,
 } from "../usagers.labels";
 
 import { Stats } from "../stats.class";
@@ -190,7 +189,6 @@ export class StatsController {
         A: this.motifsRadiation.NON_MANIFESTATION_3_MOIS,
         B: stats.questions.Q_12.NON_MANIFESTATION_3_MOIS,
       },
-
       {
         A: this.motifsRadiation.NON_RESPECT_REGLEMENT,
         B: stats.questions.Q_12.NON_RESPECT_REGLEMENT,
@@ -199,7 +197,6 @@ export class StatsController {
         A: this.motifsRadiation.ENTREE_LOGEMENT,
         B: stats.questions.Q_12.ENTREE_LOGEMENT,
       },
-
       {
         A: "",
         B: "",
@@ -252,7 +249,6 @@ export class StatsController {
         A: "Nombre d'ayants-droit",
         B: stats.questions.Q_11.VALIDE_AYANTS_DROIT,
       },
-
       {
         A: "",
         B: "",
@@ -309,7 +305,6 @@ export class StatsController {
         A: "Situation résidentielle",
         B: "",
       },
-
       {
         A: this.residence.DOMICILE_MOBILE,
         B: stats.questions.Q_22.DOMICILE_MOBILE,
@@ -423,15 +418,19 @@ export class StatsController {
     const sheet1 = XLSX.utils.json_to_sheet(this.sheet, {
       skipHeader: true,
     });
+
     const wb = XLSX.utils.book_new();
+
     XLSX.utils.book_append_sheet(wb, sheet1, "Statistiques");
 
     const buf = XLSX.write(wb, {
       type: "buffer",
       bookType: "xlsx",
     });
+
     return buf;
   }
+
   private compare(A: Stats, B: Stats) {
     const questions = {
       Q_10: B.questions.Q_10 - A.questions.Q_10,
@@ -561,7 +560,9 @@ export class StatsController {
     };
 
     const C = A;
+
     C.questions = questions;
+
     return C;
   }
 }
