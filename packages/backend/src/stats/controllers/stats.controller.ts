@@ -33,6 +33,7 @@ import {
 
 import { Stats } from "../stats.class";
 import moment = require("moment");
+import { stat } from "fs";
 
 @Controller("stats")
 export class StatsController {
@@ -118,20 +119,7 @@ export class StatsController {
     @CurrentUser() user: User,
     @Body() statsDto: StatsDto
   ) {
-    console.log("START");
-    const start = moment(new Date(statsDto.start)).add(1, "days").toDate();
-    const A: Stats = await this.statsService.getByDate(user.structureId, start);
-    console.log(A.createdAt);
-
-    if (statsDto.end) {
-      console.log("ENDDD");
-      const end = moment(new Date(statsDto.end)).add(1, "days").toDate();
-      const B: Stats = await this.statsService.getByDate(user.structureId, end);
-
-      console.log(B.createdAt);
-      return this.compare(A, B);
-    }
-    return A;
+    return this.parsePostData(user, statsDto);
   }
 
   @UseGuards(FacteurGuard)
@@ -142,18 +130,21 @@ export class StatsController {
     @Body() statsDto: StatsDto,
     @Res() res: any
   ) {
+    const dataToExport = await this.parsePostData(user, statsDto);
+    res.status(200).send(this.exportData(dataToExport));
+  }
+
+  private async parsePostData(user: User, statsDto: StatsDto): Promise<Stats> {
     const start = moment(new Date(statsDto.start)).add(1, "days").toDate();
     const A: Stats = await this.statsService.getByDate(user.structureId, start);
 
-    let C: Stats = A;
     if (statsDto.end) {
       const end = moment(new Date(statsDto.end)).add(1, "days").toDate();
       const B: Stats = await this.statsService.getByDate(user.structureId, end);
 
-      C = this.compare(A, B);
+      return this.compare(A, B);
     }
-
-    res.status(200).send(this.exportData(C));
+    return A;
   }
 
   private exportData(stats: Stats) {
