@@ -112,20 +112,72 @@
       </div>
     </form>
 
-    <div class="row" *ngIf="editPassword">
+    <br /><br />
+    <div class="row">
       <h4 class="col-md-12">
         Mot de passe
       </h4>
+
+      <br />
+
+      <div class="col-md-12 text-center" *ngIf="!editPassword">
+        <span *ngIf="me.passwordLastUpdate"
+          >Dernière modification le :
+          {{ me.passwordLastUpdate | date: "dd/MM/yyyy" }}</span
+        >
+        <span *ngIf="!me.passwordLastUpdate || me.passwordLastUpdate === null"
+          >Aucune modification de mot de passe enregistrée</span
+        >
+        <br />
+        <br />
+        <button (click)="initPasswordForm()" class="btn btn-outline-dark">
+          <fa-icon icon="edit" class="btn-icon"></fa-icon>
+          Modifier votre mot de passe
+        </button>
+      </div>
     </div>
-    <div class="row" *ngIf="editPassword">
+
+    <form
+      *ngIf="editPassword"
+      [formGroup]="passwordForm"
+      class="row"
+      (ngSubmit)="updatePassword()"
+    >
+      <div class="col-md-4 form-group required">
+        <label for="password">Ancien Mot de passe</label>
+        <input
+          class="form-control"
+          [type]="!hideOldPassword ? 'text' : 'password'"
+          [ngClass]="{
+            'is-invalid': p.oldPassword.dirty && p.oldPassword.errors
+          }"
+          id="password"
+          formControlName="oldPassword"
+          autocomplete="off"
+          required
+        />
+        <span
+          class="eye"
+          *ngIf="hideOldPassword"
+          (click)="hideOldPassword = false"
+        >
+          <fa-icon icon="eye"></fa-icon>
+        </span>
+        <span
+          class="eye"
+          *ngIf="!hideOldPassword"
+          (click)="hideOldPassword = true"
+        >
+          <fa-icon icon="eye-slash"></fa-icon>
+        </span>
+      </div>
       <div class="col-md-4 form-group required passwordInput">
-        <label for="password">Mot de passe</label>
+        <label for="new-password">Nouveau mot de passe</label>
         <input
           class="form-control"
           [type]="!hidePassword ? 'text' : 'password'"
-          [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-          id="password"
-          autocomplete="new-password"
+          [ngClass]="{ 'is-invalid': p.password.dirty && p.password.errors }"
+          id="new-password"
           formControlName="password"
           required
         />
@@ -139,16 +191,16 @@
           <div
             class="col-md-12"
             [ngClass]="
-              f.password.hasError('required') ||
-              f.password.hasError('minlength')
+              p.password.hasError('required') ||
+              p.password.hasError('minlength')
                 ? 'text-danger'
                 : 'text-success'
             "
           >
             <fa-icon
               [icon]="
-                f.password.hasError('required') ||
-                f.password.hasError('minlength')
+                p.password.hasError('required') ||
+                p.password.hasError('minlength')
                   ? 'times-circle'
                   : 'check-circle'
               "
@@ -158,16 +210,16 @@
           <div
             class="col-md-12"
             [ngClass]="
-              f.password.hasError('required') ||
-              f.password.hasError('hasNumber')
+              p.password.hasError('required') ||
+              p.password.hasError('hasNumber')
                 ? 'text-danger'
                 : 'text-success'
             "
           >
             <fa-icon
               [icon]="
-                f.password.hasError('required') ||
-                f.password.hasError('hasNumber')
+                p.password.hasError('required') ||
+                p.password.hasError('hasNumber')
                   ? 'times-circle'
                   : 'check-circle'
               "
@@ -177,16 +229,16 @@
           <div
             class="col-md-12"
             [ngClass]="
-              f.password.hasError('required') ||
-              f.password.hasError('hasCapitalCase')
+              p.password.hasError('required') ||
+              p.password.hasError('hasCapitalCase')
                 ? 'text-danger'
                 : 'text-success'
             "
           >
             <fa-icon
               [icon]="
-                f.password.hasError('required') ||
-                f.password.hasError('hasCapitalCase')
+                p.password.hasError('required') ||
+                p.password.hasError('hasCapitalCase')
                   ? 'times-circle'
                   : 'check-circle'
               "
@@ -202,8 +254,10 @@
         <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
         <input
           class="form-control"
-          [type]="!hidePasswordConfirm ? 'text' : 'password'"
-          [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
+          [type]="!hideConfirmPassword ? 'text' : 'password'"
+          [ngClass]="{
+            'is-invalid': p.confirmPassword.dirty && p.confirmPassword.errors
+          }"
           id="confirmPasswordInput"
           autocomplete="new-password"
           formControlName="confirmPassword"
@@ -211,15 +265,15 @@
         />
         <span
           class="eye"
-          *ngIf="hidePasswordConfirm"
-          (click)="hidePasswordConfirm = false"
+          *ngIf="hideConfirmPassword"
+          (click)="hideConfirmPassword = false"
         >
           <fa-icon icon="eye"></fa-icon>
         </span>
         <span
           class="eye"
-          *ngIf="!hidePasswordConfirm"
-          (click)="hidePasswordConfirm = true"
+          *ngIf="!hideConfirmPassword"
+          (click)="hideConfirmPassword = true"
         >
           <fa-icon icon="eye-slash"></fa-icon>
         </span>
@@ -227,23 +281,25 @@
         <div class="row indications">
           <div
             class="text-danger col-md-12"
-            *ngIf="submitted && f.confirmPassword.hasError('required')"
+            *ngIf="
+              p.confirmPassword.dirty && p.confirmPassword.hasError('required')
+            "
           >
             La confirmation du mot de passe est obligatoire
           </div>
           <div
             class="col-md-12"
             [ngClass]="
-              f.confirmPassword.dirty &&
-              !f.confirmPassword.hasError('NoPassswordMatch')
+              p.confirmPassword.dirty &&
+              !p.confirmPassword.hasError('NoPassswordMatch')
                 ? 'text-success'
                 : 'text-danger'
             "
           >
             <fa-icon
               [icon]="
-                f.confirmPassword.dirty &&
-                !f.confirmPassword.hasError('NoPassswordMatch')
+                p.confirmPassword.dirty &&
+                !p.confirmPassword.hasError('NoPassswordMatch')
                   ? 'check-circle'
                   : 'times-circle'
               "
@@ -252,12 +308,21 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <span class="question">EMAIL</span>
-        <span class="valeur">
-          {{ me.email }}
-        </span>
+
+      <div class="col-md-12 text-center">
+        <button (click)="editPassword = false" class="btn btn-outline-dark">
+          <fa-icon icon="edit" class="btn-icon"></fa-icon>
+          Annuler
+        </button>
+        &nbsp;&nbsp;
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!passwordForm.valid"
+        >
+          Enregistrer les changements
+        </button>
       </div>
-    </div>
+    </form>
   </div>
 </div>

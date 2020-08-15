@@ -7,6 +7,7 @@ import { ResetPasswordDto } from "../dto/reset-password.dto";
 import { UserDto } from "../dto/user.dto";
 import { User } from "../user.interface";
 import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
+import { EditPasswordDto } from "../dto/edit-password.dto";
 
 @Injectable()
 export class UsersService {
@@ -102,6 +103,35 @@ export class UsersService {
         {
           $set: {
             password: newPassword,
+            passwordLastUpdate: new Date(),
+          },
+          $unset: {
+            "tokens.password": "",
+            "tokens.creation": "",
+            "tokens.passwordValidity": "",
+          },
+        },
+        {
+          new: true,
+        }
+      )
+      .select("-password -tokens")
+      .exec();
+  }
+
+  public async editPassword(
+    user: User,
+    resetPasswordDto: EditPasswordDto
+  ): Promise<any> {
+    const newPassword = await bcrypt.hash(resetPasswordDto.password, 10);
+
+    return this.userModel
+      .findOneAndUpdate(
+        { _id: user._id },
+        {
+          $set: {
+            password: newPassword,
+            passwordLastUpdate: new Date(),
           },
           $unset: {
             "tokens.password": "",

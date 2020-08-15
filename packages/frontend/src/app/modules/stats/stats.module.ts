@@ -14,9 +14,10 @@ import { UsersModule } from "../users/users.module";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { RapportComponent } from "./components/rapport/rapport.component";
 import { StatsService } from "./stats.service";
+import { StatsComponent } from "./components/stats/stats.component";
 
 @NgModule({
-  declarations: [DashboardComponent, RapportComponent],
+  declarations: [DashboardComponent, RapportComponent, StatsComponent],
   exports: [DashboardComponent],
   imports: [
     UsersModule,

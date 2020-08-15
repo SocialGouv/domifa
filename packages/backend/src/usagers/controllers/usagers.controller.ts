@@ -171,15 +171,6 @@ export class UsagersController {
         );
       }
 
-      // Rattachement territorial
-      if (
-        decision.rattachement !== undefined &&
-        decision.rattachement !== null
-      ) {
-        usager.entretien.rattachement = decision.rattachement;
-        delete decision.rattachement;
-      }
-
       decision.dateDebut = new Date(decision.dateDebut);
     }
 
@@ -349,6 +340,13 @@ export class UsagersController {
   @Get(":id")
   public async findOne(@CurrentUsager() usager: Usager) {
     return usager;
+  }
+
+  // AGENDA des rendez-vous
+  @UseGuards(AuthGuard("jwt"))
+  @Get("agenda")
+  public async agenda(@CurrentUser() user: User) {
+    return this.usagersService.agenda(user);
   }
 
   private captureErrors(err: any, statuts: HttpStatus, @Res() res: any) {

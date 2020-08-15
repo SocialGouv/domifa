@@ -313,6 +313,14 @@ export class UsagersService {
     return lastUsager === {} || lastUsager === null ? 1 : lastUsager.id + 1;
   }
 
+  public async agenda(user: User) {
+    return this.usagerModel
+      .find({ "rdv.dateRdv": { $lte: new Date() }, "rdv.userId": user.id })
+      .sort({ "rdv.dateRdv": -1 })
+      .lean()
+      .exec();
+  }
+
   private convertDate(dateFr: string) {
     const dateParts = dateFr.split("/");
     const dateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;

@@ -9,6 +9,7 @@ export class User {
   public password: string;
   public phone: string;
   public prenom: string;
+  public passwordLastUpdate: Date;
   public role: string;
   public structure: Structure;
   public structureId: number;
@@ -23,6 +24,7 @@ export class User {
     this.password = "";
     this.phone = (user && user.phone) || null;
     this.prenom = (user && user.prenom) || null;
+
     this.role = (user && user.role) || null;
     this.structureId = (user && user.structureId) || null;
     this.token = (user && user.token) || null;
@@ -30,5 +32,11 @@ export class User {
     this.structure =
       (user && new Structure(user.structure)) || new Structure({});
     this.lastLogin = (user && new Date(user.lastLogin)) || null;
+
+    this.passwordLastUpdate = null;
+
+    if (user && user.passwordLastUpdate) {
+      this.passwordLastUpdate = new Date(user.passwordLastUpdate);
+    }
   }
 }

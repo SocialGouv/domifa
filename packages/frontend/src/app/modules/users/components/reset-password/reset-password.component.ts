@@ -21,6 +21,7 @@ export class ResetPasswordComponent implements OnInit {
 
   public hidePassword: boolean;
   public hidePasswordConfirm: boolean;
+
   public token?: string;
   public errorLabels: any;
 

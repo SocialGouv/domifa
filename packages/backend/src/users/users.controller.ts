@@ -24,6 +24,9 @@ import { UsersService } from "./services/users.service";
 import { User } from "./user.interface";
 import { TipimailService } from "./services/tipimail.service";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
+import { EditPasswordDto } from "./dto/edit-password.dto";
+
+import * as bcrypt from "bcryptjs";
 
 @Controller("users")
 export class UsersController {
@@ -276,6 +279,7 @@ export class UsersController {
     }
   }
 
+  // Ajout d'utilisateur par un admin
   @Post("register")
   @UseGuards(AdminGuard)
   @UseGuards(AuthGuard("jwt"))
@@ -318,5 +322,36 @@ export class UsersController {
       return false;
     }
     return true;
+  }
+
+  // Edition d'un mot de passe quand on est déjà connecté
+  @Post("edit-password")
+  @UseGuards(AuthGuard("jwt"))
+  public async editPassword(
+    @CurrentUser() user: User,
+    @Response() res: any,
+    @Body() editPasswordDto: EditPasswordDto
+  ) {
+    const isValidPass = await bcrypt.compare(
+      editPasswordDto.oldPassword,
+      user.password
+    );
+
+    if (!isValidPass) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "L'ancien mot de passe est incorrect" });
+    }
+
+    this.usersService.editPassword(user, editPasswordDto).then(
+      () => {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      },
+      (error) => {
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "EDIT_PASSWORD", content: JSON.stringify(error) });
+      }
+    );
   }
 }

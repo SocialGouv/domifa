@@ -96,8 +96,12 @@ export class UsersService {
     return this.http.get(`${this.endPoint}/tipi`);
   }
 
-  public resetPassword(data: string) {
+  public resetPassword(data: any) {
     return this.http.post(`${this.endPoint}/reset-password`, data);
+  }
+
+  public updatePassword(data: any) {
+    return this.http.post(`${this.endPoint}/edit-password`, data);
   }
 
   public registerUser(data: string) {

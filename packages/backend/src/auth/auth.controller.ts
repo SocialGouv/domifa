@@ -78,6 +78,7 @@ export class AuthController {
       id: user.id,
       lastLogin: user.lastLogin,
       nom: user.nom,
+      passwordLastUpdate: user.passwordLastUpdate,
       prenom: user.prenom,
       role: user.role,
       structure: user.structure,
@@ -88,7 +89,7 @@ export class AuthController {
   @UseGuards(AuthGuard("jwt"))
   @Get("me")
   public me(@Response() res: any, @Req() request: any) {
-    const user = request.user;
+    const user: User = request.user;
     if (!user || user === null) {
       return res.status(HttpStatus.UNAUTHORIZED).json({});
     }
@@ -100,6 +101,7 @@ export class AuthController {
       nom: user.nom,
       prenom: user.prenom,
       role: user.role,
+      passwordLastUpdate: user.passwordLastUpdate,
       structure: user.structure,
       structureId: user.structureId,
     });

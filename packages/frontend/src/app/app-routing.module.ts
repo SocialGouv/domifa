@@ -27,9 +27,10 @@ import { UserProfilComponent } from "./modules/users/components/user-profil/user
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
 import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
-import { RegisterUserAdminComponent } from "./modules/users/components/register-user-admin/register-user-admin.component";
+
 import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
 import { ResponsableGuard } from "./guards/responsable-guard";
+import { StatsComponent } from "./modules/stats/components/stats/stats.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -130,6 +131,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard, FacteurGuard],
     component: RapportComponent,
     path: "rapport-activite",
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
+    component: StatsComponent,
+    path: "stats",
   },
   { path: "faq", component: FaqComponent },
   { path: "news", component: NewsComponent },

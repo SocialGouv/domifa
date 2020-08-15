@@ -135,7 +135,7 @@ export class RegisterUserComponent implements OnInit {
         this.success = true;
         this.notifService.success(
           "Votre compte a été créé avec succès",
-          "Féliciations !"
+          "Félicitations !"
         );
       },
       () => {

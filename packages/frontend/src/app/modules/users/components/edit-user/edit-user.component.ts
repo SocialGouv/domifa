@@ -29,16 +29,22 @@ export class EditUserComponent implements OnInit {
 
   public editUser: boolean;
   public editPassword: boolean;
-  public hidePassword: boolean;
-  public hidePasswordConfirm: boolean;
 
-  public resetForm!: FormGroup;
+  public hideOldPassword: boolean;
+  public hidePassword: boolean;
+  public hideConfirmPassword: boolean;
+
+  public passwordForm!: FormGroup;
   public userForm!: FormGroup;
 
   public emailExist: boolean;
 
   get f() {
     return this.userForm.controls;
+  }
+
+  get p() {
+    return this.passwordForm.controls;
   }
 
   constructor(
@@ -53,14 +59,20 @@ export class EditUserComponent implements OnInit {
     this.success = false;
     this.editPassword = false;
     this.editUser = false;
-    this.hidePassword = false;
-    this.hidePasswordConfirm = false;
+
+    this.hideOldPassword = true;
+    this.hidePassword = true;
+    this.hideConfirmPassword = true;
+
     this.emailExist = false;
   }
 
   public ngOnInit(): void {
     this.titleService.setTitle("Editer mes informations");
-    this.me = this.authService.currentUserValue;
+
+    this.authService.currentUser.subscribe((user) => {
+      this.me = user;
+    });
   }
 
   public initUserForm() {
@@ -78,8 +90,11 @@ export class EditUserComponent implements OnInit {
   }
 
   public initPasswordForm() {
-    this.resetForm = this.formBuilder.group(
+    this.editPassword = true;
+
+    this.passwordForm = this.formBuilder.group(
       {
+        oldPassword: [null, Validators.compose([Validators.required])],
         confirmPassword: [null, Validators.compose([Validators.required])],
         password: [
           null,
@@ -115,12 +130,12 @@ export class EditUserComponent implements OnInit {
           this.editUser = false;
           this.notifService.success(
             "Vos informations ont été modifiées avec succès",
-            "Féliciations !"
+            "Félicitations !"
           );
         },
         () => {
           this.notifService.error(
-            "veuillez vérifier les champs marqués en rouge dans le formulaire",
+            "Veuillez vérifier les champs marqués en rouge dans le formulaire",
             "Erreur dans le formulaire"
           );
         }
@@ -128,14 +143,21 @@ export class EditUserComponent implements OnInit {
     }
   }
 
-  public submitResetForm() {
-    this.submitted = true;
-    if (!this.resetForm.invalid) {
-      this.userService
-        .resetPassword(this.resetForm.value)
-        .subscribe((user: any) => {
-          this.success = true;
-        });
+  public updatePassword() {
+    if (!this.passwordForm.invalid) {
+      this.userService.updatePassword(this.passwordForm.value).subscribe(
+        (user: any) => {
+          this.editPassword = false;
+          this.me.passwordLastUpdate = new Date();
+          this.notifService.success(
+            "Votre mot de passe a été modifié avec succès",
+            "Félicitations !"
+          );
+        },
+        (error: any) => {
+          this.notifService.error(error.message, "Erreur dans le formulaire");
+        }
+      );
     }
   }
 

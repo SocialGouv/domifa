@@ -704,6 +704,14 @@
             </span>
             <br />
             <br />
+            <span
+              (click)="usager.etapeDemande = 1; usager.rdv.isNow = 'non'"
+              class="btn btn-secondary"
+            >
+              Modifier la date du rendez-vous
+            </span>
+            <br />
+            <br />
             <span (click)="getAttestation()" class="btn btn-outline-primary">
               <fa-icon icon="file-pdf"></fa-icon>
               &nbsp; Télécharger le Cerfa de demande

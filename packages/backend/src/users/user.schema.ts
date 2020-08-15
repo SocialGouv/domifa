@@ -73,6 +73,7 @@ export const UserSchema = new mongoose.Schema(
     },
     passwordLastUpdate: {
       type: Date,
+      default: null,
     },
     verified: {
       default: false,
