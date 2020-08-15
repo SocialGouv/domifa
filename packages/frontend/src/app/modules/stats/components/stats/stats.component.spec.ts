@@ -1,16 +1,33 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { StatsComponent } from './stats.component';
+import { APP_BASE_HREF } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { MatomoModule } from "ngx-matomo";
+import { StructuresModule } from "src/app/modules/structures/structures.module";
+import { StatsComponent } from "./stats.component";
 
-describe('StatsComponent', () => {
+describe("StatsComponent", () => {
   let component: StatsComponent;
   let fixture: ComponentFixture<StatsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StatsComponent ]
-    })
-    .compileComponents();
+      declarations: [StatsComponent],
+      imports: [
+        StructuresModule,
+        HttpClientModule,
+        HttpClientTestingModule,
+        MatomoModule,
+        NgbModule,
+        RouterTestingModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +36,7 @@ describe('StatsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
