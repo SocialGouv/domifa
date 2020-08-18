@@ -92,19 +92,9 @@ export class InteractionsController {
     } else if (interactionOut) {
       const inType = interactionToDelete.type.substring(0, len - 3) + "In";
 
-      const last = await this.interactionService.findLastInteraction(
-        usager.id,
-        interactionToDelete.dateInteraction,
-        inType,
-        user,
-        "out"
-      );
-
-      if (!last || last === null) {
-        if (interactionToDelete.nbCourrier) {
-          usager.lastInteraction[inType] =
-            usager.lastInteraction[inType] + interactionToDelete.nbCourrier;
-        }
+      if (interactionToDelete.nbCourrier) {
+        usager.lastInteraction[inType] =
+          usager.lastInteraction[inType] + interactionToDelete.nbCourrier;
       }
     }
 

@@ -94,7 +94,19 @@ export class EditUserComponent implements OnInit {
 
     this.passwordForm = this.formBuilder.group(
       {
-        oldPassword: [null, Validators.compose([Validators.required])],
+        oldPassword: [
+          null,
+          Validators.compose([
+            Validators.required,
+            PasswordValidator.patternValidator(/\d/, {
+              hasNumber: true,
+            }),
+            PasswordValidator.patternValidator(/[A-Z]/, {
+              hasCapitalCase: true,
+            }),
+            Validators.minLength(12),
+          ]),
+        ],
         confirmPassword: [null, Validators.compose([Validators.required])],
         password: [
           null,

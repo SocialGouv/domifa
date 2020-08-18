@@ -152,7 +152,7 @@ export class InteractionsService {
     isIn: string
   ): Promise<Interaction | null> {
     const dateQuery =
-      isIn === "in" ? { $lte: dateInteraction } : { $gte: dateInteraction };
+      isIn === "out" ? { $lte: dateInteraction } : { $gte: dateInteraction };
 
     return this.interactionModel
       .findOne({
