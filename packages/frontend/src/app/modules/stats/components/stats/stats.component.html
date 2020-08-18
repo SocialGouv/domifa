@@ -77,7 +77,7 @@
 
   <div class="col-md-12"><br /></div>
 
-  <div class="col-md-6 font-weight-bold">
+  <div class="col-md-12" *ngIf="start !== null">
     <h4 *ngIf="end !== null">
       Date du rapport : du {{ start | date: "dd/MM/yyyy" }} au
       {{ end | date: "dd/MM/yyyy" }}
@@ -85,14 +85,6 @@
     <h4 *ngIf="end === null">
       Date du rapport : le {{ start | date: "dd/MM/yyyy" }}
     </h4>
-  </div>
-
-  <div class="col-md-12">
-    <button class="btn btn-outline-primary" (click)="compare()">
-      <fa-icon icon="sync-alt" class="btn-icon"></fa-icon>
-      Actualiser les statistiques
-    </button>
-    &nbsp;&nbsp;
     <button
       (click)="export()"
       [disabled]="exportLoading"
@@ -107,5 +99,229 @@
         veuillez patienter...</span
       >
     </button>
+  </div>
+
+  <div class="col-md-12" *ngIf="start !== null">
+    <br />
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th colspan="2">
+            Partie 1 - Total
+            <span *ngIf="end !== null">
+              du {{ start | date: "dd/MM/yyyy" }} au
+              {{ end | date: "dd/MM/yyyy" }}
+            </span>
+            <span *ngIf="end === null">
+              depuis votre inscription sur Domifa au
+              {{ start | date: "dd/MM/yyyy" }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-weight-bold">
+            Nombre d'attestations d'élection de domicile délivrées
+          </td>
+          <td>{{ stats.questions.Q_10 }}</td>
+        </tr>
+        <tr>
+          <td class="soustable">
+            Dont premières demandes conclues par une attestation d'élection de
+            domicile
+          </td>
+          <td>{{ stats.questions.Q_10_A }}</td>
+        </tr>
+        <tr>
+          <td class="soustable">Dont renouvellements</td>
+          <td>{{ stats.questions.Q_10_B }}</td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">Total radiations</td>
+          <td>{{ stats.questions.Q_12.TOTAL }}</td>
+        </tr>
+        <tr>
+          <td colspan="2">Répartition des radiations par motif</td>
+        </tr>
+        <tr *ngFor="let decision of labels.motifsRadiation | keyvalue">
+          <td class="soustable">{{ decision.value }}</td>
+          <td>
+            {{ stats.questions.Q_12[decision.key] }}
+          </td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">
+            Nombre de
+            <b>demandes refusées</b>
+          </td>
+          <td>{{ stats.questions.Q_13.TOTAL }}</td>
+        </tr>
+        <tr>
+          <td colspan="2">Répartition par motif de refus</td>
+        </tr>
+        <tr *ngFor="let decision of labels.motifsRefus | keyvalue">
+          <td class="soustable">{{ decision.value }}</td>
+          <td>
+            {{ stats.questions.Q_13[decision.key] }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">Répartition des orientations</td>
+        </tr>
+        <tr>
+          <td class="soustable">Orientation vers CCAS</td>
+          <td>
+            {{ stats.questions.Q_14.CCAS }}
+          </td>
+        </tr>
+        <tr>
+          <td class="soustable">Orientation vers Organisme agrée</td>
+          <td>
+            {{ stats.questions.Q_14.ASSO }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th colspan="2">
+            Partie 2 - Nombre de domiciliés enregistrés
+            <span *ngIf="end !== null">
+              du {{ start | date: "dd/MM/yyyy" }} au
+              {{ end | date: "dd/MM/yyyy" }}
+            </span>
+            <span *ngIf="end === null">
+              depuis votre inscription sur Domifa au
+              {{ start | date: "dd/MM/yyyy" }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-weight-bold">
+            Total des domiciliés actifs + leurs ayants-droit
+          </td>
+          <td>
+            {{ stats.questions.Q_11.VALIDE_TOTAL }}
+          </td>
+        </tr>
+        <tr>
+          <td class="soustable">Nombre de domiciliés</td>
+          <td>{{ stats.questions.Q_11.VALIDE }}</td>
+        </tr>
+        <tr>
+          <td class="soustable">Nombre d'ayants-droit</td>
+          <td>{{ stats.questions.Q_11.VALIDE_AYANTS_DROIT }}</td>
+        </tr>
+
+        <tr>
+          <td class="font-weight-bold" colspan="2">
+            Nombre de domiciliés actifs par tranche d'âge
+          </td>
+        </tr>
+
+        <tr>
+          <td class="soustable">Majeurs</td>
+          <td>{{ stats.questions.Q_18 }}</td>
+        </tr>
+        <tr>
+          <td class="soustable">Mineurs</td>
+          <td>{{ stats.questions.Q_17 }}</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td class="font-weight-bold" colspan="2">
+            Nombre de domiciliés actifs par type de ménage
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let decision of labels.typeMenage | keyvalue">
+          <tr *ngIf="decision.key != 'MINEUR'">
+            <td class="soustable">{{ decision.value }}</td>
+            <td>
+              {{ stats.questions.Q_19[decision.key] }}
+            </td>
+          </tr>
+        </ng-container>
+
+        <tr>
+          <td class="font-weight-bold" colspan="2">
+            Situation résidentielle
+          </td>
+        </tr>
+        <tr *ngFor="let decision of labels.residence | keyvalue">
+          <td class="soustable">{{ decision.value }}</td>
+          <td>
+            {{ stats.questions.Q_22[decision.key] }}
+          </td>
+        </tr>
+        <tr>
+          <td class="soustable">Autre situation</td>
+          <td>
+            {{ stats.questions.Q_22.AUTRE }}
+          </td>
+        </tr>
+        <tr>
+          <td class="soustable">Non renseigné</td>
+          <td>
+            {{ stats.questions.Q_22.NON_RENSEIGNE }}
+          </td>
+        </tr>
+
+        <tr>
+          <td class="font-weight-bold" colspan="2">
+            Cause de l'instabilité de logement
+          </td>
+        </tr>
+        <tr *ngFor="let decision of labels.cause | keyvalue">
+          <td class="soustable">{{ decision.value }}</td>
+          <td>
+            {{ stats.questions.Q_21[decision.key] }}
+          </td>
+        </tr>
+        <tr>
+          <td class="soustable">Autre cause</td>
+          <td>
+            {{ stats.questions.Q_21.AUTRE }}
+          </td>
+        </tr>
+        <tr>
+          <td class="soustable">Non renseigné</td>
+          <td>
+            {{ stats.questions.Q_21.NON_RENSEIGNE }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th colspan="2">
+            Partie 3 : Résumé des interactions
+            <span *ngIf="end !== null">
+              du {{ start | date: "dd/MM/yyyy" }} au
+              {{ end | date: "dd/MM/yyyy" }}
+            </span>
+            <span *ngIf="end === null">
+              depuis votre inscription sur Domifa au
+              {{ start | date: "dd/MM/yyyy" }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let interaction of interactionsLabels | keyvalue">
+          <td>{{ interaction.value }}</td>
+          <td>
+            {{ stats.questions.Q_20[interaction.key] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

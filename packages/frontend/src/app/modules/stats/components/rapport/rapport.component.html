@@ -44,14 +44,6 @@
     </ng-template>
   </div>
   <div class="col-md-4">
-    <div *ngIf="end !== null">
-      Du <b>{{ start | date: "dd/MM/yyyy" }} </b> au
-      <b>{{ end | date: "dd/MM/yyyy" }} </b>
-    </div>
-    <div *ngIf="end === null">
-      Le <b>{{ start | date: "dd/MM/yyyy" }} </b>
-    </div>
-
     <button class="btn btn-outline-primary" (click)="compare()">
       <fa-icon icon="sync-alt" class="btn-icon"></fa-icon>
       Actualiser les statistiques

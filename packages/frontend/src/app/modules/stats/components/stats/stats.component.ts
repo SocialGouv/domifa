@@ -23,7 +23,7 @@ import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-frenc
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-stats",
-  styleUrls: ["./stats.component.css"],
+  styleUrls: ["../rapport/rapport.component.css"],
   templateUrl: "./stats.component.html",
 })
 export class StatsComponent implements OnInit {
@@ -58,9 +58,10 @@ export class StatsComponent implements OnInit {
     this.labels = labels;
     this.interactionsLabels = interactionsLabels;
 
-    this.start = new Date();
-    this.start.setDate(this.start.getDate() - 2);
+    const dateStart = new Date();
+    dateStart.setDate(dateStart.getDate() - 2);
 
+    this.start = null;
     this.end = null;
 
     this.showCalendar = false;
@@ -69,9 +70,9 @@ export class StatsComponent implements OnInit {
 
     // Dates du calendrier
     this.maxDate = new NgbDate(
-      this.start.getFullYear(),
-      this.start.getMonth() + 1,
-      this.start.getDate()
+      dateStart.getFullYear(),
+      dateStart.getMonth() + 1,
+      dateStart.getDate()
     );
     this.minDate = new NgbDate(2020, 6, 1);
 
@@ -82,7 +83,7 @@ export class StatsComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("Rapport d'activité annuel");
 
-    this.compare();
+    // this.compare();
 
     this.statsService.getAvailabelStats().subscribe((response: any) => {
       this.statsList = response;
@@ -172,6 +173,7 @@ export class StatsComponent implements OnInit {
       this.fromDate = date;
       this.start = new Date(this.formatter.formatEn(date));
     }
+    this.compare();
   }
 
   public isHovered(date: NgbDate) {
