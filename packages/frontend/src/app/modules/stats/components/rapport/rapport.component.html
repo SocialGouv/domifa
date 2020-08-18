@@ -17,7 +17,7 @@
     </div>
   </div>
   <br />
-
+  <!--
   <div class="col-md-8">
     <ngb-datepicker
       #dp
@@ -68,7 +68,7 @@
     </button>
   </div>
 
-  <!--
+
   <div class="col-md-6" >
     <br /><br /><br />
     <div class="form-group">
@@ -106,7 +106,22 @@
       Date du rapport : le {{ start | date: "dd/MM/yyyy" }}
     </div>
   </div>
-
+  <div class="col-md-6 text-right">
+    <button
+      (click)="export()"
+      [disabled]="exportLoading"
+      class="btn btn-outline-primary"
+    >
+      <span *ngIf="!exportLoading">
+        <fa-icon icon="download" class="btn-icon"></fa-icon>
+        Exporter les statitstiques</span
+      >
+      <span *ngIf="exportLoading"
+        ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en cours,
+        veuillez patienter...</span
+      >
+    </button>
+  </div>
   <div class="col-md-12">
     <br />
     <table class="table table-hover" *ngIf="stats">

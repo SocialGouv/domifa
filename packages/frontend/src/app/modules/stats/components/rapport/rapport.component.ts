@@ -70,6 +70,7 @@ export class RapportComponent implements OnInit {
       this.start.getMonth() + 1,
       this.start.getDate()
     );
+
     this.minDate = new NgbDate(2020, 6, 1);
 
     this.toDate = this.maxDate;
@@ -117,6 +118,8 @@ export class RapportComponent implements OnInit {
 
   public export() {
     this.exportLoading = true;
+
+    console.log(this.start);
     this.statsService.export(this.start, this.end).subscribe(
       (x: any) => {
         const newBlob = new Blob([x], {
