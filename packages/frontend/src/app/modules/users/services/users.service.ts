@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../interfaces/user";
+import { Usager } from "../../usagers/interfaces/usager";
 
 @Injectable({
   providedIn: "root",
@@ -108,7 +109,13 @@ export class UsersService {
     return this.http.post(`${this.endPoint}/register`, data);
   }
 
-  public agenda() {
-    return this.http.get(`${environment.apiUrl}/usagers/agenda`);
+  public agenda(): Observable<Usager[] | []> {
+    return this.http.get(`${environment.apiUrl}usagers/agenda`).pipe(
+      map((response) => {
+        return Array.isArray(response)
+          ? response.map((item) => new Usager(item))
+          : [new Usager(response)];
+      })
+    );
   }
 }

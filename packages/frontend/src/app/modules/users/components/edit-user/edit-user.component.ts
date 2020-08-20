@@ -16,6 +16,7 @@ import { PasswordValidator } from "../../services/password-validator.service";
 import { map } from "rxjs/operators";
 import { of } from "rxjs";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+import { Usager } from "src/app/modules/usagers/interfaces/usager";
 
 @Component({
   selector: "app-edit-user",
@@ -24,6 +25,7 @@ import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 })
 export class EditUserComponent implements OnInit {
   public me: User | null;
+  public usagers: Usager[];
 
   public submitted: boolean;
   public success: boolean;
@@ -67,6 +69,7 @@ export class EditUserComponent implements OnInit {
     this.hideConfirmPassword = true;
 
     this.emailExist = false;
+    this.usagers = [];
   }
 
   public ngOnInit(): void {
@@ -75,7 +78,9 @@ export class EditUserComponent implements OnInit {
     this.authService.currentUser.subscribe((user) => {
       this.me = user;
 
-      this.userService.agenda();
+      this.userService.agenda().subscribe((usagers: Usager[]) => {
+        this.usagers = usagers;
+      });
     });
   }
 

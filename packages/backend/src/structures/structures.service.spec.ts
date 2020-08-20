@@ -70,7 +70,7 @@ describe("Structure Service", () => {
     expect(structure.nom).toEqual("Association Amicale");
 
     // DELETE
-    const deletedstructure = await service.delete(structure.token);
+    const deletedstructure = await service.delete(structure._id);
     expect(await deletedstructure.deletedCount).toEqual(1);
   });
 });
