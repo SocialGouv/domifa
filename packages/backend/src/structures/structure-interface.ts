@@ -27,6 +27,8 @@ export interface Structure extends Document {
     expireAt: Date | null;
   };
 
+  tokenDelete: string;
+
   adresseCourrier: {
     actif: boolean;
     adresse: string;

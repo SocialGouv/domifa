@@ -144,10 +144,10 @@ export class StructuresService {
       .exec();
   }
 
-  public async checkToken(token: string): Promise<any> {
+  public async checkToken(token: string, id: string): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
-        { token },
+        { _id: id, token },
         { $set: { token: "", verified: true } },
         { new: true }
       )
@@ -209,27 +209,8 @@ export class StructuresService {
       .exec();
   }
 
-  public async delete(token: string): Promise<any> {
-    const structure = await this.structureModel
-      .findOne({ token })
-      .populate("users")
-      .exec();
-    if (!structure || structure === null) {
-      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-
-    structure.users.forEach((user: any) => {
-      return this.userModel
-        .deleteOne({
-          id: user.id,
-          structureId: user.structureId,
-        })
-        .exec();
-    });
-
-    return this.structureModel.deleteOne({
-      token,
-    });
+  public async delete(id: string): Promise<any> {
+    return this.structureModel.deleteOne({ _id: id });
   }
 
   public async importSuccess(id: number) {
@@ -262,6 +243,17 @@ export class StructuresService {
         }
       )
       .exec();
+  }
+
+  public async generateDeleteToken(id: string) {
+    const token = crypto.randomBytes(30).toString("hex");
+    return this.structureModel
+      .findOneAndUpdate({ _id: id }, { $set: { token } }, { new: true })
+      .exec();
+  }
+
+  public async deleteAccount(id: string, tokenDelete: string) {
+    return this.structureModel.deleteOne({ _id: id, tokenDelete }).exec();
   }
 
   public async findLast(): Promise<number> {

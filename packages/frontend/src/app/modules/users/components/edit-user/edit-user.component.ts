@@ -15,6 +15,7 @@ import { regexp } from "src/app/shared/validators";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { map } from "rxjs/operators";
 import { of } from "rxjs";
+import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
 @Component({
   selector: "app-edit-user",
@@ -50,6 +51,7 @@ export class EditUserComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public userService: UsersService,
+
     public router: Router,
     public notifService: ToastrService,
     public formBuilder: FormBuilder,
@@ -72,6 +74,8 @@ export class EditUserComponent implements OnInit {
 
     this.authService.currentUser.subscribe((user) => {
       this.me = user;
+
+      this.userService.agenda();
     });
   }
 

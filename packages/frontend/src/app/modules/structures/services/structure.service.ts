@@ -64,12 +64,12 @@ export class StructureService {
     );
   }
 
-  public confirm(token: string): Observable<any> {
-    return this.http.get(`${this.endPoint}/confirm/${token}`);
+  public confirm(id: string, token: string): Observable<any> {
+    return this.http.get(`${this.endPoint}/confirm/${id}/${token}`);
   }
 
-  public delete(token: string): Observable<any> {
-    return this.http.delete(`${this.endPoint}/${token}`);
+  public delete(id: string, token: string): Observable<any> {
+    return this.http.delete(`${this.endPoint}/confirm/${id}/${token}`);
   }
 
   public validateEmail(email: string): Observable<any> {

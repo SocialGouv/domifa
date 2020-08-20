@@ -107,4 +107,8 @@ export class UsersService {
   public registerUser(data: string) {
     return this.http.post(`${this.endPoint}/register`, data);
   }
+
+  public agenda() {
+    return this.http.get(`${environment.apiUrl}/usagers/agenda`);
+  }
 }

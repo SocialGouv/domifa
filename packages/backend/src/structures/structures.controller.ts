@@ -23,6 +23,8 @@ import { User } from "../users/user.interface";
 import { StructureEditDto } from "./dto/structure-edit.dto";
 import { StructureDto } from "./dto/structure.dto";
 import { StructuresService } from "./structures.service";
+import { DomifaGuard } from "../auth/guards/domifa.guard";
+import { TipimailService } from "../users/services/tipimail.service";
 
 @Controller("structures")
 export class StructuresController {
@@ -31,7 +33,8 @@ export class StructuresController {
     private readonly usersService: UsersService,
     private readonly usagersService: UsagersService,
     private readonly interactionsService: InteractionsService,
-    private readonly mailjetService: MailJetService
+    private readonly mailjetService: MailJetService,
+    private readonly tipimailService: TipimailService
   ) {}
 
   @Post()
@@ -73,18 +76,16 @@ export class StructuresController {
     return user.structure;
   }
 
-  @Delete(":token")
-  public async deleteOne(@Param("token") token: string) {
-    return this.structureService.delete(token);
-  }
-
-  @Get("confirm/:token")
-  public async confim(@Param("token") token: string): Promise<any> {
+  @Get("confirm/:id/:token")
+  public async confim(
+    @Param("token") token: string,
+    @Param("id") id: string
+  ): Promise<any> {
     if (token === "") {
       throw new HttpException("STRUCTURE_TOKEN_EMPTY", HttpStatus.BAD_REQUEST);
     }
 
-    const structure = await this.structureService.checkToken(token);
+    const structure = await this.structureService.checkToken(token, id);
 
     if (!structure || structure === null) {
       throw new HttpException(
@@ -180,5 +181,66 @@ export class StructuresController {
   @Get("admin/regions")
   public async regions() {
     return this.structureService.updateRegions();
+  }
+
+  @Delete("confirm/:id/:token")
+  public async deleteOne(
+    @Param("id") id: string,
+    @Param("token") token: string,
+    @Response() res: any
+  ) {
+    const structure = await this.structureService.findOneBasic({
+      token,
+      _id: id,
+    });
+
+    if (structure && structure !== null) {
+      await this.usersService.deleteAll(structure.id);
+      await this.usagersService.deleteAll(structure.id);
+      await this.interactionsService.deleteAll(structure.id);
+      await this.structureService.delete(structure._id);
+      return res.status(HttpStatus.OK).json({ message: "Ok" });
+    }
+
+    return res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .json({ message: "DELETED_STRUCTURE_CONFIRM_IMPOSSIBLE" });
+
+    return true;
+
+    /* await this.usagersService.deleteAccount;
+    user.structureId;
+    await this.usersService.deleteAll(structure.id);
+    await this.usagersService.deleteAll(structure.id);
+    await this.interactionsService.deleteAll(structure.id);
+    return this.dashboardService.getRegions();
+
+    return this.structureService.delete(token);
+    */
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(DomifaGuard)
+  @Delete(":id")
+  public async deleteStructure(@Response() res: any, @Param("id") id: string) {
+    const structure = await this.structureService.generateDeleteToken(id);
+
+    if (structure && structure !== null) {
+      this.tipimailService.deleteStructure(structure).then(
+        (result) => {
+          return res.status(HttpStatus.OK).json({ message: "OK" });
+        },
+        (error) => {
+          return res
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "MAIL_DELETE_STRUCTURE_ERROR" });
+        }
+      );
+    } else {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "DELETED_STRUCTURE_NOT_FOUND" });
+    }
+    return true;
   }
 }

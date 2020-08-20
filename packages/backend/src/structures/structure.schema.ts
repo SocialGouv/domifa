@@ -66,6 +66,11 @@ export const StructureSchema = new mongoose.Schema(
         },
       },
     },
+    tokenDelete: {
+      select: false,
+      type: String,
+      default: "",
+    },
     id: {
       index: true,
       type: Number,

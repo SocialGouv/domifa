@@ -232,6 +232,72 @@ export class TipimailService {
       );
   }
 
+  public async deleteStructure(structure: Structure) {
+    const lien =
+      process.env.FRONT_URL +
+      "structures/delete/" +
+      structure._id +
+      "/" +
+      structure.token;
+
+    const post = {
+      to: [
+        {
+          address: "contact.domifa@fabrique.social.gouv.fr",
+          personalName: "Site Domifa",
+        },
+      ],
+      headers: {
+        "X-TM-TEMPLATE": "supprimer-structure",
+        "X-TM-SUB": [
+          {
+            email: "contact.domifa@fabrique.social.gouv.fr",
+            values: {
+              lien,
+              nom: structure.nom,
+              adresse: structure.adresse,
+              ville: structure.ville,
+              code_postal: structure.codePostal,
+              email: structure.email,
+              phone: structure.phone,
+            },
+            meta: {},
+          },
+        ],
+      },
+      msg: {
+        from: {
+          personalName: "Domifa",
+          address: "contact.domifa@diffusion.social.gouv.fr",
+        },
+        replyTo: {
+          personalName: "Domifa",
+          address: "contact.domifa@fabrique.social.gouv.fr",
+        },
+        subject: "Subject",
+        html: "<p>Test</p>",
+      },
+    };
+
+    this.httpService
+      .post("https://api.tipimail.com/v1/messages/send", post, {
+        headers: {
+          "X-Tipimail-ApiUser": process.env.SMTP_USER,
+          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+        },
+      })
+      .subscribe(
+        (retour: any) => {
+          return true;
+        },
+        (erreur: any) => {
+          throw new HttpException(
+            "MAIL_SUPPRESSION_STRUCTURE",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      );
+  }
   public async registerConfirm(user: User) {
     const lien =
       process.env.FRONT_URL + "reset-password/" + user.tokens.password;

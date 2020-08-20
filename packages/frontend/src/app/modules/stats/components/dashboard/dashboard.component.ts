@@ -6,6 +6,7 @@ import * as labels from "src/app/modules/usagers/usagers.labels";
 import { regions } from "../../regions.labels";
 import { StatsService } from "../../stats.service";
 import { Title } from "@angular/platform-browser";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-dashboard",
@@ -47,7 +48,11 @@ export class DashboardComponent implements OnInit {
     VALIDE: "text-secondary",
   };
 
-  constructor(public statsService: StatsService, private titleService: Title) {
+  constructor(
+    public statsService: StatsService,
+    private titleService: Title,
+    private notifService: ToastrService
+  ) {
     this.interactionsLabels = interactionsLabelsPluriel;
     this.labels = labels;
     this.regions = regions;
@@ -127,5 +132,20 @@ export class DashboardComponent implements OnInit {
         this.sort.type === "ascending" ? "descending" : "ascending";
     }
     this.getStructures();
+  }
+
+  public deleteStructure(id: string) {
+    this.statsService.deleteStructure(id).subscribe(
+      () => {
+        this.notifService.success(
+          "Vous venez de recevoir un email vous permettant de supprimer la structure"
+        );
+      },
+      () => {
+        this.notifService.error(
+          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+        );
+      }
+    );
   }
 }

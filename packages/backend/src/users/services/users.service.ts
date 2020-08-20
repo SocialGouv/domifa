@@ -151,6 +151,10 @@ export class UsersService {
     return this.userModel.deleteOne({ _id: id }).exec();
   }
 
+  public async deleteAll(id: number): Promise<any> {
+    return this.userModel.deleteMany({ structureId: id }).exec();
+  }
+
   public async register(userDto: RegisterUserAdminDto): Promise<User> {
     const createdUser = new this.userModel(userDto);
 

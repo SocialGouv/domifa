@@ -1,7 +1,6 @@
-import { Controller, Get, UseGuards, Query } from "@nestjs/common";
+import { Controller, Get, UseGuards, Query, Delete } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
-import { regions } from "../../structures/regions.labels";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
 
 import { InteractionsService } from "../../interactions/interactions.service";

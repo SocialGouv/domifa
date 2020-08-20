@@ -18,11 +18,15 @@ export class MailJetService {
     const confirmationLink =
       this.configService.get("FRONT_URL") +
       "structures/confirm/" +
+      structure._id +
+      "/" +
       structure.token;
 
     const deleteLink =
       this.configService.get("FRONT_URL") +
       "structures/delete/" +
+      structure._id +
+      "/" +
       structure.token;
 
     return this.mailjet.post("send", { version: "v3.1" }).request({

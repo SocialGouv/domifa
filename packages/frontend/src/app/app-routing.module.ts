@@ -61,11 +61,11 @@ export const routes: Routes = [
   },
   {
     component: StructuresConfirmComponent,
-    path: "structures/confirm/:token",
+    path: "structures/confirm/:id/:token",
   },
   {
     component: StructuresConfirmComponent,
-    path: "structures/delete/:token",
+    path: "structures/delete/:id/:token",
   },
   {
     canActivate: [StructureGuard],

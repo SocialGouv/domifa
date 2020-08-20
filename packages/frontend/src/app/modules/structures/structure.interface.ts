@@ -2,6 +2,7 @@ import { User } from "../users/interfaces/user";
 
 export class Structure {
   public id: number;
+  public _id: string;
   public adresse: string;
 
   public capacite: number;
@@ -49,6 +50,7 @@ export class Structure {
     this.importDate = null;
     this.lastLogin = null;
 
+    this._id = (structure && structure._id) || null;
     this.id = (structure && structure.id) || 0;
     this.capacite = (structure && structure.capacite) || null;
     this.adresse = (structure && structure.adresse) || null;

@@ -26,9 +26,10 @@ export class StructuresConfirmComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Inscription sur Domifa");
-    const token = this.route.snapshot.url[2].path;
+    const id = this.route.snapshot.url[2].path;
+    const token = this.route.snapshot.url[3].path;
     if (this.route.snapshot.url[1].path === "delete") {
-      this.structureService.delete(token).subscribe(
+      this.structureService.delete(id, token).subscribe(
         (structure) => {
           this.successDelete = true;
         },
@@ -37,7 +38,7 @@ export class StructuresConfirmComponent implements OnInit {
         }
       );
     } else if (this.route.snapshot.url[1].path === "confirm") {
-      this.structureService.confirm(token).subscribe(
+      this.structureService.confirm(id, token).subscribe(
         (structure) => {
           this.successConfirm = true;
         },

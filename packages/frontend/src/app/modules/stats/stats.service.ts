@@ -116,4 +116,8 @@ export class StatsService {
       responseType: "blob",
     });
   }
+
+  public deleteStructure(structureId: string) {
+    return this.http.delete(environment.apiUrl + `structures/` + structureId);
+  }
 }

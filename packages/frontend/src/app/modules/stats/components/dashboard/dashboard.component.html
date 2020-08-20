@@ -155,6 +155,14 @@
           <td>
             {{ regions[structure.region] }}
           </td>
+          <td>
+            <button
+              class="btn btn-danger"
+              (click)="deleteStructure(structure._id)"
+            >
+              <fa-icon icon="trash"></fa-icon>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
