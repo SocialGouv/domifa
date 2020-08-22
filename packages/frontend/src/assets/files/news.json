@@ -1,5 +1,5 @@
 [
- {
+  {
     "date": "2020-08-24",
     "description": "Possibilité d’exporter les statistiques de votre structure !",
     "content": [
@@ -12,8 +12,10 @@
           "Possibilité d’ajouter une commune de rattachement sur la fiche d’un domicilié",
           "Possibilité d’annuler la réception ou la distribution d’un courrier/colis/avis de passage en cas d’erreur"
         ]
-      },
-  }
+      }
+    ]
+  },
+
   {
     "date": "2020-08-06",
     "description": "Une refonte de l’interface utilisateur ainsi qu’un nouveau rôle de gestionnaire !",
