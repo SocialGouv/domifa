@@ -215,11 +215,11 @@ export class StructuresController {
       } else {
         return res.status(HttpStatus.OK).json({ message: "ACCOUNT_DELETED" });
       }
+    } else {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "DELETED_STRUCTURE_CONFIRM_IMPOSSIBLE" });
     }
-
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: "DELETED_STRUCTURE_CONFIRM_IMPOSSIBLE" });
   }
 
   @UseGuards(AuthGuard("jwt"))
