@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger, HttpException } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import { Model, NativeError } from "mongoose";
 import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";

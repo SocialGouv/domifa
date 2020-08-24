@@ -26,6 +26,9 @@ import { StructuresService } from "./structures.service";
 import { DomifaGuard } from "../auth/guards/domifa.guard";
 import { TipimailService } from "../users/services/tipimail.service";
 
+import * as rimraf from "rimraf";
+import * as fs from "fs";
+
 @Controller("structures")
 export class StructuresController {
   constructor(
@@ -183,6 +186,8 @@ export class StructuresController {
     return this.structureService.updateRegions();
   }
 
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(DomifaGuard)
   @Delete("confirm/:id/:token")
   public async deleteOne(
     @Param("id") id: string,
@@ -199,24 +204,22 @@ export class StructuresController {
       await this.usagersService.deleteAll(structure.id);
       await this.interactionsService.deleteAll(structure.id);
       await this.structureService.delete(structure._id);
-      return res.status(HttpStatus.OK).json({ message: "Ok" });
+
+      const pathFile = process.env.UPLOADS_FOLDER + structure.id;
+      if (fs.existsSync(pathFile)) {
+        rimraf(pathFile, () => {
+          return res
+            .status(HttpStatus.OK)
+            .json({ message: "ALL_DATA_DELETED" });
+        });
+      } else {
+        return res.status(HttpStatus.OK).json({ message: "ACCOUNT_DELETED" });
+      }
     }
 
     return res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
       .json({ message: "DELETED_STRUCTURE_CONFIRM_IMPOSSIBLE" });
-
-    return true;
-
-    /* await this.usagersService.deleteAccount;
-    user.structureId;
-    await this.usersService.deleteAll(structure.id);
-    await this.usagersService.deleteAll(structure.id);
-    await this.interactionsService.deleteAll(structure.id);
-    return this.dashboardService.getRegions();
-
-    return this.structureService.delete(token);
-    */
   }
 
   @UseGuards(AuthGuard("jwt"))

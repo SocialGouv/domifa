@@ -8,6 +8,9 @@ import { StructureDto } from "./dto/structure.dto";
 import { Structure } from "./structure-interface";
 import { regions } from "./regions.labels";
 
+import * as fs from "fs";
+import * as path from "path";
+
 export interface StructureQuery {
   codePostal?: string;
   verified: boolean;

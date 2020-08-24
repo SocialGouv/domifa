@@ -32,6 +32,8 @@ import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { ConfigService } from "../../config/config.service";
 
+import Sentry = require("@sentry/node");
+
 @UseGuards(AuthGuard("jwt"))
 @Controller("docs")
 export class DocsController {
@@ -245,6 +247,10 @@ export class DocsController {
         try {
           fs.unlinkSync(pathFile);
         } catch (err) {
+          Sentry.configureScope((scope) => {
+            scope.setTag("file", pathFile);
+          });
+
           throw new HttpException(
             { message: "CANNOT_DELETE_FILE" },
             HttpStatus.INTERNAL_SERVER_ERROR
