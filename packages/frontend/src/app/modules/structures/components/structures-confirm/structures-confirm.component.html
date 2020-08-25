@@ -12,6 +12,7 @@
         Un mail vient d'être transmis à l'administrateur pour l'informer.
       </p>
     </div>
+
     <div *ngIf="successDelete">
       <fa-icon class="fa-4x text-success" icon="trash"></fa-icon>
       <br />
@@ -19,17 +20,64 @@
       <h3 class="text-success">Structure supprimée avec succès</h3>
       <p class="text-center"></p>
     </div>
+
+    <div *ngIf="confirmDelete">
+      <fa-icon class="text-warning fa-4x" icon="exclamation-triangle"></fa-icon>
+
+      <h4 class="text-warning">
+        Vous vous apprétez à supprimer définitivement la structure suivante :
+      </h4>
+
+      <p class="step_form text-center">
+        <b>{{ structure.nom }}</b
+        ><br />
+        {{ structure.adresse }}, {{ structure.codePostal }},
+        {{ structure.ville }}
+        <br />
+      </p>
+      <p class="font-weight-bold">
+        Si vous continuez, les données suivantes seront
+        <U>DÉFINITIVEMENT supprimées</U> : <br /><br />
+        - Tous les dossiers : demandes, domiciliés actifs, radiés, etc.<br />
+        - L'historique de toutes les décisions<br />
+        - Tous les fichiers uploadés<br />
+        - Tous les comptes utilisateurs<br />
+        - Toutes les interactions (courriers, appels, etc.)<br />
+      </p>
+      <br />
+      <div class="row">
+        <div class="form-group col-8 offset-2">
+          <label for=""
+            >Afin de confirmer la suppression, saisissez le nom de la
+            structure</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="nom"
+            id=""
+            placeholder="Entrez le nom de la structure"
+          />
+          <br />
+          <button class="btn btn-danger" (click)="confirm()">
+            Confirmer la suppression
+          </button>
+          <br />
+          <b class="text-danger">Cette action est irreversible</b>
+          <br />
+        </div>
+      </div>
+    </div>
+
     <div *ngIf="error">
       <fa-icon class="fa-4x text-danger" icon="times"></fa-icon>
       <br />
       <h3 class="text-danger">La structure n'a pas pu être validée</h3>
-      <p class="text-center">
-        Merci de vérifier le lien reçu par email.
-      </p>
+      <p class="text-center">Merci de vérifier le lien reçu par email.</p>
     </div>
     <a
       [routerLink]="['/']"
-      class="btn btn-primary"
+      class="btn btn-outline-primary"
       routerLinkActive="router-link-active"
     >
       Retour à l'accueil

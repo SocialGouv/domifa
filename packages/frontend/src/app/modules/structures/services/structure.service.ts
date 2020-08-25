@@ -68,8 +68,16 @@ export class StructureService {
     return this.http.get(`${this.endPoint}/confirm/${id}/${token}`);
   }
 
-  public delete(id: string, token: string): Observable<any> {
-    return this.http.delete(`${this.endPoint}/confirm/${id}/${token}`);
+  public delete(id: string, token: string, name: string): Observable<any> {
+    return this.http.delete(`${this.endPoint}/confirm/${id}/${token}/${name}`);
+  }
+
+  public deleteCheck(id: string, token: string): Observable<any> {
+    return this.http.delete(`${this.endPoint}/check/${id}/${token}`).pipe(
+      map((response) => {
+        return new Structure(response);
+      })
+    );
   }
 
   public validateEmail(email: string): Observable<any> {

@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
 import { Title } from "@angular/platform-browser";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-structures-confirm",
@@ -11,17 +12,29 @@ import { Title } from "@angular/platform-browser";
 })
 export class StructuresConfirmComponent implements OnInit {
   public successDelete: boolean;
+  public confirmDelete: boolean;
+
   public successConfirm: boolean;
+
   public error: boolean;
+  public errorDelete: boolean;
+
+  public nom: string;
+  public structure: Structure;
 
   constructor(
     private structureService: StructureService,
     private route: ActivatedRoute,
+    private notifService: ToastrService,
     private titleService: Title
   ) {
     this.successDelete = false;
     this.successConfirm = false;
+    this.confirmDelete = false;
     this.error = false;
+    this.errorDelete = false;
+
+    this.nom = null;
   }
 
   public ngOnInit() {
@@ -29,9 +42,10 @@ export class StructuresConfirmComponent implements OnInit {
     const id = this.route.snapshot.url[2].path;
     const token = this.route.snapshot.url[3].path;
     if (this.route.snapshot.url[1].path === "delete") {
-      this.structureService.delete(id, token).subscribe(
-        (structure) => {
-          this.successDelete = true;
+      this.structureService.deleteCheck(id, token).subscribe(
+        (structure: Structure) => {
+          this.structure = structure;
+          this.confirmDelete = true;
         },
         (error) => {
           this.error = true;
@@ -40,6 +54,7 @@ export class StructuresConfirmComponent implements OnInit {
     } else if (this.route.snapshot.url[1].path === "confirm") {
       this.structureService.confirm(id, token).subscribe(
         (structure) => {
+          this.structure = structure;
           this.successConfirm = true;
         },
         (error) => {
@@ -47,5 +62,21 @@ export class StructuresConfirmComponent implements OnInit {
         }
       );
     }
+  }
+
+  public confirm() {
+    const id = this.route.snapshot.url[2].path;
+    const token = this.route.snapshot.url[3].path;
+
+    this.structureService.delete(id, token, this.nom).subscribe(
+      (structure) => {
+        this.successDelete = true;
+        this.confirmDelete = false;
+        this.notifService.success("Suppression réussie");
+      },
+      (error) => {
+        this.notifService.error("Le nom saisi est incorrect");
+      }
+    );
   }
 }

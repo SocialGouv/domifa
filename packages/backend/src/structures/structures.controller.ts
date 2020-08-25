@@ -188,14 +188,16 @@ export class StructuresController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(DomifaGuard)
-  @Delete("confirm/:id/:token")
+  @Delete("confirm/:id/:token/:nom")
   public async deleteOne(
     @Param("id") id: string,
     @Param("token") token: string,
+    @Param("nom") nom: string,
     @Response() res: any
   ) {
     const structure = await this.structureService.findOneBasic({
       token,
+      nom,
       _id: id,
     });
 
@@ -217,9 +219,29 @@ export class StructuresController {
       }
     } else {
       return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DELETED_STRUCTURE_CONFIRM_IMPOSSIBLE" });
     }
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(DomifaGuard)
+  @Delete("check/:id/:token")
+  public async checkDelete(
+    @Param("id") id: string,
+    @Param("token") token: string
+  ) {
+    const structure = await this.structureService.findOneBasic({
+      token,
+      _id: id,
+    });
+    if (!structure || structure === null) {
+      throw new HttpException(
+        "HARD_RESET_INCORRECT_TOKEN",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+    return structure;
   }
 
   @UseGuards(AuthGuard("jwt"))
