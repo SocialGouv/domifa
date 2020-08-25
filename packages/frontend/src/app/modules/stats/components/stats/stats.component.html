@@ -22,6 +22,85 @@
       {{ showCalendar ? "Masquer" : "Afficher" }} le calendrier
     </button>
   </div>
+
+  <div class="row">
+    <div class="form-group col-md-6 required">
+      <label for="dateDebutValide">Date de début</label>
+      <div class="input-group">
+        <input
+          class="form-control"
+          placeholder="jj/mm/aaaa"
+          [minDate]="minDate"
+          [maxDate]="maxDate"
+          placement="bottom"
+          ngbDatepicker
+          id="dateDebutValide"
+          [(ngModel)]="fromDate"
+          #dDebut="ngbDatepicker"
+          #ca="ngModel"
+          dateFr
+          value
+          [ngClass]="{
+            'is-invalid': ca.status === 'INVALID'
+          }"
+          maxlength="10"
+          required
+        />
+        <div class="input-group-append">
+          <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
+            <fa-icon icon="calendar"></fa-icon>
+          </span>
+        </div>
+      </div>
+      <div class="invalid-feedback">
+        La date de début de domiciliation est incorrecte
+      </div>
+    </div>
+    <div class="form-group col-md-6 required">
+      <label for="dateFinValide">Date de fin</label>
+      <div class="input-group">
+        <input
+          class="form-control"
+          placeholder="jj/mm/aaaa"
+          [minDate]="minDate"
+          [maxDate]="maxDate"
+          placement="bottom"
+          ngbDatepicker
+          [(ngModel)]="toDate"
+          #dFin="ngbDatepicker"
+          #cb="ngModel"
+          dateFr
+          id="dateFinValide"
+          value
+          maxlength="10"
+          required
+        />
+        <div class="input-group-append">
+          <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+            <fa-icon icon="calendar"></fa-icon>
+          </span>
+        </div>
+      </div>
+
+      <input
+        type="hidden"
+        formControlName="dateDebut"
+        class="form-control"
+        value
+      />
+      <input
+        type="hidden"
+        formControlName="dateFin"
+        class="form-control"
+        value
+      />
+    </div>
+    <div class="text-center text-danger col-12">
+      <div *ngIf="ca.status === 'INVALID'">La date de début est incorrecte</div>
+      <div *ngIf="ca.status === 'INVALID'">La date de fin est incorrecte</div>
+    </div>
+  </div>
+
   <div class="col-md-12 text-left" *ngIf="showCalendar">
     <ngb-datepicker
       #dp
@@ -249,9 +328,7 @@
         </ng-container>
 
         <tr>
-          <td class="font-weight-bold" colspan="2">
-            Situation résidentielle
-          </td>
+          <td class="font-weight-bold" colspan="2">Situation résidentielle</td>
         </tr>
         <tr *ngFor="let decision of labels.residence | keyvalue">
           <td class="soustable">{{ decision.value }}</td>

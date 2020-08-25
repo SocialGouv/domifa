@@ -42,6 +42,7 @@ describe("StructuresConfirmComponent", () => {
                 new UrlSegment("confirm", {}),
                 new UrlSegment("1", {}),
                 new UrlSegment("qzzjjdizdizjdijzijd", {}),
+                new UrlSegment("1OOPKPOk", {}),
               ],
             },
           },
