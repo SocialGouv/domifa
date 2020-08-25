@@ -57,7 +57,7 @@ export class RapportComponent implements OnInit {
     this.interactionsLabels = interactionsLabels;
 
     this.start = new Date();
-    this.start.setDate(this.start.getDate() - 2);
+    this.start.setDate(this.start.getDate() - 1);
 
     this.end = null;
 
