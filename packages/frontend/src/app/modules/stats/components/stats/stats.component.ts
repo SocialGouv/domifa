@@ -45,8 +45,8 @@ export class StatsComponent implements OnInit {
   public minDate: NgbDate;
   public maxDate: NgbDate;
 
-  public fromDate: NgbDateStruct;
-  public toDate: NgbDateStruct | null = null;
+  public fromDate: NgbDate;
+  public toDate: NgbDate | null = null;
 
   constructor(
     public statsService: StatsService,
@@ -149,31 +149,16 @@ export class StatsComponent implements OnInit {
   }
 
   public compare() {
+    this.start = new Date(this.formatter.formatEn(this.fromDate));
+    this.end =
+      this.toDate !== null
+        ? new Date(this.formatter.formatEn(this.toDate))
+        : null;
+
     this.statsService
       .getStats(this.start, this.end)
       .subscribe((response: Stats) => {
         this.stats = response;
       });
-  }
-
-  public onDateSelection(date: NgbDate) {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-      this.start = new Date(this.formatter.formatEn(date));
-    } else if (
-      this.fromDate &&
-      !this.toDate &&
-      date &&
-      date.after(this.fromDate)
-    ) {
-      this.toDate = date;
-      this.end = new Date(this.formatter.formatEn(date));
-    } else {
-      this.toDate = null;
-      this.end = null;
-      this.fromDate = date;
-      this.start = new Date(this.formatter.formatEn(date));
-    }
-    this.compare();
   }
 }

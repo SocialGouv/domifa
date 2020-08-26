@@ -78,4 +78,18 @@ export class StatsService {
     }
     return stats;
   }
+
+  public async getFirstStat(structureId: number): Promise<Stats> {
+    const stats = await this.statsModel
+      .findOne({
+        structureId,
+      })
+      .sort({ createdAt: 1 })
+      .exec();
+
+    if (!stats || stats === null) {
+      throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
+    }
+    return stats;
+  }
 }

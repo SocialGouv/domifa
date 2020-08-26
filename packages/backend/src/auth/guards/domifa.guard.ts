@@ -12,6 +12,7 @@ export class DomifaGuard implements CanActivate {
     }
     const request = context.switchToHttp().getRequest();
     const user = request.user;
+
     return (
       user &&
       user.role === "admin" &&

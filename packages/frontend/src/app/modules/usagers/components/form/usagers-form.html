@@ -104,9 +104,7 @@
               id="homme"
               value="homme"
             />
-            <label class="form-check-label" for="homme">
-              Monsieur
-            </label>
+            <label class="form-check-label" for="homme"> Monsieur </label>
           </div>
           <div class="form-check form-check-inline">
             <input
@@ -116,9 +114,7 @@
               id="femme"
               value="femme"
             />
-            <label class="form-check-label" for="femme">
-              Madame
-            </label>
+            <label class="form-check-label" for="femme"> Madame </label>
           </div>
         </div>
         <div class="row">
@@ -128,6 +124,7 @@
               type="text"
               class="form-control"
               id="nom"
+              cleanStr
               formControlName="nom"
               (blur)="isDoublon()"
               placeholder="Précisez nom de naissance si nécessaire"
@@ -150,6 +147,7 @@
               type="text"
               class="form-control"
               id="prenom"
+              cleanStr
               formControlName="prenom"
               (blur)="isDoublon()"
               placeholder="Prénom(s) du demandeur"
@@ -168,6 +166,7 @@
               type="text"
               class="form-control"
               id="surnom"
+              cleanStr
               formControlName="surnom"
               placeholder="Nom d'usage / Surnom"
               [ngClass]="{ 'is-invalid': submitted && f.surnom.errors }"
@@ -362,9 +361,7 @@
           >
             <fa-icon icon="exclamation-triangle"></fa-icon>
             &nbsp; Pour envoyer les notifications par SMS,
-            <b>
-              veuillez indiquer un numéro de téléphone
-            </b>
+            <b> veuillez indiquer un numéro de téléphone </b>
           </ngb-alert>
         </div>
         <div class="row">
@@ -495,9 +492,7 @@
                 </select>
               </div>
               <div class="col-md-1">
-                <label for class="text-white">
-                  c
-                </label>
+                <label for class="text-white"> c </label>
                 <div>
                   <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
                     <fa-icon icon="trash"></fa-icon>
@@ -683,14 +678,10 @@
             <br />
             <br />
             Le
-            <b>
-              {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }}
-            </b>
+            <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
             <br />
             à
-            <b>
-              {{ usager.rdv.dateRdv | date: "HH:mm" }}
-            </b>
+            <b> {{ usager.rdv.dateRdv | date: "HH:mm" }} </b>
             <br />
             avec
             <b>{{ usager.rdv.userName }}</b>
@@ -740,9 +731,7 @@
     <!-- ///////// -->
     <div class="step_form" id="step_form3" *ngIf="usager.etapeDemande === 3">
       <div class="text-center">
-        <h5 class="title">
-          Pièces justificatives complétant le dossier
-        </h5>
+        <h5 class="title">Pièces justificatives complétant le dossier</h5>
         <br />
         Cette étape est optionnelle, rien ne vous oblige à enregistrer des
         pièces justificatives.
@@ -788,9 +777,7 @@
             </tr>
             <tr *ngFor="let document of usager.docs; let indexDocs = index">
               <td>{{ document.label }}</td>
-              <td>
-                {{ document.createdAt | date: "dd/MM/yyyy" }}
-              </td>
+              <td>{{ document.createdAt | date: "dd/MM/yyyy" }}</td>
               <td>{{ document.createdBy }}</td>
               <td>
                 <button

@@ -134,8 +134,14 @@ export class StatsController {
   }
 
   private async parsePostData(user: User, statsDto: StatsDto): Promise<Stats> {
+    let A: Stats = await this.statsService.getFirstStat(user.structureId);
+
     const start = moment(new Date(statsDto.start)).add(1, "days").toDate();
-    const A: Stats = await this.statsService.getByDate(user.structureId, start);
+
+    // Vérification : on récupère le premier fichier de stat
+    if (A.date < start) {
+      A = await this.statsService.getByDate(user.structureId, start);
+    }
 
     if (statsDto.end) {
       const end = moment(new Date(statsDto.end)).add(1, "days").toDate();
