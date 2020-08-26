@@ -12,6 +12,7 @@ import {
   NgbCalendar,
   NgbDatepickerI18n,
   NgbDateParserFormatter,
+  NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
@@ -23,7 +24,7 @@ import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-frenc
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-stats",
-  styleUrls: ["../rapport/rapport.component.css"],
+  styleUrls: ["../rapport/rapport.component.css", "./stats.component.css"],
   templateUrl: "./stats.component.html",
 })
 export class StatsComponent implements OnInit {
@@ -44,8 +45,8 @@ export class StatsComponent implements OnInit {
   public minDate: NgbDate;
   public maxDate: NgbDate;
 
-  public fromDate: NgbDate;
-  public toDate: NgbDate | null = null;
+  public fromDate: NgbDateStruct;
+  public toDate: NgbDateStruct | null = null;
 
   constructor(
     public statsService: StatsService,
@@ -59,7 +60,7 @@ export class StatsComponent implements OnInit {
     this.interactionsLabels = interactionsLabels;
 
     const dateStart = new Date();
-    dateStart.setDate(dateStart.getDate() - 2);
+    dateStart.setDate(dateStart.getDate() - 1);
 
     this.start = null;
     this.end = null;
@@ -74,9 +75,9 @@ export class StatsComponent implements OnInit {
       dateStart.getMonth() + 1,
       dateStart.getDate()
     );
-    this.minDate = new NgbDate(2020, 6, 1);
+    this.minDate = new NgbDate(2020, 1, 1);
 
-    this.toDate = this.maxDate;
+    this.toDate = null;
     this.fromDate = this.maxDate;
   }
 
@@ -174,38 +175,5 @@ export class StatsComponent implements OnInit {
       this.start = new Date(this.formatter.formatEn(date));
     }
     this.compare();
-  }
-
-  public isHovered(date: NgbDate) {
-    return (
-      this.fromDate &&
-      !this.toDate &&
-      this.hoveredDate &&
-      date.after(this.fromDate) &&
-      date.before(this.hoveredDate)
-    );
-  }
-
-  public isInside(date: NgbDate) {
-    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-  }
-
-  public isRange(date: NgbDate) {
-    return (
-      date.equals(this.fromDate) ||
-      (this.toDate && date.equals(this.toDate)) ||
-      this.isInside(date) ||
-      this.isHovered(date)
-    );
-  }
-
-  public validateInput(
-    currentValue: NgbDate | null,
-    input: string
-  ): NgbDate | null {
-    const parsed = this.formatter.parse(input);
-    return parsed && this.calendar.isValid(NgbDate.from(parsed))
-      ? NgbDate.from(parsed)
-      : currentValue;
   }
 }

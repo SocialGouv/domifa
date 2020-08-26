@@ -9,6 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule } from "ngx-matomo";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { StatsComponent } from "./stats.component";
+import { FormsModule } from "@angular/forms";
 
 describe("StatsComponent", () => {
   let component: StatsComponent;
@@ -23,6 +24,7 @@ describe("StatsComponent", () => {
         HttpClientTestingModule,
         MatomoModule,
         NgbModule,
+        FormsModule,
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

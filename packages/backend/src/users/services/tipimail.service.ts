@@ -4,7 +4,6 @@ import {
   Inject,
   HttpStatus,
   HttpException,
-  UseFilters,
 } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { Model } from "mongoose";
@@ -12,6 +11,7 @@ import * as moment from "moment";
 
 import { Structure } from "../../structures/structure-interface";
 import { User } from "../user.interface";
+import { Usager } from "../../usagers/interfaces/usagers";
 
 @Injectable()
 export class TipimailService {
@@ -37,7 +37,7 @@ export class TipimailService {
 
   @Cron("0 8 * * TUE")
   public async cronGuide() {
-    if (process.env.FRONT_URL !== "http://domifa.fabrique.social.gouv.fr/") {
+    if (process.env.FRONT_URL !== "https://domifa.fabrique.social.gouv.fr/") {
       return;
     }
 
@@ -132,7 +132,7 @@ export class TipimailService {
 
   @Cron("0 15 * * TUE")
   public async cronImport() {
-    if (process.env.FRONT_URL !== "http://domifa.fabrique.social.gouv.fr/") {
+    if (process.env.FRONT_URL !== "https://domifa.fabrique.social.gouv.fr/") {
       return;
     }
     this.listOfStructures = [];
@@ -298,6 +298,7 @@ export class TipimailService {
         }
       );
   }
+
   public async registerConfirm(user: User) {
     const lien =
       process.env.FRONT_URL + "reset-password/" + user.tokens.password;
@@ -306,6 +307,63 @@ export class TipimailService {
         {
           address: user.email,
           personalName: user.nom + " " + user.prenom,
+        },
+      ],
+      headers: {
+        "X-TM-TEMPLATE": "creation-compte",
+        "X-TM-SUB": [
+          {
+            email: user.email,
+            values: {
+              prenom: user.prenom,
+              lien,
+            },
+            meta: {},
+          },
+        ],
+      },
+      msg: {
+        from: {
+          personalName: "Domifa",
+          address: "contact.domifa@diffusion.social.gouv.fr",
+        },
+        replyTo: {
+          personalName: "Domifa",
+          address: "contact.domifa@fabrique.social.gouv.fr",
+        },
+        subject: "Subject",
+        html: "<p>Test</p>",
+      },
+    };
+
+    this.httpService
+      .post("https://api.tipimail.com/v1/messages/send", post, {
+        headers: {
+          "X-Tipimail-ApiUser": process.env.SMTP_USER,
+          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+        },
+      })
+      .subscribe(
+        (retour: any) => {
+          return true;
+        },
+        (erreur: any) => {
+          throw new HttpException(
+            "MAIL_CONFIRMATION_CREATION_ADMIN",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      );
+  }
+
+  public async entretienICS(user: User, usager: Usager) {
+    const lien =
+      process.env.FRONT_URL + "reset-password/" + user.tokens.password;
+    const post = {
+      to: [
+        {
+          address: "yassine.riffi@fabrique.social.gouv.fr",
+          personalName: "TEST",
         },
       ],
       headers: {

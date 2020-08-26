@@ -13,6 +13,7 @@ import {
 } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { StructuresConfirmComponent } from "./structures-confirm.component";
+import { ToastrModule } from "ngx-toastr";
 
 describe("StructuresConfirmComponent", () => {
   let component: StructuresConfirmComponent;
@@ -29,6 +30,7 @@ describe("StructuresConfirmComponent", () => {
         HttpClientModule,
         HttpClientTestingModule,
         RouterModule.forRoot([]),
+        ToastrModule.forRoot(),
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: "/" },

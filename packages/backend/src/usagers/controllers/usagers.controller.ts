@@ -336,13 +336,6 @@ export class UsagersController {
       });
   }
 
-  // AGENDA des rendez-vous
-  @UseGuards(AuthGuard("jwt"))
-  @Get("agenda")
-  public async agenda(@CurrentUser() user: User) {
-    return this.usagersService.agenda(user);
-  }
-
   @UseGuards(AccessGuard)
   @Get(":id")
   public async findOne(@CurrentUsager() usager: Usager) {

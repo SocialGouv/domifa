@@ -1,130 +1,100 @@
-<div class="container text-left row">
-  <div class="col-md-12">
-    <br />
-    <h1>Statistiques</h1>
-    <br />
-    <div>
-      Découvrez l'évolution de l'activité de votre structure : interactions,
-      nombre de domiciliés, répartition par ménage. Pour cela, il vous suffit de
-      choisir dans le petit calendrier ci-dessous les périodes dont vous
-      souhaitez voir les statistiques.
-    </div>
-  </div>
-
-  <div class="col-md-12">
-    <br />
-
-    <button
-      class="btn btn-outline-primary"
-      (click)="showCalendar = !showCalendar"
-    >
-      <fa-icon icon="calendar" class="btn-icon"></fa-icon>
-      {{ showCalendar ? "Masquer" : "Afficher" }} le calendrier
-    </button>
-  </div>
-
+<div class="container text-left">
   <div class="row">
-    <div class="form-group col-md-6 required">
-      <label for="dateDebutValide">Date de début</label>
-      <div class="input-group">
-        <input
-          class="form-control"
-          placeholder="jj/mm/aaaa"
-          [minDate]="minDate"
-          [maxDate]="maxDate"
-          placement="bottom"
-          ngbDatepicker
-          id="dateDebutValide"
-          [(ngModel)]="fromDate"
-          #dDebut="ngbDatepicker"
-          #ca="ngModel"
-          dateFr
-          value
-          [ngClass]="{
-            'is-invalid': ca.status === 'INVALID'
-          }"
-          maxlength="10"
-          required
-        />
-        <div class="input-group-append">
-          <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
-            <fa-icon icon="calendar"></fa-icon>
-          </span>
-        </div>
+    <div class="col-md-12">
+      <br />
+      <h1>Statistiques</h1>
+      <br />
+      <div>
+        Découvrez l'évolution de l'activité de votre structure : interactions,
+        nombre de domiciliés, répartition par ménage. Pour cela, il vous suffit
+        de choisir dans le petit calendrier ci-dessous les périodes dont vous
+        souhaitez voir les statistiques.
       </div>
-      <div class="invalid-feedback">
-        La date de début de domiciliation est incorrecte
-      </div>
-    </div>
-    <div class="form-group col-md-6 required">
-      <label for="dateFinValide">Date de fin</label>
-      <div class="input-group">
-        <input
-          class="form-control"
-          placeholder="jj/mm/aaaa"
-          [minDate]="minDate"
-          [maxDate]="maxDate"
-          placement="bottom"
-          ngbDatepicker
-          [(ngModel)]="toDate"
-          #dFin="ngbDatepicker"
-          #cb="ngModel"
-          dateFr
-          id="dateFinValide"
-          value
-          maxlength="10"
-          required
-        />
-        <div class="input-group-append">
-          <span class="btn btn-outline-primary" (click)="dFin.toggle()">
-            <fa-icon icon="calendar"></fa-icon>
-          </span>
-        </div>
-      </div>
-
-      <input
-        type="hidden"
-        formControlName="dateDebut"
-        class="form-control"
-        value
-      />
-      <input
-        type="hidden"
-        formControlName="dateFin"
-        class="form-control"
-        value
-      />
-    </div>
-    <div class="text-center text-danger col-12">
-      <div *ngIf="ca.status === 'INVALID'">La date de début est incorrecte</div>
-      <div *ngIf="ca.status === 'INVALID'">La date de fin est incorrecte</div>
     </div>
   </div>
+  <br />
+  <br />
+  <div class="row">
+    <div class="col-3">
+      <div class="form-group required">
+        <div class="input-group">
+          <label class="control-label">Du </label>
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            [minDate]="minDate"
+            [maxDate]="maxDate"
+            placement="bottom"
+            ngbDatepicker
+            id="dateDebutValide"
+            [(ngModel)]="fromDate"
+            #dDebut="ngbDatepicker"
+            #ca="ngModel"
+            dateFr
+            value
+            [ngClass]="{
+              'is-invalid': ca.status === 'INVALID'
+            }"
+            maxlength="10"
+            required
+          />
+          <div class="input-group-append">
+            <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
+              <fa-icon icon="calendar"></fa-icon>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="text-danger" *ngIf="ca.status === 'INVALID'">
+        La date de début est incorrecte
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="control-label" for="dateFinValide"> au </label>
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            [minDate]="minDate"
+            [maxDate]="maxDate"
+            placement="bottom"
+            ngbDatepicker
+            [(ngModel)]="toDate"
+            #dFin="ngbDatepicker"
+            #cb="ngModel"
+            dateFr
+            id="dateFinValide"
+            value
+            [ngClass]="{
+              'is-invalid': cb.status === 'INVALID'
+            }"
+            maxlength="10"
+          />
+          <div class="input-group-append">
+            <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+              <fa-icon icon="calendar"></fa-icon>
+            </span>
+          </div>
+        </div>
+      </div>
 
-  <div class="col-md-12 text-left" *ngIf="showCalendar">
-    <ngb-datepicker
-      #dp
-      (dateSelect)="onDateSelection($event)"
-      [displayMonths]="2"
-      [dayTemplate]="t"
-      [maxDate]="maxDate"
-      [minDate]="minDate"
-      outsideDays="hidden"
-    >
-    </ngb-datepicker>
-
-    <ng-template #t let-date let-focused="focused">
-      <span
-        class="custom-day"
-        [class.focused]="focused"
-        [class.range]="isRange(date)"
-        [class.faded]="isHovered(date) || isInside(date)"
-        (mouseenter)="hoveredDate = date"
-        (mouseleave)="hoveredDate = null"
-      >
-        {{ date.day }}
-      </span>
-    </ng-template>
+      <div class="text-center text-danger" *ngIf="cb.status === 'INVALID'">
+        La date de fin est incorrecte
+      </div>
+    </div>
+    <div class="col-3 form-group">
+      <div class="input-group">
+        <button
+          class="btn btn-primary"
+          [disabled]="ca.status === 'INVALID' || cb.status === 'INVALID'"
+          (click)="compare()"
+        >
+          <fa-icon icon="sync-alt" class="btn-icon"></fa-icon>
+          Actualiser les statistiques
+        </button>
+      </div>
+    </div>
   </div>
 
   <!--

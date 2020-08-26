@@ -14,12 +14,14 @@ import { SearchController } from "./controllers/search.controller";
 import { StatsModule } from "../stats/stats.module";
 import { DocsController } from "./controllers/docs.controller";
 import { ExportController } from "./controllers/export.controller";
+import { AgendaController } from "./controllers/agenda.controller";
 
 @Module({
   controllers: [
     UsagersController,
     ImportController,
     SearchController,
+    AgendaController,
     DocsController,
     ExportController,
   ],

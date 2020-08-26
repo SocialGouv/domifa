@@ -110,7 +110,17 @@ export class UsersService {
   }
 
   public agenda(): Observable<Usager[] | []> {
-    return this.http.get(`${environment.apiUrl}usagers/agenda`).pipe(
+    return this.http.get(`${environment.apiUrl}agenda`).pipe(
+      map((response) => {
+        return Array.isArray(response)
+          ? response.map((item) => new Usager(item))
+          : [new Usager(response)];
+      })
+    );
+  }
+
+  public getIcs(): Observable<Usager[] | []> {
+    return this.http.get(`${environment.apiUrl}agenda`).pipe(
       map((response) => {
         return Array.isArray(response)
           ? response.map((item) => new Usager(item))
