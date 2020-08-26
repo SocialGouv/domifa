@@ -28,7 +28,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
-    "@schematics/angular": "^9.1.9",
+    "@schematics/angular": "^10.0.7",
     "@types/file-saver": "^2.0.1",
     "@types/jwt-decode": "^2.2.1",
     "add": "^2.0.6",
@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.901.9",
-    "@angular/cli": "^9.1.9",
+    "@angular/cli": "^10.0.7",
     "@angular/compiler-cli": "^9.1.11",
     "@angular/language-service": "^9.1.11",
     "@schematics/update": "^0.901.9",
