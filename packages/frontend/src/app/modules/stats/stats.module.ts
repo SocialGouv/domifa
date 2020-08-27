@@ -4,7 +4,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterModule } from "@angular/router";
+
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
@@ -15,11 +15,12 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { RapportComponent } from "./components/rapport/rapport.component";
 import { StatsService } from "./stats.service";
 import { StatsComponent } from "./components/stats/stats.component";
+import { StatsRoutingModule } from "./stats-routing.module";
 
 @NgModule({
   declarations: [DashboardComponent, RapportComponent, StatsComponent],
-  exports: [DashboardComponent],
   imports: [
+    StatsRoutingModule,
     UsersModule,
     StructuresModule,
     CommonModule,
@@ -27,7 +28,6 @@ import { StatsComponent } from "./components/stats/stats.component";
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
-    RouterModule.forRoot([]),
     ToastrModule.forRoot({
       enableHtml: true,
       positionClass: "toast-top-full-width",

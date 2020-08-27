@@ -43,7 +43,9 @@ export class StatsComponent implements OnInit {
   public hoveredDate: NgbDate | null = null;
 
   public minDate: NgbDate;
+  public minDateFin: NgbDate;
   public maxDate: NgbDate;
+  public maxDateFin: NgbDate;
 
   public fromDate: NgbDate;
   public toDate: NgbDate | null = null;
@@ -76,6 +78,13 @@ export class StatsComponent implements OnInit {
       dateStart.getDate()
     );
     this.minDate = new NgbDate(2020, 1, 1);
+
+    this.maxDateFin = new NgbDate(
+      dateStart.getFullYear(),
+      dateStart.getMonth() + 1,
+      dateStart.getDate()
+    );
+    this.minDateFin = new NgbDate(2020, 1, 2);
 
     this.toDate = null;
     this.fromDate = this.maxDate;
@@ -118,6 +127,15 @@ export class StatsComponent implements OnInit {
         this.exportLoading = false;
       }
     );
+  }
+
+  public changeStart(newDate: NgbDate) {
+    console.log(newDate);
+    this.minDateFin = newDate;
+  }
+
+  public changeEnd(newDate: NgbDate) {
+    console.log(newDate);
   }
 
   public export() {

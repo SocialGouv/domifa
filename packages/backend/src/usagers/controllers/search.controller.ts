@@ -52,7 +52,7 @@ export class SearchController {
     const sortValues: {
       [key: string]: {};
     } = {
-      az: { nom: "ascending" },
+      az: { nom: "ascending", prenom: "ascending" },
       domiciliation: { "decision.dateDebut": "ascending" },
       radiation: { "decision.dateFin": "descending" },
       za: { nom: "descending" },
@@ -73,7 +73,9 @@ export class SearchController {
       TROIS_MOIS: { $lte: lastThreeMonths },
     };
 
-    sort = query.sort ? (sort = sortValues[query.sort]) : { nom: "ascending" };
+    sort = query.sort
+      ? (sort = sortValues[query.sort])
+      : { nom: "ascending", prenom: "ascending" };
 
     /* ID DE LA STRUCTURE DE LUSER */
     if (query.name) {

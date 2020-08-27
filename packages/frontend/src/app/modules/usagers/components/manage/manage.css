@@ -151,6 +151,7 @@ tbody th:first-child {
 tbody td:nth-child(2),
 tbody th:nth-child(2) {
   min-width: 220px;
+  max-width: 420px;
 }
 
 tbody td:last-child,
@@ -160,6 +161,7 @@ tbody th:last-child {
   text-align: right;
   border-radius: 0 4px 4px 0;
   min-width: 200px;
+  max-width: 400px;
 }
 tbody td:last-child span,
 tbody th:last-child span {

@@ -129,7 +129,7 @@ export const routes: Routes = [
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
-    component: RapportComponent,
+    component: StatsComponent,
     path: "rapport-activite",
   },
   {

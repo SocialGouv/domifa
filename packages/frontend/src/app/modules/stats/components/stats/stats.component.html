@@ -29,9 +29,11 @@
             placement="bottom"
             ngbDatepicker
             id="dateDebutValide"
+            outsideDays="hidden"
             [(ngModel)]="fromDate"
             #dDebut="ngbDatepicker"
             #ca="ngModel"
+            (dateSelect)="changeStart($event)"
             dateFr
             value
             ngModel
@@ -59,19 +61,22 @@
           <input
             class="form-control"
             placeholder="jj/mm/aaaa"
-            [minDate]="minDate"
-            [maxDate]="maxDate"
+            [minDate]="minDateFin"
+            [maxDate]="maxDateFin"
             placement="bottom"
             ngbDatepicker
             [(ngModel)]="toDate"
             #dFin="ngbDatepicker"
+            (dateSelect)="changeEnd($event)"
             #cb="ngModel"
             dateFr
             ngModel
+            [readonly]="ca.status === 'INVALID'"
             id="dateFinValide"
             value
             [ngClass]="{
-              'is-invalid': cb.status === 'INVALID'
+              'is-invalid': cb.status === 'INVALID',
+              disabled: ca.status === 'INVALID'
             }"
             maxlength="10"
           />
@@ -130,6 +135,8 @@
         {{ start | date: "dd/MM/yyyy" }}
       </span>
     </h4>
+    Astuce: pour avoir des statistiques sur une date précise, la date de fin
+    sera prise en compte
     <div class="rapport-part">
       <table class="table table-hover">
         <tbody>
@@ -243,6 +250,10 @@
         {{ start | date: "dd/MM/yyyy" }}
       </span>
     </h4>
+    <p>
+      Astuce: pour avoir des statistiques sur une date précise, la date de fin
+      sera prise en compte
+    </p>
     <div class="rapport-part">
       <table class="table table-hover">
         <tbody>
@@ -314,7 +325,7 @@
 
     <br />
     <h4>
-      Total des interactions
+      3. Total des interactions
       <span *ngIf="end !== null">
         du {{ start | date: "dd/MM/yyyy" }} au
         {{ end | date: "dd/MM/yyyy" }}
