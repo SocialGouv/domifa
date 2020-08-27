@@ -87,7 +87,7 @@ export class StatsComponent implements OnInit {
     this.minDateFin = new NgbDate(2020, 1, 2);
 
     this.toDate = null;
-    this.fromDate = this.maxDate;
+    this.fromDate = this.minDate;
   }
 
   public ngOnInit() {
