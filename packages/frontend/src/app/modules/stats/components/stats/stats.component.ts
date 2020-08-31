@@ -91,7 +91,7 @@ export class StatsComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.titleService.setTitle("Rapport d'activité annuel");
+    this.titleService.setTitle("Rapport d'activité de votre structure");
 
     // this.compare();
 
@@ -130,13 +130,10 @@ export class StatsComponent implements OnInit {
   }
 
   public changeStart(newDate: NgbDate) {
-    console.log(newDate);
     this.minDateFin = newDate;
   }
 
-  public changeEnd(newDate: NgbDate) {
-    console.log(newDate);
-  }
+  public changeEnd(newDate: NgbDate) {}
 
   public export() {
     this.exportLoading = true;

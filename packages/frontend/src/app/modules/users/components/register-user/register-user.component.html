@@ -58,9 +58,7 @@
 <div class="step_form" *ngIf="!success">
   <div class="text-center">
     <div *ngIf="!structureChild">
-      <h5 class="title">
-        Vous pouvez désormais créer votre compte
-      </h5>
+      <h5 class="title">Vous pouvez désormais créer votre compte</h5>
     </div>
     <div *ngIf="structureChild">
       <h5 class="title">
@@ -82,6 +80,7 @@
           type="text"
           class="form-control"
           id="nom"
+          cleanStr
           formControlName="nom"
           [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
           required
@@ -98,6 +97,7 @@
           type="text"
           class="form-control"
           id="prenom"
+          cleanStr
           formControlName="prenom"
           [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
           required

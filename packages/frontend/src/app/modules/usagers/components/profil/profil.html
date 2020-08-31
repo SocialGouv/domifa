@@ -505,6 +505,7 @@
                 type="text"
                 class="form-control"
                 id="nom"
+                cleanStr
                 formControlName="nom"
                 placeholder="Précisez nom de naissance si nécessaire"
                 [ngClass]="{ 'is-invalid': f.nom.errors }"
@@ -526,6 +527,7 @@
                 type="text"
                 class="form-control"
                 id="prenom"
+                cleanStr
                 formControlName="prenom"
                 placeholder="Prénom(s) du demandeur"
                 [ngClass]="{ 'is-invalid': f.prenom.errors }"
@@ -548,6 +550,7 @@
                 type="text"
                 class="form-control"
                 id="surnom"
+                cleanStr
                 formControlName="surnom"
                 placeholder="Nom d'usage / Surnom"
                 [ngClass]="{ 'is-invalid': f.surnom.errors }"
@@ -729,6 +732,7 @@
                   <input
                     id="nom_{{i}}"
                     type="text"
+                    cleanStr
                     class="form-control"
                     formControlName="nom"
                     [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('nom').errors }"
@@ -747,6 +751,7 @@
                     type="text"
                     id="prennom_{{i}}"
                     class="form-control"
+                    cleanStr
                     formControlName="prenom"
                     [ngClass]="{  'is-invalid': submitted && ayantsDroits.controls[i].get('prenom').errors  }"
                     placeholder="Prénom"
@@ -788,9 +793,7 @@
                   </select>
                 </div>
                 <div class="col-md-1">
-                  <label for class="text-white">
-                    c
-                  </label>
+                  <label for class="text-white"> c </label>
                   <div>
                     <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
                       <fa-icon icon="trash" class="btn-icon"></fa-icon>
@@ -891,9 +894,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>
-                {{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}
-              </td>
+              <td>{{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}</td>
               <td>
                 <span *ngIf="usager.decision.statut !== 'VALIDE'">
                   {{ labels.decision[usager.decision.statut] }}
@@ -906,13 +907,9 @@
                     Renouvellement de domiciliation
                   </span>
                   du
-                  <b>
-                    {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
-                  </b>
+                  <b> {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }} </b>
                   au
-                  <b>
-                    {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}}
-                  </b>
+                  <b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}} </b>
                 </span>
                 <b *ngIf="usager.decision.statut === 'RADIE'"
                   >- {{ usager.decision.motif }}</b
@@ -922,22 +919,16 @@
               <td></td>
             </tr>
             <tr *ngFor="let histo of usager.historique">
-              <td>
-                {{ histo.dateDecision | date: 'dd/MM/yyyy'}}
-              </td>
+              <td>{{ histo.dateDecision | date: 'dd/MM/yyyy'}}</td>
               <td>
                 {{ labels.decision[histo.statut] }}
                 <span *ngIf="histo.statut === 'VALIDE'">
                   du
-                  <b>
-                    {{ histo.dateDebut | date: 'dd/MM/yyyy' }}
-                  </b>
+                  <b> {{ histo.dateDebut | date: 'dd/MM/yyyy' }} </b>
                   au
                   <b>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</b>
                 </span>
-                <div *ngIf="histo.statut === 'RADIE'">
-                  - {{ histo.motif }}
-                </div>
+                <div *ngIf="histo.statut === 'RADIE'">- {{ histo.motif }}</div>
               </td>
               <td>{{ histo.userName }}</td>
               <td></td>
@@ -967,9 +958,7 @@
               class="text-center"
               *ngIf="!usager.options.transfert.actif && !editTransfertForm"
             >
-              <p>
-                Il n'y a aucun transfert de courrier actuellement.
-              </p>
+              <p>Il n'y a aucun transfert de courrier actuellement.</p>
               <button
                 (click)="editTransfertForm = true"
                 class="btn btn-outline-primary"
@@ -1560,9 +1549,7 @@
             </tr>
             <tr *ngFor="let document of usager.docs; let indexDocs = index">
               <td>{{ document.label }}</td>
-              <td>
-                {{ document.createdAt | date: 'dd/MM/yyyy' }}
-              </td>
+              <td>{{ document.createdAt | date: 'dd/MM/yyyy' }}</td>
               <td>{{ document.createdBy }}</td>
               <td>
                 <button
@@ -1653,16 +1640,12 @@
     <p *ngIf="usager.decision.statut !== 'RADIE'">
       Si vous commencez un renouvellement,
       <br />
-      <b>
-        ce dossier ne sera plus considéré comme "actif".
-      </b>
+      <b> ce dossier ne sera plus considéré comme "actif". </b>
     </p>
     <p *ngIf="usager.decision.statut === 'RADIE'">
       Si vous commencez une nouvelle demande,
       <br />
-      <b>
-        ce dossier ne sera plus comptabilisé parmi les radiés.
-      </b>
+      <b> ce dossier ne sera plus comptabilisé parmi les radiés. </b>
     </p>
     Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre "À
     compléter"

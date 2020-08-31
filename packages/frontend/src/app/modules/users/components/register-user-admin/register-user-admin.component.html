@@ -1,6 +1,4 @@
-<h4 class="title">
-  Créer un utilisateur
-</h4>
+<h4 class="title">Créer un utilisateur</h4>
 <form #form [formGroup]="userForm" (ngSubmit)="submitUser()">
   <div class="row">
     <div class="col-md-3 form-group required">
@@ -9,6 +7,7 @@
         type="text"
         class="form-control"
         id="nom"
+        cleanStr
         formControlName="nom"
         [ngClass]="{ 'is-invalid': f.nom.dirty && f.nom.errors }"
         required
@@ -25,6 +24,7 @@
         type="text"
         class="form-control"
         id="prenom"
+        cleanStr
         formControlName="prenom"
         [ngClass]="{ 'is-invalid': f.prenom.dirty && f.prenom.errors }"
         required
@@ -57,18 +57,10 @@
     <div class="col-md-3 form-group required">
       <label for="role">Accès</label>
       <select id="role" formControlName="role" class="custom-select">
-        <option value="admin">
-          Administrateur
-        </option>
-        <option value="responsable">
-          Gestionnaire
-        </option>
-        <option value="simple">
-          Instructeur
-        </option>
-        <option value="facteur">
-          Facteur
-        </option>
+        <option value="admin">Administrateur</option>
+        <option value="responsable">Gestionnaire</option>
+        <option value="simple">Instructeur</option>
+        <option value="facteur">Facteur</option>
       </select>
     </div>
   </div>

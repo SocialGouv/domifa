@@ -155,88 +155,7 @@ export class StatsController {
   private exportData(stats: Stats) {
     this.sheet = [
       {
-        A: "PARTIE 1 - TOTAL AU COURS DE L'ANNÉE",
-        B: "",
-      },
-      {
-        A: "Nombre d'attestations d'élection de domicile délivrées",
-        B: stats.questions.Q_10,
-      },
-      {
-        A:
-          "Dont premières demandes conclues par une attestation d'élection de domicile",
-        B: stats.questions.Q_10_A,
-      },
-      {
-        A: "Dont renouvellements",
-        B: stats.questions.Q_10_B,
-      },
-      {
-        A: "",
-        B: "",
-      },
-      {
-        A: "Total radiations",
-        B: stats.questions.Q_12.TOTAL,
-      },
-      {
-        A: this.motifsRadiation.A_SA_DEMANDE,
-        B: stats.questions.Q_12.A_SA_DEMANDE,
-      },
-      {
-        A: this.motifsRadiation.PLUS_DE_LIEN_COMMUNE,
-        B: stats.questions.Q_12.PLUS_DE_LIEN_COMMUNE,
-      },
-      {
-        A: this.motifsRadiation.FIN_DE_DOMICILIATION,
-        B: stats.questions.Q_12.FIN_DE_DOMICILIATION,
-      },
-      {
-        A: this.motifsRadiation.NON_MANIFESTATION_3_MOIS,
-        B: stats.questions.Q_12.NON_MANIFESTATION_3_MOIS,
-      },
-      {
-        A: this.motifsRadiation.NON_RESPECT_REGLEMENT,
-        B: stats.questions.Q_12.NON_RESPECT_REGLEMENT,
-      },
-      {
-        A: this.motifsRadiation.ENTREE_LOGEMENT,
-        B: stats.questions.Q_12.ENTREE_LOGEMENT,
-      },
-      {
-        A: "",
-        B: "",
-      },
-      {
-        A: "Nombre de demandes refusées",
-        B: stats.questions.Q_13.TOTAL,
-      },
-      {
-        A: this.motifsRefus.HORS_AGREMENT,
-        B: stats.questions.Q_13.HORS_AGREMENT,
-      },
-      {
-        A: this.motifsRefus.LIEN_COMMUNE,
-        B: stats.questions.Q_13.LIEN_COMMUNE,
-      },
-      {
-        A: this.motifsRefus.SATURATION,
-        B: stats.questions.Q_13.SATURATION,
-      },
-      {
-        A: "Répartition des orientations",
-        B: stats.questions.Q_14.CCAS,
-      },
-      {
-        A: "Orientation vers Organisme agrée",
-        B: stats.questions.Q_14.ASSO,
-      },
-      {
-        A: "",
-        B: "",
-      },
-      {
-        A: "PARTIE 2 - NOMBRE DE DOMICILIÉS PAR STATUT À CE JOUR",
+        A: "1. DOMICILIÉS PAR STATUT",
         B: "",
       },
       {
@@ -378,6 +297,87 @@ export class StatsController {
       {
         A: this.cause.VIOLENCE,
         B: stats.questions.Q_21.VIOLENCE,
+      },
+      {
+        A: "",
+        B: "",
+      },
+      {
+        A: "PARTIE 1 - TOTAL AU COURS DE L'ANNÉE",
+        B: "",
+      },
+      {
+        A: "Nombre d'attestations d'élection de domicile délivrées",
+        B: stats.questions.Q_10,
+      },
+      {
+        A:
+          "Dont premières demandes conclues par une attestation d'élection de domicile",
+        B: stats.questions.Q_10_A,
+      },
+      {
+        A: "Dont renouvellements",
+        B: stats.questions.Q_10_B,
+      },
+      {
+        A: "",
+        B: "",
+      },
+      {
+        A: "Total radiations",
+        B: stats.questions.Q_12.TOTAL,
+      },
+      {
+        A: this.motifsRadiation.A_SA_DEMANDE,
+        B: stats.questions.Q_12.A_SA_DEMANDE,
+      },
+      {
+        A: this.motifsRadiation.PLUS_DE_LIEN_COMMUNE,
+        B: stats.questions.Q_12.PLUS_DE_LIEN_COMMUNE,
+      },
+      {
+        A: this.motifsRadiation.FIN_DE_DOMICILIATION,
+        B: stats.questions.Q_12.FIN_DE_DOMICILIATION,
+      },
+      {
+        A: this.motifsRadiation.NON_MANIFESTATION_3_MOIS,
+        B: stats.questions.Q_12.NON_MANIFESTATION_3_MOIS,
+      },
+      {
+        A: this.motifsRadiation.NON_RESPECT_REGLEMENT,
+        B: stats.questions.Q_12.NON_RESPECT_REGLEMENT,
+      },
+      {
+        A: this.motifsRadiation.ENTREE_LOGEMENT,
+        B: stats.questions.Q_12.ENTREE_LOGEMENT,
+      },
+      {
+        A: "",
+        B: "",
+      },
+      {
+        A: "Nombre de demandes refusées",
+        B: stats.questions.Q_13.TOTAL,
+      },
+      {
+        A: this.motifsRefus.HORS_AGREMENT,
+        B: stats.questions.Q_13.HORS_AGREMENT,
+      },
+      {
+        A: this.motifsRefus.LIEN_COMMUNE,
+        B: stats.questions.Q_13.LIEN_COMMUNE,
+      },
+      {
+        A: this.motifsRefus.SATURATION,
+        B: stats.questions.Q_13.SATURATION,
+      },
+      {
+        A: "Répartition des orientations",
+        B: stats.questions.Q_14.CCAS,
+      },
+      {
+        A: "Orientation vers Organisme agrée",
+        B: stats.questions.Q_14.ASSO,
       },
       {
         A: "",

@@ -112,7 +112,7 @@
       >
         <span *ngIf="!exportLoading">
           <fa-icon icon="download" class="btn-icon"></fa-icon>
-          Exporter les statitstiques</span
+          Exporter les statistiques</span
         >
         <span *ngIf="exportLoading"
           ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en
@@ -131,7 +131,7 @@
         {{ end | date: "dd/MM/yyyy" }}
       </span>
       <span *ngIf="end === null">
-        du 1er janvier au
+        du 01/01/2020 au
         {{ start | date: "dd/MM/yyyy" }}
       </span>
     </h4>
@@ -246,14 +246,11 @@
         {{ end | date: "dd/MM/yyyy" }}
       </span>
       <span *ngIf="end === null">
-        du 1er janvier au
+        du 01/01/2020 au
         {{ start | date: "dd/MM/yyyy" }}
       </span>
     </h4>
-    <p>
-      Astuce: pour avoir des statistiques sur une date précise, la date de fin
-      sera prise en compte
-    </p>
+
     <div class="rapport-part">
       <table class="table table-hover">
         <tbody>
@@ -331,7 +328,7 @@
         {{ end | date: "dd/MM/yyyy" }}
       </span>
       <span *ngIf="end === null">
-        du 1er janvier au
+        du 01/01/2020 au
         {{ start | date: "dd/MM/yyyy" }}
       </span>
     </h4>
