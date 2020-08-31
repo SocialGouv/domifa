@@ -36,7 +36,6 @@
             (dateSelect)="changeStart($event)"
             dateFr
             value
-            ngModel
             [ngClass]="{
               'is-invalid': ca.status === 'INVALID'
             }"
@@ -70,7 +69,6 @@
             (dateSelect)="changeEnd($event)"
             #cb="ngModel"
             dateFr
-            ngModel
             [readonly]="ca.status === 'INVALID'"
             id="dateFinValide"
             value
@@ -130,10 +128,7 @@
         du {{ start | date: "dd/MM/yyyy" }} au
         {{ end | date: "dd/MM/yyyy" }}
       </span>
-      <span *ngIf="end === null">
-        du 01/01/2020 au
-        {{ start | date: "dd/MM/yyyy" }}
-      </span>
+      <span *ngIf="end === null"> le {{ start | date: "dd/MM/yyyy" }} </span>
     </h4>
     Astuce: pour avoir des statistiques sur une date précise, la date de fin
     sera prise en compte
