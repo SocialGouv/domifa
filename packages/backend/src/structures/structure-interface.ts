@@ -43,6 +43,7 @@ export interface Structure extends Document {
     customId: boolean;
     rattachement: boolean;
     numeroBoite: boolean;
+    mailsRdv: boolean;
   };
   token: string;
   verified: boolean;

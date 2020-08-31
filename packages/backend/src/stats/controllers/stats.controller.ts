@@ -130,7 +130,7 @@ export class StatsController {
     @Res() res: any
   ) {
     const dataToExport = await this.parsePostData(user, statsDto);
-    res.status(200).send(this.exportData(dataToExport));
+    res.status(200).send(this.exportData(dataToExport, statsDto));
   }
 
   private async parsePostData(user: User, statsDto: StatsDto): Promise<Stats> {
@@ -152,10 +152,25 @@ export class StatsController {
     return A;
   }
 
-  private exportData(stats: Stats) {
+  private exportData(stats: Stats, statsDto?: StatsDto) {
+    let start = moment(new Date(stats.date)).format("DD/MM/yyyy");
+    let dateDatas = " du 01/01/2020 au " + moment(start).format("DD/MM/yyyy");
+
+    if (statsDto) {
+      start = moment(new Date(statsDto.start)).format("DD/MM/yyyy");
+
+      dateDatas = " du 01/01/2020 au " + moment(start).format("DD/MM/yyyy");
+      if (statsDto.end) {
+        const end = moment(new Date(statsDto.end))
+          .add(1, "days")
+          .format("DD/MM/yyyy");
+        dateDatas = " du " + start + " au " + end;
+      }
+    }
+
     this.sheet = [
       {
-        A: "1. DOMICILIÉS PAR STATUT",
+        A: "1. DOMICILIÉS PAR STATUT AU " + start,
         B: "",
       },
       {
@@ -303,7 +318,7 @@ export class StatsController {
         B: "",
       },
       {
-        A: "PARTIE 1 - TOTAL AU COURS DE L'ANNÉE",
+        A: "2. Activité " + dateDatas,
         B: "",
       },
       {
@@ -384,7 +399,7 @@ export class StatsController {
         B: "",
       },
       {
-        A: "PARTIE 3 : RÉSUMÉ DES INTERACTIONS SUR L'ANNÉE",
+        A: "3. Total des interactions" + dateDatas,
         B: "",
       },
       {

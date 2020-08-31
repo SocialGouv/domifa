@@ -8,6 +8,7 @@ import {
 import { Cron } from "@nestjs/schedule";
 import { Model } from "mongoose";
 import * as moment from "moment";
+import * as ics from "ics";
 
 import { Structure } from "../../structures/structure-interface";
 import { User } from "../user.interface";
@@ -356,24 +357,25 @@ export class TipimailService {
       );
   }
 
-  public async entretienICS(user: User, usager: Usager) {
+  public async mailRdv(user: User, usager: Usager, event: any) {
+    console.log(event);
     const lien =
       process.env.FRONT_URL + "reset-password/" + user.tokens.password;
     const post = {
       to: [
         {
-          address: "yassine.riffi@fabrique.social.gouv.fr",
+          address: "riffi.yassine@gmail.com",
           personalName: "TEST",
         },
       ],
       headers: {
-        "X-TM-TEMPLATE": "creation-compte",
+        "X-TM-TEMPLATE": "prise-rdv",
         "X-TM-SUB": [
           {
-            email: user.email,
+            email: "riffi.yassine@gmail.com",
             values: {
-              prenom: user.prenom,
-              lien,
+              prenom: "okokok",
+              lien: "CCCCC",
             },
             meta: {},
           },
@@ -382,14 +384,21 @@ export class TipimailService {
       msg: {
         from: {
           personalName: "Domifa",
-          address: "contact.domifa@diffusion.social.gouv.fr",
+          address: "yasssine@yopmail.com",
         },
         replyTo: {
           personalName: "Domifa",
-          address: "contact.domifa@fabrique.social.gouv.fr",
+          address: "yasssine@yopmail.com",
         },
-        subject: "Subject",
+        subject: "Prise de rendez-vous entre le demandeur et un collaborateur",
         html: "<p>Test</p>",
+        attachments: [
+          {
+            contentType: "text/plain",
+            filename: "rdv.txt",
+            content: ",kopkpokpok",
+          },
+        ],
       },
     };
 
@@ -402,9 +411,11 @@ export class TipimailService {
       })
       .subscribe(
         (retour: any) => {
+          console.log(retour);
           return true;
         },
         (erreur: any) => {
+          console.log(erreur);
           throw new HttpException(
             "MAIL_CONFIRMATION_CREATION_ADMIN",
             HttpStatus.INTERNAL_SERVER_ERROR

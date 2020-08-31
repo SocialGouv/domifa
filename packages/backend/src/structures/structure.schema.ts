@@ -96,6 +96,7 @@ export const StructureSchema = new mongoose.Schema(
       rattachement: { type: Boolean, default: false },
       customId: { type: Boolean, default: false },
       numeroBoite: { type: Boolean, default: false },
+      mailsRdv: { type: Boolean, default: false },
     },
     phone: {
       default: "",

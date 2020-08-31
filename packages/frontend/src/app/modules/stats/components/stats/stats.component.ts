@@ -12,7 +12,6 @@ import {
   NgbCalendar,
   NgbDatepickerI18n,
   NgbDateParserFormatter,
-  NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";

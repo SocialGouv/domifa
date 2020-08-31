@@ -55,6 +55,7 @@ export class StructureEditDto {
     customId: boolean;
     rattachement: boolean;
     numeroBoite: boolean;
+    mailsRdv: boolean;
   };
 
   @IsOptional()

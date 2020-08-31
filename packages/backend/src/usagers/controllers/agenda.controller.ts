@@ -11,41 +11,42 @@ import { Usager } from "../interfaces/usagers";
 
 import * as ics from "ics";
 import * as fs from "fs";
+import { TipimailService } from "../../users/services/tipimail.service";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("agenda")
 export class AgendaController {
   constructor(
     private readonly usagersService: UsagersService,
+    private readonly tipimailService: TipimailService,
     private readonly usersService: UsersService,
     private readonly interactionService: InteractionsService,
     private readonly cerfaService: CerfaService
   ) {}
 
   // AGENDA des rendez-vous
-  @UseGuards(AuthGuard("jwt"))
+
   @Get("")
   public async getAll(@CurrentUser() user: User) {
     return this.usagersService.agenda(user);
   }
 
   //
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(AccessGuard)
-  @Get(":id")
+
+  @Get(":id/chips")
   public async get(@CurrentUser() user: User, @CurrentUser() usager: Usager) {
     ics.createEvent(
       {
         title: "Dinner",
         description: "Nightly thing I do",
-        start: [2018, 1, 15, 6, 30],
+        start: [2020, 9, 15, 6, 30],
         duration: { minutes: 30 },
       },
       (error, value) => {
         if (error) {
           console.log(error);
         }
-        return value;
+        return this.tipimailService.mailRdv(user, usager, value);
 
         // TODO: ATTACHER AU MAIL LA PJ ICS
         /* mail.attachments = [
@@ -54,6 +55,8 @@ export class AgendaController {
             content: base64Content,
             type: "text/Calendar",
           },
+
+
         ];*/
       }
     );
