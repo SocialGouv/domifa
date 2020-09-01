@@ -124,11 +124,8 @@
     <br />
     <h4>
       1. Domiciliés par statut
-      <span *ngIf="end !== null">
-        du {{ start | date: "dd/MM/yyyy" }} au
-        {{ end | date: "dd/MM/yyyy" }}
-      </span>
-      <span *ngIf="end === null"> au {{ start | date: "dd/MM/yyyy" }} </span>
+      <span *ngIf="end !== null"> le {{ end | date: "dd/MM/yyyy" }} </span>
+      <span *ngIf="end === null"> le {{ start | date: "dd/MM/yyyy" }} </span>
     </h4>
     <b>Astuce:</b> pour avoir des statistiques sur une date précise, la date de
     fin sera prise en compte

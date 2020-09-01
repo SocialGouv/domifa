@@ -55,6 +55,16 @@ export class UsersService {
     );
   }
 
+  public getUsersMeeting(): Observable<User[]> {
+    return this.http.get(environment.apiUrl + "agenda/users").pipe(
+      map((response) => {
+        return Array.isArray(response)
+          ? response.map((item) => new User(item))
+          : [new User(response)];
+      })
+    );
+  }
+
   public getNewUsers() {
     return this.http.get(`${this.endPoint}/to-confirm`).pipe(
       map((response) => {

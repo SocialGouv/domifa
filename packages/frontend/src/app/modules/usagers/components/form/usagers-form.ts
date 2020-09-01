@@ -197,7 +197,7 @@ export class UsagersFormComponent implements OnInit {
       userId: [this.usager.id, Validators.required],
     });
 
-    this.userService.getUsers().subscribe((users: User[]) => {
+    this.userService.getUsersMeeting().subscribe((users: User[]) => {
       this.agents = users;
       this.rdvForm.controls.userId.setValue(users[0].id, {
         onlySelf: true,

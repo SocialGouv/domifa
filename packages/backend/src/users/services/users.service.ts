@@ -13,11 +13,10 @@ import { EditPasswordDto } from "../dto/edit-password.dto";
 export class UsersService {
   constructor(@Inject("USER_MODEL") private readonly userModel: Model<User>) {}
 
-  public async findAll(request: any): Promise<any> {
+  public async findAll(request: any): Promise<User[]> {
     return this.userModel
       .find(request)
       .select("-password -tokens -structureId -mails")
-      .lean()
       .exec();
   }
 

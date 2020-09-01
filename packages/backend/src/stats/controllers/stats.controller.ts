@@ -154,23 +154,22 @@ export class StatsController {
 
   private exportData(stats: Stats, statsDto?: StatsDto) {
     let start = moment(new Date(stats.date)).format("DD/MM/yyyy");
-    let dateDatas = " du 01/01/2020 au " + moment(start).format("DD/MM/yyyy");
+    let dateDatas = "  01/01/2020 au " + start;
 
     if (statsDto) {
       start = moment(new Date(statsDto.start)).format("DD/MM/yyyy");
+      dateDatas = " du 01/01/2020 au " + start;
 
-      dateDatas = " du 01/01/2020 au " + moment(start).format("DD/MM/yyyy");
       if (statsDto.end) {
-        const end = moment(new Date(statsDto.end))
-          .add(1, "days")
-          .format("DD/MM/yyyy");
+        const end = moment(new Date(statsDto.end)).format("DD/MM/yyyy");
         dateDatas = " du " + start + " au " + end;
+        start = moment(new Date(statsDto.end)).format("DD/MM/yyyy");
       }
     }
 
     this.sheet = [
       {
-        A: "1. DOMICILIÉS PAR STATUT AU " + start,
+        A: "1. DOMICILIÉS PAR STATUT LE " + start,
         B: "",
       },
       {
@@ -461,14 +460,11 @@ export class StatsController {
       Q_10_B: B.questions.Q_10_B - A.questions.Q_10_B,
 
       Q_11: {
-        REFUS: B.questions.Q_11.REFUS - A.questions.Q_11.REFUS,
-        RADIE: B.questions.Q_11.RADIE - A.questions.Q_11.RADIE,
-        VALIDE: B.questions.Q_11.VALIDE - A.questions.Q_11.VALIDE,
-        VALIDE_TOTAL:
-          B.questions.Q_11.VALIDE_TOTAL - A.questions.Q_11.VALIDE_TOTAL,
-        VALIDE_AYANTS_DROIT:
-          B.questions.Q_11.VALIDE_AYANTS_DROIT -
-          A.questions.Q_11.VALIDE_AYANTS_DROIT,
+        REFUS: B.questions.Q_11.REFUS,
+        RADIE: B.questions.Q_11.RADIE,
+        VALIDE: B.questions.Q_11.VALIDE,
+        VALIDE_TOTAL: B.questions.Q_11.VALIDE_TOTAL,
+        VALIDE_AYANTS_DROIT: B.questions.Q_11.VALIDE_AYANTS_DROIT,
       },
 
       Q_12: {
@@ -506,28 +502,16 @@ export class StatsController {
         ASSO: B.questions.Q_14.ASSO - A.questions.Q_14.ASSO,
       },
 
-      Q_17: B.questions.Q_17 - A.questions.Q_17,
-      Q_18: B.questions.Q_18 - A.questions.Q_18,
+      Q_17: B.questions.Q_17,
+      Q_18: B.questions.Q_18,
 
       Q_19: {
-        COUPLE_AVEC_ENFANT:
-          B.questions.Q_19.COUPLE_AVEC_ENFANT -
-          A.questions.Q_19.COUPLE_AVEC_ENFANT,
-        COUPLE_SANS_ENFANT:
-          B.questions.Q_19.COUPLE_SANS_ENFANT -
-          A.questions.Q_19.COUPLE_SANS_ENFANT,
-        FEMME_ISOLE_AVEC_ENFANT:
-          B.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT -
-          A.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT,
-        FEMME_ISOLE_SANS_ENFANT:
-          B.questions.Q_19.FEMME_ISOLE_SANS_ENFANT -
-          A.questions.Q_19.FEMME_ISOLE_SANS_ENFANT,
-        HOMME_ISOLE_AVEC_ENFANT:
-          B.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT -
-          A.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT,
-        HOMME_ISOLE_SANS_ENFANT:
-          B.questions.Q_19.HOMME_ISOLE_SANS_ENFANT -
-          A.questions.Q_19.HOMME_ISOLE_SANS_ENFANT,
+        COUPLE_AVEC_ENFANT: B.questions.Q_19.COUPLE_AVEC_ENFANT,
+        COUPLE_SANS_ENFANT: B.questions.Q_19.COUPLE_SANS_ENFANT,
+        FEMME_ISOLE_AVEC_ENFANT: B.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT,
+        FEMME_ISOLE_SANS_ENFANT: B.questions.Q_19.FEMME_ISOLE_SANS_ENFANT,
+        HOMME_ISOLE_AVEC_ENFANT: B.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT,
+        HOMME_ISOLE_SANS_ENFANT: B.questions.Q_19.HOMME_ISOLE_SANS_ENFANT,
       },
 
       /* NOMBRE D'INTERACTIONS GLOBALES */
@@ -547,36 +531,26 @@ export class StatsController {
 
       /* AUTRES QUESTIONS DE L'ENTRETIEN */
       Q_21: {
-        AUTRE: B.questions.Q_21.AUTRE - A.questions.Q_21.AUTRE,
-        ERRANCE: B.questions.Q_21.ERRANCE - A.questions.Q_21.ERRANCE,
-        EXPULSION: B.questions.Q_21.EXPULSION - A.questions.Q_21.EXPULSION,
-        HEBERGE_SANS_ADRESSE:
-          B.questions.Q_21.HEBERGE_SANS_ADRESSE -
-          A.questions.Q_21.HEBERGE_SANS_ADRESSE,
-        ITINERANT: B.questions.Q_21.ITINERANT - A.questions.Q_21.ITINERANT,
-        RUPTURE: B.questions.Q_21.RUPTURE - A.questions.Q_21.RUPTURE,
-        SORTIE_STRUCTURE:
-          B.questions.Q_21.SORTIE_STRUCTURE - A.questions.Q_21.SORTIE_STRUCTURE,
-        VIOLENCE: B.questions.Q_21.VIOLENCE - A.questions.Q_21.VIOLENCE,
-        NON_RENSEIGNE:
-          B.questions.Q_21.NON_RENSEIGNE - A.questions.Q_21.NON_RENSEIGNE,
+        AUTRE: B.questions.Q_21.AUTRE,
+        ERRANCE: B.questions.Q_21.ERRANCE,
+        EXPULSION: B.questions.Q_21.EXPULSION,
+        HEBERGE_SANS_ADRESSE: B.questions.Q_21.HEBERGE_SANS_ADRESSE,
+        ITINERANT: B.questions.Q_21.ITINERANT,
+        RUPTURE: B.questions.Q_21.RUPTURE,
+        SORTIE_STRUCTURE: B.questions.Q_21.SORTIE_STRUCTURE,
+        VIOLENCE: B.questions.Q_21.VIOLENCE,
+        NON_RENSEIGNE: B.questions.Q_21.NON_RENSEIGNE,
       },
 
       /* SITUATION RESIDENTIELLE */
       Q_22: {
-        AUTRE: B.questions.Q_22.AUTRE - A.questions.Q_22.AUTRE,
-        DOMICILE_MOBILE:
-          B.questions.Q_22.DOMICILE_MOBILE - A.questions.Q_22.DOMICILE_MOBILE,
-        HEBERGEMENT_SOCIAL:
-          B.questions.Q_22.HEBERGEMENT_SOCIAL -
-          A.questions.Q_22.HEBERGEMENT_SOCIAL,
-        HEBERGEMENT_TIERS:
-          B.questions.Q_22.HEBERGEMENT_TIERS -
-          A.questions.Q_22.HEBERGEMENT_TIERS,
-        HOTEL: B.questions.Q_22.HOTEL - A.questions.Q_22.HOTEL,
-        SANS_ABRI: B.questions.Q_22.SANS_ABRI - A.questions.Q_22.SANS_ABRI,
-        NON_RENSEIGNE:
-          B.questions.Q_22.NON_RENSEIGNE - A.questions.Q_22.NON_RENSEIGNE,
+        AUTRE: B.questions.Q_22.AUTRE,
+        DOMICILE_MOBILE: B.questions.Q_22.DOMICILE_MOBILE,
+        HEBERGEMENT_SOCIAL: B.questions.Q_22.HEBERGEMENT_SOCIAL,
+        HEBERGEMENT_TIERS: B.questions.Q_22.HEBERGEMENT_TIERS,
+        HOTEL: B.questions.Q_22.HOTEL,
+        SANS_ABRI: B.questions.Q_22.SANS_ABRI,
+        NON_RENSEIGNE: B.questions.Q_22.NON_RENSEIGNE,
       },
     };
 

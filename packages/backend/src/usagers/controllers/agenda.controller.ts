@@ -33,6 +33,15 @@ export class AgendaController {
 
   //
 
+  @Get("users")
+  public getUsersMeeting(@CurrentUser() user: User): Promise<User[]> {
+    return this.usersService.findAll({
+      structureId: user.structureId,
+      role: { $in: ["admin", "simple", "responsable"] },
+      verified: true,
+    });
+  }
+
   @Get(":id/chips")
   public async get(@CurrentUser() user: User, @CurrentUser() usager: Usager) {
     ics.createEvent(
