@@ -1,4 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  AfterViewChecked,
+  AfterViewInit,
+} from "@angular/core";
 
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
@@ -17,7 +23,6 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
@@ -27,7 +32,7 @@ import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-frenc
   styleUrls: ["../rapport/rapport.component.css", "./stats.component.css"],
   templateUrl: "./stats.component.html",
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent implements OnInit, AfterViewInit {
   public stats: Stats;
   public statsList: any[];
 
@@ -55,12 +60,23 @@ export class StatsComponent implements OnInit {
     private titleService: Title,
     private notifService: ToastrService,
     public calendar: NgbCalendar,
-    public formatter: NgbDateCustomParserFormatter
+    public formatter: NgbDateCustomParserFormatter,
+    private cdRef: ChangeDetectorRef
   ) {
     this.stats = new Stats();
     this.labels = labels;
     this.interactionsLabels = interactionsLabels;
+  }
 
+  public ngOnInit() {
+    this.titleService.setTitle("Rapport d'activité de votre structure");
+
+    this.statsService.getAvailabelStats().subscribe((response: any) => {
+      this.statsList = response;
+    });
+  }
+
+  public ngAfterViewInit() {
     const dateStart = new Date();
     dateStart.setDate(dateStart.getDate() - 1);
 
@@ -88,16 +104,8 @@ export class StatsComponent implements OnInit {
 
     this.toDate = null;
     this.fromDate = this.minDate;
-  }
 
-  public ngOnInit() {
-    this.titleService.setTitle("Rapport d'activité de votre structure");
-
-    // this.compare();
-
-    this.statsService.getAvailabelStats().subscribe((response: any) => {
-      this.statsList = response;
-    });
+    this.cdRef.detectChanges();
   }
 
   public getStatById(newValue: string) {
