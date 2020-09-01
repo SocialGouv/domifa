@@ -10627,10 +10627,10 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-ngx-countup@7.3.1:
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/ngx-countup/-/ngx-countup-7.3.1.tgz#16bb21947ce40fc4485aece12fce8215c9cb43d8"
-  integrity sha512-+nw3Axg/5R/09hjG1uOyOItdIxAxv8V1GNz0oR8MlB27tB5sH9aknCUPJiEfdPAGSCfMfG7nsURlz4WAoIDrhA==
+ngx-countup@7.3.3:
+  version "7.3.3"
+  resolved "https://registry.yarnpkg.com/ngx-countup/-/ngx-countup-7.3.3.tgz#c68926369d4c3a666e1e8920e62b9649187cb933"
+  integrity sha512-Vu+amEzO0ZrfXxWUFXl61qTDxFpKvxTwHg7Uw/psCIj2vhZzZEIBWliZ6m6FzBBHvvfJzb1xhK/6+Ab7RivuMg==
   dependencies:
     countup.js "^2.0.5"
     tslib "^1.9.0"
