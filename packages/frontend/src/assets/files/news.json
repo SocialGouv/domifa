@@ -1,5 +1,20 @@
 [
   {
+    "date": "2020-09-01",
+    "description": "Un suivi de vos rendez-vous et une nouvelle page de statistiques !",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Possibilité de visualiser vos rendez-vous directement dans votre interface usager",
+          "Possibilité de demander vos statistiques sur une période",
+          "Possibilité d’exporter vos statistiques",
+        ]
+      }
+    ]
+  },
+  {
     "date": "2020-08-24",
     "description": "Possibilité d’exporter les statistiques de votre structure !",
     "content": [
