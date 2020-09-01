@@ -1,6 +1,6 @@
 <div class="container" *ngIf="me">
   <div class="col-md-10 offset-1">
-    <div class="row">
+    <div class="row" *ngIf="me.role !== 'facteur'">
       <h4 class="col-md-12">Mes prochains rendez-vous</h4>
       <div class="col-md-12" *ngIf="usagers">
         <div class="alert-info alert" *ngIf="usagers.length === 0">

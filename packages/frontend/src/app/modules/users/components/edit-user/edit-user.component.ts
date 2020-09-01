@@ -78,9 +78,11 @@ export class EditUserComponent implements OnInit {
     this.authService.currentUser.subscribe((user) => {
       this.me = user;
 
-      this.userService.agenda().subscribe((usagers: Usager[]) => {
-        this.usagers = usagers;
-      });
+      if (this.me.role !== "facteur") {
+        this.userService.agenda().subscribe((usagers: Usager[]) => {
+          this.usagers = usagers;
+        });
+      }
     });
   }
 

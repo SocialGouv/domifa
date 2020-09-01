@@ -12,8 +12,10 @@ import { Usager } from "../interfaces/usagers";
 import * as ics from "ics";
 import * as fs from "fs";
 import { TipimailService } from "../../users/services/tipimail.service";
+import { FacteurGuard } from "../../auth/guards/facteur.guard";
 
 @UseGuards(AuthGuard("jwt"))
+@UseGuards(FacteurGuard)
 @Controller("agenda")
 export class AgendaController {
   constructor(
