@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
@@ -17,6 +17,7 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },

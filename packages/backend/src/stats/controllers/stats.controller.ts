@@ -169,7 +169,7 @@ export class StatsController {
 
     this.sheet = [
       {
-        A: "1. DOMICILIÉS PAR STATUT LE " + start,
+        A: "1. DOMICILIÉS PAR STATUT AU " + start,
         B: "",
       },
       {
