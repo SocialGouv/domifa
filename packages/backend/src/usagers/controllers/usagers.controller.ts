@@ -71,23 +71,6 @@ export class UsagersController {
     return this.usagersService.patch(usagerDto, usager._id);
   }
 
-  @Post("rdv/:id")
-  @UseGuards(AccessGuard)
-  public async postRdv(
-    @Body() rdvDto: RdvDto,
-    @CurrentUser() currentUser: User,
-    @CurrentUsager() usager: Usager
-  ) {
-    const user = await this.usersService.findOne({
-      id: rdvDto.userId,
-      structureId: currentUser.structureId,
-    });
-    if (!user) {
-      throw new HttpException("USER_NOT_EXIST", HttpStatus.BAD_GATEWAY);
-    }
-    return this.usagersService.setRdv(usager.id, rdvDto, user);
-  }
-
   @UseGuards(AccessGuard)
   @Post("entretien/:id")
   public setEntretien(

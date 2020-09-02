@@ -8,11 +8,12 @@ import {
 import { Cron } from "@nestjs/schedule";
 import { Model } from "mongoose";
 import * as moment from "moment";
-import * as ics from "ics";
 
 import { Structure } from "../../structures/structure-interface";
 import { User } from "../user.interface";
 import { Usager } from "../../usagers/interfaces/usagers";
+
+import * as nodemailer from "nodemailer";
 
 @Injectable()
 export class TipimailService {
@@ -358,13 +359,16 @@ export class TipimailService {
   }
 
   public async mailRdv(user: User, usager: Usager, event: any) {
-    console.log(event);
-    const lien =
-      process.env.FRONT_URL + "reset-password/" + user.tokens.password;
+    const prenomUsager =
+      (usager.sexe === "homme" ? "M. " : "Mme. ") +
+      usager.nom +
+      " " +
+      usager.prenom;
+
     const post = {
       to: [
         {
-          address: "riffi.yassine@gmail.com",
+          address: "yr.achats@gmail.com",
           personalName: "TEST",
         },
       ],
@@ -372,10 +376,14 @@ export class TipimailService {
         "X-TM-TEMPLATE": "prise-rdv",
         "X-TM-SUB": [
           {
-            email: "riffi.yassine@gmail.com",
+            email: "yr.achats@gmail.com",
             values: {
-              prenom: "okokok",
-              lien: "CCCCC",
+              prenom: "PRENOM",
+              lien: "Yassine",
+              usager: prenomUsager,
+              date: "XXX ",
+              heure: "XXX ",
+              collaborateur: "XXX ",
             },
             meta: {},
           },
@@ -384,19 +392,19 @@ export class TipimailService {
       msg: {
         from: {
           personalName: "Domifa",
-          address: "yasssine@yopmail.com",
+          address: "contact.domifa@diffusion.social.gouv.fr",
         },
         replyTo: {
           personalName: "Domifa",
-          address: "yasssine@yopmail.com",
+          address: "contact.domifa@fabrique.social.gouv.fr",
         },
         subject: "Prise de rendez-vous entre le demandeur et un collaborateur",
         html: "<p>Test</p>",
         attachments: [
           {
-            contentType: "text/plain",
-            filename: "rdv.txt",
-            content: ",kopkpokpok",
+            contentType: "text/calendar",
+            filename: "rdv.ics",
+            content: new Buffer(event).toString("base64"),
           },
         ],
       },

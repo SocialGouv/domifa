@@ -141,8 +141,6 @@ export class StatsComponent implements OnInit, AfterViewInit {
     this.minDateFin = newDate;
   }
 
-  public changeEnd(newDate: NgbDate) {}
-
   public export() {
     this.exportLoading = true;
     this.statsService.export(this.start, this.end).subscribe(
