@@ -12,8 +12,9 @@ import * as moment from "moment";
 import { Structure } from "../../structures/structure-interface";
 import { User } from "../user.interface";
 import { Usager } from "../../usagers/interfaces/usagers";
+import { AxiosResponse } from "axios";
 
-import * as nodemailer from "nodemailer";
+import { Observable } from "rxjs/internal/Observable";
 
 @Injectable()
 export class TipimailService {
@@ -29,11 +30,14 @@ export class TipimailService {
     private httpService: HttpService
   ) {
     this.lastWeek = moment().utc().subtract(7, "days").endOf("day").toDate();
+
     this.listOfStructures = [];
 
     this.lienGuide =
       process.env.FRONT_URL + "assets/files/guide_utilisateur_domifa.pdf";
+
     this.lienImport = process.env.FRONT_URL + "import";
+
     this.lienFaq = process.env.FRONT_URL + "faq";
   }
 
@@ -358,33 +362,44 @@ export class TipimailService {
       );
   }
 
-  public async mailRdv(user: User, usager: Usager, event: any) {
+  public async mailRdv(
+    user: User,
+    usager: Usager,
+    event: any,
+    message: string
+  ) {
     const prenomUsager =
       (usager.sexe === "homme" ? "M. " : "Mme. ") +
       usager.nom +
       " " +
       usager.prenom;
 
+    const date = moment(new Date(usager.rdv.dateRdv)).locale("fr").format("L");
+    const heure = moment(new Date(usager.rdv.dateRdv))
+      .locale("fr")
+      .format("LT");
+
+    const datas = {
+      prenom: user.prenom,
+      usager: prenomUsager,
+      date,
+      heure,
+      message,
+    };
+
     const post = {
       to: [
         {
-          address: "yr.achats@gmail.com",
-          personalName: "TEST",
+          address: user.email,
+          personalName: user.prenom + " " + user.nom,
         },
       ],
       headers: {
         "X-TM-TEMPLATE": "prise-rdv",
         "X-TM-SUB": [
           {
-            email: "yr.achats@gmail.com",
-            values: {
-              prenom: "PRENOM",
-              lien: "Yassine",
-              usager: prenomUsager,
-              date: "XXX ",
-              heure: "XXX ",
-              collaborateur: "XXX ",
-            },
+            email: user.email,
+            values: datas,
             meta: {},
           },
         ],
@@ -403,32 +418,20 @@ export class TipimailService {
         attachments: [
           {
             contentType: "text/calendar",
-            filename: "rdv.ics",
-            content: new Buffer(event).toString("base64"),
+            filename: "entretien.ics",
+            content: event.toString("base64"),
           },
         ],
       },
     };
 
-    this.httpService
+    return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
           "X-Tipimail-ApiUser": process.env.SMTP_USER,
           "X-Tipimail-ApiKey": process.env.SMTP_PASS,
         },
       })
-      .subscribe(
-        (retour: any) => {
-          console.log(retour);
-          return true;
-        },
-        (erreur: any) => {
-          console.log(erreur);
-          throw new HttpException(
-            "MAIL_CONFIRMATION_CREATION_ADMIN",
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-      );
+      .toPromise();
   }
 }

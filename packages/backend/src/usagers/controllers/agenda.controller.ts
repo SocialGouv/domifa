@@ -46,16 +46,17 @@ export class AgendaController {
     @CurrentUser() currentUser: User,
     @CurrentUsager() usager: Usager
   ) {
-    const user = await this.usersService.findOne({
+    const user: User = await this.usersService.findOne({
       id: rdvDto.userId,
       structureId: currentUser.structureId,
     });
 
+    usager = await this.usagersService.setRdv(usager.id, rdvDto, user);
+
     if (!user) {
-      throw new HttpException("USER_AGENDA_NOT_EXIST", HttpStatus.BAD_GATEWAY);
+      throw new HttpException("USER_AGENDA_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
 
-    //
     const title =
       "Entretien avec " +
       (usager.sexe === "homme" ? "M. " : "Mme. ") +
@@ -70,29 +71,44 @@ export class AgendaController {
     const heure = dateRdv.getHours();
     const minutes = dateRdv.getMinutes();
 
-    const usagerToReturn = await this.usagersService.setRdv(
-      usager.id,
-      rdvDto,
-      user
-    );
-
-    ics.createEvent(
-      {
-        title,
-        description: "Entretien demande de domiciliation",
-        start: [annee, mois, jour, heure, minutes],
-        duration: { minutes: 30 },
+    const invitation = ics.createEvent({
+      title,
+      description: "Entretien demande de domiciliation",
+      start: [annee, mois, jour, heure, minutes],
+      organizer: {
+        name: currentUser.prenom + " " + currentUser.nom,
+        email: currentUser.email,
       },
-      (error, value) => {
-        if (error) {
-          console.log(error);
-        }
+      duration: { minutes: 30 },
+    });
 
-        console.log(value);
-        this.tipimailService.mailRdv(user, usager, value);
-        return usagerToReturn;
+    if (invitation.error === null) {
+      let msg = "";
+      if (currentUser.id !== user.id) {
+        msg =
+          "Il vous a été assigné par " +
+          currentUser.prenom +
+          " " +
+          currentUser.nom;
       }
-    );
+
+      return this.tipimailService
+        .mailRdv(user, usager, invitation, msg)
+        .then((res) => {
+          return usager;
+        })
+        .catch((err) => {
+          throw new HttpException(
+            "MAIL_ENTRETIEN",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        });
+    } else {
+      throw new HttpException(
+        "ICS_GENERATION",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   @Get("")
@@ -109,23 +125,5 @@ export class AgendaController {
       role: { $in: ["admin", "simple", "responsable"] },
       verified: true,
     });
-  }
-
-  @Get(":id/chips")
-  public async get(@CurrentUser() user: User, @CurrentUser() usager: Usager) {
-    ics.createEvent(
-      {
-        title: "Dinner",
-        description: "Nightly thing I do",
-        start: [2020, 9, 15, 6, 30],
-        duration: { minutes: 30 },
-      },
-      (error, value) => {
-        if (error) {
-          console.log(error);
-        }
-        return this.tipimailService.mailRdv(user, usager, value);
-      }
-    );
   }
 }

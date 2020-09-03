@@ -152,6 +152,7 @@ tbody td:nth-child(2),
 tbody th:nth-child(2) {
   min-width: 220px;
   max-width: 420px;
+  word-break: break-all;
 }
 
 tbody td:last-child,

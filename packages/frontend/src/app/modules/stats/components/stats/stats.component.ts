@@ -139,6 +139,8 @@ export class StatsComponent implements OnInit, AfterViewInit {
 
   public changeStart(newDate: NgbDate) {
     this.minDateFin = newDate;
+    this.toDate = null;
+    this.end = null;
   }
 
   public export() {

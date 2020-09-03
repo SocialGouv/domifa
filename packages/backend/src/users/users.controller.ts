@@ -118,7 +118,7 @@ export class UsersController {
     if (!userToDelete || userToDelete === null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "USER_NOT_EXIST" });
+        .json({ message: "USER_TO_DELETE_NOT_EXIST" });
     }
 
     const retour = await this.usersService.delete(userToDelete._id);
@@ -204,7 +204,7 @@ export class UsersController {
     });
 
     if (!existUser || existUser === null) {
-      throw new HttpException("USER_NOT_EXIST", HttpStatus.BAD_REQUEST);
+      throw new HttpException("CHECK_PASSWORD_TOKEN", HttpStatus.BAD_REQUEST);
     }
     if (existUser.tokens.passwordValidity < today) {
       throw new HttpException("TOKEN_EXPIRED", HttpStatus.BAD_REQUEST);
@@ -225,7 +225,7 @@ export class UsersController {
     if (!existUser || existUser === null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "USER_NOT_EXIST" });
+        .json({ message: "RESET_PASSWORD" });
     }
     if (existUser.tokens.passwordValidity < today) {
       return res
@@ -240,7 +240,7 @@ export class UsersController {
       (error) => {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "UPDATE_PASSWORD" });
+          .json({ message: "UPDATE_RESET_PASSWORD" });
       }
     );
   }
