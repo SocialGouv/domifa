@@ -57,6 +57,9 @@
       <button class="btn btn-outline-primary" (click)="scrollTo(features)">
         Les fonctionnalités
       </button>
+      <button class="btn btn-outline-primary" (click)="scrollTo(videos)">
+        Télécharger les tutos vidéos
+      </button>
     </div>
 
     <div id="faq-ladom" #ladom>
@@ -399,6 +402,105 @@
       pas envisagé de mettre en place la signature électronique sur DomiFa. Le
       choix appartient à chaque structure de conserver ou non le registre de
       signature papier existant.
+    </div>
+  </div>
+  <div #videos id="faq-videos">
+    <h3>Tutoriels vidéos</h3>
+    <p>
+      Voici quelques vidéos vous qui vous aideront à utiliser Domifa au mieux
+    </p>
+    <div class="text-center">
+      <div>
+        <h4>S'inscrire sur Domifa</h4>
+        <video id="video" controls="controls" preload="none" width="800">
+          <source
+            id="mp4"
+            src="https://domifaprod2.blob.core.windows.net/public/tuto_inscription_nouvelle_structure.mp4"
+            type="video/mp4"
+          /></video
+        ><br />
+        <a
+          class="btn btn-outline-primary"
+          href="https://domifaprod2.blob.core.windows.net/public/tuto_inscription_nouvelle_structure.mp4"
+          title=""
+          download
+          >Télécharger la vidéo</a
+        >
+      </div>
+      <br /><br />
+      <div>
+        <h4>Créer une domiciliation</h4>
+        <video id="video" controls="controls" preload="none" width="800">
+          <source
+            id="mp4"
+            src="https://domifaprod2.blob.core.windows.net/public/tuto_nouvelle_domilication.mp4"
+            type="video/mp4"
+          /></video
+        ><br />
+        <a
+          class="btn btn-outline-primary"
+          href="https://domifaprod2.blob.core.windows.net/public/tuto_nouvelle_domilication.mp4"
+          title=""
+          download="Tuto.mp4"
+          >Télécharger la vidéo</a
+        >
+      </div>
+      <div>
+        <h4>Importer vos domiciliés</h4>
+
+        <video id="video" controls="controls" preload="none" width="800">
+          <source
+            id="mp4"
+            src="https://domifaprod2.blob.core.windows.net/public/tuto_import.mp4"
+            type="video/mp4"
+          />
+        </video>
+        <br />
+        <a
+          class="btn-outline-primary btn"
+          href="https://domifaprod2.blob.core.windows.net/public/tuto_import.mp4"
+          download=""
+          >Télécharger la vidéo</a
+        >
+      </div>
+      <br /><br />
+      <div>
+        <h4>La liste des domiciliés</h4>
+        <video id="video" controls="controls" preload="none" width="800">
+          <source
+            id="mp4"
+            src="https://domifaprod2.blob.core.windows.net/public/tuto_liste_usagers.mp4"
+            type="video/mp4"
+          />
+        </video>
+        <br />
+        <a
+          class="btn-outline-primary btn"
+          href="https://domifaprod2.blob.core.windows.net/public/tuto_liste_usagers.mp4"
+          title=""
+          download
+          >Télécharger la vidéo</a
+        >
+      </div>
+      <br /><br />
+      <div>
+        <h4>Mon compte</h4>
+        <video id="video" controls="controls" preload="none" width="800">
+          <source
+            id="mp4"
+            src="https://domifaprod2.blob.core.windows.net/public/tuto_interface_usager_structure.mp4"
+            type="video/mp4"
+          /></video
+        ><br />
+        <a
+          class="btn btn-outline-primary"
+          href="https://domifaprod2.blob.core.windows.net/public/tuto_interface_usager_structure.mp4"
+          title=""
+          download
+          >Télécharger la vidéo</a
+        >
+      </div>
+      <br /><br />
     </div>
   </div>
 </div>

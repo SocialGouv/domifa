@@ -96,9 +96,9 @@ describe("UsagerService", () => {
       userId: 2,
     });
 
-    service.createRdv(rdv, 1).subscribe((usager: Usager) => {
-      expect(usager.rdv.userName).toEqual("Juste Isabelle");
-    });
+    // service.createRdv(rdv, 1).subscribe((usager: Usager) => {
+    //   expect(usager.rdv.userName).toEqual("Juste Isabelle");
+    // });
 
     service.findOne(1).subscribe((usager: Usager) => {
       expect(usager.prenom).toEqual("Marta");
