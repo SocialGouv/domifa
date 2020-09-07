@@ -784,14 +784,14 @@ export class StatsGeneratorService {
   }
 
   public async countStructures(): Promise<any> {
-    return this.structureModel.count({}).exec();
+    return this.structureModel.countDocuments({}).exec();
   }
 
   public async countInteractions(): Promise<any> {
-    return this.interactionModel.count({ type: "courrierIn" }).exec();
+    return this.interactionModel.countDocuments({ type: "courrierIn" }).exec();
   }
 
   public async countUsagers(): Promise<any> {
-    return this.usagerModel.count({}).exec();
+    return this.usagerModel.countDocuments({}).exec();
   }
 }
