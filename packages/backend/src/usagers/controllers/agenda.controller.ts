@@ -6,6 +6,7 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  Response,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { UsagersService } from "../services/usagers.service";
@@ -44,14 +45,13 @@ export class AgendaController {
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: User,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: Usager,
+    @Response() res: any
   ) {
     const user: User = await this.usersService.findOne({
       id: rdvDto.userId,
       structureId: currentUser.structureId,
     });
-
-    usager = await this.usagersService.setRdv(usager.id, rdvDto, user);
 
     if (!user) {
       throw new HttpException("USER_AGENDA_NOT_EXIST", HttpStatus.BAD_REQUEST);
@@ -71,7 +71,7 @@ export class AgendaController {
     const heure = dateRdv.getHours();
     const minutes = dateRdv.getMinutes();
 
-    const invitation = ics.createEvent({
+    const invitation: ics.ReturnObject = ics.createEvent({
       title,
       description: "Entretien demande de domiciliation",
       start: [annee, mois, jour, heure, minutes],
@@ -82,7 +82,8 @@ export class AgendaController {
       duration: { minutes: 30 },
     });
 
-    if (invitation.error === null) {
+    if (invitation.value && invitation.value !== null) {
+      const attachment = new Buffer(invitation.value).toString("base64");
       let msg = "";
       if (currentUser.id !== user.id) {
         msg =
@@ -92,23 +93,28 @@ export class AgendaController {
           currentUser.nom;
       }
 
-      return this.tipimailService
-        .mailRdv(user, usager, invitation, msg)
-        .then((res) => {
-          return usager;
-        })
-        .catch((err) => {
-          throw new HttpException(
-            "MAIL_ENTRETIEN",
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        });
-    } else {
-      throw new HttpException(
-        "ICS_GENERATION",
-        HttpStatus.INTERNAL_SERVER_ERROR
+      const updatedUsager = await this.usagersService.setRdv(
+        usager.id,
+        rdvDto,
+        user
       );
+
+      if (updatedUsager && updatedUsager !== null) {
+        this.tipimailService.mailRdv(user, updatedUsager, attachment, msg).then(
+          (result) => {
+            return res.status(HttpStatus.OK).json(updatedUsager);
+          },
+          (error) => {
+            return res
+              .status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .json({ message: "REGISTER_ERROR" });
+          }
+        );
+      }
     }
+    throw new HttpException("ICS_GENERATION", HttpStatus.INTERNAL_SERVER_ERROR);
+
+    // return
   }
 
   @Get("")

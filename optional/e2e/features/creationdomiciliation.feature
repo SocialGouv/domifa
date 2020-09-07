@@ -292,7 +292,7 @@ Scénario: Champs ville de naissance vide
   #Quand je clique sur "Suivant"
   #Alors je vois "Entretien avec le demandeur"
 #
-  #Quand je clique sur "Passer cette étape"
+  #Quand je clique sur "Continuer plus tard"
   #Alors je vois "L’entretien préalable est obligatoire"
 #
   #Quand je clique sur "Continuer sans entretien"
@@ -316,7 +316,7 @@ Scénario: Champs ville de naissance vide
   #Quand je clique sur "Suivant"
   #Alors je vois "Entretien avec le demandeur"
 #
-  #Quand je clique sur "Passer cette étape"
+  #Quand je clique sur "Continuer plus tard"
   #Alors je vois "L’entretien préalable est obligatoire"
 #
   #Quand je clique sur "Revenir à l'entretien"

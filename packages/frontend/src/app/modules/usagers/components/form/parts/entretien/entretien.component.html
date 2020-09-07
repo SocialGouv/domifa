@@ -23,9 +23,7 @@
             id="orientation_oui"
             [value]="true"
           />
-          <label class="form-check-label" for="orientation_oui">
-            Oui
-          </label>
+          <label class="form-check-label" for="orientation_oui"> Oui </label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -35,9 +33,7 @@
             id="orientation_non"
             [value]="false"
           />
-          <label class="form-check-label" for="orientation_non">
-            Non
-          </label>
+          <label class="form-check-label" for="orientation_non"> Non </label>
         </div>
       </div>
 
@@ -73,9 +69,7 @@
             id="domiciliation_oui"
             [value]="true"
           />
-          <label class="form-check-label" for="domiciliation_oui">
-            Oui
-          </label>
+          <label class="form-check-label" for="domiciliation_oui"> Oui </label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -85,9 +79,7 @@
             id="domiciliation_non"
             [value]="false"
           />
-          <label class="form-check-label" for="domiciliation_non">
-            Non
-          </label>
+          <label class="form-check-label" for="domiciliation_non"> Non </label>
         </div>
       </div>
 
@@ -101,9 +93,7 @@
             id="revenus_oui"
             [value]="true"
           />
-          <label class="form-check-label" for="revenus_oui">
-            Oui
-          </label>
+          <label class="form-check-label" for="revenus_oui"> Oui </label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -113,9 +103,7 @@
             id="revenus_non"
             [value]="false"
           />
-          <label class="form-check-label" for="revenus_non">
-            Non
-          </label>
+          <label class="form-check-label" for="revenus_non"> Non </label>
         </div>
       </div>
 
@@ -146,9 +134,7 @@
       </div>
 
       <div class="questions">
-        <span class="label">
-          Quelle est la composition de votre ménage ?
-        </span>
+        <span class="label"> Quelle est la composition de votre ménage ? </span>
         <div class="form-check" *ngFor="let key of typeMenageList">
           <input
             class="form-check-input"
@@ -296,9 +282,7 @@
             id="accompagnement_oui"
             [value]="true"
           />
-          <label class="form-check-label" for="accompagnement_oui">
-            Oui
-          </label>
+          <label class="form-check-label" for="accompagnement_oui"> Oui </label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -308,9 +292,7 @@
             id="accompagnement_non"
             [value]="false"
           />
-          <label class="form-check-label" for="accompagnement_non">
-            Non
-          </label>
+          <label class="form-check-label" for="accompagnement_non"> Non </label>
         </div>
       </div>
 
@@ -369,7 +351,7 @@
         *ngIf="usager.decision.statut === 'INSTRUCTION'"
         (click)="open(entretienConfirmation)"
       >
-        <u>Passer cette étape</u>
+        <u>Continuer plus tard</u>
         &nbsp;
         <fa-icon icon="angle-right"></fa-icon>
       </span>

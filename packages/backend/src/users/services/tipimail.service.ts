@@ -15,6 +15,7 @@ import { Usager } from "../../usagers/interfaces/usagers";
 import { AxiosResponse } from "axios";
 
 import { Observable } from "rxjs/internal/Observable";
+import { ReturnObject } from "ics";
 
 @Injectable()
 export class TipimailService {
@@ -365,7 +366,7 @@ export class TipimailService {
   public async mailRdv(
     user: User,
     usager: Usager,
-    event: any,
+    event: string,
     message: string
   ) {
     const prenomUsager =
@@ -418,8 +419,8 @@ export class TipimailService {
         attachments: [
           {
             contentType: "text/calendar",
-            filename: "entretien.ics",
-            content: event.toString("base64"),
+            filename: "invitation.ics",
+            content: event,
           },
         ],
       },
@@ -432,6 +433,16 @@ export class TipimailService {
           "X-Tipimail-ApiKey": process.env.SMTP_PASS,
         },
       })
-      .toPromise();
+      .subscribe(
+        (retour: any) => {
+          return true;
+        },
+        (erreur: any) => {
+          throw new HttpException(
+            "MAIL_RDV_ERROR",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      );
   }
 }
