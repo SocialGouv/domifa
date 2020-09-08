@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FaqComponent } from "./faq.component";
+import { ToastrModule } from "ngx-toastr";
 
 describe("FaqComponent", () => {
   let component: FaqComponent;
@@ -25,6 +26,14 @@ describe("FaqComponent", () => {
         HttpClientModule,
         HttpClientTestingModule,
         RouterModule.forRoot([]),
+        ToastrModule.forRoot({
+          enableHtml: true,
+          positionClass: "toast-top-full-width",
+          preventDuplicates: true,
+          progressAnimation: "increasing",
+          progressBar: true,
+          timeOut: 2000,
+        }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
