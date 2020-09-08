@@ -33,6 +33,15 @@
           <br />
           Orientation proposée : {{ usager.decision.orientationDetails}}
         </div>
+        <button
+          *ngIf="me.role !== 'facteur'"
+          (click)="open(renewConfirmation)"
+          class="btn btn-outline-secondary"
+        >
+          <fa-icon icon="redo" class="btn-icon"></fa-icon>
+          Créer une nouvelle demande
+        </button>
+        &nbsp;&nbsp;
         <button (click)="getAttestation()" class="btn btn-primary">
           <fa-icon icon="download"></fa-icon>
           Télécharger le CERFA de refus
