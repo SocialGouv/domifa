@@ -119,7 +119,6 @@ export class RapportComponent implements OnInit {
   public export() {
     this.exportLoading = true;
 
-    console.log(this.start);
     this.statsService.export(this.start, this.end).subscribe(
       (x: any) => {
         const newBlob = new Blob([x], {

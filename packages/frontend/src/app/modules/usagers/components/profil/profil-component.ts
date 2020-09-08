@@ -141,12 +141,14 @@ export class UsagersProfilComponent implements OnInit {
       courrierIn: 0,
       recommandeIn: 0,
     };
+
+    this.authService.currentUser.subscribe((user: User) => {
+      this.me = user;
+    });
   }
 
   public ngOnInit() {
     this.titleService.setTitle("Fiche d'un domicilié");
-
-    this.me = this.authService.currentUserValue;
 
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
@@ -161,9 +163,9 @@ export class UsagersProfilComponent implements OnInit {
           // Refus : interdits pour les facteurs
           if (usager.decision.statut === "REFUS") {
             if (
-              this.authService.currentUserValue.role !== "admin" &&
-              this.authService.currentUserValue.role !== "responsable" &&
-              this.authService.currentUserValue.role !== "simple"
+              this.me.role !== "admin" &&
+              this.me.role !== "responsable" &&
+              this.me.role !== "simple"
             ) {
               this.notifService.error(
                 "Vos droits ne vous permettent pas d'accéder à cette page"

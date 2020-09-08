@@ -46,12 +46,11 @@ export class AppComponent implements OnInit {
       new: "Nouveauté",
     };
 
-    this.me = null;
     this.domifaNews = null;
     this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
 
-    this.authService.currentUser.subscribe((x) => {
-      this.me = x;
+    this.authService.currentUser.subscribe((user: User) => {
+      this.me = user;
     });
   }
 

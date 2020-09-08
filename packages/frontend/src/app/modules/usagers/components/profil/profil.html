@@ -1,4 +1,4 @@
-<div *ngIf="usager" class="container">
+<div *ngIf="usager && me" class="container">
   <div class="row">
     <div class="col-md-2 text-center">
       <a routerLink="/manage/">
@@ -52,7 +52,7 @@
 
         <div class="col-md-12">
           <button
-            *ngIf="authService.currentUserValue.role !== 'facteur'"
+            *ngIf="me.role !== 'facteur'"
             (click)="open(renewConfirmation)"
             class="btn btn-outline-secondary"
           >
@@ -106,7 +106,7 @@
       </div>
 
       <div
-        *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60 && authService.currentUserValue.role !== 'facteur'"
+        *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60 && me.role !== 'facteur'"
         class="text-center row"
       >
         <div class="w-100">
@@ -277,7 +277,7 @@
     type="info"
     [dismissible]="false"
     class="text-center"
-    *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT' && authService.currentUserValue.role !== 'facteur'"
+    *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT' && me.role !== 'facteur'"
   >
     Une demande de renouvellement est actuellement en cours &nbsp;
     <a [routerLink]="['/usager/'+usager.id+'/edit']" class="btn btn-light">
@@ -479,7 +479,7 @@
 
           <div
             class="col-md-12 text-center"
-            *ngIf="usager.decision.statut === 'VALIDE' && authService.currentUserValue.role !== 'facteur'"
+            *ngIf="usager.decision.statut === 'VALIDE' && me.role !== 'facteur'"
           >
             <br />
             <button
@@ -852,7 +852,7 @@
           </table>
           <div
             class="col-md-12 text-center"
-            *ngIf="usager.decision.statut === 'VALIDE' && authService.currentUserValue.role !== 'facteur'"
+            *ngIf="usager.decision.statut === 'VALIDE' && me.role !== 'facteur'"
           >
             <br />
             <button
@@ -1349,10 +1349,7 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel
-      id="panel-4"
-      *ngIf="authService.currentUserValue.role !== 'facteur'"
-    >
+    <ngb-panel id="panel-4" *ngIf="me.role !== 'facteur'">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
@@ -1502,7 +1499,7 @@
 
         <div
           class="col-md-12 text-center"
-          *ngIf="usager.decision.statut === 'VALIDE' && authService.currentUserValue.role !== 'facteur'"
+          *ngIf="usager.decision.statut === 'VALIDE' && me.role !== 'facteur'"
         >
           <br />
           <button
@@ -1517,10 +1514,7 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel
-      id="panel-5"
-      *ngIf="authService.currentUserValue.role !== 'facteur'"
-    >
+    <ngb-panel id="panel-5" *ngIf="me.role !== 'facteur'">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
@@ -1585,7 +1579,7 @@
   </ngb-accordion>
   <div
     class="text-center"
-    *ngIf="usager.decision.statut === 'VALIDE' && authService.currentUserValue.role !== 'facteur'"
+    *ngIf="usager.decision.statut === 'VALIDE' && me.role !== 'facteur'"
   >
     <br />
     <div class="row">

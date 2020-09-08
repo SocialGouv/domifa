@@ -52,8 +52,8 @@ export class EntretienComponent implements OnInit {
     private modalService: NgbModal,
     public authService: AuthService
   ) {
-    this.authService.currentUser.subscribe((x) => {
-      this.me = x;
+    this.authService.currentUser.subscribe((user: User) => {
+      this.me = user;
     });
   }
 

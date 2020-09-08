@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Title, Meta } from "@angular/platform-browser";
+import { HttpClient } from "@angular/common/http";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-faq",
@@ -7,7 +9,12 @@ import { Title, Meta } from "@angular/platform-browser";
   templateUrl: "./faq.component.html",
 })
 export class FaqComponent implements OnInit {
-  constructor(private titleService: Title, private meta: Meta) {}
+  constructor(
+    private titleService: Title,
+    private meta: Meta,
+    private http: HttpClient,
+    private notifService: ToastrService
+  ) {}
 
   public ngOnInit() {
     this.titleService.setTitle("Foire aux question de Domifa");
@@ -17,6 +24,13 @@ export class FaqComponent implements OnInit {
       content:
         "Foire aux questions de DOMIFA : RGPD, conditions d'utilisations, réglement, toutes vos questions trouveront leur réponse ici !",
     });
+  }
+
+  public download(url: string, nom: string) {
+    saveAs(url, nom + ".mp4");
+    setTimeout(() => {
+      this.notifService.success("Le téléchargement vient de débuter");
+    }, 500);
   }
 
   public scrollTo(el: HTMLElement) {
