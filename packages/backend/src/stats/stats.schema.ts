@@ -31,6 +31,7 @@ export const StatsSchema = new mongoose.Schema(
       },
 
       Q_12: {
+        AUTRE: { type: Number, default: 0 },
         A_SA_DEMANDE: { type: Number, default: 0 },
         ENTREE_LOGEMENT: { type: Number, default: 0 },
         FIN_DE_DOMICILIATION: { type: Number, default: 0 },

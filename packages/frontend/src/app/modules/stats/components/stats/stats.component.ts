@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   ChangeDetectorRef,
-  AfterViewChecked,
   AfterViewInit,
 } from "@angular/core";
 

@@ -365,6 +365,11 @@ export class StatsController {
         A: this.motifsRadiation.ENTREE_LOGEMENT,
         B: stats.questions.Q_12.ENTREE_LOGEMENT,
       },
+
+      {
+        A: this.motifsRadiation.ENTREE_LOGEMENT,
+        B: stats.questions.Q_12.AUTRE,
+      },
       {
         A: "",
         B: "",
@@ -384,6 +389,10 @@ export class StatsController {
       {
         A: this.motifsRefus.SATURATION,
         B: stats.questions.Q_13.SATURATION,
+      },
+      {
+        A: "Autre motif",
+        B: stats.questions.Q_13.AUTRE,
       },
       {
         A: "Répartition des orientations",
@@ -468,6 +477,7 @@ export class StatsController {
       },
 
       Q_12: {
+        AUTRE: B.questions.Q_12.AUTRE - A.questions.Q_12.AUTRE,
         TOTAL: B.questions.Q_12.TOTAL - A.questions.Q_12.TOTAL,
         A_SA_DEMANDE:
           B.questions.Q_12.A_SA_DEMANDE - A.questions.Q_12.A_SA_DEMANDE,
