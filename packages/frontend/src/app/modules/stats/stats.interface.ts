@@ -27,6 +27,7 @@ export class Stats {
 
     /* Q12 :Nombre total de radiations durant l'année:*/
     Q_12: {
+      AUTRE: number;
       TOTAL: number;
       A_SA_DEMANDE: number;
       ENTREE_LOGEMENT: number;
