@@ -82,6 +82,14 @@ export class UsagerService {
       );
   }
 
+  public deleteRenew(usagerId: number): Observable<Usager> {
+    return this.http.delete(`${this.endPointUsagers}/renew/${usagerId}`).pipe(
+      map((response) => {
+        return new Usager(response);
+      })
+    );
+  }
+
   public nextStep(usagerId: number, etapeDemande: number): Observable<Usager> {
     return this.http
       .get(`${this.endPointUsagers}/next-step/${usagerId}/${etapeDemande}`)

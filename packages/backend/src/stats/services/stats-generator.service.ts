@@ -136,6 +136,12 @@ export class StatsGeneratorService {
       "A_SA_DEMANDE"
     );
 
+    stat.questions.Q_12.AUTRE = await this.totalAnnee(
+      structure.id,
+      "RADIE",
+      "AUTRE"
+    );
+
     stat.questions.Q_12.ENTREE_LOGEMENT = await this.totalAnnee(
       structure.id,
       "RADIE",
@@ -184,6 +190,12 @@ export class StatsGeneratorService {
       structure.id,
       "REFUS",
       "SATURATION"
+    );
+
+    stat.questions.Q_13.AUTRE = await this.totalAnnee(
+      structure.id,
+      "REFUS",
+      "AUTRE"
     );
 
     stat.questions.Q_14.ASSO = await this.totalAnnee(

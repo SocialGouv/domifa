@@ -860,3 +860,23 @@
     </button>
   </div>
 </ng-template>
+
+<ng-template #deleteRenewConfirmation let-modal>
+  <div class="modal-body text-center">
+    <b class="text-danger">Attention !</b>
+    <br />
+    <br />
+    Si vous supprimez cette demande de renouvellement, l'usager retrouvera son
+    précédent statut : {{ usager.historique[usager.historique.length - 1].statut
+    }}
+    <br />
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      Revenir au profil
+    </button>
+    <button class="btn btn-danger" (click)="deleteRenew();">
+      Supprimer la demande
+    </button>
+  </div>
+</ng-template>

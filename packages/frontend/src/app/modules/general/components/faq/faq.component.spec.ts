@@ -1,4 +1,3 @@
-import { global } from "@angular/compiler/src/util";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -10,6 +9,7 @@ import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FaqComponent } from "./faq.component";
 import { ToastrModule } from "ngx-toastr";
+import { MatomoInjector, MatomoTracker, MatomoModule } from "ngx-matomo";
 
 describe("FaqComponent", () => {
   let component: FaqComponent;
@@ -20,6 +20,7 @@ describe("FaqComponent", () => {
     TestBed.configureTestingModule({
       declarations: [FaqComponent],
       imports: [
+        MatomoModule,
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
@@ -35,7 +36,21 @@ describe("FaqComponent", () => {
           timeOut: 2000,
         }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

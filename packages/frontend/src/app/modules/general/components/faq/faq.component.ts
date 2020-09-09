@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Title, Meta } from "@angular/platform-browser";
 import { HttpClient } from "@angular/common/http";
 import { ToastrService } from "ngx-toastr";
+import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   selector: "app-faq",
@@ -13,6 +14,7 @@ export class FaqComponent implements OnInit {
     private titleService: Title,
     private meta: Meta,
     private http: HttpClient,
+    private matomo: MatomoTracker,
     private notifService: ToastrService
   ) {}
 
@@ -38,5 +40,9 @@ export class FaqComponent implements OnInit {
       behavior: "smooth",
       block: "start",
     });
+  }
+
+  public trackVideo(name: string) {
+    this.matomo.trackEvent("vues_videos_faq", name, "null", 1);
   }
 }

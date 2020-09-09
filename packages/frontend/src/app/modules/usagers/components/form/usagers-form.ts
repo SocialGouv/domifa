@@ -388,6 +388,21 @@ export class UsagersFormComponent implements OnInit {
     );
   }
 
+  public deleteRenew() {
+    this.usagerService.deleteRenew(this.usager.id).subscribe(
+      (result: any) => {
+        this.modal.close();
+        this.notifService.success(
+          "Demande de renouvellement supprimée avec succès"
+        );
+        this.router.navigate(["/manage"]);
+      },
+      (error) => {
+        this.notifService.error("Impossible de supprimer la fiche");
+      }
+    );
+  }
+
   public goToTop() {
     window.scroll({
       behavior: "smooth",

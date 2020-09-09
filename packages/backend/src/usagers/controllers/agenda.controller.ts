@@ -71,6 +71,16 @@ export class AgendaController {
     const heure = dateRdv.getHours();
     const minutes = dateRdv.getMinutes();
 
+    if (rdvDto.isNow === "oui") {
+      const updatedUsager = await this.usagersService.setRdv(
+        usager.id,
+        rdvDto,
+        user
+      );
+
+      return res.status(HttpStatus.OK).json(updatedUsager);
+    }
+
     const invitation: ics.ReturnObject = ics.createEvent({
       title,
       description: "Entretien demande de domiciliation",
@@ -83,7 +93,7 @@ export class AgendaController {
     });
 
     if (invitation.value && invitation.value !== null) {
-      const attachment = new Buffer(invitation.value).toString("base64");
+      const attachment = Buffer.from(invitation.value).toString("base64");
       let msg = "";
       if (currentUser.id !== user.id) {
         msg =
@@ -110,11 +120,15 @@ export class AgendaController {
               .json({ message: "REGISTER_ERROR" });
           }
         );
+      } else {
+        throw new HttpException("UPDATE_RDV", HttpStatus.INTERNAL_SERVER_ERROR);
       }
+    } else {
+      throw new HttpException(
+        "ICS_GENERATION",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
-    throw new HttpException("ICS_GENERATION", HttpStatus.INTERNAL_SERVER_ERROR);
-
-    // return
   }
 
   @Get("")

@@ -366,7 +366,7 @@ export class TipimailService {
   public async mailRdv(
     user: User,
     usager: Usager,
-    event: string,
+    event: any,
     message: string
   ) {
     const prenomUsager =
@@ -433,16 +433,6 @@ export class TipimailService {
           "X-Tipimail-ApiKey": process.env.SMTP_PASS,
         },
       })
-      .subscribe(
-        (retour: any) => {
-          return true;
-        },
-        (erreur: any) => {
-          throw new HttpException(
-            "MAIL_RDV_ERROR",
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-      );
+      .toPromise();
   }
 }

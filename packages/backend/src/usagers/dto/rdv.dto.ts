@@ -6,4 +6,7 @@ export class RdvDto {
 
   @IsNotEmpty()
   public dateRdv!: Date;
+
+  @IsNotEmpty()
+  public isNow!: string;
 }

@@ -248,6 +248,13 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @Delete("renew/:id")
+  public async deleteRenew(@CurrentUsager() usager: Usager) {
+    usager.decision = usager.historique[usager.historique.length - 1];
+    return this.usagersService.patch(usager, usager._id);
+  }
+
+  @UseGuards(AccessGuard)
   @Delete("transfert/:id")
   public async deleteTransfert(@CurrentUsager() usager: Usager) {
     usager.options.transfert = {
