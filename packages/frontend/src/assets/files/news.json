@@ -1,5 +1,5 @@
 [
-    {
+  {
     "date": "2020-09-10",
     "description": "Une notification par mail lors de la prise d’un rendez-vous pour un meilleur suivi !",
     "content": [
@@ -9,14 +9,12 @@
         "message": [
           "Ajout de tutoriels vidéo dans la FAQ",
           "Ajout d’un nouveau tutoriel d’import",
-          "Possibilité de créer une nouvelle demande de domiciliation suite à un refus”
+          "Possibilité de créer une nouvelle demande de domiciliation suite à un refus"
         ]
-      }
+      },
       {
         "type": "bug",
-        "message": [
-          "Ajout des motifs Autre dans les statistiques",
-        ]
+        "message": ["Ajout des motifs Autre dans les statistiques"]
       }
     ]
   },
