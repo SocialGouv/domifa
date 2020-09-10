@@ -49,11 +49,11 @@
     "zone.js": "~0.11.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.901.9",
+    "@angular-devkit/build-angular": "^0.1001.1",
     "@angular/cli": "^9.1.9",
     "@angular/compiler-cli": "^9.1.11",
     "@angular/language-service": "^9.1.11",
-    "@schematics/update": "^0.901.9",
+    "@schematics/update": "^0.1001.1",
     "@socialgouv/tslint-config-recommended": "^0.35.0",
     "@types/jest": "^26.0.13",
     "@types/node": "^8.9.5",
