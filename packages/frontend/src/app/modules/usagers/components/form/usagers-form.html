@@ -1,6 +1,6 @@
 <br />
 <div class="container" *ngIf="usager">
-  <div class="row">
+  <div class="row" *ngIf="me">
     <div id="steps">
       <div
         class="step"
@@ -58,6 +58,7 @@
       </ul>
     </ngb-alert>
   </div>
+
   <div class="step_form" *ngIf="usager.decision.statut === 'VALIDE'">
     <div class="row">
       <div class="col text-center">
@@ -526,6 +527,7 @@
     <!-- ///////// -->
     <!-- ETAPE 2 RENDEZVOUS -->
     <!-- ///////// -->
+
     <div class="step_form" *ngIf="usager.etapeDemande === 1" id="step_form1">
       <div class="text-center">
         <h5 class="title">
@@ -813,14 +815,23 @@
 
   <div
     class="not-print col-md-12 text-center text-danger"
-    *ngIf="(usager.decision.statut === 'ATTENTE_DECISION' || usager.decision.statut === 'INSTRUCTION')
-     && (me.role === 'admin' || me.role === 'responsable')
-     && usager.etapeDemande >= 1"
+    *ngIf="(me.role === 'admin' || me.role === 'responsable')"
   >
     <button
       class="btn btn-outline-danger"
       id="delete-usager"
+      *ngIf="usager.typeDom !== 'RENOUVELLEMENT' && usager.etapeDemande >= 1"
       (click)="open(deleteConfirmation)"
+    >
+      <fa-icon icon="trash" class="btn-icon"></fa-icon>
+      Supprimer cette demande
+    </button>
+
+    <button
+      class="btn btn-outline-danger"
+      id="delete-usager"
+      *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+      (click)="open(deleteRenewConfirmation)"
     >
       <fa-icon icon="trash" class="btn-icon"></fa-icon>
       Supprimer cette demande
@@ -867,8 +878,7 @@
     <br />
     <br />
     Si vous supprimez cette demande de renouvellement, l'usager retrouvera son
-    précédent statut : {{ usager.historique[usager.historique.length - 1].statut
-    }}
+    précédent statut : {{ usager.historique[0].statut }}
     <br />
   </div>
   <div class="modal-footer">

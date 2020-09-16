@@ -17,4 +17,16 @@ export interface Options {
     actif: boolean;
     dateDebut: Date | null;
   };
+  historique: {
+    transfert: HistoriqueOptions[];
+    procuration: HistoriqueOptions[];
+    npai: HistoriqueOptions[];
+  };
+}
+
+export interface HistoriqueOptions {
+  user: string;
+  date: Date;
+  action: string;
+  content?: {};
 }

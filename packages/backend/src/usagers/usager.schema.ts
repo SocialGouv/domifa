@@ -284,6 +284,20 @@ export const UsagerSchema = new mongoose.Schema(
           type: String,
         },
       },
+      historique: {
+        transfert: {
+          default: [],
+          type: Array,
+        },
+        procuration: {
+          default: [],
+          type: Array,
+        },
+        npai: {
+          default: [],
+          type: Array,
+        },
+      },
     },
     phone: {
       default: "",

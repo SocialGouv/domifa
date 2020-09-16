@@ -91,9 +91,26 @@ export class UsagersController {
 
   @UseGuards(AccessGuard)
   @Get("stop-courrier/:id")
-  public async stopCourrier(@CurrentUsager() usager: Usager) {
-    usager.options.npai.actif = true;
-    usager.options.npai.dateDebut = new Date();
+  public async stopCourrier(
+    @CurrentUsager() usager: Usager,
+    @CurrentUser() user: User
+  ) {
+    let action = "DELETE";
+    if (usager.options.npai.actif) {
+      usager.options.npai.actif = false;
+      usager.options.npai.dateDebut = null;
+    } else {
+      usager.options.npai.actif = true;
+      usager.options.npai.dateDebut = new Date();
+      action = "CREATION";
+    }
+
+    usager.options.historique.npai.push({
+      user: user.prenom + " " + user.nom,
+      action,
+      date: new Date(),
+    });
+
     return this.usagersService.patch(usager, usager._id);
   }
 
@@ -234,9 +251,12 @@ export class UsagersController {
   @Post("transfert/:id")
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
+    @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
   ) {
-    usager.options.transfert = {
+    const action = usager.options.transfert.actif ? "EDIT" : "CREATION";
+
+    const newTransfert = {
       actif: true,
       adresse: transfertDto.adresse,
       dateDebut: new Date(),
@@ -244,19 +264,33 @@ export class UsagersController {
       nom: transfertDto.nom,
     };
 
+    usager.options.historique.transfert.push({
+      user: user.prenom + " " + user.nom,
+      action,
+      date: new Date(),
+      content: newTransfert,
+    });
+
+    usager.options.transfert = newTransfert;
+
     return this.usagersService.patch(usager, usager._id);
   }
 
   @UseGuards(AccessGuard)
   @Delete("renew/:id")
   public async deleteRenew(@CurrentUsager() usager: Usager) {
+    usager.etapeDemande = 1;
     usager.decision = usager.historique[usager.historique.length - 1];
+    usager.historique.splice(usager.historique.length - 1, 1);
     return this.usagersService.patch(usager, usager._id);
   }
 
   @UseGuards(AccessGuard)
   @Delete("transfert/:id")
-  public async deleteTransfert(@CurrentUsager() usager: Usager) {
+  public async deleteTransfert(
+    @CurrentUser() user: User,
+    @CurrentUsager() usager: Usager
+  ) {
     usager.options.transfert = {
       actif: false,
       adresse: "",
@@ -264,6 +298,14 @@ export class UsagersController {
       dateDebut: null,
       dateFin: null,
     };
+
+    usager.options.historique.transfert.push({
+      user: user.prenom + " " + user.nom,
+      action: "DELETE",
+      date: new Date(),
+      content: {},
+    });
+
     return this.usagersService.patch(usager, usager._id);
   }
 
@@ -274,7 +316,8 @@ export class UsagersController {
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
   ) {
-    usager.options.procuration = {
+    const action = usager.options.procuration.actif ? "EDIT" : "CREATION";
+    const newProcuration = {
       actif: true,
       dateFin: procurationDto.dateFin,
       dateNaissance: procurationDto.dateNaissance,
@@ -282,6 +325,14 @@ export class UsagersController {
       prenom: procurationDto.prenom,
     };
 
+    usager.options.historique.procuration.push({
+      user: user.prenom + " " + user.nom,
+      action,
+      date: new Date(),
+      content: newProcuration,
+    });
+
+    usager.options.procuration = newProcuration;
     return this.usagersService.patch(usager, usager._id);
   }
 
@@ -299,6 +350,13 @@ export class UsagersController {
       nom: "",
       prenom: "",
     };
+
+    usager.options.historique.procuration.push({
+      user: user.prenom + " " + user.nom,
+      action: "DELETE",
+      date: new Date(),
+      content: {},
+    });
 
     return this.usagersService.patch(usager, usager._id);
   }

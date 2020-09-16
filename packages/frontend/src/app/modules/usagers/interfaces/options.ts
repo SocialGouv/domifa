@@ -1,6 +1,13 @@
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { formatDateToNgb } from "src/app/shared/bootstrap-util";
 
+export interface HistoriqueOptions {
+  user: string;
+  date: Date;
+  action: string;
+  content: {};
+}
+
 export class Options {
   public transfert: {
     actif: boolean;
@@ -27,6 +34,12 @@ export class Options {
     dateDebut: Date | null;
   };
 
+  public historique: {
+    transfert: HistoriqueOptions[];
+    procuration: HistoriqueOptions[];
+    npai: HistoriqueOptions[];
+  };
+
   constructor(options?: any) {
     this.transfert = {
       actif: false,
@@ -51,6 +64,12 @@ export class Options {
       nom: "",
       nomComplet: "",
       prenom: "",
+    };
+
+    this.historique = {
+      transfert: [],
+      procuration: [],
+      npai: [],
     };
 
     if (options) {
@@ -104,6 +123,12 @@ export class Options {
         if (options.npai.dateDebut && options.npai.dateDebut !== null) {
           this.npai.dateDebut = new Date(options.npai.dateDebut);
         }
+      }
+
+      if (typeof options.historique !== "undefined") {
+        this.historique.transfert = options.historique.transfert || [];
+        this.historique.procuration = options.historique.procuration || [];
+        this.historique.npai = options.historique.npai || [];
       }
     }
   }

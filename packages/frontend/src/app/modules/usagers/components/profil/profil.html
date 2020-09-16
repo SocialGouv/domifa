@@ -1172,15 +1172,19 @@
               *ngIf="usager.options.procuration.actif && !editProcurationForm"
               class="row"
             >
-              <div class="col-md-4 reponses">
+              <div class="col-md-3 reponses">
                 <span class="question">Nom</span>
                 <span class="valeur">
-                  {{ usager.options.procuration.nom | uppercase }} {{
-                  usager.options.procuration.prenom }}
+                  {{ usager.options.procuration.nom | uppercase }}
                 </span>
               </div>
-
-              <div class="col-md-4 reponses">
+              <div class="col-md-3 reponses">
+                <span class="question">Prénom</span>
+                <span class="valeur">
+                  {{ usager.options.procuration.prenom }}
+                </span>
+              </div>
+              <div class="col-md-3 reponses">
                 <span class="question">Date de naissance</span>
                 <span class="valeur">
                   {{ usager.options.procuration.dateNaissance | date:
@@ -1188,7 +1192,7 @@
                 </span>
               </div>
 
-              <div class="col-md-4 reponses">
+              <div class="col-md-3 reponses">
                 <span class="question">Date de fin de validité</span>
                 <span class="valeur">
                   {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy' }}

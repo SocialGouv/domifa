@@ -38,7 +38,6 @@ export interface Usager extends Document {
 
   lastInteraction: {
     [key: string]: any;
-
     dateInteraction: Date;
     enAttente: boolean;
     courrierIn: number;
@@ -52,7 +51,6 @@ export interface Usager extends Document {
   datePremiereDom: Date;
 
   options: Options;
-  lastOptions: [{ type: string; content: any }];
 
   migration: boolean;
 }

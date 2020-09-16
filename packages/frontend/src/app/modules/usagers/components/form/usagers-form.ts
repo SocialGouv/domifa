@@ -194,12 +194,16 @@ export class UsagersFormComponent implements OnInit {
       heureRdv: [this.usager.rdv.heureRdv, [Validators.required]],
       isNow: [this.usager.rdv.isNow, []],
       jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
-      userId: [this.usager.id, Validators.required],
+      userId: [this.usager.rdv.userId, Validators.required],
     });
 
     this.userService.getUsersMeeting().subscribe((users: User[]) => {
       this.agents = users;
-      this.rdvForm.controls.userId.setValue(users[0].id, {
+
+      const userIdRdv =
+        this.usager.rdv.userId === null ? this.me.id : this.usager.rdv.userId;
+
+      this.rdvForm.controls.userId.setValue(userIdRdv, {
         onlySelf: true,
       });
     });
