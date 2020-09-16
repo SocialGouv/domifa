@@ -293,10 +293,6 @@ export const UsagerSchema = new mongoose.Schema(
           default: [],
           type: Array,
         },
-        npai: {
-          default: [],
-          type: Array,
-        },
       },
     },
     phone: {

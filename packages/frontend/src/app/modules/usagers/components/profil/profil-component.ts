@@ -443,9 +443,16 @@ export class UsagersProfilComponent implements OnInit {
       }
     }
 
+    if (interaction.type === "npai") {
+      interaction.content = this.usager.options.npai.actif
+        ? "Activé"
+        : "Désactivé";
+    }
+
     this.interactionService.setInteraction(this.usager, interaction).subscribe(
       (usager: Usager) => {
         this.usager = usager;
+
         this.notifService.success(interactionsLabels[type]);
         this.usager.lastInteraction = usager.lastInteraction;
         this.getInteractions();
@@ -547,8 +554,8 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.stopCourrier(this.usager.id).subscribe(
       (usager: Usager) => {
         this.usager.options = new Options(usager.options);
+        this.setInteraction("npai", false);
         this.notifService.success("Pli non distribuable enregistré");
-        this.getInteractions();
       },
       (error) => {
         this.notifService.error("Cette opération a échoué");

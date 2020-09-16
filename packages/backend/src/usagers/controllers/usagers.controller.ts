@@ -96,29 +96,13 @@ export class UsagersController {
     @CurrentUsager() usager: Usager,
     @CurrentUser() user: User
   ) {
-    let action = "Activé";
     if (usager.options.npai.actif) {
       usager.options.npai.actif = false;
       usager.options.npai.dateDebut = null;
     } else {
       usager.options.npai.actif = true;
       usager.options.npai.dateDebut = new Date();
-      action = "Désactivé";
     }
-
-    const interactionDto: InteractionDto = {
-      type: "npai",
-      content: action,
-      transfert: false,
-      procuration: false,
-      nbCourrier: 0,
-    };
-
-    const interaction = await this.interactionService.create(
-      usager,
-      user,
-      interactionDto
-    );
 
     return this.usagersService.patch(usager, usager._id);
   }

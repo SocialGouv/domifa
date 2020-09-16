@@ -9,6 +9,7 @@ export const interactionsLabels: {
   recommandeIn: "Avis de passage enregistré",
   recommandeOut: "Avis de passage remis",
   visite: "Passage enregistré",
+  npai: "N'habite plus à l'adresse indiquée",
 };
 
 export const interactionsLabelsPluriel: {

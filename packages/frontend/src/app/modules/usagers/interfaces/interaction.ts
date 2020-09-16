@@ -11,6 +11,7 @@ export type InteractionTypes =
   | "colisIn"
   | "colisOut"
   | "appel"
+  | "npai"
   | "visite";
 
 export class Interaction {
@@ -45,7 +46,11 @@ export class Interaction {
     this.delete = false;
     this.id = interaction._id;
 
-    if (this.type !== "appel" && this.type !== "visite") {
+    if (
+      this.type !== "appel" &&
+      this.type !== "visite" &&
+      this.type !== "npai"
+    ) {
       const nbCourrierTemp = !this.nbCourrier ? 1 : this.nbCourrier;
       this.label = nbCourrierTemp.toString() + " ";
       this.label =
