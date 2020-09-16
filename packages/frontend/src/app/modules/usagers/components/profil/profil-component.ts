@@ -67,6 +67,10 @@ export class UsagersProfilComponent implements OnInit {
     [key: string]: any;
   };
 
+  public actions: {
+    [key: string]: any;
+  };
+
   public labels: any;
   public liensLabels: any;
   public typeMenageList: any;
@@ -140,6 +144,12 @@ export class UsagersProfilComponent implements OnInit {
       colisIn: 0,
       courrierIn: 0,
       recommandeIn: 0,
+    };
+
+    this.actions = {
+      EDIT: "Modification",
+      DELETE: "Suppression",
+      CREATION: "Création",
     };
 
     this.authService.currentUser.subscribe((user: User) => {

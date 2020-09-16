@@ -5,7 +5,14 @@ export interface HistoriqueOptions {
   user: string;
   date: Date;
   action: string;
-  content: {};
+  content: {
+    adresse?: string | null;
+    dateDebut?: Date | null;
+    dateFin?: Date | null;
+    dateNaissance?: Date | null;
+    nom?: string;
+    prenom?: string;
+  };
 }
 
 export class Options {

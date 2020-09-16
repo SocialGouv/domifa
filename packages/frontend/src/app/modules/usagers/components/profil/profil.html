@@ -150,7 +150,11 @@
   </div>
 
   <div>
-    <div *ngIf="usager.options.npai.actif" class="text-center">
+    <div
+      *ngIf="usager.options.npai.actif"
+      class="text-center"
+      (click)="stopCourrier()"
+    >
       <fa-icon icon="ban" size="3x" class="npai actions_icones"> </fa-icon>
       <span class="text-danger">
         N'habite plus à l'adresse indiquée, pli non distribuable
@@ -1132,6 +1136,41 @@
                 </div>
               </div>
             </form>
+
+            <ng-container
+              *ngIf="usager.options.historique.transfert.length > 0"
+            >
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Historique des transferts</h4>
+                </div>
+              </div>
+              <table class="table table-light table-hover">
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Valide jusqu'au</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let transfert of usager.options.historique.transfert"
+                  >
+                    <td>
+                      {{ actions[transfert.action] }} le {{ transfert.date |
+                      date: 'dd/MM/yyyy' }} par {{ transfert.user }}
+                    </td>
+                    <td>{{ transfert.content.nom }}</td>
+                    <td>{{ transfert.content.adresse }}</td>
+                    <td>
+                      {{ transfert.content.dateFin | date: 'dd/MM/yyyy' }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
           </div>
         </div>
       </ng-template>
@@ -1220,6 +1259,7 @@
                 </button>
               </div>
             </div>
+
             <form
               *ngIf="editProcurationForm && me.role !== 'facteur'"
               [formGroup]="procurationForm"
@@ -1357,6 +1397,40 @@
                 </div>
               </div>
             </form>
+            <ng-container
+              *ngIf="usager.options.historique.procuration.length > 0"
+            >
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Historique des procurations</h4>
+                </div>
+              </div>
+              <table class="table table-light table-hover">
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Nom prénom</th>
+                    <th>Date de naissance</th>
+                    <th>Date de fin de validité</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let procu of usager.options.historique.procuration"
+                  >
+                    <td>
+                      {{ actions[procu.action] }} le {{ procu.date | date:
+                      'dd/MM/yyyy' }} par {{ procu.user }}
+                    </td>
+                    <td>{{ procu.content.nom }} {{ procu.content.prenom }}</td>
+                    <td>
+                      {{ procu.content.dateNaissance | date: 'dd/MM/yyyy' }}
+                    </td>
+                    <td>{{ procu.content.dateFin | date: 'dd/MM/yyyy' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
           </div>
         </div>
       </ng-template>
