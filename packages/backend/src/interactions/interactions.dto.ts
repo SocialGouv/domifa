@@ -16,6 +16,7 @@ export class InteractionDto {
     "colisOut",
     "appel",
     "visite",
+    "npai",
   ])
   @IsNotEmpty()
   public type!: string;

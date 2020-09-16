@@ -753,11 +753,15 @@
           Suivant
         </button>
 
-        <button (click)="nextStep(4)" type="submit" class="btn btn-block">
+        <a
+          routerLink="/manage"
+          routerLinkActive="router-link-active"
+          class="btn btn-block"
+        >
           <u>Continuer plus tard</u>
           &nbsp;
           <fa-icon icon="angle-right"></fa-icon>
-        </button>
+        </a>
       </div>
     </div>
     <div

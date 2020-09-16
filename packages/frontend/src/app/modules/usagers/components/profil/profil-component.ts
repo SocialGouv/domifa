@@ -546,10 +546,9 @@ export class UsagersProfilComponent implements OnInit {
   public stopCourrier() {
     this.usagerService.stopCourrier(this.usager.id).subscribe(
       (usager: Usager) => {
-        this.editTransfertForm = false;
-        this.transfertForm.reset();
         this.usager.options = new Options(usager.options);
         this.notifService.success("Pli non distribuable enregistré");
+        this.getInteractions();
       },
       (error) => {
         this.notifService.error("Cette opération a échoué");
@@ -560,7 +559,7 @@ export class UsagersProfilComponent implements OnInit {
   public deleteProcuration() {
     this.usagerService.deleteProcuration(this.usager.id).subscribe(
       (usager: any) => {
-        this.editTransfertForm = false;
+        this.editProcurationForm = false;
         this.procurationForm.reset();
         this.usager.options = new Options(usager.options);
         this.notifService.success("Procuration supprimée avec succès");

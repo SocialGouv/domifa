@@ -1142,6 +1142,7 @@
             >
               <div class="row">
                 <div class="col-md-12">
+                  <br />
                   <h4>Historique des transferts</h4>
                 </div>
               </div>
@@ -1198,9 +1199,9 @@
             >
               <p>Il n'y a aucun procuration actuellement</p>
               <button
-                (click)="editProcurationForm = true"
                 *ngIf="me.role !== 'facteur'"
                 class="btn btn-outline-primary"
+                (click)="editProcurationForm = true"
               >
                 <fa-icon icon="plus" class="btn-icon"></fa-icon>
                 Activer la procuration
@@ -1397,11 +1398,13 @@
                 </div>
               </div>
             </form>
+
             <ng-container
               *ngIf="usager.options.historique.procuration.length > 0"
             >
               <div class="row">
                 <div class="col-md-12">
+                  <br />
                   <h4>Historique des procurations</h4>
                 </div>
               </div>

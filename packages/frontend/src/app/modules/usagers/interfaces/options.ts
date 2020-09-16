@@ -44,7 +44,6 @@ export class Options {
   public historique: {
     transfert: HistoriqueOptions[];
     procuration: HistoriqueOptions[];
-    npai: HistoriqueOptions[];
   };
 
   constructor(options?: any) {
@@ -76,7 +75,6 @@ export class Options {
     this.historique = {
       transfert: [],
       procuration: [],
-      npai: [],
     };
 
     if (options) {
@@ -135,7 +133,6 @@ export class Options {
       if (typeof options.historique !== "undefined") {
         this.historique.transfert = options.historique.transfert || [];
         this.historique.procuration = options.historique.procuration || [];
-        this.historique.npai = options.historique.npai || [];
       }
     }
   }

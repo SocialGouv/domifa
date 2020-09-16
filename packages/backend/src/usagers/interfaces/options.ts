@@ -20,7 +20,6 @@ export interface Options {
   historique: {
     transfert: HistoriqueOptions[];
     procuration: HistoriqueOptions[];
-    npai: HistoriqueOptions[];
   };
 }
 

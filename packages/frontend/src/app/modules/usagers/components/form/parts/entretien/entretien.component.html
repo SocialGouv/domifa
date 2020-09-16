@@ -346,15 +346,17 @@
         Enregistrer
       </button>
       <br />
-      <span
-        class="btn btn-block"
+
+      <a
+        routerLink="/manage"
         *ngIf="usager.decision.statut === 'INSTRUCTION'"
-        (click)="open(entretienConfirmation)"
+        routerLinkActive="router-link-active"
+        class="btn btn-block"
       >
         <u>Continuer plus tard</u>
         &nbsp;
         <fa-icon icon="angle-right"></fa-icon>
-      </span>
+      </a>
     </div>
   </div>
 </form>
