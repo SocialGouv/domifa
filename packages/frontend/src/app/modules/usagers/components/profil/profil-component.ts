@@ -443,12 +443,6 @@ export class UsagersProfilComponent implements OnInit {
       }
     }
 
-    if (interaction.type === "npai") {
-      interaction.content = this.usager.options.npai.actif
-        ? "Activé"
-        : "Désactivé";
-    }
-
     this.interactionService.setInteraction(this.usager, interaction).subscribe(
       (usager: Usager) => {
         this.usager = usager;

@@ -65,6 +65,21 @@ export class InteractionsController {
       throw new HttpException("INTERACTION_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
+    if (interactionToDelete.type === "npai") {
+      usager.options.npai.actif = false;
+      usager.options.npai.dateDebut = null;
+
+      const delInteraction = await this.interactionService.delete(
+        usager.id,
+        interactionId,
+        user
+      );
+
+      if (delInteraction) {
+        return this.usagersService.patch(usager, usager._id);
+      }
+    }
+
     const len = interactionToDelete.type.length;
 
     const interactionOut =
@@ -129,11 +144,11 @@ export class InteractionsController {
 
     if (newUsager && deletedInteraction) {
       return newUsager;
+    } else {
+      throw new HttpException(
+        "INTERACTION_DELETE_IMPOSSIBLE",
+        HttpStatus.BAD_REQUEST
+      );
     }
-
-    throw new HttpException(
-      "INTERACTION_DELETE_IMPOSSIBLE",
-      HttpStatus.BAD_REQUEST
-    );
   }
 }

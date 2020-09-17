@@ -115,7 +115,6 @@ export class ManageUsagersComponent implements OnInit {
         distinctUntilChanged()
       )
       .subscribe((text: any) => {
-        text = text.trim();
         this.filters.name = text;
         this.filters.page = 0;
         this.search();

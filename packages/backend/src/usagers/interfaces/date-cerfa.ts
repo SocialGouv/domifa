@@ -15,12 +15,12 @@ export class DateCerfa {
     if (date !== null && date !== undefined) {
       this.annee = date.getFullYear().toString();
 
-      this.minutes =
+      this.heure =
         date.getHours() < 10
           ? "0" + date.getHours().toString()
           : date.getHours().toString();
 
-      this.heure =
+      this.minutes =
         date.getMinutes() < 10
           ? "0" + date.getMinutes().toString()
           : date.getMinutes().toString();
