@@ -27,12 +27,14 @@ import { UsagerService } from "./services/usager.service";
 import { DocumentsComponent } from "./components/documents/documents.component";
 import { MenuComponent } from "./components/form/parts/menu/menu.component";
 import { EntretienComponent } from "./components/entretien/entretien.component";
+import { EntretienFormComponent } from "./components/form/parts/entretien-form/entretien-form.component";
 
 @NgModule({
   declarations: [
     UploadComponent,
     DecisionComponent,
     RdvComponent,
+    EntretienFormComponent,
     UsagersFormComponent,
     DocumentsComponent,
     ManageUsagersComponent,

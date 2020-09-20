@@ -33,6 +33,7 @@ import { ResponsableGuard } from "./guards/responsable-guard";
 import { StatsComponent } from "./modules/stats/components/stats/stats.component";
 import { RdvComponent } from "./modules/usagers/components/form/parts/rdv/rdv.component";
 import { DecisionComponent } from "./modules/usagers/components/decision/decision.component";
+import { EntretienFormComponent } from "./modules/usagers/components/form/parts/entretien-form/entretien-form.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -108,6 +109,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard, FacteurGuard],
     component: UsagersFormComponent,
     path: "usager/:id/edit",
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
+    component: EntretienFormComponent,
+    path: "usager/:id/edit/entretien",
   },
   {
     canActivate: [AuthGuard, FacteurGuard],

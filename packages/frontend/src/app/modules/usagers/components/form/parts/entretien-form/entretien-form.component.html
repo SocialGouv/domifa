@@ -1,0 +1,54 @@
+<app-form-menu [usager]="usager"></app-form-menu>
+
+<div
+  class="step_form"
+  *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'non'"
+>
+  <div class="row text-center">
+    <div class="col">
+      <h5 class="title">
+        Prise de rendez-vous entre le demandeur et un collaborateur
+      </h5>
+      <br />
+      <p>
+        Le rendez-vous avec
+        <b>{{ usager.nom }} {{ usager.prenom }}</b>
+        est confirmé
+        <br />
+        <br />
+        Le
+        <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
+        <br />
+        à
+        <b> {{ usager.rdv.dateRdv | date: "HH:mm" }} </b>
+        <br />
+        avec
+        <b>{{ usager.rdv.userName }}</b>
+        <br />
+        <br />
+        Pensez à noter le rendez-vous dans votre agenda.
+        <br />
+        <br />
+        <span (click)="usager.rdv.isNow = 'oui'" class="btn btn-secondary">
+          Réaliser l'entretien maintenant
+        </span>
+        <br />
+        <br />
+        <span
+          (click)="usager.etapeDemande = 1; usager.rdv.isNow = 'non'"
+          class="btn btn-secondary"
+        >
+          Modifier la date du rendez-vous
+        </span>
+        <br />
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="step_form">
+  <app-entretien
+    [(usager)]="usager"
+    (nextStep)="nextStep($event)"
+  ></app-entretien>
+</div>

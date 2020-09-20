@@ -151,7 +151,7 @@ export class RdvComponent implements OnInit {
 
     this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe(
       (usager: Usager) => {
-        //TODO: REDIRECTION
+        // TODO: REDIRECTION
         this.notifService.success("Rendez-vous enregistré");
       },
       (error) => {

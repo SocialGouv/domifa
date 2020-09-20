@@ -46,7 +46,6 @@ export class MenuComponent implements OnInit {
   public ngOnInit() {}
 
   public goToStep(step: number) {
-    console.log(step);
     this.router.navigate([
       "usager/" + this.usager.id + "/edit/" + this.etapesUrl[step],
     ]);

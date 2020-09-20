@@ -464,12 +464,7 @@
       class="step_form"
       id="step_form2"
       *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'oui'"
-    >
-      <app-entretien
-        [(usager)]="usager"
-        (nextStep)="nextStep($event)"
-      ></app-entretien>
-    </div>
+    ></div>
 
     <!-- ///////// -->
     <!-- ETAPE 4 UPLOAD DES PJ -->
