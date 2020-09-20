@@ -31,6 +31,8 @@ import { FacteurGuard } from "./guards/facteur-guard";
 import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
 import { ResponsableGuard } from "./guards/responsable-guard";
 import { StatsComponent } from "./modules/stats/components/stats/stats.component";
+import { RdvComponent } from "./modules/usagers/components/form/parts/rdv/rdv.component";
+import { DecisionComponent } from "./modules/usagers/components/decision/decision.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -106,6 +108,16 @@ export const routes: Routes = [
     canActivate: [AuthGuard, FacteurGuard],
     component: UsagersFormComponent,
     path: "usager/:id/edit",
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
+    component: RdvComponent,
+    path: "usager/:id/edit/rendez-vous",
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
+    component: DecisionComponent,
+    path: "usager/:id/edit/decision",
   },
   {
     canActivate: [AuthGuard, FacteurGuard],

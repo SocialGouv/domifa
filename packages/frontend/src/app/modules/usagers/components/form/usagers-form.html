@@ -1,94 +1,26 @@
 <br />
-<div class="container" *ngIf="usager">
-  <div class="row" *ngIf="me">
-    <div id="steps">
-      <div
-        class="step"
-        *ngFor="let etape of etapes; let i = index"
-        id="step{{ i }}"
-      >
-        <div (click)="submitted = false">
-          <span *ngIf="usager.etapeDemande > i" class="step_number step_check">
-            <fa-icon icon="check"></fa-icon>
-          </span>
-          <span
-            *ngIf="usager.etapeDemande <= i"
-            [ngClass]="{
-              step_active: usager.etapeDemande == i,
-              step_inactive: usager.id == 0 && i > 0
-            }"
-            class="step_number"
-          >
-            {{ i + 1 }}
-          </span>
-          <span
-            [ngClass]="{
-              step_text_active: usager.etapeDemande == i,
-              step_text_inactive: usager.id == 0 && i > 0
-            }"
-            [ngClass]="usager.id == 0 ? 'step_text_inactive' : ''"
-            class="step_text"
-          >
-            {{ etape }}
-          </span>
-        </div>
-        <div
-          *ngIf="i < 4"
-          [className]="usager.etapeDemande > i ? 'check_sep' : ''"
-        >
-          <span
-            class="separateur"
-            [ngClass]="{ separateur_inactive: usager.id == 0 && i > 0 }"
-          ></span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-10 offset-md-1">
-    <div class="w-100"></div>
-    <ngb-alert @fadeInOut *ngIf="doublons.length > 0" type="warning">
-      <ul>
-        <li *ngFor="let doublon of doublons">
-          <a routerLink="'/usager/'+doublon.id+'/edit'">
-            <b>{{ doublon.nom }}</b>
-            {{ doublon.prenom }}
-          </a>
-          né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
-        </li>
-      </ul>
-    </ngb-alert>
-  </div>
+<div class="container" *ngIf="me && usager">
+  <app-form-menu [usager]="usager"></app-form-menu>
 
-  <div class="step_form" *ngIf="usager.decision.statut === 'VALIDE'">
-    <div class="row">
-      <div class="col text-center">
-        <h5>
-          <b>{{ usager.nom }} {{ usager.prenom }}</b>
-          est désormais domicilié dans votre structure.
-        </h5>
-        La domiciliation sera effective du {{ usager.decision.dateDebut | date:
-        "dd/MM/yyyy" }} au {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}
-        <br />
-        <br />
-        <button (click)="getAttestation()" class="btn btn-primary">
-          <fa-icon icon="download"></fa-icon>
-          Télécharger le CERFA de domiciliation
-        </button>
-        <br />
-        <br />
-        <p class="text-center">
-          <a routerLink="/manage" routerLinkActive="router-link-active">
-            Retour à la liste des domiciliés
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="usager.decision.statut === 'INSTRUCTION'">
+  <div>
     <!-- ///////// -->
     <!-- ETAPE 1 INFOS -->
     <!-- ///////// -->
     <div class="step_form" id="step_form0" *ngIf="usager.etapeDemande === 0">
+      <div class="col-md-12">
+        <div class="w-100"></div>
+        <ngb-alert @fadeInOut *ngIf="doublons.length > 0" type="warning">
+          <ul>
+            <li *ngFor="let doublon of doublons">
+              <a routerLink="'/usager/'+doublon.id+'/edit'">
+                <b>{{ doublon.nom }}</b>
+                {{ doublon.prenom }}
+              </a>
+              né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
+            </li>
+          </ul>
+        </ngb-alert>
+      </div>
       <form
         [formGroup]="usagerForm"
         (ngSubmit)="submitInfos()"
@@ -525,198 +457,9 @@
     </div>
 
     <!-- ///////// -->
-    <!-- ETAPE 2 RENDEZVOUS -->
-    <!-- ///////// -->
-
-    <div class="step_form" *ngIf="usager.etapeDemande === 1" id="step_form1">
-      <div class="text-center">
-        <h5 class="title">
-          Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
-        </h5>
-        <br />
-      </div>
-      <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
-        <div class="row text-center">
-          <div
-            class="card"
-            [ngClass]="{
-              card_selected: r.isNow.value === 'oui',
-              card_not_selected: r.isNow.value === 'non'
-            }"
-          >
-            <div class="card-body" (click)="setValueRdv('oui')">
-              <h5 class="card-title text-center">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  formControlName="isNow"
-                  id="rdvNow"
-                  value="oui"
-                />
-                <label for="rdvNow">L'entretien a lieu maintenant</label>
-              </h5>
-              <p class="card-text">
-                Pas besoin de fixer de date d'entretien ultérieure : l'entretien
-                est réalisé maintenant
-              </p>
-              <div
-                class="col-md-4 offset-md-4 text-center"
-                *ngIf="r.isNow.value === 'oui'"
-              >
-                <button type="submit" class="btn btn-primary btn-block">
-                  Suivant &nbsp;
-                  <fa-icon icon="angle-right"></fa-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="w-100"></div>
-
-          <div
-            class="card"
-            [ngClass]="{
-              card_selected: r.isNow.value === 'non',
-              card_not_selected: r.isNow.value === 'oui'
-            }"
-          >
-            <div class="card-body" (click)="setValueRdv('non')">
-              <h5 class="card-title text-center">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  id="rdv"
-                  value="non"
-                  formControlName="isNow"
-                />
-                <label for="rdv">Fixer une date de rendez-vous</label>
-              </h5>
-              <p class="card-text">
-                L'entretien sera réalisé plus tard, par vous-même ou un autre
-                collaborateur.
-              </p>
-
-              <div class="row text-center" *ngIf="r.isNow.value === 'non'">
-                <div class="form-group col">
-                  <label for="rdvUser">Avec quel collaborateur ?</label>
-                  <select
-                    *ngIf="agents"
-                    id="rdvUser"
-                    formControlName="userId"
-                    class="custom-select"
-                  >
-                    <option *ngFor="let agent of agents" [ngValue]="agent.id">
-                      {{ agent.nom }} {{ agent.prenom }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group col">
-                  <label for="jourRdv">Date du rendez-vous</label>
-                  <div class="input-group">
-                    <input
-                      class="form-control"
-                      placeholder="jj/mm/aaaa"
-                      [minDate]="minDateToday"
-                      [maxDate]="maxDateRdv"
-                      placement="bottom"
-                      ngbDatepicker
-                      formControlName="jourRdv"
-                      #dRdv="ngbDatepicker"
-                    />
-                    <div class="input-group-append">
-                      <span
-                        class="btn btn-outline-primary"
-                        (click)="dRdv.toggle()"
-                      >
-                        <fa-icon icon="calendar"></fa-icon>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group col">
-                  <label for="heureRdv">Heure du rendez-vous</label>
-                  <div class="input-group">
-                    <ngb-timepicker
-                      id="heureRdv"
-                      formControlName="heureRdv"
-                    ></ngb-timepicker>
-                  </div>
-                </div>
-              </div>
-              <input formControlName="dateRdv" type="hidden" />
-              <div
-                class="col-md-4 offset-md-4 text-center"
-                *ngIf="r.isNow.value === 'non'"
-              >
-                <br />
-                <button type="submit" class="btn btn-primary btn-block">
-                  Suivant &nbsp;
-                  <fa-icon icon="angle-right"></fa-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <!-- ///////// -->
-    <!-- ETAPE 2.5 ECRAN ENTRETIEN 2 -->
-    <!-- ///////// -->
-    <div
-      class="step_form"
-      *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'non'"
-    >
-      <div class="row text-center">
-        <div class="col">
-          <h5 class="title">
-            Prise de rendez-vous entre le demandeur et un collaborateur
-          </h5>
-          <br />
-          <p>
-            Le rendez-vous avec
-            <b>{{ usager.nom }} {{ usager.prenom }}</b>
-            est confirmé
-            <br />
-            <br />
-            Le
-            <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
-            <br />
-            à
-            <b> {{ usager.rdv.dateRdv | date: "HH:mm" }} </b>
-            <br />
-            avec
-            <b>{{ usager.rdv.userName }}</b>
-            <br />
-            <br />
-            Pensez à noter le rendez-vous dans votre agenda.
-            <br />
-            <br />
-            <span (click)="usager.rdv.isNow = 'oui'" class="btn btn-secondary">
-              Réaliser l'entretien maintenant
-            </span>
-            <br />
-            <br />
-            <span
-              (click)="usager.etapeDemande = 1; usager.rdv.isNow = 'non'"
-              class="btn btn-secondary"
-            >
-              Modifier la date du rendez-vous
-            </span>
-            <br />
-            <br />
-            <span (click)="getAttestation()" class="btn btn-outline-primary">
-              <fa-icon icon="file-pdf"></fa-icon>
-              &nbsp; Télécharger le Cerfa de demande
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ///////// -->
     <!-- ETAPE 3 QUESTIONS -->
     <!-- ///////// -->
+
     <div
       class="step_form"
       id="step_form2"
@@ -735,13 +478,14 @@
       <div class="text-center">
         <h5 class="title">Pièces justificatives complétant le dossier</h5>
         <br />
-        Cette étape est optionnelle, rien ne vous oblige à Suivant des pièces
-        justificatives.
+        Cette étape est optionnelle, rien ne vofus oblige à enregistrer des
+        pièces justificatives.
         <br />
         <br />
       </div>
       <br />
       <app-upload [usager]="usager"></app-upload>
+      <app-documents [usager]="usager"></app-documents>
       <div class="w-100"></div>
       <br />
       <div class="col-md-4 offset-md-4 text-center">
@@ -764,58 +508,7 @@
         </a>
       </div>
     </div>
-    <div
-      class="step_form"
-      *ngIf="usager.etapeDemande === 3 && usager.docs.length > 0"
-    >
-      <div class="row">
-        <div class="col-md-12">
-          <h5 class="text-center">Pièces déjà enregistrées</h5>
-        </div>
-        <table class="table table-light">
-          <tbody>
-            <tr>
-              <th>Nom de la pièce justificative</th>
-              <th>Ajoutée le</th>
-              <th>Ajoutée par</th>
-              <th></th>
-              <th></th>
-            </tr>
-            <tr *ngFor="let document of usager.docs; let indexDocs = index">
-              <td>{{ document.label }}</td>
-              <td>{{ document.createdAt | date: "dd/MM/yyyy" }}</td>
-              <td>{{ document.createdBy }}</td>
-              <td>
-                <button
-                  (click)="getDocument(indexDocs)"
-                  class="btn btn-primary"
-                  aria-label="Voir la pièce jointe"
-                >
-                  <fa-icon icon="download"></fa-icon>
-                  Télécharger
-                </button>
-              </td>
-              <td>
-                <button
-                  (click)="deleteDocument(indexDocs)"
-                  class="btn btn-danger"
-                  aria-label="Voir la pièce jointe"
-                >
-                  <fa-icon icon="trash"></fa-icon>
-                  Supprimer
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
-
-  <!-- ///////// -->
-  <!-- ETAPE 5 DECISION
-  <!-- ///////// -->
-  <app-decision [usager]="usager"></app-decision>
 
   <div
     class="not-print col-md-12 text-center text-danger"

@@ -1,3 +1,6 @@
+<br />
+<app-form-menu [usager]="usager"></app-form-menu>
+
 <div
   class="step_form"
   *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin"
@@ -282,42 +285,7 @@
   </div>
 
   <h4>Pièces-jointes</h4>
-  <div class="row">
-    <div class="col">
-      <div *ngIf="usager.docs.length === 0">
-        <ngb-alert [dismissible]="false"
-          >Aucune pièce-jointe enregistrée</ngb-alert
-        >
-      </div>
-      <table class="table table-light" *ngIf="usager.docs.length > 0">
-        <tbody>
-          <tr>
-            <th>Nom de la pièce justificative</th>
-            <th>Ajoutée le</th>
-            <th>Ajoutée par</th>
-            <th></th>
-          </tr>
-          <tr *ngFor="let document of usager.docs; let indexDocs = index">
-            <td>{{ document.label }}</td>
-            <td>
-              {{ document.createdAt | date: "dd/MM/yyyy" }}
-            </td>
-            <td>{{ document.createdBy }}</td>
-            <td>
-              <button
-                (click)="getDocument(indexDocs)"
-                class="btn btn-primary"
-                aria-label="Voir la pièce jointe"
-              >
-                <fa-icon icon="download" class="btn-icon"></fa-icon>
-                Télécharger
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <app-documents [usager]="usager"></app-documents>
   <br />
 
   <div class="row not-print">

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -17,6 +17,7 @@ import { DocumentService } from "../../services/document.service";
 import { UsagerService } from "../../services/usager.service";
 import { MatomoTracker } from "ngx-matomo";
 import { User } from "src/app/modules/users/interfaces/user";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   providers: [
@@ -59,7 +60,9 @@ export class DecisionComponent implements OnInit {
     private router: Router,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
-    private matomo: MatomoTracker
+    private matomo: MatomoTracker,
+    private titleService: Title,
+    private route: ActivatedRoute
   ) {
     this.labels = labels;
     this.submitted = false;
@@ -81,6 +84,24 @@ export class DecisionComponent implements OnInit {
   }
 
   public ngOnInit() {
+    if (this.route.snapshot.params.id) {
+      const id = this.route.snapshot.params.id;
+
+      this.usagerService.findOne(id).subscribe(
+        (usager: Usager) => {
+          this.usager = usager;
+          this.initForm();
+        },
+        (error) => {
+          this.router.navigate(["404"]);
+        }
+      );
+    } else {
+      this.router.navigate(["404"]);
+    }
+  }
+
+  public initForm() {
     this.usager.decision.dateDebut = new Date();
     this.usager.decision.dateFin = new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)

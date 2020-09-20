@@ -51,7 +51,11 @@ export class UsagerService {
   }
 
   public createRdv(rdv: Rdv, usagerId: number): Observable<any> {
-    return this.http.post(`${environment.apiUrl}agenda/${usagerId}`, rdv);
+    return this.http.post(`${environment.apiUrl}agenda/${usagerId}`, rdv).pipe(
+      map((response) => {
+        return new Usager(response);
+      })
+    );
   }
 
   public editTransfert(transfert: any, usagerId: number): Observable<any> {
