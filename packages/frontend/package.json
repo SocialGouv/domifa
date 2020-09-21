@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
+    "start": "ng serve -o --host 0.0.0.0",
     "build": "ng build --prod",
     "test": "jest",
     "lint": "ng lint --format stylish",
