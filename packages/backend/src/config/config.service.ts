@@ -12,6 +12,7 @@ export class ConfigService {
       DB_PASS: process.env.DB_PASS,
       DB_PORT: process.env.DB_PORT,
       DB_USER: process.env.DB_USER,
+      DB_AUTH_SOURCE: process.env.DB_AUTH_SOURCE,
       FILES_IV: process.env.FILES_IV,
       FILES_PRIVATE: process.env.FILES_PRIVATE,
       FRONT_URL: process.env.FRONT_URL,

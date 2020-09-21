@@ -2,18 +2,16 @@ import * as mongoose from "mongoose";
 import { ConfigService } from "../config/config.service";
 
 const config = new ConfigService();
-const user = config.get("DB_USER");
-const password = config.get("DB_PASS");
-const host = config.get("DB_HOST");
-const port = config.get("DB_PORT");
 
 mongoose.set("debug", config.get("IS_LOCAL") !== undefined);
+
+const mongoConnectionString = buildMongoConnectionStringFromEnv();
 
 export const databaseProviders = [
   {
     provide: "DATABASE_CONNECTION",
     useFactory: async (): Promise<typeof mongoose> =>
-      mongoose.connect(`mongodb://${user}:${password}@${host}:${port}/domifa`, {
+      mongoose.connect(mongoConnectionString, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
@@ -21,3 +19,15 @@ export const databaseProviders = [
       }),
   },
 ];
+
+export function buildMongoConnectionStringFromEnv() {
+  const user = config.get("DB_USER");
+  const password = config.get("DB_PASS");
+  const host = config.get("DB_HOST");
+  const port = config.get("DB_PORT");
+  const dbAuthSource = config.get("DB_AUTH_SOURCE");
+
+  return `mongodb://${user}:${password}@${host}:${port}/domifa${
+    dbAuthSource ? `?authSource=${dbAuthSource}` : ""
+  }`;
+}
