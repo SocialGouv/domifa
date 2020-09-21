@@ -12,9 +12,9 @@ import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { Usager } from "../../interfaces/usager";
-import { DocumentService } from "../../services/document.service";
-import { UsagerService } from "../../services/usager.service";
+import { Usager } from "../../../../interfaces/usager";
+import { DocumentService } from "../../../../services/document.service";
+import { UsagerService } from "../../../../services/usager.service";
 import { MatomoTracker } from "ngx-matomo";
 import { User } from "src/app/modules/users/interfaces/user";
 import { Title } from "@angular/platform-browser";
@@ -84,6 +84,7 @@ export class DecisionComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.titleService.setTitle("Décision sur la domiciliation");
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 

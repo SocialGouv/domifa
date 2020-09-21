@@ -433,24 +433,12 @@
           </td>
 
           <td (click)="goToProfil(usager)">
-            <span
-              class="active"
-              *ngIf="
-                usager.decision.statut !== 'ATTENTE_DECISION' ||
-                (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT')
-              "
-            >
+            <span class="active" *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
               Accéder à la fiche
             </span>
             <span
               class="active"
-              *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
-            >
-              Afficher la demande
-            </span>
-            <span
-              class="active"
-              *ngIf="(usager.decision.statut === 'INSTRUCTION' && usager.typeDom !== 'RENOUVELLEMENT')"
+              *ngIf="(usager.decision.statut === 'INSTRUCTION' || usager.decision.statut !== 'ATTENTE_DECISION' ) && usager.typeDom !== 'RENOUVELLEMENT'"
             >
               Reprendre la demande
             </span>

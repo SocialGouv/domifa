@@ -1,7 +1,85 @@
-<br />
-<br />
-<div *ngIf="usager">
+<div class="container" *ngIf="me && usager">
   <app-form-menu [usager]="usager"></app-form-menu>
+
+  <div class="step_form" *ngIf="usager.rdv.when === 'non'">
+    <div class="row text-center">
+      <div class="col">
+        <h5 class="title">
+          Attention, un rendez-vous avec
+          <b>{{ usager.nom }} {{ usager.prenom }}</b>
+          a déjà été programmé
+        </h5>
+        <br />
+        <p>
+          Le
+          <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
+          <br />
+          à
+          <b> {{ usager.rdv.dateRdv | date: "HH:mm" }} </b>
+          <br />
+          avec
+          <b>{{ usager.rdv.userName }}</b>
+
+          <br />
+          <br />
+          <span (click)="usager.rdv.isNow = 'oui'" class="btn btn-secondary">
+            Modifier le contenu de l'entretien
+          </span>
+          <br />
+          <br />
+          <a
+            [routerLink]="['/usager/' + usager.id + '/edit/rendez-vous']"
+            routerLinkActive="router-link-active"
+            class="btn btn-secondary"
+          >
+            Programmer un nouveau rendez-vous
+          </a>
+          <br />
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step_form" *ngIf="usager.rdv.isNow === 'non'">
+    <div class="row text-center">
+      <div class="col">
+        <h5 class="title">
+          Le rendez-vous avec
+          <b>{{ usager.nom }} {{ usager.prenom }}</b>
+          est confirmé
+        </h5>
+        <p>
+          Le
+
+          <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
+          <br />
+          à
+          <b> {{ usager.rdv.dateRdv | date: "HH:mm" }} </b>
+          <br />
+          avec
+          <b>{{ usager.rdv.userName }}</b>
+          <br />
+          <br />
+          Pensez à noter le rendez-vous dans votre agenda.
+          <br />
+          <br />
+          <span (click)="usager.rdv.isNow = 'oui'" class="btn btn-secondary">
+            Réaliser l'entretien maintenant
+          </span>
+          <br />
+          <br />
+          <a
+            [routerLink]="['/usager/' + usager.id + '/edit/rendez-vous']"
+            routerLinkActive="router-link-active"
+            class="btn btn-secondary"
+          >
+            Modifier la date du rendez-vous
+          </a>
+          <br />
+        </p>
+      </div>
+    </div>
+  </div>
 
   <div class="step_form" id="step_form1">
     <div class="text-center">

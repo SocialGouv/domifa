@@ -132,6 +132,7 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = usager;
+          this.usager.etapeDemande = 0;
           this.initForm();
           for (const ayantDroit of this.usager.ayantsDroits) {
             this.addAyantDroit(ayantDroit);
@@ -253,8 +254,9 @@ export class UsagersFormComponent implements OnInit {
     this.usagerService
       .nextStep(this.usager.id, step)
       .subscribe((usager: Usager) => {
-        this.goToTop();
-        this.usager.etapeDemande = usager.etapeDemande;
+        this.router.navigate([
+          "usager/" + this.usager.id + "/edit/rendez-vous",
+        ]);
       });
   }
 

@@ -12,7 +12,7 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { GeneralModule } from "../general/general.module";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
-import { DecisionComponent } from "./components/decision/decision.component";
+import { DecisionComponent } from "./components/form/parts/decision/decision.component";
 import { RdvComponent } from "./components/form/parts/rdv/rdv.component";
 
 import { UploadComponent } from "./components/upload/upload.component";
@@ -28,6 +28,7 @@ import { DocumentsComponent } from "./components/documents/documents.component";
 import { MenuComponent } from "./components/form/parts/menu/menu.component";
 import { EntretienComponent } from "./components/entretien/entretien.component";
 import { EntretienFormComponent } from "./components/form/parts/entretien-form/entretien-form.component";
+import { DocumentsFormComponent } from "./components/form/parts/documents-form/documents-form.component";
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { EntretienFormComponent } from "./components/form/parts/entretien-form/e
     DecisionComponent,
     RdvComponent,
     EntretienFormComponent,
+    DocumentsFormComponent,
     UsagersFormComponent,
     DocumentsComponent,
     ManageUsagersComponent,
@@ -49,6 +51,7 @@ import { EntretienFormComponent } from "./components/form/parts/entretien-form/e
     DecisionComponent,
     UsagersFormComponent,
     EntretienComponent,
+    DocumentsFormComponent,
     ManageUsagersComponent,
     UsagersProfilComponent,
     ImportComponent,

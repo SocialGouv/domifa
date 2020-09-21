@@ -2,8 +2,8 @@ import { async, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { UsagerService } from "../../services/usager.service";
-import { UsagersModule } from "../../usagers.module";
+import { UsagerService } from "../../../../services/usager.service";
+import { UsagersModule } from "../../../../usagers.module";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("DecisionComponent", () => {

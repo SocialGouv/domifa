@@ -271,7 +271,7 @@ export class UsagersService {
       .collation({ locale: "en" })
       .sort(sort)
       .select(
-        "-createdAt -updatedAt -rdv -structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -historique -entretien -docs -etapeDemande"
+        "-createdAt -updatedAt -rdv -structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -historique -entretien -docs"
       )
       .limit(40)
       .skip(page && page !== 0 ? 40 * page : 0)

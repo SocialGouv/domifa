@@ -1,508 +1,457 @@
-<br />
 <div class="container" *ngIf="me && usager">
   <app-form-menu [usager]="usager"></app-form-menu>
 
-  <div>
-    <!-- ///////// -->
-    <!-- ETAPE 1 INFOS -->
-    <!-- ///////// -->
-    <div class="step_form" id="step_form0" *ngIf="usager.etapeDemande === 0">
-      <div class="col-md-12">
-        <div class="w-100"></div>
-        <ngb-alert @fadeInOut *ngIf="doublons.length > 0" type="warning">
-          <ul>
-            <li *ngFor="let doublon of doublons">
-              <a routerLink="'/usager/'+doublon.id+'/edit'">
-                <b>{{ doublon.nom }}</b>
-                {{ doublon.prenom }}
-              </a>
-              né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
-            </li>
-          </ul>
-        </ngb-alert>
+  <!-- ///////// -->
+  <!-- ETAPE 1 INFOS -->
+  <!-- ///////// -->
+  <div class="step_form" id="step_form0" *ngIf="usager.etapeDemande === 0">
+    <div class="col-md-12">
+      <div class="w-100"></div>
+      <ngb-alert @fadeInOut *ngIf="doublons.length > 0" type="warning">
+        <ul>
+          <li *ngFor="let doublon of doublons">
+            <a routerLink="'/usager/'+doublon.id+'/edit'">
+              <b>{{ doublon.nom }}</b>
+              {{ doublon.prenom }}
+            </a>
+            né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
+          </li>
+        </ul>
+      </ngb-alert>
+    </div>
+    <form
+      [formGroup]="usagerForm"
+      (ngSubmit)="submitInfos()"
+      autocomplete="off"
+    >
+      <h5 class="text-center title">État-civil du demandeur</h5>
+      <br />
+      <div class="form-group">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="sexe"
+            id="homme"
+            value="homme"
+          />
+          <label class="form-check-label" for="homme"> Monsieur </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="sexe"
+            id="femme"
+            value="femme"
+          />
+          <label class="form-check-label" for="femme"> Madame </label>
+        </div>
       </div>
-      <form
-        [formGroup]="usagerForm"
-        (ngSubmit)="submitInfos()"
-        autocomplete="off"
-      >
-        <h5 class="text-center title">État-civil du demandeur</h5>
-        <br />
-        <div class="form-group">
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="sexe"
-              id="homme"
-              value="homme"
-            />
-            <label class="form-check-label" for="homme"> Monsieur </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="sexe"
-              id="femme"
-              value="femme"
-            />
-            <label class="form-check-label" for="femme"> Madame </label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col form-group required">
-            <label for="nom">Nom</label>
-            <input
-              type="text"
-              class="form-control"
-              id="nom"
-              cleanStr
-              formControlName="nom"
-              (blur)="isDoublon()"
-              placeholder="Précisez nom de naissance si nécessaire"
-              [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
-              required
-            />
-            <div
-              *ngIf="submitted && f.nom.errors"
-              class="invalid-feedback"
-              autocomplete="null"
-            >
-              <div *ngIf="f.nom.errors.required">
-                Le nom du demandeur est obligatoire
-              </div>
-            </div>
-          </div>
-          <div class="col form-group required">
-            <label for="prenom">Prénom(s)</label>
-            <input
-              type="text"
-              class="form-control"
-              id="prenom"
-              cleanStr
-              formControlName="prenom"
-              (blur)="isDoublon()"
-              placeholder="Prénom(s) du demandeur"
-              [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
-              required
-            />
-            <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-              Le prénom du demandeur est obligatoire
+      <div class="row">
+        <div class="col form-group required">
+          <label for="nom">Nom</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nom"
+            cleanStr
+            formControlName="nom"
+            (blur)="isDoublon()"
+            placeholder="Précisez nom de naissance si nécessaire"
+            [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+            required
+          />
+          <div
+            *ngIf="submitted && f.nom.errors"
+            class="invalid-feedback"
+            autocomplete="null"
+          >
+            <div *ngIf="f.nom.errors.required">
+              Le nom du demandeur est obligatoire
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6 form-group">
-            <label for="surnom">Nom d'usage / Surnom</label>
-            <input
-              type="text"
-              class="form-control"
-              id="surnom"
-              cleanStr
-              formControlName="surnom"
-              placeholder="Nom d'usage / Surnom"
-              [ngClass]="{ 'is-invalid': submitted && f.surnom.errors }"
-            />
+        <div class="col form-group required">
+          <label for="prenom">Prénom(s)</label>
+          <input
+            type="text"
+            class="form-control"
+            id="prenom"
+            cleanStr
+            formControlName="prenom"
+            (blur)="isDoublon()"
+            placeholder="Prénom(s) du demandeur"
+            [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+            required
+          />
+          <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+            Le prénom du demandeur est obligatoire
           </div>
         </div>
-        <div class="row">
-          <div class="col">
-            <div class="form-group required">
-              <label for="dateNaissancePicker">Date de naissance</label>
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  placeholder="jj/mm/aaaa"
-                  [minDate]="minDateNaissance"
-                  [maxDate]="maxDateNaissance"
-                  placement="bottom"
-                  formControlName="dateNaissancePicker"
-                  ngbDatepicker
-                  id="dateNaissancePicker"
-                  dateFr
-                  value
-                  [ngClass]="{
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="surnom">Nom d'usage / Surnom</label>
+          <input
+            type="text"
+            class="form-control"
+            id="surnom"
+            cleanStr
+            formControlName="surnom"
+            placeholder="Nom d'usage / Surnom"
+            [ngClass]="{ 'is-invalid': submitted && f.surnom.errors }"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group required">
+            <label for="dateNaissancePicker">Date de naissance</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                [minDate]="minDateNaissance"
+                [maxDate]="maxDateNaissance"
+                placement="bottom"
+                formControlName="dateNaissancePicker"
+                ngbDatepicker
+                id="dateNaissancePicker"
+                dateFr
+                value
+                [ngClass]="{
                     'is-invalid': submitted && f.dateNaissancePicker.errors
                   }"
-                  #d="ngbDatepicker"
-                  maxlength="10"
-                  required
-                />
-                <div class="input-group-append">
-                  <span class="btn btn-outline-primary" (click)="d.toggle()">
-                    <fa-icon icon="calendar"></fa-icon>
-                  </span>
-                </div>
-
-                <div
-                  *ngIf="f.dateNaissancePicker.value !== null && f.dateNaissancePicker.value.year"
-                  class="invalid-feedback-custom"
-                >
-                  <div *ngIf="f.dateNaissancePicker.value.year <= 1800">
-                    Pas de date avant 1900
-                  </div>
-                </div>
-
-                <div
-                  *ngIf="f.dateNaissancePicker.invalid"
-                  class="invalid-feedback"
-                >
-                  <div>La date de naissance est obligatoire</div>
-                  <div
-                    *ngIf="f.dateNaissancePicker.dirty
-                  && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)"
-                  >
-                    Format de date incorrect (ex: 20/12/1991)
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group required">
-              <label for="villeNaissance">Ville de naissance</label>
-              <input
-                type="text"
-                class="form-control"
-                id="villeNaissance"
-                formControlName="villeNaissance"
-                placeholder="Ville (préciser le pays si à l'étranger)"
-                autocomplete="null"
-                [ngClass]="{
-                  'is-invalid': submitted && f.villeNaissance.errors
-                }"
+                #d="ngbDatepicker"
+                maxlength="10"
                 required
               />
-              <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
-                La ville de naissance est obligatoire
+              <div class="input-group-append">
+                <span class="btn btn-outline-primary" (click)="d.toggle()">
+                  <fa-icon icon="calendar"></fa-icon>
+                </span>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label for="phone">Numéro de téléphone</label>
-              <input
-                type="text"
-                class="form-control"
-                id="phone"
-                digitOnly
-                formControlName="phone"
-                aria-describedby="phoneHelp"
-                [ngClass]="{ 'is-invalid': f.phone.errors }"
-                placeholder="0606060606"
-                autocomplete="null"
-                maxlength="10"
-              />
-              <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
-                <div>Le numéro de téléphone est incorrect</div>
-              </div>
-              <small id="phoneHelp" class="form-text text-muted">
-                Optionnel
-              </small>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label for="email">Adresse e-mail</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                formControlName="email"
-                aria-describedby="emailHelp"
-                [ngClass]="{ 'is-invalid': f.email.errors }"
-                placeholder="adresse@mail.com"
-                autocomplete="null"
-              />
-              <div *ngIf="f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.email">
-                  L'adresse email est incorrecte
+
+              <div
+                *ngIf="f.dateNaissancePicker.value !== null && f.dateNaissancePicker.value.year"
+                class="invalid-feedback-custom"
+              >
+                <div *ngIf="f.dateNaissancePicker.value.year <= 1800">
+                  Pas de date avant 1900
                 </div>
               </div>
-              <small id="emailHelp" class="form-text text-muted">
-                Optionnel
-              </small>
+
+              <div
+                *ngIf="f.dateNaissancePicker.invalid"
+                class="invalid-feedback"
+              >
+                <div>La date de naissance est obligatoire</div>
+                <div
+                  *ngIf="f.dateNaissancePicker.dirty
+                  && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)"
+                >
+                  Format de date incorrect (ex: 20/12/1991)
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <div class="col">
+          <div class="form-group required">
+            <label for="villeNaissance">Ville de naissance</label>
+            <input
+              type="text"
+              class="form-control"
+              id="villeNaissance"
+              formControlName="villeNaissance"
+              placeholder="Ville (préciser le pays si à l'étranger)"
+              autocomplete="null"
+              [ngClass]="{
+                  'is-invalid': submitted && f.villeNaissance.errors
+                }"
+              required
+            />
+            <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
+              La ville de naissance est obligatoire
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="phone">Numéro de téléphone</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phone"
+              digitOnly
+              formControlName="phone"
+              aria-describedby="phoneHelp"
+              [ngClass]="{ 'is-invalid': f.phone.errors }"
+              placeholder="0606060606"
+              autocomplete="null"
+              maxlength="10"
+            />
+            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+              <div>Le numéro de téléphone est incorrect</div>
+            </div>
+            <small id="phoneHelp" class="form-text text-muted">
+              Optionnel
+            </small>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="email">Adresse e-mail</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              formControlName="email"
+              aria-describedby="emailHelp"
+              [ngClass]="{ 'is-invalid': f.email.errors }"
+              placeholder="adresse@mail.com"
+              autocomplete="null"
+            />
+            <div *ngIf="f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.email">
+                L'adresse email est incorrecte
+              </div>
+            </div>
+            <small id="emailHelp" class="form-text text-muted">
+              Optionnel
+            </small>
+          </div>
+        </div>
+      </div>
 
-        <div class="w-100"></div>
+      <div class="w-100"></div>
+      <br />
+      <div class="d-none">
+        <div class="col-md-12" formGroupName="preference">
+          <label class="form-check-label">
+            Par quel(s) moyen(s) le domicilié souhaite t-il être notifié de la
+            réception de courrier ?
+          </label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="email"
+                id="preference_email"
+                [value]="true"
+              />
+              <label class="form-check-label" for="preference_email">
+                Email
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="phone"
+                id="preference_phone"
+                [value]="false"
+              />
+              <label class="form-check-label" for="preference_phone">
+                SMS
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="aucun"
+                id="preference_aucun"
+                [value]="false"
+              />
+              <label class="form-check-label" for="preference_aucun">
+                Aucun des deux
+              </label>
+            </div>
+          </div>
+        </div>
+        <ngb-alert
+          @fadeInOut
+          [dismissible]="false"
+          type="warning"
+          *ngIf="f.email.value === '' && f.preference.get('email').value === true"
+        >
+          <fa-icon icon="exclamation-triangle"></fa-icon>
+          &nbsp; Pour envoyer les notifications par mail,
+          <b>veuillez compléter le champ email</b>
+        </ngb-alert>
+        <ngb-alert
+          @fadeInOut
+          [dismissible]="false"
+          type="warning"
+          *ngIf="f.phone.value === '' && f.preference.get('phone').value === true"
+        >
+          <fa-icon icon="exclamation-triangle"></fa-icon>
+          &nbsp; Pour envoyer les notifications par SMS,
+          <b> veuillez indiquer un numéro de téléphone </b>
+        </ngb-alert>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <label class="form-check-label">
+            Le demandeur a-t-il des ayant-droits ?
+            <fa-icon
+              icon="question-circle"
+              placement="top"
+              placement="right"
+              ngbTooltip="Autres personnes à la charge du demandeur"
+            ></fa-icon>
+          </label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="ayantsDroitsExist"
+                id="ayantsDroits_oui"
+                [value]="true"
+                (click)="addAyantDroit()"
+              />
+              <label class="form-check-label" for="ayantsDroits_oui">
+                Oui
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                (click)="resetAyantDroit()"
+                formControlName="ayantsDroitsExist"
+                id="ayantsDroits_non"
+                [value]="false"
+              />
+              <label class="form-check-label" for="ayantsDroits_non">
+                Non
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="f.ayantsDroitsExist.value === true">
         <br />
-        <div class="d-none">
-          <div class="col-md-12" formGroupName="preference">
-            <label class="form-check-label">
-              Par quel(s) moyen(s) le domicilié souhaite t-il être notifié de la
-              réception de courrier ?
-            </label>
-            <div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  formControlName="email"
-                  id="preference_email"
-                  [value]="true"
-                />
-                <label class="form-check-label" for="preference_email">
-                  Email
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  formControlName="phone"
-                  id="preference_phone"
-                  [value]="false"
-                />
-                <label class="form-check-label" for="preference_phone">
-                  SMS
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  formControlName="aucun"
-                  id="preference_aucun"
-                  [value]="false"
-                />
-                <label class="form-check-label" for="preference_aucun">
-                  Aucun des deux
-                </label>
-              </div>
-            </div>
-          </div>
-          <ngb-alert
-            @fadeInOut
-            [dismissible]="false"
-            type="warning"
-            *ngIf="f.email.value === '' && f.preference.get('email').value === true"
-          >
-            <fa-icon icon="exclamation-triangle"></fa-icon>
-            &nbsp; Pour envoyer les notifications par mail,
-            <b>veuillez compléter le champ email</b>
-          </ngb-alert>
-          <ngb-alert
-            @fadeInOut
-            [dismissible]="false"
-            type="warning"
-            *ngIf="f.phone.value === '' && f.preference.get('phone').value === true"
-          >
-            <fa-icon icon="exclamation-triangle"></fa-icon>
-            &nbsp; Pour envoyer les notifications par SMS,
-            <b> veuillez indiquer un numéro de téléphone </b>
-          </ngb-alert>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <label class="form-check-label">
-              Le demandeur a-t-il des ayant-droits ?
-              <fa-icon
-                icon="question-circle"
-                placement="top"
-                placement="right"
-                ngbTooltip="Autres personnes à la charge du demandeur"
-              ></fa-icon>
-            </label>
-            <div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  formControlName="ayantsDroitsExist"
-                  id="ayantsDroits_oui"
-                  [value]="true"
-                  (click)="addAyantDroit()"
-                />
-                <label class="form-check-label" for="ayantsDroits_oui">
-                  Oui
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  (click)="resetAyantDroit()"
-                  formControlName="ayantsDroitsExist"
-                  id="ayantsDroits_non"
-                  [value]="false"
-                />
-                <label class="form-check-label" for="ayantsDroits_non">
-                  Non
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <ng-container *ngIf="f.ayantsDroitsExist.value === true">
-          <br />
-          <div
-            formArrayName="ayantsDroits"
-            *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
-          >
-            <div [formGroupName]="i" class="row">
-              <div class="col form-group required">
-                <label for="nom_{{i}}">Nom</label>
-                <input
-                  id="nom_{{i}}"
-                  type="text"
-                  class="form-control"
-                  formControlName="nom"
-                  [ngClass]="{
+        <div
+          formArrayName="ayantsDroits"
+          *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
+        >
+          <div [formGroupName]="i" class="row">
+            <div class="col form-group required">
+              <label for="nom_{{i}}">Nom</label>
+              <input
+                id="nom_{{i}}"
+                type="text"
+                class="form-control"
+                formControlName="nom"
+                [ngClass]="{
                     'is-invalid':
                       submitted && ayantsDroits.controls[i].get('nom').errors
                   }"
-                  placeholder="Nom de l'ayant droit"
-                />
-                <div
-                  *ngIf="
+                placeholder="Nom de l'ayant droit"
+              />
+              <div
+                *ngIf="
                     submitted && ayantsDroits.controls[i].get('nom').errors
                   "
-                  class="invalid-feedback"
-                >
-                  Le nom est obligatoire
-                </div>
+                class="invalid-feedback"
+              >
+                Le nom est obligatoire
               </div>
-              <div class="col form-group required">
-                <label for="prennom_{{i}}">Prénom</label>
-                <input
-                  type="text"
-                  id="prennom_{{i}}"
-                  class="form-control"
-                  formControlName="prenom"
-                  [ngClass]="{
+            </div>
+            <div class="col form-group required">
+              <label for="prennom_{{i}}">Prénom</label>
+              <input
+                type="text"
+                id="prennom_{{i}}"
+                class="form-control"
+                formControlName="prenom"
+                [ngClass]="{
                     'is-invalid':
                       submitted &&
                       ayantsDroits.controls[i].get('prenom').errors
                   }"
-                  placeholder="Prénom"
-                />
-                <div
-                  *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
-                  class="invalid-feedback"
-                >
-                  Le prénom est obligatoire
-                </div>
+                placeholder="Prénom"
+              />
+              <div
+                *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
+                class="invalid-feedback"
+              >
+                Le prénom est obligatoire
               </div>
-              <div class="col form-group required">
-                <label for="dateNaissance">Date de naissance</label>
-                <input
-                  id="dateNaissance_{{i}}"
-                  class="form-control"
-                  placeholder="jj/mm/aaaa"
-                  dateFr
-                  [ngClass]="{
+            </div>
+            <div class="col form-group required">
+              <label for="dateNaissance">Date de naissance</label>
+              <input
+                id="dateNaissance_{{i}}"
+                class="form-control"
+                placeholder="jj/mm/aaaa"
+                dateFr
+                [ngClass]="{
                     'is-invalid':
                       submitted &&
                       ayantsDroits.controls[i].get('dateNaissance').errors
                   }"
-                  formControlName="dateNaissance"
-                />
-                <div
-                  *ngIf="
+                formControlName="dateNaissance"
+              />
+              <div
+                *ngIf="
                     submitted &&
                     ayantsDroits.controls[i].get('dateNaissance').errors"
-                  class="invalid-feedback"
-                >
-                  <div>La date de naissance est obligatoire</div>
-                </div>
+                class="invalid-feedback"
+              >
+                <div>La date de naissance est obligatoire</div>
               </div>
-              <div class="col form-group required">
-                <label for="lien_{{i}}">Lien</label>
-                <select
-                  formControlName="lien"
-                  id="lien_{{i}}"
-                  class="custom-select"
-                >
-                  <option *ngFor="let lien of liensLabels" [ngValue]="lien">
-                    {{ labels.lienParente[lien] }}
-                  </option>
-                </select>
-              </div>
-              <div class="col-md-1">
-                <label for class="text-white"> c </label>
-                <div>
-                  <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
-                    <fa-icon icon="trash"></fa-icon>
-                  </span>
-                </div>
+            </div>
+            <div class="col form-group required">
+              <label for="lien_{{i}}">Lien</label>
+              <select
+                formControlName="lien"
+                id="lien_{{i}}"
+                class="custom-select"
+              >
+                <option *ngFor="let lien of liensLabels" [ngValue]="lien">
+                  {{ labels.lienParente[lien] }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-1">
+              <label for class="text-white"> c </label>
+              <div>
+                <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
+                  <fa-icon icon="trash"></fa-icon>
+                </span>
               </div>
             </div>
           </div>
-          <span (click)="addAyantDroit()" class="btn btn-primary">
-            <fa-icon icon="plus"></fa-icon>
-            Ajouter des ayants droits
-          </span>
-          <br />
-          <br />
-          <br />
-        </ng-container>
-
-        <input formControlName="id" type="hidden" />
-        <input formControlName="dateNaissance" type="hidden" />
-        <br />
-        <br />
-        <div class="col-md-4 offset-md-4 text-center">
-          <button type="submit" class="btn btn-primary btn-block">
-            Suivant &nbsp;
-            <fa-icon icon="angle-right"></fa-icon>
-          </button>
         </div>
-      </form>
-    </div>
-
-    <!-- ///////// -->
-    <!-- ETAPE 3 QUESTIONS -->
-    <!-- ///////// -->
-
-    <div
-      class="step_form"
-      id="step_form2"
-      *ngIf="usager.etapeDemande === 2 && usager.rdv.isNow === 'oui'"
-    ></div>
-
-    <!-- ///////// -->
-    <!-- ETAPE 4 UPLOAD DES PJ -->
-    <!-- ///////// -->
-    <div class="step_form" id="step_form3" *ngIf="usager.etapeDemande === 3">
-      <div class="text-center">
-        <h5 class="title">Pièces justificatives complétant le dossier</h5>
-        <br />
-        Cette étape est optionnelle, rien ne vofus oblige à enregistrer des
-        pièces justificatives.
+        <span (click)="addAyantDroit()" class="btn btn-primary">
+          <fa-icon icon="plus"></fa-icon>
+          Ajouter des ayants droits
+        </span>
         <br />
         <br />
-      </div>
+        <br />
+      </ng-container>
+
+      <input formControlName="id" type="hidden" />
+      <input formControlName="dateNaissance" type="hidden" />
       <br />
-      <app-upload [usager]="usager"></app-upload>
-      <app-documents [usager]="usager"></app-documents>
-      <div class="w-100"></div>
       <br />
       <div class="col-md-4 offset-md-4 text-center">
-        <button
-          (click)="nextStep(4)"
-          type="submit"
-          class="btn btn-primary btn-block"
-        >
-          Suivant
-        </button>
-
-        <a
-          routerLink="/manage"
-          routerLinkActive="router-link-active"
-          class="btn btn-block"
-        >
-          <u>Continuer plus tard</u>
-          &nbsp;
+        <button type="submit" class="btn btn-primary btn-block">
+          Suivant &nbsp;
           <fa-icon icon="angle-right"></fa-icon>
-        </a>
+        </button>
       </div>
-    </div>
+    </form>
   </div>
 
   <div

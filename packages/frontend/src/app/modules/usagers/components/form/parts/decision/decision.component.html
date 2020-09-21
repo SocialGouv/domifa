@@ -1,305 +1,302 @@
-<br />
-<app-form-menu [usager]="usager"></app-form-menu>
+<div class="container" *ngIf="me && usager">
+  <app-form-menu [usager]="usager"></app-form-menu>
 
-<div
-  class="step_form"
-  *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin"
->
-  <div class="row">
-    <div class="col text-center">
-      <h5>
-        <b>Demande de domiciliation en cours</b>
-      </h5>
-      <br />
-      La demande d'élection de domicile de
-      <b>{{ usager.nomComplet }}</b>
-      a été envoyée le
-      <b> {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}. </b>
-      <br />
-      La personne référente dans votre structure est invitée à statuer sur cette
-      demande
-      <br />
-      <br />
-      <button (click)="getAttestation()" class="btn btn-primary">
-        <fa-icon icon="download"></fa-icon>
-        Télécharger le CERFA de demande
-      </button>
-      <br />
-      <br />
-      <p class="text-center">
-        <a routerLink="/manage" routerLinkActive="router-link-active">
-          Retour à la liste des domiciliés
-        </a>
-      </p>
+  <div
+    class="step_form"
+    *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin"
+  >
+    <div class="row">
+      <div class="col text-center">
+        <h5>
+          <b>Demande de domiciliation en cours</b>
+        </h5>
+        <br />
+        La demande d'élection de domicile de
+        <b>{{ usager.nomComplet }}</b>
+        a été envoyée le
+        <b>
+          {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}.
+        </b>
+        <br />
+        La personne référente dans votre structure est invitée à statuer sur
+        cette demande
+        <br />
+        <br />
+        <button (click)="getAttestation()" class="btn btn-primary">
+          <fa-icon icon="download"></fa-icon>
+          Télécharger le CERFA de demande
+        </button>
+        <br />
+        <br />
+        <p class="text-center">
+          <a routerLink="/manage" routerLinkActive="router-link-active">
+            Retour à la liste des domiciliés
+          </a>
+        </p>
+      </div>
     </div>
   </div>
-</div>
 
-<div
-  class="step_form"
-  id="step_form4"
-  *ngIf="
-    usager.etapeDemande >= 4 &&
-    !isAdmin &&
-    usager.decision.statut === 'INSTRUCTION'
-  "
->
-  <div class="row">
-    <div class="col-md-12 text-center">
+  <div
+    class="step_form"
+    id="step_form4"
+    *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'"
+  >
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h5>
+          Le dossier de
+          <b>{{ usager.nom }} {{ usager.prenom }}</b>
+          est complet
+        </h5>
+      </div>
+      <div class="col-md-6 offset-3">
+        <button
+          (click)="setDecision('ATTENTE_DECISION')"
+          class="btn btn-block btn-primary"
+        >
+          <fa-icon icon="clock"></fa-icon>
+          DEMANDER LA VALIDATION DU DOSSIER
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="step_form not-print" id="step_form4" *ngIf="isAdmin">
+    <div class="col text-center">
       <h5>
         Le dossier de
         <b>{{ usager.nom }} {{ usager.prenom }}</b>
         est complet
       </h5>
-    </div>
-    <div class="col-md-6 offset-3">
-      <button
-        (click)="setDecision('ATTENTE_DECISION')"
-        class="btn btn-block btn-primary"
-      >
-        <fa-icon icon="clock"></fa-icon>
-        DEMANDER LA VALIDATION DU DOSSIER
-      </button>
-    </div>
-  </div>
-</div>
-
-<div
-  class="step_form not-print"
-  id="step_form4"
-  *ngIf="usager.etapeDemande >= 4 && isAdmin"
->
-  <div class="col text-center">
-    <h5>
-      Le dossier de
-      <b>{{ usager.nom }} {{ usager.prenom }}</b>
-      est complet
-    </h5>
-    <br />
-    <p *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
-      Ce dossier a été mis en attente d'une décision par
       <br />
-      <b>
-        {{ usager.decision.userName }}
-        le {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}
-      </b>
-    </p>
-    <p>Quelle décision souhaitez-vous rendre ?</p>
+      <p *ngIf="usager.decision.statut === 'ATTENTE_DECISION'">
+        Ce dossier a été mis en attente d'une décision par
+        <br />
+        <b>
+          {{ usager.decision.userName }}
+          le {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}
+        </b>
+      </p>
+      <p>Quelle décision souhaitez-vous rendre ?</p>
 
-    <div class="row text-center">
-      <div class="col" *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'">
-        <button
-          (click)="setDecision('ATTENTE_DECISION')"
-          class="btn btn-block btn-primary"
-        >
-          <fa-icon icon="clock" class="btn-icon"></fa-icon>
-          METTRE EN ATTENTE
-        </button>
-      </div>
-      <div class="col">
-        <button class="btn-block btn btn-danger" (click)="open(refus)">
-          <fa-icon icon="times" class="btn-icon"></fa-icon>
-          REFUSER LE DOSSIER
-        </button>
-      </div>
-      <div class="col">
-        <button
-          class="btn-block btn btn-secondary"
-          (click)="open(confirmation)"
-        >
-          <fa-icon icon="check" class="btn-icon"></fa-icon>
-          ACCEPTER LE DOSSIER
-        </button>
+      <div class="row text-center">
+        <div class="col" *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'">
+          <button
+            (click)="setDecision('ATTENTE_DECISION')"
+            class="btn btn-block btn-primary"
+          >
+            <fa-icon icon="clock" class="btn-icon"></fa-icon>
+            METTRE EN ATTENTE
+          </button>
+        </div>
+        <div class="col">
+          <button class="btn-block btn btn-danger" (click)="open(refus)">
+            <fa-icon icon="times" class="btn-icon"></fa-icon>
+            REFUSER LE DOSSIER
+          </button>
+        </div>
+        <div class="col">
+          <button
+            class="btn-block btn btn-secondary"
+            (click)="open(confirmation)"
+          >
+            <fa-icon icon="check" class="btn-icon"></fa-icon>
+            ACCEPTER LE DOSSIER
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="step_form impression" *ngIf="usager.etapeDemande >= 4">
-  <h4>ÉTAT CIVIL</h4>
-  <div class="row">
-    <div class="col-md-4 reponses">
-      <span class="question">NOM</span>
-      <span class="valeur">{{ usager.nom }}</span>
-    </div>
+  <div class="step_form impression">
+    <h4>ÉTAT CIVIL</h4>
+    <div class="row">
+      <div class="col-md-4 reponses">
+        <span class="question">NOM</span>
+        <span class="valeur">{{ usager.nom }}</span>
+      </div>
 
-    <div class="col-md-4 reponses">
-      <span class="question">PRÉNOM</span>
-      <span class="valeur">{{ usager.prenom }}</span>
-    </div>
-    <div class="col-md-4 reponses">
-      <span class="question">NOM D'USAGE / SURNOM</span>
-      <span class="valeur">{{ usager.surnom | titlecase }}</span>
-    </div>
+      <div class="col-md-4 reponses">
+        <span class="question">PRÉNOM</span>
+        <span class="valeur">{{ usager.prenom }}</span>
+      </div>
+      <div class="col-md-4 reponses">
+        <span class="question">NOM D'USAGE / SURNOM</span>
+        <span class="valeur">{{ usager.surnom | titlecase }}</span>
+      </div>
 
-    <div class="col-md-4 reponses">
-      <span class="question">SEXE</span>
-      <span class="valeur">{{ usager.sexe | titlecase }}</span>
-    </div>
+      <div class="col-md-4 reponses">
+        <span class="question">SEXE</span>
+        <span class="valeur">{{ usager.sexe | titlecase }}</span>
+      </div>
 
-    <div class="col-md-4 reponses">
-      <span class="question">Date de naissance</span>
-      <span class="valeur">
-        {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
-      </span>
-    </div>
-
-    <div class="col-md-4 reponses">
-      <span class="question">VILLE de naissance</span>
-      <span class="valeur">{{ usager.villeNaissance }}</span>
-    </div>
-
-    <div class="col-md-4 reponses">
-      <span class="question">Numéro de téléphone</span>
-      <span class="valeur">{{ usager.phone || "Non renseigné" }}</span>
-    </div>
-    <div class="col-md-4 reponses">
-      <span class="question">Adresse email</span>
-      <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
-    </div>
-
-    <div class="col-md-4 reponses"></div>
-  </div>
-
-  <h4>AYANTS-DROITS</h4>
-
-  <div *ngIf="usager.ayantsDroits.length === 0">
-    <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
-  </div>
-  <table *ngIf="usager.ayantsDroits.length > 0" class="table table-light">
-    <tbody>
-      <tr>
-        <th>NOM Prénom</th>
-        <th>Né le</th>
-        <th>Lien</th>
-      </tr>
-      <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-        <td>{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</td>
-        <td>{{ ayantDroit.dateNaissance }}</td>
-        <td>{{ ayantDroit.lien }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h4>ENTRETIEN</h4>
-  <div class="row">
-    <div class="col-md-4 reponses">
-      <span class="question">DOMICILIATION EXISTANTE</span>
-      <span class="valeur">
-        {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
-      </span>
-    </div>
-
-    <div class="col-md-4 reponses">
-      <span class="question">ORIENTATION</span>
-      <span class="valeur">
-        {{
-          usager.entretien.orientation
-            ? "Oui: " + usager.entretien.orientationDetail
-            : "Non"
-        }}
-      </span>
-    </div>
-
-    <div class="col-md-4 reponses">
-      <span class="question">REVENUS</span>
-      <span class="valeur">
-        {{
-          usager.entretien.revenus
-            ? "Oui, " + usager.entretien.revenusDetail
-            : "Non"
-        }}
-      </span>
-    </div>
-
-    <div class="col-md-4 reponses">
-      <span class="question">LIEN COMMUNE</span>
-      <span class="valeur">
-        {{ usager.entretien.liencommune || "Non renseigné" }}
-      </span>
-    </div>
-
-    <div class="col-md-4 reponses">
-      <span class="question">MOTIF DE LA DEMANDE</span>
-      <span class="valeur" *ngIf="usager.entretien.raison == 'AUTRE'">
-        Autre : {{ usager.entretien.raisonDetail }}
-      </span>
-      <span class="valeur" *ngIf="usager.entretien.raison != 'AUTRE'">
-        {{ labels.raison[usager.entretien.raison] || "Non renseigné" }}
-      </span>
-    </div>
-
-    <div class="col-md-4 reponses">
-      <span class="question">SITUATION RESIDENTIELLE</span>
-      <span class="valeur" *ngIf="usager.entretien.residence == 'AUTRE'">
-        Autre : {{ usager.entretien.residenceDetail }}
-      </span>
-      <span class="valeur" *ngIf="usager.entretien.residence != 'AUTRE'">
-        {{ labels.residence[usager.entretien.residence] || "Non renseigné" }}
-      </span>
-    </div>
-    <div class="col-md-4 reponses">
-      <span class="question">COMPOSITION MÉNAGE</span>
-      <span class="valeur">
-        {{ labels.typeMenage[usager.entretien.typeMenage] || "Non renseigné" }}
-      </span>
-    </div>
-
-    <div class="col-md-4 reponses">
-      <span class="question">CAUSE DE L'INSTABILITÉ LOGEMENT</span>
-      <span class="valeur" *ngIf="usager.entretien.cause == 'AUTRE'">
-        Autre : {{ usager.entretien.causeDetail }}
-      </span>
-      <span class="valeur" *ngIf="usager.entretien.cause != 'AUTRE'">
-        {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
-      </span>
-    </div>
-
-    <div class="col-md-4 reponses">
-      <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
-      <span class="valeur">
-        {{ usager.entretien.accompagnement ? "Oui : " : "Non" }}
-        <span *ngIf="usager.entretien.accompagnement">
-          {{ usager.entretien.accompagnementDetail }}
+      <div class="col-md-4 reponses">
+        <span class="question">Date de naissance</span>
+        <span class="valeur">
+          {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
         </span>
-      </span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">VILLE de naissance</span>
+        <span class="valeur">{{ usager.villeNaissance }}</span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">Numéro de téléphone</span>
+        <span class="valeur">{{ usager.phone || "Non renseigné" }}</span>
+      </div>
+      <div class="col-md-4 reponses">
+        <span class="question">Adresse email</span>
+        <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
+      </div>
+
+      <div class="col-md-4 reponses"></div>
     </div>
 
-    <div class="col-md-4 reponses"></div>
-    <br />
-    <div class="col-md-12 reponses" *ngIf="me.structure.options.rattachement">
-      <span class="question"
-        >Rattachement à une ville ou un arrondissement :
-      </span>
-      <span class="valeur">
-        {{ usager.entretien.rattachement || "Non renseigné" }}
-      </span>
+    <h4>AYANTS-DROITS</h4>
+
+    <div *ngIf="usager.ayantsDroits.length === 0">
+      <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
+    </div>
+    <table *ngIf="usager.ayantsDroits.length > 0" class="table table-light">
+      <tbody>
+        <tr>
+          <th>NOM Prénom</th>
+          <th>Né le</th>
+          <th>Lien</th>
+        </tr>
+        <tr *ngFor="let ayantDroit of usager.ayantsDroits">
+          <td>{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</td>
+          <td>{{ ayantDroit.dateNaissance }}</td>
+          <td>{{ ayantDroit.lien }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>ENTRETIEN</h4>
+    <div class="row">
+      <div class="col-md-4 reponses">
+        <span class="question">DOMICILIATION EXISTANTE</span>
+        <span class="valeur">
+          {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
+        </span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">ORIENTATION</span>
+        <span class="valeur">
+          {{
+            usager.entretien.orientation
+              ? "Oui: " + usager.entretien.orientationDetail
+              : "Non"
+          }}
+        </span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">REVENUS</span>
+        <span class="valeur">
+          {{
+            usager.entretien.revenus
+              ? "Oui, " + usager.entretien.revenusDetail
+              : "Non"
+          }}
+        </span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">LIEN COMMUNE</span>
+        <span class="valeur">
+          {{ usager.entretien.liencommune || "Non renseigné" }}
+        </span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">MOTIF DE LA DEMANDE</span>
+        <span class="valeur" *ngIf="usager.entretien.raison == 'AUTRE'">
+          Autre : {{ usager.entretien.raisonDetail }}
+        </span>
+        <span class="valeur" *ngIf="usager.entretien.raison != 'AUTRE'">
+          {{ labels.raison[usager.entretien.raison] || "Non renseigné" }}
+        </span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">SITUATION RESIDENTIELLE</span>
+        <span class="valeur" *ngIf="usager.entretien.residence == 'AUTRE'">
+          Autre : {{ usager.entretien.residenceDetail }}
+        </span>
+        <span class="valeur" *ngIf="usager.entretien.residence != 'AUTRE'">
+          {{ labels.residence[usager.entretien.residence] || "Non renseigné" }}
+        </span>
+      </div>
+      <div class="col-md-4 reponses">
+        <span class="question">COMPOSITION MÉNAGE</span>
+        <span class="valeur">
+          {{
+            labels.typeMenage[usager.entretien.typeMenage] || "Non renseigné"
+          }}
+        </span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">CAUSE DE L'INSTABILITÉ LOGEMENT</span>
+        <span class="valeur" *ngIf="usager.entretien.cause == 'AUTRE'">
+          Autre : {{ usager.entretien.causeDetail }}
+        </span>
+        <span class="valeur" *ngIf="usager.entretien.cause != 'AUTRE'">
+          {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
+        </span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
+        <span class="valeur">
+          {{ usager.entretien.accompagnement ? "Oui : " : "Non" }}
+          <span *ngIf="usager.entretien.accompagnement">
+            {{ usager.entretien.accompagnementDetail }}
+          </span>
+        </span>
+      </div>
+
+      <div class="col-md-4 reponses"></div>
       <br />
-    </div>
-    <br />
-    <div class="col-md-12 reponses">
-      <span class="question">NOTES SUPPLÉMENTAIRES:</span>
-      <span class="valeur">{{ usager.entretien.commentaires }}</span>
+      <div class="col-md-12 reponses" *ngIf="me.structure.options.rattachement">
+        <span class="question"
+          >Rattachement à une ville ou un arrondissement :
+        </span>
+        <span class="valeur">
+          {{ usager.entretien.rattachement || "Non renseigné" }}
+        </span>
+        <br />
+      </div>
       <br />
+      <div class="col-md-12 reponses">
+        <span class="question">NOTES SUPPLÉMENTAIRES:</span>
+        <span class="valeur">{{ usager.entretien.commentaires }}</span>
+        <br />
+      </div>
     </div>
-  </div>
 
-  <h4>Pièces-jointes</h4>
-  <app-documents [usager]="usager"></app-documents>
-  <br />
+    <h4>Pièces-jointes</h4>
+    <app-documents [usager]="usager"></app-documents>
+    <br />
 
-  <div class="row not-print">
-    <div class="col">
-      <button (click)="printPage()" class="btn-block btn btn-primary">
-        <fa-icon icon="print" class="btn-icon"></fa-icon>
-        Imprimer le récapitulatif
-      </button>
-    </div>
-    <div class="col">
-      <button (click)="getAttestation()" class="btn-block btn btn-primary">
-        <fa-icon icon="download" class="btn-icon"></fa-icon>
-        Télécharger l'attestation de Demande
-      </button>
+    <div class="row not-print">
+      <div class="col">
+        <button (click)="printPage()" class="btn-block btn btn-primary">
+          <fa-icon icon="print" class="btn-icon"></fa-icon>
+          Imprimer le récapitulatif
+        </button>
+      </div>
+      <div class="col">
+        <button (click)="getAttestation()" class="btn-block btn btn-primary">
+          <fa-icon icon="download" class="btn-icon"></fa-icon>
+          Télécharger l'attestation de Demande
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -599,6 +596,7 @@
       </form>
     </div>
   </div>
+
   <div class="modal-footer text-center">
     <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
       Revenir au formulaire

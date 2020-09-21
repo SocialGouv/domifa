@@ -1,0 +1,44 @@
+<div class="container" *ngIf="me && usager">
+  <app-form-menu [usager]="usager"></app-form-menu>
+  <!-- ///////// -->
+  <!-- ETAPE 4 UPLOAD DES PJ -->
+  <!-- ///////// -->
+  <div class="step_form" id="step_form3">
+    <div class="text-center">
+      <h5 class="title">Pièces justificatives complétant le dossier</h5>
+      <br />
+      Cette étape est optionnelle, rien ne vofus oblige à enregistrer des pièces
+      justificatives.
+      <br />
+      <br />
+    </div>
+    <br />
+    <app-upload [usager]="usager"></app-upload>
+
+    <div class="w-100"></div>
+    <br />
+    <div class="col-md-4 offset-md-4 text-center">
+      <button
+        (click)="nextStep(4)"
+        type="submit"
+        class="btn btn-primary btn-block"
+      >
+        Suivant
+      </button>
+
+      <a
+        routerLink="/manage"
+        routerLinkActive="router-link-active"
+        class="btn btn-block"
+      >
+        <u>Continuer plus tard</u>
+        &nbsp;
+        <fa-icon icon="angle-right"></fa-icon>
+      </a>
+    </div>
+  </div>
+  <br />
+  <div class="step_form">
+    <app-documents [usager]="usager"></app-documents>
+  </div>
+</div>

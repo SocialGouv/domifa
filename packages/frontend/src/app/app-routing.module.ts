@@ -32,8 +32,9 @@ import { EditUserComponent } from "./modules/users/components/edit-user/edit-use
 import { ResponsableGuard } from "./guards/responsable-guard";
 import { StatsComponent } from "./modules/stats/components/stats/stats.component";
 import { RdvComponent } from "./modules/usagers/components/form/parts/rdv/rdv.component";
-import { DecisionComponent } from "./modules/usagers/components/decision/decision.component";
+import { DecisionComponent } from "./modules/usagers/components/form/parts/decision/decision.component";
 import { EntretienFormComponent } from "./modules/usagers/components/form/parts/entretien-form/entretien-form.component";
+import { DocumentsFormComponent } from "./modules/usagers/components/form/parts/documents-form/documents-form.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -112,6 +113,16 @@ export const routes: Routes = [
   },
   {
     canActivate: [AuthGuard, FacteurGuard],
+    component: UsagersFormComponent,
+    path: "usager/:id/edit/etat-civil",
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
+    component: DocumentsFormComponent,
+    path: "usager/:id/edit/documents",
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
     component: EntretienFormComponent,
     path: "usager/:id/edit/entretien",
   },
@@ -125,11 +136,7 @@ export const routes: Routes = [
     component: DecisionComponent,
     path: "usager/:id/edit/decision",
   },
-  {
-    canActivate: [AuthGuard, FacteurGuard],
-    component: UsagersFormComponent,
-    path: "usager/:id/renouvellement",
-  },
+
   {
     canActivate: [AuthGuard],
     component: UsagersProfilComponent,

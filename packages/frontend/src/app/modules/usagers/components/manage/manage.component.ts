@@ -162,13 +162,13 @@ export class ManageUsagersComponent implements OnInit {
   }
 
   public goToProfil(usager: Usager) {
-    const url: { [key: string]: any } = {
-      ATTENTE_DECISION: "usager/" + usager.id + "/edit",
-      INSTRUCTION: "usager/" + usager.id + "/edit",
-      RADIE: "usager/" + usager.id,
-      REFUS: "usager/" + usager.id,
-      VALIDE: "usager/" + usager.id,
-    };
+    const etapesUrl = [
+      "etat-civil",
+      "rendez-vous",
+      "entretien",
+      "documents",
+      "decision",
+    ];
 
     if (
       usager.decision.statut === "ATTENTE_DECISION" ||
@@ -183,8 +183,20 @@ export class ManageUsagersComponent implements OnInit {
         this.notifService.error("Vous ne pouvez pas accéder à ce profil");
         return;
       }
+
+      if (usager.decision.statut === "INSTRUCTION") {
+        console.log("ETAPE DEM");
+        console.log(usager);
+        console.log(usager.etapeDemande);
+        this.router.navigate([
+          "usager/" + usager.id + "/edit/" + etapesUrl[usager.etapeDemande],
+        ]);
+      } else {
+        this.router.navigate(["usager/" + usager.id + "/edit/decision"]);
+      }
+    } else {
+      this.router.navigate(["usager/" + usager.id]);
     }
-    this.router.navigate([url[usager.decision.statut]]);
   }
 
   public setInteraction(

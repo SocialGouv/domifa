@@ -6,6 +6,7 @@ import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { User } from "src/app/modules/users/interfaces/user";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   providers: [UsagerService],
@@ -37,7 +38,11 @@ export class MenuComponent implements OnInit {
   ];
   public me: User;
 
-  constructor(public authService: AuthService, private router: Router) {
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private notifService: ToastrService
+  ) {
     this.authService.currentUser.subscribe((user: User) => {
       this.me = user;
     });
@@ -46,8 +51,14 @@ export class MenuComponent implements OnInit {
   public ngOnInit() {}
 
   public goToStep(step: number) {
-    this.router.navigate([
-      "usager/" + this.usager.id + "/edit/" + this.etapesUrl[step],
-    ]);
+    if (this.usager.id === 0) {
+      this.notifService.warning(
+        "Vous devez remplir la première étape avant de passer à la suite"
+      );
+    } else {
+      this.router.navigate([
+        "usager/" + this.usager.id + "/edit/" + this.etapesUrl[step],
+      ]);
+    }
   }
 }

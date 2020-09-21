@@ -8,7 +8,12 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-import { NgbModal, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbModal,
+  NgbDateStruct,
+  NgbDatepickerI18n,
+  NgbDateParserFormatter,
+} from "@ng-bootstrap/ng-bootstrap";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { ToastrService } from "ngx-toastr";
@@ -24,9 +29,17 @@ import {
 } from "src/app/shared/bootstrap-util";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Title } from "@angular/platform-browser";
+import { fadeInOut } from "src/app/shared/animations";
+import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 
 @Component({
-  providers: [UsagerService],
+  animations: [fadeInOut],
+  providers: [
+    UsagerService,
+    NgbDateCustomParserFormatter,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+  ],
   selector: "app-rdv",
   styleUrls: ["./rdv.component.css"],
   templateUrl: "./rdv.component.html",
@@ -85,7 +98,7 @@ export class RdvComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.titleService.setTitle("État-civil du demandeur");
+    this.titleService.setTitle("Rendez-vous de l'usager");
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
@@ -93,6 +106,7 @@ export class RdvComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = usager;
+          this.usager.etapeDemande = 1;
           this.initForm();
         },
         (error) => {
@@ -151,7 +165,7 @@ export class RdvComponent implements OnInit {
 
     this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe(
       (usager: Usager) => {
-        // TODO: REDIRECTION
+        this.router.navigate(["usager/" + this.usager.id + "/edit/entretien"]);
         this.notifService.success("Rendez-vous enregistré");
       },
       (error) => {
