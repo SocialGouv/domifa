@@ -81,7 +81,6 @@ describe("UsagersFormComponent", () => {
 
   it("should update header", () => {
     expect(app.doublons).toEqual([]);
-    expect(app.documents).toEqual([]);
 
     expect(app.labels.residence).toBeDefined();
     expect(app.labels.cause).toBeDefined();
