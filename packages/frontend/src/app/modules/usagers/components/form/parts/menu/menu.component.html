@@ -6,7 +6,7 @@
       *ngFor="let etape of etapes; let i = index"
       id="step{{ i }}"
     >
-      <div (click)="submitted = false; goToStep(i)">
+      <div (click)="goToStep(i)">
         <span *ngIf="currentStep > i" class="step_number step_check">
           <fa-icon icon="check"></fa-icon>
         </span>

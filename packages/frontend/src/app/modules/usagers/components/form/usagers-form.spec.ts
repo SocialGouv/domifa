@@ -131,8 +131,6 @@ describe("UsagersFormComponent", () => {
     app.usager.id = 12;
     app.changeStep(3);
     expect(app.usager.etapeDemande).toEqual(3);
-    app.setValueRdv("oui");
-    expect(app.rdvForm.get("isNow").value).toEqual("oui");
 
     app.initForm();
   }));

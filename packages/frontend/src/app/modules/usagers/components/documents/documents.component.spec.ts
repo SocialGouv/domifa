@@ -4,8 +4,9 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagersModule } from "../../usagers.module";
-import { DocumentsComponent } from "./DocumentsComponent";
+
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { DocumentsComponent } from "./documents.component";
 
 describe("DocumentsComponent", () => {
   let component: DocumentsComponent;
