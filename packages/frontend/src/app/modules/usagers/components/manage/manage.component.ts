@@ -21,7 +21,7 @@ import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { Structure } from "../../../structures/structure.interface";
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
-import { Filters, Search } from "../../interfaces/search";
+import { Filters, Search, SearchStatut } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
 
 @Component({
@@ -110,6 +110,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.titleService.setTitle("Gérer vos domiciliés");
 
     this.filters = new Search(this.getFilters());
+    this.searchString = this.filters.name;
     this.filters.page = 0;
     this.filters$.next(this.filters);
 
@@ -158,7 +159,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
   }
 
-  public updateFilters(element: Filters, value: string | null) {
+  public updateFilters<T extends Filters>(element: T, value: Search[T] | null) {
     if (
       element === "interactionType" ||
       element === "statut" ||
@@ -311,5 +312,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       this.filters.page = this.filters.page + 1;
       this.filters$.next(this.filters);
     }
+  }
+
+  getTabCounts(statut: SearchStatut, value: number) {
+    if (statut === this.filters.statut && value !== this.nbResults) {
+      return `${this.nbResults} / ${value}`;
+    }
+    return value;
   }
 }
