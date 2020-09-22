@@ -87,7 +87,6 @@ describe("UsagersFormComponent", () => {
     expect(app.labels.raison).toBeDefined();
 
     expect(app.f).toEqual(app.usagerForm.controls);
-    expect(app.r).toEqual(app.rdvForm.controls);
   });
 
   it("2. Initialisation de l'usager", () => {
