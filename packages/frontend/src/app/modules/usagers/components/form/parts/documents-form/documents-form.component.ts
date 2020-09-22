@@ -1,16 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-
-import { ToastrService } from "ngx-toastr";
 
 import { User } from "src/app/modules/users/interfaces/user";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
@@ -48,7 +39,6 @@ export class DocumentsFormComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = usager;
-          this.usager.etapeDemande = 3;
         },
         (error) => {
           this.router.navigate(["404"]);
@@ -64,7 +54,7 @@ export class DocumentsFormComponent implements OnInit {
       .nextStep(this.usager.id, step)
       .subscribe((usager: Usager) => {
         this.usager.etapeDemande = usager.etapeDemande;
-        // TODO: Redirection
+        this.router.navigate(["usager/" + this.usager.id + "/edit/decision"]);
       });
   }
 }

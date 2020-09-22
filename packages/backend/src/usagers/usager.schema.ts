@@ -179,7 +179,7 @@ export const UsagerSchema = new mongoose.Schema(
       },
     },
     etapeDemande: {
-      default: 1,
+      default: 0,
       required: true,
       type: Number,
     },

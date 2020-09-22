@@ -46,12 +46,5 @@ export class Rdv {
     if (this.dateRdv !== today) {
       this.isNow = this.dateRdv <= today ? "oui" : "non";
     }
-
-    this.when = "futur";
-    if (this.dateRdv.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
-      this.when = "now";
-    } else if (this.dateRdv.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
-      this.when = "past";
-    }
   }
 }

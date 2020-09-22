@@ -6,7 +6,6 @@ import {
   Output,
   TemplateRef,
 } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
@@ -14,7 +13,7 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
 import { ToastrService } from "ngx-toastr";
-import * as labels from "src/app/modules/usagers/usagers.labels";
+
 import { User } from "src/app/modules/users/interfaces/user";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -26,15 +25,7 @@ import { Title } from "@angular/platform-browser";
   templateUrl: "./entretien-form.component.html",
 })
 export class EntretienFormComponent implements OnInit {
-  public labels: any;
   public modal: any;
-
-  public typeMenageList: any;
-  public residenceList: any;
-  public causeList: any;
-  public raisonList: any;
-
-  public entretienForm!: FormGroup;
 
   @Input() public usager!: Usager;
   @Output() public usagerChange = new EventEmitter<Usager>();
@@ -45,7 +36,6 @@ export class EntretienFormComponent implements OnInit {
   public me: User;
 
   constructor(
-    private formBuilder: FormBuilder,
     private usagerService: UsagerService,
     private notifService: ToastrService,
     private modalService: NgbModal,
@@ -59,10 +49,6 @@ export class EntretienFormComponent implements OnInit {
     });
   }
 
-  get e(): any {
-    return this.entretienForm.controls;
-  }
-
   public ngOnInit() {
     this.titleService.setTitle("Entretien avec l'usager");
 
@@ -72,7 +58,6 @@ export class EntretienFormComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = usager;
-          this.usager.etapeDemande = 2;
         },
         (error) => {
           this.router.navigate(["404"]);
@@ -83,21 +68,6 @@ export class EntretienFormComponent implements OnInit {
     }
   }
 
-  public submitEntretien() {
-    this.usagerService
-      .entretien(this.entretienForm.value, this.usager.id)
-      .subscribe(
-        (usager: Usager) => {
-          this.usagerChange.emit(usager);
-          this.editEntretienChange.emit(false);
-          this.notifService.success("Enregistrement de l'entretien réussi");
-        },
-        (error) => {
-          this.notifService.error("Impossible d'enregistrer l'entretien");
-        }
-      );
-  }
-
   public open(content: TemplateRef<any>) {
     this.modal = this.modalService.open(content);
   }
@@ -106,7 +76,7 @@ export class EntretienFormComponent implements OnInit {
     this.usagerService
       .nextStep(this.usager.id, step)
       .subscribe((usager: Usager) => {
-        this.usager.etapeDemande = usager.etapeDemande;
+        this.router.navigate(["usager/" + this.usager.id + "/edit/documents"]);
       });
   }
 }

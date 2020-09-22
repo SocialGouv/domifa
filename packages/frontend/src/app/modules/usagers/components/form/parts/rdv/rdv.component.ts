@@ -51,6 +51,7 @@ export class RdvComponent implements OnInit {
   public rdvForm!: FormGroup;
 
   public usager!: Usager;
+  public etape: number;
 
   public editRdv!: boolean;
 
@@ -91,6 +92,8 @@ export class RdvComponent implements OnInit {
     this.authService.currentUser.subscribe((user: User) => {
       this.me = user;
     });
+
+    this.etape = 1;
   }
 
   get r(): any {
@@ -106,7 +109,7 @@ export class RdvComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = usager;
-          this.usager.etapeDemande = 1;
+          this.editRdv = usager.etapeDemande < 2;
           this.initForm();
         },
         (error) => {
@@ -141,6 +144,11 @@ export class RdvComponent implements OnInit {
 
   public setValueRdv(value: string) {
     this.rdvForm.controls.isNow.setValue(value);
+  }
+
+  public rdvNow() {
+    this.rdvForm.controls.isNow.setValue("oui");
+    this.submitRdv();
   }
 
   public submitRdv() {

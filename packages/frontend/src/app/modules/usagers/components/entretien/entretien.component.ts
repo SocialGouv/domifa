@@ -43,6 +43,7 @@ export class EntretienComponent implements OnInit {
 
   @Output()
   public nextStep = new EventEmitter<number>();
+
   public me: User;
 
   constructor(
@@ -100,18 +101,13 @@ export class EntretienComponent implements OnInit {
         (usager: Usager) => {
           this.usagerChange.emit(usager);
           this.editEntretienChange.emit(false);
+
+          this.nextStep.emit(3);
           this.notifService.success("Enregistrement de l'entretien réussi");
         },
         (error) => {
           this.notifService.error("Impossible d'enregistrer l'entretien");
         }
       );
-  }
-  public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
-  }
-
-  public next(step: number) {
-    this.nextStep.emit(3);
   }
 }

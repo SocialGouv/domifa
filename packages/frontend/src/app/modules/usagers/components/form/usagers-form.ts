@@ -84,6 +84,7 @@ export class UsagersFormComponent implements OnInit {
 
   public modal: any;
   public structure: any;
+  public etape: number;
 
   public liensLabels: any;
 
@@ -117,6 +118,7 @@ export class UsagersFormComponent implements OnInit {
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
+    this.etape = 1;
   }
 
   public ngOnInit() {
@@ -132,7 +134,7 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = usager;
-          this.usager.etapeDemande = 0;
+
           this.initForm();
           for (const ayantDroit of this.usager.ayantsDroits) {
             this.addAyantDroit(ayantDroit);

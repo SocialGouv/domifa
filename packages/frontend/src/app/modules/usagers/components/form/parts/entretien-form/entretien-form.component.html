@@ -1,5 +1,72 @@
 <div class="container" *ngIf="me && usager">
-  <app-form-menu [usager]="usager"></app-form-menu>
+  <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
+
+  <div class="step_form" *ngIf="usager.rdv.isNow === 'non'">
+    <div class="row text-center">
+      <div class="col">
+        <h5 class="title">
+          Le rendez-vous avec
+          <b>{{ usager.nom }} {{ usager.prenom }}</b>
+          est confirmé
+        </h5>
+        <p>
+          Le
+          <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
+          <br />
+          à
+          <b> {{ usager.rdv.dateRdv | date: "HH:mm" }} </b>
+          <br />
+          avec
+          <b>{{ usager.rdv.userName }}</b>
+          <br />
+          <br />
+          Pensez à noter le rendez-vous dans votre agenda.
+          <br />
+          <br />
+          <span (click)="usager.rdv.isNow = 'oui'" class="btn btn-secondary">
+            Réaliser l'entretien maintenant
+          </span>
+          <br />
+          <br />
+          <a
+            [routerLink]="['/usager/' + usager.id + '/edit/rendez-vous']"
+            routerLinkActive="router-link-active"
+            class="btn btn-secondary"
+          >
+            Modifier la date du rendez-vous
+          </a>
+          <br />
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #entretienConfirmation let-modal>
+    <div class="modal-body">
+      <div class="col">
+        <h4 class="text-center">Attention</h4>
+        L’entretien préalable
+        <b>est obligatoire,</b>
+        il est l’occasion d’inscrire la domiciliation dans une démarche
+        d’accompagnement social visant à favoriser l’insertion des personnes
+        domiciliées et constitue une porte d’entrée pour intégrer la personne
+        dans une logique de parcours.
+        <br />
+        <br />
+        Cette étape ne peut être passée que si votre structure met déjà en place
+        un accompagnement social pour cette personne, en parallèle de sa
+        domiciliation.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+        Revenir à l'entretien
+      </button>
+      <button class="btn btn-success" (click)="nextStep(3); modal.close()">
+        Continuer sans entretien
+      </button>
+    </div>
+  </ng-template>
 
   <div class="step_form" *ngIf="usager.rdv.isNow === 'oui'">
     <app-entretien

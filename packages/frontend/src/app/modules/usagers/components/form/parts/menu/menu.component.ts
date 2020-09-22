@@ -18,8 +18,7 @@ export class MenuComponent implements OnInit {
   @Input() public usager!: Usager;
   @Output() public usagerChange = new EventEmitter<Usager>();
 
-  @Input() public editRdv!: boolean;
-  @Output() public editRdvChange = new EventEmitter<boolean>();
+  @Input() public currentStep!: number;
 
   public etapes = [
     "État civil",
@@ -54,6 +53,10 @@ export class MenuComponent implements OnInit {
     if (this.usager.id === 0) {
       this.notifService.warning(
         "Vous devez remplir la première étape avant de passer à la suite"
+      );
+    } else if (step > this.usager.etapeDemande) {
+      this.notifService.warning(
+        "Pour passer à la suite, vous devez cliquer sur Suivant"
       );
     } else {
       this.router.navigate([

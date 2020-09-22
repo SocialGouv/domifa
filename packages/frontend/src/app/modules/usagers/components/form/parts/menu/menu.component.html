@@ -7,14 +7,14 @@
       id="step{{ i }}"
     >
       <div (click)="submitted = false; goToStep(i)">
-        <span *ngIf="usager.etapeDemande > i" class="step_number step_check">
+        <span *ngIf="currentStep > i" class="step_number step_check">
           <fa-icon icon="check"></fa-icon>
         </span>
         <span
-          *ngIf="usager.etapeDemande <= i"
+          *ngIf="currentStep <= i"
           [ngClass]="{
-            step_active: usager.etapeDemande == i,
-            step_inactive: usager.id == 0 && i > 0
+            step_active: currentStep == i,
+            step_inactive: (usager.id === 0 || i > usager.etapeDemande) && i > 0
           }"
           class="step_number"
         >
@@ -22,24 +22,27 @@
         </span>
         <span
           [ngClass]="{
-            step_text_active: usager.etapeDemande == i,
-            step_text_inactive: usager.id == 0 && i > 0
+            step_text_active: currentStep == i,
+            step_text_inactive:
+              (usager.id === 0 || i > usager.etapeDemande) && i > 0
           }"
-          [ngClass]="usager.id == 0 ? 'step_text_inactive' : ''"
+          [ngClass]="usager.id === 0 ? 'step_text_inactive' : ''"
           class="step_text"
         >
           {{ etape }}
         </span>
       </div>
-      <div
-        *ngIf="i < 4"
-        [className]="usager.etapeDemande > i ? 'check_sep' : ''"
-      >
+      <div *ngIf="i < 4" [className]="currentStep > i ? 'check_sep' : ''">
         <span
           class="separateur"
-          [ngClass]="{ separateur_inactive: usager.id == 0 && i > 0 }"
+          [ngClass]="{
+            separateur_inactive:
+              (usager.id == 0 || i > usager.etapeDemande) && i > 0
+          }"
         ></span>
       </div>
     </div>
   </div>
 </div>
+<br />
+<br />
