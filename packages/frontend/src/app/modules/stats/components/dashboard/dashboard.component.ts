@@ -1,24 +1,78 @@
-import { Component, OnInit } from "@angular/core";
-
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { ToastrService } from "ngx-toastr";
+import {
+  BehaviorSubject,
+  combineLatest,
+  ReplaySubject,
+  Subscription,
+} from "rxjs";
+import { map } from "rxjs/operators";
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabelsPluriel } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
-import { regions } from "../../regions.labels";
+import { dataCompare } from "src/app/shared/dataCompare.service";
+import { departements, DepartementsLabels } from "src/app/shared/departements";
+import { regions, RegionsLabels } from "../../regions.labels";
 import { StatsService } from "../../stats.service";
-import { Title } from "@angular/platform-browser";
-import { ToastrService } from "ngx-toastr";
+
+export type DashboardTableStructure = Pick<
+  Structure,
+  | "_id"
+  | "nom"
+  | "ville"
+  | "structureType"
+  | "verified"
+  | "structureType"
+  | "createdAt"
+  | "import"
+  | "importDate"
+  | "lastLogin"
+  | "region"
+  | "departement"
+  | "stats"
+> & {
+  structureTypeLabel: string;
+  regionLabel: string;
+  departementLabel: string;
+  usagersValideCount: number;
+  usersCount: number;
+};
+
+type DashboardTableSortAttribute =
+  | "nom"
+  | "structureTypeLabel"
+  | "createdAt"
+  | "import"
+  | "importDate"
+  | "domicilies"
+  | "usersCount"
+  | "usagersValideCount"
+  | "lastLogin"
+  | "regionLabel"
+  | "departementLabel";
+
+type UsagersValide = { [structureId: string]: number };
 
 @Component({
   selector: "app-dashboard",
   styleUrls: ["./dashboard.component.css"],
   templateUrl: "./dashboard.component.html",
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   public interactionsLabels: any;
-  public structures: Structure[];
+  public structures$ = new ReplaySubject<Structure[]>(1);
+  public usagersValide$ = new ReplaySubject<UsagersValide>(1);
+  public sortAttribute$ = new BehaviorSubject<{
+    name: DashboardTableSortAttribute;
+    asc: boolean;
+  }>({
+    name: "nom",
+    asc: false,
+  });
+  public sortedTableStructures: DashboardTableStructure[];
 
   public usagers: any;
-  public usagersValide: any;
 
   public interactions: any;
   public allInteractions: any;
@@ -33,12 +87,10 @@ export class DashboardComponent implements OnInit {
   public labels: any;
   public todayStats: any;
 
-  public regions: any;
+  public regions: RegionsLabels;
+  public departements: DepartementsLabels;
 
-  public sort: {
-    type: string;
-    value: string;
-  };
+  private subscription = new Subscription();
 
   public statutClass = {
     ATTENTE_DECISION: "text-warning",
@@ -56,30 +108,27 @@ export class DashboardComponent implements OnInit {
     this.interactionsLabels = interactionsLabelsPluriel;
     this.labels = labels;
     this.regions = regions;
+    this.departements = departements;
 
     this.users = 0;
     this.nbStructures = 0;
 
-    this.structures = [];
+    this.sortedTableStructures = [];
 
     this.usagers = [];
-    this.usagersValide = [];
 
     this.interactions = [];
     this.allInteractions = [];
     this.structuresType = [];
-
-    this.sort = {
-      type: "ascending",
-      value: "createdAt",
-    };
   }
 
   public ngOnInit() {
     this.titleService.setTitle("Dashboard de suivi");
 
     // Liste des structures
-    this.getStructures();
+    this.statsService.getStructures().subscribe((structures: Structure[]) => {
+      this.structures$.next(structures);
+    });
 
     // Structures par type
     this.statsService
@@ -97,9 +146,11 @@ export class DashboardComponent implements OnInit {
       this.usagers = retour;
     });
 
-    this.statsService.getUsagersValide().subscribe((usagersValide: any[]) => {
-      this.usagersValide = usagersValide;
-    });
+    this.statsService
+      .getUsagersValide()
+      .subscribe((usagersValide: UsagersValide) => {
+        this.usagersValide$.next(usagersValide);
+      });
 
     this.statsService
       .getStructuresByRegion()
@@ -112,26 +163,116 @@ export class DashboardComponent implements OnInit {
         this.allInteractions[stat._id.statut] = stat.sum[0];
       });
     });
+
+    const sortedTableStructures$ = this.buildSortedTableStructures();
+
+    this.subscription.add(
+      sortedTableStructures$.subscribe((sortedTableStructures) => {
+        this.sortedTableStructures = sortedTableStructures;
+      })
+    );
   }
 
-  public getStructures() {
-    this.structures = [];
-    this.statsService
-      .getStructures(this.sort.value, this.sort.type)
-      .subscribe((structures: Structure[]) => {
-        this.structures = structures;
-      });
+  private buildSortedTableStructures() {
+    const tableStructures$ = combineLatest([
+      this.structures$,
+      this.usagersValide$,
+    ]).pipe(
+      map(([structures, usagersValide]) =>
+        structures.map((structure) => {
+          const tableStructure: DashboardTableStructure = {
+            ...structure,
+            structureTypeLabel: labels.structureType[structure.structureType],
+            regionLabel: this.getRegionLabel(structure),
+            departementLabel: this.getDepartementLabel(structure),
+            usagersValideCount: usagersValide[structure.id] || 0,
+            usersCount: structure.users.length,
+          };
+          return tableStructure;
+        })
+      )
+    );
+
+    const sortedTableStructures$ = combineLatest([
+      tableStructures$,
+      this.sortAttribute$,
+    ]).pipe(
+      map(([tableStructures, sortAttribute]) => {
+        const tableStructuresWithSortKey = tableStructures.map((ts) => {
+          let sortKey: any;
+          if (
+            [
+              "nom",
+              "structureTypeLabel",
+              "regionLabel",
+              "departementLabel",
+            ].includes(sortAttribute.name)
+          ) {
+            sortKey = dataCompare.cleanString(ts[sortAttribute.name]);
+          } else if (sortAttribute.name === "domicilies") {
+            sortKey = ts.stats.VALIDE;
+          } else {
+            sortKey = ts[sortAttribute.name];
+          }
+
+          return {
+            ...ts,
+            sortKey,
+          };
+        });
+        tableStructuresWithSortKey.sort((a, b) => {
+          return dataCompare.compareAttributes(a.sortKey, b.sortKey, {
+            asc: sortAttribute.asc,
+            nullFirst: false,
+          });
+        });
+        return tableStructuresWithSortKey;
+      })
+    );
+    return sortedTableStructures$;
   }
 
-  public sortDashboard(value: string) {
-    if (value !== this.sort.value) {
-      this.sort.value = value;
-      this.sort.type = "ascending";
-    } else {
-      this.sort.type =
-        this.sort.type === "ascending" ? "descending" : "ascending";
+  private getRegionLabel(structure: Structure): string {
+    const regionLabel = this.regions[structure.region];
+    if (!regionLabel && structure.region) {
+      // tslint:disable-next-line: no-console
+      console.warn(
+        `[DashboardTableStructure] region ${structure.region} not found.`
+      );
     }
-    this.getStructures();
+    return regionLabel;
+  }
+
+  private getDepartementLabel(structure: Structure): string {
+    const departementLabel = this.departements[structure.departement];
+    if (!departementLabel && structure.departement) {
+      // tslint:disable-next-line: no-console
+      console.warn(
+        `[DashboardTableStructure] departement ${structure.departement} not found.`
+      );
+    }
+    return departementLabel;
+  }
+
+  public ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  public sortDashboard(
+    name: DashboardTableSortAttribute,
+    defaultSort: "asc" | "desc" = "asc"
+  ) {
+    if (name !== this.sortAttribute$.value.name) {
+      this.sortAttribute$.next({
+        name,
+        asc: defaultSort === "asc",
+      });
+    } else {
+      this.sortAttribute$.next({
+        name,
+        asc: !this.sortAttribute$.value.asc,
+      });
+    }
   }
 
   public deleteStructure(id: string) {

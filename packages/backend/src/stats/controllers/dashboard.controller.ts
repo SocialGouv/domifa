@@ -1,15 +1,14 @@
-import { Controller, Get, UseGuards, Query, Delete } from "@nestjs/common";
+import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
-
 import { InteractionsService } from "../../interactions/interactions.service";
 import { StructuresService } from "../../structures/structures.service";
 import { UsagersService } from "../../usagers/services/usagers.service";
 import { UsersService } from "../../users/services/users.service";
-import { StatsGeneratorService } from "../services/stats-generator.service";
 import { DashboardService } from "../services/dashboard.service";
-import { DashboardDto } from "../dto/dashboard.dto";
+import { StatsGeneratorService } from "../services/stats-generator.service";
+
+
 
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(DomifaGuard)
@@ -26,8 +25,8 @@ export class DashboardController {
 
   // 1. Liste des structures
   @Get("structures")
-  public async structures(@Query() query: DashboardDto) {
-    return this.dashboardService.getStructures(query);
+  public async structures() {
+    return this.dashboardService.getStructures();
   }
 
   // 2. Liste des structures par type

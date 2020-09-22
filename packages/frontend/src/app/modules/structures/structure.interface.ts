@@ -21,6 +21,7 @@ export class Structure {
   public importDate: Date;
   public lastLogin: Date;
   public verified: boolean;
+  public stats: { VALIDE: number; REFUS: number; RADIE: number; TOTAL: number };
 
   public responsable: {
     fonction: string;

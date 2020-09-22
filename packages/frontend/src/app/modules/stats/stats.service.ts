@@ -1,10 +1,10 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { environment } from "src/environments/environment";
-import { Stats } from "./stats.interface";
 import { map } from "rxjs/operators";
+import { environment } from "src/environments/environment";
 import { Structure } from "../structures/structure.interface";
+import { Stats } from "./stats.interface";
 
 @Injectable({
   providedIn: "root",
@@ -57,23 +57,14 @@ export class StatsService {
   }
 
   // DASHBOARD
-  public getStructures(value: string, type: string): Observable<Structure[]> {
-    let data = new HttpParams();
-
-    data = data.append("value", value);
-    data = data.append("type", type);
-
-    return this.http
-      .get(environment.apiUrl + `dashboard/structures`, {
-        params: data,
+  public getStructures(): Observable<Structure[]> {
+    return this.http.get(environment.apiUrl + `dashboard/structures`, {}).pipe(
+      map((response) => {
+        return Array.isArray(response)
+          ? response.map((item) => new Structure(item))
+          : [new Structure(response)];
       })
-      .pipe(
-        map((response) => {
-          return Array.isArray(response)
-            ? response.map((item) => new Structure(item))
-            : [new Structure(response)];
-        })
-      );
+    );
   }
 
   public getStructuresByType(): Observable<any> {

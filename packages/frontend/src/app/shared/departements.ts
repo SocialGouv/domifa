@@ -1,4 +1,8 @@
-export const departements = {
+export type DepartementsLabels = {
+  [departementCode: string]: string;
+};
+
+export const departements: DepartementsLabels = {
   "01": "Ain",
   "02": "Aisne",
   "03": "Allier",
