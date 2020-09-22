@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
