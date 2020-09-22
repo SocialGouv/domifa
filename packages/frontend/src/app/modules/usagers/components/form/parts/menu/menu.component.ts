@@ -16,7 +16,6 @@ import { ToastrService } from "ngx-toastr";
 })
 export class MenuComponent implements OnInit {
   @Input() public usager!: Usager;
-  @Output() public usagerChange = new EventEmitter<Usager>();
 
   @Input() public currentStep!: number;
 

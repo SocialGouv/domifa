@@ -1613,13 +1613,12 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <app-documents [usager]="usager"></app-documents>
-        <br />
-
         <app-upload
           *ngIf="usager.decision.statut === 'VALIDE' || usager.decision.statut === 'RADIE'"
           [usager]="usager"
         ></app-upload>
+        <br /><br />
+        <app-documents [usager]="usager"></app-documents>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
