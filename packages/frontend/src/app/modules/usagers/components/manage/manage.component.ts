@@ -1,27 +1,28 @@
 import {
   Component,
   ElementRef,
+  HostListener,
+  OnDestroy,
   OnInit,
   TemplateRef,
-  ViewChild,
-  HostListener,
+  ViewChild
 } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { fromEvent } from "rxjs";
+import { fromEvent, ReplaySubject, Subject, Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { Structure } from "../../../structures/structure.interface";
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
 import { Filters, Search } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
-import { Title } from "@angular/platform-browser";
-import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   animations: [fadeInOutSlow, fadeInOut],
@@ -30,7 +31,7 @@ import { MatomoTracker } from "ngx-matomo";
   styleUrls: ["./manage.css"],
   templateUrl: "./manage.html",
 })
-export class ManageUsagersComponent implements OnInit {
+export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
   public usagers: Usager[] = [];
   public dateLabel: string;
@@ -44,7 +45,10 @@ export class ManageUsagersComponent implements OnInit {
     VALIDE: "Fin de domiciliation",
   };
 
+  public searchString = "";
   public filters: Search;
+  public filters$: Subject<Search> = new ReplaySubject(1);
+
   public nbResults: number;
 
   public stats: {
@@ -65,6 +69,8 @@ export class ManageUsagersComponent implements OnInit {
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
 
+  private subscription = new Subscription();
+
   constructor(
     private usagerService: UsagerService,
     private interactionService: InteractionService,
@@ -78,7 +84,10 @@ export class ManageUsagersComponent implements OnInit {
     this.usagers = [];
     this.searching = true;
     this.dateLabel = "Fin de domiciliation";
-    this.filters = new Search();
+    this.filters = new Search({
+      name: "",
+      page: 0,
+    });
 
     this.nbResults = 0;
     this.selectedUsager = new Usager();
@@ -86,7 +95,6 @@ export class ManageUsagersComponent implements OnInit {
       this.authService.currentUserValue !== null
         ? this.authService.currentUserValue.structure
         : new Structure();
-    this.filters.page = 0;
     this.today = new Date();
     this.stats = {
       INSTRUCTION: 0,
@@ -103,28 +111,42 @@ export class ManageUsagersComponent implements OnInit {
 
     this.filters = new Search(this.getFilters());
     this.filters.page = 0;
-    this.getStats();
-    this.search();
+    this.filters$.next(this.filters);
 
-    fromEvent(this.searchInput.nativeElement, "keyup")
-      .pipe(
-        map((event: any) => {
-          return event.target.value;
-        }),
-        debounceTime(400),
-        distinctUntilChanged()
-      )
-      .subscribe((text: any) => {
-        this.filters.name = text;
-        this.filters.page = 0;
-        this.search();
-      });
+    this.getStats();
+
+    this.subscription.add(
+      fromEvent(this.searchInput.nativeElement, "keyup")
+        .pipe(
+          map((event: any) => {
+            return event.target.value;
+          }),
+          debounceTime(400),
+          map((filter) => (!filter ? filter : filter.trim())),
+          distinctUntilChanged()
+        )
+        .subscribe((text: any) => {
+          this.filters.name = text;
+          this.filters.page = 0;
+          this.filters$.next(this.filters);
+        })
+    );
+
+    this.subscription.add(
+      this.filters$.subscribe((filters) => {
+        this.search(filters);
+      })
+    );
+  }
+
+  public ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   public resetSearchBar() {
     this.searchInput.nativeElement.value = "";
     this.filters.name = "";
-    this.search();
+    this.filters$.next(this.filters);
   }
 
   public getAttestation(usagerId: number) {
@@ -133,7 +155,7 @@ export class ManageUsagersComponent implements OnInit {
 
   public resetFilters() {
     this.filters = new Search({});
-    this.search();
+    this.filters$.next(this.filters);
   }
 
   public updateFilters(element: Filters, value: string | null) {
@@ -141,8 +163,7 @@ export class ManageUsagersComponent implements OnInit {
       element === "interactionType" ||
       element === "statut" ||
       element === "passage" ||
-      element === "echeance" ||
-      element === "name"
+      element === "echeance"
     ) {
       const newValue = this.filters[element] === value ? null : value;
       this.filters[element] = newValue;
@@ -158,7 +179,7 @@ export class ManageUsagersComponent implements OnInit {
       }
     }
     this.filters.page = 0;
-    this.search();
+    this.filters$.next(this.filters);
   }
 
   public goToProfil(usager: Usager) {
@@ -236,23 +257,23 @@ export class ManageUsagersComponent implements OnInit {
     });
   }
 
-  public search() {
+  public search(filters: Search) {
     this.searching = true;
 
     this.dateLabel =
-      this.filters.statut !== null
-        ? this.labelsDateFin[this.filters.statut]
+      filters.statut !== null
+        ? this.labelsDateFin[filters.statut]
         : "Date de fin";
 
-    localStorage.setItem("filters", JSON.stringify(this.filters));
+    localStorage.setItem("filters", JSON.stringify(filters));
 
-    this.usagerService.search(this.filters).subscribe(
+    this.usagerService.search(filters).subscribe(
       (response: { results: Usager[] | Usager; nbResults: number }) => {
         const usagers = Array.isArray(response.results)
-          ? response.results.map((item) => new Usager(item, this.filters.name))
-          : [new Usager(response, this.filters.name)];
+          ? response.results.map((item) => new Usager(item, filters.name))
+          : [new Usager(response, filters.name)];
 
-        if (this.filters.page === 0) {
+        if (filters.page === 0) {
           this.nbResults = response.nbResults;
           this.usagers = usagers;
 
@@ -266,7 +287,7 @@ export class ManageUsagersComponent implements OnInit {
         }
         this.searching = false;
       },
-      (error) => {
+      () => {
         this.searching = false;
         this.notifService.error("Une erreur a eu lieu lors de la recherche");
       }
@@ -288,7 +309,7 @@ export class ManageUsagersComponent implements OnInit {
 
     if (pourcent >= 80 && this.usagers.length < this.nbResults) {
       this.filters.page = this.filters.page + 1;
-      this.search();
+      this.filters$.next(this.filters);
     }
   }
 }

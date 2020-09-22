@@ -52,13 +52,13 @@
       </span>
       <input
         type="text"
-        [(ngModel)]="filters.name"
+        [(ngModel)]="searchString"
         #searchInput
         placeholder="Recherche par nom, prénom ou numéro de domicilié"
         class="form-control"
       />
       <span
-        *ngIf="searchInput.value !== ''"
+        *ngIf="searchInput.value?.trim() !== ''"
         (click)="resetSearchBar()"
         id="times_icon"
       >
