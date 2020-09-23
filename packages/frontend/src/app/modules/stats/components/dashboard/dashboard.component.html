@@ -24,7 +24,7 @@
       </div>
       <div class="stats-blocks">
         <div>
-          <span class="stats-chiffres">{{ structures.length }}</span>
+          <span class="stats-chiffres">{{ sortedTableStructures.length }}</span>
           <span class="font-weight-bold stats-labels">
             Total
           </span>
@@ -72,7 +72,7 @@
         <tbody>
           <tr *ngFor="let structure of structuresRegions">
             <td>
-              {{ regions[structure.region] }}
+              {{ regions[structure.region] }} {{ structure.region }}
             </td>
             <td>{{ structure.count }}</td>
           </tr>
@@ -92,35 +92,40 @@
             Nom
             <fa-icon icon="sort"></fa-icon>
           </th>
-          <th (click)="sortDashboard('structureType')">
+          <th (click)="sortDashboard('structureTypeLabel')">
             Type
             <fa-icon icon="sort"></fa-icon>
           </th>
-          <th (click)="sortDashboard('createdAt')">
+          <th (click)="sortDashboard('createdAt', 'desc')">
             Date inscription <fa-icon icon="sort"></fa-icon>
           </th>
-          <th (click)="sortDashboard('import')">
+          <th (click)="sortDashboard('import', 'desc')">
             Importé ?
             <fa-icon icon="sort"></fa-icon>
           </th>
-          <th (click)="sortDashboard('importDate')">
+          <th (click)="sortDashboard('importDate', 'desc')">
             Date import
             <fa-icon icon="sort"></fa-icon>
           </th>
-          <th>Comptes</th>
-          <th (click)="sortDashboard('domicilies')">
+          <th (click)="sortDashboard('usersCount', 'desc')">
+            Comptes <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th (click)="sortDashboard('usagersValideCount', 'desc')">
             Domiciliés <fa-icon icon="sort"></fa-icon>
           </th>
-          <th (click)="sortDashboard('lastLogin')">
+          <th (click)="sortDashboard('lastLogin', 'desc')">
             Dernière connexion <fa-icon icon="sort"></fa-icon>
           </th>
-          <th (click)="sortDashboard('region')">
+          <th (click)="sortDashboard('regionLabel')">
             Région <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th (click)="sortDashboard('departementLabel')">
+            Département <fa-icon icon="sort"></fa-icon>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let structure of structures; let i = index">
+        <tr *ngFor="let structure of sortedTableStructures; let i = index">
           <td>{{ i + 1 }}</td>
           <td>
             {{ structure.nom }}
@@ -135,7 +140,7 @@
             </span>
           </td>
           <td>
-            {{ labels.structureType[structure.structureType] }}
+            {{ structure.structureTypeLabel }}
           </td>
 
           <td>{{ structure.createdAt | date: "dd/MM/yyyy" }}</td>
@@ -145,15 +150,18 @@
           <td>
             {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>
-          <td>{{ structure.users.length }}</td>
+          <td>{{ structure.usersCount }}</td>
           <td>
-            {{ usagersValide[structure.id] || 0 }}
+            {{ structure.usagersValideCount }}
           </td>
           <td>
             {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>
           <td>
-            {{ regions[structure.region] }}
+            {{ structure.regionLabel }}
+          </td>
+          <td>
+            {{ structure.departementLabel }}
           </td>
           <td>
             <button

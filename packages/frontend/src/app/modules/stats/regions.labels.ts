@@ -1,6 +1,8 @@
-export const regions: {
-  [key: string]: {};
-} = {
+export type RegionsLabels = {
+  [regionCode: string]: string;
+};
+
+export const regions: RegionsLabels = {
   "44": "Grand Est",
   "76": "Occitanie",
   "93": "Provence-Alpes-Côte d'Azur",

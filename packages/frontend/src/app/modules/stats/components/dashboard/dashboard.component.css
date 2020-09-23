@@ -70,7 +70,7 @@
 
 #dashboard tr th:not(:first-child),
 #dashboard tr td:not(:first-child) {
-  max-width: 500px;
+  max-width: 250px;
   min-width: 100px;
 }
 

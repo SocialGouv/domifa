@@ -1,15 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { Structure } from "../../structures/structure-interface";
-
 import { Interaction } from "../../interactions/interactions.interface";
-
+import { Structure } from "../../structures/structure-interface";
 import { StructuresService } from "../../structures/structures.service";
 import { Usager } from "../../usagers/interfaces/usagers";
-
-import { StatsDocument } from "../stats.interface";
 import { User } from "../../users/user.interface";
-import { DashboardDto } from "../dto/dashboard.dto";
+import { StatsDocument } from "../stats.interface";
+
+
+
 
 @Injectable()
 export class DashboardService {
@@ -39,18 +38,12 @@ export class DashboardService {
     this.dateMajorite = new Date();
   }
 
-  // TODO : Search options - tri par élément
-  public async getStructures(query: DashboardDto): Promise<Structure[]> {
-    if (query.value === "domicilies") {
-      query.value = "stats.VALIDE";
-    }
-
+  public async getStructures(): Promise<Structure[]> {
     return this.structureModel
       .find()
       .collation({ locale: "en", strength: 2 })
       .select("-token +stats")
       .populate("users", "verified")
-      .sort({ [query.value]: query.type })
       .exec();
   }
 
