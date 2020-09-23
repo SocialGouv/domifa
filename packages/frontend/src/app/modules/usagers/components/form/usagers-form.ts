@@ -8,15 +8,14 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { Doc } from "src/app/modules/usagers/interfaces/doc";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
-import { DocumentService } from "src/app/modules/usagers/services/document.service";
+
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/modules/users/interfaces/user";
-import { UsersService } from "src/app/modules/users/services/users.service";
+
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
@@ -25,7 +24,6 @@ import { regexp } from "../../../../shared/validators";
 import * as labels from "../../usagers.labels";
 
 import { AyantDroit } from "../../interfaces/ayant-droit";
-import { Decision } from "../../interfaces/decision";
 
 import {
   minDateNaissance,
