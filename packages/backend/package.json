@@ -57,6 +57,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
+    "umzug": "^2.3.0",
     "xlsx": "^0.16.7"
   },
   "devDependencies": {

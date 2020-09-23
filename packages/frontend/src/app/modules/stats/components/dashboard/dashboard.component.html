@@ -111,7 +111,9 @@
         </thead>
         <tbody>
           <tr *ngFor="let structure of structuresRegions">
-            <td>{{ regions[structure.region] }} {{ structure.region }}</td>
+            <td>
+              {{ regions[structure.region] ? regions[structure.region]: structure.region }}
+            </td>
             <td>{{ structure.count }}</td>
           </tr>
         </tbody>

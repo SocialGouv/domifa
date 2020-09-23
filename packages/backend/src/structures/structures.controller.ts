@@ -5,6 +5,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Logger,
   Param,
   Patch,
   Post,
@@ -183,6 +184,7 @@ export class StructuresController {
 
   @Get("admin/regions")
   public async regions() {
+    Logger.warn(`xxx admin/regions:`);
     return this.structureService.updateRegions();
   }
 

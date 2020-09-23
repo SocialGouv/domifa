@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from "@nestjs/common";
 import * as crypto from "crypto";
 import { Model } from "mongoose";
 import { User } from "../users/user.interface";
@@ -10,6 +16,7 @@ import { regions } from "./regions.labels";
 
 import * as fs from "fs";
 import * as path from "path";
+import { getLogger } from "nodemailer/lib/shared";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -110,9 +117,12 @@ export class StructuresService {
   }
 
   public async updateRegions(): Promise<any> {
-    this.structureModel
-      .findOne({ region: { $exists: false } })
+    return this.structureModel
+      .findOne({
+        $or: [{ region: { $exists: false } }, { region: "ERREUR_REGION" }],
+      })
       .exec((erreur: any, structure: Structure) => {
+        Logger.warn(`xxx structure: ${structure}`);
         if (erreur || structure === null) {
           return "RIEN A UPDATE";
         }
@@ -123,7 +133,7 @@ export class StructuresService {
             ? "ERREUR_REGION"
             : regions[dep].regionCode;
 
-        this.structureModel
+        return this.structureModel
           .findOneAndUpdate(
             { _id: structure._id },
             { $set: { region, departement: dep } }
