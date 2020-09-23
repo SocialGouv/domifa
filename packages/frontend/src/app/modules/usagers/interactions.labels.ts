@@ -23,4 +23,5 @@ export const interactionsLabelsPluriel: {
   recommandeIn: "Avis de passage enregistrés",
   recommandeOut: "Avis de passage remis",
   visite: "Passages enregistrés",
+  npai: "N'habite plus à l'adresse indiquée",
 };

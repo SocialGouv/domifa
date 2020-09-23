@@ -8,11 +8,53 @@
       </div>
 
       <div class="stats-blocks">
-        <div *ngFor="let stat of usagers | keyvalue">
-          <span class="stats-chiffres" [ngClass]="statutClass[stat.key]">
-            {{ stat.value }}
+        <div>
+          <span class="stats-chiffres" [ngClass]="statutClass['TOUS']">
+            {{ usagers["TOUS"] }}
           </span>
-          <span class="stats-labels">{{ labels.decisionStats[stat.key] }}</span>
+          <span class="stats-labels">{{ labels.decisionStats["TOUS"] }}</span>
+        </div>
+
+        <div>
+          <span class="stats-chiffres" [ngClass]="statutClass['VALIDE']">
+            {{ usagers["VALIDE"] }}
+          </span>
+          <span class="stats-labels">{{ labels.decisionStats["VALIDE"] }}</span>
+        </div>
+
+        <div>
+          <span class="stats-chiffres" [ngClass]="statutClass['INSTRUCTION']">
+            {{ usagers["INSTRUCTION"] }}
+          </span>
+          <span class="stats-labels">{{
+            labels.decisionStats["INSTRUCTION"]
+          }}</span>
+        </div>
+
+        <div>
+          <span
+            class="stats-chiffres"
+            [ngClass]="statutClass['ATTENTE_DECISION']"
+          >
+            {{ usagers["ATTENTE_DECISION"] }}
+          </span>
+          <span class="stats-labels">{{
+            labels.decisionStats["ATTENTE_DECISION"]
+          }}</span>
+        </div>
+
+        <div>
+          <span class="stats-chiffres" [ngClass]="statutClass['REFUS']">
+            {{ usagers["REFUS"] }}
+          </span>
+          <span class="stats-labels">{{ labels.decisionStats["REFUS"] }}</span>
+        </div>
+
+        <div>
+          <span class="stats-chiffres" [ngClass]="statutClass['RADIE']">
+            {{ usagers["RADIE"] }}
+          </span>
+          <span class="stats-labels">{{ labels.decisionStats["RADIE"] }}</span>
         </div>
       </div>
 
@@ -25,9 +67,7 @@
       <div class="stats-blocks">
         <div>
           <span class="stats-chiffres">{{ sortedTableStructures.length }}</span>
-          <span class="font-weight-bold stats-labels">
-            Total
-          </span>
+          <span class="font-weight-bold stats-labels"> Total </span>
         </div>
         <ng-container *ngFor="let structure of structuresType | keyvalue">
           <div *ngIf="structure.key !== 'total'">
@@ -71,9 +111,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let structure of structuresRegions">
-            <td>
-              {{ regions[structure.region] }} {{ structure.region }}
-            </td>
+            <td>{{ regions[structure.region] }} {{ structure.region }}</td>
             <td>{{ structure.count }}</td>
           </tr>
         </tbody>
