@@ -1,0 +1,47 @@
+<div *ngIf="usager.docs.length === 0">
+  <ngb-alert [dismissible]="false">Aucune pièce-jointe enregistrée</ngb-alert>
+</div>
+
+<div *ngIf="usager.docs.length > 0">
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="title text-center">Pièces déjà enregistrées</h5>
+    </div>
+    <table class="table table-light">
+      <tbody>
+        <tr>
+          <th>Nom de la pièce justificative</th>
+          <th>Ajoutée le</th>
+          <th>Ajoutée par</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let document of usager.docs; let indexDocs = index">
+          <td>{{ document.label }}</td>
+          <td>{{ document.createdAt | date: "dd/MM/yyyy" }}</td>
+          <td>{{ document.createdBy }}</td>
+          <td>
+            <button
+              (click)="getDocument(indexDocs)"
+              class="btn btn-primary"
+              aria-label="Voir la pièce jointe"
+            >
+              <fa-icon icon="download"></fa-icon>
+              Télécharger
+            </button>
+          </td>
+          <td>
+            <button
+              (click)="deleteDocument(indexDocs)"
+              class="btn btn-danger"
+              aria-label="Voir la pièce jointe"
+            >
+              <fa-icon icon="trash"></fa-icon>
+              Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

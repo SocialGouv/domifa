@@ -81,14 +81,12 @@ describe("UsagersFormComponent", () => {
 
   it("should update header", () => {
     expect(app.doublons).toEqual([]);
-    expect(app.documents).toEqual([]);
 
     expect(app.labels.residence).toBeDefined();
     expect(app.labels.cause).toBeDefined();
     expect(app.labels.raison).toBeDefined();
 
     expect(app.f).toEqual(app.usagerForm.controls);
-    expect(app.r).toEqual(app.rdvForm.controls);
   });
 
   it("2. Initialisation de l'usager", () => {
@@ -131,8 +129,6 @@ describe("UsagersFormComponent", () => {
     app.usager.id = 12;
     app.changeStep(3);
     expect(app.usager.etapeDemande).toEqual(3);
-    app.setValueRdv("oui");
-    expect(app.rdvForm.get("isNow").value).toEqual("oui");
 
     app.initForm();
   }));

@@ -1613,53 +1613,12 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="usager.docs.length === 0">
-          <ngb-alert [dismissible]="false"
-            >Aucune pièce-jointe enregistrée</ngb-alert
-          >
-        </div>
-        <table class="table table-light" *ngIf="usager.docs.length > 0">
-          <tbody>
-            <tr>
-              <th>Nom de la pièce justificative</th>
-              <th>Ajoutée le</th>
-              <th>Ajoutée par</th>
-              <th></th>
-              <th></th>
-            </tr>
-            <tr *ngFor="let document of usager.docs; let indexDocs = index">
-              <td>{{ document.label }}</td>
-              <td>{{ document.createdAt | date: 'dd/MM/yyyy' }}</td>
-              <td>{{ document.createdBy }}</td>
-              <td>
-                <button
-                  (click)="getDocument(indexDocs)"
-                  class="btn btn-primary"
-                  aria-label="Voir la pièce jointe"
-                >
-                  <fa-icon icon="download" class="btn-icon"></fa-icon>
-                  Télécharger
-                </button>
-              </td>
-              <td>
-                <button
-                  (click)="deleteDocument(indexDocs)"
-                  class="btn btn-danger"
-                  aria-label="Voir la pièce jointe"
-                >
-                  <fa-icon icon="trash" class="btn-icon"></fa-icon>
-                  Supprimer
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <br />
-        <br />
         <app-upload
           *ngIf="usager.decision.statut === 'VALIDE' || usager.decision.statut === 'RADIE'"
           [usager]="usager"
         ></app-upload>
+        <br /><br />
+        <app-documents [usager]="usager"></app-documents>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>

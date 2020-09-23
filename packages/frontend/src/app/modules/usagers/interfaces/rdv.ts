@@ -14,6 +14,8 @@ export class Rdv {
   public userName: string;
   public isNow: string;
 
+  public when: string;
+
   constructor(rdv?: any) {
     const today = new Date();
     this.dateRdv = (rdv && new Date(rdv.dateRdv)) || today;
@@ -44,7 +46,5 @@ export class Rdv {
     if (this.dateRdv !== today) {
       this.isNow = this.dateRdv <= today ? "oui" : "non";
     }
-
-    /* ICI METTRE L'ID RECUPERER DANS LE TOKEN */
   }
 }

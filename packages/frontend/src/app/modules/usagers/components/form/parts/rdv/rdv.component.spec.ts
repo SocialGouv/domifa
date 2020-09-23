@@ -3,13 +3,13 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
-import { UsagersModule } from "../../../../usagers.module";
-import { UploadComponent } from "./upload.component";
+import { UsagersModule } from "src/app/modules/usagers/usagers.module";
+import { RdvComponent } from "./rdv.component";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
-describe("UploadComponent", () => {
-  let component: UploadComponent;
-  let fixture: ComponentFixture<UploadComponent>;
+describe("RdvComponent", () => {
+  let component: RdvComponent;
+  let fixture: ComponentFixture<RdvComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,8 +35,8 @@ describe("UploadComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UploadComponent);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(RdvComponent);
+    component = fixture.debugElement.componentInstance;
     const usager: Usager = new Usager();
     component.usager = usager;
   });

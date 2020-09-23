@@ -1,0 +1,48 @@
+<br />
+<div class="row" *ngIf="me">
+  <div id="steps">
+    <div
+      class="step"
+      *ngFor="let etape of etapes; let i = index"
+      id="step{{ i }}"
+    >
+      <div (click)="goToStep(i)">
+        <span *ngIf="currentStep > i" class="step_number step_check">
+          <fa-icon icon="check"></fa-icon>
+        </span>
+        <span
+          *ngIf="currentStep <= i"
+          [ngClass]="{
+            step_active: currentStep == i,
+            step_inactive: (usager.id === 0 || i > usager.etapeDemande) && i > 0
+          }"
+          class="step_number"
+        >
+          {{ i + 1 }}
+        </span>
+        <span
+          [ngClass]="{
+            step_text_active: currentStep == i,
+            step_text_inactive:
+              (usager.id === 0 || i > usager.etapeDemande) && i > 0
+          }"
+          [ngClass]="usager.id === 0 ? 'step_text_inactive' : ''"
+          class="step_text"
+        >
+          {{ etape }}
+        </span>
+      </div>
+      <div *ngIf="i < 4" [className]="currentStep > i ? 'check_sep' : ''">
+        <span
+          class="separateur"
+          [ngClass]="{
+            separateur_inactive:
+              (usager.id == 0 || i > usager.etapeDemande) && i > 0
+          }"
+        ></span>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<br />

@@ -461,25 +461,6 @@ export class UsagersProfilComponent implements OnInit {
     return this.usagerService.attestation(this.usager.id);
   }
 
-  public getDocument(i: number) {
-    return this.documentService.getDocument(
-      this.usager.id,
-      i,
-      this.usager.docs[i]
-    );
-  }
-
-  public deleteDocument(i: number): void {
-    this.documentService.deleteDocument(this.usager.id, i).subscribe(
-      (usager: Usager) => {
-        this.usager.docs = usager.docs;
-      },
-      () => {
-        this.notifService.error("Impossible de supprimer le document");
-      }
-    );
-  }
-
   public editTransfert() {
     const dateTmp = this.nbgDate.formatEn(
       this.transfertForm.controls.dateFinPicker.value

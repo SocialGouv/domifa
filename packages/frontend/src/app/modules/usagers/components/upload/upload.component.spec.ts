@@ -1,13 +1,15 @@
-import { async, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { UsagerService } from "../../services/usager.service";
+import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagersModule } from "../../usagers.module";
+import { UploadComponent } from "./upload.component";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
-describe("DecisionComponent", () => {
-  let usagerService: UsagerService;
+describe("UploadComponent", () => {
+  let component: UploadComponent;
+  let fixture: ComponentFixture<UploadComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,19 +31,17 @@ describe("DecisionComponent", () => {
         { provide: APP_BASE_HREF, useValue: "/" },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
-
-    /*
-  usagerService.findOne(1).subscribe((usager: Usager) => {
-      fixture = TestBed.createComponent(DecisionComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      component.usager = usager;
-    });
-    */
+    }).compileComponents();
   }));
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UploadComponent);
+    component = fixture.componentInstance;
+    const usager: Usager = new Usager();
+    component.usager = usager;
+  });
+
   it("should create", () => {
-    usagerService = TestBed.get(UsagerService);
+    expect(component).toBeTruthy();
   });
 });

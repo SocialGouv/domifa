@@ -1,0 +1,168 @@
+<div class="container" *ngIf="me && usager">
+  <app-form-menu [usager]="usager" [currentStep]="1"></app-form-menu>
+
+  <div class="step_form" *ngIf="!editRdv && usager.etapeDemande > 1">
+    <div class="row text-center">
+      <div class="col">
+        <h5 class="title">
+          Un entretien pour
+          <b>{{ usager.nom }} {{ usager.prenom }}</b>
+          est déjà programmé
+        </h5>
+        <p>
+          Le
+          <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
+          <br />
+          à
+          <b> {{ usager.rdv.dateRdv | date: "HH:mm" }} </b>
+          <br />
+          avec
+          <b>{{ usager.rdv.userName }}</b>
+          <br />
+          <br />
+          <span (click)="rdvNow()" class="btn btn-secondary">
+            Réaliser l'entretien maintenant
+          </span>
+          <br />
+          <br />
+          <span (click)="editRdv = true" class="btn btn-secondary">
+            Modifier la date du rendez-vous
+          </span>
+          <br />
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step_form" id="step_form1" *ngIf="editRdv">
+    <div class="text-center">
+      <h5 class="title">
+        Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
+      </h5>
+      <br />
+    </div>
+    <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
+      <div class="row text-center">
+        <div
+          class="card"
+          [ngClass]="{
+            card_selected: r.isNow.value === 'oui',
+            card_not_selected: r.isNow.value === 'non'
+          }"
+        >
+          <div class="card-body" (click)="setValueRdv('oui')">
+            <h5 class="card-title text-center">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="isNow"
+                id="rdvNow"
+                value="oui"
+              />
+              <label for="rdvNow">L'entretien a lieu maintenant</label>
+            </h5>
+            <p class="card-text">
+              Pas besoin de fixer de date d'entretien ultérieure : l'entretien
+              est réalisé maintenant
+            </p>
+            <div
+              class="col-md-4 offset-md-4 text-center"
+              *ngIf="r.isNow.value === 'oui'"
+            >
+              <button type="submit" class="btn btn-primary btn-block">
+                Suivant &nbsp;
+                <fa-icon icon="angle-right"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-100"></div>
+
+        <div
+          class="card"
+          [ngClass]="{
+            card_selected: r.isNow.value === 'non',
+            card_not_selected: r.isNow.value === 'oui'
+          }"
+        >
+          <div class="card-body" (click)="setValueRdv('non')">
+            <h5 class="card-title text-center">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="rdv"
+                value="non"
+                formControlName="isNow"
+              />
+              <label for="rdv">Fixer une date de rendez-vous</label>
+            </h5>
+            <p class="card-text">
+              L'entretien sera réalisé plus tard, par vous-même ou un autre
+              collaborateur.
+            </p>
+
+            <div class="row text-center" *ngIf="r.isNow.value === 'non'">
+              <div class="form-group col">
+                <label for="rdvUser">Avec quel collaborateur ?</label>
+                <select
+                  *ngIf="agents"
+                  id="rdvUser"
+                  formControlName="userId"
+                  class="custom-select"
+                >
+                  <option *ngFor="let agent of agents" [ngValue]="agent.id">
+                    {{ agent.nom }} {{ agent.prenom }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col">
+                <label for="jourRdv">Date du rendez-vous</label>
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="jj/mm/aaaa"
+                    [minDate]="minDateToday"
+                    [maxDate]="maxDateRdv"
+                    placement="bottom"
+                    ngbDatepicker
+                    formControlName="jourRdv"
+                    #dRdv="ngbDatepicker"
+                  />
+                  <div class="input-group-append">
+                    <span
+                      class="btn btn-outline-primary"
+                      (click)="dRdv.toggle()"
+                    >
+                      <fa-icon icon="calendar"></fa-icon>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col">
+                <label for="heureRdv">Heure du rendez-vous</label>
+                <div class="input-group">
+                  <ngb-timepicker
+                    id="heureRdv"
+                    formControlName="heureRdv"
+                  ></ngb-timepicker>
+                </div>
+              </div>
+            </div>
+            <input formControlName="dateRdv" type="hidden" />
+            <div
+              class="col-md-4 offset-md-4 text-center"
+              *ngIf="r.isNow.value === 'non'"
+            >
+              <br />
+              <button type="submit" class="btn btn-primary btn-block">
+                Suivant &nbsp;
+                <fa-icon icon="angle-right"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

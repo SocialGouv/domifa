@@ -64,40 +64,34 @@ export class UsagersFormComponent implements OnInit {
     year: this.dToday.getFullYear() + 2,
   };
 
-  public etapes = [
-    "État civil",
-    "Prise de RDV",
-    "Entretien",
-    "Pièces justificatives",
-    "Décision finale",
+  public etapesUrl = [
+    "etat-civil",
+    "rendez-vous",
+    "entretien",
+    "documents",
+    "decision",
   ];
 
   /* RDV */
   public httpError: any;
 
-  public documents: Doc[];
-
   public usager!: Usager;
   public registerForm!: FormGroup;
   public usagerForm!: FormGroup;
-  public rdvForm!: FormGroup;
 
   public submitted = false;
   public submittedFile = false;
 
   public modal: any;
   public structure: any;
-  public agents: User[] = [];
+  public etape: number;
+
   public liensLabels: any;
 
   public me: User;
 
   get f() {
     return this.usagerForm.controls;
-  }
-
-  get r(): any {
-    return this.rdvForm.controls;
   }
 
   get ayantsDroits() {
@@ -107,8 +101,6 @@ export class UsagersFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
-    private userService: UsersService,
-    private documentService: DocumentService,
     public authService: AuthService,
     private matomo: MatomoTracker,
     private route: ActivatedRoute,
@@ -120,16 +112,17 @@ export class UsagersFormComponent implements OnInit {
   ) {
     this.labels = labels;
     this.doublons = [];
-    this.documents = [];
+
     this.liensLabels = Object.keys(this.labels.lienParente);
 
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
+    this.etape = 1;
   }
 
   public ngOnInit() {
-    this.titleService.setTitle("Demande de domiciliation");
+    this.titleService.setTitle("État-civil du demandeur");
 
     this.authService.currentUser.subscribe((user) => {
       this.me = user;
@@ -141,14 +134,10 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = usager;
+
           this.initForm();
           for (const ayantDroit of this.usager.ayantsDroits) {
             this.addAyantDroit(ayantDroit);
-          }
-
-          if (this.route.snapshot.url[2].path === "renouvellement") {
-            this.usager.etapeDemande = 1;
-            this.usager.decision = new Decision({});
           }
         },
         (error) => {
@@ -187,25 +176,6 @@ export class UsagersFormComponent implements OnInit {
       surnom: [this.usager.surnom, []],
       typeDom: [this.usager.typeDom],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
-    });
-
-    this.rdvForm = this.formBuilder.group({
-      dateRdv: [this.usager.rdv.dateRdv, [Validators.required]],
-      heureRdv: [this.usager.rdv.heureRdv, [Validators.required]],
-      isNow: [this.usager.rdv.isNow, []],
-      jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
-      userId: [this.usager.rdv.userId, Validators.required],
-    });
-
-    this.userService.getUsersMeeting().subscribe((users: User[]) => {
-      this.agents = users;
-
-      const userIdRdv =
-        this.usager.rdv.userId === null ? this.me.id : this.usager.rdv.userId;
-
-      this.rdvForm.controls.userId.setValue(userIdRdv, {
-        onlySelf: true,
-      });
     });
   }
 
@@ -286,8 +256,9 @@ export class UsagersFormComponent implements OnInit {
     this.usagerService
       .nextStep(this.usager.id, step)
       .subscribe((usager: Usager) => {
-        this.goToTop();
-        this.usager.etapeDemande = usager.etapeDemande;
+        this.router.navigate([
+          "usager/" + this.usager.id + "/edit/rendez-vous",
+        ]);
       });
   }
 
@@ -310,8 +281,7 @@ export class UsagersFormComponent implements OnInit {
         (usager: Usager) => {
           this.goToTop();
           this.notifService.success("Enregistrement réussi");
-          this.usager = usager;
-          this.router.navigate(["usager/" + usager.id + "/edit"]);
+          this.router.navigate(["usager/" + usager.id + "/edit/rendez-vous"]);
         },
         (error) => {
           if (error.statusCode && error.statusCode === 400) {
@@ -322,61 +292,6 @@ export class UsagersFormComponent implements OnInit {
         }
       );
     }
-  }
-
-  public setValueRdv(value: string) {
-    this.rdvForm.controls.isNow.setValue(value);
-  }
-
-  public submitRdv() {
-    if (this.rdvForm.controls.isNow.value === "oui") {
-      this.rdvForm.controls.userId.setValue(
-        this.authService.currentUserValue.id
-      );
-      this.rdvForm.controls.dateRdv.setValue(new Date().toISOString());
-    } else {
-      if (this.rdvForm.invalid) {
-        this.notifService.error("Veuillez vérifier les champs du formulaire");
-      } else {
-        const heureRdv = this.rdvForm.controls.heureRdv.value;
-        const jourRdv = this.nbgDate.formatEn(
-          this.rdvForm.controls.jourRdv.value
-        );
-        const dateTmp = new Date(jourRdv);
-        dateTmp.setHours(heureRdv.hour, heureRdv.minute, 0);
-        this.rdvForm.controls.dateRdv.setValue(dateTmp.toISOString());
-      }
-    }
-
-    this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe(
-      (usager: Usager) => {
-        this.usager = new Usager(usager);
-        this.goToTop();
-        this.notifService.success("Rendez-vous enregistré");
-      },
-      (error) => {
-        this.notifService.error("Impossible d'enregistrer le rendez-vous");
-      }
-    );
-  }
-
-  public getDocument(i: number) {
-    return this.documentService.getDocument(
-      this.usager.id,
-      i,
-      this.usager.docs[i]
-    );
-  }
-
-  public deleteDocument(i: number): void {
-    this.documentService.deleteDocument(this.usager.id, i).subscribe(
-      (usager: Usager) => {
-        this.usager.docs = new Usager(usager).docs;
-      },
-      (error: any) => {
-        this.notifService.error("Impossible de supprimer le document");
-      }
-    );
   }
 
   public deleteUsager() {
