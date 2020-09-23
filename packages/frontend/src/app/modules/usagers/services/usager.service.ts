@@ -5,7 +5,8 @@ import {
   HttpParams,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-
+import { saveAs } from "file-saver";
+import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -14,9 +15,9 @@ import { LoadingService } from "../../loading/loading.service";
 import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
+import { Search } from "../interfaces/search";
 import { Usager } from "../interfaces/usager";
-import { saveAs } from "file-saver";
-import { MatomoTracker } from "ngx-matomo";
+
 
 @Injectable({
   providedIn: "root",
@@ -170,7 +171,7 @@ export class UsagerService {
   }
 
   /* Recherche */
-  public search(search: any): Observable<any> {
+  public search(search: Search): Observable<any> {
     let data = new HttpParams();
 
     Object.keys(search).forEach((key) => {

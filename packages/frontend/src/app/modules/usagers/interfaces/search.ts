@@ -6,8 +6,16 @@ export type Filters =
   | "interactionType"
   | "sort";
 
+export type SearchStatut =
+  | "TOUS"
+  | "VALIDE"
+  | "INSTRUCTION"
+  | "ATTENTE_DECISION"
+  | "REFUS"
+  | "RADIE";
+
 export class Search {
-  public statut: string;
+  public statut: SearchStatut;
   public name?: string;
   public echeance?: string;
   public interactionType?: string;

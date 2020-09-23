@@ -7,42 +7,43 @@
       [ngClass]="filters.statut === 'TOUS' ? 'filter-primary' : 'filter-dark'"
       (click)="updateFilters('statut', 'TOUS')"
     >
-      Tous ({{ stats.TOUS }})
+      Tous ({{ getTabCounts('TOUS', stats.TOUS) }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'VALIDE' ? 'filter-primary' : 'filter-dark'"
       (click)="updateFilters('statut', 'VALIDE')"
     >
-      Actifs ({{ stats.VALIDE }})
+      Actifs ({{ getTabCounts('VALIDE', stats.VALIDE) }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'INSTRUCTION' ? 'filter-warning' : 'filter-dark'"
       (click)="updateFilters('statut', 'INSTRUCTION')"
     >
-      À compléter ({{ stats.INSTRUCTION }})
+      À compléter ({{ getTabCounts('INSTRUCTION', stats.INSTRUCTION) }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'ATTENTE_DECISION' ? 'filter-warning' : 'filter-dark' "
       (click)="updateFilters('statut', 'ATTENTE_DECISION')"
     >
-      Attente de décision ({{ stats.ATTENTE_DECISION }})
+      Attente de décision ({{ getTabCounts('ATTENTE_DECISION',
+      stats.ATTENTE_DECISION) }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'REFUS' ? 'filter-danger' : 'filter-dark'  "
       (click)="updateFilters('statut', 'REFUS')"
     >
-      Refusés ({{ stats.REFUS }})
+      Refusés ({{ getTabCounts('REFUS', stats.REFUS) }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'RADIE' ? 'filter-danger' : 'filter-dark'"
       (click)="updateFilters('statut', 'RADIE')"
     >
-      Radiés ({{ stats.RADIE }})
+      Radiés ({{ getTabCounts('RADIE', stats.RADIE) }})
     </div>
   </div>
   <div class="row">
@@ -52,13 +53,13 @@
       </span>
       <input
         type="text"
-        [(ngModel)]="filters.name"
+        [(ngModel)]="searchString"
         #searchInput
-        placeholder="Recherche par nom, prénom ou numéro de domicilié"
+        placeholder="Recherche par numéro de domicilié, nom, prénom ou ayant-droit"
         class="form-control"
       />
       <span
-        *ngIf="searchInput.value !== ''"
+        *ngIf="searchInput.value?.trim() !== ''"
         (click)="resetSearchBar()"
         id="times_icon"
       >
