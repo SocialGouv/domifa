@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
@@ -66,10 +59,6 @@ export class EntretienFormComponent implements OnInit {
     } else {
       this.router.navigate(["404"]);
     }
-  }
-
-  public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
   }
 
   public nextStep(step: number) {

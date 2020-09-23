@@ -41,33 +41,6 @@
     </div>
   </div>
 
-  <ng-template #entretienConfirmation let-modal>
-    <div class="modal-body">
-      <div class="col">
-        <h4 class="text-center">Attention</h4>
-        L’entretien préalable
-        <b>est obligatoire,</b>
-        il est l’occasion d’inscrire la domiciliation dans une démarche
-        d’accompagnement social visant à favoriser l’insertion des personnes
-        domiciliées et constitue une porte d’entrée pour intégrer la personne
-        dans une logique de parcours.
-        <br />
-        <br />
-        Cette étape ne peut être passée que si votre structure met déjà en place
-        un accompagnement social pour cette personne, en parallèle de sa
-        domiciliation.
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
-        Revenir à l'entretien
-      </button>
-      <button class="btn btn-success" (click)="nextStep(3); modal.close()">
-        Continuer sans entretien
-      </button>
-    </div>
-  </ng-template>
-
   <div class="step_form" *ngIf="usager.rdv.isNow === 'oui'">
     <app-entretien
       [(usager)]="usager"
