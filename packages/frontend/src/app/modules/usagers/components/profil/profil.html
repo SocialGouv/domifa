@@ -1676,7 +1676,9 @@
     <span class="modal-title">Attention</span>
     <br />
     <br />
-    <p *ngIf="usager.decision.statut !== 'RADIE'">
+    <p
+      *ngIf="usager.decision.statut !== 'RADIE' && usager.decision.statut !== 'REFUS'"
+    >
       Si vous commencez un renouvellement,
       <br />
       <b> ce dossier ne sera plus considéré comme "actif". </b>
@@ -1685,6 +1687,11 @@
       Si vous commencez une nouvelle demande,
       <br />
       <b> ce dossier ne sera plus comptabilisé parmi les radiés. </b>
+    </p>
+    <p *ngIf="usager.decision.statut === 'REFUS'">
+      Si vous créez une nouvelle demande,
+      <br />
+      <b> ce dossier ne sera plus comptabilisé parmi les refusés. </b>
     </p>
     Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre "À
     compléter"

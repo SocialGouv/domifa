@@ -92,10 +92,6 @@ export class StatsGeneratorService {
       $in: ["PREMIERE", "RENOUVELLEMENT"],
     });
 
-    // TODO : Ajouter le nombre de domiciliés ayant été importé cette année avec un début de dom cette année
-
-    // TODO : Comptabiliser les domiciliés + leurs ayants-droits
-
     stat.questions.Q_10_A = await this.getDomiciliations(
       structure.id,
       "PREMIERE"

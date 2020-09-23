@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  ViewChild,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
@@ -17,6 +18,7 @@ import { ToastrService } from "ngx-toastr";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { User } from "src/app/modules/users/interfaces/user";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   providers: [UsagerService],
@@ -44,6 +46,11 @@ export class EntretienComponent implements OnInit {
   @Output()
   public nextStep = new EventEmitter<number>();
 
+  @ViewChild("entretienConfirmation", { static: true })
+  public entretienConfirmation!: TemplateRef<any>;
+
+  public dirty: boolean;
+
   public me: User;
 
   constructor(
@@ -51,11 +58,13 @@ export class EntretienComponent implements OnInit {
     private usagerService: UsagerService,
     private notifService: ToastrService,
     private modalService: NgbModal,
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router
   ) {
     this.authService.currentUser.subscribe((user: User) => {
       this.me = user;
     });
+    this.dirty = false;
   }
 
   get e(): any {
@@ -92,16 +101,24 @@ export class EntretienComponent implements OnInit {
       revenusDetail: [this.usager.entretien.revenusDetail, []],
       typeMenage: [this.usager.entretien.typeMenage, []],
     });
+
+    this.entretienForm.valueChanges.subscribe(() => {
+      this.dirty = true;
+    });
   }
 
   public submitEntretien() {
+    if (!this.dirty) {
+      this.modal = this.modalService.open(this.entretienConfirmation);
+      return;
+    }
+
     this.usagerService
       .entretien(this.entretienForm.value, this.usager.id)
       .subscribe(
         (usager: Usager) => {
           this.usagerChange.emit(usager);
           this.editEntretienChange.emit(false);
-
           this.nextStep.emit(3);
           this.notifService.success("Enregistrement de l'entretien réussi");
         },
