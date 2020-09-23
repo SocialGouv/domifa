@@ -7,6 +7,26 @@
 
 > Faciliter l'accès aux droits pour les personnes sans domicile stable, en simplifiant la gestion de la domiciliation
 
+## Développement
+
+### Migrations
+
+Les migrations sont définies dans le fichier `/packages/backend/src/_migrations`.
+
+Les migrations sont exécutées automatiquement au démarrage de l'application:
+
+```bash
+# /packages/backend
+yarn start
+```
+
+Pour faire un `rollback` sur une migration:
+
+```bash
+# /packages/backend
+yarn run migrate:dow
+```
+
 ## Docker
 
 ```sh
@@ -66,6 +86,6 @@ $ GH_TOKEN==************ yarn lerna version
 # You might want to add a Gif to your release to make it groovy ;)
 ```
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa?ref=badge_large)

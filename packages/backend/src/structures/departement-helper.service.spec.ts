@@ -1,14 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import * as mongoose from "mongoose";
-import { ConfigService } from "../config/config.service";
-import { DatabaseModule } from "../database/database.module";
-import { UsagersProviders } from "../usagers/usagers.providers";
-import { MailJetService } from "../users/services/mailjet.service";
-import { UsersProviders } from "../users/users.providers";
 import { DepartementHelper } from "./departement-helper.service";
-import { StructureDto } from "./dto/structure.dto";
-import { StructuresProviders } from "./structures-providers";
-import { StructuresService } from "./structures.service";
 
 describe("Departement helper Service", () => {
   let service: DepartementHelper;
