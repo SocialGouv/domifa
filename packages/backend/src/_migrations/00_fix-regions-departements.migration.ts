@@ -1,8 +1,6 @@
 import { INestApplication, Logger } from "@nestjs/common";
 import { Model } from "mongoose";
-import { of } from "rxjs";
 import { Structure } from "../structures/structure-interface";
-import { regions } from "../structures/regions.labels";
 import { processUtil } from "../util/processUtil.service";
 import { DepartementHelper } from "../structures/departement-helper.service";
 
@@ -106,28 +104,28 @@ function rebuildRegionAndDepartement({
       }
       attributesToUpdate.departement = departement;
     }
-    const region = regions[departement];
+    const region = departementHelper.getRegionCodeFromDepartement(departement);
 
     if (!region) {
       Logger.error(
         `[${migrationName}] region not found for departement "${departement}" for structure "${structure._id}"`
       );
     } else {
-      if (region.regionCode !== structure.region) {
+      if (region !== structure.region) {
         if (
           structure.region &&
           structure.region !== "ERREUR_REGION" &&
           structure.region.trim().length !== 0
         ) {
           Logger.warn(
-            `[${migrationName}] update region from "${structure.region}" to "${region.regionCode}" for structure "${structure._id}" with departement "${departement}" and postal code "${structure.codePostal}"`
+            `[${migrationName}] update region from "${structure.region}" to "${region}" for structure "${structure._id}" with departement "${departement}" and postal code "${structure.codePostal}"`
           );
         } else {
           Logger.warn(
-            `[${migrationName}] set region from to "${region.regionCode}" for structure "${structure._id}" with departement "${departement}" and postal code "${structure.codePostal}"`
+            `[${migrationName}] set region from to "${region}" for structure "${structure._id}" with departement "${departement}" and postal code "${structure.codePostal}"`
           );
         }
-        attributesToUpdate.region = region.regionCode;
+        attributesToUpdate.region = region;
       }
     }
   }
