@@ -802,4 +802,18 @@ export class StatsGeneratorService {
   public async countUsagers(): Promise<any> {
     return this.usagerModel.countDocuments({}).exec();
   }
+
+  public async countAyantsDroits(): Promise<any> {
+    return this.usagerModel.aggregate([
+      { $project: { totalAd: { $size: "$ayantsDroits" } } },
+      { $group: { _id: null, count: { $sum: "$totalAd" } } },
+    ]);
+  }
+
+  public async countDocs(): Promise<any> {
+    return this.usagerModel.aggregate([
+      { $project: { totalFichiers: { $size: "$docs" } } },
+      { $group: { _id: null, count: { $sum: "$totalFichiers" } } },
+    ]);
+  }
 }

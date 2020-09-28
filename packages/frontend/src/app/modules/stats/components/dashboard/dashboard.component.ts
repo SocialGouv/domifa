@@ -78,6 +78,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public allInteractions: any;
 
   public users: number;
+  public docs: number;
   public usersByStructure: any;
 
   public nbStructures: number;
@@ -110,6 +111,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.regions = regions;
     this.departements = departements;
 
+    this.docs = 0;
     this.users = 0;
     this.nbStructures = 0;
 
@@ -140,6 +142,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // Nombre d'utilisateurs total
     this.statsService.getUsers().subscribe((stats: number) => {
       this.users = stats;
+    });
+
+    this.statsService.getDocs().subscribe((stats: number) => {
+      this.docs = stats;
     });
 
     this.statsService.getUsagers().subscribe((retour: any[]) => {
