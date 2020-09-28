@@ -8,16 +8,19 @@ import { LoadingService } from "../../loading/loading.service";
 import { ToastrService } from "ngx-toastr";
 import { AbstractControl } from "@angular/forms";
 import { regexp } from "src/app/shared/validators";
+import { DepartementHelper } from "./departement-helper.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class StructureService {
   public http: HttpClient;
+  public departementHelper: DepartementHelper;
   private endPoint = environment.apiUrl + "structures";
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient, departementHelper: DepartementHelper) {
     this.http = http;
+    this.departementHelper = departementHelper;
   }
 
   public findOne(structureId: number): Observable<any> {
@@ -102,30 +105,27 @@ export class StructureService {
     });
   }
 
-  public validateCodePostal(control: AbstractControl) {
-    const testCode = RegExp(regexp.postcode).test(control.value);
+  public codePostalValidator() {
+    const departementHelper = this.departementHelper;
+    return function validateCodePostal(control: AbstractControl) {
+      const postalCode = control.value;
 
-    if (testCode) {
-      const debutCode = control.value.substring(0, 2);
-      if (!isNaN(debutCode)) {
-        if (parseInt(debutCode, 10) < 98 && parseInt(debutCode, 10) > 0) {
-          return null;
+      const testCode = RegExp(regexp.postcode).test(postalCode);
+      if (testCode) {
+        try {
+          const departement = departementHelper.getDepartementFromCodePostal(
+            postalCode
+          );
+          departementHelper.getRegionCodeFromDepartement(departement);
+        } catch (err) {
+          // tslint:disable-next-line: no-console
+          console.error(`Validation error for postalCode "${postalCode}"`, err);
+          return { codepostal: false };
         }
-        return {
-          codePostal: false,
-        };
-      }
-      if (
-        debutCode.toLowerCase() === "2a" ||
-        debutCode.toLowerCase() === "2b"
-      ) {
         return null;
       }
-      return {
-        codePostal: false,
-      };
-    }
 
-    return { codepostal: false };
+      return { codepostal: false };
+    };
   }
 }

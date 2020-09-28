@@ -5,6 +5,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Logger,
   Param,
   Patch,
   Post,
@@ -179,11 +180,6 @@ export class StructuresController {
   @Get(":id")
   public async getStructure(@Param("id") id: number) {
     return this.structureService.findOneBasic({ id });
-  }
-
-  @Get("admin/regions")
-  public async regions() {
-    return this.structureService.updateRegions();
   }
 
   @UseGuards(AuthGuard("jwt"))

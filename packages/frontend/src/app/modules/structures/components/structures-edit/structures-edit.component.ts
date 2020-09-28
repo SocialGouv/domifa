@@ -93,7 +93,7 @@ export class StructuresEditComponent implements OnInit {
         this.structure.codePostal,
         [
           Validators.maxLength(5),
-          this.structureService.validateCodePostal.bind(this),
+          this.structureService.codePostalValidator(),
           Validators.required,
         ],
       ],

@@ -7,6 +7,10 @@
 
 > Faciliter l'accès aux droits pour les personnes sans domicile stable, en simplifiant la gestion de la domiciliation
 
+## Développement
+
+Voir [./CONTRIBUTING.md](./CONTRIBUTING.md).
+
 ## Docker
 
 ```sh
@@ -66,6 +70,6 @@ $ GH_TOKEN==************ yarn lerna version
 # You might want to add a Gif to your release to make it groovy ;)
 ```
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa?ref=badge_large)

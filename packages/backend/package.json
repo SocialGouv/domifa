@@ -8,6 +8,8 @@
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",
+    "db:migrate-up": "ts-node -r tsconfig-paths/register src/migrate-up.ts",
+    "db:migrate-down:last": "ts-node -r tsconfig-paths/register src/migrate-down-last.ts",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
@@ -47,6 +49,7 @@
     "ical-generator": "^1.15.0",
     "ics": "^2.24.0",
     "mongoose": "^5.10.4",
+    "mongodb": "^3.6.2",
     "multer": "^1.4.2",
     "nest-raven": "^7.0.0",
     "node-mailjet": "^3.3.1",
@@ -57,6 +60,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
+    "umzug": "^2.3.0",
     "xlsx": "^0.16.7"
   },
   "devDependencies": {
@@ -73,6 +77,7 @@
     "@types/node": "^10.12.18",
     "@types/node-mailjet": "^3.3.3",
     "@types/supertest": "^2.0.10",
+    "@types/umzug": "^2.2.3",
     "check-disk-space": "^2.1.0",
     "jest": "^26.4.2",
     "nodemon": "^2.0.4",
