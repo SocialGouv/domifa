@@ -1,5 +1,23 @@
 [
   {
+    "date": "2020-09-30",
+    "description": "Possible de revenir sur les différentes étapes lors de la création d’une demande de domiciliation avant la finalisation du dossier",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Ajout du nombre de résultats lors d’un filtrage sur la liste des usagers",
+          "Améliorations visuelles sur la liste des usagers"
+        ]
+      },
+      {
+        "type": "bug",
+        "message": ["Soucis avec la barre de recherche"]
+      }
+    ]
+  },
+  {
     "date": "2020-09-10",
     "description": "Une notification par mail lors de la prise d’un rendez-vous pour un meilleur suivi !",
     "content": [
