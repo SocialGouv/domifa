@@ -530,7 +530,6 @@ export class UsagersProfilComponent implements OnInit {
       (usager: Usager) => {
         this.usager.options = new Options(usager.options);
         this.setInteraction("npai", false);
-        this.notifService.success("Pli non distribuable enregistré");
       },
       (error) => {
         this.notifService.error("Cette opération a échoué");
