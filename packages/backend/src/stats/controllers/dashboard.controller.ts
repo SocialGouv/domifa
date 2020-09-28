@@ -8,19 +8,13 @@ import { UsersService } from "../../users/services/users.service";
 import { DashboardService } from "../services/dashboard.service";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 
-
-
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(DomifaGuard)
 @Controller("dashboard")
 export class DashboardController {
   constructor(
-    private readonly statsService: StatsGeneratorService,
     private readonly dashboardService: DashboardService,
-    private readonly structureService: StructuresService,
-    private readonly usersService: UsersService,
-    private readonly usagersService: UsagersService,
-    private readonly interactionsService: InteractionsService
+    private readonly statsGeneratorService: StatsGeneratorService
   ) {}
 
   // 1. Liste des structures
@@ -64,16 +58,26 @@ export class DashboardController {
     return usagers;
   }
 
+  @Get("docs")
+  public async getDocs() {
+    const docs = await this.statsGeneratorService.countDocs();
+    return docs[0].count;
+  }
+
   @Get("usagers")
   public async getUsagers() {
+    const ayantsDroits = await this.statsGeneratorService.countAyantsDroits();
     const result = await this.dashboardService.getUsagers();
+
     const usagers: { [key: string]: any } = {};
     let total = 0;
+
+    usagers.AYANTS_DROITS = ayantsDroits[0].count;
     for (const usager of result) {
       usagers[usager._id.statut] = usager.sum[0];
       total += usager.sum[0];
     }
-    usagers.TOUS = total;
+    usagers.TOUS = total + usagers.AYANTS_DROITS;
     return usagers;
   }
 

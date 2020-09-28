@@ -49,9 +49,6 @@ export class StatsController {
   constructor(
     private readonly statsGeneratorService: StatsGeneratorService,
     private readonly statsService: StatsService,
-    private readonly structureService: StructuresService,
-    private readonly usersService: UsersService,
-    private readonly usagersService: UsagersService,
     private readonly interactionsService: InteractionsService
   ) {
     this.sheet = [];
@@ -103,10 +100,13 @@ export class StatsController {
 
   @Get("home-stats")
   public async home() {
+    const usagers = await this.statsGeneratorService.countUsagers();
+    const ayantsDroits = await this.statsGeneratorService.countAyantsDroits();
+
     const statsHome = {
       structures: await this.statsGeneratorService.countStructures(),
       interactions: await this.statsGeneratorService.countInteractions(),
-      usagers: await this.statsGeneratorService.countUsagers(),
+      usagers: usagers + ayantsDroits[0].count,
     };
     return statsHome;
   }

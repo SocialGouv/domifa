@@ -79,6 +79,10 @@ export class StatsService {
     return this.http.get(environment.apiUrl + `dashboard/users`);
   }
 
+  public getDocs(): Observable<any> {
+    return this.http.get(environment.apiUrl + `dashboard/docs`);
+  }
+
   public getUsagersValide(): Observable<any> {
     return this.http.get(environment.apiUrl + `dashboard/usagers/valide`);
   }
