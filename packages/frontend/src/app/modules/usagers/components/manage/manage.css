@@ -4,6 +4,10 @@
   margin: 0 auto;
 }
 
+.results-count{
+  color: #9b9b9b;
+}
+
 #filters-btn div {
   margin: 0 !important;
   padding: 0 !important;

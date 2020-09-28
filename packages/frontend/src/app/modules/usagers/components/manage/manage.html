@@ -7,43 +7,42 @@
       [ngClass]="filters.statut === 'TOUS' ? 'filter-primary' : 'filter-dark'"
       (click)="updateFilters('statut', 'TOUS')"
     >
-      Tous ({{ getTabCounts('TOUS', stats.TOUS) }})
+      Tous ({{ stats.TOUS }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'VALIDE' ? 'filter-primary' : 'filter-dark'"
       (click)="updateFilters('statut', 'VALIDE')"
     >
-      Actifs ({{ getTabCounts('VALIDE', stats.VALIDE) }})
+      Actifs ({{ stats.VALIDE }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'INSTRUCTION' ? 'filter-warning' : 'filter-dark'"
       (click)="updateFilters('statut', 'INSTRUCTION')"
     >
-      À compléter ({{ getTabCounts('INSTRUCTION', stats.INSTRUCTION) }})
+      À compléter ({{ stats.INSTRUCTION }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'ATTENTE_DECISION' ? 'filter-warning' : 'filter-dark' "
       (click)="updateFilters('statut', 'ATTENTE_DECISION')"
     >
-      Attente de décision ({{ getTabCounts('ATTENTE_DECISION',
-      stats.ATTENTE_DECISION) }})
+      Attente de décision ({{ stats.ATTENTE_DECISION }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'REFUS' ? 'filter-danger' : 'filter-dark'  "
       (click)="updateFilters('statut', 'REFUS')"
     >
-      Refusés ({{ getTabCounts('REFUS', stats.REFUS) }})
+      Refusés ({{ stats.REFUS }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'RADIE' ? 'filter-danger' : 'filter-dark'"
       (click)="updateFilters('statut', 'RADIE')"
     >
-      Radiés ({{ getTabCounts('RADIE', stats.RADIE) }})
+      Radiés ({{ stats.RADIE }})
     </div>
   </div>
   <div class="row">
@@ -173,6 +172,11 @@
         </button>
       </div>
     </ngb-alert>
+  </div>
+  <div class="row">
+    <div class="col-12 results-count" *ngIf="nbResults">
+      {{nbResults}} résultats
+    </div>
   </div>
 
   <div class="row" id="usagers-list">

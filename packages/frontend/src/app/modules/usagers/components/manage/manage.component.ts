@@ -325,11 +325,4 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       this.filters$.next(this.filters);
     }
   }
-
-  getTabCounts(statut: SearchStatut, value: number) {
-    if (statut === this.filters.statut && value !== this.nbResults) {
-      return `${this.nbResults} / ${value}`;
-    }
-    return value;
-  }
 }
