@@ -1,7 +1,7 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { DEPARTEMENTS_MAP } from "./DEPARTEMENTS_MAP.const";
+import { Injectable } from "@angular/core";
+import { DEPARTEMENTS_MAP } from "src/app/shared/DEPARTEMENTS_MAP.const";
 
-// NOTE: service dupliqué côté frontend
+// NOTE: service dupliqué côté backend
 const EXCEPTIONS_CODE_POSTAL: { [codePostal: string]: string } = {
   "42620": "03", // https://fr.wikipedia.org/wiki/Liste_des_communes_de_France_dont_le_code_postal_ne_correspond_pas_au_d%C3%A9partement
   "05110": "04",
@@ -28,7 +28,9 @@ const EXCEPTIONS_CODE_POSTAL: { [codePostal: string]: string } = {
   "97133": "977", // https://fr.wikipedia.org/wiki/Saint-Barth%C3%A9lemy_(Antilles_fran%C3%A7aises)
 };
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class DepartementHelper {
   public getRegionCodeFromDepartement(departement: string): string {
     const region = DEPARTEMENTS_MAP[departement];
@@ -37,7 +39,8 @@ export class DepartementHelper {
       return region.regionCode;
     } else {
       const errorMessage = `Invalid departement ${departement} (no region found)`;
-      Logger.error(errorMessage);
+      // tslint:disable-next-line: no-console
+      console.error(errorMessage);
       throw new Error(errorMessage);
     }
   }
@@ -45,7 +48,8 @@ export class DepartementHelper {
   public getDepartementFromCodePostal(codePostal: string): string {
     if (codePostal.length !== 5) {
       const errorMessage = `Invalid postal code ${codePostal} (cause: ${codePostal.length} characters)`;
-      Logger.error(errorMessage);
+      // tslint:disable-next-line: no-console
+      console.error(errorMessage);
       throw new Error(errorMessage);
     }
     if (EXCEPTIONS_CODE_POSTAL[codePostal]) {
@@ -63,7 +67,8 @@ export class DepartementHelper {
         return "2B";
       }
       const errorMessage = `Invalid postal code ${codePostal} for "Corse"`;
-      Logger.error(errorMessage);
+      // tslint:disable-next-line: no-console
+      console.error(errorMessage);
       throw new Error(errorMessage);
     }
     // outre-mer: https://fr.wikipedia.org/wiki/Code_postal_en_France#France_d'outre-mer

@@ -83,7 +83,7 @@ export class StructuresFormComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(5),
-          this.structureService.validateCodePostal.bind(this),
+          this.structureService.codePostalValidator(),
         ],
       ],
       complementAdresse: [this.structure.complementAdresse, []],

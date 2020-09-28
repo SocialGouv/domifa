@@ -12,11 +12,12 @@ import { User } from "../users/user.interface";
 import { StructureEditDto } from "./dto/structure-edit.dto";
 import { StructureDto } from "./dto/structure.dto";
 import { Structure } from "./structure-interface";
-import { regions } from "./regions.labels";
 
 import * as fs from "fs";
 import * as path from "path";
 import { getLogger } from "nodemailer/lib/shared";
+import { regions } from "./regions.labels";
+import { DepartementHelper } from "./departement-helper.service";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -34,21 +35,22 @@ export class StructuresService {
   constructor(
     @Inject("STRUCTURE_MODEL")
     private structureModel: Model<Structure>,
-    @Inject("USER_MODEL")
-    private userModel: Model<User>
+    private departementHelper: DepartementHelper
   ) {}
 
   public async prePost(structureDto: StructureDto): Promise<any> {
-    const cp: string = structureDto.codePostal.substring(0, 2);
-
-    const region =
-      cp === "97" || cp === "98"
-        ? regions[structureDto.codePostal.substring(0, 3)].regionCode
-        : regions[cp].regionCode;
-
-    if (!region) {
+    try {
+      const departement = this.departementHelper.getDepartementFromCodePostal(
+        structureDto.codePostal
+      );
+      this.departementHelper.getRegionCodeFromDepartement(departement);
+    } catch (err) {
+      Logger.warn(
+        `[StructuresService] error validating postal code "${structureDto.codePostal}"`
+      );
       throw new HttpException("REGION_PROBLEM", HttpStatus.BAD_REQUEST);
     }
+
     return new this.structureModel(structureDto);
   }
 
@@ -57,24 +59,24 @@ export class StructuresService {
     createdStructure.id = await this.findLast();
     createdStructure.token = crypto.randomBytes(30).toString("hex");
 
-    const cp: string = createdStructure.codePostal.substring(0, 2);
-
-    createdStructure.region =
-      cp === "97" || cp === "98"
-        ? regions[structureDto.codePostal.substring(0, 3)].regionCode
-        : regions[cp].regionCode;
+    createdStructure.departement = this.departementHelper.getDepartementFromCodePostal(
+      createdStructure.codePostal
+    );
+    createdStructure.region = this.departementHelper.getRegionCodeFromDepartement(
+      createdStructure.departement
+    );
 
     const structure = await createdStructure.save();
     return structure;
   }
 
   public async patch(structureDto: StructureEditDto, user: User): Promise<any> {
-    const cp: string = structureDto.codePostal.substring(0, 2);
-
-    structureDto.region =
-      cp === "97" || cp === "98"
-        ? regions[structureDto.codePostal.substring(0, 3)].regionCode
-        : regions[cp].regionCode;
+    structureDto.departement = this.departementHelper.getDepartementFromCodePostal(
+      structureDto.codePostal
+    );
+    structureDto.region = this.departementHelper.getRegionCodeFromDepartement(
+      structureDto.departement
+    );
 
     return this.structureModel
       .findOneAndUpdate(
@@ -114,38 +116,6 @@ export class StructuresService {
         }
       )
       .exec();
-  }
-
-  public async updateRegions(): Promise<any> {
-    return this.structureModel
-      .findOne({
-        $or: [{ region: { $exists: false } }, { region: "ERREUR_REGION" }],
-      })
-      .exec((erreur: any, structure: Structure) => {
-        Logger.warn(`xxx structure: ${structure}`);
-        if (erreur || structure === null) {
-          return "RIEN A UPDATE";
-        }
-
-        const dep: string = structure.codePostal.substring(0, 2);
-        const region =
-          typeof regions[dep] === "undefined"
-            ? "ERREUR_REGION"
-            : regions[dep].regionCode;
-
-        return this.structureModel
-          .findOneAndUpdate(
-            { _id: structure._id },
-            { $set: { region, departement: dep } }
-          )
-          .exec((err: any, ret: any) => {
-            if (err === null) {
-              this.updateRegions();
-              return "UPDATE 1 ";
-            }
-            return "FIN DES UPDATES";
-          });
-      });
   }
 
   public async updateLastLogin(structureId: number): Promise<any> {

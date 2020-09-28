@@ -1,4 +1,5 @@
 import { Connection } from "mongoose";
+import { DepartementHelper } from "./departement-helper.service";
 import { StructureSchema } from "./structure.schema";
 
 export const StructuresProviders = [
@@ -8,4 +9,5 @@ export const StructuresProviders = [
     useFactory: (connection: Connection) =>
       connection.model("Structure", StructureSchema),
   },
+  DepartementHelper,
 ];

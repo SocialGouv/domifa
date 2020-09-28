@@ -9,23 +9,7 @@
 
 ## Développement
 
-### Migrations
-
-Les migrations sont définies dans le fichier `/packages/backend/src/_migrations`.
-
-Les migrations sont exécutées automatiquement au démarrage de l'application:
-
-```bash
-# /packages/backend
-yarn start
-```
-
-Pour faire un `rollback` sur une migration:
-
-```bash
-# /packages/backend
-yarn run migrate:dow
-```
+Voir [./CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Docker
 

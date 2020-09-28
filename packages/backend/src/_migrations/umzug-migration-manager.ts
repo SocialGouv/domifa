@@ -1,6 +1,6 @@
 import * as Umzug from "umzug";
 import { MongoClient } from "mongodb";
-import { Logger } from "@nestjs/common";
+import { INestApplication, Logger } from "@nestjs/common";
 import { buildMongoConnectionStringFromEnv } from "../database/database.providers";
 
 export const umzugMigrationManager = {
@@ -8,13 +8,13 @@ export const umzugMigrationManager = {
   migrateDownLast,
 };
 
-async function migrateUp() {
+async function migrateUp({ app }: { app: INestApplication }) {
   Logger.log(`[umzugMigrationManager.migrateUp] migration START`);
 
-  const client = await createMongoClient();
+  const mongoClient = await createMongoClient();
 
   try {
-    const umzug = configureUmzug(client);
+    const umzug = configureUmzug({ app, mongoClient });
 
     const migrations = await umzug.up();
     Logger.log(
@@ -24,17 +24,17 @@ async function migrateUp() {
     Logger.error(`[umzugMigrationManager.migrateUp] connection error`, err);
     throw err;
   } finally {
-    await client.close();
+    await mongoClient.close();
   }
 }
 
-async function migrateDownLast() {
+async function migrateDownLast({ app }: { app: INestApplication }) {
   Logger.log(`[umzugMigrationManager.migrateDownLast] revert migration START`);
 
-  const client = await createMongoClient();
+  const mongoClient = await createMongoClient();
 
   try {
-    const umzug = configureUmzug(client);
+    const umzug = configureUmzug({ app, mongoClient });
 
     const migrations = await umzug.down();
     Logger.log(
@@ -47,27 +47,33 @@ async function migrateDownLast() {
     );
     throw err;
   } finally {
-    await client.close();
+    await mongoClient.close();
   }
 }
 
 async function createMongoClient() {
   const uri = buildMongoConnectionStringFromEnv();
-  const client = new MongoClient(uri);
+  const mongoClient = new MongoClient(uri);
 
   try {
-    await client.connect();
+    await mongoClient.connect();
   } catch (err) {
     Logger.error(`[umzugMigrationManager] connection error`, err);
     throw err;
   }
-  return client;
+  return mongoClient;
 }
 
-function configureUmzug(client: MongoClient) {
+function configureUmzug({
+  app,
+  mongoClient,
+}: {
+  app: INestApplication;
+  mongoClient: MongoClient;
+}) {
   const mongoDBStorageOptions: Partial<Umzug.MongoDBStorageOptions> = {
     // a connection to target database established with MongoDB Driver
-    connection: client.db(),
+    connection: mongoClient.db(),
 
     // name of migration collection in MongoDB
     collectionName: "_migrations",
@@ -90,7 +96,7 @@ function configureUmzug(client: MongoClient) {
     migrations: {
       // The params that gets passed to the migrations.
       // Might be an array or a synchronous function which returns an array.
-      params: [],
+      params: [app],
 
       // The path to the migrations directory.
       path: __dirname,

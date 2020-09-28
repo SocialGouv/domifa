@@ -182,12 +182,6 @@ export class StructuresController {
     return this.structureService.findOneBasic({ id });
   }
 
-  @Get("admin/regions")
-  public async regions() {
-    Logger.warn(`xxx admin/regions:`);
-    return this.structureService.updateRegions();
-  }
-
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(DomifaGuard)
   @Delete("confirm/:id/:token/:nom")

@@ -15,6 +15,7 @@ import { StructuresConfirmComponent } from "./components/structures-confirm/stru
 import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
+import { DepartementHelper } from "./services/departement-helper.service";
 import { StructureService } from "./services/structure.service";
 
 @NgModule({
@@ -50,7 +51,7 @@ import { StructureService } from "./services/structure.service";
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [StructureService],
+  providers: [StructureService, DepartementHelper],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class StructuresModule {}
