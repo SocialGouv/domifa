@@ -53,7 +53,7 @@ async function updateStructure(
   structure: Structure,
   { app }: { app: INestApplication }
 ) {
-  Logger.debug(`[${migrationName}] check structure "${structure._id}"`);
+  // Logger.debug(`[${migrationName}] check structure "${structure._id}"`);
 
   const structureModel: Model<Structure> = app.get("STRUCTURE_MODEL");
   const departementHelper: DepartementHelper = app.get(DepartementHelper);
@@ -80,7 +80,7 @@ function rebuildRegionAndDepartement({
 }: {
   departementHelper: DepartementHelper;
   structure: Structure;
-  }): Partial<Pick<Structure, "departement" | "region">> {
+}): Partial<Pick<Structure, "departement" | "region">> {
   const attributesToUpdate: Partial<Pick<
     Structure,
     "departement" | "region"
@@ -101,7 +101,7 @@ function rebuildRegionAndDepartement({
         );
       } else {
         Logger.warn(
-          `[${migrationName}] set departement from "${structure.departement}" to "${departement}" for structure "${structure._id}" with postal code "${structure.codePostal}"`
+          `[${migrationName}] set departement to "${departement}" for structure "${structure._id}" with postal code "${structure.codePostal}"`
         );
       }
       attributesToUpdate.departement = departement;

@@ -1,13 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { AbstractControl } from "@angular/forms";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { regexp } from "src/app/shared/validators";
 import { environment } from "src/environments/environment";
 import { Structure } from "../structure.interface";
-import { LoadingService } from "../../loading/loading.service";
-import { ToastrService } from "ngx-toastr";
-import { AbstractControl } from "@angular/forms";
-import { regexp } from "src/app/shared/validators";
 import { DepartementHelper } from "./departement-helper.service";
 
 @Injectable({

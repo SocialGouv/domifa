@@ -33,7 +33,10 @@ const EXCEPTIONS_CODE_POSTAL: { [codePostal: string]: string } = {
 })
 export class DepartementHelper {
   public getRegionCodeFromDepartement(departement: string): string {
-    const region = DEPARTEMENTS_MAP[departement];
+    if (!departement) {
+      throw new Error("Department not set");
+    }
+    const region = DEPARTEMENTS_MAP[departement.toLowerCase()];
 
     if (region) {
       return region.regionCode;

@@ -1,4 +1,5 @@
 // constante dupliquée côté backend
+// https://fr.wikipedia.org/wiki/Liste_des_d%C3%A9partements_fran%C3%A7ais
 export const DEPARTEMENTS_MAP: {
   [key: string]: {
     departmentName: string;
@@ -510,6 +511,22 @@ export const DEPARTEMENTS_MAP: {
     departmentName: "Mayotte",
     regionCode: "06",
     regionName: "Mayotte",
+  },
+  // Autres territoires: https://fr.wikipedia.org/wiki/Liste_des_d%C3%A9partements_fran%C3%A7ais#Autres_territoires
+  "975": {
+    departmentName: "Saint-Pierre-et-Miquelon",
+    regionCode: "SP",
+    regionName: "SP",
+  },
+  "977": {
+    departmentName: "Saint-Barthélemy",
+    regionCode: "SB",
+    regionName: "SB",
+  },
+  "978": {
+    departmentName: "Saint-Martin",
+    regionCode: "SM",
+    regionName: "SM",
   },
   "987": {
     departmentName: "Polynésie Française",
