@@ -62,17 +62,6 @@ export class UsagersFormComponent implements OnInit {
     year: this.dToday.getFullYear() + 2,
   };
 
-  public etapesUrl = [
-    "etat-civil",
-    "rendez-vous",
-    "entretien",
-    "documents",
-    "decision",
-  ];
-
-  /* RDV */
-  public httpError: any;
-
   public usager!: Usager;
   public registerForm!: FormGroup;
   public usagerForm!: FormGroup;
@@ -175,10 +164,6 @@ export class UsagersFormComponent implements OnInit {
       typeDom: [this.usager.typeDom],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });
-  }
-
-  public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
   }
 
   public isDoublon() {
@@ -290,34 +275,6 @@ export class UsagersFormComponent implements OnInit {
         }
       );
     }
-  }
-
-  public deleteUsager() {
-    this.usagerService.delete(this.usager.id).subscribe(
-      (result: any) => {
-        this.modal.close();
-        this.notifService.success("Usager supprimé avec succès");
-        this.router.navigate(["/manage"]);
-      },
-      (error) => {
-        this.notifService.error("Impossible de supprimer la fiche");
-      }
-    );
-  }
-
-  public deleteRenew() {
-    this.usagerService.deleteRenew(this.usager.id).subscribe(
-      (result: any) => {
-        this.modal.close();
-        this.notifService.success(
-          "Demande de renouvellement supprimée avec succès"
-        );
-        this.router.navigate(["/manage"]);
-      },
-      (error) => {
-        this.notifService.error("Impossible de supprimer la fiche");
-      }
-    );
   }
 
   public goToTop() {

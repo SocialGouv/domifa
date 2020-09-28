@@ -29,6 +29,7 @@ import { MenuComponent } from "./components/form/parts/menu/menu.component";
 import { EntretienComponent } from "./components/entretien/entretien.component";
 import { EntretienFormComponent } from "./components/form/parts/entretien-form/entretien-form.component";
 import { DocumentsFormComponent } from "./components/form/parts/documents-form/documents-form.component";
+import { DeleteMenuComponent } from "./components/form/parts/delete-menu/delete-menu.component";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { DocumentsFormComponent } from "./components/form/parts/documents-form/d
     DocumentsComponent,
     ManageUsagersComponent,
     MenuComponent,
+    DeleteMenuComponent,
     UsagersProfilComponent,
     ImportComponent,
     RaftComponent,

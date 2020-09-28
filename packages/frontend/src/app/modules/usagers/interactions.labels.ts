@@ -9,7 +9,7 @@ export const interactionsLabels: {
   recommandeIn: "Avis de passage enregistré",
   recommandeOut: "Avis de passage remis",
   visite: "Passage enregistré",
-  npai: "N'habite plus à l'adresse indiquée",
+  npai: "Pli non distribuable enregistré",
 };
 
 export const interactionsLabelsPluriel: {
@@ -23,5 +23,5 @@ export const interactionsLabelsPluriel: {
   recommandeIn: "Avis de passage enregistrés",
   recommandeOut: "Avis de passage remis",
   visite: "Passages enregistrés",
-  npai: "N'habite plus à l'adresse indiquée",
+  npai: "Pli non distribuable enregistré",
 };
