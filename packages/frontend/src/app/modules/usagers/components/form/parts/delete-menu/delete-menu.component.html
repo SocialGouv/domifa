@@ -1,0 +1,77 @@
+<div class="container" *ngIf="me && usager">
+  <div
+    class="not-print col-md-12 text-center text-danger"
+    *ngIf="me.role === 'admin' || me.role === 'responsable'"
+  >
+    <button
+      class="btn btn-outline-danger"
+      id="delete-usager"
+      *ngIf="usager.typeDom !== 'RENOUVELLEMENT' && usager.etapeDemande >= 1"
+      (click)="open(deleteConfirmation)"
+    >
+      <fa-icon icon="trash" class="btn-icon"></fa-icon>
+      Supprimer cette demande
+    </button>
+
+    <button
+      class="btn btn-outline-danger"
+      id="delete-usager"
+      *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+      (click)="open(deleteRenewConfirmation)"
+    >
+      <fa-icon icon="trash" class="btn-icon"></fa-icon>
+      Supprimer cette demande
+    </button>
+  </div>
+</div>
+<ng-template #deleteConfirmation let-modal>
+  <div class="modal-body text-center">
+    <b class="text-danger">Attention !</b>
+    <br />
+    <br />
+    Si vous supprimez un utilisateur, vous ne pourrez plus retrouver sa fiche !
+    <br />
+    <br />
+    <b class="text-danger">
+      <fa-icon icon="exclamation-triangle"></fa-icon>
+      Toutes les informations liées à cet usager disparaitront définitivement
+      <br />
+      - Les fichiers uploadés sur Domifa
+      <br />
+      - L'historique de la domiciliation
+      <br />
+      - L'historique des interactions
+    </b>
+    <br />
+    <br />
+    Ce dossier n'apparaitra ni dans les rapports d'activités ni dans la liste
+    des domiciliés.
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      Revenir au profil
+    </button>
+    <button class="btn btn-danger" (click)="deleteUsager()">
+      Supprimer l'usager
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #deleteRenewConfirmation let-modal>
+  <div class="modal-body text-center">
+    <b class="text-danger">Attention !</b>
+    <br />
+    <br />
+    Si vous supprimez cette demande de renouvellement, l'usager retrouvera son
+    précédent statut : {{ usager.historique[0].statut }}
+    <br />
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      Revenir au profil
+    </button>
+    <button class="btn btn-danger" (click)="deleteRenew()">
+      Supprimer la demande
+    </button>
+  </div>
+</ng-template>

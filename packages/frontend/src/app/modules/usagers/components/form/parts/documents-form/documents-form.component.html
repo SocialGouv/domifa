@@ -7,7 +7,7 @@
     <div class="text-center">
       <h5 class="title">Pièces justificatives complétant le dossier</h5>
       <br />
-      Cette étape est optionnelle, rien ne vofus oblige à enregistrer des pièces
+      Cette étape est optionnelle, rien ne vous oblige à enregistrer des pièces
       justificatives.
       <br />
       <br />
@@ -41,4 +41,8 @@
   <div class="step_form">
     <app-documents [usager]="usager"></app-documents>
   </div>
+  <app-form-delete-menu
+    [usager]="usager"
+    [currentStep]="3"
+  ></app-form-delete-menu>
 </div>

@@ -46,9 +46,24 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  public ngOnInit() {}
+  public ngOnInit() {
+    if (
+      this.usager.decision.statut === "ATTENTE_DECISION" &&
+      this.currentStep !== 4
+    ) {
+      this.router.navigate(["usager/" + this.usager.id + "/edit/decision"]);
+      return;
+    }
+  }
 
   public goToStep(step: number) {
+    if (this.usager.decision.statut === "ATTENTE_DECISION") {
+      this.notifService.warning(
+        "Vous ne pouvez pas revenir en arrière quand le dossier est en attente de décision"
+      );
+      return;
+    }
+
     if (this.usager.id === 0) {
       this.notifService.warning(
         "Vous devez remplir la première étape avant de passer à la suite"
