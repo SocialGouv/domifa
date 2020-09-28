@@ -19,6 +19,7 @@ import * as labels from "src/app/modules/usagers/usagers.labels";
 import { User } from "src/app/modules/users/interfaces/user";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Router } from "@angular/router";
+import { Entretien } from "../../interfaces/entretien";
 
 @Component({
   providers: [UsagerService],
@@ -52,6 +53,7 @@ export class EntretienComponent implements OnInit {
   public dirty: boolean;
 
   public me: User;
+  public entretienVide: Entretien;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -64,7 +66,8 @@ export class EntretienComponent implements OnInit {
     this.authService.currentUser.subscribe((user: User) => {
       this.me = user;
     });
-    this.dirty = false;
+
+    this.entretienVide = new Entretien();
   }
 
   get e(): any {
@@ -101,16 +104,16 @@ export class EntretienComponent implements OnInit {
       revenusDetail: [this.usager.entretien.revenusDetail, []],
       typeMenage: [this.usager.entretien.typeMenage, []],
     });
-
-    this.entretienForm.valueChanges.subscribe(() => {
-      this.dirty = true;
-    });
   }
 
   public submitEntretien() {
-    if (!this.dirty) {
-      this.modal = this.modalService.open(this.entretienConfirmation);
-      return;
+    const entretienTmp = this.usager.entretien;
+
+    if (this.usager.decision.statut === "INSTRUCTION") {
+      if (JSON.stringify(entretienTmp) === JSON.stringify(this.entretienVide)) {
+        this.modal = this.modalService.open(this.entretienConfirmation);
+        return;
+      }
     }
 
     this.usagerService

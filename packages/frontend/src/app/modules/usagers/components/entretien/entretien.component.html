@@ -342,8 +342,19 @@
     <br />
     <br />
     <div class="col-md-4 offset-md-4 text-center">
-      <button type="submit" class="btn btn-primary btn-block">
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        *ngIf="usager.decision.statut !== 'INSTRUCTION'"
+      >
         Enregistrer
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        *ngIf="usager.decision.statut === 'INSTRUCTION'"
+      >
+        Suivant
       </button>
       <br />
       <a
