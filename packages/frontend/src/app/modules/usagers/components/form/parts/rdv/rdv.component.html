@@ -32,6 +32,11 @@
         </p>
       </div>
     </div>
+
+    <app-form-delete-menu
+      [usager]="usager"
+      [currentStep]="1"
+    ></app-form-delete-menu>
   </div>
 
   <div class="step_form" id="step_form1" *ngIf="editRdv">
@@ -164,5 +169,11 @@
         </div>
       </div>
     </form>
+
+    <app-form-delete-menu
+      [usager]="usager"
+      [currentStep]="1"
+    ></app-form-delete-menu>
   </div>
+  
 </div>
