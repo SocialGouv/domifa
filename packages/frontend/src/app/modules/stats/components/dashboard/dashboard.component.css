@@ -12,6 +12,10 @@
   margin: 5px;
 }
 
+.stats-blocks-container--inline{
+  display: inline-block;
+}
+
 .stats-blocks div {
   min-width: 150px;
   margin-right: 4px;

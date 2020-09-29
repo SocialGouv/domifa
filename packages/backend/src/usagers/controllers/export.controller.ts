@@ -69,7 +69,7 @@ export class ExportController {
         P: "Date fin de dom",
         Q: "Date 1ere dom",
         R: "Date de dernier passage",
-        S: "Nombre d'ayants-droit",
+        S: "Nombre d'ayants-droits",
         T: "Nom Ayant-Droit",
         U: "Prénom Ayant-Droit",
         V: "Date Naissance Ayant-Droit",

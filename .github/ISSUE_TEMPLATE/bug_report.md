@@ -21,13 +21,10 @@ Description du problème
 
 Description du comportement souhaité
 
-__Actions__:
-
 - [ ] action 1
 - [ ] action 2...
 
 **Scénario de reproduction du problème**
-Steps to reproduce the behavior:
 
 1. Se connecter en tant que '...'
 2. Aller sur la page '....'
