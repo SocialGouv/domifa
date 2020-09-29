@@ -11,6 +11,8 @@ __Exemples de titres__:
 - bug(PUBLIC): [statistiques] valeur incorrecte colonne xxx
 - bug(STRUCTURE): [domiciliés] erreur tri colonne xxx
 
+__Note__: section à effacer avant de valider le ticket
+
 **Description du problème**
 
 Description du problème
