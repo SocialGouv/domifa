@@ -22,6 +22,7 @@ export class ConfigService {
       SECRET: process.env.SECRET,
       UPLOADS_FOLDER: process.env.UPLOADS_FOLDER,
       DOMAIN: process.env.DOMAIN || "",
+      SWAGGER_UI_ENABLE: process.env.SWAGGER_UI_ENABLE,
     };
   }
 
