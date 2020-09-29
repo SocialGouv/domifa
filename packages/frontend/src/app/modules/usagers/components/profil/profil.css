@@ -164,8 +164,8 @@ input[type="number"] {
   text-decoration: underline;
 }
 
-#ayants-droits-table th,
-#ayants-droits-table td {
+#ayants-droit-table th,
+#ayants-droit-table td {
   width: 33.3%;
 }
 

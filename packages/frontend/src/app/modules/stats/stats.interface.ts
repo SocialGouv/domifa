@@ -52,7 +52,7 @@ export class Stats {
       ASSO: number;
     };
 
-  /* Q 16 : DOMICILIES VALIDE + AYANTS-DROITS*/
+  /* Q 16 : DOMICILIES VALIDE + AYANTS-DROIT*/
 
     /* ----------------------------------- */
     /* DONNEES A CALCULER A PARTIR DES DATES DE NAISSANCE */
