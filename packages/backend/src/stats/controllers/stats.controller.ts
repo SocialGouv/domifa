@@ -177,7 +177,7 @@ export class StatsController {
         B: "",
       },
       {
-        A: "Total des domiciliés actifs + leurs ayants-droits",
+        A: "Total des domiciliés actifs + leurs ayants-droit",
         B: stats.questions.Q_11.VALIDE_TOTAL,
       },
       {
@@ -185,7 +185,7 @@ export class StatsController {
         B: stats.questions.Q_11.VALIDE,
       },
       {
-        A: "Nombre d'ayants-droits",
+        A: "Nombre d'ayants-droit",
         B: stats.questions.Q_11.VALIDE_AYANTS_DROIT,
       },
       {
