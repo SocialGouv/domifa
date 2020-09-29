@@ -107,10 +107,9 @@ export class EntretienComponent implements OnInit {
   }
 
   public submitEntretien() {
-    const entretienTmp = this.usager.entretien;
 
     if (this.usager.decision.statut === "INSTRUCTION") {
-      if (JSON.stringify(entretienTmp) === JSON.stringify(this.entretienVide)) {
+      if (this.isEmptyForm()) {
         this.modal = this.modalService.open(this.entretienConfirmation);
         return;
       }
@@ -129,5 +128,9 @@ export class EntretienComponent implements OnInit {
           this.notifService.error("Impossible d'enregistrer l'entretien");
         }
       );
+  }
+
+  private isEmptyForm() {
+    return Object.values(this.entretienForm.value).filter(x => x !== null).length === 0;
   }
 }
