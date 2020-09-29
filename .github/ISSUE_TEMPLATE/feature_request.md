@@ -22,8 +22,6 @@ Description de la situation actuelle
 
 Description du comportement souhaité
 
-__Actions__:
-
 - [ ] action 1
 - [ ] action 2...
 
