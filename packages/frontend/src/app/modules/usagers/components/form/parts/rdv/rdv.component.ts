@@ -121,6 +121,10 @@ export class RdvComponent implements OnInit {
     }
   }
 
+  public getAttestation() {
+    return this.usagerService.attestation(this.usager.id);
+  }
+
   public initForm() {
     this.rdvForm = this.formBuilder.group({
       dateRdv: [this.usager.rdv.dateRdv, [Validators.required]],
