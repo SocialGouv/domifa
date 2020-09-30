@@ -61,6 +61,10 @@ export class EntretienFormComponent implements OnInit {
     }
   }
 
+  public getAttestation() {
+    return this.usagerService.attestation(this.usager.id);
+  }
+
   public nextStep(step: number) {
     this.usagerService
       .nextStep(this.usager.id, step)
