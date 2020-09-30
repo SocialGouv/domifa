@@ -23,6 +23,7 @@ export class ConfigService {
       UPLOADS_FOLDER: process.env.UPLOADS_FOLDER,
       DOMAIN: process.env.DOMAIN || "",
       SWAGGER_UI_ENABLE: process.env.SWAGGER_UI_ENABLE,
+      DOMIFA_ADMIN_EMAIL: process.env.DOMIFA_ADMIN_EMAIL,
     };
   }
 

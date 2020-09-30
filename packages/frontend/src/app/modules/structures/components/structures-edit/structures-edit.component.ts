@@ -51,6 +51,10 @@ export class StructuresEditComponent implements OnInit {
     this.departements = departements;
     this.showHardReset = false;
     this.hardResetCode = null;
+
+    this.authService.currentUser.subscribe((user: User) => {
+      this.me = user;
+    });
   }
 
   get f() {
@@ -68,8 +72,6 @@ export class StructuresEditComponent implements OnInit {
       this.structure = structure;
       this.initForms();
     });
-
-    this.me = this.authService.currentUserValue;
   }
 
   public initForms() {

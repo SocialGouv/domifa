@@ -31,6 +31,7 @@
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.4.4",
     "@nestjs/schedule": "^0.4.1",
+    "@nestjs/swagger": "^4.6.1",
     "@nestjs/terminus": "^7.0.1",
     "@nestjs/testing": "^7.4.4",
     "@sentry/node": "5.23.0",
@@ -62,6 +63,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
+    "swagger-ui-express": "^4.1.4",
     "umzug": "^2.3.0",
     "xlsx": "^0.16.7"
   },
