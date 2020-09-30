@@ -31,6 +31,7 @@ export type DashboardTableStructure = Pick<
   | "region"
   | "departement"
   | "stats"
+  | "email"
 > & {
   structureTypeLabel: string;
   regionLabel: string;
