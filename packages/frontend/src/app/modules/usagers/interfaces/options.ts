@@ -1,19 +1,6 @@
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { formatDateToNgb } from "src/app/shared/bootstrap-util";
-
-export interface HistoriqueOptions {
-  user: string;
-  date: Date;
-  action: string;
-  content: {
-    adresse?: string | null;
-    dateDebut?: Date | null;
-    dateFin?: Date | null;
-    dateNaissance?: Date | null;
-    nom?: string;
-    prenom?: string;
-  };
-}
+import { HistoriqueOptions } from "./historique-options";
 
 export class Options {
   public transfert: {
