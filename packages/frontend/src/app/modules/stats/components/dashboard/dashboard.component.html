@@ -100,7 +100,9 @@
             </div>
           </div>
         </div>
+
         <div class="stats-blocks-container--inline">
+
           <div>
             <span class="stats-titre"> DOCUMENTS</span>
           </div>
@@ -134,7 +136,11 @@
         <tbody>
           <tr *ngFor="let structure of structuresRegions">
             <td>
-              {{ regions[structure.region] ? regions[structure.region]: structure.region }}
+              {{
+                regions[structure.region]
+                  ? regions[structure.region]
+                  : structure.region
+              }}
             </td>
             <td>{{ structure.count }}</td>
           </tr>
@@ -184,6 +190,7 @@
           <th (click)="sortDashboard('departementLabel')">
             Département <fa-icon icon="sort"></fa-icon>
           </th>
+          <th>Email</th>
         </tr>
       </thead>
       <tbody>
@@ -224,6 +231,9 @@
           </td>
           <td>
             {{ structure.departementLabel }}
+          </td>
+          <td>
+            {{ structure.email }}
           </td>
           <td>
             <button
