@@ -102,7 +102,7 @@ function configureUmzug({
       path: __dirname,
 
       // The pattern that determines whether or not a file is a migration.
-      pattern: /^\d+[\w-]+\.migration\.ts$/,
+      pattern: /^\d+[\w-]+\.migration\.(js|ts)$/,
 
       // A function that receives and returns the to be executed function.
       // This can be used to modify the function.

@@ -17,7 +17,6 @@ import { UsagersModule } from "./usagers/usagers.module";
 import { MailJetService } from "./users/services/mailjet.service";
 import { UsersModule } from "./users/users.module";
 
-
 const config = new ConfigService();
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();

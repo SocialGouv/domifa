@@ -715,7 +715,7 @@
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
-            <span>AYANTS-DROITS</span>
+            <span>AYANTS-DROIT</span>
             <span class="arrows">
               <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
               <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
@@ -839,7 +839,7 @@
             >
           </div>
           <table
-            id="ayants-droits-table"
+            id="ayants-droit-table"
             *ngIf="usager.ayantsDroits.length > 0"
             class="table table-light"
           >
@@ -869,7 +869,7 @@
               (click)="editAyantsDroits = !editAyantsDroits"
             >
               <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
-              Modifier les ayants-droits
+              Modifier les ayants-droit
             </button>
           </div>
         </div>
