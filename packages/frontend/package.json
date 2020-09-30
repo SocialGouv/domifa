@@ -21,7 +21,7 @@
     "@angular/forms": "^9.1.12",
     "@angular/localize": "^9.1.12",
     "@angular/platform-browser": "^9.1.12",
-    "@angular/platform-browser-dynamic": "^9.1.12",
+    "@angular/platform-browser-dynamic": "^10.1.4",
     "@angular/router": "^9.1.12",
     "@fortawesome/angular-fontawesome": "0.7.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.31",
