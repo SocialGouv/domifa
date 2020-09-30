@@ -117,9 +117,30 @@ export class Options {
         }
       }
 
+      this.historique = {
+        transfert: [],
+        procuration: [],
+      };
+
       if (typeof options.historique !== "undefined") {
-        this.historique.transfert = options.historique.transfert || [];
-        this.historique.procuration = options.historique.procuration || [];
+        if (options.historique.transfert.length > 0) {
+          this.historique.transfert = Array.isArray(
+            options.historique.transfert
+          )
+            ? options.historique.transfert.map(
+                (item: HistoriqueOptions) => new HistoriqueOptions(item)
+              )
+            : [new HistoriqueOptions(options.historique.transfert)];
+        }
+        if (options.historique.procuration.length > 0) {
+          this.historique.procuration = Array.isArray(
+            options.historique.procuration
+          )
+            ? options.historique.procuration.map(
+                (item: HistoriqueOptions) => new HistoriqueOptions(item)
+              )
+            : [new HistoriqueOptions(options.historique.procuration)];
+        }
       }
     }
   }
