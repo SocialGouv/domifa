@@ -57,7 +57,7 @@
     "@schematics/update": "^0.901.12",
     "@socialgouv/tslint-config-recommended": "^0.35.0",
     "@types/jest": "^26.0.14",
-    "@types/node": "^8.9.5",
+    "@types/node": "^14.11.2",
     "codelyzer": "^6.0.0",
     "eslint-plugin-import": "^2.22.1",
     "jest": "^26.4.2",
