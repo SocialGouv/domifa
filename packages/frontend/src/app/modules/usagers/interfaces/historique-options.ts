@@ -15,23 +15,25 @@ export class HistoriqueOptions {
     this.date = (options && options.date) || null;
     this.action = (options && options.action) || "";
 
-    if (!options.content) {
-      this.content = {
-        adresse: null,
-        dateDebut: null,
-        dateFin: null,
-        dateNaissance: null,
-        nom: null,
-        prenom: null,
-      };
-    } else {
-      this.content.adresse = (options && options.adresse) || "";
-      this.content.dateDebut = (options && new Date(options.dateDebut)) || null;
-      this.content.dateFin = (options && new Date(options.dateFin)) || null;
+    this.content = {
+      adresse: null,
+      dateDebut: null,
+      dateFin: null,
+      dateNaissance: null,
+      nom: null,
+      prenom: null,
+    };
+
+    if (typeof options.content !== "undefined") {
+      this.content.adresse = (options && options.content.adresse) || "";
+      this.content.dateDebut =
+        (options && new Date(options.content.dateDebut)) || null;
+      this.content.dateFin =
+        (options && new Date(options.content.dateFin)) || null;
       this.content.dateNaissance =
-        (options && new Date(options.dateNaissance)) || null;
-      this.content.nom = (options && options.nom) || "";
-      this.content.prenom = (options && options.prenom) || "";
+        (options && new Date(options.content.dateNaissance)) || null;
+      this.content.nom = (options && options.content.nom) || "";
+      this.content.prenom = (options && options.content.prenom) || "";
     }
   }
 }
