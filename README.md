@@ -9,7 +9,7 @@
 
 ## Développement
 
-Voir [./CONTRIBUTING.md](./CONTRIBUTING.md).
+Voir [./_docs/CONTRIBUTING.md](./_docs/CONTRIBUTING.md).
 
 ## Docker
 
