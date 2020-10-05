@@ -36,8 +36,8 @@ addons:
     - echo "DB_PORT=27017" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "MJ_APIKEY_PUBLIC=${MJ_APIKEY_PUBLIC_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "MJ_APIKEY_PRIVATE=${MJ_APIKEY_PRIVATE_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
-    - echo "API_URL=http://localhost:3000/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
-    - echo "FRONT_URL=http://localhost:4200/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "DOMIFA_BACKEND_URL=http://localhost:3000/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "DOMIFA_FRONTEND_URL=http://localhost:4200/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "SECRET=O6RL8gsk4QpbKlLaazpdkqzpokdopzkdpokqz9!ç-rH4176OKPOKd8!29990xohuihHYNJQ6"  >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
 
   install:

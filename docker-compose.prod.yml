@@ -5,14 +5,12 @@ services:
     restart: always
     ports:
       - 80:80
-    environment:
-      - API_URL=https://domifa-api.fabrique.social.gouv.fr/
-      # Or locally
-      # - API_URL=//localhost:3000/
+    env_file:
+      - ./.env
 
   backend:
     env_file:
-      - ./packages/backend/.env
+      - ./.env
     image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:master
     restart: always
     depends_on:
@@ -23,7 +21,7 @@ services:
       - /mnt/files/:/files/
 
   mongo:
-    image: "mongo:4.2.10"
+    image: "mongo:4.2.8"
     restart: always
     volumes:
       - domifa-data:/data/db

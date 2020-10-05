@@ -21,7 +21,7 @@ const config = new ConfigService();
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();
 
-mongoose.set("debug", config.get("IS_LOCAL") !== undefined);
+mongoose.set("debug", config.get("DOMIFA_MONGOOSE_DEBUG") === "true");
 
 @Module({
   controllers: [HealthController],
@@ -48,7 +48,7 @@ mongoose.set("debug", config.get("IS_LOCAL") !== undefined);
     {
       provide: APP_INTERCEPTOR,
       useValue: new RavenInterceptor({
-        tags: { serverName: config.get("DOMAIN") },
+        tags: { serverName: config.get("DOMIFA_ENV_ID") },
       }),
     },
     {
