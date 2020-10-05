@@ -1,7 +1,7 @@
 version: "3"
 services:
   frontend:
-    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:master
+    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION}
     restart: always
     ports:
       - 80:80
@@ -11,7 +11,7 @@ services:
   backend:
     env_file:
       - ./.env
-    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:master
+    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION}
     restart: always
     depends_on:
       - mongo
