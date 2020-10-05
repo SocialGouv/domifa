@@ -7,11 +7,6 @@ assignees: ''
 
 ---
 
-__Exemples de titres__:
-
-- feat(PUBLIC): [statistiques] ajouter données xxx
-- feat(STRUCTURE): [nouvelle page XXX] afficher information xxx
-
 __Note__: section à effacer avant de valider le ticket
 
 **Situation Actuelle**
@@ -29,3 +24,5 @@ Description du comportement souhaité
 
 - [ ] test 1
 - [ ] test 2...
+
+__aide/documentation tickets github__: <https://github.com/SocialGouv/domifa/tree/master/_docs/github-issues.md>

@@ -6,13 +6,6 @@ labels: ''
 assignees: ''
 ---
 
-__Exemples de titres__:
-
-- bug(PUBLIC): [statistiques] valeur incorrecte colonne xxx
-- bug(STRUCTURE): [domiciliés] erreur tri colonne xxx
-
-__Note__: section à effacer avant de valider le ticket
-
 **Description du problème**
 
 Description du problème
@@ -39,3 +32,5 @@ Description du comportement souhaité
 
 - [ ] test 1
 - [ ] test 2...
+
+__aide/documentation tickets github__: <https://github.com/SocialGouv/domifa/tree/master/_docs/github-issues.md>
