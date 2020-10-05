@@ -147,12 +147,12 @@ export const DEPARTEMENTS_MAP: {
     regionCode: "53",
     regionName: "Bretagne",
   },
-  "2a": {
+  "2A": {
     departmentName: "Corse-du-Sud",
     regionCode: "94",
     regionName: "Corse",
   },
-  "2b": {
+  "2B": {
     departmentName: "Haute-Corse",
     regionCode: "94",
     regionName: "Corse",
