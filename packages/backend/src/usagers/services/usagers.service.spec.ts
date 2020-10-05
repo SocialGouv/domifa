@@ -3,7 +3,7 @@ import { DatabaseModule } from "../../database/database.module";
 import { UsersService } from "../../users/services/users.service";
 import { UsersModule } from "../../users/users.module";
 import { SearchDto } from "../dto/search.dto";
-import { UsagersDto } from "../dto/usagers.dto";
+import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { UsagersProviders } from "../usagers.providers";
 
 import { forwardRef } from "@nestjs/common";
@@ -14,8 +14,8 @@ describe("UsagersService", () => {
   let service: UsagersService;
   let userService: UsersService;
 
-  const fakeUsagerDto = new UsagersDto();
-  const fakePatchUsagerDto = new UsagersDto();
+  const fakeUsagerDto = new CreateUsagerDto();
+  const fakePatchUsagerDto = new CreateUsagerDto();
   const searchDto = new SearchDto();
 
   fakeUsagerDto.nom = "Usager";
@@ -47,7 +47,6 @@ describe("UsagersService", () => {
     // LAST ID
     expect(await service.findLast(user.structureId)).toEqual(6);
 
-    fakeUsagerDto.structureId = user.structureId;
     const usagerTest = await service.create(fakeUsagerDto, user);
 
     expect(usagerTest).toBeDefined();
@@ -77,7 +76,7 @@ describe("UsagersService", () => {
   it("2. Doublons", async () => {
     const user = await userService.findOne({ id: 1 });
 
-    const doublons = await service.isDoublon("Lou", "Li", user);
+    const doublons = await service.isDoublon("Lou", "Li", 2, user);
     expect(doublons.length).toEqual(1);
   });
 

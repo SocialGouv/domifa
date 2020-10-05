@@ -89,9 +89,7 @@ export class UsagersFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
     public authService: AuthService,
-    private matomo: MatomoTracker,
     private route: ActivatedRoute,
-    private modalService: NgbModal,
     private router: Router,
     private notifService: ToastrService,
     private nbgDate: NgbDateCustomParserFormatter,
@@ -106,14 +104,14 @@ export class UsagersFormComponent implements OnInit {
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
     this.etape = 1;
-  }
-
-  public ngOnInit() {
-    this.titleService.setTitle("État-civil du demandeur");
 
     this.authService.currentUser.subscribe((user) => {
       this.me = user;
     });
+  }
+
+  public ngOnInit() {
+    this.titleService.setTitle("État-civil du demandeur");
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
@@ -178,7 +176,8 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService
         .isDoublon(
           this.usagerForm.controls.nom.value,
-          this.usagerForm.controls.prenom.value
+          this.usagerForm.controls.prenom.value,
+          this.usager.id
         )
         .subscribe((usagersDoublon: Usager[]) => {
           this.doublons = [];

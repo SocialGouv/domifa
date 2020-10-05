@@ -27,31 +27,32 @@ import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { ProcurationDto } from "../dto/procuration.dto";
-import { RdvDto } from "../dto/rdv.dto";
 
 import { TransfertDto } from "../dto/transfert.dto";
-import { UsagersDto } from "../dto/usagers.dto";
+import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { Usager } from "../interfaces/usagers";
 import { CerfaService } from "../services/cerfa.service";
 
 import { UsagersService } from "../services/usagers.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
-import { InteractionDto } from "../../interactions/interactions.dto";
+import { EditUsagerDto } from "../dto/edit-usager.dto";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly usersService: UsersService,
     private readonly interactionService: InteractionsService,
     private readonly cerfaService: CerfaService
   ) {}
 
   /* FORMULAIRE INFOS */
   @Post()
-  public postUsager(@Body() usagerDto: UsagersDto, @CurrentUser() user: User) {
+  public postUsager(
+    @Body() usagerDto: CreateUsagerDto,
+    @CurrentUser() user: User
+  ) {
     return this.usagersService.create(usagerDto, user);
   }
 
@@ -59,7 +60,7 @@ export class UsagersController {
   @UseGuards(FacteurGuard)
   @Patch(":id")
   public async patchUsager(
-    @Body() usagerDto: UsagersDto,
+    @Body() usagerDto: EditUsagerDto,
     @CurrentUsager() usager: Usager
   ) {
     if (
@@ -73,6 +74,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Post("entretien/:id")
   public setEntretien(
     @Body() entretien: EntretienDto,
@@ -82,6 +84,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Get("next-step/:id/:etapeDemande")
   public async nextStep(
     @Param("etapeDemande") etapeDemande: number,
@@ -91,6 +94,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Get("stop-courrier/:id")
   public async stopCourrier(
     @CurrentUsager() usager: Usager,
@@ -108,6 +112,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Get("renouvellement/:id")
   public async renouvellement(
     @CurrentUser() user: User,
@@ -126,7 +131,9 @@ export class UsagersController {
   ) {
     decision.userName = user.prenom + " " + user.nom;
     decision.userId = user.id;
+
     decision.dateDecision = new Date();
+
     usager.historique.push(usager.decision);
 
     if (decision.statut === "ATTENTE_DECISION") {
@@ -170,13 +177,15 @@ export class UsagersController {
     return this.usagersService.setDecision(usager._id, decision, usager);
   }
 
-  @Get("doublon/:nom/:prenom")
+  @UseGuards(FacteurGuard)
+  @Get("doublon/:nom/:prenom/:id")
   public isDoublon(
     @Param("nom") nom: string,
     @Param("prenom") prenom: string,
+    @Param("id") usagerId: number,
     @CurrentUser() user: User
   ) {
-    return this.usagersService.isDoublon(nom, prenom, user);
+    return this.usagersService.isDoublon(nom, prenom, usagerId, user);
   }
 
   @UseGuards(ResponsableGuard)
@@ -241,6 +250,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Post("transfert/:id")
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
@@ -270,6 +280,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Delete("renew/:id")
   public async deleteRenew(@CurrentUsager() usager: Usager) {
     usager.etapeDemande = 1;
@@ -279,6 +290,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Delete("transfert/:id")
   public async deleteTransfert(
     @CurrentUser() user: User,
@@ -303,6 +315,7 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Post("procuration/:id")
   public async editProcuration(
     @Body() procurationDto: ProcurationDto,
@@ -330,9 +343,9 @@ export class UsagersController {
   }
 
   @UseGuards(AccessGuard)
+  @UseGuards(FacteurGuard)
   @Delete("procuration/:id")
   public async deleteProcuration(
-    @Param("id") usagerId: number,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
   ) {
@@ -357,7 +370,6 @@ export class UsagersController {
   @UseGuards(AccessGuard)
   @Get("attestation/:id")
   public async getAttestation(
-    @Param("id") usagerId: number,
     @Res() res: any,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
@@ -369,11 +381,13 @@ export class UsagersController {
         res.send(buffer);
       })
       .catch((err: any) => {
-        const erreur = {
-          err,
-          message: "CERFA_ERROR",
-        };
-        this.captureErrors(erreur, HttpStatus.INTERNAL_SERVER_ERROR, res);
+        throw new HttpException(
+          {
+            err,
+            message: "CERFA_ERROR",
+          },
+          HttpStatus.INTERNAL_SERVER_ERROR
+        );
       });
   }
 
@@ -381,9 +395,5 @@ export class UsagersController {
   @Get(":id")
   public async findOne(@CurrentUsager() usager: Usager) {
     return usager;
-  }
-
-  private captureErrors(err: any, statuts: HttpStatus, @Res() res: any) {
-    throw new HttpException(err, statuts);
   }
 }

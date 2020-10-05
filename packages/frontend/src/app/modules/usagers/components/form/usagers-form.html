@@ -1,20 +1,19 @@
 <div class="container" *ngIf="me && usager">
   <app-form-menu [usager]="usager" [currentStep]="0"></app-form-menu>
+
+  <div @fadeInOut class="alert-warning alert" *ngIf="doublons.length > 0">
+    Attention, doublon potentiel
+    <ul>
+      <li *ngFor="let doublon of doublons">
+        <a routerLink="'/usager/'+doublon.id+'/edit'">
+          <b>{{ doublon.nom }}</b>
+          {{ doublon.prenom }}
+        </a>
+        né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
+      </li>
+    </ul>
+  </div>
   <div class="step_form" id="step_form0">
-    <div class="col-md-12">
-      <div class="w-100"></div>
-      <ngb-alert @fadeInOut *ngIf="doublons.length > 0" type="warning">
-        <ul>
-          <li *ngFor="let doublon of doublons">
-            <a routerLink="'/usager/'+doublon.id+'/edit'">
-              <b>{{ doublon.nom }}</b>
-              {{ doublon.prenom }}
-            </a>
-            né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}
-          </li>
-        </ul>
-      </ngb-alert>
-    </div>
     <form
       [formGroup]="usagerForm"
       (ngSubmit)="submitInfos()"

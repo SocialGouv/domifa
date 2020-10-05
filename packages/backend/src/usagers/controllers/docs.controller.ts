@@ -33,8 +33,11 @@ import { UsagersService } from "../services/usagers.service";
 import { ConfigService } from "../../config/config.service";
 
 import Sentry = require("@sentry/node");
+import { FacteurGuard } from "../../auth/guards/facteur.guard";
 
 @UseGuards(AuthGuard("jwt"))
+@UseGuards(AccessGuard)
+@UseGuards(FacteurGuard)
 @Controller("docs")
 export class DocsController {
   constructor(
@@ -43,7 +46,6 @@ export class DocsController {
   ) {}
 
   @Post(":id")
-  @UseGuards(AccessGuard)
   @UseInterceptors(
     FileInterceptor("file", {
       fileFilter: (req: any, file: any, cb: any) => {
@@ -84,6 +86,7 @@ export class DocsController {
   public async uploadDoc(
     @Param("id") usagerId: number,
     @UploadedFile() file: any,
+    // TODO: Filtrer les datas du label
     @Body() postData: any,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager,
@@ -128,7 +131,6 @@ export class DocsController {
       .json({ usager, message: "IMPORT_SUCCESS" });
   }
 
-  @UseGuards(AccessGuard)
   @Delete(":id/:index")
   public async deleteDocument(
     @Param("id") usagerId: number,
@@ -179,7 +181,6 @@ export class DocsController {
     return res.status(HttpStatus.OK).json(retour);
   }
 
-  @UseGuards(AccessGuard)
   @Get(":id/:index")
   public async getDocument(
     @Param("id") usagerId: number,

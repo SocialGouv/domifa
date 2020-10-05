@@ -4,7 +4,7 @@ import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
-import { UsagersDto } from "../dto/usagers.dto";
+import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { Usager } from "../interfaces/usagers";
 import { of } from "rxjs";
 
@@ -85,8 +85,8 @@ export class UsagersService {
     return of(true);
   }
 
-  public async create(usagersDto: UsagersDto, user: User): Promise<Usager> {
-    const createdUsager = new this.usagerModel(usagersDto);
+  public async create(usagerDto: CreateUsagerDto, user: User): Promise<Usager> {
+    const createdUsager = new this.usagerModel(usagerDto);
 
     createdUsager.decision.userName = user.prenom + " " + user.nom;
     createdUsager.decision.userId = user.id;
@@ -94,6 +94,7 @@ export class UsagersService {
 
     createdUsager.structureId = user.structureId;
     createdUsager.etapeDemande++;
+
     createdUsager.id = await this.findLast(user.structureId);
     createdUsager.customId = createdUsager.id;
 
@@ -247,6 +248,7 @@ export class UsagersService {
   public async isDoublon(
     nom: string,
     prenom: string,
+    usagerId: number,
     user: User
   ): Promise<any> {
     return this.usagerModel
@@ -259,6 +261,7 @@ export class UsagersService {
             prenom: { $regex: prenom, $options: "-i" },
           },
         ],
+        id: { $ne: usagerId },
         structureId: user.structureId,
       })
       .lean()

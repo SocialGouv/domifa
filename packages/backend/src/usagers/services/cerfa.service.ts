@@ -87,6 +87,7 @@ export class CerfaService {
 
     // Adresse différente
     let adresseDomicilie = adresseStructure;
+
     if (user.structure.adresseCourrier.actif) {
       adresseDomicilie =
         user.structure.nom +
@@ -99,7 +100,7 @@ export class CerfaService {
     }
 
     if (user.structure.options.numeroBoite === true) {
-      adresseDomicilie = "Boite " + usagerId + "\n" + adresseStructure;
+      adresseDomicilie = "Boite " + usagerId + "\n" + adresseDomicilie;
     }
 
     let ayantsDroitsTexte = "";

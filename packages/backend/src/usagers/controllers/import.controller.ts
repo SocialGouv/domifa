@@ -24,6 +24,7 @@ import { UsagersService } from "../services/usagers.service";
 
 import { User } from "../../users/user.interface";
 import { Entretien } from "../interfaces/entretien";
+import { FacteurGuard } from "../../auth/guards/facteur.guard";
 
 export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -34,6 +35,7 @@ export const regexp = {
 type AOA = any[][];
 
 @UseGuards(AuthGuard("jwt"))
+@UseGuards(FacteurGuard)
 @Controller("import")
 export class ImportController {
   public errorsId: string[];

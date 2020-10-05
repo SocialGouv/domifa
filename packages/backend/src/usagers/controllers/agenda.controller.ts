@@ -131,13 +131,6 @@ export class AgendaController {
     }
   }
 
-  @Get("")
-  public async getAll(@CurrentUser() user: User) {
-    return this.usagersService.agenda(user);
-  }
-
-  //
-
   @Get("users")
   public getUsersMeeting(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
@@ -146,4 +139,11 @@ export class AgendaController {
       verified: true,
     });
   }
+
+  @Get("")
+  public async getAll(@CurrentUser() user: User) {
+    return this.usagersService.agenda(user);
+  }
+
+  //
 }
