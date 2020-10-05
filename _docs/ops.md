@@ -18,18 +18,34 @@ Pré-requis:
 
 ## Déploiement manuel en prod ou pré-prod
 
-__NOTE__: ceci permet de déployer la dernière version uniquement
-
-__TODO__: permettre de déployer une version en particulier
-
-Sur le serveur:
+Sur le serveur, mettre à jour les sources:
 
 ```bash
 cd /home/factory/master/
 # récupération de la dernière version du fichier docker-compose
 git pull
-# récupération de la dernière version des images
-sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:master && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:master
+# si besoin, aller sur la branche contenant les fichiers docker-compose à utiliser
+```
+
+Ensuite, éditer le fichier `.env`, et indiquer la branche ou le tag à déployer. Exemple:
+
+```bash
+DOMIFA_DOCKER_IMAGE_VERSION=1.17.0 # pour un tag
+DOMIFA_DOCKER_IMAGE_VERSION=master # pour la branche 'master'
+```
+
+Si il s'agit d'une branche que l'on a déjà déployé (par exemple `master`), récupération de la dernière version des images:
+
+```bash
+DOMIFA_DOCKER_IMAGE_VERSION=1.17.0 # pour un tag
+DOMIFA_DOCKER_IMAGE_VERSION=master # pour la branche 'master'
+sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION}
+sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION}
+```
+
+Enfin, déployer:
+
+```bash
 # déploiement
 sudo docker-compose -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate
 # check des logs

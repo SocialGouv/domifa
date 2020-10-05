@@ -7,8 +7,6 @@ assignees: ''
 
 ---
 
-__Note__: section à effacer avant de valider le ticket
-
 **Situation Actuelle**
 
 Description de la situation actuelle
