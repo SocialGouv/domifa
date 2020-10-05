@@ -23,7 +23,7 @@ $ docker build -f packages/frontend/Dockerfile -t socialgouv/domifa/frontend .
 #
 # Tested with
 $ docker run --rm -p 3000:3000 socialgouv/domifa/backend
-$ docker run --rm --env API_URL=https://domifa-api.fabrique.social.gouv.fr/ --env PORT=4200 -p 4200:4200 socialgouv/domifa/frontend
+$ docker run --rm --env DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/ --env PORT=4200 -p 4200:4200 socialgouv/domifa/frontend
 ```
 
 ## Release policy

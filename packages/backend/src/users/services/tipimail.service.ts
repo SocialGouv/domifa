@@ -35,16 +35,16 @@ export class TipimailService {
     this.listOfStructures = [];
 
     this.lienGuide =
-      process.env.FRONT_URL + "assets/files/guide_utilisateur_domifa.pdf";
+      process.env.DOMIFA_FRONTEND_URL + "assets/files/guide_utilisateur_domifa.pdf";
 
-    this.lienImport = process.env.FRONT_URL + "import";
+    this.lienImport = process.env.DOMIFA_FRONTEND_URL + "import";
 
-    this.lienFaq = process.env.FRONT_URL + "faq";
+    this.lienFaq = process.env.DOMIFA_FRONTEND_URL + "faq";
   }
 
   @Cron("0 8 * * TUE")
   public async cronGuide() {
-    if (process.env.FRONT_URL !== "https://domifa.fabrique.social.gouv.fr/") {
+    if (process.env.DOMIFA_FRONTEND_URL !== "https://domifa.fabrique.social.gouv.fr/") {
       return;
     }
 
@@ -139,7 +139,7 @@ export class TipimailService {
 
   @Cron("0 15 * * TUE")
   public async cronImport() {
-    if (process.env.FRONT_URL !== "https://domifa.fabrique.social.gouv.fr/") {
+    if (process.env.DOMIFA_FRONTEND_URL !== "https://domifa.fabrique.social.gouv.fr/") {
       return;
     }
     this.listOfStructures = [];
@@ -241,7 +241,7 @@ export class TipimailService {
 
   public async deleteStructure(structure: Structure) {
     const lien =
-      process.env.FRONT_URL +
+      process.env.DOMIFA_FRONTEND_URL +
       "structures/delete/" +
       structure._id +
       "/" +
@@ -308,7 +308,7 @@ export class TipimailService {
 
   public async registerConfirm(user: User) {
     const lien =
-      process.env.FRONT_URL + "reset-password/" + user.tokens.password;
+      process.env.DOMIFA_FRONTEND_URL + "reset-password/" + user.tokens.password;
     const post = {
       to: [
         {

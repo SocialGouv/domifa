@@ -16,14 +16,14 @@ export class MailJetService {
 
   public newStructure(structure: Structure, user: User) {
     const confirmationLink =
-      this.configService.get("FRONT_URL") +
+      this.configService.get("DOMIFA_FRONTEND_URL") +
       "structures/confirm/" +
       structure._id +
       "/" +
       structure.token;
 
     const deleteLink =
-      this.configService.get("FRONT_URL") +
+      this.configService.get("DOMIFA_FRONTEND_URL") +
       "structures/delete/" +
       structure._id +
       "/" +
@@ -74,7 +74,7 @@ export class MailJetService {
   }
 
   public newUser(admin: User, user: User) {
-    const lienConnexion = this.configService.get("FRONT_URL") + "connexion";
+    const lienConnexion = this.configService.get("DOMIFA_FRONTEND_URL") + "connexion";
     return this.mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
@@ -104,7 +104,7 @@ export class MailJetService {
 
   public async newPassword(user: User): Promise<any> {
     const confirmationLink =
-      this.configService.get("FRONT_URL") +
+      this.configService.get("DOMIFA_FRONTEND_URL") +
       "reset-password/" +
       user.tokens.password;
     return this.mailjet.post("send", { version: "v3.1" }).request({
@@ -133,7 +133,7 @@ export class MailJetService {
   }
 
   public confirmUser(user: User) {
-    const lienConnexion = this.configService.get("FRONT_URL") + "connexion";
+    const lienConnexion = this.configService.get("DOMIFA_FRONTEND_URL") + "connexion";
 
     return this.mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
@@ -181,7 +181,7 @@ export class MailJetService {
           ],
 
           Variables: {
-            lien: this.configService.get("FRONT_URL"),
+            lien: this.configService.get("DOMIFA_FRONTEND_URL"),
             nom_structure: structure.nom,
             prenom: user.prenom,
           },

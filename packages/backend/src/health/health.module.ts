@@ -10,7 +10,7 @@ import { ConfigService } from "../config/config.service";
 import { buildMongoConnectionStringFromEnv } from "../database/database.providers";
 
 const config = new ConfigService();
-const frontUrl = config.get("FRONT_URL");
+const frontUrl = config.get("DOMIFA_FRONTEND_URL");
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();
 

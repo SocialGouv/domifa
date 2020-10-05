@@ -21,7 +21,7 @@ export class HealthController {
   @Get()
   @HealthCheck()
   healthCheck() {
-    const frontUrl = config.get("FRONT_URL");
+    const frontUrl = config.get("DOMIFA_FRONTEND_URL");
 
     return this.health.check([
       async () => this.mongoose.pingCheck("mongo"),
