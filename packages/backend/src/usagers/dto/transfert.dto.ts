@@ -9,7 +9,7 @@ import {
 export class TransfertDto {
   @IsOptional()
   @IsBoolean()
-  public actif: boolean = false;
+  public actif!: boolean;
 
   @IsNotEmpty()
   public nom!: string;

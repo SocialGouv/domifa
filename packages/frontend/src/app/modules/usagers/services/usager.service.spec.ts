@@ -88,23 +88,11 @@ describe("UsagerService", () => {
   });
 
   it("Doublon & Get usager", async(() => {
-    const rdv = new Rdv({
-      dateRdv: "2019-07-30T23:25:44.980Z",
-      heureRdv: { hour: 10, minute: 20 },
-      isNow: "oui",
-      jourRdv: { day: 31, month: 7, year: 2019 },
-      userId: 2,
-    });
-
-    // service.createRdv(rdv, 1).subscribe((usager: Usager) => {
-    //   expect(usager.rdv.userName).toEqual("Juste Isabelle");
-    // });
-
     service.findOne(1).subscribe((usager: Usager) => {
       expect(usager.prenom).toEqual("Marta");
     });
 
-    service.isDoublon("Ram", "Marta").subscribe((doublons: any) => {
+    service.isDoublon("Ram", "Marta", 1).subscribe((doublons: any) => {
       expect(doublons.length).toEqual(1);
     });
   }));

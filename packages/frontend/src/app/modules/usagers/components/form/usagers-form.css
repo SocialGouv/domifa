@@ -14,3 +14,7 @@
 label {
   font-weight: 600;
 }
+
+.alert {
+  max-width: 800px;
+}

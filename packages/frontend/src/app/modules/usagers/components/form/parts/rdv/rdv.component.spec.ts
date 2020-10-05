@@ -6,6 +6,7 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagersModule } from "src/app/modules/usagers/usagers.module";
 import { RdvComponent } from "./rdv.component";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { Rdv } from "src/app/modules/usagers/interfaces/rdv";
 
 describe("RdvComponent", () => {
   let component: RdvComponent;

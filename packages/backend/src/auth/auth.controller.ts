@@ -78,7 +78,6 @@ export class AuthController {
       id: user.id,
       lastLogin: user.lastLogin,
       nom: user.nom,
-      passwordLastUpdate: user.passwordLastUpdate,
       prenom: user.prenom,
       role: user.role,
       structure: user.structure,

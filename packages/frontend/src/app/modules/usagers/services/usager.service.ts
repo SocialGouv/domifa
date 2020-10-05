@@ -18,7 +18,6 @@ import { Rdv } from "../interfaces/rdv";
 import { Search } from "../interfaces/search";
 import { Usager } from "../interfaces/usager";
 
-
 @Injectable({
   providedIn: "root",
 })
@@ -154,9 +153,9 @@ export class UsagerService {
     );
   }
 
-  public isDoublon(nom: string, prenom: string) {
+  public isDoublon(nom: string, prenom: string, usagerId: number) {
     return this.http
-      .get(`${this.endPointUsagers}/doublon/${nom}/${prenom}`)
+      .get(`${this.endPointUsagers}/doublon/${nom}/${prenom}/${usagerId}`)
       .pipe(
         map((response) => {
           return Array.isArray(response)

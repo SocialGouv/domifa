@@ -20,10 +20,10 @@ export class DocumentsService {
       .exec();
     const newDocs = usager.docs;
     const newDocsPath = usager.docsPath;
+
     newDocs.splice(index, 1);
     newDocsPath.splice(index, 1);
 
-    /* GET USER NAME ID */
     return this.usagerModel
       .findOneAndUpdate(
         { id: usagerId, structureId: user.structureId },

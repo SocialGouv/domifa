@@ -12,6 +12,8 @@ import * as labels from "../../stats/usagers.labels";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 
+@UseGuards(AuthGuard("jwt"))
+@UseGuards(ResponsableGuard)
 @Controller("export")
 export class ExportController {
   // Données des usagers + ayant-droit
@@ -29,7 +31,7 @@ export class ExportController {
 
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly structureService: StructuresService,
+
     private readonly interactionsService: InteractionsService
   ) {
     this.dataSheet1 = [];
@@ -37,8 +39,6 @@ export class ExportController {
     this.dataSheet3 = [];
   }
 
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(ResponsableGuard)
   @Get("")
   public async export(
     @Param("id") id: number,
