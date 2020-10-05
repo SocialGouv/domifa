@@ -8,7 +8,15 @@ Pour chaque sprint, création d'une version mineure, par exemple 1.17.0 pour le 
 
 Pour les tests avant mise en prod, créer un tag 1.17.0-rc1 (puis rc2...) et déployer ce tag sur l'environnement de préprod.
 
-## Déploiement manuel
+## Install
+
+Pré-requis:
+
+- git
+- docker
+- docker-compose
+
+## Déploiement manuel en prod ou pré-prod
 
 __NOTE__: ceci permet de déployer la dernière version uniquement
 
@@ -20,10 +28,10 @@ Sur le serveur:
 cd /home/factory/master/
 # récupération de la dernière version du fichier docker-compose
 git pull
-# récupération de la dernière image
+# récupération de la dernière version des images
 sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:master && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:master
 # déploiement
-sudo docker-compose -f docker-compose.prod.yml up --build -d --remove-orphans
+sudo docker-compose -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate
 # check des logs
 sudo docker logs --tail 200 -f master_backend_1
 # nettoyage des anciennes images

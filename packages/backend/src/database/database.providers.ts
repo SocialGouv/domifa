@@ -3,7 +3,7 @@ import { ConfigService } from "../config/config.service";
 
 const config = new ConfigService();
 
-mongoose.set("debug", config.get("IS_LOCAL") !== undefined);
+mongoose.set("debug", config.get("DOMIFA_MONGOOSE_DEBUG") === "true");
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();
 
