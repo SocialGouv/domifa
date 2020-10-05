@@ -17,9 +17,9 @@ import { Router } from "@angular/router";
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
   constructor(
-    private notifService: ToastrService,
+    public notifService: ToastrService,
     public authService: AuthService,
-    private router: Router
+    public router: Router
   ) {}
 
   public intercept(
@@ -38,12 +38,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
             errorMessage = { message: `Error: ${error.error.message}` };
           } else {
             if (error.status === 401) {
-              this.authService.logout();
-              this.router.navigate(["/connexion"], {
-                queryParams: {
-                  returnUrl: this.router.routerState.snapshot.url,
-                },
-              });
+              this.exit();
               return;
             }
             const message =
@@ -56,5 +51,15 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         }
       })
     );
+  }
+
+  private exit() {
+    this.authService.logout();
+
+    this.router.navigate(["/connexion"], {
+      queryParams: {
+        returnUrl: this.router.routerState.snapshot.url,
+      },
+    });
   }
 }

@@ -92,7 +92,7 @@ describe("UsagerService", () => {
       expect(usager.prenom).toEqual("Marta");
     });
 
-    service.isDoublon("Ram", "Marta", 1).subscribe((doublons: any) => {
+    service.isDoublon("Ram", "Marta", 2).subscribe((doublons: any) => {
       expect(doublons.length).toEqual(1);
     });
   }));
