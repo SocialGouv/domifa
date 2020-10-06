@@ -16,15 +16,28 @@ Pré-requis:
 - docker
 - docker-compose
 
+## Déploiement semi-automatique
+
+```bash
+cd /home/factory/domifa/
+
+./deploy.sh master # deploy master branch
+./deploy.sh 1.1.0 # deploy tag 1.1.0
+```
+
 ## Déploiement manuel en prod ou pré-prod
 
 Sur le serveur, mettre à jour les sources:
 
 ```bash
-cd /home/factory/master/
-# récupération de la dernière version du fichier docker-compose
+cd /home/factory/domifa/
+# vérifier la branche actuelle
+git branch
+# si besoin, changer de branche
+git checkout 1.17.0
+git checkout master
+# mise à jour de la branche
 git pull
-# si besoin, aller sur la branche contenant les fichiers docker-compose à utiliser
 ```
 
 Ensuite, éditer le fichier `.env`, et indiquer la branche ou le tag à déployer. Exemple:
@@ -47,7 +60,7 @@ Enfin, déployer:
 
 ```bash
 # déploiement
-sudo docker-compose -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate
+sudo docker-compose --project-name master -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate
 # check des logs
 sudo docker logs --tail 200 -f master_backend_1
 # nettoyage des anciennes images

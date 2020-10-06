@@ -16,6 +16,10 @@ async function down(app: INestApplication) {
   // await of(undefined).toPromise();
 }
 
+export const fixRegionsDepartementsMigration = {
+  updateStructures,
+};
+
 async function updateStructures({
   app,
 }: {

@@ -34,7 +34,7 @@ export class DepartementHelper {
     if (!departement) {
       throw new Error("Department not set");
     }
-    const region = DEPARTEMENTS_MAP[departement.toLowerCase()];
+    const region = DEPARTEMENTS_MAP[departement.toUpperCase()];
 
     if (region) {
       return region.regionCode;
