@@ -7,9 +7,12 @@ import { SearchQuery } from "../interfaces/search-query";
 import { AuthGuard } from "@nestjs/passport";
 import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
 import * as moment from "moment";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("search")
+@ApiTags("search")
+@ApiBearerAuth("Bearer")
 export class SearchController {
   constructor(
     private readonly usagersService: UsagersService,

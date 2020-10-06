@@ -27,8 +27,15 @@ import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { EditPasswordDto } from "./dto/edit-password.dto";
 
 import * as bcrypt from "bcryptjs";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiTags,
+  ApiSecurity,
+} from "@nestjs/swagger";
 
 @Controller("users")
+@ApiTags("users")
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
@@ -38,6 +45,8 @@ export class UsersController {
   ) {}
 
   @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Liste des utilisateurs" })
   @Get("")
   public getUsers(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
@@ -47,6 +56,8 @@ export class UsersController {
   }
 
   @Get("to-confirm")
+  @ApiBearerAuth("Administrateurs")
+  @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
   @UseGuards(AdminGuard)
   @UseGuards(AuthGuard("jwt"))
   public getUsersToConfirm(@CurrentUser() user: User): Promise<User[]> {
@@ -58,6 +69,8 @@ export class UsersController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(AdminGuard)
+  @ApiBearerAuth("Administrateurs")
+  @ApiOperation({ summary: "Confirmer une création de compte" })
   @Get("confirm/:id")
   public async confirmUser(@Param("id") id: number, @CurrentUser() user: User) {
     const confirmerUser = await this.usersService.update(id, user.structureId, {
@@ -72,6 +85,8 @@ export class UsersController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(AdminGuard)
+  @ApiBearerAuth("Administrateurs")
+  @ApiOperation({ summary: "Editer le rôle d'un utilisateur" })
   @Get("update-role/:id/:role")
   public async updateRole(
     @Param("id") id: number,
@@ -104,6 +119,8 @@ export class UsersController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(AdminGuard)
+  @ApiBearerAuth("Administrateurs")
+  @ApiOperation({ summary: "Supprimer un utilisateur" })
   @Delete(":id")
   public async delete(
     @Param("id") id: number,
@@ -245,6 +262,7 @@ export class UsersController {
     );
   }
 
+  @ApiOperation({ summary: "Reset du mot de passe : envoi du lien par mail" })
   @Post("get-password-token")
   public async generatePasswordToken(
     @Body() emailDto: EmailDto,
@@ -283,6 +301,7 @@ export class UsersController {
   @Post("register")
   @UseGuards(AdminGuard)
   @UseGuards(AuthGuard("jwt"))
+  @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
     @CurrentUser() user: User,
     @Response() res: any,
@@ -327,6 +346,7 @@ export class UsersController {
   // Edition d'un mot de passe quand on est déjà connecté
   @Post("edit-password")
   @UseGuards(AuthGuard("jwt"))
+  @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
     @CurrentUser() user: User,
     @Response() res: any,

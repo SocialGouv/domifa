@@ -17,8 +17,10 @@ import { UsersService } from "../users/services/users.service";
 import { User } from "../users/user.interface";
 import { AuthService } from "./auth.service";
 import { CurrentUser } from "./current-user.decorator";
+import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("auth")
+@ApiTags("auth")
 export class AuthController {
   constructor(
     public authService: AuthService,
@@ -64,6 +66,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth("Bearer")
   @Get("domifa")
   public authDomifa(@Response() res: any, @CurrentUser() user: User) {
     if (
@@ -85,6 +88,7 @@ export class AuthController {
     });
   }
 
+  @ApiBearerAuth("Bearer")
   @UseGuards(AuthGuard("jwt"))
   @Get("me")
   public me(@Response() res: any, @Req() request: any) {

@@ -11,9 +11,12 @@ import * as labels from "../../stats/usagers.labels";
 
 import { InteractionsService } from "../../interactions/interactions.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
+import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(ResponsableGuard)
+@ApiTags("export")
+@ApiBearerAuth("Bearer")
 @Controller("export")
 export class ExportController {
   // Données des usagers + ayant-droit

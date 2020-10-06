@@ -19,8 +19,10 @@ import { User } from "../users/user.interface";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsService } from "./interactions.service";
 import { UsagersService } from "../usagers/services/usagers.service";
+import { ApiTags } from "@nestjs/swagger";
 
 @UseGuards(AuthGuard("jwt"))
+@ApiTags("interactions")
 @Controller("interactions")
 export class InteractionsController {
   constructor(

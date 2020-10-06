@@ -34,10 +34,18 @@ import { ConfigService } from "../../config/config.service";
 
 import Sentry = require("@sentry/node");
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiSecurity,
+  ApiBearerAuth,
+} from "@nestjs/swagger";
 
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(AccessGuard)
 @UseGuards(FacteurGuard)
+@ApiTags("docs")
+@ApiBearerAuth("Bearer")
 @Controller("docs")
 export class DocsController {
   constructor(
@@ -45,6 +53,7 @@ export class DocsController {
     private readonly docsService: DocumentsService
   ) {}
 
+  @ApiOperation({ summary: "Upload de pièces-jointes" })
   @Post(":id")
   @UseInterceptors(
     FileInterceptor("file", {

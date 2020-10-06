@@ -22,7 +22,7 @@ import { CurrentUser } from "../../auth/current-user.decorator";
 
 import { ConfigService } from "../../config/config.service";
 import { InteractionsService } from "../../interactions/interactions.service";
-import { UsersService } from "../../users/services/users.service";
+
 import { User } from "../../users/user.interface";
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
@@ -37,9 +37,12 @@ import { UsagersService } from "../services/usagers.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { EditUsagerDto } from "../dto/edit-usager.dto";
+import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("usagers")
+@ApiTags("usagers")
+@ApiBearerAuth("Bearer")
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,

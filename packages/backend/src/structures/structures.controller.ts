@@ -29,8 +29,10 @@ import { TipimailService } from "../users/services/tipimail.service";
 
 import * as rimraf from "rimraf";
 import * as fs from "fs";
+import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("structures")
+@ApiTags("structures")
 export class StructuresController {
   constructor(
     private readonly structureService: StructuresService,
@@ -59,25 +61,9 @@ export class StructuresController {
     return res.status(HttpStatus.OK).json(exist !== null);
   }
 
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(AdminGuard)
-  @Patch()
-  public async patchStructure(
-    @Body() structureDto: StructureEditDto,
-    @CurrentUser() user: User
-  ) {
-    return this.structureService.patch(structureDto, user);
-  }
-
   @Get("code-postal/:codePostal")
   public async getByCity(@Param("codePostal") codePostal: string) {
     return this.structureService.findAllPublic(codePostal);
-  }
-
-  @UseGuards(AuthGuard("jwt"))
-  @Get("ma-structure")
-  public async getMyStructure(@CurrentUser() user: User) {
-    return user.structure;
   }
 
   @Get("confirm/:id/:token")
@@ -115,7 +101,25 @@ export class StructuresController {
     }
   }
 
+  @ApiBearerAuth("Bearer")
   @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AdminGuard)
+  @Patch()
+  public async patchStructure(
+    @Body() structureDto: StructureEditDto,
+    @CurrentUser() user: User
+  ) {
+    return this.structureService.patch(structureDto, user);
+  }
+  @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth("Bearer")
+  @Get("ma-structure")
+  public async getMyStructure(@CurrentUser() user: User) {
+    return user.structure;
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth("Bearer")
   @UseGuards(AdminGuard)
   @Get("hard-reset")
   public async hardReset(@Response() res: any, @CurrentUser() user: User) {
@@ -144,6 +148,7 @@ export class StructuresController {
   }
 
   @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth("Bearer")
   @UseGuards(AdminGuard)
   @Get("hard-reset-confirm/:token")
   public async hardResetConfirm(
@@ -183,6 +188,7 @@ export class StructuresController {
   }
 
   @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth("Bearer")
   @UseGuards(DomifaGuard)
   @Delete("confirm/:id/:token/:nom")
   public async deleteOne(
@@ -221,6 +227,7 @@ export class StructuresController {
   }
 
   @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth("Bearer")
   @UseGuards(DomifaGuard)
   @Delete("check/:id/:token")
   public async checkDelete(
@@ -241,6 +248,7 @@ export class StructuresController {
   }
 
   @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth("Bearer")
   @UseGuards(DomifaGuard)
   @Delete(":id")
   public async deleteStructure(@Response() res: any, @Param("id") id: string) {

@@ -12,9 +12,7 @@ import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
 
 import { InteractionsService } from "../../interactions/interactions.service";
-import { StructuresService } from "../../structures/structures.service";
-import { UsagersService } from "../../usagers/services/usagers.service";
-import { UsersService } from "../../users/services/users.service";
+
 import { User } from "../../users/user.interface";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 
@@ -32,9 +30,10 @@ import {
 
 import { Stats } from "../stats.class";
 import moment = require("moment");
-import { stat } from "fs";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @Controller("stats")
+@ApiTags("stats")
 export class StatsController {
   public sheet: {
     [key: string]: {};
@@ -48,8 +47,7 @@ export class StatsController {
 
   constructor(
     private readonly statsGeneratorService: StatsGeneratorService,
-    private readonly statsService: StatsService,
-    private readonly interactionsService: InteractionsService
+    private readonly statsService: StatsService
   ) {
     this.sheet = [];
     this.typeMenage = typeMenage;
@@ -61,6 +59,7 @@ export class StatsController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(FacteurGuard)
+  @ApiBearerAuth("Bearer")
   @Get("today")
   public async today(@CurrentUser() user: User) {
     return this.statsService.getToday(user.structureId);
@@ -68,6 +67,7 @@ export class StatsController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(FacteurGuard)
+  @ApiBearerAuth("Bearer")
   @Get("id/:id")
   public async getStatById(@Param("id") id: string, @CurrentUser() user: User) {
     return this.statsService.getStatById(id, user.structureId);
@@ -75,6 +75,7 @@ export class StatsController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(FacteurGuard)
+  @ApiBearerAuth("Bearer")
   @Get("export/:id")
   public async export(
     @Param("id") id: string,
@@ -88,14 +89,10 @@ export class StatsController {
   // Récupérer les stats disponibles
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(FacteurGuard)
+  @ApiBearerAuth("Bearer")
   @Get("available")
   public async getAvailableStats(@CurrentUser() user: User) {
     return this.statsService.getAvailableStats(user.structureId);
-  }
-
-  @Get("force-regenerate")
-  public async generate() {
-    return this.statsGeneratorService.clean();
   }
 
   @Get("home-stats")
@@ -113,6 +110,7 @@ export class StatsController {
 
   @UseGuards(FacteurGuard)
   @UseGuards(AuthGuard("jwt"))
+  @ApiBearerAuth("Bearer")
   @Post("")
   public async getByDate(
     @CurrentUser() user: User,
