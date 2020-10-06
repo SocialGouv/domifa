@@ -21,7 +21,7 @@ Pré-requis:
 Sur le serveur, mettre à jour les sources:
 
 ```bash
-cd /home/factory/master/
+cd /home/factory/domifa/
 # vérifier la branche actuelle
 git branch
 # si besoin, changer de branche
@@ -53,7 +53,7 @@ Enfin, déployer:
 # déploiement
 sudo docker-compose -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate
 # check des logs
-sudo docker logs --tail 200 -f master_backend_1
+sudo docker logs --tail 200 -f domifa_backend_1
 # nettoyage des anciennes images
 sudo docker image prune --all
 ```
