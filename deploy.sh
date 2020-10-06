@@ -83,7 +83,7 @@ else
     echo ""
     echo "----------------------------------------------------------------------------"
     echo "Merge branch '$branch'"
-    (set -x && git merge FETCH_HEAD)
+    (set -x && git merge origin $branch)
     if [ $? -eq 1 ]; then
         echo "Merge error. You should maybe hard-reset your obsolete branch?"
         echo "e.g.: git reset --hard HEAD~2"

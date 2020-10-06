@@ -8,8 +8,8 @@
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",
-    "db:dev:migrate-up": "ts-node -r tsconfig-paths/register src/migrate-up.ts",
-    "db:dev:migrate-down:last": "ts-node -r tsconfig-paths/register src/migrate-down-last.ts",
+    "db:dev:migrate-up": "ts-node -r tsconfig-paths/register --transpile-only src/migrate-up.ts",
+    "db:dev:migrate-down:last": "ts-node -r tsconfig-paths/register --transpile-only src/migrate-down-last.ts",
     "db:prod:migrate-down:last": "node dist/migrate-down-last.js",
     "db:prod:migrate-up": "node dist/migrate-up.js",
     "start": "npx ts-node-dev -r tsconfig-paths/register --transpile-only src/main.ts",

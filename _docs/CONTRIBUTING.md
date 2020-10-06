@@ -36,14 +36,14 @@ Pour exécuter manuellement les migrations:
 
 ```bash
 # /packages/backend
-yarn run db:migrate-up
+yarn run db:dev:migrate-up
 ```
 
 Pour faire un `rollback` sur une migration:
 
 ```bash
 # /packages/backend
-yarn run db:migrate-down:last
+yarn run db:dev:migrate-down:last
 ```
 
 ## Test cases
