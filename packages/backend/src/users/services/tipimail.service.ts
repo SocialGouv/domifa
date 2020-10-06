@@ -1,21 +1,17 @@
 import {
-  Injectable,
-  HttpService,
-  Inject,
-  HttpStatus,
   HttpException,
+  HttpService,
+  HttpStatus,
+  Inject,
+  Injectable,
 } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-import { Model } from "mongoose";
 import * as moment from "moment";
-
+import { Model } from "mongoose";
+import { ConfigService } from "../../config";
 import { Structure } from "../../structures/structure-interface";
-import { User } from "../user.interface";
 import { Usager } from "../../usagers/interfaces/usagers";
-import { AxiosResponse } from "axios";
-
-import { Observable } from "rxjs/internal/Observable";
-import { ReturnObject } from "ics";
+import { User } from "../user.interface";
 
 @Injectable()
 export class TipimailService {
@@ -24,7 +20,10 @@ export class TipimailService {
   public lienGuide: string;
   public lienImport: string;
   public lienFaq: string;
+  private domifaAdminMail: string;
+  private domifaFromMail: string;
   constructor(
+    private readonly configService: ConfigService,
     @Inject("USER_MODEL") private readonly userModel: Model<User>,
     @Inject("STRUCTURE_MODEL")
     private readonly structureModel: Model<Structure>,
@@ -35,16 +34,19 @@ export class TipimailService {
     this.listOfStructures = [];
 
     this.lienGuide =
-      process.env.DOMIFA_FRONTEND_URL + "assets/files/guide_utilisateur_domifa.pdf";
+      process.env.DOMIFA_FRONTEND_URL +
+      "assets/files/guide_utilisateur_domifa.pdf";
 
     this.lienImport = process.env.DOMIFA_FRONTEND_URL + "import";
 
     this.lienFaq = process.env.DOMIFA_FRONTEND_URL + "faq";
+    this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
+    this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
 
   @Cron("0 8 * * TUE")
   public async cronGuide() {
-    if (process.env.DOMIFA_FRONTEND_URL !== "https://domifa.fabrique.social.gouv.fr/") {
+    if (this.configService.get("DOMIFA_CRON_ENABLED") !== "true") {
       return;
     }
 
@@ -85,11 +87,11 @@ export class TipimailService {
       msg: {
         from: {
           personalName: "Domifa",
-          address: "contact.domifa@diffusion.social.gouv.fr",
+          address: this.domifaFromMail,
         },
         replyTo: {
           personalName: "Domifa",
-          address: "contact.domifa@fabrique.social.gouv.fr",
+          address: this.domifaAdminMail,
         },
         subject: "Subject",
         html: "<p>Test</p>",
@@ -139,7 +141,7 @@ export class TipimailService {
 
   @Cron("0 15 * * TUE")
   public async cronImport() {
-    if (process.env.DOMIFA_FRONTEND_URL !== "https://domifa.fabrique.social.gouv.fr/") {
+    if (this.configService.get("DOMIFA_CRON_ENABLED") !== "true") {
       return;
     }
     this.listOfStructures = [];
@@ -193,11 +195,11 @@ export class TipimailService {
       msg: {
         from: {
           personalName: "Domifa",
-          address: "contact.domifa@diffusion.social.gouv.fr",
+          address: this.domifaFromMail,
         },
         replyTo: {
           personalName: "Domifa",
-          address: "contact.domifa@fabrique.social.gouv.fr",
+          address: this.domifaAdminMail,
         },
         subject: "Subject",
         html: "<p>Test</p>",
@@ -250,7 +252,7 @@ export class TipimailService {
     const post = {
       to: [
         {
-          address: "contact.domifa@fabrique.social.gouv.fr",
+          address: this.domifaAdminMail,
           personalName: "Site Domifa",
         },
       ],
@@ -258,7 +260,7 @@ export class TipimailService {
         "X-TM-TEMPLATE": "supprimer-structure",
         "X-TM-SUB": [
           {
-            email: "contact.domifa@fabrique.social.gouv.fr",
+            email: this.domifaAdminMail,
             values: {
               lien,
               nom: structure.nom,
@@ -275,11 +277,11 @@ export class TipimailService {
       msg: {
         from: {
           personalName: "Domifa",
-          address: "contact.domifa@diffusion.social.gouv.fr",
+          address: this.domifaFromMail,
         },
         replyTo: {
           personalName: "Domifa",
-          address: "contact.domifa@fabrique.social.gouv.fr",
+          address: this.domifaAdminMail,
         },
         subject: "Subject",
         html: "<p>Test</p>",
@@ -308,7 +310,9 @@ export class TipimailService {
 
   public async registerConfirm(user: User) {
     const lien =
-      process.env.DOMIFA_FRONTEND_URL + "reset-password/" + user.tokens.password;
+      process.env.DOMIFA_FRONTEND_URL +
+      "reset-password/" +
+      user.tokens.password;
     const post = {
       to: [
         {
@@ -332,11 +336,11 @@ export class TipimailService {
       msg: {
         from: {
           personalName: "Domifa",
-          address: "contact.domifa@diffusion.social.gouv.fr",
+          address: this.domifaFromMail,
         },
         replyTo: {
           personalName: "Domifa",
-          address: "contact.domifa@fabrique.social.gouv.fr",
+          address: this.domifaAdminMail,
         },
         subject: "Subject",
         html: "<p>Test</p>",
@@ -408,11 +412,11 @@ export class TipimailService {
       msg: {
         from: {
           personalName: "Domifa",
-          address: "contact.domifa@diffusion.social.gouv.fr",
+          address: this.domifaFromMail,
         },
         replyTo: {
           personalName: "Domifa",
-          address: "contact.domifa@fabrique.social.gouv.fr",
+          address: this.domifaAdminMail,
         },
         subject: "Prise de rendez-vous entre le demandeur et un collaborateur",
         html: "<p>Test</p>",

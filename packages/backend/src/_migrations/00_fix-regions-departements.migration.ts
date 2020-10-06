@@ -31,14 +31,7 @@ async function updateStructures({
     .find({
       // $or: [{ region: { $exists: false } }, { region: "ERREUR_REGION" }],
     })
-    .exec(async (err: any, structures: Structure[]) => {
-      if (err) {
-        Logger.error(
-          `[${migrationName}] error fetching structures to update`,
-          err
-        );
-        throw err;
-      }
+    .then((structures) => {
       Logger.warn(
         `[${migrationName}] ${structures.length} structures to update`
       );

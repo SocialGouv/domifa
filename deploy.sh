@@ -22,7 +22,7 @@ then
   echo ""
   echo "To list remote branchs & tags:"
   echo ""
-  echo "git fetch --all --tags"
+  echo "git fetch --all --prune"
   echo "git tag"
   echo "git branch -r"
   echo ""
@@ -33,7 +33,7 @@ else
   echo ""
   echo "----------------------------------------------------------------------------"
   echo "Fetching git branchs..."
-  (set -x && git fetch --all --tags)
+  (set -x && git fetch --all --prune)
   if [ $? -eq 1 ]; then
       echo "[ERROR] exit"
       exit 3
@@ -61,6 +61,8 @@ else
     CI_COMMIT_REF_SLUG=$(echo "$branch" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9_.-]/-/g' | sed -e 's/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜĀÁǍÀĒÉĚÈĪÍǏÌŌÓǑÒŪÚǓÙǕǗǙǛ]/-/g' | sed -e 's/\(\-\)\1\+/\1/g')
     DOMIFA_DOCKER_IMAGE_VERSION=$CI_COMMIT_REF_SLUG
     echo ""
+    echo "----------------------------------------------------------------------------"
+    echo "[WARN] PENSEZ A FAIRE UN BACKUP AVANT DE DEPLOYER: ./backup.sh"
     echo "----------------------------------------------------------------------------"
     echo "Git tag/branch TO DEPLOY: '$branch'"
     echo "Docker tag TO DEPLOY: '$CI_COMMIT_REF_SLUG'"

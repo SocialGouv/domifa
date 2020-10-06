@@ -3,7 +3,7 @@ import { ConfigService } from "../config/config.service";
 
 const config = new ConfigService();
 
-mongoose.set("debug", config.get("DOMIFA_MONGOOSE_DEBUG") === "true");
+mongoose.set("debug", config.getBoolean("DOMIFA_MONGOOSE_DEBUG"));
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();
 
