@@ -29,8 +29,15 @@ then
   echo "#############################################################################"
   exit 1
 else
+  
   echo ""
+  echo "----------------------------------------------------------------------------"
   echo "Fetching git branchs..."
+  (set -x && git fetch --all --tags)
+  if [ $? -eq 1 ]; then
+      echo "[ERROR] exit"
+      exit 3
+  fi
   echo ""
 
   test_branch_exists=$(git ls-remote origin $branch)
