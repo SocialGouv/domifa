@@ -120,7 +120,7 @@ else
     echo "[INFO] COMMANDS:"
     echo ""
     echo "# Check backend logs, run"
-    echo "sudo docker logs --tail 200 -f domifa_backend_1"
+    echo "sudo docker logs --tail 200 -f master_backend_1"
     echo ""
     echo "# clean obsolete images logs, run:"
     echo "sudo docker image prune --all"

@@ -62,7 +62,7 @@ Enfin, déployer:
 # déploiement
 sudo docker-compose --project-name master -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate
 # check des logs
-sudo docker logs --tail 200 -f domifa_backend_1
+sudo docker logs --tail 200 -f master_backend_1
 # nettoyage des anciennes images
 sudo docker image prune --all
 ```
