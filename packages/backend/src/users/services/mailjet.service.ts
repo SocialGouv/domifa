@@ -7,11 +7,14 @@ import { User } from "../user.interface";
 export class MailJetService {
   public mailjet: any;
 
+  private domifaAdminMail: string;
+
   constructor(private readonly configService: ConfigService) {
     this.mailjet = require("node-mailjet").connect(
       this.configService.get("MJ_APIKEY_PUBLIC"),
       this.configService.get("MJ_APIKEY_PRIVATE")
     );
+    this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
   }
 
   public newStructure(structure: Structure, user: User) {
@@ -33,7 +36,7 @@ export class MailJetService {
       Messages: [
         {
           From: {
-            Email: "contact.domifa@fabrique.social.gouv.fr",
+            Email: this.domifaAdminMail,
             Name: "Domifa",
           },
           Subject: "Nouvelle structure sur Domifa : " + structure.nom,
@@ -41,7 +44,7 @@ export class MailJetService {
           TemplateLanguage: true,
           To: [
             {
-              Email: "contact.domifa@fabrique.social.gouv.fr",
+              Email: this.domifaAdminMail,
               Name: "Domifa",
             },
           ],
@@ -74,12 +77,13 @@ export class MailJetService {
   }
 
   public newUser(admin: User, user: User) {
-    const lienConnexion = this.configService.get("DOMIFA_FRONTEND_URL") + "connexion";
+    const lienConnexion =
+      this.configService.get("DOMIFA_FRONTEND_URL") + "connexion";
     return this.mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
           From: {
-            Email: "contact.domifa@fabrique.social.gouv.fr",
+            Email: this.domifaAdminMail,
             Name: "Domifa",
           },
           Subject: "Nouvelle création de compte à valider",
@@ -111,7 +115,7 @@ export class MailJetService {
       Messages: [
         {
           From: {
-            Email: "contact.domifa@fabrique.social.gouv.fr",
+            Email: this.domifaAdminMail,
             Name: "Domifa",
           },
           Subject: "Changement du mot de passe Domifa",
@@ -133,13 +137,14 @@ export class MailJetService {
   }
 
   public confirmUser(user: User) {
-    const lienConnexion = this.configService.get("DOMIFA_FRONTEND_URL") + "connexion";
+    const lienConnexion =
+      this.configService.get("DOMIFA_FRONTEND_URL") + "connexion";
 
     return this.mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
           From: {
-            Email: "contact.domifa@fabrique.social.gouv.fr",
+            Email: this.domifaAdminMail,
             Name: "Domifa",
           },
           Subject: "Votre compte Domifa a été activé",
@@ -167,7 +172,7 @@ export class MailJetService {
       Messages: [
         {
           From: {
-            Email: "contact.domifa@fabrique.social.gouv.fr",
+            Email: this.domifaAdminMail,
             Name: "Domifa",
           },
           Subject: "Votre compte Domifa a été activé",
@@ -195,7 +200,7 @@ export class MailJetService {
       Messages: [
         {
           From: {
-            Email: "contact.domifa@fabrique.social.gouv.fr",
+            Email: this.domifaAdminMail,
             Name: "Domifa",
           },
           Subject: "Code de confirmation Domifa",
