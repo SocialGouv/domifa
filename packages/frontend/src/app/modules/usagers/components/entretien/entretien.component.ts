@@ -107,7 +107,6 @@ export class EntretienComponent implements OnInit {
   }
 
   public submitEntretien() {
-
     if (this.usager.decision.statut === "INSTRUCTION") {
       if (this.isEmptyForm()) {
         this.modal = this.modalService.open(this.entretienConfirmation);
@@ -131,6 +130,10 @@ export class EntretienComponent implements OnInit {
   }
 
   private isEmptyForm() {
-    return Object.values(this.entretienForm.value).filter(x => x !== null).length === 0;
+    return (
+      Object.keys(this.entretienForm.value).filter(
+        (x) => this.entretienForm.value[x] !== null
+      ).length === 0
+    );
   }
 }
