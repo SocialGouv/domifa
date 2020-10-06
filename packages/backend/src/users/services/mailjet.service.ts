@@ -2,19 +2,22 @@ import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "../../config/config.service";
 import { Structure } from "../../structures/structure-interface";
 import { User } from "../user.interface";
+import * as mailjet from "node-mailjet";
 
 @Injectable()
 export class MailJetService {
-  public mailjet: any;
+  public mailjet: mailjet.Email.Client;
 
   private domifaAdminMail: string;
+  private domifaFromMail: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.mailjet = require("node-mailjet").connect(
+    this.mailjet = mailjet.connect(
       this.configService.get("MJ_APIKEY_PUBLIC"),
       this.configService.get("MJ_APIKEY_PRIVATE")
     );
     this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
+    this.domifaFromMail = this.configService.get("DOMIFA_MAILJET_FROM_EMAIL");
   }
 
   public newStructure(structure: Structure, user: User) {
@@ -36,48 +39,58 @@ export class MailJetService {
       "/" +
       structure.token;
 
-    return this.mailjet.post("send", { version: "v3.1" }).request({
-      Messages: [
-        {
-          From: {
-            Email: this.domifaAdminMail,
-            Name: "Domifa",
-          },
-          Subject: "Nouvelle structure sur Domifa : " + structure.nom,
-          TemplateID: 987764,
-          TemplateLanguage: true,
-          To: [
-            {
-              Email: this.domifaAdminMail,
+    return this.mailjet
+      .post("send", { version: "v3.1" })
+      .request({
+        Messages: [
+          {
+            From: {
+              Email: this.domifaFromMail,
               Name: "Domifa",
             },
-          ],
-          Variables: {
-            adresse: structure.adresse,
-            agrement: structure.agrement,
-            codePostal: structure.codePostal,
-            confirmation_link: confirmationLink,
-            departement: structure.departement,
-            email: structure.email,
-            lien_confirmation: confirmationLink,
-            lien_suppression: deleteLink,
-            phone: structure.phone,
-            responsable_fonction: structure.responsable.fonction,
-            responsable_nom: structure.responsable.nom,
-            responsable_prenom: structure.responsable.prenom,
-            structure_name: structure.nom,
-            structure_type:
-              structure.structureType === "asso"
-                ? "Organisme agrée"
-                : "CCAS / CIAS",
-            user_email: user.email,
-            user_nom: user.nom,
-            user_prenom: user.prenom,
-            ville: structure.ville,
+            Subject: "Nouvelle structure sur Domifa : " + structure.nom,
+            TemplateID: 987764,
+            TemplateLanguage: true,
+            To: [
+              {
+                Email: this.domifaAdminMail,
+                Name: "Domifa",
+              },
+            ],
+            Variables: {
+              adresse: structure.adresse,
+              agrement: structure.agrement,
+              codePostal: structure.codePostal,
+              confirmation_link: confirmationLink,
+              departement: structure.departement,
+              email: structure.email,
+              lien_confirmation: confirmationLink,
+              lien_suppression: deleteLink,
+              phone: structure.phone,
+              responsable_fonction: structure.responsable.fonction,
+              responsable_nom: structure.responsable.nom,
+              responsable_prenom: structure.responsable.prenom,
+              structure_name: structure.nom,
+              structure_type:
+                structure.structureType === "asso"
+                  ? "Organisme agrée"
+                  : "CCAS / CIAS",
+              user_email: user.email,
+              user_nom: user.nom,
+              user_prenom: user.prenom,
+              ville: structure.ville,
+            },
           },
-        },
-      ],
-    });
+        ],
+      })
+      .then((res) => {
+        Logger.warn(`[MailJetService] mail response: ${JSON.stringify(res)}`);
+        return res;
+      })
+      .catch((err) => {
+        Logger.error(`[MailJetService] mail response error:`, err);
+        throw err;
+      });
   }
 
   public newUser(admin: User, user: User) {
@@ -87,7 +100,7 @@ export class MailJetService {
       Messages: [
         {
           From: {
-            Email: this.domifaAdminMail,
+            Email: this.domifaFromMail,
             Name: "Domifa",
           },
           Subject: "Nouvelle création de compte à valider",
@@ -119,7 +132,7 @@ export class MailJetService {
       Messages: [
         {
           From: {
-            Email: this.domifaAdminMail,
+            Email: this.domifaFromMail,
             Name: "Domifa",
           },
           Subject: "Changement du mot de passe Domifa",
@@ -148,7 +161,7 @@ export class MailJetService {
       Messages: [
         {
           From: {
-            Email: this.domifaAdminMail,
+            Email: this.domifaFromMail,
             Name: "Domifa",
           },
           Subject: "Votre compte Domifa a été activé",
@@ -176,7 +189,7 @@ export class MailJetService {
       Messages: [
         {
           From: {
-            Email: this.domifaAdminMail,
+            Email: this.domifaFromMail,
             Name: "Domifa",
           },
           Subject: "Votre compte Domifa a été activé",
@@ -204,7 +217,7 @@ export class MailJetService {
       Messages: [
         {
           From: {
-            Email: this.domifaAdminMail,
+            Email: this.domifaFromMail,
             Name: "Domifa",
           },
           Subject: "Code de confirmation Domifa",

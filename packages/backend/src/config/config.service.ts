@@ -21,8 +21,8 @@ export type DomifaConfigKey =
   | "DOMIFA_SWAGGER_ENABLE"
   | "DOMIFA_CRON_ENABLED"
   | "DOMIFA_ADMIN_EMAIL"
-  | "DOMIFA_FROM_EMAIL";
-
+  | "DOMIFA_MAILJET_FROM_EMAIL"
+  | "DOMIFA_TIPIMAIL_FROM_EMAIL";
 @Injectable()
 export class ConfigService {
   private readonly envConfig: { [key: string]: string };
@@ -47,7 +47,8 @@ export class ConfigService {
       DOMIFA_MONGOOSE_DEBUG: process.env.DOMIFA_MONGOOSE_DEBUG,
       DOMIFA_SWAGGER_ENABLE: process.env.DOMIFA_SWAGGER_ENABLE,
       DOMIFA_ADMIN_EMAIL: process.env.DOMIFA_ADMIN_EMAIL,
-      DOMIFA_FROM_EMAIL: process.env.DOMIFA_FROM_EMAIL,
+      DOMIFA_MAILJET_FROM_EMAIL: process.env.DOMIFA_MAILJET_FROM_EMAIL,
+      DOMIFA_TIPIMAIL_FROM_EMAIL: process.env.DOMIFA_TIPIMAIL_FROM_EMAIL,
       DOMIFA_CRON_ENABLED: process.env.DOMIFA_CRON_ENABLED,
     };
     this.checkConfig();

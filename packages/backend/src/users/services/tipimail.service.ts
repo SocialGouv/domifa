@@ -41,7 +41,7 @@ export class TipimailService {
 
     this.lienFaq = process.env.DOMIFA_FRONTEND_URL + "faq";
     this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = this.configService.get("DOMIFA_FROM_EMAIL");
+    this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
 
   @Cron("0 8 * * TUE")
