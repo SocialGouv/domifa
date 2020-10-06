@@ -11,64 +11,9 @@
 
 Voir [./_docs/CONTRIBUTING.md](./_docs/CONTRIBUTING.md).
 
-## Docker
+## OPS
 
-```sh
-$ yarn
-$ yarn build
-#
-$ docker build --shm-size 512M -f packages/backend/Dockerfile -t socialgouv/domifa/backend .
-$ docker build -f packages/frontend/Dockerfile -t socialgouv/domifa/frontend .
-#
-#
-# Tested with
-$ docker run --rm -p 3000:3000 socialgouv/domifa/backend
-$ docker run --rm --env DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/ --env PORT=4200 -p 4200:4200 socialgouv/domifa/frontend
-```
-
-## Release policy
-
-### Auto
-
-Trigger a custom build on [Travis](https://travis-ci.com/SocialGouv/domifa) (in the "More options" right menu) on the `master` branch with a custom config:
-
-```yml
-env:
-  global:
-    - RELEASE=true
-```
-
-You can change the lerna arguments though the `LERNA_ARGS` variable.
-
-```yml
-env:
-  global:
-    - LERNA_ARGS="--force-publish --yes"
-    - RELEASE=true
-```
-
-## Database
-
-### Backup database
-
-```bash
-sudo docker-compose exec mongo mongodump --out --gzip > /mnt/database/dump_`date "+%Y-%m-%d-%H-%M"`
-```
-
-You need an [Github token](https://github.com/settings/tokens/new) to release.
-
-### Manual
-
-You need an [Github token](https://github.com/settings/tokens/new) to release.
-
-```sh
-#
-# Bump, push to git and publish to npm
-$ GH_TOKEN==************ yarn lerna version
-
-#
-# You might want to add a Gif to your release to make it groovy ;)
-```
+Voir [./_docs/ops.md](./_docs/ops.md).
 
 ## License
 

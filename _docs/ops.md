@@ -66,3 +66,42 @@ sudo docker logs --tail 200 -f master_backend_1
 # nettoyage des anciennes images
 sudo docker image prune --all
 ```
+
+## Migrations
+
+Les migrations sont exécutées automatiquement au démarrage.
+
+Pour faire un rollback d'une migration, ou relancer une migration:
+
+```bash
+# enter container
+sudo docker exec -it master_backend_1 bash
+# migrate DOWN (-1)
+yarn run db:prod:migrate-down:last
+# migrate UP (all)
+yarn run db:prod:migrate-up
+```
+
+## Docker build
+
+```sh
+$ yarn
+$ yarn build
+#
+$ docker build --shm-size 512M -f packages/backend/Dockerfile -t socialgouv/domifa/backend .
+$ docker build -f packages/frontend/Dockerfile -t socialgouv/domifa/frontend .
+#
+#
+# Tested with
+$ docker run --rm -p 3000:3000 socialgouv/domifa/backend
+$ docker run --rm --env DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/ --env PORT=4200 -p 4200:4200 socialgouv/domifa/frontend
+```
+
+## Database
+
+### Backup database
+
+```bash
+# backup.sh
+sudo docker-compose exec mongo mongodump --out --gzip > /mnt/database/dump_`date "+%Y-%m-%d-%H-%M"`
+```
