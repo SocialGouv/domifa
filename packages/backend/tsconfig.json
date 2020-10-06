@@ -4,6 +4,8 @@
       "*": ["types/*"]
     },
     "strict": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
     "lib": ["es2018.promise"],
     "module": "commonjs",
     "declaration": true,

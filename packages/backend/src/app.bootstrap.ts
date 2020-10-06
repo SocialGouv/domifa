@@ -24,7 +24,7 @@ export async function bootstrapApplication() {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     release: "domifa@" + process.env.npm_package_version,
-    serverName: config.get("DOMIFA_ENV_ID"),
+    serverName: config.getEnvId(),
   });
 
   const DOMIFA_SWAGGER_CONTEXT = "sw-api";

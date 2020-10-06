@@ -48,7 +48,7 @@ mongoose.set("debug", config.get("DOMIFA_MONGOOSE_DEBUG") === "true");
     {
       provide: APP_INTERCEPTOR,
       useValue: new RavenInterceptor({
-        tags: { serverName: config.get("DOMIFA_ENV_ID") },
+        tags: { serverName: config.getEnvId() },
       }),
     },
     {

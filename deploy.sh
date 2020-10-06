@@ -62,6 +62,8 @@ else
     DOMIFA_DOCKER_IMAGE_VERSION=$CI_COMMIT_REF_SLUG
     echo ""
     echo "----------------------------------------------------------------------------"
+    echo "[WARN] PENSEZ A FAIRE UN BACKUP AVANT DE DEPLOYER: ./backup.sh"
+    echo "----------------------------------------------------------------------------"
     echo "Git tag/branch TO DEPLOY: '$branch'"
     echo "Docker tag TO DEPLOY: '$CI_COMMIT_REF_SLUG'"
     echo ""
