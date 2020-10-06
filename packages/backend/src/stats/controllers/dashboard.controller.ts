@@ -1,16 +1,15 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
-import { InteractionsService } from "../../interactions/interactions.service";
-import { StructuresService } from "../../structures/structures.service";
-import { UsagersService } from "../../usagers/services/usagers.service";
-import { UsersService } from "../../users/services/users.service";
 import { DashboardService } from "../services/dashboard.service";
 import { StatsGeneratorService } from "../services/stats-generator.service";
+import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(DomifaGuard)
 @Controller("dashboard")
+@ApiTags("dashboard")
+@ApiBearerAuth("Bearer")
 export class DashboardController {
   constructor(
     private readonly dashboardService: DashboardService,

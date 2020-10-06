@@ -11,8 +11,6 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { UsagersService } from "../services/usagers.service";
 import { UsersService } from "../../users/services/users.service";
-import { InteractionsService } from "../../interactions/interactions.service";
-import { CerfaService } from "../services/cerfa.service";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { User } from "../../users/user.interface";
 
@@ -25,17 +23,18 @@ import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { AccessGuard } from "../../auth/guards/access.guard";
 import { RdvDto } from "../dto/rdv.dto";
+import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(FacteurGuard)
+@ApiTags("agenda")
+@ApiBearerAuth("Bearer")
 @Controller("agenda")
 export class AgendaController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly tipimailService: TipimailService,
-    private readonly usersService: UsersService,
-    private readonly interactionService: InteractionsService,
-    private readonly cerfaService: CerfaService
+    private readonly usersService: UsersService
   ) {}
 
   // AGENDA des rendez-vous
