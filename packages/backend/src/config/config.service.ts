@@ -19,6 +19,7 @@ export type DomifaConfigKey =
   | "DOMIFA_ENV_ID"
   | "DOMIFA_MONGOOSE_DEBUG"
   | "DOMIFA_SWAGGER_ENABLE"
+  | "DOMIFA_CRON_ENABLED"
   | "DOMIFA_ADMIN_EMAIL"
   | "DOMIFA_FROM_EMAIL";
 
@@ -47,12 +48,18 @@ export class ConfigService {
       DOMIFA_SWAGGER_ENABLE: process.env.DOMIFA_SWAGGER_ENABLE,
       DOMIFA_ADMIN_EMAIL: process.env.DOMIFA_ADMIN_EMAIL,
       DOMIFA_FROM_EMAIL: process.env.DOMIFA_FROM_EMAIL,
+      DOMIFA_CRON_ENABLED: process.env.DOMIFA_CRON_ENABLED,
     };
     this.checkConfig();
   }
 
   public get<T extends string = string>(key: DomifaConfigKey): T {
     return this.envConfig[key] as T;
+  }
+
+  public getBoolean(key: DomifaConfigKey): boolean {
+    const value = this.get[key];
+    return !!value && value.trim() === "true";
   }
 
   public getEnvId(): DomifaEnvId {

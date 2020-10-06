@@ -28,7 +28,7 @@ export async function bootstrapApplication() {
   });
 
   const DOMIFA_SWAGGER_CONTEXT = "sw-api";
-  if (config.get("DOMIFA_SWAGGER_ENABLE") === "true") {
+  if (config.getBoolean("DOMIFA_SWAGGER_ENABLE")) {
     // enable swagger ui http://localhost:3000/api-json & http://localhost:3000/${DOMIFA_SWAGGER_CONTEXT}
     Logger.warn(
       `Swagger UI enabled: ${config.get(

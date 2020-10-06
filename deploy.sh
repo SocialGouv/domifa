@@ -22,7 +22,7 @@ then
   echo ""
   echo "To list remote branchs & tags:"
   echo ""
-  echo "git fetch --all --tags"
+  echo "git fetch --all --prune"
   echo "git tag"
   echo "git branch -r"
   echo ""
@@ -33,7 +33,7 @@ else
   echo ""
   echo "----------------------------------------------------------------------------"
   echo "Fetching git branchs..."
-  (set -x && git fetch --all --tags)
+  (set -x && git fetch --all --prune)
   if [ $? -eq 1 ]; then
       echo "[ERROR] exit"
       exit 3

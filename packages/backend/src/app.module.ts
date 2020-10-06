@@ -21,7 +21,7 @@ const config = new ConfigService();
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();
 
-mongoose.set("debug", config.get("DOMIFA_MONGOOSE_DEBUG") === "true");
+mongoose.set("debug", config.getBoolean("DOMIFA_MONGOOSE_DEBUG"));
 
 @Module({
   controllers: [HealthController],

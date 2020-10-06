@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "../../config/config.service";
 import { Structure } from "../../structures/structure-interface";
 import { User } from "../user.interface";
@@ -18,6 +18,10 @@ export class MailJetService {
   }
 
   public newStructure(structure: Structure, user: User) {
+    Logger.warn(
+      `[MailJetService] send admin mail to "${this.domifaAdminMail}" for new structure "${structure.nom}".`
+    );
+
     const confirmationLink =
       this.configService.get("DOMIFA_FRONTEND_URL") +
       "structures/confirm/" +

@@ -46,10 +46,7 @@ export class TipimailService {
 
   @Cron("0 8 * * TUE")
   public async cronGuide() {
-    if (
-      process.env.DOMIFA_FRONTEND_URL !==
-      "https://domifa.fabrique.social.gouv.fr/"
-    ) {
+    if (this.configService.get("DOMIFA_CRON_ENABLED") !== "true") {
       return;
     }
 
@@ -144,10 +141,7 @@ export class TipimailService {
 
   @Cron("0 15 * * TUE")
   public async cronImport() {
-    if (
-      process.env.DOMIFA_FRONTEND_URL !==
-      "https://domifa.fabrique.social.gouv.fr/"
-    ) {
+    if (this.configService.get("DOMIFA_CRON_ENABLED") !== "true") {
       return;
     }
     this.listOfStructures = [];
