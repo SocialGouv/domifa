@@ -84,7 +84,7 @@ export class MailJetService {
         ],
       })
       .then((res) => {
-        Logger.warn(`[MailJetService] mail response: ${JSON.stringify(res)}`);
+        // Logger.warn(`[MailJetService] mail response: ${JSON.stringify(res)}`);
         return res;
       })
       .catch((err) => {
