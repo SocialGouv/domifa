@@ -4,9 +4,9 @@ branch=$1
 if [ -z "$branch" ]
 then
   echo ""
-  echo "###################################"
+  echo "#############################################################################"
   echo "# Deploy domifa app..."
-  echo "###################################"
+  echo "#############################################################################"
   echo ""
   echo "Usage:"
   echo ""
@@ -26,7 +26,7 @@ then
   echo "git tag"
   echo "git branch -r"
   echo ""
-  echo "###################################"
+  echo "#############################################################################"
   exit 1
 else
   echo ""
@@ -36,7 +36,7 @@ else
   test_branch_exists=$(git ls-remote origin $branch)
   if [ -z "$test_branch_exists" ]
     then
-    echo "###################################"
+    echo "#############################################################################"
     echo ""
     echo "[ERROR] Branch '$branch' does not exists:"
     echo ""
@@ -47,13 +47,14 @@ else
     echo "To list remote branchs & tags:"
     echo "git branch -r"
     echo ""
-    echo "###################################"
+    echo "#############################################################################"
     exit 2
   else
      # from suglify: https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/lib/utils/text_utility.js
     CI_COMMIT_REF_SLUG=$(echo "$branch" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9_.-]/-/g' | sed -e 's/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜĀÁǍÀĒÉĚÈĪÍǏÌŌÓǑÒŪÚǓÙǕǗǙǛ]/-/g' | sed -e 's/\(\-\)\1\+/\1/g')
     DOMIFA_DOCKER_IMAGE_VERSION=$CI_COMMIT_REF_SLUG
     echo ""
+    echo "----------------------------------------------------------------------------"
     echo "Git tag/branch TO DEPLOY: '$branch'"
     echo "Docker tag TO DEPLOY: '$CI_COMMIT_REF_SLUG'"
     echo ""
@@ -65,6 +66,7 @@ else
     esac
   
     echo ""
+    echo "----------------------------------------------------------------------------"
     echo "Switch to git branch '$branch'"
     (set -x && git checkout $branch)
     if [ $? -eq 1 ]; then
@@ -72,6 +74,7 @@ else
         exit 3
     fi
     echo ""
+    echo "----------------------------------------------------------------------------"
     echo "Merge branch '$branch'"
     (set -x && git merge origin/$branch)
     if [ $? -eq 1 ]; then
@@ -80,6 +83,7 @@ else
         exit 3
     fi
     echo ""
+    echo "----------------------------------------------------------------------------"
     echo "Pull docker backend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
     (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION})
     if [ $? -eq 1 ]; then
@@ -87,6 +91,7 @@ else
         exit 3
     fi
     echo ""
+    echo "----------------------------------------------------------------------------"
     echo "Pull docker frontend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
     (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION})
     if [ $? -eq 1 ]; then
@@ -94,6 +99,7 @@ else
         exit 3
     fi
     echo ""
+    echo "----------------------------------------------------------------------------"
     echo "Setting 'DOMIFA_DOCKER_IMAGE_VERSION=$DOMIFA_DOCKER_IMAGE_VERSION' in .env"
     (set -x && sed -i "/DOMIFA_DOCKER_IMAGE_VERSION=/c\DOMIFA_DOCKER_IMAGE_VERSION=$DOMIFA_DOCKER_IMAGE_VERSION" .env)
     if [ $? -eq 1 ]; then
@@ -101,8 +107,9 @@ else
         exit 3
     fi
     echo ""
+    echo "----------------------------------------------------------------------------"
     echo "Deploy application"
-    (set -x && sudo docker-compose --project-name domifa -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate)
+    (set -x && sudo docker-compose --project-name master -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate)
     if [ $? -eq 1 ]; then
         echo "[ERROR] exit"
         exit 3
@@ -119,7 +126,7 @@ else
     echo "sudo docker image prune --all"
     echo ""
     echo "# stop & remove application (datatabase & upload files won't be lost)"
-    echo "sudo docker-compose --project-name domifa -f docker-compose.prod.yml up"
+    echo "sudo docker-compose --project-name master -f docker-compose.prod.yml up"
     echo ""
     echo "#############################################################################"
     echo ""
