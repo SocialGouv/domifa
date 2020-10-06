@@ -102,7 +102,7 @@ else
     fi
     echo ""
     echo "Deploy application"
-    (set -x && sudo docker-compose -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate)
+    (set -x && sudo docker-compose --project-name domifa -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate)
     if [ $? -eq 1 ]; then
         echo "[ERROR] exit"
         exit 3
@@ -119,7 +119,7 @@ else
     echo "sudo docker image prune --all"
     echo ""
     echo "# stop & remove application (datatabase & upload files won't be lost)"
-    echo "sudo docker-compose -f docker-compose.prod.yml up"
+    echo "sudo docker-compose --project-name domifa -f docker-compose.prod.yml up"
     echo ""
     echo "#############################################################################"
     echo ""

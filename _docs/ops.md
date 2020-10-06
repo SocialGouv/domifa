@@ -16,6 +16,15 @@ Pré-requis:
 - docker
 - docker-compose
 
+## Déploiement semi-automatique
+
+```bash
+cd /home/factory/domifa/
+
+./deploy.sh master # deploy master branch
+./deploy.sh 1.1.0 # deploy tag 1.1.0
+```
+
 ## Déploiement manuel en prod ou pré-prod
 
 Sur le serveur, mettre à jour les sources:
@@ -51,7 +60,7 @@ Enfin, déployer:
 
 ```bash
 # déploiement
-sudo docker-compose -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate
+sudo docker-compose --project-name domifa -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate
 # check des logs
 sudo docker logs --tail 200 -f domifa_backend_1
 # nettoyage des anciennes images
