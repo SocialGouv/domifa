@@ -22,9 +22,13 @@ Sur le serveur, mettre à jour les sources:
 
 ```bash
 cd /home/factory/master/
-# récupération de la dernière version du fichier docker-compose
+# vérifier la branche actuelle
+git branch
+# si besoin, changer de branche
+git checkout 1.17.0
+git checkout master
+# mise à jour de la branche
 git pull
-# si besoin, aller sur la branche contenant les fichiers docker-compose à utiliser
 ```
 
 Ensuite, éditer le fichier `.env`, et indiquer la branche ou le tag à déployer. Exemple:

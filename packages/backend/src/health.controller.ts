@@ -22,7 +22,7 @@ export class HealthController {
   healthCheck() {
     const frontUrl = config.get("DOMIFA_FRONTEND_URL");
 
-    Logger.warn(`Healthcheck frontend configuration: "${frontUrl}"`);
+    // Logger.warn(`Healthcheck frontend configuration: "${frontUrl}"`);
 
     return this.health.check([
       async () => this.mongoose.pingCheck("mongo"),
