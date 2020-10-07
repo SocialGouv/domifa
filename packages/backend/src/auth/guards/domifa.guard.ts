@@ -21,7 +21,8 @@ export class DomifaGuard implements CanActivate {
       user &&
       user.role === "admin" &&
       (user.structureId === 1 ||
-        (this.configService.getEnvId() === "preprod" && user.structureId === 1))
+        (this.configService.getEnvId() === "preprod" &&
+          user.structureId === 205))
     );
   }
 }
