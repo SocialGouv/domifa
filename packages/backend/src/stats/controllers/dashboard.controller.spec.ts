@@ -10,8 +10,9 @@ import { DashboardController } from "./dashboard.controller";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 import { DashboardService } from "../services/dashboard.service";
 import { StatsService } from "../services/stats.service";
+import { ConfigService } from "../../config";
 
-describe("Stats Controller", () => {
+describe("Dashboard Controller", () => {
   let controller: DashboardController;
 
   beforeEach(async () => {
@@ -29,6 +30,10 @@ describe("Stats Controller", () => {
         StatsService,
         StatsGeneratorService,
         ...StatsProviders,
+        {
+          provide: ConfigService,
+          useValue: new ConfigService(),
+        },
       ],
     }).compile();
 

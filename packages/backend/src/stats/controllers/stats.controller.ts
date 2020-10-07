@@ -1,36 +1,31 @@
 import {
+  Body,
   Controller,
   Get,
-  UseGuards,
-  Body,
   Param,
-  Res,
   Post,
+  Res,
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
-
-import { InteractionsService } from "../../interactions/interactions.service";
-
-import { User } from "../../users/user.interface";
-import { StatsGeneratorService } from "../services/stats-generator.service";
-
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import { User } from "../../users/user.interface";
 import { StatsDto } from "../dto/stats.dto";
+import { StatsGeneratorService } from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
-
+import { Stats } from "../stats.class";
 import {
+  cause,
   motifsRadiation,
   motifsRefus,
-  typeMenage,
   residence,
-  cause,
+  typeMenage,
 } from "../usagers.labels";
 
-import { Stats } from "../stats.class";
 import moment = require("moment");
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @Controller("stats")
 @ApiTags("stats")

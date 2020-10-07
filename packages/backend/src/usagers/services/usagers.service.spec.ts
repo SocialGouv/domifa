@@ -9,6 +9,7 @@ import { UsagersProviders } from "../usagers.providers";
 import { forwardRef } from "@nestjs/common";
 import { CerfaService } from "./cerfa.service";
 import { UsagersService } from "./usagers.service";
+import { ConfigService } from "../../config";
 
 describe("UsagersService", () => {
   let service: UsagersService;
@@ -29,7 +30,15 @@ describe("UsagersService", () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule, forwardRef(() => UsersModule)],
-      providers: [UsagersService, CerfaService, ...UsagersProviders],
+      providers: [
+        UsagersService,
+        CerfaService,
+        ...UsagersProviders,
+        {
+          provide: ConfigService,
+          useValue: new ConfigService(),
+        },
+      ],
     }).compile();
 
     service = module.get<UsagersService>(UsagersService);
