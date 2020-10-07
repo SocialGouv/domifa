@@ -9,6 +9,6 @@
   "dependencies": {
     "codeceptjs": "^3.0.0",
     "execa": "^4.0.3",
-    "puppeteer": "^5.2.1"
+    "puppeteer": "^5.3.1"
   }
 }
