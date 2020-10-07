@@ -156,7 +156,7 @@ export class TipimailService {
       });
   }
 
-  public async sentImportGuide() {
+  private async sentImportGuide() {
     const user = await this.userModel
       .findOne({
         structureId: { $in: this.listOfStructures },
