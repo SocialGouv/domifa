@@ -164,6 +164,7 @@ export class UsagersController {
       } else {
         usager.typeDom = "PREMIERE";
         usager.datePremiereDom = new Date(decision.dateDebut);
+        usager.lastInteraction.dateInteraction = new Date(decision.dateDebut);
       }
 
       if (decision.dateFin !== undefined && decision.dateFin !== null) {
