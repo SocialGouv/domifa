@@ -2,13 +2,9 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Interaction } from "../../interactions/interactions.interface";
 import { Structure } from "../../structures/structure-interface";
-import { StructuresService } from "../../structures/structures.service";
+
 import { Usager } from "../../usagers/interfaces/usagers";
 import { User } from "../../users/user.interface";
-import { StatsDocument } from "../stats.interface";
-
-
-
 
 @Injectable()
 export class DashboardService {
@@ -21,15 +17,12 @@ export class DashboardService {
   constructor(
     @Inject("STRUCTURE_MODEL")
     private structureModel: Model<Structure>,
-    @Inject("STATS_MODEL")
-    private statsModel: Model<StatsDocument>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
     @Inject("USER_MODEL")
     private userModel: Model<User>,
     @Inject("INTERACTION_MODEL")
-    private interactionModel: Model<Interaction>,
-    private readonly structureService: StructuresService
+    private interactionModel: Model<Interaction>
   ) {
     this.today = new Date();
     this.demain = new Date();
