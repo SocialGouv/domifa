@@ -1,10 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
@@ -12,15 +11,12 @@ import { SharedModule } from "../shared/shared.module";
 import { StructuresModule } from "../structures/structures.module";
 import { UsersModule } from "../users/users.module";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { RapportComponent } from "./components/rapport/rapport.component";
-import { StatsService } from "./stats.service";
 import { StatsComponent } from "./components/stats/stats.component";
-import { StatsRoutingModule } from "./stats-routing.module";
+import { StatsService } from "./stats.service";
 
 @NgModule({
-  declarations: [DashboardComponent, RapportComponent, StatsComponent],
+  declarations: [DashboardComponent, StatsComponent],
   imports: [
-    StatsRoutingModule,
     UsersModule,
     StructuresModule,
     CommonModule,

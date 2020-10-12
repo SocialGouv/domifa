@@ -28,11 +28,12 @@ import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-frenc
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-stats",
-  styleUrls: ["../rapport/rapport.component.css", "./stats.component.css"],
+  styleUrls: ["./stats.component.css"],
   templateUrl: "./stats.component.html",
 })
 export class StatsComponent implements OnInit, AfterViewInit {
   public stats: Stats;
+  public statsDisplayDate: Date;
   public statsList: any[];
 
   public labels: any;
@@ -62,7 +63,6 @@ export class StatsComponent implements OnInit, AfterViewInit {
     public formatter: NgbDateCustomParserFormatter,
     private cdRef: ChangeDetectorRef
   ) {
-    this.stats = new Stats();
     this.labels = labels;
     this.interactionsLabels = interactionsLabels;
   }
@@ -76,8 +76,8 @@ export class StatsComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    const dateStart = new Date();
-    dateStart.setDate(dateStart.getDate() - 1);
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
 
     this.start = null;
     this.end = null;
@@ -88,29 +88,24 @@ export class StatsComponent implements OnInit, AfterViewInit {
 
     // Dates du calendrier
     this.maxDate = new NgbDate(
-      dateStart.getFullYear(),
-      dateStart.getMonth() + 1,
-      dateStart.getDate()
+      yesterday.getFullYear(),
+      yesterday.getMonth() + 1,
+      yesterday.getDate()
     );
     this.minDate = new NgbDate(2020, 1, 1);
 
     this.maxDateFin = new NgbDate(
-      dateStart.getFullYear(),
-      dateStart.getMonth() + 1,
-      dateStart.getDate()
+      yesterday.getFullYear(),
+      yesterday.getMonth() + 1,
+      yesterday.getDate()
     );
     this.minDateFin = new NgbDate(2020, 1, 2);
 
     this.toDate = null;
     this.fromDate = this.minDate;
+    this.toDate = this.maxDate;
 
     this.cdRef.detectChanges();
-  }
-
-  public getStatById(newValue: string) {
-    this.statsService.getStatById(newValue).subscribe((response: Stats) => {
-      this.stats = response;
-    });
   }
 
   public exportId() {
@@ -176,11 +171,14 @@ export class StatsComponent implements OnInit, AfterViewInit {
       this.toDate !== null
         ? new Date(this.formatter.formatEn(this.toDate))
         : null;
-
+    // this.stats = undefined;
     this.statsService
       .getStats(this.start, this.end)
-      .subscribe((response: Stats) => {
-        this.stats = response;
+      .subscribe((statsResult) => {
+        this.stats = statsResult.stats;
+        this.statsDisplayDate = statsResult.endDate
+          ? new Date(statsResult.endDate)
+          : new Date(statsResult.startDate);
       });
   }
 }

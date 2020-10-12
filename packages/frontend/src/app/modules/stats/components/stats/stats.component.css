@@ -1,3 +1,36 @@
+#rapport table tr .soustable {
+  padding-left: 40px !important;
+}
+
+#rapport table tr th:first-child,
+#rapport table tr td:first-child {
+  width: 93%;
+}
+
+#rapport table tr th:last-child,
+#rapport table tr td:last-child {
+  width: 6%;
+}
+
+#rapport {
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+.form-group.hidden {
+  width: 0;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.rapport-part {
+  padding: 1.2rem 1rem;
+  border: 1px solid #d2d2d2;
+  margin: 1rem auto;
+  border-radius: 4px;
+}
+
 .control-label {
   margin-top: 6px;
   margin-right: 6px;
