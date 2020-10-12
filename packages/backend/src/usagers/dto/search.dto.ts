@@ -1,4 +1,10 @@
-import { IsIn, IsNumber, IsOptional } from "class-validator";
+import {
+  IsIn,
+  IsNumber,
+  IsOptional,
+  ValidateIf,
+  IsNotEmpty,
+} from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class SearchDto {
@@ -30,11 +36,39 @@ export class SearchDto {
 
   @IsOptional()
   @ApiProperty({
-    enum: ["az", "za", "radiation", "domiciliation"],
+    enum: [
+      "NAME",
+      "VALIDE",
+      "RADIE",
+      "REFUS",
+      "PASSAGE",
+      "INSTRUCTION",
+      "ATTENTE_DECISION",
+      "ID",
+    ],
     type: String,
   })
-  @IsIn(["az", "za", "radiation", "domiciliation"])
-  public sort!: string;
+  @IsIn([
+    "NAME",
+    "VALIDE",
+    "RADIE",
+    "REFUS",
+    "PASSAGE",
+    "INSTRUCTION",
+    "ATTENTE_DECISION",
+    "ID",
+  ])
+  public sortKey!: string;
+
+  @IsOptional()
+  @ApiProperty({
+    enum: ["ascending", "descending"],
+    type: String,
+  })
+  @IsIn(["ascending", "descending"])
+  @ValidateIf((o) => typeof o.sortKey !== "undefined")
+  @IsNotEmpty()
+  public sortValue!: string;
 
   @ApiProperty({
     description: "Recherche par nom, prénom, custom id, ou ayant-droit",

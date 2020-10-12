@@ -21,8 +21,6 @@ export class SearchController {
 
   @Get("")
   public async search(@Query() query: SearchDto, @CurrentUser() user: User) {
-    let sort: any = { nom: 1 };
-
     const searchQuery: SearchQuery = {
       structureId: user.structureId,
     };
@@ -52,15 +50,6 @@ export class SearchController {
       .subtract(3, "months")
       .toDate();
 
-    const sortValues: {
-      [key: string]: {};
-    } = {
-      az: { nom: "ascending", prenom: "ascending" },
-      domiciliation: { "decision.dateDebut": "ascending" },
-      radiation: { "decision.dateFin": "descending" },
-      za: { nom: "descending" },
-    };
-
     const echeances: {
       [key: string]: {};
     } = {
@@ -75,10 +64,6 @@ export class SearchController {
       DEUX_MOIS: { $lte: lastTwoMonths },
       TROIS_MOIS: { $lte: lastThreeMonths },
     };
-
-    sort = query.sort
-      ? (sort = sortValues[query.sort])
-      : { nom: "ascending", prenom: "ascending" };
 
     /* ID DE LA STRUCTURE DE LUSER */
     if (query.name) {
@@ -134,17 +119,50 @@ export class SearchController {
     if (query.echeance) {
       searchQuery["decision.dateFin"] = echeances[query.echeance];
       searchQuery["decision.statut"] = "VALIDE";
-      sort = { "decision.dateFin": "ascending", nom: "ascending" };
     }
 
     if (query.passage) {
       searchQuery["decision.statut"] = "VALIDE";
       searchQuery["lastInteraction.dateInteraction"] = passages[query.passage];
+    }
 
-      sort = {
-        "lastInteraction.dateInteraction": "descending",
-        nom: "ascending",
-      };
+    let sort: any = { nom: "ascending", prenom: "ascending" };
+
+    if (query.sortKey && query.sortValue) {
+      if (query.sortKey === "RADIE" || query.sortKey === "REFUS") {
+        sort = {
+          "decision.dateFin": query.sortValue,
+          nom: "ascending",
+          prenom: "ascending",
+        };
+      } else if (
+        query.sortKey === "INSTRUCTION" ||
+        query.sortKey === "ATTENTE_DECISION"
+      ) {
+        sort = {
+          "decision.dateDecision": query.sortValue,
+          nom: "ascending",
+          prenom: "ascending",
+        };
+      } else if (query.sortKey === "VALIDE") {
+        sort = {
+          "decision.dateFin": query.sortValue,
+          nom: "ascending",
+          prenom: "ascending",
+        };
+      } else if (query.sortKey === "PASSAGE") {
+        sort = {
+          "lastInteraction.dateInteraction": query.sortValue,
+          nom: "ascending",
+          prenom: "ascending",
+        };
+      } else if (query.sortKey === "NAME") {
+        sort = { nom: query.sortValue, prenom: "ascending" };
+      } else if (query.sortKey === "ID") {
+        sort = user.structure.options.customId
+          ? { customId: query.sortValue }
+          : { id: query.sortValue };
+      }
     }
 
     return {

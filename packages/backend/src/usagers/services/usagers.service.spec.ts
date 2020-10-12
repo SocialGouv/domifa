@@ -90,7 +90,6 @@ describe("UsagersService", () => {
   });
 
   it("2. Search", async () => {
-    searchDto.sort = "az";
     searchDto.statut = "VALIDE";
     const user = await userService.findOne({ id: 2 });
     /*

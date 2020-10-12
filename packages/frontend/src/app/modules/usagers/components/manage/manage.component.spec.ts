@@ -104,24 +104,11 @@ describe("ManageUsagersComponent", () => {
       name: null,
       page: 0,
       passage: null,
-      sort: "az",
+      sortKey: "NAME",
+      sortValue: "ascending",
       statut: "VALIDE",
     });
   });
-
-  it("2. Update filter", async(() => {
-    app.updateFilters("sort", "za");
-    app.updateFilters("statut", "REFUS");
-    expect(app.filters).toEqual({
-      echeance: null,
-      interactionType: null,
-      name: null,
-      page: 0,
-      passage: null,
-      sort: "za",
-      statut: "REFUS",
-    });
-  }));
 
   it("3. Reset Filters", async(() => {
     app.resetFilters();
@@ -131,7 +118,8 @@ describe("ManageUsagersComponent", () => {
       name: null,
       page: 0,
       passage: null,
-      sort: "az",
+      sortKey: "NAME",
+      sortValue: "ascending",
       statut: "VALIDE",
     });
   }));

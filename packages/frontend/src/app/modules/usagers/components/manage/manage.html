@@ -198,35 +198,107 @@
 
     <table class="table" *ngIf="usagers.length !== 0">
       <thead>
-        <th class="text-center">#</th>
-        <th>Nom prénom</th>
-        <th class="text-center" *ngIf="filters.passage !== null">
+        <th class="sortable" (click)="updateFilters('sortKey', 'ID')">
+          <span>ID</span>
+        </th>
+        <th class="sortable" (click)="updateFilters('sortKey', 'NAME')">
+          <span> Nom prénom</span>
+        </th>
+        <th
+          class="sortable"
+          (click)="updateFilters('sortKey', 'PASSAGE')"
+          *ngIf="filters.passage !== null"
+        >
           Dernier passage
         </th>
-        <th class="text-center" *ngIf="filters.passage !== null">
+        <th
+          class="sortable"
+          (click)="updateFilters('sortKey', 'STATUT')"
+          *ngIf="filters.passage !== null"
+        >
           Domicilié depuis le
         </th>
-        <th *ngIf="filters.passage === null">{{ dateLabel }}</th>
-        <td colspan="3" class="text-right">
-          <div class="sort-structures form-group form-check-inline">
+        <th
+          class="sortable"
+          *ngIf="filters.passage === null"
+          (click)="updateFilters('sortKey', filters.statut)"
+        >
+          {{ dateLabel }}
+        </th>
+        <th colspan="2" class="text-right"></th>
+        <th colspan="1" class="text-right">
+          <div
+            ngbDropdown
+            id="sortMenu"
+            display="dynamic"
+            placement="bottom-right"
+            class="d-inline-block"
+            #sortMenu="ngbDropdown"
+          >
             <button
-              class="btn"
-              [ngClass]="filters.sort === 'az' ? 'btn-dark' : 'btn-outline-dark'"
-              (click)="updateFilters('sort', 'az')"
-              title="Alphabétique : A -> Z"
+              class="btn btn-outline-dark"
+              id="dropdownManual"
+              ngbDropdownAnchor
+              (focus)="sortMenu.open()"
             >
-              <fa-icon icon="sort-alpha-down"></fa-icon>
+              Trier par {{ sortLabels[filters.sortKey] }}
+              <fa-icon
+                *ngIf="filters.sortValue === 'ascending'"
+                icon="sort-amount-up"
+              ></fa-icon>
+              <fa-icon
+                *ngIf="filters.sortValue === 'descending'"
+                icon="sort-amount-down"
+              ></fa-icon>
             </button>
-            <button
-              class="btn"
-              [ngClass]=" filters.sort === 'za'   ? 'btn-dark'  : 'btn-outline-dark'"
-              (click)="updateFilters('sort', 'za')"
-              title="Alphabétique : Z -> A"
+            <div
+              ngbDropdownMenu
+              aria-labelledby="navbarDropdown2"
+              class="dropdown-menu dropdown-menu-right"
             >
-              <fa-icon icon="sort-alpha-down-alt"></fa-icon>
-            </button>
+              <button
+                (click)="updateFilters('sortKey', 'NAME', 'ascending')"
+                ngbDropdownItem
+              >
+                Trier par nom <fa-icon icon="sort-amount-up"></fa-icon>
+              </button>
+              <button
+                (click)="updateFilters('sortKey', 'NAME', 'descending')"
+                ngbDropdownItem
+              >
+                Trier par nom <fa-icon icon="sort-amount-down"></fa-icon>
+              </button>
+              <button
+                (click)="updateFilters('sortKey', 'ID', 'ascending')"
+                ngbDropdownItem
+              >
+                Trier par ID <fa-icon icon="sort-amount-up"></fa-icon>
+              </button>
+              <button
+                (click)="updateFilters('sortKey', 'ID', 'descending')"
+                ngbDropdownItem
+              >
+                Trier par ID <fa-icon icon="sort-amount-down"></fa-icon>
+              </button>
+              <button
+                (click)="updateFilters('sortKey', filters.statut, 'ascending')"
+                ngbDropdownItem
+              >
+                Trier par {{ dateLabel | lowercase }}<fa-icon
+                  icon="sort-amount-up"
+                ></fa-icon>
+              </button>
+              <button
+                (click)="updateFilters('sortKey', filters.statut, 'descending')"
+                ngbDropdownItem
+              >
+                Trier par {{ dateLabel | lowercase }}<fa-icon
+                  icon="sort-amount-down"
+                ></fa-icon>
+              </button>
+            </div>
           </div>
-        </td>
+        </th>
       </thead>
       <tbody *ngFor="let usager of usagers; let i = index">
         <tr>

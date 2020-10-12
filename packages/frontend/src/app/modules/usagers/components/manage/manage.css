@@ -4,7 +4,7 @@
   margin: 0 auto;
 }
 
-.results-count{
+.results-count {
   color: #9b9b9b;
 }
 
@@ -278,4 +278,33 @@ th {
 
 #filters-btn .btn fa-icon {
   margin-left: 4px;
+}
+
+.sortable .ng-fa-icon {
+  float: right;
+}
+
+.sortable {
+  font-weight: normal;
+  cursor: pointer;
+  padding: 8px 14px;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+.sortable:hover {
+  background-color: #fafafa;
+}
+
+.dropdown-menu {
+  border-radius: 4px;
+}
+
+.dropdown-menu .ng-fa-icon {
+  margin-left: 6px;
+}
+
+.sorted {
+  background-color: #fafafa !important;
 }
