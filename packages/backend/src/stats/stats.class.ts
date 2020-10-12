@@ -1,4 +1,6 @@
 export class Stats {
+  //  public _id: ObjectID;
+  public _id: any;
   public createdAt: Date;
   public nom: string;
   public structureId: number;
@@ -119,6 +121,7 @@ export class Stats {
   };
 
   constructor(data?: any) {
+    this._id = (data && data._id) || null;
     this.nom = (data && data.nom) || null;
     this.createdAt = (data && data.createdAt) || new Date();
     this.structureType = (data && data.structureType) || null;
