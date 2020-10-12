@@ -27,6 +27,18 @@ export async function bootstrapApplication() {
     serverName: config.getEnvId(),
   });
 
+  configureSwagger(config, app);
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    })
+  );
+
+  return app;
+}
+
+function configureSwagger(config: ConfigService, app) {
   const DOMIFA_SWAGGER_CONTEXT = "sw-api";
   if (config.getBoolean("DOMIFA_SWAGGER_ENABLE")) {
     // enable swagger ui http://localhost:3000/api-json & http://localhost:3000/${DOMIFA_SWAGGER_CONTEXT}
@@ -45,17 +57,15 @@ export async function bootstrapApplication() {
       .setDescription("API description")
       .setVersion("1.0")
       // .addTag("xxx")
+      .addBearerAuth({
+        type: "http",
+        scheme: "basic",
+      })
       .build();
+
     const document = SwaggerModule.createDocument(app, options);
     const swaggerOptions: SwaggerCustomOptions = {};
     SwaggerModule.setup(DOMIFA_SWAGGER_CONTEXT, app, document, swaggerOptions);
   }
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-    })
-  );
-
-  return app;
 }
+
