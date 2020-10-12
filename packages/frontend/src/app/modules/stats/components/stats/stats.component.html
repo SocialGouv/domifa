@@ -119,12 +119,11 @@
     </div>
   </div>
 
-  <div class="col-md-12" *ngIf="start !== null">
+  <div class="col-md-12" *ngIf="stats">
     <br />
     <h4>
       1. Domiciliés par statut
-      <span *ngIf="end !== null"> au {{ end | date: "dd/MM/yyyy" }} </span>
-      <span *ngIf="end === null"> au {{ start | date: "dd/MM/yyyy" }} </span>
+      au {{ statsDisplayDate | date: "dd/MM/yyyy": "UTC" }}
     </h4>
     <b>Astuce:</b> pour avoir des statistiques sur une date précise, la date de
     fin sera prise en compte

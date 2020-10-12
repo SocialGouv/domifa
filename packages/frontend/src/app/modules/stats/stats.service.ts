@@ -39,15 +39,29 @@ export class StatsService {
   }
 
   // DASHBOARD
-  public getStats(start: Date, end?: Date): Observable<Stats> {
+  public getStats(
+    start: Date,
+    end?: Date
+  ): Observable<{
+    stats: Stats;
+    startDate?: Date;
+    endDate?: Date;
+  }> {
     return this.http
-      .post(this.baseUrl, {
+      .post<{
+        stats: Stats;
+        startDate?: Date;
+        endDate?: Date;
+      }>(this.baseUrl, {
         start,
         end,
       })
       .pipe(
         map((response) => {
-          return new Stats(response);
+          return {
+            ...response,
+            stats: new Stats(response.stats),
+          };
         })
       );
   }

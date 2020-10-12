@@ -5,6 +5,7 @@ import { ConfigService } from "../config/config.service";
 import { Structure } from "../structures/structure-interface";
 import { User } from "../users/user.interface";
 import { processUtil } from "../util/processUtil.service";
+import { ObjectId } from "mongodb";
 
 const migrationName = __filename;
 
