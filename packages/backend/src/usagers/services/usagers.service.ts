@@ -184,6 +184,7 @@ export class UsagersService {
         { _id: usagerId },
         {
           $set: {
+            lastInteraction: usager.lastInteraction,
             decision,
             "entretien.rattachement": usager.entretien.rattachement,
             historique: usager.historique,

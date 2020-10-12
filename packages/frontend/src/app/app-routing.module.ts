@@ -1,7 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./guards/auth-guard";
+import { DomifaGuard } from "./guards/domifa-guard";
+import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
+import { ResponsableGuard } from "./guards/responsable-guard";
 import { StructureGuard } from "./guards/structure-guard";
 import { CguComponent } from "./modules/general/components/cgu/cgu.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
@@ -9,32 +12,27 @@ import { FaqComponent } from "./modules/general/components/faq/faq.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
+import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
 import { DashboardComponent } from "./modules/stats/components/dashboard/dashboard.component";
-import { RapportComponent } from "./modules/stats/components/rapport/rapport.component";
+import { StatsComponent } from "./modules/stats/components/stats/stats.component";
 import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
 import { StructuresEditComponent } from "./modules/structures/components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
+import { DecisionComponent } from "./modules/usagers/components/form/parts/decision/decision.component";
+import { DocumentsFormComponent } from "./modules/usagers/components/form/parts/documents-form/documents-form.component";
+import { EntretienFormComponent } from "./modules/usagers/components/form/parts/entretien-form/entretien-form.component";
+import { RdvComponent } from "./modules/usagers/components/form/parts/rdv/rdv.component";
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
 import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
 import { RaftComponent } from "./modules/usagers/components/raft/raft.component";
+import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
 import { LoginComponent } from "./modules/users/components/login/login.component";
 import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
-import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
-import { DomifaGuard } from "./guards/domifa-guard";
-import { FacteurGuard } from "./guards/facteur-guard";
-
-import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
-import { ResponsableGuard } from "./guards/responsable-guard";
-import { StatsComponent } from "./modules/stats/components/stats/stats.component";
-import { RdvComponent } from "./modules/usagers/components/form/parts/rdv/rdv.component";
-import { DecisionComponent } from "./modules/usagers/components/form/parts/decision/decision.component";
-import { EntretienFormComponent } from "./modules/usagers/components/form/parts/entretien-form/entretien-form.component";
-import { DocumentsFormComponent } from "./modules/usagers/components/form/parts/documents-form/documents-form.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
