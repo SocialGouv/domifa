@@ -6,11 +6,11 @@ import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { StatsProviders } from "../stats-providers";
-import { StatsService } from "./stats.service";
+import { StatsGeneratorService } from "./stats-generator.service";
 import { DashboardService } from "./dashboard.service";
 
-describe("StatsService", () => {
-  let service: StatsService;
+describe("StatsGeneratorService", () => {
+  let service: StatsGeneratorService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,10 +21,10 @@ describe("StatsService", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [DashboardService, StatsService, ...StatsProviders],
+      providers: [DashboardService, StatsGeneratorService, ...StatsProviders],
     }).compile();
 
-    service = module.get<StatsService>(StatsService);
+    service = module.get<StatsGeneratorService>(StatsGeneratorService);
   });
 
   it("should be defined", () => {
