@@ -4,7 +4,10 @@ export type Filters =
   | "passage"
   | "echeance"
   | "interactionType"
-  | "sort";
+  | "sortKey"
+  | "sortValue";
+
+export type SortValues = "ascending" | "descending";
 
 export type SearchStatut =
   | "TOUS"
@@ -20,7 +23,8 @@ export class Search {
   public echeance?: string;
   public interactionType?: string;
   public passage?: string;
-  public sort?: string;
+  public sortKey?: string;
+  public sortValue?: SortValues;
   public page: number;
 
   constructor(search?: any) {
@@ -28,8 +32,10 @@ export class Search {
     this.passage = (search && search.passage) || null;
     this.echeance = (search && search.echeance) || null;
     this.name = (search && search.name) || null;
-    this.sort = (search && search.sort) || "az";
     this.statut = (search && search.statut) || "VALIDE";
     this.page = (search && search.page) || 0;
+
+    this.sortKey = (search && search.sortKey) || "NAME";
+    this.sortValue = (search && search.sortValue) || "ascending";
   }
 }

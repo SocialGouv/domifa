@@ -21,7 +21,12 @@ import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { Structure } from "../../../structures/structure.interface";
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
-import { Filters, Search, SearchStatut } from "../../interfaces/search";
+import {
+  Filters,
+  Search,
+  SearchStatut,
+  SortValues,
+} from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
 
 @Component({
@@ -58,6 +63,18 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     REFUS: number;
     RADIE: number;
     TOUS: number;
+  };
+
+  public sortLabels = {
+    NAME: "nom",
+    ATTENTE_DECISION: "demande effectuée le",
+    INSTRUCTION: "dossier débuté le",
+    RADIE: "radié le ",
+    REFUS: "date de refus",
+    TOUS: "fin de domiciliation",
+    VALIDE: "fin de domiciliation",
+    PASSAGE: "date de dernier passage",
+    ID: "ID",
   };
 
   public structure: Structure;
@@ -155,11 +172,15 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public resetFilters() {
-    this.filters = new Search({});
+    this.filters = new Search();
     this.filters$.next(this.filters);
   }
 
-  public updateFilters<T extends Filters>(element: T, value: Search[T] | null) {
+  public updateFilters<T extends Filters>(
+    element: T,
+    value: Search[T] | null,
+    sortValue?: SortValues
+  ) {
     if (
       element === "interactionType" ||
       element === "statut" ||
@@ -168,6 +189,29 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     ) {
       const newValue = this.filters[element] === value ? null : value;
       this.filters[element] = newValue;
+
+      // Si le tri actuel est lié sur le statut
+      if (
+        element === "statut" &&
+        this.filters.sortKey !== "NAME" &&
+        this.filters.sortKey !== "ID" &&
+        this.filters.sortKey !== "PASSAGE"
+      ) {
+        this.filters.sortKey = value;
+      }
+    } else if (element === "sortKey") {
+      // Tri issu des en-tête de tableau
+      if (!sortValue) {
+        sortValue =
+          value === this.filters.sortKey
+            ? this.filters.sortValue === "ascending"
+              ? "descending"
+              : "ascending"
+            : "ascending";
+      }
+
+      this.filters.sortValue = sortValue;
+      this.filters.sortKey = value;
     } else {
       this.filters[element] = value;
     }
@@ -207,9 +251,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       }
 
       if (usager.decision.statut === "INSTRUCTION") {
-        console.log("ETAPE DEM");
-        console.log(usager);
-        console.log(usager.etapeDemande);
         this.router.navigate([
           "usager/" + usager.id + "/edit/" + etapesUrl[usager.etapeDemande],
         ]);
