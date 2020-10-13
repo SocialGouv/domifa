@@ -277,17 +277,18 @@ export class UsagersService {
         "-createdAt -updatedAt -rdv -structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -historique -entretien -docs"
       )
       .limit(40)
-      .collation({ locale: "en_US", numericOrdering: true })
+      .collation({
+        locale: "fr",
+        numericOrdering: true,
+        maxVariable: "space",
+      })
       .skip(page && page !== 0 ? 40 * page : 0)
       .lean()
       .exec();
   }
 
   public async count(query: any): Promise<any> {
-    return this.usagerModel
-      .countDocuments(query)
-      .collation({ locale: "en" })
-      .exec();
+    return this.usagerModel.countDocuments(query).exec();
   }
 
   public async save(data: any, user: User) {

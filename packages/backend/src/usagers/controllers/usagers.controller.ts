@@ -159,7 +159,6 @@ export class UsagersController {
     }
 
     if (decision.statut === "VALIDE") {
-      usager.lastInteraction.dateInteraction = new Date(decision.dateDebut);
       if (usager.datePremiereDom !== null) {
         usager.typeDom = "RENOUVELLEMENT";
       } else {
@@ -176,6 +175,7 @@ export class UsagersController {
       }
 
       decision.dateDebut = new Date(decision.dateDebut);
+      usager.lastInteraction.dateInteraction = decision.dateDebut;
     }
 
     return this.usagersService.setDecision(usager._id, decision, usager);

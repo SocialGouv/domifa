@@ -312,6 +312,11 @@ export class StatsGeneratorService {
       "visite"
     );
 
+    stat.questions.Q_20.npai = await this.totalInteraction(
+      structure.id,
+      "npai"
+    );
+
     stat.questions.Q_21.ERRANCE = await this.totalMaintenant(
       structure.id,
       "VALIDE",
