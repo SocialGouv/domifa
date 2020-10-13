@@ -144,7 +144,7 @@ export class SearchController {
           nom: "ascending",
           prenom: "ascending",
         };
-      } else if (query.sortKey === "VALIDE") {
+      } else if (query.sortKey === "VALIDE" || query.sortKey === "TOUS") {
         sort = {
           "decision.dateFin": query.sortValue,
           nom: "ascending",

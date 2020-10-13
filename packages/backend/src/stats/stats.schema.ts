@@ -82,6 +82,7 @@ export const StatsSchema = new mongoose.Schema(
         courrierOut: { type: Number, default: 0 },
         recommandeIn: { type: Number, default: 0 },
         recommandeOut: { type: Number, default: 0 },
+        npai: { type: Number, default: 0 },
         visite: { type: Number, default: 0 },
       },
 

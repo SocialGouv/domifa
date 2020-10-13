@@ -13,12 +13,9 @@ async function up(app: INestApplication) {
   Logger.debug(`[${migrationName}] UP`);
   const configService: ConfigService = app.get(ConfigService);
   const envId = configService.getEnvId();
-  if (envId === "dev" || envId === "preprod") {
-    Logger.warn(`[${migrationName}] DB update createdAt ON (env:${envId})`);
-    await _updateCreatedAt({ app });
-  } else {
-    Logger.warn(`[${migrationName}] DB update createdAt  (env:${envId})`);
-  }
+
+  await _updateCreatedAt({ app });
+  Logger.warn(`[${migrationName}] DB update createdAt  (env:${envId})`);
 }
 
 async function _updateCreatedAt({ app }: { app: INestApplication }) {

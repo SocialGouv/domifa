@@ -180,6 +180,7 @@ export class Stats {
         courrierOut: 0,
         recommandeIn: 0,
         recommandeOut: 0,
+        npai: 0,
         visite: 0,
       },
       Q_21: {

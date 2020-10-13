@@ -159,12 +159,12 @@ export class UsagersController {
     }
 
     if (decision.statut === "VALIDE") {
+      usager.lastInteraction.dateInteraction = new Date(decision.dateDebut);
       if (usager.datePremiereDom !== null) {
         usager.typeDom = "RENOUVELLEMENT";
       } else {
         usager.typeDom = "PREMIERE";
         usager.datePremiereDom = new Date(decision.dateDebut);
-        usager.lastInteraction.dateInteraction = new Date(decision.dateDebut);
       }
 
       if (decision.dateFin !== undefined && decision.dateFin !== null) {

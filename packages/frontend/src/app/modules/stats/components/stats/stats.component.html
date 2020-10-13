@@ -122,8 +122,8 @@
   <div class="col-md-12" *ngIf="stats">
     <br />
     <h4>
-      1. Domiciliés par statut
-      au {{ statsDisplayDate | date: "dd/MM/yyyy": "UTC" }}
+      1. Domiciliés par statut au
+      {{ statsDisplayDate | date: "dd/MM/yyyy":"UTC" }}
     </h4>
     <b>Astuce:</b> pour avoir des statistiques sur une date précise, la date de
     fin sera prise en compte
@@ -144,7 +144,7 @@
           </tr>
           <tr>
             <td class="soustable">Nombre d'ayants-droit</td>
-            <td>{{ stats.questions.Q_11.VALIDE_AYANTS_DROIT }}</td>
+            <td>{{ stats.questions.Q_11.VALIDE_AYANTS_DROIT || 0 }}</td>
           </tr>
 
           <tr>
@@ -337,7 +337,7 @@
           <tr *ngFor="let interaction of interactionsLabels | keyvalue">
             <td>{{ interaction.value }}</td>
             <td>
-              {{ stats.questions.Q_20[interaction.key] }}
+              {{ stats.questions.Q_20[interaction.key] || 0 }}
             </td>
           </tr>
         </tbody>
