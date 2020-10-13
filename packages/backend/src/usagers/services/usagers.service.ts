@@ -14,77 +14,6 @@ export class UsagersService {
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
   ) {}
 
-  private async debug(): Promise<any> {
-    const count = await this.usagerModel
-      .countDocuments({
-        ayantsDroits: { $exists: true, $not: { $size: 0 } },
-        $or: [
-          {
-            migration: { $exists: false },
-          },
-          {
-            migration: false,
-          },
-        ],
-      })
-
-      .exec();
-
-    Logger.log("");
-    Logger.log(count);
-    Logger.log("");
-
-    this.usagerModel
-      .findOne({
-        ayantsDroits: { $exists: true, $not: { $size: 0 } },
-        $or: [
-          {
-            migration: { $exists: false },
-          },
-          {
-            migration: false,
-          },
-        ],
-      })
-      .lean()
-      .exec((err: any, usager: Usager) => {
-        Logger.log("");
-        Logger.log(usager.id);
-        Logger.log(usager.nom + " - " + usager.ayantsDroits.length);
-
-        for (let index = 0; index <= usager.ayantsDroits.length; index++) {
-          const ayantDroit = usager.ayantsDroits[index];
-          if (index === usager.ayantsDroits.length) {
-            Logger.log("  ");
-            Logger.log("-  ");
-            Logger.log(usager.ayantsDroits);
-            Logger.log("-  ");
-            Logger.log("  ");
-
-            usager.migration = true;
-
-            this.usagerModel
-              .findOneAndUpdate({ _id: usager._id }, { $set: usager })
-              .select("-docsPath -interactions")
-              .exec((_err: NativeError, ret: any) => {
-                this.debug();
-              });
-            return;
-          }
-
-          if (
-            typeof Date.parse(usager.ayantsDroits[index].dateNaissance) ===
-            "undefined"
-          ) {
-            usager.ayantsDroits[index].dateNaissance = this.convertDate(
-              ayantDroit.dateNaissance
-            );
-          }
-        }
-      });
-    return of(true);
-  }
-
   public async create(usagerDto: CreateUsagerDto, user: User): Promise<Usager> {
     const createdUsager = new this.usagerModel(usagerDto);
 
@@ -325,12 +254,5 @@ export class UsagersService {
       .select("nom prenom id rdv")
       .lean()
       .exec();
-  }
-
-  private convertDate(dateFr: string) {
-    const dateParts = dateFr.split("/");
-    const dateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-    const newDate = new Date(dateEn).toISOString();
-    return newDate;
   }
 }
