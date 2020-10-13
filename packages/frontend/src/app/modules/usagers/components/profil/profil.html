@@ -34,7 +34,7 @@
           Orientation proposée : {{ usager.decision.orientationDetails}}
         </div>
         <button
-          *ngIf="me.role !== 'facteur'"
+          *ngIf="!isRole('facteur')"
           (click)="open(renewConfirmation)"
           class="btn btn-outline-secondary"
         >
@@ -61,7 +61,7 @@
 
         <div class="col-md-12">
           <button
-            *ngIf="me.role !== 'facteur'"
+            *ngIf="!isRole('facteur')"
             (click)="open(renewConfirmation)"
             class="btn btn-outline-secondary"
           >
@@ -115,7 +115,7 @@
       </div>
 
       <div
-        *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60 && me.role !== 'facteur'"
+        *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60 && !isRole('facteur')"
         class="text-center row"
       >
         <div class="w-100">
@@ -286,7 +286,7 @@
     type="info"
     [dismissible]="false"
     class="text-center"
-    *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT' && me.role !== 'facteur'"
+    *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT' && !isRole('facteur')"
   >
     Une demande de renouvellement est actuellement en cours &nbsp;
     <a [routerLink]="['/usager/'+usager.id+'/edit']" class="btn btn-light">
@@ -488,7 +488,7 @@
 
           <div
             class="col-md-12 text-center"
-            *ngIf="usager.decision.statut === 'VALIDE' && me.role !== 'facteur'"
+            *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
           >
             <br />
             <button
@@ -861,7 +861,7 @@
           </table>
           <div
             class="col-md-12 text-center"
-            *ngIf="usager.decision.statut === 'VALIDE' && me.role !== 'facteur'"
+            *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
           >
             <br />
             <button
@@ -971,7 +971,7 @@
               <button
                 (click)="editTransfertForm = true"
                 class="btn btn-outline-primary"
-                *ngIf="me.role !== 'facteur'"
+                *ngIf="!isRole('facteur')"
               >
                 <fa-icon icon="plus" class="btn-icon"></fa-icon>
                 Activer le transfert de courrier
@@ -1001,7 +1001,7 @@
                 </span>
               </div>
 
-              <div class="col-12 text-center" *ngIf="me.role !== 'facteur'">
+              <div class="col-12 text-center" *ngIf="!isRole('facteur')">
                 <br />
                 <button
                   *ngIf="usager.options.transfert.actif && !editTransfertForm"
@@ -1023,7 +1023,7 @@
               </div>
             </div>
             <form
-              *ngIf="editTransfertForm && me.role !== 'facteur'"
+              *ngIf="editTransfertForm && !isRole('facteur')"
               [formGroup]="transfertForm"
               (ngSubmit)="editTransfert()"
               autocomplete="off"
@@ -1195,7 +1195,7 @@
             >
               <p>Il n'y a aucun procuration actuellement</p>
               <button
-                *ngIf="me.role !== 'facteur'"
+                *ngIf="!isRole('facteur')"
                 class="btn btn-outline-primary"
                 (click)="editProcurationForm = true"
               >
@@ -1258,7 +1258,7 @@
             </div>
 
             <form
-              *ngIf="editProcurationForm && me.role !== 'facteur'"
+              *ngIf="editProcurationForm && !isRole('facteur')"
               [formGroup]="procurationForm"
               (ngSubmit)="editProcuration()"
               autocomplete="off"
@@ -1435,7 +1435,7 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="panel-4" *ngIf="me.role !== 'facteur'">
+    <ngb-panel id="panel-4" *ngIf="!isRole('facteur')">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
@@ -1585,7 +1585,7 @@
 
         <div
           class="col-md-12 text-center"
-          *ngIf="usager.decision.statut === 'VALIDE' && me.role !== 'facteur'"
+          *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
         >
           <br />
           <button
@@ -1600,7 +1600,7 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="panel-5" *ngIf="me.role !== 'facteur'">
+    <ngb-panel id="panel-5" *ngIf="!isRole('facteur')">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
@@ -1624,7 +1624,7 @@
   </ngb-accordion>
   <div
     class="text-center"
-    *ngIf="usager.decision.statut === 'VALIDE' && me.role !== 'facteur'"
+    *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
   >
     <br />
     <div class="row">

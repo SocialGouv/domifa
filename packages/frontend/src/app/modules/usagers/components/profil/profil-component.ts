@@ -37,6 +37,7 @@ import {
 import { Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo";
 import { User } from "src/app/modules/users/interfaces/user";
+import { UserRole } from "src/app/modules/users/interfaces/user-role.type";
 
 @Component({
   providers: [
@@ -155,6 +156,10 @@ export class UsagersProfilComponent implements OnInit {
     this.authService.currentUser.subscribe((user: User) => {
       this.me = user;
     });
+  }
+
+  public isRole(role: UserRole) {
+    return this.me.role === role;
   }
 
   public ngOnInit() {
