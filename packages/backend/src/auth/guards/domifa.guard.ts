@@ -4,10 +4,7 @@ import { ConfigService } from "../../config";
 
 @Injectable()
 export class DomifaGuard implements CanActivate {
-  constructor(
-    private readonly reflector: Reflector,
-    private readonly configService: ConfigService
-  ) { }
+  constructor(private readonly configService: ConfigService) {}
 
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
