@@ -1,12 +1,14 @@
 [
-    {
+  {
     "date": "2020-10-14",
     "description": "Nouvelle fonctionnalité de filtrage sur la liste des domiciliés",
     "content": [
       {
         "type": "bug",
-        "message": ["Correction affichage de l’adresse de réception sur l’attestation de domiciliation",
-"Correction date de dernier passage lors d’une validation de domiciliation"]
+        "message": [
+          "Correction affichage de l’adresse de réception sur l’attestation de domiciliation",
+          "Correction date de dernier passage lors d’une validation de domiciliation"
+        ]
       }
     ]
   },
