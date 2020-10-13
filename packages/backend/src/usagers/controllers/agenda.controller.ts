@@ -21,7 +21,7 @@ import * as ics from "ics";
 import { TipimailService } from "../../users/services/tipimail.service";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
-import { AccessGuard } from "../../auth/guards/access.guard";
+import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { RdvDto } from "../dto/rdv.dto";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
@@ -40,7 +40,7 @@ export class AgendaController {
   // AGENDA des rendez-vous
 
   @Post(":id")
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: User,

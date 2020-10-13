@@ -16,7 +16,7 @@ import { AuthGuard } from "@nestjs/passport";
 import * as fs from "fs";
 import * as path from "path";
 
-import { AccessGuard } from "../../auth/guards/access.guard";
+import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 
@@ -59,7 +59,7 @@ export class UsagersController {
     return this.usagersService.create(usagerDto, user);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Patch(":id")
   public async patchUsager(
@@ -76,7 +76,7 @@ export class UsagersController {
     return this.usagersService.patch(usagerDto, usager._id);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Post("entretien/:id")
   public setEntretien(
@@ -86,7 +86,7 @@ export class UsagersController {
     return this.usagersService.setEntretien(usager._id, entretien);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Get("next-step/:id/:etapeDemande")
   public async nextStep(
@@ -96,7 +96,7 @@ export class UsagersController {
     return this.usagersService.nextStep(usager._id, etapeDemande);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Get("stop-courrier/:id")
   public async stopCourrier(
@@ -114,7 +114,7 @@ export class UsagersController {
     return this.usagersService.patch(usager, usager._id);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Get("renouvellement/:id")
   public async renouvellement(
@@ -124,7 +124,7 @@ export class UsagersController {
     return this.usagersService.renouvellement(usager, user);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Post("decision/:id")
   public async setDecision(
@@ -193,7 +193,7 @@ export class UsagersController {
   }
 
   @UseGuards(ResponsableGuard)
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @Delete(":id")
   public async delete(
     @CurrentUser() user: User,
@@ -253,7 +253,7 @@ export class UsagersController {
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Post("transfert/:id")
   public async editTransfert(
@@ -283,7 +283,7 @@ export class UsagersController {
     return this.usagersService.patch(usager, usager._id);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Delete("renew/:id")
   public async deleteRenew(@CurrentUsager() usager: Usager) {
@@ -293,7 +293,7 @@ export class UsagersController {
     return this.usagersService.patch(usager, usager._id);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Delete("transfert/:id")
   public async deleteTransfert(
@@ -318,7 +318,7 @@ export class UsagersController {
     return this.usagersService.patch(usager, usager._id);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Post("procuration/:id")
   public async editProcuration(
@@ -346,7 +346,7 @@ export class UsagersController {
     return this.usagersService.patch(usager, usager._id);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @UseGuards(FacteurGuard)
   @Delete("procuration/:id")
   public async deleteProcuration(
@@ -371,7 +371,7 @@ export class UsagersController {
     return this.usagersService.patch(usager, usager._id);
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @Get("attestation/:id")
   public async getAttestation(
     @Res() res: any,
@@ -395,7 +395,7 @@ export class UsagersController {
       });
   }
 
-  @UseGuards(AccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @Get(":id")
   public async findOne(@CurrentUsager() usager: Usager) {
     return usager;
