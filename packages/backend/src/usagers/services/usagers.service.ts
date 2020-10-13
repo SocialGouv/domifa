@@ -280,7 +280,6 @@ export class UsagersService {
       .collation({
         locale: "fr",
         numericOrdering: true,
-
         maxVariable: "space",
       })
       .skip(page && page !== 0 ? 40 * page : 0)
