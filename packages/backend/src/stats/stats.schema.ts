@@ -4,6 +4,14 @@ export const StatsSchema = new mongoose.Schema(
   {
     capacite: { type: Number, default: 0 },
     codePostal: String,
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
     departement: String,
     ville: String,
     nom: String,
@@ -102,7 +110,5 @@ export const StatsSchema = new mongoose.Schema(
     structureId: Number,
     structureType: String,
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: { createdAt: false, updatedAt: false } }
 );
