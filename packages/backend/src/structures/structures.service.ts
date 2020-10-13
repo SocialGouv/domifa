@@ -18,6 +18,7 @@ import * as path from "path";
 import { getLogger } from "nodemailer/lib/shared";
 import { regions } from "./regions.labels";
 import { DepartementHelper } from "./departement-helper.service";
+import { appLogger } from "../util";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -45,7 +46,7 @@ export class StructuresService {
       );
       this.departementHelper.getRegionCodeFromDepartement(departement);
     } catch (err) {
-      Logger.warn(
+      appLogger.warn(
         `[StructuresService] error validating postal code "${structureDto.codePostal}"`
       );
       throw new HttpException("REGION_PROBLEM", HttpStatus.BAD_REQUEST);

@@ -1,4 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { appLogger } from "../util";
 import { DEPARTEMENTS_MAP } from "./DEPARTEMENTS_MAP.const";
 
 // NOTE: service dupliqué côté frontend
@@ -40,7 +41,7 @@ export class DepartementHelper {
       return region.regionCode;
     } else {
       const errorMessage = `Invalid departement ${departement} (no region found)`;
-      Logger.error(errorMessage);
+      appLogger.warn(errorMessage, { sentryBreadcrumb: true });
       throw new Error(errorMessage);
     }
   }
@@ -48,7 +49,7 @@ export class DepartementHelper {
   public getDepartementFromCodePostal(codePostal: string): string {
     if (codePostal.length !== 5) {
       const errorMessage = `Invalid postal code ${codePostal} (cause: ${codePostal.length} characters)`;
-      Logger.error(errorMessage);
+      appLogger.warn(errorMessage, { sentryBreadcrumb: true });
       throw new Error(errorMessage);
     }
     if (EXCEPTIONS_CODE_POSTAL[codePostal]) {
@@ -66,7 +67,7 @@ export class DepartementHelper {
         return "2B";
       }
       const errorMessage = `Invalid postal code ${codePostal} for "Corse"`;
-      Logger.error(errorMessage);
+      appLogger.warn(errorMessage, { sentryBreadcrumb: true });
       throw new Error(errorMessage);
     }
     // outre-mer: https://fr.wikipedia.org/wiki/Code_postal_en_France#France_d'outre-mer

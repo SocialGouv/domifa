@@ -14,7 +14,7 @@ export class UsagersService {
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
   ) {}
 
-  public async debug(): Promise<any> {
+  private async debug(): Promise<any> {
     const count = await this.usagerModel
       .countDocuments({
         ayantsDroits: { $exists: true, $not: { $size: 0 } },

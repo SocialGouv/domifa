@@ -6,6 +6,7 @@ import {
   MongooseHealthIndicator,
 } from "@nestjs/terminus";
 import { ConfigService } from "./config/config.service";
+import { appLogger } from "./util";
 
 const config = new ConfigService();
 
@@ -22,15 +23,13 @@ export class HealthController {
   healthCheck() {
     const frontUrl = config.get("DOMIFA_FRONTEND_URL");
 
-    // Logger.warn(`Healthcheck frontend configuration: "${frontUrl}"`);
-
     return this.health.check([
       async () => this.mongoose.pingCheck("mongo"),
       async () =>
         this.dns.pingCheck("frontend", frontUrl).catch((err) => {
-          Logger.error(
+          appLogger.warn(
             `[HealthController] frontend health check error for "${frontUrl}"`,
-            err
+            { sentryBreadcrumb: true }
           );
           throw err;
         }),

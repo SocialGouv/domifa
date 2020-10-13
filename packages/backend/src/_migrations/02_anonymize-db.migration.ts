@@ -1,4 +1,4 @@
-import { INestApplication, Logger } from "@nestjs/common";
+import { INestApplication } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Usager } from "../usagers/interfaces/usagers";
 import { ConfigService } from "../config/config.service";
@@ -6,20 +6,21 @@ import { Structure } from "../structures/structure-interface";
 import { User } from "../users/user.interface";
 import { processUtil } from "../util/processUtil.service";
 import { ObjectId } from "mongodb";
+import { appLogger } from "../util";
 
 const migrationName = __filename;
 
 async function up(app: INestApplication) {
-  Logger.debug(`[${migrationName}] UP`);
+  appLogger.debug(`[${migrationName}] UP`);
   const configService: ConfigService = app.get(ConfigService);
   const envId = configService.getEnvId();
   if (envId === "dev" || envId === "preprod") {
-    Logger.warn(`[${migrationName}] DB anonymisation ON (env:${envId})`);
+    appLogger.warn(`[${migrationName}] DB anonymisation ON (env:${envId})`);
     await _anonymizeStructures({ app });
     await _anonymizeUsers({ app });
     await _anonymizeUsagers({ app });
   } else {
-    Logger.warn(`[${migrationName}] DB anonymisation OFF (env:${envId})`);
+    appLogger.warn(`[${migrationName}] DB anonymisation OFF (env:${envId})`);
   }
 }
 
@@ -29,7 +30,7 @@ async function _anonymizeStructures({ app }: { app: INestApplication }) {
     .find({})
     .select("id email")
     .then(async (structures) => {
-      Logger.warn(
+      appLogger.warn(
         `[${migrationName}] ${structures.length} structures to update`
       );
       structures = structures.filter((x) => _isEmailToAnonymize(x.email));
@@ -48,7 +49,7 @@ async function _anonymizeStructure(
   structure: Structure,
   { app }: { app: INestApplication }
 ) {
-  // Logger.debug(`[${migrationName}] check structure "${structure._id}"`);
+  // appLogger.debug(`[${migrationName}] check structure "${structure._id}"`);
 
   const structureModel: Model<Structure> = app.get("STRUCTURE_MODEL");
 
@@ -57,7 +58,7 @@ async function _anonymizeStructure(
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
-    // Logger.debug(`[${migrationName}] nothing to update for "${structure._id}"`);
+    // appLogger.debug(`[${migrationName}] nothing to update for "${structure._id}"`);
 
     return structure;
   }
@@ -74,7 +75,7 @@ async function _anonymizeUsers({ app }: { app: INestApplication }) {
     .find({})
     .select("id email")
     .then((users) => {
-      Logger.warn(`[${migrationName}] ${users.length} users to update`);
+      appLogger.warn(`[${migrationName}] ${users.length} users to update`);
       users = users.filter((x) => _isEmailToAnonymize(x.email));
       if (users.length === 0) {
         return;
@@ -86,7 +87,7 @@ async function _anonymizeUsers({ app }: { app: INestApplication }) {
     });
 }
 async function _anonymizeUser(user: User, { app }: { app: INestApplication }) {
-  // Logger.debug(`[${migrationName}] check user "${user._id}"`);
+  // appLogger.debug(`[${migrationName}] check user "${user._id}"`);
 
   const userModel: Model<User> = app.get("USER_MODEL");
 
@@ -95,7 +96,7 @@ async function _anonymizeUser(user: User, { app }: { app: INestApplication }) {
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
-    // Logger.debug(`[${migrationName}] nothing to update for "${user._id}"`);
+    // appLogger.debug(`[${migrationName}] nothing to update for "${user._id}"`);
 
     return user;
   }
@@ -110,7 +111,7 @@ async function _anonymizeUsagers({ app }: { app: INestApplication }) {
     .find({})
     .select("id email")
     .then((usagers) => {
-      Logger.warn(`[${migrationName}] ${usagers.length} usagers to update`);
+      appLogger.warn(`[${migrationName}] ${usagers.length} usagers to update`);
       usagers = usagers.filter((x) => _isEmailToAnonymize(x.email));
       if (usagers.length === 0) {
         return;
@@ -125,7 +126,7 @@ async function _anonymizeUsager(
   usager: Usager,
   { app }: { app: INestApplication }
 ) {
-  // Logger.debug(`[${migrationName}] check usager "${usager._id}"`);
+  // appLogger.debug(`[${migrationName}] check usager "${usager._id}"`);
 
   const usagerModel: Model<Usager> = app.get("USAGER_MODEL");
 
@@ -134,7 +135,7 @@ async function _anonymizeUsager(
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {
-    // Logger.debug(`[${migrationName}] nothing to update for "${usager._id}"`);
+    // appLogger.debug(`[${migrationName}] nothing to update for "${usager._id}"`);
 
     return usager;
   }
@@ -145,7 +146,7 @@ async function _anonymizeUsager(
 }
 
 async function down(app: INestApplication) {
-  Logger.debug(`[${migrationName}] DOWN`);
+  appLogger.debug(`[${migrationName}] DOWN`);
   // await of(undefined).toPromise();
 }
 

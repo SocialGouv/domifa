@@ -1,18 +1,19 @@
-import { INestApplication, Logger } from "@nestjs/common";
+import { INestApplication } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Structure } from "../structures/structure-interface";
 import { processUtil } from "../util/processUtil.service";
 import { DepartementHelper } from "../structures/departement-helper.service";
+import { appLogger } from "../util";
 
 const migrationName = __filename;
 
 async function up(app: INestApplication) {
-  Logger.debug(`[${migrationName}] UP`);
+  appLogger.debug(`[${migrationName}] UP`);
   await updateStructures({ app });
 }
 
 async function down(app: INestApplication) {
-  Logger.debug(`[${migrationName}] DOWN`);
+  appLogger.debug(`[${migrationName}] DOWN`);
   // await of(undefined).toPromise();
 }
 
@@ -32,7 +33,7 @@ async function updateStructures({
       // $or: [{ region: { $exists: false } }, { region: "ERREUR_REGION" }],
     })
     .then((structures) => {
-      Logger.warn(
+      appLogger.warn(
         `[${migrationName}] ${structures.length} structures to update`
       );
       if (structures.length === 0) {
@@ -48,8 +49,6 @@ async function updateStructure(
   structure: Structure,
   { app }: { app: INestApplication }
 ) {
-  // Logger.debug(`[${migrationName}] check structure "${structure._id}"`);
-
   const structureModel: Model<Structure> = app.get("STRUCTURE_MODEL");
   const departementHelper: DepartementHelper = app.get(DepartementHelper);
 
@@ -59,8 +58,6 @@ async function updateStructure(
   });
 
   if (Object.keys(attributesToUpdate).length === 0) {
-    // Logger.debug(`[${migrationName}] nothing to update for "${structure._id}"`);
-
     return structure;
   }
 
@@ -85,17 +82,17 @@ function rebuildRegionAndDepartement({
     structure.codePostal
   );
   if (!departement) {
-    Logger.error(
+    appLogger.error(
       `[${migrationName}] departement not found for postal code "${structure.codePostal}" for structure "${structure._id}"`
     );
   } else {
     if (departement !== structure.departement) {
       if (structure.departement && structure.departement.trim().length !== 0) {
-        Logger.warn(
+        appLogger.warn(
           `[${migrationName}] update departement from "${structure.departement}" to "${departement}" for structure "${structure._id}" with postal code "${structure.codePostal}"`
         );
       } else {
-        Logger.warn(
+        appLogger.warn(
           `[${migrationName}] set departement to "${departement}" for structure "${structure._id}" with postal code "${structure.codePostal}"`
         );
       }
@@ -104,7 +101,7 @@ function rebuildRegionAndDepartement({
     const region = departementHelper.getRegionCodeFromDepartement(departement);
 
     if (!region) {
-      Logger.error(
+      appLogger.error(
         `[${migrationName}] region not found for departement "${departement}" for structure "${structure._id}"`
       );
     } else {
@@ -114,11 +111,11 @@ function rebuildRegionAndDepartement({
           structure.region !== "ERREUR_REGION" &&
           structure.region.trim().length !== 0
         ) {
-          Logger.warn(
+          appLogger.warn(
             `[${migrationName}] update region from "${structure.region}" to "${region}" for structure "${structure._id}" with departement "${departement}" and postal code "${structure.codePostal}"`
           );
         } else {
-          Logger.warn(
+          appLogger.warn(
             `[${migrationName}] set region from to "${region}" for structure "${structure._id}" with departement "${departement}" and postal code "${structure.codePostal}"`
           );
         }

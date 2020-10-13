@@ -27,6 +27,7 @@ import {
 } from "../usagers.labels";
 
 import moment = require("moment");
+import { appLogger } from "../../util";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -144,7 +145,7 @@ export class StatsController {
   }
 
   private exportData(stats: Stats, statsDto?: StatsDto) {
-    Logger.log(
+    appLogger.debug(
       `[StatsController] exportData (${JSON.stringify(stats, undefined, 2)})`
     );
 
