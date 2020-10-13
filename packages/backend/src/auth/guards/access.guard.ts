@@ -14,6 +14,9 @@ export class AccessGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
+    if (r.params.id === undefined || r.user.structureId === undefined) {
+      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
+    }
     const usager = await this.usagersService.findById(
       r.params.id,
       r.user.structureId

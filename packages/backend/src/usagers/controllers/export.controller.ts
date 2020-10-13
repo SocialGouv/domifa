@@ -12,6 +12,7 @@ import * as labels from "../../stats/usagers.labels";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+import { UserRole } from "../../users/user-role.type";
 
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(ResponsableGuard)
@@ -45,7 +46,7 @@ export class ExportController {
   @Get("")
   public async export(
     @Param("id") id: number,
-    @Param("role") role: string,
+    @Param("role") role: UserRole,
     @CurrentUser() user: User,
     @Res() res: any
   ) {

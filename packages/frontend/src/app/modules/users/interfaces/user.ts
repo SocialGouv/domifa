@@ -1,4 +1,5 @@
 import { Structure } from "../../structures/structure.interface";
+import { UserRole } from "./user-role.type";
 
 export class User {
   public email: string;
@@ -10,7 +11,7 @@ export class User {
   public phone: string;
   public prenom: string;
   public passwordLastUpdate: Date;
-  public role: string;
+  public role: UserRole;
   public structure: Structure;
   public structureId: number;
   public token: string;

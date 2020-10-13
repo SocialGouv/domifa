@@ -33,6 +33,7 @@ import {
   ApiTags,
   ApiSecurity,
 } from "@nestjs/swagger";
+import { UserRole } from "./user-role.type";
 
 @Controller("users")
 @ApiTags("users")
@@ -90,7 +91,7 @@ export class UsersController {
   @Get("update-role/:id/:role")
   public async updateRole(
     @Param("id") id: number,
-    @Param("role") role: string,
+    @Param("role") role: UserRole,
     @CurrentUser() user: User
   ) {
     if (
