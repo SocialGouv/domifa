@@ -66,7 +66,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
   @Get("domifa")
   public authDomifa(@Response() res: any, @CurrentUser() user: User) {
     if (
@@ -88,7 +88,7 @@ export class AuthController {
     });
   }
 
-  @ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"))
   @Get("me")
   public me(@Response() res: any, @Req() request: any) {

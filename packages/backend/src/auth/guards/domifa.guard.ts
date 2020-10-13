@@ -17,11 +17,18 @@ export class DomifaGuard implements CanActivate {
     const user = request.user;
     const roles = this.reflector.get<string[]>("roles", context.getHandler());
     if (!roles) {
+      appLogger.warn(`[DomifaGuard] roles is not defined!`, {
+        sentryBreadcrumb: true,
+      });
       return true;
     }
 
     const isValidRole =
+<<<<<<< HEAD
       !!user &&
+=======
+      user &&
+>>>>>>> feat(Sécurité): revue de sécurité sur les endpoint API #855
       user.role === "admin" &&
       (user.structureId === 1 ||
         (this.configService.getEnvId() === "preprod" &&
@@ -35,7 +42,10 @@ export class DomifaGuard implements CanActivate {
       );
       appLogger.error(`[DomifaGuard] invalid role`);
     }
+<<<<<<< HEAD
     console.log("xxx DomifaGuard isValidRole:", isValidRole);
+=======
+>>>>>>> feat(Sécurité): revue de sécurité sur les endpoint API #855
     return isValidRole;
   }
 }

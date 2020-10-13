@@ -56,7 +56,7 @@ export class StatsController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(FacteurGuard)
-  @ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
   @Get("today")
   public async today(@CurrentUser() user: User) {
     return this.statsService.getToday(user.structureId);
@@ -64,7 +64,7 @@ export class StatsController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(FacteurGuard)
-  @ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
   @Get("id/:id")
   public async getStatById(@Param("id") id: string, @CurrentUser() user: User) {
     return this.statsService.getStatById(id, user.structureId);
@@ -72,7 +72,7 @@ export class StatsController {
 
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(FacteurGuard)
-  @ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
   @Get("export/:id")
   public async export(
     @Param("id") id: string,
@@ -86,7 +86,7 @@ export class StatsController {
   // Récupérer les stats disponibles
   @UseGuards(AuthGuard("jwt"))
   @UseGuards(FacteurGuard)
-  @ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
   @Get("available")
   public async getAvailableStats(@CurrentUser() user: User) {
     return this.statsService.getAvailableStats(user.structureId);
@@ -107,7 +107,7 @@ export class StatsController {
 
   @UseGuards(FacteurGuard)
   @UseGuards(AuthGuard("jwt"))
-  @ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
   @Post("")
   public async getByDate(
     @CurrentUser() user: User,

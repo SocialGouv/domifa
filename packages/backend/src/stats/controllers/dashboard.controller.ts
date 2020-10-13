@@ -9,7 +9,7 @@ import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 @UseGuards(DomifaGuard)
 @Controller("dashboard")
 @ApiTags("dashboard")
-@ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
 export class DashboardController {
   constructor(
     private readonly dashboardService: DashboardService,

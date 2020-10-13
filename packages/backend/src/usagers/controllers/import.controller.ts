@@ -38,7 +38,7 @@ type AOA = any[][];
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(FacteurGuard)
 @ApiTags("import")
-@ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
 @Controller("import")
 export class ImportController {
   public errorsId: string[];

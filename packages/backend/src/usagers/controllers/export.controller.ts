@@ -17,7 +17,7 @@ import { UserRole } from "../../users/user-role.type";
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(ResponsableGuard)
 @ApiTags("export")
-@ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
 @Controller("export")
 export class ExportController {
   // Données des usagers + ayant-droit

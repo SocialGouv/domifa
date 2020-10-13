@@ -45,7 +45,7 @@ import {
   @UseGuards(UsagerAccessGuard)
 @UseGuards(FacteurGuard)
 @ApiTags("docs")
-@ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
 @Controller("docs")
 export class DocsController {
   constructor(

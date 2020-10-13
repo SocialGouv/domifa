@@ -28,7 +28,7 @@ import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 @UseGuards(AuthGuard("jwt"))
 @UseGuards(FacteurGuard)
 @ApiTags("agenda")
-@ApiBearerAuth("Bearer")
+  @ApiBearerAuth()
 @Controller("agenda")
 export class AgendaController {
   constructor(
