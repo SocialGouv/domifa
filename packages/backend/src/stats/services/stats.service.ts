@@ -162,7 +162,8 @@ export class StatsService {
       });
       if (!startStats) {
         appLogger.warn(
-          `[StatsService.getStats] no stats found for getFirstStat(${structureId}})`, { sentryBreadcrumb: true }
+          `[StatsService.getStats] no stats found for getFirstStat(${structureId}})`,
+          { sentryBreadcrumb: true }
         );
         throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
       }
@@ -273,6 +274,7 @@ export class StatsService {
         colisIn: B.questions.Q_20.colisIn - A.questions.Q_20.colisIn,
         colisOut: B.questions.Q_20.colisOut - A.questions.Q_20.colisOut,
         courrierIn: B.questions.Q_20.courrierIn - A.questions.Q_20.courrierIn,
+        npai: B.questions.Q_20.npai - A.questions.Q_20.npai,
         courrierOut:
           B.questions.Q_20.courrierOut - A.questions.Q_20.courrierOut,
         recommandeIn:

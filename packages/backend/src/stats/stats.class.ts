@@ -93,6 +93,7 @@ export class Stats {
       recommandeIn: number;
       recommandeOut: number;
       visite: number;
+      npai: number;
     };
 
     /* AUTRES QUESTIONS DE L'ENTRETIEN */
