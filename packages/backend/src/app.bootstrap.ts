@@ -65,7 +65,11 @@ function configureSwagger(config: ConfigService, app) {
       .setVersion("1.0")
       // .addTag("xxx")
       // NOT: possibilité de définir différents token sur l'interface:
-      .addBearerAuth({ in: "header", type: "http" })
+      .addBearerAuth({
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      })
       // .addBearerAuth({ in: "header", type: "http" }, "responsable")
       // .addBearerAuth({ in: "header", type: "http" }, "responsable")
       .build();

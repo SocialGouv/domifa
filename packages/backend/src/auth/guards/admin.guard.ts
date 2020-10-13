@@ -8,10 +8,6 @@ export class AdminGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) { }
 
   public canActivate(context: ExecutionContext): boolean {
-    const roles = this.reflector.get<UserRole[]>("roles", context.getHandler());
-    if (!roles) {
-      return true;
-    }
     const request = context.switchToHttp().getRequest();
     const user = request.user;
     const isValidRole = user && user.role === "admin";
