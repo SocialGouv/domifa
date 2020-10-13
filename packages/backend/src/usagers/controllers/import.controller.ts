@@ -35,10 +35,9 @@ export const regexp = {
 
 type AOA = any[][];
 
-@UseGuards(AuthGuard("jwt"))
-@UseGuards(FacteurGuard)
+@UseGuards(AuthGuard("jwt"), FacteurGuard)
 @ApiTags("import")
-  @ApiBearerAuth()
+@ApiBearerAuth()
 @Controller("import")
 export class ImportController {
   public errorsId: string[];

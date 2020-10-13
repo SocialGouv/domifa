@@ -13,7 +13,7 @@ export class AdminGuard implements CanActivate {
     const isValidRole = user && user.role === "admin";
     if (user && !isValidRole) {
       appLogger.warn(
-        `[AdminGuard] invalid role "${user.role}" for user "${user._id}"`,
+        `[AdminGuard] invalid role "${user.role}" for user "${user._id}" with role "${user.role}"`,
         {
           sentryBreadcrumb: true,
         }

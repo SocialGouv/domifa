@@ -15,7 +15,7 @@ export class ResponsableGuard implements CanActivate {
       user && (user.role === "admin" || user.role === "responsable");
     if (user && !isValidRole) {
       appLogger.warn(
-        `[ResponsableGuard] invalid role "${user.role}" for user "${user._id}"`,
+        `[ResponsableGuard] invalid role "${user.role}" for user "${user._id}" with role "${user.role}"`,
         {
           sentryBreadcrumb: true,
         }

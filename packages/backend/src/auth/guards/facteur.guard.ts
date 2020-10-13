@@ -18,7 +18,7 @@ export class FacteurGuard implements CanActivate {
         user.role === "simple");
     if (user && !isValidRole) {
       appLogger.warn(
-        `[FacteurGuard] invalid role "${user.role}" for user "${user._id}"`,
+        `[FacteurGuard] invalid role "${user.role}" for user "${user._id}" with role "${user.role}"`,
         {
           sentryBreadcrumb: true,
         }

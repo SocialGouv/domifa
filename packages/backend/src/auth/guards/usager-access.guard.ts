@@ -29,7 +29,7 @@ export class UsagerAccessGuard implements CanActivate {
 
     if (!usager || usager === null) {
       appLogger.warn(
-        `[UsagerAccessGuard] usager not found for usagerId "${usagerId}" or structureId "${structureId}" for user "${r.user._id}"`,
+        `[UsagerAccessGuard] usager not found for usagerId "${usagerId}" or structureId "${structureId}" for user "${r.user._id}" with role "${r.user.role}"`,
         { sentryBreadcrumb: true }
       );
       appLogger.error(`[UsagerAccessGuard] usager not found`);

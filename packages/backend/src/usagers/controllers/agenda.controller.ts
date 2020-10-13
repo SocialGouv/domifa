@@ -25,10 +25,8 @@ import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { RdvDto } from "../dto/rdv.dto";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
-@UseGuards(AuthGuard("jwt"))
-@UseGuards(FacteurGuard)
 @ApiTags("agenda")
-  @ApiBearerAuth()
+@ApiBearerAuth()
 @Controller("agenda")
 export class AgendaController {
   constructor(
@@ -40,7 +38,7 @@ export class AgendaController {
   // AGENDA des rendez-vous
 
   @Post(":id")
-  @UseGuards(UsagerAccessGuard)
+  @UseGuards(AuthGuard("jwt"), FacteurGuard, UsagerAccessGuard)
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: User,
@@ -131,6 +129,7 @@ export class AgendaController {
   }
 
   @Get("users")
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
   public getUsersMeeting(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
@@ -140,6 +139,7 @@ export class AgendaController {
   }
 
   @Get("")
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
   public async getAll(@CurrentUser() user: User) {
     return this.usagersService.agenda(user);
   }

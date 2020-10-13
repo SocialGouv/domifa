@@ -5,11 +5,10 @@ import { DashboardService } from "../services/dashboard.service";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
-@UseGuards(AuthGuard("jwt"))
-@UseGuards(DomifaGuard)
+@UseGuards(AuthGuard("jwt"), DomifaGuard)
 @Controller("dashboard")
 @ApiTags("dashboard")
-  @ApiBearerAuth()
+@ApiBearerAuth()
 export class DashboardController {
   constructor(
     private readonly dashboardService: DashboardService,

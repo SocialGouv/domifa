@@ -14,8 +14,7 @@ import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import { UserRole } from "../../users/user-role.type";
 
-@UseGuards(AuthGuard("jwt"))
-@UseGuards(ResponsableGuard)
+@UseGuards(AuthGuard("jwt"), ResponsableGuard)
 @ApiTags("export")
   @ApiBearerAuth()
 @Controller("export")

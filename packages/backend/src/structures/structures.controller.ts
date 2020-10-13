@@ -102,8 +102,7 @@ export class StructuresController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(AdminGuard)
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   @Patch()
   public async patchStructure(
     @Body() structureDto: StructureEditDto,
@@ -118,9 +117,8 @@ export class StructuresController {
     return user.structure;
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiBearerAuth()
-  @UseGuards(AdminGuard)
   @Get("hard-reset")
   public async hardReset(@Response() res: any, @CurrentUser() user: User) {
     const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -147,9 +145,8 @@ export class StructuresController {
     }
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiBearerAuth()
-  @UseGuards(AdminGuard)
   @Get("hard-reset-confirm/:token")
   public async hardResetConfirm(
     @Response() res: any,
@@ -187,9 +184,8 @@ export class StructuresController {
     return this.structureService.findOneBasic({ id });
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), DomifaGuard)
   @ApiBearerAuth()
-  @UseGuards(DomifaGuard)
   @Delete("confirm/:id/:token/:nom")
   public async deleteOne(
     @Param("id") id: string,
@@ -226,9 +222,8 @@ export class StructuresController {
     }
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), DomifaGuard)
   @ApiBearerAuth()
-  @UseGuards(DomifaGuard)
   @Delete("check/:id/:token")
   public async checkDelete(
     @Param("id") id: string,
@@ -247,9 +242,8 @@ export class StructuresController {
     return structure;
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), DomifaGuard)
   @ApiBearerAuth()
-  @UseGuards(DomifaGuard)
   @Delete(":id")
   public async deleteStructure(@Response() res: any, @Param("id") id: string) {
     const structure = await this.structureService.generateDeleteToken(id);

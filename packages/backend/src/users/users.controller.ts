@@ -59,8 +59,7 @@ export class UsersController {
   @Get("to-confirm")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
-  @UseGuards(AdminGuard)
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   public getUsersToConfirm(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
@@ -68,8 +67,7 @@ export class UsersController {
     });
   }
 
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(AdminGuard)
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Confirmer une création de compte" })
   @Get("confirm/:id")
@@ -84,8 +82,7 @@ export class UsersController {
     return confirmerUser;
   }
 
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(AdminGuard)
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Editer le rôle d'un utilisateur" })
   @Get("update-role/:id/:role")
@@ -118,8 +115,7 @@ export class UsersController {
     });
   }
 
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(AdminGuard)
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Supprimer un utilisateur" })
   @Delete(":id")
@@ -300,8 +296,7 @@ export class UsersController {
 
   // Ajout d'utilisateur par un admin
   @Post("register")
-  @UseGuards(AdminGuard)
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
     @CurrentUser() user: User,
