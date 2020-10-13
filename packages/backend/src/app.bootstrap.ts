@@ -1,14 +1,14 @@
-import { Logger, ValidationPipe } from "@nestjs/common";
+import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
   DocumentBuilder,
   SwaggerCustomOptions,
   SwaggerModule,
 } from "@nestjs/swagger";
+import * as Sentry from "@sentry/node";
 import * as compression from "compression";
 import { config as loadConfig } from "dotenv";
 import { AppModule } from "./app.module";
-import * as Sentry from "@sentry/node";
 import { ConfigService } from "./config/config.service";
 import { appLogger } from "./util";
 
@@ -64,10 +64,14 @@ function configureSwagger(config: ConfigService, app) {
       .setDescription("API description")
       .setVersion("1.0")
       // .addTag("xxx")
+      // NOT: possibilité de définir différents token sur l'interface:
       .addBearerAuth({
         type: "http",
-        scheme: "basic",
+        scheme: "bearer",
+        bearerFormat: "JWT",
       })
+      // .addBearerAuth({ in: "header", type: "http" }, "responsable")
+      // .addBearerAuth({ in: "header", type: "http" }, "responsable")
       .build();
 
     const document = SwaggerModule.createDocument(app, options);

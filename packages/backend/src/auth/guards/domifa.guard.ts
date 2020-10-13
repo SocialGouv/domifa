@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
+import { UserRole } from "../../users/user-role.type";
 import { ConfigService } from "../../config";
 import { appLogger } from "../../util";
 
@@ -14,10 +15,6 @@ export class DomifaGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     const user = request.user;
-    const roles = this.reflector.get<string[]>("roles", context.getHandler());
-    if (!roles) {
-      return true;
-    }
 
     const isValidRole =
       !!user &&
@@ -27,14 +24,13 @@ export class DomifaGuard implements CanActivate {
           user.structureId === 205));
     if (user && !isValidRole) {
       appLogger.warn(
-        `[DomifaGuard] invalid role "${user.role}" or structureId "${user.structureId}" for user "${user._id}"`,
+        `[DomifaGuard] invalid role "${user.role}" or structureId "${user.structureId}" for user "${user._id}" with role "${user.role}"`,
         {
           sentryBreadcrumb: true,
         }
       );
       appLogger.error(`[DomifaGuard] invalid role`);
     }
-    console.log("xxx DomifaGuard isValidRole:", isValidRole);
     return isValidRole;
   }
 }

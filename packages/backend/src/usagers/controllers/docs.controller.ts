@@ -20,7 +20,7 @@ import * as path from "path";
 import { diskStorage } from "multer";
 import { FileInterceptor } from "@nestjs/platform-express";
 
-import { AccessGuard } from "../../auth/guards/access.guard";
+import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
@@ -41,11 +41,9 @@ import {
   ApiBearerAuth,
 } from "@nestjs/swagger";
 
-@UseGuards(AuthGuard("jwt"))
-@UseGuards(AccessGuard)
-@UseGuards(FacteurGuard)
+@UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
 @ApiTags("docs")
-@ApiBearerAuth("Bearer")
+@ApiBearerAuth()
 @Controller("docs")
 export class DocsController {
   constructor(

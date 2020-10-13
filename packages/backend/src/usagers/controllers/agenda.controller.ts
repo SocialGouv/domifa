@@ -21,14 +21,12 @@ import * as ics from "ics";
 import { TipimailService } from "../../users/services/tipimail.service";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
-import { AccessGuard } from "../../auth/guards/access.guard";
+import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { RdvDto } from "../dto/rdv.dto";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
-@UseGuards(AuthGuard("jwt"))
-@UseGuards(FacteurGuard)
 @ApiTags("agenda")
-@ApiBearerAuth("Bearer")
+@ApiBearerAuth()
 @Controller("agenda")
 export class AgendaController {
   constructor(
@@ -40,7 +38,7 @@ export class AgendaController {
   // AGENDA des rendez-vous
 
   @Post(":id")
-  @UseGuards(AccessGuard)
+  @UseGuards(AuthGuard("jwt"), FacteurGuard, UsagerAccessGuard)
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: User,
@@ -131,6 +129,7 @@ export class AgendaController {
   }
 
   @Get("users")
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
   public getUsersMeeting(@CurrentUser() user: User): Promise<User[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
@@ -140,6 +139,7 @@ export class AgendaController {
   }
 
   @Get("")
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
   public async getAll(@CurrentUser() user: User) {
     return this.usagersService.agenda(user);
   }

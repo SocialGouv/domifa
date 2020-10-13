@@ -54,25 +54,22 @@ export class StatsController {
     this.motifsRadiation = motifsRadiation;
   }
 
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(FacteurGuard)
-  @ApiBearerAuth("Bearer")
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @ApiBearerAuth()
   @Get("today")
   public async today(@CurrentUser() user: User) {
     return this.statsService.getToday(user.structureId);
   }
 
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(FacteurGuard)
-  @ApiBearerAuth("Bearer")
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @ApiBearerAuth()
   @Get("id/:id")
   public async getStatById(@Param("id") id: string, @CurrentUser() user: User) {
     return this.statsService.getStatById(id, user.structureId);
   }
 
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(FacteurGuard)
-  @ApiBearerAuth("Bearer")
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @ApiBearerAuth()
   @Get("export/:id")
   public async export(
     @Param("id") id: string,
@@ -84,9 +81,8 @@ export class StatsController {
   }
 
   // Récupérer les stats disponibles
-  @UseGuards(AuthGuard("jwt"))
-  @UseGuards(FacteurGuard)
-  @ApiBearerAuth("Bearer")
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @ApiBearerAuth()
   @Get("available")
   public async getAvailableStats(@CurrentUser() user: User) {
     return this.statsService.getAvailableStats(user.structureId);
@@ -105,9 +101,8 @@ export class StatsController {
     return statsHome;
   }
 
-  @UseGuards(FacteurGuard)
-  @UseGuards(AuthGuard("jwt"))
-  @ApiBearerAuth("Bearer")
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @ApiBearerAuth()
   @Post("")
   public async getByDate(
     @CurrentUser() user: User,
@@ -116,8 +111,7 @@ export class StatsController {
     return this.parsePostData(user, statsDto);
   }
 
-  @UseGuards(FacteurGuard)
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @Post("export")
   public async exportByDate(
     @CurrentUser() user: User,

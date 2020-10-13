@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../interfaces/user";
 import { Usager } from "../../usagers/interfaces/usager";
+import { UserRole } from "../interfaces/user-role.type";
 
 @Injectable({
   providedIn: "root",
@@ -83,7 +84,7 @@ export class UsersService {
     );
   }
 
-  public updateRole(id: number, role: string) {
+  public updateRole(id: number, role: UserRole) {
     return this.http.get(`${this.endPoint}/update-role/${id}/${role}`).pipe(
       map((response) => {
         return new User(response);

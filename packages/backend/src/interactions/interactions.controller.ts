@@ -10,7 +10,7 @@ import {
   HttpStatus,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { AccessGuard } from "../auth/guards/access.guard";
+import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
 
@@ -21,7 +21,7 @@ import { InteractionsService } from "./interactions.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { ApiTags } from "@nestjs/swagger";
 
-@UseGuards(AuthGuard("jwt"))
+@UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
 @ApiTags("interactions")
 @Controller("interactions")
 export class InteractionsController {
@@ -30,7 +30,6 @@ export class InteractionsController {
     private readonly usagersService: UsagersService
   ) {}
 
-  @UseGuards(AccessGuard)
   @Post(":id")
   public postInteraction(
     @Body() interactionDto: InteractionDto,
@@ -40,7 +39,6 @@ export class InteractionsController {
     return this.interactionService.create(usager, user, interactionDto);
   }
 
-  @UseGuards(AccessGuard)
   @Get(":id/:limit")
   public getInteractions(
     @Param("limit") limit: number,
@@ -50,7 +48,6 @@ export class InteractionsController {
     return this.interactionService.find(usager.id, limit, user);
   }
 
-  @UseGuards(AccessGuard)
   @Delete(":id/:interactionId")
   public async deleteInteraction(
     @Param("interactionId") interactionId: string,
