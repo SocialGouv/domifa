@@ -2,7 +2,9 @@
 
 ## Préparation et tests en PRE-PROD
 
-Créer une branche et un tag `release candidate` correspondant à la milestone à livrer:
+Mettre à jour la version de la release dans le fichier [backend/package.json](../packages/backend/package.json)
+
+Créer une branche et un tag `release candidate` correspondant à la release à livrer:
 
 ```bash
 git checkout -b 1.18.x
@@ -31,7 +33,7 @@ git push --tags
 
 ## Mise en PROD
 
-Créer et merger la "Release notes" à partir de la branche de la milestone à livrer: <https://github.com/SocialGouv/domifa/blob/1.18.x/packages/frontend/src/assets/files/news.json>
+Créer et merger la "Release notes" à partir de la branche de la release à livrer: <https://github.com/SocialGouv/domifa/blob/1.18.x/packages/frontend/src/assets/files/news.json>
 
 Ensuite, vérifier et mettre à jour si besoin `/home/factory/domifa/.env`.
 
