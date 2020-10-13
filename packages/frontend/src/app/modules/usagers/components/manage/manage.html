@@ -229,17 +229,15 @@
         <th colspan="1" class="text-right">
           <div
             ngbDropdown
-            id="sortMenu"
+            id="dropdownBasic1"
             display="dynamic"
             placement="bottom-right"
             class="d-inline-block"
-            #sortMenu="ngbDropdown"
           >
             <button
               class="btn btn-outline-dark"
               id="dropdownManual"
-              ngbDropdownAnchor
-              (focus)="sortMenu.open()"
+              ngbDropdownToggle
             >
               Trier par {{ sortLabels[filters.sortKey] }}
               <fa-icon

@@ -203,6 +203,7 @@ export class StatsService {
       appLogger.error(`[StatsService.buildStatsDiff] A is not defined`);
       return B;
     }
+
     const questions = {
       Q_10: B.questions.Q_10 - A.questions.Q_10,
 
