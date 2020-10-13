@@ -1,15 +1,10 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger,
-} from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model, MongooseFilterQuery } from "mongoose";
 
 import { Stats } from "../stats.class";
 import { StatsDocument } from "../stats.interface";
 import moment = require("moment");
+import { appLogger } from "../../util";
 
 @Injectable()
 export class StatsService {
@@ -159,15 +154,15 @@ export class StatsService {
     });
     if (!startStats) {
       // not stats found for start date: use first date
-      Logger.warn(
+      appLogger.warn(
         `[StatsService.getStats] no stats found for getLastStat(${structureId}, ${startDate.toISOString()})`
       );
       startStats = await this.getFirstStat(structureId, {
         allowEmptyResult: true,
       });
       if (!startStats) {
-        Logger.error(
-          `[StatsService.getStats] no stats found for getFirstStat(${structureId}})`
+        appLogger.warn(
+          `[StatsService.getStats] no stats found for getFirstStat(${structureId}})`, { sentryBreadcrumb: true }
         );
         throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
       }
@@ -201,11 +196,11 @@ export class StatsService {
 
   private buildStatsDiff(A: Stats, B: Stats) {
     if (!B) {
-      Logger.error(`[StatsService.buildStatsDiff] B is not defined`);
+      appLogger.error(`[StatsService.buildStatsDiff] B is not defined`);
       return A;
     }
     if (!A) {
-      Logger.error(`[StatsService.buildStatsDiff] A is not defined`);
+      appLogger.error(`[StatsService.buildStatsDiff] A is not defined`);
       return B;
     }
     const questions = {

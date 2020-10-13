@@ -3,6 +3,7 @@ import { ConfigService } from "../../config/config.service";
 import { Structure } from "../../structures/structure-interface";
 import { User } from "../user.interface";
 import * as mailjet from "node-mailjet";
+import { appLogger } from "../../util";
 
 @Injectable()
 export class MailJetService {
@@ -21,7 +22,7 @@ export class MailJetService {
   }
 
   public newStructure(structure: Structure, user: User) {
-    Logger.warn(
+    appLogger.warn(
       `[MailJetService] send admin mail to "${this.domifaAdminMail}" for new structure "${structure.nom}".`
     );
 
@@ -84,11 +85,13 @@ export class MailJetService {
         ],
       })
       .then((res) => {
-        // Logger.warn(`[MailJetService] mail response: ${JSON.stringify(res)}`);
+        // appLogger.warn(`[MailJetService] mail response: ${JSON.stringify(res)}`);
         return res;
       })
       .catch((err) => {
-        Logger.error(`[MailJetService] mail response error:`, err);
+        appLogger.warn(`[MailJetService] mail response error`, {
+          sentryBreadcrumb: true,
+        });
         throw err;
       });
   }

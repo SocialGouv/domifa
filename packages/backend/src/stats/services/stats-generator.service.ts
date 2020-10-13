@@ -1,10 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger,
-} from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { Structure } from "../../structures/structure-interface";
 
@@ -17,6 +11,7 @@ import { Usager } from "../../usagers/interfaces/usagers";
 
 import { Stats } from "../stats.class";
 import { StatsDocument } from "../stats.interface";
+import { appLogger } from "../../util";
 
 @Injectable()
 export class StatsGeneratorService {
@@ -56,7 +51,7 @@ export class StatsGeneratorService {
       .endOf("day")
       .toDate();
 
-    Logger.log("CRON : " + new Date(), "debug");
+    appLogger.debug("CRON : " + new Date(), "debug");
     const structure: Structure = await this.structureService.findOneBasic({
       $or: [
         {
@@ -76,7 +71,7 @@ export class StatsGeneratorService {
     });
 
     if (!structure || structure === null) {
-      Logger.log("Export déjà en place : " + new Date(), "debug");
+      appLogger.debug("Export déjà en place : " + new Date(), "debug");
       return;
     }
 
@@ -492,10 +487,10 @@ export class StatsGeneratorService {
   }
 
   public async getAvailableStats(structureId: number): Promise<Stats[]> {
-    Logger.log("------------------- ");
-    Logger.log(this.today.toDateString());
-    Logger.log(this.demain.toDateString());
-    Logger.log("------------------- ");
+    appLogger.debug("------------------- ");
+    appLogger.debug(this.today.toDateString());
+    appLogger.debug(this.demain.toDateString());
+    appLogger.debug("------------------- ");
     const stats = await this.statsModel
       .find({
         date: {
@@ -764,9 +759,9 @@ export class StatsGeneratorService {
     return this.structureModel
       .updateMany({}, { $set: { lastExport: undefined } })
       .exec((retour: any) => {
-        Logger.log("Nettoyage des date de dernier export  : ");
-        Logger.log(JSON.stringify(retour));
-        Logger.log("");
+        appLogger.debug("Nettoyage des date de dernier export  : ");
+        appLogger.debug(JSON.stringify(retour));
+        appLogger.debug("");
 
         this.statsModel
           .deleteMany({
@@ -776,14 +771,14 @@ export class StatsGeneratorService {
             },
           })
           .exec((retour2: any) => {
-            Logger.log("- Suppression du dernier Export  ");
-            Logger.log(JSON.stringify(retour2));
-            Logger.log("");
-            Logger.log("-- Appel du Cron dans 5 sec");
-            Logger.log("");
+            appLogger.debug("- Suppression du dernier Export  ");
+            appLogger.debug(JSON.stringify(retour2));
+            appLogger.debug("");
+            appLogger.debug("-- Appel du Cron dans 5 sec");
+            appLogger.debug("");
 
             setTimeout(() => {
-              Logger.log(" ---> DEMARRAGE du Cron");
+              appLogger.debug(" ---> DEMARRAGE du Cron");
               this.handleCron();
               return true;
             }, 5000);

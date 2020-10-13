@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import * as dotenv from "dotenv";
+import { appLogger } from "../util";
 import { DomifaEnvId, DOMIFA_ENV_IDS } from "./model";
 
 export type DomifaConfigKey =
@@ -52,7 +53,7 @@ export class ConfigService {
     // check env id
     const envId = this.getEnvId();
     if (!DOMIFA_ENV_IDS.includes(envId)) {
-      Logger.error(
+      appLogger.error(
         `[ConfigService] invalid env id "${envId}" (allowed: ${DOMIFA_ENV_IDS.map(
           (x) => `"${x}"`
         ).join(",")})`

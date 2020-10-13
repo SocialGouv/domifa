@@ -1,7 +1,8 @@
 import * as Umzug from "umzug";
 import { MongoClient } from "mongodb";
-import { INestApplication, Logger } from "@nestjs/common";
+import { INestApplication } from "@nestjs/common";
 import { buildMongoConnectionStringFromEnv } from "../database/database.providers";
+import { appLogger } from "../util";
 
 export const umzugMigrationManager = {
   migrateUp,
@@ -9,7 +10,7 @@ export const umzugMigrationManager = {
 };
 
 async function migrateUp({ app }: { app: INestApplication }) {
-  Logger.log(`[umzugMigrationManager.migrateUp] migration START`);
+  appLogger.debug(`[umzugMigrationManager.migrateUp] migration START`);
 
   const mongoClient = await createMongoClient();
 
@@ -17,11 +18,11 @@ async function migrateUp({ app }: { app: INestApplication }) {
     const umzug = configureUmzug({ app, mongoClient });
 
     const migrations = await umzug.up();
-    Logger.log(
+    appLogger.debug(
       `[umzugMigrationManager.migrateUp] run ${migrations.length} migrations SUCCESS`
     );
   } catch (err) {
-    Logger.error(`[umzugMigrationManager.migrateUp] connection error`, err);
+    appLogger.error(`[umzugMigrationManager.migrateUp] connection error`, err);
     throw err;
   } finally {
     await mongoClient.close();
@@ -29,7 +30,9 @@ async function migrateUp({ app }: { app: INestApplication }) {
 }
 
 async function migrateDownLast({ app }: { app: INestApplication }) {
-  Logger.log(`[umzugMigrationManager.migrateDownLast] revert migration START`);
+  appLogger.debug(
+    `[umzugMigrationManager.migrateDownLast] revert migration START`
+  );
 
   const mongoClient = await createMongoClient();
 
@@ -37,11 +40,11 @@ async function migrateDownLast({ app }: { app: INestApplication }) {
     const umzug = configureUmzug({ app, mongoClient });
 
     const migrations = await umzug.down();
-    Logger.log(
+    appLogger.debug(
       `[umzugMigrationManager.migrateDownLast] revert ${migrations.length} migration SUCCESS`
     );
   } catch (err) {
-    Logger.error(
+    appLogger.error(
       `[umzugMigrationManager.migrateDownLast] connection error`,
       err
     );
@@ -58,7 +61,7 @@ async function createMongoClient() {
   try {
     await mongoClient.connect();
   } catch (err) {
-    Logger.error(`[umzugMigrationManager] connection error`, err);
+    appLogger.error(`[umzugMigrationManager] connection error`, err);
     throw err;
   }
   return mongoClient;
