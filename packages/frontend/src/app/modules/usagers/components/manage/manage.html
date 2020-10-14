@@ -213,13 +213,14 @@
         </th>
         <th
           class="sortable"
-          (click)="updateFilters('sortKey', 'STATUT')"
+          (click)="updateFilters('sortKey', 'VALIDE')"
           *ngIf="filters.passage !== null"
         >
           Domicilié depuis le
         </th>
         <th
           class="sortable"
+          [ngClass]="{ 'sortable' : filters.statut !== 'TOUS' }"
           *ngIf="filters.passage === null"
           (click)="updateFilters('sortKey', filters.statut)"
         >
@@ -278,22 +279,44 @@
               >
                 Trier par ID <fa-icon icon="sort-amount-down"></fa-icon>
               </button>
-              <button
-                (click)="updateFilters('sortKey', filters.statut, 'ascending')"
-                ngbDropdownItem
+              <ng-container *ngIf="filters.statut !== 'TOUS'">
+                <button
+                  (click)="updateFilters('sortKey', filters.statut, 'ascending')"
+                  ngbDropdownItem
+                >
+                  Trier par {{ dateLabel | lowercase }}<fa-icon
+                    icon="sort-amount-up"
+                  ></fa-icon>
+                </button>
+                <button
+                  (click)="updateFilters('sortKey', filters.statut, 'descending')"
+                  ngbDropdownItem
+                >
+                  Trier par {{ dateLabel | lowercase }}<fa-icon
+                    icon="sort-amount-down"
+                  ></fa-icon>
+                </button>
+              </ng-container>
+              <ng-container
+                *ngIf="(filters.statut === 'TOUS' || filters.statut === 'VALIDE') && filters.passage !== null"
               >
-                Trier par {{ dateLabel | lowercase }}<fa-icon
-                  icon="sort-amount-up"
-                ></fa-icon>
-              </button>
-              <button
-                (click)="updateFilters('sortKey', filters.statut, 'descending')"
-                ngbDropdownItem
-              >
-                Trier par {{ dateLabel | lowercase }}<fa-icon
-                  icon="sort-amount-down"
-                ></fa-icon>
-              </button>
+                <button
+                  (click)="updateFilters('sortKey', 'PASSAGE', 'ascending')"
+                  ngbDropdownItem
+                >
+                  Trier par dernier passage<fa-icon
+                    icon="sort-amount-up"
+                  ></fa-icon>
+                </button>
+                <button
+                  (click)="updateFilters('sortKey', 'PASSAGE', 'descending')"
+                  ngbDropdownItem
+                >
+                  Trier par dernier passage<fa-icon
+                    icon="sort-amount-down"
+                  ></fa-icon>
+                </button>
+              </ng-container>
             </div>
           </div>
         </th>

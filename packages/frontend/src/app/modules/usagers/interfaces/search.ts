@@ -37,5 +37,12 @@ export class Search {
 
     this.sortKey = (search && search.sortKey) || "NAME";
     this.sortValue = (search && search.sortValue) || "ascending";
+
+    // Ne pas trier par autre que les nom & ID si on est sur TOUS
+    if (this.statut === "TOUS") {
+      if (this.sortKey !== "ID" && this.sortKey !== "NAME") {
+        this.sortKey = "NAME";
+      }
+    }
   }
 }

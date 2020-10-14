@@ -42,6 +42,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public dateLabel: string;
   public today: Date;
   public labelsDateFin: any = {
+    PASSAGE: "Dernier passage",
     ATTENTE_DECISION: "Demande effectuée le",
     INSTRUCTION: "Dossier débuté le",
     RADIE: "Radié le ",
@@ -101,11 +102,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.usagers = [];
     this.searching = true;
     this.dateLabel = "Fin de domiciliation";
-    this.filters = new Search({
-      name: "",
-      page: 0,
-    });
-
+    this.filters = new Search(this.getFilters());
     this.nbResults = 0;
     this.selectedUsager = new Usager();
     this.structure =
@@ -126,7 +123,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.titleService.setTitle("Gérer vos domiciliés");
 
-    this.filters = new Search(this.getFilters());
     this.searchString = this.filters.name;
     this.filters.page = 0;
     this.filters$.next(this.filters);
@@ -183,16 +179,21 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   ) {
     if (
       element === "interactionType" ||
-      element === "statut" ||
       element === "passage" ||
       element === "echeance"
     ) {
       const newValue = this.filters[element] === value ? null : value;
       this.filters[element] = newValue;
+      this.filters.sortKey = "NAME";
+      this.filters.sortValue = "ascending";
+    } else if (element === "statut") {
+      if (this.filters[element] === value) {
+        return;
+      }
 
+      this.filters[element] = value;
       // Si le tri actuel est lié sur le statut
       if (
-        element === "statut" &&
         this.filters.sortKey !== "NAME" &&
         this.filters.sortKey !== "ID" &&
         this.filters.sortKey !== "PASSAGE"
@@ -200,6 +201,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         this.filters.sortKey = value;
       }
     } else if (element === "sortKey") {
+      if (this.filters.statut === "TOUS" && value === "VALIDE") {
+        return;
+      }
+
       // Tri issu des en-tête de tableau
       if (!sortValue) {
         sortValue =
@@ -316,9 +321,13 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
     this.dateLabel =
       filters.statut !== null
-        ? this.labelsDateFin[filters.statut]
+        ? this.labelsDateFin[filters.sortKey]
         : "Date de fin";
 
+    this.dateLabel =
+      filters.passage !== null ? this.labelsDateFin.PASSAGE : this.dateLabel;
+
+    console.log(filters);
     localStorage.setItem("filters", JSON.stringify(filters));
 
     this.usagerService.search(filters).subscribe(
