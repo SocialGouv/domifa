@@ -42,7 +42,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public dateLabel: string;
   public today: Date;
   public labelsDateFin: any = {
-    PASSAGE: "Dernier passage",
     ATTENTE_DECISION: "Demande effectuée le",
     INSTRUCTION: "Dossier débuté le",
     RADIE: "Radié le ",
@@ -200,6 +199,14 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       ) {
         this.filters.sortKey = value;
       }
+
+      if (value !== "TOUS" && value !== "VALIDE") {
+        this.filters.passage = null;
+        this.filters.echeance = null;
+        this.filters.interactionType = null;
+        this.filters.sortKey = "NAME";
+        this.filters.sortValue = "ascending";
+      }
     } else if (element === "sortKey") {
       if (this.filters.statut === "TOUS" && value === "VALIDE") {
         return;
@@ -221,13 +228,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       this.filters[element] = value;
     }
 
-    if (element === "statut") {
-      if (value !== "TOUS" && value !== "VALIDE") {
-        this.filters.passage = null;
-        this.filters.echeance = null;
-        this.filters.interactionType = null;
-      }
-    }
     this.filters.page = 0;
     this.filters$.next(this.filters);
   }
@@ -319,15 +319,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public search(filters: Search) {
     this.searching = true;
 
-    this.dateLabel =
-      filters.statut !== null
-        ? this.labelsDateFin[filters.sortKey]
-        : "Date de fin";
+    this.dateLabel = this.labelsDateFin[filters.statut];
 
-    this.dateLabel =
-      filters.passage !== null ? this.labelsDateFin.PASSAGE : this.dateLabel;
-
-    console.log(filters);
     localStorage.setItem("filters", JSON.stringify(filters));
 
     this.usagerService.search(filters).subscribe(
