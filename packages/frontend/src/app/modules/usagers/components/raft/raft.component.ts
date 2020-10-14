@@ -7,6 +7,7 @@ import { UsagerService } from "../../services/usager.service";
 import { motifsRadiation } from "../../usagers.labels";
 import { Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   providers: [UsagerService, AuthService],
@@ -27,7 +28,8 @@ export class RaftComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: Title,
-    private matomo: MatomoTracker
+    private matomo: MatomoTracker,
+    private notifService: ToastrService
   ) {
     this.today = new Date();
     this.usager = new Usager();
@@ -64,8 +66,14 @@ export class RaftComponent implements OnInit {
   public setDecision(statut: string) {
     this.usagerService
       .setDecision(this.usager.id, this.usager.decision, statut)
-      .subscribe((usager: Usager) => {
-        this.usager = usager;
-      });
+      .subscribe(
+        (usager: Usager) => {
+          this.usager = usager;
+          this.notifService.error("Radiation effectuée avec succès");
+        },
+        (error) => {
+          this.notifService.error("Une erreur est survenue");
+        }
+      );
   }
 }

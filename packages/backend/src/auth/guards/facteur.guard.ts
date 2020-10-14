@@ -6,7 +6,7 @@ import { appLogger } from "../../util/AppLogger.service";
 
 @Injectable()
 export class FacteurGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector) { }
+  constructor(private readonly reflector: Reflector) {}
 
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();

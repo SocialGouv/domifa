@@ -101,7 +101,6 @@ export class UsagersProfilComponent implements OnInit {
   public minDateToday: NgbDateStruct;
 
   constructor(
-    private documentService: DocumentService,
     private formBuilder: FormBuilder,
     private interactionService: InteractionService,
     public loadingService: LoadingService,

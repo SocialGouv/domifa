@@ -5,7 +5,7 @@ import { UserRole } from "../../users/user-role.type";
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector) { }
+  constructor(private readonly reflector: Reflector) {}
 
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();

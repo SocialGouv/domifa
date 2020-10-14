@@ -136,6 +136,9 @@ export class UsagerService {
 
   public setDecision(usagerId: number, decision: Decision, statut: string) {
     decision.statut = statut;
+    delete decision.userId;
+    delete decision.userName;
+
     return this.http
       .post(`${this.endPointUsagers}/decision/${usagerId}`, decision)
       .pipe(
