@@ -69,7 +69,7 @@ export class RaftComponent implements OnInit {
       .subscribe(
         (usager: Usager) => {
           this.usager = usager;
-          this.notifService.error("Radiation effectuée avec succès");
+          this.notifService.success("Radiation effectuée avec succès");
         },
         (error) => {
           this.notifService.error("Une erreur est survenue");
