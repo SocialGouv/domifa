@@ -116,11 +116,100 @@ export class UsersMailsService {
       .toPromise();
   }
 
-  public confirmUser(user: User) {
-    // TODO : rappatrier le model
+  public accountActivated(user: User) {
+    const post = {
+      to: [
+        {
+          address: this.domifaAdminMail,
+          personalName: "Domifa",
+        },
+      ],
+      headers: {
+        "X-TM-TEMPLATE": "users-compte-active",
+        "X-TM-SUB": [
+          {
+            email: user.email,
+            subject: "Votre compte Domifa a été activé",
+            values: {
+              lien: this.configService.get("DOMIFA_FRONTEND_URL") + "connexion",
+              prenom: user.prenom,
+            },
+            meta: {},
+          },
+        ],
+      },
+      msg: {
+        from: {
+          personalName: "Domifa",
+          address: this.domifaFromMail,
+        },
+        replyTo: {
+          personalName: "Domifa",
+          address: this.domifaAdminMail,
+        },
+        subject: "Votre compte Domifa a été activé",
+        html: "<p>Test</p>",
+      },
+    };
+
+    return this.httpService
+      .post("https://api.tipimail.com/v1/messages/send", post, {
+        headers: {
+          "X-Tipimail-ApiUser": process.env.SMTP_USER,
+          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+        },
+      })
+      .toPromise();
   }
 
   public async newPassword(user: User): Promise<any> {
-    // TODO : rappatrier le model
+    const confirmationLink =
+      this.configService.get("DOMIFA_FRONTEND_URL") +
+      "reset-password/" +
+      user.tokens.password;
+
+    const post = {
+      to: [
+        {
+          address: this.domifaAdminMail,
+          personalName: "Domifa",
+        },
+      ],
+      headers: {
+        "X-TM-TEMPLATE": "users-nouveau-mot-de-passe",
+        "X-TM-SUB": [
+          {
+            email: user.email,
+            subject: "Changement du mot de passe Domifa",
+            values: {
+              lien: confirmationLink,
+              prenom: user.prenom,
+            },
+            meta: {},
+          },
+        ],
+      },
+      msg: {
+        from: {
+          personalName: "Domifa",
+          address: this.domifaFromMail,
+        },
+        replyTo: {
+          personalName: "Domifa",
+          address: this.domifaAdminMail,
+        },
+        subject: "Changement du mot de passe Domifa",
+        html: "<p>Test</p>",
+      },
+    };
+
+    return this.httpService
+      .post("https://api.tipimail.com/v1/messages/send", post, {
+        headers: {
+          "X-Tipimail-ApiUser": process.env.SMTP_USER,
+          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+        },
+      })
+      .toPromise();
   }
 }

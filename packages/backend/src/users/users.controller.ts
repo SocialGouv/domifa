@@ -15,26 +15,27 @@ import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 
+import { MailJetService } from "./services/mailjet.service";
 import { StructuresService } from "../structures/services/structures.service";
+import { DomifaMailsService } from "../mails/services/domifa-mails.service";
+import { UsersService } from "./services/users.service";
+import { UsersMailsService } from "../mails/services/users-mails.service";
+
+import * as bcrypt from "bcryptjs";
+import { AxiosResponse, AxiosError } from "axios";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+
+import { User } from "./user.interface";
 
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
-import { MailJetService } from "./services/mailjet.service";
-import { UsersService } from "./services/users.service";
-import { User } from "./user.interface";
-import { CronMailsService } from "../mails/services/cron-mails.service";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { EditPasswordDto } from "./dto/edit-password.dto";
 
-import * as bcrypt from "bcryptjs";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { UserRole } from "./user-role.type";
-import { DomifaMailsService } from "../mails/services/domifa-mails.service";
-import { AxiosResponse, AxiosError } from "axios";
 import { appLogger } from "../util";
-import { UsersMailsService } from "../mails/services/users-mails.service";
 
 @Controller("users")
 @ApiTags("users")
@@ -73,15 +74,45 @@ export class UsersController {
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Confirmer une création de compte" })
   @Get("confirm/:id")
-  public async confirmUser(@Param("id") id: number, @CurrentUser() user: User) {
+  public async confirmUser(
+    @Param("id") id: number,
+    @CurrentUser() user: User,
+    @Response() res: any
+  ) {
     const confirmerUser = await this.usersService.update(id, user.structureId, {
       verified: true,
     });
 
-    if (confirmerUser) {
-      this.mailjetService.confirmUser(confirmerUser);
+    if (confirmerUser && confirmerUser !== null) {
+      this.usersMailsService.accountActivated(confirmerUser).then(
+        (result: AxiosResponse) => {
+          if (result.status !== 200) {
+            appLogger.warn(`[UsersMail] mail user account activated failed`);
+            appLogger.error(JSON.stringify(result.data));
+
+            throw new HttpException(
+              "TIPIMAIL_USER_ACCOUNT_ACTIVATED",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          } else {
+            return res.status(HttpStatus.OK).json({ message: "OK" });
+          }
+        },
+        (error: AxiosError) => {
+          appLogger.warn(`[UsersMail] mail user account activated failed`);
+          appLogger.error(JSON.stringify(error.message));
+          throw new HttpException(
+            "TIPIMAIL_USER_ACCOUNT_ACTIVATED",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      );
+    } else {
+      throw new HttpException(
+        "INVALID_CONFIRM_TOKEN",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
-    return confirmerUser;
   }
 
   @UseGuards(AuthGuard("jwt"), AdminGuard)
@@ -314,8 +345,8 @@ export class UsersController {
         emailDto.email
       );
 
-      if (updatedUser) {
-        this.mailjetService.newPassword(updatedUser).then(
+      if (updatedUser && updatedUser !== null) {
+        this.usersMailsService.newPassword(updatedUser).then(
           (result) => {
             return res.status(HttpStatus.OK).json({ message: "OK" });
           },
@@ -328,7 +359,7 @@ export class UsersController {
       } else {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "RESET_USER_IMPOSSIBLE" });
+          .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
       }
     }
   }

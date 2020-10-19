@@ -1,11 +1,10 @@
-<!DOCTYPE html>
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:v="urn:schemas-microsoft-com:vml"
   xmlns:o="urn:schemas-microsoft-com:office:office"
 >
   <head>
-    <title>Votre compte Domifa a été activé</title>
+    <title>Valider un nouvel utilisateur de Domifa</title>
     <!--[if !mso]><!-- -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!--<![endif]-->
@@ -55,16 +54,6 @@
         }
       </style>
     <![endif]-->
-    <!--[if !mso]><!-->
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <style type="text/css">
-      @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
-    </style>
-    <!--<![endif]-->
     <style type="text/css">
       @media only screen and (min-width: 480px) {
         .mj-column-per-100 {
@@ -261,7 +250,7 @@
                                   <div
                                     style="
                                       font-family: Arial, sans-serif;
-                                      font-size: 15px;
+                                      font-size: 13px;
                                       letter-spacing: normal;
                                       line-height: 1;
                                       text-align: left;
@@ -275,33 +264,89 @@
                                         margin: 10px 0;
                                         margin-top: 10px;
                                       "
-                                      data-testid="fUJUuE7-ZW"
                                     >
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Roboto;
-                                          font-size: 15px;
-                                          line-height: 24px;
+                                          font-size: 19px;
+                                          line-height: 26px;
+                                          font-family: Helvetica;
                                         "
-                                        >Bonjour {{ prenom }}</span
+                                        ><b
+                                          >Demande de création de compte</b
+                                        ></span
+                                      ><br /><br /><span
+                                        style="
+                                          color: #000000;
+                                          font-size: 15px;
+                                          line-height: 26px;
+                                          font-family: Helvetica;
+                                        "
+                                        >Bonjour {{ admin_prenom }}</span
                                       >
                                     </p>
                                     <p
                                       class="text-build-content"
                                       style="text-align: center; margin: 10px 0"
-                                      data-testid="fUJUuE7-ZW"
                                     >
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Roboto;
                                           font-size: 15px;
-                                          line-height: 22px;
+                                          line-height: 26px;
+                                          font-family: Helvetica;
                                         "
-                                        >Votre demande d’adhésion pour la
-                                        structure {{ nom_structure }} a été
-                                        validée par l'équipe Domifa</span
+                                        >Une nouvelle personne souhaite
+                                        rejoindre votre structure sur
+                                        Domifa.</span
+                                      >
+                                    </p>
+                                    <p
+                                      class="text-build-content"
+                                      style="text-align: center; margin: 10px 0"
+                                    >
+                                      <span
+                                        style="
+                                          color: #000000;
+                                          font-size: 15px;
+                                          line-height: 26px;
+                                          font-family: Helvetica;
+                                        "
+                                        ><b
+                                          >{{ user_nom }} {{ user_prenom }}</b
+                                        ></span
+                                      >
+                                    </p>
+                                    <p
+                                      class="text-build-content"
+                                      style="text-align: center; margin: 10px 0"
+                                    >
+                                      <span
+                                        style="
+                                          color: #000000;
+                                          font-size: 15px;
+                                          line-height: 26px;
+                                          font-family: Helvetica;
+                                        "
+                                        >{{ user_email }}</span
+                                      >
+                                    </p>
+                                    <p
+                                      class="text-build-content"
+                                      style="text-align: center; margin: 10px 0"
+                                    >
+                                      <span
+                                        style="
+                                          color: #000000;
+                                          font-size: 15px;
+                                          line-height: 26px;
+                                          font-family: Helvetica;
+                                        "
+                                        >Si cette personne ne fait pas partie de
+                                        votre organisation, veuillez ignorer cet
+                                        email, sinon cliquez sur le bouton
+                                        suivant pour valider sa création de
+                                        compte :</span
                                       >
                                     </p>
                                     <p
@@ -311,18 +356,16 @@
                                         margin: 10px 0;
                                         margin-bottom: 10px;
                                       "
-                                      data-testid="fUJUuE7-ZW"
                                     >
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Roboto;
                                           font-size: 15px;
-                                          line-height: 22px;
+                                          line-height: 26px;
+                                          font-family: Helvetica;
                                         "
-                                        >Vous pouvez désormais vous connecter
-                                        avec les identifiants indiqués lors de
-                                        votre inscription.</span
+                                        >Connectez-vous sur Domifa pour valider
+                                        ou refuser sa demande</span
                                       >
                                     </p>
                                   </div>
@@ -368,7 +411,7 @@
                                           valign="middle"
                                         >
                                           <a
-                                            href="{{ lien}}"
+                                            href="{{ lien }}"
                                             style="
                                               display: inline-block;
                                               background: #3e61ff;
@@ -387,13 +430,15 @@
                                             target="_blank"
                                             ><span
                                               style="
-                                                font-size: 16px;
-                                                text-align: center;
-                                                background-color: #3e61ff;
                                                 color: #ffffff;
+                                                font-size: 16px;
+                                                background-color: #3e61ff;
                                                 font-family: Arial;
                                               "
-                                              ><b>Se connecter</b></span
+                                              ><b
+                                                >Valider ce membre de
+                                                l'équipe</b
+                                              ></span
                                             ></a
                                           >
                                         </td>
@@ -437,16 +482,16 @@
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Roboto;
-                                          font-size: 14px;
+                                          font-family: Helvetica;
+                                          font-size: 15px;
                                           line-height: 23px;
                                         "
                                         >À bientôt,</span
                                       ><br /><span
                                         style="
                                           color: #000000;
-                                          font-family: Roboto;
-                                          font-size: 14px;
+                                          font-family: Helvetica;
+                                          font-size: 15px;
                                           line-height: 23px;
                                         "
                                         >L’équipe Domifa</span

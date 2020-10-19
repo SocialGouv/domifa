@@ -9,18 +9,25 @@ import { CronMailsService } from "../mails/services/cron-mails.service";
 import { HttpModule } from "@nestjs/common";
 import { UsersProviders } from "./users.providers";
 import { DatabaseModule } from "../database/database.module";
+import { MailsModule } from "../mails/mails.module";
 
 describe("Users Controller", () => {
   it("should be defined", async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
-      imports: [DatabaseModule, StructuresModule, UsagersModule, HttpModule],
+      imports: [
+        DatabaseModule,
+        MailsModule,
+        StructuresModule,
+        UsagersModule,
+        HttpModule,
+      ],
       providers: [
         { provide: UsersService, useValue: {} },
         CronMailsService,
-        ...UsersProviders,
         MailJetService,
         ConfigService,
+        ...UsersProviders,
       ],
     }).compile();
 

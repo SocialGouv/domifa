@@ -106,7 +106,7 @@ export class DomifaMailsService {
       to: [
         {
           address: this.domifaAdminMail,
-          personalName: "Site Domifa",
+          personalName: "Domifa",
         },
       ],
       headers: {
@@ -123,6 +123,7 @@ export class DomifaMailsService {
               email: structure.email,
               phone: structure.phone,
             },
+            subject: "Supprimer une structure sur Domifa",
             meta: {},
           },
         ],
@@ -136,7 +137,7 @@ export class DomifaMailsService {
           personalName: "Domifa",
           address: this.domifaAdminMail,
         },
-        subject: "Subject",
+        subject: "Supprimer une structure sur Domifa",
         html: "<p>Test</p>",
       },
     };

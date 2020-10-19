@@ -92,4 +92,47 @@ export class UsagersMailsService {
       })
       .toPromise();
   }
+
+  public hardReset(user: User, token: string) {
+    const post = {
+      to: [
+        {
+          address: user.email,
+          personalName: user.prenom + " " + user.nom,
+        },
+      ],
+      headers: {
+        "X-TM-TEMPLATE": "usagers-prise-de-rendez-vous",
+        "X-TM-SUB": [
+          {
+            email: user.email,
+            values: { code: token, prenom: user.prenom },
+            subject: "Code de confirmation Domifa pour supprimer les usagers",
+            meta: {},
+          },
+        ],
+      },
+      msg: {
+        from: {
+          personalName: "Domifa",
+          address: this.domifaFromMail,
+        },
+        replyTo: {
+          personalName: "Domifa",
+          address: this.domifaAdminMail,
+        },
+        subject: "Code de confirmation Domifa pour supprimer les usagers",
+        html: "<p>Test</p>",
+      },
+    };
+
+    return this.httpService
+      .post("https://api.tipimail.com/v1/messages/send", post, {
+        headers: {
+          "X-Tipimail-ApiUser": process.env.SMTP_USER,
+          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+        },
+      })
+      .toPromise();
+  }
 }

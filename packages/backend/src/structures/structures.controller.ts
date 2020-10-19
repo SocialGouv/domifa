@@ -37,6 +37,7 @@ import { appLogger } from "../util";
 import { DomifaMailsService } from "../mails/services/domifa-mails.service";
 
 import { UsersMailsService } from "../mails/services/users-mails.service";
+import { UsagersMailsService } from "../mails/services/usagers-mails.service";
 
 @Controller("structures")
 @ApiTags("structures")
@@ -49,7 +50,7 @@ export class StructuresController {
     private readonly usagersService: UsagersService,
     private readonly interactionsService: InteractionsService,
     private readonly mailjetService: MailJetService,
-    private readonly tipimailService: CronMailsService
+    private readonly usagersMailsService: UsagersMailsService
   ) {}
 
   @Post()
@@ -144,7 +145,7 @@ export class StructuresController {
       hardResetToken
     );
     if (structure) {
-      await this.mailjetService.hardReset(user, hardResetToken.token);
+      await this.usagersMailsService.hardReset(user, hardResetToken.token);
       return res.status(HttpStatus.OK).json({ message: expireAt });
     } else {
       throw new HttpException(
