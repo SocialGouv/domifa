@@ -92,8 +92,7 @@ export class CronMailsService {
           personalName: "Domifa",
           address: this.domifaAdminMail,
         },
-        subject: "Subject",
-        html: "<p>Test</p>",
+        subject: "Le guide utilisateur Domifa",
       },
     };
 
@@ -181,7 +180,6 @@ export class CronMailsService {
               guide: this.lienGuide,
               faq: this.lienFaq,
             },
-            meta: {},
           },
         ],
       },
@@ -194,7 +192,7 @@ export class CronMailsService {
           personalName: "Domifa",
           address: this.domifaAdminMail,
         },
-        subject: "Subject",
+        subject: "Importer vos domiciliés sur DomiFa",
         html: "<p>Test</p>",
       },
     };

@@ -13,8 +13,6 @@ export type DomifaConfigKey =
   | "FILES_PRIVATE"
   | "DOMIFA_FRONTEND_URL"
   | "DOMIFA_BACKEND_URL"
-  | "MJ_APIKEY_PRIVATE"
-  | "MJ_APIKEY_PUBLIC"
   | "SECRET"
   | "UPLOADS_FOLDER"
   | "DOMIFA_ENV_ID"

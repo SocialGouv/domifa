@@ -364,12 +364,9 @@ export class UsersController {
       if (updatedUser && updatedUser !== null) {
         this.usersMailsService.newPassword(updatedUser).then(
           (result: AxiosResponse) => {
-            console.log(result.statusText);
-            console.log(result.data);
             return res.status(HttpStatus.OK).json({ message: "OK" });
           },
           (error: AxiosError) => {
-            console.log(error.message);
             return res
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .json({ message: "MAIL_NEW_PASSWORD_ERROR" });

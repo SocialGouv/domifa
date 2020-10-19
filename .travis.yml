@@ -35,8 +35,6 @@ addons:
     - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DB_HOST=127.0.0.1" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DB_PORT=27017" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
-    - echo "MJ_APIKEY_PUBLIC=${MJ_APIKEY_PUBLIC_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
-    - echo "MJ_APIKEY_PRIVATE=${MJ_APIKEY_PRIVATE_TRAVIS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DOMIFA_BACKEND_URL=http://localhost:3000/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DOMIFA_FRONTEND_URL=http://localhost:4200/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "SECRET=O6RL8gsk4QpbKlLaazpdkqzpokdopzkdpokqz9!ç-rH4176OKPOKd8!29990xohuihHYNJQ6"  >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
@@ -60,8 +58,8 @@ jobs:
         # HACK(douglasduteil): ensure run production build with localhost api
         # The build production will be used to run local e2e tests.
         - mv
-            packages/frontend/src/environments/environment.travis.ts
-            packages/frontend/src/environments/environment.prod.ts
+          packages/frontend/src/environments/environment.travis.ts
+          packages/frontend/src/environments/environment.prod.ts
         #
         - yarn build --stream
         #
