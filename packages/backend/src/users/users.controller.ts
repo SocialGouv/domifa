@@ -12,28 +12,24 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import * as bcrypt from "bcryptjs";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
+import { ResponsableGuard } from "../auth/guards/responsable.guard";
 import { StructuresService } from "../structures/structures.service";
+import { EditPasswordDto } from "./dto/edit-password.dto";
 import { EmailDto } from "./dto/email.dto";
+import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
 import { MailJetService } from "./services/mailjet.service";
-import { UsersService } from "./services/users.service";
-import { User } from "./user.interface";
 import { TipimailService } from "./services/tipimail.service";
-import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
-import { EditPasswordDto } from "./dto/edit-password.dto";
-
-import * as bcrypt from "bcryptjs";
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiTags,
-  ApiSecurity,
-} from "@nestjs/swagger";
+import { UsersService } from "./services/users.service";
+import { UserProfil } from "./user-profil.type";
 import { UserRole } from "./user-role.type";
+import { User } from "./user.interface";
 
 @Controller("users")
 @ApiTags("users")
@@ -45,11 +41,11 @@ export class UsersController {
     private readonly tipimailService: TipimailService
   ) {}
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), ResponsableGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
   @Get("")
-  public getUsers(@CurrentUser() user: User): Promise<User[]> {
+  public getUsers(@CurrentUser() user: User): Promise<UserProfil[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
       verified: true,
@@ -60,7 +56,7 @@ export class UsersController {
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
   @UseGuards(AuthGuard("jwt"), AdminGuard)
-  public getUsersToConfirm(@CurrentUser() user: User): Promise<User[]> {
+  public getUsersToConfirm(@CurrentUser() user: User): Promise<UserProfil[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
       verified: false,
@@ -71,7 +67,10 @@ export class UsersController {
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Confirmer une création de compte" })
   @Get("confirm/:id")
-  public async confirmUser(@Param("id") id: number, @CurrentUser() user: User) {
+  public async confirmUser(
+    @Param("id") id: number,
+    @CurrentUser() user: User
+  ): Promise<UserProfil> {
     const confirmerUser = await this.usersService.update(id, user.structureId, {
       verified: true,
     });
@@ -90,7 +89,7 @@ export class UsersController {
     @Param("id") id: number,
     @Param("role") role: UserRole,
     @CurrentUser() user: User
-  ) {
+  ): Promise<UserProfil> {
     if (
       role !== "simple" &&
       role !== "admin" &&
@@ -140,7 +139,7 @@ export class UsersController {
     return res.status(HttpStatus.OK).json({ success: true, message: retour });
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   @Patch()
   public async patch(
     @CurrentUser() user: User,

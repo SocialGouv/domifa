@@ -11,6 +11,7 @@ import { UsersService } from "../../services/users.service";
 
 import { Title } from "@angular/platform-browser";
 import { UserRole } from "../../interfaces/user-role.type";
+import { UserProfil } from "../../interfaces/user-profil.type";
 
 @Component({
   selector: "app-user-profil",
@@ -18,10 +19,10 @@ import { UserRole } from "../../interfaces/user-role.type";
   templateUrl: "./user-profil.component.html",
 })
 export class UserProfilComponent implements OnInit {
-  public users: User[];
+  public users: UserProfil[];
   public me: User;
   public structure: Structure;
-  public newUsers: User[];
+  public newUsers: UserProfil[];
   public modal: any;
   public selectedUser: number;
   public usersInfos: boolean;
@@ -63,7 +64,7 @@ export class UserProfilComponent implements OnInit {
 
   public confirmUser(id: number) {
     this.userService.confirmUser(id).subscribe(
-      (user: User) => {
+      (user: UserProfil) => {
         this.getUsers();
         this.notifService.success(
           "Le compte de " +
@@ -81,7 +82,7 @@ export class UserProfilComponent implements OnInit {
 
   public updateRole(id: number, role: UserRole) {
     this.userService.updateRole(id, role).subscribe(
-      (user: User) => {
+      (user: UserProfil) => {
         this.getUsers();
         this.notifService.success(
           "Les droits de " +
@@ -118,11 +119,11 @@ export class UserProfilComponent implements OnInit {
 
   private getUsers() {
     if (this.authService.currentUserValue.role === "admin") {
-      this.userService.getNewUsers().subscribe((users: User[]) => {
+      this.userService.getNewUsers().subscribe((users: UserProfil[]) => {
         this.newUsers = users;
       });
     }
-    this.userService.getUsers().subscribe((users: User[]) => {
+    this.userService.getUsers().subscribe((users: UserProfil[]) => {
       this.users = users;
     });
   }
