@@ -4,6 +4,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { UsersModule } from "../users/users.module";
 import { AuthService } from "./auth.service";
 import { StructuresModule } from "../structures/structure.module";
+import { ConfigService } from "../config/config.service";
 
 describe("AuthService", () => {
   let service: AuthService;
@@ -21,7 +22,13 @@ describe("AuthService", () => {
         UsersModule,
         StructuresModule,
       ],
-      providers: [AuthService],
+      providers: [
+        AuthService,
+        {
+          provide: ConfigService,
+          useValue: new ConfigService(),
+        },
+      ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);

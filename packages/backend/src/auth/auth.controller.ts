@@ -18,6 +18,7 @@ import { User } from "../users/user.interface";
 import { AuthService } from "./auth.service";
 import { CurrentUser } from "./current-user.decorator";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+import { DomifaGuard } from "./guards/domifa.guard";
 
 @Controller("auth")
 @ApiTags("auth")
@@ -65,27 +66,11 @@ export class AuthController {
       .json({ message: "WRONG_CREDENTIALS" });
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), DomifaGuard)
   @ApiBearerAuth()
   @Get("domifa")
   public authDomifa(@Response() res: any, @CurrentUser() user: User) {
-    if (
-      !user ||
-      user === null ||
-      (user.structureId !== 28 && user.structureId !== 1)
-    ) {
-      return res.status(HttpStatus.UNAUTHORIZED).json({});
-    }
-    return res.status(HttpStatus.OK).json({
-      email: user.email,
-      id: user.id,
-      lastLogin: user.lastLogin,
-      nom: user.nom,
-      prenom: user.prenom,
-      role: user.role,
-      structure: user.structure,
-      structureId: user.structureId,
-    });
+    return res.status(HttpStatus.OK).json();
   }
 
   @ApiBearerAuth()

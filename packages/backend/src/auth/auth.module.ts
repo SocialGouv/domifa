@@ -22,6 +22,13 @@ import { StructuresModule } from "../structures/structure.module";
     forwardRef(() => UsersModule),
     forwardRef(() => StructuresModule),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [
+    {
+      provide: ConfigService,
+      useValue: new ConfigService(),
+    },
+    AuthService,
+    JwtStrategy,
+  ],
 })
 export class AuthModule {}
