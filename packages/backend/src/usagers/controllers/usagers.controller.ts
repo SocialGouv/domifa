@@ -50,7 +50,7 @@ export class UsagersController {
   ) {}
 
   /* FORMULAIRE INFOS */
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @Post()
   public postUsager(
     @Body() usagerDto: CreateUsagerDto,
