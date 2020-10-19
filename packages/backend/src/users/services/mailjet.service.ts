@@ -5,6 +5,8 @@ import { User } from "../user.interface";
 import * as mailjet from "node-mailjet";
 import { appLogger } from "../../util";
 
+type EmailRecipient = Pick<User, "email" | "prenom" | "nom">;
+
 @Injectable()
 export class MailJetService {
   public mailjet: mailjet.Email.Client;
@@ -21,7 +23,7 @@ export class MailJetService {
     this.domifaFromMail = this.configService.get("DOMIFA_MAILJET_FROM_EMAIL");
   }
 
-  public newStructure(structure: Structure, user: User) {
+  public newStructure(structure: Structure, user: EmailRecipient) {
     appLogger.warn(
       `[MailJetService] send admin mail to "${this.domifaAdminMail}" for new structure "${structure.nom}".`
     );
@@ -96,7 +98,7 @@ export class MailJetService {
       });
   }
 
-  public newUser(admin: User, user: User) {
+  public newUser(admin: User, user: EmailRecipient) {
     const lienConnexion =
       this.configService.get("DOMIFA_FRONTEND_URL") + "connexion";
     return this.mailjet.post("send", { version: "v3.1" }).request({
@@ -126,7 +128,9 @@ export class MailJetService {
     });
   }
 
-  public async newPassword(user: User): Promise<any> {
+  public async newPassword(
+    user: Pick<User, "email" | "prenom" | "tokens">
+  ): Promise<any> {
     const confirmationLink =
       this.configService.get("DOMIFA_FRONTEND_URL") +
       "reset-password/" +
@@ -156,7 +160,7 @@ export class MailJetService {
     });
   }
 
-  public confirmUser(user: User) {
+  public confirmUser(user: EmailRecipient) {
     const lienConnexion =
       this.configService.get("DOMIFA_FRONTEND_URL") + "connexion";
 
@@ -186,7 +190,7 @@ export class MailJetService {
 
   public async confirmationStructure(
     structure: Structure,
-    user: User
+    user: EmailRecipient
   ): Promise<any> {
     return this.mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
@@ -215,7 +219,7 @@ export class MailJetService {
     });
   }
 
-  public hardReset(user: User, token: string) {
+  public hardReset(user: EmailRecipient, token: string) {
     return this.mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
