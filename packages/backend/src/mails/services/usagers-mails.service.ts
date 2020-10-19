@@ -122,7 +122,6 @@ export class UsagersMailsService {
           address: this.domifaAdminMail,
         },
         subject: "Code de confirmation Domifa pour supprimer les usagers",
-        html: "<p>Test</p>",
       },
     };
 

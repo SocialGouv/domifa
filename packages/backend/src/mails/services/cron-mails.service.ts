@@ -23,11 +23,10 @@ export class CronMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
   constructor(
-    private readonly configService: ConfigService,
-    @Inject("USER_MODEL") private readonly userModel: Model<User>,
-    @Inject("STRUCTURE_MODEL")
-    private readonly structureModel: Model<Structure>,
-    private httpService: HttpService
+    private configService: ConfigService,
+    private httpService: HttpService,
+    @Inject("USER_MODEL") private userModel: Model<User>,
+    @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
   ) {
     this.lastWeek = moment().utc().subtract(7, "days").endOf("day").toDate();
 
@@ -109,14 +108,8 @@ export class CronMailsService {
         (retour: any) => {
           this.userModel
             .findOneAndUpdate(
-              {
-                _id: user._id,
-              },
-              {
-                $set: {
-                  "mails.guide": true,
-                },
-              }
+              { _id: user._id },
+              { $set: { "mails.guide": true } }
             )
             .exec((erreur: any) => {
               // console.log("-- UPDATE MAIL VALUE");

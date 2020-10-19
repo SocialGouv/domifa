@@ -14,7 +14,7 @@ import { InteractionsModule } from "./interactions/interactions.module";
 import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
 import { UsagersModule } from "./usagers/usagers.module";
-import { MailJetService } from "./users/services/mailjet.service";
+
 import { UsersModule } from "./users/users.module";
 
 const config = new ConfigService();
@@ -55,7 +55,6 @@ mongoose.set("debug", config.getBoolean("DOMIFA_MONGOOSE_DEBUG"));
       provide: ConfigService,
       useValue: new ConfigService(),
     },
-    MailJetService,
   ],
 })
 export class AppModule {}

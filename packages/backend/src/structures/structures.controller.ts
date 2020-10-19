@@ -17,15 +17,15 @@ import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 import { InteractionsService } from "../interactions/interactions.service";
 import { UsagersService } from "../usagers/services/usagers.service";
-import { EmailDto } from "../users/dto/email.dto";
-import { MailJetService } from "../users/services/mailjet.service";
+
 import { UsersService } from "../users/services/users.service";
+
 import { User } from "../users/user.interface";
+import { EmailDto } from "../users/dto/email.dto";
 import { StructureEditDto } from "./dto/structure-edit.dto";
 import { StructureDto } from "./dto/structure.dto";
 import { StructuresService } from "./services/structures.service";
 import { DomifaGuard } from "../auth/guards/domifa.guard";
-import { CronMailsService } from "../mails/services/cron-mails.service";
 
 import * as rimraf from "rimraf";
 import * as fs from "fs";
@@ -35,22 +35,23 @@ import { AxiosResponse, AxiosError } from "axios";
 import { appLogger } from "../util";
 
 import { DomifaMailsService } from "../mails/services/domifa-mails.service";
-
 import { UsersMailsService } from "../mails/services/users-mails.service";
 import { UsagersMailsService } from "../mails/services/usagers-mails.service";
+import { StructuresMailsService } from "../mails/services/structures-mails.service";
 
 @Controller("structures")
 @ApiTags("structures")
 export class StructuresController {
   constructor(
-    private readonly structureService: StructuresService,
-    private readonly domifaMailsService: DomifaMailsService,
-    private readonly usersMailsService: UsersMailsService,
-    private readonly usersService: UsersService,
-    private readonly usagersService: UsagersService,
-    private readonly interactionsService: InteractionsService,
-    private readonly mailjetService: MailJetService,
-    private readonly usagersMailsService: UsagersMailsService
+    private structureService: StructuresService,
+    private usersService: UsersService,
+    private usagersService: UsagersService,
+    private interactionsService: InteractionsService,
+
+    private usersMailsService: UsersMailsService,
+    private domifaMailsService: DomifaMailsService,
+    private usagersMailsService: UsagersMailsService,
+    private structuresMailsService: StructuresMailsService
   ) {}
 
   @Post()
@@ -79,7 +80,8 @@ export class StructuresController {
   @Get("confirm/:id/:token")
   public async confim(
     @Param("token") token: string,
-    @Param("id") id: string
+    @Param("id") id: string,
+    @Response() res: any
   ): Promise<any> {
     if (token === "") {
       throw new HttpException("STRUCTURE_TOKEN_EMPTY", HttpStatus.BAD_REQUEST);
@@ -101,13 +103,37 @@ export class StructuresController {
       const updatedAdmin = await this.usersService.update(
         admin.id,
         structure.id,
-        {
-          verified: true,
-        }
+        { verified: true }
       );
 
-      this.mailjetService.confirmationStructure(structure, updatedAdmin);
-      return structure;
+      this.structuresMailsService
+        .confirmationStructure(structure, updatedAdmin)
+        .then(
+          (result: AxiosResponse) => {
+            if (result.status !== 200) {
+              appLogger.warn(
+                `[StructuresMail] mail confirm structure activation failed`
+              );
+              appLogger.error(JSON.stringify(result.data));
+              throw new HttpException(
+                "TIPIMAIL_CONFIRM_STRUCTURE_ERROR",
+                HttpStatus.INTERNAL_SERVER_ERROR
+              );
+            } else {
+              return res.status(HttpStatus.OK).json("OK");
+            }
+          },
+          (error: AxiosError) => {
+            appLogger.warn(
+              `[StructuresMail] mail confirm structure activation failed`
+            );
+            appLogger.error(JSON.stringify(error.message));
+            throw new HttpException(
+              "TIPIMAIL_CONFIRM_STRUCTURE_ERROR",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          }
+        );
     }
   }
 
@@ -187,77 +213,6 @@ export class StructuresController {
     await this.interactionsService.deleteAll(user.structureId);
     await this.structureService.hardResetClean(structure._id);
     return res.status(HttpStatus.OK).json({ message: "success" });
-  }
-
-  @Get("mail")
-  public async mailStructure(@Response() res: any, @Param("id") id: string) {
-    const structure = await this.structureService.findOne(2);
-    const newUser = await this.usersService.findOne({ id: 2 });
-
-    if (newUser && newUser !== null) {
-      if (newUser.role === "admin") {
-        this.domifaMailsService.newStructure(structure, newUser).then(
-          (result: AxiosResponse) => {
-            if (result.status !== 200) {
-              appLogger.warn(
-                `[StructuresMail] mail new structure for domifa failed`
-              );
-              appLogger.error(JSON.stringify(result.data));
-              throw new HttpException(
-                "TIPIMAIL_NEW_STRUCTURE_ERROR",
-                HttpStatus.INTERNAL_SERVER_ERROR
-              );
-            } else {
-              return res.status(HttpStatus.OK).json(newUser);
-            }
-          },
-          (error: AxiosError) => {
-            appLogger.warn(
-              `[StructuresMail] mail new structure for domifa failed`
-            );
-            appLogger.error(JSON.stringify(error.message));
-            throw new HttpException(
-              "TIPIMAIL_NEW_STRUCTURE_ERROR",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          }
-        );
-      } else {
-        const admin = await this.usersService.findOne({
-          role: "admin",
-          structureId: newUser.structureId,
-        });
-
-        admin.email = "preprod.domifa@fabrique.social.gouv.fr";
-
-        this.usersMailsService.newUser(admin, newUser).then(
-          (result: AxiosResponse) => {
-            if (result.status !== 200) {
-              appLogger.warn(
-                `[StructuresMail] New User - mail to admin of structure failed`
-              );
-              appLogger.error(JSON.stringify(result.data));
-              throw new HttpException(
-                "TIPIMAIL_NEW_USER_ERROR",
-                HttpStatus.INTERNAL_SERVER_ERROR
-              );
-            } else {
-              return res.status(HttpStatus.OK).json(newUser);
-            }
-          },
-          (error: AxiosError) => {
-            appLogger.warn(
-              `[StructuresMail] mail new structure for domifa failed`
-            );
-            appLogger.error(JSON.stringify(error.message));
-            throw new HttpException(
-              "TIPIMAIL_NEW_STRUCTURE_ERROR",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          }
-        );
-      }
-    }
   }
 
   @Get(":id")

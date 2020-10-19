@@ -22,7 +22,6 @@ export type DomifaConfigKey =
   | "DOMIFA_SWAGGER_ENABLE"
   | "DOMIFA_CRON_ENABLED"
   | "DOMIFA_ADMIN_EMAIL"
-  | "DOMIFA_MAILJET_FROM_EMAIL"
   | "DOMIFA_TIPIMAIL_FROM_EMAIL";
 @Injectable()
 export class ConfigService {

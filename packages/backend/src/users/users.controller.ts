@@ -15,7 +15,6 @@ import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 
-import { MailJetService } from "./services/mailjet.service";
 import { StructuresService } from "../structures/services/structures.service";
 import { DomifaMailsService } from "../mails/services/domifa-mails.service";
 import { UsersService } from "./services/users.service";
@@ -44,8 +43,7 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly domifaMailsService: DomifaMailsService,
     private readonly usersMailsService: UsersMailsService,
-    private readonly structureService: StructuresService,
-    private readonly mailjetService: MailJetService
+    private readonly structureService: StructuresService
   ) {}
 
   @UseGuards(AuthGuard("jwt"))
@@ -249,21 +247,39 @@ export class UsersController {
             );
           }
         );
-        //
       } else {
-        //
-        //
-        //
-
         const admin = await this.usersService.findOne({
           role: "admin",
           structureId: newUser.structureId,
         });
 
-        //  this.mailjetService.newUser(admin, newUser);
+        this.usersMailsService.newUser(admin, newUser).then(
+          (result: AxiosResponse) => {
+            if (result.status !== 200) {
+              appLogger.warn(
+                `[StructuresMail] New User - mail to admin of structure failed`
+              );
+              appLogger.error(JSON.stringify(result.data));
+              throw new HttpException(
+                "TIPIMAIL_NEW_USER_ERROR",
+                HttpStatus.INTERNAL_SERVER_ERROR
+              );
+            } else {
+              return res.status(HttpStatus.OK).json(newUser);
+            }
+          },
+          (error: AxiosError) => {
+            appLogger.warn(
+              `[StructuresMail] mail new structure for domifa failed`
+            );
+            appLogger.error(JSON.stringify(error.message));
+            throw new HttpException(
+              "TIPIMAIL_NEW_STRUCTURE_ERROR",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          }
+        );
       }
-
-      return res.status(HttpStatus.OK).json(newUser);
     }
 
     throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -347,10 +363,13 @@ export class UsersController {
 
       if (updatedUser && updatedUser !== null) {
         this.usersMailsService.newPassword(updatedUser).then(
-          (result) => {
+          (result: AxiosResponse) => {
+            console.log(result.statusText);
+            console.log(result.data);
             return res.status(HttpStatus.OK).json({ message: "OK" });
           },
-          (error) => {
+          (error: AxiosError) => {
+            console.log(error.message);
             return res
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .json({ message: "MAIL_NEW_PASSWORD_ERROR" });

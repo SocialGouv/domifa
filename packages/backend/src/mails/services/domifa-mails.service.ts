@@ -18,6 +18,9 @@ export class DomifaMailsService {
     this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
 
+  //
+  // Indiquer la création d'une structure à l'équipe Domifa
+  //
   public newStructure(structure: Structure, user: User) {
     const route = structure._id + "/" + structure.token;
     const confirmationLink =
@@ -94,6 +97,9 @@ export class DomifaMailsService {
       .toPromise();
   }
 
+  //
+  // Demande de suppression d'une structure à l'équipe Domifa
+  //
   public async deleteStructure(structure: Structure) {
     const lien =
       process.env.DOMIFA_FRONTEND_URL +

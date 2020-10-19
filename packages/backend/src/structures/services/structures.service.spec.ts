@@ -8,7 +8,6 @@ import { StructuresProviders } from "../structures-providers";
 import { UsagersProviders } from "../../usagers/usagers.providers";
 import { UsersProviders } from "../../users/users.providers";
 import { ConfigService } from "../../config";
-import { MailJetService } from "../../users/services/mailjet.service";
 
 describe("Structure Service", () => {
   let service: StructuresService;
@@ -39,7 +38,6 @@ describe("Structure Service", () => {
         ...UsagersProviders,
         ...UsersProviders,
         ConfigService,
-        MailJetService,
       ],
     }).compile();
     service = module.get<StructuresService>(StructuresService);

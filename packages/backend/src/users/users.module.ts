@@ -5,8 +5,6 @@ import { ConfigService } from "../config/config.service";
 import { DatabaseModule } from "../database/database.module";
 import { StructuresModule } from "../structures/structure.module";
 
-import { MailJetService } from "./services/mailjet.service";
-
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { UsersProviders } from "./users.providers";
@@ -15,7 +13,7 @@ import { MailsModule } from "../mails/mails.module";
 
 @Module({
   controllers: [UsersController],
-  exports: [UsersService, ...UsersProviders, MailJetService, CronMailsService],
+  exports: [UsersService, ...UsersProviders, CronMailsService],
   imports: [
     DatabaseModule,
     HttpModule,
@@ -23,12 +21,6 @@ import { MailsModule } from "../mails/mails.module";
     forwardRef(() => MailsModule),
     forwardRef(() => StructuresModule),
   ],
-  providers: [
-    UsersService,
-    MailJetService,
-    CronMailsService,
-    ConfigService,
-    ...UsersProviders,
-  ],
+  providers: [UsersService, CronMailsService, ConfigService, ...UsersProviders],
 })
 export class UsersModule {}

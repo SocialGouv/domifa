@@ -1,4 +1,4 @@
-import { HttpException, HttpService, Injectable } from "@nestjs/common";
+import { HttpService, Injectable } from "@nestjs/common";
 
 import { ConfigService } from "../../config";
 
@@ -17,12 +17,15 @@ export class UsersMailsService {
     this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
 
+  //
+  // Mail pour l'admin de la structure
+  //
   public newUser(admin: User, user: User) {
     const post = {
       to: [
         {
-          address: this.domifaAdminMail,
-          personalName: "Domifa",
+          address: admin.email,
+          personalName: admin.prenom + " " + admin.nom,
         },
       ],
       headers: {
@@ -66,6 +69,9 @@ export class UsersMailsService {
       .toPromise();
   }
 
+  //
+  // Mail pour l'utilisateur créé par un admin
+  //
   public newUserFromAdmin(user: User) {
     const lien =
       process.env.DOMIFA_FRONTEND_URL +
@@ -75,8 +81,8 @@ export class UsersMailsService {
     const post = {
       to: [
         {
-          address: this.domifaAdminMail,
-          personalName: "Domifa",
+          address: user.email,
+          personalName: user.prenom + " " + user.nom,
         },
       ],
       headers: {
@@ -88,7 +94,7 @@ export class UsersMailsService {
               prenom: user.prenom,
               lien,
             },
-            meta: {},
+            subject: "Finalisez votre inscription sur Domifa",
           },
         ],
       },
@@ -101,8 +107,7 @@ export class UsersMailsService {
           personalName: "Domifa",
           address: this.domifaAdminMail,
         },
-        subject: "Nouvelle création de compte à valider",
-        html: "<p>Test</p>",
+        subject: "Finalisez votre inscription sur Domifa",
       },
     };
 
@@ -116,12 +121,15 @@ export class UsersMailsService {
       .toPromise();
   }
 
+  //
+  // Mail pour l'utilisateur une fois son compte activé par l'admin
+  //
   public accountActivated(user: User) {
     const post = {
       to: [
         {
-          address: this.domifaAdminMail,
-          personalName: "Domifa",
+          address: user.email,
+          personalName: user.nom + " " + user.prenom,
         },
       ],
       headers: {
@@ -148,7 +156,6 @@ export class UsersMailsService {
           address: this.domifaAdminMail,
         },
         subject: "Votre compte Domifa a été activé",
-        html: "<p>Test</p>",
       },
     };
 
@@ -162,6 +169,9 @@ export class UsersMailsService {
       .toPromise();
   }
 
+  //
+  // Mail avec le lien pour réinitialiser son mot de passe
+  //
   public async newPassword(user: User): Promise<any> {
     const confirmationLink =
       this.configService.get("DOMIFA_FRONTEND_URL") +
@@ -171,8 +181,8 @@ export class UsersMailsService {
     const post = {
       to: [
         {
-          address: this.domifaAdminMail,
-          personalName: "Domifa",
+          address: user.email,
+          personalName: user.nom + " " + user.prenom,
         },
       ],
       headers: {
@@ -180,12 +190,11 @@ export class UsersMailsService {
         "X-TM-SUB": [
           {
             email: user.email,
-            subject: "Changement du mot de passe Domifa",
+            subject: "Demande d'un nouveau mot de passe",
             values: {
               lien: confirmationLink,
               prenom: user.prenom,
             },
-            meta: {},
           },
         ],
       },
@@ -198,8 +207,7 @@ export class UsersMailsService {
           personalName: "Domifa",
           address: this.domifaAdminMail,
         },
-        subject: "Changement du mot de passe Domifa",
-        html: "<p>Test</p>",
+        subject: "Demande d'un nouveau mot de passe",
       },
     };
 

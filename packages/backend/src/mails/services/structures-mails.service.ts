@@ -17,4 +17,53 @@ export class StructuresMailsService {
     this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
     this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
+
+  public async confirmationStructure(
+    structure: Structure,
+    user: User
+  ): Promise<any> {
+    const post = {
+      to: [
+        {
+          address: user.email,
+          personalName: user.prenom + " " + user.nom,
+        },
+      ],
+      headers: {
+        "X-TM-TEMPLATE": "usagers-prise-de-rendez-vous",
+        "X-TM-SUB": [
+          {
+            email: user.email,
+            values: {
+              lien: this.configService.get("DOMIFA_FRONTEND_URL"),
+              nom_structure: structure.nom,
+              prenom: user.prenom,
+            },
+            subject: "Votre compte Domifa a été activé",
+            meta: {},
+          },
+        ],
+      },
+      msg: {
+        from: {
+          personalName: "Domifa",
+          address: this.domifaFromMail,
+        },
+        replyTo: {
+          personalName: "Domifa",
+          address: this.domifaAdminMail,
+        },
+        subject: "Votre compte Domifa a été activé",
+      },
+    };
+
+    return this.httpService
+      .post("https://api.tipimail.com/v1/messages/send", post, {
+        headers: {
+          "X-Tipimail-ApiUser": process.env.SMTP_USER,
+          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+        },
+      })
+      .toPromise();
+  }
 }
