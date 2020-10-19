@@ -5,7 +5,7 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { MailJetService } from "./services/mailjet.service";
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
-import { TipimailService } from "./services/tipimail.service";
+import { CronMailsService } from "../mails/services/cron-mails.service";
 import { HttpModule } from "@nestjs/common";
 import { UsersProviders } from "./users.providers";
 import { DatabaseModule } from "../database/database.module";
@@ -17,7 +17,7 @@ describe("Users Controller", () => {
       imports: [DatabaseModule, StructuresModule, UsagersModule, HttpModule],
       providers: [
         { provide: UsersService, useValue: {} },
-        TipimailService,
+        CronMailsService,
         ...UsersProviders,
         MailJetService,
         ConfigService,

@@ -10,23 +10,25 @@ import { MailJetService } from "./services/mailjet.service";
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { UsersProviders } from "./users.providers";
-import { TipimailService } from "./services/tipimail.service";
+import { CronMailsService } from "../mails/services/cron-mails.service";
+import { MailsModule } from "../mails/mails.module";
 
 @Module({
   controllers: [UsersController],
-  exports: [UsersService, ...UsersProviders, MailJetService, TipimailService],
+  exports: [UsersService, ...UsersProviders, MailJetService, CronMailsService],
   imports: [
     DatabaseModule,
     HttpModule,
     forwardRef(() => AuthModule),
+    forwardRef(() => MailsModule),
     forwardRef(() => StructuresModule),
   ],
   providers: [
     UsersService,
-    ...UsersProviders,
     MailJetService,
-    TipimailService,
+    CronMailsService,
     ConfigService,
+    ...UsersProviders,
   ],
 })
 export class UsersModule {}

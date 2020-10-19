@@ -3,7 +3,7 @@ import { AuthGuard } from "@nestjs/passport";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
 
-import { StructuresService } from "../../structures/structures.service";
+import { StructuresService } from "../../structures/services/structures.service";
 import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
 import { Usager } from "../interfaces/usagers";
@@ -16,7 +16,7 @@ import { UserRole } from "../../users/user-role.type";
 
 @UseGuards(AuthGuard("jwt"), ResponsableGuard)
 @ApiTags("export")
-  @ApiBearerAuth()
+@ApiBearerAuth()
 @Controller("export")
 export class ExportController {
   // Données des usagers + ayant-droit

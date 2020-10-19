@@ -5,7 +5,7 @@ import { InteractionsModule } from "../interactions/interactions.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { StructuresController } from "./structures.controller";
-import { StructuresService } from "./structures.service";
+import { StructuresService } from "./services/structures.service";
 
 describe("Stuctures Controller", () => {
   it("should be defined", async () => {

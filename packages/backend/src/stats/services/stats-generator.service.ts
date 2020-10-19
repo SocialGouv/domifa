@@ -6,7 +6,7 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Interaction } from "../../interactions/interactions.interface";
 
-import { StructuresService } from "../../structures/structures.service";
+import { StructuresService } from "../../structures/services/structures.service";
 import { Usager } from "../../usagers/interfaces/usagers";
 
 import { Stats } from "../stats.class";

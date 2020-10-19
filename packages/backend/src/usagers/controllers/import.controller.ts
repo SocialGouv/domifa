@@ -19,7 +19,7 @@ import { AuthGuard } from "@nestjs/passport";
 
 import { CurrentUser } from "../../auth/current-user.decorator";
 
-import { StructuresService } from "../../structures/structures.service";
+import { StructuresService } from "../../structures/services/structures.service";
 import { UsagersService } from "../services/usagers.service";
 
 import { User } from "../../users/user.interface";

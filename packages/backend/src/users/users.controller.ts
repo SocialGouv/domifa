@@ -14,7 +14,9 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
-import { StructuresService } from "../structures/structures.service";
+
+import { StructuresService } from "../structures/services/structures.service";
+
 import { EmailDto } from "./dto/email.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
@@ -22,27 +24,27 @@ import { UserDto } from "./dto/user.dto";
 import { MailJetService } from "./services/mailjet.service";
 import { UsersService } from "./services/users.service";
 import { User } from "./user.interface";
-import { TipimailService } from "./services/tipimail.service";
+import { CronMailsService } from "../mails/services/cron-mails.service";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { EditPasswordDto } from "./dto/edit-password.dto";
 
 import * as bcrypt from "bcryptjs";
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiTags,
-  ApiSecurity,
-} from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { UserRole } from "./user-role.type";
+import { DomifaMailsService } from "../mails/services/domifa-mails.service";
+import { AxiosResponse, AxiosError } from "axios";
+import { appLogger } from "../util";
+import { UsersMailsService } from "../mails/services/users-mails.service";
 
 @Controller("users")
 @ApiTags("users")
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
+    private readonly domifaMailsService: DomifaMailsService,
+    private readonly usersMailsService: UsersMailsService,
     private readonly structureService: StructuresService,
-    private readonly mailjetService: MailJetService,
-    private readonly tipimailService: TipimailService
+    private readonly mailjetService: MailJetService
   ) {}
 
   @UseGuards(AuthGuard("jwt"))
@@ -180,22 +182,59 @@ export class UsersController {
     }
 
     const newUser = await this.usersService.create(userDto, structure);
+
     if (newUser && newUser !== null) {
+      this.structureService.addUser(newUser, userDto.structureId);
+      delete newUser.password;
+
       if (newUser.role === "admin") {
-        this.mailjetService.newStructure(structure, newUser);
+        //
+        // Mail vers Domifa pour indiquer une création de structure
+        //
+        this.domifaMailsService.newStructure(structure, newUser).then(
+          (result: AxiosResponse) => {
+            if (result.status !== 200) {
+              appLogger.warn(
+                `[StructuresMail] mail new structure for domifa failed`
+              );
+              appLogger.error(JSON.stringify(result.data));
+
+              throw new HttpException(
+                "TIPIMAIL_NEW_STRUCTURE_ERROR",
+                HttpStatus.INTERNAL_SERVER_ERROR
+              );
+            } else {
+              return res.status(HttpStatus.OK).json(newUser);
+            }
+          },
+          (error: AxiosError) => {
+            appLogger.warn(
+              `[StructuresMail] mail new structure for domifa failed`
+            );
+            appLogger.error(JSON.stringify(error.message));
+            throw new HttpException(
+              "TIPIMAIL_NEW_STRUCTURE_ERROR",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          }
+        );
+        //
       } else {
+        //
+        //
+        //
+
         const admin = await this.usersService.findOne({
           role: "admin",
           structureId: newUser.structureId,
         });
-        this.mailjetService.newUser(admin, newUser);
-      }
-      this.structureService.addUser(newUser, userDto.structureId);
 
-      newUser.password = "";
+        //  this.mailjetService.newUser(admin, newUser);
+      }
 
       return res.status(HttpStatus.OK).json(newUser);
     }
+
     throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
@@ -323,7 +362,7 @@ export class UsersController {
     );
 
     if (updatedUser && updatedUser !== null) {
-      this.tipimailService.registerConfirm(updatedUser).then(
+      this.usersMailsService.newUserFromAdmin(updatedUser).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },

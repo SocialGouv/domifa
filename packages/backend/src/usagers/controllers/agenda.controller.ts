@@ -18,12 +18,13 @@ import { Usager } from "../interfaces/usagers";
 
 import * as ics from "ics";
 
-import { TipimailService } from "../../users/services/tipimail.service";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { RdvDto } from "../dto/rdv.dto";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+
+import { UsagersMailsService } from "../../mails/services/usagers-mails.service";
 
 @ApiTags("agenda")
 @ApiBearerAuth()
@@ -31,7 +32,7 @@ import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 export class AgendaController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly tipimailService: TipimailService,
+    private readonly mailService: UsagersMailsService,
     private readonly usersService: UsersService
   ) {}
 
@@ -107,7 +108,7 @@ export class AgendaController {
       );
 
       if (updatedUsager && updatedUsager !== null) {
-        this.tipimailService.mailRdv(user, updatedUsager, attachment, msg).then(
+        this.mailService.mailRdv(user, updatedUsager, attachment, msg).then(
           (result) => {
             return res.status(HttpStatus.OK).json(updatedUsager);
           },

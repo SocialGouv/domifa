@@ -1,4 +1,4 @@
-import { forwardRef, Module } from "@nestjs/common";
+import { forwardRef, Module, HttpModule } from "@nestjs/common";
 import { DatabaseModule } from "../database/database.module";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { InteractionsProviders } from "../interactions/interactions.providers";
@@ -16,6 +16,10 @@ import { DocsController } from "./controllers/docs.controller";
 import { ExportController } from "./controllers/export.controller";
 import { AgendaController } from "./controllers/agenda.controller";
 
+import { UsagersMailsService } from "../mails/services/usagers-mails.service";
+import { ConfigService } from "../config";
+import { MailsModule } from "../mails/mails.module";
+
 @Module({
   controllers: [
     UsagersController,
@@ -29,11 +33,14 @@ import { AgendaController } from "./controllers/agenda.controller";
     UsagersService,
     CerfaService,
     DocumentsService,
+
     ...UsagersProviders,
     ...InteractionsProviders,
   ],
   imports: [
+    HttpModule,
     DatabaseModule,
+    forwardRef(() => MailsModule),
     forwardRef(() => StructuresModule),
     forwardRef(() => StatsModule),
     forwardRef(() => UsersModule),
@@ -43,6 +50,7 @@ import { AgendaController } from "./controllers/agenda.controller";
     UsagersService,
     CerfaService,
     DocumentsService,
+    ConfigService,
     ...UsagersProviders,
     ...InteractionsProviders,
   ],
