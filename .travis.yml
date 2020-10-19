@@ -35,6 +35,11 @@ addons:
     - echo "DB_PASS=test" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DB_HOST=127.0.0.1" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DB_PORT=27017" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "SMTP_HOST=${SMTP_HOST}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "SMTP_USER=${SMTP_USER}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "SMTP_PASS=${SMTP_PASS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "DOMIFA_ADMIN_EMAIL=${DOMIFA_ADMIN_EMAIL}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+    - echo "DOMIFA_TIPIMAIL_FROM_EMAIL=${DOMIFA_TIPIMAIL_FROM_EMAIL}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DOMIFA_BACKEND_URL=http://localhost:3000/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DOMIFA_FRONTEND_URL=http://localhost:4200/" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "SECRET=O6RL8gsk4QpbKlLaazpdkqzpokdopzkdpokqz9!ç-rH4176OKPOKd8!29990xohuihHYNJQ6"  >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
