@@ -26,7 +26,23 @@ export async function bootstrapApplication() {
 
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe());
-    app.enableCors();
+    const corsUrl = config.get("DOMIFA_CORS_URL");
+    const enableCorsSecurity = corsUrl && corsUrl.trim().length !== 0;
+    if (enableCorsSecurity) {
+      appLogger.warn(`Enable CORS from URL "${corsUrl}"`);
+      app.enableCors({
+        origin: corsUrl, // https://docs.nestjs.com/techniques/security#cors
+      });
+    } else {
+      if (config.getEnvId() === "dev") {
+        app.enableCors({
+          origin: true, // "Access-Control-Allow-Origin" = request.origin (unsecure): https://docs.nestjs.com/techniques/security#cors
+        });
+      } else {
+        appLogger.error(`Disable CORS: configure "DOMIFA_CORS_URL" to enable.`);
+      }
+    }
+
     app.use(compression());
     configureSwagger(config, app);
 

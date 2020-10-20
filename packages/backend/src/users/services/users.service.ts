@@ -8,16 +8,26 @@ import { UserDto } from "../dto/user.dto";
 import { User } from "../user.interface";
 import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 import { EditPasswordDto } from "../dto/edit-password.dto";
+import { UserProfil } from "../user-profil.type";
 
+function mongoSelectAttributes<T>(...attributes: (keyof T)[]): string {
+  return attributes.join(" ");
+}
+
+const USER_PROFILE_ATTRIBUTES = mongoSelectAttributes<UserProfil>(
+  "id",
+  "email",
+  "nom",
+  "prenom",
+  "role",
+  "verified"
+);
 @Injectable()
 export class UsersService {
   constructor(@Inject("USER_MODEL") private readonly userModel: Model<User>) {}
 
   public async findAll(request: any): Promise<User[]> {
-    return this.userModel
-      .find(request)
-      .select("-password -tokens -structureId -mails")
-      .exec();
+    return this.userModel.find(request).select(USER_PROFILE_ATTRIBUTES).exec();
   }
 
   public async create(userDto: UserDto, structure: Structure): Promise<User> {
@@ -51,7 +61,7 @@ export class UsersService {
     userId: number,
     structureId: number,
     data: any
-  ): Promise<any> {
+  ): Promise<UserProfil> {
     return this.userModel
       .findOneAndUpdate(
         {
@@ -65,7 +75,7 @@ export class UsersService {
           new: true,
         }
       )
-      .select("-password -mails")
+      .select(USER_PROFILE_ATTRIBUTES)
       .exec();
   }
 

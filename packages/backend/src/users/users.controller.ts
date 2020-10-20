@@ -12,6 +12,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 
@@ -26,15 +27,19 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 import { User } from "./user.interface";
 
+import { ResponsableGuard } from "../auth/guards/responsable.guard";
+
+import { EditPasswordDto } from "./dto/edit-password.dto";
 import { EmailDto } from "./dto/email.dto";
+import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
-import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
-import { EditPasswordDto } from "./dto/edit-password.dto";
 
 import { UserRole } from "./user-role.type";
 import { appLogger } from "../util";
+
+import { UserProfil } from "./user-profil.type";
 
 @Controller("users")
 @ApiTags("users")
@@ -46,11 +51,11 @@ export class UsersController {
     private readonly structureService: StructuresService
   ) {}
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), ResponsableGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
   @Get("")
-  public getUsers(@CurrentUser() user: User): Promise<User[]> {
+  public getUsers(@CurrentUser() user: User): Promise<UserProfil[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
       verified: true,
@@ -61,7 +66,7 @@ export class UsersController {
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
   @UseGuards(AuthGuard("jwt"), AdminGuard)
-  public getUsersToConfirm(@CurrentUser() user: User): Promise<User[]> {
+  public getUsersToConfirm(@CurrentUser() user: User): Promise<UserProfil[]> {
     return this.usersService.findAll({
       structureId: user.structureId,
       verified: false,
@@ -121,7 +126,7 @@ export class UsersController {
     @Param("id") id: number,
     @Param("role") role: UserRole,
     @CurrentUser() user: User
-  ) {
+  ): Promise<UserProfil> {
     if (
       role !== "simple" &&
       role !== "admin" &&
@@ -171,7 +176,7 @@ export class UsersController {
     return res.status(HttpStatus.OK).json({ success: true, message: retour });
   }
 
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
   @Patch()
   public async patch(
     @CurrentUser() user: User,

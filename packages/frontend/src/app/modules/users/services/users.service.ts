@@ -6,6 +6,7 @@ import { environment } from "src/environments/environment";
 import { User } from "../interfaces/user";
 import { Usager } from "../../usagers/interfaces/usager";
 import { UserRole } from "../interfaces/user-role.type";
+import { UserProfil } from "../interfaces/user-profil.type";
 
 @Injectable({
   providedIn: "root",
@@ -46,7 +47,7 @@ export class UsersService {
     );
   }
 
-  public getUsers(): Observable<User[]> {
+  public getUsers(): Observable<UserProfil[]> {
     return this.http.get(`${this.endPoint}`).pipe(
       map((response) => {
         return Array.isArray(response)
@@ -66,7 +67,7 @@ export class UsersService {
     );
   }
 
-  public getNewUsers() {
+  public getNewUsers(): Observable<UserProfil[]> {
     return this.http.get(`${this.endPoint}/to-confirm`).pipe(
       map((response) => {
         return Array.isArray(response)
@@ -76,7 +77,7 @@ export class UsersService {
     );
   }
 
-  public confirmUser(id: number) {
+  public confirmUser(id: number): Observable<UserProfil> {
     return this.http.get(`${this.endPoint}/confirm/${id}`).pipe(
       map((response) => {
         return new User(response);
@@ -84,7 +85,7 @@ export class UsersService {
     );
   }
 
-  public updateRole(id: number, role: UserRole) {
+  public updateRole(id: number, role: UserRole): Observable<UserProfil> {
     return this.http.get(`${this.endPoint}/update-role/${id}/${role}`).pipe(
       map((response) => {
         return new User(response);

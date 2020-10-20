@@ -11,6 +11,7 @@ export type DomifaConfigKey =
   | "DB_AUTH_SOURCE"
   | "FILES_IV"
   | "FILES_PRIVATE"
+  | "DOMIFA_CORS_URL"
   | "DOMIFA_FRONTEND_URL"
   | "DOMIFA_BACKEND_URL"
   | "SECRET"
