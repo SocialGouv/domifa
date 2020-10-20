@@ -102,7 +102,7 @@ export class UsagersMailsService {
         },
       ],
       headers: {
-        "X-TM-TEMPLATE": "usagers-prise-de-rendez-vous",
+        "X-TM-TEMPLATE": "usagers-hard-reset",
         "X-TM-SUB": [
           {
             email: user.email,

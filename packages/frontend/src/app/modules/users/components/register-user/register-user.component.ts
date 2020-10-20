@@ -131,7 +131,6 @@ export class RegisterUserComponent implements OnInit {
   public postUser() {
     this.userService.create(this.userForm.value).subscribe(
       (user: User) => {
-        this.user = new User(user);
         this.success = true;
         this.notifService.success(
           "Votre compte a été créé avec succès",

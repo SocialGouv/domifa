@@ -34,7 +34,7 @@ export class UsersMailsService {
         "X-TM-SUB": [
           {
             email: admin.email,
-            subject: "Nouvelle création de compte à valider",
+            subject: "Un nouvel utilisateur souhaite rejoindre votre structure",
             values: {
               admin_prenom: admin.prenom,
               lien: this.configService.get("DOMIFA_FRONTEND_URL") + "connexion",
@@ -55,7 +55,7 @@ export class UsersMailsService {
           personalName: "Domifa",
           address: this.domifaAdminMail,
         },
-        subject: "Nouvelle création de compte à valider",
+        subject: "Un nouvel utilisateur souhaite rejoindre votre structure",
         html: "<p>Test</p>",
       },
     };

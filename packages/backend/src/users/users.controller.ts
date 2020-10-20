@@ -232,7 +232,7 @@ export class UsersController {
                 HttpStatus.INTERNAL_SERVER_ERROR
               );
             } else {
-              return res.status(HttpStatus.OK).json(newUser);
+              return res.status(HttpStatus.OK);
             }
           },
           (error: AxiosError) => {
@@ -264,7 +264,7 @@ export class UsersController {
                 HttpStatus.INTERNAL_SERVER_ERROR
               );
             } else {
-              return res.status(HttpStatus.OK).json(newUser);
+              return res.status(HttpStatus.OK);
             }
           },
           (error: AxiosError) => {
@@ -454,44 +454,5 @@ export class UsersController {
           .json({ message: "EDIT_PASSWORD", content: JSON.stringify(error) });
       }
     );
-  }
-
-  @Get("mails")
-  public async tests(@Response() res: any) {
-    const newUser = await this.usersService.findOne({ id: 487 });
-
-    const structure = await this.structureService.findOne(169);
-
-    if (structure && structure !== null && newUser && newUser !== null) {
-      return this.domifaMailsService.newStructure(structure, newUser).then(
-        (result: AxiosResponse) => {
-          if (result.status !== 200) {
-            appLogger.warn(
-              `[StructuresMail] mail new structure for domifa failed`
-            );
-            appLogger.error(JSON.stringify(result.data));
-
-            throw new HttpException(
-              "TIPIMAIL_NEW_STRUCTURE_ERROR",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          } else {
-            return res.status(HttpStatus.OK).json(result.data);
-          }
-        },
-        (error: AxiosError) => {
-          appLogger.warn(
-            `[StructuresMail] mail new structure for domifa failed`
-          );
-          appLogger.error(JSON.stringify(error.message));
-          throw new HttpException(
-            "TIPIMAIL_NEW_STRUCTURE_ERROR",
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-      );
-    } else {
-      return res.status(HttpStatus.BAD_REQUEST).json("FAILED");
-    }
   }
 }
