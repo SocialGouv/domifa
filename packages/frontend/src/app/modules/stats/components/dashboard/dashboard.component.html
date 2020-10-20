@@ -3,7 +3,19 @@
 <div id="stats">
   <div class="row">
     <div class="col-md-8">
-      <div>
+      <div class="stats-export-btn">
+        <button (click)="exportDashboard()" [disabled]="exportLoading" class="btn btn-primary">
+          <span *ngIf="!exportLoading">
+            <fa-icon icon="download" class="btn-icon"></fa-icon>
+            Exporter les statistiques
+          </span>
+          <span *ngIf="exportLoading">
+            <fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en
+            cours, veuillez patienter...
+          </span>
+        </button>
+      </div>
+        <div>
         <span class="stats-titre">CHIFFRES DE LA DOMICILIATION</span>
       </div>
 

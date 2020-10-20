@@ -13,7 +13,10 @@ import { interactionsLabelsPluriel } from "src/app/modules/usagers/interactions.
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { dataCompare } from "src/app/shared/dataCompare.service";
 import { departements, DepartementsLabels } from "src/app/shared/departements";
-import { regions, RegionsLabels } from "../../regions.labels";
+import {
+  RegionsLabels,
+  REGIONS_LABELS_MAP,
+} from "src/app/shared/REGIONS_LABELS_MAP.const";
 import { StatsService } from "../../stats.service";
 
 export type DashboardTableStructure = Pick<
@@ -88,6 +91,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public labels: any;
   public todayStats: any;
+  public exportLoading: boolean;
 
   public regions: RegionsLabels;
   public departements: DepartementsLabels;
@@ -109,7 +113,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {
     this.interactionsLabels = interactionsLabelsPluriel;
     this.labels = labels;
-    this.regions = regions;
+    this.regions = REGIONS_LABELS_MAP;
     this.departements = departements;
 
     this.docs = 0;
@@ -166,9 +170,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
 
     this.statsService.getInteractions().subscribe((stats: any[]) => {
-      stats.forEach((stat) => {
-        this.allInteractions[stat._id.statut] = stat.sum[0];
-      });
+      this.allInteractions = stats;
     });
 
     const sortedTableStructures$ = this.buildSortedTableStructures();
@@ -177,6 +179,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortedTableStructures$.subscribe((sortedTableStructures) => {
         this.sortedTableStructures = sortedTableStructures;
       })
+    );
+  }
+
+  public exportDashboard() {
+    this.exportLoading = true;
+    this.statsService.exportDashboard().subscribe(
+      (x: any) => {
+        const newBlob = new Blob([x], {
+          type:
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        saveAs(newBlob, "export_stats_domifa" + ".xlsx");
+        setTimeout(() => {
+          this.exportLoading = false;
+        }, 500);
+      },
+      (error: any) => {
+        this.notifService.error(
+          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+        );
+        this.exportLoading = false;
+      }
     );
   }
 

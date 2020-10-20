@@ -1,10 +1,12 @@
+import { StructureType } from "../structures/StructureType.type";
+
 export class Stats {
   //  public _id: ObjectID;
   public _id: any;
   public createdAt: Date;
   public nom: string;
   public structureId: number;
-  public structureType: string;
+  public structureType: StructureType;
   public departement: string;
   public ville: string;
   public capacite: number;

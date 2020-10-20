@@ -6,6 +6,7 @@ import { User } from "../users/user.interface";
 import { InteractionDto } from "./interactions.dto";
 import { Interaction } from "./interactions.interface";
 import { type } from "os";
+import { InteractionType } from "./InteractionType.type";
 
 @Injectable()
 export class InteractionsService {
@@ -147,7 +148,7 @@ export class InteractionsService {
   public async findLastInteraction(
     usagerId: number,
     dateInteraction: Date,
-    typeInteraction: string,
+    typeInteraction: InteractionType,
     user: User,
     isIn: string
   ): Promise<Interaction | null> {

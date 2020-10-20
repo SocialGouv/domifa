@@ -1,10 +1,13 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
+import { StructureType } from "../../structures/StructureType.type";
+import { StatsDeploiement } from "../../excel/export-stats-deploiement";
 import { Interaction } from "../../interactions/interactions.interface";
 import { Structure } from "../../structures/structure-interface";
 
 import { Usager } from "../../usagers/interfaces/usagers";
 import { User } from "../../users/user.interface";
+import { StatsGeneratorService } from "./stats-generator.service";
 
 @Injectable()
 export class DashboardService {
@@ -22,7 +25,8 @@ export class DashboardService {
     @Inject("USER_MODEL")
     private userModel: Model<User>,
     @Inject("INTERACTION_MODEL")
-    private interactionModel: Model<Interaction>
+    private interactionModel: Model<Interaction>,
+    private statsGeneratorService: StatsGeneratorService
   ) {
     this.today = new Date();
     this.demain = new Date();
@@ -31,16 +35,28 @@ export class DashboardService {
     this.dateMajorite = new Date();
   }
 
-  public async getStructures(): Promise<Structure[]> {
-    return this.structureModel
+  public async getStructures(
+    options: {
+      sort?: any;
+    } = {}
+  ): Promise<Structure[]> {
+    let query = this.structureModel
       .find()
       .collation({ locale: "en", strength: 2 })
       .select("-token +stats")
-      .populate("users", "verified")
-      .exec();
+      .populate("users", "verified");
+    if (options.sort) {
+      query = query.sort(options.sort);
+    }
+    return query.exec();
   }
 
-  public async getStructuresByType(): Promise<any> {
+  public async getStructuresByType(): Promise<
+    {
+      structureType: StructureType;
+      count: number;
+    }[]
+  > {
     return this.structureModel.aggregate([
       {
         $project: {
@@ -61,8 +77,10 @@ export class DashboardService {
     ]);
   }
 
-  public async getInteractions() {
-    return this.interactionModel
+  public async getInteractionsCountByType(): Promise<{
+    [statut: string]: number;
+  }> {
+    const res = await this.interactionModel
       .aggregate([
         { $match: {} },
         {
@@ -80,9 +98,19 @@ export class DashboardService {
         },
       ])
       .exec();
+
+    return res.reduce((acc, stat) => {
+      acc[stat._id.statut] = stat.sum[0];
+      return acc;
+    }, {});
   }
 
-  public async getUsagersValide() {
+  public async getUsagersValide(): Promise<
+    {
+      structureId: string;
+      count: number;
+    }[]
+  > {
     return this.usagerModel
       .aggregate([
         {
@@ -157,7 +185,12 @@ export class DashboardService {
       .exec();
   }
 
-  public async getRegions() {
+  public async getRegions(): Promise<
+    {
+      region: string;
+      count: number;
+    }[]
+  > {
     return this.structureModel
       .aggregate([
         { $project: { _id: "$_id", ___group: { region: "$region" } } },
@@ -167,5 +200,76 @@ export class DashboardService {
         { $sort: { count: -1, region: 1 } },
       ])
       .exec();
+  }
+
+  public async getUsagersCountByStatut() {
+    const ayantsDroits = await this.statsGeneratorService.countAyantsDroits();
+    const result = await this.getUsagers();
+
+    const usagers: { [key: string]: number } = {};
+    let total = 0;
+
+    usagers.AYANTS_DROITS = ayantsDroits[0].count;
+    for (const usager of result) {
+      usagers[usager._id.statut] = usager.sum[0];
+      total += usager.sum[0];
+    }
+    usagers.TOUS = total + usagers.AYANTS_DROITS;
+    return usagers;
+  }
+
+  public async getUsagersCountByStructureId() {
+    const result = await this.getUsagersValide();
+    const usagersCountByStructureId: { [key: string]: number } = {};
+
+    for (const usager of result) {
+      usagersCountByStructureId[usager.structureId] = usager.count;
+    }
+    return usagersCountByStructureId;
+  }
+
+  public async getDocsCount() {
+    const docs = await this.statsGeneratorService.countDocs();
+    return docs[0].count;
+  }
+
+  public async getStructuresCountByType() {
+    const structures: { [key: string]: number } = {};
+    const result = await this.getStructuresByType();
+    for (const structure of result) {
+      structures[structure.structureType] = structure.count;
+    }
+    return structures;
+  }
+
+  public async getStatsDeploiement() {
+    const structures: Structure[] = await this.getStructures({
+      sort: {
+        createdAt: 1,
+      },
+    });
+
+    const usagersCountByStructureId = await this.getUsagersCountByStructureId();
+    const usagersCountByStatut = await this.getUsagersCountByStatut();
+
+    const structuresCountByRegion = await this.getRegions();
+
+    const structuresCountByType = await this.getStructuresCountByType();
+    const usersCount = await this.getUsers();
+    const docsCount = await this.getDocsCount();
+    const interactionsCountByStatut = await this.getInteractionsCountByType();
+
+    const stats: StatsDeploiement = {
+      exportDate: new Date(),
+      structures,
+      usagersCountByStructureId,
+      usagersCountByStatut,
+      structuresCountByRegion,
+      structuresCountByType,
+      usersCount,
+      docsCount,
+      interactionsCountByStatut,
+    };
+    return stats;
   }
 }

@@ -16,6 +16,7 @@ export class StatsService {
   public epUsagers = environment.apiUrl + "usagers/";
   public epUsers = environment.apiUrl + "users/";
   public epInteractions = environment.apiUrl + "interactions/";
+  public epDashboard = environment.apiUrl + "dashboard/";
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -122,6 +123,11 @@ export class StatsService {
 
   public exportId(statId: string) {
     return this.http.get(`${this.baseUrl}export/` + statId, {
+      responseType: "blob",
+    });
+  }
+  public exportDashboard() {
+    return this.http.get(`${this.epDashboard}export`, {
       responseType: "blob",
     });
   }

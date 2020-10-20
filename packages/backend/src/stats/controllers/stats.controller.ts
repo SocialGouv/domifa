@@ -25,6 +25,7 @@ import {
   residence,
   typeMenage,
 } from "../usagers.labels";
+import { Response } from "express";
 
 import moment = require("moment");
 import { appLogger } from "../../util";
@@ -74,7 +75,7 @@ export class StatsController {
   public async export(
     @Param("id") id: string,
     @CurrentUser() user: User,
-    @Res() res: any
+    @Res() res: Response
   ) {
     const stats = await this.statsService.getStatById(id, user.structureId);
     res.status(200).send(this.exportData(stats));
@@ -116,7 +117,7 @@ export class StatsController {
   public async exportByDate(
     @CurrentUser() user: User,
     @Body() statsDto: StatsDto,
-    @Res() res: any
+    @Res() res: Response
   ) {
     const { stats: dataToExport } = await this.parsePostData(user, statsDto);
 

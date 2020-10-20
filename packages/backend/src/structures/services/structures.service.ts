@@ -27,7 +27,7 @@ export class StructuresService {
     @Inject("STRUCTURE_MODEL")
     private structureModel: Model<Structure>,
     private departementHelper: DepartementHelper
-  ) {}
+  ) { }
 
   public async prePost(structureDto: StructureDto): Promise<any> {
     try {

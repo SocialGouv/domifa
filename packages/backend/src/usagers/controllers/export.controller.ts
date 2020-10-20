@@ -8,6 +8,7 @@ import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
 import { Usager } from "../interfaces/usagers";
 import * as labels from "../../stats/usagers.labels";
+import { Response } from "express";
 
 import { InteractionsService } from "../../interactions/interactions.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
@@ -47,7 +48,7 @@ export class ExportController {
     @Param("id") id: number,
     @Param("role") role: UserRole,
     @CurrentUser() user: User,
-    @Res() res: any
+    @Res() res: Response
   ) {
     this.dataSheet1 = [
       {

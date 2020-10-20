@@ -8,6 +8,10 @@
   margin: 25px auto;
 }
 
+.stats-export-btn{
+  margin-bottom: 1rem;
+}
+
 .stats-button {
   margin: 5px;
 }
