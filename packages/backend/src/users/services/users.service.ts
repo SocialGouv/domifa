@@ -64,16 +64,9 @@ export class UsersService {
   ): Promise<UserProfil> {
     return this.userModel
       .findOneAndUpdate(
-        {
-          id: userId,
-          structureId,
-        },
-        {
-          $set: data,
-        },
-        {
-          new: true,
-        }
+        { id: userId, structureId },
+        { $set: data },
+        { new: true }
       )
       .select(USER_PROFILE_ATTRIBUTES)
       .exec();

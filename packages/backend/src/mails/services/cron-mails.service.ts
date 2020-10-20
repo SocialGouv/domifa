@@ -93,6 +93,7 @@ export class CronMailsService {
           address: this.domifaAdminMail,
         },
         subject: "Le guide utilisateur Domifa",
+        html: "<p>Test</p>",
       },
     };
 

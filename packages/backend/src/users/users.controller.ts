@@ -201,7 +201,7 @@ export class UsersController {
   public async create(@Body() userDto: UserDto, @Response() res: any) {
     const user = await this.usersService.findOne({ email: userDto.email });
 
-    if (user) {
+    if (user || user !== null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "EMAIL_EXIST" });
@@ -219,13 +219,14 @@ export class UsersController {
 
     if (newUser && newUser !== null) {
       this.structureService.addUser(newUser, userDto.structureId);
+
       delete newUser.password;
 
       if (newUser.role === "admin") {
         //
         // Mail vers Domifa pour indiquer une création de structure
         //
-        this.domifaMailsService.newStructure(structure, newUser).then(
+        return this.domifaMailsService.newStructure(structure, newUser).then(
           (result: AxiosResponse) => {
             if (result.status !== 200) {
               appLogger.warn(
@@ -258,7 +259,7 @@ export class UsersController {
           structureId: newUser.structureId,
         });
 
-        this.usersMailsService.newUser(admin, newUser).then(
+        return this.usersMailsService.newUser(admin, newUser).then(
           (result: AxiosResponse) => {
             if (result.status !== 200) {
               appLogger.warn(
@@ -314,7 +315,7 @@ export class UsersController {
     if (existUser.tokens.passwordValidity < today) {
       throw new HttpException("TOKEN_EXPIRED", HttpStatus.BAD_REQUEST);
     }
-    return existUser;
+    return true;
   }
 
   @Post("reset-password")
@@ -366,22 +367,22 @@ export class UsersController {
         emailDto.email
       );
 
-      if (updatedUser && updatedUser !== null) {
-        this.usersMailsService.newPassword(updatedUser).then(
-          (result: AxiosResponse) => {
-            return res.status(HttpStatus.OK).json({ message: "OK" });
-          },
-          (error: AxiosError) => {
-            return res
-              .status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .json({ message: "MAIL_NEW_PASSWORD_ERROR" });
-          }
-        );
-      } else {
+      if (!updatedUser || updatedUser === null) {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
       }
+
+      return this.usersMailsService.newPassword(updatedUser).then(
+        (result: AxiosResponse) => {
+          return res.status(HttpStatus.OK).json({ message: result.data });
+        },
+        (error: AxiosError) => {
+          return res
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "MAIL_NEW_PASSWORD_ERROR" });
+        }
+      );
     }
   }
 

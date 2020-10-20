@@ -72,7 +72,6 @@ export class UsagersMailsService {
           address: this.domifaAdminMail,
         },
         subject: "Prise de rendez-vous entre le demandeur et un collaborateur",
-        html: "<p>Test</p>",
         attachments: [
           {
             contentType: "text/calendar",
@@ -80,6 +79,7 @@ export class UsagersMailsService {
             content: event,
           },
         ],
+        html: "<p>Test</p>",
       },
     };
 
@@ -122,6 +122,7 @@ export class UsagersMailsService {
           address: this.domifaAdminMail,
         },
         subject: "Code de confirmation Domifa pour supprimer les usagers",
+        html: "<p>Test</p>",
       },
     };
 

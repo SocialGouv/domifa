@@ -3,6 +3,7 @@ import { HttpService, Injectable } from "@nestjs/common";
 import { ConfigService } from "../../config";
 
 import { User } from "../../users/user.interface";
+import { UserProfil } from "../../users/user-profil.type";
 
 @Injectable()
 export class UsersMailsService {
@@ -108,6 +109,7 @@ export class UsersMailsService {
           address: this.domifaAdminMail,
         },
         subject: "Finalisez votre inscription sur Domifa",
+        html: "<p>Test</p>",
       },
     };
 
@@ -124,7 +126,7 @@ export class UsersMailsService {
   //
   // Mail pour l'utilisateur une fois son compte activé par l'admin
   //
-  public accountActivated(user: User) {
+  public accountActivated(user: UserProfil) {
     const post = {
       to: [
         {
@@ -156,6 +158,7 @@ export class UsersMailsService {
           address: this.domifaAdminMail,
         },
         subject: "Votre compte Domifa a été activé",
+        html: "<p>Test</p>",
       },
     };
 
@@ -172,7 +175,7 @@ export class UsersMailsService {
   //
   // Mail avec le lien pour réinitialiser son mot de passe
   //
-  public async newPassword(user: User): Promise<any> {
+  public async newPassword(user: User) {
     const confirmationLink =
       this.configService.get("DOMIFA_FRONTEND_URL") +
       "reset-password/" +
@@ -208,6 +211,7 @@ export class UsersMailsService {
           address: this.domifaAdminMail,
         },
         subject: "Demande d'un nouveau mot de passe",
+        html: "<p>Test</p>",
       },
     };
 
