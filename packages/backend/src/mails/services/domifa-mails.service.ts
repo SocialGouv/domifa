@@ -4,6 +4,7 @@ import { ConfigService } from "../../config";
 
 import { User } from "../../users/user.interface";
 import { Structure } from "../../structures/structure-interface";
+import { DEPARTEMENTS_MAP } from "../../structures/DEPARTEMENTS_MAP.const";
 
 @Injectable()
 export class DomifaMailsService {
@@ -23,15 +24,21 @@ export class DomifaMailsService {
   //
   public newStructure(structure: Structure, user: User) {
     const route = structure._id + "/" + structure.token;
-    const confirmationLink =
+    const lienConfirmation =
       this.configService.get("DOMIFA_FRONTEND_URL") +
       "structures/confirm/" +
       route;
 
-    const deleteLink =
+    const lienSuppression =
       this.configService.get("DOMIFA_FRONTEND_URL") +
       "structures/delete/" +
       route;
+
+    const structureTypes = {
+      asso: "Organisme agrée",
+      ccas: "CCAS",
+      cias: "CIAS",
+    };
 
     const post = {
       to: [
@@ -44,31 +51,28 @@ export class DomifaMailsService {
         "X-TM-TEMPLATE": "domifa-nouvelle-structure",
         "X-TM-SUB": [
           {
-            email: user.email,
+            email: this.domifaAdminMail,
             values: {
+              structure_name: structure.nom,
+              structure_type: structureTypes[structure.structureType],
               adresse: structure.adresse,
-              agrement: structure.agrement,
-              codePostal: structure.codePostal,
-              confirmation_link: confirmationLink,
-              departement: structure.departement,
+              departement:
+                DEPARTEMENTS_MAP[structure.departement].departmentName ||
+                "Non renseigné",
+              ville: structure.ville,
+              code_postal: structure.codePostal,
               email: structure.email,
-              lien_confirmation: confirmationLink,
-              lien_suppression: deleteLink,
               phone: structure.phone,
-              responsable_fonction: structure.responsable.fonction,
               responsable_nom: structure.responsable.nom,
               responsable_prenom: structure.responsable.prenom,
-              structure_name: structure.nom,
-              structure_type:
-                structure.structureType === "asso"
-                  ? "Organisme agrée"
-                  : "CCAS / CIAS",
-              user_email: user.email,
+              responsable_fonction: structure.responsable.fonction,
               user_nom: user.nom,
               user_prenom: user.prenom,
-              ville: structure.ville,
+              user_email: user.email,
+              lien_confirmation: lienConfirmation,
+              lien_suppression: lienSuppression,
             },
-            subject: "Nouvelle structure sur Domifa : " + structure.nom,
+            subject: "Nouvelle structure sur Domifa ",
             meta: {},
           },
         ],
@@ -82,7 +86,7 @@ export class DomifaMailsService {
           personalName: "Domifa",
           address: this.domifaAdminMail,
         },
-        subject: "Nouvelle structure sur Domifa : " + structure.nom,
+        subject: "Nouvelle structure sur Domifa ",
         html: "<p>Test</p>",
       },
     };

@@ -30,7 +30,7 @@ export class StructuresMailsService {
         },
       ],
       headers: {
-        "X-TM-TEMPLATE": "usagers-prise-de-rendez-vous",
+        "X-TM-TEMPLATE": "users-compte-active",
         "X-TM-SUB": [
           {
             email: user.email,
@@ -54,6 +54,7 @@ export class StructuresMailsService {
           address: this.domifaAdminMail,
         },
         subject: "Votre compte Domifa a été activé",
+        html: "<p>Test</p>",
       },
     };
 

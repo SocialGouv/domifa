@@ -54,6 +54,16 @@
         }
       </style>
     <![endif]-->
+    <!--[if !mso]><!-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+    </style>
+    <!--<![endif]-->
     <style type="text/css">
       @media only screen and (min-width: 480px) {
         .mj-column-per-100 {
@@ -179,11 +189,12 @@
                                       width="600px"
                                     >
                                       <tr>
-                                        <td
-                                          style="height: 0; line-height: 0"
-                                        ></td>
-                                      </tr></table
-                                  ><![endif]-->
+                                        <td style="height: 0; line-height: 0">
+                                           
+                                        </td>
+                                      </tr>
+                                    </table><!
+                                  [endif]-->
                                 </td>
                               </tr>
                               <tr>
@@ -191,11 +202,11 @@
                                   align="center"
                                   style="
                                     font-size: 0px;
-                                    padding: 20px 43px 20px 43px;
+                                    padding: 20px 20px 20px 20px;
                                     padding-top: 20px;
-                                    padding-right: 43px;
+                                    padding-right: 20px;
                                     padding-bottom: 20px;
-                                    padding-left: 43px;
+                                    padding-left: 20px;
                                     word-break: break-word;
                                   "
                                 >
@@ -238,9 +249,11 @@
                                   align="left"
                                   style="
                                     font-size: 0px;
-                                    padding: 0 0 0 0;
+                                    padding: 0px 20px 0px 20px;
                                     padding-top: 0px;
+                                    padding-right: 20px;
                                     padding-bottom: 0px;
+                                    padding-left: 20px;
                                     word-break: break-word;
                                   "
                                 >
@@ -256,17 +269,13 @@
                                   >
                                     <p
                                       class="text-build-content"
-                                      style="
-                                        text-align: center;
-                                        margin: 10px 0;
-                                        margin-top: 10px;
-                                      "
                                       data-testid="fUJUuE7-ZW"
+                                      style="margin: 10px 0; margin-top: 10px"
                                     >
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Arial;
+                                          font-family: Roboto;
                                           font-size: 16px;
                                           line-height: 22px;
                                         "
@@ -275,7 +284,7 @@
                                       ><br /><span
                                         style="
                                           color: #000000;
-                                          font-family: Arial;
+                                          font-family: Roboto;
                                           font-size: 16px;
                                           line-height: 22px;
                                         "
@@ -285,224 +294,209 @@
                                     </p>
                                     <p
                                       class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
                                       data-testid="fUJUuE7-ZW"
+                                      style="margin: 10px 0"
                                     >
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Arial;
+                                          font-family: Roboto;
                                           font-size: 16px;
                                           line-height: 22px;
                                         "
-                                        ><b>{{ structure_name }}</b></span
+                                        ><b>Nom : </b>{{ structure_name }}</span
                                       ><br /><span
                                         style="
                                           color: #000000;
-                                          font-family: Arial;
+                                          font-family: Roboto;
+                                          font-size: 16px;
+                                          line-height: 22px;
+                                        "
+                                        ><b>Type de structure :</b> {{
+                                        structure_type }}</span
+                                      >
+                                      <br />
+                                      <span
+                                        style="
+                                          color: #000000;
+                                          font-family: Roboto;
+                                          font-size: 16px;
+                                          line-height: 22px;
+                                        "
+                                      >
+                                        <b>Département :</b> {{ departement
+                                        }}</span
+                                      >
+                                    </p>
+                                    <p
+                                      class="text-build-content"
+                                      data-testid="fUJUuE7-ZW"
+                                      style="margin: 10px 0"
+                                    >
+                                      <span
+                                        style="
+                                          color: #000000;
+                                          font-family: Roboto;
+                                          font-size: 16px;
+                                          line-height: 22px;
+                                        "
+                                        ><b>Adresse :</b></span
+                                      >
+                                    </p>
+                                    <ul>
+                                      <li>
+                                        <span
+                                          style="
+                                            color: #000000;
+                                            font-family: Roboto;
+                                            font-size: 16px;
+                                            line-height: 22px;
+                                          "
+                                          >{{ adresse }}</span
+                                        >
+                                      </li>
+                                      <li>
+                                        <span
+                                          style="
+                                            color: #000000;
+                                            font-family: Roboto;
+                                            font-size: 16px;
+                                            line-height: 22px;
+                                          "
+                                          >{{ ville }}, {{ code_postal }}</span
+                                        >
+                                      </li>
+                                    </ul>
+                                    <p
+                                      class="text-build-content"
+                                      data-testid="fUJUuE7-ZW"
+                                      style="margin: 10px 0"
+                                    >
+                                      <span
+                                        style="
+                                          color: #000000;
+                                          font-family: Roboto;
                                           font-size: 16px;
                                           line-height: 22px;
                                         "
                                         ><b
-                                          >Type de structure : {{ structure_type
-                                          }}</b
+                                          >Coordonnées de la structure:</b
                                         ></span
                                       >
                                     </p>
+                                    <ul>
+                                      <li>
+                                        <span
+                                          style="
+                                            color: #000000;
+                                            font-family: Roboto;
+                                            font-size: 16px;
+                                            line-height: 22px;
+                                          "
+                                          >{{ email }}</span
+                                        >
+                                      </li>
+                                      <li>
+                                        <span
+                                          style="
+                                            color: #000000;
+                                            font-family: Roboto;
+                                            font-size: 16px;
+                                            line-height: 22px;
+                                          "
+                                          >{{ phone }}</span
+                                        >
+                                      </li>
+                                    </ul>
                                     <p
                                       class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
                                       data-testid="fUJUuE7-ZW"
+                                      style="margin: 10px 0"
                                     >
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        ><b
-                                          >Numéro d'agrément : {{ agrement }}</b
-                                        ></span
-                                      >
-                                    </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
-                                      data-testid="fUJUuE7-ZW"
-                                    >
-                                      <span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        ><b>Adresse de la structure:</b></span
-                                      ><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >{{ adresse }}</span
-                                      ><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >{{ ville }}, {{ code_postal }}</span
-                                      ><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >{{ departement }}</span
-                                      >
-                                    </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
-                                      data-testid="fUJUuE7-ZW"
-                                    >
-                                      <span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        ><b>Coordonnées&nbsp;</b></span
-                                      >
-                                    </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
-                                      data-testid="fUJUuE7-ZW"
-                                    >
-                                      <span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >{{ email }}</span
-                                      ><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >{{ phone }}</span
-                                      >
-                                    </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
-                                      data-testid="fUJUuE7-ZW"
-                                    >
-                                      &nbsp;
-                                    </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
-                                      data-testid="fUJUuE7-ZW"
-                                    >
-                                      <span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
+                                          font-family: Roboto;
                                           font-size: 16px;
                                           line-height: 22px;
                                         "
                                         ><b
                                           >Responsable de la structure</b
                                         ></span
-                                      ><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >{{ responsable_fonction }}</span
-                                      ><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >{{ responsable_nom }}</span
-                                      ><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >{{ responsable_prenom }}</span
                                       >
                                     </p>
+                                    <ul>
+                                      <li>
+                                        <span
+                                          style="
+                                            color: #000000;
+                                            font-family: Roboto;
+                                            font-size: 16px;
+                                            line-height: 22px;
+                                          "
+                                          >{{ responsable_nom }} {{
+                                          responsable_prenom }}</span
+                                        >
+                                      </li>
+                                      <li>
+                                        <span
+                                          style="
+                                            color: #000000;
+                                            font-family: Roboto;
+                                            font-size: 16px;
+                                            line-height: 22px;
+                                          "
+                                          >{{ responsable_fonction }}</span
+                                        >
+                                      </li>
+                                    </ul>
                                     <p
                                       class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
                                       data-testid="fUJUuE7-ZW"
+                                      style="
+                                        margin: 10px 0;
+                                        margin-bottom: 10px;
+                                      "
                                     >
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Arial;
+                                          font-family: Roboto;
                                           font-size: 16px;
                                           line-height: 22px;
                                         "
                                         ><b
-                                          >Informations de l'administrateur</b
+                                          >Informations sur l'administrateur</b
                                         ></span
                                       >
                                     </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="
-                                        text-align: center;
-                                        margin: 10px 0;
-                                        margin-bottom: 10px;
-                                      "
-                                      data-testid="fUJUuE7-ZW"
-                                    >
-                                      <span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >Nom :{{ user_nom }}</span
-                                      ><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >Prénom: {{ user_prenom }}</span
-                                      ><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Arial;
-                                          font-size: 16px;
-                                          line-height: 22px;
-                                        "
-                                        >{{ user_email }}</span
-                                      ><br />&nbsp;
-                                    </p>
+                                    <ul>
+                                      <li>
+                                        <span
+                                          style="
+                                            color: #000000;
+                                            font-family: Roboto;
+                                            font-size: 16px;
+                                            line-height: 22px;
+                                          "
+                                          >{{ user_nom }} {{ user_prenom
+                                          }}</span
+                                        >
+                                      </li>
+                                      <li>
+                                        <span
+                                          style="
+                                            color: #000000;
+                                            font-family: Roboto;
+                                            font-size: 16px;
+                                            line-height: 22px;
+                                          "
+                                          >{{ user_email }}</span
+                                        ><br /><span style="font-family: Roboto"
+                                          >&nbsp;</span
+                                        >
+                                      </li>
+                                    </ul>
                                   </div>
                                 </td>
                               </tr>
@@ -546,13 +540,13 @@
                                           valign="middle"
                                         >
                                           <a
-                                            href="{{lien_confirmation }}"
+                                            href="{{ lien_confirmation }}"
                                             style="
                                               display: inline-block;
                                               background: #3e61ff;
                                               color: #ffffff;
                                               font-family: Arial, sans-serif;
-                                              font-size: 13px;
+                                              font-size: 18px;
                                               font-weight: normal;
                                               line-height: 120%;
                                               margin: 0;
@@ -565,11 +559,10 @@
                                             target="_blank"
                                             ><span
                                               style="
-                                                font-size: 16px;
-                                                text-align: center;
                                                 background-color: #3e61ff;
                                                 color: #ffffff;
                                                 font-family: Arial;
+                                                font-size: 18px;
                                               "
                                               ><b>Valider le compte</b></span
                                             ></a
@@ -626,7 +619,7 @@
                                               background: #ff5b3d;
                                               color: #ffffff;
                                               font-family: Arial, sans-serif;
-                                              font-size: 13px;
+                                              font-size: 18px;
                                               font-weight: normal;
                                               line-height: 120%;
                                               margin: 0;
@@ -639,11 +632,10 @@
                                             target="_blank"
                                             ><span
                                               style="
-                                                font-size: 16px;
-                                                text-align: center;
                                                 background-color: #ff5b3d;
                                                 color: #ffffff;
                                                 font-family: Arial;
+                                                font-size: 18px;
                                               "
                                               ><b>Supprimer le compte</b></span
                                             ></a
@@ -654,100 +646,13 @@
                                   </table>
                                 </td>
                               </tr>
-                            </tbody>
-                          </table>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!--[if mso | IE]></td></tr></table><![endif]-->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-      <div
-        style="
-          background: #ffffff;
-          background-color: #ffffff;
-          margin: 0px auto;
-          max-width: 600px;
-        "
-      >
-        <table
-          align="center"
-          border="0"
-          cellpadding="0"
-          cellspacing="0"
-          role="presentation"
-          style="background: #ffffff; background-color: #ffffff; width: 100%"
-        >
-          <tbody>
-            <tr>
-              <td
-                style="
-                  direction: ltr;
-                  font-size: 0px;
-                  padding: 0px 0 0px 0;
-                  padding-bottom: 0px;
-                  padding-top: 0px;
-                  text-align: center;
-                "
-              >
-                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:middle;width:600px;" ><![endif]-->
-                <div
-                  class="mj-column-per-100 mj-outlook-group-fix"
-                  style="
-                    font-size: 0px;
-                    text-align: left;
-                    direction: ltr;
-                    display: inline-block;
-                    vertical-align: middle;
-                    width: 100%;
-                  "
-                >
-                  <table
-                    border="0"
-                    cellpadding="0"
-                    cellspacing="0"
-                    role="presentation"
-                    width="100%"
-                  >
-                    <tbody>
-                      <tr>
-                        <td style="vertical-align: middle; padding: 0 0 0 0">
-                          <table
-                            border="0"
-                            cellpadding="0"
-                            cellspacing="0"
-                            role="presentation"
-                            width="100%"
-                          >
-                            <tbody>
                               <tr>
                                 <td
-                                  align="center"
-                                  style="
-                                    background: #ffffff;
-                                    font-size: 0px;
-                                    padding: 0 0 10px 0;
-                                    padding-top: 0px;
-                                    padding-bottom: 10px;
-                                    word-break: break-word;
-                                  "
+                                  style="font-size: 0px; word-break: break-word"
                                 >
-                                  <div
-                                    style="
-                                      font-family: Arial, sans-serif;
-                                      font-size: 13px;
-                                      letter-spacing: normal;
-                                      line-height: 22px;
-                                      text-align: center;
-                                      color: #000000;
-                                    "
-                                  ></div>
+                                  <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td height="32" style="vertical-align:top;height:32px;"><![endif]-->
+                                  <div style="height: 32px">&nbsp;</div>
+                                  <!--[if mso | IE]></td></tr></table><![endif]-->
                                 </td>
                               </tr>
                             </tbody>
