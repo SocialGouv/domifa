@@ -1,24 +1,14 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger,
-} from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import * as crypto from "crypto";
 import { Model } from "mongoose";
-import { User } from "../users/user.interface";
+import { User } from "../../users/user.interface";
 
-import { StructureEditDto } from "./dto/structure-edit.dto";
-import { StructureDto } from "./dto/structure.dto";
-import { Structure } from "./structure-interface";
+import { StructureEditDto } from "../dto/structure-edit.dto";
+import { StructureDto } from "../dto/structure.dto";
+import { Structure } from "../structure-interface";
 
-import * as fs from "fs";
-import * as path from "path";
-import { getLogger } from "nodemailer/lib/shared";
-import { regions } from "./regions.labels";
-import { DepartementHelper } from "./departement-helper.service";
-import { appLogger } from "../util";
+import { DepartementHelper } from "../departement-helper.service";
+import { appLogger } from "../../util";
 
 export interface StructureQuery {
   codePostal?: string;

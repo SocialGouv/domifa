@@ -14,8 +14,6 @@ export type DomifaConfigKey =
   | "DOMIFA_CORS_URL"
   | "DOMIFA_FRONTEND_URL"
   | "DOMIFA_BACKEND_URL"
-  | "MJ_APIKEY_PRIVATE"
-  | "MJ_APIKEY_PUBLIC"
   | "SECRET"
   | "UPLOADS_FOLDER"
   | "DOMIFA_ENV_ID"
@@ -23,7 +21,6 @@ export type DomifaConfigKey =
   | "DOMIFA_SWAGGER_ENABLE"
   | "DOMIFA_CRON_ENABLED"
   | "DOMIFA_ADMIN_EMAIL"
-  | "DOMIFA_MAILJET_FROM_EMAIL"
   | "DOMIFA_TIPIMAIL_FROM_EMAIL";
 @Injectable()
 export class ConfigService {

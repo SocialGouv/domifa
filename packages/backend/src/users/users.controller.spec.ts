@@ -2,25 +2,32 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { ConfigService } from "../config/config.service";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
-import { MailJetService } from "./services/mailjet.service";
+
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
-import { TipimailService } from "./services/tipimail.service";
+import { CronMailsService } from "../mails/services/cron-mails.service";
 import { HttpModule } from "@nestjs/common";
 import { UsersProviders } from "./users.providers";
 import { DatabaseModule } from "../database/database.module";
+import { MailsModule } from "../mails/mails.module";
 
 describe("Users Controller", () => {
   it("should be defined", async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
-      imports: [DatabaseModule, StructuresModule, UsagersModule, HttpModule],
+      imports: [
+        DatabaseModule,
+        MailsModule,
+        StructuresModule,
+        UsagersModule,
+        HttpModule,
+      ],
       providers: [
         { provide: UsersService, useValue: {} },
-        TipimailService,
-        ...UsersProviders,
-        MailJetService,
+        CronMailsService,
+
         ConfigService,
+        ...UsersProviders,
       ],
     }).compile();
 

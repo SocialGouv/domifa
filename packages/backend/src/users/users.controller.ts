@@ -12,33 +12,43 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import * as bcrypt from "bcryptjs";
+
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
+
+import { StructuresService } from "../structures/services/structures.service";
+import { DomifaMailsService } from "../mails/services/domifa-mails.service";
+import { UsersService } from "./services/users.service";
+import { UsersMailsService } from "../mails/services/users-mails.service";
+
+import * as bcrypt from "bcryptjs";
+import { AxiosResponse, AxiosError } from "axios";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+
+import { User } from "./user.interface";
+
 import { ResponsableGuard } from "../auth/guards/responsable.guard";
-import { StructuresService } from "../structures/structures.service";
+
 import { EditPasswordDto } from "./dto/edit-password.dto";
 import { EmailDto } from "./dto/email.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
-import { MailJetService } from "./services/mailjet.service";
-import { TipimailService } from "./services/tipimail.service";
-import { UsersService } from "./services/users.service";
-import { UserProfil } from "./user-profil.type";
+
 import { UserRole } from "./user-role.type";
-import { User } from "./user.interface";
+import { appLogger } from "../util";
+
+import { UserProfil } from "./user-profil.type";
 
 @Controller("users")
 @ApiTags("users")
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
-    private readonly structureService: StructuresService,
-    private readonly mailjetService: MailJetService,
-    private readonly tipimailService: TipimailService
+    private readonly domifaMailsService: DomifaMailsService,
+    private readonly usersMailsService: UsersMailsService,
+    private readonly structureService: StructuresService
   ) {}
 
   @UseGuards(AuthGuard("jwt"), ResponsableGuard)
@@ -69,16 +79,43 @@ export class UsersController {
   @Get("confirm/:id")
   public async confirmUser(
     @Param("id") id: number,
-    @CurrentUser() user: User
-  ): Promise<UserProfil> {
+    @CurrentUser() user: User,
+    @Response() res: any
+  ) {
     const confirmerUser = await this.usersService.update(id, user.structureId, {
       verified: true,
     });
 
-    if (confirmerUser) {
-      this.mailjetService.confirmUser(confirmerUser);
+    if (confirmerUser && confirmerUser !== null) {
+      this.usersMailsService.accountActivated(confirmerUser).then(
+        (result: AxiosResponse) => {
+          if (result.status !== 200) {
+            appLogger.warn(`[UsersMail] mail user account activated failed`);
+            appLogger.error(JSON.stringify(result.data));
+
+            throw new HttpException(
+              "TIPIMAIL_USER_ACCOUNT_ACTIVATED",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          } else {
+            return res.status(HttpStatus.OK).json({ message: "OK" });
+          }
+        },
+        (error: AxiosError) => {
+          appLogger.warn(`[UsersMail] mail user account activated failed`);
+          appLogger.error(JSON.stringify(error.message));
+          throw new HttpException(
+            "TIPIMAIL_USER_ACCOUNT_ACTIVATED",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      );
+    } else {
+      throw new HttpException(
+        "INVALID_CONFIRM_TOKEN",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
-    return confirmerUser;
   }
 
   @UseGuards(AuthGuard("jwt"), AdminGuard)
@@ -164,37 +201,86 @@ export class UsersController {
   public async create(@Body() userDto: UserDto, @Response() res: any) {
     const user = await this.usersService.findOne({ email: userDto.email });
 
-    if (user) {
+    if (user || user !== null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "EMAIL_EXIST" });
     }
 
     const structure = await this.structureService.findOne(userDto.structureId);
-
-    if (!structure || structure === null) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "STRUCTURE_NOT_EXIST" });
-    }
-
     const newUser = await this.usersService.create(userDto, structure);
+
     if (newUser && newUser !== null) {
+      this.structureService.addUser(newUser, userDto.structureId);
+
+      delete newUser.password;
+
       if (newUser.role === "admin") {
-        this.mailjetService.newStructure(structure, newUser);
+        //
+        // Mail vers Domifa pour indiquer une création de structure
+        //
+        return this.domifaMailsService.newStructure(structure, newUser).then(
+          (result: AxiosResponse) => {
+            if (result.status !== 200) {
+              appLogger.warn(
+                `[StructuresMail] mail new structure for domifa failed`
+              );
+              appLogger.error(JSON.stringify(result.data));
+
+              throw new HttpException(
+                "TIPIMAIL_NEW_STRUCTURE_ERROR",
+                HttpStatus.INTERNAL_SERVER_ERROR
+              );
+            } else {
+              return res.status(HttpStatus.OK);
+            }
+          },
+          (error: AxiosError) => {
+            appLogger.warn(
+              `[StructuresMail] mail new structure for domifa failed`
+            );
+            appLogger.error(JSON.stringify(error.message));
+            throw new HttpException(
+              "TIPIMAIL_NEW_STRUCTURE_ERROR",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          }
+        );
       } else {
         const admin = await this.usersService.findOne({
           role: "admin",
           structureId: newUser.structureId,
         });
-        this.mailjetService.newUser(admin, newUser);
+
+        return this.usersMailsService.newUser(admin, newUser).then(
+          (result: AxiosResponse) => {
+            if (result.status !== 200) {
+              appLogger.warn(
+                `[StructuresMail] New User - mail to admin of structure failed`
+              );
+              appLogger.error(JSON.stringify(result.data));
+              throw new HttpException(
+                "TIPIMAIL_NEW_USER_ERROR",
+                HttpStatus.INTERNAL_SERVER_ERROR
+              );
+            } else {
+              return res.status(HttpStatus.OK);
+            }
+          },
+          (error: AxiosError) => {
+            appLogger.warn(
+              `[StructuresMail] mail new structure for domifa failed`
+            );
+            appLogger.error(JSON.stringify(error.message));
+            throw new HttpException(
+              "TIPIMAIL_NEW_STRUCTURE_ERROR",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          }
+        );
       }
-      this.structureService.addUser(newUser, userDto.structureId);
-
-      newUser.password = "";
-
-      return res.status(HttpStatus.OK).json(newUser);
     }
+
     throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
@@ -222,7 +308,7 @@ export class UsersController {
     if (existUser.tokens.passwordValidity < today) {
       throw new HttpException("TOKEN_EXPIRED", HttpStatus.BAD_REQUEST);
     }
-    return existUser;
+    return true;
   }
 
   @Post("reset-password")
@@ -274,22 +360,22 @@ export class UsersController {
         emailDto.email
       );
 
-      if (updatedUser) {
-        this.mailjetService.newPassword(updatedUser).then(
-          (result) => {
-            return res.status(HttpStatus.OK).json({ message: "OK" });
-          },
-          (error) => {
-            return res
-              .status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .json({ message: "MAIL_NEW_PASSWORD_ERROR" });
-          }
-        );
-      } else {
+      if (!updatedUser || updatedUser === null) {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "RESET_USER_IMPOSSIBLE" });
+          .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
       }
+
+      return this.usersMailsService.newPassword(updatedUser).then(
+        (result: AxiosResponse) => {
+          return res.status(HttpStatus.OK).json({ message: result.data });
+        },
+        (error: AxiosError) => {
+          return res
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "MAIL_NEW_PASSWORD_ERROR" });
+        }
+      );
     }
   }
 
@@ -322,7 +408,7 @@ export class UsersController {
     );
 
     if (updatedUser && updatedUser !== null) {
-      this.tipimailService.registerConfirm(updatedUser).then(
+      this.usersMailsService.newUserFromAdmin(updatedUser).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },

@@ -32,11 +32,7 @@ export class UsersService {
   }
 
   public create(data: any) {
-    return this.http.post(`${this.endPoint}`, data).pipe(
-      map((response) => {
-        return new User(response);
-      })
-    );
+    return this.http.post(`${this.endPoint}`, data);
   }
 
   public patch(data: any) {

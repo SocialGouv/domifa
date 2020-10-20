@@ -10,11 +10,11 @@ import * as moment from "moment";
 import { Model } from "mongoose";
 import { ConfigService } from "../../config";
 import { Structure } from "../../structures/structure-interface";
-import { Usager } from "../../usagers/interfaces/usagers";
-import { User } from "../user.interface";
+
+import { User } from "../../users/user.interface";
 
 @Injectable()
-export class TipimailService {
+export class CronMailsService {
   public lastWeek: Date;
   public listOfStructures: any;
   public lienGuide: string;
@@ -23,11 +23,10 @@ export class TipimailService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
   constructor(
-    private readonly configService: ConfigService,
-    @Inject("USER_MODEL") private readonly userModel: Model<User>,
-    @Inject("STRUCTURE_MODEL")
-    private readonly structureModel: Model<Structure>,
-    private httpService: HttpService
+    private configService: ConfigService,
+    private httpService: HttpService,
+    @Inject("USER_MODEL") private userModel: Model<User>,
+    @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
   ) {
     this.lastWeek = moment().utc().subtract(7, "days").endOf("day").toDate();
 
@@ -93,7 +92,7 @@ export class TipimailService {
           personalName: "Domifa",
           address: this.domifaAdminMail,
         },
-        subject: "Subject",
+        subject: "Le guide utilisateur Domifa",
         html: "<p>Test</p>",
       },
     };
@@ -109,14 +108,8 @@ export class TipimailService {
         (retour: any) => {
           this.userModel
             .findOneAndUpdate(
-              {
-                _id: user._id,
-              },
-              {
-                $set: {
-                  "mails.guide": true,
-                },
-              }
+              { _id: user._id },
+              { $set: { "mails.guide": true } }
             )
             .exec((erreur: any) => {
               // console.log("-- UPDATE MAIL VALUE");
@@ -188,7 +181,6 @@ export class TipimailService {
               guide: this.lienGuide,
               faq: this.lienFaq,
             },
-            meta: {},
           },
         ],
       },
@@ -201,7 +193,7 @@ export class TipimailService {
           personalName: "Domifa",
           address: this.domifaAdminMail,
         },
-        subject: "Subject",
+        subject: "Importer vos domiciliés sur DomiFa",
         html: "<p>Test</p>",
       },
     };
@@ -239,204 +231,5 @@ export class TipimailService {
           );
         }
       );
-  }
-
-  public async deleteStructure(structure: Structure) {
-    const lien =
-      process.env.DOMIFA_FRONTEND_URL +
-      "structures/delete/" +
-      structure._id +
-      "/" +
-      structure.token;
-
-    const post = {
-      to: [
-        {
-          address: this.domifaAdminMail,
-          personalName: "Site Domifa",
-        },
-      ],
-      headers: {
-        "X-TM-TEMPLATE": "supprimer-structure",
-        "X-TM-SUB": [
-          {
-            email: this.domifaAdminMail,
-            values: {
-              lien,
-              nom: structure.nom,
-              adresse: structure.adresse,
-              ville: structure.ville,
-              code_postal: structure.codePostal,
-              email: structure.email,
-              phone: structure.phone,
-            },
-            meta: {},
-          },
-        ],
-      },
-      msg: {
-        from: {
-          personalName: "Domifa",
-          address: this.domifaFromMail,
-        },
-        replyTo: {
-          personalName: "Domifa",
-          address: this.domifaAdminMail,
-        },
-        subject: "Subject",
-        html: "<p>Test</p>",
-      },
-    };
-
-    this.httpService
-      .post("https://api.tipimail.com/v1/messages/send", post, {
-        headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
-        },
-      })
-      .subscribe(
-        (retour: any) => {
-          return true;
-        },
-        (erreur: any) => {
-          throw new HttpException(
-            "MAIL_SUPPRESSION_STRUCTURE",
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-      );
-  }
-
-  public async registerConfirm(user: User) {
-    const lien =
-      process.env.DOMIFA_FRONTEND_URL +
-      "reset-password/" +
-      user.tokens.password;
-    const post = {
-      to: [
-        {
-          address: user.email,
-          personalName: user.nom + " " + user.prenom,
-        },
-      ],
-      headers: {
-        "X-TM-TEMPLATE": "creation-compte",
-        "X-TM-SUB": [
-          {
-            email: user.email,
-            values: {
-              prenom: user.prenom,
-              lien,
-            },
-            meta: {},
-          },
-        ],
-      },
-      msg: {
-        from: {
-          personalName: "Domifa",
-          address: this.domifaFromMail,
-        },
-        replyTo: {
-          personalName: "Domifa",
-          address: this.domifaAdminMail,
-        },
-        subject: "Subject",
-        html: "<p>Test</p>",
-      },
-    };
-
-    this.httpService
-      .post("https://api.tipimail.com/v1/messages/send", post, {
-        headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
-        },
-      })
-      .subscribe(
-        (retour: any) => {
-          return true;
-        },
-        (erreur: any) => {
-          throw new HttpException(
-            "MAIL_CONFIRMATION_CREATION_ADMIN",
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-      );
-  }
-
-  public async mailRdv(
-    user: User,
-    usager: Usager,
-    event: any,
-    message: string
-  ) {
-    const prenomUsager =
-      (usager.sexe === "homme" ? "M. " : "Mme. ") +
-      usager.nom +
-      " " +
-      usager.prenom;
-
-    const date = moment(new Date(usager.rdv.dateRdv)).locale("fr").format("L");
-    const heure = moment(new Date(usager.rdv.dateRdv))
-      .locale("fr")
-      .format("LT");
-
-    const datas = {
-      prenom: user.prenom,
-      usager: prenomUsager,
-      date,
-      heure,
-      message,
-    };
-
-    const post = {
-      to: [
-        {
-          address: user.email,
-          personalName: user.prenom + " " + user.nom,
-        },
-      ],
-      headers: {
-        "X-TM-TEMPLATE": "prise-rdv",
-        "X-TM-SUB": [
-          {
-            email: user.email,
-            values: datas,
-            meta: {},
-          },
-        ],
-      },
-      msg: {
-        from: {
-          personalName: "Domifa",
-          address: this.domifaFromMail,
-        },
-        replyTo: {
-          personalName: "Domifa",
-          address: this.domifaAdminMail,
-        },
-        subject: "Prise de rendez-vous entre le demandeur et un collaborateur",
-        html: "<p>Test</p>",
-        attachments: [
-          {
-            contentType: "text/calendar",
-            filename: "invitation.ics",
-            content: event,
-          },
-        ],
-      },
-    };
-
-    return this.httpService
-      .post("https://api.tipimail.com/v1/messages/send", post, {
-        headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
-        },
-      })
-      .toPromise();
   }
 }
