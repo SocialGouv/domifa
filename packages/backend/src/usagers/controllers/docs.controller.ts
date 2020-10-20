@@ -24,6 +24,7 @@ import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
+import { Response } from "express";
 
 import { User } from "../../users/user.interface";
 import { Usager } from "../interfaces/usagers";
@@ -97,7 +98,7 @@ export class DocsController {
     @Body() postData: any,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager,
-    @Res() res: any
+    @Res() res: Response
   ) {
     const userName = user.prenom + " " + user.nom;
 
@@ -144,7 +145,7 @@ export class DocsController {
     @Param("index") index: number,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager,
-    @Res() res: any
+    @Res() res: Response
   ) {
     if (
       typeof usager.docs[index] === "undefined" ||
@@ -192,7 +193,7 @@ export class DocsController {
   public async getDocument(
     @Param("id") usagerId: number,
     @Param("index") index: number,
-    @Res() res: any,
+    @Res() res: Response,
     @CurrentUsager() usager: Usager
   ) {
     if (
@@ -244,7 +245,7 @@ export class DocsController {
       .pipe(decipher)
       .pipe(output)
       .on("finish", () => {
-        res.sendFile(output.path);
+        res.sendFile(output.path as string);
         this.deleteFile(pathFile + ".unencrypted");
       });
   }
@@ -268,7 +269,7 @@ export class DocsController {
     }
   }
 
-  private encryptFile(fileName: string, @Res() res: any) {
+  private encryptFile(fileName: string, @Res() res: Response) {
     const key = new ConfigService().get("FILES_PRIVATE");
     const iv = new ConfigService().get("FILES_IV");
 

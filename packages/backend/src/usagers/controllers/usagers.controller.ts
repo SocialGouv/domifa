@@ -15,6 +15,7 @@ import { AuthGuard } from "@nestjs/passport";
 
 import * as fs from "fs";
 import * as path from "path";
+import { Response } from "express";
 
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
@@ -190,7 +191,7 @@ export class UsagersController {
   public async delete(
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager,
-    @Res() res: any
+    @Res() res: Response
   ) {
     const pathFile = path.resolve(
       new ConfigService().get("UPLOADS_FOLDER") +
@@ -361,7 +362,7 @@ export class UsagersController {
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
   @Get("attestation/:id")
   public async getAttestation(
-    @Res() res: any,
+    @Res() res: Response,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
   ) {

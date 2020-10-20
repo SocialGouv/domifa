@@ -20,6 +20,7 @@ import { InteractionDto } from "./interactions.dto";
 import { InteractionsService } from "./interactions.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { ApiTags } from "@nestjs/swagger";
+import { InteractionType } from "./InteractionType.type";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
 @ApiTags("interactions")
@@ -83,10 +84,13 @@ export class InteractionsController {
 
     const interactionOut =
       interactionToDelete.type.substring(len - 3) === "Out";
-    const interactionIn = interactionToDelete.type.substring(len - 2) === "In";
+    const interactionIn =
+      interactionToDelete.type.substring(len - 2) ===
+      (("In" as unknown) as InteractionType);
 
     if (interactionIn) {
-      const inType = interactionToDelete.type.substring(0, len - 2) + "Out";
+      const inType = ((interactionToDelete.type.substring(0, len - 2) +
+        "Out") as unknown) as InteractionType;
 
       const last = await this.interactionService.findLastInteraction(
         usager.id,

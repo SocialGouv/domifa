@@ -1,12 +1,13 @@
 import { Document } from "mongoose";
 import { User } from "../users/user.interface";
+import { StructureType } from "./StructureType.type";
 
 export interface Structure extends Document {
   id: number;
   adresse: string;
   complementAdresse: string;
   nom: string;
-  structureType: string;
+  structureType: StructureType;
   ville: string;
   departement: string;
   region: string;
@@ -15,6 +16,9 @@ export interface Structure extends Document {
   agrement: string;
   phone: string;
   email: string;
+  import: boolean;
+  importDate: Date;
+  lastLogin: Date;
 
   responsable: {
     fonction: string;
@@ -48,4 +52,5 @@ export interface Structure extends Document {
   token: string;
   verified: boolean;
   users: User[];
+  createdAt: Date;
 }

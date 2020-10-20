@@ -1,9 +1,16 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { Response } from "express";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
+import {
+  StatsDeploiement,
+  statsDeploiementExporter,
+} from "../../excel/export-stats-deploiement";
+import { appLogger } from "../../util";
 import { DashboardService } from "../services/dashboard.service";
 import { StatsGeneratorService } from "../services/stats-generator.service";
-import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+import moment = require("moment");
 
 @UseGuards(AuthGuard("jwt"), DomifaGuard)
 @Controller("dashboard")
@@ -15,6 +22,34 @@ export class DashboardController {
     private readonly statsGeneratorService: StatsGeneratorService
   ) {}
 
+  @Get("export")
+  public async export(@Res() res: Response) {
+    const stats: StatsDeploiement = await this.dashboardService.getStatsDeploiement();
+    const workbook = await statsDeploiementExporter.generateExcelDocument(
+      stats
+    );
+
+    const fileName = `${moment(stats.exportDate).format(
+      "DD-MM-yyyy_HH-mm"
+    )}_export-stats-deploiement.xlsx`;
+    res.header(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.header("Content-Disposition", `attachment; filename="${fileName}"`);
+
+    await workbook.xlsx
+      .write(res)
+      .then(() => {
+        res.end();
+      })
+      .catch((err) => {
+        appLogger.error("Unexpected export error", err);
+        res.sendStatus(500);
+        res.end();
+      });
+  }
+
   // 1. Liste des structures
   @Get("structures")
   public async structures() {
@@ -24,18 +59,13 @@ export class DashboardController {
   // 2. Liste des structures par type
   @Get("structures/type")
   public async countByType() {
-    const structures: { [key: string]: any } = {};
-    const result = await this.dashboardService.getStructuresByType();
-    for (const structure of result) {
-      structures[structure.structureType] = structure.count;
-    }
-    return structures;
+    return this.dashboardService.getStructuresCountByType();
   }
 
   // 3. Les interactions
   @Get("interactions")
   public async getInteractions() {
-    return this.dashboardService.getInteractions();
+    return this.dashboardService.getInteractionsCountByType();
   }
 
   // 4. Total des users
@@ -47,36 +77,17 @@ export class DashboardController {
   // 5. Total des domiciliés actifs
   @Get("usagers/valide")
   public async getUsagersActifs() {
-    const result = await this.dashboardService.getUsagersValide();
-    const usagers: { [key: string]: any } = {};
-
-    for (const usager of result) {
-      usagers[usager.structureId] = usager.count;
-    }
-    return usagers;
+    return this.dashboardService.getUsagersCountByStructureId();
   }
 
   @Get("docs")
   public async getDocs() {
-    const docs = await this.statsGeneratorService.countDocs();
-    return docs[0].count;
+    return this.dashboardService.getDocsCount();
   }
 
   @Get("usagers")
   public async getUsagers() {
-    const ayantsDroits = await this.statsGeneratorService.countAyantsDroits();
-    const result = await this.dashboardService.getUsagers();
-
-    const usagers: { [key: string]: any } = {};
-    let total = 0;
-
-    usagers.AYANTS_DROITS = ayantsDroits[0].count;
-    for (const usager of result) {
-      usagers[usager._id.statut] = usager.sum[0];
-      total += usager.sum[0];
-    }
-    usagers.TOUS = total + usagers.AYANTS_DROITS;
-    return usagers;
+    return this.dashboardService.getUsagersCountByStatut();
   }
 
   @Get("structures/regions")
