@@ -34,6 +34,7 @@ export interface Usager extends Document {
   entretien: Entretien;
 
   docs: Doc[];
+
   docsPath: string[];
 
   lastInteraction: {
