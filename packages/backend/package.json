@@ -6,7 +6,7 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "build": "rimraf dist && tsc -p tsconfig.build.json && cp -r src/excel/_templates dist/excel",
     "format": "prettier --write \"src/**/*.ts\"",
     "db:dev:migrate-up": "ts-node -r tsconfig-paths/register --transpile-only src/migrate-up.ts",
     "db:dev:migrate-down:last": "ts-node -r tsconfig-paths/register --transpile-only src/migrate-down-last.ts",
