@@ -10,7 +10,7 @@ export const statsDeploiementExporter = {
 };
 const EXCEL_TEMPLATE_FILE_PATH = path.join(
   __dirname,
-  "../../../excel-templates/export-stats-deploiement.xlsx"
+  "../_templates/export-stats-deploiement.xlsx"
 );
 
 async function generateExcelDocument(
