@@ -208,7 +208,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         this.filters.sortValue = "ascending";
       }
     } else if (element === "sortKey") {
-      if (this.filters.statut === "TOUS" && value === "VALIDE") {
+      if (
+        this.filters.statut === "TOUS" &&
+        (value === "VALIDE" || value === "TOUS")
+      ) {
         return;
       }
 

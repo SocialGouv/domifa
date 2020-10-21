@@ -40,15 +40,17 @@ import { UserRole } from "./user-role.type";
 import { appLogger } from "../util";
 
 import { UserProfil } from "./user-profil.type";
+import { ConfigService } from "../config";
 
 @Controller("users")
 @ApiTags("users")
 export class UsersController {
   constructor(
-    private readonly usersService: UsersService,
-    private readonly domifaMailsService: DomifaMailsService,
-    private readonly usersMailsService: UsersMailsService,
-    private readonly structureService: StructuresService
+    private usersService: UsersService,
+    private domifaMailsService: DomifaMailsService,
+    private usersMailsService: UsersMailsService,
+    private structureService: StructuresService,
+    private configService: ConfigService
   ) {}
 
   @UseGuards(AuthGuard("jwt"), ResponsableGuard)
@@ -87,6 +89,10 @@ export class UsersController {
     });
 
     if (confirmerUser && confirmerUser !== null) {
+      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      }
+
       this.usersMailsService.accountActivated(confirmerUser).then(
         (result: AxiosResponse) => {
           if (result.status !== 200) {
@@ -219,6 +225,10 @@ export class UsersController {
         //
         // Mail vers Domifa pour indiquer une création de structure
         //
+        if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+          return res.status(HttpStatus.OK).json({ message: "OK" });
+        }
+
         return this.domifaMailsService.newStructure(structure, newUser).then(
           (result: AxiosResponse) => {
             if (result.status !== 200) {
@@ -251,6 +261,10 @@ export class UsersController {
           role: "admin",
           structureId: newUser.structureId,
         });
+
+        if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+          return res.status(HttpStatus.OK).json({ message: "OK" });
+        }
 
         return this.usersMailsService.newUser(admin, newUser).then(
           (result: AxiosResponse) => {
@@ -366,6 +380,10 @@ export class UsersController {
           .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
       }
 
+      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      }
+
       return this.usersMailsService.newPassword(updatedUser).then(
         (result: AxiosResponse) => {
           return res.status(HttpStatus.OK).json({ message: result.data });
@@ -408,6 +426,10 @@ export class UsersController {
     );
 
     if (updatedUser && updatedUser !== null) {
+      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      }
+
       this.usersMailsService.newUserFromAdmin(updatedUser).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });

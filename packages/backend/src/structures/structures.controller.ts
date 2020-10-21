@@ -35,9 +35,10 @@ import { AxiosResponse, AxiosError } from "axios";
 import { appLogger } from "../util";
 
 import { DomifaMailsService } from "../mails/services/domifa-mails.service";
-import { UsersMailsService } from "../mails/services/users-mails.service";
+
 import { UsagersMailsService } from "../mails/services/usagers-mails.service";
 import { StructuresMailsService } from "../mails/services/structures-mails.service";
+import { ConfigService } from "../config";
 
 @Controller("structures")
 @ApiTags("structures")
@@ -47,8 +48,7 @@ export class StructuresController {
     private usersService: UsersService,
     private usagersService: UsagersService,
     private interactionsService: InteractionsService,
-
-    private usersMailsService: UsersMailsService,
+    private configService: ConfigService,
     private domifaMailsService: DomifaMailsService,
     private usagersMailsService: UsagersMailsService,
     private structuresMailsService: StructuresMailsService
@@ -105,6 +105,10 @@ export class StructuresController {
         structure.id,
         { verified: true }
       );
+
+      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      }
 
       this.structuresMailsService
         .confirmationStructure(structure, updatedAdmin)
@@ -171,6 +175,10 @@ export class StructuresController {
       hardResetToken
     );
     if (structure) {
+      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      }
+
       await this.usagersMailsService.hardReset(user, hardResetToken.token);
       return res.status(HttpStatus.OK).json({ message: expireAt });
     } else {
@@ -285,6 +293,10 @@ export class StructuresController {
     const structure = await this.structureService.generateDeleteToken(id);
 
     if (structure && structure !== null) {
+      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      }
+
       this.domifaMailsService.deleteStructure(structure).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
