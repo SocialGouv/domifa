@@ -2,7 +2,7 @@ import { Column, Workbook } from "exceljs";
 import { StructureType } from "../../../structures/StructureType.type";
 import { REGIONS_LABELS_MAP } from "../../../structures/REGIONS_LABELS_MAP.const";
 import { WorksheetRenderer, xlRenderer } from "../../xlLib";
-import { StatsDeploiement } from "../StatsDeploiement.type";
+import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
 import { InteractionType } from "../../../interactions/InteractionType.type";
 
 export const exportStatsGlobalesWorksheetRenderer = {
@@ -12,11 +12,11 @@ export const exportStatsGlobalesWorksheetRenderer = {
 function renderWorksheet({
   workbook,
   worksheetIndex,
-  stats,
+  model,
 }: {
   workbook: Workbook;
   worksheetIndex: number;
-  stats: StatsDeploiement;
+    model: StatsDeploiementExportModel;
 }) {
   const worksheetRendered: WorksheetRenderer = xlRenderer.selectWorksheet(
     workbook.worksheets[worksheetIndex]
@@ -42,93 +42,93 @@ function renderWorksheet({
   function renderUsagersCountByStatus() {
     let i = 4;
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.usagersCountByStatut.TOUS,
+      value: model.usagersCountByStatut.TOUS,
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.usagersCountByStatut.VALIDE,
+      value: model.usagersCountByStatut.VALIDE,
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.usagersCountByStatut.INSTRUCTION,
+      value: model.usagersCountByStatut.INSTRUCTION,
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.usagersCountByStatut.ATTENTE_DECISION,
+      value: model.usagersCountByStatut.ATTENTE_DECISION,
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.usagersCountByStatut.REFUS,
+      value: model.usagersCountByStatut.REFUS,
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.usagersCountByStatut.RADIE,
+      value: model.usagersCountByStatut.RADIE,
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.usagersCountByStatut.AYANTS_DROITS,
+      value: model.usagersCountByStatut.AYANTS_DROITS,
     });
   }
 
   function renderStructuresCountByType() {
     let i = 13;
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.structures.length,
+      value: model.structures.length,
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.structuresCountByType["asso" as StructureType],
+      value: model.structuresCountByType["asso" as StructureType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.structuresCountByType["ccas" as StructureType],
+      value: model.structuresCountByType["ccas" as StructureType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.structuresCountByType["cias" as StructureType],
+      value: model.structuresCountByType["cias" as StructureType],
     });
   }
   function renderInteractionsCountByType() {
     let i = 22;
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.interactionsCountByStatut["appel" as InteractionType],
+      value: model.interactionsCountByStatut["appel" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.interactionsCountByStatut["colisIn" as InteractionType],
+      value: model.interactionsCountByStatut["colisIn" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.interactionsCountByStatut["colisOut" as InteractionType],
+      value: model.interactionsCountByStatut["colisOut" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.interactionsCountByStatut["courrierIn" as InteractionType],
+      value: model.interactionsCountByStatut["courrierIn" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.interactionsCountByStatut["courrierOut" as InteractionType],
+      value: model.interactionsCountByStatut["courrierOut" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.interactionsCountByStatut["npai" as InteractionType],
+      value: model.interactionsCountByStatut["npai" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.interactionsCountByStatut["recommandeIn" as InteractionType],
+      value: model.interactionsCountByStatut["recommandeIn" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
       value:
-        stats.interactionsCountByStatut["recommandeOut" as InteractionType],
+        model.interactionsCountByStatut["recommandeOut" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.interactionsCountByStatut["visite" as InteractionType],
+      value: model.interactionsCountByStatut["visite" as InteractionType],
     });
   }
 
   function renderExportDate() {
     worksheetRendered.renderCell(1, "b", {
-      value: stats.exportDate,
+      value: model.exportDate,
     });
   }
 
   function renderUsersDocsCount() {
     worksheetRendered.renderCell(18, "b", {
-      value: stats.usersCount,
+      value: model.usersCount,
     });
     worksheetRendered.renderCell(19, "b", {
-      value: stats.docsCount,
+      value: model.docsCount,
     });
   }
 
   function renderStructuresCountByRegion() {
     let i = 4;
-    return stats.structuresCountByRegion.forEach((x) => {
+    return model.structuresCountByRegion.forEach((x) => {
       worksheetRendered.renderRow(i++, {
         values: {
           d: REGIONS_LABELS_MAP[x.region],

@@ -1,7 +1,7 @@
 import { Workbook } from "exceljs";
 import * as path from "path";
 import { appLogger } from "../../util";
-import { StatsDeploiement } from "./StatsDeploiement.type";
+import { StatsDeploiementExportModel } from "./StatsDeploiementExportModel.type";
 import { exportListeStructuresWorksheetRenderer } from "./worksheet-renderer";
 import { exportStatsGlobalesWorksheetRenderer } from "./worksheet-renderer/exportStatsGlobalesWorksheetRenderer";
 
@@ -14,11 +14,11 @@ const EXCEL_TEMPLATE_FILE_PATH = path.join(
 );
 
 async function generateExcelDocument(
-  stats: StatsDeploiement
+  model: StatsDeploiementExportModel
 ): Promise<Workbook> {
   try {
     const beginDate = new Date();
-    const workbook = await renderWorkbook(stats);
+    const workbook = await renderWorkbook(model);
     const endDate = new Date();
     appLogger.debug(
       `[statsDeploiementExporter] SUCCESS - Report created - duration: ${endDate.getTime() - beginDate.getTime()
@@ -35,16 +35,16 @@ async function generateExcelDocument(
   }
 }
 
-async function renderWorkbook(stats: StatsDeploiement) {
+async function renderWorkbook(model: StatsDeploiementExportModel) {
   const workbook = new Workbook();
   await workbook.xlsx.readFile(EXCEL_TEMPLATE_FILE_PATH);
   exportStatsGlobalesWorksheetRenderer.renderWorksheet({
-    stats,
+    model,
     workbook,
     worksheetIndex: 0,
   });
   exportListeStructuresWorksheetRenderer.renderWorksheet({
-    stats,
+    model,
     workbook,
     worksheetIndex: 1,
   });

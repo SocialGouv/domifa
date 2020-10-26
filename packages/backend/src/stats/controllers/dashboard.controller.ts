@@ -4,8 +4,8 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
 import {
-  StatsDeploiement,
   statsDeploiementExporter,
+  StatsDeploiementExportModel,
 } from "../../excel/export-stats-deploiement";
 import { appLogger } from "../../util";
 import { DashboardService } from "../services/dashboard.service";
@@ -24,12 +24,12 @@ export class DashboardController {
 
   @Get("export")
   public async export(@Res() res: Response) {
-    const stats: StatsDeploiement = await this.dashboardService.getStatsDeploiement();
+    const model: StatsDeploiementExportModel = await this.dashboardService.getStatsDeploiement();
     const workbook = await statsDeploiementExporter.generateExcelDocument(
-      stats
+      model
     );
 
-    const fileName = `${moment(stats.exportDate).format(
+    const fileName = `${moment(model.exportDate).format(
       "DD-MM-yyyy_HH-mm"
     )}_export-stats-deploiement.xlsx`;
     res.header(
