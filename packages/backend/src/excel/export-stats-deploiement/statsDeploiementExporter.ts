@@ -2,7 +2,9 @@ import { Workbook } from "exceljs";
 import * as path from "path";
 import { appLogger } from "../../util";
 import { StatsDeploiementExportModel } from "./StatsDeploiementExportModel.type";
+import { StatsExportUser } from "./StatsExportUser.type";
 import { exportListeStructuresWorksheetRenderer } from "./worksheet-renderer";
+import { exportListeUsersWorksheetRenderer } from "./worksheet-renderer/exportListeUsersWorksheetRenderer";
 import { exportStatsGlobalesWorksheetRenderer } from "./worksheet-renderer/exportStatsGlobalesWorksheetRenderer";
 
 export const statsDeploiementExporter = {
@@ -13,12 +15,16 @@ const EXCEL_TEMPLATE_FILE_PATH = path.join(
   "../_templates/export-stats-deploiement.xlsx"
 );
 
-async function generateExcelDocument(
-  model: StatsDeploiementExportModel
-): Promise<Workbook> {
+async function generateExcelDocument({
+  stats,
+  users,
+}: {
+    stats: StatsDeploiementExportModel;
+  users: StatsExportUser[];
+}): Promise<Workbook> {
   try {
     const beginDate = new Date();
-    const workbook = await renderWorkbook(model);
+    const workbook = await renderWorkbook({ stats, users });
     const endDate = new Date();
     appLogger.debug(
       `[statsDeploiementExporter] SUCCESS - Report created - duration: ${endDate.getTime() - beginDate.getTime()
@@ -35,18 +41,29 @@ async function generateExcelDocument(
   }
 }
 
-async function renderWorkbook(model: StatsDeploiementExportModel) {
+async function renderWorkbook({
+  stats,
+  users,
+}: {
+    stats: StatsDeploiementExportModel;
+  users: StatsExportUser[];
+}) {
   const workbook = new Workbook();
   await workbook.xlsx.readFile(EXCEL_TEMPLATE_FILE_PATH);
   exportStatsGlobalesWorksheetRenderer.renderWorksheet({
-    model,
+    stats,
     workbook,
     worksheetIndex: 0,
   });
   exportListeStructuresWorksheetRenderer.renderWorksheet({
-    model,
+    stats,
     workbook,
     worksheetIndex: 1,
+  });
+  exportListeUsersWorksheetRenderer.renderWorksheet({
+    users,
+    workbook,
+    worksheetIndex: 2,
   });
 
   // set focus to first tab

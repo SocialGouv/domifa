@@ -1,15 +1,18 @@
-import { Controller, Get, Res, UseGuards } from "@nestjs/common";
+import { Controller, Get, Inject, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+import { Model } from "mongoose";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
 import {
   statsDeploiementExporter,
   StatsDeploiementExportModel,
 } from "../../excel/export-stats-deploiement";
+import { StatsExportUser } from "../../excel/export-stats-deploiement/StatsExportUser.type";
+import { User } from "../../users/user.interface";
 import { appLogger } from "../../util";
+import { mongoSelectAttributes } from "../../util/mongoSelectAttributes.fn";
 import { DashboardService } from "../services/dashboard.service";
-import { StatsGeneratorService } from "../services/stats-generator.service";
 import moment = require("moment");
 
 @UseGuards(AuthGuard("jwt"), DomifaGuard)
@@ -19,17 +22,42 @@ import moment = require("moment");
 export class DashboardController {
   constructor(
     private readonly dashboardService: DashboardService,
-    private readonly statsGeneratorService: StatsGeneratorService
-  ) {}
+    @Inject("USER_MODEL") private readonly userModel: Model<User>
+  ) { }
 
   @Get("export")
   public async export(@Res() res: Response) {
-    const model: StatsDeploiementExportModel = await this.dashboardService.getStatsDeploiement();
-    const workbook = await statsDeploiementExporter.generateExcelDocument(
-      model
-    );
+    const stats: StatsDeploiementExportModel = await this.dashboardService.getStatsDeploiement();
 
-    const fileName = `${moment(model.exportDate).format(
+    const USER_STATS_ATTRIBUTES = mongoSelectAttributes<StatsExportUser>(
+      "id",
+      "email",
+      "nom",
+      "prenom",
+      "role"
+    );
+    const users = ((await this.userModel
+      .find({
+        verified: true,
+      })
+      .populate({
+        path: "structure",
+        select: "id nom",
+        model: "Structure",
+      })
+      .select(USER_STATS_ATTRIBUTES)
+      .sort({
+        nom: 1,
+        prenom: 1,
+      })
+      .exec()) as unknown) as StatsExportUser[];
+
+    const workbook = await statsDeploiementExporter.generateExcelDocument({
+      stats,
+      users,
+    });
+
+    const fileName = `${moment(stats.exportDate).format(
       "DD-MM-yyyy_HH-mm"
     )}_export-stats-deploiement.xlsx`;
     res.header(
