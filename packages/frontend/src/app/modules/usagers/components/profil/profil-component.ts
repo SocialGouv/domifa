@@ -222,31 +222,45 @@ export class UsagersProfilComponent implements OnInit {
 
   public initForms() {
     this.transfertForm = this.formBuilder.group({
+      nom: [this.usager.options.transfert.nom, [Validators.required]],
       adresse: [
         this.usager.options.transfert.adresse,
         [Validators.required, Validators.minLength(10)],
       ],
+
       dateFin: [this.usager.options.transfert.dateFin],
+      dateDebut: [this.usager.options.transfert.dateDebut],
+
       dateFinPicker: [
         this.usager.options.transfert.dateFinPicker,
         [Validators.required],
       ],
-      nom: [this.usager.options.transfert.nom, [Validators.required]],
+      dateDebutPicker: [
+        this.usager.options.transfert.dateDebutPicker,
+        [Validators.required],
+      ],
     });
 
     this.procurationForm = this.formBuilder.group({
+      nom: [this.usager.options.procuration.nom, [Validators.required]],
+      prenom: [this.usager.options.procuration.prenom, [Validators.required]],
+
+      dateDebut: [this.usager.options.procuration.dateDebut],
       dateFin: [this.usager.options.procuration.dateFin],
+      dateNaissance: [this.usager.options.procuration.dateNaissance],
+
       dateFinPicker: [
         this.usager.options.procuration.dateFinPicker,
         [Validators.required],
       ],
-      dateNaissancePicker: [
-        this.usager.options.procuration.dateFinPicker,
+      dateDebutPicker: [
+        this.usager.options.procuration.dateDebutPicker,
         [Validators.required],
       ],
-      dateNaissance: [this.usager.options.procuration.dateNaissance],
-      nom: [this.usager.options.procuration.nom, [Validators.required]],
-      prenom: [this.usager.options.procuration.prenom, [Validators.required]],
+      dateNaissancePicker: [
+        this.usager.options.procuration.dateNaissancePicker,
+        [Validators.required],
+      ],
     });
 
     this.usagerForm = this.formBuilder.group({
@@ -466,18 +480,26 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public editTransfert() {
-    const dateTmp = this.nbgDate.formatEn(
+    const dateFin = this.nbgDate.formatEn(
       this.transfertForm.controls.dateFinPicker.value
     );
+    const dateDebut = this.nbgDate.formatEn(
+      this.transfertForm.controls.dateDebutPicker.value
+    );
 
-    if (dateTmp === null) {
+    if (dateFin === null || dateDebut === null) {
       this.notifService.error("La date de fin du transfert est incorrecte.");
       return;
     }
 
     this.transfertForm.controls.dateFin.setValue(
-      new Date(dateTmp).toISOString()
+      new Date(dateFin).toISOString()
     );
+
+    this.transfertForm.controls.dateDebut.setValue(
+      new Date(dateDebut).toISOString()
+    );
+
     this.usagerService
       .editTransfert(this.transfertForm.value, this.usager.id)
       .subscribe(
@@ -493,22 +515,34 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public editProcuration() {
-    const dateTmp = this.nbgDate.formatEn(
+    const dateFinTmp = this.nbgDate.formatEn(
       this.procurationForm.controls.dateFinPicker.value
     );
+    const dateDebutTmp = this.nbgDate.formatEn(
+      this.procurationForm.controls.dateDebutPicker.value
+    );
+
     const dateNaissanceTmp = this.nbgDate.formatEn(
       this.procurationForm.controls.dateNaissancePicker.value
     );
 
-    if (dateTmp === null || dateNaissanceTmp === null) {
+    if (
+      dateFinTmp === null ||
+      dateDebutTmp === null ||
+      dateNaissanceTmp === null
+    ) {
       this.notifService.error(
         "Vérifier la date de naissance ou la date de fin de procuration."
       );
       return;
     }
 
+    this.procurationForm.controls.dateDebut.setValue(
+      new Date(dateDebutTmp).toISOString()
+    );
+
     this.procurationForm.controls.dateFin.setValue(
-      new Date(dateTmp).toISOString()
+      new Date(dateFinTmp).toISOString()
     );
 
     this.procurationForm.controls.dateNaissance.setValue(

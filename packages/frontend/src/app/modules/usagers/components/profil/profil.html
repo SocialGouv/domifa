@@ -996,8 +996,17 @@
 
               <div class="col-md-4 reponses">
                 <span class="question">Actif jusqu'au</span>
-                <span class="valeur">
+
+                <span
+                  class="valeur"
+                  *ngIf="usager.options.transfert.dateDebut === null"
+                >
                   {{ usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}
+                </span>
+                <span class="valeur" *ngIf="usager.options.transfert.dateDebut">
+                  Du {{ usager.options.transfert.dateDebut | date: 'dd/MM/yyyy'
+                  }} au {{ usager.options.transfert.dateFin | date: 'dd/MM/yyyy'
+                  }}
                 </span>
               </div>
 
@@ -1029,7 +1038,7 @@
               autocomplete="off"
             >
               <div class="row">
-                <div class="col-4 form-group required">
+                <div class="col-6 form-group required">
                   <label for="transfert_nom">Nom de l'établissement</label>
                   <input
                     type="text"
@@ -1050,9 +1059,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-5 form-group required">
+                <div class="col-6 form-group required">
                   <label for="transfert_adresse"
-                    >Adresse complète de l'établissement</label
+                    >Adresse de l'établissement</label
                   >
                   <input
                     type="text"
@@ -1075,7 +1084,45 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3 form-group required">
+                <div class="col-3 form-group required">
+                  <label for="dateDebutPickerTransfert">Valide du</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      placeholder="jj/mm/aaaa"
+                      placement="bottom"
+                      id="dateDebutPickerTransfert"
+                      formControlName="dateDebutPicker"
+                      ngbDatepicker
+                      dateFr
+                      value
+                      [ngClass]="{ 'is-invalid':  t.dateDebutPicker.dirty &&  t.dateDebutPicker.errors  }"
+                      #dateDebutTransfert="ngbDatepicker"
+                      maxlength="10"
+                      required
+                    />
+                    <div class="input-group-append">
+                      <span
+                        class="btn btn-outline-primary"
+                        (click)="dateDebutTransfert.toggle()"
+                      >
+                        <fa-icon icon="calendar"></fa-icon>
+                      </span>
+                    </div>
+
+                    <div
+                      *ngIf="t.dateFinPicker.invalid"
+                      class="invalid-feedback"
+                    >
+                      <div
+                        *ngIf="t.dateFinPicker.dirty && t.dateFinPicker.errors.ngbDate"
+                      >
+                        La date de fin est incorrecte
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3 form-group required">
                   <label for="dateFinPickerTransfert">Valide jusqu'au</label>
                   <div class="input-group">
                     <input
@@ -1114,7 +1161,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col text-center">
+                <div class="col-12 text-center">
                   <span
                     class="btn btn-dark"
                     (click)="editTransfertForm = false"
@@ -1148,7 +1195,7 @@
                     <th>Action</th>
                     <th>Nom</th>
                     <th>Adresse</th>
-                    <th>Valide jusqu'au</th>
+                    <th>Période de validité</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1162,7 +1209,14 @@
                     <td>{{ transfert.content.nom }}</td>
                     <td>{{ transfert.content.adresse }}</td>
                     <td>
-                      {{ transfert.content.dateFin | date: 'dd/MM/yyyy' }}
+                      <span *ngIf="transfert.content.dateDebut === null">
+                        {{ transfert.content.dateFin | date: 'dd/MM/yyyy' }}
+                      </span>
+                      <span class="valeur" *ngIf="transfert.content.dateDebut">
+                        Du {{ transfert.content.dateDebut | date: 'dd/MM/yyyy'
+                        }} au {{ transfert.content.dateFin | date: 'dd/MM/yyyy'
+                        }}
+                      </span>
                     </td>
                   </tr>
                 </tbody>
@@ -1208,13 +1262,13 @@
               *ngIf="usager.options.procuration.actif && !editProcurationForm"
               class="row"
             >
-              <div class="col-md-3 reponses">
+              <div class="col-md-2 reponses">
                 <span class="question">Nom</span>
                 <span class="valeur">
                   {{ usager.options.procuration.nom | uppercase }}
                 </span>
               </div>
-              <div class="col-md-3 reponses">
+              <div class="col-md-2 reponses">
                 <span class="question">Prénom</span>
                 <span class="valeur">
                   {{ usager.options.procuration.prenom }}
@@ -1228,10 +1282,21 @@
                 </span>
               </div>
 
-              <div class="col-md-3 reponses">
-                <span class="question">Date de fin de validité</span>
-                <span class="valeur">
+              <div class="col-md-4 reponses">
+                <span class="question">Dates de validité</span>
+                <span
+                  class="valeur"
+                  *ngIf="usager.options.procuration.dateDebut === null"
+                >
                   {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy' }}
+                </span>
+                <span
+                  class="valeur"
+                  *ngIf="usager.options.procuration.dateDebut"
+                >
+                  Du {{ usager.options.procuration.dateDebut | date:
+                  'dd/MM/yyyy' }} au {{ usager.options.procuration.dateFin |
+                  date: 'dd/MM/yyyy' }}
                 </span>
               </div>
 
@@ -1264,7 +1329,7 @@
               autocomplete="off"
             >
               <div class="row">
-                <div class="col-3 form-group required">
+                <div class="col-4 form-group required">
                   <label for="procuration_nom">Nom</label>
                   <input
                     type="text"
@@ -1284,7 +1349,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-3 form-group required">
+                <div class="col-4 form-group required">
                   <label for="procuration_prenom">Prénom</label>
                   <input
                     type="text"
@@ -1304,7 +1369,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-3 form-group required">
+                <div class="col-md-4 form-group required">
                   <label for="dateNaissancePicker">Date de naissance</label>
                   <div class="input-group">
                     <input
@@ -1340,7 +1405,42 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3 form-group required">
+                <div class="col-md-4 form-group required">
+                  <label for="dateDebutPicker">Date de début de validité</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      placeholder="jj/mm/aaaa"
+                      placement="bottom"
+                      formControlName="dateDebutPicker"
+                      ngbDatepicker
+                      dateFr
+                      value
+                      id="dateDebutPicker"
+                      [ngClass]="{ 'is-invalid': p.dateDebutPicker.dirty &&  p.dateDebutPicker.errors }"
+                      #dateDebutPro="ngbDatepicker"
+                      maxlength="10"
+                      required
+                    />
+                    <div class="input-group-append">
+                      <span
+                        class="btn btn-outline-primary"
+                        (click)="dateDebutPro.toggle()"
+                      >
+                        <fa-icon icon="calendar"></fa-icon>
+                      </span>
+                    </div>
+
+                    <div
+                      *ngIf="p.dateDebutPicker.dirty && p.dateDebutPicker.invalid"
+                      class="invalid-feedback"
+                    >
+                      La date de fin est incorrecte (ex: 20/12/1991)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 form-group required">
                   <label for="dateFinPicker">Date de fin de validité</label>
                   <div class="input-group">
                     <input
@@ -1354,14 +1454,14 @@
                       id="dateFinPicker"
                       [minDate]="minDateToday"
                       [ngClass]="{ 'is-invalid': p.dateFinPicker.dirty &&  p.dateFinPicker.errors }"
-                      #df="ngbDatepicker"
+                      #dateFinProcu="ngbDatepicker"
                       maxlength="10"
                       required
                     />
                     <div class="input-group-append">
                       <span
                         class="btn btn-outline-primary"
-                        (click)="df.toggle()"
+                        (click)="dateFinProcu.toggle()"
                       >
                         <fa-icon icon="calendar"></fa-icon>
                       </span>
@@ -1376,7 +1476,7 @@
                   </div>
                 </div>
 
-                <div class="col text-center">
+                <div class="col-12 text-center">
                   <span
                     class="btn btn-dark"
                     (click)="editProcurationForm = false"
@@ -1410,7 +1510,7 @@
                     <th>Action</th>
                     <th>Nom prénom</th>
                     <th>Date de naissance</th>
-                    <th>Date de fin de validité</th>
+                    <th>Période de validité</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1425,7 +1525,16 @@
                     <td>
                       {{ procu.content.dateNaissance | date: 'dd/MM/yyyy' }}
                     </td>
-                    <td>{{ procu.content.dateFin | date: 'dd/MM/yyyy' }}</td>
+
+                    <td>
+                      <span *ngIf="procu.content.dateDebut === null">
+                        {{ procu.content.dateFin | date: 'dd/MM/yyyy' }}
+                      </span>
+                      <span class="valeur" *ngIf="procu.content.dateDebut">
+                        Du {{ procu.content.dateDebut | date: 'dd/MM/yyyy' }} au
+                        {{ procu.content.dateFin | date: 'dd/MM/yyyy' }}
+                      </span>
+                    </td>
                   </tr>
                 </tbody>
               </table>

@@ -9,6 +9,7 @@ export class Options {
     dateDebut: Date | null;
     dateFin: Date | null;
     dateFinPicker: NgbDateStruct | null;
+    dateDebutPicker: NgbDateStruct | null;
     nom: string | null;
   };
 
@@ -17,6 +18,8 @@ export class Options {
     dateDebut: Date | null;
     dateFin: Date | null;
     dateFinPicker: NgbDateStruct | null;
+    dateDebutPicker: NgbDateStruct | null;
+    dateNaissancePicker: NgbDateStruct | null;
     dateNaissance: Date | null;
     nom: string;
     nomComplet: string;
@@ -40,6 +43,7 @@ export class Options {
       dateDebut: null,
       dateFin: null,
       dateFinPicker: null,
+      dateDebutPicker: null,
       nom: "",
     };
 
@@ -53,6 +57,8 @@ export class Options {
       dateDebut: null,
       dateFin: null,
       dateFinPicker: null,
+      dateDebutPicker: null,
+      dateNaissancePicker: null,
       dateNaissance: null,
       nom: "",
       nomComplet: "",
@@ -75,6 +81,11 @@ export class Options {
           options.transfert.dateDebut !== null
         ) {
           this.transfert.dateDebut = new Date(options.transfert.dateDebut);
+          this.transfert.dateDebutPicker = formatDateToNgb(
+            this.transfert.dateDebut
+          );
+        } else {
+          this.transfert.dateDebut = null;
         }
 
         if (options.transfert.dateFin && options.transfert.dateFin !== null) {
@@ -82,6 +93,8 @@ export class Options {
           this.transfert.dateFinPicker = formatDateToNgb(
             this.transfert.dateFin
           );
+        } else {
+          this.transfert.dateFin = null;
         }
       }
 
@@ -92,13 +105,17 @@ export class Options {
         this.procuration.nomComplet =
           this.procuration.nom.toUpperCase() + " " + this.procuration.prenom ||
           "";
-
-        this.procuration.dateNaissance =
-          new Date(options.procuration.dateNaissance) || null;
-
-        this.procuration.dateDebut =
-          new Date(options.procuration.dateDebut) || null;
-
+        if (
+          options.procuration.dateNaissance &&
+          options.procuration.dateNaissance !== null
+        ) {
+          this.procuration.dateNaissance = new Date(
+            options.procuration.dateNaissance
+          );
+          this.procuration.dateNaissancePicker = formatDateToNgb(
+            this.procuration.dateNaissance
+          );
+        }
         if (
           options.procuration.dateFin &&
           options.procuration.dateFin !== null
@@ -106,6 +123,15 @@ export class Options {
           this.procuration.dateFin = new Date(options.procuration.dateFin);
           this.procuration.dateFinPicker = formatDateToNgb(
             this.procuration.dateFin
+          );
+        }
+        if (
+          options.procuration.dateDebut &&
+          options.procuration.dateDebut !== null
+        ) {
+          this.procuration.dateDebut = new Date(options.procuration.dateDebut);
+          this.procuration.dateDebutPicker = formatDateToNgb(
+            this.procuration.dateDebut
           );
         }
       }

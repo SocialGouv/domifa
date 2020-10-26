@@ -31,6 +31,13 @@ export class ProcurationDto {
   public dateFin!: Date;
 
   @ApiProperty({
+    type: Date,
+    required: true,
+  })
+  @IsNotEmpty()
+  public dateDebut!: Date;
+
+  @ApiProperty({
     type: String,
     required: true,
   })
