@@ -1,0 +1,60 @@
+version: "3.3"
+
+volumes:
+  domifa-mongo-data:
+
+services:
+  mongo:
+    image: "mongo:4.2.8"
+    container_name: domifa-mongo-dev
+    volumes:
+      - domifa-mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD
+    ports:
+      - 27017:27017
+    env_file:
+      - ./.env
+
+  master_backend:
+    container_name: domifa-backend-dev
+    hostname: domifa-backend-dev
+    build:
+      context: _scripts/dev
+      dockerfile: local-node.dockerfile
+    command: tail -f /dev/null
+    working_dir: /app/packages/backend
+    volumes:
+      - $APP_DIR:/app:delegated
+      - $HOME/.ssh:/home/node/.ssh:ro
+      - $HOME/.gitconfig:/home/node/.gitconfig:ro
+      - $HOME/.gitignore:/home/node/.gitignore:ro
+      - $HOME/.npm:/home/node/.npm:delegated
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env
+    environment:
+      TZ: Europe/Paris
+
+  domifa_frontend:
+    container_name: domifa-frontend-dev
+    hostname: domifa-frontend-dev
+    build:
+      context: _scripts/dev
+      dockerfile: local-node.dockerfile
+    command: tail -f /dev/null
+    working_dir: /app/packages/frontend
+    volumes:
+      - $APP_DIR:/app:delegated
+      - $HOME/.ssh:/home/node/.ssh:ro
+      - $HOME/.gitconfig:/home/node/.gitconfig:ro
+      - $HOME/.gitignore:/home/node/.gitignore:ro
+      - $HOME/.npm:/home/node/.npm:delegated
+    ports:
+      - 4200:4200
+    env_file:
+      - ./.env
+    environment:
+      TZ: Europe/Paris

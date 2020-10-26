@@ -9,7 +9,7 @@
 
 ## Développement
 
-Voir [./_docs/CONTRIBUTING.md](./_docs/CONTRIBUTING.md).
+Voir [./_docs/dev](./_docs/dev).
 
 ## OPS
 
