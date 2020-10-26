@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { StructureType } from "../../structures/StructureType.type";
-import { StatsDeploiement } from "../../excel/export-stats-deploiement";
+import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 import { Interaction } from "../../interactions/interactions.interface";
 import { Structure } from "../../structures/structure-interface";
 
@@ -259,7 +259,7 @@ export class DashboardService {
     const docsCount = await this.getDocsCount();
     const interactionsCountByStatut = await this.getInteractionsCountByType();
 
-    const stats: StatsDeploiement = {
+    const stats: StatsDeploiementExportModel = {
       exportDate: new Date(),
       structures,
       usagersCountByStructureId,

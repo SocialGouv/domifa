@@ -1,2 +1,2 @@
 export * from "./statsDeploiementExporter";
-export * from "./StatsDeploiement.type";
+export * from "./StatsDeploiementExportModel.type";

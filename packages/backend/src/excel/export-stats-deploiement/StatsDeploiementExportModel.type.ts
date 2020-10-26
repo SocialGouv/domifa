@@ -1,6 +1,6 @@
 import { Structure } from "../../structures/structure-interface";
 
-export type StatsDeploiement = {
+export type StatsDeploiementExportModel = {
   exportDate: Date;
   structures: Structure[];
   usagersCountByStructureId: { [structureId: string]: number };

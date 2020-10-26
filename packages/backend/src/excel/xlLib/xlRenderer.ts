@@ -24,7 +24,7 @@ function selectWorksheet(worksheet: Worksheet) {
       const originalColumnWidth = originalColumn
         ? originalColumn.width
         : undefined;
-      if (originalColumnWidth !== undefined) {
+      if (originalColumnWidth !== undefined && column.width === undefined) {
         column.width = originalColumnWidth;
       }
     });

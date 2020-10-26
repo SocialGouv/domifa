@@ -2,7 +2,7 @@ import { Column, Workbook } from "exceljs";
 import { structureType } from "../../../stats/usagers.labels";
 import { DEPARTEMENTS_MAP } from "../../../structures/DEPARTEMENTS_MAP.const";
 import { WorksheetRenderer, xlRenderer, XlRowModel } from "../../xlLib";
-import { StatsDeploiement } from "../StatsDeploiement.type";
+import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
 
 export const exportListeStructuresWorksheetRenderer = {
   renderWorksheet,
@@ -11,11 +11,11 @@ export const exportListeStructuresWorksheetRenderer = {
 function renderWorksheet({
   workbook,
   worksheetIndex,
-  stats,
+  model,
 }: {
   workbook: Workbook;
   worksheetIndex: number;
-  stats: StatsDeploiement;
+    model: StatsDeploiementExportModel;
 }) {
   const worksheetRendered: WorksheetRenderer = xlRenderer.selectWorksheet(
     workbook.worksheets[worksheetIndex]
@@ -41,15 +41,15 @@ function renderWorksheet({
 
   worksheetRendered.configureColumn(columns);
 
-  const rows: XlRowModel[] = buildRows(stats);
+  const rows: XlRowModel[] = buildRows(model);
 
   rows.forEach((rowModel, i) => {
     worksheetRendered.renderRow(i + 2, rowModel, { insert: true });
   });
 }
 
-function buildRows(stats: StatsDeploiement): XlRowModel[] {
-  return stats.structures.map((structure) => {
+function buildRows(model: StatsDeploiementExportModel): XlRowModel[] {
+  return model.structures.map((structure) => {
     const departement = DEPARTEMENTS_MAP[structure.departement];
     const row: XlRowModel = {
       values: {
@@ -59,7 +59,7 @@ function buildRows(stats: StatsDeploiement): XlRowModel[] {
         createdAt: structure.createdAt,
         import: structure.import ? "oui" : "non",
         importDate: structure.importDate,
-        usagersValideCount: stats.usagersCountByStructureId[structure.id] || 0,
+        usagersValideCount: model.usagersCountByStructureId[structure.id] || 0,
         usersCount: structure.users.length,
         lastLogin: structure.lastLogin,
         codePostal: structure.codePostal,

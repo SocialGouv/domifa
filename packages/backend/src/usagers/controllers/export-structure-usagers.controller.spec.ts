@@ -1,5 +1,4 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { ExportController } from "./export.controller";
 import { DatabaseModule } from "../../database/database.module";
 import { UsersModule } from "../../users/users.module";
 import { StructuresModule } from "../../structures/structure.module";
@@ -8,13 +7,14 @@ import { UsagersService } from "../services/usagers.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersProviders } from "../usagers.providers";
 import { InteractionsModule } from "../../interactions/interactions.module";
+import { ExportStructureUsagersController } from "./export-structure-usagers.controller";
 
 describe("Export Controller", () => {
-  let controller: ExportController;
+  let controller: ExportStructureUsagersController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [ExportController],
+      controllers: [ExportStructureUsagersController],
       imports: [
         DatabaseModule,
         UsersModule,
@@ -29,7 +29,9 @@ describe("Export Controller", () => {
       ],
     }).compile();
 
-    controller = module.get<ExportController>(ExportController);
+    controller = module.get<ExportStructureUsagersController>(
+      ExportStructureUsagersController
+    );
   });
 
   it("should be defined", () => {

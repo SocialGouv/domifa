@@ -13,12 +13,12 @@ import { UsagersProviders } from "./usagers.providers";
 import { SearchController } from "./controllers/search.controller";
 import { StatsModule } from "../stats/stats.module";
 import { DocsController } from "./controllers/docs.controller";
-import { ExportController } from "./controllers/export.controller";
 import { AgendaController } from "./controllers/agenda.controller";
 
 import { UsagersMailsService } from "../mails/services/usagers-mails.service";
 import { ConfigService } from "../config";
 import { MailsModule } from "../mails/mails.module";
+import { ExportStructureUsagersController } from "./controllers/export-structure-usagers.controller";
 
 @Module({
   controllers: [
@@ -27,7 +27,7 @@ import { MailsModule } from "../mails/mails.module";
     SearchController,
     AgendaController,
     DocsController,
-    ExportController,
+    ExportStructureUsagersController,
   ],
   exports: [
     UsagersService,
