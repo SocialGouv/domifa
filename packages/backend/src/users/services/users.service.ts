@@ -9,10 +9,7 @@ import { User } from "../user.interface";
 import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 import { EditPasswordDto } from "../dto/edit-password.dto";
 import { UserProfil } from "../user-profil.type";
-
-function mongoSelectAttributes<T>(...attributes: (keyof T)[]): string {
-  return attributes.join(" ");
-}
+import { mongoSelectAttributes } from "../../util/mongoSelectAttributes.fn";
 
 const USER_PROFILE_ATTRIBUTES = mongoSelectAttributes<UserProfil>(
   "id",

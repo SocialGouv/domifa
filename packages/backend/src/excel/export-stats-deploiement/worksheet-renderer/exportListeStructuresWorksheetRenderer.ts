@@ -11,11 +11,11 @@ export const exportListeStructuresWorksheetRenderer = {
 function renderWorksheet({
   workbook,
   worksheetIndex,
-  model,
+  stats,
 }: {
   workbook: Workbook;
   worksheetIndex: number;
-    model: StatsDeploiementExportModel;
+    stats: StatsDeploiementExportModel;
 }) {
   const worksheetRendered: WorksheetRenderer = xlRenderer.selectWorksheet(
     workbook.worksheets[worksheetIndex]
@@ -41,15 +41,15 @@ function renderWorksheet({
 
   worksheetRendered.configureColumn(columns);
 
-  const rows: XlRowModel[] = buildRows(model);
+  const rows: XlRowModel[] = buildRows(stats);
 
   rows.forEach((rowModel, i) => {
     worksheetRendered.renderRow(i + 2, rowModel, { insert: true });
   });
 }
 
-function buildRows(model: StatsDeploiementExportModel): XlRowModel[] {
-  return model.structures.map((structure) => {
+function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
+  return stats.structures.map((structure) => {
     const departement = DEPARTEMENTS_MAP[structure.departement];
     const row: XlRowModel = {
       values: {
@@ -59,7 +59,7 @@ function buildRows(model: StatsDeploiementExportModel): XlRowModel[] {
         createdAt: structure.createdAt,
         import: structure.import ? "oui" : "non",
         importDate: structure.importDate,
-        usagersValideCount: model.usagersCountByStructureId[structure.id] || 0,
+        usagersValideCount: stats.usagersCountByStructureId[structure.id] || 0,
         usersCount: structure.users.length,
         lastLogin: structure.lastLogin,
         codePostal: structure.codePostal,
