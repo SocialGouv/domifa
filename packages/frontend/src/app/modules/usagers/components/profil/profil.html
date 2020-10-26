@@ -1230,8 +1230,19 @@
 
               <div class="col-md-3 reponses">
                 <span class="question">Date de fin de validité</span>
-                <span class="valeur">
+                <span
+                  class="valeur"
+                  *ngIf="usager.options.procuration.dateDebut === null"
+                >
                   {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy' }}
+                </span>
+                <span
+                  class="valeur"
+                  *ngIf="usager.options.procuration.dateDebut"
+                >
+                  Du {{ usager.options.procuration.dateDebut | date:
+                  'dd/MM/yyyy' }} au {{ usager.options.procuration.dateFin |
+                  date: 'dd/MM/yyyy' }}
                 </span>
               </div>
 
@@ -1264,7 +1275,7 @@
               autocomplete="off"
             >
               <div class="row">
-                <div class="col-3 form-group required">
+                <div class="col-4 form-group required">
                   <label for="procuration_nom">Nom</label>
                   <input
                     type="text"
@@ -1284,7 +1295,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-3 form-group required">
+                <div class="col-4 form-group required">
                   <label for="procuration_prenom">Prénom</label>
                   <input
                     type="text"
@@ -1304,7 +1315,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-3 form-group required">
+                <div class="col-md-4 form-group required">
                   <label for="dateNaissancePicker">Date de naissance</label>
                   <div class="input-group">
                     <input
@@ -1340,7 +1351,42 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3 form-group required">
+                <div class="col-md-4 form-group required">
+                  <label for="dateDebutPicker">Date de début de validité</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      placeholder="jj/mm/aaaa"
+                      placement="bottom"
+                      formControlName="dateDebutPicker"
+                      ngbDatepicker
+                      dateFr
+                      value
+                      id="dateDebutPicker"
+                      [ngClass]="{ 'is-invalid': p.dateDebutPicker.dirty &&  p.dateDebutPicker.errors }"
+                      #dateDebutPro="ngbDatepicker"
+                      maxlength="10"
+                      required
+                    />
+                    <div class="input-group-append">
+                      <span
+                        class="btn btn-outline-primary"
+                        (click)="dateDebutPro.toggle()"
+                      >
+                        <fa-icon icon="calendar"></fa-icon>
+                      </span>
+                    </div>
+
+                    <div
+                      *ngIf="p.dateDebutPicker.dirty && p.dateDebutPicker.invalid"
+                      class="invalid-feedback"
+                    >
+                      La date de fin est incorrecte (ex: 20/12/1991)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 form-group required">
                   <label for="dateFinPicker">Date de fin de validité</label>
                   <div class="input-group">
                     <input
@@ -1354,14 +1400,14 @@
                       id="dateFinPicker"
                       [minDate]="minDateToday"
                       [ngClass]="{ 'is-invalid': p.dateFinPicker.dirty &&  p.dateFinPicker.errors }"
-                      #df="ngbDatepicker"
+                      #dateFinProcu="ngbDatepicker"
                       maxlength="10"
                       required
                     />
                     <div class="input-group-append">
                       <span
                         class="btn btn-outline-primary"
-                        (click)="df.toggle()"
+                        (click)="dateFinProcu.toggle()"
                       >
                         <fa-icon icon="calendar"></fa-icon>
                       </span>
@@ -1376,7 +1422,7 @@
                   </div>
                 </div>
 
-                <div class="col text-center">
+                <div class="col-12 text-center">
                   <span
                     class="btn btn-dark"
                     (click)="editProcurationForm = false"
@@ -1410,6 +1456,7 @@
                     <th>Action</th>
                     <th>Nom prénom</th>
                     <th>Date de naissance</th>
+                    <th>Date de début</th>
                     <th>Date de fin de validité</th>
                   </tr>
                 </thead>
@@ -1424,6 +1471,12 @@
                     <td>{{ procu.content.nom }} {{ procu.content.prenom }}</td>
                     <td>
                       {{ procu.content.dateNaissance | date: 'dd/MM/yyyy' }}
+                    </td>
+                    <td *ngIf="procu.content.dateDebut === null">
+                      Date non renseignée
+                    </td>
+                    <td *ngIf="procu.content.dateDebut">
+                      {{ procu.content.dateDebut | date: 'dd/MM/yyyy' }}
                     </td>
                     <td>{{ procu.content.dateFin | date: 'dd/MM/yyyy' }}</td>
                   </tr>

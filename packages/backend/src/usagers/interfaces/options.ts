@@ -3,7 +3,7 @@ export interface Options {
     actif: boolean;
     nom: string;
     adresse: string;
-    dateDebut?: Date | null;
+    dateDebut: Date | null;
     dateFin: Date | null;
   };
   procuration: {
@@ -11,6 +11,7 @@ export interface Options {
     nom: string;
     prenom: string;
     dateFin: Date | null;
+    dateDebut: Date | null;
     dateNaissance: string | null;
   };
   npai: {

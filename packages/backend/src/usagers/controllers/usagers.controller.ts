@@ -319,6 +319,7 @@ export class UsagersController {
     const newProcuration = {
       actif: true,
       dateFin: procurationDto.dateFin,
+      dateDebut: procurationDto.dateDebut,
       dateNaissance: procurationDto.dateNaissance,
       nom: procurationDto.nom,
       prenom: procurationDto.prenom,
@@ -343,6 +344,7 @@ export class UsagersController {
   ) {
     usager.options.procuration = {
       actif: false,
+      dateDebut: null,
       dateFin: null,
       dateNaissance: "null",
       nom: "",
