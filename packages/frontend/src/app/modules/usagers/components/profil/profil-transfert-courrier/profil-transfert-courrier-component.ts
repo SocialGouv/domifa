@@ -121,7 +121,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         this.notifService.success("Transfert supprimé avec succès");
       },
       (error) => {
-        this.notifService.error("Impossible de supprimer la fiche");
+        this.notifService.error("Impossible de supprimer le transfert");
       }
     );
   }

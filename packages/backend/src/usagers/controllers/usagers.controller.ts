@@ -17,28 +17,28 @@ import * as fs from "fs";
 import * as path from "path";
 import { Response } from "express";
 
+import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
+import { ResponsableGuard } from "../../auth/guards/responsable.guard";
+import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 
-import { ConfigService } from "../../config/config.service";
-import { InteractionsService } from "../../interactions/interactions.service";
-
 import { User } from "../../users/user.interface";
+import { Usager } from "../interfaces/usagers";
+
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { ProcurationDto } from "../dto/procuration.dto";
-
 import { TransfertDto } from "../dto/transfert.dto";
-import { CreateUsagerDto } from "../dto/create-usager.dto";
-import { Usager } from "../interfaces/usagers";
-import { CerfaService } from "../services/cerfa.service";
-
-import { UsagersService } from "../services/usagers.service";
-import { ResponsableGuard } from "../../auth/guards/responsable.guard";
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { EditUsagerDto } from "../dto/edit-usager.dto";
-import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+import { CreateUsagerDto } from "../dto/create-usager.dto";
+
+import { CerfaService } from "../services/cerfa.service";
+import { UsagersService } from "../services/usagers.service";
+import { ConfigService } from "../../config/config.service";
+import { InteractionsService } from "../../interactions/interactions.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -258,7 +258,7 @@ export class UsagersController {
     const newTransfert = {
       actif: true,
       adresse: transfertDto.adresse,
-      dateDebut: new Date(),
+      dateDebut: new Date(transfertDto.dateDebut),
       dateFin: new Date(transfertDto.dateFin),
       nom: transfertDto.nom,
     };
@@ -318,8 +318,8 @@ export class UsagersController {
     const action = usager.options.procuration.actif ? "EDIT" : "CREATION";
     const newProcuration = {
       actif: true,
-      dateFin: procurationDto.dateFin,
-      dateDebut: procurationDto.dateDebut,
+      dateFin: new Date(procurationDto.dateFin),
+      dateDebut: new Date(procurationDto.dateDebut),
       dateNaissance: procurationDto.dateNaissance,
       nom: procurationDto.nom,
       prenom: procurationDto.prenom,
