@@ -9,24 +9,22 @@ import * as Sentry from "@sentry/node";
 import * as compression from "compression";
 import { config as loadConfig } from "dotenv";
 import { AppModule } from "./app.module";
-import { ConfigService } from "./config/config.service";
+import { configService } from "./config/config.service";
 import { appLogger } from "./util";
 
 export async function bootstrapApplication() {
   try {
-    loadConfig();
-
-    const config = new ConfigService();
+    configService.loadConfig();
 
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
       release: "domifa@" + process.env.npm_package_version,
-      serverName: config.getEnvId(),
+      serverName: configService.getEnvId(),
     });
 
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe());
-    const corsUrl = config.get("DOMIFA_CORS_URL");
+    const corsUrl = configService.get("DOMIFA_CORS_URL");
     const enableCorsSecurity = corsUrl && corsUrl.trim().length !== 0;
     if (enableCorsSecurity) {
       appLogger.warn(`Enable CORS from URL "${corsUrl}"`);
@@ -34,7 +32,7 @@ export async function bootstrapApplication() {
         origin: corsUrl, // https://docs.nestjs.com/techniques/security#cors
       });
     } else {
-      if (config.getEnvId() === "dev") {
+      if (configService.getEnvId() === "dev") {
         app.enableCors({
           origin: true, // "Access-Control-Allow-Origin" = request.origin (unsecure): https://docs.nestjs.com/techniques/security#cors
         });
@@ -44,7 +42,7 @@ export async function bootstrapApplication() {
     }
 
     app.use(compression());
-    configureSwagger(config, app);
+    configureSwagger(app);
 
     app.useGlobalPipes(
       new ValidationPipe({
@@ -60,18 +58,18 @@ export async function bootstrapApplication() {
   }
 }
 
-function configureSwagger(config: ConfigService, app) {
+function configureSwagger(app) {
   const DOMIFA_SWAGGER_CONTEXT = "sw-api";
-  if (config.getBoolean("DOMIFA_SWAGGER_ENABLE")) {
+  if (configService.getBoolean("DOMIFA_SWAGGER_ENABLE")) {
     // enable swagger ui http://localhost:3000/api-json & http://localhost:3000/${DOMIFA_SWAGGER_CONTEXT}
     appLogger.warn(
-      `Swagger UI enabled: ${config.get(
+      `Swagger UI enabled: ${configService.get(
         "DOMIFA_BACKEND_URL"
       )}${DOMIFA_SWAGGER_CONTEXT}`
     );
 
     appLogger.warn(
-      `Swagger JSON download: ${config.get(
+      `Swagger JSON download: ${configService.get(
         "DOMIFA_BACKEND_URL"
       )}${DOMIFA_SWAGGER_CONTEXT}-json`
     );

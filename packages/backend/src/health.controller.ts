@@ -5,10 +5,8 @@ import {
   HealthCheckService,
   MongooseHealthIndicator,
 } from "@nestjs/terminus";
-import { ConfigService } from "./config/config.service";
+import { configService } from "./config/config.service";
 import { appLogger } from "./util";
-
-const config = new ConfigService();
 
 @Controller("")
 export class HealthController {
@@ -21,7 +19,7 @@ export class HealthController {
   @Get()
   @HealthCheck()
   healthCheck() {
-    const frontUrl = config.get("DOMIFA_FRONTEND_URL");
+    const frontUrl = configService.get("DOMIFA_FRONTEND_URL");
 
     return this.health.check([
       async () => this.mongoose.pingCheck("mongo"),

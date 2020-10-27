@@ -1,7 +1,5 @@
 import { HttpService, Injectable } from "@nestjs/common";
-
-import { ConfigService } from "../../config";
-
+import { configService } from "../../config";
 import { Structure } from "../../structures/structure-interface";
 import { UserProfil } from "../../users/user-profil.type";
 
@@ -10,12 +8,9 @@ export class StructuresMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(
-    private readonly configService: ConfigService,
-    private httpService: HttpService
-  ) {
-    this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+  constructor(private httpService: HttpService) {
+    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
+    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
 
   public async confirmationStructure(
@@ -35,7 +30,7 @@ export class StructuresMailsService {
           {
             email: user.email,
             values: {
-              lien: this.configService.get("DOMIFA_FRONTEND_URL"),
+              lien: configService.get("DOMIFA_FRONTEND_URL"),
               nom_structure: structure.nom,
               prenom: user.prenom,
             },

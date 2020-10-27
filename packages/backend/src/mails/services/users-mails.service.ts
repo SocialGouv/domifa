@@ -1,21 +1,16 @@
 import { HttpService, Injectable } from "@nestjs/common";
-
-import { ConfigService } from "../../config";
-
-import { User } from "../../users/user.interface";
+import { configService } from "../../config";
 import { UserProfil } from "../../users/user-profil.type";
+import { User } from "../../users/user.interface";
 
 @Injectable()
 export class UsersMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(
-    private readonly configService: ConfigService,
-    private httpService: HttpService
-  ) {
-    this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+  constructor(private httpService: HttpService) {
+    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
+    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
 
   //
@@ -36,7 +31,7 @@ export class UsersMailsService {
         subject: "Un nouvel utilisateur souhaite rejoindre votre structure",
         values: {
           admin_prenom: admin.prenom,
-          lien: this.configService.get("DOMIFA_FRONTEND_URL") + "admin",
+          lien: configService.get("DOMIFA_FRONTEND_URL") + "admin",
           user_email: user.email,
           user_nom: user.nom,
           user_prenom: user.prenom,
@@ -146,7 +141,7 @@ export class UsersMailsService {
             email: user.email,
             subject: "Votre compte Domifa a été activé",
             values: {
-              lien: this.configService.get("DOMIFA_FRONTEND_URL") + "connexion",
+              lien: configService.get("DOMIFA_FRONTEND_URL") + "connexion",
               prenom: user.prenom,
             },
             meta: {},
@@ -182,7 +177,7 @@ export class UsersMailsService {
   //
   public async newPassword(user: User) {
     const confirmationLink =
-      this.configService.get("DOMIFA_FRONTEND_URL") +
+      configService.get("DOMIFA_FRONTEND_URL") +
       "reset-password/" +
       user.tokens.password;
 

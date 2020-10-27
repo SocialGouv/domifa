@@ -38,7 +38,7 @@ import { DomifaMailsService } from "../mails/services/domifa-mails.service";
 
 import { UsagersMailsService } from "../mails/services/usagers-mails.service";
 import { StructuresMailsService } from "../mails/services/structures-mails.service";
-import { ConfigService } from "../config";
+import { configService } from "../config";
 
 @Controller("structures")
 @ApiTags("structures")
@@ -48,7 +48,6 @@ export class StructuresController {
     private usersService: UsersService,
     private usagersService: UsagersService,
     private interactionsService: InteractionsService,
-    private configService: ConfigService,
     private domifaMailsService: DomifaMailsService,
     private usagersMailsService: UsagersMailsService,
     private structuresMailsService: StructuresMailsService
@@ -106,7 +105,7 @@ export class StructuresController {
         { verified: true }
       );
 
-      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -175,7 +174,7 @@ export class StructuresController {
       hardResetToken
     );
     if (structure) {
-      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -293,7 +292,7 @@ export class StructuresController {
     const structure = await this.structureService.generateDeleteToken(id);
 
     if (structure && structure !== null) {
-      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 

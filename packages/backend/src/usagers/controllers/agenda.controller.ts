@@ -25,7 +25,7 @@ import { RdvDto } from "../dto/rdv.dto";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 
 import { UsagersMailsService } from "../../mails/services/usagers-mails.service";
-import { ConfigService } from "../../config";
+import { configService } from "../../config";
 
 @ApiTags("agenda")
 @ApiBearerAuth()
@@ -34,8 +34,7 @@ export class AgendaController {
   constructor(
     private usagersService: UsagersService,
     private mailService: UsagersMailsService,
-    private usersService: UsersService,
-    private configService: ConfigService
+    private usersService: UsersService
   ) {}
 
   // AGENDA des rendez-vous
@@ -110,7 +109,7 @@ export class AgendaController {
       );
 
       if (updatedUsager && updatedUsager !== null) {
-        if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         }
 

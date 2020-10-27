@@ -1,18 +1,16 @@
 import { INestApplication } from "@nestjs/common";
 import { Model } from "mongoose";
-import { Usager } from "../usagers/interfaces/usagers";
-import { ConfigService } from "../config/config.service";
+import { configService } from "../config/config.service";
 import { Structure } from "../structures/structure-interface";
+import { Usager } from "../usagers/interfaces/usagers";
 import { User } from "../users/user.interface";
-import { processUtil } from "../util/processUtil.service";
-import { ObjectId } from "mongodb";
 import { appLogger } from "../util";
+import { processUtil } from "../util/processUtil.service";
 
 const migrationName = __filename;
 
 async function up(app: INestApplication) {
   appLogger.debug(`[${migrationName}] UP`);
-  const configService: ConfigService = app.get(ConfigService);
   const envId = configService.getEnvId();
   if (envId === "dev" || envId === "preprod") {
     appLogger.warn(`[${migrationName}] DB anonymisation ON (env:${envId})`);

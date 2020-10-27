@@ -12,33 +12,27 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { Response } from "express";
 import * as fs from "fs";
 import * as path from "path";
-import { Response } from "express";
-
-import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-
-import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { ResponsableGuard } from "../../auth/guards/responsable.guard";
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
-
+import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import { ResponsableGuard } from "../../auth/guards/responsable.guard";
+import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
+import { configService } from "../../config/config.service";
+import { InteractionsService } from "../../interactions/interactions.service";
 import { User } from "../../users/user.interface";
-import { Usager } from "../interfaces/usagers";
-
+import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { DecisionDto } from "../dto/decision.dto";
+import { EditUsagerDto } from "../dto/edit-usager.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { ProcurationDto } from "../dto/procuration.dto";
 import { TransfertDto } from "../dto/transfert.dto";
-import { EditUsagerDto } from "../dto/edit-usager.dto";
-import { CreateUsagerDto } from "../dto/create-usager.dto";
-
+import { Usager } from "../interfaces/usagers";
 import { CerfaService } from "../services/cerfa.service";
 import { UsagersService } from "../services/usagers.service";
-import { ConfigService } from "../../config/config.service";
-import { InteractionsService } from "../../interactions/interactions.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -48,7 +42,7 @@ export class UsagersController {
     private readonly usagersService: UsagersService,
     private readonly interactionService: InteractionsService,
     private readonly cerfaService: CerfaService
-  ) {}
+  ) { }
 
   /* FORMULAIRE INFOS */
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
@@ -194,10 +188,7 @@ export class UsagersController {
     @Res() res: Response
   ) {
     const pathFile = path.resolve(
-      new ConfigService().get("UPLOADS_FOLDER") +
-        usager.structureId +
-        "/" +
-        usager.id
+      configService.get("UPLOADS_FOLDER") + usager.structureId + "/" + usager.id
     );
 
     await this.interactionService.deleteByUsager(usager.id, user.structureId);

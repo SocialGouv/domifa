@@ -12,35 +12,27 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { AxiosError, AxiosResponse } from "axios";
+import * as bcrypt from "bcryptjs";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
-
-import { StructuresService } from "../structures/services/structures.service";
-import { DomifaMailsService } from "../mails/services/domifa-mails.service";
-import { UsersService } from "./services/users.service";
-import { UsersMailsService } from "../mails/services/users-mails.service";
-
-import * as bcrypt from "bcryptjs";
-import { AxiosResponse, AxiosError } from "axios";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-
-import { User } from "./user.interface";
-
 import { ResponsableGuard } from "../auth/guards/responsable.guard";
-
+import { configService } from "../config";
+import { DomifaMailsService } from "../mails/services/domifa-mails.service";
+import { UsersMailsService } from "../mails/services/users-mails.service";
+import { StructuresService } from "../structures/services/structures.service";
+import { appLogger } from "../util";
 import { EditPasswordDto } from "./dto/edit-password.dto";
 import { EmailDto } from "./dto/email.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
-
-import { UserRole } from "./user-role.type";
-import { appLogger } from "../util";
-
+import { UsersService } from "./services/users.service";
 import { UserProfil } from "./user-profil.type";
-import { ConfigService } from "../config";
+import { UserRole } from "./user-role.type";
+import { User } from "./user.interface";
 
 @Controller("users")
 @ApiTags("users")
@@ -49,8 +41,7 @@ export class UsersController {
     private usersService: UsersService,
     private domifaMailsService: DomifaMailsService,
     private usersMailsService: UsersMailsService,
-    private structureService: StructuresService,
-    private configService: ConfigService
+    private structureService: StructuresService
   ) {}
 
   @UseGuards(AuthGuard("jwt"), ResponsableGuard)
@@ -89,7 +80,7 @@ export class UsersController {
     });
 
     if (confirmerUser && confirmerUser !== null) {
-      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -231,7 +222,7 @@ export class UsersController {
       //
       // Mail vers Domifa pour indiquer une création de structure
       //
-      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -266,7 +257,7 @@ export class UsersController {
         structureId: newUser.structureId,
       });
 
-      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -381,7 +372,7 @@ export class UsersController {
           .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
       }
 
-      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -427,7 +418,7 @@ export class UsersController {
     );
 
     if (updatedUser && updatedUser !== null) {
-      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 

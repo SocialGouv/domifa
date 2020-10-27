@@ -1,9 +1,6 @@
-import { HttpException, HttpService, Injectable } from "@nestjs/common";
-
+import { HttpService, Injectable } from "@nestjs/common";
 import * as moment from "moment";
-
-import { ConfigService } from "../../config";
-
+import { configService } from "../../config";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { User } from "../../users/user.interface";
 
@@ -12,12 +9,9 @@ export class UsagersMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(
-    private readonly configService: ConfigService,
-    private httpService: HttpService
-  ) {
-    this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+  constructor(private httpService: HttpService) {
+    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
+    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
 
   public async mailRdv(

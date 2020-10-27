@@ -1,22 +1,17 @@
-import { HttpService, Injectable, HttpException } from "@nestjs/common";
-
-import { ConfigService } from "../../config";
-
-import { User } from "../../users/user.interface";
-import { Structure } from "../../structures/structure-interface";
+import { HttpService, Injectable } from "@nestjs/common";
+import { configService } from "../../config";
 import { DEPARTEMENTS_MAP } from "../../structures/DEPARTEMENTS_MAP.const";
+import { Structure } from "../../structures/structure-interface";
+import { User } from "../../users/user.interface";
 
 @Injectable()
 export class DomifaMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(
-    private readonly configService: ConfigService,
-    private httpService: HttpService
-  ) {
-    this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+  constructor(private httpService: HttpService) {
+    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
+    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
 
   //
@@ -25,14 +20,10 @@ export class DomifaMailsService {
   public newStructure(structure: Structure, user: User) {
     const route = structure._id + "/" + structure.token;
     const lienConfirmation =
-      this.configService.get("DOMIFA_FRONTEND_URL") +
-      "structures/confirm/" +
-      route;
+      configService.get("DOMIFA_FRONTEND_URL") + "structures/confirm/" + route;
 
     const lienSuppression =
-      this.configService.get("DOMIFA_FRONTEND_URL") +
-      "structures/delete/" +
-      route;
+      configService.get("DOMIFA_FRONTEND_URL") + "structures/delete/" + route;
 
     const structureTypes = {
       asso: "Organisme agrée",

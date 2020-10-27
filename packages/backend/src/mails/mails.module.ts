@@ -1,5 +1,5 @@
 import { forwardRef, Module, HttpModule } from "@nestjs/common";
-import { ConfigService } from "../config/config.service";
+import { configService } from "../config/config.service";
 
 import { DatabaseModule } from "../database/database.module";
 import { InteractionsModule } from "../interactions/interactions.module";
@@ -22,7 +22,6 @@ import { UsersMailsService } from "./services/users-mails.service";
     UsersMailsService,
   ],
   providers: [
-    ConfigService,
     StructuresMailsService,
     DomifaMailsService,
     UsagersMailsService,

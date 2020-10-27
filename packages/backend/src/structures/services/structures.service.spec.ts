@@ -7,7 +7,7 @@ import { DatabaseModule } from "../../database/database.module";
 import { StructuresProviders } from "../structures-providers";
 import { UsagersProviders } from "../../usagers/usagers.providers";
 import { UsersProviders } from "../../users/users.providers";
-import { ConfigService } from "../../config";
+import { configService } from "../../config";
 
 describe("Structure Service", () => {
   let service: StructuresService;
@@ -37,7 +37,6 @@ describe("Structure Service", () => {
         ...StructuresProviders,
         ...UsagersProviders,
         ...UsersProviders,
-        ConfigService,
       ],
     }).compile();
     service = module.get<StructuresService>(StructuresService);
