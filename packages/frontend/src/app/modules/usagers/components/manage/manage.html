@@ -475,7 +475,8 @@
               *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin > today"
             >
               <fa-icon icon="exclamation-triangle" class="btn-icon"></fa-icon>
-              Procuration : {{ usager.options.procuration.nomComplet }}
+              Procuration : {{ usager.options.procuration.nom }}
+              {{ usager.options.procuration.prenom }}
             </span>
             <span
               class="text-danger"
