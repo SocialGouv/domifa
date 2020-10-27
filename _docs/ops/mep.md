@@ -8,7 +8,7 @@ Créer une branche et un tag `release candidate` correspondant à la release à 
 
 ```bash
 git checkout -b 1.18.x
-git push
+git push --set-upstream origin 1.18.x
 git tag 1.18.0-rc1
 git push --tags
 ```
