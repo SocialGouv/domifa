@@ -6,7 +6,11 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateParserFormatter,
+  NgbDatepickerI18n,
+  NgbModule,
+} from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { GeneralModule } from "../general/general.module";
@@ -30,6 +34,8 @@ import { EntretienComponent } from "./components/entretien/entretien.component";
 import { EntretienFormComponent } from "./components/form/parts/entretien-form/entretien-form.component";
 import { DocumentsFormComponent } from "./components/form/parts/documents-form/documents-form.component";
 import { DeleteMenuComponent } from "./components/form/parts/delete-menu/delete-menu.component";
+import { UsagersProfilTransfertCourrierComponent } from "./components/profil/profil-transfert-courrier/profil-transfert-courrier-component";
+import { CustomDatepickerI18n } from "../shared/services/date-french";
 
 @NgModule({
   declarations: [
@@ -44,6 +50,7 @@ import { DeleteMenuComponent } from "./components/form/parts/delete-menu/delete-
     MenuComponent,
     DeleteMenuComponent,
     UsagersProfilComponent,
+    UsagersProfilTransfertCourrierComponent,
     ImportComponent,
     RaftComponent,
     EntretienComponent,
@@ -86,6 +93,8 @@ import { DeleteMenuComponent } from "./components/form/parts/delete-menu/delete-
     UsagerService,
     InteractionService,
     NgbDateCustomParserFormatter,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

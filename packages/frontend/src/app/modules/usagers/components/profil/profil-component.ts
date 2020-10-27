@@ -54,7 +54,6 @@ export class UsagersProfilComponent implements OnInit {
   public editInfos: boolean;
   public editEntretien: boolean;
   public editAyantsDroits: boolean;
-  public editTransfertForm: boolean;
   public editProcurationForm: boolean;
   public acceptInteractions: boolean;
   public editCustomId: boolean;
@@ -82,7 +81,6 @@ export class UsagersProfilComponent implements OnInit {
   public usager: Usager;
   public usagerForm!: FormGroup;
   public ayantsDroitsForm!: FormGroup;
-  public transfertForm!: FormGroup;
   public procurationForm!: FormGroup;
 
   public notifInputs: { [key: string]: any };
@@ -118,7 +116,6 @@ export class UsagersProfilComponent implements OnInit {
     this.editEntretien = false;
     this.editInfos = false;
     this.editProcurationForm = false;
-    this.editTransfertForm = false;
     this.submitted = false;
     this.acceptInteractions = true;
     this.today = new Date();
@@ -212,34 +209,11 @@ export class UsagersProfilComponent implements OnInit {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
-  get t() {
-    return this.transfertForm.controls;
-  }
-
   get p() {
     return this.procurationForm.controls;
   }
 
   public initForms() {
-    this.transfertForm = this.formBuilder.group({
-      nom: [this.usager.options.transfert.nom, [Validators.required]],
-      adresse: [
-        this.usager.options.transfert.adresse,
-        [Validators.required, Validators.minLength(10)],
-      ],
-
-      dateFin: [this.usager.options.transfert.dateFin],
-      dateDebut: [this.usager.options.transfert.dateDebut],
-
-      dateFinPicker: [
-        this.usager.options.transfert.dateFinPicker,
-        [Validators.required],
-      ],
-      dateDebutPicker: [
-        this.usager.options.transfert.dateDebutPicker,
-        [Validators.required],
-      ],
-    });
 
     this.procurationForm = this.formBuilder.group({
       nom: [this.usager.options.procuration.nom, [Validators.required]],
@@ -479,40 +453,6 @@ export class UsagersProfilComponent implements OnInit {
     return this.usagerService.attestation(this.usager.id);
   }
 
-  public editTransfert() {
-    const dateFin = this.nbgDate.formatEn(
-      this.transfertForm.controls.dateFinPicker.value
-    );
-    const dateDebut = this.nbgDate.formatEn(
-      this.transfertForm.controls.dateDebutPicker.value
-    );
-
-    if (dateFin === null || dateDebut === null) {
-      this.notifService.error("La date de fin du transfert est incorrecte.");
-      return;
-    }
-
-    this.transfertForm.controls.dateFin.setValue(
-      new Date(dateFin).toISOString()
-    );
-
-    this.transfertForm.controls.dateDebut.setValue(
-      new Date(dateDebut).toISOString()
-    );
-
-    this.usagerService
-      .editTransfert(this.transfertForm.value, this.usager.id)
-      .subscribe(
-        (usager: any) => {
-          this.editTransfertForm = false;
-          this.usager.options = new Options(usager.options);
-          this.notifService.success("Transfert ajouté avec succès");
-        },
-        (error) => {
-          this.notifService.error("Impossible d'ajouter le transfert'");
-        }
-      );
-  }
 
   public editProcuration() {
     const dateFinTmp = this.nbgDate.formatEn(
@@ -582,20 +522,6 @@ export class UsagersProfilComponent implements OnInit {
         this.procurationForm.reset();
         this.usager.options = new Options(usager.options);
         this.notifService.success("Procuration supprimée avec succès");
-      },
-      (error) => {
-        this.notifService.error("Impossible de supprimer la fiche");
-      }
-    );
-  }
-
-  public deleteTransfert() {
-    this.usagerService.deleteTransfert(this.usager.id).subscribe(
-      (usager: any) => {
-        this.editTransfertForm = false;
-        this.transfertForm.reset();
-        this.usager.options = new Options(usager.options);
-        this.notifService.success("Transfert supprimé avec succès");
       },
       (error) => {
         this.notifService.error("Impossible de supprimer la fiche");

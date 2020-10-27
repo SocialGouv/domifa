@@ -1,0 +1,156 @@
+<div class="row" *ngIf="usager && me">
+  <div class="col-12">
+    <div class="text-center" *ngIf="!usager.options.transfert.actif && !isFormVisible">
+      <p>Il n'y a aucun transfert de courrier actuellement.</p>
+      <button (click)="showForm()" class="btn btn-outline-primary" *ngIf="!isRole('facteur')">
+        <fa-icon icon="plus" class="btn-icon"></fa-icon>
+        Activer le transfert de courrier
+      </button>
+    </div>
+
+    <div *ngIf="usager.options.transfert.actif && !isFormVisible" class="row">
+      <div class="col-md-4 reponses">
+        <span class="question">Nom de l'établissement</span>
+        <span class="valeur">{{ usager.options.transfert.nom }}</span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">Adresse</span>
+        <span class="valeur">{{ usager.options.transfert.adresse }}</span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">Actif jusqu'au</span>
+
+        <span class="valeur" *ngIf="usager.options.transfert.dateDebut === null">
+          {{ usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}
+        </span>
+        <span class="valeur" *ngIf="usager.options.transfert.dateDebut">
+          Du {{ usager.options.transfert.dateDebut | date: 'dd/MM/yyyy'
+                  }} au {{ usager.options.transfert.dateFin | date: 'dd/MM/yyyy'
+                  }}
+        </span>
+      </div>
+
+      <div class="col-12 text-center" *ngIf="!isRole('facteur')">
+        <br />
+        <button *ngIf="usager.options.transfert.actif && !isFormVisible" (click)="showForm()" class="btn btn-outline-primary">
+          <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
+          Modifier le transfert
+        </button>
+        &nbsp;&nbsp;
+        <button type="button" (click)="deleteTransfert()" class="btn btn-outline-danger">
+          <fa-icon icon="trash" class="trash"></fa-icon>
+          Supprimer le transfert
+        </button>
+      </div>
+    </div>
+    <form *ngIf="isFormVisible && !isRole('facteur')" [formGroup]="transfertForm" (ngSubmit)="editTransfert()" autocomplete="off">
+      <div class="row">
+        <div class="col-6 form-group required">
+          <label for="transfert_nom">Nom de l'établissement</label>
+          <input type="text" class="form-control" id="transfert_nom" formControlName="nom" placeholder="Ex: Maison d'arrêt, Hôpital saint-louis, Association ..." [ngClass]="{ 'is-invalid': t.nom.dirty && t.nom.errors }" required />
+          <div *ngIf="t.nom.dirty && t.nom.errors" class="invalid-feedback" autocomplete="null">
+            <div *ngIf="t.nom.errors.required">
+              Le nom de l'établissement est obligatoire
+            </div>
+          </div>
+        </div>
+        <div class="col-6 form-group required">
+          <label for="transfert_adresse">Adresse de l'établissement</label>
+          <input type="text" class="form-control" id="transfert_adresse" formControlName="adresse" placeholder="Numéro, rue, bâtiment, ville, code postal, etc." [ngClass]="{ 'is-invalid': t.adresse.dirty && t.adresse.errors }" required />
+          <div *ngIf="t.adresse.dirty && t.adresse.errors" class="invalid-feedback">
+            <div *ngIf="t.adresse.errors.minlength">
+              L'adresse doit contenir 10 caractères minimum
+            </div>
+            <div *ngIf="t.adresse.errors.required">
+              L'adresse complète est obligatoire
+            </div>
+          </div>
+        </div>
+        <div class="col-3 form-group required">
+          <label for="dateDebutTransfert">Valide du</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="jj/mm/aaaa" placement="bottom" id="dateDebutTransfert" formControlName="dateDebut" ngbDatepicker dateFr value [ngClass]="{ 'is-invalid':  t.dateDebut.dirty &&  t.dateDebut.errors  }" #dateDebutTransfert="ngbDatepicker" maxlength="10" required />
+            <div class="input-group-append">
+              <span class="btn btn-outline-primary" (click)="dateDebutTransfert.toggle()">
+                <fa-icon icon="calendar"></fa-icon>
+              </span>
+            </div>
+
+            <div *ngIf="t.dateFin.invalid" class="invalid-feedback">
+              <div *ngIf="t.dateFin.dirty && t.dateFin.errors.ngbDate">
+                La date de debut est incorrecte
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-3 form-group required">
+          <label for="dateFinTransfert">Valide jusqu'au</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="jj/mm/aaaa" placement="bottom" id="dateFinTransfert" formControlName="dateFin" ngbDatepicker dateFr value [minDate]="minDateToday" [ngClass]="{ 'is-invalid':  t.dateFin.dirty &&  t.dateFin.errors  }" #d="ngbDatepicker" maxlength="10" required />
+            <div class="input-group-append">
+              <span class="btn btn-outline-primary" (click)="d.toggle()">
+                <fa-icon icon="calendar"></fa-icon>
+              </span>
+            </div>
+
+            <div *ngIf="t.dateFin.invalid" class="invalid-feedback">
+              <div *ngIf="t.dateFin.dirty && (t.dateFin.errors.ngbDate || t.dateFin.errors.endDateAfterBeginDate)">
+                La date de fin est incorrecte
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 text-center">
+          <span class="btn btn-dark" (click)="hideForm()">
+            Annuler
+          </span>
+          &nbsp;&nbsp;
+          <button class="btn btn-primary" type="submit" [disabled]="!transfertForm.valid">
+            Enregistrer le transfert
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <ng-container *ngIf="usager.options.historique.transfert.length > 0">
+      <div class="row">
+        <div class="col-md-12">
+          <br />
+          <h4>Historique des transferts</h4>
+        </div>
+      </div>
+      <table class="table table-light table-hover">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Nom</th>
+            <th>Adresse</th>
+            <th>Période de validité</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transfert of usager.options.historique.transfert">
+            <td>
+              {{ actions[transfert.action] }} le {{ transfert.date |
+                      date: 'dd/MM/yyyy' }} par {{ transfert.user }}
+            </td>
+            <td>{{ transfert.content.nom }}</td>
+            <td>{{ transfert.content.adresse }}</td>
+            <td>
+              <span *ngIf="transfert.content.dateDebut === null">
+                {{ transfert.content.dateFin | date: 'dd/MM/yyyy' }}
+              </span>
+              <span class="valeur" *ngIf="transfert.content.dateDebut">
+                Du {{ transfert.content.dateDebut | date: 'dd/MM/yyyy'
+                        }} au {{ transfert.content.dateFin | date: 'dd/MM/yyyy'
+                        }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </div>
+</div>
