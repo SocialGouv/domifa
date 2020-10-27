@@ -197,7 +197,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         this.filters.sortKey !== "ID" &&
         this.filters.sortKey !== "PASSAGE"
       ) {
-        this.filters.sortKey = value;
+        this.filters.sortKey = this.filters.statut === "TOUS" ? "NAME" : value;
       }
 
       if (value !== "TOUS" && value !== "VALIDE") {
