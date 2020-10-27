@@ -265,7 +265,10 @@
   >
     <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
     Une procuration au nom de
-    <b>{{ usager.options.procuration.nomComplet }}</b>
+    <b
+      >{{ usager.options.procuration.nom }} {{ usager.options.procuration.prenom
+      }}</b
+    >
     est active et valable jusqu'au {{ usager.options.procuration.dateFin | date:
     'dd/MM/yyyy' }}
   </div>
@@ -275,7 +278,8 @@
     class="alert alert-danger text-center"
   >
     <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-    La procuration au nom de {{ usager.options.procuration.nomComplet }}
+    La procuration au nom de {{ usager.options.procuration.nom }}{{
+    usager.options.procuration.prenom }}
     <b
       >a expiré le {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy'
       }}</b
@@ -961,7 +965,10 @@
       </ng-template>
 
       <ng-template ngbPanelContent>
-        <app-profil-transfert-courrier [usager]="usager" [me]="me"></app-profil-transfert-courrier>
+        <app-profil-transfert-courrier
+          [usager]="usager"
+          [me]="me"
+        ></app-profil-transfert-courrier>
       </ng-template>
     </ngb-panel>
 
@@ -976,10 +983,13 @@
             </span>
           </button>
         </div>
-      </ng-template> 
+      </ng-template>
 
       <ng-template ngbPanelContent>
-        <app-profil-procuration-courrier [usager]="usager" [me]="me"></app-profil-procuration-courrier>
+        <app-profil-procuration-courrier
+          [usager]="usager"
+          [me]="me"
+        ></app-profil-procuration-courrier>
       </ng-template>
     </ngb-panel>
 
