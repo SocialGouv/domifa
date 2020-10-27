@@ -65,6 +65,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.isFormVisible = true;
     this.initForm();
   }
+
   public hideForm() {
     this.isFormVisible = false;
   }
