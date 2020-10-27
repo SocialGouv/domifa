@@ -255,7 +255,7 @@ export const UsagerSchema = new mongoose.Schema(
           type: Date,
         },
         dateNaissance: {
-          type: String,
+          type: Date,
         },
         nom: {
           type: String,

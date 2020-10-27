@@ -17,7 +17,6 @@ export class Options {
     dateFin: Date | null;
     dateNaissance: Date | null;
     nom: string;
-    nomComplet: string;
     prenom: string;
   };
 
@@ -51,7 +50,6 @@ export class Options {
       dateFin: null,
       dateNaissance: null,
       nom: "",
-      nomComplet: "",
       prenom: "",
     };
 
@@ -86,9 +84,7 @@ export class Options {
         this.procuration.actif = options.procuration.actif || false;
         this.procuration.nom = options.procuration.nom || "";
         this.procuration.prenom = options.procuration.prenom || "";
-        this.procuration.nomComplet =
-          this.procuration.nom.toUpperCase() + " " + this.procuration.prenom ||
-          "";
+
         if (
           options.procuration.dateNaissance &&
           options.procuration.dateNaissance !== null
@@ -133,6 +129,7 @@ export class Options {
               )
             : [new HistoriqueOptions(options.historique.transfert)];
         }
+
         if (options.historique.procuration.length > 0) {
           this.historique.procuration = Array.isArray(
             options.historique.procuration

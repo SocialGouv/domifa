@@ -117,7 +117,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       (usager: any) => {
         this.hideForm();
         this.transfertForm.reset();
-        this.usager.options = new Options(usager.options);
+        this.usager.options = usager.options;
         this.notifService.success("Transfert supprimé avec succès");
       },
       (error) => {

@@ -10,6 +10,7 @@ export class HistoriqueOptions {
     nom?: string;
     prenom?: string;
   };
+
   constructor(options?: any) {
     this.user = (options && options.user) || "";
     this.date = (options && options.date) || null;
@@ -26,14 +27,23 @@ export class HistoriqueOptions {
 
     if (typeof options.content !== "undefined") {
       this.content.adresse = (options && options.content.adresse) || "";
-      this.content.dateDebut =
-        (options && new Date(options.content.dateDebut)) || null;
-      this.content.dateFin =
-        (options && new Date(options.content.dateFin)) || null;
-      this.content.dateNaissance =
-        (options && new Date(options.content.dateNaissance)) || null;
       this.content.nom = (options && options.content.nom) || "";
       this.content.prenom = (options && options.content.prenom) || "";
+
+      if (options.content.dateDebut && options.content.dateDebut !== null) {
+        this.content.dateDebut = new Date(options.content.dateDebut);
+      }
+
+      if (options.content.dateFin && options.content.dateFin !== null) {
+        this.content.dateFin = new Date(options.content.dateFin);
+      }
+
+      if (
+        options.content.dateNaissance &&
+        options.content.dateNaissance !== null
+      ) {
+        this.content.dateNaissance = new Date(options.content.dateNaissance);
+      }
     }
   }
 }
