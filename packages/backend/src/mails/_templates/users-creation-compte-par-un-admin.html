@@ -4,7 +4,7 @@
   xmlns:o="urn:schemas-microsoft-com:office:office"
 >
   <head>
-    <title>Valider un nouvel utilisateur de Domifa</title>
+    <title>Finalisez votre inscription sur Domifa</title>
     <!--[if !mso]><!-- -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!--<![endif]-->
@@ -54,6 +54,16 @@
         }
       </style>
     <![endif]-->
+    <!--[if !mso]><!-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+    </style>
+    <!--<![endif]-->
     <style type="text/css">
       @media only screen and (min-width: 480px) {
         .mj-column-per-100 {
@@ -158,7 +168,7 @@
                                   <p
                                     style="
                                       border-top: solid 5px #3e61ff;
-                                      font-size: 1px;
+                                      font-size: 1;
                                       margin: 0px auto;
                                       width: 100%;
                                     "
@@ -171,7 +181,7 @@
                                       cellspacing="0"
                                       style="
                                         border-top: solid 5px #3e61ff;
-                                        font-size: 1px;
+                                        font-size: 1;
                                         margin: 0px auto;
                                         width: 600px;
                                       "
@@ -179,12 +189,11 @@
                                       width="600px"
                                     >
                                       <tr>
-                                        <td style="height: 0; line-height: 0">
-                                           
-                                        </td>
-                                      </tr>
-                                    </table><!
-                                  [endif]-->
+                                        <td
+                                          style="height: 0; line-height: 0"
+                                        ></td>
+                                      </tr></table
+                                  ><![endif]-->
                                 </td>
                               </tr>
                               <tr>
@@ -269,21 +278,11 @@
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Helvetica;
-                                          font-size: 19px;
-                                          line-height: 26px;
+                                          font-family: Roboto;
+                                          font-size: 14px;
+                                          line-height: 24px;
                                         "
-                                        ><b
-                                          >Demande de création de compte</b
-                                        ></span
-                                      ><br /><br /><span
-                                        style="
-                                          color: #000000;
-                                          font-family: Helvetica;
-                                          font-size: 15px;
-                                          line-height: 26px;
-                                        "
-                                        >Bonjour {{ admin_prenom }}</span
+                                        >Bonjour {{ prenom }}</span
                                       >
                                     </p>
                                     <p
@@ -294,64 +293,12 @@
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Helvetica;
-                                          font-size: 15px;
-                                          line-height: 26px;
+                                          font-family: Roboto;
+                                          font-size: 14px;
+                                          line-height: 22px;
                                         "
-                                        >Une nouvelle personne souhaite
-                                        rejoindre votre structure sur
-                                        Domifa.</span
-                                      >
-                                    </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
-                                      data-testid="fUJUuE7-ZW"
-                                    >
-                                      <span
-                                        style="
-                                          color: #000000;
-                                          font-family: Helvetica;
-                                          font-size: 15px;
-                                          line-height: 26px;
-                                        "
-                                        ><b
-                                          >{{ user_nom }} {{ user_prenom }}</b
-                                        ></span
-                                      >
-                                    </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
-                                      data-testid="fUJUuE7-ZW"
-                                    >
-                                      <span
-                                        style="
-                                          color: #000000;
-                                          font-family: Helvetica;
-                                          font-size: 15px;
-                                          line-height: 26px;
-                                        "
-                                        ><b>Email :</b> {{ user_email }}</span
-                                      >
-                                    </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="text-align: center; margin: 10px 0"
-                                      data-testid="fUJUuE7-ZW"
-                                    >
-                                      <span
-                                        style="
-                                          color: #000000;
-                                          font-family: Helvetica;
-                                          font-size: 15px;
-                                          line-height: 26px;
-                                        "
-                                        >Si cette personne ne fait pas partie de
-                                        votre organisation, veuillez ignorer cet
-                                        email, sinon cliquez sur le bouton
-                                        ci-dessous pour valider sa création de
-                                        compte :</span
+                                        >Un administrateur vient de vous créer
+                                        un compte sur Domifa</span
                                       >
                                     </p>
                                     <p
@@ -366,12 +313,12 @@
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Helvetica;
-                                          font-size: 15px;
-                                          line-height: 26px;
+                                          font-family: Roboto;
+                                          font-size: 14px;
+                                          line-height: 22px;
                                         "
-                                        >Connectez-vous sur Domifa pour valider
-                                        ou refuser sa demande</span
+                                        >Cliquez sur le lien ci-dessous pour
+                                        finaliser votre inscription</span
                                       >
                                     </p>
                                   </div>
@@ -436,14 +383,13 @@
                                             target="_blank"
                                             ><span
                                               style="
-                                                color: #ffffff;
-                                                font-size: 16px;
                                                 background-color: #3e61ff;
+                                                color: #ffffff;
                                                 font-family: Arial;
+                                                font-size: 16px;
                                               "
                                               ><b
-                                                >Valider ce membre de
-                                                l'équipe</b
+                                                >Finaliser l'inscription</b
                                               ></span
                                             ></a
                                           >
@@ -482,39 +428,124 @@
                                         text-align: center;
                                         margin: 10px 0;
                                         margin-top: 10px;
+                                        margin-bottom: 10px;
                                       "
-                                      data-testid="CTnHMhdQU"
                                     >
                                       <span
                                         style="
                                           color: #000000;
-                                          font-family: Helvetica;
-                                          font-size: 15px;
+                                          font-size: 14px;
                                           line-height: 23px;
+                                          font-family: Roboto;
                                         "
                                         >À bientôt,</span
                                       ><br /><span
                                         style="
                                           color: #000000;
-                                          font-family: Helvetica;
-                                          font-size: 15px;
+                                          font-size: 14px;
                                           line-height: 23px;
+                                          font-family: Roboto;
                                         "
                                         >L’équipe Domifa</span
                                       >
                                     </p>
-                                    <p
-                                      class="text-build-content"
-                                      style="
-                                        text-align: center;
-                                        margin: 10px 0;
-                                        margin-bottom: 10px;
-                                      "
-                                      data-testid="CTnHMhdQU"
-                                    >
-                                      &nbsp;
-                                    </p>
                                   </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div
+        style="
+          background: #ffffff;
+          background-color: #ffffff;
+          margin: 0px auto;
+          max-width: 600px;
+        "
+      >
+        <table
+          align="center"
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+          role="presentation"
+          style="background: #ffffff; background-color: #ffffff; width: 100%"
+        >
+          <tbody>
+            <tr>
+              <td
+                style="
+                  direction: ltr;
+                  font-size: 0px;
+                  padding: 0px 0 0px 0;
+                  padding-bottom: 0px;
+                  padding-top: 0px;
+                  text-align: center;
+                "
+              >
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:middle;width:600px;" ><![endif]-->
+                <div
+                  class="mj-column-per-100 mj-outlook-group-fix"
+                  style="
+                    font-size: 0px;
+                    text-align: left;
+                    direction: ltr;
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 100%;
+                  "
+                >
+                  <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    role="presentation"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td style="vertical-align: middle; padding: 0 0 0 0">
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            role="presentation"
+                            width="100%"
+                          >
+                            <tbody>
+                              <tr>
+                                <td
+                                  align="center"
+                                  style="
+                                    background: #ffffff;
+                                    font-size: 0px;
+                                    padding: 0 0 10px 0;
+                                    padding-top: 0px;
+                                    padding-bottom: 10px;
+                                    word-break: break-word;
+                                  "
+                                >
+                                  <div
+                                    style="
+                                      font-family: Arial, sans-serif;
+                                      font-size: 13px;
+                                      letter-spacing: normal;
+                                      line-height: 22px;
+                                      text-align: center;
+                                      color: #000000;
+                                    "
+                                  ></div>
                                 </td>
                               </tr>
                             </tbody>
