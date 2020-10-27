@@ -1,7 +1,7 @@
 import { Column, Workbook } from "exceljs";
 import { StructureType } from "../../../structures/StructureType.type";
 import { REGIONS_LABELS_MAP } from "../../../structures/REGIONS_LABELS_MAP.const";
-import { WorksheetRenderer, xlRenderer } from "../../xlLib";
+import { WorksheetRenderer, xlFormater, xlRenderer } from "../../xlLib";
 import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
 import { InteractionType } from "../../../interactions/InteractionType.type";
 
@@ -16,7 +16,7 @@ function renderWorksheet({
 }: {
   workbook: Workbook;
   worksheetIndex: number;
-    stats: StatsDeploiementExportModel;
+  stats: StatsDeploiementExportModel;
 }) {
   const worksheetRendered: WorksheetRenderer = xlRenderer.selectWorksheet(
     workbook.worksheets[worksheetIndex]
@@ -113,7 +113,7 @@ function renderWorksheet({
 
   function renderExportDate() {
     worksheetRendered.renderCell(1, "b", {
-      value: stats.exportDate,
+      value: xlFormater.toLocalTimezone(stats.exportDate),
     });
   }
 
