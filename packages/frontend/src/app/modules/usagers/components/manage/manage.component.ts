@@ -191,13 +191,14 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       }
 
       this.filters[element] = value;
+
       // Si le tri actuel est lié sur le statut
       if (
         this.filters.sortKey !== "NAME" &&
         this.filters.sortKey !== "ID" &&
         this.filters.sortKey !== "PASSAGE"
       ) {
-        this.filters.sortKey = value;
+        this.filters.sortKey = "NAME";
       }
 
       if (value !== "TOUS" && value !== "VALIDE") {

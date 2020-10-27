@@ -4,7 +4,12 @@ import {
   motifsRadiation,
   motifsRefus,
 } from "../../../stats/usagers.labels";
-import { WorksheetRenderer, xlRenderer, XlRowModel } from "../../xlLib";
+import {
+  WorksheetRenderer,
+  xlFormater,
+  xlRenderer,
+  XlRowModel,
+} from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
 
 export const exportListeParticipantsWorksheetRenderer = {
@@ -83,6 +88,10 @@ function renderWorksheet({
 
     worksheetRendered.configureColumn(columns);
 
+    worksheetRendered.renderCell(1, columns[1].key, {
+      value: xlFormater.toLocalTimezone(model.exportDate),
+    });
+
     const headerRow: XlRowModel = {
       values: {},
     };
@@ -101,6 +110,7 @@ function renderWorksheet({
     worksheetRendered.renderRow(2, headerRow, { insert: false });
   }
 }
+
 function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
   return model.usagers.map((usager) => {
     if (
@@ -134,9 +144,11 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
         phone: usager.phone,
         email: usager.email,
         decisionStatut: decisionLabels[usager.decision.statut],
-        decisionMotifRefus: usager.decision.statut === "REFUS" ? usager.decision.motif : "",
+        decisionMotifRefus:
+          usager.decision.statut === "REFUS" ? usager.decision.motif : "",
 
-        decisionMotifRadie: usager.decision.statut === "RADIE" ? usager.decision.motif : "",
+        decisionMotifRadie:
+          usager.decision.statut === "RADIE" ? usager.decision.motif : "",
         decisionDate:
           usager.decision.statut === "RADIE"
             ? usager.decision.dateDecision

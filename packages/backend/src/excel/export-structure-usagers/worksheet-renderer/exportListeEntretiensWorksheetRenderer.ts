@@ -5,7 +5,12 @@ import {
   residence,
   typeMenage,
 } from "../../../stats/usagers.labels";
-import { WorksheetRenderer, xlRenderer, XlRowModel } from "../../xlLib";
+import {
+  WorksheetRenderer,
+  xlFormater,
+  xlRenderer,
+  XlRowModel,
+} from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
 
 export const exportListeEntretiensWorksheetRenderer = {
@@ -61,6 +66,10 @@ function renderWorksheet({
     ];
 
     worksheetRendered.configureColumn(columns);
+
+    worksheetRendered.renderCell(1, columns[1].key, {
+      value: xlFormater.toLocalTimezone(model.exportDate),
+    });
   }
 
   function buildRows(model: StructureUsagersExportModel): XlRowModel[] {

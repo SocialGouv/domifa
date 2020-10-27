@@ -216,86 +216,87 @@ export class UsersController {
     const structure = await this.structureService.findOne(userDto.structureId);
     const newUser = await this.usersService.create(userDto, structure);
 
-    if (newUser && newUser !== null) {
-      this.structureService.addUser(newUser, userDto.structureId);
-
-      delete newUser.password;
-
-      if (newUser.role === "admin") {
-        //
-        // Mail vers Domifa pour indiquer une création de structure
-        //
-        if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
-          return res.status(HttpStatus.OK).json({ message: "OK" });
-        }
-
-        return this.domifaMailsService.newStructure(structure, newUser).then(
-          (result: AxiosResponse) => {
-            if (result.status !== 200) {
-              appLogger.warn(
-                `[StructuresMail] mail new structure for domifa failed`
-              );
-              appLogger.error(JSON.stringify(result.data));
-
-              throw new HttpException(
-                "TIPIMAIL_NEW_STRUCTURE_ERROR",
-                HttpStatus.INTERNAL_SERVER_ERROR
-              );
-            } else {
-              return res.status(HttpStatus.OK);
-            }
-          },
-          (error: AxiosError) => {
-            appLogger.warn(
-              `[StructuresMail] mail new structure for domifa failed`
-            );
-            appLogger.error(JSON.stringify(error.message));
-            throw new HttpException(
-              "TIPIMAIL_NEW_STRUCTURE_ERROR",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          }
-        );
-      } else {
-        const admin = await this.usersService.findOne({
-          role: "admin",
-          structureId: newUser.structureId,
-        });
-
-        if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
-          return res.status(HttpStatus.OK).json({ message: "OK" });
-        }
-
-        return this.usersMailsService.newUser(admin, newUser).then(
-          (result: AxiosResponse) => {
-            if (result.status !== 200) {
-              appLogger.warn(
-                `[StructuresMail] New User - mail to admin of structure failed`
-              );
-              appLogger.error(JSON.stringify(result.data));
-              throw new HttpException(
-                "TIPIMAIL_NEW_USER_ERROR",
-                HttpStatus.INTERNAL_SERVER_ERROR
-              );
-            } else {
-              return res.status(HttpStatus.OK);
-            }
-          },
-          (error: AxiosError) => {
-            appLogger.warn(
-              `[StructuresMail] mail new structure for domifa failed`
-            );
-            appLogger.error(JSON.stringify(error.message));
-            throw new HttpException(
-              "TIPIMAIL_NEW_STRUCTURE_ERROR",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          }
-        );
-      }
+    if (!newUser || newUser === null || !structure || structure === null) {
+      throw new HttpException(
+        "STRUCTURE_OR_USER_NOT_FOUND",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
 
-    throw new HttpException("INTERNAL_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+    this.structureService.addUser(newUser, userDto.structureId);
+
+    delete newUser.password;
+
+    if (newUser.role === "admin") {
+      //
+      // Mail vers Domifa pour indiquer une création de structure
+      //
+      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      }
+
+      this.domifaMailsService.newStructure(structure, newUser).then(
+        (result: AxiosResponse) => {
+          if (result.status !== 200) {
+            appLogger.warn(`[StructuresMail] mail new s  `);
+            appLogger.error(JSON.stringify(result.data));
+
+            throw new HttpException(
+              "TIPIMAIL_NEW_STRUCTURE_ERROR",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          } else {
+            return res.status(HttpStatus.OK).json({ message: "OK" });
+          }
+        },
+        (error: AxiosError) => {
+          appLogger.warn(
+            `[StructuresMail] mail new structure for domifa failed`
+          );
+          appLogger.error(JSON.stringify(error.message));
+          throw new HttpException(
+            "TIPIMAIL_NEW_STRUCTURE_ERROR",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      );
+    } else {
+      const admin = await this.usersService.findOne({
+        role: "admin",
+        structureId: newUser.structureId,
+      });
+
+      if (this.configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      }
+
+      this.usersMailsService.newUser(admin, newUser).then(
+        (result: AxiosResponse) => {
+          if (result.status !== 200) {
+            appLogger.warn(
+              `[StructuresMail] New User - mail to admin of structure failed`
+            );
+            appLogger.error(JSON.stringify(result.data));
+            throw new HttpException(
+              "TIPIMAIL_NEW_USER_ERROR",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          } else {
+            return res.status(HttpStatus.OK).json({ message: "OK" });
+          }
+        },
+        (error: AxiosError) => {
+          appLogger.warn(
+            `[StructuresMail] mail new structure for domifa failed`
+          );
+          appLogger.error(JSON.stringify(error.message));
+          throw new HttpException(
+            "TIPIMAIL_NEW_STRUCTURE_ERROR",
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      );
+    }
   }
 
   @Post("validate-email")

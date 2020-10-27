@@ -58,6 +58,13 @@ export function formatDateToNgb(date: Date): NgbDateStruct | null {
   };
 }
 
+export function parseDateFromNgb(ngbDate: NgbDateStruct): Date {
+  if (ngbDate === null) {
+    return null;
+  }
+  return new Date(Date.UTC(ngbDate.year, ngbDate.month, ngbDate.day));
+}
+
 export const minDateNaissance = { day: 1, month: 1, year: 1900 };
 
 export const minDateToday = {

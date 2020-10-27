@@ -1,7 +1,12 @@
 import { Column, Workbook } from "exceljs";
 import { structureType } from "../../../stats/usagers.labels";
 import { DEPARTEMENTS_MAP } from "../../../structures/DEPARTEMENTS_MAP.const";
-import { WorksheetRenderer, xlRenderer, XlRowModel } from "../../xlLib";
+import {
+  WorksheetRenderer,
+  xlFormater,
+  xlRenderer,
+  XlRowModel,
+} from "../../xlLib";
 import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
 
 export const exportListeStructuresWorksheetRenderer = {
@@ -15,7 +20,7 @@ function renderWorksheet({
 }: {
   workbook: Workbook;
   worksheetIndex: number;
-    stats: StatsDeploiementExportModel;
+  stats: StatsDeploiementExportModel;
 }) {
   const worksheetRendered: WorksheetRenderer = xlRenderer.selectWorksheet(
     workbook.worksheets[worksheetIndex]
@@ -56,12 +61,12 @@ function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
         id: structure.id,
         nom: structure.nom,
         structureTypeLabel: structureType[structure.structureType],
-        createdAt: structure.createdAt,
+        createdAt: xlFormater.toLocalTimezone(structure.createdAt),
         import: structure.import ? "oui" : "non",
-        importDate: structure.importDate,
+        importDate: xlFormater.toLocalTimezone(structure.importDate),
         usagersValideCount: stats.usagersCountByStructureId[structure.id] || 0,
         usersCount: structure.users.length,
-        lastLogin: structure.lastLogin,
+        lastLogin: xlFormater.toLocalTimezone(structure.lastLogin),
         codePostal: structure.codePostal,
         departementCode: structure.departement,
         departementLabel: departement?.regionName,
