@@ -49,21 +49,21 @@
       <div class="row">
         <div class="col-6 form-group required">
           <label for="transfert_nom">Nom de l'établissement</label>
-          <input type="text" class="form-control" id="transfert_nom" formControlName="nom" placeholder="Ex: Maison d'arrêt, Hôpital saint-louis, Association ..." [ngClass]="{ 'is-invalid': t.nom.dirty && t.nom.errors }" required />
-          <div *ngIf="t.nom.dirty && t.nom.errors" class="invalid-feedback" autocomplete="null">
-            <div *ngIf="t.nom.errors.required">
+          <input type="text" class="form-control" id="transfert_nom" formControlName="nom" placeholder="Ex: Maison d'arrêt, Hôpital saint-louis, Association ..." [ngClass]="{ 'is-invalid': f.nom.dirty && f.nom.errors }" required />
+          <div *ngIf="f.nom.dirty && f.nom.errors" class="invalid-feedback" autocomplete="null">
+            <div *ngIf="f.nom.errors.required">
               Le nom de l'établissement est obligatoire
             </div>
           </div>
         </div>
         <div class="col-6 form-group required">
           <label for="transfert_adresse">Adresse de l'établissement</label>
-          <input type="text" class="form-control" id="transfert_adresse" formControlName="adresse" placeholder="Numéro, rue, bâtiment, ville, code postal, etc." [ngClass]="{ 'is-invalid': t.adresse.dirty && t.adresse.errors }" required />
-          <div *ngIf="t.adresse.dirty && t.adresse.errors" class="invalid-feedback">
-            <div *ngIf="t.adresse.errors.minlength">
+          <input type="text" class="form-control" id="transfert_adresse" formControlName="adresse" placeholder="Numéro, rue, bâtiment, ville, code postal, etc." [ngClass]="{ 'is-invalid': f.adresse.dirty && f.adresse.errors }" required />
+          <div *ngIf="f.adresse.dirty && f.adresse.errors" class="invalid-feedback">
+            <div *ngIf="f.adresse.errors.minlength">
               L'adresse doit contenir 10 caractères minimum
             </div>
-            <div *ngIf="t.adresse.errors.required">
+            <div *ngIf="f.adresse.errors.required">
               L'adresse complète est obligatoire
             </div>
           </div>
@@ -71,15 +71,15 @@
         <div class="col-3 form-group required">
           <label for="dateDebutTransfert">Valide du</label>
           <div class="input-group">
-            <input class="form-control" placeholder="jj/mm/aaaa" placement="bottom" id="dateDebutTransfert" formControlName="dateDebut" ngbDatepicker dateFr value [ngClass]="{ 'is-invalid':  t.dateDebut.dirty &&  t.dateDebut.errors  }" #dateDebutTransfert="ngbDatepicker" maxlength="10" required />
+            <input class="form-control" placeholder="jj/mm/aaaa" placement="bottom" id="dateDebutTransfert" formControlName="dateDebut" ngbDatepicker dateFr value [ngClass]="{ 'is-invalid':  f.dateDebut.dirty &&  f.dateDebut.errors  }" #dateDebutTransfert="ngbDatepicker" maxlength="10" required />
             <div class="input-group-append">
               <span class="btn btn-outline-primary" (click)="dateDebutTransfert.toggle()">
                 <fa-icon icon="calendar"></fa-icon>
               </span>
             </div>
 
-            <div *ngIf="t.dateFin.invalid" class="invalid-feedback">
-              <div *ngIf="t.dateFin.dirty && t.dateFin.errors.ngbDate">
+            <div *ngIf="f.dateFin.invalid" class="invalid-feedback">
+              <div *ngIf="f.dateFin.dirty && f.dateFin.errors.ngbDate">
                 La date de debut est incorrecte
               </div>
             </div>
@@ -88,15 +88,15 @@
         <div class="col-3 form-group required">
           <label for="dateFinTransfert">Valide jusqu'au</label>
           <div class="input-group">
-            <input class="form-control" placeholder="jj/mm/aaaa" placement="bottom" id="dateFinTransfert" formControlName="dateFin" ngbDatepicker dateFr value [minDate]="minDateToday" [ngClass]="{ 'is-invalid':  t.dateFin.dirty &&  t.dateFin.errors  }" #d="ngbDatepicker" maxlength="10" required />
+            <input class="form-control" placeholder="jj/mm/aaaa" placement="bottom" id="dateFinTransfert" formControlName="dateFin" ngbDatepicker dateFr value [minDate]="minDateToday" [ngClass]="{ 'is-invalid':  f.dateFin.dirty &&  f.dateFin.errors  }" #d="ngbDatepicker" maxlength="10" required />
             <div class="input-group-append">
               <span class="btn btn-outline-primary" (click)="d.toggle()">
                 <fa-icon icon="calendar"></fa-icon>
               </span>
             </div>
 
-            <div *ngIf="t.dateFin.invalid" class="invalid-feedback">
-              <div *ngIf="t.dateFin.dirty && (t.dateFin.errors.ngbDate || t.dateFin.errors.endDateAfterBeginDate)">
+            <div *ngIf="f.dateFin.invalid" class="invalid-feedback">
+              <div *ngIf="f.dateFin.dirty && (f.dateFin.errors.ngbDate || f.dateFin.errors.endDateAfterBeginDate)">
                 La date de fin est incorrecte
               </div>
             </div>

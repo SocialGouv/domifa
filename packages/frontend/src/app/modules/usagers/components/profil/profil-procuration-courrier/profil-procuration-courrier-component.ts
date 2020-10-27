@@ -6,7 +6,11 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { User } from "src/app/modules/users/interfaces/user";
 import { UserRole } from "src/app/modules/users/interfaces/user-role.type";
-import { formatDateToNgb, minDateToday } from "src/app/shared/bootstrap-util";
+import {
+  minDateNaissance,
+  formatDateToNgb,
+  minDateToday,
+} from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
 import { LoadingService } from "../../../../loading/loading.service";
 import { Options } from "../../../interfaces/options";
@@ -14,11 +18,11 @@ import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
 
 @Component({
-  selector: "app-profil-transfert-courrier",
-  styleUrls: ["./profil-transfert-courrier.css"],
-  templateUrl: "./profil-transfert-courrier.html",
+  selector: "app-profil-procuration-courrier",
+  styleUrls: ["./profil-procuration-courrier.css"],
+  templateUrl: "./profil-procuration-courrier.html",
 })
-export class UsagersProfilTransfertCourrierComponent implements OnInit {
+export class UsagersProfilProcurationCourrierComponent implements OnInit {
   @Input() public usager: Usager;
   @Input() public me: User;
 
@@ -29,8 +33,11 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   };
 
   public isFormVisible: boolean;
-  public transfertForm!: FormGroup;
+  public procurationForm!: FormGroup;
   public minDateToday: NgbDateStruct;
+
+  public minDateNaissance: NgbDateStruct;
+  public maxDateNaissance: NgbDateStruct;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,6 +49,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   ) {
     this.hideForm();
     this.minDateToday = minDateToday;
+    this.minDateNaissance = minDateNaissance;
+    this.maxDateNaissance = formatDateToNgb(new Date());
   }
 
   public isRole(role: UserRole) {
@@ -61,24 +70,24 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   }
 
   get f() {
-    return this.transfertForm.controls;
+    return this.procurationForm.controls;
   }
 
   public initForm() {
-    this.transfertForm = this.formBuilder.group(
+    this.procurationForm = this.formBuilder.group(
       {
-        nom: [this.usager.options.transfert.nom, [Validators.required]],
-        adresse: [
-          this.usager.options.transfert.adresse,
-          [Validators.required, Validators.minLength(10)],
-        ],
-
+        nom: [this.usager.options.procuration.nom, [Validators.required]],
+        prenom: [this.usager.options.procuration.prenom, [Validators.required]],
         dateFin: [
-          formatDateToNgb(this.usager.options.transfert.dateFin),
+          formatDateToNgb(this.usager.options.procuration.dateFin),
           [Validators.required],
         ],
         dateDebut: [
-          formatDateToNgb(this.usager.options.transfert.dateDebut),
+          formatDateToNgb(this.usager.options.procuration.dateDebut),
+          [Validators.required],
+        ],
+        dateNaissance: [
+          formatDateToNgb(this.usager.options.procuration.dateNaissance),
           [Validators.required],
         ],
       },
@@ -91,34 +100,39 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     );
   }
 
-  public editTransfert() {
+  public editProcuration() {
     const formValue = {
-      ...this.transfertForm.value,
-      dateFin: this.nbgDate.formatEn(this.transfertForm.controls.dateFin.value),
+      ...this.procurationForm.value,
+      dateFin: this.nbgDate.formatEn(
+        this.procurationForm.controls.dateFin.value
+      ),
       dateDebut: this.nbgDate.formatEn(
-        this.transfertForm.controls.dateDebut.value
+        this.procurationForm.controls.dateDebut.value
+      ),
+      dateNaissance: this.nbgDate.formatEn(
+        this.procurationForm.controls.dateNaissance.value
       ),
     };
 
-    this.usagerService.editTransfert(formValue, this.usager.id).subscribe(
+    this.usagerService.editProcuration(formValue, this.usager.id).subscribe(
       (usager: any) => {
         this.hideForm();
         this.usager.options = new Options(usager.options);
-        this.notifService.success("Transfert ajouté avec succès");
+        this.notifService.success("Procuration ajoutée avec succès");
       },
       (error) => {
-        this.notifService.error("Impossible d'ajouter le transfert'");
+        this.notifService.error("Impossible d'ajouter la procuration'");
       }
     );
   }
 
-  public deleteTransfert() {
-    this.usagerService.deleteTransfert(this.usager.id).subscribe(
+  public deleteProcuration() {
+    this.usagerService.deleteProcuration(this.usager.id).subscribe(
       (usager: any) => {
         this.hideForm();
-        this.transfertForm.reset();
+        this.procurationForm.reset();
         this.usager.options = new Options(usager.options);
-        this.notifService.success("Transfert supprimé avec succès");
+        this.notifService.success("Procuration supprimée avec succès");
       },
       (error) => {
         this.notifService.error("Impossible de supprimer la fiche");

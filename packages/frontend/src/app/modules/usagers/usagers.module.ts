@@ -36,6 +36,7 @@ import { DocumentsFormComponent } from "./components/form/parts/documents-form/d
 import { DeleteMenuComponent } from "./components/form/parts/delete-menu/delete-menu.component";
 import { UsagersProfilTransfertCourrierComponent } from "./components/profil/profil-transfert-courrier/profil-transfert-courrier-component";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
+import { UsagersProfilProcurationCourrierComponent } from "./components/profil/profil-procuration-courrier/profil-procuration-courrier-component";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { CustomDatepickerI18n } from "../shared/services/date-french";
     DeleteMenuComponent,
     UsagersProfilComponent,
     UsagersProfilTransfertCourrierComponent,
+    UsagersProfilProcurationCourrierComponent,
     ImportComponent,
     RaftComponent,
     EntretienComponent,
