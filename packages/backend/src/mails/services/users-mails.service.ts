@@ -36,7 +36,7 @@ export class UsersMailsService {
         subject: "Un nouvel utilisateur souhaite rejoindre votre structure",
         values: {
           admin_prenom: admin.prenom,
-          lien: this.configService.get("DOMIFA_FRONTEND_URL") + "connexion",
+          lien: this.configService.get("DOMIFA_FRONTEND_URL") + "admin",
           user_email: user.email,
           user_nom: user.nom,
           user_prenom: user.prenom,
