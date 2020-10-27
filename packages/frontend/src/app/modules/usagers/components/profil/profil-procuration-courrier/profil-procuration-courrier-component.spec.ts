@@ -19,9 +19,9 @@ import { Usager } from "../../../interfaces/usager";
 import { InteractionService } from "../../../services/interaction.service";
 import { UsagerService } from "../../../services/usager.service";
 import { UsagersModule } from "../../../usagers.module";
-import { UsagersProfilTransfertCourrierComponent } from "./profil-transfert-courrier-component";
+import { UsagersProfilProcurationCourrierComponent } from "./profil-procuration-courrier-component";
 
-describe("UsagersProfilTransfertCourrierComponent", () => {
+describe("UsagersProfilProcurationCourrierComponent", () => {
   let fixture: any;
   let app: any;
   let router: any;
@@ -71,7 +71,7 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
     router = TestBed.get(Router);
     location = TestBed.get(Location);
 
-    fixture = TestBed.createComponent(UsagersProfilTransfertCourrierComponent);
+    fixture = TestBed.createComponent(UsagersProfilProcurationCourrierComponent);
     app = fixture.debugElement.componentInstance;
     app.ngOnInit();
   }));

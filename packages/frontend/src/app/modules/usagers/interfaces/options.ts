@@ -8,8 +8,6 @@ export class Options {
     adresse: string | null;
     dateDebut: Date | null;
     dateFin: Date | null;
-    dateFinPicker: NgbDateStruct | null;
-    dateDebutPicker: NgbDateStruct | null;
     nom: string | null;
   };
 
@@ -17,9 +15,6 @@ export class Options {
     actif: boolean;
     dateDebut: Date | null;
     dateFin: Date | null;
-    dateFinPicker: NgbDateStruct | null;
-    dateDebutPicker: NgbDateStruct | null;
-    dateNaissancePicker: NgbDateStruct | null;
     dateNaissance: Date | null;
     nom: string;
     nomComplet: string;
@@ -42,8 +37,6 @@ export class Options {
       adresse: "",
       dateDebut: null,
       dateFin: null,
-      dateFinPicker: null,
-      dateDebutPicker: null,
       nom: "",
     };
 
@@ -56,9 +49,6 @@ export class Options {
       actif: false,
       dateDebut: null,
       dateFin: null,
-      dateFinPicker: null,
-      dateDebutPicker: null,
-      dateNaissancePicker: null,
       dateNaissance: null,
       nom: "",
       nomComplet: "",
@@ -81,18 +71,12 @@ export class Options {
           options.transfert.dateDebut !== null
         ) {
           this.transfert.dateDebut = new Date(options.transfert.dateDebut);
-          this.transfert.dateDebutPicker = formatDateToNgb(
-            this.transfert.dateDebut
-          );
         } else {
           this.transfert.dateDebut = null;
         }
 
         if (options.transfert.dateFin && options.transfert.dateFin !== null) {
           this.transfert.dateFin = new Date(options.transfert.dateFin);
-          this.transfert.dateFinPicker = formatDateToNgb(
-            this.transfert.dateFin
-          );
         } else {
           this.transfert.dateFin = null;
         }
@@ -112,27 +96,18 @@ export class Options {
           this.procuration.dateNaissance = new Date(
             options.procuration.dateNaissance
           );
-          this.procuration.dateNaissancePicker = formatDateToNgb(
-            this.procuration.dateNaissance
-          );
         }
         if (
           options.procuration.dateFin &&
           options.procuration.dateFin !== null
         ) {
           this.procuration.dateFin = new Date(options.procuration.dateFin);
-          this.procuration.dateFinPicker = formatDateToNgb(
-            this.procuration.dateFin
-          );
         }
         if (
           options.procuration.dateDebut &&
           options.procuration.dateDebut !== null
         ) {
           this.procuration.dateDebut = new Date(options.procuration.dateDebut);
-          this.procuration.dateDebutPicker = formatDateToNgb(
-            this.procuration.dateDebut
-          );
         }
       }
 

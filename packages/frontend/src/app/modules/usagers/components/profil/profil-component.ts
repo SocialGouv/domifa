@@ -31,7 +31,6 @@ import { Usager } from "../../interfaces/usager";
 
 import {
   minDateNaissance,
-  minDateToday,
   formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
 import { Title } from "@angular/platform-browser";
@@ -54,7 +53,6 @@ export class UsagersProfilComponent implements OnInit {
   public editInfos: boolean;
   public editEntretien: boolean;
   public editAyantsDroits: boolean;
-  public editProcurationForm: boolean;
   public acceptInteractions: boolean;
   public editCustomId: boolean;
   public submitted: boolean;
@@ -81,7 +79,6 @@ export class UsagersProfilComponent implements OnInit {
   public usager: Usager;
   public usagerForm!: FormGroup;
   public ayantsDroitsForm!: FormGroup;
-  public procurationForm!: FormGroup;
 
   public notifInputs: { [key: string]: any };
 
@@ -93,10 +90,8 @@ export class UsagersProfilComponent implements OnInit {
 
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
-
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
-  public minDateToday: NgbDateStruct;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -115,7 +110,6 @@ export class UsagersProfilComponent implements OnInit {
     this.editAyantsDroits = false;
     this.editEntretien = false;
     this.editInfos = false;
-    this.editProcurationForm = false;
     this.submitted = false;
     this.acceptInteractions = true;
     this.today = new Date();
@@ -131,7 +125,6 @@ export class UsagersProfilComponent implements OnInit {
         ? this.authService.currentUserValue.structure
         : new Structure();
 
-    this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
 
@@ -209,34 +202,7 @@ export class UsagersProfilComponent implements OnInit {
     return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
-  get p() {
-    return this.procurationForm.controls;
-  }
-
   public initForms() {
-
-    this.procurationForm = this.formBuilder.group({
-      nom: [this.usager.options.procuration.nom, [Validators.required]],
-      prenom: [this.usager.options.procuration.prenom, [Validators.required]],
-
-      dateDebut: [this.usager.options.procuration.dateDebut],
-      dateFin: [this.usager.options.procuration.dateFin],
-      dateNaissance: [this.usager.options.procuration.dateNaissance],
-
-      dateFinPicker: [
-        this.usager.options.procuration.dateFinPicker,
-        [Validators.required],
-      ],
-      dateDebutPicker: [
-        this.usager.options.procuration.dateDebutPicker,
-        [Validators.required],
-      ],
-      dateNaissancePicker: [
-        this.usager.options.procuration.dateNaissancePicker,
-        [Validators.required],
-      ],
-    });
-
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
@@ -453,56 +419,6 @@ export class UsagersProfilComponent implements OnInit {
     return this.usagerService.attestation(this.usager.id);
   }
 
-
-  public editProcuration() {
-    const dateFinTmp = this.nbgDate.formatEn(
-      this.procurationForm.controls.dateFinPicker.value
-    );
-    const dateDebutTmp = this.nbgDate.formatEn(
-      this.procurationForm.controls.dateDebutPicker.value
-    );
-
-    const dateNaissanceTmp = this.nbgDate.formatEn(
-      this.procurationForm.controls.dateNaissancePicker.value
-    );
-
-    if (
-      dateFinTmp === null ||
-      dateDebutTmp === null ||
-      dateNaissanceTmp === null
-    ) {
-      this.notifService.error(
-        "Vérifier la date de naissance ou la date de fin de procuration."
-      );
-      return;
-    }
-
-    this.procurationForm.controls.dateDebut.setValue(
-      new Date(dateDebutTmp).toISOString()
-    );
-
-    this.procurationForm.controls.dateFin.setValue(
-      new Date(dateFinTmp).toISOString()
-    );
-
-    this.procurationForm.controls.dateNaissance.setValue(
-      new Date(dateNaissanceTmp).toISOString()
-    );
-
-    this.usagerService
-      .editProcuration(this.procurationForm.value, this.usager.id)
-      .subscribe(
-        (usager: any) => {
-          this.editProcurationForm = false;
-          this.usager.options = new Options(usager.options);
-          this.notifService.success("Procuration ajoutée avec succès");
-        },
-        (error) => {
-          this.notifService.error("Impossible d'ajouter la procuration'");
-        }
-      );
-  }
-
   public stopCourrier() {
     this.usagerService.stopCourrier(this.usager.id).subscribe(
       (usager: Usager) => {
@@ -511,20 +427,6 @@ export class UsagersProfilComponent implements OnInit {
       },
       (error) => {
         this.notifService.error("Cette opération a échoué");
-      }
-    );
-  }
-
-  public deleteProcuration() {
-    this.usagerService.deleteProcuration(this.usager.id).subscribe(
-      (usager: any) => {
-        this.editProcurationForm = false;
-        this.procurationForm.reset();
-        this.usager.options = new Options(usager.options);
-        this.notifService.success("Procuration supprimée avec succès");
-      },
-      (error) => {
-        this.notifService.error("Impossible de supprimer la fiche");
       }
     );
   }

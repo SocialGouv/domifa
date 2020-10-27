@@ -1,0 +1,181 @@
+<div class="row" *ngIf="usager && me">
+  <div class="col-12">
+    <div class="text-center" *ngIf="!usager.options.procuration.actif && !isFormVisible">
+      <p>Il n'y a aucun procuration actuellement</p>
+      <button *ngIf="!isRole('facteur')" class="btn btn-outline-primary" (click)="showForm()">
+        <fa-icon icon="plus" class="btn-icon"></fa-icon>
+        Activer la procuration
+      </button>
+    </div>
+
+    <div *ngIf="usager.options.procuration.actif && !isFormVisible" class="row">
+      <div class="col-md-2 reponses">
+        <span class="question">Nom</span>
+        <span class="valeur">
+          {{ usager.options.procuration.nom | uppercase }}
+        </span>
+      </div>
+      <div class="col-md-2 reponses">
+        <span class="question">Prénom</span>
+        <span class="valeur">
+          {{ usager.options.procuration.prenom }}
+        </span>
+      </div>
+      <div class="col-md-3 reponses">
+        <span class="question">Date de naissance</span>
+        <span class="valeur">
+          {{ usager.options.procuration.dateNaissance | date:
+            'dd/MM/yyyy' }}
+        </span>
+      </div>
+
+      <div class="col-md-4 reponses">
+        <span class="question">Dates de validité</span>
+        <span class="valeur" *ngIf="usager.options.procuration.dateDebut === null">
+          {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy' }}
+        </span>
+        <span class="valeur" *ngIf="usager.options.procuration.dateDebut">
+          Du {{ usager.options.procuration.dateDebut | date:
+            'dd/MM/yyyy' }} au {{ usager.options.procuration.dateFin |
+            date: 'dd/MM/yyyy' }}
+        </span>
+      </div>
+
+      <div class="col-12 text-center">
+        <br />
+        <button *ngIf="usager.options.procuration.actif && !isFormVisible" (click)="showForm()" class="btn btn-outline-primary">
+          <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
+          Modifier la procuration
+        </button>
+        &nbsp;&nbsp;
+        <button type="button" (click)="deleteProcuration()" class="btn btn-outline-danger">
+          <fa-icon icon="trash" class="trash"></fa-icon>
+          Supprimer la procuration
+        </button>
+      </div>
+    </div>
+
+    <form *ngIf="isFormVisible && !isRole('facteur')" [formGroup]="procurationForm" (ngSubmit)="editProcuration()" autocomplete="off">
+      <div class="row">
+        <div class="col-4 form-group required">
+          <label for="procuration_nom">Nom</label>
+          <input type="text" class="form-control" id="procuration_nom" formControlName="nom" [ngClass]="{ 'is-invalid': f.nom.dirty && f.nom.errors }" required />
+          <div *ngIf="f.nom.dirty && f.nom.errors" class="invalid-feedback" autocomplete="null">
+            <div *ngIf="f.nom.errors.required">
+              Le nom est obligatoire
+            </div>
+          </div>
+        </div>
+        <div class="col-4 form-group required">
+          <label for="procuration_prenom">Prénom</label>
+          <input type="text" class="form-control" id="procuration_prenom" formControlName="prenom" [ngClass]="{ 'is-invalid': f.prenom.dirty && f.prenom.errors }" required />
+          <div *ngIf="f.prenom.dirty && f.prenom.errors" class="invalid-feedback">
+            <div *ngIf="f.prenom.errors.required">
+              Prénom obligatoire
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 form-group required">
+          <label for="dateNaissance">Date de naissance</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="jj/mm/aaaa" [minDate]="minDateNaissance" [maxDate]="maxDateNaissance" placement="bottom" formControlName="dateNaissance" ngbDatepicker dateFr value id="dateNaissance" [ngClass]="{ 'is-invalid':  f.dateNaissance.dirty &&  f.dateNaissance.errors  }" #d="ngbDatepicker" maxlength="10" required />
+            <div class="input-group-append">
+              <span class="btn btn-outline-primary" (click)="d.toggle()">
+                <fa-icon icon="calendar"></fa-icon>
+              </span>
+            </div>
+
+            <div *ngIf="f.dateNaissance.dirty && f.dateNaissance.invalid" class="invalid-feedback">
+              La date de naissance est incorrecte (ex: 20/12/1991)
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 form-group required">
+          <label for="dateDebut">Date de début de validité</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="jj/mm/aaaa" placement="bottom" formControlName="dateDebut" ngbDatepicker dateFr value id="dateDebut" [ngClass]="{ 'is-invalid': f.dateDebut.dirty &&  f.dateDebut.errors }" #dateDebutPro="ngbDatepicker" maxlength="10" required />
+            <div class="input-group-append">
+              <span class="btn btn-outline-primary" (click)="dateDebutPro.toggle()">
+                <fa-icon icon="calendar"></fa-icon>
+              </span>
+            </div>
+
+            <div *ngIf="f.dateDebut.dirty && f.dateDebut.invalid" class="invalid-feedback">
+              La date de début est incorrecte (ex: 20/12/1991)
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 form-group required">
+          <label for="dateFin">Date de fin de validité</label>
+          <div class="input-group">
+            <input class="form-control" placeholder="jj/mm/aaaa" placement="bottom" formControlName="dateFin" ngbDatepicker dateFr value id="dateFin" [minDate]="minDateToday" [ngClass]="{ 'is-invalid': f.dateFin.dirty &&  f.dateFin.errors }" #dateFinProcu="ngbDatepicker" maxlength="10" required />
+            <div class="input-group-append">
+              <span class="btn btn-outline-primary" (click)="dateFinProcu.toggle()">
+                <fa-icon icon="calendar"></fa-icon>
+              </span>
+            </div>
+
+            <div *ngIf="f.dateFin.invalid" class="invalid-feedback">
+              <div *ngIf="f.dateFin.dirty && (f.dateFin.errors.ngbDate || f.dateFin.errors.endDateAfterBeginDate)">
+                La date de fin est incorrecte
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 text-center">
+          <span class="btn btn-dark" (click)="hideForm()">
+            Annuler
+          </span>
+          &nbsp;&nbsp;
+          <button class="btn btn-primary" type="submit" [disabled]="!procurationForm.valid">
+            Enregistrer le procuration
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <ng-container *ngIf="usager.options.historique.procuration.length > 0">
+      <div class="row">
+        <div class="col-md-12">
+          <br />
+          <h4>Historique des procurations</h4>
+        </div>
+      </div>
+      <table class="table table-light table-hover">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Nom prénom</th>
+            <th>Date de naissance</th>
+            <th>Période de validité</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let procu of usager.options.historique.procuration">
+            <td>
+              {{ actions[procu.action] }} le {{ procu.date | date:
+                'dd/MM/yyyy' }} par {{ procu.user }}
+            </td>
+            <td>{{ procu.content.nom }} {{ procu.content.prenom }}</td>
+            <td>
+              {{ procu.content.dateNaissance | date: 'dd/MM/yyyy' }}
+            </td>
+
+            <td>
+              <span *ngIf="procu.content.dateDebut === null">
+                {{ procu.content.dateFin | date: 'dd/MM/yyyy' }}
+              </span>
+              <span class="valeur" *ngIf="procu.content.dateDebut">
+                Du {{ procu.content.dateDebut | date: 'dd/MM/yyyy' }} au
+                {{ procu.content.dateFin | date: 'dd/MM/yyyy' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </div>
+</div>
