@@ -65,8 +65,14 @@ export class UsagerService {
     );
   }
 
-  public deleteTransfert(usagerId: number): Observable<any> {
-    return this.http.delete(`${this.endPointUsagers}/transfert/${usagerId}`);
+  public deleteTransfert(usagerId: number): Observable<Usager> {
+    return this.http
+      .delete(`${this.endPointUsagers}/transfert/${usagerId}`)
+      .pipe(
+        map((response) => {
+          return new Usager(response);
+        })
+      );
   }
 
   public editProcuration(transfert: any, usagerId: number): Observable<any> {

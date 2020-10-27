@@ -132,11 +132,11 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       (usager: any) => {
         this.hideForm();
         this.procurationForm.reset();
-        this.usager.options = new Options(usager.options);
+        this.usager.options = usager.options;
         this.notifService.success("Procuration supprimée avec succès");
       },
       (error) => {
-        this.notifService.error("Impossible de supprimer la fiche");
+        this.notifService.error("Impossible de supprimer la procuration");
       }
     );
   }

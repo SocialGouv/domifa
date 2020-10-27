@@ -261,7 +261,7 @@ export class UsersController {
         }
       );
     } else {
-      const admin = await this.usersService.findOne({
+      const admins = await this.usersService.findAdmins({
         role: "admin",
         structureId: newUser.structureId,
       });
@@ -270,7 +270,7 @@ export class UsersController {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
-      this.usersMailsService.newUser(admin, newUser).then(
+      this.usersMailsService.newUser(admins, newUser).then(
         (result: AxiosResponse) => {
           if (result.status !== 200) {
             appLogger.warn(

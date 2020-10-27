@@ -21,30 +21,35 @@ export class UsersMailsService {
   //
   // Mail pour l'admin de la structure
   //
-  public newUser(admin: User, user: User) {
-    const post = {
-      to: [
-        {
-          address: admin.email,
-          personalName: admin.prenom + " " + admin.nom,
+  public newUser(admins: User[], user: User) {
+    const adminEmails = [];
+    const contentEmails = [];
+
+    admins.map((admin: User) => {
+      adminEmails.push({
+        address: admin.email,
+        personalName: admin.prenom + " " + admin.nom,
+      });
+
+      contentEmails.push({
+        email: admin.email,
+        subject: "Un nouvel utilisateur souhaite rejoindre votre structure",
+        values: {
+          admin_prenom: admin.prenom,
+          lien: this.configService.get("DOMIFA_FRONTEND_URL") + "connexion",
+          user_email: user.email,
+          user_nom: user.nom,
+          user_prenom: user.prenom,
         },
-      ],
+        meta: {},
+      });
+    });
+
+    const post = {
+      to: adminEmails,
       headers: {
         "X-TM-TEMPLATE": "users-nouvel-utilisateur-dans-votre-structure",
-        "X-TM-SUB": [
-          {
-            email: admin.email,
-            subject: "Un nouvel utilisateur souhaite rejoindre votre structure",
-            values: {
-              admin_prenom: admin.prenom,
-              lien: this.configService.get("DOMIFA_FRONTEND_URL") + "connexion",
-              user_email: user.email,
-              user_nom: user.nom,
-              user_prenom: user.prenom,
-            },
-            meta: {},
-          },
-        ],
+        "X-TM-SUB": contentEmails,
       },
       msg: {
         from: {

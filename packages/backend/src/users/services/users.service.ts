@@ -19,12 +19,22 @@ const USER_PROFILE_ATTRIBUTES = mongoSelectAttributes<UserProfil>(
   "role",
   "verified"
 );
+const ADMIN_EMAILS_ATTRIBUTES = mongoSelectAttributes<UserProfil>(
+  "email",
+  "nom",
+  "prenom"
+);
+
 @Injectable()
 export class UsersService {
   constructor(@Inject("USER_MODEL") private readonly userModel: Model<User>) {}
 
   public async findAll(request: any): Promise<User[]> {
     return this.userModel.find(request).select(USER_PROFILE_ATTRIBUTES).exec();
+  }
+
+  public async findAdmins(request: any): Promise<User[]> {
+    return this.userModel.find(request).select(ADMIN_EMAILS_ATTRIBUTES).exec();
   }
 
   public async create(userDto: UserDto, structure: Structure): Promise<User> {
