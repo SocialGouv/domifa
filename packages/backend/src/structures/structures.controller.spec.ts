@@ -1,12 +1,11 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { ConfigService } from "../config";
 import { DatabaseModule } from "../database/database.module";
 import { InteractionsModule } from "../interactions/interactions.module";
+import { MailsModule } from "../mails/mails.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
-import { StructuresController } from "./structures.controller";
 import { StructuresService } from "./services/structures.service";
-import { MailsModule } from "../mails/mails.module";
+import { StructuresController } from "./structures.controller";
 
 describe("Stuctures Controller", () => {
   it("should be defined", async () => {
@@ -19,13 +18,7 @@ describe("Stuctures Controller", () => {
         UsagersModule,
         InteractionsModule,
       ],
-      providers: [
-        { provide: StructuresService, useValue: {} },
-        {
-          provide: ConfigService,
-          useValue: new ConfigService(),
-        },
-      ],
+      providers: [{ provide: StructuresService, useValue: {} }],
     }).compile();
 
     const controller = module.get<StructuresController>(StructuresController);

@@ -5,11 +5,10 @@ import { InteractionsModule } from "../../interactions/interactions.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
-import { StatsProviders } from "../stats-providers";
-import { StatsController } from "./stats.controller";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
-import { ConfigService } from "../../config";
+import { StatsProviders } from "../stats-providers";
+import { StatsController } from "./stats.controller";
 
 describe("Stats Controller", () => {
   let controller: StatsController;
@@ -24,15 +23,7 @@ describe("Stats Controller", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [
-        StatsService,
-        StatsGeneratorService,
-        ...StatsProviders,
-        {
-          provide: ConfigService,
-          useValue: new ConfigService(),
-        },
-      ],
+      providers: [StatsService, StatsGeneratorService, ...StatsProviders],
     }).compile();
 
     controller = module.get<StatsController>(StatsController);

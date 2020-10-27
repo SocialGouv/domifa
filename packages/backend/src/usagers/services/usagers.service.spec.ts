@@ -1,22 +1,19 @@
+import { forwardRef } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../../database/database.module";
 import { UsersService } from "../../users/services/users.service";
 import { UsersModule } from "../../users/users.module";
-import { SearchDto } from "../dto/search.dto";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
+import { SearchDto } from "../dto/search.dto";
 import { UsagersProviders } from "../usagers.providers";
-
-import { forwardRef } from "@nestjs/common";
 import { CerfaService } from "./cerfa.service";
 import { UsagersService } from "./usagers.service";
-import { ConfigService } from "../../config";
 
 describe("UsagersService", () => {
   let service: UsagersService;
   let userService: UsersService;
 
   const fakeUsagerDto = new CreateUsagerDto();
-  const fakePatchUsagerDto = new CreateUsagerDto();
   const searchDto = new SearchDto();
 
   fakeUsagerDto.nom = "Usager";
@@ -30,15 +27,7 @@ describe("UsagersService", () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule, forwardRef(() => UsersModule)],
-      providers: [
-        UsagersService,
-        CerfaService,
-        ...UsagersProviders,
-        {
-          provide: ConfigService,
-          useValue: new ConfigService(),
-        },
-      ],
+      providers: [UsagersService, CerfaService, ...UsagersProviders],
     }).compile();
 
     service = module.get<UsagersService>(UsagersService);

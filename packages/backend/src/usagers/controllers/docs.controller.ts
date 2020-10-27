@@ -13,34 +13,25 @@ import {
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
-
-import * as crypto from "crypto";
-import * as fs from "fs";
-import * as path from "path";
-import { diskStorage } from "multer";
-import { FileInterceptor } from "@nestjs/platform-express";
-
-import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { AuthGuard } from "@nestjs/passport";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import * as crypto from "crypto";
+import { Response } from "express";
+import * as fs from "fs";
+import { diskStorage } from "multer";
+import * as path from "path";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
-import { Response } from "express";
-
+import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
+import { configService } from "../../config/config.service";
 import { User } from "../../users/user.interface";
 import { Usager } from "../interfaces/usagers";
-
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
-import { ConfigService } from "../../config/config.service";
 
 import Sentry = require("@sentry/node");
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
-import {
-  ApiTags,
-  ApiOperation,
-  ApiSecurity,
-  ApiBearerAuth,
-} from "@nestjs/swagger";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
 @ApiTags("docs")
@@ -70,7 +61,7 @@ export class DocsController {
       storage: diskStorage({
         destination: (req: any, file: any, cb: any) => {
           const dir =
-            new ConfigService().get("UPLOADS_FOLDER") +
+            configService.get("UPLOADS_FOLDER") +
             req.user.structureId +
             "/" +
             req.usager.id;
@@ -110,7 +101,7 @@ export class DocsController {
     };
 
     const fileName =
-      new ConfigService().get("UPLOADS_FOLDER") +
+      configService.get("UPLOADS_FOLDER") +
       user.structureId +
       "/" +
       usagerId +
@@ -167,7 +158,7 @@ export class DocsController {
     // console.log(fileInfos);
 
     const pathFile = path.resolve(
-      new ConfigService().get("UPLOADS_FOLDER") +
+      configService.get("UPLOADS_FOLDER") +
         usager.structureId +
         "/" +
         usager.id +
@@ -214,7 +205,7 @@ export class DocsController {
     fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
-      new ConfigService().get("UPLOADS_FOLDER") +
+      configService.get("UPLOADS_FOLDER") +
         usager.structureId +
         "/" +
         usager.id +
@@ -233,8 +224,8 @@ export class DocsController {
       }
     }
 
-    const key = new ConfigService().get("FILES_PRIVATE");
-    const iv = new ConfigService().get("FILES_IV");
+    const key = configService.get("FILES_PRIVATE");
+    const iv = configService.get("FILES_IV");
 
     const decipher = crypto.createDecipheriv("aes-256-cfb", key, iv);
 
@@ -270,8 +261,8 @@ export class DocsController {
   }
 
   private encryptFile(fileName: string, @Res() res: Response) {
-    const key = new ConfigService().get("FILES_PRIVATE");
-    const iv = new ConfigService().get("FILES_IV");
+    const key = configService.get("FILES_PRIVATE");
+    const iv = configService.get("FILES_IV");
 
     const cipher = crypto.createCipheriv("aes-256-cfb", key, iv);
 

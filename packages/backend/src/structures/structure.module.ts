@@ -1,16 +1,12 @@
-import { forwardRef, Module, HttpModule } from "@nestjs/common";
-import { ConfigService } from "../config/config.service";
-
+import { forwardRef, HttpModule, Module } from "@nestjs/common";
 import { DatabaseModule } from "../database/database.module";
 import { InteractionsModule } from "../interactions/interactions.module";
+import { MailsModule } from "../mails/mails.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
+import { StructuresService } from "./services/structures.service";
 import { StructuresProviders } from "./structures-providers";
 import { StructuresController } from "./structures.controller";
-
-import { StructuresService } from "./services/structures.service";
-
-import { MailsModule } from "../mails/mails.module";
 
 @Module({
   controllers: [StructuresController],
@@ -23,6 +19,6 @@ import { MailsModule } from "../mails/mails.module";
     forwardRef(() => UsagersModule),
     forwardRef(() => InteractionsModule),
   ],
-  providers: [StructuresService, ...StructuresProviders, ConfigService],
+  providers: [StructuresService, ...StructuresProviders],
 })
 export class StructuresModule {}

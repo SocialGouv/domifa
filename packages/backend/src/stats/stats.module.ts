@@ -1,16 +1,15 @@
 import { forwardRef, Module } from "@nestjs/common";
-import { ConfigService } from "../config/config.service";
 import { DatabaseModule } from "../database/database.module";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
-import { StatsProviders } from "./stats-providers";
-import { StatsController } from "./controllers/stats.controller";
-import { StatsService } from "./services/stats.service";
 import { DashboardController } from "./controllers/dashboard.controller";
+import { StatsController } from "./controllers/stats.controller";
 import { DashboardService } from "./services/dashboard.service";
 import { StatsGeneratorService } from "./services/stats-generator.service";
+import { StatsService } from "./services/stats.service";
+import { StatsProviders } from "./stats-providers";
 
 @Module({
   controllers: [StatsController, DashboardController],
@@ -32,7 +31,6 @@ import { StatsGeneratorService } from "./services/stats-generator.service";
     StatsGeneratorService,
     DashboardService,
     ...StatsProviders,
-    ConfigService,
   ],
 })
 export class StatsModule {}

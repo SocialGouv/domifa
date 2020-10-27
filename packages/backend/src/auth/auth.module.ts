@@ -1,12 +1,12 @@
 import { forwardRef, Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { ConfigService } from "../config/config.service";
+import { configService } from "../config";
+import { StructuresModule } from "../structures/structure.module";
 import { UsersModule } from "../users/users.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./jwt.strategy";
-import { StructuresModule } from "../structures/structure.module";
 
 @Module({
   controllers: [AuthController],
@@ -14,7 +14,7 @@ import { StructuresModule } from "../structures/structure.module";
   imports: [
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
-      secret: new ConfigService().get("SECRET"),
+      secret: configService.get("SECRET"),
       signOptions: {
         expiresIn: 36000,
       },
@@ -22,13 +22,6 @@ import { StructuresModule } from "../structures/structure.module";
     forwardRef(() => UsersModule),
     forwardRef(() => StructuresModule),
   ],
-  providers: [
-    {
-      provide: ConfigService,
-      useValue: new ConfigService(),
-    },
-    AuthService,
-    JwtStrategy,
-  ],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

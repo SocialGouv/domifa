@@ -1,14 +1,13 @@
 import { INestApplication, Logger } from "@nestjs/common";
 import { Model } from "mongoose";
 
-import { ConfigService } from "../config/config.service";
+import { configService } from "../config/config.service";
 import { StatsDocument } from "../stats/stats.interface";
 
 const migrationName = __filename;
 
 async function up(app: INestApplication) {
   Logger.debug(`[${migrationName}] UP`);
-  const configService: ConfigService = app.get(ConfigService);
   const envId = configService.getEnvId();
 
   await _updateCreatedAt({ app });

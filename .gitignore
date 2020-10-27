@@ -3,3 +3,4 @@ node_modules
 coverage
 .vscode
 optional/e2e/runners/puppeteer/output
+*.code-workspace

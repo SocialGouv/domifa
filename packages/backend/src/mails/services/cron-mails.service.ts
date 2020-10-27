@@ -8,7 +8,7 @@ import {
 import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Model } from "mongoose";
-import { ConfigService } from "../../config";
+import { configService } from "../../config";
 import { Structure } from "../../structures/structure-interface";
 
 import { User } from "../../users/user.interface";
@@ -23,7 +23,6 @@ export class CronMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
   constructor(
-    private configService: ConfigService,
     private httpService: HttpService,
     @Inject("USER_MODEL") private userModel: Model<User>,
     @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
@@ -39,13 +38,13 @@ export class CronMailsService {
     this.lienImport = process.env.DOMIFA_FRONTEND_URL + "import";
 
     this.lienFaq = process.env.DOMIFA_FRONTEND_URL + "faq";
-    this.domifaAdminMail = this.configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = this.configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
+    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
   }
 
   @Cron("0 8 * * TUE")
   public async cronGuide() {
-    if (this.configService.get("DOMIFA_CRON_ENABLED") !== "true") {
+    if (configService.get("DOMIFA_CRON_ENABLED") !== "true") {
       return;
     }
 
@@ -134,7 +133,7 @@ export class CronMailsService {
 
   @Cron("0 15 * * TUE")
   public async cronImport() {
-    if (this.configService.get("DOMIFA_CRON_ENABLED") !== "true") {
+    if (configService.get("DOMIFA_CRON_ENABLED") !== "true") {
       return;
     }
     this.listOfStructures = [];

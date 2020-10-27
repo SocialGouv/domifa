@@ -6,7 +6,7 @@ import { TerminusModule } from "@nestjs/terminus";
 import * as mongoose from "mongoose";
 import { RavenInterceptor, RavenModule } from "nest-raven";
 import { AuthModule } from "./auth/auth.module";
-import { ConfigService } from "./config/config.service";
+import { configService } from "./config/config.service";
 import { buildMongoConnectionStringFromEnv } from "./database/database.providers";
 import { HealthController } from "./health.controller";
 import { HealthModule } from "./health/health.module";
@@ -14,18 +14,16 @@ import { InteractionsModule } from "./interactions/interactions.module";
 import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
 import { UsagersModule } from "./usagers/usagers.module";
-
 import { UsersModule } from "./users/users.module";
 
-const config = new ConfigService();
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();
 
-mongoose.set("debug", config.getBoolean("DOMIFA_MONGOOSE_DEBUG"));
+mongoose.set("debug", configService.getBoolean("DOMIFA_MONGOOSE_DEBUG"));
 
 @Module({
   controllers: [HealthController],
-  exports: [ConfigService],
+  exports: [],
   imports: [
     AuthModule,
     HealthModule,
@@ -48,12 +46,8 @@ mongoose.set("debug", config.getBoolean("DOMIFA_MONGOOSE_DEBUG"));
     {
       provide: APP_INTERCEPTOR,
       useValue: new RavenInterceptor({
-        tags: { serverName: config.getEnvId() },
+        tags: { serverName: configService.getEnvId() },
       }),
-    },
-    {
-      provide: ConfigService,
-      useValue: new ConfigService(),
     },
   ],
 })
