@@ -16,3 +16,7 @@ flags:
   frontend:
     paths:
       - packages/frontend
+ignore:
+  - "packages/backend/src/_migrations"
+  - "packages/backend/src/excel/**/*"
+      
