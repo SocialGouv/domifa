@@ -7,6 +7,7 @@ export type DomifaConfigKey =
   | "DB_PASS"
   | "DB_PORT"
   | "DB_USER"
+  | "DB_NAME"
   | "DB_AUTH_SOURCE"
   | "FILES_IV"
   | "FILES_PRIVATE"
@@ -33,6 +34,8 @@ export const configService = {
 let envConfig: { [key: string]: string } = null;
 
 function loadConfig() {
+  const envFile = process.env.NODE_ENV === "tests" ? ".env.tests" : ".env";
+  dotenv.config({ path: envFile });
   dotenv.config();
   envConfig = {
     ...process.env,
