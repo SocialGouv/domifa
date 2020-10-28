@@ -1,4 +1,17 @@
 [
+    {
+    "date": "2020-10-28"
+    "content": [
+    {   "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Nouvelle version de l’export avec ajout de la commune de rattachement et des commentaires",
+          "Ajout d’une date de début de validité sur les transferts de courrier",
+          "Ajout d’une date de début de validité sur les procurations de courrier"
+        ]
+      },
+    ]
+  },
   {
     "date": "2020-10-14",
     "description": "Nouvelle fonctionnalité de filtrage sur la liste des domiciliés",
