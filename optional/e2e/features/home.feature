@@ -34,3 +34,17 @@ Scénario:
   Soit un navigateur web sur le site
   Quand je clique sur "Politique de confidentialité"
   Alors je vois "Politique de confidentialité"
+
+
+@home-stats
+Fonctionnalité: Stats de la page d'acceuil
+  Pour pouvoir découvrir ce que fait Domifa
+  En tant que visiteur
+  Je veux voir les statistiques d'utilisation
+
+
+Scénario:
+  Soit un navigateur web sur le site
+  Alors j'attends que le texte "11\ndomiciliés" s'affiche
+
+#

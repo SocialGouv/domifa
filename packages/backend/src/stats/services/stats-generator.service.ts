@@ -39,7 +39,7 @@ export class StatsGeneratorService {
     this.dateMajorite = new Date();
   }
 
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_MINUTE)
   public async handleCron() {
     this.today = moment().utc().startOf("day").toDate();
     this.demain = moment().utc().endOf("day").toDate();
