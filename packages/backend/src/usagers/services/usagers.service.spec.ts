@@ -53,7 +53,7 @@ describe("UsagersService", () => {
     // READ
     const usager = await service.findById(6, user.structureId);
     expect(usager).toBeTruthy();
-    expect(usager.nom).toEqual("Usager");
+    expect(usager.nom).toEqual("NOUVEAU");
     expect(usager.sexe).toEqual("homme");
 
     // UPDATE

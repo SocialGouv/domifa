@@ -11,7 +11,7 @@ exports.config = {
           height: 1080,
         },
 
-        executablePath: process.env.CI && "/Applications/Google Chrome.app",
+        executablePath: process.env.CI && "/usr/bin/google-chrome-stable",
         headless: process.env.CI
           ? true
           : process.env.CODECEPT_HEADED
