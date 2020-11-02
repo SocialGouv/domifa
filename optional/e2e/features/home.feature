@@ -7,6 +7,7 @@ Fonctionnalité: Page d'acceuil
   Je veux être pouvoir consulter la page d'acceuil
 
 Scénario:
+  Soit une nouvelle base de donnée
   Soit un navigateur web sur le site
   Alors je clique sur "Continuer sur Domifa"
   Alors je vois "FACILITER L'ACCÈS AUX DROITS DES PERSONNES SANS DOMICILE STABLE"
@@ -35,16 +36,8 @@ Scénario:
   Quand je clique sur "Politique de confidentialité"
   Alors je vois "Politique de confidentialité"
 
-
-@home-stats
-Fonctionnalité: Stats de la page d'acceuil
-  Pour pouvoir découvrir ce que fait Domifa
-  En tant que visiteur
-  Je veux voir les statistiques d'utilisation
-
-
-Scénario:
-  Soit un navigateur web sur le site
-  Alors j'attends que le texte "11\ndomiciliés" s'affiche
+#Scénario:
+  #Soit un navigateur web sur le site
+  #Alors j'attends que le texte "11 domiciliés" s'affiche
 
 #

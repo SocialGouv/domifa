@@ -1,16 +1,9 @@
 const { Soit, Quand, Alors } = require("./_fr");
-
-//
-
 const { I } = inject();
-
-//
 
 Soit("un navigateur web sur le site", () => {
   I.amOnPage("/");
 });
-
-//
 
 Quand("je pause le test", () => {
   pause();
@@ -92,3 +85,10 @@ Alors("je vois un message d'erreur s'afficher {string}", (text) => {
 Alors("j'actualise", () => {
   I.refreshPage();
 });
+
+Alors(
+  "je vois le chiffre {string} à la ligne {string}",
+  (resultat, position) => {
+    I.see(resultat, '//*[@id="table-stats"]/tbody/tr[' + position + "]/td[2]");
+  }
+);

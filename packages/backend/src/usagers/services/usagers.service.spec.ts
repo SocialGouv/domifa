@@ -48,7 +48,7 @@ describe("UsagersService", () => {
     const usagerTest = await service.create(fakeUsagerDto, user);
 
     expect(usagerTest).toBeDefined();
-    expect(usagerTest.id).toEqual(6);
+    expect(usagerTest.id).toEqual(7);
 
     // READ
     const usager = await service.findById(6, user.structureId);
