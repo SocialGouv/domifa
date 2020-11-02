@@ -1,13 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { NavigationEnd, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { fadeInOut } from "./shared/animations";
-import { Router, NavigationEnd } from "@angular/router";
-import { Title } from "@angular/platform-browser";
+import { environment } from '../environments/environment';
 import { User } from "./modules/users/interfaces/user";
+import { fadeInOut } from "./shared/animations";
 @Component({
   animations: [fadeInOut],
   selector: "app-root",
@@ -47,7 +48,7 @@ export class AppComponent implements OnInit {
     };
 
     this.domifaNews = null;
-    this.matomoInjector.init("https://matomo.fabrique.social.gouv.fr/", 17);
+    this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
 
     this.authService.currentUser.subscribe((user: User) => {
       this.me = user;
