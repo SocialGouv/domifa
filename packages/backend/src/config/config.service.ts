@@ -35,11 +35,13 @@ let envConfig: { [key: string]: string } = null;
 
 function loadConfig() {
   const envFile = process.env.NODE_ENV === "tests" ? ".tests.env" : ".env";
+
   dotenv.config({ path: envFile });
   dotenv.config();
   envConfig = {
     ...process.env,
   };
+
   checkConfig();
 }
 

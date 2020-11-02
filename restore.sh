@@ -7,11 +7,11 @@ echo "# START RESET TRAVIS DB..."
 echo "#############################################################################"
 echo ""
 
-mongo domifa_tests --eval "db.dropDatabase()"
-sleep 2
 mongo domifa_tests --eval "db.runCommand( { dropAllUsersFromDatabase: 1, writeConcern: { w: 'majority' } } )"
 sleep 2
-mongo domifa_tests --eval "db.createUser({user:'travis', pwd:'test', roles:[{role:'readWrite', db:'domifa_tests'}] });"
+mongo domifa_tests --eval "db.dropDatabase()"
+sleep 2
+mongo domifa_tests --eval "db.createUser({user:'test', pwd:'test', roles:[{role:'readWrite', db:'domifa_tests'}] });"
 sleep 2
 mongorestore --archive=dump_tests.gz
 sleep 2
