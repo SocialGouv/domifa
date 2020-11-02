@@ -43,7 +43,7 @@ describe("UsagersService", () => {
     const user = await userService.findOne({ id: 1 });
 
     // LAST ID
-    expect(await service.findLast(user.structureId)).toEqual(6);
+    expect(await service.findLast(user.structureId)).toEqual(7);
 
     const usagerTest = await service.create(fakeUsagerDto, user);
 
