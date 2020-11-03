@@ -21,8 +21,6 @@ Soit("une nouvelle base de donnée", async () => {
 
   output.log(test2.stdout);
 
-  const test3 = await execa("sleep", ["2"]);
-
   const test4 = await execa("mongo", [
     "domifa_tests",
     "--eval",
@@ -31,14 +29,12 @@ Soit("une nouvelle base de donnée", async () => {
 
   output.log(test4.stdout);
 
-  await execa("sleep", ["2"]);
-
-  console.log(require("path").join(process.cwd(), "../../../../dump_tests.gz"));
-
   const test5 = await execa("mongorestore", [
     "--archive=" +
       require("path").join(process.cwd(), "../../../../dump_tests.gz"),
   ]);
 
-  console.log(test5.stderr);
+  await execa("sleep", ["2"]);
+
+  output.log(test5.stderr);
 });

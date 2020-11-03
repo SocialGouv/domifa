@@ -14,6 +14,7 @@
     "db:prod:migrate-up": "node dist/migrate-up.js",
     "start": "npx ts-node-dev -r tsconfig-paths/register --transpile-only src/main.ts",
     "start:dev": "nodemon",
+    "nodemon:tests": "NODE_ENV=tests nodemon",
     "start:tests": "NODE_ENV=tests nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
     "start:prod": "node dist/main.js",

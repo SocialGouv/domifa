@@ -1,3 +1,9 @@
+const envPath = require("path").join(
+  process.cwd(),
+  "../../../../packages/backend/.tests.env"
+);
+require("dotenv").config({ path: envPath });
+
 exports.config = {
   output: "./output",
   helpers: {
@@ -11,7 +17,7 @@ exports.config = {
           height: 1080,
         },
 
-        executablePath: process.env.CI && "/usr/bin/google-chrome-stable",
+        executablePath: process.env.CI && process.env.CHROME_PATH,
         headless: process.env.CI
           ? true
           : process.env.CODECEPT_HEADED
@@ -35,6 +41,7 @@ exports.config = {
     steps: ["./step_definitions/database.js", "./step_definitions/global.js"],
   },
   plugins: {
+    allure: {},
     screenshotOnFail: {
       enabled: true,
     },

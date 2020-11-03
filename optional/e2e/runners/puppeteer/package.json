@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "codeceptjs": "^3.0.1",
+    "dotenv": "^8.2.0",
     "execa": "^4.0.3",
     "path": "^0.12.7",
     "puppeteer": "^5.2.1"
