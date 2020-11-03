@@ -9,5 +9,9 @@ Fonctionnalité: Interactions sur la page Manage
 Scénario:
   Soit une nouvelle base de donnée
   Soit un navigateur web sur le site
-  Alors je clique sur "Continuer sur Domifa"
-  Alors je vois "FACILITER L'ACCÈS AUX DROITS DES PERSONNES SANS DOMICILE STABLE"
+
+  Alors je clique sur "KARAMOKO Maurice"
+  Alors je suis redirigé vers la page: "/usager/2"
+
+  Alors je vois "2 courriers en attente"
+  Alors je vois "SUIVI DU COURRIER ET DES PASSAGES"

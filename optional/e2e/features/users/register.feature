@@ -8,7 +8,7 @@ Fonctionnalité: Inscription
 
 Scénario:
   Soit un navigateur web sur le site
-  Alors je clique sur "Continuer sur Domifa"
+
   Quand je clique sur "S'inscrire"
   Alors je vois "Prêt(e) à faciliter la domiciliation ?"
   Alors je vois "Quel est le code-postal de votre structure ?"

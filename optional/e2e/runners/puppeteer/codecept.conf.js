@@ -37,7 +37,7 @@ exports.config = {
   teardown: null,
   hooks: [],
   gherkin: {
-    features: "../../features/*.feature",
+    features: "../../features/**/*.feature",
     steps: ["./step_definitions/database.js", "./step_definitions/global.js"],
   },
   plugins: {
