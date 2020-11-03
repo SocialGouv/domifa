@@ -32,7 +32,7 @@ exports.config = {
   include: {
     I: "./steps_file.js",
   },
-  mocha: {},
+  mocha: { bail: true },
   bootstrap: null,
   teardown: null,
   hooks: [],

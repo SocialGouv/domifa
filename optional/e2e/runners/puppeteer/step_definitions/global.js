@@ -56,6 +56,10 @@ Alors("je vois l'élément {string}", (text) => {
   I.seeElement(text);
 });
 
+Alors("j'attends {string} secondes", (text) => {
+  I.wait(text);
+});
+
 Alors("je suis redirigé vers la page: {string}", (url) => {
   I.waitInUrl(url, 5);
 });
@@ -106,3 +110,9 @@ Alors(
     I.see(resultat, '//*[@id="table-stats"]/tbody/tr[' + position + "]/td[2]");
   }
 );
+
+Alors("je clique sur {string} dans le tableau des usagers", (resultat) => {
+  I.click(
+    '//*[@id="table-usagers"]/tbody/tr/td[2][contains(., "' + resultat + '")]'
+  );
+});

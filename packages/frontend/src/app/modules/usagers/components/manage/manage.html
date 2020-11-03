@@ -54,6 +54,7 @@
         type="text"
         [(ngModel)]="searchString"
         #searchInput
+        autofocus
         placeholder="Recherche par numéro de domicilié, nom, prénom ou ayant-droit"
         class="form-control"
       />
@@ -109,6 +110,7 @@
         aria-label="Basic example"
       >
         <button
+          aria-label="Moins de 2 mois"
           class="btn"
           [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
           (click)="updateFilters('echeance', 'DEUX_MOIS')"
@@ -121,6 +123,7 @@
           ></fa-icon>
         </button>
         <button
+          aria-label="Moins de 2 semaines"
           class="btn"
           [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
           (click)="updateFilters('echeance', 'DEUX_SEMAINES')"
@@ -133,6 +136,7 @@
           ></fa-icon>
         </button>
         <button
+          aria-label="Dépassée"
           class="btn"
           [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
           (click)="updateFilters('echeance', 'DEPASSEE')"
@@ -196,13 +200,13 @@
       </div>
     </div>
 
-    <table class="table" *ngIf="usagers.length !== 0">
+    <table class="table" *ngIf="usagers.length !== 0" id="table-usagers">
       <thead>
         <th class="sortable" (click)="updateFilters('sortKey', 'ID')">
           <span>ID</span>
         </th>
         <th class="sortable" (click)="updateFilters('sortKey', 'NAME')">
-          <span> Nom prénom</span>
+          <span>Nom prénom</span>
         </th>
         <th
           class="sortable"
@@ -322,7 +326,7 @@
       </thead>
       <tbody *ngFor="let usager of usagers; let i = index">
         <tr>
-          <td (click)="goToProfil(usager)" scope="row" class="text-center">
+          <td (click)="goToProfil(usager)" class="text-center">
             <span *ngIf="usager.customId && structure.options.customId"
               >{{ usager.customId }}</span
             >

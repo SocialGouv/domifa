@@ -1,10 +1,12 @@
 {
   "name": "@optional/e2e.runner.puppeteer",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Tests end to end Domifa",
   "main": "codecept.conf.js",
   "scripts": {
-    "test": "codeceptjs run --features"
+    "test": "codeceptjs run --features",
+    "prerapport": "codeceptjs run --features --debug --plugins allure",
+    "rapport": "allure serve output"
   },
   "dependencies": {
     "codeceptjs": "^3.0.1",
