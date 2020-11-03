@@ -14,7 +14,8 @@ mongo domifa_tests --eval "db.dropDatabase()"
 mongo domifa_tests --eval "db.createUser({user:'test', pwd:'test', roles:[{role:'readWrite', db:'domifa_tests'}] });"
 
 mongorestore --archive=dump_tests.gz
-sleep 2
+
+sleep 3
 
 echo ""
 echo "#############################################################################"
