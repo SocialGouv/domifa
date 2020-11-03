@@ -24,8 +24,10 @@ export function buildMongoConnectionStringFromEnv() {
   const host = configService.get("DB_HOST");
   const port = configService.get("DB_PORT");
   const dbAuthSource = configService.get("DB_AUTH_SOURCE");
+  const dbName = configService.get("DB_NAME");
+  const debug = configService.get("DOMIFA_MONGOOSE_DEBUG");
 
-  return `mongodb://${user}:${password}@${host}:${port}/domifa${
+  return `mongodb://${user}:${password}@${host}:${port}/${dbName}${
     dbAuthSource ? `?authSource=${dbAuthSource}` : ""
   }`;
 }

@@ -21,8 +21,8 @@ Scénario:
   Alors je vois "Vous pouvez désormais créer votre compte"
 
   Alors je vois que l'envoi du formulaire est désactivé
-  
-   Alors je remplis les champs suivants
+
+  Alors je remplis les champs suivants
     | Votre adresse email                |              |
     | Mot de passe                       | JaimeLesFrites123456?        |
     | Confirmer votre mot de passe       | JaimeLesFrites123456?         |
@@ -31,7 +31,7 @@ Scénario:
     | Fonction                           | Président                    |
 
   Alors je vois que l'envoi du formulaire est désactivé
-  
+
    Alors je remplis les champs suivants
     | Votre adresse email                | ccastest@yopmail.com         |
     | Mot de passe                       | JaimeLesFrites123456?        |
@@ -41,7 +41,7 @@ Scénario:
     | Fonction                           | Président                    |
 
   Alors je vois que l'envoi du formulaire est désactivé
-  
+
      Alors je remplis les champs suivants
     | Votre adresse email                | ccastest@yopmail.com         |
     | Mot de passe                       |         |
@@ -51,7 +51,7 @@ Scénario:
     | Fonction                           | Président                    |
 
   Alors je vois que l'envoi du formulaire est désactivé
-  
+
        Alors je remplis les champs suivants
     | Votre adresse email                | ccastest@yopmail.com         |
     | Mot de passe                       | JaimeLesFrites123456?        |
@@ -61,7 +61,7 @@ Scénario:
     | Fonction                           | Président                    |
 
   Alors je vois que l'envoi du formulaire est désactivé
-  
+
   Alors je remplis les champs suivants
     | Votre adresse email                | ccastest@yopmail.com         |
     | Mot de passe                       | JaimeLesFrites123456?        |
@@ -71,7 +71,7 @@ Scénario:
     | Fonction                           | Président                    |
 
   Alors je vois que l'envoi du formulaire est désactivé
-  
+
     Alors je remplis les champs suivants
     | Votre adresse email                | ccastest@yopmail.com         |
     | Mot de passe                       | JaimeLesFrites123456?        |
@@ -101,7 +101,7 @@ Scénario:
     | Fonction                           | Président                    |
 
   Alors je vois "L'adresse email est déjà utilisée"
-  
+
   Alors je vois que l'envoi du formulaire est désactivé
 
   Alors je remplis les champs suivants

@@ -43,17 +43,17 @@ describe("UsagersService", () => {
     const user = await userService.findOne({ id: 1 });
 
     // LAST ID
-    expect(await service.findLast(user.structureId)).toEqual(6);
+    expect(await service.findLast(user.structureId)).toEqual(7);
 
     const usagerTest = await service.create(fakeUsagerDto, user);
 
     expect(usagerTest).toBeDefined();
-    expect(usagerTest.id).toEqual(6);
+    expect(usagerTest.id).toEqual(7);
 
     // READ
     const usager = await service.findById(6, user.structureId);
     expect(usager).toBeTruthy();
-    expect(usager.nom).toEqual("Usager");
+    expect(usager.nom).toEqual("NOUVEAU");
     expect(usager.sexe).toEqual("homme");
 
     // UPDATE

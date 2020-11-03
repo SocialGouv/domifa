@@ -1,17 +1,17 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
-import { Model } from "mongoose";
-import { Structure } from "../../structures/structure-interface";
-
 import { Cron, CronExpression } from "@nestjs/schedule";
 import * as moment from "moment";
+import { Model } from "mongoose";
 import { Interaction } from "../../interactions/interactions.interface";
-
 import { StructuresService } from "../../structures/services/structures.service";
+import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
-
+import { appLogger } from "../../util";
 import { Stats } from "../stats.class";
 import { StatsDocument } from "../stats.interface";
-import { appLogger } from "../../util";
+
+
+
 
 @Injectable()
 export class StatsGeneratorService {
