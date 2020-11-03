@@ -1,7 +1,4 @@
-const envPath = require("path").join(
-  process.cwd(),
-  "../../../../packages/backend/.tests.env"
-);
+const envPath = require("path").join(process.cwd(), "./env");
 require("dotenv").config({ path: envPath });
 
 exports.config = {
