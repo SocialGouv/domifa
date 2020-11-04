@@ -9,15 +9,7 @@ Fonctionnalité: Création d'une demande de domiciliation
 
 Contexte: Connexion utilisateur
   Soit un navigateur web sur le site
-  Alors je clique sur "Continuer sur Domifa"
-  Quand je clique sur "Se connecter"
-  Alors je vois "Connexion à Domifa"
-  Alors je vois "Adresse email"
-  Alors je vois "Mot de passe"
-  Alors je rentre "ccastest@yopmail.com" dans "Adresse email"
-  Alors je rentre "Azerty012345" dans "Mot de passe"
-  Quand je clique sur "Connexion"
-  Alors je suis redirigé vers la page: "/manage"
+  Soit je me connecte sur Domifa
   Quand je clique sur "Créer une demande"
   Alors je vois "État-civil du demandeur"
 
@@ -27,7 +19,6 @@ Contexte: Connexion utilisateur
 #  #
 
 Scénario: Champs vides
-
   Quand je clique sur "Suivant"
   Alors je vois "Un des champs du formulaire n'est pas rempli ou contient une erreur"
 

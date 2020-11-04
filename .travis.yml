@@ -25,14 +25,17 @@ addons:
     - sudo dpkg-reconfigure --frontend noninteractive tzdata
     #
     - sh restore.sh
-    - sleep 10
 
     - cp /home/travis/build/SocialGouv/domifa/packages/frontend/src/environments/environment.travis.ts /home/travis/build/SocialGouv/domifa/packages/frontend/src/environments/environment.prod.ts
 
+    - cp /home/travis/build/SocialGouv/domifa/optional/e2e/runners/puppeteer/.env.travis.ini /home/travis/build/SocialGouv/domifa/optional/e2e/runners/puppeteer/.env
     - cp /home/travis/build/SocialGouv/domifa/travis.env /home/travis/build/SocialGouv/domifa/packages/backend/.env
+
+    - cat /home/travis/build/SocialGouv/domifa/packages/backend/.env
 
     - echo "DOMIFA_ADMIN_EMAIL=${DOMIFA_ADMIN_EMAIL}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "DOMIFA_TIPIMAIL_FROM_EMAIL=${DOMIFA_TIPIMAIL_FROM_EMAIL}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
+
     - echo "SMTP_HOST=${SMTP_HOST}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "SMTP_USER=${SMTP_USER}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
     - echo "SMTP_PASS=${SMTP_PASS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env

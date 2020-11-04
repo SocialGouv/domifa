@@ -1,8 +1,22 @@
 const { Soit, Quand, Alors } = require("./_fr");
 const { I } = inject();
 
+// Contexte : arriver sur le site
 Soit("un navigateur web sur le site", () => {
   I.amOnPage("/");
+  I.click("Continuer sur Domifa");
+});
+
+// Contexte : connexion
+Soit("je me connecte sur Domifa", () => {
+  I.click("Se connecter");
+  I.see("Connexion à Domifa");
+  I.see("Adresse email");
+  I.see("Mot de passe");
+  I.fillField("Adresse email", "ccastest@yopmail.com");
+  I.fillField("Mot de passe", "Azerty012345");
+  I.click("Connexion");
+  I.waitInUrl("/manage", 4);
 });
 
 Quand("je pause le test", () => {
@@ -40,6 +54,10 @@ Alors("je vois {string}", (text) => {
 
 Alors("je vois l'élément {string}", (text) => {
   I.seeElement(text);
+});
+
+Alors("j'attends {string} secondes", (text) => {
+  I.wait(text);
 });
 
 Alors("je suis redirigé vers la page: {string}", (url) => {
@@ -92,3 +110,9 @@ Alors(
     I.see(resultat, '//*[@id="table-stats"]/tbody/tr[' + position + "]/td[2]");
   }
 );
+
+Alors("je clique sur {string} dans le tableau des usagers", (resultat) => {
+  I.click(
+    '//*[@id="table-usagers"]/tbody/tr/td[2][contains(., "' + resultat + '")]'
+  );
+});

@@ -1,5 +1,14 @@
 # Gherkin | Codeceptjs | Puppeteer
 
+## Configuration
+
+```
+# In packages/backend/.tests.env
+$ CODECEPT_HEADED=false # true = don't display in browser
+$ CI=
+$ CHROME_PATH= # change chrome path
+```
+
 ## Install
 
 ```sh
@@ -29,6 +38,13 @@ You can change the tested URL by setting the CODECEPT_BASEURL
 $ export CODECEPT_BASEURL=http://master.domifa.dev.factory.social.gouv.fr
 # Test the http://master.domifa.dev.factory.social.gouv.fr
 $ yarn test
+```
+
+## Rapport complet exporté sur une interaface, Allure : [a link](https://github.com/allure-framework/allure2)
+
+```sh
+# Run & display complete report with Allure plugin
+$ yarn rapport
 ```
 
 ## Debug

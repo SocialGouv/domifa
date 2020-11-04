@@ -1,3 +1,6 @@
+const envPath = require("path").join(process.cwd(), "./env");
+require("dotenv").config({ path: envPath });
+
 exports.config = {
   output: "./output",
   helpers: {
@@ -11,7 +14,7 @@ exports.config = {
           height: 1080,
         },
 
-        executablePath: process.env.CI && "/usr/bin/google-chrome-stable",
+        executablePath: process.env.CI && process.env.CHROME_PATH,
         headless: process.env.CI
           ? true
           : process.env.CODECEPT_HEADED
@@ -26,15 +29,16 @@ exports.config = {
   include: {
     I: "./steps_file.js",
   },
-  mocha: {},
+  mocha: { bail: true },
   bootstrap: null,
   teardown: null,
   hooks: [],
   gherkin: {
-    features: "../../features/*.feature",
+    features: "../../features/**/*.feature",
     steps: ["./step_definitions/database.js", "./step_definitions/global.js"],
   },
   plugins: {
+    allure: {},
     screenshotOnFail: {
       enabled: true,
     },
