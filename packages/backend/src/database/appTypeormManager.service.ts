@@ -60,20 +60,15 @@ async function connect() {
     password: configService.get("POSTGRES_PASSWORD"),
     database: configService.get("POSTGRES_DATABASE"),
   };
-<<<<<<< HEAD
 
-=======
->>>>>>> debt(mongo): fix tests
+  console.log(pgConfig);
+>>>>>>> draft(interactions): migration du modele
   appLogger.warn(
     `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
   );
 
   const isTypescriptMode = __filename.split(".").pop() === "ts"; // if current file extension is "ts": use src/*.ts files, eles use dist/*.js files
-<<<<<<< HEAD
 
-=======
-
->>>>>>> debt(mongo): fix tests
   let connectOptionsPaths: Pick<
     PostgresConnectionOptions,
     "migrations" | "entities" | "subscribers"
@@ -98,6 +93,7 @@ async function connect() {
       subscribers: ["dist/**/*Subscriber.typeorm.js"],
     };
   }
+
   const connectOptions: PostgresConnectionOptions = {
     type: "postgres",
     host: pgConfig.host,
@@ -109,6 +105,8 @@ async function connect() {
     logging: ["warn"],
     ...connectOptionsPaths,
   };
+
+  console.log(connectOptions);
   try {
     connectionHolder.connection = await createConnection(connectOptions);
     return connectionHolder.connection;

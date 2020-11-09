@@ -3,7 +3,7 @@ import { Model } from "mongoose";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { User } from "../../users/user.interface";
 import { InteractionDto } from "./../interactions.dto";
-import { InteractionDocument } from "./../interactions.interface";
+import { Interaction } from "./../interactions.interface";
 
 import { InteractionType } from "./../InteractionType.type";
 import { InteractionsTable } from "../pg/InteractionsTable.typeorm";
