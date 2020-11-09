@@ -2,6 +2,7 @@ version: "3.3"
 
 volumes:
   domifa-mongo-data:
+  postgres-data:
 
 services:
   mongo:
@@ -9,6 +10,7 @@ services:
     container_name: domifa-mongo-dev
     volumes:
       - domifa-mongo-data:/data/db
+      - $APP_DIR:/app:delegated
     environment:
       - MONGO_INITDB_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD
@@ -17,7 +19,31 @@ services:
     env_file:
       - ./.env
 
-  master_backend:
+  
+  postgres:
+    image: postgres:10.14
+    container_name: domifa-postgres-dev
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - $APP_DIR:/app:delegated
+    ports:
+    - "5432:5432"
+    environment:
+      TZ: UTC
+      NODE_ENV: development
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file:
+      - ./.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USERNAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  domifa_backend:
     container_name: domifa-backend-dev
     hostname: domifa-backend-dev
     build:
@@ -37,6 +63,9 @@ services:
       - ./.env
     environment:
       TZ: Europe/Paris
+    depends_on:
+    - "mongo"
+    - "postgres"
 
   domifa_frontend:
     container_name: domifa-frontend-dev

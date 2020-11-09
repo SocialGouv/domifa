@@ -21,27 +21,9 @@
       <div class="form-group required">
         <div class="input-group">
           <label class="control-label">Du </label>
-          <input
-            class="form-control"
-            placeholder="jj/mm/aaaa"
-            [minDate]="minDate"
-            [maxDate]="maxDate"
-            placement="bottom"
-            ngbDatepicker
-            id="dateDebutValide"
-            outsideDays="hidden"
-            [(ngModel)]="fromDate"
-            #dDebut="ngbDatepicker"
-            #ca="ngModel"
-            (dateSelect)="changeStart($event)"
-            dateFr
-            value
-            [ngClass]="{
+          <input class="form-control" placeholder="jj/mm/aaaa" [minDate]="minDate" [maxDate]="maxDate" placement="bottom" ngbDatepicker id="dateDebutValide" outsideDays="hidden" [(ngModel)]="fromDate" #dDebut="ngbDatepicker" #ca="ngModel" (dateSelect)="changeStart($event)" dateFr value [ngClass]="{
               'is-invalid': ca.status === 'INVALID'
-            }"
-            maxlength="10"
-            required
-          />
+            }" maxlength="10" required />
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
               <fa-icon icon="calendar"></fa-icon>
@@ -55,28 +37,12 @@
     </div>
     <div class="col-3">
       <div class="form-group">
-        <div class="input-group">
+        <div class="input-group required">
           <label class="control-label" for="dateFinValide"> au </label>
-          <input
-            class="form-control"
-            placeholder="jj/mm/aaaa"
-            [minDate]="minDateFin"
-            [maxDate]="maxDateFin"
-            placement="bottom"
-            ngbDatepicker
-            [(ngModel)]="toDate"
-            #dFin="ngbDatepicker"
-            #cb="ngModel"
-            dateFr
-            [readonly]="ca.status === 'INVALID'"
-            id="dateFinValide"
-            value
-            [ngClass]="{
+          <input class="form-control" placeholder="jj/mm/aaaa" [minDate]="minDateFin" [maxDate]="maxDateFin" placement="bottom" ngbDatepicker [(ngModel)]="toDate" #dFin="ngbDatepicker" #cb="ngModel" dateFr [readonly]="ca.status === 'INVALID'" id="dateFinValide" value [ngClass]="{
               'is-invalid': cb.status === 'INVALID',
               disabled: ca.status === 'INVALID'
-            }"
-            maxlength="10"
-          />
+            }" maxlength="10" required/>
           <div class="input-group-append">
             <span class="btn btn-outline-primary" (click)="dFin.toggle()">
               <fa-icon icon="calendar"></fa-icon>
@@ -91,30 +57,22 @@
     </div>
     <div class="col-3 form-group">
       <div class="input-group">
-        <button
-          class="btn btn-primary"
-          [disabled]="ca.status === 'INVALID' || cb.status === 'INVALID'"
-          (click)="compare()"
-        >
+        <button class="btn btn-primary" [disabled]="ca.status === 'INVALID' || cb.status === 'INVALID'" (click)="compare()">
           <fa-icon icon="sync-alt" class="btn-icon"></fa-icon>
           Actualiser les statistiques
         </button>
       </div>
     </div>
     <div class="col-3" *ngIf="start !== null">
-      <button
-        (click)="export()"
-        [disabled]="exportLoading"
-        class="btn btn-primary"
-      >
+      <button (click)="export()" [disabled]="exportLoading" class="btn btn-primary">
         <span *ngIf="!exportLoading">
           <fa-icon icon="download" class="btn-icon"></fa-icon>
-          Exporter les statistiques</span
-        >
-        <span *ngIf="exportLoading"
-          ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en
-          cours, veuillez patienter...</span
-        >
+          Exporter les statistiques
+          </span>
+          <span *ngIf="exportLoading">
+            <fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en
+            cours, veuillez patienter...
+          </span>
       </button>
     </div>
   </div>
@@ -123,7 +81,7 @@
     <br />
     <h4>
       1. Domiciliés par statut au
-      {{ statsDisplayDate | date: "dd/MM/yyyy":"UTC" }}
+      {{ statsDisplayDates.end | date: "dd/MM/yyyy":"UTC" }}
     </h4>
     <b>Astuce:</b> pour avoir des statistiques sur une date précise, la date de
     fin sera prise en compte
@@ -231,13 +189,14 @@
 
     <h4>
       2. Activité
+        du {{ statsDisplayDates.start | date: "dd/MM/yyyy" }} au
+        {{ statsDisplayDates.end | date: "dd/MM/yyyy" }}
+
       <span *ngIf="end !== null">
-        du {{ start | date: "dd/MM/yyyy" }} au
-        {{ end | date: "dd/MM/yyyy" }}
+
       </span>
       <span *ngIf="end === null">
-        du 01/01/2020 au
-        {{ start | date: "dd/MM/yyyy" }}
+
       </span>
     </h4>
 
@@ -322,14 +281,8 @@
     <br />
     <h4>
       3. Total des interactions
-      <span *ngIf="end !== null">
-        du {{ start | date: "dd/MM/yyyy" }} au
-        {{ end | date: "dd/MM/yyyy" }}
-      </span>
-      <span *ngIf="end === null">
-        du 01/01/2020 au
-        {{ start | date: "dd/MM/yyyy" }}
-      </span>
+        du {{ statsDisplayDates.start | date: "dd/MM/yyyy" }} au
+        {{ statsDisplayDates.end | date: "dd/MM/yyyy" }}
     </h4>
     <div class="rapport-part">
       <table class="table table-hover">
@@ -343,5 +296,5 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </div> 
 </div>

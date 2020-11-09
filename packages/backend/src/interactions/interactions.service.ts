@@ -15,7 +15,6 @@ export class InteractionsService {
     private readonly interactionModel: Model<Interaction>,
     @Inject("USAGER_MODEL")
     private readonly usagerModel: Model<Usager>,
-    private readonly usagersService: UsagersService
   ) {}
 
   public async create(

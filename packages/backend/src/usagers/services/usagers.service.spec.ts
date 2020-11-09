@@ -1,8 +1,8 @@
 import { forwardRef } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../../database/database.module";
 import { UsersService } from "../../users/services/users.service";
 import { UsersModule } from "../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../util/test";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { SearchDto } from "../dto/search.dto";
 import { UsagersProviders } from "../usagers.providers";
@@ -24,14 +24,18 @@ describe("UsagersService", () => {
   fakeUsagerDto.villeNaissance = "Paris";
   fakeUsagerDto.email = "chips@gmail.com";
 
+  let context: AppTestContext;
+
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    context = await AppTestHelper.bootstrapTestApp({
       imports: [DatabaseModule, forwardRef(() => UsersModule)],
       providers: [UsagersService, CerfaService, ...UsagersProviders],
-    }).compile();
-
-    service = module.get<UsagersService>(UsagersService);
-    userService = module.get<UsersService>(UsersService);
+    });
+    service = context.module.get<UsagersService>(UsagersService);
+    userService = context.module.get<UsersService>(UsersService);
+  });
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {

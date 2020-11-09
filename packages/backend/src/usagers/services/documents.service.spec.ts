@@ -1,8 +1,7 @@
 import { forwardRef } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../../database/database.module";
-
 import { UsersModule } from "../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../util/test";
 import { UsagersProviders } from "../usagers.providers";
 import { CerfaService } from "./cerfa.service";
 import { DocumentsService } from "./documents.service";
@@ -11,8 +10,10 @@ import { UsagersService } from "./usagers.service";
 describe("DocumentsService", () => {
   let service: DocumentsService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  let context: AppTestContext;
+
+  beforeAll(async () => {
+    context = await AppTestHelper.bootstrapTestApp({
       imports: [DatabaseModule, forwardRef(() => UsersModule)],
       providers: [
         UsagersService,
@@ -20,9 +21,11 @@ describe("DocumentsService", () => {
         DocumentsService,
         ...UsagersProviders,
       ],
-    }).compile();
-
-    service = module.get<DocumentsService>(DocumentsService);
+    });
+    service = context.module.get<DocumentsService>(DocumentsService);
+  });
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {

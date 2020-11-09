@@ -1,10 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MatomoTracker } from "ngx-matomo";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Structure } from "../structures/structure.interface";
-import { Stats } from "./stats.interface";
+import { StructureStats } from "./model";
 
 @Injectable({
   providedIn: "root",
@@ -23,20 +24,12 @@ export class StatsService {
     this.loading = true;
   }
 
-  public getToday(): Observable<Stats> {
-    return this.http.get(`${this.baseUrl}today`).pipe(
-      map((response: any) => {
-        return new Stats(response);
-      })
-    );
+  public getToday(): Observable<StructureStats> {
+    return this.http.get<StructureStats>(`${this.baseUrl}today`);
   }
 
-  public getStatById(id: string): Observable<Stats> {
-    return this.http.get(`${this.baseUrl}id/${id}`).pipe(
-      map((response: any) => {
-        return new Stats(response);
-      })
-    );
+  public getStatById(id: string): Observable<StructureStats> {
+    return this.http.get<StructureStats>(`${this.baseUrl}id/${id}`);
   }
 
   // DASHBOARD
@@ -44,31 +37,22 @@ export class StatsService {
     start: Date,
     end?: Date
   ): Observable<{
-    stats: Stats;
+    stats: StructureStats;
     startDate?: Date;
     endDate?: Date;
   }> {
-    return this.http
-      .post<{
-        stats: Stats;
-        startDate?: Date;
-        endDate?: Date;
-      }>(this.baseUrl, {
-        start,
-        end,
-      })
-      .pipe(
-        map((response) => {
-          return {
-            ...response,
-            stats: new Stats(response.stats),
-          };
-        })
-      );
+    return this.http.post<{
+      stats: StructureStats;
+      startDate?: Date;
+      endDate?: Date;
+    }>(this.baseUrl, {
+      start,
+      end,
+    });
   }
 
-  public getAvailabelStats(): Observable<any> {
-    return this.http.get(`${this.baseUrl}available`);
+  public getFirstStat(): Observable<any> {
+    return this.http.get(`${this.baseUrl}first`);
   }
 
   // DASHBOARD
@@ -110,7 +94,7 @@ export class StatsService {
     return this.http.get(environment.apiUrl + `dashboard/usagers`);
   }
 
-  public export(start, end) {
+  public export(start: Date, end: Date) {
     return this.http.post(
       `${this.baseUrl}export/`,
       {
@@ -119,12 +103,6 @@ export class StatsService {
       },
       { responseType: "blob" as "json" }
     );
-  }
-
-  public exportId(statId: string) {
-    return this.http.get(`${this.baseUrl}export/` + statId, {
-      responseType: "blob",
-    });
   }
   public exportDashboard() {
     return this.http.get(`${this.epDashboard}export`, {
