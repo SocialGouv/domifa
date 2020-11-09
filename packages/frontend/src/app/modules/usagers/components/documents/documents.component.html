@@ -20,24 +20,29 @@
           <td>{{ document.label }}</td>
           <td>{{ document.createdAt | date: "dd/MM/yyyy" }}</td>
           <td>{{ document.createdBy }}</td>
-          <td>
+          <td class="text-right">
             <button
               (click)="getDocument(indexDocs)"
               class="btn btn-primary"
               aria-label="Voir la pièce jointe"
             >
-              <fa-icon icon="download"></fa-icon>
-              Télécharger
+              <fa-icon icon="download"></fa-icon> &nbsp; Télécharger
             </button>
           </td>
           <td>
             <button
               (click)="deleteDocument(indexDocs)"
               class="btn btn-danger"
+              [disabled]="loadingDelete"
               aria-label="Voir la pièce jointe"
             >
-              <fa-icon icon="trash"></fa-icon>
-              Supprimer
+              <span *ngIf="loadingDelete"
+                ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
+                Suppression en cours...</span
+              >
+              <span *ngIf="!loadingDelete"
+                ><fa-icon icon="trash"></fa-icon> &nbsp; Supprimer</span
+              >
             </button>
           </td>
         </tr>

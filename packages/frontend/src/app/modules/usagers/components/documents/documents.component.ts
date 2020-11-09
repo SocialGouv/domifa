@@ -19,6 +19,8 @@ export class DocumentsComponent implements OnInit {
 
   @Input() public usager!: Usager;
 
+  public loadingDelete: boolean;
+
   constructor(
     private documentService: DocumentService,
     public authService: AuthService,
@@ -26,6 +28,7 @@ export class DocumentsComponent implements OnInit {
     private router: Router
   ) {
     this.documents = [];
+    this.loadingDelete = false;
   }
 
   public ngOnInit() {}
@@ -39,9 +42,12 @@ export class DocumentsComponent implements OnInit {
   }
 
   public deleteDocument(i: number): void {
+    this.loadingDelete = false;
     this.documentService.deleteDocument(this.usager.id, i).subscribe(
       (usager: Usager) => {
-        this.usager.docs = new Usager(usager).docs;
+        this.loadingDelete = true;
+        this.usager.docs = usager.docs;
+        this.notifService.success("Document supprimé avec succès");
       },
       (error: any) => {
         this.notifService.error("Impossible de supprimer le document");
