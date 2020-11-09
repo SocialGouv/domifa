@@ -1,0 +1,25 @@
+{
+   "name": "default",
+   "type": "postgres",
+   "synchronize": true,
+   "logging": false,
+   "host": "postgres",
+   "port": 5432,
+   "username": "domifa_dev",
+   "password": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "database": "domifa_dev",
+   "entities": [
+      "src/**/pg/*Table.typeorm.ts"
+   ],
+   "migrations": [
+      "src/_migrations/**/*.ts"
+   ],
+   "subscribers": [
+      "src/**/*Subscriber.typeorm.ts"
+   ],
+   "cli": {
+      "entitiesDir": "src",
+      "migrationsDir": "src/_migrations",
+      "subscribersDir": "src"
+   }
+}

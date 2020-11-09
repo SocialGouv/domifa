@@ -1,13 +1,10 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import * as mongoose from "mongoose";
-
-import { StructuresService } from "./structures.service";
-import { StructureDto } from "../dto/structure.dto";
 import { DatabaseModule } from "../../database/database.module";
-import { StructuresProviders } from "../structures-providers";
 import { UsagersProviders } from "../../usagers/usagers.providers";
 import { UsersProviders } from "../../users/users.providers";
-import { configService } from "../../config";
+import { AppTestContext, AppTestHelper } from "../../util/test";
+import { StructureDto } from "../dto/structure.dto";
+import { StructuresProviders } from "../structures-providers";
+import { StructuresService } from "./structures.service";
 
 describe("Structure Service", () => {
   let service: StructuresService;
@@ -29,8 +26,10 @@ describe("Structure Service", () => {
     prenom: "Marc",
   };
 
+  let context: AppTestContext;
+
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    context = await AppTestHelper.bootstrapTestApp({
       imports: [DatabaseModule],
       providers: [
         StructuresService,
@@ -38,13 +37,11 @@ describe("Structure Service", () => {
         ...UsagersProviders,
         ...UsersProviders,
       ],
-    }).compile();
-    service = module.get<StructuresService>(StructuresService);
+    });
+    service = context.module.get<StructuresService>(StructuresService);
   });
-
   afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoose.connection.close();
+    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {

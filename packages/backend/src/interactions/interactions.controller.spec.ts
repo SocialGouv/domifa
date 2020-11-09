@@ -1,36 +1,37 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
+import { appTypeormManager } from "../database/appTypeormManager.service";
 import { DatabaseModule } from "../database/database.module";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
+import { AppTestContext, AppTestHelper } from "../util/test";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsProviders } from "./interactions.providers";
 import { InteractionsService } from "./interactions.service";
 
 describe("Interactions Controller", () => {
-  let app: TestingModule;
   let controller: InteractionsController;
   let userService: UsersService;
   let usagerService: UsagersService;
-
+  
+  let context: AppTestContext;
   beforeAll(async () => {
-    app = await Test.createTestingModule({
+    context = await AppTestHelper.bootstrapTestApp({
       controllers: [InteractionsController],
       imports: [DatabaseModule, UsersModule, UsagersModule],
       providers: [InteractionsService, ...InteractionsProviders],
-    }).compile();
-    controller = app.get<InteractionsController>(InteractionsController);
-
-    userService = app.get<UsersService>(UsersService);
-    usagerService = app.get<UsagersService>(UsagersService);
+    });
+    controller = context.module.get<InteractionsController>(
+      InteractionsController
+    );
+    userService = context.module.get<UsersService>(UsersService);
+    usagerService = context.module.get<UsagersService>(UsagersService);
   });
-
   afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoose.connection.close();
+    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {

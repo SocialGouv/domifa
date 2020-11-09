@@ -1,19 +1,20 @@
 import { forwardRef } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../../database/database.module";
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../util/test";
 import { StatsProviders } from "../stats-providers";
-import { StatsGeneratorService } from "./stats-generator.service";
 import { DashboardService } from "./dashboard.service";
+import { StatsGeneratorService } from "./stats-generator.service";
 
 describe("StatsGeneratorService", () => {
   let service: StatsGeneratorService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  let context: AppTestContext;
+  beforeAll(async () => {
+    context = await AppTestHelper.bootstrapTestApp({
       imports: [
         DatabaseModule,
         forwardRef(() => UsersModule),
@@ -22,9 +23,11 @@ describe("StatsGeneratorService", () => {
         forwardRef(() => InteractionsModule),
       ],
       providers: [DashboardService, StatsGeneratorService, ...StatsProviders],
-    }).compile();
-
-    service = module.get<StatsGeneratorService>(StatsGeneratorService);
+    });
+    service = context.module.get<StatsGeneratorService>(StatsGeneratorService);
+  });
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {

@@ -1,28 +1,10 @@
 version: "3"
-services:
-  frontend:
-    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION}
-    restart: always
-    ports:
-      - 80:80
-    env_file:
-      - ./.env
-    environment:
-      TZ: Europe/Paris
 
-  backend:
-    env_file:
-      - ./.env
-    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION}
-    restart: always
-    depends_on:
-      - mongo
-    ports:
-      - 3000:3000
-    volumes:
-      - /mnt/files/:/files/
-    environment:
-      TZ: Europe/Paris
+volumes:
+  domifa-data:
+  postgres-data:
+
+services:
 
   mongo:
     image: "mongo:4.2.8"
@@ -32,5 +14,48 @@ services:
     ports:
       - 27017:27017
 
-volumes:
-  domifa-data:
+  postgres:
+    image: postgres:10.14
+    restart: always
+    volumes:
+    - postgres-data:/var/lib/postgresql/data
+    ports:
+    - "5432:5432"
+    environment:
+      TZ: UTC
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file:
+      - ./.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    env_file:
+      - ./.env
+    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION}
+    restart: always
+    depends_on:
+    - "mongo"
+    - "postgres"
+    ports:
+      - 3000:3000
+    volumes:
+      - /mnt/files/:/files/
+    environment:
+      TZ: Europe/Paris
+
+  frontend:
+    image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION}
+    restart: always
+    ports:
+      - 80:80
+    env_file:
+      - ./.env
+    environment:
+      TZ: Europe/Paris

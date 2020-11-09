@@ -1,7 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../../database/database.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../util/test";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
@@ -11,8 +11,10 @@ import { ImportController } from "./import.controller";
 describe("Import Controller", () => {
   let controller: ImportController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  let context: AppTestContext;
+
+  beforeAll(async () => {
+    context = await AppTestHelper.bootstrapTestApp({
       controllers: [ImportController],
       imports: [DatabaseModule, UsersModule, StructuresModule],
       providers: [
@@ -21,9 +23,11 @@ describe("Import Controller", () => {
         DocumentsService,
         ...UsagersProviders,
       ],
-    }).compile();
-
-    controller = module.get<ImportController>(ImportController);
+    });
+    controller = context.module.get<ImportController>(ImportController);
+  });
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {
