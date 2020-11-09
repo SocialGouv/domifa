@@ -53,22 +53,26 @@ function loadConfig() {
   const envFilePath = path.join(__dirname, "../../", envFile);
 
   if (!fs.existsSync(envFilePath)) {
-    appLogger.warn(`[configService] Env file ${envFilePath} not found`);
+    appLogger.warn(
+      `[configService] Env file ${envFilePath} not found: ignoring`
+    );
+    envConfig = {
+      ...process.env,
+    };
   } else {
     appLogger.warn(`[configService] Loading config file "${envFilePath}"`);
+    const { error, parsed } = dotenv.config({ path: envFile });
+    if (error) {
+      appLogger.error(`[configService] Error loading env file ${envFilePath}`, {
+        error,
+        sentry: true,
+      });
+    }
+    envConfig = {
+      ...process.env,
+      ...parsed, // override process.env from ${envFile}
+    };
   }
-
-  const { error, parsed } = dotenv.config({ path: envFile });
-  if (error) {
-    appLogger.error(`[configService] Error loading env file ${envFilePath}`, {
-      error,
-      sentry: true,
-    });
-  }
-  envConfig = {
-    ...process.env,
-    ...parsed, // override process.env from ${envFile}
-  };
 
   checkConfig();
 }

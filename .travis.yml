@@ -60,7 +60,7 @@ jobs:
           packages/frontend/src/environments/environment.travis.ts
           packages/frontend/src/environments/environment.prod.ts
         #
-        - yarn build --stream
+        - yarn build
         #
         - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
         

@@ -2,11 +2,13 @@
 
 ## Configuration
 
-```
-# In packages/backend/.tests.env
-$ CODECEPT_HEADED=false # true = don't display in browser
-$ CI=
-$ CHROME_PATH= # change chrome path
+Configurer `optional/e2e/.env` à partir de `optional/e2e/.env.e2e.local.example.ini`.
+
+__NOTE__: sous linux, si la sandbox ne se lance pas (valable jusqu'au prochain rebot):
+
+```bash
+# https://stackoverflow.com/questions/53681997/puppeteer-sandbox-no-usable-sandbox
+sudo sysctl -w kernel.unprivileged_userns_clone=1
 ```
 
 ## Install
@@ -25,11 +27,11 @@ $ yarn test
 ```
 
 By default the test will run in headless mode.  
-If you what to see the browser define the `CODECEPT_HEADED` env variable.
+If you what to see the browser define the `PUPPETEER_CHROME_HEADLESS` env variable.
 
 ```sh
-$ export CODECEPT_HEADED=true
-$ yarn test
+export PUPPETEER_CHROME_HEADLESS=true
+yarn test
 ```
 
 You can change the tested URL by setting the CODECEPT_BASEURL
