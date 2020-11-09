@@ -1,4 +1,4 @@
-const envPath = require("path").join(process.cwd(), "./env");
+const envPath = require("path").join(process.cwd(), ".env");
 require("dotenv").config({ path: envPath });
 
 exports.config = {
@@ -6,24 +6,19 @@ exports.config = {
   helpers: {
     Puppeteer: {
       chrome: {
-        args: process.env.CI
-          ? ["--no-sandbox", "--disable-setuid-sandbox"]
-          : ["--window-size=1080,1080"],
+        args: process.env.PUPPETEER_CHROME_ARGS ? process.env.PUPPETEER_CHROME_ARGS.split(' ') : [],
         defaultViewport: {
           width: 1080,
           height: 1080,
         },
-
         executablePath: process.env.CI && process.env.CHROME_PATH,
-        headless: process.env.CI
-          ? true
-          : process.env.CODECEPT_HEADED
+        headless: process.env.PUPPETEER_CHROME_HEADLESS === "false"
           ? false
           : true,
       },
       restart: false,
       show: true,
-      url: "http://localhost:4200",
+      url: process.env.DOMIFA_FRONTEND_URL,
     },
   },
   include: {

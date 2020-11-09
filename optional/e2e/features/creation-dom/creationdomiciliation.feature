@@ -19,6 +19,7 @@ Contexte: Connexion utilisateur
 #  #
 
 Scénario: Champs vides
+  Soit une nouvelle base de donnée
   Quand je clique sur "Suivant"
   Alors je vois "Un des champs du formulaire n'est pas rempli ou contient une erreur"
 

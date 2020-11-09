@@ -22,7 +22,7 @@ Each of them are individual packages that should be separately install and run (
 1.  Test in both headed and headless mode.
 
     ```sh
-    $ yarn test && CODECEPT_HEADED=1 yarn test
+    $ yarn test && PUPPETEER_CHROME_HEADLESS=1 yarn test
     ```
 
 ### [Gherkin in french](https://cucumber.io/docs/gherkin/reference/#spoken-languages)
