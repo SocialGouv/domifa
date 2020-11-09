@@ -1,12 +1,10 @@
 #!/bin/bash
-env=$1
 
 echo ""
 echo "#############################################################################"
-echo "# START RESET TRAVIS DB..."
+echo "# RESTORE MONGO TRAVIS DB..."
 echo "#############################################################################"
 echo ""
-
 mongo domifa_tests --eval "db.runCommand( { dropAllUsersFromDatabase: 1, writeConcern: { w: 'majority' } } )"
 # sleep 2
 mongo domifa_tests --eval "db.dropDatabase()"
@@ -18,6 +16,6 @@ mongorestore --gzip --archive=/app/_scripts/db/dump_tests.mongo.gz
 
 echo ""
 echo "#############################################################################"
-echo "# RESET DB DONE √"
+echo "# RESET MONGO TRAVIS DB DONE √"
 echo "#############################################################################"
 echo ""

@@ -5,6 +5,7 @@
   "main": "codecept.conf.js",
   "scripts": {
     "test": "codeceptjs run --features",
+    "test:debug": "yarn test --debug",
     "prerapport": "codeceptjs run --features --debug --plugins allure",
     "rapport": "allure serve output"
   },
