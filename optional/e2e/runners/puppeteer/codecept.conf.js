@@ -37,6 +37,9 @@ exports.config = {
     screenshotOnFail: {
       enabled: true,
     },
+    tryTo: {
+      enabled: true
+    }
   },
   tests: "./specs/*_test.js",
   name: "domifa",
