@@ -1,11 +1,13 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
+import { appTypeormManager } from "../database/appTypeormManager.service";
 import { DatabaseModule } from "../database/database.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
+import { AppTestContext, AppTestHelper } from '../util/test';
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsModule } from "./interactions.module";
 import { InteractionsProviders } from "./interactions.providers";
@@ -16,9 +18,9 @@ describe("InteractionsService", () => {
   let userService: UsersService;
 
   let usagerService: UsagersService;
-
+  let context: AppTestContext;
   beforeAll(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    context = await AppTestHelper.bootstrapTestApp({
       imports: [
         DatabaseModule,
         InteractionsModule,
@@ -26,17 +28,14 @@ describe("InteractionsService", () => {
         UsersModule,
         StructuresModule,
       ],
-      providers: [InteractionsService, ...InteractionsProviders],
-    }).compile();
-
-    service = app.get<InteractionsService>(InteractionsService);
-    userService = app.get<UsersService>(UsersService);
-    usagerService = app.get<UsagersService>(UsagersService);
+      providers: [InteractionsService, UsersService, ...InteractionsProviders],
+    }); 
+    service = context.module.get<InteractionsService>(InteractionsService);
+    userService = context.module.get<UsersService>(UsersService);
+    usagerService = context.module.get<UsagersService>(UsagersService);
   });
-
   afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoose.connection.close();
+    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {

@@ -1,15 +1,15 @@
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { Test, TestingModule } from "@nestjs/testing";
 import { StructuresModule } from "../structures/structure.module";
 import { UsersModule } from "../users/users.module";
+import { AppTestContext, AppTestHelper } from "../util/test";
 import { AuthService } from "./auth.service";
 
 describe("AuthService", () => {
   let service: AuthService;
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  let context: AppTestContext;
+  beforeAll(async () => {
+    context = await AppTestHelper.bootstrapTestApp({
       imports: [
         PassportModule.register({ defaultStrategy: "jwt" }),
         JwtModule.register({
@@ -22,9 +22,11 @@ describe("AuthService", () => {
         StructuresModule,
       ],
       providers: [AuthService],
-    }).compile();
-
-    service = module.get<AuthService>(AuthService);
+    });
+    service = context.module.get<AuthService>(AuthService);
+  });
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {

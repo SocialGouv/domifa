@@ -17,28 +17,26 @@ addons:
   language: node_js
   node_js: "14"
   cache: yarn
+  env:
+    - DOCKER_COMPOSE_VERSION=1.27.4
   before_install:
+    # upgrade docker-compose (to be able to use "--env-file")
+    - sudo rm /usr/local/bin/docker-compose
+    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+    - chmod +x docker-compose
+    - sudo mv docker-compose /usr/local/bin
+
+    # install yarn
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - export PATH="$HOME/.yarn/bin:$PATH"
+
+    # configure locale
     - export TZ=Europe/Paris
     - echo 'Europe/Paris' | sudo tee /etc/timezone
     - sudo dpkg-reconfigure --frontend noninteractive tzdata
-    #
-    - sh restore.sh
 
     - cp /home/travis/build/SocialGouv/domifa/packages/frontend/src/environments/environment.travis.ts /home/travis/build/SocialGouv/domifa/packages/frontend/src/environments/environment.prod.ts
-
     - cp /home/travis/build/SocialGouv/domifa/optional/e2e/runners/puppeteer/.env.travis.ini /home/travis/build/SocialGouv/domifa/optional/e2e/runners/puppeteer/.env
-    - cp /home/travis/build/SocialGouv/domifa/travis.env /home/travis/build/SocialGouv/domifa/packages/backend/.env
-
-    - cat /home/travis/build/SocialGouv/domifa/packages/backend/.env
-
-    - echo "DOMIFA_ADMIN_EMAIL=${DOMIFA_ADMIN_EMAIL}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
-    - echo "DOMIFA_TIPIMAIL_FROM_EMAIL=${DOMIFA_TIPIMAIL_FROM_EMAIL}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
-
-    - echo "SMTP_HOST=${SMTP_HOST}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
-    - echo "SMTP_USER=${SMTP_USER}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
-    - echo "SMTP_PASS=${SMTP_PASS}" >> /home/travis/build/SocialGouv/domifa/packages/backend/.env
 
   install:
     - yarn --frozen-lockfile
@@ -65,16 +63,26 @@ jobs:
         - yarn build --stream
         #
         - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
-        #
-        - yarn workspace @domifa/backend test --coverage --detectOpenHandles --forceExit
+        
+        # start mongo+postgres (with initial dumps)
+        - ./docker-compose.travis.run.sh
 
-        - sh restore.sh
-        - sleep 10
+        # run backend unit tests
+        - yarn workspace @domifa/backend test:travis --coverage --detectOpenHandles --forceExit
 
-        - yarn workspace @domifa/backend start:prod &
+        # re-create fresh mongo+postgres (with test dumps)
+        - ./docker-compose.travis.run.sh
 
+        # launch backend
+        - yarn workspace @domifa/backend start:tests-travis &
+
+        # run frontend unit tests
         - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+
+        # launch frontend
         - npx serve packages/frontend/dist/domifa -l 4200 &
+
+        # run e2e tests
         - cd optional/e2e/runners/puppeteer/
         - yarn --frozen-lockfile
         - yarn test --debug

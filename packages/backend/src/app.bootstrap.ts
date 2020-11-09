@@ -1,17 +1,29 @@
-import { ValidationPipe } from "@nestjs/common";
+import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
   DocumentBuilder,
   SwaggerCustomOptions,
-  SwaggerModule,
+  SwaggerModule
 } from "@nestjs/swagger";
 import * as Sentry from "@sentry/node";
 import * as compression from "compression";
-import { config as loadConfig } from "dotenv";
+import { Connection } from "typeorm";
 import { AppModule } from "./app.module";
+import { appHolder } from "./appHolder";
 import { configService } from "./config/config.service";
+import { appTypeormManager } from "./database/appTypeormManager.service";
 import { appLogger } from "./util";
 
+export async function tearDownApplication({
+  app,
+  postgresTypeormConnection,
+}: {
+  app: INestApplication;
+  postgresTypeormConnection: Connection;
+}) {
+  await app.close();
+  await postgresTypeormConnection.close();
+}
 export async function bootstrapApplication() {
   try {
     configService.loadConfig();
@@ -22,7 +34,10 @@ export async function bootstrapApplication() {
       serverName: configService.getEnvId(),
     });
 
+    const postgresTypeormConnection = await appTypeormManager.connect();
+
     const app = await NestFactory.create(AppModule);
+    appHolder.app = app;
     app.useGlobalPipes(new ValidationPipe());
     const corsUrl = configService.get("DOMIFA_CORS_URL");
     const enableCorsSecurity = corsUrl && corsUrl.trim().length !== 0;
@@ -32,7 +47,7 @@ export async function bootstrapApplication() {
         origin: corsUrl, // https://docs.nestjs.com/techniques/security#cors
       });
     } else {
-      if (configService.getEnvId() === "dev") {
+      if (["dev", "test"].includes(configService.getEnvId())) {
         app.enableCors({
           origin: true, // "Access-Control-Allow-Origin" = request.origin (unsecure): https://docs.nestjs.com/techniques/security#cors
         });
@@ -50,7 +65,7 @@ export async function bootstrapApplication() {
       })
     );
 
-    return app;
+    return { app, postgresTypeormConnection };
   } catch (err) {
     // tslint:disable-next-line: no-console
     console.error("[bootstrapApplication] Error bootstraping application", err);
@@ -78,14 +93,13 @@ function configureSwagger(app) {
       .setDescription("API description")
       .setVersion("1.0")
       // .addTag("xxx")
-      // NOT: possibilité de définir différents token sur l'interface:
+      // NOTE: possibilité de définir différents token sur l'interface:
+      // .addBearerAuth({ in: "header", type: "http" }, "responsable")
       .addBearerAuth({
         type: "http",
         scheme: "bearer",
         bearerFormat: "JWT",
       })
-      // .addBearerAuth({ in: "header", type: "http" }, "responsable")
-      // .addBearerAuth({ in: "header", type: "http" }, "responsable")
       .build();
 
     const document = SwaggerModule.createDocument(app, options);

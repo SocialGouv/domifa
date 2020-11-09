@@ -2,46 +2,44 @@ import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Model } from "mongoose";
+import { Repository } from "typeorm";
+import { appTypeormManager } from "../../database/appTypeormManager.service";
 import { Interaction } from "../../interactions/interactions.interface";
 import { StructuresService } from "../../structures/services/structures.service";
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { appLogger } from "../../util";
-import { Stats } from "../stats.class";
-import { StatsDocument } from "../stats.interface";
-
-
-
+import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
 
 @Injectable()
 export class StatsGeneratorService {
   public debutAnnee: Date;
   public finAnnee: Date;
   public dateMajorite: Date;
-  public today: Date;
   public demain: Date;
+  private structureStatsRepository: Repository<StructureStatsTable>;
 
   constructor(
     @Inject("STRUCTURE_MODEL")
     private structureModel: Model<Structure>,
-    @Inject("STATS_MODEL")
-    private statsModel: Model<StatsDocument>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
     @Inject("INTERACTION_MODEL")
     private interactionModel: Model<Interaction>,
     private readonly structureService: StructuresService
   ) {
-    this.today = new Date();
     this.demain = new Date();
     this.debutAnnee = new Date();
     this.finAnnee = new Date();
     this.dateMajorite = new Date();
+    this.structureStatsRepository = appTypeormManager.getRepository(
+      StructureStatsTable
+    );
   }
 
   @Cron(CronExpression.EVERY_HOUR)
-  public async handleCron() {
-    this.today = moment().utc().startOf("day").toDate();
+  public async generateStats() {
+    const today = moment().utc().startOf("day").toDate();
     this.demain = moment().utc().endOf("day").toDate();
     this.debutAnnee = moment().utc().startOf("year").toDate();
     this.finAnnee = moment().utc().endOf("year").toDate();
@@ -56,7 +54,7 @@ export class StatsGeneratorService {
       $or: [
         {
           lastExport: {
-            $lte: this.today,
+            $lte: today,
           },
         },
         {
@@ -75,13 +73,90 @@ export class StatsGeneratorService {
       return;
     }
 
-    const stat = new Stats();
+    const stat = new StructureStatsTable({
+      date: moment(today).subtract(1, "day").toDate(),
+      questions: {
+        Q_10: 0,
+        Q_10_A: 0,
+        Q_10_B: 0,
+        Q_11: {
+          REFUS: 0,
+          RADIE: 0,
+          VALIDE: 0,
+          VALIDE_AYANTS_DROIT: 0,
+          VALIDE_TOTAL: 0,
+        },
+        Q_12: {
+          AUTRE: 0,
+          A_SA_DEMANDE: 0,
+          ENTREE_LOGEMENT: 0,
+          FIN_DE_DOMICILIATION: 0,
+          NON_MANIFESTATION_3_MOIS: 0,
+          NON_RESPECT_REGLEMENT: 0,
+          PLUS_DE_LIEN_COMMUNE: 0,
+          TOTAL: 0,
+        },
+        Q_13: {
+          AUTRE: 0,
+          HORS_AGREMENT: 0,
+          LIEN_COMMUNE: 0,
+          SATURATION: 0,
+          TOTAL: 0,
+        },
+        Q_14: {
+          ASSO: 0,
+          CCAS: 0,
+        },
+        Q_17: 0,
+        Q_18: 0,
+        Q_19: {
+          COUPLE_AVEC_ENFANT: 0,
+          COUPLE_SANS_ENFANT: 0,
+          FEMME_ISOLE_AVEC_ENFANT: 0,
+          FEMME_ISOLE_SANS_ENFANT: 0,
+          HOMME_ISOLE_AVEC_ENFANT: 0,
+          HOMME_ISOLE_SANS_ENFANT: 0,
+        },
+        Q_20: {
+          appel: 0,
+          colisIn: 0,
+          colisOut: 0,
+          courrierIn: 0,
+          courrierOut: 0,
+          recommandeIn: 0,
+          recommandeOut: 0,
+          npai: 0,
+          visite: 0,
+        },
+        Q_21: {
+          AUTRE: 0,
+          ERRANCE: 0,
+          EXPULSION: 0,
+          HEBERGE_SANS_ADRESSE: 0,
+          ITINERANT: 0,
+          RUPTURE: 0,
+          SORTIE_STRUCTURE: 0,
+          VIOLENCE: 0,
+          NON_RENSEIGNE: 0,
+        },
+        Q_22: {
+          DOMICILE_MOBILE: 0,
+          HEBERGEMENT_SOCIAL: 0,
+          HEBERGEMENT_TIERS: 0,
+          HOTEL: 0,
+          SANS_ABRI: 0,
+          NON_RENSEIGNE: 0,
+          AUTRE: 0,
+        },
+      },
+    });
     stat.capacite = structure.capacite;
     stat.structureId = structure.id;
     stat.nom = structure.nom;
     stat.structureType = structure.structureType;
     stat.ville = structure.ville;
     stat.codePostal = structure.codePostal;
+    stat.departement = structure.departement;
 
     stat.questions.Q_10 = await this.getDomiciliations(structure.id, {
       $in: ["PREMIERE", "RENOUVELLEMENT"],
@@ -455,7 +530,7 @@ export class StatsGeneratorService {
       dateExport
     );
 
-    const retourStats = await new this.statsModel(stat).save();
+    const retourStats = await this.structureStatsRepository.insert(stat);
 
     const updateStructureStats = await this.structureService.updateStructureStats(
       structure._id,
@@ -472,43 +547,10 @@ export class StatsGeneratorService {
       updateStructureStats &&
       updateStructureStats !== null
     ) {
-      this.handleCron();
+      this.generateStats();
     } else {
       throw new HttpException("BUG_STATS", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }
-
-  public async getToday(structureId: number): Promise<Stats> {
-    const stats = await this.statsModel
-      .find({ structureId })
-      .sort({ createdAt: -1 })
-      .limit(1)
-      .lean()
-      .exec();
-    if (!stats || stats === null) {
-      throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-    return stats[0];
-  }
-
-  public async getAvailableStats(structureId: number): Promise<Stats[]> {
-    appLogger.debug("------------------- ");
-    appLogger.debug(this.today.toDateString());
-    appLogger.debug(this.demain.toDateString());
-    appLogger.debug("------------------- ");
-    const stats = await this.statsModel
-      .find({
-        date: {
-          $gte: this.today,
-          $lte: this.demain,
-        },
-      })
-      .exec();
-
-    if (!stats || stats === null) {
-      throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-    return stats;
   }
 
   private async getDomiciliations(
@@ -758,37 +800,6 @@ export class StatsGeneratorService {
       }
       return 0;
     }
-  }
-
-  public async clean() {
-    return this.structureModel
-      .updateMany({}, { $set: { lastExport: undefined } })
-      .exec((retour: any) => {
-        appLogger.debug("Nettoyage des date de dernier export  : ");
-        appLogger.debug(JSON.stringify(retour));
-        appLogger.debug("");
-
-        this.statsModel
-          .deleteMany({
-            date: {
-              $gte: this.today,
-              $lte: this.demain,
-            },
-          })
-          .exec((retour2: any) => {
-            appLogger.debug("- Suppression du dernier Export  ");
-            appLogger.debug(JSON.stringify(retour2));
-            appLogger.debug("");
-            appLogger.debug("-- Appel du Cron dans 5 sec");
-            appLogger.debug("");
-
-            setTimeout(() => {
-              appLogger.debug(" ---> DEMARRAGE du Cron");
-              this.handleCron();
-              return true;
-            }, 5000);
-          });
-      });
   }
 
   public async countStructures(): Promise<any> {

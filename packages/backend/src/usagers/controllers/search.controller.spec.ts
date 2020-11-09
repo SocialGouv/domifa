@@ -1,20 +1,22 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { SearchController } from "./search.controller";
-import { DatabaseModule } from "../../database/database.module";
 import { forwardRef } from "@nestjs/common";
-import { UsersModule } from "../../users/users.module";
-import { StructuresModule } from "../../structures/structure.module";
-import { UsagersModule } from "../usagers.module";
+import { DatabaseModule } from "../../database/database.module";
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
-import { StatsProviders } from "../../stats/stats-providers";
 import { StatsService } from "../../stats/services/stats.service";
+import { StatsProviders } from "../../stats/stats-providers";
+import { StructuresModule } from "../../structures/structure.module";
+import { UsersModule } from "../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../util/test";
+import { UsagersModule } from "../usagers.module";
+import { SearchController } from "./search.controller";
 
 describe("Search Controller", () => {
   let controller: SearchController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  let context: AppTestContext;
+
+  beforeAll(async () => {
+    context = await AppTestHelper.bootstrapTestApp({
       controllers: [SearchController],
       imports: [
         DatabaseModule,
@@ -24,9 +26,11 @@ describe("Search Controller", () => {
         forwardRef(() => InteractionsModule),
       ],
       providers: [StatsService, StatsGeneratorService, ...StatsProviders],
-    }).compile();
-
-    controller = module.get<SearchController>(SearchController);
+    });
+    controller = context.module.get<SearchController>(SearchController);
+  });
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {

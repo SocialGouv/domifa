@@ -1,6 +1,7 @@
 import { StructureType } from "../structures/StructureType.type";
+import { StructureStats } from "./model";
 
-export class Stats {
+export class Stats implements Omit<StructureStats, 'date'> {
   //  public _id: ObjectID;
   public _id: any;
   public createdAt: Date;

@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Logger,
   Param,
   Post,
   Res,
@@ -10,14 +9,16 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { Response } from "express";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { User } from "../../users/user.interface";
+import { appLogger } from "../../util";
 import { StatsDto } from "../dto/stats.dto";
+import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
-import { Stats } from "../stats.class";
 import {
   cause,
   motifsRadiation,
@@ -25,10 +26,8 @@ import {
   residence,
   typeMenage,
 } from "../usagers.labels";
-import { Response } from "express";
 
 import moment = require("moment");
-import { appLogger } from "../../util";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -84,9 +83,9 @@ export class StatsController {
   // Récupérer les stats disponibles
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @ApiBearerAuth()
-  @Get("available")
+  @Get("first")
   public async getAvailableStats(@CurrentUser() user: User) {
-    return this.statsService.getAvailableStats(user.structureId);
+    return this.statsService.getFirstStat(user.structureId);
   }
 
   @Get("home-stats")
@@ -109,7 +108,7 @@ export class StatsController {
     @CurrentUser() user: User,
     @Body() statsDto: StatsDto
   ) {
-    return this.parsePostData(user, statsDto);
+    return this.getStatsDiff(user, statsDto);
   }
 
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
@@ -119,16 +118,16 @@ export class StatsController {
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ) {
-    const { stats: dataToExport } = await this.parsePostData(user, statsDto);
+    const { stats: dataToExport } = await this.getStatsDiff(user, statsDto);
 
     res.status(200).send(this.exportData(dataToExport, statsDto));
   }
 
-  private async parsePostData(
+  private async getStatsDiff(
     user: User,
     statsDto: StatsDto
   ): Promise<{
-    stats: Stats;
+    stats: StructureStatsTable;
     startDate?: Date;
     endDate?: Date;
   }> {
@@ -139,7 +138,7 @@ export class StatsController {
     });
   }
 
-  private exportData(stats: Stats, statsDto?: StatsDto) {
+  private exportData(stats: StructureStatsTable, statsDto?: StatsDto) {
     appLogger.debug(
       `[StatsController] exportData (${JSON.stringify(stats, undefined, 2)})`
     );

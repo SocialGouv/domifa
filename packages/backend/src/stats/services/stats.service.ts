@@ -1,72 +1,74 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
-import { Model, MongooseFilterQuery } from "mongoose";
-
-import { Stats } from "../stats.class";
-import { StatsDocument } from "../stats.interface";
-import moment = require("moment");
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import {
+  FindConditions,
+  LessThanOrEqual,
+  MoreThanOrEqual,
+  Repository,
+} from "typeorm";
+import { appTypeormManager } from "../../database/appTypeormManager.service";
 import { appLogger } from "../../util";
+import { StructureStats } from "../model";
+import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
+
+import moment = require("moment");
 
 @Injectable()
 export class StatsService {
-  public today: Date;
+  private structureStatsRepository: Repository<StructureStatsTable>;
 
-  constructor(
-    @Inject("STATS_MODEL")
-    private statsModel: Model<StatsDocument>
-  ) {
-    this.today = new Date();
+  constructor() {
+    this.structureStatsRepository = appTypeormManager.getRepository(
+      StructureStatsTable
+    );
   }
 
-  public async getStatById(id: string, structureId: number): Promise<Stats> {
-    const stats = await this.statsModel
-      .findOne({ _id: id, structureId })
-      .lean()
-      .exec();
+  public async getStatById(
+    id: string,
+    structureId: number
+  ): Promise<StructureStatsTable> {
+    const stats = await this.structureStatsRepository.findOne({
+      where: { _id: id, structureId },
+    });
     if (!stats || stats === null) {
       throw new HttpException("STAT_ID_INCORRECT", HttpStatus.BAD_REQUEST);
     }
     return stats;
   }
 
-  public async getToday(structureId: number): Promise<Stats> {
-    const stats = await this.statsModel
-      .find({ structureId })
-      .sort({ createdAt: -1 })
-      .limit(1)
-      .lean()
-      .exec();
+  public async getToday(structureId: number): Promise<StructureStatsTable> {
+    const stats = await this.structureStatsRepository.findOne({
+      where: { structureId },
+      order: { date: -1 },
+    });
     if (!stats || stats === null) {
       throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
     return stats[0];
   }
 
-  public async getByDate(structureId: number, date: Date): Promise<Stats> {
-    const stats = await this.statsModel
-      .find({
-        structureId,
-        createdAt: {
-          $gte: moment(date).utc().startOf("day").toDate(),
-          $lte: moment(date).utc().endOf("day").toDate(),
-        },
-      })
-      .sort({ createdAt: -1 })
-      .limit(1)
-      .lean()
-      .exec();
+  public async getByDate(
+    structureId: number,
+    date: Date
+  ): Promise<StructureStatsTable> {
+    const stats = await this.structureStatsRepository.findOne({
+      where: { structureId, date },
+      order: { date: -1 },
+    });
+
     if (!stats || stats === null) {
       throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
     return stats[0];
   }
 
-  public async getAvailableStats(structureId: number): Promise<Stats[]> {
-    const stats = await this.statsModel
-      .find({
-        structureId,
-      })
-      .select("createdAt _id")
-      .exec();
+  public async getAvailableStats(
+    structureId: number
+  ): Promise<Pick<StructureStatsTable, "date" | "uuid">[]> {
+    const stats = await this.structureStatsRepository.find({
+      select: ["date", "uuid"],
+      where: { structureId },
+      order: { date: 1 },
+    });
 
     if (!stats || stats === null) {
       throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
@@ -74,26 +76,24 @@ export class StatsService {
     return stats;
   }
 
-  private async getFirstStat(
+  public async getFirstStat(
     structureId: number,
     options?: {
       refDate?: Date;
       allowEmptyResult?: boolean;
     }
-  ): Promise<Stats> {
-    const conditions: MongooseFilterQuery<StatsDocument> = {
-      structureId,
-    };
+  ): Promise<StructureStatsTable> {
+    const where: FindConditions<StructureStatsTable> = { structureId };
+
     if (options?.refDate) {
-      conditions.createdAt = {
-        $gte: moment(options?.refDate).utc().startOf("day").toDate(),
-      };
+      where.date = MoreThanOrEqual(
+        moment(options?.refDate).startOf("day").toDate()
+      );
     }
-    const stats = await this.statsModel
-      .findOne(conditions)
-      .sort({ createdAt: 1 })
-      .lean()
-      .exec();
+    const stats = await this.structureStatsRepository.findOne({
+      where,
+      order: { date: 1 },
+    });
 
     if (!stats || stats === null) {
       if (options?.allowEmptyResult) {
@@ -110,20 +110,16 @@ export class StatsService {
       refDate?: Date;
       allowEmptyResult?: boolean;
     }
-  ): Promise<Stats> {
-    const conditions: MongooseFilterQuery<StatsDocument> = {
-      structureId,
-    };
+  ): Promise<StructureStatsTable> {
+    const where: FindConditions<StructureStatsTable> = { structureId };
     if (options?.refDate) {
-      conditions.createdAt = {
-        $lte: moment(options?.refDate).utc().endOf("day").toDate(),
-      };
+      const maxDate = moment(options?.refDate).endOf("day").toDate();
+      where.date = LessThanOrEqual(maxDate);
     }
-    const stats = await this.statsModel
-      .findOne(conditions)
-      .sort({ createdAt: -1 })
-      .lean()
-      .exec();
+    const stats = await this.structureStatsRepository.findOne({
+      where,
+      order: { date: -1 },
+    });
 
     if (!stats || stats === null) {
       if (options?.allowEmptyResult) {
@@ -143,13 +139,12 @@ export class StatsService {
     startDate: Date;
     endDate?: Date;
   }): Promise<{
-    stats: Stats;
+    stats: StructureStatsTable;
     startDate?: Date;
     endDate?: Date;
   }> {
-    const start = moment(startDate).add(1, "days").toDate();
     let startStats = await this.getLastStat(structureId, {
-      refDate: start,
+      refDate: startDate,
       allowEmptyResult: true,
     });
     if (!startStats) {
@@ -169,33 +164,26 @@ export class StatsService {
       }
     }
 
-    if (endDate) {
-      if (
-        new Date(startStats.createdAt).getTime() > new Date(endDate).getTime()
-      ) {
-        // force endDate to be AFTER begin date
-        endDate = startStats.createdAt;
-      }
-      const end = moment(endDate).add(1, "days").toDate();
-      const endStats: Stats = await this.getLastStat(structureId, {
-        refDate: end,
-        allowEmptyResult: true,
-      });
-      const stats = this.buildStatsDiff(startStats, endStats);
-      return {
-        stats,
-        startDate: moment(startStats.createdAt).add(-1, "days").toDate(),
-        endDate: moment(endStats.createdAt).add(-1, "days").toDate(),
-      };
+    if (new Date(startStats.date).getTime() > new Date(endDate).getTime()) {
+      // force endDate to be AFTER begin date
+      endDate = startStats.date;
     }
+    const endStats: StructureStatsTable = await this.getLastStat(structureId, {
+      refDate: endDate,
+      allowEmptyResult: true,
+    });
+    const stats = this.buildStatsDiff(startStats, endStats);
     return {
-      stats: startStats,
-      startDate: moment(startStats.createdAt).add(-1, "days").toDate(),
-      endDate: undefined,
+      stats,
+      startDate: startStats.date,
+      endDate: endStats.date,
     };
   }
 
-  private buildStatsDiff(A: Stats, B: Stats) {
+  private buildStatsDiff<T extends Pick<StructureStats, "questions">>(
+    A: T,
+    B: T
+  ) {
     if (!B) {
       appLogger.error(`[StatsService.buildStatsDiff] B is not defined`);
       return A;

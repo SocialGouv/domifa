@@ -1,16 +1,20 @@
-import { Logger } from "@nestjs/common";
-import { bootstrapApplication } from "./app.bootstrap";
+import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
+import { appTypeormManager } from "./database/appTypeormManager.service";
 import { appLogger } from "./util";
-import { umzugMigrationManager } from "./_migrations/umzug-migration-manager";
 
 (async () => {
   appLogger.warn(`[${__filename}] Starting app...`);
-  const app = await bootstrapApplication();
+  const { app, postgresTypeormConnection } = await bootstrapApplication();
   try {
-    await umzugMigrationManager.migrateUp({ app });
+    await appTypeormManager.migrateUp(postgresTypeormConnection);
+  } catch (error) {
+    appLogger.error(`[${__filename}] Error running migration`, {
+      error,
+      sentry: true,
+    });
   } finally {
     appLogger.warn(`[${__filename}] Closing app...`);
-    await app.close();
+    await tearDownApplication({ app, postgresTypeormConnection });
     process.exit(0);
   }
 })();

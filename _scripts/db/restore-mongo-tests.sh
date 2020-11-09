@@ -8,14 +8,13 @@ echo "##########################################################################
 echo ""
 
 mongo domifa_tests --eval "db.runCommand( { dropAllUsersFromDatabase: 1, writeConcern: { w: 'majority' } } )"
-
+# sleep 2
 mongo domifa_tests --eval "db.dropDatabase()"
-
+# sleep 2
 mongo domifa_tests --eval "db.createUser({user:'test', pwd:'test', roles:[{role:'readWrite', db:'domifa_tests'}] });"
-
-mongorestore --archive=dump_tests.gz
-
-sleep 3
+# sleep 2
+mongorestore --gzip --archive=dump_tests.mongo.gz
+# sleep 2
 
 echo ""
 echo "#############################################################################"

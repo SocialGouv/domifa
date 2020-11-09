@@ -1,17 +1,20 @@
 import { HttpModule } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
 import { DatabaseModule } from "../database/database.module";
 import { MailsModule } from "../mails/mails.module";
 import { CronMailsService } from "../mails/services/cron-mails.service";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
+import { AppTestContext, AppTestHelper } from "../util/test";
 import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { UsersProviders } from "./users.providers";
 
 describe("Users Controller", () => {
-  it("should be defined", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  let controller: UsersController;
+  let context: AppTestContext;
+
+  beforeAll(async () => {
+    context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsersController],
       imports: [
         DatabaseModule,
@@ -26,9 +29,14 @@ describe("Users Controller", () => {
 
         ...UsersProviders,
       ],
-    }).compile();
+    });
+    controller = context.module.get<UsersController>(UsersController);
+  });
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestApp(context);
+  });
 
-    const controller = module.get<UsersController>(UsersController);
+  it("should be defined", async () => {
     expect(controller).toBeDefined();
   });
 });

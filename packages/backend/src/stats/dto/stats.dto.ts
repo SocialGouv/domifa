@@ -4,7 +4,7 @@ import { ApiProperty } from "@nestjs/swagger";
 export class StatsDto {
   @ApiProperty({
     type: String,
-    required: false,
+    required: true,
   })
   @IsDateString()
   @IsNotEmpty()
@@ -12,9 +12,9 @@ export class StatsDto {
 
   @ApiProperty({
     type: String,
-    required: false,
+    required: true,
   })
   @IsDateString()
-  @IsOptional()
+  @IsNotEmpty()
   public end!: string;
 }

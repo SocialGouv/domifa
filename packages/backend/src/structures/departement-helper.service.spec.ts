@@ -1,18 +1,20 @@
-import { Test, TestingModule } from "@nestjs/testing";
+import { AppTestContext, AppTestHelper } from "../util/test";
 import { DepartementHelper } from "./departement-helper.service";
 
 describe("Departement helper Service", () => {
   let service: DepartementHelper;
 
+  let context: AppTestContext;
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    context = await AppTestHelper.bootstrapTestApp({
       imports: [],
       providers: [DepartementHelper],
-    }).compile();
-    service = module.get<DepartementHelper>(DepartementHelper);
+    });
+    service = context.module.get<DepartementHelper>(DepartementHelper);
   });
-
-  afterAll(() => {});
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestApp(context);
+  });
 
   it("should be defined", () => {
     expect(service).toBeDefined();

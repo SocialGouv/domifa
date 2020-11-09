@@ -1,0 +1,49 @@
+version: "3.4"
+
+services:
+  mongo:
+    image: "mongo:4.2.8" # https://hub.docker.com/_/mongo/
+    container_name: domifa-mongo-test
+    volumes:
+      # /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
+      - ./_scripts/db/restore-mongo-travis-entrypoint.sh:/docker-entrypoint-initdb.d/restore-mongo-travis-entrypoint.sh
+      - ./_scripts/db/dump_tests.mongo.gz:/app/_scripts/db/dump_tests.mongo.gz:delegated
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD
+      - MONGO_INITDB_DATABASE
+    ports:
+      - 27018:27017
+    env_file:
+      - ./.env.test.travis
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 2s
+
+  
+  postgres:
+    image: postgres:10.14 # https://hub.docker.com/_/postgres
+    container_name: domifa-postgres-test
+    volumes:
+      # /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
+      - ./_scripts/db/restore-postgres-travis-entrypoint.sh:/docker-entrypoint-initdb.d/restore-postgres-travis-entrypoint.sh
+      - ./_scripts/db/dump_tests.postgres.dump:/app/_scripts/db/dump_tests.postgres.dump:delegated
+    ports:
+    - "5433:5432"
+    environment:
+      TZ: UTC
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file:
+      - ./.env.test.travis
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USERNAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 2s
