@@ -21,12 +21,7 @@ import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { Structure } from "../../../structures/structure.interface";
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
-import {
-  Filters,
-  Search,
-  SearchStatut,
-  SortValues,
-} from "../../interfaces/search";
+import { Filters, Search, SortValues } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
 
 @Component({
@@ -234,6 +229,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
     this.filters.page = 0;
     this.filters$.next(this.filters);
+    this.matomo.trackEvent("filters", element, value, 1);
   }
 
   public goToProfil(usager: Usager) {

@@ -314,11 +314,11 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public deleteInteraction(idInteraction: string) {
-    this.matomo.trackEvent("tests", "delete_interaction_profil", "null", 1);
+    this.matomo.trackEvent("profil", "interactions", "delete", 1);
     this.interactionService
       .delete(this.usager.id, idInteraction)
       .subscribe((usager: Usager) => {
-        this.usager = new Usager(usager);
+        this.usager = usager;
         this.getInteractions();
       });
   }
@@ -433,6 +433,11 @@ export class UsagersProfilComponent implements OnInit {
 
   public closeModal() {
     this.modalService.dismissAll();
+  }
+
+  public openEntretien() {
+    this.matomo.trackEvent("profil", "actions", "editEntretien", 1);
+    this.editEntretien = !this.editEntretien;
   }
 
   private getInteractions() {

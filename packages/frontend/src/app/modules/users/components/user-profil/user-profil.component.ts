@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { Router } from "@angular/router";
+
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
@@ -30,13 +29,11 @@ export class UserProfilComponent implements OnInit {
   public errorLabels: any;
 
   constructor(
-    public readonly authService: AuthService,
-    private readonly userService: UsersService,
-    private readonly structureService: StructureService,
-    private readonly router: Router,
+    public authService: AuthService,
+    private userService: UsersService,
+    private structureService: StructureService,
     private modalService: NgbModal,
     private notifService: ToastrService,
-    private formBuilder: FormBuilder,
     private titleService: Title
   ) {
     this.users = [];
