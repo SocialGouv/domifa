@@ -38,7 +38,6 @@ export async function bootstrapApplication() {
 
     const app = await NestFactory.create(AppModule);
     appHolder.app = app;
-
     app.useGlobalPipes(new ValidationPipe());
 
     const corsUrl = configService.get("DOMIFA_CORS_URL");

@@ -16,7 +16,6 @@ describe("Interactions Controller", () => {
   let controller: InteractionsController;
   let userService: UsersService;
   let usagerService: UsagersService;
-
   let context: AppTestContext;
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
