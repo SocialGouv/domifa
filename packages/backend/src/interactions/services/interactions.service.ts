@@ -4,18 +4,28 @@ import { Usager } from "../../usagers/interfaces/usagers";
 import { User } from "../../users/user.interface";
 import { InteractionDto } from "./../interactions.dto";
 import { Interaction } from "./../interactions.interface";
-import { type } from "os";
+
 import { InteractionType } from "./../InteractionType.type";
+import { InteractionsTable } from "../pg/InteractionsTable.typeorm";
+import { Interactions } from "../model";
+
+import { appTypeormManager } from "../../database/appTypeormManager.service";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class InteractionsService {
+  private interactionRepository: Repository<InteractionsTable>;
+
   constructor(
     @Inject("INTERACTION_MODEL")
     private readonly interactionModel: Model<Interaction>,
     @Inject("USAGER_MODEL")
     private readonly usagerModel: Model<Usager>
-  ) {}
-
+  ) {
+    this.interactionRepository = appTypeormManager.getRepository(
+      InteractionsTable
+    );
+  }
   public async create(
     usager: Usager,
     user: User,
@@ -71,16 +81,17 @@ export class InteractionsService {
       usager.lastInteraction.dateInteraction = new Date();
     }
 
-    const createdInteraction = new this.interactionModel(interactionDto);
+    interactionDto.structureId = user.structureId;
+    interactionDto.usagerId = usager.id;
+    interactionDto.userId = user.id;
+    interactionDto.userName = user.prenom + " " + user.nom;
 
-    createdInteraction.structureId = user.structureId;
-    createdInteraction.usagerId = usager.id;
-    createdInteraction.userId = user.id;
-    createdInteraction.userName = user.prenom + " " + user.nom;
+    const createdInteraction: Interactions = new InteractionsTable(
+      interactionDto
+    );
 
-    const savedInteraction = await createdInteraction.save();
-    usager.interactions.push(savedInteraction);
-
+    await this.interactionRepository.insert(createdInteraction);
+    /*
     return this.usagerModel
       .findOneAndUpdate(
         {
@@ -98,8 +109,9 @@ export class InteractionsService {
       )
       .select("-docsPath -interactions")
       .exec();
-  }
 
+      */
+  }
   public async find(usagerId: number, limit: number, user: User): Promise<any> {
     return this.interactionModel
       .find({

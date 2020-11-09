@@ -19,7 +19,6 @@ services:
     env_file:
       - ./.env
 
-  
   postgres:
     image: postgres:10.14
     container_name: domifa-postgres-dev
@@ -27,7 +26,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
       - $APP_DIR:/app:delegated
     ports:
-    - "5432:5432"
+      - "5432:5432"
     environment:
       TZ: UTC
       NODE_ENV: development
@@ -64,8 +63,8 @@ services:
     environment:
       TZ: Europe/Paris
     depends_on:
-    - "mongo"
-    - "postgres"
+      - "mongo"
+      - "postgres"
 
   domifa_frontend:
     container_name: domifa-frontend-dev

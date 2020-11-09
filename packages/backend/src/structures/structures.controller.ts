@@ -15,7 +15,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
-import { InteractionsService } from "../interactions/interactions.service";
+import { InteractionsService } from "../interactions/services/interactions.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 
 import { UsersService } from "../users/services/users.service";

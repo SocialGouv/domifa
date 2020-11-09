@@ -1,8 +1,9 @@
 import moment = require("moment");
-import { Column, Entity, Unique } from "typeorm";
+
+import { Column, Entity } from "typeorm";
 import { AppTypeormTable } from "../../database/AppTypeormTable.typeorm";
 
-import { Interactions } from ".";
+import { Interactions } from "../model";
 import { InteractionType } from "../InteractionType.type";
 
 // https://typeorm.io/#/entities/column-types-for-postgres

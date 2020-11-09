@@ -3,7 +3,7 @@ import { NestFactory } from "@nestjs/core";
 import {
   DocumentBuilder,
   SwaggerCustomOptions,
-  SwaggerModule
+  SwaggerModule,
 } from "@nestjs/swagger";
 import * as Sentry from "@sentry/node";
 import * as compression from "compression";
@@ -38,9 +38,12 @@ export async function bootstrapApplication() {
 
     const app = await NestFactory.create(AppModule);
     appHolder.app = app;
+
     app.useGlobalPipes(new ValidationPipe());
+
     const corsUrl = configService.get("DOMIFA_CORS_URL");
     const enableCorsSecurity = corsUrl && corsUrl.trim().length !== 0;
+
     if (enableCorsSecurity) {
       appLogger.warn(`Enable CORS from URL "${corsUrl}"`);
       app.enableCors({
@@ -107,4 +110,3 @@ function configureSwagger(app) {
     SwaggerModule.setup(DOMIFA_SWAGGER_CONTEXT, app, document, swaggerOptions);
   }
 }
-

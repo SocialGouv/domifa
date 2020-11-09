@@ -17,7 +17,7 @@ import { CurrentUser } from "../auth/current-user.decorator";
 import { Usager } from "../usagers/interfaces/usagers";
 import { User } from "../users/user.interface";
 import { InteractionDto } from "./interactions.dto";
-import { InteractionsService } from "./interactions.service";
+import { InteractionsService } from "./services/interactions.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { ApiTags } from "@nestjs/swagger";
 import { InteractionType } from "./InteractionType.type";

@@ -10,13 +10,13 @@ import { AppTestContext, AppTestHelper } from "../util/test";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsProviders } from "./interactions.providers";
-import { InteractionsService } from "./interactions.service";
+import { InteractionsService } from "./services/interactions.service";
 
 describe("Interactions Controller", () => {
   let controller: InteractionsController;
   let userService: UsersService;
   let usagerService: UsagersService;
-  
+
   let context: AppTestContext;
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({

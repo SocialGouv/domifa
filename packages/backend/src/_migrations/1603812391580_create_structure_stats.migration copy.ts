@@ -14,8 +14,8 @@ export class autoMigration1603812391580 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     appLogger.debug(`[Migration] UP "${this.name}"`);
 
-    await queryRunner.query(`CREATE TABLE "structure_stats" 
-      ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "_id" text, "nom" text NOT NULL, "date" date NOT NULL, "structureId" integer NOT NULL, "structureType" text NOT NULL, "departement" text NOT NULL, "ville" text NOT NULL, "capacite" integer, "codePostal" text NOT NULL, "questions" jsonb NOT NULL, 
+    await queryRunner.query(`CREATE TABLE "structure_stats"
+      ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "_id" text, "nom" text NOT NULL, "date" date NOT NULL, "structureId" integer NOT NULL, "structureType" text NOT NULL, "departement" text NOT NULL, "ville" text NOT NULL, "capacite" integer, "codePostal" text NOT NULL, "questions" jsonb NOT NULL,
        CONSTRAINT "UQ_102c69c2491695e723e3b7ed4ec" UNIQUE ("date", "structureId"),
        CONSTRAINT "PK_ed21deae6f1374998af1cb267b9" PRIMARY KEY ("uuid"))
        `);
@@ -52,8 +52,10 @@ export class autoMigration1603812391580 implements MigrationInterface {
           questions: stat.questions,
         });
 
-        const uniqueKey = `${pgStat.structureId
-          }_${pgStat.date.getUTCFullYear()}-${pgStat.date.getUTCMonth() + 1
+        const uniqueKey = `${
+          pgStat.structureId
+        }_${pgStat.date.getUTCFullYear()}-${
+          pgStat.date.getUTCMonth() + 1
         }-${pgStat.date.getUTCDate()}`;
         // we keep last value in case of duplicated stats
         acc[uniqueKey] = pgStat;
@@ -74,11 +76,13 @@ export class autoMigration1603812391580 implements MigrationInterface {
       await structureStatsRepository.insert(pgStat);
     }
 
-    await statsModel.db.dropCollection("stats");
+    //await statsModel.db.dropCollection("stats");
 
     appLogger.debug(
-      `[Migration] [SUCCESS] "${this.name
-      }" ${createdCount} StructureStatsTable created (${mongoStats.length - createdCount
+      `[Migration] [SUCCESS] "${
+        this.name
+      }" ${createdCount} StructureStatsTable created (${
+        mongoStats.length - createdCount
       } ignored)`
     );
   }

@@ -5,7 +5,7 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionsProviders } from "./interactions.providers";
-import { InteractionsService } from "./interactions.service";
+import { InteractionsService } from "./services/interactions.service";
 
 @Module({
   controllers: [InteractionsController],

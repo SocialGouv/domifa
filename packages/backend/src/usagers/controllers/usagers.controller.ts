@@ -22,7 +22,7 @@ import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { configService } from "../../config/config.service";
-import { InteractionsService } from "../../interactions/interactions.service";
+import { InteractionsService } from "../../interactions/services/interactions.service";
 import { User } from "../../users/user.interface";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { DecisionDto } from "../dto/decision.dto";
@@ -42,7 +42,7 @@ export class UsagersController {
     private readonly usagersService: UsagersService,
     private readonly interactionService: InteractionsService,
     private readonly cerfaService: CerfaService
-  ) { }
+  ) {}
 
   /* FORMULAIRE INFOS */
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
