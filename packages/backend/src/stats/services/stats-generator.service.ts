@@ -10,6 +10,7 @@ import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { appLogger } from "../../util";
 import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
+import { InteractionType } from "../../interactions/InteractionType.type";
 
 @Injectable()
 export class StatsGeneratorService {
@@ -775,18 +776,18 @@ export class StatsGeneratorService {
 
   public async totalInteraction(
     structureId: number,
-    type: string
+    interactionType: InteractionType
   ): Promise<number> {
-    if (type === "appel" || type === "visite") {
+    if (interactionType === "appel" || interactionType === "visite") {
       return this.interactionModel.countDocuments({
         structureId,
-        type,
+        interactionType,
       });
     } else {
       const search = {
         $match: {
           structureId,
-          type,
+          interactionType,
         },
       };
 

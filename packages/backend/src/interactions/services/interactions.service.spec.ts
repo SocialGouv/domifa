@@ -1,16 +1,16 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import * as mongoose from "mongoose";
-import { appTypeormManager } from "../database/appTypeormManager.service";
-import { DatabaseModule } from "../database/database.module";
-import { StructuresModule } from "../structures/structure.module";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { UsagersModule } from "../usagers/usagers.module";
-import { UsersService } from "../users/services/users.service";
-import { UsersModule } from "../users/users.module";
-import { AppTestContext, AppTestHelper } from '../util/test';
-import { InteractionDto } from "./interactions.dto";
-import { InteractionsModule } from "./interactions.module";
-import { InteractionsProviders } from "./interactions.providers";
+import { appTypeormManager } from "../../database/appTypeormManager.service";
+import { DatabaseModule } from "../../database/database.module";
+import { StructuresModule } from "../../structures/structure.module";
+import { UsagersService } from "../../usagers/services/usagers.service";
+import { UsagersModule } from "../../usagers/usagers.module";
+import { UsersService } from "../../users/services/users.service";
+import { UsersModule } from "../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../util/test";
+import { InteractionDto } from "../interactions.dto";
+import { InteractionsModule } from "../interactions.module";
+import { InteractionsProviders } from "../interactions.providers";
 import { InteractionsService } from "./interactions.service";
 
 describe("InteractionsService", () => {
@@ -29,7 +29,7 @@ describe("InteractionsService", () => {
         StructuresModule,
       ],
       providers: [InteractionsService, UsersService, ...InteractionsProviders],
-    }); 
+    });
     service = context.module.get<InteractionsService>(InteractionsService);
     userService = context.module.get<UsersService>(UsersService);
     usagerService = context.module.get<UsagersService>(UsagersService);

@@ -1,16 +1,15 @@
 import { Controller, Get, Param, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import * as XLSX from "xlsx";
+
 import { CurrentUser } from "../../auth/current-user.decorator";
 
-import { StructuresService } from "../../structures/services/structures.service";
 import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
 import { Usager } from "../interfaces/usagers";
-import * as labels from "../../stats/usagers.labels";
+
 import { Response } from "express";
 
-import { InteractionsService } from "../../interactions/interactions.service";
+import { InteractionsService } from "../../interactions/services/interactions.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import { UserRole } from "../../users/user-role.type";
@@ -18,8 +17,9 @@ import {
   structureUsagersExporter,
   StructureUsagersExportModel,
 } from "../../excel/export-structure-usagers";
-import moment = require("moment");
 import { appLogger } from "../../util";
+
+import moment = require("moment");
 
 @UseGuards(AuthGuard("jwt"), ResponsableGuard)
 @ApiTags("export")

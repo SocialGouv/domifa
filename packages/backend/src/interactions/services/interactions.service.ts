@@ -1,12 +1,11 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { Usager } from "../usagers/interfaces/usagers";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { User } from "../users/user.interface";
-import { InteractionDto } from "./interactions.dto";
-import { Interaction } from "./interactions.interface";
+import { Usager } from "../../usagers/interfaces/usagers";
+import { User } from "../../users/user.interface";
+import { InteractionDto } from "./../interactions.dto";
+import { Interaction } from "./../interactions.interface";
 import { type } from "os";
-import { InteractionType } from "./InteractionType.type";
+import { InteractionType } from "./../InteractionType.type";
 
 @Injectable()
 export class InteractionsService {
@@ -14,7 +13,7 @@ export class InteractionsService {
     @Inject("INTERACTION_MODEL")
     private readonly interactionModel: Model<Interaction>,
     @Inject("USAGER_MODEL")
-    private readonly usagerModel: Model<Usager>,
+    private readonly usagerModel: Model<Usager>
   ) {}
 
   public async create(
@@ -202,7 +201,7 @@ export class InteractionsService {
   public async totalInteraction(
     structureId: number,
     usagerId: number,
-    interactionType: string
+    interactionType: InteractionType
   ): Promise<number> {
     if (interactionType === "appel" || interactionType === "visite") {
       return this.interactionModel.countDocuments({
@@ -215,7 +214,7 @@ export class InteractionsService {
         $match: {
           structureId,
           usagerId,
-          type,
+          interactionType,
         },
       };
 
