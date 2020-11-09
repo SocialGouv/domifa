@@ -2,7 +2,7 @@
 env=$1
 
 PG_CONTAINER_NAME="$1"
-if [ -z "${PG_CONTAINER_NAME}" ] 
+if [ -z "${PG_CONTAINER_NAME}" ]
 then
   # default container name (when using test db in local dev mode)
   PG_CONTAINER_NAME=domifa-postgres-dev

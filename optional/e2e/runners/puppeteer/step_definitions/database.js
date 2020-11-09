@@ -6,7 +6,7 @@ const { Soit } = require("./_fr");
 const rootPath = path.join(__dirname, "../../../../../");
 
 Soit("une nouvelle base de donnée", async () => {
-  console.info(`------------------------------------------------`)
+  console.info(`------------------------------------------------`);
   const { output } = require("codeceptjs");
   {
     // restore POSTGRES DB
@@ -42,5 +42,5 @@ Soit("une nouvelle base de donnée", async () => {
     output.log(await execa("sleep", ["2"]));
   }
 
-  console.info(`------------------------------------------------`)
+  console.info(`------------------------------------------------`);
 });
