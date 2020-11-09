@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
-  NgbModal,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 
@@ -12,7 +11,6 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
-import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/modules/users/interfaces/user";
 
@@ -184,7 +182,7 @@ export class UsagersFormComponent implements OnInit {
           if (usagersDoublon.length !== 0) {
             this.notifService.warning("Un homonyme potentiel a été détecté !");
             usagersDoublon.forEach((doublon) => {
-              this.doublons.push(new Usager(doublon));
+              this.doublons.push(doublon);
             });
           }
         });

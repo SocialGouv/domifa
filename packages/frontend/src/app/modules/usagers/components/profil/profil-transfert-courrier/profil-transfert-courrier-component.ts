@@ -12,6 +12,7 @@ import { LoadingService } from "../../../../loading/loading.service";
 import { Options } from "../../../interfaces/options";
 import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
+import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   selector: "app-profil-transfert-courrier",
@@ -38,7 +39,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     public authService: AuthService,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
-    private usagerService: UsagerService
+    private usagerService: UsagerService,
+    private matomo: MatomoTracker
   ) {
     this.hideForm();
     this.minDateToday = minDateToday;
@@ -103,6 +105,9 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     this.usagerService.editTransfert(formValue, this.usager.id).subscribe(
       (usager: any) => {
         this.hideForm();
+
+        this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
+
         this.usager.options = new Options(usager.options);
         this.notifService.success("Transfert ajouté avec succès");
       },
@@ -116,6 +121,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     this.usagerService.deleteTransfert(this.usager.id).subscribe(
       (usager: any) => {
         this.hideForm();
+        this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
         this.transfertForm.reset();
         this.usager.options = usager.options;
         this.notifService.success("Transfert supprimé avec succès");

@@ -16,6 +16,7 @@ import { LoadingService } from "../../../../loading/loading.service";
 import { Options } from "../../../interfaces/options";
 import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
+import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   selector: "app-profil-procuration-courrier",
@@ -45,7 +46,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     public authService: AuthService,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
-    private usagerService: UsagerService
+    private usagerService: UsagerService,
+    private matomo: MatomoTracker
   ) {
     this.hideForm();
     this.minDateToday = minDateToday;
@@ -120,6 +122,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
         this.hideForm();
         this.usager.options = new Options(usager.options);
         this.notifService.success("Procuration ajoutée avec succès");
+        this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
       },
       (error) => {
         this.notifService.error("Impossible d'ajouter la procuration'");
@@ -134,6 +137,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
         this.procurationForm.reset();
         this.usager.options = usager.options;
         this.notifService.success("Procuration supprimée avec succès");
+        this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
       },
       (error) => {
         this.notifService.error("Impossible de supprimer la procuration");

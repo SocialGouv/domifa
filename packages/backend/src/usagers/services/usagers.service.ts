@@ -249,7 +249,7 @@ export class UsagersService {
 
   public async agenda(user: User) {
     return this.usagerModel
-      .find({ "rdv.dateRdv": { $gte: new Date() }, "rdv.userId": user.id })
+      .find({ "rdv.dateRdv": { $gt: new Date() }, "rdv.userId": user.id })
       .sort({ "rdv.dateRdv": -1 })
       .select("nom prenom id rdv")
       .lean()
