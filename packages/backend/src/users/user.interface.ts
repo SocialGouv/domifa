@@ -3,6 +3,7 @@ import { Structure } from "../structures/structure-interface";
 import { UserRole } from "./user-role.type";
 
 export interface User extends Document {
+  // _id: any;
   id: number;
   prenom: string;
   nom: string;
