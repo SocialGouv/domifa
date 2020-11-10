@@ -1,4 +1,5 @@
-import { Directive, HostListener, ElementRef, Input } from "@angular/core";
+import { Directive, ElementRef, HostListener, Input } from "@angular/core";
+import { stringCleaner } from "../../../shared/string-cleaner.service";
 @Directive({
   selector: "[cleanStr]",
 })
@@ -19,9 +20,9 @@ export class CleanStrDirective {
 
   validateFields(event) {
     setTimeout(() => {
-      this.el.nativeElement.value = this.el.nativeElement.value
-        .replace(/[&\/\\#,+()$~%.\'\":*?<>{}]/gi, "")
-        .replace(/\s/g, "");
+      this.el.nativeElement.value = stringCleaner.cleanString(
+        this.el.nativeElement.value
+      );
       event.preventDefault();
     }, 100);
   }
