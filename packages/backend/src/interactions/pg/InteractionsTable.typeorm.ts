@@ -1,6 +1,4 @@
-import moment = require("moment");
-
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 import { AppTypeormTable } from "../../database/AppTypeormTable.typeorm";
 
 import { Interactions } from "../model";
@@ -14,21 +12,24 @@ export class InteractionsTable
   @Column({ type: "text", nullable: true })
   _id: any; // obsolete mongo id: use `uuid` instead
 
-  @Column({ type: "date", default: () => moment().utc().toDate() })
+  @Column({ type: "date", default: "now()" })
   dateInteraction: Date;
 
   @Column({ type: "integer" })
   nbCourrier: number;
 
+  @Index()
   @Column({ type: "integer" })
   structureId: number;
 
   @Column({ type: "text" })
   type: InteractionType;
 
+  @Index()
   @Column({ type: "integer" })
   usagerId: number;
 
+  @Index()
   @Column({ type: "integer" })
   userId: number;
 

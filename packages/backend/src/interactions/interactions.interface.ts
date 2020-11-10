@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
 import { InteractionType } from "./InteractionType.type";
 
-export interface Interaction extends Document {
+export interface InteractionDocument extends Document {
   type: InteractionType;
   dateInteraction: Date;
   content?: string;
@@ -10,4 +10,5 @@ export interface Interaction extends Document {
   structureId: number;
   userName?: string;
   userId: number;
+  migrated?: boolean;
 }

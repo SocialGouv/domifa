@@ -3,7 +3,7 @@ import { Model } from "mongoose";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { User } from "../../users/user.interface";
 import { InteractionDto } from "./../interactions.dto";
-import { Interaction } from "./../interactions.interface";
+import { InteractionDocument } from "./../interactions.interface";
 
 import { InteractionType } from "./../InteractionType.type";
 import { InteractionsTable } from "../pg/InteractionsTable.typeorm";
@@ -18,7 +18,7 @@ export class InteractionsService {
 
   constructor(
     @Inject("INTERACTION_MODEL")
-    private readonly interactionModel: Model<Interaction>,
+    private readonly interactionModel: Model<InteractionDocument>,
     @Inject("USAGER_MODEL")
     private readonly usagerModel: Model<Usager>
   ) {
@@ -128,7 +128,7 @@ export class InteractionsService {
     usagerId: number,
     interactionId: string,
     user: User
-  ): Promise<Interaction | null> {
+  ): Promise<InteractionDocument | null> {
     return this.interactionModel
       .findOne({
         _id: interactionId,
@@ -141,7 +141,7 @@ export class InteractionsService {
   public async deuxDerniersPassages(
     usagerId: number,
     user: User
-  ): Promise<Interaction[] | [] | null> {
+  ): Promise<InteractionDocument[] | [] | null> {
     return this.interactionModel
       .find({
         structureId: user.structureId,
@@ -161,7 +161,7 @@ export class InteractionsService {
     typeInteraction: InteractionType,
     user: User,
     isIn: string
-  ): Promise<Interaction | null> {
+  ): Promise<InteractionDocument | null> {
     const dateQuery =
       isIn === "out" ? { $lte: dateInteraction } : { $gte: dateInteraction };
 
