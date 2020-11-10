@@ -4,13 +4,6 @@
 
 Configurer `optional/e2e/.env` à partir de `optional/e2e/.env.e2e.local.example.ini`.
 
-__NOTE__: sous linux, si la sandbox ne se lance pas (valable jusqu'au prochain rebot):
-
-```bash
-# https://stackoverflow.com/questions/53681997/puppeteer-sandbox-no-usable-sandbox
-sudo sysctl -w kernel.unprivileged_userns_clone=1
-```
-
 ## Install
 
 ```sh

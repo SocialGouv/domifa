@@ -93,10 +93,13 @@ export class StatsController {
     const usagers = await this.statsGeneratorService.countUsagers();
     const ayantsDroits = await this.statsGeneratorService.countAyantsDroits();
 
+    const totalUsagers =
+      ayantsDroits.length === 0 ? usagers : usagers + ayantsDroits[0].count;
+
     const statsHome = {
       structures: await this.statsGeneratorService.countStructures(),
       interactions: await this.statsGeneratorService.countInteractions(),
-      usagers: usagers + ayantsDroits[0].count,
+      usagers: totalUsagers,
     };
     return statsHome;
   }

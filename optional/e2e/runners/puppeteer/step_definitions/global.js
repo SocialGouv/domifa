@@ -4,7 +4,7 @@ const { I } = inject();
 // Contexte : arriver sur le site
 Soit("un navigateur web sur le site", () => {
   I.amOnPage("/");
-  I.click("Continuer sur Domifa");
+  tryTo(() => I.click("Continuer sur Domifa"));
 });
 
 // Contexte : connexion
