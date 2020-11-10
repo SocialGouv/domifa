@@ -1,7 +1,8 @@
-import { AppEntity } from "../../database/AppEntity.model";
-import { UserRole } from "../user-role.type";
+import { Structure } from "../../../structures/structure-interface";
+import { AppEntity } from "../_core/AppEntity.type";
 import { AppUserMails } from "./AppUserMails.type";
 import { AppUserTokens } from "./AppUserTokens.type";
+import { UserRole } from "./UserRole.type";
 
 export type AppUser = AppEntity & {
   //  public _id: ObjectID;
@@ -30,4 +31,6 @@ export type AppUser = AppEntity & {
 
   mail: AppUserMails;
   temporaryTokens: AppUserTokens; // used on creation & reset password
+
+  structure?: Structure;
 };

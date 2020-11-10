@@ -1,5 +1,5 @@
-import { AppEntity } from "../../database/AppEntity.model";
-import { StructureType } from "../../structures/StructureType.type";
+import { StructureType } from "../structure/StructureType.type";
+import { AppEntity } from "../_core/AppEntity.type";
 import { StructureStatsQuestions } from "./StructureStatsQuestions.type";
 
 export type StructureStats = AppEntity & {

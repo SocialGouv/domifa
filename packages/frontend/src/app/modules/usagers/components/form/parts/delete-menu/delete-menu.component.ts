@@ -1,20 +1,11 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from "@angular/core";
-
+import { Component, Input, OnInit, TemplateRef } from "@angular/core";
+import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-
-import { User } from "src/app/modules/users/interfaces/user";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AppUser } from "../../../../../../../_common/model";
 
 @Component({
   providers: [UsagerService],
@@ -24,7 +15,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 export class DeleteMenuComponent implements OnInit {
   @Input() public usager!: Usager;
 
-  public me: User;
+  public me: AppUser;
   public modal: any;
 
   constructor(
@@ -34,7 +25,7 @@ export class DeleteMenuComponent implements OnInit {
     private usagerService: UsagerService,
     private notifService: ToastrService
   ) {
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
   }

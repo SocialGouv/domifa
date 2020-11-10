@@ -3,20 +3,20 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators,
+  Validators
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { departements } from "src/app/shared/departements";
 import { regexp } from "src/app/shared/validators";
+import { AppUser } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
-import { User } from "src/app/modules/users/interfaces/user";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-structures-edit",
@@ -37,7 +37,7 @@ export class StructuresEditComponent implements OnInit {
   public hardResetCode: boolean;
   public hardResetForm!: FormGroup;
 
-  public me: User;
+  public me: AppUser;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,7 +52,7 @@ export class StructuresEditComponent implements OnInit {
     this.showHardReset = false;
     this.hardResetCode = null;
 
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
   }

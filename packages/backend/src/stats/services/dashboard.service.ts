@@ -1,13 +1,13 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { StructureType } from "../../structures/StructureType.type";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 import { Interaction } from "../../interactions/interactions.interface";
 import { Structure } from "../../structures/structure-interface";
-
 import { Usager } from "../../usagers/interfaces/usagers";
 import { User } from "../../users/user.interface";
+import { StructureType } from "../../_common/model";
 import { StatsGeneratorService } from "./stats-generator.service";
+
 
 @Injectable()
 export class DashboardService {

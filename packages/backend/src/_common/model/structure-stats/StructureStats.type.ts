@@ -1,6 +1,6 @@
-import { StructureStatsQuestions } from ".";
-import { AppEntity } from "../../shared/model";
-import { StructureType } from "./StructureType.type";
+import { StructureType } from "../structure/StructureType.type";
+import { AppEntity } from "../_core/AppEntity.type";
+import { StructureStatsQuestions } from "./StructureStatsQuestions.type";
 
 export type StructureStats = AppEntity & {
   //  public _id: ObjectID;

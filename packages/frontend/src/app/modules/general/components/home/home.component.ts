@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { HomeService } from "./home.service";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { User } from "src/app/modules/users/interfaces/user";
+import { AppUser } from "../../../../../_common/model";
+import { HomeService } from "./home.service";
 
 @Component({
   selector: "app-home",
@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   public stats: any;
   public countOptions: any;
 
-  public user: User | null;
+  public user: AppUser | null;
 
   constructor(
     private titleService: Title,

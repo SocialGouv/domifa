@@ -1,4 +1,4 @@
-import { UserRole } from "../users/user-role.type";
+import { UserRole } from "../_common/model";
 
 export interface JwtPayload {
   email: string;

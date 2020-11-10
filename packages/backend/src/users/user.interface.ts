@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 import { Structure } from "../structures/structure-interface";
-import { UserRole } from "./user-role.type";
+import { UserRole } from "../_common/model";
 
 export interface User extends Document {
   // _id: any;

@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { appLogger } from "../../util";
-import { UserRole } from "../../users/user-role.type";
 
 @Injectable()
 export class AdminGuard implements CanActivate {

@@ -3,15 +3,15 @@ import * as bcrypt from "bcryptjs";
 import * as crypto from "crypto";
 import { Model } from "mongoose";
 import { Structure } from "../../structures/structure-interface";
+import { mongoSelectAttributes } from "../../util/mongoSelectAttributes.fn";
+import { UserProfile } from "../../_common/model";
+import { EditPasswordDto } from "../dto/edit-password.dto";
+import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 import { ResetPasswordDto } from "../dto/reset-password.dto";
 import { UserDto } from "../dto/user.dto";
 import { User } from "../user.interface";
-import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
-import { EditPasswordDto } from "../dto/edit-password.dto";
-import { UserProfil } from "../user-profil.type";
-import { mongoSelectAttributes } from "../../util/mongoSelectAttributes.fn";
 
-const USER_PROFILE_ATTRIBUTES = mongoSelectAttributes<UserProfil>(
+const USER_PROFILE_ATTRIBUTES = mongoSelectAttributes<UserProfile>(
   "id",
   "email",
   "nom",
@@ -19,7 +19,7 @@ const USER_PROFILE_ATTRIBUTES = mongoSelectAttributes<UserProfil>(
   "role",
   "verified"
 );
-const ADMIN_EMAILS_ATTRIBUTES = mongoSelectAttributes<UserProfil>(
+const ADMIN_EMAILS_ATTRIBUTES = mongoSelectAttributes<UserProfile>(
   "email",
   "nom",
   "prenom"
@@ -68,7 +68,7 @@ export class UsersService {
     userId: number,
     structureId: number,
     data: any
-  ): Promise<UserProfil> {
+  ): Promise<UserProfile> {
     return this.userModel
       .findOneAndUpdate(
         { id: userId, structureId },

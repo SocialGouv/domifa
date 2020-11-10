@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-
+import { Title } from "@angular/platform-browser";
+import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-
+import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+import { AppUser } from "../../../../../../../_common/model";
 
-import { ToastrService } from "ngx-toastr";
 
-import { User } from "src/app/modules/users/interfaces/user";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Router, ActivatedRoute } from "@angular/router";
-import { Title } from "@angular/platform-browser";
+
+
 
 @Component({
   providers: [UsagerService],
@@ -26,7 +26,7 @@ export class EntretienFormComponent implements OnInit {
   @Input() public editEntretien!: boolean;
   @Output() public editEntretienChange = new EventEmitter<boolean>();
 
-  public me: User;
+  public me: AppUser;
 
   constructor(
     private usagerService: UsagerService,
@@ -37,7 +37,7 @@ export class EntretienFormComponent implements OnInit {
     private titleService: Title,
     private route: ActivatedRoute
   ) {
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
   }

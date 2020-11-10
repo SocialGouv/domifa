@@ -1,7 +1,10 @@
 import { Column, Entity, Index, Unique } from "typeorm";
 import { AppTypeormTable } from "../../database/AppTypeormTable.typeorm";
-import { StructureType } from "../../structures/StructureType.type";
-import { StructureStats, StructureStatsQuestions } from "../model";
+import {
+  StructureStats,
+
+  StructureStatsQuestions, StructureType
+} from "../../_common/model";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure_stats" })

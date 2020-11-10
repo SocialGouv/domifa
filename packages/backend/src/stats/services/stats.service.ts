@@ -7,10 +7,10 @@ import {
 } from "typeorm";
 import { appTypeormManager } from "../../database/appTypeormManager.service";
 import { appLogger } from "../../util";
-import { StructureStats } from "../model";
 import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
 
 import moment = require("moment");
+import { StructureStats } from '../../_common/model';
 
 @Injectable()
 export class StatsService {

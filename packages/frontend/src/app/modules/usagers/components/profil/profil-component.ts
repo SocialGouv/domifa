@@ -1,42 +1,34 @@
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
-
-import { interactionsLabels } from "../../interactions.labels";
-import * as usagersLabels from "../../usagers.labels";
-
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
-  NgbModal,
   NgbDateStruct,
+  NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
-
-import { LoadingService } from "../../../loading/loading.service";
-import { DocumentService } from "../../services/document.service";
+import { MatomoTracker } from "ngx-matomo";
+import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { InteractionService } from "../../services/interaction.service";
-import { UsagerService } from "../../services/usager.service";
-
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
+import { Structure } from "src/app/modules/structures/structure.interface";
+import {
+  formatDateToNgb,
+  minDateNaissance
+} from "src/app/shared/bootstrap-util";
 import { regexp } from "src/app/shared/validators";
-
+import { AppUser, UserRole } from "../../../../../_common/model";
+import { LoadingService } from "../../../loading/loading.service";
+import { interactionsLabels } from "../../interactions.labels";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction, InteractionTypes } from "../../interfaces/interaction";
 import { Options } from "../../interfaces/options";
-import { Structure } from "src/app/modules/structures/structure.interface";
 import { Usager } from "../../interfaces/usager";
-
-import {
-  minDateNaissance,
-  formatDateToNgb,
-} from "src/app/shared/bootstrap-util";
-import { Title } from "@angular/platform-browser";
-import { MatomoTracker } from "ngx-matomo";
-import { User } from "src/app/modules/users/interfaces/user";
-import { UserRole } from "src/app/modules/users/interfaces/user-role.type";
+import { InteractionService } from "../../services/interaction.service";
+import { UsagerService } from "../../services/usager.service";
+import * as usagersLabels from "../../usagers.labels";
 
 @Component({
   providers: [
@@ -86,7 +78,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public today: Date;
 
-  public me: User;
+  public me: AppUser;
 
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
@@ -142,7 +134,7 @@ export class UsagersProfilComponent implements OnInit {
       CREATION: "Création",
     };
 
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
   }

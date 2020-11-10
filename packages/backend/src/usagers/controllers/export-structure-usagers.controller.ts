@@ -13,13 +13,13 @@ import { Response } from "express";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-import { UserRole } from "../../users/user-role.type";
 import {
   structureUsagersExporter,
   StructureUsagersExportModel,
 } from "../../excel/export-structure-usagers";
 import moment = require("moment");
 import { appLogger } from "../../util";
+import { UserRole } from '../../_common/model';
 
 @UseGuards(AuthGuard("jwt"), ResponsableGuard)
 @ApiTags("export")

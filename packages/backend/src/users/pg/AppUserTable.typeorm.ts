@@ -1,7 +1,11 @@
 import { Column, Entity, Index } from "typeorm";
 import { AppTypeormTable } from "../../database/AppTypeormTable.typeorm";
-import { AppUser, AppUserMails, AppUserTokens } from "../model";
-import { UserRole } from "../user-role.type";
+import {
+  AppUser,
+  AppUserMails,
+  AppUserTokens,
+  UserRole
+} from "../../_common/model";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "app_user" })
