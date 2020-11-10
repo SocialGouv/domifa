@@ -9,7 +9,8 @@ mongo domifa_tests --eval "db.runCommand( { dropAllUsersFromDatabase: 1, writeCo
 # sleep 2
 mongo domifa_tests --eval "db.dropDatabase()"
 # sleep 2
-mongo domifa_tests --eval "use domifa_tests db.createUser({user:'test', pwd:'test', roles:[{role:'readWrite', db:'domifa_tests'}] });"
+# mongo domifa_tests --eval "use domifa_tests db.createUser({user:'test', pwd:'test', roles:[{role:'readWrite', db:'domifa_tests'}] });"
+mongo domifa_tests --eval "db.createUser({user:'test', pwd:'test', roles:[{role:'readWrite', db:'domifa_tests'}] });"
 # sleep 2
 mongorestore --gzip --archive=/app/_scripts/db/dump_tests.mongo.gz
 # sleep 2
