@@ -17,6 +17,7 @@ Scénario:
 
   Alors je clique sur "Activer le transfert de courrier"
 
+  Alors j'attends "2" secondes
   Alors je rentre "Un établissement qui veut recoit des transferts" dans "Nom de l'établissement"
   Alors je rentre "Test lng" dans "Adresse de l'établissement"
 
