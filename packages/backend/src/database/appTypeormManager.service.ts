@@ -61,8 +61,11 @@ async function connect() {
     database: configService.get("POSTGRES_DATABASE"),
   };
 
+<<<<<<< HEAD
   console.log(pgConfig);
 >>>>>>> draft(interactions): migration du modele
+=======
+>>>>>>> draft(migration): migration des interactions
   appLogger.warn(
     `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
   );
@@ -106,7 +109,6 @@ async function connect() {
     ...connectOptionsPaths,
   };
 
-  console.log(connectOptions);
   try {
     connectionHolder.connection = await createConnection(connectOptions);
     return connectionHolder.connection;

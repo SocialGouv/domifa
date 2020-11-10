@@ -1,6 +1,4 @@
-import moment = require("moment");
-
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 import { AppTypeormTable } from "../../database/AppTypeormTable.typeorm";
 
 import { Interactions } from "../model";

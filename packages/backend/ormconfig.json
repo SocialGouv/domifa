@@ -1,25 +1,19 @@
 {
-   "name": "default",
-   "type": "postgres",
-   "synchronize": true,
-   "logging": false,
-   "host": "postgres",
-   "port": 5432,
-   "username": "domifa_dev",
-   "password": "NDqtepKIQb6yhjunFfWiiVA4xv53R69Qi5yT9pVQ24mHz3JMkqA8LdEamxQn23ue",
-   "database": "domifa_dev",
-   "entities": [
-      "src/**/pg/*Table.typeorm.ts"
-   ],
-   "migrations": [
-      "src/_migrations/**/*.ts"
-   ],
-   "subscribers": [
-      "src/**/*Subscriber.typeorm.ts"
-   ],
-   "cli": {
-      "entitiesDir": "src",
-      "migrationsDir": "src/_migrations",
-      "subscribersDir": "src"
-   }
+  "name": "default",
+  "type": "postgres",
+  "synchronize": true,
+  "logging": false,
+  "host": "localhost",
+  "port": 5433,
+  "username": "domifa_tests",
+  "password": "BfYK51e6RUmyZnSgsL9BAQgu6f6ciKgTFB68",
+  "database": "domifa_tests",
+  "entities": ["src/**/pg/*Table.typeorm.ts"],
+  "migrations": ["src/_migrations/**/*.ts"],
+  "subscribers": ["src/**/*Subscriber.typeorm.ts"],
+  "cli": {
+    "entitiesDir": "src",
+    "migrationsDir": "src/_migrations",
+    "subscribersDir": "src"
+  }
 }
