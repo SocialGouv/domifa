@@ -4,8 +4,10 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsEmpty,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { InteractionType } from "./InteractionType.type";
 
 export class InteractionDto {
   @ApiProperty({
@@ -35,7 +37,7 @@ export class InteractionDto {
     "npai",
   ])
   @IsNotEmpty()
-  public type!: string;
+  public type!: InteractionType;
 
   @ApiProperty({
     type: String,
@@ -67,4 +69,15 @@ export class InteractionDto {
   @IsOptional()
   @IsNumber()
   public nbCourrier!: number;
+
+  @IsEmpty()
+  public structureId: number;
+  @IsEmpty()
+  public usagerId: number;
+  @IsEmpty()
+  public userId: number;
+  @IsEmpty()
+  public userName: string;
+  @IsEmpty()
+  public dateInteraction: Date;
 }

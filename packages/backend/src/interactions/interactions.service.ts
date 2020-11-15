@@ -1,22 +1,30 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
+
+import { Repository } from "typeorm";
+import { InteractionsTable } from "./pg/InteractionsTable.typeorm";
+import { InteractionDocument } from "./interactions.interface";
 import { Usager } from "../usagers/interfaces/usagers";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { User } from "../users/user.interface";
+import { appTypeormManager } from "../database/appTypeormManager.service";
 import { InteractionDto } from "./interactions.dto";
-import { Interaction } from "./interactions.interface";
-import { type } from "os";
+import { Interactions } from "./model";
 import { InteractionType } from "./InteractionType.type";
+import { User } from "../users/user.interface";
 
 @Injectable()
 export class InteractionsService {
+  private interactionRepository: Repository<InteractionsTable>;
+
   constructor(
     @Inject("INTERACTION_MODEL")
-    private readonly interactionModel: Model<Interaction>,
+    private readonly interactionModel: Model<InteractionDocument>,
     @Inject("USAGER_MODEL")
-    private readonly usagerModel: Model<Usager>,
-  ) {}
-
+    private readonly usagerModel: Model<Usager>
+  ) {
+    this.interactionRepository = appTypeormManager.getRepository(
+      InteractionsTable
+    );
+  }
   public async create(
     usager: Usager,
     user: User,
@@ -72,16 +80,17 @@ export class InteractionsService {
       usager.lastInteraction.dateInteraction = new Date();
     }
 
-    const createdInteraction = new this.interactionModel(interactionDto);
+    interactionDto.structureId = user.structureId;
+    interactionDto.usagerId = usager.id;
+    interactionDto.userId = user.id;
+    interactionDto.userName = user.prenom + " " + user.nom;
 
-    createdInteraction.structureId = user.structureId;
-    createdInteraction.usagerId = usager.id;
-    createdInteraction.userId = user.id;
-    createdInteraction.userName = user.prenom + " " + user.nom;
+    const createdInteraction: Interactions = new InteractionsTable(
+      interactionDto
+    );
 
-    const savedInteraction = await createdInteraction.save();
-    usager.interactions.push(savedInteraction);
-
+    await this.interactionRepository.insert(createdInteraction);
+    /*
     return this.usagerModel
       .findOneAndUpdate(
         {
@@ -99,8 +108,8 @@ export class InteractionsService {
       )
       .select("-docsPath -interactions")
       .exec();
+      */
   }
-
   public async find(usagerId: number, limit: number, user: User): Promise<any> {
     return this.interactionModel
       .find({
@@ -117,7 +126,7 @@ export class InteractionsService {
     usagerId: number,
     interactionId: string,
     user: User
-  ): Promise<Interaction | null> {
+  ): Promise<InteractionDocument | null> {
     return this.interactionModel
       .findOne({
         _id: interactionId,
@@ -130,7 +139,7 @@ export class InteractionsService {
   public async deuxDerniersPassages(
     usagerId: number,
     user: User
-  ): Promise<Interaction[] | [] | null> {
+  ): Promise<InteractionDocument[] | [] | null> {
     return this.interactionModel
       .find({
         structureId: user.structureId,
@@ -150,7 +159,7 @@ export class InteractionsService {
     typeInteraction: InteractionType,
     user: User,
     isIn: string
-  ): Promise<Interaction | null> {
+  ): Promise<InteractionDocument | null> {
     const dateQuery =
       isIn === "out" ? { $lte: dateInteraction } : { $gte: dateInteraction };
 
@@ -202,7 +211,7 @@ export class InteractionsService {
   public async totalInteraction(
     structureId: number,
     usagerId: number,
-    interactionType: string
+    interactionType: InteractionType
   ): Promise<number> {
     if (interactionType === "appel" || interactionType === "visite") {
       return this.interactionModel.countDocuments({
@@ -215,7 +224,7 @@ export class InteractionsService {
         $match: {
           structureId,
           usagerId,
-          type,
+          interactionType,
         },
       };
 

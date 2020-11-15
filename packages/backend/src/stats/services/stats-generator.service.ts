@@ -4,7 +4,7 @@ import * as moment from "moment";
 import { Model } from "mongoose";
 import { Repository } from "typeorm";
 import { appTypeormManager } from "../../database/appTypeormManager.service";
-import { Interaction } from "../../interactions/interactions.interface";
+import { InteractionDocument } from "../../interactions/interactions.interface";
 import { StructuresService } from "../../structures/services/structures.service";
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
@@ -25,7 +25,7 @@ export class StatsGeneratorService {
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
     @Inject("INTERACTION_MODEL")
-    private interactionModel: Model<Interaction>,
+    private interactionModel: Model<InteractionDocument>,
     private readonly structureService: StructuresService
   ) {
     this.demain = new Date();

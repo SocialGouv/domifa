@@ -2,8 +2,8 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { StructureType } from "../../structures/StructureType.type";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
-import { Interaction } from "../../interactions/interactions.interface";
 import { Structure } from "../../structures/structure-interface";
+import { InteractionDocument } from "../../interactions/interactions.interface";
 
 import { Usager } from "../../usagers/interfaces/usagers";
 import { User } from "../../users/user.interface";
@@ -25,7 +25,7 @@ export class DashboardService {
     @Inject("USER_MODEL")
     private userModel: Model<User>,
     @Inject("INTERACTION_MODEL")
-    private interactionModel: Model<Interaction>,
+    private interactionModel: Model<InteractionDocument>,
     private statsGeneratorService: StatsGeneratorService
   ) {
     this.today = new Date();
