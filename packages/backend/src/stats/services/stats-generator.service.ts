@@ -4,7 +4,6 @@ import * as moment from "moment";
 import { Model } from "mongoose";
 import { Repository } from "typeorm";
 import { appTypeormManager } from "../../database/appTypeormManager.service";
-
 import { StructuresService } from "../../structures/services/structures.service";
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
@@ -27,6 +26,11 @@ export class StatsGeneratorService {
     private structureModel: Model<Structure>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
+<<<<<<< HEAD
+=======
+    @Inject("INTERACTION_MODEL")
+    private interactionModel: Model<InteractionDocument>,
+>>>>>>> fix: migration interactions init
     private readonly structureService: StructuresService
   ) {
     this.demain = new Date();

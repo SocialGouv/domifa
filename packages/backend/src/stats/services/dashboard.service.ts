@@ -3,9 +3,12 @@ import { Model } from "mongoose";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 
 import { Structure } from "../../structures/structure-interface";
+
+import { InteractionDocument } from "../../interactions/interactions.interface";
+
 import { Usager } from "../../usagers/interfaces/usagers";
 import { usersRepository } from "../../users/pg/users-repository.service";
-import { StructureType } from "../../_common/model";
+
 import { StatsGeneratorService } from "./stats-generator.service";
 import { Repository } from "typeorm";
 import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
@@ -243,6 +246,7 @@ export class DashboardService {
     const structuresCountByType = await this.getStructuresCountByType();
     const usersCount = await usersRepository.count();
     const docsCount = await this.getDocsCount();
+
     const interactionsCountByStatut = await this.getInteractionsCountByType();
 
     const stats: StatsDeploiementExportModel = {

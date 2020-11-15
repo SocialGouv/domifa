@@ -7,6 +7,7 @@ import { InteractionsTable } from "../interactions/pg/InteractionsTable.typeorm"
 
 import { appHolder } from "../appHolder";
 import { appLogger } from "../util";
+import moment = require("moment");
 
 export class autoMigration1605001375177 implements MigrationInterface {
   public name = "autoMigration1605001375177";

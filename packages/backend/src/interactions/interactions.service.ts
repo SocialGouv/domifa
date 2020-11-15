@@ -5,11 +5,13 @@ import { Repository, FindConditions, LessThan, MoreThan } from "typeorm";
 import { InteractionsTable } from "./pg/InteractionsTable.typeorm";
 import { InteractionDocument } from "./interactions.interface";
 import { Usager } from "../usagers/interfaces/usagers";
-import { appTypeormManager } from "../database/appTypeormManager.service";
+
 import { InteractionDto } from "./interactions.dto";
 import { Interactions } from "./model/interactions.type";
 import { InteractionType } from "./InteractionType.type";
 import { User } from "../users/user.interface";
+
+import { appTypeormManager } from "../database/appTypeormManager.service";
 
 @Injectable()
 export class InteractionsService {
@@ -89,6 +91,7 @@ export class InteractionsService {
 
     await this.interactionRepository.insert(createdInteraction);
 
+    /*
     return this.usagerModel
       .findOneAndUpdate(
         { _id: usager._id },
@@ -97,6 +100,7 @@ export class InteractionsService {
       )
       .select("-docsPath -interactions")
       .exec();
+      */
   }
 
   public async find(usagerId: number, limit: number, user: User): Promise<any> {
