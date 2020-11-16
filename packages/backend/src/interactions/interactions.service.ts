@@ -1,7 +1,9 @@
 import { HttpException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 
-import { Repository, FindConditions, LessThan, MoreThan } from "typeorm";
+import { AppUser, UserProfile, AppAuthUser } from "../_common/model";
+
+import { Repository, FindConditions } from "typeorm";
 import { InteractionsTable } from "./pg/InteractionsTable.typeorm";
 import { InteractionDocument } from "./interactions.interface";
 import { Usager } from "../usagers/interfaces/usagers";
@@ -91,7 +93,6 @@ export class InteractionsService {
 
     await this.interactionRepository.insert(createdInteraction);
 
-    /*
     return this.usagerModel
       .findOneAndUpdate(
         { _id: usager._id },
@@ -100,10 +101,13 @@ export class InteractionsService {
       )
       .select("-docsPath -interactions")
       .exec();
-      */
   }
 
-  public async find(usagerId: number, limit: number, user: User): Promise<any> {
+  public async find(
+    usagerId: number,
+    limit: number,
+    user: Pick<AppUser, "structureId">
+  ): Promise<any> {
     return this.interactionRepository.find({
       where: { structureId: user.structureId, usagerId },
       order: {
@@ -116,11 +120,11 @@ export class InteractionsService {
 
   public async findOne(
     usagerId: number,
-    interactionId: number,
-    user: User
+    interactionId: string,
+    user: Pick<AppUser, "structureId">
   ): Promise<Interactions | null> {
     const where: FindConditions<InteractionsTable> = {
-      id: interactionId,
+      _id: interactionId,
       structureId: user.structureId,
       usagerId,
     };
@@ -129,7 +133,7 @@ export class InteractionsService {
 
   public async deuxDerniersPassages(
     usagerId: number,
-    user: User
+    user: AppAuthUser
   ): Promise<Interactions[] | [] | null> {
     return this.interactionRepository.find({
       where: {
@@ -154,7 +158,7 @@ export class InteractionsService {
     isIn: string
   ): Promise<Interactions | null> {
     const dateQuery =
-      isIn === "out" ? LessThan(dateInteraction) : MoreThan(dateInteraction);
+      isIn === "out" ? { $lte: dateInteraction } : { $gte: dateInteraction };
 
     const where: FindConditions<InteractionsTable> = {
       structureId: user.structureId,
