@@ -3,7 +3,7 @@ import { Model } from "mongoose";
 
 import { AppUser, UserProfile, AppAuthUser } from "../_common/model";
 
-import { Repository, FindConditions } from "typeorm";
+import { Repository, FindConditions, LessThan, MoreThan } from "typeorm";
 import { InteractionsTable } from "./pg/InteractionsTable.typeorm";
 import { InteractionDocument } from "./interactions.interface";
 import { Usager } from "../usagers/interfaces/usagers";
@@ -124,7 +124,7 @@ export class InteractionsService {
     user: Pick<AppUser, "structureId">
   ): Promise<Interactions | null> {
     const where: FindConditions<InteractionsTable> = {
-      _id: interactionId,
+      id: interactionId,
       structureId: user.structureId,
       usagerId,
     };
@@ -158,7 +158,7 @@ export class InteractionsService {
     isIn: string
   ): Promise<Interactions | null> {
     const dateQuery =
-      isIn === "out" ? { $lte: dateInteraction } : { $gte: dateInteraction };
+      isIn === "out" ? LessThan(dateInteraction) : MoreThan(dateInteraction);
 
     const where: FindConditions<InteractionsTable> = {
       structureId: user.structureId,

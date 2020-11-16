@@ -26,11 +26,6 @@ export class StatsGeneratorService {
     private structureModel: Model<Structure>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
-<<<<<<< HEAD
-=======
-    @Inject("INTERACTION_MODEL")
-    private interactionModel: Model<InteractionDocument>,
->>>>>>> fix: migration interactions init
     private readonly structureService: StructuresService
   ) {
     this.demain = new Date();
