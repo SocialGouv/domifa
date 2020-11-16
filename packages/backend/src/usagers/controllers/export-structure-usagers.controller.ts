@@ -1,13 +1,12 @@
 import { Controller, Get, Param, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import * as XLSX from "xlsx";
+
 import { CurrentUser } from "../../auth/current-user.decorator";
 
-import { StructuresService } from "../../structures/services/structures.service";
 import { User } from "../../users/user.interface";
 import { UsagersService } from "../services/usagers.service";
 import { Usager } from "../interfaces/usagers";
-import * as labels from "../../stats/usagers.labels";
+
 import { Response } from "express";
 
 import { InteractionsService } from "../../interactions/interactions.service";

@@ -12,22 +12,40 @@ export class autoMigration1605001375177 implements MigrationInterface {
   public name = "autoMigration1605001375177";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    const interactionModel: Model<InteractionDocument> = appHolder.app.get(
+      "INTERACTION_MODEL"
+    );
+
+    await interactionModel
+      .updateMany({}, { $unset: { migrated: null } })
+      .exec();
+
     await queryRunner.query(
-      `CREATE TABLE "interactions" (
-        "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-        "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-        "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-        "version" integer NOT NULL,
-        "_id" text,
-        "dateInteraction" TIMESTAMP NOT NULL DEFAULT 'now()',
-        "nbCourrier" integer NOT NULL,
-        "structureId" integer NOT NULL,
-        "type" text NOT NULL,
-        "usagerId" integer NOT NULL,
-        "userId" integer NOT NULL,
-        "userName" text NOT NULL,
-        "content" text,
-        CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY ("uuid") )`
+      `CREATE TABLE "interactions"
+      ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
+            "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+             "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+            "version" integer NOT NULL,
+            "id" SERIAL NOT NULL,
+            "_id" text,
+            "dateInteraction" TIMESTAMP NOT NULL DEFAULT 'now()',
+            "nbCourrier" integer NOT NULL,
+            "structureId" integer NOT NULL,
+            "type" text NOT NULL,
+            "usagerId" integer NOT NULL,
+            "userId" integer NOT NULL,
+            "userName" text NOT NULL,
+            "content" text, CONSTRAINT
+            "PK_9cf825bde3ff3a979664feb460f" PRIMARY KEY ("uuid", "id"))`
+    );
+    await queryRunner.query(
+      `CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON "interactions" ("structureId") `
+    );
+    await queryRunner.query(
+      `CREATE INDEX "IDX_c7086be1b4ebe5db4b6db30cb6" ON "interactions" ("usagerId") `
+    );
+    await queryRunner.query(
+      `CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON "interactions" ("userId") `
     );
 
     await this.getNextInteractions(queryRunner);
@@ -113,6 +131,9 @@ export class autoMigration1605001375177 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`DROP INDEX "IDX_9992157cbe54583ff7002ae4c0"`);
+    await queryRunner.query(`DROP INDEX "IDX_c7086be1b4ebe5db4b6db30cb6"`);
+    await queryRunner.query(`DROP INDEX "IDX_1953f5ad67157bada8774f7e24"`);
     await queryRunner.query(`DROP TABLE "interactions"`);
   }
 }

@@ -1,5 +1,5 @@
 import { Document } from "mongoose";
-import { Interaction } from "../../interactions/interactions.interface";
+
 import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
 import { Doc } from "./doc";
@@ -45,8 +45,6 @@ export interface Usager extends Document {
     recommandeIn: number;
     colisIn: number;
   };
-
-  interactions: Interaction[];
 
   typeDom: string;
   datePremiereDom: Date;

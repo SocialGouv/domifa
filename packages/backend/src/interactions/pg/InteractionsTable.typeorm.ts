@@ -1,4 +1,4 @@
-import { Column, Entity, Index } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 import { AppTypeormTable } from "../../database/AppTypeormTable.typeorm";
 
 import { Interactions } from "../model";
@@ -9,6 +9,9 @@ import { InteractionType } from "../InteractionType.type";
 export class InteractionsTable
   extends AppTypeormTable<Interactions>
   implements Interactions {
+  @PrimaryGeneratedColumn("increment")
+  id: number;
+
   @Column({ type: "text", nullable: true })
   _id: string; // obsolete mongo id: use `uuid` instead
 

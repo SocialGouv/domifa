@@ -43,7 +43,7 @@ export class InteractionsController {
   }
 
   @Get(":id/:limit")
-  public getInteractions(
+  public async getInteractions(
     @Param("limit") limit: number,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
@@ -53,7 +53,7 @@ export class InteractionsController {
 
   @Delete(":id/:interactionId")
   public async deleteInteraction(
-    @Param("interactionId") interactionId: string,
+    @Param("interactionId") interactionId: number,
     @CurrentUser() user: User,
     @CurrentUsager() usager: Usager
   ) {

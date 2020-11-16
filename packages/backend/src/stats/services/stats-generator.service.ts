@@ -4,12 +4,14 @@ import * as moment from "moment";
 import { Model } from "mongoose";
 import { Repository } from "typeorm";
 import { appTypeormManager } from "../../database/appTypeormManager.service";
-import { InteractionDocument } from "../../interactions/interactions.interface";
+
 import { StructuresService } from "../../structures/services/structures.service";
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { appLogger } from "../../util";
 import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
+import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
+import { InteractionType } from "../../interactions/InteractionType.type";
 
 @Injectable()
 export class StatsGeneratorService {
@@ -18,14 +20,13 @@ export class StatsGeneratorService {
   public dateMajorite: Date;
   public demain: Date;
   private structureStatsRepository: Repository<StructureStatsTable>;
+  private interactionRepository: Repository<InteractionsTable>;
 
   constructor(
     @Inject("STRUCTURE_MODEL")
     private structureModel: Model<Structure>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
-    @Inject("INTERACTION_MODEL")
-    private interactionModel: Model<InteractionDocument>,
     private readonly structureService: StructuresService
   ) {
     this.demain = new Date();
@@ -34,6 +35,10 @@ export class StatsGeneratorService {
     this.dateMajorite = new Date();
     this.structureStatsRepository = appTypeormManager.getRepository(
       StructureStatsTable
+    );
+
+    this.interactionRepository = appTypeormManager.getRepository(
+      InteractionsTable
     );
   }
 
@@ -775,30 +780,22 @@ export class StatsGeneratorService {
 
   public async totalInteraction(
     structureId: number,
-    type: string
+
+    interactionType: InteractionType
   ): Promise<number> {
-    if (type === "appel" || type === "visite") {
-      return this.interactionModel.countDocuments({
+    if (interactionType === "appel" || interactionType === "visite") {
+      return this.interactionRepository.count({
         structureId,
-        type,
+        type: interactionType,
       });
     } else {
-      const search = {
-        $match: {
-          structureId,
-          type,
-        },
-      };
-
-      const groupBy = { $group: { _id: null, total: { $sum: "$nbCourrier" } } };
-      const response = await this.interactionModel
-        .aggregate([search, groupBy])
-        .exec();
-
-      if (response.length) {
-        return typeof response[0].total !== "undefined" ? response[0].total : 0;
-      }
-      return 0;
+      const search = await this.interactionRepository
+        .createQueryBuilder("interactions")
+        .select("SUM(interactions.nbCourrier)", "sum")
+        .where({ structureId, type: interactionType })
+        .groupBy("interactions.type")
+        .getRawOne();
+      return search.sum;
     }
   }
 
@@ -807,7 +804,7 @@ export class StatsGeneratorService {
   }
 
   public async countInteractions(): Promise<any> {
-    return this.interactionModel.countDocuments({ type: "courrierIn" }).exec();
+    return this.interactionRepository.count({ type: "courrierIn" });
   }
 
   public async countUsagers(): Promise<any> {

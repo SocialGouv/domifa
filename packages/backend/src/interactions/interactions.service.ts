@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 
-import { Repository, FindConditions } from "typeorm";
+import { Repository, FindConditions, LessThan, MoreThan } from "typeorm";
 import { InteractionsTable } from "./pg/InteractionsTable.typeorm";
 import { InteractionDocument } from "./interactions.interface";
 import { Usager } from "../usagers/interfaces/usagers";
@@ -16,8 +16,6 @@ export class InteractionsService {
   private interactionRepository: Repository<InteractionsTable>;
 
   constructor(
-    @Inject("INTERACTION_MODEL")
-    private readonly interactionModel: Model<InteractionDocument>,
     @Inject("USAGER_MODEL")
     private readonly usagerModel: Model<Usager>
   ) {
@@ -114,11 +112,11 @@ export class InteractionsService {
 
   public async findOne(
     usagerId: number,
-    interactionId: string,
+    interactionId: number,
     user: User
   ): Promise<Interactions | null> {
     const where: FindConditions<InteractionsTable> = {
-      _id: interactionId,
+      id: interactionId,
       structureId: user.structureId,
       usagerId,
     };
@@ -152,7 +150,7 @@ export class InteractionsService {
     isIn: string
   ): Promise<Interactions | null> {
     const dateQuery =
-      isIn === "out" ? { $lte: dateInteraction } : { $gte: dateInteraction };
+      isIn === "out" ? LessThan(dateInteraction) : MoreThan(dateInteraction);
 
     const where: FindConditions<InteractionsTable> = {
       structureId: user.structureId,
@@ -167,16 +165,14 @@ export class InteractionsService {
 
   public async delete(
     usagerId: number,
-    interactionId: string,
+    interactionId: number,
     user: User
   ): Promise<any> {
-    const retour = this.interactionModel
-      .deleteOne({
-        _id: interactionId,
-        structureId: user.structureId,
-        usagerId,
-      })
-      .exec();
+    const retour = this.interactionRepository.delete({
+      id: interactionId,
+      structureId: user.structureId,
+      usagerId,
+    });
 
     if (!retour || retour === null) {
       throw new HttpException("CANNOT_DELETE_INTERACTION", 500);
@@ -188,16 +184,16 @@ export class InteractionsService {
     usagerId: number,
     structureId: number
   ): Promise<any> {
-    return this.interactionModel
-      .deleteMany({
-        structureId,
-        usagerId,
-      })
-      .exec();
+    return this.interactionRepository.delete({
+      structureId,
+      usagerId,
+    });
   }
 
   public async deleteAll(structureId: number): Promise<any> {
-    return this.interactionModel.deleteMany({ structureId }).exec();
+    return this.interactionRepository.delete({
+      structureId,
+    });
   }
 
   public async totalInteraction(
@@ -206,29 +202,19 @@ export class InteractionsService {
     interactionType: InteractionType
   ): Promise<number> {
     if (interactionType === "appel" || interactionType === "visite") {
-      return this.interactionModel.countDocuments({
+      return this.interactionRepository.count({
         structureId,
         usagerId,
         type: interactionType,
       });
     } else {
-      const search = {
-        $match: {
-          structureId,
-          usagerId,
-          interactionType,
-        },
-      };
-
-      const groupBy = { $group: { _id: null, total: { $sum: "$nbCourrier" } } };
-      const response = await this.interactionModel
-        .aggregate([search, groupBy])
-        .exec();
-
-      if (response.length) {
-        return typeof response[0].total !== "undefined" ? response[0].total : 0;
-      }
-      return 0;
+      const search = await this.interactionRepository
+        .createQueryBuilder("interactions")
+        .select("SUM(interactions.nbCourrier)", "sum")
+        .where({ structureId, usagerId, type: interactionType })
+        .groupBy("interactions.type")
+        .getRawOne();
+      return search.sum;
     }
   }
 }

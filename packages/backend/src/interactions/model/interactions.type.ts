@@ -6,6 +6,7 @@ export type Interactions = AppEntity & {
   /**
    * @deprecated obsolete mongo id: use `uuid` instead.
    */
+  id?: number;
   _id?: any;
   createdAt?: Date;
   content?: string;

@@ -15,7 +15,8 @@ export type InteractionTypes =
   | "visite";
 
 export class Interaction {
-  public id: string;
+  public _id: string;
+  public id: number;
   public type: string;
   public dateInteraction: Date | null;
   public content?: string;
@@ -45,6 +46,7 @@ export class Interaction {
 
     this.delete = false;
     this.id = interaction._id;
+    this.id = interaction.id;
 
     if (
       this.type !== "appel" &&
