@@ -3,7 +3,7 @@ import {
   createConnection,
   EntityManager,
   EntityTarget,
-  Migration
+  Migration,
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { configService } from "../config";
@@ -65,7 +65,7 @@ async function connect() {
   );
 
   const isTypescriptMode = __filename.split(".").pop() === "ts"; // if current file extension is "ts": use src/*.ts files, eles use dist/*.js files
-  
+
   let connectOptionsPaths: Pick<
     PostgresConnectionOptions,
     "migrations" | "entities" | "subscribers"
@@ -98,7 +98,7 @@ async function connect() {
     password: pgConfig.password,
     database: pgConfig.database,
     logger: "simple-console",
-    logging: ["warn"],
+    logging: true,
     ...connectOptionsPaths,
   };
   try {

@@ -10,9 +10,9 @@ export class InteractionsTable
   extends AppTypeormTable<Interactions>
   implements Interactions {
   @Column({ type: "text", nullable: true })
-  _id: any; // obsolete mongo id: use `uuid` instead
+  _id: string; // obsolete mongo id: use `uuid` instead
 
-  @Column({ type: "date", default: "now()" })
+  @Column({ type: "timestamp", default: "now()" })
   dateInteraction: Date;
 
   @Column({ type: "integer" })

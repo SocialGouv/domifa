@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 
-import { Repository } from "typeorm";
+import { Repository, FindConditions } from "typeorm";
 import { InteractionsTable } from "./pg/InteractionsTable.typeorm";
 import { InteractionDocument } from "./interactions.interface";
 import { Usager } from "../usagers/interfaces/usagers";
@@ -90,67 +90,58 @@ export class InteractionsService {
     );
 
     await this.interactionRepository.insert(createdInteraction);
-    /*
+
     return this.usagerModel
       .findOneAndUpdate(
-        {
-          _id: usager._id,
-        },
-        {
-          $push: { interaction: savedInteraction },
-          $set: {
-            lastInteraction: usager.lastInteraction,
-          },
-        },
-        {
-          new: true,
-        }
+        { _id: usager._id },
+        { $set: { lastInteraction: usager.lastInteraction } },
+        { new: true }
       )
       .select("-docsPath -interactions")
       .exec();
-      */
   }
+
   public async find(usagerId: number, limit: number, user: User): Promise<any> {
-    return this.interactionModel
-      .find({
-        structureId: user.structureId,
-        usagerId,
-      })
-      .limit(30)
-      .sort({ dateInteraction: -1 })
-      .lean()
-      .exec();
+    return this.interactionRepository.find({
+      where: { structureId: user.structureId, usagerId },
+      order: {
+        dateInteraction: "DESC",
+      },
+      skip: 0,
+      take: 30,
+    });
   }
 
   public async findOne(
     usagerId: number,
     interactionId: string,
     user: User
-  ): Promise<InteractionDocument | null> {
-    return this.interactionModel
-      .findOne({
-        _id: interactionId,
-        structureId: user.structureId,
-        usagerId,
-      })
-      .exec();
+  ): Promise<Interactions | null> {
+    const where: FindConditions<InteractionsTable> = {
+      _id: interactionId,
+      structureId: user.structureId,
+      usagerId,
+    };
+    return this.interactionRepository.findOne({ where });
   }
 
   public async deuxDerniersPassages(
     usagerId: number,
     user: User
-  ): Promise<InteractionDocument[] | [] | null> {
-    return this.interactionModel
-      .find({
+  ): Promise<Interactions[] | [] | null> {
+    return this.interactionRepository.find({
+      where: {
         structureId: user.structureId,
-        type: {
-          $in: ["courrierOut", "visite", "appel", "colisOut", "recommandeOut"],
-        },
         usagerId,
-      })
-      .sort({ dateInteraction: -1 })
-      .limit(2)
-      .exec();
+        type: ["courrierOut", "visite", "appel", "colisOut", "recommandeOut"],
+      },
+
+      order: {
+        dateInteraction: "DESC",
+      },
+      skip: 0,
+      take: 2,
+    });
   }
 
   public async findLastInteraction(
@@ -159,18 +150,19 @@ export class InteractionsService {
     typeInteraction: InteractionType,
     user: User,
     isIn: string
-  ): Promise<InteractionDocument | null> {
+  ): Promise<Interactions | null> {
     const dateQuery =
       isIn === "out" ? { $lte: dateInteraction } : { $gte: dateInteraction };
 
-    return this.interactionModel
-      .findOne({
-        structureId: user.structureId,
-        usagerId,
-        type: typeInteraction,
-        dateInteraction: dateQuery,
-      })
-      .exec();
+    const where: FindConditions<InteractionsTable> = {
+      structureId: user.structureId,
+      usagerId,
+      type: typeInteraction,
+      dateInteraction: dateQuery,
+    };
+    return this.interactionRepository.findOne({
+      where,
+    });
   }
 
   public async delete(
