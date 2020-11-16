@@ -5,7 +5,7 @@ import {
   WorksheetRenderer,
   xlFormater,
   xlRenderer,
-  XlRowModel,
+  XlRowModel
 } from "../../xlLib";
 import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
 
@@ -69,9 +69,9 @@ function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
         lastLogin: xlFormater.toLocalTimezone(structure.lastLogin),
         codePostal: structure.codePostal,
         departementCode: structure.departement,
-        departementLabel: departement?.regionName,
+        departementLabel: departement?.departmentName,
         regionCode: structure.region,
-        regionLabel: departement?.departmentName,
+        regionLabel: departement?.regionName,
         email: structure.email,
       },
     };
