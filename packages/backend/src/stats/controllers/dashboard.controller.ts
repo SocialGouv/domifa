@@ -6,7 +6,7 @@ import { Model } from "mongoose";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
 import {
   statsDeploiementExporter,
-  StatsDeploiementExportModel,
+  StatsDeploiementExportModel
 } from "../../excel/export-stats-deploiement";
 import { StatsExportUser } from "../../excel/export-stats-deploiement/StatsExportUser.type";
 import { User } from "../../users/user.interface";
@@ -34,12 +34,11 @@ export class DashboardController {
       "email",
       "nom",
       "prenom",
-      "role"
+      "role",
+      "verified"
     );
     const users = ((await this.userModel
-      .find({
-        verified: true,
-      })
+      .find({})
       .populate({
         path: "structure",
         select: "id nom",

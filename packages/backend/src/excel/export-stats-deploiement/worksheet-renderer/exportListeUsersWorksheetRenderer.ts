@@ -25,6 +25,7 @@ function renderWorksheet({
     { key: "prenom" },
     { key: "email" },
     { key: "role" },
+    { key: "verified" },
     { key: "structureId" },
     { key: "structureName" },
   ];
@@ -50,8 +51,9 @@ function buildRows(users: StatsExportUser[]): XlRowModel[] {
           user.role === "simple"
             ? "instructeur"
             : user.role === "responsable"
-              ? "gestionnaire"
-              : user.role,
+            ? "gestionnaire"
+            : user.role,
+        verified: user.verified ? "Oui" : "Non",
         structureId: user.structure?.id,
         structureName: user.structure?.nom,
       },
