@@ -1,13 +1,15 @@
-import { Controller, Get, Query, UseGuards } from "@nestjs/common";
-import { SearchDto } from "../dto/search.dto";
-import { CurrentUser } from "../../auth/current-user.decorator";
-import { UsagersService } from "../services/usagers.service";
-import { User } from "../../users/user.interface";
-import { SearchQuery } from "../interfaces/search-query";
+import { Controller, Get, Inject, Query, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
-import * as moment from "moment";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import * as moment from "moment";
+import { Model } from "mongoose";
+import { CurrentUser } from "../../auth/current-user.decorator";
+import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
+import { Structure } from "../../structures/structure-interface";
+import { AppAuthUser } from "../../_common/model";
+import { SearchDto } from "../dto/search.dto";
+import { SearchQuery } from "../interfaces/search-query";
+import { UsagersService } from "../services/usagers.service";
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("search")
@@ -16,11 +18,15 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 export class SearchController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly statsService: StatsGeneratorService
+    private readonly statsService: StatsGeneratorService,
+    @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
   ) {}
 
   @Get("")
-  public async search(@Query() query: SearchDto, @CurrentUser() user: User) {
+  public async search(
+    @Query() query: SearchDto,
+    @CurrentUser() user: AppAuthUser
+  ) {
     const searchQuery: SearchQuery = {
       structureId: user.structureId,
     };
@@ -172,7 +178,7 @@ export class SearchController {
   }
 
   @Get("stats")
-  public async stats(@CurrentUser() user: User) {
+  public async stats(@CurrentUser() user: AppAuthUser) {
     const stats: {
       INSTRUCTION: number;
       VALIDE: number;

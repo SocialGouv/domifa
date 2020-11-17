@@ -12,10 +12,7 @@ import { AppModule } from "./app.module";
 import { appHolder } from "./appHolder";
 import { configService } from "./config/config.service";
 import { appTypeormManager } from "./database/appTypeormManager.service";
-import { REGIONS_DEF } from "./structures/REGIONS_DEF.const";
 import { appLogger } from "./util";
-
-console.log("xxx REGIONS_DEF:", JSON.stringify(REGIONS_DEF));
 
 export async function tearDownApplication({
   app,

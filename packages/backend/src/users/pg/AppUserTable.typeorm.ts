@@ -1,4 +1,4 @@
-import { Column, Entity, Index } from "typeorm";
+import { Column, Entity, Generated, Index } from "typeorm";
 import { AppTypeormTable } from "../../database/AppTypeormTable.typeorm";
 import {
   AppUser,
@@ -25,6 +25,7 @@ export class AppUserTable
 
   @Index()
   @Column({ type: "integer", unique: true })
+  @Generated("increment")
   id: number;
 
   @Column({ type: "timestamptz", nullable: true })

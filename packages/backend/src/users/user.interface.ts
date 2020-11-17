@@ -16,6 +16,8 @@ export interface User extends Document {
   role: UserRole;
   verified: boolean;
   lastLogin: Date;
+  createdAt: Date;
+  updatedAt: Date;
 
   passwordLastUpdate: Date;
 

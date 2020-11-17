@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { User } from "../../users/user.interface";
 import { appLogger } from "../../util/AppLogger.service";
+import { AppUser } from "../../_common/model";
 
 @Injectable()
 export class FacteurGuard implements CanActivate {
@@ -9,7 +9,7 @@ export class FacteurGuard implements CanActivate {
 
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-    const user = request.user as User;
+    const user = request.user as AppUser;
     const isValidRole =
       user &&
       (user.role === "admin" ||

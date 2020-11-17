@@ -13,13 +13,12 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as bcrypt from "bcryptjs";
 import { LoginDto } from "../users/dto/login.dto";
+import { usersRepository } from "../users/pg/users-repository.service";
 import { UsersService } from "../users/services/users.service";
-import { User } from "../users/user.interface";
-import { AppUser } from '../_common/model';
+import { AppAuthUser, AppUser } from "../_common/model";
 import { AuthService } from "./auth.service";
 import { CurrentUser } from "./current-user.decorator";
 import { DomifaGuard } from "./guards/domifa.guard";
-
 
 @Controller("auth")
 @ApiTags("auth")
@@ -32,9 +31,14 @@ export class AuthController {
   @Post("login")
   @HttpCode(HttpStatus.OK)
   public async loginUser(@Response() res: any, @Body() loginDto: LoginDto) {
-    const user: User = await this.usersService.findOne({
-      email: loginDto.email.toLowerCase(),
-    });
+    const user = await usersRepository.findOne<AppUser>(
+      {
+        email: loginDto.email.toLowerCase(),
+      },
+      {
+        select: "ALL",
+      }
+    );
 
     if (user) {
       const isValidPass = await bcrypt.compare(
@@ -51,9 +55,15 @@ export class AuthController {
 
         const accessToken = await this.authService.login(user);
 
-        this.usersService.update(user.id, user.structureId, {
-          lastLogin: new Date(),
-        });
+        usersRepository.updateOne(
+          {
+            id: user.id,
+            structureId: user.structureId,
+          },
+          {
+            lastLogin: new Date(),
+          }
+        );
 
         return res.status(HttpStatus.OK).json(accessToken);
       } else {
@@ -70,7 +80,7 @@ export class AuthController {
   @UseGuards(AuthGuard("jwt"), DomifaGuard)
   @ApiBearerAuth()
   @Get("domifa")
-  public authDomifa(@Response() res: any, @CurrentUser() user: User) {
+  public authDomifa(@Response() res: any, @CurrentUser() user: AppAuthUser) {
     return res.status(HttpStatus.OK).json();
   }
 

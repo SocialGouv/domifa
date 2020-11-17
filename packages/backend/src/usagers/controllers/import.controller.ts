@@ -7,25 +7,21 @@ import {
   Response,
   UploadedFile,
   UseGuards,
-  UseInterceptors,
+  UseInterceptors
 } from "@nestjs/common";
-import * as fs from "fs";
-import * as XLSX from "xlsx";
-import * as path from "path";
-
-import { FileInterceptor } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
 import { AuthGuard } from "@nestjs/passport";
-
+import { FileInterceptor } from "@nestjs/platform-express";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import * as fs from "fs";
+import { diskStorage } from "multer";
+import * as path from "path";
+import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
-
-import { StructuresService } from "../../structures/services/structures.service";
-import { UsagersService } from "../services/usagers.service";
-
-import { User } from "../../users/user.interface";
-import { Entretien } from "../interfaces/entretien";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
-import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+import { StructuresService } from "../../structures/services/structures.service";
+import { AppAuthUser } from "../../_common/model";
+import { Entretien } from "../interfaces/entretien";
+import { UsagersService } from "../services/usagers.service";
 
 export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -185,7 +181,7 @@ export class ImportController {
   public async importExcel(
     @Response() res: any,
     @UploadedFile() file: any,
-    @CurrentUser() user: User
+    @CurrentUser() user: AppAuthUser
   ) {
     const dir = path.resolve(__dirname, "../../imports/");
     const buffer = fs.readFileSync(dir + "/" + file.filename);
@@ -392,7 +388,7 @@ export class ImportController {
     }
   }
 
-  public async saveDatas(datas: any, @CurrentUser() user: User) {
+  public async saveDatas(datas: any, @CurrentUser() user: AppAuthUser) {
     const agent = user.prenom + " " + user.nom;
     const usagers = [];
     for (let index = 1, len = datas.length; index < len; index++) {

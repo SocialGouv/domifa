@@ -11,7 +11,7 @@ import {
   Res,
   UploadedFile,
   UseGuards,
-  UseInterceptors,
+  UseInterceptors
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -26,7 +26,7 @@ import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { configService } from "../../config/config.service";
-import { User } from "../../users/user.interface";
+import { AppAuthUser } from "../../_common/model";
 import { Usager } from "../interfaces/usagers";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
@@ -87,7 +87,7 @@ export class DocsController {
     @UploadedFile() file: any,
     // TODO: Filtrer les datas du label
     @Body() postData: any,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager,
     @Res() res: Response
   ) {
@@ -134,7 +134,7 @@ export class DocsController {
   public async deleteDocument(
     @Param("id") usagerId: number,
     @Param("index") index: number,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager,
     @Res() res: Response
   ) {

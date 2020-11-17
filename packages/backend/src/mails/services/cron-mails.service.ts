@@ -3,34 +3,28 @@ import {
   HttpService,
   HttpStatus,
   Inject,
-  Injectable,
+  Injectable
 } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Model } from "mongoose";
 import { configService } from "../../config";
 import { Structure } from "../../structures/structure-interface";
-
-import { User } from "../../users/user.interface";
+import { appLogger } from "../../util";
+import { cronMailsRepository } from "../pg";
 
 @Injectable()
 export class CronMailsService {
-  public lastWeek: Date;
-  public listOfStructures: any;
   public lienGuide: string;
   public lienImport: string;
   public lienFaq: string;
   private domifaAdminMail: string;
   private domifaFromMail: string;
+
   constructor(
     private httpService: HttpService,
-    @Inject("USER_MODEL") private userModel: Model<User>,
     @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
   ) {
-    this.lastWeek = moment().utc().subtract(7, "days").endOf("day").toDate();
-
-    this.listOfStructures = [];
-
     this.lienGuide =
       process.env.DOMIFA_FRONTEND_URL +
       "assets/files/guide_utilisateur_domifa.pdf";
@@ -48,14 +42,17 @@ export class CronMailsService {
       return;
     }
 
-    const user = await this.userModel
-      .findOne({
-        createdAt: { $lte: this.lastWeek },
-        "mails.guide": false,
-      })
-      .select("-import -token -users -verified")
-      .lean()
-      .exec();
+    const maxCreationDate: Date = moment()
+      .utc()
+      .subtract(7, "days")
+      .endOf("day")
+      .toDate();
+
+    const user = await cronMailsRepository.findNextUserToSendCronMail({
+      maxCreationDate,
+      structuresIds: undefined, // not used here
+      mailType: "guide",
+    });
 
     if (!user || user === null) {
       // console.log("---- LEAVE CRON NO STRUCTURE");
@@ -105,12 +102,13 @@ export class CronMailsService {
       })
       .subscribe(
         (retour: any) => {
-          this.userModel
-            .findOneAndUpdate(
-              { _id: user._id },
-              { $set: { "mails.guide": true } }
-            )
-            .exec((erreur: any) => {
+          cronMailsRepository
+            .updateMailFlag({
+              userId: user.id,
+              mailType: "guide",
+              value: true,
+            })
+            .catch((erreur: Error) => {
               // console.log("-- UPDATE MAIL VALUE");
               if (erreur === null) {
                 this.cronGuide();
@@ -136,28 +134,51 @@ export class CronMailsService {
     if (configService.get("DOMIFA_CRON_ENABLED") !== "true") {
       return;
     }
-    this.listOfStructures = [];
+
+    const maxCreationDate: Date = moment()
+      .utc()
+      .subtract(7, "days")
+      .endOf("day")
+      .toDate();
+
+    const structuresIds: number[] = [];
     this.structureModel
       .find({ import: false })
+      .select(["id"])
       .lean()
-      .exec((erreur: any, structures: any) => {
-        for (const structure of structures) {
-          this.listOfStructures.push(structure.id);
+      .exec((error: Error, structures: Pick<Structure, "id">[]) => {
+        if (error) {
+          appLogger.error("[CronMailsService] Error running cron import", {
+            error,
+            sentry: true,
+          });
+          return;
         }
-        this.sentImportGuide();
+        if (structures.length === 0) {
+          return;
+        }
+        for (const structure of structures) {
+          structuresIds.push(structure.id);
+        }
+        this.sentImportGuide({
+          structuresIds,
+          maxCreationDate,
+        });
       });
   }
 
-  private async sentImportGuide() {
-    const user = await this.userModel
-      .findOne({
-        structureId: { $in: this.listOfStructures },
-        createdAt: { $lte: this.lastWeek },
-        "mails.import": false,
-      })
-      .select("-import -token -users -verified")
-      .lean()
-      .exec();
+  private async sentImportGuide({
+    structuresIds,
+    maxCreationDate,
+  }: {
+    structuresIds: number[];
+    maxCreationDate: Date;
+  }) {
+    const user = await cronMailsRepository.findNextUserToSendCronMail({
+      maxCreationDate,
+      structuresIds,
+      mailType: "import",
+    });
 
     if (!user || user === null) {
       return;
@@ -206,15 +227,19 @@ export class CronMailsService {
       })
       .subscribe(
         (retour: any) => {
-          this.userModel
-            .findOneAndUpdate(
-              { _id: user._id },
-              { $set: { "mails.import": true } }
-            )
-            .exec((erreur: any) => {
+          cronMailsRepository
+            .updateMailFlag({
+              userId: user.id,
+              mailType: "import",
+              value: true,
+            })
+            .catch((erreur: any) => {
               // console.log("-- UPDATE MAIL VALUE");
               if (erreur === null) {
-                this.sentImportGuide();
+                this.sentImportGuide({
+                  structuresIds,
+                  maxCreationDate,
+                });
               } else {
                 throw new HttpException(
                   "CANNOT_UPDATE_MAIL_IMPORT",

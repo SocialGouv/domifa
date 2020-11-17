@@ -1,13 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import * as fs from "fs";
+import * as path from "path";
+import { AppAuthUser } from "../../_common/model";
+import { DateCerfa } from "../interfaces/date-cerfa";
+import { Usager } from "../interfaces/usagers";
 
 // tslint:disable-next-line: no-var-requires
 const pdftk = require("node-pdftk");
-
-import * as path from "path";
-import { User } from "../../users/user.interface";
-import { DateCerfa } from "../interfaces/date-cerfa";
-import { Usager } from "../interfaces/usagers";
 
 @Injectable()
 export class CerfaService {
@@ -43,7 +42,7 @@ export class CerfaService {
     };
   }
 
-  public async attestation(usager: Usager, user: User) {
+  public async attestation(usager: Usager, user: AppAuthUser) {
     const pdfForm =
       usager.decision.statut === "VALIDE"
         ? "../../ressources/attestation.pdf"

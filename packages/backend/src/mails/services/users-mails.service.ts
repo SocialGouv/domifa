@@ -1,7 +1,10 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { configService } from "../../config";
-import { User } from "../../users/user.interface";
-import { UserProfile } from "../../_common/model";
+import { AppUserTable } from "../../users/pg";
+import {
+  AppUserForAdminEmail,
+  AppUserForAdminEmailWithTempTokens
+} from "../../users/pg/users-repository.service";
 
 @Injectable()
 export class UsersMailsService {
@@ -16,11 +19,11 @@ export class UsersMailsService {
   //
   // Mail pour l'admin de la structure
   //
-  public newUser(admins: User[], user: User) {
+  public newUser(admins: AppUserForAdminEmail[], user: AppUserTable) {
     const adminEmails = [];
     const contentEmails = [];
 
-    admins.map((admin: User) => {
+    admins.map((admin: AppUserForAdminEmail) => {
       adminEmails.push({
         address: admin.email,
         personalName: admin.prenom + " " + admin.nom,
@@ -73,11 +76,11 @@ export class UsersMailsService {
   //
   // Mail pour l'utilisateur créé par un admin
   //
-  public newUserFromAdmin(user: User) {
+  public newUserFromAdmin(user: AppUserForAdminEmailWithTempTokens) {
     const lien =
       process.env.DOMIFA_FRONTEND_URL +
       "reset-password/" +
-      user.tokens.password;
+      user.temporaryTokens.password;
 
     const post = {
       to: [
@@ -126,7 +129,7 @@ export class UsersMailsService {
   //
   // Mail pour l'utilisateur une fois son compte activé par l'admin
   //
-  public accountActivated(user: UserProfile) {
+  public accountActivated(user: AppUserForAdminEmail) {
     const post = {
       to: [
         {
@@ -175,11 +178,11 @@ export class UsersMailsService {
   //
   // Mail avec le lien pour réinitialiser son mot de passe
   //
-  public async newPassword(user: User) {
+  public async newPassword(user: AppUserForAdminEmailWithTempTokens) {
     const confirmationLink =
       configService.get("DOMIFA_FRONTEND_URL") +
       "reset-password/" +
-      user.tokens.password;
+      user.temporaryTokens.password;
 
     const post = {
       to: [

@@ -1,9 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import * as mongoose from "mongoose";
-import { appTypeormManager } from "../database/appTypeormManager.service";
 import { DatabaseModule } from "../database/database.module";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
+import { usersRepository } from "../users/pg/users-repository.service";
 import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
@@ -16,7 +14,7 @@ describe("Interactions Controller", () => {
   let controller: InteractionsController;
   let userService: UsersService;
   let usagerService: UsagersService;
-  
+
   let context: AppTestContext;
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
@@ -42,7 +40,7 @@ describe("Interactions Controller", () => {
     const interaction = new InteractionDto();
     interaction.type = "courrierOut";
     interaction.content = "Les impôts";
-    const user = await userService.findOne({ id: 2 });
+    const user = await usersRepository.findOne({ id: 2 });
     const usager = await usagerService.findById(1, 1);
 
     try {

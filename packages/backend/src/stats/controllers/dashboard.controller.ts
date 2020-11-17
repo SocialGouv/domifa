@@ -9,9 +9,11 @@ import {
   StatsDeploiementExportModel
 } from "../../excel/export-stats-deploiement";
 import { StatsExportUser } from "../../excel/export-stats-deploiement/StatsExportUser.type";
-import { User } from "../../users/user.interface";
+import { Structure } from "../../structures/structure-interface";
+import { AppUserTable } from "../../users/pg";
+import { usersRepository } from "../../users/pg/users-repository.service";
 import { appLogger } from "../../util";
-import { mongoSelectAttributes } from "../../util/mongoSelectAttributes.fn";
+import { dataCompare } from "../../util/dataCompare.service";
 import { DashboardService } from "../services/dashboard.service";
 import moment = require("moment");
 
@@ -22,38 +24,61 @@ import moment = require("moment");
 export class DashboardController {
   constructor(
     private readonly dashboardService: DashboardService,
-    @Inject("USER_MODEL") private readonly userModel: Model<User>
+    @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
   ) { }
 
   @Get("export")
   public async export(@Res() res: Response) {
     const stats: StatsDeploiementExportModel = await this.dashboardService.getStatsDeploiement();
 
-    const USER_STATS_ATTRIBUTES = mongoSelectAttributes<StatsExportUser>(
+    const USER_STATS_ATTRIBUTES: (keyof StatsExportUser &
+      keyof AppUserTable)[] = [
       "id",
       "email",
       "nom",
       "prenom",
       "role",
-      "verified"
-    );
-    const users = ((await this.userModel
-      .find({})
-      .populate({
-        path: "structure",
-        select: "id nom",
-        model: "Structure",
-      })
-      .select(USER_STATS_ATTRIBUTES)
-      .sort({
-        nom: 1,
-        prenom: 1,
-      })
-      .exec()) as unknown) as StatsExportUser[];
+        "verified",
+        "structureId",
+      ];
+    const users = await usersRepository.findMany<
+      Omit<StatsExportUser, "structure">
+    >(undefined, {
+      select: USER_STATS_ATTRIBUTES,
+    });
+
+    const structures: Pick<
+      Structure,
+      "id" | "nom"
+    >[] = await this.structureModel.find().select(["id", "nom"]).lean();
+
+    const structuresById = structures.reduce((acc, s) => {
+      acc[s.id] = s;
+      return acc;
+    }, {} as { [attr: string]: Pick<Structure, "id" | "nom"> });
+
+    const usersWithStructure: StatsExportUser[] = users.map((u) => ({
+      ...u,
+      structure: structuresById[u.structureId],
+    }));
+
+    usersWithStructure.sort((a, b) => {
+      const res = dataCompare.compareAttributes(a.nom, b.nom, {
+        asc: true,
+        nullFirst: false,
+      });
+      if (res === 0) {
+        return dataCompare.compareAttributes(a.prenom, b.prenom, {
+          asc: true,
+          nullFirst: false,
+        });
+      }
+      return res;
+    });
 
     const workbook = await statsDeploiementExporter.generateExcelDocument({
       stats,
-      users,
+      users: usersWithStructure,
     });
 
     const fileName = `${moment(stats.exportDate).format(
@@ -98,7 +123,7 @@ export class DashboardController {
   // 4. Total des users
   @Get("users")
   public async getUsers() {
-    return this.dashboardService.getUsers();
+    return usersRepository.count();
   }
 
   // 5. Total des domiciliés actifs

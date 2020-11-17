@@ -5,40 +5,34 @@ import {
   Get,
   HttpException,
   HttpStatus,
-  Logger,
   Param,
   Patch,
   Post,
   Response,
-  UseGuards,
+  UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { AxiosError, AxiosResponse } from "axios";
+import * as fs from "fs";
+import * as rimraf from "rimraf";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
+import { DomifaGuard } from "../auth/guards/domifa.guard";
+import { configService } from "../config";
 import { InteractionsService } from "../interactions/interactions.service";
+import { DomifaMailsService } from "../mails/services/domifa-mails.service";
+import { StructuresMailsService } from "../mails/services/structures-mails.service";
+import { UsagersMailsService } from "../mails/services/usagers-mails.service";
 import { UsagersService } from "../usagers/services/usagers.service";
-
-import { UsersService } from "../users/services/users.service";
-
-import { User } from "../users/user.interface";
 import { EmailDto } from "../users/dto/email.dto";
+import { usersRepository } from "../users/pg/users-repository.service";
+import { UsersService } from "../users/services/users.service";
+import { appLogger } from "../util";
+import { AppAuthUser } from "../_common/model";
 import { StructureEditDto } from "./dto/structure-edit.dto";
 import { StructureDto } from "./dto/structure.dto";
 import { StructuresService } from "./services/structures.service";
-import { DomifaGuard } from "../auth/guards/domifa.guard";
-
-import * as rimraf from "rimraf";
-import * as fs from "fs";
-import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-import { AxiosResponse, AxiosError } from "axios";
-
-import { appLogger } from "../util";
-
-import { DomifaMailsService } from "../mails/services/domifa-mails.service";
-
-import { UsagersMailsService } from "../mails/services/usagers-mails.service";
-import { StructuresMailsService } from "../mails/services/structures-mails.service";
-import { configService } from "../config";
 
 @Controller("structures")
 @ApiTags("structures")
@@ -94,14 +88,16 @@ export class StructuresController {
         HttpStatus.BAD_REQUEST
       );
     } else {
-      const admin = await this.usersService.findOne({
+      const admin = await usersRepository.findOne({
         role: "admin",
         structureId: structure.id,
       });
 
-      const updatedAdmin = await this.usersService.update(
-        admin.id,
-        structure.id,
+      const updatedAdmin = await usersRepository.updateOne(
+        {
+          id: admin.id,
+          structureId: structure.id,
+        },
         { verified: true }
       );
 
@@ -145,21 +141,21 @@ export class StructuresController {
   @Patch()
   public async patchStructure(
     @Body() structureDto: StructureEditDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: AppAuthUser
   ) {
     return this.structureService.patch(structureDto, user);
   }
   @UseGuards(AuthGuard("jwt"))
   @ApiBearerAuth()
   @Get("ma-structure")
-  public async getMyStructure(@CurrentUser() user: User) {
+  public async getMyStructure(@CurrentUser() user: AppAuthUser) {
     return user.structure;
   }
 
   @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiBearerAuth()
   @Get("hard-reset")
-  public async hardReset(@Response() res: any, @CurrentUser() user: User) {
+  public async hardReset(@Response() res: any, @CurrentUser() user: AppAuthUser) {
     const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const expireAt = new Date();
     expireAt.setDate(expireAt.getDate() + 1);
@@ -168,7 +164,7 @@ export class StructuresController {
     for (let i = 0; i < 7; i++) {
       token += charset.charAt(Math.floor(Math.random() * charset.length));
     }
-    const hardResetToken = { token, expireAt, userId: user._id };
+    const hardResetToken = { token, expireAt, userId: user.id };
     const structure = await this.structureService.hardReset(
       user.structureId,
       hardResetToken
@@ -194,10 +190,10 @@ export class StructuresController {
   public async hardResetConfirm(
     @Response() res: any,
     @Param("token") token: string,
-    @CurrentUser() user: User
+    @CurrentUser() user: AppAuthUser
   ) {
     const structure = await this.structureService.checkHardResetToken(
-      user._id,
+      user.id,
       token
     );
 
@@ -243,7 +239,9 @@ export class StructuresController {
     });
 
     if (structure && structure !== null) {
-      await this.usersService.deleteAll(structure.id);
+      await usersRepository.deleteByCriteria({
+        structureId: structure.id,
+      });
       await this.usagersService.deleteAll(structure.id);
       await this.interactionsService.deleteAll(structure.id);
       await this.structureService.delete(structure._id);
