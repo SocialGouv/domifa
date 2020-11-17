@@ -54,7 +54,7 @@ export class InteractionsController {
   @Delete(":id/:interactionId")
   public async deleteInteraction(
     @Param("interactionId") interactionId: number,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     const interactionToDelete = await this.interactionService.findOne(

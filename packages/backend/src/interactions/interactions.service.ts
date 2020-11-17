@@ -118,7 +118,7 @@ export class InteractionsService {
 
   public async findOne(
     usagerId: number,
-    interactionId: string,
+    interactionId: number,
     user: Pick<AppUser, "structureId">
   ): Promise<Interactions | null> {
     const where: FindConditions<InteractionsTable> = {
@@ -172,7 +172,7 @@ export class InteractionsService {
   public async delete(
     usagerId: number,
     interactionId: number,
-    user: User
+    user: Pick<AppUser, "structureId">
   ): Promise<any> {
     const retour = this.interactionRepository.delete({
       id: interactionId,
