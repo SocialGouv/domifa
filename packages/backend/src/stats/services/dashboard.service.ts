@@ -3,11 +3,14 @@ import { Model } from "mongoose";
 import { StructureType } from "../../structures/StructureType.type";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 import { Structure } from "../../structures/structure-interface";
-import { InteractionDocument } from "../../interactions/interactions.interface";
 
 import { Usager } from "../../usagers/interfaces/usagers";
 import { User } from "../../users/user.interface";
 import { StatsGeneratorService } from "./stats-generator.service";
+import { Repository } from "typeorm";
+import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
+import { appTypeormManager } from "../../database/appTypeormManager.service";
+import { InteractionType } from "../../interactions/InteractionType.type";
 
 @Injectable()
 export class DashboardService {
@@ -17,6 +20,8 @@ export class DashboardService {
   public today: Date;
   public demain: Date;
 
+  private interactionRepository: Repository<InteractionsTable>;
+
   constructor(
     @Inject("STRUCTURE_MODEL")
     private structureModel: Model<Structure>,
@@ -24,8 +29,6 @@ export class DashboardService {
     private usagerModel: Model<Usager>,
     @Inject("USER_MODEL")
     private userModel: Model<User>,
-    @Inject("INTERACTION_MODEL")
-    private interactionModel: Model<InteractionDocument>,
     private statsGeneratorService: StatsGeneratorService
   ) {
     this.today = new Date();
@@ -33,6 +36,10 @@ export class DashboardService {
     this.debutAnnee = new Date();
     this.finAnnee = new Date();
     this.dateMajorite = new Date();
+
+    this.interactionRepository = appTypeormManager.getRepository(
+      InteractionsTable
+    );
   }
 
   public async getStructures(
@@ -80,29 +87,17 @@ export class DashboardService {
   public async getInteractionsCountByType(): Promise<{
     [statut: string]: number;
   }> {
-    const res = await this.interactionModel
-      .aggregate([
-        { $match: {} },
-        {
-          $group: {
-            _id: { statut: "$type" },
-            statuts: { $push: "$type" },
-            total: { $sum: 1 },
-          },
-        },
-        {
-          $group: {
-            _id: { statut: "$_id.statut" },
-            sum: { $addToSet: "$total" },
-          },
-        },
-      ])
-      .exec();
-
-    return res.reduce((acc, stat) => {
-      acc[stat._id.statut] = stat.sum[0];
-      return acc;
-    }, {});
+    return {
+      courrierIn: await this._totalInteractions("courrierIn"),
+      courrierOut: await this._totalInteractions("courrierOut"),
+      recommandeIn: await this._totalInteractions("recommandeIn"),
+      recommandeOut: await this._totalInteractions("recommandeOut"),
+      colisIn: await this._totalInteractions("colisIn"),
+      colisOut: await this._totalInteractions("colisOut"),
+      appel: await this._totalInteractions("appel"),
+      visite: await this._totalInteractions("visite"),
+      npai: await this._totalInteractions("npai"),
+    };
   }
 
   public async getUsagersValide(): Promise<
@@ -271,5 +266,26 @@ export class DashboardService {
       interactionsCountByStatut,
     };
     return stats;
+  }
+
+  private async _totalInteractions(
+    interactionType: InteractionType
+  ): Promise<number> {
+    {
+      if (interactionType === "appel" || interactionType === "visite") {
+        return this.interactionRepository.count({
+          type: interactionType,
+        });
+      } else {
+        const search = await this.interactionRepository
+          .createQueryBuilder("interactions")
+          .select("SUM(interactions.nbCourrier)", "sum")
+          .where({ type: interactionType })
+          .groupBy("interactions.type")
+          .getRawOne();
+
+        return typeof search !== "undefined" ? search.sum : 0;
+      }
+    }
   }
 }

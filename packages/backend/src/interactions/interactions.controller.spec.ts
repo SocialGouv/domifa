@@ -1,6 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import * as mongoose from "mongoose";
+import { Connection } from "typeorm";
 import { appTypeormManager } from "../database/appTypeormManager.service";
+
+import { Test, TestingModule } from "@nestjs/testing";
+
 import { DatabaseModule } from "../database/database.module";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -16,22 +18,32 @@ describe("Interactions Controller", () => {
   let controller: InteractionsController;
   let userService: UsersService;
   let usagerService: UsagersService;
-  
+
   let context: AppTestContext;
+
+  let postgresTypeormConnection: Connection;
+
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [InteractionsController],
       imports: [DatabaseModule, UsersModule, UsagersModule],
-      providers: [InteractionsService, ...InteractionsProviders],
+      providers: [InteractionsService],
     });
+
     controller = context.module.get<InteractionsController>(
       InteractionsController
     );
+
     userService = context.module.get<UsersService>(UsersService);
+
     usagerService = context.module.get<UsagersService>(UsagersService);
+
+    postgresTypeormConnection = await appTypeormManager.connect();
   });
+
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
+    postgresTypeormConnection.close();
   });
 
   it("should be defined", () => {

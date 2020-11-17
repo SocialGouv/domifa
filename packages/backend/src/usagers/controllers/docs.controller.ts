@@ -157,8 +157,6 @@ export class DocsController {
     const fileInfos = usager.docs[index];
     fileInfos.path = usager.docsPath[index];
 
-    // console.log(fileInfos);
-
     const pathFile = path.resolve(
       configService.get("UPLOADS_FOLDER") +
         usager.structureId +

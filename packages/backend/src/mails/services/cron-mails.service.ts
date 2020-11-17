@@ -111,7 +111,6 @@ export class CronMailsService {
               { $set: { "mails.guide": true } }
             )
             .exec((erreur: any) => {
-              // console.log("-- UPDATE MAIL VALUE");
               if (erreur === null) {
                 this.cronGuide();
               } else {
@@ -212,7 +211,6 @@ export class CronMailsService {
               { $set: { "mails.import": true } }
             )
             .exec((erreur: any) => {
-              // console.log("-- UPDATE MAIL VALUE");
               if (erreur === null) {
                 this.sentImportGuide();
               } else {

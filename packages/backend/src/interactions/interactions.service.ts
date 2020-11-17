@@ -27,7 +27,7 @@ export class InteractionsService {
     usager: Usager,
     user: User,
     interactionDto: InteractionDto
-  ): Promise<any> {
+  ): Promise<Usager> {
     const len = interactionDto.type.length;
     const interactionOut = interactionDto.type.substring(len - 3) === "Out";
     const interactionIn = interactionDto.type.substring(len - 2) === "In";
@@ -214,7 +214,7 @@ export class InteractionsService {
         .where({ structureId, usagerId, type: interactionType })
         .groupBy("interactions.type")
         .getRawOne();
-      return search.sum;
+      return typeof search !== "undefined" ? search.sum : 0;
     }
   }
 }
