@@ -780,7 +780,6 @@ export class StatsGeneratorService {
 
   public async totalInteraction(
     structureId: number,
-
     interactionType: InteractionType
   ): Promise<number> {
     if (interactionType === "appel" || interactionType === "visite") {
@@ -795,7 +794,7 @@ export class StatsGeneratorService {
         .where({ structureId, type: interactionType })
         .groupBy("interactions.type")
         .getRawOne();
-      return search.sum;
+      return typeof search !== undefined ? search.sum : 0;
     }
   }
 
