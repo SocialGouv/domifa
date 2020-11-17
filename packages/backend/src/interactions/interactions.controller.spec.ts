@@ -21,8 +21,6 @@ describe("Interactions Controller", () => {
 
   let context: AppTestContext;
 
-  let postgresTypeormConnection: Connection;
-
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [InteractionsController],
@@ -37,13 +35,10 @@ describe("Interactions Controller", () => {
     userService = context.module.get<UsersService>(UsersService);
 
     usagerService = context.module.get<UsagersService>(UsagersService);
-
-    postgresTypeormConnection = await appTypeormManager.connect();
   });
 
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
-    postgresTypeormConnection.close();
   });
 
   it("should be defined", () => {
@@ -54,6 +49,7 @@ describe("Interactions Controller", () => {
     const interaction = new InteractionDto();
     interaction.type = "courrierOut";
     interaction.content = "Les impôts";
+
     const user = await userService.findOne({ id: 2 });
     const usager = await usagerService.findById(1, 1);
 
