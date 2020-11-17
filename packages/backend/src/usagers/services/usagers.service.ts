@@ -1,12 +1,11 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
-import { Model, NativeError } from "mongoose";
-import { User } from "../../users/user.interface";
+import { Inject, Injectable } from "@nestjs/common";
+import { Model } from "mongoose";
+import { AppUser, UserProfile } from "../../_common/model";
+import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
-import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { Usager } from "../interfaces/usagers";
-import { of } from "rxjs";
 
 @Injectable()
 export class UsagersService {
@@ -14,7 +13,10 @@ export class UsagersService {
     @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
   ) {}
 
-  public async create(usagerDto: CreateUsagerDto, user: User): Promise<Usager> {
+  public async create(
+    usagerDto: CreateUsagerDto,
+    user: UserProfile
+  ): Promise<Usager> {
     const createdUsager = new this.usagerModel(usagerDto);
 
     createdUsager.decision.userName = user.prenom + " " + user.nom;
@@ -52,7 +54,10 @@ export class UsagersService {
       .exec();
   }
 
-  public async renouvellement(usager: Usager, user: User): Promise<Usager> {
+  public async renouvellement(
+    usager: Usager,
+    user: Pick<AppUser, "id" | "nom" | "prenom">
+  ): Promise<Usager> {
     usager.historique.push(usager.decision);
     const decision = new DecisionDto();
 
@@ -133,7 +138,7 @@ export class UsagersService {
   public async setRdv(
     usagerId: number,
     rdvDto: RdvDto,
-    user: User
+    user: UserProfile
   ): Promise<Usager> {
     return this.usagerModel
       .findOneAndUpdate(
@@ -179,7 +184,7 @@ export class UsagersService {
     nom: string,
     prenom: string,
     usagerId: number,
-    user: User
+    user: Pick<AppUser, "structureId">
   ): Promise<any> {
     return this.usagerModel
       .find({
@@ -220,7 +225,7 @@ export class UsagersService {
     return this.usagerModel.countDocuments(query).exec();
   }
 
-  public async save(data: any, user: User) {
+  public async save(data: any, user: Pick<AppUser, "structureId">) {
     const createdUsager = new this.usagerModel(data);
     createdUsager.id = await this.findLast(user.structureId);
     createdUsager.customId =
@@ -247,9 +252,9 @@ export class UsagersService {
     return lastUsager === {} || lastUsager === null ? 1 : lastUsager.id + 1;
   }
 
-  public async agenda(user: User) {
+  public async agenda(userId: number) {
     return this.usagerModel
-      .find({ "rdv.dateRdv": { $gt: new Date() }, "rdv.userId": user.id })
+      .find({ "rdv.dateRdv": { $gt: new Date() }, "rdv.userId": userId })
       .sort({ "rdv.dateRdv": -1 })
       .select("nom prenom id rdv")
       .lean()

@@ -1,18 +1,17 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
-import { User } from "src/app/modules/users/interfaces/user";
-import { UserRole } from "src/app/modules/users/interfaces/user-role.type";
 import { formatDateToNgb, minDateToday } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
+import { AppUser, UserRole } from "../../../../../../_common/model";
 import { LoadingService } from "../../../../loading/loading.service";
 import { Options } from "../../../interfaces/options";
 import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
-import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   selector: "app-profil-transfert-courrier",
@@ -21,7 +20,7 @@ import { MatomoTracker } from "ngx-matomo";
 })
 export class UsagersProfilTransfertCourrierComponent implements OnInit {
   @Input() public usager: Usager;
-  @Input() public me: User;
+  @Input() public me: AppUser;
 
   public actions = {
     EDIT: "Modification",

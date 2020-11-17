@@ -36,22 +36,5 @@ describe("Usagers Controller", () => {
 
   it("GET by ID ", async () => {
     expect(controller).toBeDefined();
-    /* const user = await userService.findOne({ id: 1 });
-    expect(await controller.findOne(1, user)).toBeDefined();
-    try {
-      await controller.findOne(30, user);
-    } catch (err) {
-      expect(err.message).toEqual("USAGER_NOT_FOUND");
-    }*/
   });
-  /*
-  it("GET Document  📁", async () => {
-    const user = await userService.findOne({ id: 1 });
-    try {
-      await controller.getDocument(2, 10, null, user);
-    } catch (err) {
-      expect(err.message).toEqual("DOC_NOT_FOUND");
-    }
-  });
-  */
 });

@@ -1,14 +1,14 @@
 import { Component, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { User } from "src/app/modules/users/interfaces/user";
+import { MatomoTracker } from "ngx-matomo";
+import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { AppUser } from "../../../../../_common/model";
+import { appUserBuilder } from "../../../users/services";
 import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 import { motifsRadiation } from "../../usagers.labels";
-import { Title } from "@angular/platform-browser";
-import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
-
 @Component({
   providers: [UsagerService, AuthService],
   selector: "app-raft",
@@ -17,7 +17,7 @@ import { ToastrService } from "ngx-toastr";
 })
 export class RaftComponent implements OnInit {
   public usager: Usager;
-  public user: User;
+  public user: AppUser;
 
   public today: Date;
   public motifsRadiation: any;
@@ -33,7 +33,7 @@ export class RaftComponent implements OnInit {
   ) {
     this.today = new Date();
     this.usager = new Usager();
-    this.user = new User();
+    this.user = appUserBuilder.buildAppUser();
     this.motifsRadiation = motifsRadiation;
   }
 

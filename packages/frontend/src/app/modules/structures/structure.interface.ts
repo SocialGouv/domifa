@@ -1,4 +1,4 @@
-import { User } from "../users/interfaces/user";
+import { AppUser } from "../../../_common/model";
 
 export class Structure {
   public id: number;
@@ -43,7 +43,7 @@ export class Structure {
     codePostal: string;
   };
 
-  public users: User[];
+  public users: AppUser[];
   public createdAt: Date | null;
 
   constructor(structure?: any) {

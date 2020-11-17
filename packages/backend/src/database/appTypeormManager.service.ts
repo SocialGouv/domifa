@@ -1,3 +1,4 @@
+import moment = require("moment");
 import {
   Connection,
   createConnection,
@@ -65,7 +66,7 @@ async function connect() {
   );
 
   const isTypescriptMode = __filename.split(".").pop() === "ts"; // if current file extension is "ts": use src/*.ts files, eles use dist/*.js files
-  
+
   let connectOptionsPaths: Pick<
     PostgresConnectionOptions,
     "migrations" | "entities" | "subscribers"

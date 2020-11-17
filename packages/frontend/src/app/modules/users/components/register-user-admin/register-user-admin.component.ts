@@ -1,21 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators,
+  Validators
 } from "@angular/forms";
-
+import { Title } from "@angular/platform-browser";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
+import { AppUser } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
-import { User } from "../../interfaces/user";
-
+import { appUserBuilder } from "../../services";
 import { UsersService } from "../../services/users.service";
-
-import { Title } from "@angular/platform-browser";
 
 @Component({
   animations: [fadeInOut],
@@ -24,7 +22,7 @@ import { Title } from "@angular/platform-browser";
   templateUrl: "./register-user-admin.component.html",
 })
 export class RegisterUserAdminComponent implements OnInit {
-  public user: User;
+  public user: AppUser;
   public userForm: FormGroup;
 
   public submitted: boolean;
@@ -44,7 +42,7 @@ export class RegisterUserAdminComponent implements OnInit {
     private notifService: ToastrService,
     private titleService: Title
   ) {
-    this.user = new User({});
+    this.user = appUserBuilder.buildAppUser({});
     this.submitted = false;
   }
 

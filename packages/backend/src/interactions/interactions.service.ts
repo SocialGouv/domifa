@@ -1,11 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { HttpException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
+import { type } from "os";
 import { Usager } from "../usagers/interfaces/usagers";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { User } from "../users/user.interface";
+import { AppUser, UserProfile } from "../_common/model";
 import { InteractionDto } from "./interactions.dto";
 import { Interaction } from "./interactions.interface";
-import { type } from "os";
 import { InteractionType } from "./InteractionType.type";
 
 @Injectable()
@@ -14,12 +13,12 @@ export class InteractionsService {
     @Inject("INTERACTION_MODEL")
     private readonly interactionModel: Model<Interaction>,
     @Inject("USAGER_MODEL")
-    private readonly usagerModel: Model<Usager>,
+    private readonly usagerModel: Model<Usager>
   ) {}
 
   public async create(
     usager: Usager,
-    user: User,
+    user: UserProfile,
     interactionDto: InteractionDto
   ): Promise<any> {
     const len = interactionDto.type.length;
@@ -101,7 +100,11 @@ export class InteractionsService {
       .exec();
   }
 
-  public async find(usagerId: number, limit: number, user: User): Promise<any> {
+  public async find(
+    usagerId: number,
+    limit: number,
+    user: Pick<AppUser, "structureId">
+  ): Promise<any> {
     return this.interactionModel
       .find({
         structureId: user.structureId,
@@ -116,7 +119,7 @@ export class InteractionsService {
   public async findOne(
     usagerId: number,
     interactionId: string,
-    user: User
+    user: Pick<AppUser, "structureId">
   ): Promise<Interaction | null> {
     return this.interactionModel
       .findOne({
@@ -129,7 +132,7 @@ export class InteractionsService {
 
   public async deuxDerniersPassages(
     usagerId: number,
-    user: User
+    user: Pick<AppUser, "structureId">
   ): Promise<Interaction[] | [] | null> {
     return this.interactionModel
       .find({
@@ -148,7 +151,7 @@ export class InteractionsService {
     usagerId: number,
     dateInteraction: Date,
     typeInteraction: InteractionType,
-    user: User,
+    user: Pick<AppUser, "structureId">,
     isIn: string
   ): Promise<Interaction | null> {
     const dateQuery =
@@ -167,7 +170,7 @@ export class InteractionsService {
   public async delete(
     usagerId: number,
     interactionId: string,
-    user: User
+    user: Pick<AppUser, "structureId">
   ): Promise<any> {
     const retour = this.interactionModel
       .deleteOne({

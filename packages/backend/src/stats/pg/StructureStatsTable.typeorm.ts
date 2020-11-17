@@ -1,13 +1,16 @@
-import { Column, Entity, Unique } from "typeorm";
+import { Column, Entity, Index, Unique } from "typeorm";
 import { AppTypeormTable } from "../../database/AppTypeormTable.typeorm";
-import { StructureType } from "../../structures/StructureType.type";
-import { StructureStats, StructureStatsQuestions } from "../model";
+import {
+  StructureStats,
+
+  StructureStatsQuestions, StructureType
+} from "../../_common/model";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure_stats" })
 @Unique(["date", "structureId"])
 export class StructureStatsTable
-  extends AppTypeormTable<StructureStats>
+  extends AppTypeormTable<StructureStatsTable>
   implements StructureStats {
   @Column({ type: "text", nullable: true })
   _id: any; // obsolete mongo id: use `uuid` instead
@@ -18,6 +21,7 @@ export class StructureStatsTable
   @Column({ type: "date" })
   date: Date;
 
+  @Index()
   @Column({ type: "integer" })
   structureId: number;
 

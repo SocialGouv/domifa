@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-
-import { User } from "src/app/modules/users/interfaces/user";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { Usager } from "src/app/modules/usagers/interfaces/usager";
+import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+import { AppUser } from "../../../../../../../_common/model";
+
+
 
 @Component({
   providers: [UsagerService],
@@ -34,14 +34,14 @@ export class MenuComponent implements OnInit {
     "documents",
     "decision",
   ];
-  public me: User;
+  public me: AppUser;
 
   constructor(
     public authService: AuthService,
     private router: Router,
     private notifService: ToastrService
   ) {
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
   }

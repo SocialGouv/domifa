@@ -1,5 +1,6 @@
 import { forwardRef } from "@nestjs/common";
 import { DatabaseModule } from "../../database/database.module";
+import { usersRepository } from "../../users/pg/users-repository.service";
 import { UsersService } from "../../users/services/users.service";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
@@ -44,28 +45,27 @@ describe("UsagersService", () => {
 
   it("0. Create / Read / Update / Delete", async () => {
     // CREATE
-    const user = await userService.findOne({ id: 1 });
-
-    // LAST ID
-    expect(await service.findLast(user.structureId)).toEqual(7);
+    const user = await usersRepository.findOne({ id: 1 });
 
     const usagerTest = await service.create(fakeUsagerDto, user);
 
     expect(usagerTest).toBeDefined();
-    expect(usagerTest.id).toEqual(7);
 
     // READ
-    const usager = await service.findById(6, user.structureId);
+    const usager = await service.findById(usagerTest.id, user.structureId);
     expect(usager).toBeTruthy();
-    expect(usager.nom).toEqual("NOUVEAU");
-    expect(usager.sexe).toEqual("homme");
+    expect(usager.nom).toEqual(fakeUsagerDto.nom);
+    expect(usager.sexe).toEqual(fakeUsagerDto.sexe);
 
     // UPDATE
     usager.nom = "Nouveau nom";
     usager.prenom = "Nouveau prénom";
 
     await service.patch(usager, usager._id);
-    const updatedUsager = await service.findById(6, user.structureId);
+    const updatedUsager = await service.findById(
+      usagerTest.id,
+      user.structureId
+    );
 
     expect(updatedUsager.nom).toEqual("Nouveau nom");
     expect(updatedUsager.prenom).toEqual("Nouveau prénom");
@@ -73,10 +73,12 @@ describe("UsagersService", () => {
     // DELETE
     const deletedUsager = await service.delete(updatedUsager._id);
     expect(await deletedUsager.deletedCount).toEqual(1);
+    // clean
+    await service.delete(usagerTest._id);
   });
 
   it("2. Doublons", async () => {
-    const user = await userService.findOne({ id: 1 });
+    const user = await usersRepository.findOne({ id: 1 });
 
     const doublons = await service.isDoublon("Lou", "Li", 2, user);
     expect(doublons.length).toEqual(1);
@@ -84,7 +86,7 @@ describe("UsagersService", () => {
 
   it("2. Search", async () => {
     searchDto.statut = "VALIDE";
-    const user = await userService.findOne({ id: 2 });
+    const user = await usersRepository.findOne({ id: 2 });
     /*
     service.search(searchDto, user.structureId);
     expect(service.searchQuery).toEqual({

@@ -5,6 +5,7 @@ import { DatabaseModule } from "../database/database.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
+import { usersRepository } from "../users/pg/users-repository.service";
 import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from '../util/test';
@@ -47,7 +48,7 @@ describe("InteractionsService", () => {
     interaction.type = "courrierOut";
     interaction.content = "Les impôts";
 
-    const user = await userService.findOne({ id: 1 });
+    const user = await usersRepository.findOne({ id: 1 });
     const usager = await usagerService.findById(1, 1);
 
     /* COURRIER A ZERO */

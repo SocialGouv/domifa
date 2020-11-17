@@ -9,6 +9,7 @@
     "build": "rimraf dist && tsc -p tsconfig.build.json && cp -r src/excel/_templates dist/excel",
     "format": "prettier --write \"src/**/*.ts\"",
     "db:dev:migrate-up": "npx ts-node -r tsconfig-paths/register --transpile-only src/migrate-up.ts",
+    "db:test:migrate-up": "NODE_ENV=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/migrate-up.ts",
     "db:dev:migrate-redo": "npx ts-node -r tsconfig-paths/register --transpile-only src/migrate-up-redo.ts",
     "db:dev:migrate-down:last": "npx ts-node -r tsconfig-paths/register --transpile-only src/migrate-down-last.ts",
     "db:prod:migrate-down:last": "node dist/migrate-down-last.js",

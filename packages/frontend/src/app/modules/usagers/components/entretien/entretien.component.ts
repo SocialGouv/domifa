@@ -5,21 +5,21 @@ import {
   OnInit,
   Output,
   TemplateRef,
-  ViewChild,
+  ViewChild
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
+import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-
+import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-
-import { ToastrService } from "ngx-toastr";
 import * as labels from "src/app/modules/usagers/usagers.labels";
-import { User } from "src/app/modules/users/interfaces/user";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Router } from "@angular/router";
+import { AppUser } from "../../../../../_common/model";
 import { Entretien } from "../../interfaces/entretien";
+
+
+
 
 @Component({
   providers: [UsagerService],
@@ -52,7 +52,7 @@ export class EntretienComponent implements OnInit {
 
   public dirty: boolean;
 
-  public me: User;
+  public me: AppUser;
   public entretienVide: Entretien;
 
   constructor(
@@ -63,7 +63,7 @@ export class EntretienComponent implements OnInit {
     public authService: AuthService,
     private router: Router
   ) {
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
 

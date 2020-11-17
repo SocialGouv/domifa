@@ -54,7 +54,8 @@ function renderWorksheet({
 }
 
 function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
-  return stats.structures.map((structure) => {
+  return stats.structures.map((model) => {
+    const structure = model.structure;
     const departement = DEPARTEMENTS_MAP[structure.departement];
     const row: XlRowModel = {
       values: {
@@ -65,7 +66,7 @@ function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
         import: structure.import ? "oui" : "non",
         importDate: xlFormater.toLocalTimezone(structure.importDate),
         usagersValideCount: stats.usagersCountByStructureId[structure.id] || 0,
-        usersCount: structure.users.length,
+        usersCount: model.usersCount,
         lastLogin: xlFormater.toLocalTimezone(structure.lastLogin),
         codePostal: structure.codePostal,
         departementCode: structure.departement,

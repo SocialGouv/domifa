@@ -1,6 +1,5 @@
 import { Document } from "mongoose";
-import { User } from "../users/user.interface";
-import { StructureType } from "./StructureType.type";
+import { StructureType } from "../_common/model";
 
 export interface Structure extends Document {
   id: number;
@@ -51,6 +50,6 @@ export interface Structure extends Document {
   };
   token: string;
   verified: boolean;
-  users: User[];
+
   createdAt: Date;
 }

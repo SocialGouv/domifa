@@ -3,23 +3,22 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
-  Post,
-  UseGuards,
   HttpException,
   HttpStatus,
+  Param,
+  Post,
+  UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
+import { ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
-
+import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { Usager } from "../usagers/interfaces/usagers";
-import { User } from "../users/user.interface";
+import { UsagersService } from "../usagers/services/usagers.service";
+import { AppAuthUser } from "../_common/model";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsService } from "./interactions.service";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { ApiTags } from "@nestjs/swagger";
 import { InteractionType } from "./InteractionType.type";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
@@ -34,7 +33,7 @@ export class InteractionsController {
   @Post(":id")
   public postInteraction(
     @Body() interactionDto: InteractionDto,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     return this.interactionService.create(usager, user, interactionDto);
@@ -43,7 +42,7 @@ export class InteractionsController {
   @Get(":id/:limit")
   public getInteractions(
     @Param("limit") limit: number,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     return this.interactionService.find(usager.id, limit, user);
@@ -52,7 +51,7 @@ export class InteractionsController {
   @Delete(":id/:interactionId")
   public async deleteInteraction(
     @Param("interactionId") interactionId: string,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     const interactionToDelete = await this.interactionService.findOne(

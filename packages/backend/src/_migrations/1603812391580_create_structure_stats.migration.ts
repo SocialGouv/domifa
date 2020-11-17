@@ -8,6 +8,7 @@ import { StatsDocument } from "../stats/stats.interface";
 import { DepartementHelper } from "../structures/departement-helper.service";
 import { appLogger } from "../util";
 
+// tslint:disable-next-line: class-name
 export class autoMigration1603812391580 implements MigrationInterface {
   name = "autoMigration1603812391580";
 

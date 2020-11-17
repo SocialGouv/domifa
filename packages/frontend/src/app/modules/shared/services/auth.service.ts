@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import jwtDecode from "jwt-decode";
-import { BehaviorSubject, Observable, of, empty, throwError } from "rxjs";
-import { map, catchError } from "rxjs/operators";
-import { environment } from "src/environments/environment";
-import { User } from "../../users/interfaces/user";
 import * as Sentry from "@sentry/browser";
+import jwtDecode from "jwt-decode";
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { catchError, map } from "rxjs/operators";
+import { environment } from "src/environments/environment";
+import { AppUser } from "../../../../_common/model";
+import { appUserBuilder } from "../../users/services";
 
 @Injectable({
   providedIn: "root",
@@ -13,8 +14,8 @@ import * as Sentry from "@sentry/browser";
 export class AuthService {
   public isAdmin: boolean;
 
-  public currentUser: Observable<User>;
-  public currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<AppUser>;
+  public currentUserSubject: BehaviorSubject<AppUser>;
 
   private endPoint = environment.apiUrl + "auth";
 
@@ -22,14 +23,14 @@ export class AuthService {
     this.http = http;
     this.isAdmin = false;
 
-    this.currentUserSubject = new BehaviorSubject<User | null>(
+    this.currentUserSubject = new BehaviorSubject<AppUser | null>(
       JSON.parse(localStorage.getItem("currentUser") || null)
     );
 
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User | null {
+  public get currentUserValue(): AppUser | null {
     return this.currentUserSubject.value;
   }
 
@@ -41,11 +42,13 @@ export class AuthService {
       })
       .pipe(
         map((token) => {
-          const user = new User(jwtDecode(token.access_token));
+          const user = appUserBuilder.buildAppUser(
+            jwtDecode(token.access_token)
+          );
 
           this.isAdmin = user && user.role === "admin";
 
-          user.token = token.access_token;
+          user.temporaryTokens = token.access_token;
 
           localStorage.setItem("currentUser", JSON.stringify(user));
           localStorage.removeItem("filters");
@@ -58,15 +61,15 @@ export class AuthService {
   }
 
   public me(): Observable<any> {
-    return this.http.get<any>(`${this.endPoint}/me`).pipe(
+    return this.http.get<AppUser>(`${this.endPoint}/me`).pipe(
       map((retour: any) => {
         if (Object.keys(retour).length === 0) {
           return false;
         }
 
-        const user = new User(retour);
+        const user = appUserBuilder.buildAppUser(retour);
 
-        user.token = this.currentUserValue.token;
+        user.temporaryTokens = this.currentUserValue.temporaryTokens;
         this.isAdmin = user && user.role === "admin";
 
         this.currentUserSubject.next(user);
@@ -106,9 +109,9 @@ export class AuthService {
           return false;
         }
 
-        const user = new User(retour);
+        const user = appUserBuilder.buildAppUser(retour);
 
-        user.token = this.currentUserValue.token;
+        user.temporaryTokens = this.currentUserValue.temporaryTokens;
         this.isAdmin = user && user.role === "admin";
 
         this.currentUserSubject.next(user);

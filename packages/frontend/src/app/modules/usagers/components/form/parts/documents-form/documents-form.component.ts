@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-
+import { Title } from "@angular/platform-browser";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-
-import { User } from "src/app/modules/users/interfaces/user";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Router, ActivatedRoute } from "@angular/router";
-import { Title } from "@angular/platform-browser";
+import { AppUser } from "../../../../../../../_common/model";
 
 @Component({
   providers: [UsagerService],
@@ -17,7 +15,7 @@ export class DocumentsFormComponent implements OnInit {
   @Input() public usager!: Usager;
   @Output() public usagerChange = new EventEmitter<Usager>();
 
-  public me: User;
+  public me: AppUser;
 
   constructor(
     private usagerService: UsagerService,
@@ -26,7 +24,7 @@ export class DocumentsFormComponent implements OnInit {
     private titleService: Title,
     private route: ActivatedRoute
   ) {
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
   }

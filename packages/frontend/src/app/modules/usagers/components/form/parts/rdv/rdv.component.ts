@@ -18,7 +18,6 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { ToastrService } from "ngx-toastr";
 
-import { User } from "src/app/modules/users/interfaces/user";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsersService } from "src/app/modules/users/services/users.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
@@ -31,6 +30,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { fadeInOut } from "src/app/shared/animations";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
+import { AppUser } from '../../../../../../../_common/model';
 
 @Component({
   animations: [fadeInOut],
@@ -58,8 +58,8 @@ export class RdvComponent implements OnInit {
   @Output()
   public nextStep = new EventEmitter<number>();
 
-  public me: User;
-  public agents: User[] = [];
+  public me: AppUser;
+  public agents: AppUser[] = [];
 
   /* Config datepickers */
   public dToday = new Date();
@@ -89,7 +89,7 @@ export class RdvComponent implements OnInit {
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
 
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
 
@@ -134,7 +134,7 @@ export class RdvComponent implements OnInit {
       userId: [this.usager.rdv.userId, Validators.required],
     });
 
-    this.userService.getUsersMeeting().subscribe((users: User[]) => {
+    this.userService.getUsersMeeting().subscribe((users: AppUser[]) => {
       this.agents = users;
 
       const userIdRdv =

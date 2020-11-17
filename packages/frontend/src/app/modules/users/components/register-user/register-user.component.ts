@@ -3,20 +3,21 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators,
+  Validators
 } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
+import { StructureService } from "src/app/modules/structures/services/structure.service";
+import { Structure } from "src/app/modules/structures/structure.interface";
+import { AppUser } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
-import { User } from "../../interfaces/user";
+import { appUserBuilder } from "../../services";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
-import { Structure } from "src/app/modules/structures/structure.interface";
-import { StructureService } from "src/app/modules/structures/services/structure.service";
-import { Title } from "@angular/platform-browser";
 
 @Component({
   animations: [fadeInOut],
@@ -25,7 +26,7 @@ import { Title } from "@angular/platform-browser";
   templateUrl: "./register-user.component.html",
 })
 export class RegisterUserComponent implements OnInit {
-  public user: User;
+  public user: AppUser;
   public userForm: FormGroup;
 
   public submitted: boolean;
@@ -56,7 +57,7 @@ export class RegisterUserComponent implements OnInit {
   ) {
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
-    this.user = new User({});
+    this.user = appUserBuilder.buildAppUser({});
     this.submitted = false;
     this.success = false;
   }
@@ -130,7 +131,7 @@ export class RegisterUserComponent implements OnInit {
 
   public postUser() {
     this.userService.create(this.userForm.value).subscribe(
-      (user: User) => {
+      (user: AppUser) => {
         this.success = true;
         this.notifService.success(
           "Votre compte a été créé avec succès",

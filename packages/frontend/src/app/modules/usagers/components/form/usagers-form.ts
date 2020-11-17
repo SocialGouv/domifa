@@ -12,7 +12,6 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 
 import { ToastrService } from "ngx-toastr";
-import { User } from "src/app/modules/users/interfaces/user";
 
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
@@ -29,6 +28,7 @@ import {
   formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
 import { Title } from "@angular/platform-browser";
+import { AppUser } from '../../../../../_common/model';
 
 @Component({
   animations: [fadeInOut],
@@ -73,7 +73,7 @@ export class UsagersFormComponent implements OnInit {
 
   public liensLabels: any;
 
-  public me: User;
+  public me: AppUser;
 
   get f() {
     return this.usagerForm.controls;

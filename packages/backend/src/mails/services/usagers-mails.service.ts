@@ -2,7 +2,7 @@ import { HttpService, Injectable } from "@nestjs/common";
 import * as moment from "moment";
 import { configService } from "../../config";
 import { Usager } from "../../usagers/interfaces/usagers";
-import { User } from "../../users/user.interface";
+import { AppUserForAdminEmail } from "../../users/pg/users-repository.service";
 
 @Injectable()
 export class UsagersMailsService {
@@ -15,7 +15,7 @@ export class UsagersMailsService {
   }
 
   public async mailRdv(
-    user: User,
+    user: AppUserForAdminEmail,
     usager: Usager,
     event: any,
     message: string
@@ -87,7 +87,7 @@ export class UsagersMailsService {
       .toPromise();
   }
 
-  public hardReset(user: User, token: string) {
+  public hardReset(user: AppUserForAdminEmail, token: string) {
     const post = {
       to: [
         {

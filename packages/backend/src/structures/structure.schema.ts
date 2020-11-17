@@ -152,12 +152,12 @@ export const StructureSchema = new mongoose.Schema(
       default: "",
       type: String,
     },
-    users: [
-      {
-        ref: "User",
-        type: mongoose.Schema.Types.ObjectId,
-      },
-    ],
+    // users: [
+    //   {
+    //     ref: "User",
+    //     type: mongoose.Schema.Types.ObjectId,
+    //   },
+    // ],
     verified: {
       default: false,
       type: Boolean,
