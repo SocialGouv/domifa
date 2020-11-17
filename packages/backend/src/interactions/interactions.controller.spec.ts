@@ -1,8 +1,3 @@
-import { Connection } from "typeorm";
-import { appTypeormManager } from "../database/appTypeormManager.service";
-
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { DatabaseModule } from "../database/database.module";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -11,7 +6,7 @@ import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
-import { InteractionsProviders } from "./interactions.providers";
+
 import { InteractionsService } from "./interactions.service";
 
 describe("Interactions Controller", () => {

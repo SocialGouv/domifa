@@ -7,7 +7,7 @@ import { InteractionDocument } from "./interactions.interface";
 import { Usager } from "../usagers/interfaces/usagers";
 import { appTypeormManager } from "../database/appTypeormManager.service";
 import { InteractionDto } from "./interactions.dto";
-import { Interactions } from "./model";
+import { Interactions } from "./model/interactions.type";
 import { InteractionType } from "./InteractionType.type";
 import { User } from "../users/user.interface";
 
