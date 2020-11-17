@@ -23,6 +23,7 @@ import { UsagersService } from "../usagers/services/usagers.service";
 
 import { InteractionType } from "./InteractionType.type";
 import { InteractionsService } from "./interactions.service";
+import { AppAuthUser } from "../_common/model";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
 @ApiTags("interactions")

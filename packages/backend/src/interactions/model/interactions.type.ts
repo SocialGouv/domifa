@@ -1,5 +1,5 @@
-import { AppEntity } from "../../database/AppEntity.model";
 import { InteractionType } from "../InteractionType.type";
+import { AppEntity } from "../../_common/model";
 
 export type Interactions = AppEntity & {
   //  public _id: ObjectID;

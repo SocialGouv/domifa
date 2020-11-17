@@ -12,6 +12,7 @@ import { InteractionType } from "./InteractionType.type";
 import { User } from "../users/user.interface";
 
 import { appTypeormManager } from "../database/appTypeormManager.service";
+import { Usager } from "../usagers/interfaces/usagers";
 
 @Injectable()
 export class InteractionsService {
