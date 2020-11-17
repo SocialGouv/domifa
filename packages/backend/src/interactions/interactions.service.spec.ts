@@ -92,7 +92,7 @@ describe("InteractionsService", () => {
     interaction.nbCourrier = 1;
 
     const usager3 = await interactionService.create(usager, user, interaction);
-    expect(usager3.lastInteraction.colisIn).toEqual(7);
+    expect(usager3.lastInteraction.colisIn).toEqual(5);
 
     const distribution = new InteractionDto();
     distribution.type = "colisOut";

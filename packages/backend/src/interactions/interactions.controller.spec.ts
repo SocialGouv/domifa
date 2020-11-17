@@ -21,8 +21,6 @@ describe("Interactions Controller", () => {
 
   let context: AppTestContext;
 
-  let postgresTypeormConnection: Connection;
-
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [InteractionsController],
@@ -38,13 +36,10 @@ describe("Interactions Controller", () => {
     userService = context.module.get<UsersService>(UsersService);
 
     usagerService = context.module.get<UsagersService>(UsagersService);
-
-    postgresTypeormConnection = await appTypeormManager.connect();
   });
 
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
-    postgresTypeormConnection.close();
   });
 
   it("should be defined", () => {
