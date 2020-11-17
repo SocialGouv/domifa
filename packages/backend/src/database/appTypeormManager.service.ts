@@ -4,7 +4,7 @@ import {
   createConnection,
   EntityManager,
   EntityTarget,
-  Migration
+  Migration,
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { configService } from "../config";
@@ -99,7 +99,7 @@ async function connect() {
     password: pgConfig.password,
     database: pgConfig.database,
     logger: "simple-console",
-    logging: ["warn"],
+    logging: true,
     ...connectOptionsPaths,
   };
   try {

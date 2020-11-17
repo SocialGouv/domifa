@@ -6,7 +6,7 @@ import { CurrentUser } from "../../auth/current-user.decorator";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import {
   structureUsagersExporter,
-  StructureUsagersExportModel
+  StructureUsagersExportModel,
 } from "../../excel/export-structure-usagers";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { appLogger } from "../../util";

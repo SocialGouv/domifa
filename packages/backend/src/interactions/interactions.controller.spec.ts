@@ -7,7 +7,7 @@ import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
-import { InteractionsProviders } from "./interactions.providers";
+
 import { InteractionsService } from "./interactions.service";
 
 describe("Interactions Controller", () => {
@@ -17,19 +17,23 @@ describe("Interactions Controller", () => {
   let usagerService: UsagersService;
 
   let context: AppTestContext;
+
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [InteractionsController],
       imports: [DatabaseModule, UsersModule, UsagersModule],
-      providers: [InteractionsService, ...InteractionsProviders],
+      providers: [InteractionsService],
     });
+
     controller = context.module.get<InteractionsController>(
       InteractionsController
     );
     authService = context.module.get<AuthService>(AuthService);
     userService = context.module.get<UsersService>(UsersService);
+
     usagerService = context.module.get<UsagersService>(UsagersService);
   });
+
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
   });

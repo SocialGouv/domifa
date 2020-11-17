@@ -9,4 +9,5 @@ export const InteractionSchema = new mongoose.Schema({
   usagerId: { type: Number, index: true, required: true },
   userId: Number,
   userName: String,
+  migrated: { type: Boolean, default: false },
 });
