@@ -3,6 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Model } from "mongoose";
 import { StructuresService } from "../structures/services/structures.service";
 import { Structure } from "../structures/structure-interface";
+import { AppUserTable } from "../users/pg";
 import { usersRepository } from "../users/pg/users-repository.service";
 import {
   AppAuthUser,
@@ -65,12 +66,32 @@ export class AuthService {
   }
 
   public async validateUser(payload: JwtPayload): Promise<false | AppAuthUser> {
-    const user = await usersRepository.findOne<AppUserPublic>(
-      { id: payload.id },
+    const authUser = await this.findAuthUser({ id: payload.id });
+
+    if (!authUser || authUser === null) {
+      return false;
+    }
+
+    // update structure & user last login date
+    await this.structuresService.updateLastLogin(authUser.structureId);
+    await usersRepository.updateOne(
       {
-        select: APP_USER_PUBLIC_ATTRIBUTES,
+        id: authUser.id,
+        structureId: authUser.structureId,
+      },
+      {
+        lastLogin: new Date(),
       }
     );
+
+    return authUser;
+  }
+  public async findAuthUser(
+    criteria: Partial<AppUserTable>
+  ): Promise<AppAuthUser> {
+    const user = await usersRepository.findOne<AppUserPublic>(criteria, {
+      select: APP_USER_PUBLIC_ATTRIBUTES,
+    });
 
     const structure: StructurePublic = await this.structureModel
       .findOne({
@@ -78,23 +99,6 @@ export class AuthService {
       })
       .select(STRUCTURE_PUBLIC_ATTRIBUTES)
       .lean();
-
-    if (!user || user === null) {
-      return false;
-    }
-
-    // update structure & user last login date
-    await this.structuresService.updateLastLogin(user.structureId);
-    await usersRepository.updateOne(
-      {
-        id: user.id,
-        structureId: user.structureId,
-      },
-      {
-        lastLogin: new Date(),
-      }
-    );
-
     return {
       ...user,
       structure,

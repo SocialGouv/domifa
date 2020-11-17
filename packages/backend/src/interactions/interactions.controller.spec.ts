@@ -1,7 +1,7 @@
+import { AuthService } from "../auth/auth.service";
 import { DatabaseModule } from "../database/database.module";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
-import { usersRepository } from "../users/pg/users-repository.service";
 import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
@@ -13,6 +13,7 @@ import { InteractionsService } from "./interactions.service";
 describe("Interactions Controller", () => {
   let controller: InteractionsController;
   let userService: UsersService;
+  let authService: AuthService;
   let usagerService: UsagersService;
 
   let context: AppTestContext;
@@ -25,6 +26,7 @@ describe("Interactions Controller", () => {
     controller = context.module.get<InteractionsController>(
       InteractionsController
     );
+    authService = context.module.get<AuthService>(AuthService);
     userService = context.module.get<UsersService>(UsersService);
     usagerService = context.module.get<UsagersService>(UsagersService);
   });
@@ -40,7 +42,7 @@ describe("Interactions Controller", () => {
     const interaction = new InteractionDto();
     interaction.type = "courrierOut";
     interaction.content = "Les impôts";
-    const user = await usersRepository.findOne({ id: 2 });
+    const user = await authService.findAuthUser({ id: 2 });
     const usager = await usagerService.findById(1, 1);
 
     try {

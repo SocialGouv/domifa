@@ -73,7 +73,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       qb.orderBy(options.order);
     }
 
-    if (options.logSql || true) {
+    if (options.logSql) {
       appLogger.debug(`[pgRepository] "${qb.getSql()}"`);
     }
     if (options.maxResults) {
@@ -103,7 +103,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 
   async function findOne<R = DEFAULT_RESULT>(
-    search: Partial<T>,
+    search?: FindConditions<T>[] | FindConditions<T> | ObjectLiteral | string,
     options: PgRepositoryFindOptions<T> = {}
   ): Promise<R> {
     const typeormRepository = await appTypeormManager.getRepository(

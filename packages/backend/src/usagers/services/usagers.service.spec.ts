@@ -54,8 +54,8 @@ describe("UsagersService", () => {
     // READ
     const usager = await service.findById(usagerTest.id, user.structureId);
     expect(usager).toBeTruthy();
-    expect(usager.nom).toEqual("NOUVEAU");
-    expect(usager.sexe).toEqual("homme");
+    expect(usager.nom).toEqual(fakeUsagerDto.nom);
+    expect(usager.sexe).toEqual(fakeUsagerDto.sexe);
 
     // UPDATE
     usager.nom = "Nouveau nom";
