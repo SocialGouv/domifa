@@ -5,8 +5,6 @@ import { AppUser, UserProfile, AppAuthUser } from "../_common/model";
 
 import { Repository, FindConditions, LessThan, MoreThan } from "typeorm";
 import { InteractionsTable } from "./pg/InteractionsTable.typeorm";
-import { InteractionDocument } from "./interactions.interface";
-import { Usager } from "../usagers/interfaces/usagers";
 
 import { InteractionDto } from "./interactions.dto";
 import { Interactions } from "./model/interactions.type";

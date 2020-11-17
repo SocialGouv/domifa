@@ -15,6 +15,10 @@ import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeo
 import { appTypeormManager } from "../../database/appTypeormManager.service";
 import { InteractionType } from "../../interactions/InteractionType.type";
 import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
+import { Repository } from "typeorm";
+import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
+import { appTypeormManager } from "../../database/appTypeormManager.service";
+import { InteractionType } from "../../interactions/InteractionType.type";
 
 @Injectable()
 export class DashboardService {
@@ -303,5 +307,26 @@ export class DashboardService {
       structuresModels.push(structureModel);
     }
     return structuresModels;
+  }
+
+  private async _totalInteractions(
+    interactionType: InteractionType
+  ): Promise<number> {
+    {
+      if (interactionType === "appel" || interactionType === "visite") {
+        return this.interactionRepository.count({
+          type: interactionType,
+        });
+      } else {
+        const search = await this.interactionRepository
+          .createQueryBuilder("interactions")
+          .select("SUM(interactions.nbCourrier)", "sum")
+          .where({ type: interactionType })
+          .groupBy("interactions.type")
+          .getRawOne();
+
+        return typeof search !== "undefined" ? search.sum : 0;
+      }
+    }
   }
 }

@@ -1,4 +1,6 @@
-import { AuthService } from "../auth/auth.service";
+import { Connection } from "typeorm";
+import { appTypeormManager } from "../database/appTypeormManager.service";
+
 import { DatabaseModule } from "../database/database.module";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -9,6 +11,7 @@ import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
 
 import { InteractionsService } from "./interactions.service";
+import { AuthService } from "../auth/auth.service";
 
 describe("Interactions Controller", () => {
   let controller: InteractionsController;
@@ -17,6 +20,8 @@ describe("Interactions Controller", () => {
   let usagerService: UsagersService;
 
   let context: AppTestContext;
+
+  let postgresTypeormConnection: Connection;
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
@@ -28,14 +33,18 @@ describe("Interactions Controller", () => {
     controller = context.module.get<InteractionsController>(
       InteractionsController
     );
+
     authService = context.module.get<AuthService>(AuthService);
     userService = context.module.get<UsersService>(UsersService);
 
     usagerService = context.module.get<UsagersService>(UsagersService);
+
+    postgresTypeormConnection = await appTypeormManager.connect();
   });
 
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
+    postgresTypeormConnection.close();
   });
 
   it("should be defined", () => {
