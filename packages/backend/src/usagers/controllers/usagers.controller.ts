@@ -9,7 +9,7 @@ import {
   Patch,
   Post,
   Res,
-  UseGuards,
+  UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -23,7 +23,7 @@ import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { configService } from "../../config/config.service";
 import { InteractionsService } from "../../interactions/interactions.service";
-import { User } from "../../users/user.interface";
+import { AppAuthUser } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { DecisionDto } from "../dto/decision.dto";
 import { EditUsagerDto } from "../dto/edit-usager.dto";
@@ -49,7 +49,7 @@ export class UsagersController {
   @Post()
   public postUsager(
     @Body() usagerDto: CreateUsagerDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: AppAuthUser
   ) {
     return this.usagersService.create(usagerDto, user);
   }
@@ -91,7 +91,7 @@ export class UsagersController {
   @Get("stop-courrier/:id")
   public async stopCourrier(
     @CurrentUsager() usager: Usager,
-    @CurrentUser() user: User
+    @CurrentUser() user: AppAuthUser
   ) {
     if (usager.options.npai.actif) {
       usager.options.npai.actif = false;
@@ -107,7 +107,7 @@ export class UsagersController {
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
   @Get("renouvellement/:id")
   public async renouvellement(
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     return this.usagersService.renouvellement(usager, user);
@@ -117,7 +117,7 @@ export class UsagersController {
   @Post("decision/:id")
   public async setDecision(
     @Body() decision: DecisionDto,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     decision.userName = user.prenom + " " + user.nom;
@@ -175,7 +175,7 @@ export class UsagersController {
     @Param("nom") nom: string,
     @Param("prenom") prenom: string,
     @Param("id") usagerId: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: AppAuthUser
   ) {
     return this.usagersService.isDoublon(nom, prenom, usagerId, user);
   }
@@ -183,7 +183,7 @@ export class UsagersController {
   @UseGuards(AuthGuard("jwt"), ResponsableGuard, UsagerAccessGuard)
   @Delete(":id")
   public async delete(
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager,
     @Res() res: Response
   ) {
@@ -241,7 +241,7 @@ export class UsagersController {
   @Post("transfert/:id")
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     const action = usager.options.transfert.actif ? "EDIT" : "CREATION";
@@ -278,7 +278,7 @@ export class UsagersController {
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
   @Delete("transfert/:id")
   public async deleteTransfert(
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     usager.options.transfert = {
@@ -303,7 +303,7 @@ export class UsagersController {
   @Post("procuration/:id")
   public async editProcuration(
     @Body() procurationDto: ProcurationDto,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     const action = usager.options.procuration.actif ? "EDIT" : "CREATION";
@@ -330,7 +330,7 @@ export class UsagersController {
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
   @Delete("procuration/:id")
   public async deleteProcuration(
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     usager.options.procuration = {
@@ -356,7 +356,7 @@ export class UsagersController {
   @Get("attestation/:id")
   public async getAttestation(
     @Res() res: Response,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
     return this.cerfaService

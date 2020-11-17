@@ -2,7 +2,7 @@ import { HttpService, Injectable } from "@nestjs/common";
 import { configService } from "../../config";
 import { DEPARTEMENTS_MAP } from "../../structures/DEPARTEMENTS_MAP.const";
 import { Structure } from "../../structures/structure-interface";
-import { User } from "../../users/user.interface";
+import { AppUserForAdminEmail } from "../../users/pg/users-repository.service";
 
 @Injectable()
 export class DomifaMailsService {
@@ -17,7 +17,7 @@ export class DomifaMailsService {
   //
   // Indiquer la création d'une structure à l'équipe Domifa
   //
-  public newStructure(structure: Structure, user: User) {
+  public newStructure(structure: Structure, user: AppUserForAdminEmail) {
     const route = structure._id + "/" + structure.token;
     const lienConfirmation =
       configService.get("DOMIFA_FRONTEND_URL") + "structures/confirm/" + route;

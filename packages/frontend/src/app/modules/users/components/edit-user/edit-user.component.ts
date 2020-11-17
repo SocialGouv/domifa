@@ -1,22 +1,22 @@
 import { Component, OnInit } from "@angular/core";
-import { Title } from "@angular/platform-browser";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsersService } from "../../services/users.service";
-import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators,
-  AbstractControl,
+  Validators
 } from "@angular/forms";
-import { User } from "../../interfaces/user";
-import { regexp } from "src/app/shared/validators";
-import { PasswordValidator } from "../../services/password-validator.service";
-import { map } from "rxjs/operators";
+import { Title } from "@angular/platform-browser";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+import { map } from "rxjs/operators";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
+import { regexp } from "src/app/shared/validators";
+import { AppUser } from "../../../../../_common/model";
+import { appUserBuilder } from "../../services";
+import { PasswordValidator } from "../../services/password-validator.service";
+import { UsersService } from "../../services/users.service";
 
 @Component({
   selector: "app-edit-user",
@@ -24,7 +24,7 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
   styleUrls: ["./edit-user.component.css"],
 })
 export class EditUserComponent implements OnInit {
-  public me: User | null;
+  public me: AppUser | null;
   public usagers: Usager[];
 
   public submitted: boolean;
@@ -148,8 +148,8 @@ export class EditUserComponent implements OnInit {
       );
     } else {
       this.userService.patch(this.userForm.value).subscribe(
-        (user: User) => {
-          this.me = new User(user);
+        (user: AppUser) => {
+          this.me = appUserBuilder.buildAppUser(user);
           this.editUser = false;
           this.notifService.success(
             "Vos informations ont été modifiées avec succès",

@@ -1,9 +1,9 @@
 import { Column, Workbook } from "exceljs";
-import { StructureType } from "../../../structures/StructureType.type";
 import { REGIONS_LABELS_MAP } from "../../../structures/REGIONS_LABELS_MAP.const";
 import { WorksheetRenderer, xlFormater, xlRenderer } from "../../xlLib";
 import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
 import { InteractionType } from "../../../interactions/InteractionType.type";
+import { StructureType } from '../../../_common/model';
 
 export const exportStatsGlobalesWorksheetRenderer = {
   renderWorksheet,

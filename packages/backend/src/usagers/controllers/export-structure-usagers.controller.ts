@@ -1,24 +1,20 @@
 import { Controller, Get, Param, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-
-import { CurrentUser } from "../../auth/current-user.decorator";
-
-import { User } from "../../users/user.interface";
-import { UsagersService } from "../services/usagers.service";
-import { Usager } from "../interfaces/usagers";
-
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-
-import { InteractionsService } from "../../interactions/interactions.service";
+import { CurrentUser } from "../../auth/current-user.decorator";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
-import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-import { UserRole } from "../../users/user-role.type";
 import {
   structureUsagersExporter,
   StructureUsagersExportModel,
 } from "../../excel/export-structure-usagers";
-import moment = require("moment");
+import { InteractionsService } from "../../interactions/interactions.service";
 import { appLogger } from "../../util";
+import { AppAuthUser, AppUser, UserRole } from "../../_common/model";
+import { Usager } from "../interfaces/usagers";
+import { UsagersService } from "../services/usagers.service";
+
+import moment = require("moment");
 
 @UseGuards(AuthGuard("jwt"), ResponsableGuard)
 @ApiTags("export")
@@ -52,7 +48,7 @@ export class ExportStructureUsagersController {
   public async export(
     @Param("id") id: number,
     @Param("role") role: UserRole,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @Res() res: Response
   ) {
     const model: StructureUsagersExportModel = await this.buildExportModel(
@@ -82,7 +78,7 @@ export class ExportStructureUsagersController {
       });
   }
 
-  private async buildExportModel(user: User) {
+  private async buildExportModel(user: Pick<AppUser, "structureId">) {
     const usagers = await this.usagersService.export(user.structureId);
 
     const usagersInteractionsCountByType: {

@@ -1,14 +1,12 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import * as crypto from "crypto";
 import { Model } from "mongoose";
-import { User } from "../../users/user.interface";
-
+import { appLogger } from "../../util";
+import { AppUser } from "../../_common/model";
+import { DepartementHelper } from "../departement-helper.service";
 import { StructureEditDto } from "../dto/structure-edit.dto";
 import { StructureDto } from "../dto/structure.dto";
 import { Structure } from "../structure-interface";
-
-import { DepartementHelper } from "../departement-helper.service";
-import { appLogger } from "../../util";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -61,7 +59,10 @@ export class StructuresService {
     return structure;
   }
 
-  public async patch(structureDto: StructureEditDto, user: User): Promise<any> {
+  public async patch(
+    structureDto: StructureEditDto,
+    user: Pick<AppUser, "structureId">
+  ): Promise<any> {
     structureDto.departement = this.departementHelper.getDepartementFromCodePostal(
       structureDto.codePostal
     );
@@ -71,7 +72,7 @@ export class StructuresService {
 
     return this.structureModel
       .findOneAndUpdate(
-        { _id: user.structure._id },
+        { _id: user.structureId },
         { $set: structureDto },
         { new: true }
       )
@@ -147,22 +148,12 @@ export class StructuresService {
   }
 
   public async checkHardResetToken(
-    userId: string,
+    userId: number,
     token: string
   ): Promise<Structure | null> {
     return this.structureModel
       .findOne({ "hardReset.token": token, "hardReset.userId": userId })
       .select("+hardReset")
-      .exec();
-  }
-
-  public async addUser(user: User, structureId: number): Promise<any> {
-    return this.structureModel
-      .findOneAndUpdate(
-        { id: structureId },
-        { $push: { users: user } },
-        { new: true }
-      )
       .exec();
   }
 

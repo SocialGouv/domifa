@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { HttpException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 
 import { Repository, FindConditions, LessThan, MoreThan } from "typeorm";
@@ -25,7 +25,7 @@ export class InteractionsService {
   }
   public async create(
     usager: Usager,
-    user: User,
+    user: UserProfile,
     interactionDto: InteractionDto
   ): Promise<Usager> {
     const len = interactionDto.type.length;
@@ -146,7 +146,7 @@ export class InteractionsService {
     usagerId: number,
     dateInteraction: Date,
     typeInteraction: InteractionType,
-    user: User,
+    user: Pick<AppUser, "structureId">,
     isIn: string
   ): Promise<Interactions | null> {
     const dateQuery =

@@ -51,16 +51,16 @@ describe("Structure Service", () => {
   it("0. Create / Read / Update / Delete", async () => {
     // LAST ID
     expect(service.findAllPublic()).toBeTruthy();
-    expect(await service.findLast()).toEqual(2);
 
     // CREATE
     const newStructure = await service.create(structureDto);
     expect(newStructure).toBeDefined();
-    expect(newStructure.id).toEqual(2);
+    expect(newStructure.ville).toEqual("Paris");
+    expect(newStructure.nom).toEqual("Association Amicale");
 
     // READ
-    const structure = await service.findOne(2);
-    expect(structure).toBeTruthy();
+    const structure = await service.findOne(newStructure.id);
+    expect(structure).toBeDefined();
     expect(structure.ville).toEqual("Paris");
     expect(structure.nom).toEqual("Association Amicale");
 

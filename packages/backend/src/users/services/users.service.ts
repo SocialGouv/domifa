@@ -1,47 +1,39 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
 import * as crypto from "crypto";
-import { Model } from "mongoose";
+import { Repository } from "typeorm";
+import { appTypeormManager } from "../../database/appTypeormManager.service";
 import { Structure } from "../../structures/structure-interface";
+import {
+  AppUser
+} from "../../_common/model";
+import { EditPasswordDto } from "../dto/edit-password.dto";
+import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 import { ResetPasswordDto } from "../dto/reset-password.dto";
 import { UserDto } from "../dto/user.dto";
-import { User } from "../user.interface";
-import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
-import { EditPasswordDto } from "../dto/edit-password.dto";
-import { UserProfil } from "../user-profil.type";
-import { mongoSelectAttributes } from "../../util/mongoSelectAttributes.fn";
-
-const USER_PROFILE_ATTRIBUTES = mongoSelectAttributes<UserProfil>(
-  "id",
-  "email",
-  "nom",
-  "prenom",
-  "role",
-  "verified"
-);
-const ADMIN_EMAILS_ATTRIBUTES = mongoSelectAttributes<UserProfil>(
-  "email",
-  "nom",
-  "prenom"
-);
+import { AppUserTable } from "../pg";
+import {
+  AppUserForAdminEmailWithTempTokens,
+  usersRepository,
+  USERS_ADMIN_EMAILS_ATTRIBUTES
+} from "../pg/users-repository.service";
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject("USER_MODEL") private readonly userModel: Model<User>) {}
+  private appUserRepository: Repository<AppUserTable>;
 
-  public async findAll(request: any): Promise<User[]> {
-    return this.userModel.find(request).select(USER_PROFILE_ATTRIBUTES).exec();
+  constructor() {
+    this.appUserRepository = appTypeormManager.getRepository(AppUserTable);
   }
 
-  public async findAdmins(request: any): Promise<User[]> {
-    return this.userModel.find(request).select(ADMIN_EMAILS_ATTRIBUTES).exec();
-  }
-
-  public async create(userDto: UserDto, structure: Structure): Promise<User> {
-    const createdUser = new this.userModel(userDto);
+  public async create(
+    userDto: UserDto,
+    structure: Structure
+  ): Promise<AppUserTable> {
+    const createdUser = new AppUserTable(userDto);
 
     /* Admin par défaut */
-    const adminExist = await this.findOne({
+    const adminExist = await usersRepository.findOne({
       structureId: userDto.structureId,
     });
 
@@ -49,56 +41,28 @@ export class UsersService {
       createdUser.role = "admin";
     }
 
-    createdUser.structure = structure;
-    createdUser.id = await this.findLast();
+    createdUser.structureId = structure.id;
     createdUser.password = await bcrypt.hash(createdUser.password, 10);
 
-    return createdUser.save();
+    return this.appUserRepository.save(createdUser);
   }
 
-  public async findOne(search: any): Promise<any> {
-    return this.userModel
-      .findOne(search)
-      .populate("structure", "-import -token -users -verified -mails")
-      .lean()
-      .exec();
-  }
-
-  public async update(
-    userId: number,
-    structureId: number,
-    data: any
-  ): Promise<UserProfil> {
-    return this.userModel
-      .findOneAndUpdate(
-        { id: userId, structureId },
-        { $set: data },
-        { new: true }
-      )
-      .select(USER_PROFILE_ATTRIBUTES)
-      .exec();
-  }
-
-  public async generateTokenPassword(email: string): Promise<any> {
+  public async generateTokenPassword(email: string) {
     const twoDays = new Date();
     twoDays.setDate(twoDays.getDate() + 2);
-    return this.userModel
-      .findOneAndUpdate(
-        { email },
-        {
-          $set: {
-            tokens: {
-              password: crypto.randomBytes(30).toString("hex"),
-              passwordValidity: twoDays,
-            },
-          },
+
+    return usersRepository.updateOne<AppUserForAdminEmailWithTempTokens>(
+      { email },
+      {
+        temporaryTokens: {
+          password: crypto.randomBytes(30).toString("hex"),
+          passwordValidity: twoDays,
         },
-        {
-          new: true,
-        }
-      )
-      .select("-password")
-      .exec();
+      },
+      {
+        select: USERS_ADMIN_EMAILS_ATTRIBUTES.concat("temporaryTokens"),
+      }
+    );
   }
 
   public async updatePassword(
@@ -106,73 +70,51 @@ export class UsersService {
   ): Promise<any> {
     const newPassword = await bcrypt.hash(resetPasswordDto.password, 10);
 
-    return this.userModel
-      .findOneAndUpdate(
-        { "tokens.password": resetPasswordDto.token },
-        {
-          $set: {
-            password: newPassword,
-            passwordLastUpdate: new Date(),
-          },
-          $unset: {
-            "tokens.password": "",
-            "tokens.creation": "",
-            "tokens.passwordValidity": "",
-          },
-        },
-        {
-          new: true,
-        }
-      )
-      .select("-password -tokens")
-      .exec();
+    const user = await usersRepository.findOneByTokenAttribute(
+      "password",
+      resetPasswordDto.token
+    );
+
+    return usersRepository.updateOne(
+      {
+        id: user.id,
+      },
+      {
+        password: newPassword,
+        passwordLastUpdate: new Date(),
+        temporaryTokens: null,
+      }
+    );
   }
 
   public async editPassword(
-    user: User,
+    user: Pick<AppUser, "id">,
     resetPasswordDto: EditPasswordDto
   ): Promise<any> {
     const newPassword = await bcrypt.hash(resetPasswordDto.password, 10);
 
-    return this.userModel
-      .findOneAndUpdate(
-        { _id: user._id },
-        {
-          $set: {
-            password: newPassword,
-            passwordLastUpdate: new Date(),
-          },
-          $unset: {
-            "tokens.password": "",
-            "tokens.creation": "",
-            "tokens.passwordValidity": "",
-          },
-        },
-        {
-          new: true,
-        }
-      )
-      .select("-password -tokens")
-      .exec();
+    return usersRepository.updateOne(
+      {
+        id: user.id,
+      },
+      {
+        password: newPassword,
+        passwordLastUpdate: new Date(),
+        temporaryTokens: null,
+      }
+    );
   }
 
-  public async delete(id: string): Promise<any> {
-    return this.userModel.deleteOne({ _id: id }).exec();
-  }
-
-  public async deleteAll(id: number): Promise<any> {
-    return this.userModel.deleteMany({ structureId: id }).exec();
-  }
-
-  public async register(userDto: RegisterUserAdminDto): Promise<User> {
-    const createdUser = new this.userModel(userDto);
+  public async register(userDto: RegisterUserAdminDto) {
+    const createdUser = new AppUserTable(userDto);
 
     createdUser.verified = true;
-    createdUser.id = await this.findLast();
     createdUser.password = crypto.randomBytes(30).toString("hex");
-    createdUser.tokens.creation = crypto.randomBytes(30).toString("hex");
+    createdUser.temporaryTokens = {
+      creation: crypto.randomBytes(30).toString("hex"),
+    };
 
-    return createdUser.save();
+    return appTypeormManager.getRepository(AppUserTable).save(createdUser);
   }
 
   public async createPassword(
@@ -180,33 +122,20 @@ export class UsersService {
   ): Promise<any> {
     const newPassword = await bcrypt.hash(resetPasswordDto.password, 10);
 
-    return this.userModel
-      .findOneAndUpdate(
-        { "tokens.creation": resetPasswordDto.token },
-        {
-          $set: {
-            password: newPassword,
-            verified: true,
-          },
-          $unset: {
-            "tokens.password": "",
-            "tokens.creation": "",
-            "tokens.passwordValidity": "",
-          },
-        },
-        { new: true }
-      )
-      .select("-password -tokens")
-      .exec();
-  }
+    const user = await usersRepository.findOneByTokenAttribute(
+      "creation",
+      resetPasswordDto.token
+    );
 
-  public async findLast(): Promise<number> {
-    const lastUser: any = await this.userModel
-      .findOne({}, { id: 1 })
-      .sort({ id: -1 })
-      .lean()
-      .exec();
-
-    return lastUser === {} || lastUser === null ? 1 : lastUser.id + 1;
+    return usersRepository.updateOne(
+      {
+        id: user.id,
+      },
+      {
+        password: newPassword,
+        verified: true,
+        temporaryTokens: null,
+      }
+    );
   }
 }

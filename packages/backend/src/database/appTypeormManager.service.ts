@@ -1,3 +1,4 @@
+import moment = require("moment");
 import {
   Connection,
   createConnection,

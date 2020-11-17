@@ -1,19 +1,56 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { UsersService } from "../users/services/users.service";
-import { User } from "../users/user.interface";
-import { JwtPayload } from "./jwt-payload.interface";
+import { Model } from "mongoose";
 import { StructuresService } from "../structures/services/structures.service";
+import { Structure } from "../structures/structure-interface";
+import { AppUserTable } from "../users/pg";
+import { usersRepository } from "../users/pg/users-repository.service";
+import {
+  AppAuthUser,
+  AppUser,
+  AppUserPublic,
+  StructurePublic
+} from "../_common/model";
+import { JwtPayload } from "./jwt-payload.interface";
+
+export const APP_USER_PUBLIC_ATTRIBUTES: (keyof AppUserPublic)[] = [
+  "id",
+  "prenom",
+  "nom",
+  "email",
+  "verified",
+  "structureId",
+  "fonction",
+  "role",
+];
+export const STRUCTURE_PUBLIC_ATTRIBUTES: (keyof StructurePublic)[] = [
+  "id",
+  "adresse",
+  "complementAdresse",
+  "nom",
+  "structureType",
+  "ville",
+  "departement",
+  "region",
+  "capacite",
+  "codePostal",
+  "agrement",
+  "phone",
+  "email",
+  "responsable",
+  "options",
+  "adresseCourrier",
+];
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly structuresService: StructuresService,
-    private readonly usersService: UsersService
+    @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
   ) {}
 
-  public async login(user: User) {
+  public async login(user: AppUser) {
     const payload = {
       email: user.email,
       id: user.id,
@@ -28,24 +65,43 @@ export class AuthService {
     };
   }
 
-  public async validateUser(payload: JwtPayload): Promise<any> {
-    const user = await this.usersService.findOne({ id: payload.id });
+  public async validateUser(payload: JwtPayload): Promise<false | AppAuthUser> {
+    const authUser = await this.findAuthUser({ id: payload.id });
 
-    if (!user || user === null) {
+    if (!authUser || authUser === null) {
       return false;
     }
 
-    const structureUpdated = await this.structuresService.updateLastLogin(
-      user.structureId
-    );
-    const userUpdated = await this.usersService.update(
-      user.id,
-      user.structureId,
+    // update structure & user last login date
+    await this.structuresService.updateLastLogin(authUser.structureId);
+    await usersRepository.updateOne(
+      {
+        id: authUser.id,
+        structureId: authUser.structureId,
+      },
       {
         lastLogin: new Date(),
       }
     );
 
-    return user;
+    return authUser;
+  }
+  public async findAuthUser(
+    criteria: Partial<AppUserTable>
+  ): Promise<AppAuthUser> {
+    const user = await usersRepository.findOne<AppUserPublic>(criteria, {
+      select: APP_USER_PUBLIC_ATTRIBUTES,
+    });
+
+    const structure: StructurePublic = await this.structureModel
+      .findOne({
+        id: user.structureId,
+      })
+      .select(STRUCTURE_PUBLIC_ATTRIBUTES)
+      .lean();
+    return {
+      ...user,
+      structure,
+    };
   }
 }

@@ -5,6 +5,7 @@ import { DatabaseModule } from "../database/database.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
+import { usersRepository } from "../users/pg/users-repository.service";
 import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";

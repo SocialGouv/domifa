@@ -1,16 +1,17 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { StructureType } from "../../structures/StructureType.type";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
-import { Structure } from "../../structures/structure-interface";
 
+import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
-import { User } from "../../users/user.interface";
+import { usersRepository } from "../../users/pg/users-repository.service";
+import { StructureType } from "../../_common/model";
 import { StatsGeneratorService } from "./stats-generator.service";
 import { Repository } from "typeorm";
 import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
 import { appTypeormManager } from "../../database/appTypeormManager.service";
 import { InteractionType } from "../../interactions/InteractionType.type";
+import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
 
 @Injectable()
 export class DashboardService {
@@ -27,8 +28,6 @@ export class DashboardService {
     private structureModel: Model<Structure>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
-    @Inject("USER_MODEL")
-    private userModel: Model<User>,
     private statsGeneratorService: StatsGeneratorService
   ) {
     this.today = new Date();
@@ -130,10 +129,6 @@ export class DashboardService {
         { $sort: { count: -1, structureId: 1 } },
       ])
       .exec();
-  }
-
-  public async getUsers() {
-    return this.userModel.countDocuments().exec();
   }
 
   public async getUsagersByStructure(structureId?: number) {
@@ -238,11 +233,7 @@ export class DashboardService {
   }
 
   public async getStatsDeploiement() {
-    const structures: Structure[] = await this.getStructures({
-      sort: {
-        createdAt: 1,
-      },
-    });
+    const structuresModels: StatsDeploiementStructureExportModel[] = await this.getStatsDeploiementStructures();
 
     const usagersCountByStructureId = await this.getUsagersCountByStructureId();
     const usagersCountByStatut = await this.getUsagersCountByStatut();
@@ -250,13 +241,13 @@ export class DashboardService {
     const structuresCountByRegion = await this.getRegions();
 
     const structuresCountByType = await this.getStructuresCountByType();
-    const usersCount = await this.getUsers();
+    const usersCount = await usersRepository.count();
     const docsCount = await this.getDocsCount();
     const interactionsCountByStatut = await this.getInteractionsCountByType();
 
     const stats: StatsDeploiementExportModel = {
       exportDate: new Date(),
-      structures,
+      structures: structuresModels,
       usagersCountByStructureId,
       usagersCountByStatut,
       structuresCountByRegion,
@@ -287,5 +278,26 @@ export class DashboardService {
         return typeof search !== "undefined" ? search.sum : 0;
       }
     }
+  }
+  private async getStatsDeploiementStructures() {
+    const structures: Structure[] = await this.getStructures({
+      sort: {
+        createdAt: 1,
+      },
+    });
+
+    const structuresModels: StatsDeploiementStructureExportModel[] = [];
+
+    for (const structure of structures) {
+      const usersCount = await usersRepository.count({
+        structureId: structure.id,
+      });
+      const structureModel: StatsDeploiementStructureExportModel = {
+        structure,
+        usersCount,
+      };
+      structuresModels.push(structureModel);
+    }
+    return structuresModels;
   }
 }

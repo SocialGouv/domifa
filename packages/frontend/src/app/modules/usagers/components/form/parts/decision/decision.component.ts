@@ -1,23 +1,23 @@
 import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Title } from "@angular/platform-browser";
+import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
-  NgbModal,
   NgbDateStruct,
+  NgbModal
 } from "@ng-bootstrap/ng-bootstrap";
+import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
+import * as labels from "src/app/modules/usagers/usagers.labels";
+import { AppUser } from "../../../../../../../_common/model";
 import { Usager } from "../../../../interfaces/usager";
 import { DocumentService } from "../../../../services/document.service";
 import { UsagerService } from "../../../../services/usager.service";
-import { MatomoTracker } from "ngx-matomo";
-import { User } from "src/app/modules/users/interfaces/user";
-import { Title } from "@angular/platform-browser";
 
 @Component({
   providers: [
@@ -49,7 +49,7 @@ export class DecisionComponent implements OnInit {
   @Input() public usager!: Usager;
   public isAdmin!: boolean;
 
-  public me: User;
+  public me: AppUser;
 
   constructor(
     private formBuilder: FormBuilder,

@@ -5,7 +5,7 @@ import {
   Param,
   Post,
   Res,
-  UseGuards,
+  UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -13,8 +13,8 @@ import { Response } from "express";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
-import { User } from "../../users/user.interface";
 import { appLogger } from "../../util";
+import { AppAuthUser, AppUser } from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
 import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
 import { StatsGeneratorService } from "../services/stats-generator.service";
@@ -24,7 +24,7 @@ import {
   motifsRadiation,
   motifsRefus,
   residence,
-  typeMenage,
+  typeMenage
 } from "../usagers.labels";
 
 import moment = require("moment");
@@ -57,14 +57,17 @@ export class StatsController {
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @ApiBearerAuth()
   @Get("today")
-  public async today(@CurrentUser() user: User) {
+  public async today(@CurrentUser() user: AppAuthUser) {
     return this.statsService.getToday(user.structureId);
   }
 
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @ApiBearerAuth()
   @Get("id/:id")
-  public async getStatById(@Param("id") id: string, @CurrentUser() user: User) {
+  public async getStatById(
+    @Param("id") id: string,
+    @CurrentUser() user: AppAuthUser
+  ) {
     return this.statsService.getStatById(id, user.structureId);
   }
 
@@ -73,7 +76,7 @@ export class StatsController {
   @Get("export/:id")
   public async export(
     @Param("id") id: string,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @Res() res: Response
   ) {
     const stats = await this.statsService.getStatById(id, user.structureId);
@@ -84,7 +87,7 @@ export class StatsController {
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @ApiBearerAuth()
   @Get("first")
-  public async getAvailableStats(@CurrentUser() user: User) {
+  public async getAvailableStats(@CurrentUser() user: AppAuthUser) {
     return this.statsService.getFirstStat(user.structureId);
   }
 
@@ -108,7 +111,7 @@ export class StatsController {
   @ApiBearerAuth()
   @Post("")
   public async getByDate(
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @Body() statsDto: StatsDto
   ) {
     return this.getStatsDiff(user, statsDto);
@@ -117,7 +120,7 @@ export class StatsController {
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @Post("export")
   public async exportByDate(
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ) {
@@ -127,7 +130,7 @@ export class StatsController {
   }
 
   private async getStatsDiff(
-    user: User,
+    user: Pick<AppUser, "structureId">,
     statsDto: StatsDto
   ): Promise<{
     stats: StructureStatsTable;

@@ -9,7 +9,7 @@ import {
   Patch,
   Post,
   Response,
-  UseGuards,
+  UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -23,16 +23,19 @@ import { DomifaMailsService } from "../mails/services/domifa-mails.service";
 import { UsersMailsService } from "../mails/services/users-mails.service";
 import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
+import { AppAuthUser, AppUser, UserProfile, UserRole } from "../_common/model";
 import { EditPasswordDto } from "./dto/edit-password.dto";
 import { EmailDto } from "./dto/email.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
+import {
+  AppUserForAdminEmail,
+  usersRepository,
+  USERS_ADMIN_EMAILS_ATTRIBUTES
+} from "./pg/users-repository.service";
 import { UsersService } from "./services/users.service";
-import { UserProfil } from "./user-profil.type";
-import { UserRole } from "./user-role.type";
-import { User } from "./user.interface";
 
 @Controller("users")
 @ApiTags("users")
@@ -48,8 +51,8 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
   @Get("")
-  public getUsers(@CurrentUser() user: User): Promise<UserProfil[]> {
-    return this.usersService.findAll({
+  public getUsers(@CurrentUser() user: AppAuthUser): Promise<UserProfile[]> {
+    return usersRepository.findMany({
       structureId: user.structureId,
       verified: true,
     });
@@ -59,8 +62,10 @@ export class UsersController {
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
   @UseGuards(AuthGuard("jwt"), AdminGuard)
-  public getUsersToConfirm(@CurrentUser() user: User): Promise<UserProfil[]> {
-    return this.usersService.findAll({
+  public getUsersToConfirm(
+    @CurrentUser() user: AppAuthUser
+  ): Promise<UserProfile[]> {
+    return usersRepository.findMany({
       structureId: user.structureId,
       verified: false,
     });
@@ -72,14 +77,20 @@ export class UsersController {
   @Get("confirm/:id")
   public async confirmUser(
     @Param("id") id: number,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @Response() res: any
   ) {
-    const confirmerUser = await this.usersService.update(id, user.structureId, {
-      verified: true,
-    });
+    const confirmerUser = await usersRepository.updateOne(
+      {
+        id,
+        structureId: user.structureId,
+      },
+      {
+        verified: true,
+      }
+    );
 
-    if (confirmerUser && confirmerUser !== null) {
+    if (confirmerUser && confirmerUser !== undefined) {
       if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
@@ -122,8 +133,8 @@ export class UsersController {
   public async updateRole(
     @Param("id") id: number,
     @Param("role") role: UserRole,
-    @CurrentUser() user: User
-  ): Promise<UserProfil> {
+    @CurrentUser() user: AppAuthUser
+  ): Promise<UserProfile> {
     if (
       role !== "simple" &&
       role !== "admin" &&
@@ -143,9 +154,15 @@ export class UsersController {
       );
     }
 
-    return this.usersService.update(id, user.structureId, {
-      role,
-    });
+    return usersRepository.updateOne(
+      {
+        id,
+        structureId: user.structureId,
+      },
+      {
+        role,
+      }
+    );
   }
 
   @UseGuards(AuthGuard("jwt"), AdminGuard)
@@ -154,10 +171,10 @@ export class UsersController {
   @Delete(":id")
   public async delete(
     @Param("id") id: number,
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @Response() res: any
   ) {
-    const userToDelete = await this.usersService.findOne({
+    const userToDelete = await usersRepository.findOne({
       id,
       structureId: user.structureId,
     });
@@ -168,7 +185,9 @@ export class UsersController {
         .json({ message: "USER_TO_DELETE_NOT_EXIST" });
     }
 
-    const retour = await this.usersService.delete(userToDelete._id);
+    const retour = await usersRepository.deleteByCriteria({
+      id: userToDelete.id,
+    });
 
     return res.status(HttpStatus.OK).json({ success: true, message: retour });
   }
@@ -176,13 +195,15 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"), AdminGuard)
   @Patch()
   public async patch(
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @Body() userDto: UserEditDto,
     @Response() res: any
   ) {
-    const userToUpdate = await this.usersService.update(
-      user.id,
-      user.structureId,
+    const userToUpdate = await usersRepository.updateOne(
+      {
+        id: user.id,
+        structureId: user.structureId,
+      },
       userDto
     );
 
@@ -196,9 +217,9 @@ export class UsersController {
 
   @Post()
   public async create(@Body() userDto: UserDto, @Response() res: any) {
-    const user = await this.usersService.findOne({ email: userDto.email });
+    const user = await usersRepository.findOne({ email: userDto.email });
 
-    if (user || user !== null) {
+    if (user || user !== undefined) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "EMAIL_EXIST" });
@@ -213,8 +234,6 @@ export class UsersController {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
-
-    this.structureService.addUser(newUser, userDto.structureId);
 
     delete newUser.password;
 
@@ -252,10 +271,15 @@ export class UsersController {
         }
       );
     } else {
-      const admins = await this.usersService.findAdmins({
-        role: "admin",
-        structureId: newUser.structureId,
-      });
+      const admins = await usersRepository.findMany<AppUserForAdminEmail>(
+        {
+          role: "admin",
+          structureId: newUser.structureId,
+        },
+        {
+          select: USERS_ADMIN_EMAILS_ATTRIBUTES,
+        }
+      );
 
       if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
@@ -292,11 +316,11 @@ export class UsersController {
 
   @Post("validate-email")
   public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
-    const existUser = await this.usersService.findOne({
+    const existUser = await usersRepository.findOne({
       email: emailDto.email,
     });
 
-    const emailExist = existUser !== null;
+    const emailExist = existUser !== undefined;
 
     return res.status(HttpStatus.OK).json(emailExist);
   }
@@ -304,14 +328,15 @@ export class UsersController {
   @Get("check-password-token/:token")
   public async checkPasswordToken(@Param("token") token: string) {
     const today = new Date();
-    const existUser = await this.usersService.findOne({
-      "tokens.password": token,
-    });
+    const existUser = await usersRepository.findOneByTokenAttribute(
+      "password",
+      token
+    );
 
     if (!existUser || existUser === null) {
       throw new HttpException("CHECK_PASSWORD_TOKEN", HttpStatus.BAD_REQUEST);
     }
-    if (existUser.tokens.passwordValidity < today) {
+    if (existUser.temporaryTokens.passwordValidity < today) {
       throw new HttpException("TOKEN_EXPIRED", HttpStatus.BAD_REQUEST);
     }
     return true;
@@ -323,16 +348,17 @@ export class UsersController {
     @Response() res: any
   ) {
     const today = new Date();
-    const existUser = await this.usersService.findOne({
-      "tokens.password": resetPasswordDto.token,
-    });
+    const existUser = await usersRepository.findOneByTokenAttribute(
+      "password",
+      resetPasswordDto.token
+    );
 
     if (!existUser || existUser === null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "RESET_PASSWORD" });
     }
-    if (existUser.tokens.passwordValidity < today) {
+    if (existUser.temporaryTokens.passwordValidity < today) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "TOKEN_EXPIRED" });
@@ -356,7 +382,7 @@ export class UsersController {
     @Body() emailDto: EmailDto,
     @Response() res: any
   ) {
-    const user = await this.usersService.findOne({ email: emailDto.email });
+    const user = await usersRepository.findOne({ email: emailDto.email });
     if (!user) {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -394,11 +420,11 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @Response() res: any,
     @Body() registerUserDto: RegisterUserAdminDto
   ): Promise<boolean> {
-    const userExist = await this.usersService.findOne({
+    const userExist = await usersRepository.findOne({
       email: registerUserDto.email,
     });
 
@@ -417,7 +443,7 @@ export class UsersController {
       newUser.email
     );
 
-    if (updatedUser && updatedUser !== null) {
+    if (updatedUser && updatedUser !== undefined) {
       if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
@@ -443,13 +469,23 @@ export class UsersController {
   @UseGuards(AuthGuard("jwt"))
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
-    @CurrentUser() user: User,
+    @CurrentUser() user: AppAuthUser,
     @Response() res: any,
     @Body() editPasswordDto: EditPasswordDto
   ) {
+    const { password } = await usersRepository.findOne<
+      Pick<AppUser, "password">
+    >(
+      {
+        id: user.id,
+      },
+      {
+        select: ["password"],
+      }
+    );
     const isValidPass = await bcrypt.compare(
       editPasswordDto.oldPassword,
-      user.password
+      password
     );
 
     if (!isValidPass) {

@@ -6,8 +6,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { environment } from '../environments/environment';
-import { User } from "./modules/users/interfaces/user";
+import { environment } from "../environments/environment";
+import { AppUser } from "../_common/model";
 import { fadeInOut } from "./shared/animations";
 @Component({
   animations: [fadeInOut],
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   public modal: any;
   public matomoInfo: boolean;
 
-  public me: User;
+  public me: AppUser;
 
   @ViewChild("newsCenter", { static: true })
   public newsCenter!: TemplateRef<any>;
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
     this.domifaNews = null;
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
 
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
   }
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
-    this.authService.currentUser.subscribe((user: User) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
     });
 

@@ -19,9 +19,8 @@ import { StructureService } from "src/app/modules/structures/services/structure.
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
-import { StructureStats } from "../../model";
+import { StructureStats } from "../../../../../_common/model";
 import { StatsService } from "../../stats.service";
-
 @Component({
   providers: [
     NgbDateCustomParserFormatter,

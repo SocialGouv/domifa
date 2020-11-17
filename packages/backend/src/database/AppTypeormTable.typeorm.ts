@@ -2,11 +2,12 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  VersionColumn,
+  VersionColumn
 } from "typeorm";
-import { AppEntity } from "./AppEntity.model";
+import { AppEntity } from "../_common/model/_core/AppEntity.type";
 
-export abstract class AppTypeormTable<T extends AppEntity> implements AppEntity {
+export abstract class AppTypeormTable<T extends AppEntity>
+  implements AppEntity {
   @PrimaryGeneratedColumn("uuid")
   uuid?: string;
 

@@ -1,16 +1,14 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
-
+import { Title } from "@angular/platform-browser";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
 import { Structure } from "src/app/modules/structures/structure.interface";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { User } from "../../interfaces/user";
+import { AppUser, UserProfile, UserRole } from "../../../../../_common/model";
 import { UsersService } from "../../services/users.service";
 
-import { Title } from "@angular/platform-browser";
-import { UserRole } from "../../interfaces/user-role.type";
-import { UserProfil } from "../../interfaces/user-profil.type";
+
 
 @Component({
   selector: "app-user-profil",
@@ -18,10 +16,10 @@ import { UserProfil } from "../../interfaces/user-profil.type";
   templateUrl: "./user-profil.component.html",
 })
 export class UserProfilComponent implements OnInit {
-  public users: UserProfil[];
-  public me: User;
+  public users: UserProfile[];
+  public me: AppUser;
   public structure: Structure;
-  public newUsers: UserProfil[];
+  public newUsers: UserProfile[];
   public modal: any;
   public selectedUser: number;
   public usersInfos: boolean;
@@ -61,7 +59,7 @@ export class UserProfilComponent implements OnInit {
 
   public confirmUser(id: number) {
     this.userService.confirmUser(id).subscribe(
-      (user: UserProfil) => {
+      (user: UserProfile) => {
         this.getUsers();
         this.notifService.success(
           "Le compte de " +
@@ -79,7 +77,7 @@ export class UserProfilComponent implements OnInit {
 
   public updateRole(id: number, role: UserRole) {
     this.userService.updateRole(id, role).subscribe(
-      (user: UserProfil) => {
+      (user: UserProfile) => {
         this.getUsers();
         this.notifService.success(
           "Les droits de " +
@@ -116,11 +114,11 @@ export class UserProfilComponent implements OnInit {
 
   private getUsers() {
     if (this.authService.currentUserValue.role === "admin") {
-      this.userService.getNewUsers().subscribe((users: UserProfil[]) => {
+      this.userService.getNewUsers().subscribe((users: UserProfile[]) => {
         this.newUsers = users;
       });
     }
-    this.userService.getUsers().subscribe((users: UserProfil[]) => {
+    this.userService.getUsers().subscribe((users: UserProfile[]) => {
       this.users = users;
     });
   }

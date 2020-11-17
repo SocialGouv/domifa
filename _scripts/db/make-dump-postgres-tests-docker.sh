@@ -7,7 +7,6 @@ then
 fi
 DB_NAME=domifa_tests
 POSTGRES_DUMP_PATH=/app/_scripts/db/dump_tests.postgres.dump
-POSTGRES_DUMP_PATH=dump_tests.postgres.gz
 
 echo ""
 echo "#############################################################################"

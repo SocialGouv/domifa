@@ -1,7 +1,7 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { configService } from "../../config";
 import { Structure } from "../../structures/structure-interface";
-import { UserProfil } from "../../users/user-profil.type";
+import { UserProfile } from "../../_common/model";
 
 @Injectable()
 export class StructuresMailsService {
@@ -15,7 +15,7 @@ export class StructuresMailsService {
 
   public async confirmationStructure(
     structure: Structure,
-    user: UserProfil
+    user: UserProfile
   ): Promise<any> {
     const post = {
       to: [

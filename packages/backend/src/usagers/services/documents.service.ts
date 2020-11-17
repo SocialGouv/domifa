@@ -1,7 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-
-import { User } from "../../users/user.interface";
+import { AppUser } from "../../_common/model";
 import { Usager } from "../interfaces/usagers";
 
 @Injectable()
@@ -13,7 +12,7 @@ export class DocumentsService {
   public async deleteDocument(
     usagerId: number,
     index: number,
-    user: User
+    user: Pick<AppUser, "structureId">
   ): Promise<Usager> {
     const usager = await this.usagerModel
       .findOne({ id: usagerId, structureId: user.structureId })

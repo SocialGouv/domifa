@@ -1,31 +1,28 @@
 import {
-  UseGuards,
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
   HttpException,
   HttpStatus,
+  Post,
   Response,
+  UseGuards
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { UsagersService } from "../services/usagers.service";
-import { UsersService } from "../../users/services/users.service";
-import { CurrentUser } from "../../auth/current-user.decorator";
-import { User } from "../../users/user.interface";
-
-import { Usager } from "../interfaces/usagers";
-
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as ics from "ics";
-
-import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
+import { CurrentUser } from "../../auth/current-user.decorator";
+import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { RdvDto } from "../dto/rdv.dto";
-import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-
-import { UsagersMailsService } from "../../mails/services/usagers-mails.service";
 import { configService } from "../../config";
+import { UsagersMailsService } from "../../mails/services/usagers-mails.service";
+import { usersRepository } from "../../users/pg/users-repository.service";
+import { UsersService } from "../../users/services/users.service";
+import { AppAuthUser, UserProfile } from "../../_common/model";
+import { RdvDto } from "../dto/rdv.dto";
+import { Usager } from "../interfaces/usagers";
+import { UsagersService } from "../services/usagers.service";
 
 @ApiTags("agenda")
 @ApiBearerAuth()
@@ -43,11 +40,11 @@ export class AgendaController {
   @UseGuards(AuthGuard("jwt"), FacteurGuard, UsagerAccessGuard)
   public async postRdv(
     @Body() rdvDto: RdvDto,
-    @CurrentUser() currentUser: User,
+    @CurrentUser() currentUser: AppAuthUser,
     @CurrentUsager() usager: Usager,
     @Response() res: any
   ) {
-    const user: User = await this.usersService.findOne({
+    const user = await usersRepository.findOne({
       id: rdvDto.userId,
       structureId: currentUser.structureId,
     });
@@ -136,18 +133,19 @@ export class AgendaController {
 
   @Get("users")
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
-  public getUsersMeeting(@CurrentUser() user: User): Promise<User[]> {
-    return this.usersService.findAll({
+  public getUsersMeeting(
+    @CurrentUser() user: AppAuthUser
+  ): Promise<UserProfile[]> {
+    return usersRepository.findVerifiedStructureUsersByRoles({
       structureId: user.structureId,
-      role: { $in: ["admin", "simple", "responsable"] },
-      verified: true,
+      roles: ["admin", "simple", "responsable"],
     });
   }
 
   @Get("")
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
-  public async getAll(@CurrentUser() user: User) {
-    return this.usagersService.agenda(user);
+  public async getAll(@CurrentUser() user: AppAuthUser) {
+    return this.usagersService.agenda(user.id);
   }
 
   //

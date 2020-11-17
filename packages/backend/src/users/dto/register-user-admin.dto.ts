@@ -7,6 +7,7 @@ import {
   IsEmpty,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { UserRole } from "../../_common/model";
 
 export class RegisterUserAdminDto {
   @ApiProperty({
@@ -50,7 +51,7 @@ export class RegisterUserAdminDto {
   })
   @IsNotEmpty()
   @IsIn(["admin", "simple", "facteur", "responsable"])
-  public readonly role!: string;
+  public readonly role!: UserRole;
 
   @IsEmpty()
   public structureId!: number;
