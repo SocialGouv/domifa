@@ -305,7 +305,7 @@ export class UsagersProfilComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  public deleteInteraction(idInteraction: string) {
+  public deleteInteraction(idInteraction: number) {
     this.matomo.trackEvent("profil", "interactions", "delete", 1);
     this.interactionService
       .delete(this.usager.id, idInteraction)

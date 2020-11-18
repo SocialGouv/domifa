@@ -1,26 +1,35 @@
 import { HttpException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { type } from "os";
-import { Usager } from "../usagers/interfaces/usagers";
-import { AppUser, UserProfile } from "../_common/model";
+
+import { AppUser, UserProfile, AppAuthUser } from "../_common/model";
+
+import { Repository, FindConditions, LessThan, MoreThan } from "typeorm";
+import { InteractionsTable } from "./pg/InteractionsTable.typeorm";
+
 import { InteractionDto } from "./interactions.dto";
-import { Interaction } from "./interactions.interface";
+import { Interactions } from "./model/interactions.type";
 import { InteractionType } from "./InteractionType.type";
+
+import { appTypeormManager } from "../database/appTypeormManager.service";
+import { Usager } from "../usagers/interfaces/usagers";
 
 @Injectable()
 export class InteractionsService {
+  private interactionRepository: Repository<InteractionsTable>;
+
   constructor(
-    @Inject("INTERACTION_MODEL")
-    private readonly interactionModel: Model<Interaction>,
     @Inject("USAGER_MODEL")
     private readonly usagerModel: Model<Usager>
-  ) {}
-
+  ) {
+    this.interactionRepository = appTypeormManager.getRepository(
+      InteractionsTable
+    );
+  }
   public async create(
     usager: Usager,
     user: UserProfile,
     interactionDto: InteractionDto
-  ): Promise<any> {
+  ): Promise<Usager> {
     const len = interactionDto.type.length;
     const interactionOut = interactionDto.type.substring(len - 3) === "Out";
     const interactionIn = interactionDto.type.substring(len - 2) === "In";
@@ -71,30 +80,22 @@ export class InteractionsService {
       usager.lastInteraction.dateInteraction = new Date();
     }
 
-    const createdInteraction = new this.interactionModel(interactionDto);
+    interactionDto.structureId = user.structureId;
+    interactionDto.usagerId = usager.id;
+    interactionDto.userId = user.id;
+    interactionDto.userName = user.prenom + " " + user.nom;
 
-    createdInteraction.structureId = user.structureId;
-    createdInteraction.usagerId = usager.id;
-    createdInteraction.userId = user.id;
-    createdInteraction.userName = user.prenom + " " + user.nom;
+    const createdInteraction: Interactions = new InteractionsTable(
+      interactionDto
+    );
 
-    const savedInteraction = await createdInteraction.save();
-    usager.interactions.push(savedInteraction);
+    await this.interactionRepository.insert(createdInteraction);
 
     return this.usagerModel
       .findOneAndUpdate(
-        {
-          _id: usager._id,
-        },
-        {
-          $push: { interaction: savedInteraction },
-          $set: {
-            lastInteraction: usager.lastInteraction,
-          },
-        },
-        {
-          new: true,
-        }
+        { _id: usager._id },
+        { $set: { lastInteraction: usager.lastInteraction } },
+        { new: true }
       )
       .select("-docsPath -interactions")
       .exec();
@@ -105,46 +106,46 @@ export class InteractionsService {
     limit: number,
     user: Pick<AppUser, "structureId">
   ): Promise<any> {
-    return this.interactionModel
-      .find({
-        structureId: user.structureId,
-        usagerId,
-      })
-      .limit(30)
-      .sort({ dateInteraction: -1 })
-      .lean()
-      .exec();
+    return this.interactionRepository.find({
+      where: { structureId: user.structureId, usagerId },
+      order: {
+        dateInteraction: "DESC",
+      },
+      skip: 0,
+      take: 30,
+    });
   }
 
   public async findOne(
     usagerId: number,
-    interactionId: string,
+    interactionId: number,
     user: Pick<AppUser, "structureId">
-  ): Promise<Interaction | null> {
-    return this.interactionModel
-      .findOne({
-        _id: interactionId,
-        structureId: user.structureId,
-        usagerId,
-      })
-      .exec();
+  ): Promise<Interactions | null> {
+    const where: FindConditions<InteractionsTable> = {
+      id: interactionId,
+      structureId: user.structureId,
+      usagerId,
+    };
+    return this.interactionRepository.findOne({ where });
   }
 
   public async deuxDerniersPassages(
     usagerId: number,
-    user: Pick<AppUser, "structureId">
-  ): Promise<Interaction[] | [] | null> {
-    return this.interactionModel
-      .find({
+    user: AppAuthUser
+  ): Promise<Interactions[] | [] | null> {
+    return this.interactionRepository.find({
+      where: {
         structureId: user.structureId,
-        type: {
-          $in: ["courrierOut", "visite", "appel", "colisOut", "recommandeOut"],
-        },
         usagerId,
-      })
-      .sort({ dateInteraction: -1 })
-      .limit(2)
-      .exec();
+        type: ["courrierOut", "visite", "appel", "colisOut", "recommandeOut"],
+      },
+
+      order: {
+        dateInteraction: "DESC",
+      },
+      skip: 0,
+      take: 2,
+    });
   }
 
   public async findLastInteraction(
@@ -153,32 +154,31 @@ export class InteractionsService {
     typeInteraction: InteractionType,
     user: Pick<AppUser, "structureId">,
     isIn: string
-  ): Promise<Interaction | null> {
+  ): Promise<Interactions | null> {
     const dateQuery =
-      isIn === "out" ? { $lte: dateInteraction } : { $gte: dateInteraction };
+      isIn === "out" ? LessThan(dateInteraction) : MoreThan(dateInteraction);
 
-    return this.interactionModel
-      .findOne({
-        structureId: user.structureId,
-        usagerId,
-        type: typeInteraction,
-        dateInteraction: dateQuery,
-      })
-      .exec();
+    const where: FindConditions<InteractionsTable> = {
+      structureId: user.structureId,
+      usagerId,
+      type: typeInteraction,
+      dateInteraction: dateQuery,
+    };
+    return this.interactionRepository.findOne({
+      where,
+    });
   }
 
   public async delete(
     usagerId: number,
-    interactionId: string,
+    interactionId: number,
     user: Pick<AppUser, "structureId">
   ): Promise<any> {
-    const retour = this.interactionModel
-      .deleteOne({
-        _id: interactionId,
-        structureId: user.structureId,
-        usagerId,
-      })
-      .exec();
+    const retour = this.interactionRepository.delete({
+      id: interactionId,
+      structureId: user.structureId,
+      usagerId,
+    });
 
     if (!retour || retour === null) {
       throw new HttpException("CANNOT_DELETE_INTERACTION", 500);
@@ -190,47 +190,37 @@ export class InteractionsService {
     usagerId: number,
     structureId: number
   ): Promise<any> {
-    return this.interactionModel
-      .deleteMany({
-        structureId,
-        usagerId,
-      })
-      .exec();
+    return this.interactionRepository.delete({
+      structureId,
+      usagerId,
+    });
   }
 
   public async deleteAll(structureId: number): Promise<any> {
-    return this.interactionModel.deleteMany({ structureId }).exec();
+    return this.interactionRepository.delete({
+      structureId,
+    });
   }
 
   public async totalInteraction(
     structureId: number,
     usagerId: number,
-    interactionType: string
+    interactionType: InteractionType
   ): Promise<number> {
     if (interactionType === "appel" || interactionType === "visite") {
-      return this.interactionModel.countDocuments({
+      return this.interactionRepository.count({
         structureId,
         usagerId,
         type: interactionType,
       });
     } else {
-      const search = {
-        $match: {
-          structureId,
-          usagerId,
-          type,
-        },
-      };
-
-      const groupBy = { $group: { _id: null, total: { $sum: "$nbCourrier" } } };
-      const response = await this.interactionModel
-        .aggregate([search, groupBy])
-        .exec();
-
-      if (response.length) {
-        return typeof response[0].total !== "undefined" ? response[0].total : 0;
-      }
-      return 0;
+      const search = await this.interactionRepository
+        .createQueryBuilder("interactions")
+        .select("SUM(interactions.nbCourrier)", "sum")
+        .where({ structureId, usagerId, type: interactionType })
+        .groupBy("interactions.type")
+        .getRawOne();
+      return typeof search !== "undefined" ? search.sum : 0;
     }
   }
 }

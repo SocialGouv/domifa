@@ -7,7 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
@@ -15,11 +15,15 @@ import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { Usager } from "../usagers/interfaces/usagers";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { AppAuthUser } from "../_common/model";
+import { User } from "../users/user.interface";
+
 import { InteractionDto } from "./interactions.dto";
-import { InteractionsService } from "./interactions.service";
+
+import { UsagersService } from "../usagers/services/usagers.service";
+
 import { InteractionType } from "./InteractionType.type";
+import { InteractionsService } from "./interactions.service";
+import { AppAuthUser } from "../_common/model";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
 @ApiTags("interactions")
@@ -40,7 +44,7 @@ export class InteractionsController {
   }
 
   @Get(":id/:limit")
-  public getInteractions(
+  public async getInteractions(
     @Param("limit") limit: number,
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
@@ -50,7 +54,7 @@ export class InteractionsController {
 
   @Delete(":id/:interactionId")
   public async deleteInteraction(
-    @Param("interactionId") interactionId: string,
+    @Param("interactionId") interactionId: number,
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {

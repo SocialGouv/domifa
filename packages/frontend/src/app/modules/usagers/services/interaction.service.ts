@@ -39,7 +39,7 @@ export class InteractionService {
       })
     );
   }
-  public delete(usagerId: number, interactionId: string) {
+  public delete(usagerId: number, interactionId: number) {
     return this.http.delete(`${this.endPoint}${usagerId}/${interactionId}`);
   }
 }
