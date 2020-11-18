@@ -1,18 +1,19 @@
 import { DatabaseModule } from "../database/database.module";
 import { StructuresModule } from "../structures/structure.module";
+import { Usager } from "../usagers/interfaces/usagers";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
-
+import { usersRepository } from "../users/pg/users-repository.service";
 import { UsersService } from "../users/services/users.service";
+import { User } from "../users/user.interface";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsModule } from "./interactions.module";
-
 import { InteractionsService } from "./interactions.service";
 
-import { Usager } from "../usagers/interfaces/usagers";
-import { User } from "../users/user.interface";
+
+
 
 describe("InteractionsService", () => {
   let context: AppTestContext;
@@ -43,7 +44,7 @@ describe("InteractionsService", () => {
 
     usagerService = context.module.get<UsagersService>(UsagersService);
 
-    user = await userService.findOne({ id: 1 });
+    user = await usersRepository.findOne({ id: 1 });
     usager = await usagerService.findById(1, 1);
   });
 
