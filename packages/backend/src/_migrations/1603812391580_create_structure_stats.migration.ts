@@ -23,7 +23,7 @@ export class autoMigration1603812391580 implements MigrationInterface {
 
     const mongoStats = await statsModel
       .find({})
-      .sort({ createdAt: 1 })
+      // .sort({ createdAt: 1 })
       .lean()
       .exec();
 
@@ -52,11 +52,16 @@ export class autoMigration1603812391580 implements MigrationInterface {
           questions: stat.questions,
         });
 
-        const uniqueKey = `${pgStat.structureId
-          }_${pgStat.date.getUTCFullYear()}-${pgStat.date.getUTCMonth() + 1
-        }-${pgStat.date.getUTCDate()}`;
+        const uniqueKey = `${pgStat.structureId}_${pgStat.date.getFullYear()}-${pgStat.date.getMonth() + 1
+          }-${pgStat.date.getDate()}`;
         // we keep last value in case of duplicated stats
-        acc[uniqueKey] = pgStat;
+        if (
+          !acc[uniqueKey] ||
+          acc[uniqueKey].createdAt.getTime() < pgStat.createdAt.getTime()
+        ) {
+          // in case of duplicated, keep only last value
+          acc[uniqueKey] = pgStat;
+        }
         return acc;
       },
       {} as {
@@ -73,8 +78,6 @@ export class autoMigration1603812391580 implements MigrationInterface {
     for (const pgStat of Object.values(itemsToCreateCache)) {
       await structureStatsRepository.insert(pgStat);
     }
-
-    await statsModel.db.dropCollection("stats");
 
     appLogger.debug(
       `[Migration] [SUCCESS] "${this.name
