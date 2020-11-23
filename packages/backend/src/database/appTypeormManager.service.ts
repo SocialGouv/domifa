@@ -7,7 +7,8 @@ import {
   Migration,
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { configService } from "../config";
+import { LoggerOptions } from "typeorm/logger/LoggerOptions";
+import { configService, DomifaConfigKey } from "../config";
 import { appLogger } from "../util";
 
 export const appTypeormManager = {
@@ -99,7 +100,7 @@ async function connect() {
     password: pgConfig.password,
     database: pgConfig.database,
     logger: "simple-console",
-    logging: true,
+    logging: getLoggerOptions("POSTGRES_LOGGING"),
     ...connectOptionsPaths,
   };
   try {
@@ -126,4 +127,52 @@ function _getEntityManager(entityManager?: EntityManager) {
 }
 function getConnection(): Connection {
   return connectionHolder.connection;
+}
+type LoggerOptionValues =
+  | "query"
+  | "schema"
+  | "error"
+  | "warn"
+  | "info"
+  | "log"
+  | "migration"; // @see typeorm LoggerOption
+const LOGGER_OPTIONS: LoggerOptionValues[] = [
+  "query",
+  "schema",
+  "error",
+  "warn",
+  "info",
+  "log",
+  "migration",
+];
+function getLoggerOptions(key: DomifaConfigKey): LoggerOptions {
+  const value = configService.get(key);
+  if (value) {
+    if (value.trim() === "all") {
+      return "all";
+    }
+    if (value.trim() === "true") {
+      return true;
+    }
+    if (value.trim() === "false") {
+      return false;
+    }
+    const values = value
+      .split(",")
+      .map((x) => x.trim())
+      .reduce((acc, x) => {
+        if (x) {
+          if (LOGGER_OPTIONS.includes(x as LoggerOptionValues)) {
+            acc.push(x as LoggerOptionValues);
+          } else {
+            appLogger.warn(
+              `[appTypeormManager] Invalid typeorm logger option "${x}", @see LoggerOptions`
+            );
+          }
+        }
+        return acc;
+      }, [] as LoggerOptionValues[]);
+    return values;
+  }
+  return ["warn"]; // default
 }

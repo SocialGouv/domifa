@@ -182,9 +182,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       : select;
   }
   async function deleteByCriteria(search: Partial<T>) {
-    const typeormRepository = await appTypeormManager.getRepository(
-      entityTarget
-    );
+    const typeormRepository = await typeorm();
     return typeormRepository.delete((search as unknown) as FindConditions<T>);
   }
 }
