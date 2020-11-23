@@ -17,6 +17,7 @@ Scénario:
 
   Alors je clique sur "Modifier la situation sociale"
 
+  Alors j'attends "2" secondes
   Alors je rentre "une structure au hasard" dans "Par quelle structure ou personne ?"
 
 

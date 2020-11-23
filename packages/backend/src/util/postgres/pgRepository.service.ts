@@ -1,4 +1,9 @@
-import { EntityTarget, FindConditions, ObjectLiteral } from "typeorm";
+import {
+  DeepPartial,
+  EntityTarget,
+  FindConditions,
+  ObjectLiteral
+} from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { appTypeormManager } from "../../database/appTypeormManager.service";
 import { appLogger } from "../AppLogger.service";
@@ -17,7 +22,9 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 ) {
   return {
+    typeorm,
     count,
+    save,
     findOne,
     findMany,
     updateOne,
@@ -27,13 +34,18 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     findManyWithQuery,
   };
 
+  async function typeorm() {
+    return appTypeormManager.getRepository(entityTarget);
+  }
+  async function save(entities: DeepPartial<T> | DeepPartial<T>[]) {
+    return (await typeorm()).save(entities as DeepPartial<T>);
+  }
+
   async function count(
     search?: Partial<T>,
     countAttribute = "uuid"
   ): Promise<number> {
-    const typeormRepository = await appTypeormManager.getRepository(
-      entityTarget
-    );
+    const typeormRepository = await typeorm();
     let qb = typeormRepository
       .createQueryBuilder()
       .select(`COUNT("${countAttribute}")`, "count");
@@ -60,9 +72,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     params: { [attr: string]: any };
     logSql?: boolean;
   } & PgRepositoryFindOptions<T>): Promise<R[]> {
-    const typeormRepository = await appTypeormManager.getRepository(
-      entityTarget
-    );
+    const typeormRepository = await typeorm();
 
     const qb = typeormRepository.createQueryBuilder();
     qb.select(_buildSelectAttributes(options).map((x) => `"${x}"`)).where(
@@ -75,6 +85,9 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
 
     if (options.logSql) {
       appLogger.debug(`[pgRepository] "${qb.getSql()}"`);
+    }
+    if (options.skip) {
+      qb.skip(options.skip);
     }
     if (options.maxResults) {
       qb.limit(options.maxResults);
@@ -106,9 +119,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     search?: FindConditions<T>[] | FindConditions<T> | ObjectLiteral | string,
     options: PgRepositoryFindOptions<T> = {}
   ): Promise<R> {
-    const typeormRepository = await appTypeormManager.getRepository(
-      entityTarget
-    );
+    const typeormRepository = await typeorm();
 
     const res = await typeormRepository.findOne({
       select: _buildSelectAttributes(options),
@@ -122,13 +133,14 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     search?: FindConditions<T>[] | FindConditions<T> | ObjectLiteral | string,
     options: PgRepositoryFindOptions<T> = {}
   ): Promise<R[]> {
-    const typeormRepository = await appTypeormManager.getRepository(
-      entityTarget
-    );
+    const typeormRepository = await typeorm();
+
     const res = await typeormRepository.find({
       select: _buildSelectAttributes(options),
       where: search,
       order: options.order,
+      skip: options.skip,
+      take: options.maxResults,
     });
     return (res as unknown) as R[];
   }
@@ -138,9 +150,8 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     data: Partial<T>,
     options: PgRepositoryFindOptions<T> = {}
   ) {
-    const typeormRepository = await appTypeormManager.getRepository(
-      entityTarget
-    );
+    const typeormRepository = await typeorm();
+
     await typeormRepository.update(
       (search as unknown) as FindConditions<T>,
       (data as unknown) as QueryDeepPartialEntity<T>
@@ -153,9 +164,8 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     data: Partial<T>,
     options: PgRepositoryFindOptions<T> = {}
   ) {
-    const typeormRepository = await appTypeormManager.getRepository(
-      entityTarget
-    );
+    const typeormRepository = await typeorm();
+
     await typeormRepository.update(
       (search as unknown) as FindConditions<T>,
       (data as unknown) as QueryDeepPartialEntity<T>
@@ -172,9 +182,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       : select;
   }
   async function deleteByCriteria(search: Partial<T>) {
-    const typeormRepository = await appTypeormManager.getRepository(
-      entityTarget
-    );
+    const typeormRepository = await typeorm();
     return typeormRepository.delete((search as unknown) as FindConditions<T>);
   }
 }

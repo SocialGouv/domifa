@@ -31,6 +31,7 @@ export type DomifaConfigKey =
   | "POSTGRES_USERNAME"
   | "POSTGRES_PASSWORD"
   | "POSTGRES_DATABASE"
+  | "POSTGRES_LOGGING"
   | "TS_NODE_DEV"; // is running in typescript or javascript
 
 export const configService = {
@@ -91,7 +92,6 @@ function getBoolean(key: DomifaConfigKey): boolean {
   const value = envConfig[key];
   return !!value && value.trim() === "true";
 }
-
 function getInteger(key: DomifaConfigKey): number {
   if (!envConfig) {
     loadConfig();

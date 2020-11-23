@@ -1,15 +1,15 @@
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
-import { appTypeormManager } from "./database/appTypeormManager.service";
+import { dataAnonymizer } from "./database";
 import { appLogger } from "./util";
 
 (async () => {
   appLogger.warn(`[${__filename}] Starting app...`);
   const { app, postgresTypeormConnection } = await bootstrapApplication();
   try {
-    await appTypeormManager.migrateDown(postgresTypeormConnection, 1);
-    await appTypeormManager.migrateUp(postgresTypeormConnection);
+    appLogger.warn(`[${__filename}] Starting data anonymization...`);
+    await dataAnonymizer.anonymize(app);
   } catch (error) {
-    appLogger.error(`[${__filename}] Error running migration`, {
+    appLogger.error(`[${__filename}] Error anonymizing data`, {
       error,
       sentry: true,
     });
