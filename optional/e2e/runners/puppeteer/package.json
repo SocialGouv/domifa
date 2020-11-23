@@ -10,10 +10,10 @@
     "rapport": "allure serve output"
   },
   "dependencies": {
-    "codeceptjs": "^3.0.1",
+    "codeceptjs": "^3.0.2",
     "dotenv": "^8.2.0",
     "execa": "^4.0.3",
     "path": "^0.12.7",
-    "puppeteer": "^5.2.1"
+    "puppeteer": "^5.5.0"
   }
 }
