@@ -5,8 +5,12 @@ then
   # default container name
   MONGO_CONTAINER_NAME=domifa-mongo-dev
 fi
-DB_NAME=domifa_tests
-MONGO_DUMP_PATH=/app/_scripts/db/dump_tests.mongo.gz
+if [ -z "${DB_NAME}" ] 
+then
+  # default database name
+  DB_NAME=domifa_test
+fi
+MONGO_DUMP_PATH=/app/_scripts/db/dumps/${DB_NAME}.mongo.gz
 
 echo ""
 echo "#############################################################################"

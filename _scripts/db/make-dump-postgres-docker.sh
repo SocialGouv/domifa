@@ -5,8 +5,13 @@ then
   # default container name
   POSTGRES_CONTAINER_NAME=domifa-postgres-dev
 fi
-DB_NAME=domifa_tests
-POSTGRES_DUMP_PATH=/app/_scripts/db/dump_tests.postgres.dump
+if [ -z "${DB_NAME}" ] 
+then
+  # default database name
+  DB_NAME=domifa_test
+fi
+
+POSTGRES_DUMP_PATH=/app/_scripts/db/dumps/${DB_NAME}.postgres.dump
 
 echo ""
 echo "#############################################################################"
