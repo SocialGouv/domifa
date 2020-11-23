@@ -15,7 +15,7 @@ import { appLogger } from "./util";
       if (configService.getBoolean("DOMIFA_GENERATE_STATS_ON_STARTUP")) {
         // in local env, run cron on app startup (non blocking)
         appLogger.warn(`[${__filename}] Running stats generation update...`);
-        app
+        await app
           .get(StatsGeneratorService)
           .generateStats()
           .then(

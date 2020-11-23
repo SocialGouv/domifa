@@ -1,16 +1,16 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Model } from "mongoose";
 import { Repository } from "typeorm";
 import { appTypeormManager } from "../../database/appTypeormManager.service";
+import { InteractionType } from "../../interactions/InteractionType.type";
+import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
 import { StructuresService } from "../../structures/services/structures.service";
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { appLogger } from "../../util";
 import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
-import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
-import { InteractionType } from "../../interactions/InteractionType.type";
 
 @Injectable()
 export class StatsGeneratorService {
@@ -43,6 +43,10 @@ export class StatsGeneratorService {
 
   @Cron(CronExpression.EVERY_HOUR)
   public async generateStats() {
+    appLogger.debug(
+      "[StatsGeneratorService] START statistics generation : " + new Date()
+    );
+
     const today = moment().utc().startOf("day").toDate();
     this.demain = moment().utc().endOf("day").toDate();
     this.debutAnnee = moment().utc().startOf("year").toDate();
@@ -53,8 +57,7 @@ export class StatsGeneratorService {
       .endOf("day")
       .toDate();
 
-    appLogger.debug("CRON : " + new Date(), "debug");
-    const structure: Structure = await this.structureService.findOneBasic({
+    const structures: Structure[] = await this.structureService.findManyBasic({
       $or: [
         {
           lastExport: {
@@ -72,11 +75,329 @@ export class StatsGeneratorService {
       ],
     });
 
-    if (!structure || structure === null) {
-      appLogger.debug("Export déjà en place : " + new Date(), "debug");
-      return;
+    appLogger.debug(
+      `[StatsGeneratorService] ${structures.length} structures to process :`
+    );
+
+    let errorsCount = 0;
+
+    for (const structure of structures) {
+      // appLogger.debug(
+      //   `[StatsGeneratorService] Generate stats for structure ${structure.id} "${structure.nom}"`
+      // );
+      try {
+        await this.generateStructureStats(today, structure);
+      } catch (err) {
+        errorsCount++;
+        appLogger.warn(
+          `[StatsGeneratorService] Undexpected error while generating stats for structure ${structure.id} "${structure.nom}"`,
+          {
+            sentryBreadcrumb: true,
+          }
+        );
+        appLogger.error(
+          `[StatsGeneratorService] Undexpected error while generating stats`
+        );
+      }
     }
 
+    appLogger.debug(
+      `[StatsGeneratorService] END statistics generation (${structures.length} structures processed, ${errorsCount} errors) : "` +
+        new Date()
+    );
+  }
+
+  private async generateStructureStats(today: Date, structure: Structure) {
+    const stat = await this.buildStats(today, structure);
+
+    const dateExport = moment()
+      .utc()
+      .startOf("day")
+      .set("hour", 11)
+      .set("minute", 11)
+      .toDate();
+    const retourStructure = await this.structureService.updateLastExport(
+      structure._id,
+      dateExport
+    );
+
+    const retourStats = await this.structureStatsRepository.insert(stat);
+
+    const updateStructureStats = await this.structureService.updateStructureStats(
+      structure._id,
+      stat.questions.Q_11.VALIDE,
+      stat.questions.Q_11.REFUS,
+      stat.questions.Q_11.RADIE
+    );
+    return { retourStructure, retourStats, updateStructureStats };
+  }
+
+  private async getDomiciliations(
+    structureId: number,
+    typeDemande: any
+  ): Promise<number> {
+    const response = await this.usagerModel
+      .countDocuments({
+        $or: [
+          {
+            "decision.dateDebut": {
+              $gte: this.debutAnnee,
+              $lte: this.finAnnee,
+            },
+            "decision.statut": "VALIDE",
+          },
+          {
+            historique: {
+              $elemMatch: {
+                dateDebut: { $gte: this.debutAnnee, $lte: this.finAnnee },
+                statut: "VALIDE",
+              },
+            },
+          },
+        ],
+        structureId,
+        typeDom: typeDemande,
+      })
+      .exec();
+
+    if (!response || response === null) {
+      return 0;
+    }
+    return response;
+  }
+
+  public async totalMaintenant(
+    structureId: number,
+    statut?: string,
+    motif?: string,
+    orientation?: string,
+    entretien?: { key: string; value: string },
+    age?: string
+  ): Promise<number> {
+    const query: {
+      "decision.motif"?: string;
+      "decision.statut"?: string | {};
+      "decision.orientation"?: string;
+      "entretien.residence"?: string | {};
+      "entretien.cause"?: string | {};
+      "entretien.typeMenage"?: string | {};
+      dateNaissance?: {
+        $gte?: Date;
+        $lte?: Date;
+      };
+      structureId: number;
+      typeDom?: string;
+    } = {
+      "decision.motif": motif,
+      "decision.statut": statut,
+      "decision.orientation": orientation,
+      structureId,
+    };
+
+    if (!motif || motif === "") {
+      delete query["decision.motif"];
+    }
+
+    if (!statut || statut === "") {
+      delete query["decision.statut"];
+    }
+
+    if (statut && statut === "RENOUVELLEMENT") {
+      query["decision.statut"] = {
+        $in: ["INSTRUCTION", "ATTENTE_DECISION"],
+      };
+      query.typeDom = "RENOUVELLEMENT";
+    }
+
+    if (statut !== "REFUS" || !orientation || orientation === "") {
+      delete query["decision.orientation"];
+    }
+
+    if (entretien && entretien.key !== "") {
+      if (entretien.key === "cause") {
+        query["entretien.cause"] = entretien.value;
+        if (entretien.key === "cause" && entretien.value === "NON_RENSEIGNE") {
+          query["entretien.cause"] = { $in: [null, ""] };
+        }
+      } else if (entretien.key === "typeMenage") {
+        query["entretien.typeMenage"] = entretien.value;
+        if (
+          entretien.key === "typeMenage" &&
+          entretien.value === "NON_RENSEIGNE"
+        ) {
+          query["entretien.typeMenage"] = { $in: [null, ""] };
+        }
+      } else if (entretien.key === "residence") {
+        query["entretien.residence"] = entretien.value;
+        if (
+          entretien.key === "residence" &&
+          entretien.value === "NON_RENSEIGNE"
+        ) {
+          query["entretien.residence"] = { $in: [null, ""] };
+        }
+      }
+    }
+
+    if (age) {
+      query.dateNaissance = {
+        $gte: this.dateMajorite,
+        $lte: this.dateMajorite,
+      };
+      age === "majeurs"
+        ? delete query.dateNaissance.$gte
+        : delete query.dateNaissance.$lte;
+    }
+
+    const response = await this.usagerModel.countDocuments(query).exec();
+
+    if (!response || response === null) {
+      return 0;
+    }
+    return response;
+  }
+  private async totalAyantsDroitsMaintenant(
+    structureId: number
+  ): Promise<number> {
+    const response = await this.usagerModel
+      .aggregate([
+        {
+          $match: {
+            "decision.statut": "VALIDE",
+            structureId,
+          },
+        },
+        {
+          $group: {
+            _id: "$structureId",
+            total: { $sum: { $size: "$ayantsDroits" } },
+          },
+        },
+      ])
+      .exec();
+    if (!response || response === null || response.length === 0) {
+      return 0;
+    }
+    return response[0].total;
+  }
+
+  private async totalAnnee(
+    structureId: number,
+    statut: string,
+    motif?: string,
+    orientation?: string
+  ): Promise<number> {
+    const firstCondition = {
+      "decision.dateDebut": {
+        $gte: this.debutAnnee,
+        $lte: this.finAnnee,
+      },
+      "decision.dateDecision": {
+        $gte: this.debutAnnee,
+        $lte: this.finAnnee,
+      },
+      "decision.motif": motif,
+      "decision.statut": statut,
+      "decision.orientation": orientation,
+    };
+
+    const secondCondition = {
+      historique: {
+        $elemMatch: {
+          dateDecision: {
+            $gte: this.debutAnnee,
+            $lte: this.finAnnee,
+          },
+          dateDebut: {
+            $gte: this.debutAnnee,
+            $lte: this.finAnnee,
+          },
+          motif,
+          statut,
+          orientation,
+        },
+      },
+    };
+
+    /* ---- FIX EXPLICATION --- */
+    /* Au départ, les dates de début enregistrées pour les refus et radié n'étaient pas les bonnes */
+    /* On prend en compte la date de décision, qui elle correspond bien */
+    if (statut === "REFUS" || statut === "RADIE") {
+      delete secondCondition.historique.$elemMatch.dateDebut;
+      delete firstCondition["decision.dateDebut"];
+    } else {
+      delete secondCondition.historique.$elemMatch.dateDecision;
+      delete firstCondition["decision.dateDecision"];
+    }
+
+    if (!motif || motif === "") {
+      delete firstCondition["decision.motif"];
+      delete secondCondition.historique.$elemMatch.motif;
+    }
+
+    if (statut !== "REFUS" || !orientation || orientation === "") {
+      delete firstCondition["decision.orientation"];
+      delete secondCondition.historique.$elemMatch.orientation;
+    }
+
+    const query = {
+      $or: [firstCondition, secondCondition],
+      structureId,
+    };
+
+    const response = await this.usagerModel.countDocuments(query).exec();
+
+    if (!response || response === null) {
+      return 0;
+    }
+    return response;
+  }
+
+  public async totalInteraction(
+    structureId: number,
+    interactionType: InteractionType
+  ): Promise<number> {
+    if (interactionType === "appel" || interactionType === "visite") {
+      return this.interactionRepository.count({
+        structureId,
+        type: interactionType,
+      });
+    } else {
+      const search = await this.interactionRepository
+        .createQueryBuilder("interactions")
+        .select("SUM(interactions.nbCourrier)", "sum")
+        .where({ structureId, type: interactionType })
+        .groupBy("interactions.type")
+        .getRawOne();
+      return search?.sum ? search?.sum : 0;
+    }
+  }
+
+  public async countStructures(): Promise<any> {
+    return this.structureModel.countDocuments({}).exec();
+  }
+
+  public async countInteractions(): Promise<any> {
+    return this.interactionRepository.count({ type: "courrierIn" });
+  }
+
+  public async countUsagers(): Promise<any> {
+    return this.usagerModel.countDocuments({}).exec();
+  }
+
+  public async countAyantsDroits(): Promise<any> {
+    return this.usagerModel.aggregate([
+      { $project: { totalAd: { $size: "$ayantsDroits" } } },
+      { $group: { _id: null, count: { $sum: "$totalAd" } } },
+    ]);
+  }
+
+  public async countDocs(): Promise<any> {
+    return this.usagerModel.aggregate([
+      { $project: { totalFichiers: { $size: "$docs" } } },
+      { $group: { _id: null, count: { $sum: "$totalFichiers" } } },
+    ]);
+  }
+  private async buildStats(today: Date, structure: Structure) {
     const stat = new StructureStatsTable({
       date: moment(today).subtract(1, "day").toDate(),
       questions: {
@@ -522,304 +843,6 @@ export class StatsGeneratorService {
       "",
       { key: "residence", value: "NON_RENSEIGNE" }
     );
-
-    const dateExport = moment()
-      .utc()
-      .startOf("day")
-      .set("hour", 11)
-      .set("minute", 11)
-      .toDate();
-    const retourStructure = await this.structureService.updateLastExport(
-      structure._id,
-      dateExport
-    );
-
-    const retourStats = await this.structureStatsRepository.insert(stat);
-
-    const updateStructureStats = await this.structureService.updateStructureStats(
-      structure._id,
-      stat.questions.Q_11.VALIDE,
-      stat.questions.Q_11.REFUS,
-      stat.questions.Q_11.RADIE
-    );
-
-    if (
-      retourStructure &&
-      retourStructure !== null &&
-      retourStats &&
-      retourStats !== null &&
-      updateStructureStats &&
-      updateStructureStats !== null
-    ) {
-      this.generateStats();
-    } else {
-      throw new HttpException("BUG_STATS", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  private async getDomiciliations(
-    structureId: number,
-    typeDemande: any
-  ): Promise<number> {
-    const response = await this.usagerModel
-      .countDocuments({
-        $or: [
-          {
-            "decision.dateDebut": {
-              $gte: this.debutAnnee,
-              $lte: this.finAnnee,
-            },
-            "decision.statut": "VALIDE",
-          },
-          {
-            historique: {
-              $elemMatch: {
-                dateDebut: { $gte: this.debutAnnee, $lte: this.finAnnee },
-                statut: "VALIDE",
-              },
-            },
-          },
-        ],
-        structureId,
-        typeDom: typeDemande,
-      })
-      .exec();
-
-    if (!response || response === null) {
-      return 0;
-    }
-    return response;
-  }
-
-  public async totalMaintenant(
-    structureId: number,
-    statut?: string,
-    motif?: string,
-    orientation?: string,
-    entretien?: { key: string; value: string },
-    age?: string
-  ): Promise<number> {
-    const query: {
-      "decision.motif"?: string;
-      "decision.statut"?: string | {};
-      "decision.orientation"?: string;
-      "entretien.residence"?: string | {};
-      "entretien.cause"?: string | {};
-      "entretien.typeMenage"?: string | {};
-      dateNaissance?: {
-        $gte?: Date;
-        $lte?: Date;
-      };
-      structureId: number;
-      typeDom?: string;
-    } = {
-      "decision.motif": motif,
-      "decision.statut": statut,
-      "decision.orientation": orientation,
-      structureId,
-    };
-
-    if (!motif || motif === "") {
-      delete query["decision.motif"];
-    }
-
-    if (!statut || statut === "") {
-      delete query["decision.statut"];
-    }
-
-    if (statut && statut === "RENOUVELLEMENT") {
-      query["decision.statut"] = {
-        $in: ["INSTRUCTION", "ATTENTE_DECISION"],
-      };
-      query.typeDom = "RENOUVELLEMENT";
-    }
-
-    if (statut !== "REFUS" || !orientation || orientation === "") {
-      delete query["decision.orientation"];
-    }
-
-    if (entretien && entretien.key !== "") {
-      if (entretien.key === "cause") {
-        query["entretien.cause"] = entretien.value;
-        if (entretien.key === "cause" && entretien.value === "NON_RENSEIGNE") {
-          query["entretien.cause"] = { $in: [null, ""] };
-        }
-      } else if (entretien.key === "typeMenage") {
-        query["entretien.typeMenage"] = entretien.value;
-        if (
-          entretien.key === "typeMenage" &&
-          entretien.value === "NON_RENSEIGNE"
-        ) {
-          query["entretien.typeMenage"] = { $in: [null, ""] };
-        }
-      } else if (entretien.key === "residence") {
-        query["entretien.residence"] = entretien.value;
-        if (
-          entretien.key === "residence" &&
-          entretien.value === "NON_RENSEIGNE"
-        ) {
-          query["entretien.residence"] = { $in: [null, ""] };
-        }
-      }
-    }
-
-    if (age) {
-      query.dateNaissance = {
-        $gte: this.dateMajorite,
-        $lte: this.dateMajorite,
-      };
-      age === "majeurs"
-        ? delete query.dateNaissance.$gte
-        : delete query.dateNaissance.$lte;
-    }
-
-    const response = await this.usagerModel.countDocuments(query).exec();
-
-    if (!response || response === null) {
-      return 0;
-    }
-    return response;
-  }
-  private async totalAyantsDroitsMaintenant(
-    structureId: number
-  ): Promise<number> {
-    const response = await this.usagerModel
-      .aggregate([
-        {
-          $match: {
-            "decision.statut": "VALIDE",
-            structureId,
-          },
-        },
-        {
-          $group: {
-            _id: "$structureId",
-            total: { $sum: { $size: "$ayantsDroits" } },
-          },
-        },
-      ])
-      .exec();
-    if (!response || response === null || response.length === 0) {
-      return 0;
-    }
-    return response[0].total;
-  }
-
-  private async totalAnnee(
-    structureId: number,
-    statut: string,
-    motif?: string,
-    orientation?: string
-  ): Promise<number> {
-    const firstCondition = {
-      "decision.dateDebut": {
-        $gte: this.debutAnnee,
-        $lte: this.finAnnee,
-      },
-      "decision.dateDecision": {
-        $gte: this.debutAnnee,
-        $lte: this.finAnnee,
-      },
-      "decision.motif": motif,
-      "decision.statut": statut,
-      "decision.orientation": orientation,
-    };
-
-    const secondCondition = {
-      historique: {
-        $elemMatch: {
-          dateDecision: {
-            $gte: this.debutAnnee,
-            $lte: this.finAnnee,
-          },
-          dateDebut: {
-            $gte: this.debutAnnee,
-            $lte: this.finAnnee,
-          },
-          motif,
-          statut,
-          orientation,
-        },
-      },
-    };
-
-    /* ---- FIX EXPLICATION --- */
-    /* Au départ, les dates de début enregistrées pour les refus et radié n'étaient pas les bonnes */
-    /* On prend en compte la date de décision, qui elle correspond bien */
-    if (statut === "REFUS" || statut === "RADIE") {
-      delete secondCondition.historique.$elemMatch.dateDebut;
-      delete firstCondition["decision.dateDebut"];
-    } else {
-      delete secondCondition.historique.$elemMatch.dateDecision;
-      delete firstCondition["decision.dateDecision"];
-    }
-
-    if (!motif || motif === "") {
-      delete firstCondition["decision.motif"];
-      delete secondCondition.historique.$elemMatch.motif;
-    }
-
-    if (statut !== "REFUS" || !orientation || orientation === "") {
-      delete firstCondition["decision.orientation"];
-      delete secondCondition.historique.$elemMatch.orientation;
-    }
-
-    const query = {
-      $or: [firstCondition, secondCondition],
-      structureId,
-    };
-
-    const response = await this.usagerModel.countDocuments(query).exec();
-
-    if (!response || response === null) {
-      return 0;
-    }
-    return response;
-  }
-
-  public async totalInteraction(
-    structureId: number,
-    interactionType: InteractionType
-  ): Promise<number> {
-    if (interactionType === "appel" || interactionType === "visite") {
-      return this.interactionRepository.count({
-        structureId,
-        type: interactionType,
-      });
-    } else {
-      const search = await this.interactionRepository
-        .createQueryBuilder("interactions")
-        .select("SUM(interactions.nbCourrier)", "sum")
-        .where({ structureId, type: interactionType })
-        .groupBy("interactions.type")
-        .getRawOne();
-      return typeof search !== undefined ? search.sum : 0;
-    }
-  }
-
-  public async countStructures(): Promise<any> {
-    return this.structureModel.countDocuments({}).exec();
-  }
-
-  public async countInteractions(): Promise<any> {
-    return this.interactionRepository.count({ type: "courrierIn" });
-  }
-
-  public async countUsagers(): Promise<any> {
-    return this.usagerModel.countDocuments({}).exec();
-  }
-
-  public async countAyantsDroits(): Promise<any> {
-    return this.usagerModel.aggregate([
-      { $project: { totalAd: { $size: "$ayantsDroits" } } },
-      { $group: { _id: null, count: { $sum: "$totalAd" } } },
-    ]);
-  }
-
-  public async countDocs(): Promise<any> {
-    return this.usagerModel.aggregate([
-      { $project: { totalFichiers: { $size: "$docs" } } },
-      { $group: { _id: null, count: { $sum: "$totalFichiers" } } },
-    ]);
+    return stat;
   }
 }

@@ -25,7 +25,7 @@ export class StructuresService {
     @Inject("STRUCTURE_MODEL")
     private structureModel: Model<Structure>,
     private departementHelper: DepartementHelper
-  ) { }
+  ) {}
 
   public async prePost(structureDto: StructureDto): Promise<any> {
     try {
@@ -142,6 +142,13 @@ export class StructuresService {
   public async findOneBasic(param: any): Promise<any> {
     const structure = await this.structureModel
       .findOne(param)
+      .select("-users -token -email -phone -responsable")
+      .exec();
+    return structure;
+  }
+  public async findManyBasic(param: any): Promise<Structure[]> {
+    const structure = await this.structureModel
+      .find(param)
       .select("-users -token -email -phone -responsable")
       .exec();
     return structure;

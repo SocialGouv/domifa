@@ -44,6 +44,12 @@ exports.config = {
     tryTo: {
       enabled: true,
     },
+    retryFailedStep: {
+      enabled: true,
+      retries: 10,
+      minTimeout: 100,
+      maxTimeout: 2000,
+    }
   },
   tests: "./specs/*_test.js",
   name: "domifa",
