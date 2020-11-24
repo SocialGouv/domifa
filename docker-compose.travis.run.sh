@@ -27,13 +27,13 @@ echo "# Wait for MONGO to be ready (timeout: ${DB_TIMEOUT}s)..."
 echo "#"
 echo ""
 
-/usr/bin/docker inspect -f {{.State.Health.Status}} domifa-mongo-dev
+/usr/bin/docker inspect -f {{.State.Health.Status}} domifa-mongo-test
 i=0
-until [ $i -eq $DB_TIMEOUT ] || [ "$(/usr/bin/docker inspect -f {{.State.Health.Status}} domifa-mongo-dev)" == "healthy" ]; do
+until [ $i -eq $DB_TIMEOUT ] || [ "$(/usr/bin/docker inspect -f {{.State.Health.Status}} domifa-mongo-test)" == "healthy" ]; do
     sleep 1
     i=$((i+1))
 done;
-/usr/bin/docker inspect -f {{.State.Health.Status}} domifa-mongo-dev
+/usr/bin/docker inspect -f {{.State.Health.Status}} domifa-mongo-test
 end=`date +%s`
 DURATION=$((end-start))
 echo ""
@@ -47,7 +47,7 @@ echo ""
 
 /usr/bin/docker inspect -f {{.State.Health.Status}} domifa-postgres-test
 i=0
-until [ $i -eq $DB_TIMEOUT ] || [ "$(/usr/bin/docker inspect -f {{.State.Health.Status}} domifa-mongo-dev)" == "healthy" ]; do
+until [ $i -eq $DB_TIMEOUT ] || [ "$(/usr/bin/docker inspect -f {{.State.Health.Status}} domifa-mongo-test)" == "healthy" ]; do
     sleep 1
     i=$((i+1))
 done;
@@ -66,10 +66,10 @@ docker logs --tail 5 domifa-postgres-test
 
 echo ""
 echo "###########################################"
-echo "# Container logs for 'domifa-mongo-dev':"
+echo "# Container logs for 'domifa-mongo-test':"
 echo "#"
 echo ""
-docker logs --tail 5 domifa-mongo-dev
+docker logs --tail 5 domifa-mongo-test
 
 echo ""
 echo "###########################################"

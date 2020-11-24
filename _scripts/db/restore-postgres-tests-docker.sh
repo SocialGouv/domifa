@@ -12,7 +12,7 @@ then
   POSTGRES_PASSWORD=BfYK51e6RUmyZnSgsL9BAQgu6f6ciKgTFB68
 fi
 
-POSTGRES_DUMP_PATH=/app/_scripts/db/dumps/domifa_tests.postgres.dump
+POSTGRES_DUMP_PATH=/app/_scripts/db/dump_tests.postgres.dump
 
 echo ""
 echo "#############################################################################"

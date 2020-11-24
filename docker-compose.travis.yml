@@ -3,17 +3,17 @@ version: "3.4"
 services:
   mongo:
     image: "mongo:4.2.8" # https://hub.docker.com/_/mongo/
-    container_name: domifa-mongo-dev
+    container_name: domifa-mongo-test
     volumes:
       # /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
-      - ./_scripts/db/restore-mongo.sh:/docker-entrypoint-initdb.d/restore-mongo.sh
-      - ./_scripts/db/dumps/domifa_tests.mongo.gz:/app/_scripts/db/dumps/domifa_tests.mongo.gz:delegated
+      - ./_scripts/db/restore-mongo-travis-entrypoint.sh:/docker-entrypoint-initdb.d/restore-mongo-travis-entrypoint.sh
+      - ./_scripts/db/dump_tests.mongo.gz:/app/_scripts/db/dump_tests.mongo.gz:delegated
     environment:
-      - MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-      - MONGO_INITDB_DATABASE: ${DB_NAME}
+      - MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD
+      - MONGO_INITDB_DATABASE
     ports:
-      - 27017:27017
+      - 27018:27017
     env_file:
       - ./.env.test.travis
     healthcheck:
@@ -30,7 +30,7 @@ services:
     volumes:
       # /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
       - ./_scripts/db/restore-postgres-travis-entrypoint.sh:/docker-entrypoint-initdb.d/restore-postgres-travis-entrypoint.sh
-      - ./_scripts/db/dumps/domifa_tests.postgres.dump:/app/_scripts/db/dumps/domifa_tests.postgres.dump:delegated
+      - ./_scripts/db/dump_tests.postgres.dump:/app/_scripts/db/dump_tests.postgres.dump:delegated
     ports:
     - "5433:5432"
     environment:
