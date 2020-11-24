@@ -21,7 +21,7 @@ import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { configService } from "../../config/config.service";
+import { domifaConfig } from "../../config";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { AppAuthUser } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
@@ -42,7 +42,7 @@ export class UsagersController {
     private readonly usagersService: UsagersService,
     private readonly interactionService: InteractionsService,
     private readonly cerfaService: CerfaService
-  ) { }
+  ) {}
 
   /* FORMULAIRE INFOS */
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
@@ -188,7 +188,7 @@ export class UsagersController {
     @Res() res: Response
   ) {
     const pathFile = path.resolve(
-      configService.get("UPLOADS_FOLDER") + usager.structureId + "/" + usager.id
+      domifaConfig().upload.basePath + usager.structureId + "/" + usager.id
     );
 
     await this.interactionService.deleteByUsager(usager.id, user.structureId);

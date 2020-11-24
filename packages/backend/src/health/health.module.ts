@@ -6,10 +6,10 @@ import {
   TerminusModule,
   TerminusModuleOptions,
 } from "@nestjs/terminus";
-import { configService } from "../config/config.service";
+import { domifaConfig } from "../config";
 import { buildMongoConnectionStringFromEnv } from "../database/database.providers";
 
-const frontUrl = configService.get("DOMIFA_FRONTEND_URL");
+const frontUrl = domifaConfig().apps.frontendUrl;
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();
 

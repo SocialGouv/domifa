@@ -7,8 +7,7 @@ import {
   Migration,
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { LoggerOptions } from "typeorm/logger/LoggerOptions";
-import { configService, DomifaConfigKey } from "../config";
+import { domifaConfig } from "../config";
 import { appLogger } from "../util";
 
 export const appTypeormManager = {
@@ -55,13 +54,7 @@ async function revertLastMigration(connection: Connection): Promise<void> {
 }
 
 async function connect() {
-  const pgConfig = {
-    host: configService.get("POSTGRES_HOST"),
-    port: configService.getInteger("POSTGRES_PORT"),
-    username: configService.get("POSTGRES_USERNAME"),
-    password: configService.get("POSTGRES_PASSWORD"),
-    database: configService.get("POSTGRES_DATABASE"),
-  };
+  const pgConfig = domifaConfig().postgres;
   appLogger.warn(
     `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
   );
@@ -74,18 +67,14 @@ async function connect() {
   >;
 
   if (isTypescriptMode) {
-    appLogger.warn(
-      `[appTypeormManager] TS_NODE_DEV detected: running in typescript DEV mode`
-    );
+    appLogger.warn(`[appTypeormManager] Running in typescript DEV mode`);
     connectOptionsPaths = {
       migrations: ["src/_migrations/**/*.ts"],
       entities: ["src/**/pg/*Table.typeorm.ts"],
       subscribers: ["src/**/*Subscriber.typeorm.ts"],
     };
   } else {
-    appLogger.warn(
-      `[appTypeormManager] TS_NODE_DEV NOT detected: running in javascript DIST mode`
-    );
+    appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
     connectOptionsPaths = {
       migrations: ["dist/_migrations/**/*.js"],
       entities: ["dist/**/pg/*Table.typeorm.js"],
@@ -100,7 +89,7 @@ async function connect() {
     password: pgConfig.password,
     database: pgConfig.database,
     logger: "simple-console",
-    logging: getLoggerOptions("POSTGRES_LOGGING"),
+    logging: pgConfig.logging,
     ...connectOptionsPaths,
   };
   try {
@@ -127,52 +116,4 @@ function _getEntityManager(entityManager?: EntityManager) {
 }
 function getConnection(): Connection {
   return connectionHolder.connection;
-}
-type LoggerOptionValues =
-  | "query"
-  | "schema"
-  | "error"
-  | "warn"
-  | "info"
-  | "log"
-  | "migration"; // @see typeorm LoggerOption
-const LOGGER_OPTIONS: LoggerOptionValues[] = [
-  "query",
-  "schema",
-  "error",
-  "warn",
-  "info",
-  "log",
-  "migration",
-];
-function getLoggerOptions(key: DomifaConfigKey): LoggerOptions {
-  const value = configService.get(key);
-  if (value) {
-    if (value.trim() === "all") {
-      return "all";
-    }
-    if (value.trim() === "true") {
-      return true;
-    }
-    if (value.trim() === "false") {
-      return false;
-    }
-    const values = value
-      .split(",")
-      .map((x) => x.trim())
-      .reduce((acc, x) => {
-        if (x) {
-          if (LOGGER_OPTIONS.includes(x as LoggerOptionValues)) {
-            acc.push(x as LoggerOptionValues);
-          } else {
-            appLogger.warn(
-              `[appTypeormManager] Invalid typeorm logger option "${x}", @see LoggerOptions`
-            );
-          }
-        }
-        return acc;
-      }, [] as LoggerOptionValues[]);
-    return values;
-  }
-  return ["warn"]; // default
 }

@@ -16,18 +16,16 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Response } from "express";
-import { diskStorage } from "multer";
-
 import * as crypto from "crypto";
+import { Response } from "express";
 import * as fs from "fs";
+import { diskStorage } from "multer";
 import * as path from "path";
-
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { configService } from "../../config/config.service";
+import { domifaConfig } from "../../config";
 import { AppAuthUser } from "../../_common/model";
 import { Usager } from "../interfaces/usagers";
 import { DocumentsService } from "../services/documents.service";
@@ -63,7 +61,7 @@ export class DocsController {
       storage: diskStorage({
         destination: (req: any, file: any, cb: any) => {
           const dir =
-            configService.get("UPLOADS_FOLDER") +
+            domifaConfig().upload.basePath +
             req.user.structureId +
             "/" +
             req.usager.id;
@@ -103,7 +101,7 @@ export class DocsController {
     };
 
     const fileName =
-      configService.get("UPLOADS_FOLDER") +
+      domifaConfig().upload.basePath +
       user.structureId +
       "/" +
       usagerId +
@@ -158,7 +156,7 @@ export class DocsController {
     fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
-      configService.get("UPLOADS_FOLDER") +
+      domifaConfig().upload.basePath +
         usager.structureId +
         "/" +
         usager.id +
@@ -205,7 +203,7 @@ export class DocsController {
     fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
-      configService.get("UPLOADS_FOLDER") +
+      domifaConfig().upload.basePath +
         usager.structureId +
         "/" +
         usager.id +
@@ -224,8 +222,8 @@ export class DocsController {
       }
     }
 
-    const key = configService.get("FILES_PRIVATE");
-    const iv = configService.get("FILES_IV");
+    const key = domifaConfig().security.files.private;
+    const iv = domifaConfig().security.files.iv;
 
     const decipher = crypto.createDecipheriv("aes-256-cfb", key, iv);
 
@@ -261,8 +259,8 @@ export class DocsController {
   }
 
   private encryptFile(fileName: string, @Res() res: Response) {
-    const key = configService.get("FILES_PRIVATE");
-    const iv = configService.get("FILES_IV");
+    const key = domifaConfig().security.files.private;
+    const iv = domifaConfig().security.files.iv;
 
     const cipher = crypto.createCipheriv("aes-256-cfb", key, iv);
 

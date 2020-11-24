@@ -1,7 +1,7 @@
 import { forwardRef, Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { configService } from "../config";
+import { domifaConfig } from "../config";
 import { StructuresModule } from "../structures/structure.module";
 import { UsersModule } from "../users/users.module";
 import { AuthController } from "./auth.controller";
@@ -14,7 +14,7 @@ import { JwtStrategy } from "./jwt.strategy";
   imports: [
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
-      secret: configService.get("SECRET"),
+      secret: domifaConfig().security.jwtSecret,
       signOptions: {
         expiresIn: 36000,
       },

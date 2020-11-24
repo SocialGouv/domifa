@@ -10,7 +10,7 @@ import * as compression from "compression";
 import { Connection } from "typeorm";
 import { AppModule } from "./app.module";
 import { appHolder } from "./appHolder";
-import { configService } from "./config/config.service";
+import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database/appTypeormManager.service";
 import { appLogger } from "./util";
 
@@ -26,28 +26,28 @@ export async function tearDownApplication({
 }
 export async function bootstrapApplication() {
   try {
-    configService.loadConfig();
-
-    Sentry.init({
-      dsn: process.env.SENTRY_DSN,
-      release: "domifa@" + process.env.npm_package_version,
-      serverName: configService.getEnvId(),
-    });
+    if (domifaConfig().dev.sentry.enabled) {
+      Sentry.init({
+        dsn: domifaConfig().dev.sentry.sentryDns,
+        release: "domifa@" + domifaConfig().version,
+        serverName: domifaConfig().envId,
+      });
+    }
 
     const postgresTypeormConnection = await appTypeormManager.connect();
 
     const app = await NestFactory.create(AppModule);
     appHolder.app = app;
     app.useGlobalPipes(new ValidationPipe());
-    const corsUrl = configService.get("DOMIFA_CORS_URL");
-    const enableCorsSecurity = corsUrl && corsUrl.trim().length !== 0;
+    const corsUrl = domifaConfig().security.corsUrl;
+    const enableCorsSecurity = !!corsUrl;
     if (enableCorsSecurity) {
       appLogger.warn(`Enable CORS from URL "${corsUrl}"`);
       app.enableCors({
         origin: corsUrl, // https://docs.nestjs.com/techniques/security#cors
       });
     } else {
-      if (["dev", "test"].includes(configService.getEnvId())) {
+      if (["dev", "test"].includes(domifaConfig().envId)) {
         app.enableCors({
           origin: true, // "Access-Control-Allow-Origin" = request.origin (unsecure): https://docs.nestjs.com/techniques/security#cors
         });
@@ -75,18 +75,15 @@ export async function bootstrapApplication() {
 
 function configureSwagger(app) {
   const DOMIFA_SWAGGER_CONTEXT = "sw-api";
-  if (configService.getBoolean("DOMIFA_SWAGGER_ENABLE")) {
+  if (domifaConfig().dev.swaggerEnabled) {
+    const backendUrl = domifaConfig().apps.backendUrl;
     // enable swagger ui http://localhost:3000/api-json & http://localhost:3000/${DOMIFA_SWAGGER_CONTEXT}
     appLogger.warn(
-      `Swagger UI enabled: ${configService.get(
-        "DOMIFA_BACKEND_URL"
-      )}${DOMIFA_SWAGGER_CONTEXT}`
+      `Swagger UI enabled: ${backendUrl}${DOMIFA_SWAGGER_CONTEXT}`
     );
 
     appLogger.warn(
-      `Swagger JSON download: ${configService.get(
-        "DOMIFA_BACKEND_URL"
-      )}${DOMIFA_SWAGGER_CONTEXT}-json`
+      `Swagger JSON download: ${backendUrl}${DOMIFA_SWAGGER_CONTEXT}-json`
     );
     const options = new DocumentBuilder()
       .setTitle("Domifa")

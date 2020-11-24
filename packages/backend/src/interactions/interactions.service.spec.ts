@@ -12,9 +12,6 @@ import { InteractionDto } from "./interactions.dto";
 import { InteractionsModule } from "./interactions.module";
 import { InteractionsService } from "./interactions.service";
 
-
-
-
 describe("InteractionsService", () => {
   let context: AppTestContext;
 

@@ -1,0 +1,4 @@
+*.gz
+*.dump
+!domifa_test.mongo.gz
+!domifa_test.postgres.dump

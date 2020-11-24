@@ -6,7 +6,7 @@ import { TerminusModule } from "@nestjs/terminus";
 import * as mongoose from "mongoose";
 import { RavenInterceptor, RavenModule } from "nest-raven";
 import { AuthModule } from "./auth/auth.module";
-import { configService } from "./config/config.service";
+import { domifaConfig } from "./config";
 import { buildMongoConnectionStringFromEnv } from "./database/database.providers";
 import { HealthController } from "./health.controller";
 import { HealthModule } from "./health/health.module";
@@ -19,11 +19,11 @@ import { appLogger } from "./util";
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();
 
-if (configService.getBoolean("DOMIFA_MONGOOSE_DEBUG")) {
+if (domifaConfig().mongo.debug) {
   appLogger.debug("[app.module] mongoConnectionString:", mongoConnectionString);
 }
 
-mongoose.set("debug", configService.getBoolean("DOMIFA_MONGOOSE_DEBUG"));
+mongoose.set("debug", domifaConfig().mongo.debug);
 
 @Module({
   controllers: [HealthController],
@@ -50,7 +50,7 @@ mongoose.set("debug", configService.getBoolean("DOMIFA_MONGOOSE_DEBUG"));
     {
       provide: APP_INTERCEPTOR,
       useValue: new RavenInterceptor({
-        tags: { serverName: configService.getEnvId() },
+        tags: { serverName: domifaConfig().envId },
       }),
     },
   ],

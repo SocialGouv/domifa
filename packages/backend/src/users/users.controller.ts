@@ -18,7 +18,7 @@ import * as bcrypt from "bcryptjs";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 import { ResponsableGuard } from "../auth/guards/responsable.guard";
-import { configService } from "../config";
+import { domifaConfig } from "../config";
 import { DomifaMailsService } from "../mails/services/domifa-mails.service";
 import { UsersMailsService } from "../mails/services/users-mails.service";
 import { StructuresService } from "../structures/services/structures.service";
@@ -91,7 +91,7 @@ export class UsersController {
     );
 
     if (confirmerUser && confirmerUser !== undefined) {
-      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -241,7 +241,7 @@ export class UsersController {
       //
       // Mail vers Domifa pour indiquer une création de structure
       //
-      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -281,7 +281,7 @@ export class UsersController {
         }
       );
 
-      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -398,7 +398,7 @@ export class UsersController {
           .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
       }
 
-      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -444,7 +444,7 @@ export class UsersController {
     );
 
     if (updatedUser && updatedUser !== undefined) {
-      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 

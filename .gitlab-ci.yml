@@ -64,5 +64,5 @@ Register backend image:
     CONTEXT: .
     IMAGE_NAME: $CI_REGISTRY_IMAGE/backend
     DOCKER_BUILD_ARGS: >-
-      --shm-size 512M
+      --shm-size 768M
       -f packages/backend/Dockerfile

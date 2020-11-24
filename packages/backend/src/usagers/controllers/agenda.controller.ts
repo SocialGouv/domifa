@@ -15,7 +15,7 @@ import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { configService } from "../../config";
+import { domifaConfig } from "../../config";
 import { UsagersMailsService } from "../../mails/services/usagers-mails.service";
 import { usersRepository } from "../../users/pg/users-repository.service";
 import { UsersService } from "../../users/services/users.service";
@@ -106,7 +106,7 @@ export class AgendaController {
       );
 
       if (updatedUsager && updatedUsager !== null) {
-        if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+        if (!domifaConfig().email.emailsEnabled) {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         }
 
