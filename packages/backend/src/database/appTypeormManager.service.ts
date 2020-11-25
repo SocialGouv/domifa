@@ -94,6 +94,7 @@ async function connect() {
   };
   try {
     connectionHolder.connection = await createConnection(connectOptions);
+    appLogger.debug(`[appTypeormManager] postgres connection success`);
     return connectionHolder.connection;
   } catch (err) {
     appLogger.debug(

@@ -17,7 +17,7 @@ describe("cronMailsRepository", () => {
     const user1 = await cronMailsRepository.findNextUserToSendCronMail({
       maxCreationDate: new Date(Date.now()),
       mailType: "guide",
-      structuresIds: [1],
+      structuresIds: [1, 2],
     });
     expect(user1).toBeDefined();
 

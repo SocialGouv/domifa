@@ -44,10 +44,9 @@ describe("loadConfig", () => {
     expect(config.upload.basePath).toBeDefined();
 
     expect(config.dev.swaggerEnabled).toEqual(false);
-    expect(config.dev.generateStatsOnStartup).toEqual(false);
+    expect(config.dev.runCronJobsOnStartup).toEqual(false);
     expect(config.dev.sentry.enabled).toEqual(false);
 
-    expect(config.email.emailsCronEnabled).toEqual(false);
     expect(config.email.emailsEnabled).toEqual(false);
   });
 
@@ -91,10 +90,9 @@ describe("loadConfig", () => {
     expect(config.upload.basePath).toBeDefined();
 
     expect(config.dev.swaggerEnabled).toEqual(true);
-    expect(config.dev.generateStatsOnStartup).toEqual(true);
+    expect(config.dev.runCronJobsOnStartup).toEqual(true);
     expect(config.dev.sentry.enabled).toEqual(false);
 
-    expect(config.email.emailsCronEnabled).toEqual(false);
     expect(config.email.emailsEnabled).toEqual(false);
   });
 
@@ -144,10 +142,9 @@ describe("loadConfig", () => {
     expect(config.upload.basePath).toBeDefined();
 
     expect(config.dev.swaggerEnabled).toEqual(false);
-    expect(config.dev.generateStatsOnStartup).toEqual(false);
+    expect(config.dev.runCronJobsOnStartup).toEqual(false);
     expect(config.dev.sentry.enabled).toEqual(false);
 
-    expect(config.email.emailsCronEnabled).toEqual(true);
     expect(config.email.emailsEnabled).toEqual(true);
   });
 });

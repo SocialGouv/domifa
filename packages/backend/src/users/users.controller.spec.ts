@@ -1,7 +1,6 @@
 import { HttpModule } from "@nestjs/common";
 import { DatabaseModule } from "../database/database.module";
 import { MailsModule } from "../mails/mails.module";
-import { CronMailsService } from "../mails/services/cron-mails.service";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
@@ -23,12 +22,7 @@ describe("Users Controller", () => {
         UsagersModule,
         HttpModule,
       ],
-      providers: [
-        { provide: UsersService, useValue: {} },
-        CronMailsService,
-
-        ...UsersProviders,
-      ],
+      providers: [{ provide: UsersService, useValue: {} }, ...UsersProviders],
     });
     controller = context.module.get<UsersController>(UsersController);
   });

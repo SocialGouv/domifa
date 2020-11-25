@@ -18,7 +18,7 @@ async function updateMailFlag({
   userId: number;
   mailType: CronMailType;
   value: boolean;
-  }) {
+}) {
   const query = `
       UPDATE app_user
       SET mails = mails || jsonb_build_object('${mailType}', ${value})
@@ -40,7 +40,7 @@ async function findNextUserToSendCronMail({
   maxCreationDate: Date;
   structuresIds: number[] | undefined; // undefined if not used
   mailType: CronMailType;
-  }) {
+}) {
   const maxCreationDateString = postgresQueryBuilder.formatPostgresDate(
     maxCreationDate
   );
@@ -52,8 +52,8 @@ async function findNextUserToSendCronMail({
   const params: any[] = [maxCreationDateString, mailType];
 
   if (structuresIds && structuresIds.length) {
-    whereClausesAnd.push(`"structureId" in ($3)`);
-    params.push(structuresIds.join(","));
+    whereClausesAnd.push(`"structureId" = ANY($3)`);
+    params.push(structuresIds);
   }
 
   const query = `
@@ -65,9 +65,9 @@ async function findNextUserToSendCronMail({
   const users: Pick<
     AppUser,
     "id" | "email" | "nom" | "prenom"
-    >[] = await appTypeormManager
-      .getRepository(AppUserTable)
-      .query(query, params);
+  >[] = await appTypeormManager
+    .getRepository(AppUserTable)
+    .query(query, params);
 
   return users.length ? users[0] : undefined;
 }
