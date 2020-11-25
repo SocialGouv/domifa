@@ -130,6 +130,12 @@ export class StatsService {
     return stats;
   }
 
+  public async deleteAll(structureId: number): Promise<any> {
+    return this.structureStatsRepository.delete({
+      structureId,
+    });
+  }
+
   public async getStatsDiff({
     structureId,
     startDate,

@@ -30,7 +30,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { fadeInOut } from "src/app/shared/animations";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { AppUser } from '../../../../../../../_common/model';
+import { AppUser } from "../../../../../../../_common/model";
 
 @Component({
   animations: [fadeInOut],
@@ -146,17 +146,17 @@ export class RdvComponent implements OnInit {
     });
   }
 
-  public setValueRdv(value: string) {
+  public setValueRdv(value: boolean) {
     this.rdvForm.controls.isNow.setValue(value);
   }
 
   public rdvNow() {
-    this.rdvForm.controls.isNow.setValue("oui");
+    this.rdvForm.controls.isNow.setValue(true);
     this.submitRdv();
   }
 
   public submitRdv() {
-    if (this.rdvForm.controls.isNow.value === "oui") {
+    if (this.rdvForm.controls.isNow.value === true) {
       this.rdvForm.controls.userId.setValue(
         this.authService.currentUserValue.id
       );

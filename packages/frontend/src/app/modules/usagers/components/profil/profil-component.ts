@@ -6,7 +6,7 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbDateStruct,
-  NgbModal
+  NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
@@ -16,7 +16,7 @@ import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-frenc
 import { Structure } from "src/app/modules/structures/structure.interface";
 import {
   formatDateToNgb,
-  minDateNaissance
+  minDateNaissance,
 } from "src/app/shared/bootstrap-util";
 import { regexp } from "src/app/shared/validators";
 import { AppUser, UserRole } from "../../../../../_common/model";
@@ -48,8 +48,8 @@ export class UsagersProfilComponent implements OnInit {
   public acceptInteractions: boolean;
   public editCustomId: boolean;
   public submitted: boolean;
-  public typeInteraction: InteractionTypes;
 
+  public typeInteraction: InteractionTypes;
   public interactions: Interaction[];
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
 
@@ -103,19 +103,16 @@ export class UsagersProfilComponent implements OnInit {
     this.editEntretien = false;
     this.editInfos = false;
     this.submitted = false;
+    this.editCustomId = false;
     this.acceptInteractions = true;
+
     this.today = new Date();
 
     this.interactionsLabels = interactionsLabels;
+    this.labels = usagersLabels;
 
     this.interactions = [];
-    this.labels = usagersLabels;
-    this.editCustomId = false;
     this.liensLabels = Object.keys(this.labels.lienParente);
-    this.structure =
-      this.authService.currentUserValue !== null
-        ? this.authService.currentUserValue.structure
-        : new Structure();
 
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
@@ -136,6 +133,7 @@ export class UsagersProfilComponent implements OnInit {
 
     this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
+      this.structure = user.structure;
     });
   }
 
@@ -391,6 +389,10 @@ export class UsagersProfilComponent implements OnInit {
       if (this.usager.options.transfert.actif) {
         interaction.transfert = true;
       }
+    }
+
+    if (!interaction.nbCourrier) {
+      interaction.nbCourrier = 1;
     }
 
     this.interactionService.setInteraction(this.usager, interaction).subscribe(

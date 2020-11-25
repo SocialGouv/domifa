@@ -23,7 +23,6 @@ services:
       retries: 5
       start_period: 2s
 
-  
   postgres:
     image: postgres:10.14 # https://hub.docker.com/_/postgres
     container_name: domifa-postgres-test
@@ -32,7 +31,7 @@ services:
       - ./_scripts/db/restore-postgres.sh:/docker-entrypoint-initdb.d/restore-postgres.sh
       - ./_scripts/db/dumps/domifa_test.postgres.dump:/app/_scripts/db/dumps/domifa_test.postgres.dump:delegated
     ports:
-    - "5433:5432"
+      - "5433:5432"
     environment:
       TZ: UTC
       PGDATA: /var/lib/postgresql/data/pgdata

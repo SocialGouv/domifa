@@ -164,14 +164,7 @@ export class Usager {
       visite: false,
     };
 
-    if (usager && usager.typeDom) {
-      this.typeDom =
-        usager.typeDom === "PREMIERE_DOM" || usager.typeDom === "PREMIERE"
-          ? "PREMIERE"
-          : "RENOUVELLEMENT";
-    } else {
-      this.typeDom = "PREMIERE";
-    }
+    this.typeDom = (usager && usager.typeDom) || "PREMIERE";
 
     this.options = (usager && new Options(usager.options)) || new Options({});
 

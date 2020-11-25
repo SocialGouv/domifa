@@ -64,10 +64,10 @@ export class InteractionDto {
 
   @ApiProperty({
     type: Number,
-    required: false,
+    required: true,
   })
-  @IsOptional()
   @IsNumber()
+  @IsNotEmpty()
   public nbCourrier!: number;
 
   @IsEmpty()

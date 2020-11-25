@@ -31,7 +31,6 @@ services:
       retries: 5
       start_period: 2s
 
-  
   postgres:
     image: postgres:10.14
     container_name: domifa-postgres
@@ -41,7 +40,7 @@ services:
         # NOTE: /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
       - ./_scripts/db/restore-postgres.sh:/docker-entrypoint-initdb.d/restore-postgres.sh
     ports:
-    - "5432:5432"
+      - "5432:5432"
     environment:
       TZ: UTC
       NODE_ENV: development
@@ -72,15 +71,17 @@ services:
       - $HOME/.gitconfig:/home/node/.gitconfig:ro
       - $HOME/.gitignore:/home/node/.gitignore:ro
       - $HOME/.npm:/home/node/.npm:delegated
+      - ${UPLOADS_FOLDER}:/files/
     ports:
       - 3000:3000
     env_file:
       - ./.env
     environment:
       TZ: Europe/Paris
+
     depends_on:
-    - "mongo"
-    - "postgres"
+      - "mongo"
+      - "postgres"
 
   domifa_frontend:
     container_name: domifa-frontend

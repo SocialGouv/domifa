@@ -18,6 +18,7 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
+import { AppUser } from "../../../../../_common/model";
 import { Structure } from "../../../structures/structure.interface";
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
@@ -34,6 +35,9 @@ import { InteractionService } from "../../services/interaction.service";
 export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
   public usagers: Usager[] = [];
+
+  public me: AppUser;
+
   public dateLabel: string;
   public today: Date;
   public labelsDateFin: any = {
@@ -99,10 +103,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters = new Search(this.getFilters());
     this.nbResults = 0;
     this.selectedUsager = new Usager();
-    this.structure =
-      this.authService.currentUserValue !== null
-        ? this.authService.currentUserValue.structure
-        : new Structure();
+
     this.today = new Date();
     this.stats = {
       INSTRUCTION: 0,
@@ -112,6 +113,11 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       RADIE: 0,
       TOUS: 0,
     };
+
+    this.authService.currentUser.subscribe((user) => {
+      this.me = user;
+      this.structure = this.me.structure;
+    });
   }
 
   public ngOnInit() {
@@ -250,7 +256,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         return;
       }
 
-      if (this.authService.currentUserValue.role === "facteur") {
+      if (this.me.role === "facteur") {
         this.notifService.error("Vous ne pouvez pas accéder à ce profil");
         return;
       }
@@ -261,6 +267,11 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         ]);
       } else {
         this.router.navigate(["usager/" + usager.id + "/edit/decision"]);
+      }
+    } else if (usager.decision.statut === "REFUS") {
+      if (this.me.role === "facteur") {
+        this.notifService.error("Vous ne pouvez pas accéder à ce profil");
+        return;
       }
     } else {
       this.router.navigate(["usager/" + usager.id]);
@@ -277,9 +288,11 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       type?: string;
       procuration?: boolean;
       transfert?: boolean;
+      nbCourrier: number;
     } = {
       content: "",
       type,
+      nbCourrier: 1,
     };
 
     if (type === "courrierOut" && usager.options.procuration.actif) {

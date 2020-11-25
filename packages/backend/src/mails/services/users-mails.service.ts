@@ -3,7 +3,7 @@ import { domifaConfig } from "../../config";
 import { AppUserTable } from "../../users/pg";
 import {
   AppUserForAdminEmail,
-  AppUserForAdminEmailWithTempTokens
+  AppUserForAdminEmailWithTempTokens,
 } from "../../users/pg/users-repository.service";
 
 @Injectable()

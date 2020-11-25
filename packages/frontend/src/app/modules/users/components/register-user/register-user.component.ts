@@ -3,7 +3,7 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators
+  Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
@@ -18,6 +18,7 @@ import { regexp } from "../../../../shared/validators";
 import { appUserBuilder } from "../../services";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
+import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   animations: [fadeInOut],
@@ -53,7 +54,8 @@ export class RegisterUserComponent implements OnInit {
     private route: ActivatedRoute,
     private structureService: StructureService,
     private notifService: ToastrService,
-    private titleService: Title
+    private titleService: Title,
+    private matomo: MatomoTracker
   ) {
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
@@ -136,6 +138,12 @@ export class RegisterUserComponent implements OnInit {
         this.notifService.success(
           "Votre compte a été créé avec succès",
           "Félicitations !"
+        );
+        this.matomo.trackEvent(
+          "tests_utilisateurs",
+          "inscription_user",
+          "structure_form",
+          1
         );
       },
       () => {

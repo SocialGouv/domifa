@@ -11,16 +11,18 @@ import {
   Res,
   UploadedFile,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import * as crypto from "crypto";
 import { Response } from "express";
-import * as fs from "fs";
 import { diskStorage } from "multer";
+
+import * as crypto from "crypto";
+import * as fs from "fs";
 import * as path from "path";
+
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";

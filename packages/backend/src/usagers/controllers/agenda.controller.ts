@@ -6,7 +6,7 @@ import {
   HttpStatus,
   Post,
   Response,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -67,7 +67,10 @@ export class AgendaController {
     const heure = dateRdv.getHours();
     const minutes = dateRdv.getMinutes();
 
-    if (rdvDto.isNow === "oui") {
+    if (rdvDto.isNow) {
+      rdvDto.dateRdv = new Date();
+      rdvDto.dateRdv.setSeconds(0);
+
       const updatedUsager = await this.usagersService.setRdv(
         usager.id,
         rdvDto,
