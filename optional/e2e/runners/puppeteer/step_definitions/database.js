@@ -9,25 +9,14 @@ Soit("une nouvelle base de donnée", async () => {
   console.info(`------------------------------------------------`)
   const { output } = require("codeceptjs");
   {
-    // restore POSTGRES DB
-    const scriptPath = path.join(rootPath, process.env.DOMIFA_POSTGRES_RESET_SCRIPT)
-    const scriptArgs = process.env.DOMIFA_POSTGRES_RESET_SCRIPT_ARGS;
+    // restore POSTGRES + MONGO DB
+    const scriptPath = path.join(rootPath, '_scripts/db/restore-databases-docker.sh')
+    const scriptArgs = ['--db=test'];
 
-    console.warn(`RUN RESET POSTGRES SCRIPT with args "${scriptArgs}": ${scriptPath}`)
+    console.warn(`RUN POSTGRES + MONGO RESET SCRIPT with args "${scriptArgs}": ${scriptPath}`)
 
     output.log(await execa(scriptPath, [
       scriptArgs
-    ]));
-  }
-  {
-    // restore MONGO DB
-    const scriptPath = path.join(rootPath, process.env.DOMIFA_MONGO_RESET_SCRIPT)
-    const scriptArgs = process.env.DOMIFA_MONGO_RESET_SCRIPT_ARGS;
-
-    console.warn(`RUN RESET MONGO SCRIPT with args "${scriptArgs}": ${scriptPath}`)
-
-    output.log(await execa(scriptPath, [
-      scriptArgs,
     ]));
   }
   // TODO apply migrations here?

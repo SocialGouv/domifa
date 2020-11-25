@@ -2,7 +2,7 @@
 
 ## Configuration
 
-Configurer `optional/e2e/.env` à partir de `optional/e2e/.env.e2e.local.example.ini`.
+Configurer `optional/e2e/.env` à partir de `optional/e2e/.env.e2e.local.example.env`.
 
 ## Install
 

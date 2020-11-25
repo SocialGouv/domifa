@@ -1,11 +1,11 @@
-import { Controller, Get, Logger } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 import {
   DNSHealthIndicator,
   HealthCheck,
   HealthCheckService,
   MongooseHealthIndicator,
 } from "@nestjs/terminus";
-import { configService } from "./config/config.service";
+import { domifaConfig } from "./config";
 import { appLogger } from "./util";
 
 @Controller("")
@@ -19,7 +19,7 @@ export class HealthController {
   @Get()
   @HealthCheck()
   healthCheck() {
-    const frontUrl = configService.get("DOMIFA_FRONTEND_URL");
+    const frontUrl = domifaConfig().apps.frontendUrl;
 
     return this.health.check([
       async () => this.mongoose.pingCheck("mongo"),

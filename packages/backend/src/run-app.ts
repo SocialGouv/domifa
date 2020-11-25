@@ -1,5 +1,5 @@
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
-import { configService } from "./config";
+import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database/appTypeormManager.service";
 import { StatsGeneratorService } from "./stats/services/stats-generator.service";
 import { appLogger } from "./util";
@@ -12,7 +12,7 @@ import { appLogger } from "./util";
     try {
       await appTypeormManager.migrateUp(postgresTypeormConnection);
 
-      if (configService.getBoolean("DOMIFA_GENERATE_STATS_ON_STARTUP")) {
+      if (domifaConfig().dev.generateStatsOnStartup) {
         // in local env, run cron on app startup (non blocking)
         appLogger.warn(`[${__filename}] Running stats generation update...`);
         await app

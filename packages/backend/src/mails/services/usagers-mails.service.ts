@@ -1,6 +1,6 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import * as moment from "moment";
-import { configService } from "../../config";
+import { domifaConfig } from "../../config";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { AppUserForAdminEmail } from "../../users/pg/users-repository.service";
 
@@ -10,8 +10,8 @@ export class UsagersMailsService {
   private domifaFromMail: string;
 
   constructor(private httpService: HttpService) {
-    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+    this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
+    this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
 
   public async mailRdv(
@@ -80,8 +80,8 @@ export class UsagersMailsService {
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .toPromise();
@@ -123,8 +123,8 @@ export class UsagersMailsService {
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .toPromise();

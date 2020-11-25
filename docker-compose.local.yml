@@ -1,31 +1,45 @@
-version: "3.3"
+version: "3.4"
 
 volumes:
-  domifa-mongo-data:
+  mongo-data:
   postgres-data:
+  backend-uploads:
 
 services:
   mongo:
-    image: "mongo:4.2.8"
-    container_name: domifa-mongo-dev
+    image: "mongo:4.2.8" # https://hub.docker.com/_/mongo/
+    container_name: domifa-mongo
     volumes:
-      - domifa-mongo-data:/data/db
+      - mongo-data:/data/db
       - $APP_DIR:/app:delegated
+        # NOTE: /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
+      - ./_scripts/db/restore-mongo.sh:/docker-entrypoint-initdb.d/restore-mongo.sh
     environment:
       - MONGO_INITDB_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD
-    ports:
-      - 27017:27017
+      - MONGO_INITDB_DATABASE
+      - MONGO_DUMP_PATH=/app/_scripts/db/dumps/domifa_test.mongo.gz
+      - RECREATE_USER=false
     env_file:
       - ./.env
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 2s
 
   
   postgres:
     image: postgres:10.14
-    container_name: domifa-postgres-dev
+    container_name: domifa-postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - $APP_DIR:/app:delegated
+        # NOTE: /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
+      - ./_scripts/db/restore-postgres.sh:/docker-entrypoint-initdb.d/restore-postgres.sh
     ports:
     - "5432:5432"
     environment:
@@ -44,14 +58,15 @@ services:
       retries: 5
 
   domifa_backend:
-    container_name: domifa-backend-dev
-    hostname: domifa-backend-dev
+    container_name: domifa-backend
+    hostname: domifa-backend
     build:
       context: _scripts/dev
       dockerfile: local-node.dockerfile
     command: tail -f /dev/null
     working_dir: /app/packages/backend
     volumes:
+      - backend-uploads:/data/uploads:delegated
       - $APP_DIR:/app:delegated
       - $HOME/.ssh:/home/node/.ssh:ro
       - $HOME/.gitconfig:/home/node/.gitconfig:ro
@@ -68,8 +83,8 @@ services:
     - "postgres"
 
   domifa_frontend:
-    container_name: domifa-frontend-dev
-    hostname: domifa-frontend-dev
+    container_name: domifa-frontend
+    hostname: domifa-frontend
     build:
       context: _scripts/dev
       dockerfile: local-node.dockerfile

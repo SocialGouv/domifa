@@ -1,5 +1,5 @@
 import { HttpService, Injectable } from "@nestjs/common";
-import { configService } from "../../config";
+import { domifaConfig } from "../../config";
 import { DEPARTEMENTS_MAP } from "../../structures/DEPARTEMENTS_MAP.const";
 import { Structure } from "../../structures/structure-interface";
 import { AppUserForAdminEmail } from "../../users/pg/users-repository.service";
@@ -10,8 +10,8 @@ export class DomifaMailsService {
   private domifaFromMail: string;
 
   constructor(private httpService: HttpService) {
-    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+    this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
+    this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
 
   //
@@ -19,11 +19,10 @@ export class DomifaMailsService {
   //
   public newStructure(structure: Structure, user: AppUserForAdminEmail) {
     const route = structure._id + "/" + structure.token;
-    const lienConfirmation =
-      configService.get("DOMIFA_FRONTEND_URL") + "structures/confirm/" + route;
+    const frontendUrl = domifaConfig().apps.frontendUrl;
+    const lienConfirmation = frontendUrl + "structures/confirm/" + route;
 
-    const lienSuppression =
-      configService.get("DOMIFA_FRONTEND_URL") + "structures/delete/" + route;
+    const lienSuppression = frontendUrl + "structures/delete/" + route;
 
     const structureTypes = {
       asso: "Organisme agrée",
@@ -85,8 +84,8 @@ export class DomifaMailsService {
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .toPromise();
@@ -97,7 +96,7 @@ export class DomifaMailsService {
   //
   public async deleteStructure(structure: Structure) {
     const lien =
-      process.env.DOMIFA_FRONTEND_URL +
+      domifaConfig().apps.frontendUrl +
       "structures/delete/" +
       structure._id +
       "/" +
@@ -146,8 +145,8 @@ export class DomifaMailsService {
     this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .toPromise();

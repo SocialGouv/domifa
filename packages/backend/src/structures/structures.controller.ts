@@ -19,7 +19,7 @@ import * as rimraf from "rimraf";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 import { DomifaGuard } from "../auth/guards/domifa.guard";
-import { configService } from "../config";
+import { domifaConfig } from "../config";
 import { InteractionsService } from "../interactions/interactions.service";
 import { DomifaMailsService } from "../mails/services/domifa-mails.service";
 import { StructuresMailsService } from "../mails/services/structures-mails.service";
@@ -101,7 +101,7 @@ export class StructuresController {
         { verified: true }
       );
 
-      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -155,7 +155,10 @@ export class StructuresController {
   @UseGuards(AuthGuard("jwt"), AdminGuard)
   @ApiBearerAuth()
   @Get("hard-reset")
-  public async hardReset(@Response() res: any, @CurrentUser() user: AppAuthUser) {
+  public async hardReset(
+    @Response() res: any,
+    @CurrentUser() user: AppAuthUser
+  ) {
     const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const expireAt = new Date();
     expireAt.setDate(expireAt.getDate() + 1);
@@ -170,7 +173,7 @@ export class StructuresController {
       hardResetToken
     );
     if (structure) {
-      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
@@ -246,7 +249,7 @@ export class StructuresController {
       await this.interactionsService.deleteAll(structure.id);
       await this.structureService.delete(structure._id);
 
-      const pathFile = process.env.UPLOADS_FOLDER + structure.id;
+      const pathFile = domifaConfig().upload.basePath + structure.id;
       if (fs.existsSync(pathFile)) {
         rimraf(pathFile, () => {
           return res
@@ -290,7 +293,7 @@ export class StructuresController {
     const structure = await this.structureService.generateDeleteToken(id);
 
     if (structure && structure !== null) {
-      if (configService.get("DOMIFA_EMAILS_ENABLE") !== "true") {
+      if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 

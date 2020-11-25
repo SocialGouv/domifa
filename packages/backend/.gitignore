@@ -2,6 +2,6 @@ node_modules
 imports
 uploads
 dist
-*.env
-*.local
+.env
+*.local.env
 ormconfig.json

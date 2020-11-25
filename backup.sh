@@ -19,4 +19,4 @@ POSTGRES_DUMP_PATH=${base_dir}/${POSTGRES_DUMP_NAME}
 pg_dump --dbname=${POSTGRES_DATABASE} --username=\${POSTGRES_USER} --no-owner --format=tar --file=/tmp/${POSTGRES_DUMP_NAME} \
 ")
 
-(set -x && docker cp master_postgres_1:/tmp/${POSTGRES_DUMP_NAME} ${base_dir})
+(set -x && sudo docker cp master_postgres_1:/tmp/${POSTGRES_DUMP_NAME} ${POSTGRES_DUMP_PATH})

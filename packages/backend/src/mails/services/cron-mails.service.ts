@@ -8,7 +8,7 @@ import {
 import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Model } from "mongoose";
-import { configService } from "../../config";
+import { domifaConfig } from "../../config";
 import { Structure } from "../../structures/structure-interface";
 import { appLogger } from "../../util";
 import { cronMailsRepository } from "../pg";
@@ -26,19 +26,19 @@ export class CronMailsService {
     @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
   ) {
     this.lienGuide =
-      process.env.DOMIFA_FRONTEND_URL +
+      domifaConfig().apps.frontendUrl +
       "assets/files/guide_utilisateur_domifa.pdf";
 
-    this.lienImport = process.env.DOMIFA_FRONTEND_URL + "import";
+    this.lienImport = domifaConfig().apps.frontendUrl + "import";
 
-    this.lienFaq = process.env.DOMIFA_FRONTEND_URL + "faq";
-    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+    this.lienFaq = domifaConfig().apps.frontendUrl + "faq";
+    this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
+    this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
 
   @Cron("0 8 * * TUE")
   public async cronGuide() {
-    if (configService.get("DOMIFA_CRON_ENABLED") !== "true") {
+    if (!domifaConfig().email.emailsCronEnabled) {
       return;
     }
 
@@ -96,8 +96,8 @@ export class CronMailsService {
     this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .subscribe(
@@ -131,7 +131,7 @@ export class CronMailsService {
 
   @Cron("0 15 * * TUE")
   public async cronImport() {
-    if (configService.get("DOMIFA_CRON_ENABLED") !== "true") {
+    if (!domifaConfig().email.emailsCronEnabled) {
       return;
     }
 
@@ -221,8 +221,8 @@ export class CronMailsService {
     this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .subscribe(

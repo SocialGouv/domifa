@@ -1,5 +1,5 @@
 import { HttpService, Injectable } from "@nestjs/common";
-import { configService } from "../../config";
+import { domifaConfig } from "../../config";
 import { Structure } from "../../structures/structure-interface";
 import { UserProfile } from "../../_common/model";
 
@@ -9,14 +9,15 @@ export class StructuresMailsService {
   private domifaFromMail: string;
 
   constructor(private httpService: HttpService) {
-    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+    this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
+    this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
 
   public async confirmationStructure(
     structure: Structure,
     user: UserProfile
   ): Promise<any> {
+    const frontendUrl = domifaConfig().apps.frontendUrl;
     const post = {
       to: [
         {
@@ -30,7 +31,7 @@ export class StructuresMailsService {
           {
             email: user.email,
             values: {
-              lien: configService.get("DOMIFA_FRONTEND_URL"),
+              lien: frontendUrl,
               nom_structure: structure.nom,
               prenom: user.prenom,
             },
@@ -56,8 +57,8 @@ export class StructuresMailsService {
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .toPromise();

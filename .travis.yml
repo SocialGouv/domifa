@@ -36,7 +36,7 @@ addons:
     - sudo dpkg-reconfigure --frontend noninteractive tzdata
 
     - cp /home/travis/build/SocialGouv/domifa/packages/frontend/src/environments/environment.travis.ts /home/travis/build/SocialGouv/domifa/packages/frontend/src/environments/environment.prod.ts
-    - cp /home/travis/build/SocialGouv/domifa/optional/e2e/runners/puppeteer/.env.travis.ini /home/travis/build/SocialGouv/domifa/optional/e2e/runners/puppeteer/.env
+    - cp /home/travis/build/SocialGouv/domifa/optional/e2e/runners/puppeteer/.env.travis.env /home/travis/build/SocialGouv/domifa/optional/e2e/runners/puppeteer/.env
 
   install:
     - yarn --frozen-lockfile

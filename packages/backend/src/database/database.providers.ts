@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
-import { configService } from "../config/config.service";
+import { domifaConfig } from "../config";
 
-mongoose.set("debug", configService.getBoolean("DOMIFA_MONGOOSE_DEBUG"));
+mongoose.set("debug", domifaConfig().mongo.debug);
 
 const mongoConnectionString = buildMongoConnectionStringFromEnv();
 
@@ -19,15 +19,9 @@ export const databaseProviders = [
 ];
 
 export function buildMongoConnectionStringFromEnv() {
-  const user = configService.get("DB_USER");
-  const password = configService.get("DB_PASS");
-  const host = configService.get("DB_HOST");
-  const port = configService.get("DB_PORT");
-  const dbAuthSource = configService.get("DB_AUTH_SOURCE");
-  const dbName = configService.get("DB_NAME");
-  const debug = configService.get("DOMIFA_MONGOOSE_DEBUG");
+  const { host, pass, port, user, name, authSource } = domifaConfig().mongo;
 
-  return `mongodb://${user}:${password}@${host}:${port}/${dbName}${
-    dbAuthSource ? `?authSource=${dbAuthSource}` : ""
+  return `mongodb://${user}:${pass}@${host}:${port}/${name}${
+    authSource ? `?authSource=${authSource}` : ""
   }`;
 }

@@ -1,11 +1,11 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { configService } from "../../config";
+import { domifaConfig } from "../../config";
 import { appLogger } from "../../util";
 
 @Injectable()
 export class DomifaGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector) { }
+  constructor(private readonly reflector: Reflector) {}
 
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
@@ -30,7 +30,7 @@ export class DomifaGuard implements CanActivate {
       !!user &&
       user.role === "admin" &&
       (user.structureId === 1 ||
-        (configService.getEnvId() === "preprod" && user.structureId === 205))
+        (domifaConfig().envId === "preprod" && user.structureId === 205))
     );
   }
 }

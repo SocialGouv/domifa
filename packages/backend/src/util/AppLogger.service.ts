@@ -1,5 +1,6 @@
 import { Logger } from "@nestjs/common";
 import * as Sentry from "@sentry/node";
+import { domifaConfig } from "../config";
 
 class AppLogger {
   debug(message: string, context?: string) {
@@ -17,7 +18,7 @@ class AppLogger {
       sentryBreadcrumb: false,
     }
   ) {
-    if (sentryBreadcrumb) {
+    if (sentryBreadcrumb && domifaConfig().dev.sentry.enabled) {
       // add breadcrumb to sentry
       const breadcrumb: Sentry.Breadcrumb = {
         level: Sentry.Severity.Warning,
@@ -41,7 +42,7 @@ class AppLogger {
       sentry: true,
     }
   ) {
-    if (sentry) {
+    if (sentry && domifaConfig().dev.sentry.enabled) {
       // log to sentry
       if (error) {
         Sentry.captureException(error, {

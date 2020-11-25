@@ -1,5 +1,5 @@
 import { HttpService, Injectable } from "@nestjs/common";
-import { configService } from "../../config";
+import { domifaConfig } from "../../config";
 import { AppUserTable } from "../../users/pg";
 import {
   AppUserForAdminEmail,
@@ -12,8 +12,8 @@ export class UsersMailsService {
   private domifaFromMail: string;
 
   constructor(private httpService: HttpService) {
-    this.domifaAdminMail = configService.get("DOMIFA_ADMIN_EMAIL");
-    this.domifaFromMail = configService.get("DOMIFA_TIPIMAIL_FROM_EMAIL");
+    this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
+    this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
 
   //
@@ -29,12 +29,13 @@ export class UsersMailsService {
         personalName: admin.prenom + " " + admin.nom,
       });
 
+      const frontendUrl = domifaConfig().apps.frontendUrl;
       contentEmails.push({
         email: admin.email,
         subject: "Un nouvel utilisateur souhaite rejoindre votre structure",
         values: {
           admin_prenom: admin.prenom,
-          lien: configService.get("DOMIFA_FRONTEND_URL") + "admin",
+          lien: frontendUrl + "admin",
           user_email: user.email,
           user_nom: user.nom,
           user_prenom: user.prenom,
@@ -66,8 +67,8 @@ export class UsersMailsService {
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .toPromise();
@@ -78,7 +79,7 @@ export class UsersMailsService {
   //
   public newUserFromAdmin(user: AppUserForAdminEmailWithTempTokens) {
     const lien =
-      process.env.DOMIFA_FRONTEND_URL +
+      domifaConfig().apps.frontendUrl +
       "reset-password/" +
       user.temporaryTokens.password;
 
@@ -119,8 +120,8 @@ export class UsersMailsService {
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .toPromise();
@@ -130,6 +131,7 @@ export class UsersMailsService {
   // Mail pour l'utilisateur une fois son compte activé par l'admin
   //
   public accountActivated(user: AppUserForAdminEmail) {
+    const frontendUrl = domifaConfig().apps.frontendUrl;
     const post = {
       to: [
         {
@@ -144,7 +146,7 @@ export class UsersMailsService {
             email: user.email,
             subject: "Votre compte Domifa a été activé",
             values: {
-              lien: configService.get("DOMIFA_FRONTEND_URL") + "connexion",
+              lien: frontendUrl + "connexion",
               prenom: user.prenom,
             },
             meta: {},
@@ -168,8 +170,8 @@ export class UsersMailsService {
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .toPromise();
@@ -179,10 +181,9 @@ export class UsersMailsService {
   // Mail avec le lien pour réinitialiser son mot de passe
   //
   public async newPassword(user: AppUserForAdminEmailWithTempTokens) {
+    const frontendUrl = domifaConfig().apps.frontendUrl;
     const confirmationLink =
-      configService.get("DOMIFA_FRONTEND_URL") +
-      "reset-password/" +
-      user.temporaryTokens.password;
+      frontendUrl + "reset-password/" + user.temporaryTokens.password;
 
     const post = {
       to: [
@@ -221,8 +222,8 @@ export class UsersMailsService {
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": process.env.SMTP_USER,
-          "X-Tipimail-ApiKey": process.env.SMTP_PASS,
+          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
         },
       })
       .toPromise();
