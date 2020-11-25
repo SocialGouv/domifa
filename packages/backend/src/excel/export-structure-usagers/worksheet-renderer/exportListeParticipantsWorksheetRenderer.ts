@@ -50,12 +50,16 @@ function renderWorksheet({
       { key: "email" },
       { key: "decisionStatut" },
       { key: "decisionMotifRefus" },
+      { key: "decisionUserRefus" },
       { key: "decisionMotifRadie" },
+      { key: "decisionUserRadie" },
       { key: "decisionDate" },
       { key: "typeDom" },
       { key: "decisionDateDebut" },
       { key: "decisionDateFin" },
       { key: "datePremiereDom" },
+      { key: "decisionUserPremierDom" },
+      { key: "decisionUserRenouvellement" },
       { key: "dateLastInteraction" },
       { key: "ayantsDroitsCount" },
     ];
@@ -147,8 +151,15 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
         decisionMotifRefus:
           usager.decision.statut === "REFUS" ? usager.decision.motif : "",
 
+        decisionUserRefus:
+          usager.decision.statut === "REFUS" ? usager.decision.userName : "",
+
         decisionMotifRadie:
           usager.decision.statut === "RADIE" ? usager.decision.motif : "",
+
+        decisionUserRadie:
+          usager.decision.statut === "RADIE" ? usager.decision.userName : "",
+
         decisionDate:
           usager.decision.statut === "RADIE"
             ? usager.decision.dateDecision
@@ -166,6 +177,13 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
           usager.datePremiereDom && usager.datePremiereDom !== null
             ? usager.datePremiereDom
             : "",
+
+        decisionUserPremierDom:
+          usager.typeDom === "PREMIERE" ? usager.decision.userName : "",
+
+        decisionUserRenouvellement:
+          usager.typeDom === "RENOUVELLEMENT" ? usager.decision.userName : "",
+
         dateLastInteraction:
           usager.lastInteraction.dateInteraction &&
           usager.lastInteraction.dateInteraction !== null

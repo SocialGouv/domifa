@@ -17,7 +17,6 @@ import { DocumentsService } from "./services/documents.service";
 import { UsagersService } from "./services/usagers.service";
 import { UsagersProviders } from "./usagers.providers";
 
-
 @Module({
   controllers: [
     UsagersController,

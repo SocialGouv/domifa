@@ -3,7 +3,7 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators
+  Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ToastrService } from "ngx-toastr";
@@ -14,6 +14,7 @@ import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
 import { appUserBuilder } from "../../services";
 import { UsersService } from "../../services/users.service";
+import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   animations: [fadeInOut],
@@ -40,7 +41,8 @@ export class RegisterUserAdminComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private notifService: ToastrService,
-    private titleService: Title
+    private titleService: Title,
+    private matomo: MatomoTracker
   ) {
     this.user = appUserBuilder.buildAppUser({});
     this.submitted = false;
@@ -75,6 +77,12 @@ export class RegisterUserAdminComponent implements OnInit {
           this.notifService.success(
             "Votre collaborateur vient de recevoir un email pour ajouter son mot de passe.",
             "Le nouveau compte a été créé avec succès !"
+          );
+          this.matomo.trackEvent(
+            "tests_utilisateurs",
+            "inscription_user",
+            "admin_form",
+            1
           );
         },
         () => {

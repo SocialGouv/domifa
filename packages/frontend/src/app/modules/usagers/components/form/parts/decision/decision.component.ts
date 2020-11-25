@@ -6,7 +6,7 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbDateStruct,
-  NgbModal
+  NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
@@ -243,14 +243,6 @@ export class DecisionComponent implements OnInit {
 
   public getAttestation() {
     return this.usagerService.attestation(this.usager.id);
-  }
-
-  public getDocument(i: number) {
-    return this.documentService.getDocument(
-      this.usager.id,
-      i,
-      this.usager.docs[i]
-    );
   }
 
   public printPage() {

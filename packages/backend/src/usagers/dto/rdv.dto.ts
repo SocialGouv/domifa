@@ -17,9 +17,9 @@ export class RdvDto {
   public dateRdv!: Date;
 
   @ApiProperty({
-    type: String,
+    type: Boolean,
     required: true,
   })
   @IsNotEmpty()
-  public isNow!: string;
+  public isNow!: boolean;
 }

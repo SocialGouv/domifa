@@ -37,6 +37,20 @@ export class UsagerAccessGuard implements CanActivate {
     }
 
     r.usager = usager;
+
+    const isValidRole =
+      r.user &&
+      (r.user.role === "fac" ||
+        r.user.role === "responsable" ||
+        r.user.role === "simple");
+    // REFUS
+    if (
+      usager.decision.statut === "REFUS" ||
+      usager.decision.statut === "RADIE" ||
+      usager.decision.statut === "ATTENTE_DECISION"
+    ) {
+    }
+
     return r;
   }
 }

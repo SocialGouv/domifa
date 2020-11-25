@@ -9,6 +9,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterModule } from "@angular/router";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("RegisterUserAdminComponent", () => {
   let component: RegisterUserAdminComponent;
@@ -33,7 +34,21 @@ describe("RegisterUserAdminComponent", () => {
         HttpClientTestingModule,
         RouterModule.forRoot([]),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

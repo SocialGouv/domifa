@@ -64,6 +64,6 @@ export class DecisionDto {
     required: false,
   })
   @IsOptional()
-  @IsIn(["RENOUVELLEMENT", "PREMIERE", "PREMIERE_DOM"])
+  @IsIn(["RENOUVELLEMENT", "PREMIERE"])
   public typeDom!: string;
 }

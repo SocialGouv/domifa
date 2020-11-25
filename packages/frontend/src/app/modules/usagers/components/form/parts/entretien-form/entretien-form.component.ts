@@ -8,30 +8,18 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AppUser } from "../../../../../../../_common/model";
 
-
-
-
-
 @Component({
   providers: [UsagerService],
   selector: "app-entretien-form",
   templateUrl: "./entretien-form.component.html",
 })
 export class EntretienFormComponent implements OnInit {
-  public modal: any;
-
-  @Input() public usager!: Usager;
-  @Output() public usagerChange = new EventEmitter<Usager>();
-
-  @Input() public editEntretien!: boolean;
-  @Output() public editEntretienChange = new EventEmitter<boolean>();
-
+  public usager: Usager;
   public me: AppUser;
 
   constructor(
     private usagerService: UsagerService,
     private notifService: ToastrService,
-    private modalService: NgbModal,
     public authService: AuthService,
     private router: Router,
     private titleService: Title,
@@ -71,5 +59,24 @@ export class EntretienFormComponent implements OnInit {
       .subscribe((usager: Usager) => {
         this.router.navigate(["usager/" + this.usager.id + "/edit/documents"]);
       });
+  }
+
+  public rdvNow() {
+    const rdvFormValue = {
+      isNow: true,
+      dateRdv: new Date(),
+      userId: this.me.id.toString(),
+    };
+
+    this.usagerService.createRdv(rdvFormValue, this.usager.id).subscribe(
+      (usager: Usager) => {
+        this.usager.rdv = usager.rdv;
+      },
+      (error) => {
+        this.notifService.error(
+          "Impossible de réaliser l'entretien maintenant"
+        );
+      }
+    );
   }
 }

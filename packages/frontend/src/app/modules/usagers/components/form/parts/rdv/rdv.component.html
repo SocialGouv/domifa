@@ -52,18 +52,18 @@
         <div
           class="card"
           [ngClass]="{
-            card_selected: r.isNow.value === 'oui',
-            card_not_selected: r.isNow.value === 'non'
+            card_selected: r.isNow.value === true,
+            card_not_selected: r.isNow.value === false
           }"
         >
-          <div class="card-body" (click)="setValueRdv('oui')">
+          <div class="card-body" (click)="setValueRdv(true)">
             <h5 class="card-title text-center">
               <input
                 class="form-check-input"
                 type="radio"
                 formControlName="isNow"
                 id="rdvNow"
-                value="oui"
+                [value]="true"
               />
               <label for="rdvNow">L'entretien a lieu maintenant</label>
             </h5>
@@ -73,7 +73,7 @@
             </p>
             <div
               class="col-md-4 offset-md-4 text-center"
-              *ngIf="r.isNow.value === 'oui'"
+              *ngIf="r.isNow.value === true"
             >
               <button type="submit" class="btn btn-primary btn-block">
                 Suivant &nbsp;
@@ -88,17 +88,17 @@
         <div
           class="card"
           [ngClass]="{
-            card_selected: r.isNow.value === 'non',
-            card_not_selected: r.isNow.value === 'oui'
+            card_selected: r.isNow.value === false,
+            card_not_selected: r.isNow.value === true
           }"
         >
-          <div class="card-body" (click)="setValueRdv('non')">
+          <div class="card-body" (click)="setValueRdv(false)">
             <h5 class="card-title text-center">
               <input
                 class="form-check-input"
                 type="radio"
                 id="rdv"
-                value="non"
+                [value]="false"
                 formControlName="isNow"
               />
               <label for="rdv">Fixer une date de rendez-vous</label>
@@ -108,7 +108,7 @@
               collaborateur.
             </p>
 
-            <div class="row text-center" *ngIf="r.isNow.value === 'non'">
+            <div class="row text-center" *ngIf="r.isNow.value === false">
               <div class="form-group col">
                 <label for="rdvUser">Avec quel collaborateur ?</label>
                 <select
@@ -158,7 +158,7 @@
             <input formControlName="dateRdv" type="hidden" />
             <div
               class="col-md-4 offset-md-4 text-center"
-              *ngIf="r.isNow.value === 'non'"
+              *ngIf="r.isNow.value === false"
             >
               <br />
               <button type="submit" class="btn btn-primary btn-block">

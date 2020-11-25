@@ -76,7 +76,6 @@ export class UsagersMailsService {
         html: "<p>Test</p>",
       },
     };
-
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {

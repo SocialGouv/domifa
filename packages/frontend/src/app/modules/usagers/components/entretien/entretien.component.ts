@@ -60,8 +60,7 @@ export class EntretienComponent implements OnInit {
     private usagerService: UsagerService,
     private notifService: ToastrService,
     private modalService: NgbModal,
-    public authService: AuthService,
-    private router: Router
+    public authService: AuthService
   ) {
     this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;

@@ -45,7 +45,6 @@ export class Interaction {
     this.userName = (interaction && interaction.userName) || "";
 
     this.delete = false;
-    this.id = interaction._id;
     this.id = interaction.id;
 
     if (

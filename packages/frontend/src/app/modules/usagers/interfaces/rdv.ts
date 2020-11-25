@@ -12,9 +12,7 @@ export class Rdv {
 
   public userId: string;
   public userName: string;
-  public isNow: string;
-
-  public when: string;
+  public isNow: boolean;
 
   constructor(rdv?: any) {
     const today = new Date();
@@ -41,10 +39,9 @@ export class Rdv {
     this.userId = (rdv && rdv.userId) || null;
     this.userName = (rdv && rdv.userName) || null;
 
-    this.isNow = (rdv && rdv.isNow) || "";
-
+    this.isNow = true;
     if (this.dateRdv !== today) {
-      this.isNow = this.dateRdv <= today ? "oui" : "non";
+      this.isNow = this.dateRdv <= today;
     }
   }
 }

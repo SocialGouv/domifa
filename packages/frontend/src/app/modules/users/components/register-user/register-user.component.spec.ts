@@ -9,6 +9,7 @@ import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { RegisterUserComponent } from "./register-user.component";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("RegisterUserComponent", () => {
   let component: RegisterUserComponent;
@@ -33,7 +34,22 @@ describe("RegisterUserComponent", () => {
         HttpClientTestingModule,
         RouterModule.forRoot([]),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+
+      providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

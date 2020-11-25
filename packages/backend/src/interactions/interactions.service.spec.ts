@@ -5,9 +5,10 @@ import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
 import { usersRepository } from "../users/pg/users-repository.service";
 import { UsersService } from "../users/services/users.service";
-import { User } from "../users/user.interface";
+
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
+import { AppUser } from "../_common/model";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsModule } from "./interactions.module";
 import { InteractionsService } from "./interactions.service";
@@ -19,7 +20,7 @@ describe("InteractionsService", () => {
   let userService: UsersService;
   let usagerService: UsagersService;
 
-  let user: User;
+  let user: AppUser;
   let usager: Usager;
 
   beforeAll(async () => {

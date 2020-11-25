@@ -10,7 +10,7 @@
 
 # DEFAULT VARIABLES
 # on first container startup: this script is called without arguments: initialize dev database from test dump
-TARGET_DB_ENV=dev 
+TARGET_DB_ENV=dev
 DUMP_ENV=test
 
 for i in "$@"
@@ -26,10 +26,10 @@ case $i in
       RECREATE_USER="true"
     ;;
     mongod)
-      # argument provided by initial docker run: ignore silently 
+      # argument provided by initial docker run: ignore silently
     ;;
     --auth)
-      # argument provided by initial docker run: ignore silently 
+      # argument provided by initial docker run: ignore silently
     ;;
     *)
     # unknown option

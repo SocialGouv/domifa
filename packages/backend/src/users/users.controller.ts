@@ -9,7 +9,7 @@ import {
   Patch,
   Post,
   Response,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -33,7 +33,7 @@ import { UserDto } from "./dto/user.dto";
 import {
   AppUserForAdminEmail,
   usersRepository,
-  USERS_ADMIN_EMAILS_ATTRIBUTES
+  USERS_ADMIN_EMAILS_ATTRIBUTES,
 } from "./pg/users-repository.service";
 import { UsersService } from "./services/users.service";
 
@@ -192,7 +192,7 @@ export class UsersController {
     return res.status(HttpStatus.OK).json({ success: true, message: retour });
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @UseGuards(AuthGuard("jwt"))
   @Patch()
   public async patch(
     @CurrentUser() user: AppAuthUser,

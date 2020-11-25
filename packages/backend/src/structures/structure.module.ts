@@ -2,6 +2,7 @@ import { forwardRef, HttpModule, Module } from "@nestjs/common";
 import { DatabaseModule } from "../database/database.module";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { MailsModule } from "../mails/mails.module";
+import { StatsModule } from "../stats/stats.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { StructuresService } from "./services/structures.service";
@@ -17,6 +18,7 @@ import { StructuresController } from "./structures.controller";
     forwardRef(() => MailsModule),
     forwardRef(() => UsersModule),
     forwardRef(() => UsagersModule),
+    forwardRef(() => StatsModule),
     forwardRef(() => InteractionsModule),
   ],
   providers: [StructuresService, ...StructuresProviders],

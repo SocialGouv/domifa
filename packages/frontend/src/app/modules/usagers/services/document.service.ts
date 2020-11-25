@@ -4,8 +4,6 @@ import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usager";
-import { saveAs } from "file-saver";
-import { MatomoTracker } from "ngx-matomo";
 
 @Injectable({
   providedIn: "root",
@@ -14,7 +12,7 @@ export class DocumentService {
   public http: HttpClient;
   public endPoint: string;
 
-  constructor(http: HttpClient, private matomo: MatomoTracker) {
+  constructor(http: HttpClient) {
     this.http = http;
     this.endPoint = environment.apiUrl + "docs/";
   }
@@ -46,19 +44,9 @@ export class DocumentService {
   }
 
   public getDocument(usagerId: number, index: number, doc: Doc) {
-    this.http
-      .get(`${this.endPoint}${usagerId}/${index}`, { responseType: "blob" })
-      .subscribe((x) => {
-        this.download(usagerId, doc, x);
-      });
-  }
-
-  public download(usagerId: number, doc: Doc, x: any) {
-    const extensionTmp = doc.filetype.split("/");
-    const extension = extensionTmp[1];
-    const newBlob = new Blob([x], { type: doc.filetype });
-    saveAs(newBlob, "document_" + usagerId + "." + extension);
-    this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
+    return this.http.get(`${this.endPoint}${usagerId}/${index}`, {
+      responseType: "blob",
+    });
   }
 
   public deleteDocument(usagerId: number, index: number) {

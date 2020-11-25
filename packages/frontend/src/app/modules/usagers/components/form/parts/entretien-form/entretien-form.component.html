@@ -1,7 +1,7 @@
 <div class="container" *ngIf="me && usager">
   <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
 
-  <div class="step_form" *ngIf="usager.rdv.isNow === 'non'">
+  <div class="step_form" *ngIf="usager.rdv.isNow === false">
     <div class="row text-center">
       <div class="col">
         <h5 class="title">
@@ -23,7 +23,7 @@
           Pensez à noter le rendez-vous dans votre agenda.
           <br />
           <br />
-          <span (click)="usager.rdv.isNow = 'oui'" class="btn btn-secondary">
+          <span (click)="rdvNow()" class="btn btn-secondary">
             Réaliser l'entretien maintenant
           </span>
           <br />
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="step_form" *ngIf="usager.rdv.isNow === 'oui'">
+  <div class="step_form" *ngIf="usager.rdv.isNow === true">
     <app-entretien
       [(usager)]="usager"
       (nextStep)="nextStep($event)"
