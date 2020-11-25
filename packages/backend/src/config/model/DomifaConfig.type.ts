@@ -1,4 +1,5 @@
 import { LoggerOptions } from "typeorm/logger/LoggerOptions";
+import { DomifaConfigDelay } from "./DomifaConfigDelay.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";
 
 export type DomifaConfig = {
@@ -37,16 +38,31 @@ export type DomifaConfig = {
     basePath: string; // UPLOADS_FOLDER
   };
   dev: {
+    printConfig: boolean;
     swaggerEnabled: boolean; // DOMIFA_SWAGGER_ENABLE
-    generateStatsOnStartup: boolean; // DOMIFA_GENERATE_STATS_ON_STARTUP
     sentry: {
       enabled: boolean; // enabled if SENTRY_DSN is defined
       sentryDns: string; // SENTRY_DSN
     };
   };
+  cron: {
+    enable: boolean; // DOMIFA_CRON_ENABLED
+    autoRunOnStartup: boolean; // DOMIFA_CRON_AUTO_RUN_STARTUP
+    stats: {
+      crontime: string; // DOMIFA_CRON_STATS_CRONTIME
+    };
+    emailGuide: {
+      crontime: string; // DOMIFA_CRON_EMAIL_GUIDE_CRONTIME
+      delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_GUIDE_DELAY
+    };
+    emailImport: {
+      crontime: string; // DOMIFA_CRON_EMAIL_IMPORT_CRONTIME
+      delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_IMPORT_DELAY
+    };
+  };
   email: {
-    emailsCronEnabled: boolean; // DOMIFA_CRON_ENABLED
     emailsEnabled: boolean; // DOMIFA_EMAILS_ENABLE
+    emailAddressRedirectAllTo: string; // DOMIFA_EMAILS_REDIRECT_TO
     emailAddressAdmin: string; // DOMIFA_ADMIN_EMAIL
     emailAddressFrom: string; // DOMIFA_TIPIMAIL_FROM_EMAIL
     smtp: {

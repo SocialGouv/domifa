@@ -1,7 +1,10 @@
 export const dataEmailAnonymizer = {
   isEmailToAnonymize,
+  isAnonymizedEmail,
   anonymizeEmail,
 };
+
+export const ANONYMOUS_EMAIL_DOMAIN = "domifa-fake.fabrique.social.gouv.fr";
 
 function isEmailToAnonymize(email: string): boolean {
   return (
@@ -12,6 +15,10 @@ function isEmailToAnonymize(email: string): boolean {
   );
 }
 
+function isAnonymizedEmail(email: string): boolean {
+  return email && email.includes(`@${ANONYMOUS_EMAIL_DOMAIN}`);
+}
+
 function anonymizeEmail({
   prefix,
   id,
@@ -19,5 +26,5 @@ function anonymizeEmail({
   prefix: string;
   id: string | number;
 }) {
-  return `${prefix}-${id}@domifa-fake.fabrique.social.gouv.fr`;
+  return `${prefix}-${id}@${ANONYMOUS_EMAIL_DOMAIN}`;
 }

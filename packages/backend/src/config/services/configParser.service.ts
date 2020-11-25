@@ -1,9 +1,15 @@
-import { DomifaEnv, DomifaEnvKey } from "../model";
+import {
+  DomifaConfigDelayUnit,
+  DomifaEnv,
+  DomifaEnvKey,
+  DOMIFA_CONFIG_DELAY_UNITS,
+} from "../model";
 
 export const configParser = {
   parseBoolean,
   parseInteger,
   parseString,
+  parseDelay,
 };
 
 function parseBoolean(
@@ -50,7 +56,7 @@ function parseInteger(
         : undefined,
   });
   if (value !== undefined) {
-    return parseInt(value.trim(), 10);
+    return parseIntegerFromString(value);
   }
   return undefined;
 }
@@ -84,7 +90,7 @@ function parseString<T extends string>(
   if (value && validValues && !validValues.includes(value)) {
     // tslint:disable-next-line: no-console
     console.error(
-      `[configParser] invalid env value "${key}" (allowed: ${validValues
+      `[configParser] invalid env value "${key}": "${value}" (allowed: ${validValues
         .map((x) => `"${x}"`)
         .join(",")})`
     );
@@ -92,3 +98,54 @@ function parseString<T extends string>(
   }
   return value;
 }
+
+function parseDelay<T extends string>(
+  envConfig: Partial<DomifaEnv>,
+  key: DomifaEnvKey,
+  {
+    required = true,
+    defaultValue,
+  }: {
+    required?: boolean;
+    defaultValue?: T;
+  } = {
+    required: true,
+  }
+) {
+  const value = parseString(envConfig, key, {
+    defaultValue,
+    required,
+  });
+  if (value) {
+    const chunks = value.split(" ");
+    if (chunks.length !== 2) {
+      // tslint:disable-next-line: no-console
+      console.error(`[configParser] invalid delay value "${key}": "${value}"`);
+      throw new Error("Invalid delay value");
+    }
+    const amount = parseIntegerFromString(chunks[0]);
+    const unit = chunks[1] as DomifaConfigDelayUnit;
+    if (!DOMIFA_CONFIG_DELAY_UNITS.includes(unit)) {
+      // tslint:disable-next-line: no-console
+      console.error(
+        `[configParser] invalid delay unit "${key}": "${unit}"(allowed: ${DOMIFA_CONFIG_DELAY_UNITS.map(
+          (x) => `"${x}"`
+        ).join(",")})`
+      );
+      throw new Error("Invalid delay unit");
+    }
+    return { amount, unit };
+  }
+}
+function parseIntegerFromString(value: string) {
+  if (value !== undefined && value !== null) {
+    const num = parseInt(value.trim(), 10);
+    if (isNaN(num)) {
+      // tslint:disable-next-line: no-console
+      console.error(`[configParser] invalid integer "${value}"`);
+      throw new Error("Invalid integer");
+    }
+    return num;
+  }
+}
+

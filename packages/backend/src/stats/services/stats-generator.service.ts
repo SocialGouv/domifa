@@ -1,8 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { Cron, CronExpression } from "@nestjs/schedule";
+import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Model } from "mongoose";
 import { Repository } from "typeorm";
+import { domifaConfig } from "../../config";
 import { appTypeormManager } from "../../database/appTypeormManager.service";
 import { InteractionType } from "../../interactions/InteractionType.type";
 import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
@@ -41,8 +42,11 @@ export class StatsGeneratorService {
     );
   }
 
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(domifaConfig().cron.stats.crontime)
   public async generateStats() {
+    if (!domifaConfig().cron.enable) {
+      return;
+    }
     appLogger.debug(
       "[StatsGeneratorService] START statistics generation : " + new Date()
     );

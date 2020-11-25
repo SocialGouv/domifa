@@ -79,4 +79,25 @@ describe("configParser", () => {
       )
     ).toEqual(true);
   });
+  it("configParser.parseDelay", () => {
+    expect(
+      configParser.parseDelay(
+        {
+          POSTGRES_HOST: "1 day",
+        },
+        "POSTGRES_HOST"
+      )
+    ).toEqual({ amount: 1, unit: "day" });
+    expect(
+      configParser.parseDelay(
+        {
+          POSTGRES_HOST: "2 minutes",
+        },
+        "POSTGRES_HOST"
+      )
+    ).toEqual({ amount: 2, unit: "minutes" });
+    expect(
+      configParser.parseDelay({}, "POSTGRES_HOST", { required: false })
+    ).toBeUndefined();
+  });
 });

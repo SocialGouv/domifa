@@ -1,3 +1,4 @@
+import { CronExpression } from "@nestjs/schedule";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
@@ -66,19 +67,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         ? "http://localhost:3000/" // default on LOCAL
         : undefined,
   });
-  const emailsCronEnabled = configParser.parseBoolean(
-    x,
-    "DOMIFA_CRON_ENABLED",
-    {
-      defaultValue: envId === "prod" || envId === "preprod" ? true : false,
-    }
-  );
   const emailsEnabled = configParser.parseBoolean(x, "DOMIFA_EMAILS_ENABLE", {
     defaultValue: envId === "prod" || envId === "preprod" ? true : false,
   });
   const sentryDns = configParser.parseString(x, "SENTRY_DSN", {
     required: false,
   });
+
   const config: DomifaConfig = {
     envId,
     version: configParser.parseString(x, "DOMIFA_VERSION", {
@@ -151,41 +146,103 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       }),
     },
     dev: {
+      printConfig: configParser.parseBoolean(x, "DOMIFA_PRINT_CONFIG", {
+        defaultValue: envId === "dev" ? true : false,
+      }),
       swaggerEnabled: configParser.parseBoolean(x, "DOMIFA_SWAGGER_ENABLE", {
         defaultValue: envId === "dev" ? true : false,
       }),
-      generateStatsOnStartup: configParser.parseBoolean(
-        x,
-        "DOMIFA_GENERATE_STATS_ON_STARTUP",
-        { defaultValue: envId === "dev" ? true : false }
-      ),
       sentry: {
         enabled: !!sentryDns,
         sentryDns,
       },
     },
+    cron: {
+      enable: configParser.parseBoolean(x, "DOMIFA_CRON_ENABLED", {
+        defaultValue: envId === "test" ? false : true,
+      }),
+      autoRunOnStartup: configParser.parseBoolean(
+        x,
+        "DOMIFA_CRON_AUTO_RUN_STARTUP",
+        { defaultValue: false }
+      ),
+      stats: {
+        crontime: configParser.parseString(x, "DOMIFA_CRON_STATS_CRONTIME", {
+          defaultValue: CronExpression.EVERY_HOUR,
+        }),
+      },
+      emailGuide: {
+        crontime: configParser.parseString(
+          x,
+          "DOMIFA_CRON_EMAIL_GUIDE_CRONTIME",
+          {
+            defaultValue:
+              envId === "dev" || envId === "test" || envId === "preprod"
+                ? CronExpression.EVERY_10_MINUTES
+                : "0 15 * * TUE",
+          }
+        ),
+        delay: configParser.parseDelay(x, "DOMIFA_CRON_EMAIL_GUIDE_DELAY", {
+          defaultValue:
+            envId === "dev" || envId === "test" || envId === "preprod"
+              ? "5 minutes"
+              : "7 days",
+        }),
+      },
+      emailImport: {
+        crontime: configParser.parseString(
+          x,
+          "DOMIFA_CRON_EMAIL_IMPORT_CRONTIME",
+          {
+            defaultValue:
+              envId === "dev" || envId === "test" || envId === "preprod"
+                ? CronExpression.EVERY_10_MINUTES
+                : "0 15 * * TUE",
+          }
+        ),
+        delay: configParser.parseDelay(x, "DOMIFA_CRON_EMAIL_IMPORT_DELAY", {
+          defaultValue:
+            envId === "dev" || envId === "test" || envId === "preprod"
+              ? "5 minutes"
+              : "7 days",
+        }),
+      },
+    },
     email: {
-      emailsCronEnabled,
       emailsEnabled,
       emailAddressAdmin: configParser.parseString(x, "DOMIFA_ADMIN_EMAIL", {
-        required: emailsEnabled || emailsCronEnabled,
+        required: emailsEnabled,
       }),
       emailAddressFrom: configParser.parseString(
         x,
         "DOMIFA_TIPIMAIL_FROM_EMAIL",
         {
-          required: emailsEnabled || emailsCronEnabled,
+          required: emailsEnabled,
+        }
+      ),
+      emailAddressRedirectAllTo: configParser.parseString(
+        x,
+        "DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO",
+        {
+          required: false,
         }
       ),
       smtp: {
         user: configParser.parseString(x, "SMTP_USER", {
-          required: emailsEnabled || emailsCronEnabled,
+          required: emailsEnabled,
         }),
         pass: configParser.parseString(x, "SMTP_PASS", {
-          required: emailsEnabled || emailsCronEnabled,
+          required: emailsEnabled,
         }),
       },
     },
   };
+  if (config.dev.printConfig) {
+    // tslint:disable-next-line: no-console
+    console.log(
+      "[domifaConfig] config loaded:",
+      JSON.stringify(config, undefined, 2)
+    );
+  }
   return config;
 }
