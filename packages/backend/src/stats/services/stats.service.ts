@@ -3,7 +3,7 @@ import {
   FindConditions,
   LessThanOrEqual,
   MoreThanOrEqual,
-  Repository
+  Repository,
 } from "typeorm";
 import { appTypeormManager } from "../../database/appTypeormManager.service";
 import { appLogger } from "../../util";

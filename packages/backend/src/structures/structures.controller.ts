@@ -15,6 +15,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AxiosError, AxiosResponse } from "axios";
 import * as fs from "fs";
+import moment = require("moment");
 import * as rimraf from "rimraf";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
@@ -24,6 +25,7 @@ import { InteractionsService } from "../interactions/interactions.service";
 import { DomifaMailsService } from "../mails/services/domifa-mails.service";
 import { StructuresMailsService } from "../mails/services/structures-mails.service";
 import { UsagersMailsService } from "../mails/services/usagers-mails.service";
+import { StatsGeneratorService } from "../stats/services/stats-generator.service";
 import { StatsService } from "../stats/services/stats.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { EmailDto } from "../users/dto/email.dto";
@@ -46,12 +48,22 @@ export class StructuresController {
     private interactionsService: InteractionsService,
     private domifaMailsService: DomifaMailsService,
     private usagersMailsService: UsagersMailsService,
-    private structuresMailsService: StructuresMailsService
+    private structuresMailsService: StructuresMailsService,
+    private statsGeneratorService: StatsGeneratorService
   ) {}
 
   @Post()
   public async postStructure(@Body() structureDto: StructureDto) {
-    return this.structureService.create(structureDto);
+    const structure = await this.structureService.create(structureDto);
+
+    const today = moment().utc().startOf("day").toDate();
+    await this.statsGeneratorService.generateStructureStats(
+      today,
+      structure,
+      true
+    );
+
+    return structure;
   }
 
   @Post("pre-post")
@@ -174,11 +186,11 @@ export class StructuresController {
       user.structureId,
       hardResetToken
     );
+
     if (structure) {
       if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
-
       await this.usagersMailsService.hardReset(user, hardResetToken.token);
       return res.status(HttpStatus.OK).json({ message: expireAt });
     } else {
@@ -209,8 +221,8 @@ export class StructuresController {
       );
     }
 
-    const today = new Date();
-    if (structure.hardReset.expireAt && structure.hardReset.expireAt < today) {
+    const now = new Date();
+    if (structure.hardReset.expireAt && structure.hardReset.expireAt < now) {
       throw new HttpException(
         "HARD_RESET_EXPIRED_TOKEN",
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -221,6 +233,14 @@ export class StructuresController {
     await this.usagersService.deleteAll(user.structureId);
     await this.interactionsService.deleteAll(user.structureId);
     await this.structureService.hardResetClean(structure._id);
+
+    const today = moment().utc().startOf("day").toDate();
+    await this.statsGeneratorService.generateStructureStats(
+      today,
+      structure,
+      true
+    );
+
     return res.status(HttpStatus.OK).json({ message: "success" });
   }
 
