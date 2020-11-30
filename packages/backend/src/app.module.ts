@@ -8,8 +8,8 @@ import { RavenInterceptor, RavenModule } from "nest-raven";
 import { AuthModule } from "./auth/auth.module";
 import { domifaConfig } from "./config";
 import { buildMongoConnectionStringFromEnv } from "./database/database.providers";
-import { HealthController } from "./health.controller";
-import { HealthModule } from "./health/health.module";
+import { HealthController } from "./health/health.controller";
+import { PostgresHealthIndicator } from "./health/postgres-health-indicator.service";
 import { InteractionsModule } from "./interactions/interactions.module";
 import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
@@ -30,7 +30,6 @@ mongoose.set("debug", domifaConfig().mongo.debug);
   exports: [],
   imports: [
     AuthModule,
-    HealthModule,
     InteractionsModule,
     RavenModule,
     ScheduleModule.forRoot(),
@@ -47,6 +46,7 @@ mongoose.set("debug", domifaConfig().mongo.debug);
     TerminusModule,
   ],
   providers: [
+    PostgresHealthIndicator,
     {
       provide: APP_INTERCEPTOR,
       useValue: new RavenInterceptor({

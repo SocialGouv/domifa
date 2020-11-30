@@ -5,15 +5,17 @@ import {
   HealthCheckService,
   MongooseHealthIndicator,
 } from "@nestjs/terminus";
-import { domifaConfig } from "./config";
-import { appLogger } from "./util";
+import { domifaConfig } from "../config";
+import { appLogger } from "../util";
+import { PostgresHealthIndicator } from "./postgres-health-indicator.service";
 
-@Controller("")
+@Controller("/healthz")
 export class HealthController {
   constructor(
     private health: HealthCheckService,
-    public mongoose: MongooseHealthIndicator,
-    public dns: DNSHealthIndicator
+    public mongooseIndicator: MongooseHealthIndicator,
+    public dnsIndicator: DNSHealthIndicator,
+    public postgresIndicator: PostgresHealthIndicator
   ) {}
 
   @Get()
@@ -22,9 +24,10 @@ export class HealthController {
     const frontUrl = domifaConfig().apps.frontendUrl;
 
     return this.health.check([
-      async () => this.mongoose.pingCheck("mongo"),
+      async () => this.postgresIndicator.pingCheck("postgres"),
+      async () => this.mongooseIndicator.pingCheck("mongo"),
       async () =>
-        this.dns.pingCheck("frontend", frontUrl).catch((err) => {
+        this.dnsIndicator.pingCheck("frontend", frontUrl).catch((err) => {
           appLogger.warn(
             `[HealthController] frontend health check error for "${frontUrl}"`,
             { sentryBreadcrumb: true }

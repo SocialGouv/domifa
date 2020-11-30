@@ -56,6 +56,9 @@ export class TipimailSender {
           .join(", ")}"`
       );
     }
+    if (!domifaConfig().email.emailsEnabled) {
+      return;
+    }
     if (domifaConfig().email.emailAddressRedirectAllTo) {
       appLogger.debug(
         `[TipimailSender] [REDIRECT] Email ${
@@ -103,10 +106,6 @@ export class TipimailSender {
       })
       .pipe(
         catchError((err) => {
-          console.error(
-            'Error sending tipimail "${message.templateId}" message:',
-            err
-          );
           appLogger.warn(
             `Error sending tipimail "${message.templateId}" message`,
             {
