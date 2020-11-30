@@ -13,6 +13,7 @@
     "db:dev:migrate-redo": "npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up-redo.ts",
     "db:dev:migrate-down:last": "npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-down-last.ts",
     "db:dev:data-anonymize": "npx ts-node -r tsconfig-paths/register --transpile-only src/run-data-anonymization.ts",
+    "db:prod:data-anonymize": "node dist/run-data-anonymization.js",
     "db:prod:migrate-down:last": "node dist/migrate-down-last.js",
     "db:prod:migrate-up": "node dist/migrate-up.js",
     "db:migration:create": "npx ts-node -r tsconfig-paths/register  --transpile-only ./node_modules/.bin/typeorm migration:create -n manual-migration",

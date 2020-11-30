@@ -1,5 +1,5 @@
 # https://hub.docker.com/_/node/
-FROM node:14.13.0-buster
+FROM node:14.15.1-buster
 
 USER root
 

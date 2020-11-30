@@ -28,11 +28,14 @@ export class TipimailSender {
   private _classifyRecipients(recipients: TipimailRecipient[]) {
     const toSkip: TipimailRecipient[] = [];
     const toSend: TipimailRecipient[] = [];
+    if (domifaConfig().email.emailAddressRedirectAllTo) {
+      toSend.push({
+        address: domifaConfig().email.emailAddressRedirectAllTo,
+        personalName: `TEST DOMIFA`,
+      });
+    }
     recipients.forEach((recipient) => {
-      if (
-        !domifaConfig().email.emailsEnabled ||
-        dataEmailAnonymizer.isAnonymizedEmail(recipient.address)
-      ) {
+      if (isRecipientToSkip(recipient)) {
         toSkip.push(recipient);
       } else {
         toSend.push(recipient);
@@ -48,15 +51,33 @@ export class TipimailSender {
       appLogger.debug(
         `[TipimailSender] [SKIP] Email ${
           message.templateId
-        } won't be send to ${toSkip
-          .map((x) => `"${x.personalName}"<${x.address}>`)
-          .join(", ")}`
+        } won't be sent to "${toSkip
+          .map((x) => formatEmailAddressWithName(x))
+          .join(", ")}"`
       );
-      return;
+    }
+    if (domifaConfig().email.emailAddressRedirectAllTo) {
+      appLogger.debug(
+        `[TipimailSender] [REDIRECT] Email ${
+          message.templateId
+        } will be sent to "${domifaConfig().email.emailAddressRedirectAllTo}"`
+      );
     }
 
     if (toSend.length === 0) {
       return;
+    }
+
+    let subject = message.subject;
+
+    if (domifaConfig().envId !== "prod") {
+      subject = `[${domifaConfig().envId}] ${subject}`;
+    }
+
+    if (domifaConfig().email.emailAddressRedirectAllTo) {
+      subject += ` (redirect from ${toSkip
+        .map((x) => formatEmailAddressWithName(x))
+        .join(", ")})`;
     }
 
     const post = {
@@ -68,7 +89,7 @@ export class TipimailSender {
       msg: {
         from: message.from,
         replyTo: message.replyTo,
-        subject: message.subject,
+        subject,
         html: `<p>Le template "${message.templateId}" n'existe pas.</p>`, // message par défaut si le templateId n'existe pas
       },
     };
@@ -82,6 +103,10 @@ export class TipimailSender {
       })
       .pipe(
         catchError((err) => {
+          console.error(
+            'Error sending tipimail "${message.templateId}" message:',
+            err
+          );
           appLogger.warn(
             `Error sending tipimail "${message.templateId}" message`,
             {
@@ -100,4 +125,15 @@ export class TipimailSender {
       )
       .toPromise();
   }
+}
+function isRecipientToSkip(recipient: TipimailRecipient) {
+  return (
+    !domifaConfig().email.emailsEnabled ||
+    dataEmailAnonymizer.isAnonymizedEmail(recipient.address) ||
+    domifaConfig().email.emailAddressRedirectAllTo
+  );
+}
+
+function formatEmailAddressWithName(x: TipimailRecipient): string {
+  return `"${x.personalName}"<${x.address}>`;
 }

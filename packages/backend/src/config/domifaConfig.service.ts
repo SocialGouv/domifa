@@ -78,7 +78,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     envId,
     version: configParser.parseString(x, "DOMIFA_VERSION", {
       defaultValue: process.env.npm_package_version,
-      required: envId === "preprod" || envId === "prod",
+      required: false,
     }),
     apps: {
       frontendUrl,
@@ -142,12 +142,15 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     },
     upload: {
       basePath: configParser.parseString(x, "UPLOADS_FOLDER", {
-        defaultValue: "/data/uploads/",
+        defaultValue: "/files/",
       }),
     },
     dev: {
+      printEnv: configParser.parseBoolean(x, "DOMIFA_PRINT_ENV", {
+        defaultValue: false,
+      }),
       printConfig: configParser.parseBoolean(x, "DOMIFA_PRINT_CONFIG", {
-        defaultValue: envId === "dev" ? true : false,
+        defaultValue: false,
       }),
       swaggerEnabled: configParser.parseBoolean(x, "DOMIFA_SWAGGER_ENABLE", {
         defaultValue: envId === "dev" ? true : false,
@@ -237,6 +240,9 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       },
     },
   };
+  if (config.dev.printEnv) {
+    printEnv(x, config);
+  }
   if (config.dev.printConfig) {
     // tslint:disable-next-line: no-console
     console.log(
@@ -245,4 +251,16 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     );
   }
   return config;
+}
+function printEnv(x: Partial<DomifaEnv>, config: DomifaConfig) {
+  const envKeysToLog = Object.keys(x).filter((x) => !x.startsWith("npm_"));
+  envKeysToLog.sort();
+
+  const envToLog = envKeysToLog.reduce((acc, key) => {
+    acc[key] = x[key];
+    return acc;
+  }, {});
+
+  // tslint:disable-next-line: no-console
+  console.log("[domifaConfig] env:", JSON.stringify(envToLog, undefined, 2));
 }

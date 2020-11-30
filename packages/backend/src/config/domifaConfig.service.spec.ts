@@ -110,7 +110,6 @@ describe("loadConfig", () => {
       FILES_PRIVATE: "******************",
       DOMIFA_FRONTEND_URL: "https://domifa.xxx",
       DOMIFA_BACKEND_URL: "https://backend.domifa.xxx",
-      DOMIFA_VERSION: "1.0",
       DOMIFA_ADMIN_EMAIL: "some@mail.xxx",
       DOMIFA_TIPIMAIL_FROM_EMAIL: "some@mail.xxx",
       SMTP_USER: "******************",
@@ -119,7 +118,6 @@ describe("loadConfig", () => {
     const config = loadConfig(env);
 
     expect(config.envId).toEqual("prod");
-    expect(config.version).toEqual(env.DOMIFA_VERSION);
 
     expect(config.security.corsUrl).toEqual(env.DOMIFA_FRONTEND_URL);
     expect(config.security.files.iv).toBeDefined();
