@@ -90,7 +90,7 @@ export class StatsGeneratorService {
       //   `[StatsGeneratorService] Generate stats for structure ${structure.id} "${structure.nom}"`
       // );
       try {
-        await this.generateStructureStats(today, structure);
+        await this.generateStructureStats(today, structure, false);
       } catch (err) {
         errorsCount++;
         appLogger.warn(
@@ -111,8 +111,12 @@ export class StatsGeneratorService {
     );
   }
 
-  private async generateStructureStats(today: Date, structure: Structure) {
-    const stat = await this.buildStats(today, structure);
+  public async generateStructureStats(
+    today: Date,
+    structure: Structure,
+    isFirstStat: boolean
+  ) {
+    const stat = await this.buildStats(today, structure, isFirstStat);
 
     const dateExport = moment()
       .utc()
@@ -401,7 +405,12 @@ export class StatsGeneratorService {
       { $group: { _id: null, count: { $sum: "$totalFichiers" } } },
     ]);
   }
-  private async buildStats(today: Date, structure: Structure) {
+
+  private async buildStats(
+    today: Date,
+    structure: Structure,
+    isFirstStat: boolean
+  ) {
     const stat = new StructureStatsTable({
       date: moment(today).subtract(1, "day").toDate(),
       questions: {
@@ -486,6 +495,10 @@ export class StatsGeneratorService {
     stat.ville = structure.ville;
     stat.codePostal = structure.codePostal;
     stat.departement = structure.departement;
+
+    if (isFirstStat) {
+      return stat;
+    }
 
     stat.questions.Q_10 = await this.getDomiciliations(structure.id, {
       $in: ["PREMIERE", "RENOUVELLEMENT"],
