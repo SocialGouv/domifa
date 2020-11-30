@@ -38,6 +38,7 @@ export type DomifaConfig = {
     basePath: string; // UPLOADS_FOLDER
   };
   dev: {
+    printEnv: boolean;
     printConfig: boolean;
     swaggerEnabled: boolean; // DOMIFA_SWAGGER_ENABLE
     sentry: {
@@ -62,7 +63,7 @@ export type DomifaConfig = {
   };
   email: {
     emailsEnabled: boolean; // DOMIFA_EMAILS_ENABLE
-    emailAddressRedirectAllTo: string; // DOMIFA_EMAILS_REDIRECT_TO
+    emailAddressRedirectAllTo: string; // DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
     emailAddressAdmin: string; // DOMIFA_ADMIN_EMAIL
     emailAddressFrom: string; // DOMIFA_TIPIMAIL_FROM_EMAIL
     smtp: {

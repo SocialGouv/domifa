@@ -130,7 +130,11 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 
   async function findMany<R = DEFAULT_RESULT>(
-    search?: FindConditions<T>[] | FindConditions<T> | ObjectLiteral | string,
+    search:
+      | FindConditions<T>[]
+      | FindConditions<T>
+      | ObjectLiteral
+      | string = {},
     options: PgRepositoryFindOptions<T> = {}
   ): Promise<R[]> {
     const typeormRepository = await typeorm();

@@ -27,6 +27,7 @@ export type DomifaEnv = {
   DOMIFA_CRON_EMAIL_GUIDE_DELAY: string;
   DOMIFA_CRON_EMAIL_IMPORT_CRONTIME: string;
   DOMIFA_CRON_EMAIL_IMPORT_DELAY: string;
+  DOMIFA_PRINT_ENV: string;
   DOMIFA_PRINT_CONFIG: string;
   POSTGRES_HOST: string;
   POSTGRES_PORT: string;

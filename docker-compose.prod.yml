@@ -46,7 +46,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - /mnt/files/:/files/
+      - $DOCKER_HOST_UPLOADS_FOLDER:/files/
     environment:
       TZ: Europe/Paris
 

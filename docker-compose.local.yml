@@ -3,7 +3,6 @@ version: "3.4"
 volumes:
   mongo-data:
   postgres-data:
-  backend-uploads:
 
 services:
   mongo:
@@ -65,13 +64,12 @@ services:
     command: tail -f /dev/null
     working_dir: /app/packages/backend
     volumes:
-      - backend-uploads:/data/uploads:delegated
       - $APP_DIR:/app:delegated
+      - $DOCKER_HOST_UPLOADS_FOLDER:/files/:delegated
       - $HOME/.ssh:/home/node/.ssh:ro
       - $HOME/.gitconfig:/home/node/.gitconfig:ro
       - $HOME/.gitignore:/home/node/.gitignore:ro
       - $HOME/.npm:/home/node/.npm:delegated
-      - ${UPLOADS_FOLDER}:/files/
     ports:
       - 3000:3000
     env_file:
