@@ -17,8 +17,8 @@ import { appLogger } from "./util";
         // in local env, run cron on app startup (non blocking)
         await runCronJobs(app);
       }
-
       await app.listen(3000);
+      appLogger.warn(`[${__filename}] Application listening on port 3000`);
     } catch (error) {
       appLogger.error(`[${__filename}] Error running application`, {
         error,

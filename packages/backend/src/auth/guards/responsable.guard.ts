@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { appLogger } from "../../util";
+import { authChecker } from "../auth-checker.service";
 
 @Injectable()
 export class ResponsableGuard implements CanActivate {
@@ -10,17 +10,6 @@ export class ResponsableGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    const isValidRole =
-      user && (user.role === "admin" || user.role === "responsable");
-    if (user && !isValidRole) {
-      appLogger.warn(
-        `[ResponsableGuard] invalid role "${user.role}" for user "${user._id}" with role "${user.role}"`,
-        {
-          sentryBreadcrumb: true,
-        }
-      );
-      appLogger.error(`[ResponsableGuard] invalid role`);
-    }
-    return isValidRole;
+    return authChecker.checkRole(user, "admin", "responsable");
   }
 }
