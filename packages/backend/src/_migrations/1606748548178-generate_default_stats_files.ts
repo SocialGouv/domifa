@@ -31,13 +31,18 @@ export class manualMigration1606748548178 implements MigrationInterface {
     if (structures && structures !== null) {
       for (let index = 0; index < structures.length; index++) {
         //
-        const stats = await structureStatsRepository.findOne({
+        const firstStats = await structureStatsRepository.findOne({
           where: { structureId: structures[index].id },
           order: { date: -1 },
         });
 
+        const statsDate =
+          typeof firstStats !== "undefined"
+            ? firstStats.date
+            : structures[index]._id.getTimestamp();
+
         const stat = new StructureStatsTable({
-          date: moment(stats.date).subtract(1, "day").toDate(),
+          date: moment(statsDate).subtract(1, "day").toDate(),
           questions: {
             Q_10: 0,
             Q_10_A: 0,
@@ -113,6 +118,8 @@ export class manualMigration1606748548178 implements MigrationInterface {
             },
           },
         });
+        stat._id = `${structures[index]._id}_${statsDate}`;
+
         stat.capacite = structures[index].capacite;
         stat.structureId = structures[index].id;
         stat.nom = structures[index].nom;
