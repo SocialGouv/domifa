@@ -1,17 +1,12 @@
 import { HttpException, Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-
-import { AppUser, UserProfile, AppAuthUser } from "../_common/model";
-
-import { Repository, FindConditions, LessThan, MoreThan } from "typeorm";
-import { InteractionsTable } from "./pg/InteractionsTable.typeorm";
-
-import { InteractionDto } from "./interactions.dto";
-import { Interactions } from "./model/interactions.type";
-import { InteractionType } from "./InteractionType.type";
-
-import { appTypeormManager } from "../database/appTypeormManager.service";
+import { FindConditions, LessThan, MoreThan, Repository } from "typeorm";
+import { appTypeormManager, InteractionsTable } from "../database";
 import { Usager } from "../usagers/interfaces/usagers";
+import { AppAuthUser, AppUser, UserProfile } from "../_common/model";
+import { InteractionDto } from "./interactions.dto";
+import { InteractionType } from "./InteractionType.type";
+import { Interactions } from "./model/interactions.type";
 
 @Injectable()
 export class InteractionsService {

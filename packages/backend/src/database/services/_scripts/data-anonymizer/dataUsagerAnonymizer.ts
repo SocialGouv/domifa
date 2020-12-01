@@ -1,8 +1,9 @@
 import { INestApplication } from "@nestjs/common";
 import { Model } from "mongoose";
-import { Usager } from "../../../usagers/interfaces/usagers";
-import { appLogger } from "../../../util";
+import { Usager } from "../../../../usagers/interfaces/usagers";
+import { appLogger } from "../../../../util";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
+import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
 
 export const dataUsagerAnonymizer = {
   anonymizeUsagers,
@@ -10,11 +11,9 @@ export const dataUsagerAnonymizer = {
 
 async function anonymizeUsagers({ app }: { app: INestApplication }) {
   const usagerModel: Model<Usager> = app.get("USAGER_MODEL");
-  const usagers = await usagerModel.find({}).select("id email");
+  const usagers = await usagerModel.find({}).select("id structureId email");
 
-  const usagersToAnonymize = usagers.filter((x) =>
-    dataEmailAnonymizer.isEmailToAnonymize(x.email)
-  );
+  const usagersToAnonymize = usagers.filter((x) => isUsagerToAnonymize(x));
 
   appLogger.warn(
     `[dataUsagerAnonymizer] ${usagersToAnonymize.length}/${usagers.length} usagers to update`
@@ -23,6 +22,13 @@ async function anonymizeUsagers({ app }: { app: INestApplication }) {
     await _anonymizeUsager(usager, { app });
   }
 }
+function isUsagerToAnonymize(x: Usager): unknown {
+  return (
+    dataStructureAnonymizer.isStructureToAnonymise({ id: x.structureId }) &&
+    dataEmailAnonymizer.isEmailToAnonymize(x.email)
+  );
+}
+
 async function _anonymizeUsager(
   usager: Usager,
   { app }: { app: INestApplication }

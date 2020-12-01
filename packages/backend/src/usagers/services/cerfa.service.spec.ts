@@ -1,4 +1,4 @@
-import { DatabaseModule } from "../../database/database.module";
+import { DatabaseModule } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsersService } from "../../users/services/users.service";
 import { UsersModule } from "../../users/users.module";

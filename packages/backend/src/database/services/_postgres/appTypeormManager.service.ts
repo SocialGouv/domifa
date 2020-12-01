@@ -1,4 +1,3 @@
-import moment = require("moment");
 import {
   Connection,
   createConnection,
@@ -7,8 +6,8 @@ import {
   Migration,
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { domifaConfig } from "../config";
-import { appLogger } from "../util";
+import { domifaConfig } from "../../../config";
+import { appLogger } from "../../../util";
 
 export const appTypeormManager = {
   connect,
@@ -70,14 +69,14 @@ async function connect() {
     appLogger.warn(`[appTypeormManager] Running in typescript DEV mode`);
     connectOptionsPaths = {
       migrations: ["src/_migrations/**/*.ts"],
-      entities: ["src/**/pg/*Table.typeorm.ts"],
+      entities: ["src/database/entities/**/*Table.typeorm.ts"],
       subscribers: ["src/**/*Subscriber.typeorm.ts"],
     };
   } else {
     appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
     connectOptionsPaths = {
       migrations: ["dist/_migrations/**/*.js"],
-      entities: ["dist/**/pg/*Table.typeorm.js"],
+      entities: ["dist/database/entities/**/*Table.typeorm.js"],
       subscribers: ["dist/**/*Subscriber.typeorm.js"],
     };
   }

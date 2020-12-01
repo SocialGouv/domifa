@@ -1,0 +1,1 @@
+export const ANONYMIZE_STRUCTURE_ID_EXCEPTIONS = [1];

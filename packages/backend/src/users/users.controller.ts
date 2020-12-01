@@ -19,6 +19,11 @@ import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 import { ResponsableGuard } from "../auth/guards/responsable.guard";
 import { domifaConfig } from "../config";
+import {
+  AppUserForAdminEmail,
+  usersRepository,
+  USERS_ADMIN_EMAILS_ATTRIBUTES,
+} from "../database";
 import { DomifaMailsService } from "../mails/services/domifa-mails.service";
 import { UsersMailsService } from "../mails/services/users-mails.service";
 import { StructuresService } from "../structures/services/structures.service";
@@ -30,12 +35,8 @@ import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
-import {
-  AppUserForAdminEmail,
-  usersRepository,
-  USERS_ADMIN_EMAILS_ATTRIBUTES,
-} from "./pg/users-repository.service";
 import { UsersService } from "./services/users.service";
+
 
 @Controller("users")
 @ApiTags("users")

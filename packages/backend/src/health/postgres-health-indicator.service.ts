@@ -4,7 +4,7 @@ import {
   HealthIndicator,
   HealthIndicatorResult,
 } from "@nestjs/terminus";
-import { appTypeormManager } from "../database/appTypeormManager.service";
+import { appTypeormManager } from "../database";
 
 @Injectable()
 export class PostgresHealthIndicator extends HealthIndicator {

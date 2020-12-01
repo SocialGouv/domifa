@@ -2,8 +2,7 @@ import * as moment from "moment";
 import { Model } from "mongoose";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { appHolder } from "../appHolder";
-import { appTypeormManager } from "../database/appTypeormManager.service";
-import { StructureStatsTable } from "../stats/pg/StructureStatsTable.typeorm";
+import { appTypeormManager, StructureStatsTable } from "../database";
 import { Structure } from "../structures/structure-interface";
 import { appLogger } from "../util";
 

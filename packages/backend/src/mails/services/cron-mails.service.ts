@@ -3,9 +3,9 @@ import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Model } from "mongoose";
 import { domifaConfig } from "../../config";
+import { cronMailsRepository } from "../../database";
 import { Structure } from "../../structures/structure-interface";
 import { appLogger } from "../../util";
-import { cronMailsRepository } from "../pg";
 import { TipimailMessage, TipimailSender } from "./tipimail-sender.service";
 
 @Injectable()

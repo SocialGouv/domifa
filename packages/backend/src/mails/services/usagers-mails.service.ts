@@ -1,8 +1,8 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import * as moment from "moment";
 import { domifaConfig } from "../../config";
+import { AppUserForAdminEmail } from "../../database";
 import { Usager } from "../../usagers/interfaces/usagers";
-import { AppUserForAdminEmail } from "../../users/pg/users-repository.service";
 
 @Injectable()
 export class UsagersMailsService {

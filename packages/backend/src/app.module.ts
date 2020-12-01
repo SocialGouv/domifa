@@ -7,7 +7,7 @@ import * as mongoose from "mongoose";
 import { RavenInterceptor, RavenModule } from "nest-raven";
 import { AuthModule } from "./auth/auth.module";
 import { domifaConfig } from "./config";
-import { buildMongoConnectionStringFromEnv } from "./database/database.providers";
+import { buildMongoConnectionStringFromEnv } from "./database";
 import { HealthController } from "./health/health.controller";
 import { PostgresHealthIndicator } from "./health/postgres-health-indicator.service";
 import { InteractionsModule } from "./interactions/interactions.module";

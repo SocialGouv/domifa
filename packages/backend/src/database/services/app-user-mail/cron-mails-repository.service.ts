@@ -1,7 +1,9 @@
-import { appTypeormManager } from "../../database/appTypeormManager.service";
-import { postgresQueryBuilder } from "../../database/postgresQueryBuilder.service";
-import { AppUserTable } from "../../users/pg";
-import { AppUser } from "../../_common/model";
+import { AppUser } from "../../../_common/model";
+import { AppUserTable } from "../../entities";
+import {
+  appTypeormManager,
+  postgresQueryBuilder,
+} from "../../services/_postgres";
 
 export type CronMailType = "guide" | "import";
 
@@ -71,4 +73,3 @@ async function findNextUserToSendCronMail({
 
   return users.length ? users[0] : undefined;
 }
-

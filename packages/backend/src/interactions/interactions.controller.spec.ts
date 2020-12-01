@@ -1,5 +1,5 @@
 import { AuthService } from "../auth/auth.service";
-import { DatabaseModule } from "../database/database.module";
+import { DatabaseModule } from "../database";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersService } from "../users/services/users.service";
@@ -7,8 +7,8 @@ import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
-
 import { InteractionsService } from "./interactions.service";
+
 
 describe("Interactions Controller", () => {
   let controller: InteractionsController;

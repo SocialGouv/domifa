@@ -1,6 +1,6 @@
 import { INestApplication } from "@nestjs/common";
-import { domifaConfig } from "../../../config";
-import { appLogger } from "../../../util";
+import { domifaConfig } from "../../../../config";
+import { appLogger } from "../../../../util";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
 import { dataUsagerAnonymizer } from "./dataUsagerAnonymizer";
 import { dataUserAnonymizer } from "./dataUserAnonymizer";

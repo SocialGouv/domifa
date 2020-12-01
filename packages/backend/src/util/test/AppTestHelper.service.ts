@@ -1,6 +1,6 @@
 import { ModuleMetadata } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import { appTypeormManager } from "../../database/appTypeormManager.service";
+import { appTypeormManager } from "../../database";
 import { AppTestContext } from "./AppTestContext.type";
 
 export const AppTestHelper = {

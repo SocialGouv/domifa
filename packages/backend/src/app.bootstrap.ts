@@ -11,7 +11,7 @@ import { Connection } from "typeorm";
 import { AppModule } from "./app.module";
 import { appHolder } from "./appHolder";
 import { domifaConfig } from "./config";
-import { appTypeormManager } from "./database/appTypeormManager.service";
+import { appTypeormManager } from "./database";
 import { appLogger } from "./util";
 
 export async function tearDownApplication({

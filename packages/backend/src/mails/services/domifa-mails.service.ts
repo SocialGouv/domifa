@@ -1,8 +1,8 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { domifaConfig } from "../../config";
+import { AppUserForAdminEmail } from "../../database";
 import { DEPARTEMENTS_MAP } from "../../structures/DEPARTEMENTS_MAP.const";
 import { Structure } from "../../structures/structure-interface";
-import { AppUserForAdminEmail } from "../../users/pg/users-repository.service";
 
 @Injectable()
 export class DomifaMailsService {

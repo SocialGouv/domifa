@@ -2,8 +2,7 @@ import * as moment from "moment";
 import { Model } from "mongoose";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { appHolder } from "../appHolder";
-import { appTypeormManager } from "../database/appTypeormManager.service";
-import { StructureStatsTable } from "../stats/pg/StructureStatsTable.typeorm";
+import { appTypeormManager, StructureStatsTable } from "../database";
 import { StatsDocument } from "../stats/stats.interface";
 import { DepartementHelper } from "../structures/departement-helper.service";
 import { appLogger } from "../util";
@@ -53,8 +52,9 @@ export class autoMigration1603812391580 implements MigrationInterface {
           questions: stat.questions,
         });
 
-        const uniqueKey = `${pgStat.structureId}_${pgStat.date.getFullYear()}-${pgStat.date.getMonth() + 1
-          }-${pgStat.date.getDate()}`;
+        const uniqueKey = `${pgStat.structureId}_${pgStat.date.getFullYear()}-${
+          pgStat.date.getMonth() + 1
+        }-${pgStat.date.getDate()}`;
         // we keep last value in case of duplicated stats
         if (
           !acc[uniqueKey] ||
@@ -81,8 +81,10 @@ export class autoMigration1603812391580 implements MigrationInterface {
     }
 
     appLogger.debug(
-      `[Migration] [SUCCESS] "${this.name
-      }" ${createdCount} StructureStatsTable created (${mongoStats.length - createdCount
+      `[Migration] [SUCCESS] "${
+        this.name
+      }" ${createdCount} StructureStatsTable created (${
+        mongoStats.length - createdCount
       } ignored)`
     );
   }

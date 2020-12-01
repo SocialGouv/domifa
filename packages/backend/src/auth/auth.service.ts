@@ -1,10 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Model } from "mongoose";
+import { AppUserTable, usersRepository } from "../database";
 import { StructuresService } from "../structures/services/structures.service";
 import { Structure } from "../structures/structure-interface";
-import { AppUserTable } from "../users/pg";
-import { usersRepository } from "../users/pg/users-repository.service";
 import {
   AppAuthUser,
   AppUser,

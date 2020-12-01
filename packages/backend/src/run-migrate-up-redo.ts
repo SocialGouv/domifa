@@ -1,5 +1,5 @@
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
-import { appTypeormManager } from "./database/appTypeormManager.service";
+import { appTypeormManager } from "./database";
 import { appLogger } from "./util";
 
 (async () => {

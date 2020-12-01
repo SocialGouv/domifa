@@ -1,28 +1,27 @@
 import { INestApplication } from "@nestjs/common";
-import { AppUserTable } from "../../../users/pg";
-import { usersRepository } from "../../../users/pg/users-repository.service";
-import { appLogger } from "../../../util";
+import { AppUserTable } from "../../..";
+import { appLogger } from "../../../../util";
+import { usersRepository } from "../../app-user/users-repository.service";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
 import { dataGenerator } from "./dataGenerator.service";
+import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
 
 export const dataUserAnonymizer = {
   anonymizeUsers,
 };
 
-type PartialUser = Pick<AppUserTable, "id" | "email">;
+type PartialUser = Pick<AppUserTable, "id" | "structureId" | "email">;
 
 async function anonymizeUsers({ app }: { app: INestApplication }) {
   const users = await usersRepository.findMany<PartialUser>(
     {},
     {
-      select: ["id", "email"],
+      select: ["id", "structureId", "email"],
     }
   );
 
   // ignore domifa team tests users from anonymization
-  const usersToAnonymise = users.filter((user) =>
-    dataEmailAnonymizer.isEmailToAnonymize(user.email)
-  );
+  const usersToAnonymise = users.filter((user) => isUserToAnonymise(user));
 
   appLogger.warn(
     `[dataUserAnonymizer] ${usersToAnonymise.length}/${users.length} users to anonymize`
@@ -31,6 +30,15 @@ async function anonymizeUsers({ app }: { app: INestApplication }) {
     await _anonymizeUser(user, { app });
   }
 }
+function isUserToAnonymise(
+  user: Pick<AppUserTable, "id" | "structureId" | "email">
+): unknown {
+  return (
+    dataStructureAnonymizer.isStructureToAnonymise({ id: user.structureId }) &&
+    dataEmailAnonymizer.isEmailToAnonymize(user.email)
+  );
+}
+
 async function _anonymizeUser(
   user: PartialUser,
   { app }: { app: INestApplication }

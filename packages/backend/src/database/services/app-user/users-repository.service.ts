@@ -1,7 +1,7 @@
 import { In } from "typeorm";
-import { pgRepository } from "../../util/postgres";
-import { AppUser, UserProfile, UserRole } from "../../_common/model";
-import { AppUserTable } from "../pg";
+import { AppUser, UserProfile, UserRole } from "../../../_common/model";
+import { AppUserTable } from "../../entities";
+import { pgRepository } from "../_postgres";
 
 export const USERS_USER_PROFILE_ATTRIBUTES: (keyof AppUserTable)[] = [
   "id",

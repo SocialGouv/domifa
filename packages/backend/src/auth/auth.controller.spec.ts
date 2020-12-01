@@ -1,10 +1,8 @@
 import { forwardRef } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AppTestContext, AppTestHelper } from "../util/test";
-import { appTypeormManager } from "../database/appTypeormManager.service";
-import { DatabaseModule } from "../database/database.module";
+import { DatabaseModule } from "../database";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
+import { AppTestContext, AppTestHelper } from "../util/test";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 

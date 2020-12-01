@@ -12,8 +12,8 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as bcrypt from "bcryptjs";
+import { usersRepository } from "../database";
 import { LoginDto } from "../users/dto/login.dto";
-import { usersRepository } from "../users/pg/users-repository.service";
 import { UsersService } from "../users/services/users.service";
 import { AppAuthUser, AppUser } from "../_common/model";
 import { AuthService } from "./auth.service";
