@@ -1,2 +1,3 @@
 export * from "./monitoringBatchProcessRepository.service";
-export * from "./monitoringBatchProcessService.service";
+export * from "./simple-count";
+
