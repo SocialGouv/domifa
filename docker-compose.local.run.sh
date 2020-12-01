@@ -32,6 +32,8 @@ case $i in
 esac
 done
 
+echo "WITH_DEV_CONTAINERS: $WITH_DEV_CONTAINERS"
+
 if [ "$STOP_CONTAINERS" == "true" ]; then
   echo "###########################################"
   echo "# [WARN] STOP domifa containers"
@@ -72,11 +74,17 @@ echo "#"
 echo ""
 
 if [ "$WITH_DEV_CONTAINERS" == "true" ]; then
-# start backend + frontend + mongo + postgres (with initial dumps)
-(set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate)
+  echo "###########################################"
+  echo "# [INFO] START domifa containers: mongo + postgres + backend + frontend"
+  echo "###########################################"
+  # start backend + frontend + mongo + postgres (with initial dumps)
+  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate)
 else
-# start mongo + postgres only (with initial dumps)
-(set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate mongo postgres)
+  echo "###########################################"
+  echo "# [INFO] START domifa containers: mongo + postgres (only)"
+  echo "###########################################"
+  # start mongo + postgres only (with initial dumps)
+  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate mongo postgres)
 fi
 
 (set -x && docker ps -a)
