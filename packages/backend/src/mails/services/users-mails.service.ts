@@ -19,7 +19,7 @@ export class UsersMailsService {
   //
   // Mail pour l'admin de la structure
   //
-  public newUser(admins: AppUserForAdminEmail[], user: AppUserTable) {
+  public async newUser(admins: AppUserForAdminEmail[], user: AppUserTable) {
     const adminEmails = [];
     const contentEmails = [];
 
@@ -77,7 +77,7 @@ export class UsersMailsService {
   //
   // Mail pour l'utilisateur créé par un admin
   //
-  public newUserFromAdmin(user: AppUserForAdminEmailWithTempTokens) {
+  public async newUserFromAdmin(user: AppUserForAdminEmailWithTempTokens) {
     const lien =
       domifaConfig().apps.frontendUrl +
       "reset-password/" +
@@ -130,7 +130,7 @@ export class UsersMailsService {
   //
   // Mail pour l'utilisateur une fois son compte activé par l'admin
   //
-  public accountActivated(user: AppUserForAdminEmail) {
+  public async accountActivated(user: AppUserForAdminEmail) {
     const frontendUrl = domifaConfig().apps.frontendUrl;
     const post = {
       to: [

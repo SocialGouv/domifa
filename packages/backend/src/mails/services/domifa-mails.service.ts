@@ -17,7 +17,7 @@ export class DomifaMailsService {
   //
   // Indiquer la création d'une structure à l'équipe Domifa
   //
-  public newStructure(structure: Structure, user: AppUserForAdminEmail) {
+  public async newStructure(structure: Structure, user: AppUserForAdminEmail) {
     const route = structure._id + "/" + structure.token;
     const frontendUrl = domifaConfig().apps.frontendUrl;
     const lienConfirmation = frontendUrl + "structures/confirm/" + route;
