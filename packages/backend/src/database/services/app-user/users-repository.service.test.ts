@@ -1,5 +1,5 @@
 import { Connection } from "typeorm";
-import { appTypeormManager } from "../../database/appTypeormManager.service";
+import { appTypeormManager } from "../_postgres";
 import { usersRepository } from "./users-repository.service";
 
 describe("usesRepository", () => {

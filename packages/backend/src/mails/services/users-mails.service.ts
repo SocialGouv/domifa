@@ -1,10 +1,10 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { domifaConfig } from "../../config";
-import { AppUserTable } from "../../users/pg";
 import {
   AppUserForAdminEmail,
   AppUserForAdminEmailWithTempTokens,
-} from "../../users/pg/users-repository.service";
+  AppUserTable,
+} from "../../database";
 
 @Injectable()
 export class UsersMailsService {

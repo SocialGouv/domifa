@@ -2,9 +2,9 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  VersionColumn
+  VersionColumn,
 } from "typeorm";
-import { AppEntity } from "../_common/model/_core/AppEntity.type";
+import { AppEntity } from "../../../_common/model";
 
 export abstract class AppTypeormTable<T extends AppEntity>
   implements AppEntity {

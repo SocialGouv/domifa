@@ -5,10 +5,9 @@ import {
   MoreThanOrEqual,
   Repository,
 } from "typeorm";
-import { appTypeormManager } from "../../database/appTypeormManager.service";
+import { appTypeormManager, StructureStatsTable } from "../../database";
 import { appLogger } from "../../util";
 import { StructureStats } from "../../_common/model";
-import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
 
 import moment = require("moment");
 

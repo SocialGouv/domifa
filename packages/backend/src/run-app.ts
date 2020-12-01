@@ -1,6 +1,6 @@
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
 import { domifaConfig } from "./config";
-import { appTypeormManager } from "./database/appTypeormManager.service";
+import { appTypeormManager } from "./database";
 import { CronMailsService } from "./mails/services/cron-mails.service";
 import { StatsGeneratorService } from "./stats/services/stats-generator.service";
 import { appLogger } from "./util";

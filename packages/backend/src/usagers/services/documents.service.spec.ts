@@ -1,5 +1,5 @@
 import { forwardRef } from "@nestjs/common";
-import { DatabaseModule } from "../../database/database.module";
+import { DatabaseModule } from "../../database";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { UsagersProviders } from "../usagers.providers";

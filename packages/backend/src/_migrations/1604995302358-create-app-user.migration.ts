@@ -1,8 +1,7 @@
 import { Model } from "mongoose";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { appHolder } from "../appHolder";
-import { appTypeormManager } from "../database/appTypeormManager.service";
-import { AppUserTable } from "../users/pg/AppUserTable.typeorm";
+import { appTypeormManager, AppUserTable } from "../database";
 import { User } from "../users/user.interface";
 import { appLogger } from "../util";
 
@@ -72,8 +71,10 @@ export class autoMigration1604995302358 implements MigrationInterface {
     }
 
     appLogger.debug(
-      `[Migration] [SUCCESS] "${this.name
-      }" ${createdCount} AppUserTable created (${items.length - createdCount
+      `[Migration] [SUCCESS] "${
+        this.name
+      }" ${createdCount} AppUserTable created (${
+        items.length - createdCount
       } ignored)`
     );
   }

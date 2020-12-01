@@ -2,21 +2,19 @@ import { Injectable } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
 import * as crypto from "crypto";
 import { Repository } from "typeorm";
-import { appTypeormManager } from "../../database/appTypeormManager.service";
-import { Structure } from "../../structures/structure-interface";
 import {
-  AppUser
-} from "../../_common/model";
+  appTypeormManager,
+  AppUserForAdminEmailWithTempTokens,
+  AppUserTable,
+  usersRepository,
+  USERS_ADMIN_EMAILS_ATTRIBUTES,
+} from "../../database";
+import { Structure } from "../../structures/structure-interface";
+import { AppUser } from "../../_common/model";
 import { EditPasswordDto } from "../dto/edit-password.dto";
 import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 import { ResetPasswordDto } from "../dto/reset-password.dto";
 import { UserDto } from "../dto/user.dto";
-import { AppUserTable } from "../pg";
-import {
-  AppUserForAdminEmailWithTempTokens,
-  usersRepository,
-  USERS_ADMIN_EMAILS_ATTRIBUTES
-} from "../pg/users-repository.service";
 
 @Injectable()
 export class UsersService {

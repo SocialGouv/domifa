@@ -1,1 +1,2 @@
-export * from "./scripts";
+export * from "./entities";
+export * from "./services";

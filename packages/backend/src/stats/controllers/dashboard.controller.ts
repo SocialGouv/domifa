@@ -4,14 +4,13 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { Model } from "mongoose";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
+import { AppUserTable, usersRepository } from "../../database";
 import {
   statsDeploiementExporter,
   StatsDeploiementExportModel
 } from "../../excel/export-stats-deploiement";
 import { StatsExportUser } from "../../excel/export-stats-deploiement/StatsExportUser.type";
 import { Structure } from "../../structures/structure-interface";
-import { AppUserTable } from "../../users/pg";
-import { usersRepository } from "../../users/pg/users-repository.service";
 import { appLogger } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
 import { DashboardService } from "../services/dashboard.service";
@@ -25,7 +24,7 @@ export class DashboardController {
   constructor(
     private readonly dashboardService: DashboardService,
     @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
-  ) { }
+  ) {}
 
   @Get("export")
   public async export(@Res() res: Response) {
@@ -38,9 +37,9 @@ export class DashboardController {
       "nom",
       "prenom",
       "role",
-        "verified",
-        "structureId",
-      ];
+      "verified",
+      "structureId",
+    ];
     const users = await usersRepository.findMany<
       Omit<StatsExportUser, "structure">
     >(undefined, {

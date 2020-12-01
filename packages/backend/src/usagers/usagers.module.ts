@@ -1,5 +1,5 @@
 import { forwardRef, HttpModule, Module } from "@nestjs/common";
-import { DatabaseModule } from "../database/database.module";
+import { DatabaseModule } from "../database";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { InteractionsProviders } from "../interactions/interactions.providers";
 import { MailsModule } from "../mails/mails.module";

@@ -1,18 +1,18 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
+import { Repository } from "typeorm";
+import {
+  appTypeormManager,
+  InteractionsTable,
+  usersRepository,
+} from "../../database";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
-
+import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
+import { InteractionType } from "../../interactions/InteractionType.type";
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
-import { usersRepository } from "../../users/pg/users-repository.service";
-import { StatsGeneratorService } from "./stats-generator.service";
-import { Repository } from "typeorm";
-
-import { appTypeormManager } from "../../database/appTypeormManager.service";
-import { InteractionType } from "../../interactions/InteractionType.type";
-import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
 import { StructureType } from "../../_common/model";
-import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
+import { StatsGeneratorService } from "./stats-generator.service";
 
 @Injectable()
 export class DashboardService {

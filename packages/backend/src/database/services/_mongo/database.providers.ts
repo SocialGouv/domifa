@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { domifaConfig } from "../config";
+import { domifaConfig } from "../../../config";
 
 mongoose.set("debug", domifaConfig().mongo.debug);
 

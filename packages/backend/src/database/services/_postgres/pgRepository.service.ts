@@ -2,11 +2,11 @@ import {
   DeepPartial,
   EntityTarget,
   FindConditions,
-  ObjectLiteral
+  ObjectLiteral,
 } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { appTypeormManager } from "../../database/appTypeormManager.service";
-import { appLogger } from "../AppLogger.service";
+import { appLogger } from "../../../util";
+import { appTypeormManager } from "./appTypeormManager.service";
 import { PgRepositoryFindOptions } from "./PgRepositoryFindOptions.type";
 
 export const pgRepository = {

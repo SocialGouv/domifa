@@ -1,9 +1,8 @@
 import { Model } from "mongoose";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { appHolder } from "../appHolder";
-import { appTypeormManager } from "../database/appTypeormManager.service";
+import { appTypeormManager, InteractionsTable } from "../database";
 import { InteractionDocument } from "../interactions/interactions.interface";
-import { InteractionsTable } from "../interactions/pg/InteractionsTable.typeorm";
 import { appLogger } from "../util";
 
 export class autoMigration1605001375177 implements MigrationInterface {

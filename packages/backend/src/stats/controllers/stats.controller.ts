@@ -13,10 +13,10 @@ import { Response } from "express";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
+import { StructureStatsTable } from "../../database";
 import { appLogger } from "../../util";
 import { AppAuthUser, AppUser } from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
-import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
 import {

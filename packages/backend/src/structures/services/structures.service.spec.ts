@@ -1,4 +1,4 @@
-import { DatabaseModule } from "../../database/database.module";
+import { DatabaseModule } from "../../database";
 import { UsagersProviders } from "../../usagers/usagers.providers";
 import { UsersProviders } from "../../users/users.providers";
 import { AppTestContext, AppTestHelper } from "../../util/test";

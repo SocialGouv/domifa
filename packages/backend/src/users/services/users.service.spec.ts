@@ -1,4 +1,4 @@
-import { DatabaseModule } from "../../database/database.module";
+import { DatabaseModule } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { UsersModule } from "../users.module";

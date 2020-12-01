@@ -4,14 +4,16 @@ import * as moment from "moment";
 import { Model } from "mongoose";
 import { Repository } from "typeorm";
 import { domifaConfig } from "../../config";
-import { appTypeormManager } from "../../database/appTypeormManager.service";
+import {
+  appTypeormManager,
+  InteractionsTable,
+  StructureStatsTable,
+} from "../../database";
 import { InteractionType } from "../../interactions/InteractionType.type";
-import { InteractionsTable } from "../../interactions/pg/InteractionsTable.typeorm";
 import { StructuresService } from "../../structures/services/structures.service";
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { appLogger } from "../../util";
-import { StructureStatsTable } from "../pg/StructureStatsTable.typeorm";
 
 @Injectable()
 export class StatsGeneratorService {
