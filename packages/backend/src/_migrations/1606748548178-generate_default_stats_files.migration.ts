@@ -4,9 +4,8 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 import { appHolder } from "../appHolder";
 import { appTypeormManager } from "../database/appTypeormManager.service";
 import { StructureStatsTable } from "../stats/pg/StructureStatsTable.typeorm";
-
-import { appLogger } from "../util";
 import { Structure } from "../structures/structure-interface";
+import { appLogger } from "../util";
 
 export class manualMigration1606748548178 implements MigrationInterface {
   public name = "manualMigration1606748548178";
@@ -29,17 +28,16 @@ export class manualMigration1606748548178 implements MigrationInterface {
     );
 
     if (structures && structures !== null) {
-      for (let index = 0; index < structures.length; index++) {
+      for (const structure of structures) {
         //
         const firstStats = await structureStatsRepository.findOne({
-          where: { structureId: structures[index].id },
-          order: { date: -1 },
+          where: { structureId: structure.id },
+          order: { date: 1 },
         });
 
-        const statsDate =
-          typeof firstStats !== "undefined"
-            ? firstStats.date
-            : structures[index]._id.getTimestamp();
+        const statsDate = firstStats
+          ? firstStats.date
+          : structure._id.getTimestamp();
 
         const stat = new StructureStatsTable({
           date: moment(statsDate).subtract(1, "day").toDate(),
@@ -118,19 +116,30 @@ export class manualMigration1606748548178 implements MigrationInterface {
             },
           },
         });
-        stat._id = `${structures[index]._id}_${statsDate}`;
+        // stat._id = `${structure._id}_${statsDate}`;
 
-        stat.capacite = structures[index].capacite;
-        stat.structureId = structures[index].id;
-        stat.nom = structures[index].nom;
-        stat.structureType = structures[index].structureType;
-        stat.ville = structures[index].ville;
-        stat.codePostal = structures[index].codePostal;
-        stat.departement = structures[index].departement;
+        stat.capacite = structure.capacite;
+        stat.structureId = structure.id;
+        stat.nom = structure.nom;
+        stat.structureType = structure.structureType;
+        stat.ville = structure.ville;
+        stat.codePostal = structure.codePostal;
+        stat.departement = structure.departement;
+
+        // if (firstStats) {
+        //   appLogger.debug(
+        //     `[Migration] Create stat "${stat.date}" before "${firstStats.date}" for structure ${structure.id}`
+        //   );
+        // } else {
+        //   appLogger.debug(
+        //     `[Migration] Create FIRST STATE "${stat.date}" for structure ${structure.id}`
+        //   );
+        // }
 
         await structureStatsRepository.insert(stat);
       }
     }
+    appLogger.debug(`[Migration] UP "${this.name}" DONE`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {}
