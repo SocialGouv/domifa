@@ -86,7 +86,7 @@ export class UsagersMailsService {
       .toPromise();
   }
 
-  public hardReset(user: AppUserForAdminEmail, token: string) {
+  public async hardReset(user: AppUserForAdminEmail, token: string) {
     const post = {
       to: [
         {
