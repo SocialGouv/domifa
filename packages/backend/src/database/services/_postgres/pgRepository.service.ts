@@ -19,6 +19,8 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     defaultSelect = "ALL",
   }: {
     defaultSelect?: (keyof T)[] | "ALL";
+  } = {
+    defaultSelect: "ALL",
   }
 ) {
   return {

@@ -9,7 +9,7 @@ export type CronMailType = "guide" | "import";
 
 export const cronMailsRepository = {
   updateMailFlag,
-  findNextUserToSendCronMail,
+  findUsersToSendCronMail,
 };
 
 async function updateMailFlag({
@@ -34,7 +34,7 @@ async function updateMailFlag({
   return updateCount;
 }
 
-async function findNextUserToSendCronMail({
+async function findUsersToSendCronMail({
   maxCreationDate,
   structuresIds,
   mailType,
@@ -42,7 +42,7 @@ async function findNextUserToSendCronMail({
   maxCreationDate: Date;
   structuresIds: number[] | undefined; // undefined if not used
   mailType: CronMailType;
-}) {
+}): Promise<Pick<AppUser, "id" | "email" | "nom" | "prenom">[]> {
   const maxCreationDateString = postgresQueryBuilder.formatPostgresDate(
     maxCreationDate
   );
@@ -61,7 +61,7 @@ async function findNextUserToSendCronMail({
   const query = `
           SELECT id, email, nom, prenom
           FROM app_user
-          WHERE ${whereClausesAnd.join(" AND ")} FETCH FIRST ROW ONLY
+          WHERE ${whereClausesAnd.join(" AND ")}
       ;`;
 
   const users: Pick<
@@ -71,5 +71,5 @@ async function findNextUserToSendCronMail({
     .getRepository(AppUserTable)
     .query(query, params);
 
-  return users.length ? users[0] : undefined;
+  return users;
 }

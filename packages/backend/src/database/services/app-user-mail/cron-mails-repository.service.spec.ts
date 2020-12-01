@@ -1,4 +1,5 @@
 import { Connection } from "typeorm";
+import { AppUser } from "../../../_common/model";
 import { appTypeormManager } from "../_postgres";
 import { cronMailsRepository } from "./cron-mails-repository.service";
 
@@ -13,30 +14,37 @@ describe("cronMailsRepository", () => {
   });
 
   it("findNextUserToSendCronMail returns next user to send cron mail", async () => {
-    // retrieve first user without "guide" mail flag
-    const user1 = await cronMailsRepository.findNextUserToSendCronMail({
-      maxCreationDate: new Date(Date.now()),
-      mailType: "guide",
-      structuresIds: [1, 2],
-    });
-    expect(user1).toBeDefined();
+    const INITIAL_MATCHING_USERS_COUNT = 2;
 
-    // mark "guide" mail flag
-    await cronMailsRepository.updateMailFlag({
-      userId: user1.id,
-      mailType: "guide",
-      value: true,
-    });
+    let user1: Pick<AppUser, "id" | "email" | "nom" | "prenom">;
+    {
+      // retrieve users without "guide" mail flag
+      const users = await cronMailsRepository.findUsersToSendCronMail({
+        maxCreationDate: new Date(Date.now()),
+        mailType: "guide",
+        structuresIds: [1, 2],
+      });
+      expect(users.length).toEqual(INITIAL_MATCHING_USERS_COUNT);
 
-    // retrieve next user
-    const user2 = await cronMailsRepository.findNextUserToSendCronMail({
-      maxCreationDate: new Date(Date.now()),
-      mailType: "guide",
-      structuresIds: [1],
-    });
-    expect(user2).toBeDefined();
-    // be sure the user is not the same
-    expect(user1.id !== user2.id).toBeTruthy();
+      user1 = users[0];
+
+      // mark "guide" mail flag
+      await cronMailsRepository.updateMailFlag({
+        userId: user1.id,
+        mailType: "guide",
+        value: true,
+      });
+    }
+
+    {
+      // retrieve users again
+      const users = await cronMailsRepository.findUsersToSendCronMail({
+        maxCreationDate: new Date(Date.now()),
+        mailType: "guide",
+        structuresIds: [1],
+      });
+      expect(users.length).toEqual(INITIAL_MATCHING_USERS_COUNT - 1);
+    }
 
     // restore user after test (to avoid breaking other tests)
     await cronMailsRepository.updateMailFlag({
@@ -46,11 +54,11 @@ describe("cronMailsRepository", () => {
     });
   });
   it("findNextUserToSendCronMail returns no user", async () => {
-    const user = await cronMailsRepository.findNextUserToSendCronMail({
+    const users = await cronMailsRepository.findUsersToSendCronMail({
       maxCreationDate: new Date(Date.UTC(2020, 10, 15)),
       mailType: "guide",
       structuresIds: [2],
     });
-    expect(user).toBeUndefined();
+    expect(users.length).toEqual(0);
   });
 });
