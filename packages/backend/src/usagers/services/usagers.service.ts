@@ -237,7 +237,7 @@ export class UsagersService {
     return this.usagerModel
       .find({ structureId })
       .select(
-        "-rdv -structureId -import -docsPath -interactions -preference -historique -docs -etapeDemande"
+        "-rdv -structureId -import -docsPath -interactions -preference -docs -etapeDemande"
       )
       .exec();
   }

@@ -11,6 +11,7 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
+import { Decision } from "../../../usagers/interfaces/decision";
 
 export const exportListeParticipantsWorksheetRenderer = {
   renderWorksheet,
@@ -136,6 +137,20 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
       usager.decision.motif = "";
     }
 
+    let userValidateFirstDom = usager.decision.userName;
+
+    if (usager.typeDom !== "PREMIERE") {
+      usager.historique.every((decision: Decision) => {
+        if (
+          decision.statut === "PREMIERE_DOM" ||
+          decision.statut === "VALIDE"
+        ) {
+          userValidateFirstDom = decision.userName;
+          return false;
+        }
+      });
+    }
+
     const row: XlRowModel = {
       values: {
         customId: usager.customId,
@@ -178,8 +193,7 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
             ? usager.datePremiereDom
             : "",
 
-        decisionUserPremierDom:
-          usager.typeDom === "PREMIERE" ? usager.decision.userName : "",
+        decisionUserPremierDom: usager.decision.userName,
 
         decisionUserRenouvellement:
           usager.typeDom === "RENOUVELLEMENT" ? usager.decision.userName : "",
