@@ -5,7 +5,8 @@ import { StructuresMailsService } from "../mails/services/structures-mails.servi
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
-import { CronMailsService } from "./services/cron-mails.service";
+import { CronMailImportGuideSenderService } from "./services/cron-mail-import-guide-sender.service";
+import { CronMailUserGuideSenderService } from "./services/cron-mail-user-guide-sender.service";
 import { DomifaMailsService } from "./services/domifa-mails.service";
 import { TipimailSender } from "./services/tipimail-sender.service";
 import { UsagersMailsService } from "./services/usagers-mails.service";
@@ -19,7 +20,8 @@ import { UsersMailsService } from "./services/users-mails.service";
     UsagersMailsService,
     UsersMailsService,
     TipimailSender,
-    CronMailsService,
+    CronMailImportGuideSenderService,
+    CronMailUserGuideSenderService,
   ],
   providers: [
     StructuresMailsService,
@@ -27,7 +29,8 @@ import { UsersMailsService } from "./services/users-mails.service";
     UsagersMailsService,
     UsersMailsService,
     TipimailSender,
-    CronMailsService,
+    CronMailImportGuideSenderService,
+    CronMailUserGuideSenderService,
   ],
   imports: [
     DatabaseModule,

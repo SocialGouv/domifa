@@ -1,7 +1,8 @@
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
-import { CronMailsService } from "./mails/services/cron-mails.service";
+import { CronMailImportGuideSenderService } from "./mails/services/cron-mail-import-guide-sender.service";
+import { CronMailUserGuideSenderService } from "./mails/services/cron-mail-user-guide-sender.service";
 import { StatsGeneratorService } from "./stats/services/stats-generator.service";
 import { appLogger } from "./util";
 
@@ -37,6 +38,7 @@ import { appLogger } from "./util";
     process.exit(0);
   }
 })();
+
 async function runCronJobs(app) {
   appLogger.warn(`[${__filename}] Running stats generation update...`);
   await app
@@ -53,35 +55,15 @@ async function runCronJobs(app) {
         });
       }
     );
-  appLogger.warn(`[${__filename}] Running cronGuide mail service...`);
-  await app
-    .get(CronMailsService)
-    .cronGuide()
-    .then(
-      () => {
-        appLogger.warn(`[${__filename}] cronGuide mail service SUCCESS`);
-      },
-      (error) => {
-        appLogger.error(`[${__filename}] cronGuide mail service ERROR`, {
-          error,
-          sentry: false,
-        });
-      }
-    );
-  appLogger.warn(`[${__filename}] Running cronImport mail service...`);
-  await app
-    .get(CronMailsService)
-    .cronImport()
-    .then(
-      () => {
-        appLogger.warn(`[${__filename}] cronImport mail service SUCCESS`);
-      },
-      (error) => {
-        appLogger.error(`[${__filename}] cronImport mail service ERROR`, {
-          error,
-          sentry: false,
-        });
-      }
-    );
+  const cronMailUserGuideSenderService: CronMailUserGuideSenderService = app.get(
+    CronMailUserGuideSenderService
+  );
+  await cronMailUserGuideSenderService.sendMailGuides("startup");
+
+  const cronMailImportGuideSenderService: CronMailImportGuideSenderService = app.get(
+    CronMailImportGuideSenderService
+  );
+
+  await cronMailImportGuideSenderService.sendMailImports("startup");
 }
 

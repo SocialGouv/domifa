@@ -9,7 +9,7 @@
   "password": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "database": "domifa_dev",
 
-  "entities": ["src/**/pg/*Table.typeorm.ts"],
+  "entities": ["src/database/entities/**/*Table.typeorm.ts"],
   "migrations": ["src/_migrations/**/*.ts"],
   "subscribers": ["src/**/*Subscriber.typeorm.ts"],
   "cli": {

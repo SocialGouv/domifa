@@ -36,7 +36,9 @@ export async function bootstrapApplication() {
 
     const postgresTypeormConnection = await appTypeormManager.connect();
 
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, {
+      logger: ["debug"],
+    });
     appHolder.app = app;
     app.useGlobalPipes(new ValidationPipe());
     const corsUrl = domifaConfig().security.corsUrl;

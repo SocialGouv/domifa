@@ -1,0 +1,106 @@
+import { appLogger } from "../../../../util";
+import { MonitoringBatchProcessTable } from "../../../entities/monitoring";
+import { MonitoringBatchProcess } from "../../../entities/monitoring/MonitoringBatchProcess.type";
+import { monitoringBatchProcessRepository } from "../monitoringBatchProcessRepository.service";
+import { MonitoringBatchProcessSimpleCountDetails } from "./MonitoringBatchProcessSimpleCountDetails.type";
+
+export const monitoringBatchProcessSimpleCountRunner = {
+  monitorProcess,
+};
+
+async function monitorProcess(
+  {
+    processId,
+    trigger,
+  }: Pick<
+    MonitoringBatchProcess<MonitoringBatchProcessSimpleCountDetails>,
+    "processId" | "trigger"
+  >,
+  process: ({
+    monitorTotal,
+    monitorSuccess,
+    monitorError,
+  }: {
+    monitorTotal: (total: number) => void;
+    monitorSuccess: (count?: number) => void;
+    monitorError: (error: Error, { count }?: { count?: number }) => number;
+  }) => Promise<void>
+) {
+  appLogger.debug(
+    `[${__filename}] Running "${processId}" process using ${trigger} trigger...`
+  );
+
+  const monitoringBatchProcess: Partial<MonitoringBatchProcess<
+    MonitoringBatchProcessSimpleCountDetails
+  >> = {
+    processId,
+    trigger,
+    beginDate: new Date(),
+    details: {
+      total: 0,
+      success: 0,
+      errors: 0,
+      skipped: 0,
+    },
+  };
+
+  try {
+    const result = await process({
+      monitorTotal: (total) => {
+        monitoringBatchProcess.details.total = total;
+      },
+      monitorSuccess: (count = 1) => {
+        monitoringBatchProcess.details.success += count;
+      },
+      monitorError: (err: Error, { count = 1 }) => {
+        monitoringBatchProcess.errorMessage = err.message;
+        appLogger.warn(`[monitorProcess] Error during "${processId}" process`, {
+          context: err.message,
+          sentryBreadcrumb: true,
+        });
+        monitoringBatchProcess.details.errors += count;
+        return monitoringBatchProcess.details.errors;
+      },
+    });
+
+    if (monitoringBatchProcess.details.errors) {
+      appLogger.error(`[monitorProcess] Error during "${processId}" process`);
+    }
+    monitoringBatchProcess.status =
+      monitoringBatchProcess.details.success ===
+      monitoringBatchProcess.details.total
+        ? "success"
+        : "error";
+
+    return result;
+  } catch (err) {
+    monitoringBatchProcess.status = "error";
+    monitoringBatchProcess.errorMessage = (err as Error).message;
+    appLogger.error(
+      `[monitorProcess] Unexpected error during "${processId}" process`,
+      {
+        error: err,
+        sentry: true,
+      }
+    );
+  } finally {
+    monitoringBatchProcess.details.skipped =
+      monitoringBatchProcess.details.total -
+      monitoringBatchProcess.details.success -
+      monitoringBatchProcess.details.errors;
+
+    appLogger.debug(
+      `[monitorProcess] "${processId}" process END`,
+      JSON.stringify(monitoringBatchProcess)
+    );
+
+    const monitoringBatchProcessEntity = new MonitoringBatchProcessTable<
+      MonitoringBatchProcessSimpleCountDetails
+    >({
+      ...monitoringBatchProcess,
+      endDate: new Date(),
+    });
+    // tslint:disable-next-line: no-unsafe-finally
+    return monitoringBatchProcessRepository.save(monitoringBatchProcessEntity);
+  }
+}
