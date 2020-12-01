@@ -6,11 +6,11 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { regexp } from "../../../../shared/validators";
 
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { LoadingService } from "src/app/modules/loading/loading.service";
 import { UsagerService } from "../../services/usager.service";
 import { Title } from "@angular/platform-browser";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "../../../shared/services/auth.service";
+import { LoadingService } from "../../../loading/loading.service";
 
 export const colNames = [
   "Numéro d'identification",

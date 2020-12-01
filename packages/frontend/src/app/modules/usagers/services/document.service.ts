@@ -56,4 +56,10 @@ export class DocumentService {
       })
     );
   }
+
+  public getGeneratedDoc(usagerId: number, docType: string) {
+    return this.http.get(`${this.endPoint}${usagerId}/generated/${docType}`, {
+      responseType: "blob",
+    });
+  }
 }
