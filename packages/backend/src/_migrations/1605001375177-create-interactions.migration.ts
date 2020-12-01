@@ -1,11 +1,9 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
-
 import { Model } from "mongoose";
+import { MigrationInterface, QueryRunner } from "typeorm";
+import { appHolder } from "../appHolder";
 import { appTypeormManager } from "../database/appTypeormManager.service";
 import { InteractionDocument } from "../interactions/interactions.interface";
 import { InteractionsTable } from "../interactions/pg/InteractionsTable.typeorm";
-
-import { appHolder } from "../appHolder";
 import { appLogger } from "../util";
 
 export class autoMigration1605001375177 implements MigrationInterface {
@@ -121,9 +119,9 @@ export class autoMigration1605001375177 implements MigrationInterface {
             { $set: { migrated: true } }
           );
 
-          appLogger.debug(
-            `[Migration] [DEBUG] "${interactionToMigrate.dateInteraction}" migrated ${retour._id}`
-          );
+          // appLogger.debug(
+          //   `[Migration] [DEBUG] "${interactionToMigrate.dateInteraction}" migrated ${retour._id}`
+          // );
 
           await interactionsRepository.insert(interactionToMigrate);
         }
