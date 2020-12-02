@@ -5,7 +5,7 @@ import { MonitoringBatchProcessId } from "./MonitoringBatchProcessId.type";
 import { MonitoringBatchProcessStatus } from "./MonitoringBatchProcessStatus.type";
 import { MonitoringBatchProcessTrigger } from "./MonitoringBatchProcessTrigger.type";
 // https://typeorm.io/#/entities/column-types-for-postgres
-@Entity({ name: "log_batch_operation" })
+@Entity({ name: "monitor_batch_process" })
 export class MonitoringBatchProcessTable<T = any>
   extends AppTypeormTable<MonitoringBatchProcess<T>>
   implements MonitoringBatchProcess {

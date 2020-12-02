@@ -3,13 +3,16 @@ import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Model } from "mongoose";
 import { domifaConfig } from "../../config";
-import { cronMailsRepository } from "../../database";
-import { MonitoringBatchProcessTrigger } from "../../database/entities/monitoring";
-import { monitoringBatchProcessSimpleCountRunner } from "../../database/services/monitoring/simple-count";
+import {
+  cronMailsRepository,
+  MessageEmailContent,
+  monitoringBatchProcessSimpleCountRunner,
+  MonitoringBatchProcessTrigger,
+} from "../../database";
 import { Structure } from "../../structures/structure-interface";
 import { appLogger } from "../../util";
 import { AppUser } from "../../_common/model";
-import { TipimailMessage, TipimailSender } from "./tipimail-sender.service";
+import { MessageEmailSender } from "./message-email-sender.service";
 
 @Injectable()
 export class CronMailImportGuideSenderService {
@@ -20,7 +23,7 @@ export class CronMailImportGuideSenderService {
   private domifaFromMail: string;
 
   constructor(
-    private tipimailSender: TipimailSender,
+    private messageEmailSender: MessageEmailSender,
     @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
   ) {
     this.lienImport = domifaConfig().apps.frontendUrl + "import";
@@ -32,7 +35,7 @@ export class CronMailImportGuideSenderService {
     this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
 
-  @Cron(domifaConfig().cron.emailImport.crontime)
+  @Cron(domifaConfig().cron.emailImportGuide.crontime)
   protected async sendMailImportCron() {
     if (!domifaConfig().cron.enable) {
       return;
@@ -59,9 +62,8 @@ export class CronMailImportGuideSenderService {
             const totalErrors = monitorError(err);
             if (totalErrors > 10) {
               appLogger.warn(
-                "[CronMailImportGuideSenderService] Too many errors: skip next users",
+                `[CronMailImportGuideSenderService] Too many errors: skip next users: : ${err.message}`,
                 {
-                  context: err,
                   sentryBreadcrumb: true,
                 }
               );
@@ -74,7 +76,7 @@ export class CronMailImportGuideSenderService {
   }
 
   private async _findUsersToSendImportGuide() {
-    const delay = domifaConfig().cron.emailImport.delay;
+    const delay = domifaConfig().cron.emailImportGuide.delay;
     const maxCreationDate: Date = moment()
       .utc()
       .subtract(delay.amount, delay.unit)
@@ -119,10 +121,10 @@ export class CronMailImportGuideSenderService {
       return;
     }
 
-    const message: TipimailMessage = {
-      templateId: "guide-import",
+    const message: MessageEmailContent = {
       subject: "Importer vos domiciliés sur DomiFa",
-      model: {
+      tipimailTemplateId: "guide-import",
+      tipimailModel: {
         email: user.email,
         values: {
           import: this.lienImport,
@@ -146,7 +148,10 @@ export class CronMailImportGuideSenderService {
       },
     };
 
-    await this.tipimailSender.sendMail(message);
+    await this.messageEmailSender.sendMailLater(message, {
+      emailId: "guide-import",
+      initialScheduledDate: new Date(),
+    });
 
     await cronMailsRepository.updateMailFlag({
       userId: user.id,

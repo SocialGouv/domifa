@@ -1,7 +1,7 @@
 import { In } from "typeorm";
 import { AppUser, UserProfile, UserRole } from "../../../_common/model";
 import { AppUserTable } from "../../entities";
-import { pgRepository } from "../_postgres";
+import { pgRepository, typeOrmSearch } from "../_postgres";
 
 export const USERS_USER_PROFILE_ATTRIBUTES: (keyof AppUserTable)[] = [
   "id",
@@ -41,11 +41,13 @@ function findVerifiedStructureUsersByRoles({
 }: Pick<AppUserTable, "structureId"> & {
   roles: UserRole[];
 }): Promise<UserProfile[]> {
-  return baseRepository.findMany({
-    structureId,
-    verified: true,
-    role: In(roles),
-  });
+  return baseRepository.findMany(
+    typeOrmSearch<UserProfile>({
+      structureId,
+      verified: true,
+      role: In(roles),
+    })
+  );
 }
 
 function findOneByTokenAttribute(

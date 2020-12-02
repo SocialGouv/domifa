@@ -25,6 +25,9 @@ export class InteractionsService {
     user: UserProfile,
     interactionDto: InteractionDto
   ): Promise<Usager> {
+    if (!interactionDto.dateInteraction) {
+      interactionDto.dateInteraction = new Date();
+    }
     const createdInteraction: Interactions = new InteractionsTable(
       interactionDto
     );

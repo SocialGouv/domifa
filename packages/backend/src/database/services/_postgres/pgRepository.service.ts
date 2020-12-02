@@ -13,6 +13,12 @@ export const pgRepository = {
   get,
 };
 
+export function typeOrmSearch<T>(
+  search: FindConditions<T>[] | FindConditions<T> | ObjectLiteral | string
+): Partial<T> {
+  return (search as unknown) as Partial<T>;
+}
+
 function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   entityTarget: EntityTarget<T>,
   {
@@ -118,7 +124,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 
   async function findOne<R = DEFAULT_RESULT>(
-    search?: FindConditions<T>[] | FindConditions<T> | ObjectLiteral | string,
+    search?: Partial<T>,
     options: PgRepositoryFindOptions<T> = {}
   ): Promise<R> {
     const typeormRepository = await typeorm();
@@ -132,11 +138,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 
   async function findMany<R = DEFAULT_RESULT>(
-    search:
-      | FindConditions<T>[]
-      | FindConditions<T>
-      | ObjectLiteral
-      | string = {},
+    search: Partial<T>,
     options: PgRepositoryFindOptions<T> = {}
   ): Promise<R[]> {
     const typeormRepository = await typeorm();

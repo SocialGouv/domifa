@@ -48,17 +48,23 @@ export type DomifaConfig = {
   };
   cron: {
     enable: boolean; // DOMIFA_CRON_ENABLED
-    autoRunOnStartup: boolean; // DOMIFA_CRON_AUTO_RUN_STARTUP
     stats: {
       crontime: string; // DOMIFA_CRON_STATS_CRONTIME
+      autoRunOnStartup: boolean; // DOMIFA_CRON_STATS_AUTO_RUN_STARTUP
     };
-    emailGuide: {
-      crontime: string; // DOMIFA_CRON_EMAIL_GUIDE_CRONTIME
-      delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_GUIDE_DELAY
+    emailUserGuide: {
+      crontime: string; // DOMIFA_CRON_EMAIL_USER_GUIDE_CRONTIME
+      delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_USER_GUIDE_DELAY
+      autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_USER_GUIDE_AUTO_RUN_STARTUP
     };
-    emailImport: {
-      crontime: string; // DOMIFA_CRON_EMAIL_IMPORT_CRONTIME
-      delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_IMPORT_DELAY
+    emailImportGuide: {
+      crontime: string; // DOMIFA_CRON_EMAIL_IMPORT_GUIDE_CRONTIME
+      delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_IMPORT_GUIDE_DELAY
+      autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_IMPORT_GUIDE_AUTO_RUN_STARTUP
+    };
+    emailConsumer: {
+      crontime: string; // DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME
+      autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_CONSUMER_AUTO_RUN_STARTUP
     };
   };
   email: {
