@@ -95,7 +95,7 @@ export class CronMailUserGuideSenderService {
     };
 
     await this.messageEmailSender.sendMailLater(message, {
-      emailId: "guide-user",
+      emailId: "user-guide",
       initialScheduledDate: new Date(),
     });
 

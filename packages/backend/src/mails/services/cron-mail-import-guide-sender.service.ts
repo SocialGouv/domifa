@@ -149,7 +149,7 @@ export class CronMailImportGuideSenderService {
     };
 
     await this.messageEmailSender.sendMailLater(message, {
-      emailId: "guide-import",
+      emailId: "import-guide",
       initialScheduledDate: new Date(),
     });
 

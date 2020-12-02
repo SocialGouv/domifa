@@ -1,15 +1,16 @@
-import { HttpService, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { domifaConfig } from "../../config";
-import { AppUserForAdminEmail } from "../../database";
+import { AppUserForAdminEmail, MessageEmailContent } from "../../database";
 import { DEPARTEMENTS_MAP } from "../../structures/DEPARTEMENTS_MAP.const";
 import { Structure } from "../../structures/structure-interface";
+import { MessageEmailSender } from "./message-email-sender.service";
 
 @Injectable()
 export class DomifaMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(private httpService: HttpService) {
+  constructor(private messageEmailSender: MessageEmailSender) {
     this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
     this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
@@ -30,65 +31,54 @@ export class DomifaMailsService {
       cias: "CIAS",
     };
 
-    const post = {
+    const message: MessageEmailContent = {
+      subject: "Nouvelle structure sur Domifa ",
+      tipimailTemplateId: "domifa-nouvelle-structure",
+      tipimailModel: {
+        email: this.domifaAdminMail,
+        values: {
+          structure_name: structure.nom,
+          structure_type: structureTypes[structure.structureType],
+          adresse: structure.adresse,
+          departement:
+            DEPARTEMENTS_MAP[structure.departement].departmentName ||
+            "Non renseigné",
+          ville: structure.ville,
+          code_postal: structure.codePostal,
+          email: structure.email,
+          phone: structure.phone,
+          responsable_nom: structure.responsable.nom,
+          responsable_prenom: structure.responsable.prenom,
+          responsable_fonction: structure.responsable.fonction,
+          user_nom: user.nom,
+          user_prenom: user.prenom,
+          user_email: user.email,
+          lien_confirmation: lienConfirmation,
+          lien_suppression: lienSuppression,
+        },
+        subject: "Nouvelle structure sur Domifa ",
+        meta: {},
+      },
       to: [
         {
           address: this.domifaAdminMail,
           personalName: "Domifa",
         },
       ],
-      headers: {
-        "X-TM-TEMPLATE": "domifa-nouvelle-structure",
-        "X-TM-SUB": [
-          {
-            email: this.domifaAdminMail,
-            values: {
-              structure_name: structure.nom,
-              structure_type: structureTypes[structure.structureType],
-              adresse: structure.adresse,
-              departement:
-                DEPARTEMENTS_MAP[structure.departement].departmentName ||
-                "Non renseigné",
-              ville: structure.ville,
-              code_postal: structure.codePostal,
-              email: structure.email,
-              phone: structure.phone,
-              responsable_nom: structure.responsable.nom,
-              responsable_prenom: structure.responsable.prenom,
-              responsable_fonction: structure.responsable.fonction,
-              user_nom: user.nom,
-              user_prenom: user.prenom,
-              user_email: user.email,
-              lien_confirmation: lienConfirmation,
-              lien_suppression: lienSuppression,
-            },
-            subject: "Nouvelle structure sur Domifa ",
-            meta: {},
-          },
-        ],
+      from: {
+        personalName: "Domifa",
+        address: this.domifaFromMail,
       },
-      msg: {
-        from: {
-          personalName: "Domifa",
-          address: this.domifaFromMail,
-        },
-        replyTo: {
-          personalName: "Domifa",
-          address: this.domifaAdminMail,
-        },
-        subject: "Nouvelle structure sur Domifa ",
-        html: "<p>Test</p>",
+      replyTo: {
+        personalName: "Domifa",
+        address: this.domifaAdminMail,
       },
     };
 
-    return this.httpService
-      .post("https://api.tipimail.com/v1/messages/send", post, {
-        headers: {
-          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
-          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
-        },
-      })
-      .toPromise();
+    await this.messageEmailSender.sendMailLater(message, {
+      emailId: "structure-created",
+      initialScheduledDate: new Date(),
+    });
   }
 
   //
@@ -102,53 +92,42 @@ export class DomifaMailsService {
       "/" +
       structure.token;
 
-    const post = {
+    const message: MessageEmailContent = {
+      subject: "Supprimer une structure sur Domifa",
+      tipimailTemplateId: "domifa-supprimer-structure",
+      tipimailModel: {
+        email: this.domifaAdminMail,
+        values: {
+          lien,
+          nom: structure.nom,
+          adresse: structure.adresse,
+          ville: structure.ville,
+          code_postal: structure.codePostal,
+          email: structure.email,
+          phone: structure.phone,
+        },
+        subject: "Supprimer une structure sur Domifa",
+        meta: {},
+      },
       to: [
         {
           address: this.domifaAdminMail,
           personalName: "Domifa",
         },
       ],
-      headers: {
-        "X-TM-TEMPLATE": "domifa-supprimer-structure",
-        "X-TM-SUB": [
-          {
-            email: this.domifaAdminMail,
-            values: {
-              lien,
-              nom: structure.nom,
-              adresse: structure.adresse,
-              ville: structure.ville,
-              code_postal: structure.codePostal,
-              email: structure.email,
-              phone: structure.phone,
-            },
-            subject: "Supprimer une structure sur Domifa",
-            meta: {},
-          },
-        ],
+      from: {
+        personalName: "Domifa",
+        address: this.domifaFromMail,
       },
-      msg: {
-        from: {
-          personalName: "Domifa",
-          address: this.domifaFromMail,
-        },
-        replyTo: {
-          personalName: "Domifa",
-          address: this.domifaAdminMail,
-        },
-        subject: "Supprimer une structure sur Domifa",
-        html: "<p>Test</p>",
+      replyTo: {
+        personalName: "Domifa",
+        address: this.domifaAdminMail,
       },
     };
 
-    this.httpService
-      .post("https://api.tipimail.com/v1/messages/send", post, {
-        headers: {
-          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
-          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
-        },
-      })
-      .toPromise();
+    await this.messageEmailSender.sendMailLater(message, {
+      emailId: "structure-delete",
+      initialScheduledDate: new Date(),
+    });
   }
 }
