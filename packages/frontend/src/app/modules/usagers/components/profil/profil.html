@@ -1182,6 +1182,25 @@
         <app-documents [usager]="usager"></app-documents>
       </ng-template>
     </ngb-panel>
+    <ngb-panel
+      id="panel-6"
+      *ngIf="isRole('admin') && usager.decision.statut === 'VALIDE'"
+    >
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>DOCUMENTS PERSONNALISÉS</span>
+            <span class="arrows">
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <app-docs-generated [usager]="usager" [me]="me"></app-docs-generated>
+      </ng-template>
+    </ngb-panel>
   </ngb-accordion>
   <div
     class="text-center"

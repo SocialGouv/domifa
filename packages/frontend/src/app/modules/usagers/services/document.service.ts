@@ -56,4 +56,10 @@ export class DocumentService {
       })
     );
   }
+
+  public getCustomDoc(usagerId: number) {
+    return this.http.get(`${environment.apiUrl}docs-custom/${usagerId}`, {
+      responseType: "blob",
+    });
+  }
 }
