@@ -1,15 +1,20 @@
-import { HttpService, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import * as moment from "moment";
 import { domifaConfig } from "../../config";
-import { AppUserForAdminEmail } from "../../database";
+import { AppUserForAdminEmail, MessageEmailContent } from "../../database";
 import { Usager } from "../../usagers/interfaces/usagers";
+import { MessageEmailSender } from "./message-email-sender.service";
+import { TipimailSender } from "./tipimail-sender.service";
 
 @Injectable()
 export class UsagersMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(private httpService: HttpService) {
+  constructor(
+    private tipimailSender: TipimailSender,
+    private messageEmailSender: MessageEmailSender
+  ) {
     this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
     this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
@@ -39,93 +44,76 @@ export class UsagersMailsService {
       message,
     };
 
-    const post = {
+    const messageContent: MessageEmailContent = {
+      subject: "Prise de rendez-vous entre le demandeur et un collaborateur",
+      tipimailTemplateId: "usagers-prise-de-rendez-vous",
+      tipimailModel: {
+        email: user.email,
+        values: datas,
+        meta: {},
+      },
       to: [
         {
           address: user.email,
           personalName: user.prenom + " " + user.nom,
         },
       ],
-      headers: {
-        "X-TM-TEMPLATE": "usagers-prise-de-rendez-vous",
-        "X-TM-SUB": [
-          {
-            email: user.email,
-            values: datas,
-            meta: {},
-          },
-        ],
+      from: {
+        personalName: "Domifa",
+        address: this.domifaFromMail,
       },
-      msg: {
-        from: {
-          personalName: "Domifa",
-          address: this.domifaFromMail,
-        },
-        replyTo: {
-          personalName: "Domifa",
-          address: this.domifaAdminMail,
-        },
-        subject: "Prise de rendez-vous entre le demandeur et un collaborateur",
-        attachments: [
-          {
-            contentType: "text/calendar",
-            filename: "invitation.ics",
-            content: event,
-          },
-        ],
-        html: "<p>Test</p>",
+      replyTo: {
+        personalName: "Domifa",
+        address: this.domifaAdminMail,
       },
     };
-    return this.httpService
-      .post("https://api.tipimail.com/v1/messages/send", post, {
-        headers: {
-          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
-          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
+
+    await this.tipimailSender.trySendToTipimail({
+      ... messageContent,
+      attachments: [
+        {
+          contentType: "text/calendar",
+          filename: "invitation.ics",
+          content: event,
         },
-      })
-      .toPromise();
+      ],
+    });
+
+    // await this.messageEmailSender.sendMailLater(messageContent, {
+    //   emailId: "usager-appointment-created",
+    //   initialScheduledDate: new Date(),
+    // });
   }
 
   public async hardReset(user: AppUserForAdminEmail, token: string) {
-    const post = {
+    const message: MessageEmailContent = {
+      subject: "Code de confirmation Domifa pour supprimer les usagers",
+      tipimailTemplateId: "usagers-hard-reset",
+      tipimailModel: {
+        email: user.email,
+        values: { code: token, prenom: user.prenom },
+        subject: "Code de confirmation Domifa pour supprimer les usagers",
+        meta: {},
+      },
       to: [
         {
           address: user.email,
           personalName: user.prenom + " " + user.nom,
         },
       ],
-      headers: {
-        "X-TM-TEMPLATE": "usagers-hard-reset",
-        "X-TM-SUB": [
-          {
-            email: user.email,
-            values: { code: token, prenom: user.prenom },
-            subject: "Code de confirmation Domifa pour supprimer les usagers",
-            meta: {},
-          },
-        ],
+      from: {
+        personalName: "Domifa",
+        address: this.domifaFromMail,
       },
-      msg: {
-        from: {
-          personalName: "Domifa",
-          address: this.domifaFromMail,
-        },
-        replyTo: {
-          personalName: "Domifa",
-          address: this.domifaAdminMail,
-        },
-        subject: "Code de confirmation Domifa pour supprimer les usagers",
-        html: "<p>Test</p>",
+      replyTo: {
+        personalName: "Domifa",
+        address: this.domifaAdminMail,
       },
     };
 
-    return this.httpService
-      .post("https://api.tipimail.com/v1/messages/send", post, {
-        headers: {
-          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
-          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
-        },
-      })
-      .toPromise();
+    await this.messageEmailSender.sendMailLater(message, {
+      emailId: "structure-hard-reset",
+      initialScheduledDate: new Date(),
+    });
   }
 }

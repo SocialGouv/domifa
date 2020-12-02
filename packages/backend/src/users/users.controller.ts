@@ -13,7 +13,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import * as bcrypt from "bcryptjs";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
@@ -36,7 +36,6 @@ import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
 import { UsersService } from "./services/users.service";
-
 
 @Controller("users")
 @ApiTags("users")
@@ -97,18 +96,8 @@ export class UsersController {
       }
 
       this.usersMailsService.accountActivated(confirmerUser).then(
-        (result: AxiosResponse) => {
-          if (result.status !== 200) {
-            appLogger.warn(`[UsersMail] mail user account activated failed`);
-            appLogger.error(JSON.stringify(result.data));
-
-            throw new HttpException(
-              "TIPIMAIL_USER_ACCOUNT_ACTIVATED",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          } else {
-            return res.status(HttpStatus.OK).json({ message: "OK" });
-          }
+        () => {
+          return res.status(HttpStatus.OK).json({ message: "OK" });
         },
         (error: AxiosError) => {
           appLogger.warn(`[UsersMail] mail user account activated failed`);
@@ -246,31 +235,9 @@ export class UsersController {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
-      this.domifaMailsService.newStructure(structure, newUser).then(
-        (result: AxiosResponse) => {
-          if (result.status !== 200) {
-            appLogger.warn(`[StructuresMail] mail new s  `);
-            appLogger.error(JSON.stringify(result.data));
-
-            throw new HttpException(
-              "TIPIMAIL_NEW_STRUCTURE_ERROR",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          } else {
-            return res.status(HttpStatus.OK).json({ message: "OK" });
-          }
-        },
-        (error: AxiosError) => {
-          appLogger.warn(
-            `[StructuresMail] mail new structure for domifa failed`
-          );
-          appLogger.error(JSON.stringify(error.message));
-          throw new HttpException(
-            "TIPIMAIL_NEW_STRUCTURE_ERROR",
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-      );
+      this.domifaMailsService.newStructure(structure, newUser).then(() => {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      });
     } else {
       const admins = await usersRepository.findMany<AppUserForAdminEmail>(
         {
@@ -286,32 +253,9 @@ export class UsersController {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
-      this.usersMailsService.newUser(admins, newUser).then(
-        (result: AxiosResponse) => {
-          if (result.status !== 200) {
-            appLogger.warn(
-              `[StructuresMail] New User - mail to admin of structure failed`
-            );
-            appLogger.error(JSON.stringify(result.data));
-            throw new HttpException(
-              "TIPIMAIL_NEW_USER_ERROR",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          } else {
-            return res.status(HttpStatus.OK).json({ message: "OK" });
-          }
-        },
-        (error: AxiosError) => {
-          appLogger.warn(
-            `[StructuresMail] mail new structure for domifa failed`
-          );
-          appLogger.error(JSON.stringify(error.message));
-          throw new HttpException(
-            "TIPIMAIL_NEW_STRUCTURE_ERROR",
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-      );
+      this.usersMailsService.newUser(admins, newUser).then(() => {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      });
     }
   }
 
@@ -403,16 +347,9 @@ export class UsersController {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
-      return this.usersMailsService.newPassword(updatedUser).then(
-        (result: AxiosResponse) => {
-          return res.status(HttpStatus.OK).json({ message: result.data });
-        },
-        (error: AxiosError) => {
-          return res
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: "MAIL_NEW_PASSWORD_ERROR" });
-        }
-      );
+      return this.usersMailsService.newPassword(updatedUser).then(() => {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      });
     }
   }
 

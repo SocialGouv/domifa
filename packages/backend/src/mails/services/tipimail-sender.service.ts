@@ -4,8 +4,9 @@ import {
   HttpStatus,
   Injectable,
 } from "@nestjs/common";
-import { throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { AxiosResponse } from "axios";
+import { of, throwError } from "rxjs";
+import { catchError, switchMap } from "rxjs/operators";
 import { domifaConfig } from "../../config";
 import {
   dataEmailAnonymizer,
@@ -39,7 +40,15 @@ export class TipimailSender {
   }
 
   public async trySendToTipimail(
-    message: MessageEmailContent
+    message: MessageEmailContent & {
+      attachments?: [
+        {
+          contentType: string;
+          filename: string;
+          content: any;
+        }
+      ];
+    }
   ): Promise<MessageEmailSendDetails> {
     const { toSend, toSkip } = this._classifyRecipients(message.to);
 
@@ -89,11 +98,12 @@ export class TipimailSender {
         from: message.from,
         replyTo: message.replyTo,
         subject,
+        attachments: message.attachments,
         html: `<p>Le template "${message.tipimailTemplateId}" n'existe pas.</p>`, // message par défaut si le tipimailTemplateId n'existe pas
       },
     };
 
-    await this.httpService
+    return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
           "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
@@ -101,6 +111,20 @@ export class TipimailSender {
         },
       })
       .pipe(
+        switchMap((result: AxiosResponse) => {
+          if (result.status !== 200) {
+            appLogger.warn(JSON.stringify(result.data));
+
+            return throwError(
+              new HttpException(
+                `TIPIMAIL_ERROR_${message.tipimailTemplateId}`,
+                HttpStatus.INTERNAL_SERVER_ERROR
+              )
+            );
+          } else {
+            return of({ sent: toSend, skipped: toSkip });
+          }
+        }),
         catchError((err) => {
           appLogger.warn(
             `Error sending tipimail "${message.tipimailTemplateId}" message: : ${err.message}`,
@@ -108,7 +132,7 @@ export class TipimailSender {
               sentryBreadcrumb: true,
             }
           );
-          appLogger.error(`Error sending tipimail message`);
+          appLogger.error(`[TipimailSender] Error sending tipimail message`);
           return throwError(
             new HttpException(
               `TIPIMAIL_ERROR_${message.tipimailTemplateId}`,
@@ -118,8 +142,6 @@ export class TipimailSender {
         })
       )
       .toPromise();
-
-    return { sent: toSend, skipped: toSkip };
   }
 }
 function isRecipientToSkip(recipient: MessageEmailRecipient) {
