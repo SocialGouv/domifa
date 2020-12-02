@@ -15,9 +15,34 @@ variables:
   PYTHON_VERSION: "3.6-alpine"
 
 stages:
+  - "Install"
   - "Tests"
-  - "Build"
   - "Registration"
+
+.print_env: &print_env |
+  printenv | grep \
+    -e "^CI_COMMIT_" \
+    -e "^CI_ENVIRONMENT_" \
+    -e "^CI_PROJECT_" \
+    -e "^CI_REGISTRY_" \
+    -e "^KUBE_INGRESS_BASE_DOMAIN" \
+    -e "^KUBE_NAMESPACE" \
+    -e "^PRODUCTION" \
+    -e "^DOMIFA" \
+    -e "^PUPPETEER_" \
+    -e "^MONGO_" \
+    -e "^POSTGRES_" \
+    -e "^RANCHER_PROJECT_ID" | sort
+
+.db_tools: &db_tools |
+  apk add mongodb-tools
+  apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
+
+.db_setup: &db_setup |
+  nc -zvv mongo 27017
+  pg_isready -d postgres -h postgres -p 5432 -U runner
+  ./_scripts/db/restore-mongo.sh --db=test
+  ./_scripts/db/restore-postgres.sh --db=test --ci
 
 .tests_setup:
   stage: Tests
@@ -43,54 +68,33 @@ stages:
     POSTGRES_PASSWORD: abcd
     POSTGRES_HOST_AUTH_METHOD: trust
     DOMIFA_ENV_ID: test
-    SECRET: efgh
+    NODE_ENV: tests-travis
+    SECRET: 9Ibl1P3XxNJOqaWTnvBpCVw8o1kFoSwiUwL8NETPfMMZY0f2BG0tgZNdTbYRwLfwRjfaqaHISvOqhQL7nGpmES73V0vgR3tUQeyvnI8gsKTFFJJPYqLIbBCLiXT8LKx5Q3tJirYI0zM4Joby2SkYv9QxqwaMKZGxYjJrU5WHTmUnk6c4GL6w1rk5sI
     DOMIFA_ENV_ID: test
+    POSTGRES_HOST: postgres
     POSTGRES_USERNAME: runner
     POSTGRES_DATABASE: domifa_test
-    #DOMIFA_PRINT_CONFIG: "true"
+    PUPPETEER_CHROME_HEADLESS: "true"
+    PUPPETEER_CHROME_PATH: /usr/bin/chromium-browser
+    PUPPETEER_CHROME_ARGS: ""
+    CHROMIUM_PATH: /usr/bin/chromium-browser
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
+    DOMIFA_FRONTEND_URL: http://localhost:4200/
+    DOMIFA_BACKEND_URL: http://localhost:3000/
+    MONGO_DUMP_PATH: /builds/SocialGouv/domifa/_scripts/db/dumps/domifa_test.mongo.gz
+    POSTGRES_DUMP_PATH: /builds/SocialGouv/domifa/_scripts/db/dumps/domifa_test.postgres.dump
+    SENTRY_DSN: https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
   before_script:
-    - apk add mongodb-tools
-    - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
-    - nc -zvv mongo 27017
-    - pg_isready -d postgres -h postgres -p 5432 -U runner
+    - *print_env
+    - yarn --frozen-lockfile
     - |
-      > ./.env.test.ci.env
-      > ./packages/backend/.env.backend.test.ci.env
-    - ./_scripts/db/restore-mongo.sh --db=test
-    - ./_scripts/db/restore-postgres.sh --db=test --ci
-    - yarn --frozen-lockfile
+      > ./.env.test.travis.env
+      > ./packages/backend/.env.backend.test.travis.env
 
-Backend unit tests:
-  extends: .tests_setup
-  script:
-    - yarn --cwd packages/backend build
-    - yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
-  needs: []
-
-
-Frontend unit tests:
-  extends: .tests_setup
-  script:
-    - yarn build
-    - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
-  needs: []
-
-
-.E2E tests: # disabled until it is fixed
-  extends: .tests_setup
-  script:
-    - yarn workspace @domifa/backend start:tests-ci &
-    - npx serve packages/frontend/dist/domifa -l 4200 &
-    - cd optional/e2e/runners/puppeteer/
-    - yarn --frozen-lockfile
-    - yarn test --debug
-  needs: []
-
-
-Build frontend image:
+Build:
   extends: .base_yarn_script
-  stage: Build
-  image: node:14
+  stage: Install
+  image: node:13
   interruptible: true
   cache:
     key:
@@ -99,44 +103,74 @@ Build frontend image:
       prefix: ${CI_JOB_NAME}
     paths:
       - packages/frontend/node_modules/.cache
+  services:
+    - name: mongo:4.0.3
   before_script:
     # NOTE(douglasduteil): yarn caching
     - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
   script:
     - yarn --frozen-lockfile --prefer-offline
+    - yarn --cwd packages/backend build
     - yarn --cwd packages/frontend build --prod
   artifacts:
     expire_in: 1 day
     paths:
-      - packages/frontend/dist
-  needs: []
-
-
-Build backend image:
-  extends: .base_yarn_script
-  stage: Build
-  image: node:14
-  interruptible: true
-  cache:
-    key:
-      files:
-        - yarn.lock
-      prefix: ${CI_JOB_NAME}
-    paths:
-      - packages/frontend/node_modules/.cache
-  before_script:
-    # NOTE(douglasduteil): yarn caching
-    - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
-  script:
-    - yarn --frozen-lockfile --prefer-offline
-    - yarn --cwd packages/backend build
-  artifacts:
-    expire_in: 1 day
-    paths:
       - packages/backend/dist
-  needs: []
+      - packages/frontend/dist
 
+Backend tests:
+  extends: .tests_setup
+  script:
+    - *db_tools
+    - *db_setup
+    - yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
 
+Front-end tests:
+  extends: .tests_setup
+  script:
+    - *db_tools
+    - *db_setup
+    - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+
+E2E tests:
+  extends: .tests_setup
+  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:e9b15e93211de45a773f2adf726d66e7a38590fd
+  artifacts:
+    when: on_failure
+    expire_in: 1 week
+    paths:
+      - ${CI_PROJECT_DIR}/optional/e2e/runners/puppeteer/output
+      - ${CI_PROJECT_DIR}/backend.log
+      - ${CI_PROJECT_DIR}/frontend.log
+  dependencies: []
+  script:
+    - *db_setup
+    - cd ${CI_PROJECT_DIR}
+    - mv
+      packages/frontend/src/environments/environment.travis.ts
+      packages/frontend/src/environments/environment.prod.ts
+    - yarn build
+    - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
+    - npx serve packages/frontend/dist/domifa -l 4200 > ${CI_PROJECT_DIR}/frontend.log 2>&1 &
+    - yarn workspace @domifa/backend start:tests-ci > ${CI_PROJECT_DIR}/backend.log 2>&1 &
+    - echo "Wait for backend to be healthy... (timeout:30s)"
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl http://localhost:3000/healthz
+    - curl http://localhost:4200/connexion
+    - curl http://localhost:4200
+    - curl --fail http://localhost:3000/healthz
+    - tail -100 ${CI_PROJECT_DIR}/frontend.log
+    - tail -100 ${CI_PROJECT_DIR}/backend.log
+    - cd optional/e2e/runners/puppeteer/
+    - yarn --frozen-lockfile
+    - yarn test --debug
+    - tail -10 ${CI_PROJECT_DIR}/frontend.log
+    - tail -10 ${CI_PROJECT_DIR}/backend.log
 
 Register frontend image:
   extends: .base_register_stage
@@ -146,11 +180,6 @@ Register frontend image:
     IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
     DOCKER_BUILD_ARGS: >-
       -f packages/frontend/Dockerfile
-  #needs: ["Build frontend image"]
-  needs: ["Build frontend image", "Frontend unit tests"]
-  only:
-    - master # to deploy to preprod only
-    - tags # prod + preprod
 
 Register backend image:
   extends: .base_register_stage
@@ -161,7 +190,3 @@ Register backend image:
     DOCKER_BUILD_ARGS: >-
       --shm-size 768M
       -f packages/backend/Dockerfile
-  needs: ["Build backend image", "Backend unit tests"]
-  only:
-    - master # to deploy to preprod only
-    - tags # prod + preprod

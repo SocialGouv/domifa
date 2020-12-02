@@ -3,7 +3,7 @@
   "scripts": {
     "build": "lerna run build --stream",
     "dev": "lerna run dev --parallel --stream",
-    "e2e": "yarn --cwd optional/e2e/runners/puppeteer test",
+    "e2e": "yarn --cwd optional/e2e/runners/puppeteer test --no-sandbox",
     "lint": "lerna run lint --parallel --stream",
     "start": "lerna run start --parallel --stream",
     "test": "lerna run test --parallel --stream"

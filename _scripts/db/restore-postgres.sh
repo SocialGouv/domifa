@@ -47,7 +47,11 @@ then
   DUMP_ENV=test
 fi
 
-POSTGRES_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.postgres.dump"
+if [ -z "${POSTGRES_HOST}" ]; then
+  POSTGRES_HOST=localhost
+fi
+
+[[ -z $POSTGRES_DUMP_PATH ]] && POSTGRES_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.postgres.dump"
 POSTGRES_DATABASE="domifa_${TARGET_DB_ENV}"
 
 if [ ! -f "$POSTGRES_DUMP_PATH" ]; then
@@ -90,7 +94,8 @@ echo ""
 if [ "$RECREATE_DB" = "true" ]; then
 
     # terminate other connections
-    (set -x && psql --username "${POSTGRES_USERNAME}" --dbname postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE  pid <> pg_backend_pid() AND datname = '${POSTGRES_DATABASE}'")
+    echo "--> Terminate connections"
+    (set -x && psql -h postgres --username "${POSTGRES_USERNAME}" --dbname postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE  pid <> pg_backend_pid() AND datname = '${POSTGRES_DATABASE}'")
     if [ $? -ne 0 ]; then
       echo ""
       echo "----------------------------------------------------------------------------------------------"
@@ -100,7 +105,8 @@ if [ "$RECREATE_DB" = "true" ]; then
     fi
 
     # drop database (ignore error)
-    (set -x && psql --username "${POSTGRES_USERNAME}" --dbname postgres -c "DROP DATABASE IF EXISTS ${POSTGRES_DATABASE}")
+    echo "--> Drop database"
+    (set -x && psql -h postgres --username "${POSTGRES_USERNAME}" --dbname postgres -c "DROP DATABASE IF EXISTS ${POSTGRES_DATABASE}")
     if [ $? -ne 0 ]; then
       echo ""
       echo "----------------------------------------------------------------------------------------------"
@@ -110,20 +116,21 @@ if [ "$RECREATE_DB" = "true" ]; then
     fi
 
     # create database (NOTE: POSTGRES_USER is "postgres" super user, while POSTGRES_USERNAME is "domifa" db owner & user)
-    (set -x && psql --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
-    if [ $? -ne 0 ]; then
-      echo ""
-      echo "----------------------------------------------------------------------------------------------"
-      echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
-      echo "----------------------------------------------------------------------------------------------"
-      exit 1
-    fi
+    # echo "--> Create database"
+    # (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
+    # if [ $? -ne 0 ]; then
+    #   echo ""
+    #   echo "----------------------------------------------------------------------------------------------"
+    #   echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+    #   echo "----------------------------------------------------------------------------------------------"
+    #   exit 1
+    # fi
 
 fi
 
 if [ "$CI" = "true" ]; then
 
-  (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
+  (set -x && psql -h "${POSTGRES_HOST}" --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
   if [ $? -ne 0 ]; then
     echo ""
     echo "----------------------------------------------------------------------------------------------"
@@ -132,7 +139,7 @@ if [ "$CI" = "true" ]; then
     exit 1
   fi
 
-  (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname "${POSTGRES_DATABASE}" -c "DROP SCHEMA IF EXISTS public")
+  (set -x && psql -h "${POSTGRES_HOST}" --username "${POSTGRES_USER}" --dbname "${POSTGRES_DATABASE}" -c "DROP SCHEMA IF EXISTS public")
   if [ $? -ne 0 ]; then
     echo ""
     echo "----------------------------------------------------------------------------------------------"
@@ -142,7 +149,7 @@ if [ "$CI" = "true" ]; then
   fi
 
   # export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-  (set -x && pg_restore -h postgres --username=${POSTGRES_USER} --clean --if-exists --no-acl --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+  (set -x && pg_restore -h "${POSTGRES_HOST}" --username=${POSTGRES_USER} --clean --if-exists --no-acl --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
   if [ $? -ne 0 ]; then
     echo ""
     echo "----------------------------------------------------------------------------------------------"
@@ -154,7 +161,7 @@ if [ "$CI" = "true" ]; then
 else
 
   export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-  (set -x && pg_restore --username=${POSTGRES_USERNAME} --no-owner --role=${POSTGRES_USERNAME} --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+  (set -x && pg_restore -h "${POSTGRES_HOST}" --username=${POSTGRES_USERNAME} --no-owner --role=${POSTGRES_USERNAME} --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
   if [ $? -ne 0 ]; then
     echo ""
     echo "----------------------------------------------------------------------------------------------"
