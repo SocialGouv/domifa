@@ -20,9 +20,7 @@ export class DocsCustomComponent implements OnInit {
 
   constructor(
     private documentService: DocumentService,
-    public authService: AuthService,
-    private notifService: ToastrService,
-    private matomo: MatomoTracker
+    public authService: AuthService
   ) {
     this.loadingDelete = false;
     this.loadingDownload = false;
@@ -30,26 +28,20 @@ export class DocsCustomComponent implements OnInit {
 
   public ngOnInit() {}
 
-  public getDocument(i: number) {
+  public getDocument() {
     this.loadingDownload = true;
-    this.documentService
-      .getGeneratedDoc(this.usager.id, "attestation")
-      .subscribe(
-        (blob: any) => {
-          const doc = this.usager.docs[i];
-          const extensionTmp = doc.filetype.split("/");
-          const extension = extensionTmp[1];
-          const newBlob = new Blob([blob], { type: doc.filetype });
-
-          saveAs(newBlob, "attestation." + extension);
-
-          this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
-          this.loadingDownload = false;
-        },
-        (error: any) => {
-          this.loadingDownload = false;
-          this.notifService.error("Impossible de télécharger le fichier");
-        }
-      );
+    this.documentService.getCustomDoc(this.usager.id).subscribe(
+      (blob: any) => {
+        const newBlob = new Blob([blob], {
+          type:
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        });
+        saveAs(newBlob, "attestation.docx");
+        this.loadingDownload = false;
+      },
+      (error: any) => {
+        this.loadingDownload = false;
+      }
+    );
   }
 }

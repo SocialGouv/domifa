@@ -3245,6 +3245,13 @@
   dependencies:
     "@types/express" "*"
 
+"@types/pizzip@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/pizzip/-/pizzip-3.0.1.tgz#9b77d4ac5448e51afea46da67a989e4e8cf767ed"
+  integrity sha512-F7iuv53yPv9NcXVbjhRleja+T9cjxcGBRQirn/X6X4fYnLhxBXpT1PmLf+ub0ciMVDrK+hSPuCdD2m4XC0qm+Q==
+  dependencies:
+    "@types/node" "*"
+
 "@types/prettier@^2.0.0":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.0.2.tgz#5bb52ee68d0f8efa9cc0099920e56be6cc4e37f3"

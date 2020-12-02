@@ -51,6 +51,7 @@ import { DocsCustomComponent } from "./components/docs-custom/docs-custom.compon
     ManageUsagersComponent,
     MenuComponent,
     DeleteMenuComponent,
+    DocsCustomComponent,
     UsagersProfilComponent,
     UsagersProfilTransfertCourrierComponent,
     UsagersProfilProcurationCourrierComponent,

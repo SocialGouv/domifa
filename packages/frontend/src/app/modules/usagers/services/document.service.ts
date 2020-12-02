@@ -57,8 +57,8 @@ export class DocumentService {
     );
   }
 
-  public getGeneratedDoc(usagerId: number, docType: string) {
-    return this.http.get(`${this.endPoint}${usagerId}/generated/${docType}`, {
+  public getCustomDoc(usagerId: number) {
+    return this.http.get(`${environment.apiUrl}docs-custom/${usagerId}`, {
       responseType: "blob",
     });
   }
