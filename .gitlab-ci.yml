@@ -16,6 +16,7 @@ variables:
 
 stages:
   - "Install"
+  - "Tests"
   - "Registration"
 
 #
@@ -47,6 +48,11 @@ Build:
       - packages/backend/dist
       - packages/frontend/dist
 #
+
+Tests:
+  stage: Tests
+  script:
+    - echo yeah!
 
 Register frontend image:
   extends: .base_register_stage
