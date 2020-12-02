@@ -15,8 +15,8 @@ variables:
   PYTHON_VERSION: "3.6-alpine"
 
 stages:
+  - "Install"
   - "Tests"
-  - "Build"
   - "Registration"
 
 .tests_setup:
@@ -60,108 +60,165 @@ stages:
     - ./_scripts/db/restore-postgres.sh --db=test --ci
     - yarn --frozen-lockfile
 
-Backend unit tests:
+# Build:
+#   extends: .base_yarn_script
+#   stage: Install
+#   image: node:13
+#   interruptible: true
+#   cache:
+#     key:
+#       files:
+#         - yarn.lock
+#       prefix: ${CI_JOB_NAME}
+#     paths:
+#       - packages/frontend/node_modules/.cache
+#   services:
+#     - name: mongo:4.0.3
+#   before_script:
+#     # NOTE(douglasduteil): yarn caching
+#     - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
+#   script:
+#     - yarn --frozen-lockfile --prefer-offline
+#     - yarn --cwd packages/backend build
+#     - yarn --cwd packages/frontend build --prod
+#   artifacts:
+#     expire_in: 1 day
+#     paths:
+#       - packages/backend/dist
+#       - packages/frontend/dist
+#
+
+.print_env: &print_env |
+  printenv | grep \
+    -e "^CI_COMMIT_" \
+    -e "^CI_ENVIRONMENT_" \
+    -e "^CI_PROJECT_" \
+    -e "^CI_REGISTRY_" \
+    -e "^KUBE_INGRESS_BASE_DOMAIN" \
+    -e "^KUBE_NAMESPACE" \
+    -e "^PRODUCTION" \
+    -e "^DOMIFA" \
+    -e "^PUPPETEER_" \
+    -e "^MONGO_" \
+    -e "^POSTGRES_" \
+    -e "^RANCHER_PROJECT_ID" | sort
+
+.tests_setup:
+  stage: Tests
+  image: node:14.15.0-alpine3.12
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - packages/frontend/node_modules/.cache
+  services:
+    - name: mongo:4.0.3
+    - name: postgres:10.14
+  variables:
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD: root
+    DB_USER: root
+    DB_PASS: root
+    DB_NAME: domifa_test
+    POSTGRES_DB: nice_marmot
+    POSTGRES_USER: runner
+    POSTGRES_PASSWORD: abcd
+    POSTGRES_HOST_AUTH_METHOD: trust
+    DOMIFA_ENV_ID: test
+    NODE_ENV: tests-travis
+    SECRET: efgh
+    DOMIFA_ENV_ID: test
+    POSTGRES_USERNAME: runner
+    POSTGRES_DATABASE: domifa_test
+    PUPPETEER_CHROME_HEADLESS: "true"
+    PUPPETEER_CHROME_PATH: /usr/bin/chromium-browser
+    PUPPETEER_CHROME_ARGS: ""
+    CHROMIUM_PATH: /usr/bin/chromium-browser
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
+    DOMIFA_FRONTEND_URL: http://localhost:4200/
+    MONGO_DUMP_PATH: /builds/SocialGouv/domifa/_scripts/db/dumps/domifa_test.mongo.gz
+    POSTGRES_DUMP_PATH: /builds/SocialGouv/domifa/_scripts/db/dumps/domifa_test.postgres.dump
+    SENTRY_DSN: https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
+    #DOMIFA_PRINT_CONFIG: "true"
+  before_script:
+    - *print_env
+    - yarn --frozen-lockfile
+    - |
+      > ./.env.test.travis.env
+      > ./packages/backend/.env.backend.test.travis.env
+
+Backend tests:
   extends: .tests_setup
   script:
-    - yarn --cwd packages/backend build
-    - yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
-  needs: []
-
-
-Frontend unit tests:
-  extends: .tests_setup
-  script:
+    - apk add mongodb-tools
+    - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
+    - nc -zvv mongo 27017
+    - pg_isready -d postgres -h postgres -p 5432 -U runner
+    - ./_scripts/db/restore-mongo.sh --db=test
+    - ./_scripts/db/restore-postgres.sh --db=test
+    - cd ${CI_PROJECT_DIR}
+    - mv
+      packages/frontend/src/environments/environment.travis.ts
+      packages/frontend/src/environments/environment.prod.ts
     - yarn build
-    - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
-  needs: []
+    - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
+    - yarn workspace @domifa/backend test:travis --coverage --detectOpenHandles --forceExit
 
-
-.E2E tests: # disabled until it is fixed
+Front-end tests:
   extends: .tests_setup
   script:
-    - yarn workspace @domifa/backend start:tests-ci &
+    - apk add mongodb-tools
+    - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
+    - nc -zvv mongo 27017
+    - pg_isready -d postgres -h postgres -p 5432 -U runner
+    - ./_scripts/db/restore-mongo.sh --db=test
+    - ./_scripts/db/restore-postgres.sh --db=test
+    - cd ${CI_PROJECT_DIR}
+    - mv
+      packages/frontend/src/environments/environment.travis.ts
+      packages/frontend/src/environments/environment.prod.ts
+    - yarn build
+    - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
+    - yarn workspace @domifa/backend start:tests-travis &
+    - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+
+E2E tests:
+  extends: .tests_setup
+  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:e9cd174a32d26f39ce702fbad891bf9a2f19a992
+  script:
+    - nc -zvv mongo 27017
+    - pg_isready -d postgres -h postgres -p 5432 -U runner
+    - ./_scripts/db/restore-mongo.sh --db=test
+    - ./_scripts/db/restore-postgres.sh --db=test
+    - cd ${CI_PROJECT_DIR}
+    - mv
+      packages/frontend/src/environments/environment.travis.ts
+      packages/frontend/src/environments/environment.prod.ts
+    - yarn build
+    - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
+    - yarn workspace @domifa/backend start:tests-travis &
     - npx serve packages/frontend/dist/domifa -l 4200 &
     - cd optional/e2e/runners/puppeteer/
     - yarn --frozen-lockfile
     - yarn test --debug
-  needs: []
 
+# Register frontend image:
+#   extends: .base_register_stage
+#   interruptible: true
+#   variables:
+#     CONTEXT: .
+#     IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
+#     DOCKER_BUILD_ARGS: >-
+#       -f packages/frontend/Dockerfile
 
-Build frontend image:
-  extends: .base_yarn_script
-  stage: Build
-  image: node:14
-  interruptible: true
-  cache:
-    key:
-      files:
-        - yarn.lock
-      prefix: ${CI_JOB_NAME}
-    paths:
-      - packages/frontend/node_modules/.cache
-  before_script:
-    # NOTE(douglasduteil): yarn caching
-    - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
-  script:
-    - yarn --frozen-lockfile --prefer-offline
-    - yarn --cwd packages/frontend build --prod
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - packages/frontend/dist
-  needs: []
-
-
-Build backend image:
-  extends: .base_yarn_script
-  stage: Build
-  image: node:14
-  interruptible: true
-  cache:
-    key:
-      files:
-        - yarn.lock
-      prefix: ${CI_JOB_NAME}
-    paths:
-      - packages/frontend/node_modules/.cache
-  before_script:
-    # NOTE(douglasduteil): yarn caching
-    - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
-  script:
-    - yarn --frozen-lockfile --prefer-offline
-    - yarn --cwd packages/backend build
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - packages/backend/dist
-  needs: []
-
-
-
-Register frontend image:
-  extends: .base_register_stage
-  interruptible: true
-  variables:
-    CONTEXT: .
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
-    DOCKER_BUILD_ARGS: >-
-      -f packages/frontend/Dockerfile
-  #needs: ["Build frontend image"]
-  needs: ["Build frontend image", "Frontend unit tests"]
-  only:
-    - master # to deploy to preprod only
-    - tags # prod + preprod
-
-Register backend image:
-  extends: .base_register_stage
-  interruptible: true
-  variables:
-    CONTEXT: .
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/backend
-    DOCKER_BUILD_ARGS: >-
-      --shm-size 768M
-      -f packages/backend/Dockerfile
-  needs: ["Build backend image", "Backend unit tests"]
-  only:
-    - master # to deploy to preprod only
-    - tags # prod + preprod
+# Register backend image:
+#   extends: .base_register_stage
+#   interruptible: true
+#   variables:
+#     CONTEXT: .
+#     IMAGE_NAME: $CI_REGISTRY_IMAGE/backend
+#     DOCKER_BUILD_ARGS: >-
+#       --shm-size 768M
+#       -f packages/backend/Dockerfile
