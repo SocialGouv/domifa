@@ -2,12 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
 import { domifaConfig } from "../../config";
-import { cronMailsRepository } from "../../database";
+import { cronMailsRepository, MessageEmailContent } from "../../database";
 import { MonitoringBatchProcessTrigger } from "../../database/entities/monitoring";
 import { monitoringBatchProcessSimpleCountRunner } from "../../database/services/monitoring/simple-count";
 import { appLogger } from "../../util";
 import { AppUser } from "../../_common/model";
-import { TipimailMessage, TipimailSender } from "./tipimail-sender.service";
+import { MessageEmailSender } from "./message-email-sender.service";
 
 @Injectable()
 export class CronMailUserGuideSenderService {
@@ -15,7 +15,7 @@ export class CronMailUserGuideSenderService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(private tipimailSender: TipimailSender) {
+  constructor(private messageEmailSender: MessageEmailSender) {
     this.lienGuide =
       domifaConfig().apps.frontendUrl +
       "assets/files/guide_utilisateur_domifa.pdf";
@@ -24,7 +24,7 @@ export class CronMailUserGuideSenderService {
     this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
 
-  @Cron(domifaConfig().cron.emailGuide.crontime)
+  @Cron(domifaConfig().cron.emailUserGuide.crontime)
   protected async sendMailGuideCron() {
     if (!domifaConfig().cron.enable) {
       return;
@@ -51,9 +51,8 @@ export class CronMailUserGuideSenderService {
             const totalErrors = monitorError(err);
             if (totalErrors > 10) {
               appLogger.warn(
-                "[CronMailUserGuideSenderService] Too many errors: skip next users",
+                `[CronMailUserGuideSenderService] Too many errors: skip next users: ${err.message}`,
                 {
-                  context: err,
                   sentryBreadcrumb: true,
                 }
               );
@@ -68,10 +67,10 @@ export class CronMailUserGuideSenderService {
   private async _sendMailGuideToUser(
     user: Pick<AppUser, "id" | "email" | "nom" | "prenom">
   ) {
-    const message: TipimailMessage = {
-      templateId: "guide-utilisateur",
+    const message: MessageEmailContent = {
       subject: "Le guide utilisateur Domifa",
-      model: {
+      tipimailTemplateId: "guide-utilisateur",
+      tipimailModel: {
         email: user.email,
         values: {
           nom: user.prenom,
@@ -95,7 +94,10 @@ export class CronMailUserGuideSenderService {
       },
     };
 
-    await this.tipimailSender.sendMail(message);
+    await this.messageEmailSender.sendMailLater(message, {
+      emailId: "guide-user",
+      initialScheduledDate: new Date(),
+    });
 
     await cronMailsRepository.updateMailFlag({
       userId: user.id,
@@ -105,7 +107,7 @@ export class CronMailUserGuideSenderService {
   }
 }
 async function _findUsersToSendMailGuide() {
-  const delay = domifaConfig().cron.emailGuide.delay;
+  const delay = domifaConfig().cron.emailUserGuide.delay;
   const maxCreationDate: Date = moment()
     .utc()
     .subtract(delay.amount, delay.unit)

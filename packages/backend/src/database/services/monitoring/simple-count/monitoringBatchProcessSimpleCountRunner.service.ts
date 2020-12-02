@@ -52,12 +52,14 @@ async function monitorProcess(
       monitorSuccess: (count = 1) => {
         monitoringBatchProcess.details.success += count;
       },
-      monitorError: (err: Error, { count = 1 }) => {
+      monitorError: (err: Error, { count = 1 } = { count: 1 }) => {
         monitoringBatchProcess.errorMessage = err.message;
-        appLogger.warn(`[monitorProcess] Error during "${processId}" process`, {
-          context: err.message,
-          sentryBreadcrumb: true,
-        });
+        appLogger.warn(
+          `[monitorProcess] Error during "${processId}" process: ${err.message}`,
+          {
+            sentryBreadcrumb: true,
+          }
+        );
         monitoringBatchProcess.details.errors += count;
         return monitoringBatchProcess.details.errors;
       },
@@ -89,10 +91,11 @@ async function monitorProcess(
       monitoringBatchProcess.details.success -
       monitoringBatchProcess.details.errors;
 
-    appLogger.debug(
-      `[monitorProcess] "${processId}" process END`,
-      JSON.stringify(monitoringBatchProcess)
-    );
+    if (monitoringBatchProcess.status === "success") {
+      appLogger.debug(
+        `[monitorProcess] "${processId}" process SUCCESS: ${monitoringBatchProcess.details.success}/${monitoringBatchProcess.details.total}`
+      );
+    }
 
     const monitoringBatchProcessEntity = new MonitoringBatchProcessTable<
       MonitoringBatchProcessSimpleCountDetails

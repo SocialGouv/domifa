@@ -14,10 +14,8 @@ import { appLogger } from "./util";
     try {
       await appTypeormManager.migrateUp(postgresTypeormConnection);
 
-      if (domifaConfig().cron.autoRunOnStartup) {
-        // in local env, run cron on app startup (non blocking)
-        await runCronJobs(app);
-      }
+      // in local env, run cron on app startup (non blocking)
+      await runCronJobs(app);
       await app.listen(3000);
       appLogger.warn(`[${__filename}] Application listening on port 3000`);
     } catch (error) {
@@ -40,30 +38,34 @@ import { appLogger } from "./util";
 })();
 
 async function runCronJobs(app) {
-  appLogger.warn(`[${__filename}] Running stats generation update...`);
-  await app
-    .get(StatsGeneratorService)
-    .generateStats()
-    .then(
-      () => {
-        appLogger.warn(`[${__filename}] stats generation update SUCCESS`);
-      },
-      (error) => {
-        appLogger.error(`[${__filename}] stats generation update ERROR`, {
-          error,
-          sentry: false,
-        });
-      }
+  if (domifaConfig().cron.stats.autoRunOnStartup) {
+    appLogger.warn(`[${__filename}] Running stats generation update...`);
+    await app
+      .get(StatsGeneratorService)
+      .generateStats()
+      .then(
+        () => {
+          appLogger.warn(`[${__filename}] stats generation update SUCCESS`);
+        },
+        (error) => {
+          appLogger.error(`[${__filename}] stats generation update ERROR`, {
+            error,
+            sentry: false,
+          });
+        }
+      );
+  }
+  if (domifaConfig().cron.emailUserGuide.autoRunOnStartup) {
+    const cronMailUserGuideSenderService: CronMailUserGuideSenderService = app.get(
+      CronMailUserGuideSenderService
     );
-  const cronMailUserGuideSenderService: CronMailUserGuideSenderService = app.get(
-    CronMailUserGuideSenderService
-  );
-  await cronMailUserGuideSenderService.sendMailGuides("startup");
+    await cronMailUserGuideSenderService.sendMailGuides("startup");
+  }
 
-  const cronMailImportGuideSenderService: CronMailImportGuideSenderService = app.get(
-    CronMailImportGuideSenderService
-  );
-
-  await cronMailImportGuideSenderService.sendMailImports("startup");
+  if (domifaConfig().cron.emailImportGuide.autoRunOnStartup) {
+    const cronMailImportGuideSenderService: CronMailImportGuideSenderService = app.get(
+      CronMailImportGuideSenderService
+    );
+    await cronMailImportGuideSenderService.sendMailImports("startup");
+  }
 }
-

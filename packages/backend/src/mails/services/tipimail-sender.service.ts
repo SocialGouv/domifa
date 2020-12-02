@@ -7,27 +7,21 @@ import {
 import { throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { domifaConfig } from "../../config";
-import { dataEmailAnonymizer } from "../../database";
+import {
+  dataEmailAnonymizer,
+  MessageEmailContent,
+  MessageEmailRecipient,
+  MessageEmailSendDetails,
+} from "../../database";
 import { appLogger } from "../../util";
-
-export type TipimailRecipient = { address: string; personalName: string };
-
-export type TipimailMessage = {
-  to: TipimailRecipient[];
-  from: TipimailRecipient;
-  replyTo: TipimailRecipient;
-  templateId: string;
-  model: { [attr: string]: any };
-  subject: string;
-};
 
 @Injectable()
 export class TipimailSender {
   constructor(private httpService: HttpService) {}
 
-  private _classifyRecipients(recipients: TipimailRecipient[]) {
-    const toSkip: TipimailRecipient[] = [];
-    const toSend: TipimailRecipient[] = [];
+  private _classifyRecipients(recipients: MessageEmailRecipient[]) {
+    const toSkip: MessageEmailRecipient[] = [];
+    const toSend: MessageEmailRecipient[] = [];
     if (domifaConfig().email.emailAddressRedirectAllTo) {
       toSend.push({
         address: domifaConfig().email.emailAddressRedirectAllTo,
@@ -44,31 +38,33 @@ export class TipimailSender {
     return { toSend, toSkip };
   }
 
-  public async sendMail(message: TipimailMessage) {
+  public async trySendToTipimail(
+    message: MessageEmailContent
+  ): Promise<MessageEmailSendDetails> {
     const { toSend, toSkip } = this._classifyRecipients(message.to);
 
     if (toSkip.length !== 0) {
       appLogger.debug(
         `[TipimailSender] [SKIP] Email ${
-          message.templateId
+          message.tipimailTemplateId
         } won't be sent to "${toSkip
           .map((x) => formatEmailAddressWithName(x))
           .join(", ")}"`
       );
     }
     if (!domifaConfig().email.emailsEnabled) {
-      return;
+      return { sent: [], skipped: toSkip };
     }
     if (domifaConfig().email.emailAddressRedirectAllTo) {
       appLogger.debug(
         `[TipimailSender] [REDIRECT] Email ${
-          message.templateId
+          message.tipimailTemplateId
         } will be sent to "${domifaConfig().email.emailAddressRedirectAllTo}"`
       );
     }
 
     if (toSend.length === 0) {
-      return;
+      return { sent: toSend, skipped: toSkip };
     }
 
     let subject = message.subject;
@@ -86,18 +82,18 @@ export class TipimailSender {
     const post = {
       to: toSend,
       headers: {
-        "X-TM-TEMPLATE": message.templateId,
-        "X-TM-SUB": [message.model],
+        "X-TM-TEMPLATE": message.tipimailTemplateId,
+        "X-TM-SUB": [message.tipimailModel],
       },
       msg: {
         from: message.from,
         replyTo: message.replyTo,
         subject,
-        html: `<p>Le template "${message.templateId}" n'existe pas.</p>`, // message par défaut si le templateId n'existe pas
+        html: `<p>Le template "${message.tipimailTemplateId}" n'existe pas.</p>`, // message par défaut si le tipimailTemplateId n'existe pas
       },
     };
 
-    return this.httpService
+    await this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
           "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
@@ -107,25 +103,26 @@ export class TipimailSender {
       .pipe(
         catchError((err) => {
           appLogger.warn(
-            `Error sending tipimail "${message.templateId}" message`,
+            `Error sending tipimail "${message.tipimailTemplateId}" message: : ${err.message}`,
             {
-              context: err,
               sentryBreadcrumb: true,
             }
           );
           appLogger.error(`Error sending tipimail message`);
           return throwError(
             new HttpException(
-              `TIPIMAIL_ERROR_${message.templateId}`,
+              `TIPIMAIL_ERROR_${message.tipimailTemplateId}`,
               HttpStatus.INTERNAL_SERVER_ERROR
             )
           );
         })
       )
       .toPromise();
+
+    return { sent: toSend, skipped: toSkip };
   }
 }
-function isRecipientToSkip(recipient: TipimailRecipient) {
+function isRecipientToSkip(recipient: MessageEmailRecipient) {
   return (
     !domifaConfig().email.emailsEnabled ||
     dataEmailAnonymizer.isAnonymizedEmail(recipient.address) ||
@@ -133,6 +130,6 @@ function isRecipientToSkip(recipient: TipimailRecipient) {
   );
 }
 
-function formatEmailAddressWithName(x: TipimailRecipient): string {
+function formatEmailAddressWithName(x: MessageEmailRecipient): string {
   return `"${x.personalName}"<${x.address}>`;
 }

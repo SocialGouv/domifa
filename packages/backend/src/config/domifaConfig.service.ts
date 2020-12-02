@@ -164,20 +164,20 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       enable: configParser.parseBoolean(x, "DOMIFA_CRON_ENABLED", {
         defaultValue: envId === "test" ? false : true,
       }),
-      autoRunOnStartup: configParser.parseBoolean(
-        x,
-        "DOMIFA_CRON_AUTO_RUN_STARTUP",
-        { defaultValue: false }
-      ),
       stats: {
         crontime: configParser.parseString(x, "DOMIFA_CRON_STATS_CRONTIME", {
           defaultValue: CronExpression.EVERY_HOUR,
         }),
+        autoRunOnStartup: configParser.parseBoolean(
+          x,
+          "DOMIFA_CRON_STATS_AUTO_RUN_STARTUP",
+          { defaultValue: false }
+        ),
       },
-      emailGuide: {
+      emailUserGuide: {
         crontime: configParser.parseString(
           x,
-          "DOMIFA_CRON_EMAIL_GUIDE_CRONTIME",
+          "DOMIFA_CRON_EMAIL_USER_GUIDE_CRONTIME",
           {
             defaultValue:
               envId === "dev" || envId === "test" || envId === "preprod"
@@ -185,17 +185,62 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
                 : "0 15 * * TUE",
           }
         ),
-        delay: configParser.parseDelay(x, "DOMIFA_CRON_EMAIL_GUIDE_DELAY", {
-          defaultValue:
-            envId === "dev" || envId === "test" || envId === "preprod"
-              ? "5 minutes"
-              : "7 days",
-        }),
+        delay: configParser.parseDelay(
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          x,
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                                                                                  "DOMIFA_CRON_EMAIL_USER_GUIDE_DELAY",
+   
+   
+   
+   
+   
+   
+   
+   
+   
+                                                                {
+                              defaultValue:
+                                envId === "dev" || envId === "test" || envId === "preprod"
+                                  ? "5 minutes"
+                                  : "7 days",
+                            }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        ),
+        autoRunOnStartup: configParser.parseBoolean(
+          x,
+          "DOMIFA_CRON_EMAIL_USER_GUIDE_AUTO_RUN_STARTUP",
+          { defaultValue: false }
+        ),
       },
-      emailImport: {
+      emailImportGuide: {
         crontime: configParser.parseString(
           x,
-          "DOMIFA_CRON_EMAIL_IMPORT_CRONTIME",
+          "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_CRONTIME",
           {
             defaultValue:
               envId === "dev" || envId === "test" || envId === "preprod"
@@ -203,12 +248,31 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
                 : "0 15 * * TUE",
           }
         ),
-        delay: configParser.parseDelay(x, "DOMIFA_CRON_EMAIL_IMPORT_DELAY", {
+        delay: configParser.parseDelay(x, "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_DELAY", {
           defaultValue:
             envId === "dev" || envId === "test" || envId === "preprod"
               ? "5 minutes"
               : "7 days",
         }),
+        autoRunOnStartup: configParser.parseBoolean(
+          x,
+          "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_AUTO_RUN_STARTUP",
+          { defaultValue: false }
+        ),
+      },
+      emailConsumer: {
+        crontime: configParser.parseString(
+          x,
+          "DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME",
+          {
+            defaultValue: CronExpression.EVERY_QUARTER, // most of the time, the CRON is not necessary, as the mail consummer is triggered immediately by MessageEmailSender
+          }
+        ),
+        autoRunOnStartup: configParser.parseBoolean(
+          x,
+          "DOMIFA_CRON_EMAIL_CONSUMER_AUTO_RUN_STARTUP",
+          { defaultValue: false }
+        ),
       },
     },
     email: {

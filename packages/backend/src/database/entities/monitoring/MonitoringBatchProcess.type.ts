@@ -4,7 +4,6 @@ import { MonitoringBatchProcessStatus } from "./MonitoringBatchProcessStatus.typ
 import { MonitoringBatchProcessTrigger } from "./MonitoringBatchProcessTrigger.type";
 
 export type MonitoringBatchProcess<T = any> = AppEntity & {
-  _id?: number;
   processId: MonitoringBatchProcessId;
   beginDate: Date;
   endDate: Date;

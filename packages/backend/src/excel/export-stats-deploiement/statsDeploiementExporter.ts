@@ -32,10 +32,12 @@ async function generateExcelDocument({
     );
     return workbook;
   } catch (err) {
-    appLogger.warn("[statsDeploiementExporter] ERROR - Report NOT created:", {
-      context: err,
-      sentryBreadcrumb: true,
-    });
+    appLogger.warn(
+      `[statsDeploiementExporter] ERROR - Report NOT created: ${err.message}`,
+      {
+        sentryBreadcrumb: true,
+      }
+    );
     appLogger.error("[statsDeploiementExporter] ERROR - Report NOT created");
     throw err;
   }

@@ -13,7 +13,7 @@ export class InteractionsTable
   @Column({ type: "text", nullable: true })
   _id: string; // obsolete mongo id: use `uuid` instead
 
-  @Column({ type: "timestamptz", nullable: true, default: "now()" })
+  @Column({ type: "timestamptz" })
   dateInteraction: Date;
 
   @Column({ type: "integer" })

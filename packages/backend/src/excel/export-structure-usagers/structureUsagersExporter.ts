@@ -29,10 +29,12 @@ async function generateExcelDocument(
     );
     return workbook;
   } catch (err) {
-    appLogger.warn("[structureUsagersExporter] ERROR - Report NOT created:", {
-      context: err,
-      sentryBreadcrumb: true,
-    });
+    appLogger.warn(
+      `[structureUsagersExporter] ERROR - Report NOT created: ${err.message}`,
+      {
+        sentryBreadcrumb: true,
+      }
+    );
     appLogger.error("[structureUsagersExporter] ERROR - Report NOT created");
     throw err;
   }
