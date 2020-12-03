@@ -54,6 +54,8 @@ async function revertLastMigration(connection: Connection): Promise<void> {
 
 async function connect() {
   const pgConfig = domifaConfig().postgres;
+  console.log("!!! pgConfig !!!", pgConfig);
+
   appLogger.warn(
     `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
   );

@@ -21,41 +21,41 @@ stages:
 
 #
 
-Build:
-  extends: .base_yarn_script
-  stage: Install
-  image: node:13
-  interruptible: true
-  cache:
-    key:
-      files:
-        - yarn.lock
-      prefix: ${CI_JOB_NAME}
-    paths:
-      - packages/frontend/node_modules/.cache
-  services:
-    - name: mongo:4.0.3
-  before_script:
-    # NOTE(douglasduteil): yarn caching
-    - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
-  script:
-    - yarn --frozen-lockfile --prefer-offline
-    - yarn --cwd packages/backend build
-    - yarn --cwd packages/frontend build --prod
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - packages/backend/dist
-      - packages/frontend/dist
+# Build:
+#   extends: .base_yarn_script
+#   stage: Install
+#   image: node:13
+#   interruptible: true
+#   cache:
+#     key:
+#       files:
+#         - yarn.lock
+#       prefix: ${CI_JOB_NAME}
+#     paths:
+#       - packages/frontend/node_modules/.cache
+#   services:
+#     - name: mongo:4.0.3
+#   before_script:
+#     # NOTE(douglasduteil): yarn caching
+#     - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
+#   script:
+#     - yarn --frozen-lockfile --prefer-offline
+#     - yarn --cwd packages/backend build
+#     - yarn --cwd packages/frontend build --prod
+#   artifacts:
+#     expire_in: 1 day
+#     paths:
+#       - packages/backend/dist
+#       - packages/frontend/dist
 #
 
 Tests:
   stage: Tests
   image: node:14.15.0-alpine3.12
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules
+  # cache:
+  #   key: ${CI_COMMIT_REF_SLUG}
+  #   paths:
+  #     - node_modules
   services:
     - name: mongo:4.0.3
     - name: postgres:11.7
@@ -65,12 +65,10 @@ Tests:
     DB_USER: "root"
     DB_PASS: "root"
     DB_NAME: "domifa_test"
-    # MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-    # MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-    # MONGO_INITDB_DATABASE: ${DB_NAME}
-    # POSTGRES_DB: ${POSTGRES_DATABASE}
-    # POSTGRES_USER: ${POSTGRES_USERNAME}
-    # POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    POSTGRES_DB: nice_marmot
+    POSTGRES_USER: runner
+    POSTGRES_PASSWORD: ""
+    POSTGRES_HOST_AUTH_METHOD: trust
   before_script:
     - yarn --frozen-lockfile
   script:
@@ -106,22 +104,21 @@ Tests:
     # - cd optional/e2e/runners/puppeteer/
     # - yarn --frozen-lockfile
     # - yarn test --debug
+# Register frontend image:
+#   extends: .base_register_stage
+#   interruptible: true
+#   variables:
+#     CONTEXT: .
+#     IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
+#     DOCKER_BUILD_ARGS: >-
+#       -f packages/frontend/Dockerfile
 
-Register frontend image:
-  extends: .base_register_stage
-  interruptible: true
-  variables:
-    CONTEXT: .
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
-    DOCKER_BUILD_ARGS: >-
-      -f packages/frontend/Dockerfile
-
-Register backend image:
-  extends: .base_register_stage
-  interruptible: true
-  variables:
-    CONTEXT: .
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/backend
-    DOCKER_BUILD_ARGS: >-
-      --shm-size 768M
-      -f packages/backend/Dockerfile
+# Register backend image:
+#   extends: .base_register_stage
+#   interruptible: true
+#   variables:
+#     CONTEXT: .
+#     IMAGE_NAME: $CI_REGISTRY_IMAGE/backend
+#     DOCKER_BUILD_ARGS: >-
+#       --shm-size 768M
+#       -f packages/backend/Dockerfile
