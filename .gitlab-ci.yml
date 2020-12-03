@@ -51,8 +51,61 @@ Build:
 
 Tests:
   stage: Tests
+  image: node:14.15.0-alpine3.12
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules
+  services:
+    - name: mongo:4.0.3
+    - name: postgres:11.7
+  variables:
+    MONGO_INITDB_ROOT_USERNAME: "root"
+    MONGO_INITDB_ROOT_PASSWORD: "root"
+    DB_USER: "root"
+    DB_PASS: "root"
+    DB_NAME: "domifa_test"
+    # MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+    # MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    # MONGO_INITDB_DATABASE: ${DB_NAME}
+    # POSTGRES_DB: ${POSTGRES_DATABASE}
+    # POSTGRES_USER: ${POSTGRES_USERNAME}
+    # POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  before_script:
+    - yarn --frozen-lockfile
   script:
-    - echo yeah!
+    # HACK(douglasduteil): ensure run production build with localhost api
+    # The build production will be used to run local e2e tests.
+    # - mv
+    #   packages/frontend/src/environments/environment.travis.ts
+    #   packages/frontend/src/environments/environment.prod.ts
+    #
+    - yarn build
+    #
+    - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
+
+    # # start mongo+postgres (with initial dumps)
+    # - ./docker-compose.travis.run.sh
+
+    # run backend unit tests
+    - yarn workspace @domifa/backend test:travis --coverage --detectOpenHandles --forceExit
+
+    # # re-create fresh mongo+postgres (with test dumps)
+    # - ./docker-compose.travis.run.sh
+
+    # # launch backend
+    # - yarn workspace @domifa/backend start:tests-travis &
+
+    # # run frontend unit tests
+    # - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+
+    # # launch frontend
+    # - npx serve packages/frontend/dist/domifa -l 4200 &
+
+    # # run e2e tests
+    # - cd optional/e2e/runners/puppeteer/
+    # - yarn --frozen-lockfile
+    # - yarn test --debug
 
 Register frontend image:
   extends: .base_register_stage
