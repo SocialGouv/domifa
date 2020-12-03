@@ -71,6 +71,11 @@ Tests:
     POSTGRES_HOST_AUTH_METHOD: trust
   before_script:
     - yarn --frozen-lockfile
+    - printenv | grep
+      -e "^MONGO_"
+      -e "^DB_"
+      -e "^CI_PROJECT_"
+      -e "^POSTGRES_" | sort
   script:
     # HACK(douglasduteil): ensure run production build with localhost api
     # The build production will be used to run local e2e tests.
