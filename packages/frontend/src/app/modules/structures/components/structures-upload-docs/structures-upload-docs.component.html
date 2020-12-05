@@ -1,0 +1,101 @@
+<h2>Ajout de documents</h2>
+<p>
+  Depuis cette page, vous pouvez uploader des documents liés à votre structure :
+  réglement intérieur, charte, liste de documents, etc.
+</p>
+
+<form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="label">Nom du document</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="label"
+          id="label"
+          placeholder="Cerfa signé, impots, carte identité, etc..."
+          required
+        />
+        <div *ngIf="u.label.errors" class="invalid-feedback">
+          <div *ngIf="u.label.errors && u.imageInput.errors">
+            Indiquez le type de pièce
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <label>Document à enregistrer</label>
+      <div class="form-group custom-file">
+        <input
+          type="file"
+          class="custom-file-input"
+          id="pieceJointe"
+          name="pieceJointe"
+          aria-describedby="pjHelp"
+          (change)="onFileChange($event)"
+          [ngClass]="{
+            'is-invalid':
+              submittedFile && (!uploadError.fileType || !uploadError.fileSize)
+          }"
+          file="pieceJointe"
+          required
+        />
+        <small id="pjHelp" class="form-text text-muted">
+          Formats autorisés PDF, JPG ou PNG (6mo maxi)
+        </small>
+        <input type="hidden" name="fileHidden" formControlName="imageInput" />
+        <label
+          class="custom-file-label"
+          for="pieceJointe"
+          data-browse="Parcourir"
+          lang="fr"
+        >
+          {{ fileName }}
+        </label>
+        <div class="text-danger">
+          <div *ngIf="u.imageInput.dirty && u.imageInput.errors.required">
+            Veuillez ajouter un fichier
+          </div>
+          <div *ngIf="!uploadError.fileType">Format de fichier invalide</div>
+          <div *ngIf="!uploadError.fileSize">
+            La taille du fichier est trop grande
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <label class="text-white">+</label>
+      <button
+        class="btn btn-primary btn-block"
+        [disabled]="
+          uploadForm.invalid ||
+          !uploadError.fileType ||
+          !uploadError.fileSize ||
+          u.imageInput.errors
+        "
+      >
+        Ajouter
+      </button>
+    </div>
+    <div class="w-100"></div>
+    <br />
+    <div class="col-md-12">
+      <div *ngIf="uploadResponse">
+        <div *ngIf="uploadResponse.status === 'error'">
+          {{ uploadResponse.message }}
+        </div>
+        <div *ngIf="uploadResponse.status === 'progress'">
+          <ngb-progressbar
+            type="success"
+            [striped]="true"
+            [animated]="true"
+            [value]="uploadResponse.message"
+          >
+            {{ uploadResponse.message }} %
+          </ngb-progressbar>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

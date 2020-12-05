@@ -15,6 +15,7 @@ import { StructuresConfirmComponent } from "./components/structures-confirm/stru
 import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
+import { StructuresUploadDocsComponent } from "./components/structures-upload-docs/structures-upload-docs.component";
 import { DepartementHelper } from "./services/departement-helper.service";
 import { StructureService } from "./services/structure.service";
 
@@ -24,6 +25,7 @@ import { StructureService } from "./services/structure.service";
     StructuresSearchComponent,
     StructuresFormComponent,
     StructuresEditComponent,
+    StructuresUploadDocsComponent,
   ],
   exports: [
     StructuresConfirmComponent,
