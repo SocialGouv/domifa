@@ -86,11 +86,11 @@ Tests:
       > ./.env.test.travis.env
       > ./packages/backend/.env.backend.test.travis.env
     - nc -zvv mongo 27017
-    - ls -lah
-    - ls -lah ./_scripts/
-    - ls -lah ./_scripts/db/
-    - stat ./_scripts/db/restore-mongo.sh
-    - ./_scripts/db/restore-mongo.sh
+    - ./_scripts/db/restore-mongo.sh --db=test
+    # - ls -lah
+    # - ls -lah ./_scripts/
+    # - ls -lah ./_scripts/db/
+    # - stat ./_scripts/db/restore-mongo.sh
   script:
     - nc -zvv mongo 27017
     # HACK(douglasduteil): ensure run production build with localhost api
