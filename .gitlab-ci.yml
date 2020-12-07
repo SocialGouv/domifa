@@ -86,6 +86,7 @@ Tests:
       > ./.env.test.travis.env
       > ./packages/backend/.env.backend.test.travis.env
     - nc -zvv mongo 27017
+    - apt-get install mongodb-clients
     - ./_scripts/db/restore-mongo.sh --db=test
     # - ls -lah
     # - ls -lah ./_scripts/
