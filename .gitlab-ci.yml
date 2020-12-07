@@ -71,6 +71,7 @@ Tests:
     POSTGRES_HOST_AUTH_METHOD: trust
     DOMIFA_ENV_ID: test
     NODE_ENV: tests-travis
+  shell: bash
   before_script:
     - yarn --frozen-lockfile
     - printenv | grep
