@@ -16,6 +16,7 @@ export class Usager {
   public surnom: string;
 
   public sexe: string;
+  public langue: string;
   public dateNaissance: Date | null;
   public villeNaissance: string;
 

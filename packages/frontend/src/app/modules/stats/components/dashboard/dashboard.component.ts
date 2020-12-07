@@ -11,12 +11,13 @@ import { map } from "rxjs/operators";
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabelsPluriel } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
-import { dataCompare } from "src/app/shared/dataCompare.service";
-import { departements, DepartementsLabels } from "src/app/shared/departements";
 import {
+  departements,
+  DepartementsLabels,
   RegionsLabels,
   REGIONS_LABELS_MAP,
-} from "src/app/shared/REGIONS_LABELS_MAP.const";
+} from "src/app/shared";
+import { dataCompare } from "src/app/shared/dataCompare.service";
 import { StatsService } from "../../stats.service";
 
 export type DashboardTableStructure = Pick<

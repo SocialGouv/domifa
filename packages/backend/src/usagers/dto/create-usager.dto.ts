@@ -1,13 +1,13 @@
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  Min,
   Max,
+  Min,
 } from "class-validator";
 import { AyantDroit } from "../interfaces/ayant-droit";
-import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateUsagerDto {
   @ApiProperty({
@@ -16,6 +16,13 @@ export class CreateUsagerDto {
   })
   @IsIn(["homme", "femme"])
   public sexe!: string;
+
+  @ApiProperty({
+    example: "fr",
+    description: "Langue parlée par l'usager",
+  })
+  @IsOptional()
+  public langue!: string;
 
   @ApiProperty({
     example: "2020-1",
