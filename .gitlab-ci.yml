@@ -71,7 +71,7 @@ Tests:
     POSTGRES_HOST_AUTH_METHOD: trust
     DOMIFA_ENV_ID: test
     NODE_ENV: tests-travis
-  shell: bash
+  # shell: bash
   before_script:
     - yarn --frozen-lockfile
     - printenv | grep
@@ -86,7 +86,8 @@ Tests:
     - ls -lah
     - ls -lah ./_scripts/
     - ls -lah ./_scripts/db/
-    - ./_scripts/db/restore-mongo.sh
+    - stat ./_scripts/db/restore-mongo.sh
+    - bash ./_scripts/db/restore-mongo.sh
   script:
     - nc -zvv mongo 27017
     # HACK(douglasduteil): ensure run production build with localhost api
