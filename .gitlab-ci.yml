@@ -82,6 +82,7 @@ Tests:
       > ./.env.test.travis.env
       > ./packages/backend/.env.backend.test.travis.env
     - nc -zvv mongo 27017
+    - ./_scripts/db/restore-mongo.sh
   script:
     - nc -zvv mongo 27017
     # HACK(douglasduteil): ensure run production build with localhost api
