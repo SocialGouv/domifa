@@ -110,6 +110,7 @@ if [ "$RECREATE_USER" == "true" ]; then
 fi
 
 echo "--> Restore mongo DB"
+echo "mongorestore --nsInclude \"${MONGO_DUMP_FROM_DATABASE}.*\" --nsFrom \"${MONGO_DUMP_FROM_DATABASE}.*\" --nsTo \"${MONGO_INITDB_DATABASE}.*\" $MONGO_AUTH --drop --gzip --archive=$MONGO_DUMP_PATH"
 (set -x && mongorestore --nsInclude "${MONGO_DUMP_FROM_DATABASE}.*" --nsFrom "${MONGO_DUMP_FROM_DATABASE}.*" --nsTo "${MONGO_INITDB_DATABASE}.*" $MONGO_AUTH --drop --gzip --archive=$MONGO_DUMP_PATH)
 
 if [ $? -ne 0 ]; then
