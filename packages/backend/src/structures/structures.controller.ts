@@ -29,7 +29,6 @@ import { StatsGeneratorService } from "../stats/services/stats-generator.service
 import { StatsService } from "../stats/services/stats.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { EmailDto } from "../users/dto/email.dto";
-import { UsersService } from "../users/services/users.service";
 import { appLogger } from "../util";
 import { AppAuthUser } from "../_common/model";
 import { StructureEditDto } from "./dto/structure-edit.dto";
@@ -42,7 +41,6 @@ import moment = require("moment");
 export class StructuresController {
   constructor(
     private structureService: StructuresService,
-    private usersService: UsersService,
     private statsService: StatsService,
     private usagersService: UsagersService,
     private interactionsService: InteractionsService,
@@ -85,7 +83,7 @@ export class StructuresController {
   }
 
   @Get("confirm/:id/:token")
-  public async confim(
+  public async confirm(
     @Param("token") token: string,
     @Param("id") id: string,
     @Response() res: any

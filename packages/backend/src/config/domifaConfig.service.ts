@@ -186,50 +186,16 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           }
         ),
         delay: configParser.parseDelay(
-          
-          
-          
-          
-          
-          
-          
-          
-          
           x,
- 
- 
- 
- 
- 
- 
- 
- 
- 
-                                                                                  "DOMIFA_CRON_EMAIL_USER_GUIDE_DELAY",
-   
-   
-   
-   
-   
-   
-   
-   
-   
-                                                                {
-                              defaultValue:
-                                envId === "dev" || envId === "test" || envId === "preprod"
-                                  ? "5 minutes"
-                                  : "7 days",
-                            }
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+          "DOMIFA_CRON_EMAIL_USER_GUIDE_DELAY",
+
+          {
+            defaultValue:
+              envId === "dev" || envId === "test" || envId === "preprod"
+                ? "5 minutes"
+                : "7 days",
+          }
         ),
         autoRunOnStartup: configParser.parseBoolean(
           x,
@@ -248,12 +214,16 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
                 : "0 15 * * TUE",
           }
         ),
-        delay: configParser.parseDelay(x, "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_DELAY", {
-          defaultValue:
-            envId === "dev" || envId === "test" || envId === "preprod"
-              ? "5 minutes"
-              : "7 days",
-        }),
+        delay: configParser.parseDelay(
+          x,
+          "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_DELAY",
+          {
+            defaultValue:
+              envId === "dev" || envId === "test" || envId === "preprod"
+                ? "5 minutes"
+                : "7 days",
+          }
+        ),
         autoRunOnStartup: configParser.parseBoolean(
           x,
           "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_AUTO_RUN_STARTUP",

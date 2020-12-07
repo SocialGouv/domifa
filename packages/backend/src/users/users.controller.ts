@@ -8,7 +8,7 @@ import {
   Param,
   Patch,
   Post,
-  Response,
+  Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -28,6 +28,7 @@ import { DomifaMailsService } from "../mails/services/domifa-mails.service";
 import { UsersMailsService } from "../mails/services/users-mails.service";
 import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
+import { ExpressResponse } from "../util/express";
 import { AppAuthUser, AppUser, UserProfile, UserRole } from "../_common/model";
 import { EditPasswordDto } from "./dto/edit-password.dto";
 import { EmailDto } from "./dto/email.dto";
@@ -78,7 +79,7 @@ export class UsersController {
   public async confirmUser(
     @Param("id") id: number,
     @CurrentUser() user: AppAuthUser,
-    @Response() res: any
+    @Res() res: ExpressResponse
   ) {
     const confirmerUser = await usersRepository.updateOne(
       {
@@ -162,7 +163,7 @@ export class UsersController {
   public async delete(
     @Param("id") id: number,
     @CurrentUser() user: AppAuthUser,
-    @Response() res: any
+    @Res() res: ExpressResponse
   ) {
     const userToDelete = await usersRepository.findOne({
       id,
@@ -187,7 +188,7 @@ export class UsersController {
   public async patch(
     @CurrentUser() user: AppAuthUser,
     @Body() userDto: UserEditDto,
-    @Response() res: any
+    @Res() res: ExpressResponse
   ) {
     const userToUpdate = await usersRepository.updateOne(
       {
@@ -206,7 +207,7 @@ export class UsersController {
   }
 
   @Post()
-  public async create(@Body() userDto: UserDto, @Response() res: any) {
+  public async create(@Body() userDto: UserDto, @Res() res: ExpressResponse) {
     const user = await usersRepository.findOne({ email: userDto.email });
 
     if (user || user !== undefined) {
@@ -235,9 +236,11 @@ export class UsersController {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
-      this.domifaMailsService.newStructure(structure, newUser).then(() => {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      });
+      return this.domifaMailsService
+        .newStructure(structure, newUser)
+        .then(() => {
+          return res.status(HttpStatus.OK).json({ message: "OK" });
+        });
     } else {
       const admins = await usersRepository.findMany<AppUserForAdminEmail>(
         {
@@ -253,14 +256,17 @@ export class UsersController {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
-      this.usersMailsService.newUser(admins, newUser).then(() => {
+      return this.usersMailsService.newUser(admins, newUser).then(() => {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       });
     }
   }
 
   @Post("validate-email")
-  public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
+  public async validateEmail(
+    @Body() emailDto: EmailDto,
+    @Res() res: ExpressResponse
+  ) {
     const existUser = await usersRepository.findOne({
       email: emailDto.email,
     });
@@ -290,7 +296,7 @@ export class UsersController {
   @Post("reset-password")
   public async resetPassword(
     @Body() resetPasswordDto: ResetPasswordDto,
-    @Response() res: any
+    @Res() res: ExpressResponse
   ) {
     const today = new Date();
     const existUser = await usersRepository.findOneByTokenAttribute(
@@ -325,7 +331,7 @@ export class UsersController {
   @Post("get-password-token")
   public async generatePasswordToken(
     @Body() emailDto: EmailDto,
-    @Response() res: any
+    @Res() res: ExpressResponse
   ) {
     const user = await usersRepository.findOne({ email: emailDto.email });
     if (!user) {
@@ -359,9 +365,9 @@ export class UsersController {
   @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
     @CurrentUser() user: AppAuthUser,
-    @Response() res: any,
+    @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserAdminDto
-  ): Promise<boolean> {
+  ): Promise<any> {
     const userExist = await usersRepository.findOne({
       email: registerUserDto.email,
     });
@@ -381,12 +387,12 @@ export class UsersController {
       newUser.email
     );
 
-    if (updatedUser && updatedUser !== undefined) {
+    if (updatedUser) {
       if (!domifaConfig().email.emailsEnabled) {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       }
 
-      this.usersMailsService.newUserFromAdmin(updatedUser).then(
+      return this.usersMailsService.newUserFromAdmin(updatedUser).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },
@@ -396,10 +402,10 @@ export class UsersController {
             .json({ message: "REGISTER_ERROR" });
         }
       );
-    } else {
-      return false;
     }
-    return true;
+    return res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .json({ message: "REGISTER_ERROR" });
   }
 
   // Edition d'un mot de passe quand on est déjà connecté
@@ -408,7 +414,7 @@ export class UsersController {
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
     @CurrentUser() user: AppAuthUser,
-    @Response() res: any,
+    @Res() res: ExpressResponse,
     @Body() editPasswordDto: EditPasswordDto
   ) {
     const { password } = await usersRepository.findOne<
