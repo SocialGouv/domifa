@@ -1,8 +1,4 @@
-<h2>Ajout de documents</h2>
-<p>
-  Depuis cette page, vous pouvez uploader des documents liés à votre structure :
-  réglement intérieur, charte, liste de documents, etc.
-</p>
+<h2>Vos documents</h2>
 
 <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
   <div class="row">
@@ -42,7 +38,7 @@
           required
         />
         <small id="pjHelp" class="form-text text-muted">
-          Formats autorisés PDF, JPG ou PNG (6mo maxi)
+          Formats autorisés PDF, DOC, JPG ou PNG (6mo maxi)
         </small>
         <input type="hidden" name="fileHidden" formControlName="imageInput" />
         <label
@@ -99,3 +95,5 @@
     </div>
   </div>
 </form>
+
+<div class="row"></div>

@@ -18,6 +18,7 @@ import { StructuresSearchComponent } from "./components/structures-search/struct
 import { StructuresUploadDocsComponent } from "./components/structures-upload-docs/structures-upload-docs.component";
 import { DepartementHelper } from "./services/departement-helper.service";
 import { StructureService } from "./services/structure.service";
+import { StructureUploadDocsService } from "./services/structures-upload-docs.service";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { StructureService } from "./services/structure.service";
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [StructureService, DepartementHelper],
+  providers: [StructureService, DepartementHelper, StructureUploadDocsService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class StructuresModule {}

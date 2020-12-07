@@ -1,24 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
-import { of } from "rxjs";
-import { map } from "rxjs/operators";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-import { regexp } from "src/app/shared/validators";
-import { departements } from "../../../../shared/departements";
-import { StructureService } from "../../services/structure.service";
-import { Structure } from "../../structure.interface";
-import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../shared/services/auth.service";
-import { DocumentService } from "../../../usagers/services/document.service";
-import { UsagerService } from "../../../usagers/services/usager.service";
-import { UsersService } from "../../../users/services/users.service";
+
+import { StructureUploadDocsService } from "../../services/structures-upload-docs.service";
 
 @Component({
   selector: "app-structures-upload-docs",
@@ -42,9 +28,7 @@ export class StructuresUploadDocsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private usagerService: UsagerService,
-    private userService: UsersService,
-    private documentService: DocumentService,
+    private structureUploadDocsService: StructureUploadDocsService,
     public authService: AuthService,
     private router: Router
   ) {

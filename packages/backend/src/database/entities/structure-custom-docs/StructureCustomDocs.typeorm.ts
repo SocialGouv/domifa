@@ -1,10 +1,5 @@
 import { Column, Entity, Generated, Index } from "typeorm";
-import {
-  AppUser,
-  AppUserMails,
-  AppUserTokens,
-  UserRole,
-} from "../../../_common/model";
+
 import { StructureCustomDocs } from "../../../_common/model/structure-custom-docs";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
@@ -14,14 +9,21 @@ export class StructureCustomDocsTable
   extends AppTypeormTable<StructureCustomDocsTable>
   implements StructureCustomDocs {
   @Index()
-  @Column({ type: "text", unique: true })
-  email: string;
+  @Column({ type: "text", nullable: false })
+  label: string;
 
-  @Column({ type: "text", nullable: true })
-  fonction: string;
+  @Column({ type: "text", nullable: false })
+  createdBy: string;
 
-  @Index()
-  @Column({ type: "integer", unique: true })
-  @Generated("increment")
-  id: number;
+  @Column({ type: "jsonb" })
+  tags: any;
+
+  @Column({ type: "text", nullable: false })
+  type: "custom" | "plain";
+
+  @Column({ type: "text", nullable: false })
+  filetype: string;
+
+  @Column({ type: "text", nullable: false })
+  path: string;
 }

@@ -2,14 +2,14 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  OnInit
+  OnInit,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import {
   NgbCalendar,
   NgbDate,
   NgbDateParserFormatter,
-  NgbDatepickerI18n
+  NgbDatepickerI18n,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
