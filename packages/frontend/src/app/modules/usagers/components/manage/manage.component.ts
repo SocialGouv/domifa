@@ -268,11 +268,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       } else {
         this.router.navigate(["usager/" + usager.id + "/edit/decision"]);
       }
-    } else if (usager.decision.statut === "REFUS") {
-      if (this.me.role === "facteur") {
-        this.notifService.error("Vous ne pouvez pas accéder à ce profil");
-        return;
-      }
+    } else if (
+      usager.decision.statut === "REFUS" &&
+      this.me.role === "facteur"
+    ) {
+      this.notifService.error("Vous ne pouvez pas accéder à ce profil");
+      return;
     } else {
       this.router.navigate(["usager/" + usager.id]);
     }
