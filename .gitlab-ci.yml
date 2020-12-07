@@ -82,6 +82,9 @@ Tests:
       > ./.env.test.travis.env
       > ./packages/backend/.env.backend.test.travis.env
     - nc -zvv mongo 27017
+    - ls -lah
+    - ls -lah ./_scripts/
+    - ls -lah ./_scripts/db/
     - ./_scripts/db/restore-mongo.sh
   script:
     - nc -zvv mongo 27017
