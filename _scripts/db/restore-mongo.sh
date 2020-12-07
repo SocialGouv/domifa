@@ -42,7 +42,7 @@ case $i in
 esac
 done
 
-MONGO_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.mongo.gz"
+MONGO_DUMP_PATH="_scripts/db/dumps/domifa_$DUMP_ENV.mongo.gz"
 MONGO_DUMP_FROM_DATABASE="domifa_$DUMP_ENV"
 MONGO_INITDB_DATABASE="domifa_$TARGET_DB_ENV"
 
