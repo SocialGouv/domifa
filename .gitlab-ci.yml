@@ -78,8 +78,9 @@ Tests:
       -e "^DB_"
       -e "^CI_PROJECT_"
       -e "^POSTGRES_" | sort
-    - rm -f ./.env.test.travis.env
-    - rm -f ./packages/backend/.env.backend.test.travis.env
+    - |
+      > ./.env.test.travis.env
+      > ./packages/backend/.env.backend.test.travis.env
   script:
     # HACK(douglasduteil): ensure run production build with localhost api
     # The build production will be used to run local e2e tests.
