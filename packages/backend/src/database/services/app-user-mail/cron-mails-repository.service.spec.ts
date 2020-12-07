@@ -14,7 +14,7 @@ describe("cronMailsRepository", () => {
   });
 
   it("findNextUserToSendCronMail returns next user to send cron mail", async () => {
-    const INITIAL_MATCHING_USERS_COUNT = 2;
+    let INITIAL_MATCHING_USERS_COUNT: number;
 
     let user1: Pick<AppUser, "id" | "email" | "nom" | "prenom">;
     {
@@ -24,7 +24,8 @@ describe("cronMailsRepository", () => {
         mailType: "guide",
         structuresIds: [1, 2],
       });
-      expect(users.length).toEqual(INITIAL_MATCHING_USERS_COUNT);
+      expect(users.length).toBeGreaterThan(1);
+      INITIAL_MATCHING_USERS_COUNT = users.length;
 
       user1 = users[0];
 

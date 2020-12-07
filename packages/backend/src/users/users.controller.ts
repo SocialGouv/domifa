@@ -18,7 +18,6 @@ import * as bcrypt from "bcryptjs";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 import { ResponsableGuard } from "../auth/guards/responsable.guard";
-import { domifaConfig } from "../config";
 import {
   AppUserForAdminEmail,
   usersRepository,
@@ -92,11 +91,7 @@ export class UsersController {
     );
 
     if (confirmerUser && confirmerUser !== undefined) {
-      if (!domifaConfig().email.emailsEnabled) {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      }
-
-      this.usersMailsService.accountActivated(confirmerUser).then(
+      return this.usersMailsService.accountActivated(confirmerUser).then(
         () => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },
@@ -232,9 +227,6 @@ export class UsersController {
       //
       // Mail vers Domifa pour indiquer une création de structure
       //
-      if (!domifaConfig().email.emailsEnabled) {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      }
 
       return this.domifaMailsService
         .newStructure(structure, newUser)
@@ -251,10 +243,6 @@ export class UsersController {
           select: USERS_ADMIN_EMAILS_ATTRIBUTES,
         }
       );
-
-      if (!domifaConfig().email.emailsEnabled) {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      }
 
       return this.usersMailsService.newUser(admins, newUser).then(() => {
         return res.status(HttpStatus.OK).json({ message: "OK" });
@@ -349,10 +337,6 @@ export class UsersController {
           .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
       }
 
-      if (!domifaConfig().email.emailsEnabled) {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      }
-
       return this.usersMailsService.newPassword(updatedUser).then(() => {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       });
@@ -388,10 +372,6 @@ export class UsersController {
     );
 
     if (updatedUser) {
-      if (!domifaConfig().email.emailsEnabled) {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      }
-
       return this.usersMailsService.newUserFromAdmin(updatedUser).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });

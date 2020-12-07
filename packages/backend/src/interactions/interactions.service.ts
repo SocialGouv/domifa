@@ -3,7 +3,7 @@ import { Model } from "mongoose";
 import { FindConditions, LessThan, MoreThan, Repository } from "typeorm";
 import { appTypeormManager, InteractionsTable } from "../database";
 import { Usager } from "../usagers/interfaces/usagers";
-import { AppAuthUser, AppUser, UserProfile } from "../_common/model";
+import { AppAuthUser, AppUser } from "../_common/model";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionType } from "./InteractionType.type";
 import { Interactions } from "./model/interactions.type";
@@ -20,16 +20,17 @@ export class InteractionsService {
       InteractionsTable
     );
   }
-  public async create(
-    usager: Usager,
-    user: UserProfile,
-    interactionDto: InteractionDto
-  ): Promise<Usager> {
-    if (!interactionDto.dateInteraction) {
-      interactionDto.dateInteraction = new Date();
-    }
+  public async create({
+    interaction,
+    usager,
+    user,
+  }: {
+    interaction: InteractionDto;
+    usager: Pick<Usager, "_id" | "id" | "lastInteraction" | "options">;
+    user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
+  }): Promise<Usager> {
     const createdInteraction: Interactions = new InteractionsTable(
-      interactionDto
+      buildInteraction({ interaction, usager, user })
     );
 
     await this.interactionRepository.insert(createdInteraction);
@@ -166,4 +167,73 @@ export class InteractionsService {
       return typeof search !== "undefined" ? search.sum : 0;
     }
   }
+}
+
+function buildInteraction({
+  interaction,
+  usager,
+  user,
+}: {
+  interaction: InteractionDto;
+  usager: Pick<Usager, "id" | "lastInteraction" | "options">;
+  user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
+}): InteractionDto {
+  const len = interaction.type.length;
+  const interactionOut = interaction.type.substring(len - 3) === "Out";
+  const interactionIn = interaction.type.substring(len - 2) === "In";
+
+  if (interactionIn) {
+    const count =
+      typeof interaction.nbCourrier !== "undefined"
+        ? interaction.nbCourrier
+        : 1;
+
+    usager.lastInteraction[interaction.type] =
+      usager.lastInteraction[interaction.type] + count;
+    usager.lastInteraction.enAttente = true;
+  } else if (interactionOut) {
+    if (interaction.procuration) {
+      interaction.content =
+        "Courrier remis au mandataire : " +
+        usager.options.procuration.prenom +
+        " " +
+        usager.options.procuration.nom.toUpperCase();
+    } else if (interaction.transfert) {
+      interaction.content =
+        "Courrier transféré à : " +
+        usager.options.transfert.nom +
+        " - " +
+        usager.options.transfert.adresse.toUpperCase();
+    }
+
+    const inType = interaction.type.substring(0, len - 3) + "In";
+    interaction.nbCourrier = usager.lastInteraction[inType] || 1;
+
+    usager.lastInteraction[inType] = 0;
+
+    usager.lastInteraction.enAttente =
+      usager.lastInteraction.courrierIn > 0 ||
+      usager.lastInteraction.colisIn > 0 ||
+      usager.lastInteraction.recommandeIn > 0;
+  } else {
+    interaction.nbCourrier = 0;
+  }
+
+  if (
+    (interactionOut ||
+      interaction.type === "visite" ||
+      interaction.type === "appel") &&
+    !interaction.procuration
+  ) {
+    usager.lastInteraction.dateInteraction = new Date();
+  }
+
+  interaction.structureId = user.structureId;
+  interaction.usagerId = usager.id;
+  interaction.userId = user.id;
+  interaction.userName = user.prenom + " " + user.nom;
+  if (!interaction.dateInteraction) {
+    interaction.dateInteraction = new Date();
+  }
+  return interaction;
 }

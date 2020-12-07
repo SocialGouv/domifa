@@ -56,7 +56,12 @@ describe("InteractionsService", () => {
     const interaction = new InteractionDto();
     interaction.type = "courrierOut";
     interaction.content = "Retrait du courrier";
-    const resultat = await interactionService.create(usager, user, interaction);
+    interaction.nbCourrier = 0;
+    const resultat = await interactionService.create({
+      usager,
+      user,
+      interaction,
+    });
     expect(resultat.lastInteraction.courrierIn).toEqual(0);
   });
 
@@ -65,17 +70,18 @@ describe("InteractionsService", () => {
     interaction.type = "courrierIn";
     interaction.content = "Les impôts";
     interaction.nbCourrier = 10;
-    await interactionService.create(usager, user, interaction);
+
+    await interactionService.create({ usager, user, interaction });
 
     const secondInteraction = new InteractionDto();
     secondInteraction.type = "courrierIn";
     secondInteraction.content = "Le Loyer";
     secondInteraction.nbCourrier = 5;
-    const usager2 = await interactionService.create(
+    const usager2 = await interactionService.create({
       usager,
       user,
-      secondInteraction
-    );
+      interaction: secondInteraction,
+    });
     expect(usager2.lastInteraction.courrierIn).toEqual(15);
   });
 
@@ -85,12 +91,20 @@ describe("InteractionsService", () => {
     interaction.content = "Colis d'un distributeur";
     interaction.nbCourrier = 1;
 
-    const usager3 = await interactionService.create(usager, user, interaction);
+    const usager3 = await interactionService.create({
+      usager,
+      user,
+      interaction,
+    });
     expect(usager3.lastInteraction.colisIn).toEqual(5);
 
     const distribution = new InteractionDto();
     distribution.type = "colisOut";
-    const usager2 = await interactionService.create(usager, user, distribution);
+    const usager2 = await interactionService.create({
+      usager,
+      user,
+      interaction: distribution,
+    });
     expect(usager2.lastInteraction.colisIn).toEqual(0);
   });
 });

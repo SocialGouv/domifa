@@ -48,6 +48,7 @@ describe("Stuctures Controller", () => {
       },
       res
     );
+    expect(res.status).toHaveBeenCalledTimes(1);
     expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
     expect(res.json).toHaveBeenCalledWith(false);
   });
@@ -64,6 +65,8 @@ describe("Stuctures Controller", () => {
       },
       res
     );
+    expect(res.status).toHaveBeenCalledTimes(1);
     expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
     expect(res.json).toHaveBeenCalledWith(true);
   });
+});

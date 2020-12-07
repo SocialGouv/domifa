@@ -171,6 +171,7 @@ describe("Stuctures creation full", () => {
     } as unknown) as ExpressResponse;
 
     await structureController.confirm(structure.token, `${structure._id}`, res);
+    expect(res.status).toHaveBeenCalledTimes(1);
     expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
     expect(res.json).toHaveBeenCalledTimes(1);
 
