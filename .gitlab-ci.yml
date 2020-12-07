@@ -81,7 +81,9 @@ Tests:
     - |
       > ./.env.test.travis.env
       > ./packages/backend/.env.backend.test.travis.env
+    - nc -zvv mongo 27017
   script:
+    - nc -zvv mongo 27017
     # HACK(douglasduteil): ensure run production build with localhost api
     # The build production will be used to run local e2e tests.
     # - mv
