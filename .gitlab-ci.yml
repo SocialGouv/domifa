@@ -51,7 +51,7 @@ stages:
 
 Tests:
   stage: Tests
-  image: mongo:4.2.8
+  image: node:14.15.0-alpine3.12
   cache:
     key:
       files:
@@ -86,7 +86,7 @@ Tests:
       > ./.env.test.travis.env
       > ./packages/backend/.env.backend.test.travis.env
     - nc -zvv mongo 27017
-    - apt-get install mongodb-clients
+    - apk add mongodb-tools
     - ./_scripts/db/restore-mongo.sh --db=test
     # - ls -lah
     # - ls -lah ./_scripts/
