@@ -15,14 +15,11 @@ import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { Usager } from "../usagers/interfaces/usagers";
-
-import { InteractionDto } from "./interactions.dto";
-
 import { UsagersService } from "../usagers/services/usagers.service";
-
-import { InteractionType } from "./InteractionType.type";
-import { InteractionsService } from "./interactions.service";
 import { AppAuthUser } from "../_common/model";
+import { InteractionDto } from "./interactions.dto";
+import { InteractionsService } from "./interactions.service";
+import { InteractionType } from "./InteractionType.type";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
 @ApiTags("interactions")
@@ -35,67 +32,11 @@ export class InteractionsController {
 
   @Post(":id")
   public postInteraction(
-    @Body() interactionDto: InteractionDto,
+    @Body() interaction: InteractionDto,
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
-    const len = interactionDto.type.length;
-    const interactionOut = interactionDto.type.substring(len - 3) === "Out";
-    const interactionIn = interactionDto.type.substring(len - 2) === "In";
-
-    if (interactionIn) {
-      const count =
-        typeof interactionDto.nbCourrier !== "undefined"
-          ? interactionDto.nbCourrier
-          : 1;
-
-      usager.lastInteraction[interactionDto.type] =
-        usager.lastInteraction[interactionDto.type] + count;
-      usager.lastInteraction.enAttente = true;
-    } else if (interactionOut) {
-      if (interactionDto.procuration) {
-        interactionDto.content =
-          "Courrier remis au mandataire : " +
-          usager.options.procuration.prenom +
-          " " +
-          usager.options.procuration.nom.toUpperCase();
-      } else if (interactionDto.transfert) {
-        interactionDto.content =
-          "Courrier transféré à : " +
-          usager.options.transfert.nom +
-          " - " +
-          usager.options.transfert.adresse.toUpperCase();
-      }
-
-      const inType = interactionDto.type.substring(0, len - 3) + "In";
-      interactionDto.nbCourrier = usager.lastInteraction[inType] || 1;
-
-      usager.lastInteraction[inType] = 0;
-
-      usager.lastInteraction.enAttente =
-        usager.lastInteraction.courrierIn > 0 ||
-        usager.lastInteraction.colisIn > 0 ||
-        usager.lastInteraction.recommandeIn > 0;
-    } else {
-      interactionDto.nbCourrier = 0;
-    }
-
-    if (
-      (interactionOut ||
-        interactionDto.type === "visite" ||
-        interactionDto.type === "appel") &&
-      !interactionDto.procuration
-    ) {
-      usager.lastInteraction.dateInteraction = new Date();
-    }
-
-    interactionDto.structureId = user.structureId;
-    interactionDto.usagerId = usager.id;
-    interactionDto.userId = user.id;
-    interactionDto.userName = user.prenom + " " + user.nom;
-    // interactionDto.dateInteraction = new Date();
-
-    return this.interactionService.create(usager, user, interactionDto);
+    return this.interactionService.create({ interaction, user, usager });
   }
 
   @Get(":id/:limit")

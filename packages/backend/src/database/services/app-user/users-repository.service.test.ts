@@ -27,7 +27,7 @@ describe("usesRepository", () => {
 
     const countTotal = await usersRepository.count();
     // be sure the count is ok
-    expect(countTotal).toEqual(6);
+    expect(countTotal).toBeGreaterThan(6);
   });
   it("findVerifiedStructureUsersByRoles returns matching users", async () => {
     const users = await usersRepository.findVerifiedStructureUsersByRoles({

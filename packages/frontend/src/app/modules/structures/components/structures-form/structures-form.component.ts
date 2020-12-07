@@ -5,15 +5,14 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-
 import { regexp } from "src/app/shared/validators";
 import { departements } from "../../../../shared/departements";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
-import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-structures-form",
@@ -75,7 +74,6 @@ export class StructuresFormComponent implements OnInit {
         ville: [this.structure.adresseCourrier.ville, []],
         codePostal: [this.structure.adresseCourrier.codePostal, []],
       }),
-      adresseDifferente: [this.structure.adresseCourrier, []],
       agrement: [this.structure.agrement, []],
       capacite: [this.structure.capacite, []],
       codePostal: [

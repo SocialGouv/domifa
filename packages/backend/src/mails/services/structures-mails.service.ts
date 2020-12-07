@@ -18,7 +18,7 @@ export class StructuresMailsService {
   public async confirmationStructure(
     structure: Structure,
     user: UserProfile
-  ): Promise<any> {
+  ): Promise<void> {
     const frontendUrl = domifaConfig().apps.frontendUrl;
 
     const message: MessageEmailContent = {

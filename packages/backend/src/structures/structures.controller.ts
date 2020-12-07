@@ -13,7 +13,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { AxiosError, AxiosResponse } from "axios";
 import * as fs from "fs";
 import * as rimraf from "rimraf";
 import { CurrentUser } from "../auth/current-user.decorator";
@@ -29,8 +28,6 @@ import { StatsGeneratorService } from "../stats/services/stats-generator.service
 import { StatsService } from "../stats/services/stats.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { EmailDto } from "../users/dto/email.dto";
-import { UsersService } from "../users/services/users.service";
-import { appLogger } from "../util";
 import { AppAuthUser } from "../_common/model";
 import { StructureEditDto } from "./dto/structure-edit.dto";
 import { StructureDto } from "./dto/structure.dto";
@@ -42,7 +39,6 @@ import moment = require("moment");
 export class StructuresController {
   constructor(
     private structureService: StructuresService,
-    private usersService: UsersService,
     private statsService: StatsService,
     private usagersService: UsagersService,
     private interactionsService: InteractionsService,
@@ -85,7 +81,7 @@ export class StructuresController {
   }
 
   @Get("confirm/:id/:token")
-  public async confim(
+  public async confirm(
     @Param("token") token: string,
     @Param("id") id: string,
     @Response() res: any
@@ -115,38 +111,11 @@ export class StructuresController {
         { verified: true }
       );
 
-      if (!domifaConfig().email.emailsEnabled) {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      }
-
-      this.structuresMailsService
-        .confirmationStructure(structure, updatedAdmin)
-        .then(
-          (result: AxiosResponse) => {
-            if (result.status !== 200) {
-              appLogger.warn(
-                `[StructuresMail] mail confirm structure activation failed`
-              );
-              appLogger.error(JSON.stringify(result.data));
-              throw new HttpException(
-                "TIPIMAIL_CONFIRM_STRUCTURE_ERROR",
-                HttpStatus.INTERNAL_SERVER_ERROR
-              );
-            } else {
-              return res.status(HttpStatus.OK).json("OK");
-            }
-          },
-          (error: AxiosError) => {
-            appLogger.warn(
-              `[StructuresMail] mail confirm structure activation failed`
-            );
-            appLogger.error(JSON.stringify(error.message));
-            throw new HttpException(
-              "TIPIMAIL_CONFIRM_STRUCTURE_ERROR",
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          }
-        );
+      await this.structuresMailsService.confirmationStructure(
+        structure,
+        updatedAdmin
+      );
+      return res.status(HttpStatus.OK).json({ message: "OK" });
     }
   }
 
@@ -188,9 +157,6 @@ export class StructuresController {
     );
 
     if (structure) {
-      if (!domifaConfig().email.emailsEnabled) {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      }
       await this.usagersMailsService.hardReset(user, hardResetToken.token);
       return res.status(HttpStatus.OK).json({ message: expireAt });
     } else {
@@ -316,10 +282,6 @@ export class StructuresController {
     const structure = await this.structureService.generateDeleteToken(id);
 
     if (structure && structure !== null) {
-      if (!domifaConfig().email.emailsEnabled) {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      }
-
       this.domifaMailsService.deleteStructure(structure).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });

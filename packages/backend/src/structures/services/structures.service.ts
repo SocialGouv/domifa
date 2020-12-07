@@ -27,7 +27,7 @@ export class StructuresService {
     private departementHelper: DepartementHelper
   ) {}
 
-  public async prePost(structureDto: StructureDto): Promise<any> {
+  public async prePost(structureDto: StructureDto): Promise<Structure> {
     try {
       const departement = this.departementHelper.getDepartementFromCodePostal(
         structureDto.codePostal
@@ -43,7 +43,7 @@ export class StructuresService {
     return new this.structureModel(structureDto);
   }
 
-  public async create(structureDto: StructureDto): Promise<any> {
+  public async create(structureDto: StructureDto): Promise<Structure> {
     const createdStructure = new this.structureModel(structureDto);
     createdStructure.id = await this.findLast();
     createdStructure.token = crypto.randomBytes(30).toString("hex");
