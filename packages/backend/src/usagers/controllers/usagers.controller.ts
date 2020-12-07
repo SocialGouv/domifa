@@ -9,7 +9,7 @@ import {
   Patch,
   Post,
   Res,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -88,7 +88,7 @@ export class UsagersController {
     return this.usagersService.nextStep(usager._id, etapeDemande);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
   @Get("stop-courrier/:id")
   public async stopCourrier(
     @CurrentUsager() usager: Usager,

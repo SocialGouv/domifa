@@ -36,7 +36,6 @@ export class ExportStructureUsagersController {
 
   constructor(
     private readonly usagersService: UsagersService,
-
     private readonly interactionsService: InteractionsService
   ) {
     this.dataSheet1 = [];

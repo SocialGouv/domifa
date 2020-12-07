@@ -137,18 +137,28 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
       usager.decision.motif = "";
     }
 
-    let userValidateFirstDom = usager.decision.userName;
+    let decisionUserPremierDom = "";
+    let decisionUserRenouvellement = "";
 
-    if (usager.typeDom !== "PREMIERE") {
-      usager.historique.every((decision: Decision) => {
-        if (
-          decision.statut === "PREMIERE_DOM" ||
-          decision.statut === "VALIDE"
-        ) {
-          userValidateFirstDom = decision.userName;
-          return false;
-        }
-      });
+    usager.historique.sort((a, b) => {
+      const dateDecisionA = new Date(a.dateDecision);
+      const dateDecisionB = new Date(b.dateDecision);
+      return dateDecisionA.getTime() - dateDecisionB.getTime();
+    });
+
+    for (const decision of usager.historique) {
+      if (decision.statut === "VALIDE") {
+        decisionUserPremierDom === ""
+          ? (decisionUserPremierDom = decision.userName)
+          : (decisionUserRenouvellement = decision.userName);
+      }
+    }
+
+    if (
+      usager.decision.statut === "VALIDE" &&
+      usager.typeDom === "RENOUVELLEMENT"
+    ) {
+      decisionUserRenouvellement = usager.decision.userName;
     }
 
     const row: XlRowModel = {
@@ -193,10 +203,9 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
             ? usager.datePremiereDom
             : "",
 
-        decisionUserPremierDom: usager.decision.userName,
+        decisionUserPremierDom,
 
-        decisionUserRenouvellement:
-          usager.typeDom === "RENOUVELLEMENT" ? usager.decision.userName : "",
+        decisionUserRenouvellement,
 
         dateLastInteraction:
           usager.lastInteraction.dateInteraction &&
