@@ -103,6 +103,7 @@ export class Usager {
       usager.historique.forEach((decision: Decision) => {
         this.historique.push(new Decision(decision));
       });
+
       this.historique.sort((a, b) => {
         return b.dateDecision.getTime() - a.dateDecision.getTime();
       });

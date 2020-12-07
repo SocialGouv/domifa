@@ -15,6 +15,7 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AppUser } from "../../../../../../../_common/model";
+import { Decision } from "../../../../interfaces/decision";
 import { Usager } from "../../../../interfaces/usager";
 import { DocumentService } from "../../../../services/document.service";
 import { UsagerService } from "../../../../services/usager.service";

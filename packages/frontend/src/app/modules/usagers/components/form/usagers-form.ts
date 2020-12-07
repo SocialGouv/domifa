@@ -29,6 +29,7 @@ import {
 } from "src/app/shared/bootstrap-util";
 import { Title } from "@angular/platform-browser";
 import { AppUser } from "../../../../../_common/model";
+import { Decision } from "../../interfaces/decision";
 
 @Component({
   animations: [fadeInOut],
