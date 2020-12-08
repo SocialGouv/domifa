@@ -34,31 +34,33 @@ export class DomifaMailsService {
     const message: MessageEmailContent = {
       subject: "Nouvelle structure sur Domifa ",
       tipimailTemplateId: "domifa-nouvelle-structure",
-      tipimailModel: {
-        email: this.domifaAdminMail,
-        values: {
-          structure_name: structure.nom,
-          structure_type: structureTypes[structure.structureType],
-          adresse: structure.adresse,
-          departement:
-            DEPARTEMENTS_MAP[structure.departement].departmentName ||
-            "Non renseigné",
-          ville: structure.ville,
-          code_postal: structure.codePostal,
-          email: structure.email,
-          phone: structure.phone,
-          responsable_nom: structure.responsable.nom,
-          responsable_prenom: structure.responsable.prenom,
-          responsable_fonction: structure.responsable.fonction,
-          user_nom: user.nom,
-          user_prenom: user.prenom,
-          user_email: user.email,
-          lien_confirmation: lienConfirmation,
-          lien_suppression: lienSuppression,
+      tipimailModels: [
+        {
+          email: this.domifaAdminMail,
+          values: {
+            structure_name: structure.nom,
+            structure_type: structureTypes[structure.structureType],
+            adresse: structure.adresse,
+            departement:
+              DEPARTEMENTS_MAP[structure.departement].departmentName ||
+              "Non renseigné",
+            ville: structure.ville,
+            code_postal: structure.codePostal,
+            email: structure.email,
+            phone: structure.phone,
+            responsable_nom: structure.responsable.nom,
+            responsable_prenom: structure.responsable.prenom,
+            responsable_fonction: structure.responsable.fonction,
+            user_nom: user.nom,
+            user_prenom: user.prenom,
+            user_email: user.email,
+            lien_confirmation: lienConfirmation,
+            lien_suppression: lienSuppression,
+          },
+          subject: "Nouvelle structure sur Domifa ",
+          meta: {},
         },
-        subject: "Nouvelle structure sur Domifa ",
-        meta: {},
-      },
+      ],
       to: [
         {
           address: this.domifaAdminMail,
@@ -95,20 +97,22 @@ export class DomifaMailsService {
     const message: MessageEmailContent = {
       subject: "Supprimer une structure sur Domifa",
       tipimailTemplateId: "domifa-supprimer-structure",
-      tipimailModel: {
-        email: this.domifaAdminMail,
-        values: {
-          lien,
-          nom: structure.nom,
-          adresse: structure.adresse,
-          ville: structure.ville,
-          code_postal: structure.codePostal,
-          email: structure.email,
-          phone: structure.phone,
+      tipimailModels: [
+        {
+          email: this.domifaAdminMail,
+          values: {
+            lien,
+            nom: structure.nom,
+            adresse: structure.adresse,
+            ville: structure.ville,
+            code_postal: structure.codePostal,
+            email: structure.email,
+            phone: structure.phone,
+          },
+          subject: "Supprimer une structure sur Domifa",
+          meta: {},
         },
-        subject: "Supprimer une structure sur Domifa",
-        meta: {},
-      },
+      ],
       to: [
         {
           address: this.domifaAdminMail,

@@ -70,14 +70,16 @@ export class CronMailUserGuideSenderService {
     const message: MessageEmailContent = {
       subject: "Le guide utilisateur Domifa",
       tipimailTemplateId: "guide-utilisateur",
-      tipimailModel: {
-        email: user.email,
-        values: {
-          nom: user.prenom,
-          lien: this.lienGuide,
+      tipimailModels: [
+        {
+          email: user.email,
+          values: {
+            nom: user.prenom,
+            lien: this.lienGuide,
+          },
+          meta: {},
         },
-        meta: {},
-      },
+      ],
       to: [
         {
           address: user.email,

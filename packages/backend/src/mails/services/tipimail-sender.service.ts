@@ -66,6 +66,7 @@ export class TipimailSender {
         sent: [],
         skipped: toSkip,
         serverResponse: "email sending disabled",
+        modelsCount: message.tipimailModels.length,
       };
     }
     if (domifaConfig().email.emailAddressRedirectAllTo) {
@@ -81,6 +82,7 @@ export class TipimailSender {
         sent: toSend,
         skipped: toSkip,
         serverResponse: "all recipients skipped",
+        modelsCount: message.tipimailModels.length,
       };
     }
 
@@ -121,7 +123,7 @@ export class TipimailSender {
       to: toSend,
       headers: {
         "X-TM-TEMPLATE": message.tipimailTemplateId,
-        "X-TM-SUB": [message.tipimailModel],
+        "X-TM-SUB": message.tipimailModels,
       },
       msg: {
         from: message.from,
@@ -159,15 +161,16 @@ export class TipimailSender {
             );
           } else {
             // SUCCESS
-            return of({
+            const sendDetails: MessageEmailSendDetails = {
               sent: toSend,
               skipped: toSkip,
               serverResponse: result.data,
-            });
+              modelsCount: message.tipimailModels.length,
+            };
+            return of(sendDetails);
           }
         }),
         catchError((err) => {
-          console.log(err);
           appLogger.warn(
             `Error sending tipimail "${message.tipimailTemplateId}" message: : ${err.message}`,
             {

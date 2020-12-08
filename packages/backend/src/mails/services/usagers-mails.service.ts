@@ -47,11 +47,13 @@ export class UsagersMailsService {
     const messageContent: MessageEmailContent = {
       subject: "Prise de rendez-vous entre le demandeur et un collaborateur",
       tipimailTemplateId: "usagers-prise-de-rendez-vous",
-      tipimailModel: {
-        email: user.email,
-        values: datas,
-        meta: {},
-      },
+      tipimailModels: [
+        {
+          email: user.email,
+          values: datas,
+          meta: {},
+        },
+      ],
       to: [
         {
           address: user.email,
@@ -69,7 +71,7 @@ export class UsagersMailsService {
     };
 
     await this.tipimailSender.trySendToTipimail({
-      ... messageContent,
+      ...messageContent,
       attachments: [
         {
           contentType: "text/calendar",
@@ -89,12 +91,14 @@ export class UsagersMailsService {
     const message: MessageEmailContent = {
       subject: "Code de confirmation Domifa pour supprimer les usagers",
       tipimailTemplateId: "usagers-hard-reset",
-      tipimailModel: {
-        email: user.email,
-        values: { code: token, prenom: user.prenom },
-        subject: "Code de confirmation Domifa pour supprimer les usagers",
-        meta: {},
-      },
+      tipimailModels: [
+        {
+          email: user.email,
+          values: { code: token, prenom: user.prenom },
+          subject: "Code de confirmation Domifa pour supprimer les usagers",
+          meta: {},
+        },
+      ],
       to: [
         {
           address: user.email,
