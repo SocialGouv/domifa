@@ -3,6 +3,7 @@ import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
 import { CronMailImportGuideSenderService } from "./mails/services/cron-mail-import-guide-sender.service";
 import { CronMailUserGuideSenderService } from "./mails/services/cron-mail-user-guide-sender.service";
+import { MessageEmailConsummer } from "./mails/services/message-email-consumer.service";
 import { StatsGeneratorService } from "./stats/services/stats-generator.service";
 import { appLogger } from "./util";
 
@@ -67,5 +68,12 @@ async function runCronJobs(app) {
       CronMailImportGuideSenderService
     );
     await cronMailImportGuideSenderService.sendMailImports("startup");
+  }
+
+  if (domifaConfig().cron.emailConsumer.autoRunOnStartup) {
+    const messageEmailConsummer: MessageEmailConsummer = app.get(
+      MessageEmailConsummer
+    );
+    await messageEmailConsummer.triggerNextSending("startup");
   }
 }

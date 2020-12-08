@@ -1,1 +1,1 @@
-export type MonitoringBatchProcessTrigger = "cron" | "manual" | "startup";
+export type MonitoringBatchProcessTrigger = "cron" | "app" | "startup";

@@ -126,6 +126,7 @@ export class TipimailSender {
           }
         }),
         catchError((err) => {
+          console.log(err);
           appLogger.warn(
             `Error sending tipimail "${message.tipimailTemplateId}" message: : ${err.message}`,
             {
