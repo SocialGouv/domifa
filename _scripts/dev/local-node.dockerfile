@@ -1,5 +1,6 @@
 # https://hub.docker.com/_/node/
-FROM node:14.15.1-buster
+# BUG SSL/Tipimail avec debian buster: https://github.com/SocialGouv/domifa/issues/1033
+FROM node:14.15.1-stretch 
 
 USER root
 
