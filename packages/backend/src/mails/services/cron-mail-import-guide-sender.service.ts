@@ -124,14 +124,16 @@ export class CronMailImportGuideSenderService {
     const message: MessageEmailContent = {
       subject: "Importer vos domiciliés sur DomiFa",
       tipimailTemplateId: "guide-import",
-      tipimailModel: {
-        email: user.email,
-        values: {
-          import: this.lienImport,
-          guide: this.lienGuide,
-          faq: this.lienFaq,
+      tipimailModels: [
+        {
+          email: user.email,
+          values: {
+            import: this.lienImport,
+            guide: this.lienGuide,
+            faq: this.lienFaq,
+          },
         },
-      },
+      ],
       to: [
         {
           address: user.email,

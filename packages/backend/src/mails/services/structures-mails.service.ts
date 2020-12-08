@@ -24,16 +24,18 @@ export class StructuresMailsService {
     const message: MessageEmailContent = {
       subject: "Votre compte Domifa a été activé",
       tipimailTemplateId: "users-compte-active",
-      tipimailModel: {
-        email: user.email,
-        values: {
-          lien: frontendUrl,
-          nom_structure: structure.nom,
-          prenom: user.prenom,
+      tipimailModels: [
+        {
+          email: user.email,
+          values: {
+            lien: frontendUrl,
+            nom_structure: structure.nom,
+            prenom: user.prenom,
+          },
+          subject: "Votre compte Domifa a été activé",
+          meta: {},
         },
-        subject: "Votre compte Domifa a été activé",
-        meta: {},
-      },
+      ],
       from: {
         personalName: "Domifa",
         address: this.domifaFromMail,

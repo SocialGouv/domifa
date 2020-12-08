@@ -5,6 +5,7 @@ import {
   AppUserForAdminEmailWithTempTokens,
   AppUserTable,
   MessageEmailContent,
+  MessageEmailContentModel,
 } from "../../database";
 import { MessageEmailSender } from "./message-email-sender.service";
 
@@ -23,7 +24,7 @@ export class UsersMailsService {
   //
   public async newUser(admins: AppUserForAdminEmail[], user: AppUserTable) {
     const adminEmails = [];
-    const contentEmails = [];
+    const contentEmails: MessageEmailContentModel[] = [];
 
     admins.map((admin: AppUserForAdminEmail) => {
       adminEmails.push({
@@ -49,7 +50,7 @@ export class UsersMailsService {
     const message: MessageEmailContent = {
       subject: "Un nouvel utilisateur souhaite rejoindre votre structure",
       tipimailTemplateId: "users-nouvel-utilisateur-dans-votre-structure",
-      tipimailModel: contentEmails,
+      tipimailModels: contentEmails,
       to: adminEmails,
       from: {
         personalName: "Domifa",
@@ -85,14 +86,16 @@ export class UsersMailsService {
           personalName: user.prenom + " " + user.nom,
         },
       ],
-      tipimailModel: {
-        email: user.email,
-        values: {
-          prenom: user.prenom,
-          lien,
+      tipimailModels: [
+        {
+          email: user.email,
+          values: {
+            prenom: user.prenom,
+            lien,
+          },
+          subject: "Finalisez votre inscription sur Domifa",
         },
-        subject: "Finalisez votre inscription sur Domifa",
-      },
+      ],
       from: {
         personalName: "Domifa",
         address: this.domifaFromMail,
@@ -118,15 +121,17 @@ export class UsersMailsService {
     const message: MessageEmailContent = {
       subject: "Votre compte Domifa a été activé",
       tipimailTemplateId: "users-compte-active",
-      tipimailModel: {
-        email: user.email,
-        subject: "Votre compte Domifa a été activé",
-        values: {
-          lien: frontendUrl + "connexion",
-          prenom: user.prenom,
+      tipimailModels: [
+        {
+          email: user.email,
+          subject: "Votre compte Domifa a été activé",
+          values: {
+            lien: frontendUrl + "connexion",
+            prenom: user.prenom,
+          },
+          meta: {},
         },
-        meta: {},
-      },
+      ],
       to: [
         {
           address: user.email,
@@ -159,14 +164,16 @@ export class UsersMailsService {
     const message: MessageEmailContent = {
       subject: "Demande d'un nouveau mot de passe",
       tipimailTemplateId: "users-nouveau-mot-de-passe",
-      tipimailModel: {
-        email: user.email,
-        subject: "Demande d'un nouveau mot de passe",
-        values: {
-          lien: confirmationLink,
-          prenom: user.prenom,
+      tipimailModels: [
+        {
+          email: user.email,
+          subject: "Demande d'un nouveau mot de passe",
+          values: {
+            lien: confirmationLink,
+            prenom: user.prenom,
+          },
         },
-      },
+      ],
       to: [
         {
           address: user.email,
