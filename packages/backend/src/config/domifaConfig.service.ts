@@ -14,6 +14,9 @@ export const domifaConfig = (env?: Partial<DomifaEnv>) => {
   }
   return _domifaConfig;
 };
+
+console.log("--> domifaConfig:", domifaConfig, _domifaConfig);
+
 function loadEnv(): Partial<DomifaEnv> {
   const envFile =
     process.env.NODE_ENV === "tests-local"
