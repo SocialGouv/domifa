@@ -1,5 +1,6 @@
 # https://hub.docker.com/_/node/
-FROM node:14.15.1-buster
+# BUG SSL/Tipimail avec debian buster: https://github.com/SocialGouv/domifa/issues/1033
+FROM node:14.15.1-stretch 
 
 USER root
 
@@ -12,9 +13,6 @@ RUN apt-get update && \
 # immediately remove temporary files
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# install via GEM
-RUN sudo gem install fastlane -NV
 
 # allow 'node' user to go sudo without password
 RUN adduser node sudo
