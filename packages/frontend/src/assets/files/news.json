@@ -1,5 +1,9 @@
 [
     {
+    "date": "2020-12-09",
+    "description": "Ajout de colonnes de suivi des utilisateurs ayant effectués les validations (de première domiciliation et de renouvellement), les refus ainsi que les radiations dans l’export de données",
+  },
+    {
     "date": "2020-10-28",
     "content": [
     {   "type": "new",
