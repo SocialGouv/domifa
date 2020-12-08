@@ -3,4 +3,4 @@ export * from "./AppUserMails.type";
 export * from "./AppUserTokens.type";
 export * from "./UserProfile.type";
 export * from "./UserRole.type";
-
+export * from "./AppUserCreatedBy.type";

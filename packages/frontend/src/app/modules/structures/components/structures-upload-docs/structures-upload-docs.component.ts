@@ -1,10 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
 
-import { Router } from "@angular/router";
-import { AuthService } from "../../../shared/services/auth.service";
+import { AppUser } from "../../../../../_common/model";
+import { StructureDoc } from "../../../../../_common/model/structure-doc";
 
-import { StructureUploadDocsService } from "../../services/structures-upload-docs.service";
+import { StructureDocService } from "../../services/structure-doc.service";
 
 @Component({
   selector: "app-structures-upload-docs",
@@ -19,6 +20,8 @@ export class StructuresUploadDocsComponent implements OnInit {
   public submittedFile = false;
   public uploadForm!: FormGroup;
 
+  public structureDocs: StructureDoc[];
+
   public uploadError: {
     fileSize: boolean;
     fileType: boolean;
@@ -26,11 +29,16 @@ export class StructuresUploadDocsComponent implements OnInit {
 
   public httpError: any;
 
+  public loadingDelete: boolean;
+  public loadingDownload: boolean;
+
+  @Input() public me: AppUser;
+
+  // TODO: factoriser le service Upload
   constructor(
     private formBuilder: FormBuilder,
-    private structureUploadDocsService: StructureUploadDocsService,
-    public authService: AuthService,
-    private router: Router
+    private structureDocService: StructureDocService,
+    private notifService: ToastrService
   ) {
     this.uploadResponse = { status: "", message: "", filePath: "" };
 
@@ -38,6 +46,10 @@ export class StructuresUploadDocsComponent implements OnInit {
       fileSize: true,
       fileType: true,
     };
+
+    this.loadingDelete = false;
+    this.loadingDownload = false;
+    this.structureDocs = [];
   }
 
   public ngOnInit() {
@@ -46,16 +58,58 @@ export class StructuresUploadDocsComponent implements OnInit {
     this.uploadForm = this.formBuilder.group({
       imageInput: [this.fileName, Validators.required],
       label: ["", Validators.required],
+      custom: [false],
     });
 
     this.uploadError = {
       fileSize: true,
       fileType: true,
     };
+
+    this.getAllStructureDocs();
   }
 
   get u(): any {
     return this.uploadForm.controls;
+  }
+
+  public getAllStructureDocs(): void {
+    this.structureDocService.getAllStructureDocs().subscribe(
+      (structureDocs: StructureDoc[]) => {
+        this.structureDocs = structureDocs;
+      },
+      (error: any) => {}
+    );
+  }
+
+  public deleteStructureDoc(structureDoc: StructureDoc): void {
+    this.structureDocService.deleteStructureDoc(structureDoc.id).subscribe(
+      () => {
+        this.notifService.success("Suppression réussie");
+        this.getAllStructureDocs();
+      },
+      (error: any) => {
+        this.notifService.error("Impossible de télécharger le fichier");
+      }
+    );
+  }
+
+  public getStructureDoc(structureDoc: StructureDoc): void {
+    this.structureDocService.getStructureDoc(structureDoc.id).subscribe(
+      (blob: any) => {
+        const extensionTmp = structureDoc.path.split(".");
+        const extension = extensionTmp[1];
+        const newBlob = new Blob([blob], { type: structureDoc.filetype });
+
+        saveAs(newBlob, "doc_" + "." + extension);
+
+        this.loadingDownload = false;
+      },
+      (error: any) => {
+        this.loadingDownload = false;
+        this.notifService.error("Impossible de télécharger le fichier");
+      }
+    );
   }
 
   public onFileChange(event: any) {
@@ -65,9 +119,12 @@ export class StructuresUploadDocsComponent implements OnInit {
         "image/jpg",
         "application/pdf",
         "image/jpeg",
-        "image/bmp",
-        "image/gif",
         "image/png",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.oasis.opendocument.text",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.ms-excel",
       ];
       const type = event.target.files[0].type;
       const size = event.target.files[0].size;
@@ -95,5 +152,22 @@ export class StructuresUploadDocsComponent implements OnInit {
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.imageInput.value);
     formData.append("label", this.uploadForm.controls.label.value);
+    formData.append("custom", "false");
+
+    this.structureDocService.upload(formData).subscribe(
+      (res) => {
+        this.uploadResponse = res;
+        if (
+          this.uploadResponse.success !== undefined &&
+          this.uploadResponse.success
+        ) {
+          console.log(res);
+          this.uploadForm.reset();
+          this.fileName = "";
+          this.getAllStructureDocs();
+        }
+      },
+      (err) => (this.httpError = err)
+    );
   }
 }

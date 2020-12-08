@@ -1,7 +1,10 @@
 <div class="container" *ngIf="me">
-  <app-structures-upload-docs></app-structures-upload-docs>
-
   <div class="row">
+    <div class="col-md-10 offset-1">
+      <h4>Vos documents</h4>
+      <app-structures-upload-docs [user]="me"></app-structures-upload-docs>
+    </div>
+    <br />
     <div class="col-md-10 offset-1">
       <h4>Vos données</h4>
       <div class="list-group">

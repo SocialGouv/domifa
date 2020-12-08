@@ -1,29 +1,24 @@
 import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
 import { map } from "rxjs/operators";
 
 import { environment } from "src/environments/environment";
-import { Doc } from "../../usagers/interfaces/doc";
-import { Usager } from "../../usagers/interfaces/usager";
-
-import { DepartementHelper } from "./departement-helper.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class StructureUploadDocsService {
+export class StructureDocService {
   public http: HttpClient;
-  public departementHelper: DepartementHelper;
-  private endPoint = environment.apiUrl + "structures";
+  private endPoint = environment.apiUrl + "structure-doc";
 
-  constructor(http: HttpClient, departementHelper: DepartementHelper) {
+  constructor(http: HttpClient) {
     this.http = http;
-    this.departementHelper = departementHelper;
   }
 
-  public upload(data: any, usagerId: number) {
-    const uploadURL = `${this.endPoint}${usagerId}`;
+  public upload(data: any) {
+    const uploadURL = `${this.endPoint}`;
 
     return this.http
       .post<any>(uploadURL, data, {
@@ -48,17 +43,17 @@ export class StructureUploadDocsService {
       );
   }
 
-  public getDocument(usagerId: number, index: number, doc: Doc) {
-    return this.http.get(`${this.endPoint}${usagerId}/${index}`, {
+  public getAllStructureDocs(): Observable<any> {
+    return this.http.get(this.endPoint);
+  }
+
+  public getStructureDoc(docId: number) {
+    return this.http.get(this.endPoint + "/" + docId, {
       responseType: "blob",
     });
   }
 
-  public deleteDocument(usagerId: number, index: number) {
-    return this.http.delete(`${this.endPoint}${usagerId}/${index}`).pipe(
-      map((response) => {
-        return new Usager(response);
-      })
-    );
+  public deleteStructureDoc(docId: number) {
+    return this.http.delete(this.endPoint + "/" + docId);
   }
 }

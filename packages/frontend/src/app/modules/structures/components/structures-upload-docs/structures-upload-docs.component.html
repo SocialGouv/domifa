@@ -1,5 +1,3 @@
-<h2>Vos documents</h2>
-
 <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
   <div class="row">
     <div class="col">
@@ -96,4 +94,60 @@
   </div>
 </form>
 
-<div class="row"></div>
+<div class="row">
+  <div *ngIf="structureDocs.length === 0">
+    <ngb-alert [dismissible]="false">Aucun document enregistré</ngb-alert>
+  </div>
+</div>
+
+<div>
+  <div *ngIf="structureDocs.length > 0" class="row">
+    <table class="table table-light">
+      <tbody>
+        <tr>
+          <th>Nom du doc</th>
+          <th>Ajoutée le</th>
+          <th>Ajoutée par</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let document of structureDocs">
+          <td>{{ document.label }}</td>
+          <td>{{ document.createdAt | date: "dd/MM/yyyy" }}</td>
+          <td>{{ document.createdBy.nom }} {{ document.createdBy.prenom }}</td>
+          <td class="text-right">
+            <button
+              (click)="getStructureDoc(document)"
+              class="btn btn-primary"
+              [disabled]="loadingDelete || loadingDownload"
+              aria-label="Voir la pièce jointe"
+            >
+              <span *ngIf="loadingDownload"
+                ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
+                Téléchargement en cours...</span
+              >
+
+              <span *ngIf="!loadingDownload"
+                ><fa-icon icon="download"></fa-icon> &nbsp; Télécharger</span
+              >
+            </button>
+            &nbsp;
+            <button
+              (click)="deleteStructureDoc(document)"
+              class="btn btn-danger"
+              [disabled]="loadingDelete || loadingDownload"
+              aria-label="Voir la pièce jointe"
+            >
+              <span *ngIf="loadingDelete"
+                ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
+                Suppression en cours...</span
+              >
+              <span *ngIf="!loadingDelete"
+                ><fa-icon icon="trash"></fa-icon> &nbsp; Supprimer</span
+              >
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

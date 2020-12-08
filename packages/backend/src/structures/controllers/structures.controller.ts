@@ -15,24 +15,25 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as fs from "fs";
 import * as rimraf from "rimraf";
-import { CurrentUser } from "../auth/current-user.decorator";
-import { AdminGuard } from "../auth/guards/admin.guard";
-import { DomifaGuard } from "../auth/guards/domifa.guard";
-import { domifaConfig } from "../config";
-import { usersRepository } from "../database";
-import { InteractionsService } from "../interactions/interactions.service";
-import { DomifaMailsService } from "../mails/services/domifa-mails.service";
-import { StructuresMailsService } from "../mails/services/structures-mails.service";
-import { UsagersMailsService } from "../mails/services/usagers-mails.service";
-import { StatsGeneratorService } from "../stats/services/stats-generator.service";
-import { StatsService } from "../stats/services/stats.service";
-import { UsagersService } from "../usagers/services/usagers.service";
-import { EmailDto } from "../users/dto/email.dto";
-import { AppAuthUser } from "../_common/model";
-import { StructureEditDto } from "./dto/structure-edit.dto";
-import { StructureDto } from "./dto/structure.dto";
-import { StructuresService } from "./services/structures.service";
+
 import moment = require("moment");
+import { CurrentUser } from "../../auth/current-user.decorator";
+import { AdminGuard } from "../../auth/guards/admin.guard";
+import { DomifaGuard } from "../../auth/guards/domifa.guard";
+import { domifaConfig } from "../../config";
+import { usersRepository } from "../../database";
+import { InteractionsService } from "../../interactions/interactions.service";
+import { DomifaMailsService } from "../../mails/services/domifa-mails.service";
+import { StructuresMailsService } from "../../mails/services/structures-mails.service";
+import { UsagersMailsService } from "../../mails/services/usagers-mails.service";
+import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
+import { StatsService } from "../../stats/services/stats.service";
+import { UsagersService } from "../../usagers/services/usagers.service";
+import { EmailDto } from "../../users/dto/email.dto";
+import { AppAuthUser } from "../../_common/model";
+import { StructureEditDto } from "../dto/structure-edit.dto";
+import { StructureDto } from "../dto/structure.dto";
+import { StructuresService } from "../services/structures.service";
 
 @Controller("structures")
 @ApiTags("structures")
