@@ -14,9 +14,6 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# install via GEM
-RUN sudo gem install fastlane -NV
-
 # allow 'node' user to go sudo without password
 RUN adduser node sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
