@@ -72,7 +72,7 @@ fi
 if [ -z "$POSTGRES_DATABASE" ]; then
   echo ""
   echo "----------------------------------------------------------------------------------------------"
-  echo "[ERROR] env.POSTGRES_USERNAME not set"
+  echo "[ERROR] env.POSTGRES_DATABASE not set"
   echo "----------------------------------------------------------------------------------------------"
   exit 1
 fi
