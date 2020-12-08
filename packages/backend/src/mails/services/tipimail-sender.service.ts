@@ -62,7 +62,11 @@ export class TipimailSender {
       );
     }
     if (!domifaConfig().email.emailsEnabled) {
-      return { sent: [], skipped: toSkip };
+      return {
+        sent: [],
+        skipped: toSkip,
+        serverResponse: "email sending disabled",
+      };
     }
     if (domifaConfig().email.emailAddressRedirectAllTo) {
       appLogger.debug(
@@ -73,7 +77,11 @@ export class TipimailSender {
     }
 
     if (toSend.length === 0) {
-      return { sent: toSend, skipped: toSkip };
+      return {
+        sent: toSend,
+        skipped: toSkip,
+        serverResponse: "all recipients skipped",
+      };
     }
 
     let subject = message.subject;
@@ -88,6 +96,27 @@ export class TipimailSender {
         .join(", ")})`;
     }
 
+    return this._postTipimailMessage({ toSend, message, subject, toSkip });
+  }
+  private _postTipimailMessage({
+    toSend,
+    message,
+    subject,
+    toSkip,
+  }: {
+    toSend: MessageEmailRecipient[];
+    message: MessageEmailContent & {
+      attachments?: [
+        {
+          contentType: string;
+          filename: string;
+          content: any;
+        }
+      ];
+    };
+    subject: string;
+    toSkip: MessageEmailRecipient[];
+  }): Promise<MessageEmailSendDetails> {
     const post = {
       to: toSend,
       headers: {
@@ -99,10 +128,11 @@ export class TipimailSender {
         replyTo: message.replyTo,
         subject,
         attachments: message.attachments,
-        html: `<p>Le template "${message.tipimailTemplateId}" n'existe pas.</p>`, // message par défaut si le tipimailTemplateId n'existe pas
+        html: `<p>Le template "${message.tipimailTemplateId}" n'existe pas.</p>`,
       },
     };
 
+    // https://docs.tipimail.com/fr/integrate/api/messages
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
@@ -113,8 +143,14 @@ export class TipimailSender {
       .pipe(
         switchMap((result: AxiosResponse) => {
           if (result.status !== 200) {
+            // https://docs.tipimail.com/fr/integrate/api
             appLogger.warn(JSON.stringify(result.data));
-
+            appLogger.warn(
+              `Error status "${result.status}" sending tipimail "${message.tipimailTemplateId}" message`,
+              {
+                sentryBreadcrumb: true,
+              }
+            );
             return throwError(
               new HttpException(
                 `TIPIMAIL_ERROR_${message.tipimailTemplateId}`,
@@ -122,7 +158,12 @@ export class TipimailSender {
               )
             );
           } else {
-            return of({ sent: toSend, skipped: toSkip });
+            // SUCCESS
+            return of({
+              sent: toSend,
+              skipped: toSkip,
+              serverResponse: result.data,
+            });
           }
         }),
         catchError((err) => {
@@ -145,6 +186,7 @@ export class TipimailSender {
       .toPromise();
   }
 }
+
 function isRecipientToSkip(recipient: MessageEmailRecipient) {
   return (
     !domifaConfig().email.emailsEnabled ||
