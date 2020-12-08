@@ -74,10 +74,11 @@ Tests:
     POSTGRES_HOST_AUTH_METHOD: trust
     DOMIFA_ENV_ID: test
     NODE_ENV: tests-travis
-    SECRET: ""
+    SECRET: "1234"
     DOMIFA_ENV_ID: "test"
     POSTGRES_USERNAME: "runner"
     POSTGRES_DATABASE: "postgres"
+    DOMIFA_PRINT_CONFIG: "true"
   # shell: bash
   before_script:
     - yarn --frozen-lockfile
