@@ -20,6 +20,9 @@ case $i in
     --recreate-db)
       RECREATE_DB="true"
     ;;
+    --create-db)
+      CREATE_DB="true"
+    ;;
     *)
     # unknown option
     echo ""
@@ -107,6 +110,20 @@ if [ "$RECREATE_DB" == "true" ]; then
 
     # create database (NOTE: POSTGRES_USER is "postgres" super user, while POSTGRES_USERNAME is "domifa" db owner & user)
     (set -x && psql --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
+    if [ $? -ne 0 ]; then
+      echo ""
+      echo "----------------------------------------------------------------------------------------------"
+      echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+      echo "----------------------------------------------------------------------------------------------"
+      exit 1
+    fi
+
+fi
+
+if [ "$CREATE_DB" == "true" ]; then
+
+    # create database (NOTE: POSTGRES_USER is "postgres" super user, while POSTGRES_USERNAME is "domifa" db owner & user)
+    (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
     if [ $? -ne 0 ]; then
       echo ""
       echo "----------------------------------------------------------------------------------------------"
