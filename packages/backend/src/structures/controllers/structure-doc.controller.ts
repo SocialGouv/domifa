@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   HttpStatus,
   Param,
   Post,
@@ -30,8 +31,7 @@ const InspectModule = require("docxtemplater/js/inspect-module");
 import * as fs from "fs";
 import * as path from "path";
 
-import { AppUserCreatedBy } from "../../_common/model/app-user/AppUserCreatedBy.type";
-import { deleteFile, validateUpload } from "../../util/FileManager";
+import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 import { StructureDocDto } from "../dto/structure-doc.dto";
 import { StructureDocService } from "../services/structure-doc.service";
 import { StructureDoc } from "../../_common/model/structure-doc";
@@ -62,13 +62,19 @@ export class StructureDocController {
   @Post("")
   @UseInterceptors(
     FileInterceptor("file", {
+      limits: {
+        fieldSize: 10 * 1024 * 1024,
+        files: 1,
+      },
       fileFilter: (
         req: any,
         file: Express.Multer.File,
         cb: (error: any | null, success: boolean) => void
       ) => {
-        console.log(file);
-        validateUpload("STRUCTURE_DOC", req, file, cb);
+        if (!validateUpload("STRUCTURE_DOC", req, file)) {
+          throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
+        }
+        cb(null, true);
       },
       storage: diskStorage({
         destination: (
@@ -86,11 +92,7 @@ export class StructureDocController {
         },
 
         filename: (req: any, file: Express.Multer.File, cb: any) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join("");
-          return cb(null, `${randomName}${path.extname(file.originalname)}`);
+          return cb(null, randomName(file));
         },
       }),
     })

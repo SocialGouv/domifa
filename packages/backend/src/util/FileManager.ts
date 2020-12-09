@@ -1,9 +1,10 @@
 import * as fs from "fs";
+import * as path from "path";
 import Sentry = require("@sentry/node");
 import { HttpException, HttpStatus } from "@nestjs/common";
 
 // Liste des extensions autorisé selon le contexte
-export const extensionsAvailables = {
+export const mimeTypes = {
   STRUCTURE_DOC: [
     "image/jpg",
     "image/jpeg",
@@ -20,14 +21,25 @@ export const extensionsAvailables = {
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     "application/vnd.oasis.opendocument.spreadsheet",
   ],
-  USAGER_DOC: [
-    "image/jpg",
-    "image/jpeg",
-    "image/bmp",
-    "image/gif",
-    "image/png",
-    "application/pdf",
+  USAGER_DOC: ["image/jpg", "image/jpeg", "image/png", "application/pdf"],
+};
+
+export const extensions = {
+  STRUCTURE_DOC: [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".pdf",
+    ".odt",
+    ".doc",
+    ".docx",
+    ".xls",
+    ".xlsx",
+    ".ots",
+    ".ods",
   ],
+  IMPORT: [".xls", ".xlsx", ".ots", ".ods"],
+  USAGER_DOC: [".jpg", ".jpeg", ".png", ".pdf"],
 };
 
 // Suppression effective d'un fichier
@@ -50,25 +62,24 @@ export async function deleteFile(pathFile: string) {
   }
 }
 
+export function randomName(file: Express.Multer.File): string {
+  const randomName = Array(32)
+    .fill(null)
+    .map(() => Math.round(Math.random() * 16).toString(16))
+    .join("");
+  return randomName + path.extname(file.originalname);
+}
+
 // Vérification des mimetype
 export function validateUpload(
   uploadType: "STRUCTURE_DOC" | "USAGER_DOC" | "IMPORT",
   req: any,
-  file: Express.Multer.File,
-  cb: (error: any | null, success: boolean) => void
-): void {
-  const validFileExtensions = extensionsAvailables[uploadType];
-  const mimeTest = validFileExtensions.includes(file.mimetype);
-  // const sizeTest = file.size < 10000000;
+  file: Express.Multer.File
+): boolean {
+  const validFileMimeType = mimeTypes[uploadType].includes(file.mimetype);
+  const validFileExtension = extensions[uploadType].includes(
+    path.extname(file.originalname).toLowerCase()
+  );
 
-  if (!mimeTest) {
-    cb(
-      {
-        fileSize: true,
-        fileType: mimeTest,
-      },
-      null
-    );
-  }
-  cb(null, true);
+  return validFileMimeType && validFileExtension;
 }

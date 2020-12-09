@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -33,7 +32,7 @@ import { Usager } from "../interfaces/usagers";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 
-import { deleteFile } from "../../util/FileManager";
+import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
 @ApiTags("docs")
@@ -49,19 +48,14 @@ export class DocsController {
   @Post(":id")
   @UseInterceptors(
     FileInterceptor("file", {
-      fileFilter: (req: any, file: any, cb: any) => {
-        const mimeTest = !file.mimetype.match(/\/(jpg|jpeg|png|gif|pdf)$/);
-        const sizeTest = file.size >= 10000000;
-        if (sizeTest || mimeTest) {
-          throw new BadRequestException({
-            fileSize: sizeTest,
-            fileType: mimeTest,
-          });
+      fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
+        if (!validateUpload("USAGER_DOC", req, file)) {
+          throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
         }
         cb(null, true);
       },
       storage: diskStorage({
-        destination: (req: any, file: any, cb: any) => {
+        destination: (req: any, file: Express.Multer.File, cb: any) => {
           const dir =
             domifaConfig().upload.basePath +
             req.user.structureId +
@@ -73,13 +67,8 @@ export class DocsController {
           }
           cb(null, dir);
         },
-
-        filename: (req: any, file: any, cb: any) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join("");
-          return cb(null, `${randomName}${path.extname(file.originalname)}`);
+        filename: (req: any, file: Express.Multer.File, cb: any) => {
+          return cb(null, randomName(file));
         },
       }),
     })
