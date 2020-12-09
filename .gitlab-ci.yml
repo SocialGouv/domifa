@@ -63,21 +63,21 @@ Tests:
     - name: mongo:4.0.3
     - name: postgres:10.14
   variables:
-    MONGO_INITDB_ROOT_USERNAME: "root"
-    MONGO_INITDB_ROOT_PASSWORD: "root"
-    DB_USER: "root"
-    DB_PASS: "root"
-    DB_NAME: "domifa_test"
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD: root
+    DB_USER: root
+    DB_PASS: root
+    DB_NAME: domifa_test
     POSTGRES_DB: nice_marmot
     POSTGRES_USER: runner
-    POSTGRES_PASSWORD: "1234"
+    POSTGRES_PASSWORD: abcd
     POSTGRES_HOST_AUTH_METHOD: trust
     DOMIFA_ENV_ID: test
     NODE_ENV: tests-travis
-    SECRET: "1234"
-    DOMIFA_ENV_ID: "test"
-    POSTGRES_USERNAME: "runner"
-    POSTGRES_DATABASE: "postgres"
+    SECRET: efgh
+    DOMIFA_ENV_ID: test
+    POSTGRES_USERNAME: runner
+    POSTGRES_DATABASE: domifa_test
     DOMIFA_PRINT_CONFIG: "true"
   # shell: bash
   before_script:
