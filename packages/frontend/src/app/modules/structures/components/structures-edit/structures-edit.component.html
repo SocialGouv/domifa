@@ -4,7 +4,11 @@
       <h4>Vos données</h4>
       <div class="list-group">
         <div class="list-group-item">
-          <button (click)="export()" [disabled]="exportLoading" class="btn btn-outline-primary">
+          <button
+            (click)="export()"
+            [disabled]="exportLoading"
+            class="btn btn-outline-primary"
+          >
             <span *ngIf="!exportLoading">
               <fa-icon icon="download" class="btn-icon"></fa-icon>
               Exporter tous les domiciliés
@@ -15,7 +19,11 @@
             </span>
           </button>
           &nbsp;
-          <button *ngIf="me.role === 'admin'" (click)="open(hardResetConfirmation)" class="btn btn-outline-danger">
+          <button
+            *ngIf="me.role === 'admin'"
+            (click)="open(hardResetConfirmation)"
+            class="btn btn-outline-danger"
+          >
             <fa-icon icon="trash" class="btn-icon"></fa-icon>
             Supprimer tous les domiciliés
           </button>
@@ -23,7 +31,12 @@
       </div>
 
       <div *ngIf="me.role === 'admin'">
-        <h4>Informations de ma structure</h4>
+        <h4>Vos documents</h4>
+        <app-structures-upload-docs [user]="me"></app-structures-upload-docs>
+      </div>
+
+      <div *ngIf="me.role === 'admin'">
+        <h4>Informations de votre structure</h4>
         <div class="list-group-item" *ngIf="structure">
           <div class="row">
             <div class="col-7">
@@ -41,16 +54,27 @@
       </div>
 
       <div *ngIf="me.role === 'admin'">
-        <h4 class="title">
-          Modifier les informations de votre structure
-        </h4>
-        <form *ngIf="structure" id="structureForm" [formGroup]="structureEdit" (ngSubmit)="submitStrucutre()">
+        <h4 class="title">Modifier les informations de votre structure</h4>
+        <form
+          *ngIf="structure"
+          id="structureForm"
+          [formGroup]="structureEdit"
+          (ngSubmit)="submitStrucutre()"
+        >
           <div class="list-group-item">
             <div class="row">
               <div class="col-md-12 form-group required">
                 <br />
                 <label for="nom">Raison sociale (nom de la structure)</label>
-                <input type="text" class="form-control" id="nom" formControlName="nom" placeholder="Nom" [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nom"
+                  formControlName="nom"
+                  placeholder="Nom"
+                  [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+                  required
+                />
                 <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
                   <div *ngIf="f.nom.errors.required">
                     Le nom de la structure est requis
@@ -59,9 +83,21 @@
               </div>
 
               <div class="col-md-12 form-group required">
-                <label for="adresse">Adresse de l'organisme domiciliataire</label>
-                <input id="adresse" type="text" class="form-control" formControlName="adresse" [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }" placeholder="Cette adresse apparaîtra sur le Cerfa" />
-                <div *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
+                <label for="adresse"
+                  >Adresse de l'organisme domiciliataire</label
+                >
+                <input
+                  id="adresse"
+                  type="text"
+                  class="form-control"
+                  formControlName="adresse"
+                  [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
+                  placeholder="Cette adresse apparaîtra sur le Cerfa"
+                />
+                <div
+                  *ngIf="submitted && f.adresse.errors"
+                  class="invalid-feedback"
+                >
                   <div *ngIf="f.adresse.errors.required">
                     L'adresse est obligatoire
                   </div>
@@ -70,20 +106,38 @@
 
               <div class="col-md-12 form-group">
                 <label for="complementAdresse">Complément d'adresse</label>
-                <input type="text" class="form-control" id="complementAdresse" formControlName="complementAdresse" placeholder="Lieu-dit, Bâtiment, étage, etc.." [ngClass]="{
+                <input
+                  type="text"
+                  class="form-control"
+                  id="complementAdresse"
+                  formControlName="complementAdresse"
+                  placeholder="Lieu-dit, Bâtiment, étage, etc.."
+                  [ngClass]="{
                     'is-invalid': submitted && f.complementAdresse.errors
-                  }" />
-                <div *ngIf="submitted && f.complementAdresse.errors" class="invalid-feedback">
+                  }"
+                />
+                <div
+                  *ngIf="submitted && f.complementAdresse.errors"
+                  class="invalid-feedback"
+                >
                   <b>L'adresse est obligatoire</b>
                 </div>
               </div>
               <div class="col-md-6 form-group required">
                 <label for="codePostal">Code postal</label>
-                <input type="text" class="form-control" id="codePostal" maxlength="5" required formControlName="codePostal" [ngClass]="{
+                <input
+                  type="text"
+                  class="form-control"
+                  id="codePostal"
+                  maxlength="5"
+                  required
+                  formControlName="codePostal"
+                  [ngClass]="{
                     'is-invalid':
                       (f.codePostal.dirty && f.codePostal.errors) ||
                       (submitted && f.codePostal.errors)
-                  }" />
+                  }"
+                />
                 <div *ngIf="f.codePostal.errors" class="invalid-feedback">
                   Le code postal est obligatoire
                 </div>
@@ -91,8 +145,18 @@
 
               <div class="col-md-6 form-group required">
                 <label for="ville">Ville</label>
-                <input type="text" class="form-control" id="ville" required formControlName="ville" [ngClass]="{ 'is-invalid': submitted && f.ville.errors }" />
-                <div *ngIf="submitted && f.ville.errors" class="invalid-feedback">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ville"
+                  required
+                  formControlName="ville"
+                  [ngClass]="{ 'is-invalid': submitted && f.ville.errors }"
+                />
+                <div
+                  *ngIf="submitted && f.ville.errors"
+                  class="invalid-feedback"
+                >
                   La ville est obligatoire
                 </div>
               </div>
@@ -102,7 +166,13 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-check form-group">
-                    <input class="form-check-input" type="checkbox" formControlName="actif" value="true" id="adresseCourrier" />
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      formControlName="actif"
+                      value="true"
+                      id="adresseCourrier"
+                    />
                     <label class="form-check-label" for="adresseCourrier">
                       L'adresse de réception du courrier est différente de celle
                       de l'association ?
@@ -111,40 +181,69 @@
                 </div>
               </div>
 
-              <div class="row" *ngIf="f.adresseCourrier.get('actif').value === true">
+              <div
+                class="row"
+                *ngIf="f.adresseCourrier.get('actif').value === true"
+              >
                 <div class="col-md-12 form-group">
                   <label for="adresse2">Adresse de réception du courrier</label>
-                  <input type="text" class="form-control" id="adresse2" formControlName="adresse" placeholder="Numéro et nom de rue, batiment, etc." [ngClass]="{
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="adresse2"
+                    formControlName="adresse"
+                    placeholder="Numéro et nom de rue, batiment, etc."
+                    [ngClass]="{
                       'is-invalid':
                         f.adresseCourrier.get('actif').value === true &&
                         f.adresseCourrier.get('adresse').errors
-                    }" />
+                    }"
+                  />
                 </div>
                 <div class="col-md-6 form-group required">
                   <label for="codePostal2">Code postal</label>
-                  <input type="text" class="form-control" id="codePostal2" maxlength="5" formControlName="codePostal" [ngClass]="{
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="codePostal2"
+                    maxlength="5"
+                    formControlName="codePostal"
+                    [ngClass]="{
                       'is-invalid':
                         f.adresseCourrier.get('actif').value === true &&
                         f.adresseCourrier.get('codePostal').errors
-                    }" />
-                  <div *ngIf="
+                    }"
+                  />
+                  <div
+                    *ngIf="
                       f.adresseCourrier.get('actif').value === true &&
                       f.adresseCourrier.get('codePostal').errors
-                    " class="invalid-feedback">
+                    "
+                    class="invalid-feedback"
+                  >
                     Le code postal est obligatoire
                   </div>
                 </div>
                 <div class="col-md-6 form-group required">
                   <label for="ville2">Ville</label>
-                  <input type="text" class="form-control" id="ville2" formControlName="ville" [ngClass]="{
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ville2"
+                    formControlName="ville"
+                    [ngClass]="{
                       'is-invalid':
                         f.adresseCourrier.get('actif').value === true &&
                         f.adresseCourrier.get('ville').errors
-                    }" />
-                  <div *ngIf="
+                    }"
+                  />
+                  <div
+                    *ngIf="
                       f.adresseCourrier.get('actif').value === true &&
                       f.adresseCourrier.get('ville').errors
-                    " class="invalid-feedback">
+                    "
+                    class="invalid-feedback"
+                  >
                     La ville est obligatoire
                   </div>
                 </div>
@@ -154,18 +253,38 @@
             <div class="row">
               <div class="col form-group required">
                 <label for="phone">Numéro de téléphone</label>
-                <input type="tel" class="form-control" id="phone" digitOnly formControlName="phone" placeholder="0606060606" maxlength="10" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" required />
-                <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phone"
+                  digitOnly
+                  formControlName="phone"
+                  placeholder="0606060606"
+                  maxlength="10"
+                  [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
+                  required
+                />
+                <div
+                  *ngIf="submitted && f.phone.errors"
+                  class="invalid-feedback"
+                >
                   <div>Le numéro de téléphone est obligatoire</div>
                 </div>
               </div>
               <div class="col form-group required">
                 <label for="email">Adresse e-mail indiquée sur le Cerfa</label>
-                <input type="email" class="form-control" id="email" formControlName="email" [ngClass]="{
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                  [ngClass]="{
                     'is-invalid':
                       (submitted && f.email.errors) ||
                       (f.email.dirty && f.email.errors)
-                  }" required />
+                  }"
+                  required
+                />
                 <div *ngIf="f.email.errors" class="invalid-feedback">
                   <div *ngIf="f.email.errors.emailTaken">
                     <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
@@ -187,29 +306,58 @@
               </div>
 
               <div class="col-6 form-group">
-                <label for="departement">Préfecture ayant délivré l’agrément</label>
-                <select id="departement" formControlName="departement" class="custom-select">
-                  <option *ngFor="let departement of departements | keyvalue" [ngValue]="departement.key">
+                <label for="departement"
+                  >Préfecture ayant délivré l’agrément</label
+                >
+                <select
+                  id="departement"
+                  formControlName="departement"
+                  class="custom-select"
+                >
+                  <option
+                    *ngFor="let departement of departements | keyvalue"
+                    [ngValue]="departement.key"
+                  >
                     {{ departement.key }} - {{ departement.value }}
                   </option>
                 </select>
 
-                <div *ngIf="submitted && f.departement.errors" class="invalid-feedback">
+                <div
+                  *ngIf="submitted && f.departement.errors"
+                  class="invalid-feedback"
+                >
                   Veuillez sélectionner un département
                 </div>
               </div>
 
               <div class="col-6 form-group">
                 <label for="agrement">Numéro d'agrément</label>
-                <input formControlName="agrement" class="form-control" id="agrement" placeholder="Numéro donné par la préfecture" type="text" [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }" />
-                <div *ngIf="submitted && f.agrement.errors" class="invalid-feedback">
+                <input
+                  formControlName="agrement"
+                  class="form-control"
+                  id="agrement"
+                  placeholder="Numéro donné par la préfecture"
+                  type="text"
+                  [ngClass]="{ 'is-invalid': submitted && f.agrement.errors }"
+                />
+                <div
+                  *ngIf="submitted && f.agrement.errors"
+                  class="invalid-feedback"
+                >
                   Veuillez insérer un numéro d'agrément
                 </div>
               </div>
 
               <div class="col-6 form-group">
                 <label for="capacite">Capacité d'accueil</label>
-                <input formControlName="capacite" class="form-control" id="capacite" placeholder="Nombre maxi de domiciliés" type="number" [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }" />
+                <input
+                  formControlName="capacite"
+                  class="form-control"
+                  id="capacite"
+                  placeholder="Nombre maxi de domiciliés"
+                  type="number"
+                  [ngClass]="{ 'is-invalid': submitted && f.capacite.errors }"
+                />
                 <small id="capaciteHelp" class="form-text text-muted">
                   Optionnel
                 </small>
@@ -224,10 +372,21 @@
             <div class="row" formGroupName="responsable">
               <div class="col-md-6 form-group required">
                 <label for="responsable-nom">Nom</label>
-                <input type="text" class="form-control" id="responsable-nom" formControlName="nom" placeholder="Nom d'un.e responsable" [ngClass]="{
+                <input
+                  type="text"
+                  class="form-control"
+                  id="responsable-nom"
+                  formControlName="nom"
+                  placeholder="Nom d'un.e responsable"
+                  [ngClass]="{
                     'is-invalid': submitted && f.responsable.get('nom').errors
-                  }" required />
-                <div *ngIf="submitted && f.responsable.get('nom').errors" class="invalid-feedback">
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="submitted && f.responsable.get('nom').errors"
+                  class="invalid-feedback"
+                >
                   <div *ngIf="f.responsable.get('nom').errors.required">
                     Le nom du demandeur est obligatoire
                   </div>
@@ -235,11 +394,22 @@
               </div>
               <div class="col-md-6 form-group required">
                 <label for="responsable-prenom">Prénom(s)</label>
-                <input type="text" class="form-control" id="responsable-prenom" formControlName="prenom" placeholder="Prénom(s)" [ngClass]="{
+                <input
+                  type="text"
+                  class="form-control"
+                  id="responsable-prenom"
+                  formControlName="prenom"
+                  placeholder="Prénom(s)"
+                  [ngClass]="{
                     'is-invalid':
                       submitted && f.responsable.get('prenom').errors
-                  }" required />
-                <div *ngIf="submitted && f.responsable.get('prenom').errors" class="invalid-feedback">
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="submitted && f.responsable.get('prenom').errors"
+                  class="invalid-feedback"
+                >
                   <div *ngIf="f.responsable.get('prenom').errors.required">
                     Le prénom est obligatoire
                   </div>
@@ -247,11 +417,22 @@
               </div>
               <div class="col-md-12 form-group required">
                 <label for="fonction">Fonction</label>
-                <input type="text" class="form-control" id="fonction" formControlName="fonction" placeholder="Président.e, Directrice, etc." [ngClass]="{
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fonction"
+                  formControlName="fonction"
+                  placeholder="Président.e, Directrice, etc."
+                  [ngClass]="{
                     'is-invalid':
                       submitted && f.responsable.get('fonction').errors
-                  }" required />
-                <div *ngIf="submitted && f.responsable.get('fonction').errors" class="invalid-feedback">
+                  }"
+                  required
+                />
+                <div
+                  *ngIf="submitted && f.responsable.get('fonction').errors"
+                  class="invalid-feedback"
+                >
                   <div *ngIf="f.responsable.get('fonction').errors.required">
                     Votre fonction est obligatoire
                   </div>
@@ -283,20 +464,31 @@
                 dossiers
               </div>
               <div class="col-3 text-right">
-                <div formControlName="customId" class="btn-group btn-group-toggle" ngbRadioGroup name="customId">
-                  <label ngbButtonLabel [ngClass]="
+                <div
+                  formControlName="customId"
+                  class="btn-group btn-group-toggle"
+                  ngbRadioGroup
+                  name="customId"
+                >
+                  <label
+                    ngbButtonLabel
+                    [ngClass]="
                       f.options.get('customId').value === true
                         ? 'btn-primary'
                         : 'btn-outline-primary'
-                    ">
+                    "
+                  >
                     <input ngbButton type="radio" [value]="true" />
                     Oui
                   </label>
-                  <label ngbButtonLabel [ngClass]="
+                  <label
+                    ngbButtonLabel
+                    [ngClass]="
                       f.options.get('customId').value === false
                         ? 'btn-danger'
                         : 'btn-outline-danger'
-                    ">
+                    "
+                  >
                     <input ngbButton type="radio" [value]="false" />
                     Non
                   </label>
@@ -312,20 +504,31 @@
                 du cerfa d'attestation du domicilié
               </div>
               <div class="col-3 text-right">
-                <div formControlName="numeroBoite" class="btn-group btn-group-toggle" ngbRadioGroup name="numeroBoite">
-                  <label ngbButtonLabel [ngClass]="
+                <div
+                  formControlName="numeroBoite"
+                  class="btn-group btn-group-toggle"
+                  ngbRadioGroup
+                  name="numeroBoite"
+                >
+                  <label
+                    ngbButtonLabel
+                    [ngClass]="
                       f.options.get('numeroBoite').value === true
                         ? 'btn-primary'
                         : 'btn-outline-primary'
-                    ">
+                    "
+                  >
                     <input ngbButton type="radio" [value]="true" />
                     Oui
                   </label>
-                  <label ngbButtonLabel [ngClass]="
+                  <label
+                    ngbButtonLabel
+                    [ngClass]="
                       f.options.get('numeroBoite').value === false
                         ? 'btn-danger'
                         : 'btn-outline-danger'
-                    ">
+                    "
+                  >
                     <input ngbButton type="radio" [value]="false" />
                     Non
                   </label>
@@ -340,20 +543,31 @@
                 commune ou d'un autre arrondissement ?
               </div>
               <div class="col-3 text-right">
-                <div formControlName="rattachement" class="btn-group btn-group-toggle" ngbRadioGroup name="rattachement">
-                  <label ngbButtonLabel [ngClass]="
+                <div
+                  formControlName="rattachement"
+                  class="btn-group btn-group-toggle"
+                  ngbRadioGroup
+                  name="rattachement"
+                >
+                  <label
+                    ngbButtonLabel
+                    [ngClass]="
                       f.options.get('rattachement').value === true
                         ? 'btn-primary'
                         : 'btn-outline-primary'
-                    ">
+                    "
+                  >
                     <input ngbButton type="radio" [value]="true" />
                     Oui
                   </label>
-                  <label ngbButtonLabel [ngClass]="
+                  <label
+                    ngbButtonLabel
+                    [ngClass]="
                       f.options.get('rattachement').value === false
                         ? 'btn-danger'
                         : 'btn-outline-danger'
-                    ">
+                    "
+                  >
                     <input ngbButton type="radio" [value]="false" />
                     Non
                   </label>
@@ -389,18 +603,12 @@
       Si vous choisissez de continuer, les données suivantes seront supprimées:
       <br />
       <ul class="text-left">
-        <li>
-          Tous les dossiers : demandes, domiciliés actifs, radiés, etc.
-        </li>
+        <li>Tous les dossiers : demandes, domiciliés actifs, radiés, etc.</li>
         <li>L'historique de toutes les décisions</li>
-        <li>
-          Toutes les interactions (courriers, appels, etc.)
-        </li>
+        <li>Toutes les interactions (courriers, appels, etc.)</li>
       </ul>
       <br />
-      <b>
-        Vous n'aurez aucun moyen de restaurer les dossiers effacés.
-      </b>
+      <b> Vous n'aurez aucun moyen de restaurer les dossiers effacés. </b>
       <br />
       Pour finaliser cette procédure, cliquez sur "continuer".
       <br />
@@ -408,11 +616,26 @@
     <div class="col text-center" *ngIf="showHardReset">
       <br />
       <br />
-      <form [formGroup]="hardResetForm" (ngSubmit)="hardResetConfirm()" class="col-12">
+      <form
+        [formGroup]="hardResetForm"
+        (ngSubmit)="hardResetConfirm()"
+        class="col-12"
+      >
         <div class="form-group">
-          <label for="hard-reset-input">Veuillez saisir le code reçu par email</label>
+          <label for="hard-reset-input"
+            >Veuillez saisir le code reçu par email</label
+          >
           <div class="offset-md-2 col-md-8">
-            <input type="text" class="form-control" id="hard-reset-input" [ngClass]="{ 'is-invalid': h.token.dirty && h.token.errors }" formControlName="token" maxlength="7" minlength="7" required />
+            <input
+              type="text"
+              class="form-control"
+              id="hard-reset-input"
+              [ngClass]="{ 'is-invalid': h.token.dirty && h.token.errors }"
+              formControlName="token"
+              maxlength="7"
+              minlength="7"
+              required
+            />
           </div>
         </div>
       </form>
@@ -425,7 +648,12 @@
     <button class="btn btn-danger" *ngIf="!showHardReset" (click)="hardReset()">
       Continuer
     </button>
-    <button class="btn btn-danger" *ngIf="showHardReset" [disabled]="hardResetForm.invalid" (click)="hardResetConfirm()">
+    <button
+      class="btn btn-danger"
+      *ngIf="showHardReset"
+      [disabled]="hardResetForm.invalid"
+      (click)="hardResetConfirm()"
+    >
       Confirmer la suppression
     </button>
   </div>

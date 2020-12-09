@@ -19,6 +19,7 @@ import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { StructuresService } from "../../structures/services/structures.service";
+import { randomName, validateUpload } from "../../util/FileManager";
 import { AppAuthUser } from "../../_common/model";
 import { Entretien } from "../interfaces/entretien";
 import { UsagersService } from "../services/usagers.service";
@@ -148,19 +149,18 @@ export class ImportController {
   @Post()
   @UseInterceptors(
     FileInterceptor("file", {
-      fileFilter: (req: any, file: any, cb: any) => {
-        if (
-          file.mimetype !==
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
-          "application/vnd.oasis.opendocument.spreadsheet" &&
-          file.mimetype !== "application/vnd.ms-excel"
-        ) {
+      limits: {
+        fieldSize: 10 * 1024 * 1024,
+        files: 1,
+      },
+      fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
+        if (!validateUpload("IMPORT", req, file)) {
           throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
         }
         cb(null, true);
       },
       storage: diskStorage({
-        destination: (req: any, file: any, cb: any) => {
+        destination: (req: any, file: Express.Multer.File, cb: any) => {
           const dir = path.resolve(__dirname, "../../imports/");
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -168,12 +168,8 @@ export class ImportController {
           cb(null, dir);
         },
 
-        filename: (req: any, file: any, cb: any) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join("");
-          return cb(null, `${randomName}${path.extname(file.originalname)}`);
+        filename: (req: any, file: Express.Multer.File, cb: any) => {
+          return cb(null, randomName(file));
         },
       }),
     })

@@ -1,13 +1,13 @@
 import { HttpStatus } from "@nestjs/common";
-import { DatabaseModule } from "../database";
-import { InteractionsModule } from "../interactions/interactions.module";
-import { MailsModule } from "../mails/mails.module";
-import { StatsModule } from "../stats/stats.module";
-import { UsagersModule } from "../usagers/usagers.module";
-import { UsersModule } from "../users/users.module";
-import { ExpressResponse } from "../util/express";
-import { AppTestContext, AppTestHelper } from "../util/test";
-import { StructuresService } from "./services/structures.service";
+import { DatabaseModule } from "../../database";
+import { InteractionsModule } from "../../interactions/interactions.module";
+import { MailsModule } from "../../mails/mails.module";
+import { StatsModule } from "../../stats/stats.module";
+import { UsagersModule } from "../../usagers/usagers.module";
+import { UsersModule } from "../../users/users.module";
+import { ExpressResponse } from "../../util/express";
+import { AppTestContext, AppTestHelper } from "../../util/test";
+import { StructuresService } from "../services/structures.service";
 import { StructuresController } from "./structures.controller";
 
 describe("Stuctures Controller", () => {

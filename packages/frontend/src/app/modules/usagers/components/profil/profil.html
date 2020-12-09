@@ -1182,10 +1182,8 @@
         <app-documents [usager]="usager"></app-documents>
       </ng-template>
     </ngb-panel>
-    <ngb-panel
-      id="panel-6"
-      *ngIf="isRole('admin') && usager.decision.statut === 'VALIDE'"
-    >
+
+    <ngb-panel id="panel-6" *ngIf="false">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">

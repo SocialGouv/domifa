@@ -1,0 +1,162 @@
+<div class="list-group">
+  <div class="list-group-item">
+    <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="label">Nom du document</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="label"
+              id="label"
+              required
+            />
+            <div *ngIf="u.label.errors" class="invalid-feedback">
+              <div *ngIf="u.label.errors && u.docInput.errors">
+                Indiquez le type de pièce
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <label>Document à enregistrer</label>
+          <div class="form-group custom-file">
+            <input
+              type="file"
+              class="custom-file-input"
+              id="pieceJointe"
+              name="pieceJointe"
+              aria-describedby="pjHelp"
+              (change)="onFileChange($event)"
+              [ngClass]="{
+                'is-invalid':
+                  submittedFile &&
+                  (!uploadError.fileType || !uploadError.fileSize)
+              }"
+              file="pieceJointe"
+              required
+            />
+            <small id="pjHelp" class="form-text text-muted">
+              Formats autorisés .pdf, .doc, .docx, .jpg ou .png (6mo maxi)
+            </small>
+            <input type="hidden" name="fileHidden" formControlName="docInput" />
+            <label
+              class="custom-file-label"
+              for="pieceJointe"
+              data-browse="Parcourir"
+              lang="fr"
+            >
+              {{ fileName }}
+            </label>
+            <div class="text-danger">
+              <div *ngIf="u.docInput.dirty && u.docInput.errors.required">
+                Veuillez ajouter un fichier
+              </div>
+              <div *ngIf="!uploadError.fileType">
+                Format de fichier invalide
+              </div>
+              <div *ngIf="!uploadError.fileSize">
+                La taille du fichier est trop grande
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="text-white">+</label>
+          <button
+            class="btn btn-primary btn-block"
+            [disabled]="
+              uploadForm.invalid ||
+              !uploadError.fileType ||
+              !uploadError.fileSize ||
+              u.docInput.errors
+            "
+          >
+            Ajouter
+          </button>
+        </div>
+        <div class="w-100"></div>
+        <br />
+        <div class="col-md-12">
+          <div *ngIf="uploadResponse">
+            <div *ngIf="uploadResponse.status === 'error'">
+              {{ uploadResponse.message }}
+            </div>
+            <div *ngIf="uploadResponse.status === 'progress'">
+              <ngb-progressbar
+                type="success"
+                [striped]="true"
+                [animated]="true"
+                [value]="uploadResponse.message"
+              >
+                {{ uploadResponse.message }} %
+              </ngb-progressbar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="row">
+      <div *ngIf="structureDocs.length === 0" class="col-12">
+        <ngb-alert [dismissible]="false">Aucun document enregistré</ngb-alert>
+      </div>
+    </div>
+
+    <div>
+      <div *ngIf="structureDocs.length > 0" class="row">
+        <table class="table table-light">
+          <tbody>
+            <tr>
+              <th>Nom du doc</th>
+              <th>Ajoutée le</th>
+              <th>Ajoutée par</th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let document of structureDocs">
+              <td>{{ document.label }}</td>
+              <td>{{ document.createdAt | date: "dd/MM/yyyy" }}</td>
+              <td>
+                {{ document.createdBy.nom }} {{ document.createdBy.prenom }}
+              </td>
+              <td class="text-right">
+                <button
+                  (click)="getStructureDoc(document)"
+                  class="btn btn-primary"
+                  [disabled]="loadingDelete || loadingDownload"
+                  aria-label="Voir la pièce jointe"
+                >
+                  <span *ngIf="loadingDownload"
+                    ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
+                    Téléchargement en cours...</span
+                  >
+
+                  <span *ngIf="!loadingDownload"
+                    ><fa-icon icon="download"></fa-icon> &nbsp;
+                    Télécharger</span
+                  >
+                </button>
+                &nbsp;
+                <button
+                  (click)="deleteStructureDoc(document)"
+                  class="btn btn-danger"
+                  [disabled]="loadingDelete || loadingDownload"
+                  aria-label="Voir la pièce jointe"
+                >
+                  <span *ngIf="loadingDelete"
+                    ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
+                    Suppression en cours...</span
+                  >
+                  <span *ngIf="!loadingDelete"
+                    ><fa-icon icon="trash"></fa-icon> &nbsp; Supprimer</span
+                  >
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

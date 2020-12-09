@@ -2,8 +2,6 @@ import { Component, Input, OnInit } from "@angular/core";
 
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 
-import { ToastrService } from "ngx-toastr";
-import { MatomoTracker } from "ngx-matomo";
 import { saveAs } from "file-saver";
 import { DocumentService } from "../../services/document.service";
 import { Usager } from "../../interfaces/usager";

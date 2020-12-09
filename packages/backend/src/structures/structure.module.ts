@@ -7,11 +7,13 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { StructuresService } from "./services/structures.service";
 import { StructuresProviders } from "./structures-providers";
-import { StructuresController } from "./structures.controller";
+import { StructuresController } from "./controllers/structures.controller";
+import { StructureDocController } from "./controllers/structure-doc.controller";
+import { StructureDocService } from "./services/structure-doc.service";
 
 @Module({
-  controllers: [StructuresController],
-  exports: [StructuresService, ...StructuresProviders],
+  controllers: [StructuresController, StructureDocController],
+  exports: [StructuresService, StructureDocService, ...StructuresProviders],
   imports: [
     DatabaseModule,
     HttpModule,
@@ -21,6 +23,6 @@ import { StructuresController } from "./structures.controller";
     forwardRef(() => StatsModule),
     forwardRef(() => InteractionsModule),
   ],
-  providers: [StructuresService, ...StructuresProviders],
+  providers: [StructuresService, StructureDocService, ...StructuresProviders],
 })
 export class StructuresModule {}
