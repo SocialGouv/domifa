@@ -78,7 +78,7 @@ Tests:
     DOMIFA_ENV_ID: test
     POSTGRES_USERNAME: runner
     POSTGRES_DATABASE: domifa_test
-    DOMIFA_PRINT_CONFIG: "true"
+    #DOMIFA_PRINT_CONFIG: "true"
   # shell: bash
   before_script:
     - yarn --frozen-lockfile
