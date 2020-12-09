@@ -31,7 +31,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { AppUserCreatedBy } from "../../_common/model/app-user/AppUserCreatedBy.type";
-import { deleteFile } from "../../util/FileManager";
+import { deleteFile, validateUpload } from "../../util/FileManager";
 import { StructureDocDto } from "../dto/structure-doc.dto";
 import { StructureDocService } from "../services/structure-doc.service";
 import { StructureDoc } from "../../_common/model/structure-doc";
@@ -67,31 +67,8 @@ export class StructureDocController {
         file: Express.Multer.File,
         cb: (error: any | null, success: boolean) => void
       ) => {
-        const validFileExtensions = [
-          "image/jpg",
-          "application/pdf",
-          "image/jpeg",
-          "image/png",
-          "application/msword",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          "application/vnd.oasis.opendocument.text",
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          "application/vnd.ms-excel",
-        ];
-
-        const mimeTest = !validFileExtensions.includes(file.mimetype);
-
-        const sizeTest = file.size >= 10000000;
-        if (sizeTest || mimeTest) {
-          cb(
-            {
-              fileSize: sizeTest,
-              fileType: mimeTest,
-            },
-            null
-          );
-        }
-        cb(null, true);
+        console.log(file);
+        validateUpload("STRUCTURE_DOC", req, file, cb);
       },
       storage: diskStorage({
         destination: (
@@ -124,12 +101,14 @@ export class StructureDocController {
     @CurrentUser() user: AppAuthUser,
     @Res() res: Response
   ) {
-    const createdBy: AppUserCreatedBy = user;
-
     // Check tags
     const newDoc: StructureDoc = {
       createdAt: new Date(),
-      createdBy,
+      createdBy: {
+        id: user.id,
+        nom: user.nom,
+        prenom: user.prenom,
+      },
       filetype: file.mimetype,
       path: file.filename,
       tags: {},
