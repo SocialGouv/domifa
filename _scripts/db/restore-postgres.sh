@@ -134,8 +134,11 @@ if [ "$CREATE_DB" == "true" ]; then
 
 fi
 
+(set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
+(set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname "${POSTGRES_DATABASE}" -c "DROP SCHEMA IF EXISTS public")
+
 export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-(set -x && pg_restore -h postgres --username=${POSTGRES_USER} --create --no-owner --exit-on-error --verbose --dbname=postgres ${POSTGRES_DUMP_PATH})
+(set -x && pg_restore -h postgres --username=${POSTGRES_USER} --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
 
 if [ $? -ne 0 ]; then
   echo ""
