@@ -72,7 +72,7 @@ export class StructuresService {
 
     return this.structureModel
       .findOneAndUpdate(
-        { _id: user.structureId },
+        { id: user.structureId },
         { $set: structureDto },
         { new: true }
       )
@@ -85,7 +85,7 @@ export class StructuresService {
   ): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
-        { _id: structureId },
+        { id: structureId },
         { $set: { lastExport: dateExport } }
       )
       .exec();
@@ -100,7 +100,7 @@ export class StructuresService {
     const total = valide + refus + radie;
     return this.structureModel
       .findOneAndUpdate(
-        { _id: structureId },
+        { id: structureId },
         {
           $set: {
             stats: { TOTAL: total, VALIDE: valide, REFUS: refus, RADIE: radie },
