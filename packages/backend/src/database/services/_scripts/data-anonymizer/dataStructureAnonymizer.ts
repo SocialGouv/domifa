@@ -23,7 +23,7 @@ async function anonymizeStructures({ app }: { app: INestApplication }) {
   );
 
   appLogger.warn(
-    `[dataStructureAnonymizer] ${structuresWithEmailsToAnonymize.length}/${structures.length} structures emails to anonymize`
+    `[dataStructureAnonymizer] ${structuresWithEmailsToAnonymize.length}/${structures.length} structures to anonymize`
   );
   for (const structure of structuresWithEmailsToAnonymize) {
     await _anonymizeStructure(structure, { app });
@@ -40,12 +40,10 @@ async function _anonymizeStructure(
 
   const attributesToUpdate: Partial<Structure> = {};
 
-  if (dataEmailAnonymizer.isEmailToAnonymize(structure.email)) {
-    attributesToUpdate.email = dataEmailAnonymizer.anonymizeEmail({
-      prefix: "structure",
-      id: structure.id,
-    });
-  }
+  attributesToUpdate.email = dataEmailAnonymizer.anonymizeEmail({
+    prefix: "structure",
+    id: structure.id,
+  });
 
   if (Object.keys(attributesToUpdate).length === 0) {
     // appLogger.debug(`[dataStructureAnonymizer] nothing to update for "${structure._id}"`);
