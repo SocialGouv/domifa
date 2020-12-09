@@ -7,7 +7,7 @@ import {
   Response,
   UploadedFile,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -588,7 +588,7 @@ export class ImportController {
           dateFin,
           motif,
           motifDetails: "",
-          statut: row[this.STATUT_DOM],
+          statut: row[this.STATUT_DOM].toUpperCase(),
           userId: user.id,
           userName: agent,
         },
@@ -605,7 +605,7 @@ export class ImportController {
         sexe,
         structureId: user.structureId,
         surnom: row[this.SURNOM],
-        typeDom: row[this.TYPE_DOM],
+        typeDom: row[this.TYPE_DOM].toUpperCase(),
         villeNaissance: row[this.LIEU_NAISSANCE],
       };
 
