@@ -76,7 +76,7 @@ Tests:
     NODE_ENV: tests-travis
     SECRET: "1234"
     DOMIFA_ENV_ID: "test"
-    POSTGRES_USERNAME: "domifa"
+    POSTGRES_USERNAME: "runner"
     POSTGRES_DATABASE: "postgres"
     DOMIFA_PRINT_CONFIG: "true"
   # shell: bash
