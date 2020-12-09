@@ -138,7 +138,7 @@ fi
 (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname "${POSTGRES_DATABASE}" -c "DROP SCHEMA IF EXISTS public")
 
 export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-(set -x && pg_restore -h postgres --username=${POSTGRES_USER} --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+(set -x && pg_restore -h postgres --username=${POSTGRES_USER} --clean --if-exists --no-acl --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
 
 if [ $? -ne 0 ]; then
   echo ""

@@ -15,7 +15,7 @@ export const domifaConfig = (env?: Partial<DomifaEnv>) => {
   return _domifaConfig;
 };
 
-console.log("--> domifaConfig:", domifaConfig, _domifaConfig);
+// console.log("--> domifaConfig:", domifaConfig, _domifaConfig);
 
 function loadEnv(): Partial<DomifaEnv> {
   const envFile =

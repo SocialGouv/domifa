@@ -76,7 +76,7 @@ function parseString<T extends string>(
     required: true,
   }
 ) {
-  console.log("parseString key", key);
+  // console.log("parseString key", key);
   // console.log("parseString envConfig", envConfig);
   let value = envConfig[key] as T;
   if (!value || value.trim().length === 0) {
