@@ -4,7 +4,7 @@
 # echo "#"
 # echo "# USAGE:"
 # echo "#"
-# echo "# $0 [--db=dev] [--dump=test] [--recreate-db]"
+# echo "# $0 [--db=dev] [--dump=test] [--recreate-db] [--ci]"
 # echo "#"
 # echo "##############################################################################################"
 
@@ -20,8 +20,8 @@ case $i in
     --recreate-db)
       RECREATE_DB="true"
     ;;
-    --create-db)
-      CREATE_DB="true"
+    --ci)
+      CI="true"
     ;;
     *)
     # unknown option
@@ -120,32 +120,48 @@ if [ "$RECREATE_DB" == "true" ]; then
 
 fi
 
-if [ "$CREATE_DB" == "true" ]; then
+if [ "$CI" == "true" ]; then
 
-    # create database (NOTE: POSTGRES_USER is "postgres" super user, while POSTGRES_USERNAME is "domifa" db owner & user)
-    (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
-    if [ $? -ne 0 ]; then
-      echo ""
-      echo "----------------------------------------------------------------------------------------------"
-      echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
-      echo "----------------------------------------------------------------------------------------------"
-      exit 1
-    fi
+  (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "----------------------------------------------------------------------------------------------"
+    echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+    echo "----------------------------------------------------------------------------------------------"
+    exit 1
+  fi
 
-fi
+  (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname "${POSTGRES_DATABASE}" -c "DROP SCHEMA IF EXISTS public")
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "----------------------------------------------------------------------------------------------"
+    echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+    echo "----------------------------------------------------------------------------------------------"
+    exit 1
+  fi
 
-(set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
-(set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname "${POSTGRES_DATABASE}" -c "DROP SCHEMA IF EXISTS public")
+  # export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  (set -x && pg_restore -h postgres --username=${POSTGRES_USER} --clean --if-exists --no-acl --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "----------------------------------------------------------------------------------------------"
+    echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+    echo "----------------------------------------------------------------------------------------------"
+    exit 1
+  fi
 
-export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-(set -x && pg_restore -h postgres --username=${POSTGRES_USER} --clean --if-exists --no-acl --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+else
 
-if [ $? -ne 0 ]; then
-  echo ""
-  echo "----------------------------------------------------------------------------------------------"
-  echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
-  echo "----------------------------------------------------------------------------------------------"
-  exit 1
+  export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  (set -x && pg_restore --username=${POSTGRES_USERNAME} --no-owner --role=${POSTGRES_USERNAME} --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "----------------------------------------------------------------------------------------------"
+    echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+    echo "----------------------------------------------------------------------------------------------"
+    exit 1
+  fi
+
 fi
 
 echo ""
