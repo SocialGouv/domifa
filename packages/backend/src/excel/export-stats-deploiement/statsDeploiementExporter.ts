@@ -3,7 +3,7 @@ import * as path from "path";
 import { appLogger } from "../../util";
 import { StatsDeploiementExportModel } from "./StatsDeploiementExportModel.type";
 import { StatsExportUser } from "./StatsExportUser.type";
-import { exportListeStructuresWorksheetRenderer } from "./worksheet-renderer";
+import { exportListeStructuresWorksheetRenderer } from "./worksheet-renderer/exportListeStructuresWorksheetRenderer";
 import { exportListeUsersWorksheetRenderer } from "./worksheet-renderer/exportListeUsersWorksheetRenderer";
 import { exportStatsGlobalesWorksheetRenderer } from "./worksheet-renderer/exportStatsGlobalesWorksheetRenderer";
 
@@ -19,7 +19,7 @@ async function generateExcelDocument({
   stats,
   users,
 }: {
-    stats: StatsDeploiementExportModel;
+  stats: StatsDeploiementExportModel;
   users: StatsExportUser[];
 }): Promise<Workbook> {
   try {
@@ -27,7 +27,8 @@ async function generateExcelDocument({
     const workbook = await renderWorkbook({ stats, users });
     const endDate = new Date();
     appLogger.debug(
-      `[statsDeploiementExporter] SUCCESS - Report created - duration: ${endDate.getTime() - beginDate.getTime()
+      `[statsDeploiementExporter] SUCCESS - Report created - duration: ${
+        endDate.getTime() - beginDate.getTime()
       }ms`
     );
     return workbook;
@@ -47,7 +48,7 @@ async function renderWorkbook({
   stats,
   users,
 }: {
-    stats: StatsDeploiementExportModel;
+  stats: StatsDeploiementExportModel;
   users: StatsExportUser[];
 }) {
   const workbook = new Workbook();

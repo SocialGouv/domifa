@@ -5,7 +5,7 @@ import {
   WorksheetRenderer,
   xlFormater,
   xlRenderer,
-  XlRowModel
+  XlRowModel,
 } from "../../xlLib";
 import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
 
@@ -33,8 +33,8 @@ function renderWorksheet({
     { key: "createdAt" },
     { key: "import" },
     { key: "importDate" },
-    { key: "usagersValideCount" },
     { key: "usersCount" },
+    { key: "usagersValideCount" },
     { key: "lastLogin" },
     { key: "codePostal" },
     { key: "departementCode" },
@@ -65,8 +65,8 @@ function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
         createdAt: xlFormater.toLocalTimezone(structure.createdAt),
         import: structure.import ? "oui" : "non",
         importDate: xlFormater.toLocalTimezone(structure.importDate),
-        usagersValideCount: stats.usagersCountByStructureId[structure.id] || 0,
         usersCount: model.usersCount,
+        usagersValideCount: stats.usagersCountByStructureId[structure.id] || 0,
         lastLogin: xlFormater.toLocalTimezone(structure.lastLogin),
         codePostal: structure.codePostal,
         departementCode: structure.departement,
