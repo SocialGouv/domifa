@@ -135,7 +135,7 @@ if [ "$CREATE_DB" == "true" ]; then
 fi
 
 export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-(set -x && pg_restore -h postgres --username=${POSTGRES_USER} --clean  --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+(set -x && pg_restore -h postgres --username=${POSTGRES_USER} --create --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
 
 if [ $? -ne 0 ]; then
   echo ""
