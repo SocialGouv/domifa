@@ -10,7 +10,6 @@
               class="form-control"
               formControlName="label"
               id="label"
-              placeholder="Cerfa signé, impots, carte identité, etc..."
               required
             />
             <div *ngIf="u.label.errors" class="invalid-feedback">
@@ -39,7 +38,7 @@
               required
             />
             <small id="pjHelp" class="form-text text-muted">
-              Formats autorisés PDF, DOC, JPG ou PNG (6mo maxi)
+              Formats autorisés .pdf, .doc, .docx, .jpg ou .png (6mo maxi)
             </small>
             <input type="hidden" name="fileHidden" formControlName="docInput" />
             <label
@@ -100,7 +99,7 @@
     </form>
 
     <div class="row">
-      <div *ngIf="structureDocs.length === 0">
+      <div *ngIf="structureDocs.length === 0" class="col-12">
         <ngb-alert [dismissible]="false">Aucun document enregistré</ngb-alert>
       </div>
     </div>
