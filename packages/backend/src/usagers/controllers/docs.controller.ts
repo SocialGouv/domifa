@@ -33,7 +33,7 @@ import { Usager } from "../interfaces/usagers";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 
-import Sentry = require("@sentry/node");
+import { deleteFile } from "../../util/FileManager";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
 @ApiTags("docs")
@@ -166,9 +166,9 @@ export class DocsController {
         fileInfos.path
     );
 
-    this.deleteFile(pathFile);
+    deleteFile(pathFile);
 
-    this.deleteFile(pathFile + ".encrypted");
+    deleteFile(pathFile + ".encrypted");
 
     const retour = await this.docsService.deleteDocument(usagerId, index, user);
 
@@ -237,27 +237,8 @@ export class DocsController {
       .pipe(output)
       .on("finish", () => {
         res.sendFile(output.path as string);
-        this.deleteFile(pathFile + ".unencrypted");
+        deleteFile(pathFile + ".unencrypted");
       });
-  }
-
-  private deleteFile(pathFile: string) {
-    if (fs.existsSync(pathFile)) {
-      setTimeout(() => {
-        try {
-          fs.unlinkSync(pathFile);
-        } catch (err) {
-          Sentry.configureScope((scope) => {
-            scope.setTag("file", pathFile);
-          });
-
-          throw new HttpException(
-            { message: "CANNOT_DELETE_FILE" },
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-      }, 2500);
-    }
   }
 
   private encryptFile(fileName: string, @Res() res: Response) {

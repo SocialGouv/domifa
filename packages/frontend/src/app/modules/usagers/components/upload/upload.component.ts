@@ -7,6 +7,8 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "../../interfaces/usager";
 import { DocumentService } from "../../services/document.service";
 import { UsagerService } from "../../services/usager.service";
+import { validateUpload } from "../../../../shared/upload-validator";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-upload",
@@ -26,17 +28,13 @@ export class UploadComponent implements OnInit {
     fileType: boolean;
   };
 
-  public httpError: any;
-
   @Input() public usager!: Usager;
 
   constructor(
     private formBuilder: FormBuilder,
-    private usagerService: UsagerService,
-    private userService: UsersService,
     private documentService: DocumentService,
     public authService: AuthService,
-    private router: Router
+    private notifService: ToastrService
   ) {
     this.uploadResponse = { status: "", message: "", filePath: "" };
 
@@ -64,31 +62,19 @@ export class UploadComponent implements OnInit {
     return this.uploadForm.controls;
   }
 
-  public onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      const validFileExtensions = [
-        "image/jpg",
-        "application/pdf",
-        "image/jpeg",
-        "image/bmp",
-        "image/gif",
-        "image/png",
-      ];
-      const type = event.target.files[0].type;
-      const size = event.target.files[0].size;
+  public onFileChange(event: Event) {
+    const fileValidate = validateUpload(event, "USAGER_DOC");
 
-      this.fileName = event.target.files[0].name;
-      this.uploadError = {
-        fileSize: size < 10000000,
-        fileType: validFileExtensions.includes(type),
-      };
-
-      this.uploadForm.controls.imageInput.setValue(file);
-      if (!this.uploadError.fileSize || !this.uploadError.fileType) {
-        return false;
-      }
+    this.uploadError = fileValidate.errors;
+    if (!this.uploadError.fileSize || !this.uploadError.fileType) {
+      this.notifService.error(
+        "Le format ou la taille du fichier n'est pas prit en charge"
+      );
+      return false;
     }
+
+    this.fileName = fileValidate.file.name;
+    this.uploadForm.controls.imageInput.setValue(fileValidate.file);
   }
 
   public submitFile() {
@@ -114,7 +100,9 @@ export class UploadComponent implements OnInit {
           this.fileName = "";
         }
       },
-      (err) => (this.httpError = err)
+      (err) => {
+        this.notifService.error("Impossible d'uploader le fichier");
+      }
     );
   }
 }

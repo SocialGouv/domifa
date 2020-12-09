@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -37,9 +36,9 @@ import { StructureDocDto } from "../dto/structure-doc.dto";
 import { StructureDocService } from "../services/structure-doc.service";
 import { StructureDoc } from "../../_common/model/structure-doc";
 
-@UseGuards(AuthGuard("jwt"), FacteurGuard)
 @ApiTags("structure-doc")
 @ApiBearerAuth()
+@UseGuards(AuthGuard("jwt"), FacteurGuard)
 @Controller("structure-doc")
 export class StructureDocController {
   constructor(private structureDocService: StructureDocService) {}

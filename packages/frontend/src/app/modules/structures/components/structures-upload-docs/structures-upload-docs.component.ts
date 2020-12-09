@@ -4,6 +4,7 @@ import { ToastrService } from "ngx-toastr";
 
 import { AppUser } from "../../../../../_common/model";
 import { StructureDoc } from "../../../../../_common/model/structure-doc";
+import { validateUpload } from "../../../../shared/upload-validator";
 
 import { StructureDocService } from "../../services/structure-doc.service";
 
@@ -13,7 +14,6 @@ import { StructureDocService } from "../../services/structure-doc.service";
   templateUrl: "./structures-upload-docs.component.html",
 })
 export class StructuresUploadDocsComponent implements OnInit {
-  /* Upload */
   public fileName = "";
   public uploadResponse: any;
 
@@ -26,8 +26,6 @@ export class StructuresUploadDocsComponent implements OnInit {
     fileSize: boolean;
     fileType: boolean;
   };
-
-  public httpError: any;
 
   public loadingDelete: boolean;
   public loadingDownload: boolean;
@@ -56,7 +54,7 @@ export class StructuresUploadDocsComponent implements OnInit {
     this.uploadResponse = { status: "", message: "", filePath: "" };
 
     this.uploadForm = this.formBuilder.group({
-      imageInput: [this.fileName, Validators.required],
+      docInput: [this.fileName, Validators.required],
       label: ["", Validators.required],
       custom: [false],
     });
@@ -100,9 +98,7 @@ export class StructuresUploadDocsComponent implements OnInit {
         const extensionTmp = structureDoc.path.split(".");
         const extension = extensionTmp[1];
         const newBlob = new Blob([blob], { type: structureDoc.filetype });
-
-        saveAs(newBlob, "doc_" + "." + extension);
-
+        saveAs(newBlob, structureDoc.label + "." + extension);
         this.loadingDownload = false;
       },
       (error: any) => {
@@ -112,34 +108,19 @@ export class StructuresUploadDocsComponent implements OnInit {
     );
   }
 
-  public onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      const validFileExtensions = [
-        "image/jpg",
-        "application/pdf",
-        "image/jpeg",
-        "image/png",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "application/vnd.oasis.opendocument.text",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "application/vnd.ms-excel",
-      ];
-      const type = event.target.files[0].type;
-      const size = event.target.files[0].size;
+  public onFileChange(event: Event) {
+    const fileValidate = validateUpload(event, "STRUCTURE_DOC");
 
-      this.fileName = event.target.files[0].name;
-      this.uploadError = {
-        fileSize: size < 10000000,
-        fileType: validFileExtensions.includes(type),
-      };
-
-      this.uploadForm.controls.imageInput.setValue(file);
-      if (!this.uploadError.fileSize || !this.uploadError.fileType) {
-        return false;
-      }
+    this.uploadError = fileValidate.errors;
+    if (!this.uploadError.fileSize || !this.uploadError.fileType) {
+      this.notifService.error(
+        "Le format ou la taille du fichier n'est pas prit en charge"
+      );
+      return false;
     }
+
+    this.fileName = fileValidate.file.name;
+    this.uploadForm.controls.docInput.setValue(fileValidate.file);
   }
 
   public submitFile() {
@@ -150,7 +131,7 @@ export class StructuresUploadDocsComponent implements OnInit {
     };
 
     const formData = new FormData();
-    formData.append("file", this.uploadForm.controls.imageInput.value);
+    formData.append("file", this.uploadForm.controls.docInput.value);
     formData.append("label", this.uploadForm.controls.label.value);
     formData.append("custom", "false");
 
@@ -161,13 +142,14 @@ export class StructuresUploadDocsComponent implements OnInit {
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
-          console.log(res);
           this.uploadForm.reset();
           this.fileName = "";
           this.getAllStructureDocs();
         }
       },
-      (err) => (this.httpError = err)
+      (err) => {
+        this.notifService.error("Impossible d'uploader le fichier");
+      }
     );
   }
 }
