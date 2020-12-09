@@ -33,10 +33,9 @@ async function anonymizeUsers({ app }: { app: INestApplication }) {
 function isUserToAnonymise(
   user: Pick<AppUserTable, "id" | "structureId" | "email">
 ): unknown {
-  return (
-    dataStructureAnonymizer.isStructureToAnonymise({ id: user.structureId }) &&
-    dataEmailAnonymizer.isEmailToAnonymize(user.email)
-  );
+  return dataStructureAnonymizer.isStructureToAnonymise({
+    id: user.structureId,
+  });
 }
 
 async function _anonymizeUser(
@@ -63,12 +62,10 @@ async function _anonymizeUser(
     ]),
   };
 
-  if (dataEmailAnonymizer.isEmailToAnonymize(user.email)) {
-    attributesToUpdate.email = dataEmailAnonymizer.anonymizeEmail({
-      prefix: "user",
-      id: user.id,
-    });
-  }
+  attributesToUpdate.email = dataEmailAnonymizer.anonymizeEmail({
+    prefix: "user",
+    id: user.id,
+  });
 
   if (Object.keys(attributesToUpdate).length === 0) {
     // appLogger.debug(`[dataUserAnonymizer] nothing to update for "${user._id}"`);
