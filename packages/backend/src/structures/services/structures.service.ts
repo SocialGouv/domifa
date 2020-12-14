@@ -85,7 +85,7 @@ export class StructuresService {
   ): Promise<any> {
     return this.structureModel
       .findOneAndUpdate(
-        { id: structureId },
+        { _id: structureId },
         { $set: { lastExport: dateExport } }
       )
       .exec();
@@ -100,7 +100,7 @@ export class StructuresService {
     const total = valide + refus + radie;
     return this.structureModel
       .findOneAndUpdate(
-        { id: structureId },
+        { _id: structureId },
         {
           $set: {
             stats: { TOTAL: total, VALIDE: valide, REFUS: refus, RADIE: radie },
@@ -146,6 +146,7 @@ export class StructuresService {
       .exec();
     return structure;
   }
+
   public async findManyBasic(param: any): Promise<Structure[]> {
     const structure = await this.structureModel
       .find(param)
