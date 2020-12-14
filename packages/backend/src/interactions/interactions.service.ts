@@ -47,7 +47,6 @@ export class InteractionsService {
 
   public async find(
     usagerId: number,
-    limit: number,
     user: Pick<AppUser, "structureId">
   ): Promise<any> {
     return this.interactionRepository.find({
@@ -220,10 +219,9 @@ function buildInteraction({
   }
 
   if (
-    (interactionOut ||
-      interaction.type === "visite" ||
-      interaction.type === "appel") &&
-    !interaction.procuration
+    interactionOut ||
+    interaction.type === "visite" ||
+    interaction.type === "appel"
   ) {
     usager.lastInteraction.dateInteraction = new Date();
   }

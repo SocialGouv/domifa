@@ -45,7 +45,7 @@ export class InteractionsController {
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: Usager
   ) {
-    return this.interactionService.find(usager.id, limit, user);
+    return this.interactionService.find(usager.id, user);
   }
 
   @Delete(":id/:interactionId")
@@ -136,21 +136,17 @@ export class InteractionsController {
       usager.lastInteraction.colisIn > 0 ||
       usager.lastInteraction.recommandeIn > 0;
 
-    const newUsager = await this.usagersService.patch(usager, usager._id);
-
     const deletedInteraction = await this.interactionService.delete(
       usager.id,
       interactionId,
       user
     );
-
-    if (newUsager && deletedInteraction) {
-      return newUsager;
-    } else {
+    if (deletedInteraction === null || !deletedInteraction) {
       throw new HttpException(
         "INTERACTION_DELETE_IMPOSSIBLE",
         HttpStatus.BAD_REQUEST
       );
     }
+    return this.usagersService.patch(usager, usager._id);
   }
 }

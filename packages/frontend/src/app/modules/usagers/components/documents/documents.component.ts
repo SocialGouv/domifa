@@ -15,24 +15,18 @@ import { saveAs } from "file-saver";
 export class DocumentsComponent implements OnInit {
   @Input() public usager!: Usager;
 
-  public loadingDelete: boolean;
-  public loadingDownload: boolean;
-
   constructor(
     private documentService: DocumentService,
     public authService: AuthService,
     private notifService: ToastrService,
 
     private matomo: MatomoTracker
-  ) {
-    this.loadingDelete = false;
-    this.loadingDownload = false;
-  }
+  ) {}
 
   public ngOnInit() {}
 
   public getDocument(i: number) {
-    this.loadingDownload = true;
+    this.usager.docs[i].loading = true;
     this.documentService
       .getDocument(this.usager.id, i, this.usager.docs[i])
       .subscribe(
@@ -52,25 +46,25 @@ export class DocumentsComponent implements OnInit {
           );
 
           this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
-          this.loadingDownload = false;
+          this.usager.docs[i].loading = false;
         },
         (error: any) => {
-          this.loadingDownload = false;
+          this.usager.docs[i].loading = false;
           this.notifService.error("Impossible de télécharger le fichier");
         }
       );
   }
 
   public deleteDocument(i: number): void {
-    this.loadingDelete = true;
+    this.usager.docs[i].loading = true;
     this.documentService.deleteDocument(this.usager.id, i).subscribe(
       (usager: Usager) => {
         this.usager.docs = usager.docs;
-        this.loadingDelete = false;
+        this.usager.docs[i].loading = false;
         this.notifService.success("Document supprimé avec succès");
       },
       (error: any) => {
-        this.loadingDelete = false;
+        this.usager.docs[i].loading = false;
         this.notifService.error("Impossible de supprimer le document");
       }
     );
