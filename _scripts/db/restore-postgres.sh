@@ -1,10 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+CURRENT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 # echo "##############################################################################################"
 # echo "#"
 # echo "# USAGE:"
 # echo "#"
-# echo "# $0 [--db=dev] [--dump=test] [--recreate-db]"
+# echo "# $0 [--db=dev] [--dump=test] [--recreate-db] [--ci]"
 # echo "#"
 # echo "##############################################################################################"
 
@@ -19,6 +20,9 @@ case $i in
     ;;
     --recreate-db)
       RECREATE_DB="true"
+    ;;
+    --ci)
+      CI="true"
     ;;
     *)
     # unknown option
@@ -43,7 +47,7 @@ then
   DUMP_ENV=test
 fi
 
-POSTGRES_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.postgres.dump"
+POSTGRES_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.postgres.dump"
 POSTGRES_DATABASE="domifa_${TARGET_DB_ENV}"
 
 if [ ! -f "$POSTGRES_DUMP_PATH" ]; then
@@ -72,7 +76,7 @@ fi
 if [ -z "$POSTGRES_DATABASE" ]; then
   echo ""
   echo "----------------------------------------------------------------------------------------------"
-  echo "[ERROR] env.POSTGRES_USERNAME not set"
+  echo "[ERROR] env.POSTGRES_DATABASE not set"
   echo "----------------------------------------------------------------------------------------------"
   exit 1
 fi
@@ -117,15 +121,48 @@ if [ "$RECREATE_DB" == "true" ]; then
 
 fi
 
-export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-(set -x && pg_restore --username=${POSTGRES_USERNAME} --no-owner --role=${POSTGRES_USERNAME} --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+if [ "$CI" == "true" ]; then
 
-if [ $? -ne 0 ]; then
-  echo ""
-  echo "----------------------------------------------------------------------------------------------"
-  echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
-  echo "----------------------------------------------------------------------------------------------"
-  exit 1
+  (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "----------------------------------------------------------------------------------------------"
+    echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+    echo "----------------------------------------------------------------------------------------------"
+    exit 1
+  fi
+
+  (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname "${POSTGRES_DATABASE}" -c "DROP SCHEMA IF EXISTS public")
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "----------------------------------------------------------------------------------------------"
+    echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+    echo "----------------------------------------------------------------------------------------------"
+    exit 1
+  fi
+
+  # export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  (set -x && pg_restore -h postgres --username=${POSTGRES_USER} --clean --if-exists --no-acl --no-owner --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "----------------------------------------------------------------------------------------------"
+    echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+    echo "----------------------------------------------------------------------------------------------"
+    exit 1
+  fi
+
+else
+
+  export POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  (set -x && pg_restore --username=${POSTGRES_USERNAME} --no-owner --role=${POSTGRES_USERNAME} --exit-on-error --verbose --dbname=${POSTGRES_DATABASE} ${POSTGRES_DUMP_PATH})
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "----------------------------------------------------------------------------------------------"
+    echo "[ERROR] UNEXPECTED ERROR RUNNING SCRIPT!"
+    echo "----------------------------------------------------------------------------------------------"
+    exit 1
+  fi
+
 fi
 
 echo ""

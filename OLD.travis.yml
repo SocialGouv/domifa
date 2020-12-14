@@ -63,7 +63,7 @@ jobs:
         - yarn build
         #
         - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
-        
+
         # start mongo+postgres (with initial dumps)
         - ./docker-compose.travis.run.sh
 
@@ -74,7 +74,7 @@ jobs:
         - ./docker-compose.travis.run.sh
 
         # launch backend
-        - yarn workspace @domifa/backend start:tests-travis &
+        - yarn workspace @domifa/backend start:tests-ci &
 
         # run frontend unit tests
         - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit

@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+CURRENT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 # echo "##############################################################################################"
 # echo "#"
@@ -42,7 +43,7 @@ case $i in
 esac
 done
 
-MONGO_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.mongo.gz"
+MONGO_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.mongo.gz"
 MONGO_DUMP_FROM_DATABASE="domifa_$DUMP_ENV"
 MONGO_INITDB_DATABASE="domifa_$TARGET_DB_ENV"
 
@@ -85,6 +86,7 @@ MONGO_AUTH="-u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --auth
 
 if [ "$RECREATE_USER" == "true" ]; then
 
+    echo "--> Clean users: db.runCommand( { dropAllUsersFromDatabase: 1, writeConcern: { w: 'majority'   )"
     (set -x && mongo $MONGO_AUTH --eval "db.runCommand( { dropAllUsersFromDatabase: 1, writeConcern: { w: 'majority'   )")
     if [ $? -ne 0 ]; then
         echo ""
@@ -94,6 +96,7 @@ if [ "$RECREATE_USER" == "true" ]; then
         exit 1
     fi
 
+    echo "--> Create user: db.createUser({user:'$MONGO_INITDB_ROOT_USERNAME', pwd:'$MONGO_INITDB_ROOT_PASSWORD', roles:[{role:'readWrite', db:'$MONGO_INITDB_DATABASE'] );"
     (set -x && mongo $MONGO_AUTH --eval "db.createUser({user:'$MONGO_INITDB_ROOT_USERNAME', pwd:'$MONGO_INITDB_ROOT_PASSWORD', roles:[{role:'readWrite', db:'$MONGO_INITDB_DATABASE'] );")
     if [ $? -ne 0 ]; then
         echo ""
@@ -105,6 +108,8 @@ if [ "$RECREATE_USER" == "true" ]; then
 
 fi
 
+echo "--> Restore mongo DB"
+echo "mongorestore --nsInclude \"${MONGO_DUMP_FROM_DATABASE}.*\" --nsFrom \"${MONGO_DUMP_FROM_DATABASE}.*\" --nsTo \"${MONGO_INITDB_DATABASE}.*\" $MONGO_AUTH --drop --gzip --archive=$MONGO_DUMP_PATH"
 (set -x && mongorestore --nsInclude "${MONGO_DUMP_FROM_DATABASE}.*" --nsFrom "${MONGO_DUMP_FROM_DATABASE}.*" --nsTo "${MONGO_INITDB_DATABASE}.*" $MONGO_AUTH --drop --gzip --archive=$MONGO_DUMP_PATH)
 
 if [ $? -ne 0 ]; then
