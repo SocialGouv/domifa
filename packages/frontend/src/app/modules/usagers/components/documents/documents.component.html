@@ -14,13 +14,12 @@
           <th>Ajoutée le</th>
           <th>Ajoutée par</th>
           <th></th>
-          <th></th>
         </tr>
         <tr *ngFor="let document of usager.docs; let indexDocs = index">
           <td>{{ document.label }}</td>
           <td>{{ document.createdAt | date: "dd/MM/yyyy" }}</td>
           <td>{{ document.createdBy }}</td>
-          <td class="text-right">
+          <td>
             <button
               (click)="getDocument(indexDocs)"
               class="btn btn-primary"
@@ -29,15 +28,14 @@
             >
               <span *ngIf="document.loading"
                 ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
-                Téléchargement en cours...</span
+                Patientez...</span
               >
 
               <span *ngIf="!document.loading"
-                ><fa-icon icon="download"></fa-icon> &nbsp; Télécharger</span
+                ><fa-icon icon="download"></fa-icon> Télécharger</span
               >
             </button>
-          </td>
-          <td>
+            &nbsp;
             <button
               (click)="deleteDocument(indexDocs)"
               class="btn btn-danger"
@@ -46,7 +44,7 @@
             >
               <span *ngIf="document.loading"
                 ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
-                Suppression en cours...</span
+                Patientez...</span
               >
               <span *ngIf="!document.loading"
                 ><fa-icon icon="trash"></fa-icon> &nbsp; Supprimer</span

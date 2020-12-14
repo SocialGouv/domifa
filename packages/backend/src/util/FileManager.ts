@@ -63,11 +63,11 @@ export async function deleteFile(pathFile: string) {
 }
 
 export function randomName(file: Express.Multer.File): string {
-  const randomName = Array(32)
+  const name = Array(32)
     .fill(null)
     .map(() => Math.round(Math.random() * 16).toString(16))
     .join("");
-  return randomName + path.extname(file.originalname);
+  return name + path.extname(file.originalname);
 }
 
 // Vérification des mimetype

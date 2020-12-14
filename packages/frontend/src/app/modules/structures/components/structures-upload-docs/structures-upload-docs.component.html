@@ -124,32 +124,31 @@
                 <button
                   (click)="getStructureDoc(document)"
                   class="btn btn-primary"
-                  [disabled]="loadingDelete || loadingDownload"
+                  [disabled]="document.loading || document.loading"
                   aria-label="Voir la pièce jointe"
                 >
-                  <span *ngIf="loadingDownload"
+                  <span *ngIf="document.loading"
                     ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
-                    Téléchargement en cours...</span
+                    Patientez...</span
                   >
-
-                  <span *ngIf="!loadingDownload"
-                    ><fa-icon icon="download"></fa-icon> &nbsp;
-                    Télécharger</span
+                  <span *ngIf="!document.loading"
+                    ><fa-icon icon="download"></fa-icon> Télécharger</span
                   >
                 </button>
                 &nbsp;
                 <button
                   (click)="deleteStructureDoc(document)"
                   class="btn btn-danger"
-                  [disabled]="loadingDelete || loadingDownload"
+                  [disabled]="document.loading || document.loading"
                   aria-label="Voir la pièce jointe"
                 >
-                  <span *ngIf="loadingDelete"
+                  <span *ngIf="document.loading"
                     ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
-                    Suppression en cours...</span
+                    Patientez...</span
                   >
-                  <span *ngIf="!loadingDelete"
-                    ><fa-icon icon="trash"></fa-icon> &nbsp; Supprimer</span
+
+                  <span *ngIf="!document.loading"
+                    ><fa-icon icon="trash"></fa-icon> Supprimer</span
                   >
                 </button>
               </td>

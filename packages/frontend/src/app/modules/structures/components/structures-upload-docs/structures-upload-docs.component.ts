@@ -27,9 +27,6 @@ export class StructuresUploadDocsComponent implements OnInit {
     fileType: boolean;
   };
 
-  public loadingDelete: boolean;
-  public loadingDownload: boolean;
-
   @Input() public me: AppUser;
 
   // TODO: factoriser le service Upload
@@ -45,8 +42,6 @@ export class StructuresUploadDocsComponent implements OnInit {
       fileType: true,
     };
 
-    this.loadingDelete = false;
-    this.loadingDownload = false;
     this.structureDocs = [];
   }
 
@@ -81,28 +76,32 @@ export class StructuresUploadDocsComponent implements OnInit {
   }
 
   public deleteStructureDoc(structureDoc: StructureDoc): void {
+    structureDoc.loading = true;
     this.structureDocService.deleteStructureDoc(structureDoc.id).subscribe(
       () => {
         this.notifService.success("Suppression réussie");
         this.getAllStructureDocs();
+        structureDoc.loading = false;
       },
       (error: any) => {
+        structureDoc.loading = false;
         this.notifService.error("Impossible de télécharger le fichier");
       }
     );
   }
 
   public getStructureDoc(structureDoc: StructureDoc): void {
+    structureDoc.loading = true;
     this.structureDocService.getStructureDoc(structureDoc.id).subscribe(
       (blob: any) => {
         const extensionTmp = structureDoc.path.split(".");
         const extension = extensionTmp[1];
         const newBlob = new Blob([blob], { type: structureDoc.filetype });
         saveAs(newBlob, structureDoc.label + "." + extension);
-        this.loadingDownload = false;
+        structureDoc.loading = false;
       },
       (error: any) => {
-        this.loadingDownload = false;
+        structureDoc.loading = false;
         this.notifService.error("Impossible de télécharger le fichier");
       }
     );
