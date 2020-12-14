@@ -52,8 +52,16 @@ async function revertLastMigration(connection: Connection): Promise<void> {
   });
 }
 
-async function connect() {
+async function connect(
+  { reuseConnexion }: { reuseConnexion: boolean } = { reuseConnexion: false }
+) {
   const pgConfig = domifaConfig().postgres;
+  if (reuseConnexion && connectionHolder.connection) {
+    appLogger.warn(
+      `[appTypeormManager] Reuse postgres database connection to "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
+    );
+    return connectionHolder.connection;
+  }
   appLogger.warn(
     `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
   );

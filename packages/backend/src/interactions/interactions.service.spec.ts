@@ -15,7 +15,6 @@ describe("InteractionsService", () => {
   let context: AppTestContext;
 
   let interactionService: InteractionsService;
-  let userService: UsersService;
   let usagerService: UsagersService;
 
   let user: AppUser;
@@ -35,8 +34,6 @@ describe("InteractionsService", () => {
     interactionService = context.module.get<InteractionsService>(
       InteractionsService
     );
-
-    userService = context.module.get<UsersService>(UsersService);
 
     usagerService = context.module.get<UsagersService>(UsagersService);
 
@@ -91,12 +88,16 @@ describe("InteractionsService", () => {
     interaction.content = "Colis d'un distributeur";
     interaction.nbCourrier = 1;
 
+    const usagerBefore = await usagerService.findById(1, 1);
+
     const usager3 = await interactionService.create({
       usager,
       user,
       interaction,
     });
-    expect(usager3.lastInteraction.colisIn).toEqual(5);
+    expect(usager3.lastInteraction.colisIn).toEqual(
+      usagerBefore.lastInteraction.colisIn + 1
+    );
 
     const distribution = new InteractionDto();
     distribution.type = "colisOut";

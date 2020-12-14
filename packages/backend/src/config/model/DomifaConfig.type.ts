@@ -63,6 +63,7 @@ export type DomifaConfig = {
       autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_IMPORT_GUIDE_AUTO_RUN_STARTUP
     };
     emailConsumer: {
+      enableSendImmadiately: boolean; // DOMIFA_CRON_EMAIL_SEND_IMMEDIATELY
       crontime: string; // DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME
       autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_CONSUMER_AUTO_RUN_STARTUP
     };

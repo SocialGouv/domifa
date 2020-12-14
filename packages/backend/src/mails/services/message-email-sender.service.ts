@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { domifaConfig } from "../../config";
 import {
   MessageEmail,
   MessageEmailContent,
@@ -28,6 +29,8 @@ export class MessageEmailSender {
 
     await messageEmailRepository.save(messageEmail);
 
-    this.messageEmailConsummer.triggerNextSending();
+    if (domifaConfig().cron.emailConsumer.enableSendImmadiately) {
+      this.messageEmailConsummer.triggerNextSending();
+    }
   }
 }

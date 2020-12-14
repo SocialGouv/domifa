@@ -231,6 +231,11 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         ),
       },
       emailConsumer: {
+        enableSendImmadiately: configParser.parseBoolean(
+          x,
+          "DOMIFA_CRON_EMAIL_SEND_IMMEDIATELY",
+          { defaultValue: envId === "test" ? false : true }
+        ),
         crontime: configParser.parseString(
           x,
           "DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME",
