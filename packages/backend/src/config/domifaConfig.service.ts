@@ -14,18 +14,21 @@ export const domifaConfig = (env?: Partial<DomifaEnv>) => {
   }
   return _domifaConfig;
 };
+
 function loadEnv(): Partial<DomifaEnv> {
   const envFile =
     process.env.NODE_ENV === "tests-local"
       ? ".env.backend.test.local.env"
-      : process.env.NODE_ENV === "tests-travis"
-      ? ".env.backend.test.travis.env" // ce fichier n'existe pas car pas nécessaire
       : ".env";
   const envFilePath = path.join(__dirname, "../../", envFile);
 
   if (!fs.existsSync(envFilePath)) {
-    // tslint:disable-next-line: no-console
-    console.warn(`[configService] Env file ${envFilePath} not found: ignoring`);
+    if (process.env.NODE_ENV) {
+      // tslint:disable-next-line: no-console
+      console.warn(
+        `[configService] Env file ${envFilePath} not found: ignoring`
+      );
+    }
     return ({
       ...process.env,
     } as unknown) as Partial<DomifaEnv>;

@@ -6,7 +6,9 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.build.json && cp -r src/excel/_templates dist/excel",
+    "prebuild": "rimraf dist",
+    "build": "tsc -p tsconfig.build.json",
+    "postbuild": "cp -r src/excel/_templates dist/excel && cp -r src/ressources dist/",
     "format": "prettier --write \"src/**/*.ts\"",
     "db:dev:migrate-up": "npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up.ts",
     "db:test:migrate-up": "NODE_ENV=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up.ts",
@@ -24,10 +26,10 @@
     "start:tests-local": "NODE_ENV=tests-local nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
     "start:prod": "node dist/run-app.js",
-    "start:tests-travis": "NODE_ENV=tests-travis node dist/run-app.js",
+    "start:tests-ci": "node dist/run-app.js",
     "lint": "tslint -p tsconfig.json -t stylish",
     "test": "NODE_ENV=tests-local jest",
-    "test:travis": "NODE_ENV=tests-travis jest",
+    "test:ci": "NODE_ENV=tests-ci jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"

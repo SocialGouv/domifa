@@ -76,6 +76,8 @@ function parseString<T extends string>(
     required: true,
   }
 ) {
+  // console.log("parseString key", key);
+  // console.log("parseString envConfig", envConfig);
   let value = envConfig[key] as T;
   if (!value || value.trim().length === 0) {
     value = defaultValue;
@@ -84,7 +86,7 @@ function parseString<T extends string>(
   if (!value && required) {
     // tslint:disable-next-line: no-console
     console.error(`[configParser] missing required env value "${key}"`);
-    throw new Error("Missing required env value");
+    throw new Error(`Missing required env value ${key}`);
   }
 
   if (value && validValues && !validValues.includes(value)) {
@@ -148,4 +150,3 @@ function parseIntegerFromString(value: string) {
     return num;
   }
 }
-

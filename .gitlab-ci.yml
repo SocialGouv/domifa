@@ -15,16 +15,13 @@ variables:
   PYTHON_VERSION: "3.6-alpine"
 
 stages:
-  - "Install"
+  - "Tests"
+  - "Build"
   - "Registration"
 
-#
-
-Build:
-  extends: .base_yarn_script
-  stage: Install
-  image: node:13
-  interruptible: true
+.tests_setup:
+  stage: Tests
+  image: node:14.15.0-alpine3.12
   cache:
     key:
       files:
@@ -34,19 +31,114 @@ Build:
       - packages/frontend/node_modules/.cache
   services:
     - name: mongo:4.0.3
+    - name: postgres:10.14
+  variables:
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD: root
+    DB_USER: root
+    DB_PASS: root
+    DB_NAME: domifa_test
+    POSTGRES_DB: nice_marmot
+    POSTGRES_USER: runner
+    POSTGRES_PASSWORD: abcd
+    POSTGRES_HOST_AUTH_METHOD: trust
+    DOMIFA_ENV_ID: test
+    SECRET: efgh
+    DOMIFA_ENV_ID: test
+    POSTGRES_USERNAME: runner
+    POSTGRES_DATABASE: domifa_test
+    #DOMIFA_PRINT_CONFIG: "true"
+  before_script:
+    - apk add mongodb-tools
+    - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
+    - nc -zvv mongo 27017
+    - pg_isready -d postgres -h postgres -p 5432 -U runner
+    - |
+      > ./.env.test.ci.env
+      > ./packages/backend/.env.backend.test.ci.env
+    - ./_scripts/db/restore-mongo.sh --db=test
+    - ./_scripts/db/restore-postgres.sh --db=test --ci
+    - yarn --frozen-lockfile
+
+Backend unit tests:
+  extends: .tests_setup
+  script:
+    - yarn --cwd packages/backend build
+    - yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
+  needs: []
+
+
+.Frontend unit tests:  # disabled until it is fixed
+  extends: .tests_setup
+  script:
+    - yarn build
+    - yarn workspace @domifa/backend start:tests-ci &
+    - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+  needs: []
+
+
+.E2E tests: # disabled until it is fixed
+  extends: .tests_setup
+  script:
+    - yarn workspace @domifa/backend start:tests-ci &
+    - npx serve packages/frontend/dist/domifa -l 4200 &
+    - cd optional/e2e/runners/puppeteer/
+    - yarn --frozen-lockfile
+    - yarn test --debug
+  needs: []
+
+
+
+Build frontend image:
+  extends: .base_yarn_script
+  stage: Build
+  image: node:13
+  interruptible: true
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - packages/frontend/node_modules/.cache
+  before_script:
+    # NOTE(douglasduteil): yarn caching
+    - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
+  script:
+    - yarn --frozen-lockfile --prefer-offline
+    - yarn --cwd packages/frontend build --prod
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - packages/frontend/dist
+  needs: []
+
+
+Build backend image:
+  extends: .base_yarn_script
+  stage: Build
+  image: node:13
+  interruptible: true
+  cache:
+    key:
+      files:
+        - yarn.lock
+      prefix: ${CI_JOB_NAME}
+    paths:
+      - packages/frontend/node_modules/.cache
   before_script:
     # NOTE(douglasduteil): yarn caching
     - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn
   script:
     - yarn --frozen-lockfile --prefer-offline
     - yarn --cwd packages/backend build
-    - yarn --cwd packages/frontend build --prod
   artifacts:
     expire_in: 1 day
     paths:
       - packages/backend/dist
-      - packages/frontend/dist
-#
+  needs: []
+
+
 
 Register frontend image:
   extends: .base_register_stage
@@ -56,6 +148,11 @@ Register frontend image:
     IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
     DOCKER_BUILD_ARGS: >-
       -f packages/frontend/Dockerfile
+  needs: ["Build frontend image"]
+  # needs: ["Build frontend image", "Frontend unit tests"]
+  only: 
+    - master # to deploy to preprod only
+    - tags # prod + preprod
 
 Register backend image:
   extends: .base_register_stage
@@ -66,3 +163,7 @@ Register backend image:
     DOCKER_BUILD_ARGS: >-
       --shm-size 768M
       -f packages/backend/Dockerfile
+  needs: ["Build backend image", "Backend unit tests"]
+  only: 
+    - master # to deploy to preprod only
+    - tags # prod + preprod

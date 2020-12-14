@@ -62,6 +62,7 @@ async function connect(
     );
     return connectionHolder.connection;
   }
+
   appLogger.warn(
     `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
   );

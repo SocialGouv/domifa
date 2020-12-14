@@ -20,7 +20,7 @@ export const databaseProviders = [
 
 export function buildMongoConnectionStringFromEnv() {
   const { host, pass, port, user, name, authSource } = domifaConfig().mongo;
-
+  // console.log("!!! CONFIG !!!", host, pass, port, user, name, authSource);
   return `mongodb://${user}:${pass}@${host}:${port}/${name}${
     authSource ? `?authSource=${authSource}` : ""
   }`;
