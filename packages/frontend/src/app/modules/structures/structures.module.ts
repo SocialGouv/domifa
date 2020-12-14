@@ -19,6 +19,7 @@ import { StructuresUploadDocsComponent } from "./components/structures-upload-do
 import { DepartementHelper } from "./services/departement-helper.service";
 import { StructureService } from "./services/structure.service";
 import { StructureDocService } from "./services/structure-doc.service";
+import { StructureEditFormComponent } from "./components/structure-edit-form/structure-edit-form.component";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { StructureDocService } from "./services/structure-doc.service";
     StructuresSearchComponent,
     StructuresFormComponent,
     StructuresEditComponent,
+    StructureEditFormComponent,
     StructuresUploadDocsComponent,
+    StructuresConfirmComponent,
   ],
   exports: [
     StructuresConfirmComponent,
