@@ -5,7 +5,7 @@ import {
   Param,
   Post,
   Res,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -24,7 +24,7 @@ import {
   motifsRadiation,
   motifsRefus,
   residence,
-  typeMenage
+  typeMenage,
 } from "../usagers.labels";
 
 import moment = require("moment");

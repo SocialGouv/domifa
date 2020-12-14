@@ -146,6 +146,7 @@ export class StructuresService {
       .exec();
     return structure;
   }
+
   public async findManyBasic(param: any): Promise<Structure[]> {
     const structure = await this.structureModel
       .find(param)
