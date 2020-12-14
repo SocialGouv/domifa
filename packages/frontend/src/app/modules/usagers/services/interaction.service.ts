@@ -40,6 +40,12 @@ export class InteractionService {
     );
   }
   public delete(usagerId: number, interactionId: number) {
-    return this.http.delete(`${this.endPoint}${usagerId}/${interactionId}`);
+    return this.http
+      .delete(`${this.endPoint}${usagerId}/${interactionId}`)
+      .pipe(
+        map((response) => {
+          return new Usager(response);
+        })
+      );
   }
 }

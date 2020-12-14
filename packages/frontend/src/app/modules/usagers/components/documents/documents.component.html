@@ -24,15 +24,15 @@
             <button
               (click)="getDocument(indexDocs)"
               class="btn btn-primary"
-              [disabled]="loadingDelete || loadingDownload"
+              [disabled]="document.loading"
               aria-label="Voir la pièce jointe"
             >
-              <span *ngIf="loadingDownload"
+              <span *ngIf="document.loading"
                 ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
                 Téléchargement en cours...</span
               >
 
-              <span *ngIf="!loadingDownload"
+              <span *ngIf="!document.loading"
                 ><fa-icon icon="download"></fa-icon> &nbsp; Télécharger</span
               >
             </button>
@@ -41,14 +41,14 @@
             <button
               (click)="deleteDocument(indexDocs)"
               class="btn btn-danger"
-              [disabled]="loadingDelete || loadingDownload"
+              [disabled]="document.loading"
               aria-label="Voir la pièce jointe"
             >
-              <span *ngIf="loadingDelete"
+              <span *ngIf="document.loading"
                 ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
                 Suppression en cours...</span
               >
-              <span *ngIf="!loadingDelete"
+              <span *ngIf="!document.loading"
                 ><fa-icon icon="trash"></fa-icon> &nbsp; Supprimer</span
               >
             </button>
