@@ -10,9 +10,9 @@ import { UsersModule } from "../users/users.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { AppUser } from "../_common/model";
+import { StructuresController } from "./controllers/structures.controller";
 import { StructuresService } from "./services/structures.service";
 import { Structure } from "./structure-interface";
-import { StructuresController } from "./structures.controller";
 
 describe("Stuctures creation full", () => {
   let context: AppTestContext;
@@ -110,6 +110,7 @@ describe("Stuctures creation full", () => {
     expect(user.verified).toBeFalsy();
     return user;
   }
+
   async function testCreateStructure(prePostStructure: Structure) {
     const structure = await structureController.postStructure(prePostStructure);
     expect(structure).toBeDefined();

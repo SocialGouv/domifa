@@ -1,15 +1,15 @@
 import { Connection } from "typeorm";
-import { appTypeormManager } from "../_postgres";
+import { AppTestHelper } from "../../../util/test";
 import { usersRepository } from "./users-repository.service";
 
 describe("usesRepository", () => {
   let postgresTypeormConnection: Connection;
 
   beforeAll(async () => {
-    postgresTypeormConnection = await appTypeormManager.connect();
+    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
   afterAll(async () => {
-    postgresTypeormConnection.close();
+    AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
   it("count returns users count", async () => {
@@ -27,7 +27,7 @@ describe("usesRepository", () => {
 
     const countTotal = await usersRepository.count();
     // be sure the count is ok
-    expect(countTotal).toBeGreaterThan(6);
+    expect(countTotal).toBeGreaterThan(5);
   });
   it("findVerifiedStructureUsersByRoles returns matching users", async () => {
     const users = await usersRepository.findVerifiedStructureUsersByRoles({

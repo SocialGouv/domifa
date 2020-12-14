@@ -40,7 +40,7 @@ export class MessageEmailConsummer {
     this.trigger$.next("cron");
   }
 
-  public async consumeEmails(trigger: MonitoringBatchProcessTrigger) {
+  protected async consumeEmails(trigger: MonitoringBatchProcessTrigger) {
     monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
         processId: "mail-messages-consumer",

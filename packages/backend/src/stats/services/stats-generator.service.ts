@@ -127,14 +127,14 @@ export class StatsGeneratorService {
       .set("minute", 11)
       .toDate();
     const retourStructure = await this.structureService.updateLastExport(
-      structure._id,
+      structure.id,
       dateExport
     );
 
     const retourStats = await this.structureStatsRepository.insert(stat);
 
     const updateStructureStats = await this.structureService.updateStructureStats(
-      structure._id,
+      structure.id,
       stat.questions.Q_11.VALIDE,
       stat.questions.Q_11.REFUS,
       stat.questions.Q_11.RADIE

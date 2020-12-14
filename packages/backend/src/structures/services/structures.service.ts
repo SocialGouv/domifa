@@ -80,7 +80,7 @@ export class StructuresService {
   }
 
   public async updateLastExport(
-    structureId: string,
+    structureId: number,
     dateExport: Date
   ): Promise<any> {
     return this.structureModel
@@ -92,7 +92,7 @@ export class StructuresService {
   }
 
   public async updateStructureStats(
-    structureId: string,
+    structureId: number,
     valide: number,
     refus: number,
     radie: number
