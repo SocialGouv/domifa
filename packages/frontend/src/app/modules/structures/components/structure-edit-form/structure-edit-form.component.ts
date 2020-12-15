@@ -1,63 +1,38 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-import { regexp } from "src/app/shared/validators";
 import { departements } from "../../../../shared/departements";
+import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
 
 @Component({
-  selector: "app-structures-form",
-  styleUrls: ["./structures-form.component.css"],
-  templateUrl: "./structures-form.component.html",
+  selector: "app-structure-edit-form",
+  templateUrl: "./structure-edit-form.component.html",
+  styleUrls: ["./structure-edit-form.component.css"],
 })
-export class StructuresFormComponent implements OnInit {
-  public success: boolean = false;
-  public structureForm!: FormGroup;
-  public structure: Structure;
+export class StructureEditFormComponent implements OnInit {
+  public structureForm: FormGroup;
   public departements: any;
+  public success: boolean = false;
   public submitted: boolean = false;
 
-  public etapeInscription: number;
-  public etapes = [
-    "Enregistrement de la structure",
-    "Création du compte personnel",
-  ];
-
-  public structureInscription: {
-    etapeInscription: number;
-    structureId: number;
-    structure: Structure;
-  };
-
-  public accountExist: boolean;
+  @Input() public structure: Structure;
 
   constructor(
-    private formBuilder: FormBuilder,
     private structureService: StructureService,
-    private notifService: ToastrService,
-    private titleService: Title
+    private formBuilder: FormBuilder,
+    private notifService: ToastrService
   ) {
+    this.submitted = false;
     this.departements = departements;
-    this.etapeInscription = 0;
-
-    this.structure = new Structure();
-
-    this.structureInscription = {
-      etapeInscription: 0,
-      structureId: 0,
-      structure: this.structure,
-    };
-
-    this.accountExist = false;
   }
 
   get f() {
@@ -65,66 +40,67 @@ export class StructuresFormComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.titleService.setTitle("Inscrivez votre structure sur Domifa");
+    console.log(this.structure);
+    const adresseRequired =
+      this.structure.adresseCourrier.actif === true
+        ? [Validators.required]
+        : null;
+
+    const assoRequired =
+      this.structure.structureType === "asso" ? [Validators.required] : null;
+
     this.structureForm = this.formBuilder.group({
       adresse: [this.structure.adresse, [Validators.required]],
-      adresseCourrier: this.formBuilder.group({
-        actif: [this.structure.adresseCourrier.actif, []],
-        adresse: [this.structure.adresseCourrier.adresse, []],
-        ville: [this.structure.adresseCourrier.ville, []],
-        codePostal: [this.structure.adresseCourrier.codePostal, []],
-      }),
-      agrement: [this.structure.agrement, []],
+      agrement: [this.structure.agrement, assoRequired],
       capacite: [this.structure.capacite, []],
       codePostal: [
         this.structure.codePostal,
         [
-          Validators.required,
           Validators.maxLength(5),
           this.structureService.codePostalValidator(),
+          Validators.required,
         ],
       ],
       complementAdresse: [this.structure.complementAdresse, []],
-      departement: [this.structure.departement, []],
+      departement: [this.structure.departement, assoRequired],
       email: [
         this.structure.email,
         [Validators.required, Validators.pattern(regexp.email)],
-        this.validateEmailNotTaken.bind(this),
       ],
-      id: [this.structure.id, [Validators.required]],
       nom: [this.structure.nom, [Validators.required]],
+      options: this.formBuilder.group({
+        colis: [this.structure.options.colis, []],
+        customId: [this.structure.options.customId, []],
+        numeroBoite: [this.structure.options.numeroBoite, []],
+        rattachement: [this.structure.options.rattachement, []],
+      }),
+      adresseCourrier: this.formBuilder.group({
+        actif: [this.structure.adresseCourrier.actif, []],
+        adresse: [this.structure.adresseCourrier.adresse, adresseRequired],
+        ville: [this.structure.adresseCourrier.ville, adresseRequired],
+        codePostal: [
+          this.structure.adresseCourrier.codePostal,
+          adresseRequired,
+        ],
+      }),
       phone: [
         this.structure.phone,
         [Validators.required, Validators.pattern(regexp.phone)],
       ],
+
       responsable: this.formBuilder.group({
         fonction: [this.structure.responsable.fonction, [Validators.required]],
         nom: [this.structure.responsable.nom, [Validators.required]],
         prenom: [this.structure.responsable.prenom, [Validators.required]],
       }),
-      structureType: [this.structure.structureType, [Validators.required]],
+
       ville: [this.structure.ville, [Validators.required]],
-    });
-
-    this.structureForm.get("structureType").valueChanges.subscribe((value) => {
-      this.structureForm.get("agrement").setValidators(null);
-      this.structureForm.get("departement").setValidators(null);
-
-      if (value === "asso") {
-        this.structureForm.get("agrement").setValidators(Validators.required);
-        this.structureForm
-          .get("departement")
-          .setValidators(Validators.required);
-      }
-
-      this.structureForm.get("agrement").updateValueAndValidity();
-      this.structureForm.get("departement").updateValueAndValidity();
     });
 
     this.structureForm
       .get("adresseCourrier")
       .get("actif")
-      .valueChanges.subscribe((value) => {
+      .valueChanges.subscribe((value: any) => {
         const isRequired = value === true ? [Validators.required] : null;
 
         this.structureForm
@@ -157,21 +133,21 @@ export class StructuresFormComponent implements OnInit {
 
   public submitStrucutre() {
     this.submitted = true;
-
     if (this.structureForm.invalid) {
+      console.log(this.structureForm);
       this.notifService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
-      this.structureService.prePost(this.structureForm.value).subscribe(
+      this.structureService.patch(this.structureForm.value).subscribe(
         (structure: Structure) => {
-          this.etapeInscription = 1;
-          this.structureInscription.etapeInscription = 1;
-          this.structureInscription.structureId = structure.id;
-          this.structureInscription.structure = structure;
+          this.notifService.success(
+            "Les modifications ont bien été prises en compte"
+          );
+          this.structure = structure;
         },
         (error) => {
-          this.notifService.error("Veuillez vérifier les champs du formulaire");
+          this.notifService.error("Une erreur est survenue");
         }
       );
     }

@@ -46,19 +46,11 @@ export class StructuresUploadDocsComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.uploadResponse = { status: "", message: "", filePath: "" };
-
     this.uploadForm = this.formBuilder.group({
       docInput: [this.fileName, Validators.required],
       label: ["", Validators.required],
       custom: [false],
     });
-
-    this.uploadError = {
-      fileSize: true,
-      fileType: true,
-    };
-
     this.getAllStructureDocs();
   }
 
