@@ -217,7 +217,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             regionLabel: this.getRegionLabel(structure),
             departementLabel: this.getDepartementLabel(structure),
             usagersValideCount: usagersValide[structure.id] || 0,
-            usersCount: structure.users.length,
+            usersCount: structure.usersCount,
           };
           return tableStructure;
         })

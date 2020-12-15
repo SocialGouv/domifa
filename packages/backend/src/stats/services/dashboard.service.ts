@@ -50,12 +50,22 @@ export class DashboardService {
     let query = this.structureModel
       .find()
       .collation({ locale: "en", strength: 2 })
-      .select("-token +stats")
-      .populate("users", "verified");
+      .select("-token -users +stats");
     if (options.sort) {
       query = query.sort(options.sort);
     }
+
     return query.exec();
+  }
+
+  public async getStructuresForDashboard(): Promise<Structure[]> {
+    const structures = await this.getStructures();
+    for (const structure of structures) {
+      structure.usersCount = await usersRepository.count({
+        structureId: structure.id,
+      });
+    }
+    return structures;
   }
 
   public async getStructuresByType(): Promise<

@@ -43,8 +43,8 @@ export class Structure {
     codePostal: string;
   };
 
-  public users: AppUser[];
   public createdAt: Date | null;
+  public usersCount?: number;
 
   constructor(structure?: any) {
     this.createdAt = null;
@@ -58,6 +58,7 @@ export class Structure {
 
     this.complementAdresse = (structure && structure.complementAdresse) || "";
     this.nom = (structure && structure.nom) || "";
+
     this.structureType = (structure && structure.structureType) || "";
     this.ville = (structure && structure.ville) || "";
     this.departement = (structure && structure.departement) || "";
@@ -69,6 +70,7 @@ export class Structure {
     this.import = (structure && structure.import) || false;
     this.verified = (structure && structure.verified) || false;
 
+    this.usersCount = (structure && structure.usersCount) || 0;
     this.adresseCourrier = (structure && structure.adresseCourrier) || {
       actif: false,
       adresse: "",
@@ -94,8 +96,6 @@ export class Structure {
       this.options.numeroBoite = structure.options.numeroBoite || false;
       this.options.rattachement = structure.options.rattachement || false;
     }
-
-    this.users = (structure && structure.users) || [];
 
     if (structure && structure.createdAt) {
       this.createdAt = new Date(structure.createdAt);

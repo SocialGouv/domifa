@@ -39,6 +39,8 @@ export interface Structure extends Document {
     codePostal: string;
   };
 
+  usersCount: number;
+
   lastExport: Date;
   stats: { VALIDE: number; REFUS: number; RADIE: number; TOTAL: number };
   options: {

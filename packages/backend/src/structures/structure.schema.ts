@@ -152,12 +152,10 @@ export const StructureSchema = new mongoose.Schema(
       default: "",
       type: String,
     },
-    // users: [
-    //   {
-    //     ref: "User",
-    //     type: mongoose.Schema.Types.ObjectId,
-    //   },
-    // ],
+    usersCount: {
+      default: 0,
+      type: Number,
+    },
     verified: {
       default: false,
       type: Boolean,
