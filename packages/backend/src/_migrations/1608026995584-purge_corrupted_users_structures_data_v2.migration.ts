@@ -115,10 +115,10 @@ export class manualMigration1608026995584 implements MigrationInterface {
 
       let cpt = 1;
       for (const stats of oprhanStats) {
-        await appUserRepository.delete({ uuid: stats.uuid });
+        await structureStatsRepository.deleteByCriteria({ uuid: stats.uuid });
 
         appLogger.debug(
-          `[Migration] [INFO] "${cpt}"/"${oprhanStats.length}" deleted ofr structure ${stats.structureId}`
+          `[Migration] [INFO] "${cpt}"/"${oprhanStats.length}" deleted orphan stat for ${stats.structureId}`
         );
         cpt++;
       }
