@@ -7,6 +7,8 @@ import { domifaConfig } from "../../config";
 import {
   appTypeormManager,
   InteractionsTable,
+  monitoringBatchProcessSimpleCountRunner,
+  MonitoringBatchProcessTrigger,
   StructureStatsTable,
 } from "../../database";
 import { InteractionType } from "../../interactions/InteractionType.type";
@@ -45,15 +47,53 @@ export class StatsGeneratorService {
   }
 
   @Cron(domifaConfig().cron.stats.crontime)
-  public async generateStats() {
+  protected async generateStatsCron() {
     if (!domifaConfig().cron.enable) {
       return;
     }
+    await this.generateStats("cron");
+  }
+
+  public async generateStats(trigger: MonitoringBatchProcessTrigger) {
     appLogger.debug(
       "[StatsGeneratorService] START statistics generation : " + new Date()
     );
 
-    const today = moment().utc().startOf("day").toDate();
+    await monitoringBatchProcessSimpleCountRunner.monitorProcess(
+      {
+        processId: "generate-structures-stats",
+        trigger,
+      },
+      async ({ monitorTotal, monitorSuccess, monitorError }) => {
+        const today = moment().utc().startOf("day").toDate();
+        const structures = await this._findStructuresToGenerateStats({ today });
+        appLogger.debug(
+          `[StatsGeneratorService] ${structures.length} structures to process :`
+        );
+        monitorTotal(structures.length);
+
+        for (const structure of structures) {
+          try {
+            await this.generateStructureStats(today, structure, false);
+            monitorSuccess();
+          } catch (err) {
+            const totalErrors = monitorError(err);
+            if (totalErrors > 20) {
+              appLogger.warn(
+                `[StatsGeneratorService] Too many errors: skip next structure: ${err.message}`,
+                {
+                  sentryBreadcrumb: true,
+                }
+              );
+              break;
+            }
+          }
+        }
+      }
+    );
+  }
+
+  private async _findStructuresToGenerateStats({ today }: { today: Date }) {
     this.demain = moment().utc().endOf("day").toDate();
     this.debutAnnee = moment().utc().startOf("year").toDate();
     this.finAnnee = moment().utc().endOf("year").toDate();
@@ -80,37 +120,7 @@ export class StatsGeneratorService {
         },
       ],
     });
-
-    appLogger.debug(
-      `[StatsGeneratorService] ${structures.length} structures to process :`
-    );
-
-    let errorsCount = 0;
-
-    for (const structure of structures) {
-      // appLogger.debug(
-      //   `[StatsGeneratorService] Generate stats for structure ${structure.id} "${structure.nom}"`
-      // );
-      try {
-        await this.generateStructureStats(today, structure, false);
-      } catch (err) {
-        errorsCount++;
-        appLogger.warn(
-          `[StatsGeneratorService] Undexpected error while generating stats for structure ${structure.id} "${structure.nom}"`,
-          {
-            sentryBreadcrumb: true,
-          }
-        );
-        appLogger.error(
-          `[StatsGeneratorService] Undexpected error while generating stats`
-        );
-      }
-    }
-
-    appLogger.debug(
-      `[StatsGeneratorService] END statistics generation (${structures.length} structures processed, ${errorsCount} errors) : "` +
-        new Date()
-    );
+    return structures;
   }
 
   public async generateStructureStats(

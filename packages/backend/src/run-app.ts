@@ -40,21 +40,10 @@ import { appLogger } from "./util";
 
 async function runCronJobs(app) {
   if (domifaConfig().cron.stats.autoRunOnStartup) {
-    appLogger.warn(`[${__filename}] Running stats generation update...`);
-    await app
-      .get(StatsGeneratorService)
-      .generateStats()
-      .then(
-        () => {
-          appLogger.warn(`[${__filename}] stats generation update SUCCESS`);
-        },
-        (error) => {
-          appLogger.error(`[${__filename}] stats generation update ERROR`, {
-            error,
-            sentry: false,
-          });
-        }
-      );
+    const statsGeneratorService: StatsGeneratorService = app.get(
+      StatsGeneratorService
+    );
+    await statsGeneratorService.generateStats("startup");
   }
   if (domifaConfig().cron.emailUserGuide.autoRunOnStartup) {
     const cronMailUserGuideSenderService: CronMailUserGuideSenderService = app.get(

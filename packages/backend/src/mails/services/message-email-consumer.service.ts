@@ -41,7 +41,7 @@ export class MessageEmailConsummer {
   }
 
   protected async consumeEmails(trigger: MonitoringBatchProcessTrigger) {
-    monitoringBatchProcessSimpleCountRunner.monitorProcess(
+    await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
         processId: "mail-messages-consumer",
         trigger,

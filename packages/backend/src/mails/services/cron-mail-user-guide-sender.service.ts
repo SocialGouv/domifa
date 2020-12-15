@@ -34,7 +34,7 @@ export class CronMailUserGuideSenderService {
   }
 
   public async sendMailGuides(trigger: MonitoringBatchProcessTrigger) {
-    monitoringBatchProcessSimpleCountRunner.monitorProcess(
+    await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
         processId: "mail-user-guide",
         trigger,
