@@ -3,10 +3,10 @@
 include:
   - project: SocialGouv/gitlab-ci-yml
     file: /base_yarn_stage.yml
-    ref: v17.15.0
+    ref: v17.23.0
   - project: SocialGouv/gitlab-ci-yml
     file: /base_register_stage.yml
-    ref: v17.15.0
+    ref: v17.23.0
 
 #
 
@@ -63,7 +63,7 @@ stages:
 Backend unit tests:
   extends: .tests_setup
   script:
-    - yarn --cwd packages/backend build
+    - yarn --cwd packages/backend build 
     - yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
   needs: []
 
@@ -92,7 +92,7 @@ Backend unit tests:
 Build frontend image:
   extends: .base_yarn_script
   stage: Build
-  image: node:13
+  image: node:14
   interruptible: true
   cache:
     key:
@@ -117,7 +117,7 @@ Build frontend image:
 Build backend image:
   extends: .base_yarn_script
   stage: Build
-  image: node:13
+  image: node:14
   interruptible: true
   cache:
     key:
