@@ -7,7 +7,7 @@ import { DomifaGuard } from "../../auth/guards/domifa.guard";
 import { AppUserTable, usersRepository } from "../../database";
 import {
   statsDeploiementExporter,
-  StatsDeploiementExportModel
+  StatsDeploiementExportModel,
 } from "../../excel/export-stats-deploiement";
 import { StatsExportUser } from "../../excel/export-stats-deploiement/StatsExportUser.type";
 import { Structure } from "../../structures/structure-interface";
@@ -104,7 +104,9 @@ export class DashboardController {
   // 1. Liste des structures
   @Get("structures")
   public async structures() {
-    return this.dashboardService.getStructures();
+    const retour = await this.dashboardService.getStructuresForDashboard();
+    console.log(retour);
+    return retour;
   }
 
   // 2. Liste des structures par type
