@@ -53,7 +53,6 @@ export class StructuresEditComponent implements OnInit {
     this.structureService
       .findMyStructure()
       .subscribe((structure: Structure) => {
-        console.log(structure);
         this.structure = structure;
         this.initForms();
       });

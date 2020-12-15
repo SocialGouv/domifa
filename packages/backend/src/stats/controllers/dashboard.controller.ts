@@ -104,9 +104,7 @@ export class DashboardController {
   // 1. Liste des structures
   @Get("structures")
   public async structures() {
-    const retour = await this.dashboardService.getStructuresForDashboard();
-    console.log(retour);
-    return retour;
+    return this.dashboardService.getStructuresForDashboard();
   }
 
   // 2. Liste des structures par type
