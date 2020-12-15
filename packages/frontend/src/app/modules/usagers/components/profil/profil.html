@@ -445,69 +445,25 @@
       </ng-template>
 
       <ng-template ngbPanelContent>
-        <div class="row" *ngIf="!editInfos">
-          <div class="col-md-4 reponses">
-            <span class="question">NOM</span>
-            <span class="valeur">{{ usager.nom }}</span>
-          </div>
-          <div class="col-md-4 reponses">
-            <span class="question">PRÉNOM</span>
-            <span class="valeur">{{ usager.prenom }}</span>
-          </div>
-          <div class="col-md-4 reponses">
-            <span class="question">NOM D'USAGE / SURNOM</span>
-            <span class="valeur">{{ usager.surnom | titlecase }}</span>
-          </div>
-
-          <div class="col-md-4 reponses">
-            <span class="question">SEXE</span>
-            <span class="valeur">{{ usager.sexe | titlecase }}</span>
-          </div>
-          <div class="col-md-4 reponses">
-            <span class="question">Date de naissance</span>
-            <span class="valeur">
-              {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
-            </span>
-          </div>
-          <div class="col-md-4 reponses">
-            <span class="question">VILLE de naissance</span>
-            <span class="valeur">{{ usager.villeNaissance | titlecase }}</span>
-          </div>
-
-          <div class="col-md-4 reponses">
-            <span class="question">Numéro de téléphone</span>
-            <span class="valeur">{{ usager.phone || "Non renseigné" }}</span>
-          </div>
-          <div class="col-md-4 reponses">
-            <span class="question">Adresse email</span>
-            <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
-          </div>
-          <div
-            class="col-md-4 reponses"
-            *ngIf="structure.options.customId === true"
-          >
-            <span class="question">Identifiant personnalisé</span>
-            <span class="valeur">
-              {{ usager.customId || "Non renseigné" }}
-            </span>
-          </div>
-          <div class="col-md-4 reponses" *ngIf="usager.customId === null"></div>
+        <ng-container *ngIf="!editInfos">
+          <app-profil-infos [usager]="usager"></app-profil-infos>
 
           <div
-            class="col-md-12 text-center"
+            class="row"
             *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
           >
-            <br />
-            <button
-              class="btn btn-outline-dark"
-              (click)="editInfos = !editInfos"
-            >
-              <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
-              Modifier les informations
-            </button>
+            <div class="col-md-12 text-center">
+              <br />
+              <button
+                class="btn btn-outline-dark"
+                (click)="editInfos = !editInfos"
+              >
+                <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
+                Modifier les informations
+              </button>
+            </div>
           </div>
-        </div>
-
+        </ng-container>
         <form
           *ngIf="editInfos"
           [formGroup]="usagerForm"
@@ -537,6 +493,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-md-4 form-group required">
               <label for="prenom">Prénom(s)</label>
               <input
@@ -572,6 +529,8 @@
                 [ngClass]="{ 'is-invalid': f.surnom.errors }"
               />
             </div>
+          </div>
+          <div class="row">
             <div class="col-md-4 form-group required">
               <label for="sexe">Sexe</label>
               <select formControlName="sexe" id="sexe" class="custom-select">
@@ -579,6 +538,7 @@
                 <option value="femme">Femme</option>
               </select>
             </div>
+
             <div class="col-md-4 form-group required">
               <label for="dateNaissancePicker">Date de naissance</label>
               <div class="input-group">
@@ -618,8 +578,7 @@
                     La date de naissance est obligatoire
                   </div>
                   <div
-                    *ngIf="f.dateNaissancePicker.dirty
-                  && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)"
+                    *ngIf="f.dateNaissancePicker.dirty && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)"
                   >
                     La date de naissance est incorrecte (ex: 20/12/1991)
                   </div>
@@ -643,7 +602,8 @@
                 La ville de naissance est obligatoire
               </div>
             </div>
-
+          </div>
+          <div class="row">
             <div class="col-md-4 form-group">
               <label for="phone">Numéro de téléphone</label>
               <input
@@ -663,45 +623,64 @@
               </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="email">Adresse e-mail</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  formControlName="email"
-                  aria-describedby="emailHelp"
-                  [ngClass]="{ 'is-invalid': f.email.errors }"
-                  placeholder="adresse@mail.com"
-                  autocomplete="null"
-                />
-                <div *ngIf="f.email.errors" class="invalid-feedback">
-                  <div *ngIf="f.email.errors.email">
-                    L'adresse email est incorrecte
-                  </div>
-                </div>
+            <div class="col-md-4 form-group">
+              <label for="email">Adresse e-mail</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                aria-describedby="emailHelp"
+                [ngClass]="{ 'is-invalid': f.email.errors }"
+                placeholder="adresse@mail.com"
+                autocomplete="null"
+              />
+              <div *ngIf="f.email.errors" class="invalid-feedback">
+                L'adresse email est incorrecte
               </div>
             </div>
 
-            <div class="col-md-4" *ngIf="structure.options.customId === true">
-              <div class="form-group">
-                <label for="email">Identifiant personnalisé</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="customId"
-                  maxlength="30"
-                  formControlName="customId"
-                  [ngClass]="{ 'is-invalid': f.customId.errors }"
-                  autocomplete="null"
-                />
-                <div *ngIf="f.customId.errors" class="invalid-feedback">
-                  L'adresse email est incorrecte
-                </div>
+            <div class="col-md-4 form-group">
+              <label for="langue">Langue parlée</label>
+              <input
+                id="langue"
+                type="text"
+                class="form-control"
+                formControlName="langue"
+                placeholder="Langue parlée"
+                [ngClass]="{ 'is-invalid': submitted && f.langue.errors }"
+                [ngbTypeahead]="languagesAutocomplete.typeahead({maxResults: 10})"
+                [resultFormatter]="languagesAutocomplete.formatter"
+                [inputFormatter]="languagesAutocomplete.formatter"
+              />
+              <div
+                *ngIf="submitted && f.langue.errors"
+                class="invalid-feedback"
+              >
+                La langue saisie est invalide
               </div>
             </div>
 
+            <div
+              class="col-md-4 form-group"
+              *ngIf="structure.options.customId === true"
+            >
+              <label for="email">Identifiant personnalisé</label>
+              <input
+                type="text"
+                class="form-control"
+                id="customId"
+                maxlength="30"
+                formControlName="customId"
+                [ngClass]="{ 'is-invalid': f.customId.errors }"
+                autocomplete="null"
+              />
+              <div *ngIf="f.customId.errors" class="invalid-feedback">
+                L'adresse email est incorrecte
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-md-4 offset-md-4 text-center">
               <br />
               <input formControlName="dateNaissance" type="hidden" />
@@ -840,32 +819,10 @@
         </div>
 
         <div *ngIf="!editAyantsDroits">
-          <div *ngIf="usager.ayantsDroits.length === 0">
-            <ngb-alert [dismissible]="false"
-              >Aucun ayant-droit enregistré</ngb-alert
-            >
-          </div>
-          <table
-            id="ayants-droit-table"
-            *ngIf="usager.ayantsDroits.length > 0"
-            class="table table-light"
-          >
-            <tbody>
-              <tr>
-                <th>NOM Prénom</th>
-                <th>Né le</th>
-                <th>Lien</th>
-              </tr>
-              <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-                <td>
-                  <b>{{ ayantDroit.nom | uppercase }}</b>
-                  {{ ayantDroit.prenom }}
-                </td>
-                <td>{{ ayantDroit.dateNaissance }}</td>
-                <td>{{ ayantDroit.lien }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <app-profil-ayants-droits
+            [usager]="usager"
+          ></app-profil-ayants-droits>
+
           <div
             class="col-md-12 text-center"
             *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
@@ -1016,133 +973,11 @@
           [(usager)]="usager"
         ></app-entretien>
 
-        <div class="row" *ngIf="!editEntretien">
-          <div class="col-md-4 reponses">
-            <span class="question">ORIENTATION</span>
-            <span class="valeur" *ngIf="usager.entretien.orientation !== null">
-              {{ usager.entretien.orientation ? "Oui: " +
-              (usager.entretien.orientationDetail ? " : " +
-              usager.entretien.orientationDetail : "") : "Non" }}
-            </span>
-            <span class="valeur" *ngIf="usager.entretien.orientation === null">
-              Non renseigné
-            </span>
-          </div>
-
-          <div class="col-md-4 reponses">
-            <span class="question">DOMICILIATION EXISTANTE</span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.domiciliation !== null"
-            >
-              {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
-            </span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.domiciliation === null"
-            >
-              Non renseigné
-            </span>
-          </div>
-
-          <div class="col-md-4 reponses">
-            <span class="question">REVENUS</span>
-            <span class="valeur" *ngIf="usager.entretien.revenus !== null">
-              {{ usager.entretien.revenus ? "Oui" +
-              (usager.entretien.revenusDetail ? " : " +
-              usager.entretien.revenusDetail : "") : "Non" }}
-            </span>
-            <span class="valeur" *ngIf="usager.entretien.revenus === null">
-              Non renseigné
-            </span>
-          </div>
-
-          <div class="col-md-4 reponses">
-            <span class="question">LIEN COMMUNE</span>
-            <span class="valeur">
-              {{ usager.entretien.liencommune || "Non renseigné" }}
-            </span>
-          </div>
-
-          <div class="col-md-4 reponses">
-            <span class="question">MOTIF DE LA DEMANDE</span>
-            <span class="valeur" *ngIf="usager.entretien.raison == 'AUTRE'">
-              Autre : {{ usager.entretien.raisonDetail }}
-            </span>
-            <span class="valeur" *ngIf="usager.entretien.raison != 'AUTRE'">
-              {{ labels.raison[usager.entretien.raison] || "Non renseigné" }}
-            </span>
-          </div>
-
-          <div class="col-md-4 reponses">
-            <span class="question">SITUATION RESIDENTIELLE</span>
-            <span class="valeur" *ngIf="usager.entretien.residence == 'AUTRE'">
-              Autre : {{ usager.entretien.residenceDetail }}
-            </span>
-            <span class="valeur" *ngIf="usager.entretien.residence != 'AUTRE'">
-              {{ labels.residence[usager.entretien.residence] || "Non renseigné"
-              }}
-            </span>
-          </div>
-          <div class="col-md-4 reponses">
-            <span class="question">COMPOSITION MÉNAGE</span>
-            <span class="valeur">
-              {{ labels.typeMenage[usager.entretien.typeMenage] || "Non
-              renseigné" }}
-            </span>
-          </div>
-
-          <div class="col-md-4 reponses">
-            <span class="question">CAUSE DE L'INSTABILITÉ LOGEMENT</span>
-            <span class="valeur" *ngIf="usager.entretien.cause == 'AUTRE'">
-              Autre : {{ usager.entretien.causeDetail }}
-            </span>
-            <span class="valeur" *ngIf="usager.entretien.cause != 'AUTRE'">
-              {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
-            </span>
-          </div>
-
-          <div class="col-md-4 reponses">
-            <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.accompagnement !== null"
-            >
-              {{ usager.entretien.accompagnement ? "Oui " : "Non" }}
-              <span *ngIf="usager.entretien.accompagnementDetail">
-                : {{ usager.entretien.accompagnementDetail }}
-              </span>
-            </span>
-            <span
-              class="valeur"
-              *ngIf="usager.entretien.accompagnement === null"
-              >Non renseigné</span
-            >
-          </div>
-
-          <div class="col-md-4 reponses"></div>
-          <br />
-          <div
-            class="col-md-12 reponses"
-            *ngIf="structure.options.rattachement"
-          >
-            <span class="question"
-              >Rattachement à une ville ou un arrondissement :
-            </span>
-            <span class="valeur">
-              {{ usager.entretien.rattachement || "Non renseigné"}}
-            </span>
-            <br />
-          </div>
-          <br />
-          <div class="col-md-12 reponses">
-            <span class="question">NOTES SUPPLÉMENTAIRES:</span>
-            <span class="valeur">
-              {{ usager.entretien.commentaires || "Non renseigné"}}
-            </span>
-            <br />
-          </div>
-        </div>
+        <app-profil-entretien
+          *ngIf="!editEntretien"
+          [usager]="usager"
+          [structure]="me.structure"
+        ></app-profil-entretien>
 
         <div
           class="col-md-12 text-center"

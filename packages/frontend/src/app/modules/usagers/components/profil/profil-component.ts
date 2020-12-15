@@ -30,6 +30,8 @@ import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
 
+import { languagesAutocomplete } from "../../../../shared";
+
 @Component({
   providers: [
     UsagerService,
@@ -52,6 +54,8 @@ export class UsagersProfilComponent implements OnInit {
   public typeInteraction: InteractionTypes;
   public interactions: Interaction[];
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
+
+  public languagesAutocomplete = languagesAutocomplete;
 
   public interactionsLabels: {
     [key: string]: any;
@@ -140,6 +144,8 @@ export class UsagersProfilComponent implements OnInit {
     this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
       this.structure = user.structure;
+
+      console.log(this.structure);
     });
 
     this.titleService.setTitle("Fiche d'un domicilié");
@@ -204,6 +210,7 @@ export class UsagersProfilComponent implements OnInit {
       ],
       email: [this.usager.email, [Validators.email]],
       id: [this.usager.id, []],
+      langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       prenom: [this.usager.prenom, Validators.required],

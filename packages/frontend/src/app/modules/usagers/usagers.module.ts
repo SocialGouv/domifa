@@ -38,6 +38,9 @@ import { UsagersProfilTransfertCourrierComponent } from "./components/profil/pro
 import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil/profil-procuration-courrier/profil-procuration-courrier-component";
 import { DocsCustomComponent } from "./components/docs-custom/docs-custom.component";
+import { ProfilInfosComponent } from "./components/profil/profil-infos/profil-infos.component";
+import { ProfilEntretienComponent } from "./components/profil/profil-entretien/profil-entretien.component";
+import { ProfilAyantsDroitsComponent } from "./components/profil/profil-ayants-droits/profil-ayants-droits.component";
 
 @NgModule({
   declarations: [
@@ -55,6 +58,9 @@ import { DocsCustomComponent } from "./components/docs-custom/docs-custom.compon
     UsagersProfilComponent,
     UsagersProfilTransfertCourrierComponent,
     UsagersProfilProcurationCourrierComponent,
+    ProfilInfosComponent,
+    ProfilAyantsDroitsComponent,
+    ProfilEntretienComponent,
     ImportComponent,
     RaftComponent,
     EntretienComponent,
