@@ -45,7 +45,7 @@ export class CronMailImportGuideSenderService {
   }
 
   public async sendMailImports(trigger: MonitoringBatchProcessTrigger) {
-    monitoringBatchProcessSimpleCountRunner.monitorProcess(
+    await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
         processId: "mail-import-guide",
         trigger,
