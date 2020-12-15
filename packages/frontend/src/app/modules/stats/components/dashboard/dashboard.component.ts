@@ -14,6 +14,7 @@ import * as labels from "src/app/modules/usagers/usagers.labels";
 import {
   departements,
   DepartementsLabels,
+  languagesAutocomplete,
   RegionsLabels,
   REGIONS_LABELS_MAP,
 } from "src/app/shared";
@@ -107,6 +108,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     VALIDE: "text-secondary",
   };
 
+  public languages: { [key: string]: number };
+
+  public languagesAutocomplete = languagesAutocomplete;
+
   constructor(
     public statsService: StatsService,
     private titleService: Title,
@@ -157,6 +162,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.statsService.getUsagers().subscribe((retour: any[]) => {
       this.usagers = retour;
     });
+
+    this.statsService
+      .getLangues()
+      .subscribe((retour: { [key: string]: number }) => {
+        this.languages = retour;
+      });
 
     this.statsService
       .getUsagersValide()

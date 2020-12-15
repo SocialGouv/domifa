@@ -93,6 +93,10 @@ export class StatsService {
     return this.http.get(environment.apiUrl + `dashboard/usagers`);
   }
 
+  public getLangues(): Observable<any> {
+    return this.http.get(environment.apiUrl + `dashboard/usagers/langues`);
+  }
+
   public export(start: Date, end: Date) {
     return this.http.post(
       `${this.baseUrl}export/`,

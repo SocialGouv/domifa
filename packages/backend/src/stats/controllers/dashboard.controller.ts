@@ -131,6 +131,22 @@ export class DashboardController {
     return this.dashboardService.getUsagersCountByStructureId();
   }
 
+  @Get("usagers/langues")
+  public async getLanguages() {
+    const langues = await this.dashboardService.getLanguages();
+
+    const statsLangues = [];
+    for (const langue of langues) {
+      const label =
+        langue._id.langue !== null ? langue._id.langue : "NON_RENSEIGNE";
+      statsLangues.push({
+        label,
+        total: langue.sum[0],
+      });
+    }
+    return statsLangues;
+  }
+
   @Get("docs")
   public async getDocs() {
     return this.dashboardService.getDocsCount();
