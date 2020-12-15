@@ -8,6 +8,7 @@ import { RavenInterceptor, RavenModule } from "nest-raven";
 import { AuthModule } from "./auth/auth.module";
 import { domifaConfig } from "./config";
 import { buildMongoConnectionStringFromEnv } from "./database";
+import { MonitoringModule } from "./database/services/monitoring/monitoring.module";
 import { HealthController } from "./health/health.controller";
 import { PostgresHealthIndicator } from "./health/postgres-health-indicator.service";
 import { InteractionsModule } from "./interactions/interactions.module";
@@ -35,6 +36,7 @@ mongoose.set("debug", domifaConfig().mongo.debug);
     ScheduleModule.forRoot(),
     StatsModule,
     StructuresModule,
+    MonitoringModule,
     UsagersModule,
     UsersModule,
     MongooseModule.forRoot(mongoConnectionString, {

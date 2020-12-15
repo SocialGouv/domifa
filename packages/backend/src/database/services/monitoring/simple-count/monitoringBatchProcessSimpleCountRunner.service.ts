@@ -20,7 +20,9 @@ async function monitorProcess(
     monitorTotal,
     monitorSuccess,
     monitorError,
+    monitorResults,
   }: {
+    monitorResults: (results: any) => void;
     monitorTotal: (total: number) => void;
     monitorSuccess: (count?: number) => void;
     monitorError: (error: Error, { count }?: { count?: number }) => number;
@@ -30,9 +32,9 @@ async function monitorProcess(
     `[${__filename}] Running "${processId}" process using ${trigger} trigger...`
   );
 
-  const monitoringBatchProcess: Partial<MonitoringBatchProcess<
-    MonitoringBatchProcessSimpleCountDetails
-  >> = {
+  const monitoringBatchProcess: Partial<
+    MonitoringBatchProcess<MonitoringBatchProcessSimpleCountDetails>
+  > = {
     processId,
     trigger,
     beginDate: new Date(),
@@ -46,6 +48,9 @@ async function monitorProcess(
 
   try {
     const result = await process({
+      monitorResults: (results) => {
+        monitoringBatchProcess.details.results = results;
+      },
       monitorTotal: (total) => {
         monitoringBatchProcess.details.total = total;
       },
@@ -97,12 +102,12 @@ async function monitorProcess(
       );
     }
 
-    const monitoringBatchProcessEntity = new MonitoringBatchProcessTable<
-      MonitoringBatchProcessSimpleCountDetails
-    >({
-      ...monitoringBatchProcess,
-      endDate: new Date(),
-    });
+    const monitoringBatchProcessEntity = new MonitoringBatchProcessTable<MonitoringBatchProcessSimpleCountDetails>(
+      {
+        ...monitoringBatchProcess,
+        endDate: new Date(),
+      }
+    );
     // tslint:disable-next-line: no-unsafe-finally
     return monitoringBatchProcessRepository.save(monitoringBatchProcessEntity);
   }

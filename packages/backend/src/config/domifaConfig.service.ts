@@ -252,6 +252,28 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           { defaultValue: false }
         ),
       },
+      monitoringCleaner: {
+        crontime: configParser.parseString(
+          x,
+          "DOMIFA_CRON_MONITORING_CLEANER_CRONTIME",
+          {
+            defaultValue: CronExpression.EVERY_DAY_AT_11PM,
+          }
+        ),
+        autoRunOnStartup: configParser.parseBoolean(
+          x,
+          "DOMIFA_CRON_MONITORING_CLEANER_AUTO_RUN_STARTUP",
+          { defaultValue: false }
+        ),
+        delay: configParser.parseDelay(
+          x,
+          "DOMIFA_CRON_MONITORING_CLEANER_DELAY",
+          {
+            defaultValue:
+              envId === "dev" || envId === "test" ? "1 day" : "7 days",
+          }
+        ),
+      },
     },
     email: {
       emailsEnabled,

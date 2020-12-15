@@ -67,6 +67,11 @@ export type DomifaConfig = {
       crontime: string; // DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME
       autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_CONSUMER_AUTO_RUN_STARTUP
     };
+    monitoringCleaner: {
+      crontime: string; // DOMIFA_CRON_MONITORING_CLEANER_CRONTIME
+      autoRunOnStartup: boolean; // DOMIFA_CRON_MONITORING_CLEANER_AUTO_RUN_STARTUP
+      delay: DomifaConfigDelay; // DOMIFA_CRON_MONITORING_CLEANER_DELAY
+    };
   };
   email: {
     emailsEnabled: boolean; // DOMIFA_EMAILS_ENABLE

@@ -3,4 +3,5 @@ export type MonitoringBatchProcessSimpleCountDetails = {
   success: number;
   errors: number;
   skipped: number;
+  results?: any;
 };
