@@ -186,6 +186,28 @@ export class DashboardService {
       .exec();
   }
 
+  public async getLanguages() {
+    return this.usagerModel
+      .aggregate([
+        { $match: {} },
+        {
+          $group: {
+            _id: { langue: "$langue" },
+            langues: { $push: "$langue" },
+            total: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: { langue: "$_id.langue" },
+            sum: { $addToSet: "$total" },
+          },
+        },
+      ])
+
+      .exec();
+  }
+
   public async getRegions(): Promise<
     {
       region: string;

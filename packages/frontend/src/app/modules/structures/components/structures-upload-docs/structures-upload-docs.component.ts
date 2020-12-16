@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { saveAs } from "file-saver";
 import { ToastrService } from "ngx-toastr";
-
 import { AppUser } from "../../../../../_common/model";
 import { StructureDoc } from "../../../../../_common/model/structure-doc";
 import { validateUpload } from "../../../../shared/upload-validator";
-
 import { StructureDocService } from "../../services/structure-doc.service";
 
 @Component({

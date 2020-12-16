@@ -8,7 +8,8 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-import { departements } from "../../../../shared/departements";
+import { departements } from "../../../../shared/constants";
+
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { Structure } from "../../structure.interface";
@@ -40,7 +41,6 @@ export class StructureEditFormComponent implements OnInit {
   }
 
   public ngOnInit() {
-    console.log(this.structure);
     const adresseRequired =
       this.structure.adresseCourrier.actif === true
         ? [Validators.required]
@@ -134,7 +134,6 @@ export class StructureEditFormComponent implements OnInit {
   public submitStrucutre() {
     this.submitted = true;
     if (this.structureForm.invalid) {
-      console.log(this.structureForm);
       this.notifService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );

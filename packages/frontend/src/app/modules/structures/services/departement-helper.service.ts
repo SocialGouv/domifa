@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { DEPARTEMENTS_MAP } from "src/app/shared/DEPARTEMENTS_MAP.const";
+import { DEPARTEMENTS_MAP } from "src/app/shared";
 
 // NOTE: service dupliqué côté backend
 const EXCEPTIONS_CODE_POSTAL: { [codePostal: string]: string } = {

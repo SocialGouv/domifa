@@ -1,13 +1,14 @@
 import { APP_BASE_HREF, Location } from "@angular/common";
-import { async, TestBed } from "@angular/core/testing";
-
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { global } from "@angular/compiler/src/util";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { async, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { AppComponent } from "src/app/app.component";
 import { GeneralModule } from "src/app/modules/general/general.module";
 import { StatsModule } from "src/app/modules/stats/stats.module";
@@ -19,8 +20,6 @@ import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
 import { UsagersProfilComponent } from "./profil-component";
-import { global } from "@angular/compiler/src/util";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("UsagersProfilComponent", () => {
   let fixture: any;

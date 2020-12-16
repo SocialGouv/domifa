@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-md-4 reponses">
+    <span class="question">NOM</span>
+    <span class="valeur">{{ usager.nom }}</span>
+  </div>
+  <div class="col-md-4 reponses">
+    <span class="question">PRÉNOM</span>
+    <span class="valeur">{{ usager.prenom }}</span>
+  </div>
+  <div class="col-md-4 reponses">
+    <span class="question">NOM D'USAGE / SURNOM</span>
+    <span class="valeur">{{ usager.surnom | titlecase }}</span>
+  </div>
+
+  <div class="col-md-4 reponses">
+    <span class="question">SEXE</span>
+    <span class="valeur">{{ usager.sexe | titlecase }}</span>
+  </div>
+  <div class="col-md-4 reponses">
+    <span class="question">Date de naissance</span>
+    <span class="valeur">
+      {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
+    </span>
+  </div>
+  <div class="col-md-4 reponses">
+    <span class="question">VILLE de naissance</span>
+    <span class="valeur">{{ usager.villeNaissance | titlecase }}</span>
+  </div>
+
+  <div class="col-md-4 reponses">
+    <span class="question">Numéro de téléphone</span>
+    <span class="valeur">{{ usager.phone || "Non renseigné" }}</span>
+  </div>
+  <div class="col-md-4 reponses">
+    <span class="question">Adresse email</span>
+    <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
+  </div>
+
+  <div class="col-md-4 reponses">
+    <span class="question">Langue parlée</span>
+    <span class="valeur" *ngIf="usager.langue">{{
+      languagesAutocomplete.formatter(usager.langue)
+    }}</span>
+    <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4 reponses">
+    <span class="question">Identifiant personnalisé</span>
+    <span class="valeur">
+      {{ usager.customId || "Non renseigné" }}
+    </span>
+  </div>
+  <div class="col-md-8 reponses"></div>
+</div>

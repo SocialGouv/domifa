@@ -111,174 +111,18 @@
 
   <div class="step_form impression">
     <h4>ÉTAT CIVIL</h4>
-    <div class="row">
-      <div class="col-md-4 reponses">
-        <span class="question">NOM</span>
-        <span class="valeur">{{ usager.nom }}</span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">PRÉNOM</span>
-        <span class="valeur">{{ usager.prenom }}</span>
-      </div>
-      <div class="col-md-4 reponses">
-        <span class="question">NOM D'USAGE / SURNOM</span>
-        <span class="valeur">{{ usager.surnom | titlecase }}</span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">SEXE</span>
-        <span class="valeur">{{ usager.sexe | titlecase }}</span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">Date de naissance</span>
-        <span class="valeur">
-          {{ usager.dateNaissance | date: "dd/MM/yyyy" }}
-        </span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">VILLE de naissance</span>
-        <span class="valeur">{{ usager.villeNaissance }}</span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">Numéro de téléphone</span>
-        <span class="valeur">{{ usager.phone || "Non renseigné" }}</span>
-      </div>
-      <div class="col-md-4 reponses">
-        <span class="question">Adresse email</span>
-        <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
-      </div>
-
-      <div class="col-md-4 reponses"></div>
-    </div>
+    <app-profil-infos [usager]="usager"></app-profil-infos>
 
     <h4>AYANTS-DROIT</h4>
-
-    <div *ngIf="usager.ayantsDroits.length === 0">
-      <ngb-alert [dismissible]="false">Aucun ayant-droit enregistré</ngb-alert>
-    </div>
-    <table *ngIf="usager.ayantsDroits.length > 0" class="table table-light">
-      <tbody>
-        <tr>
-          <th>NOM Prénom</th>
-          <th>Né le</th>
-          <th>Lien</th>
-        </tr>
-        <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-          <td>{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</td>
-          <td>{{ ayantDroit.dateNaissance }}</td>
-          <td>{{ ayantDroit.lien }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <app-profil-ayants-droits [usager]="usager"></app-profil-ayants-droits>
 
     <h4>ENTRETIEN</h4>
-    <div class="row">
-      <div class="col-md-4 reponses">
-        <span class="question">DOMICILIATION EXISTANTE</span>
-        <span class="valeur">
-          {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
-        </span>
-      </div>
 
-      <div class="col-md-4 reponses">
-        <span class="question">ORIENTATION</span>
-        <span class="valeur">
-          {{
-            usager.entretien.orientation
-              ? "Oui: " + usager.entretien.orientationDetail
-              : "Non"
-          }}
-        </span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">REVENUS</span>
-        <span class="valeur">
-          {{
-            usager.entretien.revenus
-              ? "Oui, " + usager.entretien.revenusDetail
-              : "Non"
-          }}
-        </span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">LIEN COMMUNE</span>
-        <span class="valeur">
-          {{ usager.entretien.liencommune || "Non renseigné" }}
-        </span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">MOTIF DE LA DEMANDE</span>
-        <span class="valeur" *ngIf="usager.entretien.raison == 'AUTRE'">
-          Autre : {{ usager.entretien.raisonDetail }}
-        </span>
-        <span class="valeur" *ngIf="usager.entretien.raison != 'AUTRE'">
-          {{ labels.raison[usager.entretien.raison] || "Non renseigné" }}
-        </span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">SITUATION RESIDENTIELLE</span>
-        <span class="valeur" *ngIf="usager.entretien.residence == 'AUTRE'">
-          Autre : {{ usager.entretien.residenceDetail }}
-        </span>
-        <span class="valeur" *ngIf="usager.entretien.residence != 'AUTRE'">
-          {{ labels.residence[usager.entretien.residence] || "Non renseigné" }}
-        </span>
-      </div>
-      <div class="col-md-4 reponses">
-        <span class="question">COMPOSITION MÉNAGE</span>
-        <span class="valeur">
-          {{
-            labels.typeMenage[usager.entretien.typeMenage] || "Non renseigné"
-          }}
-        </span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">CAUSE DE L'INSTABILITÉ LOGEMENT</span>
-        <span class="valeur" *ngIf="usager.entretien.cause == 'AUTRE'">
-          Autre : {{ usager.entretien.causeDetail }}
-        </span>
-        <span class="valeur" *ngIf="usager.entretien.cause != 'AUTRE'">
-          {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
-        </span>
-      </div>
-
-      <div class="col-md-4 reponses">
-        <span class="question">ACCOMPAGNEMENT SOCIAL ACTUEL</span>
-        <span class="valeur">
-          {{ usager.entretien.accompagnement ? "Oui : " : "Non" }}
-          <span *ngIf="usager.entretien.accompagnement">
-            {{ usager.entretien.accompagnementDetail }}
-          </span>
-        </span>
-      </div>
-
-      <div class="col-md-4 reponses"></div>
-      <br />
-      <div class="col-md-12 reponses" *ngIf="me.structure.options.rattachement">
-        <span class="question"
-          >Rattachement à une ville ou un arrondissement :
-        </span>
-        <span class="valeur">
-          {{ usager.entretien.rattachement || "Non renseigné" }}
-        </span>
-        <br />
-      </div>
-      <br />
-      <div class="col-md-12 reponses">
-        <span class="question">NOTES SUPPLÉMENTAIRES:</span>
-        <span class="valeur">{{ usager.entretien.commentaires }}</span>
-        <br />
-      </div>
-    </div>
+    <app-profil-entretien
+      [usager]="usager"
+      [structure]="me.structure"
+    ></app-profil-entretien>
+    <br />
 
     <h4>Pièces-jointes</h4>
     <app-documents [usager]="usager"></app-documents>

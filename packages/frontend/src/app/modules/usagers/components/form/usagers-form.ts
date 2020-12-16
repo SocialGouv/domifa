@@ -1,35 +1,29 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
-
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
-
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-
 import { ToastrService } from "ngx-toastr";
-
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { fadeInOut } from "../../../../shared/animations";
-import { regexp } from "../../../../shared/validators";
-import * as labels from "../../usagers.labels";
-
-import { AyantDroit } from "../../interfaces/ayant-droit";
-
+import { Usager } from "src/app/modules/usagers/interfaces/usager";
+import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import {
+  formatDateToNgb,
   minDateNaissance,
   minDateToday,
-  formatDateToNgb,
 } from "src/app/shared/bootstrap-util";
-import { Title } from "@angular/platform-browser";
 import { AppUser } from "../../../../../_common/model";
-import { Decision } from "../../interfaces/decision";
+import { languagesAutocomplete } from "../../../../shared";
+import { fadeInOut } from "../../../../shared/animations";
+import { regexp } from "../../../../shared/validators";
+import { AyantDroit } from "../../interfaces/ayant-droit";
+import * as labels from "../../usagers.labels";
 
 @Component({
   animations: [fadeInOut],
@@ -73,6 +67,8 @@ export class UsagersFormComponent implements OnInit {
   public etape: number;
 
   public liensLabels: any;
+
+  public languagesAutocomplete = languagesAutocomplete;
 
   public me: AppUser;
 
@@ -137,6 +133,7 @@ export class UsagersFormComponent implements OnInit {
   public initForm() {
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
+      langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
       dateNaissance: [this.usager.dateNaissance, []],
       dateNaissancePicker: [

@@ -1,17 +1,15 @@
-import {
-  IsEmail,
-  IsIn,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-} from "class-validator";
-import { AyantDroit } from "../interfaces/ayant-droit";
 import { ApiProperty } from "@nestjs/swagger";
+import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { AyantDroit } from "../interfaces/ayant-droit";
 
 export class EditUsagerDto {
   @ApiProperty()
   @IsIn(["homme", "femme"])
   public sexe!: string;
+
+  @ApiProperty()
+  @IsOptional()
+  public langue!: string;
 
   @ApiProperty()
   @IsOptional()

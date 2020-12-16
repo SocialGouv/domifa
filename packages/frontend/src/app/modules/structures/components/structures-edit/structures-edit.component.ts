@@ -4,7 +4,6 @@ import { Title } from "@angular/platform-browser";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-
 import { AppUser } from "../../../../../_common/model";
 import { Structure } from "../../structure.interface";
 
@@ -54,7 +53,6 @@ export class StructuresEditComponent implements OnInit {
     this.structureService
       .findMyStructure()
       .subscribe((structure: Structure) => {
-        console.log(structure);
         this.structure = structure;
         this.initForms();
       });

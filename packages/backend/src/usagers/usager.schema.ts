@@ -336,6 +336,10 @@ export const UsagerSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
+    langue: {
+      required: false,
+      type: String,
+    },
     structureId: {
       index: true,
       required: true,

@@ -4,7 +4,11 @@
   <div class="row">
     <div class="col-md-8">
       <div class="stats-export-btn">
-        <button (click)="exportDashboard()" [disabled]="exportLoading" class="btn btn-primary">
+        <button
+          (click)="exportDashboard()"
+          [disabled]="exportLoading"
+          class="btn btn-primary"
+        >
           <span *ngIf="!exportLoading">
             <fa-icon icon="download" class="btn-icon"></fa-icon>
             Exporter les statistiques
@@ -15,7 +19,7 @@
           </span>
         </button>
       </div>
-        <div>
+      <div>
         <span class="stats-titre">CHIFFRES DE LA DOMICILIATION</span>
       </div>
 
@@ -114,7 +118,6 @@
         </div>
 
         <div class="stats-blocks-container--inline">
-
           <div>
             <span class="stats-titre"> DOCUMENTS</span>
           </div>
@@ -136,6 +139,21 @@
           <span class="stats-labels">
             {{ interactionsLabels[interaction.key] }}
           </span>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <span class="stats-titre">LANGUES</span>
+      <div class="stats-blocks" *ngIf="languages">
+        <div *ngFor="let langue of languages">
+          <span class="stats-chiffres">{{ langue.total }}</span>
+          <span class="stats-labels" *ngIf="langue.label !== 'NON_RENSEIGNE'">
+            {{ languagesAutocomplete.formatter(langue.label) }}
+          </span>
+          <span class="stats-labels" *ngIf="langue.label === 'NON_RENSEIGNE'"
+            >Non renseigné</span
+          >
         </div>
       </div>
     </div>

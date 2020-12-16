@@ -16,6 +16,7 @@ export class Usager {
   public surnom: string;
 
   public sexe: string;
+  public langue: string;
   public dateNaissance: Date | null;
   public villeNaissance: string;
 
@@ -71,6 +72,7 @@ export class Usager {
     this.sexe = (usager && usager.sexe) || "homme";
     this.nom = (usager && usager.nom) || "";
     this.prenom = (usager && usager.prenom) || "";
+    this.langue = (usager && usager.langue) || "";
 
     this.nomComplet =
       (this.sexe === "homme" ? "M. " : "Mme ") +

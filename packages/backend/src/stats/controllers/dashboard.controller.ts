@@ -104,9 +104,7 @@ export class DashboardController {
   // 1. Liste des structures
   @Get("structures")
   public async structures() {
-    const retour = await this.dashboardService.getStructuresForDashboard();
-    console.log(retour);
-    return retour;
+    return this.dashboardService.getStructuresForDashboard();
   }
 
   // 2. Liste des structures par type
@@ -131,6 +129,22 @@ export class DashboardController {
   @Get("usagers/valide")
   public async getUsagersActifs() {
     return this.dashboardService.getUsagersCountByStructureId();
+  }
+
+  @Get("usagers/langues")
+  public async getLanguages() {
+    const langues = await this.dashboardService.getLanguages();
+
+    const statsLangues = [];
+    for (const langue of langues) {
+      const label =
+        langue._id.langue !== null ? langue._id.langue : "NON_RENSEIGNE";
+      statsLangues.push({
+        label,
+        total: langue.sum[0],
+      });
+    }
+    return statsLangues;
   }
 
   @Get("docs")
