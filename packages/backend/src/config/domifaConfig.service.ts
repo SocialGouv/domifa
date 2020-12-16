@@ -5,6 +5,7 @@ import * as path from "path";
 import { DomifaConfig, DomifaEnv, DOMIFA_ENV_IDS } from "./model";
 import { configParser } from "./services/configParser.service";
 import { configTypeOrmLoggerParser } from "./services/configTypeOrmLoggerParser.service";
+import SMTPTransport = require("nodemailer/lib/smtp-transport");
 
 let _domifaConfig: DomifaConfig;
 
@@ -58,6 +59,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
   const envId = configParser.parseString(x, "DOMIFA_ENV_ID", {
     validValues: DOMIFA_ENV_IDS,
   });
+
   const frontendUrl = configParser.parseString(x, "DOMIFA_FRONTEND_URL", {
     defaultValue:
       envId === "dev" || envId === "test"
@@ -76,6 +78,8 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
   const sentryDns = configParser.parseString(x, "SENTRY_DSN", {
     required: false,
   });
+
+  const smtpOptions = buildSmtpOptions(x, { required: emailsEnabled });
 
   const config: DomifaConfig = {
     envId,
@@ -280,6 +284,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       emailAddressAdmin: configParser.parseString(x, "DOMIFA_ADMIN_EMAIL", {
         required: emailsEnabled,
       }),
+      emailAddressErrorReport: configParser.parseStringArray(
+        x,
+        "DOMIFA_ERROR_REPORT_EMAILS",
+        {
+          required: false,
+        }
+      ),
       emailAddressFrom: configParser.parseString(
         x,
         "DOMIFA_TIPIMAIL_FROM_EMAIL",
@@ -294,14 +305,19 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           required: false,
         }
       ),
-      smtp: {
-        user: configParser.parseString(x, "SMTP_USER", {
+      tipimailApi: {
+        user: configParser.parseString(x, "DOMIFA_MAIL_SMTP_TIPIMAIL_USER", {
           required: emailsEnabled,
         }),
-        pass: configParser.parseString(x, "SMTP_PASS", {
-          required: emailsEnabled,
-        }),
+        pass: configParser.parseString(
+          x,
+          "DOMIFA_MAIL_SMTP_TIPIMAIL_PASSWORD",
+          {
+            required: emailsEnabled,
+          }
+        ),
       },
+      smtp: smtpOptions,
     },
   };
   if (config.dev.printEnv) {
@@ -316,6 +332,55 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
   }
   return config;
 }
+function buildSmtpOptions(
+  x: Partial<DomifaEnv>,
+  { required }: { required: boolean }
+): SMTPTransport.Options {
+  const smtpId = configParser.parseString(x, "DOMIFA_MAIL_SMTP_ID", {
+    validValues: ["MAILTRAP", "TIPIMAIL"],
+    required,
+  });
+
+  return smtpId === "TIPIMAIL"
+    ? {
+        host: configParser.parseString(x, "DOMIFA_MAIL_SMTP_TIPIMAIL_HOST", {
+          required,
+        }),
+        port: configParser.parseInteger(x, "DOMIFA_MAIL_SMTP_TIPIMAIL_PORT", {
+          required,
+        }),
+        secure: false,
+        auth: {
+          user: configParser.parseString(x, "DOMIFA_MAIL_SMTP_TIPIMAIL_USER", {
+            required,
+          }),
+          pass: configParser.parseString(
+            x,
+            "DOMIFA_MAIL_SMTP_TIPIMAIL_PASSWORD",
+            { required }
+          ),
+        },
+      }
+    : {
+        host: configParser.parseString(x, "DOMIFA_MAIL_SMTP_MAILTRAP_HOST", {
+          required,
+        }),
+        port: configParser.parseInteger(x, "DOMIFA_MAIL_SMTP_MAILTRAP_PORT", {
+          required,
+        }),
+        auth: {
+          user: configParser.parseString(x, "DOMIFA_MAIL_SMTP_MAILTRAP_USER", {
+            required,
+          }),
+          pass: configParser.parseString(
+            x,
+            "DOMIFA_MAIL_SMTP_MAILTRAP_PASSWORD",
+            { required }
+          ),
+        },
+      };
+}
+
 function printEnv(x: Partial<DomifaEnv>, config: DomifaConfig) {
   const envKeysToLog = Object.keys(x).filter((x) => !x.startsWith("npm_"));
   envKeysToLog.sort();

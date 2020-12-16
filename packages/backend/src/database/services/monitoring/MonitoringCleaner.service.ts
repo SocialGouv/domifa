@@ -1,11 +1,18 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-import { LessThanOrEqual } from "typeorm";
+import { LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import { monitoringBatchProcessSimpleCountRunner } from ".";
 import { MonitoringBatchProcessTrigger, typeOrmSearch } from "../..";
 import { domifaConfig } from "../../../config";
-import { MessageEmail, MonitoringBatchProcess } from "../../entities";
+import { appLogger } from "../../../util";
+import {
+  MessageEmail,
+  MonitoringBatchProcess,
+  MonitoringBatchProcessId,
+} from "../../entities";
 import { messageEmailRepository } from "../message-email";
+import { AdminBatchsErrorReportModel } from "./AdminBatchsErrorReportModel.type";
+import { adminBatchsErrorReportSender } from "./adminBatchsErrorReportSender.service";
 import { monitoringBatchProcessRepository } from "./monitoringBatchProcessRepository.service";
 import moment = require("moment");
 
@@ -66,6 +73,7 @@ export class MonitoringCleaner {
 
         try {
           results.errorReportSent = await sendErrorReport({ limitDate });
+          monitorSuccess();
         } catch (err) {
           monitorError(err);
         }
@@ -108,11 +116,29 @@ async function sendErrorReport({ limitDate }: { limitDate: Date }) {
   const monitoringBatchsInError = await monitoringBatchProcessRepository.findMany(
     typeOrmSearch<MonitoringBatchProcess>({
       status: "error",
-      endDate: LessThanOrEqual(limitDate),
-    })
+      endDate: MoreThanOrEqual(limitDate),
+    }),
+    {
+      order: {
+        endDate: "DESC",
+      },
+    }
   );
   if (monitoringBatchsInError.length) {
-    return true;
+    appLogger.error(`Errors detected in last batchs - ${Date.now()}`);
+
+    const model: AdminBatchsErrorReportModel = {
+      errorsCount: monitoringBatchsInError.length,
+      processIds: monitoringBatchsInError.reduce((acc, item) => {
+        if (!acc.includes(item.processId)) {
+          acc.push(item.processId);
+        }
+        return acc;
+      }, [] as MonitoringBatchProcessId[]),
+      lastErrorDate: monitoringBatchsInError[0].endDate,
+      lastErrorMessage: monitoringBatchsInError[0].errorMessage,
+    };
+    return adminBatchsErrorReportSender.sendMail(model);
   }
   return false;
 }

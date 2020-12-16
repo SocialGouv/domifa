@@ -1,0 +1,26 @@
+{% extends "./base.nunjucks" %}
+{% block head_custom %}
+     <link rel="stylesheet" href="./admin-batchs-error-report/html.css">
+{% endblock %}
+
+{% block content %}
+
+     <div class="content">
+          <div>
+               <b>{{errorsCount}} erreurs</b> ont été rencontrées lors des traitements sur l'environnement <b>"{{envId}}"</b>
+          </div>
+
+          <div><br/>Dernier message d'erreur: 
+        <br/>> <i>
+                    <b>{{lastErrorMessage}}</b>
+               </i>
+          </div>
+
+          <div><br/>Date de la dernière erreur: <b>{{lastErrorDate}}</b>
+          </div>
+
+          <div><br/>Process en erreur: <b>{{processIds}}</b>
+          </div>
+     </div>
+
+{% endblock %}

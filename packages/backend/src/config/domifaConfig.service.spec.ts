@@ -112,8 +112,11 @@ describe("loadConfig", () => {
       DOMIFA_BACKEND_URL: "https://backend.domifa.xxx",
       DOMIFA_ADMIN_EMAIL: "some@mail.xxx",
       DOMIFA_TIPIMAIL_FROM_EMAIL: "some@mail.xxx",
-      SMTP_USER: "******************",
-      SMTP_PASS: "******************",
+      DOMIFA_MAIL_SMTP_ID: "TIPIMAIL",
+      DOMIFA_MAIL_SMTP_TIPIMAIL_HOST: "xxx",
+      DOMIFA_MAIL_SMTP_TIPIMAIL_PORT: "1000",
+      DOMIFA_MAIL_SMTP_TIPIMAIL_USER: "xxx",
+      DOMIFA_MAIL_SMTP_TIPIMAIL_PASSWORD: "xxx",
     };
     const config = loadConfig(env);
 

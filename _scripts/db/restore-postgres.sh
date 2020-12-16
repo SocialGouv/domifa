@@ -87,7 +87,7 @@ echo "[INFO] INITIALIZE POSTGRES DB '$POSTGRES_DATABASE' from '$POSTGRES_DUMP_PA
 echo "----------------------------------------------------------------------------------------------"
 echo ""
 
-if [ "$RECREATE_DB" == "true" ]; then
+if [ "$RECREATE_DB" = "true" ]; then
 
     # terminate other connections
     (set -x && psql --username "${POSTGRES_USERNAME}" --dbname postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE  pid <> pg_backend_pid() AND datname = '${POSTGRES_DATABASE}'")
@@ -121,7 +121,7 @@ if [ "$RECREATE_DB" == "true" ]; then
 
 fi
 
-if [ "$CI" == "true" ]; then
+if [ "$CI" = "true" ]; then
 
   (set -x && psql -h postgres --username "${POSTGRES_USER}" --dbname postgres -c "CREATE DATABASE ${POSTGRES_DATABASE} WITH OWNER=${POSTGRES_USER}")
   if [ $? -ne 0 ]; then

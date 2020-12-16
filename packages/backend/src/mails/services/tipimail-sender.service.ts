@@ -138,8 +138,8 @@ export class TipimailSender {
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {
         headers: {
-          "X-Tipimail-ApiUser": domifaConfig().email.smtp.user,
-          "X-Tipimail-ApiKey": domifaConfig().email.smtp.pass,
+          "X-Tipimail-ApiUser": domifaConfig().email.tipimailApi.user,
+          "X-Tipimail-ApiKey": domifaConfig().email.tipimailApi.pass,
         },
       })
       .pipe(

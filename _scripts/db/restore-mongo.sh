@@ -1,6 +1,5 @@
 #!/bin/sh
 CURRENT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-
 # echo "##############################################################################################"
 # echo "#"
 # echo "# USAGE:"
@@ -47,7 +46,7 @@ MONGO_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.mongo.gz"
 MONGO_DUMP_FROM_DATABASE="domifa_$DUMP_ENV"
 MONGO_INITDB_DATABASE="domifa_$TARGET_DB_ENV"
 
-if [ "$DUMP_ENV" == "test" ]; then
+if [ "$DUMP_ENV" = "test" ]; then
   MONGO_DUMP_FROM_DATABASE="domifa_test" # nom de la base d'origine
 else
   MONGO_DUMP_FROM_DATABASE="domifa" # nom de la base d'origine: preprod
@@ -84,7 +83,7 @@ echo ""
 
 MONGO_AUTH="-u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase=admin"
 
-if [ "$RECREATE_USER" == "true" ]; then
+if [ "$RECREATE_USER" = "true" ]; then
 
     echo "--> Clean users: db.runCommand( { dropAllUsersFromDatabase: 1, writeConcern: { w: 'majority'   )"
     (set -x && mongo $MONGO_AUTH --eval "db.runCommand( { dropAllUsersFromDatabase: 1, writeConcern: { w: 'majority'   )")
