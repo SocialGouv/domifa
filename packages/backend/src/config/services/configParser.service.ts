@@ -9,6 +9,7 @@ export const configParser = {
   parseBoolean,
   parseInteger,
   parseString,
+  parseStringArray,
   parseDelay,
 };
 
@@ -60,6 +61,34 @@ function parseInteger(
   }
   return undefined;
 }
+function parseStringArray(
+  envConfig: Partial<DomifaEnv>,
+  key: DomifaEnvKey,
+  {
+    required = true,
+    defaultValue,
+  }: {
+    required?: boolean;
+    defaultValue?: string[];
+  } = {
+    required: true,
+  }
+): string[] {
+  const value = parseString(envConfig, key, {
+    required,
+    defaultValue:
+      defaultValue !== null && defaultValue !== undefined
+        ? `${defaultValue}`
+        : undefined,
+  });
+  if (value !== undefined) {
+    return value
+      .split(",")
+      .map((x) => x.trim())
+      .filter((x) => x.length);
+  }
+  return [];
+}
 
 function parseString<T extends string>(
   envConfig: Partial<DomifaEnv>,
@@ -79,6 +108,15 @@ function parseString<T extends string>(
   // console.log("parseString key", key);
   // console.log("parseString envConfig", envConfig);
   let value = envConfig[key] as T;
+
+  if (value && !value.trim) {
+    // tslint:disable-next-line: no-console
+    console.error(
+      `[configParser] unexpected value type "${value}" for ${key}"`
+    );
+    throw new Error(`Unexpected value type "${value}" for ${key}`);
+  }
+
   if (!value || value.trim().length === 0) {
     value = defaultValue;
   }

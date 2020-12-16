@@ -1,0 +1,7 @@
+{{errorsCount}} erreurs ont été rencontrées lors des traitements sur l'environnement "{{envId}}"
+
+Dernier message d'erreur: "{{lastErrorMessage}}"
+
+Date de la dernière erreur: "{{lastErrorDate}}"
+
+Process en erreur: "{{processIds}}"

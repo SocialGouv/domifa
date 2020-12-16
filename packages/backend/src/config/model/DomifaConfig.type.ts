@@ -1,3 +1,4 @@
+import SMTPTransport = require("nodemailer/lib/smtp-transport");
 import { LoggerOptions } from "typeorm/logger/LoggerOptions";
 import { DomifaConfigDelay } from "./DomifaConfigDelay.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";
@@ -67,15 +68,22 @@ export type DomifaConfig = {
       crontime: string; // DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME
       autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_CONSUMER_AUTO_RUN_STARTUP
     };
+    monitoringCleaner: {
+      crontime: string; // DOMIFA_CRON_MONITORING_CLEANER_CRONTIME
+      autoRunOnStartup: boolean; // DOMIFA_CRON_MONITORING_CLEANER_AUTO_RUN_STARTUP
+      delay: DomifaConfigDelay; // DOMIFA_CRON_MONITORING_CLEANER_DELAY
+    };
   };
   email: {
     emailsEnabled: boolean; // DOMIFA_EMAILS_ENABLE
     emailAddressRedirectAllTo: string; // DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
+    emailAddressErrorReport: string[]; // DOMIFA_ERROR_REPORT_EMAILS
     emailAddressAdmin: string; // DOMIFA_ADMIN_EMAIL
     emailAddressFrom: string; // DOMIFA_TIPIMAIL_FROM_EMAIL
-    smtp: {
-      user: string; // SMTP_USER
-      pass: string; // SMTP_PASS
+    tipimailApi: {
+      user: string; // DOMIFA_MAIL_SMTP_TIPIMAIL_USER
+      pass: string; // DOMIFA_MAIL_SMTP_TIPIMAIL_PASS
     };
+    smtp: SMTPTransport.Options;
   };
 };

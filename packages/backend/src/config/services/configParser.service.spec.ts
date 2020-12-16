@@ -100,4 +100,49 @@ describe("configParser", () => {
       configParser.parseDelay({}, "POSTGRES_HOST", { required: false })
     ).toBeUndefined();
   });
+
+  it("configParser.parseStringArray", () => {
+    expect(
+      configParser.parseStringArray(
+        {
+          DOMIFA_ERROR_REPORT_EMAILS: "x@y.fr,z@u.com",
+        },
+        "DOMIFA_ERROR_REPORT_EMAILS"
+      )
+    ).toEqual(["x@y.fr", "z@u.com"]);
+    expect(
+      configParser.parseStringArray(
+        {
+          DOMIFA_ERROR_REPORT_EMAILS: "x@y.fr, z@u.com , ",
+        },
+        "DOMIFA_ERROR_REPORT_EMAILS"
+      )
+    ).toEqual(["x@y.fr", "z@u.com"]);
+    expect(
+      configParser.parseStringArray(
+        {
+          DOMIFA_ERROR_REPORT_EMAILS: undefined,
+        },
+        "DOMIFA_ERROR_REPORT_EMAILS",
+        { required: false }
+      )
+    ).toEqual([]);
+    expect(
+      configParser.parseStringArray(
+        {
+          DOMIFA_ERROR_REPORT_EMAILS: "",
+        },
+        "DOMIFA_ERROR_REPORT_EMAILS",
+        { required: false }
+      )
+    ).toEqual([]);
+    expect(
+      configParser.parseStringArray(
+        {
+          DOMIFA_ERROR_REPORT_EMAILS: ",",
+        },
+        "DOMIFA_ERROR_REPORT_EMAILS"
+      )
+    ).toEqual([]);
+  });
 });
