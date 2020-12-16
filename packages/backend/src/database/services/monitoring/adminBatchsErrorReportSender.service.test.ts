@@ -30,7 +30,8 @@ describe("adminBatchsErrorReportSender", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "adminBatchsErrorReportSender.service.test.tmp.html"
+          "../../../_static/email-templates",
+          "admin-batchs-error-report/test.tmp.html"
         ),
         html
       );
@@ -40,7 +41,8 @@ describe("adminBatchsErrorReportSender", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "adminBatchsErrorReportSender.service.test.ref.html"
+          "../../../_static/email-templates",
+          "admin-batchs-error-report/test.ref.html"
         )
       )
       .toString();
