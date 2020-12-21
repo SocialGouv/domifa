@@ -16,61 +16,59 @@ export class DocumentsComponent implements OnInit {
   @Input() public usager!: Usager;
 
   constructor(
-    private documentService: DocumentService,
     public authService: AuthService,
+    private documentService: DocumentService,
     private notifService: ToastrService,
-
     private matomo: MatomoTracker
   ) {}
 
   public ngOnInit() {}
 
   public getDocument(i: number) {
-    this.usager.docs[i].loading = true;
+    this.usager.docs[i].loadingDownload = true;
     this.documentService
       .getDocument(this.usager.id, i, this.usager.docs[i])
       .subscribe(
         (blob: any) => {
           const doc = this.usager.docs[i];
-          const extensionTmp = doc.filetype.split("/");
-          const extension = extensionTmp[1];
+          const extension = doc.filetype.split("/")[1];
           const newBlob = new Blob([blob], { type: doc.filetype });
 
           saveAs(
             newBlob,
-            this.setDocName(doc.label) +
+            this.slugLabel(doc.label) +
               "_" +
-              this.setDocName(this.usager.nom + " " + this.usager.prenom) +
+              this.slugLabel(this.usager.nom + " " + this.usager.prenom) +
               "." +
               extension
           );
 
           this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
-          this.usager.docs[i].loading = false;
+          this.usager.docs[i].loadingDownload = false;
         },
         (error: any) => {
-          this.usager.docs[i].loading = false;
+          this.usager.docs[i].loadingDownload = false;
           this.notifService.error("Impossible de télécharger le fichier");
         }
       );
   }
 
   public deleteDocument(i: number): void {
-    this.usager.docs[i].loading = true;
+    this.usager.docs[i].loadingDelete = true;
     this.documentService.deleteDocument(this.usager.id, i).subscribe(
       (usager: Usager) => {
         this.usager.docs = usager.docs;
-        this.usager.docs[i].loading = false;
+        this.usager.docs[i].loadingDelete = false;
         this.notifService.success("Document supprimé avec succès");
       },
-      (error: any) => {
-        this.usager.docs[i].loading = false;
+      () => {
+        this.usager.docs[i].loadingDelete = false;
         this.notifService.error("Impossible de supprimer le document");
       }
     );
   }
 
-  private setDocName(docName: string) {
+  private slugLabel(docName: string) {
     docName = docName.trim().toLowerCase();
     docName = docName.replace(/\W/g, "_");
     docName = docName.replace(/-+/g, "_");

@@ -12,7 +12,7 @@ input[type="radio"]:checked + label {
   color: var(--blue);
 }
 
-.form-group.required label:after {
+.form-group.required label:not(.custom-file-label):after {
   content: " *";
   color: red;
 }

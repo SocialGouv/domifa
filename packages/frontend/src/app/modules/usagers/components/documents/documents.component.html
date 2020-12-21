@@ -4,9 +4,6 @@
 
 <div *ngIf="usager.docs.length > 0">
   <div class="row">
-    <div class="col-md-12">
-      <h5 class="title text-center">Pièces déjà enregistrées</h5>
-    </div>
     <table class="table table-light">
       <tbody>
         <tr>
@@ -19,19 +16,19 @@
           <td>{{ document.label }}</td>
           <td>{{ document.createdAt | date: "dd/MM/yyyy" }}</td>
           <td>{{ document.createdBy }}</td>
-          <td>
+          <td class="text-right">
             <button
               (click)="getDocument(indexDocs)"
               class="btn btn-primary"
-              [disabled]="document.loading"
+              [disabled]="document.loadingDownload"
               aria-label="Voir la pièce jointe"
             >
-              <span *ngIf="document.loading"
+              <span *ngIf="document.loadingDownload"
                 ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
                 Patientez...</span
               >
 
-              <span *ngIf="!document.loading"
+              <span *ngIf="!document.loadingDownload"
                 ><fa-icon icon="download"></fa-icon> Télécharger</span
               >
             </button>
@@ -39,14 +36,14 @@
             <button
               (click)="deleteDocument(indexDocs)"
               class="btn btn-danger"
-              [disabled]="document.loading"
+              [disabled]="document.loadingDelete"
               aria-label="Voir la pièce jointe"
             >
-              <span *ngIf="document.loading"
+              <span *ngIf="document.loadingDelete"
                 ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
                 Patientez...</span
               >
-              <span *ngIf="!document.loading"
+              <span *ngIf="!document.loadingDelete"
                 ><fa-icon icon="trash"></fa-icon> &nbsp; Supprimer</span
               >
             </button>
