@@ -22,7 +22,9 @@ export class DocumentsComponent implements OnInit {
     private matomo: MatomoTracker
   ) {}
 
-  public ngOnInit() {}
+  public ngOnInit() {
+    //
+  }
 
   public getDocument(i: number) {
     this.usager.docs[i].loadingDownload = true;
@@ -44,10 +46,12 @@ export class DocumentsComponent implements OnInit {
           );
 
           this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
+
           this.usager.docs[i].loadingDownload = false;
         },
-        (error: any) => {
+        () => {
           this.usager.docs[i].loadingDownload = false;
+
           this.notifService.error("Impossible de télécharger le fichier");
         }
       );

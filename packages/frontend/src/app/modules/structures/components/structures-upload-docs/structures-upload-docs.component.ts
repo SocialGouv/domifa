@@ -130,9 +130,11 @@ export class StructuresUploadDocsComponent implements OnInit {
           this.fileName = "";
           this.getAllStructureDocs();
           this.notifService.success("Fichier uploadé avec succès");
+          this.submitted = false;
         }
       },
-      (err) => {
+      () => {
+        this.submitted = false;
         this.notifService.error("Impossible d'uploader le fichier");
       }
     );
