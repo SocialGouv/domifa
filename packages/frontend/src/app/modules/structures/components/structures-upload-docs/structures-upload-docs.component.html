@@ -2,61 +2,59 @@
   <div class="list-group-item">
     <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
       <div class="row">
-        <div class="col">
-          <div class="form-group">
+        <div class="col-md-5">
+          <div class="form-group required">
             <label for="label">Nom du document</label>
             <input
               type="text"
               class="form-control"
               formControlName="label"
               id="label"
+              [ngClass]="{ 'is-invalid': submitted && u.label.errors }"
+              placeholder="Cerfa signé, impots, carte identité, etc..."
               required
             />
             <div *ngIf="u.label.errors" class="invalid-feedback">
-              <div *ngIf="u.label.errors && u.docInput.errors">
-                Indiquez le type de pièce
-              </div>
+              Le nom du document est obligatoire
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-5 form-group required">
           <label>Document à enregistrer</label>
+
           <div class="form-group custom-file">
             <input
               type="file"
               class="custom-file-input"
-              id="pieceJointe"
-              name="pieceJointe"
+              id="file"
+              formControlName="file"
               aria-describedby="pjHelp"
+              [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
               (change)="onFileChange($event)"
-              [ngClass]="{
-                'is-invalid':
-                  submittedFile &&
-                  (!uploadError.fileType || !uploadError.fileSize)
-              }"
-              file="pieceJointe"
-              required
             />
             <small id="pjHelp" class="form-text text-muted">
-              Formats autorisés .pdf, .doc, .docx, .jpg ou .png (6mo maxi)
+              Formats autorisés pdf, docx, xlsx, odt, jpg ou png (6mo maxi)
             </small>
-            <input type="hidden" name="fileHidden" formControlName="docInput" />
             <label
               class="custom-file-label"
-              for="pieceJointe"
+              for="file"
               data-browse="Parcourir"
               lang="fr"
             >
               {{ fileName }}
             </label>
-            <div class="text-danger">
-              <div *ngIf="u.docInput.dirty && u.docInput.errors.required">
-                Veuillez ajouter un fichier
+
+            <div
+              *ngIf="submitted && u.fileSource.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="u.fileSource.errors.required">
+                Vous devez choisir un fichier
               </div>
-              <div *ngIf="!uploadError.fileType">
+              <div *ngIf="u.fileSource.errors.fileType">
                 Format de fichier invalide
               </div>
-              <div *ngIf="!uploadError.fileSize">
+              <div *ngIf="u.fileSource.errors.fileSize">
                 La taille du fichier est trop grande
               </div>
             </div>
@@ -64,19 +62,9 @@
         </div>
         <div class="col-md-2">
           <label class="text-white">+</label>
-          <button
-            class="btn btn-primary btn-block"
-            [disabled]="
-              uploadForm.invalid ||
-              !uploadError.fileType ||
-              !uploadError.fileSize ||
-              u.docInput.errors
-            "
-          >
-            Ajouter
-          </button>
+          <button class="btn btn-primary btn-block">Ajouter</button>
         </div>
-        <div class="w-100"></div>
+        <br />
         <br />
         <div class="col-md-12">
           <div *ngIf="uploadResponse">
@@ -99,8 +87,11 @@
     </form>
 
     <div class="row">
-      <div *ngIf="structureDocs.length === 0" class="col-12">
-        <ngb-alert [dismissible]="false">Aucun document enregistré</ngb-alert>
+      <div
+        *ngIf="structureDocs.length === 0"
+        class="alert alert-warning col-md-12"
+      >
+        Aucun document enregistré
       </div>
     </div>
 
@@ -109,7 +100,7 @@
         <table class="table table-light">
           <tbody>
             <tr>
-              <th>Nom du doc</th>
+              <th>Nom du document</th>
               <th>Ajoutée le</th>
               <th>Ajoutée par</th>
               <th></th>
@@ -124,14 +115,14 @@
                 <button
                   (click)="getStructureDoc(document)"
                   class="btn btn-primary"
-                  [disabled]="document.loading || document.loading"
+                  [disabled]="document.loadingDownload"
                   aria-label="Voir la pièce jointe"
                 >
-                  <span *ngIf="document.loading"
+                  <span *ngIf="document.loadingDownload"
                     ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
                     Patientez...</span
                   >
-                  <span *ngIf="!document.loading"
+                  <span *ngIf="!document.loadingDownload"
                     ><fa-icon icon="download"></fa-icon> Télécharger</span
                   >
                 </button>
@@ -139,15 +130,15 @@
                 <button
                   (click)="deleteStructureDoc(document)"
                   class="btn btn-danger"
-                  [disabled]="document.loading || document.loading"
+                  [disabled]="document.loadingDelete"
                   aria-label="Voir la pièce jointe"
                 >
-                  <span *ngIf="document.loading"
+                  <span *ngIf="document.loadingDelete"
                     ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon>
                     Patientez...</span
                   >
 
-                  <span *ngIf="!document.loading"
+                  <span *ngIf="!document.loadingDelete"
                     ><fa-icon icon="trash"></fa-icon> Supprimer</span
                   >
                 </button>

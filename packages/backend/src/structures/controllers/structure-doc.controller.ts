@@ -28,6 +28,8 @@ const Docxtemplater = require("docxtemplater");
 // tslint:disable-next-line: no-var-requires
 const InspectModule = require("docxtemplater/js/inspect-module");
 
+import FileType = require("file-type");
+
 import * as fs from "fs";
 import * as path from "path";
 
@@ -74,6 +76,7 @@ export class StructureDocController {
         if (!validateUpload("STRUCTURE_DOC", req, file)) {
           throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
         }
+
         cb(null, true);
       },
       storage: diskStorage({
@@ -119,8 +122,9 @@ export class StructureDocController {
       structureId: user.structureId,
     };
 
-    // TODO: Enregistrement des tags
     if (structureDocDto.custom) {
+      // TODO: Enregistrement des tags
+      //
     }
 
     await this.structureDocService.create(newDoc);

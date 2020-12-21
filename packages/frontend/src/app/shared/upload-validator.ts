@@ -1,3 +1,13 @@
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+
+export type UploadResponseType = {
+  success?: any;
+  status?: string;
+  message?: string;
+  filePath?: string;
+  body?: any;
+};
+
 export const extensionsAvailables = {
   STRUCTURE_DOC: [
     "image/jpg",
@@ -26,29 +36,32 @@ export const extensionsAvailables = {
 };
 
 export function validateUpload(
-  event: Event,
   uploadType: "STRUCTURE_DOC" | "USAGER_DOC" | "IMPORT"
-): {
-  file: any;
-  errors: {
-    fileSize: boolean;
-    fileType: boolean;
-  };
-} {
-  const input = event.target as HTMLInputElement;
+): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const file = control.value;
+    if (file) {
+      const validFileExtensions = extensionsAvailables[uploadType];
 
-  if (!input.files?.length) {
-    return;
-  }
+      const hasGoodSize = file.size < 10000000;
+      const hasGoodExtension = validFileExtensions.includes(file.type);
 
-  const file = input.files[0];
-  const validFileExtensions = extensionsAvailables[uploadType];
+      if (!hasGoodSize || !hasGoodExtension) {
+        const errors: {
+          fileSize?: boolean;
+          fileType?: boolean;
+        } = {};
 
-  return {
-    file,
-    errors: {
-      fileSize: file.size < 10000000,
-      fileType: validFileExtensions.includes(file.type),
-    },
+        if (!hasGoodSize) {
+          errors.fileSize = true;
+        }
+        if (!hasGoodExtension) {
+          errors.fileType = true;
+        }
+        return errors;
+      }
+      return null;
+    }
+    return { required: true };
   };
 }

@@ -65,6 +65,7 @@
     "email-templates": "^8.0.2",
     "exceljs": "^4.1.1",
     "faker": "^5.1.0",
+    "file-type": "^16.1.0",
     "ical-generator": "^1.15.1",
     "ics": "^2.24.0",
     "mongodb": "^3.6.2",

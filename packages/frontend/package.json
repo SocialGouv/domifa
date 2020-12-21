@@ -35,6 +35,7 @@
     "add": "^2.0.6",
     "core-js": "^3.6.5",
     "file-saver": "^2.0.2",
+    "file-type": "^16.1.0",
     "fs": "^0.0.2",
     "jwt-decode": "^3.0.0",
     "ngx-countup": "7.3.3",

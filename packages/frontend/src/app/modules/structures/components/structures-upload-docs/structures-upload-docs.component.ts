@@ -4,7 +4,10 @@ import { saveAs } from "file-saver";
 import { ToastrService } from "ngx-toastr";
 import { AppUser } from "../../../../../_common/model";
 import { StructureDoc } from "../../../../../_common/model/structure-doc";
-import { validateUpload } from "../../../../shared/upload-validator";
+import {
+  UploadResponseType,
+  validateUpload,
+} from "../../../../shared/upload-validator";
 import { StructureDocService } from "../../services/structure-doc.service";
 
 @Component({
@@ -14,42 +17,31 @@ import { StructureDocService } from "../../services/structure-doc.service";
 })
 export class StructuresUploadDocsComponent implements OnInit {
   public fileName = "";
-  public uploadResponse: any;
+  public uploadResponse: UploadResponseType;
 
-  public submittedFile = false;
+  public submitted = false;
   public uploadForm!: FormGroup;
 
   public structureDocs: StructureDoc[];
 
-  public uploadError: {
-    fileSize: boolean;
-    fileType: boolean;
-  };
-
   @Input() public me: AppUser;
 
-  // TODO: factoriser le service Upload
   constructor(
     private formBuilder: FormBuilder,
     private structureDocService: StructureDocService,
     private notifService: ToastrService
   ) {
     this.uploadResponse = { status: "", message: "", filePath: "" };
-
-    this.uploadError = {
-      fileSize: true,
-      fileType: true,
-    };
-
     this.structureDocs = [];
   }
 
   public ngOnInit() {
     this.uploadForm = this.formBuilder.group({
-      docInput: [this.fileName, Validators.required],
+      fileSource: ["", [Validators.required, validateUpload("STRUCTURE_DOC")]],
+      file: ["", [Validators.required]],
       label: ["", Validators.required],
-      custom: [false],
     });
+
     this.getAllStructureDocs();
   }
 
@@ -62,71 +54,73 @@ export class StructuresUploadDocsComponent implements OnInit {
       (structureDocs: StructureDoc[]) => {
         this.structureDocs = structureDocs;
       },
-      (error: any) => {}
+      (error: any) => {
+        this.notifService.error("Impossible d'afficher les documents");
+      }
     );
   }
 
   public deleteStructureDoc(structureDoc: StructureDoc): void {
-    structureDoc.loading = true;
+    structureDoc.loadingDelete = true;
     this.structureDocService.deleteStructureDoc(structureDoc.id).subscribe(
       () => {
-        this.notifService.success("Suppression réussie");
+        structureDoc.loadingDelete = false;
         this.getAllStructureDocs();
-        structureDoc.loading = false;
+        this.notifService.success("Suppression réussie");
       },
       (error: any) => {
-        structureDoc.loading = false;
+        structureDoc.loadingDelete = false;
         this.notifService.error("Impossible de télécharger le fichier");
       }
     );
   }
 
   public getStructureDoc(structureDoc: StructureDoc): void {
-    structureDoc.loading = true;
+    structureDoc.loadingDownload = true;
     this.structureDocService.getStructureDoc(structureDoc.id).subscribe(
       (blob: any) => {
-        const extensionTmp = structureDoc.path.split(".");
-        const extension = extensionTmp[1];
+        const extension = structureDoc.path.split(".")[1];
         const newBlob = new Blob([blob], { type: structureDoc.filetype });
         saveAs(newBlob, structureDoc.label + "." + extension);
-        structureDoc.loading = false;
+        structureDoc.loadingDownload = false;
       },
       (error: any) => {
-        structureDoc.loading = false;
         this.notifService.error("Impossible de télécharger le fichier");
+        structureDoc.loadingDownload = false;
       }
     );
   }
 
   public onFileChange(event: Event) {
-    const fileValidate = validateUpload(event, "STRUCTURE_DOC");
+    const input = event.target as HTMLInputElement;
 
-    this.uploadError = fileValidate.errors;
-    if (!this.uploadError.fileSize || !this.uploadError.fileType) {
-      this.notifService.error(
-        "Le format ou la taille du fichier n'est pas prit en charge"
-      );
-      return false;
+    if (!input.files?.length) {
+      return;
     }
 
-    this.fileName = fileValidate.file.name;
-    this.uploadForm.controls.docInput.setValue(fileValidate.file);
+    const file = input.files[0];
+
+    this.fileName = file.name;
+    this.uploadForm.patchValue({
+      fileSource: file,
+    });
   }
 
   public submitFile() {
-    this.submittedFile = true;
-    this.uploadError = {
-      fileSize: true,
-      fileType: true,
-    };
+    this.submitted = true;
+
+    if (this.uploadForm.invalid) {
+      this.notifService.error("Le formulaire d'upload comporte des erreurs");
+      return;
+    }
 
     const formData = new FormData();
-    formData.append("file", this.uploadForm.controls.docInput.value);
+    formData.append("file", this.uploadForm.controls.fileSource.value);
     formData.append("label", this.uploadForm.controls.label.value);
     formData.append("custom", "false");
 
     this.structureDocService.upload(formData).subscribe(
-      (res) => {
+      (res: any) => {
         this.uploadResponse = res;
         if (
           this.uploadResponse.success !== undefined &&
@@ -135,9 +129,12 @@ export class StructuresUploadDocsComponent implements OnInit {
           this.uploadForm.reset();
           this.fileName = "";
           this.getAllStructureDocs();
+          this.notifService.success("Fichier uploadé avec succès");
+          this.submitted = false;
         }
       },
-      (err) => {
+      () => {
+        this.submitted = false;
         this.notifService.error("Impossible d'uploader le fichier");
       }
     );
