@@ -154,11 +154,12 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
       }
     }
 
-    if (
-      usager.decision.statut === "VALIDE" &&
-      usager.typeDom === "RENOUVELLEMENT"
-    ) {
-      decisionUserRenouvellement = usager.decision.userName;
+    if (usager.decision.statut === "VALIDE") {
+      if (usager.typeDom === "RENOUVELLEMENT") {
+        decisionUserRenouvellement = usager.decision.userName;
+      } else {
+        decisionUserPremierDom = usager.decision.userName;
+      }
     }
 
     const row: XlRowModel = {

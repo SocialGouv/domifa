@@ -1,11 +1,5 @@
-import { Component, HostListener, Input, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from "@angular/forms";
-import { Router } from "@angular/router";
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "../../interfaces/usager";
@@ -45,7 +39,7 @@ export class UploadComponent implements OnInit {
 
   public ngOnInit() {
     this.uploadForm = this.formBuilder.group({
-      fileSource: ["", [Validators.required, validateUpload("STRUCTURE_DOC")]],
+      fileSource: ["", [Validators.required, validateUpload("USAGER_DOC")]],
       file: ["", [Validators.required]],
       label: ["", Validators.required],
     });
@@ -89,6 +83,7 @@ export class UploadComponent implements OnInit {
           this.uploadForm.reset();
           this.fileName = "";
           this.submitted = false;
+          this.notifService.success("Fichier uploadé avec succès");
         }
       },
       (err) => {
