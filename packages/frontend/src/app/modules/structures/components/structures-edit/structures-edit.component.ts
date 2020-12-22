@@ -48,7 +48,7 @@ export class StructuresEditComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.titleService.setTitle("Ma structure");
+    this.titleService.setTitle("Structure");
 
     this.structureService
       .findMyStructure()

@@ -8,8 +8,6 @@ import { Structure } from "src/app/modules/structures/structure.interface";
 import { AppUser, UserProfile, UserRole } from "../../../../../_common/model";
 import { UsersService } from "../../services/users.service";
 
-
-
 @Component({
   selector: "app-user-profil",
   styleUrls: ["./user-profil.component.css"],
@@ -42,7 +40,7 @@ export class UserProfilComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.titleService.setTitle("Mon compte Domifa");
+    this.titleService.setTitle("Compte Domifa");
 
     this.getUsers();
 

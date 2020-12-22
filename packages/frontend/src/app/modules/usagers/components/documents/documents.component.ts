@@ -46,12 +46,10 @@ export class DocumentsComponent implements OnInit {
           );
 
           this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
-
           this.usager.docs[i].loadingDownload = false;
         },
         () => {
           this.usager.docs[i].loadingDownload = false;
-
           this.notifService.error("Impossible de télécharger le fichier");
         }
       );
@@ -62,7 +60,6 @@ export class DocumentsComponent implements OnInit {
     this.documentService.deleteDocument(this.usager.id, i).subscribe(
       (usager: Usager) => {
         this.usager.docs = usager.docs;
-        this.usager.docs[i].loadingDelete = false;
         this.notifService.success("Document supprimé avec succès");
       },
       () => {

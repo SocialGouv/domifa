@@ -134,7 +134,13 @@ export class Usager {
     this.entretien =
       (usager && new Entretien(usager.entretien)) || new Entretien({});
 
-    this.docs = (usager && usager.docs) || [];
+    this.docs = [];
+
+    if (usager && usager.docs) {
+      usager.docs.forEach((doc: Doc) => {
+        this.docs.push(new Doc(doc));
+      });
+    }
 
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
 
