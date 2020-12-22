@@ -49,10 +49,6 @@ export class AppComponent implements OnInit {
 
     this.domifaNews = null;
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
-
-    this.authService.currentUser.subscribe((user: AppUser) => {
-      this.me = user;
-    });
   }
 
   public ngOnInit() {

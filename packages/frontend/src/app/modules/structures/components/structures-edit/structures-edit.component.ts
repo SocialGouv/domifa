@@ -40,8 +40,6 @@ export class StructuresEditComponent implements OnInit {
 
     this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
-
-      console.log(this.me);
     });
   }
 

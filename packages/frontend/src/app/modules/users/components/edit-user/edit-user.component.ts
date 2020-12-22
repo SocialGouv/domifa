@@ -3,7 +3,7 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators
+  Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
@@ -75,7 +75,7 @@ export class EditUserComponent implements OnInit {
   public ngOnInit(): void {
     this.titleService.setTitle("Editer mes informations");
 
-    this.authService.currentUser.subscribe((user) => {
+    this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
 
       if (this.me.role !== "facteur") {

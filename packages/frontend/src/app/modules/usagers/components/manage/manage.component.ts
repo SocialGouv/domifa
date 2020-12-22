@@ -113,15 +113,15 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       RADIE: 0,
       TOUS: 0,
     };
+  }
+
+  public ngOnInit() {
+    this.titleService.setTitle("Gérer vos domiciliés");
 
     this.authService.currentUser.subscribe((user) => {
       this.me = user;
       this.structure = this.me.structure;
     });
-  }
-
-  public ngOnInit() {
-    this.titleService.setTitle("Gérer vos domiciliés");
 
     this.searchString = this.filters.name;
     this.filters.page = 0;

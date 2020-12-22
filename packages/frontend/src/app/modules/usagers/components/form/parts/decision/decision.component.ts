@@ -72,7 +72,6 @@ export class DecisionComponent implements OnInit {
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: dToday.getFullYear() + 2 };
 
-    this.me = this.authService.currentUserValue;
     this.isAdmin = this.me.role === "admin" || this.me.role === "responsable";
   }
 
@@ -86,6 +85,10 @@ export class DecisionComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Décision sur la domiciliation");
+    this.authService.currentUser.subscribe((user: AppUser) => {
+      this.me = user;
+    });
+
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
 
