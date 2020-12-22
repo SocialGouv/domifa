@@ -36,6 +36,7 @@ export class StructuresUploadDocsComponent implements OnInit {
   }
 
   public ngOnInit() {
+    console.log(this.me);
     this.uploadForm = this.formBuilder.group({
       fileSource: ["", [Validators.required, validateUpload("STRUCTURE_DOC")]],
       file: ["", [Validators.required]],

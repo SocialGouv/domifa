@@ -31,10 +31,15 @@
       </div>
     </div>
 
-    <div class="col-md-10 offset-1" *ngIf="me.role === 'admin'">
+    <div
+      class="col-md-10 offset-1"
+      *ngIf="me.role === 'admin' || me.role === 'responsable'"
+    >
       <h4>Vos documents</h4>
-      <app-structures-upload-docs [user]="me"></app-structures-upload-docs>
+      <app-structures-upload-docs [me]="me"></app-structures-upload-docs>
+    </div>
 
+    <div class="col-md-10 offset-1" *ngIf="me.role === 'admin'">
       <h4>Informations de votre structure</h4>
       <div class="list-group-item" *ngIf="structure">
         <div class="row">

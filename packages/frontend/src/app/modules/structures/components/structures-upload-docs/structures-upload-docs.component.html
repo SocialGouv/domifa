@@ -1,6 +1,10 @@
 <div class="list-group">
   <div class="list-group-item">
-    <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
+    <form
+      *ngIf="me.role === 'admin'"
+      [formGroup]="uploadForm"
+      (ngSubmit)="submitFile()"
+    >
       <div class="row">
         <div class="col-md-5">
           <div class="form-group required">
@@ -106,15 +110,17 @@
               <th></th>
             </tr>
             <tr *ngFor="let document of structureDocs">
-              <td>{{ document.label }}</td>
-              <td>{{ document.createdAt | date: "dd/MM/yyyy" }}</td>
-              <td>
+              <td class="align-middle">{{ document.label }}</td>
+              <td class="align-middle">
+                {{ document.createdAt | date: "dd/MM/yyyy" }}
+              </td>
+              <td class="align-middle">
                 {{ document.createdBy.nom }} {{ document.createdBy.prenom }}
               </td>
-              <td class="text-right">
+              <td class="align-middle text-center">
                 <button
                   (click)="getStructureDoc(document)"
-                  class="btn btn-primary"
+                  class="mx-1 my-1 btn btn-primary"
                   [disabled]="document.loadingDownload"
                   aria-label="Voir la pièce jointe"
                 >
@@ -126,10 +132,11 @@
                     ><fa-icon icon="download"></fa-icon> Télécharger</span
                   >
                 </button>
-                &nbsp;
+
                 <button
+                  *ngIf="me.role === 'admin'"
                   (click)="deleteStructureDoc(document)"
-                  class="btn btn-danger"
+                  class="mx-1 my-1 btn btn-danger"
                   [disabled]="document.loadingDelete"
                   aria-label="Voir la pièce jointe"
                 >
