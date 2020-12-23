@@ -1,4 +1,17 @@
 [
+    {
+    "date": "2020-12-28"
+    "content": [
+    {   "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Possibilité de déclarer la langue parlée par le demandeur lors d’une création de domiciliation",
+          "Possibilité pour les administrateurs d’ajouter et de supprimer des documents internes à la structure",
+          "Possibilité pour les gestionnaires de télécharger les documets internes à la structure"
+        ]
+      },
+    ]
+  },
   {
     "date": "2020-12-09",
     "description": "Ajout de colonnes de suivi des utilisateurs ayant effectués les validations (de première domiciliation et de renouvellement), les refus ainsi que les radiations dans l’export de données"
