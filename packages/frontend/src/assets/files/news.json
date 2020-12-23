@@ -1,15 +1,16 @@
 [
-    {
-    "date": "2020-12-28"
+  {
+    "date": "2020-12-28",
     "content": [
-    {   "type": "new",
+      {
+        "type": "new",
         "categorie": "Structure",
         "message": [
           "Possibilité de déclarer la langue parlée par le demandeur lors d’une création de domiciliation",
           "Possibilité pour les administrateurs d’ajouter et de supprimer des documents internes à la structure",
           "Possibilité pour les gestionnaires de télécharger les documets internes à la structure"
         ]
-      },
+      }
     ]
   },
   {
