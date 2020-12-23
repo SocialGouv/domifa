@@ -230,16 +230,6 @@ export class UsagersFormComponent implements OnInit {
     }
   }
 
-  public nextStep(step: number) {
-    this.usagerService
-      .nextStep(this.usager.id, step)
-      .subscribe((usager: Usager) => {
-        this.router.navigate([
-          "usager/" + this.usager.id + "/edit/rendez-vous",
-        ]);
-      });
-  }
-
   public submitInfos() {
     this.submitted = true;
     if (this.usagerForm.invalid) {

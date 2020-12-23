@@ -134,7 +134,6 @@ export const routes: Routes = [
     component: DecisionComponent,
     path: "usager/:id/edit/decision",
   },
-
   {
     canActivate: [AuthGuard],
     component: UsagersProfilComponent,

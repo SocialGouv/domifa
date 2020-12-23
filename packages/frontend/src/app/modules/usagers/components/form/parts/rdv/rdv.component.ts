@@ -55,9 +55,6 @@ export class RdvComponent implements OnInit {
 
   public editRdv!: boolean;
 
-  @Output()
-  public nextStep = new EventEmitter<number>();
-
   public me: AppUser;
   public agents: AppUser[] = [];
 

@@ -12,15 +12,13 @@ import { AppUser } from "../../../../../../../_common/model";
   templateUrl: "./documents-form.component.html",
 })
 export class DocumentsFormComponent implements OnInit {
-  @Input() public usager!: Usager;
-  @Output() public usagerChange = new EventEmitter<Usager>();
-
+  public usager: Usager;
   public me: AppUser;
 
   constructor(
     private usagerService: UsagerService,
     public authService: AuthService,
-    private router: Router,
+    public router: Router,
     private titleService: Title,
     private route: ActivatedRoute
   ) {
@@ -51,8 +49,8 @@ export class DocumentsFormComponent implements OnInit {
     this.usagerService
       .nextStep(this.usager.id, step)
       .subscribe((usager: Usager) => {
-        this.usager.etapeDemande = usager.etapeDemande;
-        this.router.navigate(["usager/" + this.usager.id + "/edit/decision"]);
+        this.usager = usager;
+        this.router.navigate(["usager/" + usager.id + "/edit/decision"]);
       });
   }
 }

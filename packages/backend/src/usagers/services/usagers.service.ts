@@ -43,12 +43,8 @@ export class UsagersService {
     return this.usagerModel
       .findOneAndUpdate(
         { _id: usagerId },
-        {
-          $set: { etapeDemande },
-        },
-        {
-          new: true,
-        }
+        { $set: { etapeDemande } },
+        { new: true }
       )
       .select("-docsPath -interactions")
       .exec();

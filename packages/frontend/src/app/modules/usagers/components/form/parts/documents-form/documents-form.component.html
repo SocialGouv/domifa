@@ -18,11 +18,7 @@
     <div class="w-100"></div>
     <br />
     <div class="col-md-4 offset-md-4 text-center">
-      <button
-        (click)="nextStep(4)"
-        type="submit"
-        class="btn btn-primary btn-block"
-      >
+      <button (click)="nextStep(4)" class="btn btn-primary btn-block">
         Suivant
       </button>
 
@@ -38,9 +34,11 @@
     </div>
   </div>
   <br />
+
   <div class="step_form">
     <app-documents [usager]="usager"></app-documents>
   </div>
+
   <app-form-delete-menu
     [usager]="usager"
     [currentStep]="3"

@@ -15,14 +15,12 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AppUser } from "../../../../../../../_common/model";
-import { Decision } from "../../../../interfaces/decision";
 import { Usager } from "../../../../interfaces/usager";
 import { DocumentService } from "../../../../services/document.service";
 import { UsagerService } from "../../../../services/usager.service";
 
 @Component({
   providers: [
-    UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
@@ -47,7 +45,7 @@ export class DecisionComponent implements OnInit {
   public dateFinPicker: NgbDateStruct;
   public maxDateRefus: NgbDateStruct;
 
-  @Input() public usager!: Usager;
+  public usager: Usager;
   public isAdmin!: boolean;
 
   public me: AppUser;
@@ -72,7 +70,7 @@ export class DecisionComponent implements OnInit {
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: dToday.getFullYear() + 2 };
 
-    this.isAdmin = this.me.role === "admin" || this.me.role === "responsable";
+    this.isAdmin = false;
   }
 
   get r(): any {
@@ -87,6 +85,7 @@ export class DecisionComponent implements OnInit {
     this.titleService.setTitle("Décision sur la domiciliation");
     this.authService.currentUser.subscribe((user: AppUser) => {
       this.me = user;
+      this.isAdmin = this.me.role === "admin" || this.me.role === "responsable";
     });
 
     if (this.route.snapshot.params.id) {
