@@ -68,7 +68,7 @@ Backend unit tests:
   needs: []
 
 
-.Frontend unit tests:  # disabled until it is fixed
+Frontend unit tests:
   extends: .tests_setup
   script:
     - yarn build
