@@ -53,7 +53,6 @@ export class EditUserComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public userService: UsersService,
-
     public router: Router,
     public notifService: ToastrService,
     public formBuilder: FormBuilder,
@@ -75,7 +74,7 @@ export class EditUserComponent implements OnInit {
   public ngOnInit(): void {
     this.titleService.setTitle("Editer mes informations");
 
-    this.authService.currentUser.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
 
       if (this.me.role !== "facteur") {

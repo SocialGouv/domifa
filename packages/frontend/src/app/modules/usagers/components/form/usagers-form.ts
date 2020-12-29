@@ -41,8 +41,6 @@ export class UsagersFormComponent implements OnInit {
   public labels: any;
   public doublons: Usager[];
 
-  public selected: any;
-
   /* Config datepickers */
   public dToday = new Date();
   public maxDateNaissance: NgbDateStruct;
@@ -60,11 +58,8 @@ export class UsagersFormComponent implements OnInit {
   public usagerForm!: FormGroup;
 
   public submitted = false;
-  public submittedFile = false;
 
-  public etape: number;
-
-  public liensLabels: any;
+  public liensLabels: any = Object.keys(labels.lienParente);
 
   public languagesAutocomplete = languagesAutocomplete;
 
@@ -91,12 +86,9 @@ export class UsagersFormComponent implements OnInit {
     this.labels = labels;
     this.doublons = [];
 
-    this.liensLabels = Object.keys(this.labels.lienParente);
-
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
-    this.etape = 1;
   }
 
   public ngOnInit() {
@@ -112,11 +104,7 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = usager;
-
           this.initForm();
-          for (const ayantDroit of this.usager.ayantsDroits) {
-            this.addAyantDroit(ayantDroit);
-          }
         },
         (error) => {
           this.router.navigate(["404"]);
@@ -156,6 +144,10 @@ export class UsagersFormComponent implements OnInit {
       typeDom: [this.usager.typeDom],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });
+
+    for (const ayantDroit of this.usager.ayantsDroits) {
+      this.addAyantDroit(ayantDroit);
+    }
   }
 
   public isDoublon() {
@@ -220,12 +212,6 @@ export class UsagersFormComponent implements OnInit {
 
   public getAttestation() {
     return this.usagerService.attestation(this.usager.id);
-  }
-
-  public changeStep(i: number) {
-    if (this.usager.decision.statut === "INSTRUCTION" && this.usager.id !== 0) {
-      this.usager.etapeDemande = i;
-    }
   }
 
   public submitInfos() {

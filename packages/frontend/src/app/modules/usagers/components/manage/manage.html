@@ -564,7 +564,7 @@
       type="button"
       class="close"
       aria-label="Fermer la fenêtre"
-      (click)="modalService.dismissAll()"
+      (click)="closeModals()"
     >
       <span aria-hidden="true">&times;</span>
     </button>
@@ -593,7 +593,7 @@
     </button>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+    <button class="btn btn-outline-dark" (click)="closeModals()">
       Revenir à la liste
     </button>
   </div>

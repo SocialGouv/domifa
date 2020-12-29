@@ -24,7 +24,7 @@ export class RaftComponent implements OnInit {
 
   constructor(
     private usagerService: UsagerService,
-    public authService: AuthService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private titleService: Title,
@@ -40,7 +40,7 @@ export class RaftComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("Radier un domicilié");
     if (this.route.snapshot.params.id) {
-      this.authService.currentUser.subscribe((user) => {
+      this.authService.currentUserSubject.subscribe((user: AppUser) => {
         this.user = user;
       });
 
@@ -48,13 +48,12 @@ export class RaftComponent implements OnInit {
         (usager: Usager) => {
           this.usager = usager;
         },
-        (error) => {
+        () => {
           this.router.navigate(["/404"]);
         }
       );
     } else {
       this.router.navigate(["/404"]);
-      return;
     }
   }
 

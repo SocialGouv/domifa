@@ -8,16 +8,18 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import * as labels from "src/app/modules/usagers/usagers.labels";
+
 import { AppUser } from "../../../../../_common/model";
+import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { Entretien } from "../../interfaces/entretien";
 
+import * as labels from "src/app/modules/usagers/usagers.labels";
 @Component({
   providers: [UsagerService],
   selector: "app-entretien",
@@ -55,13 +57,9 @@ export class EntretienComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
     private notifService: ToastrService,
-    public modalService: NgbModal,
+    private modalService: NgbModal,
     public authService: AuthService
   ) {
-    this.authService.currentUser.subscribe((user: AppUser) => {
-      this.me = user;
-    });
-
     this.entretienVide = new Entretien();
   }
 
@@ -70,6 +68,10 @@ export class EntretienComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.me = user;
+    });
+
     this.labels = labels;
 
     this.residenceList = Object.keys(this.labels.residence);
@@ -101,6 +103,10 @@ export class EntretienComponent implements OnInit {
     });
   }
 
+  public closeModal() {
+    this.modalService.dismissAll();
+  }
+
   public submitEntretien() {
     if (this.usager.decision.statut === "INSTRUCTION") {
       if (this.isEmptyForm()) {
@@ -118,7 +124,7 @@ export class EntretienComponent implements OnInit {
           this.nextStep.emit(3);
           this.notifService.success("Enregistrement de l'entretien réussi");
         },
-        (error) => {
+        (error: any) => {
           this.notifService.error("Impossible d'enregistrer l'entretien");
         }
       );

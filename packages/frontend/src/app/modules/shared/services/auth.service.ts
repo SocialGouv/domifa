@@ -9,7 +9,6 @@ import jwtDecode from "jwt-decode";
 import { environment } from "src/environments/environment";
 import { AppUser } from "../../../../_common/model";
 import { appUserBuilder } from "../../users/services";
-import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
 @Injectable({
   providedIn: "root",

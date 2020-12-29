@@ -321,7 +321,7 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-outline-danger" (click)="modal.close('Save click')">
+    <button class="btn btn-outline-danger" (click)="closeModal()">
       Annuler
     </button>
     <button class="btn btn-danger" (click)="setDecision('REFUS')">
@@ -442,7 +442,7 @@
   </div>
 
   <div class="modal-footer text-center">
-    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+    <button class="btn btn-outline-dark" (click)="closeModal()">
       Revenir au formulaire
     </button>
     <button

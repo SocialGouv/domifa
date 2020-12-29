@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
   public newsCenter!: TemplateRef<any>;
 
   constructor(
-    public authService: AuthService,
+    private authService: AuthService,
     private matomoInjector: MatomoInjector,
     private matomo: MatomoTracker,
     private modalService: NgbModal,
@@ -99,7 +99,11 @@ export class AppComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  public closeModal() {
+  public closeHelpModal() {
+    this.modalService.dismissAll();
+  }
+
+  public closeNewsModal() {
     this.modalService.dismissAll();
     localStorage.setItem("news", new Date(this.domifaNews.date).toISOString());
   }

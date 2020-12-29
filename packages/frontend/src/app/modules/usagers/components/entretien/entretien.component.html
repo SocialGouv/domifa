@@ -389,13 +389,10 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+    <button class="btn btn-outline-dark" (click)="closeModal()">
       Revenir à l'entretien
     </button>
-    <button
-      class="btn btn-success"
-      (click)="nextStep.emit(3); modalService.dismissAll()"
-    >
+    <button class="btn btn-success" (click)="nextStep.emit(3); closeModal()">
       Continuer sans entretien
     </button>
   </div>

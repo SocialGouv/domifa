@@ -25,7 +25,7 @@ export class EntretienFormComponent implements OnInit {
     private titleService: Title,
     private route: ActivatedRoute
   ) {
-    this.authService.currentUser.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
   }

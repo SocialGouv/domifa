@@ -65,11 +65,11 @@ export class DecisionComponent implements OnInit {
   ) {
     this.labels = labels;
     this.submitted = false;
+    this.isAdmin = false;
 
     const dToday = new Date();
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: dToday.getFullYear() + 2 };
-    this.isAdmin = false;
   }
 
   get r(): any {
@@ -82,7 +82,7 @@ export class DecisionComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Décision sur la domiciliation");
-    this.authService.currentUser.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
       this.isAdmin = this.me.role === "admin" || this.me.role === "responsable";
     });
@@ -240,6 +240,9 @@ export class DecisionComponent implements OnInit {
 
   public open(content: TemplateRef<any>) {
     this.modalService.open(content);
+  }
+  public closeModal() {
+    this.modalService.dismissAll();
   }
 
   public getAttestation() {

@@ -18,17 +18,16 @@ export class UserProfilComponent implements OnInit {
   public me: AppUser;
   public structure: Structure;
   public newUsers: UserProfile[];
-  public modal: any;
+
   public selectedUser: number;
   public usersInfos: boolean;
   public exportLoading: boolean;
-  public errorLabels: any;
 
   constructor(
-    public authService: AuthService,
+    private authService: AuthService,
     private userService: UsersService,
     private structureService: StructureService,
-    public modalService: NgbModal,
+    private modalService: NgbModal,
     private notifService: ToastrService,
     private titleService: Title
   ) {
@@ -37,21 +36,22 @@ export class UserProfilComponent implements OnInit {
     this.selectedUser = 0;
     this.usersInfos = false;
     this.exportLoading = false;
+    this.me = null;
   }
 
   public ngOnInit() {
     this.titleService.setTitle("Compte Domifa");
 
-    this.getUsers();
-
-    this.structureService
-      .findMyStructure()
-      .subscribe((structure: Structure) => {
-        this.structure = structure;
-      });
-
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
+
+      this.getUsers();
+
+      this.structureService
+        .findMyStructure()
+        .subscribe((structure: Structure) => {
+          this.structure = structure;
+        });
     });
   }
 
@@ -107,7 +107,11 @@ export class UserProfilComponent implements OnInit {
   }
 
   public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
+    this.modalService.open(content);
+  }
+
+  public closeModal() {
+    this.modalService.dismissAll();
   }
 
   private getUsers() {

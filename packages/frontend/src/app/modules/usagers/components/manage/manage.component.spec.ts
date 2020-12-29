@@ -8,7 +8,6 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from "src/app/app.component";
 
-import { first } from "rxjs/operators";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
 import { GeneralModule } from "src/app/modules/general/general.module";
@@ -29,7 +28,7 @@ describe("ManageUsagersComponent", () => {
   let authService: AuthService;
 
   const spyScrollTo = jest.fn();
-  beforeAll(async (done) => {
+  beforeAll(async () => {
     Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
       declarations: [AppComponent],
@@ -83,7 +82,6 @@ describe("ManageUsagersComponent", () => {
   });
 
   it("1. NgOnInit", () => {
-    app.ngOnInit();
     expect(app.searching).toEqual(true);
     expect(app.filters).toEqual({
       echeance: null,
@@ -99,6 +97,7 @@ describe("ManageUsagersComponent", () => {
 
   it("3. Reset Filters", async(() => {
     app.resetFilters();
+
     expect(app.filters).toEqual({
       echeance: null,
       interactionType: null,

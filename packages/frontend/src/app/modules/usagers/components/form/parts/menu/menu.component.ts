@@ -6,8 +6,6 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AppUser } from "../../../../../../../_common/model";
 
-
-
 @Component({
   providers: [UsagerService],
   selector: "app-form-menu",
@@ -41,7 +39,7 @@ export class MenuComponent implements OnInit {
     private router: Router,
     private notifService: ToastrService
   ) {
-    this.authService.currentUser.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
   }

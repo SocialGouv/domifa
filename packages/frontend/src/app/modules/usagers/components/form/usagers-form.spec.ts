@@ -107,6 +107,11 @@ describe("UsagersFormComponent", () => {
     app.usagerForm.controls.prenom.setValue("Test Prenom");
     app.usagerForm.controls.surnom.setValue("Test Surnom");
     app.usagerForm.controls.dateNaissance.setValue("20/12/1991");
+    app.usagerForm.controls.dateNaissancePicker.setValue({
+      year: 1991,
+      month: 12,
+      day: 12,
+    });
     app.usagerForm.controls.villeNaissance.setValue("Paris");
     expect(app.usagerForm.valid).toBeTruthy();
   });
@@ -121,15 +126,4 @@ describe("UsagersFormComponent", () => {
     app.deleteAyantDroit();
     expect(app.usagerForm.controls.ayantsDroits.controls.length).toEqual(2);
   });
-
-  it("X. General functions", async(() => {
-    app.usager.decision.statut = "INSTRUCTION";
-    app.changeStep(4);
-    expect(app.usager.etapeDemande).toEqual(0);
-    app.usager.id = 12;
-    app.changeStep(3);
-    expect(app.usager.etapeDemande).toEqual(3);
-
-    app.initForm();
-  }));
 });
