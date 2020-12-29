@@ -29,6 +29,7 @@ describe("UsagersProfilComponent", () => {
 
   let interactionService: InteractionService;
   const spyScrollTo = jest.fn();
+
   beforeEach(async(() => {
     Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
@@ -79,44 +80,4 @@ describe("UsagersProfilComponent", () => {
   it("0. Create component", () => {
     expect(app).toBeTruthy();
   });
-
-  it("1. Variables", async(() => {
-    expect(app.labels).toBeDefined();
-    expect(app.interactionsLabels).toBeDefined();
-    expect(app.interactionsType).toBeDefined();
-
-    expect(app.notifInputs).toEqual({
-      colisIn: 0,
-      courrierIn: 0,
-      recommandeIn: 0,
-    });
-  }));
-
-  it("4. Routing functions", async(() => {
-    expect(location.path()).toEqual("/404");
-  }));
-
-  it("5. Set interaction", async(() => {
-    const usagerTest = new Usager();
-    usagerTest.id = 2;
-    interactionService
-      .setInteraction(usagerTest, {
-        content: "",
-        nbCourrier: 10,
-        type: "courrierIn",
-      })
-      .subscribe((usager: Usager) => {
-        expect(usager.lastInteraction.courrierIn).toEqual(10);
-      });
-  }));
-  it("6. Récupération du courrier", async(() => {
-    const usagerTest = new Usager();
-    usagerTest.id = 2;
-    interactionService
-      .setInteraction(usagerTest, "courrierOut")
-      .subscribe((usager: Usager) => {
-        const lastInteraction = usager.lastInteraction;
-        expect(lastInteraction.courrierIn).toEqual(0);
-      });
-  }));
 });

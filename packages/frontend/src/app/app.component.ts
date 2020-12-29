@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   public domifaNews: any;
   public newsLabels: any;
 
-  public modal: any;
   public matomoInfo: boolean;
 
   public me: AppUser;
@@ -56,7 +55,7 @@ export class AppComponent implements OnInit {
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
-    this.authService.currentUser.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: any) => {
       this.me = user;
     });
 
@@ -69,7 +68,7 @@ export class AppComponent implements OnInit {
         !lastNews ||
         (lastNews && new Date(lastNews) < new Date(domifaNews[0].date))
       ) {
-        this.modal = this.modalService.open(this.newsCenter, {
+        this.modalService.open(this.newsCenter, {
           backdrop: "static",
         });
       }
@@ -97,11 +96,11 @@ export class AppComponent implements OnInit {
   }
 
   public openModal(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
+    this.modalService.open(content);
   }
 
   public closeModal() {
-    this.modal.close();
+    this.modalService.dismissAll();
     localStorage.setItem("news", new Date(this.domifaNews.date).toISOString());
   }
 

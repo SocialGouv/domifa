@@ -21,21 +21,22 @@ export class AuthGuard implements CanActivate {
     return this.authService.me().pipe(
       map((canAccess: boolean) => {
         if (!canAccess) {
-          this.authService.logout();
-          this.router.navigate(["/connexion"], {
-            queryParams: { returnUrl: state.url },
-          });
+          this.logoutAndRedirect(state);
           return false;
         }
         return true;
       }),
       catchError((err: any) => {
-        this.authService.logout();
-        this.router.navigate(["/connexion"], {
-          queryParams: { returnUrl: state.url },
-        });
+        this.logoutAndRedirect(state);
         return of(false);
       })
     );
+  }
+
+  private logoutAndRedirect(state: RouterStateSnapshot) {
+    this.authService.logout();
+    this.router.navigate(["/connexion"], {
+      queryParams: { returnUrl: state.url },
+    });
   }
 }

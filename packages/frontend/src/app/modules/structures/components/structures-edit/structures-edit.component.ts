@@ -19,8 +19,6 @@ export class StructuresEditComponent implements OnInit {
   public me: AppUser;
   public structure: Structure;
 
-  public modal: any;
-
   public exportLoading: boolean;
 
   public showHardReset: boolean;
@@ -65,7 +63,7 @@ export class StructuresEditComponent implements OnInit {
   }
 
   public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
+    this.modalService.open(content);
   }
 
   public hardReset() {

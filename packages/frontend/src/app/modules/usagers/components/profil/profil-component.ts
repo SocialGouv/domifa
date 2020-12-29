@@ -78,10 +78,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public notifInputs: { [key: string]: any };
 
-  public structure: Structure;
-
   public today: Date;
-
   public me: AppUser;
 
   @ViewChild("distributionConfirm", { static: true })
@@ -141,11 +138,8 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.authService.currentUser.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
-      this.structure = user.structure;
-
-      console.log(this.structure);
     });
 
     this.titleService.setTitle("Fiche d'un domicilié");

@@ -22,9 +22,8 @@ import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("UsagerService", () => {
   let service: UsagerService;
-  let authService: AuthService;
 
-  beforeAll(async (done) => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
@@ -68,34 +67,11 @@ describe("UsagerService", () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     service = TestBed.get(UsagerService);
-    authService = TestBed.get(AuthService);
-
-    authService
-      .login("ccastest@yopmail.com", "Azerty012345")
-      .pipe(first())
-      .subscribe(
-        (user) => {
-          done();
-        },
-        (error) => {
-          done();
-        }
-      );
   });
 
   it("should be created", () => {
     expect(service).toBeTruthy();
   });
-
-  it("Doublon & Get usager", async(() => {
-    service.findOne(1).subscribe((usager: Usager) => {
-      expect(usager.prenom).toEqual("Marta");
-    });
-
-    service.isDoublon("Ram", "Marta", 2).subscribe((doublons: any) => {
-      expect(doublons.length).toEqual(1);
-    });
-  }));
 
   it("Interfaces", () => {
     const usager = new Usager({});

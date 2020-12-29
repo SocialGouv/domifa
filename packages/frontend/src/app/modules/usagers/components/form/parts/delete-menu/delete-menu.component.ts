@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
@@ -16,7 +16,6 @@ export class DeleteMenuComponent implements OnInit {
   @Input() public usager!: Usager;
 
   public me: AppUser;
-  public modal: any;
 
   constructor(
     public authService: AuthService,
@@ -33,12 +32,13 @@ export class DeleteMenuComponent implements OnInit {
   public ngOnInit() {}
 
   public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
+    this.modalService.open(content);
   }
+
   public deleteUsager() {
     this.usagerService.delete(this.usager.id).subscribe(
       (result: any) => {
-        this.modal.close();
+        this.modalService.dismissAll();
         this.notifService.success("Usager supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
@@ -51,7 +51,7 @@ export class DeleteMenuComponent implements OnInit {
   public deleteRenew() {
     this.usagerService.deleteRenew(this.usager.id).subscribe(
       (result: any) => {
-        this.modal.close();
+        this.modalService.dismissAll();
         this.notifService.success(
           "Demande de renouvellement supprimée avec succès"
         );

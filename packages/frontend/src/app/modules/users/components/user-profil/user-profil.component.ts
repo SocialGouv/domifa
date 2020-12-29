@@ -28,7 +28,7 @@ export class UserProfilComponent implements OnInit {
     public authService: AuthService,
     private userService: UsersService,
     private structureService: StructureService,
-    private modalService: NgbModal,
+    public modalService: NgbModal,
     private notifService: ToastrService,
     private titleService: Title
   ) {
@@ -50,7 +50,7 @@ export class UserProfilComponent implements OnInit {
         this.structure = structure;
       });
 
-    this.authService.currentUser.subscribe((user) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
   }
@@ -111,7 +111,7 @@ export class UserProfilComponent implements OnInit {
   }
 
   private getUsers() {
-    if (this.authService.currentUserValue.role === "admin") {
+    if (this.me.role === "admin") {
       this.userService.getNewUsers().subscribe((users: UserProfile[]) => {
         this.newUsers = users;
       });

@@ -31,7 +31,7 @@ import { UsagerService } from "../../../../services/usager.service";
 })
 export class DecisionComponent implements OnInit {
   public labels: any;
-  public modal: any;
+
   public submitted: boolean;
   public refusForm!: FormGroup;
   public valideForm!: FormGroup;
@@ -69,7 +69,6 @@ export class DecisionComponent implements OnInit {
     const dToday = new Date();
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: dToday.getFullYear() + 2 };
-
     this.isAdmin = false;
   }
 
@@ -230,18 +229,17 @@ export class DecisionComponent implements OnInit {
       .setDecision(this.usager.id, this.formDatas, statut)
       .subscribe((usager: Usager) => {
         this.usager = usager;
-
         this.submitted = false;
         this.notifService.success("Décision enregistrée avec succès ! ");
-        if (this.modal) {
-          this.modal.close();
-          this.router.navigate(["usager/" + usager.id]);
-        }
+
+        this.modalService.dismissAll();
+
+        this.router.navigate(["usager/" + usager.id]);
       });
   }
 
   public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
+    this.modalService.open(content);
   }
 
   public getAttestation() {

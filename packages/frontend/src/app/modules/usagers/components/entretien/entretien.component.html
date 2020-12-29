@@ -392,7 +392,10 @@
     <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
       Revenir à l'entretien
     </button>
-    <button class="btn btn-success" (click)="nextStep.emit(3); modal.close()">
+    <button
+      class="btn btn-success"
+      (click)="nextStep.emit(3); modalService.dismissAll()"
+    >
       Continuer sans entretien
     </button>
   </div>

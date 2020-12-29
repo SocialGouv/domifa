@@ -5,7 +5,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -18,9 +18,6 @@ import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AppUser } from "../../../../../_common/model";
 import { Entretien } from "../../interfaces/entretien";
 
-
-
-
 @Component({
   providers: [UsagerService],
   selector: "app-entretien",
@@ -29,7 +26,6 @@ import { Entretien } from "../../interfaces/entretien";
 })
 export class EntretienComponent implements OnInit {
   public labels: any;
-  public modal: any;
 
   public typeMenageList: any;
   public residenceList: any;
@@ -59,7 +55,7 @@ export class EntretienComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
     private notifService: ToastrService,
-    private modalService: NgbModal,
+    public modalService: NgbModal,
     public authService: AuthService
   ) {
     this.authService.currentUser.subscribe((user: AppUser) => {
@@ -108,7 +104,7 @@ export class EntretienComponent implements OnInit {
   public submitEntretien() {
     if (this.usager.decision.statut === "INSTRUCTION") {
       if (this.isEmptyForm()) {
-        this.modal = this.modalService.open(this.entretienConfirmation);
+        this.modalService.open(this.entretienConfirmation);
         return;
       }
     }

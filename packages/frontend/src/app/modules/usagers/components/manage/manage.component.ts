@@ -76,7 +76,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     ID: "ID",
   };
 
-  public structure: Structure;
   public selectedUsager: Usager;
 
   @ViewChild("searchInput", { static: true })
@@ -118,9 +117,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.titleService.setTitle("Gérer vos domiciliés");
 
-    this.authService.currentUser.subscribe((user) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
-      this.structure = this.me.structure;
+      console.log(this.me);
     });
 
     this.searchString = this.filters.name;

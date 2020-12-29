@@ -7,7 +7,7 @@ import {
   Post,
   Req,
   Response,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -32,12 +32,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   public async loginUser(@Response() res: any, @Body() loginDto: LoginDto) {
     const user = await usersRepository.findOne<AppUser>(
-      {
-        email: loginDto.email.toLowerCase(),
-      },
-      {
-        select: "ALL",
-      }
+      { email: loginDto.email.toLowerCase() },
+      { select: "ALL" }
     );
 
     if (user) {

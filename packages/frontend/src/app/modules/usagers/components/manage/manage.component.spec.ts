@@ -76,19 +76,6 @@ describe("ManageUsagersComponent", () => {
 
     fixture = TestBed.createComponent(ManageUsagersComponent);
     app = fixture.debugElement.componentInstance;
-
-    authService
-      .login("ccastest@yopmail.com", "Azerty012345")
-      .pipe(first())
-      .subscribe(
-        (user) => {
-          app.ngOnInit();
-          done();
-        },
-        (error) => {
-          done();
-        }
-      );
   });
 
   it("0. create component", () => {
