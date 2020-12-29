@@ -148,8 +148,8 @@ Register frontend image:
     IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
     DOCKER_BUILD_ARGS: >-
       -f packages/frontend/Dockerfile
-  needs: ["Build frontend image"]
-  # needs: ["Build frontend image", "Frontend unit tests"]
+  #needs: ["Build frontend image"]
+  needs: ["Build frontend image", "Frontend unit tests"]
   only:
     - master # to deploy to preprod only
     - tags # prod + preprod
@@ -163,7 +163,7 @@ Register backend image:
     DOCKER_BUILD_ARGS: >-
       --shm-size 768M
       -f packages/backend/Dockerfile
-  needs: ["Build backend image", "Backend unit tests", "Frontend unit tests"]
+  needs: ["Build backend image", "Backend unit tests"]
   only:
     - master # to deploy to preprod only
     - tags # prod + preprod
