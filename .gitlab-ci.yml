@@ -72,7 +72,6 @@ Frontend unit tests:
   extends: .tests_setup
   script:
     - yarn build
-    - yarn workspace @domifa/backend start:tests-ci &
     - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
   needs: []
 
@@ -86,7 +85,6 @@ Frontend unit tests:
     - yarn --frozen-lockfile
     - yarn test --debug
   needs: []
-
 
 
 Build frontend image:
