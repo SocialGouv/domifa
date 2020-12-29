@@ -63,7 +63,7 @@ stages:
 Backend unit tests:
   extends: .tests_setup
   script:
-    - yarn --cwd packages/backend build 
+    - yarn --cwd packages/backend build
     - yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
   needs: []
 
@@ -150,7 +150,7 @@ Register frontend image:
       -f packages/frontend/Dockerfile
   needs: ["Build frontend image"]
   # needs: ["Build frontend image", "Frontend unit tests"]
-  only: 
+  only:
     - master # to deploy to preprod only
     - tags # prod + preprod
 
@@ -163,7 +163,7 @@ Register backend image:
     DOCKER_BUILD_ARGS: >-
       --shm-size 768M
       -f packages/backend/Dockerfile
-  needs: ["Build backend image", "Backend unit tests"]
-  only: 
+  needs: ["Build backend image", "Backend unit tests", "Frontend unit tests"]
+  only:
     - master # to deploy to preprod only
     - tags # prod + preprod

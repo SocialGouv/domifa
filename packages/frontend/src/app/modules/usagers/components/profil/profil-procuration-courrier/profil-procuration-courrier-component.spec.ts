@@ -76,10 +76,9 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
     fixture = TestBed.createComponent(
       UsagersProfilProcurationCourrierComponent
     );
+
     app = fixture.debugElement.componentInstance;
-    app.usager = new Usager();
     fixture.detectChanges();
-    app.ngOnInit();
   }));
 
   it("0. Create component", () => {

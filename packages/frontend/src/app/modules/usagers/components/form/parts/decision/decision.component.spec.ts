@@ -1,18 +1,44 @@
-import { async, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { UsagerService } from "../../../../services/usager.service";
 import { UsagersModule } from "../../../../usagers.module";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
+import { DecisionComponent } from "./decision.component";
+import { HttpClientModule } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrModule } from "ngx-toastr";
+import { routes } from "../../../../../../app-routing.module";
+import { GeneralModule } from "../../../../../general/general.module";
+import { StatsModule } from "../../../../../stats/stats.module";
+import { StructuresModule } from "../../../../../structures/structures.module";
 
 describe("DecisionComponent", () => {
-  let usagerService: UsagerService;
+  let fixture: ComponentFixture<DecisionComponent>;
+  let app: DecisionComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [UsagersModule],
+      imports: [
+        MatomoModule,
+        GeneralModule,
+        UsagersModule,
+        StatsModule,
+        StructuresModule,
+        RouterTestingModule.withRoutes(routes),
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule,
+        HttpClientTestingModule,
+      ],
       providers: [
         {
           provide: MatomoInjector,
@@ -30,18 +56,13 @@ describe("DecisionComponent", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
+    fixture = TestBed.createComponent(DecisionComponent);
 
-    /*
-  usagerService.findOne(1).subscribe((usager: Usager) => {
-      fixture = TestBed.createComponent(DecisionComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      component.usager = usager;
-    });
-    */
+    app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
   }));
 
   it("should create", () => {
-    usagerService = TestBed.get(UsagerService);
+    expect(app).toBeTruthy();
   });
 });

@@ -27,14 +27,7 @@ describe("FaqComponent", () => {
         HttpClientModule,
         HttpClientTestingModule,
         RouterModule.forRoot([]),
-        ToastrModule.forRoot({
-          enableHtml: true,
-          positionClass: "toast-top-full-width",
-          preventDuplicates: true,
-          progressAnimation: "increasing",
-          progressBar: true,
-          timeOut: 2000,
-        }),
+        ToastrModule.forRoot(),
       ],
       providers: [
         {

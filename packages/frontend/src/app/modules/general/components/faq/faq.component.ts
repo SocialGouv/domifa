@@ -13,7 +13,6 @@ export class FaqComponent implements OnInit {
   constructor(
     private titleService: Title,
     private meta: Meta,
-    private http: HttpClient,
     private matomo: MatomoTracker,
     private notifService: ToastrService
   ) {}
