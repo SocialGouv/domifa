@@ -173,7 +173,7 @@
       type="button"
       class="close"
       aria-label="Fermer la fenêtre"
-      (click)="closeModal()"
+      (click)="closeNewsModal()"
     >
       <span aria-hidden="true">&times;</span>
     </button>
@@ -184,7 +184,9 @@
         <b>
           {{ domifaNews.date | date: "dd/MM/yyyy" }}
         </b>
-        - {{ domifaNews.description }}
+        <span *ngIf="domifaNews.description"
+          >- {{ domifaNews.description }}</span
+        >
       </p>
       <div *ngFor="let content of domifaNews.content" class="text-left news">
         <span
@@ -206,7 +208,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" (click)="closeModal()">
+    <button class="btn btn-primary" (click)="closeNewsModal()">
       Continuer sur Domifa
     </button>
   </div>
@@ -218,7 +220,7 @@
       type="button"
       class="close"
       aria-label="Fermer la fenêtre"
-      (click)="closeModal()"
+      (click)="closeHelpModal()"
     >
       <span aria-hidden="true">&times;</span>
     </button>

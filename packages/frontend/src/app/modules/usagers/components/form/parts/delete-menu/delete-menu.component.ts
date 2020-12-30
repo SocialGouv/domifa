@@ -16,33 +16,37 @@ export class DeleteMenuComponent implements OnInit {
   @Input() public usager!: Usager;
 
   public me: AppUser;
-  public modal: any;
 
   constructor(
-    public authService: AuthService,
     private router: Router,
+    private authService: AuthService,
     private modalService: NgbModal,
     private usagerService: UsagerService,
     private notifService: ToastrService
-  ) {
-    this.authService.currentUser.subscribe((user: AppUser) => {
+  ) {}
+
+  public ngOnInit() {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
   }
 
-  public ngOnInit() {}
-
   public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
+    this.modalService.open(content);
   }
+
+  public closeModals() {
+    this.modalService.dismissAll();
+  }
+
   public deleteUsager() {
     this.usagerService.delete(this.usager.id).subscribe(
-      (result: any) => {
-        this.modal.close();
+      () => {
+        this.modalService.dismissAll();
         this.notifService.success("Usager supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible de supprimer la fiche");
       }
     );
@@ -50,15 +54,17 @@ export class DeleteMenuComponent implements OnInit {
 
   public deleteRenew() {
     this.usagerService.deleteRenew(this.usager.id).subscribe(
-      (result: any) => {
-        this.modal.close();
+      () => {
+        this.modalService.dismissAll();
         this.notifService.success(
           "Demande de renouvellement supprimée avec succès"
         );
         this.router.navigate(["/manage"]);
       },
-      (error) => {
-        this.notifService.error("Impossible de supprimer la fiche");
+      () => {
+        this.notifService.error(
+          "La demande de renouvellement n'a pas pu être supprimée"
+        );
       }
     );
   }

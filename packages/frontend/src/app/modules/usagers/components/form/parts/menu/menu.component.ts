@@ -6,8 +6,6 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AppUser } from "../../../../../../../_common/model";
 
-
-
 @Component({
   providers: [UsagerService],
   selector: "app-form-menu",
@@ -16,7 +14,6 @@ import { AppUser } from "../../../../../../../_common/model";
 })
 export class MenuComponent implements OnInit {
   @Input() public usager!: Usager;
-
   @Input() public currentStep!: number;
 
   public etapes = [
@@ -37,16 +34,16 @@ export class MenuComponent implements OnInit {
   public me: AppUser;
 
   constructor(
-    public authService: AuthService,
+    private authService: AuthService,
     private router: Router,
     private notifService: ToastrService
-  ) {
-    this.authService.currentUser.subscribe((user: AppUser) => {
-      this.me = user;
-    });
-  }
+  ) {}
 
   public ngOnInit() {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.me = user;
+    });
+
     if (
       this.usager.decision.statut === "ATTENTE_DECISION" &&
       this.currentStep !== 4

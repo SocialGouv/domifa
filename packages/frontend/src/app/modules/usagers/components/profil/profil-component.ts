@@ -13,7 +13,6 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { Structure } from "src/app/modules/structures/structure.interface";
 import {
   formatDateToNgb,
   minDateNaissance,
@@ -34,7 +33,6 @@ import { languagesAutocomplete } from "../../../../shared";
 
 @Component({
   providers: [
-    UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
@@ -59,18 +57,14 @@ export class UsagersProfilComponent implements OnInit {
 
   public interactionsLabels: {
     [key: string]: any;
-  };
+  } = interactionsLabels;
 
   public actions: {
     [key: string]: any;
   };
 
-  public labels: any;
-  public liensLabels: any;
-  public typeMenageList: any;
-  public residenceList: any;
-  public causeList: any;
-  public raisonList: any;
+  public labels: any = usagersLabels;
+  public liensLabels: any = Object.keys(this.labels.lienParente);
 
   public usager: Usager;
   public usagerForm!: FormGroup;
@@ -78,10 +72,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public notifInputs: { [key: string]: any };
 
-  public structure: Structure;
-
   public today: Date;
-
   public me: AppUser;
 
   @ViewChild("distributionConfirm", { static: true })
@@ -93,7 +84,7 @@ export class UsagersProfilComponent implements OnInit {
     private formBuilder: FormBuilder,
     private interactionService: InteractionService,
     public loadingService: LoadingService,
-    public authService: AuthService,
+    private authService: AuthService,
     private modalService: NgbModal,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
@@ -112,11 +103,7 @@ export class UsagersProfilComponent implements OnInit {
 
     this.today = new Date();
 
-    this.interactionsLabels = interactionsLabels;
-    this.labels = usagersLabels;
-
     this.interactions = [];
-    this.liensLabels = Object.keys(this.labels.lienParente);
 
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
@@ -141,11 +128,8 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.authService.currentUser.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
-      this.structure = user.structure;
-
-      console.log(this.structure);
     });
 
     this.titleService.setTitle("Fiche d'un domicilié");
@@ -310,6 +294,10 @@ export class UsagersProfilComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  public closeModals() {
+    this.modalService.dismissAll();
+  }
+
   public deleteInteraction(idInteraction: number) {
     this.matomo.trackEvent("profil", "interactions", "delete", 1);
     this.interactionService
@@ -410,7 +398,7 @@ export class UsagersProfilComponent implements OnInit {
         this.usager.lastInteraction = usager.lastInteraction;
         this.getInteractions();
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
       }
     );
@@ -426,7 +414,7 @@ export class UsagersProfilComponent implements OnInit {
         this.usager.options = new Options(usager.options);
         this.setInteraction("npai", false);
       },
-      (error) => {
+      () => {
         this.notifService.error("Cette opération a échoué");
       }
     );

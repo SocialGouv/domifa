@@ -10,12 +10,16 @@ import { MatomoModule } from "ngx-matomo";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { StatsComponent } from "./stats.component";
 import { FormsModule } from "@angular/forms";
+import { global } from "@angular/compiler/src/util";
 
 describe("StatsComponent", () => {
   let component: StatsComponent;
   let fixture: ComponentFixture<StatsComponent>;
+  const spyScrollTo = jest.fn();
 
   beforeEach(async(() => {
+    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
+
     TestBed.configureTestingModule({
       declarations: [StatsComponent],
       imports: [

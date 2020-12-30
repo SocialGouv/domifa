@@ -1,59 +1,25 @@
-import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
-import { async, inject, TestBed } from "@angular/core/testing";
-import { ActivatedRouteSnapshot, RouterModule } from "@angular/router";
+import { TestBed } from "@angular/core/testing";
+import { ActivatedRouteSnapshot } from "@angular/router";
 import { StructureService } from "../modules/structures/services/structure.service";
-import { StructuresModule } from "../modules/structures/structures.module";
-import { AuthService } from "../modules/shared/services/auth.service";
 import { StructureGuard } from "./structure-guard";
 
 describe("StructureGuard", () => {
-  let structureGuard: StructureGuard;
-  let activatedRoute: ActivatedRouteSnapshot;
+  let service: StructureGuard;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
+    const structureServiceStub = () => ({
+      findOne: (id: number) => ({ pipe: () => ({}) }),
+    });
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterModule.forRoot([]), StructuresModule],
       providers: [
-        StructureService,
         StructureGuard,
-        AuthService,
-        {
-          provide: ActivatedRouteSnapshot,
-          useValue: {
-            params: { id: 1 },
-          },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
+        { provide: StructureService, useFactory: structureServiceStub },
       ],
     });
+    service = TestBed.inject(StructureGuard);
+  });
 
-    activatedRoute = TestBed.get(ActivatedRouteSnapshot);
-    structureGuard = TestBed.get(StructureGuard);
-  }));
-
-  it("Structure guard - Creation", inject(
-    [StructureGuard],
-    (service: StructureGuard) => {
-      expect(service).toBeTruthy();
-    }
-  ));
-
-  it("✅ Structure exist", async(() => {
-    structureGuard.canActivate(activatedRoute).subscribe((value: any) => {
-      expect(value).toEqual(true);
-    });
-  }));
-
-  it("❌ Structure not exist - 404 error", async(() => {
-    activatedRoute.params.id = 100;
-    structureGuard.canActivate(activatedRoute).subscribe(
-      (response) => {
-        expect(response).toBeDefined();
-      },
-      (error) => {
-        expect(error.status).toEqual(400);
-      }
-    );
-  }));
+  it("can load instance", () => {
+    expect(service).toBeTruthy();
+  });
 });

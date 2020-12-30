@@ -1,23 +1,33 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateParserFormatter,
+  NgbDatepickerI18n,
+  NgbDateStruct,
+} from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
+
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import {
   formatDateToNgb,
   minDateNaissance,
-  minDateToday
+  minDateToday,
 } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
 import { AppUser, UserRole } from "../../../../../../_common/model";
 import { LoadingService } from "../../../../loading/loading.service";
+import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
 import { Options } from "../../../interfaces/options";
 import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
 
 @Component({
+  providers: [
+    NgbDateCustomParserFormatter,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+  ],
   selector: "app-profil-procuration-courrier",
   styleUrls: ["./profil-procuration-courrier.css"],
   templateUrl: "./profil-procuration-courrier.html",
@@ -40,9 +50,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   public maxDateNaissance: NgbDateStruct;
 
   constructor(
-    private formBuilder: FormBuilder,
     public loadingService: LoadingService,
-    public authService: AuthService,
+    private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
     private usagerService: UsagerService,
@@ -50,6 +59,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   ) {
     this.hideForm();
     this.minDateToday = minDateToday;
+    this.isFormVisible = false;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
   }
@@ -117,7 +127,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     };
 
     this.usagerService.editProcuration(formValue, this.usager.id).subscribe(
-      (usager: any) => {
+      (usager: Usager) => {
         this.hideForm();
         this.usager.options = new Options(usager.options);
         this.notifService.success("Procuration ajoutée avec succès");
@@ -131,14 +141,14 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
   public deleteProcuration() {
     this.usagerService.deleteProcuration(this.usager.id).subscribe(
-      (usager: any) => {
+      (usager: Usager) => {
         this.hideForm();
         this.procurationForm.reset();
         this.usager.options = usager.options;
         this.notifService.success("Procuration supprimée avec succès");
         this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible de supprimer la procuration");
       }
     );

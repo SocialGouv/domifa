@@ -19,26 +19,24 @@ export class StructuresEditComponent implements OnInit {
   public me: AppUser;
   public structure: Structure;
 
-  public modal: any;
-
   public exportLoading: boolean;
-
   public showHardReset: boolean;
   public hardResetCode: boolean;
+
   public hardResetForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
     private notifService: ToastrService,
-    public authService: AuthService,
-    public modalService: NgbModal,
+    private authService: AuthService,
+    private modalService: NgbModal,
     private titleService: Title
   ) {
     this.showHardReset = false;
     this.hardResetCode = null;
 
-    this.authService.currentUser.subscribe((user: AppUser) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
   }
@@ -65,7 +63,11 @@ export class StructuresEditComponent implements OnInit {
   }
 
   public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
+    this.modalService.open(content);
+  }
+
+  public closeModals() {
+    this.modalService.dismissAll();
   }
 
   public hardReset() {
@@ -85,7 +87,7 @@ export class StructuresEditComponent implements OnInit {
             this.notifService.success(
               "La remise à zéro a été effectuée avec succès !"
             );
-            this.modalService.dismissAll();
+            this.closeModals();
             this.showHardReset = false;
           },
           (error: any) => {

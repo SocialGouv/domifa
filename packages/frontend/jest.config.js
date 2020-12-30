@@ -1,12 +1,14 @@
 module.exports = {
   globals: {
     "ts-jest": {
-      tsConfig: "<rootDir>/src/tsconfig.spec.json",
+      tsconfig: "<rootDir>/src/tsconfig.spec.json",
       stringifyContentPathRegex: "\\.html$",
-      astTransformers: [
-        "./node_modules/jest-preset-angular/build/InlineFilesTransformer",
-        "./node_modules/jest-preset-angular/build/StripStylesTransformer",
-      ],
+      astTransformers: {
+        before: [
+          "./node_modules/jest-preset-angular/build/InlineFilesTransformer",
+          "./node_modules/jest-preset-angular/build/StripStylesTransformer",
+        ],
+      },
     },
   },
   moduleFileExtensions: ["ts", "html", "js", "tsx", "json"],

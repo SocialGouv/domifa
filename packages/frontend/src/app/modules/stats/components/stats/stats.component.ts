@@ -15,7 +15,6 @@ import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { StructureService } from "src/app/modules/structures/services/structure.service";
 import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
@@ -62,12 +61,11 @@ export class StatsComponent implements OnInit, AfterViewInit {
   private defaultEndDate: Date;
 
   constructor(
-    public structureService: StructureService,
-    public statsService: StatsService,
-    private titleService: Title,
-    private notifService: ToastrService,
     public calendar: NgbCalendar,
     public formatter: NgbDateCustomParserFormatter,
+    private statsService: StatsService,
+    private titleService: Title,
+    private notifService: ToastrService,
     private cdRef: ChangeDetectorRef,
     private matomo: MatomoTracker
   ) {
@@ -77,16 +75,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Rapport d'activité de votre structure");
-    // this.structureService
-    //   .findMyStructure()
-    //   .subscribe((structure: Structure) => {
-    //     this.structure = structure;
-    //     this.fromDate = new NgbDate(
-    //       structure.createdAt.getFullYear(),
-    //       structure.createdAt.getMonth(),
-    //       structure.createdAt.getDate()
-    //     );
-    //   });
+
     this.statsService.getFirstStat().subscribe((stat: StructureStats) => {
       const date = new Date(
         stat ? stat.date : Date.UTC(new Date().getUTCFullYear(), 0, 1)

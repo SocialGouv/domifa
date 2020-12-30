@@ -1,34 +1,32 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 
+import { DeleteMenuComponent } from "./delete-menu.component";
 import { APP_BASE_HREF } from "@angular/common";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { UsagersModule } from "../../../../usagers.module";
-import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { DecisionComponent } from "./decision.component";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
+import { RouterTestingModule } from "@angular/router/testing";
+import { routes } from "../../../../../../app-routing.module";
 
-describe("DecisionComponent", () => {
-  let fixture: ComponentFixture<DecisionComponent>;
-  let component: DecisionComponent;
+describe("DeleteMenuComponent", () => {
+  let component: DeleteMenuComponent;
+  let fixture: ComponentFixture<DeleteMenuComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DecisionComponent],
       imports: [
-        MatomoModule,
         RouterTestingModule,
         NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
+        HttpClientModule,
         ToastrModule.forRoot(),
+        BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: MatomoInjector,
@@ -44,15 +42,14 @@ describe("DecisionComponent", () => {
         },
         { provide: APP_BASE_HREF, useValue: "/" },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [DeleteMenuComponent],
     });
-
-    fixture = TestBed.createComponent(DecisionComponent);
+    fixture = TestBed.createComponent(DeleteMenuComponent);
     component = fixture.debugElement.componentInstance;
-    fixture.detectChanges();
+    component.ngOnInit();
   });
 
-  it("should create", () => {
+  it("can load instance", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -13,6 +13,7 @@ import { UsagersModule } from "src/app/modules/usagers/usagers.module";
 import { UsersModule } from "src/app/modules/users/users.module";
 import { StructuresModule } from "../../structures.module";
 import { StructuresSearchComponent } from "./structures-search.component";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("StructuresSearchComponent", () => {
   let component: StructuresSearchComponent;
@@ -20,18 +21,15 @@ describe("StructuresSearchComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [StructuresSearchComponent],
       imports: [
-        StructuresModule,
-        GeneralModule,
-        UsagersModule,
         UsersModule,
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
         HttpClientTestingModule,
-        RouterModule.forRoot([]),
+        RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

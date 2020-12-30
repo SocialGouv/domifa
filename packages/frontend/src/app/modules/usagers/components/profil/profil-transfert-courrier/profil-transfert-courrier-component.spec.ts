@@ -1,55 +1,47 @@
 import { APP_BASE_HREF, Location } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { global } from "@angular/compiler/src/util";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
+
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { AppComponent } from "src/app/app.component";
-import { GeneralModule } from "src/app/modules/general/general.module";
-import { StatsModule } from "src/app/modules/stats/stats.module";
-import { StructuresModule } from "src/app/modules/structures/structures.module";
-import { UsersModule } from "src/app/modules/users/users.module";
-import { routes } from "../../../../../app-routing.module";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
+import { ToastrModule } from "ngx-toastr";
+import { usagerValideMock } from "../../../../../../_common/mocks/usager.mock";
+import { NotFoundComponent } from "../../../../general/components/errors/not-found/not-found.component";
+
 import { Usager } from "../../../interfaces/usager";
-import { InteractionService } from "../../../services/interaction.service";
-import { UsagerService } from "../../../services/usager.service";
-import { UsagersModule } from "../../../usagers.module";
+
 import { UsagersProfilTransfertCourrierComponent } from "./profil-transfert-courrier-component";
 
 describe("UsagersProfilTransfertCourrierComponent", () => {
-  let fixture: any;
-  let app: any;
-  let router: any;
-  let location: Location;
-  let interactionService: InteractionService;
+  let fixture: ComponentFixture<UsagersProfilTransfertCourrierComponent>;
+  let component: UsagersProfilTransfertCourrierComponent;
 
-  const spyScrollTo = jest.fn();
   beforeEach(async(() => {
-    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [
+        UsagersProfilTransfertCourrierComponent,
+        NotFoundComponent,
+      ],
       imports: [
-        GeneralModule,
-        StatsModule,
-        UsersModule,
-        UsagersModule,
-        StructuresModule,
         NgbModule,
-        UsagersModule,
+        MatomoModule,
+        RouterTestingModule.withRoutes([
+          { path: "404", component: NotFoundComponent },
+        ]),
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ToastrModule.forRoot(),
+        HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes(routes),
       ],
       providers: [
-        InteractionService,
-        UsagerService,
         {
           provide: MatomoInjector,
           useValue: {
@@ -67,18 +59,13 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
-    interactionService = TestBed.get(InteractionService);
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
-
     fixture = TestBed.createComponent(UsagersProfilTransfertCourrierComponent);
-    app = fixture.debugElement.componentInstance;
-    app.usager = new Usager();
-    fixture.detectChanges();
-    app.ngOnInit();
+    component = fixture.debugElement.componentInstance;
+    component.usager = new Usager(usagerValideMock);
+    component.ngOnInit();
   }));
 
   it("0. Create component", () => {
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

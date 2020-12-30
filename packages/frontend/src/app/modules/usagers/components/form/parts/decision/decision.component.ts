@@ -31,7 +31,7 @@ import { UsagerService } from "../../../../services/usager.service";
 })
 export class DecisionComponent implements OnInit {
   public labels: any;
-  public modal: any;
+
   public submitted: boolean;
   public refusForm!: FormGroup;
   public valideForm!: FormGroup;
@@ -65,12 +65,12 @@ export class DecisionComponent implements OnInit {
   ) {
     this.labels = labels;
     this.submitted = false;
+    this.isAdmin = false;
+    this.me = null;
 
     const dToday = new Date();
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: dToday.getFullYear() + 2 };
-
-    this.isAdmin = false;
   }
 
   get r(): any {
@@ -83,9 +83,12 @@ export class DecisionComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Décision sur la domiciliation");
-    this.authService.currentUser.subscribe((user: AppUser) => {
-      this.me = user;
-      this.isAdmin = this.me.role === "admin" || this.me.role === "responsable";
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      if (user !== null) {
+        this.me = user;
+        this.isAdmin =
+          this.me.role === "admin" || this.me.role === "responsable";
+      }
     });
 
     if (this.route.snapshot.params.id) {
@@ -230,18 +233,20 @@ export class DecisionComponent implements OnInit {
       .setDecision(this.usager.id, this.formDatas, statut)
       .subscribe((usager: Usager) => {
         this.usager = usager;
-
         this.submitted = false;
         this.notifService.success("Décision enregistrée avec succès ! ");
-        if (this.modal) {
-          this.modal.close();
-          this.router.navigate(["usager/" + usager.id]);
-        }
+
+        this.modalService.dismissAll();
+
+        this.router.navigate(["usager/" + usager.id]);
       });
   }
 
   public open(content: TemplateRef<any>) {
-    this.modal = this.modalService.open(content);
+    this.modalService.open(content);
+  }
+  public closeModal() {
+    this.modalService.dismissAll();
   }
 
   public getAttestation() {

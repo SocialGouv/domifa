@@ -19,10 +19,10 @@
       >
         <h2 id="profil_name">{{ usager.nomComplet }}</h2>
         Numéro domicilié :
-        <b *ngIf="usager.customId && structure.options.customId"
+        <b *ngIf="usager.customId && me.structure.options.customId"
           >{{ usager.customId }}</b
         >
-        <b *ngIf="!structure.options.customId">{{ usager.id }}</b>
+        <b *ngIf="!me.structure.options.customId">{{ usager.id }}</b>
       </div>
       <div class="text-center" *ngIf="usager.decision.statut === 'REFUS'">
         <div class="text-radiation text-danger">
@@ -663,7 +663,7 @@
 
             <div
               class="col-md-4 form-group"
-              *ngIf="structure.options.customId === true"
+              *ngIf="me.structure.options.customId === true"
             >
               <label for="email">Identifiant personnalisé</label>
               <input
@@ -1093,7 +1093,7 @@
     compléter"
   </div>
   <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+    <button class="btn btn-outline-dark" (click)="closeModals()">
       Revenir au profil
     </button>
     <button class="btn btn-secondary" (click)="renouvellement();">
@@ -1126,7 +1126,7 @@
     des domiciliés.
   </div>
   <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="modal.close('Save click')">
+    <button class="btn btn-outline-dark" (click)="closeModals()">
       Revenir au profil
     </button>
     <button class="btn btn-danger" (click)="deleteUsager();">

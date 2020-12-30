@@ -34,8 +34,8 @@ import { InteractionService } from "../../services/interaction.service";
 })
 export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
-  public usagers: Usager[] = [];
 
+  public usagers: Usager[] = [];
   public me: AppUser;
 
   public dateLabel: string;
@@ -76,7 +76,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     ID: "ID",
   };
 
-  public structure: Structure;
   public selectedUsager: Usager;
 
   @ViewChild("searchInput", { static: true })
@@ -90,8 +89,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   constructor(
     private usagerService: UsagerService,
     private interactionService: InteractionService,
-    public authService: AuthService,
-    public modalService: NgbModal,
+    private authService: AuthService,
+    private modalService: NgbModal,
     private router: Router,
     private notifService: ToastrService,
     private titleService: Title,
@@ -118,9 +117,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.titleService.setTitle("Gérer vos domiciliés");
 
-    this.authService.currentUser.subscribe((user) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
-      this.structure = this.me.structure;
     });
 
     this.searchString = this.filters.name;
@@ -362,6 +360,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         this.notifService.error("Une erreur a eu lieu lors de la recherche");
       }
     );
+  }
+
+  public closeModals() {
+    this.modalService.dismissAll();
   }
 
   private getFilters() {

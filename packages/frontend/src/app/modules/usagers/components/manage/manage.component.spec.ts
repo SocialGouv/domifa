@@ -1,54 +1,44 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { AppComponent } from "src/app/app.component";
 
-import { first } from "rxjs/operators";
-import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
-import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
-import { GeneralModule } from "src/app/modules/general/general.module";
-import { StatsModule } from "src/app/modules/stats/stats.module";
-import { StructuresModule } from "src/app/modules/structures/structures.module";
-import { UsersModule } from "src/app/modules/users/users.module";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { routes } from "../../../../app-routing.module";
-import { UsagerService } from "../../services/usager.service";
-import { UsagersModule } from "../../usagers.module";
 import { ManageUsagersComponent } from "./manage.component";
 import { global } from "@angular/compiler/src/util";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ToastrModule } from "ngx-toastr";
 
 describe("ManageUsagersComponent", () => {
-  let app: any;
-  let fixture: any;
-  let authService: AuthService;
+  let component: ManageUsagersComponent;
+
+  let fixture: ComponentFixture<ManageUsagersComponent>;
 
   const spyScrollTo = jest.fn();
-  beforeAll(async (done) => {
+
+  beforeAll(async () => {
     Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
+
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [ManageUsagersComponent],
       imports: [
-        StatsModule,
-        StructuresModule,
-        GeneralModule,
-        UsersModule,
-        UsagersModule,
         NgbModule,
-        RouterModule.forRoot([]),
-        RouterTestingModule.withRoutes(routes),
+        MatomoModule,
+        RouterTestingModule,
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ToastrModule.forRoot(),
+        HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
       ],
       providers: [
-        UsagerService,
-        AuthService,
         {
           provide: MatomoInjector,
           useValue: {
@@ -62,43 +52,21 @@ describe("ManageUsagersComponent", () => {
           },
         },
         { provide: APP_BASE_HREF, useValue: "/" },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        {
-          multi: true,
-          provide: HTTP_INTERCEPTORS,
-          useClass: ServerErrorInterceptor,
-        },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
-    authService = TestBed.get(AuthService);
-
     fixture = TestBed.createComponent(ManageUsagersComponent);
-    app = fixture.debugElement.componentInstance;
-
-    authService
-      .login("ccastest@yopmail.com", "Azerty012345")
-      .pipe(first())
-      .subscribe(
-        (user) => {
-          app.ngOnInit();
-          done();
-        },
-        (error) => {
-          done();
-        }
-      );
+    component = fixture.debugElement.componentInstance;
   });
 
   it("0. create component", () => {
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it("1. NgOnInit", () => {
-    app.ngOnInit();
-    expect(app.searching).toEqual(true);
-    expect(app.filters).toEqual({
+    expect(component.searching).toEqual(true);
+    expect(component.filters).toEqual({
       echeance: null,
       interactionType: null,
       name: null,
@@ -111,8 +79,9 @@ describe("ManageUsagersComponent", () => {
   });
 
   it("3. Reset Filters", async(() => {
-    app.resetFilters();
-    expect(app.filters).toEqual({
+    component.resetFilters();
+
+    expect(component.filters).toEqual({
       echeance: null,
       interactionType: null,
       name: null,
@@ -125,7 +94,7 @@ describe("ManageUsagersComponent", () => {
   }));
 
   it("X. Small functions : get letter, reset bar, go to profil", () => {
-    app.resetSearchBar();
-    expect(app.filters.name).toEqual("");
+    component.resetSearchBar();
+    expect(component.filters.name).toEqual("");
   });
 });

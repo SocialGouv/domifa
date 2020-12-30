@@ -7,11 +7,12 @@ import { RouterModule } from "@angular/router";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
 import { StatsService } from "./stats.service";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("StatsService", () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterModule.forRoot([])],
+      imports: [HttpClientModule, RouterTestingModule],
       providers: [
         { provide: APP_BASE_HREF, useValue: "/" },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

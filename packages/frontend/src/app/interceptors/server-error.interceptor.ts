@@ -10,7 +10,6 @@ import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
 import { ToastrService } from "ngx-toastr";
-import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -18,8 +17,7 @@ import { Router } from "@angular/router";
 export class ServerErrorInterceptor implements HttpInterceptor {
   constructor(
     public notifService: ToastrService,
-    public authService: AuthService,
-    public router: Router
+    public authService: AuthService
   ) {}
 
   public intercept(
@@ -37,10 +35,6 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           if (error.error instanceof ErrorEvent) {
             errorMessage = { message: `Error: ${error.error.message}` };
           } else {
-            if (error.status === 401) {
-              this.exit();
-              return;
-            }
             const message =
               typeof error.error.message !== "undefined"
                 ? error.error.message
@@ -51,15 +45,5 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         }
       })
     );
-  }
-
-  private exit() {
-    this.authService.logout();
-
-    this.router.navigate(["/connexion"], {
-      queryParams: {
-        returnUrl: this.router.routerState.snapshot.url,
-      },
-    });
   }
 }

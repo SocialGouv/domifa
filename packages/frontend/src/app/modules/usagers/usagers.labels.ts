@@ -6,7 +6,7 @@ export const structureType = {
 };
 
 /* LIENS DE PARENTÉ */
-export const lienParente: { [key: string]: any } = {
+export const lienParente: { [key: string]: string } = {
   AUTRE: "Autre personne à la charge du domicilié",
   CONJOINT: "Conjoint.e",
   ENFANT: "Enfant",
@@ -14,7 +14,7 @@ export const lienParente: { [key: string]: any } = {
 };
 
 /* DÉCISIONS */
-export const decision: { [key: string]: any } = {
+export const decision: { [key: string]: string } = {
   ATTENTE_DECISION: "Demande de domiciliation déposée",
   IMPORT: "Dossier importé",
   INSTRUCTION: "Instruction du dossier",
@@ -26,7 +26,7 @@ export const decision: { [key: string]: any } = {
 };
 
 /* DÉCISIONS */
-export const decisionStats: { [key: string]: any } = {
+export const decisionStats: { [key: string]: string } = {
   TOUS: "Tous",
   ATTENTE_DECISION: "Attente de décision",
   INSTRUCTION: "À compléter",
@@ -36,7 +36,7 @@ export const decisionStats: { [key: string]: any } = {
 };
 
 /* MOTIFS DE RADIATION ET REFUS */
-export const motifsRadiation: { [key: string]: any } = {
+export const motifsRadiation: { [key: string]: string } = {
   A_SA_DEMANDE: "À la demande de la personne",
   PLUS_DE_LIEN_COMMUNE: "Plus de lien avec la commune",
   FIN_DE_DOMICILIATION:
@@ -47,7 +47,7 @@ export const motifsRadiation: { [key: string]: any } = {
   ENTREE_LOGEMENT: "Entrée dans un logement/hébergement stable",
 };
 
-export const motifsRefus: { [key: string]: any } = {
+export const motifsRefus: { [key: string]: string } = {
   HORS_AGREMENT: "En dehors des critères du public domicilié",
   LIEN_COMMUNE: "Absence de lien avec la commune",
   SATURATION: "Nombre maximal de domiciliations atteint",
