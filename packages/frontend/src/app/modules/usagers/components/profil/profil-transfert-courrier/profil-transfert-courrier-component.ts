@@ -33,9 +33,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   public minDateToday: NgbDateStruct;
 
   constructor(
-    private formBuilder: FormBuilder,
     public loadingService: LoadingService,
-    public authService: AuthService,
+    private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
     private usagerService: UsagerService,

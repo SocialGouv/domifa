@@ -26,12 +26,13 @@ describe("ManageUsagersComponent", () => {
   let fixture: any;
 
   const spyScrollTo = jest.fn();
+
   beforeAll(async () => {
     Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
+
     TestBed.configureTestingModule({
       declarations: [ManageUsagersComponent],
       imports: [
-        GeneralModule,
         NgbModule,
         RouterTestingModule,
         ReactiveFormsModule,

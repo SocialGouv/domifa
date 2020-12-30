@@ -12,31 +12,21 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
-import { routes } from "../../../../../../app-routing.module";
-import { GeneralModule } from "../../../../../general/general.module";
-import { StatsModule } from "../../../../../stats/stats.module";
-import { StructuresModule } from "../../../../../structures/structures.module";
 
 describe("DecisionComponent", () => {
   let fixture: ComponentFixture<DecisionComponent>;
-  let app: DecisionComponent;
+  let component: DecisionComponent;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [],
+      declarations: [DecisionComponent],
       imports: [
         MatomoModule,
-        GeneralModule,
-        UsagersModule,
-        StatsModule,
-        StructuresModule,
-        RouterTestingModule.withRoutes(routes),
+        RouterTestingModule,
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
         ToastrModule.forRoot(),
-        BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
       providers: [
@@ -56,13 +46,13 @@ describe("DecisionComponent", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-    fixture = TestBed.createComponent(DecisionComponent);
 
-    app = fixture.debugElement.componentInstance;
+    fixture = TestBed.createComponent(DecisionComponent);
+    component = fixture.debugElement.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it("should create", () => {
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

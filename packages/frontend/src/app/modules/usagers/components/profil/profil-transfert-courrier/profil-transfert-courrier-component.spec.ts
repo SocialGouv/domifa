@@ -1,47 +1,40 @@
 import { APP_BASE_HREF, Location } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { global } from "@angular/compiler/src/util";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { AppComponent } from "src/app/app.component";
-import { GeneralModule } from "src/app/modules/general/general.module";
-import { StatsModule } from "src/app/modules/stats/stats.module";
-import { StructuresModule } from "src/app/modules/structures/structures.module";
-import { UsersModule } from "src/app/modules/users/users.module";
-import { routes } from "../../../../../app-routing.module";
+import { ToastrModule } from "ngx-toastr";
+import { LoadingService } from "../../../../loading/loading.service";
+
 import { Usager } from "../../../interfaces/usager";
-import { InteractionService } from "../../../services/interaction.service";
 import { UsagerService } from "../../../services/usager.service";
-import { UsagersModule } from "../../../usagers.module";
 import { UsagersProfilTransfertCourrierComponent } from "./profil-transfert-courrier-component";
 
 describe("UsagersProfilTransfertCourrierComponent", () => {
-  let fixture: any;
-  let app: UsagersProfilTransfertCourrierComponent;
+  let fixture: ComponentFixture<UsagersProfilTransfertCourrierComponent>;
+  let component: UsagersProfilTransfertCourrierComponent;
 
-  const spyScrollTo = jest.fn();
   beforeEach(async(() => {
-    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
       declarations: [UsagersProfilTransfertCourrierComponent],
       imports: [
-        StructuresModule,
-        NgbModule,
         MatomoModule,
+        RouterTestingModule,
+        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule,
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes(routes),
       ],
       providers: [
-        InteractionService,
+        LoadingService,
         UsagerService,
         {
           provide: MatomoInjector,
@@ -59,14 +52,13 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
+
     fixture = TestBed.createComponent(UsagersProfilTransfertCourrierComponent);
-    app = fixture.debugElement.componentInstance;
-    app.usager = new Usager();
-    fixture.detectChanges();
-    app.ngOnInit();
+    component = fixture.debugElement.componentInstance;
+    component.ngOnInit();
   }));
 
   it("0. Create component", () => {
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

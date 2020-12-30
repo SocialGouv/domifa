@@ -5,12 +5,14 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 import { ToastrModule } from "ngx-toastr";
+import { Usager } from "../../../interfaces/usager";
 
 import { UsagersProfilProcurationCourrierComponent } from "./profil-procuration-courrier-component";
 
@@ -18,29 +20,45 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
   let fixture: any;
   let component: any;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UsagersProfilProcurationCourrierComponent],
       imports: [
+        MatomoModule,
+        RouterTestingModule,
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        ToastrModule.forRoot(),
         HttpClientModule,
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule,
         HttpClientTestingModule,
-        RouterTestingModule,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(
       UsagersProfilProcurationCourrierComponent
     );
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = fixture.debugElement.componentInstance;
+    component.usager = new Usager();
+
+    component.ngOnInit();
   });
 
   it("0. Create component", () => {

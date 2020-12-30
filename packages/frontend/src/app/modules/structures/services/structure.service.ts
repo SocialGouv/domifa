@@ -26,7 +26,6 @@ export class StructureService {
   }
 
   public findMyStructure(): Observable<Structure> {
-    console.log("findMyStructure");
     return this.http.get(`${this.endPoint}/ma-structure`).pipe(
       map((response) => {
         return new Structure(response);
