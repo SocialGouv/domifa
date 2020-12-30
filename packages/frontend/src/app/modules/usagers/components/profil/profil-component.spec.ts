@@ -9,13 +9,8 @@ import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { AppComponent } from "src/app/app.component";
-import { GeneralModule } from "src/app/modules/general/general.module";
-import { StatsModule } from "src/app/modules/stats/stats.module";
-import { StructuresModule } from "src/app/modules/structures/structures.module";
-import { UsersModule } from "src/app/modules/users/users.module";
-import { routes } from "../../../../app-routing.module";
-import { Usager } from "../../interfaces/usager";
+import { ToastrModule } from "ngx-toastr";
+
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
@@ -32,16 +27,11 @@ describe("UsagersProfilComponent", () => {
     TestBed.configureTestingModule({
       declarations: [UsagersProfilComponent],
       imports: [
-        GeneralModule,
-        StatsModule,
-        UsersModule,
-        UsagersModule,
-        StructuresModule,
         NgbModule,
-        UsagersModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
+        ToastrModule.forRoot(),
         HttpClientTestingModule,
         RouterTestingModule,
       ],

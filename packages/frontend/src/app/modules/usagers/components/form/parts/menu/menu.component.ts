@@ -14,7 +14,6 @@ import { AppUser } from "../../../../../../../_common/model";
 })
 export class MenuComponent implements OnInit {
   @Input() public usager!: Usager;
-
   @Input() public currentStep!: number;
 
   public etapes = [
@@ -35,16 +34,16 @@ export class MenuComponent implements OnInit {
   public me: AppUser;
 
   constructor(
-    public authService: AuthService,
+    private authService: AuthService,
     private router: Router,
     private notifService: ToastrService
-  ) {
+  ) {}
+
+  public ngOnInit() {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
-  }
 
-  public ngOnInit() {
     if (
       this.usager.decision.statut === "ATTENTE_DECISION" &&
       this.currentStep !== 4

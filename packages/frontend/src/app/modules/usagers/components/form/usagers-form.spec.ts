@@ -33,10 +33,6 @@ describe("UsagersFormComponent", () => {
       declarations: [UsagersFormComponent],
       imports: [
         MatomoModule,
-        GeneralModule,
-        UsagersModule,
-        StatsModule,
-        StructuresModule,
         RouterTestingModule.withRoutes(routes),
         NgbModule,
         ReactiveFormsModule,

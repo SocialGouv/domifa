@@ -9,6 +9,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
+import { APP_BASE_HREF } from "@angular/common";
+import { Usager } from "../../../../interfaces/usager";
+import { usagerValideMock } from "../../../../../../../_common/mocks/usager.mock";
 
 describe("EntretienFormComponent", () => {
   let component: EntretienFormComponent;
@@ -20,13 +24,28 @@ describe("EntretienFormComponent", () => {
       imports: [
         RouterTestingModule,
         NgbModule,
+        MatomoModule,
         HttpClientModule,
         ToastrModule.forRoot(),
         BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
       declarations: [EntretienFormComponent],
-      providers: [],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
     });
     fixture = TestBed.createComponent(EntretienFormComponent);
     component = fixture.componentInstance;
@@ -34,16 +53,5 @@ describe("EntretienFormComponent", () => {
 
   it("can load instance", () => {
     expect(component).toBeTruthy();
-  });
-
-  describe("getAttestation", () => {
-    it("makes expected calls", () => {
-      const usagerServiceStub: UsagerService = fixture.debugElement.injector.get(
-        UsagerService
-      );
-      spyOn(usagerServiceStub, "attestation").and.callThrough();
-      component.getAttestation();
-      expect(usagerServiceStub.attestation).toHaveBeenCalled();
-    });
   });
 });

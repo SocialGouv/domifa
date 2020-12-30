@@ -14,7 +14,6 @@ import { GeneralModule } from "src/app/modules/general/general.module";
 import { StatsModule } from "src/app/modules/stats/stats.module";
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 import { UsersModule } from "src/app/modules/users/users.module";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { routes } from "../../../../app-routing.module";
 import { UsagerService } from "../../services/usager.service";
 import { UsagersModule } from "../../usagers.module";
@@ -25,7 +24,6 @@ import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 describe("ManageUsagersComponent", () => {
   let app: ManageUsagersComponent;
   let fixture: any;
-  let authService: AuthService;
 
   const spyScrollTo = jest.fn();
   beforeAll(async () => {
@@ -57,8 +55,6 @@ describe("ManageUsagersComponent", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-
-    authService = TestBed.get(AuthService);
 
     fixture = TestBed.createComponent(ManageUsagersComponent);
     app = fixture.debugElement.componentInstance;

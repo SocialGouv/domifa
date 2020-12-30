@@ -168,7 +168,7 @@ export class EditUserComponent implements OnInit {
   public updatePassword() {
     if (!this.passwordForm.invalid) {
       this.userService.updatePassword(this.passwordForm.value).subscribe(
-        (user: any) => {
+        (user: AppUser) => {
           this.editPassword = false;
           this.me.passwordLastUpdate = new Date();
           this.notifService.success(

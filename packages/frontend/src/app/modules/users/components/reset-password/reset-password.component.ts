@@ -6,6 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
 import { Title } from "@angular/platform-browser";
+import { AppUser } from "../../../../../_common/model";
 
 @Component({
   selector: "app-reset-password",
@@ -110,10 +111,10 @@ export class ResetPasswordComponent implements OnInit {
     this.submitted = true;
     if (!this.emailForm.invalid) {
       this.userService.getPasswordToken(this.emailForm.value).subscribe(
-        (user: any) => {
+        (user: AppUser) => {
           this.success = true;
         },
-        (error) => {
+        (error: any) => {
           const errorMessage =
             error.message === "RESET_EMAIL_NOT_EXIST"
               ? "Veuillez vérifier l'adresse email"
@@ -127,11 +128,9 @@ export class ResetPasswordComponent implements OnInit {
   public submitResetForm() {
     this.submitted = true;
     if (!this.resetForm.invalid) {
-      this.userService
-        .resetPassword(this.resetForm.value)
-        .subscribe((user: any) => {
-          this.success = true;
-        });
+      this.userService.resetPassword(this.resetForm.value).subscribe(() => {
+        this.success = true;
+      });
     }
   }
 }

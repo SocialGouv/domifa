@@ -10,7 +10,7 @@ describe("ProfilInfosComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ProfilInfosComponent]
+      declarations: [ProfilInfosComponent],
     });
     fixture = TestBed.createComponent(ProfilInfosComponent);
     component = fixture.componentInstance;

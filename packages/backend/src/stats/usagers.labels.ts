@@ -1,12 +1,12 @@
 /* TYPE DE STRUCTURE */
-export const structureType: { [key: string]: any } = {
+export const structureType: { [key: string]: string } = {
   asso: "Organisme agrée",
   ccas: "CCAS ",
   cias: "CIAS ou commune",
 };
 
 /* LIENS DE PARENTÉ */
-export const lienParente: { [key: string]: any } = {
+export const lienParente: { [key: string]: string } = {
   AUTRE: "Autre personne à la charge du domicilié",
   CONJOINT: "Conjoint.e",
   ENFANT: "Enfant",
@@ -14,7 +14,7 @@ export const lienParente: { [key: string]: any } = {
 };
 
 /* DÉCISIONS */
-export const decision: { [key: string]: any } = {
+export const decision: { [key: string]: string } = {
   ATTENTE_DECISION: "Demande de domiciliation déposée",
   IMPORT: "Dossier importé",
   INSTRUCTION: "Instruction du dossier",
@@ -26,7 +26,7 @@ export const decision: { [key: string]: any } = {
 };
 
 /* DÉCISIONS */
-export const decisionStats: { [key: string]: any } = {
+export const decisionStats: { [key: string]: string } = {
   TOUS: "Tous",
   ATTENTE_DECISION: "Demandes déposées",
   INSTRUCTION: "DOSSIERS EN cours",
@@ -36,7 +36,7 @@ export const decisionStats: { [key: string]: any } = {
 };
 
 /* DÉCISIONS */
-export const decisionLabels: { [key: string]: any } = {
+export const decisionLabels: { [key: string]: string } = {
   ATTENTE_DECISION: "Attente de décision",
   INSTRUCTION: "À compléter",
   RADIE: "Radié",
@@ -45,7 +45,7 @@ export const decisionLabels: { [key: string]: any } = {
 };
 
 /* MOTIFS DE RADIATION ET REFUS */
-export const motifsRadiation: { [key: string]: any } = {
+export const motifsRadiation: { [key: string]: string } = {
   A_SA_DEMANDE: "À la demande de la personne",
   PLUS_DE_LIEN_COMMUNE: "Plus de lien avec la commune",
   FIN_DE_DOMICILIATION:
@@ -56,14 +56,14 @@ export const motifsRadiation: { [key: string]: any } = {
   ENTREE_LOGEMENT: "Entrée dans un logement/hébergement stable",
 };
 
-export const motifsRefus: { [key: string]: any } = {
+export const motifsRefus: { [key: string]: string } = {
   HORS_AGREMENT: "En dehors des critères du public domicilié",
   LIEN_COMMUNE: "Absence de lien avec la commune",
   SATURATION: "Nombre maximal domiciliations atteint",
 };
 
 /* QUESTIONS RÉPONSES DE L'ENTRETIEN SOCIAL */
-export const residence: { [key: string]: any } = {
+export const residence: { [key: string]: string } = {
   AUTRE: "Autre",
   DOMICILE_MOBILE: "Domicile mobile (ex: caravane)",
   HEBERGEMENT_SOCIAL: "Hébergement social (sans service courrier)",
@@ -72,7 +72,7 @@ export const residence: { [key: string]: any } = {
   SANS_ABRI: "Sans abris / Squat",
 };
 
-export const typeMenage: { [key: string]: any } = {
+export const typeMenage: { [key: string]: string } = {
   COUPLE_AVEC_ENFANT: "Couple avec enfant(s)",
   COUPLE_SANS_ENFANT: "Couple sans enfant",
   FEMME_ISOLE_AVEC_ENFANT: "Femme isolée avec enfant(s)",
@@ -81,7 +81,7 @@ export const typeMenage: { [key: string]: any } = {
   HOMME_ISOLE_SANS_ENFANT: "Homme isolé sans enfant",
 };
 
-export const cause: { [key: string]: any } = {
+export const cause: { [key: string]: string } = {
   AUTRE: "Autre",
   ERRANCE: "Errance",
   EXPULSION: "Expulsion",
@@ -92,7 +92,7 @@ export const cause: { [key: string]: any } = {
   VIOLENCE: "Violence familiale et/ou conjugale",
 };
 
-export const raison: { [key: string]: any } = {
+export const raison: { [key: string]: string } = {
   AUTRE: "Autre",
   EXERCICE_DROITS: "Exercice des droits civils ou civiques",
   PRESTATIONS_SOCIALES: "Accès aux prestations sociales",

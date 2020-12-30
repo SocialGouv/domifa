@@ -36,7 +36,7 @@ export class DocumentsFormComponent implements OnInit {
         (usager: Usager) => {
           this.usager = usager;
         },
-        (error) => {
+        () => {
           this.router.navigate(["404"]);
         }
       );

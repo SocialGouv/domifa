@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
+
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import {
   formatDateToNgb,
@@ -40,8 +40,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   public maxDateNaissance: NgbDateStruct;
 
   constructor(
-    private formBuilder: FormBuilder,
     public loadingService: LoadingService,
+    private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
     private usagerService: UsagerService,
@@ -49,6 +49,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   ) {
     this.hideForm();
     this.minDateToday = minDateToday;
+    this.isFormVisible = false;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
   }

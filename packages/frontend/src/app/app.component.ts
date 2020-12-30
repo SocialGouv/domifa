@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
-    this.authService.currentUserSubject.subscribe((user: any) => {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
 

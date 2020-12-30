@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { AppComponent } from "src/app/app.component";
 import { GeneralModule } from "src/app/modules/general/general.module";
 import { StatsModule } from "src/app/modules/stats/stats.module";
@@ -31,13 +31,9 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
     TestBed.configureTestingModule({
       declarations: [UsagersProfilTransfertCourrierComponent],
       imports: [
-        GeneralModule,
-        StatsModule,
-        UsersModule,
-        UsagersModule,
         StructuresModule,
         NgbModule,
-        UsagersModule,
+        MatomoModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
