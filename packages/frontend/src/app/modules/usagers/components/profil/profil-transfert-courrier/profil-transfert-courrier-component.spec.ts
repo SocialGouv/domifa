@@ -23,16 +23,13 @@ import { UsagersProfilTransfertCourrierComponent } from "./profil-transfert-cour
 
 describe("UsagersProfilTransfertCourrierComponent", () => {
   let fixture: any;
-  let app: any;
-  let router: any;
-  let location: Location;
-  let interactionService: InteractionService;
+  let app: UsagersProfilTransfertCourrierComponent;
 
   const spyScrollTo = jest.fn();
   beforeEach(async(() => {
     Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [UsagersProfilTransfertCourrierComponent],
       imports: [
         GeneralModule,
         StatsModule,
@@ -66,11 +63,6 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-
-    interactionService = TestBed.get(InteractionService);
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
-
     fixture = TestBed.createComponent(UsagersProfilTransfertCourrierComponent);
     app = fixture.debugElement.componentInstance;
     app.usager = new Usager();

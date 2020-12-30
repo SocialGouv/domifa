@@ -17,16 +17,16 @@ export class DocumentsFormComponent implements OnInit {
 
   constructor(
     private usagerService: UsagerService,
-    public authService: AuthService,
-    public router: Router,
+    private authService: AuthService,
+    private router: Router,
     private titleService: Title,
     private route: ActivatedRoute
-  ) {
+  ) {}
+  public ngOnInit() {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
-  }
-  public ngOnInit() {
+
     this.titleService.setTitle("Pièces-jointes du dossier");
 
     if (this.route.snapshot.params.id) {

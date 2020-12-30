@@ -23,7 +23,7 @@ import { global } from "@angular/compiler/src/util";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("ManageUsagersComponent", () => {
-  let app: any;
+  let app: ManageUsagersComponent;
   let fixture: any;
   let authService: AuthService;
 
@@ -31,23 +31,16 @@ describe("ManageUsagersComponent", () => {
   beforeAll(async () => {
     Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [ManageUsagersComponent],
       imports: [
-        StatsModule,
-        StructuresModule,
         GeneralModule,
-        UsersModule,
-        UsagersModule,
         NgbModule,
-        RouterModule.forRoot([]),
-        RouterTestingModule.withRoutes(routes),
+        RouterTestingModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
       ],
       providers: [
-        UsagerService,
-        AuthService,
         {
           provide: MatomoInjector,
           useValue: {
@@ -61,12 +54,6 @@ describe("ManageUsagersComponent", () => {
           },
         },
         { provide: APP_BASE_HREF, useValue: "/" },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        {
-          multi: true,
-          provide: HTTP_INTERCEPTORS,
-          useClass: ServerErrorInterceptor,
-        },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

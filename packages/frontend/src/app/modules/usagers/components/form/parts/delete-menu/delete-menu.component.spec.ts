@@ -1,47 +1,52 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { TemplateRef } from "@angular/core";
-import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+
 import { DeleteMenuComponent } from "./delete-menu.component";
+import { APP_BASE_HREF } from "@angular/common";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { HttpClientModule } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrModule } from "ngx-toastr";
+import { RouterTestingModule } from "@angular/router/testing";
+import { routes } from "../../../../../../app-routing.module";
 
 describe("DeleteMenuComponent", () => {
   let component: DeleteMenuComponent;
   let fixture: ComponentFixture<DeleteMenuComponent>;
 
   beforeEach(() => {
-    const routerStub = () => ({ navigate: (array) => ({}) });
-    const ngbModalStub = () => ({
-      open: (content) => ({}),
-      dismissAll: () => ({}),
-    });
-    const toastrServiceStub = () => ({
-      success: (string) => ({}),
-      error: (string) => ({}),
-    });
-    const authServiceStub = () => ({
-      currentUserSubject: { subscribe: (f) => f({}) },
-    });
-    const usagerServiceStub = () => ({
-      delete: (id) => ({ subscribe: (f) => f({}) }),
-      deleteRenew: (id) => ({ subscribe: (f) => f({}) }),
-    });
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [DeleteMenuComponent],
-      providers: [
-        { provide: Router, useFactory: routerStub },
-        { provide: NgbModal, useFactory: ngbModalStub },
-        { provide: ToastrService, useFactory: toastrServiceStub },
-        { provide: AuthService, useFactory: authServiceStub },
-        { provide: UsagerService, useFactory: usagerServiceStub },
+      imports: [
+        RouterTestingModule,
+        NgbModule,
+        HttpClientModule,
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule,
+        HttpClientTestingModule,
       ],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      declarations: [DeleteMenuComponent],
     });
     fixture = TestBed.createComponent(DeleteMenuComponent);
-    component = fixture.componentInstance;
+    component = fixture.debugElement.componentInstance;
+    component.ngOnInit();
   });
 
   it("can load instance", () => {

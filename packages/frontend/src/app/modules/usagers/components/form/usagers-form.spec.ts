@@ -30,7 +30,7 @@ describe("UsagersFormComponent", () => {
   beforeEach(async(() => {
     Object.defineProperty(global.window, "scrollTo", { value: spyScrollTo });
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [UsagersFormComponent],
       imports: [
         MatomoModule,
         GeneralModule,

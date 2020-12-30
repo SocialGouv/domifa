@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
+import { Structure } from "../../structure.interface";
 
 import { StructureEditFormComponent } from "./structure-edit-form.component";
 
@@ -31,7 +32,9 @@ describe("StructureEditFormComponent", () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(StructureEditFormComponent);
+
     component = fixture.componentInstance;
+    component.structure = new Structure();
     fixture.detectChanges();
   });
 

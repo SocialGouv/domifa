@@ -23,17 +23,14 @@ import { UsagersProfilComponent } from "./profil-component";
 
 describe("UsagersProfilComponent", () => {
   let fixture: any;
-  let app: any;
-  let router: any;
-  let location: Location;
+  let app: UsagersProfilComponent;
 
-  let interactionService: InteractionService;
   const spyScrollTo = jest.fn();
 
   beforeEach(async(() => {
     Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [UsagersProfilComponent],
       imports: [
         GeneralModule,
         StatsModule,
@@ -46,7 +43,7 @@ describe("UsagersProfilComponent", () => {
         FormsModule,
         HttpClientModule,
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes(routes),
+        RouterTestingModule,
       ],
       providers: [
         InteractionService,
@@ -67,10 +64,6 @@ describe("UsagersProfilComponent", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-
-    interactionService = TestBed.get(InteractionService);
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
 
     fixture = TestBed.createComponent(UsagersProfilComponent);
     app = fixture.debugElement.componentInstance;

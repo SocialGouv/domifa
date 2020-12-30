@@ -8,7 +8,7 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import {
   formatDateToNgb,
   minDateNaissance,
-  minDateToday
+  minDateToday,
 } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
 import { AppUser, UserRole } from "../../../../../../_common/model";
@@ -42,7 +42,6 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public loadingService: LoadingService,
-    public authService: AuthService,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
     private usagerService: UsagerService,
@@ -117,7 +116,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     };
 
     this.usagerService.editProcuration(formValue, this.usager.id).subscribe(
-      (usager: any) => {
+      (usager: Usager) => {
         this.hideForm();
         this.usager.options = new Options(usager.options);
         this.notifService.success("Procuration ajoutée avec succès");
@@ -131,14 +130,14 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
 
   public deleteProcuration() {
     this.usagerService.deleteProcuration(this.usager.id).subscribe(
-      (usager: any) => {
+      (usager: Usager) => {
         this.hideForm();
         this.procurationForm.reset();
         this.usager.options = usager.options;
         this.notifService.success("Procuration supprimée avec succès");
         this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible de supprimer la procuration");
       }
     );

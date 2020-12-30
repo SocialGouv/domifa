@@ -58,14 +58,14 @@ export class UsagersProfilComponent implements OnInit {
 
   public interactionsLabels: {
     [key: string]: any;
-  };
+  } = interactionsLabels;
 
   public actions: {
     [key: string]: any;
   };
 
-  public labels: any;
-  public liensLabels: any;
+  public labels: any = usagersLabels;
+  public liensLabels: any = Object.keys(this.labels.lienParente);
 
   public usager: Usager;
   public usagerForm!: FormGroup;
@@ -105,9 +105,6 @@ export class UsagersProfilComponent implements OnInit {
     this.today = new Date();
 
     this.interactions = [];
-    this.interactionsLabels = interactionsLabels;
-    this.liensLabels = Object.keys(this.labels.lienParente);
-    this.labels = usagersLabels;
 
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
