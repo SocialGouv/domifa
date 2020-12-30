@@ -33,7 +33,6 @@ import { languagesAutocomplete } from "../../../../shared";
 
 @Component({
   providers: [
-    UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },

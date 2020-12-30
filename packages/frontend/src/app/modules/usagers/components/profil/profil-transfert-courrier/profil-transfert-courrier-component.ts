@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateParserFormatter,
+  NgbDatepickerI18n,
+  NgbDateStruct,
+} from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
@@ -9,11 +13,17 @@ import { formatDateToNgb, minDateToday } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
 import { AppUser, UserRole } from "../../../../../../_common/model";
 import { LoadingService } from "../../../../loading/loading.service";
+import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
 import { Options } from "../../../interfaces/options";
 import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
 
 @Component({
+  providers: [
+    NgbDateCustomParserFormatter,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+  ],
   selector: "app-profil-transfert-courrier",
   styleUrls: ["./profil-transfert-courrier.css"],
   templateUrl: "./profil-transfert-courrier.html",

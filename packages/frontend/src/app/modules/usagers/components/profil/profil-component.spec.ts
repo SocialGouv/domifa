@@ -3,37 +3,42 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { global } from "@angular/compiler/src/util";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
+
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
+import { NotFoundComponent } from "../../../general/components/errors/not-found/not-found.component";
 
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
-import { UsagersModule } from "../../usagers.module";
+
 import { UsagersProfilComponent } from "./profil-component";
 
 describe("UsagersProfilComponent", () => {
-  let fixture: any;
-  let app: UsagersProfilComponent;
+  let fixture: ComponentFixture<UsagersProfilComponent>;
 
-  const spyScrollTo = jest.fn();
+  let component: UsagersProfilComponent;
 
   beforeEach(async(() => {
-    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
     TestBed.configureTestingModule({
-      declarations: [UsagersProfilComponent],
+      declarations: [UsagersProfilComponent, NotFoundComponent],
       imports: [
+        NgbModule,
+        MatomoModule,
+        RouterTestingModule.withRoutes([
+          { path: "404", component: NotFoundComponent },
+        ]),
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
         ToastrModule.forRoot(),
         HttpClientTestingModule,
-        RouterTestingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
       ],
       providers: [
         InteractionService,
@@ -56,11 +61,11 @@ describe("UsagersProfilComponent", () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(UsagersProfilComponent);
-    app = fixture.debugElement.componentInstance;
-    app.ngOnInit();
+    component = fixture.debugElement.componentInstance;
+    component.ngOnInit();
   }));
 
   it("0. Create component", () => {
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

@@ -1,29 +1,22 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { AppComponent } from "src/app/app.component";
 
-import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
-import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
-import { GeneralModule } from "src/app/modules/general/general.module";
-import { StatsModule } from "src/app/modules/stats/stats.module";
-import { StructuresModule } from "src/app/modules/structures/structures.module";
-import { UsersModule } from "src/app/modules/users/users.module";
-import { routes } from "../../../../app-routing.module";
-import { UsagerService } from "../../services/usager.service";
-import { UsagersModule } from "../../usagers.module";
 import { ManageUsagersComponent } from "./manage.component";
 import { global } from "@angular/compiler/src/util";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ToastrModule } from "ngx-toastr";
 
 describe("ManageUsagersComponent", () => {
-  let app: ManageUsagersComponent;
-  let fixture: any;
+  let component: ManageUsagersComponent;
+
+  let fixture: ComponentFixture<ManageUsagersComponent>;
 
   const spyScrollTo = jest.fn();
 
@@ -34,7 +27,13 @@ describe("ManageUsagersComponent", () => {
       declarations: [ManageUsagersComponent],
       imports: [
         NgbModule,
+        MatomoModule,
         RouterTestingModule,
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ToastrModule.forRoot(),
+        HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
@@ -58,16 +57,16 @@ describe("ManageUsagersComponent", () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(ManageUsagersComponent);
-    app = fixture.debugElement.componentInstance;
+    component = fixture.debugElement.componentInstance;
   });
 
   it("0. create component", () => {
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it("1. NgOnInit", () => {
-    expect(app.searching).toEqual(true);
-    expect(app.filters).toEqual({
+    expect(component.searching).toEqual(true);
+    expect(component.filters).toEqual({
       echeance: null,
       interactionType: null,
       name: null,
@@ -80,9 +79,9 @@ describe("ManageUsagersComponent", () => {
   });
 
   it("3. Reset Filters", async(() => {
-    app.resetFilters();
+    component.resetFilters();
 
-    expect(app.filters).toEqual({
+    expect(component.filters).toEqual({
       echeance: null,
       interactionType: null,
       name: null,
@@ -95,7 +94,7 @@ describe("ManageUsagersComponent", () => {
   }));
 
   it("X. Small functions : get letter, reset bar, go to profil", () => {
-    app.resetSearchBar();
-    expect(app.filters.name).toEqual("");
+    component.resetSearchBar();
+    expect(component.filters.name).toEqual("");
   });
 });

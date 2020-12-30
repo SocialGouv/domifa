@@ -12,6 +12,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 import { ToastrModule } from "ngx-toastr";
+import { usagerValideMock } from "../../../../../../_common/mocks/usager.mock";
+import { NotFoundComponent } from "../../../../general/components/errors/not-found/not-found.component";
 import { Usager } from "../../../interfaces/usager";
 
 import { UsagersProfilProcurationCourrierComponent } from "./profil-procuration-courrier-component";
@@ -22,17 +24,24 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UsagersProfilProcurationCourrierComponent],
+      declarations: [
+        UsagersProfilProcurationCourrierComponent,
+        NotFoundComponent,
+      ],
       imports: [
+        NgbModule,
         MatomoModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: "404", component: NotFoundComponent },
+        ]),
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
         ToastrModule.forRoot(),
-        BrowserAnimationsModule,
         HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
       ],
       providers: [
         {
@@ -56,7 +65,7 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
       UsagersProfilProcurationCourrierComponent
     );
     component = fixture.debugElement.componentInstance;
-    component.usager = new Usager();
+    component.usager = new Usager(usagerValideMock);
 
     component.ngOnInit();
   });
