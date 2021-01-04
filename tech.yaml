@@ -1,0 +1,44 @@
+name: Domifa
+homepage: https://domifa.fabrique.social.gouv.fr
+
+# List your code repos
+repositories:
+  Domifa: https://github.com/SocialGouv/domifa
+
+# List all docs links
+documentation:
+  Documentation technique: https://github.com/SocialGouv/domifa/tree/master/_docs
+  Documents: https://nextcloud.fabrique.social.gouv.fr/
+  Carnets: https://carnets.fabrique.social.gouv.fr/team/domifa
+
+# List all the tools used by the team
+tools:
+  kanban dashboard: https://github.com/SocialGouv/domifa/projects/1
+  roadmaps: https://trello.com
+  ticketing: https://github.com/SocialGouv/domifa/issues
+  sentry (backend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-backend
+  sentry (frontend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-frontend
+  matomo: https://matomo.fabrique.social.gouv.fr
+  mails (prod+dev): https://app.tipimail.com/
+  mails (dev): https://mailtrap.io/
+  sms (dev): https://www.spot-hit.fr/
+
+# Overall technical stack
+stack:
+  frontend:
+    - AngularJS
+    - Typescript
+  backend:
+    - NestJS
+    - MongoDB (deprecated)
+    - PostgreSQL
+    - Typescript
+  tests:
+    - e2e: codeceptjs/puppeteer
+    - frontend: unit tests
+    - backend: unit tests + integration tests
+  ci:
+    - Gitlab-ci (tests, build, register docker images)
+  deployment:
+    - internal VM
+    - docker-compose
