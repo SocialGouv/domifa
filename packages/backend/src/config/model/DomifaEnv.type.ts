@@ -14,7 +14,7 @@ export type DomifaEnv = {
   SECRET: string;
   UPLOADS_FOLDER: string;
   DOMIFA_ENV_ID: string;
-  DOMIFA_VERSION: string;
+  DOMIFA_DOCKER_IMAGE_VERSION: string;
   DOMIFA_MONGOOSE_DEBUG: string;
   DOMIFA_SWAGGER_ENABLE: string;
   DOMIFA_EMAILS_ENABLE: string;
