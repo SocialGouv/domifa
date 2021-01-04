@@ -1,11 +1,11 @@
-import { Controller, Get, Inject, Query, UseGuards } from "@nestjs/common";
+import { Controller, Get, Query, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as moment from "moment";
-import { Model } from "mongoose";
+
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
-import { Structure } from "../../structures/structure-interface";
+
 import { AppAuthUser } from "../../_common/model";
 import { SearchDto } from "../dto/search.dto";
 import { SearchQuery } from "../interfaces/search-query";
@@ -18,8 +18,7 @@ import { UsagersService } from "../services/usagers.service";
 export class SearchController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly statsService: StatsGeneratorService,
-    @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
+    private readonly statsService: StatsGeneratorService
   ) {}
 
   @Get("")
