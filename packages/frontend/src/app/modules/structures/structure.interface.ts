@@ -30,7 +30,6 @@ export class Structure {
   };
 
   public options: {
-    colis: boolean;
     numeroBoite: boolean;
   };
 
@@ -83,12 +82,10 @@ export class Structure {
     };
 
     this.options = {
-      colis: false,
       numeroBoite: false,
     };
 
     if (structure && structure.options) {
-      this.options.colis = structure.options.colis || false;
       this.options.numeroBoite = structure.options.numeroBoite || false;
     }
 

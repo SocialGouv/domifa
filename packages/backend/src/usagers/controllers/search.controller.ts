@@ -165,9 +165,7 @@ export class SearchController {
       } else if (query.sortKey === "NAME") {
         sort = { nom: query.sortValue, prenom: "ascending" };
       } else if (query.sortKey === "ID") {
-        sort = user.structure.options.customId
-          ? { customId: query.sortValue }
-          : { id: query.sortValue };
+        sort = { customId: query.sortValue };
       }
     }
 

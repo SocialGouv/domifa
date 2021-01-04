@@ -69,7 +69,6 @@ export class StructureEditFormComponent implements OnInit {
       ],
       nom: [this.structure.nom, [Validators.required]],
       options: this.formBuilder.group({
-        colis: [this.structure.options.colis, []],
         numeroBoite: [this.structure.options.numeroBoite, []],
       }),
       adresseCourrier: this.formBuilder.group({

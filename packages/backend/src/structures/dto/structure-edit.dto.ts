@@ -51,11 +51,7 @@ export class StructureEditDto {
   @IsNotEmpty()
   @IsObject()
   public options!: {
-    colis: boolean;
-    customId: boolean;
-    rattachement: boolean;
     numeroBoite: boolean;
-    mailsRdv: boolean;
   };
 
   @IsOptional()
