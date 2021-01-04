@@ -90,7 +90,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
 
   const config: DomifaConfig = {
     envId,
-    version: configParser.parseString(x, "DOMIFA_VERSION", {
+    version: configParser.parseString(x, "DOMIFA_DOCKER_IMAGE_VERSION", {
       defaultValue: process.env.npm_package_version,
       required: false,
     }),

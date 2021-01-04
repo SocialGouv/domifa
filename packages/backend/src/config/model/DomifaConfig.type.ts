@@ -5,7 +5,7 @@ import { DomifaEnvId } from "./DomifaEnvId.type";
 
 export type DomifaConfig = {
   envId: DomifaEnvId; // DOMIFA_ENV_ID
-  version: string; // DOMIFA_VERSION (default to process.env.npm_package_version)
+  version: string; // DOMIFA_DOCKER_IMAGE_VERSION (default to process.env.npm_package_version)
   apps: {
     frontendUrl: string; // DOMIFA_FRONTEND_URL
     backendUrl: string; // DOMIFA_BACKEND_URL
