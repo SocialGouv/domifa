@@ -3,6 +3,7 @@
 export const environment = {
   apiUrl: "%%DOMIFA_BACKEND_URL%%", // https://domifa-api.fabrique.social.gouv.fr/
   production: true,
+  env: "%%DOMIFA_ENV_ID%%",
   matomo: {
     url: "https://matomo.fabrique.social.gouv.fr/",
     siteId: 17, // 17=prod, 18=dev,tests

@@ -14,7 +14,6 @@ import { appUserBuilder } from "../../users/services";
   providedIn: "root",
 })
 export class AuthService {
-  public currentUser: Observable<AppUser>;
   public currentUserSubject: BehaviorSubject<AppUser>;
 
   private endPoint = environment.apiUrl + "auth";
@@ -73,11 +72,9 @@ export class AuthService {
 
         this.currentUserSubject.next(user);
 
-        console.log(user);
         return true;
       }),
       catchError((err: any) => {
-        console.log(err);
         return of(false);
       })
     );

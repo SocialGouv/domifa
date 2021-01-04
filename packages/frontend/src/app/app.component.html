@@ -164,6 +164,39 @@
   </div>
 </div>
 
+<ng-template #maintenanceModal let-modal>
+  <div class="modal-body text-center">
+    <h4 class="modal-title">⚠️ Maintenance en cours de Domifa ⚠️</h4>
+    <br />
+    Veuillez nous excuser pour la gêne occasionnée.
+    <br />
+    Vous pourrez de nouveau utiliser Domifa dans quelques minutes.
+
+    <br /><br />
+
+    Cette fenêtre disparaitra dès la fin de la maintenance.
+    <br />
+    <br />
+  </div>
+</ng-template>
+
+<ng-template #versionModal let-modal>
+  <div class="modal-body text-center">
+    <h4 class="modal-title">
+      ℹ️ Une nouvelle version de Domifa est disponible
+    </h4>
+    <br />
+    Afin de profiter des nouveautés de Domifa, vous devez actualiser la page.
+    <br /><br />
+    <button class="btn btn-primary" (click)="refresh()">
+      <fa-icon icon="refresh"></fa-icon> Actualiser
+    </button>
+
+    <br />
+    <br />
+  </div>
+</ng-template>
+
 <ng-template #newsCenter let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
@@ -213,9 +246,10 @@
     </button>
   </div>
 </ng-template>
+
 <ng-template #helpCenter let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Centre d'aide Domifa</h4>
+    <h4 class="modal-title">Centre d'aide Domifa</h4>
     <button
       type="button"
       class="close"

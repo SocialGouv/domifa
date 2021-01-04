@@ -36,6 +36,7 @@ import { CountUpModule } from "ngx-countup";
 import * as Sentry from "@sentry/browser";
 import { environment } from "src/environments/environment";
 import { SharedModule } from "./modules/shared/shared.module";
+import { HealthCheckService } from "./modules/shared/services/health-check.service";
 
 if (environment.production) {
   Sentry.init({
@@ -76,6 +77,7 @@ if (environment.production) {
   ],
   providers: [
     AuthService,
+    HealthCheckService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       deps: [Router, AuthService],

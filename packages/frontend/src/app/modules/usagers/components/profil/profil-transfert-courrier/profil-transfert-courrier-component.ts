@@ -111,7 +111,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     };
 
     this.usagerService.editTransfert(formValue, this.usager.id).subscribe(
-      (usager: any) => {
+      (usager: Usager) => {
         this.hideForm();
 
         this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
@@ -127,7 +127,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
 
   public deleteTransfert() {
     this.usagerService.deleteTransfert(this.usager.id).subscribe(
-      (usager: any) => {
+      (usager: Usager) => {
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
         this.transfertForm.reset();

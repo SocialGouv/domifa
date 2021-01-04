@@ -7,6 +7,7 @@ import { DateFrDirective } from "./directives/date-fr.directive";
 import { DigitOnlyDirective } from "./directives/digit-only.directive";
 import { CleanStrDirective } from "./directives/clean-str.directive";
 import { AuthService } from "./services/auth.service";
+import { HealthCheckService } from "./services/health-check.service";
 
 @NgModule({
   declarations: [DigitOnlyDirective, DateFrDirective, CleanStrDirective],

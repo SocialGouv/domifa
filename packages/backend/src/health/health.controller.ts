@@ -4,6 +4,7 @@ import {
   HealthCheck,
   HealthCheckService,
   MongooseHealthIndicator,
+  HealthIndicatorResult,
 } from "@nestjs/terminus";
 import { domifaConfig } from "../config";
 import { appLogger } from "../util";
@@ -23,6 +24,13 @@ export class HealthController {
   healthCheck() {
     const frontUrl = domifaConfig().apps.frontendUrl;
 
+    const version: HealthIndicatorResult = {
+      version: {
+        info: "9",
+        status: "up",
+      },
+    };
+
     return this.health.check([
       async () => this.postgresIndicator.pingCheck("postgres"),
       async () => this.mongooseIndicator.pingCheck("mongo"),
@@ -34,6 +42,7 @@ export class HealthController {
           );
           throw err;
         }),
+      async () => version,
     ]);
   }
 }
