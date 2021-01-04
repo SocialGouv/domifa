@@ -5,6 +5,7 @@ import {
   MessageEmailContent,
   messageEmailRepository,
   MessageEmailTable,
+  pgBinaryUtil,
 } from "../../database";
 import { MessageEmailConsummer } from "./message-email-consumer.service";
 
@@ -19,12 +20,15 @@ export class MessageEmailSender {
       emailId,
     }: Pick<MessageEmail, "initialScheduledDate" | "emailId">
   ) {
+    const attachments = pgBinaryUtil.write(content.attachments);
+    delete content.attachments;
     const messageEmail = new MessageEmailTable({
       status: "pending",
       initialScheduledDate,
       nextScheduledDate: initialScheduledDate,
       emailId,
       content,
+      attachments,
     });
 
     await messageEmailRepository.save(messageEmail);

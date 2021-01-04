@@ -10,6 +10,7 @@ import { catchError, switchMap } from "rxjs/operators";
 import { domifaConfig } from "../../config";
 import {
   dataEmailAnonymizer,
+  MessageEmailAttachement,
   MessageEmailContent,
   MessageEmailRecipient,
   MessageEmailSendDetails,
@@ -40,15 +41,8 @@ export class TipimailSender {
   }
 
   public async trySendToTipimail(
-    message: MessageEmailContent & {
-      attachments?: [
-        {
-          contentType: string;
-          filename: string;
-          content: any;
-        }
-      ];
-    }
+    message: Omit<MessageEmailContent, "attachments">,
+    attachments?: MessageEmailAttachement[]
   ): Promise<MessageEmailSendDetails> {
     const { toSend, toSkip } = this._classifyRecipients(message.to);
 
@@ -98,24 +92,24 @@ export class TipimailSender {
         .join(", ")})`;
     }
 
-    return this._postTipimailMessage({ toSend, message, subject, toSkip });
+    return this._postTipimailMessage({
+      toSend,
+      message,
+      attachments,
+      subject,
+      toSkip,
+    });
   }
   private _postTipimailMessage({
     toSend,
     message,
+    attachments,
     subject,
     toSkip,
   }: {
     toSend: MessageEmailRecipient[];
-    message: MessageEmailContent & {
-      attachments?: [
-        {
-          contentType: string;
-          filename: string;
-          content: any;
-        }
-      ];
-    };
+    message: Omit<MessageEmailContent, "attachments">;
+    attachments?: MessageEmailAttachement[];
     subject: string;
     toSkip: MessageEmailRecipient[];
   }): Promise<MessageEmailSendDetails> {
@@ -129,10 +123,12 @@ export class TipimailSender {
         from: message.from,
         replyTo: message.replyTo,
         subject,
-        attachments: message.attachments,
+        attachments: attachments,
         html: `<p>Le template "${message.tipimailTemplateId}" n'existe pas.</p>`,
       },
     };
+
+    console.log("xxx post:", JSON.stringify(post, undefined, 2));
 
     // https://docs.tipimail.com/fr/integrate/api/messages
     return this.httpService
@@ -177,6 +173,7 @@ export class TipimailSender {
               sentryBreadcrumb: true,
             }
           );
+          console.error("xxx err", err);
           appLogger.error(`[TipimailSender] Error sending tipimail message`);
           return throwError(
             new HttpException(

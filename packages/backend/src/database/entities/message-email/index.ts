@@ -1,4 +1,5 @@
 export * from "./MessageEmail.type";
+export * from "./MessageEmailAttachement.type";
 export * from "./MessageEmailContent.type";
 export * from "./MessageEmailContentFull.type";
 export * from "./MessageEmailContentModel.type";

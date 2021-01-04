@@ -9,6 +9,7 @@ import {
   messageEmailRepository,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
+  pgBinaryUtil,
   typeOrmSearch,
 } from "../../database";
 import { appLogger } from "../../util";
@@ -58,8 +59,19 @@ export class MessageEmailConsummer {
 
         for (const messageEmail of messageEmails) {
           try {
+            const attachments = pgBinaryUtil.read<
+              [
+                {
+                  contentType: string;
+                  filename: string;
+                  content: any;
+                }
+              ]
+            >(messageEmail.attachments);
+
             messageEmail.sendDetails = await this.tipimailSender.trySendToTipimail(
-              messageEmail.content
+              messageEmail.content,
+              attachments
             );
             messageEmail.sendDate = new Date();
             messageEmail.status = "sent";

@@ -4,17 +4,13 @@ import { domifaConfig } from "../../config";
 import { AppUserForAdminEmail, MessageEmailContent } from "../../database";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { MessageEmailSender } from "./message-email-sender.service";
-import { TipimailSender } from "./tipimail-sender.service";
 
 @Injectable()
 export class UsagersMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(
-    private tipimailSender: TipimailSender,
-    private messageEmailSender: MessageEmailSender
-  ) {
+  constructor(private messageEmailSender: MessageEmailSender) {
     this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
     this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
@@ -68,10 +64,6 @@ export class UsagersMailsService {
         personalName: "Domifa",
         address: this.domifaAdminMail,
       },
-    };
-
-    await this.tipimailSender.trySendToTipimail({
-      ...messageContent,
       attachments: [
         {
           contentType: "text/calendar",
@@ -79,12 +71,12 @@ export class UsagersMailsService {
           content: event,
         },
       ],
-    });
+    };
 
-    // await this.messageEmailSender.sendMailLater(messageContent, {
-    //   emailId: "usager-appointment-created",
-    //   initialScheduledDate: new Date(),
-    // });
+    await this.messageEmailSender.sendMailLater(messageContent, {
+      emailId: "usager-appointment-created",
+      initialScheduledDate: new Date(),
+    });
   }
 
   public async hardReset(user: AppUserForAdminEmail, token: string) {
