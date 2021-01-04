@@ -126,12 +126,14 @@
             placeholder="Numéro et nom de rue, batiment, etc."
             [ngClass]="{
               'is-invalid':
+                submitted &&
                 f.adresseCourrier.get('actif').value === true &&
                 f.adresseCourrier.get('adresse').errors
             }"
           />
           <div
             *ngIf="
+              submitted &&
               f.adresseCourrier.get('actif').value === true &&
               f.adresseCourrier.get('adresse').errors
             "
@@ -150,12 +152,14 @@
             formControlName="codePostal"
             [ngClass]="{
               'is-invalid':
+                submitted &&
                 f.adresseCourrier.get('actif').value === true &&
                 f.adresseCourrier.get('codePostal').errors
             }"
           />
           <div
             *ngIf="
+              submitted &&
               f.adresseCourrier.get('actif').value === true &&
               f.adresseCourrier.get('codePostal').errors
             "
@@ -173,12 +177,14 @@
             formControlName="ville"
             [ngClass]="{
               'is-invalid':
+                submitted &&
                 f.adresseCourrier.get('actif').value === true &&
                 f.adresseCourrier.get('ville').errors
             }"
           />
           <div
             *ngIf="
+              submitted &&
               f.adresseCourrier.get('actif').value === true &&
               f.adresseCourrier.get('ville').errors
             "
@@ -226,7 +232,7 @@
             <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
             <b>L'adresse email est déjà utilisée</b>
           </div>
-          <div *ngIf="!f.email.errors.emailTaken">
+          <div *ngIf="submitted && !f.email.errors.emailTaken">
             Veuillez vérifier l'adresse email
           </div>
         </div>
