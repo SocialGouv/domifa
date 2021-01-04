@@ -19,10 +19,8 @@
       >
         <h2 id="profil_name">{{ usager.nomComplet }}</h2>
         Numéro domicilié :
-        <b *ngIf="usager.customId && me.structure.options.customId"
-          >{{ usager.customId }}</b
-        >
-        <b *ngIf="!me.structure.options.customId">{{ usager.id }}</b>
+        <b *ngIf="usager.customId">{{ usager.customId }}</b>
+        <b *ngIf="!usager.customId">{{ usager.id }}</b>
       </div>
       <div class="text-center" *ngIf="usager.decision.statut === 'REFUS'">
         <div class="text-radiation text-danger">
@@ -661,10 +659,7 @@
               </div>
             </div>
 
-            <div
-              class="col-md-4 form-group"
-              *ngIf="me.structure.options.customId === true"
-            >
+            <div class="col-md-4 form-group">
               <label for="email">Identifiant personnalisé</label>
               <input
                 type="text"

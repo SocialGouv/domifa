@@ -26,8 +26,12 @@ export class UsersService {
     );
   }
 
-  public validateEmail(email: string): Observable<any> {
-    return this.http.post(`${this.endPoint}/validate-email`, { email });
+  public validateEmail(email: string): Observable<boolean> {
+    return this.http.post(`${this.endPoint}/validate-email`, { email }).pipe(
+      map((response: boolean) => {
+        return response;
+      })
+    );
   }
 
   public create(data: any) {

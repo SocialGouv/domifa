@@ -33,15 +33,17 @@ export class StructureService {
     );
   }
 
-  public find(codePostal: string): Observable<any> {
-    return this.http.get(`${this.endPoint}/code-postal/${codePostal}`);
+  public find(codePostal: string): Observable<Structure[]> {
+    return this.http.get(`${this.endPoint}/code-postal/${codePostal}`).pipe(
+      map((response) => {
+        return Array.isArray(response)
+          ? response.map((item) => new Structure(item))
+          : [new Structure(response)];
+      })
+    );
   }
 
-  public findAll(): Observable<any> {
-    return this.http.get(`${this.endPoint}`);
-  }
-
-  public create(structure: Structure): Observable<any> {
+  public create(structure: Structure): Observable<Structure> {
     return this.http.post(`${this.endPoint}`, structure).pipe(
       map((response) => {
         return new Structure(response);
@@ -49,7 +51,7 @@ export class StructureService {
     );
   }
 
-  public prePost(structure: Structure): Observable<any> {
+  public prePost(structure: Structure): Observable<Structure> {
     return this.http.post(`${this.endPoint}/pre-post`, structure).pipe(
       map((response) => {
         return new Structure(response);
@@ -57,7 +59,7 @@ export class StructureService {
     );
   }
 
-  public patch(structure: Structure): Observable<any> {
+  public patch(structure: Structure): Observable<Structure> {
     return this.http.patch(`${this.endPoint}`, structure).pipe(
       map((response) => {
         return new Structure(response);
@@ -81,8 +83,12 @@ export class StructureService {
     );
   }
 
-  public validateEmail(email: string): Observable<any> {
-    return this.http.post(`${this.endPoint}/validate-email`, { email });
+  public validateEmail(email: string): Observable<boolean> {
+    return this.http.post(`${this.endPoint}/validate-email`, { email }).pipe(
+      map((response: boolean) => {
+        return response;
+      })
+    );
   }
 
   public hardReset() {

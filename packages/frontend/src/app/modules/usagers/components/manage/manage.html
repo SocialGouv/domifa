@@ -327,12 +327,8 @@
       <tbody *ngFor="let usager of usagers; let i = index">
         <tr>
           <td (click)="goToProfil(usager)" class="text-center">
-            <span *ngIf="usager.customId && me.structure.options.customId"
-              >{{ usager.customId }}</span
-            >
-            <span *ngIf="!me.structure.options.customId || !usager.customId "
-              >{{ usager.id }}</span
-            >
+            <span *ngIf="usager.customId">{{ usager.customId }}</span>
+            <span *ngIf="!usager.customId ">{{ usager.id }}</span>
           </td>
 
           <td
