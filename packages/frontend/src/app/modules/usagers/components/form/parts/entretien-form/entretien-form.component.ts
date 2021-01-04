@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { Usager } from "src/app/modules/usagers/interfaces/usager";
@@ -20,18 +20,18 @@ export class EntretienFormComponent implements OnInit {
   constructor(
     private usagerService: UsagerService,
     private notifService: ToastrService,
-    public authService: AuthService,
+    private authService: AuthService,
     private router: Router,
     private titleService: Title,
     private route: ActivatedRoute
-  ) {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
-      this.me = user;
-    });
-  }
+  ) {}
 
   public ngOnInit() {
     this.titleService.setTitle("Entretien avec l'usager");
+
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.me = user;
+    });
 
     if (this.route.snapshot.params.id) {
       const id = this.route.snapshot.params.id;
@@ -40,7 +40,7 @@ export class EntretienFormComponent implements OnInit {
         (usager: Usager) => {
           this.usager = usager;
         },
-        (error) => {
+        () => {
           this.router.navigate(["404"]);
         }
       );
@@ -57,7 +57,7 @@ export class EntretienFormComponent implements OnInit {
     this.usagerService
       .nextStep(this.usager.id, step)
       .subscribe((usager: Usager) => {
-        this.router.navigate(["usager/" + this.usager.id + "/edit/documents"]);
+        this.router.navigate(["usager/" + usager.id + "/edit/documents"]);
       });
   }
 
@@ -70,9 +70,9 @@ export class EntretienFormComponent implements OnInit {
 
     this.usagerService.createRdv(rdvFormValue, this.usager.id).subscribe(
       (usager: Usager) => {
-        this.usager.rdv = usager.rdv;
+        this.usager = usager;
       },
-      (error) => {
+      () => {
         this.notifService.error(
           "Impossible de réaliser l'entretien maintenant"
         );

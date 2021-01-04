@@ -35,10 +35,6 @@ export class StructuresEditComponent implements OnInit {
   ) {
     this.showHardReset = false;
     this.hardResetCode = null;
-
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
-      this.me = user;
-    });
   }
 
   get h() {
@@ -46,6 +42,10 @@ export class StructuresEditComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.me = user;
+    });
+
     this.titleService.setTitle("Structure");
 
     this.structureService

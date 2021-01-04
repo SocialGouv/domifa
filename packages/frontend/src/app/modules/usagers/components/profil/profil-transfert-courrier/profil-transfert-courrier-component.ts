@@ -113,13 +113,11 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     this.usagerService.editTransfert(formValue, this.usager.id).subscribe(
       (usager: Usager) => {
         this.hideForm();
-
         this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
-
-        this.usager.options = new Options(usager.options);
+        this.usager = usager;
         this.notifService.success("Transfert ajouté avec succès");
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible d'ajouter le transfert'");
       }
     );
@@ -131,10 +129,10 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
         this.transfertForm.reset();
-        this.usager.options = usager.options;
+        this.usager = usager;
         this.notifService.success("Transfert supprimé avec succès");
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible de supprimer le transfert");
       }
     );

@@ -53,7 +53,7 @@ export class UsagerService {
   public createRdv(
     rdv: Pick<Rdv, "userId" | "dateRdv" | "isNow">,
     usagerId: number
-  ): Observable<any> {
+  ): Observable<Usager> {
     return this.http.post(`${environment.apiUrl}agenda/${usagerId}`, rdv).pipe(
       map((response) => {
         return new Usager(response);
@@ -62,10 +62,13 @@ export class UsagerService {
   }
 
   public editTransfert(transfert: any, usagerId: number): Observable<any> {
-    return this.http.post(
-      `${this.endPointUsagers}/transfert/${usagerId}`,
-      transfert
-    );
+    return this.http
+      .post(`${this.endPointUsagers}/transfert/${usagerId}`, transfert)
+      .pipe(
+        map((response) => {
+          return new Usager(response);
+        })
+      );
   }
 
   public deleteTransfert(usagerId: number): Observable<Usager> {
@@ -79,10 +82,13 @@ export class UsagerService {
   }
 
   public editProcuration(transfert: any, usagerId: number): Observable<any> {
-    return this.http.post(
-      `${this.endPointUsagers}/procuration/${usagerId}`,
-      transfert
-    );
+    return this.http
+      .post(`${this.endPointUsagers}/procuration/${usagerId}`, transfert)
+      .pipe(
+        map((response) => {
+          return new Usager(response);
+        })
+      );
   }
 
   public deleteProcuration(usagerId: number): Observable<Usager> {
@@ -143,7 +149,11 @@ export class UsagerService {
       );
   }
 
-  public setDecision(usagerId: number, decision: Decision, statut: string) {
+  public setDecision(
+    usagerId: number,
+    decision: Decision,
+    statut: string
+  ): Observable<Usager> {
     decision.statut = statut;
     delete decision.userId;
     delete decision.userName;
@@ -200,7 +210,7 @@ export class UsagerService {
   }
 
   /* Attestation */
-  public attestation(usagerId: number) {
+  public attestation(usagerId: number): void {
     this.loadingService.startLoading();
 
     this.matomo.trackEvent("stats", "telechargement_cerfa", "null", 1);
@@ -223,7 +233,7 @@ export class UsagerService {
             this.loadingService.stopLoading();
           }, 500);
         },
-        (error: any) => {
+        () => {
           this.notifService.error(
             "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
           );

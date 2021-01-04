@@ -14,6 +14,7 @@ services:
         # NOTE: /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
       - ./_scripts/db/restore-mongo.sh:/docker-entrypoint-initdb.d/restore-mongo.sh
       - ./_scripts/db/dumps/domifa_test.mongo.gz:/docker-entrypoint-initdb.d/dumps/domifa_test.mongo.gz:delegated
+      - ./_scripts/db/dumps/domifa_dev.mongo.gz:/docker-entrypoint-initdb.d/dumps/domifa_dev.mongo.gz:delegated
     environment:
       - MONGO_INITDB_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD
@@ -40,6 +41,7 @@ services:
         # NOTE: /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
       - ./_scripts/db/restore-postgres.sh:/docker-entrypoint-initdb.d/restore-postgres.sh
       - ./_scripts/db/dumps/domifa_test.postgres.dump:/docker-entrypoint-initdb.d/dumps/domifa_test.postgres.dump:delegated
+      - ./_scripts/db/dumps/domifa_dev.postgres.dump:/docker-entrypoint-initdb.d/dumps/domifa_dev.postgres.dump:delegated
       - ./_scripts/db/convert-postgres-tables-to-unlogged.sh:/docker-entrypoint-initdb.d/convert-postgres-tables-to-unlogged.sh
     ports:
       - "5432:5432"
