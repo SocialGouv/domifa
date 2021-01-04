@@ -3,6 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { AppUser } from "../../../../../_common/model";
 import { HomeService } from "./home.service";
+import { CountUpOptions } from "countup.js";
 
 @Component({
   selector: "app-home",
@@ -11,7 +12,7 @@ import { HomeService } from "./home.service";
 })
 export class HomeComponent implements OnInit {
   public stats: any;
-  public countOptions: any;
+  public countOptions: CountUpOptions;
 
   public user: AppUser | null;
 

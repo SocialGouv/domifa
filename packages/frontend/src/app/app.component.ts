@@ -1,14 +1,25 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  NgZone,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { environment } from "../environments/environment";
 import { AppUser } from "../_common/model";
+import {
+  HealthCheckInfo,
+  HealthCheckService,
+} from "./modules/shared/services/health-check";
 import { fadeInOut } from "./shared/animations";
+
 @Component({
   animations: [fadeInOut],
   selector: "app-root",
@@ -24,20 +35,30 @@ export class AppComponent implements OnInit {
   public newsLabels: any;
 
   public matomoInfo: boolean;
+  public apiVersion: string;
 
+  public modalOptions: NgbModalOptions;
   public me: AppUser;
 
   @ViewChild("newsCenter", { static: true })
   public newsCenter!: TemplateRef<any>;
 
+  @ViewChild("maintenanceModal", { static: true })
+  public maintenanceModal!: TemplateRef<any>;
+
+  @ViewChild("versionModal", { static: true })
+  public versionModal!: TemplateRef<any>;
+
   constructor(
+    private healthCheckService: HealthCheckService,
     private authService: AuthService,
     private matomoInjector: MatomoInjector,
     private matomo: MatomoTracker,
     private modalService: NgbModal,
     private http: HttpClient,
     private router: Router,
-    private titleService: Title
+    private titleService: Title,
+    private ngZone: NgZone
   ) {
     this.help = false;
     this.isNavbarCollapsed = false;
@@ -48,6 +69,17 @@ export class AppComponent implements OnInit {
 
     this.domifaNews = null;
     this.matomoInjector.init(environment.matomo.url, environment.matomo.siteId);
+    this.apiVersion = null;
+
+    this.modalOptions = {
+      centered: true,
+      backdrop: "static",
+      keyboard: false,
+    };
+  }
+
+  public refresh(): void {
+    window.location.reload();
   }
 
   public ngOnInit() {
@@ -70,6 +102,7 @@ export class AppComponent implements OnInit {
       ) {
         this.modalService.open(this.newsCenter, {
           backdrop: "static",
+          centered: true,
         });
       }
     });
@@ -89,6 +122,42 @@ export class AppComponent implements OnInit {
     this.matomoInfo = matomo === "done";
 
     this.matomo.setUserId("0");
+
+    this.runHealthCheckAndAutoReload();
+  }
+
+  private runHealthCheckAndAutoReload() {
+    if (environment.env !== "test") {
+      this.ngZone.run(() => {
+        this.healthCheckService
+          .enablePeriodicHealthCheck()
+          .subscribe((retour: HealthCheckInfo) => {
+            if (retour.status === "error") {
+              if (!this.modalService.hasOpenModals()) {
+                this.modalService.open(
+                  this.maintenanceModal,
+                  this.modalOptions
+                );
+              }
+            } else {
+              this.modalService.dismissAll();
+              if (this.apiVersion === null) {
+                // Initialisation de la première version
+                this.apiVersion = retour.info.version.info;
+              }
+
+              if (this.apiVersion !== retour.info.version.info) {
+                // On update la page
+                this.modalService.open(this.versionModal, this.modalOptions);
+                // Reload dans 5 secondes
+                setTimeout(() => {
+                  window.location.reload();
+                }, 5000);
+              }
+            }
+          });
+      });
+    }
   }
 
   public getJSON(): Observable<any> {
@@ -99,21 +168,21 @@ export class AppComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  public closeHelpModal() {
+  public closeHelpModal(): void {
     this.modalService.dismissAll();
   }
 
-  public closeNewsModal() {
+  public closeNewsModal(): void {
     this.modalService.dismissAll();
     localStorage.setItem("news", new Date(this.domifaNews.date).toISOString());
   }
 
-  public closeMatomo() {
+  public closeMatomo(): void {
     this.matomoInfo = true;
     localStorage.setItem("matomo", "done");
   }
 
-  public logout() {
+  public logout(): void {
     this.authService.logout();
     this.router.navigate(["/connexion"]);
   }

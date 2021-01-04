@@ -3,6 +3,7 @@ import {
   DNSHealthIndicator,
   HealthCheck,
   HealthCheckService,
+  HealthIndicatorResult,
   MongooseHealthIndicator,
 } from "@nestjs/terminus";
 import { domifaConfig } from "../config";
@@ -21,7 +22,14 @@ export class HealthController {
   @Get()
   @HealthCheck()
   healthCheck() {
-    const frontUrl = domifaConfig().apps.frontendUrl;
+    const frontUrl = domifaConfig().healthz.frontendUrlFromBackend;
+
+    const version: HealthIndicatorResult = {
+      version: {
+        info: domifaConfig().version,
+        status: "up",
+      },
+    };
 
     return this.health.check([
       async () => this.postgresIndicator.pingCheck("postgres"),
@@ -34,6 +42,7 @@ export class HealthController {
           );
           throw err;
         }),
+      async () => version,
     ]);
   }
 }

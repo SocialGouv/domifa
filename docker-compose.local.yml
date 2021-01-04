@@ -58,7 +58,7 @@ services:
       timeout: 5s
       retries: 5
 
-  domifa_backend:
+  backend:
     container_name: domifa-backend
     hostname: domifa-backend
     build:
@@ -79,12 +79,11 @@ services:
       - ./.env
     environment:
       TZ: Europe/Paris
-
     depends_on:
       - "mongo"
       - "postgres"
 
-  domifa_frontend:
+  frontend:
     container_name: domifa-frontend
     hostname: domifa-frontend
     build:

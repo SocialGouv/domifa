@@ -10,6 +10,7 @@ export type DomifaEnv = {
   DOMIFA_CORS_URL: string;
   DOMIFA_FRONTEND_URL: string;
   DOMIFA_BACKEND_URL: string;
+  DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: string;
   SECRET: string;
   UPLOADS_FOLDER: string;
   DOMIFA_ENV_ID: string;
