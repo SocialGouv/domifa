@@ -76,7 +76,7 @@ export class UsagersFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
-    public authService: AuthService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private notifService: ToastrService,

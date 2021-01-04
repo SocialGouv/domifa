@@ -1,0 +1,3 @@
+table tr td:last-child {
+  min-width: 220px;
+}

@@ -75,6 +75,11 @@ export class UsagersService {
             historique: usager.historique,
             etapeDemande: 0,
             typeDom: "RENOUVELLEMENT",
+            rdv: {
+              userId: null,
+              dateRdv: null,
+              userName: null,
+            },
           },
         },
         { new: true }

@@ -96,13 +96,6 @@ export class RdvComponent implements OnInit {
     } else {
       this.router.navigate(["404"]);
     }
-
-    this.rdvForm.get("isNow").valueChanges.subscribe((value: boolean) => {
-      if (!value) {
-        this.rdvForm.controls.userId.setValue(this.me.id);
-        this.rdvForm.controls.dateRdv.setValue(new Date());
-      }
-    });
   }
 
   public getAttestation() {
@@ -130,11 +123,17 @@ export class RdvComponent implements OnInit {
     });
   }
 
-  public setValueRdv(value: boolean) {
-    this.rdvForm.controls.isNow.setValue(value);
+  public setValueRdv(value: boolean): void {
+    if (value === true) {
+      this.rdvForm.controls.isNow.setValue(value);
+      this.rdvForm.controls.userId.setValue(this.me.id);
+      this.rdvForm.controls.dateRdv.setValue(new Date());
+    } else {
+      this.rdvForm.controls.isNow.setValue(false);
+    }
   }
 
-  public rdvNow() {
+  public rdvNow(): void {
     const rdvFormValue = {
       isNow: true,
       dateRdv: new Date(),
@@ -153,9 +152,10 @@ export class RdvComponent implements OnInit {
     );
   }
 
-  public submitRdv() {
+  public submitRdv(): void {
     if (this.rdvForm.invalid) {
       this.notifService.error("Veuillez vérifier les champs du formulaire");
+
       return;
     }
 
@@ -165,14 +165,21 @@ export class RdvComponent implements OnInit {
         this.rdvForm.controls.jourRdv.value
       );
       const dateTmp = new Date(jourRdv);
+      //
       dateTmp.setHours(heureRdv.hour, heureRdv.minute, 0);
       this.rdvForm.controls.dateRdv.setValue(dateTmp);
     }
 
     this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe(
       (usager: Usager) => {
-        this.router.navigate(["usager/" + usager.id + "/edit/entretien"]);
         this.notifService.success("Rendez-vous enregistré");
+
+        if (this.rdvForm.get("isNow").value === true) {
+          this.router.navigate(["usager/" + usager.id + "/edit/entretien"]);
+        } else {
+          this.usager = usager;
+          this.editRdv = false;
+        }
       },
       () => {
         this.notifService.error("Impossible d'enregistrer le rendez-vous");

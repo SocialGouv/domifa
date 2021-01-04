@@ -110,14 +110,14 @@ export class AgendaController {
 
       if (updatedUsager && updatedUsager !== null) {
         if (!domifaConfig().email.emailsEnabled) {
-          return res.status(HttpStatus.OK).json({ message: "OK" });
+          return res.status(HttpStatus.OK).json(updatedUsager);
         }
 
         this.mailService.mailRdv(user, updatedUsager, attachment, msg).then(
-          (result) => {
+          () => {
             return res.status(HttpStatus.OK).json(updatedUsager);
           },
-          (error) => {
+          () => {
             return res
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .json({ message: "REGISTER_ERROR" });
