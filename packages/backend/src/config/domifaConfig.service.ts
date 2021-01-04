@@ -66,6 +66,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         ? "http://localhost:4200/" // default on LOCAL
         : undefined,
   });
+  const frontendUrlFromBackend = configParser.parseString(
+    x,
+    "DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND",
+    {
+      defaultValue: frontendUrl,
+    }
+  );
   const backendUrl = configParser.parseString(x, "DOMIFA_BACKEND_URL", {
     defaultValue:
       envId === "dev" || envId === "test"
@@ -90,6 +97,9 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     apps: {
       frontendUrl,
       backendUrl,
+    },
+    healthz: {
+      frontendUrlFromBackend,
     },
     security: {
       corsUrl: configParser.parseString(x, "DOMIFA_CORS_URL", {

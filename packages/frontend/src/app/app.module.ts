@@ -1,42 +1,34 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
+  ErrorHandler,
   NgModule,
   NO_ERRORS_SCHEMA,
-  ErrorHandler,
 } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Router, RouterModule } from "@angular/router";
-import {
-  FaIconLibrary,
-  FontAwesomeModule,
-} from "@fortawesome/angular-fontawesome";
-
-import { far } from "@fortawesome/free-regular-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import * as Sentry from "@sentry/browser";
+import { CountUpModule } from "ngx-countup";
 import { MatomoModule } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
+import { environment } from "src/environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
+import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { GeneralModule } from "./modules/general/general.module";
+import { AuthService } from "./modules/shared/services/auth.service";
+import { HealthCheckService } from "./modules/shared/services/health-check";
+import { SharedModule } from "./modules/shared/shared.module";
 import { StatsModule } from "./modules/stats/stats.module";
 import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
-import { AuthService } from "./modules/shared/services/auth.service";
-import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
-import { CountUpModule } from "ngx-countup";
-
-import * as Sentry from "@sentry/browser";
-import { environment } from "src/environments/environment";
-import { SharedModule } from "./modules/shared/shared.module";
-import { HealthCheckService } from "./modules/shared/services/health-check.service";
 
 if (environment.production) {
   Sentry.init({

@@ -10,6 +10,9 @@ export type DomifaConfig = {
     frontendUrl: string; // DOMIFA_FRONTEND_URL
     backendUrl: string; // DOMIFA_BACKEND_URL
   };
+  healthz: {
+    frontendUrlFromBackend: string; // DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND
+  };
   security: {
     corsUrl: string; // DOMIFA_CORS_URL
     files: {

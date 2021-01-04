@@ -3,8 +3,8 @@ import {
   DNSHealthIndicator,
   HealthCheck,
   HealthCheckService,
-  MongooseHealthIndicator,
   HealthIndicatorResult,
+  MongooseHealthIndicator,
 } from "@nestjs/terminus";
 import { domifaConfig } from "../config";
 import { appLogger } from "../util";
@@ -22,11 +22,11 @@ export class HealthController {
   @Get()
   @HealthCheck()
   healthCheck() {
-    const frontUrl = domifaConfig().apps.frontendUrl;
+    const frontUrl = domifaConfig().healthz.frontendUrlFromBackend;
 
     const version: HealthIndicatorResult = {
       version: {
-        info: "9",
+        info: domifaConfig().version,
         status: "up",
       },
     };
