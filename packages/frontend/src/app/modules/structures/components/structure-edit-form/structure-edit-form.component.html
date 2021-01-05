@@ -250,6 +250,7 @@
         <select
           id="departement"
           required
+          [ngClass]="{ 'is-invalid': submitted && f.departement.errors }"
           formControlName="departement"
           class="custom-select"
         >

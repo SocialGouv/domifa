@@ -242,12 +242,14 @@
             placeholder="Numéro et nom de rue, batiment, etc."
             [ngClass]="{
               'is-invalid':
+                submitted &&
                 f.adresseCourrier.get('actif').value === true &&
                 f.adresseCourrier.get('adresse').errors
             }"
           />
           <div
             *ngIf="
+              submitted &&
               f.adresseCourrier.get('actif').value === true &&
               f.adresseCourrier.get('adresse').errors
             "
@@ -266,12 +268,14 @@
             formControlName="codePostal"
             [ngClass]="{
               'is-invalid':
+                submitted &&
                 f.adresseCourrier.get('actif').value === true &&
                 f.adresseCourrier.get('codePostal').errors
             }"
           />
           <div
             *ngIf="
+              submitted &&
               f.adresseCourrier.get('actif').value === true &&
               f.adresseCourrier.get('codePostal').errors
             "
@@ -289,12 +293,14 @@
             formControlName="ville"
             [ngClass]="{
               'is-invalid':
+                submitted &&
                 f.adresseCourrier.get('actif').value === true &&
                 f.adresseCourrier.get('ville').errors
             }"
           />
           <div
             *ngIf="
+              submitted &&
               f.adresseCourrier.get('actif').value === true &&
               f.adresseCourrier.get('ville').errors
             "
@@ -359,7 +365,9 @@
         <label for="departement">Préfecture ayant délivré l’agrément</label>
         <select
           id="departement"
+          required
           formControlName="departement"
+          [ngClass]="{ 'is-invalid': submitted && f.departement.errors }"
           class="custom-select"
         >
           <option
@@ -369,6 +377,7 @@
             {{ departement.key }} - {{ departement.value }}
           </option>
         </select>
+
         <div *ngIf="submitted && f.departement.errors" class="invalid-feedback">
           Veuillez sélectionner un département
         </div>
@@ -379,6 +388,7 @@
         <input
           formControlName="agrement"
           class="form-control"
+          required
           id="agrement"
           placeholder="Numéro donné par la préfecture"
           type="text"
