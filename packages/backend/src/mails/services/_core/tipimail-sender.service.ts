@@ -7,69 +7,35 @@ import {
 import { AxiosResponse } from "axios";
 import { of, throwError } from "rxjs";
 import { catchError, switchMap } from "rxjs/operators";
-import { domifaConfig } from "../../config";
+import { domifaConfig } from "../../../config";
 import {
-  dataEmailAnonymizer,
   MessageEmailAttachement,
-  MessageEmailContent,
+  MessageEmailId,
   MessageEmailRecipient,
   MessageEmailSendDetails,
-} from "../../database";
-import { appLogger } from "../../util";
+  MessageEmailTipimailContent,
+} from "../../../database";
+import { appLogger } from "../../../util";
+import { mailRecipientsFilter } from "./mailRecipientsFilter.service";
 
 @Injectable()
 export class TipimailSender {
   constructor(private httpService: HttpService) {}
 
-  private _classifyRecipients(recipients: MessageEmailRecipient[]) {
-    const toSkip: MessageEmailRecipient[] = [];
-    const toSend: MessageEmailRecipient[] = [];
-    if (domifaConfig().email.emailAddressRedirectAllTo) {
-      toSend.push({
-        address: domifaConfig().email.emailAddressRedirectAllTo,
-        personalName: `TEST DOMIFA`,
-      });
-    }
-    recipients.forEach((recipient) => {
-      if (isRecipientToSkip(recipient)) {
-        toSkip.push(recipient);
-      } else {
-        toSend.push(recipient);
-      }
-    });
-    return { toSend, toSkip };
-  }
-
   public async trySendToTipimail(
-    message: Omit<MessageEmailContent, "attachments">,
-    attachments?: MessageEmailAttachement[]
+    message: Omit<MessageEmailTipimailContent, "attachments">,
+    {
+      messageEmailId,
+      attachments,
+    }: {
+      messageEmailId: MessageEmailId;
+      attachments?: MessageEmailAttachement[];
+    }
   ): Promise<MessageEmailSendDetails> {
-    const { toSend, toSkip } = this._classifyRecipients(message.to);
-
-    if (toSkip.length !== 0) {
-      appLogger.debug(
-        `[TipimailSender] [SKIP] Email ${
-          message.tipimailTemplateId
-        } won't be sent to "${toSkip
-          .map((x) => formatEmailAddressWithName(x))
-          .join(", ")}"`
-      );
-    }
-    if (!domifaConfig().email.emailsEnabled) {
-      return {
-        sent: [],
-        skipped: toSkip,
-        serverResponse: "email sending disabled",
-        modelsCount: message.tipimailModels.length,
-      };
-    }
-    if (domifaConfig().email.emailAddressRedirectAllTo) {
-      appLogger.debug(
-        `[TipimailSender] [REDIRECT] Email ${
-          message.tipimailTemplateId
-        } will be sent to "${domifaConfig().email.emailAddressRedirectAllTo}"`
-      );
-    }
+    const { toSend, toSkip } = mailRecipientsFilter.filterRecipients(
+      message.to,
+      { messageEmailId }
+    );
 
     if (toSend.length === 0) {
       return {
@@ -84,12 +50,6 @@ export class TipimailSender {
 
     if (domifaConfig().envId !== "prod") {
       subject = `[${domifaConfig().envId}] ${subject}`;
-    }
-
-    if (domifaConfig().email.emailAddressRedirectAllTo) {
-      subject += ` (redirect from ${toSkip
-        .map((x) => formatEmailAddressWithName(x))
-        .join(", ")})`;
     }
 
     return this._postTipimailMessage({
@@ -108,7 +68,7 @@ export class TipimailSender {
     toSkip,
   }: {
     toSend: MessageEmailRecipient[];
-    message: Omit<MessageEmailContent, "attachments">;
+    message: Omit<MessageEmailTipimailContent, "attachments">;
     attachments?: MessageEmailAttachement[];
     subject: string;
     toSkip: MessageEmailRecipient[];
@@ -173,7 +133,6 @@ export class TipimailSender {
               sentryBreadcrumb: true,
             }
           );
-          console.error("xxx err", err);
           appLogger.error(`[TipimailSender] Error sending tipimail message`);
           return throwError(
             new HttpException(
@@ -185,16 +144,4 @@ export class TipimailSender {
       )
       .toPromise();
   }
-}
-
-function isRecipientToSkip(recipient: MessageEmailRecipient) {
-  return (
-    !domifaConfig().email.emailsEnabled ||
-    dataEmailAnonymizer.isAnonymizedEmail(recipient.address) ||
-    domifaConfig().email.emailAddressRedirectAllTo
-  );
-}
-
-function formatEmailAddressWithName(x: MessageEmailRecipient): string {
-  return `"${x.personalName}"<${x.address}>`;
 }

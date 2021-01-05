@@ -1,0 +1,24 @@
+{% extends "./base.nunjucks" %}
+{% block head_custom %}
+     <link rel="stylesheet" href="./usager-appointment-created/html.css">
+{% endblock %}
+
+{% block content %}
+
+     <div class="content text-center leading-normal">
+          <div class="my-2">
+               Bonjour {{ prenom }}
+          </div>
+
+          <div class="my-2">
+               Le rendez-vous avec <b>{{ usager }}</b> est confirmé
+               <br /> {{ message }}
+          </div>
+
+          <div class="my-2">
+               Le {{ date }}<br />
+               à {{ heure }}
+          </div>
+     </div>
+
+{% endblock %}

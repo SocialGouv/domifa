@@ -1,16 +1,16 @@
 import { Injectable } from "@nestjs/common";
-import { domifaConfig } from "../../config";
-import { MessageEmailContent } from "../../database";
-import { Structure } from "../../structures/structure-interface";
-import { UserProfile } from "../../_common/model";
-import { MessageEmailSender } from "./message-email-sender.service";
+import { domifaConfig } from "../../../config";
+import { MessageEmailTipimailContent } from "../../../database";
+import { Structure } from "../../../structures/structure-interface";
+import { UserProfile } from "../../../_common/model";
+import { messageEmailSender } from "../_core";
 
 @Injectable()
 export class StructuresMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(private messageEmailSender: MessageEmailSender) {
+  constructor() {
     this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
     this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
@@ -21,7 +21,7 @@ export class StructuresMailsService {
   ): Promise<void> {
     const frontendUrl = domifaConfig().apps.frontendUrl;
 
-    const message: MessageEmailContent = {
+    const message: MessageEmailTipimailContent = {
       subject: "Votre compte Domifa a été activé",
       tipimailTemplateId: "users-compte-active",
       tipimailModels: [
@@ -52,7 +52,7 @@ export class StructuresMailsService {
       ],
     };
 
-    await this.messageEmailSender.sendMailLater(message, {
+    await messageEmailSender.sendTipimailContentMessageLater(message, {
       emailId: "user-account-activated",
       initialScheduledDate: new Date(),
     });

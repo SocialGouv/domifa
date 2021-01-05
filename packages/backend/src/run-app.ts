@@ -2,9 +2,11 @@ import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
 import { MonitoringCleaner } from "./database/services/monitoring/MonitoringCleaner.service";
-import { CronMailImportGuideSenderService } from "./mails/services/cron-mail-import-guide-sender.service";
-import { CronMailUserGuideSenderService } from "./mails/services/cron-mail-user-guide-sender.service";
-import { MessageEmailConsummer } from "./mails/services/message-email-consumer.service";
+import {
+  CronMailImportGuideSenderService,
+  CronMailUserGuideSenderService,
+} from "./mails/services";
+import { messageEmailConsummerTrigger } from "./mails/services/_core";
 import { StatsGeneratorService } from "./stats/services/stats-generator.service";
 import { appLogger } from "./util";
 
@@ -61,10 +63,7 @@ async function runCronJobs(app) {
   }
 
   if (domifaConfig().cron.emailConsumer.autoRunOnStartup) {
-    const messageEmailConsummer: MessageEmailConsummer = app.get(
-      MessageEmailConsummer
-    );
-    await messageEmailConsummer.triggerNextSending("startup");
+    await messageEmailConsummerTrigger.triggerNextSending("startup");
   }
   if (domifaConfig().cron.monitoringCleaner.autoRunOnStartup) {
     const monitoringCleaner: MonitoringCleaner = app.get(MonitoringCleaner);

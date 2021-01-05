@@ -6,6 +6,7 @@ import { MessageEmailContent } from "./MessageEmailContent.type";
 import { MessageEmailId } from "./MessageEmailId.type";
 import { MessageEmailSendDetails } from "./MessageEmailSendDetails.type";
 import { MessageEmailStatus } from "./MessageEmailStatus.type";
+import { MessageEmailTipimailContent } from "./MessageEmailTipimailContent.type";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "message_email" })
 export class MessageEmailTable<T = any>
@@ -24,7 +25,10 @@ export class MessageEmailTable<T = any>
   sendDate: Date;
 
   @Column({ type: "jsonb" })
-  content: Omit<MessageEmailContent, "attachments">;
+  content: Omit<
+    MessageEmailTipimailContent | MessageEmailContent,
+    "attachments"
+  >;
 
   @Column({ type: "integer", default: 0 })
   errorCount: number;

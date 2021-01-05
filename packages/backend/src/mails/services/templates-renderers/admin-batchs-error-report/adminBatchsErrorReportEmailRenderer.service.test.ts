@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
-import { domifaConfig } from "../../../config";
-import { adminBatchsErrorReportSender } from "./adminBatchsErrorReportSender.service";
-describe("adminBatchsErrorReportSender", () => {
-  it("adminBatchsErrorReportSender render ", async () => {
+import { domifaConfig } from "../../../../config";
+import { adminBatchsErrorReportEmailRenderer } from "./adminBatchsErrorReportEmailRenderer.service";
+describe("adminBatchsErrorReportEmailRenderer", () => {
+  it("adminBatchsErrorReportEmailRenderer render ", async () => {
     const errorsCount = 5;
     const lastErrorDate = new Date("2020-12-15 14:30:00");
     const lastErrorMessage = "This is a serious error";
@@ -11,7 +11,7 @@ describe("adminBatchsErrorReportSender", () => {
       subject,
       text,
       html,
-    } = await adminBatchsErrorReportSender._renderMailTemplate({
+    } = await adminBatchsErrorReportEmailRenderer.renderTemplate({
       errorsCount: 5,
       lastErrorDate,
       lastErrorMessage,
@@ -30,8 +30,9 @@ describe("adminBatchsErrorReportSender", () => {
       fs.writeFileSync(
         path.join(
           __dirname,
-          "../../../_static/email-templates",
-          "admin-batchs-error-report/test.tmp.html"
+          "../../../../_static/email-templates",
+          "admin-batchs-error-report",
+          "test.tmp.html"
         ),
         html
       );
@@ -41,8 +42,9 @@ describe("adminBatchsErrorReportSender", () => {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../_static/email-templates",
-          "admin-batchs-error-report/test.ref.html"
+          "../../../../_static/email-templates",
+          "admin-batchs-error-report",
+          "test.ref.html"
         )
       )
       .toString();

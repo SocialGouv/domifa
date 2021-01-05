@@ -4,6 +4,7 @@ import { LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import { monitoringBatchProcessSimpleCountRunner } from ".";
 import { MonitoringBatchProcessTrigger, typeOrmSearch } from "../..";
 import { domifaConfig } from "../../../config";
+import { adminBatchsErrorReportEmailSender } from "../../../mails/services";
 import { appLogger } from "../../../util";
 import {
   MessageEmail,
@@ -12,7 +13,6 @@ import {
 } from "../../entities";
 import { messageEmailRepository } from "../message-email";
 import { AdminBatchsErrorReportModel } from "./AdminBatchsErrorReportModel.type";
-import { adminBatchsErrorReportSender } from "./adminBatchsErrorReportSender.service";
 import { monitoringBatchProcessRepository } from "./monitoringBatchProcessRepository.service";
 import moment = require("moment");
 
@@ -112,7 +112,11 @@ async function purgeObsoleteMonitoringBatchProcess({
   return res.affected;
 }
 
-async function sendErrorReport({ limitDate }: { limitDate: Date }) {
+async function sendErrorReport({
+  limitDate,
+}: {
+  limitDate: Date;
+}): Promise<boolean> {
   const monitoringBatchsInError = await monitoringBatchProcessRepository.findMany(
     typeOrmSearch<MonitoringBatchProcess>({
       status: "error",
@@ -138,7 +142,8 @@ async function sendErrorReport({ limitDate }: { limitDate: Date }) {
       lastErrorDate: monitoringBatchsInError[0].endDate,
       lastErrorMessage: monitoringBatchsInError[0].errorMessage,
     };
-    return adminBatchsErrorReportSender.sendMail(model);
+    adminBatchsErrorReportEmailSender.sendMail(model);
+    return true;
   }
   return false;
 }
