@@ -50,7 +50,7 @@ export class CerfaService {
 
     let usagerId = this.toString(usager.id);
 
-    if (user.structure.options.customId === true) {
+    if (usager.customId && usager.customId !== null) {
       usagerId = this.toString(usager.customId);
     }
 
@@ -117,7 +117,9 @@ export class CerfaService {
 
     const sexe = usager.sexe === "femme" ? "1" : "2";
 
-    const rattachement = "";
+    const rattachement = this.toString(
+      usager.entretien.rattachement
+    ).toUpperCase();
 
     let motif = "";
 

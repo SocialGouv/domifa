@@ -61,7 +61,7 @@ export class UsagerService {
     );
   }
 
-  public editTransfert(transfert: any, usagerId: number): Observable<any> {
+  public editTransfert(transfert: any, usagerId: number): Observable<Usager> {
     return this.http
       .post(`${this.endPointUsagers}/transfert/${usagerId}`, transfert)
       .pipe(
@@ -81,7 +81,7 @@ export class UsagerService {
       );
   }
 
-  public editProcuration(transfert: any, usagerId: number): Observable<any> {
+  public editProcuration(transfert: any, usagerId: number): Observable<Usager> {
     return this.http
       .post(`${this.endPointUsagers}/procuration/${usagerId}`, transfert)
       .pipe(

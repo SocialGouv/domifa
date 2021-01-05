@@ -13,6 +13,7 @@
       </li>
     </ul>
   </div>
+
   <div class="step_form" id="step_form0">
     <form
       [formGroup]="usagerForm"
@@ -30,7 +31,7 @@
             id="homme"
             value="homme"
           />
-          <label class="form-check-label" for="homme"> Monsieur </label>
+          <label class="form-check-label" for="homme">Monsieur</label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -40,7 +41,7 @@
             id="femme"
             value="femme"
           />
-          <label class="form-check-label" for="femme"> Madame </label>
+          <label class="form-check-label" for="femme">Madame </label>
         </div>
       </div>
       <div class="row">
@@ -132,9 +133,7 @@
               id="dateNaissancePicker"
               dateFr
               value
-              [ngClass]="{
-                    'is-invalid': submitted && f.dateNaissancePicker.errors
-                  }"
+              [ngClass]="{ 'is-invalid': submitted && f.dateNaissancePicker.errors }"
               #d="ngbDatepicker"
               maxlength="10"
               required

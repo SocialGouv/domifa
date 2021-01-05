@@ -7,14 +7,12 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { formatDateToNgb, minDateToday } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
 import { AppUser, UserRole } from "../../../../../../_common/model";
 import { LoadingService } from "../../../../loading/loading.service";
 import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
-import { Options } from "../../../interfaces/options";
 import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
 

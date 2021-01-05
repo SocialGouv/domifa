@@ -245,10 +245,11 @@
         <br />
       </div>
 
-      <div class="col-6 form-group">
+      <div class="col-6 form-group required">
         <label for="departement">Préfecture ayant délivré l’agrément</label>
         <select
           id="departement"
+          required
           formControlName="departement"
           class="custom-select"
         >
@@ -265,11 +266,12 @@
         </div>
       </div>
 
-      <div class="col-6 form-group">
+      <div class="col-6 form-group required">
         <label for="agrement">Numéro d'agrément</label>
         <input
           formControlName="agrement"
           class="form-control"
+          required
           id="agrement"
           placeholder="Numéro donné par la préfecture"
           type="text"
@@ -388,45 +390,6 @@
   <div class="list-group-item" formGroupName="options">
     <div class="row">
       <div class="col-9">
-        Structure utilise des identifiants personnalisés pour les dossiers
-      </div>
-      <div class="col-3 text-right">
-        <div
-          formControlName="customId"
-          class="btn-group btn-group-toggle"
-          ngbRadioGroup
-          name="customId"
-        >
-          <label
-            ngbButtonLabel
-            [ngClass]="
-              f.options.get('customId').value === true
-                ? 'btn-primary'
-                : 'btn-outline-primary'
-            "
-          >
-            <input ngbButton type="radio" [value]="true" />
-            Oui
-          </label>
-          <label
-            ngbButtonLabel
-            [ngClass]="
-              f.options.get('customId').value === false
-                ? 'btn-danger'
-                : 'btn-outline-danger'
-            "
-          >
-            <input ngbButton type="radio" [value]="false" />
-            Non
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <br />
-
-    <div class="row">
-      <div class="col-9">
         Afficher l'ID des domiciliés dans la section "Adresse Postale" du cerfa
         d'attestation du domicilié
       </div>
@@ -463,44 +426,6 @@
       </div>
     </div>
     <br />
-
-    <div class="row">
-      <div class="col-9">
-        Réalisez-vous des élections de domicile au titre d'une autre commune ou
-        d'un autre arrondissement ?
-      </div>
-      <div class="col-3 text-right">
-        <div
-          formControlName="rattachement"
-          class="btn-group btn-group-toggle"
-          ngbRadioGroup
-          name="rattachement"
-        >
-          <label
-            ngbButtonLabel
-            [ngClass]="
-              f.options.get('rattachement').value === true
-                ? 'btn-primary'
-                : 'btn-outline-primary'
-            "
-          >
-            <input ngbButton type="radio" [value]="true" />
-            Oui
-          </label>
-          <label
-            ngbButtonLabel
-            [ngClass]="
-              f.options.get('rattachement').value === false
-                ? 'btn-danger'
-                : 'btn-outline-danger'
-            "
-          >
-            <input ngbButton type="radio" [value]="false" />
-            Non
-          </label>
-        </div>
-      </div>
-    </div>
 
     <div class="row">
       <div class="col-md-12 text-center">

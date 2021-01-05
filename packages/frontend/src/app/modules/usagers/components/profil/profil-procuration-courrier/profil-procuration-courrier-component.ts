@@ -18,7 +18,6 @@ import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
 import { AppUser, UserRole } from "../../../../../../_common/model";
 import { LoadingService } from "../../../../loading/loading.service";
 import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
-import { Options } from "../../../interfaces/options";
 import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
 
@@ -129,7 +128,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.usagerService.editProcuration(formValue, this.usager.id).subscribe(
       (usager: Usager) => {
         this.hideForm();
-        this.usager.options = new Options(usager.options);
+        this.usager = usager;
         this.notifService.success("Procuration ajoutée avec succès");
         this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
       },
@@ -144,7 +143,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       (usager: Usager) => {
         this.hideForm();
         this.procurationForm.reset();
-        this.usager.options = usager.options;
+        this.usager = usager;
         this.notifService.success("Procuration supprimée avec succès");
         this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
       },

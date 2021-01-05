@@ -1,3 +1,5 @@
+import { formatDateToNgb } from "../../../shared/bootstrap-util";
+
 export class Rdv {
   public dateRdv: Date;
   public jourRdv: {
@@ -16,25 +18,17 @@ export class Rdv {
 
   constructor(rdv?: any) {
     const today = new Date();
-    this.dateRdv = (rdv && new Date(rdv.dateRdv)) || today;
+    this.dateRdv = today;
 
-    this.jourRdv =
-      rdv && rdv.dateRdv && rdv.dateRdv !== null
-        ? {
-            day: this.dateRdv.getDate(),
-            month: this.dateRdv.getMonth() + 1,
-            year: this.dateRdv.getFullYear(),
-          }
-        : {
-            day: today.getDate(),
-            month: today.getMonth() + 1,
-            year: today.getFullYear(),
-          };
+    if (rdv && rdv.dateRdv) {
+      this.dateRdv = new Date(rdv.dateRdv);
+    }
 
-    this.heureRdv =
-      rdv && rdv.dateRdv
-        ? { hour: this.dateRdv.getHours(), minute: this.dateRdv.getMinutes() }
-        : { hour: 10, minute: 20 };
+    this.jourRdv = formatDateToNgb(this.dateRdv);
+    this.heureRdv = {
+      hour: this.dateRdv.getHours(),
+      minute: this.dateRdv.getMinutes(),
+    };
 
     this.userId = (rdv && rdv.userId) || null;
     this.userName = (rdv && rdv.userName) || null;

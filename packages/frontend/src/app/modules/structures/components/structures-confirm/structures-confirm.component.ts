@@ -47,7 +47,7 @@ export class StructuresConfirmComponent implements OnInit {
           this.structure = structure;
           this.confirmDelete = true;
         },
-        (error) => {
+        () => {
           this.error = true;
         }
       );
@@ -57,7 +57,7 @@ export class StructuresConfirmComponent implements OnInit {
           this.structure = structure;
           this.successConfirm = true;
         },
-        (error) => {
+        () => {
           this.error = true;
         }
       );
@@ -69,12 +69,12 @@ export class StructuresConfirmComponent implements OnInit {
     const token = this.route.snapshot.url[3].path;
 
     this.structureService.delete(id, token, this.nom).subscribe(
-      (structure) => {
+      () => {
         this.successDelete = true;
         this.confirmDelete = false;
         this.notifService.success("Suppression réussie");
       },
-      (error) => {
+      () => {
         this.notifService.error("Le nom saisi est incorrect");
       }
     );

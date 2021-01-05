@@ -109,7 +109,7 @@
             </p>
 
             <div class="row text-center" *ngIf="r.isNow.value === false">
-              <div class="form-group col">
+              <div class="form-group col required">
                 <label for="rdvUser">Avec quel collaborateur ?</label>
                 <select
                   *ngIf="agents"
@@ -122,7 +122,7 @@
                   </option>
                 </select>
               </div>
-              <div class="form-group col">
+              <div class="form-group col required">
                 <label for="jourRdv">Date du rendez-vous</label>
                 <div class="input-group">
                   <input
@@ -132,8 +132,10 @@
                     [maxDate]="maxDateRdv"
                     placement="bottom"
                     ngbDatepicker
+                    [ngClass]="{ 'is-invalid': r.jourRdv.invalid }"
                     formControlName="jourRdv"
                     #dRdv="ngbDatepicker"
+                    required
                   />
                   <div class="input-group-append">
                     <span
@@ -143,19 +145,33 @@
                       <fa-icon icon="calendar"></fa-icon>
                     </span>
                   </div>
+                  <div
+                    *ngIf="r.jourRdv.invalid"
+                    class="text-center invalid-feedback"
+                  >
+                    La date est incorrecte
+                  </div>
                 </div>
               </div>
-              <div class="form-group col">
+              <div class="form-group col required">
                 <label for="heureRdv">Heure du rendez-vous</label>
                 <div class="input-group">
                   <ngb-timepicker
+                    required
+                    [spinners]="false"
                     id="heureRdv"
+                    [ngClass]="{ 'is-invalid': r.heureRdv.invalid }"
                     formControlName="heureRdv"
                   ></ngb-timepicker>
+                  <div
+                    *ngIf="r.heureRdv.errors"
+                    class="small form-text text-center text-danger"
+                  >
+                    L'heure est obligatoire
+                  </div>
                 </div>
               </div>
             </div>
-            <input formControlName="dateRdv" type="hidden" />
             <div
               class="col-md-4 offset-md-4 text-center"
               *ngIf="r.isNow.value === false"

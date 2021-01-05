@@ -28,7 +28,6 @@ export class EditUserComponent implements OnInit {
   public usagers: Usager[];
 
   public submitted: boolean;
-  public success: boolean;
 
   public editUser: boolean;
   public editPassword: boolean;
@@ -51,15 +50,14 @@ export class EditUserComponent implements OnInit {
   }
 
   constructor(
-    public authService: AuthService,
-    public userService: UsersService,
-    public router: Router,
-    public notifService: ToastrService,
-    public formBuilder: FormBuilder,
-    public titleService: Title
+    private authService: AuthService,
+    private userService: UsersService,
+    private router: Router,
+    private notifService: ToastrService,
+    private formBuilder: FormBuilder,
+    private titleService: Title
   ) {
     this.submitted = false;
-    this.success = false;
     this.editPassword = false;
     this.editUser = false;
 
