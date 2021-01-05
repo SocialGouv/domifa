@@ -106,7 +106,7 @@ export class UsagersFormComponent implements OnInit {
           this.usager = usager;
           this.initForm();
         },
-        (error) => {
+        () => {
           this.router.navigate(["404"]);
         }
       );

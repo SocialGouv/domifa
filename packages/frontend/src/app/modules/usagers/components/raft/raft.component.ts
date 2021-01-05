@@ -70,7 +70,7 @@ export class RaftComponent implements OnInit {
           this.usager = usager;
           this.notifService.success("Radiation effectuée avec succès");
         },
-        (error) => {
+        () => {
           this.notifService.error("Une erreur est survenue");
         }
       );

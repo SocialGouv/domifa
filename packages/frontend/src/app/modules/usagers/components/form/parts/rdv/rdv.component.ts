@@ -86,7 +86,11 @@ export class RdvComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: Usager) => {
           this.usager = usager;
-          this.editRdv = usager.etapeDemande < 2;
+
+          this.editRdv =
+            usager.etapeDemande < 2 ||
+            this.route.snapshot.url[3].path === "modifier-rendez-vous";
+
           this.initForm();
         },
         () => {

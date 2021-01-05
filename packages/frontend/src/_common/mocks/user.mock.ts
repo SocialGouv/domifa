@@ -36,10 +36,8 @@ export const userMock: AppUser = {
     capacite: 200,
     id: 1,
     options: {
-      colis: false,
       customId: true,
       numeroBoite: false,
-      rattachement: true,
     },
     region: "11",
     adresseCourrier: {

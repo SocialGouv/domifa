@@ -5,10 +5,9 @@ import { first } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { regexp } from "src/app/shared/validators";
 
-import { UsersService } from "../../services/users.service";
 import { ToastrService } from "ngx-toastr";
 import { Title } from "@angular/platform-browser";
-import { AppUser } from '../../../../../_common/model';
+import { AppUser } from "../../../../../_common/model";
 @Component({
   selector: "app-login",
   styleUrls: ["./login.component.css"],
@@ -33,8 +32,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: Title,
-    private userService: UsersService,
-    public authService: AuthService,
+    private authService: AuthService,
     private notifService: ToastrService
   ) {
     this.errorMessage = "";
@@ -52,7 +50,6 @@ export class LoginComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Connexion à DomiFa");
-
     this.initForm();
   }
 

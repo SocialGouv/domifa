@@ -245,10 +245,11 @@
         <br />
       </div>
 
-      <div class="col-6 form-group">
+      <div class="col-6 form-group required">
         <label for="departement">Préfecture ayant délivré l’agrément</label>
         <select
           id="departement"
+          required
           formControlName="departement"
           class="custom-select"
         >
@@ -265,11 +266,12 @@
         </div>
       </div>
 
-      <div class="col-6 form-group">
+      <div class="col-6 form-group required">
         <label for="agrement">Numéro d'agrément</label>
         <input
           formControlName="agrement"
           class="form-control"
+          required
           id="agrement"
           placeholder="Numéro donné par la préfecture"
           type="text"
