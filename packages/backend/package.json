@@ -54,7 +54,7 @@
     "@types/passport-jwt": "^3.0.3",
     "@types/pizzip": "^3.0.1",
     "@types/rimraf": "^3.0.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "braces": "^3.0.2",
     "class-transformer": "^0.3.1",
