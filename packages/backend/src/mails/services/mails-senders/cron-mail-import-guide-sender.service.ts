@@ -2,17 +2,17 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
 import { Model } from "mongoose";
-import { domifaConfig } from "../../config";
+import { domifaConfig } from "../../../config";
 import {
   cronMailsRepository,
-  MessageEmailContent,
+  MessageEmailTipimailContent,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
-} from "../../database";
-import { Structure } from "../../structures/structure-interface";
-import { appLogger } from "../../util";
-import { AppUser } from "../../_common/model";
-import { MessageEmailSender } from "./message-email-sender.service";
+} from "../../../database";
+import { Structure } from "../../../structures/structure-interface";
+import { appLogger } from "../../../util";
+import { AppUser } from "../../../_common/model";
+import { messageEmailSender } from "../_core";
 
 @Injectable()
 export class CronMailImportGuideSenderService {
@@ -23,7 +23,6 @@ export class CronMailImportGuideSenderService {
   private domifaFromMail: string;
 
   constructor(
-    private messageEmailSender: MessageEmailSender,
     @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
   ) {
     this.lienImport = domifaConfig().apps.frontendUrl + "import";
@@ -121,7 +120,7 @@ export class CronMailImportGuideSenderService {
       return;
     }
 
-    const message: MessageEmailContent = {
+    const message: MessageEmailTipimailContent = {
       subject: "Importer vos domiciliés sur DomiFa",
       tipimailTemplateId: "guide-import",
       tipimailModels: [
@@ -150,7 +149,7 @@ export class CronMailImportGuideSenderService {
       },
     };
 
-    await this.messageEmailSender.sendMailLater(message, {
+    await messageEmailSender.sendTipimailContentMessageLater(message, {
       emailId: "import-guide",
       initialScheduledDate: new Date(),
     });

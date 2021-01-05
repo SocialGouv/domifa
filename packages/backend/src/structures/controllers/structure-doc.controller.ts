@@ -14,29 +14,18 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
-
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+import * as fs from "fs";
 import { diskStorage } from "multer";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { domifaConfig } from "../../config";
-import { AppAuthUser } from "../../_common/model";
-
-// tslint:disable-next-line: no-var-requires
-const Docxtemplater = require("docxtemplater");
-// tslint:disable-next-line: no-var-requires
-const InspectModule = require("docxtemplater/js/inspect-module");
-
-import FileType = require("file-type");
-
-import * as fs from "fs";
-import * as path from "path";
-
 import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
+import { AppAuthUser } from "../../_common/model";
+import { StructureDoc } from "../../_common/model/structure-doc";
 import { StructureDocDto } from "../dto/structure-doc.dto";
 import { StructureDocService } from "../services/structure-doc.service";
-import { StructureDoc } from "../../_common/model/structure-doc";
 
 @ApiTags("structure-doc")
 @ApiBearerAuth()

@@ -1,26 +1,31 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-import { from, ReplaySubject } from "rxjs";
+import { from } from "rxjs";
 import { concatMap, debounceTime } from "rxjs/operators";
 import { LessThanOrEqual } from "typeorm";
-import { domifaConfig } from "../../config";
+import { domifaConfig } from "../../../config";
 import {
   MessageEmail,
+  MessageEmailContent,
   messageEmailRepository,
+  MessageEmailTipimailContent,
+  MessageEmailTipimailTemplateId,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
+  pgBinaryUtil,
+  TIPIMAIL_TEMPLATES_MESSAGE_IDS,
   typeOrmSearch,
-} from "../../database";
-import { appLogger } from "../../util";
+} from "../../../database";
+import { appLogger } from "../../../util";
+import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
+import { smtpSender } from "./smtpSender.service";
 import { TipimailSender } from "./tipimail-sender.service";
 import moment = require("moment");
 
 @Injectable()
 export class MessageEmailConsummer {
-  private trigger$ = new ReplaySubject<MonitoringBatchProcessTrigger>(1);
-
   constructor(private tipimailSender: TipimailSender) {
-    this.trigger$
+    messageEmailConsummerTrigger.trigger$
       .pipe(
         debounceTime(1000),
         concatMap((trigger) => from(this.consumeEmails(trigger)))
@@ -28,16 +33,12 @@ export class MessageEmailConsummer {
       .subscribe();
   }
 
-  public triggerNextSending(trigger: MonitoringBatchProcessTrigger = "app") {
-    this.trigger$.next(trigger);
-  }
-
   @Cron(domifaConfig().cron.emailConsumer.crontime)
   protected async consumeEmailsCron() {
     if (!domifaConfig().cron.enable) {
       return;
     }
-    this.trigger$.next("cron");
+    messageEmailConsummerTrigger.triggerNextSending("cron");
   }
 
   protected async consumeEmails(trigger: MonitoringBatchProcessTrigger) {
@@ -58,9 +59,43 @@ export class MessageEmailConsummer {
 
         for (const messageEmail of messageEmails) {
           try {
-            messageEmail.sendDetails = await this.tipimailSender.trySendToTipimail(
-              messageEmail.content
-            );
+            const attachments = pgBinaryUtil.read<
+              [
+                {
+                  contentType: string;
+                  filename: string;
+                  content: any;
+                }
+              ]
+            >(messageEmail.attachments);
+
+            if (
+              TIPIMAIL_TEMPLATES_MESSAGE_IDS.includes(
+                messageEmail.emailId as MessageEmailTipimailTemplateId
+              )
+            ) {
+              const content = messageEmail.content as Omit<
+                MessageEmailTipimailContent,
+                "attachments"
+              >;
+              messageEmail.sendDetails = await this.tipimailSender.trySendToTipimail(
+                content,
+                {
+                  attachments,
+                  messageEmailId: messageEmail.emailId,
+                }
+              );
+            } else {
+              const content = messageEmail.content as Omit<
+                MessageEmailContent,
+                "attachments"
+              >;
+              messageEmail.sendDetails = await smtpSender.sendEmail(content, {
+                attachments,
+                messageEmailId: messageEmail.emailId,
+              });
+            }
+
             messageEmail.sendDate = new Date();
             messageEmail.status = "sent";
             await messageEmailRepository.save(messageEmail);

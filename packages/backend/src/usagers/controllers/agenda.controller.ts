@@ -17,8 +17,10 @@ import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import { usersRepository } from "../../database";
-import { UsagersMailsService } from "../../mails/services/usagers-mails.service";
-import { UsersService } from "../../users/services/users.service";
+import {
+  usagerAppointmentCreatedEmailSender,
+  UsagersMailsService,
+} from "../../mails/services";
 import { AppAuthUser, UserProfile } from "../../_common/model";
 import { RdvDto } from "../dto/rdv.dto";
 import { Usager } from "../interfaces/usagers";
@@ -30,8 +32,7 @@ import { UsagersService } from "../services/usagers.service";
 export class AgendaController {
   constructor(
     private usagersService: UsagersService,
-    private mailService: UsagersMailsService,
-    private usersService: UsersService
+    private mailService: UsagersMailsService
   ) {}
 
   // AGENDA des rendez-vous
@@ -92,10 +93,10 @@ export class AgendaController {
     });
 
     if (invitation.value && invitation.value !== null) {
-      const attachment = Buffer.from(invitation.value).toString("base64");
-      let msg = "";
+      const event = Buffer.from(invitation.value).toString("base64");
+      let message = "";
       if (currentUser.id !== user.id) {
-        msg =
+        message =
           "Il vous a été assigné par " +
           currentUser.prenom +
           " " +
@@ -113,16 +114,18 @@ export class AgendaController {
           return res.status(HttpStatus.OK).json(updatedUsager);
         }
 
-        this.mailService.mailRdv(user, updatedUsager, attachment, msg).then(
-          () => {
-            return res.status(HttpStatus.OK).json(updatedUsager);
-          },
-          () => {
-            return res
-              .status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .json({ message: "REGISTER_ERROR" });
-          }
-        );
+        usagerAppointmentCreatedEmailSender
+          .sendMail({ user, usager: updatedUsager, event, message })
+          .then(
+            () => {
+              return res.status(HttpStatus.OK).json(updatedUsager);
+            },
+            () => {
+              return res
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .json({ message: "REGISTER_ERROR" });
+            }
+          );
       } else {
         throw new HttpException("UPDATE_RDV", HttpStatus.INTERNAL_SERVER_ERROR);
       }

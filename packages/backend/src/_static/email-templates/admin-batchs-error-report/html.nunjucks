@@ -5,21 +5,21 @@
 
 {% block content %}
 
-     <div class="content">
-          <div>
+     <div class="content text-left leading-normal">
+          <div class="my-2">
                <b>{{errorsCount}} erreurs</b> ont été rencontrées lors des traitements sur l'environnement <b>"{{envId}}"</b>
           </div>
 
-          <div><br/>Dernier message d'erreur: 
+          <div class="my-2"><br/>Dernier message d'erreur: 
         <br/>> <i>
                     <b>{{lastErrorMessage}}</b>
                </i>
           </div>
 
-          <div><br/>Date de la dernière erreur: <b>{{lastErrorDate}}</b>
+          <div class="my-2"<br/>Date de la dernière erreur: <b>{{lastErrorDate}}</b>
           </div>
 
-          <div><br/>Process en erreur: <b>{{processIds}}</b>
+          <div class="my-2"><br/>Process en erreur: <b>{{processIds}}</b>
           </div>
      </div>
 

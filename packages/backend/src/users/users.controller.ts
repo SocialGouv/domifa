@@ -23,8 +23,7 @@ import {
   usersRepository,
   USERS_ADMIN_EMAILS_ATTRIBUTES,
 } from "../database";
-import { DomifaMailsService } from "../mails/services/domifa-mails.service";
-import { UsersMailsService } from "../mails/services/users-mails.service";
+import { DomifaMailsService, UsersMailsService } from "../mails/services";
 import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
 import { ExpressResponse } from "../util/express";

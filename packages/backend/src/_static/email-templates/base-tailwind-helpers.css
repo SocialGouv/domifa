@@ -1,0 +1,20 @@
+/* tailwind inspired helpers */
+
+/* https://tailwindcss.com/docs/text-align */
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+
+/* https://tailwindcss.com/docs/line-height */
+.leading-normal {
+  line-height: 1.5;
+}
+
+/* https://tailwindcss.com/docs/margin */
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}

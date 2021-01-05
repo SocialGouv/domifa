@@ -1,0 +1,7 @@
+Bonjour {{ prenom }}
+
+Le rendez-vous avec {{ usager }} est confirmé
+
+{{ message }}
+
+Le {{ date }} à {{ heure }}

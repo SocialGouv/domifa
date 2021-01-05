@@ -1,13 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
-import { domifaConfig } from "../../config";
-import { cronMailsRepository, MessageEmailContent } from "../../database";
-import { MonitoringBatchProcessTrigger } from "../../database/entities/monitoring";
-import { monitoringBatchProcessSimpleCountRunner } from "../../database/services/monitoring/simple-count";
-import { appLogger } from "../../util";
-import { AppUser } from "../../_common/model";
-import { MessageEmailSender } from "./message-email-sender.service";
+import { domifaConfig } from "../../../config";
+import {
+  cronMailsRepository,
+  MessageEmailTipimailContent,
+  monitoringBatchProcessSimpleCountRunner,
+  MonitoringBatchProcessTrigger,
+} from "../../../database";
+import { appLogger } from "../../../util";
+import { AppUser } from "../../../_common/model";
+import { messageEmailSender } from "../_core";
 
 @Injectable()
 export class CronMailUserGuideSenderService {
@@ -15,7 +18,7 @@ export class CronMailUserGuideSenderService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(private messageEmailSender: MessageEmailSender) {
+  constructor() {
     this.lienGuide =
       domifaConfig().apps.frontendUrl +
       "assets/files/guide_utilisateur_domifa.pdf";
@@ -67,7 +70,7 @@ export class CronMailUserGuideSenderService {
   private async _sendMailGuideToUser(
     user: Pick<AppUser, "id" | "email" | "nom" | "prenom">
   ) {
-    const message: MessageEmailContent = {
+    const message: MessageEmailTipimailContent = {
       subject: "Le guide utilisateur Domifa",
       tipimailTemplateId: "guide-utilisateur",
       tipimailModels: [
@@ -96,7 +99,7 @@ export class CronMailUserGuideSenderService {
       },
     };
 
-    await this.messageEmailSender.sendMailLater(message, {
+    await messageEmailSender.sendTipimailContentMessageLater(message, {
       emailId: "user-guide",
       initialScheduledDate: new Date(),
     });

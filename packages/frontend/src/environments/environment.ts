@@ -7,8 +7,8 @@ export const environment = {
     siteId: 18, // 17=prod, 18=dev,tests
   },
   healthzCheck: {
-    initialCheckDelay: 5,
-    checkPeriodIfSuccess: 5,
-    checkPeriodIfError: 1,
+    initialCheckDelay: 60,
+    checkPeriodIfSuccess: 600,
+    checkPeriodIfError: 5,
   },
 };

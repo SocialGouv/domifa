@@ -1,16 +1,19 @@
 import { Injectable } from "@nestjs/common";
-import { domifaConfig } from "../../config";
-import { AppUserForAdminEmail, MessageEmailContent } from "../../database";
-import { DEPARTEMENTS_MAP } from "../../structures/DEPARTEMENTS_MAP.const";
-import { Structure } from "../../structures/structure-interface";
-import { MessageEmailSender } from "./message-email-sender.service";
+import { domifaConfig } from "../../../config";
+import {
+  AppUserForAdminEmail,
+  MessageEmailTipimailContent,
+} from "../../../database";
+import { DEPARTEMENTS_MAP } from "../../../structures/DEPARTEMENTS_MAP.const";
+import { Structure } from "../../../structures/structure-interface";
+import { messageEmailSender } from "../_core";
 
 @Injectable()
 export class DomifaMailsService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(private messageEmailSender: MessageEmailSender) {
+  constructor() {
     this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
     this.domifaFromMail = domifaConfig().email.emailAddressFrom;
   }
@@ -31,7 +34,7 @@ export class DomifaMailsService {
       cias: "CIAS",
     };
 
-    const message: MessageEmailContent = {
+    const message: MessageEmailTipimailContent = {
       subject: "Nouvelle structure sur Domifa ",
       tipimailTemplateId: "domifa-nouvelle-structure",
       tipimailModels: [
@@ -77,7 +80,7 @@ export class DomifaMailsService {
       },
     };
 
-    await this.messageEmailSender.sendMailLater(message, {
+    await messageEmailSender.sendTipimailContentMessageLater(message, {
       emailId: "structure-created",
       initialScheduledDate: new Date(),
     });
@@ -94,7 +97,7 @@ export class DomifaMailsService {
       "/" +
       structure.token;
 
-    const message: MessageEmailContent = {
+    const message: MessageEmailTipimailContent = {
       subject: "Supprimer une structure sur Domifa",
       tipimailTemplateId: "domifa-supprimer-structure",
       tipimailModels: [
@@ -129,7 +132,7 @@ export class DomifaMailsService {
       },
     };
 
-    await this.messageEmailSender.sendMailLater(message, {
+    await messageEmailSender.sendTipimailContentMessageLater(message, {
       emailId: "structure-delete",
       initialScheduledDate: new Date(),
     });
