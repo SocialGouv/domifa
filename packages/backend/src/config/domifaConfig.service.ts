@@ -349,6 +349,9 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       },
       smtp: smtpOptions,
     },
+    sms: {
+      apiKey: configParser.parseString(x, "SMS_API_KEY"),
+    },
   };
   if (config.dev.printEnv) {
     printEnv(x, config);
