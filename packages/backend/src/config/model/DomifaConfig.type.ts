@@ -92,4 +92,7 @@ export type DomifaConfig = {
     };
     smtp: SMTPTransport.Options;
   };
+  sms: {
+    apiKey: string;
+  };
 };

@@ -12,6 +12,7 @@ import { MonitoringModule } from "./database/services/monitoring/monitoring.modu
 import { HealthController } from "./health/health.controller";
 import { PostgresHealthIndicator } from "./health/postgres-health-indicator.service";
 import { InteractionsModule } from "./interactions/interactions.module";
+import { SmsModule } from "./sms/sms.module";
 import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
 import { UsagersModule } from "./usagers/usagers.module";
@@ -32,6 +33,7 @@ mongoose.set("debug", domifaConfig().mongo.debug);
   imports: [
     AuthModule,
     InteractionsModule,
+    SmsModule,
     RavenModule,
     ScheduleModule.forRoot(),
     StatsModule,
