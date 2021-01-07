@@ -156,12 +156,8 @@ Backend tests:
     - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
     - nc -zvv mongo 27017
     - pg_isready -d postgres -h postgres -p 5432 -U runner
-    # - |
-    #   > ./.env.test.ci.env
-    #   > ./packages/backend/.env.backend.test.ci.env
     - ./_scripts/db/restore-mongo.sh --db=test
     - ./_scripts/db/restore-postgres.sh --db=test --ci
-    # - yarn --frozen-lockfile
     - yarn --cwd packages/backend build
     - yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
 
@@ -172,28 +168,10 @@ Front-end tests:
     - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
     - nc -zvv mongo 27017
     - pg_isready -d postgres -h postgres -p 5432 -U runner
-    # - |
-    #   > ./.env.test.ci.env
-    #   > ./packages/backend/.env.backend.test.ci.env
     - ./_scripts/db/restore-mongo.sh --db=test
     - ./_scripts/db/restore-postgres.sh --db=test --ci
-    # - yarn --frozen-lockfile
     - yarn build
     - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
-    # - apk add mongodb-tools
-    # - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
-    # - nc -zvv mongo 27017
-    # - pg_isready -d postgres -h postgres -p 5432 -U runner
-    # - ./_scripts/db/restore-mongo.sh --db=test
-    # - ./_scripts/db/restore-postgres.sh --db=test
-    # - cd ${CI_PROJECT_DIR}
-    # - mv
-    #   packages/frontend/src/environments/environment.travis.ts
-    #   packages/frontend/src/environments/environment.prod.ts
-    # - yarn build
-    # - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
-    # - yarn workspace @domifa/backend start:tests-travis &
-    # - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
 
 E2E tests:
   extends: .tests_setup
@@ -202,11 +180,11 @@ E2E tests:
     - nc -zvv mongo 27017
     - pg_isready -d postgres -h postgres -p 5432 -U runner
     - ./_scripts/db/restore-mongo.sh --db=test
-    - ./_scripts/db/restore-postgres.sh --db=test
+    - ./_scripts/db/restore-postgres.sh --db=test --ci
     - cd ${CI_PROJECT_DIR}
-    - mv
-      packages/frontend/src/environments/environment.travis.ts
-      packages/frontend/src/environments/environment.prod.ts
+    # - mv
+    #   packages/frontend/src/environments/environment.travis.ts
+    #   packages/frontend/src/environments/environment.prod.ts
     - yarn build
     - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
     - yarn workspace @domifa/backend start:tests-travis &
