@@ -19,47 +19,6 @@ stages:
   - "Tests"
   - "Registration"
 
-# .tests_setup:
-#   stage: Tests
-#   image: node:14.15.0-alpine3.12
-#   cache:
-#     key:
-#       files:
-#         - yarn.lock
-#       prefix: ${CI_JOB_NAME}
-#     paths:
-#       - packages/frontend/node_modules/.cache
-#   services:
-#     - name: mongo:4.0.3
-#     - name: postgres:10.14
-#   variables:
-#     MONGO_INITDB_ROOT_USERNAME: root
-#     MONGO_INITDB_ROOT_PASSWORD: root
-#     DB_USER: root
-#     DB_PASS: root
-#     DB_NAME: domifa_test
-#     POSTGRES_DB: nice_marmot
-#     POSTGRES_USER: runner
-#     POSTGRES_PASSWORD: abcd
-#     POSTGRES_HOST_AUTH_METHOD: trust
-#     DOMIFA_ENV_ID: test
-#     SECRET: efgh
-#     DOMIFA_ENV_ID: test
-#     POSTGRES_USERNAME: runner
-#     POSTGRES_DATABASE: domifa_test
-#     #DOMIFA_PRINT_CONFIG: "true"
-#   before_script:
-#     - apk add mongodb-tools
-#     - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
-#     - nc -zvv mongo 27017
-#     - pg_isready -d postgres -h postgres -p 5432 -U runner
-#     - |
-#       > ./.env.test.ci.env
-#       > ./packages/backend/.env.backend.test.ci.env
-#     - ./_scripts/db/restore-mongo.sh --db=test
-#     - ./_scripts/db/restore-postgres.sh --db=test --ci
-#     - yarn --frozen-lockfile
-
 # Build:
 #   extends: .base_yarn_script
 #   stage: Install
@@ -138,6 +97,7 @@ stages:
     CHROMIUM_PATH: /usr/bin/chromium-browser
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
     DOMIFA_FRONTEND_URL: http://localhost:4200/
+    DOMIFA_BACKEND_URL: http://localhost:3000/
     MONGO_DUMP_PATH: /builds/SocialGouv/domifa/_scripts/db/dumps/domifa_test.mongo.gz
     POSTGRES_DUMP_PATH: /builds/SocialGouv/domifa/_scripts/db/dumps/domifa_test.postgres.dump
     SENTRY_DSN: https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
