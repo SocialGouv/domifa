@@ -187,7 +187,8 @@ E2E tests:
     #   packages/frontend/src/environments/environment.prod.ts
     - yarn build
     - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
-    - yarn workspace @domifa/backend start:tests-travis &
+    # - yarn workspace @domifa/backend start:tests-travis &
+    - yarn workspace @domifa/backend start:tests-ci &
     - npx serve packages/frontend/dist/domifa -l 4200 &
     - cd optional/e2e/runners/puppeteer/
     - yarn --frozen-lockfile
