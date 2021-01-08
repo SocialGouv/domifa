@@ -1,4 +1,16 @@
 [
+    {
+    "date": "2021-01-11"
+    "content": [
+    {   "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Affichage d’une fenêtre de maintenance lors d’une mise en production",
+          "Nettoyage des paramètres structure pour faciliter la prise en main de la plateforme"
+        ]
+      },
+    ]
+  },
   {
     "date": "2020-12-28",
     "content": [
