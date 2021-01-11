@@ -12,12 +12,15 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import * as fs from "fs";
+
 import { diskStorage } from "multer";
+import * as fs from "fs";
 import * as path from "path";
 import * as XLSX from "xlsx";
+
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
+
 import { StructuresService } from "../../structures/services/structures.service";
 import { randomName, validateUpload } from "../../util/FileManager";
 import { AppAuthUser } from "../../_common/model";
@@ -41,6 +44,9 @@ export class ImportController {
   public colNames: string[];
   public rowNumber: number;
   public datas: AOA = [[], []];
+
+  public today: Date;
+  public nextYear: Date;
 
   public CUSTOM_ID = 0;
   public CIVILITE = 1;
@@ -89,6 +95,11 @@ export class ImportController {
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
   ) {
+    this.today = new Date();
+    this.nextYear = new Date(
+      new Date().setFullYear(new Date().getFullYear() + 1)
+    );
+
     this.errorsId = [];
     this.rowNumber = 0;
     this.datas = [[], []];
@@ -212,7 +223,7 @@ export class ImportController {
         this.countErrors(this.notEmpty(row[this.PRENOM]), index, this.PRENOM);
 
         this.countErrors(
-          this.validDate(row[this.DATE_NAISSANCE], true, false),
+          this.isValidDate(row[this.DATE_NAISSANCE], true, false),
           index,
           this.DATE_NAISSANCE
         );
@@ -223,9 +234,9 @@ export class ImportController {
           this.LIEU_NAISSANCE
         );
 
-        this.countErrors(this.validEmail(row[this.EMAIL]), index, this.EMAIL);
+        this.countErrors(this.isValidEmail(row[this.EMAIL]), index, this.EMAIL);
 
-        this.countErrors(this.validPhone(row[this.PHONE]), index, this.PHONE);
+        this.countErrors(this.isValidPhone(row[this.PHONE]), index, this.PHONE);
 
         this.countErrors(
           this.isValidValue(row[this.STATUT_DOM], "statut", true),
@@ -239,26 +250,34 @@ export class ImportController {
           this.TYPE_DOM
         );
 
+        // SI Refus & Radié, on ne tient pas compte des dates suivantes : date de début, date de fin, date de dernier passage
+        const dateIsRequired =
+          row[this.STATUT_DOM] !== "REFUS" && row[this.STATUT_DOM] !== "RADIE";
+
         this.countErrors(
-          this.validDate(row[this.DATE_DEBUT_DOM], true, false),
+          this.isValidDate(row[this.DATE_DEBUT_DOM], dateIsRequired, false),
           index,
           this.DATE_DEBUT_DOM
         );
 
         this.countErrors(
-          this.validDate(row[this.DATE_FIN_DOM], true, true),
+          this.isValidDate(row[this.DATE_FIN_DOM], dateIsRequired, true),
           index,
           this.DATE_FIN_DOM
         );
 
         this.countErrors(
-          this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
+          this.isValidDate(row[this.DATE_PREMIERE_DOM], false, false),
           index,
           this.DATE_PREMIERE_DOM
         );
 
         this.countErrors(
-          this.validDate(row[this.DATE_DERNIER_PASSAGE], false, false),
+          this.isValidDate(
+            row[this.DATE_DERNIER_PASSAGE],
+            dateIsRequired,
+            false
+          ),
           index,
           this.DATE_DERNIER_PASSAGE
         );
@@ -339,7 +358,7 @@ export class ImportController {
             );
 
             this.countErrors(
-              this.validDate(dateNaissance, true, false),
+              this.isValidDate(dateNaissance, true, false),
               this.rowNumber,
               indexAD + 2
             );
@@ -384,7 +403,7 @@ export class ImportController {
     }
   }
 
-  public async saveDatas(datas: any, @CurrentUser() user: AppAuthUser) {
+  private async saveDatas(datas: any, @CurrentUser() user: AppAuthUser) {
     const agent = user.prenom + " " + user.nom;
     const usagers = [];
     for (let index = 1, len = datas.length; index < len; index++) {
@@ -398,7 +417,7 @@ export class ImportController {
         ? this.convertDate(row[this.DATE_DEBUT_DOM])
         : new Date();
 
-      let datePremiereDom = new Date().toISOString();
+      let datePremiereDom = new Date();
 
       if (this.notEmpty(row[this.DATE_PREMIERE_DOM])) {
         datePremiereDom = this.convertDate(row[this.DATE_PREMIERE_DOM]);
@@ -613,15 +632,14 @@ export class ImportController {
     }
   }
 
-  private convertChoix(value: any) {
+  private convertChoix(value: any): boolean {
     return value === "OUI" ? true : false;
   }
 
-  private convertDate(dateFr: string) {
+  private convertDate(dateFr: string): Date {
     const dateParts = dateFr.split("/");
     const dateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-    const newDate = new Date(dateEn).toISOString();
-    return newDate;
+    return new Date(dateEn);
   }
 
   private countErrors(variable: boolean, idRow: any, idColumn: number) {
@@ -658,67 +676,70 @@ export class ImportController {
     );
   }
 
-  public validDate(
+  // Vérification des différents champs Date
+  public isValidDate(
     date: string,
     required: boolean,
-    futureDate?: boolean
+    futureDate: boolean
   ): boolean {
-    if (
-      (typeof date === "undefined" || date === null || date === "") &&
-      !required
-    ) {
-      return true;
+    if (!this.notEmpty(date)) {
+      return !required;
     }
 
     if (RegExp(regexp.date).test(date)) {
-      const today = new Date();
-      const maxAnnee = futureDate
-        ? today.getFullYear() + 1
-        : today.getFullYear();
-
       const dateParts = date.split("/");
+
       const jour = parseInt(dateParts[0], 10);
       const mois = parseInt(dateParts[1], 10);
       const annee = parseInt(dateParts[2], 10);
 
+      // Vérification du format de la date
       const isValidFormat =
-        jour <= 31 &&
-        jour > 0 &&
-        mois <= 12 &&
-        mois > 0 &&
-        annee > 1900 &&
-        annee <= maxAnnee;
+        jour <= 31 && jour > 0 && mois <= 12 && mois > 0 && annee > 1900;
+      const dateToCheck = new Date(
+        annee + "-" + this.padNumber(mois) + "-" + this.padNumber(jour)
+      );
 
-      if (!isValidFormat) return false;
+      if (
+        isValidFormat === false ||
+        isNaN(
+          Date.parse(
+            annee + "-" + this.padNumber(mois) + "-" + this.padNumber(jour)
+          )
+        )
+      ) {
+        return false;
+      }
 
-      const dateToCheck = new Date(annee, mois - 1, jour);
-
-      return futureDate || dateToCheck <= today;
+      // S'il s'agit d'une date dans le futur, on compare à N+1
+      return futureDate
+        ? dateToCheck <= this.nextYear
+        : dateToCheck <= this.today;
     }
     return false;
   }
 
-  private validPhone(phone: string): boolean {
-    if (!phone || phone === null || phone === "") {
+  private isValidPhone(phone: string): boolean {
+    if (!this.notEmpty(phone)) {
       return true;
     }
     return RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
   }
 
-  private validEmail(email: string): boolean {
-    if (!email || email === null || email === "") {
+  private isValidEmail(email: string): boolean {
+    if (!this.notEmpty(email)) {
       return true;
     }
     return RegExp(regexp.email).test(email);
   }
 
-  private isValidValue(data: string, rowName: string, required?: boolean) {
-    if ((data === undefined || data === null || data === "") && !required) {
-      return true;
-    }
-
-    if ((data === undefined || data === null || data === "") && required) {
-      return false;
+  private isValidValue(
+    data: string,
+    rowName: string,
+    required: boolean = false
+  ): boolean {
+    if (!this.notEmpty(data)) {
+      return !required;
     }
 
     const types: any = {
@@ -773,5 +794,9 @@ export class ImportController {
     };
 
     return types[rowName].indexOf(data.toUpperCase()) > -1;
+  }
+
+  private padNumber(value: number) {
+    return `0${value}`.slice(-2);
   }
 }

@@ -138,7 +138,9 @@ export class DashboardController {
     const statsLangues = [];
     for (const langue of langues) {
       const label =
-        langue._id.langue !== null ? langue._id.langue : "NON_RENSEIGNE";
+        langue._id.langue !== null && langue._id.langue !== ""
+          ? langue._id.langue
+          : "NON_RENSEIGNE";
       statsLangues.push({
         label,
         total: langue.sum[0],
