@@ -1,5 +1,9 @@
 import moment = require("moment");
-import { AppUserForAdminEmail, MessageEmailContent } from "../../../database";
+import {
+  AppUserForAdminEmail,
+  MessageEmailContent,
+  MessageEmailIcalEvent,
+} from "../../../database";
 import { Usager } from "../../../usagers/interfaces/usagers";
 import { usagerAppointmentCreatedEmailRenderer } from "../templates-renderers";
 import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../_core";
@@ -9,12 +13,12 @@ export const usagerAppointmentCreatedEmailSender = { sendMail };
 async function sendMail({
   user,
   usager,
-  event,
+  icalEvent,
   message,
 }: {
   user: AppUserForAdminEmail;
   usager: Usager;
-  event: any;
+  icalEvent: MessageEmailIcalEvent;
   message: string;
 }): Promise<void> {
   const prenomUsager =
@@ -47,13 +51,7 @@ async function sendMail({
         personalName: user.prenom + " " + user.nom,
       },
     ],
-    attachments: [
-      {
-        contentType: "text/calendar",
-        filename: "invitation.ics",
-        content: event,
-      },
-    ],
+    icalEvent,
   };
 
   messageEmailSender.sendMessageLater(messageContent, {

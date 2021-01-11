@@ -88,8 +88,6 @@ export class TipimailSender {
       },
     };
 
-    console.log("xxx post:", JSON.stringify(post, undefined, 2));
-
     // https://docs.tipimail.com/fr/integrate/api/messages
     return this.httpService
       .post("https://api.tipimail.com/v1/messages/send", post, {

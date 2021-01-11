@@ -1,5 +1,5 @@
 import { Column, Entity } from "typeorm";
-import { Bytea } from "../../services/_postgres/pgBinaryUtil.service";
+import { Bytea } from "../../../util";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { MessageEmail } from "./MessageEmail.type";
 import { MessageEmailContent } from "./MessageEmailContent.type";
@@ -39,5 +39,5 @@ export class MessageEmailTable<T = any>
   sendDetails: MessageEmailSendDetails;
 
   @Column({ type: "bytea", nullable: true })
-  public attachments: Bytea; // binary content, use pgBinaryUtil to read/write
+  public attachments: Bytea; // binary content, use hexEncoder to read/write
 }

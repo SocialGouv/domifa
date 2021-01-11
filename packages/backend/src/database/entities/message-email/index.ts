@@ -2,6 +2,7 @@ export * from "./MessageEmail.type";
 export * from "./MessageEmailAttachement.type";
 export * from "./MessageEmailContent.type";
 export * from "./MessageEmailContentModel.type";
+export * from "./MessageEmailIcalEvent.type";
 export * from "./MessageEmailId.type";
 export * from "./MessageEmailRecipient.type";
 export * from "./MessageEmailSendDetails.type";
