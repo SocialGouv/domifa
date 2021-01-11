@@ -7,8 +7,8 @@ import {
   MessageEmailTable,
   MessageEmailTipimailContent,
   MessageEmailTipimailTemplateId,
-  pgBinaryUtil,
 } from "../../../database";
+import { hexEncoder } from "../../../util/encoding";
 import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
 
 export const messageEmailSender = {
@@ -54,7 +54,7 @@ async function _sendLater(
     emailId,
   }: Pick<MessageEmail, "initialScheduledDate" | "emailId">
 ) {
-  const attachments = pgBinaryUtil.write(content.attachments);
+  const attachments = hexEncoder.encode(content.attachments);
   delete content.attachments;
   const messageEmail = new MessageEmailTable({
     status: "pending",

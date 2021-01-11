@@ -1,5 +1,5 @@
+import { Bytea } from "../../../util";
 import { AppEntity } from "../../../_common/model";
-import { Bytea } from "../../services/_postgres/pgBinaryUtil.service";
 import { MessageEmailContent } from "./MessageEmailContent.type";
 import { MessageEmailId } from "./MessageEmailId.type";
 import { MessageEmailSendDetails } from "./MessageEmailSendDetails.type";
@@ -19,5 +19,5 @@ export type MessageEmail = AppEntity & {
   errorCount: number;
   errorMessage?: string;
   sendDetails?: MessageEmailSendDetails;
-  attachments: Bytea; // binary content, use pgBinaryUtil to read/write
+  attachments: Bytea; // binary content, use hexEncoder to read/write
 };

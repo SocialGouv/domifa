@@ -12,11 +12,10 @@ import {
   MessageEmailTipimailTemplateId,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
-  pgBinaryUtil,
   TIPIMAIL_TEMPLATES_MESSAGE_IDS,
   typeOrmSearch,
 } from "../../../database";
-import { appLogger } from "../../../util";
+import { appLogger, hexEncoder } from "../../../util";
 import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
 import { smtpSender } from "./smtpSender.service";
 import { TipimailSender } from "./tipimail-sender.service";
@@ -59,7 +58,7 @@ export class MessageEmailConsummer {
 
         for (const messageEmail of messageEmails) {
           try {
-            const attachments = pgBinaryUtil.read<
+            const attachments = hexEncoder.decode<
               [
                 {
                   contentType: string;

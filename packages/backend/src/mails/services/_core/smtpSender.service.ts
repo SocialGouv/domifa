@@ -55,6 +55,8 @@ async function sendEmail(
     subject = `[${domifaConfig().envId}] ${subject}`;
   }
 
+  const icalEvent = content.icalEvent;
+
   const transporterMailOptions: SendMailOptions = {
     to: content.to.map((x) => mapAddress(x)),
     from: mapAddress(content.from),
@@ -62,13 +64,20 @@ async function sendEmail(
     subject,
     html: content.html,
     text: content.text,
+    icalEvent: icalEvent
+      ? {
+          filename: icalEvent.filename,
+          content: icalEvent.content,
+          method: icalEvent.method,
+        }
+      : undefined,
     attachments: !attachments
       ? undefined
       : attachments.map((a) => {
           const att: Mail.Attachment = {
             contentType: a.contentType,
             filename: a.filename,
-            raw: a.content,
+            content: a.content,
           };
           return att;
         }),

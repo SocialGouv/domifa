@@ -16,7 +16,7 @@ import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
-import { usersRepository } from "../../database";
+import { MessageEmailIcalEvent, usersRepository } from "../../database";
 import {
   usagerAppointmentCreatedEmailSender,
   UsagersMailsService,
@@ -92,8 +92,13 @@ export class AgendaController {
       duration: { minutes: 30 },
     });
 
-    if (invitation.value && invitation.value !== null) {
-      const event = Buffer.from(invitation.value).toString("base64");
+    const invitationContent = invitation.value;
+    if (invitationContent) {
+      const icalEvent: MessageEmailIcalEvent = {
+        filename: "invitation.ics",
+        content: invitationContent,
+        method: "publish",
+      };
       let message = "";
       if (currentUser.id !== user.id) {
         message =
@@ -115,7 +120,7 @@ export class AgendaController {
         }
 
         usagerAppointmentCreatedEmailSender
-          .sendMail({ user, usager: updatedUsager, event, message })
+          .sendMail({ user, usager: updatedUsager, icalEvent, message })
           .then(
             () => {
               return res.status(HttpStatus.OK).json(updatedUsager);
