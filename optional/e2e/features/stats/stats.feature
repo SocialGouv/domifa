@@ -11,14 +11,14 @@ Contexte: Connexion utilisateur
   Soit un navigateur web sur le site
   Soit je me connecte sur Domifa
 
-  Quand je clique sur "Mon compte"
+  Quand je clique sur "Compte"
   Quand je clique sur "Statistiques"
   Alors je suis redirigé vers la page: "/rapport-activite"
   Alors je vois "Rapport d'activité de votre structure"
 
 Scénario: Chercher des stats
   Quand je clique sur "Actualiser les statistiques"
-  Alors j'attends "2" secondes
+  Alors j'attends "3" secondes
   Alors je vois "Nombre de domiciliés"
 
   Alors je vois le chiffre "7" à la ligne "1"

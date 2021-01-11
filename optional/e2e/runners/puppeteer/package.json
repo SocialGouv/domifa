@@ -6,10 +6,12 @@
   "scripts": {
     "test": "codeceptjs run --features",
     "test:debug": "yarn test --debug",
+    "test:open-ui": "npx codecept-ui --no-sandbox --app",
     "prerapport": "codeceptjs run --features --debug --plugins allure",
     "rapport": "allure serve output"
   },
   "dependencies": {
+    "@codeceptjs/ui": "^0.4.3",
     "codeceptjs": "^3.0.2",
     "dotenv": "^8.2.0",
     "execa": "^4.0.3",

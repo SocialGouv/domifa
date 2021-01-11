@@ -18,7 +18,7 @@ Scénario:
   Quand je clique sur "Connexion"
   Alors je suis redirigé vers la page: "/manage"
   Alors je vois "CCAS de test"
-  Quand je clique sur "Mon compte"
+  Quand je clique sur "Compte"
   Alors je vois "Déconnexion"
   # Quand je clique sur "Déconnexion"
   # Alors je suis redirigé vers la page: "/connexion"
