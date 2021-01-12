@@ -31,7 +31,7 @@ describe("Import Controller", () => {
 
   let context: AppTestContext;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [ImportController],
       imports: [DatabaseModule, UsersModule, StructuresModule],
@@ -142,7 +142,7 @@ describe("Import Controller", () => {
     ).toBeFalsy();
   });
 
-  it(`❌ Import d'un fichier Incorrect`, async () => {
+  it(`❌ Import d'un fichier Incorrect`, async (done) => {
     const validFile = "../../ressources/modele_import_domifa_errors.xlsx";
     const validFilePath = path.resolve(__dirname, validFile);
 
@@ -152,12 +152,14 @@ describe("Import Controller", () => {
       .post("/import")
       .set("Authorization", `Bearer ${authToken}`)
       .set("Content-Type", "multipart/form-data")
-      .attach("file", validFilePath);
+      .attach("file", validFilePath)
+      .expect(400);
 
     expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+    done();
   });
 
-  it(`✅ Import d'un fichier Valide`, async () => {
+  it(`✅ Import d'un fichier Valide`, async (done) => {
     const errorFile = "../../ressources/modele_import_domifa.xlsx";
     const errorFilePath = path.resolve(__dirname, errorFile);
 
@@ -167,9 +169,11 @@ describe("Import Controller", () => {
       .post("/import")
       .set("Authorization", `Bearer ${authToken}`)
       .set("Content-Type", "multipart/form-data")
-      .attach("file", errorFilePath);
+      .attach("file", errorFilePath)
+      .expect(200);
 
     expect(response.status).toBe(HttpStatus.OK);
     expect(JSON.parse(response.text)).toEqual({ success: true });
+    done();
   });
 });
