@@ -11,6 +11,8 @@ import { Title } from "@angular/platform-browser";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../../../shared/services/auth.service";
 import { LoadingService } from "../../../loading/loading.service";
+import { AppUser } from "../../../../../_common/model";
+import { padNumber } from "../../../../shared/bootstrap-util";
 
 export const colNames = [
   "Numéro d'identification",
@@ -67,6 +69,7 @@ export class ImportComponent implements OnInit {
   public uploadError: boolean;
   public showTable: boolean;
   public showErrors: boolean;
+
   public nbreAyantsDroits: any[];
 
   public errorsId: any[];
@@ -77,6 +80,11 @@ export class ImportComponent implements OnInit {
   public rowNumber: number;
   public colNames: string[];
   public etapeImport: number;
+
+  public today: Date;
+  public nextYear: Date;
+
+  public me: AppUser;
 
   public etapes = [
     "Téléchargement de votre fichier",
@@ -130,11 +138,10 @@ export class ImportComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
-    public authService: AuthService,
+    private authService: AuthService,
     private loadingService: LoadingService,
     private router: Router,
     private notifService: ToastrService,
-    public http: HttpClient,
     private titleService: Title
   ) {
     this.canUpload = false;
@@ -150,6 +157,11 @@ export class ImportComponent implements OnInit {
     this.showTable = false;
     this.success = false;
     this.uploadError = false;
+
+    this.today = new Date();
+    this.nextYear = new Date(
+      new Date().setFullYear(new Date().getFullYear() + 1)
+    );
 
     for (let cpt = 0; cpt < 10; cpt++) {
       this.colNames.push("Ayant-droit " + cpt + ": nom");
@@ -169,6 +181,11 @@ export class ImportComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Importer vos domiciliés sur Domifa");
+
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.me = user;
+    });
+
     for (let index = 0; index < 32; index++) {
       this.errorsColumn[index] = 10;
     }
@@ -232,7 +249,7 @@ export class ImportComponent implements OnInit {
         this.countErrors(this.notEmpty(row[this.PRENOM]), index, this.PRENOM);
 
         this.countErrors(
-          this.validDate(row[this.DATE_NAISSANCE], true, false),
+          this.isValidDate(row[this.DATE_NAISSANCE], true, false),
           index,
           this.DATE_NAISSANCE
         );
@@ -245,7 +262,7 @@ export class ImportComponent implements OnInit {
 
         this.countErrors(this.validEmail(row[this.EMAIL]), index, this.EMAIL);
 
-        this.countErrors(this.validPhone(row[this.PHONE]), index, this.PHONE);
+        this.countErrors(this.isValidPhone(row[this.PHONE]), index, this.PHONE);
 
         this.countErrors(
           this.isValidValue(row[this.STATUT_DOM], "statut", true),
@@ -259,26 +276,34 @@ export class ImportComponent implements OnInit {
           this.TYPE_DOM
         );
 
+        // SI Refus & Radié, on ne tient pas compte des dates suivantes : date de début, date de fin, date de dernier passage
+        const dateIsRequired =
+          row[this.STATUT_DOM] !== "REFUS" && row[this.STATUT_DOM] !== "RADIE";
+
         this.countErrors(
-          this.validDate(row[this.DATE_DEBUT_DOM], true, false),
+          this.isValidDate(row[this.DATE_DEBUT_DOM], dateIsRequired, false),
           index,
           this.DATE_DEBUT_DOM
         );
 
         this.countErrors(
-          this.validDate(row[this.DATE_FIN_DOM], true, true),
+          this.isValidDate(row[this.DATE_FIN_DOM], dateIsRequired, true),
           index,
           this.DATE_FIN_DOM
         );
 
         this.countErrors(
-          this.validDate(row[this.DATE_PREMIERE_DOM], false, false),
+          this.isValidDate(row[this.DATE_PREMIERE_DOM], false, false),
           index,
           this.DATE_PREMIERE_DOM
         );
 
         this.countErrors(
-          this.validDate(row[this.DATE_DERNIER_PASSAGE], false, false),
+          this.isValidDate(
+            row[this.DATE_DERNIER_PASSAGE],
+            dateIsRequired,
+            false
+          ),
           index,
           this.DATE_DERNIER_PASSAGE
         );
@@ -359,7 +384,7 @@ export class ImportComponent implements OnInit {
             );
 
             this.countErrors(
-              this.validDate(dateNaissance, true, false),
+              this.isValidDate(dateNaissance, true, false),
               this.rowNumber,
               indexAD + 2
             );
@@ -389,7 +414,7 @@ export class ImportComponent implements OnInit {
           this.router.navigate(["/manage"]);
         }, 1000);
       },
-      (err) => {
+      () => {
         this.notifService.error("Le fichier n'a pas pu être importé ");
         this.loadingService.stopLoading();
       }
@@ -402,20 +427,6 @@ export class ImportComponent implements OnInit {
   }
 
   public countErrors(variable: boolean, idRow: number, idColumn: number) {
-    if (
-      this.datas[idRow][this.STATUT_DOM] === "REFUS" ||
-      this.datas[idRow][this.STATUT_DOM] === "RADIE"
-    ) {
-      if (
-        idColumn === this.DATE_DEBUT_DOM ||
-        idColumn === this.DATE_PREMIERE_DOM ||
-        idColumn === this.DATE_DERNIER_PASSAGE
-      ) {
-        variable = true;
-        return true;
-      }
-    }
-
     this.errorsColumn[idColumn] === undefined
       ? (this.errorsColumn[idColumn] = 1)
       : this.errorsColumn[idColumn]++;
@@ -438,68 +449,72 @@ export class ImportComponent implements OnInit {
     );
   }
 
-  public validDate(
+  // Vérification des différents champs Date
+  public isValidDate(
     date: string,
     required: boolean,
-    futureDate?: boolean
+    futureDate: boolean
   ): boolean {
-    if (
-      (typeof date === "undefined" || date === null || date === "") &&
-      !required
-    ) {
-      return true;
+    if (!this.notEmpty(date)) {
+      return !required;
     }
 
     if (RegExp(regexp.date).test(date)) {
-      const today = new Date();
-      const maxAnnee = futureDate
-        ? today.getFullYear() + 1
-        : today.getFullYear();
-
       const dateParts = date.split("/");
+
       const jour = parseInt(dateParts[0], 10);
       const mois = parseInt(dateParts[1], 10);
       const annee = parseInt(dateParts[2], 10);
 
+      // Vérification du format de la date
       const isValidFormat =
-        jour <= 31 &&
-        jour > 0 &&
-        mois <= 12 &&
-        mois > 0 &&
-        annee > 1900 &&
-        annee <= maxAnnee;
+        jour <= 31 && jour > 0 && mois <= 12 && mois > 0 && annee > 1900;
 
-      if (!isValidFormat) return false;
+      const dateToCheck = new Date(
+        annee + "-" + padNumber(mois) + "-" + padNumber(jour)
+      );
 
-      const dateToCheck = new Date(annee, mois - 1, jour);
+      if (
+        isValidFormat === false ||
+        isNaN(Date.parse(annee + "-" + padNumber(mois) + "-" + padNumber(jour)))
+      ) {
+        return false;
+      }
 
-      return futureDate || dateToCheck <= today;
+      // S'il s'agit d'une date dans le futur, on compare à N+1
+      return futureDate
+        ? dateToCheck <= this.nextYear
+        : dateToCheck <= this.today;
     }
     return false;
   }
 
-  public validPhone(phone: string): boolean {
-    if (!phone || phone === null || phone === "") {
+  // Vérification : téléphone
+  public isValidPhone(phone: string): boolean {
+    if (!this.notEmpty(phone)) {
       return true;
     }
 
     return RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
   }
 
+  // Vérification : Email
   public validEmail(email: string): boolean {
-    if (!email || email === null || email === "") {
+    if (!this.notEmpty(email)) {
       return true;
     }
+
     return RegExp(regexp.email).test(email);
   }
 
-  public isValidValue(data: string, rowName: string, required?: boolean) {
-    if ((data === undefined || data === null || data === "") && !required) {
-      return true;
-    }
-
-    if ((data === undefined || data === null || data === "") && required) {
-      return false;
+  // Vérification des champs pré-remplis dans les liste déroulantes
+  public isValidValue(
+    data: string,
+    rowName: string,
+    required?: boolean
+  ): boolean {
+    if (!this.notEmpty(data)) {
+      return !required;
     }
 
     const types: {

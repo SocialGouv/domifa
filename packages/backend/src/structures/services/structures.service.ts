@@ -186,7 +186,7 @@ export class StructuresService {
     return this.structureModel.deleteOne({ _id: id });
   }
 
-  public async importSuccess(id: number) {
+  public async importSuccess(id: number): Promise<Structure> {
     return this.structureModel
       .findOneAndUpdate(
         { id },

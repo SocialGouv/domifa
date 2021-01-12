@@ -15,7 +15,7 @@
               formControlName="label"
               id="label"
               [ngClass]="{ 'is-invalid': submitted && u.label.errors }"
-              placeholder="Réglement intérieur, etc."
+              placeholder="Règlement intérieur, etc."
               required
             />
             <div *ngIf="u.label.errors" class="invalid-feedback">
@@ -105,8 +105,8 @@
           <tbody>
             <tr>
               <th>Nom du document</th>
-              <th>Ajoutée le</th>
-              <th>Ajoutée par</th>
+              <th>Ajouté le</th>
+              <th>Ajouté par</th>
               <th></th>
             </tr>
             <tr *ngFor="let document of structureDocs">

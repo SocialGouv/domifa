@@ -242,7 +242,7 @@ export class UsagerService {
       );
   }
 
-  public import(data: any) {
+  public import(data: FormData) {
     const uploadURL = environment.apiUrl + "import";
     return this.http
       .post<any>(uploadURL, data, {
