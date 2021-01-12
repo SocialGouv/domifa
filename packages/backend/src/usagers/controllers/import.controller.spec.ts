@@ -1,7 +1,14 @@
+import { HttpStatus, INestApplication } from "@nestjs/common";
+
 import moment = require("moment");
+import { bootstrapApplication } from "../../app.bootstrap";
 import { DatabaseModule } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
+
+import * as request from "supertest";
+import * as fs from "fs";
+import * as path from "path";
 
 import { AppTestContext, AppTestHelper } from "../../util/test";
 
@@ -18,6 +25,9 @@ const THIS_YEAR_MAX = false;
 
 describe("Import Controller", () => {
   let controller: ImportController;
+  let app: INestApplication;
+
+  let authToken: string;
 
   let context: AppTestContext;
 
@@ -32,14 +42,32 @@ describe("Import Controller", () => {
         ...UsagersProviders,
       ],
     });
+
+    app = context.module.createNestApplication();
     controller = context.module.get<ImportController>(ImportController);
+
+    await app.init();
   });
+
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
   });
 
   it("should be defined", () => {
     expect(controller).toBeDefined();
+  });
+
+  it("return an authorization token for valid credentials", async () => {
+    const authInfo = {
+      email: "ccastest@yopmail.com",
+      password: "Azerty012345",
+    };
+    const response = await request(app.getHttpServer())
+      .post("/auth/login")
+      .send(authInfo);
+
+    expect(response.status).toBe(HttpStatus.OK);
+    authToken = response.body.access_token;
   });
 
   it("1. CHECK DATE FUNCTIONS 📆", () => {
@@ -114,14 +142,34 @@ describe("Import Controller", () => {
     ).toBeFalsy();
   });
 
-  /*
-  it("2. Check file 📝", () => {
-    let file: Express.Multer.File = {};
-    let res: ExpressResponse;
+  it(`❌ Import d'un fichier Incorrect`, async () => {
+    const validFile = "../../ressources/modele_import_domifa_errors.xlsx";
+    const validFilePath = path.resolve(__dirname, validFile);
 
+    expect(fs.existsSync(validFilePath)).toBeTruthy();
 
+    const response = await request(app.getHttpServer())
+      .post("/import")
+      .set("Authorization", `Bearer ${authToken}`)
+      .set("Content-Type", "multipart/form-data")
+      .attach("file", validFilePath);
 
-    const user = controller.importExcel(res, file, appAuthUserMock);
+    expect(response.status).toBe(HttpStatus.BAD_REQUEST);
   });
-  */
+
+  it(`✅ Import d'un fichier Valide`, async () => {
+    const errorFile = "../../ressources/modele_import_domifa.xlsx";
+    const errorFilePath = path.resolve(__dirname, errorFile);
+
+    expect(fs.existsSync(errorFilePath)).toBeTruthy();
+
+    const response = await request(app.getHttpServer())
+      .post("/import")
+      .set("Authorization", `Bearer ${authToken}`)
+      .set("Content-Type", "multipart/form-data")
+      .attach("file", errorFilePath);
+
+    expect(response.status).toBe(HttpStatus.OK);
+    expect(JSON.parse(response.text)).toEqual({ success: true });
+  });
 });

@@ -1,4 +1,3 @@
-import { Structure } from "../../app/modules/structures/structure.interface";
 import { AppUser } from "../model";
 
 export const userMock: AppUser = {
