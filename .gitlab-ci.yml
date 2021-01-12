@@ -1,10 +1,10 @@
 #
 
 include:
-  - project: SocialGouv/gitlab-ci-yml
+  - project: SocialGouv/gitlab-ci-yml # yarn lint + test + build https://github.com/SocialGouv/gitlab-ci-yml/blob/v17.23.0/base_yarn_stage.yml
     file: /base_yarn_stage.yml
     ref: v17.23.0
-  - project: SocialGouv/gitlab-ci-yml
+  - project: SocialGouv/gitlab-ci-yml # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v17.23.0/base_register_stage.yml
     file: /base_register_stage.yml
     ref: v17.23.0
 
@@ -109,7 +109,7 @@ stages:
       > ./.env.test.travis.env
       > ./packages/backend/.env.backend.test.travis.env
 
-Backend tests:
+.Backend tests:
   extends: .tests_setup
   script:
     - apk add mongodb-tools
@@ -121,39 +121,60 @@ Backend tests:
     - yarn --cwd packages/backend build
     - yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
 
-Front-end tests:
+.Front-end tests:
   extends: .tests_setup
   script:
-    - apk add mongodb-tools
-    - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
-    - nc -zvv mongo 27017
-    - pg_isready -d postgres -h postgres -p 5432 -U runner
-    - ./_scripts/db/restore-mongo.sh --db=test
-    - ./_scripts/db/restore-postgres.sh --db=test --ci
+    # - apk add mongodb-tools
+    # - apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
+    # - nc -zvv mongo 27017
+    # - pg_isready -d postgres -h postgres -p 5432 -U runner
+    # - ./_scripts/db/restore-mongo.sh --db=test
+    # - ./_scripts/db/restore-postgres.sh --db=test --ci
     - yarn build
     - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
 
 E2E tests:
   extends: .tests_setup
-  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:e9cd174a32d26f39ce702fbad891bf9a2f19a992
+  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:e9b15e93211de45a773f2adf726d66e7a38590fd
   script:
     - nc -zvv mongo 27017
     - pg_isready -d postgres -h postgres -p 5432 -U runner
     - ./_scripts/db/restore-mongo.sh --db=test
     - ./_scripts/db/restore-postgres.sh --db=test --ci
     - cd ${CI_PROJECT_DIR}
-    # - mv
-    #   packages/frontend/src/environments/environment.travis.ts
-    #   packages/frontend/src/environments/environment.prod.ts
+    - mv
+      packages/frontend/src/environments/environment.travis.ts
+      packages/frontend/src/environments/environment.prod.ts
     - yarn build
     - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources
     # - yarn workspace @domifa/backend start:tests-travis &
-    - yarn workspace @domifa/backend start:tests-ci &
-    - npx serve packages/frontend/dist/domifa -l 4200 &
+    - npx serve packages/frontend/dist/domifa -l 4200 > ${CI_PROJECT_DIR}/frontend.log 2>&1 &
+    - yarn workspace @domifa/backend start:tests-ci > ${CI_PROJECT_DIR}/backend.log 2>&1 &
+    - echo "Wait for backend to be healthy... (timeout:30s)"
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    - curl http://localhost:3000/healthz
+    - curl http://localhost:4200/connexion
+    - curl http://localhost:4200
+    - curl --fail http://localhost:3000/healthz
+    - tail -100 ${CI_PROJECT_DIR}/frontend.log
+    - tail -100 ${CI_PROJECT_DIR}/backend.log
     - cd optional/e2e/runners/puppeteer/
     - yarn --frozen-lockfile
     - yarn test --debug
-
+    - tail -10 ${CI_PROJECT_DIR}/frontend.log
+    - tail -10 ${CI_PROJECT_DIR}/backend.log
+  artifacts:
+    paths:
+      - ${CI_PROJECT_DIR}/optional/e2e/runners/puppeteer/output
+      - ${CI_PROJECT_DIR}/backend.log
+      - ${CI_PROJECT_DIR}/frontend.log
+    when: on_failure
+    expire_in: 1 week
 # Register frontend image:
 #   extends: .base_register_stage
 #   interruptible: true
