@@ -4,6 +4,7 @@ import {
   HttpStatus,
   Logger,
   Post,
+  Res,
   Response,
   UploadedFile,
   UseGuards,
@@ -26,6 +27,8 @@ import { randomName, validateUpload } from "../../util/FileManager";
 import { AppAuthUser } from "../../_common/model";
 import { Entretien } from "../interfaces/entretien";
 import { UsagersService } from "../services/usagers.service";
+import { Usager } from "../interfaces/usagers";
+import { ExpressResponse } from "../../util/express";
 
 export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -186,8 +189,8 @@ export class ImportController {
     })
   )
   public async importExcel(
-    @Response() res: any,
-    @UploadedFile() file: any,
+    @Res() res: ExpressResponse,
+    @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: AppAuthUser
   ) {
     const dir = path.resolve(__dirname, "../../imports/");
@@ -403,26 +406,37 @@ export class ImportController {
     }
   }
 
-  private async saveDatas(datas: any, @CurrentUser() user: AppAuthUser) {
+  private async saveDatas(datas: AOA, @CurrentUser() user: AppAuthUser) {
+    //
     const agent = user.prenom + " " + user.nom;
-    const usagers = [];
+    const usagers: Usager[] = [];
+
     for (let index = 1, len = datas.length; index < len; index++) {
+      // Ligne du fichier
       const row = datas[index];
-      const ayantsDroits = [];
-      const historique = [];
+
+      // Infos générales
       const sexe = row[this.CIVILITE] === "H" ? "homme" : "femme";
       let motif = "";
 
+      // Tableaux d'ayant-droit & historique
+      const ayantsDroits = [];
+      const historique = [];
+
+      //
+      //
+      // Partie STATUT + HISTORIQUE
+      //
+      let datePremiereDom = new Date();
       let dateDecision = this.notEmpty(row[this.DATE_DEBUT_DOM])
         ? this.convertDate(row[this.DATE_DEBUT_DOM])
         : new Date();
 
-      let datePremiereDom = new Date();
-
       if (this.notEmpty(row[this.DATE_PREMIERE_DOM])) {
         datePremiereDom = this.convertDate(row[this.DATE_PREMIERE_DOM]);
-
         const dateFinPremiereDom = new Date(datePremiereDom);
+
+        // Ajout d'une année
         dateFinPremiereDom.setFullYear(
           dateFinPremiereDom.setFullYear(dateFinPremiereDom.getFullYear() + 1)
         );
@@ -452,34 +466,21 @@ export class ImportController {
         userName: agent,
       });
 
-      for (const indexAD of this.AYANT_DROIT) {
-        const nom = row[indexAD];
-        const prenom = row[indexAD + 1];
-        const dateNaissance = row[indexAD + 2];
-        let lienParente = row[indexAD + 3];
-
-        if (lienParente === "AUTRES") {
-          lienParente = "AUTRE";
-        }
-
-        if (nom && prenom && dateNaissance && lienParente) {
-          ayantsDroits.push({
-            nom,
-            prenom,
-            dateNaissance,
-            lien: lienParente.toString().toUpperCase(),
-          });
-        }
-      }
-
       if (motif === "AUTRES") {
         motif = "AUTRE";
       }
+
+      const customId = this.notEmpty(row[this.CUSTOM_ID])
+        ? row[this.CUSTOM_ID]
+        : null;
 
       const phone = !row[this.PHONE]
         ? null
         : row[this.PHONE].replace(/\D/g, "");
 
+      //
+      // Dates
+      //
       const dernierPassage = this.notEmpty(row[this.DATE_DERNIER_PASSAGE])
         ? this.convertDate(row[this.DATE_DERNIER_PASSAGE])
         : new Date();
@@ -491,12 +492,6 @@ export class ImportController {
       const dateFin = this.notEmpty(row[this.DATE_FIN_DOM])
         ? this.convertDate(row[this.DATE_FIN_DOM])
         : null;
-
-      const customId = this.notEmpty(row[this.CUSTOM_ID])
-        ? row[this.CUSTOM_ID]
-        : null;
-
-      const entretien: Entretien = {};
 
       if (row[this.STATUT_DOM] === "REFUS") {
         motif = this.notEmpty(row[this.MOTIF_REFUS])
@@ -516,6 +511,11 @@ export class ImportController {
           ? row[this.MOTIF_RADIATION]
           : "AUTRE";
       }
+
+      //
+      // Partie ENTRETIEN
+      //
+      const entretien: Entretien = {};
 
       if (this.notEmpty(row[this.COMPOSITION_MENAGE])) {
         entretien.typeMenage = row[this.COMPOSITION_MENAGE];
@@ -591,6 +591,30 @@ export class ImportController {
         entretien.commentaires = row[this.COMMENTAIRES];
       }
 
+      //
+      // AYANT-DROIT
+      //
+      for (const indexAD of this.AYANT_DROIT) {
+        const nom = row[indexAD];
+        const prenom = row[indexAD + 1];
+        const dateNaissance = row[indexAD + 2];
+        let lienParente = row[indexAD + 3];
+
+        if (lienParente === "AUTRES") {
+          lienParente = "AUTRE";
+        }
+
+        if (nom && prenom && dateNaissance && lienParente) {
+          ayantsDroits.push({
+            nom,
+            prenom,
+            dateNaissance,
+            lien: lienParente.toString().toUpperCase(),
+          });
+        }
+      }
+
+      // Enregistrement
       const usager = {
         ayantsDroits,
         customId,
