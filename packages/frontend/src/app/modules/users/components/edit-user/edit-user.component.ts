@@ -73,12 +73,14 @@ export class EditUserComponent implements OnInit {
     this.titleService.setTitle("Editer mes informations");
 
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
-      this.me = user;
+      if (user !== null) {
+        this.me = user;
 
-      if (this.me.role !== "facteur") {
-        this.userService.agenda().subscribe((usagers: Usager[]) => {
-          this.usagers = usagers;
-        });
+        if (this.me.role !== "facteur") {
+          this.userService.agenda().subscribe((usagers: Usager[]) => {
+            this.usagers = usagers;
+          });
+        }
       }
     });
   }
