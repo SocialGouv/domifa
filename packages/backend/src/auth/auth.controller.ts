@@ -5,8 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Req,
-  Response,
+  Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -14,23 +13,23 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as bcrypt from "bcryptjs";
 import { usersRepository } from "../database";
 import { LoginDto } from "../users/dto/login.dto";
-import { UsersService } from "../users/services/users.service";
+
+import { ExpressResponse } from "../util/express";
 import { AppAuthUser, AppUser } from "../_common/model";
 import { AuthService } from "./auth.service";
 import { CurrentUser } from "./current-user.decorator";
 import { DomifaGuard } from "./guards/domifa.guard";
 
+import { Response } from "express";
+
 @Controller("auth")
 @ApiTags("auth")
 export class AuthController {
-  constructor(
-    public authService: AuthService,
-    private usersService: UsersService
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @Post("login")
   @HttpCode(HttpStatus.OK)
-  public async loginUser(@Response() res: any, @Body() loginDto: LoginDto) {
+  public async loginUser(@Res() res: Response, @Body() loginDto: LoginDto) {
     const user = await usersRepository.findOne<AppUser>(
       { email: loginDto.email.toLowerCase() },
       { select: "ALL" }
@@ -76,17 +75,16 @@ export class AuthController {
   @UseGuards(AuthGuard("jwt"), DomifaGuard)
   @ApiBearerAuth()
   @Get("domifa")
-  public authDomifa(@Response() res: any, @CurrentUser() user: AppAuthUser) {
+  public authDomifa(@Res() res: ExpressResponse) {
     return res.status(HttpStatus.OK).json();
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"))
   @Get("me")
-  public me(@Response() res: any, @Req() request: any) {
-    const user: AppUser = request.user;
+  public me(@Res() res: Response, @CurrentUser() user: AppAuthUser) {
     if (!user || user === null) {
-      return res.status(HttpStatus.UNAUTHORIZED).json({});
+      return res.status(HttpStatus.UNAUTHORIZED).json();
     }
 
     return res.status(HttpStatus.OK).json({
@@ -96,7 +94,6 @@ export class AuthController {
       nom: user.nom,
       prenom: user.prenom,
       role: user.role,
-      passwordLastUpdate: user.passwordLastUpdate,
       structure: user.structure,
       structureId: user.structureId,
     });
