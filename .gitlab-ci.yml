@@ -167,7 +167,7 @@ E2E tests:
     - tail -100 ${CI_PROJECT_DIR}/frontend.log
     - tail -100 ${CI_PROJECT_DIR}/backend.log
     - cd optional/e2e/runners/puppeteer/
-    - yarn --frozen-lockfile
+    - yarn
     - yarn test --debug
     - tail -10 ${CI_PROJECT_DIR}/frontend.log
     - tail -10 ${CI_PROJECT_DIR}/backend.log
