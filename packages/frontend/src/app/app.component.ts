@@ -88,7 +88,9 @@ export class AppComponent implements OnInit {
     );
 
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
-      this.me = user;
+      if (user !== null) {
+        this.me = user;
+      }
     });
 
     this.getJSON().subscribe((domifaNews) => {

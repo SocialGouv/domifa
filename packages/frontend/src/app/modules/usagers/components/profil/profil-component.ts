@@ -121,6 +121,8 @@ export class UsagersProfilComponent implements OnInit {
       DELETE: "Suppression",
       CREATION: "Création",
     };
+
+    this.me = this.authService.currentUserValue;
   }
 
   public isRole(role: UserRole) {
@@ -128,12 +130,10 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
-      this.me = user;
-    });
-
     this.titleService.setTitle("Fiche d'un domicilié");
-
+    //
+    console.log(this.me);
+    //
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: Usager) => {

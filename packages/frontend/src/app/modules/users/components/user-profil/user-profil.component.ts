@@ -36,22 +36,23 @@ export class UserProfilComponent implements OnInit {
     this.selectedUser = 0;
     this.usersInfos = false;
     this.exportLoading = false;
-    this.me = null;
   }
 
   public ngOnInit() {
     this.titleService.setTitle("Compte Domifa");
 
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
-      this.me = user;
+      if (user !== null) {
+        this.me = user;
 
-      this.getUsers();
+        this.getUsers();
 
-      this.structureService
-        .findMyStructure()
-        .subscribe((structure: Structure) => {
-          this.structure = structure;
-        });
+        this.structureService
+          .findMyStructure()
+          .subscribe((structure: Structure) => {
+            this.structure = structure;
+          });
+      }
     });
   }
 

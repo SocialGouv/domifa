@@ -66,7 +66,6 @@ export class DecisionComponent implements OnInit {
     this.labels = labels;
     this.submitted = false;
     this.isAdmin = false;
-    this.me = null;
 
     const dToday = new Date();
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
