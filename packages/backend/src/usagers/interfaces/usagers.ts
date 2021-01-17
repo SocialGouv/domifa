@@ -50,6 +50,4 @@ export interface Usager extends Document {
   datePremiereDom: Date;
 
   options: Options;
-
-  migration: boolean;
 }

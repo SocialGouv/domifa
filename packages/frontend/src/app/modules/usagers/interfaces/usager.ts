@@ -20,30 +20,31 @@ export class Usager {
   public dateNaissance: Date | null;
   public villeNaissance: string;
 
+  // Infos de contact
   public email: string;
   public phone: string;
-
-  public structure: number;
-  public etapeDemande: number;
-
-  public docs: Doc[];
-  public entretien: Entretien;
-  public rdv: Rdv;
-  public ayantsDroitsExist: boolean;
-  public ayantsDroits: AyantDroit[];
-
-  // Recherche : si la requête fait remonté un ayant-droit
-  public isAyantDroit: boolean;
-
-  public typeDom: string;
-
-  public historique: Decision[];
 
   public preference: {
     email: boolean;
     phone: boolean;
     aucun: boolean;
   };
+
+  public structureId: number;
+  public etapeDemande: number;
+
+  public docs: Doc[];
+  public entretien: Entretien;
+  public rdv: Rdv;
+
+  // Ayants-droits
+  public ayantsDroitsExist: boolean;
+  public ayantsDroits: AyantDroit[];
+
+  // Historique des décisions et dernière décision
+  public historique: Decision[];
+  public decision: Decision;
+  public typeDom: string; // PREMIERE / RENOUVELLEMENT
 
   public lastInteraction: {
     dateInteraction: Date;
@@ -53,16 +54,15 @@ export class Usager {
     colisIn: number;
   };
 
+  // VARIABLES UTILES AU FRONT UNIQUEMENT
+
+  // Recherche : si la requête fait remonté un ayant-droit
+  public isAyantDroit: boolean;
+
   public dayBeforeEnd: number;
 
-  public decision: Decision;
-
+  // TODO: supprimer et remplacer dans le formulaire
   public dateNaissancePicker: NgbDateStruct | null;
-
-  public interactionsToday: {
-    appel: boolean;
-    visite: boolean;
-  };
 
   public options: Options;
 
@@ -97,7 +97,7 @@ export class Usager {
     this.phone = (usager && usager.phone) || "";
     this.docs = (usager && usager.docs) || [];
 
-    this.structure = (usager && parseInt(usager.structure, 10)) || 2;
+    this.structureId = (usager && parseInt(usager.structureId, 10)) || 2;
     this.etapeDemande = (usager && parseInt(usager.etapeDemande, 10)) || 0;
 
     if (usager && usager.historique) {
@@ -167,11 +167,6 @@ export class Usager {
 
       this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
     }
-
-    this.interactionsToday = {
-      appel: false,
-      visite: false,
-    };
 
     this.typeDom = (usager && usager.typeDom) || "PREMIERE";
 
