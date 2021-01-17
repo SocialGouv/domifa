@@ -222,10 +222,6 @@ export const UsagerSchema = new mongoose.Schema(
         type: Number,
       },
     },
-    migration: {
-      default: false,
-      type: Boolean,
-    },
     nom: {
       index: true,
       maxlength: 200,
