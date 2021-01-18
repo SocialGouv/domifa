@@ -20,6 +20,7 @@ import { Usager } from "../../usagers/interfaces/usagers";
 import { StructurePublic, StructureStats } from "../../_common/model";
 
 import { appLogger } from "../../util";
+import { StructurePublic, StructureStats } from "../../_common/model";
 
 @Injectable()
 export class StatsGeneratorService {
@@ -126,9 +127,15 @@ export class StatsGeneratorService {
   public async generateStructureStats(
     today: Date,
     structure: StructurePublic,
+<<<<<<< HEAD
     generated: boolean
   ): Promise<any> {
     const stat = await this.buildStats(today, structure, generated);
+=======
+    isFirstStat: boolean
+  ): Promise<any> {
+    const stat = await this.buildStats(today, structure, isFirstStat);
+>>>>>>> Calcul des stats rétro-actif, basé sur les dates de décision
 
     const dateExport = moment()
       .utc()
@@ -411,6 +418,7 @@ export class StatsGeneratorService {
     return !response || response === null ? 0 : response;
   }
 
+  // TODO: Ajouter la date du jour
   public async totalInteraction(
     structureId: number,
     interactionType: InteractionType
