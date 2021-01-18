@@ -1,6 +1,13 @@
-import { Column, Entity, Generated, Index } from "typeorm";
+import {
+  Column,
+  Entity,
+  Generated,
+  Index,
+  JoinColumn,
+  ManyToOne,
+} from "typeorm";
+import { StructureTable } from "..";
 import { AppUserCreatedBy } from "../../../_common/model/app-user/AppUserCreatedBy.type";
-
 import { StructureDoc } from "../../../_common/model/structure-doc";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
@@ -34,6 +41,10 @@ export class StructureDocTable
   @Index()
   @Column({ type: "integer", nullable: false })
   structureId: number;
+
+  @ManyToOne(() => StructureTable, { lazy: true })
+  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
+  structureFk?: Promise<StructureTable>;
 
   @Column({ type: "text", nullable: false })
   path: string;

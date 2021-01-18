@@ -1,5 +1,5 @@
 import { AppUser } from "../../../../_common/model";
-import { Structure } from "../../structures/structure.interface";
+import { StructureCommonWeb } from "../../structures/services/StructureCommonWeb.type";
 
 export const appUserBuilder = {
   buildAppUser,
@@ -20,8 +20,8 @@ function buildAppUser(item?: Partial<AppUser>): AppUser {
     verified: (item && item.verified) || false,
     structure:
       item && item.structure
-        ? new Structure(item.structure)
-        : new Structure({}),
+        ? new StructureCommonWeb(item.structure)
+        : new StructureCommonWeb({}),
     lastLogin: item && item.lastLogin ? new Date(item.lastLogin) : null,
 
     passwordLastUpdate:

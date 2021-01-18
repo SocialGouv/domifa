@@ -6,6 +6,7 @@ function toLocalTimezone(date: Date) {
   if (!date) {
     return date;
   }
+  date = new Date(date);
   return new Date(
     Date.UTC(
       date.getFullYear(),

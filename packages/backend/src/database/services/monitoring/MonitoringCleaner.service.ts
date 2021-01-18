@@ -89,13 +89,13 @@ async function purgeObsoleteMessageEmailProcess({
 }: {
   limitDate: Date;
 }) {
-  const res = await messageEmailRepository.deleteByCriteria(
+  const affected = await messageEmailRepository.deleteByCriteria(
     typeOrmSearch<MessageEmail>({
       status: "sent",
       sendDate: LessThanOrEqual(limitDate),
     })
   );
-  return res.affected;
+  return affected;
 }
 
 async function purgeObsoleteMonitoringBatchProcess({
@@ -103,13 +103,13 @@ async function purgeObsoleteMonitoringBatchProcess({
 }: {
   limitDate: Date;
 }) {
-  const res = await monitoringBatchProcessRepository.deleteByCriteria(
+  const affected = await monitoringBatchProcessRepository.deleteByCriteria(
     typeOrmSearch<MonitoringBatchProcess>({
       status: "success",
       endDate: LessThanOrEqual(limitDate),
     })
   );
-  return res.affected;
+  return affected;
 }
 
 async function sendErrorReport({

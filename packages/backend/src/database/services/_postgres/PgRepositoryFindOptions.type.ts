@@ -1,7 +1,8 @@
+import { PgRepositoryFindOrder } from "./PgRepositoryFindOrder.type";
+
 export type PgRepositoryFindOptions<T> = {
-  order?: {
-    [P in keyof T]?: "ASC" | "DESC";
-  };
+  order?: PgRepositoryFindOrder<T>;
+  groupBy?: string;
   select?: (keyof T)[] | "ALL";
   maxResults?: number;
   skip?: number;

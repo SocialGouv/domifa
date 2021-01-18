@@ -1,7 +1,7 @@
-import { INestApplication } from "@nestjs/common";
-import { Model } from "mongoose";
 import { Structure } from "../../../../structures/structure-interface";
 import { appLogger } from "../../../../util";
+import { StructurePG } from "../../../../_common/model";
+import { structureRepository } from "../../structure";
 import { ANONYMIZE_STRUCTURE_ID_EXCEPTIONS } from "./ANONYMIZE_STRUCTURE_ID_EXCEPTIONS.const";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
 
@@ -14,9 +14,10 @@ function isStructureToAnonymise(structure: Pick<Structure, "id">) {
   return !ANONYMIZE_STRUCTURE_ID_EXCEPTIONS.includes(structure.id); // ignore domifa team test structure;
 }
 
-async function anonymizeStructures({ app }: { app: INestApplication }) {
-  const structureModel: Model<Structure> = app.get("STRUCTURE_MODEL");
-  const structures = await structureModel.find({}).select("id email");
+async function anonymizeStructures() {
+  const structures = await structureRepository.findMany<
+    Pick<StructurePG, "id" | "email">
+  >({}, { select: ["id", "email"] });
 
   const structuresWithEmailsToAnonymize = structures.filter((x) =>
     isStructureToAnonymise(x)
@@ -26,33 +27,26 @@ async function anonymizeStructures({ app }: { app: INestApplication }) {
     `[dataStructureAnonymizer] ${structuresWithEmailsToAnonymize.length}/${structures.length} structures to anonymize`
   );
   for (const structure of structuresWithEmailsToAnonymize) {
-    await _anonymizeStructure(structure, { app });
+    await _anonymizeStructure(structure);
   }
 }
 
 async function _anonymizeStructure(
-  structure: Structure,
-  { app }: { app: INestApplication }
+  structure: Pick<StructurePG, "id" | "email">
 ) {
-  // appLogger.debug(`[dataStructureAnonymizer] check structure "${structure._id}"`);
+  const attributesToUpdate: Partial<StructurePG> = {};
 
-  const structureModel: Model<Structure> = app.get("STRUCTURE_MODEL");
-
-  const attributesToUpdate: Partial<Structure> = {};
-
-  attributesToUpdate.email = dataEmailAnonymizer.anonymizeEmail({
+  structure.email = dataEmailAnonymizer.anonymizeEmail({
     prefix: "structure",
     id: structure.id,
   });
 
   if (Object.keys(attributesToUpdate).length === 0) {
-    // appLogger.debug(`[dataStructureAnonymizer] nothing to update for "${structure._id}"`);
-
     return structure;
   }
 
-  return structureModel.findOneAndUpdate(
-    { _id: structure._id },
-    { $set: attributesToUpdate }
+  return structureRepository.updateOne(
+    { id: structure.id },
+    attributesToUpdate
   );
 }

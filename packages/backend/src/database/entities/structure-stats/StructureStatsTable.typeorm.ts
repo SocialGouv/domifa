@@ -1,9 +1,10 @@
-import { Column, Entity, Index, Unique } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
 import {
   StructureStats,
   StructureStatsQuestions,
   StructureType,
 } from "../../../_common/model";
+import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -24,6 +25,10 @@ export class StructureStatsTable
   @Index()
   @Column({ type: "integer" })
   structureId: number;
+
+  @ManyToOne(() => StructureTable, { lazy: true })
+  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
+  structureFk?: Promise<StructureTable>;
 
   @Column({ type: "text" })
   structureType: StructureType;

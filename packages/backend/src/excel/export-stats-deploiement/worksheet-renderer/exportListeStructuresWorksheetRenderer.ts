@@ -30,7 +30,7 @@ function renderWorksheet({
     { key: "id" },
     { key: "nom" },
     { key: "structureTypeLabel" },
-    { key: "createdAt" },
+    { key: "registrationDate" },
     { key: "import" },
     { key: "importDate" },
     { key: "usersCount" },
@@ -62,7 +62,9 @@ function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
         id: structure.id,
         nom: structure.nom,
         structureTypeLabel: structureType[structure.structureType],
-        createdAt: xlFormater.toLocalTimezone(structure.createdAt),
+        registrationDate: xlFormater.toLocalTimezone(
+          structure.registrationDate
+        ),
         import: structure.import ? "oui" : "non",
         importDate: xlFormater.toLocalTimezone(structure.importDate),
         usersCount: model.usersCount,
