@@ -1,6 +1,6 @@
-import { Structure } from "../../structures/structure-interface";
+import { StructureAdmin } from "../../_common/model";
 
 export type StatsDeploiementStructureExportModel = {
-  structure: Structure;
+  structure: StructureAdmin;
   usersCount: number;
 };

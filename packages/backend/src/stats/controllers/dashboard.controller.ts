@@ -1,10 +1,13 @@
-import { Controller, Get, Inject, Res, UseGuards } from "@nestjs/common";
+import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { Model } from "mongoose";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
-import { AppUserTable, usersRepository } from "../../database";
+import {
+  AppUserTable,
+  structureRepository,
+  usersRepository,
+} from "../../database";
 import {
   statsDeploiementExporter,
   StatsDeploiementExportModel,
@@ -13,6 +16,7 @@ import { StatsExportUser } from "../../excel/export-stats-deploiement/StatsExpor
 import { Structure } from "../../structures/structure-interface";
 import { appLogger } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
+import { StructureAdmin } from "../../_common/model/structure/StructureAdmin.type";
 import { DashboardService } from "../services/dashboard.service";
 import moment = require("moment");
 
@@ -21,10 +25,7 @@ import moment = require("moment");
 @ApiTags("dashboard")
 @ApiBearerAuth()
 export class DashboardController {
-  constructor(
-    private readonly dashboardService: DashboardService,
-    @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
-  ) {}
+  constructor(private readonly dashboardService: DashboardService) {}
 
   @Get("export")
   public async export(@Res() res: Response) {
@@ -49,7 +50,7 @@ export class DashboardController {
     const structures: Pick<
       Structure,
       "id" | "nom"
-    >[] = await this.structureModel.find().select(["id", "nom"]).lean();
+    >[] = await structureRepository.findMany({}, { select: ["id", "nom"] });
 
     const structuresById = structures.reduce((acc, s) => {
       acc[s.id] = s;
@@ -103,7 +104,11 @@ export class DashboardController {
 
   // 1. Liste des structures
   @Get("structures")
-  public async structures() {
+  public async structures(): Promise<
+    (StructureAdmin & {
+      usersCount?: number; // dashboard only
+    })[]
+  > {
     return this.dashboardService.getStructuresForDashboard();
   }
 

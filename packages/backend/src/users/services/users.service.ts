@@ -9,8 +9,7 @@ import {
   usersRepository,
   USERS_ADMIN_EMAILS_ATTRIBUTES,
 } from "../../database";
-import { Structure } from "../../structures/structure-interface";
-import { AppUser } from "../../_common/model";
+import { AppUser, StructureCommon, UserRole } from "../../_common/model";
 import { EditPasswordDto } from "../dto/edit-password.dto";
 import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
 import { ResetPasswordDto } from "../dto/reset-password.dto";
@@ -26,19 +25,16 @@ export class UsersService {
 
   public async create(
     userDto: UserDto,
-    structure: Structure
+    {
+      role,
+      structure,
+    }: {
+      role: UserRole;
+      structure: StructureCommon;
+    }
   ): Promise<AppUserTable> {
     const createdUser = new AppUserTable(userDto);
-
-    /* Admin par défaut */
-    const adminExist = await usersRepository.findOne({
-      structureId: userDto.structureId,
-    });
-
-    if (!adminExist || adminExist === null) {
-      createdUser.role = "admin";
-    }
-
+    createdUser.role = role;
     createdUser.structureId = structure.id;
     createdUser.password = await bcrypt.hash(createdUser.password, 10);
 

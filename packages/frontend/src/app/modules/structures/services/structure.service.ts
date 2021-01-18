@@ -5,8 +5,9 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { regexp } from "src/app/shared/validators";
 import { environment } from "src/environments/environment";
-import { Structure } from "../structure.interface";
+import { AppUser, Structure, StructureCommon } from "../../../../_common/model";
 import { DepartementHelper } from "./departement-helper.service";
+import { StructureCommonWeb } from "./StructureCommonWeb.type";
 
 @Injectable({
   providedIn: "root",
@@ -25,44 +26,47 @@ export class StructureService {
     return this.http.get(`${this.endPoint}/${structureId}`);
   }
 
-  public findMyStructure(): Observable<Structure> {
+  public findMyStructure(): Observable<StructureCommon> {
     return this.http.get(`${this.endPoint}/ma-structure`).pipe(
       map((response) => {
-        return new Structure(response);
+        return new StructureCommonWeb(response);
       })
     );
   }
 
-  public find(codePostal: string): Observable<Structure[]> {
+  public find(codePostal: string): Observable<StructureCommon[]> {
     return this.http.get(`${this.endPoint}/code-postal/${codePostal}`).pipe(
       map((response) => {
         return Array.isArray(response)
-          ? response.map((item) => new Structure(item))
-          : [new Structure(response)];
+          ? response.map((item) => new StructureCommonWeb(item))
+          : [new StructureCommonWeb(response)];
       })
     );
   }
 
-  public create(structure: Structure): Observable<Structure> {
-    return this.http.post(`${this.endPoint}`, structure).pipe(
+  public create(dto: {
+    structure: Partial<Structure>;
+    user: Partial<AppUser>;
+  }): Observable<StructureCommon> {
+    return this.http.post(`${this.endPoint}`, dto).pipe(
       map((response) => {
-        return new Structure(response);
+        return new StructureCommonWeb(response);
       })
     );
   }
 
-  public prePost(structure: Structure): Observable<Structure> {
+  public prePost(structure: Partial<Structure>): Observable<StructureCommon> {
     return this.http.post(`${this.endPoint}/pre-post`, structure).pipe(
       map((response) => {
-        return new Structure(response);
+        return new StructureCommonWeb(response);
       })
     );
   }
 
-  public patch(structure: Structure): Observable<Structure> {
+  public patch(structure: Structure): Observable<StructureCommon> {
     return this.http.patch(`${this.endPoint}`, structure).pipe(
       map((response) => {
-        return new Structure(response);
+        return new StructureCommonWeb(response);
       })
     );
   }
@@ -78,7 +82,7 @@ export class StructureService {
   public deleteCheck(id: string, token: string): Observable<any> {
     return this.http.delete(`${this.endPoint}/check/${id}/${token}`).pipe(
       map((response) => {
-        return new Structure(response);
+        return new StructureCommonWeb(response);
       })
     );
   }

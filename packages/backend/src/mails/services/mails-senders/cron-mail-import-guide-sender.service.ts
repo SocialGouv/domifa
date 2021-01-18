@@ -1,13 +1,13 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
-import { Model } from "mongoose";
 import { domifaConfig } from "../../../config";
 import {
   cronMailsRepository,
   MessageEmailTipimailContent,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
+  structureRepository,
 } from "../../../database";
 import { Structure } from "../../../structures/structure-interface";
 import { appLogger } from "../../../util";
@@ -22,9 +22,7 @@ export class CronMailImportGuideSenderService {
   private domifaAdminMail: string;
   private domifaFromMail: string;
 
-  constructor(
-    @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
-  ) {
+  constructor() {
     this.lienImport = domifaConfig().apps.frontendUrl + "import";
     this.lienFaq = domifaConfig().apps.frontendUrl + "faq";
     this.lienGuide =
@@ -87,11 +85,14 @@ export class CronMailImportGuideSenderService {
     const structures: Pick<
       Structure,
       "id"
-    >[] = (await this.structureModel
-      .find({ import: false })
-      .select(["id"])
-      .lean()
-      .exec()) as any;
+    >[] = await structureRepository.findMany(
+      {
+        import: false,
+      },
+      {
+        select: ["id"],
+      }
+    );
 
     if (structures.length === 0) {
       return [];

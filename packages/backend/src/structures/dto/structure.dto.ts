@@ -1,21 +1,22 @@
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IsIn,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsObject,
+  IsOptional,
 } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { StructureResponsable, StructureType } from "../../_common/model";
 
 export class StructureDto {
   @ApiProperty({
     type: String,
     required: true,
-    enum: ["asso", "ccas", "cias", "hopital"],
+    enum: ["asso", "ccas", "cias"],
   })
   @IsNotEmpty()
-  @IsIn(["asso", "ccas", "cias", "hopital"])
-  public structureType!: string;
+  @IsIn(["asso", "ccas", "cias"])
+  public structureType!: StructureType;
 
   @ApiProperty({
     type: String,
@@ -91,11 +92,7 @@ export class StructureDto {
   })
   @IsNotEmpty()
   @IsObject()
-  public responsable!: {
-    fonction: string;
-    nom: string;
-    prenom: string;
-  };
+  public responsable!: StructureResponsable;
 
   @ApiProperty({
     required: false,

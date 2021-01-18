@@ -3,6 +3,7 @@ import {
   EntityTarget,
   FindConditions,
   ObjectLiteral,
+  OrderByCondition,
 } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { appLogger } from "../../../util";
@@ -32,6 +33,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   return {
     typeorm,
     count,
+    countBy,
     save,
     findOne,
     findMany,
@@ -45,8 +47,10 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   async function typeorm() {
     return appTypeormManager.getRepository(entityTarget);
   }
-  async function save(entities: DeepPartial<T> | DeepPartial<T>[]) {
-    return (await typeorm()).save(entities as DeepPartial<T>);
+  async function save<E extends DeepPartial<T> | DeepPartial<T>[]>(
+    entities: E
+  ): Promise<E> {
+    return (await typeorm()).save(entities as any);
   }
 
   async function count(
@@ -71,6 +75,58 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     }
   }
 
+  async function countBy<CountBy extends keyof T>({
+    where,
+    countBy,
+    countAttribute = "uuid" as keyof T,
+    order = {
+      count: "ASC",
+      countBy: "ASC",
+    },
+  }: {
+    where?: Partial<T>;
+    countBy: CountBy;
+    countAttribute?: keyof T;
+    order?: {
+      count?: "ASC" | "DESC";
+      countBy?: "ASC" | "DESC";
+    };
+  }): Promise<
+    (Pick<T, CountBy> & {
+      count: number;
+    })[]
+  > {
+    const typeormRepository = await typeorm();
+    let qb = typeormRepository
+      .createQueryBuilder("s")
+      .select(`COUNT("${countAttribute}")`, "count")
+      .addSelect(`"${countBy}"`)
+      .groupBy(`s."${countBy}"`);
+
+    if (where) {
+      qb = qb.where(where);
+    }
+    if (order) {
+      const orderBy = Object.keys(order).reduce((acc, key) => {
+        // replace "countBy" by countBy name
+        acc[key === "count" ? key : `"${countBy}"`] = order[key];
+        return acc;
+      }, {} as OrderByCondition);
+      qb = qb.orderBy(orderBy);
+    }
+
+    try {
+      const results = await qb.getRawMany();
+      return results.map((r) => ({
+        ...r,
+        count: parseInt(r.count, 10) as number,
+      })) as any;
+    } catch (err) {
+      appLogger.warn(`[pgRepository] invalid query "${qb.getSql()}"`);
+      throw err;
+    }
+  }
+
   async function findManyWithQuery<R = DEFAULT_RESULT>({
     where,
     params = {},
@@ -83,10 +139,11 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     const typeormRepository = await typeorm();
 
     const qb = typeormRepository.createQueryBuilder();
-    qb.select(_buildSelectAttributes(options).map((x) => `"${x}"`)).where(
-      where,
-      params
-    );
+    const select = _buildSelectAttributesQB(options, { addQuotes: true });
+    qb.select(select as any).where(where, params);
+    if (options.groupBy) {
+      qb.groupBy(options.groupBy);
+    }
     if (options.order) {
       qb.orderBy(options.order);
     }
@@ -156,15 +213,21 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   async function updateOne<R = DEFAULT_RESULT>(
     search: Partial<T>,
     data: Partial<T>,
-    options: PgRepositoryFindOptions<T> = {}
+    options: PgRepositoryFindOptions<T> & { returnSearch?: Partial<T> } = {}
   ) {
     const typeormRepository = await typeorm();
 
-    await typeormRepository.update(
+    const { affected } = await typeormRepository.update(
       (search as unknown) as FindConditions<T>,
       (data as unknown) as QueryDeepPartialEntity<T>
     );
-    return findOne<R>(search, options);
+    if (affected === 1) {
+      return findOne<R>(
+        options?.returnSearch ? options?.returnSearch : search,
+        options
+      );
+    }
+    return undefined;
   }
 
   async function updateMany<R = DEFAULT_RESULT>(
@@ -183,14 +246,34 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
 
   function _buildSelectAttributes(
     options: PgRepositoryFindOptions<T> = {}
-  ): (keyof T)[] {
+  ): (keyof T)[] | undefined {
     const select = options.select ? options.select : defaultSelect;
-    return select === "ALL"
-      ? undefined // returns all
-      : select;
+    const attributes =
+      select === "ALL"
+        ? undefined // returns all
+        : select;
+
+    return attributes;
   }
-  async function deleteByCriteria(search: Partial<T>) {
+  function _buildSelectAttributesQB(
+    options: PgRepositoryFindOptions<T> = {},
+    { addQuotes }: { addQuotes: boolean }
+  ): string[] | string {
+    const select = options.select ? options.select : defaultSelect;
+    const attributes =
+      select === "ALL"
+        ? undefined // returns all
+        : select;
+    if (attributes && Array.isArray(attributes) && addQuotes) {
+      return (attributes as (keyof T)[]).map((x) => `"${x}"`);
+    }
+    return attributes as any;
+  }
+  async function deleteByCriteria(search: Partial<T>): Promise<number> {
     const typeormRepository = await typeorm();
-    return typeormRepository.delete((search as unknown) as FindConditions<T>);
+    const res = await typeormRepository.delete(
+      (search as unknown) as FindConditions<T>
+    );
+    return res.affected;
   }
 }

@@ -1,3 +1,10 @@
-export * from "./StructurePublic.type";
+export * from "./StructureAddresseCourrier.type";
+export * from "./StructureAdmin.type";
+export * from "./StructureCommon.type";
+export * from "./StructureLight.type";
+export * from "./StructurePG.type";
+export * from "./StructureResponsable.type";
 export * from "./StructureType.type";
-
+export * from "./StructureUsagersStats.type";
+export * from "./STRUCTURE_COMMON_ATTRIBUTES.const";
+export * from "./STRUCTURE_LIGHT_ATTRIBUTES.const";
