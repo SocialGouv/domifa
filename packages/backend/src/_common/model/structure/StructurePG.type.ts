@@ -26,6 +26,7 @@ export type StructurePG = AppEntity & {
   phone: string;
   email: string;
   import: boolean;
+  registrationDate: Date;
   importDate: Date;
   lastLogin: Date;
 

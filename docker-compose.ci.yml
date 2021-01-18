@@ -6,8 +6,8 @@ services:
     container_name: domifa-mongo
     volumes:
       # /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
-      - ./_scripts/db/restore-mongo.sh:/docker-entrypoint-initdb.d/restore-mongo.sh
-      - ./_scripts/db/dumps/domifa_test.mongo.gz:/docker-entrypoint-initdb.d/dumps/domifa_test.mongo.gz:delegated
+      - ./_scripts/docker/mongo-restore-dump.docker-entrypoint.sh:/docker-entrypoint-initdb.d/mongo-restore-dump.docker-entrypoint.sh
+      - ./_scripts:/app/_scripts:delegated
     environment:
       - MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
@@ -28,8 +28,8 @@ services:
     container_name: domifa-postgres-test
     volumes:
       # /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
-      - ./_scripts/db/restore-postgres.sh:/docker-entrypoint-initdb.d/restore-postgres.sh
-      - ./_scripts/db/dumps/domifa_test.postgres.custom.gz:/docker-entrypoint-initdb.d/domifa_test.postgres.custom.gz:delegated
+      - ./_scripts/docker/postgres-restore-dump.docker-entrypoint.sh:/docker-entrypoint-initdb.d/postgres-restore-dump.docker-entrypoint.sh
+      - ./_scripts:/app/_scripts:delegated
     ports:
       - "5433:5432"
     environment:

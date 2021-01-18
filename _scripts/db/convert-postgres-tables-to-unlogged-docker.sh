@@ -36,7 +36,7 @@ fi
 
 POSTGRES_CONTAINER_NAME=domifa-postgres
 
-(set -x && docker exec ${POSTGRES_CONTAINER_NAME} bash -c "/docker-entrypoint-initdb.d/convert-postgres-tables-to-unlogged.sh --db=${TARGET_DB_ENV}")
+(set -x && docker exec ${POSTGRES_CONTAINER_NAME} bash -c "/app/_scripts/db/convert-postgres-tables-to-unlogged.sh --db=${TARGET_DB_ENV}")
 
 if [ $? -ne 0 ]; then
   echo ""

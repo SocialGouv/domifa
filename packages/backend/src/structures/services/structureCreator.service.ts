@@ -99,6 +99,7 @@ export class StructureCreatorService {
 
   private async createStructure(structureDto: StructureDto) {
     const createdStructure = new StructureTable(structureDto);
+    createdStructure.registrationDate = new Date();
     createdStructure.token = crypto.randomBytes(30).toString("hex");
 
     createdStructure.departement = this.departementHelper.getDepartementFromCodePostal(

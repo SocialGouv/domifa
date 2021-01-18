@@ -66,6 +66,9 @@ export class StructureTable
   @Column({ type: "bool", default: false })
   import: boolean;
 
+  @Column({ type: "timestamptz", nullable: false })
+  registrationDate: Date;
+
   @Column({ type: "date", nullable: true })
   importDate: Date;
 

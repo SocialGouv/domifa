@@ -57,7 +57,7 @@ echo "# Restore MONGO+POSTGRES from dumps '${DUMP_ENV}' to databases '${TARGET_D
 echo "##############################################################################################"
 echo ""
 
-(set -x && docker exec ${MONGO_CONTAINER_NAME} bash -c "/docker-entrypoint-initdb.d/restore-mongo.sh --db=${TARGET_DB_ENV} --dump=${DUMP_ENV}")
+(set -x && docker exec ${MONGO_CONTAINER_NAME} bash -c "/app/_scripts/db/restore-mongo.sh --db=${TARGET_DB_ENV} --dump=${DUMP_ENV}")
 
 if [ $? -ne 0 ]; then
   echo ""
@@ -67,7 +67,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-(set -x && docker exec ${POSTGRES_CONTAINER_NAME} bash -c "/docker-entrypoint-initdb.d/restore-postgres.sh --db=${TARGET_DB_ENV} --dump=${DUMP_ENV} --recreate-db")
+(set -x && docker exec ${POSTGRES_CONTAINER_NAME} bash -c "/app/_scripts/db/restore-postgres.sh --db=${TARGET_DB_ENV} --dump=${DUMP_ENV} --recreate-db")
 
 if [ $? -ne 0 ]; then
   echo ""

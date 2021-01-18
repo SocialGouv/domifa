@@ -4,6 +4,7 @@ import { StructurePG } from "./StructurePG.type";
 export type StructureAdmin = Pick<
   StructurePG,
   | "id"
+  | "registrationDate"
   | "adresse"
   | "complementAdresse"
   | "nom"
@@ -20,7 +21,6 @@ export type StructureAdmin = Pick<
   | "options"
   | "adresseCourrier"
   | "verified"
-  | "createdAt"
   | "import"
   | "importDate"
   | "lastLogin"
