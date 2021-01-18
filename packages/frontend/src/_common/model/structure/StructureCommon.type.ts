@@ -1,7 +1,7 @@
-import { Structure } from "../../../structures/structure-interface";
+import { Structure } from "./Structure.type";
 
 // Structure: attributs publics (retournés au frontend via AppAuthUser)
-export type StructurePublic = Pick<
+export type StructureCommon = Pick<
   Structure,
   | "id"
   | "adresse"

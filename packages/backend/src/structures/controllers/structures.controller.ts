@@ -13,12 +13,9 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import * as fs from "fs";
-import * as rimraf from "rimraf";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { AdminGuard } from "../../auth/guards/admin.guard";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
-import { domifaConfig } from "../../config";
 import { usersRepository } from "../../database";
 import { InteractionsService } from "../../interactions/interactions.service";
 import {
@@ -32,7 +29,11 @@ import { UsagersService } from "../../usagers/services/usagers.service";
 import { EmailDto } from "../../users/dto/email.dto";
 import { AppAuthUser } from "../../_common/model";
 import { StructureEditDto } from "../dto/structure-edit.dto";
+import { StructureWithUserDto } from "../dto/structure-with-user.dto";
 import { StructureDto } from "../dto/structure.dto";
+import { StructureCreatorService } from "../services/structureCreator.service";
+import { StructureDeletorService } from "../services/structureDeletor.service";
+import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 
 import moment = require("moment");
@@ -41,6 +42,9 @@ import moment = require("moment");
 @ApiTags("structures")
 export class StructuresController {
   constructor(
+    private structureCreatorService: StructureCreatorService,
+    private structureDeletorService: StructureDeletorService,
+    private structureHardResetService: StructureHardResetService,
     private structureService: StructuresService,
     private statsService: StatsService,
     private usagersService: UsagersService,
@@ -52,14 +56,12 @@ export class StructuresController {
   ) {}
 
   @Post()
-  public async postStructure(@Body() structureDto: StructureDto) {
-    const structure = await this.structureService.create(structureDto);
-
-    const today = moment().utc().startOf("day").toDate();
-    await this.statsGeneratorService.generateStructureStats(
-      today,
-      structure,
-      true
+  public async postStructure(
+    @Body() structureWithUserDto: StructureWithUserDto
+  ) {
+    const structure = await this.structureCreatorService.createStructureWithAdminUser(
+      structureWithUserDto.structure,
+      structureWithUserDto.user
     );
 
     return structure;
@@ -67,24 +69,24 @@ export class StructuresController {
 
   @Post("pre-post")
   public async prePostStructure(@Body() structureDto: StructureDto) {
-    return this.structureService.prePost(structureDto);
+    return this.structureCreatorService.checkStructureCreateArgs(structureDto);
   }
 
   @Post("validate-email")
   public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
-    const exist = await this.structureService.findOneBasic({
+    const exist = await this.structureService.findOneLight({
       email: emailDto.email,
     });
-    return res.status(HttpStatus.OK).json(exist !== null);
+    return res.status(HttpStatus.OK).json(!!exist);
   }
 
   @Get("code-postal/:codePostal")
   public async getByCity(@Param("codePostal") codePostal: string) {
-    return this.structureService.findAllPublic(codePostal);
+    return this.structureService.findAllLight(codePostal);
   }
 
   @Get("confirm/:id/:token")
-  public async confirm(
+  public async confirmStructureCreation(
     @Param("token") token: string,
     @Param("id") id: string,
     @Response() res: any
@@ -93,9 +95,12 @@ export class StructuresController {
       throw new HttpException("STRUCTURE_TOKEN_EMPTY", HttpStatus.BAD_REQUEST);
     }
 
-    const structure = await this.structureService.checkToken(token, id);
+    const structure = await this.structureCreatorService.checkCreationToken({
+      token,
+      structureId: parseInt(id, 10),
+    });
 
-    if (!structure || structure === null) {
+    if (!structure) {
       throw new HttpException(
         "STRUCTURE_TOKEN_INVALID",
         HttpStatus.BAD_REQUEST
@@ -154,7 +159,7 @@ export class StructuresController {
       token += charset.charAt(Math.floor(Math.random() * charset.length));
     }
     const hardResetToken = { token, expireAt, userId: user.id };
-    const structure = await this.structureService.hardReset(
+    const structure = await this.structureHardResetService.hardReset(
       user.structureId,
       hardResetToken
     );
@@ -178,12 +183,12 @@ export class StructuresController {
     @Param("token") token: string,
     @CurrentUser() user: AppAuthUser
   ) {
-    const structure = await this.structureService.checkHardResetToken(
+    const structure = await this.structureHardResetService.checkHardResetToken(
       user.id,
       token
     );
 
-    if (!structure || structure === null) {
+    if (!structure) {
       throw new HttpException(
         "HARD_RESET_INCORRECT_TOKEN",
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -201,7 +206,7 @@ export class StructuresController {
     await this.statsService.deleteAll(structure.id);
     await this.usagersService.deleteAll(user.structureId);
     await this.interactionsService.deleteAll(user.structureId);
-    await this.structureService.hardResetClean(structure._id);
+    await this.structureHardResetService.hardResetClean(structure.id);
 
     const today = moment().utc().startOf("day").toDate();
     await this.statsGeneratorService.generateStructureStats(
@@ -215,7 +220,7 @@ export class StructuresController {
 
   @Get(":id")
   public async getStructure(@Param("id") id: number) {
-    return this.structureService.findOneBasic({ id });
+    return this.structureService.findOneLight({ id });
   }
 
   @UseGuards(AuthGuard("jwt"), DomifaGuard)
@@ -224,38 +229,13 @@ export class StructuresController {
   public async deleteOne(
     @Param("id") id: string,
     @Param("token") token: string,
-    @Param("nom") nom: string,
-    @Response() res: any
+    @Param("nom") nom: string
   ) {
-    const structure = await this.structureService.findOneBasic({
+    return this.structureDeletorService.deleteOne({
+      structureId: parseInt(id),
       token,
-      nom,
-      _id: id,
+      structureNom: nom,
     });
-
-    if (structure && structure !== null) {
-      await usersRepository.deleteByCriteria({
-        structureId: structure.id,
-      });
-      await this.usagersService.deleteAll(structure.id);
-      await this.interactionsService.deleteAll(structure.id);
-      await this.structureService.delete(structure._id);
-
-      const pathFile = domifaConfig().upload.basePath + structure.id;
-      if (fs.existsSync(pathFile)) {
-        rimraf(pathFile, () => {
-          return res
-            .status(HttpStatus.OK)
-            .json({ message: "ALL_DATA_DELETED" });
-        });
-      } else {
-        return res.status(HttpStatus.OK).json({ message: "ACCOUNT_DELETED" });
-      }
-    } else {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "DELETED_STRUCTURE_CONFIRM_IMPOSSIBLE" });
-    }
   }
 
   @UseGuards(AuthGuard("jwt"), DomifaGuard)
@@ -265,11 +245,11 @@ export class StructuresController {
     @Param("id") id: string,
     @Param("token") token: string
   ) {
-    const structure = await this.structureService.findOneBasic({
+    const structure = await this.structureService.findOneLight({
       token,
       _id: id,
     });
-    if (!structure || structure === null) {
+    if (!structure) {
       throw new HttpException(
         "HARD_RESET_INCORRECT_TOKEN",
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -281,11 +261,16 @@ export class StructuresController {
   @UseGuards(AuthGuard("jwt"), DomifaGuard)
   @ApiBearerAuth()
   @Delete(":id")
-  public async deleteStructure(@Response() res: any, @Param("id") id: string) {
-    const structure = await this.structureService.generateDeleteToken(id);
+  public async sendMailConfirmDeleteStructure(
+    @Response() res: any,
+    @Param("id") id: string
+  ) {
+    const structure = await this.structureDeletorService.generateDeleteToken(
+      parseInt(id, 10)
+    );
 
-    if (structure && structure !== null) {
-      this.domifaMailsService.deleteStructure(structure).then(
+    if (!!structure) {
+      this.domifaMailsService.sendMailConfirmDeleteStructure(structure).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },

@@ -164,7 +164,7 @@ export class UsersController {
       structureId: user.structureId,
     });
 
-    if (!userToDelete || userToDelete === null) {
+    if (!userToDelete) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "USER_TO_DELETE_NOT_EXIST" });
@@ -192,7 +192,7 @@ export class UsersController {
       userDto
     );
 
-    if (!userToUpdate || userToUpdate === null) {
+    if (!userToUpdate) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "USER_EDIT_FAIL" });
@@ -210,10 +210,22 @@ export class UsersController {
         .json({ message: "EMAIL_EXIST" });
     }
 
-    const structure = await this.structureService.findOne(userDto.structureId);
-    const newUser = await this.usersService.create(userDto, structure);
+    const structure = await this.structureService.findOneFull(
+      userDto.structureId
+    );
+    if (!structure) {
+      throw new HttpException(
+        "STRUCTURE_OR_USER_NOT_FOUND",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
 
-    if (!newUser || newUser === null || !structure || structure === null) {
+    const newUser = await this.usersService.create(userDto, {
+      structure,
+      role: undefined,
+    });
+
+    if (!newUser) {
       throw new HttpException(
         "STRUCTURE_OR_USER_NOT_FOUND",
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -222,31 +234,19 @@ export class UsersController {
 
     delete newUser.password;
 
-    if (newUser.role === "admin") {
-      //
-      // Mail vers Domifa pour indiquer une création de structure
-      //
+    const admins = await usersRepository.findMany<AppUserForAdminEmail>(
+      {
+        role: "admin",
+        structureId: newUser.structureId,
+      },
+      {
+        select: USERS_ADMIN_EMAILS_ATTRIBUTES,
+      }
+    );
 
-      return this.domifaMailsService
-        .newStructure(structure, newUser)
-        .then(() => {
-          return res.status(HttpStatus.OK).json({ message: "OK" });
-        });
-    } else {
-      const admins = await usersRepository.findMany<AppUserForAdminEmail>(
-        {
-          role: "admin",
-          structureId: newUser.structureId,
-        },
-        {
-          select: USERS_ADMIN_EMAILS_ATTRIBUTES,
-        }
-      );
-
-      return this.usersMailsService.newUser(admins, newUser).then(() => {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      });
-    }
+    return this.usersMailsService.newUser(admins, newUser).then(() => {
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    });
   }
 
   @Post("validate-email")
@@ -271,7 +271,7 @@ export class UsersController {
       token
     );
 
-    if (!existUser || existUser === null) {
+    if (!existUser) {
       throw new HttpException("CHECK_PASSWORD_TOKEN", HttpStatus.BAD_REQUEST);
     }
     if (existUser.temporaryTokens.passwordValidity < today) {
@@ -291,7 +291,7 @@ export class UsersController {
       resetPasswordDto.token
     );
 
-    if (!existUser || existUser === null) {
+    if (!existUser) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "RESET_PASSWORD" });
@@ -330,7 +330,7 @@ export class UsersController {
         emailDto.email
       );
 
-      if (!updatedUser || updatedUser === null) {
+      if (!updatedUser) {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });

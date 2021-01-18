@@ -19,7 +19,6 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { AppUser } from "../../../../../_common/model";
-import { Structure } from "../../../structures/structure.interface";
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
 import { Filters, Search, SortValues } from "../../interfaces/search";

@@ -51,7 +51,7 @@ fi
 MONGO_CONTAINER_NAME=domifa-mongo
 POSTGRES_CONTAINER_NAME=domifa-postgres
 MONGO_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.mongo.gz"
-POSTGRES_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.postgres.dump"
+POSTGRES_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.postgres.custom.gz"
 POSTGRES_DUMP_FROM_DATABASE="domifa_${SOURCE_DB_ENV}" # nom de la base d'origine
 
 if [ "$DUMP_ENV" == "test" ]; then
@@ -93,7 +93,7 @@ echo "--------------------------------------------------------------------------
 echo ""
 
 (set -x && docker exec ${POSTGRES_CONTAINER_NAME} bash -c "\
-(set -x && pg_dump --dbname=${POSTGRES_DUMP_FROM_DATABASE} --username=\${POSTGRES_USER} --no-owner --format=tar --file=${POSTGRES_DUMP_PATH}) \
+(set -x && pg_dump --dbname=${POSTGRES_DUMP_FROM_DATABASE} --username=\${POSTGRES_USER} --no-owner --format=custom --compress=9 --file=${POSTGRES_DUMP_PATH}) \
  && ls -lah ${POSTGRES_DUMP_PATH} \
 ")
 

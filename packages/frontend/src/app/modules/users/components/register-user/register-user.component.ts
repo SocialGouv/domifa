@@ -7,18 +7,17 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
-import { Structure } from "src/app/modules/structures/structure.interface";
-import { AppUser } from "../../../../../_common/model";
+import { AppUser, StructureCommon } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
 import { appUserBuilder } from "../../services";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
-import { MatomoTracker } from "ngx-matomo";
 
 @Component({
   animations: [fadeInOut],
@@ -41,7 +40,7 @@ export class RegisterUserComponent implements OnInit {
   @Input() public structureChild!: {
     etapeInscription: number;
     structureId: number;
-    structure: Structure;
+    structure: StructureCommon;
   };
 
   get f() {
@@ -112,19 +111,28 @@ export class RegisterUserComponent implements OnInit {
       );
     } else {
       if (this.structureChild) {
-        this.structureService.create(this.structureChild.structure).subscribe(
-          (structure: Structure) => {
-            this.userForm.controls.structureId.setValue(structure.id);
-            this.structureChild.structureId = structure.id;
-            this.user.structureId = structure.id;
-            this.postUser();
-          },
-          (error) => {
-            this.notifService.error(
-              "Veuillez vérifier les champs du formulaire"
-            );
-          }
-        );
+        this.structureService
+          .create({
+            structure: this.structureChild.structure,
+            user: this.userForm.value,
+          })
+          .subscribe(
+            (structure: StructureCommon) => {
+              this.userForm.controls.structureId.setValue(structure.id);
+              this.structureChild.structureId = structure.id;
+              this.user.structureId = structure.id;
+              this.success = true;
+              this.notifService.success(
+                "Votre compte a été créé avec succès",
+                "Félicitations !"
+              );
+            },
+            (error) => {
+              this.notifService.error(
+                "Veuillez vérifier les champs du formulaire"
+              );
+            }
+          );
       } else {
         this.postUser();
       }

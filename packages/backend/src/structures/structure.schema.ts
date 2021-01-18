@@ -9,11 +9,6 @@ export const StructureSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    adressePostale: {
-      default: "",
-      type: String,
-      trim: true,
-    },
     adresseCourrier: {
       actif: { type: Boolean, default: false },
       adresse: { type: String, default: "" },
@@ -139,11 +134,6 @@ export const StructureSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
-    testMode: {
-      actif: Boolean,
-      dateDebut: Date,
-      dateFin: Date,
-    },
     token: {
       default: "",
       type: String,
@@ -162,6 +152,7 @@ export const StructureSchema = new mongoose.Schema(
       trim: true,
       type: String,
     },
+    migrated: { type: Boolean, default: false },
   },
   {
     timestamps: true,

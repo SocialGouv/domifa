@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { StructureService } from "../../services/structure.service";
-import { Structure } from "../../structure.interface";
 import { Title } from "@angular/platform-browser";
+import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { StructureCommon } from "../../../../../_common/model";
+import { StructureService } from "../../services/structure.service";
 
 @Component({
   selector: "app-structures-confirm",
@@ -20,7 +20,7 @@ export class StructuresConfirmComponent implements OnInit {
   public errorDelete: boolean;
 
   public nom: string;
-  public structure: Structure;
+  public structure: StructureCommon;
 
   constructor(
     private structureService: StructureService,
@@ -43,7 +43,7 @@ export class StructuresConfirmComponent implements OnInit {
     const token = this.route.snapshot.url[3].path;
     if (this.route.snapshot.url[1].path === "delete") {
       this.structureService.deleteCheck(id, token).subscribe(
-        (structure: Structure) => {
+        (structure: StructureCommon) => {
           this.structure = structure;
           this.confirmDelete = true;
         },
