@@ -47,7 +47,7 @@ then
   DUMP_ENV=test
 fi
 
-POSTGRES_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.postgres.dump"
+POSTGRES_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.postgres.custom.gz"
 POSTGRES_DATABASE="domifa_${TARGET_DB_ENV}"
 
 if [ ! -f "$POSTGRES_DUMP_PATH" ]; then
