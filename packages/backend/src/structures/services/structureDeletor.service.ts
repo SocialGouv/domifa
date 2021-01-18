@@ -2,7 +2,12 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as crypto from "crypto";
 import * as fs from "fs";
 import { domifaConfig } from "../../config";
-import { structureRepository, usersRepository } from "../../database";
+import {
+  structureDocRepository,
+  structureRepository,
+  structureStatsRepository,
+  usersRepository,
+} from "../../database";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { UsagersService } from "../../usagers/services/usagers.service";
 
@@ -39,6 +44,8 @@ export class StructureDeletorService {
       });
       await this.usagersService.deleteAll(structure.id);
       await this.interactionsService.deleteAll(structure.id);
+      await structureStatsRepository.deleteByCriteria({ structureId });
+      await structureDocRepository.deleteByCriteria({ structureId });
       await structureRepository.deleteByCriteria({ id: structureId });
 
       const pathFile = domifaConfig().upload.basePath + structure.id;

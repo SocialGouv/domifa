@@ -10,6 +10,7 @@ export class autoMigration1609860597375 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     appLogger.debug(`[Migration] UP "${this.name}"`);
+
     await queryRunner.query(
       `CREATE TABLE "structure" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "_id" text, "id" SERIAL NOT NULL, "adresse" text, "adresseCourrier" jsonb, "agrement" text, "capacite" integer, "codePostal" text, "complementAdresse" text, "departement" text, "region" text, "email" text, "hardReset" jsonb, "tokenDelete" text, "import" boolean NOT NULL DEFAULT false, "importDate" date, "lastExport" date, "lastLogin" date, "nom" text, "options" jsonb, "phone" text, "responsable" jsonb, "stats" jsonb NOT NULL, "structureType" text NOT NULL, "token" text, "verified" boolean NOT NULL DEFAULT false, "ville" text, CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE ("id"), CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY ("uuid"))`
     );
