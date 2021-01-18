@@ -135,7 +135,7 @@ Front-end tests:
 E2E tests:
   extends: .tests_setup
   # image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:e9b15e93211de45a773f2adf726d66e7a38590fd
-  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:e3d7178ceffb79123e4e99e9485e38ffce0ede1b
+  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:4.2.0
   artifacts:
     when: on_failure
     expire_in: 1 week
