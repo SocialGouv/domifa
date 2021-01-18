@@ -29,7 +29,9 @@ export class UsagerTable
   @Column({ type: "text", nullable: true })
   public customId: string;
 
-  structureId: number;
+  @Column({ type: "text", nullable: true })
+  // @OneToOne(() => Structure, (structure) => structure.id)
+  public structureId: number;
 
   //
   // ETAT-CIVIL
