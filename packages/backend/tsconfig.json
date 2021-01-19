@@ -19,5 +19,5 @@
     "baseUrl": "./",
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"]
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "src/_archive_migrations"]
 }
