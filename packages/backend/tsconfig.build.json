@@ -1,4 +1,10 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "src/uploads", "test", "**/*spec.ts"]
+  "exclude": [
+    "node_modules",
+    "src/uploads",
+    "test",
+    "**/*spec.ts",
+    "./src/_archive_migrations"
+  ]
 }
