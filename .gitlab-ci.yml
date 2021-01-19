@@ -232,6 +232,9 @@ Test:e2e:
 
 Register frontend image:
   extends: .base_register_stage
+  image: docker:20
+  services:
+    - docker:20-dind
   interruptible: true
   variables:
     CONTEXT: .
@@ -247,6 +250,9 @@ Register frontend image:
 
 Register backend image:
   extends: .base_register_stage
+  image: docker:20
+  services:
+    - docker:20-dind
   interruptible: true
   variables:
     CONTEXT: .
