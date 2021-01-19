@@ -412,7 +412,6 @@ export class StatsGeneratorService {
     return !response || response === null ? 0 : response;
   }
 
-  // TODO: Ajouter la date du jour
   public async totalInteraction(
     structureId: number,
     interactionType: InteractionType
@@ -460,6 +459,20 @@ export class StatsGeneratorService {
       { $project: { totalFichiers: { $size: "$docs" } } },
       { $group: { _id: null, count: { $sum: "$totalFichiers" } } },
     ]);
+  }
+  //
+
+  public async countInteractions(
+    interactionType: InteractionType
+  ): Promise<number> {
+    const search = await this.interactionRepository
+      .createQueryBuilder("interactions")
+      .select("SUM(interactions.nbCourrier)", "sum")
+      .where({ type: interactionType })
+      .groupBy("interactions.type")
+      .getRawOne();
+
+    return search?.sum ? parseInt(search?.sum, 10) : 0;
   }
 
   private async buildStats(
