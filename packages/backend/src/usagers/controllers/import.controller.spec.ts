@@ -1,7 +1,7 @@
 import { HttpStatus, INestApplication } from "@nestjs/common";
 
 import moment = require("moment");
-import { bootstrapApplication } from "../../app.bootstrap";
+
 import { DatabaseModule } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";

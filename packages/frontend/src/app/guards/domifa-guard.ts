@@ -19,11 +19,11 @@ export class DomifaGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
     return this.authService.isDomifa().pipe(
-      map((retour: any) => {
-        return true;
+      map((canAccess: boolean) => {
+        return canAccess;
       }),
-      catchError((err: any) => {
-        this.router.navigate(["/manage"]);
+      catchError(() => {
+        this.authService.logoutAndRedirect();
         return of(false);
       })
     );

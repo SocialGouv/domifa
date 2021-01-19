@@ -92,7 +92,7 @@ export class UsersController {
     if (confirmerUser && confirmerUser !== undefined) {
       return this.usersMailsService.accountActivated(confirmerUser).then(
         () => {
-          return res.status(HttpStatus.OK).json({ message: "OK" });
+          return res.status(HttpStatus.OK).json(confirmerUser);
         },
         (error: AxiosError) => {
           appLogger.warn(`[UsersMail] mail user account activated failed`);
@@ -370,12 +370,12 @@ export class UsersController {
       newUser.email
     );
 
-    if (updatedUser) {
+    if (updatedUser && newUser) {
       return this.usersMailsService.newUserFromAdmin(updatedUser).then(
-        (result) => {
+        () => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },
-        (error) => {
+        () => {
           return res
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .json({ message: "REGISTER_ERROR" });

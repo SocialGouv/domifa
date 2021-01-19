@@ -314,7 +314,7 @@ export class DashboardService {
     return structuresModels;
   }
 
-  private async _totalInteractions(
+  public async _totalInteractions(
     interactionType: InteractionType
   ): Promise<number> {
     {

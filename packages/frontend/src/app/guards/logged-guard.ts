@@ -7,7 +7,8 @@ import {
 } from "@angular/router";
 
 import { Observable, of } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { map } from "rxjs/operators";
+import { AppUser } from "../../_common/model";
 
 import { AuthService } from "../modules/shared/services/auth.service";
 
@@ -24,22 +25,11 @@ export class LoggedGuard implements CanActivate {
     }
 
     return this.authService.me().pipe(
-      map((canAccess: boolean) => {
-        if (canAccess) {
-          this.authService.logout();
-          this.router.navigate(["/manage"], {
-            queryParams: { returnUrl: state.url },
-          });
-          return false;
+      map((user: AppUser) => {
+        if (user === null) {
+          return true;
         }
-        return true;
-      }),
-      catchError((err: any) => {
-        this.authService.logout();
-        this.router.navigate(["/connexion"], {
-          queryParams: { returnUrl: state.url },
-        });
-        return of(false);
+        return false;
       })
     );
   }

@@ -28,6 +28,7 @@ import {
 } from "../usagers.labels";
 
 import moment = require("moment");
+import { DashboardService } from "../services/dashboard.service";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -44,7 +45,8 @@ export class StatsController {
 
   constructor(
     private readonly statsGeneratorService: StatsGeneratorService,
-    private readonly statsService: StatsService
+    private readonly statsService: StatsService,
+    private readonly dashboardService: DashboardService
   ) {
     this.sheet = [];
     this.typeMenage = typeMenage;
@@ -101,7 +103,9 @@ export class StatsController {
 
     const statsHome = {
       structures: await this.statsGeneratorService.countStructures(),
-      interactions: await this.statsGeneratorService.countInteractions(),
+      interactions: await this.dashboardService._totalInteractions(
+        "courrierIn"
+      ),
       usagers: totalUsagers,
     };
     return statsHome;

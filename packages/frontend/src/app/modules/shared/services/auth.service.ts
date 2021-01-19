@@ -9,6 +9,7 @@ import jwtDecode from "jwt-decode";
 import { environment } from "src/environments/environment";
 import { AppUser } from "../../../../_common/model";
 import { appUserBuilder } from "../../users/services";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,7 @@ export class AuthService {
 
   private endPoint = environment.apiUrl + "auth";
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, public router: Router) {
     this.http = http;
     this.currentUserSubject = new BehaviorSubject<AppUser | null>(
       JSON.parse(localStorage.getItem("currentUser") || null)
@@ -52,7 +53,7 @@ export class AuthService {
       );
   }
 
-  public me(): Observable<any> {
+  public me(): Observable<AppUser> {
     return this.http.get<AppUser>(`${this.endPoint}/me`).pipe(
       map((apiUser: AppUser) => {
         const user = appUserBuilder.buildAppUser(apiUser);
@@ -69,19 +70,24 @@ export class AuthService {
               "STRUCTURE " + user.structureId.toString() + " : " + user.prenom,
           });
         });
-
         this.currentUserSubject.next(user);
-
-        return true;
+        return user;
       }),
-      catchError((err: any) => {
-        return of(false);
+      catchError(() => {
+        return of(null);
       })
     );
   }
 
-  public isDomifa(): Observable<any> {
-    return this.http.get<any>(`${this.endPoint}/domifa`);
+  public isDomifa(): Observable<boolean> {
+    return this.http.get<any>(`${this.endPoint}/domifa`).pipe(
+      map(() => {
+        return true;
+      }),
+      catchError(() => {
+        return of(false);
+      })
+    );
   }
 
   public logout() {
@@ -94,5 +100,17 @@ export class AuthService {
       scope.setTag("structure", "none");
       scope.setUser({});
     });
+  }
+
+  public logoutAndRedirect(url?: string): void {
+    this.logout();
+
+    if (url) {
+      this.router.navigate(["/connexion"], {
+        queryParams: { returnUrl: url },
+      });
+    } else {
+      this.router.navigate(["/connexion"]);
+    }
   }
 }

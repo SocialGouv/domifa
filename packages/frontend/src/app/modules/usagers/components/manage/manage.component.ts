@@ -19,7 +19,7 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { AppUser } from "../../../../../_common/model";
-import { Structure } from "../../../structures/structure.interface";
+
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
 import { Filters, Search, SortValues } from "../../interfaces/search";
@@ -112,14 +112,14 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       RADIE: 0,
       TOUS: 0,
     };
-  }
-
-  public ngOnInit() {
-    this.titleService.setTitle("Gérer vos domiciliés");
 
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
+  }
+
+  public ngOnInit() {
+    this.titleService.setTitle("Gérer vos domiciliés");
 
     this.searchString = this.filters.name;
     this.filters.page = 0;

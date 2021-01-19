@@ -11,4 +11,5 @@ export type AppUserPublic = Pick<
   | "verified"
   | "structureId"
   | "fonction"
+  | "lastLogin"
 >;
