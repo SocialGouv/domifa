@@ -5,7 +5,7 @@ import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { StatsProviders } from "../stats-providers";
+
 import { DashboardService } from "./dashboard.service";
 import { StatsGeneratorService } from "./stats-generator.service";
 import { StatsService } from "./stats.service";
@@ -23,12 +23,7 @@ describe("StatsService", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [
-        DashboardService,
-        StatsGeneratorService,
-        StatsService,
-        ...StatsProviders,
-      ], 
+      providers: [DashboardService, StatsGeneratorService, StatsService],
     });
     service = context.module.get<StatsService>(StatsService);
   });

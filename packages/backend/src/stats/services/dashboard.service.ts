@@ -8,7 +8,7 @@ import {
 } from "../../database";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
-import { InteractionType } from "../../interactions/InteractionType.type";
+import { InteractionType } from "../../_common/model/interaction/InteractionType.type";
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { StructureType } from "../../_common/model";
@@ -16,12 +16,6 @@ import { StatsGeneratorService } from "./stats-generator.service";
 
 @Injectable()
 export class DashboardService {
-  public debutAnnee: Date;
-  public finAnnee: Date;
-  public dateMajorite: Date;
-  public today: Date;
-  public demain: Date;
-
   private interactionRepository: Repository<InteractionsTable>;
 
   constructor(
@@ -31,12 +25,6 @@ export class DashboardService {
     private usagerModel: Model<Usager>,
     private statsGeneratorService: StatsGeneratorService
   ) {
-    this.today = new Date();
-    this.demain = new Date();
-    this.debutAnnee = new Date();
-    this.finAnnee = new Date();
-    this.dateMajorite = new Date();
-
     this.interactionRepository = appTypeormManager.getRepository(
       InteractionsTable
     );
@@ -98,15 +86,15 @@ export class DashboardService {
     [statut: string]: number;
   }> {
     return {
-      courrierIn: await this._totalInteractions("courrierIn"),
-      courrierOut: await this._totalInteractions("courrierOut"),
-      recommandeIn: await this._totalInteractions("recommandeIn"),
-      recommandeOut: await this._totalInteractions("recommandeOut"),
-      colisIn: await this._totalInteractions("colisIn"),
-      colisOut: await this._totalInteractions("colisOut"),
-      appel: await this._totalInteractions("appel"),
-      visite: await this._totalInteractions("visite"),
-      npai: await this._totalInteractions("npai"),
+      courrierIn: await this.totalInteractions("courrierIn"),
+      courrierOut: await this.totalInteractions("courrierOut"),
+      recommandeIn: await this.totalInteractions("recommandeIn"),
+      recommandeOut: await this.totalInteractions("recommandeOut"),
+      colisIn: await this.totalInteractions("colisIn"),
+      colisOut: await this.totalInteractions("colisOut"),
+      appel: await this.totalInteractions("appel"),
+      visite: await this.totalInteractions("visite"),
+      npai: await this.totalInteractions("npai"),
     };
   }
 
@@ -292,6 +280,7 @@ export class DashboardService {
     };
     return stats;
   }
+
   private async getStatsDeploiementStructures() {
     const structures: Structure[] = await this.getStructures({
       sort: {
@@ -314,7 +303,7 @@ export class DashboardService {
     return structuresModels;
   }
 
-  public async _totalInteractions(
+  public async totalInteractions(
     interactionType: InteractionType
   ): Promise<number> {
     {

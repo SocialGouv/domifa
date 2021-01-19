@@ -35,3 +35,8 @@
   margin-top: 6px;
   margin-right: 6px;
 }
+
+.alert {
+  max-width: 1300px;
+  width: 100%;
+}

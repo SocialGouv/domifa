@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import {
+  Equal,
   FindConditions,
   LessThanOrEqual,
   MoreThanOrEqual,
@@ -7,20 +8,22 @@ import {
 } from "typeorm";
 import { appTypeormManager, StructureStatsTable } from "../../database";
 import { appLogger } from "../../util";
-import { StructureStats } from "../../_common/model";
+import { StructurePublic, StructureStats } from "../../_common/model";
 
 import moment = require("moment");
+import { StatsGeneratorService } from "./stats-generator.service";
 
 @Injectable()
 export class StatsService {
   private structureStatsRepository: Repository<StructureStatsTable>;
 
-  constructor() {
+  constructor(private statsGeneratorService: StatsGeneratorService) {
     this.structureStatsRepository = appTypeormManager.getRepository(
       StructureStatsTable
     );
   }
 
+  // Recherche par ID
   public async getStatById(
     id: string,
     structureId: number
@@ -34,99 +37,15 @@ export class StatsService {
     return stats;
   }
 
-  public async getToday(structureId: number): Promise<StructureStatsTable> {
-    const stats = await this.structureStatsRepository.findOne({
-      where: { structureId },
-      order: { date: -1 },
-    });
-    if (!stats || stats === null) {
-      throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-    return stats[0];
-  }
-
   public async getByDate(
     structureId: number,
     date: Date
-  ): Promise<StructureStatsTable> {
-    const stats = await this.structureStatsRepository.findOne({
-      where: { structureId, date },
+  ): Promise<StructureStats> {
+    const dateFormatted = moment(date).format("YYYY-MM-DD");
+    return this.structureStatsRepository.findOne({
+      where: { structureId, date: dateFormatted },
       order: { date: -1 },
     });
-
-    if (!stats || stats === null) {
-      throw new HttpException("MY_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-    return stats[0];
-  }
-
-  public async getAvailableStats(
-    structureId: number
-  ): Promise<Pick<StructureStatsTable, "date" | "uuid">[]> {
-    const stats = await this.structureStatsRepository.find({
-      select: ["date", "uuid"],
-      where: { structureId },
-      order: { date: 1 },
-    });
-
-    if (!stats || stats === null) {
-      throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-    return stats;
-  }
-
-  public async getFirstStat(
-    structureId: number,
-    options?: {
-      refDate?: Date;
-      allowEmptyResult?: boolean;
-    }
-  ): Promise<StructureStatsTable> {
-    const where: FindConditions<StructureStatsTable> = { structureId };
-
-    if (options?.refDate) {
-      where.date = MoreThanOrEqual(
-        moment(options?.refDate).startOf("day").toDate()
-      );
-    }
-    const stats = await this.structureStatsRepository.findOne({
-      where,
-      order: { date: 1 },
-    });
-
-    if (!stats || stats === null) {
-      if (options?.allowEmptyResult) {
-        return undefined;
-      }
-      throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-    return stats;
-  }
-
-  private async getLastStat(
-    structureId: number,
-    options?: {
-      refDate?: Date;
-      allowEmptyResult?: boolean;
-    }
-  ): Promise<StructureStatsTable> {
-    const where: FindConditions<StructureStatsTable> = { structureId };
-    if (options?.refDate) {
-      const maxDate = moment(options?.refDate).endOf("day").toDate();
-      where.date = LessThanOrEqual(maxDate);
-    }
-    const stats = await this.structureStatsRepository.findOne({
-      where,
-      order: { date: -1 },
-    });
-
-    if (!stats || stats === null) {
-      if (options?.allowEmptyResult) {
-        return undefined;
-      }
-      throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-    return stats;
   }
 
   public async deleteAll(structureId: number): Promise<any> {
@@ -136,48 +55,51 @@ export class StatsService {
   }
 
   public async getStatsDiff({
-    structureId,
+    structure,
     startDate,
     endDate,
   }: {
-    structureId: number;
+    structure: StructurePublic;
     startDate: Date;
     endDate?: Date;
   }): Promise<{
-    stats: StructureStatsTable;
+    stats: StructureStats;
     startDate?: Date;
     endDate?: Date;
   }> {
-    let startStats = await this.getLastStat(structureId, {
-      refDate: startDate,
-      allowEmptyResult: true,
-    });
-    if (!startStats) {
-      // not stats found for start date: use first date
-      appLogger.warn(
-        `[StatsService.getStats] no stats found for getLastStat(${structureId}, ${startDate.toISOString()})`
+    let startStats: StructureStats = await this.getByDate(
+      structure.id,
+      moment(startDate).subtract(1, "day").toDate()
+    );
+
+    if (!startStats || startStats === null) {
+      // NOT EXIST: on les génère à la volée
+      startStats = await this.statsGeneratorService.generateStructureStatsForPast(
+        startDate,
+        structure
       );
-      startStats = await this.getFirstStat(structureId, {
-        allowEmptyResult: true,
-      });
-      if (!startStats) {
-        appLogger.warn(
-          `[StatsService.getStats] no stats found for getFirstStat(${structureId}})`,
-          { sentryBreadcrumb: true }
-        );
-        throw new HttpException("ALL_STATS_NOT_EXIST", HttpStatus.BAD_REQUEST);
-      }
     }
 
     if (new Date(startStats.date).getTime() > new Date(endDate).getTime()) {
       // force endDate to be AFTER begin date
+
       endDate = startStats.date;
     }
-    const endStats: StructureStatsTable = await this.getLastStat(structureId, {
-      refDate: endDate,
-      allowEmptyResult: true,
-    });
+
+    let endStats: StructureStats = await this.getByDate(
+      structure.id,
+      moment(endDate).subtract(1, "day").toDate()
+    );
+
+    if (!endStats || endStats === null) {
+      endStats = await this.statsGeneratorService.generateStructureStatsForPast(
+        endDate,
+        structure
+      );
+    }
+
     const stats = this.buildStatsDiff(startStats, endStats);
+
     return {
       stats,
       startDate: startStats.date,

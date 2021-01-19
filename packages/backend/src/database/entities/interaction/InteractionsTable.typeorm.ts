@@ -1,6 +1,6 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
-import { InteractionType } from "../../../interactions/InteractionType.type";
-import { Interactions } from "../../../interactions/model/interactions.type";
+import { InteractionType } from "../../../_common/model/interaction/InteractionType.type";
+import { Interactions } from "../../../_common/model/interaction/interactions.type";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "interactions" })

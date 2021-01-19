@@ -4,7 +4,7 @@ import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { InteractionsController } from "./interactions.controller";
-import { InteractionsProviders } from "./interactions.providers";
+
 import { InteractionsService } from "./interactions.service";
 
 @Module({
@@ -16,6 +16,6 @@ import { InteractionsService } from "./interactions.service";
     forwardRef(() => UsagersModule),
     forwardRef(() => StructuresModule),
   ],
-  providers: [InteractionsService, ...InteractionsProviders],
+  providers: [InteractionsService],
 })
 export class InteractionsModule {}

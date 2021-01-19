@@ -76,27 +76,23 @@ export class StatsComponent implements OnInit, AfterViewInit {
   public ngOnInit() {
     this.titleService.setTitle("Rapport d'activité de votre structure");
 
-    this.statsService.getFirstStat().subscribe((stat: StructureStats) => {
-      const date = new Date(
-        stat ? stat.date : Date.UTC(new Date().getUTCFullYear(), 0, 1)
-      );
-      this.defaultStartDate = date;
-      this.minDate = new NgbDate(
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate()
-      );
-      this.minDateFin = new NgbDate(
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate()
-      );
-      this.fromDate = new NgbDate(
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate()
-      );
-    });
+    const date = new Date("2020-01-01");
+    this.defaultStartDate = date;
+    this.minDate = new NgbDate(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      date.getDate()
+    );
+    this.minDateFin = new NgbDate(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      date.getDate()
+    );
+    this.fromDate = new NgbDate(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      date.getDate()
+    );
   }
 
   public ngAfterViewInit() {
@@ -140,9 +136,13 @@ export class StatsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  public export() {
+  public export(year?: number): void {
     this.exportLoading = true;
-    if (
+
+    if (year) {
+      this.start = new Date(year.toString() + "-01-01");
+      this.end = new Date(year.toString() + "-12-31");
+    } else if (
       this.isSameDateIgnoreTime(this.start, this.defaultStartDate) &&
       this.isSameDateIgnoreTime(this.end, this.defaultEndDate)
     ) {

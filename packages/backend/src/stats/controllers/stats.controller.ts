@@ -10,12 +10,14 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+
 import * as XLSX from "xlsx";
+
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
-import { StructureStatsTable } from "../../database";
+
 import { appLogger } from "../../util";
-import { AppAuthUser, AppUser } from "../../_common/model";
+import { AppAuthUser, StructureStats } from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
@@ -58,13 +60,6 @@ export class StatsController {
 
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @ApiBearerAuth()
-  @Get("today")
-  public async today(@CurrentUser() user: AppAuthUser) {
-    return this.statsService.getToday(user.structureId);
-  }
-
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
-  @ApiBearerAuth()
   @Get("id/:id")
   public async getStatById(
     @Param("id") id: string,
@@ -85,14 +80,6 @@ export class StatsController {
     res.status(200).send(this.exportData(stats));
   }
 
-  // Récupérer les stats disponibles
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
-  @ApiBearerAuth()
-  @Get("first")
-  public async getAvailableStats(@CurrentUser() user: AppAuthUser) {
-    return this.statsService.getFirstStat(user.structureId);
-  }
-
   @Get("home-stats")
   public async home() {
     const usagers = await this.statsGeneratorService.countUsagers();
@@ -103,9 +90,7 @@ export class StatsController {
 
     const statsHome = {
       structures: await this.statsGeneratorService.countStructures(),
-      interactions: await this.dashboardService._totalInteractions(
-        "courrierIn"
-      ),
+      interactions: await this.dashboardService.totalInteractions("courrierIn"),
       usagers: totalUsagers,
     };
     return statsHome;
@@ -129,26 +114,25 @@ export class StatsController {
     @Res() res: Response
   ) {
     const { stats: dataToExport } = await this.getStatsDiff(user, statsDto);
-
     res.status(200).send(this.exportData(dataToExport, statsDto));
   }
 
   private async getStatsDiff(
-    user: Pick<AppUser, "structureId">,
+    user: Pick<AppAuthUser, "structure">,
     statsDto: StatsDto
   ): Promise<{
-    stats: StructureStatsTable;
+    stats: StructureStats;
     startDate?: Date;
     endDate?: Date;
   }> {
     return this.statsService.getStatsDiff({
-      structureId: user.structureId,
+      structure: user.structure,
       startDate: statsDto.start ? new Date(statsDto.start) : undefined,
       endDate: statsDto.end ? new Date(statsDto.end) : undefined,
     });
   }
 
-  private exportData(stats: StructureStatsTable, statsDto?: StatsDto) {
+  private exportData(stats: StructureStats, statsDto?: StatsDto) {
     appLogger.debug(
       `[StatsController] exportData (${JSON.stringify(stats, undefined, 2)})`
     );

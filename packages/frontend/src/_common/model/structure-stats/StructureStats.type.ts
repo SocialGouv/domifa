@@ -18,4 +18,5 @@ export type StructureStats = AppEntity & {
   capacite: number;
   codePostal: string;
   questions: StructureStatsQuestions;
+  generated: boolean;
 };
