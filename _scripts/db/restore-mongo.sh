@@ -25,12 +25,6 @@ case $i in
     --recreate-user)
       RECREATE_USER="true"
     ;;
-    mongod)
-      # argument provided by initial docker run: ignore silently
-    ;;
-    --auth)
-      # argument provided by initial docker run: ignore silently
-    ;;
     *)
     # unknown option
     echo ""
@@ -42,7 +36,11 @@ case $i in
 esac
 done
 
-MONGO_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.mongo.gz"
+
+if [ -z "${MONGO_DUMP_PATH}" ]; then
+  MONGO_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.mongo.gz"
+fi
+
 MONGO_DUMP_FROM_DATABASE="domifa_$DUMP_ENV"
 MONGO_INITDB_DATABASE="domifa_$TARGET_DB_ENV"
 
