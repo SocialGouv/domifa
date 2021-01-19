@@ -179,7 +179,7 @@ Test:frontend:unit:
     - Install:node_modules
     - Build:backend:test
 
-.Test:e2e:
+Test:e2e:
   extends: .tests_setup
   image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:4.2.0 # https://github.com/SocialGouv/docker/blob/master/puppeteer-mongo-pg/Dockerfile
   services:
@@ -229,18 +229,6 @@ Test:frontend:unit:
       - ${CI_PROJECT_DIR}/optional/e2e/runners/puppeteer/output
       - ${CI_PROJECT_DIR}/backend.log
       - ${CI_PROJECT_DIR}/frontend.log
-  
-Test:e2e:
-  extends: .Test:e2e
-  only:
-    - master
-    - tags
-
-Test:e2e:manual:
-  extends: .Test:e2e
-  except:
-    - master
-    - tags
 
 Register frontend image:
   extends: .base_register_stage
