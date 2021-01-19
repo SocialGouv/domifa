@@ -460,20 +460,6 @@ export class StatsGeneratorService {
       { $group: { _id: null, count: { $sum: "$totalFichiers" } } },
     ]);
   }
-  //
-
-  public async countInteractions(
-    interactionType: InteractionType
-  ): Promise<number> {
-    const search = await this.interactionRepository
-      .createQueryBuilder("interactions")
-      .select("SUM(interactions.nbCourrier)", "sum")
-      .where({ type: interactionType })
-      .groupBy("interactions.type")
-      .getRawOne();
-
-    return search?.sum ? parseInt(search?.sum, 10) : 0;
-  }
 
   private async buildStats(
     date: Date,
