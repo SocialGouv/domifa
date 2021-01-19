@@ -10,7 +10,7 @@ Soit("une nouvelle base de donnée", async () => {
   const { output } = require("codeceptjs");
   {
     // restore POSTGRES + MONGO DB
-    const scriptPath = path.join(rootPath, '_scripts/db/restore-databases-docker.sh')
+    const scriptPath = path.join(rootPath, process.env.DOMIFA_2E2_RESTORE_DATABASES_SCRIPT || '_scripts/db/restore-databases-docker.sh')
     const scriptArgs = ['--db=test'];
 
     console.warn(`RUN POSTGRES + MONGO RESET SCRIPT with args "${scriptArgs}": ${scriptPath}`)
