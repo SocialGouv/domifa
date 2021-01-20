@@ -2,8 +2,8 @@
 
 include:
   - project: SocialGouv/gitlab-ci-yml
-    file: /base_register_stage.yml # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.2.0/base_register_stage.yml
-    ref: v20.2.0
+    file: /base_register_stage.yml # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v17.23.0/base_register_stage.yml
+    ref: v17.23.0
 
 default: 
   image: node:14.15.0-alpine3.12
@@ -77,7 +77,7 @@ stages:
   before_script:
     - *print_env
 
-Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.2.0/base_yarn_stage.yml
+Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v17.23.0/base_yarn_stage.yml
   stage: Install
   interruptible: true
   cache: # https://docs.gitlab.com/ce/ci/caching/
