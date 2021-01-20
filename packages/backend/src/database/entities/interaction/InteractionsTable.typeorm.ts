@@ -1,9 +1,8 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 import {
-  InteractionType,
   Interactions,
+  InteractionType,
 } from "../../../_common/model/interaction";
-
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "interactions" })

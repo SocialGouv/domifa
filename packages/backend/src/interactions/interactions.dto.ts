@@ -1,12 +1,12 @@
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IsBoolean,
+  IsEmpty,
   IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsEmpty,
 } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
 import { InteractionType } from "../_common/model/interaction";
 
 export class InteractionDto {

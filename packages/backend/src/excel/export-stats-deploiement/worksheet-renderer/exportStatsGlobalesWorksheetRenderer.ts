@@ -1,6 +1,6 @@
 import { Column, Workbook } from "exceljs";
-import { InteractionType } from "../../../_common/model/interaction";
 import { REGIONS_LABELS_MAP } from "../../../structures/REGIONS_LABELS_MAP.const";
+import { InteractionType } from "../../../_common/model/interaction";
 import { StructureType } from "../../../_common/model/structure/StructureType.type";
 import { WorksheetRenderer, xlFormater, xlRenderer } from "../../xlLib";
 import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";

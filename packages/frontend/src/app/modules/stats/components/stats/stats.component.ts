@@ -11,6 +11,7 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
 } from "@ng-bootstrap/ng-bootstrap";
+import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
