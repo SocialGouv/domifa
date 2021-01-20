@@ -5,8 +5,7 @@ import { appTypeormManager, InteractionsTable } from "../database";
 import { Usager } from "../usagers/interfaces/usagers";
 import { AppAuthUser, AppUser } from "../_common/model";
 import { InteractionDto } from "./interactions.dto";
-import { InteractionType } from "../_common/model/interaction";
-import { Interactions } from "../_common/model/interaction/interactions.type";
+import { InteractionType, Interactions } from "../_common/model/interaction";
 
 @Injectable()
 export class InteractionsService {
