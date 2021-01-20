@@ -8,11 +8,10 @@ import {
 } from "../../database";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
-import { InteractionType } from "../../_common/model/interaction";
-
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { StructureType } from "../../_common/model";
+import { InteractionType } from "../../_common/model/interaction";
 import { StatsGeneratorService } from "./stats-generator.service";
 
 @Injectable()

@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
+import { CountUpOptions } from "countup.js";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { AppUser } from "../../../../../_common/model";
 import { HomeService } from "./home.service";
-import { CountUpOptions } from "countup.js";
 
 @Component({
   selector: "app-home",

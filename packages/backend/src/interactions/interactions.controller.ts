@@ -17,9 +17,9 @@ import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { Usager } from "../usagers/interfaces/usagers";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { AppAuthUser } from "../_common/model";
+import { InteractionType } from "../_common/model/interaction";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsService } from "./interactions.service";
-import { InteractionType } from "../_common/model/interaction";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
 @ApiTags("interactions")

@@ -11,15 +11,12 @@ import {
   MonitoringBatchProcessTrigger,
   StructureStatsTable,
 } from "../../database";
-
-import { InteractionType } from "../../_common/model/interaction";
-
 import { StructuresService } from "../../structures/services/structures.service";
 import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
-import { StructurePublic, StructureStats } from "../../_common/model";
-
 import { appLogger } from "../../util";
+import { StructurePublic, StructureStats } from "../../_common/model";
+import { InteractionType } from "../../_common/model/interaction";
 
 @Injectable()
 export class StatsGeneratorService {

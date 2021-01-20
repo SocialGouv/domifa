@@ -4,8 +4,8 @@ import { FindConditions, LessThan, MoreThan, Repository } from "typeorm";
 import { appTypeormManager, InteractionsTable } from "../database";
 import { Usager } from "../usagers/interfaces/usagers";
 import { AppAuthUser, AppUser } from "../_common/model";
+import { Interactions, InteractionType } from "../_common/model/interaction";
 import { InteractionDto } from "./interactions.dto";
-import { InteractionType, Interactions } from "../_common/model/interaction";
 
 @Injectable()
 export class InteractionsService {
@@ -175,7 +175,7 @@ function buildInteraction({
   interaction: InteractionDto;
   usager: Pick<Usager, "id" | "lastInteraction" | "options">;
   user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
-}): InteractionDto {
+}): Omit<InteractionsTable, "_id" | "id"> {
   const len = interaction.type.length;
   const interactionOut = interaction.type.substring(len - 3) === "Out";
   const interactionIn = interaction.type.substring(len - 2) === "In";

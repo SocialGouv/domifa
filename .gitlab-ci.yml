@@ -2,11 +2,8 @@
 
 include:
   - project: SocialGouv/gitlab-ci-yml
-    file: /base_register_stage.yml # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v17.23.0/base_register_stage.yml
-    ref: v17.23.0
-
-default: 
-  image: node:14.15.0-alpine3.12
+    file: /base_register_stage.yml # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.2.0/base_register_stage.yml
+    ref: v20.2.0
 
 variables:
   # Globals
@@ -17,7 +14,6 @@ stages:
   - "Build"
   - "Tests"
   - "Registration"
-
 
 .print_env: &print_env |
   printenv | grep \
@@ -34,7 +30,6 @@ stages:
     -e "^POSTGRES_" \
     -e "^RANCHER_PROJECT_ID" | sort
 
-
 .db_tools: &db_tools |
   apk add mongodb-tools
   apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
@@ -43,6 +38,26 @@ stages:
   nc -zvv mongo 27017
   pg_isready -d postgres -h postgres -p 5432 -U runner
   ./_scripts/db/restore-databases-gitlab-ci.sh --db=test --ci
+
+.start_e2e_app: &start_e2e_app |
+  cd ${CI_PROJECT_DIR}
+  npx serve packages/frontend/dist/domifa -l 4200 > ${CI_PROJECT_DIR}/frontend.log 2>&1 &
+  yarn workspace @domifa/backend start:tests-ci > ${CI_PROJECT_DIR}/backend.log 2>&1 &
+  echo "Wait for backend to be healthy... (timeout:40s)"
+  curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+  curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+  curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+  curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+  curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+  curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+  curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+  curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+  curl http://localhost:3000/healthz
+  curl http://localhost:4200/connexion
+  curl http://localhost:4200
+  curl --fail http://localhost:3000/healthz
+  tail -100 ${CI_PROJECT_DIR}/frontend.log
+  tail -100 ${CI_PROJECT_DIR}/backend.log  
 
 .tests_setup:
   stage: Tests
@@ -77,7 +92,8 @@ stages:
   before_script:
     - *print_env
 
-Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v17.23.0/base_yarn_stage.yml
+Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.2.0/base_yarn_stage.yml
+  image: node:14.15.0-alpine3.12
   stage: Install
   interruptible: true
   cache: # https://docs.gitlab.com/ce/ci/caching/
@@ -99,6 +115,7 @@ Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v1
       - packages/frontend/node_modules
 
 Install:e2e:node_modules:
+  image: node:14.15.0-alpine3.12
   stage: Install
   interruptible: true
   cache: # https://docs.gitlab.com/ce/ci/caching/
@@ -118,42 +135,54 @@ Install:e2e:node_modules:
     paths:
       - optional/e2e/runners/puppeteer/node_modules
 
-Build:frontend:test: # "test" environment build
+Build:frontend:gitlab-ci: # "gitlab-ci" environment build
+  image: node:14.15.0-alpine3.12
   stage: Build
   interruptible: true
   script:
-    - mv
-      packages/frontend/src/environments/environment.gitlab-ci.ts
-      packages/frontend/src/environments/environment.prod.ts
-    - yarn --cwd packages/frontend build --prod
+    - yarn --cwd packages/frontend build:gitlab-ci
   artifacts:
     expire_in: 1 day
     paths:
       - packages/frontend/dist
-  needs: 
+  needs:
     - Install:node_modules
-  dependencies: 
+  dependencies:
     - Install:node_modules
 
-Build:backend:test: # "test" environment build
+Build:frontend:dist: # "dist" environment build
+  image: node:14.15.0-alpine3.12
   stage: Build
   interruptible: true
   script:
-    - |
-      > ./.env.test.travis.env
-      > ./packages/backend/.env.backend.test.travis.env
+    - yarn --cwd packages/frontend build
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - packages/frontend/dist
+  needs:
+    - Install:node_modules
+  dependencies:
+    - Install:node_modules
+
+Build:backend:dist: # "dist" environment build
+  image: node:14.15.0-alpine3.12
+  stage: Build
+  interruptible: true
+  script:
     - yarn --cwd packages/backend build
   artifacts:
     expire_in: 1 day
     paths:
       - packages/backend/dist
-  needs: 
+  needs:
     - Install:node_modules
-  dependencies: 
+  dependencies:
     - Install:node_modules
 
 Test:backend:integration:
   extends: .tests_setup
+  image: node:14.15.0-alpine3.12
   services:
     - name: mongo:4.0.3
     - name: postgres:10.14
@@ -161,67 +190,41 @@ Test:backend:integration:
     - *db_tools
     - *db_setup
     - yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
-  needs: 
+  needs:
     - Install:node_modules
-    - Build:backend:test
-  dependencies: 
+  dependencies:
     - Install:node_modules
-    - Build:backend:test
 
 Test:frontend:unit:
   extends: .tests_setup
+  image: node:14.15.0-alpine3.12
   script:
     - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
-  needs: 
+  needs:
     - Install:node_modules
-    - Build:backend:test
-  dependencies: 
+  dependencies:
     - Install:node_modules
-    - Build:backend:test
 
-Test:e2e:
+Test:e2e:dist:
   extends: .tests_setup
   image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:4.2.0 # https://github.com/SocialGouv/docker/blob/master/puppeteer-mongo-pg/Dockerfile
   services:
     - name: mongo:4.0.3
     - name: postgres:10.14
-  script:
+  before_script:
     - *db_setup
-    - cd ${CI_PROJECT_DIR}
-    # - mv
-    #   packages/frontend/src/environments/environment.travis.ts
-    #   packages/frontend/src/environments/environment.prod.ts
-    # - yarn build
-    # - cp -r -i ./packages/backend/src/ressources ./packages/backend/dist/ressources => already in post-build ?
-    - npx serve packages/frontend/dist/domifa -l 4200 > ${CI_PROJECT_DIR}/frontend.log 2>&1 &
-    - yarn workspace @domifa/backend start:tests-ci > ${CI_PROJECT_DIR}/backend.log 2>&1 &
-    - echo "Wait for backend to be healthy... (timeout:30s)"
-    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-    - curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-    - curl http://localhost:3000/healthz
-    - curl http://localhost:4200/connexion
-    - curl http://localhost:4200
-    - curl --fail http://localhost:3000/healthz
-    - tail -100 ${CI_PROJECT_DIR}/frontend.log
-    - tail -100 ${CI_PROJECT_DIR}/backend.log
+    - *start_e2e_app
+  script:
     - cd optional/e2e/runners/puppeteer/
     - yarn test --debug
-    - tail -10 ${CI_PROJECT_DIR}/frontend.log
-    - tail -10 ${CI_PROJECT_DIR}/backend.log
-  needs: 
+  needs:
     - Install:node_modules
     - Install:e2e:node_modules
-    - Build:backend:test
-    - Build:frontend:test
-  dependencies: 
+    - Build:frontend:gitlab-ci
+  dependencies:
     - Install:node_modules
     - Install:e2e:node_modules
-    - Build:backend:test
-    - Build:frontend:test
+    - Build:frontend:gitlab-ci
   artifacts:
     when: on_failure
     expire_in: 1 week
@@ -229,30 +232,46 @@ Test:e2e:
       - ${CI_PROJECT_DIR}/optional/e2e/runners/puppeteer/output
       - ${CI_PROJECT_DIR}/backend.log
       - ${CI_PROJECT_DIR}/frontend.log
+  retry:
+    max: 1
 
-Register frontend image:
+.Register:frontend:image:base:
   extends: .base_register_stage
-  image: docker:20
+  image: docker:19
   services:
-    - docker:20-dind
+    - docker:19-dind
   interruptible: true
   variables:
     CONTEXT: .
     IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
     DOCKER_BUILD_ARGS: >-
       -f packages/frontend/Dockerfile
-  needs: 
+  needs:
     - Test:frontend:unit
-  dependencies: []
+    - Install:node_modules
+    - Build:frontend:dist
+  dependencies:
+    - Install:node_modules
+    - Build:frontend:dist
+
+Register:frontend:image:
+  extends: .Register:frontend:image:base
   only:
     - master # to deploy to preprod only
     - tags # prod + preprod
 
-Register backend image:
+Register:frontend:image:manual:
+  extends: .Register:frontend:image:base
+  except:
+    - master
+    - tags
+  when: manual # to be able to run thieses jobs manually on branchs
+ 
+.Register:backend:image:base:
   extends: .base_register_stage
-  image: docker:20
+  image: docker:19
   services:
-    - docker:20-dind
+    - docker:19-dind
   interruptible: true
   variables:
     CONTEXT: .
@@ -260,9 +279,23 @@ Register backend image:
     DOCKER_BUILD_ARGS: >-
       --shm-size 768M
       -f packages/backend/Dockerfile
-  needs: 
+  needs:
     - Test:backend:integration
-  dependencies: []
+    - Install:node_modules
+    - Build:backend:dist
+  dependencies:
+    - Install:node_modules
+    - Build:backend:dist
+
+Register:backend:image:
+  extends: .Register:backend:image:base
   only:
     - master # to deploy to preprod only
     - tags # prod + preprod
+
+Register:backend:image:manual:
+  extends: .Register:backend:image:base
+  except:
+    - master
+    - tags
+  when: manual # to be able to run thieses jobs manually on branchs

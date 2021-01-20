@@ -26,7 +26,7 @@
     "start:tests-local": "NODE_ENV=tests-local nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
     "start:prod": "node dist/run-app.js",
-    "start:tests-ci": "node dist/run-app.js",
+    "start:tests-ci": "npx ts-node -r tsconfig-paths/register src/run-app.ts",
     "lint": "tslint -p tsconfig.json -t stylish",
     "test": "NODE_ENV=tests-local jest",
     "test:ci": "NODE_ENV=tests-ci jest",
