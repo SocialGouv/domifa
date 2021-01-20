@@ -12,7 +12,7 @@ import {
   StructureStatsTable,
 } from "../../database";
 
-import { InteractionType } from "../../_common/model/interaction/InteractionType.type";
+import { InteractionType } from "../../_common/model/interaction";
 
 import { StructuresService } from "../../structures/services/structures.service";
 import { Structure } from "../../structures/structure-interface";

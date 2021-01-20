@@ -1,5 +1,5 @@
 import { Document } from "mongoose";
-import { InteractionType } from "../_common/model/interaction/InteractionType.type";
+import { InteractionType } from "../_common/model/interaction";
 export interface InteractionDocument extends Document {
   type: InteractionType;
   dateInteraction: Date;
