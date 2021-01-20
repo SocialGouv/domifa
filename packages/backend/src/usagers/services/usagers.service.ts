@@ -261,4 +261,31 @@ export class UsagersService {
       .lean()
       .exec();
   }
+
+  public async nbreUsagersParStatutMaintenant(
+    structureId: number,
+    statut?: string
+  ): Promise<number> {
+    const query: {
+      "decision.statut"?: string | {};
+      structureId: number;
+    } = {
+      "decision.statut": statut,
+      structureId,
+    };
+
+    if (statut && statut === "RENOUVELLEMENT") {
+      query["decision.statut"] = {
+        $in: ["INSTRUCTION", "ATTENTE_DECISION"],
+      };
+    }
+
+    if (statut === "") {
+      delete query["decision.statut"];
+    }
+
+    const response = await this.usagerModel.countDocuments(query).exec();
+
+    return !response || response === null ? 0 : response;
+  }
 }

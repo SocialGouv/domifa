@@ -194,34 +194,37 @@ export class SearchController {
       TOUS: 0,
     };
 
-    stats.VALIDE = await this.statsService.totalMaintenant(
+    stats.VALIDE = await this.usagersService.nbreUsagersParStatutMaintenant(
       user.structure.id,
       "VALIDE"
     );
 
-    stats.REFUS = await this.statsService.totalMaintenant(
+    stats.REFUS = await this.usagersService.nbreUsagersParStatutMaintenant(
       user.structure.id,
       "REFUS"
     );
 
-    stats.RADIE = await this.statsService.totalMaintenant(
+    stats.RADIE = await this.usagersService.nbreUsagersParStatutMaintenant(
       user.structure.id,
       "RADIE"
     );
 
-    stats.INSTRUCTION = await this.statsService.totalMaintenant(
+    stats.INSTRUCTION = await this.usagersService.nbreUsagersParStatutMaintenant(
       user.structure.id,
       "INSTRUCTION"
     );
 
-    stats.ATTENTE_DECISION = await this.statsService.totalMaintenant(
+    stats.ATTENTE_DECISION = await this.usagersService.nbreUsagersParStatutMaintenant(
       user.structure.id,
       "ATTENTE_DECISION"
     );
 
-    stats.TOUS = await this.statsService.totalMaintenant(user.structure.id, "");
+    stats.TOUS = await this.usagersService.nbreUsagersParStatutMaintenant(
+      user.structure.id,
+      ""
+    );
 
-    stats.RENOUVELLEMENT = await this.statsService.totalMaintenant(
+    stats.RENOUVELLEMENT = await this.usagersService.nbreUsagersParStatutMaintenant(
       user.structure.id,
       "RENOUVELLEMENT"
     );

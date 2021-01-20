@@ -7,7 +7,7 @@ import {
   IsEmpty,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { InteractionType } from "./InteractionType.type";
+import { InteractionType } from "../_common/model/interaction/InteractionType.type";
 
 export class InteractionDto {
   @ApiProperty({

@@ -199,7 +199,7 @@ export class UsagersProfilComponent implements OnInit {
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
-      structure: [this.usager.structure, []],
+
       surnom: [this.usager.surnom, []],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });

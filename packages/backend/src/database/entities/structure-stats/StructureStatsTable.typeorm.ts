@@ -42,4 +42,7 @@ export class StructureStatsTable
 
   @Column({ type: "jsonb" })
   questions: StructureStatsQuestions;
+
+  @Column({ type: "boolean", default: false })
+  generated: boolean;
 }

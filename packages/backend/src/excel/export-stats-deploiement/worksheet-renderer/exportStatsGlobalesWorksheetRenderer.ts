@@ -1,5 +1,5 @@
 import { Column, Workbook } from "exceljs";
-import { InteractionType } from "../../../interactions/InteractionType.type";
+import { InteractionType } from "../../../_common/model/interaction/InteractionType.type";
 import { REGIONS_LABELS_MAP } from "../../../structures/REGIONS_LABELS_MAP.const";
 import { StructureType } from "../../../_common/model/structure/StructureType.type";
 import { WorksheetRenderer, xlFormater, xlRenderer } from "../../xlLib";

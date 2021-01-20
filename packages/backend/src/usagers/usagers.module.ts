@@ -1,7 +1,7 @@
 import { forwardRef, HttpModule, Module } from "@nestjs/common";
 import { DatabaseModule } from "../database";
 import { InteractionsModule } from "../interactions/interactions.module";
-import { InteractionsProviders } from "../interactions/interactions.providers";
+
 import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
 import { StructuresModule } from "../structures/structure.module";
@@ -33,7 +33,6 @@ import { UsagersProviders } from "./usagers.providers";
     CerfaService,
     DocumentsService,
     ...UsagersProviders,
-    ...InteractionsProviders,
   ],
   imports: [
     HttpModule,
@@ -49,7 +48,6 @@ import { UsagersProviders } from "./usagers.providers";
     CerfaService,
     DocumentsService,
     ...UsagersProviders,
-    ...InteractionsProviders,
   ],
 })
 export class UsagersModule {}

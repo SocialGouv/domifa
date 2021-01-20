@@ -23,10 +23,6 @@ export class StatsService {
     this.loading = true;
   }
 
-  public getToday(): Observable<StructureStats> {
-    return this.http.get<StructureStats>(`${this.baseUrl}today`);
-  }
-
   public getStatById(id: string): Observable<StructureStats> {
     return this.http.get<StructureStats>(`${this.baseUrl}id/${id}`);
   }
@@ -48,10 +44,6 @@ export class StatsService {
       start,
       end,
     });
-  }
-
-  public getFirstStat(): Observable<any> {
-    return this.http.get(`${this.baseUrl}first`);
   }
 
   // DASHBOARD
