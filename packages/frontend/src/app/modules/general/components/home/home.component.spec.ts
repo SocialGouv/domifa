@@ -10,6 +10,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CountUpModule } from "ngx-countup";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -24,6 +25,7 @@ describe("HomeComponent", () => {
         SharedModule,
         BrowserAnimationsModule,
         FontAwesomeModule,
+        RouterTestingModule,
         CountUpModule,
         HttpClientModule,
         HttpClientTestingModule,
