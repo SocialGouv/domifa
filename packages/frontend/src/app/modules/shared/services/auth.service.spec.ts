@@ -2,12 +2,19 @@ import { inject, TestBed } from "@angular/core/testing";
 
 import { HttpClientModule } from "@angular/common/http";
 import { AuthService } from "./auth.service";
+import { RouterTestingModule } from "@angular/router/testing";
+import { APP_BASE_HREF } from "@angular/common";
+import { RouterModule } from "@angular/router";
 
 describe("AuthService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [AuthService],
+      imports: [
+        HttpClientModule,
+        RouterTestingModule,
+        RouterModule.forRoot([]),
+      ],
+      providers: [AuthService, { provide: APP_BASE_HREF, useValue: "/" }],
     });
   });
 
