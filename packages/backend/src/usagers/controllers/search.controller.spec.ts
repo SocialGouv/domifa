@@ -3,7 +3,7 @@ import { DatabaseModule } from "../../database";
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
 import { StatsService } from "../../stats/services/stats.service";
-import { StatsProviders } from "../../stats/stats-providers";
+
 import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
@@ -25,7 +25,7 @@ describe("Search Controller", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [StatsService, StatsGeneratorService, ...StatsProviders],
+      providers: [StatsService, StatsGeneratorService],
     });
     controller = context.module.get<SearchController>(SearchController);
   });

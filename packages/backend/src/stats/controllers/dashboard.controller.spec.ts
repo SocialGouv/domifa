@@ -8,7 +8,7 @@ import { AppTestContext, AppTestHelper } from "../../util/test";
 import { DashboardService } from "../services/dashboard.service";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
-import { StatsProviders } from "../stats-providers";
+
 import { DashboardController } from "./dashboard.controller";
 
 describe("Dashboard Controller", () => {
@@ -25,12 +25,7 @@ describe("Dashboard Controller", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [
-        DashboardService,
-        StatsService,
-        StatsGeneratorService,
-        ...StatsProviders,
-      ],
+      providers: [DashboardService, StatsService, StatsGeneratorService],
     });
     controller = context.module.get<DashboardController>(DashboardController);
   });
