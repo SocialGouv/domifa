@@ -409,6 +409,7 @@ export class ImportComponent implements OnInit {
 
     this.usagerService.import(formData).subscribe(
       (res) => {
+        this.notifService.error("L'import a eu lieu avec succès");
         setTimeout(() => {
           this.notifService.success("L'import a eu lieu avec succès");
           this.loadingService.stopLoading();
