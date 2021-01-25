@@ -9,14 +9,14 @@ base_dir=/mnt/database/backup-${month_year}/backup-${today}
 mkdir -p $base_dir
 
 MONGO_DUMP_PATH=${base_dir}/mongo_mongodump-${today}.gzip
-POSTGRES_DUMP_NAME=postgres.pg_dump-${today}.custom.gz
+POSTGRES_DUMP_NAME=postgres.pg_dump-${today}.tar
 POSTGRES_DUMP_PATH=${base_dir}/${POSTGRES_DUMP_NAME}
 
 
 (set -x && sudo docker exec master_mongo_1 sh -c 'mongodump --archive --gzip' > ${MONGO_DUMP_PATH})
 
 (set -x && sudo docker exec master_postgres_1 bash -c "\
-pg_dump --dbname=${POSTGRES_DATABASE} --username=\${POSTGRES_USER} --no-owner --format=custom --file=/tmp/${POSTGRES_DUMP_NAME} \
+pg_dump --dbname=${POSTGRES_DATABASE} --username=\${POSTGRES_USER} --no-owner --format=custom  --compress=9 --file=/tmp/${POSTGRES_DUMP_NAME} \
 ")
 
 (set -x && sudo docker cp master_postgres_1:/tmp/${POSTGRES_DUMP_NAME} ${POSTGRES_DUMP_PATH})
