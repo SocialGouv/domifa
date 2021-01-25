@@ -1,10 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { Title } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
-import { Router } from "@angular/router";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+
 import { RouterTestingModule } from "@angular/router/testing";
 import { DocumentsFormComponent } from "./documents-form.component";
 import { HttpClientModule } from "@angular/common/http";
