@@ -3,6 +3,5 @@ export type UsagerDoc = {
   createdBy: string;
   label: string;
   filetype: string;
-  // TODO: récupérer le Path dans docsPath
-  path?: string;
+  path: string;
 };

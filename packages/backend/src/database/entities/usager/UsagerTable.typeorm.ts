@@ -1,6 +1,6 @@
-import { Column, Entity, Generated, Index } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
 import { UsagerSexe } from ".";
-
+import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./UsagerDecision.type";
@@ -15,25 +15,31 @@ import { UsagerTypeDom } from "./UsagerTypeDom.type";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
+@Unique(["structureId", "ref"])
 export class UsagerTable
   extends AppTypeormTable<UsagerTable>
   implements UsagerPG {
   //
   // ETAT-CIVIL
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: true, readonly: true })
   public _id: any; // obsolete mongo id: use `uuid` instead
 
-  @Column({ type: "integer" }) // Non unique, car le compteur est défini par structure
-  public id: number;
+  // pas de "id" pour le moment
 
-  @Column({ type: "text", nullable: true })
-  public customId: string;
+  @Column({ type: "integer", readonly: true }) // unique par structure
+  public ref: number;
 
-  @Column({ type: "text", nullable: true })
-  // @OneToOne(() => Structure, (structure) => structure.id)
-  public structureId: number;
+  @Column({ type: "text" })
+  public customRef: string;
 
-  //
+  @Index()
+  @Column({ type: "integer" })
+  structureId: number;
+
+  @ManyToOne(() => StructureTable, { lazy: true })
+  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
+  structureFk?: Promise<StructureTable>;
+
   // ETAT-CIVIL
   @Column({ type: "text" })
   public nom: string;
@@ -67,11 +73,10 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     nullable: true,
-    default: '{"email": false, "phone": false, "aucun": true}',
+    default: '{"email": false, "phone": false}',
   })
   public preference: UsagerPreferenceContact;
 
-  //
   // DOMICILIATION
   @Column({ type: "timestamptz", nullable: true })
   public datePremiereDom: Date;
@@ -88,23 +93,23 @@ export class UsagerTable
   //
   // AYANTS DROITS
   @Column({ type: "jsonb", nullable: true })
-  public ayantsDroits: UsagerAyantDroit[]; // TODO: déplacer dans une entité ?
+  public ayantsDroits: UsagerAyantDroit[];
 
   //
   // INTERACTIONS
   @Column({
     type: "jsonb",
-    default:
-      "{ dateInteraction: now(), enAttente: false, courrierIn: 0, recommandeIn: 0, colisIn: 0};",
+    // default:
+    //   "{ dateInteraction: now(), enAttente: false, courrierIn: 0, recommandeIn: 0, colisIn: 0};",
   })
   public lastInteraction: UsagerLastInteractions;
 
   //
   // DOCUMENTS
-  @Column({ type: "jsonb", nullable: true })
+  @Column({ type: "jsonb", default: "[]" })
   public docs: UsagerDoc[];
 
-  @Column({ type: "jsonb", nullable: true }) // TODO: fusionner avec Docs
+  @Column({ type: "jsonb", default: "[]" })
   public docsPath: string[];
 
   //
@@ -117,8 +122,8 @@ export class UsagerTable
 
   @Column({
     type: "jsonb",
-    default:
-      "{ accompagnement: null, accompagnementDetail: null, cause: null, causeDetail: null, commentaires: null, domiciliation: null, liencommune: null, pourquoi: null, pourquoiDetail: null, rattachement: null, raison: null, raisonDetail: null, residence: null, residenceDetail: null, revenus: null, revenusDetail: null, typeMenage: null }",
+    // default:
+    //   "{ accompagnement: null, accompagnementDetail: null, cause: null, causeDetail: null, commentaires: null, domiciliation: null, liencommune: null, pourquoi: null, pourquoiDetail: null, rattachement: null, raison: null, raisonDetail: null, residence: null, residenceDetail: null, revenus: null, revenusDetail: null, typeMenage: null }",
   })
   public entretien: UsagerEntretien;
 
@@ -126,7 +131,6 @@ export class UsagerTable
   // TRANSFERTS / NPAI / PROCURATION
   @Column({
     type: "jsonb",
-    default: "",
   })
   public options: UsagerOptions;
 }

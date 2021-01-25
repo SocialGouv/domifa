@@ -371,6 +371,7 @@ export const UsagerSchema = new mongoose.Schema(
       trim: true,
       type: String,
     },
+    migrated: { type: Boolean, default: false },
   },
   {
     timestamps: true,

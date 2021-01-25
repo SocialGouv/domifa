@@ -16,8 +16,8 @@ export type UsagerPG = AppEntity & {
    * @deprecated obsolete mongo id: use `uuid` instead.
    */
   _id?: any;
-  id: number;
-  customId?: string;
+  ref: number; // unique par structure
+  customRef: string; // valeur par défaut: 'ref'
   structureId: number;
 
   // ETAT CIVIL
@@ -55,6 +55,7 @@ export type UsagerPG = AppEntity & {
 
   // DOCUMENTS
   docs: UsagerDoc[];
+
   docsPath: string[]; // TODO: fusionner avec docs
 
   options: UsagerOptions;

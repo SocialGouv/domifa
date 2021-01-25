@@ -51,7 +51,7 @@ async function _anonymizeUsager(
     nom: dataGenerator.lastName(),
     surnom: null,
     dateNaissance: dataGenerator.date({
-      years: { min: 18, max: 90 },
+      years: { min: 18, max: -90 },
     }),
     ayantsDroits: usager.ayantsDroits
       ? usager.ayantsDroits.map((x) => ({
@@ -60,13 +60,13 @@ async function _anonymizeUsager(
           prenom: dataGenerator.firstName(),
           dateNaissance: moment(
             dataGenerator.date({
-              years: { min: 0, max: 90 },
+              years: { min: 0, max: -90 },
             })
           ).format("DD/MM/yyyy"),
         }))
       : usager.ayantsDroits,
     datePremiereDom: dataGenerator.date({
-      years: { min: 0, max: 30 },
+      years: { min: 0, max: -30 },
     }),
   };
 
