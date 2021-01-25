@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import {
+  Between,
   Equal,
   FindConditions,
   LessThanOrEqual,
@@ -41,9 +42,11 @@ export class StatsService {
     structureId: number,
     date: Date
   ): Promise<StructureStats> {
-    const dateFormatted = moment(date).format("YYYY-MM-DD");
+    const endOfDay = moment(date).endOf("day").toDate();
+    const startOfDay = moment(date).startOf("day").toDate();
+
     return this.structureStatsRepository.findOne({
-      where: { structureId, date: dateFormatted },
+      where: { structureId, date: Between(startOfDay, endOfDay) },
       order: { date: -1 },
     });
   }
@@ -67,9 +70,10 @@ export class StatsService {
     startDate?: Date;
     endDate?: Date;
   }> {
+    //
     let startStats: StructureStats = await this.getByDate(
       structure.id,
-      moment(startDate).subtract(1, "day").toDate()
+      startDate
     );
 
     if (!startStats || startStats === null) {
@@ -79,17 +83,20 @@ export class StatsService {
         structure
       );
     }
-
     if (new Date(startStats.date).getTime() > new Date(endDate).getTime()) {
       // force endDate to be AFTER begin date
-
       endDate = startStats.date;
     }
 
-    let endStats: StructureStats = await this.getByDate(
-      structure.id,
-      moment(endDate).subtract(1, "day").toDate()
-    );
+    // Si date du jour
+    const endDateDay = moment(endDate).format("YYYY-MM-DD");
+    const today = moment(new Date()).format("YYYY-MM-DD");
+
+    if (today === endDateDay) {
+      endDate = moment(endDate).add(1, "day").toDate();
+    }
+
+    let endStats: StructureStats = await this.getByDate(structure.id, endDate);
 
     if (!endStats || endStats === null) {
       endStats = await this.statsGeneratorService.generateStructureStatsForPast(

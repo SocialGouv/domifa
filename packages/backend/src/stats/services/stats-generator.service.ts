@@ -37,11 +37,7 @@ export class StatsGeneratorService {
   ) {
     this.endOfStatDate = moment().utc().endOf("day").toDate();
 
-    this.dateMajorite = moment()
-      .utc()
-      .subtract(18, "year")
-      .endOf("day")
-      .toDate();
+    this.dateMajorite = moment().subtract(18, "year").endOf("day").toDate();
 
     this.structureStatsRepository = appTypeormManager.getRepository(
       StructureStatsTable
@@ -71,7 +67,7 @@ export class StatsGeneratorService {
         trigger,
       },
       async ({ monitorTotal, monitorSuccess, monitorError }) => {
-        const today = moment().utc().startOf("day").toDate();
+        const today = moment().utc().subtract(1, "day").endOf("day").toDate();
         const structures = await this._findStructuresToGenerateStats({ today });
         appLogger.debug(
           `[StatsGeneratorService] ${structures.length} structures to process :`
@@ -463,17 +459,12 @@ export class StatsGeneratorService {
     structure: StructurePublic,
     generated: boolean
   ) {
-    // Date de stat choisie (fin de la journée)
-    this.endOfStatDate = moment(date).utc().endOf("day").toDate();
+    const endOfDay = moment(date).endOf("day").subtract(1, "minute").toDate();
 
-    this.dateMajorite = moment(date)
-      .utc()
-      .subtract(18, "year")
-      .endOf("day")
-      .toDate();
+    this.dateMajorite = moment(date).subtract(18, "year").endOf("day").toDate();
 
     const stat = new StructureStatsTable({
-      date: moment(date).subtract(1, "day").toDate(),
+      date: endOfDay,
       questions: {
         Q_10: 0,
         Q_10_A: 0,
@@ -549,6 +540,7 @@ export class StatsGeneratorService {
         },
       },
     });
+
     stat.capacite = structure.capacite;
     stat.structureId = structure.id;
     stat.nom = structure.nom;

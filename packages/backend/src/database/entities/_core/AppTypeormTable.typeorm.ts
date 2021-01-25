@@ -1,9 +1,8 @@
 import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
-
   UpdateDateColumn,
-  VersionColumn
+  VersionColumn,
 } from "typeorm";
 import { AppEntity } from "../../../_common/model";
 
