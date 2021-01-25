@@ -8,7 +8,6 @@ import {
 
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
-import { AppUser } from "../../_common/model";
 
 import { AuthService } from "../modules/shared/services/auth.service";
 
@@ -24,12 +23,9 @@ export class LoggedGuard implements CanActivate {
       return of(true);
     }
 
-    return this.authService.me().pipe(
-      map((user: AppUser) => {
-        if (user === null) {
-          return true;
-        }
-        return false;
+    return this.authService.isAuth().pipe(
+      map((isAuth: boolean) => {
+        return !isAuth;
       })
     );
   }

@@ -16,7 +16,7 @@ import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-frenc
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AppUser } from "../../../../../../../_common/model";
 import { Usager } from "../../../../interfaces/usager";
-import { DocumentService } from "../../../../services/document.service";
+
 import { UsagerService } from "../../../../services/usager.service";
 
 @Component({
@@ -52,8 +52,7 @@ export class DecisionComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    public authService: AuthService,
-    public documentService: DocumentService,
+    private authService: AuthService,
     private usagerService: UsagerService,
     private modalService: NgbModal,
     private router: Router,
