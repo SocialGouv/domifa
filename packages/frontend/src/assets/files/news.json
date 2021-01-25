@@ -2,7 +2,8 @@
   {
     "date": "2021-01-26",
     "content": [
-    {   "type": "new",
+      {
+        "type": "new",
         "categorie": "Structure",
         "message": [
           "Les statistiques du rapport d’activité 2020 sont disponibles dans votre section Statistiques !"
@@ -10,10 +11,11 @@
       }
     ]
   },
-    {
+  {
     "date": "2021-01-11",
     "content": [
-    {   "type": "new",
+      {
+        "type": "new",
         "categorie": "Structure",
         "message": [
           "Affichage d’une fenêtre de maintenance lors d’une mise en production",

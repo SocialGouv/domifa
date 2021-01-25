@@ -76,6 +76,12 @@ export class AppComponent implements OnInit {
       backdrop: "static",
       keyboard: false,
     };
+
+    // REFRESH TOKEN
+    this.authService.me().subscribe(
+      (me: AppUser) => {},
+      (error: any) => {}
+    );
   }
 
   public refresh(): void {
