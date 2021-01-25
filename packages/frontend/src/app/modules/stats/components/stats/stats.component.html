@@ -145,7 +145,7 @@
     <b>Astuce:</b> pour avoir des statistiques sur une date précise, la date de
     fin sera prise en compte
 
-    <div class="aler alert-info">
+    <div class="alert alert-info">
       <b>Note 2020 :</b> les statistiques des ayants droits et des questions de
       l'entretien affichent les dernières valeurs à jour sur les fiches
       domiciliés. Par exemple, si les données de l'entretien ont été modifiées
@@ -168,16 +168,7 @@
             <td>{{ stats.questions.Q_11.VALIDE }}</td>
           </tr>
           <tr>
-            <td class="soustable">
-              Nombre d'ayants-droit
-              <span
-                class="badge badge-warning"
-                *ngIf="stats.generated"
-                placement="top"
-                ngbTooltip="Ces statistiques ont été générés en cours d'année"
-                >⚠️ Statistiques partielles
-              </span>
-            </td>
+            <td class="soustable">Nombre d'ayants-droit</td>
             <td>{{ stats.questions.Q_11.VALIDE_AYANTS_DROIT || 0 }}</td>
           </tr>
 
