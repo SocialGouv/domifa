@@ -9,8 +9,8 @@ import { ToastrService } from "ngx-toastr";
 @Injectable({ providedIn: "root" })
 export class FacteurGuard implements CanActivate {
   constructor(
-    public router: Router,
-    public authService: AuthService,
+    private router: Router,
+    private authService: AuthService,
     private notifService: ToastrService
   ) {}
 
@@ -21,7 +21,6 @@ export class FacteurGuard implements CanActivate {
         return true;
       }
     }
-
     this.notifService.error(
       "Vos droits ne vous permettent pas d'accéder à cette page"
     );

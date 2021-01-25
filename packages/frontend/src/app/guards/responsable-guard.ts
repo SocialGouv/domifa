@@ -9,8 +9,8 @@ import { ToastrService } from "ngx-toastr";
 @Injectable({ providedIn: "root" })
 export class ResponsableGuard implements CanActivate {
   constructor(
-    public router: Router,
-    public authService: AuthService,
+    private router: Router,
+    private authService: AuthService,
     private notifService: ToastrService
   ) {}
 
