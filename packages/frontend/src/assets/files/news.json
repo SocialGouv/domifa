@@ -1,4 +1,15 @@
 [
+  {
+    "date": "2021-01-26",
+    "content": [
+    {   "type": "new",
+        "categorie": "Structure",
+        "message": [
+          "Les statistiques du rapport d’activité 2020 sont disponibles dans votre section Statistiques !"
+        ]
+      }
+    ]
+  },
     {
     "date": "2021-01-11",
     "content": [
