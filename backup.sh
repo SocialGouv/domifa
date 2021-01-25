@@ -9,7 +9,7 @@ base_dir=/mnt/database/backup-${month_year}/backup-${today}
 mkdir -p $base_dir
 
 MONGO_DUMP_PATH=${base_dir}/mongo_mongodump-${today}.gzip
-POSTGRES_DUMP_NAME=postgres.pg_dump-${today}.custom.gz
+POSTGRES_DUMP_NAME=postgres.pg_dump-${today}.tar
 POSTGRES_DUMP_PATH=${base_dir}/${POSTGRES_DUMP_NAME}
 
 
