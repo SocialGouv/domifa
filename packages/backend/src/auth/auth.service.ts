@@ -1,14 +1,16 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { Model } from "mongoose";
-import { AppUserTable, usersRepository } from "../database";
+import {
+  AppUserTable,
+  structureCommonRepository,
+  usersRepository,
+} from "../database";
 import { StructuresService } from "../structures/services/structures.service";
-import { Structure } from "../structures/structure-interface";
 import {
   AppAuthUser,
   AppUser,
   AppUserPublic,
-  StructurePublic
+  StructureCommon,
 } from "../_common/model";
 import { JwtPayload } from "./jwt-payload.interface";
 
@@ -22,31 +24,12 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof AppUserPublic)[] = [
   "fonction",
   "role",
 ];
-export const STRUCTURE_PUBLIC_ATTRIBUTES: (keyof StructurePublic)[] = [
-  "id",
-  "adresse",
-  "complementAdresse",
-  "nom",
-  "structureType",
-  "ville",
-  "departement",
-  "region",
-  "capacite",
-  "codePostal",
-  "agrement",
-  "phone",
-  "email",
-  "responsable",
-  "options",
-  "adresseCourrier",
-];
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly structuresService: StructuresService,
-    @Inject("STRUCTURE_MODEL") private structureModel: Model<Structure>
+    private readonly structuresService: StructuresService
   ) {}
 
   public async login(user: AppUser) {
@@ -92,12 +75,9 @@ export class AuthService {
       select: APP_USER_PUBLIC_ATTRIBUTES,
     });
 
-    const structure: StructurePublic = await this.structureModel
-      .findOne({
-        id: user.structureId,
-      })
-      .select(STRUCTURE_PUBLIC_ATTRIBUTES)
-      .lean();
+    const structure: StructureCommon = await structureCommonRepository.findOne({
+      id: user.structureId,
+    });
     return {
       ...user,
       structure,

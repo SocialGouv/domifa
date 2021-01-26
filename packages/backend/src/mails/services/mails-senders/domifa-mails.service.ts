@@ -5,7 +5,7 @@ import {
   MessageEmailTipimailContent,
 } from "../../../database";
 import { DEPARTEMENTS_MAP } from "../../../structures/DEPARTEMENTS_MAP.const";
-import { Structure } from "../../../structures/structure-interface";
+import { StructurePG } from "../../../_common/model";
 import { messageEmailSender } from "../_core";
 
 @Injectable()
@@ -21,8 +21,11 @@ export class DomifaMailsService {
   //
   // Indiquer la création d'une structure à l'équipe Domifa
   //
-  public async newStructure(structure: Structure, user: AppUserForAdminEmail) {
-    const route = structure._id + "/" + structure.token;
+  public async newStructure(
+    structure: StructurePG,
+    user: AppUserForAdminEmail
+  ) {
+    const route = structure.id + "/" + structure.token;
     const frontendUrl = domifaConfig().apps.frontendUrl;
     const lienConfirmation = frontendUrl + "structures/confirm/" + route;
 
@@ -89,11 +92,11 @@ export class DomifaMailsService {
   //
   // Demande de suppression d'une structure à l'équipe Domifa
   //
-  public async deleteStructure(structure: Structure) {
+  public async sendMailConfirmDeleteStructure(structure: StructurePG) {
     const lien =
       domifaConfig().apps.frontendUrl +
       "structures/delete/" +
-      structure._id +
+      structure.id +
       "/" +
       structure.token;
 

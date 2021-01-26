@@ -1,8 +1,16 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import {
   Interactions,
   InteractionType,
 } from "../../../_common/model/interaction";
+import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "interactions" })
@@ -25,6 +33,10 @@ export class InteractionsTable
   @Column({ type: "integer" })
   structureId: number;
 
+  @ManyToOne(() => StructureTable, { lazy: true })
+  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
+  structureFk?: Promise<StructureTable>;
+
   @Column({ type: "text" })
   type: InteractionType;
 
@@ -35,6 +47,11 @@ export class InteractionsTable
   @Index()
   @Column({ type: "integer" })
   userId: number;
+
+  // NOTE: pas de FK car les users peuvent être supprimés (si on ajoute la FK, il faudra rendre nullable les userId)
+  // @ManyToOne(() => AppUserTable, { lazy: true })
+  // @JoinColumn({ name: "userId", referencedColumnName: "id" })
+  // userFk?: Promise<AppUserTable>;
 
   @Column({ type: "text" })
   userName: string;

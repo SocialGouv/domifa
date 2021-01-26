@@ -16,10 +16,9 @@ import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
-import { StructureStats } from "../../../../../_common/model";
+import { StructureCommon, StructureStats } from "../../../../../_common/model";
 import { StatsService } from "../../stats.service";
 @Component({
   providers: [
@@ -38,7 +37,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
     end: Date;
   };
 
-  public structure: Structure;
+  public structure: StructureCommon;
 
   public labels: any;
   public interactionsLabels: any;

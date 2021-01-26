@@ -9,13 +9,17 @@ import {
   InteractionsTable,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
+  structureRepository,
   StructureStatsTable,
 } from "../../database";
 import { StructuresService } from "../../structures/services/structures.service";
-import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { appLogger } from "../../util";
-import { StructurePublic, StructureStats } from "../../_common/model";
+import {
+  StructureCommon,
+  StructureLight,
+  StructureStats,
+} from "../../_common/model";
 import { InteractionType } from "../../_common/model/interaction";
 
 @Injectable()
@@ -29,8 +33,6 @@ export class StatsGeneratorService {
   private interactionRepository: Repository<InteractionsTable>;
 
   constructor(
-    @Inject("STRUCTURE_MODEL")
-    private structureModel: Model<Structure>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
     private structureService: StructuresService
@@ -95,34 +97,42 @@ export class StatsGeneratorService {
     );
   }
 
-  private async _findStructuresToGenerateStats({ today }: { today: Date }) {
-    const structures: Structure[] = await this.structureService.findManyBasic({
-      $or: [
-        {
-          lastExport: {
-            $lte: today,
+  private async _findStructuresToGenerateStats({
+    today,
+  }: {
+    today: Date;
+  }): Promise<StructureLight[]> {
+    const structures: StructureLight[] = await this.structureService.findManyLight(
+      {
+        $or: [
+          {
+            lastExport: {
+              $lte: today,
+            },
           },
-        },
-        {
-          lastExport: {
-            $exists: false,
+          {
+            lastExport: {
+              $exists: false,
+            },
           },
-        },
-        {
-          lastExport: null,
-        },
-      ],
-    });
+          {
+            lastExport: null,
+          },
+        ],
+      }
+    );
     return structures;
   }
 
   public async generateStructureStats(
-    today: Date,
-    structure: StructurePublic,
-
+    date: Date,
+    structure: StructureLight,
     generated: boolean
-  ): Promise<any> {
-    const stat = await this.buildStats(today, structure, generated);
+  ) {
+    const stat = await this.buildStats(structure, {
+      date,
+      generated,
+    });
 
     const dateExport = moment()
       .utc()
@@ -149,9 +159,9 @@ export class StatsGeneratorService {
 
   public async generateStructureStatsForPast(
     date: Date,
-    structure: StructurePublic
+    structure: StructureCommon
   ): Promise<StructureStats> {
-    const stat = await this.buildStats(date, structure, true);
+    const stat = await this.buildStats(structure, { date, generated: true });
     await this.structureStatsRepository.insert(stat);
     return stat;
   }
@@ -433,7 +443,7 @@ export class StatsGeneratorService {
   }
 
   public async countStructures(): Promise<number> {
-    return this.structureModel.countDocuments({}).exec();
+    return structureRepository.count();
   }
 
   public async countUsagers(): Promise<number> {
@@ -455,9 +465,8 @@ export class StatsGeneratorService {
   }
 
   private async buildStats(
-    date: Date,
-    structure: StructurePublic,
-    generated: boolean
+    structure: StructureLight,
+    { date, generated }: { date: Date; generated: boolean }
   ) {
     const endOfDay = moment(date).endOf("day").subtract(1, "minute").toDate();
 

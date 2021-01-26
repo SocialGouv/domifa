@@ -10,9 +10,10 @@ import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { regexp } from "src/app/shared/validators";
+import { StructureCommon } from "../../../../../_common/model";
 import { departements } from "../../../../shared";
 import { StructureService } from "../../services/structure.service";
-import { Structure } from "../../structure.interface";
+import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
 
 @Component({
   selector: "app-structures-form",
@@ -22,7 +23,7 @@ import { Structure } from "../../structure.interface";
 export class StructuresFormComponent implements OnInit {
   public success: boolean = false;
   public structureForm!: FormGroup;
-  public structure: Structure;
+  public structure: StructureCommon;
   public departements: any;
   public submitted: boolean = false;
 
@@ -35,7 +36,7 @@ export class StructuresFormComponent implements OnInit {
   public structureInscription: {
     etapeInscription: number;
     structureId: number;
-    structure: Structure;
+    structure: StructureCommon;
   };
 
   public accountExist: boolean;
@@ -49,7 +50,7 @@ export class StructuresFormComponent implements OnInit {
     this.departements = departements;
     this.etapeInscription = 0;
 
-    this.structure = new Structure();
+    this.structure = new StructureCommonWeb();
 
     this.structureInscription = {
       etapeInscription: 0,
@@ -164,7 +165,7 @@ export class StructuresFormComponent implements OnInit {
       );
     } else {
       this.structureService.prePost(this.structureForm.value).subscribe(
-        (structure: Structure) => {
+        (structure: StructureCommon) => {
           this.etapeInscription = 1;
           this.structureInscription.etapeInscription = 1;
           this.structureInscription.structureId = structure.id;

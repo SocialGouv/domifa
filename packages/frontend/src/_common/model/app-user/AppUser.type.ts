@@ -1,4 +1,4 @@
-import { Structure } from "../../../app/modules/structures/structure.interface";
+import { StructureCommon } from "../structure";
 import { AppEntity } from "../_core/AppEntity.type";
 import { AppUserMails } from "./AppUserMails.type";
 import { AppUserTokens } from "./AppUserTokens.type";
@@ -32,5 +32,5 @@ export type AppUser = AppEntity & {
   mail: AppUserMails;
   temporaryTokens: AppUserTokens; // used on creation & reset password
 
-  structure?: Structure;
+  structure?: StructureCommon;
 };

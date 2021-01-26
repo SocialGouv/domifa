@@ -1,5 +1,5 @@
 import { Document } from "mongoose";
-import { StructureType } from "../_common/model";
+import { StructureResponsable, StructureType } from "../_common/model";
 
 export interface Structure extends Document {
   id: number;
@@ -19,11 +19,7 @@ export interface Structure extends Document {
   importDate: Date;
   lastLogin: Date;
 
-  responsable: {
-    fonction: string;
-    nom: string;
-    prenom: string;
-  };
+  responsable: StructureResponsable;
 
   hardReset: {
     token: string;
@@ -50,4 +46,5 @@ export interface Structure extends Document {
   verified: boolean;
 
   createdAt: Date;
+  migrated?: boolean;
 }

@@ -1,10 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
-import { regexp } from "src/app/shared/validators";
-import { StructureService } from "../../services/structure.service";
-import { Structure } from "../../structure.interface";
 import { Title } from "@angular/platform-browser";
+import { ToastrService } from "ngx-toastr";
+import { StructureCommon } from "../../../../../_common/model";
+import { StructureService } from "../../services/structure.service";
 
 @Component({
   selector: "app-structures-search",
@@ -12,7 +11,7 @@ import { Title } from "@angular/platform-browser";
   templateUrl: "./structures-search.component.html",
 })
 export class StructuresSearchComponent implements OnInit {
-  public structures: Structure[];
+  public structures: StructureCommon[];
   public searchFailed: boolean;
 
   public codePostal: string;
@@ -54,7 +53,7 @@ export class StructuresSearchComponent implements OnInit {
     } else {
       this.structureService
         .find(this.f.codePostal.value)
-        .subscribe((structures: Structure[]) => {
+        .subscribe((structures: StructureCommon[]) => {
           if (structures.length === 0) {
             this.searchFailed = true;
           } else {
