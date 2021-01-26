@@ -1,10 +1,4 @@
-import {
-  IsIn,
-  IsNumber,
-  IsOptional,
-  ValidateIf,
-  IsNotEmpty,
-} from "class-validator";
+import { IsIn, IsOptional, ValidateIf, IsNotEmpty } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class SearchDto {

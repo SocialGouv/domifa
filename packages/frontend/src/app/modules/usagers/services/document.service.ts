@@ -2,6 +2,7 @@ import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { StructureDocTypesAvailable } from "../../../../_common/model/structure-doc/StructureDocTypesAvailable.type";
 import { Doc } from "../interfaces/doc";
 import { Usager } from "../interfaces/usager";
 
@@ -57,8 +58,20 @@ export class DocumentService {
     );
   }
 
-  public getCustomDoc(usagerId: number) {
-    return this.http.get(`${environment.apiUrl}docs-custom/${usagerId}`, {
+  public getStructureDoc(
+    usagerId: number,
+    docType: StructureDocTypesAvailable
+  ) {
+    return this.http.get(
+      `${environment.apiUrl}structure-doc/${usagerId}/${docType}`,
+      {
+        responseType: "blob",
+      }
+    );
+  }
+
+  public getCustomStructureDoc(usagerId: number, docId: number) {
+    return this.http.get(`${environment.apiUrl}structure-doc/${usagerId}`, {
       responseType: "blob",
     });
   }

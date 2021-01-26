@@ -15,6 +15,7 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AppUser } from "../../../../../../../_common/model";
+import { LoadingService } from "../../../../../loading/loading.service";
 import { Usager } from "../../../../interfaces/usager";
 
 import { UsagerService } from "../../../../services/usager.service";
@@ -60,7 +61,8 @@ export class DecisionComponent implements OnInit {
     private notifService: ToastrService,
     private matomo: MatomoTracker,
     private titleService: Title,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private loadingService: LoadingService
   ) {
     this.labels = labels;
     this.submitted = false;
@@ -227,17 +229,26 @@ export class DecisionComponent implements OnInit {
       this.formDatas = { statut: "ATTENTE_DECISION" };
     }
 
+    this.loadingService.startLoading();
+
     this.usagerService
       .setDecision(this.usager.id, this.formDatas, statut)
-      .subscribe((usager: Usager) => {
-        this.usager = usager;
-        this.submitted = false;
-        this.notifService.success("Décision enregistrée avec succès ! ");
+      .subscribe(
+        (usager: Usager) => {
+          // this.usager = usager;
+          this.submitted = false;
+          this.notifService.success("Décision enregistrée avec succès ! ");
 
-        this.modalService.dismissAll();
+          this.loadingService.stopLoading();
+          this.modalService.dismissAll();
 
-        this.router.navigate(["usager/" + usager.id]);
-      });
+          this.router.navigate(["usager/" + usager.id]);
+        },
+        (error: any) => {
+          this.loadingService.stopLoading();
+          this.notifService.error("La décision n'a pas pu être enregistrée");
+        }
+      );
   }
 
   public open(content: TemplateRef<any>) {

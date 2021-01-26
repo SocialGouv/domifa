@@ -37,7 +37,7 @@ export class StructuresService {
       structureDto.departement
     );
 
-    return await structureCommonRepository.updateOne(
+    return structureCommonRepository.updateOne(
       { id: user.structureId },
       structureDto
     );
