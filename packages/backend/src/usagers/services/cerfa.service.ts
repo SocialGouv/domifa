@@ -1,46 +1,22 @@
-import { Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
+
+import { Injectable } from "@nestjs/common";
+
+import { motifsRefus } from "../../stats/usagers.labels";
 import { AppAuthUser } from "../../_common/model";
 import { DateCerfa } from "../interfaces/date-cerfa";
 import { Usager } from "../interfaces/usagers";
+import { CerfaFields } from "../CerfaFields.type";
 
 // tslint:disable-next-line: no-var-requires
 const pdftk = require("node-pdftk");
 
 @Injectable()
 export class CerfaService {
-  public infosPdf: any;
+  public infosPdf: CerfaFields;
 
-  public dateNaissance: DateCerfa;
-  public dateDecision: DateCerfa;
-  public dateDebut: DateCerfa;
-  public dateFin: DateCerfa;
-  public datePremiereDom: DateCerfa;
-  public dateRdv: DateCerfa;
-
-  public responsable: string;
-  public motifsRefus: {
-    [key: string]: string;
-  };
-
-  constructor() {
-    this.dateNaissance = new DateCerfa();
-    this.dateDecision = new DateCerfa();
-    this.dateDebut = new DateCerfa();
-    this.dateFin = new DateCerfa();
-    this.datePremiereDom = new DateCerfa();
-    this.dateRdv = new DateCerfa();
-
-    this.responsable = "";
-    this.motifsRefus = {
-      AUTRE: "Autre motif : ",
-      AUTRES: "Autre motif : ",
-      HORS_AGREMENT: "En dehors des critères du public domicilié",
-      LIEN_COMMUNE: "Absence de lien avec la commune",
-      SATURATION: "Nombre maximal domiciliations atteint",
-    };
-  }
+  constructor() {}
 
   public async attestation(usager: Usager, user: AppAuthUser) {
     const pdfForm =
@@ -48,24 +24,27 @@ export class CerfaService {
         ? "../../ressources/attestation.pdf"
         : "../../ressources/demande.pdf";
 
-    let usagerId = this.toString(usager.id);
+    // DATES AU FORMAT
+    const dateNaissance = new DateCerfa(usager.dateNaissance);
+    const dateRdv = new DateCerfa(usager.rdv.dateRdv);
+    const dateDecision = new DateCerfa(usager.decision.dateDecision);
+    const datePremiereDom = new DateCerfa(usager.datePremiereDom);
+    const dateDebut = new DateCerfa(usager.decision.dateDebut);
+    const dateFin = new DateCerfa(usager.decision.dateFin);
 
+    // INFOS
+    let usagerId = this.toString(usager.id);
     if (usager.customId && usager.customId !== null) {
       usagerId = this.toString(usager.customId);
     }
 
-    this.dateNaissance = new DateCerfa(usager.dateNaissance);
-    this.dateRdv = new DateCerfa(usager.rdv.dateRdv);
-    this.dateDecision = new DateCerfa(usager.decision.dateDecision);
-    this.datePremiereDom = new DateCerfa(usager.datePremiereDom);
-    this.dateDebut = new DateCerfa(usager.decision.dateDebut);
-    this.dateFin = new DateCerfa(usager.decision.dateFin);
-
-    usager.villeNaissance = usager.villeNaissance.toUpperCase();
     usager.nom = usager.nom.toUpperCase();
     usager.prenom = usager.prenom.toUpperCase();
+    usager.villeNaissance = usager.villeNaissance.toUpperCase();
+    usager.sexe = usager.sexe === "femme" ? "1" : "2";
 
-    this.responsable =
+    // INFOS STRUCTURE
+    const responsable =
       user.structure.responsable.nom.toUpperCase() +
       ", " +
       user.structure.responsable.prenom.toUpperCase() +
@@ -87,23 +66,26 @@ export class CerfaService {
     // Adresse différente
     let adresseDomicilie = adresseStructure;
 
-    if (user.structure.adresseCourrier.actif) {
-      adresseDomicilie =
-        user.structure.nom +
-        "\n" +
-        user.structure.adresseCourrier.adresse +
-        "\n" +
-        user.structure.adresseCourrier.codePostal +
-        " - " +
-        user.structure.adresseCourrier.ville;
+    if (user.structure.adresseCourrier !== null) {
+      if (user.structure.adresseCourrier.actif) {
+        adresseDomicilie =
+          user.structure.nom +
+          "\n" +
+          user.structure.adresseCourrier.adresse +
+          "\n" +
+          user.structure.adresseCourrier.codePostal +
+          " - " +
+          user.structure.adresseCourrier.ville;
+      }
     }
 
+    // Numéro de boite
     if (user.structure.options.numeroBoite === true) {
       adresseDomicilie = "Boite " + usagerId + "\n" + adresseDomicilie;
     }
 
+    // AYANTS-DROITS
     let ayantsDroitsTexte = "";
-
     for (const ayantDroit of usager.ayantsDroits) {
       ayantsDroitsTexte =
         ayantsDroitsTexte +
@@ -115,8 +97,7 @@ export class CerfaService {
         " - ";
     }
 
-    const sexe = usager.sexe === "femme" ? "1" : "2";
-
+    // RATTACHEMENT COMMUNE
     const rattachement = this.toString(
       usager.entretien.rattachement
     ).toUpperCase();
@@ -132,7 +113,7 @@ export class CerfaService {
           ? "Autre motif : " + usager.decision.motifDetails
           : "Autre motif non précisé";
       } else {
-        motif = this.motifsRefus[usager.decision.motif];
+        motif = motifsRefus[usager.decision.motif];
       }
     }
 
@@ -140,43 +121,43 @@ export class CerfaService {
       adresse: adresseDomicilie,
       adresseOrga1: adresseStructure,
       agrement: user.structure.agrement,
-      anneeDebut: this.dateDebut.annee,
-      anneeDecision1A: this.dateDecision.annee,
-      anneeDecision1B: this.dateDecision.annee,
-      anneeDecision2: this.dateDecision.annee,
-      anneeFin: this.dateFin.annee,
-      anneeNaissance1: this.dateNaissance.annee,
-      anneeNaissance2: this.dateNaissance.annee,
-      anneePremiereDom: this.datePremiereDom.annee,
-      anneeRdv: this.dateRdv.annee,
+      anneeDebut: dateDebut.annee,
+      anneeDecision1A: dateDecision.annee,
+      anneeDecision1B: dateDecision.annee,
+      anneeDecision2: dateDecision.annee,
+      anneeFin: dateFin.annee,
+      anneeNaissance1: dateNaissance.annee,
+      anneeNaissance2: dateNaissance.annee,
+      anneePremiereDom: datePremiereDom.annee,
+      anneeRdv: dateRdv.annee,
       ayantsDroits: ayantsDroitsTexte,
       courriel: usager.email,
       courrielOrga: user.structure.email,
       decision: usager.decision.statut === "REFUS" ? "2" : "",
       entretienAdresse: adresseStructure,
       entretienAvec: usager.rdv.userName.toUpperCase(),
-      heureRdv: this.dateRdv.heure,
-      jourDebut: this.dateDebut.jour,
-      jourDecision1A: this.dateDecision.jour,
-      jourDecision1B: this.dateDecision.jour,
-      jourDecision2: this.dateDecision.jour,
-      jourFin: this.dateFin.jour,
-      jourNaissance1: this.dateNaissance.jour,
-      jourNaissance2: this.dateNaissance.jour,
-      jourPremiereDom: this.datePremiereDom.jour,
-      jourRdv: this.dateRdv.jour,
+      heureRdv: dateRdv.heure,
+      jourDebut: dateDebut.jour,
+      jourDecision1A: dateDecision.jour,
+      jourDecision1B: dateDecision.jour,
+      jourDecision2: dateDecision.jour,
+      jourFin: dateFin.jour,
+      jourNaissance1: dateNaissance.jour,
+      jourNaissance2: dateNaissance.jour,
+      jourPremiereDom: datePremiereDom.jour,
+      jourRdv: dateRdv.jour,
       lieuNaissance1: usager.villeNaissance,
       lieuNaissance2: usager.villeNaissance,
-      minutesRdv: this.dateRdv.minutes,
-      moisDebut: this.dateDebut.mois,
-      moisDecision1A: this.dateDecision.mois,
-      moisDecision1B: this.dateDecision.mois,
-      moisDecision2: this.dateDecision.mois,
-      moisFin: this.dateFin.mois,
-      moisNaissance1: this.dateNaissance.mois,
-      moisNaissance2: this.dateNaissance.mois,
-      moisPremiereDom: this.datePremiereDom.mois,
-      moisRdv: this.dateRdv.mois,
+      minutesRdv: dateRdv.minutes,
+      moisDebut: dateDebut.mois,
+      moisDecision1A: dateDecision.mois,
+      moisDecision1B: dateDecision.mois,
+      moisDecision2: dateDecision.mois,
+      moisFin: dateFin.mois,
+      moisNaissance1: dateNaissance.mois,
+      moisNaissance2: dateNaissance.mois,
+      moisPremiereDom: datePremiereDom.mois,
+      moisRdv: dateRdv.mois,
       motifRefus: motif,
       nomOrga1: user.structure.nom.toUpperCase(),
       nomOrga2: user.structure.nom.toUpperCase(),
@@ -189,13 +170,12 @@ export class CerfaService {
       prenoms1: usager.prenom,
       prenoms2: usager.prenom,
       rattachement,
-      responsable: this.responsable,
-      sexe1: sexe,
-      sexe2: sexe,
+      responsable,
+      sexe1: usager.sexe,
+      sexe2: usager.sexe,
       signature1A: user.structure.ville.toUpperCase(),
       signature1B: user.structure.ville.toUpperCase(),
       signature2: user.structure.ville.toUpperCase(),
-
       telephone: this.toString(usager.phone),
       telephoneOrga: this.toString(user.structure.phone),
       typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1",

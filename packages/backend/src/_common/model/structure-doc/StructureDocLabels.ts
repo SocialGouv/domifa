@@ -22,10 +22,10 @@ export const StructureDocLabels: {
   STRUCTURE_CODE_POSTAL: "Code-postal de la structure",
 
   // Si courrier différent
-  COURRIER_ADRESSE_STRUCTURE: "Adresse de réception du courrier",
-  COURRIER_COMPLEMENT_ADRESSE_STRUCTURE: "Complément d'adresse courrier",
-  COURRIER_VILLE_STRUCTURE: "Ville de réception courrier",
-  COURRIER_CODE_POSTAL_STRUCTURE: "Code-postal de réception courrier",
+  STRUCTURE_COURRIER_ADRESSE: "Adresse de réception du courrier",
+  STRUCTURE_COURRIER_COMPLEMENT_ADRESSE: "Complément d'adresse courrier",
+  STRUCTURE_COURRIER_VILLE: "Ville de réception courrier",
+  STRUCTURE_COURRIER_CODE_POSTAL: "Code-postal de réception courrier",
 
   // USAGER INFOS
   USAGER_REF: "Référence dossier",
@@ -46,11 +46,7 @@ export const StructureDocLabels: {
   TYPE_DOM: "Type de domiciliation : première domiciliation ou renouvellement",
 
   // REFUS / RADIATION
-  MOTIF_REFUS: "Motif du refus",
   MOTIF_RADIATION: "Motif de la radiation",
-  ORIENTATION_REFUS: "Orientation choisir suite au refus",
-
-  DATE_REFUS: "Date du refus",
   DATE_RADIATION: "Date de la radiation",
   // DATES DOMICILIATION
   DATE_DEBUT_DOM: "Date de Début de la domiciliation (ex: 12/10/2020)",

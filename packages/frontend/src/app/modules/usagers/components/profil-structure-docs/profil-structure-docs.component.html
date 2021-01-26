@@ -1,0 +1,31 @@
+<div class="row">
+  <div
+    class="col-md-4"
+    *ngIf="
+      usager.decision.statut === 'VALIDE' ||
+      (usager.decision.statut === 'INSTRUCTION' &&
+        usager.typeDom === 'RENOUVELLEMENT') ||
+      (usager.decision.statut === 'ATTENTE_DECISION' &&
+        usager.typeDom === 'RENOUVELLEMENT')
+    "
+  >
+    <span class="question">ATTESTATION POSTALE</span>
+    <br />
+    <button
+      class="btn btn-outline-primary"
+      (click)="getDocument('attestation_postale')"
+    >
+      <fa-icon icon="file-word"></fa-icon> Télécharger l'attestation postale
+    </button>
+  </div>
+
+  <div class="col-md-4" *ngIf="usager.decision.statut === 'RADIE'">
+    <h5>Courrier de radiation</h5>
+    <button
+      class="btn btn-outline-primary"
+      (click)="getDocument('courrier_radiation')"
+    >
+      <fa-icon icon="file-word"></fa-icon> Télécharger le courrier de radiation
+    </button>
+  </div>
+</div>

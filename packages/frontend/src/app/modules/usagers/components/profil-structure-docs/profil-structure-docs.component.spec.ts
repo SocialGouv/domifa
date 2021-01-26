@@ -6,11 +6,11 @@ import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagersModule } from "../../usagers.module";
 
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { DocsCustomComponent } from "./docs-custom.component";
+import { ProfilStructureDocsComponent } from "./profil-structure-docs.component";
 
-describe("DocsCustomComponent", () => {
-  let component: DocsCustomComponent;
-  let fixture: ComponentFixture<DocsCustomComponent>;
+describe("ProfilStructureDocsComponent", () => {
+  let component: ProfilStructureDocsComponent;
+  let fixture: ComponentFixture<ProfilStructureDocsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,7 +36,7 @@ describe("DocsCustomComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DocsCustomComponent);
+    fixture = TestBed.createComponent(ProfilStructureDocsComponent);
     component = fixture.componentInstance;
     const usager: Usager = new Usager();
     component.usager = usager;

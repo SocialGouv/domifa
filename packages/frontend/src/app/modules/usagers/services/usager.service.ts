@@ -195,7 +195,7 @@ export class UsagerService {
     return this.http.get(`${environment.apiUrl}search/stats`);
   }
 
-  /* Recherche */
+  // RECHERCHE
   public search(search: Search): Observable<any> {
     let data = new HttpParams();
 
@@ -209,7 +209,7 @@ export class UsagerService {
     return this.http.get(`${environment.apiUrl}search/`, { params: data });
   }
 
-  /* Attestation */
+  // Téléchargement des CERFA
   public attestation(usagerId: number): void {
     this.loadingService.startLoading();
 

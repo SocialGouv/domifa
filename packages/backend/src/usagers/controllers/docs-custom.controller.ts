@@ -28,7 +28,13 @@ import { AppUser, StructureCommon } from "../../_common/model";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { StructureDocKeys } from "../../_common/model/structure-doc/StructureDocKeys.type";
 
-import { residence, typeMenage } from "../../stats/usagers.labels";
+import {
+  decisionLabels,
+  motifsRadiation,
+  motifsRefus,
+  residence,
+  typeMenage,
+} from "../../stats/usagers.labels";
 
 // tslint:disable-next-line: no-var-requires
 const Docxtemplater = require("docxtemplater");
@@ -38,11 +44,12 @@ const InspectModule = require("docxtemplater/js/inspect-module");
 @UseGuards(AuthGuard("jwt"), FacteurGuard)
 @ApiTags("structure-doc")
 @ApiBearerAuth()
-@Controller("docs-custom")
+@Controller("structure-doc")
 export class DocsCustomController {
+  motifsRefus: any;
   constructor(private readonly usagersService: UsagersService) {}
 
-  @Get(":id")
+  @Get(":id/:docType")
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
   public async getDocument(
     @Param("id") usagerId: number,
@@ -75,16 +82,14 @@ export class DocsCustomController {
     let doc: any;
 
     try {
-      doc = new Docxtemplater(zip, { modules: [iModule] });
+      doc = new Docxtemplater(zip, { modules: [iModule], linebreaks: true });
     } catch (error) {
       this.errorHandler(error);
     }
 
-    // TODO: vérifier l'intégrité des tags d'un doc
-    // const tags = iModule.getAllTags();
-    // console.log(tags);
-
-    doc.setData(this.buildDoc(usager, user.structure));
+    const docValues = this.buildDoc(usager, user.structure);
+    console.log(docValues);
+    doc.setData(docValues);
 
     try {
       doc.render();
@@ -101,39 +106,70 @@ export class DocsCustomController {
   ): {
     [key in StructureDocKeys]: string;
   } {
+    // Adresse
+    let adresseStructure = this.ucFirst(structure.adresse);
+
+    if (this.notEmpty(structure.complementAdresse)) {
+      adresseStructure =
+        adresseStructure + "\n" + this.ucFirst(structure.complementAdresse);
+    }
+
+    // Motif de refus
+    let motif = "";
+
+    if (
+      usager.decision.statut === "REFUS" ||
+      usager.decision.statut === "RADIE"
+    ) {
+      motif =
+        usager.decision.statut === "REFUS"
+          ? motifsRefus[usager.decision.motif]
+          : motifsRadiation[usager.decision.motif];
+
+      if (
+        usager.decision.motif === "AUTRE" ||
+        usager.decision.motif === "AUTRES"
+      ) {
+        motif = usager.decision.motifDetails
+          ? "Autre motif : " + usager.decision.motifDetails
+          : "Autre motif non précisé";
+      }
+    }
+
     return {
       // DATES UTILES
       DATE_JOUR: moment().locale("fr").format("L"),
       DATE_JOUR_HEURE:
         moment().locale("fr").format("L") + " à " + moment().format("LT"),
-      DATE_JOUR_LONG: moment().format("LL"),
+      DATE_JOUR_LONG: moment().locale("fr").format("LL"),
 
-      // Responsable
+      // INFOS RESPONSABLE
       RESPONSABLE_NOM: this.ucFirst(structure.responsable.nom),
       RESPONSABLE_PRENOM: this.ucFirst(structure.responsable.prenom),
-      RESPONSABLE_FONCTION: this.ucFirst(structure.responsable.fonction),
+      RESPONSABLE_FONCTION: structure.responsable.fonction,
 
-      // Structure
+      // INFOS STRUCTURE
       STRUCTURE_NOM: this.ucFirst(structure.nom),
       STRUCTURE_TYPE: "Type de structure",
-      STRUCTURE_ADRESSE: this.ucFirst(structure.adresse),
-      STRUCTURE_COMPLEMENT_ADRESSE: this.ucFirst(structure.complementAdresse),
+      STRUCTURE_ADRESSE: adresseStructure,
+
+      STRUCTURE_COMPLEMENT_ADRESSE: "",
       STRUCTURE_VILLE: this.ucFirst(structure.ville),
       STRUCTURE_CODE_POSTAL: structure.codePostal,
 
-      // Si courrier différent
-      COURRIER_ADRESSE_STRUCTURE: "Adresse de réception du courrier",
-      COURRIER_COMPLEMENT_ADRESSE_STRUCTURE: "Complément d'adresse courrier",
-      COURRIER_VILLE_STRUCTURE: "Ville de réception courrier",
-      COURRIER_CODE_POSTAL_STRUCTURE: "Code-postal de réception courrier",
+      // ADRESSE COURRIER
+      STRUCTURE_COURRIER_ADRESSE: "",
+      STRUCTURE_COURRIER_COMPLEMENT_ADRESSE: "",
+      STRUCTURE_COURRIER_VILLE: "",
+      STRUCTURE_COURRIER_CODE_POSTAL: "",
 
-      // USAGER INFOS
-      USAGER_REF: "Référence dossier",
-      USAGER_CUSTOM_REF: "Identifiant personnalisé",
-      USAGER_CIVILITE: usager.sexe === "femme" ? "madame" : "monsieur",
+      // INFOS USAGER
+      USAGER_REF: usager.id.toString(),
+      USAGER_CUSTOM_REF: usager.customId,
+      USAGER_CIVILITE: usager.sexe === "femme" ? "Madame" : "Monsieur",
       USAGER_NOM: this.ucFirst(usager.nom),
       USAGER_PRENOM: this.ucFirst(usager.prenom),
-      USAGER_SURNOM: this.ucFirst(usager.surnom),
+      USAGER_SURNOM: this.ucFirst(usager.surnom) || "",
       USAGER_DATE_NAISSANCE: moment(usager.dateNaissance)
         .locale("fr")
         .format("L"),
@@ -145,23 +181,29 @@ export class DocsCustomController {
       USAGER_EMAIL: usager.email || "",
 
       // STATUT ET TYPE DE DOM
-      STATUT_DOM:
-        "Statut de la domiciliation: actif, radié, refusé, en attente",
+      STATUT_DOM: decisionLabels[usager.decision.statut],
       TYPE_DOM:
         "Type de domiciliation : première domiciliation ou renouvellement",
 
       // REFUS / RADIATION
-      MOTIF_REFUS: "Motif du refus",
-      MOTIF_RADIATION: "Motif de la radiation",
-      ORIENTATION_REFUS: "Orientation choisir suite au refus",
+      MOTIF_RADIATION: motif,
+      DATE_RADIATION: moment(usager.decision.dateDecision)
+        .locale("fr")
+        .format("LL"),
 
-      DATE_REFUS: "Date du refus",
-      DATE_RADIATION: "Date de la radiation",
       // DATES DOMICILIATION
-      DATE_DEBUT_DOM: "Date de Début de la domiciliation (ex: 12/10/2020)",
-      DATE_FIN_DOM: "Date de fin de la domiciliation (ex: 12/10/2020)",
-      DATE_PREMIERE_DOM: "Date de la 1ere domiciliation (ex: 12/10/2020)",
-      DATE_DERNIER_PASSAGE: "Date de dernier passage (ex: 01/09/2020 à 10h45)",
+      DATE_DEBUT_DOM: moment(usager.decision.dateDebut)
+        .locale("fr")
+        .format("LL"),
+      DATE_FIN_DOM: moment(usager.decision.dateFin).locale("fr").format("LL"),
+
+      DATE_PREMIERE_DOM: moment(usager.datePremiereDom)
+        .locale("fr")
+        .format("LL"),
+
+      DATE_DERNIER_PASSAGE: moment(usager.lastInteraction.dateInteraction)
+        .locale("fr")
+        .format("LL"),
 
       // ENTRETIEN
 
@@ -198,12 +240,6 @@ export class DocsCustomController {
       : value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-  private convertString(value: any) {
-    return value === undefined || value === null
-      ? ""
-      : value.toString().toUpperCase();
-  }
-
   private replaceErrors(key: string, value: any) {
     if (value instanceof Error) {
       return Object.getOwnPropertyNames(value).reduce((error, errorKey) => {
@@ -215,19 +251,19 @@ export class DocsCustomController {
   }
 
   private errorHandler(error: any) {
-    // console.log(JSON.stringify({ error }, this.replaceErrors));
-
     if (error.properties && error.properties.errors instanceof Array) {
       const errorMessages = error.properties.errors
         .map((propError: any) => {
           return propError.properties.explanation;
         })
         .join("\n");
-
-      // console.log("errorMessages", errorMessages);
-      // errorMessages is a humanly readable message looking like this :
-      // 'The tag beginning with "foobar" is unopened'
     }
     throw error;
+  }
+
+  private notEmpty(value: string): boolean {
+    return (
+      typeof value !== "undefined" && value !== null && value.trim() !== ""
+    );
   }
 }

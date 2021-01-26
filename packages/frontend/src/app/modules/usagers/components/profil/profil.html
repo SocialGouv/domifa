@@ -347,7 +347,7 @@
 
   <ngb-accordion
     #acc="ngbAccordion"
-    activeIds="panel-0,panel-9,panel-1,panel-10,panel-2,panel-4,panel-5"
+    activeIds="panel-0,panel-9,panel-1,panel-10,panel-2,panel-4,panel-5,panel-6"
   >
     <ngb-panel id="panel-0" *ngIf="usager.decision.statut !== 'REFUS'">
       <ng-template ngbPanelHeader let-opened="opened">
@@ -992,9 +992,25 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="panel-5" *ngIf="!isRole('facteur')">
-      <app-custom-docs [usager]="usager"></app-custom-docs>
+    <ngb-panel id="panel-6" *ngIf="!isRole('facteur')">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>DOCUMENTS DISPONIBLES</span>
+            <span class="arrows">
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <app-profil-structure-docs
+          [usager]="usager"
+        ></app-profil-structure-docs>
+      </ng-template>
     </ngb-panel>
+
     <ngb-panel id="panel-5" *ngIf="!isRole('facteur')">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">

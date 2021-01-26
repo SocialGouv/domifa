@@ -4,12 +4,13 @@ import { saveAs } from "file-saver";
 import { DocumentService } from "../../services/document.service";
 import { Usager } from "../../interfaces/usager";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc/StructureDocTypesAvailable.type";
+
 @Component({
-  selector: "app-custom-docs",
-  styleUrls: ["./docs-custom.component.css"],
-  templateUrl: "./docs-custom.component.html",
+  selector: "app-profil-structure-docs",
+  styleUrls: ["./profil-structure-docs.component.css"],
+  templateUrl: "./profil-structure-docs.component.html",
 })
-export class DocsCustomComponent implements OnInit {
+export class ProfilStructureDocsComponent implements OnInit {
   @Input() public usager!: Usager;
 
   public loadingDelete: boolean;
