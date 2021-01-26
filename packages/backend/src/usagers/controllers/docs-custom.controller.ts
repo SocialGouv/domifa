@@ -58,8 +58,6 @@ export class DocsCustomController {
     @CurrentUser() user: AppUser,
     @Res() res: Response
   ) {
-    // TODO: Vérifier qu'il n'existe pas une version custom de ce document
-
     if (docType !== "attestation_postale" && docType !== "courrier_radiation") {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -71,6 +69,7 @@ export class DocsCustomController {
       courrier_radiation: "courrier_radiation.docx",
     };
 
+    // TODO: Vérifier qu'il n'existe pas une version custom de ce document
     const content = fs.readFileSync(
       path.resolve(__dirname, "../../ressources/attestation_postale.docx"),
       "binary"
@@ -88,7 +87,6 @@ export class DocsCustomController {
     }
 
     const docValues = this.buildDoc(usager, user.structure);
-    console.log(docValues);
     doc.setData(docValues);
 
     try {
