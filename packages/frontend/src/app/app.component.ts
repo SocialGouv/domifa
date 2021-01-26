@@ -78,10 +78,11 @@ export class AppComponent implements OnInit {
     };
 
     // REFRESH TOKEN
-    this.authService.me().subscribe(
-      (me: AppUser) => {},
-      (error: any) => {}
-    );
+    this.authService.isAuth().subscribe();
+
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.me = user;
+    });
   }
 
   public refresh(): void {
@@ -92,12 +93,6 @@ export class AppComponent implements OnInit {
     this.titleService.setTitle(
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
-
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
-      if (user !== null) {
-        this.me = user;
-      }
-    });
 
     this.getJSON().subscribe((domifaNews) => {
       this.domifaNews = domifaNews[0];

@@ -1,5 +1,3 @@
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { formatDateToNgb } from "src/app/shared/bootstrap-util";
 import { HistoriqueOptions } from "./historique-options";
 
 export class Options {
@@ -64,20 +62,15 @@ export class Options {
         this.transfert.nom = options.transfert.nom || "";
         this.transfert.adresse = options.transfert.adresse || "";
 
-        if (
-          options.transfert.dateDebut &&
-          options.transfert.dateDebut !== null
-        ) {
-          this.transfert.dateDebut = new Date(options.transfert.dateDebut);
-        } else {
-          this.transfert.dateDebut = null;
-        }
+        this.transfert.dateDebut =
+          options.transfert.dateDebut && options.transfert.dateDebut !== null
+            ? new Date(options.transfert.dateDebut)
+            : (this.transfert.dateDebut = null);
 
-        if (options.transfert.dateFin && options.transfert.dateFin !== null) {
-          this.transfert.dateFin = new Date(options.transfert.dateFin);
-        } else {
-          this.transfert.dateFin = null;
-        }
+        this.transfert.dateFin =
+          options.transfert.dateFin && options.transfert.dateFin !== null
+            ? new Date(options.transfert.dateFin)
+            : (this.transfert.dateFin = null);
       }
 
       if (typeof options.procuration !== "undefined") {

@@ -9,7 +9,7 @@ import jwtDecode from "jwt-decode";
 import { environment } from "src/environments/environment";
 import { AppUser } from "../../../../_common/model";
 import { appUserBuilder } from "../../users/services";
-import { Router } from "@angular/router";
+import { Router, RouterStateSnapshot } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -53,7 +53,11 @@ export class AuthService {
       );
   }
 
-  public me(): Observable<AppUser> {
+  public isAuth(): Observable<boolean> {
+    if (localStorage.getItem("currentUser") === null) {
+      return of(false);
+    }
+
     return this.http.get<AppUser>(`${this.endPoint}/me`).pipe(
       map((apiUser: AppUser) => {
         const user = appUserBuilder.buildAppUser(apiUser);
@@ -71,10 +75,10 @@ export class AuthService {
           });
         });
         this.currentUserSubject.next(user);
-        return user;
+        return true;
       }),
       catchError(() => {
-        return of(null);
+        return of(false);
       })
     );
   }
@@ -102,12 +106,11 @@ export class AuthService {
     });
   }
 
-  public logoutAndRedirect(url?: string): void {
+  public logoutAndRedirect(state?: RouterStateSnapshot) {
     this.logout();
-
-    if (url) {
+    if (state) {
       this.router.navigate(["/connexion"], {
-        queryParams: { returnUrl: url },
+        queryParams: { returnUrl: state.url },
       });
     } else {
       this.router.navigate(["/connexion"]);
