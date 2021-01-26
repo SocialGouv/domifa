@@ -4,14 +4,15 @@ import { Repository } from "typeorm";
 import {
   appTypeormManager,
   InteractionsTable,
+  structureRepository,
   usersRepository,
 } from "../../database";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
-import { Structure } from "../../structures/structure-interface";
 import { Usager } from "../../usagers/interfaces/usagers";
 import { StructureType } from "../../_common/model";
 import { InteractionType } from "../../_common/model/interaction";
+import { StructureAdmin } from "../../_common/model/structure/StructureAdmin.type";
 import { StatsGeneratorService } from "./stats-generator.service";
 
 @Injectable()
@@ -19,8 +20,6 @@ export class DashboardService {
   private interactionRepository: Repository<InteractionsTable>;
 
   constructor(
-    @Inject("STRUCTURE_MODEL")
-    private structureModel: Model<Structure>,
     @Inject("USAGER_MODEL")
     private usagerModel: Model<Usager>,
     private statsGeneratorService: StatsGeneratorService
@@ -30,26 +29,16 @@ export class DashboardService {
     );
   }
 
-  public async getStructures(
-    options: {
-      sort?: any;
-    } = {}
-  ): Promise<Structure[]> {
-    let query = this.structureModel
-      .find()
-      .collation({ locale: "en", strength: 2 })
-      .select("-token -users +stats");
-    if (options.sort) {
-      query = query.sort(options.sort);
-    }
-
-    return query.exec();
-  }
-
-  public async getStructuresForDashboard(): Promise<Structure[]> {
-    const structures = await this.getStructures();
+  public async getStructuresForDashboard(): Promise<
+    (StructureAdmin & {
+      usersCount?: number; // dashboard only
+    })[]
+  > {
+    const structures = await structureRepository.findMany({});
     for (const structure of structures) {
-      structure.usersCount = await usersRepository.count({
+      ((structure as unknown) as StructureAdmin & {
+        usersCount?: number; // dashboard only
+      }).usersCount = await usersRepository.count({
         structureId: structure.id,
       });
     }
@@ -62,24 +51,13 @@ export class DashboardService {
       count: number;
     }[]
   > {
-    return this.structureModel.aggregate([
-      {
-        $project: {
-          _id: "$_id",
-          ___group: { structureType: "$structureType" },
-        },
+    return await structureRepository.countBy({
+      countBy: "structureType",
+      order: {
+        count: "DESC",
+        countBy: "ASC",
       },
-      { $group: { _id: "$___group", count: { $sum: 1 } } },
-      { $sort: { _id: 1 } },
-      {
-        $project: {
-          _id: false,
-          structureType: "$_id.structureType",
-          count: true,
-        },
-      },
-      { $sort: { count: -1, structureType: 1 } },
-    ]);
+    });
   }
 
   public async getInteractionsCountByType(): Promise<{
@@ -202,15 +180,13 @@ export class DashboardService {
       count: number;
     }[]
   > {
-    return this.structureModel
-      .aggregate([
-        { $project: { _id: "$_id", ___group: { region: "$region" } } },
-        { $group: { _id: "$___group", count: { $sum: 1 } } },
-        { $sort: { _id: 1 } },
-        { $project: { _id: false, region: "$_id.region", count: true } },
-        { $sort: { count: -1, region: 1 } },
-      ])
-      .exec();
+    return await structureRepository.countBy({
+      countBy: "region",
+      order: {
+        count: "DESC",
+        countBy: "ASC",
+      },
+    });
   }
 
   public async getUsagersCountByStatut() {
@@ -282,11 +258,14 @@ export class DashboardService {
   }
 
   private async getStatsDeploiementStructures() {
-    const structures: Structure[] = await this.getStructures({
-      sort: {
-        createdAt: 1,
-      },
-    });
+    const structures: StructureAdmin[] = await structureRepository.findMany(
+      {},
+      {
+        order: {
+          createdAt: "ASC",
+        },
+      }
+    );
 
     const structuresModels: StatsDeploiementStructureExportModel[] = [];
 

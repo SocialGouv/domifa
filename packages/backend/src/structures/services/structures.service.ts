@@ -1,12 +1,15 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
-import * as crypto from "crypto";
-import { Model } from "mongoose";
-import { appLogger } from "../../util";
-import { AppUser } from "../../_common/model";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { structureCommonRepository, structureRepository } from "../../database";
+import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
+import {
+  AppUser,
+  StructureCommon,
+  StructureLight,
+  StructurePG,
+} from "../../_common/model";
 import { DepartementHelper } from "../departement-helper.service";
 import { StructureEditDto } from "../dto/structure-edit.dto";
-import { StructureDto } from "../dto/structure.dto";
-import { Structure } from "../structure-interface";
+import moment = require("moment");
 
 export interface StructureQuery {
   codePostal?: string;
@@ -21,48 +24,12 @@ export class StructuresService {
     cias: "CIAS ou commune",
   };
 
-  constructor(
-    @Inject("STRUCTURE_MODEL")
-    private structureModel: Model<Structure>,
-    private departementHelper: DepartementHelper
-  ) {}
-
-  public async prePost(structureDto: StructureDto): Promise<Structure> {
-    try {
-      const departement = this.departementHelper.getDepartementFromCodePostal(
-        structureDto.codePostal
-      );
-      this.departementHelper.getRegionCodeFromDepartement(departement);
-    } catch (err) {
-      appLogger.warn(
-        `[StructuresService] error validating postal code "${structureDto.codePostal}"`
-      );
-      throw new HttpException("REGION_PROBLEM", HttpStatus.BAD_REQUEST);
-    }
-
-    return new this.structureModel(structureDto);
-  }
-
-  public async create(structureDto: StructureDto): Promise<Structure> {
-    const createdStructure = new this.structureModel(structureDto);
-    createdStructure.id = await this.findLast();
-    createdStructure.token = crypto.randomBytes(30).toString("hex");
-
-    createdStructure.departement = this.departementHelper.getDepartementFromCodePostal(
-      createdStructure.codePostal
-    );
-    createdStructure.region = this.departementHelper.getRegionCodeFromDepartement(
-      createdStructure.departement
-    );
-
-    const structure = await createdStructure.save();
-    return structure;
-  }
+  constructor(private departementHelper: DepartementHelper) {}
 
   public async patch(
     structureDto: StructureEditDto,
     user: Pick<AppUser, "structureId">
-  ): Promise<any> {
+  ): Promise<StructureCommon> {
     structureDto.departement = this.departementHelper.getDepartementFromCodePostal(
       structureDto.codePostal
     );
@@ -70,25 +37,20 @@ export class StructuresService {
       structureDto.departement
     );
 
-    return this.structureModel
-      .findOneAndUpdate(
-        { id: user.structureId },
-        { $set: structureDto },
-        { new: true }
-      )
-      .exec();
+    return await structureCommonRepository.updateOne(
+      { id: user.structureId },
+      structureDto
+    );
   }
 
   public async updateLastExport(
     structureId: number,
     dateExport: Date
-  ): Promise<any> {
-    return this.structureModel
-      .findOneAndUpdate(
-        { id: structureId },
-        { $set: { lastExport: dateExport } }
-      )
-      .exec();
+  ): Promise<StructureCommon> {
+    return structureCommonRepository.updateOne(
+      { id: structureId },
+      { lastExport: dateExport }
+    );
   }
 
   public async updateStructureStats(
@@ -96,76 +58,54 @@ export class StructuresService {
     valide: number,
     refus: number,
     radie: number
-  ): Promise<any> {
+  ): Promise<StructureCommon> {
     const total = valide + refus + radie;
-    return this.structureModel
-      .findOneAndUpdate(
-        { id: structureId },
-        {
-          $set: {
-            stats: { TOTAL: total, VALIDE: valide, REFUS: refus, RADIE: radie },
-          },
-        }
-      )
-      .exec();
+    return structureCommonRepository.updateOne(
+      { id: structureId },
+      {
+        stats: { TOTAL: total, VALIDE: valide, REFUS: refus, RADIE: radie },
+      }
+    );
   }
 
-  public async updateLastLogin(structureId: number): Promise<any> {
-    return this.structureModel
-      .findOneAndUpdate(
-        { id: structureId },
-        { $set: { lastLogin: new Date() } }
-      )
-      .exec();
+  public async updateLastLogin(structureId: number): Promise<StructureCommon> {
+    return structureCommonRepository.updateOne(
+      { id: structureId },
+      { lastLogin: new Date() }
+    );
   }
 
-  public async checkToken(token: string, id: string): Promise<any> {
-    return this.structureModel
-      .findOneAndUpdate(
-        { _id: id, token },
-        { $set: { token: "", verified: true } },
-        { new: true }
-      )
-      .exec();
+  public async findOneFull(structureId: number): Promise<StructurePG> {
+    const structure = await structureRepository.findOne({
+      id: structureId,
+    });
+    if (!structure || structure === null) {
+      throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
+    }
+    return structure;
   }
-
-  public async findOne(structureId: number): Promise<Structure> {
-    const structure = await this.structureModel
-      .findOne({ id: structureId })
-      .exec();
+  public async findOne(structureId: number): Promise<StructureCommon> {
+    const structure = await structureCommonRepository.findOne({
+      id: structureId,
+    });
     if (!structure || structure === null) {
       throw new HttpException("NOT_EXIST", HttpStatus.BAD_REQUEST);
     }
     return structure;
   }
 
-  public async findOneBasic(param: any): Promise<any> {
-    const structure = await this.structureModel
-      .findOne(param)
-      .select("-users -token -email -phone -responsable")
-      .exec();
+  public async findOneLight(param: any): Promise<StructureLight> {
+    const structure = await structureLightRepository.findOne(param);
     return structure;
   }
 
-  public async findManyBasic(param: any): Promise<Structure[]> {
-    const structure = await this.structureModel
-      .find(param)
-      .select("-users -token -email -phone -responsable")
-      .exec();
+  public async findManyLight(param: any): Promise<StructureLight[]> {
+    const structure = await structureLightRepository.findMany(param);
+
     return structure;
   }
 
-  public async checkHardResetToken(
-    userId: number,
-    token: string
-  ): Promise<Structure | null> {
-    return this.structureModel
-      .findOne({ "hardReset.token": token, "hardReset.userId": userId })
-      .select("+hardReset")
-      .exec();
-  }
-
-  public async findAllPublic(codePostal?: string) {
+  public async findAllLight(codePostal?: string): Promise<StructureLight[]> {
     const params: StructureQuery = {
       verified: true,
     };
@@ -174,70 +114,15 @@ export class StructuresService {
       params.codePostal = codePostal;
     }
 
-    return this.structureModel
-      .find(params)
-      .limit(100)
-      .lean()
-      .select("-users -token -email -phone -responsable")
-      .exec();
+    return structureLightRepository.findMany(params, {
+      maxResults: 100,
+    });
   }
 
-  public async delete(id: string): Promise<any> {
-    return this.structureModel.deleteOne({ _id: id });
-  }
-
-  public async importSuccess(id: number): Promise<Structure> {
-    return this.structureModel
-      .findOneAndUpdate(
-        { id },
-        { $set: { import: true, importDate: new Date() } },
-        { new: true }
-      )
-      .exec();
-  }
-
-  public async hardReset(id: number, token: any) {
-    return this.structureModel
-      .findOneAndUpdate({ id }, { $set: { hardReset: token } }, { new: true })
-      .exec();
-  }
-
-  public async hardResetClean(structureId: string) {
-    return this.structureModel
-      .findOneAndUpdate(
-        { _id: structureId },
-        {
-          $set: {
-            hardReset: {
-              token: "",
-              expireAt: null,
-            },
-          },
-        }
-      )
-      .exec();
-  }
-
-  public async generateDeleteToken(id: string) {
-    const token = crypto.randomBytes(30).toString("hex");
-    return this.structureModel
-      .findOneAndUpdate({ _id: id }, { $set: { token } }, { new: true })
-      .exec();
-  }
-
-  public async deleteAccount(id: string, tokenDelete: string) {
-    return this.structureModel.deleteOne({ _id: id, tokenDelete }).exec();
-  }
-
-  public async findLast(): Promise<number> {
-    const lastStructure: any = await this.structureModel
-      .findOne({}, { id: 1 })
-      .sort({ id: -1 })
-      .lean()
-      .exec();
-
-    return lastStructure === {} || lastStructure === null
-      ? 1
-      : lastStructure.id + 1;
+  public async importSuccess(id: number): Promise<StructureCommon> {
+    return structureCommonRepository.updateOne(
+      { id },
+      { import: true, importDate: new Date() }
+    );
   }
 }

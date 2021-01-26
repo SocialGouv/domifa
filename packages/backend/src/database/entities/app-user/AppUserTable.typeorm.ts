@@ -1,4 +1,12 @@
-import { Column, Entity, Generated, Index } from "typeorm";
+import {
+  Column,
+  Entity,
+  Generated,
+  Index,
+  JoinColumn,
+  ManyToOne,
+} from "typeorm";
+import { StructureTable } from "..";
 import {
   AppUser,
   AppUserMails,
@@ -46,6 +54,10 @@ export class AppUserTable
   @Index()
   @Column({ type: "integer" })
   structureId: number;
+
+  @ManyToOne(() => StructureTable, { lazy: true })
+  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
+  structureFk?: Promise<StructureTable>;
 
   @Column({ type: "jsonb", nullable: true })
   temporaryTokens: AppUserTokens;

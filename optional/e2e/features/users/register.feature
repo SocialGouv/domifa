@@ -16,7 +16,7 @@ Scénario:
   Quand je clique sur "Rechercher"
   Alors je vois "Si vous appartenez à l’une de ces structures, cliquez dessus pour vous inscrire :"
 
-  Alors je clique sur "CCAS de test"
+  Alors je clique sur "CCAS de Test"
 
   Alors je vois "Vous pouvez désormais créer votre compte"
 

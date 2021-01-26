@@ -5,6 +5,7 @@ const { I } = inject();
 Soit("un navigateur web sur le site", () => {
   I.amOnPage("/");
   tryTo(() => I.click("Continuer sur Domifa"));
+  I.see("Domifa en chiffres");
 });
 
 // Contexte : connexion

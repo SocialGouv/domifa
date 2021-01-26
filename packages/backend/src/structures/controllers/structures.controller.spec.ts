@@ -7,7 +7,7 @@ import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { ExpressResponse } from "../../util/express";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { StructuresService } from "../services/structures.service";
+import { StructuresModule } from "../structure.module";
 import { StructuresController } from "./structures.controller";
 
 describe("Stuctures Controller", () => {
@@ -15,7 +15,7 @@ describe("Stuctures Controller", () => {
   let controller: StructuresController;
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
-      controllers: [StructuresController],
+      controllers: [],
       imports: [
         DatabaseModule,
         UsersModule,
@@ -23,8 +23,9 @@ describe("Stuctures Controller", () => {
         UsagersModule,
         InteractionsModule,
         StatsModule,
+        StructuresModule,
       ],
-      providers: [{ provide: StructuresService, useValue: {} }],
+      providers: [],
     });
     controller = context.module.get<StructuresController>(StructuresController);
   });
@@ -61,7 +62,7 @@ describe("Stuctures Controller", () => {
 
     await controller.validateEmail(
       {
-        email: "ccastest@yopmail.com",
+        email: "cias.test@yopmail.com",
       },
       res
     );

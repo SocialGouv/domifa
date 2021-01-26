@@ -4,8 +4,12 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { StructureService } from "src/app/modules/structures/services/structure.service";
-import { Structure } from "src/app/modules/structures/structure.interface";
-import { AppUser, UserProfile, UserRole } from "../../../../../_common/model";
+import {
+  AppUser,
+  StructureCommon,
+  UserProfile,
+  UserRole,
+} from "../../../../../_common/model";
 import { UsersService } from "../../services/users.service";
 
 @Component({
@@ -16,7 +20,7 @@ import { UsersService } from "../../services/users.service";
 export class UserProfilComponent implements OnInit {
   public users: UserProfile[];
   public me: AppUser;
-  public structure: Structure;
+  public structure: StructureCommon;
   public newUsers: UserProfile[];
 
   public selectedUser: number;
@@ -49,7 +53,7 @@ export class UserProfilComponent implements OnInit {
 
         this.structureService
           .findMyStructure()
-          .subscribe((structure: Structure) => {
+          .subscribe((structure: StructureCommon) => {
             this.structure = structure;
           });
       }

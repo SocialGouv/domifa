@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { domifaConfig } from "../../../config";
 import { MessageEmailTipimailContent } from "../../../database";
-import { Structure } from "../../../structures/structure-interface";
-import { UserProfile } from "../../../_common/model";
+import { StructureCommon, UserProfile } from "../../../_common/model";
 import { messageEmailSender } from "../_core";
 
 @Injectable()
@@ -16,7 +15,7 @@ export class StructuresMailsService {
   }
 
   public async confirmationStructure(
-    structure: Structure,
+    structure: StructureCommon,
     user: UserProfile
   ): Promise<void> {
     const frontendUrl = domifaConfig().apps.frontendUrl;

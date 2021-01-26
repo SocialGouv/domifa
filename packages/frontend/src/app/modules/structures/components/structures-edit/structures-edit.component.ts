@@ -1,14 +1,11 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { AppUser } from "../../../../../_common/model";
-import { Structure } from "../../structure.interface";
-
-import { StructureService } from "../../services/structure.service";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { AppUser, StructureCommon } from "../../../../../_common/model";
+import { StructureService } from "../../services/structure.service";
 
 @Component({
   selector: "app-structures-edit",
@@ -17,7 +14,7 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 })
 export class StructuresEditComponent implements OnInit {
   public me: AppUser;
-  public structure: Structure;
+  public structure: StructureCommon;
 
   public exportLoading: boolean;
   public showHardReset: boolean;
@@ -50,7 +47,7 @@ export class StructuresEditComponent implements OnInit {
 
     this.structureService
       .findMyStructure()
-      .subscribe((structure: Structure) => {
+      .subscribe((structure: StructureCommon) => {
         this.structure = structure;
         this.initForms();
       });

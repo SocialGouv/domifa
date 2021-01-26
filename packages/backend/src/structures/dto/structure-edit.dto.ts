@@ -1,10 +1,5 @@
-import {
-  IsIn,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsObject,
-} from "class-validator";
+import { IsNotEmpty, IsNumber, IsObject, IsOptional } from "class-validator";
+import { StructureResponsable } from "../../_common/model";
 
 export class StructureEditDto {
   @IsOptional()
@@ -42,11 +37,7 @@ export class StructureEditDto {
   public region!: string;
 
   @IsOptional()
-  public responsable!: {
-    fonction: string;
-    nom: string;
-    prenom: string;
-  };
+  public responsable!: StructureResponsable;
 
   @IsNotEmpty()
   @IsObject()

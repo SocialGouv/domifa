@@ -8,11 +8,10 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
+import { StructureCommon } from "../../../../../_common/model";
 import { departements } from "../../../../shared/constants";
-
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
-import { Structure } from "../../structure.interface";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -25,7 +24,7 @@ export class StructureEditFormComponent implements OnInit {
   public success: boolean = false;
   public submitted: boolean = false;
 
-  @Input() public structure: Structure;
+  @Input() public structure: StructureCommon;
 
   constructor(
     private structureService: StructureService,
@@ -136,7 +135,7 @@ export class StructureEditFormComponent implements OnInit {
       );
     } else {
       this.structureService.patch(this.structureForm.value).subscribe(
-        (structure: Structure) => {
+        (structure: StructureCommon) => {
           this.notifService.success(
             "Les modifications ont bien été prises en compte"
           );

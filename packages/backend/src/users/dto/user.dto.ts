@@ -41,7 +41,8 @@ export class UserDto {
 
   @IsNotEmpty()
   @IsNumber()
-  public readonly structureId!: number;
+  @IsOptional()
+  public readonly structureId?: number;
 
   @IsOptional()
   public readonly structure!: {};

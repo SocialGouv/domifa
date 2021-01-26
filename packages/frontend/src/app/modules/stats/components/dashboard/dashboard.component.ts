@@ -8,7 +8,6 @@ import {
   Subscription,
 } from "rxjs";
 import { map } from "rxjs/operators";
-import { Structure } from "src/app/modules/structures/structure.interface";
 import { interactionsLabelsPluriel } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import {
@@ -19,30 +18,14 @@ import {
   REGIONS_LABELS_MAP,
 } from "src/app/shared";
 import { dataCompare } from "src/app/shared/dataCompare.service";
+import { Structure, StructureAdmin } from "../../../../../_common/model";
 import { StatsService } from "../../stats.service";
 
-export type DashboardTableStructure = Pick<
-  Structure,
-  | "_id"
-  | "nom"
-  | "ville"
-  | "structureType"
-  | "verified"
-  | "structureType"
-  | "createdAt"
-  | "import"
-  | "importDate"
-  | "lastLogin"
-  | "region"
-  | "departement"
-  | "stats"
-  | "email"
-> & {
+export type DashboardTableStructure = StructureAdmin & {
   structureTypeLabel: string;
   regionLabel: string;
   departementLabel: string;
   usagersValideCount: number;
-  usersCount: number;
 };
 
 type DashboardTableSortAttribute =
@@ -67,7 +50,7 @@ type UsagersValide = { [structureId: string]: number };
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   public interactionsLabels: any;
-  public structures$ = new ReplaySubject<Structure[]>(1);
+  public structures$ = new ReplaySubject<StructureAdmin[]>(1);
   public usagersValide$ = new ReplaySubject<UsagersValide>(1);
   public sortAttribute$ = new BehaviorSubject<{
     name: DashboardTableSortAttribute;
@@ -139,9 +122,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.titleService.setTitle("Dashboard de suivi");
 
     // Liste des structures
-    this.statsService.getStructures().subscribe((structures: Structure[]) => {
-      this.structures$.next(structures);
-    });
+    this.statsService
+      .getStructures()
+      .subscribe((structures: StructureAdmin[]) => {
+        this.structures$.next(structures);
+      });
 
     // Structures par type
     this.statsService
@@ -275,7 +260,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return sortedTableStructures$;
   }
 
-  private getRegionLabel(structure: Structure): string {
+  private getRegionLabel(structure: Pick<Structure, "region">): string {
     const regionLabel = this.regions[structure.region];
     if (!regionLabel && structure.region) {
       // tslint:disable-next-line: no-console
@@ -286,7 +271,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return regionLabel;
   }
 
-  private getDepartementLabel(structure: Structure): string {
+  private getDepartementLabel(
+    structure: Pick<Structure, "departement">
+  ): string {
     const departementLabel = this.departements[structure.departement];
     if (!departementLabel && structure.departement) {
       // tslint:disable-next-line: no-console

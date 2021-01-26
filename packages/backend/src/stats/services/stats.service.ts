@@ -1,18 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import {
-  Between,
-  Equal,
-  FindConditions,
-  LessThanOrEqual,
-  MoreThanOrEqual,
-  Repository,
-} from "typeorm";
+import { Between, Repository } from "typeorm";
 import { appTypeormManager, StructureStatsTable } from "../../database";
 import { appLogger } from "../../util";
-import { StructurePublic, StructureStats } from "../../_common/model";
+import { StructureCommon, StructureStats } from "../../_common/model";
+import { StatsGeneratorService } from "./stats-generator.service";
 
 import moment = require("moment");
-import { StatsGeneratorService } from "./stats-generator.service";
 
 @Injectable()
 export class StatsService {
@@ -62,7 +55,7 @@ export class StatsService {
     startDate,
     endDate,
   }: {
-    structure: StructurePublic;
+    structure: StructureCommon;
     startDate: Date;
     endDate?: Date;
   }): Promise<{
