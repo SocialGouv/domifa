@@ -44,7 +44,7 @@ export class DocumentService {
       );
   }
 
-  public getDocument(usagerId: number, index: number, doc: Doc) {
+  public getDocument(usagerId: number, index: number) {
     return this.http.get(`${this.endPoint}${usagerId}/${index}`, {
       responseType: "blob",
     });
@@ -57,22 +57,15 @@ export class DocumentService {
       })
     );
   }
-
   public getStructureDoc(
     usagerId: number,
     docType: StructureDocTypesAvailable
   ) {
     return this.http.get(
-      `${environment.apiUrl}structure-doc/${usagerId}/${docType}`,
+      `${environment.apiUrl}usagers-structure-docs/${usagerId}/${docType}`,
       {
         responseType: "blob",
       }
     );
-  }
-
-  public getCustomStructureDoc(usagerId: number, docId: number) {
-    return this.http.get(`${environment.apiUrl}structure-doc/${usagerId}`, {
-      responseType: "blob",
-    });
   }
 }

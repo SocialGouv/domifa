@@ -11,7 +11,7 @@ import { environment } from "src/environments/environment";
 })
 export class StructureDocService {
   public http: HttpClient;
-  private endPoint = environment.apiUrl + "structure-doc";
+  private endPoint = environment.apiUrl + "structure-docs";
 
   constructor(http: HttpClient) {
     this.http = http;

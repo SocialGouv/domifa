@@ -28,31 +28,29 @@ export class DocumentsComponent implements OnInit {
 
   public getDocument(i: number) {
     this.usager.docs[i].loadingDownload = true;
-    this.documentService
-      .getDocument(this.usager.id, i, this.usager.docs[i])
-      .subscribe(
-        (blob: any) => {
-          const doc = this.usager.docs[i];
-          const extension = doc.filetype.split("/")[1];
-          const newBlob = new Blob([blob], { type: doc.filetype });
+    this.documentService.getDocument(this.usager.id, i).subscribe(
+      (blob: any) => {
+        const doc = this.usager.docs[i];
+        const extension = doc.filetype.split("/")[1];
+        const newBlob = new Blob([blob], { type: doc.filetype });
 
-          saveAs(
-            newBlob,
-            this.slugLabel(doc.label) +
-              "_" +
-              this.slugLabel(this.usager.nom + " " + this.usager.prenom) +
-              "." +
-              extension
-          );
+        saveAs(
+          newBlob,
+          this.slugLabel(doc.label) +
+            "_" +
+            this.slugLabel(this.usager.nom + " " + this.usager.prenom) +
+            "." +
+            extension
+        );
 
-          this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
-          this.usager.docs[i].loadingDownload = false;
-        },
-        () => {
-          this.usager.docs[i].loadingDownload = false;
-          this.notifService.error("Impossible de télécharger le fichier");
-        }
-      );
+        this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
+        this.usager.docs[i].loadingDownload = false;
+      },
+      () => {
+        this.usager.docs[i].loadingDownload = false;
+        this.notifService.error("Impossible de télécharger le fichier");
+      }
+    );
   }
 
   public deleteDocument(i: number): void {

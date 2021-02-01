@@ -42,10 +42,10 @@ const Docxtemplater = require("docxtemplater");
 const InspectModule = require("docxtemplater/js/inspect-module");
 
 @UseGuards(AuthGuard("jwt"), FacteurGuard)
-@ApiTags("structure-doc")
+@ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
-@Controller("structure-doc")
-export class DocsCustomController {
+@Controller("usagers-structure-docs")
+export class UsagerStructureDocsController {
   motifsRefus: any;
   constructor(private readonly usagersService: UsagersService) {}
 
@@ -71,7 +71,7 @@ export class DocsCustomController {
 
     // TODO: Vérifier qu'il n'existe pas une version custom de ce document
     const content = fs.readFileSync(
-      path.resolve(__dirname, "../../ressources/attestation_postale.docx"),
+      path.resolve(__dirname, "../../ressources/" + docsName[docType]),
       "binary"
     );
 

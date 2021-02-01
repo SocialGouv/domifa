@@ -24,7 +24,7 @@ export class ProfilStructureDocsComponent implements OnInit {
   public ngOnInit() {}
 
   // Documents définis par Domifa
-  public getDocument(docType: StructureDocTypesAvailable) {
+  public getStructureDocument(docType: StructureDocTypesAvailable) {
     this.loadingDownload = true;
     this.documentService.getStructureDoc(this.usager.id, docType).subscribe(
       (blob: any) => {

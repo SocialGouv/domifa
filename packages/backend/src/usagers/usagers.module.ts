@@ -7,7 +7,7 @@ import { StatsModule } from "../stats/stats.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsersModule } from "../users/users.module";
 import { AgendaController } from "./controllers/agenda.controller";
-import { DocsCustomController } from "./controllers/docs-custom.controller";
+import { UsagerStructureDocsController } from "./controllers/usager-structure-docs.controller";
 import { DocsController } from "./controllers/docs.controller";
 import { ExportStructureUsagersController } from "./controllers/export-structure-usagers.controller";
 import { ImportController } from "./controllers/import.controller";
@@ -24,7 +24,7 @@ import { UsagersProviders } from "./usagers.providers";
     ImportController,
     SearchController,
     AgendaController,
-    DocsCustomController,
+    UsagerStructureDocsController,
     DocsController,
     ExportStructureUsagersController,
   ],

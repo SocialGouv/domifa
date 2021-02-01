@@ -34,6 +34,7 @@ import { StructureDocService } from "../services/structure-doc.service";
 export class StructureDocController {
   constructor(private structureDocService: StructureDocService) {}
 
+  // Documents sans personnalisation
   @Get(":id")
   public async getStructureDoc(
     @Param("id") structureDocId: number,
