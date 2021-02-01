@@ -78,6 +78,7 @@ describe("Import Controller", () => {
       .format("L");
 
     const thisYear = moment(new Date()).locale("fr").format("L");
+
     const nextTwoYears = moment(new Date())
       .add(2, "year")
       .locale("fr")
@@ -87,6 +88,7 @@ describe("Import Controller", () => {
     expect(
       controller.isValidDate("undefined", REQUIRED, NEXT_YEAR_MAX)
     ).toBeFalsy();
+
     expect(controller.isValidDate(null, REQUIRED, NEXT_YEAR_MAX)).toBeFalsy();
     expect(controller.isValidDate("", REQUIRED, NEXT_YEAR_MAX)).toBeFalsy();
 

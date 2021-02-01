@@ -479,12 +479,10 @@ export class ImportController {
         : null;
 
       const phone = this.notEmpty(row[this.PHONE])
-        ? row[this.PHONE].toString().trim().replace(/\D/g, "")
+        ? row[this.PHONE].replace(/\D/g, "")
         : null;
 
-      const email = this.notEmpty(row[this.EMAIL])
-        ? row[this.EMAIL].toString().trim().tolowerCase()
-        : null;
+      const email = this.notEmpty(row[this.EMAIL]) ? row[this.EMAIL] : null;
 
       //
       // Dates
