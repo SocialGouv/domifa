@@ -255,7 +255,7 @@ export class UsersController {
     @Res() res: ExpressResponse
   ) {
     const existUser = await usersRepository.findOne({
-      email: emailDto.email,
+      email: emailDto.email.toLowerCase(),
     });
 
     const emailExist = existUser !== undefined;
@@ -320,14 +320,16 @@ export class UsersController {
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
-    const user = await usersRepository.findOne({ email: emailDto.email });
+    const user = await usersRepository.findOne({
+      email: emailDto.email.toLowerCase(),
+    });
     if (!user) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "RESET_EMAIL_NOT_EXIST" });
     } else {
       const updatedUser = await this.usersService.generateTokenPassword(
-        emailDto.email
+        emailDto.email.toLowerCase()
       );
 
       if (!updatedUser) {

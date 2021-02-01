@@ -5,8 +5,12 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  BeforeInsert,
 } from "typeorm";
 import { StructureTable } from "..";
+
+import { titleCase } from "typeorm/util/StringUtils";
+
 import {
   AppUser,
   AppUserMails,
@@ -25,7 +29,7 @@ export class AppUserTable
   _id: any; // obsolete mongo id: use `uuid` instead
 
   @Index()
-  @Column({ type: "text", unique: true })
+  @Column({ type: "citext", unique: true })
   email: string;
 
   @Column({ type: "text", nullable: true })
@@ -70,4 +74,11 @@ export class AppUserTable
 
   @Column({ type: "boolean", default: false })
   verified: boolean;
+
+  @BeforeInsert()
+  nameToUpperCase() {
+    this.email = this.email.toLowerCase();
+    this.nom = titleCase(this.nom);
+    this.prenom = titleCase(this.prenom);
+  }
 }
