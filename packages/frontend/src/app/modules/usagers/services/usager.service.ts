@@ -210,28 +210,7 @@ export class UsagerService {
       );
   }
 
-  public import(data: FormData) {
-    const uploadURL = environment.apiUrl + "import";
-    return this.http
-      .post<any>(uploadURL, data, {
-        observe: "events",
-        reportProgress: true,
-      })
-      .pipe(
-        map((event: HttpEvent<any>) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            if (event.total) {
-              const progress = Math.round((100 * event.loaded) / event.total);
-              return {
-                message: progress,
-                status: "progress",
-              };
-            }
-          } else if (event.type === HttpEventType.Response) {
-            return { success: true, body: event.body };
-          }
-          return `Unhandled event: ${event.type}`;
-        })
-      );
+  public import(data: FormData): Observable<any> {
+    return this.http.post(environment.apiUrl + "import", data);
   }
 }

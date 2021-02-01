@@ -1,6 +1,5 @@
 import * as XLSX from "xlsx";
 
-import { HttpClient } from "@angular/common/http";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -12,7 +11,8 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../../../shared/services/auth.service";
 import { LoadingService } from "../../../loading/loading.service";
 import { AppUser } from "../../../../../_common/model";
-import { padNumber } from "../../../../shared/bootstrap-util";
+
+import moment from "moment";
 
 export const colNames = [
   "Numéro d'identification",
@@ -70,11 +70,10 @@ export class ImportComponent implements OnInit {
   public showTable: boolean;
   public showErrors: boolean;
 
-  public nbreAyantsDroits: any[];
+  public nbreAyantsDroits: number[];
 
   public errorsId: any[];
   public errorsColumn = new Array(32);
-
   public errorsRow: any[];
 
   public rowNumber: number;
@@ -82,6 +81,7 @@ export class ImportComponent implements OnInit {
   public etapeImport: number;
 
   public today: Date;
+  public minDate: Date;
   public nextYear: Date;
 
   public me: AppUser;
@@ -149,6 +149,7 @@ export class ImportComponent implements OnInit {
     this.errorsId = [];
     this.errorsList = {};
     this.errorsRow = [];
+
     this.etapeImport = 0;
     this.fileName = "";
     this.nbreAyantsDroits = [33, 37, 41, 45, 49, 53, 57, 61, 65];
@@ -169,6 +170,13 @@ export class ImportComponent implements OnInit {
       this.colNames.push("Ayant-droit " + cpt + ": date naissance");
       this.colNames.push("Ayant-droit " + cpt + ": lien parenté");
     }
+
+    this.today = moment().utc().endOf("day").toDate();
+    this.nextYear = moment().utc().endOf("year").toDate();
+    this.minDate = moment("01/01/1900", "DD/MM/YYYY")
+      .utc()
+      .endOf("day")
+      .toDate();
   }
 
   get u(): any {
@@ -260,7 +268,7 @@ export class ImportComponent implements OnInit {
           this.LIEU_NAISSANCE
         );
 
-        this.countErrors(this.validEmail(row[this.EMAIL]), index, this.EMAIL);
+        this.countErrors(this.isValidEmail(row[this.EMAIL]), index, this.EMAIL);
 
         this.countErrors(this.isValidPhone(row[this.PHONE]), index, this.PHONE);
 
@@ -408,14 +416,12 @@ export class ImportComponent implements OnInit {
     formData.append("file", this.uploadForm.controls.fileInput.value);
 
     this.usagerService.import(formData).subscribe(
-      (res) => {
-        setTimeout(() => {
-          this.notifService.success("L'import a eu lieu avec succès");
-          this.loadingService.stopLoading();
-          this.router.navigate(["/manage"]);
-        }, 2500);
+      (res: any) => {
+        this.notifService.success("L'import a eu lieu avec succès");
+        this.loadingService.stopLoading();
+        this.router.navigate(["/manage"]);
       },
-      () => {
+      (error: any) => {
         this.notifService.error("Le fichier n'a pas pu être importé ");
         this.loadingService.stopLoading();
       }
@@ -461,51 +467,31 @@ export class ImportComponent implements OnInit {
     }
 
     if (RegExp(regexp.date).test(date)) {
-      const dateParts = date.split("/");
-
-      const jour = parseInt(dateParts[0], 10);
-      const mois = parseInt(dateParts[1], 10);
-      const annee = parseInt(dateParts[2], 10);
-
-      // Vérification du format de la date
-      const isValidFormat =
-        jour <= 31 && jour > 0 && mois <= 12 && mois > 0 && annee > 1900;
-
-      const dateToCheck = new Date(
-        annee + "-" + padNumber(mois) + "-" + padNumber(jour)
-      );
-
-      if (
-        isValidFormat === false ||
-        isNaN(Date.parse(annee + "-" + padNumber(mois) + "-" + padNumber(jour)))
-      ) {
+      if (!moment(date, "DD/MM/YYYY").isValid()) {
         return false;
       }
 
+      const dateToCheck = moment(date, "DD/MM/YYYY")
+        .utc()
+        .startOf("day")
+        .toDate();
+
       // S'il s'agit d'une date dans le futur, on compare à N+1
       return futureDate
-        ? dateToCheck <= this.nextYear
-        : dateToCheck <= this.today;
+        ? dateToCheck >= this.minDate && dateToCheck <= this.nextYear
+        : dateToCheck >= this.minDate && dateToCheck <= this.today;
     }
     return false;
   }
 
-  // Vérification : téléphone
-  public isValidPhone(phone: string): boolean {
-    if (!this.notEmpty(phone)) {
-      return true;
-    }
-
-    return RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
+  private isValidPhone(phone: string): boolean {
+    return !this.notEmpty(phone)
+      ? true
+      : RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
   }
 
-  // Vérification : Email
-  public validEmail(email: string): boolean {
-    if (!this.notEmpty(email)) {
-      return true;
-    }
-
-    return RegExp(regexp.email).test(email);
+  private isValidEmail(email: string): boolean {
+    return !this.notEmpty(email) ? true : RegExp(regexp.email).test(email);
   }
 
   // Vérification des champs pré-remplis dans les liste déroulantes
@@ -522,7 +508,7 @@ export class ImportComponent implements OnInit {
       [key: string]: any;
     } = {
       demande: ["PREMIERE", "RENOUVELLEMENT"],
-      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE", "AUTRES"],
+      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
       menage: [
         "HOMME_ISOLE_SANS_ENFANT",
         "FEMME_ISOLE_SANS_ENFANT",
@@ -539,15 +525,8 @@ export class ImportComponent implements OnInit {
         "PLUS_DE_LIEN_COMMUNE",
         "NON_RESPECT_REGLEMENT",
         "AUTRE",
-        "AUTRES",
       ],
-      motifRefus: [
-        "LIEN_COMMUNE",
-        "SATURATION",
-        "HORS_AGREMENT",
-        "AUTRE",
-        "AUTRES",
-      ],
+      motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
       residence: [
         "DOMICILE_MOBILE",
         "HEBERGEMENT_SOCIAL",

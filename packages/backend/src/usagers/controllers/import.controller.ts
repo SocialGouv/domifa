@@ -27,8 +27,10 @@ import { AppAuthUser } from "../../_common/model";
 import { Entretien } from "../interfaces/entretien";
 import { UsagersService } from "../services/usagers.service";
 
+import moment = require("moment");
+
 export const regexp = {
-  date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
+  date: /^([0-9]|[0-2][0-9]|(3)[0-1])(\/)(([0-9]|(0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
   email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, // tslint:disable max-line-length
   phone: /^((\+)33|0)[1-9](\d{2}){4}$/,
 };
@@ -65,6 +67,7 @@ export class ImportController {
 
   public today: Date;
   public nextYear: Date;
+  public minDate: Date;
 
   public CUSTOM_ID = 0;
   public CIVILITE = 1;
@@ -113,10 +116,12 @@ export class ImportController {
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
   ) {
-    this.today = new Date();
-    this.nextYear = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    );
+    this.today = moment().utc().endOf("day").toDate();
+    this.nextYear = moment().utc().endOf("year").toDate();
+    this.minDate = moment("01/01/1900", "DD/MM/YYYY")
+      .utc()
+      .endOf("day")
+      .toDate();
 
     this.errorsId = [];
     this.rowNumber = 0;
@@ -229,10 +234,14 @@ export class ImportController {
       }) as AOA;
 
       for (let index = 1, len = this.datas.length; index < len; index++) {
+        // Ligne
         this.rowNumber = index;
         const row = this.datas[index];
+
+        // Check le sexe
         const sexeCheck =
-          row[this.CIVILITE] === "H" || row[this.CIVILITE] === "F";
+          row[this.CIVILITE].toUpperCase() === "H" ||
+          row[this.CIVILITE].toUpperCase() === "F";
 
         this.countErrors(sexeCheck, index, this.CIVILITE);
 
@@ -423,6 +432,8 @@ export class ImportController {
 
   private async saveDatas(datas: AOA, @CurrentUser() user: AppAuthUser) {
     //
+
+    const now = moment().utc().toDate();
     const agent = user.prenom + " " + user.nom;
     const usagers: UsagerTable[] = [];
 
@@ -442,19 +453,17 @@ export class ImportController {
       //
       // Partie STATUT + HISTORIQUE
       //
-      let datePremiereDom = new Date();
+      let datePremiereDom = now;
       let dateDecision = this.notEmpty(row[this.DATE_DEBUT_DOM])
         ? this.convertDate(row[this.DATE_DEBUT_DOM])
-        : new Date();
+        : now;
 
       if (this.notEmpty(row[this.DATE_PREMIERE_DOM])) {
         datePremiereDom = this.convertDate(row[this.DATE_PREMIERE_DOM]);
-        const dateFinPremiereDom = new Date(datePremiereDom);
 
-        // Ajout d'une année
-        dateFinPremiereDom.setFullYear(
-          dateFinPremiereDom.setFullYear(dateFinPremiereDom.getFullYear() + 1)
-        );
+        const dateFinPremiereDom = moment(datePremiereDom)
+          .add(1, "year")
+          .toDate();
 
         historique.push({
           agent,
@@ -472,9 +481,9 @@ export class ImportController {
 
       historique.push({
         agent,
-        dateDebut: new Date(),
-        dateDecision: new Date(),
-        dateFin: new Date(),
+        dateDebut: now,
+        dateDecision: now,
+        dateFin: now,
         motif,
         statut: "IMPORT",
         userId: user.id,
@@ -485,16 +494,20 @@ export class ImportController {
         ? row[this.CUSTOM_ID]
         : null;
 
-      const phone = !row[this.PHONE]
-        ? null
-        : row[this.PHONE].replace(/\D/g, "");
+      const phone = this.notEmpty(row[this.PHONE])
+        ? row[this.PHONE].toString().trim().replace(/\D/g, "")
+        : null;
+
+      const email = this.notEmpty(row[this.EMAIL])
+        ? row[this.EMAIL].toString().trim().tolowerCase()
+        : null;
 
       //
       // Dates
       //
       const dernierPassage = this.notEmpty(row[this.DATE_DERNIER_PASSAGE])
         ? this.convertDate(row[this.DATE_DERNIER_PASSAGE])
-        : new Date();
+        : now;
 
       let dateDebut = this.notEmpty(row[this.DATE_DEBUT_DOM])
         ? this.convertDate(row[this.DATE_DEBUT_DOM])
@@ -514,7 +527,7 @@ export class ImportController {
       if (row[this.STATUT_DOM] === "RADIE") {
         dateDecision = this.notEmpty(row[this.DATE_FIN_DOM])
           ? this.convertDate(row[this.DATE_FIN_DOM])
-          : new Date();
+          : now;
 
         motif = this.parseMotif(row[this.MOTIF_RADIATION]);
       }
@@ -525,7 +538,7 @@ export class ImportController {
       const entretien: Entretien = {};
 
       if (this.notEmpty(row[this.COMPOSITION_MENAGE])) {
-        entretien.typeMenage = row[this.COMPOSITION_MENAGE];
+        entretien.typeMenage = row[this.COMPOSITION_MENAGE].toUpperCase();
       }
 
       if (this.notEmpty(row[this.DOMICILIATION_EXISTANTE])) {
@@ -567,7 +580,7 @@ export class ImportController {
       }
 
       if (this.notEmpty(row[this.RAISON_DEMANDE])) {
-        entretien.raison = row[this.RAISON_DEMANDE];
+        entretien.raison = row[this.RAISON_DEMANDE].toUpperCase();
       }
 
       if (this.notEmpty(row[this.RAISON_DEMANDE_DETAILS])) {
@@ -579,7 +592,7 @@ export class ImportController {
       }
 
       if (this.notEmpty(row[this.SITUATION_RESIDENTIELLE])) {
-        entretien.residence = row[this.SITUATION_RESIDENTIELLE];
+        entretien.residence = row[this.SITUATION_RESIDENTIELLE].toUpperCase();
       }
 
       if (this.notEmpty(row[this.SITUATION_DETAILS])) {
@@ -587,7 +600,7 @@ export class ImportController {
       }
 
       if (this.notEmpty(row[this.CAUSE_INSTABILITE])) {
-        entretien.cause = row[this.CAUSE_INSTABILITE];
+        entretien.cause = row[this.CAUSE_INSTABILITE].toUpperCase();
       }
 
       if (this.notEmpty(row[this.CAUSE_DETAILS])) {
@@ -605,11 +618,7 @@ export class ImportController {
         const nom = row[indexAD];
         const prenom = row[indexAD + 1];
         const dateNaissance = row[indexAD + 2];
-        let lienParente = row[indexAD + 3];
-
-        if (lienParente === "AUTRES") {
-          lienParente = "AUTRE";
-        }
+        const lienParente = row[indexAD + 3];
 
         if (nom && prenom && dateNaissance && lienParente) {
           ayantsDroits.push({
@@ -631,7 +640,7 @@ export class ImportController {
           dateDebut,
           dateDecision,
           dateFin,
-          motif,
+          motif: motif.trim().toUpperCase(),
           motifDetails: "",
           statut: row[this.STATUT_DOM].toUpperCase() as UsagerDecisionStatut,
           userId: user.id,
@@ -640,7 +649,7 @@ export class ImportController {
         lastInteraction: {
           dateInteraction: dernierPassage,
         },
-        email: row[this.EMAIL],
+        email,
         entretien,
         etapeDemande: 5,
         historique,
@@ -671,9 +680,7 @@ export class ImportController {
   }
 
   private convertDate(dateFr: string): Date {
-    const dateParts = dateFr.split("/");
-    const dateEn = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-    return new Date(dateEn);
+    return moment(dateFr, "DD/MM/YYYY").utc().startOf("day").toDate();
   }
 
   private countErrors(variable: boolean, idRow: any, idColumn: number) {
@@ -687,20 +694,10 @@ export class ImportController {
       " - Retour :  " +
       variable;
 
-    if (
-      (this.datas[idRow][this.STATUT_DOM] === "REFUS" ||
-        this.datas[idRow][this.STATUT_DOM] === "RADIE") &&
-      (idColumn === this.DATE_DEBUT_DOM ||
-        idColumn === this.DATE_PREMIERE_DOM ||
-        idColumn === this.DATE_DERNIER_PASSAGE)
-    ) {
-      variable = true;
-      return true;
-    }
-
     if (variable !== true) {
       this.errorsId.push(position);
     }
+
     return variable;
   }
 
@@ -734,50 +731,29 @@ export class ImportController {
     }
 
     if (RegExp(regexp.date).test(date)) {
-      const dateParts = date.split("/");
+      if (moment(date, "DD/MM/YYYY").isValid()) {
+        const dateToCheck = moment(date, "DD/MM/YYYY")
+          .utc()
+          .startOf("day")
+          .toDate();
 
-      const jour = parseInt(dateParts[0], 10);
-      const mois = parseInt(dateParts[1], 10);
-      const annee = parseInt(dateParts[2], 10);
-
-      // Vérification du format de la date
-      const isValidFormat =
-        jour <= 31 && jour > 0 && mois <= 12 && mois > 0 && annee > 1900;
-      const dateToCheck = new Date(
-        annee + "-" + this.padNumber(mois) + "-" + this.padNumber(jour)
-      );
-
-      if (
-        isValidFormat === false ||
-        isNaN(
-          Date.parse(
-            annee + "-" + this.padNumber(mois) + "-" + this.padNumber(jour)
-          )
-        )
-      ) {
-        return false;
+        // S'il s'agit d'une date dans le futur, on compare à N+1
+        return futureDate
+          ? dateToCheck >= this.minDate && dateToCheck <= this.nextYear
+          : dateToCheck >= this.minDate && dateToCheck <= this.today;
       }
-
-      // S'il s'agit d'une date dans le futur, on compare à N+1
-      return futureDate
-        ? dateToCheck <= this.nextYear
-        : dateToCheck <= this.today;
     }
     return false;
   }
 
   private isValidPhone(phone: string): boolean {
-    if (!this.notEmpty(phone)) {
-      return true;
-    }
-    return RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
+    return !this.notEmpty(phone)
+      ? true
+      : RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
   }
 
   private isValidEmail(email: string): boolean {
-    if (!this.notEmpty(email)) {
-      return true;
-    }
-    return RegExp(regexp.email).test(email);
+    return !this.notEmpty(email) ? true : RegExp(regexp.email).test(email);
   }
 
   private isValidValue(
@@ -791,7 +767,7 @@ export class ImportController {
 
     const types: any = {
       demande: ["PREMIERE", "RENOUVELLEMENT"],
-      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE", "AUTRES"],
+      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
       menage: [
         "HOMME_ISOLE_SANS_ENFANT",
         "FEMME_ISOLE_SANS_ENFANT",
@@ -808,15 +784,8 @@ export class ImportController {
         "PLUS_DE_LIEN_COMMUNE",
         "NON_RESPECT_REGLEMENT",
         "AUTRE",
-        "AUTRES",
       ],
-      motifRefus: [
-        "LIEN_COMMUNE",
-        "SATURATION",
-        "HORS_AGREMENT",
-        "AUTRE",
-        "AUTRES",
-      ],
+      motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
       residence: [
         "DOMICILE_MOBILE",
         "HEBERGEMENT_SOCIAL",
@@ -841,9 +810,5 @@ export class ImportController {
     };
 
     return types[rowName].indexOf(data.toUpperCase()) > -1;
-  }
-
-  private padNumber(value: number) {
-    return `0${value}`.slice(-2);
   }
 }
