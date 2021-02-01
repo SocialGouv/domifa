@@ -1,5 +1,5 @@
-import { InteractionType } from "./InteractionType.type";
 import { AppEntity } from "..";
+import { InteractionType } from "./InteractionType.type";
 
 export type Interactions = AppEntity & {
   //  public _id: ObjectID;
@@ -14,7 +14,8 @@ export type Interactions = AppEntity & {
   nbCourrier: number;
   structureId: number;
   type: InteractionType;
-  usagerId: number;
+  usagerRef: number;
+  usagerUUID: string;
   userId: number;
   userName: string;
 };

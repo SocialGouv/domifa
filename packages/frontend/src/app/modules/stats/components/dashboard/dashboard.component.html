@@ -1,6 +1,6 @@
 <br />
 <br />
-<div id="stats">
+<div id="stats" *ngIf="stats">
   <div class="row">
     <div class="col-md-8">
       <div class="stats-export-btn">
@@ -26,21 +26,21 @@
       <div class="stats-blocks">
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['TOUS']">
-            {{ usagers["TOUS"] }}
+            {{ stats.usagersCountByStatutMap["TOUS"] }}
           </span>
           <span class="stats-labels">{{ labels.decisionStats["TOUS"] }}</span>
         </div>
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['VALIDE']">
-            {{ usagers["VALIDE"] }}
+            {{ stats.usagersCountByStatutMap["VALIDE"] }}
           </span>
           <span class="stats-labels">{{ labels.decisionStats["VALIDE"] }}</span>
         </div>
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['INSTRUCTION']">
-            {{ usagers["INSTRUCTION"] }}
+            {{ stats.usagersCountByStatutMap["INSTRUCTION"] }}
           </span>
           <span class="stats-labels">{{
             labels.decisionStats["INSTRUCTION"]
@@ -52,7 +52,7 @@
             class="stats-chiffres"
             [ngClass]="statutClass['ATTENTE_DECISION']"
           >
-            {{ usagers["ATTENTE_DECISION"] }}
+            {{ stats. usagersCountByStatutMap["ATTENTE_DECISION"] }}
           </span>
           <span class="stats-labels">{{
             labels.decisionStats["ATTENTE_DECISION"]
@@ -61,21 +61,21 @@
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['REFUS']">
-            {{ usagers["REFUS"] }}
+            {{ stats.usagersCountByStatutMap["REFUS"] }}
           </span>
           <span class="stats-labels">{{ labels.decisionStats["REFUS"] }}</span>
         </div>
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['RADIE']">
-            {{ usagers["RADIE"] }}
+            {{ stats.usagersCountByStatutMap["RADIE"] }}
           </span>
           <span class="stats-labels">{{ labels.decisionStats["RADIE"] }}</span>
         </div>
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['TOUS']">
-            {{ usagers["AYANTS_DROITS"] }}
+            {{ stats.usagersCountByStatutMap["AYANTS_DROITS"] }}
           </span>
           <span class="stats-labels">Ayants-droit</span>
         </div>
@@ -92,7 +92,7 @@
           <span class="stats-chiffres">{{ sortedTableStructures.length }}</span>
           <span class="font-weight-bold stats-labels"> Total </span>
         </div>
-        <ng-container *ngFor="let structure of structuresType | keyvalue">
+        <ng-container *ngFor="let structure of stats.structuresCountByTypeMap | keyvalue">
           <div *ngIf="structure.key !== 'total'">
             <span class="stats-chiffres">{{ structure.value }}</span>
             <span class="stats-labels">
@@ -111,7 +111,7 @@
           </div>
           <div class="stats-blocks">
             <div>
-              <span class="stats-chiffres">{{ users }}</span>
+              <span class="stats-chiffres">{{ stats.usersCount }}</span>
               <span class="stats-labels"> UTILISATEURS </span>
             </div>
           </div>
@@ -123,7 +123,7 @@
           </div>
           <div class="stats-blocks">
             <div>
-              <span class="stats-chiffres">{{ docs }}</span>
+              <span class="stats-chiffres">{{ stats.usagersDocumentsCount }}</span>
               <span class="stats-labels">DOCUMENTS UPLOADÉS</span>
             </div>
           </div>
@@ -133,8 +133,8 @@
       <br />
       <br />
       <span class="stats-titre">INTERACTIONS</span>
-      <div class="stats-blocks" *ngIf="allInteractions">
-        <div *ngFor="let interaction of allInteractions | keyvalue">
+      <div class="stats-blocks">
+        <div *ngFor="let interaction of stats.interactionsCountByTypeMap | keyvalue">
           <span class="stats-chiffres">{{ interaction.value }}</span>
           <span class="stats-labels">
             {{ interactionsLabels[interaction.key] }}
@@ -145,13 +145,13 @@
       <br />
       <br />
       <span class="stats-titre">LANGUES</span>
-      <div class="stats-blocks" *ngIf="languages">
-        <div *ngFor="let langue of languages">
-          <span class="stats-chiffres">{{ langue.total }}</span>
-          <span class="stats-labels" *ngIf="langue.label !== 'NON_RENSEIGNE'">
-            {{ languagesAutocomplete.formatter(langue.label) }}
+      <div class="stats-blocks">
+        <div *ngFor="let usagersLanguageCount of stats.usagersCountByLanguage">
+          <span class="stats-chiffres">{{ usagersLanguageCount.count }}</span>
+          <span class="stats-labels" *ngIf="usagersLanguageCount.langue !== 'NON_RENSEIGNE'">
+            {{ languagesAutocomplete.formatter(usagersLanguageCount.langue) }}
           </span>
-          <span class="stats-labels" *ngIf="langue.label === 'NON_RENSEIGNE'"
+          <span class="stats-labels" *ngIf="usagersLanguageCount.langue === 'NON_RENSEIGNE'"
             >Non renseigné</span
           >
         </div>
@@ -164,7 +164,7 @@
           <th>Structures</th>
         </thead>
         <tbody>
-          <tr *ngFor="let structure of structuresRegions">
+          <tr *ngFor="let structure of stats.structuresCountByRegion">
             <td>
               {{
                 regions[structure.region]
@@ -249,10 +249,8 @@
           <td>
             {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>
-          <td>{{ structure.usersCount }}</td>
-          <td>
-            {{ structure.usagersValideCount }}
-          </td>
+          <td>{{ stats.usersCount }}</td>
+          <td>{{ stats.usagersValidCountByStructureMap[structure.id] }}</td>
           <td>
             {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>

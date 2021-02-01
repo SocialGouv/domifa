@@ -1,22 +1,18 @@
 import { HttpStatus, INestApplication } from "@nestjs/common";
-
-import moment = require("moment");
-
+import * as fs from "fs";
+import * as path from "path";
+import * as request from "supertest";
 import { DatabaseModule } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
-
-import * as request from "supertest";
-import * as fs from "fs";
-import * as path from "path";
-
 import { AppTestContext, AppTestHelper } from "../../util/test";
-
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { UsagersProviders } from "../usagers.providers";
 import { ImportController } from "./import.controller";
+
+import moment = require("moment");
 
 const REQUIRED = true;
 const NOT_REQUIRED = false;
@@ -59,13 +55,12 @@ describe("Import Controller", () => {
 
   it("return an authorization token for valid credentials", async () => {
     const authInfo = {
-      email: "ccastest@yopmail.com",
+      email: "test.import@yopmail.com",
       password: "Azerty012345",
     };
     const response = await request(app.getHttpServer())
       .post("/auth/login")
       .send(authInfo);
-
     expect(response.status).toBe(HttpStatus.OK);
     authToken = response.body.access_token;
   });

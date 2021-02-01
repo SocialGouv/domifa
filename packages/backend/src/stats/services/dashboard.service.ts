@@ -1,16 +1,17 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { Model } from "mongoose";
+import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import {
   appTypeormManager,
   InteractionsTable,
   structureRepository,
+  typeOrmSearch,
+  usagerRepository,
+  UsagerTable,
   usersRepository,
 } from "../../database";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
-import { Usager } from "../../usagers/interfaces/usagers";
-import { StructureType } from "../../_common/model";
+import { DashboardStats, StructureType } from "../../_common/model";
 import { InteractionType } from "../../_common/model/interaction";
 import { StructureAdmin } from "../../_common/model/structure/StructureAdmin.type";
 import { StatsGeneratorService } from "./stats-generator.service";
@@ -19,17 +20,54 @@ import { StatsGeneratorService } from "./stats-generator.service";
 export class DashboardService {
   private interactionRepository: Repository<InteractionsTable>;
 
-  constructor(
-    @Inject("USAGER_MODEL")
-    private usagerModel: Model<Usager>,
-    private statsGeneratorService: StatsGeneratorService
-  ) {
+  constructor(private statsGeneratorService: StatsGeneratorService) {
     this.interactionRepository = appTypeormManager.getRepository(
       InteractionsTable
     );
   }
 
-  public async getStructuresForDashboard(): Promise<
+  public async getStatsDomifaAdminDashboard(): Promise<DashboardStats> {
+    const structures = await this.getStructuresForDashboard();
+
+    const usagersValidCountByStructure = await this.getUsagersValideCountByStructure();
+    const usagersValidCountByStructureMap = usagersValidCountByStructure.reduce(
+      (acc, x) => {
+        acc[x.structureId] = x.count;
+        return acc;
+      },
+      {} as {
+        [structureId: string]: number;
+      }
+    );
+
+    const structuresCountByRegion = await this.getStructuresCountByRegion();
+
+    const structuresCountByTypeMap = await this.getStructuresCountByTypeMap();
+
+    const usersCount = await usersRepository.count();
+
+    const interactionsCountByTypeMap = await this.getInteractionsCountByTypeMap();
+
+    const usagersDocumentsCount = await usagerRepository.countDocuments();
+    const usagersCountByStatutMap = await this.getUsagersCountByStatutMap();
+    const usagersCountByLanguage = await this.getUsagersCountByLanguage();
+
+    const stats: DashboardStats = {
+      structures,
+      usagersValidCountByStructureMap,
+      structuresCountByRegion,
+      structuresCountByTypeMap,
+      usersCount,
+      interactionsCountByTypeMap,
+      usagersDocumentsCount,
+      usagersCountByStatutMap,
+      usagersCountByLanguage,
+    };
+
+    return stats;
+  }
+
+  private async getStructuresForDashboard(): Promise<
     (StructureAdmin & {
       usersCount?: number; // dashboard only
     })[]
@@ -39,7 +77,9 @@ export class DashboardService {
       ((structure as unknown) as StructureAdmin & {
         usersCount?: number; // dashboard only
       }).usersCount = await usersRepository.count({
-        structureId: structure.id,
+        where: {
+          structureId: structure.id,
+        },
       });
     }
     return structures;
@@ -60,7 +100,7 @@ export class DashboardService {
     });
   }
 
-  public async getInteractionsCountByType(): Promise<{
+  public async getInteractionsCountByTypeMap(): Promise<{
     [statut: string]: number;
   }> {
     return {
@@ -76,105 +116,36 @@ export class DashboardService {
     };
   }
 
-  public async getUsagersValide(): Promise<
+  public async getUsagersValideCountByStructure(): Promise<
     {
-      structureId: string;
+      structureId: number;
       count: number;
     }[]
   > {
-    return this.usagerModel
-      .aggregate([
-        {
-          $project: {
-            structureId: "$structureId",
-            decision___statut: "$decision.statut",
-          },
-        },
-        { $match: { decision___statut: { $eq: "VALIDE" } } },
-        {
-          $project: { _id: "$_id", ___group: { structureId: "$structureId" } },
-        },
-        { $group: { _id: "$___group", count: { $sum: 1 } } },
-        { $sort: { _id: 1 } },
-        {
-          $project: {
-            _id: false,
-            structureId: "$_id.structureId",
-            count: true,
-          },
-        },
-        { $sort: { count: -1, structureId: 1 } },
-      ])
-      .exec();
+    return await usagerRepository.countBy({
+      countBy: "structureId",
+      where: typeOrmSearch<UsagerTable>(`"decision"->>'statut' = 'VALIDE'`),
+      order: {
+        count: "DESC",
+        countBy: "ASC",
+      },
+    });
   }
 
-  public async getUsagersByStructure(structureId?: number) {
-    const query = structureId ? { structureId: { $eq: structureId } } : {};
-
-    return this.usagerModel
-      .aggregate([
-        { $match: query },
-        {
-          $group: {
-            _id: { structureId: "$structureId", statut: "$decision.statut" },
-            statuts: { $push: "$decision.statut" },
-            total: { $sum: 1 },
-          },
-        },
-        {
-          $group: {
-            _id: { structureId: "$_id.structureId" },
-            statut: { $addToSet: { statut: "$_id.statut", sum: "$total" } },
-          },
-        },
-      ])
-      .exec();
+  public async getUsagersCountByStatut() {
+    return usagerRepository.countBy({
+      countBy: `"decision"->>'statut'` as any,
+      order: { count: "DESC", countBy: "ASC" },
+    });
+  }
+  public async getUsagersCountByLanguage() {
+    return usagerRepository.countBy({
+      countBy: "langue",
+      order: { count: "DESC", countBy: "ASC" },
+    });
   }
 
-  public async getUsagers() {
-    return this.usagerModel
-      .aggregate([
-        { $match: {} },
-        {
-          $group: {
-            _id: { statut: "$decision.statut" },
-            statuts: { $push: "$decision.statut" },
-            total: { $sum: 1 },
-          },
-        },
-        {
-          $group: {
-            _id: { statut: "$_id.statut" },
-            sum: { $addToSet: "$total" },
-          },
-        },
-      ])
-      .exec();
-  }
-
-  public async getLanguages() {
-    return this.usagerModel
-      .aggregate([
-        { $match: {} },
-        {
-          $group: {
-            _id: { langue: "$langue" },
-            langues: { $push: "$langue" },
-            total: { $sum: 1 },
-          },
-        },
-        {
-          $group: {
-            _id: { langue: "$_id.langue" },
-            sum: { $addToSet: "$total" },
-          },
-        },
-      ])
-
-      .exec();
-  }
-
-  public async getRegions(): Promise<
+  public async getStructuresCountByRegion(): Promise<
     {
       region: string;
       count: number;
@@ -188,17 +159,16 @@ export class DashboardService {
       },
     });
   }
+  public async getUsagersCountByStatutMap() {
+    const ayantsDroits = await usagerRepository.countAyantsDroits();
+    const result = await this.getUsagersCountByStatut();
 
-  public async getUsagersCountByStatut() {
-    const ayantsDroits = await this.statsGeneratorService.countAyantsDroits();
-    const result = await this.getUsagers();
-
-    const usagers: { [key: string]: number } = {};
+    const usagers: { [statut: string]: number } = {};
     let total = 0;
 
-    usagers.AYANTS_DROITS = ayantsDroits[0].count;
+    usagers.AYANTS_DROITS = ayantsDroits;
     for (const usager of result) {
-      usagers[usager._id.statut] = usager.sum[0];
+      usagers[usager.ref.statut] = usager.sum[0];
       total += usager.sum[0];
     }
     usagers.TOUS = total + usagers.AYANTS_DROITS;
@@ -206,7 +176,7 @@ export class DashboardService {
   }
 
   public async getUsagersCountByStructureId() {
-    const result = await this.getUsagersValide();
+    const result = await this.getUsagersValideCountByStructure();
     const usagersCountByStructureId: { [key: string]: number } = {};
 
     for (const usager of result) {
@@ -215,12 +185,7 @@ export class DashboardService {
     return usagersCountByStructureId;
   }
 
-  public async getDocsCount() {
-    const docs = await this.statsGeneratorService.countDocs();
-    return docs[0].count;
-  }
-
-  public async getStructuresCountByType() {
+  public async getStructuresCountByTypeMap() {
     const structures: { [key: string]: number } = {};
     const result = await this.getStructuresByType();
     for (const structure of result) {
@@ -233,15 +198,15 @@ export class DashboardService {
     const structuresModels: StatsDeploiementStructureExportModel[] = await this.getStatsDeploiementStructures();
 
     const usagersCountByStructureId = await this.getUsagersCountByStructureId();
-    const usagersCountByStatut = await this.getUsagersCountByStatut();
+    const usagersCountByStatut = await this.getUsagersCountByStatutMap();
 
-    const structuresCountByRegion = await this.getRegions();
+    const structuresCountByRegion = await this.getStructuresCountByRegion();
 
-    const structuresCountByType = await this.getStructuresCountByType();
+    const structuresCountByType = await this.getStructuresCountByTypeMap();
     const usersCount = await usersRepository.count();
-    const docsCount = await this.getDocsCount();
+    const docsCount = await usagerRepository.countDocuments();
 
-    const interactionsCountByStatut = await this.getInteractionsCountByType();
+    const interactionsCountByStatut = await this.getInteractionsCountByTypeMap();
 
     const stats: StatsDeploiementExportModel = {
       exportDate: new Date(),
@@ -271,7 +236,9 @@ export class DashboardService {
 
     for (const structure of structures) {
       const usersCount = await usersRepository.count({
-        structureId: structure.id,
+        where: {
+          structureId: structure.id,
+        },
       });
       const structureModel: StatsDeploiementStructureExportModel = {
         structure,

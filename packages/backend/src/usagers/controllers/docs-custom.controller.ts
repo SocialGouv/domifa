@@ -1,23 +1,18 @@
 import { Controller, Get, Param, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-
-import { CurrentUsager } from "../../auth/current-usager.decorator";
 import * as fs from "fs";
 import * as path from "path";
+import * as PizZip from "pizzip";
+import { CurrentUsager } from "../../auth/current-usager.decorator";
+import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-
-import { Usager } from "../interfaces/usagers";
-
+import { UsagerLight } from "../../database";
+import { AppUser } from "../../_common/model";
 import { UsagersService } from "../services/usagers.service";
 
-import { AppUser } from "../../_common/model";
-import { CurrentUser } from "../../auth/current-user.decorator";
-
-import * as PizZip from "pizzip";
 import moment = require("moment");
 
 // tslint:disable-next-line: no-var-requires
@@ -34,12 +29,12 @@ export class DocsCustomController {
 
   // TODO: Upload des documents
 
-  @Get(":id")
+  @Get(":usagerRef")
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
   public async getDocument(
-    @Param("id") usagerId: number,
+    @Param("usagerRef") usagerRef: number,
     @Res() res: Response,
-    @CurrentUsager() usager: Usager,
+    @CurrentUsager() usager: UsagerLight,
     @CurrentUser() user: AppUser
   ) {
     const content = fs.readFileSync(

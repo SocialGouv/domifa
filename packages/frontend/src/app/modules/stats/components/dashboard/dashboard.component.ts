@@ -18,14 +18,17 @@ import {
   REGIONS_LABELS_MAP,
 } from "src/app/shared";
 import { dataCompare } from "src/app/shared/dataCompare.service";
-import { Structure, StructureAdmin } from "../../../../../_common/model";
+import {
+  DashboardStats,
+  Structure,
+  StructureAdmin,
+} from "../../../../../_common/model";
 import { StatsService } from "../../stats.service";
 
 export type DashboardTableStructure = StructureAdmin & {
   structureTypeLabel: string;
   regionLabel: string;
   departementLabel: string;
-  usagersValideCount: number;
 };
 
 type DashboardTableSortAttribute =
@@ -41,8 +44,6 @@ type DashboardTableSortAttribute =
   | "regionLabel"
   | "departementLabel";
 
-type UsagersValide = { [structureId: string]: number };
-
 @Component({
   selector: "app-dashboard",
   styleUrls: ["./dashboard.component.css"],
@@ -50,8 +51,8 @@ type UsagersValide = { [structureId: string]: number };
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   public interactionsLabels: any;
-  public structures$ = new ReplaySubject<StructureAdmin[]>(1);
-  public usagersValide$ = new ReplaySubject<UsagersValide>(1);
+  public stats$ = new ReplaySubject<DashboardStats>(1);
+  public stats: DashboardStats;
   public sortAttribute$ = new BehaviorSubject<{
     name: DashboardTableSortAttribute;
     asc: boolean;
@@ -61,18 +62,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   });
   public sortedTableStructures: DashboardTableStructure[];
 
-  public usagers: any;
-
   public interactions: any;
-  public allInteractions: any;
 
-  public users: number;
-  public docs: number;
   public usersByStructure: any;
 
   public nbStructures: number;
-  public structuresType: any;
-  public structuresRegions: any;
 
   public labels: any;
   public todayStats: any;
@@ -91,8 +85,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     VALIDE: "text-secondary",
   };
 
-  public languages: { [key: string]: number };
-
   public languagesAutocomplete = languagesAutocomplete;
 
   constructor(
@@ -105,17 +97,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.regions = REGIONS_LABELS_MAP;
     this.departements = departements;
 
-    this.docs = 0;
-    this.users = 0;
     this.nbStructures = 0;
 
     this.sortedTableStructures = [];
 
-    this.usagers = [];
-
     this.interactions = [];
-    this.allInteractions = [];
-    this.structuresType = [];
   }
 
   public ngOnInit() {
@@ -123,52 +109,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     // Liste des structures
     this.statsService
-      .getStructures()
-      .subscribe((structures: StructureAdmin[]) => {
-        this.structures$.next(structures);
+      .getStatsDomifaAdminDashboard()
+      .subscribe((stats: DashboardStats) => {
+        this.stats$.next(stats);
       });
-
-    // Structures par type
-    this.statsService
-      .getStructuresByType()
-      .subscribe((structuresType: any[]) => {
-        this.structuresType = structuresType;
-      });
-
-    // Nombre d'utilisateurs total
-    this.statsService.getUsers().subscribe((stats: number) => {
-      this.users = stats;
-    });
-
-    this.statsService.getDocs().subscribe((stats: number) => {
-      this.docs = stats;
-    });
-
-    this.statsService.getUsagers().subscribe((retour: any[]) => {
-      this.usagers = retour;
-    });
-
-    this.statsService
-      .getLangues()
-      .subscribe((retour: { [key: string]: number }) => {
-        this.languages = retour;
-      });
-
-    this.statsService
-      .getUsagersValide()
-      .subscribe((usagersValide: UsagersValide) => {
-        this.usagersValide$.next(usagersValide);
-      });
-
-    this.statsService
-      .getStructuresByRegion()
-      .subscribe((structuresRegions: any) => {
-        this.structuresRegions = structuresRegions;
-      });
-
-    this.statsService.getInteractions().subscribe((stats: any[]) => {
-      this.allInteractions = stats;
-    });
 
     const sortedTableStructures$ = this.buildSortedTableStructures();
 
@@ -202,19 +146,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private buildSortedTableStructures() {
-    const tableStructures$ = combineLatest([
-      this.structures$,
-      this.usagersValide$,
-    ]).pipe(
-      map(([structures, usagersValide]) =>
+    const tableStructures$ = this.stats$.pipe(
+      map(({ structures }) =>
         structures.map((structure) => {
           const tableStructure: DashboardTableStructure = {
             ...structure,
             structureTypeLabel: labels.structureType[structure.structureType],
             regionLabel: this.getRegionLabel(structure),
             departementLabel: this.getDepartementLabel(structure),
-            usagersValideCount: usagersValide[structure.id] || 0,
-            usersCount: structure.usersCount,
           };
           return tableStructure;
         })

@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Usager } from "../../../interfaces/usager";
+import { UsagerAyantDroit } from "../../../../../../_common/model/usager/UsagerAyantDroit.type";
 
 @Component({
   selector: "app-profil-ayants-droits",
@@ -7,6 +7,6 @@ import { Usager } from "../../../interfaces/usager";
   styleUrls: ["./profil-ayants-droits.component.css"],
 })
 export class ProfilAyantsDroitsComponent {
-  @Input() public usager: Usager;
+  @Input() public ayantsDroits: UsagerAyantDroit[];
   constructor() {}
 }

@@ -1,8 +1,13 @@
-import { HttpException, Inject, Injectable } from "@nestjs/common";
-import { Model } from "mongoose";
+import { HttpException, Injectable } from "@nestjs/common";
 import { FindConditions, LessThan, MoreThan, Repository } from "typeorm";
-import { appTypeormManager, InteractionsTable } from "../database";
-import { Usager } from "../usagers/interfaces/usagers";
+import {
+  appTypeormManager,
+  InteractionsTable,
+  UsagerLight,
+  usagerLightRepository,
+  UsagerPG,
+  usagerRepository,
+} from "../database";
 import { AppAuthUser, AppUser } from "../_common/model";
 import { Interactions, InteractionType } from "../_common/model/interaction";
 import { InteractionDto } from "./interactions.dto";
@@ -11,45 +16,41 @@ import { InteractionDto } from "./interactions.dto";
 export class InteractionsService {
   private interactionRepository: Repository<InteractionsTable>;
 
-  constructor(
-    @Inject("USAGER_MODEL")
-    private readonly usagerModel: Model<Usager>
-  ) {
+  constructor() {
     this.interactionRepository = appTypeormManager.getRepository(
       InteractionsTable
     );
   }
   public async create({
     interaction,
-    usager,
+    usagerUUID,
     user,
   }: {
     interaction: InteractionDto;
-    usager: Pick<Usager, "_id" | "id" | "lastInteraction" | "options">;
+    usagerUUID: string;
     user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
-  }): Promise<Usager> {
+  }): Promise<UsagerLight> {
+    const usager = await usagerRepository.findOne({
+      uuid: usagerUUID,
+    });
     const createdInteraction: Interactions = new InteractionsTable(
-      buildInteraction({ interaction, usager, user })
+      buildNewInteraction({ interaction, usager, user })
     );
 
     await this.interactionRepository.insert(createdInteraction);
 
-    return this.usagerModel
-      .findOneAndUpdate(
-        { _id: usager._id },
-        { $set: { lastInteraction: usager.lastInteraction } },
-        { new: true }
-      )
-      .select("-docsPath -interactions")
-      .exec();
+    return usagerLightRepository.updateOne(
+      { uuid: usager.uuid },
+      { lastInteraction: usager.lastInteraction }
+    );
   }
 
   public async find(
-    usagerId: number,
+    usagerRef: number,
     user: Pick<AppUser, "structureId">
   ): Promise<any> {
     return this.interactionRepository.find({
-      where: { structureId: user.structureId, usagerId },
+      where: { structureId: user.structureId, usagerRef },
       order: {
         dateInteraction: "DESC",
       },
@@ -59,26 +60,26 @@ export class InteractionsService {
   }
 
   public async findOne(
-    usagerId: number,
+    usagerRef: number,
     interactionId: number,
     user: Pick<AppUser, "structureId">
   ): Promise<Interactions | null> {
     const where: FindConditions<InteractionsTable> = {
       id: interactionId,
       structureId: user.structureId,
-      usagerId,
+      usagerRef,
     };
     return this.interactionRepository.findOne({ where });
   }
 
   public async deuxDerniersPassages(
-    usagerId: number,
+    usagerRef: number,
     user: AppAuthUser
   ): Promise<Interactions[] | [] | null> {
     return this.interactionRepository.find({
       where: {
         structureId: user.structureId,
-        usagerId,
+        usagerRef,
         type: ["courrierOut", "visite", "appel", "colisOut", "recommandeOut"],
       },
 
@@ -91,7 +92,7 @@ export class InteractionsService {
   }
 
   public async findLastInteraction(
-    usagerId: number,
+    usagerRef: number,
     dateInteraction: Date,
     typeInteraction: InteractionType,
     user: Pick<AppUser, "structureId">,
@@ -102,7 +103,7 @@ export class InteractionsService {
 
     const where: FindConditions<InteractionsTable> = {
       structureId: user.structureId,
-      usagerId,
+      usagerRef,
       type: typeInteraction,
       dateInteraction: dateQuery,
     };
@@ -112,14 +113,14 @@ export class InteractionsService {
   }
 
   public async delete(
-    usagerId: number,
+    usagerRef: number,
     interactionId: number,
     user: Pick<AppUser, "structureId">
   ): Promise<any> {
     const retour = this.interactionRepository.delete({
       id: interactionId,
       structureId: user.structureId,
-      usagerId,
+      usagerRef,
     });
 
     if (!retour || retour === null) {
@@ -129,12 +130,12 @@ export class InteractionsService {
   }
 
   public async deleteByUsager(
-    usagerId: number,
+    usagerRef: number,
     structureId: number
   ): Promise<any> {
     return this.interactionRepository.delete({
       structureId,
-      usagerId,
+      usagerRef,
     });
   }
 
@@ -146,20 +147,20 @@ export class InteractionsService {
 
   public async totalInteraction(
     structureId: number,
-    usagerId: number,
+    usagerRef: number,
     interactionType: InteractionType
   ): Promise<number> {
     if (interactionType === "appel" || interactionType === "visite") {
       return this.interactionRepository.count({
         structureId,
-        usagerId,
+        usagerRef,
         type: interactionType,
       });
     } else {
       const search = await this.interactionRepository
         .createQueryBuilder("interactions")
         .select("SUM(interactions.nbCourrier)", "sum")
-        .where({ structureId, usagerId, type: interactionType })
+        .where({ structureId, usagerRef, type: interactionType })
         .groupBy("interactions.type")
         .getRawOne();
       return typeof search !== "undefined" ? search.sum : 0;
@@ -167,15 +168,16 @@ export class InteractionsService {
   }
 }
 
-function buildInteraction({
+function buildNewInteraction({
   interaction,
   usager,
   user,
 }: {
   interaction: InteractionDto;
-  usager: Pick<Usager, "id" | "lastInteraction" | "options">;
+  usager: Pick<UsagerPG, "ref" | "uuid" | "lastInteraction" | "options">;
   user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
 }): Omit<InteractionsTable, "_id" | "id"> {
+  const newInteraction = new InteractionsTable(interaction);
   const len = interaction.type.length;
   const interactionOut = interaction.type.substring(len - 3) === "Out";
   const interactionIn = interaction.type.substring(len - 2) === "In";
@@ -191,13 +193,13 @@ function buildInteraction({
     usager.lastInteraction.enAttente = true;
   } else if (interactionOut) {
     if (interaction.procuration) {
-      interaction.content =
+      newInteraction.content =
         "Courrier remis au mandataire : " +
         usager.options.procuration.prenom +
         " " +
         usager.options.procuration.nom.toUpperCase();
     } else if (interaction.transfert) {
-      interaction.content =
+      newInteraction.content =
         "Courrier transféré à : " +
         usager.options.transfert.nom +
         " - " +
@@ -205,7 +207,7 @@ function buildInteraction({
     }
 
     const inType = interaction.type.substring(0, len - 3) + "In";
-    interaction.nbCourrier = usager.lastInteraction[inType] || 1;
+    newInteraction.nbCourrier = usager.lastInteraction[inType] || 1;
 
     usager.lastInteraction[inType] = 0;
 
@@ -214,7 +216,7 @@ function buildInteraction({
       usager.lastInteraction.colisIn > 0 ||
       usager.lastInteraction.recommandeIn > 0;
   } else {
-    interaction.nbCourrier = 0;
+    newInteraction.nbCourrier = 0;
   }
 
   if (
@@ -225,12 +227,13 @@ function buildInteraction({
     usager.lastInteraction.dateInteraction = new Date();
   }
 
-  interaction.structureId = user.structureId;
-  interaction.usagerId = usager.id;
-  interaction.userId = user.id;
-  interaction.userName = user.prenom + " " + user.nom;
-  if (!interaction.dateInteraction) {
-    interaction.dateInteraction = new Date();
+  newInteraction.structureId = user.structureId;
+  newInteraction.usagerRef = usager.ref;
+  newInteraction.usagerUUID = usager.uuid;
+  newInteraction.userId = user.id;
+  newInteraction.userName = user.prenom + " " + user.nom;
+  if (!newInteraction.dateInteraction) {
+    newInteraction.dateInteraction = new Date();
   }
-  return interaction;
+  return newInteraction;
 }

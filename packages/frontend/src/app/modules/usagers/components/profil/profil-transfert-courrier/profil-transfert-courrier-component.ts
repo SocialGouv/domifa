@@ -10,10 +10,13 @@ import { ToastrService } from "ngx-toastr";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { formatDateToNgb, minDateToday } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
-import { AppUser, UserRole } from "../../../../../../_common/model";
+import {
+  AppUser,
+  UsagerLight,
+  UserRole,
+} from "../../../../../../_common/model";
 import { LoadingService } from "../../../../loading/loading.service";
 import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
-import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
 
 @Component({
@@ -27,7 +30,7 @@ import { UsagerService } from "../../../services/usager.service";
   templateUrl: "./profil-transfert-courrier.html",
 })
 export class UsagersProfilTransfertCourrierComponent implements OnInit {
-  @Input() public usager: Usager;
+  @Input() public usager: UsagerLight;
   @Input() public me: AppUser;
 
   public actions = {
@@ -108,8 +111,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       ),
     };
 
-    this.usagerService.editTransfert(formValue, this.usager.id).subscribe(
-      (usager: Usager) => {
+    this.usagerService.editTransfert(formValue, this.usager.ref).subscribe(
+      (usager: UsagerLight) => {
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
         this.usager = usager;
@@ -122,8 +125,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   }
 
   public deleteTransfert() {
-    this.usagerService.deleteTransfert(this.usager.id).subscribe(
-      (usager: Usager) => {
+    this.usagerService.deleteTransfert(this.usager.ref).subscribe(
+      (usager: UsagerLight) => {
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
         this.transfertForm.reset();

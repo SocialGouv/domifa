@@ -18,18 +18,17 @@ import {
   minDateNaissance,
 } from "src/app/shared/bootstrap-util";
 import { regexp } from "src/app/shared/validators";
-import { AppUser, UserRole } from "../../../../../_common/model";
+import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
+import { languagesAutocomplete } from "../../../../shared";
 import { LoadingService } from "../../../loading/loading.service";
 import { interactionsLabels } from "../../interactions.labels";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction, InteractionTypes } from "../../interfaces/interaction";
 import { Options } from "../../interfaces/options";
-import { Usager } from "../../interfaces/usager";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
-
-import { languagesAutocomplete } from "../../../../shared";
+import { UsagerFormModel } from "../form/UsagerFormModel";
 
 @Component({
   providers: [
@@ -66,7 +65,7 @@ export class UsagersProfilComponent implements OnInit {
   public labels: any = usagersLabels;
   public liensLabels: any = Object.keys(this.labels.lienParente);
 
-  public usager: Usager;
+  public usager: UsagerFormModel;
   public usagerForm!: FormGroup;
   public ayantsDroitsForm!: FormGroup;
 
@@ -108,8 +107,6 @@ export class UsagersProfilComponent implements OnInit {
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
 
-    this.usager = new Usager();
-
     this.notifInputs = {
       colisIn: 0,
       courrierIn: 0,
@@ -121,6 +118,10 @@ export class UsagersProfilComponent implements OnInit {
       DELETE: "Suppression",
       CREATION: "Création",
     };
+
+    this.me = this.authService.currentUserValue;
+
+    this.usager = new UsagerFormModel();
   }
 
   public isRole(role: UserRole) {
@@ -137,12 +138,12 @@ export class UsagersProfilComponent implements OnInit {
     //
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
-        (usager: Usager) => {
+        (usager: UsagerLight) => {
           if (
             usager.decision.statut === "ATTENTE_DECISION" &&
             usager.typeDom === "PREMIERE"
           ) {
-            this.router.navigate(["/usager/" + usager.id + "/edit"]);
+            this.router.navigate(["/usager/" + usager.ref + "/edit"]);
           }
 
           // Refus : interdits pour les facteurs
@@ -160,7 +161,7 @@ export class UsagersProfilComponent implements OnInit {
             }
           }
 
-          this.usager = usager;
+          this.usager = new UsagerFormModel(usager);
 
           this.getInteractions();
           this.initForms();
@@ -187,14 +188,14 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
-      customId: [this.usager.customId, []],
+      customRef: [this.usager.customRef, []],
       dateNaissance: [this.usager.dateNaissance, []],
       dateNaissancePicker: [
         this.usager.dateNaissancePicker,
         [Validators.required],
       ],
       email: [this.usager.email, [Validators.email]],
-      id: [this.usager.id, []],
+      id: [this.usager.ref, []],
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
@@ -231,10 +232,10 @@ export class UsagersProfilComponent implements OnInit {
       );
 
       this.usagerService.create(this.usagerForm.value).subscribe(
-        (usager: Usager) => {
+        (usager: UsagerLight) => {
           this.submitted = false;
           this.notifService.success("Enregistrement réussi");
-          this.usager = usager;
+          this.usager = new UsagerFormModel(usager);
           this.editInfos = false;
           this.editAyantsDroits = false;
         },
@@ -276,11 +277,11 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public renouvellement() {
-    this.usagerService.renouvellement(this.usager.id).subscribe(
-      (usager: Usager) => {
-        this.usager = usager;
+    this.usagerService.renouvellement(this.usager.ref).subscribe(
+      (usager: UsagerLight) => {
+        this.usager = new UsagerFormModel(usager);
         this.modalService.dismissAll();
-        this.router.navigate(["usager/" + usager.id + "/edit"]);
+        this.router.navigate(["usager/" + usager.ref + "/edit"]);
         this.notifService.success(
           "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"
         );
@@ -302,18 +303,18 @@ export class UsagersProfilComponent implements OnInit {
   public deleteInteraction(idInteraction: number) {
     this.matomo.trackEvent("profil", "interactions", "delete", 1);
     this.interactionService
-      .delete(this.usager.id, idInteraction)
-      .subscribe((usager: Usager) => {
-        this.usager = usager;
+      .delete(this.usager.ref, idInteraction)
+      .subscribe((usager: UsagerLight) => {
+        this.usager = new UsagerFormModel(usager);
         this.getInteractions();
       });
   }
 
   public deleteUsager() {
-    this.usagerService.delete(this.usager.id).subscribe(
+    this.usagerService.delete(this.usager.ref).subscribe(
       (result: any) => {
         this.modalService.dismissAll();
-        this.notifService.success("Usager supprimé avec succès");
+        this.notifService.success("UsagerLight supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
       (error) => {
@@ -339,9 +340,9 @@ export class UsagersProfilComponent implements OnInit {
           type: item,
         })
         .subscribe(
-          (usager: Usager) => {
+          (usager: UsagerLight) => {
             this.notifService.success(interactionsLabels[item]);
-            this.usager = usager;
+            this.usager = new UsagerFormModel(usager);
             this.usager.lastInteraction = usager.lastInteraction;
             this.notifInputs[item] = 0;
             this.getInteractions();
@@ -392,8 +393,8 @@ export class UsagersProfilComponent implements OnInit {
     }
 
     this.interactionService.setInteraction(this.usager, interaction).subscribe(
-      (usager: Usager) => {
-        this.usager = usager;
+      (usager: UsagerLight) => {
+        this.usager = new UsagerFormModel(usager);
 
         this.notifService.success(interactionsLabels[type]);
         this.usager.lastInteraction = usager.lastInteraction;
@@ -406,12 +407,12 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public getAttestation() {
-    return this.usagerService.attestation(this.usager.id);
+    return this.usagerService.attestation(this.usager.ref);
   }
 
   public stopCourrier() {
-    this.usagerService.stopCourrier(this.usager.id).subscribe(
-      (usager: Usager) => {
+    this.usagerService.stopCourrier(this.usager.ref).subscribe(
+      (usager: UsagerLight) => {
         this.usager.options = new Options(usager.options);
         this.setInteraction("npai", false);
       },
@@ -432,7 +433,7 @@ export class UsagersProfilComponent implements OnInit {
 
   private getInteractions() {
     this.interactionService
-      .getInteractions(this.usager.id)
+      .getInteractions(this.usager.ref)
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;
       });

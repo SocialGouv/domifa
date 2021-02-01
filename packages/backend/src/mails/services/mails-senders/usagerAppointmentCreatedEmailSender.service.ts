@@ -3,8 +3,8 @@ import {
   AppUserForAdminEmail,
   MessageEmailContent,
   MessageEmailIcalEvent,
+  UsagerLight,
 } from "../../../database";
-import { Usager } from "../../../usagers/interfaces/usagers";
 import { usagerAppointmentCreatedEmailRenderer } from "../templates-renderers";
 import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../_core";
 
@@ -17,7 +17,7 @@ async function sendMail({
   message,
 }: {
   user: AppUserForAdminEmail;
-  usager: Usager;
+  usager: UsagerLight;
   icalEvent: MessageEmailIcalEvent;
   message: string;
 }): Promise<void> {

@@ -1,11 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
-import { AyantDroit } from "../interfaces/ayant-droit";
+import { UsagerPG, UsagerSexe, UsagerTypeDom } from "../../database";
+import { UsagerAyantDroit } from "../../database/entities/usager/UsagerAyantDroit.type";
 
-export class EditUsagerDto {
+export class EditUsagerDto implements Partial<UsagerPG> {
   @ApiProperty()
   @IsIn(["homme", "femme"])
-  public sexe!: string;
+  public sexe!: UsagerSexe;
 
   @ApiProperty()
   @IsOptional()
@@ -13,7 +14,7 @@ export class EditUsagerDto {
 
   @ApiProperty()
   @IsOptional()
-  public customId!: string;
+  public customRef!: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -51,7 +52,7 @@ export class EditUsagerDto {
   @ApiProperty()
   @IsOptional()
   @IsIn(["RENOUVELLEMENT", "PREMIERE"])
-  public typeDom!: string;
+  public typeDom!: UsagerTypeDom;
 
   @ApiProperty()
   @IsOptional()
@@ -62,5 +63,5 @@ export class EditUsagerDto {
 
   @ApiProperty()
   @IsOptional()
-  public ayantsDroits!: AyantDroit[];
+  public ayantsDroits!: UsagerAyantDroit[];
 }

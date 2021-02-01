@@ -2,8 +2,8 @@ import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { UsagerDoc } from "../../../../_common/model";
 import { Doc } from "../interfaces/doc";
-import { Usager } from "../interfaces/usager";
 
 @Injectable({
   providedIn: "root",
@@ -17,8 +17,8 @@ export class DocumentService {
     this.endPoint = environment.apiUrl + "docs/";
   }
 
-  public upload(data: any, usagerId: number) {
-    const uploadURL = `${this.endPoint}${usagerId}`;
+  public upload(data: any, usagerRef: number) {
+    const uploadURL = `${this.endPoint}${usagerRef}`;
 
     return this.http
       .post<any>(uploadURL, data, {
@@ -43,22 +43,20 @@ export class DocumentService {
       );
   }
 
-  public getDocument(usagerId: number, index: number, doc: Doc) {
-    return this.http.get(`${this.endPoint}${usagerId}/${index}`, {
+  public getDocument(usagerRef: number, index: number, doc: Doc) {
+    return this.http.get(`${this.endPoint}${usagerRef}/${index}`, {
       responseType: "blob",
     });
   }
 
-  public deleteDocument(usagerId: number, index: number) {
-    return this.http.delete(`${this.endPoint}${usagerId}/${index}`).pipe(
-      map((response) => {
-        return new Usager(response);
-      })
+  public deleteDocument(usagerRef: number, index: number) {
+    return this.http.delete<UsagerDoc[]>(
+      `${this.endPoint}${usagerRef}/${index}`
     );
   }
 
-  public getCustomDoc(usagerId: number) {
-    return this.http.get(`${environment.apiUrl}docs-custom/${usagerId}`, {
+  public getCustomDoc(usagerRef: number) {
+    return this.http.get(`${environment.apiUrl}docs-custom/${usagerRef}`, {
       responseType: "blob",
     });
   }

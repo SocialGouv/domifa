@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { StructureAdmin, StructureStats } from "../../../_common/model";
+import { DashboardStats, StructureStats } from "../../../_common/model";
 
 @Injectable({
   providedIn: "root",
@@ -25,7 +25,6 @@ export class StatsService {
     return this.http.get<StructureStats>(`${this.baseUrl}id/${id}`);
   }
 
-  // DASHBOARD
   public getStats(
     start: Date,
     end?: Date
@@ -45,43 +44,8 @@ export class StatsService {
   }
 
   // DASHBOARD
-  public getStructures(): Observable<StructureAdmin[]> {
-    return this.http.get<StructureAdmin[]>(
-      environment.apiUrl + `dashboard/structures`,
-      {}
-    );
-  }
-
-  public getStructuresByType(): Observable<any> {
-    return this.http.get(environment.apiUrl + `dashboard/structures/type`);
-  }
-
-  public getInteractions(): Observable<any> {
-    return this.http.get(environment.apiUrl + `dashboard/interactions`);
-  }
-
-  public getUsers(): Observable<any> {
-    return this.http.get(environment.apiUrl + `dashboard/users`);
-  }
-
-  public getDocs(): Observable<any> {
-    return this.http.get(environment.apiUrl + `dashboard/docs`);
-  }
-
-  public getUsagersValide(): Observable<any> {
-    return this.http.get(environment.apiUrl + `dashboard/usagers/valide`);
-  }
-
-  public getStructuresByRegion(): Observable<any> {
-    return this.http.get(environment.apiUrl + `dashboard/structures/regions`);
-  }
-
-  public getUsagers(): Observable<any> {
-    return this.http.get(environment.apiUrl + `dashboard/usagers`);
-  }
-
-  public getLangues(): Observable<any> {
-    return this.http.get(environment.apiUrl + `dashboard/usagers/langues`);
+  public getStatsDomifaAdminDashboard(): Observable<DashboardStats> {
+    return this.http.get<DashboardStats>(this.baseUrl);
   }
 
   public export(start: Date, end: Date) {

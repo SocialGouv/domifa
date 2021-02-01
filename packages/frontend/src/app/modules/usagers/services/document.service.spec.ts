@@ -1,14 +1,13 @@
-import { HttpEvent, HttpEventType } from "@angular/common/http";
-import { fakeAsync, inject, TestBed, tick } from "@angular/core/testing";
-
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from "@angular/common/http/testing";
-import { Doc } from "../interfaces/doc";
-import { Usager } from "../interfaces/usager";
-import { DocumentService } from "./document.service";
+import { fakeAsync, inject, TestBed } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { UsagerFormModel } from "../components/form/UsagerFormModel";
+import { Doc } from "../interfaces/doc";
+import { DocumentService } from "./document.service";
+
 describe("DocumentService", () => {
   let service: DocumentService;
 
@@ -44,7 +43,7 @@ describe("DocumentService", () => {
       [HttpTestingController, DocumentService],
       (backend: HttpTestingController, ser: DocumentService) => {
         let response = null;
-        const responseObject = new Usager({});
+        const responseObject = new UsagerFormModel({});
 
         responseObject.docs = [
           new Doc({
@@ -79,7 +78,7 @@ describe("DocumentService", () => {
       [HttpTestingController, DocumentService],
       (backend: HttpTestingController, ser: DocumentService) => {
         let response = null;
-        const responseObject = new Usager({});
+        const responseObject = new UsagerFormModel({});
 
         responseObject.docs = [
           new Doc({

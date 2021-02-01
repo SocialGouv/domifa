@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { AppUser } from "../../../../../_common/model";
+import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { appUserBuilder } from "../../../users/services";
-import { Usager } from "../../interfaces/usager";
 import { UsagerService } from "../../services/usager.service";
 import { motifsRadiation } from "../../usagers.labels";
+import { UsagerFormModel } from "../form/UsagerFormModel";
 @Component({
   providers: [UsagerService, AuthService],
   selector: "app-raft",
@@ -16,7 +16,7 @@ import { motifsRadiation } from "../../usagers.labels";
   templateUrl: "./raft.component.html",
 })
 export class RaftComponent implements OnInit {
-  public usager: Usager;
+  public usager: UsagerFormModel;
   public user: AppUser;
 
   public today: Date;
@@ -32,7 +32,7 @@ export class RaftComponent implements OnInit {
     private notifService: ToastrService
   ) {
     this.today = new Date();
-    this.usager = new Usager();
+    this.usager = new UsagerFormModel();
     this.user = appUserBuilder.buildAppUser();
     this.motifsRadiation = motifsRadiation;
   }
@@ -45,8 +45,8 @@ export class RaftComponent implements OnInit {
       });
 
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
-        (usager: Usager) => {
-          this.usager = usager;
+        (usager: UsagerLight) => {
+          this.usager = new UsagerFormModel(usager);
         },
         () => {
           this.router.navigate(["/404"]);
@@ -64,10 +64,10 @@ export class RaftComponent implements OnInit {
 
   public setDecision(statut: string) {
     this.usagerService
-      .setDecision(this.usager.id, this.usager.decision, statut)
+      .setDecision(this.usager.ref, this.usager.decision, statut)
       .subscribe(
-        (usager: Usager) => {
-          this.usager = usager;
+        (usager: UsagerLight) => {
+          this.usager = new UsagerFormModel(usager);
           this.notifService.success("Radiation effectuée avec succès");
         },
         () => {

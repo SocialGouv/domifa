@@ -1,11 +1,8 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
-import { UsagersModule } from "../../usagers.module";
-
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { UsagersModule } from "../../usagers.module";
 import { DocsCustomComponent } from "./docs-custom.component";
 
 describe("DocsCustomComponent", () => {
@@ -38,8 +35,6 @@ describe("DocsCustomComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DocsCustomComponent);
     component = fixture.componentInstance;
-    const usager: Usager = new Usager();
-    component.usager = usager;
   });
 
   it("should create", () => {

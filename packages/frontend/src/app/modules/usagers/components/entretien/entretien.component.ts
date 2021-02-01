@@ -8,18 +8,14 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-
-import { AppUser } from "../../../../../_common/model";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
+import * as labels from "src/app/modules/usagers/usagers.labels";
+import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { Entretien } from "../../interfaces/entretien";
 
-import * as labels from "src/app/modules/usagers/usagers.labels";
 @Component({
   providers: [UsagerService],
   selector: "app-entretien",
@@ -36,8 +32,8 @@ export class EntretienComponent implements OnInit {
 
   public entretienForm!: FormGroup;
 
-  @Input() public usager!: Usager;
-  @Output() public usagerChange = new EventEmitter<Usager>();
+  @Input() public usager!: UsagerLight;
+  @Output() public usagerChange = new EventEmitter<UsagerLight>();
 
   @Input() public editEntretien!: boolean;
   @Output() public editEntretienChange = new EventEmitter<boolean>();
@@ -116,9 +112,9 @@ export class EntretienComponent implements OnInit {
     }
 
     this.usagerService
-      .entretien(this.entretienForm.value, this.usager.id)
+      .entretien(this.entretienForm.value, this.usager.ref)
       .subscribe(
-        (usager: Usager) => {
+        (usager: UsagerLight) => {
           this.usagerChange.emit(usager);
           this.editEntretienChange.emit(false);
           this.nextStep.emit(3);

@@ -7,7 +7,8 @@ import {
   Max,
   Min,
 } from "class-validator";
-import { AyantDroit } from "../interfaces/ayant-droit";
+import { UsagerSexe, UsagerTypeDom } from "../../database";
+import { UsagerAyantDroit } from "../../database/entities/usager/UsagerAyantDroit.type";
 
 export class CreateUsagerDto {
   @ApiProperty({
@@ -15,7 +16,7 @@ export class CreateUsagerDto {
     description: "Sexe de l'usager",
   })
   @IsIn(["homme", "femme"])
-  public sexe!: string;
+  public sexe!: UsagerSexe;
 
   @ApiProperty({
     example: "fr",
@@ -29,7 +30,7 @@ export class CreateUsagerDto {
     description: "Id personnalisé",
   })
   @IsOptional()
-  public customId!: string;
+  public customRef!: string;
 
   @ApiProperty({
     example: "Dubois",
@@ -87,7 +88,7 @@ export class CreateUsagerDto {
   @ApiProperty()
   @IsOptional()
   @IsIn(["RENOUVELLEMENT", "PREMIERE"])
-  public typeDom!: string;
+  public typeDom!: UsagerTypeDom;
 
   @ApiProperty()
   @IsOptional()
@@ -100,5 +101,5 @@ export class CreateUsagerDto {
     description: "Tableau des ayants droit",
   })
   @IsOptional()
-  public ayantsDroits!: AyantDroit[];
+  public ayantsDroits!: UsagerAyantDroit[];
 }

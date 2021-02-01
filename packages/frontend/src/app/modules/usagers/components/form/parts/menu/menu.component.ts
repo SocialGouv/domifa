@@ -2,9 +2,8 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AppUser } from "../../../../../../../_common/model";
+import { AppUser, UsagerLight } from "../../../../../../../_common/model";
 
 @Component({
   providers: [UsagerService],
@@ -13,7 +12,7 @@ import { AppUser } from "../../../../../../../_common/model";
   templateUrl: "./menu.component.html",
 })
 export class MenuComponent implements OnInit {
-  @Input() public usager!: Usager;
+  @Input() public usager!: UsagerLight;
   @Input() public currentStep!: number;
 
   public etapes = [
@@ -48,7 +47,7 @@ export class MenuComponent implements OnInit {
       this.usager.decision.statut === "ATTENTE_DECISION" &&
       this.currentStep !== 4
     ) {
-      this.router.navigate(["usager/" + this.usager.id + "/edit/decision"]);
+      this.router.navigate(["usager/" + this.usager.ref + "/edit/decision"]);
       return;
     }
   }
@@ -61,7 +60,7 @@ export class MenuComponent implements OnInit {
       return;
     }
 
-    if (this.usager.id === 0) {
+    if (this.usager.ref === 0) {
       this.notifService.warning(
         "Vous devez remplir la première étape avant de passer à la suite"
       );
@@ -71,7 +70,7 @@ export class MenuComponent implements OnInit {
       );
     } else {
       this.router.navigate([
-        "usager/" + this.usager.id + "/edit/" + this.etapesUrl[step],
+        "usager/" + this.usager.ref + "/edit/" + this.etapesUrl[step],
       ]);
     }
   }

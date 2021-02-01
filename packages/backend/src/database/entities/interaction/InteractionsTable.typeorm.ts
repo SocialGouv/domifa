@@ -11,6 +11,7 @@ import {
   InteractionType,
 } from "../../../_common/model/interaction";
 import { StructureTable } from "../structure/StructureTable.typeorm";
+import { UsagerTable } from "../usager";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "interactions" })
@@ -42,7 +43,15 @@ export class InteractionsTable
 
   @Index()
   @Column({ type: "integer" })
-  usagerId: number;
+  usagerRef: number;
+
+  @Index()
+  @Column({ type: "text" })
+  usagerUUID: string;
+
+  @ManyToOne(() => UsagerTable, { lazy: true })
+  @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
+  usagerFk?: Promise<UsagerTable>;
 
   @Index()
   @Column({ type: "integer" })

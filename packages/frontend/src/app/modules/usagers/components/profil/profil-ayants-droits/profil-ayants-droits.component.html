@@ -1,14 +1,14 @@
-<div class="alert alert-info" *ngIf="usager.ayantsDroits.length === 0">
+<div class="alert alert-info" *ngIf="ayantsDroits.length === 0">
   Aucun ayant-droit enregistré
 </div>
-<table *ngIf="usager.ayantsDroits.length > 0" class="table table-light">
+<table *ngIf="ayantsDroits.length > 0" class="table table-light">
   <tbody>
     <tr>
       <th>NOM Prénom</th>
       <th>Né le</th>
       <th>Lien</th>
     </tr>
-    <tr *ngFor="let ayantDroit of usager.ayantsDroits">
+    <tr *ngFor="let ayantDroit of ayantsDroits">
       <td>{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</td>
       <td>{{ ayantDroit.dateNaissance }}</td>
       <td>{{ ayantDroit.lien }}</td>

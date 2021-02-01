@@ -1,5 +1,6 @@
 import {
   DeepPartial,
+  EntityManager,
   EntityTarget,
   FindConditions,
   ObjectLiteral,
@@ -24,8 +25,10 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   entityTarget: EntityTarget<T>,
   {
     defaultSelect = "ALL",
+    entityManager,
   }: {
     defaultSelect?: (keyof T)[] | "ALL";
+    entityManager?: EntityManager;
   } = {
     defaultSelect: "ALL",
   }
@@ -33,6 +36,8 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   return {
     typeorm,
     count,
+    aggregateAsNumber,
+    max,
     countBy,
     save,
     findOne,
@@ -45,7 +50,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   };
 
   async function typeorm() {
-    return appTypeormManager.getRepository(entityTarget);
+    return appTypeormManager.getRepository(entityTarget, entityManager);
   }
   async function save<E extends DeepPartial<T> | DeepPartial<T>[]>(
     entities: E
@@ -54,23 +59,85 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 
   async function count(
-    search?: Partial<T>,
-    countAttribute = "uuid"
+    {
+      countAttribute = "uuid",
+      logSql,
+      params,
+      where,
+    }: {
+      where?: Partial<T>;
+      countAttribute?: string;
+      logSql?: boolean;
+      params?: { [attr: string]: any };
+    } = {
+      countAttribute: "uuid",
+    }
   ): Promise<number> {
+    return aggregateAsNumber({
+      expression: `COUNT("${countAttribute}")`,
+      resultAlias: "count",
+      where,
+      logSql,
+      params,
+    });
+  }
+
+  async function max({
+    maxAttribute,
+    logSql = false,
+    params = {},
+    where,
+    alias,
+  }: {
+    where?: Partial<T>;
+    maxAttribute: string;
+    logSql?: boolean;
+    params?: { [attr: string]: any };
+    alias?: string;
+  }): Promise<number> {
+    return aggregateAsNumber({
+      alias,
+      expression: `MAX("${maxAttribute}")`,
+      resultAlias: "max",
+      where,
+      logSql,
+      params,
+    });
+  }
+
+  async function aggregateAsNumber({
+    expression,
+    resultAlias,
+    where,
+    logSql,
+    params,
+    alias,
+  }: {
+    expression: string;
+    resultAlias: string;
+    where?: Partial<T>;
+    logSql?: boolean;
+    params?: { [attr: string]: any };
+    alias?: string;
+  }): Promise<number> {
     const typeormRepository = await typeorm();
     let qb = typeormRepository
-      .createQueryBuilder()
-      .select(`COUNT("${countAttribute}")`, "count");
+      .createQueryBuilder(alias)
+      .select(`${expression}`, resultAlias);
 
-    if (search) {
-      qb = qb.where(search);
+    if (where) {
+      qb = qb.where(where, params);
+    }
+
+    if (logSql) {
+      appLogger.debug(`[pgRepository.aggregateAsNumber] "${qb.getSql()}"`);
     }
 
     try {
-      const result = await qb.getRawOne();
-      return parseInt(result.count, 10) as number;
+      const result = (await qb.getRawOne())[resultAlias];
+      return !result ? 0 : (parseInt(result, 10) as number);
     } catch (err) {
-      appLogger.warn(`[pgRepository] invalid query "${qb.getSql()}"`);
+      printQueryError<T>(qb);
       throw err;
     }
   }
@@ -78,6 +145,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   async function countBy<CountBy extends keyof T>({
     where,
     countBy,
+    countByAlias,
     countAttribute = "uuid" as keyof T,
     order = {
       count: "ASC",
@@ -86,6 +154,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }: {
     where?: Partial<T>;
     countBy: CountBy;
+    countByAlias?: string;
     countAttribute?: keyof T;
     order?: {
       count?: "ASC" | "DESC";
@@ -100,7 +169,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     let qb = typeormRepository
       .createQueryBuilder("s")
       .select(`COUNT("${countAttribute}")`, "count")
-      .addSelect(`"${countBy}"`)
+      .addSelect(`"${countBy}"`, countByAlias)
       .groupBy(`s."${countBy}"`);
 
     if (where) {
@@ -122,7 +191,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
         count: parseInt(r.count, 10) as number,
       })) as any;
     } catch (err) {
-      appLogger.warn(`[pgRepository] invalid query "${qb.getSql()}"`);
+      printQueryError<T>(qb);
       throw err;
     }
   }
@@ -133,7 +202,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     ...options
   }: {
     where: string;
-    params: { [attr: string]: any };
+    params?: { [attr: string]: any };
     logSql?: boolean;
   } & PgRepositoryFindOptions<T>): Promise<R[]> {
     const typeormRepository = await typeorm();
@@ -160,7 +229,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     try {
       return await qb.execute();
     } catch (err) {
-      appLogger.warn(`[pgRepository] invalid query "${qb.getSql()}"`);
+      printQueryError<T>(qb);
       throw err;
     }
   }
@@ -276,4 +345,11 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     );
     return res.affected;
   }
+}
+function printQueryError<T>(qb) {
+  appLogger.warn(
+    `[pgRepository] invalid query "${qb.getSql()} - ${
+      qb.getParameters() ? JSON.stringify(qb.getParameters()) : ""
+    }"`
+  );
 }

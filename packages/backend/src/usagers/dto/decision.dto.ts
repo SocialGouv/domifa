@@ -1,7 +1,11 @@
-import { IsIn, IsNotEmpty, IsOptional, IsEmpty } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { IsEmpty, IsIn, IsNotEmpty, IsOptional } from "class-validator";
+import { UsagerDecisionStatut, UsagerTypeDom } from "../../database";
+import { UsagerDecision } from "../../database/entities/usager/UsagerDecision.type";
+import { UsagerDecisionMotif } from "../../database/entities/usager/UsagerDecisionMotif.type";
+import { UsagerDecisionOrientation } from "../../database/entities/usager/UsagerDecisionOrientation.type";
 
-export class DecisionDto {
+export class DecisionDto implements UsagerDecision {
   @ApiProperty({
     type: Date,
   })
@@ -27,13 +31,13 @@ export class DecisionDto {
   })
   @IsIn(["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"])
   @IsNotEmpty()
-  public statut!: string;
+  public statut!: UsagerDecisionStatut;
 
   @ApiProperty({
     type: String,
   })
   @IsOptional()
-  public motif!: string;
+  public motif!: UsagerDecisionMotif;
 
   @ApiProperty({
     type: String,
@@ -45,7 +49,7 @@ export class DecisionDto {
     type: String,
   })
   @IsOptional()
-  public orientation!: string;
+  public orientation!: UsagerDecisionOrientation;
 
   @ApiProperty({
     type: String,
@@ -65,5 +69,5 @@ export class DecisionDto {
   })
   @IsOptional()
   @IsIn(["RENOUVELLEMENT", "PREMIERE"])
-  public typeDom!: string;
+  public typeDom!: UsagerTypeDom;
 }

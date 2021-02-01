@@ -14,7 +14,7 @@
           *ngIf="currentStep <= i"
           [ngClass]="{
             step_active: currentStep == i,
-            step_inactive: (usager.id === 0 || i > usager.etapeDemande) && i > 0
+            step_inactive: (usager.ref === 0 || i > usager.etapeDemande) && i > 0
           }"
           class="step_number"
         >
@@ -24,9 +24,9 @@
           [ngClass]="{
             step_text_active: currentStep == i,
             step_text_inactive:
-              (usager.id === 0 || i > usager.etapeDemande) && i > 0
+              (usager.ref === 0 || i > usager.etapeDemande) && i > 0
           }"
-          [ngClass]="usager.id === 0 ? 'step_text_inactive' : ''"
+          [ngClass]="usager.ref === 0 ? 'step_text_inactive' : ''"
           class="step_text"
         >
           {{ etape }}
@@ -37,7 +37,7 @@
           class="separateur"
           [ngClass]="{
             separateur_inactive:
-              (usager.id == 0 || i > usager.etapeDemande) && i > 0
+              (usager.ref == 0 || i > usager.etapeDemande) && i > 0
           }"
         ></span>
       </div>

@@ -1,11 +1,5 @@
 import { Column, Workbook } from "exceljs";
 import {
-  cause,
-  raison,
-  residence,
-  typeMenage,
-} from "../../../stats/usagers.labels";
-import {
   WorksheetRenderer,
   xlFormater,
   xlRenderer,
@@ -40,7 +34,7 @@ function renderWorksheet({
 
   function configureColumns() {
     const columns: Partial<Column>[] = [
-      { key: "customId" },
+      { key: "customRef" },
       { key: "sexe" },
       { key: "nom" },
       { key: "prenom" },
@@ -66,10 +60,10 @@ function renderWorksheet({
   function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
     return model.usagers.map((usager) => {
       const usagersInteractionsCounts =
-        model.usagersInteractionsCountByType[usager.id];
+        model.usagersInteractionsCountByType[usager.ref];
       const row: XlRowModel = {
         values: {
-          customId: usager.customId,
+          customRef: usager.customRef,
           sexe: usager.sexe,
           nom: usager.nom,
           prenom: usager.prenom,

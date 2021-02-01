@@ -1,15 +1,14 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
+import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Usager } from "../../interfaces/usager";
-import { DocumentService } from "../../services/document.service";
-
+import { UsagerLight } from "../../../../../_common/model";
 import {
   UploadResponseType,
   validateUpload,
 } from "../../../../shared/upload-validator";
-import { ToastrService } from "ngx-toastr";
+import { DocumentService } from "../../services/document.service";
+import { UsagerFormModel } from "../form/UsagerFormModel";
 
 @Component({
   selector: "app-upload",
@@ -22,7 +21,7 @@ export class UploadComponent implements OnInit {
   public uploadResponse: UploadResponseType;
 
   public uploadForm!: FormGroup;
-  @Input() public usager!: Usager;
+  @Input() public usager!: UsagerLight;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,14 +71,16 @@ export class UploadComponent implements OnInit {
     formData.append("file", this.uploadForm.controls.fileSource.value);
     formData.append("label", this.uploadForm.controls.label.value);
 
-    this.documentService.upload(formData, this.usager.id).subscribe(
+    this.documentService.upload(formData, this.usager.ref).subscribe(
       (res: any) => {
         this.uploadResponse = res;
         if (
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
-          this.usager.docs = new Usager(this.uploadResponse.body.usager).docs;
+          this.usager.docs = new UsagerFormModel(
+            this.uploadResponse.body.usager
+          ).docs;
           this.uploadForm.reset();
           this.fileName = "";
           this.submitted = false;

@@ -22,6 +22,11 @@ import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
+import {
+  UsagerLight,
+  usagerLightRepository,
+  usagerRepository,
+} from "../../database";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { AppAuthUser } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
@@ -30,7 +35,6 @@ import { EditUsagerDto } from "../dto/edit-usager.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { ProcurationDto } from "../dto/procuration.dto";
 import { TransfertDto } from "../dto/transfert.dto";
-import { Usager } from "../interfaces/usagers";
 import { CerfaService } from "../services/cerfa.service";
 import { UsagersService } from "../services/usagers.service";
 
@@ -40,7 +44,7 @@ import { UsagersService } from "../services/usagers.service";
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly interactionService: InteractionsService,
+    private readonly interactionsService: InteractionsService,
     private readonly cerfaService: CerfaService
   ) {}
 
@@ -55,10 +59,10 @@ export class UsagersController {
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Patch(":id")
+  @Patch(":usagerRef")
   public async patchUsager(
     @Body() usagerDto: EditUsagerDto,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
     if (
       usagerDto.typeDom === "RENOUVELLEMENT" ||
@@ -67,33 +71,36 @@ export class UsagersController {
       usagerDto.etapeDemande = 1;
     }
 
-    return this.usagersService.patch(usagerDto, usager._id);
+    return this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Post("entretien/:id")
+  @Post("entretien/:usagerRef")
   public setEntretien(
     @Body() entretien: EntretienDto,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
-    return this.usagersService.setEntretien(usager._id, entretien);
+    return this.usagersService.setEntretien({ uuid: usager.uuid }, entretien);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Get("next-step/:id/:etapeDemande")
+  @Get("next-step/:usagerRef/:etapeDemande")
   public async nextStep(
     @Param("etapeDemande") etapeDemande: number,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
-    return this.usagersService.nextStep(usager._id, etapeDemande);
+    return this.usagersService.nextStep(usager.ref, etapeDemande);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
-  @Get("stop-courrier/:id")
+  @Get("stop-courrier/:usagerRef")
   public async stopCourrier(
-    @CurrentUsager() usager: Usager,
+    @CurrentUsager() currentUsager: UsagerLight,
     @CurrentUser() user: AppAuthUser
   ) {
+    const usager = await usagerRepository.findOne({
+      uuid: currentUsager.uuid,
+    });
     if (usager.options.npai.actif) {
       usager.options.npai.actif = false;
       usager.options.npai.dateDebut = null;
@@ -102,97 +109,58 @@ export class UsagersController {
       usager.options.npai.dateDebut = new Date();
     }
 
-    return this.usagersService.patch(usager, usager._id);
+    return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Get("renouvellement/:id")
+  @Get("renouvellement/:usagerRef")
   public async renouvellement(
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
-    return this.usagersService.renouvellement(usager, user);
+    return this.usagersService.renouvellement({ uuid: usager.uuid }, user);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Post("decision/:id")
+  @Post("decision/:usagerRef")
   public async setDecision(
     @Body() decision: DecisionDto,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
     decision.userName = user.prenom + " " + user.nom;
     decision.userId = user.id;
-
-    decision.dateDecision = new Date();
-
-    usager.historique.push(usager.decision);
-
-    if (decision.statut === "ATTENTE_DECISION") {
-      /* Mail au responsable */
-    }
-
-    if (decision.statut === "REFUS") {
-      /* SMS & Mail pr prévenir */
-
-      decision.dateFin =
-        decision.dateFin !== undefined && decision.dateFin !== null
-          ? new Date(decision.dateFin)
-          : new Date();
-      decision.dateDebut = decision.dateFin;
-    }
-
-    if (decision.statut === "RADIE") {
-      decision.dateDebut = new Date();
-      decision.dateFin = new Date();
-    }
-
-    if (decision.statut === "VALIDE") {
-      if (usager.datePremiereDom !== null) {
-        usager.typeDom = "RENOUVELLEMENT";
-      } else {
-        usager.typeDom = "PREMIERE";
-        usager.datePremiereDom = new Date(decision.dateDebut);
-      }
-
-      if (decision.dateFin !== undefined && decision.dateFin !== null) {
-        decision.dateFin = new Date(decision.dateFin);
-      } else {
-        decision.dateFin = new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1)
-        );
-      }
-
-      decision.dateDebut = new Date(decision.dateDebut);
-      usager.lastInteraction.dateInteraction = decision.dateDebut;
-    }
-
-    return this.usagersService.setDecision(usager._id, decision, usager);
+    return this.usagersService.setDecision({ uuid: usager.uuid }, decision);
   }
 
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
-  @Get("doublon/:nom/:prenom/:id")
+  @Get("doublon/:nom/:prenom/:usagerRef")
   public isDoublon(
     @Param("nom") nom: string,
     @Param("prenom") prenom: string,
-    @Param("id") usagerId: number,
+    @Param("usagerRef") ref: number,
     @CurrentUser() user: AppAuthUser
   ) {
-    return this.usagersService.isDoublon(nom, prenom, usagerId, user);
+    return usagerLightRepository.findDoublon({
+      nom,
+      prenom,
+      ref,
+      structureId: user.id,
+    });
   }
 
   @UseGuards(AuthGuard("jwt"), ResponsableGuard, UsagerAccessGuard)
-  @Delete(":id")
+  @Delete(":usagerRef")
   public async delete(
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager,
+    @CurrentUsager() usager: UsagerLight,
     @Res() res: Response
   ) {
     const pathFile = path.resolve(
-      domifaConfig().upload.basePath + usager.structureId + "/" + usager.id
+      domifaConfig().upload.basePath + usager.structureId + "/" + usager.ref
     );
 
-    await this.interactionService.deleteByUsager(usager.id, user.structureId);
+    await this.interactionsService.deleteByUsager(usager.ref, user.structureId);
 
     if (fs.existsSync(pathFile)) {
       fs.readdir(pathFile, (err, files) => {
@@ -228,7 +196,9 @@ export class UsagersController {
       });
     }
 
-    const usagerToDelete = await this.usagersService.delete(usager._id);
+    const usagerToDelete = await usagerRepository.deleteByCriteria({
+      uuid: usager.uuid,
+    });
     if (!usagerToDelete || usagerToDelete === null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -239,11 +209,11 @@ export class UsagersController {
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Post("transfert/:id")
+  @Post("transfert/:usagerRef")
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
     const action = usager.options.transfert.actif ? "EDIT" : "CREATION";
 
@@ -264,23 +234,23 @@ export class UsagersController {
 
     usager.options.transfert = newTransfert;
 
-    return this.usagersService.patch(usager, usager._id);
+    return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Delete("renew/:id")
-  public async deleteRenew(@CurrentUsager() usager: Usager) {
+  @Delete("renew/:usagerRef")
+  public async deleteRenew(@CurrentUsager() usager: UsagerLight) {
     usager.etapeDemande = 1;
     usager.decision = usager.historique[usager.historique.length - 1];
     usager.historique.splice(usager.historique.length - 1, 1);
-    return this.usagersService.patch(usager, usager._id);
+    return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Delete("transfert/:id")
+  @Delete("transfert/:usagerRef")
   public async deleteTransfert(
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
     usager.options.transfert = {
       actif: false,
@@ -297,15 +267,15 @@ export class UsagersController {
       content: {},
     });
 
-    return this.usagersService.patch(usager, usager._id);
+    return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Post("procuration/:id")
+  @Post("procuration/:usagerRef")
   public async editProcuration(
     @Body() procurationDto: ProcurationDto,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
     const action = usager.options.procuration.actif ? "EDIT" : "CREATION";
     const newProcuration = {
@@ -325,14 +295,14 @@ export class UsagersController {
     });
 
     usager.options.procuration = newProcuration;
-    return this.usagersService.patch(usager, usager._id);
+    return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
-  @Delete("procuration/:id")
+  @Delete("procuration/:usagerRef")
   public async deleteProcuration(
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
     usager.options.procuration = {
       actif: false,
@@ -350,16 +320,17 @@ export class UsagersController {
       content: {},
     });
 
-    return this.usagersService.patch(usager, usager._id);
+    return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
-  @Get("attestation/:id")
+  @Get("attestation/:usagerRef")
   public async getAttestation(
     @Res() res: Response,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() currentUsager: UsagerLight
   ) {
+    const usager = await usagerRepository.findOne({ uuid: currentUsager.uuid });
     return this.cerfaService
       .attestation(usager, user)
       .then((buffer) => {
@@ -378,8 +349,8 @@ export class UsagersController {
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
-  @Get(":id")
-  public async findOne(@CurrentUsager() usager: Usager) {
+  @Get(":usagerRef")
+  public async findOne(@CurrentUsager() usager: UsagerLight) {
     return usager;
   }
 }

@@ -16,7 +16,7 @@ import { StatsExportUser } from "../../excel/export-stats-deploiement/StatsExpor
 import { Structure } from "../../structures/structure-interface";
 import { appLogger } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
-import { StructureAdmin } from "../../_common/model/structure/StructureAdmin.type";
+import { DashboardStats } from "../../_common/model";
 import { DashboardService } from "../services/dashboard.service";
 import moment = require("moment");
 
@@ -102,70 +102,9 @@ export class DashboardController {
       });
   }
 
-  // 1. Liste des structures
-  @Get("structures")
-  public async structures(): Promise<
-    (StructureAdmin & {
-      usersCount?: number; // dashboard only
-    })[]
-  > {
-    return this.dashboardService.getStructuresForDashboard();
-  }
-
-  // 2. Liste des structures par type
-  @Get("structures/type")
-  public async countByType() {
-    return this.dashboardService.getStructuresCountByType();
-  }
-
-  // 3. Les interactions
-  @Get("interactions")
-  public async getInteractions() {
-    return this.dashboardService.getInteractionsCountByType();
-  }
-
-  // 4. Total des users
-  @Get("users")
-  public async getUsers() {
-    return usersRepository.count();
-  }
-
-  // 5. Total des domiciliés actifs
-  @Get("usagers/valide")
-  public async getUsagersActifs() {
-    return this.dashboardService.getUsagersCountByStructureId();
-  }
-
-  @Get("usagers/langues")
-  public async getLanguages() {
-    const langues = await this.dashboardService.getLanguages();
-
-    const statsLangues = [];
-    for (const langue of langues) {
-      const label =
-        langue._id.langue !== null && langue._id.langue !== ""
-          ? langue._id.langue
-          : "NON_RENSEIGNE";
-      statsLangues.push({
-        label,
-        total: langue.sum[0],
-      });
-    }
-    return statsLangues;
-  }
-
-  @Get("docs")
-  public async getDocs() {
-    return this.dashboardService.getDocsCount();
-  }
-
-  @Get("usagers")
-  public async getUsagers() {
-    return this.dashboardService.getUsagersCountByStatut();
-  }
-
-  @Get("structures/regions")
-  public async getRegions() {
-    return this.dashboardService.getRegions();
+  @Get()
+  public async dashboardStats(): Promise<DashboardStats> {
+    const stats = await this.dashboardService.getStatsDomifaAdminDashboard();
+    return stats;
   }
 }

@@ -1,24 +1,22 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
-import {
-  NgbDateStruct,
-  NgbDatepickerI18n,
-  NgbDateParserFormatter,
-} from "@ng-bootstrap/ng-bootstrap";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { ToastrService } from "ngx-toastr";
-
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsersService } from "src/app/modules/users/services/users.service";
-import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
-import { minDateToday } from "src/app/shared/bootstrap-util";
-import { Router, ActivatedRoute } from "@angular/router";
 import { Title } from "@angular/platform-browser";
-import { fadeInOut } from "src/app/shared/animations";
+import { ActivatedRoute, Router } from "@angular/router";
+import {
+  NgbDateParserFormatter,
+  NgbDatepickerI18n,
+  NgbDateStruct,
+} from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { AppUser } from "../../../../../../../_common/model";
+import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+import { UsersService } from "src/app/modules/users/services/users.service";
+import { fadeInOut } from "src/app/shared/animations";
+import { minDateToday } from "src/app/shared/bootstrap-util";
+import { AppUser, UsagerLight } from "../../../../../../../_common/model";
+import { UsagerFormModel } from "../../UsagerFormModel";
 
 @Component({
   animations: [fadeInOut],
@@ -37,7 +35,7 @@ export class RdvComponent implements OnInit {
 
   public rdvForm!: FormGroup;
 
-  public usager!: Usager;
+  public usager!: UsagerFormModel;
   public editRdv!: boolean;
 
   public me: AppUser;
@@ -84,8 +82,8 @@ export class RdvComponent implements OnInit {
       const id = this.route.snapshot.params.id;
 
       this.usagerService.findOne(id).subscribe(
-        (usager: Usager) => {
-          this.usager = usager;
+        (usager: UsagerLight) => {
+          this.usager = new UsagerFormModel(usager);
 
           this.editRdv =
             usager.etapeDemande < 2 ||
@@ -103,7 +101,7 @@ export class RdvComponent implements OnInit {
   }
 
   public getAttestation() {
-    return this.usagerService.attestation(this.usager.id);
+    return this.usagerService.attestation(this.usager.ref);
   }
 
   public initForm() {
@@ -144,9 +142,9 @@ export class RdvComponent implements OnInit {
       userId: this.me.id.toString(),
     };
 
-    this.usagerService.createRdv(rdvFormValue, this.usager.id).subscribe(
-      (usager: Usager) => {
-        this.router.navigate(["usager/" + usager.id + "/edit/entretien"]);
+    this.usagerService.createRdv(rdvFormValue, this.usager.ref).subscribe(
+      (usager: UsagerLight) => {
+        this.router.navigate(["usager/" + usager.ref + "/edit/entretien"]);
       },
       () => {
         this.notifService.error(
@@ -174,14 +172,14 @@ export class RdvComponent implements OnInit {
       this.rdvForm.controls.dateRdv.setValue(dateTmp);
     }
 
-    this.usagerService.createRdv(this.rdvForm.value, this.usager.id).subscribe(
-      (usager: Usager) => {
+    this.usagerService.createRdv(this.rdvForm.value, this.usager.ref).subscribe(
+      (usager: UsagerLight) => {
         this.notifService.success("Rendez-vous enregistré");
 
         if (this.rdvForm.get("isNow").value === true) {
-          this.router.navigate(["usager/" + usager.id + "/edit/entretien"]);
+          this.router.navigate(["usager/" + usager.ref + "/edit/entretien"]);
         } else {
-          this.usager = usager;
+          this.usager = new UsagerFormModel(usager);
           this.editRdv = false;
         }
       },

@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
+import { UsagerPG } from "../../database";
 import { AppAuthUser } from "../../_common/model";
 import { DateCerfa } from "../interfaces/date-cerfa";
-import { Usager } from "../interfaces/usagers";
 
 // tslint:disable-next-line: no-var-requires
 const pdftk = require("node-pdftk");
@@ -42,16 +42,16 @@ export class CerfaService {
     };
   }
 
-  public async attestation(usager: Usager, user: AppAuthUser) {
+  public async attestation(usager: UsagerPG, user: AppAuthUser) {
     const pdfForm =
       usager.decision.statut === "VALIDE"
         ? "../../ressources/attestation.pdf"
         : "../../ressources/demande.pdf";
 
-    let usagerId = this.toString(usager.id);
+    let usagerRef = this.toString(usager.ref);
 
-    if (usager.customId && usager.customId !== null) {
-      usagerId = this.toString(usager.customId);
+    if (usager.customRef && usager.customRef !== null) {
+      usagerRef = this.toString(usager.customRef);
     }
 
     this.dateNaissance = new DateCerfa(usager.dateNaissance);
@@ -99,7 +99,7 @@ export class CerfaService {
     }
 
     if (user.structure.options.numeroBoite === true) {
-      adresseDomicilie = "Boite " + usagerId + "\n" + adresseDomicilie;
+      adresseDomicilie = "Boite " + usagerRef + "\n" + adresseDomicilie;
     }
 
     let ayantsDroitsTexte = "";
@@ -124,10 +124,7 @@ export class CerfaService {
     let motif = "";
 
     if (usager.decision.statut === "REFUS") {
-      if (
-        usager.decision.motif === "AUTRE" ||
-        usager.decision.motif === "AUTRES"
-      ) {
+      if (usager.decision.motif === "AUTRE") {
         motif = usager.decision.motifDetails
           ? "Autre motif : " + usager.decision.motifDetails
           : "Autre motif non précisé";
@@ -182,7 +179,7 @@ export class CerfaService {
       nomOrga2: user.structure.nom.toUpperCase(),
       noms1: usager.nom,
       noms2: usager.nom,
-      numeroUsager: usagerId,
+      numeroUsager: usagerRef,
       orientation: this.toString(usager.decision.orientationDetails),
       prefecture1: user.structure.departement,
       prefecture2: user.structure.departement,

@@ -5,9 +5,9 @@ import {
   HttpStatus,
   Injectable,
 } from "@nestjs/common";
-import { appLogger } from "../../util";
-
+import { usagerLightRepository } from "../../database";
 import { UsagersService } from "../../usagers/services/usagers.service";
+import { appLogger } from "../../util";
 
 @Injectable()
 export class UsagerAccessGuard implements CanActivate {
@@ -15,21 +15,24 @@ export class UsagerAccessGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
-    const usagerId = r.params.id;
+    const usagerRef = r.params.usagerRef;
     const structureId = r.user.structureId;
-    if (usagerId === undefined || structureId === undefined) {
+    if (usagerRef === undefined || structureId === undefined) {
       appLogger.warn(
-        `[UsagerAccessGuard] invalid usagerId "${usagerId}" or structureId "${structureId}" for user "${r.user._id}"`,
+        `[UsagerAccessGuard] invalid usagerRef "${usagerRef}" or structureId "${structureId}" for user "${r.user._id}"`,
         { sentryBreadcrumb: true }
       );
-      appLogger.error(`[UsagerAccessGuard] invalid usagerId or structureId`);
+      appLogger.error(`[UsagerAccessGuard] invalid usagerRef or structureId`);
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
-    const usager = await this.usagersService.findById(usagerId, structureId);
+    const usager = await usagerLightRepository.findOne({
+      ref: usagerRef,
+      structureId,
+    });
 
     if (!usager || usager === null) {
       appLogger.warn(
-        `[UsagerAccessGuard] usager not found for usagerId "${usagerId}" or structureId "${structureId}" for user "${r.user._id}" with role "${r.user.role}"`,
+        `[UsagerAccessGuard] usager not found for usagerRef "${usagerRef}" or structureId "${structureId}" for user "${r.user._id}" with role "${r.user.role}"`,
         { sentryBreadcrumb: true }
       );
       appLogger.error(`[UsagerAccessGuard] usager not found`);

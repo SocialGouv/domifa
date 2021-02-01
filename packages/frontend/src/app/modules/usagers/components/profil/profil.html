@@ -17,10 +17,10 @@
            'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
          }"
       >
-        <h2 id="profil_name">{{ usager.nomComplet }}</h2>
+        <h2 id="profil_name">{{ usager | usagerNomComplet }}</h2>
         Numéro domicilié :
-        <b *ngIf="usager.customId">{{ usager.customId }}</b>
-        <b *ngIf="!usager.customId">{{ usager.id }}</b>
+        <b *ngIf="usager.customRef">{{ usager.customRef }}</b>
+        <b *ngIf="!usager.customRef">{{ usager.ref }}</b>
       </div>
       <div class="text-center" *ngIf="usager.decision.statut === 'REFUS'">
         <div class="text-radiation text-danger">
@@ -68,7 +68,7 @@
           </button>
           &nbsp;&nbsp;
           <a
-            [routerLink]="['/radiation/'+usager.id]"
+            [routerLink]="['/radiation/'+usager.ref]"
             class="btn btn-outline-primary"
           >
             <fa-icon icon="print" class="btn-icon"></fa-icon>
@@ -131,7 +131,7 @@
           &nbsp;&nbsp;
           <a
             *ngIf="usager.dayBeforeEnd < 0"
-            [routerLink]="['/radiation/'+usager.id]"
+            [routerLink]="['/radiation/'+usager.ref]"
             routerLinkActive="router-link-active"
             class="btn col-5 btn-outline-danger"
           >
@@ -294,7 +294,7 @@
     *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT' && !isRole('facteur')"
   >
     Une demande de renouvellement est actuellement en cours &nbsp;
-    <a [routerLink]="['/usager/'+usager.id+'/edit']" class="btn btn-light">
+    <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
       <fa-icon icon="redo" class="btn-icon"></fa-icon>
       Compléter la demande
     </a>
@@ -308,7 +308,7 @@
   >
     Cette demande de renouvellement est actuellement en attente d'une décision
     &nbsp;
-    <a [routerLink]="['/usager/'+usager.id+'/edit']" class="btn btn-light">
+    <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
       <fa-icon icon="redo" class="btn-icon"></fa-icon>
       Voir le récapitulatif
     </a>
@@ -664,13 +664,13 @@
               <input
                 type="text"
                 class="form-control"
-                id="customId"
+                id="customRef"
                 maxlength="30"
-                formControlName="customId"
-                [ngClass]="{ 'is-invalid': f.customId.errors }"
+                formControlName="customRef"
+                [ngClass]="{ 'is-invalid': f.customRef.errors }"
                 autocomplete="null"
               />
-              <div *ngIf="f.customId.errors" class="invalid-feedback">
+              <div *ngIf="f.customRef.errors" class="invalid-feedback">
                 L'adresse email est incorrecte
               </div>
             </div>
@@ -1030,7 +1030,7 @@
           </button>
           &nbsp;&nbsp;
           <a
-            [routerLink]="['/radiation/'+usager.id]"
+            [routerLink]="['/radiation/'+usager.ref]"
             routerLinkActive="router-link-active"
             class="col btn btn-outline-danger"
           >

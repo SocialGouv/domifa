@@ -12,7 +12,7 @@
         </h5>
         <br />
         La demande d'élection de domicile de
-        <b>{{ usager.nomComplet }}</b>
+        <b>{{ usager | usagerNomComplet }}</b>
         a été envoyée le
         <b>
           {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:MM" }}.
@@ -114,7 +114,7 @@
     <app-profil-infos [usager]="usager"></app-profil-infos>
 
     <h4>AYANTS-DROIT</h4>
-    <app-profil-ayants-droits [usager]="usager"></app-profil-ayants-droits>
+    <app-profil-ayants-droits [ayantsDroits]="usager.ayantsDroits"></app-profil-ayants-droits>
 
     <h4>ENTRETIEN</h4>
 

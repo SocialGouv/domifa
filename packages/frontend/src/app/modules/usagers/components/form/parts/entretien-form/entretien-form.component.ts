@@ -1,12 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AppUser } from "../../../../../../../_common/model";
+import { AppUser, UsagerLight } from "../../../../../../../_common/model";
 
 @Component({
   providers: [UsagerService],
@@ -14,8 +12,9 @@ import { AppUser } from "../../../../../../../_common/model";
   templateUrl: "./entretien-form.component.html",
 })
 export class EntretienFormComponent implements OnInit {
-  public usager: Usager;
+  public usager: UsagerLight;
   public me: AppUser;
+  public isRdvNow = false;
 
   constructor(
     private usagerService: UsagerService,
@@ -37,7 +36,7 @@ export class EntretienFormComponent implements OnInit {
       const id = this.route.snapshot.params.id;
 
       this.usagerService.findOne(id).subscribe(
-        (usager: Usager) => {
+        (usager: UsagerLight) => {
           this.usager = usager;
         },
         () => {
@@ -50,14 +49,14 @@ export class EntretienFormComponent implements OnInit {
   }
 
   public getAttestation() {
-    return this.usagerService.attestation(this.usager.id);
+    return this.usagerService.attestation(this.usager.ref);
   }
 
   public nextStep(step: number) {
     this.usagerService
-      .nextStep(this.usager.id, step)
-      .subscribe((usager: Usager) => {
-        this.router.navigate(["usager/" + usager.id + "/edit/documents"]);
+      .nextStep(this.usager.ref, step)
+      .subscribe((usager: UsagerLight) => {
+        this.router.navigate(["usager/" + usager.ref + "/edit/documents"]);
       });
   }
 
@@ -68,9 +67,10 @@ export class EntretienFormComponent implements OnInit {
       userId: this.me.id.toString(),
     };
 
-    this.usagerService.createRdv(rdvFormValue, this.usager.id).subscribe(
-      (usager: Usager) => {
+    this.usagerService.createRdv(rdvFormValue, this.usager.ref).subscribe(
+      (usager: UsagerLight) => {
         this.usager = usager;
+        this.isRdvNow = true;
       },
       () => {
         this.notifService.error(

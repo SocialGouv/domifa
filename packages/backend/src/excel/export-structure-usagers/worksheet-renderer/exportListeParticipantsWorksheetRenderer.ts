@@ -11,7 +11,6 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
-import { Decision } from "../../../usagers/interfaces/decision";
 
 export const exportListeParticipantsWorksheetRenderer = {
   renderWorksheet,
@@ -40,7 +39,7 @@ function renderWorksheet({
 
   function configureColumns() {
     const columns: Partial<Column>[] = [
-      { key: "customId" },
+      { key: "customRef" },
       { key: "sexe" },
       { key: "nom" },
       { key: "prenom" },
@@ -126,15 +125,15 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
         usager.decision.motif =
           usager.decision.motifDetails !== ""
             ? "Autre motif" + usager.decision.motifDetails
-            : "Autre motif non précisé";
+            : ("Autre motif non précisé" as any);
       } else {
         usager.decision.motif =
           usager.decision.statut === "REFUS"
             ? motifsRefus[usager.decision.motif]
-            : motifsRadiation[usager.decision.motif];
+            : (motifsRadiation[usager.decision.motif] as any);
       }
     } else {
-      usager.decision.motif = "";
+      usager.decision.motif = "" as any;
     }
 
     let decisionUserPremierDom = "";
@@ -164,7 +163,7 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
 
     const row: XlRowModel = {
       values: {
-        customId: usager.customId,
+        customRef: usager.customRef,
         sexe: usager.sexe,
         nom: usager.nom,
         prenom: usager.prenom,
