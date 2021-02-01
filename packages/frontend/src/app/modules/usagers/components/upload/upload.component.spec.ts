@@ -1,11 +1,10 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { usagerValideMock } from "../../../../../_common/mocks/usager.mock";
 import { UsagersModule } from "../../usagers.module";
 import { UploadComponent } from "./upload.component";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("UploadComponent", () => {
   let component: UploadComponent;
@@ -37,7 +36,8 @@ describe("UploadComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UploadComponent);
     component = fixture.componentInstance;
-    const usager: Usager = new Usager();
+    const usager = usagerValideMock;
+
     component.usager = usager;
   });
 

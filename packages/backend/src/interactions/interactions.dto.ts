@@ -73,7 +73,7 @@ export class InteractionDto {
   @IsEmpty()
   public structureId: number;
   @IsEmpty()
-  public usagerId: number;
+  public usagerRef: number;
   @IsEmpty()
   public userId: number;
   @IsEmpty()

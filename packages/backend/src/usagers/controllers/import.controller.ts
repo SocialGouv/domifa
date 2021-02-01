@@ -5,7 +5,6 @@ import {
   Logger,
   Post,
   Res,
-  Response,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -13,22 +12,20 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-
-import { diskStorage } from "multer";
 import * as fs from "fs";
+import { diskStorage } from "multer";
 import * as path from "path";
 import * as XLSX from "xlsx";
-
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
-
+import { UsagerDecisionStatut, UsagerPG, UsagerTable } from "../../database";
+import { UsagerDecisionMotif } from "../../database/entities/usager/UsagerDecisionMotif.type";
 import { StructuresService } from "../../structures/services/structures.service";
+import { ExpressResponse } from "../../util/express";
 import { randomName, validateUpload } from "../../util/FileManager";
 import { AppAuthUser } from "../../_common/model";
 import { Entretien } from "../interfaces/entretien";
 import { UsagersService } from "../services/usagers.service";
-import { Usager } from "../interfaces/usagers";
-import { ExpressResponse } from "../../util/express";
 
 export const regexp = {
   date: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -37,6 +34,24 @@ export const regexp = {
 };
 
 type AOA = any[][];
+
+const ALLOWED_MOTIF_VALUES: UsagerDecisionMotif[] = [
+  // RADIATIOn
+  "A_SA_DEMANDE",
+  "PLUS_DE_LIEN_COMMUNE",
+  "FIN_DE_DOMICILIATION",
+  "NON_MANIFESTATION_3_MOIS",
+  "NON_RESPECT_REGLEMENT",
+  "ENTREE_LOGEMENT",
+
+  // REFUS
+  "HORS_AGREMENT",
+  "LIEN_COMMUNE",
+  "SATURATION",
+
+  // AUTRE
+  "AUTRE",
+];
 
 @UseGuards(AuthGuard("jwt"), FacteurGuard)
 @ApiTags("import")
@@ -409,7 +424,7 @@ export class ImportController {
   private async saveDatas(datas: AOA, @CurrentUser() user: AppAuthUser) {
     //
     const agent = user.prenom + " " + user.nom;
-    const usagers: Usager[] = [];
+    const usagers: UsagerTable[] = [];
 
     for (let index = 1, len = datas.length; index < len; index++) {
       // Ligne du fichier
@@ -417,7 +432,7 @@ export class ImportController {
 
       // Infos générales
       const sexe = row[this.CIVILITE] === "H" ? "homme" : "femme";
-      let motif = "";
+      let motif: UsagerDecisionMotif;
 
       // Tableaux d'ayant-droit & historique
       const ayantsDroits = [];
@@ -466,11 +481,7 @@ export class ImportController {
         userName: agent,
       });
 
-      if (motif === "AUTRES") {
-        motif = "AUTRE";
-      }
-
-      const customId = this.notEmpty(row[this.CUSTOM_ID])
+      const customRef = this.notEmpty(row[this.CUSTOM_ID])
         ? row[this.CUSTOM_ID]
         : null;
 
@@ -494,9 +505,7 @@ export class ImportController {
         : null;
 
       if (row[this.STATUT_DOM] === "REFUS") {
-        motif = this.notEmpty(row[this.MOTIF_REFUS])
-          ? row[this.MOTIF_REFUS]
-          : "AUTRE";
+        motif = this.parseMotif(row[this.MOTIF_REFUS]);
 
         dateDebut = this.convertDate(row[this.DATE_FIN_DOM]);
         dateDecision = this.convertDate(row[this.DATE_FIN_DOM]);
@@ -507,9 +516,7 @@ export class ImportController {
           ? this.convertDate(row[this.DATE_FIN_DOM])
           : new Date();
 
-        motif = this.notEmpty(row[this.MOTIF_RADIATION])
-          ? row[this.MOTIF_RADIATION]
-          : "AUTRE";
+        motif = this.parseMotif(row[this.MOTIF_RADIATION]);
       }
 
       //
@@ -615,19 +622,18 @@ export class ImportController {
       }
 
       // Enregistrement
-      const usager = {
+      const usager: Partial<UsagerPG> = {
         ayantsDroits,
-        customId,
+        customRef,
         dateNaissance: this.convertDate(row[this.DATE_NAISSANCE]),
         datePremiereDom,
         decision: {
-          agent,
           dateDebut,
           dateDecision,
           dateFin,
           motif,
           motifDetails: "",
-          statut: row[this.STATUT_DOM].toUpperCase(),
+          statut: row[this.STATUT_DOM].toUpperCase() as UsagerDecisionStatut,
           userId: user.id,
           userName: agent,
         },
@@ -648,7 +654,11 @@ export class ImportController {
         villeNaissance: row[this.LIEU_NAISSANCE],
       };
 
-      usagers.push(await this.usagersService.save(usager, user));
+      const newUsager = await this.usagersService.createFromImport({
+        data: usager,
+        user,
+      });
+      usagers.push(newUsager);
 
       if (index + 1 >= datas.length) {
         return true;
@@ -698,6 +708,19 @@ export class ImportController {
     return (
       typeof value !== "undefined" && value !== null && value.trim() !== ""
     );
+  }
+
+  private parseMotif(value: string): UsagerDecisionMotif {
+    if (!value || !value.trim()) {
+      return "AUTRE";
+    }
+    const motifIndex = ALLOWED_MOTIF_VALUES.indexOf(
+      value.trim() as UsagerDecisionMotif
+    );
+    if (motifIndex !== -1) {
+      return ALLOWED_MOTIF_VALUES[motifIndex];
+    }
+    return null;
   }
 
   // Vérification des différents champs Date

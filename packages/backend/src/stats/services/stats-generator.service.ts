@@ -1,7 +1,6 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import * as moment from "moment";
-import { Model } from "mongoose";
 import { LessThanOrEqual, Repository } from "typeorm";
 import { domifaConfig } from "../../config";
 import {
@@ -11,9 +10,9 @@ import {
   MonitoringBatchProcessTrigger,
   structureRepository,
   StructureStatsTable,
+  usagerRepository,
 } from "../../database";
 import { StructuresService } from "../../structures/services/structures.service";
-import { Usager } from "../../usagers/interfaces/usagers";
 import { appLogger } from "../../util";
 import {
   StructureCommon,
@@ -32,11 +31,7 @@ export class StatsGeneratorService {
   private structureStatsRepository: Repository<StructureStatsTable>;
   private interactionRepository: Repository<InteractionsTable>;
 
-  constructor(
-    @Inject("USAGER_MODEL")
-    private usagerModel: Model<Usager>,
-    private structureService: StructuresService
-  ) {
+  constructor(private structureService: StructuresService) {
     this.endOfStatDate = moment().utc().endOf("day").toDate();
 
     this.dateMajorite = moment().subtract(18, "year").endOf("day").toDate();
@@ -154,6 +149,7 @@ export class StatsGeneratorService {
       stat.questions.Q_11.REFUS,
       stat.questions.Q_11.RADIE
     );
+
     return { retourStructure, retourStats, updateStructureStats };
   }
 
@@ -164,255 +160,6 @@ export class StatsGeneratorService {
     const stat = await this.buildStats(structure, { date, generated: true });
     await this.structureStatsRepository.insert(stat);
     return stat;
-  }
-
-  private async totalDomiciliationsActives(
-    structureId: number,
-    typeDemande: "PREMIERE" | "RENOUVELLEMENT" | "TOUS"
-  ): Promise<number> {
-    let typeDom: string | {} = typeDemande;
-
-    if (typeDemande === "TOUS") {
-      typeDom = {
-        $in: ["PREMIERE", "RENOUVELLEMENT"],
-      };
-    }
-
-    const response = await this.usagerModel
-      .countDocuments({
-        $or: [
-          // CAS 1 : demande valide maintenant
-          {
-            "decision.dateDebut": {
-              $lte: this.endOfStatDate,
-            },
-            "decision.statut": "VALIDE",
-          },
-          // CAS 2 : renouvellement en cours : demande Valide dernièrement mais instruction
-          {
-            "decision.statut": "INSTRUCTION",
-            "historique.0.statut": "VALIDE",
-            "historique.0.dateDebut": { $lte: this.endOfStatDate },
-          },
-          // CAS 3 : renouvellement en cours : demande Valide dernièrement mais en attente de décision
-          {
-            "decision.statut": "ATTENTE_DECISION",
-            "historique.1.statut": "VALIDE",
-            "historique.1.dateDebut": { $lte: this.endOfStatDate },
-          },
-        ],
-        structureId,
-        typeDom,
-      })
-      .exec();
-
-    if (!response || response === null) {
-      return 0;
-    }
-    return response;
-  }
-
-  public async totalParStatutActifs(
-    structureId: number,
-    statut?: string,
-    motif?: string,
-    orientation?: string,
-    entretien?: { key: string; value: string },
-    age?: string
-  ): Promise<number> {
-    const query: {
-      "decision.dateDecision": {
-        $lte: Date;
-      };
-      "decision.motif"?: string;
-      "decision.statut"?: string | {};
-      "decision.orientation"?: string;
-      "entretien.residence"?: string | {};
-      "entretien.cause"?: string | {};
-      "entretien.typeMenage"?: string | {};
-      dateNaissance?: {
-        $gte?: Date;
-        $lte?: Date;
-      };
-      structureId: number;
-      typeDom?: string;
-    } = {
-      "decision.dateDecision": {
-        $lte: this.endOfStatDate,
-      },
-      "decision.motif": motif,
-      "decision.statut": statut,
-      "decision.orientation": orientation,
-      structureId,
-    };
-
-    if (!motif || motif === "") {
-      delete query["decision.motif"];
-    }
-
-    if (!statut || statut === "") {
-      delete query["decision.statut"];
-    }
-
-    if (statut && statut === "RENOUVELLEMENT") {
-      query["decision.statut"] = {
-        $in: ["INSTRUCTION", "ATTENTE_DECISION"],
-      };
-      query.typeDom = "RENOUVELLEMENT";
-    }
-
-    if (statut !== "REFUS" || !orientation || orientation === "") {
-      delete query["decision.orientation"];
-    }
-
-    if (entretien && entretien.key !== "") {
-      if (entretien.key === "cause") {
-        query["entretien.cause"] = entretien.value;
-        if (entretien.key === "cause" && entretien.value === "NON_RENSEIGNE") {
-          query["entretien.cause"] = { $in: [null, ""] };
-        }
-      } else if (entretien.key === "typeMenage") {
-        query["entretien.typeMenage"] = entretien.value;
-        if (
-          entretien.key === "typeMenage" &&
-          entretien.value === "NON_RENSEIGNE"
-        ) {
-          query["entretien.typeMenage"] = { $in: [null, ""] };
-        }
-      } else if (entretien.key === "residence") {
-        query["entretien.residence"] = entretien.value;
-        if (
-          entretien.key === "residence" &&
-          entretien.value === "NON_RENSEIGNE"
-        ) {
-          query["entretien.residence"] = { $in: [null, ""] };
-        }
-      }
-    }
-
-    if (age) {
-      query.dateNaissance = {
-        $gte: this.dateMajorite,
-        $lte: this.dateMajorite,
-      };
-      age === "majeurs"
-        ? delete query.dateNaissance.$gte
-        : delete query.dateNaissance.$lte;
-    }
-
-    const response = await this.usagerModel.countDocuments(query).exec();
-    return !response || response === null ? 0 : response;
-  }
-
-  private async totalAyantsDroitsDesDomiciliesActifs(
-    structureId: number
-  ): Promise<number> {
-    const response = await this.usagerModel
-      .aggregate([
-        {
-          $match: {
-            $or: [
-              // CAS 1 : demande valide maintenant
-              {
-                "decision.dateDebut": {
-                  $lte: this.endOfStatDate,
-                },
-                "decision.statut": "VALIDE",
-              },
-              // CAS 2 : renouvellement en cours : demande Valide dernièrement mais instruction
-              {
-                "decision.statut": "INSTRUCTION",
-                "historique.0.statut": "VALIDE",
-                "historique.0.dateDebut": { $lte: this.endOfStatDate },
-              },
-              // CAS 3 : renouvellement en cours : demande Valide dernièrement mais en attente de décision
-              {
-                "decision.statut": "ATTENTE_DECISION",
-                "historique.1.statut": "VALIDE",
-                "historique.1.dateDebut": { $lte: this.endOfStatDate },
-              },
-            ],
-            structureId,
-          },
-        },
-        {
-          $group: {
-            _id: "$structureId",
-            total: { $sum: { $size: "$ayantsDroits" } },
-          },
-        },
-      ])
-      .exec();
-    if (!response || response === null || response.length === 0) {
-      return 0;
-    }
-    return response[0].total;
-  }
-
-  // Recherche uniquement dans l'historique
-  private async totalParStatutDansLeTemps(
-    structureId: number,
-    statut: string,
-    motif?: string,
-    orientation?: string
-  ): Promise<number> {
-    const firstCondition = {
-      "decision.dateDebut": {
-        $lte: this.endOfStatDate,
-      },
-      "decision.dateDecision": {
-        $lte: this.endOfStatDate,
-      },
-      "decision.motif": motif,
-      "decision.statut": statut,
-      "decision.orientation": orientation,
-    };
-
-    const secondCondition = {
-      historique: {
-        $elemMatch: {
-          dateDecision: {
-            $lte: this.endOfStatDate,
-          },
-          dateDebut: {
-            $lte: this.endOfStatDate,
-          },
-          motif,
-          statut,
-          orientation,
-        },
-      },
-    };
-
-    /* ---- FIX EXPLICATION --- */
-    /* Au départ, les dates de début enregistrées pour les refus et radié n'étaient pas les bonnes */
-    /* On prend en compte la date de décision, qui elle correspond bien */
-    if (statut === "REFUS" || statut === "RADIE") {
-      delete secondCondition.historique.$elemMatch.dateDebut;
-      delete firstCondition["decision.dateDebut"];
-    } else {
-      delete secondCondition.historique.$elemMatch.dateDecision;
-      delete firstCondition["decision.dateDecision"];
-    }
-
-    if (!motif || motif === "") {
-      delete firstCondition["decision.motif"];
-      delete secondCondition.historique.$elemMatch.motif;
-    }
-
-    if (statut !== "REFUS" || !orientation || orientation === "") {
-      delete firstCondition["decision.orientation"];
-      delete secondCondition.historique.$elemMatch.orientation;
-    }
-
-    const query = {
-      $or: [firstCondition, secondCondition],
-      structureId,
-    };
-
-    const response = await this.usagerModel.countDocuments(query).exec();
-
-    return !response || response === null ? 0 : response;
   }
 
   public async totalInteraction(
@@ -444,24 +191,6 @@ export class StatsGeneratorService {
 
   public async countStructures(): Promise<number> {
     return structureRepository.count();
-  }
-
-  public async countUsagers(): Promise<number> {
-    return this.usagerModel.countDocuments({}).exec();
-  }
-
-  public async countAyantsDroits(): Promise<any> {
-    return this.usagerModel.aggregate([
-      { $project: { totalAd: { $size: "$ayantsDroits" } } },
-      { $group: { _id: null, count: { $sum: "$totalAd" } } },
-    ]);
-  }
-
-  public async countDocs(): Promise<any> {
-    return this.usagerModel.aggregate([
-      { $project: { totalFichiers: { $size: "$docs" } } },
-      { $group: { _id: null, count: { $sum: "$totalFichiers" } } },
-    ]);
   }
 
   private async buildStats(
@@ -563,22 +292,24 @@ export class StatsGeneratorService {
     // Q10 : Nombre attestations delivrés depuis le début à Maintenant
     //
     // Statut actuel + Statut dans l'historique
-    stat.questions.Q_10 = await this.totalDomiciliationsActives(
-      structure.id,
-      "TOUS"
-    );
+    stat.questions.Q_10 = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      actifsInHistoryBefore: this.endOfStatDate,
+    });
 
     // Dont Premiere demande
-    stat.questions.Q_10_A = await this.totalDomiciliationsActives(
-      structure.id,
-      "PREMIERE"
-    );
+    stat.questions.Q_10_A = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      actifsInHistoryBefore: this.endOfStatDate,
+      typeDom: "PREMIERE",
+    });
 
     // Dont renouvellement
-    stat.questions.Q_10_B = await this.totalDomiciliationsActives(
-      structure.id,
-      "RENOUVELLEMENT"
-    );
+    stat.questions.Q_10_B = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      actifsInHistoryBefore: this.endOfStatDate,
+      typeDom: "RENOUVELLEMENT",
+    });
 
     //
     // Q 11 : nombres de dossiers par Statut maintenant, peu importe le statut
@@ -590,78 +321,125 @@ export class StatsGeneratorService {
     // RADIE : domiciliés radiés
     // REFUS : domiciliés actifs
     //
-    stat.questions.Q_11.VALIDE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE"
-    );
+    stat.questions.Q_11.VALIDE = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+    });
 
-    stat.questions.Q_11.VALIDE_AYANTS_DROIT = await this.totalAyantsDroitsDesDomiciliesActifs(
-      structure.id
+    stat.questions.Q_11.VALIDE_AYANTS_DROIT = await usagerRepository.countAyantsDroits(
+      {
+        structureId: structure.id,
+        actifsInHistoryBefore: this.endOfStatDate,
+      }
     );
 
     stat.questions.Q_11.VALIDE_TOTAL =
       stat.questions.Q_11.VALIDE_AYANTS_DROIT + stat.questions.Q_11.VALIDE;
 
-    stat.questions.Q_11.REFUS = await this.totalParStatutActifs(
-      structure.id,
-      "REFUS"
-    );
+    stat.questions.Q_11.REFUS = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "REFUS",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+    });
 
-    stat.questions.Q_11.RADIE = await this.totalParStatutActifs(
-      structure.id,
-      "RADIE"
-    );
+    stat.questions.Q_11.RADIE = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "RADIE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+    });
 
     //
     // Q12 : Radiation effectués par Motif
     //
     // Regle de calcul : Statut actuel + Statut dans l'historique
     //
-    stat.questions.Q_12.TOTAL = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "RADIE"
+    stat.questions.Q_12.TOTAL = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decisionInHistory: {
+        statut: "RADIE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+    });
+
+    stat.questions.Q_12.A_SA_DEMANDE = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decisionInHistory: {
+          statut: "RADIE",
+          dateDecisionBefore: this.endOfStatDate,
+          motif: "A_SA_DEMANDE",
+        },
+      }
+    );
+    stat.questions.Q_12.AUTRE = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decisionInHistory: {
+        statut: "RADIE",
+        dateDecisionBefore: this.endOfStatDate,
+        motif: "AUTRE",
+      },
+    });
+
+    stat.questions.Q_12.ENTREE_LOGEMENT = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decisionInHistory: {
+          statut: "RADIE",
+          dateDecisionBefore: this.endOfStatDate,
+          motif: "ENTREE_LOGEMENT",
+        },
+      }
     );
 
-    stat.questions.Q_12.A_SA_DEMANDE = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "RADIE",
-      "A_SA_DEMANDE"
+    stat.questions.Q_12.FIN_DE_DOMICILIATION = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decisionInHistory: {
+          statut: "RADIE",
+          dateDecisionBefore: this.endOfStatDate,
+          motif: "FIN_DE_DOMICILIATION",
+        },
+      }
     );
 
-    stat.questions.Q_12.AUTRE = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "RADIE",
-      "AUTRE"
+    stat.questions.Q_12.NON_MANIFESTATION_3_MOIS = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decisionInHistory: {
+          statut: "RADIE",
+          dateDecisionBefore: this.endOfStatDate,
+          motif: "NON_MANIFESTATION_3_MOIS",
+        },
+      }
     );
 
-    stat.questions.Q_12.ENTREE_LOGEMENT = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "RADIE",
-      "ENTREE_LOGEMENT"
+    stat.questions.Q_12.NON_RESPECT_REGLEMENT = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decisionInHistory: {
+          statut: "RADIE",
+          dateDecisionBefore: this.endOfStatDate,
+          motif: "NON_RESPECT_REGLEMENT",
+        },
+      }
     );
 
-    stat.questions.Q_12.FIN_DE_DOMICILIATION = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "RADIE",
-      "FIN_DE_DOMICILIATION"
-    );
-
-    stat.questions.Q_12.NON_MANIFESTATION_3_MOIS = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "RADIE",
-      "NON_MANIFESTATION_3_MOIS"
-    );
-
-    stat.questions.Q_12.NON_RESPECT_REGLEMENT = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "RADIE",
-      "NON_RESPECT_REGLEMENT"
-    );
-
-    stat.questions.Q_12.PLUS_DE_LIEN_COMMUNE = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "RADIE",
-      "PLUS_DE_LIEN_COMMUNE"
+    stat.questions.Q_12.PLUS_DE_LIEN_COMMUNE = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decisionInHistory: {
+          statut: "RADIE",
+          dateDecisionBefore: this.endOfStatDate,
+          motif: "PLUS_DE_LIEN_COMMUNE",
+        },
+      }
     );
 
     //
@@ -669,116 +447,170 @@ export class StatsGeneratorService {
     //
     // Regle de calcul : Statut actuel + Statut dans l'historique
     //
-    stat.questions.Q_13.TOTAL = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "REFUS"
+    stat.questions.Q_13.TOTAL = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decisionInHistory: {
+        statut: "REFUS",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+    });
+
+    stat.questions.Q_13.HORS_AGREMENT = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decisionInHistory: {
+          statut: "REFUS",
+          dateDecisionBefore: this.endOfStatDate,
+          motif: "HORS_AGREMENT",
+        },
+      }
+    );
+    stat.questions.Q_13.LIEN_COMMUNE = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decisionInHistory: {
+          statut: "REFUS",
+          dateDecisionBefore: this.endOfStatDate,
+          motif: "LIEN_COMMUNE",
+        },
+      }
     );
 
-    stat.questions.Q_13.HORS_AGREMENT = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "REFUS",
-      "HORS_AGREMENT"
+    stat.questions.Q_13.SATURATION = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decisionInHistory: {
+          statut: "REFUS",
+          dateDecisionBefore: this.endOfStatDate,
+          motif: "SATURATION",
+        },
+      }
     );
 
-    stat.questions.Q_13.LIEN_COMMUNE = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "REFUS",
-      "LIEN_COMMUNE"
+    stat.questions.Q_13.AUTRE = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decisionInHistory: {
+        statut: "REFUS",
+        dateDecisionBefore: this.endOfStatDate,
+        motif: "AUTRE",
+      },
+    });
+
+    stat.questions.Q_14.ASSO = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decisionInHistory: {
+        statut: "REFUS",
+        dateDecisionBefore: this.endOfStatDate,
+        orientation: "asso",
+      },
+    });
+    stat.questions.Q_14.CCAS = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decisionInHistory: {
+        statut: "REFUS",
+        dateDecisionBefore: this.endOfStatDate,
+        orientation: "ccas",
+      },
+    });
+
+    stat.questions.Q_17 = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      dateNaissance: {
+        min: this.dateMajorite, // mineurs
+      },
+    });
+
+    stat.questions.Q_18 = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      dateNaissance: {
+        max: this.dateMajorite, // majeurs
+      },
+    });
+
+    stat.questions.Q_19.COUPLE_AVEC_ENFANT = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          typeMenage: "COUPLE_AVEC_ENFANT",
+        },
+      }
     );
 
-    stat.questions.Q_13.SATURATION = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "REFUS",
-      "SATURATION"
+    stat.questions.Q_19.COUPLE_SANS_ENFANT = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          typeMenage: "COUPLE_SANS_ENFANT",
+        },
+      }
     );
 
-    stat.questions.Q_13.AUTRE = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "REFUS",
-      "AUTRE"
+    stat.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          typeMenage: "FEMME_ISOLE_AVEC_ENFANT",
+        },
+      }
     );
 
-    stat.questions.Q_14.ASSO = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "REFUS",
-      "",
-      "asso"
+    stat.questions.Q_19.FEMME_ISOLE_SANS_ENFANT = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          typeMenage: "FEMME_ISOLE_SANS_ENFANT",
+        },
+      }
     );
 
-    stat.questions.Q_14.CCAS = await this.totalParStatutDansLeTemps(
-      structure.id,
-      "REFUS",
-      "",
-      "ccas"
+    stat.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          typeMenage: "HOMME_ISOLE_AVEC_ENFANT",
+        },
+      }
     );
 
-    stat.questions.Q_17 = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "", value: "" },
-      "mineurs"
-    );
-
-    stat.questions.Q_18 = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "", value: "" },
-      "majeurs"
-    );
-
-    stat.questions.Q_19.COUPLE_AVEC_ENFANT = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "typeMenage", value: "COUPLE_AVEC_ENFANT" }
-    );
-
-    stat.questions.Q_19.COUPLE_SANS_ENFANT = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "typeMenage", value: "COUPLE_SANS_ENFANT" }
-    );
-
-    stat.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "typeMenage", value: "FEMME_ISOLE_AVEC_ENFANT" }
-    );
-
-    stat.questions.Q_19.FEMME_ISOLE_SANS_ENFANT = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-
-      { key: "typeMenage", value: "FEMME_ISOLE_SANS_ENFANT" }
-    );
-
-    stat.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-
-      { key: "typeMenage", value: "HOMME_ISOLE_AVEC_ENFANT" }
-    );
-
-    stat.questions.Q_19.HOMME_ISOLE_SANS_ENFANT = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-
-      { key: "typeMenage", value: "HOMME_ISOLE_SANS_ENFANT" }
+    stat.questions.Q_19.HOMME_ISOLE_SANS_ENFANT = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          typeMenage: "HOMME_ISOLE_SANS_ENFANT",
+        },
+      }
     );
 
     stat.questions.Q_20.appel = await this.totalInteraction(
@@ -826,131 +658,193 @@ export class StatsGeneratorService {
       "npai"
     );
 
-    stat.questions.Q_21.ERRANCE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "cause", value: "ERRANCE" }
+    stat.questions.Q_21.ERRANCE = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      entretien: {
+        cause: "ERRANCE",
+      },
+    });
+
+    stat.questions.Q_21.EXPULSION = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      entretien: {
+        cause: "EXPULSION",
+      },
+    });
+
+    stat.questions.Q_21.HEBERGE_SANS_ADRESSE = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          cause: "HEBERGE_SANS_ADRESSE",
+        },
+      }
     );
 
-    stat.questions.Q_21.EXPULSION = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "cause", value: "EXPULSION" }
+    stat.questions.Q_21.ITINERANT = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      entretien: {
+        cause: "ITINERANT",
+      },
+    });
+
+    stat.questions.Q_21.SORTIE_STRUCTURE = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          cause: "SORTIE_STRUCTURE",
+        },
+      }
     );
 
-    stat.questions.Q_21.HEBERGE_SANS_ADRESSE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "cause", value: "HEBERGE_SANS_ADRESSE" }
+    stat.questions.Q_21.VIOLENCE = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      entretien: {
+        cause: "VIOLENCE",
+      },
+    });
+
+    stat.questions.Q_21.NON_RENSEIGNE = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          cause: "NON_RENSEIGNE",
+        },
+      }
     );
 
-    stat.questions.Q_21.ITINERANT = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "cause", value: "ITINERANT" }
+    stat.questions.Q_21.AUTRE = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      entretien: {
+        cause: "AUTRE",
+      },
+    });
+
+    stat.questions.Q_21.RUPTURE = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      entretien: {
+        cause: "RUPTURE",
+      },
+    });
+
+    stat.questions.Q_22.AUTRE = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      entretien: {
+        residence: "AUTRE",
+      },
+    });
+    stat.questions.Q_22.DOMICILE_MOBILE = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          residence: "DOMICILE_MOBILE",
+        },
+      }
     );
 
-    stat.questions.Q_21.SORTIE_STRUCTURE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "cause", value: "SORTIE_STRUCTURE" }
+    stat.questions.Q_22.HEBERGEMENT_SOCIAL = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          residence: "HEBERGEMENT_SOCIAL",
+        },
+      }
     );
 
-    stat.questions.Q_21.VIOLENCE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "cause", value: "VIOLENCE" }
+    stat.questions.Q_22.HEBERGEMENT_TIERS = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          residence: "HEBERGEMENT_TIERS",
+        },
+      }
     );
 
-    stat.questions.Q_21.NON_RENSEIGNE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "cause", value: "NON_RENSEIGNE" }
-    );
+    stat.questions.Q_22.HOTEL = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      entretien: {
+        residence: "HOTEL",
+      },
+    });
 
-    stat.questions.Q_21.AUTRE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "cause", value: "AUTRE" }
-    );
+    stat.questions.Q_22.SANS_ABRI = await usagerRepository.countDomiciliations({
+      structureId: structure.id,
+      decision: {
+        statut: "VALIDE",
+        dateDecisionBefore: this.endOfStatDate,
+      },
+      entretien: {
+        residence: "SANS_ABRI",
+      },
+    });
 
-    stat.questions.Q_21.RUPTURE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "cause", value: "RUPTURE" }
-    );
-
-    stat.questions.Q_22.AUTRE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "residence", value: "AUTRE" }
-    );
-    stat.questions.Q_22.DOMICILE_MOBILE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "residence", value: "DOMICILE_MOBILE" }
-    );
-
-    stat.questions.Q_22.HEBERGEMENT_SOCIAL = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "residence", value: "HEBERGEMENT_SOCIAL" }
-    );
-
-    stat.questions.Q_22.HEBERGEMENT_TIERS = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "residence", value: "HEBERGEMENT_TIERS" }
-    );
-
-    stat.questions.Q_22.HOTEL = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "residence", value: "HOTEL" }
-    );
-
-    stat.questions.Q_22.SANS_ABRI = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "residence", value: "SANS_ABRI" }
-    );
-
-    stat.questions.Q_22.NON_RENSEIGNE = await this.totalParStatutActifs(
-      structure.id,
-      "VALIDE",
-      "",
-      "",
-      { key: "residence", value: "NON_RENSEIGNE" }
+    stat.questions.Q_22.NON_RENSEIGNE = await usagerRepository.countDomiciliations(
+      {
+        structureId: structure.id,
+        decision: {
+          statut: "VALIDE",
+          dateDecisionBefore: this.endOfStatDate,
+        },
+        entretien: {
+          residence: "NON_RENSEIGNE",
+        },
+      }
     );
     return stat;
   }

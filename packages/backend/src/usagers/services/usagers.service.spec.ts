@@ -1,6 +1,9 @@
 import { forwardRef } from "@nestjs/common";
-import { DatabaseModule, usersRepository } from "../../database";
-import { UsersService } from "../../users/services/users.service";
+import {
+  DatabaseModule,
+  usagerRepository,
+  usersRepository,
+} from "../../database";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
@@ -11,7 +14,6 @@ import { UsagersService } from "./usagers.service";
 
 describe("UsagersService", () => {
   let service: UsagersService;
-  let userService: UsersService;
 
   const fakeUsagerDto = new CreateUsagerDto();
   const searchDto = new SearchDto();
@@ -32,7 +34,6 @@ describe("UsagersService", () => {
       providers: [UsagersService, CerfaService, ...UsagersProviders],
     });
     service = context.module.get<UsagersService>(UsagersService);
-    userService = context.module.get<UsersService>(UsersService);
   });
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
@@ -51,7 +52,10 @@ describe("UsagersService", () => {
     expect(usagerTest).toBeDefined();
 
     // READ
-    const usager = await service.findById(usagerTest.id, user.structureId);
+    const usager = await usagerRepository.findOne({
+      ref: usagerTest.ref,
+      structureId: user.structureId,
+    });
     expect(usager).toBeTruthy();
     expect(usager.nom).toEqual(fakeUsagerDto.nom);
     expect(usager.sexe).toEqual(fakeUsagerDto.sexe);
@@ -60,27 +64,20 @@ describe("UsagersService", () => {
     usager.nom = "Nouveau nom";
     usager.prenom = "Nouveau prénom";
 
-    await service.patch(usager, usager._id);
-    const updatedUsager = await service.findById(
-      usagerTest.id,
-      user.structureId
-    );
+    await service.patch({ uuid: usager.uuid }, usager);
+    const updatedUsager = await usagerRepository.findOne({
+      ref: usagerTest.ref,
+      structureId: user.structureId,
+    });
 
     expect(updatedUsager.nom).toEqual("Nouveau nom");
     expect(updatedUsager.prenom).toEqual("Nouveau prénom");
 
     // DELETE
-    const deletedUsager = await service.delete(updatedUsager._id);
-    expect(await deletedUsager.deletedCount).toEqual(1);
-    // clean
-    await service.delete(usagerTest._id);
-  });
-
-  it("2. Doublons", async () => {
-    const user = await usersRepository.findOne({ id: 1 });
-
-    const doublons = await service.isDoublon("Lou", "Li", 2, user);
-    expect(doublons.length).toEqual(1);
+    const deletedCount = await usagerRepository.deleteByCriteria({
+      uuid: updatedUsager.uuid,
+    });
+    expect(await deletedCount).toEqual(1);
   });
 
   it("2. Search", async () => {

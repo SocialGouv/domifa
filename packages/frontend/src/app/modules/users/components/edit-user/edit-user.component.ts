@@ -11,9 +11,8 @@ import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { regexp } from "src/app/shared/validators";
-import { AppUser } from "../../../../../_common/model";
+import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { appUserBuilder } from "../../services";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
@@ -25,7 +24,7 @@ import { UsersService } from "../../services/users.service";
 })
 export class EditUserComponent implements OnInit {
   public me: AppUser | null;
-  public usagers: Usager[];
+  public usagers: UsagerLight[];
 
   public submitted: boolean;
 
@@ -77,7 +76,7 @@ export class EditUserComponent implements OnInit {
         this.me = user;
 
         if (this.me.role !== "facteur") {
-          this.userService.agenda().subscribe((usagers: Usager[]) => {
+          this.userService.agenda().subscribe((usagers: UsagerLight[]) => {
             this.usagers = usagers;
           });
         }

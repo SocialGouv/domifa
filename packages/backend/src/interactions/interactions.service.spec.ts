@@ -1,6 +1,10 @@
-import { DatabaseModule, usersRepository } from "../database";
+import {
+  DatabaseModule,
+  UsagerPG,
+  usagerRepository,
+  usersRepository,
+} from "../database";
 import { StructuresModule } from "../structures/structure.module";
-import { Usager } from "../usagers/interfaces/usagers";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersService } from "../users/services/users.service";
@@ -14,11 +18,11 @@ import { InteractionsService } from "./interactions.service";
 describe("InteractionsService", () => {
   let context: AppTestContext;
 
-  let interactionService: InteractionsService;
+  let interactionsService: InteractionsService;
   let usagerService: UsagersService;
 
   let user: AppUser;
-  let usager: Usager;
+  let usager: UsagerPG;
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
@@ -31,14 +35,17 @@ describe("InteractionsService", () => {
       ],
       providers: [InteractionsService, UsersService],
     });
-    interactionService = context.module.get<InteractionsService>(
+    interactionsService = context.module.get<InteractionsService>(
       InteractionsService
     );
 
     usagerService = context.module.get<UsagersService>(UsagersService);
 
     user = await usersRepository.findOne({ id: 1 });
-    usager = await usagerService.findById(1, 1);
+    usager = await usagerRepository.findOne({
+      ref: 1,
+      structureId: 1,
+    });
   });
 
   afterAll(async () => {
@@ -46,7 +53,7 @@ describe("InteractionsService", () => {
   });
 
   it("should be defined", () => {
-    expect(interactionService).toBeDefined();
+    expect(interactionsService).toBeDefined();
   });
 
   it("1. Distribution d'un courrier", async () => {
@@ -54,8 +61,8 @@ describe("InteractionsService", () => {
     interaction.type = "courrierOut";
     interaction.content = "Retrait du courrier";
     interaction.nbCourrier = 0;
-    const resultat = await interactionService.create({
-      usager,
+    const resultat = await interactionsService.create({
+      usagerUUID: usager.uuid,
       user,
       interaction,
     });
@@ -68,14 +75,18 @@ describe("InteractionsService", () => {
     interaction.content = "Les impôts";
     interaction.nbCourrier = 10;
 
-    await interactionService.create({ usager, user, interaction });
+    await interactionsService.create({
+      usagerUUID: usager.uuid,
+      user,
+      interaction,
+    });
 
     const secondInteraction = new InteractionDto();
     secondInteraction.type = "courrierIn";
     secondInteraction.content = "Le Loyer";
     secondInteraction.nbCourrier = 5;
-    const usager2 = await interactionService.create({
-      usager,
+    const usager2 = await interactionsService.create({
+      usagerUUID: usager.uuid,
       user,
       interaction: secondInteraction,
     });
@@ -88,10 +99,13 @@ describe("InteractionsService", () => {
     interaction.content = "Colis d'un distributeur";
     interaction.nbCourrier = 1;
 
-    const usagerBefore = await usagerService.findById(1, 1);
+    const usagerBefore = await usagerRepository.findOne({
+      ref: 1,
+      structureId: 1,
+    });
 
-    const usager3 = await interactionService.create({
-      usager,
+    const usager3 = await interactionsService.create({
+      usagerUUID: usager.uuid,
       user,
       interaction,
     });
@@ -101,8 +115,8 @@ describe("InteractionsService", () => {
 
     const distribution = new InteractionDto();
     distribution.type = "colisOut";
-    const usager2 = await interactionService.create({
-      usager,
+    const usager2 = await interactionsService.create({
+      usagerUUID: usager.uuid,
       user,
       interaction: distribution,
     });

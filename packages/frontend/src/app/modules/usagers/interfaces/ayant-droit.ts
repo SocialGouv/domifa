@@ -1,13 +1,17 @@
+import { UsagerAyantDroit } from "../../../../_common/model/usager/UsagerAyantDroit.type";
+
 export class AyantDroit {
-  public dateNaissance: Date;
+  public dateNaissance: Date | string;
   public lien: string;
   public nom: string;
   public prenom: string;
 
-  constructor(ayantDroit?: any) {
+  constructor(ayantDroit?: UsagerAyantDroit) {
     this.nom = (ayantDroit && ayantDroit.nom) || "";
     this.prenom = (ayantDroit && ayantDroit.prenom) || "";
-    this.dateNaissance = (ayantDroit && ayantDroit.dateNaissance) || "";
+    this.dateNaissance = ayantDroit?.dateNaissance
+      ? new Date(ayantDroit.dateNaissance)
+      : "";
     this.lien = (ayantDroit && ayantDroit.lien) || "";
   }
 }

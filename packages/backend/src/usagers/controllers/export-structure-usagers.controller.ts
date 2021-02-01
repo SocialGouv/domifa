@@ -4,6 +4,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
+import { UsagerLight } from "../../database";
 import {
   structureUsagersExporter,
   StructureUsagersExportModel,
@@ -11,7 +12,6 @@ import {
 import { InteractionsService } from "../../interactions/interactions.service";
 import { appLogger } from "../../util";
 import { AppAuthUser, AppUser, UserRole } from "../../_common/model";
-import { Usager } from "../interfaces/usagers";
 import { UsagersService } from "../services/usagers.service";
 
 import moment = require("moment");
@@ -81,51 +81,51 @@ export class ExportStructureUsagersController {
     const usagers = await this.usagersService.export(user.structureId);
 
     const usagersInteractionsCountByType: {
-      [usagerId: string]: { [interactionType: string]: number };
+      [usagerRef: number]: { [interactionType: string]: number };
     } = {};
 
     for (let i = 0; i < usagers.length; i++) {
-      const usager: Usager = usagers[i];
+      const usager: UsagerLight = usagers[i];
 
-      usagersInteractionsCountByType[usager.id] = {
+      usagersInteractionsCountByType[usager.ref] = {
         courrierIn: await this.interactionsService.totalInteraction(
           user.structureId,
-          usager.id,
+          usager.ref,
           "courrierIn"
         ),
         courrierOut: await this.interactionsService.totalInteraction(
           user.structureId,
-          usager.id,
+          usager.ref,
           "courrierOut"
         ),
         recommandeIn: await this.interactionsService.totalInteraction(
           user.structureId,
-          usager.id,
+          usager.ref,
           "recommandeIn"
         ),
         recommandeOut: await this.interactionsService.totalInteraction(
           user.structureId,
-          usager.id,
+          usager.ref,
           "recommandeOut"
         ),
         colisIn: await this.interactionsService.totalInteraction(
           user.structureId,
-          usager.id,
+          usager.ref,
           "colisIn"
         ),
         colisOut: await this.interactionsService.totalInteraction(
           user.structureId,
-          usager.id,
+          usager.ref,
           "colisOut"
         ),
         appel: await this.interactionsService.totalInteraction(
           user.structureId,
-          usager.id,
+          usager.ref,
           "appel"
         ),
         visite: await this.interactionsService.totalInteraction(
           user.structureId,
-          usager.id,
+          usager.ref,
           "visite"
         ),
       };

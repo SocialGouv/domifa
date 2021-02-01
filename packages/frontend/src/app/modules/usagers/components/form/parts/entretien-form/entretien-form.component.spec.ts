@@ -1,18 +1,14 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { NO_ERRORS_SCHEMA } from "@angular/core";
-
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { EntretienFormComponent } from "./entretien-form.component";
+import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrModule } from "ngx-toastr";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { APP_BASE_HREF } from "@angular/common";
-import { Usager } from "../../../../interfaces/usager";
-import { usagerValideMock } from "../../../../../../../_common/mocks/usager.mock";
+import { ToastrModule } from "ngx-toastr";
+import { EntretienFormComponent } from "./entretien-form.component";
 
 describe("EntretienFormComponent", () => {
   let component: EntretienFormComponent;

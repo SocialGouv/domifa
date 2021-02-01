@@ -1,5 +1,5 @@
 import { AuthService } from "../auth/auth.service";
-import { DatabaseModule } from "../database";
+import { DatabaseModule, usagerRepository } from "../database";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersService } from "../users/services/users.service";
@@ -8,7 +8,6 @@ import { AppTestContext, AppTestHelper } from "../util/test";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsService } from "./interactions.service";
-
 
 describe("Interactions Controller", () => {
   let controller: InteractionsController;
@@ -42,22 +41,19 @@ describe("Interactions Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  it("GET by ID ", async () => {
+  it("postInteraction ", async () => {
     const interaction = new InteractionDto();
     interaction.type = "courrierOut";
     interaction.content = "Les impôts";
-    const user = await authService.findAuthUser({ id: 2 });
-    const usager = await usagerService.findById(1, 1);
+    const user = await authService.findAuthUser({ id: 2, structureId: 1 });
+    expect(user).toBeDefined();
+    const usager = await usagerRepository.findOne({
+      ref: 1,
+      structureId: 1,
+    });
+    expect(usager).toBeDefined();
 
-    try {
-      const testFc = await controller.postInteraction(
-        interaction,
-        user,
-        usager
-      );
-      expect(testFc).toBeDefined();
-    } catch (err) {
-      expect(err.message).toEqual("NOT_FOUND");
-    }
+    const testFc = await controller.postInteraction(interaction, user, usager);
+    expect(testFc).toBeDefined();
   });
 });

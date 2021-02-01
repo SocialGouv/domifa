@@ -15,14 +15,14 @@ import { ToastrService } from "ngx-toastr";
 import { fromEvent, ReplaySubject, Subject, Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
-import { AppUser } from "../../../../../_common/model";
+import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
 import { Filters, Search, SortValues } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
+import { UsagerFormModel } from "../form/UsagerFormModel";
 
 @Component({
   animations: [fadeInOutSlow, fadeInOut],
@@ -34,7 +34,7 @@ import { InteractionService } from "../../services/interaction.service";
 export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
 
-  public usagers: Usager[] = [];
+  public usagers: UsagerFormModel[] = [];
   public me: AppUser;
 
   public dateLabel: string;
@@ -75,7 +75,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     ID: "ID",
   };
 
-  public selectedUsager: Usager;
+  public selectedUsager: UsagerLight;
 
   @ViewChild("searchInput", { static: true })
   public searchInput!: ElementRef;
@@ -100,7 +100,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.dateLabel = "Fin de domiciliation";
     this.filters = new Search(this.getFilters());
     this.nbResults = 0;
-    this.selectedUsager = new Usager();
+    this.selectedUsager = {} as any;
 
     this.today = new Date();
     this.stats = {
@@ -160,8 +160,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
   }
 
-  public getAttestation(usagerId: number) {
-    return this.usagerService.attestation(usagerId);
+  public getAttestation(usagerRef: number) {
+    return this.usagerService.attestation(usagerRef);
   }
 
   public resetFilters() {
@@ -235,7 +235,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.matomo.trackEvent("filters", element, value, 1);
   }
 
-  public goToProfil(usager: Usager) {
+  public goToProfil(usager: UsagerLight) {
     const etapesUrl = [
       "etat-civil",
       "rendez-vous",
@@ -249,7 +249,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       usager.decision.statut === "INSTRUCTION"
     ) {
       if (usager.typeDom === "RENOUVELLEMENT") {
-        this.router.navigate(["usager/" + usager.id]);
+        this.router.navigate(["usager/" + usager.ref]);
         return;
       }
 
@@ -260,10 +260,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
       if (usager.decision.statut === "INSTRUCTION") {
         this.router.navigate([
-          "usager/" + usager.id + "/edit/" + etapesUrl[usager.etapeDemande],
+          "usager/" + usager.ref + "/edit/" + etapesUrl[usager.etapeDemande],
         ]);
       } else {
-        this.router.navigate(["usager/" + usager.id + "/edit/decision"]);
+        this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
       }
     } else if (
       usager.decision.statut === "REFUS" &&
@@ -272,12 +272,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       this.notifService.error("Vous ne pouvez pas accéder à ce profil");
       return;
     } else {
-      this.router.navigate(["usager/" + usager.id]);
+      this.router.navigate(["usager/" + usager.ref]);
     }
   }
 
   public setInteraction(
-    usager: Usager,
+    usager: UsagerLight,
     type: InteractionTypes,
     procuration?: boolean
   ) {
@@ -311,7 +311,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.matomo.trackEvent("interactions", "manage", type, 1);
 
     this.interactionService.setInteraction(usager, interaction).subscribe(
-      (response: Usager) => {
+      (response: UsagerLight) => {
         usager.lastInteraction = response.lastInteraction;
         this.notifService.success(interactionsLabels[type]);
       },
@@ -335,10 +335,15 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     localStorage.setItem("filters", JSON.stringify(filters));
 
     this.usagerService.search(filters).subscribe(
-      (response: { results: Usager[] | Usager; nbResults: number }) => {
+      (response: {
+        results: UsagerLight[] | UsagerLight;
+        nbResults: number;
+      }) => {
         const usagers = Array.isArray(response.results)
-          ? response.results.map((item) => new Usager(item, filters.name))
-          : [new Usager(response, filters.name)];
+          ? response.results.map(
+              (item) => new UsagerFormModel(item, filters.name)
+            )
+          : [new UsagerFormModel(response.results, filters.name)];
 
         if (filters.page === 0) {
           this.nbResults = response.nbResults;

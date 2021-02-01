@@ -11,12 +11,12 @@ import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { LoadingService } from "../../loading/loading.service";
 import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 import { Search } from "../interfaces/search";
-import { Usager } from "../interfaces/usager";
 
 @Injectable({
   providedIn: "root",
@@ -37,158 +37,126 @@ export class UsagerService {
     this.loading = true;
   }
 
-  public create(usager: Usager): Observable<Usager> {
+  public create(usager: UsagerLight): Observable<UsagerLight> {
     const response =
-      usager.id !== 0
-        ? this.http.patch(`${this.endPointUsagers}/${usager.id}`, usager)
-        : this.http.post(`${this.endPointUsagers}`, usager);
+      usager.ref !== 0
+        ? this.http.patch<UsagerLight>(
+            `${this.endPointUsagers}/${usager.ref}`,
+            usager
+          )
+        : this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager);
 
-    return response.pipe(
-      map((updatedUsager) => {
-        return new Usager(updatedUsager);
-      })
-    );
+    return response;
   }
 
   public createRdv(
     rdv: Pick<Rdv, "userId" | "dateRdv" | "isNow">,
-    usagerId: number
-  ): Observable<Usager> {
-    return this.http.post(`${environment.apiUrl}agenda/${usagerId}`, rdv).pipe(
-      map((response) => {
-        return new Usager(response);
-      })
+    usagerRef: number
+  ): Observable<UsagerLight> {
+    return this.http.post<UsagerLight>(
+      `${environment.apiUrl}agenda/${usagerRef}`,
+      rdv
     );
   }
 
-  public editTransfert(transfert: any, usagerId: number): Observable<Usager> {
-    return this.http
-      .post(`${this.endPointUsagers}/transfert/${usagerId}`, transfert)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
-  }
-
-  public deleteTransfert(usagerId: number): Observable<Usager> {
-    return this.http
-      .delete(`${this.endPointUsagers}/transfert/${usagerId}`)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
-  }
-
-  public editProcuration(transfert: any, usagerId: number): Observable<Usager> {
-    return this.http
-      .post(`${this.endPointUsagers}/procuration/${usagerId}`, transfert)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
-  }
-
-  public deleteProcuration(usagerId: number): Observable<Usager> {
-    return this.http
-      .delete(`${this.endPointUsagers}/procuration/${usagerId}`)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
-  }
-
-  public deleteRenew(usagerId: number): Observable<Usager> {
-    return this.http.delete(`${this.endPointUsagers}/renew/${usagerId}`).pipe(
-      map((response) => {
-        return new Usager(response);
-      })
+  public editTransfert(
+    transfert: any,
+    usagerRef: number
+  ): Observable<UsagerLight> {
+    return this.http.post<UsagerLight>(
+      `${this.endPointUsagers}/transfert/${usagerRef}`,
+      transfert
     );
   }
 
-  public nextStep(usagerId: number, etapeDemande: number): Observable<Usager> {
-    return this.http
-      .get(`${this.endPointUsagers}/next-step/${usagerId}/${etapeDemande}`)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
+  public deleteTransfert(usagerRef: number): Observable<UsagerLight> {
+    return this.http.delete<UsagerLight>(
+      `${this.endPointUsagers}/transfert/${usagerRef}`
+    );
   }
 
-  public stopCourrier(usagerId: number): Observable<Usager> {
-    return this.http
-      .get(`${this.endPointUsagers}/stop-courrier/${usagerId}`)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
+  public editProcuration(
+    transfert: any,
+    usagerRef: number
+  ): Observable<UsagerLight> {
+    return this.http.post<UsagerLight>(
+      `${this.endPointUsagers}/procuration/${usagerRef}`,
+      transfert
+    );
   }
 
-  public renouvellement(usagerId: number): Observable<Usager> {
-    return this.http
-      .get(`${this.endPointUsagers}/renouvellement/${usagerId}`)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
+  public deleteProcuration(usagerRef: number): Observable<UsagerLight> {
+    return this.http.delete<UsagerLight>(
+      `${this.endPointUsagers}/procuration/${usagerRef}`
+    );
   }
 
-  public entretien(entretien: Entretien, usagerId: number): Observable<Usager> {
+  public deleteRenew(usagerRef: number): Observable<UsagerLight> {
     return this.http
-      .post(`${this.endPointUsagers}/entretien/${usagerId}`, entretien)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
+      .delete<UsagerLight>(`${this.endPointUsagers}/renew/${usagerRef}`)
+      .pipe();
+  }
+
+  public nextStep(
+    usagerRef: number,
+    etapeDemande: number
+  ): Observable<UsagerLight> {
+    return this.http.get<UsagerLight>(
+      `${this.endPointUsagers}/next-step/${usagerRef}/${etapeDemande}`
+    );
+  }
+
+  public stopCourrier(usagerRef: number): Observable<UsagerLight> {
+    return this.http.get<UsagerLight>(
+      `${this.endPointUsagers}/stop-courrier/${usagerRef}`
+    );
+  }
+
+  public renouvellement(usagerRef: number): Observable<UsagerLight> {
+    return this.http.get<UsagerLight>(
+      `${this.endPointUsagers}/renouvellement/${usagerRef}`
+    );
+  }
+
+  public entretien(
+    entretien: Entretien,
+    usagerRef: number
+  ): Observable<UsagerLight> {
+    return this.http.post<UsagerLight>(
+      `${this.endPointUsagers}/entretien/${usagerRef}`,
+      entretien
+    );
   }
 
   public setDecision(
-    usagerId: number,
+    usagerRef: number,
     decision: Decision,
     statut: string
-  ): Observable<Usager> {
+  ): Observable<UsagerLight> {
     decision.statut = statut;
     delete decision.userId;
     delete decision.userName;
 
-    return this.http
-      .post(`${this.endPointUsagers}/decision/${usagerId}`, decision)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
-  }
-
-  public findOne(usagerId: number): Observable<Usager> {
-    return this.http.get(`${this.endPointUsagers}/${usagerId}`).pipe(
-      map((response) => {
-        return new Usager(response);
-      })
+    return this.http.post<UsagerLight>(
+      `${this.endPointUsagers}/decision/${usagerRef}`,
+      decision
     );
   }
 
-  public isDoublon(nom: string, prenom: string, usagerId: number) {
+  public findOne(usagerRef: number): Observable<UsagerLight> {
     return this.http
-      .get(`${this.endPointUsagers}/doublon/${nom}/${prenom}/${usagerId}`)
-      .pipe(
-        map((response) => {
-          return Array.isArray(response)
-            ? response.map((item) => new Usager(item))
-            : [new Usager(response)];
-        })
-      );
+      .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
+      .pipe();
   }
 
-  public delete(usagerId: number) {
-    return this.http.delete(`${this.endPointUsagers}/${usagerId}`);
+  public isDoublon(nom: string, prenom: string, usagerRef: number) {
+    return this.http.get<UsagerLight[]>(
+      `${this.endPointUsagers}/doublon/${nom}/${prenom}/${usagerRef}`
+    );
+  }
+
+  public delete(usagerRef: number) {
+    return this.http.delete(`${this.endPointUsagers}/${usagerRef}`);
   }
 
   public getStats() {
@@ -210,13 +178,13 @@ export class UsagerService {
   }
 
   /* Attestation */
-  public attestation(usagerId: number): void {
+  public attestation(usagerRef: number): void {
     this.loadingService.startLoading();
 
     this.matomo.trackEvent("stats", "telechargement_cerfa", "null", 1);
 
     this.http
-      .get(`${this.endPointUsagers}/attestation/${usagerId}`, {
+      .get(`${this.endPointUsagers}/attestation/${usagerRef}`, {
         responseType: "blob",
       })
       .subscribe(
@@ -226,7 +194,7 @@ export class UsagerService {
 
           saveAs(
             newBlob,
-            "attestation_" + usagerId + "_" + randomNumber + ".pdf"
+            "attestation_" + usagerRef + "_" + randomNumber + ".pdf"
           );
 
           setTimeout(() => {

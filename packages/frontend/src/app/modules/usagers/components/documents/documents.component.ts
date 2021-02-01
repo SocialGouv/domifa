@@ -1,19 +1,23 @@
-import { Component, Input, OnInit } from "@angular/core";
-
+import { Component, Input, OnChanges, OnInit } from "@angular/core";
+import { saveAs } from "file-saver";
+import { MatomoTracker } from "ngx-matomo";
+import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Usager } from "../../interfaces/usager";
+import { UsagerDoc } from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model/usager/UsagerLight.type";
 import { DocumentService } from "../../services/document.service";
 
-import { ToastrService } from "ngx-toastr";
-import { MatomoTracker } from "ngx-matomo";
-import { saveAs } from "file-saver";
 @Component({
   selector: "app-documents",
   styleUrls: ["./documents.component.css"],
   templateUrl: "./documents.component.html",
 })
-export class DocumentsComponent implements OnInit {
-  @Input() public usager!: Usager;
+export class DocumentsComponent implements OnInit, OnChanges {
+  @Input() public usager: UsagerLight;
+  public docsStates: (UsagerDoc & {
+    loadingDownload: boolean;
+    loadingDelete: boolean;
+  })[];
 
   constructor(
     public authService: AuthService,
@@ -22,17 +26,27 @@ export class DocumentsComponent implements OnInit {
     private matomo: MatomoTracker
   ) {}
 
-  public ngOnInit() {
-    //
+  public ngOnChanges() {
+    this.rebuildDocStates();
   }
 
+  private rebuildDocStates() {
+    this.docsStates = this.usager.docs.map((d) => ({
+      ...d,
+      loadingDownload: false,
+      loadingDelete: false,
+    }));
+  }
+
+  public ngOnInit() {}
+
   public getDocument(i: number) {
-    this.usager.docs[i].loadingDownload = true;
+    this.docsStates[i].loadingDownload = true;
     this.documentService
-      .getDocument(this.usager.id, i, this.usager.docs[i])
+      .getDocument(this.usager.ref, i, this.docsStates[i])
       .subscribe(
         (blob: any) => {
-          const doc = this.usager.docs[i];
+          const doc = this.docsStates[i];
           const extension = doc.filetype.split("/")[1];
           const newBlob = new Blob([blob], { type: doc.filetype });
 
@@ -46,24 +60,25 @@ export class DocumentsComponent implements OnInit {
           );
 
           this.matomo.trackEvent("stats", "telechargement_fichier", "null", 1);
-          this.usager.docs[i].loadingDownload = false;
+          this.docsStates[i].loadingDownload = false;
         },
         () => {
-          this.usager.docs[i].loadingDownload = false;
+          this.docsStates[i].loadingDownload = false;
           this.notifService.error("Impossible de télécharger le fichier");
         }
       );
   }
 
   public deleteDocument(i: number): void {
-    this.usager.docs[i].loadingDelete = true;
-    this.documentService.deleteDocument(this.usager.id, i).subscribe(
-      (usager: Usager) => {
-        this.usager.docs = usager.docs;
+    this.docsStates[i].loadingDelete = true;
+    this.documentService.deleteDocument(this.usager.ref, i).subscribe(
+      (docs: UsagerDoc[]) => {
+        this.usager.docs = docs;
+        this.rebuildDocStates();
         this.notifService.success("Document supprimé avec succès");
       },
       () => {
-        this.usager.docs[i].loadingDelete = false;
+        this.docsStates[i].loadingDelete = false;
         this.notifService.error("Impossible de supprimer le document");
       }
     );

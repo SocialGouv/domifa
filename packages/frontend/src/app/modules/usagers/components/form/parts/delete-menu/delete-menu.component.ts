@@ -3,9 +3,8 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AppUser } from "../../../../../../../_common/model";
+import { AppUser, UsagerLight } from "../../../../../../../_common/model";
 
 @Component({
   providers: [UsagerService],
@@ -13,7 +12,7 @@ import { AppUser } from "../../../../../../../_common/model";
   templateUrl: "./delete-menu.component.html",
 })
 export class DeleteMenuComponent implements OnInit {
-  @Input() public usager!: Usager;
+  @Input() public usager!: UsagerLight;
 
   public me: AppUser;
 
@@ -40,7 +39,7 @@ export class DeleteMenuComponent implements OnInit {
   }
 
   public deleteUsager() {
-    this.usagerService.delete(this.usager.id).subscribe(
+    this.usagerService.delete(this.usager.ref).subscribe(
       () => {
         this.modalService.dismissAll();
         this.notifService.success("Usager supprimé avec succès");
@@ -53,7 +52,7 @@ export class DeleteMenuComponent implements OnInit {
   }
 
   public deleteRenew() {
-    this.usagerService.deleteRenew(this.usager.id).subscribe(
+    this.usagerService.deleteRenew(this.usager.ref).subscribe(
       () => {
         this.modalService.dismissAll();
         this.notifService.success(

@@ -3,8 +3,12 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { AppUser, UserProfile, UserRole } from "../../../../_common/model";
-import { Usager } from "../../usagers/interfaces/usager";
+import {
+  AppUser,
+  UsagerLight,
+  UserProfile,
+  UserRole,
+} from "../../../../_common/model";
 import { appUserBuilder } from "./app-user-builder.service";
 
 @Injectable({
@@ -116,22 +120,18 @@ export class UsersService {
     return this.http.post(`${this.endPoint}/register`, data);
   }
 
-  public agenda(): Observable<Usager[] | []> {
+  public agenda(): Observable<UsagerLight[] | []> {
     return this.http.get(`${environment.apiUrl}agenda`).pipe(
       map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) => new Usager(item))
-          : [new Usager(response)];
+        return Array.isArray(response) ? response : [response];
       })
     );
   }
 
-  public getIcs(): Observable<Usager[] | []> {
+  public getIcs(): Observable<UsagerLight[] | []> {
     return this.http.get(`${environment.apiUrl}agenda`).pipe(
       map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) => new Usager(item))
-          : [new Usager(response)];
+        return Array.isArray(response) ? response : [response];
       })
     );
   }

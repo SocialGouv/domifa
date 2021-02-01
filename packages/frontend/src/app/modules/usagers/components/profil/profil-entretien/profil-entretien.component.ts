@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Usager } from "../../../interfaces/usager";
+import { UsagerLight } from "../../../../../../_common/model";
 import * as usagersLabels from "../../../usagers.labels";
 @Component({
   selector: "app-profil-entretien",
@@ -7,7 +7,7 @@ import * as usagersLabels from "../../../usagers.labels";
   styleUrls: ["./profil-entretien.component.css"],
 })
 export class ProfilEntretienComponent implements OnInit {
-  @Input() public usager: Usager;
+  @Input() public usager: UsagerLight;
   public labels = usagersLabels;
 
   constructor() {}

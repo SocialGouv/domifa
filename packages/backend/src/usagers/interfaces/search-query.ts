@@ -1,5 +1,5 @@
 export interface SearchQuery {
-  customId?: any;
+  customRef?: any;
   name?: string;
   $or?: any;
   id?: {};

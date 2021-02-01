@@ -1,24 +1,22 @@
-import { async, TestBed } from "@angular/core/testing";
-
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-import { first } from "rxjs/operators";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { AyantDroit } from "../interfaces/ayant-droit";
 import { Doc } from "../interfaces/doc";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
-import { Usager } from "../interfaces/usager";
 import { UsagerService } from "./usager.service";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("UsagerService", () => {
   let service: UsagerService;
@@ -67,7 +65,7 @@ describe("UsagerService", () => {
   });
 
   it("Interfaces", () => {
-    const usager = new Usager({});
+    const usager = new UsagerFormModel({});
     const entretien = new Entretien({});
     const rdv = new Rdv({});
     const doc = new Doc({});
@@ -79,17 +77,6 @@ describe("UsagerService", () => {
     expect(usager).toBeDefined();
     expect(entretien).toBeDefined();
     expect(rdv).toBeDefined();
-
-    const usagerFull = new Usager({
-      dateNaissance: new Date("December 20, 1991 02:12:00"),
-      id: 2,
-      nom: "Test",
-      prenom: "Tester",
-      sexe: "homme",
-      structure: "2",
-      surnom: "Test Test",
-      villeNaissance: "Saint-denis",
-    });
 
     const rdvFull = new Rdv({
       dateRdv: new Date("December 20, 1991 02:12:00"),
@@ -106,15 +93,15 @@ describe("UsagerService", () => {
     expect(docFull).toEqual(docFull);
 
     const ayantDroit = new AyantDroit({
-      dateNaissance: "20/12/1991",
-      lien: "enfant",
+      dateNaissance: "1991/12/20",
+      lien: "ENFANT",
       nom: "Le nom",
       prenom: "Le prénom",
     });
 
     expect(ayantDroit).toEqual({
-      dateNaissance: "20/12/1991",
-      lien: "enfant",
+      dateNaissance: new Date("1991/12/20"),
+      lien: "ENFANT",
       nom: "Le nom",
       prenom: "Le prénom",
     });

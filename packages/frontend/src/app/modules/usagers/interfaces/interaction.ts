@@ -21,7 +21,7 @@ export class Interaction {
   public dateInteraction: Date | null;
   public content?: string;
   public nbCourrier?: number;
-  public usagerId: number;
+  public usagerRef: number;
   public structureId: number;
   public userName?: string;
   public userId: number;
@@ -31,7 +31,7 @@ export class Interaction {
   public label: string;
 
   constructor(interaction: any) {
-    this.usagerId = (interaction && interaction.usagerId) || null;
+    this.usagerRef = (interaction && interaction.usagerRef) || null;
     this.structureId = (interaction && interaction.structureId) || null;
     this.userId = (interaction && interaction.userId) || null;
     this.dateInteraction =

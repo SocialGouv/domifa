@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AppUser } from "../../../../../../../_common/model";
+import { AppUser, UsagerLight } from "../../../../../../../_common/model";
 
 @Component({
   providers: [UsagerService],
@@ -12,7 +11,7 @@ import { AppUser } from "../../../../../../../_common/model";
   templateUrl: "./documents-form.component.html",
 })
 export class DocumentsFormComponent implements OnInit {
-  public usager: Usager;
+  public usager: UsagerLight;
   public me: AppUser;
 
   constructor(
@@ -33,7 +32,7 @@ export class DocumentsFormComponent implements OnInit {
       const id = this.route.snapshot.params.id;
 
       this.usagerService.findOne(id).subscribe(
-        (usager: Usager) => {
+        (usager: UsagerLight) => {
           this.usager = usager;
         },
         () => {
@@ -47,10 +46,10 @@ export class DocumentsFormComponent implements OnInit {
 
   public nextStep(step: number) {
     this.usagerService
-      .nextStep(this.usager.id, step)
-      .subscribe((usager: Usager) => {
+      .nextStep(this.usager.ref, step)
+      .subscribe((usager: UsagerLight) => {
         this.usager = usager;
-        this.router.navigate(["usager/" + usager.id + "/edit/decision"]);
+        this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
       });
   }
 }

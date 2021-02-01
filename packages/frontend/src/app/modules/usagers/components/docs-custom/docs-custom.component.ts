@@ -1,17 +1,16 @@
 import { Component, Input, OnInit } from "@angular/core";
-
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-
 import { saveAs } from "file-saver";
+import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { UsagerLight } from "../../../../../_common/model";
 import { DocumentService } from "../../services/document.service";
-import { Usager } from "../../interfaces/usager";
+
 @Component({
   selector: "app-docs-generated",
   styleUrls: ["./docs-custom.component.css"],
   templateUrl: "./docs-custom.component.html",
 })
 export class DocsCustomComponent implements OnInit {
-  @Input() public usager!: Usager;
+  @Input() public usager!: UsagerLight;
 
   public loadingDelete: boolean;
   public loadingDownload: boolean;
@@ -28,7 +27,7 @@ export class DocsCustomComponent implements OnInit {
 
   public getDocument() {
     this.loadingDownload = true;
-    this.documentService.getCustomDoc(this.usager.id).subscribe(
+    this.documentService.getCustomDoc(this.usager.ref).subscribe(
       (blob: any) => {
         const newBlob = new Blob([blob], {
           type:

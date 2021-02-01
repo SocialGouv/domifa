@@ -16,14 +16,17 @@ import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
-import { MessageEmailIcalEvent, usersRepository } from "../../database";
+import {
+  MessageEmailIcalEvent,
+  UsagerLight,
+  usersRepository,
+} from "../../database";
 import {
   usagerAppointmentCreatedEmailSender,
   UsagersMailsService,
 } from "../../mails/services";
 import { AppAuthUser, UserProfile } from "../../_common/model";
 import { RdvDto } from "../dto/rdv.dto";
-import { Usager } from "../interfaces/usagers";
 import { UsagersService } from "../services/usagers.service";
 
 @ApiTags("agenda")
@@ -37,12 +40,12 @@ export class AgendaController {
 
   // AGENDA des rendez-vous
 
-  @Post(":id")
+  @Post(":usagerRef")
   @UseGuards(AuthGuard("jwt"), FacteurGuard, UsagerAccessGuard)
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: AppAuthUser,
-    @CurrentUsager() usager: Usager,
+    @CurrentUsager() usager: UsagerLight,
     @Response() res: any
   ) {
     const user = await usersRepository.findOne({
@@ -73,7 +76,7 @@ export class AgendaController {
       rdvDto.dateRdv.setSeconds(0);
 
       const updatedUsager = await this.usagersService.setRdv(
-        usager.id,
+        { uuid: usager.uuid },
         rdvDto,
         user
       );
@@ -109,7 +112,7 @@ export class AgendaController {
       }
 
       const updatedUsager = await this.usagersService.setRdv(
-        usager.id,
+        { uuid: usager.uuid },
         rdvDto,
         user
       );
@@ -156,8 +159,15 @@ export class AgendaController {
   @Get("")
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   public async getAll(@CurrentUser() user: AppAuthUser) {
-    return this.usagersService.agenda(user.id);
+    const userId = user.id;
+    // TODO @toub
+    // return usagerLightRepository
+    //   .find({ "rdv.dateRdv": { $gt: new Date() }, "rdv.userId": userId })
+    //   .sort({ "rdv.dateRdv": -1 })
+    //   .select("nom prenom id rdv")
+    //   .lean();
+    return [];
   }
 
-  //
+  public async agenda(userId: number) {}
 }

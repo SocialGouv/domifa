@@ -1,291 +1,245 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { Model } from "mongoose";
+import { Injectable } from "@nestjs/common";
+import {
+  UsagerLight,
+  usagerLightRepository,
+  UsagerPG,
+  usagerRepository,
+  UsagerTable,
+} from "../../database";
+import { UsagerDecision } from "../../database/entities/usager/UsagerDecision.type";
+import {
+  USAGER_DEFAULT_OPTIONS,
+  USAGER_DEFAULT_PREFERENCE,
+} from "../../database/services/usager/USAGER_DEFAULTS.const";
 import { AppUser, UserProfile } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
-import { DecisionDto } from "../dto/decision.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
 import { Usager } from "../interfaces/usagers";
 
 @Injectable()
 export class UsagersService {
-  constructor(
-    @Inject("USAGER_MODEL") private readonly usagerModel: typeof Model
-  ) {}
+  constructor() {}
 
   public async create(
     usagerDto: CreateUsagerDto,
     user: UserProfile
+  ): Promise<UsagerLight> {
+    const usager = new UsagerTable(usagerDto);
+
+    this.setUsagerDefaultAttributes(usager);
+    if (!usager.lastInteraction) {
+      usager.lastInteraction = {
+        dateInteraction: new Date(),
+        colisIn: 0,
+        courrierIn: 0,
+        recommandeIn: 0,
+        enAttente: false,
+      };
+    }
+    usager.ref = await this.findNextUsagerRef(user.structureId);
+    usager.customRef = `${usager.ref}`;
+
+    usager.decision = {
+      // TODO @toub à vérifier avec Yassine
+      dateDecision: new Date(),
+      statut: "INSTRUCTION",
+      userName: user.prenom + " " + user.nom,
+      userId: user.id,
+      dateDebut: new Date(),
+      // dateFin: new Date(),
+    };
+
+    usager.structureId = user.structureId;
+    usager.etapeDemande = 1; // TODO @toub à vérifier avec Yassine
+
+    return usagerLightRepository.save(usager);
+  }
+
+  public async createFromImport({
+    data,
+    user,
+  }: {
+    data: Partial<UsagerPG>;
+    user: Pick<AppUser, "structureId">;
+  }) {
+    const usager = new UsagerTable(data);
+    this.setUsagerDefaultAttributes(usager);
+    usager.ref = await this.findNextUsagerRef(user.structureId);
+    usager.customRef =
+      data.customRef && data.customRef.trim()
+        ? data.customRef.trim()
+        : `${usager.ref}`;
+    return usagerLightRepository.save(usager);
+  }
+
+  public async patch(
+    { uuid }: { uuid: string },
+    update: Partial<UsagerPG>
   ): Promise<Usager> {
-    const createdUsager = new this.usagerModel(usagerDto);
-
-    createdUsager.decision.userName = user.prenom + " " + user.nom;
-    createdUsager.decision.userId = user.id;
-    createdUsager.decision.dateDecision = new Date();
-
-    createdUsager.structureId = user.structureId;
-    createdUsager.etapeDemande++;
-
-    createdUsager.id = await this.findLast(user.structureId);
-    createdUsager.customId = createdUsager.id;
-
-    return createdUsager.save();
+    return usagerLightRepository.updateOne({ uuid }, update);
   }
 
-  public async patch(update: any, usagerId: string): Promise<Usager> {
-    return this.usagerModel
-      .findOneAndUpdate({ _id: usagerId }, { $set: update }, { new: true })
-      .select("-docsPath -interactions")
-      .exec();
-  }
-
-  public async nextStep(usagerId: string, etapeDemande: number) {
-    return this.usagerModel
-      .findOneAndUpdate(
-        { _id: usagerId },
-        { $set: { etapeDemande } },
-        { new: true }
-      )
-      .select("-docsPath -interactions")
-      .exec();
+  public async nextStep(usagerRef: number, etapeDemande: number) {
+    return usagerLightRepository.updateOne(
+      { ref: usagerRef },
+      { etapeDemande }
+    );
   }
 
   public async renouvellement(
-    usager: Usager,
+    { uuid }: { uuid: string },
     user: Pick<AppUser, "id" | "nom" | "prenom">
-  ): Promise<Usager> {
-    usager.historique.push(usager.decision);
-    const decision = new DecisionDto();
+  ): Promise<UsagerLight> {
+    const usager = await usagerRepository.findOne({
+      uuid,
+    });
 
-    decision.dateDebut = new Date();
-    decision.dateDecision = new Date();
-    decision.statut = "INSTRUCTION";
-    decision.userId = user.id;
-    decision.userName = user.prenom + " " + user.nom;
-    decision.typeDom = "RENOUVELLEMENT";
+    (usager.historique = usager.historique.concat([usager.decision])),
+      (usager.decision = {
+        dateDebut: new Date(),
+        dateDecision: new Date(),
+        statut: "INSTRUCTION",
+        userId: user.id,
+        userName: user.prenom + " " + user.nom,
+        typeDom: "RENOUVELLEMENT",
+      });
 
-    return this.usagerModel
-      .findOneAndUpdate(
-        { _id: usager._id },
-        {
-          $set: {
-            "options.npai.actif": false,
-            "options.npai.dateDebut": null,
-            decision,
-            historique: usager.historique,
-            etapeDemande: 0,
-            typeDom: "RENOUVELLEMENT",
-            rdv: {
-              userId: null,
-              dateRdv: null,
-              userName: null,
-            },
-          },
-        },
-        { new: true }
-      )
-      .select("-docsPath -interactions")
-      .exec();
+    if (!usager.options.npai) {
+      usager.options.npai = {} as any;
+    }
+    usager.options.npai.actif = false;
+    usager.options.npai.dateDebut = null;
+
+    usager.etapeDemande = 0;
+    usager.typeDom = "RENOUVELLEMENT";
+    usager.rdv = {
+      userId: null,
+      dateRdv: null,
+      userName: null,
+    };
+
+    return await usagerLightRepository.save(usager);
   }
 
   public async setEntretien(
-    usagerId: number,
+    { uuid }: { uuid: string },
     entretienForm: EntretienDto
   ): Promise<Usager> {
-    return this.usagerModel
-      .findOneAndUpdate(
-        { _id: usagerId },
-        {
-          $set: {
-            entretien: entretienForm,
-            etapeDemande: 3,
-          },
-        },
-        {
-          new: true,
-        }
-      )
-      .select("-docsPath -interactions")
-      .exec();
+    return usagerLightRepository.updateOne(
+      { uuid },
+      {
+        entretien: entretienForm,
+        etapeDemande: 3,
+      }
+    );
   }
 
   public async setDecision(
-    usagerId: string,
-    decision: DecisionDto,
-    usager: Usager
-  ): Promise<Usager> {
-    return this.usagerModel
-      .findOneAndUpdate(
-        { _id: usagerId },
-        {
-          $set: {
-            lastInteraction: usager.lastInteraction,
-            decision,
-            "entretien.rattachement": usager.entretien.rattachement,
-            historique: usager.historique,
-            typeDom: usager.typeDom,
-            datePremiereDom: usager.datePremiereDom,
-            etapeDemande: 6,
-          },
-        },
-        {
-          new: true,
-        }
-      )
-      .select("-docsPath -interactions")
-      .exec();
+    { uuid }: { uuid: string },
+    decision: UsagerDecision
+  ): Promise<UsagerLight> {
+    decision.dateDecision = new Date();
+
+    const usager = await usagerRepository.findOne({
+      uuid,
+    });
+    usager.historique.push(usager.decision);
+
+    if (decision.statut === "ATTENTE_DECISION") {
+      /* Mail au responsable */
+    }
+
+    if (decision.statut === "REFUS") {
+      /* SMS & Mail pr prévenir */
+
+      decision.dateFin =
+        decision.dateFin !== undefined && decision.dateFin !== null
+          ? new Date(decision.dateFin)
+          : new Date();
+      decision.dateDebut = decision.dateFin;
+    }
+
+    if (decision.statut === "RADIE") {
+      decision.dateDebut = new Date();
+      decision.dateFin = new Date();
+    }
+
+    if (decision.statut === "VALIDE") {
+      if (usager.datePremiereDom !== null) {
+        usager.typeDom = "RENOUVELLEMENT";
+      } else {
+        usager.typeDom = "PREMIERE";
+        usager.datePremiereDom = new Date(decision.dateDebut);
+      }
+
+      if (decision.dateFin !== undefined && decision.dateFin !== null) {
+        decision.dateFin = new Date(decision.dateFin);
+      } else {
+        decision.dateFin = new Date(
+          new Date().setFullYear(new Date().getFullYear() + 1)
+        );
+      }
+
+      decision.dateDebut = new Date(decision.dateDebut);
+      usager.lastInteraction.dateInteraction = decision.dateDebut;
+    }
+
+    usager.decision = decision;
+    if (!usager.entretien) {
+      usager.entretien = {};
+    }
+    usager.etapeDemande = 6;
+
+    return usagerLightRepository.save(usager);
   }
 
   public async setRdv(
-    usagerId: number,
+    { uuid }: { uuid: string },
     rdvDto: RdvDto,
     user: UserProfile
-  ): Promise<Usager> {
-    return this.usagerModel
-      .findOneAndUpdate(
-        {
-          id: usagerId,
-          structureId: user.structureId,
-        },
-        {
-          $set: {
-            etapeDemande: 2,
-            "rdv.dateRdv": rdvDto.dateRdv,
-            "rdv.userId": rdvDto.userId,
-            "rdv.userName": user.nom + " " + user.prenom,
-          },
-        },
-        {
-          new: true,
-        }
-      )
-      .select("-docsPath")
-      .exec();
+  ): Promise<UsagerLight> {
+    const usager = await usagerRepository.findOne({
+      uuid,
+    });
+    usager.etapeDemande = 2;
+    if (!usager.rdv) {
+      usager.rdv = {} as any;
+    }
+
+    usager.rdv.dateRdv = rdvDto.dateRdv;
+    usager.rdv.userId = rdvDto.userId;
+    usager.rdv.userName = user.nom + " " + user.prenom;
+
+    return usagerLightRepository.save(usager);
   }
 
-  public async findById(id: number, structureId: number): Promise<Usager> {
-    return this.usagerModel
-      .findOne({
-        id,
+  public async export(structureId: number): Promise<UsagerPG[]> {
+    return usagerRepository.findMany({ structureId });
+  }
+
+  public async findNextUsagerRef(structureId: number): Promise<number> {
+    const maxRef = await usagerRepository.max({
+      maxAttribute: "ref",
+      where: {
         structureId,
-      })
-      .populate("structure")
-      .exec();
+      },
+    });
+    const nextRef = maxRef ? maxRef + 1 : 1;
+    return nextRef;
   }
-
-  public async delete(usagerId: string): Promise<any> {
-    return this.usagerModel.deleteOne({ _id: usagerId }).exec();
-  }
-
-  public async deleteAll(structureId: number): Promise<any> {
-    return this.usagerModel.deleteMany({ structureId }).exec();
-  }
-
-  public async isDoublon(
-    nom: string,
-    prenom: string,
-    usagerId: number,
-    user: Pick<AppUser, "structureId">
-  ): Promise<any> {
-    return this.usagerModel
-      .find({
-        $and: [
-          {
-            nom: { $regex: nom, $options: "-i" },
-          },
-          {
-            prenom: { $regex: prenom, $options: "-i" },
-          },
-        ],
-        id: { $ne: usagerId },
-        structureId: user.structureId,
-      })
-      .lean()
-      .exec();
-  }
-
-  public async search(query: any, sort: any, page: number): Promise<any> {
-    return this.usagerModel
-      .find(query)
-      .sort(sort)
-      .select(
-        "-createdAt -updatedAt -rdv -structureId -dateNaissance -villeNaissance -import -phone -email -datePremiereDom -docsPath -interactions -preference -historique -entretien -docs"
-      )
-      .limit(40)
-      .collation({
-        locale: "fr",
-        numericOrdering: true,
-        maxVariable: "space",
-      })
-      .skip(page && page !== 0 ? 40 * page : 0)
-      .lean()
-      .exec();
-  }
-
-  public async count(query: any): Promise<any> {
-    return this.usagerModel.countDocuments(query).exec();
-  }
-
-  public async save(data: any, user: Pick<AppUser, "structureId">) {
-    const createdUsager = new this.usagerModel(data);
-    createdUsager.id = await this.findLast(user.structureId);
-    createdUsager.customId =
-      data.customId === null ? createdUsager.id.toString() : data.customId;
-    return createdUsager.save();
-  }
-
-  public async export(structureId: number): Promise<Usager[]> {
-    return this.usagerModel
-      .find({ structureId })
-      .select(
-        "-rdv -structureId -import -docsPath -interactions -preference -docs -etapeDemande"
-      )
-      .exec();
-  }
-
-  public async findLast(structureId: number): Promise<number> {
-    const lastUsager: any = await this.usagerModel
-      .findOne({ structureId }, { id: 1 })
-      .sort({ id: -1 })
-      .lean()
-      .exec();
-
-    return lastUsager === {} || lastUsager === null ? 1 : lastUsager.id + 1;
-  }
-
-  public async agenda(userId: number) {
-    return this.usagerModel
-      .find({ "rdv.dateRdv": { $gt: new Date() }, "rdv.userId": userId })
-      .sort({ "rdv.dateRdv": -1 })
-      .select("nom prenom id rdv")
-      .lean()
-      .exec();
-  }
-
-  public async nbreUsagersParStatutMaintenant(
-    structureId: number,
-    statut?: string
-  ): Promise<number> {
-    const query: {
-      "decision.statut"?: string | {};
-      structureId: number;
-    } = {
-      "decision.statut": statut,
-      structureId,
-    };
-
-    if (statut && statut === "RENOUVELLEMENT") {
-      query["decision.statut"] = {
-        $in: ["INSTRUCTION", "ATTENTE_DECISION"],
-      };
+  public setUsagerDefaultAttributes(usager: UsagerTable) {
+    if (!usager.ayantsDroits) usager.ayantsDroits = [];
+    if (!usager.historique) usager.historique = [];
+    if (!usager.docs) usager.docs = [];
+    if (!usager.docs) usager.docs = [];
+    if (!usager.docsPath) usager.docsPath = [];
+    if (!usager.entretien) usager.entretien = {};
+    if (!usager.options) {
+      usager.options = USAGER_DEFAULT_OPTIONS;
     }
-
-    if (statut === "") {
-      delete query["decision.statut"];
+    if (!usager.preference) {
+      usager.preference = USAGER_DEFAULT_PREFERENCE;
     }
-
-    const response = await this.usagerModel.countDocuments(query).exec();
-
-    return !response || response === null ? 0 : response;
   }
 }

@@ -15,24 +15,26 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Response } from "express";
-import { diskStorage } from "multer";
-
 import * as crypto from "crypto";
+import { Response } from "express";
 import * as fs from "fs";
+import { diskStorage } from "multer";
 import * as path from "path";
-
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
+import {
+  UsagerDoc,
+  UsagerLight,
+  UsagerPG,
+  usagerRepository,
+} from "../../database";
+import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 import { AppAuthUser } from "../../_common/model";
-import { Usager } from "../interfaces/usagers";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
-
-import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
 @ApiTags("docs")
@@ -60,7 +62,7 @@ export class DocsController {
             domifaConfig().upload.basePath +
             req.user.structureId +
             "/" +
-            req.usager.id;
+            req.usager.ref;
 
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -74,14 +76,17 @@ export class DocsController {
     })
   )
   public async uploadDoc(
-    @Param("id") usagerId: number,
+    @Param("usagerRef") usagerRef: number,
     @UploadedFile() file: any,
     // TODO: Filtrer les datas du label
     @Body() postData: any,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager,
+    @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
   ) {
+    const usager = await usagerRepository.findOne({
+      uuid: currentUsager.uuid,
+    });
     const userName = user.prenom + " " + user.nom;
 
     const newDoc = {
@@ -95,13 +100,13 @@ export class DocsController {
       domifaConfig().upload.basePath +
       user.structureId +
       "/" +
-      usagerId +
+      usagerRef +
       "/" +
       file.filename;
 
     this.encryptFile(fileName, res);
 
-    const toUpdate = {
+    const toUpdate: Partial<UsagerPG> = {
       docs: usager.docs,
       docsPath: usager.docsPath,
     };
@@ -109,7 +114,10 @@ export class DocsController {
     toUpdate.docs.push(newDoc);
     toUpdate.docsPath.push(file.filename);
 
-    const retour = await this.usagersService.patch(toUpdate, usager._id);
+    const retour = await this.usagersService.patch(
+      { uuid: usager.uuid },
+      toUpdate
+    );
     if (!retour || retour === null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -121,14 +129,17 @@ export class DocsController {
       .json({ usager, message: "IMPORT_SUCCESS" });
   }
 
-  @Delete(":id/:index")
+  @Delete(":usagerRef/:index")
   public async deleteDocument(
-    @Param("id") usagerId: number,
+    @Param("usagerRef") usagerRef: number,
     @Param("index") index: number,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager,
+    @CurrentUsager() currentUsager: UsagerLight,
     @Res() res: Response
   ) {
+    const usager = await usagerRepository.findOne({
+      uuid: currentUsager.uuid,
+    });
     if (
       typeof usager.docs[index] === "undefined" ||
       typeof usager.docsPath[index] === "undefined"
@@ -136,21 +147,21 @@ export class DocsController {
       throw new HttpException(
         {
           message: "DOC_NOT_FOUND_DELETE",
-          usagerId,
+          usagerRef,
           structureId: usager.structureId,
         },
         HttpStatus.BAD_REQUEST
       );
     }
 
-    const fileInfos = usager.docs[index];
+    const fileInfos: UsagerDoc & { path?: string } = usager.docs[index];
     fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
       domifaConfig().upload.basePath +
         usager.structureId +
         "/" +
-        usager.id +
+        usager.ref +
         "/" +
         fileInfos.path
     );
@@ -159,23 +170,30 @@ export class DocsController {
 
     deleteFile(pathFile + ".encrypted");
 
-    const retour = await this.docsService.deleteDocument(usagerId, index, user);
+    const updatedUsager = await this.docsService.deleteDocument(
+      usagerRef,
+      index,
+      user
+    );
 
-    if (!retour || retour === null) {
+    if (!updatedUsager) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_UPDATE_USAGER_IMPOSSIBLE" });
     }
-    return res.status(HttpStatus.OK).json(retour);
+    return res.status(HttpStatus.OK).json(updatedUsager.docs);
   }
 
-  @Get(":id/:index")
+  @Get(":usagerRef/:index")
   public async getDocument(
-    @Param("id") usagerId: number,
+    @Param("usagerRef") usagerRef: number,
     @Param("index") index: number,
     @Res() res: Response,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() currentUsager: UsagerLight
   ) {
+    const usager = await usagerRepository.findOne({
+      uuid: currentUsager.uuid,
+    });
     if (
       typeof usager.docs[index] === "undefined" ||
       typeof usager.docsPath[index] === "undefined"
@@ -183,21 +201,21 @@ export class DocsController {
       throw new HttpException(
         {
           message: "DOC_NOT_FOUND_GET",
-          usagerId,
+          usagerRef,
           structureId: usager.structureId,
         },
         HttpStatus.BAD_REQUEST
       );
     }
 
-    const fileInfos = usager.docs[index];
+    const fileInfos: UsagerDoc & { path?: string } = usager.docs[index];
     fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
       domifaConfig().upload.basePath +
         usager.structureId +
         "/" +
-        usager.id +
+        usager.ref +
         "/" +
         fileInfos.path
     );

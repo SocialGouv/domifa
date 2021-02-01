@@ -14,7 +14,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
-import { Usager } from "../usagers/interfaces/usagers";
+import { UsagerLight } from "../database";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { AppAuthUser } from "../_common/model";
 import { InteractionType } from "../_common/model/interaction";
@@ -26,36 +26,40 @@ import { InteractionsService } from "./interactions.service";
 @Controller("interactions")
 export class InteractionsController {
   constructor(
-    private readonly interactionService: InteractionsService,
+    private readonly interactionsService: InteractionsService,
     private readonly usagersService: UsagersService
   ) {}
 
-  @Post(":id")
+  @Post(":usagerRef")
   public postInteraction(
     @Body() interaction: InteractionDto,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
-    return this.interactionService.create({ interaction, user, usager });
+    return this.interactionsService.create({
+      interaction,
+      user,
+      usagerUUID: usager.uuid,
+    });
   }
 
-  @Get(":id/:limit")
+  @Get(":usagerRef/:limit")
   public async getInteractions(
     @Param("limit") limit: number,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
-    return this.interactionService.find(usager.id, user);
+    return this.interactionsService.find(usager.ref, user);
   }
 
-  @Delete(":id/:interactionId")
+  @Delete(":usagerRef/:interactionId")
   public async deleteInteraction(
     @Param("interactionId") interactionId: number,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: Usager
+    @CurrentUsager() usager: UsagerLight
   ) {
-    const interactionToDelete = await this.interactionService.findOne(
-      usager.id,
+    const interactionToDelete = await this.interactionsService.findOne(
+      usager.ref,
       interactionId,
       user
     );
@@ -68,14 +72,14 @@ export class InteractionsController {
       usager.options.npai.actif = false;
       usager.options.npai.dateDebut = null;
 
-      const delInteraction = await this.interactionService.delete(
-        usager.id,
+      const delInteraction = await this.interactionsService.delete(
+        usager.ref,
         interactionId,
         user
       );
 
       if (delInteraction) {
-        return this.usagersService.patch(usager, usager._id);
+        return this.usagersService.patch({ uuid: usager.uuid }, usager);
       }
     }
 
@@ -91,8 +95,8 @@ export class InteractionsController {
       const inType = ((interactionToDelete.type.substring(0, len - 2) +
         "Out") as unknown) as InteractionType;
 
-      const last = await this.interactionService.findLastInteraction(
-        usager.id,
+      const last = await this.interactionsService.findLastInteraction(
+        usager.ref,
         interactionToDelete.dateInteraction,
         inType,
         user,
@@ -116,8 +120,8 @@ export class InteractionsController {
     }
 
     // Check s'il s'agit du dernier passage
-    const lastTwo = await this.interactionService.deuxDerniersPassages(
-      usager.id,
+    const lastTwo = await this.interactionsService.deuxDerniersPassages(
+      usager.ref,
       user
     );
 
@@ -136,8 +140,8 @@ export class InteractionsController {
       usager.lastInteraction.colisIn > 0 ||
       usager.lastInteraction.recommandeIn > 0;
 
-    const deletedInteraction = await this.interactionService.delete(
-      usager.id,
+    const deletedInteraction = await this.interactionsService.delete(
+      usager.ref,
       interactionId,
       user
     );
@@ -147,6 +151,6 @@ export class InteractionsController {
         HttpStatus.BAD_REQUEST
       );
     }
-    return this.usagersService.patch(usager, usager._id);
+    return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 }

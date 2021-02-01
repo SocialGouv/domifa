@@ -7,7 +7,6 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import {
   formatDateToNgb,
@@ -15,10 +14,13 @@ import {
   minDateToday,
 } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
-import { AppUser, UserRole } from "../../../../../../_common/model";
+import {
+  AppUser,
+  UsagerLight,
+  UserRole,
+} from "../../../../../../_common/model";
 import { LoadingService } from "../../../../loading/loading.service";
 import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
-import { Usager } from "../../../interfaces/usager";
 import { UsagerService } from "../../../services/usager.service";
 
 @Component({
@@ -32,7 +34,7 @@ import { UsagerService } from "../../../services/usager.service";
   templateUrl: "./profil-procuration-courrier.html",
 })
 export class UsagersProfilProcurationCourrierComponent implements OnInit {
-  @Input() public usager: Usager;
+  @Input() public usager: UsagerLight;
   @Input() public me: AppUser;
 
   public actions = {
@@ -98,7 +100,11 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
           [Validators.required],
         ],
         dateNaissance: [
-          formatDateToNgb(this.usager.options.procuration.dateNaissance),
+          formatDateToNgb(
+            this.usager.options.procuration.dateNaissance
+              ? new Date(this.usager.options.procuration.dateNaissance)
+              : undefined
+          ),
           [Validators.required],
         ],
       },
@@ -125,8 +131,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       ),
     };
 
-    this.usagerService.editProcuration(formValue, this.usager.id).subscribe(
-      (usager: Usager) => {
+    this.usagerService.editProcuration(formValue, this.usager.ref).subscribe(
+      (usager: UsagerLight) => {
         this.hideForm();
         this.usager = usager;
         this.notifService.success("Procuration ajoutée avec succès");
@@ -139,8 +145,8 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public deleteProcuration() {
-    this.usagerService.deleteProcuration(this.usager.id).subscribe(
-      (usager: Usager) => {
+    this.usagerService.deleteProcuration(this.usager.ref).subscribe(
+      (usager: UsagerLight) => {
         this.hideForm();
         this.procurationForm.reset();
         this.usager = usager;

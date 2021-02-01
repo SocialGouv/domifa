@@ -1,7 +1,7 @@
 <div class="container" *ngIf="me && usager">
   <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
 
-  <div class="step_form" *ngIf="usager.rdv.isNow === false">
+  <div class="step_form" *ngIf="isRdvNow === false">
     <div class="row text-center">
       <div class="col">
         <h5 class="title">
@@ -28,7 +28,7 @@
           <br />
           <a
             [routerLink]="[
-              '/usager/' + usager.id + '/edit/modifier-rendez-vous'
+              '/usager/' + usager.ref + '/edit/modifier-rendez-vous'
             ]"
             routerLinkActive="router-link-active"
             class="btn btn-secondary"
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="step_form" *ngIf="usager.rdv.isNow === true">
+  <div class="step_form" *ngIf="isRdvNow === true">
     <app-entretien
       [(usager)]="usager"
       (nextStep)="nextStep($event)"

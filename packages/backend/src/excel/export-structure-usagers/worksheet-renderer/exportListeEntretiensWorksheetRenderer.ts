@@ -40,7 +40,7 @@ function renderWorksheet({
 
   function configureColumns() {
     const columns: Partial<Column>[] = [
-      { key: "customId" },
+      { key: "customRef" },
       { key: "sexe" },
       { key: "nom" },
       { key: "prenom" },
@@ -76,7 +76,7 @@ function renderWorksheet({
     return model.usagers.map((usager) => {
       const row: XlRowModel = {
         values: {
-          customId: usager.customId,
+          customRef: usager.customRef,
           sexe: usager.sexe,
           nom: usager.nom,
           prenom: usager.prenom,

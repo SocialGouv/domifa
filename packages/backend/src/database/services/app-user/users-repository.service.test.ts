@@ -14,13 +14,17 @@ describe("usesRepository", () => {
 
   it("count returns users count", async () => {
     const count1 = await usersRepository.count({
-      structureId: 1,
+      where: {
+        structureId: 1,
+      },
     });
     // be sure the count is ok
     expect(count1).toEqual(4);
 
     const count2 = await usersRepository.count({
-      structureId: 2,
+      where: {
+        structureId: 2,
+      },
     });
     // be sure the count is ok
     expect(count2).toEqual(0);

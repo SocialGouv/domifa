@@ -9,19 +9,19 @@ import {
   Patch,
   Post,
   Response,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { AdminGuard } from "../../auth/guards/admin.guard";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
-import { usersRepository } from "../../database";
+import { usagerRepository, usersRepository } from "../../database";
 import { InteractionsService } from "../../interactions/interactions.service";
 import {
   DomifaMailsService,
   StructuresMailsService,
-  UsagersMailsService
+  UsagersMailsService,
 } from "../../mails/services";
 import { StatsService } from "../../stats/services/stats.service";
 import { UsagersService } from "../../usagers/services/usagers.service";
@@ -201,7 +201,9 @@ export class StructuresController {
     }
 
     await this.statsService.deleteAll(structure.id);
-    await this.usagersService.deleteAll(user.structureId);
+    await usagerRepository.deleteByCriteria({
+      structureId: user.structureId,
+    });
     await this.interactionsService.deleteAll(user.structureId);
     await this.structureHardResetService.hardResetClean(structure.id);
 

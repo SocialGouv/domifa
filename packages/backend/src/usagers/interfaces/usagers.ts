@@ -1,5 +1,5 @@
 import { Document } from "mongoose";
-
+import { UsagerPreferenceContact } from "../../database/entities/usager/UsagerPreferenceContact.type";
 import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
 import { Doc } from "./doc";
@@ -13,6 +13,7 @@ export interface Usager extends Document {
   prenom: string;
   surnom: string;
   sexe: string;
+  langue: string;
 
   customId: string;
 
@@ -21,6 +22,7 @@ export interface Usager extends Document {
 
   email: string;
   phone: string;
+  preference: UsagerPreferenceContact;
 
   ayantsDroits: AyantDroit[];
 
@@ -50,6 +52,4 @@ export interface Usager extends Document {
   datePremiereDom: Date;
 
   options: Options;
-
-  migration: boolean;
 }

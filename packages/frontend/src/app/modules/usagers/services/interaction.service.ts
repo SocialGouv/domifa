@@ -1,12 +1,12 @@
-import { HttpClient, HttpEventType, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
+import { UsagerLight } from "../../../../_common/model";
 import { LoadingService } from "../../loading/loading.service";
+import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { Interaction } from "../interfaces/interaction";
-import { Usager } from "../interfaces/usager";
 
 @Injectable({
   providedIn: "root",
@@ -21,17 +21,18 @@ export class InteractionService {
     this.loading = true;
   }
 
-  public setInteraction(usager: Usager, interaction?: any): Observable<Usager> {
+  public setInteraction(
+    usager: UsagerLight | UsagerFormModel,
+    interaction?: any
+  ): Observable<UsagerLight> {
     /* Procuration */
-    return this.http.post(`${this.endPoint}${usager.id}`, interaction).pipe(
-      map((response) => {
-        return new Usager(response);
-      })
-    );
+    return this.http
+      .post<UsagerLight>(`${this.endPoint}${usager.ref}`, interaction)
+      .pipe();
   }
 
-  public getInteractions(usagerId: number): Observable<Interaction[]> {
-    return this.http.get(`${this.endPoint}${usagerId}/10`).pipe(
+  public getInteractions(usagerRef: number): Observable<Interaction[]> {
+    return this.http.get(`${this.endPoint}${usagerRef}/10`).pipe(
       map((response) => {
         return Array.isArray(response)
           ? response.map((item) => new Interaction(item))
@@ -39,13 +40,7 @@ export class InteractionService {
       })
     );
   }
-  public delete(usagerId: number, interactionId: number) {
-    return this.http
-      .delete(`${this.endPoint}${usagerId}/${interactionId}`)
-      .pipe(
-        map((response) => {
-          return new Usager(response);
-        })
-      );
+  public delete(usagerRef: number, interactionId: number) {
+    return this.http.delete(`${this.endPoint}${usagerRef}/${interactionId}`);
   }
 }

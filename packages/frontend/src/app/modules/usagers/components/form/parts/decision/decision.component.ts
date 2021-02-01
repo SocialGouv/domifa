@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -15,8 +15,7 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AppUser } from "../../../../../../../_common/model";
-import { Usager } from "../../../../interfaces/usager";
-
+import { UsagerLight } from "../../../../../../../_common/model/usager/UsagerLight.type";
 import { UsagerService } from "../../../../services/usager.service";
 
 @Component({
@@ -45,7 +44,7 @@ export class DecisionComponent implements OnInit {
   public dateFinPicker: NgbDateStruct;
   public maxDateRefus: NgbDateStruct;
 
-  public usager: Usager;
+  public usager: UsagerLight;
   public isAdmin!: boolean;
 
   public me: AppUser;
@@ -93,7 +92,7 @@ export class DecisionComponent implements OnInit {
       const id = this.route.snapshot.params.id;
 
       this.usagerService.findOne(id).subscribe(
-        (usager: Usager) => {
+        (usager: UsagerLight) => {
           this.usager = usager;
           this.initForm();
         },
@@ -228,15 +227,15 @@ export class DecisionComponent implements OnInit {
     }
 
     this.usagerService
-      .setDecision(this.usager.id, this.formDatas, statut)
-      .subscribe((usager: Usager) => {
+      .setDecision(this.usager.ref, this.formDatas, statut)
+      .subscribe((usager: UsagerLight) => {
         this.usager = usager;
         this.submitted = false;
         this.notifService.success("Décision enregistrée avec succès ! ");
 
         this.modalService.dismissAll();
 
-        this.router.navigate(["usager/" + usager.id]);
+        this.router.navigate(["usager/" + usager.ref]);
       });
   }
 
@@ -248,7 +247,7 @@ export class DecisionComponent implements OnInit {
   }
 
   public getAttestation() {
-    return this.usagerService.attestation(this.usager.id);
+    return this.usagerService.attestation(this.usager.ref);
   }
 
   public printPage() {

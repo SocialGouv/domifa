@@ -11,19 +11,19 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { Usager } from "src/app/modules/usagers/interfaces/usager";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import {
   formatDateToNgb,
   minDateNaissance,
   minDateToday,
 } from "src/app/shared/bootstrap-util";
-import { AppUser } from "../../../../../_common/model";
+import { AppUser, UsagerLight, UsagerPG } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import * as labels from "../../usagers.labels";
+import { UsagerFormModel } from "./UsagerFormModel";
 
 @Component({
   animations: [fadeInOut],
@@ -39,7 +39,7 @@ import * as labels from "../../usagers.labels";
 })
 export class UsagersFormComponent implements OnInit {
   public labels: any;
-  public doublons: Usager[];
+  public doublons: UsagerLight[];
 
   /* Config datepickers */
   public dToday = new Date();
@@ -53,7 +53,7 @@ export class UsagersFormComponent implements OnInit {
     year: this.dToday.getFullYear() + 2,
   };
 
-  public usager!: Usager;
+  public usager!: UsagerFormModel;
   public registerForm!: FormGroup;
   public usagerForm!: FormGroup;
 
@@ -102,8 +102,8 @@ export class UsagersFormComponent implements OnInit {
       const id = this.route.snapshot.params.id;
 
       this.usagerService.findOne(id).subscribe(
-        (usager: Usager) => {
-          this.usager = usager;
+        (usager: UsagerPG) => {
+          this.usager = new UsagerFormModel(usager);
           this.initForm();
         },
         () => {
@@ -111,7 +111,7 @@ export class UsagersFormComponent implements OnInit {
         }
       );
     } else {
-      this.usager = new Usager();
+      this.usager = new UsagerFormModel();
       this.initForm();
     }
   }
@@ -129,7 +129,7 @@ export class UsagersFormComponent implements OnInit {
       decision: [this.usager.decision, []],
       email: [this.usager.email, [Validators.email]],
       etapeDemande: [this.usager.etapeDemande, []],
-      id: [this.usager.id, []],
+      id: [this.usager.ref, []],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       preference: this.formBuilder.group({
@@ -163,9 +163,9 @@ export class UsagersFormComponent implements OnInit {
         .isDoublon(
           this.usagerForm.controls.nom.value,
           this.usagerForm.controls.prenom.value,
-          this.usager.id
+          this.usager.ref
         )
-        .subscribe((usagersDoublon: Usager[]) => {
+        .subscribe((usagersDoublon: UsagerLight[]) => {
           this.doublons = [];
           if (usagersDoublon.length !== 0) {
             this.notifService.warning("Un homonyme potentiel a été détecté !");
@@ -211,7 +211,7 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public getAttestation() {
-    return this.usagerService.attestation(this.usager.id);
+    return this.usagerService.attestation(this.usager.ref);
   }
 
   public submitInfos() {
@@ -230,10 +230,10 @@ export class UsagersFormComponent implements OnInit {
       this.usagerForm.controls.etapeDemande.setValue(this.usager.etapeDemande);
 
       this.usagerService.create(this.usagerForm.value).subscribe(
-        (usager: Usager) => {
+        (usager: UsagerLight) => {
           this.goToTop();
           this.notifService.success("Enregistrement réussi");
-          this.router.navigate(["usager/" + usager.id + "/edit/rendez-vous"]);
+          this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
         },
         (error) => {
           if (error.statusCode && error.statusCode === 400) {

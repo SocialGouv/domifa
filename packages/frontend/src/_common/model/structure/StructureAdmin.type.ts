@@ -4,6 +4,7 @@ import { Structure } from "./Structure.type";
 export type StructureAdmin = Pick<
   Structure,
   | "id"
+  | "registrationDate"
   | "adresse"
   | "complementAdresse"
   | "nom"
@@ -20,11 +21,8 @@ export type StructureAdmin = Pick<
   | "options"
   | "adresseCourrier"
   | "verified"
-  | "createdAt"
   | "import"
   | "importDate"
   | "lastLogin"
   | "stats"
-> & {
-  usersCount?: number; // dashboard only
-};
+>;

@@ -10,15 +10,14 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-
 import * as XLSX from "xlsx";
-
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
-
+import { usagerRepository } from "../../database";
 import { appLogger } from "../../util";
 import { AppAuthUser, StructureStats } from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
+import { DashboardService } from "../services/dashboard.service";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
 import {
@@ -30,7 +29,6 @@ import {
 } from "../usagers.labels";
 
 import moment = require("moment");
-import { DashboardService } from "../services/dashboard.service";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -82,11 +80,10 @@ export class StatsController {
 
   @Get("home-stats")
   public async home() {
-    const usagers = await this.statsGeneratorService.countUsagers();
-    const ayantsDroits = await this.statsGeneratorService.countAyantsDroits();
+    const usagers = await usagerRepository.count();
+    const ayantsDroits = await usagerRepository.countAyantsDroits();
 
-    const totalUsagers =
-      ayantsDroits.length === 0 ? usagers : usagers + ayantsDroits[0].count;
+    const totalUsagers = usagers + ayantsDroits;
 
     const statsHome = {
       structures: await this.statsGeneratorService.countStructures(),

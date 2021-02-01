@@ -48,8 +48,11 @@ export function isToday(someDate?: Date): boolean {
 }
 
 export function formatDateToNgb(date: Date): NgbDateStruct | null {
-  if (date === null) {
+  if (!date) {
     return null;
+  }
+  if (!date.getDate) {
+    date = new Date();
   }
   return {
     day: date.getDate(),
