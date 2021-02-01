@@ -72,9 +72,18 @@ describe("Import Controller", () => {
       .locale("fr")
       .format("L");
 
+<<<<<<< HEAD
     const thisYear = moment().locale("fr").format("L");
 
     const nextTwoYears = moment().add(2, "year").locale("fr").format("L");
+=======
+    const thisYear = moment(new Date()).locale("fr").format("L");
+
+    const nextTwoYears = moment(new Date())
+      .add(2, "year")
+      .locale("fr")
+      .format("L");
+>>>>>>> fix: import tests
 
     // Dates REQUIRED
     expect(

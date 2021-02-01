@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Column,
   Entity,
@@ -8,6 +9,9 @@ import {
   BeforeInsert,
 } from "typeorm";
 import { StructureTable } from "..";
+=======
+import { BeforeInsert, Column, Entity, Generated, Index } from "typeorm";
+>>>>>>> fix: import tests
 
 import { titleCase } from "typeorm/util/StringUtils";
 
@@ -29,7 +33,7 @@ export class AppUserTable
   _id: any; // obsolete mongo id: use `uuid` instead
 
   @Index()
-  @Column({ type: "text", unique: true })
+  @Column({ type: "citext", unique: true })
   email: string;
 
   @Column({ type: "text", nullable: true })
