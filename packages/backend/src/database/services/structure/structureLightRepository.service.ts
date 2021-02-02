@@ -12,4 +12,19 @@ const baseRepository = pgRepository.get<StructureTable, StructureLight>(
 
 export const structureLightRepository = {
   ...baseRepository,
+  findStructuresToGenerateStats,
 };
+
+async function findStructuresToGenerateStats({
+  maxLastExportDate,
+}: {
+  maxLastExportDate: Date;
+}): Promise<StructureLight[]> {
+  const structures: StructureLight[] = await baseRepository.findManyWithQuery({
+    where: '"lastExport" <= :maxLastExportDate or "lastExport" IS NULL',
+    params: {
+      maxLastExportDate,
+    },
+  });
+  return structures;
+}

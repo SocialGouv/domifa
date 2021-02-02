@@ -94,17 +94,6 @@ export class StructuresService {
     return structure;
   }
 
-  public async findOneLight(param: any): Promise<StructureLight> {
-    const structure = await structureLightRepository.findOne(param);
-    return structure;
-  }
-
-  public async findManyLight(param: any): Promise<StructureLight[]> {
-    const structure = await structureLightRepository.findMany(param);
-
-    return structure;
-  }
-
   public async findAllLight(codePostal?: string): Promise<StructureLight[]> {
     const params: StructureQuery = {
       verified: true,

@@ -39,6 +39,7 @@
     "file-saver": "^2.0.2",
     "file-type": "^16.1.0",
     "fs": "^0.0.2",
+    "fuse.js": "^6.4.6",
     "jwt-decode": "^3.0.0",
     "moment": "^2.29.1",
     "ngx-countup": "7.3.3",

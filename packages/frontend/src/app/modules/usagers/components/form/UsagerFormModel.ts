@@ -67,7 +67,7 @@ export class UsagerFormModel {
 
   public options: Options;
 
-  constructor(usager?: Partial<UsagerPG>, search?: string) {
+  constructor(usager?: Partial<UsagerPG>, searchString?: string) {
     this.ref = (usager && usager.ref) || 0;
     this.customRef = (usager && usager.customRef) || null;
     this.sexe = (usager && usager.sexe) || "homme";
@@ -173,8 +173,8 @@ export class UsagerFormModel {
     this.options = (usager && new Options(usager.options)) || new Options({});
 
     this.isAyantDroit = false;
-    if (search && search !== null) {
-      const substring = search.toUpperCase();
+    if (searchString && searchString !== null) {
+      const substring = searchString.toUpperCase();
       let customRef = this.customRef;
 
       if (!this.customRef || this.customRef === null) {

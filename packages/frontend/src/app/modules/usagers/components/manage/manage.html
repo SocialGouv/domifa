@@ -237,11 +237,11 @@
               id="dropdownManual"
               ngbDropdownToggle
             >
-              <span *ngIf="filters.sortKey !== 'passage'">
+              <span *ngIf="filters.sortKey !== 'PASSAGE'">
                 Trier par {{ sortLabels[filters.sortKey] }}
               </span>
 
-              <span *ngIf="filters.sortKey === 'passage'">
+              <span *ngIf="filters.sortKey === 'PASSAGE'">
                 Trier par dernier passage
               </span>
 
@@ -342,7 +342,7 @@
               >({{ usager.surnom }})</span
             >
 
-            <ng-container *ngIf="filters.name && !searching">
+            <ng-container *ngIf="filters.searchString && !searching">
               <span class="badge badge-info" *ngIf="usager.isAyantDroit">
                 Ayant-droit
               </span>

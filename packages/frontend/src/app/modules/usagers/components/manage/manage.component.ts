@@ -12,17 +12,37 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { fromEvent, ReplaySubject, Subject, Subscription } from "rxjs";
-import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
+import {
+  combineLatest,
+  fromEvent,
+  ReplaySubject,
+  Subject,
+  Subscription,
+  timer,
+} from "rxjs";
+import {
+  debounceTime,
+  delayWhen,
+  distinctUntilChanged,
+  map,
+  retryWhen,
+  switchMap,
+  tap,
+} from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionTypes } from "../../interfaces/interaction";
-import { Filters, Search, SortValues } from "../../interfaces/search";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
+import {
+  usagersFilter,
+  UsagersFilterCriteria,
+  UsagersFilterCriteriaSortKey,
+  UsagersFilterCriteriaSortValues,
+} from "./usager-filter";
 
 @Component({
   animations: [fadeInOutSlow, fadeInOut],
@@ -34,6 +54,7 @@ import { UsagerFormModel } from "../form/UsagerFormModel";
 export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
 
+  public allUsagers$ = new ReplaySubject<UsagerLight[]>(1);
   public usagers: UsagerFormModel[] = [];
   public me: AppUser;
 
@@ -49,8 +70,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   };
 
   public searchString = "";
-  public filters: Search;
-  public filters$: Subject<Search> = new ReplaySubject(1);
+  public filters: UsagersFilterCriteria;
+  public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
 
   public nbResults: number;
 
@@ -63,7 +84,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     TOUS: number;
   };
 
-  public sortLabels = {
+  public sortLabels: { [key: string]: string } = {
     NAME: "nom",
     ATTENTE_DECISION: "demande effectuée le",
     INSTRUCTION: "dossier débuté le",
@@ -94,11 +115,13 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     private notifService: ToastrService,
     private titleService: Title,
     private matomo: MatomoTracker
-  ) {
+  ) {}
+
+  public ngOnInit() {
     this.usagers = [];
     this.searching = true;
     this.dateLabel = "Fin de domiciliation";
-    this.filters = new Search(this.getFilters());
+    this.filters = new UsagersFilterCriteria(this.getFilters());
     this.nbResults = 0;
     this.selectedUsager = {} as any;
 
@@ -115,16 +138,35 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
-  }
-
-  public ngOnInit() {
     this.titleService.setTitle("Gérer vos domiciliés");
 
-    this.searchString = this.filters.name;
+    this.searchString = this.filters.searchString;
     this.filters.page = 0;
     this.filters$.next(this.filters);
 
     this.getStats();
+
+    // reload every hour
+    timer(0, 3600000)
+      .pipe(
+        switchMap(() => this.usagerService.getAllUsagers()),
+        retryWhen((errors) =>
+          // retry in case of error
+          errors.pipe(
+            tap((err) => console.log(`Error loading usagers`, err)),
+            // retry in 5 seconds
+            delayWhen(() => timer(5000))
+          )
+        )
+      )
+      .subscribe(
+        (allUsagers: UsagerLight[]) => {
+          this.allUsagers$.next(allUsagers);
+        },
+        () => {
+          this.notifService.error("Une erreur a eu lieu lors de la recherche");
+        }
+      );
 
     this.subscription.add(
       fromEvent(this.searchInput.nativeElement, "keyup")
@@ -132,21 +174,23 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
           map((event: any) => {
             return event.target.value;
           }),
-          debounceTime(400),
+          debounceTime(50),
           map((filter) => (!filter ? filter : filter.trim())),
           distinctUntilChanged()
         )
         .subscribe((text: any) => {
-          this.filters.name = text;
+          this.filters.searchString = text;
           this.filters.page = 0;
           this.filters$.next(this.filters);
         })
     );
 
     this.subscription.add(
-      this.filters$.subscribe((filters) => {
-        this.search(filters);
-      })
+      combineLatest([this.filters$, this.allUsagers$]).subscribe(
+        ([filters, allUsagers]) => {
+          this.applyFilters({ filters, allUsagers });
+        }
+      )
     );
   }
 
@@ -156,7 +200,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   public resetSearchBar() {
     this.searchInput.nativeElement.value = "";
-    this.filters.name = "";
+    this.filters.searchString = "";
     this.filters$.next(this.filters);
   }
 
@@ -165,14 +209,14 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public resetFilters() {
-    this.filters = new Search();
+    this.filters = new UsagersFilterCriteria();
     this.filters$.next(this.filters);
   }
 
-  public updateFilters<T extends Filters>(
+  public updateFilters<T extends keyof UsagersFilterCriteria>(
     element: T,
-    value: Search[T] | null,
-    sortValue?: SortValues
+    value: UsagersFilterCriteria[T] | null,
+    sortValue?: UsagersFilterCriteriaSortValues
   ) {
     if (
       element === "interactionType" ||
@@ -225,14 +269,14 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       }
 
       this.filters.sortValue = sortValue;
-      this.filters.sortKey = value;
+      this.filters.sortKey = value as UsagersFilterCriteriaSortKey;
     } else {
       this.filters[element] = value;
     }
 
     this.filters.page = 0;
     this.filters$.next(this.filters);
-    this.matomo.trackEvent("filters", element, value, 1);
+    this.matomo.trackEvent("filters", element, value as string, 1);
   }
 
   public goToProfil(usager: UsagerLight) {
@@ -327,43 +371,42 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     });
   }
 
-  public search(filters: Search) {
+  public applyFilters({
+    filters,
+    allUsagers,
+  }: {
+    filters: UsagersFilterCriteria;
+    allUsagers: UsagerLight[];
+  }) {
     this.searching = true;
 
     this.dateLabel = this.labelsDateFin[filters.statut];
 
     localStorage.setItem("filters", JSON.stringify(filters));
 
-    this.usagerService.search(filters).subscribe(
-      (response: {
-        results: UsagerLight[] | UsagerLight;
-        nbResults: number;
-      }) => {
-        const usagers = Array.isArray(response.results)
-          ? response.results.map(
-              (item) => new UsagerFormModel(item, filters.name)
-            )
-          : [new UsagerFormModel(response.results, filters.name)];
+    const filteredUsagers = usagersFilter.filter(allUsagers, {
+      criteria: filters,
+    });
 
-        if (filters.page === 0) {
-          this.nbResults = response.nbResults;
-          this.usagers = usagers;
-
-          window.scroll({
-            behavior: "smooth",
-            left: 0,
-            top: 0,
-          });
-        } else {
-          this.usagers = this.usagers.concat(usagers);
-        }
-        this.searching = false;
-      },
-      () => {
-        this.searching = false;
-        this.notifService.error("Une erreur a eu lieu lors de la recherche");
-      }
+    const usagers = filteredUsagers.map(
+      (item) => new UsagerFormModel(item, filters.searchString)
     );
+
+    if (filters.page === 0) {
+      this.nbResults = filteredUsagers.length;
+      this.usagers = usagers.slice(0, 40);
+
+      window.scroll({
+        behavior: "smooth",
+        left: 0,
+        top: 0,
+      });
+    } else {
+      this.usagers = this.usagers.concat(usagers);
+      // TODO @toub
+      console.log("xxx this.usagers (SCROLL):", this.usagers.length);
+    }
+    this.searching = false;
   }
 
   public closeModals() {
@@ -377,6 +420,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   @HostListener("window:scroll", ["$event"])
   onScroll($event: Event): void {
+    console.log("xxx onScroll event: this.filters.page", this.filters.page);
     const pos =
       (document.documentElement.scrollTop || document.body.scrollTop) +
       document.documentElement.offsetHeight;

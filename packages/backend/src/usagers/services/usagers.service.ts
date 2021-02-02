@@ -51,7 +51,7 @@ export class UsagersService {
     };
 
     usager.structureId = user.structureId;
-    usager.etapeDemande = 1; // TODO @toub à vérifier avec Yassine
+    usager.etapeDemande = 0;
 
     return usagerLightRepository.save(usager);
   }

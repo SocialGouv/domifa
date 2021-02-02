@@ -11,13 +11,13 @@ import { map } from "rxjs/operators";
 import { interactionsLabelsPluriel } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import {
+  dataCompare,
   departements,
   DepartementsLabels,
   languagesAutocomplete,
   RegionsLabels,
   REGIONS_LABELS_MAP,
 } from "src/app/shared";
-import { dataCompare } from "src/app/shared/dataCompare.service";
 import {
   DashboardStats,
   Structure,

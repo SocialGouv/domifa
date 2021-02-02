@@ -1,4 +1,4 @@
-import { dataCompare } from "../dataCompare.service";
+import { dataCompare } from "../sorter";
 import { AppLanguage } from "./AppLanguage.type";
 import { ORIGINAL_LANGUAGES_MAP } from "./ORIGINAL_LANGUAGES_MAP.const";
 

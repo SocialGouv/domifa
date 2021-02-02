@@ -12,6 +12,7 @@ import {
   StructureStatsTable,
   usagerRepository,
 } from "../../database";
+import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import { StructuresService } from "../../structures/services/structures.service";
 import { appLogger } from "../../util";
 import {
@@ -65,7 +66,11 @@ export class StatsGeneratorService {
       },
       async ({ monitorTotal, monitorSuccess, monitorError }) => {
         const today = moment().utc().subtract(1, "day").endOf("day").toDate();
-        const structures = await this._findStructuresToGenerateStats({ today });
+        const structures = await structureLightRepository.findStructuresToGenerateStats(
+          {
+            maxLastExportDate: today,
+          }
+        );
         appLogger.debug(
           `[StatsGeneratorService] ${structures.length} structures to process :`
         );
@@ -90,33 +95,6 @@ export class StatsGeneratorService {
         }
       }
     );
-  }
-
-  private async _findStructuresToGenerateStats({
-    today,
-  }: {
-    today: Date;
-  }): Promise<StructureLight[]> {
-    const structures: StructureLight[] = await this.structureService.findManyLight(
-      {
-        $or: [
-          {
-            lastExport: {
-              $lte: today,
-            },
-          },
-          {
-            lastExport: {
-              $exists: false,
-            },
-          },
-          {
-            lastExport: null,
-          },
-        ],
-      }
-    );
-    return structures;
   }
 
   public async generateStructureStats(

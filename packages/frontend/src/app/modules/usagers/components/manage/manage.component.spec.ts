@@ -1,17 +1,15 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { global } from "@angular/compiler/src/util";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
-import { ManageUsagersComponent } from "./manage.component";
-import { global } from "@angular/compiler/src/util";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ToastrModule } from "ngx-toastr";
+import { ManageUsagersComponent } from "./manage.component";
 
 describe("ManageUsagersComponent", () => {
   let component: ManageUsagersComponent;
@@ -64,27 +62,13 @@ describe("ManageUsagersComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("1. NgOnInit", () => {
-    expect(component.searching).toEqual(true);
-    expect(component.filters).toEqual({
-      echeance: null,
-      interactionType: null,
-      name: null,
-      page: 0,
-      passage: null,
-      sortKey: "NAME",
-      sortValue: "ascending",
-      statut: "VALIDE",
-    });
-  });
-
   it("3. Reset Filters", async(() => {
     component.resetFilters();
 
     expect(component.filters).toEqual({
       echeance: null,
       interactionType: null,
-      name: null,
+      searchString: null,
       page: 0,
       passage: null,
       sortKey: "NAME",
@@ -95,6 +79,6 @@ describe("ManageUsagersComponent", () => {
 
   it("X. Small functions : get letter, reset bar, go to profil", () => {
     component.resetSearchBar();
-    expect(component.filters.name).toEqual("");
+    expect(component.filters.searchString).toEqual("");
   });
 });

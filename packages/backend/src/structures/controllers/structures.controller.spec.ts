@@ -37,7 +37,7 @@ describe("Stuctures Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  it("validateEmail does not exists", async () => {
+  it("validateEmail (does not exists)", async () => {
     const res = ({
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
@@ -54,7 +54,7 @@ describe("Stuctures Controller", () => {
     expect(res.json).toHaveBeenCalledWith(false);
   });
 
-  it("validateEmail exists", async () => {
+  it("validateEmail (exists)", async () => {
     const res = ({
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
