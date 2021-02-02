@@ -638,7 +638,7 @@ export class ImportController {
           dateDebut,
           dateDecision,
           dateFin,
-          motif: motif.trim().toUpperCase(),
+          motif,
           motifDetails: "",
           statut: row[this.STATUT_DOM].toUpperCase() as UsagerDecisionStatut,
           userId: user.id,
