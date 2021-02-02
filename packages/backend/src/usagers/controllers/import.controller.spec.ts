@@ -66,18 +66,15 @@ describe("Import Controller", () => {
   });
 
   it("1. CHECK DATE FUNCTIONS 📆", () => {
-    const nextYear = moment(new Date())
+    const nextYear = moment()
       .add(1, "year")
       .subtract(1, "month")
       .locale("fr")
       .format("L");
 
-    const thisYear = moment(new Date()).locale("fr").format("L");
+    const thisYear = moment().locale("fr").format("L");
 
-    const nextTwoYears = moment(new Date())
-      .add(2, "year")
-      .locale("fr")
-      .format("L");
+    const nextTwoYears = moment().add(2, "year").locale("fr").format("L");
 
     // Dates REQUIRED
     expect(
@@ -173,4 +170,7 @@ describe("Import Controller", () => {
     expect(JSON.parse(response.text)).toEqual({ success: true });
     done();
   });
+
+  // TODO: ajouter les test de taille limite
+  // TODO: vérufier le résultat dans la BDD
 });
