@@ -5,8 +5,12 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  BeforeInsert,
 } from "typeorm";
 import { StructureTable } from "..";
+
+import { titleCase } from "typeorm/util/StringUtils";
+
 import {
   AppUser,
   AppUserMails,
@@ -70,4 +74,11 @@ export class AppUserTable
 
   @Column({ type: "boolean", default: false })
   verified: boolean;
+
+  @BeforeInsert()
+  nameToUpperCase() {
+    this.email = this.email.toLowerCase();
+    this.nom = titleCase(this.nom);
+    this.prenom = titleCase(this.prenom);
+  }
 }

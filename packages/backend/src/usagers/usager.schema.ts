@@ -381,6 +381,5 @@ export const UsagerSchema = new mongoose.Schema(
 UsagerSchema.pre<Usager>("save", function (next) {
   this.nom = this.nom.charAt(0).toUpperCase() + this.nom.slice(1);
   this.prenom = this.prenom.charAt(0).toUpperCase() + this.prenom.slice(1);
-  this.email = this.email.toLowerCase();
   next();
 });

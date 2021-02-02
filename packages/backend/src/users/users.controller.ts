@@ -202,7 +202,9 @@ export class UsersController {
 
   @Post()
   public async create(@Body() userDto: UserDto, @Res() res: ExpressResponse) {
-    const user = await usersRepository.findOne({ email: userDto.email });
+    const user = await usersRepository.findOne({
+      email: userDto.email.toLowerCase(),
+    });
 
     if (user || user !== undefined) {
       return res
@@ -255,7 +257,7 @@ export class UsersController {
     @Res() res: ExpressResponse
   ) {
     const existUser = await usersRepository.findOne({
-      email: emailDto.email,
+      email: emailDto.email.toLowerCase(),
     });
 
     const emailExist = existUser !== undefined;
@@ -320,19 +322,21 @@ export class UsersController {
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
-    const user = await usersRepository.findOne({ email: emailDto.email });
+    const user = await usersRepository.findOne({
+      email: emailDto.email.toLowerCase(),
+    });
     if (!user) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "RESET_EMAIL_NOT_EXIST" });
+        .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
     } else {
       const updatedUser = await this.usersService.generateTokenPassword(
-        emailDto.email
+        emailDto.email.toLowerCase()
       );
 
       if (!updatedUser) {
         return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .status(HttpStatus.BAD_REQUEST)
           .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
       }
 
@@ -352,7 +356,7 @@ export class UsersController {
     @Body() registerUserDto: RegisterUserAdminDto
   ): Promise<any> {
     const userExist = await usersRepository.findOne({
-      email: registerUserDto.email,
+      email: registerUserDto.email.toLowerCase(),
     });
 
     if (userExist) {
