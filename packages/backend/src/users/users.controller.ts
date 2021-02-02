@@ -202,7 +202,9 @@ export class UsersController {
 
   @Post()
   public async create(@Body() userDto: UserDto, @Res() res: ExpressResponse) {
-    const user = await usersRepository.findOne({ email: userDto.email });
+    const user = await usersRepository.findOne({
+      email: userDto.email.toLowerCase(),
+    });
 
     if (user || user !== undefined) {
       return res
@@ -354,7 +356,7 @@ export class UsersController {
     @Body() registerUserDto: RegisterUserAdminDto
   ): Promise<any> {
     const userExist = await usersRepository.findOne({
-      email: registerUserDto.email,
+      email: registerUserDto.email.toLowerCase(),
     });
 
     if (userExist) {

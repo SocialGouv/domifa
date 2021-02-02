@@ -100,11 +100,11 @@ export class ImportController {
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
   ) {
-    this.today = moment().utc().endOf("day").toDate();
-    this.nextYear = moment().utc().endOf("year").toDate();
+    this.today = moment().endOf("day").utc().toDate();
+    this.nextYear = moment().add(1, "year").endOf("day").utc().toDate();
     this.minDate = moment("01/01/1900", "DD/MM/YYYY")
-      .utc()
       .endOf("day")
+      .utc()
       .toDate();
 
     this.errorsId = [];
