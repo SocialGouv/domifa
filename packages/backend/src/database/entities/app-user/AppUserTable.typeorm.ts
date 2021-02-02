@@ -29,7 +29,7 @@ export class AppUserTable
   _id: any; // obsolete mongo id: use `uuid` instead
 
   @Index()
-  @Column({ type: "citext", unique: true })
+  @Column({ type: "text", unique: true })
   email: string;
 
   @Column({ type: "text", nullable: true })

@@ -328,7 +328,7 @@ export class UsersController {
     if (!user) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "RESET_EMAIL_NOT_EXIST" });
+        .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
     } else {
       const updatedUser = await this.usersService.generateTokenPassword(
         emailDto.email.toLowerCase()
@@ -336,7 +336,7 @@ export class UsersController {
 
       if (!updatedUser) {
         return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .status(HttpStatus.BAD_REQUEST)
           .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
       }
 
