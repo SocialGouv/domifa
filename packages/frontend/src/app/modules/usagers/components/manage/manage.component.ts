@@ -38,6 +38,8 @@ import { InteractionTypes } from "../../interfaces/interaction";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 import {
+  UsagersByStatus,
+  usagersByStatusBuilder,
   usagersFilter,
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortKey,
@@ -54,7 +56,8 @@ import {
 export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
 
-  public allUsagers$ = new ReplaySubject<UsagerLight[]>(1);
+  public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
+  public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerFormModel[] = [];
   public me: AppUser;
 
@@ -74,15 +77,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
 
   public nbResults: number;
-
-  public stats: {
-    INSTRUCTION: number;
-    VALIDE: number;
-    ATTENTE_DECISION: number;
-    REFUS: number;
-    RADIE: number;
-    TOUS: number;
-  };
 
   public sortLabels: { [key: string]: string } = {
     NAME: "nom",
@@ -126,14 +120,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.selectedUsager = {} as any;
 
     this.today = new Date();
-    this.stats = {
-      INSTRUCTION: 0,
-      VALIDE: 0,
-      ATTENTE_DECISION: 0,
-      REFUS: 0,
-      RADIE: 0,
-      TOUS: 0,
-    };
 
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
@@ -143,8 +129,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.searchString = this.filters.searchString;
     this.filters.page = 0;
     this.filters$.next(this.filters);
-
-    this.getStats();
 
     // reload every hour
     timer(0, 3600000)
@@ -161,7 +145,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (allUsagers: UsagerLight[]) => {
-          this.allUsagers$.next(allUsagers);
+          this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
+          this.allUsagersByStatus$.next(this.allUsagersByStatus);
         },
         () => {
           this.notifService.error("Une erreur a eu lieu lors de la recherche");
@@ -186,9 +171,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      combineLatest([this.filters$, this.allUsagers$]).subscribe(
-        ([filters, allUsagers]) => {
-          this.applyFilters({ filters, allUsagers });
+      combineLatest([this.filters$, this.allUsagersByStatus$]).subscribe(
+        ([filters, allUsagersByStatus]) => {
+          this.applyFilters({ filters, allUsagersByStatus });
         }
       )
     );
@@ -365,18 +350,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     );
   }
 
-  public getStats() {
-    this.usagerService.getStats().subscribe((stats: any) => {
-      this.stats = stats;
-    });
-  }
-
   public applyFilters({
     filters,
-    allUsagers,
+    allUsagersByStatus,
   }: {
     filters: UsagersFilterCriteria;
-    allUsagers: UsagerLight[];
+    allUsagersByStatus: UsagersByStatus;
   }) {
     this.searching = true;
 
@@ -384,17 +363,23 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
     localStorage.setItem("filters", JSON.stringify(filters));
 
+    const allUsagers = allUsagersByStatus[filters.statut];
+
     const filteredUsagers = usagersFilter.filter(allUsagers, {
-      criteria: filters,
+      criteria: {
+        ...filters,
+        statut: undefined, // already filtered by status via allUsagersByStatus
+      },
     });
 
     const usagers = filteredUsagers.map(
       (item) => new UsagerFormModel(item, filters.searchString)
     );
 
+    const pageSize = 40;
     if (filters.page === 0) {
       this.nbResults = filteredUsagers.length;
-      this.usagers = usagers.slice(0, 40);
+      this.usagers = usagers.slice(0, pageSize);
 
       window.scroll({
         behavior: "smooth",
@@ -402,9 +387,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         top: 0,
       });
     } else {
-      this.usagers = this.usagers.concat(usagers);
-      // TODO @toub
-      console.log("xxx this.usagers (SCROLL):", this.usagers.length);
+      this.usagers = this.usagers.concat(
+        usagers.slice(filters.page * pageSize, filters.page * pageSize + 40)
+      );
     }
     this.searching = false;
   }
@@ -420,7 +405,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   @HostListener("window:scroll", ["$event"])
   onScroll($event: Event): void {
-    console.log("xxx onScroll event: this.filters.page", this.filters.page);
     const pos =
       (document.documentElement.scrollTop || document.body.scrollTop) +
       document.documentElement.offsetHeight;

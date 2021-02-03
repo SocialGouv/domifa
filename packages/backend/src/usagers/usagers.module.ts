@@ -1,7 +1,6 @@
 import { forwardRef, HttpModule, Module } from "@nestjs/common";
 import { DatabaseModule } from "../database";
 import { InteractionsModule } from "../interactions/interactions.module";
-
 import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
 import { StructuresModule } from "../structures/structure.module";
@@ -11,7 +10,6 @@ import { DocsCustomController } from "./controllers/docs-custom.controller";
 import { DocsController } from "./controllers/docs.controller";
 import { ExportStructureUsagersController } from "./controllers/export-structure-usagers.controller";
 import { ImportController } from "./controllers/import.controller";
-import { SearchController } from "./controllers/search.controller";
 import { UsagersController } from "./controllers/usagers.controller";
 import { CerfaService } from "./services/cerfa.service";
 import { DocumentsService } from "./services/documents.service";
@@ -22,7 +20,6 @@ import { UsagersProviders } from "./usagers.providers";
   controllers: [
     UsagersController,
     ImportController,
-    SearchController,
     AgendaController,
     DocsCustomController,
     DocsController,

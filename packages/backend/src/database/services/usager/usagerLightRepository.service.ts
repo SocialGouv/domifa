@@ -1,5 +1,5 @@
-import { UsagerLight, UsagerTable } from "../../entities";
-import { pgRepository } from "../_postgres";
+import { UsagerLight, UsagerPG, UsagerTable } from "../../entities";
+import { pgRepository, PgRepositoryFindOrder } from "../_postgres";
 
 const baseRepository = pgRepository.get<UsagerTable, UsagerLight>(UsagerTable, {
   defaultSelect: [
@@ -32,6 +32,7 @@ const baseRepository = pgRepository.get<UsagerTable, UsagerLight>(UsagerTable, {
 export const usagerLightRepository = {
   ...baseRepository,
   findDoublon,
+  findNextRendezVous,
 };
 
 function findDoublon({
@@ -56,5 +57,26 @@ function findDoublon({
       nom: nom.toLowerCase(),
       prenom: prenom.toLowerCase(),
     },
+  });
+}
+
+function findNextRendezVous({
+  userId,
+  dateRefNow = new Date(),
+}: {
+  userId: number;
+  dateRefNow?: Date;
+}): Promise<Pick<UsagerPG, "nom" | "prenom" | "uuid" | "ref" | "rdv">[]> {
+  return baseRepository.findManyWithQuery({
+    where: `rdv->>'userId' = :userId 
+      and (rdv->>'dateRdv')::timestamptz > :dateRefNow`,
+    params: {
+      userId,
+      dateRefNow,
+    },
+    order: {
+      "(rdv->>'dateRdv')::timestamptz": "DESC",
+    } as PgRepositoryFindOrder<any>,
+    select: ["nom", "prenom", "uuid", "ref", "rdv"],
   });
 }

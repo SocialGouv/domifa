@@ -27,6 +27,6 @@ function filter(
       ].concat(...ayantDroitsAttributes);
       return attributes;
     },
-    sortResultsByBestMatch: true,
+    sortResultsByBestMatch: false,
   });
 }
