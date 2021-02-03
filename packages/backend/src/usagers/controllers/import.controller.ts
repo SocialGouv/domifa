@@ -853,6 +853,6 @@ export class ImportController {
       choix: ["OUI", "NON"],
     };
 
-    return types[rowName].rowIndexOf(data.toUpperCase()) > -1;
+    return types[rowName].indexOf(data.toUpperCase()) > -1;
   }
 }
