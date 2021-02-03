@@ -21,7 +21,6 @@ import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerDecisionStatut, UsagerPG, UsagerTable } from "../../database";
 import { UsagerDecisionMotif } from "../../database/entities/usager/UsagerDecisionMotif.type";
 import { StructuresService } from "../../structures/services/structures.service";
-import { appLogger } from "../../util";
 import { ExpressResponse } from "../../util/express";
 import { randomName, validateUpload } from "../../util/FileManager";
 import { AppAuthUser } from "../../_common/model";
@@ -29,6 +28,7 @@ import { Entretien } from "../interfaces/entretien";
 import { UsagersService } from "../services/usagers.service";
 
 import moment = require("moment");
+import { appLogger } from "../../util";
 
 export const regexp = {
   date: /^([0-9]|[0-2][0-9]|(3)[0-1])(\/)(([0-9]|(0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -61,7 +61,8 @@ const ALLOWED_MOTIF_VALUES: UsagerDecisionMotif[] = [
 @ApiBearerAuth()
 @Controller("import")
 export class ImportController {
-  public errorsId: string[];
+  public errorsId: any[];
+
   public colNames: string[];
   public rowNumber: number;
   public datas: AOA = [[], []];
@@ -117,12 +118,9 @@ export class ImportController {
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
   ) {
-    this.today = moment().endOf("day").utc().toDate();
-    this.nextYear = moment().add(1, "year").endOf("day").utc().toDate();
-    this.minDate = moment("01/01/1900", "DD/MM/YYYY")
-      .endOf("day")
-      .utc()
-      .toDate();
+    this.today = moment().endOf("day").toDate();
+    this.nextYear = moment().add(1, "year").endOf("day").toDate();
+    this.minDate = moment("01/01/1900", "DD/MM/YYYY").endOf("day").toDate();
 
     this.errorsId = [];
     this.rowNumber = 0;
@@ -238,48 +236,70 @@ export class ImportController {
         raw: false,
       }) as AOA;
 
-      for (let index = 1, len = this.datas.length; index < len; index++) {
+      for (
+        let rowIndex = 1, len = this.datas.length;
+        rowIndex < len;
+        rowIndex++
+      ) {
         // Ligne
-        this.rowNumber = index;
-        const row = this.datas[index];
+        this.rowNumber = rowIndex;
+        const row = this.datas[rowIndex];
 
         // Check le sexe
         const sexeCheck =
           row[this.CIVILITE].toUpperCase() === "H" ||
           row[this.CIVILITE].toUpperCase() === "F";
 
-        this.countErrors(sexeCheck, index, this.CIVILITE);
+        this.countErrors(sexeCheck, rowIndex, this.CIVILITE);
 
-        this.countErrors(this.notEmpty(row[this.NOM]), index, this.NOM);
+        this.countErrors(this.notEmpty(row[this.NOM]), rowIndex, this.NOM);
 
-        this.countErrors(this.notEmpty(row[this.PRENOM]), index, this.PRENOM);
+        this.countErrors(
+          this.notEmpty(row[this.PRENOM]),
+          rowIndex,
+          this.PRENOM
+        );
 
         this.countErrors(
           this.isValidDate(row[this.DATE_NAISSANCE], true, false),
-          index,
+          rowIndex,
           this.DATE_NAISSANCE
         );
 
         this.countErrors(
           this.notEmpty(row[this.LIEU_NAISSANCE]),
-          index,
+          rowIndex,
           this.LIEU_NAISSANCE
         );
 
-        this.countErrors(this.isValidEmail(row[this.EMAIL]), index, this.EMAIL);
+        this.countErrors(
+          this.isValidEmail(row[this.EMAIL]),
+          rowIndex,
+          this.EMAIL
+        );
 
-        this.countErrors(this.isValidPhone(row[this.PHONE]), index, this.PHONE);
+        this.countErrors(
+          this.isValidPhone(row[this.PHONE]),
+          rowIndex,
+          this.PHONE
+        );
 
         this.countErrors(
           this.isValidValue(row[this.STATUT_DOM], "statut", true),
-          index,
+          rowIndex,
           this.STATUT_DOM
         );
 
         this.countErrors(
           this.isValidValue(row[this.TYPE_DOM], "demande", true),
-          index,
+          rowIndex,
           this.TYPE_DOM
+        );
+
+        this.countErrors(
+          this.isValidDate(row[this.DATE_PREMIERE_DOM], false, false),
+          rowIndex,
+          this.DATE_PREMIERE_DOM
         );
 
         // SI Refus & Radié, on ne tient pas compte des dates suivantes : date de début, date de fin, date de dernier passage
@@ -288,22 +308,16 @@ export class ImportController {
 
         this.countErrors(
           this.isValidDate(row[this.DATE_DEBUT_DOM], dateIsRequired, false),
-          index,
+          rowIndex,
           this.DATE_DEBUT_DOM
         );
 
         this.countErrors(
           this.isValidDate(row[this.DATE_FIN_DOM], dateIsRequired, true),
-          index,
+          rowIndex,
           this.DATE_FIN_DOM
         );
         const dateDernierPassage = row[this.DATE_DERNIER_PASSAGE];
-
-        this.countErrors(
-          this.isValidDate(row[this.DATE_PREMIERE_DOM], false, false),
-          index,
-          this.DATE_PREMIERE_DOM
-        );
 
         this.countErrors(
           this.isValidDate(
@@ -311,100 +325,104 @@ export class ImportController {
             dateIsRequired,
             false
           ),
-          index,
+          rowIndex,
           this.DATE_DERNIER_PASSAGE
         );
 
         this.countErrors(
           this.isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
-          index,
+          rowIndex,
           this.MOTIF_REFUS
         );
 
         this.countErrors(
           this.isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
-          index,
+          rowIndex,
           this.MOTIF_RADIATION
         );
 
         this.countErrors(
           this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
-          index,
+          rowIndex,
           this.COMPOSITION_MENAGE
         );
 
         this.countErrors(
           this.isValidValue(row[this.RAISON_DEMANDE], "raison"),
-          index,
+          rowIndex,
           this.RAISON_DEMANDE
         );
 
         this.countErrors(
           this.isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
-          index,
+          rowIndex,
           this.CAUSE_INSTABILITE
         );
 
         this.countErrors(
           this.isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
-          index,
+          rowIndex,
           this.SITUATION_RESIDENTIELLE
         );
 
         this.countErrors(
           this.isValidValue(row[this.ORIENTATION], "choix"),
-          index,
+          rowIndex,
           this.ORIENTATION
         );
 
         this.countErrors(
           this.isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
-          index,
+          rowIndex,
           this.DOMICILIATION_EXISTANTE
         );
 
         this.countErrors(
           this.isValidValue(row[this.REVENUS], "choix"),
-          index,
+          rowIndex,
           this.REVENUS
         );
 
         this.countErrors(
           this.isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
-          index,
+          rowIndex,
           this.ACCOMPAGNEMENT
         );
 
-        for (const indexAD of this.AYANT_DROIT) {
-          const nom = row[indexAD];
-          const prenom = row[indexAD + 1];
-          const dateNaissance = row[indexAD + 2];
-          const lienParente = row[indexAD + 3];
+        for (const indexAyantDroit of this.AYANT_DROIT) {
+          const nom = row[indexAyantDroit];
+          const prenom = row[indexAyantDroit + 1];
+          const dateNaissance = row[indexAyantDroit + 2];
+          const lienParente = row[indexAyantDroit + 3];
 
           if (nom && prenom && dateNaissance && lienParente) {
-            this.countErrors(this.notEmpty(nom), this.rowNumber, indexAD);
+            this.countErrors(
+              this.notEmpty(nom),
+              this.rowNumber,
+              indexAyantDroit
+            );
 
             this.countErrors(
               this.notEmpty(prenom),
               this.rowNumber,
-              indexAD + 1
+              indexAyantDroit + 1
             );
 
             this.countErrors(
               this.isValidDate(dateNaissance, true, false),
               this.rowNumber,
-              indexAD + 2
+              indexAyantDroit + 2
             );
 
             this.countErrors(
               this.isValidValue(lienParente, "lienParente", true),
               this.rowNumber,
-              indexAD + 3
+              indexAyantDroit + 3
             );
           }
         }
 
-        if (index + 1 >= this.datas.length) {
+        if (rowIndex + 1 >= this.datas.length) {
           if (this.errorsId.length > 0) {
             const error = {
               ids: JSON.stringify(this.errorsId),
@@ -444,14 +462,13 @@ export class ImportController {
 
   private async saveDatas(datas: AOA, @CurrentUser() user: AppAuthUser) {
     //
-
-    const now = moment().utc().toDate();
+    const now = moment().toDate();
     const agent = user.prenom + " " + user.nom;
     const usagers: UsagerTable[] = [];
 
-    for (let index = 1, len = datas.length; index < len; index++) {
+    for (let rowIndex = 1, len = datas.length; rowIndex < len; rowIndex++) {
       // Ligne du fichier
-      const row = datas[index];
+      const row = datas[rowIndex];
 
       // Infos générales
       const sexe = row[this.CIVILITE] === "H" ? "homme" : "femme";
@@ -624,11 +641,11 @@ export class ImportController {
       //
       // AYANT-DROIT
       //
-      for (const indexAD of this.AYANT_DROIT) {
-        const nom = row[indexAD];
-        const prenom = row[indexAD + 1];
-        const dateNaissance = row[indexAD + 2];
-        const lienParente = row[indexAD + 3];
+      for (const indexAyantDroit of this.AYANT_DROIT) {
+        const nom = row[indexAyantDroit];
+        const prenom = row[indexAyantDroit + 1];
+        const dateNaissance = row[indexAyantDroit + 2];
+        const lienParente = row[indexAyantDroit + 3];
 
         if (nom && prenom && dateNaissance && lienParente) {
           ayantsDroits.push({
@@ -679,7 +696,7 @@ export class ImportController {
       });
       usagers.push(newUsager);
 
-      if (index + 1 >= datas.length) {
+      if (rowIndex + 1 >= datas.length) {
         return true;
       }
     }
@@ -695,16 +712,17 @@ export class ImportController {
     return momentDate;
   }
 
-  private countErrors(variable: boolean, idRow: any, idColumn: number) {
-    const position =
-      "Ligne " +
-      idRow.toString() +
-      ":  --" +
-      this.datas[idRow][idColumn] +
-      "-- " +
-      this.colNames[idColumn] +
-      " - Retour :  " +
-      variable;
+  private countErrors(
+    variable: boolean,
+    idRow: number,
+    idColumn: number
+  ): void {
+    const position = {
+      rowId: idRow.toString(),
+      columnId: idColumn,
+      value: this.datas[idRow][idColumn],
+      label: this.colNames[idColumn],
+    };
 
     if (variable !== true) {
       appLogger.warn(`[IMPORT]: Import Error `, {
@@ -713,8 +731,6 @@ export class ImportController {
       });
       this.errorsId.push(position);
     }
-
-    return variable;
   }
 
   private notEmpty(value: string): boolean {
@@ -837,6 +853,6 @@ export class ImportController {
       choix: ["OUI", "NON"],
     };
 
-    return types[rowName].indexOf(data.toUpperCase()) > -1;
+    return types[rowName].rowIndexOf(data.toUpperCase()) > -1;
   }
 }
