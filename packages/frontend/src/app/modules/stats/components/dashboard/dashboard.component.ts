@@ -112,6 +112,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .getStatsDomifaAdminDashboard()
       .subscribe((stats: DashboardStats) => {
         this.stats$.next(stats);
+        this.stats = stats;
       });
 
     const sortedTableStructures$ = this.buildSortedTableStructures();

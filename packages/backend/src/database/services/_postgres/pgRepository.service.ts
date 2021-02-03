@@ -142,6 +142,13 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     }
   }
 
+  function escapeAttr(value: any, enabled = true): string {
+    if (enabled) {
+      return `"${value}"`;
+    }
+    return value;
+  }
+
   async function countBy<CountBy extends keyof T>({
     where,
     countBy,
@@ -151,6 +158,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       count: "ASC",
       countBy: "ASC",
     },
+    escapeAttributes = true,
   }: {
     where?: Partial<T>;
     countBy: CountBy;
@@ -160,6 +168,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       count?: "ASC" | "DESC";
       countBy?: "ASC" | "DESC";
     };
+    escapeAttributes?: boolean;
   }): Promise<
     (Pick<T, CountBy> & {
       count: number;
@@ -168,9 +177,9 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     const typeormRepository = await typeorm();
     let qb = typeormRepository
       .createQueryBuilder("s")
-      .select(`COUNT("${countAttribute}")`, "count")
-      .addSelect(`"${countBy}"`, countByAlias)
-      .groupBy(`s."${countBy}"`);
+      .select(`COUNT(${escapeAttr(countAttribute, escapeAttributes)})`, "count")
+      .addSelect(`${escapeAttr(countBy, escapeAttributes)}`, countByAlias)
+      .groupBy(`s.${escapeAttr(countBy, escapeAttributes)}`);
 
     if (where) {
       qb = qb.where(where);
@@ -178,7 +187,9 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     if (order) {
       const orderBy = Object.keys(order).reduce((acc, key) => {
         // replace "countBy" by countBy name
-        acc[key === "count" ? key : `"${countBy}"`] = order[key];
+        acc[
+          key === "count" ? key : `${escapeAttr(countBy, escapeAttributes)}`
+        ] = order[key];
         return acc;
       }, {} as OrderByCondition);
       qb = qb.orderBy(orderBy);

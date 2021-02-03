@@ -45,7 +45,7 @@ export class StatsService {
 
   // DASHBOARD
   public getStatsDomifaAdminDashboard(): Observable<DashboardStats> {
-    return this.http.get<DashboardStats>(this.baseUrl);
+    return this.http.get<DashboardStats>(this.epDashboard);
   }
 
   public export(start: Date, end: Date) {
