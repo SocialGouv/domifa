@@ -12,7 +12,7 @@ describe("usagerRepository advanced base", () => {
     AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
-  // TODO @toub isoler les bdd de test pour pouvoir décommenter ça (car perturbé par le test d'import par exemple)
+  // TODO @toub LATER isoler les bdd de test pour pouvoir décommenter ça (car perturbé par le test d'import par exemple)
   // it("countDomiciliations (ALL)", async () => {
   //   const count = await usagerRepository.countDomiciliations({});
   //   expect(count).toEqual(6);
@@ -85,7 +85,7 @@ describe("usagerRepository advanced base", () => {
       })
     ).toEqual(4);
   });
-  // TODO @toub isoler les bdd de test pour pouvoir décommenter ça (car perturbé par le test d'import par exemple)
+  // TODO @toub LATER isoler les bdd de test pour pouvoir décommenter ça (car perturbé par le test d'import par exemple)
   // it(" (ALL)", async () => {
   //   const count = await usagerRepository.countAyantsDroits({});
   //   expect(count).toEqual(5);

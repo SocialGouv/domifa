@@ -48,6 +48,17 @@ export class UsagersController {
     private readonly cerfaService: CerfaService
   ) {}
 
+  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @Get()
+  public async findAllByStructure(@CurrentUser() user: AppAuthUser) {
+    return usagerLightRepository.findMany(
+      {
+        structureId: user.structureId,
+      },
+      {}
+    );
+  }
+
   /* FORMULAIRE INFOS */
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @Post()

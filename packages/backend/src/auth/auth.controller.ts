@@ -11,16 +11,14 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as bcrypt from "bcryptjs";
+import { Response } from "express";
 import { usersRepository } from "../database";
 import { LoginDto } from "../users/dto/login.dto";
-
 import { ExpressResponse } from "../util/express";
 import { AppAuthUser, AppUser } from "../_common/model";
 import { AuthService } from "./auth.service";
 import { CurrentUser } from "./current-user.decorator";
 import { DomifaGuard } from "./guards/domifa.guard";
-
-import { Response } from "express";
 
 @Controller("auth")
 @ApiTags("auth")

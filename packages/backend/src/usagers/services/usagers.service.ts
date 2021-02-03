@@ -41,17 +41,15 @@ export class UsagersService {
     usager.customRef = `${usager.ref}`;
 
     usager.decision = {
-      // TODO @toub à vérifier avec Yassine
       dateDecision: new Date(),
       statut: "INSTRUCTION",
       userName: user.prenom + " " + user.nom,
       userId: user.id,
-      dateDebut: new Date(),
-      // dateFin: new Date(),
+      dateFin: new Date(),
     };
 
     usager.structureId = user.structureId;
-    usager.etapeDemande = 0;
+    usager.etapeDemande = 1;
 
     return usagerLightRepository.save(usager);
   }

@@ -21,45 +21,8 @@ function filter(
     criteria: UsagersFilterCriteria;
   }
 ) {
-  const filteredUsagers = usagers.filter((usager) => {
-    const now = new Date();
-    const today = Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate()
-    );
-
-    if (criteria.passage) {
-      // TODO @toub
-      switch (criteria.passage) {
-        case "DEUX_MOIS":
-          // { $lte: lastTwoMonths },
-          break;
-        case "TROIS_MOIS":
-          // { $lte: lastThreeMonths },
-          break;
-      }
-    }
-
-    return (
-      usagerStatutChecker.check({
-        usager,
-        statut: criteria.statut,
-      }) &&
-      usagerInteractionTypeChecker.check({
-        usager,
-        interactionType: criteria.interactionType,
-      }) &&
-      usagerEcheanceChecker.check({
-        usager,
-        echeance: criteria.echeance,
-      }) &&
-      usagerPassageChecker.check({
-        usager,
-        passage: criteria.passage,
-      })
-    );
-  });
+  const now = new Date();
+  const filteredUsagers = filterByCriteria(usagers, criteria, now);
 
   const filteredAndSearchUsagers = usagersSearchStringFilter.filter(
     filteredUsagers,
@@ -71,4 +34,40 @@ function filter(
     sortKey: criteria.sortKey,
     sortValue: criteria.sortValue,
   });
+}
+function filterByCriteria(
+  usagers: UsagerLight[],
+  criteria: UsagersFilterCriteria,
+  now: Date
+) {
+  if (
+    criteria.statut ||
+    criteria.interactionType ||
+    criteria.echeance ||
+    criteria.passage
+  ) {
+    return usagers.filter((usager) => {
+      return (
+        usagerStatutChecker.check({
+          usager,
+          statut: criteria.statut,
+        }) &&
+        usagerInteractionTypeChecker.check({
+          usager,
+          interactionType: criteria.interactionType,
+        }) &&
+        usagerEcheanceChecker.check({
+          usager,
+          echeance: criteria.echeance,
+          refDateNow: now,
+        }) &&
+        usagerPassageChecker.check({
+          usager,
+          passage: criteria.passage,
+          refDateNow: now,
+        })
+      );
+    });
+  }
+  return usagers;
 }

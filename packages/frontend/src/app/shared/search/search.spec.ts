@@ -65,9 +65,9 @@ it("search books", () => {
   expect(results.length).toEqual(2);
 });
 
-it("search xxx", () => {
+it("search zzz", () => {
   const results = search.filter(data, {
-    searchText: "xxx",
+    searchText: "zzz",
     getAttributes: getSearchAttributes(),
   });
   expect(results.length).toEqual(0);

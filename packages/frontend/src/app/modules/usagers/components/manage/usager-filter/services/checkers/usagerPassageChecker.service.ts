@@ -1,3 +1,4 @@
+import moment from "moment";
 import { UsagerLight } from "../../../../../../../../_common/model";
 import { UsagersFilterCriteria } from "../../UsagersFilterCriteria";
 
@@ -8,59 +9,43 @@ export const usagerPassageChecker = {
 function check({
   usager,
   passage,
+  refDateNow,
 }: {
   usager: UsagerLight;
+  refDateNow: Date;
 } & Pick<UsagersFilterCriteria, "passage">): boolean {
   if (passage) {
-    // TODO @toub
+    if (
+      usager.decision?.statut !== "VALIDE" ||
+      !usager.lastInteraction?.dateInteraction
+    ) {
+      return false;
+    }
+    let maxDateTime: number;
     switch (passage) {
       case "DEUX_MOIS":
-        // { $lte: lastTwoMonths },
+        maxDateTime = moment(refDateNow)
+          .utc()
+          .startOf("day")
+          .subtract(2, "months")
+          .toDate()
+          .getTime();
         break;
       case "TROIS_MOIS":
-        // { $lte: lastThreeMonths },
+        maxDateTime = moment(refDateNow)
+          .utc()
+          .startOf("day")
+          .subtract(3, "months")
+          .toDate()
+          .getTime();
         break;
+      default:
+        console.error('Invalid valid for filter "passage"');
+        return true;
     }
+    return (
+      new Date(usager.lastInteraction.dateInteraction).getTime() <= maxDateTime
+    );
   }
   return true;
 }
-
-// const today = moment().utc().startOf("day").toDate();
-
-// const nextTwoMonths: Date = moment()
-//   .startOf("day")
-//   .add(2, "months")
-//   .toDate();
-
-// const nextTwoWeeks: Date = moment()
-//   .utc()
-//   .startOf("day")
-//   .add(14, "days")
-//   .toDate();
-
-// const lastTwoMonths: Date = moment()
-//   .utc()
-//   .startOf("day")
-//   .subtract(2, "months")
-//   .toDate();
-
-// const lastThreeMonths: Date = moment()
-//   .utc()
-//   .startOf("day")
-//   .subtract(3, "months")
-//   .toDate();
-
-// const echeances: {
-//   [key: string]: {};
-// } = {
-//   DEPASSEE: { $lte: today },
-//   DEUX_MOIS: { $lte: nextTwoMonths, $gte: today },
-//   DEUX_SEMAINES: { $lte: nextTwoWeeks, $gte: today },
-// };
-
-// const passages: {
-//   [key: string]: {};
-// } = {
-//   DEUX_MOIS: { $lte: lastTwoMonths },
-//   TROIS_MOIS: { $lte: lastThreeMonths },
-// };

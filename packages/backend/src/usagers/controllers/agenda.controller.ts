@@ -19,6 +19,7 @@ import { domifaConfig } from "../../config";
 import {
   MessageEmailIcalEvent,
   UsagerLight,
+  usagerLightRepository,
   usersRepository,
 } from "../../database";
 import {
@@ -160,13 +161,7 @@ export class AgendaController {
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   public async getAll(@CurrentUser() user: AppAuthUser) {
     const userId = user.id;
-    // TODO @toub
-    // return usagerLightRepository
-    //   .find({ "rdv.dateRdv": { $gt: new Date() }, "rdv.userId": userId })
-    //   .sort({ "rdv.dateRdv": -1 })
-    //   .select("nom prenom id rdv")
-    //   .lean();
-    return [];
+    return usagerLightRepository.findNextRendezVous({ userId });
   }
 
   public async agenda(userId: number) {}

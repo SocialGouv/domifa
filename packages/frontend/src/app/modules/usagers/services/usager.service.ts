@@ -1,10 +1,9 @@
-import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { LoadingService } from "../../loading/loading.service";
@@ -153,13 +152,9 @@ export class UsagerService {
     return this.http.delete(`${this.endPointUsagers}/${usagerRef}`);
   }
 
-  public getStats() {
-    return this.http.get(`${environment.apiUrl}search/stats`);
-  }
-
   /* Recherche */
   public getAllUsagers(): Observable<UsagerLight[]> {
-    return this.http.get<UsagerLight[]>(`${environment.apiUrl}search/`);
+    return this.http.get<UsagerLight[]>(`${environment.apiUrl}usagers/`);
   }
 
   /* Attestation */

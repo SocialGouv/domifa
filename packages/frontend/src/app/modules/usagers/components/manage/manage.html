@@ -7,42 +7,42 @@
       [ngClass]="filters.statut === 'TOUS' ? 'filter-primary' : 'filter-dark'"
       (click)="updateFilters('statut', 'TOUS')"
     >
-      Tous ({{ stats.TOUS }})
+      Tous ({{ allUsagersByStatus?.TOUS.length || 0 }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'VALIDE' ? 'filter-primary' : 'filter-dark'"
       (click)="updateFilters('statut', 'VALIDE')"
     >
-      Actifs ({{ stats.VALIDE }})
+      Actifs ({{ allUsagersByStatus?.VALIDE.length || 0 }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'INSTRUCTION' ? 'filter-warning' : 'filter-dark'"
       (click)="updateFilters('statut', 'INSTRUCTION')"
     >
-      À compléter ({{ stats.INSTRUCTION }})
+      À compléter ({{ allUsagersByStatus?.INSTRUCTION.length || 0 }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'ATTENTE_DECISION' ? 'filter-warning' : 'filter-dark' "
       (click)="updateFilters('statut', 'ATTENTE_DECISION')"
     >
-      Attente de décision ({{ stats.ATTENTE_DECISION }})
+      Attente de décision ({{ allUsagersByStatus?.ATTENTE_DECISION.length || 0 }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'REFUS' ? 'filter-danger' : 'filter-dark'  "
       (click)="updateFilters('statut', 'REFUS')"
     >
-      Refusés ({{ stats.REFUS }})
+      Refusés ({{ allUsagersByStatus?.REFUS.length || 0 }})
     </div>
     <div
       class="col"
       [ngClass]="filters.statut === 'RADIE' ? 'filter-danger' : 'filter-dark'"
       (click)="updateFilters('statut', 'RADIE')"
     >
-      Radiés ({{ stats.RADIE }})
+      Radiés ({{ allUsagersByStatus?.RADIE.length || 0 }})
     </div>
   </div>
   <div class="row">
