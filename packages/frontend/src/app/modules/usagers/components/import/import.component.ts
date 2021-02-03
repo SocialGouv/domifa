@@ -1,51 +1,20 @@
+import * as XLSX from "xlsx";
+import moment from "moment";
+import { Title } from "@angular/platform-browser";
+import { ToastrService } from "ngx-toastr";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import moment from "moment";
-import { ToastrService } from "ngx-toastr";
-import * as XLSX from "xlsx";
-import { AppUser } from "../../../../../_common/model";
-import { regexp } from "../../../../shared/validators";
-import { LoadingService } from "../../../loading/loading.service";
-import { AuthService } from "../../../shared/services/auth.service";
-import { UsagerService } from "../../services/usager.service";
 
-export const colNames = [
-  "Numéro d'identification",
-  "Civilité",
-  "Nom",
-  "Prénom",
-  "Nom d'usage / Surnom",
-  "Date naissance",
-  "Lieu naissance",
-  "Téléphone",
-  "Email",
-  "Statut demande",
-  "Motif de refus",
-  "Motif de radiation",
-  "Type de domiciliation",
-  "Date de Début de la domiciliation",
-  "Date de fin de la domiciliation",
-  "Date 1ere domiciliation",
-  "Date de dernier passage",
-  "Orientation",
-  "Détails de l'orientation",
-  "La personne a t-elle déjà une domiciliation ?",
-  "Le domicilié possède t-il des revenus ?",
-  "Seulement si revenus, de quelle nature ?",
-  "Lien avec la commune",
-  "Composition du ménage",
-  "Situation résidentielle",
-  "Si autre situation résidentielle, précisez",
-  "Cause instabilité logement",
-  "Si autre cause, précisez",
-  "Motif principal de la demande",
-  "Si autre motif, précisez",
-  "Accompagnement social",
-  "Par quelle structure est fait l'accompagnement ?",
-  "Commentaires",
-];
+import { regexp } from "../../../../shared/validators";
+
+import { UsagerService } from "../../services/usager.service";
+import { AuthService } from "../../../shared/services/auth.service";
+import { LoadingService } from "../../../loading/loading.service";
+
+import { AppUser } from "../../../../../_common/model";
+import { COLUMNS_HEADERS } from "../../../../../_common/import/COLUMNS_HEADERS.const";
+
 type AOA = any[][];
 
 @Component({
@@ -57,13 +26,13 @@ type AOA = any[][];
 export class ImportComponent implements OnInit {
   public datas: AOA = [[], []];
 
-  public uploadForm!: FormGroup;
-  public fileName: string;
-  public errorsList: any;
+  public columnsHeaders: string[];
 
-  public canUpload: boolean;
-  public success: boolean;
+  public uploadForm!: FormGroup;
+
+  public errorsList: any;
   public uploadError: boolean;
+
   public showTable: boolean;
   public showErrors: boolean;
 
@@ -74,7 +43,6 @@ export class ImportComponent implements OnInit {
   public errorsRow: any[];
 
   public rowNumber: number;
-  public colNames: string[];
   public etapeImport: number;
 
   public today: Date;
@@ -141,32 +109,21 @@ export class ImportComponent implements OnInit {
     private notifService: ToastrService,
     private titleService: Title
   ) {
-    this.canUpload = false;
-    this.colNames = colNames;
+    this.columnsHeaders = COLUMNS_HEADERS;
+
+    // Variables de suivi des erreurs
+    this.etapeImport = 0;
+    this.uploadError = false;
+
+    // Tableaux des erreurs
     this.errorsId = [];
     this.errorsList = {};
     this.errorsRow = [];
-
-    this.etapeImport = 0;
-    this.fileName = "";
-    this.nbreAyantsDroits = [33, 37, 41, 45, 49, 53, 57, 61, 65];
-    this.rowNumber = 0;
     this.showErrors = false;
     this.showTable = false;
-    this.success = false;
-    this.uploadError = false;
 
-    this.today = new Date();
-    this.nextYear = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    );
-
-    for (let cpt = 0; cpt < 10; cpt++) {
-      this.colNames.push("Ayant-droit " + cpt + ": nom");
-      this.colNames.push("Ayant-droit " + cpt + ": prénom");
-      this.colNames.push("Ayant-droit " + cpt + ": date naissance");
-      this.colNames.push("Ayant-droit " + cpt + ": lien parenté");
-    }
+    this.nbreAyantsDroits = [33, 37, 41, 45, 49, 53, 57, 61, 65];
+    this.rowNumber = 0;
 
     this.today = moment().endOf("day").toDate();
     this.nextYear = moment().add(1, "year").endOf("day").toDate();
@@ -189,32 +146,33 @@ export class ImportComponent implements OnInit {
     });
 
     this.uploadForm = this.formBuilder.group({
-      fileInput: [this.fileName, Validators.required],
+      fileInput: ["", Validators.required],
     });
   }
 
-  public onFileChange(evt: any) {
-    this.uploadError = false;
-
-    const target: DataTransfer = evt.target as DataTransfer;
-    const file = evt.target.files[0];
+  public onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
 
     if (
-      target.files.length !== 1 ||
-      (target.files[0].type !== "application/vnd.ms-excel" &&
-        target.files[0].type !==
+      !input.files?.length ||
+      (input.files[0].type !== "application/vnd.ms-excel" &&
+        input.files[0].type !==
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
-        target.files[0].type !==
+        input.files[0].type !==
           "application/vnd.oasis.opendocument.spreadsheet")
     ) {
       this.uploadError = true;
+      this.notifService.error("Seul les fichiers Excel sont autorisés");
       return;
     }
 
+    const file = input.files[0];
+    this.uploadForm.controls.fileInput.setValue(file);
+
     this.showTable = true;
     this.datas = [[], []];
+
     this.etapeImport = 1;
-    this.uploadForm.controls.fileInput.setValue(file);
 
     const reader: FileReader = new FileReader();
 
@@ -396,7 +354,8 @@ export class ImportComponent implements OnInit {
         }
       });
     };
-    reader.readAsBinaryString(target.files[0]);
+
+    reader.readAsBinaryString(file);
   }
 
   public submitFile() {

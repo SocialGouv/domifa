@@ -90,6 +90,7 @@
   border: 1px dotted var(--primary);
   color: var(--primary);
 }
+
 .upload-error {
   border: 1px dotted var(--danger);
   color: var(--danger);
