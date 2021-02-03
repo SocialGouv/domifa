@@ -29,6 +29,7 @@ import { UsagersService } from "../services/usagers.service";
 
 import moment = require("moment");
 import { appLogger } from "../../util";
+import { COLUMNS_HEADERS } from "../../_common/import/COLUMNS_HEADERS.const";
 
 export const regexp = {
   date: /^([0-9]|[0-2][0-9]|(3)[0-1])(\/)(([0-9]|(0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -126,57 +127,7 @@ export class ImportController {
     this.rowNumber = 0;
     this.datas = [[], []];
 
-    this.colNames = [
-      "Numéro d'identification",
-      "Civilité",
-      "Nom",
-      "Prénom",
-      "Nom d'usage / Surnom",
-      "Date naissance",
-      "Lieu naissance",
-      "Téléphone",
-      "Email",
-      "Statut domiciliation",
-      "Motif de refus",
-      "Motif de radiation",
-      "Type de domiciliation",
-      "Date de Début de la domiciliation",
-      "Date de fin de la domiciliation",
-      "Date 1ere domiciliation",
-      "Date de dernier passage",
-      "Orientation",
-      "Détails de l'orientation",
-      "La personne a t-elle déjà une domiciliation ?",
-      "Le domicilié possède t-il des revenus ?",
-      "Seulement si revenus, de quelle nature ?",
-      "Lien avec la commune",
-      "Composition du ménage",
-      "Situation résidentielle",
-      "Si autre situation résidentielle, précisez",
-      "Cause instabilité logement",
-      "Si autre cause, précisez",
-      "Motif principal de la demande",
-      "Si autre motif, précisez",
-      "Accompagnement social",
-      "Par quelle structure est fait l'accompagnement ?",
-      "Commentaires",
-      "Ayant-droit 1: nom",
-      "Ayant-droit 1: prénom",
-      "Ayant-droit 1: date naissance",
-      "Ayant-droit 1: lien parenté",
-      "Ayant-droit 2: nom",
-      "Ayant-droit 2: prénom",
-      "Ayant-droit 2: date naissance",
-      "Ayant-droit 2: lien parenté",
-      "Ayant-droit 3: nom",
-      "Ayant-droit 3: prénom",
-      "Ayant-droit 3: date naissance",
-      "Ayant-droit 3: lien parenté",
-      "Ayant-droit 4: nom",
-      "Ayant-droit 4: prénom",
-      "Ayant-droit 4: date de naissance",
-      "Ayant-droit 4: lien parenté",
-    ];
+    this.columnsHeaders = COLUMNS_HEADERS;
   }
 
   @Post()
@@ -712,21 +663,16 @@ export class ImportController {
     return momentDate;
   }
 
-  private countErrors(
-    variable: boolean,
-    idRow: number,
-    idColumn: number
-  ): void {
-    const value = this.notEmpty(this.datas[idRow][idColumn])
-      ? "CHAMP_VIDE"
-      : this.datas[idRow][idColumn];
-
-    const position = {
-      rowId: idRow.toString(),
-      columnId: idColumn,
-      value,
-      label: this.colNames[idColumn],
-    };
+  private countErrors(variable: boolean, idRow: any, idColumn: number) {
+    const position =
+      "Ligne " +
+      idRow.toString() +
+      ":  --" +
+      this.datas[idRow][idColumn] +
+      "-- " +
+      this.columnsHeaders[idColumn] +
+      " - Retour :  " +
+      variable;
 
     if (variable !== true) {
       appLogger.warn(`[IMPORT]: Import Error `, {
