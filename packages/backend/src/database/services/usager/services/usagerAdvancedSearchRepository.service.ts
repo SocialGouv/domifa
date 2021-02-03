@@ -37,11 +37,19 @@ function _advancedCount({
     params["typeDom"] = typeDom;
   }
   if (actifsInHistoryBefore) {
+    // CAS 1 : demande valide maintenant
+    // CAS 2 : renouvellement en cours : demande Valide dernièrement mais instruction
+    // CAS 3 : renouvellement en cours : demande Valide dernièrement mais en attente de décision
     andSubQueries.push(`decision->>'statut' = 'VALIDE' and (decision->>'dateDebut')::timestamptz <= :actifsInHistoryBefore
-    OR (
-      (decision->>'statut' = 'INSTRUCTION' or decision->>'statut' = 'ATTENTE_DECISION') 
-      and (historique->>0)::jsonb->>'statut' = 'VALIDE' and ((historique->>0)::jsonb->>'dateDebut')::timestamptz <= :actifsInHistoryBefore
-      )`);
+      OR (
+        decision->>'statut' = 'INSTRUCTION'
+        and (historique->>0)::jsonb->>'statut' = 'VALIDE' and ((historique->>0)::jsonb->>'dateDebut')::timestamptz <= :actifsInHistoryBefore
+      )
+      OR (
+        decision->>'statut' = 'ATTENTE_DECISION'
+        and (historique->>1)::jsonb->>'statut' = 'VALIDE' and ((historique->>1)::jsonb->>'dateDebut')::timestamptz <= :actifsInHistoryBefore
+      )
+    `);
     params["actifsInHistoryBefore"] = actifsInHistoryBefore;
   }
   if (decisionInHistory) {

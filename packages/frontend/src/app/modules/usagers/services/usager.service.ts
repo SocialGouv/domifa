@@ -1,9 +1,4 @@
-import {
-  HttpClient,
-  HttpEvent,
-  HttpEventType,
-  HttpParams,
-} from "@angular/common/http";
+import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
@@ -16,7 +11,6 @@ import { LoadingService } from "../../loading/loading.service";
 import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
-import { Search } from "../interfaces/search";
 
 @Injectable({
   providedIn: "root",
@@ -164,17 +158,8 @@ export class UsagerService {
   }
 
   /* Recherche */
-  public search(search: Search): Observable<any> {
-    let data = new HttpParams();
-
-    Object.keys(search).forEach((key) => {
-      const value = search[key];
-      if (value !== null) {
-        data = data.append(key, value);
-      }
-    });
-
-    return this.http.get(`${environment.apiUrl}search/`, { params: data });
+  public getAllUsagers(): Observable<UsagerLight[]> {
+    return this.http.get<UsagerLight[]>(`${environment.apiUrl}search/`);
   }
 
   /* Attestation */

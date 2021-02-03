@@ -17,6 +17,7 @@ import { CurrentUser } from "../../auth/current-user.decorator";
 import { AdminGuard } from "../../auth/guards/admin.guard";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
 import { usagerRepository, usersRepository } from "../../database";
+import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import { InteractionsService } from "../../interactions/interactions.service";
 import {
   DomifaMailsService,
@@ -71,7 +72,7 @@ export class StructuresController {
 
   @Post("validate-email")
   public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
-    const exist = await this.structureService.findOneLight({
+    const exist = await structureLightRepository.findOne({
       email: emailDto.email,
     });
     return res.status(HttpStatus.OK).json(!!exist);
@@ -221,7 +222,7 @@ export class StructuresController {
 
   @Get(":id")
   public async getStructure(@Param("id") id: number) {
-    return this.structureService.findOneLight({ id });
+    return structureLightRepository.findOne({ id });
   }
 
   @UseGuards(AuthGuard("jwt"), DomifaGuard)
@@ -246,7 +247,7 @@ export class StructuresController {
     @Param("id") id: string,
     @Param("token") token: string
   ) {
-    const structure = await this.structureService.findOneLight({
+    const structure = await structureLightRepository.findOne({
       token,
       _id: id,
     });
