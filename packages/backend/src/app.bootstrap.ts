@@ -3,8 +3,9 @@ import { NestFactory } from "@nestjs/core";
 import {
   DocumentBuilder,
   SwaggerCustomOptions,
-  SwaggerModule
+  SwaggerModule,
 } from "@nestjs/swagger";
+
 import * as Sentry from "@sentry/node";
 import * as compression from "compression";
 import { Connection } from "typeorm";
@@ -12,6 +13,7 @@ import { AppModule } from "./app.module";
 import { appHolder } from "./appHolder";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
+
 import { appLogger } from "./util";
 
 export async function tearDownApplication({
