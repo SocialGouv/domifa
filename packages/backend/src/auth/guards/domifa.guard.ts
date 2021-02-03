@@ -15,7 +15,7 @@ export class DomifaGuard implements CanActivate {
     const isValidRole = this.isDomifaAdmin(user);
     if (user && !isValidRole) {
       appLogger.warn(
-        `[DomifaGuard] invalid role "${user.role}" or structureId "${user.structureId}" for user "${user._id}"`,
+        `[DomifaGuard] invalid role "${user.role}" or structureId "${user.structureId}" for user "${user.uuid}" with role "${user.role}"`,
         {
           sentryBreadcrumb: true,
         }

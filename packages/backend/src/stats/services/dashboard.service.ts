@@ -5,6 +5,7 @@ import {
   InteractionsTable,
   structureRepository,
   typeOrmSearch,
+  UsagerDecisionStatut,
   usagerRepository,
   UsagerTable,
   usersRepository,
@@ -124,7 +125,7 @@ export class DashboardService {
   > {
     return await usagerRepository.countBy({
       countBy: "structureId",
-      where: typeOrmSearch<UsagerTable>(`"decision"->>'statut' = 'VALIDE'`),
+      where: typeOrmSearch<UsagerTable>(`decision->>'statut' = 'VALIDE'`),
       order: {
         count: "DESC",
         countBy: "ASC",
@@ -132,11 +133,18 @@ export class DashboardService {
     });
   }
 
-  public async getUsagersCountByStatut() {
+  public async getUsagersCountByStatut(): Promise<
+    {
+      statut: UsagerDecisionStatut;
+      count: number;
+    }[]
+  > {
     return usagerRepository.countBy({
-      countBy: `"decision"->>'statut'` as any,
+      countBy: `decision->>'statut'` as any,
+      countByAlias: "statut",
       order: { count: "DESC", countBy: "ASC" },
-    });
+      escapeAttributes: false,
+    }) as any;
   }
   public async getUsagersCountByLanguage() {
     return usagerRepository.countBy({
@@ -168,8 +176,8 @@ export class DashboardService {
 
     usagers.AYANTS_DROITS = ayantsDroits;
     for (const usager of result) {
-      usagers[usager.ref.statut] = usager.sum[0];
-      total += usager.sum[0];
+      usagers[usager.statut] = usager.count;
+      total += usager.count;
     }
     usagers.TOUS = total + usagers.AYANTS_DROITS;
     return usagers;
