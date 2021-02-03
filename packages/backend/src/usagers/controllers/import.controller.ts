@@ -407,6 +407,7 @@ export class ImportController {
               ids: JSON.stringify(this.errorsId),
               message: "IMPORT_ERRORS_BACKEND",
             };
+
             throw new HttpException(error, HttpStatus.BAD_REQUEST);
           }
 
@@ -796,6 +797,6 @@ export class ImportController {
       choix: ["OUI", "NON"],
     };
 
-    return types[rowName].rowIndexOf(data.toUpperCase()) > -1;
+    return types[rowName].indexOf(data.toUpperCase()) > -1;
   }
 }

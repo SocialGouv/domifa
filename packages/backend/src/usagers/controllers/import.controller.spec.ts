@@ -158,8 +158,26 @@ describe("Import Controller", () => {
     done();
   });
 
-  it(`✅ Import d'un fichier Valide`, async (done) => {
-    const errorFile = "../../ressources/modele_import_domifa.xlsx";
+  it(`✅ Import d'un fichier Valide 1️⃣`, async (done) => {
+    const errorFile = "../../ressources/imports_tests/import_ok_1.xlsx";
+    const errorFilePath = path.resolve(__dirname, errorFile);
+
+    expect(fs.existsSync(errorFilePath)).toBeTruthy();
+
+    const response = await request(app.getHttpServer())
+      .post("/import")
+      .set("Authorization", `Bearer ${authToken}`)
+      .set("Content-Type", "multipart/form-data")
+      .attach("file", errorFilePath)
+      .expect(200);
+
+    expect(response.status).toBe(HttpStatus.OK);
+    expect(JSON.parse(response.text)).toEqual({ success: true });
+    done();
+  });
+
+  it(`✅ Import d'un fichier Valide 2️⃣`, async (done) => {
+    const errorFile = "../../ressources/imports_tests/import_ok_2.xlsx";
     const errorFilePath = path.resolve(__dirname, errorFile);
 
     expect(fs.existsSync(errorFilePath)).toBeTruthy();
