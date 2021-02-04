@@ -717,10 +717,14 @@ export class ImportController {
     idRow: number,
     idColumn: number
   ): void {
+    const value = this.notEmpty(this.datas[idRow][idColumn])
+      ? "CHAMP_VIDE"
+      : this.datas[idRow][idColumn];
+
     const position = {
       rowId: idRow.toString(),
       columnId: idColumn,
-      value: this.datas[idRow][idColumn],
+      value,
       label: this.colNames[idColumn],
     };
 
