@@ -37,7 +37,7 @@ esac
 done
 
 
-if [ -z "${MONGO_DUMP_PATH}" ]; then
+if [ "$DUMP_ENV" = "dev" ]; then 
   MONGO_DUMP_PATH="$CURRENT_DIR/dumps/domifa_$DUMP_ENV.mongo.gz"
 fi
 
