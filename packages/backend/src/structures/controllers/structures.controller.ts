@@ -73,7 +73,7 @@ export class StructuresController {
   @Post("validate-email")
   public async validateEmail(@Body() emailDto: EmailDto, @Response() res: any) {
     const exist = await structureLightRepository.findOne({
-      email: emailDto.email,
+      email: emailDto.email.toLowerCase(),
     });
     return res.status(HttpStatus.OK).json(!!exist);
   }

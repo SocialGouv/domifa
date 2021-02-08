@@ -70,7 +70,7 @@ export class ImportComponent implements OnInit {
   public nbreAyantsDroits: number[];
 
   public errorsId: any[];
-  public errorsColumn = new Array(32);
+
   public errorsRow: any[];
 
   public rowNumber: number;
@@ -168,18 +168,9 @@ export class ImportComponent implements OnInit {
       this.colNames.push("Ayant-droit " + cpt + ": lien parenté");
     }
 
-<<<<<<< HEAD
-    this.today = moment().endOf("day").utc().toDate();
-    this.nextYear = moment().add(1, "year").endOf("day").utc().toDate();
-    this.minDate = moment("01/01/1900", "DD/MM/YYYY")
-      .endOf("day")
-      .utc()
-      .toDate();
-=======
     this.today = moment().endOf("day").toDate();
     this.nextYear = moment().add(1, "year").endOf("day").toDate();
     this.minDate = moment.utc("01/01/1900", "DD/MM/YYYY").endOf("day").toDate();
->>>>>>> e46ccbd8... fix(import): import timezone bug
   }
 
   get u(): any {
@@ -196,10 +187,6 @@ export class ImportComponent implements OnInit {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
-
-    for (let index = 0; index < 32; index++) {
-      this.errorsColumn[index] = 10;
-    }
 
     this.uploadForm = this.formBuilder.group({
       fileInput: [this.fileName, Validators.required],
@@ -436,21 +423,16 @@ export class ImportComponent implements OnInit {
     return this.errorsId.indexOf(position) > -1;
   }
 
-  public countErrors(variable: boolean, idRow: number, idColumn: number) {
-    this.errorsColumn[idColumn] === undefined
-      ? (this.errorsColumn[idColumn] = 1)
-      : this.errorsColumn[idColumn]++;
+  public countErrors(variable: boolean, idRow: number, idColumn: number): void {
     const position = idRow.toString() + "_" + idColumn.toString();
 
     if (variable !== true) {
       if (this.errorsRow[idRow] === undefined) {
         this.errorsRow[idRow] = [];
       }
-
       this.errorsRow[idRow].push(idColumn);
       this.errorsId.push(position);
     }
-    return variable;
   }
 
   public notEmpty(value: string): boolean {
