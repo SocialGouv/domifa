@@ -1,5 +1,3 @@
-import moment = require("moment");
-
 export const regexp = {
   date: /^([0-9]|[0-2][0-9]|(3)[0-1])(\/)(([0-9]|(0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
   email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, // tslint:disable max-line-length
@@ -30,7 +28,7 @@ export function isValidValue(
     return !required;
   }
 
-  const types: any = {
+  const authorizedValues: any = {
     demande: ["PREMIERE", "RENOUVELLEMENT"],
     lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
     menage: [
@@ -74,5 +72,5 @@ export function isValidValue(
     choix: ["OUI", "NON"],
   };
 
-  return types[rowName].indexOf(data.toUpperCase()) > -1;
+  return authorizedValues[rowName].indexOf(data.toUpperCase()) > -1;
 }

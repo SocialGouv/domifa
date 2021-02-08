@@ -12,10 +12,12 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import * as fs from "fs";
 import { diskStorage } from "multer";
+
+import * as fs from "fs";
 import * as path from "path";
 import * as XLSX from "xlsx";
+
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerDecisionStatut, UsagerPG, UsagerTable } from "../../database";
@@ -31,31 +33,15 @@ import moment = require("moment");
 import { appLogger } from "../../util";
 import { COLUMNS_HEADERS } from "../../_common/import/COLUMNS_HEADERS.const";
 
-export const regexp = {
-  date: /^([0-9]|[0-2][0-9]|(3)[0-1])(\/)(([0-9]|(0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
-  email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, // tslint:disable max-line-length
-  phone: /^((\+)33|0)[1-9](\d{2}){4}$/,
-};
+import {
+  isValidEmail,
+  isValidPhone,
+  isValidValue,
+  regexp,
+} from "../../_common/import/import.validators";
+import { ALLOWED_MOTIF_VALUES } from "../../_common/import/ALLOWED_MOTIF_VALUES.const";
 
 type AOA = any[][];
-
-const ALLOWED_MOTIF_VALUES: UsagerDecisionMotif[] = [
-  // RADIATIOn
-  "A_SA_DEMANDE",
-  "PLUS_DE_LIEN_COMMUNE",
-  "FIN_DE_DOMICILIATION",
-  "NON_MANIFESTATION_3_MOIS",
-  "NON_RESPECT_REGLEMENT",
-  "ENTREE_LOGEMENT",
-
-  // REFUS
-  "HORS_AGREMENT",
-  "LIEN_COMMUNE",
-  "SATURATION",
-
-  // AUTRE
-  "AUTRE",
-];
 
 @UseGuards(AuthGuard("jwt"), FacteurGuard)
 @ApiTags("import")
@@ -63,8 +49,7 @@ const ALLOWED_MOTIF_VALUES: UsagerDecisionMotif[] = [
 @Controller("import")
 export class ImportController {
   public errorsId: any[];
-
-  public colNames: string[];
+  public columnsHeaders: string[];
   public rowNumber: number;
   public datas: AOA = [[], []];
 
@@ -223,26 +208,18 @@ export class ImportController {
           this.LIEU_NAISSANCE
         );
 
-        this.countErrors(
-          this.isValidEmail(row[this.EMAIL]),
-          rowIndex,
-          this.EMAIL
-        );
+        this.countErrors(isValidEmail(row[this.EMAIL]), rowIndex, this.EMAIL);
+
+        this.countErrors(isValidPhone(row[this.PHONE]), rowIndex, this.PHONE);
 
         this.countErrors(
-          this.isValidPhone(row[this.PHONE]),
-          rowIndex,
-          this.PHONE
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.STATUT_DOM], "statut", true),
+          isValidValue(row[this.STATUT_DOM], "statut", true),
           rowIndex,
           this.STATUT_DOM
         );
 
         this.countErrors(
-          this.isValidValue(row[this.TYPE_DOM], "demande", true),
+          isValidValue(row[this.TYPE_DOM], "demande", true),
           rowIndex,
           this.TYPE_DOM
         );
@@ -281,61 +258,61 @@ export class ImportController {
         );
 
         this.countErrors(
-          this.isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
+          isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
           rowIndex,
           this.MOTIF_REFUS
         );
 
         this.countErrors(
-          this.isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
+          isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
           rowIndex,
           this.MOTIF_RADIATION
         );
 
         this.countErrors(
-          this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
+          isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
           rowIndex,
           this.COMPOSITION_MENAGE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.RAISON_DEMANDE], "raison"),
+          isValidValue(row[this.RAISON_DEMANDE], "raison"),
           rowIndex,
           this.RAISON_DEMANDE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
+          isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
           rowIndex,
           this.CAUSE_INSTABILITE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
+          isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
           rowIndex,
           this.SITUATION_RESIDENTIELLE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.ORIENTATION], "choix"),
+          isValidValue(row[this.ORIENTATION], "choix"),
           rowIndex,
           this.ORIENTATION
         );
 
         this.countErrors(
-          this.isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
+          isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
           rowIndex,
           this.DOMICILIATION_EXISTANTE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.REVENUS], "choix"),
+          isValidValue(row[this.REVENUS], "choix"),
           rowIndex,
           this.REVENUS
         );
 
         this.countErrors(
-          this.isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
+          isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
           rowIndex,
           this.ACCOMPAGNEMENT
         );
@@ -366,7 +343,7 @@ export class ImportController {
             );
 
             this.countErrors(
-              this.isValidValue(lienParente, "lienParente", true),
+              isValidValue(lienParente, "lienParente", true),
               this.rowNumber,
               indexAyantDroit + 3
             );
@@ -659,20 +636,15 @@ export class ImportController {
 
   private convertDate(dateFr: string): Date {
     const momentDate = moment.utc(dateFr, "DD/MM/YYYY").startOf("day").toDate();
-
     return momentDate;
   }
 
   private countErrors(variable: boolean, idRow: any, idColumn: number) {
-    const position =
-      "Ligne " +
-      idRow.toString() +
-      ":  --" +
-      this.datas[idRow][idColumn] +
-      "-- " +
-      this.columnsHeaders[idColumn] +
-      " - Retour :  " +
-      variable;
+    const position = {
+      row: idRow.toString(),
+      column: this.columnsHeaders[idColumn],
+      value: this.datas[idRow][idColumn],
+    };
 
     if (variable !== true) {
       appLogger.warn(`[IMPORT]: Import Error `, {
@@ -738,71 +710,5 @@ export class ImportController {
       }
     }
     return false;
-  }
-
-  private isValidPhone(phone: string): boolean {
-    return !this.notEmpty(phone)
-      ? true
-      : RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
-  }
-
-  private isValidEmail(email: string): boolean {
-    return !this.notEmpty(email) ? true : RegExp(regexp.email).test(email);
-  }
-
-  private isValidValue(
-    data: string,
-    rowName: string,
-    required: boolean = false
-  ): boolean {
-    if (!this.notEmpty(data)) {
-      return !required;
-    }
-
-    const types: any = {
-      demande: ["PREMIERE", "RENOUVELLEMENT"],
-      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
-      menage: [
-        "HOMME_ISOLE_SANS_ENFANT",
-        "FEMME_ISOLE_SANS_ENFANT",
-        "HOMME_ISOLE_AVEC_ENFANT",
-        "FEMME_ISOLE_AVEC_ENFANT",
-        "COUPLE_SANS_ENFANT",
-        "COUPLE_AVEC_ENFANT",
-      ],
-      motifRadiation: [
-        "NON_MANIFESTATION_3_MOIS",
-        "A_SA_DEMANDE",
-        "ENTREE_LOGEMENT",
-        "FIN_DE_DOMICILIATION",
-        "PLUS_DE_LIEN_COMMUNE",
-        "NON_RESPECT_REGLEMENT",
-        "AUTRE",
-      ],
-      motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
-      residence: [
-        "DOMICILE_MOBILE",
-        "HEBERGEMENT_SOCIAL",
-        "HEBERGEMENT_TIERS",
-        "HOTEL",
-        "SANS_ABRI",
-        "AUTRE",
-      ],
-      cause: [
-        "ERRANCE",
-        "AUTRE",
-        "EXPULSION",
-        "HEBERGE_SANS_ADRESSE",
-        "ITINERANT",
-        "RUPTURE",
-        "SORTIE_STRUCTURE",
-        "VIOLENCE",
-      ],
-      statut: ["VALIDE", "REFUS", "RADIE"],
-      raison: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
-      choix: ["OUI", "NON"],
-    };
-
-    return types[rowName].indexOf(data.toUpperCase()) > -1;
   }
 }
