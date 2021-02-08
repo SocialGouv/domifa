@@ -11,18 +11,27 @@ class AppLogger {
     {
       sentryBreadcrumb,
       context,
+      extra,
     }: {
       sentryBreadcrumb?: boolean;
       context?: string;
+      extra?: { [attr: string]: any };
     } = {
       sentryBreadcrumb: false,
     }
   ) {
     if (sentryBreadcrumb && domifaConfig().dev.sentry.enabled) {
       // add breadcrumb to sentry
+      // FIXME il y a eu confusion entre contexts et extra, service à refactorer
+      const sentryExtra = extra
+        ? extra
+        : context
+        ? { extraInfo: context }
+        : undefined;
       const breadcrumb: Sentry.Breadcrumb = {
         level: Sentry.Severity.Warning,
         message,
+        data: sentryExtra,
       };
       Sentry.addBreadcrumb(breadcrumb);
     }
@@ -33,10 +42,12 @@ class AppLogger {
     {
       error,
       context,
+      extra,
       sentry,
     }: {
       error?: Error;
       context?: string;
+      extra?: { [attr: string]: any };
       sentry: boolean;
     } = {
       sentry: true,
@@ -44,19 +55,28 @@ class AppLogger {
   ) {
     if (sentry && domifaConfig().dev.sentry.enabled) {
       // log to sentry
+      const contexts = context ? { context } : undefined;
+      // FIXME il y a eu confusion entre contexts et extra, service à refactorer
+      const sentryExtra = extra
+        ? extra
+        : context
+        ? { extraInfo: context }
+        : undefined;
       if (error) {
         Sentry.captureException(error, {
           level: Sentry.Severity.Error,
-          contexts: { context, message },
+          contexts,
+          extra: sentryExtra,
         });
       } else {
         Sentry.captureMessage(message, {
           level: Sentry.Severity.Error,
-          contexts: { context },
+          contexts,
+          extra: sentryExtra,
         });
       }
     }
-    Logger.error(message, error?.stack, context);
+    Logger.error(message, error?.stack, JSON.stringify({ context, extra }));
   }
 }
 
