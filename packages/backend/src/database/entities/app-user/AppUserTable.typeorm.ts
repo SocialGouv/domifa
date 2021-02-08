@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {
   Column,
   Entity,
@@ -9,9 +8,6 @@ import {
   BeforeInsert,
 } from "typeorm";
 import { StructureTable } from "..";
-=======
-import { BeforeInsert, Column, Entity, Generated, Index } from "typeorm";
->>>>>>> fix: import tests
 
 import { titleCase } from "typeorm/util/StringUtils";
 
