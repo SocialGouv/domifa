@@ -238,27 +238,27 @@
           <th>Commentaires</th>
 
           <ng-container
-            *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index"
+            *ngFor="let ayantDroit of AYANT_DROIT; let rowIndex = index"
           >
             <th>
               Nom
               <br />
-              Ayant-droit {{ indexRow + 1 }}
+              Ayant-droit {{ rowIndex + 1 }}
             </th>
             <th>
               Prénom
               <br />
-              Ayant-droit {{ indexRow + 1 }}
+              Ayant-droit {{ rowIndex + 1 }}
             </th>
             <th>
               Date de naissance
               <br />
-              Ayant-droit {{ indexRow + 1 }}
+              Ayant-droit {{ rowIndex + 1 }}
             </th>
             <th>
               Lien de parenté
               <br />
-              Ayant-droit {{ indexRow + 1 }}
+              Ayant-droit {{ rowIndex + 1 }}
             </th>
           </ng-container>
         </thead>
@@ -441,7 +441,7 @@
             </td>
 
             <ng-container
-              *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index"
+              *ngFor="let ayantDroit of AYANT_DROIT; let rowIndex = index"
             >
               <td [ngClass]="{ 'table-danger': isAnError(index, ayantDroit) }">
                 {{ row[ayantDroit] }}
