@@ -11,4 +11,5 @@ export type MonitoringBatchProcess<T = any> = AppEntity & {
   status: MonitoringBatchProcessStatus;
   details?: T;
   errorMessage?: string;
+  alertMailSent?: boolean;
 };
