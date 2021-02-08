@@ -12,25 +12,22 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-
-import { diskStorage } from "multer";
 import * as fs from "fs";
+import { diskStorage } from "multer";
 import * as path from "path";
 import * as XLSX from "xlsx";
-
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
-
 import { StructuresService } from "../../structures/services/structures.service";
+import { appLogger } from "../../util";
+import { ExpressResponse } from "../../util/express";
 import { randomName, validateUpload } from "../../util/FileManager";
 import { AppAuthUser } from "../../_common/model";
 import { Entretien } from "../interfaces/entretien";
-import { UsagersService } from "../services/usagers.service";
 import { Usager } from "../interfaces/usagers";
-import { ExpressResponse } from "../../util/express";
+import { UsagersService } from "../services/usagers.service";
 
 import moment = require("moment");
-import { appLogger } from "../../util";
 
 export const regexp = {
   date: /^([0-9]|[0-2][0-9]|(3)[0-1])(\/)(([0-9]|(0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
@@ -197,7 +194,11 @@ export class ImportController {
     @CurrentUser() user: AppAuthUser
   ) {
     const dir = path.resolve(__dirname, "../../imports/");
-    const buffer = fs.readFileSync(dir + "/" + file.filename);
+    const fileName = file.filename;
+    const filePath = dir + "/" + fileName;
+    const structureId = user.structureId;
+    const importContext = { fileName, filePath, structureId };
+    const buffer = fs.readFileSync(filePath);
     const wb = XLSX.read(buffer, {
       dateNF: "dd/mm/yyyy",
       type: "buffer",
@@ -297,6 +298,7 @@ export class ImportController {
           rowIndex,
           this.DATE_FIN_DOM
         );
+        const dateDernierPassage = row[this.DATE_DERNIER_PASSAGE];
 
         this.countErrors(
           this.isValidDate(
@@ -407,6 +409,11 @@ export class ImportController {
               ids: JSON.stringify(this.errorsId),
               message: "IMPORT_ERRORS_BACKEND",
             };
+
+            appLogger.error(`Import error for structure ${structureId}`, {
+              sentry: true,
+              extra: importContext,
+            });
 
             throw new HttpException(error, HttpStatus.BAD_REQUEST);
           }
@@ -681,7 +688,9 @@ export class ImportController {
   }
 
   private convertDate(dateFr: string): Date {
-    return moment(dateFr, "DD/MM/YYYY").startOf("day").toDate();
+    const momentDate = moment.utc(dateFr, "DD/MM/YYYY").startOf("day").toDate();
+
+    return momentDate;
   }
 
   private countErrors(
@@ -697,9 +706,9 @@ export class ImportController {
     };
 
     if (variable !== true) {
-      appLogger.error(`[IMPORT]: Import Error `, {
+      appLogger.warn(`[IMPORT]: Import Error `, {
         context: JSON.stringify(position),
-        sentry: true,
+        sentryBreadcrumb: true,
       });
       this.errorsId.push(position);
     }
@@ -722,13 +731,28 @@ export class ImportController {
     }
 
     if (RegExp(regexp.date).test(date)) {
-      if (moment(date, "DD/MM/YYYY").isValid()) {
-        const dateToCheck = moment(date, "DD/MM/YYYY").startOf("day").toDate();
+      const momentDate = moment.utc(date, "DD/MM/YYYY");
+      if (momentDate.isValid()) {
+        const dateToCheck = momentDate.startOf("day").toDate();
 
-        // S'il s'agit d'une date dans le futur, on compare à N+1
-        return futureDate
-          ? dateToCheck >= this.minDate && dateToCheck <= this.nextYear
-          : dateToCheck >= this.minDate && dateToCheck <= this.today;
+        const maxDate = futureDate
+          ? // S'il s'agit d'une date dans le futur, on compare à N+1
+            this.nextYear
+          : this.today;
+
+        const isValidDate =
+          dateToCheck >= this.minDate && dateToCheck <= maxDate;
+        if (!isValidDate) {
+          appLogger.warn(`Invalid date`, {
+            sentryBreadcrumb: true,
+            extra: {
+              date,
+              dateToCheck,
+              maxDate,
+            },
+          });
+        }
+        return isValidDate;
       }
     }
     return false;

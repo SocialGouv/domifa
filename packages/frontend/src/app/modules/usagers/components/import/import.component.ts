@@ -1,18 +1,15 @@
-import * as XLSX from "xlsx";
-
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { regexp } from "../../../../shared/validators";
-
-import { UsagerService } from "../../services/usager.service";
 import { Title } from "@angular/platform-browser";
-import { ToastrService } from "ngx-toastr";
-import { AuthService } from "../../../shared/services/auth.service";
-import { LoadingService } from "../../../loading/loading.service";
-import { AppUser } from "../../../../../_common/model";
-
+import { Router } from "@angular/router";
 import moment from "moment";
+import { ToastrService } from "ngx-toastr";
+import * as XLSX from "xlsx";
+import { AppUser } from "../../../../../_common/model";
+import { regexp } from "../../../../shared/validators";
+import { LoadingService } from "../../../loading/loading.service";
+import { AuthService } from "../../../shared/services/auth.service";
+import { UsagerService } from "../../services/usager.service";
 
 export const colNames = [
   "Numéro d'identification",
@@ -173,7 +170,7 @@ export class ImportComponent implements OnInit {
 
     this.today = moment().endOf("day").toDate();
     this.nextYear = moment().add(1, "year").endOf("day").toDate();
-    this.minDate = moment("01/01/1900", "DD/MM/YYYY").endOf("day").toDate();
+    this.minDate = moment.utc("01/01/1900", "DD/MM/YYYY").endOf("day").toDate();
   }
 
   get u(): any {
@@ -455,11 +452,14 @@ export class ImportComponent implements OnInit {
     }
 
     if (RegExp(regexp.date).test(date)) {
-      if (!moment(date, "DD/MM/YYYY").isValid()) {
+      if (!moment.utc(date, "DD/MM/YYYY").isValid()) {
         return false;
       }
 
-      const dateToCheck = moment(date, "DD/MM/YYYY").startOf("day").toDate();
+      const dateToCheck = moment
+        .utc(date, "DD/MM/YYYY")
+        .startOf("day")
+        .toDate();
 
       // S'il s'agit d'une date dans le futur, on compare à N+1
       return futureDate
