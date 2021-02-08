@@ -29,4 +29,7 @@ export class MonitoringBatchProcessTable<T = any>
 
   @Column({ type: "text", nullable: true })
   errorMessage?: string;
+
+  @Column({ type: "bool", default: false })
+  alertMailSent: boolean;
 }

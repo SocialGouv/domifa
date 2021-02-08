@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-import { LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import { LessThanOrEqual } from "typeorm";
 import { monitoringBatchProcessSimpleCountRunner } from ".";
 import { MonitoringBatchProcessTrigger, typeOrmSearch } from "../..";
 import { domifaConfig } from "../../../config";
@@ -72,7 +72,7 @@ export class MonitoringCleaner {
         }
 
         try {
-          results.errorReportSent = await sendErrorReport({ limitDate });
+          results.errorReportSent = await sendErrorReport();
           monitorSuccess();
         } catch (err) {
           monitorError(err);
@@ -112,16 +112,12 @@ async function purgeObsoleteMonitoringBatchProcess({
   return affected;
 }
 
-async function sendErrorReport({
-  limitDate,
-}: {
-  limitDate: Date;
-}): Promise<boolean> {
+async function sendErrorReport(): Promise<boolean> {
   const monitoringBatchsInError = await monitoringBatchProcessRepository.findMany(
-    typeOrmSearch<MonitoringBatchProcess>({
+    {
       status: "error",
-      endDate: MoreThanOrEqual(limitDate),
-    }),
+      alertMailSent: false,
+    },
     {
       order: {
         endDate: "DESC",
@@ -142,7 +138,13 @@ async function sendErrorReport({
       lastErrorDate: monitoringBatchsInError[0].endDate,
       lastErrorMessage: monitoringBatchsInError[0].errorMessage,
     };
-    adminBatchsErrorReportEmailSender.sendMail(model);
+    await adminBatchsErrorReportEmailSender.sendMail(model);
+
+    monitoringBatchsInError.forEach((x) => {
+      x.alertMailSent = true;
+    });
+    await monitoringBatchProcessRepository.save(monitoringBatchsInError);
+
     return true;
   }
   return false;
