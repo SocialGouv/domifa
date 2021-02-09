@@ -20,7 +20,8 @@ import { appLogger } from "./util";
 
       // in local env, run cron on app startup (non blocking)
       await runCronJobs(app);
-      await app.listen(3000);
+      const server = await app.listen(3000);
+      server.setTimeout(1000 * 60 * 5); //  5mn - TODO @toub après refactoring de l'import, remettre le timeout par défaut
       appLogger.warn(`[${__filename}] Application listening on port 3000`);
     } catch (error) {
       appLogger.error(`[${__filename}] Error running application`, {
