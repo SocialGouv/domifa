@@ -129,7 +129,7 @@ export class UsagersFormComponent implements OnInit {
       decision: [this.usager.decision, []],
       email: [this.usager.email, [Validators.email]],
       etapeDemande: [this.usager.etapeDemande, []],
-      id: [this.usager.ref, []],
+      ref: [this.usager.ref, []],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       preference: this.formBuilder.group({
@@ -229,6 +229,7 @@ export class UsagersFormComponent implements OnInit {
       this.usagerForm.controls.dateNaissance.setValue(dateTmpN);
       this.usagerForm.controls.etapeDemande.setValue(this.usager.etapeDemande);
 
+      console.log;
       this.usagerService.create(this.usagerForm.value).subscribe(
         (usager: UsagerLight) => {
           this.goToTop();
