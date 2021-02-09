@@ -159,6 +159,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       countBy: "ASC",
     },
     escapeAttributes = true,
+    nullLabel,
   }: {
     where?: Partial<T>;
     countBy: CountBy;
@@ -169,6 +170,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       countBy?: "ASC" | "DESC";
     };
     escapeAttributes?: boolean;
+    nullLabel?: string;
   }): Promise<
     (Pick<T, CountBy> & {
       count: number;
@@ -197,10 +199,20 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
 
     try {
       const results = await qb.getRawMany();
-      return results.map((r) => ({
-        ...r,
-        count: parseInt(r.count, 10) as number,
-      })) as any;
+      return results.map((r) => {
+        const label = countByAlias ? countByAlias : countBy;
+        if (nullLabel && r[label] === null) {
+          const res = {
+            count: parseInt(r.count, 10) as number,
+          } as any;
+          res[label] = nullLabel;
+          return res;
+        }
+        return {
+          ...r,
+          count: parseInt(r.count, 10) as number,
+        };
+      }) as any;
     } catch (err) {
       printQueryError<T>(qb);
       throw err;

@@ -150,6 +150,7 @@ export class DashboardService {
     return usagerRepository.countBy({
       countBy: "langue",
       order: { count: "DESC", countBy: "ASC" },
+      nullLabel: "NON_RENSEIGNE",
     });
   }
 

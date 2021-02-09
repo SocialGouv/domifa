@@ -39,6 +39,13 @@ else
       exit 3
   fi
   echo ""
+  if [ "$branch" == "master" ]; then
+    (set -x && git pull)
+    if [ $? -eq 1 ]; then
+        echo "[ERROR] exit"
+        exit 3
+    fi
+  fi
 
   test_branch_exists=$(git ls-remote origin $branch)
   if [ -z "$test_branch_exists" ]
@@ -82,15 +89,15 @@ else
         echo "[ERROR] exit"
         exit 3
     fi
-    echo ""
-    echo "----------------------------------------------------------------------------"
-    echo "Merge branch '$branch'"
-    (set -x && git merge origin $branch)
-    if [ $? -eq 1 ]; then
-        echo "Merge error. You should maybe hard-reset your obsolete branch?"
-        echo "e.g.: git reset --hard HEAD~2"
-        exit 3
-    fi
+    # echo ""
+    # echo "----------------------------------------------------------------------------"
+    # echo "Merge branch '$branch'"
+    # (set -x && git merge origin $branch)
+    # if [ $? -eq 1 ]; then
+    #     echo "Merge error. You should maybe hard-reset your obsolete branch?"
+    #     echo "e.g.: git reset --hard HEAD~2"
+    #     exit 3
+    # fi
     echo ""
     echo "----------------------------------------------------------------------------"
     echo "Pull docker backend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
