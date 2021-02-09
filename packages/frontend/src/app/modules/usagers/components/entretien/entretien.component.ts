@@ -17,7 +17,6 @@ import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { Entretien } from "../../interfaces/entretien";
 
 @Component({
-  providers: [UsagerService],
   selector: "app-entretien",
   styleUrls: ["./entretien.component.css"],
   templateUrl: "./entretien.component.html",

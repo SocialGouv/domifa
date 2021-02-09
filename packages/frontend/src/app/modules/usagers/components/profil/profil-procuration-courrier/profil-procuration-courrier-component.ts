@@ -51,7 +51,6 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   public maxDateNaissance: NgbDateStruct;
 
   constructor(
-    public loadingService: LoadingService,
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,

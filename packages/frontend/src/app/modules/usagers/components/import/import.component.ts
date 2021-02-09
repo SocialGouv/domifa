@@ -25,7 +25,6 @@ import { IMPORT_PREVIEW_COLUMNS } from "./IMPORT_PREVIEW_COLUMNS.const";
 type AOA = any[][];
 
 @Component({
-  providers: [UsagerService],
   selector: "app-import",
   styleUrls: ["./import.component.css"],
   templateUrl: "./import.component.html",

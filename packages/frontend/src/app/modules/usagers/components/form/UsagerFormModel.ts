@@ -62,9 +62,6 @@ export class UsagerFormModel {
 
   public dayBeforeEnd: number;
 
-  // TODO: supprimer et remplacer dans le formulaire
-  public dateNaissancePicker: NgbDateStruct | null;
-
   public options: Options;
 
   constructor(usager?: Partial<UsagerPG>, searchString?: string) {
@@ -81,10 +78,9 @@ export class UsagerFormModel {
     this.dateNaissance = null;
 
     this.historique = [];
-    this.dateNaissancePicker = null;
+
     if (usager && usager.dateNaissance !== null) {
       this.dateNaissance = new Date(usager.dateNaissance);
-      this.dateNaissancePicker = formatDateToNgb(this.dateNaissance);
     }
 
     this.villeNaissance = (usager && usager.villeNaissance) || "";
@@ -123,7 +119,7 @@ export class UsagerFormModel {
         enAttente: usager.lastInteraction.enAttente || false,
         courrierIn: usager.lastInteraction.courrierIn || 0,
         recommandeIn: usager.lastInteraction.recommandeIn || 0,
-        colisIn: usager.lastInteraction.colisIn,
+        colisIn: usager.lastInteraction.colisIn || 0,
       };
     }
 

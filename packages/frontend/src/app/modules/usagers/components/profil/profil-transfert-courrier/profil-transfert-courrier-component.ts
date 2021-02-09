@@ -15,7 +15,7 @@ import {
   UsagerLight,
   UserRole,
 } from "../../../../../../_common/model";
-import { LoadingService } from "../../../../loading/loading.service";
+
 import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
 import { UsagerService } from "../../../services/usager.service";
 
@@ -44,7 +44,6 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   public minDateToday: NgbDateStruct;
 
   constructor(
-    public loadingService: LoadingService,
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,

@@ -6,7 +6,6 @@ import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AppUser, UsagerLight } from "../../../../../../../_common/model";
 
 @Component({
-  providers: [UsagerService],
   selector: "app-documents-form",
   templateUrl: "./documents-form.component.html",
 })

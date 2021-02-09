@@ -53,7 +53,6 @@
             id="nom"
             cleanStr
             formControlName="nom"
-            (blur)="isDoublon()"
             placeholder="Précisez nom de naissance si nécessaire"
             [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
             required
@@ -76,7 +75,6 @@
             id="prenom"
             cleanStr
             formControlName="prenom"
-            (blur)="isDoublon()"
             placeholder="Prénom(s) du demandeur"
             [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
             required
@@ -120,7 +118,7 @@
       </div>
       <div class="row">
         <div class="col form-group required">
-          <label for="dateNaissancePicker">Date de naissance</label>
+          <label for="dateNaissance">Date de naissance</label>
           <div class="input-group">
             <input
               class="form-control"
@@ -128,12 +126,12 @@
               [minDate]="minDateNaissance"
               [maxDate]="maxDateNaissance"
               placement="bottom"
-              formControlName="dateNaissancePicker"
+              formControlName="dateNaissance"
               ngbDatepicker
-              id="dateNaissancePicker"
+              id="dateNaissance"
               dateFr
               value
-              [ngClass]="{ 'is-invalid': submitted && f.dateNaissancePicker.errors }"
+              [ngClass]="{ 'is-invalid': submitted && f.dateNaissance.errors }"
               #d="ngbDatepicker"
               maxlength="10"
               required
@@ -144,23 +142,8 @@
               </span>
             </div>
 
-            <div
-              *ngIf="f.dateNaissancePicker.value !== null && f.dateNaissancePicker.value.year"
-              class="invalid-feedback-custom"
-            >
-              <div *ngIf="f.dateNaissancePicker.value.year <= 1800">
-                Pas de date avant 1900
-              </div>
-            </div>
-
-            <div *ngIf="f.dateNaissancePicker.invalid" class="invalid-feedback">
-              <div>La date de naissance est obligatoire</div>
-              <div
-                *ngIf="f.dateNaissancePicker.dirty
-        && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)"
-              >
-                Format de date incorrect (ex: 20/12/1991)
-              </div>
+            <div *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
+              La date de naissance est obligatoire
             </div>
           </div>
         </div>
@@ -174,9 +157,7 @@
               formControlName="villeNaissance"
               placeholder="Ville (préciser le pays si à l'étranger)"
               autocomplete="null"
-              [ngClass]="{
-      'is-invalid': submitted && f.villeNaissance.errors
-    }"
+              [ngClass]="{ 'is-invalid': submitted && f.villeNaissance.errors }"
               required
             />
             <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
@@ -223,9 +204,7 @@
               autocomplete="null"
             />
             <div *ngIf="f.email.errors" class="invalid-feedback">
-              <div *ngIf="f.email.errors.email">
-                L'adresse email est incorrecte
-              </div>
+              L'adresse email est incorrecte
             </div>
             <small id="emailHelp" class="form-text text-muted">
               Optionnel
@@ -236,6 +215,8 @@
 
       <div class="w-100"></div>
       <br />
+
+      <!--
       <div class="d-none">
         <div class="col-md-12" formGroupName="preference">
           <label class="form-check-label">
@@ -302,6 +283,8 @@
           <b> veuillez indiquer un numéro de téléphone </b>
         </ngb-alert>
       </div>
+-->
+
       <div class="row">
         <div class="col-md-12">
           <label class="form-check-label">
@@ -358,29 +341,24 @@
                 type="text"
                 class="form-control"
                 formControlName="nom"
-                [ngClass]="{
-        'is-invalid':
-        submitted && ayantsDroits.controls[i].get('nom').errors
-      }"
+                [ngClass]="{     'is-invalid':     submitted && ayantsDroits.controls[i].get('nom').errors   }"
                 placeholder="Nom de l'ayant droit"
               />
               <div
-                *ngIf="
-      submitted && ayantsDroits.controls[i].get('nom').errors
-      "
+                *ngIf=" submitted && ayantsDroits.controls[i].get('nom').errors     "
                 class="invalid-feedback"
               >
                 Le nom est obligatoire
               </div>
             </div>
             <div class="col form-group required">
-              <label for="prennom_{{i}}">Prénom</label>
+              <label for="ad_prenom_{{i}}">Prénom</label>
               <input
                 type="text"
-                id="prennom_{{i}}"
+                id="ad_prenom_{{i}}"
                 class="form-control"
                 formControlName="prenom"
-                [ngClass]="{    'is-invalid':    submitted &&    ayantsDroits.controls[i].get('prenom').errors  }"
+                [ngClass]="{  'is-invalid': submitted && ayantsDroits.controls[i].get('prenom').errors  }"
                 placeholder="Prénom"
               />
               <div
@@ -448,9 +426,7 @@
         <br />
         <br />
       </ng-container>
-
       <input formControlName="id" type="hidden" />
-      <input formControlName="dateNaissance" type="hidden" />
       <br />
       <br />
       <div class="col-md-4 offset-md-4 text-center">
@@ -462,6 +438,7 @@
     </form>
   </div>
 </div>
+
 <app-form-delete-menu
   [usager]="usager"
   [currentStep]="0"

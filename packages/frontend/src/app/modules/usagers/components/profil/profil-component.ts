@@ -192,13 +192,13 @@ export class UsagersProfilComponent implements OnInit {
       ayantsDroits: this.formBuilder.array([]),
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
       customRef: [this.usager.customRef, []],
-      dateNaissance: [this.usager.dateNaissance, []],
-      dateNaissancePicker: [
-        this.usager.dateNaissancePicker,
+      dateNaissance: [
+        formatDateToNgb(this.usager.dateNaissance),
         [Validators.required],
       ],
+
       email: [this.usager.email, [Validators.email]],
-      id: [this.usager.ref, []],
+      ref: [this.usager.ref, [Validators.required]],
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
@@ -221,20 +221,15 @@ export class UsagersProfilComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
-      const dateTmp = this.nbgDate.formatEn(
-        this.usagerForm.controls.dateNaissancePicker.value
-      );
+      const formValue = {
+        ...this.usagerForm.value,
+        dateNaissance: this.nbgDate.formatEn(
+          this.usagerForm.controls.dateNaissance.value
+        ),
+        etapeDemande: this.usager.etapeDemande,
+      };
 
-      if (dateTmp === null) {
-        this.notifService.error("La date de naissance semble incorrecte.");
-        return;
-      }
-
-      this.usagerForm.controls.dateNaissance.setValue(
-        new Date(dateTmp).toISOString()
-      );
-
-      this.usagerService.create(this.usagerForm.value).subscribe(
+      this.usagerService.create(formValue).subscribe(
         (usager: UsagerLight) => {
           this.submitted = false;
           this.notifService.success("Enregistrement réussi");
