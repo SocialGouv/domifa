@@ -36,7 +36,9 @@ export class MenuComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private notifService: ToastrService
-  ) {}
+  ) {
+    console.log(this.usager);
+  }
 
   public ngOnInit() {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {

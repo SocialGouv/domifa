@@ -146,6 +146,9 @@ export class UsagersFormComponent implements OnInit {
     for (const ayantDroit of this.usager.ayantsDroits) {
       this.addAyantDroit(ayantDroit);
     }
+
+    console.log("6 - form value");
+    console.log(this.usagerForm.value);
   }
 
   public isDoublon() {
