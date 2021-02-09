@@ -1,4 +1,4 @@
-import { SortableAttributeType } from './SortableAttributeType.type';
+import { SortableAttributeType } from "./SortableAttributeType.type";
 
 export interface SortableAttribute {
   value: any;

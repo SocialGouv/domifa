@@ -164,12 +164,10 @@ export class UsagersProfilComponent implements OnInit {
           }
 
           this.usager = new UsagerFormModel(usager);
-
-          console.log(this.usager);
           this.getInteractions();
           this.initForms();
         },
-        (error) => {
+        () => {
           this.router.navigate(["/404"]);
         }
       );

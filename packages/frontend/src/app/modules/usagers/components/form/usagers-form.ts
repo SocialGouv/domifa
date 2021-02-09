@@ -94,24 +94,16 @@ export class UsagersFormComponent implements OnInit {
   public ngOnInit() {
     this.titleService.setTitle("État-civil du demandeur");
 
-    console.log("2 - this.usager");
-    console.log(this.usager);
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
 
     if (this.route.snapshot.params.id) {
-      console.log("3 - this.usager");
-      console.log(this.usager);
-
       const id = this.route.snapshot.params.id;
 
       this.usagerService.findOne(id).subscribe(
         (usager: UsagerPG) => {
           this.usager = new UsagerFormModel(usager);
-
-          console.log("4 - this.usager");
-          console.log(this.usager);
 
           this.initForm();
         },
@@ -121,8 +113,7 @@ export class UsagersFormComponent implements OnInit {
       );
     } else {
       this.usager = new UsagerFormModel();
-      console.log("5 - this.usager");
-      console.log(this.usager);
+
       this.initForm();
     }
   }

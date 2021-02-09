@@ -11,8 +11,6 @@ const pdftk = require("node-pdftk");
 
 @Injectable()
 export class CerfaService {
-  public infosPdf: any;
-
   public motifsRefus: {
     [key: string]: string;
   };
