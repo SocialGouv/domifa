@@ -1,51 +1,26 @@
+import * as XLSX from "xlsx";
+import moment from "moment";
+import { Title } from "@angular/platform-browser";
+import { ToastrService } from "ngx-toastr";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import moment from "moment";
-import { ToastrService } from "ngx-toastr";
-import * as XLSX from "xlsx";
-import { AppUser } from "../../../../../_common/model";
-import { regexp } from "../../../../shared/validators";
-import { LoadingService } from "../../../loading/loading.service";
-import { AuthService } from "../../../shared/services/auth.service";
-import { UsagerService } from "../../services/usager.service";
 
-export const colNames = [
-  "Numéro d'identification",
-  "Civilité",
-  "Nom",
-  "Prénom",
-  "Nom d'usage / Surnom",
-  "Date naissance",
-  "Lieu naissance",
-  "Téléphone",
-  "Email",
-  "Statut demande",
-  "Motif de refus",
-  "Motif de radiation",
-  "Type de domiciliation",
-  "Date de Début de la domiciliation",
-  "Date de fin de la domiciliation",
-  "Date 1ere domiciliation",
-  "Date de dernier passage",
-  "Orientation",
-  "Détails de l'orientation",
-  "La personne a t-elle déjà une domiciliation ?",
-  "Le domicilié possède t-il des revenus ?",
-  "Seulement si revenus, de quelle nature ?",
-  "Lien avec la commune",
-  "Composition du ménage",
-  "Situation résidentielle",
-  "Si autre situation résidentielle, précisez",
-  "Cause instabilité logement",
-  "Si autre cause, précisez",
-  "Motif principal de la demande",
-  "Si autre motif, précisez",
-  "Accompagnement social",
-  "Par quelle structure est fait l'accompagnement ?",
-  "Commentaires",
-];
+import { regexp } from "../../../../shared/validators";
+
+import { UsagerService } from "../../services/usager.service";
+import { AuthService } from "../../../shared/services/auth.service";
+import { LoadingService } from "../../../loading/loading.service";
+
+import { AppUser } from "../../../../../_common/model";
+import { COLUMNS_HEADERS } from "../../../../../_common/import/COLUMNS_HEADERS.const";
+import {
+  isValidEmail,
+  isValidPhone,
+  isValidValue,
+  notEmpty,
+} from "../../../../../_common/import/import.validators";
+
 type AOA = any[][];
 
 @Component({
@@ -57,24 +32,18 @@ type AOA = any[][];
 export class ImportComponent implements OnInit {
   public datas: AOA = [[], []];
 
-  public uploadForm!: FormGroup;
-  public fileName: string;
-  public errorsList: any;
+  public columnsHeaders: string[];
 
-  public canUpload: boolean;
-  public success: boolean;
+  public uploadForm!: FormGroup;
+
   public uploadError: boolean;
+
   public showTable: boolean;
   public showErrors: boolean;
 
-  public nbreAyantsDroits: number[];
-
   public errorsId: any[];
-
   public errorsRow: any[];
 
-  public rowNumber: number;
-  public colNames: string[];
   public etapeImport: number;
 
   public today: Date;
@@ -141,32 +110,18 @@ export class ImportComponent implements OnInit {
     private notifService: ToastrService,
     private titleService: Title
   ) {
-    this.canUpload = false;
-    this.colNames = colNames;
-    this.errorsId = [];
-    this.errorsList = {};
-    this.errorsRow = [];
+    this.columnsHeaders = COLUMNS_HEADERS;
 
+    // Variables de suivi des erreurs
     this.etapeImport = 0;
-    this.fileName = "";
-    this.nbreAyantsDroits = [33, 37, 41, 45, 49, 53, 57, 61, 65];
-    this.rowNumber = 0;
-    this.showErrors = false;
-    this.showTable = false;
-    this.success = false;
     this.uploadError = false;
 
-    this.today = new Date();
-    this.nextYear = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    );
+    // Tableaux des erreurs
+    this.errorsId = [];
 
-    for (let cpt = 0; cpt < 10; cpt++) {
-      this.colNames.push("Ayant-droit " + cpt + ": nom");
-      this.colNames.push("Ayant-droit " + cpt + ": prénom");
-      this.colNames.push("Ayant-droit " + cpt + ": date naissance");
-      this.colNames.push("Ayant-droit " + cpt + ": lien parenté");
-    }
+    this.errorsRow = [];
+    this.showErrors = false;
+    this.showTable = false;
 
     this.today = moment().endOf("day").toDate();
     this.nextYear = moment().add(1, "year").endOf("day").toDate();
@@ -189,31 +144,32 @@ export class ImportComponent implements OnInit {
     });
 
     this.uploadForm = this.formBuilder.group({
-      fileInput: [this.fileName, Validators.required],
+      fileInput: ["", Validators.required],
     });
   }
 
-  public onFileChange(evt: any) {
-    this.uploadError = false;
-
-    const target: DataTransfer = evt.target as DataTransfer;
-    const file = evt.target.files[0];
+  public onFileChange(event: Event) {
+    this.loadingService.startLoading();
+    const input = event.target as HTMLInputElement;
 
     if (
-      target.files.length !== 1 ||
-      (target.files[0].type !== "application/vnd.ms-excel" &&
-        target.files[0].type !==
+      !input.files?.length ||
+      (input.files[0].type !== "application/vnd.ms-excel" &&
+        input.files[0].type !==
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
-        target.files[0].type !==
+        input.files[0].type !==
           "application/vnd.oasis.opendocument.spreadsheet")
     ) {
       this.uploadError = true;
+      this.notifService.error("Seul les fichiers Excel sont autorisés");
       return;
     }
 
     this.showTable = true;
-    this.datas = [[], []];
     this.etapeImport = 1;
+    this.datas = [[], []];
+
+    const file = input.files[0];
     this.uploadForm.controls.fileInput.setValue(file);
 
     const reader: FileReader = new FileReader();
@@ -235,42 +191,42 @@ export class ImportComponent implements OnInit {
         raw: false,
       }) as AOA;
 
+      // Suppression de la colonne header
       this.datas = this.datas.slice(1);
-      this.datas.forEach((row, index: any) => {
-        this.rowNumber = index;
 
+      this.datas.forEach((row, rowIndex: number) => {
         const sexeCheck =
           row[this.CIVILITE] === "H" || row[this.CIVILITE] === "F";
-        this.countErrors(sexeCheck, index, this.CIVILITE);
+        this.countErrors(sexeCheck, rowIndex, this.CIVILITE);
 
-        this.countErrors(this.notEmpty(row[this.NOM]), index, this.NOM);
-        this.countErrors(this.notEmpty(row[this.PRENOM]), index, this.PRENOM);
+        this.countErrors(notEmpty(row[this.NOM]), rowIndex, this.NOM);
+        this.countErrors(notEmpty(row[this.PRENOM]), rowIndex, this.PRENOM);
 
         this.countErrors(
           this.isValidDate(row[this.DATE_NAISSANCE], true, false),
-          index,
+          rowIndex,
           this.DATE_NAISSANCE
         );
 
         this.countErrors(
-          this.notEmpty(row[this.LIEU_NAISSANCE]),
-          index,
+          notEmpty(row[this.LIEU_NAISSANCE]),
+          rowIndex,
           this.LIEU_NAISSANCE
         );
 
-        this.countErrors(this.isValidEmail(row[this.EMAIL]), index, this.EMAIL);
+        this.countErrors(isValidEmail(row[this.EMAIL]), rowIndex, this.EMAIL);
 
-        this.countErrors(this.isValidPhone(row[this.PHONE]), index, this.PHONE);
+        this.countErrors(isValidPhone(row[this.PHONE]), rowIndex, this.PHONE);
 
         this.countErrors(
-          this.isValidValue(row[this.STATUT_DOM], "statut", true),
-          index,
+          isValidValue(row[this.STATUT_DOM], "statut", true),
+          rowIndex,
           this.STATUT_DOM
         );
 
         this.countErrors(
-          this.isValidValue(row[this.TYPE_DOM], "demande", true),
-          index,
+          isValidValue(row[this.TYPE_DOM], "demande", true),
+          rowIndex,
           this.TYPE_DOM
         );
 
@@ -280,19 +236,19 @@ export class ImportComponent implements OnInit {
 
         this.countErrors(
           this.isValidDate(row[this.DATE_DEBUT_DOM], dateIsRequired, false),
-          index,
+          rowIndex,
           this.DATE_DEBUT_DOM
         );
 
         this.countErrors(
           this.isValidDate(row[this.DATE_FIN_DOM], dateIsRequired, true),
-          index,
+          rowIndex,
           this.DATE_FIN_DOM
         );
 
         this.countErrors(
           this.isValidDate(row[this.DATE_PREMIERE_DOM], false, false),
-          index,
+          rowIndex,
           this.DATE_PREMIERE_DOM
         );
 
@@ -302,61 +258,61 @@ export class ImportComponent implements OnInit {
             dateIsRequired,
             false
           ),
-          index,
+          rowIndex,
           this.DATE_DERNIER_PASSAGE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
-          index,
+          isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
+          rowIndex,
           this.MOTIF_REFUS
         );
 
         this.countErrors(
-          this.isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
-          index,
+          isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
+          rowIndex,
           this.MOTIF_RADIATION
         );
 
         this.countErrors(
-          this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
-          index,
+          isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
+          rowIndex,
           this.COMPOSITION_MENAGE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
-          index,
+          isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
+          rowIndex,
           this.CAUSE_INSTABILITE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
-          index,
+          isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
+          rowIndex,
           this.SITUATION_RESIDENTIELLE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.ORIENTATION], "choix"),
-          index,
+          isValidValue(row[this.ORIENTATION], "choix"),
+          rowIndex,
           this.ORIENTATION
         );
 
         this.countErrors(
-          this.isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
-          index,
+          isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
+          rowIndex,
           this.DOMICILIATION_EXISTANTE
         );
 
         this.countErrors(
-          this.isValidValue(row[this.REVENUS], "choix"),
-          index,
+          isValidValue(row[this.REVENUS], "choix"),
+          rowIndex,
           this.REVENUS
         );
 
         this.countErrors(
-          this.isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
-          index,
+          isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
+          rowIndex,
           this.ACCOMPAGNEMENT
         );
 
@@ -374,29 +330,31 @@ export class ImportComponent implements OnInit {
             typeof dateNaissance !== "undefined" ||
             typeof lienParente !== "undefined"
           ) {
-            this.countErrors(this.notEmpty(nom), this.rowNumber, indexAD);
-            this.countErrors(
-              this.notEmpty(prenom),
-              this.rowNumber,
-              indexAD + 1
-            );
+            this.countErrors(notEmpty(nom), rowIndex, indexAD);
+            this.countErrors(notEmpty(prenom), rowIndex, indexAD + 1);
 
             this.countErrors(
               this.isValidDate(dateNaissance, true, false),
-              this.rowNumber,
+              rowIndex,
               indexAD + 2
             );
 
             this.countErrors(
-              this.isValidValue(lienParente, "lienParente", true),
-              this.rowNumber,
+              isValidValue(lienParente, "lienParente", true),
+              rowIndex,
               indexAD + 3
             );
           }
         }
+
+        if (rowIndex === this.datas.length - 1) {
+          console.log("fin du chargement");
+          this.loadingService.startLoading();
+        }
       });
     };
-    reader.readAsBinaryString(target.files[0]);
+
+    reader.readAsBinaryString(file);
   }
 
   public submitFile() {
@@ -435,19 +393,13 @@ export class ImportComponent implements OnInit {
     }
   }
 
-  public notEmpty(value: string): boolean {
-    return (
-      typeof value !== "undefined" && value !== null && value.trim() !== ""
-    );
-  }
-
   // Vérification des différents champs Date
   public isValidDate(
     date: string,
     required: boolean,
     futureDate: boolean
   ): boolean {
-    if (!this.notEmpty(date)) {
+    if (!notEmpty(date)) {
       return !required;
     }
 
@@ -469,74 +421,7 @@ export class ImportComponent implements OnInit {
     return false;
   }
 
-  private isValidPhone(phone: string): boolean {
-    return !this.notEmpty(phone)
-      ? true
-      : RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
-  }
-
-  private isValidEmail(email: string): boolean {
-    return !this.notEmpty(email) ? true : RegExp(regexp.email).test(email);
-  }
-
   // Vérification des champs pré-remplis dans les liste déroulantes
-  public isValidValue(
-    data: string,
-    rowName: string,
-    required?: boolean
-  ): boolean {
-    if (!this.notEmpty(data)) {
-      return !required;
-    }
-
-    const types: {
-      [key: string]: any;
-    } = {
-      demande: ["PREMIERE", "RENOUVELLEMENT"],
-      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
-      menage: [
-        "HOMME_ISOLE_SANS_ENFANT",
-        "FEMME_ISOLE_SANS_ENFANT",
-        "HOMME_ISOLE_AVEC_ENFANT",
-        "FEMME_ISOLE_AVEC_ENFANT",
-        "COUPLE_SANS_ENFANT",
-        "COUPLE_AVEC_ENFANT",
-      ],
-      motifRadiation: [
-        "NON_MANIFESTATION_3_MOIS",
-        "A_SA_DEMANDE",
-        "ENTREE_LOGEMENT",
-        "FIN_DE_DOMICILIATION",
-        "PLUS_DE_LIEN_COMMUNE",
-        "NON_RESPECT_REGLEMENT",
-        "AUTRE",
-      ],
-      motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
-      residence: [
-        "DOMICILE_MOBILE",
-        "HEBERGEMENT_SOCIAL",
-        "HEBERGEMENT_TIERS",
-        "HOTEL",
-        "SANS_ABRI",
-        "AUTRE",
-      ],
-      cause: [
-        "ERRANCE",
-        "AUTRE",
-        "EXPULSION",
-        "HEBERGE_SANS_ADRESSE",
-        "ITINERANT",
-        "RUPTURE",
-        "SORTIE_STRUCTURE",
-        "VIOLENCE",
-      ],
-      statut: ["VALIDE", "REFUS", "RADIE"],
-      raison: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
-      choix: ["OUI", "NON"],
-    };
-
-    return types[rowName].indexOf(data.toUpperCase()) > -1;
-  }
 
   public reload() {
     location.reload();
