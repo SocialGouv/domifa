@@ -47,7 +47,6 @@ export class ImportComponent implements OnInit {
 
   public nbreAyantsDroits: number[];
 
-  public colNames: string[];
   public etapeImport: number;
 
   public me: AppUser;
@@ -133,13 +132,6 @@ export class ImportComponent implements OnInit {
     this.showErrors = false;
     this.showTable = false;
     this.uploadError = false;
-
-    for (let cpt = 0; cpt < 10; cpt++) {
-      this.colNames.push("Ayant-droit " + cpt + ": nom");
-      this.colNames.push("Ayant-droit " + cpt + ": prénom");
-      this.colNames.push("Ayant-droit " + cpt + ": date naissance");
-      this.colNames.push("Ayant-droit " + cpt + ": lien parenté");
-    }
   }
 
   get u(): any {
