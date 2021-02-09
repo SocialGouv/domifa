@@ -104,7 +104,6 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: UsagerPG) => {
           this.usager = new UsagerFormModel(usager);
-
           this.initForm();
         },
         () => {
@@ -113,7 +112,6 @@ export class UsagersFormComponent implements OnInit {
       );
     } else {
       this.usager = new UsagerFormModel();
-
       this.initForm();
     }
   }
@@ -148,9 +146,6 @@ export class UsagersFormComponent implements OnInit {
     for (const ayantDroit of this.usager.ayantsDroits) {
       this.addAyantDroit(ayantDroit);
     }
-
-    console.log("6 - form value");
-    console.log(this.usagerForm.value);
   }
 
   public isDoublon() {
