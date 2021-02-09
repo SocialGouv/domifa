@@ -47,7 +47,7 @@ export class DocsController {
   ) {}
 
   @ApiOperation({ summary: "Upload de pièces-jointes" })
-  @Post(":id")
+  @Post(":usagerRef")
   @UseInterceptors(
     FileInterceptor("file", {
       fileFilter: (req: any, file: Express.Multer.File, cb: any) => {

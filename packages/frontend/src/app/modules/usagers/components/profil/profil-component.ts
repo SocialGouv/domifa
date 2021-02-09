@@ -41,6 +41,7 @@ import { UsagerFormModel } from "../form/UsagerFormModel";
   templateUrl: "./profil.html",
 })
 export class UsagersProfilComponent implements OnInit {
+  // Affichage des formulaires d'édition
   public editInfos: boolean;
   public editEntretien: boolean;
   public editAyantsDroits: boolean;
@@ -82,7 +83,6 @@ export class UsagersProfilComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private interactionService: InteractionService,
-    public loadingService: LoadingService,
     private authService: AuthService,
     private modalService: NgbModal,
     private nbgDate: NgbDateCustomParserFormatter,
@@ -135,10 +135,12 @@ export class UsagersProfilComponent implements OnInit {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
+
     //
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: UsagerLight) => {
+          console.log(usager);
           if (
             usager.decision.statut === "ATTENTE_DECISION" &&
             usager.typeDom === "PREMIERE"
@@ -163,6 +165,7 @@ export class UsagersProfilComponent implements OnInit {
 
           this.usager = new UsagerFormModel(usager);
 
+          console.log(this.usager);
           this.getInteractions();
           this.initForms();
         },

@@ -31,7 +31,7 @@
             id="homme"
             value="homme"
           />
-          <label class="form-check-label" for="homme">Monsieur</label>
+          <label class="form-check-label" for="homme"> Monsieur </label>
         </div>
         <div class="form-check form-check-inline">
           <input
@@ -41,7 +41,7 @@
             id="femme"
             value="femme"
           />
-          <label class="form-check-label" for="femme">Madame </label>
+          <label class="form-check-label" for="femme"> Madame </label>
         </div>
       </div>
       <div class="row">
@@ -157,7 +157,7 @@
               <div>La date de naissance est obligatoire</div>
               <div
                 *ngIf="f.dateNaissancePicker.dirty
-                  && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)"
+        && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)"
               >
                 Format de date incorrect (ex: 20/12/1991)
               </div>
@@ -175,8 +175,8 @@
               placeholder="Ville (préciser le pays si à l'étranger)"
               autocomplete="null"
               [ngClass]="{
-                  'is-invalid': submitted && f.villeNaissance.errors
-                }"
+      'is-invalid': submitted && f.villeNaissance.errors
+    }"
               required
             />
             <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
@@ -359,15 +359,15 @@
                 class="form-control"
                 formControlName="nom"
                 [ngClass]="{
-                    'is-invalid':
-                      submitted && ayantsDroits.controls[i].get('nom').errors
-                  }"
+        'is-invalid':
+        submitted && ayantsDroits.controls[i].get('nom').errors
+      }"
                 placeholder="Nom de l'ayant droit"
               />
               <div
                 *ngIf="
-                    submitted && ayantsDroits.controls[i].get('nom').errors
-                  "
+      submitted && ayantsDroits.controls[i].get('nom').errors
+      "
                 class="invalid-feedback"
               >
                 Le nom est obligatoire
@@ -380,11 +380,7 @@
                 id="prennom_{{i}}"
                 class="form-control"
                 formControlName="prenom"
-                [ngClass]="{
-                    'is-invalid':
-                      submitted &&
-                      ayantsDroits.controls[i].get('prenom').errors
-                  }"
+                [ngClass]="{    'is-invalid':    submitted &&    ayantsDroits.controls[i].get('prenom').errors  }"
                 placeholder="Prénom"
               />
               <div
@@ -401,33 +397,38 @@
                 class="form-control"
                 placeholder="jj/mm/aaaa"
                 dateFr
-                [ngClass]="{
-                    'is-invalid':
-                      submitted &&
-                      ayantsDroits.controls[i].get('dateNaissance').errors
-                  }"
+                [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('dateNaissance').errors }"
                 formControlName="dateNaissance"
               />
               <div
-                *ngIf="
-                    submitted &&
-                    ayantsDroits.controls[i].get('dateNaissance').errors"
+                *ngIf=" submitted && ayantsDroits.controls[i].get('dateNaissance').errors"
                 class="invalid-feedback"
               >
                 <div>La date de naissance est obligatoire</div>
               </div>
             </div>
             <div class="col form-group required">
-              <label for="lien_{{i}}">Lien</label>
+              <label for="lien_{{i}}">Lien </label>
               <select
-                formControlName="lien"
                 id="lien_{{i}}"
+                required
+                formControlName="lien"
+                [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('lien').errors}"
                 class="custom-select"
               >
-                <option *ngFor="let lien of liensLabels" [ngValue]="lien">
-                  {{ labels.lienParente[lien] }}
+                <option
+                  *ngFor="let lien of labels.lienParente | keyvalue"
+                  [ngValue]="lien.key"
+                >
+                  {{ lien.value }}
                 </option>
               </select>
+              <div
+                *ngIf="submitted && ayantsDroits.controls[i].get('lien').errors"
+                class="invalid-feedback"
+              >
+                Veuillez sélectionner un lien de parenté
+              </div>
             </div>
             <div class="col-md-1">
               <label for class="text-white"> c </label>

@@ -8,5 +8,7 @@ import { UsagerAyantDroit } from "../../../../../../_common/model/usager/UsagerA
 })
 export class ProfilAyantsDroitsComponent {
   @Input() public ayantsDroits: UsagerAyantDroit[];
-  constructor() {}
+  constructor() {
+    console.log(this.ayantsDroits);
+  }
 }

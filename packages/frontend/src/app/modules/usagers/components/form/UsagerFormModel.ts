@@ -70,6 +70,7 @@ export class UsagerFormModel {
   constructor(usager?: Partial<UsagerPG>, searchString?: string) {
     this.ref = (usager && usager.ref) || 0;
     this.customRef = (usager && usager.customRef) || null;
+
     this.sexe = (usager && usager.sexe) || "homme";
     this.nom = (usager && usager.nom) || "";
     this.prenom = (usager && usager.prenom) || "";

@@ -28,7 +28,6 @@ import { UsagerFormModel } from "./UsagerFormModel";
 @Component({
   animations: [fadeInOut],
   providers: [
-    UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
@@ -58,8 +57,6 @@ export class UsagersFormComponent implements OnInit {
   public usagerForm!: FormGroup;
 
   public submitted = false;
-
-  public liensLabels: any = Object.keys(labels.lienParente);
 
   public languagesAutocomplete = languagesAutocomplete;
 
@@ -104,6 +101,7 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: UsagerPG) => {
           this.usager = new UsagerFormModel(usager);
+          console.log(this.usager);
           this.initForm();
         },
         () => {
@@ -112,6 +110,7 @@ export class UsagersFormComponent implements OnInit {
       );
     } else {
       this.usager = new UsagerFormModel();
+      console.log(this.usager);
       this.initForm();
     }
   }
@@ -146,6 +145,7 @@ export class UsagersFormComponent implements OnInit {
     });
 
     for (const ayantDroit of this.usager.ayantsDroits) {
+      console.log(ayantDroit);
       this.addAyantDroit(ayantDroit);
     }
   }
@@ -179,6 +179,7 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
+    console.log(ayantDroit);
     (this.usagerForm.controls.ayantsDroits as FormArray).push(
       this.newAyantDroit(ayantDroit)
     );
@@ -229,7 +230,6 @@ export class UsagersFormComponent implements OnInit {
       this.usagerForm.controls.dateNaissance.setValue(dateTmpN);
       this.usagerForm.controls.etapeDemande.setValue(this.usager.etapeDemande);
 
-      console.log;
       this.usagerService.create(this.usagerForm.value).subscribe(
         (usager: UsagerLight) => {
           this.goToTop();
