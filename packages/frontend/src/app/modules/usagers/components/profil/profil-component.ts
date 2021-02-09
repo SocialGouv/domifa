@@ -310,7 +310,7 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.delete(this.usager.ref).subscribe(
       (result: any) => {
         this.modalService.dismissAll();
-        this.notifService.success("UsagerLight supprimé avec succès");
+        this.notifService.success("Usager supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
       (error) => {

@@ -5,7 +5,7 @@
     Attention, doublon potentiel
     <ul>
       <li *ngFor="let doublon of doublons">
-        <a routerLink="'/usager/'+doublon.id+'/edit'">
+        <a [routerLink]="'/usager/'+ doublon.ref +'/edit'">
           <b>{{ doublon.nom }}</b>
           {{ doublon.prenom }}
         </a>
