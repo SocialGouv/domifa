@@ -1,25 +1,26 @@
-import * as XLSX from "xlsx";
-import moment from "moment";
-import { Title } from "@angular/platform-browser";
-import { ToastrService } from "ngx-toastr";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-
-import { regexp } from "../../../../shared/validators";
-
-import { UsagerService } from "../../services/usager.service";
-import { AuthService } from "../../../shared/services/auth.service";
-import { LoadingService } from "../../../loading/loading.service";
-
-import { AppUser } from "../../../../../_common/model";
-import { COLUMNS_HEADERS } from "../../../../../_common/import/COLUMNS_HEADERS.const";
 import {
-  isValidEmail,
-  isValidPhone,
-  isValidValue,
-  notEmpty,
-} from "../../../../../_common/import/import.validators";
+  Component,
+  ElementRef,
+  NgZone,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import * as XLSX from "xlsx";
+import { COLUMNS_HEADERS } from "../../../../../_common/import/COLUMNS_HEADERS.const";
+import { AppUser } from "../../../../../_common/model";
+import { LoadingService } from "../../../loading/loading.service";
+import { AuthService } from "../../../shared/services/auth.service";
+import { UsagerService } from "../../services/usager.service";
+import {
+  ImportPreviewBuilder,
+  ImportPreviewRow,
+  ImportPreviewTable,
+} from "./ImportPreviewBuilder.service";
+import { IMPORT_PREVIEW_COLUMNS } from "./IMPORT_PREVIEW_COLUMNS.const";
 
 type AOA = any[][];
 
@@ -44,11 +45,9 @@ export class ImportComponent implements OnInit {
   public errorsId: any[];
   public errorsRow: any[];
 
-  public etapeImport: number;
+  public nbreAyantsDroits: number[];
 
-  public today: Date;
-  public minDate: Date;
-  public nextYear: Date;
+  public etapeImport: number;
 
   public me: AppUser;
 
@@ -100,6 +99,10 @@ export class ImportComponent implements OnInit {
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<any>;
+  previewTable: ImportPreviewTable;
+  visibleRows: ImportPreviewRow[];
+
+  public COL = IMPORT_PREVIEW_COLUMNS;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -108,7 +111,9 @@ export class ImportComponent implements OnInit {
     private loadingService: LoadingService,
     private router: Router,
     private notifService: ToastrService,
-    private titleService: Title
+    private titleService: Title,
+    private importPreviewBuilder: ImportPreviewBuilder,
+    private ngZone: NgZone
   ) {
     this.columnsHeaders = COLUMNS_HEADERS;
 
@@ -123,9 +128,10 @@ export class ImportComponent implements OnInit {
     this.showErrors = false;
     this.showTable = false;
 
-    this.today = moment().endOf("day").toDate();
-    this.nextYear = moment().add(1, "year").endOf("day").toDate();
-    this.minDate = moment.utc("01/01/1900", "DD/MM/YYYY").endOf("day").toDate();
+    this.etapeImport = 0;
+    this.showErrors = false;
+    this.showTable = false;
+    this.uploadError = false;
   }
 
   get u(): any {
@@ -172,189 +178,39 @@ export class ImportComponent implements OnInit {
     const file = input.files[0];
     this.uploadForm.controls.fileInput.setValue(file);
 
-    const reader: FileReader = new FileReader();
+    this.ngZone.runOutsideAngular(() => {
+      const reader: FileReader = new FileReader();
 
-    reader.onload = (e: any) => {
-      const bstr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(bstr, {
-        dateNF: "dd/mm/yyyy",
-        type: "binary",
-      });
+      reader.onload = (e: any) => {
+        const bstr: string = e.target.result;
+        const wb: XLSX.WorkBook = XLSX.read(bstr, {
+          dateNF: "dd/mm/yyyy",
+          type: "binary",
+        });
 
-      const wsname: string = wb.SheetNames[0];
-      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+        const wsname: string = wb.SheetNames[0];
+        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      this.datas = XLSX.utils.sheet_to_json(ws, {
-        blankrows: false,
-        dateNF: "dd/mm/yyyy",
-        header: 1,
-        raw: false,
-      }) as AOA;
+        let datas = XLSX.utils.sheet_to_json(ws, {
+          blankrows: false,
+          dateNF: "dd/mm/yyyy",
+          header: 1,
+          raw: false,
+        }) as AOA;
 
-      // Suppression de la colonne header
-      this.datas = this.datas.slice(1);
+        datas = datas.slice(1);
 
-      this.datas.forEach((row, rowIndex: number) => {
-        const sexeCheck =
-          row[this.CIVILITE] === "H" || row[this.CIVILITE] === "F";
-        this.countErrors(sexeCheck, rowIndex, this.CIVILITE);
-
-        this.countErrors(notEmpty(row[this.NOM]), rowIndex, this.NOM);
-        this.countErrors(notEmpty(row[this.PRENOM]), rowIndex, this.PRENOM);
-
-        this.countErrors(
-          this.isValidDate(row[this.DATE_NAISSANCE], true, false),
-          rowIndex,
-          this.DATE_NAISSANCE
-        );
-
-        this.countErrors(
-          notEmpty(row[this.LIEU_NAISSANCE]),
-          rowIndex,
-          this.LIEU_NAISSANCE
-        );
-
-        this.countErrors(isValidEmail(row[this.EMAIL]), rowIndex, this.EMAIL);
-
-        this.countErrors(isValidPhone(row[this.PHONE]), rowIndex, this.PHONE);
-
-        this.countErrors(
-          isValidValue(row[this.STATUT_DOM], "statut", true),
-          rowIndex,
-          this.STATUT_DOM
-        );
-
-        this.countErrors(
-          isValidValue(row[this.TYPE_DOM], "demande", true),
-          rowIndex,
-          this.TYPE_DOM
-        );
-
-        // SI Refus & Radié, on ne tient pas compte des dates suivantes : date de début, date de fin, date de dernier passage
-        const dateIsRequired =
-          row[this.STATUT_DOM] !== "REFUS" && row[this.STATUT_DOM] !== "RADIE";
-
-        this.countErrors(
-          this.isValidDate(row[this.DATE_DEBUT_DOM], dateIsRequired, false),
-          rowIndex,
-          this.DATE_DEBUT_DOM
-        );
-
-        this.countErrors(
-          this.isValidDate(row[this.DATE_FIN_DOM], dateIsRequired, true),
-          rowIndex,
-          this.DATE_FIN_DOM
-        );
-
-        this.countErrors(
-          this.isValidDate(row[this.DATE_PREMIERE_DOM], false, false),
-          rowIndex,
-          this.DATE_PREMIERE_DOM
-        );
-
-        this.countErrors(
-          this.isValidDate(
-            row[this.DATE_DERNIER_PASSAGE],
-            dateIsRequired,
-            false
-          ),
-          rowIndex,
-          this.DATE_DERNIER_PASSAGE
-        );
-
-        this.countErrors(
-          isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
-          rowIndex,
-          this.MOTIF_REFUS
-        );
-
-        this.countErrors(
-          isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
-          rowIndex,
-          this.MOTIF_RADIATION
-        );
-
-        this.countErrors(
-          isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
-          rowIndex,
-          this.COMPOSITION_MENAGE
-        );
-
-        this.countErrors(
-          isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
-          rowIndex,
-          this.CAUSE_INSTABILITE
-        );
-
-        this.countErrors(
-          isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
-          rowIndex,
-          this.SITUATION_RESIDENTIELLE
-        );
-
-        this.countErrors(
-          isValidValue(row[this.ORIENTATION], "choix"),
-          rowIndex,
-          this.ORIENTATION
-        );
-
-        this.countErrors(
-          isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
-          rowIndex,
-          this.DOMICILIATION_EXISTANTE
-        );
-
-        this.countErrors(
-          isValidValue(row[this.REVENUS], "choix"),
-          rowIndex,
-          this.REVENUS
-        );
-
-        this.countErrors(
-          isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
-          rowIndex,
-          this.ACCOMPAGNEMENT
-        );
-
-        // CHoix OUI OU NON
-
-        for (const indexAD of this.AYANT_DROIT) {
-          const nom = row[indexAD];
-          const prenom = row[indexAD + 1];
-          const dateNaissance = row[indexAD + 2];
-          const lienParente = row[indexAD + 3];
-
-          if (
-            typeof nom !== "undefined" ||
-            typeof prenom !== "undefined" ||
-            typeof dateNaissance !== "undefined" ||
-            typeof lienParente !== "undefined"
-          ) {
-            this.countErrors(notEmpty(nom), rowIndex, indexAD);
-            this.countErrors(notEmpty(prenom), rowIndex, indexAD + 1);
-
-            this.countErrors(
-              this.isValidDate(dateNaissance, true, false),
-              rowIndex,
-              indexAD + 2
-            );
-
-            this.countErrors(
-              isValidValue(lienParente, "lienParente", true),
-              rowIndex,
-              indexAD + 3
-            );
-          }
-        }
-
-        if (rowIndex === this.datas.length - 1) {
-          console.log("fin du chargement");
-          this.loadingService.startLoading();
-        }
-      });
-    };
-
-    reader.readAsBinaryString(file);
+        this.ngZone.run(() => {
+          this.previewTable = this.importPreviewBuilder.buildPreviewTable(
+            datas
+          );
+          this.visibleRows = this.previewTable.isValid
+            ? this.previewTable.rows.slice(0, 50) // show only first 50 rows
+            : this.previewTable.rows.filter((x) => !x.isValid).slice(0, 50); // show only first 50 error rows
+        });
+      };
+      reader.readAsBinaryString(input.files[0]);
+    });
   }
 
   public submitFile() {
@@ -375,53 +231,6 @@ export class ImportComponent implements OnInit {
       }
     );
   }
-
-  public isAnError(idRow: number, idColumn: number) {
-    const position = idRow.toString() + "_" + idColumn.toString();
-    return this.errorsId.indexOf(position) > -1;
-  }
-
-  public countErrors(variable: boolean, idRow: number, idColumn: number): void {
-    const position = idRow.toString() + "_" + idColumn.toString();
-
-    if (variable !== true) {
-      if (this.errorsRow[idRow] === undefined) {
-        this.errorsRow[idRow] = [];
-      }
-      this.errorsRow[idRow].push(idColumn);
-      this.errorsId.push(position);
-    }
-  }
-
-  // Vérification des différents champs Date
-  public isValidDate(
-    date: string,
-    required: boolean,
-    futureDate: boolean
-  ): boolean {
-    if (!notEmpty(date)) {
-      return !required;
-    }
-
-    if (RegExp(regexp.date).test(date)) {
-      if (!moment.utc(date, "DD/MM/YYYY").isValid()) {
-        return false;
-      }
-
-      const dateToCheck = moment
-        .utc(date, "DD/MM/YYYY")
-        .startOf("day")
-        .toDate();
-
-      // S'il s'agit d'une date dans le futur, on compare à N+1
-      return futureDate
-        ? dateToCheck >= this.minDate && dateToCheck <= this.nextYear
-        : dateToCheck >= this.minDate && dateToCheck <= this.today;
-    }
-    return false;
-  }
-
-  // Vérification des champs pré-remplis dans les liste déroulantes
 
   public reload() {
     location.reload();
