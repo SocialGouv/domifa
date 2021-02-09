@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -14,33 +14,33 @@ import {
 import { ToastrModule } from "ngx-toastr";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { GeneralModule } from "../general/general.module";
+import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
+import { DocsCustomComponent } from "./components/docs-custom/docs-custom.component";
+import { DocumentsComponent } from "./components/documents/documents.component";
+import { EntretienComponent } from "./components/entretien/entretien.component";
 import { DecisionComponent } from "./components/form/parts/decision/decision.component";
+import { DeleteMenuComponent } from "./components/form/parts/delete-menu/delete-menu.component";
+import { DocumentsFormComponent } from "./components/form/parts/documents-form/documents-form.component";
+import { EntretienFormComponent } from "./components/form/parts/entretien-form/entretien-form.component";
+import { MenuComponent } from "./components/form/parts/menu/menu.component";
 import { RdvComponent } from "./components/form/parts/rdv/rdv.component";
-
-import { UploadComponent } from "./components/upload/upload.component";
 import { UsagersFormComponent } from "./components/form/usagers-form";
 import { ImportComponent } from "./components/import/import.component";
+import { ImportPreviewBuilder } from "./components/import/ImportPreviewBuilder.service";
 import { ManageUsagersComponent } from "./components/manage/manage.component";
+import { ProfilAyantsDroitsComponent } from "./components/profil/profil-ayants-droits/profil-ayants-droits.component";
 import { UsagersProfilComponent } from "./components/profil/profil-component";
+import { ProfilEntretienComponent } from "./components/profil/profil-entretien/profil-entretien.component";
+import { ProfilInfosComponent } from "./components/profil/profil-infos/profil-infos.component";
+import { UsagersProfilProcurationCourrierComponent } from "./components/profil/profil-procuration-courrier/profil-procuration-courrier-component";
+import { UsagersProfilTransfertCourrierComponent } from "./components/profil/profil-transfert-courrier/profil-transfert-courrier-component";
 import { RaftComponent } from "./components/raft/raft.component";
+import { UploadComponent } from "./components/upload/upload.component";
 import { DocumentService } from "./services/document.service";
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
-import { DocumentsComponent } from "./components/documents/documents.component";
-import { MenuComponent } from "./components/form/parts/menu/menu.component";
-import { EntretienComponent } from "./components/entretien/entretien.component";
-import { EntretienFormComponent } from "./components/form/parts/entretien-form/entretien-form.component";
-import { DocumentsFormComponent } from "./components/form/parts/documents-form/documents-form.component";
-import { DeleteMenuComponent } from "./components/form/parts/delete-menu/delete-menu.component";
-import { UsagersProfilTransfertCourrierComponent } from "./components/profil/profil-transfert-courrier/profil-transfert-courrier-component";
-import { CustomDatepickerI18n } from "../shared/services/date-french";
-import { UsagersProfilProcurationCourrierComponent } from "./components/profil/profil-procuration-courrier/profil-procuration-courrier-component";
-import { DocsCustomComponent } from "./components/docs-custom/docs-custom.component";
-import { ProfilInfosComponent } from "./components/profil/profil-infos/profil-infos.component";
-import { ProfilEntretienComponent } from "./components/profil/profil-entretien/profil-entretien.component";
-import { ProfilAyantsDroitsComponent } from "./components/profil/profil-ayants-droits/profil-ayants-droits.component";
 
 @NgModule({
   declarations: [
@@ -103,6 +103,7 @@ import { ProfilAyantsDroitsComponent } from "./components/profil/profil-ayants-d
     DocumentService,
     UsagerService,
     InteractionService,
+    ImportPreviewBuilder,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },

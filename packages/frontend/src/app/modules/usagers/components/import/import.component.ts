@@ -1,15 +1,25 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  NgZone,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import moment from "moment";
 import { ToastrService } from "ngx-toastr";
 import * as XLSX from "xlsx";
 import { AppUser } from "../../../../../_common/model";
-import { regexp } from "../../../../shared/validators";
 import { LoadingService } from "../../../loading/loading.service";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerService } from "../../services/usager.service";
+import {
+  ImportPreviewBuilder,
+  ImportPreviewRow,
+  ImportPreviewTable,
+} from "./ImportPreviewBuilder.service";
+import { IMPORT_PREVIEW_COLUMNS } from "./IMPORT_PREVIEW_COLUMNS.const";
 
 export const colNames = [
   "Numéro d'identification",
@@ -69,17 +79,8 @@ export class ImportComponent implements OnInit {
 
   public nbreAyantsDroits: number[];
 
-  public errorsId: any[];
-
-  public errorsRow: any[];
-
-  public rowNumber: number;
   public colNames: string[];
   public etapeImport: number;
-
-  public today: Date;
-  public minDate: Date;
-  public nextYear: Date;
 
   public me: AppUser;
 
@@ -131,6 +132,10 @@ export class ImportComponent implements OnInit {
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<any>;
+  previewTable: ImportPreviewTable;
+  visibleRows: ImportPreviewRow[];
+
+  public COL = IMPORT_PREVIEW_COLUMNS;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -139,27 +144,18 @@ export class ImportComponent implements OnInit {
     private loadingService: LoadingService,
     private router: Router,
     private notifService: ToastrService,
-    private titleService: Title
+    private titleService: Title,
+    private importPreviewBuilder: ImportPreviewBuilder,
+    private ngZone: NgZone
   ) {
     this.canUpload = false;
     this.colNames = colNames;
-    this.errorsId = [];
-    this.errorsList = {};
-    this.errorsRow = [];
-
     this.etapeImport = 0;
     this.fileName = "";
-    this.nbreAyantsDroits = [33, 37, 41, 45, 49, 53, 57, 61, 65];
-    this.rowNumber = 0;
     this.showErrors = false;
     this.showTable = false;
     this.success = false;
     this.uploadError = false;
-
-    this.today = new Date();
-    this.nextYear = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    );
 
     for (let cpt = 0; cpt < 10; cpt++) {
       this.colNames.push("Ayant-droit " + cpt + ": nom");
@@ -167,10 +163,6 @@ export class ImportComponent implements OnInit {
       this.colNames.push("Ayant-droit " + cpt + ": date naissance");
       this.colNames.push("Ayant-droit " + cpt + ": lien parenté");
     }
-
-    this.today = moment().endOf("day").toDate();
-    this.nextYear = moment().add(1, "year").endOf("day").toDate();
-    this.minDate = moment.utc("01/01/1900", "DD/MM/YYYY").endOf("day").toDate();
   }
 
   get u(): any {
@@ -212,191 +204,42 @@ export class ImportComponent implements OnInit {
     }
 
     this.showTable = true;
-    this.datas = [[], []];
     this.etapeImport = 1;
     this.uploadForm.controls.fileInput.setValue(file);
 
-    const reader: FileReader = new FileReader();
+    this.ngZone.runOutsideAngular(() => {
+      const reader: FileReader = new FileReader();
 
-    reader.onload = (e: any) => {
-      const bstr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(bstr, {
-        dateNF: "dd/mm/yyyy",
-        type: "binary",
-      });
+      reader.onload = (e: any) => {
+        const bstr: string = e.target.result;
+        const wb: XLSX.WorkBook = XLSX.read(bstr, {
+          dateNF: "dd/mm/yyyy",
+          type: "binary",
+        });
 
-      const wsname: string = wb.SheetNames[0];
-      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+        const wsname: string = wb.SheetNames[0];
+        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      this.datas = XLSX.utils.sheet_to_json(ws, {
-        blankrows: false,
-        dateNF: "dd/mm/yyyy",
-        header: 1,
-        raw: false,
-      }) as AOA;
+        let datas = XLSX.utils.sheet_to_json(ws, {
+          blankrows: false,
+          dateNF: "dd/mm/yyyy",
+          header: 1,
+          raw: false,
+        }) as AOA;
 
-      this.datas = this.datas.slice(1);
-      this.datas.forEach((row, index: any) => {
-        this.rowNumber = index;
+        datas = datas.slice(1);
 
-        const sexeCheck =
-          row[this.CIVILITE] === "H" || row[this.CIVILITE] === "F";
-        this.countErrors(sexeCheck, index, this.CIVILITE);
-
-        this.countErrors(this.notEmpty(row[this.NOM]), index, this.NOM);
-        this.countErrors(this.notEmpty(row[this.PRENOM]), index, this.PRENOM);
-
-        this.countErrors(
-          this.isValidDate(row[this.DATE_NAISSANCE], true, false),
-          index,
-          this.DATE_NAISSANCE
-        );
-
-        this.countErrors(
-          this.notEmpty(row[this.LIEU_NAISSANCE]),
-          index,
-          this.LIEU_NAISSANCE
-        );
-
-        this.countErrors(this.isValidEmail(row[this.EMAIL]), index, this.EMAIL);
-
-        this.countErrors(this.isValidPhone(row[this.PHONE]), index, this.PHONE);
-
-        this.countErrors(
-          this.isValidValue(row[this.STATUT_DOM], "statut", true),
-          index,
-          this.STATUT_DOM
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.TYPE_DOM], "demande", true),
-          index,
-          this.TYPE_DOM
-        );
-
-        // SI Refus & Radié, on ne tient pas compte des dates suivantes : date de début, date de fin, date de dernier passage
-        const dateIsRequired =
-          row[this.STATUT_DOM] !== "REFUS" && row[this.STATUT_DOM] !== "RADIE";
-
-        this.countErrors(
-          this.isValidDate(row[this.DATE_DEBUT_DOM], dateIsRequired, false),
-          index,
-          this.DATE_DEBUT_DOM
-        );
-
-        this.countErrors(
-          this.isValidDate(row[this.DATE_FIN_DOM], dateIsRequired, true),
-          index,
-          this.DATE_FIN_DOM
-        );
-
-        this.countErrors(
-          this.isValidDate(row[this.DATE_PREMIERE_DOM], false, false),
-          index,
-          this.DATE_PREMIERE_DOM
-        );
-
-        this.countErrors(
-          this.isValidDate(
-            row[this.DATE_DERNIER_PASSAGE],
-            dateIsRequired,
-            false
-          ),
-          index,
-          this.DATE_DERNIER_PASSAGE
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
-          index,
-          this.MOTIF_REFUS
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
-          index,
-          this.MOTIF_RADIATION
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
-          index,
-          this.COMPOSITION_MENAGE
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
-          index,
-          this.CAUSE_INSTABILITE
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
-          index,
-          this.SITUATION_RESIDENTIELLE
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.ORIENTATION], "choix"),
-          index,
-          this.ORIENTATION
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
-          index,
-          this.DOMICILIATION_EXISTANTE
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.REVENUS], "choix"),
-          index,
-          this.REVENUS
-        );
-
-        this.countErrors(
-          this.isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
-          index,
-          this.ACCOMPAGNEMENT
-        );
-
-        // CHoix OUI OU NON
-
-        for (const indexAD of this.AYANT_DROIT) {
-          const nom = row[indexAD];
-          const prenom = row[indexAD + 1];
-          const dateNaissance = row[indexAD + 2];
-          const lienParente = row[indexAD + 3];
-
-          if (
-            typeof nom !== "undefined" ||
-            typeof prenom !== "undefined" ||
-            typeof dateNaissance !== "undefined" ||
-            typeof lienParente !== "undefined"
-          ) {
-            this.countErrors(this.notEmpty(nom), this.rowNumber, indexAD);
-            this.countErrors(
-              this.notEmpty(prenom),
-              this.rowNumber,
-              indexAD + 1
-            );
-
-            this.countErrors(
-              this.isValidDate(dateNaissance, true, false),
-              this.rowNumber,
-              indexAD + 2
-            );
-
-            this.countErrors(
-              this.isValidValue(lienParente, "lienParente", true),
-              this.rowNumber,
-              indexAD + 3
-            );
-          }
-        }
-      });
-    };
-    reader.readAsBinaryString(target.files[0]);
+        this.ngZone.run(() => {
+          this.previewTable = this.importPreviewBuilder.buildPreviewTable(
+            datas
+          );
+          this.visibleRows = this.previewTable.isValid
+            ? this.previewTable.rows.slice(0, 50) // show only first 50 rows
+            : this.previewTable.rows.filter((x) => !x.isValid).slice(0, 50); // show only first 50 error rows
+        });
+      };
+      reader.readAsBinaryString(target.files[0]);
+    });
   }
 
   public submitFile() {
@@ -416,126 +259,6 @@ export class ImportComponent implements OnInit {
         this.loadingService.stopLoading();
       }
     );
-  }
-
-  public isAnError(idRow: number, idColumn: number) {
-    const position = idRow.toString() + "_" + idColumn.toString();
-    return this.errorsId.indexOf(position) > -1;
-  }
-
-  public countErrors(variable: boolean, idRow: number, idColumn: number): void {
-    const position = idRow.toString() + "_" + idColumn.toString();
-
-    if (variable !== true) {
-      if (this.errorsRow[idRow] === undefined) {
-        this.errorsRow[idRow] = [];
-      }
-      this.errorsRow[idRow].push(idColumn);
-      this.errorsId.push(position);
-    }
-  }
-
-  public notEmpty(value: string): boolean {
-    return (
-      typeof value !== "undefined" && value !== null && value.trim() !== ""
-    );
-  }
-
-  // Vérification des différents champs Date
-  public isValidDate(
-    date: string,
-    required: boolean,
-    futureDate: boolean
-  ): boolean {
-    if (!this.notEmpty(date)) {
-      return !required;
-    }
-
-    if (RegExp(regexp.date).test(date)) {
-      if (!moment.utc(date, "DD/MM/YYYY").isValid()) {
-        return false;
-      }
-
-      const dateToCheck = moment
-        .utc(date, "DD/MM/YYYY")
-        .startOf("day")
-        .toDate();
-
-      // S'il s'agit d'une date dans le futur, on compare à N+1
-      return futureDate
-        ? dateToCheck >= this.minDate && dateToCheck <= this.nextYear
-        : dateToCheck >= this.minDate && dateToCheck <= this.today;
-    }
-    return false;
-  }
-
-  private isValidPhone(phone: string): boolean {
-    return !this.notEmpty(phone)
-      ? true
-      : RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
-  }
-
-  private isValidEmail(email: string): boolean {
-    return !this.notEmpty(email) ? true : RegExp(regexp.email).test(email);
-  }
-
-  // Vérification des champs pré-remplis dans les liste déroulantes
-  public isValidValue(
-    data: string,
-    rowName: string,
-    required?: boolean
-  ): boolean {
-    if (!this.notEmpty(data)) {
-      return !required;
-    }
-
-    const types: {
-      [key: string]: any;
-    } = {
-      demande: ["PREMIERE", "RENOUVELLEMENT"],
-      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
-      menage: [
-        "HOMME_ISOLE_SANS_ENFANT",
-        "FEMME_ISOLE_SANS_ENFANT",
-        "HOMME_ISOLE_AVEC_ENFANT",
-        "FEMME_ISOLE_AVEC_ENFANT",
-        "COUPLE_SANS_ENFANT",
-        "COUPLE_AVEC_ENFANT",
-      ],
-      motifRadiation: [
-        "NON_MANIFESTATION_3_MOIS",
-        "A_SA_DEMANDE",
-        "ENTREE_LOGEMENT",
-        "FIN_DE_DOMICILIATION",
-        "PLUS_DE_LIEN_COMMUNE",
-        "NON_RESPECT_REGLEMENT",
-        "AUTRE",
-      ],
-      motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
-      residence: [
-        "DOMICILE_MOBILE",
-        "HEBERGEMENT_SOCIAL",
-        "HEBERGEMENT_TIERS",
-        "HOTEL",
-        "SANS_ABRI",
-        "AUTRE",
-      ],
-      cause: [
-        "ERRANCE",
-        "AUTRE",
-        "EXPULSION",
-        "HEBERGE_SANS_ADRESSE",
-        "ITINERANT",
-        "RUPTURE",
-        "SORTIE_STRUCTURE",
-        "VIOLENCE",
-      ],
-      statut: ["VALIDE", "REFUS", "RADIE"],
-      raison: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
-      choix: ["OUI", "NON"],
-    };
-
-    return types[rowName].indexOf(data.toUpperCase()) > -1;
   }
 
   public reload() {

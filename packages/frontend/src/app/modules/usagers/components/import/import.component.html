@@ -1,40 +1,26 @@
 <br />
 
 <div id="steps">
-  <div
-    class="step"
-    *ngFor="let etape of etapes; let i = index"
-    id="step{{ i }}"
-  >
+  <div class="step" *ngFor="let etape of etapes; let i = index" id="step{{ i }}">
     <div>
       <span *ngIf="etapeImport > i" class="step_number step_check">
         <fa-icon icon="check"></fa-icon>
       </span>
-      <span
-        *ngIf="etapeImport <= i"
-        [ngClass]="{
+      <span *ngIf="etapeImport <= i" [ngClass]="{
           step_active: etapeImport == i,
           step_inactive: i > 0 && etapeImport != i
-        }"
-        class="step_number"
-      >
+        }" class="step_number">
         {{ i + 1 }}
       </span>
-      <span
-        [ngClass]="{
+      <span [ngClass]="{
           step_text_active: etapeImport == i,
           step_text_inactive: i > 0 && etapeImport != i
-        }"
-        class="step_text"
-      >
+        }" class="step_text">
         {{ etape }}
       </span>
     </div>
     <div *ngIf="i < 1" [className]="etapeImport > i ? 'check_sep' : ''">
-      <span
-        class="separateur"
-        [ngClass]="{ separateur_inactive: i > 0 }"
-      ></span>
+      <span class="separateur" [ngClass]="{ separateur_inactive: i > 0 }"></span>
     </div>
   </div>
 </div>
@@ -55,12 +41,7 @@
     </p>
 
     <div id="import-menu" class="col-md-10 offset-1">
-      <a
-        href="/assets/files/modele_import_domifa.xlsx"
-        target="_blank"
-        class="btn btn-outline-primary"
-        download
-      >
+      <a href="/assets/files/modele_import_domifa.xlsx" target="_blank" class="btn btn-outline-primary" download>
         Téléchargez le modèle Excel
       </a>
     </div>
@@ -71,13 +52,8 @@
       Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer sur
       Domifa
     </p>
-    <label
-      for="fileExcel"
-      data-browse="Parcourir"
-      lang="fr"
-      id="upload-zone"
-      [className]="uploadError ? 'upload-error' : 'upload-ok'"
-    >
+    <label for="fileExcel" data-browse="Parcourir" lang="fr" id="upload-zone"
+      [className]="uploadError ? 'upload-error' : 'upload-ok'">
       <fa-icon icon="download"></fa-icon>
       <span>
         <b>Cliquez ici</b>
@@ -87,37 +63,24 @@
         Seul les fichiers Excel sont autorisés
       </span>
     </label>
-    <input
-      type="file"
-      id="fileExcel"
-      name="fileExcel"
-      (change)="onFileChange($event)"
-      multiple="false"
-      accept=".xlsx,.xls"
-      file="fileExcel"
-      required
-    />
+    <input type="file" id="fileExcel" name="fileExcel" (change)="onFileChange($event)" multiple="false"
+      accept=".xlsx,.xls" file="fileExcel" required />
   </div>
 </div>
 
 <div *ngIf="etapeImport == 1">
   <div class="col-md-10 offset-md-1 text-center">
-    <div class="form-group" *ngIf="!uploadForm.invalid && errorsId.length == 0">
-      <div class="text-center" *ngIf="datas">
+    <div class="form-group" *ngIf="!uploadForm.invalid">
+      <div class="text-center" *ngIf="previewTable">
         <h4 class="text-primary">Votre fichier est prêt à être importé !</h4>
-        <b>{{ datas.length }} domiciliés</b>
+        <b>{{ previewTable.rows.length }} domiciliés</b>
         seront importés sur Domifa
       </div>
       <br />
       <form #form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
         <div>
-          <input
-            type="hidden"
-            name="fileHidden"
-            formControlName="fileInput"
-            required
-          />
-          <button type="submit" class="btn btn-primary">
+          <input type="hidden" name="fileHidden" formControlName="fileInput" required />
+          <button type="submit" class="btn btn-primary" *ngIf="previewTable?.errorsCount === 0">
             <fa-icon icon="check-circle"></fa-icon>
             Cliquez ici pour finaliser l'import
           </button>
@@ -126,46 +89,20 @@
       <br />
     </div>
 
-    <div *ngIf="errorsId.length > 0" class="text-danger">
+    <div *ngIf="previewTable?.errorsCount > 0" class="text-danger">
       <p>
         Attention : votre fichier contient
-        <b>{{ errorsId.length }}</b>
+        <b>{{ previewTable?.errorsCount }}</b>
         erreurs
         <br />
         Les champs incorrects sont marqués en rouge dans le tableau ci-dessous
       </p>
     </div>
 
-    <button
-      *ngIf="errorsId.length > 0"
-      (click)="reload()"
-      class="btn btn-danger"
-    >
+    <button *ngIf="previewTable?.errorsCount > 0" (click)="reload()" class="btn btn-danger">
       Recommencer
     </button>
     &nbsp;
-    <button
-      *ngIf="errorsId.length > 0"
-      (click)="showErrors = !showErrors"
-      class="btn btn-outline-danger"
-    >
-      <fa-icon icon="eye"></fa-icon>
-      {{ showErrors ? "Masquer" : "Voir" }} les erreurs
-    </button>
-
-    <div class="row" id="errors-list" *ngIf="showErrors">
-      <ng-container *ngFor="let rowError of errorsRow; let i = index">
-        <div class="col-md-3 text-left" *ngIf="rowError && rowError.length > 0">
-          <b>Ligne {{ i + 1 }}</b>
-          <br />
-          <span *ngFor="let colError of rowError">
-            - {{ colNames[colError] }}
-            <br />
-          </span>
-          <br />
-        </div>
-      </ng-container>
-    </div>
 
     <div id="import-table" *ngIf="!uploadForm.invalid">
       <table class="table table-striped table-hover">
@@ -237,9 +174,7 @@
           <th><u>Si autre motif,</u><br />, précisions</th>
           <th>Commentaires</th>
 
-          <ng-container
-            *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index"
-          >
+          <ng-container *ngFor="let ayantDroitColumnIndex of COL.AYANT_DROIT; let indexRow = index">
             <th>
               Nom
               <br />
@@ -262,209 +197,176 @@
             </th>
           </ng-container>
         </thead>
-        <tbody *ngIf="showTable">
-          <tr *ngFor="let row of datas; let index = index">
+        <tbody *ngIf="visibleRows">
+          <tr *ngFor="let row of visibleRows; let index = index">
             <td>
-              <b>{{ index + 1 }}</b>
+              <b>{{ row.rowIndex + 1 }}</b>
             </td>
-            <td [ngClass]="{ 'table-danger': isAnError(index, 0) }">
-              {{ row[CUSTOM_ID] }}
-            </td>
-
-            <td [ngClass]="{ 'table-danger': isAnError(index, CIVILITE) }">
-              {{ row[CIVILITE] }}
+            <td [ngClass]="{ 'table-danger': !row.isValid }">
+              {{ row.columns[COL.CUSTOM_ID]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, NOM) }">
-              {{ row[NOM] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.CIVILITE]?.isValid }">
+              {{ row.columns[COL.CIVILITE]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, PRENOM) }">
-              {{ row[PRENOM] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.NOM]?.isValid }">
+              {{ row.columns[COL.NOM]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, SURNOM) }">
-              {{ row[SURNOM] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.PRENOM]?.isValid }">
+              {{ row.columns[COL.PRENOM]?.value }}
             </td>
 
-            <td
-              [ngClass]="{ 'table-danger': isAnError(index, DATE_NAISSANCE) }"
-            >
-              {{ row[DATE_NAISSANCE] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.SURNOM]?.isValid }">
+              {{ row.columns[COL.SURNOM]?.value }}
             </td>
 
-            <td
-              [ngClass]="{ 'table-danger': isAnError(index, LIEU_NAISSANCE) }"
-            >
-              {{ row[LIEU_NAISSANCE] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.DATE_NAISSANCE]?.isValid }">
+              {{ row.columns[COL.DATE_NAISSANCE]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, PHONE) }">
-              {{ row[PHONE] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.LIEU_NAISSANCE]?.isValid }">
+              {{ row.columns[COL.LIEU_NAISSANCE]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, EMAIL) }">
-              {{ row[EMAIL] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.PHONE]?.isValid }">
+              {{ row.columns[COL.PHONE]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, STATUT_DOM) }">
-              {{ row[STATUT_DOM] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.EMAIL]?.isValid }">
+              {{ row.columns[COL.EMAIL]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, MOTIF_REFUS) }">
-              {{ row[MOTIF_REFUS] }}
-            </td>
-            <td
-              [ngClass]="{ 'table-danger': isAnError(index, MOTIF_RADIATION) }"
-            >
-              {{ row[MOTIF_RADIATION] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.STATUT_DOM]?.isValid }">
+              {{ row.columns[COL.STATUT_DOM]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, TYPE_DOM) }">
-              {{ row[TYPE_DOM] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.MOTIF_REFUS]?.isValid }">
+              {{ row.columns[COL.MOTIF_REFUS]?.value }}
+            </td>
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.MOTIF_RADIATION]?.isValid }">
+              {{ row.columns[COL.MOTIF_RADIATION]?.value }}
             </td>
 
-            <td
-              [ngClass]="{ 'table-danger': isAnError(index, DATE_DEBUT_DOM) }"
-            >
-              {{ row[DATE_DEBUT_DOM] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.TYPE_DOM]?.isValid }">
+              {{ row.columns[COL.TYPE_DOM]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, DATE_FIN_DOM) }">
-              {{ row[DATE_FIN_DOM] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.DATE_DEBUT_DOM]?.isValid }">
+              {{ row.columns[COL.DATE_DEBUT_DOM]?.value }}
             </td>
 
-            <td
-              [ngClass]="{
-                'table-danger': isAnError(index, DATE_PREMIERE_DOM)
-              }"
-            >
-              {{ row[DATE_PREMIERE_DOM] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.DATE_FIN_DOM]?.isValid }">
+              {{ row.columns[COL.DATE_FIN_DOM]?.value }}
             </td>
 
-            <td
-              [ngClass]="{
-                'table-danger': isAnError(index, DATE_DERNIER_PASSAGE)
-              }"
-            >
-              {{ row[DATE_DERNIER_PASSAGE] }}
+            <td [ngClass]="{
+                'table-danger': !row.columns[COL.DATE_PREMIERE_DOM]?.isValid
+              }">
+              {{ row.columns[COL.DATE_PREMIERE_DOM]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, ORIENTATION) }">
-              {{ row[ORIENTATION] }}
-            </td>
-            <td
-              [ngClass]="{
-                'table-danger': isAnError(index, ORIENTATION_DETAILS)
-              }"
-            >
-              {{ row[ORIENTATION_DETAILS] }}
+            <td [ngClass]="{
+                'table-danger': !row.columns[COL.DATE_DERNIER_PASSAGE]?.isValid
+              }">
+              {{ row.columns[COL.DATE_DERNIER_PASSAGE]?.value }}
             </td>
 
-            <td
-              [ngClass]="{
-                'table-danger': isAnError(index, DOMICILIATION_EXISTANTE)
-              }"
-            >
-              {{ row[DOMICILIATION_EXISTANTE] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.ORIENTATION]?.isValid }">
+              {{ row.columns[COL.ORIENTATION]?.value }}
+            </td>
+            <td [ngClass]="{
+                'table-danger': !row.columns[COL.ORIENTATION_DETAILS]?.isValid
+              }">
+              {{ row.columns[COL.ORIENTATION_DETAILS]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, REVENUS) }">
-              {{ row[REVENUS] }}
+            <td [ngClass]="{
+                'table-danger': !row.columns[COL.DOMICILIATION_EXISTANTE]?.isValid
+              }">
+              {{ row.columns[COL.DOMICILIATION_EXISTANTE]?.value }}
             </td>
 
-            <td
-              [ngClass]="{ 'table-danger': isAnError(index, REVENUS_DETAILS) }"
-            >
-              {{ row[REVENUS_DETAILS] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.REVENUS]?.isValid }">
+              {{ row.columns[COL.REVENUS]?.value }}
             </td>
 
-            <td [ngClass]="{ 'table-danger': isAnError(index, LIEN_COMMUNE) }">
-              {{ row[LIEN_COMMUNE] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.REVENUS_DETAILS]?.isValid }">
+              {{ row.columns[COL.REVENUS_DETAILS]?.value }}
             </td>
 
-            <td
-              [ngClass]="{
-                'table-danger': isAnError(index, COMPOSITION_MENAGE)
-              }"
-            >
-              {{ row[COMPOSITION_MENAGE] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.LIEN_COMMUNE]?.isValid }">
+              {{ row.columns[COL.LIEN_COMMUNE]?.value }}
             </td>
 
-            <td
-              [ngClass]="{
-                'table-danger': isAnError(index, SITUATION_RESIDENTIELLE)
-              }"
-            >
-              {{ row[SITUATION_RESIDENTIELLE] }}
+            <td [ngClass]="{
+                'table-danger': !row.columns[COL.COMPOSITION_MENAGE]?.isValid
+              }">
+              {{ row.columns[COL.COMPOSITION_MENAGE]?.value }}
+            </td>
+
+            <td [ngClass]="{
+                'table-danger': !row.columns[COL.SITUATION_RESIDENTIELLE]?.isValid
+              }">
+              {{ row.columns[COL.SITUATION_RESIDENTIELLE]?.value }}
             </td>
 
             <td>
-              {{ row[SITUATION_DETAILS] }}
+              {{ row.columns[COL.SITUATION_DETAILS]?.value }}
             </td>
 
-            <td
-              [ngClass]="{
-                'table-danger': isAnError(index, CAUSE_INSTABILITE)
-              }"
-            >
-              {{ row[CAUSE_INSTABILITE] }}
+            <td [ngClass]="{
+                'table-danger': !row.columns[COL.CAUSE_INSTABILITE]?.isValid
+              }">
+              {{ row.columns[COL.CAUSE_INSTABILITE]?.value }}
             </td>
 
             <td>
-              {{ row[CAUSE_DETAILS] }}
+              {{ row.columns[COL.CAUSE_DETAILS]?.value }}
             </td>
 
-            <td
-              [ngClass]="{ 'table-danger': isAnError(index, ACCOMPAGNEMENT) }"
-            >
-              {{ row[ACCOMPAGNEMENT] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.ACCOMPAGNEMENT]?.isValid }">
+              {{ row.columns[COL.ACCOMPAGNEMENT]?.value }}
             </td>
 
-            <td
-              [ngClass]="{
-                'table-danger': isAnError(index, ACCOMPAGNEMENT_DETAILS)
-              }"
-            >
-              {{ row[ACCOMPAGNEMENT_DETAILS] }}
+            <td [ngClass]="{
+                'table-danger': !row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.isValid
+              }">
+              {{ row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.value }}
             </td>
-            <td
-              [ngClass]="{ 'table-danger': isAnError(index, RAISON_DEMANDE) }"
-            >
-              {{ row[RAISON_DEMANDE] }}
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.RAISON_DEMANDE]?.isValid }">
+              {{ row.columns[COL.RAISON_DEMANDE]?.value }}
             </td>
             <td>
-              {{ row[RAISON_DEMANDE_DETAILS] }}
+              {{ row.columns[COL.RAISON_DEMANDE_DETAILS]?.value }}
             </td>
             <td>
-              {{ row[COMMENTAIRES] }}
+              {{ row.columns[COL.COMMENTAIRES]?.value }}
             </td>
 
-            <ng-container
-              *ngFor="let ayantDroit of nbreAyantsDroits; let indexRow = index"
-            >
-              <td [ngClass]="{ 'table-danger': isAnError(index, ayantDroit) }">
-                {{ row[ayantDroit] }}
+            <ng-container *ngFor="let ayantDroitColumnIndex of COL.AYANT_DROIT; let indexRow = index">
+              <td [ngClass]="{ 'table-danger': !row.columns[ayantDroitColumnIndex]?.isValid }">
+                {{ row.columns[ayantDroitColumnIndex]?.value }}
               </td>
-              <td
-                [ngClass]="{ 'table-danger': isAnError(index, ayantDroit + 1) }"
-              >
-                {{ row[ayantDroit + 1] }}
+              <td [ngClass]="{ 'table-danger': !row.columns[ayantDroitColumnIndex + 1]?.isValid }">
+                {{ row.columns[ayantDroitColumnIndex + 1]?.value }}
               </td>
-              <td
-                [ngClass]="{ 'table-danger': isAnError(index, ayantDroit + 2) }"
-              >
-                {{ row[ayantDroit + 2] }}
+              <td [ngClass]="{ 'table-danger': !row.columns[ayantDroitColumnIndex + 2]?.isValid }">
+                {{ row.columns[ayantDroitColumnIndex + 2]?.value }}
               </td>
-              <td
-                [ngClass]="{ 'table-danger': isAnError(index, ayantDroit + 3) }"
-              >
-                {{ row[ayantDroit + 3] }}
+              <td [ngClass]="{ 'table-danger': !row.columns[ayantDroitColumnIndex + 3]?.isValid }">
+                {{ row.columns[ayantDroitColumnIndex + 3]?.value }}
               </td>
             </ng-container>
           </tr>
         </tbody>
       </table>
+      <div *ngIf="visibleRows && previewTable && previewTable.isValid && visibleRows.length !== previewTable.rows.length" class="text-danger">
+        <p>
+          Note: seules les 50 premières lignes du fichier sont affichées.
+        </p>
+      </div>
     </div>
   </div>
 </div>
