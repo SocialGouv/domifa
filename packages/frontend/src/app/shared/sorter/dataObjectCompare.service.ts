@@ -1,7 +1,6 @@
-import { dataCompare, DataComparisonResult } from './dataCompare.service';
-import { SortableAttribute } from './SortableAttribute.type';
-import { SortableAttributeType } from './SortableAttributeType.type';
-
+import { dataCompare, DataComparisonResult } from "./dataCompare.service";
+import { SortableAttribute } from "./SortableAttribute.type";
+import { SortableAttributeType } from "./SortableAttributeType.type";
 
 export const dataObjectCompare = {
   buildCompareAttributes,
@@ -10,30 +9,37 @@ export const dataObjectCompare = {
   objectsEquals,
 };
 
-
-function objectsEquals<T>(a: T, b: T, { attributes }: {
-  attributes: (item: T) => any[];
-}): boolean {
-
+function objectsEquals<T>(
+  a: T,
+  b: T,
+  {
+    attributes,
+  }: {
+    attributes: (item: T) => any[];
+  }
+): boolean {
   return compareObjectsEquals(a, b, {
-    attributes: item => {
+    attributes: (item) => {
       const values = item ? attributes(item) : undefined;
       if (values) {
-        return values.map(value => ({
+        return values.map((value) => ({
           value,
         }));
       }
       return undefined;
     },
   });
-
 }
 
-
-function compareObjectsEquals<T>(a: T, b: T, { attributes }: {
-  attributes: (item: T) => SortableAttribute[];
-}): boolean {
-
+function compareObjectsEquals<T>(
+  a: T,
+  b: T,
+  {
+    attributes,
+  }: {
+    attributes: (item: T) => SortableAttribute[];
+  }
+): boolean {
   return compareComparableObjectsEquals(
     {
       item: a,
@@ -42,12 +48,14 @@ function compareObjectsEquals<T>(a: T, b: T, { attributes }: {
     {
       item: b,
       attributes: buildCompareAttributes(b, attributes),
-    });
+    }
+  );
 }
 
-
-function compareComparableObjectsEquals<T>(a: DataComparableObject<T>, b: DataComparableObject<T>): boolean {
-
+function compareComparableObjectsEquals<T>(
+  a: DataComparableObject<T>,
+  b: DataComparableObject<T>
+): boolean {
   const nullComparison = dataCompare.compareNullValues<T>(a.item, b.item, {});
   if (nullComparison !== undefined) {
     return false;
@@ -61,14 +69,22 @@ function compareComparableObjectsEquals<T>(a: DataComparableObject<T>, b: DataCo
     }
     return comparison;
   }, true as boolean);
-};
+}
 
-function compareObjects<T>(a: T, b: T, { asc, nullFirst, attributes }: {
-  attributes: (item: T) => SortableAttribute[];
-  asc?: boolean;
-  nullFirst?: boolean;
-}): DataComparisonResult {
-  const globalAsc = (asc !== false);
+function compareObjects<T>(
+  a: T,
+  b: T,
+  {
+    asc,
+    nullFirst,
+    attributes,
+  }: {
+    attributes: (item: T) => SortableAttribute[];
+    asc?: boolean;
+    nullFirst?: boolean;
+  }
+): DataComparisonResult {
+  const globalAsc = asc !== false;
 
   if (nullFirst === undefined) {
     nullFirst = false;
@@ -86,28 +102,34 @@ function compareObjects<T>(a: T, b: T, { asc, nullFirst, attributes }: {
     {
       nullFirst,
       globalAsc,
-    });
+    }
+  );
 }
 
 export type DataComparableObjectAttribute = {
   value: any;
   asc: boolean;
-}
+};
 
 export type DataComparableObject<T> = {
   item: T;
   attributes: DataComparableObjectAttribute[];
 };
 
-function compareComparableObjects<T>(a: DataComparableObject<T>, b: DataComparableObject<T>, {
-  globalAsc,
-  nullFirst,
-}: {
-  globalAsc: boolean,
-  nullFirst: boolean,
-}): DataComparisonResult {
-
-  const nullComparison = dataCompare.compareNullValues<T>(a.item, b.item, { nullFirst });
+function compareComparableObjects<T>(
+  a: DataComparableObject<T>,
+  b: DataComparableObject<T>,
+  {
+    globalAsc,
+    nullFirst,
+  }: {
+    globalAsc: boolean;
+    nullFirst: boolean;
+  }
+): DataComparisonResult {
+  const nullComparison = dataCompare.compareNullValues<T>(a.item, b.item, {
+    nullFirst,
+  });
   if (nullComparison !== undefined) {
     return nullComparison;
   }
@@ -117,23 +139,31 @@ function compareComparableObjects<T>(a: DataComparableObject<T>, b: DataComparab
   return attrs1.reduce((comparison, attr1, i) => {
     if (comparison === 0) {
       const isAsc = (globalAsc && attr1.asc) || (!globalAsc && !attr1.asc);
-      const res = dataCompare.compareAttributes<T>(attr1.value, attrs2[i].value, { asc: isAsc, nullFirst });
+      const res = dataCompare.compareAttributes<T>(
+        attr1.value,
+        attrs2[i].value,
+        { asc: isAsc, nullFirst }
+      );
       return res;
     }
     return comparison;
   }, 0 as DataComparisonResult);
-};
-
-function buildCompareAttributes<T>(item: T, attributes: (item: T) => SortableAttribute[]): DataComparableObjectAttribute[] {
-  return attributes(item).filter(x => x != null).map(attr => ({
-    value: formatAttribute(attr.value, attr.type),
-    asc: (attr.asc !== false),
-  }));
 }
 
+function buildCompareAttributes<T>(
+  item: T,
+  attributes: (item: T) => SortableAttribute[]
+): DataComparableObjectAttribute[] {
+  return attributes(item)
+    .filter((x) => x != null)
+    .map((attr) => ({
+      value: formatAttribute(attr.value, attr.type),
+      asc: attr.asc !== false,
+    }));
+}
 
 function formatAttribute(attr: any, type: SortableAttributeType) {
-  if (type === 'full-text') {
+  if (type === "full-text") {
     return formatTextAttribute(attr);
   } else {
     return attr;
@@ -143,4 +173,3 @@ function formatAttribute(attr: any, type: SortableAttributeType) {
 function formatTextAttribute(attr: string): string {
   return attr && attr.trim ? (attr as string).trim().toLowerCase() : attr;
 }
-

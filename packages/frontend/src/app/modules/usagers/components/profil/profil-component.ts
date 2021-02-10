@@ -41,6 +41,7 @@ import { UsagerFormModel } from "../form/UsagerFormModel";
   templateUrl: "./profil.html",
 })
 export class UsagersProfilComponent implements OnInit {
+  // Affichage des formulaires d'édition
   public editInfos: boolean;
   public editEntretien: boolean;
   public editAyantsDroits: boolean;
@@ -82,7 +83,6 @@ export class UsagersProfilComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private interactionService: InteractionService,
-    public loadingService: LoadingService,
     private authService: AuthService,
     private modalService: NgbModal,
     private nbgDate: NgbDateCustomParserFormatter,
@@ -135,10 +135,12 @@ export class UsagersProfilComponent implements OnInit {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
+
     //
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: UsagerLight) => {
+          console.log(usager);
           if (
             usager.decision.statut === "ATTENTE_DECISION" &&
             usager.typeDom === "PREMIERE"
@@ -162,11 +164,10 @@ export class UsagersProfilComponent implements OnInit {
           }
 
           this.usager = new UsagerFormModel(usager);
-
           this.getInteractions();
           this.initForms();
         },
-        (error) => {
+        () => {
           this.router.navigate(["/404"]);
         }
       );
@@ -189,13 +190,13 @@ export class UsagersProfilComponent implements OnInit {
       ayantsDroits: this.formBuilder.array([]),
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
       customRef: [this.usager.customRef, []],
-      dateNaissance: [this.usager.dateNaissance, []],
-      dateNaissancePicker: [
-        this.usager.dateNaissancePicker,
+      dateNaissance: [
+        formatDateToNgb(this.usager.dateNaissance),
         [Validators.required],
       ],
+
       email: [this.usager.email, [Validators.email]],
-      id: [this.usager.ref, []],
+      ref: [this.usager.ref, [Validators.required]],
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
@@ -218,20 +219,15 @@ export class UsagersProfilComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
-      const dateTmp = this.nbgDate.formatEn(
-        this.usagerForm.controls.dateNaissancePicker.value
-      );
+      const formValue = {
+        ...this.usagerForm.value,
+        dateNaissance: this.nbgDate.formatEn(
+          this.usagerForm.controls.dateNaissance.value
+        ),
+        etapeDemande: this.usager.etapeDemande,
+      };
 
-      if (dateTmp === null) {
-        this.notifService.error("La date de naissance semble incorrecte.");
-        return;
-      }
-
-      this.usagerForm.controls.dateNaissance.setValue(
-        new Date(dateTmp).toISOString()
-      );
-
-      this.usagerService.create(this.usagerForm.value).subscribe(
+      this.usagerService.create(formValue).subscribe(
         (usager: UsagerLight) => {
           this.submitted = false;
           this.notifService.success("Enregistrement réussi");
@@ -314,7 +310,7 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.delete(this.usager.ref).subscribe(
       (result: any) => {
         this.modalService.dismissAll();
-        this.notifService.success("UsagerLight supprimé avec succès");
+        this.notifService.success("Usager supprimé avec succès");
         this.router.navigate(["/manage"]);
       },
       (error) => {

@@ -342,6 +342,7 @@ export class UsagersController {
     @CurrentUsager() currentUsager: UsagerLight
   ) {
     const usager = await usagerRepository.findOne({ uuid: currentUsager.uuid });
+
     return this.cerfaService
       .attestation(usager, user)
       .then((buffer) => {

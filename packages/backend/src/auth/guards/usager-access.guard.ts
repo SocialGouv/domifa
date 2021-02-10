@@ -17,6 +17,7 @@ export class UsagerAccessGuard implements CanActivate {
     const r = context.switchToHttp().getRequest();
     const usagerRef = r.params.usagerRef;
     const structureId = r.user.structureId;
+
     if (usagerRef === undefined || structureId === undefined) {
       appLogger.warn(
         `[UsagerAccessGuard] invalid usagerRef "${usagerRef}" or structureId "${structureId}" for user "${r.user._id}"`,

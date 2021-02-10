@@ -195,7 +195,7 @@ function filter<T>(
       if (!maxResults || acc.length < maxResults) {
         const matchResult = match(item, {
           index: initialIndex,
-          getAttributes: getAttributes,
+          getAttributes,
           words,
           withScore: false,
         });

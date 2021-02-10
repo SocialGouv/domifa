@@ -48,7 +48,7 @@ import {
 
 @Component({
   animations: [fadeInOutSlow, fadeInOut],
-  providers: [UsagerService],
+
   selector: "app-manage-usagers",
   styleUrls: ["./manage.css"],
   templateUrl: "./manage.html",

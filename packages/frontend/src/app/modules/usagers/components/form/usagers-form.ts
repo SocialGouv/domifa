@@ -19,16 +19,17 @@ import {
 } from "src/app/shared/bootstrap-util";
 import { AppUser, UsagerLight, UsagerPG } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
+
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
+
 import { AyantDroit } from "../../interfaces/ayant-droit";
-import * as labels from "../../usagers.labels";
 import { UsagerFormModel } from "./UsagerFormModel";
 
+import * as labels from "../../usagers.labels";
 @Component({
   animations: [fadeInOut],
   providers: [
-    UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
@@ -54,12 +55,11 @@ export class UsagersFormComponent implements OnInit {
   };
 
   public usager!: UsagerFormModel;
+
   public registerForm!: FormGroup;
   public usagerForm!: FormGroup;
 
   public submitted = false;
-
-  public liensLabels: any = Object.keys(labels.lienParente);
 
   public languagesAutocomplete = languagesAutocomplete;
 
@@ -104,6 +104,7 @@ export class UsagersFormComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: UsagerPG) => {
           this.usager = new UsagerFormModel(usager);
+
           this.initForm();
         },
         () => {
@@ -112,6 +113,7 @@ export class UsagersFormComponent implements OnInit {
       );
     } else {
       this.usager = new UsagerFormModel();
+
       this.initForm();
     }
   }
@@ -121,15 +123,14 @@ export class UsagersFormComponent implements OnInit {
       ayantsDroits: this.formBuilder.array([]),
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
       ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
-      dateNaissance: [this.usager.dateNaissance, []],
-      dateNaissancePicker: [
-        this.usager.dateNaissancePicker,
+      dateNaissance: [
+        formatDateToNgb(this.usager.dateNaissance),
         [Validators.required],
       ],
       decision: [this.usager.decision, []],
       email: [this.usager.email, [Validators.email]],
       etapeDemande: [this.usager.etapeDemande, []],
-      id: [this.usager.ref, []],
+      ref: [this.usager.ref, []],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       preference: this.formBuilder.group({
@@ -139,7 +140,6 @@ export class UsagersFormComponent implements OnInit {
       }),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
-
       surnom: [this.usager.surnom, []],
       typeDom: [this.usager.typeDom],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
@@ -148,6 +148,9 @@ export class UsagersFormComponent implements OnInit {
     for (const ayantDroit of this.usager.ayantsDroits) {
       this.addAyantDroit(ayantDroit);
     }
+
+    console.log("6 - form value");
+    console.log(this.usagerForm.value);
   }
 
   public isDoublon() {
@@ -169,7 +172,7 @@ export class UsagersFormComponent implements OnInit {
           this.doublons = [];
           if (usagersDoublon.length !== 0) {
             this.notifService.warning("Un homonyme potentiel a été détecté !");
-            usagersDoublon.forEach((doublon) => {
+            usagersDoublon.forEach((doublon: UsagerLight) => {
               this.doublons.push(doublon);
             });
           }
@@ -221,15 +224,15 @@ export class UsagersFormComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
-      const dateTmp = this.nbgDate.formatEn(
-        this.usagerForm.controls.dateNaissancePicker.value
-      );
+      const formValue = {
+        ...this.usagerForm.value,
+        dateNaissance: this.nbgDate.formatEn(
+          this.usagerForm.controls.dateNaissance.value
+        ),
+        etapeDemande: this.usager.etapeDemande,
+      };
 
-      const dateTmpN = new Date(dateTmp).toISOString();
-      this.usagerForm.controls.dateNaissance.setValue(dateTmpN);
-      this.usagerForm.controls.etapeDemande.setValue(this.usager.etapeDemande);
-
-      this.usagerService.create(this.usagerForm.value).subscribe(
+      this.usagerService.create(formValue).subscribe(
         (usager: UsagerLight) => {
           this.goToTop();
           this.notifService.success("Enregistrement réussi");

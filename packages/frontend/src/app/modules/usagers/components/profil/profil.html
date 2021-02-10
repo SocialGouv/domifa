@@ -538,7 +538,7 @@
             </div>
 
             <div class="col-md-4 form-group required">
-              <label for="dateNaissancePicker">Date de naissance</label>
+              <label for="dateNaissance">Date de naissance</label>
               <div class="input-group">
                 <input
                   class="form-control"
@@ -546,11 +546,11 @@
                   [minDate]="minDateNaissance"
                   [maxDate]="maxDateNaissance"
                   placement="bottom"
-                  formControlName="dateNaissancePicker"
+                  formControlName="dateNaissance"
                   ngbDatepicker
                   dateFr
                   value
-                  [ngClass]="{ 'is-invalid': f.dateNaissancePicker.errors  }"
+                  [ngClass]="{ 'is-invalid': f.dateNaissance.errors  }"
                   #d="ngbDatepicker"
                   maxlength="10"
                   required
@@ -560,26 +560,9 @@
                     <fa-icon icon="calendar"></fa-icon>
                   </span>
                 </div>
-                <div
-                  *ngIf="f.dateNaissancePicker.value !== null && f.dateNaissancePicker.value.year"
-                  class="invalid-feedback-custom"
-                >
-                  <div *ngIf="f.dateNaissancePicker.value.year <= 1800">
-                    Pas de date avant 1900
-                  </div>
-                </div>
-                <div
-                  *ngIf="f.dateNaissancePicker.invalid"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="f.dateNaissancePicker.errors.required">
-                    La date de naissance est obligatoire
-                  </div>
-                  <div
-                    *ngIf="f.dateNaissancePicker.dirty && (f.dateNaissancePicker.errors.ngbDate || f.dateNaissancePicker.value <= minDateNaissance.year)"
-                  >
-                    La date de naissance est incorrecte (ex: 20/12/1991)
-                  </div>
+
+                <div *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
+                  La date de naissance est obligatoire
                 </div>
               </div>
             </div>
@@ -736,10 +719,10 @@
                   </div>
                 </div>
                 <div class="col form-group required">
-                  <label for="prennom_{{i}}">Prénom</label>
+                  <label for="ad_prenom_{{i}}">Prénom</label>
                   <input
                     type="text"
-                    id="prennom_{{i}}"
+                    id="ad_prenom_{{i}}"
                     class="form-control"
                     cleanStr
                     formControlName="prenom"
@@ -815,7 +798,7 @@
 
         <div *ngIf="!editAyantsDroits">
           <app-profil-ayants-droits
-            [usager]="usager"
+            [ayantsDroits]="usager.ayantsDroits"
           ></app-profil-ayants-droits>
 
           <div

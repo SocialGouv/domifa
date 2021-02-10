@@ -2,17 +2,16 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { AppUser, UsagerLight } from "../../../../../../../_common/model";
+import { UsagerFormModel } from "../../UsagerFormModel";
 
 @Component({
-  providers: [UsagerService],
   selector: "app-form-menu",
   styleUrls: ["./menu.component.css"],
   templateUrl: "./menu.component.html",
 })
 export class MenuComponent implements OnInit {
-  @Input() public usager!: UsagerLight;
+  @Input() public usager!: UsagerFormModel;
   @Input() public currentStep!: number;
 
   public etapes = [
@@ -30,6 +29,7 @@ export class MenuComponent implements OnInit {
     "documents",
     "decision",
   ];
+
   public me: AppUser;
 
   constructor(

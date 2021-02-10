@@ -1,18 +1,22 @@
 export class DateCerfa {
-  public annee: string | "";
-  public heure: string | "";
-  public jour: string | "";
-  public minutes: string | "";
-  public mois: string | "";
+  public annee: string;
+  public heure: string;
+  public jour: string;
+  public minutes: string;
+  public mois: string;
 
-  constructor(date?: Date) {
+  constructor(date?: Date | string) {
     this.annee = "";
     this.heure = "";
     this.jour = "";
     this.minutes = "";
     this.mois = "";
 
-    if (date !== null && date !== undefined) {
+    if (date !== null && typeof date !== "undefined") {
+      if (typeof date === "string") {
+        date = new Date(date);
+      }
+
       this.annee = date.getFullYear().toString();
 
       this.heure =

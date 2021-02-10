@@ -1,4 +1,4 @@
-import { searchCore } from './searchCore';
+import { searchCore } from "./searchCore";
 
 export interface Bounds {
   start: number;
@@ -16,12 +16,14 @@ export const searchChunks = {
   _getChunksFromMergedIndices,
 };
 
-function getIndicesOf(content: string, {
-  word,
-}: {
-  word: string,
-}): Bounds[] {
-
+function getIndicesOf(
+  content: string,
+  {
+    word,
+  }: {
+    word: string;
+  }
+): Bounds[] {
   if (!word || !content) {
     return [];
   }
@@ -40,18 +42,22 @@ function getIndicesOf(content: string, {
   return indices;
 }
 
-function find(content: string, {
-  searchText,
-}: {
-  searchText: string,
-}): Chunk[] {
-
+function find(
+  content: string,
+  {
+    searchText,
+  }: {
+    searchText: string;
+  }
+): Chunk[] {
   const words = searchCore.buildWords(searchText);
   if (words.length === 0 || !content || !content.length) {
-    return [{
-      value: content,
-      match: false,
-    }];
+    return [
+      {
+        value: content,
+        match: false,
+      },
+    ];
   }
   const cleanContent = searchCore.clean(content);
 
@@ -63,24 +69,33 @@ function find(content: string, {
   return _getChunksFromMergedIndices({ mergedIndices, content });
 }
 
-function _getChunksFromMergedIndices({ mergedIndices, content }: { mergedIndices: Bounds[]; content: string; }) {
-  const res = mergedIndices.reduce((acc, bounds) => {
-    if (acc.lastIndex < bounds.start) {
+function _getChunksFromMergedIndices({
+  mergedIndices,
+  content,
+}: {
+  mergedIndices: Bounds[];
+  content: string;
+}) {
+  const res = mergedIndices.reduce(
+    (acc, bounds) => {
+      if (acc.lastIndex < bounds.start) {
+        acc.chunks.push({
+          value: content.substring(acc.lastIndex, bounds.start),
+          match: false,
+        });
+      }
       acc.chunks.push({
-        value: content.substring(acc.lastIndex, bounds.start),
-        match: false,
+        value: content.substring(bounds.start, bounds.end),
+        match: true,
       });
-    }
-    acc.chunks.push({
-      value: content.substring(bounds.start, bounds.end),
-      match: true,
-    });
-    acc.lastIndex = bounds.end;
-    return acc;
-  }, {
+      acc.lastIndex = bounds.end;
+      return acc;
+    },
+    {
       chunks: [] as Chunk[],
       lastIndex: 0,
-    });
+    }
+  );
   if (res.lastIndex < content.length) {
     res.chunks.push({
       value: content.substring(res.lastIndex),
@@ -92,19 +107,20 @@ function _getChunksFromMergedIndices({ mergedIndices, content }: { mergedIndices
 
 function _mergeIndices(allWordsIndices: Bounds[]): Bounds[] {
   const mergedIndices = allWordsIndices.reduce((acc, indice) => {
-    const f = acc.find(b => b.start <= indice.end && b.end >= indice.start);
+    const f = acc.find((b) => b.start <= indice.end && b.end >= indice.start);
     if (f) {
       f.start = Math.min(f.start, indice.start);
       f.end = Math.max(f.end, indice.end);
-    }
-    else {
+    } else {
       acc.push(indice);
     }
     return acc;
   }, [] as Bounds[]);
 
   // sort by index
-  mergedIndices.sort((a, b) => a.start > b.start ? 1 : a.start < b.start ? -1 : 0);
+  mergedIndices.sort((a, b) =>
+    a.start > b.start ? 1 : a.start < b.start ? -1 : 0
+  );
 
   return mergedIndices;
 }

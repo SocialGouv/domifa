@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { LoadingService } from "../../loading/loading.service";
+import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
@@ -30,7 +31,8 @@ export class UsagerService {
     this.loading = true;
   }
 
-  public create(usager: UsagerLight): Observable<UsagerLight> {
+  public create(usager: UsagerFormModel): Observable<UsagerLight> {
+    console.log(usager);
     const response =
       usager.ref !== 0
         ? this.http.patch<UsagerLight>(

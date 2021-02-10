@@ -1,1 +1,1 @@
-export type SortableAttributeType = 'full-text' | 'default';
+export type SortableAttributeType = "full-text" | "default";
