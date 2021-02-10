@@ -29,6 +29,7 @@ export type DashboardTableStructure = StructureAdmin & {
   structureTypeLabel: string;
   regionLabel: string;
   departementLabel: string;
+  usersCount?: number;
 };
 
 type DashboardTableSortAttribute =
@@ -149,15 +150,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private buildSortedTableStructures() {
     const tableStructures$ = this.stats$.pipe(
       map(({ structures }) =>
-        structures.map((structure) => {
-          const tableStructure: DashboardTableStructure = {
-            ...structure,
-            structureTypeLabel: labels.structureType[structure.structureType],
-            regionLabel: this.getRegionLabel(structure),
-            departementLabel: this.getDepartementLabel(structure),
-          };
-          return tableStructure;
-        })
+        structures.map(
+          (
+            structure: StructureAdmin & {
+              usersCount?: number; // dashboard only
+            }
+          ) => {
+            const tableStructure: DashboardTableStructure = {
+              ...structure,
+              structureTypeLabel: labels.structureType[structure.structureType],
+              regionLabel: this.getRegionLabel(structure),
+              departementLabel: this.getDepartementLabel(structure),
+            };
+            return tableStructure;
+          }
+        )
       )
     );
 
