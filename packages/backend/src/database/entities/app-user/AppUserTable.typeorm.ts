@@ -1,16 +1,14 @@
 import {
+  BeforeInsert,
   Column,
   Entity,
   Generated,
   Index,
   JoinColumn,
   ManyToOne,
-  BeforeInsert,
 } from "typeorm";
-import { StructureTable } from "..";
-
 import { titleCase } from "typeorm/util/StringUtils";
-
+import { StructureTable } from "..";
 import {
   AppUser,
   AppUserMails,

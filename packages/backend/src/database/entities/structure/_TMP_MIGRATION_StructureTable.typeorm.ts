@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, Index } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 import {
   StructurePG,
   StructureResponsable,
@@ -7,10 +7,10 @@ import {
 import { StructureAddresseCourrier } from "../../../_common/model/structure/StructureAddresseCourrier.type";
 import { StructureUsagersStats } from "../../../_common/model/structure/StructureUsagersStats.type";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
+import { StructureTable } from "./StructureTable.typeorm";
 
-// https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure" })
-export class StructureTable
+export class _TMP_MIGRATION_StructureTable
   extends AppTypeormTable<StructureTable>
   implements StructurePG {
   @Column({ type: "text", nullable: true })
@@ -18,7 +18,7 @@ export class StructureTable
 
   @Index()
   @Column({ type: "integer", unique: true })
-  @Generated("increment")
+  // @Generated("increment") // MANUAL FOR MIGRATION
   id: number;
 
   @Index()
