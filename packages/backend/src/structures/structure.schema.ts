@@ -153,6 +153,7 @@ export const StructureSchema = new mongoose.Schema(
       type: String,
     },
     migrated: { type: Boolean, default: false },
+    migratedProdFix: { type: Boolean, default: false },
   },
   {
     timestamps: true,

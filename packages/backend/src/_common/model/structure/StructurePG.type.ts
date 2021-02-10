@@ -13,6 +13,7 @@ export type StructurePG = AppEntity & {
   _id?: any;
 
   id: number;
+  mongoStructureId?: number;
   adresse: string;
   complementAdresse: string;
   nom: string;
