@@ -7,6 +7,7 @@ import {
   ManyToOne,
   BeforeInsert,
 } from "typeorm";
+
 import { StructureTable } from "..";
 
 import { titleCase } from "typeorm/util/StringUtils";

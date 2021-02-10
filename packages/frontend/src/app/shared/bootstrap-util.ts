@@ -52,7 +52,7 @@ export function formatDateToNgb(date: Date): NgbDateStruct | null {
     return null;
   }
   if (!date.getDate) {
-    date = new Date();
+    date = new Date(date);
   }
   return {
     day: date.getDate(),

@@ -50,7 +50,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     private usagerService: UsagerService,
     private matomo: MatomoTracker
   ) {
-    this.hideForm();
+    this.isFormVisible = false;
     this.minDateToday = minDateToday;
   }
 
@@ -64,10 +64,15 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
 
   public showForm() {
     this.isFormVisible = true;
+    this.transfertForm.reset(this.transfertForm.value);
+
     this.initForm();
   }
+
   public hideForm() {
     this.isFormVisible = false;
+
+    this.transfertForm.reset(this.transfertForm.value);
   }
 
   get f() {
@@ -82,7 +87,6 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
           this.usager.options.transfert.adresse,
           [Validators.required, Validators.minLength(10)],
         ],
-
         dateFin: [
           formatDateToNgb(this.usager.options.transfert.dateFin),
           [Validators.required],
@@ -115,6 +119,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
         this.usager = usager;
+
         this.notifService.success("Transfert ajouté avec succès");
       },
       () => {
