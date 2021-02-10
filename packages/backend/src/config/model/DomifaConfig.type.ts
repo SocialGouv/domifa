@@ -49,6 +49,9 @@ export type DomifaConfig = {
       enabled: boolean; // enabled if SENTRY_DSN is defined
       sentryDns: string; // SENTRY_DSN
     };
+    anonymizer: {
+      password: string; // DOMIFA_ANONYMIZER_PASSWORD
+    };
   };
   cron: {
     enable: boolean; // DOMIFA_CRON_ENABLED

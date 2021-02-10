@@ -1,5 +1,7 @@
 import { INestApplication } from "@nestjs/common";
+import * as bcrypt from "bcryptjs";
 import { AppUserTable } from "../../..";
+import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
 import { usersRepository } from "../../app-user/users-repository.service";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
@@ -44,10 +46,15 @@ async function _anonymizeUser(
 ) {
   // appLogger.debug(`[dataUserAnonymizer] check user "${user._id}"`);
 
+  const passwordNonEncrypted = domifaConfig().dev.anonymizer.password;
+  const password = passwordNonEncrypted
+    ? await bcrypt.hash(passwordNonEncrypted, 10)
+    : "";
+
   const attributesToUpdate: Partial<AppUserTable> = {
     nom: dataGenerator.lastName().toUpperCase(),
     prenom: dataGenerator.firstName(),
-    password: "",
+    password,
     temporaryTokens: null,
     fonction: dataGenerator.fromList([
       "Agent administratif",

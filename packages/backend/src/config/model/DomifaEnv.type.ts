@@ -36,6 +36,7 @@ export type DomifaEnv = {
   DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME: string;
   DOMIFA_PRINT_ENV: string;
   DOMIFA_PRINT_CONFIG: string;
+  DOMIFA_ANONYMIZER_PASSWORD: string;
   POSTGRES_HOST: string;
   POSTGRES_PORT: string;
   POSTGRES_USERNAME: string;
