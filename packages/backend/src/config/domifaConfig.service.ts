@@ -179,6 +179,11 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         enabled: !!sentryDns,
         sentryDns,
       },
+      anonymizer: {
+        password: configParser.parseString(x, "DOMIFA_ANONYMIZER_PASSWORD", {
+          required: false,
+        }),
+      },
     },
     cron: {
       enable: configParser.parseBoolean(x, "DOMIFA_CRON_ENABLED", {
