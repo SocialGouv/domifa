@@ -154,7 +154,6 @@ export class ImportComponent implements OnInit {
   }
 
   public onFileChange(event: Event) {
-    this.loadingService.startLoading();
     const input = event.target as HTMLInputElement;
 
     if (

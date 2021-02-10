@@ -50,7 +50,7 @@
       <div class="col-12 text-center">
         <br />
         <button
-          *ngIf="usager.options.procuration.actif && !isFormVisible"
+          *ngIf="usager.options.procuration.actif && !isFormVisible && usager.decision.statut !== 'REFUS'"
           (click)="showForm()"
           class="btn btn-outline-primary"
         >

@@ -44,7 +44,7 @@
       <div class="col-12 text-center" *ngIf="!isRole('facteur')">
         <br />
         <button
-          *ngIf="usager.options.transfert.actif && !isFormVisible"
+          *ngIf="usager.options.transfert.actif && !isFormVisible  && usager.decision.statut !== 'REFUS'"
           (click)="showForm()"
           class="btn btn-outline-primary"
         >

@@ -20,7 +20,7 @@ import {
 import { regexp } from "src/app/shared/validators";
 import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
-import { LoadingService } from "../../../loading/loading.service";
+
 import { interactionsLabels } from "../../interactions.labels";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction, InteractionTypes } from "../../interfaces/interaction";

@@ -7,6 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
 } from "typeorm";
+
 import { titleCase } from "typeorm/util/StringUtils";
 import { StructureTable } from "..";
 import {
