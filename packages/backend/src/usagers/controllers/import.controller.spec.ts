@@ -6,6 +6,7 @@ import { DatabaseModule } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
+import { isValidDate } from "../../_common/import/import.validators";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
@@ -86,7 +87,7 @@ describe("Import Controller", () => {
 
     // Dates REQUIRED
     expect(
-      controller.isValidDate("undefined", {
+      isValidDate("undefined", {
         required: REQUIRED,
         minDate,
         maxDate: nextYear,
@@ -94,14 +95,14 @@ describe("Import Controller", () => {
     ).toBeFalsy();
 
     expect(
-      controller.isValidDate(null, {
+      isValidDate(null, {
         required: REQUIRED,
         minDate,
         maxDate: nextYear,
       })
     ).toBeFalsy();
     expect(
-      controller.isValidDate("", {
+      isValidDate("", {
         required: REQUIRED,
         minDate,
         maxDate: nextYear,
@@ -110,14 +111,14 @@ describe("Import Controller", () => {
 
     // Dates -NOT- Required
     expect(
-      controller.isValidDate(null, {
+      isValidDate(null, {
         required: NOT_REQUIRED,
         minDate,
         maxDate: today,
       })
     ).toBeTruthy();
     expect(
-      controller.isValidDate("", {
+      isValidDate("", {
         required: NOT_REQUIRED,
         minDate,
         maxDate: today,
@@ -126,21 +127,21 @@ describe("Import Controller", () => {
 
     // Mauvais format
     expect(
-      controller.isValidDate("undefined", {
+      isValidDate("undefined", {
         required: NOT_REQUIRED,
         minDate,
         maxDate: today,
       })
     ).toBeFalsy();
     expect(
-      controller.isValidDate("2019-12-10", {
+      isValidDate("2019-12-10", {
         required: REQUIRED,
         minDate,
         maxDate: today,
       })
     ).toBeFalsy();
     expect(
-      controller.isValidDate("1/00/1900", {
+      isValidDate("1/00/1900", {
         required: REQUIRED,
         minDate,
         maxDate: today,
@@ -149,7 +150,7 @@ describe("Import Controller", () => {
 
     // ANNEE MAXIMALE
     expect(
-      controller.isValidDate("20/12/2022", {
+      isValidDate("20/12/2022", {
         required: REQUIRED,
         minDate,
         maxDate: today,
@@ -158,7 +159,7 @@ describe("Import Controller", () => {
 
     // Cette année : true & true
     expect(
-      controller.isValidDate(thisYear, {
+      isValidDate(thisYear, {
         required: REQUIRED,
         minDate,
         maxDate: today,
@@ -166,7 +167,7 @@ describe("Import Controller", () => {
     ).toBeTruthy();
 
     expect(
-      controller.isValidDate(thisYear, {
+      isValidDate(thisYear, {
         required: REQUIRED,
         minDate,
         maxDate: nextYear,
@@ -175,7 +176,7 @@ describe("Import Controller", () => {
 
     // Année prochaine :  true & true
     expect(
-      controller.isValidDate(nextYearString, {
+      isValidDate(nextYearString, {
         required: REQUIRED,
         minDate,
         maxDate: today,
@@ -183,7 +184,7 @@ describe("Import Controller", () => {
     ).toBeFalsy();
 
     expect(
-      controller.isValidDate(nextYearString, {
+      isValidDate(nextYearString, {
         required: REQUIRED,
         minDate,
         maxDate: nextYear,
@@ -192,7 +193,7 @@ describe("Import Controller", () => {
 
     // Dans deux ans : false & false
     expect(
-      controller.isValidDate(nextTwoYears, {
+      isValidDate(nextTwoYears, {
         required: REQUIRED,
         minDate,
         maxDate: today,
@@ -200,7 +201,7 @@ describe("Import Controller", () => {
     ).toBeFalsy();
 
     expect(
-      controller.isValidDate(nextTwoYears, {
+      isValidDate(nextTwoYears, {
         required: REQUIRED,
         minDate,
         maxDate: nextYear,
