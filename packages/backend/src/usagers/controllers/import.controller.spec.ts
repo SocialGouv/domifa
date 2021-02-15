@@ -66,73 +66,145 @@ describe("Import Controller", () => {
   });
 
   it("1. CHECK DATE FUNCTIONS 📆", () => {
-    const nextYear = moment()
+    const minDate = moment
+      .utc("01/01/1900", "DD/MM/YYYY")
+      .endOf("day")
+      .toDate();
+
+    const today = moment.utc().endOf("day").toDate();
+    const nextYear = moment.utc().add(1, "year").endOf("day").toDate();
+    const nextYearString = moment
+      .utc()
       .add(1, "year")
       .subtract(1, "month")
       .locale("fr")
       .format("L");
 
-    const thisYear = moment().locale("fr").format("L");
+    const thisYear = moment.utc().locale("fr").format("L");
 
-    const nextTwoYears = moment().add(2, "year").locale("fr").format("L");
+    const nextTwoYears = moment.utc().add(2, "year").locale("fr").format("L");
 
     // Dates REQUIRED
     expect(
-      controller.isValidDate("undefined", REQUIRED, NEXT_YEAR_MAX)
+      controller.isValidDate("undefined", {
+        required: REQUIRED,
+        minDate,
+        maxDate: nextYear,
+      })
     ).toBeFalsy();
 
-    expect(controller.isValidDate(null, REQUIRED, NEXT_YEAR_MAX)).toBeFalsy();
-    expect(controller.isValidDate("", REQUIRED, NEXT_YEAR_MAX)).toBeFalsy();
+    expect(
+      controller.isValidDate(null, {
+        required: REQUIRED,
+        minDate,
+        maxDate: nextYear,
+      })
+    ).toBeFalsy();
+    expect(
+      controller.isValidDate("", {
+        required: REQUIRED,
+        minDate,
+        maxDate: nextYear,
+      })
+    ).toBeFalsy();
 
     // Dates -NOT- Required
     expect(
-      controller.isValidDate(null, NOT_REQUIRED, THIS_YEAR_MAX)
+      controller.isValidDate(null, {
+        required: NOT_REQUIRED,
+        minDate,
+        maxDate: today,
+      })
     ).toBeTruthy();
     expect(
-      controller.isValidDate("", NOT_REQUIRED, THIS_YEAR_MAX)
+      controller.isValidDate("", {
+        required: NOT_REQUIRED,
+        minDate,
+        maxDate: today,
+      })
     ).toBeTruthy();
 
     // Mauvais format
     expect(
-      controller.isValidDate("undefined", NOT_REQUIRED, THIS_YEAR_MAX)
+      controller.isValidDate("undefined", {
+        required: NOT_REQUIRED,
+        minDate,
+        maxDate: today,
+      })
     ).toBeFalsy();
     expect(
-      controller.isValidDate("2019-12-10", REQUIRED, THIS_YEAR_MAX)
+      controller.isValidDate("2019-12-10", {
+        required: REQUIRED,
+        minDate,
+        maxDate: today,
+      })
     ).toBeFalsy();
     expect(
-      controller.isValidDate("1/00/1900", REQUIRED, THIS_YEAR_MAX)
+      controller.isValidDate("1/00/1900", {
+        required: REQUIRED,
+        minDate,
+        maxDate: today,
+      })
     ).toBeFalsy();
 
     // ANNEE MAXIMALE
     expect(
-      controller.isValidDate("20/12/2022", REQUIRED, THIS_YEAR_MAX)
+      controller.isValidDate("20/12/2022", {
+        required: REQUIRED,
+        minDate,
+        maxDate: today,
+      })
     ).toBeFalsy();
 
     // Cette année : true & true
     expect(
-      controller.isValidDate(thisYear, REQUIRED, THIS_YEAR_MAX)
+      controller.isValidDate(thisYear, {
+        required: REQUIRED,
+        minDate,
+        maxDate: today,
+      })
     ).toBeTruthy();
 
     expect(
-      controller.isValidDate(thisYear, REQUIRED, NEXT_YEAR_MAX)
+      controller.isValidDate(thisYear, {
+        required: REQUIRED,
+        minDate,
+        maxDate: nextYear,
+      })
     ).toBeTruthy();
 
     // Année prochaine :  true & true
     expect(
-      controller.isValidDate(nextYear, REQUIRED, THIS_YEAR_MAX)
+      controller.isValidDate(nextYearString, {
+        required: REQUIRED,
+        minDate,
+        maxDate: today,
+      })
     ).toBeFalsy();
 
     expect(
-      controller.isValidDate(nextYear, REQUIRED, NEXT_YEAR_MAX)
+      controller.isValidDate(nextYearString, {
+        required: REQUIRED,
+        minDate,
+        maxDate: nextYear,
+      })
     ).toBeTruthy();
 
     // Dans deux ans : false & false
     expect(
-      controller.isValidDate(nextTwoYears, REQUIRED, THIS_YEAR_MAX)
+      controller.isValidDate(nextTwoYears, {
+        required: REQUIRED,
+        minDate,
+        maxDate: today,
+      })
     ).toBeFalsy();
 
     expect(
-      controller.isValidDate(nextTwoYears, REQUIRED, NEXT_YEAR_MAX)
+      controller.isValidDate(nextTwoYears, {
+        required: REQUIRED,
+        minDate,
+        maxDate: nextYear,
+      })
     ).toBeFalsy();
   });
 
