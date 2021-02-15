@@ -12,27 +12,56 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { diskStorage } from "multer";
-
 import * as fs from "fs";
+import { diskStorage } from "multer";
 import * as path from "path";
 import * as XLSX from "xlsx";
-
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerDecisionStatut, UsagerPG, UsagerTable } from "../../database";
 import { UsagerDecisionMotif } from "../../database/entities/usager/UsagerDecisionMotif.type";
 import { StructuresService } from "../../structures/services/structures.service";
+import { appLogger } from "../../util";
 import { ExpressResponse } from "../../util/express";
 import { randomName, validateUpload } from "../../util/FileManager";
-import { AppAuthUser } from "../../_common/model";
-import { Entretien } from "../interfaces/entretien";
-import { UsagersService } from "../services/usagers.service";
-
-import moment = require("moment");
-import { appLogger } from "../../util";
+import { ALLOWED_MOTIF_VALUES } from "../../_common/import/ALLOWED_MOTIF_VALUES.const";
 import { COLUMNS_HEADERS } from "../../_common/import/COLUMNS_HEADERS.const";
-
+import {
+  ACCOMPAGNEMENT,
+  ACCOMPAGNEMENT_DETAILS,
+  AYANT_DROIT,
+  CAUSE_DETAILS,
+  CAUSE_INSTABILITE,
+  CIVILITE,
+  COMMENTAIRES,
+  COMPOSITION_MENAGE,
+  CUSTOM_ID,
+  DATE_DEBUT_DOM,
+  DATE_DERNIER_PASSAGE,
+  DATE_FIN_DOM,
+  DATE_NAISSANCE,
+  DATE_PREMIERE_DOM,
+  DOMICILIATION_EXISTANTE,
+  EMAIL,
+  LIEN_COMMUNE,
+  LIEU_NAISSANCE,
+  MOTIF_RADIATION,
+  MOTIF_REFUS,
+  NOM,
+  ORIENTATION,
+  ORIENTATION_DETAILS,
+  PHONE,
+  PRENOM,
+  RAISON_DEMANDE,
+  RAISON_DEMANDE_DETAILS,
+  REVENUS,
+  REVENUS_DETAILS,
+  SITUATION_DETAILS,
+  SITUATION_RESIDENTIELLE,
+  STATUT_DOM,
+  SURNOM,
+  TYPE_DOM,
+} from "../../_common/import/COLUMNS_INDEX.const";
 import {
   isValidEmail,
   isValidPhone,
@@ -40,44 +69,11 @@ import {
   notEmpty,
   regexp,
 } from "../../_common/import/import.validators";
-import { ALLOWED_MOTIF_VALUES } from "../../_common/import/ALLOWED_MOTIF_VALUES.const";
+import { AppAuthUser } from "../../_common/model";
+import { Entretien } from "../interfaces/entretien";
+import { UsagersService } from "../services/usagers.service";
 
-import {
-  CUSTOM_ID,
-  CIVILITE,
-  NOM,
-  PRENOM,
-  SURNOM,
-  DATE_NAISSANCE,
-  LIEU_NAISSANCE,
-  PHONE,
-  EMAIL,
-  STATUT_DOM,
-  MOTIF_REFUS,
-  MOTIF_RADIATION,
-  TYPE_DOM,
-  DATE_DEBUT_DOM,
-  DATE_FIN_DOM,
-  DATE_PREMIERE_DOM,
-  DATE_DERNIER_PASSAGE,
-  ORIENTATION,
-  ORIENTATION_DETAILS,
-  DOMICILIATION_EXISTANTE,
-  REVENUS,
-  REVENUS_DETAILS,
-  LIEN_COMMUNE,
-  COMPOSITION_MENAGE,
-  SITUATION_RESIDENTIELLE,
-  SITUATION_DETAILS,
-  CAUSE_INSTABILITE,
-  CAUSE_DETAILS,
-  RAISON_DEMANDE,
-  RAISON_DEMANDE_DETAILS,
-  ACCOMPAGNEMENT,
-  ACCOMPAGNEMENT_DETAILS,
-  COMMENTAIRES,
-  AYANT_DROIT,
-} from "../../_common/import/COLUMNS_INDEX.const";
+import moment = require("moment");
 
 type AOA = any[][];
 
@@ -91,9 +87,46 @@ export class ImportController {
   public rowNumber: number;
   public datas: AOA = [[], []];
 
-  public today: Date;
-  public nextYear: Date;
-  public minDate: Date;
+  public CUSTOM_ID = 0;
+  public CIVILITE = 1;
+  public NOM = 2;
+  public PRENOM = 3;
+  public SURNOM = 4;
+  public DATE_NAISSANCE = 5;
+  public LIEU_NAISSANCE = 6;
+  public PHONE = 7;
+  public EMAIL = 8;
+  public STATUT_DOM = 9;
+  public MOTIF_REFUS = 10;
+  public MOTIF_RADIATION = 11;
+  public TYPE_DOM = 12;
+  public DATE_DEBUT_DOM = 13;
+  public DATE_FIN_DOM = 14;
+  public DATE_PREMIERE_DOM = 15;
+  public DATE_DERNIER_PASSAGE = 16;
+
+  public ORIENTATION = 17;
+  public ORIENTATION_DETAILS = 18;
+  public DOMICILIATION_EXISTANTE = 19;
+  public REVENUS = 20;
+  public REVENUS_DETAILS = 21;
+  public LIEN_COMMUNE = 22;
+
+  public COMPOSITION_MENAGE = 23;
+  public SITUATION_RESIDENTIELLE = 24;
+  public SITUATION_DETAILS = 25;
+
+  public CAUSE_INSTABILITE = 26;
+  public CAUSE_DETAILS = 27;
+
+  public RAISON_DEMANDE = 28;
+  public RAISON_DEMANDE_DETAILS = 29;
+
+  public ACCOMPAGNEMENT = 30;
+  public ACCOMPAGNEMENT_DETAILS = 31;
+  public COMMENTAIRES = 32;
+
+  public AYANT_DROIT = [33, 37, 41, 45, 49, 53, 57, 61, 65];
 
   private readonly logger = new Logger(ImportController.name);
 
@@ -101,10 +134,6 @@ export class ImportController {
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
   ) {
-    this.today = moment().endOf("day").toDate();
-    this.nextYear = moment().add(1, "year").endOf("day").toDate();
-    this.minDate = moment("01/01/1900", "DD/MM/YYYY").endOf("day").toDate();
-
     this.errorsId = [];
     this.rowNumber = 0;
     this.datas = [[], []];
@@ -145,6 +174,13 @@ export class ImportController {
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: AppAuthUser
   ) {
+    const today = moment.utc().endOf("day").toDate();
+    const nextYear = moment.utc().add(1, "year").endOf("day").toDate();
+    const minDate = moment
+      .utc("01/01/1900", "DD/MM/YYYY")
+      .endOf("day")
+      .toDate();
+
     const dir = path.resolve(__dirname, "../../imports/");
     const fileName = file.filename;
     const filePath = dir + "/" + fileName;
@@ -190,7 +226,11 @@ export class ImportController {
         this.countErrors(notEmpty(row[PRENOM]), rowIndex, PRENOM);
 
         this.countErrors(
-          this.isValidDate(row[DATE_NAISSANCE], true, false),
+          this.isValidDate(row[this.DATE_NAISSANCE], {
+            required: true,
+            minDate,
+            maxDate: today,
+          }),
           rowIndex,
           DATE_NAISSANCE
         );
@@ -218,7 +258,11 @@ export class ImportController {
         );
 
         this.countErrors(
-          this.isValidDate(row[DATE_PREMIERE_DOM], false, false),
+          this.isValidDate(row[this.DATE_PREMIERE_DOM], {
+            required: false,
+            minDate,
+            maxDate: today,
+          }),
           rowIndex,
           DATE_PREMIERE_DOM
         );
@@ -228,20 +272,31 @@ export class ImportController {
           row[STATUT_DOM] !== "REFUS" && row[STATUT_DOM] !== "RADIE";
 
         this.countErrors(
-          this.isValidDate(row[DATE_DEBUT_DOM], dateIsRequired, false),
+          this.isValidDate(row[this.DATE_DEBUT_DOM], {
+            required: dateIsRequired,
+            minDate,
+            maxDate: today,
+          }),
           rowIndex,
           DATE_DEBUT_DOM
         );
 
         this.countErrors(
-          this.isValidDate(row[DATE_FIN_DOM], dateIsRequired, true),
+          this.isValidDate(row[this.DATE_FIN_DOM], {
+            required: dateIsRequired,
+            minDate,
+            maxDate: nextYear,
+          }),
           rowIndex,
           DATE_FIN_DOM
         );
-        const dateDernierPassage = row[DATE_DERNIER_PASSAGE];
 
         this.countErrors(
-          this.isValidDate(row[DATE_DERNIER_PASSAGE], dateIsRequired, false),
+          this.isValidDate(row[this.DATE_DERNIER_PASSAGE], {
+            required: dateIsRequired,
+            minDate,
+            maxDate: today,
+          }),
           rowIndex,
           DATE_DERNIER_PASSAGE
         );
@@ -322,7 +377,11 @@ export class ImportController {
             );
 
             this.countErrors(
-              this.isValidDate(dateNaissance, true, false),
+              this.isValidDate(dateNaissance, {
+                required: true,
+                minDate,
+                maxDate: today,
+              }),
               this.rowNumber,
               indexAyantDroit + 2
             );
@@ -646,8 +705,15 @@ export class ImportController {
   // Vérification des différents champs Date
   public isValidDate(
     date: string,
-    required: boolean,
-    futureDate: boolean
+    {
+      required,
+      minDate,
+      maxDate,
+    }: {
+      required: boolean;
+      minDate: Date;
+      maxDate: Date;
+    }
   ): boolean {
     if (!notEmpty(date)) {
       return !required;
@@ -658,14 +724,7 @@ export class ImportController {
       if (momentDate.isValid()) {
         const dateToCheck = momentDate.startOf("day").toDate();
 
-        const maxDate = futureDate
-          ? // S'il s'agit d'une date dans le futur, on compare à N+1
-            this.nextYear
-          : this.today;
-
-        const isValidDate =
-          dateToCheck >= this.minDate && dateToCheck <= maxDate;
-
+        const isValidDate = dateToCheck >= minDate && dateToCheck <= maxDate;
         if (!isValidDate) {
           appLogger.warn(`Invalid date`, {
             sentryBreadcrumb: true,
