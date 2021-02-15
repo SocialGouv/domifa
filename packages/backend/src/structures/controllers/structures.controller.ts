@@ -249,7 +249,7 @@ export class StructuresController {
   ) {
     const structure = await structureLightRepository.findOne({
       token,
-      _id: id,
+      id: parseInt(id),
     });
     if (!structure) {
       throw new HttpException(

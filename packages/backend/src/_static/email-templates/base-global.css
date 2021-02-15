@@ -43,3 +43,25 @@ p {
     width: auto !important;
   }
 }
+.btn-main {
+  display: inline-block;
+  background: #3e61ff;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 120%;
+  margin: 0;
+  text-decoration: none;
+  text-transform: none;
+  padding: 10px 25px 10px 25px;
+  border-radius: 203px;
+}
+
+.btn-main-title {
+  font-size: 16px;
+  text-align: center;
+  background-color: rgb(62, 97, 255);
+  color: rgb(255, 255, 255);
+  font-family: Arial, serif;
+}

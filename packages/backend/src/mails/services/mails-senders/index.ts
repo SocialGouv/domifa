@@ -5,4 +5,5 @@ export * from "./domifa-mails.service";
 export * from "./structures-mails.service";
 export * from "./usagerAppointmentCreatedEmailSender.service";
 export * from "./usagers-mails.service";
+export * from "./userResetPasswordEmailSender.service";
 export * from "./users-mails.service";

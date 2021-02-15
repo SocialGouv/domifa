@@ -1,0 +1,48 @@
+{% extends "./base.nunjucks" %}
+{% block head_custom %}
+     <link rel="stylesheet" href="./usager-appointment-created/html.css">
+{% endblock %}
+
+{% block content %}
+
+     <div class="content text-center leading-normal">
+          <div class="my-3">
+               Bonjour {{ prenom }}
+          </div>
+
+          <div class="my-3">
+               Vous avez demandé la réinitialisation de votre mot de passe.
+               <br /> Si vous n’avez pas demandé ce changement, merci d’ignorer cet e-mail. 
+          </div>
+
+          <div class="my-3">
+               Cliquez sur le bouton ci-dessous pour créer un nouveau mot de passe. 
+          </div>
+
+           <div class="mt-4 mb-8">
+               <a href="{{ lien }}" target="_blank" rel="noopener noreferrer" class="btn-main">
+               <span class="btn-main-title font-bold">Créer un nouveau mot de passe</span></a>
+          </div>
+
+          <div class="my-3">
+               Vous pouvez également copier-coller le lien ci-dessous dans votre navigateur :
+          </div>
+
+          <div class="mt-3 mb-6 font-bold">
+               {{ lien }}
+          </div>
+
+          <div class="my-3">
+               <span class="font-bold">Veuillez noter que passé un délai de 48H, le lien ne fonctionnera plus</span> et vous devrez demander un nouveau mail de réinitialisation de mot de passe. 
+          </div>
+
+          <div class="my-3">
+               Si vous n’avez pas demandé ce changement, merci d’ignorer cet e-mail.
+          </div>
+
+          <div class="my-3">
+               Cordialement
+          </div>
+     </div>
+
+{% endblock %}
