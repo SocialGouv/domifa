@@ -137,17 +137,17 @@ export class StatsController {
       `[StatsController] exportData (${JSON.stringify(stats, undefined, 2)})`
     );
 
-    let start = moment(new Date(stats.createdAt)).format("DD/MM/yyyy");
+    let start = moment(stats.createdAt).format("DD/MM/yyyy");
     let dateDatas = "  01/01/2020 au " + start;
 
     if (statsDto) {
-      start = moment(new Date(statsDto.start)).format("DD/MM/yyyy");
+      start = moment(statsDto.start).format("DD/MM/yyyy");
       dateDatas = " du 01/01/2020 au " + start;
 
       if (statsDto.end) {
-        const end = moment(new Date(statsDto.end)).format("DD/MM/yyyy");
+        const end = moment(statsDto.end).format("DD/MM/yyyy");
         dateDatas = " du " + start + " au " + end;
-        start = moment(new Date(statsDto.end)).format("DD/MM/yyyy");
+        start = moment(statsDto.end).format("DD/MM/yyyy");
       }
     }
 

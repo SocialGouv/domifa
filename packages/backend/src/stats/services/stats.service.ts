@@ -90,7 +90,7 @@ export class StatsService {
 
     // Si date du jour
     const endDateDay = moment(endDate).format("YYYY-MM-DD");
-    const today = moment(new Date()).format("YYYY-MM-DD");
+    const today = moment().format("YYYY-MM-DD");
 
     if (today === endDateDay) {
       endDate = moment(endDate).add(1, "day").toDate();

@@ -1,6 +1,7 @@
+import * as moment from "moment";
+
 import { Inject, Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-import * as moment from "moment";
 import { Model } from "mongoose";
 import { LessThanOrEqual, Repository } from "typeorm";
 import { domifaConfig } from "../../config";
@@ -35,14 +36,12 @@ export class StatsGeneratorService {
     private usagerModel: Model<Usager>,
     private structureService: StructuresService
   ) {
-    this.endOfStatDate = moment().utc().endOf("day").toDate();
-
-    this.dateMajorite = moment().subtract(18, "year").endOf("day").toDate();
+    this.endOfStatDate = moment.utc().endOf("day").toDate();
+    this.dateMajorite = moment.utc().subtract(18, "year").endOf("day").toDate();
 
     this.structureStatsRepository = appTypeormManager.getRepository(
       StructureStatsTable
     );
-
     this.interactionRepository = appTypeormManager.getRepository(
       InteractionsTable
     );
@@ -67,7 +66,7 @@ export class StatsGeneratorService {
         trigger,
       },
       async ({ monitorTotal, monitorSuccess, monitorError }) => {
-        const today = moment().utc().subtract(1, "day").endOf("day").toDate();
+        const today = moment.utc().subtract(1, "day").endOf("day").toDate();
         const structures = await this._findStructuresToGenerateStats({ today });
         appLogger.debug(
           `[StatsGeneratorService] ${structures.length} structures to process :`
@@ -119,12 +118,11 @@ export class StatsGeneratorService {
   public async generateStructureStats(
     today: Date,
     structure: StructurePublic,
-
     generated: boolean
   ): Promise<any> {
     const stat = await this.buildStats(today, structure, generated);
 
-    const dateExport = moment()
+    const dateExport = moment
       .utc()
       .startOf("day")
       .set("hour", 11)
@@ -196,10 +194,7 @@ export class StatsGeneratorService {
       })
       .exec();
 
-    if (!response || response === null) {
-      return 0;
-    }
-    return response;
+    return !response || response === null ? 0 : response;
   }
 
   public async totalParStatutActifs(
@@ -459,12 +454,20 @@ export class StatsGeneratorService {
     structure: StructurePublic,
     generated: boolean
   ) {
-    const endOfDay = moment(date).endOf("day").subtract(1, "minute").toDate();
+    this.endOfStatDate = moment
+      .utc(date)
+      .endOf("day")
+      .subtract(1, "minute")
+      .toDate();
 
-    this.dateMajorite = moment(date).subtract(18, "year").endOf("day").toDate();
+    this.dateMajorite = moment
+      .utc(date)
+      .subtract(18, "year")
+      .endOf("day")
+      .toDate();
 
     const stat = new StructureStatsTable({
-      date: endOfDay,
+      date: this.endOfStatDate,
       questions: {
         Q_10: 0,
         Q_10_A: 0,
