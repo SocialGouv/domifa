@@ -42,11 +42,7 @@ type AOA = any[][];
 @ApiBearerAuth()
 @Controller("import")
 export class ImportController {
-  public errorsId: any[];
-
   public colNames: string[];
-  public rowNumber: number;
-  public datas: AOA = [[], []];
 
   public CUSTOM_ID = 0;
   public CIVILITE = 1;
@@ -95,10 +91,6 @@ export class ImportController {
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
   ) {
-    this.errorsId = [];
-    this.rowNumber = 0;
-    this.datas = [[], []];
-
     this.colNames = [
       "Numéro d'identification",
       "Civilité",
@@ -203,41 +195,53 @@ export class ImportController {
       type: "buffer",
     });
 
+    const errorsId: {
+      rowId: string;
+      columnId: number;
+      value: any;
+      label: string;
+    }[] = [];
+    let rowNumber = 0;
+
     if (!buffer) {
       return false;
     } else {
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      this.datas = XLSX.utils.sheet_to_json(ws, {
+      const datas: AOA = XLSX.utils.sheet_to_json(ws, {
         blankrows: false,
         dateNF: "dd/mm/yyyy",
         header: 1,
         raw: false,
       }) as AOA;
 
-      for (
-        let rowIndex = 1, len = this.datas.length;
-        rowIndex < len;
-        rowIndex++
-      ) {
+      for (let rowIndex = 1, len = datas.length; rowIndex < len; rowIndex++) {
         // Ligne
-        this.rowNumber = rowIndex;
-        const row = this.datas[rowIndex];
+        rowNumber = rowIndex;
+        const row = datas[rowIndex];
 
         // Check le sexe
         const sexeCheck =
           row[this.CIVILITE].toUpperCase() === "H" ||
           row[this.CIVILITE].toUpperCase() === "F";
 
-        this.countErrors(sexeCheck, rowIndex, this.CIVILITE);
+        this.countErrors(sexeCheck, rowIndex, this.CIVILITE, datas, errorsId);
 
-        this.countErrors(this.notEmpty(row[this.NOM]), rowIndex, this.NOM);
+        this.countErrors(
+          this.notEmpty(row[this.NOM]),
+          rowIndex,
+          this.NOM,
+          datas,
+          errorsId
+        );
 
         this.countErrors(
           this.notEmpty(row[this.PRENOM]),
           rowIndex,
-          this.PRENOM
+          this.PRENOM,
+          datas,
+          errorsId
         );
 
         this.countErrors(
@@ -247,37 +251,49 @@ export class ImportController {
             maxDate: today,
           }),
           rowIndex,
-          this.DATE_NAISSANCE
+          this.DATE_NAISSANCE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.notEmpty(row[this.LIEU_NAISSANCE]),
           rowIndex,
-          this.LIEU_NAISSANCE
+          this.LIEU_NAISSANCE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidEmail(row[this.EMAIL]),
           rowIndex,
-          this.EMAIL
+          this.EMAIL,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidPhone(row[this.PHONE]),
           rowIndex,
-          this.PHONE
+          this.PHONE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.STATUT_DOM], "statut", true),
           rowIndex,
-          this.STATUT_DOM
+          this.STATUT_DOM,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.TYPE_DOM], "demande", true),
           rowIndex,
-          this.TYPE_DOM
+          this.TYPE_DOM,
+          datas,
+          errorsId
         );
 
         this.countErrors(
@@ -287,7 +303,9 @@ export class ImportController {
             maxDate: today,
           }),
           rowIndex,
-          this.DATE_PREMIERE_DOM
+          this.DATE_PREMIERE_DOM,
+          datas,
+          errorsId
         );
 
         // SI Refus & Radié, on ne tient pas compte des dates suivantes : date de début, date de fin, date de dernier passage
@@ -301,7 +319,9 @@ export class ImportController {
             maxDate: today,
           }),
           rowIndex,
-          this.DATE_DEBUT_DOM
+          this.DATE_DEBUT_DOM,
+          datas,
+          errorsId
         );
 
         this.countErrors(
@@ -311,7 +331,9 @@ export class ImportController {
             maxDate: nextYear,
           }),
           rowIndex,
-          this.DATE_FIN_DOM
+          this.DATE_FIN_DOM,
+          datas,
+          errorsId
         );
 
         this.countErrors(
@@ -321,67 +343,89 @@ export class ImportController {
             maxDate: today,
           }),
           rowIndex,
-          this.DATE_DERNIER_PASSAGE
+          this.DATE_DERNIER_PASSAGE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.MOTIF_REFUS], "motifRefus"),
           rowIndex,
-          this.MOTIF_REFUS
+          this.MOTIF_REFUS,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.MOTIF_RADIATION], "motifRadiation"),
           rowIndex,
-          this.MOTIF_RADIATION
+          this.MOTIF_RADIATION,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.COMPOSITION_MENAGE], "menage"),
           rowIndex,
-          this.COMPOSITION_MENAGE
+          this.COMPOSITION_MENAGE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.RAISON_DEMANDE], "raison"),
           rowIndex,
-          this.RAISON_DEMANDE
+          this.RAISON_DEMANDE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.CAUSE_INSTABILITE], "cause"),
           rowIndex,
-          this.CAUSE_INSTABILITE
+          this.CAUSE_INSTABILITE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.SITUATION_RESIDENTIELLE], "residence"),
           rowIndex,
-          this.SITUATION_RESIDENTIELLE
+          this.SITUATION_RESIDENTIELLE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.ORIENTATION], "choix"),
           rowIndex,
-          this.ORIENTATION
+          this.ORIENTATION,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.DOMICILIATION_EXISTANTE], "choix"),
           rowIndex,
-          this.DOMICILIATION_EXISTANTE
+          this.DOMICILIATION_EXISTANTE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.REVENUS], "choix"),
           rowIndex,
-          this.REVENUS
+          this.REVENUS,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           this.isValidValue(row[this.ACCOMPAGNEMENT], "choix"),
           rowIndex,
-          this.ACCOMPAGNEMENT
+          this.ACCOMPAGNEMENT,
+          datas,
+          errorsId
         );
 
         for (const indexAyantDroit of this.AYANT_DROIT) {
@@ -393,14 +437,18 @@ export class ImportController {
           if (nom && prenom && dateNaissance && lienParente) {
             this.countErrors(
               this.notEmpty(nom),
-              this.rowNumber,
-              indexAyantDroit
+              rowNumber,
+              indexAyantDroit,
+              datas,
+              errorsId
             );
 
             this.countErrors(
               this.notEmpty(prenom),
-              this.rowNumber,
-              indexAyantDroit + 1
+              rowNumber,
+              indexAyantDroit + 1,
+              datas,
+              errorsId
             );
 
             this.countErrors(
@@ -409,28 +457,35 @@ export class ImportController {
                 minDate,
                 maxDate: today,
               }),
-              this.rowNumber,
-              indexAyantDroit + 2
+              rowNumber,
+              indexAyantDroit + 2,
+              datas,
+              errorsId
             );
 
             this.countErrors(
               this.isValidValue(lienParente, "lienParente", true),
-              this.rowNumber,
-              indexAyantDroit + 3
+              rowNumber,
+              indexAyantDroit + 3,
+              datas,
+              errorsId
             );
           }
         }
 
-        if (rowIndex + 1 >= this.datas.length) {
-          if (this.errorsId.length > 0) {
+        if (rowIndex + 1 >= datas.length) {
+          if (errorsId.length > 0) {
             const error = {
-              ids: JSON.stringify(this.errorsId),
+              ids: JSON.stringify(errorsId),
               message: "IMPORT_ERRORS_BACKEND",
             };
 
             appLogger.error(`Import error for structure ${structureId}`, {
               sentry: true,
-              extra: importContext,
+              extra: {
+                ...importContext,
+                errorsId: errorsId,
+              },
             });
 
             throw new HttpException(error, HttpStatus.BAD_REQUEST);
@@ -445,7 +500,7 @@ export class ImportController {
             );
           }
 
-          if (await this.saveDatas(this.datas, user)) {
+          if (await this.saveDatas(datas, user)) {
             this.structureService.importSuccess(user.structureId);
             return res.status(HttpStatus.OK).json({ success: true });
           } else {
@@ -714,12 +769,19 @@ export class ImportController {
   private countErrors(
     variable: boolean,
     idRow: number,
-    idColumn: number
+    idColumn: number,
+    datas: AOA,
+    errorsId: {
+      rowId: string;
+      columnId: number;
+      value: any;
+      label: string;
+    }[]
   ): void {
     const position = {
       rowId: idRow.toString(),
       columnId: idColumn,
-      value: this.datas[idRow][idColumn],
+      value: datas[idRow][idColumn],
       label: this.colNames[idColumn],
     };
 
@@ -728,7 +790,7 @@ export class ImportController {
         context: JSON.stringify(position),
         sentryBreadcrumb: true,
       });
-      this.errorsId.push(position);
+      errorsId.push(position);
     }
   }
 
@@ -778,13 +840,33 @@ export class ImportController {
   }
 
   private isValidPhone(phone: string): boolean {
-    return !this.notEmpty(phone)
+    const isValid = !this.notEmpty(phone)
       ? true
       : RegExp(regexp.phone).test(phone.replace(/\D/g, ""));
+    if (!isValid) {
+      appLogger.warn(`Invalid phone`, {
+        sentryBreadcrumb: true,
+        extra: {
+          phone,
+        },
+      });
+    }
+    return isValid;
   }
 
   private isValidEmail(email: string): boolean {
-    return !this.notEmpty(email) ? true : RegExp(regexp.email).test(email);
+    const isValid = !this.notEmpty(email)
+      ? true
+      : RegExp(regexp.email).test(email);
+    if (!isValid) {
+      appLogger.warn(`Invalid email`, {
+        sentryBreadcrumb: true,
+        extra: {
+          email,
+        },
+      });
+    }
+    return isValid;
   }
 
   private isValidValue(
@@ -840,6 +922,17 @@ export class ImportController {
       choix: ["OUI", "NON"],
     };
 
-    return types[rowName].indexOf(data.toUpperCase()) > -1;
+    const isValid = types[rowName].indexOf(data.toUpperCase()) > -1;
+    if (!isValid) {
+      appLogger.warn(`Invalid value`, {
+        sentryBreadcrumb: true,
+        extra: {
+          data,
+          rowName,
+          required,
+        },
+      });
+    }
+    return isValid;
   }
 }
