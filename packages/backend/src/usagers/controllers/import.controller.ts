@@ -25,7 +25,6 @@ import { appLogger } from "../../util";
 import { ExpressResponse } from "../../util/express";
 import { randomName, validateUpload } from "../../util/FileManager";
 import { ALLOWED_MOTIF_VALUES } from "../../_common/import/ALLOWED_MOTIF_VALUES.const";
-import { COLUMNS_HEADERS } from "../../_common/import/COLUMNS_HEADERS.const";
 import {
   ACCOMPAGNEMENT,
   ACCOMPAGNEMENT_DETAILS,
@@ -63,11 +62,11 @@ import {
   TYPE_DOM,
 } from "../../_common/import/COLUMNS_INDEX.const";
 import {
+  isValidDate,
   isValidEmail,
   isValidPhone,
   isValidValue,
   notEmpty,
-  regexp,
 } from "../../_common/import/import.validators";
 import { AppAuthUser } from "../../_common/model";
 import { Entretien } from "../interfaces/entretien";
@@ -82,51 +81,7 @@ type AOA = any[][];
 @ApiBearerAuth()
 @Controller("import")
 export class ImportController {
-  public errorsId: any[];
-  public columnsHeaders: string[];
-  public rowNumber: number;
-  public datas: AOA = [[], []];
-
-  public CUSTOM_ID = 0;
-  public CIVILITE = 1;
-  public NOM = 2;
-  public PRENOM = 3;
-  public SURNOM = 4;
-  public DATE_NAISSANCE = 5;
-  public LIEU_NAISSANCE = 6;
-  public PHONE = 7;
-  public EMAIL = 8;
-  public STATUT_DOM = 9;
-  public MOTIF_REFUS = 10;
-  public MOTIF_RADIATION = 11;
-  public TYPE_DOM = 12;
-  public DATE_DEBUT_DOM = 13;
-  public DATE_FIN_DOM = 14;
-  public DATE_PREMIERE_DOM = 15;
-  public DATE_DERNIER_PASSAGE = 16;
-
-  public ORIENTATION = 17;
-  public ORIENTATION_DETAILS = 18;
-  public DOMICILIATION_EXISTANTE = 19;
-  public REVENUS = 20;
-  public REVENUS_DETAILS = 21;
-  public LIEN_COMMUNE = 22;
-
-  public COMPOSITION_MENAGE = 23;
-  public SITUATION_RESIDENTIELLE = 24;
-  public SITUATION_DETAILS = 25;
-
-  public CAUSE_INSTABILITE = 26;
-  public CAUSE_DETAILS = 27;
-
-  public RAISON_DEMANDE = 28;
-  public RAISON_DEMANDE_DETAILS = 29;
-
-  public ACCOMPAGNEMENT = 30;
-  public ACCOMPAGNEMENT_DETAILS = 31;
-  public COMMENTAIRES = 32;
-
-  public AYANT_DROIT = [33, 37, 41, 45, 49, 53, 57, 61, 65];
+  public colNames: string[];
 
   private readonly logger = new Logger(ImportController.name);
 
@@ -134,11 +89,57 @@ export class ImportController {
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
   ) {
-    this.errorsId = [];
-    this.rowNumber = 0;
-    this.datas = [[], []];
-
-    this.columnsHeaders = COLUMNS_HEADERS;
+    this.colNames = [
+      "Numéro d'identification",
+      "Civilité",
+      "Nom",
+      "Prénom",
+      "Nom d'usage / Surnom",
+      "Date naissance",
+      "Lieu naissance",
+      "Téléphone",
+      "Email",
+      "Statut domiciliation",
+      "Motif de refus",
+      "Motif de radiation",
+      "Type de domiciliation",
+      "Date de Début de la domiciliation",
+      "Date de fin de la domiciliation",
+      "Date 1ere domiciliation",
+      "Date de dernier passage",
+      "Orientation",
+      "Détails de l'orientation",
+      "La personne a t-elle déjà une domiciliation ?",
+      "Le domicilié possède t-il des revenus ?",
+      "Seulement si revenus, de quelle nature ?",
+      "Lien avec la commune",
+      "Composition du ménage",
+      "Situation résidentielle",
+      "Si autre situation résidentielle, précisez",
+      "Cause instabilité logement",
+      "Si autre cause, précisez",
+      "Motif principal de la demande",
+      "Si autre motif, précisez",
+      "Accompagnement social",
+      "Par quelle structure est fait l'accompagnement ?",
+      "Commentaires",
+      "Ayant-droit 1: nom",
+      "Ayant-droit 1: prénom",
+      "Ayant-droit 1: date naissance",
+      "Ayant-droit 1: lien parenté",
+      "Ayant-droit 2: nom",
+      "Ayant-droit 2: prénom",
+      "Ayant-droit 2: date naissance",
+      "Ayant-droit 2: lien parenté",
+      "Ayant-droit 3: nom",
+      "Ayant-droit 3: prénom",
+      "Ayant-droit 3: date naissance",
+      "Ayant-droit 3: lien parenté",
+      "Ayant-droit 4: nom",
+      "Ayant-droit 4: prénom",
+      "Ayant-droit 4: date de naissance",
+      "Ayant-droit 4: lien parenté",
+    ];
   }
 
   @Post()
@@ -192,79 +193,111 @@ export class ImportController {
       type: "buffer",
     });
 
+    const errorsId: {
+      rowId: string;
+      columnId: number;
+      value: any;
+      label: string;
+    }[] = [];
+    let rowNumber = 0;
+
     if (!buffer) {
       return false;
     } else {
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      this.datas = XLSX.utils.sheet_to_json(ws, {
+      const datas: AOA = XLSX.utils.sheet_to_json(ws, {
         blankrows: false,
         dateNF: "dd/mm/yyyy",
         header: 1,
         raw: false,
       }) as AOA;
 
-      for (
-        let rowIndex = 1, len = this.datas.length;
-        rowIndex < len;
-        rowIndex++
-      ) {
+      for (let rowIndex = 1, len = datas.length; rowIndex < len; rowIndex++) {
         // Ligne
-        this.rowNumber = rowIndex;
-        const row = this.datas[rowIndex];
+        rowNumber = rowIndex;
+        const row = datas[rowIndex];
 
         // Check le sexe
         const sexeCheck =
           row[CIVILITE].toUpperCase() === "H" ||
           row[CIVILITE].toUpperCase() === "F";
 
-        this.countErrors(sexeCheck, rowIndex, CIVILITE);
+        this.countErrors(sexeCheck, rowIndex, CIVILITE, datas, errorsId);
 
-        this.countErrors(notEmpty(row[NOM]), rowIndex, NOM);
-
-        this.countErrors(notEmpty(row[PRENOM]), rowIndex, PRENOM);
+        this.countErrors(notEmpty(row[NOM]), rowIndex, NOM, datas, errorsId);
 
         this.countErrors(
-          this.isValidDate(row[this.DATE_NAISSANCE], {
+          notEmpty(row[PRENOM]),
+          rowIndex,
+          PRENOM,
+          datas,
+          errorsId
+        );
+
+        this.countErrors(
+          isValidDate(row[DATE_NAISSANCE], {
             required: true,
             minDate,
             maxDate: today,
           }),
           rowIndex,
-          DATE_NAISSANCE
+          DATE_NAISSANCE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           notEmpty(row[LIEU_NAISSANCE]),
           rowIndex,
-          LIEU_NAISSANCE
+          LIEU_NAISSANCE,
+          datas,
+          errorsId
         );
 
-        this.countErrors(isValidEmail(row[EMAIL]), rowIndex, EMAIL);
+        this.countErrors(
+          isValidEmail(row[EMAIL]),
+          rowIndex,
+          EMAIL,
+          datas,
+          errorsId
+        );
 
-        this.countErrors(isValidPhone(row[PHONE]), rowIndex, PHONE);
+        this.countErrors(
+          isValidPhone(row[PHONE]),
+          rowIndex,
+          PHONE,
+          datas,
+          errorsId
+        );
 
         this.countErrors(
           isValidValue(row[STATUT_DOM], "statut", true),
           rowIndex,
-          STATUT_DOM
+          STATUT_DOM,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[TYPE_DOM], "demande", true),
           rowIndex,
-          TYPE_DOM
+          TYPE_DOM,
+          datas,
+          errorsId
         );
 
         this.countErrors(
-          this.isValidDate(row[this.DATE_PREMIERE_DOM], {
+          isValidDate(row[DATE_PREMIERE_DOM], {
             required: false,
             minDate,
             maxDate: today,
           }),
           rowIndex,
-          DATE_PREMIERE_DOM
+          DATE_PREMIERE_DOM,
+          datas,
+          errorsId
         );
 
         // SI Refus & Radié, on ne tient pas compte des dates suivantes : date de début, date de fin, date de dernier passage
@@ -272,93 +305,119 @@ export class ImportController {
           row[STATUT_DOM] !== "REFUS" && row[STATUT_DOM] !== "RADIE";
 
         this.countErrors(
-          this.isValidDate(row[this.DATE_DEBUT_DOM], {
+          isValidDate(row[DATE_DEBUT_DOM], {
             required: dateIsRequired,
             minDate,
             maxDate: today,
           }),
           rowIndex,
-          DATE_DEBUT_DOM
+          DATE_DEBUT_DOM,
+          datas,
+          errorsId
         );
 
         this.countErrors(
-          this.isValidDate(row[this.DATE_FIN_DOM], {
+          isValidDate(row[DATE_FIN_DOM], {
             required: dateIsRequired,
             minDate,
             maxDate: nextYear,
           }),
           rowIndex,
-          DATE_FIN_DOM
+          DATE_FIN_DOM,
+          datas,
+          errorsId
         );
 
         this.countErrors(
-          this.isValidDate(row[this.DATE_DERNIER_PASSAGE], {
+          isValidDate(row[DATE_DERNIER_PASSAGE], {
             required: dateIsRequired,
             minDate,
             maxDate: today,
           }),
           rowIndex,
-          DATE_DERNIER_PASSAGE
+          DATE_DERNIER_PASSAGE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[MOTIF_REFUS], "motifRefus"),
           rowIndex,
-          MOTIF_REFUS
+          MOTIF_REFUS,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[MOTIF_RADIATION], "motifRadiation"),
           rowIndex,
-          MOTIF_RADIATION
+          MOTIF_RADIATION,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[COMPOSITION_MENAGE], "menage"),
           rowIndex,
-          COMPOSITION_MENAGE
+          COMPOSITION_MENAGE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[RAISON_DEMANDE], "raison"),
           rowIndex,
-          RAISON_DEMANDE
+          RAISON_DEMANDE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[CAUSE_INSTABILITE], "cause"),
           rowIndex,
-          CAUSE_INSTABILITE
+          CAUSE_INSTABILITE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[SITUATION_RESIDENTIELLE], "residence"),
           rowIndex,
-          SITUATION_RESIDENTIELLE
+          SITUATION_RESIDENTIELLE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[ORIENTATION], "choix"),
           rowIndex,
-          ORIENTATION
+          ORIENTATION,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[DOMICILIATION_EXISTANTE], "choix"),
           rowIndex,
-          DOMICILIATION_EXISTANTE
+          DOMICILIATION_EXISTANTE,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[REVENUS], "choix"),
           rowIndex,
-          REVENUS
+          REVENUS,
+          datas,
+          errorsId
         );
 
         this.countErrors(
           isValidValue(row[ACCOMPAGNEMENT], "choix"),
           rowIndex,
-          ACCOMPAGNEMENT
+          ACCOMPAGNEMENT,
+          datas,
+          errorsId
         );
 
         for (const indexAyantDroit of AYANT_DROIT) {
@@ -368,42 +427,57 @@ export class ImportController {
           const lienParente = row[indexAyantDroit + 3];
 
           if (nom && prenom && dateNaissance && lienParente) {
-            this.countErrors(notEmpty(nom), this.rowNumber, indexAyantDroit);
-
             this.countErrors(
-              notEmpty(prenom),
-              this.rowNumber,
-              indexAyantDroit + 1
+              notEmpty(nom),
+              rowNumber,
+              indexAyantDroit,
+              datas,
+              errorsId
             );
 
             this.countErrors(
-              this.isValidDate(dateNaissance, {
+              notEmpty(prenom),
+              rowNumber,
+              indexAyantDroit + 1,
+              datas,
+              errorsId
+            );
+
+            this.countErrors(
+              isValidDate(dateNaissance, {
                 required: true,
                 minDate,
                 maxDate: today,
               }),
-              this.rowNumber,
-              indexAyantDroit + 2
+              rowNumber,
+              indexAyantDroit + 2,
+              datas,
+              errorsId
             );
 
             this.countErrors(
               isValidValue(lienParente, "lienParente", true),
-              this.rowNumber,
-              indexAyantDroit + 3
+              rowNumber,
+              indexAyantDroit + 3,
+              datas,
+              errorsId
             );
           }
         }
 
-        if (rowIndex + 1 >= this.datas.length) {
-          if (this.errorsId.length > 0) {
+        if (rowIndex + 1 >= datas.length) {
+          if (errorsId.length > 0) {
             const error = {
-              ids: JSON.stringify(this.errorsId),
+              ids: JSON.stringify(errorsId),
               message: "IMPORT_ERRORS_BACKEND",
             };
 
             appLogger.error(`Import error for structure ${structureId}`, {
               sentry: true,
-              extra: importContext,
+              extra: {
+                ...importContext,
+                errorsId: errorsId,
+              },
             });
 
             throw new HttpException(error, HttpStatus.BAD_REQUEST);
@@ -418,7 +492,7 @@ export class ImportController {
             );
           }
 
-          if (await this.saveDatas(this.datas, user)) {
+          if (await this.saveDatas(datas, user)) {
             this.structureService.importSuccess(user.structureId);
             return res.status(HttpStatus.OK).json({ success: true });
           } else {
@@ -673,11 +747,23 @@ export class ImportController {
     return momentDate;
   }
 
-  private countErrors(variable: boolean, idRow: number, idColumn: number) {
+  private countErrors(
+    variable: boolean,
+    idRow: number,
+    idColumn: number,
+    datas: AOA,
+    errorsId: {
+      rowId: string;
+      columnId: number;
+      value: any;
+      label: string;
+    }[]
+  ): void {
     const position = {
-      row: idRow.toString(),
-      column: this.columnsHeaders[idColumn],
-      value: this.datas[idRow][idColumn],
+      rowId: idRow.toString(),
+      columnId: idColumn,
+      value: datas[idRow][idColumn],
+      label: this.colNames[idColumn],
     };
 
     if (variable !== true) {
@@ -685,7 +771,7 @@ export class ImportController {
         context: JSON.stringify(position),
         sentryBreadcrumb: true,
       });
-      this.errorsId.push(position);
+      errorsId.push(position);
     }
   }
 
@@ -700,44 +786,5 @@ export class ImportController {
       return ALLOWED_MOTIF_VALUES[motifIndex];
     }
     return null;
-  }
-
-  // Vérification des différents champs Date
-  public isValidDate(
-    date: string,
-    {
-      required,
-      minDate,
-      maxDate,
-    }: {
-      required: boolean;
-      minDate: Date;
-      maxDate: Date;
-    }
-  ): boolean {
-    if (!notEmpty(date)) {
-      return !required;
-    }
-
-    if (RegExp(regexp.date).test(date)) {
-      const momentDate = moment.utc(date, "DD/MM/YYYY");
-      if (momentDate.isValid()) {
-        const dateToCheck = momentDate.startOf("day").toDate();
-
-        const isValidDate = dateToCheck >= minDate && dateToCheck <= maxDate;
-        if (!isValidDate) {
-          appLogger.warn(`Invalid date`, {
-            sentryBreadcrumb: true,
-            extra: {
-              date,
-              dateToCheck,
-              maxDate,
-            },
-          });
-        }
-        return isValidDate;
-      }
-    }
-    return false;
   }
 }
