@@ -1,0 +1,15 @@
+Bonjour {{ prenom }}
+
+Vous avez demandé la réinitialisation de votre mot de passe.
+Si vous n’avez pas demandé ce changement, merci d’ignorer cet e-mail. 
+         
+Cliquez sur le lien ci-dessous pour créer un nouveau mot de passe:
+{{ lien }}
+
+Vous pouvez également copier-coller ce lien ci-dessous dans votre navigateur.
+
+Veuillez noter que passé un délai de 48H, le lien ne fonctionnera plus et vous devrez demander un nouveau mail de réinitialisation de mot de passe. 
+        
+Si vous n’avez pas demandé ce changement, merci d’ignorer cet e-mail.
+
+Cordialement

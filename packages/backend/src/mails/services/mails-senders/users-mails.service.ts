@@ -153,46 +153,4 @@ export class UsersMailsService {
       initialScheduledDate: new Date(),
     });
   }
-
-  //
-  // Mail avec le lien pour réinitialiser son mot de passe
-  //
-  public async newPassword(user: AppUserForAdminEmailWithTempTokens) {
-    const frontendUrl = domifaConfig().apps.frontendUrl;
-    const confirmationLink =
-      frontendUrl + "reset-password/" + user.temporaryTokens.password;
-    const message: MessageEmailTipimailContent = {
-      subject: "Demande d'un nouveau mot de passe",
-      tipimailTemplateId: "users-nouveau-mot-de-passe",
-      tipimailModels: [
-        {
-          email: user.email,
-          subject: "Demande d'un nouveau mot de passe",
-          values: {
-            lien: confirmationLink,
-            prenom: user.prenom,
-          },
-        },
-      ],
-      to: [
-        {
-          address: user.email,
-          personalName: user.nom + " " + user.prenom,
-        },
-      ],
-      from: {
-        personalName: "Domifa",
-        address: this.domifaFromMail,
-      },
-      replyTo: {
-        personalName: "Domifa",
-        address: this.domifaAdminMail,
-      },
-    };
-
-    return messageEmailSender.sendTipimailContentMessageLater(message, {
-      emailId: "user-reset-password",
-      initialScheduledDate: new Date(),
-    });
-  }
 }

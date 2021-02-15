@@ -15,7 +15,6 @@ describe("usagerAppointmentCreatedEmailRenderer", () => {
       heure: "14:20",
       message: "Petit commentaire concernant le RV.",
     });
-    // be sure the count is ok
     expect(subject).toEqual(
       `[DOMIFA] Prise de rendez-vous entre le demandeur et un collaborateur`
     );
