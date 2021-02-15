@@ -330,7 +330,7 @@ export class ImportController {
 
         this.countErrors(
           isValidDate(row[DATE_DERNIER_PASSAGE], {
-            required: dateIsRequired,
+            required: false,
             minDate,
             maxDate: today,
           }),

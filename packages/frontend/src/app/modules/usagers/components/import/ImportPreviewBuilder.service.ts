@@ -95,11 +95,24 @@ export class ImportPreviewBuilder {
             }
             break;
           case COL.DATE_DEBUT_DOM:
-          case COL.DATE_DERNIER_PASSAGE:
             if (
               !this.isValidDate({
                 date: value,
                 required: dateIsRequired,
+                futureDate: false,
+                today,
+                nextYear,
+                minDate,
+              })
+            ) {
+              isValidColumn = false;
+            }
+            break;
+          case COL.DATE_DERNIER_PASSAGE:
+            if (
+              !this.isValidDate({
+                date: value,
+                required: false,
                 futureDate: false,
                 today,
                 nextYear,
@@ -263,6 +276,7 @@ export class ImportPreviewBuilder {
     today,
     nextYear,
     minDate,
+    debug,
   }: {
     date: string;
     required: boolean;
@@ -270,6 +284,7 @@ export class ImportPreviewBuilder {
     today: Date;
     nextYear: Date;
     minDate: Date;
+    debug?: boolean;
   }): boolean {
     // Vérification des différents champs Date
     if (!this.isNotEmpty(date)) {

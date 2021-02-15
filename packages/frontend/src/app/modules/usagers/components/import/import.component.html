@@ -202,7 +202,7 @@
             <td>
               <b>{{ row.rowIndex + 1 }}</b>
             </td>
-            <td [ngClass]="{ 'table-danger': !row.isValid }">
+            <td [ngClass]="{ 'table-danger': !row.columns[COL.CUSTOM_ID]?.isValid }">
               {{ row.columns[COL.CUSTOM_ID]?.value }}
             </td>
 
