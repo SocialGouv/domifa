@@ -24,8 +24,8 @@ const COL = IMPORT_PREVIEW_COLUMNS;
 export class ImportPreviewBuilder {
   constructor() {}
   public buildPreviewTable(datas: any[][]): ImportPreviewTable {
-    const today = moment().utc().endOf("day").toDate();
-    const nextYear = moment().utc().add(1, "year").endOf("day").toDate();
+    const today = moment.utc().endOf("day").toDate();
+    const nextYear = moment.utc().add(1, "year").endOf("day").toDate();
     const minDate = moment
       .utc("01/01/1900", "DD/MM/YYYY")
       .endOf("day")
