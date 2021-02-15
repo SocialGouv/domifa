@@ -24,7 +24,7 @@ import {
   USERS_ADMIN_EMAILS_ATTRIBUTES,
 } from "../database";
 import { DomifaMailsService, UsersMailsService } from "../mails/services";
-import { userResetPasswordEmailSender } from "../mails/services/mails-senders/userResetPasswordEmailSender";
+import { userResetPasswordEmailSender } from "../mails/services/mails-senders/";
 import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
 import { ExpressResponse } from "../util/express";

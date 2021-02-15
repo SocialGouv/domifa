@@ -4,7 +4,7 @@ import {
   AppUserForAdminEmailWithTempTokens,
   MessageEmailContent,
 } from "../../../database";
-import { userResetPasswordEmailRenderer } from "../templates-renderers/user-reset-password/userResetPasswordEmailRenderer.service";
+import { userResetPasswordEmailRenderer } from "../templates-renderers";
 import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../_core";
 
 export const userResetPasswordEmailSender = { sendMail };

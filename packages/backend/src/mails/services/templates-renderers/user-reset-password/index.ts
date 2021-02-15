@@ -1,1 +1,1 @@
-export * from "./usagerAppointmentCreatedEmailRenderer.service";
+export * from "./userResetPasswordEmailRenderer.service";
