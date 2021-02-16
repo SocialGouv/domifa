@@ -21,11 +21,6 @@ import { InteractionType } from "../../_common/model/interaction";
 
 @Injectable()
 export class StatsGeneratorService {
-  // Fin de journée de la stat recherché
-  public endOfStatDate: Date;
-  // Date à laquelle la majorité est franchie
-  public dateMajorite: Date;
-
   private structureStatsRepository: Repository<StructureStatsTable>;
   private interactionRepository: Repository<InteractionsTable>;
 
@@ -36,9 +31,6 @@ export class StatsGeneratorService {
     private usagerModel: Model<Usager>,
     private structureService: StructuresService
   ) {
-    this.endOfStatDate = moment.utc().endOf("day").toDate();
-    this.dateMajorite = moment.utc().subtract(18, "year").endOf("day").toDate();
-
     this.structureStatsRepository = appTypeormManager.getRepository(
       StructureStatsTable
     );
@@ -123,8 +115,7 @@ export class StatsGeneratorService {
     const stat = await this.buildStats(today, structure, generated);
 
     const dateExport = moment
-      .utc()
-      .startOf("day")
+      .utc(today)
       .set("hour", 11)
       .set("minute", 11)
       .toDate();
@@ -146,15 +137,16 @@ export class StatsGeneratorService {
   }
 
   public async generateStructureStatsForPast(
-    date: Date,
+    statsDate: Date,
     structure: StructurePublic
   ): Promise<StructureStats> {
-    const stat = await this.buildStats(date, structure, true);
+    const stat = await this.buildStats(statsDate, structure, true);
     await this.structureStatsRepository.insert(stat);
     return stat;
   }
 
   private async totalDomiciliationsActives(
+    statsDate: Date,
     structureId: number,
     typeDemande: "PREMIERE" | "RENOUVELLEMENT" | "TOUS"
   ): Promise<number> {
@@ -172,7 +164,7 @@ export class StatsGeneratorService {
           // CAS 1 : demande valide maintenant
           {
             "decision.dateDebut": {
-              $lte: this.endOfStatDate,
+              $lte: statsDate,
             },
             "decision.statut": "VALIDE",
           },
@@ -180,13 +172,13 @@ export class StatsGeneratorService {
           {
             "decision.statut": "INSTRUCTION",
             "historique.0.statut": "VALIDE",
-            "historique.0.dateDebut": { $lte: this.endOfStatDate },
+            "historique.0.dateDebut": { $lte: statsDate },
           },
           // CAS 3 : renouvellement en cours : demande Valide dernièrement mais en attente de décision
           {
             "decision.statut": "ATTENTE_DECISION",
             "historique.1.statut": "VALIDE",
-            "historique.1.dateDebut": { $lte: this.endOfStatDate },
+            "historique.1.dateDebut": { $lte: statsDate },
           },
         ],
         structureId,
@@ -198,6 +190,7 @@ export class StatsGeneratorService {
   }
 
   public async totalParStatutActifs(
+    statsDate: Date,
     structureId: number,
     statut?: string,
     motif?: string,
@@ -206,7 +199,7 @@ export class StatsGeneratorService {
     age?: string
   ): Promise<number> {
     const query: {
-      "decision.dateDecision": {
+      "decision.dateDecision"?: {
         $lte: Date;
       };
       "decision.motif"?: string;
@@ -223,7 +216,7 @@ export class StatsGeneratorService {
       typeDom?: string;
     } = {
       "decision.dateDecision": {
-        $lte: this.endOfStatDate,
+        $lte: statsDate,
       },
       "decision.motif": motif,
       "decision.statut": statut,
@@ -276,9 +269,15 @@ export class StatsGeneratorService {
     }
 
     if (age) {
+      const dateMajorite = moment
+        .utc()
+        .subtract(18, "year")
+        .endOf("day")
+        .toDate();
+
       query.dateNaissance = {
-        $gte: this.dateMajorite,
-        $lte: this.dateMajorite,
+        $gte: dateMajorite,
+        $lte: dateMajorite,
       };
       age === "majeurs"
         ? delete query.dateNaissance.$gte
@@ -290,6 +289,7 @@ export class StatsGeneratorService {
   }
 
   private async totalAyantsDroitsDesDomiciliesActifs(
+    statsDate: Date,
     structureId: number
   ): Promise<number> {
     const response = await this.usagerModel
@@ -300,7 +300,7 @@ export class StatsGeneratorService {
               // CAS 1 : demande valide maintenant
               {
                 "decision.dateDebut": {
-                  $lte: this.endOfStatDate,
+                  $lte: statsDate,
                 },
                 "decision.statut": "VALIDE",
               },
@@ -308,13 +308,13 @@ export class StatsGeneratorService {
               {
                 "decision.statut": "INSTRUCTION",
                 "historique.0.statut": "VALIDE",
-                "historique.0.dateDebut": { $lte: this.endOfStatDate },
+                "historique.0.dateDebut": { $lte: statsDate },
               },
               // CAS 3 : renouvellement en cours : demande Valide dernièrement mais en attente de décision
               {
                 "decision.statut": "ATTENTE_DECISION",
                 "historique.1.statut": "VALIDE",
-                "historique.1.dateDebut": { $lte: this.endOfStatDate },
+                "historique.1.dateDebut": { $lte: statsDate },
               },
             ],
             structureId,
@@ -336,6 +336,7 @@ export class StatsGeneratorService {
 
   // Recherche uniquement dans l'historique
   private async totalParStatutDansLeTemps(
+    statsDate: Date,
     structureId: number,
     statut: string,
     motif?: string,
@@ -343,10 +344,10 @@ export class StatsGeneratorService {
   ): Promise<number> {
     const firstCondition = {
       "decision.dateDebut": {
-        $lte: this.endOfStatDate,
+        $lte: statsDate,
       },
       "decision.dateDecision": {
-        $lte: this.endOfStatDate,
+        $lte: statsDate,
       },
       "decision.motif": motif,
       "decision.statut": statut,
@@ -357,10 +358,10 @@ export class StatsGeneratorService {
       historique: {
         $elemMatch: {
           dateDecision: {
-            $lte: this.endOfStatDate,
+            $lte: statsDate,
           },
           dateDebut: {
-            $lte: this.endOfStatDate,
+            $lte: statsDate,
           },
           motif,
           statut,
@@ -401,6 +402,7 @@ export class StatsGeneratorService {
   }
 
   public async totalInteraction(
+    statsDate: Date,
     structureId: number,
     interactionType: InteractionType
   ): Promise<number> {
@@ -409,7 +411,7 @@ export class StatsGeneratorService {
       return this.interactionRepository.count({
         structureId,
         type: interactionType,
-        dateInteraction: LessThanOrEqual(this.endOfStatDate),
+        dateInteraction: LessThanOrEqual(statsDate),
       });
     } else {
       //
@@ -419,7 +421,7 @@ export class StatsGeneratorService {
         .where({
           structureId,
           type: interactionType,
-          dateInteraction: LessThanOrEqual(this.endOfStatDate),
+          dateInteraction: LessThanOrEqual(statsDate),
         })
         .groupBy("interactions.type")
         .getRawOne();
@@ -454,20 +456,22 @@ export class StatsGeneratorService {
     structure: StructurePublic,
     generated: boolean
   ) {
-    this.endOfStatDate = moment
+    // 11:11 par défaut pour faciliter les requêtes
+    const dateExport = moment
+      .utc(date)
+      .set("hour", 11)
+      .set("minute", 11)
+      .toDate();
+
+    // End of stat day
+    const statsDate = moment
       .utc(date)
       .endOf("day")
       .subtract(1, "minute")
       .toDate();
 
-    this.dateMajorite = moment
-      .utc(date)
-      .subtract(18, "year")
-      .endOf("day")
-      .toDate();
-
     const stat = new StructureStatsTable({
-      date: this.endOfStatDate,
+      date: dateExport,
       questions: {
         Q_10: 0,
         Q_10_A: 0,
@@ -558,18 +562,21 @@ export class StatsGeneratorService {
     //
     // Statut actuel + Statut dans l'historique
     stat.questions.Q_10 = await this.totalDomiciliationsActives(
+      statsDate,
       structure.id,
       "TOUS"
     );
 
     // Dont Premiere demande
     stat.questions.Q_10_A = await this.totalDomiciliationsActives(
+      statsDate,
       structure.id,
       "PREMIERE"
     );
 
     // Dont renouvellement
     stat.questions.Q_10_B = await this.totalDomiciliationsActives(
+      statsDate,
       structure.id,
       "RENOUVELLEMENT"
     );
@@ -585,11 +592,13 @@ export class StatsGeneratorService {
     // REFUS : domiciliés actifs
     //
     stat.questions.Q_11.VALIDE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE"
     );
 
     stat.questions.Q_11.VALIDE_AYANTS_DROIT = await this.totalAyantsDroitsDesDomiciliesActifs(
+      statsDate,
       structure.id
     );
 
@@ -597,11 +606,13 @@ export class StatsGeneratorService {
       stat.questions.Q_11.VALIDE_AYANTS_DROIT + stat.questions.Q_11.VALIDE;
 
     stat.questions.Q_11.REFUS = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "REFUS"
     );
 
     stat.questions.Q_11.RADIE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "RADIE"
     );
@@ -612,47 +623,55 @@ export class StatsGeneratorService {
     // Regle de calcul : Statut actuel + Statut dans l'historique
     //
     stat.questions.Q_12.TOTAL = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "RADIE"
     );
 
     stat.questions.Q_12.A_SA_DEMANDE = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "RADIE",
       "A_SA_DEMANDE"
     );
 
     stat.questions.Q_12.AUTRE = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "RADIE",
       "AUTRE"
     );
 
     stat.questions.Q_12.ENTREE_LOGEMENT = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "RADIE",
       "ENTREE_LOGEMENT"
     );
 
     stat.questions.Q_12.FIN_DE_DOMICILIATION = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "RADIE",
       "FIN_DE_DOMICILIATION"
     );
 
     stat.questions.Q_12.NON_MANIFESTATION_3_MOIS = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "RADIE",
       "NON_MANIFESTATION_3_MOIS"
     );
 
     stat.questions.Q_12.NON_RESPECT_REGLEMENT = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "RADIE",
       "NON_RESPECT_REGLEMENT"
     );
 
     stat.questions.Q_12.PLUS_DE_LIEN_COMMUNE = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "RADIE",
       "PLUS_DE_LIEN_COMMUNE"
@@ -664,35 +683,41 @@ export class StatsGeneratorService {
     // Regle de calcul : Statut actuel + Statut dans l'historique
     //
     stat.questions.Q_13.TOTAL = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "REFUS"
     );
 
     stat.questions.Q_13.HORS_AGREMENT = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "REFUS",
       "HORS_AGREMENT"
     );
 
     stat.questions.Q_13.LIEN_COMMUNE = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "REFUS",
       "LIEN_COMMUNE"
     );
 
     stat.questions.Q_13.SATURATION = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "REFUS",
       "SATURATION"
     );
 
     stat.questions.Q_13.AUTRE = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "REFUS",
       "AUTRE"
     );
 
     stat.questions.Q_14.ASSO = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "REFUS",
       "",
@@ -700,6 +725,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_14.CCAS = await this.totalParStatutDansLeTemps(
+      statsDate,
       structure.id,
       "REFUS",
       "",
@@ -707,6 +733,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_17 = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -716,6 +743,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_18 = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -725,6 +753,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_19.COUPLE_AVEC_ENFANT = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -733,6 +762,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_19.COUPLE_SANS_ENFANT = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -741,6 +771,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_19.FEMME_ISOLE_AVEC_ENFANT = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -749,6 +780,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_19.FEMME_ISOLE_SANS_ENFANT = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -758,6 +790,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_19.HOMME_ISOLE_AVEC_ENFANT = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -767,6 +800,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_19.HOMME_ISOLE_SANS_ENFANT = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -776,51 +810,61 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_20.appel = await this.totalInteraction(
+      statsDate,
       structure.id,
       "appel"
     );
 
     stat.questions.Q_20.colisIn = await this.totalInteraction(
+      statsDate,
       structure.id,
       "colisIn"
     );
 
     stat.questions.Q_20.colisOut = await this.totalInteraction(
+      statsDate,
       structure.id,
       "colisOut"
     );
 
     stat.questions.Q_20.courrierIn = await this.totalInteraction(
+      statsDate,
       structure.id,
       "courrierIn"
     );
 
     stat.questions.Q_20.courrierOut = await this.totalInteraction(
+      statsDate,
       structure.id,
       "courrierOut"
     );
 
     stat.questions.Q_20.recommandeIn = await this.totalInteraction(
+      statsDate,
       structure.id,
       "recommandeIn"
     );
 
     stat.questions.Q_20.recommandeOut = await this.totalInteraction(
+      statsDate,
       structure.id,
       "recommandeOut"
     );
 
     stat.questions.Q_20.visite = await this.totalInteraction(
+      statsDate,
       structure.id,
       "visite"
     );
 
     stat.questions.Q_20.npai = await this.totalInteraction(
+      statsDate,
       structure.id,
       "npai"
     );
 
     stat.questions.Q_21.ERRANCE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -829,6 +873,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_21.EXPULSION = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -837,6 +882,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_21.HEBERGE_SANS_ADRESSE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -845,6 +891,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_21.ITINERANT = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -853,6 +900,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_21.SORTIE_STRUCTURE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -861,6 +909,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_21.VIOLENCE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -869,6 +918,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_21.NON_RENSEIGNE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -877,6 +927,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_21.AUTRE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -885,6 +936,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_21.RUPTURE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -893,6 +945,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_22.AUTRE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -900,6 +953,7 @@ export class StatsGeneratorService {
       { key: "residence", value: "AUTRE" }
     );
     stat.questions.Q_22.DOMICILE_MOBILE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -908,6 +962,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_22.HEBERGEMENT_SOCIAL = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -916,6 +971,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_22.HEBERGEMENT_TIERS = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -924,6 +980,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_22.HOTEL = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -932,6 +989,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_22.SANS_ABRI = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",
@@ -940,6 +998,7 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_22.NON_RENSEIGNE = await this.totalParStatutActifs(
+      statsDate,
       structure.id,
       "VALIDE",
       "",

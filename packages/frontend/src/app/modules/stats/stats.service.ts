@@ -12,6 +12,7 @@ import { Structure } from "../structures/structure.interface";
 export class StatsService {
   public http: HttpClient;
   public loading: boolean;
+
   public baseUrl = environment.apiUrl + "stats/";
   public epUsagers = environment.apiUrl + "usagers/";
   public epUsers = environment.apiUrl + "users/";
@@ -21,10 +22,6 @@ export class StatsService {
   constructor(http: HttpClient) {
     this.http = http;
     this.loading = true;
-  }
-
-  public getStatById(id: string): Observable<StructureStats> {
-    return this.http.get<StructureStats>(`${this.baseUrl}id/${id}`);
   }
 
   // DASHBOARD

@@ -6,7 +6,7 @@ export class manualMigration1613425788373 implements MigrationInterface {
       `DELETE FROM structure_stats WHERE "generated" IN (true)`
     );
     await queryRunner.query(
-      `DELETE FROM structure_stats WHERE "createdAt" <= '2021-01-30'::timestamp and "createdAt" >= '2020-12-30'::timestamp`
+      `DELETE FROM structure_stats WHERE "createdAt" <= '2021-02-20'::timestamp and "createdAt" >= '2020-12-30'::timestamp`
     );
   }
 

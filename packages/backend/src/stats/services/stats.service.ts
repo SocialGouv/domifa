@@ -1,12 +1,5 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import {
-  Between,
-  Equal,
-  FindConditions,
-  LessThanOrEqual,
-  MoreThanOrEqual,
-  Repository,
-} from "typeorm";
+import { Injectable } from "@nestjs/common";
+import { Between, Repository } from "typeorm";
 import { appTypeormManager, StructureStatsTable } from "../../database";
 import { appLogger } from "../../util";
 import { StructurePublic, StructureStats } from "../../_common/model";
@@ -22,20 +15,6 @@ export class StatsService {
     this.structureStatsRepository = appTypeormManager.getRepository(
       StructureStatsTable
     );
-  }
-
-  // Recherche par ID
-  public async getStatById(
-    id: string,
-    structureId: number
-  ): Promise<StructureStatsTable> {
-    const stats = await this.structureStatsRepository.findOne({
-      where: { _id: id, structureId },
-    });
-    if (!stats || stats === null) {
-      throw new HttpException("STAT_ID_INCORRECT", HttpStatus.BAD_REQUEST);
-    }
-    return stats;
   }
 
   public async getByDate(
