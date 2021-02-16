@@ -52,18 +52,7 @@ export class StructuresController {
 
   @Post()
   public async postStructure(@Body() structureDto: StructureDto) {
-    const structure = await this.structureService.create(structureDto);
-
-    const today = moment().utc().startOf("day").toDate();
-
-    /*
-    await this.statsGeneratorService.generateStructureStats(
-      today,
-      structure,
-      true
-    );
-*/
-    return structure;
+    return this.structureService.create(structureDto);
   }
 
   @Post("pre-post")
@@ -203,15 +192,6 @@ export class StructuresController {
     await this.usagersService.deleteAll(user.structureId);
     await this.interactionsService.deleteAll(user.structureId);
     await this.structureService.hardResetClean(structure._id);
-
-    /*
-    const today = moment().utc().startOf("day").toDate();
-    await this.statsGeneratorService.generateStructureStats(
-      today,
-      structure,
-      true
-    );
-    */
 
     return res.status(HttpStatus.OK).json({ message: "success" });
   }

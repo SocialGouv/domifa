@@ -1,12 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import {
-  Between,
-  Equal,
-  FindConditions,
-  LessThanOrEqual,
-  MoreThanOrEqual,
-  Repository,
-} from "typeorm";
+import { Between, Repository } from "typeorm";
 import { appTypeormManager, StructureStatsTable } from "../../database";
 import { appLogger } from "../../util";
 import { StructurePublic, StructureStats } from "../../_common/model";

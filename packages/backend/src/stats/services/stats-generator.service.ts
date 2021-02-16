@@ -123,8 +123,7 @@ export class StatsGeneratorService {
     const stat = await this.buildStats(today, structure, generated);
 
     const dateExport = moment
-      .utc()
-      .startOf("day")
+      .utc(today)
       .set("hour", 11)
       .set("minute", 11)
       .toDate();
@@ -466,8 +465,15 @@ export class StatsGeneratorService {
       .endOf("day")
       .toDate();
 
+    // 11:11 par défaut pour faciliter les requêtes
+    const dateExport = moment
+      .utc(date)
+      .set("hour", 11)
+      .set("minute", 11)
+      .toDate();
+
     const stat = new StructureStatsTable({
-      date: this.endOfStatDate,
+      date: dateExport,
       questions: {
         Q_10: 0,
         Q_10_A: 0,

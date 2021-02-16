@@ -34,4 +34,15 @@ describe("StatsService", () => {
   it("should be defined", () => {
     expect(service).toBeDefined();
   });
+
+  it("1. Get by date", async () => {
+    // 1. Fichier stat undefined
+    expect(await service.getByDate(1, new Date("2020-12-30"))).toBeUndefined();
+
+    // 2. On génère le fichier
+
+    // 3. On vérifie qu'il est là
+
+    // 4. On vérifie le contenu
+  });
 });
