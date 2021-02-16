@@ -1,6 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { domifaConfig } from "../../config";
 import { appLogger } from "../../util";
 
 @Injectable()
@@ -26,11 +25,6 @@ export class DomifaGuard implements CanActivate {
   }
 
   public isDomifaAdmin(user: any) {
-    return (
-      !!user &&
-      user.role === "admin" &&
-      (user.structureId === 1 ||
-        (domifaConfig().envId === "preprod" && user.structureId === 205))
-    );
+    return !!user && user.role === "admin" && user.structureId === 1;
   }
 }
