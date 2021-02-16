@@ -1,0 +1,11 @@
+Bonjour {{ prenom }}
+
+Vous avez récemment créé votre compte sur DomiFa et nous vous en remercions.
+
+Afin de vous accompagner dans l’utilisation de la plateforme, vous trouverez en cliquant sur le lien ci-dessous un guide utilisateur détaillé qui vous permettra de découvrir les différentes fonctionnalités disponibles. 
+
+- {{ lienGuide }}
+
+À bientôt,
+
+L’équipe Domifa

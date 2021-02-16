@@ -1,0 +1,35 @@
+{% extends "./base.nunjucks" %}
+{% block head_custom %}
+     <link rel="stylesheet" href="./usager-appointment-created/html.css">
+{% endblock %}
+
+{% block content %}
+
+     <div class="content text-center leading-normal">
+          <div class="my-3">
+               Bonjour {{ prenom }}
+          </div>
+
+          <div class="my-3">
+               Vous avez récemment créé votre compte sur DomiFa et nous vous en remercions.
+          </div>
+
+          <div class="my-3">
+               Afin de vous accompagner dans l’utilisation de la plateforme, <span class="font-bold">vous trouverez ci-dessous un guide utilisateur détaillé</span> qui vous permettra de découvrir les différentes fonctionnalités disponibles. 
+          </div>
+
+           <div class="mt-4 mb-8">
+               <a href="{{ lienGuide }}" target="_blank" rel="noopener noreferrer" class="btn-main">
+               <span class="btn-main-title font-bold">Télécharger le guide utilisateur</span></a>
+          </div>
+
+          <div class="my-3">
+                À bientôt,
+          </div>
+
+          <div class="my-3">
+               L’équipe Domifa 
+          </div>
+     </div>
+
+{% endblock %}

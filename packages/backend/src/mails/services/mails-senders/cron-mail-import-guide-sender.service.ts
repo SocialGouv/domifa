@@ -4,15 +4,13 @@ import * as moment from "moment";
 import { domifaConfig } from "../../../config";
 import {
   cronMailsRepository,
-  MessageEmailTipimailContent,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
   structureRepository,
 } from "../../../database";
 import { Structure } from "../../../structures/structure-interface";
 import { appLogger } from "../../../util";
-import { AppUser } from "../../../_common/model";
-import { messageEmailSender } from "../_core";
+import { guideImportEmailSender } from "./guideImportEmailSender.service";
 
 @Injectable()
 export class CronMailImportGuideSenderService {
@@ -53,7 +51,13 @@ export class CronMailImportGuideSenderService {
 
         for (const user of users) {
           try {
-            await this._sentMailImportGuideToUser(user);
+            await guideImportEmailSender.sendMail({ user });
+
+            await cronMailsRepository.updateMailFlag({
+              userId: user.id,
+              mailType: "import",
+              value: true,
+            });
             monitorSuccess();
           } catch (err) {
             const totalErrors = monitorError(err);
@@ -112,53 +116,5 @@ export class CronMailImportGuideSenderService {
     });
 
     return users;
-  }
-
-  private async _sentMailImportGuideToUser(
-    user: Pick<AppUser, "id" | "email" | "nom" | "prenom">
-  ) {
-    if (!user || user === null) {
-      return;
-    }
-
-    const message: MessageEmailTipimailContent = {
-      subject: "Importer vos domiciliés sur DomiFa",
-      tipimailTemplateId: "guide-import",
-      tipimailModels: [
-        {
-          email: user.email,
-          values: {
-            import: this.lienImport,
-            guide: this.lienGuide,
-            faq: this.lienFaq,
-          },
-        },
-      ],
-      to: [
-        {
-          address: user.email,
-          personalName: user.nom + " " + user.prenom,
-        },
-      ],
-      from: {
-        personalName: "Domifa",
-        address: this.domifaFromMail,
-      },
-      replyTo: {
-        personalName: "Domifa",
-        address: this.domifaAdminMail,
-      },
-    };
-
-    await messageEmailSender.sendTipimailContentMessageLater(message, {
-      emailId: "import-guide",
-      initialScheduledDate: new Date(),
-    });
-
-    await cronMailsRepository.updateMailFlag({
-      userId: user.id,
-      mailType: "import",
-      value: true,
-    });
   }
 }
