@@ -23,10 +23,6 @@ export class StatsService {
     this.loading = true;
   }
 
-  public getStatById(id: string): Observable<StructureStats> {
-    return this.http.get<StructureStats>(`${this.baseUrl}id/${id}`);
-  }
-
   // DASHBOARD
   public getStats(
     start: Date,

@@ -1,4 +1,5 @@
-import { forwardRef } from "@nestjs/common";
+import { forwardRef, HttpStatus, INestApplication } from "@nestjs/common";
+
 import { DatabaseModule } from "../../database";
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { StructuresModule } from "../../structures/structure.module";
@@ -10,10 +11,16 @@ import { DashboardService } from "./dashboard.service";
 import { StatsGeneratorService } from "./stats-generator.service";
 import { StatsService } from "./stats.service";
 
+import * as request from "supertest";
+import { StructuresService } from "../../structures/services/structures.service";
+
 describe("StatsService", () => {
   let service: StatsService;
+  let structureService: StructuresService;
 
+  let app: INestApplication;
   let context: AppTestContext;
+
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       imports: [
@@ -25,8 +32,15 @@ describe("StatsService", () => {
       ],
       providers: [DashboardService, StatsGeneratorService, StatsService],
     });
+
+    app = context.module.createNestApplication();
+
     service = context.module.get<StatsService>(StatsService);
+    structureService = context.module.get<StructuresService>(StructuresService);
+
+    await app.init();
   });
+
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
   });
@@ -40,6 +54,15 @@ describe("StatsService", () => {
     expect(await service.getByDate(1, new Date("2020-12-30"))).toBeUndefined();
 
     // 2. On génère le fichier
+
+    const structure = await structureService.findOne(1);
+    expect(
+      await service.getStatsDiff({
+        structure,
+        startDate: new Date("2020-01-01"),
+        endDate: new Date("2020-12-30"),
+      })
+    ).toBeDefined();
 
     // 3. On vérifie qu'il est là
 
