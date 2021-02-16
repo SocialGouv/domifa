@@ -80,7 +80,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         : undefined,
   });
   const emailsEnabled = configParser.parseBoolean(x, "DOMIFA_EMAILS_ENABLE", {
-    defaultValue: envId === "prod" || envId === "preprod" ? true : false,
+    defaultValue:
+      envId === "prod" || envId === "preprod" || envId === "formation"
+        ? true
+        : false,
   });
   const sentryDns = configParser.parseString(x, "SENTRY_DSN", {
     required: false,
@@ -202,7 +205,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           "DOMIFA_CRON_EMAIL_USER_GUIDE_CRONTIME",
           {
             defaultValue:
-              envId === "dev" || envId === "test" || envId === "preprod"
+              envId === "dev" ||
+              envId === "test" ||
+              envId === "preprod" ||
+              envId === "formation"
                 ? CronExpression.EVERY_10_MINUTES
                 : "0 15 * * TUE",
           }
@@ -214,7 +220,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
 
           {
             defaultValue:
-              envId === "dev" || envId === "test" || envId === "preprod"
+              envId === "dev" ||
+              envId === "test" ||
+              envId === "preprod" ||
+              envId === "formation"
                 ? "5 minutes"
                 : "7 days",
           }
@@ -231,7 +240,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_CRONTIME",
           {
             defaultValue:
-              envId === "dev" || envId === "test" || envId === "preprod"
+              envId === "dev" ||
+              envId === "test" ||
+              envId === "preprod" ||
+              envId === "formation"
                 ? CronExpression.EVERY_10_MINUTES
                 : "0 15 * * TUE",
           }
@@ -241,7 +253,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_DELAY",
           {
             defaultValue:
-              envId === "dev" || envId === "test" || envId === "preprod"
+              envId === "dev" ||
+              envId === "test" ||
+              envId === "preprod" ||
+              envId === "formation"
                 ? "5 minutes"
                 : "7 days",
           }

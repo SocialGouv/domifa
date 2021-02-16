@@ -83,6 +83,15 @@ else
   
     echo ""
     echo "----------------------------------------------------------------------------"
+    echo "Pull master branch"
+    (set -x && git checkout master && git pull)
+    if [ $? -eq 1 ]; then
+        echo "[ERROR] exit"
+        exit 3
+    fi
+  
+    echo ""
+    echo "----------------------------------------------------------------------------"
     echo "Switch to git branch '$branch'"
     (set -x && git checkout $branch)
     if [ $? -eq 1 ]; then
@@ -122,10 +131,26 @@ else
         echo "[ERROR] exit"
         exit 3
     fi
+    source .env
+    if [ -z "$DOMIFA_ENV_ID" ]; then
+        echo "[ERROR] DOMIFA_ENV_ID is not defined in .env"
+        exit 3
+    fi
+    if [ "$DOMIFA_ENV_ID" === "prod" ]; then
+        DOCKER_COMPOSE_PROJECT_NAME=master
+    else
+        DOCKER_COMPOSE_PROJECT_NAME="$DOMIFA_ENV_ID"
+    fi
+    echo ""
+    echo "#############################################################################"
+    echo "[INFO] DOCKER_COMPOSE_PROJECT_NAME: $DOCKER_COMPOSE_PROJECT_NAME"
+    echo ""
+    echo ""
+
     echo ""
     echo "----------------------------------------------------------------------------"
     echo "Deploy application"
-    (set -x && sudo docker-compose --project-name master -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate)
+    (set -x && sudo docker-compose --project-name $DOCKER_COMPOSE_PROJECT_NAME -f docker-compose.prod.yml up --build -d --remove-orphans --force-recreate)
     if [ $? -eq 1 ]; then
         echo "[ERROR] exit"
         exit 3
