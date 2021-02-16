@@ -1,7 +1,7 @@
 <div class="container" *ngIf="me && usager">
   <app-form-menu [usager]="usager" [currentStep]="1"></app-form-menu>
 
-  <div class="step_form" *ngIf="!editRdv && usager.etapeDemande > 1">
+  <div class="step_form" *ngIf="!editRdv">
     <div class="row text-center">
       <div class="col">
         <h5 class="title">

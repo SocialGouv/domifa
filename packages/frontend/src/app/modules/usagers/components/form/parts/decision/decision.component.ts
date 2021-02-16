@@ -229,12 +229,10 @@ export class DecisionComponent implements OnInit {
     this.usagerService
       .setDecision(this.usager.ref, this.formDatas, statut)
       .subscribe((usager: UsagerLight) => {
-        this.usager = usager;
-        this.submitted = false;
+        // this.usager = usager;
+        // this.submitted = false;
         this.notifService.success("Décision enregistrée avec succès ! ");
-
         this.modalService.dismissAll();
-
         this.router.navigate(["usager/" + usager.ref]);
       });
   }
@@ -242,6 +240,7 @@ export class DecisionComponent implements OnInit {
   public open(content: TemplateRef<any>) {
     this.modalService.open(content);
   }
+
   public closeModal() {
     this.modalService.dismissAll();
   }

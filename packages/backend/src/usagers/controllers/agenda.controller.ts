@@ -22,10 +22,9 @@ import {
   usagerLightRepository,
   usersRepository,
 } from "../../database";
-import {
-  usagerAppointmentCreatedEmailSender,
-  UsagersMailsService,
-} from "../../mails/services";
+
+import { usagerAppointmentCreatedEmailSender } from "../../mails/services";
+import { ExpressResponse } from "../../util/express";
 import { AppAuthUser, UserProfile } from "../../_common/model";
 import { RdvDto } from "../dto/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
@@ -34,12 +33,7 @@ import { UsagersService } from "../services/usagers.service";
 @ApiBearerAuth()
 @Controller("agenda")
 export class AgendaController {
-  constructor(
-    private usagersService: UsagersService,
-    private mailService: UsagersMailsService
-  ) {}
-
-  // AGENDA des rendez-vous
+  constructor(private usagersService: UsagersService) {}
 
   @Post(":usagerRef")
   @UseGuards(AuthGuard("jwt"), FacteurGuard, UsagerAccessGuard)
@@ -47,7 +41,7 @@ export class AgendaController {
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: AppAuthUser,
     @CurrentUsager() usager: UsagerLight,
-    @Response() res: any
+    @Response() res: ExpressResponse
   ) {
     const user = await usersRepository.findOne({
       id: rdvDto.userId,
@@ -66,24 +60,22 @@ export class AgendaController {
       usager.prenom;
 
     const dateRdv = new Date(rdvDto.dateRdv);
+
+    if (rdvDto.isNow) {
+      const updatedUsager = await this.usagersService.setRdv(
+        { uuid: usager.uuid },
+        rdvDto,
+        currentUser
+      );
+
+      return res.status(HttpStatus.OK).json(updatedUsager);
+    }
+
     const annee = dateRdv.getFullYear();
     const mois = dateRdv.getMonth() + 1;
     const jour = dateRdv.getDate();
     const heure = dateRdv.getHours();
     const minutes = dateRdv.getMinutes();
-
-    if (rdvDto.isNow) {
-      rdvDto.dateRdv = new Date();
-      rdvDto.dateRdv.setSeconds(0);
-
-      const updatedUsager = await this.usagersService.setRdv(
-        { uuid: usager.uuid },
-        rdvDto,
-        user
-      );
-
-      return res.status(HttpStatus.OK).json(updatedUsager);
-    }
 
     const invitation: ics.ReturnObject = ics.createEvent({
       title,
@@ -97,6 +89,7 @@ export class AgendaController {
     });
 
     const invitationContent = invitation.value;
+
     if (invitationContent) {
       const icalEvent: MessageEmailIcalEvent = {
         filename: "invitation.ics",
@@ -163,6 +156,4 @@ export class AgendaController {
     const userId = user.id;
     return usagerLightRepository.findNextRendezVous({ userId });
   }
-
-  public async agenda(userId: number) {}
 }

@@ -16,13 +16,11 @@ import { Rdv } from "../interfaces/rdv";
   providedIn: "root",
 })
 export class UsagerService {
-  public http: HttpClient;
   public loading: boolean;
-
   public endPointUsagers = environment.apiUrl + "usagers";
 
   constructor(
-    http: HttpClient,
+    public http: HttpClient,
     private loadingService: LoadingService,
     private notifService: ToastrService,
     private matomo: MatomoTracker
@@ -32,7 +30,6 @@ export class UsagerService {
   }
 
   public create(usager: UsagerFormModel): Observable<UsagerLight> {
-    console.log(usager);
     const response =
       usager.ref !== 0
         ? this.http.patch<UsagerLight>(
@@ -44,7 +41,8 @@ export class UsagerService {
     return response;
   }
 
-  public createRdv(
+  // RDV maintenant : on passe l'étape du formulaire
+  public setRdv(
     rdv: Pick<Rdv, "userId" | "dateRdv" | "isNow">,
     usagerRef: number
   ): Observable<UsagerLight> {

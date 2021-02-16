@@ -5,6 +5,12 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { AppUser, UsagerLight } from "../../../../../../../_common/model";
 import { UsagerFormModel } from "../../UsagerFormModel";
 
+// 1 : Etat-civil OK
+// 2 : RDV OK
+// 3 : ENTRETIEN OK
+// 4 : DOCS OK
+// 5 : DECISION OK
+
 @Component({
   selector: "app-form-menu",
   styleUrls: ["./menu.component.css"],
