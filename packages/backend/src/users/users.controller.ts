@@ -327,9 +327,7 @@ export class UsersController {
       email: emailDto.email.toLowerCase(),
     });
     if (!user) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
+      return res.status(HttpStatus.OK).json({ message: "OK" });
     } else {
       const updatedUser = await this.usersService.generateTokenPassword(
         emailDto.email.toLowerCase()
