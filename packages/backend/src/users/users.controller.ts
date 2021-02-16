@@ -295,14 +295,10 @@ export class UsersController {
     );
 
     if (!existUser) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "RESET_PASSWORD" });
+      return res.status(HttpStatus.OK).json({ message: "OK" });
     }
     if (existUser.temporaryTokens.passwordValidity < today) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "TOKEN_EXPIRED" });
+      return res.status(HttpStatus.OK).json({ message: "OK" });
     }
 
     this.usersService.updatePassword(resetPasswordDto).then(
@@ -310,9 +306,7 @@ export class UsersController {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       },
       (error) => {
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "UPDATE_RESET_PASSWORD" });
+        return res.status(HttpStatus.OK).json({ message: "OK" });
       }
     );
   }
