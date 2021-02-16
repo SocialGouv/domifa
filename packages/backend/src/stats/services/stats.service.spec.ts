@@ -56,13 +56,17 @@ describe("StatsService", () => {
     // 2. On génère le fichier
 
     const structure = await structureService.findOne(1);
-    expect(
-      await service.getStatsDiff({
-        structure,
-        startDate: new Date("2020-01-01"),
-        endDate: new Date("2020-12-30"),
-      })
-    ).toBeDefined();
+
+    const newStat = await service.getStatsDiff({
+      structure,
+      startDate: new Date("2020-01-01"),
+      endDate: new Date("2020-12-30"),
+    });
+
+    expect(newStat).toBeDefined();
+    expect(newStat.stats).toBeDefined();
+    expect(newStat.stats.generated).toBeTruthy();
+    expect(newStat.stats.date).toBeTruthy();
 
     // 3. On vérifie qu'il est là
 
