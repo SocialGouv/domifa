@@ -51,12 +51,12 @@ if [ $? -eq 1 ]; then
 fi
 
 CI_REGISTRY_IMAGE="registry.gitlab.factory.social.gouv.fr/socialgouv/domifa"
-DOCKER_BUILD_ARGS="--shm-size 768M -f packages/backend/Dockerfile"
 TAG=${DOMIFA_DOCKER_IMAGE_VERSION}
 CONTEXT="."
 
 # build frontend image
 IMAGE_NAME="$CI_REGISTRY_IMAGE/frontend"
+DOCKER_BUILD_ARGS="--shm-size 768M -f packages/frontend/Dockerfile"
 (set -x && sudo docker build \
       -t ${IMAGE_NAME}:${TAG} \
       $DOCKER_BUILD_ARGS \
@@ -69,6 +69,7 @@ fi
 
 # build backend image
 IMAGE_NAME="$CI_REGISTRY_IMAGE/backend"
+DOCKER_BUILD_ARGS="--shm-size 768M -f packages/backend/Dockerfile"
 (set -x && sudo docker build \
       -t ${IMAGE_NAME}:${TAG} \
       $DOCKER_BUILD_ARGS \

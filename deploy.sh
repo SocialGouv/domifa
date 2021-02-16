@@ -1,5 +1,6 @@
 #!/bin/bash
 branch=$1
+skip_docker_pull=$2
 
 if [ -z "$branch" ]
 then
@@ -91,30 +92,24 @@ else
         echo "[ERROR] exit"
         exit 3
     fi
-    # echo ""
-    # echo "----------------------------------------------------------------------------"
-    # echo "Merge branch '$branch'"
-    # (set -x && git merge origin $branch)
-    # if [ $? -eq 1 ]; then
-    #     echo "Merge error. You should maybe hard-reset your obsolete branch?"
-    #     echo "e.g.: git reset --hard HEAD~2"
-    #     exit 3
-    # fi
-    echo ""
-    echo "----------------------------------------------------------------------------"
-    echo "Pull docker backend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
-    (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION})
-    if [ $? -eq 1 ]; then
-        echo "[ERROR] exit"
-        exit 3
-    fi
-    echo ""
-    echo "----------------------------------------------------------------------------"
-    echo "Pull docker frontend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
-    (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION})
-    if [ $? -eq 1 ]; then
-        echo "[ERROR] exit"
-        exit 3
+    
+    if [ "$skip_docker_pull" != "" ]; then
+        echo ""
+        echo "----------------------------------------------------------------------------"
+        echo "Pull docker backend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
+        (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION})
+        if [ $? -eq 1 ]; then
+            echo "[ERROR] exit"
+            exit 3
+        fi
+        echo ""
+        echo "----------------------------------------------------------------------------"
+        echo "Pull docker frontend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
+        (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION})
+        if [ $? -eq 1 ]; then
+            echo "[ERROR] exit"
+            exit 3
+        fi
     fi
     echo ""
     echo "----------------------------------------------------------------------------"
@@ -129,7 +124,7 @@ else
         echo "[ERROR] DOMIFA_ENV_ID is not defined in .env"
         exit 3
     fi
-    if [ "$DOMIFA_ENV_ID" === "prod" ]; then
+    if [ "$DOMIFA_ENV_ID" == "prod" ]; then
         DOCKER_COMPOSE_PROJECT_NAME=master
     else
         DOCKER_COMPOSE_PROJECT_NAME="$DOMIFA_ENV_ID"
