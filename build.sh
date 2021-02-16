@@ -31,13 +31,24 @@ DOMIFA_DOCKER_IMAGE_VERSION=$CI_COMMIT_REF_SLUG
 
 mkdir -p ${CURRENT_DIR}/node_modules
 
+
 # install yarn dependencies
-CMD="set -x && yarn install --frozen-lockfile --prefer-offline"
-sudo docker run --rm --volume=${CURRENT_DIR}:/app:delegated --volume=$HOME/.npm:/home/node/.npm:delegated --workdir=/app node:14.15.1-stretch ${CMD}
+CMD="yarn install --frozen-lockfile --prefer-offline"
+(set -x && sudo docker run --rm --volume=${CURRENT_DIR}:/app:delegated --volume=$HOME/.npm:/home/node/.npm:delegated --workdir=/app node:14.15.1-stretch ${CMD})
+
+if [ $? -eq 1 ]; then
+    echo "[ERROR] exit"
+    exit 3
+fi
 
 # build app (frontend+backend)
 CMD="yarn build"
-sudo docker run --rm --volume=${CURRENT_DIR}:/app:delegated --volume=$HOME/.npm:/home/node/.npm:delegated --workdir=/app node:14.15.1-stretch ${CMD}
+(set -x && sudo docker run --rm --volume=${CURRENT_DIR}:/app:delegated --volume=$HOME/.npm:/home/node/.npm:delegated --workdir=/app node:14.15.1-stretch ${CMD})
+
+if [ $? -eq 1 ]; then
+    echo "[ERROR] exit"
+    exit 3
+fi
 
 CI_REGISTRY_IMAGE="registry.gitlab.factory.social.gouv.fr/socialgouv/domifa"
 DOCKER_BUILD_ARGS="--shm-size 768M -f packages/backend/Dockerfile"
@@ -51,9 +62,19 @@ IMAGE_NAME="$CI_REGISTRY_IMAGE/frontend"
       $DOCKER_BUILD_ARGS \
       $CONTEXT)
 
+if [ $? -eq 1 ]; then
+    echo "[ERROR] exit"
+    exit 3
+fi
+
 # build backend image
-IMAGE_NAME="$CI_REGISTRY_IMAGE/frontend"
+IMAGE_NAME="$CI_REGISTRY_IMAGE/backend"
 (set -x && sudo docker build \
       -t ${IMAGE_NAME}:${TAG} \
       $DOCKER_BUILD_ARGS \
       $CONTEXT)
+
+if [ $? -eq 1 ]; then
+    echo "[ERROR] exit"
+    exit 3
+fi
