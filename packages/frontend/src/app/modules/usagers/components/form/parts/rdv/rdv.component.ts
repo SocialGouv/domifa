@@ -21,7 +21,6 @@ import { UsagerFormModel } from "../../UsagerFormModel";
 @Component({
   animations: [fadeInOut],
   providers: [
-    UsagerService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
@@ -58,6 +57,8 @@ export class RdvComponent implements OnInit {
     private titleService: Title,
     private route: ActivatedRoute
   ) {
+    this.editRdv = false;
+
     this.maxDateRdv = {
       day: this.dToday.getDate(),
       month: this.dToday.getMonth() + 1,
@@ -84,10 +85,6 @@ export class RdvComponent implements OnInit {
       this.usagerService.findOne(id).subscribe(
         (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
-
-          this.editRdv =
-            usager.etapeDemande < 2 ||
-            this.route.snapshot.url[3].path === "modifier-rendez-vous";
 
           this.initForm();
         },
@@ -142,7 +139,7 @@ export class RdvComponent implements OnInit {
       userId: this.me.id.toString(),
     };
 
-    this.usagerService.createRdv(rdvFormValue, this.usager.ref).subscribe(
+    this.usagerService.setRdv(rdvFormValue, this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.router.navigate(["usager/" + usager.ref + "/edit/entretien"]);
       },
@@ -157,7 +154,6 @@ export class RdvComponent implements OnInit {
   public submitRdv(): void {
     if (this.rdvForm.invalid) {
       this.notifService.error("Veuillez vérifier les champs du formulaire");
-
       return;
     }
 
@@ -172,7 +168,7 @@ export class RdvComponent implements OnInit {
       this.rdvForm.controls.dateRdv.setValue(dateTmp);
     }
 
-    this.usagerService.createRdv(this.rdvForm.value, this.usager.ref).subscribe(
+    this.usagerService.setRdv(this.rdvForm.value, this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.notifService.success("Rendez-vous enregistré");
 

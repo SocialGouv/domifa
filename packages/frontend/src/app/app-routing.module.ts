@@ -129,11 +129,7 @@ export const routes: Routes = [
     component: RdvComponent,
     path: "usager/:id/edit/rendez-vous",
   },
-  {
-    canActivate: [AuthGuard, FacteurGuard],
-    component: RdvComponent,
-    path: "usager/:id/edit/modifier-rendez-vous",
-  },
+
   {
     canActivate: [AuthGuard, FacteurGuard],
     component: DecisionComponent,

@@ -1,53 +1,7 @@
 <div class="container" *ngIf="me && usager">
   <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
 
-  <div class="step_form" *ngIf="isRdvNow === false">
-    <div class="row text-center">
-      <div class="col">
-        <h5 class="title">
-          Le rendez-vous avec
-          <b>{{ usager.nom }} {{ usager.prenom }}</b>
-          est confirmé
-        </h5>
-        <p>
-          Le
-          <b> {{ usager.rdv.dateRdv | date: "dd/MM/yyyy" }} </b>
-          <br />
-          à
-          <b> {{ usager.rdv.dateRdv | date: "HH:mm" }} </b>
-          <br />
-          avec
-          <b>{{ usager.rdv.userName }}</b>
-          <br />
-
-          <br />
-          <span (click)="rdvNow()" class="btn btn-secondary">
-            Réaliser l'entretien maintenant
-          </span>
-          <br />
-          <br />
-          <a
-            [routerLink]="[
-              '/usager/' + usager.ref + '/edit/modifier-rendez-vous'
-            ]"
-            routerLinkActive="router-link-active"
-            class="btn btn-secondary"
-          >
-            Modifier la date du rendez-vous
-          </a>
-          <br />
-          <br />
-          <button (click)="getAttestation()" class="btn btn-primary">
-            <fa-icon icon="download" class="btn-icon"></fa-icon>
-            Télécharger l'attestation de demande
-          </button>
-          <br />
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="step_form" *ngIf="isRdvNow === true">
+  <div class="step_form">
     <app-entretien
       [(usager)]="usager"
       (nextStep)="nextStep($event)"

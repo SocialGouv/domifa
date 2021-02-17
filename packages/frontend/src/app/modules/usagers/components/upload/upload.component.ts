@@ -21,6 +21,7 @@ export class UploadComponent implements OnInit {
   public uploadResponse: UploadResponseType;
 
   public uploadForm!: FormGroup;
+
   @Input() public usager!: UsagerLight;
 
   constructor(
@@ -78,9 +79,8 @@ export class UploadComponent implements OnInit {
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
-          this.usager.docs = new UsagerFormModel(
-            this.uploadResponse.body.usager
-          ).docs;
+          this.usager.docs = this.uploadResponse.body.usager.docs;
+
           this.uploadForm.reset();
           this.fileName = "";
           this.submitted = false;

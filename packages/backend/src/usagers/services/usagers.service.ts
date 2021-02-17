@@ -17,6 +17,7 @@ import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
 import { Usager } from "../interfaces/usagers";
 
+import moment = require("moment");
 @Injectable()
 export class UsagersService {
   constructor() {}
@@ -37,6 +38,7 @@ export class UsagersService {
         enAttente: false,
       };
     }
+
     usager.ref = await this.findNextUsagerRef(user.structureId);
     usager.customRef = `${usager.ref}`;
 
@@ -78,11 +80,8 @@ export class UsagersService {
     return usagerLightRepository.updateOne({ uuid }, update);
   }
 
-  public async nextStep(usagerRef: number, etapeDemande: number) {
-    return usagerLightRepository.updateOne(
-      { ref: usagerRef },
-      { etapeDemande }
-    );
+  public async nextStep({ uuid }: { uuid: string }, etapeDemande: number) {
+    return usagerLightRepository.updateOne({ uuid }, { etapeDemande });
   }
 
   public async renouvellement(
@@ -117,7 +116,7 @@ export class UsagersService {
       userName: null,
     };
 
-    return await usagerLightRepository.save(usager);
+    return usagerLightRepository.save(usager);
   }
 
   public async setEntretien(
@@ -187,6 +186,8 @@ export class UsagersService {
     if (!usager.entretien) {
       usager.entretien = {};
     }
+
+    // DECISION PRISE
     usager.etapeDemande = 6;
 
     return usagerLightRepository.save(usager);
@@ -194,20 +195,27 @@ export class UsagersService {
 
   public async setRdv(
     { uuid }: { uuid: string },
-    rdvDto: RdvDto,
+    rdv: RdvDto,
     user: UserProfile
   ): Promise<UsagerLight> {
     const usager = await usagerRepository.findOne({
       uuid,
     });
-    usager.etapeDemande = 2;
+
     if (!usager.rdv) {
       usager.rdv = {} as any;
     }
 
-    usager.rdv.dateRdv = rdvDto.dateRdv;
-    usager.rdv.userId = rdvDto.userId;
-    usager.rdv.userName = user.nom + " " + user.prenom;
+    if (rdv.isNow) {
+      usager.etapeDemande = 2;
+      rdv.dateRdv = moment.utc().subtract(1, "minutes").toDate();
+    } else {
+      rdv.dateRdv = moment.utc(rdv.dateRdv).toDate();
+    }
+
+    usager.rdv.dateRdv = rdv.dateRdv;
+    usager.rdv.userId = rdv.userId;
+    usager.rdv.userName = user.prenom + " " + user.nom;
 
     return usagerLightRepository.save(usager);
   }
@@ -226,6 +234,7 @@ export class UsagersService {
     const nextRef = maxRef ? maxRef + 1 : 1;
     return nextRef;
   }
+
   public setUsagerDefaultAttributes(usager: UsagerTable) {
     if (!usager.ayantsDroits) usager.ayantsDroits = [];
     if (!usager.historique) usager.historique = [];

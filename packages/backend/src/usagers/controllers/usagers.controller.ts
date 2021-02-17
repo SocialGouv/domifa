@@ -100,15 +100,12 @@ export class UsagersController {
     @Param("etapeDemande") etapeDemande: number,
     @CurrentUsager() usager: UsagerLight
   ) {
-    return this.usagersService.nextStep(usager.ref, etapeDemande);
+    return this.usagersService.nextStep({ uuid: usager.uuid }, etapeDemande);
   }
 
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
   @Get("stop-courrier/:usagerRef")
-  public async stopCourrier(
-    @CurrentUsager() currentUsager: UsagerLight,
-    @CurrentUser() user: AppAuthUser
-  ) {
+  public async stopCourrier(@CurrentUsager() currentUsager: UsagerLight) {
     const usager = await usagerRepository.findOne({
       uuid: currentUsager.uuid,
     });
