@@ -115,11 +115,7 @@ export class ResetPasswordComponent implements OnInit {
           this.success = true;
         },
         (error: any) => {
-          const errorMessage =
-            error.message === "RESET_EMAIL_NOT_EXIST"
-              ? "Veuillez vérifier l'adresse email"
-              : "Une erreur innatendue est survenue";
-          this.notifService.error(errorMessage);
+          this.notifService.error("Veuillez vérifier l'adresse email");
         }
       );
     }
