@@ -3,9 +3,9 @@ import { Between, Repository } from "typeorm";
 import { appTypeormManager, StructureStatsTable } from "../../database";
 import { appLogger } from "../../util";
 import { StructurePublic, StructureStats } from "../../_common/model";
+import { StatsGeneratorService } from "./stats-generator.service";
 
 import moment = require("moment");
-import { StatsGeneratorService } from "./stats-generator.service";
 
 @Injectable()
 export class StatsService {
@@ -19,10 +19,10 @@ export class StatsService {
 
   public async getByDate(
     structureId: number,
-    date: Date
+    statsDay: Date
   ): Promise<StructureStats> {
-    const endOfDay = moment(date).endOf("day").toDate();
-    const startOfDay = moment(date).startOf("day").toDate();
+    const endOfDay = moment(statsDay).endOf("day").toDate();
+    const startOfDay = moment(statsDay).startOf("day").toDate();
 
     return this.structureStatsRepository.findOne({
       where: { structureId, date: Between(startOfDay, endOfDay) },
@@ -58,8 +58,7 @@ export class StatsService {
     if (!startStats || startStats === null) {
       // NOT EXIST: on les génère à la volée
       startStats = await this.statsGeneratorService.generateStructureStatsForPast(
-        startDate,
-        structure
+        { statsDay: startDate, structure }
       );
     }
     if (new Date(startStats.date).getTime() > new Date(endDate).getTime()) {
@@ -79,8 +78,7 @@ export class StatsService {
 
     if (!endStats || endStats === null) {
       endStats = await this.statsGeneratorService.generateStructureStatsForPast(
-        endDate,
-        structure
+        { statsDay: endDate, structure }
       );
     }
 
