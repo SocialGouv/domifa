@@ -32,11 +32,12 @@ import { UsagersService } from "../services/usagers.service";
 @ApiTags("agenda")
 @ApiBearerAuth()
 @Controller("agenda")
+@UseGuards(AuthGuard("jwt"))
 export class AgendaController {
   constructor(private usagersService: UsagersService) {}
 
   @Post(":usagerRef")
-  @UseGuards(AuthGuard("jwt"), FacteurGuard, UsagerAccessGuard)
+  @UseGuards(FacteurGuard, UsagerAccessGuard)
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: AppAuthUser,
@@ -140,7 +141,7 @@ export class AgendaController {
   }
 
   @Get("users")
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @UseGuards(FacteurGuard)
   public getUsersMeeting(
     @CurrentUser() user: AppAuthUser
   ): Promise<UserProfile[]> {
@@ -151,7 +152,7 @@ export class AgendaController {
   }
 
   @Get("")
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @UseGuards(FacteurGuard)
   public async getAll(@CurrentUser() user: AppAuthUser) {
     const userId = user.id;
     return usagerLightRepository.findNextRendezVous({ userId });
