@@ -14,11 +14,3 @@ Scénario:
   Alors j'attends "2" secondes
   Alors je clique sur "KARAMOKO Maurice" dans le tableau des usagers
   Alors je suis redirigé vers la page: "/usager/2"
-
-  Alors je clique sur "Modifier la situation sociale"
-
-  Alors j'attends "2" secondes
-  Alors je rentre "une structure au hasard" dans "Par quelle structure ou personne ?"
-
-
-
