@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Res,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
@@ -54,28 +46,6 @@ export class StatsController {
     this.residence = residence;
     this.cause = cause;
     this.motifsRadiation = motifsRadiation;
-  }
-
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
-  @ApiBearerAuth()
-  @Get("id/:id")
-  public async getStatById(
-    @Param("id") id: string,
-    @CurrentUser() user: AppAuthUser
-  ) {
-    return this.statsService.getStatById(id, user.structureId);
-  }
-
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
-  @ApiBearerAuth()
-  @Get("export/:id")
-  public async export(
-    @Param("id") id: string,
-    @CurrentUser() user: AppAuthUser,
-    @Res() res: Response
-  ) {
-    const stats = await this.statsService.getStatById(id, user.structureId);
-    res.status(200).send(this.exportData(stats));
   }
 
   @Get("home-stats")
@@ -134,17 +104,17 @@ export class StatsController {
       `[StatsController] exportData (${JSON.stringify(stats, undefined, 2)})`
     );
 
-    let start = moment(new Date(stats.createdAt)).format("DD/MM/yyyy");
+    let start = moment(stats.createdAt).format("DD/MM/yyyy");
     let dateDatas = "  01/01/2020 au " + start;
 
     if (statsDto) {
-      start = moment(new Date(statsDto.start)).format("DD/MM/yyyy");
+      start = moment(statsDto.start).format("DD/MM/yyyy");
       dateDatas = " du 01/01/2020 au " + start;
 
       if (statsDto.end) {
-        const end = moment(new Date(statsDto.end)).format("DD/MM/yyyy");
+        const end = moment(statsDto.end).format("DD/MM/yyyy");
         dateDatas = " du " + start + " au " + end;
-        start = moment(new Date(statsDto.end)).format("DD/MM/yyyy");
+        start = moment(statsDto.end).format("DD/MM/yyyy");
       }
     }
 

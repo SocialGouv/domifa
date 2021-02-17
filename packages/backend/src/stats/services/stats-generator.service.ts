@@ -22,25 +22,16 @@ import {
 } from "../../_common/model";
 import { InteractionType } from "../../_common/model/interaction";
 
+const MAX_ERRORS = 10;
 @Injectable()
 export class StatsGeneratorService {
-  // Fin de journée de la stat recherché
-  public endOfStatDate: Date;
-  // Date à laquelle la majorité est franchie
-  public dateMajorite: Date;
-
   private structureStatsRepository: Repository<StructureStatsTable>;
   private interactionRepository: Repository<InteractionsTable>;
 
   constructor(private structureService: StructuresService) {
-    this.endOfStatDate = moment().utc().endOf("day").toDate();
-
-    this.dateMajorite = moment().subtract(18, "year").endOf("day").toDate();
-
     this.structureStatsRepository = appTypeormManager.getRepository(
       StructureStatsTable
     );
-
     this.interactionRepository = appTypeormManager.getRepository(
       InteractionsTable
     );
@@ -65,12 +56,15 @@ export class StatsGeneratorService {
         trigger,
       },
       async ({ monitorTotal, monitorSuccess, monitorError }) => {
-        const today = moment().utc().subtract(1, "day").endOf("day").toDate();
+        const statsDay = setFixStatsDateTime(
+          moment.utc().subtract(1, "day").toDate()
+        );
         const structures = await structureLightRepository.findStructuresToGenerateStats(
           {
-            maxLastExportDate: today,
+            maxLastExportDate: setFixStatsDateTimeMax(statsDay),
           }
         );
+
         appLogger.debug(
           `[StatsGeneratorService] ${structures.length} structures to process :`
         );
@@ -78,11 +72,11 @@ export class StatsGeneratorService {
 
         for (const structure of structures) {
           try {
-            await this.generateStructureStats(today, structure, false);
+            await this.generateStructureStats(statsDay, structure, false);
             monitorSuccess();
           } catch (err) {
             const totalErrors = monitorError(err);
-            if (totalErrors > 20) {
+            if (totalErrors >= MAX_ERRORS) {
               appLogger.warn(
                 `[StatsGeneratorService] Too many errors: skip next structure: ${err.message}`,
                 {
@@ -98,21 +92,13 @@ export class StatsGeneratorService {
   }
 
   public async generateStructureStats(
-    date: Date,
+    statsDay: Date,
     structure: StructureLight,
     generated: boolean
   ) {
-    const stat = await this.buildStats(structure, {
-      date,
-      generated,
-    });
+    const stat = await this.buildStats({ structure, statsDay, generated });
 
-    const dateExport = moment()
-      .utc()
-      .startOf("day")
-      .set("hour", 11)
-      .set("minute", 11)
-      .toDate();
+    const dateExport = setFixStatsDateTime(statsDay);
 
     const retourStructure = await this.structureService.updateLastExport(
       structure.id,
@@ -131,16 +117,24 @@ export class StatsGeneratorService {
     return { retourStructure, retourStats, updateStructureStats };
   }
 
-  public async generateStructureStatsForPast(
-    date: Date,
-    structure: StructureCommon
-  ): Promise<StructureStats> {
-    const stat = await this.buildStats(structure, { date, generated: true });
+  public async generateStructureStatsForPast({
+    statsDay,
+    structure,
+  }: {
+    statsDay: Date;
+    structure: StructureCommon;
+  }): Promise<StructureStats> {
+    const stat = await this.buildStats({
+      statsDay,
+      structure,
+      generated: true,
+    });
     await this.structureStatsRepository.insert(stat);
     return stat;
   }
 
   public async totalInteraction(
+    statsDayEnd: Date,
     structureId: number,
     interactionType: InteractionType
   ): Promise<number> {
@@ -149,7 +143,7 @@ export class StatsGeneratorService {
       return this.interactionRepository.count({
         structureId,
         type: interactionType,
-        dateInteraction: LessThanOrEqual(this.endOfStatDate),
+        dateInteraction: LessThanOrEqual(statsDayEnd),
       });
     } else {
       //
@@ -159,7 +153,7 @@ export class StatsGeneratorService {
         .where({
           structureId,
           type: interactionType,
-          dateInteraction: LessThanOrEqual(this.endOfStatDate),
+          dateInteraction: LessThanOrEqual(statsDayEnd),
         })
         .groupBy("interactions.type")
         .getRawOne();
@@ -171,16 +165,39 @@ export class StatsGeneratorService {
     return structureRepository.count();
   }
 
-  private async buildStats(
-    structure: StructureLight,
-    { date, generated }: { date: Date; generated: boolean }
-  ) {
-    const endOfDay = moment(date).endOf("day").subtract(1, "minute").toDate();
+  private async buildStats({
+    statsDay,
+    structure,
+    generated,
+  }: {
+    statsDay: Date;
+    structure: StructureLight;
+    generated: boolean;
+  }) {
+    const endOfStatDate = moment.utc().endOf("day").toDate();
 
-    this.dateMajorite = moment(date).subtract(18, "year").endOf("day").toDate();
+    const dateMajorite = moment
+      .utc()
+      .subtract(18, "year")
+      .endOf("day")
+      .toDate();
+
+    // 11:11 par défaut pour faciliter les requêtes
+    const dateExport = setFixStatsDateTime(statsDay);
+
+    // End of stat day
+    const statsDayEnd = moment
+      .utc(statsDay)
+      .endOf("day")
+      .subtract(1, "minute")
+      .toDate();
+
+    if (statsDayEnd > new Date()) {
+      throw new Error(`Invalid stats day ${statsDayEnd}`);
+    }
 
     const stat = new StructureStatsTable({
-      date: endOfDay,
+      date: dateExport,
       questions: {
         Q_10: 0,
         Q_10_A: 0,
@@ -272,20 +289,20 @@ export class StatsGeneratorService {
     // Statut actuel + Statut dans l'historique
     stat.questions.Q_10 = await usagerRepository.countDomiciliations({
       structureId: structure.id,
-      actifsInHistoryBefore: this.endOfStatDate,
+      actifsInHistoryBefore: endOfStatDate,
     });
 
     // Dont Premiere demande
     stat.questions.Q_10_A = await usagerRepository.countDomiciliations({
       structureId: structure.id,
-      actifsInHistoryBefore: this.endOfStatDate,
+      actifsInHistoryBefore: endOfStatDate,
       typeDom: "PREMIERE",
     });
 
     // Dont renouvellement
     stat.questions.Q_10_B = await usagerRepository.countDomiciliations({
       structureId: structure.id,
-      actifsInHistoryBefore: this.endOfStatDate,
+      actifsInHistoryBefore: endOfStatDate,
       typeDom: "RENOUVELLEMENT",
     });
 
@@ -303,14 +320,14 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
     });
 
     stat.questions.Q_11.VALIDE_AYANTS_DROIT = await usagerRepository.countAyantsDroits(
       {
         structureId: structure.id,
-        actifsInHistoryBefore: this.endOfStatDate,
+        actifsInHistoryBefore: endOfStatDate,
       }
     );
 
@@ -321,7 +338,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "REFUS",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
     });
 
@@ -329,7 +346,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "RADIE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
     });
 
@@ -342,7 +359,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decisionInHistory: {
         statut: "RADIE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
     });
 
@@ -351,7 +368,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decisionInHistory: {
           statut: "RADIE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
           motif: "A_SA_DEMANDE",
         },
       }
@@ -360,7 +377,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decisionInHistory: {
         statut: "RADIE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
         motif: "AUTRE",
       },
     });
@@ -370,7 +387,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decisionInHistory: {
           statut: "RADIE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
           motif: "ENTREE_LOGEMENT",
         },
       }
@@ -381,7 +398,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decisionInHistory: {
           statut: "RADIE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
           motif: "FIN_DE_DOMICILIATION",
         },
       }
@@ -392,7 +409,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decisionInHistory: {
           statut: "RADIE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
           motif: "NON_MANIFESTATION_3_MOIS",
         },
       }
@@ -403,7 +420,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decisionInHistory: {
           statut: "RADIE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
           motif: "NON_RESPECT_REGLEMENT",
         },
       }
@@ -414,7 +431,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decisionInHistory: {
           statut: "RADIE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
           motif: "PLUS_DE_LIEN_COMMUNE",
         },
       }
@@ -429,7 +446,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decisionInHistory: {
         statut: "REFUS",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
     });
 
@@ -438,7 +455,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decisionInHistory: {
           statut: "REFUS",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
           motif: "HORS_AGREMENT",
         },
       }
@@ -448,7 +465,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decisionInHistory: {
           statut: "REFUS",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
           motif: "LIEN_COMMUNE",
         },
       }
@@ -459,7 +476,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decisionInHistory: {
           statut: "REFUS",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
           motif: "SATURATION",
         },
       }
@@ -469,7 +486,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decisionInHistory: {
         statut: "REFUS",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
         motif: "AUTRE",
       },
     });
@@ -478,7 +495,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decisionInHistory: {
         statut: "REFUS",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
         orientation: "asso",
       },
     });
@@ -486,7 +503,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decisionInHistory: {
         statut: "REFUS",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
         orientation: "ccas",
       },
     });
@@ -495,10 +512,10 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       dateNaissance: {
-        min: this.dateMajorite, // mineurs
+        min: dateMajorite, // mineurs
       },
     });
 
@@ -506,10 +523,10 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       dateNaissance: {
-        max: this.dateMajorite, // majeurs
+        max: dateMajorite, // majeurs
       },
     });
 
@@ -518,7 +535,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           typeMenage: "COUPLE_AVEC_ENFANT",
@@ -531,7 +548,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           typeMenage: "COUPLE_SANS_ENFANT",
@@ -544,7 +561,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           typeMenage: "FEMME_ISOLE_AVEC_ENFANT",
@@ -557,7 +574,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           typeMenage: "FEMME_ISOLE_SANS_ENFANT",
@@ -570,7 +587,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           typeMenage: "HOMME_ISOLE_AVEC_ENFANT",
@@ -583,7 +600,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           typeMenage: "HOMME_ISOLE_SANS_ENFANT",
@@ -592,46 +609,55 @@ export class StatsGeneratorService {
     );
 
     stat.questions.Q_20.appel = await this.totalInteraction(
+      statsDayEnd,
       structure.id,
       "appel"
     );
 
     stat.questions.Q_20.colisIn = await this.totalInteraction(
+      statsDayEnd,
       structure.id,
       "colisIn"
     );
 
     stat.questions.Q_20.colisOut = await this.totalInteraction(
+      statsDayEnd,
       structure.id,
       "colisOut"
     );
 
     stat.questions.Q_20.courrierIn = await this.totalInteraction(
+      statsDayEnd,
       structure.id,
       "courrierIn"
     );
 
     stat.questions.Q_20.courrierOut = await this.totalInteraction(
+      statsDayEnd,
       structure.id,
       "courrierOut"
     );
 
     stat.questions.Q_20.recommandeIn = await this.totalInteraction(
+      statsDayEnd,
       structure.id,
       "recommandeIn"
     );
 
     stat.questions.Q_20.recommandeOut = await this.totalInteraction(
+      statsDayEnd,
       structure.id,
       "recommandeOut"
     );
 
     stat.questions.Q_20.visite = await this.totalInteraction(
+      statsDayEnd,
       structure.id,
       "visite"
     );
 
     stat.questions.Q_20.npai = await this.totalInteraction(
+      statsDayEnd,
       structure.id,
       "npai"
     );
@@ -640,7 +666,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       entretien: {
         cause: "ERRANCE",
@@ -651,7 +677,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       entretien: {
         cause: "EXPULSION",
@@ -663,7 +689,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           cause: "HEBERGE_SANS_ADRESSE",
@@ -675,7 +701,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       entretien: {
         cause: "ITINERANT",
@@ -687,7 +713,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           cause: "SORTIE_STRUCTURE",
@@ -699,7 +725,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       entretien: {
         cause: "VIOLENCE",
@@ -711,7 +737,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           cause: "NON_RENSEIGNE",
@@ -723,7 +749,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       entretien: {
         cause: "AUTRE",
@@ -734,7 +760,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       entretien: {
         cause: "RUPTURE",
@@ -745,7 +771,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       entretien: {
         residence: "AUTRE",
@@ -756,7 +782,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           residence: "DOMICILE_MOBILE",
@@ -769,7 +795,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           residence: "HEBERGEMENT_SOCIAL",
@@ -782,7 +808,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           residence: "HEBERGEMENT_TIERS",
@@ -794,7 +820,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       entretien: {
         residence: "HOTEL",
@@ -805,7 +831,7 @@ export class StatsGeneratorService {
       structureId: structure.id,
       decision: {
         statut: "VALIDE",
-        dateDecisionBefore: this.endOfStatDate,
+        dateDecisionBefore: endOfStatDate,
       },
       entretien: {
         residence: "SANS_ABRI",
@@ -817,7 +843,7 @@ export class StatsGeneratorService {
         structureId: structure.id,
         decision: {
           statut: "VALIDE",
-          dateDecisionBefore: this.endOfStatDate,
+          dateDecisionBefore: endOfStatDate,
         },
         entretien: {
           residence: "NON_RENSEIGNE",
@@ -826,4 +852,21 @@ export class StatsGeneratorService {
     );
     return stat;
   }
+}
+export function setFixStatsDateTime(statsDay: Date) {
+  // 11:11 par défaut pour faciliter les requêtes
+  return moment(statsDay)
+    .set("hour", 11)
+    .set("minute", 11)
+    .endOf("hour")
+    .toDate();
+}
+
+export function setFixStatsDateTimeMax(statsDay: Date) {
+  // sécurité pour être sûr d'éviter tout problème de timezone dans le check de l'existence de la stat (temporaire car mongo)
+  return moment(statsDay)
+    .set("hour", 11 - 3)
+    .set("minute", 11)
+    .endOf("hour")
+    .toDate();
 }

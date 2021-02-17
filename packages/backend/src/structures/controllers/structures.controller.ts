@@ -208,15 +208,6 @@ export class StructuresController {
     await this.interactionsService.deleteAll(user.structureId);
     await this.structureHardResetService.hardResetClean(structure.id);
 
-    /*
-    const today = moment().utc().startOf("day").toDate();
-    await this.statsGeneratorService.generateStructureStats(
-      today,
-      structure,
-      true
-    );
-    */
-
     return res.status(HttpStatus.OK).json({ message: "success" });
   }
 
