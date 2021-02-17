@@ -7,7 +7,10 @@ import {
   usersRepository,
 } from "../../database";
 import { DomifaMailsService } from "../../mails/services";
-import { StatsGeneratorService } from "../../stats/services/stats-generator.service";
+import {
+  setFixStatsDateTime,
+  StatsGeneratorService,
+} from "../../stats/services/stats-generator.service";
 import { UserDto } from "../../users/dto/user.dto";
 import { UsersService } from "../../users/services/users.service";
 import { appLogger } from "../../util/AppLogger.service";
@@ -57,9 +60,12 @@ export class StructureCreatorService {
 
     const structure = await this.createStructure(structureDto);
 
-    const today = moment().utc().startOf("day").toDate();
+    // generate stats for yesterday
+    const statsDay = setFixStatsDateTime(
+      moment.utc().subtract(1, "day").toDate()
+    );
     await this.statsGeneratorService.generateStructureStats(
-      today,
+      statsDay,
       structure,
       true
     );

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Between, Repository } from "typeorm";
 import { appTypeormManager, StructureStatsTable } from "../../database";
 import { appLogger } from "../../util";
@@ -17,26 +17,12 @@ export class StatsService {
     );
   }
 
-  // Recherche par ID
-  public async getStatById(
-    id: string,
-    structureId: number
-  ): Promise<StructureStatsTable> {
-    const stats = await this.structureStatsRepository.findOne({
-      where: { _id: id, structureId },
-    });
-    if (!stats || stats === null) {
-      throw new HttpException("STAT_ID_INCORRECT", HttpStatus.BAD_REQUEST);
-    }
-    return stats;
-  }
-
   public async getByDate(
     structureId: number,
-    date: Date
+    statsDay: Date
   ): Promise<StructureStats> {
-    const endOfDay = moment(date).endOf("day").toDate();
-    const startOfDay = moment(date).startOf("day").toDate();
+    const endOfDay = moment(statsDay).endOf("day").toDate();
+    const startOfDay = moment(statsDay).startOf("day").toDate();
 
     return this.structureStatsRepository.findOne({
       where: { structureId, date: Between(startOfDay, endOfDay) },
@@ -72,8 +58,7 @@ export class StatsService {
     if (!startStats || startStats === null) {
       // NOT EXIST: on les génère à la volée
       startStats = await this.statsGeneratorService.generateStructureStatsForPast(
-        startDate,
-        structure
+        { statsDay: startDate, structure }
       );
     }
     if (new Date(startStats.date).getTime() > new Date(endDate).getTime()) {
@@ -83,7 +68,7 @@ export class StatsService {
 
     // Si date du jour
     const endDateDay = moment(endDate).format("YYYY-MM-DD");
-    const today = moment(new Date()).format("YYYY-MM-DD");
+    const today = moment().format("YYYY-MM-DD");
 
     if (today === endDateDay) {
       endDate = moment(endDate).add(1, "day").toDate();
@@ -93,8 +78,7 @@ export class StatsService {
 
     if (!endStats || endStats === null) {
       endStats = await this.statsGeneratorService.generateStructureStatsForPast(
-        endDate,
-        structure
+        { statsDay: endDate, structure }
       );
     }
 

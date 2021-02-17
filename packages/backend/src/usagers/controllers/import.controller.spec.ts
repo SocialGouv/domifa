@@ -17,8 +17,6 @@ import moment = require("moment");
 
 const REQUIRED = true;
 const NOT_REQUIRED = false;
-const NEXT_YEAR_MAX = true;
-const THIS_YEAR_MAX = false;
 
 describe("Import Controller", () => {
   let controller: ImportController;

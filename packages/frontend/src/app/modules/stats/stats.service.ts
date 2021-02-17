@@ -10,6 +10,7 @@ import { DashboardStats, StructureStats } from "../../../_common/model";
 export class StatsService {
   public http: HttpClient;
   public loading: boolean;
+
   public baseUrl = environment.apiUrl + "stats/";
   public epUsagers = environment.apiUrl + "usagers/";
   public epUsers = environment.apiUrl + "users/";
