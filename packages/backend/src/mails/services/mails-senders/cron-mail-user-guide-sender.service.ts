@@ -4,13 +4,11 @@ import * as moment from "moment";
 import { domifaConfig } from "../../../config";
 import {
   cronMailsRepository,
-  MessageEmailTipimailContent,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
 } from "../../../database";
 import { appLogger } from "../../../util";
-import { AppUser } from "../../../_common/model";
-import { messageEmailSender } from "../_core";
+import { guideUtilisateurEmailSender } from "./guideUtilisateurEmailSender.service";
 
 @Injectable()
 export class CronMailUserGuideSenderService {
@@ -48,7 +46,12 @@ export class CronMailUserGuideSenderService {
 
         for (const user of users) {
           try {
-            await this._sendMailGuideToUser(user);
+            guideUtilisateurEmailSender.sendMail({ user });
+            await cronMailsRepository.updateMailFlag({
+              userId: user.id,
+              mailType: "guide",
+              value: true,
+            });
             monitorSuccess();
           } catch (err) {
             const totalErrors = monitorError(err);
@@ -65,50 +68,6 @@ export class CronMailUserGuideSenderService {
         }
       }
     );
-  }
-
-  private async _sendMailGuideToUser(
-    user: Pick<AppUser, "id" | "email" | "nom" | "prenom">
-  ) {
-    const message: MessageEmailTipimailContent = {
-      subject: "Le guide utilisateur Domifa",
-      tipimailTemplateId: "guide-utilisateur",
-      tipimailModels: [
-        {
-          email: user.email,
-          values: {
-            nom: user.prenom,
-            lien: this.lienGuide,
-          },
-          meta: {},
-        },
-      ],
-      to: [
-        {
-          address: user.email,
-          personalName: user.nom + " " + user.prenom,
-        },
-      ],
-      from: {
-        personalName: "Domifa",
-        address: this.domifaFromMail,
-      },
-      replyTo: {
-        personalName: "Domifa",
-        address: this.domifaAdminMail,
-      },
-    };
-
-    await messageEmailSender.sendTipimailContentMessageLater(message, {
-      emailId: "user-guide",
-      initialScheduledDate: new Date(),
-    });
-
-    await cronMailsRepository.updateMailFlag({
-      userId: user.id,
-      mailType: "guide",
-      value: true,
-    });
   }
 }
 async function _findUsersToSendMailGuide() {

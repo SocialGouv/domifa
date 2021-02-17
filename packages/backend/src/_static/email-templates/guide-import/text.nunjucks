@@ -1,0 +1,18 @@
+Bonjour {{ prenom }}
+
+Une fonctionnalité d’import de données a été créée afin que puissiez télécharger plus facilement les données liées à vos domiciliés actuels. 
+
+Réalisez dès à présent l’import de vos données afin de pouvoir utiliser DomiFa. 
+
+
+Cliquez sur le lien ci-dessous pour importer vos domiciliés:
+- {{ lienImport }}
+
+En cas de question n’hésitez pas à consulter notre guide pratique et notre FAQ:
+- {{ lienGuide }}
+- {{ lienFaq }}
+
+
+À bientôt,
+
+L’équipe Domifa
