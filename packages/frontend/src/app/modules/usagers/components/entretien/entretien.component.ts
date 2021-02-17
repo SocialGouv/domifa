@@ -10,10 +10,9 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import * as labels from "src/app/modules/usagers/usagers.labels";
-import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import { Entretien } from "../../interfaces/entretien";
 
 @Component({
@@ -45,15 +44,13 @@ export class EntretienComponent implements OnInit {
 
   public dirty: boolean;
 
-  public me: AppUser;
   public entretienVide: Entretien;
 
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
     private notifService: ToastrService,
-    private modalService: NgbModal,
-    public authService: AuthService
+    private modalService: NgbModal
   ) {
     this.entretienVide = new Entretien();
   }
@@ -63,10 +60,6 @@ export class EntretienComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
-      this.me = user;
-    });
-
     this.labels = labels;
 
     this.residenceList = Object.keys(this.labels.residence);

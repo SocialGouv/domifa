@@ -889,7 +889,7 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="panel-9">
+    <ngb-panel id="panel-9" *ngIf="usager.decision.statut !== 'REFUS'">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
@@ -910,7 +910,7 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="panel-10">
+    <ngb-panel id="panel-10" *ngIf="usager.decision.statut !== 'REFUS'">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
