@@ -40,6 +40,7 @@ import { UsagersService } from "../services/usagers.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
+@UseGuards(AuthGuard("jwt"))
 @ApiBearerAuth()
 export class UsagersController {
   constructor(
@@ -48,7 +49,6 @@ export class UsagersController {
     private readonly cerfaService: CerfaService
   ) {}
 
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @Get()
   public async findAllByStructure(@CurrentUser() user: AppAuthUser) {
     return usagerLightRepository.findMany(
@@ -60,7 +60,7 @@ export class UsagersController {
   }
 
   /* FORMULAIRE INFOS */
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @UseGuards(FacteurGuard)
   @Post()
   public postUsager(
     @Body() usagerDto: CreateUsagerDto,
@@ -69,7 +69,7 @@ export class UsagersController {
     return this.usagersService.create(usagerDto, user);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Patch(":usagerRef")
   public async patchUsager(
     @Body() usagerDto: EditUsagerDto,
@@ -85,7 +85,7 @@ export class UsagersController {
     return this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Post("entretien/:usagerRef")
   public setEntretien(
     @Body() entretien: EntretienDto,
@@ -94,7 +94,7 @@ export class UsagersController {
     return this.usagersService.setEntretien({ uuid: usager.uuid }, entretien);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Get("next-step/:usagerRef/:etapeDemande")
   public async nextStep(
     @Param("etapeDemande") etapeDemande: number,
@@ -103,7 +103,7 @@ export class UsagersController {
     return this.usagersService.nextStep({ uuid: usager.uuid }, etapeDemande);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @Get("stop-courrier/:usagerRef")
   public async stopCourrier(@CurrentUsager() currentUsager: UsagerLight) {
     const usager = await usagerRepository.findOne({
@@ -120,7 +120,7 @@ export class UsagersController {
     return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Get("renouvellement/:usagerRef")
   public async renouvellement(
     @CurrentUser() user: AppAuthUser,
@@ -129,7 +129,7 @@ export class UsagersController {
     return this.usagersService.renouvellement({ uuid: usager.uuid }, user);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Post("decision/:usagerRef")
   public async setDecision(
     @Body() decision: DecisionDto,
@@ -141,7 +141,7 @@ export class UsagersController {
     return this.usagersService.setDecision({ uuid: usager.uuid }, decision);
   }
 
-  @UseGuards(AuthGuard("jwt"), FacteurGuard)
+  @UseGuards(FacteurGuard)
   @Get("doublon/:nom/:prenom/:usagerRef")
   public isDoublon(
     @Param("nom") nom: string,
@@ -157,7 +157,7 @@ export class UsagersController {
     });
   }
 
-  @UseGuards(AuthGuard("jwt"), ResponsableGuard, UsagerAccessGuard)
+  @UseGuards(ResponsableGuard, UsagerAccessGuard)
   @Delete(":usagerRef")
   public async delete(
     @CurrentUser() user: AppAuthUser,
@@ -216,7 +216,7 @@ export class UsagersController {
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Post("transfert/:usagerRef")
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
@@ -245,7 +245,7 @@ export class UsagersController {
     return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Delete("renew/:usagerRef")
   public async deleteRenew(@CurrentUsager() usager: UsagerLight) {
     usager.etapeDemande = 1;
@@ -254,7 +254,7 @@ export class UsagersController {
     return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Delete("transfert/:usagerRef")
   public async deleteTransfert(
     @CurrentUser() user: AppAuthUser,
@@ -278,7 +278,7 @@ export class UsagersController {
     return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Post("procuration/:usagerRef")
   public async editProcuration(
     @Body() procurationDto: ProcurationDto,
@@ -306,7 +306,7 @@ export class UsagersController {
     return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Delete("procuration/:usagerRef")
   public async deleteProcuration(
     @CurrentUser() user: AppAuthUser,
@@ -331,7 +331,7 @@ export class UsagersController {
     return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @Get("attestation/:usagerRef")
   public async getAttestation(
     @Res() res: Response,
@@ -357,7 +357,7 @@ export class UsagersController {
       });
   }
 
-  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @Get(":usagerRef")
   public async findOne(@CurrentUsager() usager: UsagerLight) {
     return usager;

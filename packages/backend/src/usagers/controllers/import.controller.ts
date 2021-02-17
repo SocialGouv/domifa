@@ -83,8 +83,6 @@ type AOA = any[][];
 export class ImportController {
   public colNames: string[];
 
-  private readonly logger = new Logger(ImportController.name);
-
   constructor(
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
@@ -476,7 +474,7 @@ export class ImportController {
               sentry: true,
               extra: {
                 ...importContext,
-                errorsId: errorsId,
+                errorsId,
               },
             });
 
