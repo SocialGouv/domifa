@@ -16,6 +16,7 @@ function _advancedCount({
   decision,
   dateNaissance,
   entretien,
+  logSql,
 }: UsagerAvancedSearchCriteria & {
   countType: "domicilie" | "ayant-droit";
 }): Promise<number> {
@@ -143,5 +144,6 @@ function _advancedCount({
     params,
     expression,
     resultAlias: "count",
+    logSql,
   });
 }

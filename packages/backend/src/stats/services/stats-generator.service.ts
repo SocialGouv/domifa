@@ -56,12 +56,11 @@ export class StatsGeneratorService {
         trigger,
       },
       async ({ monitorTotal, monitorSuccess, monitorError }) => {
-        const statsDay = setFixStatsDateTime(
-          moment.utc().subtract(1, "day").toDate()
-        );
+        const yesterday = moment.utc().subtract(1, "day").toDate();
+        const statsDay = setFixStatsDateTime(yesterday);
         const structures = await structureLightRepository.findStructuresToGenerateStats(
           {
-            maxLastExportDate: setFixStatsDateTimeMax(statsDay),
+            exportDateUTC: statsDay,
           }
         );
 
@@ -98,13 +97,6 @@ export class StatsGeneratorService {
   ) {
     const stat = await this.buildStats({ structure, statsDay, generated });
 
-    const dateExport = setFixStatsDateTime(statsDay);
-
-    const retourStructure = await this.structureService.updateLastExport(
-      structure.id,
-      dateExport
-    );
-
     const retourStats = await this.structureStatsRepository.insert(stat);
 
     const updateStructureStats = await this.structureService.updateStructureStats(
@@ -114,7 +106,7 @@ export class StatsGeneratorService {
       stat.questions.Q_11.RADIE
     );
 
-    return { retourStructure, retourStats, updateStructureStats };
+    return { retourStats, updateStructureStats };
   }
 
   public async generateStructureStatsForPast({
@@ -192,8 +184,11 @@ export class StatsGeneratorService {
       .subtract(1, "minute")
       .toDate();
 
-    if (statsDayEnd > new Date()) {
-      throw new Error(`Invalid stats day ${statsDayEnd}`);
+    const now = new Date();
+    if (statsDayEnd > now) {
+      throw new Error(
+        `Invalid stats day '${statsDayEnd.toUTCString()}' > '${now.toUTCString()} (dateExport=${dateExport.toUTCString()}, statsDay=${statsDay.toUTCString()})'`
+      );
     }
 
     const stat = new StructureStatsTable({
@@ -290,6 +285,7 @@ export class StatsGeneratorService {
     stat.questions.Q_10 = await usagerRepository.countDomiciliations({
       structureId: structure.id,
       actifsInHistoryBefore: endOfStatDate,
+      logSql: false,
     });
 
     // Dont Premiere demande
@@ -857,15 +853,6 @@ export function setFixStatsDateTime(statsDay: Date) {
   // 11:11 par défaut pour faciliter les requêtes
   return moment(statsDay)
     .set("hour", 11)
-    .set("minute", 11)
-    .endOf("hour")
-    .toDate();
-}
-
-export function setFixStatsDateTimeMax(statsDay: Date) {
-  // sécurité pour être sûr d'éviter tout problème de timezone dans le check de l'existence de la stat (temporaire car mongo)
-  return moment(statsDay)
-    .set("hour", 11 - 3)
     .set("minute", 11)
     .endOf("hour")
     .toDate();
