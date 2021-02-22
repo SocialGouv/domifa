@@ -26,6 +26,7 @@ const baseRepository = pgRepository.get<UsagerTable, UsagerLight>(UsagerTable, {
     "villeNaissance",
     "phone",
     "langue",
+    "preference",
   ],
 });
 
