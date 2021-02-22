@@ -1,0 +1,26 @@
+Une nouvelle structure vient de s'inscrire sur Domifa.
+Veuillez vérifier les informations ci-dessous.
+
+Nom : {{ structure_name }}
+Type de structure : {{ structure_type }}
+Département : {{ departement }}
+
+Adresse :
+{{ adresse }}
+{{ ville }}, {{ code_postal }}
+
+Coordonnées de la structure:
+{{ email }}
+{{ phone }}
+
+Responsable de la structure:
+{{ responsable_nom }} {{ responsable_prenom }}
+{{ responsable_fonction }}
+
+Informations de l'administrateur:
+{{ user_nom }} {{ user_prenom }}
+{{ user_email }}
+
+Valider le compte: {{ lien_confirmation }}
+
+Supprimer le compte: {{ lien_suppression }}

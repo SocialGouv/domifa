@@ -1,0 +1,78 @@
+{% extends "./base.nunjucks" %}
+{% block head_custom %}
+     <link rel="stylesheet" href="./usager-appointment-created/html.css">
+{% endblock %}
+
+{% block content %}
+
+     <div class="content text-left leading-normal">
+
+          <div class="my-3">
+               Une nouvelle structure vient de s'inscrire sur Domifa.
+               Veuillez vérifier les informations ci-dessous.
+          </div>
+
+          <div class="my-3">
+            <div class="my-1">
+               <b>Nom : </b>{{ structure_name }}
+            </div>
+            <div class="my-1">
+               <b>Type de structure :</b> {{ structure_type }}
+            </div>
+            <div class="my-1">
+               <b>Département :</b> {{ departement }}
+            </div>
+          </div>
+
+          <div class="my-3">
+            <div class="my-1">
+               <b>Adresse : </b>
+            </div>
+            <ul>
+               <li>{{ adresse }}</li>
+               <li>{{ ville }}, {{ code_postal }}</li>
+            </ul>
+          </div>
+
+          <div class="my-3">
+            <div class="my-1">
+               <b> Coordonnées de la structure: </b>
+            </div>
+            <ul>
+               <li>{{ email }}</li>
+               <li>{{ phone }}</li>
+            </ul>
+          </div>
+
+          <div class="my-3">
+            <div class="my-1">
+               <b>Responsable de la structure: </b>
+            </div>
+            <ul>
+               <li>{{ responsable_nom }} {{ responsable_prenom }}</li>
+               <li>{{ responsable_fonction }}</li>
+            </ul>
+          </div>
+
+          <div class="my-3">
+            <div class="my-1">
+               <b>Informations de l'administrateur: </b>
+            </div>
+            <ul>
+               <li>{{ user_nom }} {{ user_prenom }}</li>
+               <li>{{ user_email }}</li>
+            </ul>
+          </div>
+
+          <div class="mt-4 mb-8">
+               <a href="{{ lien_confirmation }}" target="_blank" rel="noopener noreferrer" class="btn-main">
+               <span class="btn-main-title font-bold">Valider le compte</span></a>
+          </div>
+
+          <div class="mt-4 mb-8">
+               <a href="{{ lien_suppression }}" target="_blank" rel="noopener noreferrer" class="btn-main btn-color-red">
+               <span class="btn-main-title font-bold">Supprimer le compte</span></a>
+          </div>
+     </div>
+
+{% endblock %}
