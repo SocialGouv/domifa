@@ -78,7 +78,6 @@ export class DocsController {
   public async uploadDoc(
     @Param("usagerRef") usagerRef: number,
     @UploadedFile() file: any,
-    // TODO: Filtrer les datas du label
     @Body() postData: any,
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() currentUsager: UsagerLight,
@@ -118,15 +117,14 @@ export class DocsController {
       { uuid: usager.uuid },
       toUpdate
     );
+
     if (!retour || retour === null) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_ADD_FILE" });
     }
 
-    return res
-      .status(HttpStatus.OK)
-      .json({ usager, message: "IMPORT_SUCCESS" });
+    return res.status(HttpStatus.OK).json(retour.docs);
   }
 
   @Delete(":usagerRef/:index")

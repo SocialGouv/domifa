@@ -3,4 +3,6 @@ export type UsagerDoc = {
   createdBy: string;
   label: string;
   filetype: string;
+  loadingDownload?: boolean;
+  loadingDelete?: boolean;
 };

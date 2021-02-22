@@ -11,6 +11,7 @@ import { AppUser, UsagerLight } from "../../../../../../../_common/model";
 })
 export class DocumentsFormComponent implements OnInit {
   public usager: UsagerLight;
+
   public me: AppUser;
 
   constructor(

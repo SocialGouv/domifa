@@ -8,7 +8,6 @@ import {
   validateUpload,
 } from "../../../../shared/upload-validator";
 import { DocumentService } from "../../services/document.service";
-import { UsagerFormModel } from "../form/UsagerFormModel";
 
 @Component({
   selector: "app-upload",
@@ -27,10 +26,9 @@ export class UploadComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private documentService: DocumentService,
-    public authService: AuthService,
     private notifService: ToastrService
   ) {
-    this.uploadResponse = { status: "", message: "", filePath: "" };
+    this.uploadResponse = { status: "", message: "", filePath: "", body: [] };
   }
 
   get u(): any {
@@ -60,6 +58,14 @@ export class UploadComponent implements OnInit {
     });
   }
 
+  private rebuildDocStates() {
+    this.usager.docs = this.usager.docs.map((d) => ({
+      ...d,
+      loadingDownload: false,
+      loadingDelete: false,
+    }));
+  }
+
   public submitFile() {
     this.submitted = true;
 
@@ -79,12 +85,13 @@ export class UploadComponent implements OnInit {
           this.uploadResponse.success !== undefined &&
           this.uploadResponse.success
         ) {
-          this.usager.docs = this.uploadResponse.body.usager.docs;
-
+          this.usager.docs = this.uploadResponse.body;
           this.uploadForm.reset();
           this.fileName = "";
           this.submitted = false;
           this.notifService.success("Fichier uploadé avec succès");
+
+          this.rebuildDocStates();
         }
       },
       (err) => {

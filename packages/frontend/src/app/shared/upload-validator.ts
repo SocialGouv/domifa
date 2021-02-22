@@ -1,11 +1,12 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { UsagerDoc } from "../../_common/model";
 
 export type UploadResponseType = {
   success?: any;
   status?: string;
   message?: string;
   filePath?: string;
-  body?: any;
+  body?: UsagerDoc[];
 };
 
 export const extensionsAvailables = {

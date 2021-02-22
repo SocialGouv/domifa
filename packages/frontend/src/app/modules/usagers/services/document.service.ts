@@ -36,14 +36,14 @@ export class DocumentService {
               };
             }
           } else if (event.type === HttpEventType.Response) {
-            return { success: true, body: event.body };
+            return { success: true, body: event.body as UsagerDoc[] };
           }
           return `Unhandled event: ${event.type}`;
         })
       );
   }
 
-  public getDocument(usagerRef: number, index: number, doc: Doc) {
+  public getDocument(usagerRef: number, index: number) {
     return this.http.get(`${this.endPoint}${usagerRef}/${index}`, {
       responseType: "blob",
     });

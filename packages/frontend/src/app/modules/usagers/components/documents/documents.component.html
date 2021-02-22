@@ -11,7 +11,7 @@
         <th>Ajoutée par</th>
         <th></th>
       </tr>
-      <tr *ngFor="let document of docsStates; let indexDocs = index">
+      <tr *ngFor="let document of usager.docs; let indexDocs = index">
         <td class="align-middle">{{ document.label }}</td>
         <td class="align-middle">
           {{ document.createdAt | date: "dd/MM/yyyy" }}
