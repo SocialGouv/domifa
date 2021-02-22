@@ -23,11 +23,6 @@ import { Entretien } from "../../interfaces/entretien";
 export class EntretienComponent implements OnInit {
   public labels: any;
 
-  public typeMenageList: any;
-  public residenceList: any;
-  public causeList: any;
-  public raisonList: any;
-
   public entretienForm!: FormGroup;
 
   @Input() public usager!: UsagerLight;
@@ -61,11 +56,6 @@ export class EntretienComponent implements OnInit {
 
   public ngOnInit() {
     this.labels = labels;
-
-    this.residenceList = Object.keys(this.labels.residence);
-    this.causeList = Object.keys(this.labels.cause);
-    this.raisonList = Object.keys(this.labels.raison);
-    this.typeMenageList = Object.keys(this.labels.typeMenage);
 
     this.entretienForm = this.formBuilder.group({
       accompagnement: [

@@ -64,7 +64,6 @@ export class UsagersProfilComponent implements OnInit {
   };
 
   public labels: any = usagersLabels;
-  public liensLabels: any = Object.keys(this.labels.lienParente);
 
   public usager: UsagerFormModel;
   public usagerForm!: FormGroup;
@@ -119,8 +118,6 @@ export class UsagersProfilComponent implements OnInit {
       CREATION: "Création",
     };
 
-    this.me = this.authService.currentUserValue;
-
     this.usager = new UsagerFormModel();
   }
 
@@ -140,7 +137,6 @@ export class UsagersProfilComponent implements OnInit {
     if (this.route.snapshot.params.id) {
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: UsagerLight) => {
-          console.log(usager);
           if (
             usager.decision.statut === "ATTENTE_DECISION" &&
             usager.typeDom === "PREMIERE"

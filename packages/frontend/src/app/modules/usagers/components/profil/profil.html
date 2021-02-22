@@ -760,8 +760,11 @@
                     id="lien_{{i}}"
                     class="custom-select"
                   >
-                    <option *ngFor="let lien of liensLabels" [ngValue]="lien">
-                      {{ labels.lienParente[lien] }}
+                    <option
+                      *ngFor="let lien of labels.lienParente | keyvalue"
+                      [ngValue]="lien.key"
+                    >
+                      {{ lien.value }}
                     </option>
                   </select>
                 </div>

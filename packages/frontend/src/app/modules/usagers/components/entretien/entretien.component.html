@@ -12,7 +12,7 @@
   <br />
 
   <div class="row">
-    <div class="col">
+    <div class="col-md-12">
       <div>
         <span class="label">Avez-vous été orienté ?</span>
         <div class="form-check form-check-inline">
@@ -135,16 +135,19 @@
 
       <div class="questions">
         <span class="label"> Quelle est la composition de votre ménage ? </span>
-        <div class="form-check" *ngFor="let key of typeMenageList">
+        <div
+          class="form-check"
+          *ngFor="let typeMenage of labels.typeMenage | keyvalue"
+        >
           <input
             class="form-check-input"
             type="radio"
             formControlName="typeMenage"
-            id="{{ key }}"
-            value="{{ key }}"
+            id="{{ typeMenage.key }}"
+            value="{{ typeMenage.key }}"
           />
-          <label class="form-check-label" for="{{ key }}">
-            {{ labels.typeMenage[key] }}
+          <label class="form-check-label" for="{{ typeMenage.key }}">
+            {{ typeMenage.value }}
           </label>
         </div>
       </div>
@@ -154,16 +157,19 @@
           <span class="label">
             Quelle est votre situation résidentielle ?
           </span>
-          <div class="form-check" *ngFor="let key of residenceList">
+          <div
+            class="form-check"
+            *ngFor="let residence of labels.residence | keyvalue"
+          >
             <input
               class="form-check-input"
               type="radio"
               formControlName="residence"
-              id="{{ key }}"
-              value="{{ key }}"
+              id="{{ residence.key }}"
+              value="{{ residence.key }}"
             />
-            <label class="form-check-label" for="{{ key }}">
-              {{ labels.residence[key] }}
+            <label class="form-check-label" for="{{ residence.key }}">
+              {{ residence.value }}
             </label>
           </div>
           <div class="form-check">
@@ -191,35 +197,34 @@
       </div>
 
       <div class="questions">
-        <div>
-          <span class="label">
-            Quelle est la cause de l'instabilité de logement ?
-          </span>
-          <div class="form-check" *ngFor="let key of causeList">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="cause"
-              id="{{ key }}"
-              value="{{ key }}"
-            />
-            <label class="form-check-label" for="{{ key }}">
-              {{ labels.cause[key] }}
-            </label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="cause"
-              id="causeAutre"
-              value="AUTRE"
-            />
-            <label class="form-check-label" for="causeAutre">
-              Autre raison
-            </label>
-          </div>
+        <span class="label">
+          Quelle est la cause de l'instabilité de logement ?
+        </span>
+        <div class="form-check" *ngFor="let cause of labels.cause | keyvalue">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="cause"
+            id="{{ cause.key }}"
+            value="{{ cause.key }}"
+          />
+          <label class="form-check-label" for="{{ cause.key }}">
+            {{ cause.value }}
+          </label>
         </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="cause"
+            id="causeAutre"
+            value="AUTRE"
+          />
+          <label class="form-check-label" for="causeAutre">
+            Autre raison
+          </label>
+        </div>
+
         <div class="form-group" *ngIf="e.cause.value === 'AUTRE'">
           <input
             type="text"
@@ -235,16 +240,19 @@
           <span class="label">
             Quel est le motif principal de demande de domiciliation ?
           </span>
-          <div class="form-check" *ngFor="let key of raisonList">
+          <div
+            class="form-check"
+            *ngFor="let raison of labels.raison | keyvalue"
+          >
             <input
               class="form-check-input"
               type="radio"
               formControlName="raison"
-              id="{{ key }}"
-              value="{{ key }}"
+              id="{{ raison.key }}"
+              value="{{ raison.key }}"
             />
-            <label class="form-check-label" for="{{ key }}">
-              {{ labels.raison[key] }}
+            <label class="form-check-label" for="{{ raison.key }}">
+              {{ raison.value }}
             </label>
           </div>
           <div class="form-check">
@@ -336,12 +344,10 @@
         </small>
       </div>
     </div>
-    <div class="w-100">
-      <br />
-    </div>
-    <br />
-    <br />
-    <div class="col-md-4 offset-md-4 text-center">
+  </div>
+
+  <div class="row">
+    <div class="my-4 col-md-4 offset-md-4 text-center">
       <button
         type="submit"
         class="btn btn-primary btn-block"
@@ -349,24 +355,20 @@
       >
         Enregistrer
       </button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-block"
-        *ngIf="usager.decision.statut === 'INSTRUCTION'"
-      >
-        Suivant
-      </button>
-      <br />
-      <a
-        routerLink="/manage"
-        *ngIf="usager.decision.statut === 'INSTRUCTION'"
-        routerLinkActive="router-link-active"
-        class="btn btn-block"
-      >
-        <u>Continuer plus tard</u>
-        &nbsp;
-        <fa-icon icon="angle-right"></fa-icon>
-      </a>
+
+      <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
+        <button type="submit" class="btn btn-primary btn-block">Suivant</button>
+        <br />
+        <a
+          routerLink="/manage"
+          routerLinkActive="router-link-active"
+          class="btn btn-block"
+        >
+          <u>Continuer plus tard</u>
+          &nbsp;
+          <fa-icon icon="angle-right"></fa-icon>
+        </a>
+      </ng-container>
     </div>
   </div>
 </form>
