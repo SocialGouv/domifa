@@ -165,6 +165,11 @@ export class ImportPreviewBuilder {
               isValidColumn = false;
             }
             break;
+          case COL.RAISON_DEMANDE:
+            if (!this.isValidValue(value, "raison")) {
+              isValidColumn = false;
+            }
+            break;
           case COL.CAUSE_INSTABILITE:
             if (!this.isValidValue(value, "cause")) {
               isValidColumn = false;
@@ -343,7 +348,7 @@ export class ImportPreviewBuilder {
       [key: string]: any;
     } = {
       demande: ["PREMIERE", "RENOUVELLEMENT"],
-      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE", "AUTRES"],
+      lienParente: ["ENFANT", "CONJOINT", "PARENT", "AUTRE"],
       menage: [
         "HOMME_ISOLE_SANS_ENFANT",
         "FEMME_ISOLE_SANS_ENFANT",
@@ -360,15 +365,8 @@ export class ImportPreviewBuilder {
         "PLUS_DE_LIEN_COMMUNE",
         "NON_RESPECT_REGLEMENT",
         "AUTRE",
-        "AUTRES",
       ],
-      motifRefus: [
-        "LIEN_COMMUNE",
-        "SATURATION",
-        "HORS_AGREMENT",
-        "AUTRE",
-        "AUTRES",
-      ],
+      motifRefus: ["LIEN_COMMUNE", "SATURATION", "HORS_AGREMENT", "AUTRE"],
       residence: [
         "DOMICILE_MOBILE",
         "HEBERGEMENT_SOCIAL",

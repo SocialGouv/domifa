@@ -69,7 +69,6 @@ export class ImportComponent implements OnInit {
 
   public uploadForm!: FormGroup;
   public fileName: string;
-  public errorsList: any;
 
   public canUpload: boolean;
   public success: boolean;

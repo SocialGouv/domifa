@@ -85,8 +85,6 @@ export class ImportController {
 
   public AYANT_DROIT = [33, 37, 41, 45, 49, 53, 57, 61, 65];
 
-  private readonly logger = new Logger(ImportController.name);
-
   constructor(
     private readonly usagersService: UsagersService,
     private readonly structureService: StructuresService
@@ -484,7 +482,7 @@ export class ImportController {
               sentry: true,
               extra: {
                 ...importContext,
-                errorsId: errorsId,
+                errorsId,
               },
             });
 
