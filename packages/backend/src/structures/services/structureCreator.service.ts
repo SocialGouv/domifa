@@ -6,7 +6,10 @@ import {
   StructureTable,
   usersRepository,
 } from "../../database";
-import { DomifaMailsService } from "../../mails/services";
+import {
+  DomifaMailsService,
+  newStructureEmailSender,
+} from "../../mails/services";
 import {
   setFixStatsDateTime,
   StatsGeneratorService,
@@ -84,7 +87,7 @@ export class StructureCreatorService {
 
     delete user.password;
 
-    await this.domifaMailsService.newStructure(structure, user);
+    await newStructureEmailSender.sendMail({ structure, user });
 
     return { structureId: structure.id, userId: user.id };
   }

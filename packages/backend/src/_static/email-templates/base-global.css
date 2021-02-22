@@ -61,7 +61,10 @@ p {
 .btn-main-title {
   font-size: 16px;
   text-align: center;
-  background-color: rgb(62, 97, 255);
+  background-color: transparent;
   color: rgb(255, 255, 255);
   font-family: Arial, serif;
+}
+.btn-color-red {
+  background: #ff5b3d;
 }

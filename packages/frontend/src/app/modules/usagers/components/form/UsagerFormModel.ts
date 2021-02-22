@@ -67,7 +67,10 @@ export class UsagerFormModel {
 
   public options: Options;
 
-  constructor(usager?: UsagerLight, filterCriteria?: UsagersFilterCriteria) {
+  constructor(
+    usager?: Partial<UsagerLight>,
+    filterCriteria?: UsagersFilterCriteria
+  ) {
     this.ref = (usager && usager.ref) || 0;
     this.customRef = (usager && usager.customRef) || null;
 
@@ -173,17 +176,16 @@ export class UsagerFormModel {
     this.options = (usager && new Options(usager.options)) || new Options({});
 
     this.isAyantDroit = false;
-    const {searchString} = filterCriteria??{};
+    const { searchString } = filterCriteria ?? {};
     if (searchString && searchString !== null) {
-
       // if search does not match without ayant-droits, flag it as "isAyantDroit"
-      this.isAyantDroit = usagersFilter.filter([usager], {
-        criteria: {
-          ...filterCriteria,
-          searchInAyantDroits: false,
-        },
-      }).length === 0;
-
+      this.isAyantDroit =
+        usagersFilter.filter([usager as UsagerLight], {
+          criteria: {
+            ...filterCriteria,
+            searchInAyantDroits: false,
+          },
+        }).length === 0;
     }
   }
 }

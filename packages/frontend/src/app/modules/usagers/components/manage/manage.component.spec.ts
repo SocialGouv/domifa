@@ -74,6 +74,7 @@ describe("ManageUsagersComponent", () => {
       sortKey: "NAME",
       sortValue: "ascending",
       statut: "VALIDE",
+      searchInAyantDroits: true,
     });
   }));
 
