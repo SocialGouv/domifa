@@ -33,6 +33,7 @@ export type DashboardTableStructure = StructureAdmin & {
 };
 
 type DashboardTableSortAttribute =
+  | "id"
   | "nom"
   | "structureTypeLabel"
   | "createdAt"

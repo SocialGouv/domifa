@@ -1,9 +1,11 @@
-import moment = require("moment");
-import { domifaConfig } from "../../../config";
-import { AppUserForAdminEmail, MessageEmailContent } from "../../../database";
-import { StructurePG } from "../../../_common/model";
-import { newStructureEmailRenderer } from "../templates-renderers";
-import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../_core";
+import { domifaConfig } from "../../../../config";
+import {
+  AppUserForAdminEmail,
+  MessageEmailContent,
+} from "../../../../database";
+import { StructurePG } from "../../../../_common/model";
+import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
+import { newStructureEmailRenderer } from "./newStructureEmailRenderer.service";
 
 export const newStructureEmailSender = { sendMail };
 

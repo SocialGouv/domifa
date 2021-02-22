@@ -19,13 +19,12 @@ import { DomifaGuard } from "../../auth/guards/domifa.guard";
 import { usagerRepository, usersRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import { InteractionsService } from "../../interactions/interactions.service";
+import { StructuresMailsService } from "../../mails/services";
 import {
-  DomifaMailsService,
-  StructuresMailsService,
-  UsagersMailsService,
-} from "../../mails/services";
+  deleteStructureEmailSender,
+  hardResetEmailSender,
+} from "../../mails/services/templates-renderers";
 import { StatsService } from "../../stats/services/stats.service";
-import { UsagersService } from "../../usagers/services/usagers.service";
 import { EmailDto } from "../../users/dto/email.dto";
 import { AppAuthUser } from "../../_common/model";
 import { StructureEditDto } from "../dto/structure-edit.dto";
@@ -36,8 +35,6 @@ import { StructureDeletorService } from "../services/structureDeletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 
-import moment = require("moment");
-
 @Controller("structures")
 @ApiTags("structures")
 export class StructuresController {
@@ -47,10 +44,7 @@ export class StructuresController {
     private structureHardResetService: StructureHardResetService,
     private structureService: StructuresService,
     private statsService: StatsService,
-    private usagersService: UsagersService,
     private interactionsService: InteractionsService,
-    private domifaMailsService: DomifaMailsService,
-    private usagersMailsService: UsagersMailsService,
     private structuresMailsService: StructuresMailsService
   ) {}
 
@@ -163,7 +157,10 @@ export class StructuresController {
     );
 
     if (structure) {
-      await this.usagersMailsService.hardReset(user, hardResetToken.token);
+      await hardResetEmailSender.sendMail({
+        user,
+        confirmationCode: hardResetToken.token,
+      });
       return res.status(HttpStatus.OK).json({ message: expireAt });
     } else {
       throw new HttpException(
@@ -263,7 +260,7 @@ export class StructuresController {
     );
 
     if (!!structure) {
-      this.domifaMailsService.sendMailConfirmDeleteStructure(structure).then(
+      deleteStructureEmailSender.sendMail({ structure }).then(
         (result) => {
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },

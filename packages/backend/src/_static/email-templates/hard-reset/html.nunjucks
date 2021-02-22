@@ -1,0 +1,38 @@
+{% extends "./base.nunjucks" %}
+{% block head_custom %}
+     <link rel="stylesheet" href="./usager-appointment-created/html.css">
+{% endblock %}
+
+{% block content %}
+
+     <div class="content text-center leading-normal">
+          <div class="my-3">
+               Bonjour {{ prenom }}
+          </div>
+
+          <div class="my-3">
+               Vous avez demandé la suppression des usagers de votre structure.
+          </div>
+
+          <div class="my-3 font-bold text-red-600">
+               Pour rappel, vous n'aurez aucun moyen de restaurer les dossiers effacés.
+          </div>  
+          
+          <div class="mt-8 mb-4 font-bold">
+                CODE DE CONFIRMATION
+          </div>
+
+           <div class="mt-4 mb-8 font-bold text-3xl text-blue-800">
+               {{ confirmationCode }}
+          </div>
+
+          <div class="my-3">
+                À bientôt,
+          </div>
+
+          <div class="my-3">
+               L’équipe Domifa 
+          </div>
+     </div>
+
+{% endblock %}

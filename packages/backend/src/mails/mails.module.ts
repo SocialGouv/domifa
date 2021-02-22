@@ -7,9 +7,7 @@ import { UsersModule } from "../users/users.module";
 import {
   CronMailImportGuideSenderService,
   CronMailUserGuideSenderService,
-  DomifaMailsService,
   StructuresMailsService,
-  UsagersMailsService,
   UsersMailsService,
 } from "./services";
 import { MessageEmailConsummer, TipimailSender } from "./services/_core";
@@ -18,8 +16,6 @@ import { MessageEmailConsummer, TipimailSender } from "./services/_core";
   controllers: [],
   exports: [
     StructuresMailsService,
-    DomifaMailsService,
-    UsagersMailsService,
     UsersMailsService,
     TipimailSender,
     MessageEmailConsummer,
@@ -28,9 +24,7 @@ import { MessageEmailConsummer, TipimailSender } from "./services/_core";
   ],
   providers: [
     StructuresMailsService,
-    DomifaMailsService,
     TipimailSender,
-    UsagersMailsService,
     UsersMailsService,
     MessageEmailConsummer,
     CronMailImportGuideSenderService,

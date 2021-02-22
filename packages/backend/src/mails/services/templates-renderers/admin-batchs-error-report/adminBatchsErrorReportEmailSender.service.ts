@@ -1,11 +1,11 @@
-import { domifaConfig } from "../../../config";
+import { domifaConfig } from "../../../../config";
 import {
   AdminBatchsErrorReportModel,
   MessageEmailContent,
-} from "../../../database";
-import { appLogger } from "../../../util";
-import { adminBatchsErrorReportEmailRenderer } from "../templates-renderers";
-import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../_core";
+} from "../../../../database";
+import { appLogger } from "../../../../util";
+import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
+import { adminBatchsErrorReportEmailRenderer } from "./adminBatchsErrorReportEmailRenderer.service";
 
 export const adminBatchsErrorReportEmailSender = { sendMail };
 

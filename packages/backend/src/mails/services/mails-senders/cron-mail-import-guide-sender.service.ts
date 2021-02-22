@@ -10,7 +10,7 @@ import {
 } from "../../../database";
 import { Structure } from "../../../structures/structure-interface";
 import { appLogger } from "../../../util";
-import { guideImportEmailSender } from "./guideImportEmailSender.service";
+import { guideImportEmailSender } from "../templates-renderers";
 
 @Injectable()
 export class CronMailImportGuideSenderService {
