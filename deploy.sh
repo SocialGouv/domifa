@@ -1,6 +1,5 @@
 #!/bin/bash
 branch=$1
-skip_docker_pull=$2
 
 if [ -z "$branch" ]
 then
@@ -100,24 +99,23 @@ else
         exit 3
     fi
     
-    if [ "$skip_docker_pull" != "" ]; then
-        echo ""
-        echo "----------------------------------------------------------------------------"
-        echo "Pull docker backend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
-        (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION})
-        if [ $? -eq 1 ]; then
-            echo "[ERROR] exit"
-            exit 3
-        fi
-        echo ""
-        echo "----------------------------------------------------------------------------"
-        echo "Pull docker frontend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
-        (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION})
-        if [ $? -eq 1 ]; then
-            echo "[ERROR] exit"
-            exit 3
-        fi
+    echo ""
+    echo "----------------------------------------------------------------------------"
+    echo "Pull docker backend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
+    (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION})
+    if [ $? -eq 1 ]; then
+        echo "[ERROR] exit"
+        exit 3
     fi
+    echo ""
+    echo "----------------------------------------------------------------------------"
+    echo "Pull docker frontend image '$DOMIFA_DOCKER_IMAGE_VERSION'"
+    (set -x && sudo docker pull registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/frontend:${DOMIFA_DOCKER_IMAGE_VERSION})
+    if [ $? -eq 1 ]; then
+        echo "[ERROR] exit"
+        exit 3
+    fi
+    
     echo ""
     echo "----------------------------------------------------------------------------"
     echo "Setting 'DOMIFA_DOCKER_IMAGE_VERSION=$DOMIFA_DOCKER_IMAGE_VERSION' in .env"
