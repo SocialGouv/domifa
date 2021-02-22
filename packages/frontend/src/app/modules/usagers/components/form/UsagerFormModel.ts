@@ -1,13 +1,16 @@
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { UsagerDoc, UsagerPG, UsagerSexe } from "../../../../../_common/model";
+import {
+  UsagerDoc,
+  UsagerLight,
+  UsagerSexe
+} from "../../../../../_common/model";
 import { UsagerAyantDroit } from "../../../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../../../_common/model/usager/UsagerDecision.type";
-import { formatDateToNgb } from "../../../../shared/bootstrap-util";
 import { Decision } from "../../interfaces/decision";
 import { Doc } from "../../interfaces/doc";
 import { Entretien } from "../../interfaces/entretien";
 import { Options } from "../../interfaces/options";
 import { Rdv } from "../../interfaces/rdv";
+import { usagersFilter, UsagersFilterCriteria } from "../manage/usager-filter";
 
 export class UsagerFormModel {
   public ref: number;
@@ -64,7 +67,7 @@ export class UsagerFormModel {
 
   public options: Options;
 
-  constructor(usager?: Partial<UsagerPG>, searchString?: string) {
+  constructor(usager?: UsagerLight, filterCriteria?: UsagersFilterCriteria) {
     this.ref = (usager && usager.ref) || 0;
     this.customRef = (usager && usager.customRef) || null;
 
@@ -170,20 +173,17 @@ export class UsagerFormModel {
     this.options = (usager && new Options(usager.options)) || new Options({});
 
     this.isAyantDroit = false;
+    const {searchString} = filterCriteria??{};
     if (searchString && searchString !== null) {
-      const substring = searchString.toUpperCase();
-      let customRef = this.customRef;
 
-      if (!this.customRef || this.customRef === null) {
-        customRef = "";
-      }
+      // if search does not match without ayant-droits, flag it as "isAyantDroit"
+      this.isAyantDroit = usagersFilter.filter([usager], {
+        criteria: {
+          ...filterCriteria,
+          searchInAyantDroits: false,
+        },
+      }).length === 0;
 
-      this.isAyantDroit =
-        !this.ref.toString().toUpperCase().includes(substring) &&
-        !customRef.toUpperCase().includes(substring) &&
-        !this.nom.toUpperCase().includes(substring) &&
-        !this.prenom.toUpperCase().includes(substring) &&
-        !this.surnom.toUpperCase().includes(substring);
     }
   }
 }

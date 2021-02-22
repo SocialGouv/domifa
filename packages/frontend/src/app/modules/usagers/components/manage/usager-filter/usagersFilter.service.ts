@@ -28,6 +28,7 @@ function filter(
     filteredUsagers,
     {
       searchString: criteria.searchString,
+      searchInAyantDroits: criteria.searchInAyantDroits,
     }
   );
   return usagersSorter.sortBy(filteredAndSearchUsagers, {

@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
-  ViewChild,
+  ViewChild
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
@@ -18,7 +18,7 @@ import {
   ReplaySubject,
   Subject,
   Subscription,
-  timer,
+  timer
 } from "rxjs";
 import {
   debounceTime,
@@ -27,7 +27,7 @@ import {
   map,
   retryWhen,
   switchMap,
-  tap,
+  tap
 } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
@@ -43,7 +43,7 @@ import {
   usagersFilter,
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortKey,
-  UsagersFilterCriteriaSortValues,
+  UsagersFilterCriteriaSortValues
 } from "./usager-filter";
 
 @Component({
@@ -365,21 +365,20 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
     const allUsagers = allUsagersByStatus[filters.statut];
 
+    const filterCriteria: UsagersFilterCriteria = {
+      ...filters,
+      statut: undefined,
+    };
     const filteredUsagers = usagersFilter.filter(allUsagers, {
-      criteria: {
-        ...filters,
-        statut: undefined, // already filtered by status via allUsagersByStatus
-      },
+      criteria: filterCriteria,
     });
-
-    const usagers = filteredUsagers.map(
-      (item) => new UsagerFormModel(item, filters.searchString)
-    );
 
     const pageSize = 40;
     if (filters.page === 0) {
       this.nbResults = filteredUsagers.length;
-      this.usagers = usagers.slice(0, pageSize);
+      this.usagers = filteredUsagers.slice(0, pageSize).map(
+        (item) => new UsagerFormModel(item, filters)
+      );
 
       window.scroll({
         behavior: "smooth",
@@ -388,7 +387,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       });
     } else {
       this.usagers = this.usagers.concat(
-        usagers.slice(filters.page * pageSize, filters.page * pageSize + 40)
+        filteredUsagers.slice(filters.page * pageSize, filters.page * pageSize + 40).map(
+          (item) => new UsagerFormModel(item, filters)
+        )
       );
     }
     this.searching = false;
