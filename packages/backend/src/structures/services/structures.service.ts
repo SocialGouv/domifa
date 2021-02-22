@@ -43,16 +43,6 @@ export class StructuresService {
     );
   }
 
-  public async updateLastExport(
-    structureId: number,
-    dateExport: Date
-  ): Promise<StructureCommon> {
-    return structureCommonRepository.updateOne(
-      { id: structureId },
-      { lastExport: dateExport }
-    );
-  }
-
   public async updateStructureStats(
     structureId: number,
     valide: number,

@@ -34,7 +34,6 @@ export type Structure = AppEntity & {
 
   adresseCourrier: StructureAddresseCourrier;
 
-  lastExport: Date;
   stats: StructureUsagersStats;
   options: {
     numeroBoite: boolean;

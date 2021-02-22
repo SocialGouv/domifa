@@ -73,7 +73,6 @@ export class TipimailSender {
     subject: string;
     toSkip: MessageEmailRecipient[];
   }): Promise<MessageEmailSendDetails> {
-    console.log("xxx message", JSON.stringify(message, undefined, 2));
     const post = {
       to: toSend,
       headers: {

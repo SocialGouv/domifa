@@ -42,7 +42,6 @@ export type StructurePG = AppEntity & {
 
   adresseCourrier: StructureAddresseCourrier;
 
-  lastExport: Date;
   stats: StructureUsagersStats;
   options: {
     numeroBoite: boolean;

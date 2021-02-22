@@ -1,3 +1,4 @@
+import moment = require("moment");
 import {
   StructureLight,
   STRUCTURE_LIGHT_ATTRIBUTES,
@@ -16,15 +17,17 @@ export const structureLightRepository = {
 };
 
 async function findStructuresToGenerateStats({
-  maxLastExportDate,
+  exportDateUTC,
 }: {
-  maxLastExportDate: Date;
+  exportDateUTC: Date;
 }): Promise<StructureLight[]> {
   const structures: StructureLight[] = await baseRepository.findManyWithQuery({
-    where: '"lastExport" <= :maxLastExportDate or "lastExport" IS NULL',
+    alias: "s",
+    where: `not exists(select 1 from structure_stats ss where ss."structureId"=s.id and ss."date"=(:exportDateUTC::"date"))`,
     params: {
-      maxLastExportDate,
+      exportDateUTC: moment(exportDateUTC, "YYYY-MM-DD"),
     },
+    logSql: false,
   });
   return structures;
 }

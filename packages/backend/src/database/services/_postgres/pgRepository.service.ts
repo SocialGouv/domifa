@@ -222,15 +222,17 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   async function findManyWithQuery<R = DEFAULT_RESULT>({
     where,
     params = {},
+    alias,
     ...options
   }: {
     where: string;
     params?: { [attr: string]: any };
+    alias?: string;
     logSql?: boolean;
   } & PgRepositoryFindOptions<T>): Promise<R[]> {
     const typeormRepository = await typeorm();
 
-    const qb = typeormRepository.createQueryBuilder();
+    const qb = typeormRepository.createQueryBuilder(alias);
     const select = _buildSelectAttributesQB(options, { addQuotes: true });
     qb.select(select as any).where(where, params);
     if (options.groupBy) {

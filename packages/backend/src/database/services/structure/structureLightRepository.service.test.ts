@@ -15,7 +15,7 @@ describe("structureLightRepository", () => {
   it("findStructuresToGenerateStats", async () => {
     const structures = await structureLightRepository.findStructuresToGenerateStats(
       {
-        maxLastExportDate: new Date(Date.UTC(2021, 2, 1)),
+        exportDateUTC: new Date(Date.UTC(2021, 2, 1)),
       }
     );
     expect(structures.length).toEqual(4);

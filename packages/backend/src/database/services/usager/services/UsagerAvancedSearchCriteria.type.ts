@@ -26,4 +26,5 @@ export type UsagerAvancedSearchCriteria = {
   entretien?: Partial<
     Pick<UsagerEntretien, "cause" | "typeMenage" | "residence">
   >;
+  logSql?: boolean;
 };

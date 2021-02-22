@@ -77,9 +77,6 @@ export class StructureTable
   importDate: Date;
 
   @Column({ type: "date", nullable: true })
-  lastExport: Date;
-
-  @Column({ type: "date", nullable: true })
   lastLogin: Date;
 
   @Column({ type: "text", nullable: true })
