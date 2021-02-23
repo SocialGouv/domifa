@@ -1,1 +1,1 @@
-export * from "./userResetPasswordEmailRenderer.service";
+export * from "./userResetPasswordEmailSender.service";

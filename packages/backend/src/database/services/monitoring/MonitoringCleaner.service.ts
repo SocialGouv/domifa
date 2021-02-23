@@ -4,7 +4,7 @@ import { LessThanOrEqual } from "typeorm";
 import { monitoringBatchProcessSimpleCountRunner } from ".";
 import { MonitoringBatchProcessTrigger, typeOrmSearch } from "../..";
 import { domifaConfig } from "../../../config";
-import { adminBatchsErrorReportEmailSender } from "../../../mails/services";
+import { adminBatchsErrorReportEmailSender } from "../../../mails/services/templates-renderers";
 import { appLogger } from "../../../util";
 import {
   MessageEmail,

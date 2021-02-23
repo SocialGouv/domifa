@@ -23,8 +23,8 @@ import {
   usersRepository,
   USERS_ADMIN_EMAILS_ATTRIBUTES,
 } from "../database";
-import { DomifaMailsService, UsersMailsService } from "../mails/services";
-import { userResetPasswordEmailSender } from "../mails/services/mails-senders/";
+import { UsersMailsService } from "../mails/services";
+import { userResetPasswordEmailSender } from "../mails/services/templates-renderers";
 import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
 import { ExpressResponse } from "../util/express";
@@ -42,7 +42,6 @@ import { UsersService } from "./services/users.service";
 export class UsersController {
   constructor(
     private usersService: UsersService,
-    private domifaMailsService: DomifaMailsService,
     private usersMailsService: UsersMailsService,
     private structureService: StructuresService
   ) {}

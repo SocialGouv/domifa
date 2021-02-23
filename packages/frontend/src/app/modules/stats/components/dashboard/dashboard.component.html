@@ -185,7 +185,7 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th>#</th>
+          <th (click)="sortDashboard('id')">#</th>
           <th (click)="sortDashboard('nom')">
             Nom
             <fa-icon icon="sort"></fa-icon>
@@ -225,7 +225,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let structure of sortedTableStructures; let i = index">
-          <td>{{ i + 1 }}</td>
+          <td>{{ structure.id }}</td>
           <td>
             {{ structure.nom }}
             {{

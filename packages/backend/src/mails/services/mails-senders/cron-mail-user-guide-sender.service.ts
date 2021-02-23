@@ -8,7 +8,7 @@ import {
   MonitoringBatchProcessTrigger,
 } from "../../../database";
 import { appLogger } from "../../../util";
-import { guideUtilisateurEmailSender } from "./guideUtilisateurEmailSender.service";
+import { guideUtilisateurEmailSender } from "../templates-renderers";
 
 @Injectable()
 export class CronMailUserGuideSenderService {

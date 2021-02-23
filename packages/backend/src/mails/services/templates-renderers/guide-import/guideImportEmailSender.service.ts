@@ -1,9 +1,8 @@
-import moment = require("moment");
-import { domifaConfig } from "../../../config";
-import { MessageEmailContent } from "../../../database";
-import { AppUser } from "../../../_common/model";
-import { guideImportEmailRenderer } from "../templates-renderers";
-import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../_core";
+import { domifaConfig } from "../../../../config";
+import { MessageEmailContent } from "../../../../database";
+import { AppUser } from "../../../../_common/model";
+import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
+import { guideImportEmailRenderer } from "./guideImportEmailRenderer.service";
 
 export const guideImportEmailSender = { sendMail };
 

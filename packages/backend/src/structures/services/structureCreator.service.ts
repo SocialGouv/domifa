@@ -6,10 +6,7 @@ import {
   StructureTable,
   usersRepository,
 } from "../../database";
-import {
-  DomifaMailsService,
-  newStructureEmailSender,
-} from "../../mails/services";
+import { newStructureEmailSender } from "../../mails/services/templates-renderers";
 import {
   setFixStatsDateTime,
   StatsGeneratorService,
@@ -27,7 +24,6 @@ export class StructureCreatorService {
   constructor(
     private departementHelper: DepartementHelper,
     private statsGeneratorService: StatsGeneratorService,
-    private domifaMailsService: DomifaMailsService,
     private usersService: UsersService
   ) {}
 

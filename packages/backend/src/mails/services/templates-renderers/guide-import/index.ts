@@ -1,1 +1,1 @@
-export * from "./guideImportEmailRenderer.service";
+export * from "./guideImportEmailSender.service";

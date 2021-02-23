@@ -1,11 +1,10 @@
-import moment = require("moment");
-import { domifaConfig } from "../../../config";
+import { domifaConfig } from "../../../../config";
 import {
   AppUserForAdminEmailWithTempTokens,
   MessageEmailContent,
-} from "../../../database";
-import { userResetPasswordEmailRenderer } from "../templates-renderers";
-import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../_core";
+} from "../../../../database";
+import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
+import { userResetPasswordEmailRenderer } from "./userResetPasswordEmailRenderer.service";
 
 export const userResetPasswordEmailSender = { sendMail };
 

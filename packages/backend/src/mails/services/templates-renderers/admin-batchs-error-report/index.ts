@@ -1,1 +1,1 @@
-export * from "./adminBatchsErrorReportEmailRenderer.service";
+export * from "./adminBatchsErrorReportEmailSender.service";

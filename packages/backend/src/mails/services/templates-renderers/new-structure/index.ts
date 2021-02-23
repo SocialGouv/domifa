@@ -1,1 +1,1 @@
-export * from "./newStructureEmailRenderer.service";
+export * from "./newStructureEmailSender.service";

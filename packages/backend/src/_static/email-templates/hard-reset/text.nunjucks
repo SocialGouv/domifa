@@ -1,0 +1,11 @@
+Bonjour {{ prenom }}
+
+Vous avez demandé la suppression des usagers de votre structure.
+
+Pour rappel, vous n'aurez aucun moyen de restaurer les dossiers effacés.
+
+CODE DE CONFIRMATION: {{ confirmationCode }}
+
+À bientôt,
+
+L’équipe Domifa

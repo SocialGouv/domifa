@@ -4,9 +4,9 @@ import {
   MessageEmailContent,
   MessageEmailIcalEvent,
   UsagerLight,
-} from "../../../database";
-import { usagerAppointmentCreatedEmailRenderer } from "../templates-renderers";
-import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../_core";
+} from "../../../../database";
+import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
+import { usagerAppointmentCreatedEmailRenderer } from "./usagerAppointmentCreatedEmailRenderer.service";
 
 export const usagerAppointmentCreatedEmailSender = { sendMail };
 

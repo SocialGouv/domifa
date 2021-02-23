@@ -22,8 +22,7 @@ import {
   usagerLightRepository,
   usersRepository,
 } from "../../database";
-
-import { usagerAppointmentCreatedEmailSender } from "../../mails/services";
+import { usagerAppointmentCreatedEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
 import { AppAuthUser, UserProfile } from "../../_common/model";
 import { RdvDto } from "../dto/rdv.dto";
