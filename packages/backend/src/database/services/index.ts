@@ -1,5 +1,6 @@
 export * from "./app-user";
 export * from "./app-user-mail";
+export * from "./interaction";
 export * from "./message-email";
 export * from "./monitoring";
 export * from "./structure";
