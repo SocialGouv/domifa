@@ -134,6 +134,9 @@ Install:e2e:node_modules:
     expire_in: 1 day
     paths:
       - optional/e2e/runners/puppeteer/node_modules
+  only: # disable job on branchs as it is too slow for now
+    - master
+    - tags
 
 Build:frontend:gitlab-ci: # "gitlab-ci" environment build
   image: node:14.15.0-alpine3.12
@@ -149,6 +152,9 @@ Build:frontend:gitlab-ci: # "gitlab-ci" environment build
     - Install:node_modules
   dependencies:
     - Install:node_modules
+  only: # disable job on branchs as it is too slow for now
+    - master
+    - tags
 
 Build:frontend:dist: # "dist" environment build
   image: node:14.15.0-alpine3.12
@@ -234,6 +240,9 @@ Test:e2e:dist:
       - ${CI_PROJECT_DIR}/frontend.log
   retry:
     max: 1
+  only: # disable job on branchs as it is too slow for now
+    - master
+    - tags
 
 .Register:frontend:image:base:
   extends: .base_register_stage
