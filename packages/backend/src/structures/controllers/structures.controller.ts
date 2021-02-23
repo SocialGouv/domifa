@@ -16,7 +16,11 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { AdminGuard } from "../../auth/guards/admin.guard";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
-import { usagerRepository, usersRepository } from "../../database";
+import {
+  structureRepository,
+  usagerRepository,
+  usersRepository,
+} from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import { InteractionsService } from "../../interactions/interactions.service";
 import {
@@ -174,10 +178,10 @@ export class StructuresController {
     @Param("token") token: string,
     @CurrentUser() user: AppAuthUser
   ) {
-    const structure = await this.structureHardResetService.checkHardResetToken(
-      user.id,
-      token
-    );
+    const structure = await structureRepository.checkHardResetToken({
+      userId: user.id,
+      token,
+    });
 
     if (!structure) {
       throw new HttpException(
@@ -195,10 +199,10 @@ export class StructuresController {
     }
 
     await this.statsService.deleteAll(structure.id);
+    await this.interactionsService.deleteAll(user.structureId);
     await usagerRepository.deleteByCriteria({
       structureId: user.structureId,
     });
-    await this.interactionsService.deleteAll(user.structureId);
     await this.structureHardResetService.hardResetClean(structure.id);
 
     return res.status(HttpStatus.OK).json({ message: "success" });
