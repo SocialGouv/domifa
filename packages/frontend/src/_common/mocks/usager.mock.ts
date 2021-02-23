@@ -1,4 +1,5 @@
 import { UsagerPG } from "../model";
+import { ETAPE_DOSSIER_COMPLET } from "../model/usager/ETAPES_DEMANDE.const";
 
 export const usagerValideMock: UsagerPG = {
   decision: {
@@ -40,13 +41,13 @@ export const usagerValideMock: UsagerPG = {
   docs: [
     {
       createdAt: new Date("2020-12-21T17:05:15.113Z"),
-      createdBy: "TEST YASSINE",
+      createdBy: "TEST USER",
       filetype: "application/pdf",
       label: "Document",
     },
     {
       createdAt: new Date("2020-12-21T17:07:12.911Z"),
-      createdBy: "TEST YASSINE",
+      createdBy: "TEST USER",
       filetype: "image/jpeg",
       label: "Document",
     },
@@ -68,7 +69,7 @@ export const usagerValideMock: UsagerPG = {
     cause: "EXPULSION",
     commentaires: "Ceci est un commentaire",
   },
-  etapeDemande: 5,
+  etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [
     {
       dateDebut: new Date("2020-12-01T10:00:24.980Z"),

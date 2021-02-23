@@ -73,6 +73,7 @@ import { Entretien } from "../interfaces/entretien";
 import { UsagersService } from "../services/usagers.service";
 
 import moment = require("moment");
+import { ETAPE_DOSSIER_COMPLET } from "../../database/entities/usager/ETAPES_DEMANDE.const";
 
 type AOA = any[][];
 
@@ -712,7 +713,7 @@ export class ImportController {
         },
         email,
         entretien,
-        etapeDemande: 5,
+        etapeDemande: ETAPE_DOSSIER_COMPLET,
         historique,
         nom: row[NOM],
         phone,

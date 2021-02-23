@@ -27,6 +27,11 @@ import {
   usagerLightRepository,
   usagerRepository,
 } from "../../database";
+import {
+  ETAPE_DOSSIER_COMPLET,
+  ETAPE_ETAT_CIVIL,
+  ETAPE_RENDEZ_VOUS,
+} from "../../database/entities/usager/ETAPES_DEMANDE.const";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { AppAuthUser } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
@@ -77,9 +82,9 @@ export class UsagersController {
   ) {
     if (
       usagerDto.typeDom === "RENOUVELLEMENT" ||
-      usagerDto.etapeDemande === 0
+      usagerDto.etapeDemande === ETAPE_ETAT_CIVIL
     ) {
-      usagerDto.etapeDemande = 1;
+      usagerDto.etapeDemande = ETAPE_RENDEZ_VOUS;
     }
 
     return this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
@@ -248,7 +253,8 @@ export class UsagersController {
   @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Delete("renew/:usagerRef")
   public async deleteRenew(@CurrentUsager() usager: UsagerLight) {
-    usager.etapeDemande = 1;
+    usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
+
     usager.decision = usager.historique[usager.historique.length - 1];
     usager.historique.splice(usager.historique.length - 1, 1);
     return this.usagersService.patch({ uuid: usager.uuid }, usager);
