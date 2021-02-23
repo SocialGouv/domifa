@@ -10,7 +10,10 @@ import { appLogger } from "../../util";
 import { AppAuthUser, StructureStats } from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
 import { DashboardService } from "../services/dashboard.service";
-import { StatsGeneratorService } from "../services/stats-generator.service";
+import {
+  buildStatsDateUTC,
+  StatsGeneratorService,
+} from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
 import {
   cause,
@@ -92,10 +95,13 @@ export class StatsController {
     startDate?: Date;
     endDate?: Date;
   }> {
+    const startDateUTC = buildStatsDateUTC({ date: statsDto.start });
+    const endDateUTC = buildStatsDateUTC({ date: statsDto.end });
+
     return this.statsService.getStatsDiff({
       structure: user.structure,
-      startDate: statsDto.start ? new Date(statsDto.start) : undefined,
-      endDate: statsDto.end ? new Date(statsDto.end) : undefined,
+      startDateUTC,
+      endDateUTC,
     });
   }
 

@@ -17,15 +17,16 @@ export const structureLightRepository = {
 };
 
 async function findStructuresToGenerateStats({
-  exportDateUTC,
+  statsDateUTC,
 }: {
-  exportDateUTC: Date;
+  statsDateUTC: Date;
 }): Promise<StructureLight[]> {
+  const statsDateUTCString = moment.utc(statsDateUTC).format("YYYY-MM-DD");
   const structures: StructureLight[] = await baseRepository.findManyWithQuery({
     alias: "s",
-    where: `not exists(select 1 from structure_stats ss where ss."structureId"=s.id and ss."date"=(:exportDateUTC::"date"))`,
+    where: `not exists(select 1 from structure_stats ss where ss."structureId"=s.id and ss."date"=(:statsDateUTCString::"date"))`,
     params: {
-      exportDateUTC: moment(exportDateUTC, "YYYY-MM-DD"),
+      statsDateUTCString,
     },
     logSql: false,
   });

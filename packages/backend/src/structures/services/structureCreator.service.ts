@@ -8,7 +8,7 @@ import {
 } from "../../database";
 import { newStructureEmailSender } from "../../mails/services/templates-renderers";
 import {
-  setFixStatsDateTime,
+  buildStatsDateUTC,
   StatsGeneratorService,
 } from "../../stats/services/stats-generator.service";
 import { UserDto } from "../../users/dto/user.dto";
@@ -60,11 +60,10 @@ export class StructureCreatorService {
     const structure = await this.createStructure(structureDto);
 
     // generate stats for yesterday
-    const statsDay = setFixStatsDateTime(
-      moment.utc().subtract(1, "day").toDate()
-    );
+    const statsDateUTC = buildStatsDateUTC({ date: "yesterday" });
+
     await this.statsGeneratorService.generateStructureStats(
-      statsDay,
+      statsDateUTC,
       structure,
       true
     );
