@@ -18,11 +18,13 @@ export type DeleteStructureEmailModel = {
     | "departement"
   >;
   lienSuppression: string;
+  toSkipString?: string;
 };
 
 async function renderTemplate({
   structure,
   lienSuppression,
+  toSkipString,
 }: DeleteStructureEmailModel): Promise<DomifaMailTemplateRendering> {
   const structureTypes = {
     asso: "Organisme agrée",
@@ -43,6 +45,7 @@ async function renderTemplate({
     responsable_prenom: structure.responsable.prenom,
     responsable_fonction: structure.responsable.fonction,
     lien_suppression: lienSuppression,
+    toSkipString,
   };
 
   return await domifaMailTemplateRenderer.renderTemplate(

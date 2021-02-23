@@ -14,26 +14,33 @@ function filterRecipients(
   recipients: MessageEmailRecipient[],
   {
     messageEmailId,
+    logEnabled = true,
   }: {
-    messageEmailId: MessageEmailId;
+    messageEmailId?: MessageEmailId;
+    logEnabled?: boolean;
   }
 ): {
   toSkip: MessageEmailRecipient[];
   toSend: MessageEmailRecipient[];
+  toSkipString?: string;
 } {
   let toSkip: MessageEmailRecipient[] = [];
   const toSend: MessageEmailRecipient[] = [];
   if (!domifaConfig().email.emailsEnabled) {
-    appLogger.debug(
-      `[mailRecipientsFilter] [DISABLED] Email ${messageEmailId} won't be sent (disabled by configuration)"`
-    );
+    if (logEnabled) {
+      appLogger.debug(
+        `[mailRecipientsFilter] [DISABLED] Email ${messageEmailId} won't be sent (disabled by configuration)"`
+      );
+    }
     toSkip = toSkip.concat(recipients);
   } else if (domifaConfig().email.emailAddressRedirectAllTo) {
-    appLogger.debug(
-      `[mailRecipientsFilter] [REDIRECT] Email ${messageEmailId} will be redirect to "${
-        domifaConfig().email.emailAddressRedirectAllTo
-      }"`
-    );
+    if (logEnabled) {
+      appLogger.debug(
+        `[mailRecipientsFilter] [REDIRECT] Email ${messageEmailId} will be redirect to "${
+          domifaConfig().email.emailAddressRedirectAllTo
+        }"`
+      );
+    }
     toSend.push({
       address: domifaConfig().email.emailAddressRedirectAllTo,
       personalName: `TEST DOMIFA`,
@@ -48,15 +55,21 @@ function filterRecipients(
       }
     });
     if (toSkip.length !== 0) {
-      appLogger.debug(
-        `[mailRecipientsFilter] [SKIP] Email ${messageEmailId} won't be sent to "${toSkip
-          .map((x) => formatEmailAddressWithName(x))
-          .join(", ")}"`
-      );
+      if (logEnabled) {
+        appLogger.debug(
+          `[mailRecipientsFilter] [SKIP] Email ${messageEmailId} won't be sent to "${toSkip
+            .map((x) => formatEmailAddressWithName(x))
+            .join(", ")}"`
+        );
+      }
     }
   }
 
-  return { toSend, toSkip };
+  const toSkipString: string = toSkip.length
+    ? toSkip.map((x) => `"${x.personalName}"<${x.address}>`).join(", ")
+    : undefined;
+
+  return { toSend, toSkip, toSkipString };
 }
 
 function isRecipientToSkip(recipient: MessageEmailRecipient) {

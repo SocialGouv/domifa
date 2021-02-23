@@ -8,6 +8,7 @@ async function renderTemplate(model: {
   date: string;
   heure: string;
   message: string;
+  toSkipString?: string;
 }): Promise<DomifaMailTemplateRendering> {
   return await domifaMailTemplateRenderer.renderTemplate(
     "usager-appointment-created",

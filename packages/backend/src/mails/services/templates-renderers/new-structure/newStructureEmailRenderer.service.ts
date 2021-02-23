@@ -21,6 +21,7 @@ export type NewStructureEmailModel = {
   user: AppUserForAdminEmail;
   lienConfirmation: string;
   lienSuppression: string;
+  toSkipString?: string;
 };
 
 async function renderTemplate({
@@ -28,6 +29,7 @@ async function renderTemplate({
   structure,
   lienConfirmation,
   lienSuppression,
+  toSkipString,
 }: NewStructureEmailModel): Promise<DomifaMailTemplateRendering> {
   const structureTypes = {
     asso: "Organisme agrée",
@@ -52,6 +54,7 @@ async function renderTemplate({
     user_email: user.email,
     lien_confirmation: lienConfirmation,
     lien_suppression: lienSuppression,
+    toSkipString,
   };
 
   return await domifaMailTemplateRenderer.renderTemplate(

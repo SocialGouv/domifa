@@ -1,8 +1,3 @@
-export type MessageEmailTipimailTemplateId =
-  | "user-account-created-by-admin"
-  | "user-account-activation-pending"
-  | "user-account-activated";
-
 export type MessageContentEmailId =
   | "user-reset-password"
   | "usager-appointment-created"
@@ -11,14 +6,9 @@ export type MessageContentEmailId =
   | "new-structure"
   | "delete-structure"
   | "hard-reset"
-  | "user-guide";
+  | "user-guide"
+  | "user-account-created"
+  | "user-account-activated"
+  | "user-account-created-by-admin";
 
-export type MessageEmailId =
-  | MessageEmailTipimailTemplateId
-  | MessageContentEmailId;
-
-export const TIPIMAIL_TEMPLATES_MESSAGE_IDS: MessageEmailTipimailTemplateId[] = [
-  "user-account-created-by-admin",
-  "user-account-activation-pending",
-  "user-account-activated",
-];
+export type MessageEmailId = MessageContentEmailId;

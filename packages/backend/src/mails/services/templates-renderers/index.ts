@@ -5,4 +5,5 @@ export * from "./guide-utilisateur";
 export * from "./hard-reset";
 export * from "./new-structure";
 export * from "./usager-appointment-created";
+export * from "./user-account-activated";
 export * from "./user-reset-password";

@@ -1,0 +1,11 @@
+Bonjour {{ prenom }}
+
+Un administrateur vient de vous créer un compte sur Domifa.
+
+Cliquez sur le lien ci-dessous pour finaliser votre inscription
+
+Finaliser l'inscription: {{ lien }}
+
+À bientôt,
+
+L’équipe Domifa

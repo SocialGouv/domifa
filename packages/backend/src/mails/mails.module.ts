@@ -7,25 +7,19 @@ import { UsersModule } from "../users/users.module";
 import {
   CronMailImportGuideSenderService,
   CronMailUserGuideSenderService,
-  StructuresMailsService,
-  UsersMailsService,
 } from "./services";
 import { MessageEmailConsummer, TipimailSender } from "./services/_core";
 
 @Module({
   controllers: [],
   exports: [
-    StructuresMailsService,
-    UsersMailsService,
     TipimailSender,
     MessageEmailConsummer,
     CronMailImportGuideSenderService,
     CronMailUserGuideSenderService,
   ],
   providers: [
-    StructuresMailsService,
     TipimailSender,
-    UsersMailsService,
     MessageEmailConsummer,
     CronMailImportGuideSenderService,
     CronMailUserGuideSenderService,

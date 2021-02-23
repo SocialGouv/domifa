@@ -8,11 +8,8 @@ import {
   MessageEmail,
   MessageEmailContent,
   messageEmailRepository,
-  MessageEmailTipimailContent,
-  MessageEmailTipimailTemplateId,
   monitoringBatchProcessSimpleCountRunner,
   MonitoringBatchProcessTrigger,
-  TIPIMAIL_TEMPLATES_MESSAGE_IDS,
   typeOrmSearch,
 } from "../../../database";
 import { appLogger, hexEncoder } from "../../../util";
@@ -68,32 +65,14 @@ export class MessageEmailConsummer {
               ]
             >(messageEmail.attachments);
 
-            if (
-              TIPIMAIL_TEMPLATES_MESSAGE_IDS.includes(
-                messageEmail.emailId as MessageEmailTipimailTemplateId
-              )
-            ) {
-              const content = messageEmail.content as Omit<
-                MessageEmailTipimailContent,
-                "attachments"
-              >;
-              messageEmail.sendDetails = await this.tipimailSender.trySendToTipimail(
-                content,
-                {
-                  attachments,
-                  messageEmailId: messageEmail.emailId,
-                }
-              );
-            } else {
-              const content = messageEmail.content as Omit<
-                MessageEmailContent,
-                "attachments"
-              >;
-              messageEmail.sendDetails = await smtpSender.sendEmail(content, {
-                attachments,
-                messageEmailId: messageEmail.emailId,
-              });
-            }
+            const content = messageEmail.content as Omit<
+              MessageEmailContent,
+              "attachments"
+            >;
+            messageEmail.sendDetails = await smtpSender.sendEmail(content, {
+              attachments,
+              messageEmailId: messageEmail.emailId,
+            });
 
             messageEmail.sendDate = new Date();
             messageEmail.status = "sent";

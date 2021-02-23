@@ -19,10 +19,10 @@ import { DomifaGuard } from "../../auth/guards/domifa.guard";
 import { usagerRepository, usersRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import { InteractionsService } from "../../interactions/interactions.service";
-import { StructuresMailsService } from "../../mails/services";
 import {
   deleteStructureEmailSender,
   hardResetEmailSender,
+  userAccountActivatedEmailSender,
 } from "../../mails/services/templates-renderers";
 import { StatsService } from "../../stats/services/stats.service";
 import { EmailDto } from "../../users/dto/email.dto";
@@ -44,8 +44,7 @@ export class StructuresController {
     private structureHardResetService: StructureHardResetService,
     private structureService: StructuresService,
     private statsService: StatsService,
-    private interactionsService: InteractionsService,
-    private structuresMailsService: StructuresMailsService
+    private interactionsService: InteractionsService
   ) {}
 
   @Post()
@@ -111,10 +110,7 @@ export class StructuresController {
         { verified: true }
       );
 
-      await this.structuresMailsService.confirmationStructure(
-        structure,
-        updatedAdmin
-      );
+      await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     }
   }

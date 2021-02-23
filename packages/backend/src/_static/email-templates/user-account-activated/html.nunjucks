@@ -1,0 +1,45 @@
+{% extends "./base.nunjucks" %}
+{% block head_custom %}
+     <link rel="stylesheet" href="./usager-appointment-created/html.css">
+{% endblock %}
+
+{% block content %}
+
+     <div class="content text-center leading-normal">
+          <div class="my-3">
+               Bonjour {{ prenom }}
+          </div>
+
+          <div class="my-3">
+               Votre compte Domifa a été validé par l'administrateur.
+          </div>
+
+          <div class="my-3">
+               Vous pouvez désormais vous connecter avec les identifiants indiqués lors de votre inscription.
+          </div>
+
+           <div class="mt-8 mb-12">
+               <a href="{{ lien }}" target="_blank" rel="noopener noreferrer" class="btn-main">
+               <span class="btn-main-title font-bold">Se connecter</span></a>
+          </div>
+
+          <div class="my-3">
+                À bientôt,
+          </div>
+
+          <div class="my-3">
+               L’équipe Domifa 
+          </div>
+     </div>
+
+     {% if toSkipString %}
+          <div class="my-12">
+               <hr/>
+               <div class="my-12">
+                    <b>Message redirigé</b>, initialement destiné à: 
+                    <br/>{{toSkipString}}
+               </div>
+          </div>
+     {% endif %}
+
+{% endblock %}

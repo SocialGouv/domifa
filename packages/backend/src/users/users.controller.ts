@@ -23,8 +23,12 @@ import {
   usersRepository,
   USERS_ADMIN_EMAILS_ATTRIBUTES,
 } from "../database";
-import { UsersMailsService } from "../mails/services";
-import { userResetPasswordEmailSender } from "../mails/services/templates-renderers";
+import {
+  userAccountActivatedEmailSender,
+  userResetPasswordEmailSender,
+} from "../mails/services/templates-renderers";
+import { userAccountCreatedEmailSender } from "../mails/services/templates-renderers/user-account-created";
+import { userAccountCreatedByAdminEmailSender } from "../mails/services/templates-renderers/user-account-created-by-admin";
 import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
 import { ExpressResponse } from "../util/express";
@@ -42,7 +46,6 @@ import { UsersService } from "./services/users.service";
 export class UsersController {
   constructor(
     private usersService: UsersService,
-    private usersMailsService: UsersMailsService,
     private structureService: StructuresService
   ) {}
 
@@ -90,19 +93,21 @@ export class UsersController {
     );
 
     if (confirmerUser && confirmerUser !== undefined) {
-      return this.usersMailsService.accountActivated(confirmerUser).then(
-        () => {
-          return res.status(HttpStatus.OK).json(confirmerUser);
-        },
-        (error: AxiosError) => {
-          appLogger.warn(`[UsersMail] mail user account activated failed`);
-          appLogger.error(JSON.stringify(error.message));
-          throw new HttpException(
-            "TIPIMAIL_USER_ACCOUNT_ACTIVATED",
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-      );
+      return userAccountActivatedEmailSender
+        .sendMail({ user: confirmerUser })
+        .then(
+          () => {
+            return res.status(HttpStatus.OK).json(confirmerUser);
+          },
+          (error: AxiosError) => {
+            appLogger.warn(`[UsersMail] mail user account activated failed`);
+            appLogger.error(JSON.stringify(error.message));
+            throw new HttpException(
+              "TIPIMAIL_USER_ACCOUNT_ACTIVATED",
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          }
+        );
     } else {
       throw new HttpException(
         "INVALID_CONFIRM_TOKEN",
@@ -246,9 +251,11 @@ export class UsersController {
       }
     );
 
-    return this.usersMailsService.newUser(admins, newUser).then(() => {
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    });
+    return userAccountCreatedEmailSender
+      .sendMail({ admins, user: newUser })
+      .then(() => {
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      });
   }
 
   @Post("validate-email")
@@ -377,16 +384,18 @@ export class UsersController {
     );
 
     if (updatedUser && newUser) {
-      return this.usersMailsService.newUserFromAdmin(updatedUser).then(
-        () => {
-          return res.status(HttpStatus.OK).json({ message: "OK" });
-        },
-        () => {
-          return res
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: "REGISTER_ERROR" });
-        }
-      );
+      return userAccountCreatedByAdminEmailSender
+        .sendMail({ user: updatedUser })
+        .then(
+          () => {
+            return res.status(HttpStatus.OK).json({ message: "OK" });
+          },
+          () => {
+            return res
+              .status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .json({ message: "REGISTER_ERROR" });
+          }
+        );
     }
     return res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
