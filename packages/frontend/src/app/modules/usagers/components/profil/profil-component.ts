@@ -47,6 +47,7 @@ export class UsagersProfilComponent implements OnInit {
   public editAyantsDroits: boolean;
   public acceptInteractions: boolean;
   public editCustomId: boolean;
+
   public submitted: boolean;
 
   public typeInteraction: InteractionTypes;
@@ -70,6 +71,8 @@ export class UsagersProfilComponent implements OnInit {
   public ayantsDroitsForm!: FormGroup;
 
   public notifInputs: { [key: string]: any };
+
+  public isActif: boolean;
 
   public today: Date;
   public me: AppUser;
@@ -99,6 +102,7 @@ export class UsagersProfilComponent implements OnInit {
     this.editCustomId = false;
     this.acceptInteractions = true;
 
+    this.isActif = false;
     this.today = new Date();
 
     this.interactions = [];
@@ -159,7 +163,15 @@ export class UsagersProfilComponent implements OnInit {
             }
           }
 
+          this.isActif =
+            usager.decision.statut === "VALIDE" ||
+            (usager.decision.statut === "INSTRUCTION" &&
+              usager.typeDom === "RENOUVELLEMENT") ||
+            (usager.decision.statut === "ATTENTE_DECISION" &&
+              usager.typeDom === "RENOUVELLEMENT");
+
           this.usager = new UsagerFormModel(usager);
+
           this.getInteractions();
           this.initForms();
         },
@@ -396,6 +408,22 @@ export class UsagersProfilComponent implements OnInit {
         this.notifService.error("Impossible d'enregistrer cette interaction");
       }
     );
+  }
+
+  public getDateFin(): Date {
+    if (this.usager.decision.statut === "VALIDE") {
+      return this.usager.decision.dateFin;
+    } else if (
+      this.usager.decision.statut === "INSTRUCTION" &&
+      this.usager.typeDom === "RENOUVELLEMENT"
+    ) {
+      return this.usager.historique[0].dateFin;
+    } else if (
+      this.usager.decision.statut === "ATTENTE_DECISION" &&
+      this.usager.typeDom === "RENOUVELLEMENT"
+    ) {
+      return this.usager.historique[1].dateFin;
+    }
   }
 
   public getAttestation() {

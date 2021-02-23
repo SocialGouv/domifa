@@ -1,7 +1,7 @@
 import {
   UsagerDoc,
   UsagerLight,
-  UsagerSexe
+  UsagerSexe,
 } from "../../../../../_common/model";
 import { UsagerAyantDroit } from "../../../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../../../_common/model/usager/UsagerDecision.type";
@@ -141,9 +141,6 @@ export class UsagerFormModel {
     }
 
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
-
-    this.isAyantDroit = usager?.ayantsDroits?.length !== 0 || false;
-
     this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
 
     this.preference = usager?.preference
@@ -162,7 +159,24 @@ export class UsagerFormModel {
 
     this.dayBeforeEnd = 365;
 
-    if (this.decision.dateFin) {
+    let dateFinToCheck: Date = null;
+
+    // Récupération de la date de fin de la domiciliation
+    if (this.decision.statut === "VALIDE") {
+      dateFinToCheck = this.decision.dateFin;
+    } else if (
+      this.decision.statut === "INSTRUCTION" &&
+      this.typeDom === "RENOUVELLEMENT"
+    ) {
+      dateFinToCheck = this.historique[0].dateFin;
+    } else if (
+      this.decision.statut === "ATTENTE_DECISION" &&
+      this.typeDom === "RENOUVELLEMENT"
+    ) {
+      dateFinToCheck = this.historique[1].dateFin;
+    }
+
+    if (dateFinToCheck) {
       const today = new Date();
       const msPerDay: number = 1000 * 60 * 60 * 24;
       const start: number = today.getTime();
@@ -176,6 +190,7 @@ export class UsagerFormModel {
     this.options = (usager && new Options(usager.options)) || new Options({});
 
     this.isAyantDroit = false;
+
     const { searchString } = filterCriteria ?? {};
     if (searchString && searchString !== null) {
       // if search does not match without ayant-droits, flag it as "isAyantDroit"
