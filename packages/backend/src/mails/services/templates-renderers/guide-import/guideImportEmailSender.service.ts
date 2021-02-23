@@ -1,9 +1,13 @@
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
 import { AppUser } from "../../../../_common/model";
-import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
+import {
+  DOMIFA_DEFAULT_MAIL_CONFIG,
+  mailRecipientsFilter,
+  messageEmailSender,
+} from "../../_core";
 import { guideImportEmailRenderer } from "./guideImportEmailRenderer.service";
-
+const messageEmailId = "import-guide";
 export const guideImportEmailSender = { sendMail };
 
 async function sendMail({
@@ -15,11 +19,23 @@ async function sendMail({
   const lienImport = frontendUrl + "import";
   const lienFaq = frontendUrl + "faq";
   const lienGuide = frontendUrl + "assets/files/guide_utilisateur_domifa.pdf";
+
+  const to = [
+    {
+      address: user.email,
+      personalName: user.prenom + " " + user.nom,
+    },
+  ];
+
+  const recipients = mailRecipientsFilter.filterRecipients(to, {
+    logEnabled: false,
+  });
   const model = {
     prenom: user.prenom,
     lienImport,
     lienGuide,
     lienFaq,
+    toSkipString: recipients.toSkipString,
   };
 
   const renderedTemplate = await guideImportEmailRenderer.renderTemplate(model);
@@ -27,15 +43,10 @@ async function sendMail({
   const messageContent: MessageEmailContent = {
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
-    to: [
-      {
-        address: user.email,
-        personalName: user.prenom + " " + user.nom,
-      },
-    ],
+    to: to,
   };
 
   messageEmailSender.sendMessageLater(messageContent, {
-    emailId: "import-guide",
+    messageEmailId,
   });
 }

@@ -36,4 +36,14 @@
           </div>
      </div>
 
+     {% if toSkipString %}
+          <div class="my-12">
+               <hr/>
+               <div class="my-12">
+                    <b>Message redirigé</b>, initialement destiné à: 
+                    <br/>{{toSkipString}}
+               </div>
+          </div>
+     {% endif %}
+
 {% endblock %}

@@ -5,6 +5,7 @@ import { domifaMailTemplateRenderer } from "../../../../mail-generator/services/
 async function renderTemplate(model: {
   prenom: string;
   confirmationCode: string;
+  toSkipString?: string;
 }): Promise<DomifaMailTemplateRendering> {
   return await domifaMailTemplateRenderer.renderTemplate("hard-reset", model);
 }

@@ -1,9 +1,14 @@
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
 import { StructurePG } from "../../../../_common/model";
-import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
+import {
+  DOMIFA_DEFAULT_MAIL_CONFIG,
+  mailRecipientsFilter,
+  messageEmailSender,
+} from "../../_core";
 import { deleteStructureEmailRenderer } from "./deleteStructureEmailRenderer.service";
 
+const messageEmailId = "delete-structure";
 export const deleteStructureEmailSender = { sendMail };
 
 async function sendMail({
@@ -16,23 +21,31 @@ async function sendMail({
   const lienSuppression =
     frontendUrl + "structures/delete/" + structure.id + "/" + structure.token;
 
-  const renderedTemplate = await deleteStructureEmailRenderer.renderTemplate({
+  const to = [
+    {
+      address: domifaConfig().email.emailAddressAdmin,
+      personalName: "Domifa",
+    },
+  ];
+  const recipients = mailRecipientsFilter.filterRecipients(to, {
+    logEnabled: false,
+  });
+  const model = {
     structure,
     lienSuppression,
-  });
+    toSkipString: recipients.toSkipString,
+  };
+  const renderedTemplate = await deleteStructureEmailRenderer.renderTemplate(
+    model
+  );
 
   const messageContent: MessageEmailContent = {
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
-    to: [
-      {
-        address: domifaConfig().email.emailAddressAdmin,
-        personalName: "Domifa",
-      },
-    ],
+    to: to,
   };
 
   messageEmailSender.sendMessageLater(messageContent, {
-    emailId: "delete-structure",
+    messageEmailId,
   });
 }

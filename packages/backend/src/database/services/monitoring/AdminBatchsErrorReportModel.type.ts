@@ -7,4 +7,5 @@ export type AdminBatchsErrorReportModel = {
   lastErrorDate: Date;
   lastErrorMessage: string;
   envId?: DomifaEnvId;
+  toSkipString?: string;
 };

@@ -58,7 +58,7 @@ async function sendEmail(
   const icalEvent = content.icalEvent;
 
   const transporterMailOptions: SendMailOptions = {
-    to: content.to.map((x) => mapAddress(x)),
+    to: toSend.map((x) => mapAddress(x)),
     from: mapAddress(content.from),
     replyTo: mapAddress(content.replyTo),
     subject,

@@ -6,44 +6,26 @@ import {
   messageEmailRepository,
   MessageEmailTable,
   MessageEmailTipimailContent,
-  MessageEmailTipimailTemplateId,
 } from "../../../database";
 import { hexEncoder } from "../../../util/encoding";
 import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
 
 export const messageEmailSender = {
   sendMessageLater,
-  sendTipimailContentMessageLater,
 };
 async function sendMessageLater(
   content: MessageEmailContent,
   {
     initialScheduledDate = new Date(),
-    emailId,
+    messageEmailId,
   }: {
-    emailId: MessageContentEmailId;
+    messageEmailId: MessageContentEmailId;
     initialScheduledDate?: Date;
   }
 ) {
   return _sendLater(content, {
     initialScheduledDate,
-    emailId,
-  });
-}
-
-async function sendTipimailContentMessageLater(
-  content: MessageEmailTipimailContent,
-  {
-    initialScheduledDate = new Date(),
-    emailId,
-  }: {
-    emailId: MessageEmailTipimailTemplateId;
-    initialScheduledDate?: Date;
-  }
-) {
-  return _sendLater(content, {
-    initialScheduledDate,
-    emailId,
+    emailId: messageEmailId,
   });
 }
 

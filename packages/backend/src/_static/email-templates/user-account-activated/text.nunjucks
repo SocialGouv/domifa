@@ -1,0 +1,11 @@
+Bonjour {{ prenom }}
+
+Votre compte Domifa a été validé par l'administrateur.
+
+Vous pouvez désormais vous connecter avec les identifiants indiqués lors de votre inscription.
+
+Se connecter: {{ lien }}
+
+À bientôt,
+
+L’équipe Domifa
