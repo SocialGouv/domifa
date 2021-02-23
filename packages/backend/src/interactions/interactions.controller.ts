@@ -39,7 +39,7 @@ export class InteractionsController {
     return this.interactionsService.create({
       interaction,
       user,
-      usagerUUID: usager.uuid,
+      usager,
     });
   }
 
@@ -145,6 +145,7 @@ export class InteractionsController {
       interactionId,
       user
     );
+
     if (deletedInteraction === null || !deletedInteraction) {
       throw new HttpException(
         "INTERACTION_DELETE_IMPOSSIBLE",
