@@ -62,7 +62,7 @@ describe("InteractionsService", () => {
     interaction.content = "Retrait du courrier";
     interaction.nbCourrier = 0;
     const resultat = await interactionsService.create({
-      usagerUUID: usager.uuid,
+      usager,
       user,
       interaction,
     });
@@ -76,7 +76,7 @@ describe("InteractionsService", () => {
     interaction.nbCourrier = 10;
 
     await interactionsService.create({
-      usagerUUID: usager.uuid,
+      usager,
       user,
       interaction,
     });
@@ -86,7 +86,7 @@ describe("InteractionsService", () => {
     secondInteraction.content = "Le Loyer";
     secondInteraction.nbCourrier = 5;
     const usager2 = await interactionsService.create({
-      usagerUUID: usager.uuid,
+      usager,
       user,
       interaction: secondInteraction,
     });
@@ -105,7 +105,7 @@ describe("InteractionsService", () => {
     });
 
     const usager3 = await interactionsService.create({
-      usagerUUID: usager.uuid,
+      usager,
       user,
       interaction,
     });
@@ -116,7 +116,7 @@ describe("InteractionsService", () => {
     const distribution = new InteractionDto();
     distribution.type = "colisOut";
     const usager2 = await interactionsService.create({
-      usagerUUID: usager.uuid,
+      usager,
       user,
       interaction: distribution,
     });

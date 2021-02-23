@@ -82,7 +82,7 @@ function sortBy(
       } else if (sortKey === "ID") {
         sortAttributes.push(
           {
-            value: usager.customRef,
+            value: parseAsNumberOrString(usager.customRef),
             asc: sortValue !== "descending",
           },
           {
@@ -97,4 +97,11 @@ function sortBy(
       return sortAttributes;
     },
   });
+}
+function parseAsNumberOrString(customRef: string): any {
+  if (/^\d+$/.test(customRef)) {
+    const customRefAsNumber = parseInt(customRef, 10);
+    return customRefAsNumber; // sort as number
+  }
+  return customRef; // sort as string
 }
