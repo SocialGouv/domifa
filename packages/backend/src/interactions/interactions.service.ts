@@ -23,25 +23,31 @@ export class InteractionsService {
   }
   public async create({
     interaction,
-    usagerUUID,
+    usager,
     user,
   }: {
     interaction: InteractionDto;
-    usagerUUID: string;
+    usager: UsagerLight;
     user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
   }): Promise<UsagerLight> {
-    const usager = await usagerRepository.findOne({
-      uuid: usagerUUID,
+    const buildedInteraction = buildNewInteraction({
+      interaction,
+      usager,
+      user,
     });
+
+    const newInteraction = buildedInteraction.newInteraction;
+    const lastInteraction = buildedInteraction.usager.lastInteraction;
+
     const createdInteraction: Interactions = new InteractionsTable(
-      buildNewInteraction({ interaction, usager, user })
+      newInteraction
     );
 
     await this.interactionRepository.insert(createdInteraction);
 
     return usagerLightRepository.updateOne(
       { uuid: usager.uuid },
-      { lastInteraction: usager.lastInteraction }
+      { lastInteraction }
     );
   }
 
@@ -176,9 +182,13 @@ function buildNewInteraction({
   interaction: InteractionDto;
   usager: Pick<UsagerPG, "ref" | "uuid" | "lastInteraction" | "options">;
   user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
-}): Omit<InteractionsTable, "_id" | "id"> {
+}): {
+  usager: Pick<UsagerPG, "lastInteraction">;
+  newInteraction: Omit<InteractionsTable, "_id" | "id">;
+} {
   const newInteraction = new InteractionsTable(interaction);
   const len = interaction.type.length;
+
   const interactionOut = interaction.type.substring(len - 3) === "Out";
   const interactionIn = interaction.type.substring(len - 2) === "In";
 
@@ -193,12 +203,17 @@ function buildNewInteraction({
     usager.lastInteraction.enAttente = true;
   } else if (interactionOut) {
     if (interaction.procuration) {
+      // La procuration ne remet pas à jour le dernier passage
       newInteraction.content =
         "Courrier remis au mandataire : " +
         usager.options.procuration.prenom +
         " " +
         usager.options.procuration.nom.toUpperCase();
-    } else if (interaction.transfert) {
+    } else {
+      usager.lastInteraction.dateInteraction = new Date();
+    }
+
+    if (interaction.transfert) {
       newInteraction.content =
         "Courrier transféré à : " +
         usager.options.transfert.nom +
@@ -219,11 +234,7 @@ function buildNewInteraction({
     newInteraction.nbCourrier = 0;
   }
 
-  if (
-    interactionOut ||
-    interaction.type === "visite" ||
-    interaction.type === "appel"
-  ) {
+  if (interaction.type === "visite" || interaction.type === "appel") {
     usager.lastInteraction.dateInteraction = new Date();
   }
 
@@ -232,8 +243,8 @@ function buildNewInteraction({
   newInteraction.usagerUUID = usager.uuid;
   newInteraction.userId = user.id;
   newInteraction.userName = user.prenom + " " + user.nom;
-  if (!newInteraction.dateInteraction) {
-    newInteraction.dateInteraction = new Date();
-  }
-  return newInteraction;
+
+  newInteraction.dateInteraction = new Date();
+
+  return { usager, newInteraction };
 }

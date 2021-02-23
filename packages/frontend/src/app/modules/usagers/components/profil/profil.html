@@ -77,7 +77,7 @@
         </div>
       </div>
 
-      <div class="text-center" *ngIf="usager.decision.statut === 'VALIDE'">
+      <div class="text-center" *ngIf="isActif">
         <span
           [ngClass]="{
               'text-danger': usager.dayBeforeEnd <= 15,
@@ -92,7 +92,7 @@
               'text-secondary': usager.dayBeforeEnd >= 60
              }"
           >
-            {{ usager.decision.dateFin | date: 'dd/MM/yyyy' }}
+            {{ getDateFin() | date: 'dd/MM/yyyy' }}
           </b>
         </span>
         <span class="text-danger" *ngIf="usager.dayBeforeEnd < 0">
@@ -104,6 +104,7 @@
           </b>
         </span>
         <br />
+
         <span *ngIf="usager.lastInteraction.dateInteraction !== null">
           Dernier passage le
           <b>
@@ -113,7 +114,7 @@
       </div>
 
       <div
-        *ngIf="usager.decision.statut === 'VALIDE' && usager.dayBeforeEnd < 60 && !isRole('facteur')"
+        *ngIf="isActif && usager.dayBeforeEnd < 60 && !isRole('facteur')"
         class="text-center row"
       >
         <div class="w-100">
@@ -156,11 +157,7 @@
     </div>
   </div>
   <div
-    *ngIf="
-       usager.decision.statut === 'VALIDE' ||
-       (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT') ||
-       (usager.decision.statut === 'ATTENTE_DECISION' && usager.typeDom === 'RENOUVELLEMENT') ||
-       (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
+    *ngIf=" isActif ||  (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
   >
     <br />
     <h5 class="text-center font-weight-bold">
@@ -446,10 +443,7 @@
         <ng-container *ngIf="!editInfos">
           <app-profil-infos [usager]="usager"></app-profil-infos>
 
-          <div
-            class="row"
-            *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
-          >
+          <div class="row" *ngIf="isActif && !isRole('facteur')">
             <div class="col-md-12 text-center">
               <br />
               <button
@@ -806,7 +800,7 @@
 
           <div
             class="col-md-12 text-center"
-            *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
+            *ngIf="isActif && !isRole('facteur')"
           >
             <br />
             <button
@@ -958,11 +952,12 @@
           *ngIf="!editEntretien"
           [usager]="usager"
           [structure]="me.structure"
-        ></app-profil-entretien>
+        >
+        </app-profil-entretien>
 
         <div
           class="col-md-12 text-center"
-          *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
+          *ngIf="isActif && !isRole('facteur')"
         >
           <br />
           <button
@@ -991,18 +986,16 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <app-upload
-          *ngIf="usager.decision.statut === 'VALIDE' || usager.decision.statut === 'RADIE'"
+          *ngIf="isActif || usager.decision.statut === 'RADIE'"
           [usager]="usager"
-        ></app-upload>
+        >
+        </app-upload>
         <br />
         <app-documents [usager]="usager"></app-documents>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
-  <div
-    class="text-center"
-    *ngIf="usager.decision.statut === 'VALIDE' && !isRole('facteur')"
-  >
+  <div class="text-center" *ngIf="isActif && !isRole('facteur')">
     <br />
     <div class="row">
       <div class="col-md-8 offset-2">
