@@ -1,5 +1,10 @@
 import { EntityManager } from "typeorm";
-import { StructurePG } from "../../../_common/model";
+import { Structure } from "../../../structures/structure-interface";
+import {
+  StructureCommon,
+  StructurePG,
+  STRUCTURE_COMMON_ATTRIBUTES,
+} from "../../../_common/model";
 import { StructureTable } from "../../entities";
 import { pgRepository } from "../_postgres";
 
@@ -13,4 +18,27 @@ export const structureRepository = {
     pgRepository.get<StructureTable, StructurePG>(StructureTable, {
       entityManager,
     }),
+  checkHardResetToken,
 };
+
+async function checkHardResetToken({
+  userId,
+  token,
+}: {
+  userId: number;
+  token: string;
+}): Promise<StructureCommon & Pick<Structure, "hardReset">> {
+  const select: (keyof StructureCommon &
+    Pick<
+      Structure,
+      "hardReset"
+    >)[] = (STRUCTURE_COMMON_ATTRIBUTES as any[]).concat(["hardReset"]);
+
+  return structureRepository.findOneWithQuery<
+    StructureCommon & Pick<Structure, "hardReset">
+  >({
+    select: select,
+    where: `"hardReset" @> '{"token": "${token}", "userId": ${userId}}'`,
+    params: [],
+  });
+}
