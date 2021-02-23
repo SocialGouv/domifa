@@ -263,6 +263,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       where: string;
       params: { [attr: string]: any };
       logSql?: boolean;
+      alias?: string;
     } & PgRepositoryFindOptions<T>
   ): Promise<R> {
     const res = await findManyWithQuery<R>({

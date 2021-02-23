@@ -1,9 +1,16 @@
 import { Injectable } from "@nestjs/common";
-import { Between, Repository } from "typeorm";
-import { appTypeormManager, StructureStatsTable } from "../../database";
+import { Repository } from "typeorm";
+import {
+  appTypeormManager,
+  structureStatsRepository,
+  StructureStatsTable,
+} from "../../database";
 import { appLogger } from "../../util";
 import { StructureCommon, StructureStats } from "../../_common/model";
-import { StatsGeneratorService } from "./stats-generator.service";
+import {
+  expectDateToHaveNoUtcHoursMinutes,
+  StatsGeneratorService,
+} from "./stats-generator.service";
 
 import moment = require("moment");
 
@@ -17,19 +24,6 @@ export class StatsService {
     );
   }
 
-  public async getByDate(
-    structureId: number,
-    statsDay: Date
-  ): Promise<StructureStats> {
-    const endOfDay = moment(statsDay).endOf("day").toDate();
-    const startOfDay = moment(statsDay).startOf("day").toDate();
-
-    return this.structureStatsRepository.findOne({
-      where: { structureId, date: Between(startOfDay, endOfDay) },
-      order: { date: -1 },
-    });
-  }
-
   public async deleteAll(structureId: number): Promise<any> {
     return this.structureStatsRepository.delete({
       structureId,
@@ -38,47 +32,60 @@ export class StatsService {
 
   public async getStatsDiff({
     structure,
-    startDate,
-    endDate,
+    startDateUTC,
+    endDateUTC,
   }: {
     structure: StructureCommon;
-    startDate: Date;
-    endDate?: Date;
+    startDateUTC: Date;
+    endDateUTC?: Date;
   }): Promise<{
     stats: StructureStats;
     startDate?: Date;
     endDate?: Date;
   }> {
-    //
-    let startStats: StructureStats = await this.getByDate(
-      structure.id,
-      startDate
+    expectDateToHaveNoUtcHoursMinutes(startDateUTC);
+    if (endDateUTC) {
+      expectDateToHaveNoUtcHoursMinutes(endDateUTC);
+    }
+
+    let startStats: StructureStats = await structureStatsRepository.findByStructureIdAndDate(
+      {
+        structureId: structure.id,
+        statsDateUTC: startDateUTC,
+      }
     );
 
     if (!startStats || startStats === null) {
       // NOT EXIST: on les génère à la volée
       startStats = await this.statsGeneratorService.generateStructureStatsForPast(
-        { statsDay: startDate, structure }
+        { statsDateUTC: startDateUTC, structure }
       );
     }
-    if (new Date(startStats.date).getTime() > new Date(endDate).getTime()) {
+    if (new Date(startStats.date).getTime() > new Date(endDateUTC).getTime()) {
       // force endDate to be AFTER begin date
-      endDate = startStats.date;
+      endDateUTC = startStats.date;
     }
 
     // Si date du jour
-    const endDateDay = moment(endDate).format("YYYY-MM-DD");
-    const today = moment().format("YYYY-MM-DD");
+    // const endDateDay = moment.utc(endDateUTC).format("YYYY-MM-DD");
+    // const today = moment.utc().format("YYYY-MM-DD");
 
-    if (today === endDateDay) {
-      endDate = moment(endDate).add(1, "day").toDate();
-    }
+    // if (today === endDateDay) {
+    //   // NOTE toub: pourquoi on fait ça ici?
+    //   endDateUTC = moment.utc(endDateUTC).add(1, "day").toDate();
+    // }
 
-    let endStats: StructureStats = await this.getByDate(structure.id, endDate);
+    let endStats: StructureStats = await structureStatsRepository.findByStructureIdAndDate(
+      {
+        structureId: structure.id,
+        statsDateUTC: endDateUTC,
+      }
+    );
 
     if (!endStats || endStats === null) {
+      // NOT EXIST: on les génère à la volée
       endStats = await this.statsGeneratorService.generateStructureStatsForPast(
-        { statsDay: endDate, structure }
+        { statsDateUTC: endDateUTC, structure }
       );
     }
 
