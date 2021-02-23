@@ -18,6 +18,14 @@ import { RdvDto } from "../dto/rdv.dto";
 import { Usager } from "../interfaces/usagers";
 
 import moment = require("moment");
+import {
+  ETAPE_DECISION,
+  ETAPE_DOSSIER_COMPLET,
+  ETAPE_ENTRETIEN,
+  ETAPE_ETAT_CIVIL,
+  ETAPE_DOCUMENTS,
+  ETAPE_RENDEZ_VOUS,
+} from "../../database/entities/usager/ETAPES_DEMANDE.const";
 @Injectable()
 export class UsagersService {
   constructor() {}
@@ -51,7 +59,7 @@ export class UsagersService {
     };
 
     usager.structureId = user.structureId;
-    usager.etapeDemande = 1;
+    usager.etapeDemande = ETAPE_RENDEZ_VOUS;
 
     return usagerLightRepository.save(usager);
   }
@@ -65,6 +73,7 @@ export class UsagersService {
   }) {
     const usager = new UsagerTable(data);
     this.setUsagerDefaultAttributes(usager);
+
     usager.ref = await this.findNextUsagerRef(user.structureId);
     usager.customRef =
       data.customRef && data.customRef.trim()
@@ -105,11 +114,14 @@ export class UsagersService {
     if (!usager.options.npai) {
       usager.options.npai = {} as any;
     }
+
     usager.options.npai.actif = false;
     usager.options.npai.dateDebut = null;
 
-    usager.etapeDemande = 0;
+    usager.etapeDemande = ETAPE_ETAT_CIVIL;
+
     usager.typeDom = "RENOUVELLEMENT";
+
     usager.rdv = {
       userId: null,
       dateRdv: null,
@@ -127,7 +139,7 @@ export class UsagersService {
       { uuid },
       {
         entretien: entretienForm,
-        etapeDemande: 3,
+        etapeDemande: ETAPE_DOCUMENTS,
       }
     );
   }
@@ -143,8 +155,11 @@ export class UsagersService {
     });
     usager.historique.push(usager.decision);
 
+    usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
+
     if (decision.statut === "ATTENTE_DECISION") {
       /* Mail au responsable */
+      usager.etapeDemande = ETAPE_DECISION;
     }
 
     if (decision.statut === "REFUS") {
@@ -155,14 +170,10 @@ export class UsagersService {
           ? new Date(decision.dateFin)
           : new Date();
       decision.dateDebut = decision.dateFin;
-    }
-
-    if (decision.statut === "RADIE") {
+    } else if (decision.statut === "RADIE") {
       decision.dateDebut = new Date();
       decision.dateFin = new Date();
-    }
-
-    if (decision.statut === "VALIDE") {
+    } else if (decision.statut === "VALIDE") {
       if (usager.datePremiereDom !== null) {
         usager.typeDom = "RENOUVELLEMENT";
       } else {
@@ -187,9 +198,6 @@ export class UsagersService {
       usager.entretien = {};
     }
 
-    // DECISION PRISE
-    usager.etapeDemande = 6;
-
     return usagerLightRepository.save(usager);
   }
 
@@ -207,7 +215,7 @@ export class UsagersService {
     }
 
     if (rdv.isNow) {
-      usager.etapeDemande = 2;
+      usager.etapeDemande = ETAPE_ENTRETIEN;
       rdv.dateRdv = moment.utc().subtract(1, "minutes").toDate();
     } else {
       rdv.dateRdv = moment.utc(rdv.dateRdv).toDate();

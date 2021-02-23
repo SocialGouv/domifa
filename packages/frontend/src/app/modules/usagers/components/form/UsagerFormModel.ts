@@ -1,8 +1,9 @@
 import {
   UsagerDoc,
   UsagerLight,
-  UsagerSexe
+  UsagerSexe,
 } from "../../../../../_common/model";
+import { ETAPE_ETAT_CIVIL } from "../../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerAyantDroit } from "../../../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../../../_common/model/usager/UsagerDecision.type";
 import { Decision } from "../../interfaces/decision";
@@ -95,8 +96,8 @@ export class UsagerFormModel {
     this.phone = (usager && usager.phone) || "";
     this.docs = (usager && usager.docs) || [];
 
-    this.structureId = (usager && usager.structureId) || 2;
-    this.etapeDemande = (usager && usager.etapeDemande) || 0;
+    this.structureId = (usager && usager.structureId) || null;
+    this.etapeDemande = (usager && usager.etapeDemande) || ETAPE_ETAT_CIVIL;
 
     if (usager && usager.historique) {
       this.historique = [];
