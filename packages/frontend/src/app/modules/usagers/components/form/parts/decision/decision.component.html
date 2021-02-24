@@ -114,7 +114,9 @@
     <app-profil-infos [usager]="usager"></app-profil-infos>
 
     <h4>AYANTS-DROIT</h4>
-    <app-profil-ayants-droits [ayantsDroits]="usager.ayantsDroits"></app-profil-ayants-droits>
+    <app-profil-ayants-droits
+      [ayantsDroits]="usager.ayantsDroits"
+    ></app-profil-ayants-droits>
 
     <h4>ENTRETIEN</h4>
 
@@ -169,12 +171,12 @@
             placement="bottom"
             ngbDatepicker
             id="dateFinRefus"
-            formControlName="dateFinPicker"
+            formControlName="dateFin"
             #dFin="ngbDatepicker"
             dateFr
             value
             [ngClass]="{
-              'is-invalid': r.dateFinPicker.dirty && r.dateFinPicker.errors
+              'is-invalid': r.dateFin.dirty && r.dateFin.errors
             }"
             maxlength="10"
             required
@@ -185,10 +187,7 @@
             </span>
           </div>
         </div>
-        <div
-          *ngIf="submitted && r.dateFinPicker.errors"
-          class="invalid-feedback"
-        >
+        <div *ngIf="submitted && r.dateFin.errors" class="invalid-feedback">
           La date de refus est incorrecte
         </div>
       </div>
@@ -311,12 +310,6 @@
           Veuillez indiquer vers quel organisme vous souhaitez orienter
         </div>
       </div>
-      <input
-        type="hidden"
-        formControlName="dateFin"
-        class="form-control"
-        value
-      />
     </form>
   </div>
 
@@ -357,13 +350,12 @@
                 placement="bottom"
                 ngbDatepicker
                 id="dateDebutValide"
-                formControlName="dateDebutPicker"
+                formControlName="dateDebut"
                 #dDebut="ngbDatepicker"
                 dateFr
                 value
                 [ngClass]="{
-                  'is-invalid':
-                    v.dateDebutPicker.dirty && v.dateDebutPicker.errors
+                  'is-invalid': v.dateDebut.dirty && v.dateDebut.errors
                 }"
                 maxlength="10"
                 required
@@ -375,7 +367,7 @@
               </div>
             </div>
             <div
-              *ngIf="submitted && v.dateDebutPicker.errors"
+              *ngIf="submitted && v.dateDebut.errors"
               class="invalid-feedback"
             >
               La date de début de domiciliation est incorrecte
@@ -391,13 +383,13 @@
                 [maxDate]="maxDate"
                 placement="bottom"
                 ngbDatepicker
-                formControlName="dateFinPicker"
+                formControlName="dateFin"
                 #dFin="ngbDatepicker"
                 dateFr
                 id="dateFinValide"
                 value
                 [ngClass]="{
-                  'is-invalid': v.dateFinPicker.dirty && v.dateFinPicker.errors
+                  'is-invalid': v.dateFin.dirty && v.dateFin.errors
                 }"
                 maxlength="10"
                 required
@@ -408,27 +400,12 @@
                 </span>
               </div>
             </div>
-
-            <input
-              type="hidden"
-              formControlName="dateDebut"
-              class="form-control"
-              value
-            />
-            <input
-              type="hidden"
-              formControlName="dateFin"
-              class="form-control"
-              value
-            />
           </div>
           <div class="text-center text-danger col-12">
-            <div *ngIf="v.dateDebutPicker.errors">
+            <div *ngIf="v.dateDebut.errors">
               La date de début est incorrecte
             </div>
-            <div *ngIf="v.dateFinPicker.errors">
-              La date de fin est incorrecte
-            </div>
+            <div *ngIf="v.dateFin.errors">La date de fin est incorrecte</div>
             <div
               class="text-danger"
               *ngIf="v.dateDebut.value > v.dateFin.value"

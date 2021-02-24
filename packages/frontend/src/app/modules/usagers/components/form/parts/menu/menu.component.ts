@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { AppUser, UsagerLight } from "../../../../../../../_common/model";
+import { AppUser } from "../../../../../../../_common/model";
 import { UsagerFormModel } from "../../UsagerFormModel";
 
 // 1 : Etat-civil OK
