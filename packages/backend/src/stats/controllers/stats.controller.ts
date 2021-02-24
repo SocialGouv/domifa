@@ -97,7 +97,6 @@ export class StatsController {
   }> {
     const startDateUTC = buildStatsDateUTC({ date: statsDto.start });
     const endDateUTC = buildStatsDateUTC({ date: statsDto.end });
-
     return this.statsService.getStatsDiff({
       structure: user.structure,
       startDateUTC,

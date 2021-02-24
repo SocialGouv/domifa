@@ -90,12 +90,17 @@ export class StatsService {
     }
 
     const stats = this.buildStatsDiff(startStats, endStats);
-
     return {
       stats,
-      startDate: startStats.date,
-      endDate: endStats.date,
+      startDate: this.convertLocalDateToUtcNoTime(startStats.date), // this date is not UTC: convert it to the response
+      endDate: this.convertLocalDateToUtcNoTime(endStats.date), // this date is not UTC: convert it to the response
     };
+  }
+
+  private convertLocalDateToUtcNoTime(date: Date) {
+    return new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    );
   }
 
   private buildStatsDiff<T extends Pick<StructureStats, "questions">>(
