@@ -93,7 +93,7 @@ stages:
     - *print_env
 
 Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.2.0/base_yarn_stage.yml
-  image: node:14.15.0-alpine3.12
+  image: node:14.15.5-alpine3.12
   stage: Install
   interruptible: true
   cache: # https://docs.gitlab.com/ce/ci/caching/
@@ -115,7 +115,7 @@ Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v2
       - packages/frontend/node_modules
 
 Install:e2e:node_modules:
-  image: node:14.15.0-alpine3.12
+  image: node:14.15.5-alpine3.12
   stage: Install
   interruptible: true
   cache: # https://docs.gitlab.com/ce/ci/caching/
@@ -139,7 +139,7 @@ Install:e2e:node_modules:
     - tags
 
 Build:frontend:gitlab-ci: # "gitlab-ci" environment build
-  image: node:14.15.0-alpine3.12
+  image: node:14.15.5-alpine3.12
   stage: Build
   interruptible: true
   script:
@@ -157,7 +157,7 @@ Build:frontend:gitlab-ci: # "gitlab-ci" environment build
     - tags
 
 Build:frontend:dist: # "dist" environment build
-  image: node:14.15.0-alpine3.12
+  image: node:14.15.5-alpine3.12
   stage: Build
   interruptible: true
   script:
@@ -172,7 +172,7 @@ Build:frontend:dist: # "dist" environment build
     - Install:node_modules
 
 Build:backend:dist: # "dist" environment build
-  image: node:14.15.0-alpine3.12
+  image: node:14.15.5-alpine3.12
   stage: Build
   interruptible: true
   script:
@@ -188,7 +188,7 @@ Build:backend:dist: # "dist" environment build
 
 Test:backend:integration:
   extends: .tests_setup
-  image: node:14.15.0-alpine3.12
+  image: node:14.15.5-alpine3.12
   services:
     - name: mongo:4.0.3
     - name: postgres:10.14
@@ -203,7 +203,7 @@ Test:backend:integration:
 
 Test:frontend:unit:
   extends: .tests_setup
-  image: node:14.15.0-alpine3.12
+  image: node:14.15.5-alpine3.12
   script:
     - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
   needs:
