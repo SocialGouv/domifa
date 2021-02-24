@@ -5,10 +5,10 @@ import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { LoadingService } from "../../loading/loading.service";
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
-import { Decision } from "../interfaces/decision";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
 
@@ -16,18 +16,14 @@ import { Rdv } from "../interfaces/rdv";
   providedIn: "root",
 })
 export class UsagerService {
-  public loading: boolean;
   public endPointUsagers = environment.apiUrl + "usagers";
 
   constructor(
-    public http: HttpClient,
+    private http: HttpClient,
     private loadingService: LoadingService,
     private notifService: ToastrService,
     private matomo: MatomoTracker
-  ) {
-    this.http = http;
-    this.loading = true;
-  }
+  ) {}
 
   public create(usager: UsagerFormModel): Observable<UsagerLight> {
     const response =
@@ -123,13 +119,8 @@ export class UsagerService {
 
   public setDecision(
     usagerRef: number,
-    decision: Decision,
-    statut: string
+    decision: UsagerDecisionForm
   ): Observable<UsagerLight> {
-    decision.statut = statut;
-    delete decision.userId;
-    delete decision.userName;
-
     return this.http.post<UsagerLight>(
       `${this.endPointUsagers}/decision/${usagerRef}`,
       decision

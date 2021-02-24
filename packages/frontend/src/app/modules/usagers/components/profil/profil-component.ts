@@ -121,8 +121,6 @@ export class UsagersProfilComponent implements OnInit {
       DELETE: "Suppression",
       CREATION: "Création",
     };
-
-    this.usager = new UsagerFormModel();
   }
 
   public isRole(role: UserRole) {

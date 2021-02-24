@@ -5,6 +5,7 @@ import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { UsagerDecisionMotif } from "../../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { appUserBuilder } from "../../../users/services";
 import { UsagerService } from "../../services/usager.service";
 import { motifsRadiation } from "../../usagers.labels";
@@ -32,7 +33,6 @@ export class RaftComponent implements OnInit {
     private notifService: ToastrService
   ) {
     this.today = new Date();
-    this.usager = new UsagerFormModel();
     this.user = appUserBuilder.buildAppUser();
     this.motifsRadiation = motifsRadiation;
   }
@@ -62,9 +62,13 @@ export class RaftComponent implements OnInit {
     this.matomo.trackEvent("tests", "impression_courrier_radiation", "null", 1);
   }
 
-  public setDecision(statut: string) {
+  public setRadiation() {
     this.usagerService
-      .setDecision(this.usager.ref, this.usager.decision, statut)
+      .setDecision(this.usager.ref, {
+        statut: "RADIE",
+        motif: this.usager.decision.motif as UsagerDecisionMotif,
+        motifDetails: this.usager.decision.motifDetails,
+      })
       .subscribe(
         (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);

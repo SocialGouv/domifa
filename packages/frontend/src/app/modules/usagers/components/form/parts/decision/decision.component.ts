@@ -8,6 +8,7 @@ import {
   NgbDateStruct,
   NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
+import moment from "moment";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
@@ -15,7 +16,9 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AppUser } from "../../../../../../../_common/model";
+import { UsagerDecisionForm } from "../../../../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../../../../_common/model/usager/UsagerLight.type";
+import { formatDateToNgb } from "../../../../../../shared/bootstrap-util";
 import { UsagerService } from "../../../../services/usager.service";
 
 @Component({
@@ -35,13 +38,8 @@ export class DecisionComponent implements OnInit {
   public refusForm!: FormGroup;
   public valideForm!: FormGroup;
 
-  public formDatas: any;
-
   public minDate: NgbDateStruct;
   public maxDate: NgbDateStruct;
-
-  public dateDebutPicker: NgbDateStruct;
-  public dateFinPicker: NgbDateStruct;
   public maxDateRefus: NgbDateStruct;
 
   public usager: UsagerLight;
@@ -68,6 +66,7 @@ export class DecisionComponent implements OnInit {
     const dToday = new Date();
     this.minDate = { day: 1, month: 1, year: dToday.getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: dToday.getFullYear() + 2 };
+    this.maxDateRefus = formatDateToNgb(new Date());
   }
 
   get r(): any {
@@ -107,34 +106,24 @@ export class DecisionComponent implements OnInit {
 
   public initForm() {
     this.usager.decision.dateDebut = new Date();
-    this.usager.decision.dateFin = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    );
-
-    this.usager.decision.dateFin.setDate(
-      this.usager.decision.dateFin.getDate() - 1
-    );
-
-    this.dateDebutPicker = this.nbgDate.parseEn(
-      this.usager.decision.dateDebut.toISOString()
-    );
-
-    this.dateFinPicker = this.nbgDate.parseEn(
-      this.usager.decision.dateFin.toISOString()
-    );
-
-    this.maxDateRefus = this.dateDebutPicker;
+    this.usager.decision.dateFin = moment.utc().add(1, "year").toDate();
 
     this.valideForm = this.formBuilder.group({
-      dateDebut: [this.usager.decision.dateDebut, [Validators.required]],
-      dateDebutPicker: [this.dateDebutPicker, [Validators.required]],
-      dateFin: [this.usager.decision.dateFin, [Validators.required]],
-      dateFinPicker: [this.dateFinPicker, [Validators.required]],
+      dateDebut: [
+        formatDateToNgb(this.usager.decision.dateDebut),
+        [Validators.required],
+      ],
+      dateFin: [
+        formatDateToNgb(this.usager.decision.dateFin),
+        [Validators.required],
+      ],
     });
 
     this.refusForm = this.formBuilder.group({
-      dateFin: [this.usager.decision.dateFin, [Validators.required]],
-      dateFinPicker: [this.dateDebutPicker, [Validators.required]],
+      dateFin: [
+        formatDateToNgb(this.usager.decision.dateDebut),
+        [Validators.required],
+      ],
       motif: [
         this.usager.decision.motif,
         [Validators.required, Validators.minLength(4)],
@@ -150,32 +139,16 @@ export class DecisionComponent implements OnInit {
       ],
     });
 
-    this.valideForm.get("dateFinPicker").valueChanges.subscribe((value) => {
-      this.valideForm.controls.dateFin.setValue(
-        new Date(this.nbgDate.formatEn(value))
-      );
-    });
-
-    this.valideForm.get("dateDebutPicker").valueChanges.subscribe((value) => {
+    this.valideForm.get("dateDebut").valueChanges.subscribe((value) => {
+      console.log(value);
       if (value !== null && this.nbgDate.isValid(value)) {
-        const newDateDebut = new Date(this.nbgDate.formatEn(value));
+        const newDateFin = moment
+          .utc(this.nbgDate.formatEn(value))
+          .add(1, "year")
+          .subtract(1, "day")
+          .toDate();
 
-        this.usager.decision.dateFin = new Date(
-          newDateDebut.setFullYear(newDateDebut.getFullYear() + 1)
-        );
-        this.usager.decision.dateFin.setDate(
-          this.usager.decision.dateFin.getDate() - 1
-        );
-        this.dateFinPicker = this.nbgDate.parseEn(
-          this.usager.decision.dateFin.toISOString()
-        );
-
-        this.valideForm.controls.dateDebut.setValue(
-          new Date(this.nbgDate.formatEn(value))
-        );
-
-        this.valideForm.controls.dateFin.setValue(this.usager.decision.dateFin);
-        this.valideForm.controls.dateFinPicker.setValue(this.dateFinPicker);
+        this.valideForm.controls.dateFin.setValue(formatDateToNgb(newDateFin));
       }
     });
 
@@ -188,6 +161,8 @@ export class DecisionComponent implements OnInit {
   public setDecision(statut: string) {
     this.submitted = true;
 
+    let formDatas: UsagerDecisionForm = { statut: "ATTENTE_DECISION" };
+
     if (statut === "REFUS") {
       if (this.refusForm.invalid) {
         this.notifService.error(
@@ -195,12 +170,15 @@ export class DecisionComponent implements OnInit {
         );
         return;
       }
-      this.refusForm.controls.dateFin.setValue(
-        new Date(
-          this.nbgDate.formatEn(this.refusForm.controls.dateFinPicker.value)
-        ).toISOString()
-      );
-      this.formDatas = this.refusForm.value;
+
+      formDatas = {
+        ...this.refusForm.value,
+        statut: "REFUS",
+        dateFin: new Date(
+          this.nbgDate.formatEn(this.refusForm.controls.dateFin.value)
+        ),
+      };
+      //
     } else if (statut === "VALIDE") {
       if (this.valideForm.invalid) {
         this.notifService.error(
@@ -209,31 +187,31 @@ export class DecisionComponent implements OnInit {
         return;
       }
 
-      this.valideForm.controls.dateDebut.setValue(
-        new Date(
-          this.nbgDate.formatEn(this.valideForm.get("dateDebutPicker").value)
-        ).toISOString()
-      );
-
-      this.valideForm.controls.dateFin.setValue(
-        new Date(
-          this.nbgDate.formatEn(this.valideForm.get("dateFinPicker").value)
-        ).toISOString()
-      );
-
-      this.formDatas = this.valideForm.value;
-    } else {
-      this.formDatas = { statut: "ATTENTE_DECISION" };
+      formDatas = {
+        ...this.valideForm.value,
+        statut: "VALIDE",
+        dateDebut: new Date(
+          this.nbgDate.formatEn(this.valideForm.controls.dateDebut.value)
+        ),
+        dateFin: new Date(
+          this.nbgDate.formatEn(this.valideForm.controls.dateFin.value)
+        ),
+      };
     }
 
     this.usagerService
-      .setDecision(this.usager.ref, this.formDatas, statut)
+      .setDecision(this.usager.ref, formDatas)
       .subscribe((usager: UsagerLight) => {
-        // this.usager = usager;
-        // this.submitted = false;
-        this.notifService.success("Décision enregistrée avec succès ! ");
+        console.log(usager);
+        if (usager.decision.statut === "ATTENTE_DECISION") {
+          this.submitted = false;
+          this.usager = usager;
+        } else {
+          this.notifService.success("Décision enregistrée avec succès ! ");
+
+          this.router.navigate(["usager/" + usager.ref]);
+        }
         this.modalService.dismissAll();
-        this.router.navigate(["usager/" + usager.ref]);
       });
   }
 

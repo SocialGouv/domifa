@@ -3,17 +3,14 @@ import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerDoc } from "../../../../_common/model";
-import { Doc } from "../interfaces/doc";
 
 @Injectable({
   providedIn: "root",
 })
 export class DocumentService {
-  public http: HttpClient;
   public endPoint: string;
 
-  constructor(http: HttpClient) {
-    this.http = http;
+  constructor(private http: HttpClient) {
     this.endPoint = environment.apiUrl + "docs/";
   }
 

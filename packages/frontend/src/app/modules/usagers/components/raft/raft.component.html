@@ -67,9 +67,7 @@
                 [(ngModel)]="usager.decision.motif"
                 value="AUTRE"
               />
-              <label class="form-check-label" for="AUTRE">
-                Autre motif
-              </label>
+              <label class="form-check-label" for="AUTRE"> Autre motif </label>
             </div>
           </div>
           <div *ngIf="usager.decision.motif === 'AUTRE'" class="form-row">
@@ -96,7 +94,7 @@
                 usager.decision.motif === ''
               "
               class="btn btn-primary"
-              (click)="setDecision('RADIE')"
+              (click)="setRadiation()"
             >
               Confirmer la radiation
             </button>
@@ -196,9 +194,7 @@
           contestée dans un délai de 2 mois à compter de sa notification :
         </p>
         <ul>
-          <li>
-            Par recours gracieux adressé par courrier à notre structure.
-          </li>
+          <li>Par recours gracieux adressé par courrier à notre structure.</li>
           <li>
             Par recours contentieux devant le tribunal administratif référent
           </li>

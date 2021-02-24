@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
-import { LoadingService } from "../../loading/loading.service";
+
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { Interaction } from "../interfaces/interaction";
 
@@ -12,20 +12,14 @@ import { Interaction } from "../interfaces/interaction";
   providedIn: "root",
 })
 export class InteractionService {
-  public http: HttpClient;
-  public loading: boolean;
   public endPoint = environment.apiUrl + "interactions/";
 
-  constructor(http: HttpClient, private loadingService: LoadingService) {
-    this.http = http;
-    this.loading = true;
-  }
+  constructor(private http: HttpClient) {}
 
   public setInteraction(
     usager: UsagerLight | UsagerFormModel,
     interaction?: any
   ): Observable<UsagerLight> {
-    /* Procuration */
     return this.http
       .post<UsagerLight>(`${this.endPoint}${usager.ref}`, interaction)
       .pipe();
@@ -40,6 +34,7 @@ export class InteractionService {
       })
     );
   }
+
   public delete(usagerRef: number, interactionId: number) {
     return this.http.delete(`${this.endPoint}${usagerRef}/${interactionId}`);
   }

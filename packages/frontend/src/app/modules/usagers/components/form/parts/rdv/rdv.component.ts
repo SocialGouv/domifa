@@ -103,7 +103,6 @@ export class RdvComponent implements OnInit {
 
   public initForm() {
     this.rdvForm = this.formBuilder.group({
-      dateRdv: [this.usager.rdv.dateRdv, [Validators.required]],
       heureRdv: [this.usager.rdv.heureRdv, [Validators.required]],
       isNow: [this.usager.rdv.isNow, []],
       jourRdv: [this.usager.rdv.jourRdv, [Validators.required]],
@@ -126,9 +125,8 @@ export class RdvComponent implements OnInit {
 
   public setValueRdv(value: boolean): void {
     if (value === true) {
-      this.rdvForm.controls.isNow.setValue(value);
+      this.rdvForm.controls.isNow.setValue(true);
       this.rdvForm.controls.userId.setValue(this.me.id);
-      this.rdvForm.controls.dateRdv.setValue(new Date());
     } else {
       this.rdvForm.controls.isNow.setValue(false);
     }
@@ -159,27 +157,29 @@ export class RdvComponent implements OnInit {
       return;
     }
 
-    if (this.rdvForm.get("isNow").value === false) {
-      const heureRdv = this.rdvForm.controls.heureRdv.value;
-      const jourRdv = this.nbgDate.formatEn(
-        this.rdvForm.controls.jourRdv.value
-      );
-      const dateTmp = new Date(jourRdv);
-      //
-      dateTmp.setHours(heureRdv.hour, heureRdv.minute, 0);
-      this.rdvForm.controls.dateRdv.setValue(dateTmp);
+    if (this.rdvForm.get("isNow").value === true) {
+      this.rdvNow();
+      return;
     }
 
-    this.usagerService.setRdv(this.rdvForm.value, this.usager.ref).subscribe(
+    const heureRdv = this.rdvForm.controls.heureRdv.value;
+    const jourRdv = this.nbgDate.formatEn(this.rdvForm.controls.jourRdv.value);
+    const dateRdv = new Date(jourRdv);
+    dateRdv.setHours(heureRdv.hour, heureRdv.minute, 0);
+
+    //
+
+    const rdvFormValue = {
+      isNow: false,
+      dateRdv,
+      userId: this.rdvForm.controls.userId.value.toString(),
+    };
+
+    this.usagerService.setRdv(rdvFormValue, this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.notifService.success("Rendez-vous enregistré");
-
-        if (this.rdvForm.get("isNow").value === true) {
-          this.router.navigate(["usager/" + usager.ref + "/edit/entretien"]);
-        } else {
-          this.usager = new UsagerFormModel(usager);
-          this.editRdv = false;
-        }
+        this.usager = new UsagerFormModel(usager);
+        this.editRdv = false;
       },
       () => {
         this.notifService.error("Impossible d'enregistrer le rendez-vous");

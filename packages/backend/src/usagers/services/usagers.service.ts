@@ -245,12 +245,13 @@ export class UsagersService {
       usager.preference = USAGER_DEFAULT_PREFERENCE;
     }
 
-    usager.lastInteraction = {
-      dateInteraction: new Date(),
-      colisIn: 0,
-      courrierIn: 0,
-      recommandeIn: 0,
-      enAttente: false,
-    };
+    if (!usager.lastInteraction)
+      usager.lastInteraction = {
+        dateInteraction: new Date(),
+        colisIn: 0,
+        courrierIn: 0,
+        recommandeIn: 0,
+        enAttente: false,
+      };
   }
 }
