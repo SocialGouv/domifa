@@ -50,6 +50,12 @@ export class UsagersService {
     usager.ref = await this.findNextUsagerRef(user.structureId);
     usager.customRef = `${usager.ref}`;
 
+    usager.rdv = {
+      userId: null,
+      dateRdv: null,
+      userName: null,
+    };
+
     usager.decision = {
       dateDecision: new Date(),
       statut: "INSTRUCTION",

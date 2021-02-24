@@ -35,6 +35,18 @@ export class CerfaService {
       usagerRef = this.toString(usager.customRef);
     }
 
+    if (!usager.rdv) {
+      usager.rdv = {
+        userId: null,
+        dateRdv: null,
+        userName: null,
+      };
+    }
+
+    const entretienAvec = usager.rdv.userName
+      ? usager.rdv.userName.toUpperCase()
+      : "";
+
     const dateNaissance = new DateCerfa(usager.dateNaissance);
 
     const dateRdv = new DateCerfa(usager.rdv.dateRdv);
@@ -145,7 +157,7 @@ export class CerfaService {
       courrielOrga: user.structure.email,
       decision: usager.decision.statut === "REFUS" ? "2" : "",
       entretienAdresse: adresseStructure,
-      entretienAvec: usager.rdv.userName.toUpperCase(),
+      entretienAvec,
       heureRdv: dateRdv.heure,
       jourDebut: dateDebut.jour,
       jourDecision1A: dateDecision.jour,
