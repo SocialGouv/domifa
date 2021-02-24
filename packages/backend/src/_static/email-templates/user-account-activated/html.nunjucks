@@ -18,7 +18,7 @@
                Vous pouvez désormais vous connecter avec les identifiants indiqués lors de votre inscription.
           </div>
 
-           <div class="mt-8 mb-12">
+           <div class="mt-8 mb-12 text-center">
                <a href="{{ lien }}" target="_blank" rel="noopener noreferrer" class="btn-main">
                <span class="btn-main-title font-bold">Se connecter</span></a>
           </div>

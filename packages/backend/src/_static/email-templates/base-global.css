@@ -47,7 +47,7 @@ p {
   display: inline-block;
   background: #3e61ff;
   color: #ffffff;
-  font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif, "EmojiFont";
   font-size: 13px;
   font-weight: normal;
   line-height: 120%;
@@ -63,7 +63,7 @@ p {
   text-align: center;
   background-color: transparent;
   color: rgb(255, 255, 255);
-  font-family: Arial, serif;
+  font-family: Arial, serif, "EmojiFont";
 }
 .btn-color-red {
   background: #ff5b3d;

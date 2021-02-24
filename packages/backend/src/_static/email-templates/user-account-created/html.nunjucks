@@ -22,12 +22,7 @@
           </div> 
           
           <div class="my-3">
-               Si cette personne ne fait pas partie de votre organisation, veuillez ignorer cet email, 
-               sinon cliquez sur le bouton ci-dessous pour valider sa création de compte :
-          </div>
-
-          <div class="my-3">
-               Connectez-vous sur Domifa pour valider ou refuser sa demande :
+               Si cette personne ne fait pas partie de votre organisation, veuillez ignorer cet email, sinon connectez-vous sur Domifa puis cliquez sur le bouton ci-dessous pour valider sa création de compte :
           </div>
 
            <div class="mt-8 mb-12">

@@ -22,7 +22,7 @@
                 CODE DE CONFIRMATION
           </div>
 
-           <div class="mt-4 mb-8 font-bold text-3xl text-blue-800">
+           <div class="mt-8 mb-12 font-bold text-3xl text-blue-800">
                {{ confirmationCode }}
           </div>
 
