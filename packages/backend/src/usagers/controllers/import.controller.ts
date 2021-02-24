@@ -2,7 +2,6 @@ import {
   Controller,
   HttpException,
   HttpStatus,
-  Logger,
   Post,
   Res,
   UploadedFile,
@@ -19,6 +18,7 @@ import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerDecisionStatut, UsagerPG, UsagerTable } from "../../database";
+import { ETAPE_DOSSIER_COMPLET } from "../../database/entities/usager/ETAPES_DEMANDE.const";
 import { UsagerDecisionMotif } from "../../database/entities/usager/UsagerDecisionMotif.type";
 import { StructuresService } from "../../structures/services/structures.service";
 import { appLogger } from "../../util";
@@ -73,7 +73,6 @@ import { Entretien } from "../interfaces/entretien";
 import { UsagersService } from "../services/usagers.service";
 
 import moment = require("moment");
-import { ETAPE_DOSSIER_COMPLET } from "../../database/entities/usager/ETAPES_DEMANDE.const";
 
 type AOA = any[][];
 
@@ -691,7 +690,6 @@ export class ImportController {
           });
         }
       }
-
       // Enregistrement
       const usager: Partial<UsagerPG> = {
         ayantsDroits,
@@ -710,6 +708,10 @@ export class ImportController {
         },
         lastInteraction: {
           dateInteraction: dernierPassage,
+          colisIn: 0,
+          courrierIn: 0,
+          recommandeIn: 0,
+          enAttente: false,
         },
         email,
         entretien,
