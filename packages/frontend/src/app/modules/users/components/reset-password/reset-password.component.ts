@@ -1,12 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-
+import { AppUser } from "../../../../../_common/model";
 import { PasswordValidator } from "../../services/password-validator.service";
 import { UsersService } from "../../services/users.service";
-import { Title } from "@angular/platform-browser";
-import { AppUser } from "../../../../../_common/model";
 
 @Component({
   selector: "app-reset-password",
@@ -66,7 +65,7 @@ export class ResetPasswordComponent implements OnInit {
         },
         (error) => {
           const errorMessage =
-            (error.message === this.errorLabels[error.message]) !== undefined
+            this.errorLabels[error.message] !== undefined
               ? this.errorLabels[error.message]
               : "Le lien est incorrect, veuillez recommencer la procédure";
           this.notifService.error(errorMessage);

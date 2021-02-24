@@ -18,7 +18,7 @@ async function sendMail({
   user: Pick<AppUser, "email" | "nom" | "prenom">;
 }): Promise<void> {
   const frontendUrl = domifaConfig().apps.frontendUrl;
-  const lien = frontendUrl;
+  const lien = frontendUrl + "/connexion";
 
   const to = [
     {

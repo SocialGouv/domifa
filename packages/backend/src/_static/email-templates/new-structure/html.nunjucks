@@ -64,12 +64,12 @@
             </ul>
           </div>
 
-          <div class="mt-4 mb-8">
+          <div class="mt-8 mb-12 text-center">
                <a href="{{ lien_confirmation }}" target="_blank" rel="noopener noreferrer" class="btn-main">
                <span class="btn-main-title font-bold">Valider le compte</span></a>
           </div>
 
-          <div class="mt-4 mb-8">
+          <div class="mt-8 mb-12 text-center">
                <a href="{{ lien_suppression }}" target="_blank" rel="noopener noreferrer" class="btn-main btn-color-red">
                <span class="btn-main-title font-bold">Supprimer le compte</span></a>
           </div>

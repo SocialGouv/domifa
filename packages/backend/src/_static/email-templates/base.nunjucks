@@ -126,7 +126,7 @@
                                     word-break: break-word;
                                   ">
                                   <div style="
-                                      font-family: Arial, sans-serif;
+                                      font-family: Roboto, serif, EmojiFont;
                                       font-size: 15px;
                                       letter-spacing: normal;
                                       line-height: 1.5;

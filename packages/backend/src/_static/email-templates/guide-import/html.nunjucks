@@ -18,7 +18,7 @@
                Réalisez dès à présent l’import de vos données afin de pouvoir utiliser DomiFa. 
           </div>
 
-           <div class="mt-4 mb-8">
+           <div class="mt-8 mb-12 text-center">
                <a href="{{ lienImport }}" target="_blank" rel="noopener noreferrer" class="btn-main">
                <span class="btn-main-title font-bold">Importer mes domiciliés</span></a>
           </div>

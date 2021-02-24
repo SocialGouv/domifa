@@ -18,7 +18,7 @@
                Afin de vous accompagner dans l’utilisation de la plateforme, <span class="font-bold">vous trouverez ci-dessous un guide utilisateur détaillé</span> qui vous permettra de découvrir les différentes fonctionnalités disponibles. 
           </div>
 
-           <div class="mt-4 mb-8">
+           <div class="mt-8 mb-12 text-center">
                <a href="{{ lienGuide }}" target="_blank" rel="noopener noreferrer" class="btn-main">
                <span class="btn-main-title font-bold">Télécharger le guide utilisateur</span></a>
           </div>
