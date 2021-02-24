@@ -92,8 +92,8 @@ export class StatsService {
     const stats = this.buildStatsDiff(startStats, endStats);
     return {
       stats,
-      startDate: this.convertLocalDateToUtcNoTime(startStats.date), // this date is not UTC: convert it to the response
-      endDate: this.convertLocalDateToUtcNoTime(endStats.date), // this date is not UTC: convert it to the response
+      startDate: this.convertLocalDateToUtcNoTime(startStats.date), // this date is not UTC : convert it to the response
+      endDate: this.convertLocalDateToUtcNoTime(endStats.date), // this date is not UTC : convert it to the response
     };
   }
 
