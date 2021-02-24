@@ -11,4 +11,6 @@ export type StructureDoc = AppEntity & {
   path: string;
   structureId: number;
   id?: number;
+  loadingDelete: boolean;
+  loadingDownload: boolean;
 };

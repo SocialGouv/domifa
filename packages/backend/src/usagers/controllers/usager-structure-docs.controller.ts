@@ -49,10 +49,9 @@ export class UsagerStructureDocsController {
   motifsRefus: any;
   constructor(private readonly usagersService: UsagersService) {}
 
-  @Get(":id/:docType")
+  @Get(":usagerRef/:docType")
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
   public async getDocument(
-    @Param("id") usagerId: number,
     @Param("docType") docType: string,
     @CurrentUsager() usager: Usager,
     @CurrentUser() user: AppUser,
@@ -124,10 +123,7 @@ export class UsagerStructureDocsController {
           ? motifsRefus[usager.decision.motif]
           : motifsRadiation[usager.decision.motif];
 
-      if (
-        usager.decision.motif === "AUTRE" ||
-        usager.decision.motif === "AUTRES"
-      ) {
+      if (usager.decision.motif === "AUTRE") {
         motif = usager.decision.motifDetails
           ? "Autre motif : " + usager.decision.motifDetails
           : "Autre motif non précisé";
