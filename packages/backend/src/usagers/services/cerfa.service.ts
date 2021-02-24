@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
 import { UsagerPG } from "../../database";
+import { UsagerCerfaFields } from "../../database/entities/usager/UsagerCerfaFields.type";
 import { appLogger } from "../../util";
 import { AppAuthUser } from "../../_common/model";
 import { DateCerfa } from "../interfaces/date-cerfa";
@@ -139,7 +140,7 @@ export class CerfaService {
       }
     }
 
-    const pdfInfos = {
+    const pdfInfos: UsagerCerfaFields = {
       adresse: adresseDomicilie,
       adresseOrga1: adresseStructure,
       agrement: user.structure.agrement,

@@ -10,12 +10,9 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class StructureDocService {
-  public http: HttpClient;
-  private endPoint = environment.apiUrl + "structure-doc";
+  private endPoint = environment.apiUrl + "structure-docs";
 
-  constructor(http: HttpClient) {
-    this.http = http;
-  }
+  constructor(private http: HttpClient) {}
 
   public upload(data: any) {
     const uploadURL = `${this.endPoint}`;
