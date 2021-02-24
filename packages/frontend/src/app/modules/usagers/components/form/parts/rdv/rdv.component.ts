@@ -57,7 +57,7 @@ export class RdvComponent implements OnInit {
     private titleService: Title,
     private route: ActivatedRoute
   ) {
-    this.editRdv = false;
+    this.editRdv = true;
 
     this.maxDateRdv = {
       day: this.dToday.getDate(),
@@ -110,6 +110,7 @@ export class RdvComponent implements OnInit {
       userId: [this.usager.rdv.userId, Validators.required],
     });
 
+    this.editRdv = this.usager.rdv.dateRdv === null;
     this.userService.getUsersMeeting().subscribe((users: AppUser[]) => {
       this.agents = users;
 
