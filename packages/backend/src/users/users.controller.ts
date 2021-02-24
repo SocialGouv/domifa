@@ -60,6 +60,20 @@ export class UsersController {
     });
   }
 
+  @UseGuards(AuthGuard("jwt"))
+  @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
+  @Get("last-password-update")
+  public async getLastPasswordUpdate(
+    @CurrentUser() user: AppAuthUser,
+    @Res() res: ExpressResponse
+  ) {
+    const newUser = await usersRepository.findOne<AppUser>(
+      { id: user.id },
+      { select: "ALL" }
+    );
+    return res.status(HttpStatus.OK).json(newUser.passwordLastUpdate);
+  }
+
   @Get("to-confirm")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Liste des utilisateurs à confirmer" })
@@ -289,24 +303,24 @@ export class UsersController {
     @Res() res: ExpressResponse
   ) {
     const today = new Date();
-    const existUser = await usersRepository.findOneByTokenAttribute(
+    const user = await usersRepository.findOneByTokenAttribute(
       "password",
       resetPasswordDto.token
     );
 
-    if (!existUser) {
+    if (!user) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "RESET_PASSWORD" });
     }
-    if (existUser.temporaryTokens.passwordValidity < today) {
+    if (user.temporaryTokens.passwordValidity < today) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "TOKEN_EXPIRED" });
     }
 
-    this.usersService.updatePassword(resetPasswordDto).then(
-      (user) => {
+    this.usersService.updatePassword(user, resetPasswordDto).then(
+      () => {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       },
       (error) => {
@@ -426,7 +440,7 @@ export class UsersController {
         .json({ message: "L'ancien mot de passe est incorrect" });
     }
 
-    this.usersService.editPassword(user, editPasswordDto).then(
+    this.usersService.updatePassword(user, editPasswordDto).then(
       () => {
         return res.status(HttpStatus.OK).json({ message: "OK" });
       },

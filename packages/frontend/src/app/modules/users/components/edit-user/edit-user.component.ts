@@ -34,6 +34,7 @@ export class EditUserComponent implements OnInit {
   public hideOldPassword: boolean;
   public hidePassword: boolean;
   public hideConfirmPassword: boolean;
+  public lastPasswordUpdate: Date;
 
   public passwordForm!: FormGroup;
   public userForm!: FormGroup;
@@ -65,6 +66,8 @@ export class EditUserComponent implements OnInit {
 
     this.emailExist = false;
     this.usagers = [];
+
+    this.lastPasswordUpdate = null;
   }
 
   public ngOnInit(): void {
@@ -72,6 +75,10 @@ export class EditUserComponent implements OnInit {
 
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       if (user !== null) {
+        this.userService.getLastPasswordUpdate().subscribe((retour: Date) => {
+          this.lastPasswordUpdate = retour;
+        });
+
         this.me = user;
 
         if (this.me.role !== "facteur") {
@@ -168,7 +175,7 @@ export class EditUserComponent implements OnInit {
       this.userService.updatePassword(this.passwordForm.value).subscribe(
         () => {
           this.editPassword = false;
-          this.me.passwordLastUpdate = new Date();
+          this.lastPasswordUpdate = new Date();
           this.notifService.success(
             "Votre mot de passe a été modifié avec succès",
             "Félicitations !"

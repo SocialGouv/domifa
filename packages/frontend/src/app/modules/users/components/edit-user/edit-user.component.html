@@ -145,11 +145,11 @@
       <br />
 
       <div class="col-md-12 text-center" *ngIf="!editPassword">
-        <span *ngIf="me.passwordLastUpdate"
+        <span *ngIf="lastPasswordUpdate"
           >Dernière modification le :
-          {{ me.passwordLastUpdate | date: "dd/MM/yyyy" }}</span
+          {{ lastPasswordUpdate | date: "dd/MM/yyyy" }}</span
         >
-        <span *ngIf="!me.passwordLastUpdate || me.passwordLastUpdate === null"
+        <span *ngIf="!lastPasswordUpdate || lastPasswordUpdate === null"
           >Aucune modification de mot de passe enregistrée</span
         >
         <br />

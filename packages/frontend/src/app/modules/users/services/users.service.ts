@@ -104,6 +104,10 @@ export class UsersService {
     return this.http.post(`${this.endPoint}/get-password-token`, data);
   }
 
+  public getLastPasswordUpdate() {
+    return this.http.get(`${this.endPoint}/last-password-update`);
+  }
+
   public checkPasswordToken(token: string) {
     return this.http.get(`${this.endPoint}/check-password-token/${token}`);
   }
