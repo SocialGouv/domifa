@@ -111,6 +111,7 @@ export class RdvComponent implements OnInit {
     });
 
     this.editRdv = this.usager.rdv.dateRdv === null;
+
     this.userService.getUsersMeeting().subscribe((users: AppUser[]) => {
       this.agents = users;
 

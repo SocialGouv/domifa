@@ -17,25 +17,25 @@ export class Rdv {
   public isNow: boolean;
 
   constructor(rdv?: any) {
-    const today = new Date();
-    this.dateRdv = today;
+    this.isNow = true;
+    this.dateRdv = null;
 
-    if (rdv && rdv.dateRdv) {
-      this.dateRdv = new Date(rdv.dateRdv);
-    }
-
-    this.jourRdv = formatDateToNgb(this.dateRdv);
+    this.jourRdv = formatDateToNgb(new Date());
     this.heureRdv = {
-      hour: this.dateRdv.getHours(),
-      minute: this.dateRdv.getMinutes(),
+      hour: new Date().getHours(),
+      minute: new Date().getMinutes(),
     };
 
     this.userId = (rdv && rdv.userId) || null;
     this.userName = (rdv && rdv.userName) || null;
 
-    this.isNow = true;
-    if (this.dateRdv !== today) {
-      this.isNow = this.dateRdv <= today;
+    if (rdv && rdv.dateRdv) {
+      this.dateRdv = new Date(rdv.dateRdv);
+      this.jourRdv = formatDateToNgb(this.dateRdv);
+      this.heureRdv = {
+        hour: this.dateRdv.getHours(),
+        minute: this.dateRdv.getMinutes(),
+      };
     }
   }
 }

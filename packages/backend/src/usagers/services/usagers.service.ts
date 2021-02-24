@@ -37,24 +37,9 @@ export class UsagersService {
     const usager = new UsagerTable(usagerDto);
 
     this.setUsagerDefaultAttributes(usager);
-    if (!usager.lastInteraction) {
-      usager.lastInteraction = {
-        dateInteraction: new Date(),
-        colisIn: 0,
-        courrierIn: 0,
-        recommandeIn: 0,
-        enAttente: false,
-      };
-    }
 
     usager.ref = await this.findNextUsagerRef(user.structureId);
     usager.customRef = `${usager.ref}`;
-
-    usager.rdv = {
-      userId: null,
-      dateRdv: null,
-      userName: null,
-    };
 
     usager.decision = {
       dateDecision: new Date(),
@@ -128,11 +113,7 @@ export class UsagersService {
 
     usager.typeDom = "RENOUVELLEMENT";
 
-    usager.rdv = {
-      userId: null,
-      dateRdv: null,
-      userName: null,
-    };
+    usager.rdv = null;
 
     return usagerLightRepository.save(usager);
   }
@@ -252,6 +233,7 @@ export class UsagersService {
   public setUsagerDefaultAttributes(usager: UsagerTable) {
     if (!usager.ayantsDroits) usager.ayantsDroits = [];
     if (!usager.historique) usager.historique = [];
+    if (!usager.rdv) usager.rdv = null;
     if (!usager.docs) usager.docs = [];
     if (!usager.docs) usager.docs = [];
     if (!usager.docsPath) usager.docsPath = [];
@@ -262,5 +244,13 @@ export class UsagersService {
     if (!usager.preference) {
       usager.preference = USAGER_DEFAULT_PREFERENCE;
     }
+
+    usager.lastInteraction = {
+      dateInteraction: new Date(),
+      colisIn: 0,
+      courrierIn: 0,
+      recommandeIn: 0,
+      enAttente: false,
+    };
   }
 }
