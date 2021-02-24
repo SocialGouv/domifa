@@ -60,32 +60,12 @@ export class UsersService {
   }
 
   public async updatePassword(
-    resetPasswordDto: ResetPasswordDto
-  ): Promise<any> {
-    const newPassword = await bcrypt.hash(resetPasswordDto.password, 10);
-
-    const user = await usersRepository.findOneByTokenAttribute(
-      "password",
-      resetPasswordDto.token
-    );
-
-    return usersRepository.updateOne(
-      {
-        id: user.id,
-      },
-      {
-        password: newPassword,
-        passwordLastUpdate: new Date(),
-        temporaryTokens: null,
-      }
-    );
-  }
-
-  public async editPassword(
     user: Pick<AppUser, "id">,
-    resetPasswordDto: EditPasswordDto
+    resetPasswordDto: ResetPasswordDto | EditPasswordDto
   ): Promise<any> {
     const newPassword = await bcrypt.hash(resetPasswordDto.password, 10);
+
+    const passwordLastUpdate = new Date();
 
     return usersRepository.updateOne(
       {
@@ -93,7 +73,7 @@ export class UsersService {
       },
       {
         password: newPassword,
-        passwordLastUpdate: new Date(),
+        passwordLastUpdate,
         temporaryTokens: null,
       }
     );
