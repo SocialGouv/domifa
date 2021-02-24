@@ -63,7 +63,8 @@
     <br />
     <br />
     Si vous supprimez cette demande de renouvellement, l'usager retrouvera son
-    précédent statut : {{ usager.historique[0].statut }}
+    précédent statut :
+    {{ usager.historique[usager.historique.length - 1].statut }}
     <br />
   </div>
   <div class="modal-footer">

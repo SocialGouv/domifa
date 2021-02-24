@@ -12,4 +12,5 @@ export type AppUserPublic = Pick<
   | "structureId"
   | "fonction"
   | "lastLogin"
+  | "passwordLastUpdate"
 >;

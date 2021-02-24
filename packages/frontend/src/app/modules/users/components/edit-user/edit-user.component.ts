@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { Router } from "@angular/router";
+
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
@@ -51,7 +51,6 @@ export class EditUserComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UsersService,
-    private router: Router,
     private notifService: ToastrService,
     private formBuilder: FormBuilder,
     private titleService: Title
@@ -167,7 +166,7 @@ export class EditUserComponent implements OnInit {
   public updatePassword() {
     if (!this.passwordForm.invalid) {
       this.userService.updatePassword(this.passwordForm.value).subscribe(
-        (user: AppUser) => {
+        () => {
           this.editPassword = false;
           this.me.passwordLastUpdate = new Date();
           this.notifService.success(
