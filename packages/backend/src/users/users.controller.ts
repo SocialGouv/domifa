@@ -131,17 +131,11 @@ export class UsersController {
       role !== "facteur" &&
       role !== "responsable"
     ) {
-      throw new HttpException(
-        "ROLE_INCORRECT",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      throw new HttpException("BAD_REQUEST", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     if (id === user.id) {
-      throw new HttpException(
-        "CANNOT_UPDATE_SELF_ROLE",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      throw new HttpException("BAD_REQUEST", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     return usersRepository.updateOne(
@@ -172,7 +166,7 @@ export class UsersController {
     if (!userToDelete) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "USER_TO_DELETE_NOT_EXIST" });
+        .json({ message: "BAD_REQUEST" });
     }
 
     const retour = await usersRepository.deleteByCriteria({

@@ -112,7 +112,7 @@ export class UsersService {
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
 
-  public updatePassword(data: any) {
+  public updatePassword(data: any): Observable<any> {
     return this.http.post(`${this.endPoint}/edit-password`, data);
   }
 
