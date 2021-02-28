@@ -18,7 +18,7 @@ services:
       MONGO_INITDB_DATABASE: ${DB_NAME}
 
   postgres:
-    image: postgres:10.14
+    image: postgres:13.2
     restart: always
     volumes:
       - postgres-data:/var/lib/postgresql/data

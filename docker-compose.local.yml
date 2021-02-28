@@ -32,7 +32,7 @@ services:
       start_period: 2s
 
   postgres:
-    image: postgres:10.14
+    image: postgres:13.2
     container_name: domifa-postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data

@@ -24,7 +24,7 @@ services:
       start_period: 2s
 
   postgres:
-    image: postgres:10.14 # https://hub.docker.com/_/postgres
+    image: postgres:13.2 # https://hub.docker.com/_/postgres
     container_name: domifa-postgres-test
     volumes:
       # /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
