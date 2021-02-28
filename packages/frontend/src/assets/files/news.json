@@ -1,4 +1,15 @@
 [
+    {
+    "date": "2021-03-01",
+    "content": [
+    {   "type": "new",
+        "categorie": "Mise à jour technique sur DomiFa ",
+        "message": [
+          "Nous procédons à une mise à jour technique importante sur la plateforme. Celle-ci n’affectera pas vos données sur DomiFa mais risque de créer certains dysfonctionnements lors de votre utilisation dans les jours à suivre. Si c’est le cas, n’hésitez pas à nous écrire à contact.domifa@fabrique.social.gouv.fr afin que nous puissions vous assister. Merci pour votre compréhension."
+        ]
+      }
+    ]
+  },
   {
     "date": "2021-01-26",
     "content": [
