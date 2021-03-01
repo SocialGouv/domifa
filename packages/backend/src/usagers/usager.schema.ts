@@ -7,7 +7,7 @@ export const UsagerSchema = new mongoose.Schema(
       default: [],
       type: Array,
     },
-    customRef: {
+    customId: {
       maxlength: 30,
       type: String,
       trim: true,
@@ -372,6 +372,7 @@ export const UsagerSchema = new mongoose.Schema(
       type: String,
     },
     migrated: { type: Boolean, default: false },
+    migratedFixUsagerRef: { type: Boolean, default: false },
   },
   {
     timestamps: true,
