@@ -4,8 +4,10 @@
       class="text-center"
       *ngIf="!usager.options.transfert.actif && !isFormVisible"
     >
-      <p>Il n'y a aucun transfert de courrier actuellement.</p>
-
+      <p></p>
+      <div class="alert alert-info">
+        Il n'y a aucun transfert de courrier actuellement.
+      </div>
       <button
         (click)="showForm()"
         class="btn btn-outline-primary"
