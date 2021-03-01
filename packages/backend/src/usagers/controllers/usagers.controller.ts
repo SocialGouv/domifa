@@ -175,39 +175,7 @@ export class UsagersController {
 
     await this.interactionsService.deleteByUsager(usager.ref, user.structureId);
 
-    if (fs.existsSync(pathFile)) {
-      fs.readdir(pathFile, (err, files) => {
-        if (err) {
-          throw new HttpException(
-            {
-              message:
-                "CANNOT_READ_FOLDER : " +
-                pathFile +
-                "\n Err: " +
-                JSON.stringify(err),
-            },
-            HttpStatus.INTERNAL_SERVER_ERROR
-          );
-        }
-
-        for (const file of files) {
-          fs.unlink(path.join(pathFile, file), (error: any) => {
-            if (err) {
-              throw new HttpException(
-                {
-                  message:
-                    "CANNOT_DELETE_FILE: " +
-                    file +
-                    "\n Err: " +
-                    JSON.stringify(error),
-                },
-                HttpStatus.INTERNAL_SERVER_ERROR
-              );
-            }
-          });
-        }
-      });
-    }
+    deleteUsagerFolder(pathFile);
 
     const usagerToDelete = await usagerRepository.deleteByCriteria({
       uuid: usager.uuid,
@@ -367,5 +335,40 @@ export class UsagersController {
   @Get(":usagerRef")
   public async findOne(@CurrentUsager() usager: UsagerLight) {
     return usager;
+  }
+}
+function deleteUsagerFolder(pathFile: string) {
+  if (fs.existsSync(pathFile)) {
+    fs.readdir(pathFile, (err, files) => {
+      if (err) {
+        throw new HttpException(
+          {
+            message:
+              "CANNOT_READ_FOLDER : " +
+              pathFile +
+              "\n Err: " +
+              JSON.stringify(err),
+          },
+          HttpStatus.INTERNAL_SERVER_ERROR
+        );
+      }
+
+      for (const file of files) {
+        fs.unlink(path.join(pathFile, file), (error: any) => {
+          if (err) {
+            throw new HttpException(
+              {
+                message:
+                  "CANNOT_DELETE_FILE: " +
+                  file +
+                  "\n Err: " +
+                  JSON.stringify(error),
+              },
+              HttpStatus.INTERNAL_SERVER_ERROR
+            );
+          }
+        });
+      }
+    });
   }
 }
