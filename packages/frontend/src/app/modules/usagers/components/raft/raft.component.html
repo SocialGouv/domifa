@@ -13,7 +13,7 @@
       </a>
     </div>
   </div>
-  <div class="row not-print" *ngIf="usager.decision.statut !== 'RADIE'">
+  <div class="row not-print">
     <div class="col-md-8 offset-2 text-center">
       <h4 id="profil_name">Fin de domiciliation</h4>
       <p>
@@ -99,124 +99,6 @@
               Confirmer la radiation
             </button>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row" *ngIf="usager.decision.statut === 'RADIE'">
-    <div class="col-md-12 not-print text-center">
-      <h4 id="profil_name">Radiation confirmée</h4>
-      <p>
-        {{ usager | usagerNomComplet }}
-        a été radié{{ usager.sexe === "homme" ? "" : "e" }} le
-        {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
-        pour le motif suivant :
-      </p>
-      <p class="font-weight-bold">
-        {{ motifsRadiation[usager.decision.motif] }}
-        <span *ngIf="usager.decision.motif === 'AUTRE'">{{
-          usager.decision.motifDetails
-        }}</span>
-      </p>
-      <p>
-        Cette personne ne fait plus partie de la liste des domiciliées dans
-        votre structure.
-        <br />
-        Vous pourrez retrouver son dossier sous
-        <b>le filtre « Radiés ».</b>
-      </p>
-
-      <button (click)="printPage()" class="btn btn-primary">
-        <fa-icon icon="print"></fa-icon>
-        &ensp; IMPRIMER LE COURRIER DE RADIATION
-      </button>
-      <br />
-      <br />
-      <a routerLink="/manage/">
-        <fa-icon icon="angle-left"></fa-icon>
-        Retour à la liste des domiciliés
-      </a>
-      <br />
-    </div>
-    <div id="courrier-radiation">
-      <div class="text-right">
-        {{ usager.nom }} {{ usager.prenom }}
-        <br />
-        {{ user.structure.nom }}
-        <br />
-        {{ user.structure.adresse }}
-        <br />
-        {{ user.structure.ville }}, {{ user.structure.codePostal }}
-        <br />
-        <br />
-        Le {{ today | date: "dd/MM/yyyy" }}
-      </div>
-      <br />
-      <br />
-      <div class="text-left">
-        {{ usager.sexe === "homme" ? "Monsieur" : "Madame" }},
-        <br />
-        <br />
-        <p>
-          Conformément aux dispositions des articles L. 264-1 et suivants et
-          D.264-1 et suivants du code de l’action sociale et des familles
-          relatifs à la domiciliation des personnes sans domicile, vous
-          bénéficiez d’une élection de domicile
-          <span *ngIf="user.structure.structureType === 'asso'"
-            >au sein de l'organisme</span
-          >
-          <span *ngIf="user.structure.structureType === 'ccas'">au</span>
-          {{ user.structure.nom }}
-        </p>
-        <p>
-          Vous avez été informé(e) des modalités de durée et de renouvellement
-          de la domiciliation. Mes services m’ont indiqué que :
-        </p>
-        <p class="font-weight-bold text-center">{{ usager.decision.motif }}</p>
-        <p>
-          C’est pourquoi je porte à votre connaissance que je fais procéder à la
-          fin de votre domiciliation auprès
-          <b>
-            <span *ngIf="user.structure.structureType === 'asso'"
-              >de l'organisme</span
-            >
-            <span *ngIf="user.structure.structureType === 'ccas'">du</span>
-            {{ user.structure.nom }}
-          </b>
-        </p>
-        <p>
-          Vos courriers seront donc réexpédiés avec la mention « Pli Non
-          Distribuable ».
-          <br />
-          <br />
-          En application des dispositions des articles R 312-1 et R 421-1 du
-          code de justice administrative, la présente décision peut être
-          contestée dans un délai de 2 mois à compter de sa notification :
-        </p>
-        <ul>
-          <li>Par recours gracieux adressé par courrier à notre structure.</li>
-          <li>
-            Par recours contentieux devant le tribunal administratif référent
-          </li>
-        </ul>
-        <br />
-        <p>
-          Je vous prie de croire,
-          {{ usager.sexe === "homme" ? "Monsieur" : "Madame" }}, en l’assurance
-          de mes salutations distinguées.
-        </p>
-        <br />
-        <div class="text-right">
-          <b>
-            {{ user.structure.responsable.nom }}
-            {{ user.structure.responsable.prenom }}
-          </b>
-          <br />
-          {{ user.structure.responsable.fonction }}
-          <br />
-          {{ user.structure.adresse }}
-          <br />
-          {{ user.structure.ville }}, {{ user.structure.codePostal }}
         </div>
       </div>
     </div>

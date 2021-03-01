@@ -140,7 +140,6 @@ export class DecisionComponent implements OnInit {
     });
 
     this.valideForm.get("dateDebut").valueChanges.subscribe((value) => {
-      console.log(value);
       if (value !== null && this.nbgDate.isValid(value)) {
         const newDateFin = moment
           .utc(this.nbgDate.formatEn(value))
@@ -202,13 +201,11 @@ export class DecisionComponent implements OnInit {
     this.usagerService
       .setDecision(this.usager.ref, formDatas)
       .subscribe((usager: UsagerLight) => {
-        console.log(usager);
         if (usager.decision.statut === "ATTENTE_DECISION") {
           this.submitted = false;
           this.usager = usager;
         } else {
           this.notifService.success("Décision enregistrée avec succès ! ");
-
           this.router.navigate(["usager/" + usager.ref]);
         }
         this.modalService.dismissAll();

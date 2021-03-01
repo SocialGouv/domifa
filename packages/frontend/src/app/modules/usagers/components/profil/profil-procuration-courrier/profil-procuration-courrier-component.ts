@@ -19,9 +19,10 @@ import {
   UsagerLight,
   UserRole,
 } from "../../../../../../_common/model";
-import { LoadingService } from "../../../../loading/loading.service";
+
 import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
 import { UsagerService } from "../../../services/usager.service";
+import { UsagerFormModel } from "../../form/UsagerFormModel";
 
 @Component({
   providers: [
@@ -34,7 +35,7 @@ import { UsagerService } from "../../../services/usager.service";
   templateUrl: "./profil-procuration-courrier.html",
 })
 export class UsagersProfilProcurationCourrierComponent implements OnInit {
-  @Input() public usager: UsagerLight;
+  @Input() public usager: UsagerFormModel;
   @Input() public me: AppUser;
 
   public actions = {
@@ -44,6 +45,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   };
 
   public isFormVisible: boolean;
+
   public procurationForm!: FormGroup;
   public minDateToday: NgbDateStruct;
 
@@ -58,8 +60,9 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     private matomo: MatomoTracker
   ) {
     this.hideForm();
-    this.minDateToday = minDateToday;
+
     this.isFormVisible = false;
+    this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
   }
@@ -133,7 +136,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.usagerService.editProcuration(formValue, this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.hideForm();
-        this.usager = usager;
+        this.usager = new UsagerFormModel(usager);
         this.notifService.success("Procuration ajoutée avec succès");
         this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
       },
@@ -148,7 +151,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       (usager: UsagerLight) => {
         this.hideForm();
         this.procurationForm.reset();
-        this.usager = usager;
+        this.usager = new UsagerFormModel(usager);
         this.notifService.success("Procuration supprimée avec succès");
         this.matomo.trackEvent("profil", "actions", "delete-procuration", 1);
       },

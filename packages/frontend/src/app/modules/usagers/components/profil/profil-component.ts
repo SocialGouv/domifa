@@ -19,12 +19,14 @@ import {
 } from "src/app/shared/bootstrap-util";
 import { regexp } from "src/app/shared/validators";
 import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
+import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
 import { languagesAutocomplete } from "../../../../shared";
 
 import { interactionsLabels } from "../../interactions.labels";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction, InteractionTypes } from "../../interfaces/interaction";
 import { Options } from "../../interfaces/options";
+import { DocumentService } from "../../services/document.service";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
@@ -72,8 +74,6 @@ export class UsagersProfilComponent implements OnInit {
 
   public notifInputs: { [key: string]: any };
 
-  public isActif: boolean;
-
   public today: Date;
   public me: AppUser;
 
@@ -93,7 +93,8 @@ export class UsagersProfilComponent implements OnInit {
     private router: Router,
     private usagerService: UsagerService,
     private titleService: Title,
-    private matomo: MatomoTracker
+    private matomo: MatomoTracker,
+    private documentService: DocumentService
   ) {
     this.editAyantsDroits = false;
     this.editEntretien = false;
@@ -102,7 +103,6 @@ export class UsagersProfilComponent implements OnInit {
     this.editCustomId = false;
     this.acceptInteractions = true;
 
-    this.isActif = false;
     this.today = new Date();
 
     this.interactions = [];
@@ -160,13 +160,6 @@ export class UsagersProfilComponent implements OnInit {
               return false;
             }
           }
-
-          this.isActif =
-            usager.decision.statut === "VALIDE" ||
-            (usager.decision.statut === "INSTRUCTION" &&
-              usager.typeDom === "RENOUVELLEMENT") ||
-            (usager.decision.statut === "ATTENTE_DECISION" &&
-              usager.typeDom === "RENOUVELLEMENT");
 
           this.usager = new UsagerFormModel(usager);
 
@@ -426,6 +419,19 @@ export class UsagersProfilComponent implements OnInit {
 
   public getAttestation() {
     return this.usagerService.attestation(this.usager.ref);
+  }
+
+  public getStructureDocument(docType: StructureDocTypesAvailable) {
+    this.documentService.getStructureDoc(this.usager.ref, docType).subscribe(
+      (blob: any) => {
+        const newBlob = new Blob([blob], {
+          type:
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        });
+        saveAs(newBlob, docType + ".docx");
+      },
+      (error: any) => {}
+    );
   }
 
   public stopCourrier() {

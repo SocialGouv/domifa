@@ -6,7 +6,7 @@
     >
       <p>Il n'y a aucune procuration actuellement</p>
       <button
-        *ngIf="!isRole('facteur')"
+        *ngIf="!isRole('facteur') && usager.isActif"
         class="btn btn-outline-primary"
         (click)="showForm()"
       >

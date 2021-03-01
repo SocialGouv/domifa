@@ -1,14 +1,5 @@
 <div class="row">
-  <div
-    class="col-md-4"
-    *ngIf="
-      usager.decision.statut === 'VALIDE' ||
-      (usager.decision.statut === 'INSTRUCTION' &&
-        usager.typeDom === 'RENOUVELLEMENT') ||
-      (usager.decision.statut === 'ATTENTE_DECISION' &&
-        usager.typeDom === 'RENOUVELLEMENT')
-    "
-  >
+  <div class="col-md-4" *ngIf="usager.isActif">
     <h5>Attestation postale</h5>
     <br />
     <button

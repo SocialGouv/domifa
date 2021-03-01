@@ -67,17 +67,18 @@
             Créer une nouvelle demande
           </button>
           &nbsp;&nbsp;
-          <a
-            [routerLink]="['/radiation/'+usager.ref]"
+
+          <button
+            (click)="getStructureDocument('courrier_radiation')"
             class="btn btn-outline-primary"
           >
-            <fa-icon icon="print" class="btn-icon"></fa-icon>
-            Imprimer le courrier de radiation
-          </a>
+            <fa-icon icon="download" class="btn-icon"></fa-icon>
+            Télécharger le courrier de radiation
+          </button>
         </div>
       </div>
 
-      <div class="text-center" *ngIf="isActif">
+      <div class="text-center" *ngIf="usager.isActif">
         <span
           [ngClass]="{
               'text-danger': usager.dayBeforeEnd <= 15,
@@ -114,7 +115,7 @@
       </div>
 
       <div
-        *ngIf="isActif && usager.dayBeforeEnd < 60 && !isRole('facteur')"
+        *ngIf="usager.isActif && usager.dayBeforeEnd < 60 && !isRole('facteur')"
         class="text-center row"
       >
         <div class="w-100">
@@ -157,7 +158,7 @@
     </div>
   </div>
   <div
-    *ngIf=" isActif ||  (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
+    *ngIf=" usager.isActif ||  (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
   >
     <br />
     <h5 class="text-center font-weight-bold">
@@ -443,7 +444,7 @@
         <ng-container *ngIf="!editInfos">
           <app-profil-infos [usager]="usager"></app-profil-infos>
 
-          <div class="row" *ngIf="isActif && !isRole('facteur')">
+          <div class="row" *ngIf="usager.isActif && !isRole('facteur')">
             <div class="col-md-12 text-center">
               <br />
               <button
@@ -800,7 +801,7 @@
 
           <div
             class="col-md-12 text-center"
-            *ngIf="isActif && !isRole('facteur')"
+            *ngIf="usager.isActif && !isRole('facteur')"
           >
             <br />
             <button
@@ -905,7 +906,7 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="panel-9" *ngIf="usager.decision.statut !== 'REFUS'">
+    <ngb-panel id="panel-9">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
@@ -926,7 +927,7 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="panel-10" *ngIf="usager.decision.statut !== 'REFUS'">
+    <ngb-panel id="panel-10">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">
           <button ngbPanelToggle class="btn btn-link">
@@ -976,7 +977,7 @@
 
         <div
           class="col-md-12 text-center"
-          *ngIf="isActif && !isRole('facteur')"
+          *ngIf="usager.isActif && !isRole('facteur')"
         >
           <br />
           <button
@@ -1005,7 +1006,7 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <app-upload
-          *ngIf="isActif || usager.decision.statut === 'RADIE'"
+          *ngIf="usager.isActif || usager.decision.statut === 'RADIE'"
           [usager]="usager"
         >
         </app-upload>
@@ -1014,7 +1015,7 @@
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
-  <div class="text-center" *ngIf="isActif && !isRole('facteur')">
+  <div class="text-center" *ngIf="usager.isActif && !isRole('facteur')">
     <br />
     <div class="row">
       <div class="col-md-8 offset-2">
