@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
@@ -13,12 +13,13 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import {
+  BehaviorSubject,
   combineLatest,
   fromEvent,
   ReplaySubject,
   Subject,
   Subscription,
-  timer
+  timer,
 } from "rxjs";
 import {
   debounceTime,
@@ -27,7 +28,7 @@ import {
   map,
   retryWhen,
   switchMap,
-  tap
+  tap,
 } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
@@ -43,7 +44,7 @@ import {
   usagersFilter,
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortKey,
-  UsagersFilterCriteriaSortValues
+  UsagersFilterCriteriaSortValues,
 } from "./usager-filter";
 
 @Component({
@@ -56,6 +57,7 @@ import {
 export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
 
+  public allUsagers$ = new BehaviorSubject<UsagerLight[]>([]);
   public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
   public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerFormModel[] = [];
@@ -145,13 +147,17 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (allUsagers: UsagerLight[]) => {
-          this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
-          this.allUsagersByStatus$.next(this.allUsagersByStatus);
+          this.allUsagers$.next(allUsagers);
         },
         () => {
           this.notifService.error("Une erreur a eu lieu lors de la recherche");
         }
       );
+
+    this.allUsagers$.subscribe((allUsagers: UsagerLight[]) => {
+      this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
+      this.allUsagersByStatus$.next(this.allUsagersByStatus);
+    });
 
     this.subscription.add(
       fromEvent(this.searchInput.nativeElement, "keyup")
@@ -176,6 +182,17 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
           this.applyFilters({ filters, allUsagersByStatus });
         }
       )
+    );
+  }
+
+  private updateUsager(usager: UsagerLight) {
+    this.allUsagers$.next(
+      this.allUsagers$.value.map((x) => {
+        if (x.ref === usager.ref) {
+          return usager;
+        }
+        return x;
+      })
     );
   }
 
@@ -341,7 +358,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
     this.interactionService.setInteraction(usager, interaction).subscribe(
       (response: UsagerLight) => {
-        usager.lastInteraction = response.lastInteraction;
+        this.updateUsager({
+          ...usager,
+          lastInteraction: response.lastInteraction,
+        });
         this.notifService.success(interactionsLabels[type]);
       },
       (error) => {
@@ -376,9 +396,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     const pageSize = 40;
     if (filters.page === 0) {
       this.nbResults = filteredUsagers.length;
-      this.usagers = filteredUsagers.slice(0, pageSize).map(
-        (item) => new UsagerFormModel(item, filters)
-      );
+      this.usagers = filteredUsagers
+        .slice(0, pageSize)
+        .map((item) => new UsagerFormModel(item, filters));
 
       window.scroll({
         behavior: "smooth",
@@ -387,9 +407,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       });
     } else {
       this.usagers = this.usagers.concat(
-        filteredUsagers.slice(filters.page * pageSize, filters.page * pageSize + 40).map(
-          (item) => new UsagerFormModel(item, filters)
-        )
+        filteredUsagers
+          .slice(filters.page * pageSize, filters.page * pageSize + 40)
+          .map((item) => new UsagerFormModel(item, filters))
       );
     }
     this.searching = false;
