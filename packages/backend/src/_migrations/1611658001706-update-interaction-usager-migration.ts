@@ -23,8 +23,8 @@ export class autoMigration1611658001706 implements MigrationInterface {
     await queryRunner.query(
       `UPDATE interactions
       SET "usagerUUID"=u.uuid
-      FROM (select uuid, ref from usager) AS u
-      WHERE "usagerRef" = u."ref" `
+      FROM (select uuid, ref, "structureId" from usager) AS u
+      WHERE interactions."usagerRef" = u."ref" and interactions."structureId" = u."structureId";`
     );
     await queryRunner.query(
       `ALTER TABLE "interactions" ALTER COLUMN "usagerUUID" set NOT null;`
