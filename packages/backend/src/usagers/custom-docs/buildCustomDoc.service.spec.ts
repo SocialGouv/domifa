@@ -1,9 +1,9 @@
-import { UsagerLight } from "../database";
-import { StructureCommon } from "../_common/model";
-import { StructureCustomDoc } from "../_common/model/structure-doc/StructureCustomDoc.type";
+import { UsagerLight } from "../../database";
+import { StructureCommon } from "../../_common/model";
+import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
 
 import { buildCustomDoc } from "./buildCustomDoc.service";
-import { generatedAttestationMock } from "./generatedAttestationMock";
+import { generatedAttestationMock } from "./mocks/generatedAttestationMock";
 
 describe("buildCustomDoc", () => {
   const structure: StructureCommon = {

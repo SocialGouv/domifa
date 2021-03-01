@@ -13,36 +13,26 @@ import { Response } from "express";
 
 import * as fs from "fs";
 import * as path from "path";
-import * as PizZip from "pizzip";
-import moment = require("moment");
 
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 
-import { UsagersService } from "../services/usagers.service";
-
-import { AppUser, StructureCommon } from "../../_common/model";
+import { AppUser } from "../../_common/model";
 import { CurrentUser } from "../../auth/current-user.decorator";
 
 import { domifaConfig } from "../../config";
 import { UsagerLight } from "../../database";
-import { appLogger } from "../../util";
-import { buildCustomDoc } from "../../custom-docs";
 
-// tslint:disable-next-line: no-var-requires
-const Docxtemplater = require("docxtemplater");
-// tslint:disable-next-line: no-var-requires
-const InspectModule = require("docxtemplater/js/inspect-module");
+import { buildCustomDoc, generateCustomDoc } from "../custom-docs";
 
 @UseGuards(AuthGuard("jwt"), FacteurGuard)
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
 export class UsagerStructureDocsController {
-  motifsRefus: any;
-  constructor(private readonly usagersService: UsagersService) {}
+  constructor() {}
 
   @Get(":usagerRef/:docType")
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
@@ -74,6 +64,7 @@ export class UsagerStructureDocsController {
       user.structureId +
       "/docs/" +
       docsName[docType];
+
     if (fs.existsSync(path.resolve(__dirname, customDocPath))) {
       // file exists
       content = fs.readFileSync(
@@ -82,38 +73,8 @@ export class UsagerStructureDocsController {
       );
     }
 
-    const iModule = InspectModule();
-
-    const zip = new PizZip(content);
-    let doc: any;
-
-    try {
-      doc = new Docxtemplater(zip, { modules: [iModule], linebreaks: true });
-    } catch (error) {
-      appLogger.error(`DocTemplater - Opening Doc impossible`, {
-        sentry: true,
-        extra: {
-          error,
-        },
-      });
-    }
-
     const docValues = buildCustomDoc(usager, user.structure);
 
-    doc.setData(docValues);
-
-    try {
-      doc.render();
-    } catch (error) {
-      appLogger.error(`DocTemplater - Rendering documentimpossible`, {
-        sentry: true,
-        extra: {
-          error,
-          usager,
-        },
-      });
-    }
-
-    res.end(doc.getZip().generate({ type: "nodebuffer" }));
+    res.end(generateCustomDoc(content, docValues));
   }
 }
