@@ -177,11 +177,23 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      combineLatest([this.filters$, this.allUsagersByStatus$]).subscribe(
-        ([filters, allUsagersByStatus]) => {
-          this.applyFilters({ filters, allUsagersByStatus });
-        }
-      )
+      combineLatest([
+        this.filters$.pipe(
+          tap((filters) => {
+            if (filters.page === 0) {
+              console.log("scroll up");
+              window.scroll({
+                behavior: "smooth",
+                left: 0,
+                top: 0,
+              });
+            }
+          })
+        ),
+        this.allUsagersByStatus$,
+      ]).subscribe(([filters, allUsagersByStatus]) => {
+        this.applyFilters({ filters, allUsagersByStatus });
+      })
     );
   }
 
@@ -358,10 +370,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
     this.interactionService.setInteraction(usager, interaction).subscribe(
       (response: UsagerLight) => {
-        this.updateUsager({
-          ...usager,
-          lastInteraction: response.lastInteraction,
-        });
+        usager.lastInteraction = response.lastInteraction;
+        this.updateUsager(usager);
         this.notifService.success(interactionsLabels[type]);
       },
       (error) => {
@@ -399,12 +409,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       this.usagers = filteredUsagers
         .slice(0, pageSize)
         .map((item) => new UsagerFormModel(item, filters));
-
-      window.scroll({
-        behavior: "smooth",
-        left: 0,
-        top: 0,
-      });
     } else {
       this.usagers = this.usagers.concat(
         filteredUsagers
