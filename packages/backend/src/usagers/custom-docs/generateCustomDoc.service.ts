@@ -1,10 +1,12 @@
 import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
 
 import * as PizZip from "pizzip";
+
 import { appLogger } from "../../util";
 
 // tslint:disable-next-line: no-var-requires
 const Docxtemplater = require("docxtemplater");
+
 // tslint:disable-next-line: no-var-requires
 const InspectModule = require("docxtemplater/js/inspect-module");
 

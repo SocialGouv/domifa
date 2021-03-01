@@ -14,8 +14,12 @@ import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureC
 
 export function buildCustomDoc(
   usager: UsagerLight,
-  structure: StructureCommon
+  structure: StructureCommon,
+  date?: Date
 ): StructureCustomDoc {
+  // Date
+  const dateOfDocument = date ? moment(date) : moment();
+
   // Adresse
   let adresseStructure = ucFirst(structure.adresse);
 
@@ -47,10 +51,12 @@ export function buildCustomDoc(
 
   return {
     // DATES UTILES
-    DATE_JOUR: moment().locale("fr").format("L"),
+    DATE_JOUR: dateOfDocument.locale("fr").format("L"),
     DATE_JOUR_HEURE:
-      moment().locale("fr").format("L") + " à " + moment().format("LT"),
-    DATE_JOUR_LONG: moment().locale("fr").format("LL"),
+      dateOfDocument.locale("fr").format("L") +
+      " à " +
+      dateOfDocument.format("LT"),
+    DATE_JOUR_LONG: dateOfDocument.locale("fr").format("LL"),
 
     // INFOS RESPONSABLE
     RESPONSABLE_NOM: ucFirst(structure.responsable.nom),

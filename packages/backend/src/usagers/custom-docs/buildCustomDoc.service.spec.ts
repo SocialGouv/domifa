@@ -105,7 +105,13 @@ describe("buildCustomDoc", () => {
 
   it("buildCustomDoc render ", async () => {
     // const docRadie = buildCustomDoc(usagerRadie, structure);
-    const docActif: StructureCustomDoc = buildCustomDoc(usagerActif, structure);
+
+    const date = new Date("2020-12-15 14:30:00");
+    const docActif: StructureCustomDoc = buildCustomDoc(
+      usagerActif,
+      structure,
+      date
+    );
 
     expect(docActif).toEqual(generatedAttestationMock);
   });

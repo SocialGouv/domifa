@@ -1,10 +1,7 @@
-import moment = require("moment");
-
 export const generatedAttestationMock = {
-  DATE_JOUR: moment().locale("fr").format("L"),
-  DATE_JOUR_HEURE:
-    moment().locale("fr").format("L") + " à " + moment().format("LT"),
-  DATE_JOUR_LONG: moment().locale("fr").format("LL"),
+  DATE_JOUR: "15/12/2020",
+  DATE_JOUR_HEURE: "15/12/2020 à 14:30",
+  DATE_JOUR_LONG: "15 décembre 2020",
   RESPONSABLE_NOM: "Jean",
   RESPONSABLE_PRENOM: "Thomson",
   RESPONSABLE_FONCTION: "PDG",
