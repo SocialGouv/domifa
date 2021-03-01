@@ -21,7 +21,6 @@ import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 
-import { Usager } from "../interfaces/usagers";
 import { UsagersService } from "../services/usagers.service";
 
 import { AppUser, StructureCommon } from "../../_common/model";
@@ -35,6 +34,9 @@ import {
   residence,
   typeMenage,
 } from "../../stats/usagers.labels";
+import { domifaConfig } from "../../config";
+import { UsagerLight } from "../../database";
+import { appLogger } from "../../util";
 
 // tslint:disable-next-line: no-var-requires
 const Docxtemplater = require("docxtemplater");
@@ -53,7 +55,7 @@ export class UsagerStructureDocsController {
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard, FacteurGuard)
   public async getDocument(
     @Param("docType") docType: string,
-    @CurrentUsager() usager: Usager,
+    @CurrentUsager() usager: UsagerLight,
     @CurrentUser() user: AppUser,
     @Res() res: Response
   ) {
@@ -68,11 +70,24 @@ export class UsagerStructureDocsController {
       courrier_radiation: "courrier_radiation.docx",
     };
 
-    // TODO: Vérifier qu'il n'existe pas une version custom de ce document
-    const content = fs.readFileSync(
+    let content = fs.readFileSync(
       path.resolve(__dirname, "../../ressources/" + docsName[docType]),
       "binary"
     );
+
+    // Une version customisée par la structure existe-t-elle ?
+    const customDocPath =
+      domifaConfig().upload.basePath +
+      user.structureId +
+      "/docs/" +
+      docsName[docType];
+    if (fs.existsSync(path.resolve(__dirname, customDocPath))) {
+      // file exists
+      content = fs.readFileSync(
+        path.resolve(__dirname, customDocPath),
+        "binary"
+      );
+    }
 
     const iModule = InspectModule();
 
@@ -82,7 +97,12 @@ export class UsagerStructureDocsController {
     try {
       doc = new Docxtemplater(zip, { modules: [iModule], linebreaks: true });
     } catch (error) {
-      this.errorHandler(error);
+      appLogger.error(`DocTemplater - Opening Doc impossible`, {
+        sentry: true,
+        extra: {
+          error,
+        },
+      });
     }
 
     const docValues = this.buildDoc(usager, user.structure);
@@ -91,14 +111,20 @@ export class UsagerStructureDocsController {
     try {
       doc.render();
     } catch (error) {
-      this.errorHandler(error);
+      appLogger.error(`DocTemplater - Rendering documentimpossible`, {
+        sentry: true,
+        extra: {
+          error,
+          usager,
+        },
+      });
     }
 
     res.end(doc.getZip().generate({ type: "nodebuffer" }));
   }
 
   private buildDoc(
-    usager: Usager,
+    usager: UsagerLight,
     structure: StructureCommon
   ): {
     [key in StructureDocKeys]: string;
@@ -108,26 +134,28 @@ export class UsagerStructureDocsController {
 
     if (this.notEmpty(structure.complementAdresse)) {
       adresseStructure =
-        adresseStructure + "\n" + this.ucFirst(structure.complementAdresse);
+        adresseStructure + ", " + this.ucFirst(structure.complementAdresse);
     }
 
     // Motif de refus
-    let motif = "";
 
     if (
       usager.decision.statut === "REFUS" ||
       usager.decision.statut === "RADIE"
     ) {
-      motif =
-        usager.decision.statut === "REFUS"
-          ? motifsRefus[usager.decision.motif]
-          : motifsRadiation[usager.decision.motif];
-
       if (usager.decision.motif === "AUTRE") {
-        motif = usager.decision.motifDetails
-          ? "Autre motif : " + usager.decision.motifDetails
-          : "Autre motif non précisé";
+        usager.decision.motif =
+          usager.decision.motifDetails !== ""
+            ? "Autre motif" + usager.decision.motifDetails
+            : ("Autre motif non précisé" as any);
+      } else {
+        usager.decision.motif =
+          usager.decision.statut === "REFUS"
+            ? motifsRefus[usager.decision.motif]
+            : (motifsRadiation[usager.decision.motif] as any);
       }
+    } else {
+      usager.decision.motif = "" as any;
     }
 
     return {
@@ -158,8 +186,8 @@ export class UsagerStructureDocsController {
       STRUCTURE_COURRIER_CODE_POSTAL: "",
 
       // INFOS USAGER
-      USAGER_REF: usager.id.toString(),
-      USAGER_CUSTOM_REF: usager.customId,
+      USAGER_REF: usager.ref.toString(),
+      USAGER_CUSTOM_REF: usager.customRef,
       USAGER_CIVILITE: usager.sexe === "femme" ? "Madame" : "Monsieur",
       USAGER_NOM: this.ucFirst(usager.nom),
       USAGER_PRENOM: this.ucFirst(usager.prenom),
@@ -180,7 +208,7 @@ export class UsagerStructureDocsController {
         "Type de domiciliation : première domiciliation ou renouvellement",
 
       // REFUS / RADIATION
-      MOTIF_RADIATION: motif,
+      MOTIF_RADIATION: usager.decision.motif,
       DATE_RADIATION: moment(usager.decision.dateDecision)
         .locale("fr")
         .format("LL"),
@@ -232,27 +260,6 @@ export class UsagerStructureDocsController {
     return value === undefined || value === null
       ? ""
       : value.charAt(0).toUpperCase() + value.slice(1);
-  }
-
-  private replaceErrors(key: string, value: any) {
-    if (value instanceof Error) {
-      return Object.getOwnPropertyNames(value).reduce((error, errorKey) => {
-        error[errorKey] = value[errorKey];
-        return error;
-      }, {});
-    }
-    return value;
-  }
-
-  private errorHandler(error: any) {
-    if (error.properties && error.properties.errors instanceof Array) {
-      const errorMessages = error.properties.errors
-        .map((propError: any) => {
-          return propError.properties.explanation;
-        })
-        .join("\n");
-    }
-    throw error;
   }
 
   private notEmpty(value: string): boolean {

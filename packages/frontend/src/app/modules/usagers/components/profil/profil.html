@@ -886,6 +886,25 @@
       </ng-template>
     </ngb-panel>
 
+    <ngb-panel id="panel-6" *ngIf="!isRole('facteur')">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>DOCUMENTS DISPONIBLES</span>
+            <span class="arrows">
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <app-profil-structure-docs
+          [usager]="usager"
+        ></app-profil-structure-docs>
+      </ng-template>
+    </ngb-panel>
+
     <ngb-panel id="panel-9" *ngIf="usager.decision.statut !== 'REFUS'">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">

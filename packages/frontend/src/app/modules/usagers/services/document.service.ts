@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerDoc } from "../../../../_common/model";
+import { StructureDocTypesAvailable } from "../../../../_common/model/structure-doc";
 
 @Injectable({
   providedIn: "root",
@@ -52,9 +53,15 @@ export class DocumentService {
     );
   }
 
-  public getCustomDoc(usagerRef: number) {
-    return this.http.get(`${environment.apiUrl}docs-custom/${usagerRef}`, {
-      responseType: "blob",
-    });
+  public getStructureDoc(
+    usagerId: number,
+    docType: StructureDocTypesAvailable
+  ) {
+    return this.http.get(
+      `${environment.apiUrl}usagers-structure-docs/${usagerId}/${docType}`,
+      {
+        responseType: "blob",
+      }
+    );
   }
 }

@@ -27,10 +27,10 @@ import { StructureDoc } from "../../_common/model/structure-doc";
 import { StructureDocDto } from "../dto/structure-doc.dto";
 import { StructureDocService } from "../services/structure-doc.service";
 
-@ApiTags("structure-doc")
+@ApiTags("structure-docs")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"), FacteurGuard)
-@Controller("structure-doc")
+@Controller("structure-docs")
 export class StructureDocController {
   constructor(private structureDocService: StructureDocService) {}
 

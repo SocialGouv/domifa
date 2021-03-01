@@ -1,13 +1,15 @@
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { UsagersModule } from "../../usagers.module";
-import { DocsCustomComponent } from "./docs-custom.component";
 
-describe("DocsCustomComponent", () => {
-  let component: DocsCustomComponent;
-  let fixture: ComponentFixture<DocsCustomComponent>;
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { UsagersModule } from "../../../usagers.module";
+import { ProfilStructureDocsComponent } from "./profil-structure-docs.component.ts";
+
+describe("ProfilStructureDocsComponent", () => {
+  let component: ProfilStructureDocsComponent;
+  let fixture: ComponentFixture<ProfilStructureDocsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,7 +35,7 @@ describe("DocsCustomComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DocsCustomComponent);
+    fixture = TestBed.createComponent(ProfilStructureDocsComponent);
     component = fixture.componentInstance;
   });
 

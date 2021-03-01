@@ -17,7 +17,7 @@ import { GeneralModule } from "../general/general.module";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
-import { DocsCustomComponent } from "./components/docs-custom/docs-custom.component";
+
 import { DocumentsComponent } from "./components/documents/documents.component";
 import { EntretienComponent } from "./components/entretien/entretien.component";
 import { DecisionComponent } from "./components/form/parts/decision/decision.component";
@@ -35,6 +35,7 @@ import { UsagersProfilComponent } from "./components/profil/profil-component";
 import { ProfilEntretienComponent } from "./components/profil/profil-entretien/profil-entretien.component";
 import { ProfilInfosComponent } from "./components/profil/profil-infos/profil-infos.component";
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil/profil-procuration-courrier/profil-procuration-courrier-component";
+import { ProfilStructureDocsComponent } from "./components/profil/profil-structure-documents/profil-structure-docs.component.ts";
 import { UsagersProfilTransfertCourrierComponent } from "./components/profil/profil-transfert-courrier/profil-transfert-courrier-component";
 import { RaftComponent } from "./components/raft/raft.component";
 import { UploadComponent } from "./components/upload/upload.component";
@@ -54,7 +55,7 @@ import { UsagerService } from "./services/usager.service";
     ManageUsagersComponent,
     MenuComponent,
     DeleteMenuComponent,
-    DocsCustomComponent,
+    ProfilStructureDocsComponent,
     UsagersProfilComponent,
     UsagersProfilTransfertCourrierComponent,
     UsagersProfilProcurationCourrierComponent,
@@ -73,7 +74,6 @@ import { UsagerService } from "./services/usager.service";
     DocumentsFormComponent,
     ManageUsagersComponent,
     UsagersProfilComponent,
-    DocsCustomComponent,
     ImportComponent,
     RaftComponent,
   ],
