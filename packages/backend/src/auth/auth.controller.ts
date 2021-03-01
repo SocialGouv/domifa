@@ -33,6 +33,12 @@ export class AuthController {
       { select: "ALL" }
     );
 
+    if (!user.password) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "WRONG_CREDENTIALS" });
+    }
+
     if (user) {
       const isValidPass = await bcrypt.compare(
         loginDto.password,

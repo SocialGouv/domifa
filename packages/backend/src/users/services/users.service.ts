@@ -83,7 +83,11 @@ export class UsersService {
     const createdUser = new AppUserTable(userDto);
 
     createdUser.verified = true;
-    createdUser.password = crypto.randomBytes(30).toString("hex");
+    createdUser.password = await bcrypt.hash(
+      crypto.randomBytes(30).toString("hex"),
+      10
+    );
+
     createdUser.temporaryTokens = {
       creation: crypto.randomBytes(30).toString("hex"),
     };
