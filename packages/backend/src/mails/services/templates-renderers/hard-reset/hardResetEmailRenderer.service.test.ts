@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { domifaConfig } from "../../../../config";
 import { hardResetEmailRenderer } from "./hardResetEmailRenderer.service";
+
 describe("hardResetEmailRenderer", () => {
   it("hardResetEmailRenderer render ", async () => {
     const model = {

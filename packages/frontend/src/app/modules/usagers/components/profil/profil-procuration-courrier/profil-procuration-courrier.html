@@ -4,9 +4,7 @@
       class="text-center"
       *ngIf="!usager.options.procuration.actif && !isFormVisible"
     >
-      <div class="alert alert-info">
-        Il n'y a aucune procuration actuellement.
-      </div>
+      <p>Il n'y a aucune procuration actuellement</p>
       <button
         *ngIf="!isRole('facteur') && usager.isActif"
         class="btn btn-outline-primary"

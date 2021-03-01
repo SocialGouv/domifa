@@ -1,4 +1,4 @@
-export type StructureDocKeys =
+export type StructureCustomDocKeys =
   // DATES UTILES
   | "DATE_JOUR"
   | "DATE_JOUR_HEURE"

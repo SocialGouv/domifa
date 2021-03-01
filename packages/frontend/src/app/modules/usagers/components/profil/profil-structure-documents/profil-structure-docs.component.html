@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-4" *ngIf="usager.isActif">
-    <h5>Attestation postale</h5>
-    <br />
+    <h6>Attestation postale</h6>
+
     <button
       class="btn btn-outline-primary"
       (click)="getStructureDocument('attestation_postale')"
@@ -11,7 +11,7 @@
   </div>
 
   <div class="col-md-4" *ngIf="usager.decision.statut === 'RADIE'">
-    <h5>Courrier de radiation</h5>
+    <h6>Courrier de radiation</h6>
     <button
       class="btn btn-outline-primary"
       (click)="getStructureDocument('courrier_radiation')"

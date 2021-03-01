@@ -12,18 +12,7 @@ import { guideUtilisateurEmailSender } from "../templates-renderers";
 
 @Injectable()
 export class CronMailUserGuideSenderService {
-  private lienGuide: string;
-  private domifaAdminMail: string;
-  private domifaFromMail: string;
-
-  constructor() {
-    this.lienGuide =
-      domifaConfig().apps.frontendUrl +
-      "assets/files/guide_utilisateur_domifa.pdf";
-
-    this.domifaAdminMail = domifaConfig().email.emailAddressAdmin;
-    this.domifaFromMail = domifaConfig().email.emailAddressFrom;
-  }
+  constructor() {}
 
   @Cron(domifaConfig().cron.emailUserGuide.crontime)
   protected async sendMailGuideCron() {

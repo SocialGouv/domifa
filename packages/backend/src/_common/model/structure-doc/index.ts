@@ -1,4 +1,4 @@
 export * from "./StructureDoc.type";
-export * from "./StructureDocKeys.type";
+export * from "./StructureCustomDocKeys.type";
 export * from "./StructureDocTypesAvailable.type";
-export * from "./StructureDoc.labels";
+export * from "./StructureCustomDoc.labels";
