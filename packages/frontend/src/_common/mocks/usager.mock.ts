@@ -52,10 +52,7 @@ export const usagerValideMock: UsagerLight = {
       label: "Document",
     },
   ],
-  docsPath: [
-    "27f23b64103d32aa24928ac89850d7ee1.pdf",
-    "e5eada75c7c1c32a1e9109aac9ec3f275.pdf",
-  ],
+
   email: "domicilie2@yopmail.com",
   entretien: {
     typeMenage: "COUPLE_AVEC_ENFANT",
@@ -87,7 +84,7 @@ export const usagerValideMock: UsagerLight = {
   phone: "0142424242",
   surnom: "",
   typeDom: "RENOUVELLEMENT",
-  _id: "5fc61438542116001b12e06b",
+
   customRef: "5",
   dateNaissance: new Date("1998-08-07T00:00:00.000Z"),
   nom: "Martine",
