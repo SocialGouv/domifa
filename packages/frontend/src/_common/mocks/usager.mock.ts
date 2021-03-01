@@ -1,7 +1,7 @@
-import { UsagerPG } from "../model";
+import { UsagerLight, UsagerPG } from "../model";
 import { ETAPE_DOSSIER_COMPLET } from "../model/usager/ETAPES_DEMANDE.const";
 
-export const usagerValideMock: UsagerPG = {
+export const usagerValideMock: UsagerLight = {
   decision: {
     orientationDetails: null,
     statut: "VALIDE",
