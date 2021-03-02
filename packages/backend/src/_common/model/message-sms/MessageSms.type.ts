@@ -1,7 +1,5 @@
+import { MessageSmsId, MessageSmsStatus, MessageSmsUpdate } from ".";
 import { AppEntity } from "../../../_common/model";
-import { MessageSmsId } from "./MessageSmsId.type";
-import { MessageSmsStatus } from "./MessageSmsStatus.type";
-import { MessageStatusUpdate } from "./MessageStatusUpdate.type";
 
 export type MessageSms = AppEntity & {
   // Infos sur l'usager
@@ -17,7 +15,7 @@ export type MessageSms = AppEntity & {
   sendDate: Date; // Date d'envoi
 
   lastUpdate: Date;
-  statusUpdates: MessageStatusUpdate[];
+  statusUpdates: MessageSmsUpdate[];
 
   //
   errorCount: number;

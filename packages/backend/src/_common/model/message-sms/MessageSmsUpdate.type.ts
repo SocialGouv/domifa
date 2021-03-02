@@ -1,4 +1,4 @@
-export type MessageStatusUpdate = {
+export type MessageSmsUpdate = {
   date: Date;
   status: string;
   message: any;

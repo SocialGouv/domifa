@@ -1,10 +1,12 @@
 import { Column, Entity } from "typeorm";
+import {
+  MessageSms,
+  MessageSmsStatus,
+  MessageSmsId,
+  MessageSmsUpdate,
+} from "../../../_common/model/message-sms";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { MessageSms } from "./MessageSms.type";
-import { MessageSmsId } from "./MessageSmsId.type";
-import { MessageSmsStatus } from "./MessageSmsStatus.type";
-import { MessageStatusUpdate } from "./MessageStatusUpdate.type";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "message_sms" })
@@ -33,7 +35,7 @@ export class MessageSmsTable<T = any>
   public sendDate: Date;
 
   @Column({ type: "jsonb", nullable: true })
-  public statusUpdates: MessageStatusUpdate[];
+  public statusUpdates: MessageSmsUpdate[];
 
   @Column({ type: "timestamptz", nullable: true })
   public lastUpdate: Date;
