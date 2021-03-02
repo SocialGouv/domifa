@@ -10,6 +10,7 @@ import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { usagerValideMock } from "../../../../../../_common/mocks/usager.mock";
 import { NotFoundComponent } from "../../../../general/components/errors/not-found/not-found.component";
+import { UsagerFormModel } from "../../form/UsagerFormModel";
 import { UsagersProfilTransfertCourrierComponent } from "./profil-transfert-courrier-component";
 
 describe("UsagersProfilTransfertCourrierComponent", () => {
@@ -57,7 +58,7 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
 
     fixture = TestBed.createComponent(UsagersProfilTransfertCourrierComponent);
     component = fixture.debugElement.componentInstance;
-    component.usager = usagerValideMock;
+    component.usager = new UsagerFormModel(usagerValideMock);
     component.ngOnInit();
   }));
 

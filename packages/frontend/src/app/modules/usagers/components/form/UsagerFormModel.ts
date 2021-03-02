@@ -59,14 +59,14 @@ export class UsagerFormModel {
     colisIn: number;
   };
 
+  public options: Options;
+
   // VARIABLES UTILES AU FRONT UNIQUEMENT
 
   // Recherche : si la requête fait remonté un ayant-droit
   public isAyantDroit: boolean;
-
+  public isActif: boolean;
   public dayBeforeEnd: number;
-
-  public options: Options;
 
   constructor(
     usager?: Partial<UsagerLight>,
@@ -155,25 +155,29 @@ export class UsagerFormModel {
           phone: false,
         };
 
-    this.decision =
-      (usager && new Decision(usager.decision)) || new Decision({});
+    this.decision = (usager && new Decision(usager.decision)) || new Decision();
 
+    this.isActif = false;
     this.dayBeforeEnd = 365;
 
     let dateFinToCheck: Date = null;
 
     // Récupération de la date de fin de la domiciliation
+
     if (this.decision.statut === "VALIDE") {
       dateFinToCheck = this.decision.dateFin;
+      this.isActif = true;
     } else if (
       this.decision.statut === "INSTRUCTION" &&
       this.typeDom === "RENOUVELLEMENT"
     ) {
+      this.isActif = true;
       dateFinToCheck = this.historique[0].dateFin;
     } else if (
       this.decision.statut === "ATTENTE_DECISION" &&
       this.typeDom === "RENOUVELLEMENT"
     ) {
+      this.isActif = true;
       dateFinToCheck = this.historique[1].dateFin;
     }
 

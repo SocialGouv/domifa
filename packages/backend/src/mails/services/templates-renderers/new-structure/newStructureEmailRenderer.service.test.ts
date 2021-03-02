@@ -31,6 +31,7 @@ describe("newStructureEmailRenderer", () => {
         email: "smith.paul@mymail.com",
       },
     };
+
     const {
       subject,
       text,

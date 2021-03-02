@@ -5,10 +5,11 @@
       *ngIf="!usager.options.transfert.actif && !isFormVisible"
     >
       <p>Il n'y a aucun transfert de courrier actuellement.</p>
+
       <button
         (click)="showForm()"
         class="btn btn-outline-primary"
-        *ngIf="!isRole('facteur')"
+        *ngIf="!isRole('facteur') && usager.isActif"
       >
         <fa-icon icon="plus" class="btn-icon"></fa-icon>
         Activer le transfert de courrier

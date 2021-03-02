@@ -18,6 +18,7 @@ import {
 
 import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
 import { UsagerService } from "../../../services/usager.service";
+import { UsagerFormModel } from "../../form/UsagerFormModel";
 
 @Component({
   providers: [
@@ -30,7 +31,7 @@ import { UsagerService } from "../../../services/usager.service";
   templateUrl: "./profil-transfert-courrier.html",
 })
 export class UsagersProfilTransfertCourrierComponent implements OnInit {
-  @Input() public usager: UsagerLight;
+  @Input() public usager: UsagerFormModel;
   @Input() public me: AppUser;
 
   public actions = {
@@ -40,6 +41,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   };
 
   public isFormVisible: boolean;
+
   public transfertForm!: FormGroup;
   public minDateToday: NgbDateStruct;
 
@@ -118,7 +120,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       (usager: UsagerLight) => {
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
-        this.usager = usager;
+        this.usager = new UsagerFormModel(usager);
 
         this.notifService.success("Transfert ajouté avec succès");
       },
@@ -134,7 +136,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
         this.transfertForm.reset();
-        this.usager = usager;
+        this.usager = new UsagerFormModel(usager);
         this.notifService.success("Transfert supprimé avec succès");
       },
       () => {

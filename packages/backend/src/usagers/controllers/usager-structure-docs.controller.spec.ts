@@ -7,16 +7,16 @@ import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 import { UsagersProviders } from "../usagers.providers";
-import { DocsController } from "./docs.controller";
+import { UsagerStructureDocsController } from "./usager-structure-docs.controller";
 
 describe("Document Controller", () => {
-  let controller: DocsController;
+  let controller: UsagerStructureDocsController;
 
   let context: AppTestContext;
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
-      controllers: [DocsController],
+      controllers: [UsagerStructureDocsController],
       imports: [
         DatabaseModule,
         UsersModule,
@@ -30,7 +30,9 @@ describe("Document Controller", () => {
         ...UsagersProviders,
       ],
     });
-    controller = context.module.get<DocsController>(DocsController);
+    controller = context.module.get<UsagerStructureDocsController>(
+      UsagerStructureDocsController
+    );
   });
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);

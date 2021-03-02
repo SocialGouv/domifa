@@ -1,12 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MatomoTracker } from "ngx-matomo";
+
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { UsagerDecisionMotif } from "../../../../../_common/model/usager/UsagerDecisionMotif.type";
-import { appUserBuilder } from "../../../users/services";
 import { UsagerService } from "../../services/usager.service";
 import { motifsRadiation } from "../../usagers.labels";
 import { UsagerFormModel } from "../form/UsagerFormModel";
@@ -20,7 +19,6 @@ export class RaftComponent implements OnInit {
   public usager: UsagerFormModel;
   public user: AppUser;
 
-  public today: Date;
   public motifsRadiation: any;
 
   constructor(
@@ -29,37 +27,39 @@ export class RaftComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: Title,
-    private matomo: MatomoTracker,
     private notifService: ToastrService
   ) {
-    this.today = new Date();
-    this.user = appUserBuilder.buildAppUser();
     this.motifsRadiation = motifsRadiation;
   }
 
   public ngOnInit() {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.user = user;
+    });
+
     this.titleService.setTitle("Radier un domicilié");
     if (this.route.snapshot.params.id) {
-      this.authService.currentUserSubject.subscribe((user: AppUser) => {
-        this.user = user;
-      });
-
       this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
         (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
+          const usagerModel = new UsagerFormModel(usager);
+          if (!usagerModel.isActif) {
+            this.notifService.error("Vous ne pouvez pas radier ce domicilié");
+            this.router.navigate(["usager/" + usager.ref]);
+          } else {
+            this.usager = usagerModel;
+          }
         },
         () => {
+          this.notifService.error(
+            "Le dossier que vous recherchez n'existe pas"
+          );
           this.router.navigate(["/404"]);
         }
       );
     } else {
+      this.notifService.error("Le dossier que vous recherchez n'existe pas");
       this.router.navigate(["/404"]);
     }
-  }
-
-  public printPage() {
-    window.print();
-    this.matomo.trackEvent("tests", "impression_courrier_radiation", "null", 1);
   }
 
   public setRadiation() {
@@ -71,8 +71,8 @@ export class RaftComponent implements OnInit {
       })
       .subscribe(
         (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
-          this.notifService.success("Radiation effectuée avec succès");
+          this.notifService.success("Radiation enregistrée avec succès ! ");
+          this.router.navigate(["usager/" + usager.ref]);
         },
         () => {
           this.notifService.error("Une erreur est survenue");
