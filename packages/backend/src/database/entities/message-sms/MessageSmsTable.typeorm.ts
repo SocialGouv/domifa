@@ -13,16 +13,18 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 export class MessageSmsTable<T = any>
   extends AppTypeormTable<MessageSmsTable>
   implements MessageSms {
-  @Column({ type: "text" })
-  public content: string;
-
+  // Infos usager
   @Column({ type: "integer" })
   public usagerRef: number;
 
   @Column({ type: "integer" })
   public structureId: number;
 
+  // Contenu du message
   @Column({ type: "text" })
+  public content: string;
+
+  @Column({ type: "text", default: "TO_SEND" })
   public status: MessageSmsStatus;
 
   @Column({ type: "text" })

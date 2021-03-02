@@ -1,4 +1,4 @@
 export type StructureSmsParams = {
-  activated: boolean;
+  enabled: boolean;
   senderName: string;
 };

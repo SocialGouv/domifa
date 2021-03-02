@@ -15,6 +15,8 @@ import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { UsagerLight } from "../database";
+import { SmsService } from "../sms/services/sms.service";
+
 import { UsagersService } from "../usagers/services/usagers.service";
 import { AppAuthUser } from "../_common/model";
 import { InteractionType } from "../_common/model/interaction";
@@ -27,20 +29,37 @@ import { InteractionsService } from "./interactions.service";
 export class InteractionsController {
   constructor(
     private readonly interactionsService: InteractionsService,
-    private readonly usagersService: UsagersService
+    private readonly usagersService: UsagersService,
+    private readonly smsService: SmsService
   ) {}
 
   @Post(":usagerRef")
-  public postInteraction(
+  public async postInteraction(
     @Body() interaction: InteractionDto,
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: UsagerLight
   ) {
-    return this.interactionsService.create({
+    const createdInteraction = await this.interactionsService.create({
       interaction,
       user,
       usager,
     });
+
+    if (
+      interaction.type === "courrierIn" ||
+      interaction.type === "colisIn" ||
+      interaction.type === "recommandeIn"
+    ) {
+      const sms = await this.smsService.createSmsInteraction(
+        usager,
+        user,
+        interaction
+      );
+
+      console.log(sms);
+    }
+
+    return createdInteraction;
   }
 
   @Get(":usagerRef/:limit")
