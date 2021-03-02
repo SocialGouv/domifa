@@ -219,15 +219,15 @@
               {{ actions[transfert.action] }} le {{ transfert.date | date:
               'dd/MM/yyyy' }} par {{ transfert.user }}
             </td>
-            <td>{{ transfert.content.nom }}</td>
-            <td>{{ transfert.content.adresse }}</td>
+            <td>{{ transfert.content?.nom }}</td>
+            <td>{{ transfert.content?.adresse }}</td>
             <td>
-              <span *ngIf="transfert.content.dateDebut === null">
-                {{ transfert.content.dateFin | date: 'dd/MM/yyyy' }}
+              <span *ngIf="transfert.content?.dateDebut === null">
+                {{ transfert.content?.dateFin | date: 'dd/MM/yyyy' }}
               </span>
-              <span class="valeur" *ngIf="transfert.content.dateDebut">
-                Du {{ transfert.content.dateDebut | date: 'dd/MM/yyyy' }} au {{
-                transfert.content.dateFin | date: 'dd/MM/yyyy' }}
+              <span class="valeur" *ngIf="transfert.content?.dateDebut">
+                Du {{ transfert.content?.dateDebut | date: 'dd/MM/yyyy' }} au {{
+                transfert.content?.dateFin | date: 'dd/MM/yyyy' }}
               </span>
             </td>
           </tr>

@@ -21,7 +21,6 @@ import { regexp } from "src/app/shared/validators";
 import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
 import { languagesAutocomplete } from "../../../../shared";
-
 import { interactionsLabels } from "../../interactions.labels";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction, InteractionTypes } from "../../interfaces/interaction";
