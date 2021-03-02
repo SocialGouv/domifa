@@ -1,7 +1,6 @@
 import { UsagerLight } from "../../database";
 import { StructureCommon } from "../../_common/model";
 import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
-
 import { buildCustomDoc } from "./buildCustomDoc.service";
 import { generatedAttestationMock } from "./mocks/generatedAttestationMock";
 
@@ -36,6 +35,7 @@ describe("buildCustomDoc", () => {
     surnom: "TEST",
     sexe: "homme",
     dateNaissance: new Date("1988-11-02T00:00:00.000Z"),
+    datePremiereDom: new Date("2018-10-01T00:00:00.000Z"),
     villeNaissance: "Paris",
     langue: null,
     email: "fake-mail@yopmail.com",

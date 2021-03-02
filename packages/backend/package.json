@@ -110,6 +110,7 @@
     "@types/umzug": "^2.2.3",
     "check-disk-space": "^2.1.0",
     "jest": "^26.4.2",
+    "mammoth": "^1.4.16",
     "nodemon": "^2.0.6",
     "prettier": "^2.1.2",
     "rimraf": "^3.0.2",

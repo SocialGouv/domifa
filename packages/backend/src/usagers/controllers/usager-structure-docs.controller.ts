@@ -7,25 +7,19 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-
-import * as fs from "fs";
-import * as path from "path";
-
 import { CurrentUsager } from "../../auth/current-usager.decorator";
-
+import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-
-import { AppUser } from "../../_common/model";
-import { CurrentUser } from "../../auth/current-user.decorator";
-
-import { domifaConfig } from "../../config";
 import { UsagerLight } from "../../database";
-
-import { buildCustomDoc, generateCustomDoc } from "../custom-docs";
+import { AppUser } from "../../_common/model";
+import {
+  buildCustomDoc,
+  customDocTemplateLoader,
+  generateCustomDoc,
+} from "../custom-docs";
 
 @UseGuards(AuthGuard("jwt"), FacteurGuard)
 @ApiTags("usagers-structure-docs")
@@ -48,30 +42,10 @@ export class UsagerStructureDocsController {
         .json({ message: "INVALID_PARAM_DOCS" });
     }
 
-    const docsName = {
-      attestation_postale: "attestation_postale.docx",
-      courrier_radiation: "courrier_radiation.docx",
-    };
-
-    let content = fs.readFileSync(
-      path.resolve(__dirname, "../../ressources/" + docsName[docType]),
-      "binary"
-    );
-
-    // Une version customisée par la structure existe-t-elle ?
-    const customDocPath =
-      domifaConfig().upload.basePath +
-      user.structureId +
-      "/docs/" +
-      docsName[docType];
-
-    if (fs.existsSync(path.resolve(__dirname, customDocPath))) {
-      // file exists
-      content = fs.readFileSync(
-        path.resolve(__dirname, customDocPath),
-        "binary"
-      );
-    }
+    let content = customDocTemplateLoader.loadCustomDocTemplate({
+      docType,
+      structureId: user.structureId,
+    });
 
     const docValues = buildCustomDoc(usager, user.structure);
 

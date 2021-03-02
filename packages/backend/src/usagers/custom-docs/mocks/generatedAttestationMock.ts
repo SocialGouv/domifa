@@ -31,7 +31,7 @@ export const generatedAttestationMock = {
   DATE_RADIATION: "1 novembre 2020",
   DATE_DEBUT_DOM: "1 novembre 2020",
   DATE_FIN_DOM: "31 octobre 2021",
-  DATE_PREMIERE_DOM: "1 mars 2021",
+  DATE_PREMIERE_DOM: "1 octobre 2018",
   DATE_DERNIER_PASSAGE: "1 novembre 2020",
   ENTRETIEN_CAUSE_INSTABILITE: "Cause instabilité logement",
   ENTRETIEN_RAISON_DEMANDE: "Motif principal de la demande",
