@@ -1,4 +1,5 @@
 export type MessageSmsStatus =
+  | "TO_SEND"
   | "ON_HOLD"
   | "SENT_AND_RECEIVED"
   | "SENT_AND_NOT_RECEIVED"

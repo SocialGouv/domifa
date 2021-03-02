@@ -9,16 +9,16 @@ export type MessageSms = AppEntity & {
   content: string;
 
   smsId: MessageSmsId;
-  status: MessageSmsStatus;
+  status?: MessageSmsStatus;
 
   scheduledDate: Date;
-  sendDate: Date; // Date d'envoi
+  sendDate?: Date; // Date d'envoi
 
-  lastUpdate: Date;
-  statusUpdates: MessageSmsUpdate[];
+  lastUpdate?: Date;
+  statusUpdates?: MessageSmsUpdate[];
 
   //
-  errorCount: number;
+  errorCount?: number;
   errorMessage?: string;
   // sendDetails?: MessageEmailSendDetails;
 };
