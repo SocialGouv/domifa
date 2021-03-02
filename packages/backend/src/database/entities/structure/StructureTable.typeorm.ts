@@ -5,6 +5,7 @@ import {
   StructureType,
 } from "../../../_common/model";
 import { StructureAddresseCourrier } from "../../../_common/model/structure/StructureAddresseCourrier.type";
+import { StructureSmsParams } from "../../../_common/model/structure/StructureSmsParams.type";
 import { StructureUsagersStats } from "../../../_common/model/structure/StructureUsagersStats.type";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
@@ -107,4 +108,9 @@ export class StructureTable
 
   @Column({ type: "text", nullable: true })
   ville: string;
+
+  @Column({
+    type: "jsonb",
+  })
+  sms: StructureSmsParams;
 }

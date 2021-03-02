@@ -1,6 +1,7 @@
 import { AppEntity } from "../_core";
 import { StructureAddresseCourrier } from "./StructureAddresseCourrier.type";
 import { StructureResponsable } from "./StructureResponsable.type";
+import { StructureSmsParams } from "./StructureSmsParams.type";
 import { StructureType } from "./StructureType.type";
 import { StructureUsagersStats } from "./StructureUsagersStats.type";
 
@@ -48,4 +49,6 @@ export type StructurePG = AppEntity & {
   };
   token: string;
   verified: boolean;
+
+  sms: StructureSmsParams;
 };
