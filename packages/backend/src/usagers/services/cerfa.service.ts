@@ -27,8 +27,8 @@ export class CerfaService {
   public async attestation(usager: UsagerPG, user: AppAuthUser) {
     const pdfForm =
       usager.decision.statut === "VALIDE"
-        ? "../../ressources/attestation.pdf"
-        : "../../ressources/demande.pdf";
+        ? "../../_static/static-docs/attestation.pdf"
+        : "../../_static/static-docs/demande.pdf";
 
     let usagerRef = this.toString(usager.ref);
 

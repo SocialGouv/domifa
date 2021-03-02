@@ -1,26 +1,24 @@
-import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
-
+import Docxtemplater from "docxtemplater";
 import * as PizZip from "pizzip";
-
 import { appLogger } from "../../util";
-
+import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
 // tslint:disable-next-line: no-var-requires
-const Docxtemplater = require("docxtemplater");
+const docxTemplater = require("docxtemplater");
 
 // tslint:disable-next-line: no-var-requires
 const InspectModule = require("docxtemplater/js/inspect-module");
 
 export function generateCustomDoc(
-  content: string,
+  content: string, // template file content
   docValues: StructureCustomDoc
-) {
+): Buffer {
   const iModule = InspectModule();
 
   const zip = new PizZip(content);
-  let doc: any;
+  let doc: Docxtemplater;
 
   try {
-    doc = new Docxtemplater(zip, { modules: [iModule], linebreaks: true });
+    doc = new docxTemplater(zip, { modules: [iModule], linebreaks: true });
   } catch (error) {
     appLogger.error(`DocTemplater - Opening Doc impossible`, {
       sentry: true,
