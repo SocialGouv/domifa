@@ -12,13 +12,13 @@ export const dataUserAnonymizer = {
   anonymizeUsers,
 };
 
-type PartialUser = Pick<AppUserTable, "id" | "structureId" | "email">;
+type PartialUser = Pick<AppUserTable, "id" | "structureId" | "email" | "role">;
 
 async function anonymizeUsers({ app }: { app: INestApplication }) {
   const users = await usersRepository.findMany<PartialUser>(
     {},
     {
-      select: ["id", "structureId", "email"],
+      select: ["id", "structureId", "email", "role"],
     }
   );
 
@@ -70,7 +70,7 @@ async function _anonymizeUser(
   };
 
   attributesToUpdate.email = dataEmailAnonymizer.anonymizeEmail({
-    prefix: "user",
+    prefix: `${user.role}-${user.structureId}`,
     id: user.id,
   });
 

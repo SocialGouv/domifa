@@ -253,17 +253,17 @@
               {{ actions[procu.action] }} le {{ procu.date | date: 'dd/MM/yyyy'
               }} par {{ procu.user }}
             </td>
-            <td>{{ procu.content.nom }} {{ procu.content.prenom }}</td>
+            <td>{{ procu.content?.nom }} {{ procu.content?.prenom }}</td>
             <td>
-              {{ procu.content.dateNaissance | date: 'dd/MM/yyyy' || "" }}
+              {{ procu.content?.dateNaissance | date: 'dd/MM/yyyy' || "" }}
             </td>
             <td>
-              <span *ngIf="procu.content.dateDebut === null">
-                {{ procu.content.dateFin | date: 'dd/MM/yyyy' }}
+              <span *ngIf="procu.content?.dateDebut === null">
+                {{ procu.content?.dateFin | date: 'dd/MM/yyyy' }}
               </span>
-              <span class="valeur" *ngIf="procu.content.dateDebut">
-                Du {{ procu.content.dateDebut | date: 'dd/MM/yyyy' }} au {{
-                procu.content.dateFin | date: 'dd/MM/yyyy' }}
+              <span class="valeur" *ngIf="procu.content?.dateDebut">
+                Du {{ procu.content?.dateDebut | date: 'dd/MM/yyyy' }} au {{
+                procu.content?.dateFin | date: 'dd/MM/yyyy' }}
               </span>
             </td>
           </tr>
