@@ -36,8 +36,13 @@ export class SmsService {
       usagerRef: usager.ref,
       structureId: user.structureId,
       content,
-      smsId: "courrierIn",
+      smsId: interaction.type,
       scheduledDate: moment().add(2, "hours").toDate(),
+      interactionMetas: {
+        nbCourrier: interaction.nbCourrier,
+        date: new Date(),
+        interactionType: interaction.type,
+      },
     };
 
     // Check if exist

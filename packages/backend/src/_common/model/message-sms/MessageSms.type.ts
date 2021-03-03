@@ -1,4 +1,10 @@
-import { MessageSmsId, MessageSmsStatus, MessageSmsUpdate } from ".";
+import {
+  MessageSmsId,
+  MessageSmsInteractionMetas,
+  MessageSmsReminderMetas,
+  MessageSmsStatus,
+  MessageSmsUpdate,
+} from ".";
 import { AppEntity } from "../../../_common/model";
 
 export type MessageSms = AppEntity & {
@@ -12,7 +18,11 @@ export type MessageSms = AppEntity & {
   status?: MessageSmsStatus;
 
   scheduledDate: Date;
-  sendDate?: Date; // Date d'envoi
+  sentDate?: Date; // Date d'envoi
+
+  // Metas selon le contexte
+  interactionMetas?: MessageSmsInteractionMetas;
+  reminderMetas?: MessageSmsReminderMetas;
 
   lastUpdate?: Date;
   statusUpdates?: MessageSmsUpdate[];
@@ -20,5 +30,4 @@ export type MessageSms = AppEntity & {
   //
   errorCount?: number;
   errorMessage?: string;
-  // sendDetails?: MessageEmailSendDetails;
 };

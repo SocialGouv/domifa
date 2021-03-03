@@ -111,7 +111,7 @@ export class StructureTable
 
   @Column({
     type: "jsonb",
-    default: "{ enabled: false, senderName: null }",
+    default: "{ enabled: false, senderName: null, senderDetails: null }",
   })
   sms: StructureSmsParams;
 }
