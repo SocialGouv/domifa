@@ -111,6 +111,15 @@ export class InteractionsController {
       (("In" as unknown) as InteractionType);
 
     if (interactionIn) {
+      // Suppression du SMS en file d'attente
+      const smsToDelete = await this.smsService.deleteSmsInteraction(
+        usager,
+        user,
+        interactionToDelete
+      );
+
+      console.log(smsToDelete);
+
       const inType = ((interactionToDelete.type.substring(0, len - 2) +
         "Out") as unknown) as InteractionType;
 

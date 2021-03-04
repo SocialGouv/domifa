@@ -1,11 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import moment = require("moment");
 
-import { Repository } from "typeorm";
-import { appTypeormManager, UsagerLight } from "../../database";
-import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
+import { UsagerLight } from "../../database";
+
+import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/interactions.dto";
 import { AppAuthUser } from "../../_common/model";
+
 import { MessageSms } from "../../_common/model/message-sms";
 import { generateSmsInteraction } from "./generateSmsInteraction.service";
 
@@ -13,12 +14,40 @@ import { generateSmsInteraction } from "./generateSmsInteraction.service";
 export class SmsService {
   // Délai entre chaque message envoyé
   public interactionDelay: number = 60 * 60;
-  private messageSmsRepository: Repository<MessageSmsTable>;
 
-  constructor() {
-    this.messageSmsRepository = appTypeormManager.getRepository(
-      MessageSmsTable
-    );
+  constructor() {}
+
+  public async deleteSmsInteraction(
+    usager: UsagerLight,
+    user: AppAuthUser,
+    interaction: InteractionDto
+  ) {
+    const hour = moment().set({ hour: 22, minute: 0, second: 0 }).toDate();
+
+    const smsOnHold = await messageSmsRepository.findSmsOnHold({
+      usager,
+      user,
+      sendDate: hour,
+      interactionType: interaction.type,
+    });
+
+    console.log(smsOnHold);
+
+    if (smsOnHold) {
+      smsOnHold.interactionMetas.nbCourrier =
+        smsOnHold.interactionMetas.nbCourrier - interaction.nbCourrier;
+
+      if (smsOnHold.interactionMetas.nbCourrier === 0) {
+        return messageSmsRepository.updateOne(
+          { uuid: smsOnHold.uuid },
+          smsOnHold
+        );
+      }
+
+      return messageSmsRepository.deleteByCriteria(smsOnHold);
+    } else {
+      // ERROR
+    }
   }
 
   public async createSmsInteraction(
@@ -28,13 +57,11 @@ export class SmsService {
   ) {
     const content = generateSmsInteraction(usager, interaction);
 
-    console.log(content);
-    console.log(interaction);
-
     const createdSms: MessageSms = {
       // Infos sur l'usager
       usagerRef: usager.ref,
       structureId: user.structureId,
+      sendDate: moment().set({ hour: 21, minute: 0, second: 0 }).toDate(),
       content,
       smsId: interaction.type,
       scheduledDate: moment().add(2, "hours").toDate(),
@@ -45,8 +72,21 @@ export class SmsService {
       },
     };
 
-    // Check if exist
-    return this.messageSmsRepository.insert(createdSms);
+    const hour = moment().set({ hour: 22, minute: 0, second: 0 }).toDate();
+
+    const smsReady = await messageSmsRepository.findSmsOnHold({
+      usager,
+      user,
+      sendDate: hour,
+      interactionType: interaction.type,
+    });
+
+    if (smsReady) {
+      smsReady.interactionMetas.nbCourrier =
+        smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
+      return messageSmsRepository.updateOne({ uuid: smsReady.uuid }, smsReady);
+    }
+    return messageSmsRepository.save(createdSms);
   }
 
   // Messages de rappel de renouvellement

@@ -1,0 +1,52 @@
+<form
+  *ngIf="structure"
+  id="structureForm"
+  [formGroup]="structureSmsForm"
+  (ngSubmit)="submitStructureSmsForm()"
+>
+  <div class="list-group-item">
+    <div class="row">
+      <div class="col-md-12 form-group required">
+        <label for="senderName">Expéditeur</label>
+        <input
+          type="text"
+          class="form-control"
+          id="senderName"
+          formControlName="senderName"
+          placeholder="senderName"
+          maxLength="11"
+          [ngClass]="{ 'is-invalid': submitted && form.senderName.errors }"
+          required
+        />
+        <div
+          *ngIf="submitted && form.senderName.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="form.senderName.errors.required">
+            L'expediteur ne peut contenir que 11 caractères
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 form-group required">
+        <label for="senderDetails">Signature</label>
+        <input
+          id="senderDetails"
+          type="text"
+          class="form-control"
+          formControlName="senderDetails"
+          [ngClass]="{ 'is-invalid': submitted && form.senderDetails.errors }"
+          placeholder="Cet intitulé apparaitra en signature du SMS"
+        />
+        <div
+          *ngIf="submitted && form.senderDetails.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="form.senderDetails.errors.required">
+            L'senderDetails est obligatoire
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

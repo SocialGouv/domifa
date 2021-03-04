@@ -20,6 +20,7 @@ import { DepartementHelper } from "./services/departement-helper.service";
 import { StructureService } from "./services/structure.service";
 import { StructureDocService } from "./services/structure-doc.service";
 import { StructureEditFormComponent } from "./components/structure-edit-form/structure-edit-form.component";
+import { StructuresSmsFormComponent } from "./components/structures-sms-form/structures-sms-form.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { StructureEditFormComponent } from "./components/structure-edit-form/str
     StructureEditFormComponent,
     StructuresUploadDocsComponent,
     StructuresConfirmComponent,
+    StructuresSmsFormComponent,
   ],
   exports: [
     StructuresConfirmComponent,
