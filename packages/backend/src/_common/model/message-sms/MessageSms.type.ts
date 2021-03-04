@@ -18,7 +18,7 @@ export type MessageSms = AppEntity & {
   status?: MessageSmsStatus;
 
   scheduledDate: Date;
-  sentDate?: Date; // Date d'envoi
+  sendDate: Date; // Date d'envoi
 
   // Metas selon le contexte
   interactionMetas?: MessageSmsInteractionMetas;

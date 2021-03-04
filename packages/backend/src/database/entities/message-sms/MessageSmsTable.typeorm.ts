@@ -36,7 +36,7 @@ export class MessageSmsTable<T = any>
   public scheduledDate: Date;
 
   @Column({ type: "timestamptz", nullable: true })
-  public sentDate: Date;
+  public sendDate: Date;
 
   // Metas selon le contexte
   @Column({ type: "jsonb", nullable: true })

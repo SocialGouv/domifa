@@ -44,7 +44,7 @@ export class InteractionDto {
     required: false,
   })
   @IsOptional()
-  public content!: string;
+  public content?: string;
 
   @ApiProperty({
     type: Boolean,
@@ -52,7 +52,7 @@ export class InteractionDto {
   })
   @IsOptional()
   @IsBoolean()
-  public transfert!: boolean;
+  public transfert?: boolean;
 
   @ApiProperty({
     type: Boolean,
@@ -60,7 +60,7 @@ export class InteractionDto {
   })
   @IsOptional()
   @IsBoolean()
-  public procuration!: boolean;
+  public procuration?: boolean;
 
   @ApiProperty({
     type: Number,
@@ -72,12 +72,16 @@ export class InteractionDto {
 
   @IsEmpty()
   public structureId: number;
+
   @IsEmpty()
   public usagerRef: number;
+
   @IsEmpty()
   public userId: number;
+
   @IsEmpty()
   public userName: string;
+
   @IsEmpty()
   public dateInteraction: Date;
 }

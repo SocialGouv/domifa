@@ -92,7 +92,7 @@ export class DashboardService {
       count: number;
     }[]
   > {
-    return await structureRepository.countBy({
+    return structureRepository.countBy({
       countBy: "structureType",
       order: {
         count: "DESC",
@@ -123,7 +123,7 @@ export class DashboardService {
       count: number;
     }[]
   > {
-    return await usagerRepository.countBy({
+    return usagerRepository.countBy({
       countBy: "structureId",
       where: typeOrmSearch<UsagerTable>(`decision->>'statut' = 'VALIDE'`),
       order: {
@@ -160,7 +160,7 @@ export class DashboardService {
       count: number;
     }[]
   > {
-    return await structureRepository.countBy({
+    return structureRepository.countBy({
       countBy: "region",
       order: {
         count: "DESC",
