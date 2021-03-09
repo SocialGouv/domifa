@@ -19,4 +19,5 @@ export type StructureCommon = Pick<
   | "responsable"
   | "options"
   | "adresseCourrier"
+  | "sms"
 >;

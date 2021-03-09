@@ -1,3 +1,4 @@
+import { StructureSmsParams } from "./../../../../_common/model/structure/StructureSmsParams.type";
 import {
   StructureAddresseCourrier,
   StructureCommon,
@@ -23,6 +24,7 @@ export class StructureCommonWeb implements StructureCommon {
   responsable: StructureResponsable;
   options: { numeroBoite: boolean };
   adresseCourrier: StructureAddresseCourrier;
+  sms: StructureSmsParams;
 
   constructor(structure?: Partial<StructureCommon>) {
     this.id = (structure && structure.id) || 0;
@@ -60,5 +62,12 @@ export class StructureCommonWeb implements StructureCommon {
     if (structure && structure.options) {
       this.options.numeroBoite = structure.options.numeroBoite || false;
     }
+
+    this.sms = (structure && structure.sms) || {
+      enabledByDomifa: false,
+      enabledByStructure: false,
+      senderName: null,
+      senderDetails: null,
+    };
   }
 }

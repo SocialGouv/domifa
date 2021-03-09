@@ -131,6 +131,7 @@ export class UsagersFormComponent implements OnInit {
       ref: [this.usager.ref, []],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
+
       preference: this.formBuilder.group({
         aucun: [this.usager.preference.aucun, []],
         email: [this.usager.preference.email, []],

@@ -17,4 +17,5 @@ export const STRUCTURE_COMMON_ATTRIBUTES: (keyof StructureCommon)[] = [
   "responsable",
   "options",
   "adresseCourrier",
+  "sms",
 ];

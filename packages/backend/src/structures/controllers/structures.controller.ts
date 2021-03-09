@@ -31,6 +31,7 @@ import {
 import { StatsService } from "../../stats/services/stats.service";
 import { EmailDto } from "../../users/dto/email.dto";
 import { AppAuthUser } from "../../_common/model";
+import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureEditDto } from "../dto/structure-edit.dto";
 import { StructureWithUserDto } from "../dto/structure-with-user.dto";
 import { StructureDto } from "../dto/structure.dto";
@@ -128,6 +129,24 @@ export class StructuresController {
   ) {
     return this.structureService.patch(structureDto, user);
   }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @Patch("sms")
+  public async patchSmsParams(
+    @Body() structureSmsDto: StructureEditSmsDto,
+    @CurrentUser() user: AppAuthUser
+  ) {
+    const actuelsParams = user.structure.sms;
+    if (!actuelsParams.enabledByDomifa) {
+      throw new HttpException(
+        "SMS_NOT_ENABLED_BY_DOMIFA",
+        HttpStatus.BAD_REQUEST
+      );
+    }
+    return this.structureService.patchSmsParams(structureSmsDto, user);
+  }
+
   @UseGuards(AuthGuard("jwt"))
   @ApiBearerAuth()
   @Get("ma-structure")
@@ -222,7 +241,7 @@ export class StructuresController {
     @Param("nom") nom: string
   ) {
     return this.structureDeletorService.deleteOne({
-      structureId: parseInt(id),
+      structureId: parseInt(id, 10),
       token,
       structureNom: nom,
     });
@@ -237,7 +256,7 @@ export class StructuresController {
   ) {
     const structure = await structureLightRepository.findOne({
       token,
-      id: parseInt(id),
+      id: parseInt(id, 10),
     });
     if (!structure) {
       throw new HttpException(

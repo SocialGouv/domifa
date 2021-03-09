@@ -27,16 +27,60 @@ export class StructuresSmsFormComponent implements OnInit {
     private structureService: StructureService,
     private notifService: ToastrService,
     private authService: AuthService,
-    private modalService: NgbModal,
     private titleService: Title
   ) {}
 
   public ngOnInit(): void {
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.me = user;
+    });
+
+    this.titleService.setTitle("Paramétrer les SMS");
+
+    this.structureService
+      .findMyStructure()
+      .subscribe((structure: StructureCommon) => {
+        this.structure = structure;
+        console.log(structure);
+        this.initForm();
+      });
+  }
+
+  public initForm() {
     this.structureSmsForm = this.formBuilder.group({
-      senderName: ["", [Validators.required, Validators.maxLength(11)]],
-      senderDetails: ["", [Validators.required, Validators.maxLength(30)]],
+      enabledByStructure: [
+        this.structure.sms.enabledByStructure,
+        [Validators.required],
+      ],
+      senderName: [
+        this.structure.sms.senderName,
+        [Validators.required, Validators.maxLength(11)],
+      ],
+      senderDetails: [
+        this.structure.sms.senderDetails,
+        [Validators.required, Validators.maxLength(30)],
+      ],
     });
   }
 
-  public submitStructureSmsForm() {}
+  public submitStructureSmsForm() {
+    if (this.structureSmsForm.invalid) {
+      this.notifService.error("Veuillez vérifier le formulaire");
+    } else {
+      this.structureService
+        .patchSmsParams(this.structureSmsForm.value)
+        .subscribe(
+          (retour: any) => {
+            this.notifService.success(
+              "Paramètres des SMS mis à jour avec succès"
+            );
+          },
+          (error: any) => {
+            this.notifService.error(
+              "Impossible de mettre à jour les paramètres"
+            );
+          }
+        );
+    }
+  }
 }

@@ -213,17 +213,40 @@
         </div>
       </div>
 
-      <div class="w-100"></div>
-      <br />
+      <div class="row my-2">
+        <div
+          *ngIf="me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure"
+          class="col-md-12"
+          formGroupName="preference"
+        >
+          <span class="label">
+            Le domicilié souhaite-t-il recevoir un SMS lors de l'arrivée d'un
+            courrier ?</span
+          >
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="sms"
+              id="sms_oui"
+              [value]="true"
+            />
+            <label class="form-check-label" for="sms_oui"> Oui </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="sms"
+              id="sms_non"
+              [value]="false"
+            />
+            <label class="form-check-label" for="sms_non"> Non </label>
+          </div>
+        </div>
+      </div>
+      <!--   <div>
 
-      <!--
-      <div class="d-none">
-        <div class="col-md-12" formGroupName="preference">
-          <label class="form-check-label">
-            Par quel(s) moyen(s) le domicilié souhaite t-il être notifié de la
-            réception de courrier ?
-          </label>
-          <div>
             <div class="form-check form-check-inline">
               <input
                 class="form-check-input"
@@ -236,18 +259,8 @@
                 Email
               </label>
             </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                formControlName="phone"
-                id="preference_phone"
-                [value]="false"
-              />
-              <label class="form-check-label" for="preference_phone">
-                SMS
-              </label>
-            </div>
+
+
             <div class="form-check form-check-inline">
               <input
                 class="form-check-input"
@@ -260,30 +273,30 @@
                 Aucun des deux
               </label>
             </div>
+
           </div>
-        </div>
-        <ngb-alert
-          @fadeInOut
-          [dismissible]="false"
-          type="warning"
-          *ngIf="f.email.value === '' && f.preference.get('email').value === true"
-        >
-          <fa-icon icon="exclamation-triangle"></fa-icon>
-          &nbsp; Pour envoyer les notifications par mail,
-          <b>veuillez compléter le champ email</b>
-        </ngb-alert>
-        <ngb-alert
-          @fadeInOut
-          [dismissible]="false"
-          type="warning"
-          *ngIf="f.phone.value === '' && f.preference.get('phone').value === true"
-        >
-          <fa-icon icon="exclamation-triangle"></fa-icon>
-          &nbsp; Pour envoyer les notifications par SMS,
-          <b> veuillez indiquer un numéro de téléphone </b>
-        </ngb-alert>
-      </div>
--->
+           -->
+
+      <ngb-alert
+        @fadeInOut
+        [dismissible]="false"
+        type="warning"
+        *ngIf="f.email.value === '' && f.preference.get('email').value === true"
+      >
+        <fa-icon icon="exclamation-triangle"></fa-icon>
+        &nbsp; Pour envoyer les notifications par mail,
+        <b>veuillez compléter le champ email</b>
+      </ngb-alert>
+      <ngb-alert
+        @fadeInOut
+        [dismissible]="false"
+        type="warning"
+        *ngIf="f.phone.value === '' && f.preference.get('phone').value === true"
+      >
+        <fa-icon icon="exclamation-triangle"></fa-icon>
+        &nbsp; Pour envoyer les notifications par SMS,
+        <b> veuillez indiquer un numéro de téléphone </b>
+      </ngb-alert>
 
       <div class="row">
         <div class="col-md-12">

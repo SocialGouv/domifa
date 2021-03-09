@@ -71,6 +71,14 @@ export class StructureService {
     );
   }
 
+  public patchSmsParams(structure: Structure): Observable<StructureCommon> {
+    return this.http.patch(`${this.endPoint}/sms`, structure).pipe(
+      map((response) => {
+        return new StructureCommonWeb(response);
+      })
+    );
+  }
+
   public confirm(id: string, token: string): Observable<any> {
     return this.http.get(`${this.endPoint}/confirm/${id}/${token}`);
   }
