@@ -1,5 +1,16 @@
 [
     {
+    "date": "2021-03-17",
+    "content": [
+    {   "type": "new",
+        "categorie": "Attestation de domiciliation postale",
+        "message": [
+          "Un modèle d’attestation de domiciliation postale paramétrable est désormais disponible sur chaque fiche domicilié."
+        ]
+      }
+    ]
+  },
+    {
     "date": "2021-03-01",
     "content": [
     {   "type": "new",
