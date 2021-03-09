@@ -45,18 +45,29 @@ export class InteractionsController {
       usager,
     });
 
+    // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
     if (
       interaction.type === "courrierIn" ||
       interaction.type === "colisIn" ||
       interaction.type === "recommandeIn"
     ) {
-      const sms = await this.smsService.createSmsInteraction(
-        usager,
-        user,
-        interaction
-      );
+      // 1. Vérifier l'activation des SMS par la structure
+      if (
+        user.structure.sms.enabledByDomifa &&
+        user.structure.sms.enabledByStructure
+      ) {
+        // 2. Vérifier l'activation du SMS pour l'usager
+        if (usager.preference?.phone === true) {
+          // TODO:  3. Numéro de téléphone valide
+          const sms = await this.smsService.createSmsInteraction(
+            usager,
+            user,
+            interaction
+          );
 
-      console.log(sms);
+          console.log(sms);
+        }
+      }
     }
 
     return createdInteraction;

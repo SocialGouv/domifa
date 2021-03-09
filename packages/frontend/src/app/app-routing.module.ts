@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AdminGuard } from "./guards/admin-guard";
 import { AuthGuard } from "./guards/auth-guard";
 import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
@@ -19,6 +20,7 @@ import { StructuresConfirmComponent } from "./modules/structures/components/stru
 import { StructuresEditComponent } from "./modules/structures/components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
 import { StructuresSearchComponent } from "./modules/structures/components/structures-search/structures-search.component";
+import { StructuresSmsFormComponent } from "./modules/structures/components/structures-sms-form/structures-sms-form.component";
 import { DecisionComponent } from "./modules/usagers/components/form/parts/decision/decision.component";
 import { DocumentsFormComponent } from "./modules/usagers/components/form/parts/documents-form/documents-form.component";
 import { EntretienFormComponent } from "./modules/usagers/components/form/parts/entretien-form/entretien-form.component";
@@ -60,6 +62,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     path: "mon-compte",
     component: EditUserComponent,
+  },
+  {
+    canActivate: [AuthGuard, AdminGuard],
+    path: "structures/sms",
+    component: StructuresSmsFormComponent,
   },
   {
     component: StructuresConfirmComponent,

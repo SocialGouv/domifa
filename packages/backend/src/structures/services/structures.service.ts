@@ -10,6 +10,7 @@ import {
 import { DepartementHelper } from "../departement-helper.service";
 import { StructureEditDto } from "../dto/structure-edit.dto";
 import moment = require("moment");
+import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -37,9 +38,24 @@ export class StructuresService {
       structureDto.departement
     );
 
-    return await structureCommonRepository.updateOne(
+    return structureCommonRepository.updateOne(
       { id: user.structureId },
       structureDto
+    );
+  }
+
+  public async patchSmsParams(
+    structureSmsDto: StructureEditSmsDto,
+    user: Pick<AppUser, "structureId">
+  ): Promise<StructureCommon> {
+    return structureCommonRepository.updateOne(
+      { id: user.structureId },
+      {
+        sms: {
+          enabledByDomifa: true,
+          ...structureSmsDto,
+        },
+      }
     );
   }
 

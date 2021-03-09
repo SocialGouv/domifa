@@ -47,6 +47,7 @@ export type StructurePG = AppEntity & {
   options: {
     numeroBoite: boolean;
   };
+
   token: string;
   verified: boolean;
 

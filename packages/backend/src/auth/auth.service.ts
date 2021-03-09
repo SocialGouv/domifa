@@ -78,6 +78,8 @@ export class AuthService {
     const structure: StructureCommon = await structureCommonRepository.findOne({
       id: user.structureId,
     });
+
+    console.log(structure);
     return {
       ...user,
       structure,

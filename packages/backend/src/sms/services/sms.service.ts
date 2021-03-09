@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
 import moment = require("moment");
+import { Injectable } from "@nestjs/common";
 
 import { UsagerLight } from "../../database";
 
@@ -55,6 +55,21 @@ export class SmsService {
     user: AppAuthUser,
     interaction: InteractionDto
   ) {
+    const hour = moment().set({ hour: 22, minute: 0, second: 0 }).toDate();
+
+    const smsReady = await messageSmsRepository.findSmsOnHold({
+      usager,
+      user,
+      sendDate: hour,
+      interactionType: interaction.type,
+    });
+
+    if (smsReady) {
+      smsReady.interactionMetas.nbCourrier =
+        smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
+      return messageSmsRepository.updateOne({ uuid: smsReady.uuid }, smsReady);
+    }
+
     const content = generateSmsInteraction(usager, interaction);
 
     const createdSms: MessageSms = {
@@ -71,21 +86,6 @@ export class SmsService {
         interactionType: interaction.type,
       },
     };
-
-    const hour = moment().set({ hour: 22, minute: 0, second: 0 }).toDate();
-
-    const smsReady = await messageSmsRepository.findSmsOnHold({
-      usager,
-      user,
-      sendDate: hour,
-      interactionType: interaction.type,
-    });
-
-    if (smsReady) {
-      smsReady.interactionMetas.nbCourrier =
-        smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
-      return messageSmsRepository.updateOne({ uuid: smsReady.uuid }, smsReady);
-    }
     return messageSmsRepository.save(createdSms);
   }
 
