@@ -31,8 +31,6 @@ export class SmsService {
       interactionType: interaction.type,
     });
 
-    console.log(smsOnHold);
-
     if (smsOnHold) {
       smsOnHold.interactionMetas.nbCourrier =
         smsOnHold.interactionMetas.nbCourrier - interaction.nbCourrier;

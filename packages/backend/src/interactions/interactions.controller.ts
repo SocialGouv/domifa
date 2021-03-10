@@ -64,8 +64,6 @@ export class InteractionsController {
             user,
             interaction
           );
-
-          console.log(sms);
         }
       }
     }
@@ -128,8 +126,6 @@ export class InteractionsController {
         user,
         interactionToDelete
       );
-
-      console.log(smsToDelete);
 
       const inType = ((interactionToDelete.type.substring(0, len - 2) +
         "Out") as unknown) as InteractionType;
