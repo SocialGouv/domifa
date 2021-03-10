@@ -22,7 +22,7 @@ export class StructureDeletorService {
 
   public async generateDeleteToken(id: number) {
     const token = crypto.randomBytes(30).toString("hex");
-    return structureRepository.updateOne({ id: id }, { token });
+    return structureRepository.updateOne({ id }, { token });
   }
 
   public async deleteOne({

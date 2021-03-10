@@ -16,6 +16,7 @@ export class StatsService {
   public epUsers = environment.apiUrl + "users/";
   public epInteractions = environment.apiUrl + "interactions/";
   public epDashboard = environment.apiUrl + "dashboard/";
+  public epSms = environment.apiUrl + "sms/";
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -67,5 +68,9 @@ export class StatsService {
 
   public deleteStructure(structureId: string) {
     return this.http.delete(environment.apiUrl + `structures/` + structureId);
+  }
+
+  public enableSms(structureId: number) {
+    return this.http.get(this.epSms + "enable/" + structureId.toString());
   }
 }

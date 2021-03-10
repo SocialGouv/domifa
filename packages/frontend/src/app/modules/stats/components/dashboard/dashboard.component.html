@@ -52,7 +52,7 @@
             class="stats-chiffres"
             [ngClass]="statutClass['ATTENTE_DECISION']"
           >
-            {{ stats. usagersCountByStatutMap["ATTENTE_DECISION"] }}
+            {{ stats.usagersCountByStatutMap["ATTENTE_DECISION"] }}
           </span>
           <span class="stats-labels">{{
             labels.decisionStats["ATTENTE_DECISION"]
@@ -92,7 +92,9 @@
           <span class="stats-chiffres">{{ sortedTableStructures.length }}</span>
           <span class="font-weight-bold stats-labels"> Total </span>
         </div>
-        <ng-container *ngFor="let structure of stats.structuresCountByTypeMap | keyvalue">
+        <ng-container
+          *ngFor="let structure of stats.structuresCountByTypeMap | keyvalue"
+        >
           <div *ngIf="structure.key !== 'total'">
             <span class="stats-chiffres">{{ structure.value }}</span>
             <span class="stats-labels">
@@ -123,7 +125,9 @@
           </div>
           <div class="stats-blocks">
             <div>
-              <span class="stats-chiffres">{{ stats.usagersDocumentsCount }}</span>
+              <span class="stats-chiffres">{{
+                stats.usagersDocumentsCount
+              }}</span>
               <span class="stats-labels">DOCUMENTS UPLOADÉS</span>
             </div>
           </div>
@@ -134,7 +138,11 @@
       <br />
       <span class="stats-titre">INTERACTIONS</span>
       <div class="stats-blocks">
-        <div *ngFor="let interaction of stats.interactionsCountByTypeMap | keyvalue">
+        <div
+          *ngFor="
+            let interaction of stats.interactionsCountByTypeMap | keyvalue
+          "
+        >
           <span class="stats-chiffres">{{ interaction.value }}</span>
           <span class="stats-labels">
             {{ interactionsLabels[interaction.key] }}
@@ -148,10 +156,15 @@
       <div class="stats-blocks">
         <div *ngFor="let usagersLanguageCount of stats.usagersCountByLanguage">
           <span class="stats-chiffres">{{ usagersLanguageCount.count }}</span>
-          <span class="stats-labels" *ngIf="usagersLanguageCount.langue !== 'NON_RENSEIGNE'">
+          <span
+            class="stats-labels"
+            *ngIf="usagersLanguageCount.langue !== 'NON_RENSEIGNE'"
+          >
             {{ languagesAutocomplete.formatter(usagersLanguageCount.langue) }}
           </span>
-          <span class="stats-labels" *ngIf="usagersLanguageCount.langue === 'NON_RENSEIGNE'"
+          <span
+            class="stats-labels"
+            *ngIf="usagersLanguageCount.langue === 'NON_RENSEIGNE'"
             >Non renseigné</span
           >
         </div>
@@ -269,6 +282,26 @@
               (click)="deleteStructure(structure.id)"
             >
               <fa-icon icon="trash"></fa-icon>
+            </button>
+            &nbsp;
+            <button
+              (click)="enableSms(structure)"
+              class="btn"
+              [ngClass]="
+                structure.sms.enabledByDomifa
+                  ? 'btn-primary'
+                  : 'btn-outline-primary'
+              "
+            >
+              SMS
+              <fa-icon
+                *ngIf="structure.sms.enabledByDomifa"
+                icon="check"
+              ></fa-icon>
+              <fa-icon
+                *ngIf="!structure.sms.enabledByDomifa"
+                icon="times"
+              ></fa-icon>
             </button>
           </td>
         </tr>
