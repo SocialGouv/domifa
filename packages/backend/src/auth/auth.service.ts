@@ -79,7 +79,6 @@ export class AuthService {
       id: user.structureId,
     });
 
-    console.log(structure);
     return {
       ...user,
       structure,
