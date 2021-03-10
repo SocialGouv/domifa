@@ -71,6 +71,9 @@ export class UsagerTable
   @Column({ type: "text", nullable: true })
   public phone: string;
 
+  @Column({ type: "text", nullable: true })
+  public phoneContact?: string;
+
   @Column({
     type: "jsonb",
     nullable: true,

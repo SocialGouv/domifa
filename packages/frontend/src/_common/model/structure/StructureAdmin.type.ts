@@ -25,4 +25,5 @@ export type StructureAdmin = Pick<
   | "importDate"
   | "lastLogin"
   | "stats"
+  | "sms"
 >;

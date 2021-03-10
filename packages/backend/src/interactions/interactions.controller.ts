@@ -51,10 +51,11 @@ export class InteractionsController {
       interaction.type === "colisIn" ||
       interaction.type === "recommandeIn"
     ) {
+      console.log(user.structure.sms);
       // 1. Vérifier l'activation des SMS par la structure
       if (
-        user.structure.sms.enabledByDomifa &&
-        user.structure.sms.enabledByStructure
+        user.structure.sms.enabledByDomifa
+        // && user.structure.sms.enabledByStructure
       ) {
         // 2. Vérifier l'activation du SMS pour l'usager
         if (usager.preference?.phone === true) {

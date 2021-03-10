@@ -1,6 +1,6 @@
 import moment = require("moment");
-import { UsagerLight } from "../../database";
-import { InteractionDto } from "../../interactions/interactions.dto";
+import { UsagerLight } from "../../../database";
+import { InteractionDto } from "../../../interactions/interactions.dto";
 
 export function generateSmsInteraction(
   usager: UsagerLight,

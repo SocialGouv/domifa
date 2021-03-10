@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public languagesAutocomplete = languagesAutocomplete;
 
   constructor(
-    public statsService: StatsService,
+    private statsService: StatsService,
     private titleService: Title,
     private notifService: ToastrService
   ) {
@@ -259,6 +259,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.notifService.success(
           "Vous venez de recevoir un email vous permettant de supprimer la structure"
         );
+      },
+      () => {
+        this.notifService.error(
+          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+        );
+      }
+    );
+  }
+
+  public enableSms(structure: Structure) {
+    this.statsService.enableSms(structure.id).subscribe(
+      () => {
+        structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
+        this.notifService.success("SMS activés");
       },
       () => {
         this.notifService.error(

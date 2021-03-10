@@ -144,4 +144,8 @@ export class StructureService {
       return { codepostal: false };
     };
   }
+
+  public smsTimeline() {
+    return this.http.get(`${environment.apiUrl}sms/timeline`);
+  }
 }

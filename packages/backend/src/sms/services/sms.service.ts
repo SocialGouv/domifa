@@ -1,21 +1,33 @@
+import { StructureSmsParams } from "./../../_common/model/structure/StructureSmsParams.type";
 import moment = require("moment");
 import { Injectable } from "@nestjs/common";
 
-import { UsagerLight } from "../../database";
+import {
+  appTypeormManager,
+  structureRepository,
+  UsagerLight,
+} from "../../database";
 
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/interactions.dto";
 import { AppAuthUser } from "../../_common/model";
 
 import { MessageSms } from "../../_common/model/message-sms";
-import { generateSmsInteraction } from "./generateSmsInteraction.service";
+
+import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
+import { Repository } from "typeorm";
+import { generateSmsInteraction } from "./generators";
 
 @Injectable()
 export class SmsService {
   // Délai entre chaque message envoyé
   public interactionDelay: number = 60 * 60;
-
-  constructor() {}
+  private messageSmsRepository: Repository<MessageSmsTable>;
+  constructor() {
+    this.messageSmsRepository = appTypeormManager.getRepository(
+      MessageSmsTable
+    );
+  }
 
   public async deleteSmsInteraction(
     usager: UsagerLight,
@@ -85,6 +97,28 @@ export class SmsService {
       },
     };
     return messageSmsRepository.save(createdSms);
+  }
+
+  public getTimeline(user: AppAuthUser) {
+    return this.messageSmsRepository.find({
+      where: { structureId: user.structureId, status: "TO_SEND" },
+      order: {
+        scheduledDate: "DESC",
+      },
+      skip: 0,
+      take: 30,
+    });
+  }
+
+  public changeStatutByDomifa(structureId: number, sms: StructureSmsParams) {
+    return structureRepository.updateOne(
+      {
+        id: structureId,
+      },
+      {
+        sms,
+      }
+    );
   }
 
   // Messages de rappel de renouvellement

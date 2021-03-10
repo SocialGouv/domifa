@@ -41,9 +41,13 @@ export class StructuresSmsFormComponent implements OnInit {
       .findMyStructure()
       .subscribe((structure: StructureCommon) => {
         this.structure = structure;
-        console.log(structure);
+
         this.initForm();
       });
+
+    this.structureService.smsTimeline().subscribe((sms: any) => {
+      console.log(sms);
+    });
   }
 
   public initForm() {

@@ -10,7 +10,7 @@
         >
           <div class="row">
             <div class="col-md-9 form-group required">
-              Activer l'envoi de SMS pour vos usagers
+              Activer l'envoi de SMS pour vos domiciliés
             </div>
             <div class="col-3 text-right">
               <div
@@ -58,6 +58,7 @@
                 }"
                 required
               />
+              <small>11 caractères maximum</small>
               <div
                 *ngIf="submitted && form.senderName.errors"
                 class="invalid-feedback"
@@ -80,6 +81,7 @@
                 }"
                 placeholder="Cet intitulé apparaitra en signature du SMS"
               />
+              <small>30 caractères maximum</small>
               <div
                 *ngIf="submitted && form.senderDetails.errors"
                 class="invalid-feedback"
