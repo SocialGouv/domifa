@@ -1,3 +1,4 @@
+import { MessageSms } from "./../../../../_common/model/message-sms/MessageSms.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AbstractControl } from "@angular/forms";
@@ -145,7 +146,11 @@ export class StructureService {
     };
   }
 
-  public smsTimeline() {
-    return this.http.get(`${environment.apiUrl}sms/timeline`);
+  public smsTimeline(): Observable<MessageSms[]> {
+    return this.http.get(`${environment.apiUrl}sms/timeline`).pipe(
+      map((response: MessageSms[]) => {
+        return response;
+      })
+    );
   }
 }

@@ -4,6 +4,7 @@ import { Title } from "@angular/platform-browser";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { AppUser, StructureCommon } from "../../../../../_common/model";
+import { MessageSms } from "../../../../../_common/model/message-sms";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
 
@@ -45,7 +46,7 @@ export class StructuresSmsFormComponent implements OnInit {
         this.initForm();
       });
 
-    this.structureService.smsTimeline().subscribe((sms: any) => {
+    this.structureService.smsTimeline().subscribe((sms: MessageSms[]) => {
       console.log(sms);
     });
   }

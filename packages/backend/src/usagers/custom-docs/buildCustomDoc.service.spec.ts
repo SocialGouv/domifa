@@ -22,6 +22,12 @@ describe("buildCustomDoc", () => {
     responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
     structureType: "ccas",
     ville: "Asnieres-sur-seine",
+    sms: {
+      enabledByDomifa: false,
+      enabledByStructure: false,
+      senderDetails: "",
+      senderName: "",
+    },
   };
   // const usagerRadie: UsagerLight = {};
 
