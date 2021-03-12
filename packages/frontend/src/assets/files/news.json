@@ -1,19 +1,22 @@
 [
-    {
+  {
     "date": "2021-03-17",
     "content": [
-    {   "type": "new",
-        "categorie": "Attestation de domiciliation postale",
+      {
+        "type": "new",
+        "categorie": "De nouveaux modèles de courrier",
         "message": [
-          "Un modèle d’attestation de domiciliation postale paramétrable est désormais disponible sur chaque fiche domicilié."
+          "Un modèle paramétrable d’attestation de domiciliation postale est désormais disponible sur chaque fiche de domicilié actif.",
+          "Un modèle paramétrable du courrier de radiation est désormais disponible sur chaque fiche de domicilié radié."
         ]
       }
     ]
   },
-    {
+  {
     "date": "2021-03-01",
     "content": [
-    {   "type": "new",
+      {
+        "type": "new",
         "categorie": "Mise à jour technique sur DomiFa ",
         "message": [
           "Nous procédons à une mise à jour technique importante sur la plateforme. Celle-ci n’affectera pas vos données sur DomiFa mais risque de créer certains dysfonctionnements lors de votre utilisation dans les jours à suivre. Si c’est le cas, n’hésitez pas à nous écrire à contact.domifa@fabrique.social.gouv.fr afin que nous puissions vous assister. Merci pour votre compréhension."
