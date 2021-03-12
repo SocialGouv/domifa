@@ -57,7 +57,7 @@ stages:
   curl http://localhost:4200
   curl --fail http://localhost:3000/healthz
   tail -100 ${CI_PROJECT_DIR}/frontend.log
-  tail -100 ${CI_PROJECT_DIR}/backend.log  
+  tail -100 ${CI_PROJECT_DIR}/backend.log
 
 .tests_setup:
   stage: Tests
@@ -293,7 +293,7 @@ Register:frontend:image:manual:
   when: manual # to be able to run thieses jobs manually on branchs
   retry:
     max: 1
- 
+
 .Register:backend:image:base:
   extends: .base_register_stage
   image: docker:19

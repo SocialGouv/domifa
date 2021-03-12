@@ -6,3 +6,4 @@ coverage
 .prettierignore
 optional/e2e/runners/puppeteer/output
 *.code-workspace
+.prettierignore
