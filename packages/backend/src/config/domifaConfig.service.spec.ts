@@ -97,6 +97,10 @@ describe("loadConfig", () => {
     expect(config.dev.sentry.enabled).toEqual(false);
 
     expect(config.email.emailsEnabled).toEqual(false);
+
+    expect(config.sms.enabled).toEqual(env.DOMIFA_SMS_API_KEY);
+    expect(config.sms.phoneNumberRedirectAllTo).toEqual(env.DOMIFA_SMS_API_KEY);
+    expect(config.sms.apiKey).toEqual(env.DOMIFA_SMS_API_KEY);
   });
 
   it("loadConfig PROD (default)", () => {
@@ -120,6 +124,9 @@ describe("loadConfig", () => {
       DOMIFA_MAIL_SMTP_TIPIMAIL_PORT: "1000",
       DOMIFA_MAIL_SMTP_TIPIMAIL_USER: "xxx",
       DOMIFA_MAIL_SMTP_TIPIMAIL_PASSWORD: "xxx",
+      DOMIFA_SMS_API_KEY: "xxx",
+      DOMIFA_SMS_ENABLED: "xxx",
+      DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: "xxx",
     };
     const config = loadConfig(env);
 

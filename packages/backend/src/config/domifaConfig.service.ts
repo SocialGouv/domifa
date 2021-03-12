@@ -350,7 +350,12 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       smtp: smtpOptions,
     },
     sms: {
-      apiKey: configParser.parseString(x, "SMS_API_KEY"),
+      enabled: configParser.parseBoolean(x, "DOMIFA_SMS_ENABLED"),
+      phoneNumberRedirectAllTo:
+        envId === "dev"
+          ? ""
+          : configParser.parseString(x, "DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO"),
+      apiKey: configParser.parseString(x, "DOMIFA_SMS_API_KEY"),
     },
   };
   if (config.dev.printEnv) {

@@ -1,4 +1,12 @@
+import { APP_BASE_HREF } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrModule } from "ngx-toastr";
 
 import { StructuresSmsFormComponent } from "./structures-sms-form.component";
 
@@ -8,6 +16,24 @@ describe("StructuresSmsFormComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot({
+          enableHtml: true,
+          positionClass: "toast-top-full-width",
+          preventDuplicates: true,
+          progressAnimation: "increasing",
+          progressBar: true,
+          timeOut: 2000,
+        }),
+        RouterModule.forRoot([]),
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [StructuresSmsFormComponent],
     }).compileComponents();
   }));
