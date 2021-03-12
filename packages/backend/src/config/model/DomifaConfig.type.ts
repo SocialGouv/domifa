@@ -93,6 +93,8 @@ export type DomifaConfig = {
     smtp: SMTPTransport.Options;
   };
   sms: {
+    enabled: boolean;
+    phoneNumberRedirectAllTo: string;
     apiKey: string;
   };
 };
