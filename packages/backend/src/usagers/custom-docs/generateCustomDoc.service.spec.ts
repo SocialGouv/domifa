@@ -58,5 +58,5 @@ async function runDocTypeTest({ docType }: { docType: CustomDocTemplateType }) {
     )
     .toString();
 
-  expect(expectedGeneratedDocHtml).toEqual(generatedDocHtml);
+  expect(expectedGeneratedDocHtml.trim()).toEqual(generatedDocHtml.trim());
 }
