@@ -125,7 +125,7 @@ describe("loadConfig", () => {
       DOMIFA_MAIL_SMTP_TIPIMAIL_USER: "xxx",
       DOMIFA_MAIL_SMTP_TIPIMAIL_PASSWORD: "xxx",
       DOMIFA_SMS_API_KEY: "xxx",
-      DOMIFA_SMS_ENABLED: "xxx",
+      DOMIFA_SMS_ENABLE: "xxx",
       DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: "xxx",
     };
     const config = loadConfig(env);

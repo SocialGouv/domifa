@@ -66,6 +66,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         ? "http://localhost:4200/" // default on LOCAL
         : undefined,
   });
+
   const frontendUrlFromBackend = configParser.parseString(
     x,
     "DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND",
@@ -73,18 +74,28 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       defaultValue: frontendUrl,
     }
   );
+
   const backendUrl = configParser.parseString(x, "DOMIFA_BACKEND_URL", {
     defaultValue:
       envId === "dev" || envId === "test"
         ? "http://localhost:3000/" // default on LOCAL
         : undefined,
   });
+
   const emailsEnabled = configParser.parseBoolean(x, "DOMIFA_EMAILS_ENABLE", {
     defaultValue:
       envId === "prod" || envId === "preprod" || envId === "formation"
         ? true
         : false,
   });
+
+  const smsIsEnabled = configParser.parseBoolean(x, "DOMIFA_SMS_ENABLE", {
+    defaultValue:
+      envId === "prod" || envId === "preprod" || envId === "formation"
+        ? true
+        : false,
+  });
+
   const sentryDns = configParser.parseString(x, "SENTRY_DSN", {
     required: false,
   });
@@ -350,12 +361,9 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       smtp: smtpOptions,
     },
     sms: {
-      enabled: configParser.parseBoolean(x, "DOMIFA_SMS_ENABLED"),
-      phoneNumberRedirectAllTo:
-        envId === "dev"
-          ? ""
-          : configParser.parseString(x, "DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO"),
-      apiKey: configParser.parseString(x, "DOMIFA_SMS_API_KEY"),
+      smsIsEnabled,
+      phoneNumberRedirectAllTo: "xx",
+      apiKey: "xxx",
     },
   };
   if (config.dev.printEnv) {
