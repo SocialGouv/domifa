@@ -34,8 +34,9 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { InteractionType } from "../../../../../_common/model/interaction";
 import { interactionsLabels } from "../../interactions.labels";
-import { InteractionTypes } from "../../interfaces/interaction";
+
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 import {
@@ -336,7 +337,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   public setInteraction(
     usager: UsagerLight,
-    type: InteractionTypes,
+    type: InteractionType,
     procuration?: boolean
   ) {
     const interaction: {

@@ -20,11 +20,12 @@ import {
 } from "src/app/shared/bootstrap-util";
 import { regexp } from "src/app/shared/validators";
 import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
+import { InteractionType } from "../../../../../_common/model/interaction";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
 import { languagesAutocomplete } from "../../../../shared";
 import { interactionsLabels } from "../../interactions.labels";
 import { AyantDroit } from "../../interfaces/ayant-droit";
-import { Interaction, InteractionTypes } from "../../interfaces/interaction";
+import { Interaction } from "../../interfaces/interaction";
 import { Options } from "../../interfaces/options";
 import { DocumentService } from "../../services/document.service";
 import { InteractionService } from "../../services/interaction.service";
@@ -52,7 +53,7 @@ export class UsagersProfilComponent implements OnInit {
 
   public submitted: boolean;
 
-  public typeInteraction: InteractionTypes;
+  public typeInteraction: InteractionType;
   public interactions: Interaction[];
   public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
 
@@ -356,7 +357,7 @@ export class UsagersProfilComponent implements OnInit {
     }
   }
 
-  public setInteraction(type: InteractionTypes, procuration?: boolean) {
+  public setInteraction(type: InteractionType, procuration?: boolean) {
     const interaction: {
       content?: string;
       type?: string;

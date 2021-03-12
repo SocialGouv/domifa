@@ -3,17 +3,6 @@ import {
   interactionsLabelsPluriel,
 } from "../interactions.labels";
 
-export type InteractionTypes =
-  | "courrierIn"
-  | "courrierOut"
-  | "recommandeIn"
-  | "recommandeOut"
-  | "colisIn"
-  | "colisOut"
-  | "appel"
-  | "npai"
-  | "visite";
-
 export class Interaction {
   public _id: string;
   public id: number;
