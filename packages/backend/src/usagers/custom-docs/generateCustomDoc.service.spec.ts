@@ -1,7 +1,8 @@
 import * as fs from "fs";
-// var mammoth = require("mammoth");
+
 import * as mammoth from "mammoth";
 import * as path from "path";
+
 import { domifaConfig } from "../../config";
 import {
   customDocTemplateLoader,
@@ -9,16 +10,19 @@ import {
 } from "./customDocTemplateLoader.service";
 import { generateCustomDoc } from "./generateCustomDoc.service";
 import { generatedAttestationMock } from "./mocks/generatedAttestationMock";
+
 describe("generateCustomDoc", () => {
-  it("generateCustomDoc render attestation_postale", async () => {
+  it("1. ATTESTATION POSTALE : generateCustomDoc render attestation_postale", async () => {
     await runDocTypeTest({ docType: "attestation_postale" });
   });
-  it("generateCustomDoc render attestation_postale", async () => {
+
+  it("2. COURRIER RADIATION : generateCustomDoc render courrier_radiation", async () => {
     await runDocTypeTest({ docType: "courrier_radiation" });
   });
 });
+
 async function runDocTypeTest({ docType }: { docType: CustomDocTemplateType }) {
-  let content = customDocTemplateLoader.loadDefaultDocTemplate({
+  const content = customDocTemplateLoader.loadDefaultDocTemplate({
     docType,
   });
 
@@ -53,5 +57,6 @@ async function runDocTypeTest({ docType }: { docType: CustomDocTemplateType }) {
       )
     )
     .toString();
+
   expect(expectedGeneratedDocHtml).toEqual(generatedDocHtml);
 }
