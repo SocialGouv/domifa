@@ -1,8 +1,6 @@
 import * as fs from "fs";
-
 import * as mammoth from "mammoth";
 import * as path from "path";
-
 import { domifaConfig } from "../../config";
 import {
   customDocTemplateLoader,

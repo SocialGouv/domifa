@@ -1,8 +1,6 @@
 import { AuthService } from "../auth/auth.service";
 import { DatabaseModule, usagerRepository } from "../database";
-import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
-import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { InteractionsController } from "./interactions.controller";
@@ -11,9 +9,7 @@ import { InteractionsService } from "./interactions.service";
 
 describe("Interactions Controller", () => {
   let controller: InteractionsController;
-  let userService: UsersService;
   let authService: AuthService;
-  let usagerService: UsagersService;
 
   let context: AppTestContext;
 
@@ -28,9 +24,6 @@ describe("Interactions Controller", () => {
       InteractionsController
     );
     authService = context.module.get<AuthService>(AuthService);
-    userService = context.module.get<UsersService>(UsersService);
-
-    usagerService = context.module.get<UsagersService>(UsagersService);
   });
 
   afterAll(async () => {

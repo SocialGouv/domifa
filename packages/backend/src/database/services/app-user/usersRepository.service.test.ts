@@ -1,6 +1,6 @@
 import { Connection } from "typeorm";
 import { AppTestHelper } from "../../../util/test";
-import { usersRepository } from "./users-repository.service";
+import { usersRepository } from "./usersRepository.service";
 
 describe("usesRepository", () => {
   let postgresTypeormConnection: Connection;
@@ -61,15 +61,7 @@ describe("usesRepository", () => {
     // be sure the user id is ok
     expect(user1.id).toEqual(1);
   });
-  it("findOneByTokenAttribute returns matching user", async () => {
-    const user1 = await usersRepository.findOneByTokenAttribute(
-      "password",
-      "4ec06d64a778a0c173344177159c9fd026927b0ff75e9b7df9f963ad0617"
-    );
-    expect(user1).toBeDefined();
-    // be sure the user id is ok
-    expect(user1.id).toEqual(3);
-  });
+
   it("findOne returns matching user", async () => {
     const user1 = await usersRepository.findOne({
       id: 1,

@@ -108,8 +108,16 @@ export class UsersService {
     return this.http.get(`${this.endPoint}/last-password-update`);
   }
 
-  public checkPasswordToken(token: string) {
-    return this.http.get(`${this.endPoint}/check-password-token/${token}`);
+  public checkPasswordToken({
+    userId,
+    token,
+  }: {
+    userId: string;
+    token: string;
+  }) {
+    return this.http.get(
+      `${this.endPoint}/check-password-token/${userId}/${token}`
+    );
   }
 
   public resetPassword(data: any) {

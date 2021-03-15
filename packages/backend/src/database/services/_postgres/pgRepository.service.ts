@@ -286,6 +286,15 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       where: search,
       order: options.order,
     });
+    if (!res && options.throwErrorIfNotFound) {
+      appLogger.warn("[pgRepository.findOne] search not found", {
+        sentryBreadcrumb: true,
+        extra: {
+          search,
+        },
+      });
+      throw new Error("Not found");
+    }
     return (res as unknown) as R;
   }
 
@@ -309,7 +318,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     search: Partial<T>,
     data: Partial<T>,
     options: PgRepositoryFindOptions<T> & { returnSearch?: Partial<T> } = {}
-  ) {
+  ): Promise<R> {
     const typeormRepository = await typeorm();
 
     const { affected } = await typeormRepository.update(

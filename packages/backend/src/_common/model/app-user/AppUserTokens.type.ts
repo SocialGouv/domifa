@@ -1,5 +1,7 @@
+import { AppUserTokenType } from "./AppUserTokenType.type";
+
 export type AppUserTokens = {
-  creation?: string;
-  password?: string;
-  passwordValidity?: Date;
+  type?: AppUserTokenType;
+  token?: string;
+  validity?: Date;
 };

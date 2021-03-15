@@ -113,6 +113,8 @@ Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v2
       - node_modules
       - packages/backend/node_modules
       - packages/frontend/node_modules
+  retry:
+    max: 1
 
 Install:e2e:node_modules:
   image: node:14.15.0-alpine3.12
@@ -137,6 +139,8 @@ Install:e2e:node_modules:
   only: # disable job on branchs as it is too slow for now
     - master
     - tags
+  retry:
+    max: 1
 
 Build:frontend:gitlab-ci: # "gitlab-ci" environment build
   image: node:14.15.0-alpine3.12
@@ -155,6 +159,8 @@ Build:frontend:gitlab-ci: # "gitlab-ci" environment build
   only: # disable job on branchs as it is too slow for now
     - master
     - tags
+  retry:
+    max: 1
 
 Build:frontend:dist: # "dist" environment build
   image: node:14.15.0-alpine3.12
@@ -170,6 +176,8 @@ Build:frontend:dist: # "dist" environment build
     - Install:node_modules
   dependencies:
     - Install:node_modules
+  retry:
+    max: 1
 
 Build:backend:dist: # "dist" environment build
   image: node:14.15.0-alpine3.12
@@ -185,6 +193,8 @@ Build:backend:dist: # "dist" environment build
     - Install:node_modules
   dependencies:
     - Install:node_modules
+  retry:
+    max: 1
 
 Test:backend:integration:
   extends: .tests_setup
@@ -200,6 +210,8 @@ Test:backend:integration:
     - Install:node_modules
   dependencies:
     - Install:node_modules
+  retry:
+    max: 1
 
 Test:frontend:unit:
   extends: .tests_setup
@@ -210,6 +222,8 @@ Test:frontend:unit:
     - Install:node_modules
   dependencies:
     - Install:node_modules
+  retry:
+    max: 1
 
 Test:e2e:dist:
   extends: .tests_setup
@@ -238,11 +252,11 @@ Test:e2e:dist:
       - ${CI_PROJECT_DIR}/optional/e2e/runners/puppeteer/output
       - ${CI_PROJECT_DIR}/backend.log
       - ${CI_PROJECT_DIR}/frontend.log
-  retry:
-    max: 1
   only: # disable job on branchs as it is too slow for now
     - master
     - tags
+  retry:
+    max: 1
 
 .Register:frontend:image:base:
   extends: .base_register_stage
@@ -268,6 +282,8 @@ Register:frontend:image:
   only:
     - master # to deploy to preprod only
     - tags # prod + preprod
+  retry:
+    max: 1
 
 Register:frontend:image:manual:
   extends: .Register:frontend:image:base
@@ -275,6 +291,8 @@ Register:frontend:image:manual:
     - master
     - tags
   when: manual # to be able to run thieses jobs manually on branchs
+  retry:
+    max: 1
  
 .Register:backend:image:base:
   extends: .base_register_stage
@@ -301,6 +319,8 @@ Register:backend:image:
   only:
     - master # to deploy to preprod only
     - tags # prod + preprod
+  retry:
+    max: 1
 
 Register:backend:image:manual:
   extends: .Register:backend:image:base
@@ -308,3 +328,5 @@ Register:backend:image:manual:
     - master
     - tags
   when: manual # to be able to run thieses jobs manually on branchs
+  retry:
+    max: 1

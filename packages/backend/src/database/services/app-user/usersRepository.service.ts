@@ -19,8 +19,6 @@ export const USERS_ADMIN_EMAILS_ATTRIBUTES: (keyof AppUserTable)[] = [
   "prenom",
 ];
 export type AppUserForAdminEmail = Pick<AppUser, "email" | "nom" | "prenom">;
-export type AppUserForAdminEmailWithTempTokens = AppUserForAdminEmail &
-  Pick<AppUser, "temporaryTokens">;
 
 const baseRepository = pgRepository.get<AppUserTable, UserProfile>(
   AppUserTable,
@@ -32,7 +30,6 @@ const baseRepository = pgRepository.get<AppUserTable, UserProfile>(
 export const usersRepository = {
   ...baseRepository,
   findVerifiedStructureUsersByRoles,
-  findOneByTokenAttribute,
 };
 
 function findVerifiedStructureUsersByRoles({
@@ -48,18 +45,4 @@ function findVerifiedStructureUsersByRoles({
       role: In(roles),
     })
   );
-}
-
-function findOneByTokenAttribute(
-  tokenName: "password" | "creation",
-  tokenValue: string
-): Promise<UserProfile & Pick<AppUserTable, "temporaryTokens">> {
-  return baseRepository.findOneWithQuery({
-    select: USERS_USER_PROFILE_ATTRIBUTES.concat(["temporaryTokens"]),
-    where: `"temporaryTokens"->>:tokenName = :tokenValue`,
-    params: {
-      tokenName,
-      tokenValue,
-    },
-  });
 }

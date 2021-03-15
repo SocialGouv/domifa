@@ -8,6 +8,7 @@ import {
   NgbDateStruct,
   NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
+import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";

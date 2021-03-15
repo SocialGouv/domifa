@@ -45,7 +45,7 @@ export class UserDto {
   public readonly structureId?: number;
 
   @IsOptional()
-  public readonly structure!: {};
+  public readonly structure?: {};
 
   @IsOptional()
   public readonly phone!: string;

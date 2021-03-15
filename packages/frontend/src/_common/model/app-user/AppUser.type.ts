@@ -1,7 +1,6 @@
 import { StructureCommon } from "../structure";
 import { AppEntity } from "../_core/AppEntity.type";
 import { AppUserMails } from "./AppUserMails.type";
-import { AppUserTokens } from "./AppUserTokens.type";
 import { UserRole } from "./UserRole.type";
 
 export type AppUser = AppEntity & {
@@ -30,7 +29,8 @@ export type AppUser = AppEntity & {
   role: UserRole; // security profile
 
   mail: AppUserMails;
-  temporaryTokens: AppUserTokens; // used on creation & reset password
 
   structure?: StructureCommon;
+
+  access_token?: string; // frontend only
 };

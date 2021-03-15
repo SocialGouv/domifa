@@ -12,19 +12,17 @@ import {
   StatsGeneratorService,
 } from "../../stats/services/stats-generator.service";
 import { UserDto } from "../../users/dto/user.dto";
-import { UsersService } from "../../users/services/users.service";
+import { usersCreator } from "../../users/services";
 import { appLogger } from "../../util/AppLogger.service";
 import { StructureCommon } from "../../_common/model";
 import { DepartementHelper } from "../departement-helper.service";
 import { StructureDto } from "../dto/structure.dto";
-import moment = require("moment");
 
 @Injectable()
 export class StructureCreatorService {
   constructor(
     private departementHelper: DepartementHelper,
-    private statsGeneratorService: StatsGeneratorService,
-    private usersService: UsersService
+    private statsGeneratorService: StatsGeneratorService
   ) {}
 
   public async checkStructureCreateArgs(
@@ -68,8 +66,8 @@ export class StructureCreatorService {
       true
     );
 
-    const user = await this.usersService.create(userDto, {
-      structure,
+    const { user } = await usersCreator.createUserWithPassword(userDto, {
+      structureId: structure.id,
       role: "admin",
     });
 

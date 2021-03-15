@@ -17,10 +17,10 @@ export class JwtInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const currentUser = this.authService.currentUserValue;
-    if (currentUser && currentUser.temporaryTokens) {
+    if (currentUser && currentUser.access_token) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${currentUser.temporaryTokens}`,
+          Authorization: `Bearer ${currentUser.access_token}`,
         },
       });
     }

@@ -23,6 +23,7 @@ export class ResetPasswordComponent implements OnInit {
   public hidePasswordConfirm: boolean;
 
   public token?: string;
+  public userId?: string;
   public errorLabels: any;
 
   get e() {
@@ -58,9 +59,11 @@ export class ResetPasswordComponent implements OnInit {
 
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
-      this.userService.checkPasswordToken(token).subscribe(
+      const userId = this.route.snapshot.params.userId;
+      this.userService.checkPasswordToken({ userId, token }).subscribe(
         (response) => {
           this.token = token;
+          this.userId = userId;
           this.initPasswordForm();
         },
         (error) => {
@@ -99,6 +102,7 @@ export class ResetPasswordComponent implements OnInit {
           ]),
         ],
         token: [this.token, Validators.required],
+        userId: [this.userId, Validators.required],
       },
       {
         validator: PasswordValidator.passwordMatchValidator,

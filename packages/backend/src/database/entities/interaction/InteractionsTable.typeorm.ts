@@ -54,7 +54,7 @@ export class InteractionsTable
   usagerFk?: Promise<UsagerTable>;
 
   @Index()
-  @Column({ type: "integer", nullable: true }) // nullable is user is deleted
+  @Column({ type: "integer", nullable: true }) // nullable if user is deleted
   userId: number;
 
   // NOTE: pas de FK car les users peuvent être supprimés (si on ajoute la FK, il faudra rendre nullable les userId)

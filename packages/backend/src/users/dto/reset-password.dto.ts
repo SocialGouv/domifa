@@ -12,4 +12,7 @@ export class ResetPasswordDto {
 
   @IsNotEmpty()
   public readonly token!: string;
+
+  @IsNotEmpty()
+  public readonly userId!: number;
 }

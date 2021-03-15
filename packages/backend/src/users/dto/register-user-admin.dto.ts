@@ -1,12 +1,12 @@
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IsEmail,
+  IsEmpty,
+  IsIn,
   IsNotEmpty,
   MaxLength,
   MinLength,
-  IsIn,
-  IsEmpty,
 } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
 import { UserRole } from "../../_common/model";
 
 export class RegisterUserAdminDto {
@@ -57,8 +57,8 @@ export class RegisterUserAdminDto {
   public structureId!: number;
 
   @IsEmpty()
-  public structure!: {};
+  public structure?: {};
 
   @IsEmpty()
-  public verified!: boolean;
+  public verified?: boolean;
 }

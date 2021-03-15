@@ -1,15 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { catchError, map } from "rxjs/operators";
-
+import { Router, RouterStateSnapshot } from "@angular/router";
 import * as Sentry from "@sentry/browser";
 import jwtDecode from "jwt-decode";
-
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { AppUser } from "../../../../_common/model";
 import { appUserBuilder } from "../../users/services";
-import { Router, RouterStateSnapshot } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -41,7 +39,7 @@ export class AuthService {
           const user = appUserBuilder.buildAppUser(
             jwtDecode(token.access_token)
           );
-          user.temporaryTokens = token.access_token;
+          user.access_token = token.access_token;
 
           localStorage.setItem("currentUser", JSON.stringify(user));
           localStorage.removeItem("filters");
@@ -61,7 +59,7 @@ export class AuthService {
     return this.http.get<AppUser>(`${this.endPoint}/me`).pipe(
       map((apiUser: AppUser) => {
         const user = appUserBuilder.buildAppUser(apiUser);
-        user.temporaryTokens = this.currentUserValue.temporaryTokens;
+        user.access_token = this.currentUserValue.access_token;
 
         localStorage.setItem("currentUser", JSON.stringify(user));
 

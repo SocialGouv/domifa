@@ -1,9 +1,9 @@
 import { INestApplication } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
-import { AppUserTable } from "../../..";
+import { AppUserTable, userSecurityRepository } from "../../..";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
-import { usersRepository } from "../../app-user/users-repository.service";
+import { usersRepository } from "../../app-user";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
@@ -55,7 +55,6 @@ async function _anonymizeUser(
     nom: dataGenerator.lastName().toUpperCase(),
     prenom: dataGenerator.firstName(),
     password,
-    temporaryTokens: null,
     fonction: dataGenerator.fromList([
       "Agent administratif",
       "Agent d'accueil",
@@ -78,6 +77,15 @@ async function _anonymizeUser(
     // appLogger.debug(`[dataUserAnonymizer] nothing to update for "${user._id}"`);
     return user;
   }
+
+  await userSecurityRepository.updateOne(
+    {
+      userId: user.id,
+    },
+    {
+      temporaryTokens: null,
+    }
+  );
 
   return usersRepository.updateOne(
     {

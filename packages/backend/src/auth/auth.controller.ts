@@ -10,12 +10,11 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import * as bcrypt from "bcryptjs";
 import { Response } from "express";
-import { usersRepository } from "../database";
+import { userSecurityPasswordChecker } from "../database";
 import { LoginDto } from "../users/dto/login.dto";
 import { ExpressResponse } from "../util/express";
-import { AppAuthUser, AppUser } from "../_common/model";
+import { AppAuthUser } from "../_common/model";
 import { AuthService } from "./auth.service";
 import { CurrentUser } from "./current-user.decorator";
 import { DomifaGuard } from "./guards/domifa.guard";
@@ -28,52 +27,18 @@ export class AuthController {
   @Post("login")
   @HttpCode(HttpStatus.OK)
   public async loginUser(@Res() res: Response, @Body() loginDto: LoginDto) {
-    const user = await usersRepository.findOne<AppUser>(
-      { email: loginDto.email.toLowerCase() },
-      { select: "ALL" }
-    );
+    try {
+      const user = await userSecurityPasswordChecker.checkPassword({
+        email: loginDto.email,
+        password: loginDto.password,
+      });
 
-    if (!user.password) {
-      return res
-        .status(HttpStatus.FORBIDDEN)
-        .json({ message: "WRONG_CREDENTIALS" });
+      const accessToken = await this.authService.login(user);
+
+      return res.status(HttpStatus.OK).json(accessToken);
+    } catch (err) {
+      return res.status(HttpStatus.FORBIDDEN).json({ message: err.message });
     }
-
-    if (user) {
-      const isValidPass = await bcrypt.compare(
-        loginDto.password,
-        user.password
-      );
-
-      if (isValidPass) {
-        if (!user.verified) {
-          return res
-            .status(HttpStatus.FORBIDDEN)
-            .json({ message: "ACCOUNT_NOT_ACTIVATED" });
-        }
-
-        const accessToken = await this.authService.login(user);
-
-        usersRepository.updateOne(
-          {
-            id: user.id,
-            structureId: user.structureId,
-          },
-          {
-            lastLogin: new Date(),
-          }
-        );
-
-        return res.status(HttpStatus.OK).json(accessToken);
-      } else {
-        return res
-          .status(HttpStatus.FORBIDDEN)
-          .json({ message: "WRONG_CREDENTIALS" });
-      }
-    }
-    return res
-      .status(HttpStatus.FORBIDDEN)
-      .json({ message: "WRONG_CREDENTIALS" });
   }
 
   @UseGuards(AuthGuard("jwt"), DomifaGuard)
@@ -97,7 +62,6 @@ export class AuthController {
       lastLogin: user.lastLogin,
       nom: user.nom,
       prenom: user.prenom,
-
       role: user.role,
       structure: user.structure,
       structureId: user.structureId,

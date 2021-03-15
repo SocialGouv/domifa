@@ -6,4 +6,5 @@ export type PgRepositoryFindOptions<T> = {
   select?: (keyof T)[] | "ALL";
   maxResults?: number;
   skip?: number;
+  throwErrorIfNotFound?: boolean;
 };
