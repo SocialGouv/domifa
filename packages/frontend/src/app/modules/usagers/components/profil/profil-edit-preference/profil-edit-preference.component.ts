@@ -18,15 +18,25 @@ export class ProfilEditPreferenceComponent implements OnInit {
   public submitted: boolean;
   public preferenceForm: FormGroup;
 
+  public editPreferences: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private notifService: ToastrService,
     private usagerService: UsagerService
-  ) {}
+  ) {
+    this.submitted = false;
+    this.editPreferences = false;
+  }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.initForms();
 
-  get f() {
+    if (!this.usager.preference.phoneNumber) {
+      this.usager.preference.phoneNumber = this.usager.phone;
+    }
+  }
+
+  get formPref() {
     return this.preferenceForm.controls;
   }
 
@@ -36,7 +46,7 @@ export class ProfilEditPreferenceComponent implements OnInit {
         this.usager.preference.phoneNumber,
         [Validators.pattern(regexp.mobilePhone)],
       ],
-      phone: [this.usager.preference.phone, []],
+      phone: [this.usager.preference.phone, [Validators.required]],
     });
   }
 
@@ -55,6 +65,7 @@ export class ProfilEditPreferenceComponent implements OnInit {
       this.usagerService.editPreference(preference, this.usager.ref).subscribe(
         (usager: UsagerLight) => {
           this.submitted = false;
+          this.editPreferences = false;
           this.notifService.success("Enregistrement réussi");
           this.usager = new UsagerFormModel(usager);
         },
