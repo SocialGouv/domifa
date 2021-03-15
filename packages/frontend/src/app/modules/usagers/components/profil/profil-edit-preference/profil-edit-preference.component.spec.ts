@@ -1,6 +1,7 @@
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/compiler";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
@@ -25,6 +26,8 @@ describe("ProfilEditPreferenceComponent", () => {
         ToastrModule.forRoot(),
         RouterModule.forRoot([]),
       ],
+
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       declarations: [ProfilEditPreferenceComponent],
     }).compileComponents();

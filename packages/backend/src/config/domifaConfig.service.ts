@@ -365,7 +365,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       enabled: smsEnabled,
       phoneNumberRedirectAllTo: configParser.parseString(
         x,
-        "DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO"
+        "DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO",
+        {
+          required: smsEnabled,
+        }
       ),
       apiKey: configParser.parseString(x, "DOMIFA_SMS_API_KEY", {
         required: smsEnabled,

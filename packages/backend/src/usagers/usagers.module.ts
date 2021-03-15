@@ -15,6 +15,7 @@ import { CerfaService } from "./services/cerfa.service";
 import { DocumentsService } from "./services/documents.service";
 import { UsagersService } from "./services/usagers.service";
 import { UsagersProviders } from "./usagers.providers";
+import { SmsService } from "../sms/services/sms.service";
 
 @Module({
   controllers: [
@@ -22,7 +23,6 @@ import { UsagersProviders } from "./usagers.providers";
     ImportController,
     AgendaController,
     UsagerStructureDocsController,
-
     DocsController,
     ExportStructureUsagersController,
   ],

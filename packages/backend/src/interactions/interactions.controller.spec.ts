@@ -1,3 +1,4 @@
+import { SmsModule } from "./../sms/sms.module";
 import { AuthService } from "../auth/auth.service";
 import { DatabaseModule, usagerRepository } from "../database";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -16,7 +17,7 @@ describe("Interactions Controller", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [InteractionsController],
-      imports: [DatabaseModule, UsersModule, UsagersModule],
+      imports: [DatabaseModule, UsersModule, UsagersModule, SmsModule],
       providers: [InteractionsService],
     });
 

@@ -98,8 +98,10 @@ describe("loadConfig", () => {
 
     expect(config.email.emailsEnabled).toEqual(false);
 
-    expect(config.sms.enabled).toEqual(env.DOMIFA_SMS_API_KEY);
-    expect(config.sms.phoneNumberRedirectAllTo).toEqual(env.DOMIFA_SMS_API_KEY);
+    expect(config.sms.enabled).toEqual(env.DOMIFA_SMS_ENABLE);
+    expect(config.sms.phoneNumberRedirectAllTo).toEqual(
+      env.DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO
+    );
     expect(config.sms.apiKey).toEqual(env.DOMIFA_SMS_API_KEY);
   });
 
