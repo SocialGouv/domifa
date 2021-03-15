@@ -1,26 +1,95 @@
-<div class="col-md-12">
-  <span class="label">
-    Le domicilié souhaite-t-il recevoir un SMS lors de l'arrivée d'un courrier
-    ?</span
-  >
-  <div class="form-check form-check-inline">
-    <input
-      class="form-check-input"
-      type="radio"
-      formControlName="sms"
-      id="sms_oui"
-      [value]="true"
-    />
-    <label class="form-check-label" for="sms_oui"> Oui </label>
+<div class="row" *ngIf="!editPreferences">
+  <div class="col-md-6 reponses">
+    <span class="question"
+      >Envoyer un SMS au domicilié à l'arrivée d'un courrier ?</span
+    >
+    <span class="valeur"> NON </span>
   </div>
-  <div class="form-check form-check-inline">
-    <input
-      class="form-check-input"
-      type="radio"
-      formControlName="sms"
-      id="sms_non"
-      [value]="false"
-    />
-    <label class="form-check-label" for="sms_non"> Non </label>
+
+  <div class="col-md-6 reponses">
+    <span class="question">Numéro de téléphone</span>
+    <span class="valeur"> 01010101010 </span>
+  </div>
+
+  <div class="col-md-12 text-center" *ngIf="usager.isActif">
+    <br />
+    <button
+      class="btn btn-outline-dark"
+      (click)="editPreferences = !editPreferences"
+    >
+      <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
+      Modifier les préférences
+    </button>
   </div>
 </div>
+
+<form
+  *ngIf="editPreferences"
+  [formGroup]="preferenceForm"
+  (ngSubmit)="updateUsagerPreference()"
+  autocomplete="off"
+>
+  <div class="row">
+    <div class="col-md-6">
+      <label for=""
+        >Envoyer un SMS au domicilié à l'arrivée d'un courrier ?</label
+      >
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="phone"
+          id="sms_oui"
+          [value]="true"
+        />
+        <label class="form-check-label" for="sms_oui"> Oui </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          formControlName="phone"
+          id="sms_non"
+          [value]="false"
+        />
+        <label class="form-check-label" for="sms_non"> Non </label>
+      </div>
+    </div>
+
+    <div
+      class="col-md-6 form-group required"
+      *ngIf="formPref.phone.value === true"
+    >
+      <label for="phone">A quel numéro de téléphone ?</label>
+      <input
+        type="text"
+        class="form-control"
+        id="phone"
+        digitOnly
+        formControlName="phoneNumber"
+        aria-describedby="phoneHelp"
+        [ngClass]="{ 'is-invalid': formPref.phoneNumber.errors }"
+        placeholder="0606060606"
+        autocomplete="null"
+        maxlength="10"
+      />
+      <div
+        *ngIf="submitted && formPref.phoneNumber.errors"
+        class="invalid-feedback"
+      >
+        <div>Le numéro de téléphone est incorrect</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 offset-md-4 text-center">
+    <button
+      type="submit"
+      [disabled]="preferenceForm.invalid"
+      class="btn btn-primary btn-block"
+    >
+      Enregistrer les préférences
+    </button>
+  </div>
+</form>
