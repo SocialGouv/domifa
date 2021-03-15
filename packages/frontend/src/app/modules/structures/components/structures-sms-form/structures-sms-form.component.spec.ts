@@ -1,4 +1,4 @@
-import { APP_BASE_HREF } from "@angular/common";
+import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -22,14 +22,7 @@ describe("StructuresSmsFormComponent", () => {
         FormsModule,
         HttpClientModule,
         HttpClientTestingModule,
-        ToastrModule.forRoot({
-          enableHtml: true,
-          positionClass: "toast-top-full-width",
-          preventDuplicates: true,
-          progressAnimation: "increasing",
-          progressBar: true,
-          timeOut: 2000,
-        }),
+        ToastrModule.forRoot(),
         RouterModule.forRoot([]),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
