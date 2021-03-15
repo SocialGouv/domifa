@@ -1,4 +1,4 @@
-import { APP_BASE_HREF } from "@angular/common";
+import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -23,6 +23,7 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
       imports: [
         NgbModule,
         MatomoModule,
+        CommonModule,
         RouterTestingModule.withRoutes([
           { path: "404", component: NotFoundComponent },
         ]),
