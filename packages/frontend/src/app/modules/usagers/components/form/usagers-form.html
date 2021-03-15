@@ -217,16 +217,17 @@
         class="row my-2"
         *ngIf="me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure"
       >
-        <div class="col-md-12" formGroupName="preference">
-          <span class="label">
-            Le domicilié souhaite-t-il recevoir un SMS lors de l'arrivée d'un
-            courrier ?</span
-          >
+        <div class="col" formGroupName="preference">
+          <div>
+            <label>
+              Envoyer un SMS au domicilié à l'arrivée d'un courrier ?
+            </label>
+          </div>
           <div class="form-check form-check-inline">
             <input
               class="form-check-input"
               type="radio"
-              formControlName="sms"
+              formControlName="phone"
               id="sms_oui"
               [value]="true"
             />
@@ -236,35 +237,36 @@
             <input
               class="form-check-input"
               type="radio"
-              formControlName="sms"
+              formControlName="phone"
               id="sms_non"
               [value]="false"
             />
             <label class="form-check-label" for="sms_non"> Non </label>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="phone">Numéro de téléphone</label>
-          <input
-            type="text"
-            class="form-control"
-            id="phone"
-            digitOnly
-            formControlName="phone"
-            aria-describedby="phoneHelp"
-            [ngClass]="{ 'is-invalid': f.preference.get('phoneNumber').errors }"
-            placeholder="0606060606"
-            autocomplete="null"
-            maxlength="10"
-          />
-          <div
-            *ngIf="submitted && f.preference.get('phoneNumber').errors"
-            class="invalid-feedback"
-          >
-            <div>Le numéro de téléphone est incorrect</div>
+        <div class="col" *ngIf="f.preference.get('phone').value === true">
+          <div class="form-group required">
+            <label for="phone">Numéro de téléphone</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phone"
+              digitOnly
+              formControlName="phoneNumber"
+              aria-describedby="phoneHelp"
+              [ngClass]="{ 'is-invalid': f.preference.get('phoneNumber').errors }"
+              placeholder="0606060606"
+              autocomplete="null"
+              maxlength="10"
+              required
+            />
+            <div
+              *ngIf="submitted && f.preference.get('phoneNumber').errors"
+              class="invalid-feedback"
+            >
+              <div>Le numéro de téléphone est incorrect</div>
+            </div>
           </div>
-          <small id="phoneHelp" class="form-text text-muted"> Optionnel </small>
         </div>
         <ngb-alert
           @fadeInOut

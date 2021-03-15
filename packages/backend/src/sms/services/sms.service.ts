@@ -44,6 +44,7 @@ export class SmsService {
     });
 
     if (smsOnHold) {
+      console.log(smsOnHold);
       smsOnHold.interactionMetas.nbCourrier =
         smsOnHold.interactionMetas.nbCourrier - interaction.nbCourrier;
 
@@ -67,7 +68,7 @@ export class SmsService {
   ) {
     const hour = moment().set({ hour: 22, minute: 0, second: 0 }).toDate();
 
-    const smsReady = await messageSmsRepository.findSmsOnHold({
+    const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
       usager,
       user,
       sendDate: hour,
@@ -75,6 +76,10 @@ export class SmsService {
     });
 
     if (smsReady) {
+      console.log(interaction);
+      console.log(smsReady);
+      console.log(smsReady.interactionMetas);
+
       smsReady.interactionMetas.nbCourrier =
         smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
       return messageSmsRepository.updateOne({ uuid: smsReady.uuid }, smsReady);

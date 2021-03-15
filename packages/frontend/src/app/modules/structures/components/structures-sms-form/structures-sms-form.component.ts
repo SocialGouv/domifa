@@ -21,8 +21,6 @@ export class StructuresSmsFormComponent implements OnInit {
   public submitted: boolean;
   public structureSmsForm!: FormGroup;
 
-  public senderName: string;
-
   get form() {
     return this.structureSmsForm.controls;
   }
@@ -56,7 +54,6 @@ export class StructuresSmsFormComponent implements OnInit {
           this.structure.sms.senderName = generateSender(
             this.structure.nom.substring(0, 30)
           );
-          this.senderName = this.structure.sms.senderName;
         }
 
         this.initForm();
@@ -83,11 +80,12 @@ export class StructuresSmsFormComponent implements OnInit {
       ],
     });
 
-    this.structureSmsForm
-      .get("senderName")
-      .valueChanges.subscribe((value: string) => {
-        this.senderName = generateSender(value);
+    const senderNameChange = this.structureSmsForm.get("senderName");
+    senderNameChange.valueChanges.subscribe(() => {
+      senderNameChange.patchValue(generateSender(senderNameChange.value), {
+        emitEvent: false,
       });
+    });
   }
 
   public submitStructureSmsForm() {

@@ -24,8 +24,8 @@ async function findSmsOnHold({
   user: Pick<AppUser, "structureId">;
   sendDate: Date;
   interactionType: InteractionType;
-}) {
-  return messageSmsRepository.findOneWithQuery({
+}): Promise<MessageSms> {
+  return messageSmsRepository.findOneWithQuery<MessageSms>({
     where: `"interactionMetas"->>'interactionType' = :interactionType and
     status='TO_SEND' and
     "usagerRef"= :usagerRef and

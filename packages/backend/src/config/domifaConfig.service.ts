@@ -89,7 +89,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         : false,
   });
 
-  const smsIsEnabled = configParser.parseBoolean(x, "DOMIFA_SMS_ENABLE", {
+  const smsEnabled = configParser.parseBoolean(x, "DOMIFA_SMS_ENABLE", {
     defaultValue:
       envId === "prod" || envId === "preprod" || envId === "formation"
         ? true
@@ -360,10 +360,16 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       },
       smtp: smtpOptions,
     },
+
     sms: {
-      smsIsEnabled,
-      phoneNumberRedirectAllTo: "xx",
-      apiKey: "xxx",
+      enabled: smsEnabled,
+      phoneNumberRedirectAllTo: configParser.parseString(
+        x,
+        "DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO"
+      ),
+      apiKey: configParser.parseString(x, "DOMIFA_SMS_API_KEY", {
+        required: smsEnabled,
+      }),
     },
   };
   if (config.dev.printEnv) {

@@ -2,16 +2,15 @@ export function generateSender(structureName: string): string {
   console.log("AVANT");
   console.log(structureName);
   let str = removeAccents(structureName);
-  str = str.trim().toUpperCase();
+  str = str.toUpperCase();
   // Suppression des caractères spéciaux
-  str = str.replace(/[^\w\s]/gi, " ");
+  str = str.replace(/[^\w\s]/gi, "");
   // Suppression des préprosition
-  str = str.replace(" DE ", "-");
-  str = str.replace(" L ", "-");
-  str = str.replace(" D ", "-");
-  str = str.replace(" A ", "-");
-  str = str.replace(" N ", "-");
-  str = str.replace(/  /g, "");
+  str = str.replace(" DE ", " ");
+  str = str.replace(" L ", " ");
+  str = str.replace(" D ", " ");
+  str = str.replace(" A ", " ");
+  str = str.replace(" N ", " ");
   str = str.substring(0, 11);
   console.log("APRES");
   console.log(str);
