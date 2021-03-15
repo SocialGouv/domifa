@@ -19,10 +19,7 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        UsagersProfilProcurationCourrierComponent,
-        NotFoundComponent,
-      ],
+      declarations: [UsagersProfilProcurationCourrierComponent],
       imports: [
         NgbModule,
         MatomoModule,
