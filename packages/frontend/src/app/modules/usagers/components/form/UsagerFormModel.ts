@@ -32,7 +32,7 @@ export class UsagerFormModel {
   public preference: {
     email: boolean;
     phone: boolean;
-    aucun: boolean;
+    phoneNumber?: string;
   };
 
   public structureId: number;
@@ -144,16 +144,11 @@ export class UsagerFormModel {
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
     this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
 
-    this.preference = usager?.preference
-      ? {
-          ...usager.preference,
-          aucun: !usager.email && !usager.phone,
-        }
-      : {
-          aucun: false,
-          email: false,
-          phone: false,
-        };
+    this.preference = (usager && usager.preference) || {
+      email: false,
+      phone: false,
+      phoneNumber: this.phone,
+    };
 
     this.decision = (usager && new Decision(usager.decision)) || new Decision();
 

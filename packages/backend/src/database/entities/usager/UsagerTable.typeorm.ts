@@ -72,12 +72,10 @@ export class UsagerTable
   public phone: string;
 
   @Column({ type: "text", nullable: true })
-  public phoneContact?: string;
-
   @Column({
     type: "jsonb",
     nullable: true,
-    default: '{"email": false, "phone": false}',
+    default: '{"email": false, "phone": false, "phoneNumber":null}',
   })
   public preference: UsagerPreferenceContact;
 
