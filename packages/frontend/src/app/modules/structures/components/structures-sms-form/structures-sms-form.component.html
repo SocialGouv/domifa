@@ -1,6 +1,12 @@
 <div class="container" *ngIf="me">
-  <div class="row">
-    <div class="col-md-9">
+  <div class="row my-3">
+    <div class="col-md-12">
+      <h2>Paramètres d'envoi de SMS pour votre structure</h2>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col-md-8">
       <div class="card p-4">
         <form
           *ngIf="structure"
@@ -102,18 +108,21 @@
         </form>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="device phone">
-        <div id="phone-content">
-          <div id="sms-sender">DOMIFA</div>
-          <div id="sms-content">
-            <div id="message">
-              Bonjour,
-              <br />Vous avez reçu 5 nouveaux courriers
-
-              <br />
-              <b>ASSOCIATION DOMIFA</b>
-            </div>
+    <div class="col-md-4">
+      <div id="sms-preview">
+        <div class="sms-header">
+          <span class="left">Messages</span>
+          <div id="sms-contact">{{ senderName }}</div>
+        </div>
+        <div class="messages-wrapper">
+          <div class="message from">
+            Bonjour,
+            <br />
+            <br />
+            Vous avez reçu 5 nouveaux courriers
+            <br />
+            <br />
+            <b>{{ form.senderDetails.value }}</b>
           </div>
         </div>
       </div>

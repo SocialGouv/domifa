@@ -49,12 +49,24 @@ export class UsagerService {
   }
 
   public editTransfert(
+    // TODO: type it
     transfert: any,
     usagerRef: number
   ): Observable<UsagerLight> {
     return this.http.post<UsagerLight>(
       `${this.endPointUsagers}/transfert/${usagerRef}`,
       transfert
+    );
+  }
+
+  // Mise à jour des préférence de contact
+  public editPreference(
+    preference: Pick<UsagerLight, "preference">,
+    usagerRef: number
+  ): Observable<UsagerLight> {
+    return this.http.post<UsagerLight>(
+      `${this.endPointUsagers}/preference/${usagerRef}`,
+      preference
     );
   }
 

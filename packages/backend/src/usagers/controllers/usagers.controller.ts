@@ -38,6 +38,7 @@ import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { DecisionDto } from "../dto/decision.dto";
 import { EditUsagerDto } from "../dto/edit-usager.dto";
 import { EntretienDto } from "../dto/entretien.dto";
+import { PreferenceContactDto } from "../dto/preferenceContact.dto";
 import { ProcurationDto } from "../dto/procuration.dto";
 import { TransfertDto } from "../dto/transfert.dto";
 import { CerfaService } from "../services/cerfa.service";
@@ -215,6 +216,17 @@ export class UsagersController {
 
     usager.options.transfert = newTransfert;
 
+    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+  }
+
+  @UseGuards(UsagerAccessGuard, FacteurGuard)
+  @Post("preference/:usagerRef")
+  public async editPreference(
+    @Body() preferenceDto: PreferenceContactDto,
+    @CurrentUsager() usager: UsagerLight
+  ) {
+    // TODO: check phone
+    usager.preference = preferenceDto;
     return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 

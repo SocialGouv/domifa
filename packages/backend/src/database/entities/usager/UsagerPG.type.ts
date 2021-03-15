@@ -34,9 +34,6 @@ export type UsagerPG = AppEntity & {
   email?: string;
   phone?: string;
 
-  // Numéro pour l'envoi des SMS
-  phoneContact?: string;
-
   preference?: UsagerPreferenceContact;
 
   // AYANT-DROIT

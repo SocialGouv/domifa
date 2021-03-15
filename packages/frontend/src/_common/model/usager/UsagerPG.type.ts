@@ -33,6 +33,7 @@ export type UsagerPG = AppEntity & {
   // CONTACT
   email?: string;
   phone?: string;
+
   preference?: UsagerPreferenceContact;
 
   // AYANT-DROIT

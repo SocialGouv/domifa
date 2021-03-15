@@ -131,15 +131,10 @@ export class UsagersFormComponent implements OnInit {
       ref: [this.usager.ref, []],
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
-      // Contact pour SMS
-      phoneContact: [
-        this.usager.phone,
-        [Validators.pattern(regexp.mobilePhone)],
-      ],
       preference: this.formBuilder.group({
-        aucun: [this.usager.preference.aucun, []],
         email: [this.usager.preference.email, []],
         phone: [this.usager.preference.phone, []],
+        phoneNumber: [this.usager.preference.phoneNumber, []],
       }),
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],

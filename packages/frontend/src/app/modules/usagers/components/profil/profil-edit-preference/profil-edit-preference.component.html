@@ -1,0 +1,26 @@
+<div class="col-md-12">
+  <span class="label">
+    Le domicilié souhaite-t-il recevoir un SMS lors de l'arrivée d'un courrier
+    ?</span
+  >
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-input"
+      type="radio"
+      formControlName="sms"
+      id="sms_oui"
+      [value]="true"
+    />
+    <label class="form-check-label" for="sms_oui"> Oui </label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-input"
+      type="radio"
+      formControlName="sms"
+      id="sms_non"
+      [value]="false"
+    />
+    <label class="form-check-label" for="sms_non"> Non </label>
+  </div>
+</div>

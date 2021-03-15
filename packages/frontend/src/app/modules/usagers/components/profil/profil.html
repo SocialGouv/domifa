@@ -670,6 +670,29 @@
       </ng-template>
     </ngb-panel>
 
+    <ngb-panel
+      id="panel-12"
+      *ngIf="me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure"
+    >
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>NOTIFICATIONS</span>
+            <span class="arrows">
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <app-profil-edit-preference
+          [me]="me"
+          [usager]="usager"
+        ></app-profil-edit-preference>
+      </ng-template>
+    </ngb-panel>
+
     <ngb-panel id="panel-3">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">

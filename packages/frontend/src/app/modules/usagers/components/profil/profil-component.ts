@@ -198,7 +198,6 @@ export class UsagersProfilComponent implements OnInit {
         formatDateToNgb(this.usager.dateNaissance),
         [Validators.required],
       ],
-
       email: [this.usager.email, [Validators.email]],
       ref: [this.usager.ref, [Validators.required]],
       langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
@@ -206,7 +205,6 @@ export class UsagersProfilComponent implements OnInit {
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       prenom: [this.usager.prenom, Validators.required],
       sexe: [this.usager.sexe, Validators.required],
-
       surnom: [this.usager.surnom, []],
       villeNaissance: [this.usager.villeNaissance, [Validators.required]],
     });

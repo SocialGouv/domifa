@@ -1,11 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+
 import { ToastrService } from "ngx-toastr";
 import { AppUser, StructureCommon } from "../../../../../_common/model";
 import { MessageSms } from "../../../../../_common/model/message-sms";
 import { AuthService } from "../../../shared/services/auth.service";
+import { generateSender } from "../../services/generateSender.service";
 import { StructureService } from "../../services/structure.service";
 
 @Component({
@@ -19,6 +20,8 @@ export class StructuresSmsFormComponent implements OnInit {
 
   public submitted: boolean;
   public structureSmsForm!: FormGroup;
+
+  public senderName: string;
 
   get form() {
     return this.structureSmsForm.controls;
@@ -43,6 +46,19 @@ export class StructuresSmsFormComponent implements OnInit {
       .subscribe((structure: StructureCommon) => {
         this.structure = structure;
 
+        if (!this.structure.sms.senderDetails) {
+          this.structure.sms.senderDetails = this.structure.nom.substring(
+            0,
+            30
+          );
+        }
+        if (!this.structure.sms.senderName) {
+          this.structure.sms.senderName = generateSender(
+            this.structure.nom.substring(0, 30)
+          );
+          this.senderName = this.structure.sms.senderName;
+        }
+
         this.initForm();
       });
 
@@ -66,6 +82,12 @@ export class StructuresSmsFormComponent implements OnInit {
         [Validators.required, Validators.maxLength(30)],
       ],
     });
+
+    this.structureSmsForm
+      .get("senderName")
+      .valueChanges.subscribe((value: string) => {
+        this.senderName = generateSender(value);
+      });
   }
 
   public submitStructureSmsForm() {
