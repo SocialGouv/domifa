@@ -45,8 +45,8 @@
 }
 
 .sms-header #sms-contact {
-  font-weight: bold;
-  color: #111111;
+  font-weight: 600;
+  color: #383838;
 }
 
 .messages-wrapper {

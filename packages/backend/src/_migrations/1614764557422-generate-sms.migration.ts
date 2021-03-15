@@ -9,7 +9,7 @@ export class autoMigration1614764557422 implements MigrationInterface {
     );
 
     await queryRunner.query(
-      `ALTER TABLE "structure" ALTER COLUMN "sms" SET DEFAULT '{ enabledByDomifa: false, enabledByStructure: false, senderName: null, senderDetails: null }'`
+      `ALTER TABLE "structure" ADD "sms" jsonb DEFAULT '{ "enabledByDomifa": false, "enabledByStructure": false, "senderName": null, "senderDetails": null }'`
     );
 
     await queryRunner.query(

@@ -106,6 +106,18 @@
             >
             <a
               ngbDropdownItem
+              *ngIf="me.role === 'admin' && me.structure.sms.enabledByDomifa"
+              routerLink="/structures/sms"
+            >
+              <fa-icon
+                aria-hidden="true"
+                title="Notifications"
+                icon="sms"
+              ></fa-icon>
+              Notifications</a
+            >
+            <a
+              ngbDropdownItem
               *ngIf="
                 me.role === 'admin' ||
                 me.role === 'responsable' ||

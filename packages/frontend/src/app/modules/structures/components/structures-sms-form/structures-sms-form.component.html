@@ -56,7 +56,6 @@
                 class="form-control"
                 id="senderName"
                 formControlName="senderName"
-                cleanStr
                 placeholder="Nom affiché en haut en tant qu'expediteur du message"
                 maxLength="11"
                 [ngClass]="{
@@ -112,7 +111,7 @@
       <div id="sms-preview">
         <div class="sms-header">
           <span class="left">Messages</span>
-          <div id="sms-contact">{{ senderName }}</div>
+          <div id="sms-contact">{{ form.senderName.value }}</div>
         </div>
         <div class="messages-wrapper">
           <div class="message from">
