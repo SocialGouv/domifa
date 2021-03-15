@@ -1,3 +1,4 @@
+import { GeneralModule } from "src/app/modules/general/general.module";
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -21,10 +22,11 @@ describe("UsagersProfilComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UsagersProfilComponent, NotFoundComponent],
+      declarations: [UsagersProfilComponent],
       imports: [
         SharedModule,
         NgbModule,
+        GeneralModule,
         MatomoModule,
         RouterTestingModule.withRoutes([
           { path: "404", component: NotFoundComponent },
