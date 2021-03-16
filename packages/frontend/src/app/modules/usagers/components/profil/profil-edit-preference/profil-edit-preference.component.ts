@@ -19,6 +19,7 @@ export class ProfilEditPreferenceComponent implements OnInit {
   public preferenceForm: FormGroup;
 
   public editPreferences: boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private notifService: ToastrService,

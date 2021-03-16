@@ -1,4 +1,4 @@
-import { UsagerLight, UsagerPG } from "../model";
+import { UsagerLight } from "../model";
 import { ETAPE_DOSSIER_COMPLET } from "../model/usager/ETAPES_DEMANDE.const";
 
 export const usagerValideMock: UsagerLight = {
