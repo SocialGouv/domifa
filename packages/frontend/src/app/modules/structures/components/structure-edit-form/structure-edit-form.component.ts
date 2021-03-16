@@ -12,6 +12,7 @@ import { StructureCommon } from "../../../../../_common/model";
 import { departements } from "../../../../shared/constants";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
+import { structureNameChecker } from "./structureNameChecker.service";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -157,5 +158,9 @@ export class StructureEditFormComponent implements OnInit {
           })
         )
       : of(null);
+  }
+
+  isInvalidStructureName(structureName: string) {
+    return structureNameChecker.isInvalidStructureName(structureName);
   }
 }
