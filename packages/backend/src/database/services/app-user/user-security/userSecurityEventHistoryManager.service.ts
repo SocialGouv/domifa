@@ -20,7 +20,6 @@ function updateEventHistory({
   eventsHistory: AppUserSecurityEvent[];
   clearAllEvents?: boolean;
 }): AppUserSecurityEvent[] {
-  console.log("xxx clearAllEvents:", clearAllEvents);
   const event: AppUserSecurityEvent = {
     type: eventType,
     date: new Date(),

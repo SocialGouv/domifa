@@ -76,6 +76,8 @@ export class AuthService {
         return true;
       }),
       catchError(() => {
+        this.currentUserSubject.next(null);
+        localStorage.removeItem("currentUser");
         return of(false);
       })
     );
