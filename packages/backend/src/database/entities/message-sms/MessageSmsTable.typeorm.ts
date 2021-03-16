@@ -12,7 +12,7 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "message_sms" })
-export class MessageSmsTable<T = any>
+export class MessageSmsTable
   extends AppTypeormTable<MessageSmsTable>
   implements MessageSms {
   // Infos usager

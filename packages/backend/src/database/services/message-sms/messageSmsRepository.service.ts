@@ -9,6 +9,19 @@ const baseRepository = pgRepository.get<MessageSmsTable, MessageSms>(
   MessageSmsTable
 );
 
+export const SMS_ON_HOLD_INTERACTION: (keyof MessageSms)[] = [
+  "usagerRef",
+  "structureId",
+  "content",
+  "smsId",
+  "status",
+  "scheduledDate",
+  "sendDate",
+  "interactionMetas",
+  "lastUpdate",
+  "statusUpdates",
+];
+
 export const messageSmsRepository = {
   ...baseRepository,
   findSmsOnHold,
@@ -26,6 +39,7 @@ async function findSmsOnHold({
   interactionType: InteractionType;
 }): Promise<MessageSms> {
   return messageSmsRepository.findOneWithQuery<MessageSms>({
+    select: SMS_ON_HOLD_INTERACTION,
     where: `"interactionMetas"->>'interactionType' = :interactionType and
     status='TO_SEND' and
     "usagerRef"= :usagerRef and
