@@ -68,6 +68,7 @@ async function confirmResetPassword({
     userId,
     userSecurity,
     eventType: "reset-password-success",
+    clearAllEvents: true, // unlock account if locked
     attributes: {
       temporaryTokens: null,
     },

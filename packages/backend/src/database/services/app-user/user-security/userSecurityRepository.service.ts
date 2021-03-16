@@ -34,30 +34,30 @@ function logEvent({
   userSecurity,
   eventType,
   attributes,
+  clearAllEvents,
 }: {
   userId: number;
   userSecurity: AppUserSecurity;
   eventType: AppUserSecurityEventType;
   attributes?: Partial<AppUserSecurity>;
+  clearAllEvents?: boolean;
 }) {
-  attributes = attributes
-    ? {
-        eventsHistory: userSecurityEventHistoryManager.updateEventHistory({
-          eventType,
-          eventsHistory: userSecurity.eventsHistory,
-        }),
-        ...attributes,
-      }
-    : {
-        eventsHistory: userSecurityEventHistoryManager.updateEventHistory({
-          eventType,
-          eventsHistory: userSecurity.eventsHistory,
-        }),
-      };
+  const eventsHistory = userSecurityEventHistoryManager.updateEventHistory({
+    eventType,
+    eventsHistory: userSecurity.eventsHistory,
+    clearAllEvents,
+  });
   return userSecurityRepository.updateOne(
     {
       userId,
     },
     attributes
+      ? {
+          eventsHistory,
+          ...attributes,
+        }
+      : {
+          eventsHistory,
+        }
   );
 }
