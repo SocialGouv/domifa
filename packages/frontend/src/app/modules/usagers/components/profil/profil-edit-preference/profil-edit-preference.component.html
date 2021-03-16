@@ -74,11 +74,9 @@
         autocomplete="null"
         maxlength="10"
       />
-      <div
-        *ngIf="submitted && formPref.phoneNumber.errors"
-        class="invalid-feedback"
-      >
-        <div>Le numéro de téléphone est incorrect</div>
+      <small>Numéro de portable uniquement</small>
+      <div *ngIf="formPref.phoneNumber.errors" class="invalid-feedback">
+        Le numéro de portable est incorrect
       </div>
     </div>
   </div>

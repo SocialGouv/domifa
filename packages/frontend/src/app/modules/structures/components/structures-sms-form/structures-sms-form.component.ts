@@ -18,19 +18,23 @@ export class StructuresSmsFormComponent implements OnInit {
   public me: AppUser;
   public structure: StructureCommon;
 
+  public smsList: MessageSms[];
   public submitted: boolean;
   public structureSmsForm!: FormGroup;
 
   get form() {
     return this.structureSmsForm.controls;
   }
+
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
     private notifService: ToastrService,
     private authService: AuthService,
     private titleService: Title
-  ) {}
+  ) {
+    this.smsList = [];
+  }
 
   public ngOnInit(): void {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
@@ -59,8 +63,8 @@ export class StructuresSmsFormComponent implements OnInit {
         this.initForm();
       });
 
-    this.structureService.smsTimeline().subscribe((sms: MessageSms[]) => {
-      console.log(sms);
+    this.structureService.smsTimeline().subscribe((smsList: MessageSms[]) => {
+      this.smsList = smsList;
     });
   }
 
@@ -89,6 +93,7 @@ export class StructuresSmsFormComponent implements OnInit {
   }
 
   public submitStructureSmsForm() {
+    this.submitted = true;
     if (this.structureSmsForm.invalid) {
       this.notifService.error("Veuillez vérifier le formulaire");
     } else {
@@ -96,11 +101,13 @@ export class StructuresSmsFormComponent implements OnInit {
         .patchSmsParams(this.structureSmsForm.value)
         .subscribe(
           (retour: any) => {
+            this.submitted = false;
             this.notifService.success(
               "Paramètres des SMS mis à jour avec succès"
             );
           },
           (error: any) => {
+            this.submitted = false;
             this.notifService.error(
               "Impossible de mettre à jour les paramètres"
             );

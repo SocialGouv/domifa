@@ -213,114 +213,6 @@
         </div>
       </div>
 
-      <div
-        class="row my-2"
-        *ngIf="me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure"
-      >
-        <div class="col" formGroupName="preference">
-          <div>
-            <label>
-              Envoyer un SMS au domicilié à l'arrivée d'un courrier ?
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="phone"
-              id="sms_oui"
-              [value]="true"
-            />
-            <label class="form-check-label" for="sms_oui"> Oui </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="phone"
-              id="sms_non"
-              [value]="false"
-            />
-            <label class="form-check-label" for="sms_non"> Non </label>
-          </div>
-        </div>
-        <div class="col" *ngIf="f.preference.get('phone').value === true">
-          <div class="form-group required">
-            <label for="phone">Numéro de téléphone</label>
-            <input
-              type="text"
-              class="form-control"
-              id="phone"
-              digitOnly
-              formControlName="phoneNumber"
-              aria-describedby="phoneHelp"
-              [ngClass]="{ 'is-invalid': f.preference.get('phoneNumber').errors }"
-              placeholder="0606060606"
-              autocomplete="null"
-              maxlength="10"
-              required
-            />
-            <div
-              *ngIf="submitted && f.preference.get('phoneNumber').errors"
-              class="invalid-feedback"
-            >
-              <div>Le numéro de téléphone est incorrect</div>
-            </div>
-          </div>
-        </div>
-        <ngb-alert
-          @fadeInOut
-          [dismissible]="false"
-          type="warning"
-          *ngIf="f.preference.get('phoneNumber').value === '' && f.preference.get('phone').value === true"
-        >
-          <fa-icon icon="exclamation-triangle"></fa-icon>
-          &nbsp; Pour envoyer les notifications par SMS,
-          <b> veuillez indiquer un numéro de téléphone </b>
-        </ngb-alert>
-      </div>
-      <!--   <div>
-
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                formControlName="email"
-                id="preference_email"
-                [value]="true"
-              />
-              <label class="form-check-label" for="preference_email">
-                Email
-              </label>
-            </div>
-
-
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                formControlName="aucun"
-                id="preference_aucun"
-                [value]="false"
-              />
-              <label class="form-check-label" for="preference_aucun">
-                Aucun des deux
-              </label>
-            </div>
-
-          </div>
-                <ngb-alert
-        @fadeInOut
-        [dismissible]="false"
-        type="warning"
-        *ngIf="f.email.value === '' && f.preference.get('email').value === true"
-      >
-        <fa-icon icon="exclamation-triangle"></fa-icon>
-        &nbsp; Pour envoyer les notifications par mail,
-        <b>veuillez compléter le champ email</b>
-      </ngb-alert>
-           -->
-
       <div class="row">
         <div class="col-md-12">
           <label class="form-check-label">
@@ -462,6 +354,64 @@
         <br />
         <br />
       </ng-container>
+
+      <div
+        class="row my-3"
+        formGroupName="preference"
+        *ngIf="me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure"
+      >
+        <div class="col">
+          <div>
+            <label>
+              Envoyer un SMS au domicilié à l'arrivée d'un courrier ?
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="phone"
+              id="sms_oui"
+              [value]="true"
+            />
+            <label class="form-check-label" for="sms_oui"> Oui </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="phone"
+              id="sms_non"
+              [value]="false"
+            />
+            <label class="form-check-label" for="sms_non"> Non </label>
+          </div>
+        </div>
+        <div class="col" *ngIf="f.preference.get('phone').value === true">
+          <div class="form-group required">
+            <label for="phoneNumber">Numéro de téléphone</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phoneNumber"
+              digitOnly
+              formControlName="phoneNumber"
+              aria-describedby="phoneNumber"
+              [ngClass]="{ 'is-invalid': submitted && f.preference.get('phoneNumber').errors }"
+              placeholder="0606060606"
+              autocomplete="null"
+              maxlength="10"
+              required
+            />
+            <div
+              *ngIf="submitted && f.preference.get('phoneNumber').errors"
+              class="invalid-feedback"
+            >
+              Le numéro de téléphone est incorrect
+            </div>
+          </div>
+        </div>
+      </div>
       <input formControlName="ref" type="hidden" />
       <br />
       <br />
