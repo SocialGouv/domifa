@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   NgbDateParserFormatter,
@@ -15,7 +15,6 @@ import {
   UsagerLight,
   UserRole,
 } from "../../../../../../_common/model";
-
 import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
 import { UsagerService } from "../../../services/usager.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
@@ -33,6 +32,8 @@ import { UsagerFormModel } from "../../form/UsagerFormModel";
 export class UsagersProfilTransfertCourrierComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
   @Input() public me: AppUser;
+
+  @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   public actions = {
     EDIT: "Modification",
@@ -118,6 +119,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
 
     this.usagerService.editTransfert(formValue, this.usager.ref).subscribe(
       (usager: UsagerLight) => {
+        this.usagerChanges.emit(usager);
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
         this.usager = new UsagerFormModel(usager);
@@ -133,6 +135,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   public deleteTransfert() {
     this.usagerService.deleteTransfert(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
+        this.usagerChanges.emit(usager);
         this.hideForm();
         this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
         this.transfertForm.reset();

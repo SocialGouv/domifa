@@ -922,6 +922,7 @@
       <ng-template ngbPanelContent>
         <app-profil-transfert-courrier
           [usager]="usager"
+          (usagerChanges)="onUsagerChanges($event)"
           [me]="me"
         ></app-profil-transfert-courrier>
       </ng-template>
@@ -943,6 +944,7 @@
       <ng-template ngbPanelContent>
         <app-profil-procuration-courrier
           [usager]="usager"
+          (usagerChanges)="onUsagerChanges($event)"
           [me]="me"
         ></app-profil-procuration-courrier>
       </ng-template>

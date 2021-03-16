@@ -176,6 +176,10 @@ export class UsagersProfilComponent implements OnInit {
     }
   }
 
+  onUsagerChanges(usager: UsagerLight) {
+    this.usager = new UsagerFormModel(usager);
+  }
+
   get f() {
     return this.usagerForm.controls;
   }
