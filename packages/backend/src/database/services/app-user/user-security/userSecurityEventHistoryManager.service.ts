@@ -14,14 +14,21 @@ export const userSecurityEventHistoryManager = {
 function updateEventHistory({
   eventType,
   eventsHistory,
+  clearAllEvents,
 }: {
   eventType: AppUserSecurityEventType;
   eventsHistory: AppUserSecurityEvent[];
+  clearAllEvents?: boolean;
 }): AppUserSecurityEvent[] {
+  console.log("xxx clearAllEvents:", clearAllEvents);
   const event: AppUserSecurityEvent = {
     type: eventType,
     date: new Date(),
   };
+  if (clearAllEvents) {
+    // clear all previous events
+    return [event];
+  }
   const oneWeekAgo = moment().add(-1, "week").toDate();
   return [
     ...eventsHistory.filter((x) => {
