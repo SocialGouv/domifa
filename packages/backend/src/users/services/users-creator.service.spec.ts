@@ -82,10 +82,6 @@ describe("UsersCreator", () => {
     expect(user.structureId).toEqual(structureId);
     expect(userSecurity.userId).toEqual(user.id);
     expect(userSecurity.temporaryTokens).toBeDefined();
-    console.log(
-      "xxx (userSecurity.temporaryTokens",
-      JSON.stringify(userSecurity.temporaryTokens, undefined, 2)
-    );
     expect(userSecurity.temporaryTokens.type).toEqual("create-user");
     expect(userSecurity.temporaryTokens.token).toBeDefined();
     expect(userSecurity.temporaryTokens.validity).toBeDefined();
