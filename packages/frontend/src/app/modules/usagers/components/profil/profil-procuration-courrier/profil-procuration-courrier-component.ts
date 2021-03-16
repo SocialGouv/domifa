@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   NgbDateParserFormatter,
@@ -19,7 +19,6 @@ import {
   UsagerLight,
   UserRole,
 } from "../../../../../../_common/model";
-
 import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
 import { UsagerService } from "../../../services/usager.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
@@ -37,6 +36,8 @@ import { UsagerFormModel } from "../../form/UsagerFormModel";
 export class UsagersProfilProcurationCourrierComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
   @Input() public me: AppUser;
+
+  @Output() usagerChanges = new EventEmitter<UsagerLight>();
 
   public actions = {
     EDIT: "Modification",
@@ -136,6 +137,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.usagerService.editProcuration(formValue, this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.hideForm();
+        this.usagerChanges.emit(usager);
         this.usager = new UsagerFormModel(usager);
         this.notifService.success("Procuration ajoutée avec succès");
         this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
@@ -150,6 +152,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     this.usagerService.deleteProcuration(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.hideForm();
+        this.usagerChanges.emit(usager);
         this.procurationForm.reset();
         this.usager = new UsagerFormModel(usager);
         this.notifService.success("Procuration supprimée avec succès");
