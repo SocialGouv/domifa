@@ -5,7 +5,6 @@ import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
-import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { UsersProviders } from "./users.providers";
 
@@ -23,7 +22,7 @@ describe("Users Controller", () => {
         UsagersModule,
         HttpModule,
       ],
-      providers: [{ provide: UsersService, useValue: {} }, ...UsersProviders],
+      providers: [...UsersProviders],
     });
     controller = context.module.get<UsersController>(UsersController);
   });

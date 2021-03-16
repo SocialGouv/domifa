@@ -5,9 +5,7 @@ import {
   usersRepository,
 } from "../database";
 import { StructuresModule } from "../structures/structure.module";
-import { UsagersService } from "../usagers/services/usagers.service";
 import { UsagersModule } from "../usagers/usagers.module";
-import { UsersService } from "../users/services/users.service";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { AppUser } from "../_common/model";
@@ -19,7 +17,6 @@ describe("InteractionsService", () => {
   let context: AppTestContext;
 
   let interactionsService: InteractionsService;
-  let usagerService: UsagersService;
 
   let user: AppUser;
   let usager: UsagerPG;
@@ -33,13 +30,11 @@ describe("InteractionsService", () => {
         UsersModule,
         StructuresModule,
       ],
-      providers: [InteractionsService, UsersService],
+      providers: [InteractionsService],
     });
     interactionsService = context.module.get<InteractionsService>(
       InteractionsService
     );
-
-    usagerService = context.module.get<UsagersService>(UsagersService);
 
     user = await usersRepository.findOne({ id: 1 });
     usager = await usagerRepository.findOne({

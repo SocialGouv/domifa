@@ -92,12 +92,7 @@ export const routes: Routes = [
   {
     canActivate: [LoggedGuard],
     component: ResetPasswordComponent,
-    path: "reset-password/:token",
-  },
-  {
-    canActivate: [LoggedGuard],
-    component: ResetPasswordComponent,
-    path: "reset-password/:token",
+    path: "reset-password/:userId/:token",
   },
   {
     canActivate: [AuthGuard, FacteurGuard],

@@ -3,13 +3,12 @@ import { AuthModule } from "../auth/auth.module";
 import { DatabaseModule } from "../database";
 import { MailsModule } from "../mails/mails.module";
 import { StructuresModule } from "../structures/structure.module";
-import { UsersService } from "./services/users.service";
 import { UsersController } from "./users.controller";
 import { UsersProviders } from "./users.providers";
 
 @Module({
   controllers: [UsersController],
-  exports: [UsersService, ...UsersProviders],
+  exports: [...UsersProviders],
   imports: [
     DatabaseModule,
     HttpModule,
@@ -17,6 +16,6 @@ import { UsersProviders } from "./users.providers";
     forwardRef(() => MailsModule),
     forwardRef(() => StructuresModule),
   ],
-  providers: [UsersService, ...UsersProviders],
+  providers: [...UsersProviders],
 })
 export class UsersModule {}

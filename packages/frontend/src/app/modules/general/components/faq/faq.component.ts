@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { Title, Meta } from "@angular/platform-browser";
-import { HttpClient } from "@angular/common/http";
-import { ToastrService } from "ngx-toastr";
+import { Meta, Title } from "@angular/platform-browser";
+import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-faq",

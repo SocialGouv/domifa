@@ -14,12 +14,14 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AxiosError } from "axios";
-import * as bcrypt from "bcryptjs";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 import { ResponsableGuard } from "../auth/guards/responsable.guard";
 import {
   AppUserForAdminEmail,
+  userSecurityPasswordUpdater,
+  userSecurityResetPasswordInitiator,
+  userSecurityResetPasswordUpdater,
   usersRepository,
   USERS_ADMIN_EMAILS_ATTRIBUTES,
 } from "../database";
@@ -39,15 +41,12 @@ import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
 import { UserDto } from "./dto/user.dto";
-import { UsersService } from "./services/users.service";
+import { usersCreator, usersDeletor } from "./services";
 
 @Controller("users")
 @ApiTags("users")
 export class UsersController {
-  constructor(
-    private usersService: UsersService,
-    private structureService: StructuresService
-  ) {}
+  constructor(private structureService: StructuresService) {}
 
   @UseGuards(AuthGuard("jwt"), ResponsableGuard)
   @ApiBearerAuth()
@@ -183,8 +182,9 @@ export class UsersController {
         .json({ message: "BAD_REQUEST" });
     }
 
-    const retour = await usersRepository.deleteByCriteria({
-      id: userToDelete.id,
+    const retour = await usersDeletor.deleteUser({
+      userId: userToDelete.id,
+      structureId: user.structureId,
     });
 
     return res.status(HttpStatus.OK).json({ success: true, message: retour });
@@ -235,10 +235,13 @@ export class UsersController {
       );
     }
 
-    const newUser = await this.usersService.create(userDto, {
-      structure,
-      role: undefined,
-    });
+    const { user: newUser } = await usersCreator.createUserWithPassword(
+      userDto,
+      {
+        structureId: structure.id,
+        role: undefined,
+      }
+    );
 
     if (!newUser) {
       throw new HttpException(
@@ -280,21 +283,23 @@ export class UsersController {
     return res.status(HttpStatus.OK).json(emailExist);
   }
 
-  @Get("check-password-token/:token")
-  public async checkPasswordToken(@Param("token") token: string) {
-    const today = new Date();
-    const existUser = await usersRepository.findOneByTokenAttribute(
-      "password",
-      token
-    );
-
-    if (!existUser) {
-      throw new HttpException("CHECK_PASSWORD_TOKEN", HttpStatus.BAD_REQUEST);
+  @Get("check-password-token/:userId/:token")
+  public async checkPasswordToken(
+    @Param("userId") userId: string,
+    @Param("token") token: string,
+    @Res() res: ExpressResponse
+  ) {
+    try {
+      await userSecurityResetPasswordUpdater.checkResetPasswordToken({
+        token,
+        userId: parseInt(userId),
+      });
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    } catch (err) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "TOKEN_EXPIRED" });
     }
-    if (existUser.temporaryTokens.passwordValidity < today) {
-      throw new HttpException("TOKEN_EXPIRED", HttpStatus.BAD_REQUEST);
-    }
-    return true;
   }
 
   @Post("reset-password")
@@ -302,33 +307,18 @@ export class UsersController {
     @Body() resetPasswordDto: ResetPasswordDto,
     @Res() res: ExpressResponse
   ) {
-    const today = new Date();
-    const user = await usersRepository.findOneByTokenAttribute(
-      "password",
-      resetPasswordDto.token
-    );
-
-    if (!user) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "RESET_PASSWORD" });
-    }
-    if (user.temporaryTokens.passwordValidity < today) {
+    try {
+      await userSecurityResetPasswordUpdater.confirmResetPassword({
+        newPassword: resetPasswordDto.password,
+        token: resetPasswordDto.token,
+        userId: resetPasswordDto.userId,
+      });
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    } catch (err) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "TOKEN_EXPIRED" });
     }
-
-    this.usersService.updatePassword(user, resetPasswordDto).then(
-      () => {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      },
-      (error) => {
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "UPDATE_RESET_PASSWORD" });
-      }
-    );
   }
 
   @ApiOperation({ summary: "Reset du mot de passe : envoi du lien par mail" })
@@ -337,30 +327,19 @@ export class UsersController {
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
-    const user = await usersRepository.findOne({
-      email: emailDto.email.toLowerCase(),
-    });
-    if (!user) {
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    } else {
-      const updatedUser = await this.usersService.generateTokenPassword(
-        emailDto.email.toLowerCase()
-      );
-
-      if (!updatedUser) {
-        return res
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "RESET_PASSWORD_IMPOSSIBLE" });
-      }
-
-      return userResetPasswordEmailSender
-        .sendMail({
-          user: updatedUser,
-        })
-        .then(() => {
-          return res.status(HttpStatus.OK).json({ message: "OK" });
-        });
-    }
+    try {
+      const {
+        user,
+        userSecurity,
+      } = await userSecurityResetPasswordInitiator.generateResetPasswordToken({
+        email: emailDto.email,
+      });
+      await userResetPasswordEmailSender.sendMail({
+        user,
+        token: userSecurity.temporaryTokens.token,
+      });
+    } catch (err) {}
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   // Ajout d'utilisateur par un admin
@@ -385,15 +364,14 @@ export class UsersController {
     registerUserDto.structureId = user.structureId;
     registerUserDto.structure = user.structure;
 
-    const newUser = await this.usersService.register(registerUserDto);
+    const {
+      user: newUser,
+      userSecurity,
+    } = await usersCreator.createUserWithTmpToken(registerUserDto);
 
-    const updatedUser = await this.usersService.generateTokenPassword(
-      newUser.email
-    );
-
-    if (updatedUser && newUser) {
+    if (newUser) {
       return userAccountCreatedByAdminEmailSender
-        .sendMail({ user: updatedUser })
+        .sendMail({ user: newUser, token: userSecurity.temporaryTokens.token })
         .then(
           () => {
             return res.status(HttpStatus.OK).json({ message: "OK" });
@@ -419,36 +397,17 @@ export class UsersController {
     @Res() res: ExpressResponse,
     @Body() editPasswordDto: EditPasswordDto
   ) {
-    const { password } = await usersRepository.findOne<
-      Pick<AppUser, "password">
-    >(
-      {
-        id: user.id,
-      },
-      {
-        select: ["password"],
-      }
-    );
-    const isValidPass = await bcrypt.compare(
-      editPasswordDto.oldPassword,
-      password
-    );
-
-    if (!isValidPass) {
+    try {
+      userSecurityPasswordUpdater.updatePassword({
+        userId: user.id,
+        oldPassword: editPasswordDto.oldPassword,
+        newPassword: editPasswordDto.password,
+      });
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    } catch (err) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "L'ancien mot de passe est incorrect" });
     }
-
-    this.usersService.updatePassword(user, editPasswordDto).then(
-      () => {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      },
-      (error) => {
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "EDIT_PASSWORD", content: JSON.stringify(error) });
-      }
-    );
   }
 }

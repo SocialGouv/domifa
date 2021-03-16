@@ -7,6 +7,7 @@ import {
   structureRepository,
   structureStatsRepository,
   usagerRepository,
+  userSecurityRepository,
   usersRepository,
 } from "../../database";
 import { InteractionsService } from "../../interactions/interactions.service";
@@ -40,6 +41,9 @@ export class StructureDeletorService {
     });
 
     if (!!structure) {
+      await userSecurityRepository.deleteByCriteria({
+        structureId: structure.id,
+      });
       await usersRepository.deleteByCriteria({
         structureId: structure.id,
       });

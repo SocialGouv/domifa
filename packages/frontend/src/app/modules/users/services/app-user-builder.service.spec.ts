@@ -6,7 +6,7 @@ describe("appUserBuilder", () => {
     const u = appUserBuilder.buildAppUser({});
     expect(u).toBeDefined();
     expect(u.verified).toBeFalsy();
-    expect(u.temporaryTokens).toBeNull();
+    expect(u.access_token).toBeUndefined();
   });
   it("appUserBuilder.buildAppUser remove password", () => {
     const u = appUserBuilder.buildAppUser({

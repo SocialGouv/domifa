@@ -1,8 +1,8 @@
-import { domifaConfig } from "../../../../config";
 import {
-  AppUserForAdminEmailWithTempTokens,
   MessageEmailContent,
+  userSecurityResetPasswordInitiator,
 } from "../../../../database";
+import { AppUser } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
@@ -16,12 +16,15 @@ const messageEmailId = "user-reset-password";
 
 async function sendMail({
   user,
+  token,
 }: {
-  user: AppUserForAdminEmailWithTempTokens;
+  user: Pick<AppUser, "id" | "email" | "prenom" | "nom">;
+  token: string;
 }): Promise<void> {
-  const frontendUrl = domifaConfig().apps.frontendUrl;
-  const lien = frontendUrl + "reset-password/" + user.temporaryTokens.password;
-
+  const lien = userSecurityResetPasswordInitiator.buildResetPasswordLink({
+    token,
+    userId: user.id,
+  });
   const to = [
     {
       address: user.email,

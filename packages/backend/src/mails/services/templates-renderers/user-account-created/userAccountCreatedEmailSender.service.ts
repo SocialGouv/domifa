@@ -1,9 +1,9 @@
 import { domifaConfig } from "../../../../config";
 import {
   AppUserForAdminEmail,
-  AppUserForAdminEmailWithTempTokens,
   MessageEmailContent,
 } from "../../../../database";
+import { AppUser } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
@@ -19,7 +19,7 @@ async function sendMail({
   user,
   admins,
 }: {
-  user: AppUserForAdminEmailWithTempTokens;
+  user: Pick<AppUser, "email" | "nom" | "prenom">;
   admins: AppUserForAdminEmail[];
 }): Promise<void> {
   const frontendUrl = domifaConfig().apps.frontendUrl;

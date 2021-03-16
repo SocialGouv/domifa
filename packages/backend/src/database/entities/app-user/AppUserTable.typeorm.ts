@@ -7,15 +7,9 @@ import {
   JoinColumn,
   ManyToOne,
 } from "typeorm";
-
 import { titleCase } from "typeorm/util/StringUtils";
 import { StructureTable } from "..";
-import {
-  AppUser,
-  AppUserMails,
-  AppUserTokens,
-  UserRole,
-} from "../../../_common/model";
+import { AppUser, AppUserMails, UserRole } from "../../../_common/model";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -61,9 +55,6 @@ export class AppUserTable
   @ManyToOne(() => StructureTable, { lazy: true })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   structureFk?: Promise<StructureTable>;
-
-  @Column({ type: "jsonb", nullable: true })
-  temporaryTokens: AppUserTokens;
 
   @Column({ type: "jsonb", default: '{"guide": false, "import": false}' })
   mails: AppUserMails;

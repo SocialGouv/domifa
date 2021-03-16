@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
+import { saveAs } from "file-saver";
 import { ToastrService } from "ngx-toastr";
 import {
   BehaviorSubject,

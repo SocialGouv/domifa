@@ -16,7 +16,6 @@ function buildAppUser(item?: Partial<AppUser>): AppUser {
 
     role: (item && item.role) || null,
     structureId: (item && item.structureId) || null,
-    temporaryTokens: (item && item.temporaryTokens) || null,
     verified: (item && item.verified) || false,
     structure:
       item && item.structure
