@@ -40,7 +40,6 @@ type DashboardTableSortAttribute =
   | "createdAt"
   | "import"
   | "importDate"
-  | "domicilies"
   | "usersCount"
   | "usagersValideCount"
   | "lastLogin"
@@ -186,7 +185,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             ].includes(sortAttribute.name)
           ) {
             sortKey = dataCompare.cleanString(ts[sortAttribute.name]);
-          } else if (sortAttribute.name === "domicilies") {
+          } else if (sortAttribute.name === "usagersValideCount") {
             sortKey = ts.stats.VALIDE;
           } else {
             sortKey = ts[sortAttribute.name];
