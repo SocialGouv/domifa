@@ -6,7 +6,10 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
+import { usagerValideMock } from "../../../../../../_common/mocks/usager.mock";
+import { UsagerFormModel } from "../../form/UsagerFormModel";
 
 import { ProfilEditPreferenceComponent } from "./profil-edit-preference.component";
 
@@ -18,6 +21,7 @@ describe("ProfilEditPreferenceComponent", () => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
+        MatomoModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
@@ -26,9 +30,22 @@ describe("ProfilEditPreferenceComponent", () => {
         ToastrModule.forRoot(),
         RouterModule.forRoot([]),
       ],
-
+      providers: [
+        {
+          provide: MatomoInjector,
+          useValue: {
+            init: jest.fn(),
+          },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
+          },
+        },
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       declarations: [ProfilEditPreferenceComponent],
     }).compileComponents();
   }));
@@ -36,6 +53,8 @@ describe("ProfilEditPreferenceComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilEditPreferenceComponent);
     component = fixture.componentInstance;
+    component.usager = new UsagerFormModel(usagerValideMock);
+
     fixture.detectChanges();
   });
 

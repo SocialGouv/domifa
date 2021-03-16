@@ -254,14 +254,14 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-9.1.12.tgz#c61392c0615654810cf99ee7ff46335bd0f2660b"
   integrity sha512-0qfIAn5fP5lD+JW6il5HBHGS89rv+idRv5aooDkHqBhuBo4V2VuB1wNy5eP49GZbHKMW1xPAzv1MqeMdk+zwQA==
 
-"@angular/localize@^9.1.12":
-  version "9.1.12"
-  resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-9.1.12.tgz#60377a644c620be4ac408b77db9c547f44ac1514"
-  integrity sha512-31OalfES+dLrxN0VXCxxtT5dWoOSlQ40KYmzMS8X+mQ20gy9eFiZK4qf3DEq3JPqRltBMdEDnwR38uGIMAu2gQ==
+"@angular/localize@^11.2.5":
+  version "11.2.5"
+  resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-11.2.5.tgz#e03d4306fed6d12de3d35cf34fa1e22f5693a187"
+  integrity sha512-9L10oc1/oV3QSNlq0wvrPeVnh/4nfzKEBwb2dUaYjdK4/3VmdA1gVs0HisREjLfL0rgHHQtPA2773TH1fxuOJg==
   dependencies:
     "@babel/core" "7.8.3"
     glob "7.1.2"
-    yargs "15.3.0"
+    yargs "^16.1.1"
 
 "@angular/platform-browser-dynamic@^9.1.12":
   version "9.1.12"
@@ -17090,7 +17090,7 @@ y18n@^4.0.0:
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
   integrity sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
 
-y18n@^5.0.2:
+y18n@^5.0.2, y18n@^5.0.5:
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-5.0.5.tgz#8769ec08d03b1ea2df2500acef561743bbb9ab18"
   integrity sha512-hsRUr4FFrvhhRH12wOdfs38Gy7k2FFzB9qgN9v3aLykRq0dRcdcpz5C9FxdS2NuhOrI/628b/KSTJ3rwHysYSg==
@@ -17231,6 +17231,19 @@ yargs@^16.0.3:
     require-directory "^2.1.1"
     string-width "^4.2.0"
     y18n "^5.0.2"
+    yargs-parser "^20.2.2"
+
+yargs@^16.1.1:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-16.2.0.tgz#1c82bf0f6b6a66eafce7ef30e376f49a12477f66"
+  integrity sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==
+  dependencies:
+    cliui "^7.0.2"
+    escalade "^3.1.1"
+    get-caller-file "^2.0.5"
+    require-directory "^2.1.1"
+    string-width "^4.2.0"
+    y18n "^5.0.5"
     yargs-parser "^20.2.2"
 
 yn@3.1.1:
