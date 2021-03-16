@@ -39,6 +39,9 @@
     "Liberation Mono", "Courier New", monospace;
 }
 
+.color-danger {
+  color: var(--danger);
+}
 *,
 *::before,
 *::after {

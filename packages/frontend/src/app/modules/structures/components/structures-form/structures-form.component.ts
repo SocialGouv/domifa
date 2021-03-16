@@ -14,6 +14,7 @@ import { StructureCommon } from "../../../../../_common/model";
 import { departements } from "../../../../shared";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../services/StructureCommonWeb.type";
+import { structureNameChecker } from "../structure-edit-form/structureNameChecker.service";
 
 @Component({
   selector: "app-structures-form",
@@ -187,5 +188,9 @@ export class StructuresFormComponent implements OnInit {
           })
         )
       : of(null);
+  }
+
+  isInvalidStructureName(structureName: string) {
+    return structureNameChecker.isInvalidStructureName(structureName);
   }
 }
