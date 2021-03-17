@@ -166,7 +166,6 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public isDoublon() {
-    console.log("xxx isDoublon");
     if (
       this.usagerForm.controls.nom.value !== "" &&
       this.usagerForm.controls.prenom.value !== "" &&
