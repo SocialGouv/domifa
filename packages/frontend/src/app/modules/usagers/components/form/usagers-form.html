@@ -55,6 +55,7 @@
             formControlName="nom"
             placeholder="Précisez nom de naissance si nécessaire"
             [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+            (blur)="isDoublon()"
             required
           />
           <div
@@ -77,6 +78,7 @@
             formControlName="prenom"
             placeholder="Prénom(s) du demandeur"
             [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+            (blur)="isDoublon()"
             required
           />
           <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">

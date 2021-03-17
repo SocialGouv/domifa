@@ -224,12 +224,13 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     params = {},
     alias,
     ...options
-  }: {
+  }: PgRepositoryFindOptions<T> & {
     where: string;
     params?: { [attr: string]: any };
     alias?: string;
     logSql?: boolean;
-  } & PgRepositoryFindOptions<T>): Promise<R[]> {
+    select: (keyof T)[]; // force select
+  }): Promise<R[]> {
     const typeormRepository = await typeorm();
 
     const qb = typeormRepository.createQueryBuilder(alias);
@@ -259,12 +260,13 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     }
   }
   async function findOneWithQuery<R = DEFAULT_RESULT>(
-    args: {
+    args: PgRepositoryFindOptions<T> & {
       where: string;
       params: { [attr: string]: any };
       logSql?: boolean;
       alias?: string;
-    } & PgRepositoryFindOptions<T>
+      select: (keyof T)[]; // force select
+    }
   ): Promise<R> {
     const res = await findManyWithQuery<R>({
       ...args,

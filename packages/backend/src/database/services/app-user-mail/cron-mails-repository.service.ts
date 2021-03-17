@@ -1,9 +1,10 @@
-import { AppUser } from "../../../_common/model";
+import { AppUser, UserRole } from "../../../_common/model";
 import { AppUserTable } from "../../entities";
 import {
   appTypeormManager,
   postgresQueryBuilder,
 } from "../../services/_postgres";
+import { usersRepository } from "../app-user/usersRepository.service";
 
 export type CronMailType = "guide" | "import";
 
@@ -42,34 +43,38 @@ async function findUsersToSendCronMail({
   maxCreationDate: Date;
   structuresIds: number[] | undefined; // undefined if not used
   mailType: CronMailType;
-}): Promise<Pick<AppUser, "id" | "email" | "nom" | "prenom">[]> {
+}): Promise<Pick<AppUser, "id" | "role" | "email" | "nom" | "prenom">[]> {
   const maxCreationDateString = postgresQueryBuilder.formatPostgresDate(
     maxCreationDate
   );
 
   const whereClausesAnd = [
-    `"createdAt" <= $1::timestamp at time zone 'Europe/Paris'`,
-    `(mails->>$2)::boolean = false`,
+    `"createdAt" <= (:maxCreationDateString)::timestamp at time zone 'Europe/Paris'`,
+    `(mails->>:mailType)::boolean = false`,
   ];
-  const params: any[] = [maxCreationDateString, mailType];
-
+  const params: { [attr: string]: any } = {
+    maxCreationDateString,
+    mailType,
+  };
   if (structuresIds && structuresIds.length) {
-    whereClausesAnd.push(`"structureId" = ANY($3)`);
-    params.push(structuresIds);
+    whereClausesAnd.push(`"structureId" = ANY(:structuresIds)`);
+    params["structuresIds"] = structuresIds;
   }
 
-  const query = `
-          SELECT id, email, nom, prenom
-          FROM app_user
-          WHERE ${whereClausesAnd.join(" AND ")}
-      ;`;
+  if (structuresIds && structuresIds.length) {
+    const roles: UserRole[] = ["admin", "facteur", "responsable"];
+    whereClausesAnd.push(`"role" = ANY(:roles)`);
+    params["roles"] = roles;
+  }
 
   const users: Pick<
     AppUser,
-    "id" | "email" | "nom" | "prenom"
-  >[] = await appTypeormManager
-    .getRepository(AppUserTable)
-    .query(query, params);
+    "id" | "email" | "nom" | "prenom" | "role"
+  >[] = await usersRepository.findManyWithQuery({
+    select: ["id", "email", "nom", "prenom", "role"],
+    where: whereClausesAnd.join(" AND "),
+    params,
+  });
 
   return users;
 }

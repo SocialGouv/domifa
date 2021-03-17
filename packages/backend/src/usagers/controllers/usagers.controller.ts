@@ -149,18 +149,19 @@ export class UsagersController {
 
   @UseGuards(FacteurGuard)
   @Get("doublon/:nom/:prenom/:usagerRef")
-  public isDoublon(
+  public async isDoublon(
     @Param("nom") nom: string,
     @Param("prenom") prenom: string,
     @Param("usagerRef") ref: number,
     @CurrentUser() user: AppAuthUser
-  ) {
-    return usagerLightRepository.findDoublon({
+  ): Promise<UsagerLight[]> {
+    const doublons = await usagerLightRepository.findDoublons({
       nom,
       prenom,
       ref,
-      structureId: user.id,
+      structureId: user.structureId,
     });
+    return doublons;
   }
 
   @UseGuards(ResponsableGuard, UsagerAccessGuard)

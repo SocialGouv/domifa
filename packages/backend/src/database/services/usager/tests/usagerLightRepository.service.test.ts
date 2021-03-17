@@ -12,34 +12,35 @@ describe("usagerLightRepository", () => {
     AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
-  it("findDoublon found", async () => {
-    const doublon = await usagerLightRepository.findDoublon({
+  it("findDoublons found", async () => {
+    const doublons = await usagerLightRepository.findDoublons({
       nom: "DUPONT",
       prenom: "FRED",
       ref: 4,
       structureId: 1,
     });
-    expect(doublon).toBeDefined();
+    expect(doublons.length).toEqual(1);
+    const doublon = doublons[0];
     expect(doublon.nom).toEqual("Dupont");
     expect(doublon.prenom).toEqual("Fred");
   });
-  it("findDoublon not found (same id)", async () => {
-    const doublon = await usagerLightRepository.findDoublon({
+  it("findDoublons not found (same id)", async () => {
+    const doublons = await usagerLightRepository.findDoublons({
       nom: "DUPONT",
       prenom: "FRED",
       ref: 3,
       structureId: 1,
     });
-    expect(doublon).toBeUndefined();
+    expect(doublons.length).toEqual(0);
   });
-  it("findDoublon NOT found", async () => {
-    const doublon = await usagerLightRepository.findDoublon({
+  it("findDoublons NOT found", async () => {
+    const doublons = await usagerLightRepository.findDoublons({
       nom: "DUPONT",
       prenom: "Vladimir",
       ref: 3,
       structureId: 1,
     });
-    expect(doublon).toBeUndefined();
+    expect(doublons.length).toEqual(0);
   });
 
   it("findNextRendezVous", async () => {

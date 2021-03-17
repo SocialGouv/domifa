@@ -13,7 +13,7 @@ describe("cronMailsRepository", () => {
     AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
-  it("findNextUserToSendCronMail returns next user to send cron mail", async () => {
+  it("findNextUserToSendCronMail returns next user to send guide mail", async () => {
     let INITIAL_MATCHING_USERS_COUNT: number;
 
     let user1: Pick<AppUser, "id" | "email" | "nom" | "prenom">;
@@ -61,5 +61,18 @@ describe("cronMailsRepository", () => {
       structuresIds: [2],
     });
     expect(users.length).toEqual(0);
+  });
+
+  it("findNextUserToSendCronMail returns next user to send import mail", async () => {
+    // retrieve users without "guide" mail flag
+    const users = await cronMailsRepository.findUsersToSendCronMail({
+      maxCreationDate: new Date(Date.now()),
+      mailType: "import",
+      structuresIds: [1, 2, 3, 4],
+    });
+    expect(users.length).toBeGreaterThanOrEqual(5);
+    users.forEach((user) => {
+      expect(user.role === "facteur").toBeFalsy;
+    });
   });
 });

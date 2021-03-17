@@ -19,14 +19,12 @@ import {
 } from "src/app/shared/bootstrap-util";
 import { AppUser, UsagerLight, UsagerPG } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
-
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
-
 import { AyantDroit } from "../../interfaces/ayant-droit";
+import * as labels from "../../usagers.labels";
 import { UsagerFormModel } from "./UsagerFormModel";
 
-import * as labels from "../../usagers.labels";
 @Component({
   animations: [fadeInOut],
   providers: [
@@ -148,6 +146,7 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public isDoublon() {
+    console.log("xxx isDoublon");
     if (
       this.usagerForm.controls.nom.value !== "" &&
       this.usagerForm.controls.prenom.value !== "" &&
