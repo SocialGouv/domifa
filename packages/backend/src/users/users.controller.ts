@@ -116,7 +116,7 @@ export class UsersController {
             appLogger.warn(`[UsersMail] mail user account activated failed`);
             appLogger.error(JSON.stringify(error.message));
             throw new HttpException(
-              "TIPIMAIL_USER_ACCOUNT_ACTIVATED",
+              "USER_ACCOUNT_ACTIVATED",
               HttpStatus.INTERNAL_SERVER_ERROR
             );
           }

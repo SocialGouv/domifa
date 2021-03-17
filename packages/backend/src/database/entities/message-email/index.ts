@@ -8,4 +8,3 @@ export * from "./MessageEmailRecipient.type";
 export * from "./MessageEmailSendDetails.type";
 export * from "./MessageEmailStatus.type";
 export * from "./MessageEmailTable.typeorm";
-export * from "./MessageEmailTipimailContent.type";
