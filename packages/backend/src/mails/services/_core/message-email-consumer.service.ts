@@ -15,12 +15,11 @@ import {
 import { appLogger, hexEncoder } from "../../../util";
 import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
 import { smtpSender } from "./smtpSender.service";
-import { TipimailSender } from "./tipimail-sender.service";
 import moment = require("moment");
 
 @Injectable()
 export class MessageEmailConsummer {
-  constructor(private tipimailSender: TipimailSender) {
+  constructor() {
     messageEmailConsummerTrigger.trigger$
       .pipe(
         debounceTime(1000),

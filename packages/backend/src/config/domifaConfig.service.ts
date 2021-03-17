@@ -346,18 +346,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           required: false,
         }
       ),
-      tipimailApi: {
-        user: configParser.parseString(x, "DOMIFA_MAIL_SMTP_TIPIMAIL_USER", {
-          required: emailsEnabled,
-        }),
-        pass: configParser.parseString(
-          x,
-          "DOMIFA_MAIL_SMTP_TIPIMAIL_PASSWORD",
-          {
-            required: emailsEnabled,
-          }
-        ),
-      },
       smtp: smtpOptions,
     },
 

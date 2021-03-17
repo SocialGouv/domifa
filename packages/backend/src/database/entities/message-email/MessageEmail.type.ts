@@ -4,7 +4,6 @@ import { MessageEmailContent } from "./MessageEmailContent.type";
 import { MessageEmailId } from "./MessageEmailId.type";
 import { MessageEmailSendDetails } from "./MessageEmailSendDetails.type";
 import { MessageEmailStatus } from "./MessageEmailStatus.type";
-import { MessageEmailTipimailContent } from "./MessageEmailTipimailContent.type";
 
 export type MessageEmail = AppEntity & {
   emailId: MessageEmailId;
@@ -12,10 +11,7 @@ export type MessageEmail = AppEntity & {
   initialScheduledDate: Date;
   nextScheduledDate: Date; // in case of error, we will re-schedule the send later
   sendDate: Date; // success sent date
-  content: Omit<
-    MessageEmailTipimailContent | MessageEmailContent,
-    "attachments"
-  >;
+  content: Omit<MessageEmailContent, "attachments">;
   errorCount: number;
   errorMessage?: string;
   sendDetails?: MessageEmailSendDetails;

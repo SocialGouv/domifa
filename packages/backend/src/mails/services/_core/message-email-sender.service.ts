@@ -5,7 +5,6 @@ import {
   MessageEmailContent,
   messageEmailRepository,
   MessageEmailTable,
-  MessageEmailTipimailContent,
 } from "../../../database";
 import { hexEncoder } from "../../../util/encoding";
 import { messageEmailConsummerTrigger } from "./message-email-consumer-trigger.service";
@@ -30,7 +29,7 @@ async function sendMessageLater(
 }
 
 async function _sendLater(
-  content: MessageEmailContent | MessageEmailTipimailContent,
+  content: MessageEmailContent,
   {
     initialScheduledDate = new Date(),
     emailId,

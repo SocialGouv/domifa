@@ -8,18 +8,16 @@ import {
   CronMailImportGuideSenderService,
   CronMailUserGuideSenderService,
 } from "./services";
-import { MessageEmailConsummer, TipimailSender } from "./services/_core";
+import { MessageEmailConsummer } from "./services/_core";
 
 @Module({
   controllers: [],
   exports: [
-    TipimailSender,
     MessageEmailConsummer,
     CronMailImportGuideSenderService,
     CronMailUserGuideSenderService,
   ],
   providers: [
-    TipimailSender,
     MessageEmailConsummer,
     CronMailImportGuideSenderService,
     CronMailUserGuideSenderService,

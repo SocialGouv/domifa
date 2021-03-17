@@ -86,10 +86,6 @@ export type DomifaConfig = {
     emailAddressErrorReport: string[]; // DOMIFA_ERROR_REPORT_EMAILS
     emailAddressAdmin: string; // DOMIFA_ADMIN_EMAIL
     emailAddressFrom: string; // DOMIFA_TIPIMAIL_FROM_EMAIL
-    tipimailApi: {
-      user: string; // DOMIFA_MAIL_SMTP_TIPIMAIL_USER
-      pass: string; // DOMIFA_MAIL_SMTP_TIPIMAIL_PASS
-    };
     smtp: SMTPTransport.Options;
   };
   sms: {

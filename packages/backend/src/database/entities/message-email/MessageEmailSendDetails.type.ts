@@ -4,5 +4,4 @@ export type MessageEmailSendDetails = {
   sent: MessageEmailRecipient[];
   skipped: MessageEmailRecipient[];
   serverResponse: any;
-  modelsCount?: number; // tipimail only
 };
