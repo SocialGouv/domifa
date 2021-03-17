@@ -1,42 +1,43 @@
 import { UsagerLight, UsagerPG, UsagerTable } from "../../entities";
 import { pgRepository, PgRepositoryFindOrder } from "../_postgres";
 
+const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
+  "uuid",
+  "ref",
+  "customRef",
+  "structureId",
+  "nom",
+  "prenom",
+  "surnom",
+  "sexe",
+  "dateNaissance",
+  "email",
+  "decision",
+  "typeDom",
+  "docs",
+  "entretien",
+  "etapeDemande",
+  "rdv",
+  "lastInteraction",
+  "options",
+  "historique",
+  "ayantsDroits",
+  "villeNaissance",
+  "phone",
+  "langue",
+  "preference",
+];
 const baseRepository = pgRepository.get<UsagerTable, UsagerLight>(UsagerTable, {
-  defaultSelect: [
-    "uuid",
-    "ref",
-    "customRef",
-    "structureId",
-    "nom",
-    "prenom",
-    "surnom",
-    "sexe",
-    "dateNaissance",
-    "email",
-    "decision",
-    "typeDom",
-    "docs",
-    "entretien",
-    "etapeDemande",
-    "rdv",
-    "lastInteraction",
-    "options",
-    "historique",
-    "ayantsDroits",
-    "villeNaissance",
-    "phone",
-    "langue",
-    "preference",
-  ],
+  defaultSelect: USAGER_LIGHT_ATTRIBUTES,
 });
 
 export const usagerLightRepository = {
   ...baseRepository,
-  findDoublon,
+  findDoublons,
   findNextRendezVous,
 };
 
-function findDoublon({
+function findDoublons({
   nom,
   prenom,
   ref,
@@ -46,8 +47,9 @@ function findDoublon({
   prenom: string;
   ref: number;
   structureId: number;
-}) {
-  return baseRepository.findOneWithQuery({
+}): Promise<UsagerLight[]> {
+  return baseRepository.findManyWithQuery({
+    select: USAGER_LIGHT_ATTRIBUTES,
     where: `"structureId" = :structureId 
       and "ref" <> :usagerRef
       and LOWER("nom") = :nom 
