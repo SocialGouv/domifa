@@ -152,6 +152,8 @@ export class InteractionsController {
         usager.lastInteraction[inType] =
           usager.lastInteraction[inType] + interactionToDelete.nbCourrier;
       }
+
+      // TODO: update SMS si distribution
     }
 
     // Check s'il s'agit du dernier passage

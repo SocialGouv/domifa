@@ -228,6 +228,10 @@ export class UsagersController {
   ) {
     // TODO: check phone
     usager.preference = preferenceDto;
+    // Nettoyage du téléphone
+    if (!preferenceDto.phone) {
+      preferenceDto.phoneNumber = null;
+    }
     return this.usagersService.patch({ uuid: usager.uuid }, usager);
   }
 
