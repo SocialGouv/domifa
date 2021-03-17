@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsOptional, MinLength } from "class-validator";
+import { IsBoolean, IsNotEmpty, Length, Matches } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class PreferenceContactDto {
@@ -11,6 +11,8 @@ export class PreferenceContactDto {
     required: true,
   })
   @IsNotEmpty()
+  @Length(10)
+  @Matches(/^(06|07)(\d{2}){4}$/)
   public phoneNumber!: string;
 
   @ApiProperty({
