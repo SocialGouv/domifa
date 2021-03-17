@@ -44,7 +44,6 @@ export class SmsService {
     });
 
     if (smsOnHold) {
-      console.log(smsOnHold);
       smsOnHold.interactionMetas.nbCourrier =
         smsOnHold.interactionMetas.nbCourrier - interaction.nbCourrier;
 
@@ -76,10 +75,6 @@ export class SmsService {
     });
 
     if (smsReady) {
-      console.log(interaction);
-      console.log(smsReady);
-      console.log(smsReady.interactionMetas);
-
       smsReady.interactionMetas.nbCourrier =
         smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
       return messageSmsRepository.updateOne({ uuid: smsReady.uuid }, smsReady);

@@ -130,7 +130,7 @@ export class UsagersFormComponent implements OnInit {
       nom: [this.usager.nom, Validators.required],
       phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
       preference: this.formBuilder.group({
-        phone: [this.usager.preference.phone, []],
+        phone: [this.usager.preference.phone, [Validators.required]],
         phoneNumber: [this.usager.preference.phoneNumber, []],
       }),
       prenom: [this.usager.prenom, Validators.required],
@@ -143,6 +143,26 @@ export class UsagersFormComponent implements OnInit {
     for (const ayantDroit of this.usager.ayantsDroits) {
       this.addAyantDroit(ayantDroit);
     }
+
+    this.usagerForm
+      .get("preference")
+      .get("phone")
+      .valueChanges.subscribe((value: boolean) => {
+        const isRequired =
+          value === true
+            ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
+            : null;
+
+        this.usagerForm
+          .get("preference")
+          .get("phoneNumber")
+          .setValidators(isRequired);
+
+        this.usagerForm
+          .get("preference")
+          .get("phoneNumber")
+          .updateValueAndValidity();
+      });
   }
 
   public isDoublon() {
@@ -212,6 +232,7 @@ export class UsagersFormComponent implements OnInit {
 
   public submitInfos() {
     this.submitted = true;
+
     if (this.usagerForm.invalid) {
       this.notifService.error(
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
@@ -227,7 +248,6 @@ export class UsagersFormComponent implements OnInit {
 
       this.usagerService.create(formValue).subscribe(
         (usager: UsagerLight) => {
-          this.goToTop();
           this.notifService.success("Enregistrement réussi");
           this.router.navigate(["usager/" + usager.ref + "/edit/rendez-vous"]);
         },
@@ -236,17 +256,11 @@ export class UsagersFormComponent implements OnInit {
             this.notifService.error(
               "Veuillez vérifiez les champs du formulaire"
             );
+          } else {
+            this.notifService.error("Une erreur innatendue est survenue");
           }
         }
       );
     }
-  }
-
-  public goToTop() {
-    window.scroll({
-      behavior: "smooth",
-      left: 0,
-      top: 0,
-    });
   }
 }

@@ -67,7 +67,7 @@ export class ProfilEditPreferenceComponent implements OnInit {
         (usager: UsagerLight) => {
           this.submitted = false;
           this.editPreferences = false;
-          this.notifService.success("Enregistrement réussi");
+          this.notifService.success("Enregistrement des préférences réussi");
           this.usager = new UsagerFormModel(usager);
         },
         (error) => {

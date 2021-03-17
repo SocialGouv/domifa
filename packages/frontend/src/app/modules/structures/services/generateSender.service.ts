@@ -1,6 +1,4 @@
 export function generateSender(structureName: string): string {
-  console.log("AVANT");
-  console.log(structureName);
   let str = removeAccents(structureName);
   str = str.toUpperCase();
   // Suppression des caractères spéciaux
@@ -12,8 +10,7 @@ export function generateSender(structureName: string): string {
   str = str.replace(" A ", " ");
   str = str.replace(" N ", " ");
   str = str.substring(0, 11);
-  console.log("APRES");
-  console.log(str);
+
   return str;
 }
 
