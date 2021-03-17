@@ -43,12 +43,23 @@ export class ProfilEditPreferenceComponent implements OnInit {
 
   public initForms() {
     this.preferenceForm = this.formBuilder.group({
-      phoneNumber: [
-        this.usager.preference.phoneNumber,
-        [Validators.pattern(regexp.mobilePhone)],
-      ],
+      phoneNumber: [this.usager.preference.phoneNumber],
       phone: [this.usager.preference.phone, [Validators.required]],
     });
+
+    this.preferenceForm
+
+      .get("phone")
+      .valueChanges.subscribe((value: boolean) => {
+        const isRequired =
+          value === true
+            ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
+            : null;
+
+        this.preferenceForm.get("phoneNumber").setValidators(isRequired);
+
+        this.preferenceForm.get("phoneNumber").updateValueAndValidity();
+      });
   }
 
   public updateUsagerPreference() {
