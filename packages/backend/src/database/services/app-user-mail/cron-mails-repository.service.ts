@@ -41,7 +41,7 @@ async function findUsersToSendCronMail({
   mailType,
 }: {
   maxCreationDate: Date;
-  structuresIds: number[] | undefined; // undefined if not used
+  structuresIds?: number[];
   mailType: CronMailType;
 }): Promise<Pick<AppUser, "id" | "role" | "email" | "nom" | "prenom">[]> {
   const maxCreationDateString = postgresQueryBuilder.formatPostgresDate(
@@ -61,8 +61,8 @@ async function findUsersToSendCronMail({
     params["structuresIds"] = structuresIds;
   }
 
-  if (structuresIds && structuresIds.length) {
-    const roles: UserRole[] = ["admin", "facteur", "responsable"];
+  if (mailType === "import") {
+    const roles: UserRole[] = ["admin", "simple", "responsable"];
     whereClausesAnd.push(`"role" = ANY(:roles)`);
     params["roles"] = roles;
   }

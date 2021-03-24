@@ -62,9 +62,7 @@ export class CronMailUserGuideSenderService {
 async function _findUsersToSendMailGuide() {
   const delay = domifaConfig().cron.emailUserGuide.delay;
   const maxCreationDate: Date = moment()
-    .utc()
     .subtract(delay.amount, delay.unit)
-    .endOf("day")
     .toDate();
 
   const users = await cronMailsRepository.findUsersToSendCronMail({

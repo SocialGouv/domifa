@@ -68,7 +68,6 @@ describe("cronMailsRepository", () => {
     const users = await cronMailsRepository.findUsersToSendCronMail({
       maxCreationDate: new Date(Date.now()),
       mailType: "import",
-      structuresIds: [1, 2, 3, 4],
     });
     expect(users.length).toBeGreaterThanOrEqual(5);
     users.forEach((user) => {
