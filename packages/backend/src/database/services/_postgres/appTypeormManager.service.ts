@@ -105,7 +105,8 @@ async function connect(
     appLogger.debug(`[appTypeormManager] postgres connection success`);
     return connectionHolder.connection;
   } catch (err) {
-    appLogger.debug(
+    console.error("[appTypeormManager] err:", err);
+    appLogger.warn(
       `[appTypeormManager] Error connecting to postgres with options: ${JSON.stringify(
         connectOptions
       )}`

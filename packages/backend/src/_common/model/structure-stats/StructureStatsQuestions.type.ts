@@ -1,3 +1,31 @@
+export type StructureStatsSexe = {
+  H: number;
+  F: number;
+};
+
+export type StructureStatsTranchesAge = {
+  T_0_14: number;
+  T_15_19: number;
+  T_20_24: number;
+  T_25_29: number;
+  T_30_34: number;
+  T_35_39: number;
+  T_40_44: number;
+  T_45_49: number;
+  T_50_54: number;
+  T_55_59: number;
+  T_60_64: number;
+  T_65_69: number;
+  T_70_74: number;
+  T_75_PLUS: number;
+};
+
+export type StructureStatsQuestionsRaisonDemande = {
+  EXERCICE_DROITS: number;
+  PRESTATIONS_SOCIALES: number;
+  AUTRE: number;
+};
+
 export type StructureStatsQuestions = {
   /* Nombre attestations delivres durant l'année */
   Q_10: number;
@@ -46,15 +74,6 @@ export type StructureStatsQuestions = {
   // TODO : Convertir en date les date de naissance des Ayant-droit
 
   /* ----------------------------------- */
-  // TODO : Convertir en date les date de naissance des Ayant-droit
-  /* DONNEES A CALCULER A PARTIR DES DATES DE NAISSANCE */
-  /* Q 17 : Nombre total de mineurs domiciliés au 31/12/2018 : */
-  /* Q 18 : Nombre total de majeurs domiciliés au 31/12/2018 : */
-  /* ----------------------------------- */
-  Q_17: number;
-  Q_18: number;
-
-  /* ----------------------------------- */
   /* STATS Q19 : PARTIE SUR LES QUESTIONS DE L'ENTRETIEN */
   /* Nombre total d'hommes isolés avec enfant(s), (familles monoparentales) domiciliés */
   /* Nombre total de femmes isolées sans enfant  */
@@ -96,6 +115,7 @@ export type StructureStatsQuestions = {
     SORTIE_STRUCTURE: number;
     VIOLENCE: number;
     NON_RENSEIGNE: number;
+    RAISON_DEMANDE: StructureStatsQuestionsRaisonDemande;
   };
 
   /* SITUATION RESIDENTIELLE */
@@ -108,4 +128,29 @@ export type StructureStatsQuestions = {
     SANS_ABRI: number;
     NON_RENSEIGNE: number;
   };
+
+  USAGERS: {
+    SEXE: StructureStatsSexe;
+    TRANCHE_AGE: StructureStatsTranchesAge;
+  };
+
+  // NOTE: on pourra ajouter plus tard:
+  // AYANTS_DROITS: {
+  //   TRANCHE_AGE: {
+  //     "T_0_14": number;
+  //     "T_15_19": number;
+  //     "T_20_24": number;
+  //     "T_25_29": number;
+  //     "T_30_34": number;
+  //     "T_35_39": number;
+  //     "T_40_44": number;
+  //     "T_45_49": number;
+  //     "T_50_54": number;
+  //     "T_55_59": number;
+  //     "T_60_64": number;
+  //     "T_65_69": number;
+  //     "T_70_74": number;
+  //     "T_75_PLUS": number;
+  //   };
+  // }
 };

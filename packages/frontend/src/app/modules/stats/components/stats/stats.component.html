@@ -176,17 +176,83 @@
 
           <tr>
             <td class="font-weight-bold" colspan="2">
+              Nombre de domiciliés actifs par sexe
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Femme</td>
+            <td>
+              {{ stats.questions.USAGERS.SEXE.F }}
+            </td>
+          </tr> 
+          <tr>
+            <td class="soustable">Homme</td>
+            <td>
+              {{ stats.questions.USAGERS.SEXE.H }}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="font-weight-bold" colspan="2">
               Nombre de domiciliés actifs par tranche d'âge
             </td>
           </tr>
 
           <tr>
-            <td class="soustable">Majeurs</td>
-            <td>{{ stats.questions.Q_18 }}</td>
+            <td class="soustable">Moins de 15 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_0_14 }}</td>
           </tr>
           <tr>
-            <td class="soustable">Mineurs</td>
-            <td>{{ stats.questions.Q_17 }}</td>
+            <td class="soustable">15-19 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_15_19 }}</td>
+          </tr> 
+          <tr>
+            <td class="soustable">20-24 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_20_24 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">25-29 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_25_29 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">30-34 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_30_34 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">35-39 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_35_39 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">40-44 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_40_44 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">45-49 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_45_49 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">50-54 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_50_54 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">55-59 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_55_59 }}</td>
+          </tr>  
+          <tr>
+            <td class="soustable">60-64 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_60_64 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">65-69 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_65_69 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">70-74 ans</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_70_74 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">75 ans ou plus</td>
+            <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_75_PLUS }}</td>
           </tr>
           <tr></tr>
           <tr>
@@ -249,6 +315,29 @@
             <td class="soustable">Non renseigné</td>
             <td>
               {{ stats.questions.Q_21.NON_RENSEIGNE }}
+            </td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold" colspan="2">
+              Motif principal de demande de domiciliation
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Exercice des droits civils ou civiques</td>
+            <td>
+              {{ stats.questions.Q_21.RAISON_DEMANDE.EXERCICE_DROITS }}
+            </td>
+          </tr> 
+          <tr>
+            <td class="soustable">Accès aux prestations sociales</td>
+            <td>
+              {{ stats.questions.Q_21.RAISON_DEMANDE.PRESTATIONS_SOCIALES }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Autre raison</td>
+            <td>
+              {{ stats.questions.Q_21.RAISON_DEMANDE.AUTRE }}
             </td>
           </tr>
         </tbody>

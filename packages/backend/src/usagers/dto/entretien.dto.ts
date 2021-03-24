@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsOptional } from "class-validator";
-import { UsagerEntretien } from "../../database";
+import { UsagerEntretien, UsagerRaisonDemande } from "../../database";
 
 export class EntretienDto implements UsagerEntretien {
   @IsOptional()
@@ -122,7 +122,7 @@ export class EntretienDto implements UsagerEntretien {
   public pourquoiDetail!: string;
 
   @IsOptional()
-  public raison!: string;
+  public raison!: UsagerRaisonDemande;
 
   @ApiProperty({
     type: String,

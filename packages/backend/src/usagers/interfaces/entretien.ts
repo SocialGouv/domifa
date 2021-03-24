@@ -1,3 +1,5 @@
+import { UsagerRaisonDemande } from "../../database";
+
 export interface Entretien {
   domiciliation?: boolean;
   revenus?: boolean;
@@ -13,7 +15,7 @@ export interface Entretien {
   pourquoi?: string;
   pourquoiDetail?: string;
   rattachement?: string;
-  raison?: string;
+  raison?: UsagerRaisonDemande;
   raisonDetail?: string;
   accompagnement?: boolean;
   accompagnementDetail?: string;

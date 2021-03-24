@@ -1,14 +1,11 @@
 import { typeOrmSearch } from "../../_postgres/pgRepository.service";
 import { UsagerAvancedSearchCriteria } from "./UsagerAvancedSearchCriteria.type";
-import { usagerCoreRepository } from "./usagerCoreRepository.service";
 
-export const usagerAdvancedSearchRepository = {
-  _advancedCount,
+export const usagerAdvancedSearchQueryBuilder = {
+  buildQuery,
 };
 
-/* don't use directly: use usagerRepository instead */
-function _advancedCount({
-  countType,
+function buildQuery({
   structureId,
   typeDom,
   actifsInHistoryBefore,
@@ -16,10 +13,7 @@ function _advancedCount({
   decision,
   dateNaissance,
   entretien,
-  logSql,
-}: UsagerAvancedSearchCriteria & {
-  countType: "domicilie" | "ayant-droit";
-}): Promise<number> {
+}: UsagerAvancedSearchCriteria) {
   // TODO @toub LATER ajouter données de test pour cas 2 et 3
 
   // CAS 1 : demande valide maintenant
@@ -132,18 +126,8 @@ function _advancedCount({
       params["entretienTypeMenage"] = entretien.typeMenage;
     }
   }
-
-  const expression =
-    countType === "domicilie"
-      ? `COUNT("uuid")`
-      : 'sum(jsonb_array_length("ayantsDroits"))';
-
-  return usagerCoreRepository.aggregateAsNumber({
-    alias: "u",
-    where: typeOrmSearch<any>(andSubQueries.map((x) => `(${x})`).join(" AND ")),
-    params,
-    expression,
-    resultAlias: "count",
-    logSql,
-  });
+  const where = typeOrmSearch<any>(
+    andSubQueries.map((x) => `(${x})`).join(" AND ")
+  );
+  return { where, params };
 }

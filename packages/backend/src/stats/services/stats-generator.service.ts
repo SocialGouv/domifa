@@ -221,8 +221,6 @@ export class StatsGeneratorService {
           ASSO: 0,
           CCAS: 0,
         },
-        Q_17: 0,
-        Q_18: 0,
         Q_19: {
           COUPLE_AVEC_ENFANT: 0,
           COUPLE_SANS_ENFANT: 0,
@@ -252,6 +250,7 @@ export class StatsGeneratorService {
           SORTIE_STRUCTURE: 0,
           VIOLENCE: 0,
           NON_RENSEIGNE: 0,
+          RAISON_DEMANDE: undefined,
         },
         Q_22: {
           DOMICILE_MOBILE: 0,
@@ -261,6 +260,10 @@ export class StatsGeneratorService {
           SANS_ABRI: 0,
           NON_RENSEIGNE: 0,
           AUTRE: 0,
+        },
+        USAGERS: {
+          SEXE: undefined,
+          TRANCHE_AGE: undefined,
         },
       },
     });
@@ -274,7 +277,19 @@ export class StatsGeneratorService {
     stat.departement = structure.departement;
     stat.generated = generated;
 
+    stat.questions.USAGERS.SEXE = await usagerRepository.countBySexe({
+      structureId: structure.id,
+      actifsInHistoryBefore: statsDateEndOfDayUTC,
+    });
+    stat.questions.USAGERS.TRANCHE_AGE = await usagerRepository.countByTranchesAge(
+      {
+        structureId: structure.id,
+        actifsInHistoryBefore: statsDateEndOfDayUTC,
+        ageReferenceDate: statsDateEndOfDayUTC,
+      }
+    );
     //
+
     // Q10 : Nombre attestations delivrés depuis le début à Maintenant
     //
     // Statut actuel + Statut dans l'historique
@@ -497,28 +512,6 @@ export class StatsGeneratorService {
         statut: "REFUS",
         dateDecisionBefore: statsDateEndOfDayUTC,
         orientation: "ccas",
-      },
-    });
-
-    stat.questions.Q_17 = await usagerRepository.countDomiciliations({
-      structureId: structure.id,
-      decision: {
-        statut: "VALIDE",
-        dateDecisionBefore: statsDateEndOfDayUTC,
-      },
-      dateNaissance: {
-        min: dateMajorite, // mineurs
-      },
-    });
-
-    stat.questions.Q_18 = await usagerRepository.countDomiciliations({
-      structureId: structure.id,
-      decision: {
-        statut: "VALIDE",
-        dateDecisionBefore: statsDateEndOfDayUTC,
-      },
-      dateNaissance: {
-        max: dateMajorite, // majeurs
       },
     });
 
@@ -758,7 +751,12 @@ export class StatsGeneratorService {
         cause: "RUPTURE",
       },
     });
-
+    stat.questions.Q_21.RAISON_DEMANDE = await usagerRepository.countByRaisonDemande(
+      {
+        structureId: structure.id,
+        actifsInHistoryBefore: statsDateEndOfDayUTC,
+      }
+    );
     stat.questions.Q_22.AUTRE = await usagerRepository.countDomiciliations({
       structureId: structure.id,
       decision: {

@@ -7,6 +7,7 @@ export * from "./UsagerOptions.type";
 export * from "./UsagerOptionsHistorique.type";
 export * from "./UsagerPG.type";
 export * from "./UsagerPreferenceContact.type";
+export * from "./UsagerRaisonDemande.type";
 export * from "./UsagerRdv.type";
 export * from "./UsagerSexe.type";
 export * from "./UsagerTypeDom.type";
