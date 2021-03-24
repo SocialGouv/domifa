@@ -65,9 +65,7 @@ export class CronMailImportGuideSenderService {
   private async _findUsersToSendImportGuide() {
     const delay = domifaConfig().cron.emailImportGuide.delay;
     const maxCreationDate: Date = moment()
-      .utc()
       .subtract(delay.amount, delay.unit)
-      .endOf("day")
       .toDate();
 
     const structuresIds: number[] = [];
