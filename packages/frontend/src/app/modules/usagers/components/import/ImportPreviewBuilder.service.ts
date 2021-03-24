@@ -165,6 +165,11 @@ export class ImportPreviewBuilder {
               isValidColumn = false;
             }
             break;
+          case COL.RAISON_DEMANDE:
+            if (!this.isValidValue(value, "raison")) {
+              isValidColumn = false;
+            }
+            break;
           case COL.CAUSE_INSTABILITE:
             if (!this.isValidValue(value, "cause")) {
               isValidColumn = false;
