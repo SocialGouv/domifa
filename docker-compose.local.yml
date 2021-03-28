@@ -6,7 +6,7 @@ volumes:
 
 services:
   mongo:
-    image: "mongo:4.2.12" # https://hub.docker.com/_/mongo/
+    image: "mongo:4.2.13" # https://hub.docker.com/_/mongo/
     container_name: domifa-mongo
     volumes:
       - mongo-data:/data/db
