@@ -1,5 +1,5 @@
-import { StructureSmsParams } from "./../../_common/model/structure/StructureSmsParams.type";
 import moment = require("moment");
+import { StructureSmsParams } from "./../../_common/model/structure/StructureSmsParams.type";
 import { Injectable } from "@nestjs/common";
 
 import {
@@ -22,6 +22,7 @@ import { generateSmsInteraction } from "./generators";
 export class SmsService {
   // Délai entre chaque message envoyé
   public interactionDelay: number = 60 * 60;
+
   private messageSmsRepository: Repository<MessageSmsTable>;
   constructor() {
     this.messageSmsRepository = appTypeormManager.getRepository(
@@ -39,7 +40,7 @@ export class SmsService {
     const smsOnHold = await messageSmsRepository.findSmsOnHold({
       usager,
       user,
-      sendDate: hour,
+      scheduledDate: hour,
       interactionType: interaction.type,
     });
 
@@ -70,7 +71,7 @@ export class SmsService {
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
       usager,
       user,
-      sendDate: hour,
+      scheduledDate: hour,
       interactionType: interaction.type,
     });
 
@@ -86,7 +87,6 @@ export class SmsService {
       // Infos sur l'usager
       usagerRef: usager.ref,
       structureId: user.structureId,
-      sendDate: moment().set({ hour: 21, minute: 0, second: 0 }).toDate(),
       content,
       smsId: interaction.type,
       scheduledDate: moment().add(2, "hours").toDate(),

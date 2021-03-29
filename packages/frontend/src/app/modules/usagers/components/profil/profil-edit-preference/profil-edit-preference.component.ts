@@ -34,20 +34,16 @@ export class ProfilEditPreferenceComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.initForms();
-
     if (!this.usager.preference.phoneNumber) {
       this.usager.preference.phoneNumber = this.usager.phone;
     }
-  }
 
-  get formPref() {
-    return this.preferenceForm.controls;
-  }
+    const validator = this.usager.preference.phone
+      ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
+      : null;
 
-  public initForms() {
     this.preferenceForm = this.formBuilder.group({
-      phoneNumber: [this.usager.preference.phoneNumber],
+      phoneNumber: [this.usager.preference.phoneNumber, validator],
       phone: [this.usager.preference.phone, [Validators.required]],
     });
 
@@ -63,6 +59,10 @@ export class ProfilEditPreferenceComponent implements OnInit {
 
         this.preferenceForm.get("phoneNumber").updateValueAndValidity();
       });
+  }
+
+  get formPref() {
+    return this.preferenceForm.controls;
   }
 
   public updateUsagerPreference() {

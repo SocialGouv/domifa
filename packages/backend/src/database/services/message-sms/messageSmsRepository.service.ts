@@ -30,12 +30,12 @@ export const messageSmsRepository = {
 async function findSmsOnHold({
   usager,
   user,
-  sendDate,
+  scheduledDate,
   interactionType,
 }: {
   usager: Pick<UsagerLight, "ref">;
   user: Pick<AppUser, "structureId">;
-  sendDate: Date;
+  scheduledDate: Date;
   interactionType: InteractionType;
 }): Promise<MessageSms> {
   return messageSmsRepository.findOneWithQuery<MessageSms>({
@@ -44,11 +44,11 @@ async function findSmsOnHold({
     status='TO_SEND' and
     "usagerRef"= :usagerRef and
     "structureId"=:structureId and
-    "sendDate"::timestamptz <= :sendDate`,
+    "scheduledDate"::timestamptz <= :scheduledDate`,
     params: {
       usagerRef: usager.ref,
       structureId: user.structureId,
-      sendDate,
+      scheduledDate,
       interactionType,
     },
   });

@@ -6,7 +6,6 @@ import {
   UsagerLight,
   usagerLightRepository,
   UsagerPG,
-  usagerRepository,
 } from "../database";
 
 import { AppAuthUser, AppUser } from "../_common/model";
