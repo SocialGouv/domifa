@@ -1,6 +1,10 @@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, Input, OnInit } from "@angular/core";
-import { AppUser, UsagerLight } from "../../../../../../_common/model";
+import {
+  AppUser,
+  UsagerLight,
+  UsagerPreferenceContact,
+} from "../../../../../../_common/model";
 import { regexp } from "../../../../../shared/validators";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 import { ToastrService } from "ngx-toastr";
@@ -30,25 +34,20 @@ export class ProfilEditPreferenceComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.initForms();
-
     if (!this.usager.preference.phoneNumber) {
       this.usager.preference.phoneNumber = this.usager.phone;
     }
-  }
 
-  get formPref() {
-    return this.preferenceForm.controls;
-  }
+    const validator = this.usager.preference.phone
+      ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
+      : null;
 
-  public initForms() {
     this.preferenceForm = this.formBuilder.group({
-      phoneNumber: [this.usager.preference.phoneNumber],
+      phoneNumber: [this.usager.preference.phoneNumber, validator],
       phone: [this.usager.preference.phone, [Validators.required]],
     });
 
     this.preferenceForm
-
       .get("phone")
       .valueChanges.subscribe((value: boolean) => {
         const isRequired =
@@ -62,6 +61,10 @@ export class ProfilEditPreferenceComponent implements OnInit {
       });
   }
 
+  get formPref() {
+    return this.preferenceForm.controls;
+  }
+
   public updateUsagerPreference() {
     this.submitted = true;
     if (this.preferenceForm.invalid) {
@@ -69,10 +72,14 @@ export class ProfilEditPreferenceComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
-      const preference: Pick<UsagerLight, "preference"> = {
+      const preference: UsagerPreferenceContact = {
         ...this.preferenceForm.value,
         email: false,
       };
+
+      if (!preference.phone) {
+        preference.phoneNumber = null;
+      }
 
       this.usagerService.editPreference(preference, this.usager.ref).subscribe(
         (usager: UsagerLight) => {

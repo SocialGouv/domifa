@@ -1,11 +1,17 @@
 <div class="container" *ngIf="me">
-  <div class="row my-3">
-    <div class="col-md-12">
+  <div class="row">
+    <div class="my-2 col-md-8">
       <h2>Paramètres d'envoi de SMS pour votre structure</h2>
+
+      <div>
+        Une fois que la fonctionnalité d'envoi de SMS au sein de votre structure
+        est activée, il vous faudra la valider sur chacune des fiches des
+        domiciliés lorsqu'ils vous en ont fait la demande
+      </div>
     </div>
   </div>
 
-  <div class="row my-3">
+  <div class="row my-4">
     <div class="col-md-8">
       <div class="card p-4">
         <form
@@ -78,6 +84,7 @@
                 id="senderDetails"
                 type="text"
                 class="form-control"
+                maxLength="30"
                 formControlName="senderDetails"
                 [ngClass]="{
                   'is-invalid': submitted && form.senderDetails.errors

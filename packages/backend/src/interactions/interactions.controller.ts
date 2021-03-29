@@ -45,21 +45,32 @@ export class InteractionsController {
       usager,
     });
 
-    // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
+    // 1. Vérifier l'activation des SMS par la structure
     if (
-      interaction.type === "courrierIn" ||
-      interaction.type === "colisIn" ||
-      interaction.type === "recommandeIn"
+      user.structure.sms.enabledByDomifa &&
+      user.structure.sms.enabledByStructure
     ) {
-      // 1. Vérifier l'activation des SMS par la structure
-      if (
-        user.structure.sms.enabledByDomifa &&
-        user.structure.sms.enabledByStructure
-      ) {
-        // 2. Vérifier l'activation du SMS pour l'usager
-        if (usager.preference?.phone === true) {
+      // 2. Vérifier l'activation du SMS pour l'usager
+      if (usager.preference?.phone === true) {
+        // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
+        if (
+          interaction.type === "courrierIn" ||
+          interaction.type === "colisIn" ||
+          interaction.type === "recommandeIn"
+        ) {
           // TODO:  3. Numéro de téléphone valide
           const sms = await this.smsService.createSmsInteraction(
+            usager,
+            user,
+            interaction
+          );
+        } else if (
+          interaction.type === "courrierOut" ||
+          interaction.type === "colisOut" ||
+          interaction.type === "recommandeOut"
+        ) {
+          // Suppression du SMS en file d'attente
+          const smsToDelete = await this.smsService.deleteSmsInteraction(
             usager,
             user,
             interaction
@@ -114,7 +125,9 @@ export class InteractionsController {
     const len = interactionToDelete.type.length;
 
     const interactionOut =
-      interactionToDelete.type.substring(len - 3) === "Out";
+      interactionToDelete.type.substring(len - 3) ===
+      (("Out" as unknown) as InteractionType);
+
     const interactionIn =
       interactionToDelete.type.substring(len - 2) ===
       (("In" as unknown) as InteractionType);

@@ -253,7 +253,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  public deleteStructure(id: string) {
+  public deleteStructure(id: string): void {
     this.statsService.deleteStructure(id).subscribe(
       () => {
         this.notifService.success(
@@ -268,11 +268,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  public enableSms(structure: Structure) {
+  public enableSms(structure: Structure): void {
     this.statsService.enableSms(structure.id).subscribe(
       () => {
         structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
-        this.notifService.success("SMS activés");
+
+        let message = structure.sms.enabledByDomifa
+          ? "SMS activés"
+          : "SMS désactivés";
+        message = message + " pour la structure : " + structure.nom;
+        this.notifService.success(message);
       },
       () => {
         this.notifService.error(

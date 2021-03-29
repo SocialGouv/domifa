@@ -5,6 +5,7 @@ import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { UsagerPreferenceContact } from "../../../../_common/model";
 import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { LoadingService } from "../../loading/loading.service";
@@ -61,7 +62,7 @@ export class UsagerService {
 
   // Mise à jour des préférence de contact
   public editPreference(
-    preference: Pick<UsagerLight, "preference">,
+    preference: UsagerPreferenceContact,
     usagerRef: number
   ): Observable<UsagerLight> {
     return this.http.post<UsagerLight>(

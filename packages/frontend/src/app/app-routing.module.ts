@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdminGuard } from "./guards/admin-guard";
 import { AuthGuard } from "./guards/auth-guard";
+import { CanEditSmsGuard } from "./guards/can-edit-sms.guard";
 import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
@@ -64,7 +65,7 @@ export const routes: Routes = [
     component: EditUserComponent,
   },
   {
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [AuthGuard, AdminGuard, CanEditSmsGuard],
     path: "structures/sms",
     component: StructuresSmsFormComponent,
   },
