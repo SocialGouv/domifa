@@ -28,8 +28,12 @@ export function buildCustomDoc(
       adresseStructure + ", " + ucFirst(structure.complementAdresse);
   }
 
-  // Motif de refus
+  const dateDebutDom =
+    usager.decision.statut === "RADIE"
+      ? usager.historique[0].dateDebut
+      : usager.decision.dateDebut;
 
+  // Motif de refus
   if (
     usager.decision.statut === "REFUS" ||
     usager.decision.statut === "RADIE"
@@ -107,7 +111,7 @@ export function buildCustomDoc(
       .format("LL"),
 
     // DATES DOMICILIATION
-    DATE_DEBUT_DOM: moment(usager.decision.dateDebut).locale("fr").format("LL"),
+    DATE_DEBUT_DOM: moment(dateDebutDom).locale("fr").format("LL"),
     DATE_FIN_DOM: moment(usager.decision.dateFin).locale("fr").format("LL"),
 
     DATE_PREMIERE_DOM: moment(usager.datePremiereDom).locale("fr").format("LL"),
