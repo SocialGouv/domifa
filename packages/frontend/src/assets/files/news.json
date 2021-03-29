@@ -1,24 +1,12 @@
 [
-    {
+  {
     "date": "2021-03-30",
     "content": [
-    {   "type": "new",
+      {
+        "type": "new",
         "categorie": "Message aux administrateurs",
         "message": [
           "Veuillez vérifier et corriger votre nom de structure en précisant le nom de votre ville, de votre unité locale en cas de réseau ou de votre association."
-        ]
-      }
-    ]
-  },
- {
-   "date": "2021-03-17",
-   "content": [
-     {
-       "type": "new",
-       "categorie": "De nouveaux modèles de courrier",
-       "message": [
-       "Un modèle paramétrable d’attestation de domiciliation postale est désormais disponible sur chaque fiche de domicilié actif.",
-       "Un modèle paramétrable du courrier de radiation est désormais disponible sur chaque fiche de domicilié radié."
         ]
       }
     ]
