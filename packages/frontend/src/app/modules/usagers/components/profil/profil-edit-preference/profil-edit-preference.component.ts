@@ -1,6 +1,10 @@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, Input, OnInit } from "@angular/core";
-import { AppUser, UsagerLight } from "../../../../../../_common/model";
+import {
+  AppUser,
+  UsagerLight,
+  UsagerPreferenceContact,
+} from "../../../../../../_common/model";
 import { regexp } from "../../../../../shared/validators";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 import { ToastrService } from "ngx-toastr";
@@ -48,7 +52,6 @@ export class ProfilEditPreferenceComponent implements OnInit {
     });
 
     this.preferenceForm
-
       .get("phone")
       .valueChanges.subscribe((value: boolean) => {
         const isRequired =
@@ -69,10 +72,14 @@ export class ProfilEditPreferenceComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
-      const preference: Pick<UsagerLight, "preference"> = {
+      const preference: UsagerPreferenceContact = {
         ...this.preferenceForm.value,
         email: false,
       };
+
+      if (!preference.phone) {
+        preference.phoneNumber = null;
+      }
 
       this.usagerService.editPreference(preference, this.usager.ref).subscribe(
         (usager: UsagerLight) => {
