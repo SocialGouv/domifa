@@ -15,24 +15,21 @@ import { UserDto } from "../../users/dto/user.dto";
 import { usersCreator } from "../../users/services";
 import { appLogger } from "../../util/AppLogger.service";
 import { StructureCommon } from "../../_common/model";
-import { DepartementHelper } from "../departement-helper.service";
+import { departementHelper } from "../departement-helper.service";
 import { StructureDto } from "../dto/structure.dto";
 
 @Injectable()
 export class StructureCreatorService {
-  constructor(
-    private departementHelper: DepartementHelper,
-    private statsGeneratorService: StatsGeneratorService
-  ) {}
+  constructor(private statsGeneratorService: StatsGeneratorService) {}
 
   public async checkStructureCreateArgs(
     structureDto: StructureDto
   ): Promise<StructureDto> {
     try {
-      const departement = this.departementHelper.getDepartementFromCodePostal(
+      const departement = departementHelper.getDepartementFromCodePostal(
         structureDto.codePostal
       );
-      this.departementHelper.getRegionCodeFromDepartement(departement);
+      departementHelper.getRegionCodeFromDepartement(departement);
     } catch (err) {
       appLogger.warn(
         `[StructuresService] error validating postal code "${structureDto.codePostal}"`
@@ -104,10 +101,10 @@ export class StructureCreatorService {
     createdStructure.registrationDate = new Date();
     createdStructure.token = crypto.randomBytes(30).toString("hex");
 
-    createdStructure.departement = this.departementHelper.getDepartementFromCodePostal(
+    createdStructure.departement = departementHelper.getDepartementFromCodePostal(
       createdStructure.codePostal
     );
-    createdStructure.region = this.departementHelper.getRegionCodeFromDepartement(
+    createdStructure.region = departementHelper.getRegionCodeFromDepartement(
       createdStructure.departement
     );
     createdStructure.stats = {

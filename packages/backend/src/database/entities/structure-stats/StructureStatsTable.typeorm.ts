@@ -13,9 +13,6 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 export class StructureStatsTable
   extends AppTypeormTable<StructureStatsTable>
   implements StructureStats {
-  @Column({ type: "text", nullable: true })
-  _id: any; // obsolete mongo id: use `uuid` instead
-
   @Column({ type: "text" })
   nom: string;
 

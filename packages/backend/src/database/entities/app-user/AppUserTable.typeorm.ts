@@ -18,8 +18,6 @@ export class AppUserTable
   extends AppTypeormTable<AppUserTable>
   implements AppUser {
   mail: AppUserMails;
-  @Column({ type: "text", nullable: true, unique: true })
-  _id: any; // obsolete mongo id: use `uuid` instead
 
   @Index()
   @Column({ type: "text", unique: true })

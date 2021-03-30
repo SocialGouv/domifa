@@ -21,9 +21,6 @@ export class InteractionsTable
   @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column({ type: "text", nullable: true })
-  _id: string; // obsolete mongo id: use `uuid` instead
-
   @Column({ type: "timestamptz" })
   dateInteraction: Date;
 

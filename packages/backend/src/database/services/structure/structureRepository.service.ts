@@ -1,21 +1,20 @@
 import { EntityManager } from "typeorm";
-import { Structure } from "../../../structures/structure-interface";
 import {
+  Structure,
   StructureCommon,
-  StructurePG,
   STRUCTURE_COMMON_ATTRIBUTES,
 } from "../../../_common/model";
 import { StructureTable } from "../../entities";
 import { pgRepository } from "../_postgres";
 
-const baseRepository = pgRepository.get<StructureTable, StructurePG>(
+const baseRepository = pgRepository.get<StructureTable, Structure>(
   StructureTable
 );
 
 export const structureRepository = {
   ...baseRepository,
   getForMigration: (entityManager: EntityManager) =>
-    pgRepository.get<StructureTable, StructurePG>(StructureTable, {
+    pgRepository.get<StructureTable, Structure>(StructureTable, {
       entityManager,
     }),
   checkHardResetToken,

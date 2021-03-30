@@ -4,7 +4,6 @@ import {
   HealthCheck,
   HealthCheckService,
   HealthIndicatorResult,
-  MongooseHealthIndicator,
 } from "@nestjs/terminus";
 import { domifaConfig } from "../config";
 import { appLogger } from "../util";
@@ -14,7 +13,6 @@ import { PostgresHealthIndicator } from "./postgres-health-indicator.service";
 export class HealthController {
   constructor(
     private health: HealthCheckService,
-    public mongooseIndicator: MongooseHealthIndicator,
     public dnsIndicator: DNSHealthIndicator,
     public postgresIndicator: PostgresHealthIndicator
   ) {}
@@ -33,7 +31,6 @@ export class HealthController {
 
     return this.health.check([
       async () => this.postgresIndicator.pingCheck("postgres"),
-      async () => this.mongooseIndicator.pingCheck("mongo"),
       async () =>
         this.dnsIndicator.pingCheck("frontend", frontUrl).catch((err) => {
           appLogger.warn(

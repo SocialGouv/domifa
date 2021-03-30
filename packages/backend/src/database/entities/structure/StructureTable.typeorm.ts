@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, Index } from "typeorm";
 import {
-  StructurePG,
+  Structure,
   StructureResponsable,
   StructureType,
 } from "../../../_common/model";
@@ -13,18 +13,11 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 @Entity({ name: "structure" })
 export class StructureTable
   extends AppTypeormTable<StructureTable>
-  implements StructurePG {
-  @Column({ type: "text", nullable: true })
-  _id: any; // obsolete mongo id: use `uuid` instead
-
+  implements Structure {
   @Index()
   @Column({ type: "integer", unique: true })
   @Generated("increment")
   id: number;
-
-  @Index()
-  @Column({ type: "integer", unique: true, nullable: true })
-  mongoStructureId?: number;
 
   @Column({ type: "text", nullable: true })
   adresse: string;

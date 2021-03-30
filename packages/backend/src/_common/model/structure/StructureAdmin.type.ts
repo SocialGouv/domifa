@@ -1,8 +1,8 @@
-import { StructurePG } from "./StructurePG.type";
+import { Structure } from "./Structure.type";
 
 // Structure: attributs publics (retournés au frontend via AppAuthUser)
 export type StructureAdmin = Pick<
-  StructurePG,
+  Structure,
   | "id"
   | "registrationDate"
   | "adresse"

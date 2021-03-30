@@ -75,16 +75,16 @@ echo ""
 
 if [ "$WITH_DEV_CONTAINERS" == "true" ]; then
   echo "###########################################"
-  echo "# [INFO] START domifa containers: mongo + postgres + backend + frontend"
+  echo "# [INFO] START domifa containers: postgres + backend + frontend"
   echo "###########################################"
-  # start backend + frontend + mongo + postgres (with initial dumps)
+  # start backend + frontend + postgres (with initial dumps)
   (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate)
 else
   echo "###########################################"
-  echo "# [INFO] START domifa containers: mongo + postgres (only)"
+  echo "# [INFO] START domifa containers: postgres (only)"
   echo "###########################################"
-  # start mongo + postgres only (with initial dumps)
-  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate mongo postgres)
+  # start postgres only (with initial dumps)
+  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate postgres)
 fi
 
 (set -x && docker ps -a)

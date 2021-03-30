@@ -2,7 +2,6 @@ import { HttpStatus, INestApplication } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
 import * as request from "supertest";
-import { DatabaseModule } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
@@ -10,7 +9,6 @@ import { isValidDate } from "../../_common/import/import.validators";
 import { CerfaService } from "../services/cerfa.service";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
-import { UsagersProviders } from "../usagers.providers";
 import { ImportController } from "./import.controller";
 
 import moment = require("moment");
@@ -29,13 +27,8 @@ describe("Import Controller", () => {
   beforeEach(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [ImportController],
-      imports: [DatabaseModule, UsersModule, StructuresModule],
-      providers: [
-        CerfaService,
-        UsagersService,
-        DocumentsService,
-        ...UsagersProviders,
-      ],
+      imports: [UsersModule, StructuresModule],
+      providers: [CerfaService, UsagersService, DocumentsService],
     });
 
     app = context.module.createNestApplication();

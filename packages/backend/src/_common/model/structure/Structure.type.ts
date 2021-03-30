@@ -5,16 +5,8 @@ import { StructureSmsParams } from "./StructureSmsParams.type";
 import { StructureType } from "./StructureType.type";
 import { StructureUsagersStats } from "./StructureUsagersStats.type";
 
-// temporary name, "StructurePG" will be renamed as "Structure" once finished
-export type StructurePG = AppEntity & {
-  //  public _id: ObjectID;
-  /**
-   * @deprecated obsolete mongo id: use `uuid` instead.
-   */
-  _id?: any;
-
+export type Structure = AppEntity & {
   id: number;
-  mongoStructureId?: number;
   adresse: string;
   complementAdresse: string;
   nom: string;

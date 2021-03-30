@@ -3,14 +3,14 @@ import { structureCommonRepository, structureRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
 import {
   AppUser,
+  Structure,
   StructureCommon,
   StructureLight,
-  StructurePG,
 } from "../../_common/model";
-import { DepartementHelper } from "../departement-helper.service";
+import { departementHelper } from "../departement-helper.service";
+import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { StructureEditDto } from "../dto/structure-edit.dto";
 import moment = require("moment");
-import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 
 export interface StructureQuery {
   codePostal?: string;
@@ -25,16 +25,16 @@ export class StructuresService {
     cias: "CIAS ou commune",
   };
 
-  constructor(private departementHelper: DepartementHelper) {}
+  constructor() {}
 
   public async patch(
     structureDto: StructureEditDto,
     user: Pick<AppUser, "structureId">
   ): Promise<StructureCommon> {
-    structureDto.departement = this.departementHelper.getDepartementFromCodePostal(
+    structureDto.departement = departementHelper.getDepartementFromCodePostal(
       structureDto.codePostal
     );
-    structureDto.region = this.departementHelper.getRegionCodeFromDepartement(
+    structureDto.region = departementHelper.getRegionCodeFromDepartement(
       structureDto.departement
     );
 
@@ -81,7 +81,7 @@ export class StructuresService {
     );
   }
 
-  public async findOneFull(structureId: number): Promise<StructurePG> {
+  public async findOneFull(structureId: number): Promise<Structure> {
     const structure = await structureRepository.findOne({
       id: structureId,
     });

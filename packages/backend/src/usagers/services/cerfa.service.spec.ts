@@ -1,10 +1,7 @@
-import { DatabaseModule } from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsersModule } from "../../users/users.module";
-import { UsersProviders } from "../../users/users.providers";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { UsagersModule } from "../usagers.module";
-import { UsagersProviders } from "../usagers.providers";
 import { CerfaService } from "./cerfa.service";
 import { UsagersService } from "./usagers.service";
 
@@ -15,13 +12,8 @@ describe("CerfaService", () => {
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
-      imports: [DatabaseModule, UsersModule, UsagersModule, StructuresModule],
-      providers: [
-        CerfaService,
-        UsagersService,
-        ...UsagersProviders,
-        ...UsersProviders,
-      ],
+      imports: [UsersModule, UsagersModule, StructuresModule],
+      providers: [CerfaService, UsagersService],
     });
 
     service = context.module.get<CerfaService>(CerfaService);

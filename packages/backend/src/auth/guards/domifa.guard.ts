@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { appLogger } from "../../util";
+import { AppAuthUser } from "../../_common/model";
 
 @Injectable()
 export class DomifaGuard implements CanActivate {
@@ -9,12 +10,12 @@ export class DomifaGuard implements CanActivate {
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
 
-    const user = request.user;
+    const user = request.user as AppAuthUser;
 
     const isValidRole = this.isDomifaAdmin(user);
     if (user && !isValidRole) {
       appLogger.warn(
-        `[DomifaGuard] invalid role "${user.role}" or structureId "${user.structureId}" for user "${user.uuid}" with role "${user.role}"`,
+        `[DomifaGuard] invalid role "${user.role}" or structureId "${user.structureId}" for user "${user.id}" with role "${user.role}"`,
         {
           sentryBreadcrumb: true,
         }

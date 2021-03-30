@@ -1,5 +1,4 @@
 import { forwardRef } from "@nestjs/common";
-import { DatabaseModule } from "../database";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
@@ -11,7 +10,7 @@ describe("Auth Controller", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [AuthController],
-      imports: [DatabaseModule, forwardRef(() => UsersModule), UsagersModule],
+      imports: [forwardRef(() => UsersModule), UsagersModule],
       providers: [{ provide: AuthService, useValue: {} }],
     });
   });
@@ -20,7 +19,6 @@ describe("Auth Controller", () => {
   });
 
   it("should be defined", async () => {
-
     const controller = context.module.get<AuthController>(AuthController);
 
     expect(controller).toBeDefined();

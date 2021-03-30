@@ -26,16 +26,13 @@ stages:
     -e "^PRODUCTION" \
     -e "^DOMIFA" \
     -e "^PUPPETEER_" \
-    -e "^MONGO_" \
     -e "^POSTGRES_" \
     -e "^RANCHER_PROJECT_ID" | sort
 
 .db_tools: &db_tools |
-  apk add mongodb-tools
   apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
 
 .db_setup: &db_setup |
-  nc -zvv mongo 27017
   pg_isready -d postgres -h postgres -p 5432 -U runner
   ./_scripts/db/restore-databases-gitlab-ci.sh --db=test --ci
 
@@ -62,11 +59,6 @@ stages:
 .tests_setup:
   stage: Tests
   variables:
-    MONGO_INITDB_ROOT_USERNAME: root
-    MONGO_INITDB_ROOT_PASSWORD: root
-    DB_USER: root
-    DB_PASS: root
-    DB_NAME: domifa_test
     POSTGRES_DB: nice_marmot
     POSTGRES_USER: runner
     POSTGRES_PASSWORD: abcd
@@ -85,7 +77,6 @@ stages:
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
     DOMIFA_FRONTEND_URL: http://localhost:4200/
     DOMIFA_BACKEND_URL: http://localhost:3000/
-    MONGO_DUMP_PATH: /builds/SocialGouv/domifa/_scripts/db/dumps/domifa_test.mongo.gz
     POSTGRES_DUMP_PATH: /builds/SocialGouv/domifa/_scripts/db/dumps/domifa_test.postgres.custom.gz
     SENTRY_DSN: https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
     DOMIFA_2E2_RESTORE_DATABASES_SCRIPT: _scripts/db/restore-databases-gitlab-ci.sh
@@ -200,7 +191,6 @@ Test:backend:integration:
   extends: .tests_setup
   image: node:14.15.0-alpine3.12
   services:
-    - name: mongo:4.0.3
     - name: postgres:10.14
   script:
     - *db_tools
@@ -229,7 +219,6 @@ Test:e2e:dist:
   extends: .tests_setup
   image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:4.2.0 # https://github.com/SocialGouv/docker/blob/master/puppeteer-mongo-pg/Dockerfile
   services:
-    - name: mongo:4.0.3
     - name: postgres:10.14
   before_script:
     - *db_setup

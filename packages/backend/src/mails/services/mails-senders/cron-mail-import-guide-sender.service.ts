@@ -8,8 +8,8 @@ import {
   MonitoringBatchProcessTrigger,
   structureRepository,
 } from "../../../database";
-import { Structure } from "../../../structures/structure-interface";
 import { appLogger } from "../../../util";
+import { Structure } from "../../../_common/model";
 import { guideImportEmailSender } from "../templates-renderers";
 
 @Injectable()

@@ -1,14 +1,9 @@
 import { forwardRef } from "@nestjs/common";
-import {
-  DatabaseModule,
-  usagerRepository,
-  usersRepository,
-} from "../../database";
+import { usagerRepository, usersRepository } from "../../database";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { SearchDto } from "../dto/search.dto";
-import { UsagersProviders } from "../usagers.providers";
 import { CerfaService } from "./cerfa.service";
 import { UsagersService } from "./usagers.service";
 
@@ -30,8 +25,8 @@ describe("UsagersService", () => {
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
-      imports: [DatabaseModule, forwardRef(() => UsersModule)],
-      providers: [UsagersService, CerfaService, ...UsagersProviders],
+      imports: [forwardRef(() => UsersModule)],
+      providers: [UsagersService, CerfaService],
     });
     service = context.module.get<UsagersService>(UsagersService);
   });

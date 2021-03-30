@@ -139,23 +139,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       },
       jwtSecret: configParser.parseString(x, "SECRET"), // critical: no default value
     },
-    mongo: {
-      host: configParser.parseString(x, "DB_HOST", {
-        defaultValue: "mongo",
-      }),
-      port: configParser.parseString(x, "DB_PORT", {
-        defaultValue: "27017",
-      }),
-      pass: configParser.parseString(x, "DB_PASS"),
-      user: configParser.parseString(x, "DB_USER"),
-      name: configParser.parseString(x, "DB_NAME"),
-      authSource: configParser.parseString(x, "DB_AUTH_SOURCE", {
-        defaultValue: "admin",
-      }),
-      debug: configParser.parseBoolean(x, "DOMIFA_MONGOOSE_DEBUG", {
-        defaultValue: false,
-      }),
-    },
     postgres: {
       host: configParser.parseString(x, "POSTGRES_HOST", {
         defaultValue: "postgres",

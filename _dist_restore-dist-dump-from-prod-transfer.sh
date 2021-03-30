@@ -15,12 +15,7 @@ else
 fi
 
 DUMP_DIR=/mnt/database/transfer
-DUMP_FILE_MONGO=${DUMP_DIR}/domifa_PROD.mongo.gz
 DUMP_FILE_POSTGRES=${DUMP_DIR}/domifa_PROD.postgres.custom.gz
-if [ ! -f "$DUMP_FILE_MONGO" ]; then
-    echo "[ERROR] MONGO dump file $DUMP_FILE_MONGO does not exists"
-    exit 1
-fi
 if [ ! -f "$DUMP_FILE_POSTGRES" ]; then
     echo "[ERROR] POSTGRES dump file $DUMP_FILE_POSTGRES does not exists"
     exit 1
@@ -33,7 +28,6 @@ echo ""
 echo "env: $DOMIFA_ENV_ID"
 echo ""
 echo ""
-ls -lah $DUMP_FILE_MONGO
 ls -lah $DUMP_FILE_POSTGRES
 echo ""
 
@@ -51,27 +45,6 @@ echo "[INFO] Stop backend & frontend"
 echo ""
 (set -x && sudo docker stop ${DOCKER_COMPOSE_PROJECT_NAME}_backend_1 ${DOCKER_COMPOSE_PROJECT_NAME}_frontend_1)
 
-echo ""
-echo "#############################################################################"
-echo "[INFO] Restore MONGO dump from $DUMP_FILE_MONGO..."
-echo ""
-
-# copier le dump dans le container
-(set -x && sudo docker cp $DUMP_FILE_MONGO ${DOCKER_COMPOSE_PROJECT_NAME}_mongo_1:/tmp)
-
-if [ $? -eq 1 ]; then
-    echo "[ERROR] exit"
-    exit 3
-fi
-
-# restaurer le dump
-sudo docker exec -t ${DOCKER_COMPOSE_PROJECT_NAME}_mongo_1 bash -c "set -x && mongorestore --nsInclude 'domifa.*' --nsFrom 'domifa.*' --nsTo 'domifa.*' -u \$MONGO_INITDB_ROOT_USERNAME -p \$MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase=admin --drop --gzip --archive=/tmp/domifa_PROD.mongo.gz"
-
-if [ $? -eq 1 ]; then
-    echo "[ERROR] exit"
-    ex
-    it 3
-fi
 echo ""
 echo "#############################################################################"
 echo "[INFO] Restore POSTGRES dump from $DUMP_FILE_POSTGRES..."

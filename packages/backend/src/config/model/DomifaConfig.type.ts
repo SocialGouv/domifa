@@ -21,15 +21,6 @@ export type DomifaConfig = {
     };
     jwtSecret: string; // SECRET
   };
-  mongo: {
-    host: string; // DB_HOST
-    pass: string; // DB_PASS
-    port: string; // DB_PORT
-    user: string; // DB_USER
-    name: string; // DB_NAME
-    authSource: string; // DB_AUTH_SOURCE
-    debug: boolean; // DOMIFA_MONGOOSE_DEBUG
-  };
   postgres: {
     host: string; // POSTGRES_HOST
     port: number; // POSTGRES_PORT

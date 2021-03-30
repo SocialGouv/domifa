@@ -1,12 +1,10 @@
 import { HttpModule, HttpStatus } from "@nestjs/common";
-import { DatabaseModule } from "../database";
 import { MailsModule } from "../mails/mails.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { UsersController } from "./users.controller";
-import { UsersProviders } from "./users.providers";
 
 describe("Users Controller", () => {
   let controller: UsersController;
@@ -15,14 +13,8 @@ describe("Users Controller", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsersController],
-      imports: [
-        DatabaseModule,
-        MailsModule,
-        StructuresModule,
-        UsagersModule,
-        HttpModule,
-      ],
-      providers: [...UsersProviders],
+      imports: [MailsModule, StructuresModule, UsagersModule, HttpModule],
+      providers: [],
     });
     controller = context.module.get<UsersController>(UsersController);
   });

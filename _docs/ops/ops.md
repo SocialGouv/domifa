@@ -96,12 +96,3 @@ $ docker build -f packages/frontend/Dockerfile -t socialgouv/domifa/frontend .
 $ docker run --rm -p 3000:3000 socialgouv/domifa/backend
 $ docker run --rm --env DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/ --env PORT=4200 -p 4200:4200 socialgouv/domifa/frontend
 ```
-
-## Database
-
-### Backup database
-
-```bash
-# backup.sh
-sudo docker-compose exec mongo mongodump --out --gzip > /mnt/database/dump_`date "+%Y-%m-%d-%H-%M"`
-```

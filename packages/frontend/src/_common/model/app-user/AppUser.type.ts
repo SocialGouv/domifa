@@ -4,12 +4,6 @@ import { AppUserMails } from "./AppUserMails.type";
 import { UserRole } from "./UserRole.type";
 
 export type AppUser = AppEntity & {
-  //  public _id: ObjectID;
-  /**
-   * @deprecated obsolete mongo id: use `uuid` instead.
-   */
-  _id?: any;
-
   id: number;
 
   prenom: string;

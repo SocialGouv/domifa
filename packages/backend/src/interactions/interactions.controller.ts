@@ -16,7 +16,6 @@ import { CurrentUser } from "../auth/current-user.decorator";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { UsagerLight } from "../database";
 import { SmsService } from "../sms/services/sms.service";
-
 import { UsagersService } from "../usagers/services/usagers.service";
 import { AppAuthUser } from "../_common/model";
 import { InteractionType } from "../_common/model/interaction";
@@ -176,7 +175,7 @@ export class InteractionsController {
     );
 
     if (lastTwo && lastTwo !== null && lastTwo.length > 1) {
-      if (lastTwo[0]._id.toString() === interactionToDelete._id.toString()) {
+      if (lastTwo[0].uuid.toString() === interactionToDelete.uuid.toString()) {
         // Vérification si la personne n'a pas de date de dernier passage
         usager.lastInteraction.dateInteraction =
           lastTwo.length < 2

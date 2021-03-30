@@ -30,7 +30,6 @@ stack:
     - Typescript
   backend:
     - NestJS
-    - MongoDB (deprecated)
     - PostgreSQL
     - Typescript
   tests:

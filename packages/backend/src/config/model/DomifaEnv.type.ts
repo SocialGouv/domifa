@@ -1,10 +1,4 @@
 export type DomifaEnv = {
-  DB_HOST: string;
-  DB_PASS: string;
-  DB_PORT: string;
-  DB_USER: string;
-  DB_NAME: string;
-  DB_AUTH_SOURCE: string;
   FILES_IV: string;
   FILES_PRIVATE: string;
   DOMIFA_CORS_URL: string;
@@ -15,7 +9,6 @@ export type DomifaEnv = {
   UPLOADS_FOLDER: string;
   DOMIFA_ENV_ID: string;
   DOMIFA_DOCKER_IMAGE_VERSION: string;
-  DOMIFA_MONGOOSE_DEBUG: string;
   DOMIFA_SWAGGER_ENABLE: string;
   DOMIFA_EMAILS_ENABLE: string;
   DOMIFA_ADMIN_EMAIL: string;
