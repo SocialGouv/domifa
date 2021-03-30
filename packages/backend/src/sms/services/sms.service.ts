@@ -17,15 +17,13 @@ import { MessageSms } from "../../_common/model/message-sms";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { Repository } from "typeorm";
 import { generateSmsInteraction } from "./generators";
-import { MessageSmsSenderService } from "./message-sms-sender.service";
 
 @Injectable()
 export class SmsService {
   // Délai entre chaque message envoyé
-
   private messageSmsRepository: Repository<MessageSmsTable>;
 
-  constructor(private messageSmsSenderService: MessageSmsSenderService) {
+  constructor() {
     this.messageSmsRepository = appTypeormManager.getRepository(
       MessageSmsTable
     );
@@ -95,7 +93,10 @@ export class SmsService {
       smsReady.interactionMetas.nbCourrier =
         smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
 
-    const content = generateSmsInteraction(usager, interaction);
+    const content = generateSmsInteraction(
+      interaction,
+      user.structure.sms.senderDetails
+    );
 
     const createdSms: MessageSms = {
       // Infos sur l'usager
@@ -113,13 +114,10 @@ export class SmsService {
       },
     };
 
-    console.log("APPEL API");
-
-    return this.messageSmsSenderService.sendSms(createdSms);
     return messageSmsRepository.save(createdSms);
   }
 
-  public getTimeline(user: AppAuthUser) {
+  public getTimeline(user: AppAuthUser): Promise<MessageSmsTable[]> {
     return this.messageSmsRepository.find({
       where: { structureId: user.structureId, status: "TO_SEND" },
       order: {

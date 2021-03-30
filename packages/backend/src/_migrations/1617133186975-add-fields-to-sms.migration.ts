@@ -6,6 +6,8 @@ export class autoMigration1617133186975 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`DELETE FROM "message_sms"`);
 
+    await queryRunner.query(`ALTER TABLE "message_sms" ADD "responseId" text`);
+
     await queryRunner.query(
       `ALTER TABLE "message_sms" ADD "phoneNumber" text NOT NULL`
     );
@@ -32,6 +34,9 @@ export class autoMigration1617133186975 implements MigrationInterface {
 
     await queryRunner.query(
       `ALTER TABLE "message_sms" DROP COLUMN "senderName"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "message_sms" DROP COLUMN "responseId"`
     );
     await queryRunner.query(
       `ALTER TABLE "message_sms" DROP COLUMN "phoneNumber"`
