@@ -6,3 +6,5 @@ export * from "./MessageSmsReminders.type";
 export * from "./MessageSmsInteractionMetas.type";
 export * from "./MessageSmsReminderMetas.type";
 export * from "./MessageSmsStatus.type";
+export * from "./MessageSmsSendErrors.type";
+export * from "./MessageSmsSendResponse.type";

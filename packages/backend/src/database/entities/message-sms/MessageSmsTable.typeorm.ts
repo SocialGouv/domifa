@@ -59,4 +59,10 @@ export class MessageSmsTable
 
   @Column({ type: "text", nullable: true })
   public errorMessage?: string;
+
+  @Column({ type: "text" })
+  public phoneNumber: string;
+
+  @Column({ type: "text" })
+  public senderName: string;
 }
