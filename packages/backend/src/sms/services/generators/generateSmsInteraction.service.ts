@@ -1,14 +1,9 @@
-import { UsagerLight } from "../../../database";
 import { InteractionDto } from "../../../interactions/interactions.dto";
 
 export function generateSmsInteraction(
-  usager: UsagerLight,
-  interaction: InteractionDto
+  interaction: InteractionDto,
+  senderDetails: string
 ): string {
-  //
-
-  const nomComplet = usager.prenom + " " + usager.nom;
-
   const interactionLabels = {
     colisIn: "colis",
     courrierIn: "courriers",
@@ -18,5 +13,12 @@ export function generateSmsInteraction(
   //
   const interactionValue = interactionLabels[interaction.type];
   //
-  return `Bonjour ${nomComplet}\nVous avez reçu ${interaction.nbCourrier} nouveaux ${interactionValue}\n`;
+  return (
+    "Bonjour, \nVous avez reçu " +
+    interaction.nbCourrier +
+    " nouveaux " +
+    interactionValue +
+    "\n\n" +
+    senderDetails
+  );
 }

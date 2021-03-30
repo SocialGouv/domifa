@@ -20,6 +20,9 @@ export const SMS_ON_HOLD_INTERACTION: (keyof MessageSms)[] = [
   "sendDate",
   "interactionMetas",
   "lastUpdate",
+  "responseId",
+  "phoneNumber",
+  "senderName",
   "statusUpdates",
 ];
 

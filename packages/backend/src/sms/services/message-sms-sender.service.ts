@@ -1,4 +1,3 @@
-import { StructureLight } from "../../_common/model/structure/StructureLight.type";
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosError, AxiosResponse } from "axios";
 
@@ -7,16 +6,22 @@ import {
   MessageSmsSendResponse,
 } from "../../_common/model/message-sms";
 import { domifaConfig } from "../../config";
+import { Repository } from "typeorm";
+import { appTypeormManager } from "../../database";
+import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
+import { messageSmsRepository } from "../../database/services/message-sms";
+import { appLogger } from "../../util";
 @Injectable()
 export class MessageSmsSenderService {
-  constructor(private httpService: HttpService) {}
+  private messageSmsRepository: Repository<MessageSmsTable>;
+
+  constructor(private httpService: HttpService) {
+    this.messageSmsRepository = appTypeormManager.getRepository(
+      MessageSmsTable
+    );
+  }
 
   public async sendSms(message: MessageSms) {
-    // 1. Get On Hold SMS < NOW
-    // 2. Parcours des sms
-    // 3. Envoi
-    // 4. Catch de la réponse
-
     const options: {
       key: string;
       message: string;
@@ -25,7 +30,7 @@ export class MessageSmsSenderService {
     } = {
       key: domifaConfig().sms.apiKey,
       message: message.content,
-      destinataires: message.phoneNumber,
+      destinataires: message.phoneNumber + "IAJA",
       expediteur: message.senderName,
     };
 
@@ -33,23 +38,36 @@ export class MessageSmsSenderService {
       "https://www.spot-hit.fr/api/envoyer/sms/?key=" +
       options.key +
       "&message=" +
-      options.message +
+      encodeURIComponent(options.message) +
       "&destinataires=" +
       options.destinataires +
       "&expediteur=" +
-      options.expediteur;
+      encodeURIComponent(options.expediteur);
 
     return this.httpService.get(endPoint).subscribe(
-      (response: AxiosResponse<MessageSmsSendResponse[]>) => {
-        console.log(response);
+      (response: AxiosResponse) => {
+        const responseContent: MessageSmsSendResponse = response.data;
+        const updateSms: Partial<MessageSms> = {
+          status: "ON_HOLD",
+          sendDate: new Date(),
+          lastUpdate: new Date(),
+        };
+
+        if (responseContent.resultat === 1) {
+          updateSms.responseId = responseContent.id;
+        } else {
+          updateSms.status = "FAILURE";
+          updateSms.errorMessage = responseContent.erreurs.toString();
+        }
+
+        messageSmsRepository.updateOne({ uuid: message.uuid }, updateSms);
       },
       (error: AxiosError) => {
-        console.log(error);
+        appLogger.error(`[SmsSender] Error running application`, {
+          error,
+          sentry: true,
+        });
       }
     );
-  }
-
-  private async _findUsersToSendImportGuide(): Promise<MessageSms[]> {
-    return [];
   }
 }

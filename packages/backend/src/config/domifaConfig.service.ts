@@ -286,7 +286,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
           {
-            defaultValue: CronExpression.EVERY_10_MINUTES, // most of the time, the CRON is not necessary, as the mail consummer is triggered immediately by messageEmailSender
+            defaultValue: CronExpression.EVERY_DAY_AT_5PM, //
           }
         ),
         autoRunOnStartup: false,

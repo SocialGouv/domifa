@@ -32,6 +32,9 @@ export class MessageSmsTable
   @Column({ type: "text" })
   public smsId: MessageSmsId;
 
+  @Column({ type: "text", nullable: true })
+  public responseId: string;
+
   // DATE D'ENVOI PRÉVUE
   @Column({ type: "timestamptz" })
   public scheduledDate: Date;
