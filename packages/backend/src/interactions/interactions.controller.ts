@@ -69,8 +69,14 @@ export class InteractionsController {
           interaction.type === "colisOut" ||
           interaction.type === "recommandeOut"
         ) {
+          const len = interaction.type.length;
+
+          const inType = ((interaction.type.substring(0, len - 3) +
+            "In") as unknown) as InteractionType;
+
+          interaction.type = inType;
           // Suppression du SMS en file d'attente
-          const smsToDelete = await this.smsService.deleteSmsInteraction(
+          const smsToDelete = await this.smsService.deleteSmsInteractionOut(
             usager,
             user,
             interaction

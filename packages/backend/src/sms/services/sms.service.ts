@@ -29,6 +29,23 @@ export class SmsService {
     );
   }
 
+  public async deleteSmsInteractionOut(
+    usager: UsagerLight,
+    user: AppAuthUser,
+    interaction: InteractionDto
+  ) {
+    const smsOnHold = await messageSmsRepository.findSmsOnHold({
+      usager,
+      user,
+      interactionType: interaction.type,
+    });
+
+    if (smsOnHold) {
+      return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
+    } else {
+      // ERROR
+    }
+  }
   public async deleteSmsInteraction(
     usager: UsagerLight,
     user: AppAuthUser,
@@ -44,14 +61,14 @@ export class SmsService {
       smsOnHold.interactionMetas.nbCourrier =
         smsOnHold.interactionMetas.nbCourrier - interaction.nbCourrier;
 
-      if (smsOnHold.interactionMetas.nbCourrier === 0) {
+      if (smsOnHold.interactionMetas.nbCourrier > 0) {
         return messageSmsRepository.updateOne(
           { uuid: smsOnHold.uuid },
-          smsOnHold
+          { interactionMetas: smsOnHold.interactionMetas }
         );
+      } else {
+        return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
       }
-
-      return messageSmsRepository.deleteByCriteria(smsOnHold);
     } else {
       // ERROR
     }
@@ -63,8 +80,7 @@ export class SmsService {
     interaction: InteractionDto
   ) {
     const scheduledDate = moment()
-      .utc()
-      .set({ hour: 19, minute: 0, second: 0 })
+      .set({ hour: 19, minutes: 0, second: 0 })
       .toDate();
 
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({

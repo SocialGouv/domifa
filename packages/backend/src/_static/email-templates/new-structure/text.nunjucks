@@ -7,7 +7,7 @@ Département : {{ departement }}
 
 Adresse :
 {{ adresse }}
-{{ ville }}, {{ code_postal }}
+{{ code_postal }}, {{ ville }}
 
 Coordonnées de la structure:
 {{ email }}
