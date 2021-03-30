@@ -21,7 +21,6 @@ import { generateSmsInteraction } from "./generators";
 @Injectable()
 export class SmsService {
   // Délai entre chaque message envoyé
-  public interactionDelay: number = 60 * 60;
 
   private messageSmsRepository: Repository<MessageSmsTable>;
   constructor() {
@@ -35,12 +34,9 @@ export class SmsService {
     user: AppAuthUser,
     interaction: InteractionDto
   ) {
-    const hour = moment().set({ hour: 22, minute: 0, second: 0 }).toDate();
-
     const smsOnHold = await messageSmsRepository.findSmsOnHold({
       usager,
       user,
-      scheduledDate: hour,
       interactionType: interaction.type,
     });
 
@@ -66,37 +62,43 @@ export class SmsService {
     user: AppAuthUser,
     interaction: InteractionDto
   ) {
-    const hour = moment().set({ hour: 22, minute: 0, second: 0 }).toDate();
+    const scheduledDate = moment()
+      .utc()
+      .set({ hour: 19, minute: 0, second: 0 })
+      .toDate();
 
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
       usager,
       user,
-      scheduledDate: hour,
       interactionType: interaction.type,
     });
 
     if (smsReady) {
       smsReady.interactionMetas.nbCourrier =
         smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
-      return messageSmsRepository.updateOne({ uuid: smsReady.uuid }, smsReady);
+
+      return messageSmsRepository.updateOne(
+        { uuid: smsReady.uuid },
+        { interactionMetas: smsReady.interactionMetas }
+      );
+    } else {
+      const content = generateSmsInteraction(usager, interaction);
+
+      const createdSms: MessageSms = {
+        // Infos sur l'usager
+        usagerRef: usager.ref,
+        structureId: user.structureId,
+        content,
+        smsId: interaction.type,
+        scheduledDate,
+        interactionMetas: {
+          nbCourrier: interaction.nbCourrier,
+          date: new Date(),
+          interactionType: interaction.type,
+        },
+      };
+      return messageSmsRepository.save(createdSms);
     }
-
-    const content = generateSmsInteraction(usager, interaction);
-
-    const createdSms: MessageSms = {
-      // Infos sur l'usager
-      usagerRef: usager.ref,
-      structureId: user.structureId,
-      content,
-      smsId: interaction.type,
-      scheduledDate: moment().add(2, "hours").toDate(),
-      interactionMetas: {
-        nbCourrier: interaction.nbCourrier,
-        date: new Date(),
-        interactionType: interaction.type,
-      },
-    };
-    return messageSmsRepository.save(createdSms);
   }
 
   public getTimeline(user: AppAuthUser) {

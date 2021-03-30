@@ -96,7 +96,7 @@
                 *ngIf="submitted && form.senderDetails.errors"
                 class="invalid-feedback"
               >
-                L'expditeur long est obligatoire (maximum 30 caractères)
+                La signature du message est obligatoire (maximum 30 caractères)
               </div>
             </div>
 
@@ -150,7 +150,9 @@
                 >
               </td>
               <td>{{ sms.interactionMetas.nbCourrier }}</td>
-              <td>{{ sms.interactionMetas.interactionType }}</td>
+              <td>
+                {{ interactionsLabels[sms.interactionMetas.interactionType] }}
+              </td>
               <td>{{ sms.scheduledDate | date: "dd/MM/yyyy à HH:MM" }}</td>
             </tr>
           </tbody>
