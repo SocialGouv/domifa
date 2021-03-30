@@ -29,7 +29,7 @@
             </div>
             <ul>
                <li>{{ adresse }}</li>
-               <li>{{ ville }}, {{ code_postal }}</li>
+               <li>{{ code_postal }}, {{ ville }}</li>
             </ul>
           </div>
 
@@ -63,7 +63,7 @@
           <div class="my-12">
                <hr/>
                <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à: 
+                    <b>Message redirigé</b>, initialement destiné à:
                     <br/>{{toSkipString}}
                </div>
           </div>

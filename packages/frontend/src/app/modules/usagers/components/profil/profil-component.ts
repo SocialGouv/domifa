@@ -300,12 +300,16 @@ export class UsagersProfilComponent implements OnInit {
 
   public deleteInteraction(idInteraction: number) {
     this.matomo.trackEvent("profil", "interactions", "delete", 1);
-    this.interactionService
-      .delete(this.usager.ref, idInteraction)
-      .subscribe((usager: UsagerLight) => {
+    this.interactionService.delete(this.usager.ref, idInteraction).subscribe(
+      (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
+        this.notifService.success("Interactionn supprimée avec succès");
         this.getInteractions();
-      });
+      },
+      (error) => {
+        this.notifService.error("Impossible de supprimer l'interaction");
+      }
+    );
   }
 
   public deleteUsager() {
