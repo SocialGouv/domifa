@@ -17,13 +17,15 @@ import { MessageSms } from "../../_common/model/message-sms";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { Repository } from "typeorm";
 import { generateSmsInteraction } from "./generators";
+import { MessageSmsSenderService } from "./message-sms-sender.service";
 
 @Injectable()
 export class SmsService {
   // Délai entre chaque message envoyé
 
   private messageSmsRepository: Repository<MessageSmsTable>;
-  constructor() {
+
+  constructor(private messageSmsSenderService: MessageSmsSenderService) {
     this.messageSmsRepository = appTypeormManager.getRepository(
       MessageSmsTable
     );
@@ -93,28 +95,28 @@ export class SmsService {
       smsReady.interactionMetas.nbCourrier =
         smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
 
-      return messageSmsRepository.updateOne(
-        { uuid: smsReady.uuid },
-        { interactionMetas: smsReady.interactionMetas }
-      );
-    } else {
-      const content = generateSmsInteraction(usager, interaction);
+    const content = generateSmsInteraction(usager, interaction);
 
-      const createdSms: MessageSms = {
-        // Infos sur l'usager
-        usagerRef: usager.ref,
-        structureId: user.structureId,
-        content,
-        smsId: interaction.type,
-        scheduledDate,
-        interactionMetas: {
-          nbCourrier: interaction.nbCourrier,
-          date: new Date(),
-          interactionType: interaction.type,
-        },
-      };
-      return messageSmsRepository.save(createdSms);
-    }
+    const createdSms: MessageSms = {
+      // Infos sur l'usager
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+      content,
+      senderName: user.structure.sms.senderName,
+      smsId: interaction.type,
+      phoneNumber: usager.preference.phoneNumber,
+      scheduledDate: moment().add(2, "hours").toDate(),
+      interactionMetas: {
+        nbCourrier: interaction.nbCourrier,
+        date: new Date(),
+        interactionType: interaction.type,
+      },
+    };
+
+    console.log("APPEL API");
+
+    return this.messageSmsSenderService.sendSms(createdSms);
+    return messageSmsRepository.save(createdSms);
   }
 
   public getTimeline(user: AppAuthUser) {

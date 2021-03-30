@@ -24,6 +24,9 @@ export type MessageSms = AppEntity & {
   interactionMetas?: MessageSmsInteractionMetas;
   reminderMetas?: MessageSmsReminderMetas;
 
+  phoneNumber: string;
+  senderName: string;
+
   lastUpdate?: Date;
   statusUpdates?: MessageSmsUpdate[];
 
