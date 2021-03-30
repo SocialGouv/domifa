@@ -245,6 +245,10 @@ export class UsagersFormComponent implements OnInit {
         etapeDemande: this.usager.etapeDemande,
       };
 
+      if (!formValue.preference.phone) {
+        formValue.preference.phoneNumber = null;
+      }
+
       this.usagerService.create(formValue).subscribe(
         (usager: UsagerLight) => {
           this.notifService.success("Enregistrement réussi");
