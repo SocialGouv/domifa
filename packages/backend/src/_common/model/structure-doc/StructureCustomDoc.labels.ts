@@ -21,7 +21,7 @@ export const StructureCustomDocLabels: StructureCustomDoc = {
 
   // Si courrier différent
   STRUCTURE_COURRIER_ADRESSE: "Adresse de réception du courrier",
-  STRUCTURE_COURRIER_COMPLEMENT_ADRESSE: "Complément d'adresse courrier",
+
   STRUCTURE_COURRIER_VILLE: "Ville de réception courrier",
   STRUCTURE_COURRIER_CODE_POSTAL: "Code-postal de réception courrier",
 
