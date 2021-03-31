@@ -4,7 +4,7 @@ import { StructureStatsTable } from "../../entities";
 import { pgRepository } from "../_postgres";
 
 const STRUCTURE_STATS_ATTRIBUTES: (keyof StructureStats)[] = [
-  "_id",
+  "uuid",
   "createdAt",
   "date",
   "nom",

@@ -1,9 +1,5 @@
-import { DatabaseModule } from "../../database";
-import { UsagersProviders } from "../../usagers/usagers.providers";
-import { UsersProviders } from "../../users/users.providers";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { StructureDto } from "../dto/structure.dto";
-import { StructuresProviders } from "../structures-providers";
 import { StructuresService } from "./structures.service";
 
 describe("Structure Service", () => {
@@ -30,13 +26,8 @@ describe("Structure Service", () => {
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
-      imports: [DatabaseModule],
-      providers: [
-        StructuresService,
-        ...StructuresProviders,
-        ...UsagersProviders,
-        ...UsersProviders,
-      ],
+      imports: [],
+      providers: [StructuresService],
     });
     service = context.module.get<StructuresService>(StructuresService);
   });

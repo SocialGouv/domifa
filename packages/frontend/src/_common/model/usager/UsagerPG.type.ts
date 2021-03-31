@@ -11,11 +11,6 @@ import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
 
 export type UsagerPG = AppEntity & {
-  //  public _id: ObjectID;
-  /**
-   * @deprecated obsolete mongo id: use `uuid` instead.
-   */
-  _id?: any;
   ref: number; // unique par structure
   customRef: string; // valeur par défaut: 'ref'
   structureId: number;

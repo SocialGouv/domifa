@@ -13,10 +13,9 @@ import {
   StatsDeploiementExportModel,
 } from "../../excel/export-stats-deploiement";
 import { StatsExportUser } from "../../excel/export-stats-deploiement/StatsExportUser.type";
-import { Structure } from "../../structures/structure-interface";
 import { appLogger } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
-import { DashboardStats } from "../../_common/model";
+import { DashboardStats, Structure } from "../../_common/model";
 import { DashboardService } from "../services/dashboard.service";
 import moment = require("moment");
 

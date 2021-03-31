@@ -1,6 +1,6 @@
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
-import { StructurePG } from "../../../../_common/model";
+import { Structure } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
@@ -14,7 +14,7 @@ export const deleteStructureEmailSender = { sendMail };
 async function sendMail({
   structure,
 }: {
-  structure: StructurePG;
+  structure: Structure;
 }): Promise<void> {
   const frontendUrl = domifaConfig().apps.frontendUrl;
 

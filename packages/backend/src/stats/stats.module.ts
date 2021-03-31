@@ -1,5 +1,4 @@
 import { forwardRef, Module } from "@nestjs/common";
-import { DatabaseModule } from "../database";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -14,7 +13,6 @@ import { StatsService } from "./services/stats.service";
   controllers: [StatsController, DashboardController],
   exports: [StatsService, StatsGeneratorService, DashboardService],
   imports: [
-    DatabaseModule,
     forwardRef(() => UsersModule),
     forwardRef(() => StructuresModule),
     forwardRef(() => UsagersModule),

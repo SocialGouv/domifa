@@ -5,18 +5,6 @@ volumes:
   postgres-data:
 
 services:
-  mongo:
-    image: "mongo:4.2.13"
-    restart: always
-    volumes:
-      - domifa-data:/data/db
-    ports:
-      - "${DOCKER_LOCAL_PORT_MONGO}:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
-      MONGO_INITDB_DATABASE: ${DB_NAME}
-
   postgres:
     image: postgres:10.14
     restart: always
@@ -44,7 +32,6 @@ services:
     image: registry.gitlab.factory.social.gouv.fr/socialgouv/domifa/backend:${DOMIFA_DOCKER_IMAGE_VERSION}
     restart: always
     depends_on:
-      - "mongo"
       - "postgres"
     ports:
       - "${DOCKER_LOCAL_PORT_BACKEND}:3000"

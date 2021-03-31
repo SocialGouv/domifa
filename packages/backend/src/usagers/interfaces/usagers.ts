@@ -1,4 +1,3 @@
-import { Document } from "mongoose";
 import { UsagerPreferenceContact } from "../../database/entities/usager/UsagerPreferenceContact.type";
 import { AyantDroit } from "./ayant-droit";
 import { Decision } from "./decision";
@@ -7,7 +6,7 @@ import { Entretien } from "./entretien";
 import { Options } from "./options";
 import { Rdv } from "./rdv";
 
-export interface Usager extends Document {
+export interface Usager {
   id: number;
   nom: string;
   prenom: string;

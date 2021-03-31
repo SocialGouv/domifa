@@ -1,5 +1,4 @@
 import { forwardRef, INestApplication } from "@nestjs/common";
-import { DatabaseModule } from "../../database";
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { StructuresService } from "../../structures/services/structures.service";
 import { StructuresModule } from "../../structures/structure.module";
@@ -20,7 +19,6 @@ describe("StatsService", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       imports: [
-        DatabaseModule,
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),
         forwardRef(() => UsagersModule),

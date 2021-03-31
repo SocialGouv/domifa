@@ -3,7 +3,7 @@ import {
   AppUserForAdminEmail,
   MessageEmailContent,
 } from "../../../../database";
-import { StructurePG } from "../../../../_common/model";
+import { Structure } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
@@ -17,7 +17,7 @@ async function sendMail({
   structure,
   user,
 }: {
-  structure: StructurePG;
+  structure: Structure;
   user: AppUserForAdminEmail;
 }): Promise<void> {
   const route = structure.id + "/" + structure.token;

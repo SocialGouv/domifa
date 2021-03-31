@@ -1,9 +1,9 @@
-import { SmsModule } from "./../sms/sms.module";
 import { AuthService } from "../auth/auth.service";
-import { DatabaseModule, usagerRepository } from "../database";
+import { usagerRepository } from "../database";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
+import { SmsModule } from "./../sms/sms.module";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsService } from "./interactions.service";
@@ -17,7 +17,7 @@ describe("Interactions Controller", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [InteractionsController],
-      imports: [DatabaseModule, UsersModule, UsagersModule, SmsModule],
+      imports: [UsersModule, UsagersModule, SmsModule],
       providers: [InteractionsService],
     });
 

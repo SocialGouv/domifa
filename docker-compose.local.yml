@@ -1,36 +1,9 @@
 version: "3.4"
 
 volumes:
-  mongo-data:
   postgres-data:
 
 services:
-  mongo:
-    image: "mongo:4.2.13" # https://hub.docker.com/_/mongo/
-    container_name: domifa-mongo
-    volumes:
-      - mongo-data:/data/db
-      - $APP_DIR:/app:delegated
-        # NOTE: /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
-      - ./_scripts/docker/mongo-restore-dump.docker-entrypoint.sh:/docker-entrypoint-initdb.d/mongo-restore-dump.docker-entrypoint.sh
-      - ./_scripts:/app/_scripts:delegated
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD
-      - MONGO_INITDB_DATABASE
-      - MONGO_DUMP_PATH=/app/_scripts/db/dumps/domifa_test.mongo.gz
-      - RECREATE_USER=false
-    env_file:
-      - ./.env
-    ports:
-      - 27017:27017
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo --quiet
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 2s
-
   postgres:
     image: postgres:10.14
     container_name: domifa-postgres
@@ -79,7 +52,6 @@ services:
     environment:
       TZ: Europe/Paris
     depends_on:
-      - "mongo"
       - "postgres"
 
   frontend:

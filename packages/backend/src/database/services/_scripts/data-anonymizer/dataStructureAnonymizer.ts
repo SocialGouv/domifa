@@ -1,6 +1,5 @@
-import { Structure } from "../../../../structures/structure-interface";
 import { appLogger } from "../../../../util";
-import { StructurePG } from "../../../../_common/model";
+import { Structure } from "../../../../_common/model";
 import { structureRepository } from "../../structure";
 import { ANONYMIZE_STRUCTURE_ID_EXCEPTIONS } from "./ANONYMIZE_STRUCTURE_ID_EXCEPTIONS.const";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
@@ -16,7 +15,7 @@ function isStructureToAnonymise(structure: Pick<Structure, "id">) {
 
 async function anonymizeStructures() {
   const structures = await structureRepository.findMany<
-    Pick<StructurePG, "id" | "email">
+    Pick<Structure, "id" | "email">
   >({}, { select: ["id", "email"] });
 
   const structuresWithEmailsToAnonymize = structures.filter((x) =>
@@ -31,10 +30,8 @@ async function anonymizeStructures() {
   }
 }
 
-async function _anonymizeStructure(
-  structure: Pick<StructurePG, "id" | "email">
-) {
-  const attributesToUpdate: Partial<StructurePG> = {};
+async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
+  const attributesToUpdate: Partial<Structure> = {};
 
   structure.email = dataEmailAnonymizer.anonymizeEmail({
     prefix: "structure",

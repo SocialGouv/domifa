@@ -1,4 +1,3 @@
-import { MessageSms } from "./../../../../_common/model/message-sms/MessageSms.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AbstractControl } from "@angular/forms";
@@ -7,7 +6,8 @@ import { map } from "rxjs/operators";
 import { regexp } from "src/app/shared/validators";
 import { environment } from "src/environments/environment";
 import { AppUser, Structure, StructureCommon } from "../../../../_common/model";
-import { DepartementHelper } from "./departement-helper.service";
+import { MessageSms } from "./../../../../_common/model/message-sms/MessageSms.type";
+import { departementHelper } from "./departement-helper.service";
 import { StructureCommonWeb } from "./StructureCommonWeb.type";
 
 @Injectable({
@@ -15,12 +15,10 @@ import { StructureCommonWeb } from "./StructureCommonWeb.type";
 })
 export class StructureService {
   public http: HttpClient;
-  public departementHelper: DepartementHelper;
   private endPoint = environment.apiUrl + "structures";
 
-  constructor(http: HttpClient, departementHelper: DepartementHelper) {
+  constructor(http: HttpClient) {
     this.http = http;
-    this.departementHelper = departementHelper;
   }
 
   public findOne(structureId: number): Observable<any> {
@@ -123,7 +121,6 @@ export class StructureService {
   }
 
   public codePostalValidator() {
-    const departementHelper = this.departementHelper;
     return function validateCodePostal(control: AbstractControl) {
       const postalCode = control.value;
 

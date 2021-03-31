@@ -19,13 +19,8 @@ import { UsagerTypeDom } from "./UsagerTypeDom.type";
 export class UsagerTable
   extends AppTypeormTable<UsagerTable>
   implements UsagerPG {
-  //
   // ETAT-CIVIL
-  @Column({ type: "text", nullable: true, readonly: true })
-  public _id: any; // obsolete mongo id: use `uuid` instead
-
-  // pas de "id" pour le moment
-
+  // pas de "id", mais un champ 'ref'
   @Index()
   @Column({ type: "integer" }) // unique par structure
   public ref: number;

@@ -7,9 +7,6 @@ describe("loadConfig", () => {
   it("loadConfig TEST (default)", () => {
     const env: Partial<DomifaEnv> = {
       DOMIFA_ENV_ID: "test",
-      DB_USER: "value DB_USER",
-      DB_PASS: "value DB_PASS",
-      DB_NAME: "value DB_NAME",
       POSTGRES_USERNAME: "value POSTGRES_USERNAME",
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
@@ -30,13 +27,6 @@ describe("loadConfig", () => {
     expect(config.security.files.iv).toBeDefined();
     expect(config.security.files.private).toBeDefined();
 
-    expect(config.mongo.host).toBeDefined();
-    expect(config.mongo.port).toBeDefined();
-    expect(config.mongo.debug).toEqual(false);
-    expect(config.mongo.user).toEqual(env.DB_USER);
-    expect(config.mongo.pass).toEqual(env.DB_PASS);
-    expect(config.mongo.name).toEqual(env.DB_NAME);
-
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
     expect(config.postgres.logging).toEqual(false);
@@ -56,9 +46,6 @@ describe("loadConfig", () => {
   it("loadConfig DEV (default)", () => {
     const env: Partial<DomifaEnv> = {
       DOMIFA_ENV_ID: "dev",
-      DB_USER: "value DB_USER",
-      DB_PASS: "value DB_PASS",
-      DB_NAME: "value DB_NAME",
       POSTGRES_USERNAME: "value POSTGRES_USERNAME",
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
@@ -75,13 +62,6 @@ describe("loadConfig", () => {
     expect(config.security.corsUrl).toBeUndefined();
     expect(config.security.files.iv).toBeDefined();
     expect(config.security.files.private).toBeDefined();
-
-    expect(config.mongo.host).toBeDefined();
-    expect(config.mongo.port).toBeDefined();
-    expect(config.mongo.debug).toEqual(false);
-    expect(config.mongo.user).toEqual(env.DB_USER);
-    expect(config.mongo.pass).toEqual(env.DB_PASS);
-    expect(config.mongo.name).toEqual(env.DB_NAME);
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
@@ -104,9 +84,6 @@ describe("loadConfig", () => {
   it("loadConfig PROD (default)", () => {
     const env: Partial<DomifaEnv> = {
       DOMIFA_ENV_ID: "prod",
-      DB_USER: "value DB_USER",
-      DB_PASS: "value DB_PASS",
-      DB_NAME: "value DB_NAME",
       POSTGRES_USERNAME: "value POSTGRES_USERNAME",
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
@@ -133,13 +110,6 @@ describe("loadConfig", () => {
     expect(config.security.corsUrl).toEqual(env.DOMIFA_FRONTEND_URL);
     expect(config.security.files.iv).toBeDefined();
     expect(config.security.files.private).toBeDefined();
-
-    expect(config.mongo.host).toBeDefined();
-    expect(config.mongo.port).toBeDefined();
-    expect(config.mongo.debug).toEqual(false);
-    expect(config.mongo.user).toEqual(env.DB_USER);
-    expect(config.mongo.pass).toEqual(env.DB_PASS);
-    expect(config.mongo.name).toEqual(env.DB_NAME);
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();

@@ -7,7 +7,6 @@ export type HealthCheckInfo = {
 
 export type HealthCheckInfoServices = {
   postgres: HealthCheckServiceHealth;
-  mongo: HealthCheckServiceHealth;
   frontend: HealthCheckServiceHealth;
   version: { info: string; status: HealthCheckServiceStatus };
 };

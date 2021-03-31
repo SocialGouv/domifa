@@ -1,5 +1,4 @@
 import { forwardRef } from "@nestjs/common";
-import { DatabaseModule } from "../../database";
 import { InteractionsModule } from "../../interactions/interactions.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
@@ -8,7 +7,6 @@ import { AppTestContext, AppTestHelper } from "../../util/test";
 import { DashboardService } from "../services/dashboard.service";
 import { StatsGeneratorService } from "../services/stats-generator.service";
 import { StatsService } from "../services/stats.service";
-
 import { DashboardController } from "./dashboard.controller";
 
 describe("Dashboard Controller", () => {
@@ -19,7 +17,6 @@ describe("Dashboard Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [DashboardController],
       imports: [
-        DatabaseModule,
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),
         forwardRef(() => UsagersModule),

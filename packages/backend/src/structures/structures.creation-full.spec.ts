@@ -1,6 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
 import {
-  DatabaseModule,
   structureRepository,
   structureStatsRepository,
   usersRepository,
@@ -51,7 +50,6 @@ describe("Stuctures creation full", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [],
       imports: [
-        DatabaseModule,
         UsersModule,
         MailsModule,
         UsagersModule,

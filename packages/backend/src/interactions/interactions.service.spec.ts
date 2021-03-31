@@ -1,9 +1,4 @@
-import {
-  DatabaseModule,
-  UsagerPG,
-  usagerRepository,
-  usersRepository,
-} from "../database";
+import { UsagerPG, usagerRepository, usersRepository } from "../database";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
@@ -24,7 +19,6 @@ describe("InteractionsService", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       imports: [
-        DatabaseModule,
         InteractionsModule,
         UsagersModule,
         UsersModule,

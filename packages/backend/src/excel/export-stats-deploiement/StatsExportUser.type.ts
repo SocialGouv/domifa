@@ -1,5 +1,4 @@
-import { Structure } from "../../structures/structure-interface";
-import { AppUser } from "../../_common/model";
+import { AppUser, Structure } from "../../_common/model";
 
 export type StatsExportUser = Pick<
   AppUser,
