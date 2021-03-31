@@ -2994,13 +2994,14 @@
   dependencies:
     "@types/node" "*"
 
-"@types/email-templates@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-7.1.0.tgz#9dbdb4e20aa6c700f5587b9b76bcbd7111e985df"
-  integrity sha512-IhL+OLeZySsTq7dRtmytObRJaX5Y0SDKS1yTUtwjI6oS4rEXELiD+pYESdv/Eq5Stk8hz2unJeWChjHN/q34ig==
+"@types/email-templates@^8.0.2":
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/@types/email-templates/-/email-templates-8.0.2.tgz#e677e8400d0a639d1bfb0be546a225c27be5aedd"
+  integrity sha512-AmhvY1odkpbNyoltbmhYDxTuCRa9wLKdZfng6ijJ4Y/LJ4lUjP4jK4GORIaazd/TOwY5oFnZVcM606aO72Nu0g==
   dependencies:
     "@types/html-to-text" "*"
     "@types/nodemailer" "*"
+    juice "^7.0.0"
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.0"
