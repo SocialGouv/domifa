@@ -106,7 +106,7 @@ export class SmsService {
         senderName: user.structure.sms.senderName,
         smsId: interaction.type,
         phoneNumber: usager.preference.phoneNumber,
-        scheduledDate: moment().add(2, "hours").toDate(),
+        scheduledDate,
         interactionMetas: {
           nbCourrier: interaction.nbCourrier,
           date: new Date(),
