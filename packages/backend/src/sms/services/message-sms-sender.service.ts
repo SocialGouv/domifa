@@ -30,7 +30,8 @@ export class MessageSmsSenderService {
     } = {
       key: domifaConfig().sms.apiKey,
       message: message.content,
-      destinataires: message.phoneNumber + "IAJA",
+      destinataires:
+        domifaConfig().sms.phoneNumberRedirectAllTo || message.phoneNumber,
       expediteur: message.senderName,
     };
 
