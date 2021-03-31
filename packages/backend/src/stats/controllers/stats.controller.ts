@@ -149,23 +149,87 @@ export class StatsController {
         B: "",
       },
       {
-        A: "Nombre de domiciliés actifs par tranche d'âge",
+        A: "Nombre de domiciliés actifs par sexe",
         B: "",
       },
       {
-        A: "Majeurs",
-        B: stats.questions.Q_18,
+        A: "Femme",
+        B: stats.questions.USAGERS.SEXE.F,
       },
       {
-        A: "Mineurs",
-        B: stats.questions.Q_17,
+        A: "Homme",
+        B: stats.questions.USAGERS.SEXE.H,
       },
       {
         A: "",
         B: "",
       },
       {
-        A: " Nombre de domiciliés actifs par type de ménage",
+        A: "Nombre de domiciliés actifs par tranche d'âge",
+        B: "",
+      },
+      {
+        A: "Moins de 15 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_0_14,
+      },
+      {
+        A: "15-19 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_15_19,
+      },
+      {
+        A: "20-24 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_20_24,
+      },
+      {
+        A: "25-29 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_25_29,
+      },
+      {
+        A: "30-34 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_30_34,
+      },
+      {
+        A: "35-39 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_35_39,
+      },
+      {
+        A: "40-44 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_40_44,
+      },
+      {
+        A: "45-49 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_45_49,
+      },
+      {
+        A: "50-54 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_50_54,
+      },
+      {
+        A: "55-59 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_55_59,
+      },
+      {
+        A: "60-64 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_60_64,
+      },
+      {
+        A: "65-69 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_65_69,
+      },
+      {
+        A: "70-74 ans",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_70_74,
+      },
+      {
+        A: "75 ans ou plus",
+        B: stats.questions.USAGERS.TRANCHE_AGE.T_75_PLUS,
+      },
+      {
+        A: "",
+        B: "",
+      },
+      {
+        A: "Nombre de domiciliés actifs par type de ménage",
         B: "",
       },
       {
@@ -267,6 +331,25 @@ export class StatsController {
       {
         A: this.cause.VIOLENCE,
         B: stats.questions.Q_21.VIOLENCE,
+      },
+      {
+        A: "",
+        B: "",
+      },
+      {
+        A: "Motif principal de demande de domiciliation",
+      },
+      {
+        A: "Exercice des droits civils ou civiques",
+        B: stats.questions.Q_21.RAISON_DEMANDE.EXERCICE_DROITS,
+      },
+      {
+        A: "Accès aux prestations sociales",
+        B: stats.questions.Q_21.RAISON_DEMANDE.PRESTATIONS_SOCIALES,
+      },
+      {
+        A: "Autre raison",
+        B: stats.questions.Q_21.RAISON_DEMANDE.AUTRE,
       },
       {
         A: "",

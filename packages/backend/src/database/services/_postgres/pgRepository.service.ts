@@ -47,6 +47,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     deleteByCriteria,
     findOneWithQuery,
     findManyWithQuery,
+    _parseCounts,
   };
 
   async function typeorm() {
@@ -150,7 +151,9 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   }
 
   async function countBy<CountBy extends keyof T>({
+    alias = "s",
     where,
+    params,
     countBy,
     countByAlias,
     countAttribute = "uuid" as keyof T,
@@ -160,8 +163,11 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     },
     escapeAttributes = true,
     nullLabel,
+    logSql,
   }: {
+    alias?: string;
     where?: Partial<T>;
+    params?: { [attr: string]: any };
     countBy: CountBy;
     countByAlias?: string;
     countAttribute?: keyof T;
@@ -171,6 +177,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     };
     escapeAttributes?: boolean;
     nullLabel?: string;
+    logSql?: boolean;
   }): Promise<
     (Pick<T, CountBy> & {
       count: number;
@@ -178,13 +185,13 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   > {
     const typeormRepository = await typeorm();
     let qb = typeormRepository
-      .createQueryBuilder("s")
+      .createQueryBuilder(alias)
       .select(`COUNT(${escapeAttr(countAttribute, escapeAttributes)})`, "count")
       .addSelect(`${escapeAttr(countBy, escapeAttributes)}`, countByAlias)
-      .groupBy(`s.${escapeAttr(countBy, escapeAttributes)}`);
+      .groupBy(`${alias}.${escapeAttr(countBy, escapeAttributes)}`);
 
     if (where) {
-      qb = qb.where(where);
+      qb = qb.where(where, params);
     }
     if (order) {
       const orderBy = Object.keys(order).reduce((acc, key) => {
@@ -197,22 +204,16 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       qb = qb.orderBy(orderBy);
     }
 
+    if (logSql) {
+      appLogger.debug(`[pgRepository.aggregateAsNumber] "${qb.getSql()}"`);
+    }
+
     try {
       const results = await qb.getRawMany();
-      return results.map((r) => {
-        const label = countByAlias ? countByAlias : countBy;
-        if (nullLabel && r[label] === null) {
-          const res = {
-            count: parseInt(r.count, 10) as number,
-          } as any;
-          res[label] = nullLabel;
-          return res;
-        }
-        return {
-          ...r,
-          count: parseInt(r.count, 10) as number,
-        };
-      }) as any;
+      return _parseCounts<T, CountBy>(results, {
+        label: countByAlias ? countByAlias : (countBy as string),
+        nullLabel,
+      });
     } catch (err) {
       printQueryError<T>(qb);
       throw err;
@@ -383,6 +384,35 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     return res.affected;
   }
 }
+function _parseCounts<T, CountBy extends keyof T>(
+  results: any[],
+  {
+    label,
+    nullLabel,
+  }: {
+    label: string;
+    nullLabel?: string;
+  }
+): (Pick<T, CountBy> & {
+  count: number;
+})[] {
+  return results.map((r) => {
+    if (nullLabel && r[label] === null) {
+      const res: any = {
+        count: parseInt(r.count, 10) as number,
+      };
+      res[label] = nullLabel;
+      return res;
+    }
+    return {
+      ...r,
+      count: parseInt(r.count, 10) as number,
+    };
+  }) as (Pick<T, CountBy> & {
+    count: number;
+  })[];
+}
+
 function printQueryError<T>(qb) {
   appLogger.warn(
     `[pgRepository] invalid query "${qb.getSql()} - ${

@@ -1,3 +1,5 @@
+import { UsagerRaisonDemande } from "../../../../_common/model";
+
 export class Entretien {
   public domiciliation: boolean;
   public revenus: boolean;
@@ -9,7 +11,7 @@ export class Entretien {
   public residenceDetail: string;
   public cause: string;
   public causeDetail: string;
-  public raison: string;
+  public raison: UsagerRaisonDemande;
   public rattachement: string;
   public raisonDetail: string;
   public accompagnement: boolean;

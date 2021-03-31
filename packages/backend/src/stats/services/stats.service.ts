@@ -6,13 +6,15 @@ import {
   StructureStatsTable,
 } from "../../database";
 import { appLogger } from "../../util";
-import { StructureCommon, StructureStats } from "../../_common/model";
+import {
+  StructureCommon,
+  StructureStats,
+  StructureStatsQuestions,
+} from "../../_common/model";
 import {
   expectDateToHaveNoUtcHoursMinutes,
   StatsGeneratorService,
 } from "./stats-generator.service";
-
-import moment = require("moment");
 
 @Injectable()
 export class StatsService {
@@ -116,7 +118,7 @@ export class StatsService {
       return B;
     }
 
-    const questions = {
+    const questions: StructureStatsQuestions = {
       Q_10: B.questions.Q_10 - A.questions.Q_10,
 
       Q_10_A: B.questions.Q_10_A - A.questions.Q_10_A,
@@ -167,9 +169,6 @@ export class StatsService {
         ASSO: B.questions.Q_14.ASSO - A.questions.Q_14.ASSO,
       },
 
-      Q_17: B.questions.Q_17,
-      Q_18: B.questions.Q_18,
-
       Q_19: {
         COUPLE_AVEC_ENFANT: B.questions.Q_19.COUPLE_AVEC_ENFANT,
         COUPLE_SANS_ENFANT: B.questions.Q_19.COUPLE_SANS_ENFANT,
@@ -206,6 +205,7 @@ export class StatsService {
         SORTIE_STRUCTURE: B.questions.Q_21.SORTIE_STRUCTURE,
         VIOLENCE: B.questions.Q_21.VIOLENCE,
         NON_RENSEIGNE: B.questions.Q_21.NON_RENSEIGNE,
+        RAISON_DEMANDE: B.questions.Q_21.RAISON_DEMANDE,
       },
 
       /* SITUATION RESIDENTIELLE */
@@ -217,6 +217,28 @@ export class StatsService {
         HOTEL: B.questions.Q_22.HOTEL,
         SANS_ABRI: B.questions.Q_22.SANS_ABRI,
         NON_RENSEIGNE: B.questions.Q_22.NON_RENSEIGNE,
+      },
+      USAGERS: {
+        SEXE: {
+          F: B.questions.USAGERS.SEXE.F,
+          H: B.questions.USAGERS.SEXE.H,
+        },
+        TRANCHE_AGE: {
+          T_0_14: B.questions.USAGERS.TRANCHE_AGE.T_0_14,
+          T_15_19: B.questions.USAGERS.TRANCHE_AGE.T_15_19,
+          T_20_24: B.questions.USAGERS.TRANCHE_AGE.T_20_24,
+          T_25_29: B.questions.USAGERS.TRANCHE_AGE.T_25_29,
+          T_30_34: B.questions.USAGERS.TRANCHE_AGE.T_30_34,
+          T_35_39: B.questions.USAGERS.TRANCHE_AGE.T_35_39,
+          T_40_44: B.questions.USAGERS.TRANCHE_AGE.T_40_44,
+          T_45_49: B.questions.USAGERS.TRANCHE_AGE.T_45_49,
+          T_50_54: B.questions.USAGERS.TRANCHE_AGE.T_50_54,
+          T_55_59: B.questions.USAGERS.TRANCHE_AGE.T_55_59,
+          T_60_64: B.questions.USAGERS.TRANCHE_AGE.T_60_64,
+          T_65_69: B.questions.USAGERS.TRANCHE_AGE.T_65_69,
+          T_70_74: B.questions.USAGERS.TRANCHE_AGE.T_70_74,
+          T_75_PLUS: B.questions.USAGERS.TRANCHE_AGE.T_75_PLUS,
+        },
       },
     };
 

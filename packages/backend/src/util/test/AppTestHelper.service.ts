@@ -2,6 +2,7 @@ import { ModuleMetadata } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { Connection } from "typeorm";
 import { appTypeormManager } from "../../database";
+import { appLogger } from "../AppLogger.service";
 import { AppTestContext } from "./AppTestContext.type";
 
 export const AppTestHelper = {
@@ -38,5 +39,9 @@ async function bootstrapTestConnection(): Promise<Connection> {
 async function tearDownTestConnection({
   postgresTypeormConnection,
 }: Pick<AppTestContext, "postgresTypeormConnection">): Promise<void> {
-  postgresTypeormConnection.close();
+  if (postgresTypeormConnection) {
+    postgresTypeormConnection.close();
+  } else {
+    appLogger.error("Can not close missing postgres connexion");
+  }
 }

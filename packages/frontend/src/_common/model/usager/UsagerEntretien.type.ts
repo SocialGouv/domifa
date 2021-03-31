@@ -1,3 +1,5 @@
+import { UsagerRaisonDemande } from "./UsagerRaisonDemande.type";
+
 export type UsagerEntretien = {
   domiciliation?: boolean;
 
@@ -19,7 +21,7 @@ export type UsagerEntretien = {
 
   rattachement?: string;
 
-  raison?: string;
+  raison?: UsagerRaisonDemande;
   raisonDetail?: string;
 
   accompagnement?: boolean;
