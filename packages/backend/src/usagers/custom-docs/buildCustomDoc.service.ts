@@ -20,6 +20,9 @@ export function buildCustomDoc(
   // Date
   const dateOfDocument = date ? moment(date) : moment();
 
+  // Adresse courrier active
+  const isDifferentAddress =
+    structure.adresseCourrier !== null && structure.adresseCourrier?.actif;
   // Adresse
   let adresseStructure = ucFirst(structure.adresse);
 
@@ -77,10 +80,17 @@ export function buildCustomDoc(
     STRUCTURE_CODE_POSTAL: structure.codePostal,
 
     // ADRESSE COURRIER
-    STRUCTURE_COURRIER_ADRESSE: "",
-    STRUCTURE_COURRIER_COMPLEMENT_ADRESSE: "",
-    STRUCTURE_COURRIER_VILLE: "",
-    STRUCTURE_COURRIER_CODE_POSTAL: "",
+    STRUCTURE_COURRIER_ADRESSE: isDifferentAddress
+      ? ucFirst(structure.adresseCourrier.adresse)
+      : adresseStructure,
+
+    STRUCTURE_COURRIER_VILLE: isDifferentAddress
+      ? ucFirst(structure.adresseCourrier.ville)
+      : ucFirst(structure.ville),
+
+    STRUCTURE_COURRIER_CODE_POSTAL: isDifferentAddress
+      ? structure.adresseCourrier.codePostal
+      : structure.codePostal,
 
     // INFOS USAGER
     USAGER_REF: usager.ref.toString(),
