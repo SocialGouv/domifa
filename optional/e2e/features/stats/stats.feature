@@ -24,6 +24,3 @@ Scénario: Chercher des stats
   Alors je vois le chiffre "7" à la ligne "1"
   Alors je vois le chiffre "3" à la ligne "2"
   Alors je vois le chiffre "4" à la ligne "3"
-
-  Alors je vois le chiffre "3" à la ligne "5"
-  Alors je vois le chiffre "0" à la ligne "6"
