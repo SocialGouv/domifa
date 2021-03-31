@@ -93,28 +93,29 @@ export class SmsService {
       smsReady.interactionMetas.nbCourrier =
         smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
 
-    const content = generateSmsInteraction(
-      interaction,
-      user.structure.sms.senderDetails
-    );
+      const content = generateSmsInteraction(
+        interaction,
+        user.structure.sms.senderDetails
+      );
 
-    const createdSms: MessageSms = {
-      // Infos sur l'usager
-      usagerRef: usager.ref,
-      structureId: user.structureId,
-      content,
-      senderName: user.structure.sms.senderName,
-      smsId: interaction.type,
-      phoneNumber: usager.preference.phoneNumber,
-      scheduledDate: moment().add(2, "hours").toDate(),
-      interactionMetas: {
-        nbCourrier: interaction.nbCourrier,
-        date: new Date(),
-        interactionType: interaction.type,
-      },
-    };
+      const createdSms: MessageSms = {
+        // Infos sur l'usager
+        usagerRef: usager.ref,
+        structureId: user.structureId,
+        content,
+        senderName: user.structure.sms.senderName,
+        smsId: interaction.type,
+        phoneNumber: usager.preference.phoneNumber,
+        scheduledDate: moment().add(2, "hours").toDate(),
+        interactionMetas: {
+          nbCourrier: interaction.nbCourrier,
+          date: new Date(),
+          interactionType: interaction.type,
+        },
+      };
 
-    return messageSmsRepository.save(createdSms);
+      return messageSmsRepository.save(createdSms);
+    }
   }
 
   public getTimeline(user: AppAuthUser): Promise<MessageSmsTable[]> {
