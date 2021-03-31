@@ -18,7 +18,7 @@ describe("generate SMS", () => {
 
     const smsGenerated = generateSmsInteraction(mockInteraction, "DOMIFA");
     expect(smsGenerated).toEqual(
-      "Bonjour \nVous avez reçu 2 nouveaux courriers\n\nDOMIFA"
+      "Bonjour, \nVous avez reçu 2 nouveaux courriers\n\nDOMIFA"
     );
   });
 });
