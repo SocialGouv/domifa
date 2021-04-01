@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class autoMigration1617133186975 implements MigrationInterface {
-  name = "autoMigration1617133186975";
+export class autoMigration1615884899670 implements MigrationInterface {
+  name = "autoMigration1615884899670";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`DELETE FROM "message_sms"`);
