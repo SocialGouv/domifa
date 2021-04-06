@@ -60,7 +60,7 @@ function _advancedCount({
 
   return usagerCoreRepository.aggregateAsNumber({
     alias: "u",
-    where: where,
+    where,
     params,
     expression,
     resultAlias: "count",
@@ -137,7 +137,7 @@ async function countByTranchesAge(
   const ageReferenceDateIso = criteria.ageReferenceDate.toISOString();
 
   const typeormRepository = await usagerRepository.typeorm();
-  let qb = typeormRepository
+  const qb = typeormRepository
     .createQueryBuilder()
     .select(
       `CASE
