@@ -81,14 +81,14 @@ export class StructuresEditComponent implements OnInit {
       this.structureService
         .hardResetConfirm(this.hardResetForm.controls.token.value)
         .subscribe(
-          (retour: any) => {
+          () => {
             this.notifService.success(
               "La remise à zéro a été effectuée avec succès !"
             );
             this.closeModals();
             this.showHardReset = false;
           },
-          (error: any) => {
+          () => {
             this.notifService.error(
               "La remise à zéro n'a pas pu être effectuée !"
             );

@@ -33,7 +33,7 @@ import { UsagersProfilComponent } from "./modules/usagers/components/profil/prof
 import { RaftComponent } from "./modules/usagers/components/raft/raft.component";
 import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
 import { LoginComponent } from "./modules/users/components/login/login.component";
-import { RegisterUserComponent } from "./modules/users/components/register-user/register-user.component";
+
 import { ResetPasswordComponent } from "./modules/users/components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
 
@@ -76,11 +76,6 @@ export const routes: Routes = [
   {
     component: StructuresConfirmComponent,
     path: "structures/delete/:id/:token",
-  },
-  {
-    canActivate: [StructureGuard],
-    component: RegisterUserComponent,
-    path: "inscription/:id",
   },
   {
     canActivate: [AuthGuard],

@@ -141,12 +141,16 @@
             est requis
           </div>
         </div>
-        <div class="font-italic small mt-1" [ngClass]="{
-          'color-danger': isInvalidStructureName(f.nom.value)
-        }">
+        <div
+          class="font-italic small mt-1"
+          [ngClass]="{
+            'color-danger': isInvalidStructureName(f.nom.value)
+          }"
+        >
           <!-- // note: on ne bloque par l'inscription si invalide, mais on affiche le message en rouge -->
-          <b>Préciser le nom</b> de votre ville / de votre unité locale en cas de réseau / de votre association.
-          Ex : CCAS du Havre / Croix Rouge de Paris / Association Aurore
+          <b>Préciser le nom</b> de votre ville / de votre unité locale en cas
+          de réseau / de votre association. Ex : CCAS du Havre / Croix Rouge de
+          Paris / Association Aurore
         </div>
       </div>
 
@@ -506,8 +510,8 @@
   </form>
 </div>
 
-<div *ngIf="structureInscription.etapeInscription == 1">
+<div *ngIf="structureRegisterInfos.etapeInscription == 1">
   <app-register-user
-    [structureChild]="structureInscription"
+    [structureRegisterInfos]="structureRegisterInfos"
   ></app-register-user>
 </div>

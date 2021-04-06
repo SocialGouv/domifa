@@ -18,18 +18,16 @@ import { CurrentUser } from "../auth/current-user.decorator";
 import { AdminGuard } from "../auth/guards/admin.guard";
 import { ResponsableGuard } from "../auth/guards/responsable.guard";
 import {
-  AppUserForAdminEmail,
   userSecurityPasswordUpdater,
   userSecurityResetPasswordInitiator,
   userSecurityResetPasswordUpdater,
   usersRepository,
-  USERS_ADMIN_EMAILS_ATTRIBUTES,
 } from "../database";
 import {
   userAccountActivatedEmailSender,
   userResetPasswordEmailSender,
 } from "../mails/services/templates-renderers";
-import { userAccountCreatedEmailSender } from "../mails/services/templates-renderers/user-account-created";
+
 import { userAccountCreatedByAdminEmailSender } from "../mails/services/templates-renderers/user-account-created-by-admin";
 import { StructuresService } from "../structures/services/structures.service";
 import { appLogger } from "../util";
@@ -40,7 +38,7 @@ import { EmailDto } from "./dto/email.dto";
 import { RegisterUserAdminDto } from "./dto/register-user-admin.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserEditDto } from "./dto/user-edit.dto";
-import { UserDto } from "./dto/user.dto";
+
 import { usersCreator, usersDeletor } from "./services";
 
 @Controller("users")
@@ -213,62 +211,6 @@ export class UsersController {
     return res.status(HttpStatus.OK).json(userToUpdate);
   }
 
-  @Post()
-  public async create(@Body() userDto: UserDto, @Res() res: ExpressResponse) {
-    const user = await usersRepository.findOne({
-      email: userDto.email.toLowerCase(),
-    });
-
-    if (user || user !== undefined) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "EMAIL_EXIST" });
-    }
-
-    const structure = await this.structureService.findOneFull(
-      userDto.structureId
-    );
-    if (!structure) {
-      throw new HttpException(
-        "STRUCTURE_OR_USER_NOT_FOUND",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
-
-    const { user: newUser } = await usersCreator.createUserWithPassword(
-      userDto,
-      {
-        structureId: structure.id,
-        role: undefined,
-      }
-    );
-
-    if (!newUser) {
-      throw new HttpException(
-        "STRUCTURE_OR_USER_NOT_FOUND",
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
-
-    delete newUser.password;
-
-    const admins = await usersRepository.findMany<AppUserForAdminEmail>(
-      {
-        role: "admin",
-        structureId: newUser.structureId,
-      },
-      {
-        select: USERS_ADMIN_EMAILS_ATTRIBUTES,
-      }
-    );
-
-    return userAccountCreatedEmailSender
-      .sendMail({ admins, user: newUser })
-      .then(() => {
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      });
-  }
-
   @Post("validate-email")
   public async validateEmail(
     @Body() emailDto: EmailDto,
@@ -354,7 +296,6 @@ export class UsersController {
     const userExist = await usersRepository.findOne({
       email: registerUserDto.email.toLowerCase(),
     });
-
     if (userExist) {
       return res
         .status(HttpStatus.BAD_REQUEST)

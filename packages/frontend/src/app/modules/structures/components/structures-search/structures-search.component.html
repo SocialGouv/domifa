@@ -70,16 +70,16 @@
     <div class="text-center" *ngIf="structures.length > 0">
       <br />
       <b>
-        Si vous appartenez à l’une de ces structures, cliquez dessus pour vous
-        inscrire :
+        Si vous appartenez à l’une de ces structures, un membre de celle-ci doit
+        vous donner accès :
       </b>
       <div class="card" *ngFor="let structure of structures">
-        <a class="nav-link" [routerLink]="['/inscription/' + structure.id]">
-          <b>{{ structure.nom }}</b>
+        <span>
+          <b class="text-primary">{{ structure.nom }}</b>
           <br />
           {{ structure.adresse }},
-          <i> {{ structure.codePostal }}, {{ structure.ville }}</i>
-        </a>
+          <i>{{ structure.codePostal }}, {{ structure.ville }}</i>
+        </span>
       </div>
       <br />
       <p>

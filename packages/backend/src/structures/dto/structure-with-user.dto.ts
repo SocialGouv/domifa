@@ -9,11 +9,12 @@ export class StructureWithUserDto {
     required: true,
   })
   @IsObject()
-  structure: StructureDto;
+  public structure: StructureDto;
+
   @ApiProperty({
     type: UserDto,
     required: true,
   })
   @IsObject()
-  user: UserDto;
+  public user: UserDto;
 }

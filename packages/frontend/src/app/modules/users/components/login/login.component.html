@@ -53,9 +53,7 @@
         aria-label="Connexion"
         class="btn btn-primary"
       >
-        <span *ngIf="!loading">
-          Connexion
-        </span>
+        <span *ngIf="!loading"> Connexion </span>
 
         <span *ngIf="loading"
           ><fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Connexion en
@@ -65,10 +63,6 @@
     </div>
 
     <div class="text-center">
-      <a routerLink="/inscription" class="btn btn-link">
-        Inscription
-      </a>
-      |
       <a routerLink="/reset-password" class="btn btn-link">
         Mot de passe oublié
       </a>

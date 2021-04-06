@@ -9,7 +9,7 @@ import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { StructureCommon } from "../../../../../_common/model";
-import { departements } from "../../../../shared/constants";
+import { departements, DepartementsLabels } from "../../../../shared/constants";
 import { regexp } from "../../../../shared/validators";
 import { StructureService } from "../../services/structure.service";
 import { structureNameChecker } from "./structureNameChecker.service";
@@ -21,9 +21,10 @@ import { structureNameChecker } from "./structureNameChecker.service";
 })
 export class StructureEditFormComponent implements OnInit {
   public structureForm: FormGroup;
-  public departements: any;
-  public success: boolean = false;
-  public submitted: boolean = false;
+  public departements: DepartementsLabels;
+
+  public success: boolean;
+  public submitted: boolean;
 
   @Input() public structure: StructureCommon;
 
@@ -33,6 +34,7 @@ export class StructureEditFormComponent implements OnInit {
     private notifService: ToastrService
   ) {
     this.submitted = false;
+    this.success = false;
     this.departements = departements;
   }
 

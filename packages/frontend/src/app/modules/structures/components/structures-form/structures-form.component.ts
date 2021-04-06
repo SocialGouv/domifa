@@ -34,9 +34,9 @@ export class StructuresFormComponent implements OnInit {
     "Création du compte personnel",
   ];
 
-  public structureInscription: {
+  public structureRegisterInfos: {
     etapeInscription: number;
-    structureId: number;
+
     structure: StructureCommon;
   };
 
@@ -53,9 +53,9 @@ export class StructuresFormComponent implements OnInit {
 
     this.structure = new StructureCommonWeb();
 
-    this.structureInscription = {
+    this.structureRegisterInfos = {
       etapeInscription: 0,
-      structureId: 0,
+
       structure: this.structure,
     };
 
@@ -68,6 +68,7 @@ export class StructuresFormComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Inscrivez votre structure sur Domifa");
+
     this.structureForm = this.formBuilder.group({
       adresse: [this.structure.adresse, [Validators.required]],
       adresseCourrier: this.formBuilder.group({
@@ -168,9 +169,9 @@ export class StructuresFormComponent implements OnInit {
       this.structureService.prePost(this.structureForm.value).subscribe(
         (structure: StructureCommon) => {
           this.etapeInscription = 1;
-          this.structureInscription.etapeInscription = 1;
-          this.structureInscription.structureId = structure.id;
-          this.structureInscription.structure = structure;
+          this.structureRegisterInfos.etapeInscription = 1;
+
+          this.structureRegisterInfos.structure = structure;
         },
         (error) => {
           this.notifService.error("Veuillez vérifier les champs du formulaire");

@@ -181,8 +181,10 @@ export class EditUserComponent implements OnInit {
             "Félicitations !"
           );
         },
-        (error: any) => {
-          this.notifService.error(error.message, "Erreur dans le formulaire");
+        () => {
+          this.notifService.error(
+            "Une erreur est survenue, veuillez vérifier le formulaire"
+          );
         }
       );
     }
