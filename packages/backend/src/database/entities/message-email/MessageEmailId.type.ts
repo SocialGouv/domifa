@@ -7,7 +7,6 @@ export type MessageContentEmailId =
   | "delete-structure"
   | "hard-reset"
   | "user-guide"
-  | "user-account-created"
   | "user-account-activated"
   | "user-account-created-by-admin";
 

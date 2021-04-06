@@ -74,10 +74,12 @@
         vous donner accès :
       </b>
       <div class="card" *ngFor="let structure of structures">
-        <b>{{ structure.nom }}</b>
-        <br />
-        {{ structure.adresse }},
-        <i>{{ structure.codePostal }}, {{ structure.ville }}</i>
+        <span>
+          <b class="text-primary">{{ structure.nom }}</b>
+          <br />
+          {{ structure.adresse }},
+          <i>{{ structure.codePostal }}, {{ structure.ville }}</i>
+        </span>
       </div>
       <br />
       <p>

@@ -16,6 +16,7 @@ export class StructuresSearchComponent implements OnInit {
 
   public codePostal: string;
   public codePostalForm!: FormGroup;
+
   constructor(
     private structureService: StructureService,
     private formBuilder: FormBuilder,
