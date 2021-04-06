@@ -3,10 +3,7 @@ import { Cron } from "@nestjs/schedule";
 import { Repository } from "typeorm";
 
 import { domifaConfig } from "../../config";
-import {
-  appTypeormManager,
-  MonitoringBatchProcessTrigger,
-} from "../../database";
+import { appTypeormManager } from "../../database";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { appLogger } from "../../util";
 
@@ -26,22 +23,19 @@ export class CronSmsInteractionSenderService {
     if (!domifaConfig().cron.enable) {
       return;
     }
-    await this.sendSmsImports("cron");
+    await this.sendSmsImports();
   }
 
-  public async sendSmsImports(trigger: MonitoringBatchProcessTrigger) {
+  public async sendSmsImports() {
     const messageSmsList = await this._findSmsToSend();
 
     for (const messageSms of messageSmsList) {
       try {
         await this.messageSmsSenderService.sendSms(messageSms);
       } catch (err) {
-        appLogger.warn(
-          `[CronSms] Too many errors: skip next users: : ${err.message}`,
-          {
-            sentryBreadcrumb: true,
-          }
-        );
+        appLogger.warn(`[CronSms] ERROR in sending SMS : ${err.message}`, {
+          sentryBreadcrumb: true,
+        });
         break;
       }
     }

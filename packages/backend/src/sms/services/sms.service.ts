@@ -83,9 +83,26 @@ export class SmsService {
     user: AppAuthUser,
     interaction: InteractionDto
   ) {
-    const scheduledDate = moment()
-      .set({ hour: 19, minutes: 0, second: 0 })
+    let scheduledDate = moment()
+      .set({
+        hour: 19,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+      })
       .toDate();
+
+    if (new Date() > scheduledDate) {
+      scheduledDate = moment()
+        .add(1, "day")
+        .set({
+          hour: 19,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        })
+        .toDate();
+    }
 
     console.log("interaction");
     console.log(interaction);
