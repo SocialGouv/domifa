@@ -263,10 +263,10 @@ table .active {
   position: absolute;
   right: 20px;
 }
+
 .step_form .card {
   margin: 15px auto;
   width: 90%;
-  cursor: pointer;
 }
 
 .reponses {

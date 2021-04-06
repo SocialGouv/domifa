@@ -6,6 +6,9 @@
   opacity: 0.5;
 }
 
+.card {
+  cursor: pointer;
+}
 .card_selected,
 .card:hover,
 .card:focus {
