@@ -143,13 +143,13 @@ export class AppComponent implements OnInit {
                 );
               }
             } else {
-              this.modalService.dismissAll();
               if (this.apiVersion === null) {
                 // Initialisation de la première version
                 this.apiVersion = retour.info.version.info;
               }
 
               if (this.apiVersion !== retour.info.version.info) {
+                this.modalService.dismissAll();
                 // On update la page
                 this.modalService.open(this.versionModal, this.modalOptions);
                 // Reload dans 5 secondes
