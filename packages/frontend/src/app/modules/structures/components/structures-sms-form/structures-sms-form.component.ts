@@ -24,9 +24,6 @@ export class StructuresSmsFormComponent implements OnInit {
   public structureSmsForm!: FormGroup;
 
   public interactionsLabels: any;
-  get form() {
-    return this.structureSmsForm.controls;
-  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,6 +34,13 @@ export class StructuresSmsFormComponent implements OnInit {
   ) {
     this.interactionsLabels = interactionsLabels;
     this.smsList = [];
+    this.me = null;
+    this.structure = null;
+    this.submitted = false;
+  }
+
+  get form() {
+    return this.structureSmsForm.controls;
   }
 
   public ngOnInit(): void {
@@ -46,9 +50,8 @@ export class StructuresSmsFormComponent implements OnInit {
 
     this.titleService.setTitle("Paramétrer les SMS");
 
-    this.structureService
-      .findMyStructure()
-      .subscribe((structure: StructureCommon) => {
+    this.structureService.findMyStructure().subscribe(
+      (structure: StructureCommon) => {
         this.structure = structure;
 
         if (!this.structure.sms.senderDetails) {
@@ -57,18 +60,28 @@ export class StructuresSmsFormComponent implements OnInit {
             30
           );
         }
+
         if (!this.structure.sms.senderName) {
           this.structure.sms.senderName = generateSender(
-            this.structure.nom.substring(0, 30)
+            this.structure.nom.substring(0, 11)
           );
         }
 
         this.initForm();
-      });
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
 
-    this.structureService.smsTimeline().subscribe((smsList: MessageSms[]) => {
-      this.smsList = smsList;
-    });
+    this.structureService.smsTimeline().subscribe(
+      (smsList: MessageSms[]) => {
+        this.smsList = smsList;
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
 
   public initForm() {
@@ -87,16 +100,21 @@ export class StructuresSmsFormComponent implements OnInit {
       ],
     });
 
-    const senderNameChange = this.structureSmsForm.get("senderName");
-    senderNameChange.valueChanges.subscribe(() => {
-      senderNameChange.patchValue(generateSender(senderNameChange.value), {
-        emitEvent: false,
-      });
+    this.structureSmsForm.get("senderName").valueChanges.subscribe(() => {
+      this.structureSmsForm
+        .get("senderName")
+        .patchValue(
+          generateSender(this.structureSmsForm.get("senderName").value),
+          {
+            emitEvent: false,
+          }
+        );
     });
   }
 
   public submitStructureSmsForm() {
     this.submitted = true;
+
     if (this.structureSmsForm.invalid) {
       this.notifService.error("Veuillez vérifier le formulaire");
     } else {
