@@ -35,21 +35,7 @@ describe("RegisterUserComponent", () => {
         RouterModule.forRoot([]),
       ],
 
-      providers: [
-        { provide: APP_BASE_HREF, useValue: "/" },
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
-          },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
-          },
-        },
-      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

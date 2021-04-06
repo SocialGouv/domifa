@@ -1,7 +1,7 @@
 import {
   IsEmail,
+  IsEmpty,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   MaxLength,
   MinLength,
@@ -30,6 +30,9 @@ export class UserDto {
   @IsEmail()
   public readonly email!: string;
 
+  @IsOptional()
+  public readonly phone!: string;
+
   @IsNotEmpty()
   @MinLength(12, {
     message: "PASSWORD_TOO_SMALL",
@@ -39,14 +42,9 @@ export class UserDto {
   })
   public readonly password!: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  @IsOptional()
+  @IsEmpty()
   public readonly structureId?: number;
 
-  @IsOptional()
+  @IsEmpty()
   public readonly structure?: {};
-
-  @IsOptional()
-  public readonly phone!: string;
 }

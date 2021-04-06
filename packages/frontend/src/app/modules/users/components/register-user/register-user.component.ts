@@ -6,8 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
-import { MatomoTracker } from "ngx-matomo";
+
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
@@ -37,9 +36,8 @@ export class RegisterUserComponent implements OnInit {
 
   public emailExist: boolean = false;
 
-  @Input() public structureChild!: {
+  @Input() public structureRegisterInfos!: {
     etapeInscription: number;
-    structureId: number;
     structure: StructureCommon;
   };
 
@@ -50,11 +48,9 @@ export class RegisterUserComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
-    private route: ActivatedRoute,
     private structureService: StructureService,
     private notifService: ToastrService,
-    private titleService: Title,
-    private matomo: MatomoTracker
+    private titleService: Title
   ) {
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
@@ -65,10 +61,6 @@ export class RegisterUserComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle("Inscription sur Domifa");
-    this.user.structureId =
-      this.structureChild !== undefined
-        ? this.structureChild.structureId
-        : (this.user.structureId = parseInt(this.route.snapshot.params.id, 10));
 
     this.userForm = this.formBuilder.group(
       {
@@ -94,7 +86,6 @@ export class RegisterUserComponent implements OnInit {
           ]),
         ],
         prenom: [this.user.prenom, Validators.required],
-        structureId: [this.user.structureId, []],
       },
       {
         validator: PasswordValidator.passwordMatchValidator,
@@ -110,57 +101,26 @@ export class RegisterUserComponent implements OnInit {
         "Erreur dans le formulaire"
       );
     } else {
-      if (this.structureChild) {
-        this.structureService
-          .create({
-            structure: this.structureChild.structure,
-            user: this.userForm.value,
-          })
-          .subscribe(
-            (structure: StructureCommon) => {
-              this.userForm.controls.structureId.setValue(structure.id);
-              this.structureChild.structureId = structure.id;
-              this.user.structureId = structure.id;
-              this.success = true;
-              this.notifService.success(
-                "Votre compte a été créé avec succès",
-                "Félicitations !"
-              );
-            },
-            (error) => {
-              this.notifService.error(
-                "Veuillez vérifier les champs du formulaire"
-              );
-            }
-          );
-      } else {
-        this.postUser();
-      }
+      this.structureService
+        .create({
+          structure: this.structureRegisterInfos.structure,
+          user: this.userForm.value,
+        })
+        .subscribe(
+          (structure: StructureCommon) => {
+            this.success = true;
+            this.notifService.success(
+              "Votre compte a été créé avec succès",
+              "Félicitations !"
+            );
+          },
+          () => {
+            this.notifService.error(
+              "Veuillez vérifier les champs du formulaire"
+            );
+          }
+        );
     }
-  }
-
-  public postUser() {
-    this.userService.create(this.userForm.value).subscribe(
-      (user: AppUser) => {
-        this.success = true;
-        this.notifService.success(
-          "Votre compte a été créé avec succès",
-          "Félicitations !"
-        );
-        this.matomo.trackEvent(
-          "tests_utilisateurs",
-          "inscription_user",
-          "structure_form",
-          1
-        );
-      },
-      () => {
-        this.notifService.error(
-          "veuillez vérifier les champs marqués en rouge dans le formulaire",
-          "Erreur dans le formulaire"
-        );
-      }
-    );
   }
 
   public validateEmailNotTaken(control: AbstractControl) {
