@@ -10,6 +10,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
+import { RegisterUserComponent } from "./components/register-user/register-user.component";
 import { StructureEditFormComponent } from "./components/structure-edit-form/structure-edit-form.component";
 import { StructuresConfirmComponent } from "./components/structures-confirm/structures-confirm.component";
 import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
@@ -30,6 +31,7 @@ import { StructureService } from "./services/structure.service";
     StructuresUploadDocsComponent,
     StructuresConfirmComponent,
     StructuresSmsFormComponent,
+    RegisterUserComponent,
   ],
   exports: [
     StructuresConfirmComponent,

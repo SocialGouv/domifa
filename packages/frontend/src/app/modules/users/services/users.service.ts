@@ -9,6 +9,7 @@ import {
   UserProfile,
   UserRole,
 } from "../../../../_common/model";
+import { UserEditProfile } from "../../../../_common/model/app-user/UserEditProfile.type";
 import { appUserBuilder } from "./app-user-builder.service";
 
 @Injectable({
@@ -38,12 +39,8 @@ export class UsersService {
     );
   }
 
-  public create(data: any) {
-    return this.http.post(`${this.endPoint}`, data);
-  }
-
-  public patch(data: any) {
-    return this.http.patch(`${this.endPoint}`, data).pipe(
+  public patch(userInfos: UserEditProfile) {
+    return this.http.patch(`${this.endPoint}`, userInfos).pipe(
       map((response) => {
         return appUserBuilder.buildAppUser(response);
       })

@@ -9,7 +9,6 @@ import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { RegisterUserComponent } from "./register-user.component";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("RegisterUserComponent", () => {
   let component: RegisterUserComponent;

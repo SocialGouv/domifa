@@ -2,7 +2,7 @@ import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -14,8 +14,8 @@ import { UsagerFormModel } from "../../form/UsagerFormModel";
 import { UsagersProfilProcurationCourrierComponent } from "./profil-procuration-courrier-component";
 
 describe("UsagersProfilProcurationCourrierComponent", () => {
-  let fixture: any;
-  let component: any;
+  let fixture: ComponentFixture<UsagersProfilProcurationCourrierComponent>;
+  let component: UsagersProfilProcurationCourrierComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

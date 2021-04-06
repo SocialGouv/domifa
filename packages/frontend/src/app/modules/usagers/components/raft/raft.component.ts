@@ -19,7 +19,7 @@ export class RaftComponent implements OnInit {
   public usager: UsagerFormModel;
   public user: AppUser;
 
-  public motifsRadiation: any;
+  public motifsRadiation: { [key: string]: string };
 
   constructor(
     private usagerService: UsagerService,

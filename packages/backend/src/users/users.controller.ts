@@ -296,7 +296,6 @@ export class UsersController {
     const userExist = await usersRepository.findOne({
       email: registerUserDto.email.toLowerCase(),
     });
-
     if (userExist) {
       return res
         .status(HttpStatus.BAD_REQUEST)

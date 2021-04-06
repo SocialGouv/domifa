@@ -84,7 +84,7 @@ export class StructuresUploadDocsComponent implements OnInit {
         saveAs(newBlob, structureDoc.label + "." + extension);
         structureDoc.loadingDownload = false;
       },
-      (error: any) => {
+      () => {
         this.notifService.error("Impossible de télécharger le fichier");
         structureDoc.loadingDownload = false;
       }

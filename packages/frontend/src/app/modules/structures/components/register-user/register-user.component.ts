@@ -14,9 +14,9 @@ import { StructureService } from "src/app/modules/structures/services/structure.
 import { AppUser, StructureCommon } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
-import { appUserBuilder } from "../../services";
-import { PasswordValidator } from "../../services/password-validator.service";
-import { UsersService } from "../../services/users.service";
+import { appUserBuilder } from "../../../users/services";
+import { PasswordValidator } from "../../../users/services/password-validator.service";
+import { UsersService } from "../../../users/services/users.service";
 
 @Component({
   animations: [fadeInOut],
@@ -52,15 +52,15 @@ export class RegisterUserComponent implements OnInit {
     private notifService: ToastrService,
     private titleService: Title
   ) {
+    this.user = appUserBuilder.buildAppUser({});
     this.hidePassword = true;
     this.hidePasswordConfirm = true;
-    this.user = appUserBuilder.buildAppUser({});
     this.submitted = false;
     this.success = false;
   }
 
   public ngOnInit() {
-    this.titleService.setTitle("Inscription sur Domifa");
+    this.titleService.setTitle("Inscription sur Domifa : étape 2");
 
     this.userForm = this.formBuilder.group(
       {

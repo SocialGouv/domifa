@@ -10,7 +10,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ToastrModule } from "ngx-toastr";
 import { LoginComponent } from "./components/login/login.component";
-import { RegisterUserComponent } from "./components/register-user/register-user.component";
+
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
 import { UserProfilComponent } from "./components/user-profil/user-profil.component";
 import { UsersService } from "./services/users.service";
@@ -21,7 +21,6 @@ import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [
-    RegisterUserComponent,
     LoginComponent,
     ResetPasswordComponent,
     UserProfilComponent,
@@ -29,7 +28,6 @@ import { SharedModule } from "../shared/shared.module";
     EditUserComponent,
   ],
   exports: [
-    RegisterUserComponent,
     LoginComponent,
     ResetPasswordComponent,
     UserProfilComponent,
