@@ -1,13 +1,3 @@
-.card_selected,
-.card:hover,
-.card:focus {
-  cursor: pointer;
-  transition: all 0.15s;
-  border-color: var(--blue);
-  box-shadow: 0 1px 6px 0 rgba(124, 124, 124, 0.15);
-  z-index: 900;
-}
-
 .card {
   width: 85%;
   max-width: 600px;
