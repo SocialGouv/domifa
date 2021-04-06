@@ -17,6 +17,7 @@ import { MessageSms } from "../../_common/model/message-sms";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { Repository } from "typeorm";
 import { generateSmsInteraction } from "./generators";
+import { appLogger } from "../../util";
 
 @Injectable()
 export class SmsService {
@@ -29,6 +30,7 @@ export class SmsService {
     );
   }
 
+  // Suppression d'un SMS si le courrier a été distribué
   public async deleteSmsInteractionOut(
     usager: UsagerLight,
     user: AppAuthUser,
@@ -43,9 +45,11 @@ export class SmsService {
     if (smsOnHold) {
       return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
     } else {
-      // ERROR
+      appLogger.warn(`SMS Service: Interaction Out not found`);
     }
   }
+
+  // Suppression d'un SMS si l'interaction a été supprimée
   public async deleteSmsInteraction(
     usager: UsagerLight,
     user: AppAuthUser,
@@ -70,7 +74,7 @@ export class SmsService {
         return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
       }
     } else {
-      // ERROR
+      appLogger.warn(`SMS Service: Interaction to delete not found`);
     }
   }
 
@@ -83,6 +87,9 @@ export class SmsService {
       .set({ hour: 19, minutes: 0, second: 0 })
       .toDate();
 
+    console.log("interaction");
+    console.log(interaction);
+
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
       usager,
       user,
@@ -92,7 +99,18 @@ export class SmsService {
     if (smsReady) {
       smsReady.interactionMetas.nbCourrier =
         smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
+      const content = generateSmsInteraction(
+        interaction,
+        user.structure.sms.senderDetails
+      );
 
+      smsReady.interactionMetas.date = new Date();
+
+      return messageSmsRepository.updateOne(
+        { uuid: smsReady.uuid },
+        { content, interactionMetas: smsReady.interactionMetas }
+      );
+    } else {
       const content = generateSmsInteraction(
         interaction,
         user.structure.sms.senderDetails
@@ -118,6 +136,7 @@ export class SmsService {
     }
   }
 
+  // Afficher les SMS en attente d'envoi
   public getTimeline(user: AppAuthUser): Promise<MessageSmsTable[]> {
     return this.messageSmsRepository.find({
       where: { structureId: user.structureId, status: "TO_SEND" },
@@ -129,15 +148,9 @@ export class SmsService {
     });
   }
 
+  // Mise à jour par DOMIFA de l'autorisation d'envoi de SMS
   public changeStatutByDomifa(structureId: number, sms: StructureSmsParams) {
-    return structureRepository.updateOne(
-      {
-        id: structureId,
-      },
-      {
-        sms,
-      }
-    );
+    return structureRepository.updateOne({ id: structureId }, { sms });
   }
 
   // Messages de rappel de renouvellement

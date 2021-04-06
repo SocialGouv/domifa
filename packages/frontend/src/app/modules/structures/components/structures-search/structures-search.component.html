@@ -74,11 +74,11 @@
         inscrire :
       </b>
       <div class="card" *ngFor="let structure of structures">
-        <a class="nav-link" href="#" routerLink="{{ structure.id }}">
+        <a class="nav-link" [routerLink]="['/inscription/' + structure.id]">
           <b>{{ structure.nom }}</b>
           <br />
           {{ structure.adresse }},
-          <i> {{ structure.codePostal }}, {{ structure.ville }}) </i>
+          <i> {{ structure.codePostal }}, {{ structure.ville }}</i>
         </a>
       </div>
       <br />
