@@ -18,7 +18,6 @@ export class AuthService {
   private endPoint = environment.apiUrl + "auth";
 
   constructor(public http: HttpClient, public router: Router) {
-    this.http = http;
     this.currentUserSubject = new BehaviorSubject<AppUser | null>(
       JSON.parse(localStorage.getItem("currentUser") || null)
     );
