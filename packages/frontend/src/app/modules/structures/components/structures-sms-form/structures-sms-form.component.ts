@@ -70,7 +70,9 @@ export class StructuresSmsFormComponent implements OnInit {
         this.initForm();
       },
       (error: any) => {
-        console.log(error);
+        this.notifService.success(
+          "Impossible de récupérer les infos de ma structure"
+        );
       }
     );
 
@@ -79,7 +81,7 @@ export class StructuresSmsFormComponent implements OnInit {
         this.smsList = smsList;
       },
       (error: any) => {
-        console.log(error);
+        this.notifService.success("Impossible de récupérer les sms en attente");
       }
     );
   }

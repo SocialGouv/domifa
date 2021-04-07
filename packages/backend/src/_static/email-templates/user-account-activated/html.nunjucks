@@ -22,13 +22,21 @@
                <a href="{{ lien }}" target="_blank" rel="noopener noreferrer" class="btn-main">
                <span class="btn-main-title font-bold">Se connecter</span></a>
           </div>
+           <div class="mt-8 mb-12 text-center">
+
+           Pour vous accompagner au mieux dans votre utilisation de DomiFa, il vous est possible de vous inscrire à une session de présentation en ligne sur le lien suivant :
+           <br />
+            <a href="https://startupdetat.typeform.com/to/O63SNL" target="_blank" rel="noopener noreferrer">
+            https://startupdetat.typeform.com/to/O63SNL
+            </a>
+</div>
 
           <div class="my-3">
                 À bientôt,
           </div>
 
           <div class="my-3">
-               L’équipe Domifa 
+               L’équipe Domifa
           </div>
      </div>
 
@@ -36,7 +44,7 @@
           <div class="my-12">
                <hr/>
                <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à: 
+                    <b>Message redirigé</b>, initialement destiné à:
                     <br/>{{toSkipString}}
                </div>
           </div>

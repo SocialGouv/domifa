@@ -8,17 +8,14 @@ import {
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { AuthService } from "../modules/shared/services/auth.service";
+
 import { ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root",
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(
-    public notifService: ToastrService,
-    public authService: AuthService
-  ) {}
+  constructor(public notifService: ToastrService) {}
 
   public intercept(
     request: HttpRequest<any>,

@@ -182,7 +182,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         this.filters$.pipe(
           tap((filters) => {
             if (filters.page === 0) {
-              console.log("scroll up");
               window.scroll({
                 behavior: "smooth",
                 left: 0,
