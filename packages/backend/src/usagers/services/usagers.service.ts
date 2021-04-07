@@ -6,26 +6,29 @@ import {
   usagerRepository,
   UsagerTable,
 } from "../../database";
+import {
+  ETAPE_DECISION,
+  ETAPE_DOCUMENTS,
+  ETAPE_DOSSIER_COMPLET,
+  ETAPE_ENTRETIEN,
+  ETAPE_ETAT_CIVIL,
+  ETAPE_RENDEZ_VOUS,
+} from "../../database/entities/usager/ETAPES_DEMANDE.const";
 import { UsagerDecision } from "../../database/entities/usager/UsagerDecision.type";
 import {
   USAGER_DEFAULT_OPTIONS,
   USAGER_DEFAULT_PREFERENCE,
 } from "../../database/services/usager/USAGER_DEFAULTS.const";
 import { AppUser, UserProfile } from "../../_common/model";
+import { ImportProcessTracker } from "../controllers/import/ImportProcessTracker.type";
+import { UsagersImportUsager } from "../controllers/import/schema";
+import { usagersImportBuilder } from "../controllers/import/services";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
 import { Usager } from "../interfaces/usagers";
 
 import moment = require("moment");
-import {
-  ETAPE_DECISION,
-  ETAPE_DOSSIER_COMPLET,
-  ETAPE_ENTRETIEN,
-  ETAPE_ETAT_CIVIL,
-  ETAPE_DOCUMENTS,
-  ETAPE_RENDEZ_VOUS,
-} from "../../database/entities/usager/ETAPES_DEMANDE.const";
 @Injectable()
 export class UsagersService {
   constructor() {}
@@ -56,21 +59,51 @@ export class UsagersService {
   }
 
   public async createFromImport({
-    data,
+    usagersRows,
     user,
+    processTracker,
   }: {
-    data: Partial<UsagerPG>;
-    user: Pick<AppUser, "structureId">;
+    usagersRows: UsagersImportUsager[];
+    user: Pick<AppUser, "id" | "structureId" | "prenom" | "nom">;
+    processTracker: ImportProcessTracker;
   }) {
-    const usager = new UsagerTable(data);
-    this.setUsagerDefaultAttributes(usager);
+    const usagers = usagersImportBuilder.buildUsagers({
+      usagersRows,
+      user,
+    });
 
-    usager.ref = await this.findNextUsagerRef(user.structureId);
-    usager.customRef =
-      data.customRef && data.customRef.trim()
-        ? data.customRef.trim()
-        : `${usager.ref}`;
-    return usagerLightRepository.save(usager);
+    let nextRef = await this.findNextUsagerRef(user.structureId);
+    const usagersToPersist = usagers.map((data) => {
+      const usager = new UsagerTable(data);
+      usager.ref = nextRef++;
+      this.setUsagerDefaultAttributes(usager);
+
+      usager.customRef =
+        data.customRef && data.customRef.trim()
+          ? data.customRef.trim()
+          : `${usager.ref}`;
+      return usager;
+    });
+
+    processTracker.build.end = new Date();
+    processTracker.build.duration =
+      (processTracker.build.end.getTime() -
+        processTracker.build.start.getTime()) /
+      1000;
+    processTracker.persist = {
+      start: new Date(),
+    };
+
+    for (let i = 0; i < usagersToPersist.length; i += 1000) {
+      await (await usagerLightRepository.typeorm()).save(
+        usagersToPersist.slice(i, i + 1000)
+      );
+    }
+    processTracker.persist.end = new Date();
+    processTracker.persist.duration =
+      (processTracker.persist.end.getTime() -
+        processTracker.persist.start.getTime()) /
+      1000;
   }
 
   public async patch(

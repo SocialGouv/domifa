@@ -8,6 +8,12 @@ if [ -z "$DOMIFA_ENV_ID" ]; then
     exit 3
 fi
 
+if [ "$DOMIFA_ENV_ID" == "prod" ]; then
+    DOCKER_COMPOSE_PROJECT_NAME=master
+else
+    DOCKER_COMPOSE_PROJECT_NAME="$DOMIFA_ENV_ID"
+fi
+
 month_year=$(date "+%Y-%m")
 today=$(date "+%Y-%m-%d-%H-%M")
 BASE_DUMP_DIR=/mnt/database/backup-${DOMIFA_ENV_ID}-${month_year}/backup-${today}

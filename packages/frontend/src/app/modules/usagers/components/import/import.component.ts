@@ -1,26 +1,16 @@
-import {
-  Component,
-  ElementRef,
-  NgZone,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import * as XLSX from "xlsx";
 import { COLUMNS_HEADERS } from "../../../../../_common/import/COLUMNS_HEADERS.const";
 import { AppUser } from "../../../../../_common/model";
 import { LoadingService } from "../../../loading/loading.service";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerService } from "../../services/usager.service";
-import {
-  ImportPreviewBuilder,
-  ImportPreviewRow,
-  ImportPreviewTable,
-} from "./ImportPreviewBuilder.service";
 import { IMPORT_PREVIEW_COLUMNS } from "./IMPORT_PREVIEW_COLUMNS.const";
+import { ImportPreviewRow, ImportPreviewTable } from "./preview";
 
 type AOA = any[][];
 
@@ -110,15 +100,11 @@ export class ImportComponent implements OnInit {
     private loadingService: LoadingService,
     private router: Router,
     private notifService: ToastrService,
-    private titleService: Title,
-    private importPreviewBuilder: ImportPreviewBuilder,
-    private ngZone: NgZone
+    private titleService: Title
   ) {
     this.columnsHeaders = COLUMNS_HEADERS;
 
     // Variables de suivi des erreurs
-    this.etapeImport = 0;
-    this.uploadError = false;
 
     // Tableaux des erreurs
     this.errorsId = [];
@@ -169,46 +155,14 @@ export class ImportComponent implements OnInit {
       return;
     }
 
-    this.showTable = true;
     this.etapeImport = 1;
     this.datas = [[], []];
+    this.showTable = true;
 
     const file = input.files[0];
     this.uploadForm.controls.fileInput.setValue(file);
 
-    this.ngZone.runOutsideAngular(() => {
-      const reader: FileReader = new FileReader();
-
-      reader.onload = (e: any) => {
-        const bstr: string = e.target.result;
-        const wb: XLSX.WorkBook = XLSX.read(bstr, {
-          dateNF: "dd/mm/yyyy",
-          type: "binary",
-        });
-
-        const wsname: string = wb.SheetNames[0];
-        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-
-        let datas = XLSX.utils.sheet_to_json(ws, {
-          blankrows: false,
-          dateNF: "dd/mm/yyyy",
-          header: 1,
-          raw: false,
-        }) as AOA;
-
-        datas = datas.slice(1);
-
-        this.ngZone.run(() => {
-          this.previewTable = this.importPreviewBuilder.buildPreviewTable(
-            datas
-          );
-          this.visibleRows = this.previewTable.isValid
-            ? this.previewTable.rows.slice(0, 50) // show only first 50 rows
-            : this.previewTable.rows.filter((x) => !x.isValid).slice(0, 50); // show only first 50 error rows
-        });
-      };
-      reader.readAsBinaryString(input.files[0]);
-    });
+    this.submitFile();
   }
 
   public submitFile() {
@@ -223,14 +177,20 @@ export class ImportComponent implements OnInit {
         this.loadingService.stopLoading();
         this.router.navigate(["/manage"]);
       },
-      (error: any) => {
+      (error: HttpErrorResponse) => {
         this.notifService.error("Le fichier n'a pas pu être importé ");
         this.loadingService.stopLoading();
+
+        if (error.error?.previewTable) {
+          this.previewTable = error.error.previewTable;
+          this.visibleRows = this.previewTable.isValid
+            ? this.previewTable.rows.slice(0, 50) // show only first 50 rows
+            : this.previewTable.rows.filter((x) => !x.isValid).slice(0, 50); // show only first 50 error rows
+        }
       }
     );
   }
-
-  public reload() {
-    location.reload();
+  backToStep1() {
+    this.etapeImport = 0;
   }
 }
