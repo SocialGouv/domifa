@@ -34,10 +34,6 @@ export class ProfilEditPreferenceComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (!this.usager.preference.phoneNumber) {
-      this.usager.preference.phoneNumber = this.usager.phone;
-    }
-
     const validator = this.usager.preference.phone
       ? [Validators.required, Validators.pattern(regexp.mobilePhone)]
       : null;

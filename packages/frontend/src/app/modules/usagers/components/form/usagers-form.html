@@ -5,8 +5,8 @@
     Attention, doublon potentiel
     <ul>
       <li *ngFor="let doublon of doublons">
-        <a [routerLink]="'/usager/'+ doublon.ref +'/edit'">
-          <b>{{ doublon.nom }}</b>
+        <a [routerLink]="'/usager/'+ doublon.ref ">
+          <b>{{ doublon.nom | uppercase }}</b>
           {{ doublon.prenom }}
         </a>
         né(e) le {{ doublon.dateNaissance | date: "dd/MM/yyyy" }}

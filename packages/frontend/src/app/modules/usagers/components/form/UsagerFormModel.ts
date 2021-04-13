@@ -145,6 +145,7 @@ export class UsagerFormModel {
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
     this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
 
+    console.log(new RegExp(regexp.mobilePhone).test(this.phone));
     this.preference = (usager && usager.preference) || {
       email: false,
       phone: false,
