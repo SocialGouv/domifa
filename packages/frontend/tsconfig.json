@@ -1,5 +1,5 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": "./",
@@ -8,16 +8,22 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "lib": ["es2018", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
     "outDir": "./dist/out-tsc",
+    // "strict": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "target": "es2015",
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"],
     "types": ["jest"]
   },
+  "exclude": ["./node_modules", "./dist"],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true

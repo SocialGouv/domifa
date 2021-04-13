@@ -1,3 +1,4 @@
+import { StatsModule } from "./modules/stats/stats.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
@@ -8,7 +9,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { Router, RouterModule } from "@angular/router";
+import { Router } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import * as Sentry from "@sentry/browser";
@@ -25,7 +26,7 @@ import { GeneralModule } from "./modules/general/general.module";
 import { AuthService } from "./modules/shared/services/auth.service";
 import { HealthCheckService } from "./modules/shared/services/health-check";
 import { SharedModule } from "./modules/shared/shared.module";
-import { StatsModule } from "./modules/stats/stats.module";
+
 import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
@@ -47,12 +48,11 @@ if (environment.production) {
     FontAwesomeModule,
     FormsModule,
     GeneralModule,
+    StatsModule,
     HttpClientModule,
     MatomoModule,
     NgbModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([]),
-    StatsModule,
     SharedModule,
     StructuresModule,
     UsagersModule,

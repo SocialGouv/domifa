@@ -40,6 +40,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           }
           return throwError(errorMessage);
         }
+        return throwError(error);
       })
     );
   }

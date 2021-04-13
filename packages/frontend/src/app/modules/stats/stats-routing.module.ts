@@ -8,21 +8,7 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { StatsComponent } from "./components/stats/stats.component";
 
 export const statsRoutes: Routes = [
-  {
-    canActivate: [DomifaGuard, ResponsableGuard],
-    component: DashboardComponent,
-    path: "statsdomifa",
-  },
-  {
-    canActivate: [AuthGuard, FacteurGuard],
-    component: StatsComponent,
-    path: "rapport-activite",
-  },
-  {
-    canActivate: [AuthGuard, FacteurGuard],
-    component: StatsComponent,
-    path: "stats",
-  },
+  { path: "stats/rapport-activite", component: StatsComponent },
 ];
 
 @NgModule({

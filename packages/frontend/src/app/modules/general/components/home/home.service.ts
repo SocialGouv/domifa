@@ -7,12 +7,9 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class HomeService {
-  public http: HttpClient;
   public baseUrl = environment.apiUrl + "stats/";
 
-  constructor(http: HttpClient) {
-    this.http = http;
-  }
+  constructor(public http: HttpClient) {}
 
   public getHomeStats(): Observable<any> {
     return this.http.get(this.baseUrl + `home-stats`);

@@ -27,8 +27,7 @@
               "src/assets/css/print.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [],
-            "es5BrowserSupport": false
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -89,7 +88,7 @@
           "configurations": {
             "production": {
               "browserTarget": "domifa:build:production"
-            }, 
+            },
             "gitlab-ci": {
               "browserTarget": "domifa:build:gitlab-ci"
             }

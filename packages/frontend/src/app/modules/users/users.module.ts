@@ -40,7 +40,7 @@ import { SharedModule } from "../shared/shared.module";
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
-    RouterModule.forRoot([]),
+
     ToastrModule.forRoot({
       enableHtml: true,
       positionClass: "toast-top-full-width",
