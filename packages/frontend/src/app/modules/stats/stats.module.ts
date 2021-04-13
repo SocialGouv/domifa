@@ -8,17 +8,15 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
-import { StructuresModule } from "../structures/structures.module";
 import { UsersModule } from "../users/users.module";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { StatsComponent } from "./components/stats/stats.component";
-import { StatsService } from "./stats.service";
+import { StatsService } from "./components/services/stats.service";
 
 @NgModule({
   declarations: [DashboardComponent, StatsComponent],
   imports: [
     UsersModule,
-    StructuresModule,
     CommonModule,
     BrowserModule,
     SharedModule,

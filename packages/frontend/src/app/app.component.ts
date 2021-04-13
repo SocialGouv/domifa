@@ -28,7 +28,7 @@ import { fadeInOut } from "./shared/animations";
 })
 export class AppComponent implements OnInit {
   public help: boolean;
-  public isNavbarCollapsed: boolean;
+
   public isAllowed: any;
 
   public domifaNews: any;
@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
     private ngZone: NgZone
   ) {
     this.help = false;
-    this.isNavbarCollapsed = false;
+
     this.newsLabels = {
       bug: "Améliorations",
       new: "Nouveauté",
@@ -77,12 +77,7 @@ export class AppComponent implements OnInit {
       keyboard: false,
     };
 
-    // REFRESH TOKEN
-    this.authService.isAuth().subscribe();
-
-    this.authService.currentUserSubject.subscribe((user: AppUser) => {
-      this.me = user;
-    });
+    this.me = null;
   }
 
   public refresh(): void {
@@ -93,6 +88,12 @@ export class AppComponent implements OnInit {
     this.titleService.setTitle(
       "Domifa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
+
+    // REFRESH TOKEN
+    this.authService.isAuth().subscribe();
+    this.authService.currentUserSubject.subscribe((user: AppUser) => {
+      this.me = user;
+    });
 
     this.getJSON().subscribe((domifaNews) => {
       this.domifaNews = domifaNews[0];
@@ -183,10 +184,5 @@ export class AppComponent implements OnInit {
   public closeMatomo(): void {
     this.matomoInfo = true;
     localStorage.setItem("matomo", "done");
-  }
-
-  public logout(): void {
-    this.authService.logout();
-    this.router.navigate(["/connexion"]);
   }
 }

@@ -25,6 +25,7 @@ import { NewsComponent } from "./components/news/news.component";
 import { PolitiqueComponent } from "./components/politique/politique.component";
 import { HomeService } from "./components/home/home.service";
 import { CountUpModule } from "ngx-countup";
+import { NavbarComponent } from "./components/navbar/navbar.component";
 
 @NgModule({
   declarations: [
@@ -36,14 +37,9 @@ import { CountUpModule } from "ngx-countup";
     NewsComponent,
     CguComponent,
     PolitiqueComponent,
+    NavbarComponent,
   ],
-  exports: [
-    HomeComponent,
-    LoadingComponent,
-    MentionsLegalesComponent,
-    NotFoundComponent,
-    FaqComponent,
-  ],
+  exports: [LoadingComponent, NotFoundComponent, NavbarComponent],
   imports: [
     CommonModule,
     BrowserModule,

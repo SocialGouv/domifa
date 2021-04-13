@@ -19,7 +19,7 @@ import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-frenc
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { StructureCommon, StructureStats } from "../../../../../_common/model";
-import { StatsService } from "../../stats.service";
+import { StatsService } from "../services/stats.service";
 @Component({
   providers: [
     NgbDateCustomParserFormatter,

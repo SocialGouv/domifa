@@ -2,13 +2,12 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { DashboardStats, StructureStats } from "../../../_common/model";
+import { DashboardStats, StructureStats } from "../../../../../_common/model";
 
 @Injectable({
   providedIn: "root",
 })
 export class StatsService {
-  public http: HttpClient;
   public loading: boolean;
 
   public baseUrl = environment.apiUrl + "stats/";
@@ -18,8 +17,7 @@ export class StatsService {
   public epDashboard = environment.apiUrl + "dashboard/";
   public epSms = environment.apiUrl + "sms/";
 
-  constructor(http: HttpClient) {
-    this.http = http;
+  constructor(public http: HttpClient) {
     this.loading = true;
   }
 
