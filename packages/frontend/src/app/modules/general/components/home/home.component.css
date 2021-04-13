@@ -48,11 +48,20 @@ h1 {
 .counter {
   font-weight: 600;
   font-size: 4rem;
-  color: #486bff;
+  color: #4164f5;
   display: block;
 }
 
 .counter-title {
   font-weight: 500;
   font-size: 1.2rem;
+}
+
+@media all and (max-width: 1024px) {
+  h1 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    margin: 0.4rem auto;
+  }
 }
