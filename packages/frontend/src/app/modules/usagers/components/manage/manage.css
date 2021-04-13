@@ -2,72 +2,56 @@
   color: #9b9b9b;
 }
 
-#filters-btn div {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-#filters-btn span {
-  font-size: 0.95rem;
-  padding-bottom: 5px;
-  display: block;
-}
-
-#filters-btn {
+#filters {
   margin-top: 20px;
   margin-bottom: 25px;
 }
 
-#filters-btn .btn {
+#filters .btn {
   font-size: 0.97rem;
   min-width: 125px;
 }
 
-#filters-btn .btn-outline-dark {
+#filters .btn-outline-dark {
   border-color: #9b9b9b;
 }
 
-#filters div {
-  padding: 5px 0;
-  margin: 2px 5px;
+#statut-selector .col:first-child {
+  border-radius: 5px 0 0 0;
+}
+
+#statut-selector .col:last-child {
+  border-radius: 0 5px 0 0;
+}
+
+#statut-selector .col {
+  padding: 14px 24px;
+  margin: 0;
+  font-weight: 500;
+
   cursor: pointer;
-  transition: all 0.1s;
+  transition: all 0.25s;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: inset -1px 0 0 rgba(65, 100, 245, 0.1);
 }
 
-.filter-dark {
-  border-bottom: 1px solid #4a4a4a;
-  color: #4a4a4a;
-}
-
-.filter-danger {
-  border-bottom: 3px solid var(--danger);
-  font-weight: bold;
-  color: var(--danger);
-}
-
-.filter-warning {
-  border-bottom: 3px solid var(--warning);
-  font-weight: bold;
-  color: var(--warning);
-}
-
-.filter-primary {
-  border-bottom: 3px solid var(--primary);
-  font-weight: bold;
-  color: var(--primary);
-}
-
-.filter-secondary {
-  border-bottom: 3px solid var(--secondary);
-  font-weight: bold;
-  color: var(--secondary);
-}
-
-#filters .btn {
+#statut-selector .btn {
   border-radius: 100px;
   padding: 5px 25px;
   font-size: 0.88rem;
   font-weight: 500;
+}
+
+.statut-cpt {
+  font-style: normal !important;
+  margin-right: 10px;
+  font-weight: normal !important;
+}
+
+.selected-statut {
+  color: var(--primary);
+  background-color: white !important;
+  box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
 }
 
 .btn-outline-dark:hover,
@@ -127,39 +111,36 @@ table {
 
 tbody td,
 tbody th {
-  border-top: 1px solid #d2d2d2;
-  border-bottom: 1px solid #d2d2d2;
   vertical-align: middle;
   padding: 6px 5px;
   height: 52px;
   min-width: 40px;
+  border: none;
 }
 
 tbody td:first-child,
 tbody th:first-child {
-  padding: 6px;
-  border-left: 1px solid #d2d2d2;
+  padding: 10px 12px;
   background-color: white;
   border-radius: 2px 0 0 2px;
 }
 
 tbody td:nth-child(2),
 tbody th:nth-child(2) {
-  min-width: 220px;
-  max-width: 420px;
+  min-width: 200px;
+  max-width: 350px;
   word-break: break-all;
 }
 
 tbody td:last-child,
 tbody th:last-child {
-  border-right: 1px solid #d2d2d2;
   background-color: white;
-  padding: 6px 12px;
+  padding: 10px 12px;
   text-align: right;
   border-radius: 0 2px 2px 0;
-  min-width: 200px;
-  max-width: 400px;
+  width: 40px;
 }
+
 tbody td:last-child span,
 tbody th:last-child span {
   display: block;
@@ -167,19 +148,18 @@ tbody th:last-child span {
 
 tbody tr {
   transition: all 0.2s;
-
   background: #ffffff;
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   border-radius: 2px;
+  opacity: 0.75;
 }
 
 tbody tr:hover {
   background-color: #fff;
   outline: 0;
-  border-color: white;
+  opacity: 1;
   cursor: pointer;
-  box-shadow: 0 0 0 4px rgba(179, 179, 179, 0.2),
-    0 0 0 1px rgba(104, 104, 104, 0.15);
+  box-shadow: 2px 1px 4px rgba(179, 179, 179, 0.5);
 }
 
 thead th {
@@ -187,8 +167,13 @@ thead th {
   font-weight: 600;
   font-size: 0.95rem;
   line-height: 1.2rem;
+  color: #3150c0;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 14px;
+  transition: all 0.2s ease;
+  vertical-align: middle;
 }
 
 thead td,
@@ -201,28 +186,6 @@ th {
 
 .icones_liste {
   min-width: 280px;
-}
-
-.icones_liste span {
-  font-size: 1.65rem;
-  color: white;
-  -webkit-text-stroke-width: 20px;
-  stroke-width: 20px;
-  transition: all 0.3s;
-  cursor: pointer;
-  margin-right: 25px;
-  display: inline-block;
-  position: relative;
-}
-
-.icones_liste span:hover {
-  -webkit-text-stroke-width: 10px;
-  stroke-width: 10px;
-}
-
-.usager_informations span {
-  padding: 2px 10px;
-  display: block;
 }
 
 .sort-structures label {
@@ -269,21 +232,12 @@ th {
   font-size: 1.1rem;
 }
 
-#filters-btn .btn fa-icon {
+#filters .btn fa-icon {
   margin-left: 4px;
 }
 
 .sortable .ng-fa-icon {
   float: right;
-}
-
-.sortable {
-  font-weight: normal;
-  cursor: pointer;
-  padding: 8px 14px;
-  transition: all 0.2s ease;
-  border-radius: 4px;
-  vertical-align: middle;
 }
 
 .sortable:hover {
@@ -300,4 +254,50 @@ th {
 
 .sorted {
   background-color: #fafafa !important;
+}
+
+.label-info {
+  border-radius: 50px;
+  padding: 3px 12px;
+  margin-right: 3px;
+  display: inline-block;
+}
+
+.label-info span {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.label-danger {
+  background-color: #ffe5dd;
+  color: #b51515;
+}
+
+.label-green {
+  background-color: #d4f4ed;
+  color: #486346;
+}
+
+.label-yellow {
+  background-color: #feedd1;
+  color: #282828;
+}
+
+.interaction-btn svg {
+  fill: var(--primary);
+}
+
+.interaction-btn img {
+  max-width: 28px;
+  height: auto;
+  display: block;
+}
+
+.interaction-btn {
+  display: inline-block;
+  border: 1px solid rgba(65, 100, 245, 0.3);
+  box-sizing: border-box;
+  border-radius: 3px;
+  margin-right: 2px;
+  padding: 6px;
 }
