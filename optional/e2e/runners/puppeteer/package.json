@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@codeceptjs/ui": "^0.4.3",
-    "codeceptjs": "^3.0.5",
+    "codeceptjs": "^3.0.6",
     "dotenv": "^8.2.0",
     "execa": "^4.0.3",
     "path": "^0.12.7",
