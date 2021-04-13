@@ -24,7 +24,7 @@ import {
   Structure,
   StructureAdmin,
 } from "../../../../../_common/model";
-import { StatsService } from "../../stats.service";
+import { StatsService } from "../services/stats.service";
 
 export type DashboardTableStructure = StructureAdmin & {
   structureTypeLabel: string;
