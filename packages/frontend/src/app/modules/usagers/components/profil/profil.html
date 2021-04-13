@@ -93,7 +93,7 @@
               'text-secondary': usager.dayBeforeEnd >= 60
              }"
           >
-            {{ getDateFin() | date: 'dd/MM/yyyy' }}
+            {{ dateFin | date: 'dd/MM/yyyy' }}
           </b>
         </span>
         <span class="text-danger" *ngIf="usager.dayBeforeEnd < 0">

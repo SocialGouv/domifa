@@ -42,7 +42,7 @@ import { UploadComponent } from "./components/upload/upload.component";
 import { DocumentService } from "./services/document.service";
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
-import { ProfilEditPreferenceComponent } from './components/profil/profil-edit-preference/profil-edit-preference.component';
+import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-preference/profil-edit-preference.component";
 
 @NgModule({
   declarations: [

@@ -43,11 +43,10 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
   imports: [
     CommonModule,
     BrowserModule,
-    SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
     CountUpModule,
-    RouterModule.forRoot([]),
+    RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
     ToastrModule.forRoot({
       enableHtml: true,
       positionClass: "toast-top-full-width",
@@ -58,8 +57,6 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
     }),
     HttpClientModule,
     NgbModule,
-    FormsModule,
-    ReactiveFormsModule,
   ],
   providers: [LoadingService, HomeService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

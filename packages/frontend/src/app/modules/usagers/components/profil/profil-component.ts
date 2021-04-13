@@ -75,6 +75,8 @@ export class UsagersProfilComponent implements OnInit {
 
   public notifInputs: { [key: string]: any };
 
+  public dateFin: Date | null;
+
   public today: Date;
   public me: AppUser;
 
@@ -111,6 +113,8 @@ export class UsagersProfilComponent implements OnInit {
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
 
+    this.dateFin = null;
+
     this.notifInputs = {
       colisIn: 0,
       courrierIn: 0,
@@ -128,7 +132,7 @@ export class UsagersProfilComponent implements OnInit {
     return this.me.role === role;
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.titleService.setTitle("Fiche d'un domicilié");
     //
 
@@ -137,47 +141,49 @@ export class UsagersProfilComponent implements OnInit {
     });
 
     //
-    if (this.route.snapshot.params.id) {
-      this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
-        (usager: UsagerLight) => {
-          if (
-            usager.decision.statut === "ATTENTE_DECISION" &&
-            usager.typeDom === "PREMIERE"
-          ) {
-            this.router.navigate(["/usager/" + usager.ref + "/edit"]);
-          }
-
-          // Refus : interdits pour les facteurs
-          if (usager.decision.statut === "REFUS") {
-            if (
-              this.me.role !== "admin" &&
-              this.me.role !== "responsable" &&
-              this.me.role !== "simple"
-            ) {
-              this.notifService.error(
-                "Vos droits ne vous permettent pas d'accéder à cette page"
-              );
-              this.router.navigate(["/manage"]);
-              return false;
-            }
-          }
-
-          this.usager = new UsagerFormModel(usager);
-
-          this.getInteractions();
-          this.initForms();
-        },
-        () => {
-          this.router.navigate(["/404"]);
-        }
-      );
-    } else {
+    if (!this.route.snapshot.params.id) {
       this.router.navigate(["/404"]);
       return;
     }
+
+    this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
+      (usager: UsagerLight) => {
+        if (
+          usager.decision.statut === "ATTENTE_DECISION" &&
+          usager.typeDom === "PREMIERE"
+        ) {
+          this.router.navigate(["/usager/" + usager.ref + "/edit"]);
+        }
+
+        // Refus : interdits pour les facteurs
+        if (usager.decision.statut === "REFUS") {
+          if (
+            this.me.role !== "admin" &&
+            this.me.role !== "responsable" &&
+            this.me.role !== "simple"
+          ) {
+            this.notifService.error(
+              "Vos droits ne vous permettent pas d'accéder à cette page"
+            );
+            this.router.navigate(["/manage"]);
+          }
+        }
+
+        this.usager = new UsagerFormModel(usager);
+
+        this.dateFin = this.getDateFin();
+
+        this.getInteractions();
+        this.initForms();
+      },
+      (error) => {
+        this.notifService.error("Le dossier recherché n'existe pas");
+        this.router.navigate(["404"]);
+      }
+    );
   }
 
-  onUsagerChanges(usager: UsagerLight) {
+  public onUsagerChanges(usager: UsagerLight) {
     this.usager = new UsagerFormModel(usager);
   }
 
@@ -422,6 +428,7 @@ export class UsagersProfilComponent implements OnInit {
     ) {
       return this.usager.historique[1].dateFin;
     }
+    return null;
   }
 
   public getAttestation() {

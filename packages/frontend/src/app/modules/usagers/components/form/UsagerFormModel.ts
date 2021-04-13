@@ -16,7 +16,7 @@ import { usagersFilter, UsagersFilterCriteria } from "../manage/usager-filter";
 
 export class UsagerFormModel {
   public ref: number;
-  public customRef: string;
+  public customRef: string | null;
   public nom: string;
   public prenom: string;
   public surnom: string;
@@ -36,7 +36,7 @@ export class UsagerFormModel {
     phoneNumber?: string;
   };
 
-  public structureId: number;
+  public structureId: number | null;
   public etapeDemande: number;
 
   public docs: UsagerDoc[];
@@ -145,7 +145,6 @@ export class UsagerFormModel {
     this.ayantsDroits = (usager && usager.ayantsDroits) || [];
     this.ayantsDroitsExist = this.ayantsDroits && this.ayantsDroits.length > 0;
 
-    console.log(new RegExp(regexp.mobilePhone).test(this.phone));
     this.preference = (usager && usager.preference) || {
       email: false,
       phone: false,
@@ -159,9 +158,10 @@ export class UsagerFormModel {
     this.isActif = false;
     this.dayBeforeEnd = 365;
 
-    let dateFinToCheck: Date = null;
+    let dateFinToCheck: Date | null = null;
 
     // Récupération de la date de fin de la domiciliation
+    this.typeDom = (usager && usager.typeDom) || "PREMIERE";
 
     if (this.decision.statut === "VALIDE") {
       dateFinToCheck = this.decision.dateFin;
@@ -188,8 +188,6 @@ export class UsagerFormModel {
 
       this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
     }
-
-    this.typeDom = (usager && usager.typeDom) || "PREMIERE";
 
     this.options = (usager && new Options(usager.options)) || new Options({});
 

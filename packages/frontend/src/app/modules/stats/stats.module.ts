@@ -1,23 +1,32 @@
+import { StatsRoutingModule } from "./stats-routing.module";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  NgModule,
+  NO_ERRORS_SCHEMA,
+} from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
-import { UsersModule } from "../users/users.module";
+
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { StatsComponent } from "./components/stats/stats.component";
 import { StatsService } from "./components/services/stats.service";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { UsersModule } from "../users/users.module";
 
 @NgModule({
   declarations: [DashboardComponent, StatsComponent],
   imports: [
-    UsersModule,
+    // StatsRoutingModule,
     CommonModule,
+    NgbModule,
     BrowserModule,
     SharedModule,
     BrowserAnimationsModule,
@@ -31,11 +40,10 @@ import { StatsService } from "./components/services/stats.service";
       timeOut: 2000,
     }),
     HttpClientModule,
-    NgbModule,
     FormsModule,
     ReactiveFormsModule,
   ],
   providers: [StatsService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class StatsModule {}

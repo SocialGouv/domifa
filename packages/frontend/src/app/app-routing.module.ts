@@ -1,3 +1,5 @@
+import { DashboardComponent } from "./modules/stats/components/dashboard/dashboard.component";
+import { StatsComponent } from "./modules/stats/components/stats/stats.component";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdminGuard } from "./guards/admin-guard";
@@ -7,7 +9,7 @@ import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
 import { ResponsableGuard } from "./guards/responsable-guard";
-import { StructureGuard } from "./guards/structure-guard";
+
 import { CguComponent } from "./modules/general/components/cgu/cgu.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { FaqComponent } from "./modules/general/components/faq/faq.component";
@@ -15,8 +17,7 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
-import { DashboardComponent } from "./modules/stats/components/dashboard/dashboard.component";
-import { StatsComponent } from "./modules/stats/components/stats/stats.component";
+
 import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
 import { StructuresEditComponent } from "./modules/structures/components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
@@ -39,6 +40,7 @@ import { UserProfilComponent } from "./modules/users/components/user-profil/user
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
+
   {
     canActivate: [LoggedGuard],
     component: LoginComponent,
@@ -143,21 +145,7 @@ export const routes: Routes = [
     component: ManageUsagersComponent,
     path: "manage",
   },
-  {
-    canActivate: [DomifaGuard, ResponsableGuard],
-    component: DashboardComponent,
-    path: "statsdomifa",
-  },
-  {
-    canActivate: [AuthGuard, FacteurGuard],
-    component: StatsComponent,
-    path: "rapport-activite",
-  },
-  {
-    canActivate: [AuthGuard, FacteurGuard],
-    component: StatsComponent,
-    path: "stats",
-  },
+
   { path: "faq", component: FaqComponent },
   { path: "news", component: NewsComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },
@@ -168,6 +156,21 @@ export const routes: Routes = [
     component: ImportComponent,
     path: "import",
   },
+
+  // OLD URL --> REDIRECT TO LAZY LOAD MODULES
+
+  {
+    canActivate: [DomifaGuard, ResponsableGuard],
+    path: "statsdomifa",
+    component: DashboardComponent,
+  },
+  {
+    canActivate: [AuthGuard, FacteurGuard],
+    path: "rapport-activite",
+    component: StatsComponent,
+  },
+  // NEW  LAZY LOAD MODULES
+
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "404" },
 ];
