@@ -88,6 +88,10 @@ export class UsagersController {
       usagerDto.etapeDemande = ETAPE_RENDEZ_VOUS;
     }
 
+    if (!usagerDto.langue || usagerDto.langue === "") {
+      usagerDto.langue = null;
+    }
+
     return this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
   }
 

@@ -6,6 +6,7 @@ import {
 import { ETAPE_ETAT_CIVIL } from "../../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerAyantDroit } from "../../../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../../../_common/model/usager/UsagerDecision.type";
+import { regexp } from "../../../../shared/validators";
 import { Decision } from "../../interfaces/decision";
 import { Doc } from "../../interfaces/doc";
 import { Entretien } from "../../interfaces/entretien";
@@ -147,7 +148,9 @@ export class UsagerFormModel {
     this.preference = (usager && usager.preference) || {
       email: false,
       phone: false,
-      phoneNumber: this.phone,
+      phoneNumber: new RegExp(regexp.mobilePhone).test(this.phone)
+        ? this.phone
+        : "",
     };
 
     this.decision = (usager && new Decision(usager.decision)) || new Decision();
