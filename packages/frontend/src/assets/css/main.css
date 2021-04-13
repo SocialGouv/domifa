@@ -6,6 +6,7 @@ body {
 body {
   font-family: "Source Sans Pro";
 }
+
 ul {
   margin-bottom: 0;
 }
@@ -87,6 +88,12 @@ ul {
   max-width: 1350px;
 }
 
+.head-page {
+  background-color: var(--primary);
+  width: 100%;
+  min-height: 80px;
+}
+
 .card-header {
   padding: 0;
   margin-bottom: 0;
@@ -133,22 +140,10 @@ ul {
   margin: 10px auto;
 }
 
-.appel {
-  -webkit-text-stroke-color: var(--secondary);
-  stroke: var(--secondary);
-}
-
-.appel:hover {
-  color: var(--secondary) !important;
-}
-
-.visite {
-  -webkit-text-stroke-color: var(--primary);
-  stroke: var(--primary);
-}
-
-.visite:hover {
-  color: #4668ff !important;
+.interaction-btn  {
+  border: 1px solid rgba(65, 100, 245, 0.3);
+  box-sizing: border-box;
+  border-radius: 3px;
 }
 
 .bannir {
