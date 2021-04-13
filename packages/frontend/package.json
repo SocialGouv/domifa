@@ -45,7 +45,7 @@
     "ngx-countup": "7.3.3",
     "ngx-matomo": "^0.1.4",
     "ngx-print": "1.2.0-beta.6",
-    "ngx-toastr": "^12.1.0",
+    "ngx-toastr": "^13.2.1",
     "path": "^0.12.7",
     "raven-js": "^3.27.2",
     "rxjs": "^6.6.7",

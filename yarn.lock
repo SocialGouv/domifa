@@ -11282,12 +11282,12 @@ ngx-print@1.2.0-beta.6:
   dependencies:
     tslib "^1.9.3"
 
-ngx-toastr@^12.1.0:
-  version "12.1.0"
-  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-12.1.0.tgz#50f6eee4262f4ba342918f06f98a657f223194cf"
-  integrity sha512-rytCRBhvuudj614Kfj9GoIVQDrFuLvHSMP1YrMwTmR1SNkNJZOpGKmaSDCCBrNDkSrGouzMWBlFbl1UDBBsiqw==
+ngx-toastr@^13.2.1:
+  version "13.2.1"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-13.2.1.tgz#531bc7da6a524a861e0409bd2749878b3b3f8a3f"
+  integrity sha512-UAzp7/xWK9IXA2LsOmhpaaIGCqscvJokoQpBNpAMrjEkDeSlFf8PWQAuQY795KW0mJb3qF9UG/s23nsXfMYKmg==
   dependencies:
-    tslib "^1.10.0"
+    tslib "^2.0.0"
 
 nice-try@^1.0.4:
   version "1.0.5"
