@@ -69,14 +69,11 @@ export class StatsComponent implements OnInit, AfterViewInit {
     private cdRef: ChangeDetectorRef,
     private matomo: MatomoTracker
   ) {
-    console.log("CHIPS");
     this.labels = labels;
     this.interactionsLabels = interactionsLabels;
-    console.log("CHIPS: PLPXLPX");
   }
 
   public ngOnInit() {
-    console.log("CHIPS: ngOnInit");
     this.titleService.setTitle("Rapport d'activité de votre structure");
 
     const date = new Date("2020-01-01");
