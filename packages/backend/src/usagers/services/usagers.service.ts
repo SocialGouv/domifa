@@ -244,6 +244,9 @@ export class UsagersService {
     if (!usager.preference) {
       usager.preference = USAGER_DEFAULT_PREFERENCE;
     }
+    if (!usager.langue || usager.langue === "") {
+      usager.langue = null;
+    }
 
     if (!usager.lastInteraction)
       usager.lastInteraction = {

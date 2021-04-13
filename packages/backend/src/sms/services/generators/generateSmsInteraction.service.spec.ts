@@ -5,7 +5,7 @@ describe("generate SMS", () => {
   beforeEach(async () => {});
 
   it("generate SMS", () => {
-    const mockInteraction: InteractionDto = {
+    const firstInteraction: InteractionDto = {
       type: "courrierIn",
       content: "",
       nbCourrier: 2,
@@ -16,9 +16,57 @@ describe("generate SMS", () => {
       dateInteraction: new Date(),
     };
 
-    const smsGenerated = generateSmsInteraction(mockInteraction, "DOMIFA");
-    expect(smsGenerated).toEqual(
+    const secondInteraction: InteractionDto = {
+      type: "recommandeIn",
+      content: "",
+      nbCourrier: 1,
+      structureId: 1,
+      usagerRef: 1,
+      userId: 1,
+      userName: "USER NAME",
+      dateInteraction: new Date(),
+    };
+
+    const thirdInteraction: InteractionDto = {
+      type: "colisIn",
+      content: "",
+      nbCourrier: 19,
+      structureId: 1,
+      usagerRef: 1,
+      userId: 1,
+      userName: "USER NAME",
+      dateInteraction: new Date(),
+    };
+
+    const fourInteraction: InteractionDto = {
+      type: "courrierIn",
+      content: "",
+      nbCourrier: 1,
+      structureId: 1,
+      usagerRef: 1,
+      userId: 1,
+      userName: "USER NAME",
+      dateInteraction: new Date(),
+    };
+
+    const smsOne = generateSmsInteraction(firstInteraction, "DOMIFA");
+    expect(smsOne).toEqual(
       "Bonjour, \nVous avez reçu 2 nouveaux courriers\n\nDOMIFA"
+    );
+
+    const smsTwo = generateSmsInteraction(secondInteraction, "DOMIFA");
+    expect(smsTwo).toEqual(
+      "Bonjour, \nVous avez reçu 1 nouvel avis de passage\n\nDOMIFA"
+    );
+
+    const smsThree = generateSmsInteraction(thirdInteraction, "DOMIFA_TEST");
+    expect(smsThree).toEqual(
+      "Bonjour, \nVous avez reçu 19 nouveaux colis\n\nDOMIFA_TEST"
+    );
+
+    const smsFour = generateSmsInteraction(fourInteraction, "DOMIFA_75T");
+    expect(smsFour).toEqual(
+      "Bonjour, \nVous avez reçu 1 nouveau courrier\n\nDOMIFA_75T"
     );
   });
 });

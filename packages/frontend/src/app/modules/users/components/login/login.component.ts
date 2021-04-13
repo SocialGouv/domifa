@@ -18,14 +18,8 @@ export class LoginComponent implements OnInit {
   public userForm!: FormGroup;
 
   public returnUrl: string;
-
   public hidePassword: boolean;
-  public successMessage: string;
-  public success: boolean;
-  public error: boolean;
   public loading: boolean;
-  public errorMessage: string;
-  public errorLabels: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,17 +29,10 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private notifService: ToastrService
   ) {
-    this.errorMessage = "";
-    this.successMessage = "";
     this.hidePassword = true;
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
-    this.success = false;
-    this.error = false;
+
     this.loading = false;
-    this.errorLabels = {
-      ACCOUNT_NOT_ACTIVATED: "Compte non activé par l'administrateur",
-      WRONG_CREDENTIALS: "Email et / ou mot de passe incorrect",
-    };
   }
 
   public ngOnInit() {
@@ -66,6 +53,8 @@ export class LoginComponent implements OnInit {
 
   public login() {
     if (this.loginForm.invalid) {
+      this.notifService.error("Veuillez vérifier les champs du formulaire");
+
       return;
     }
 
@@ -77,8 +66,6 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (user: AppUser) => {
           this.loading = false;
-          this.success = true;
-          this.error = true;
 
           return this.returnUrl !== "/"
             ? this.router.navigateByUrl(this.returnUrl)
@@ -86,9 +73,7 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           this.loading = false;
-          this.error = true;
-          this.success = false;
-          this.notifService.error(this.errorLabels[error.message]);
+          this.notifService.error("Email et / ou mot de passe incorrect");
         }
       );
   }
