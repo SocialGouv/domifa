@@ -349,7 +349,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         x,
         "DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO",
         {
-          required: smsEnabled,
+          required: false,
         }
       ),
       apiKey: configParser.parseString(x, "DOMIFA_SMS_API_KEY", {
