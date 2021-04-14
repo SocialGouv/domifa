@@ -41,6 +41,8 @@ import { UploadComponent } from "./components/upload/upload.component";
 import { DocumentService } from "./services/document.service";
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
+import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-preference/profil-edit-preference.component";
+import { SetInteractionFormComponent } from "./components/set-interaction-form/set-interaction-form.component";
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import { UsagerService } from "./services/usager.service";
     RaftComponent,
     EntretienComponent,
     ProfilEditPreferenceComponent,
+    SetInteractionFormComponent,
   ],
   exports: [
     UploadComponent,
