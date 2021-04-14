@@ -39,3 +39,33 @@
   vertical-align: middle;
   margin: 0 5px;
 }
+
+.btn-white {
+  background-color: white;
+  border-radius: 6px;
+  transition: all 0.25s;
+}
+
+.btn-white:hover {
+  color: white;
+}
+
+.page-footer div {
+  display: inline-block;
+  min-width: 80px;
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
+  font-size: 1rem;
+}
+
+.page-footer img {
+  max-height: 55px;
+}
+
+.page-footer {
+  text-align: center;
+
+  width: 100%;
+  padding: 0.5rem 3rem;
+  border-top: 1px solid #e6e6e6;
+}

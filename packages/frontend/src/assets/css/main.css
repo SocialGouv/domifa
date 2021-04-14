@@ -23,75 +23,8 @@ ul {
   /*background-color: #f2f2f2;*/
 }
 
-.page-footer div {
-  display: inline-block;
-  min-width: 80px;
-  padding: 0.5rem 1rem;
-  vertical-align: middle;
-  font-size: 1rem;
-}
-
-.page-footer img {
-  max-height: 55px;
-}
-
-.page-footer {
-  text-align: center;
-
-  width: 100%;
-  padding: 0.5rem 3rem;
-  border-top: 1px solid #e6e6e6;
-}
-
-.btn-white {
-  background-color: white;
-  border-radius: 6px;
-  transition: all 0.25s;
-}
-
-.btn-white:hover {
-  color: white;
-}
-
-.btn-white.primary {
-  border: 1px solid var(--blue);
-  color: var(--blue);
-}
-
-.btn-white.secondary {
-  border: 1px solid var(--green);
-  color: var(--green);
-}
-
-.btn-white.primary:hover {
-  color: white;
-  background-color: var(--blue);
-}
-
-.btn-white.secondary:hover {
-  color: white;
-  background-color: var(--green);
-}
-
-.hero {
-  background-color: var(--primary);
-  padding: 3rem 1rem;
-  text-align: center;
-  color: white;
-}
-
-.section {
-  padding: 1.5rem 0;
-}
-
 .container {
   max-width: 1350px;
-}
-
-.head-page {
-  background-color: var(--primary);
-  width: 100%;
-  min-height: 80px;
 }
 
 .card-header {
@@ -327,28 +260,6 @@ table .active {
   display: block;
 }
 
-.dropdown-menu {
-  border-radius: 0;
-  padding: 0;
-  border-color: #9b9b9b;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  color: #4a4a4a;
-  min-width: 200px;
-  border-bottom: 1px solid #9b9b9b;
-}
-
-.dropdown-item:last-child {
-  border: 0 !important;
-}
-
-.dropdown-item .ng-fa-icon {
-  margin-right: 10px;
-}
-
 .ngb-dp-day.disabled,
 .ngb-dp-day.hidden {
   color: #bbbbbb;
@@ -484,4 +395,21 @@ table .active {
 
 .check_sep .separateur {
   border-color: var(--success);
+}
+
+/* REDESIGN */
+/* PARTIE BLEU FICHE + LISTE */
+.head-page {
+  background-color: var(--primary);
+  width: 100%;
+  min-height: 80px;
+  padding-top: 40px;
+}
+
+.head-page .title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+  color: #ffffff;
 }

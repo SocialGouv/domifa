@@ -25,6 +25,7 @@
               "src/assets/css/fonts.css",
               "src/assets/css/main.css",
               "src/assets/css/print.css",
+              "src/assets/css/icons.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []

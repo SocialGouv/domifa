@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <a class="navbar-brand" routerLink="/">
+    <a class="navbar-brand" [routerLink]="!me ? ['/'] : ['/manage']">
       <img src="../assets/images/logo.svg" alt="Logo Domifa" />
       <span id="nom-asso" *ngIf="me">
         {{ me.structure.nom }}
       </span>
     </a>
+
     <button
       class="navbar-toggler hidden-sm-up"
       type="button"
@@ -41,35 +42,6 @@
         </ng-container>
 
         <ng-container *ngIf="me">
-          <a
-            routerLink="/manage"
-            aria-hidden="true"
-            title="Liste des usagers"
-            class="btn btn-outline-primary"
-          >
-            Liste des usagers
-          </a>
-          <a
-            *ngIf="me.role !== 'facteur'"
-            routerLink="/nouveau"
-            class="btn btn-outline-secondary"
-          >
-            <fa-icon icon="plus" class="btn-icon"></fa-icon>
-            Créer une demande
-          </a>
-
-          <a
-            *ngIf="me.role !== 'facteur'"
-            routerLink="/import"
-            class="btn btn-primary"
-          >
-            <fa-icon
-              aria-hidden="true"
-              title="Importer"
-              icon="upload"
-            ></fa-icon>
-          </a>
-
           <div
             ngbDropdown
             id="dropdownBasic1"
@@ -78,7 +50,7 @@
             class="d-inline-block"
           >
             <button class="btn btn-outline-primary" ngbDropdownToggle>
-              <fa-icon aria-hidden="true" title="Compte" icon="user"></fa-icon>
+              Mon compte
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
               <a ngbDropdownItem routerLink="/mon-compte">
@@ -94,25 +66,32 @@
                 *ngIf="me.role === 'admin' || me.role === 'responsable'"
                 routerLink="/admin"
               >
-                <fa-icon
-                  aria-hidden="true"
-                  title="Administration"
-                  icon="users"
-                ></fa-icon>
+                <fa-icon aria-hidden="true" title="Administration" icon="users">
+                </fa-icon>
                 Utilisateurs</a
               >
+
+              <a
+                ngbDropdownItem
+                *ngIf="me.role !== 'facteur'"
+                routerLink="/import"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  title="Importer"
+                  icon="upload"
+                ></fa-icon>
+                Importer
+              </a>
               <a
                 ngbDropdownItem
                 *ngIf="me.role === 'admin' || me.role === 'responsable'"
                 routerLink="/structure-edit"
               >
-                <fa-icon
-                  aria-hidden="true"
-                  title="Structure"
-                  icon="home"
-                ></fa-icon>
-                Structure</a
-              >
+                <fa-icon aria-hidden="true" title="Structure" icon="home">
+                </fa-icon>
+                Structure
+              </a>
               <a
                 ngbDropdownItem
                 *ngIf="
@@ -125,8 +104,8 @@
                   title="Notifications"
                   icon="sms"
                 ></fa-icon>
-                Notifications</a
-              >
+                Notifications
+              </a>
               <a
                 ngbDropdownItem
                 *ngIf="
@@ -140,15 +119,17 @@
                   aria-hidden="true"
                   title="Statistiques"
                   icon="chart-bar"
-                ></fa-icon>
-                Statistiques</a
-              >
+                >
+                </fa-icon>
+                Statistiques
+              </a>
               <a ngbDropdownItem (click)="logout()">
                 <fa-icon
                   aria-hidden="true"
                   title="Statistiques"
                   icon="sign-out-alt"
-                ></fa-icon>
+                >
+                </fa-icon>
                 Déconnexion
               </a>
             </div>
