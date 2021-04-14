@@ -1,4 +1,15 @@
 [
+    {
+    "date": "2021-04-14",
+    "content": [
+    {   "type": "new",
+        "categorie": "Message à tous",
+        "message": [
+          "L’équipe DomiFa travaille sur la refonte graphique de la liste des usagers et de la fiche domicilié afin d’améliorer votre utilisation du produit et d’y ajouter de nouvelles fonctionnalités. L’interface évoluera donc dans les prochaines semaines."
+        ]
+      }
+    ]
+  },
   {
     "date": "2021-03-30",
     "content": [
