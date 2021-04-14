@@ -5,7 +5,7 @@ volumes:
 
 services:
   postgres:
-    image: postgres:10.14
+    image: postgres:10.16
     container_name: domifa-postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
