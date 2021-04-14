@@ -1,19 +1,36 @@
-.results-count {
-  color: #9b9b9b;
-}
-
-#filters {
-  margin-top: 20px;
-  margin-bottom: 25px;
+#head-page {
+  padding-top: 120px;
 }
 
 #filters .btn {
   font-size: 0.97rem;
-  min-width: 125px;
+
+  background: #f9f9fc;
+  border: 1px solid #cfcfd9;
+  box-sizing: border-box;
+  border-radius: 5px;
 }
 
-#filters .btn-outline-dark {
-  border-color: #9b9b9b;
+#filters .dropdown-menu {
+  background: #f9f9fc;
+  border: 1px solid #cfcfd9;
+  border-radius: 5px;
+  padding: 0;
+}
+
+#filters .dropdown-menu .ng-fa-icon {
+  margin-left: 6px;
+}
+
+#filters .dropdown-item:not(:last-child) {
+  border-bottom: 1px solid #cfcfd9;
+}
+
+#filters .dropdown-item {
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #4a4a4a;
+  text-align: center;
 }
 
 #statut-selector .col:first-child {
@@ -28,9 +45,8 @@
   padding: 14px 24px;
   margin: 0;
   font-weight: 500;
-
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.25s ease-in-out;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: inset -1px 0 0 rgba(65, 100, 245, 0.1);
 }
@@ -38,7 +54,7 @@
 #statut-selector .btn {
   border-radius: 100px;
   padding: 5px 25px;
-  font-size: 0.88rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 
@@ -49,9 +65,13 @@
 }
 
 .selected-statut {
-  color: var(--primary);
   background-color: white !important;
   box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
+}
+
+.selected-statut .statut-label {
+  color: var(--primary);
+  font-weight: bold;
 }
 
 .btn-outline-dark:hover,
@@ -67,9 +87,7 @@
 }
 
 #searchbar {
-  margin-top: 10px;
   width: 98%;
-  margin: 30px auto;
   max-width: 500px;
   position: relative;
 }
@@ -77,8 +95,13 @@
 #searchbar input {
   padding: 10px 10px 10px 40px;
   height: 46px;
-  border-radius: 6px;
-  border: 1px solid #9b9b9b;
+  background: transparent;
+  border: none;
+  color: white;
+}
+
+#searchbar input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 #searchbar span {
@@ -92,14 +115,14 @@
   top: 0;
   min-width: 30px;
   padding: 9px 16px 9px 10px;
-  color: #9b9b9b;
+  color: white;
   cursor: pointer;
 }
 
 #times_icon {
   top: 9px;
   right: 15px;
-  color: rgb(43, 43, 43);
+  color: white;
   cursor: pointer;
 }
 
@@ -147,7 +170,7 @@ tbody th:last-child span {
 }
 
 tbody tr {
-  transition: all 0.2s;
+  transition: all 0.2s ease-in-out;
   background: #ffffff;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   border-radius: 2px;
@@ -244,14 +267,6 @@ th {
   background-color: #fafafa;
 }
 
-.dropdown-menu {
-  border-radius: 4px;
-}
-
-.dropdown-menu .ng-fa-icon {
-  margin-left: 6px;
-}
-
 .sorted {
   background-color: #fafafa !important;
 }
@@ -283,21 +298,45 @@ th {
   color: #282828;
 }
 
-.interaction-btn svg {
-  fill: var(--primary);
-}
-
-.interaction-btn img {
-  max-width: 28px;
-  height: auto;
-  display: block;
+.interaction-btn span {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .interaction-btn {
   display: inline-block;
-  border: 1px solid rgba(65, 100, 245, 0.3);
+  border: 1px solid rgba(65, 100, 245, 0.4);
   box-sizing: border-box;
+  vertical-align: middle;
   border-radius: 3px;
-  margin-right: 2px;
-  padding: 6px;
+  margin: 0 3px;
+  transition: all 0.25s ease-in-out;
+  padding: 0;
+}
+
+.list-icon {
+  min-height: 30px;
+  min-width: 30px;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #4164f5;
+  background-size: 90%;
+}
+
+.interaction-btn:hover {
+  background-color: #4164f5;
+}
+
+.list-icon:hover {
+  background-color: white;
+}
+
+.list-icon-label {
+  padding: 0 4px;
+}
+
+.btn-white-primary {
+  background-color: #ffffff;
+  box-shadow: 0 2px 2px #2f4ece;
+  border-radius: 3px;
 }

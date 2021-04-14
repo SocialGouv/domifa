@@ -15,6 +15,6 @@ export const fadeInOutSlow = trigger("fadeInOutSlow", [
   ]),
   transition(":leave", [
     style({ opacity: 1 }),
-    animate("2s ease-out", style({ opacity: 0 })),
+    animate("2s ease-in-out", style({ opacity: 0 })),
   ]),
 ]);

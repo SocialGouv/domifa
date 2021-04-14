@@ -1,38 +1,53 @@
-<div class="head-page pt-4">
+<div class="head-page">
   <div class="container">
-    <div class="row">
-      <div id="searchbar" class="form-group">
-        <span id="search_icon">
-          <fa-icon icon="search"></fa-icon>
-        </span>
-        <input
-          type="text"
-          [(ngModel)]="searchString"
-          #searchInput
-          autofocus
-          placeholder="Recherche par numéro de domicilié, nom, prénom ou ayant-droit"
-          class="form-control"
-        />
-        <span
-          *ngIf="searchInput.value?.trim() !== ''"
-          (click)="resetSearchBar()"
-          id="times_icon"
+    <div class="row d-flex align-items-center">
+      <div class="col-2">
+        <span class="title"> Domiciliés </span>
+      </div>
+      <div class="col-6">
+        <div id="searchbar">
+          <span id="search_icon">
+            <fa-icon icon="search"></fa-icon>
+          </span>
+          <input
+            type="text"
+            [(ngModel)]="searchString"
+            #searchInput
+            autofocus
+            placeholder="Recherche par numéro de domicilié, nom, prénom ou ayant-droit"
+            class="form-control"
+          />
+          <span
+            *ngIf="searchInput.value?.trim() !== ''"
+            (click)="resetSearchBar()"
+            id="times_icon"
+          >
+            <fa-icon icon="times-circle"></fa-icon>
+          </span>
+        </div>
+      </div>
+      <div class="col-4 text-right">
+        <a
+          *ngIf="me.role !== 'facteur'"
+          routerLink="/nouveau"
+          class="btn btn-white-primary"
         >
-          <fa-icon icon="times-circle"></fa-icon>
-        </span>
+          <fa-icon icon="plus" class="btn-icon"></fa-icon>
+          Créer une demande
+        </a>
       </div>
     </div>
 
-    <div id="statut-selector" class="row">
+    <div id="statut-selector" class="mt-4 row">
       <div
         class="col"
         [ngClass]="{'selected-statut' : filters.statut === 'TOUS' }"
         (click)="updateFilters('statut', 'TOUS')"
       >
-        <span class="statut-cpt"
-          >{{ allUsagersByStatus?.TOUS.length || 0 }}
+        <span class="statut-cpt">
+          {{ allUsagersByStatus?.TOUS.length || 0 }}
         </span>
-        Tous
+        <span class="statut-label"> Tous</span>
       </div>
       <div
         class="col"
@@ -42,27 +57,27 @@
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.VALIDE.length || 0 }}
         </span>
-        Actifs
+        <span class="statut-label"> Actifs</span>
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-statut' :filters.statut === 'INSTRUCTION' }"
+        [ngClass]="{'selected-statut' : filters.statut === 'INSTRUCTION' }"
         (click)="updateFilters('statut', 'INSTRUCTION')"
       >
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.INSTRUCTION.length || 0 }}
         </span>
-        À compléter
+        <span class="statut-label"> À compléter</span>
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-statut' :filters.statut === 'ATTENTE_DECISION' }"
+        [ngClass]="{'selected-statut' : filters.statut === 'ATTENTE_DECISION' }"
         (click)="updateFilters('statut', 'ATTENTE_DECISION')"
       >
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.ATTENTE_DECISION.length || 0 }}
         </span>
-        Attente de décision
+        <span class="statut-label">Attente de décision</span>
       </div>
       <div
         class="col"
@@ -72,7 +87,7 @@
         <span class="statut-cpt"
           >{{ allUsagersByStatus?.REFUS.length || 0 }}
         </span>
-        Refusés
+        <span class="statut-label">Refusés</span>
       </div>
       <div
         class="col"
@@ -82,98 +97,97 @@
         <span class="statut-cpt">
           {{ allUsagersByStatus?.RADIE.length || 0 }}
         </span>
-        Radiés
+        <span class="statut-label"> Radiés</span>
       </div>
     </div>
   </div>
 </div>
 
-<div id="filters">
+<div id="filters" class="py-4">
   <div class="container">
     <div class="row">
-      <div class="col-3 text-left">
-        <span>Dernier passage</span>
-        <div
-          class="btn-group btn-group-toggle"
-          role="group"
-          aria-label="Basic example"
-        >
-          <button
-            class="btn"
-            [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
-            (click)="updateFilters('passage', 'DEUX_MOIS')"
-            [ngClass]="filters.passage === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
-          >
-            Plus de 2 mois
-            <fa-icon
-              *ngIf="filters.passage === 'DEUX_MOIS'"
-              icon="times-circle"
-            ></fa-icon>
-          </button>
-          <button
-            class="btn"
-            [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
-            (click)="updateFilters('passage', 'TROIS_MOIS')"
-            [ngClass]="filters.passage === 'TROIS_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
-          >
-            Plus de 3 mois
-            <fa-icon
-              *ngIf="filters.passage === 'TROIS_MOIS'"
-              icon="times-circle"
-            ></fa-icon>
-          </button>
+      <div class="col text-left">
+        <div *ngIf="nbResults">
+          <span class="text-primary"> {{nbResults}} </span>résultats
         </div>
       </div>
-      <div class="col-3">
-        <span>Échéance de domiciliation</span>
+      <div
+        *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
+        class="col text-left"
+      >
+        <div
+          ngbDropdown
+          id="dropdownDernierPassage"
+          display="dynamic"
+          placement="bottom-right"
+          class="d-inline-block"
+        >
+          <button class="btn" id="dropdownManual" ngbDropdownToggle>
+            <span>Dernier passage</span>
+          </button>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="navbarDropdown2"
+            class="dropdown-menu dropdown-menu-right"
+          >
+            <button
+              (click)="updateFilters('passage', 'DEUX_MOIS')"
+              ngbDropdownItem
+            >
+              Plus de 2 mois
+            </button>
+            <button
+              (click)="updateFilters('passage', 'TROIS_MOIS')"
+              ngbDropdownItem
+            >
+              Plus de 2 mois
+            </button>
+          </div>
+        </div>
+      </div>
 
+      <div
+        *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
+        class="col text-left"
+      >
         <div
-          class="btn-group btn-group-toggle"
-          role="group"
-          aria-label="Basic example"
+          ngbDropdown
+          id="dropdownEcheance"
+          display="dynamic"
+          placement="bottom-right"
+          class="d-inline-block"
         >
-          <button
-            aria-label="Moins de 2 mois"
-            class="btn"
-            [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
-            (click)="updateFilters('echeance', 'DEUX_MOIS')"
-            [ngClass]="filters.echeance === 'DEUX_MOIS' ? 'btn-dark' : 'btn-outline-dark'"
-          >
-            Moins de 2 mois
-            <fa-icon
-              *ngIf="filters.echeance === 'DEUX_MOIS'"
-              icon="times-circle"
-            ></fa-icon>
+          <button class="btn" id="dropdownManual" ngbDropdownToggle>
+            <span>Échéance de domiciliation</span>
           </button>
-          <button
-            aria-label="Moins de 2 semaines"
-            class="btn"
-            [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
-            (click)="updateFilters('echeance', 'DEUX_SEMAINES')"
-            [ngClass]="filters.echeance === 'DEUX_SEMAINES' ? 'btn-dark' : 'btn-outline-dark'"
+          <div
+            ngbDropdownMenu
+            aria-labelledby="navbarDropdown2"
+            class="dropdown-menu dropdown-menu-right"
           >
-            Moins de 2 semaines
-            <fa-icon
-              *ngIf="filters.echeance === 'DEUX_SEMAINES'"
-              icon="times-circle"
-            ></fa-icon>
-          </button>
-          <button
-            aria-label="Dépassée"
-            class="btn"
-            [disabled]="filters.statut !== 'TOUS' && filters.statut !== 'VALIDE'"
-            (click)="updateFilters('echeance', 'DEPASSEE')"
-            [ngClass]="filters.echeance === 'DEPASSEE' ? 'btn-dark' : 'btn-outline-dark'"
-          >
-            Dépassée
-            <fa-icon
-              *ngIf="filters.echeance === 'DEPASSEE'"
-              icon="times-circle"
-            ></fa-icon>
-          </button>
+            <button
+              (click)="updateFilters('echeance', 'DEUX_MOIS')"
+              ngbDropdownItem
+            >
+              Moins de 2 mois
+            </button>
+            <button
+              (click)="updateFilters('echeance', 'DEUX_SEMAINES')"
+              ngbDropdownItem
+            >
+              Moins de 2 semaines
+            </button>
+            <button
+              (click)="updateFilters('echeance', 'DEPASSEE')"
+              ngbDropdownItem
+            >
+              Dépassée
+            </button>
+          </div>
         </div>
       </div>
-      <div class="col-3 text-right">
+
+      <div class="col text-right">
         <span>Courrier à récupérer</span>
         <div class="btn-group btn-group-toggle">
           <button
@@ -186,7 +200,7 @@
           </button>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col">
         <div
           ngbDropdown
           id="dropdownBasic1"
@@ -300,11 +314,6 @@
           </button>
         </div>
       </ngb-alert>
-    </div>
-    <div class="row">
-      <div class="col-12 results-count" *ngIf="nbResults">
-        {{nbResults}} résultats
-      </div>
     </div>
 
     <div class="row">
@@ -487,20 +496,29 @@
                 <div
                   *ngIf=" usager.decision.statut === 'VALIDE' || (usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT') || (usager.decision.statut === 'ATTENTE_DECISION' && usager.typeDom === 'RENOUVELLEMENT') || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
                 >
-                  <span
+                  <div
                     ngbTooltip="Signaler un passage"
                     class="interaction-btn"
                     (click)="setInteraction(usager, 'visite')"
                   >
-                    <img src="/assets/icones/passage.svg" alt="Signaler " />
-                  </span>
-                  <span
+                    <span class="icon-courrierIn list-icon"></span>
+
+                    <span class="list-icon-label">Courrier reçu</span>
+                  </div>
+                  <div
+                    ngbTooltip="Signaler un passage"
+                    class="interaction-btn"
+                    (click)="setInteraction(usager, 'visite')"
+                  >
+                    <span class="icon-passage list-icon"></span>
+                  </div>
+                  <div
                     ngbTooltip="Signaler un appel"
                     class="interaction-btn"
                     (click)="setInteraction(usager, 'appel')"
                   >
-                    <img src="/assets/icones/phone.svg" alt="Signaler " />
-                  </span>
+                    <span class="icon-appel list-icon"></span>
+                  </div>
 
                   <!--
 
@@ -544,7 +562,9 @@
                 --></div>
               </td>
 
-              <td (click)="goToProfil(usager)">></td>
+              <td (click)="goToProfil(usager)">
+                <div class="svg-icon icon-arrow"></div>
+              </td>
             </tr>
           </tbody>
         </table>
