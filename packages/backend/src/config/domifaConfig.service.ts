@@ -286,7 +286,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
           {
-            defaultValue: CronExpression.EVERY_10_MINUTES, //
+            defaultValue:
+              envId === "dev" ||
+              envId === "test" ||
+              envId === "preprod" ||
+              envId === "formation"
+                ? CronExpression.EVERY_5_MINUTES
+                : CronExpression.EVERY_DAY_AT_6PM, //
           }
         ),
         autoRunOnStartup: false,
