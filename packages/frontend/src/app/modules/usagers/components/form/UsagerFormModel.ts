@@ -67,6 +67,12 @@ export class UsagerFormModel {
   // Recherche : si la requête fait remonté un ayant-droit
   public isAyantDroit: boolean;
   public isActif: boolean;
+
+  // Date à afficher sur le manage, couleur selon le statut
+  public dateToDisplay: Date;
+  public statutColor: "normal" | "warning" | "danger";
+
+  //
   public dayBeforeEnd: number;
 
   constructor(
@@ -157,36 +163,41 @@ export class UsagerFormModel {
 
     this.isActif = false;
     this.dayBeforeEnd = 365;
-
-    let dateFinToCheck: Date | null = null;
+    this.dateToDisplay = null;
 
     // Récupération de la date de fin de la domiciliation
     this.typeDom = (usager && usager.typeDom) || "PREMIERE";
 
     if (this.decision.statut === "VALIDE") {
-      dateFinToCheck = this.decision.dateFin;
+      this.dateToDisplay = this.decision.dateFin;
       this.isActif = true;
     } else if (
       this.decision.statut === "INSTRUCTION" &&
       this.typeDom === "RENOUVELLEMENT"
     ) {
       this.isActif = true;
-      dateFinToCheck = this.historique[0].dateFin;
+      this.dateToDisplay = this.historique[0].dateFin;
     } else if (
       this.decision.statut === "ATTENTE_DECISION" &&
       this.typeDom === "RENOUVELLEMENT"
     ) {
       this.isActif = true;
-      dateFinToCheck = this.historique[1].dateFin;
+      this.dateToDisplay = this.historique[1].dateFin;
     }
 
-    if (dateFinToCheck) {
+    if (this.dateToDisplay) {
       const today = new Date();
       const msPerDay: number = 1000 * 60 * 60 * 24;
       const start: number = today.getTime();
       const end: number = this.decision.dateFin.getTime();
 
       this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
+
+      if (this.dayBeforeEnd < 15) {
+        this.statutColor = "warning";
+      } else if (this.dayBeforeEnd > 15 && this.dayBeforeEnd < 60) {
+        this.statutColor = "danger";
+      }
     }
 
     this.options = (usager && new Options(usager.options)) || new Options({});

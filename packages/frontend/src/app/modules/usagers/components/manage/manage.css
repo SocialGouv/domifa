@@ -2,35 +2,48 @@
   padding-top: 120px;
 }
 
-#filters .btn {
-  font-size: 0.97rem;
+/* FILTRES */
+.filter-part {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
 
+.dropdown-toggle {
+  font-size: 1rem;
   background: #f9f9fc;
   border: 1px solid #cfcfd9;
   box-sizing: border-box;
   border-radius: 5px;
+  text-align: left;
+  min-width: 180px;
+  padding: 8px 12px;
 }
 
-#filters .dropdown-menu {
-  background: #f9f9fc;
+.dropdown-menu {
+  background: white;
   border: 1px solid #cfcfd9;
   border-radius: 5px;
   padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
-#filters .dropdown-menu .ng-fa-icon {
+.dropdown-menu .ng-fa-icon {
   margin-left: 6px;
+  float: left;
 }
 
-#filters .dropdown-item:not(:last-child) {
+.dropdown-item:not(:last-child) {
   border-bottom: 1px solid #cfcfd9;
 }
 
-#filters .dropdown-item {
-  padding: 6px 10px;
+.dropdown-item {
+  padding: 10px;
   cursor: pointer;
   color: #4a4a4a;
-  text-align: center;
+  text-align: left;
+  width: 100%;
 }
 
 #statut-selector .col:first-child {
@@ -48,9 +61,12 @@
   cursor: pointer;
   transition: all 0.25s ease-in-out;
   background: rgba(255, 255, 255, 0.9);
-  box-shadow: inset -1px 0 0 rgba(65, 100, 245, 0.1);
+  box-shadow: 0 -1px 2px 0 rgba(65, 100, 245, 0.2);
 }
 
+#statut-selector {
+  box-shadow: 0 1px 3px rgba(50, 66, 124, 0.1);
+}
 #statut-selector .btn {
   border-radius: 100px;
   padding: 5px 25px;
@@ -135,15 +151,15 @@ table {
 tbody td,
 tbody th {
   vertical-align: middle;
-  padding: 6px 5px;
-  height: 52px;
-  min-width: 40px;
+
+  min-width: 35px;
   border: none;
+  height: 58px;
 }
 
 tbody td:first-child,
 tbody th:first-child {
-  padding: 10px 12px;
+  padding: 10px 14px;
   background-color: white;
   border-radius: 2px 0 0 2px;
 }
@@ -174,7 +190,7 @@ tbody tr {
   background: #ffffff;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   border-radius: 2px;
-  opacity: 0.75;
+  opacity: 0.78;
 }
 
 tbody tr:hover {
@@ -339,4 +355,22 @@ th {
   background-color: #ffffff;
   box-shadow: 0 2px 2px #2f4ece;
   border-radius: 3px;
+}
+
+.selected-btn {
+  border: 1px solid var(--primary) !important;
+}
+
+.cross:hover {
+  background-color: white;
+  color: var(--primary);
+}
+
+.cross {
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.9rem;
+  line-height: 100%;
+  background-color: var(--primary);
+  color: white;
 }

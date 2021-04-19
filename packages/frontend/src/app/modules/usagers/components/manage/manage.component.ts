@@ -1,4 +1,8 @@
 import {
+  UsagersFilterCriteriaDernierPassage,
+  UsagersFilterCriteriaStatut,
+} from "./usager-filter/UsagersFilterCriteria";
+import {
   Component,
   ElementRef,
   HostListener,
@@ -44,6 +48,7 @@ import {
   usagersByStatusBuilder,
   usagersFilter,
   UsagersFilterCriteria,
+  UsagersFilterCriteriaEcheance,
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
 } from "./usager-filter";
@@ -66,13 +71,28 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   public dateLabel: string;
   public today: Date;
-  public labelsDateFin: any = {
+
+  public labelsDateFin: { [key in UsagersFilterCriteriaStatut]: string } = {
     ATTENTE_DECISION: "Demande effectuée le",
     INSTRUCTION: "Dossier débuté le",
+    RENOUVELLEMENT: "Renouvellement le",
     RADIE: "Radié le ",
     REFUS: "Date de refus",
     TOUS: "Fin de domiciliation",
     VALIDE: "Fin de domiciliation",
+  };
+
+  public labelsDernierPassage: {
+    [key in UsagersFilterCriteriaDernierPassage]: string;
+  } = {
+    DEUX_MOIS: "Dernier passage 2 mois",
+    TROIS_MOIS: "Dernier passage 3 mois",
+  };
+
+  public labelsEcheance: { [key in UsagersFilterCriteriaEcheance]: string } = {
+    DEUX_MOIS: "Fin dans 2 mois",
+    DEUX_SEMAINES: "Fin dans 2 semaines",
+    DEPASSEE: "Domiciliation expirée",
   };
 
   public searchString = "";
@@ -93,7 +113,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     ID: "ID",
   };
 
-  public selectedUsager: UsagerLight;
+  public selectedUsager: UsagerFormModel;
 
   @ViewChild("searchInput", { static: true })
   public searchInput!: ElementRef;
@@ -293,7 +313,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.matomo.trackEvent("filters", element, value as string, 1);
   }
 
-  public goToProfil(usager: UsagerLight) {
+  public goToProfil(usager: UsagerFormModel) {
     const etapesUrl = [
       "etat-civil",
       "rendez-vous",
@@ -335,7 +355,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public setInteraction(
-    usager: UsagerLight,
+    usager: UsagerFormModel,
     type: InteractionType,
     procuration?: boolean
   ) {
@@ -371,7 +391,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.interactionService.setInteraction(usager, interaction).subscribe(
       (response: UsagerLight) => {
         usager.lastInteraction = response.lastInteraction;
-        this.updateUsager(usager);
+        // this.updateUsager(usager);
         this.notifService.success(interactionsLabels[type]);
       },
       (error) => {

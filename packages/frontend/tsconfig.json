@@ -26,6 +26,9 @@
   "exclude": ["./node_modules", "./dist"],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "strictNullInputTypes": true,
+    "strictContextGenerics": true
+    // "strictTemplates": true
   }
 }
