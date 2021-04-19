@@ -254,10 +254,10 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-9.1.13.tgz#d19850d11e4b883a4bf848b3b602b9b4ade61b8b"
   integrity sha512-fecbDGUUGLsdoVgKqQMmqLwy7Q4MjHxrUdk4Uz3kI3wLPf+C0KV8n/hW+RA4mFVTJrpuwnvQa1WJWXz5U5PVjw==
 
-"@angular/localize@^11.2.9":
-  version "11.2.9"
-  resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-11.2.9.tgz#653a18bc01b4ce8e3dfa8637b9163fb9ee594904"
-  integrity sha512-uizKA4AWJ3IAZFv9tY5VrD//nhucg+kmppC6ZxBdsl6DNH4C9Tihc5JATwaO6H9TKkFY/xSxZsJLxWmDEOWwVA==
+"@angular/localize@^11.2.10":
+  version "11.2.10"
+  resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-11.2.10.tgz#a01a9c968cef79918ded62618a2cbcffc544a702"
+  integrity sha512-MjJ5aOumlXZoTTtB2gfy1Y6NZmGjqOUL5t5D3jXaSCl0rUdwDglB35zKYrqRyUYoGoXSdAuZzkLdREinzZz6eA==
   dependencies:
     "@babel/core" "7.8.3"
     glob "7.1.2"
@@ -3241,10 +3241,10 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@>= 8", "@types/node@^14.0.1", "@types/node@^14.14.37":
-  version "14.14.37"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.37.tgz#a3dd8da4eb84a996c36e331df98d82abd76b516e"
-  integrity sha512-XYmBiy+ohOR4Lh5jE379fV2IU+6Jn4g5qASinhitfyO71b/sCo6MKsMLF5tc7Zf2CE8hViVQyYSobJNke8OvUw==
+"@types/node@*", "@types/node@>= 8", "@types/node@^14.0.1", "@types/node@^14.14.41":
+  version "14.14.41"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.41.tgz#d0b939d94c1d7bd53d04824af45f1139b8c45615"
+  integrity sha512-dueRKfaJL4RTtSa7bWeTK1M+VH+Gns73oCgzvYfHZywRCoPSd8EkXBL0mZ9unPTveBn+D9phZBaxuzpwjWkW0g==
 
 "@types/node@^10.1.0":
   version "10.17.56"
@@ -6307,10 +6307,10 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
-date-fns-tz@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-1.1.3.tgz#8783489c9d90e5785548869af5bb8c4642a03855"
-  integrity sha512-mD26WkejWz842RggjFrKsY6ehGgyBQSJ209mn83/vsjhgQ5WbdVvBzJ0CuosnGdklDxOvOppQ/wn1UgvTOPKPw==
+date-fns-tz@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-1.1.4.tgz#38282c2bfab08946a4e9bb89d733451e5525048b"
+  integrity sha512-lQ+FF7xUxxRuRqIY7H/lagnT3PhhSnnvtGHzjE5WZKwRyLU7glJfLys05SZ7zHlEr6RXWiqkmgWq4nCkcElR+g==
 
 date-fns@^2.17.0:
   version "2.20.3"
