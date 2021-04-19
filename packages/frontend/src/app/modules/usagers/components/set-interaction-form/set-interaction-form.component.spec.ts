@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { SetInteractionFormComponent } from './set-interaction-form.component';
+import { SetInteractionFormComponent } from "./set-interaction-form.component";
 
-describe('SetInteractionFormComponent', () => {
+describe("SetInteractionFormComponent", () => {
   let component: SetInteractionFormComponent;
   let fixture: ComponentFixture<SetInteractionFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SetInteractionFormComponent ]
-    })
-    .compileComponents();
+      declarations: [SetInteractionFormComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('SetInteractionFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
