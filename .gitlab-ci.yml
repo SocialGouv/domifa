@@ -1,13 +1,12 @@
-#
-
 include:
   # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v22.0.0/base_register_docker_stage.yml
   - project: SocialGouv/gitlab-ci-yml
-    file: /base_register_docker_stage.yml
-    ref: v22.0.0
+    file: /base_autodevops.yml
+    ref: v21.0.1
 
 variables:
   # Globals
+  AUTO_DEVOPS_ENABLE_KAPP: "🕹️"
   PYTHON_VERSION: "3.6-alpine"
 
 stages:
@@ -15,6 +14,9 @@ stages:
   - "Build"
   - "Tests"
   - "Registration"
+  - "Release"
+  - "Deploy"
+  - "Seed"
 
 .print_env: &print_env |
   printenv | grep \
@@ -248,75 +250,71 @@ Test:e2e:dist:
   retry:
     max: 1
 
-.Register:frontend:image:base:
-  extends: .base_register_stage
-  image: docker:19
-  services:
-    - docker:19-dind
-  interruptible: true
+Release:
+  rules:
+    - when: never
+
+Register:frontend:
+  extends:
+    - .base_register_kaniko_stage
+  stage: Registration
+  needs:
+    - job: Install:node_modules
+      artifacts: true
+    - job: Build:frontend:dist
+      artifacts: true
+    - job: Test:frontend:unit
   variables:
     CONTEXT: .
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/frontend
+    IMAGE_NAME: frontend
     DOCKER_BUILD_ARGS: >-
       -f packages/frontend/Dockerfile
+  rules:
+    - when: on_success
+
+Register:backend:
+  extends:
+    - .base_register_kaniko_stage
+  stage: Registration
   needs:
-    - Test:frontend:unit
-    - Install:node_modules
-    - Build:frontend:dist
-  dependencies:
-    - Install:node_modules
-    - Build:frontend:dist
-
-Register:frontend:image:
-  extends: .Register:frontend:image:base
-  only:
-    - master # to deploy to preprod only
-    - tags # prod + preprod
-  retry:
-    max: 1
-
-Register:frontend:image:manual:
-  extends: .Register:frontend:image:base
-  except:
-    - master
-    - tags
-  when: manual # to be able to run thieses jobs manually on branchs
-  retry:
-    max: 1
-
-.Register:backend:image:base:
-  extends: .base_register_stage
-  image: docker:19
-  services:
-    - docker:19-dind
-  interruptible: true
+    - job: Install:node_modules
+      artifacts: true
+    - job: Build:backend:dist
+      artifacts: true
+    - job: Test:backend:integration
   variables:
     CONTEXT: .
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/backend
+    IMAGE_NAME: backend
     DOCKER_BUILD_ARGS: >-
-      --shm-size 768M
       -f packages/backend/Dockerfile
-  needs:
-    - Test:backend:integration
-    - Install:node_modules
-    - Build:backend:dist
-  dependencies:
-    - Install:node_modules
-    - Build:backend:dist
+  rules:
+    - when: on_success
 
-Register:backend:image:
-  extends: .Register:backend:image:base
+Seed:
+  stage: Seed
+  allow_failure: true
+  image:
+    name: postgres:11
+    entrypoint: [""]
+  environment:
+    name: ${CI_COMMIT_REF_NAME}-dev2
+    url: https://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
   only:
-    - master # to deploy to preprod only
-    - tags # prod + preprod
-  retry:
-    max: 1
-
-Register:backend:image:manual:
-  extends: .Register:backend:image:base
+    refs:
+      - branches
   except:
-    - master
-    - tags
-  when: manual # to be able to run thieses jobs manually on branchs
-  retry:
-    max: 1
+    refs:
+      - master
+    variables:
+      # Don't run when deploying in production or releasing
+      - $PRODUCTION
+      - $RELEASE
+  variables:
+    PGSSLMODE: require
+    GIT_STRATEGY: clone
+    PGPASSWORD: password_${CI_COMMIT_SHORT_SHA}
+    PGDATABASE: autodevops_${CI_COMMIT_SHORT_SHA}
+    PGUSER: user_${CI_COMMIT_SHORT_SHA}@${PGHOST}
+    PGHOST: domifadevserver.postgres.database.azure.com
+  script:
+    - psql < ./_scripts/db/dumps/domifa_test.postgres.data-only.sql
