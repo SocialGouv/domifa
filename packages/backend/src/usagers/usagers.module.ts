@@ -7,7 +7,7 @@ import { UsersModule } from "../users/users.module";
 import { AgendaController } from "./controllers/agenda.controller";
 import { DocsController } from "./controllers/docs.controller";
 import { ExportStructureUsagersController } from "./controllers/export-structure-usagers.controller";
-import { ImportController } from "./controllers/import.controller";
+import { ImportController } from "./controllers/import/import.controller";
 import { UsagerStructureDocsController } from "./controllers/usager-structure-docs.controller";
 import { UsagersController } from "./controllers/usagers.controller";
 import { CerfaService } from "./services/cerfa.service";

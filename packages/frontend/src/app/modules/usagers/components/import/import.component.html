@@ -99,7 +99,7 @@
       </p>
     </div>
 
-    <button *ngIf="previewTable?.errorsCount > 0" (click)="reload()" class="btn btn-danger">
+    <button *ngIf="previewTable?.errorsCount > 0" (click)="backToStep1()" class="btn btn-danger">
       Recommencer
     </button>
     &nbsp;
@@ -200,7 +200,7 @@
         <tbody *ngIf="visibleRows">
           <tr *ngFor="let row of visibleRows; let index = index">
             <td>
-              <b>{{ row.rowIndex + 1 }}</b>
+              <b>{{ row.rowNumber }}</b>
             </td>
             <td [ngClass]="{ 'table-danger': !row.columns[COL.CUSTOM_ID]?.isValid }">
               {{ row.columns[COL.CUSTOM_ID]?.value }}
@@ -346,16 +346,16 @@
             </td>
 
             <ng-container *ngFor="let ayantDroitColumnIndex of COL.AYANT_DROIT; let rowIndex = index">
-              <td [ngClass]="{ 'table-danger': !row.columns[ayantDroitColumnIndex]?.isValid }">
+              <td [ngClass]="{ 'table-danger': row.columns[ayantDroitColumnIndex]?.isValid === false }">
                 {{ row.columns[ayantDroitColumnIndex]?.value }}
               </td>
-              <td [ngClass]="{ 'table-danger': !row.columns[ayantDroitColumnIndex + 1]?.isValid }">
+              <td [ngClass]="{ 'table-danger': row.columns[ayantDroitColumnIndex + 1]?.isValid === false }">
                 {{ row.columns[ayantDroitColumnIndex + 1]?.value }}
               </td>
-              <td [ngClass]="{ 'table-danger': !row.columns[ayantDroitColumnIndex + 2]?.isValid }">
+              <td [ngClass]="{ 'table-danger': row.columns[ayantDroitColumnIndex + 2]?.isValid === false }">
                 {{ row.columns[ayantDroitColumnIndex + 2]?.value }}
               </td>
-              <td [ngClass]="{ 'table-danger': !row.columns[ayantDroitColumnIndex + 3]?.isValid }">
+              <td [ngClass]="{ 'table-danger': row.columns[ayantDroitColumnIndex + 3]?.isValid === false }">
                 {{ row.columns[ayantDroitColumnIndex + 3]?.value }}
               </td>
             </ng-container>

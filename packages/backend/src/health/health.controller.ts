@@ -1,9 +1,9 @@
 import { Controller, Get } from "@nestjs/common";
 import {
-  DNSHealthIndicator,
   HealthCheck,
   HealthCheckService,
   HealthIndicatorResult,
+  HttpHealthIndicator,
 } from "@nestjs/terminus";
 import { domifaConfig } from "../config";
 import { appLogger } from "../util";
@@ -13,7 +13,7 @@ import { PostgresHealthIndicator } from "./postgres-health-indicator.service";
 export class HealthController {
   constructor(
     private health: HealthCheckService,
-    public dnsIndicator: DNSHealthIndicator,
+    public dnsIndicator: HttpHealthIndicator,
     public postgresIndicator: PostgresHealthIndicator
   ) {}
 

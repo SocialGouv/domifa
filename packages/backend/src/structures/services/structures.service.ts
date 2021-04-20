@@ -114,11 +114,4 @@ export class StructuresService {
       maxResults: 100,
     });
   }
-
-  public async importSuccess(id: number): Promise<StructureCommon> {
-    return structureCommonRepository.updateOne(
-      { id },
-      { import: true, importDate: new Date() }
-    );
-  }
 }

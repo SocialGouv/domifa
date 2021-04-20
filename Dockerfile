@@ -22,9 +22,6 @@ COPY ./packages/frontend/tsconfig.json /app/packages/frontend/tsconfig.json
 COPY ./packages/backend/src /app/packages/backend/src
 COPY ./packages/frontend/src /app/packages/frontend/src
 
-COPY /app/packages/backend/src/ressources /app/packages/backend/dist/ressources
-
-
 RUN touch /app/packages/backend/src/config/config.env
 
 COPY ./packages/backend/jest.config.js /app/packages/backend/jest.config.js

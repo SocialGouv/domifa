@@ -17,7 +17,6 @@ import { GeneralModule } from "../general/general.module";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
-
 import { DocumentsComponent } from "./components/documents/documents.component";
 import { EntretienComponent } from "./components/entretien/entretien.component";
 import { DecisionComponent } from "./components/form/parts/decision/decision.component";
@@ -28,10 +27,10 @@ import { MenuComponent } from "./components/form/parts/menu/menu.component";
 import { RdvComponent } from "./components/form/parts/rdv/rdv.component";
 import { UsagersFormComponent } from "./components/form/usagers-form";
 import { ImportComponent } from "./components/import/import.component";
-import { ImportPreviewBuilder } from "./components/import/ImportPreviewBuilder.service";
 import { ManageUsagersComponent } from "./components/manage/manage.component";
 import { ProfilAyantsDroitsComponent } from "./components/profil/profil-ayants-droits/profil-ayants-droits.component";
 import { UsagersProfilComponent } from "./components/profil/profil-component";
+import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-preference/profil-edit-preference.component";
 import { ProfilEntretienComponent } from "./components/profil/profil-entretien/profil-entretien.component";
 import { ProfilInfosComponent } from "./components/profil/profil-infos/profil-infos.component";
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil/profil-procuration-courrier/profil-procuration-courrier-component";
@@ -42,7 +41,6 @@ import { UploadComponent } from "./components/upload/upload.component";
 import { DocumentService } from "./services/document.service";
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
-import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-preference/profil-edit-preference.component";
 
 @NgModule({
   declarations: [
@@ -105,7 +103,6 @@ import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-p
     DocumentService,
     UsagerService,
     InteractionService,
-    ImportPreviewBuilder,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },

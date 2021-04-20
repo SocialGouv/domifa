@@ -6,10 +6,9 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
-
-import { ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root",
@@ -30,13 +29,16 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         } else {
           let errorMessage = {};
           if (error.error instanceof ErrorEvent) {
-            errorMessage = { message: `Error: ${error.error.message}` };
+            errorMessage = {
+              ...error,
+              message: `Error: ${error.error.message}`,
+            };
           } else {
             const message =
               typeof error.error.message !== "undefined"
                 ? error.error.message
                 : error.message;
-            errorMessage = { status: error.status, message };
+            errorMessage = { ...error, status: error.status, message };
           }
           return throwError(errorMessage);
         }
