@@ -360,7 +360,7 @@ export class StatsController {
         B: "",
       },
       {
-        A: "Nombre d'attestations d'élection de domicile délivrées",
+        A: "Nombre total d'attestations d'élection de domicile délivrées",
         B: stats.questions.Q_10,
       },
       {
@@ -377,7 +377,7 @@ export class StatsController {
         B: "",
       },
       {
-        A: "Total radiations",
+        A: "Nombre total de radiations",
         B: stats.questions.Q_12.TOTAL,
       },
       {
@@ -414,7 +414,8 @@ export class StatsController {
         B: "",
       },
       {
-        A: "Nombre de demandes refusées",
+        A:
+          "Nombre total de refus d'élection de domicile (y compris refus de renouvellements)",
         B: stats.questions.Q_13.TOTAL,
       },
       {
