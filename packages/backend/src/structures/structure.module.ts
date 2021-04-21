@@ -8,7 +8,6 @@ import { StructureDocController } from "./controllers/structure-doc.controller";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructureDocService } from "./services/structure-doc.service";
 import { StructureCreatorService } from "./services/structureCreator.service";
-import { StructureDeletorService } from "./services/structureDeletor.service";
 import { StructureHardResetService } from "./services/structureHardReset.service";
 import { StructuresService } from "./services/structures.service";
 
@@ -17,7 +16,6 @@ import { StructuresService } from "./services/structures.service";
   exports: [
     StructuresService,
     StructureCreatorService,
-    StructureDeletorService,
     StructureHardResetService,
     StructureDocService,
   ],
@@ -32,7 +30,6 @@ import { StructuresService } from "./services/structures.service";
   providers: [
     StructuresService,
     StructureCreatorService,
-    StructureDeletorService,
     StructureHardResetService,
     StructureDocService,
   ],

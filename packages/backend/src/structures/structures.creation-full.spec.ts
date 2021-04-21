@@ -17,7 +17,7 @@ import { AppUser } from "../_common/model";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructureWithUserDto } from "./dto/structure-with-user.dto";
 import { StructureDto } from "./dto/structure.dto";
-import { StructureDeletorService } from "./services/structureDeletor.service";
+import { structureDeletorService } from "./services/structureDeletor.service";
 import { StructuresModule } from "./structure.module";
 
 const structureDto: StructureDto = {
@@ -44,7 +44,6 @@ describe("Stuctures creation full", () => {
   let context: AppTestContext;
   let structureController: StructuresController;
   let userController: UsersController;
-  let structureDeletorService: StructureDeletorService;
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
@@ -63,9 +62,6 @@ describe("Stuctures creation full", () => {
       StructuresController
     );
     userController = context.module.get<UsersController>(UsersController);
-    structureDeletorService = context.module.get<StructureDeletorService>(
-      StructureDeletorService
-    );
   });
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
