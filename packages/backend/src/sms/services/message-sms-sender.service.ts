@@ -1,16 +1,16 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosError, AxiosResponse } from "axios";
-
-import {
-  MessageSms,
-  MessageSmsSendResponse,
-} from "../../_common/model/message-sms";
-import { domifaConfig } from "../../config";
 import { Repository } from "typeorm";
+import { domifaConfig } from "../../config";
 import { appTypeormManager } from "../../database";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { appLogger } from "../../util";
+import {
+  MessageSms,
+  MessageSmsSendResponse,
+} from "../../_common/model/message-sms";
+
 @Injectable()
 export class MessageSmsSenderService {
   private messageSmsRepository: Repository<MessageSmsTable>;
@@ -56,12 +56,14 @@ export class MessageSmsSenderService {
 
         if (responseContent.resultat === 1) {
           updateSms.responseId = responseContent.id;
+          messageSmsRepository.updateOne({ uuid: message.uuid }, updateSms);
         } else {
           updateSms.status = "FAILURE";
           updateSms.errorMessage = responseContent.erreurs.toString();
+          updateSms.errorCount++;
+          messageSmsRepository.updateOne({ uuid: message.uuid }, updateSms);
+          throw new Error(updateSms.errorMessage);
         }
-
-        messageSmsRepository.updateOne({ uuid: message.uuid }, updateSms);
       },
       (error: AxiosError) => {
         appLogger.error(`[SmsSender] Error running application`, {
