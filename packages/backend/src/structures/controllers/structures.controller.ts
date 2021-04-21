@@ -16,13 +16,8 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { AdminGuard } from "../../auth/guards/admin.guard";
 import { DomifaGuard } from "../../auth/guards/domifa.guard";
-import {
-  structureRepository,
-  usagerRepository,
-  usersRepository,
-} from "../../database";
+import { structureRepository, usersRepository } from "../../database";
 import { structureLightRepository } from "../../database/services/structure/structureLightRepository.service";
-import { InteractionsService } from "../../interactions/interactions.service";
 import {
   deleteStructureEmailSender,
   hardResetEmailSender,
@@ -36,7 +31,7 @@ import { StructureEditDto } from "../dto/structure-edit.dto";
 import { StructureWithUserDto } from "../dto/structure-with-user.dto";
 import { StructureDto } from "../dto/structure.dto";
 import { StructureCreatorService } from "../services/structureCreator.service";
-import { StructureDeletorService } from "../services/structureDeletor.service";
+import { structureDeletorService } from "../services/structureDeletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 
@@ -45,11 +40,9 @@ import { StructuresService } from "../services/structures.service";
 export class StructuresController {
   constructor(
     private structureCreatorService: StructureCreatorService,
-    private structureDeletorService: StructureDeletorService,
     private structureHardResetService: StructureHardResetService,
     private structureService: StructuresService,
-    private statsService: StatsService,
-    private interactionsService: InteractionsService
+    private statsService: StatsService
   ) {}
 
   @Post()
@@ -217,10 +210,8 @@ export class StructuresController {
       );
     }
 
-    await this.statsService.deleteAll(structure.id);
-    await this.interactionsService.deleteAll(user.structureId);
-    await usagerRepository.deleteByCriteria({
-      structureId: user.structureId,
+    await structureDeletorService.deleteStructureUsagers({
+      structureId: structure.id,
     });
     await this.structureHardResetService.hardResetClean(structure.id);
 
@@ -240,7 +231,7 @@ export class StructuresController {
     @Param("token") token: string,
     @Param("nom") nom: string
   ) {
-    return this.structureDeletorService.deleteOne({
+    return structureDeletorService.deleteStructure({
       structureId: parseInt(id, 10),
       token,
       structureNom: nom,
@@ -274,7 +265,7 @@ export class StructuresController {
     @Response() res: any,
     @Param("id") id: string
   ) {
-    const structure = await this.structureDeletorService.generateDeleteToken(
+    const structure = await structureDeletorService.generateDeleteToken(
       parseInt(id, 10)
     );
 

@@ -1,10 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
-import {
-  appTypeormManager,
-  structureStatsRepository,
-  StructureStatsTable,
-} from "../../database";
+import { structureStatsRepository } from "../../database";
 import { appLogger } from "../../util";
 import {
   StructureCommon,
@@ -18,19 +13,7 @@ import {
 
 @Injectable()
 export class StatsService {
-  private structureStatsRepository: Repository<StructureStatsTable>;
-
-  constructor(private statsGeneratorService: StatsGeneratorService) {
-    this.structureStatsRepository = appTypeormManager.getRepository(
-      StructureStatsTable
-    );
-  }
-
-  public async deleteAll(structureId: number): Promise<any> {
-    return this.structureStatsRepository.delete({
-      structureId,
-    });
-  }
+  constructor(private statsGeneratorService: StatsGeneratorService) {}
 
   public async getStatsDiff({
     structure,
