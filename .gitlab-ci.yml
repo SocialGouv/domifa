@@ -249,9 +249,9 @@ Test:e2e:dist:
 
 .Register:frontend:image:base:
   extends: .base_register_stage
-  image: docker:19
+  image: docker:20
   services:
-    - docker:19-dind
+    - docker:20-dind
   interruptible: true
   variables:
     CONTEXT: .
@@ -285,9 +285,9 @@ Register:frontend:image:manual:
 
 .Register:backend:image:base:
   extends: .base_register_stage
-  image: docker:19
+  image: docker:20
   services:
-    - docker:19-dind
+    - docker:20-dind
   interruptible: true
   variables:
     CONTEXT: .
