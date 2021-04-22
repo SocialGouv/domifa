@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
+import { InteractionInForm } from "../../../../_common/model/interaction";
 
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { Interaction } from "../interfaces/interaction";
@@ -37,5 +38,15 @@ export class InteractionService {
 
   public delete(usagerRef: number, interactionId: number) {
     return this.http.delete(`${this.endPoint}${usagerRef}/${interactionId}`);
+  }
+
+  // Courrier entrant
+  public setInteractionIN(
+    usager: UsagerLight | UsagerFormModel,
+    interaction?: InteractionInForm
+  ): Observable<UsagerLight> {
+    return this.http
+      .post<UsagerLight>(`${this.endPoint}in/${usager.ref}`, interaction)
+      .pipe();
   }
 }

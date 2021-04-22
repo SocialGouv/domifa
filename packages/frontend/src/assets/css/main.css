@@ -130,12 +130,15 @@ table .active {
 }
 
 .tooltip-inner {
-  background-color: #faf8f8;
-  border: 0.5px solid #ece7e7;
-  font-size: 0.85rem !important;
-  color: rgb(95, 107, 122);
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  color: black;
+  box-shadow: 0 1px 8px rgba(72, 93, 183, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+  font-size: 0.9rem !important;
   max-width: 280px;
-  padding: 4px 8px;
+  font-weight: 600;
+  padding: 8px 14px;
 }
 
 .title {
@@ -244,15 +247,14 @@ table .active {
   background-color: #e42f2f;
   border-radius: 1rem;
   color: white;
-  -webkit-text-stroke-width: 0;
-  stroke-width: 0;
   padding: 2px 6px;
   font-size: 1rem;
   line-height: 1;
   position: absolute;
-  box-shadow: 0 1px 3px rgba(74, 74, 74, 0.6);
-  top: -4px;
-  right: -12px;
+  box-shadow: 0 1px 2px rgba(74, 74, 74, 0.5);
+  top: -6px;
+  font-weight: 600;
+  right: -10px;
 }
 
 .news {
@@ -412,4 +414,34 @@ table .active {
   font-size: 1.8rem;
   line-height: 2.4rem;
   color: #ffffff;
+}
+
+.danger-status .statut-signal,
+.warning-status .statut-signal {
+  border-radius: 100%;
+  margin-right: 6px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+}
+
+.danger-status .statut-date,
+.warning-status .statut-date {
+  font-weight: bold;
+}
+
+.danger-status td:first-child {
+  border-left: 4px solid var(--red) !important;
+}
+.warning-status td:first-child {
+  border-left: 4px solid var(--warning) !important;
+}
+
+.warning-status .statut-signal {
+  background-color: var(--warning);
+}
+
+.danger-status .statut-signal {
+  background-color: var(--red);
 }

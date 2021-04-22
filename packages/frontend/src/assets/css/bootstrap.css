@@ -9,8 +9,8 @@
   --indigo: #6610f2;
   --purple: #6f42c1;
   --pink: #e83e8c;
-  --red: #d63626;
-  --orange: #ff9947;
+  --red: #e11d1d;
+  --orange: #ff7f09;
   --yellow: #ffc107;
   --green: #50e3c2;
   --green2: #00e457;
@@ -23,8 +23,8 @@
   --secondary: #50e3c2;
   --success: #00e457;
   --info: #17a2b8;
-  --warning: #ffc107;
-  --danger: #d63626;
+  --warning: #ff7f09;
+  --danger: #e11d1d;
   --light: #f8f9fa;
   --dark: #343a40;
   --breakpoint-xs: 0;
@@ -5603,10 +5603,10 @@ button.close {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #fff;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 0.3rem;
+  background: #ffffff;
+  border-radius: 10px;
   outline: 0;
 }
 
@@ -5730,7 +5730,7 @@ button.close {
 }
 
 .tooltip.show {
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .tooltip .arrow {

@@ -103,9 +103,6 @@
   </div>
 </div>
 
-<pre>
-  {{ filters | json }}
-</pre>
 <div id="filters" class="py-4">
   <div class="container">
     <div class="row">
@@ -119,12 +116,11 @@
           *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
           class="filter-part"
         >
-          <div
-            class="d-inline-block"
-            *ngIf="filters.passage"
-            (click)="filters.passage = null"
-          >
-            <button class="btn selected-btn">
+          <div class="d-inline-block" *ngIf="filters.passage">
+            <button
+              class="btn selected-btn"
+              (click)="updateFilters('passage',null)"
+            >
               {{ labelsDernierPassage[filters.passage] }}
               <fa-icon icon="times" class="cross"></fa-icon>
             </button>
@@ -166,14 +162,12 @@
           *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
           class="filter-part text-left"
         >
-          <div
-            class="d-inline-block"
-            *ngIf="filters.echeance"
-            (click)="filters.echeance = null"
-          >
-            <button class="btn selected-btn">
+          <div class="d-inline-block" *ngIf="filters.echeance">
+            <button
+              class="btn selected-btn"
+              (click)="updateFilters('echeance',null)"
+            >
               {{ labelsEcheance[filters.echeance] }}
-
               <fa-icon icon="times" class="cross"></fa-icon>
             </button>
           </div>
@@ -224,9 +218,22 @@
             placement="bottom-left"
             class="d-inline-block"
           >
-            <button class="btn" id="dropdownManual" ngbDropdownToggle>
-              <span *ngIf="!filters.interactionType">Courrier à récupérer</span>
-              <span *ngIf="filters.interactionType"> OUI </span>
+            <div class="d-inline-block" *ngIf="filters.interactionType">
+              <button
+                class="btn selected-btn"
+                (click)="updateFilters('interactionType',null)"
+              >
+                Courrier à récupérer
+                <fa-icon icon="times" class="cross"></fa-icon>
+              </button>
+            </div>
+            <button
+              *ngIf="!filters.interactionType"
+              class="btn"
+              id="dropdownManual"
+              ngbDropdownToggle
+            >
+              <span>Courriers à récupérer</span>
             </button>
             <div
               ngbDropdownMenu
@@ -237,13 +244,7 @@
                 (click)="updateFilters('interactionType', 'courrierIn')"
                 ngbDropdownItem
               >
-                OUI
-              </button>
-              <button
-                (click)="updateFilters('interactionType', null)"
-                ngbDropdownItem
-              >
-                NN
+                Courrier à récupérer
               </button>
             </div>
           </div>
@@ -394,11 +395,11 @@
             <th>INFORMATIONS</th>
             <th>DERNIER PASSAGE</th>
             <th>ÉCHÉANCE</th>
-            <th class="text-center">ACTIONS RAPIDES</th>
+            <th class="text-left">ACTIONS RAPIDES</th>
             <th></th>
           </thead>
           <tbody *ngFor="let usager of usagers; let i = index">
-            <tr>
+            <tr [class]="usager.statutColor">
               <td (click)="goToProfil(usager)" class="text-primary">
                 <span *ngIf="usager.customRef">#{{ usager.customRef }}</span>
                 <span *ngIf="!usager.customRef ">#{{ usager.ref }}</span>
@@ -409,8 +410,7 @@
                 scope="row"
                 class="table-name td-name"
               >
-                <b>{{ usager.nom | uppercase }}</b>
-                {{ usager.prenom }}
+                {{ usager.nom | uppercase }} {{ usager.prenom }}
                 <span *ngIf="usager.surnom && usager.surnom !== null">
                   ({{ usager.surnom }})
                 </span>
@@ -478,57 +478,22 @@
                   <fa-icon icon="ban" class="btn-icon"></fa-icon>
                   Pli non distribuable
                 </div>
-
-                <!--
-
-
-
-                <span
-                  *ngIf="filters.statut === 'ATTENTE_DECISION' || filters.statut === 'INSTRUCTION' "
-                >
-                  <span
-                    class="text-secondary"
-                    *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-                  >
-                    Renouvellement en cours
-                  </span>
-                  <span *ngIf="usager.typeDom !== 'RENOUVELLEMENT'">
-                    Première demande
-                  </span>
-                </span>
-
-                 -->
               </td>
               <td (click)="goToProfil(usager)">
                 {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy"
                 }}
               </td>
-              <td>{{ usager.dateToDisplay | date: "dd/MM/yyyy" }}</td>
+              <td>
+                <span class="statut-date" *ngIf="usager.isActif">
+                  <span class="statut-signal"></span>
+                  {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
+                </span>
+              </td>
 
-              <td class="text-center icones_liste">
+              <td class="text-left icones_liste">
                 <div
                   *ngIf="usager.isActif || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
                 >
-                  <ng-template #colisAttente>
-                    <span
-                      >{{ usager.lastInteractin.courrierIn }} courriers -</span
-                    >
-                    <span>{{ usager.lastInteractin.courrierIn }} colis - </span>
-                    <span
-                      >{{ usager.lastInteractin.courrierIn }} avis de
-                      passage</span
-                    >
-                  </ng-template>
-                  <div ngbTooltip="Signaler un passage" class="interaction-btn">
-                    <span class="icon-reception list-icon"></span>
-
-                    <span class="list-icon-label">Réception</span>
-                  </div>
-                  <div ngbTooltip="Signaler un passage" class="interaction-btn">
-                    <span class="icon-distribution list-icon"></span>
-
-                    <span class="list-icon-label">Distribuer</span>
-                  </div>
                   <div
                     ngbTooltip="Signaler un passage"
                     class="interaction-btn"
@@ -543,47 +508,59 @@
                   >
                     <span class="icon-appel list-icon"></span>
                   </div>
+                  <div
+                    ngbTooltip="Signaler l'arrivée de courrier"
+                    class="interaction-btn"
+                  >
+                    <span class="icon-reception list-icon"></span>
+                    <span class="list-icon-label">Réception</span>
+                  </div>
 
-                  <!--
+                  <ng-template #distributionTooltip class="p-2 text-left">
+                    <div class="distribution-tooltip">
+                      <div *ngIf="usager.lastInteraction.courrierIn > 0">
+                        <span class="list-icon icon-courrier"></span>
+                        <span>
+                          <b class="text-primary"
+                            >{{ usager.lastInteraction.courrierIn }}</b
+                          >
+                          courriers
+                        </span>
+                      </div>
 
-                  <ng-template #colisAttente>
-                    {{ usager.lastInteraction.colisIn }} colis et {{
-                    usager.lastInteraction.recommandeIn }} avis de passage en
-                    attente
+                      <div *ngIf="usager.lastInteraction.recommandeIn > 0">
+                        <span class="list-icon icon-recommande"> </span>
+                        <span>
+                          <b class="text-primary"
+                            >{{ usager.lastInteraction.recommandeIn }}</b
+                          >
+                          avis de passage</span
+                        >
+                      </div>
+
+                      <div *ngIf="usager.lastInteraction.colisIn > 0">
+                        <span class="list-icon icon-colis"> </span>
+                        <span>
+                          <b class="text-primary"
+                            >{{ usager.lastInteraction.colisIn }}</b
+                          >
+                          colis</span
+                        >
+                      </div>
+                    </div>
                   </ng-template>
-                  <span
-                    (click)="goToProfil(usager)"
-                    *ngIf="usager.lastInteraction.recommandeIn > 0 || usager.lastInteraction.colisIn > 0"
-                    [ngbTooltip]="colisAttente"
-                  >
-                    <b class="notification">
-                      {{ usager.lastInteraction.colisIn +
-                      usager.lastInteraction.recommandeIn }}
-                    </b>
-                    <fa-icon class="courrier" icon="mail-bulk"></fa-icon>
-                  </span>
 
-                  <span
-                    (click)="setInteraction(usager, 'courrierOut')"
-                    *ngIf="usager.lastInteraction.courrierIn > 0"
-                    ngbTooltip="Signaler un retrait de courrier"
+                  <div
+                    *ngIf="usager.lastInteraction.enAttente"
+                    class="interaction-btn"
+                    [ngbTooltip]="distributionTooltip"
+                    (click)="openInteractionModal(usager)"
                   >
-                    <fa-icon
-                      class="courrier"
-                      icon="envelope-open-text"
-                    ></fa-icon>
-                    <b class="notification"
-                      >{{ usager.lastInteraction.courrierIn }}</b
-                    >
-                  </span>
-
-                  <span
-                    (click)="setInteraction(usager, 'courrierIn')"
-                    ngbTooltip="Ajouter un nouveau courrier"
-                  >
-                    <fa-icon class="courrier" icon="envelope"></fa-icon>
-                  </span>
-                --></div>
+                    <span class="icon-distribution list-icon"></span>
+                    <span class="list-icon-label">Distribuer</span>
+                    <b class="notification">1</b>
+                  </div>
+                </div>
               </td>
 
               <td (click)="goToProfil(usager)">
@@ -597,25 +574,11 @@
   </div>
 </div>
 
-<ng-template #receptionModal let-modal>
-  <div class="modal-header">
-    <button
-      type="button"
-      class="close"
-      aria-label="Fermer la fenêtre"
-      (click)="closeModals()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body text-center">
-    <app-set-interaction-form
-      [usager]="selectedUsager"
-    ></app-set-interaction-form>
-    <div class="modal-footer">
-      wxdark" (click)="closeModals()"> Revenir à la liste
-    </div>
-  </div>
+<ng-template #setInteractionModal let-modal>
+  <app-set-interaction-form
+    [usager]="selectedUsager"
+    (cancelReception)="cancelReception()"
+  ></app-set-interaction-form>
 </ng-template>
 
 <ng-template #distributionConfirm let-modal>
