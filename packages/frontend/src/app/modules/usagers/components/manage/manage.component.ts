@@ -121,6 +121,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
 
+  @ViewChild("setInteractionModal", { static: true })
+  public setInteractionModal!: TemplateRef<any>;
+
   private subscription = new Subscription();
 
   constructor(
@@ -147,6 +150,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
+
     this.titleService.setTitle("Gérer vos domiciliés");
 
     this.searchString = this.filters.searchString;
@@ -183,8 +187,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.subscription.add(
       fromEvent(this.searchInput.nativeElement, "keyup")
         .pipe(
-          map((event: any) => {
-            return event.target.value;
+          map((event: Event) => {
+            return (event.target as HTMLInputElement).value;
           }),
           debounceTime(50),
           map((filter) => (!filter ? filter : filter.trim())),
@@ -446,6 +450,17 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   private getFilters() {
     const filters = localStorage.getItem("filters");
     return filters === null ? {} : JSON.parse(filters);
+  }
+
+  public openInteractionModal(usager: UsagerFormModel) {
+    this.selectedUsager = usager;
+    this.modalService.open(this.setInteractionModal);
+  }
+
+  public cancelReception() {
+    console.log("CIOHIHOIJOI");
+    this.selectedUsager = null;
+    this.modalService.dismissAll();
   }
 
   @HostListener("window:scroll", ["$event"])

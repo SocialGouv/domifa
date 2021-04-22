@@ -3,55 +3,48 @@
   min-width: 20px;
   background-repeat: no-repeat;
   background-position: center center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
 }
 
 .icon-courrier {
   -webkit-mask: url("../icones/courrier.svg") no-repeat center;
   mask: url("../icones/courrier.svg") no-repeat center;
-  -webkit-mask-size: 70%;
-  mask-size: 70%;
 }
 
-.icon-recommande.svg {
+.icon-colis {
+  -webkit-mask: url("../icones/colis.svg") no-repeat center;
+  mask: url("../icones/colis.svg") no-repeat center;
+}
+
+.icon-recommande {
   -webkit-mask: url("../icones/recommande.svg") no-repeat center;
   mask: url("../icones/recommande.svg") no-repeat center;
-  -webkit-mask-size: 70%;
-  mask-size: 70%;
 }
 
-.icon-avis-passage.svg {
+.icon-avis-passage {
   -webkit-mask: url("../icones/avispassage.svg") no-repeat center;
   mask: url("../icones/avispassage.svg") no-repeat center;
-  -webkit-mask-size: 70%;
-  mask-size: 70%;
 }
 
 .icon-appel {
   -webkit-mask: url("../icones/phone.svg") no-repeat center;
   mask: url("../icones/phone.svg") no-repeat center;
-  -webkit-mask-size: 70%;
-  mask-size: 70%;
 }
 
 .icon-passage {
   -webkit-mask: url("../icones/passage.svg") no-repeat center;
   mask: url("../icones/passage.svg") no-repeat center;
-  -webkit-mask-size: 70%;
-  mask-size: 70%;
 }
 
 .icon-distribution {
   -webkit-mask: url("../icones/distribution.svg") no-repeat center;
   mask: url("../icones/distribution.svg") no-repeat center;
-  -webkit-mask-size: 70%;
-  mask-size: 70%;
 }
 
 .icon-reception {
   -webkit-mask: url("../icones/reception.svg") no-repeat center;
   mask: url("../icones/reception.svg") no-repeat center;
-  -webkit-mask-size: 70%;
-  mask-size: 70%;
 }
 
 .icon-arrow {

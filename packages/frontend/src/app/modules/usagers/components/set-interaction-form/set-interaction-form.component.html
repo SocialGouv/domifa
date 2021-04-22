@@ -1,11 +1,107 @@
-<h2>Nouveaux courriers pour</h2>
-<div class="row">
-  <div class="col">
-    <div class="interaction-icon">
-      <span class="icon-courrier"></span>
+<div class="modal-header">
+  <h4>
+    Nouveaux courriers pour
+    <span class="text-primary">{{ usager.nom }} {{ usager.prenom }}  </span>
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Fermer la fenêtre"
+    (click)="cancelReception.emit()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body text-center">
+  <div class="row d-flex align-items-center">
+    <div class="col-md-3 px-3 my-4">
+      <div class="interaction-icon-box">
+        <div
+          *ngIf="interactionFormData.courrierIn > 0"
+          class="interaction-notification"
+        >
+          {{ interactionFormData.courrierIn }}
+        </div>
+        <div class="interaction-icon icon-courrier"></div>
+      </div>
+      <div class="interaction-actions">
+        <div class="action" (click)="increment('courrierIn')">
+          <img src="/assets/icones/plus.svg" />
+        </div>
+        <div
+          (click)="decrement('courrierIn')"
+          class="action"
+          *ngIf="interactionFormData.courrierIn > 0"
+        >
+          <img src="/assets/icones/moins.svg" />
+        </div>
+      </div>
+      <span class="interaction-label">Courriers</span>
     </div>
-    <div>
-      <span>Courriers</span>
+
+    <div class="col-md-3 px-3 my-4">
+      <div class="interaction-icon-box">
+        <div
+          *ngIf="interactionFormData.colisIn > 0"
+          class="interaction-notification"
+        >
+          {{ interactionFormData.colisIn }}
+        </div>
+        <div class="interaction-icon icon-colis"></div>
+      </div>
+      <div class="interaction-actions">
+        <div class="action" (click)="increment('colisIn')">
+          <img src="/assets/icones/plus.svg" />
+        </div>
+        <div
+          (click)="decrement('colisIn')"
+          class="action"
+          *ngIf="interactionFormData.colisIn > 0"
+        >
+          <img src="/assets/icones/moins.svg" />
+        </div>
+      </div>
+      <span class="interaction-label">Colis</span>
     </div>
+
+    <div class="col-md-3 px-3 my-4">
+      <div class="interaction-icon-box">
+        <div
+          *ngIf="interactionFormData.recommandeIn > 0"
+          class="interaction-notification"
+        >
+          {{ interactionFormData.recommandeIn }}
+        </div>
+        <div class="interaction-icon icon-recommande"></div>
+      </div>
+      <div class="interaction-actions">
+        <div class="action" (click)="increment('recommandeIn')">
+          <img src="/assets/icones/plus.svg" />
+        </div>
+        <div
+          (click)="decrement('recommandeIn')"
+          class="action"
+          *ngIf="interactionFormData.recommandeIn > 0"
+        >
+          <img src="/assets/icones/moins.svg" />
+        </div>
+      </div>
+      <span class="interaction-label">Avis de passage</span>
+    </div>
+
+    <div class="col-md-12 my-4">
+      <div class="form-group">
+        <label class="form-check-label" for="infos">
+          Informations importantes
+        </label>
+        <textarea class="form-control" name="infos" id="infos"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="text-left">
+    <button class="btn btn-lg btn-primary">Ajouter</button>
+    <button class="btn" (click)="cancelReception.emit()">
+      Revenir à la liste
+    </button>
   </div>
 </div>

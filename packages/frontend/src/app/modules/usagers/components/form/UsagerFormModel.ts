@@ -2,6 +2,7 @@ import {
   UsagerDoc,
   UsagerLight,
   UsagerSexe,
+  UsagerTypeDom,
 } from "../../../../../_common/model";
 import { ETAPE_ETAT_CIVIL } from "../../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerAyantDroit } from "../../../../../_common/model/usager/UsagerAyantDroit.type";
@@ -23,6 +24,8 @@ export class UsagerFormModel {
 
   public sexe: UsagerSexe;
   public langue: string;
+
+  // Naissance
   public dateNaissance: Date | null;
   public villeNaissance: string;
 
@@ -30,6 +33,7 @@ export class UsagerFormModel {
   public email: string;
   public phone: string;
 
+  // Préférence d'envoi de notifs
   public preference: {
     email: boolean;
     phone: boolean;
@@ -50,7 +54,7 @@ export class UsagerFormModel {
   // Historique des décisions et dernière décision
   public historique: Decision[];
   public decision: Decision;
-  public typeDom: string; // PREMIERE / RENOUVELLEMENT
+  public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
 
   public lastInteraction: {
     dateInteraction: Date;
@@ -60,20 +64,21 @@ export class UsagerFormModel {
     colisIn: number;
   };
 
+  // TRANSFERT & PROCUS
   public options: Options;
 
+  // ***
   // VARIABLES UTILES AU FRONT UNIQUEMENT
-
   // Recherche : si la requête fait remonté un ayant-droit
   public isAyantDroit: boolean;
+
+  // Dossier actuellement actif
   public isActif: boolean;
-
-  // Date à afficher sur le manage, couleur selon le statut
-  public dateToDisplay: Date;
-  public statutColor: "normal" | "warning" | "danger";
-
-  //
   public dayBeforeEnd: number;
+
+  // Dates à afficher sur le manage, couleur selon le statut
+  public dateToDisplay: Date;
+  public statutColor: "normal-status" | "warning-status" | "danger-status";
 
   constructor(
     usager?: Partial<UsagerLight>,
@@ -90,9 +95,6 @@ export class UsagerFormModel {
     this.surnom = (usager && usager.surnom) || "";
 
     this.dateNaissance = null;
-
-    this.historique = [];
-
     if (usager && usager.dateNaissance !== null) {
       this.dateNaissance = new Date(usager.dateNaissance);
     }
@@ -101,10 +103,11 @@ export class UsagerFormModel {
 
     this.email = (usager && usager.email) || "";
     this.phone = (usager && usager.phone) || "";
-    this.docs = (usager && usager.docs) || [];
 
     this.structureId = (usager && usager.structureId) || null;
     this.etapeDemande = (usager && usager.etapeDemande) || ETAPE_ETAT_CIVIL;
+
+    this.historique = [];
 
     if (usager && usager.historique) {
       this.historique = [];
@@ -117,7 +120,7 @@ export class UsagerFormModel {
       });
     }
 
-    this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv({});
+    this.rdv = (usager && new Rdv(usager.rdv)) || new Rdv();
 
     this.lastInteraction = {
       dateInteraction: null,
@@ -159,25 +162,31 @@ export class UsagerFormModel {
         : "",
     };
 
+    this.options = (usager && new Options(usager.options)) || new Options();
     this.decision = (usager && new Decision(usager.decision)) || new Decision();
+
+    this.typeDom = (usager && usager.typeDom) || "PREMIERE";
 
     this.isActif = false;
     this.dayBeforeEnd = 365;
     this.dateToDisplay = null;
+    this.statutColor = "normal-status";
 
-    // Récupération de la date de fin de la domiciliation
-    this.typeDom = (usager && usager.typeDom) || "PREMIERE";
-
+    // Actuellement actif
     if (this.decision.statut === "VALIDE") {
       this.dateToDisplay = this.decision.dateFin;
       this.isActif = true;
-    } else if (
+    }
+    // En cours de renouvellement
+    if (
       this.decision.statut === "INSTRUCTION" &&
       this.typeDom === "RENOUVELLEMENT"
     ) {
       this.isActif = true;
       this.dateToDisplay = this.historique[0].dateFin;
-    } else if (
+    }
+    // En attente de décision de renouvellement
+    if (
       this.decision.statut === "ATTENTE_DECISION" &&
       this.typeDom === "RENOUVELLEMENT"
     ) {
@@ -185,22 +194,20 @@ export class UsagerFormModel {
       this.dateToDisplay = this.historique[1].dateFin;
     }
 
-    if (this.dateToDisplay) {
+    if (this.isActif) {
       const today = new Date();
       const msPerDay: number = 1000 * 60 * 60 * 24;
       const start: number = today.getTime();
-      const end: number = this.decision.dateFin.getTime();
+      const end: number = this.dateToDisplay.getTime();
 
       this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
 
       if (this.dayBeforeEnd < 15) {
-        this.statutColor = "warning";
+        this.statutColor = "danger-status";
       } else if (this.dayBeforeEnd > 15 && this.dayBeforeEnd < 60) {
-        this.statutColor = "danger";
+        this.statutColor = "warning-status";
       }
     }
-
-    this.options = (usager && new Options(usager.options)) || new Options({});
 
     this.isAyantDroit = false;
 

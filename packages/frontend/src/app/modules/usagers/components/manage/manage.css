@@ -7,6 +7,9 @@
   display: inline-block;
   vertical-align: middle;
   margin-right: 10px;
+
+  font-style: normal;
+  font-weight: 600;
 }
 
 .dropdown-toggle {
@@ -21,12 +24,12 @@
 }
 
 .dropdown-menu {
-  background: white;
-  border: 1px solid #cfcfd9;
-  border-radius: 5px;
   padding: 0;
   margin: 0;
   width: 100%;
+  background: #ffffff;
+  border: 1px solid #ececec;
+  border-radius: 5px;
 }
 
 .dropdown-menu .ng-fa-icon {
@@ -48,6 +51,7 @@
 
 #statut-selector .col:first-child {
   border-radius: 5px 0 0 0;
+  font-family: Source Sans Pro;
 }
 
 #statut-selector .col:last-child {
@@ -55,23 +59,21 @@
 }
 
 #statut-selector .col {
-  padding: 14px 24px;
+  padding: 16px 24px;
   margin: 0;
-  font-weight: 500;
+  font-size: 1.05rem;
   cursor: pointer;
   transition: all 0.25s ease-in-out;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 -1px 2px 0 rgba(65, 100, 245, 0.2);
 }
 
+#statut-selector .col span {
+  vertical-align: middle;
+}
+
 #statut-selector {
   box-shadow: 0 1px 3px rgba(50, 66, 124, 0.1);
-}
-#statut-selector .btn {
-  border-radius: 100px;
-  padding: 5px 25px;
-  font-size: 1rem;
-  font-weight: 500;
 }
 
 .statut-cpt {
@@ -85,9 +87,14 @@
   box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
 }
 
+.statut-label {
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
 .selected-statut .statut-label {
   color: var(--primary);
-  font-weight: bold;
 }
 
 .btn-outline-dark:hover,
@@ -144,17 +151,18 @@
 
 table {
   border-collapse: separate;
-  border-spacing: 0 9px;
+  border-spacing: 0 10px;
   margin: 0 auto;
 }
 
 tbody td,
 tbody th {
   vertical-align: middle;
-
-  min-width: 35px;
+  min-width: 30px;
   border: none;
-  height: 58px;
+  height: 64px;
+  font-weight: 600;
+  font-style: normal;
 }
 
 tbody td:first-child,
@@ -186,11 +194,12 @@ tbody th:last-child span {
 }
 
 tbody tr {
-  transition: all 0.2s ease-in-out;
+  transition: all 50ms;
+  animation-timing-function: cubic-bezier(Ease Out);
   background: #ffffff;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   border-radius: 2px;
-  opacity: 0.78;
+  opacity: 0.75;
 }
 
 tbody tr:hover {
@@ -325,9 +334,13 @@ th {
   box-sizing: border-box;
   vertical-align: middle;
   border-radius: 3px;
-  margin: 0 3px;
-  transition: all 0.25s ease-in-out;
-  padding: 0;
+  margin: 0 4px;
+  padding: 3px 5px;
+  position: relative;
+}
+
+.interaction-btn * {
+  transition: all 0.2s;
 }
 
 .list-icon {
@@ -336,19 +349,22 @@ th {
   padding: 16px;
   box-sizing: border-box;
   background-color: #4164f5;
-  background-size: 90%;
-}
-
-.interaction-btn:hover {
-  background-color: #4164f5;
-}
-
-.list-icon:hover {
-  background-color: white;
+  -webkit-mask-size: 80%;
+  mask-size: 80%;
 }
 
 .list-icon-label {
+  font-size: 0.9rem;
   padding: 0 4px;
+}
+
+.interaction-btn:hover {
+  color: white;
+  background-color: #4164f5;
+}
+
+.interaction-btn:hover .list-icon {
+  background-color: white;
 }
 
 .btn-white-primary {
@@ -373,4 +389,28 @@ th {
   line-height: 100%;
   background-color: var(--primary);
   color: white;
+}
+
+.distribution-tooltip {
+  opacity: 1;
+  min-width: 240px;
+}
+
+.distribution-tooltip .list-icon {
+  box-sizing: border-box;
+  background-color: black;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  background-size: 90%;
+}
+
+.distribution-tooltip div {
+  margin: 6px 0;
+  text-align: left;
+}
+
+.distribution-tooltip span {
+  vertical-align: middle;
+  display: inline-block;
 }

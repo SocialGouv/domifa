@@ -1,0 +1,63 @@
+.interaction-icon-box {
+  background: #eceffe;
+  border-radius: 10px;
+  padding: 0;
+  text-align: center;
+}
+
+.interaction-notification {
+  position: absolute;
+  top: -20px;
+  right: -6px;
+  background-color: var(--secondary);
+  border-radius: 100%;
+  color: white;
+  font-weight: 600;
+  padding: 4px 14px;
+  font-size: 1.2rem;
+}
+
+.interaction-icon {
+  height: 60px;
+  width: 60px;
+  text-align: center;
+  padding: 60px 30px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background-color: black;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+
+.interaction-actions {
+  text-align: center;
+  width: 100%;
+  margin-top: -18px;
+}
+
+.interaction-actions img {
+  width: 20px;
+  height: auto;
+  margin-top: -4px;
+}
+
+.interaction-actions .action:hover {
+  box-shadow: 2px 1px 4px rgb(179 179 179 / 50%);
+}
+
+.interaction-actions .action {
+  background-color: var(--primary);
+  border-radius: 100%;
+  color: white;
+  padding: 8px 10px;
+  display: inline-block;
+  max-width: 60px;
+  margin-right: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.interaction-label {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
