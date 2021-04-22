@@ -141,9 +141,7 @@ export class UsagerService {
   }
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
-    return this.http
-      .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
-      .pipe();
+    return this.http.get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`);
   }
 
   public isDoublon(nom: string, prenom: string, usagerRef: number) {

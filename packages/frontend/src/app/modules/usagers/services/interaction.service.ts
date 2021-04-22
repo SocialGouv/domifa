@@ -21,9 +21,10 @@ export class InteractionService {
     usager: UsagerLight | UsagerFormModel,
     interaction?: any
   ): Observable<UsagerLight> {
-    return this.http
-      .post<UsagerLight>(`${this.endPoint}${usager.ref}`, interaction)
-      .pipe();
+    return this.http.post<UsagerLight>(
+      `${this.endPoint}${usager.ref}`,
+      interaction
+    );
   }
 
   public getInteractions(usagerRef: number): Observable<Interaction[]> {

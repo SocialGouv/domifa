@@ -4,11 +4,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   InteractionIn,
   InteractionInForm,
-  InteractionType,
+  INTERACTIONS_AVAILABLE,
 } from "../../../../../_common/model/interaction";
-import { interactionsLabels } from "../../interactions.labels";
+
 import { InteractionService } from "../../services/interaction.service";
 import { ToastrService } from "ngx-toastr";
+import { forkJoin } from "rxjs";
+import { UsagerService } from "../../services/usager.service";
 
 @Component({
   selector: "app-set-interaction-form",
@@ -21,16 +23,29 @@ export class SetInteractionFormComponent implements OnInit {
   @Output()
   public cancelReception = new EventEmitter<void>();
 
+  @Output()
+  public usagerChange = new EventEmitter<UsagerFormModel>();
+
   public interactionFormData: InteractionInForm;
 
   constructor(
     private interactionService: InteractionService,
+    private usagerService: UsagerService,
     private notifService: ToastrService
   ) {
     this.interactionFormData = {
-      courrierIn: 0,
-      recommandeIn: 0,
-      colisIn: 0,
+      courrierIn: {
+        nbCourrier: 0,
+        content: null,
+      },
+      recommandeIn: {
+        nbCourrier: 0,
+        content: null,
+      },
+      colisIn: {
+        nbCourrier: 0,
+        content: null,
+      },
     };
   }
 
@@ -42,8 +57,8 @@ export class SetInteractionFormComponent implements OnInit {
       .setInteractionIN(usager, this.interactionFormData)
       .subscribe(
         (response: UsagerLight) => {
-          usager.lastInteraction = response.lastInteraction;
-          // this.updateUsager(usager);
+          usager = new UsagerFormModel(response);
+
           // this.notifService.success(interactionsLabels[type]);
         },
         (error) => {
@@ -52,12 +67,58 @@ export class SetInteractionFormComponent implements OnInit {
       );
   }
 
-  public increment(value: InteractionIn) {
-    this.interactionFormData[value] = this.interactionFormData[value] =
-      this.interactionFormData[value] + 1;
+  public setInteractionForm() {
+    const interactionsToSave = INTERACTIONS_AVAILABLE.reduce(
+      (filtered, interaction) => {
+        if (this.interactionFormData[interaction].nbCourrier) {
+          filtered.push(
+            this.interactionService.setInteraction(this.usager, {
+              content: this.interactionFormData[interaction].content,
+              nbCourrier: this.interactionFormData[interaction].nbCourrier,
+              type: interaction,
+            })
+          );
+        }
+        return filtered;
+      },
+      []
+    );
+
+    const joined$ = forkJoin(interactionsToSave);
+
+    joined$.subscribe(
+      (values: any) => {
+        console.log(values);
+        console.log("AVANT USAGER");
+        console.log(this.usager.lastInteraction);
+        this.refreshUsager();
+      },
+      (error: any) => {
+        console.log(error);
+        this.notifService.error("Impossible d'enregistrer cette interaction");
+      }
+    );
   }
+
+  // Actualiser les données de l'usager
+  public refreshUsager() {
+    this.usagerService
+      .findOne(this.usager.ref)
+      .subscribe((usager: UsagerLight) => {
+        this.usagerChange.emit(new UsagerFormModel(usager));
+        this.cancelReception.emit();
+      });
+  }
+
+  public increment(value: InteractionIn) {
+    this.interactionFormData[value].nbCourrier = this.interactionFormData[
+      value
+    ].nbCourrier = this.interactionFormData[value].nbCourrier + 1;
+  }
+
   public decrement(value: InteractionIn) {
-    this.interactionFormData[value] = this.interactionFormData[value] =
-      this.interactionFormData[value] - 1;
+    this.interactionFormData[value].nbCourrier = this.interactionFormData[
+      value
+    ].nbCourrier = this.interactionFormData[value].nbCourrier - 1;
   }
 }

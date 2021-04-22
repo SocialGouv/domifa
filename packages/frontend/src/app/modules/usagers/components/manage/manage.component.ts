@@ -140,13 +140,13 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.usagers = [];
     this.searching = true;
-    this.dateLabel = "Fin de domiciliation";
-    this.filters = new UsagersFilterCriteria(this.getFilters());
     this.nbResults = 0;
     this.selectedUsager = {} as any;
 
-    this.today = new Date();
+    this.dateLabel = "Fin de domiciliation";
+    this.filters = new UsagersFilterCriteria(this.getFilters());
 
+    this.today = new Date();
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
@@ -221,7 +221,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     );
   }
 
-  private updateUsager(usager: UsagerLight) {
+  public updateUsager(usager: UsagerFormModel) {
+    console.log("UPDATE USAGER");
+    console.log(usager.lastInteraction);
     this.allUsagers$.next(
       this.allUsagers$.value.map((x) => {
         if (x.ref === usager.ref) {
@@ -362,7 +364,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     usager: UsagerFormModel,
     type: InteractionType,
     procuration?: boolean
-  ) {
+  ): void {
     const interaction: {
       content?: string;
       type?: string;
@@ -393,9 +395,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.matomo.trackEvent("interactions", "manage", type, 1);
 
     this.interactionService.setInteraction(usager, interaction).subscribe(
-      (response: UsagerLight) => {
-        usager.lastInteraction = response.lastInteraction;
-        // this.updateUsager(usager);
+      (newUsager: UsagerLight) => {
+        usager = new UsagerFormModel(newUsager);
+        this.updateUsager(usager);
         this.notifService.success(interactionsLabels[type]);
       },
       (error) => {
@@ -458,7 +460,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public cancelReception() {
-    console.log("CIOHIHOIJOI");
     this.selectedUsager = null;
     this.modalService.dismissAll();
   }

@@ -1,352 +1,367 @@
-<div class="container" *ngIf="me">
-  <div class="col-md-10 offset-1">
-    <div class="row" *ngIf="me.role !== 'facteur'">
-      <h4 class="col-md-12">Mes prochains rendez-vous</h4>
-      <div class="col-md-12" *ngIf="usagers">
-        <div class="alert-info alert" *ngIf="usagers.length === 0">
-          Aucun rendez-vous prévu
-        </div>
-
-        <div *ngIf="usagers" class="list-group">
-          <div class="list-group-item" *ngFor="let usager of usagers">
-            <div class="row">
-              <div class="col-7">
-                <b>Le {{ usager.rdv.dateRdv | date: "dd/MM/yyyy à HH:mm" }}</b>
-                <br />
-                {{ usager.nom }} {{ usager.prenom }}
+<div class="container my-4" *ngIf="me">
+  <div class="row">
+    <div class="col-md-10 offset-1">
+      <div class="row" *ngIf="me.role !== 'facteur'">
+        <div class="col-12">
+          <h4>Mes prochains rendez-vous</h4>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="alert-info alert" *ngIf="usagers.length === 0">
+                Aucun rendez-vous prévu
               </div>
-              <div class="col-5 text-right">
-                <a
-                  class="btn btn-outline-dark"
-                  [routerLink]="['/usager/' + usager.ref + '/edit']"
-                  routerLinkActive="router-link-active"
-                >
-                  Voir la fiche
-                </a>
+              <div *ngIf="usagers.length > 0">
+                <div class="list-group-item" *ngFor="let usager of usagers">
+                  <div class="row">
+                    <div class="col-7">
+                      <b
+                        >Le
+                        {{ usager.rdv.dateRdv | date: "dd/MM/yyyy à HH:mm" }}</b
+                      >
+                      <br />
+                      {{ usager.nom }} {{ usager.prenom }}
+                    </div>
+                    <div class="col-5 text-right">
+                      <a
+                        class="btn btn-outline-dark"
+                        [routerLink]="['/usager/' + usager.ref + '/edit']"
+                        routerLinkActive="router-link-active"
+                      >
+                        Voir la fiche
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <br />
-    <div class="row">
-      <h4 class="col-md-12">Informations personnelles</h4>
-    </div>
-
-    <div class="row" *ngIf="!editUser">
-      <div class="col-md-4 reponses">
-        <span class="question">PRÉNOM</span>
-        <span class="valeur">
-          {{ me.prenom }}
-        </span>
-      </div>
-      <div class="col-md-4 reponses">
-        <span class="question">NOM</span>
-        <span class="valeur">
-          {{ me.nom }}
-        </span>
-      </div>
-      <div class="col-md-4 reponses">
-        <span class="question">EMAIL</span>
-        <span class="valeur">
-          {{ me.email }}
-        </span>
-      </div>
-      <div class="col-md-12 text-center">
-        <br />
-        <button (click)="initUserForm()" class="btn btn-outline-dark">
-          <fa-icon icon="edit" class="btn-icon"></fa-icon>
-          Modifier les informations
-        </button>
-      </div>
-    </div>
-
-    <form
-      [formGroup]="userForm"
-      class="row"
-      (ngSubmit)="updateUser()"
-      *ngIf="editUser"
-    >
-      <div class="col-md-4 form-group required">
-        <label for="prenom">Prénom</label>
-        <input
-          type="text"
-          class="form-control"
-          id="prenom"
-          cleanStr
-          formControlName="prenom"
-          [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
-          required
-        />
-        <div *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-          <div *ngIf="f.prenom.errors.required">Le prénom est obligatoire</div>
-        </div>
-      </div>
-      <div class="col-md-4 form-group required">
-        <label for="nom">Nom</label>
-        <input
-          type="text"
-          class="form-control"
-          id="nom"
-          cleanStr
-          formControlName="nom"
-          [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
-          required
-        />
-        <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
-          <div *ngIf="f.nom.errors.required">
-            Le nom du demandeur est obligatoire
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 form-group required">
-        <label for="email">Votre adresse email</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          autocomplete="username"
-          formControlName="email"
-          [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
-          required
-        />
-        <div *ngIf="f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.emailTaken">
-            <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-            <b>L'adresse email est déjà utilisée</b>
-          </div>
-          <div *ngIf="!f.email.errors.emailTaken">
-            L'adresse Email est incorrecte
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-12 text-center">
-        <button (click)="editUser = false" class="btn btn-outline-dark">
-          <fa-icon icon="edit" class="btn-icon"></fa-icon>
-          Annuler
-        </button>
-        &nbsp;&nbsp;
-        <button
-          class="btn btn-primary"
-          type="submit"
-          [disabled]="!userForm.valid"
-        >
-          Enregistrer
-        </button>
-      </div>
-    </form>
-
-    <br /><br />
-    <div class="row">
-      <h4 class="col-md-12">Mot de passe</h4>
 
       <br />
-
-      <div class="col-md-12 text-center" *ngIf="!editPassword">
-        <span *ngIf="lastPasswordUpdate"
-          >Dernière modification le :
-          {{ lastPasswordUpdate | date: "dd/MM/yyyy" }}</span
-        >
-        <span *ngIf="!lastPasswordUpdate || lastPasswordUpdate === null"
-          >Aucune modification de mot de passe enregistrée</span
-        >
-        <br />
-        <br />
-        <button (click)="initPasswordForm()" class="btn btn-outline-dark">
-          <fa-icon icon="edit" class="btn-icon"></fa-icon>
-          Modifier votre mot de passe
-        </button>
+      <div class="row">
+        <h4 class="col-md-12">Informations personnelles</h4>
       </div>
-    </div>
+      <div class="list-group">
+        <div class="list-group-item" *ngIf="!editUser">
+          <div class="row">
+            <div class="col-md-4 reponses">
+              <span class="question">PRÉNOM</span>
+              <span class="valeur">
+                {{ me.prenom }}
+              </span>
+            </div>
+            <div class="col-md-4 reponses">
+              <span class="question">NOM</span>
+              <span class="valeur">
+                {{ me.nom }}
+              </span>
+            </div>
+            <div class="col-md-4 reponses">
+              <span class="question">EMAIL</span>
+              <span class="valeur">
+                {{ me.email }}
+              </span>
+            </div>
+            <div class="col-md-12 text-center">
+              <br />
+              <button (click)="initUserForm()" class="btn btn-outline-dark">
+                <fa-icon icon="edit" class="btn-icon"></fa-icon>
+                Modifier les informations
+              </button>
+            </div>
+          </div>
+        </div>
 
-    <form
-      *ngIf="editPassword"
-      [formGroup]="passwordForm"
-      class="row"
-      (ngSubmit)="updatePassword()"
-    >
-      <div class="col-md-4 form-group required">
-        <label for="password">Ancien mot de passe</label>
-        <input
-          class="form-control"
-          [type]="!hideOldPassword ? 'text' : 'password'"
-          [ngClass]="{
-            'is-invalid': p.oldPassword.dirty && p.oldPassword.errors
-          }"
-          id="password"
-          formControlName="oldPassword"
-          autocomplete="off"
-          required
-        />
-        <span
-          class="eye"
-          *ngIf="hideOldPassword"
-          (click)="hideOldPassword = false"
-        >
-          <fa-icon icon="eye"></fa-icon>
-        </span>
-        <span
-          class="eye"
-          *ngIf="!hideOldPassword"
-          (click)="hideOldPassword = true"
-        >
-          <fa-icon icon="eye-slash"></fa-icon>
-        </span>
+        <div class="list-group-item" *ngIf="editUser">
+          <form [formGroup]="userForm" class="row" (ngSubmit)="updateUser()">
+            <div class="col-md-4 form-group required">
+              <label for="prenom">Prénom</label>
+              <input
+                type="text"
+                class="form-control"
+                id="prenom"
+                cleanStr
+                formControlName="prenom"
+                [ngClass]="{ 'is-invalid': submitted && f.prenom.errors }"
+                required
+              />
+              <div
+                *ngIf="submitted && f.prenom.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.prenom.errors.required">
+                  Le prénom est obligatoire
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 form-group required">
+              <label for="nom">Nom</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nom"
+                cleanStr
+                formControlName="nom"
+                [ngClass]="{ 'is-invalid': submitted && f.nom.errors }"
+                required
+              />
+              <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+                <div *ngIf="f.nom.errors.required">
+                  Le nom du demandeur est obligatoire
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 form-group required">
+              <label for="email">Votre adresse email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                autocomplete="username"
+                formControlName="email"
+                [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+                required
+              />
+              <div *ngIf="f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.emailTaken">
+                  <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+                  <b>L'adresse email est déjà utilisée</b>
+                </div>
+                <div *ngIf="!f.email.errors.emailTaken">
+                  L'adresse Email est incorrecte
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 text-center">
+              <button (click)="editUser = false" class="btn btn-outline-dark">
+                <fa-icon icon="edit" class="btn-icon"></fa-icon>
+                Annuler
+              </button>
+              &nbsp;&nbsp;
+              <button
+                class="btn btn-primary"
+                type="submit"
+                [disabled]="!userForm.valid"
+              >
+                Enregistrer
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="col-md-4 form-group required passwordInput">
-        <label for="new-password">Nouveau mot de passe</label>
-        <input
-          class="form-control"
-          [type]="!hidePassword ? 'text' : 'password'"
-          [ngClass]="{ 'is-invalid': p.password.dirty && p.password.errors }"
-          id="new-password"
-          formControlName="password"
-          required
-        />
-        <span class="eye" *ngIf="hidePassword" (click)="hidePassword = false">
-          <fa-icon icon="eye"></fa-icon>
-        </span>
-        <span class="eye" *ngIf="!hidePassword" (click)="hidePassword = true">
-          <fa-icon icon="eye-slash"></fa-icon>
-        </span>
-        <div class="row indications">
-          <div
-            class="col-md-12"
-            [ngClass]="
-              p.password.hasError('required') ||
-              p.password.hasError('minlength')
-                ? 'text-danger'
-                : 'text-success'
-            "
+
+      <br /><br />
+      <div class="row">
+        <h4 class="col-md-12">Mot de passe</h4>
+
+        <br />
+
+        <div class="col-md-12 text-center" *ngIf="!editPassword">
+          <span *ngIf="lastPasswordUpdate"
+            >Dernière modification le :
+            {{ lastPasswordUpdate | date: "dd/MM/yyyy" }}</span
           >
-            <fa-icon
-              [icon]="
+          <span *ngIf="!lastPasswordUpdate || lastPasswordUpdate === null"
+            >Aucune modification de mot de passe enregistrée</span
+          >
+          <br />
+          <br />
+          <button (click)="initPasswordForm()" class="btn btn-outline-dark">
+            <fa-icon icon="edit" class="btn-icon"></fa-icon>
+            Modifier votre mot de passe
+          </button>
+        </div>
+      </div>
+
+      <form
+        *ngIf="editPassword"
+        [formGroup]="passwordForm"
+        class="row"
+        (ngSubmit)="updatePassword()"
+      >
+        <div class="col-md-4 form-group required">
+          <label for="password">Ancien mot de passe</label>
+          <input
+            class="form-control"
+            [type]="!hideOldPassword ? 'text' : 'password'"
+            [ngClass]="{
+              'is-invalid': p.oldPassword.dirty && p.oldPassword.errors
+            }"
+            id="password"
+            formControlName="oldPassword"
+            autocomplete="off"
+            required
+          />
+          <span
+            class="eye"
+            *ngIf="hideOldPassword"
+            (click)="hideOldPassword = false"
+          >
+            <fa-icon icon="eye"></fa-icon>
+          </span>
+          <span
+            class="eye"
+            *ngIf="!hideOldPassword"
+            (click)="hideOldPassword = true"
+          >
+            <fa-icon icon="eye-slash"></fa-icon>
+          </span>
+        </div>
+        <div class="col-md-4 form-group required passwordInput">
+          <label for="new-password">Nouveau mot de passe</label>
+          <input
+            class="form-control"
+            [type]="!hidePassword ? 'text' : 'password'"
+            [ngClass]="{ 'is-invalid': p.password.dirty && p.password.errors }"
+            id="new-password"
+            formControlName="password"
+            required
+          />
+          <span class="eye" *ngIf="hidePassword" (click)="hidePassword = false">
+            <fa-icon icon="eye"></fa-icon>
+          </span>
+          <span class="eye" *ngIf="!hidePassword" (click)="hidePassword = true">
+            <fa-icon icon="eye-slash"></fa-icon>
+          </span>
+          <div class="row indications">
+            <div
+              class="col-md-12"
+              [ngClass]="
                 p.password.hasError('required') ||
                 p.password.hasError('minlength')
-                  ? 'times-circle'
-                  : 'check-circle'
+                  ? 'text-danger'
+                  : 'text-success'
               "
-            ></fa-icon>
-            Au moins 12 caractères
-          </div>
-          <div
-            class="col-md-12"
-            [ngClass]="
-              p.password.hasError('required') ||
-              p.password.hasError('hasNumber')
-                ? 'text-danger'
-                : 'text-success'
-            "
-          >
-            <fa-icon
-              [icon]="
+            >
+              <fa-icon
+                [icon]="
+                  p.password.hasError('required') ||
+                  p.password.hasError('minlength')
+                    ? 'times-circle'
+                    : 'check-circle'
+                "
+              ></fa-icon>
+              Au moins 12 caractères
+            </div>
+            <div
+              class="col-md-12"
+              [ngClass]="
                 p.password.hasError('required') ||
                 p.password.hasError('hasNumber')
-                  ? 'times-circle'
-                  : 'check-circle'
+                  ? 'text-danger'
+                  : 'text-success'
               "
-            ></fa-icon>
-            Au moins 1 chiffre
-          </div>
-          <div
-            class="col-md-12"
-            [ngClass]="
-              p.password.hasError('required') ||
-              p.password.hasError('hasCapitalCase')
-                ? 'text-danger'
-                : 'text-success'
-            "
-          >
-            <fa-icon
-              [icon]="
+            >
+              <fa-icon
+                [icon]="
+                  p.password.hasError('required') ||
+                  p.password.hasError('hasNumber')
+                    ? 'times-circle'
+                    : 'check-circle'
+                "
+              ></fa-icon>
+              Au moins 1 chiffre
+            </div>
+            <div
+              class="col-md-12"
+              [ngClass]="
                 p.password.hasError('required') ||
                 p.password.hasError('hasCapitalCase')
-                  ? 'times-circle'
-                  : 'check-circle'
+                  ? 'text-danger'
+                  : 'text-success'
               "
-            ></fa-icon>
-            Au moins une lettre en majuscule
+            >
+              <fa-icon
+                [icon]="
+                  p.password.hasError('required') ||
+                  p.password.hasError('hasCapitalCase')
+                    ? 'times-circle'
+                    : 'check-circle'
+                "
+              ></fa-icon>
+              Au moins une lettre en majuscule
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="col-md-4 form-group required passwordInput"
-        id="confirmPassword"
-      >
-        <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
-        <input
-          class="form-control"
-          [type]="!hideConfirmPassword ? 'text' : 'password'"
-          [ngClass]="{
-            'is-invalid': p.confirmPassword.dirty && p.confirmPassword.errors
-          }"
-          id="confirmPasswordInput"
-          autocomplete="new-password"
-          formControlName="confirmPassword"
-          required
-        />
-        <span
-          class="eye"
-          *ngIf="hideConfirmPassword"
-          (click)="hideConfirmPassword = false"
+        <div
+          class="col-md-4 form-group required passwordInput"
+          id="confirmPassword"
         >
-          <fa-icon icon="eye"></fa-icon>
-        </span>
-        <span
-          class="eye"
-          *ngIf="!hideConfirmPassword"
-          (click)="hideConfirmPassword = true"
-        >
-          <fa-icon icon="eye-slash"></fa-icon>
-        </span>
+          <label for="confirmPasswordInput">Confirmer votre mot de passe</label>
+          <input
+            class="form-control"
+            [type]="!hideConfirmPassword ? 'text' : 'password'"
+            [ngClass]="{
+              'is-invalid': p.confirmPassword.dirty && p.confirmPassword.errors
+            }"
+            id="confirmPasswordInput"
+            autocomplete="new-password"
+            formControlName="confirmPassword"
+            required
+          />
+          <span
+            class="eye"
+            *ngIf="hideConfirmPassword"
+            (click)="hideConfirmPassword = false"
+          >
+            <fa-icon icon="eye"></fa-icon>
+          </span>
+          <span
+            class="eye"
+            *ngIf="!hideConfirmPassword"
+            (click)="hideConfirmPassword = true"
+          >
+            <fa-icon icon="eye-slash"></fa-icon>
+          </span>
 
-        <div class="row indications">
-          <div
-            class="text-danger col-md-12"
-            *ngIf="
-              p.confirmPassword.dirty && p.confirmPassword.hasError('required')
-            "
-          >
-            La confirmation du mot de passe est obligatoire
-          </div>
-          <div
-            class="col-md-12"
-            [ngClass]="
-              p.confirmPassword.dirty &&
-              !p.confirmPassword.hasError('NoPassswordMatch')
-                ? 'text-success'
-                : 'text-danger'
-            "
-          >
-            <fa-icon
-              [icon]="
+          <div class="row indications">
+            <div
+              class="text-danger col-md-12"
+              *ngIf="
+                p.confirmPassword.dirty &&
+                p.confirmPassword.hasError('required')
+              "
+            >
+              La confirmation du mot de passe est obligatoire
+            </div>
+            <div
+              class="col-md-12"
+              [ngClass]="
                 p.confirmPassword.dirty &&
                 !p.confirmPassword.hasError('NoPassswordMatch')
-                  ? 'check-circle'
-                  : 'times-circle'
+                  ? 'text-success'
+                  : 'text-danger'
               "
-            ></fa-icon>
-            Les mots de passe doivent être identiques
+            >
+              <fa-icon
+                [icon]="
+                  p.confirmPassword.dirty &&
+                  !p.confirmPassword.hasError('NoPassswordMatch')
+                    ? 'check-circle'
+                    : 'times-circle'
+                "
+              ></fa-icon>
+              Les mots de passe doivent être identiques
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-md-12 text-center">
-        <button (click)="editPassword = false" class="btn btn-outline-dark">
-          <fa-icon icon="edit" class="btn-icon"></fa-icon>
-          Annuler
-        </button>
-        &nbsp;&nbsp;
-        <button
-          class="btn btn-primary"
-          type="submit"
-          [disabled]="!passwordForm.valid"
-        >
-          Enregistrer les changements
-        </button>
-      </div>
-    </form>
+        <div class="col-md-12 text-center">
+          <button (click)="editPassword = false" class="btn btn-outline-dark">
+            <fa-icon icon="edit" class="btn-icon"></fa-icon>
+            Annuler
+          </button>
+          &nbsp;&nbsp;
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="!passwordForm.valid"
+          >
+            Enregistrer les changements
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

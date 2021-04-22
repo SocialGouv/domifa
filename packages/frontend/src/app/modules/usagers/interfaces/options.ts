@@ -1,6 +1,7 @@
+import { UsagerOptions } from "./../../../../_common/model/usager/UsagerOptions.type";
 import { HistoriqueOptions } from "./historique-options";
 
-export class Options {
+export class Options implements UsagerOptions {
   public transfert: {
     actif: boolean;
     adresse: string | null;

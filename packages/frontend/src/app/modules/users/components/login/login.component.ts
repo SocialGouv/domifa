@@ -7,7 +7,6 @@ import { regexp } from "src/app/shared/validators";
 
 import { ToastrService } from "ngx-toastr";
 import { Title } from "@angular/platform-browser";
-import { AppUser } from "../../../../../_common/model";
 @Component({
   selector: "app-login",
   styleUrls: ["./login.component.css"],
@@ -30,12 +29,13 @@ export class LoginComponent implements OnInit {
     private notifService: ToastrService
   ) {
     this.hidePassword = true;
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
-
     this.loading = false;
+    this.returnUrl = "/";
   }
 
   public ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
+
     this.titleService.setTitle("Connexion à DomiFa");
     this.initForm();
   }
@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
   public login() {
     if (this.loginForm.invalid) {
       this.notifService.error("Veuillez vérifier les champs du formulaire");
-
       return;
     }
 
@@ -64,14 +63,14 @@ export class LoginComponent implements OnInit {
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        (user: AppUser) => {
+        () => {
           this.loading = false;
 
           return this.returnUrl !== "/"
             ? this.router.navigateByUrl(this.returnUrl)
             : this.router.navigate(["/manage"]);
         },
-        (error) => {
+        () => {
           this.loading = false;
           this.notifService.error("Email et / ou mot de passe incorrect");
         }
