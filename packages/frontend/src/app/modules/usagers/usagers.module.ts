@@ -30,7 +30,6 @@ import { ImportComponent } from "./components/import/import.component";
 import { ManageUsagersComponent } from "./components/manage/manage.component";
 import { ProfilAyantsDroitsComponent } from "./components/profil/profil-ayants-droits/profil-ayants-droits.component";
 import { UsagersProfilComponent } from "./components/profil/profil-component";
-import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-preference/profil-edit-preference.component";
 import { ProfilEntretienComponent } from "./components/profil/profil-entretien/profil-entretien.component";
 import { ProfilInfosComponent } from "./components/profil/profil-infos/profil-infos.component";
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil/profil-procuration-courrier/profil-procuration-courrier-component";

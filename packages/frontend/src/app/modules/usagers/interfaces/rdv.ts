@@ -1,6 +1,7 @@
+import { UsagerRdv } from "./../../../../_common/model/usager/UsagerRdv.type";
 import { formatDateToNgb } from "../../../shared/bootstrap-util";
 
-export class Rdv {
+export class Rdv implements UsagerRdv {
   public dateRdv: Date;
   public jourRdv: {
     day: number;
@@ -12,7 +13,7 @@ export class Rdv {
     minute: number;
   };
 
-  public userId: string;
+  public userId: number;
   public userName: string;
   public isNow: boolean;
 

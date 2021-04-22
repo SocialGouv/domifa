@@ -136,7 +136,7 @@ export class RdvComponent implements OnInit {
     const rdvFormValue = {
       isNow: true,
       dateRdv: new Date(),
-      userId: this.me.id.toString(),
+      userId: this.me.id,
     };
 
     this.usagerService.setRdv(rdvFormValue, this.usager.ref).subscribe(
@@ -172,7 +172,7 @@ export class RdvComponent implements OnInit {
     const rdvFormValue = {
       isNow: false,
       dateRdv,
-      userId: this.rdvForm.controls.userId.value.toString(),
+      userId: this.rdvForm.controls.userId.value,
     };
 
     this.usagerService.setRdv(rdvFormValue, this.usager.ref).subscribe(

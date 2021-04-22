@@ -17,23 +17,23 @@
     <div class="col-md-3 px-3 my-4">
       <div class="interaction-icon-box">
         <div
-          *ngIf="interactionFormData.courrierIn > 0"
+          *ngIf="interactionFormData.courrierIn.nbCourrier > 0"
           class="interaction-notification"
         >
-          {{ interactionFormData.courrierIn }}
+          {{ interactionFormData.courrierIn.nbCourrier }}
         </div>
         <div class="interaction-icon icon-courrier"></div>
       </div>
       <div class="interaction-actions">
-        <div class="action" (click)="increment('courrierIn')">
-          <img src="/assets/icones/plus.svg" />
-        </div>
         <div
           (click)="decrement('courrierIn')"
           class="action"
-          *ngIf="interactionFormData.courrierIn > 0"
+          *ngIf="interactionFormData.courrierIn.nbCourrier > 0"
         >
           <img src="/assets/icones/moins.svg" />
+        </div>
+        <div class="action" (click)="increment('courrierIn')">
+          <img src="/assets/icones/plus.svg" />
         </div>
       </div>
       <span class="interaction-label">Courriers</span>
@@ -42,23 +42,23 @@
     <div class="col-md-3 px-3 my-4">
       <div class="interaction-icon-box">
         <div
-          *ngIf="interactionFormData.colisIn > 0"
+          *ngIf="interactionFormData.colisIn.nbCourrier > 0"
           class="interaction-notification"
         >
-          {{ interactionFormData.colisIn }}
+          {{ interactionFormData.colisIn.nbCourrier }}
         </div>
         <div class="interaction-icon icon-colis"></div>
       </div>
       <div class="interaction-actions">
-        <div class="action" (click)="increment('colisIn')">
-          <img src="/assets/icones/plus.svg" />
-        </div>
         <div
           (click)="decrement('colisIn')"
           class="action"
-          *ngIf="interactionFormData.colisIn > 0"
+          *ngIf="interactionFormData.colisIn.nbCourrier > 0"
         >
           <img src="/assets/icones/moins.svg" />
+        </div>
+        <div class="action" (click)="increment('colisIn')">
+          <img src="/assets/icones/plus.svg" />
         </div>
       </div>
       <span class="interaction-label">Colis</span>
@@ -67,23 +67,23 @@
     <div class="col-md-3 px-3 my-4">
       <div class="interaction-icon-box">
         <div
-          *ngIf="interactionFormData.recommandeIn > 0"
+          *ngIf="interactionFormData.recommandeIn.nbCourrier > 0"
           class="interaction-notification"
         >
-          {{ interactionFormData.recommandeIn }}
+          {{ interactionFormData.recommandeIn.nbCourrier }}
         </div>
         <div class="interaction-icon icon-recommande"></div>
       </div>
       <div class="interaction-actions">
-        <div class="action" (click)="increment('recommandeIn')">
-          <img src="/assets/icones/plus.svg" />
-        </div>
         <div
           (click)="decrement('recommandeIn')"
           class="action"
-          *ngIf="interactionFormData.recommandeIn > 0"
+          *ngIf="interactionFormData.recommandeIn.nbCourrier > 0"
         >
           <img src="/assets/icones/moins.svg" />
+        </div>
+        <div class="action" (click)="increment('recommandeIn')">
+          <img src="/assets/icones/plus.svg" />
         </div>
       </div>
       <span class="interaction-label">Avis de passage</span>
@@ -99,8 +99,10 @@
     </div>
   </div>
   <div class="text-left">
-    <button class="btn btn-lg btn-primary">Ajouter</button>
-    <button class="btn" (click)="cancelReception.emit()">
+    <button class="btn btn-lg btn-primary" (click)="setInteractionForm()">
+      Ajouter
+    </button>
+    <button class="btn btn-lg" (click)="cancelReception.emit()">
       Revenir à la liste
     </button>
   </div>

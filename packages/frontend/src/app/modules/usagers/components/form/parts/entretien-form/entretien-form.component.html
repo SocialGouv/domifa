@@ -1,7 +1,7 @@
 <div class="container" *ngIf="me && usager">
   <app-form-menu [usager]="usager" [currentStep]="2"></app-form-menu>
 
-  <div class="step_form">
+  <div class="step_form my-5">
     <app-entretien
       [(usager)]="usager"
       (nextStep)="nextStep($event)"

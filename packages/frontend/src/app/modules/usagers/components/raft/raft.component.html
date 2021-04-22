@@ -91,7 +91,7 @@
               [disabled]="
                 (usager.decision.motif === 'AUTRE' &&
                   usager.decision.motifDetails.length < 10) ||
-                usager.decision.motif === ''
+                !usager.decision.motif
               "
               class="btn btn-primary"
               (click)="setRadiation()"

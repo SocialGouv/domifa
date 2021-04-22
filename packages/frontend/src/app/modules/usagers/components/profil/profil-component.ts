@@ -75,8 +75,6 @@ export class UsagersProfilComponent implements OnInit {
 
   public notifInputs: { [key: string]: any };
 
-  public dateFin: Date | null;
-
   public today: Date;
   public me: AppUser;
 
@@ -112,8 +110,6 @@ export class UsagersProfilComponent implements OnInit {
 
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
-
-    this.dateFin = null;
 
     this.notifInputs = {
       colisIn: 0,
@@ -170,8 +166,6 @@ export class UsagersProfilComponent implements OnInit {
         }
 
         this.usager = new UsagerFormModel(usager);
-
-        this.dateFin = this.getDateFin();
 
         this.getInteractions();
         this.initForms();
@@ -412,23 +406,6 @@ export class UsagersProfilComponent implements OnInit {
         this.notifService.error("Impossible d'enregistrer cette interaction");
       }
     );
-  }
-
-  public getDateFin(): Date {
-    if (this.usager.decision.statut === "VALIDE") {
-      return this.usager.decision.dateFin;
-    } else if (
-      this.usager.decision.statut === "INSTRUCTION" &&
-      this.usager.typeDom === "RENOUVELLEMENT"
-    ) {
-      return this.usager.historique[0].dateFin;
-    } else if (
-      this.usager.decision.statut === "ATTENTE_DECISION" &&
-      this.usager.typeDom === "RENOUVELLEMENT"
-    ) {
-      return this.usager.historique[1].dateFin;
-    }
-    return null;
   }
 
   public getAttestation() {

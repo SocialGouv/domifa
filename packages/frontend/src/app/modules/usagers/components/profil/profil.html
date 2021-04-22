@@ -27,7 +27,7 @@
           Demande refusée le {{ usager.decision.dateDecision | date:
           "dd/MM/yyyy" }}
           <br />
-          Motif : {{ usager.decision.motif }}
+          Motif : {{ usager.decision.motifString }}
           <br />
           Orientation proposée : {{ usager.decision.orientationDetails}}
         </div>
@@ -54,7 +54,7 @@
           Cette personne a été radiée le {{ usager.decision.dateDecision |
           date:'dd/MM/yyyy' }}
           <br />
-          Motif : {{ usager.decision.motif }}
+          Motif : {{ usager.decision.motifString }}
         </div>
 
         <div class="col-md-12">
@@ -93,7 +93,7 @@
               'text-secondary': usager.dayBeforeEnd >= 60
              }"
           >
-            {{ dateFin | date: 'dd/MM/yyyy' }}
+            {{ usager.dateToDisplay | date: 'dd/MM/yyyy' }}
           </b>
         </span>
         <span class="text-danger" *ngIf="usager.dayBeforeEnd < 0">
@@ -884,7 +884,7 @@
                   <b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}} </b>
                 </span>
                 <b *ngIf="usager.decision.statut === 'RADIE'"
-                  >- {{ usager.decision.motif }}</b
+                  >- {{ usager.decision.motifString }}</b
                 >
               </td>
               <td>{{ usager.decision.userName }}</td>

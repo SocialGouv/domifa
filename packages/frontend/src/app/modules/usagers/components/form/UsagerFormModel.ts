@@ -4,6 +4,7 @@ import {
   UsagerSexe,
   UsagerTypeDom,
 } from "../../../../../_common/model";
+import { INTERACTIONS_AVAILABLE } from "../../../../../_common/model/interaction";
 import { ETAPE_ETAT_CIVIL } from "../../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerAyantDroit } from "../../../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../../../_common/model/usager/UsagerDecision.type";
@@ -15,7 +16,7 @@ import { Options } from "../../interfaces/options";
 import { Rdv } from "../../interfaces/rdv";
 import { usagersFilter, UsagersFilterCriteria } from "../manage/usager-filter";
 
-export class UsagerFormModel {
+export class UsagerFormModel implements UsagerLight {
   public ref: number;
   public customRef: string | null;
   public nom: string;
@@ -71,7 +72,7 @@ export class UsagerFormModel {
   // VARIABLES UTILES AU FRONT UNIQUEMENT
   // Recherche : si la requête fait remonté un ayant-droit
   public isAyantDroit: boolean;
-
+  public totalInteractionsEnAttente: number;
   // Dossier actuellement actif
   public isActif: boolean;
   public dayBeforeEnd: number;
@@ -167,6 +168,11 @@ export class UsagerFormModel {
 
     this.typeDom = (usager && usager.typeDom) || "PREMIERE";
 
+    //
+    //
+    // FRONTEND VARIABLES
+    //
+    this.totalInteractionsEnAttente = 0;
     this.isActif = false;
     this.dayBeforeEnd = 365;
     this.dateToDisplay = null;
@@ -208,6 +214,16 @@ export class UsagerFormModel {
         this.statutColor = "warning-status";
       }
     }
+
+    console.log("________");
+    console.log("________");
+    console.warn(INTERACTIONS_AVAILABLE);
+    console.log(this.lastInteraction);
+    console.log(usager.lastInteraction);
+
+    INTERACTIONS_AVAILABLE.forEach((interaction) => {
+      this.totalInteractionsEnAttente += this.lastInteraction[interaction];
+    });
 
     this.isAyantDroit = false;
 

@@ -511,6 +511,7 @@
                   <div
                     ngbTooltip="Signaler l'arrivée de courrier"
                     class="interaction-btn"
+                    (click)="openInteractionModal(usager)"
                   >
                     <span class="icon-reception list-icon"></span>
                     <span class="list-icon-label">Réception</span>
@@ -554,11 +555,12 @@
                     *ngIf="usager.lastInteraction.enAttente"
                     class="interaction-btn"
                     [ngbTooltip]="distributionTooltip"
-                    (click)="openInteractionModal(usager)"
                   >
                     <span class="icon-distribution list-icon"></span>
                     <span class="list-icon-label">Distribuer</span>
-                    <b class="notification">1</b>
+                    <b class="notification"
+                      >{{ usager.totalInteractionsEnAttente }}</b
+                    >
                   </div>
                 </div>
               </td>
@@ -576,7 +578,8 @@
 
 <ng-template #setInteractionModal let-modal>
   <app-set-interaction-form
-    [usager]="selectedUsager"
+    [(usager)]="selectedUsager"
+    (usagerChange)="updateUsager($event)"
     (cancelReception)="cancelReception()"
   ></app-set-interaction-form>
 </ng-template>

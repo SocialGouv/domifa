@@ -14,7 +14,7 @@ export type UsagerOptions = {
     prenom?: string;
     dateFin?: Date;
     dateDebut?: Date;
-    dateNaissance?: string;
+    dateNaissance?: Date;
   };
   npai: {
     actif: boolean;
