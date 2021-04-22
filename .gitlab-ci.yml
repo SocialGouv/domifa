@@ -1,9 +1,10 @@
 #
 
 include:
+  # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v22.0.0/base_register_docker_stage.yml
   - project: SocialGouv/gitlab-ci-yml
-    file: /base_register_stage.yml # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.2.0/base_register_stage.yml
-    ref: v20.2.0
+    file: /base_register_docker_stage.yml
+    ref: v22.0.0
 
 variables:
   # Globals
