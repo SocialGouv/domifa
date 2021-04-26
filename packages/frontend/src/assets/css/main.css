@@ -14,9 +14,12 @@ ul {
 .content {
   background-color: #f2f2f2;
   min-height: 100vh;
-  padding: 2rem 0;
 }
 
+.page-content {
+  background-color: white;
+  border-radius: 3px;
+}
 #page {
   padding-top: 62px;
   min-height: 90vh;
@@ -448,4 +451,39 @@ table .active {
 
 .danger-status .statut-signal {
   background-color: var(--red);
+}
+
+#statut-selector .col:first-child {
+  border-radius: 5px 0 0 0;
+  font-family: Source Sans Pro;
+}
+
+#statut-selector .col:last-child {
+  border-radius: 0 5px 0 0;
+}
+
+#statut-selector .col {
+  padding: 16px 24px;
+  margin: 0;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 -1px 2px 0 rgba(65, 100, 245, 0.2);
+}
+
+#statut-selector .col span {
+  vertical-align: middle;
+}
+
+#statut-selector {
+  box-shadow: 0 1px 3px rgba(50, 66, 124, 0.1);
+}
+
+.filter-part {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+  font-style: normal;
+  font-weight: 600;
 }
