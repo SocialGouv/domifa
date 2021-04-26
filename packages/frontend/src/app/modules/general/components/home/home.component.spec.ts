@@ -8,7 +8,7 @@ import { SharedModule } from "src/app/modules/shared/shared.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CountUpModule } from "ngx-countup";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
@@ -27,7 +27,6 @@ describe("HomeComponent", () => {
         FontAwesomeModule,
         RouterTestingModule,
         CountUpModule,
-        HttpClientModule,
         HttpClientTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

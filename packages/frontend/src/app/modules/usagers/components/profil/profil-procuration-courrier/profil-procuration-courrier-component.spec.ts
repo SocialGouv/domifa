@@ -37,7 +37,6 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
       ],
       providers: [
         {

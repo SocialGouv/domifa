@@ -29,7 +29,7 @@ describe("UsagerService", () => {
         BrowserModule,
         BrowserAnimationsModule,
         FontAwesomeModule,
-        RouterModule.forRoot([]),
+        RouterTestingModule,
         ToastrModule.forRoot(),
       ],
       providers: [

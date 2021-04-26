@@ -4,11 +4,12 @@ import { EditUserComponent } from "./edit-user.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { ToastrModule } from "ngx-toastr";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { RouterModule } from "@angular/router";
+
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("EditUserComponent", () => {
   let component: EditUserComponent;
@@ -22,9 +23,8 @@ describe("EditUserComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         ToastrModule.forRoot(),
-        HttpClientModule,
         HttpClientTestingModule,
-        RouterModule.forRoot([]),
+        RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

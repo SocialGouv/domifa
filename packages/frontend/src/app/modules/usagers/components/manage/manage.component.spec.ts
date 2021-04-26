@@ -31,10 +31,9 @@ describe("ManageUsagersComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         ToastrModule.forRoot(),
-        HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
+        HttpClientTestingModule,
       ],
       providers: [
         {

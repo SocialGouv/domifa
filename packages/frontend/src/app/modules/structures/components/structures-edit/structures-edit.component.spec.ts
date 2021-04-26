@@ -1,14 +1,15 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { StructuresEditComponent } from "./structures-edit.component";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("StructuresEditComponent", () => {
   let component: StructuresEditComponent;
@@ -21,7 +22,7 @@ describe("StructuresEditComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
+
         HttpClientTestingModule,
         ToastrModule.forRoot({
           enableHtml: true,
@@ -31,7 +32,7 @@ describe("StructuresEditComponent", () => {
           progressBar: true,
           timeOut: 2000,
         }),
-        RouterModule.forRoot([]),
+        RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

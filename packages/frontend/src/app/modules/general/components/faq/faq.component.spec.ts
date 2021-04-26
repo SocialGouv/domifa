@@ -1,21 +1,20 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FaqComponent } from "./faq.component";
 import { ToastrModule } from "ngx-toastr";
 import { MatomoInjector, MatomoTracker, MatomoModule } from "ngx-matomo";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("FaqComponent", () => {
   let component: FaqComponent;
   let fixture: ComponentFixture<FaqComponent>;
-  const spyScrollTo = jest.fn();
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FaqComponent],
@@ -24,9 +23,8 @@ describe("FaqComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
         HttpClientTestingModule,
-        RouterModule.forRoot([]),
+        RouterTestingModule,
         ToastrModule.forRoot(),
       ],
       providers: [

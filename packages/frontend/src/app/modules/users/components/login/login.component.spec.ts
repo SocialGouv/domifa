@@ -5,10 +5,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LoginComponent } from "./login.component";
 import { ToastrModule } from "ngx-toastr";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("LoginComponent", () => {
   let component: LoginComponent;
@@ -21,9 +22,8 @@ describe("LoginComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
         HttpClientTestingModule,
-        RouterModule.forRoot([]),
+        RouterTestingModule,
         ToastrModule.forRoot({}),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
