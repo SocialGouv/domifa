@@ -52,14 +52,6 @@ export class InteractionDto {
   })
   @IsOptional()
   @IsBoolean()
-  public transfert?: boolean;
-
-  @ApiProperty({
-    type: Boolean,
-    required: false,
-  })
-  @IsOptional()
-  @IsBoolean()
   public procuration?: boolean;
 
   @ApiProperty({

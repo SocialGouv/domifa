@@ -105,8 +105,8 @@
 
 <div id="filters" class="py-4">
   <div class="container">
-    <div class="row">
-      <div class="col-md-9">
+    <div class="row d-flex align-items-center">
+      <div class="col-md-8">
         <div *ngIf="nbResults" class="filter-part">
           Filtrer les <span class="text-primary"> {{nbResults}} </span>résultats
         </div>
@@ -250,104 +250,98 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3 text-right">
-        <div class="filter-part">
+      <div class="col-md-4 text-right">
+        <div
+          ngbDropdown
+          id="dropdownSort"
+          placement="bottom-right"
+          class="d-inline-block"
+        >
+          <div class="" id="dropdownSortButton" ngbDropdownToggle>
+            <span *ngIf="filters.sortKey !== 'PASSAGE'">
+              Trier par
+              <b class="text-primary">{{ sortLabels[filters.sortKey] }}</b>
+            </span>
+
+            <span *ngIf="filters.sortKey === 'PASSAGE'">
+              Trier par <b class="text-primary">dernier passage</b>
+            </span>
+
+            <fa-icon
+              *ngIf="filters.sortValue === 'ascending'"
+              icon="sort-amount-up"
+            ></fa-icon>
+            <fa-icon
+              *ngIf="filters.sortValue === 'descending'"
+              icon="sort-amount-down"
+            ></fa-icon>
+          </div>
           <div
-            ngbDropdown
-            id="dropdownBasic1"
-            display="dynamic"
-            placement="bottom-right"
-            class="d-inline-block"
+            ngbDropdownMenu
+            aria-labelledby="navbarDropdown2"
+            class="dropdown-menu dropdown-menu-right"
           >
             <button
-              class="btn btn-outline-dark"
-              id="dropdownManual"
-              ngbDropdownToggle
+              (click)="updateFilters('sortKey', 'NAME', 'ascending')"
+              ngbDropdownItem
             >
-              <span *ngIf="filters.sortKey !== 'PASSAGE'">
-                Trier par {{ sortLabels[filters.sortKey] }}
-              </span>
-
-              <span *ngIf="filters.sortKey === 'PASSAGE'">
-                Trier par dernier passage
-              </span>
-
-              <fa-icon
-                *ngIf="filters.sortValue === 'ascending'"
-                icon="sort-amount-up"
-              ></fa-icon>
-              <fa-icon
-                *ngIf="filters.sortValue === 'descending'"
-                icon="sort-amount-down"
-              ></fa-icon>
+              Trier par nom <fa-icon icon="sort-amount-up"></fa-icon>
             </button>
-            <div
-              ngbDropdownMenu
-              aria-labelledby="navbarDropdown2"
-              class="dropdown-menu dropdown-menu-right"
+            <button
+              (click)="updateFilters('sortKey', 'NAME', 'descending')"
+              ngbDropdownItem
             >
-              <button
-                (click)="updateFilters('sortKey', 'NAME', 'ascending')"
-                ngbDropdownItem
-              >
-                Trier par nom <fa-icon icon="sort-amount-up"></fa-icon>
-              </button>
-              <button
-                (click)="updateFilters('sortKey', 'NAME', 'descending')"
-                ngbDropdownItem
-              >
-                Trier par nom <fa-icon icon="sort-amount-down"></fa-icon>
-              </button>
-              <button
-                (click)="updateFilters('sortKey', 'ID', 'ascending')"
-                ngbDropdownItem
-              >
-                Trier par ID <fa-icon icon="sort-amount-up"></fa-icon>
-              </button>
-              <button
-                (click)="updateFilters('sortKey', 'ID', 'descending')"
-                ngbDropdownItem
-              >
-                Trier par ID <fa-icon icon="sort-amount-down"></fa-icon>
-              </button>
+              Trier par nom <fa-icon icon="sort-amount-down"></fa-icon>
+            </button>
+            <button
+              (click)="updateFilters('sortKey', 'ID', 'ascending')"
+              ngbDropdownItem
+            >
+              Trier par ID <fa-icon icon="sort-amount-up"></fa-icon>
+            </button>
+            <button
+              (click)="updateFilters('sortKey', 'ID', 'descending')"
+              ngbDropdownItem
+            >
+              Trier par ID <fa-icon icon="sort-amount-down"></fa-icon>
+            </button>
 
-              <ng-container *ngIf="filters.statut !== 'TOUS'">
-                <button
-                  (click)="updateFilters('sortKey', filters.statut, 'ascending')"
-                  ngbDropdownItem
-                >
-                  Trier par {{ dateLabel | lowercase }}<fa-icon
-                    icon="sort-amount-up"
-                  ></fa-icon>
-                </button>
-                <button
-                  (click)="updateFilters('sortKey', filters.statut, 'descending')"
-                  ngbDropdownItem
-                >
-                  Trier par {{ dateLabel | lowercase }}<fa-icon
-                    icon="sort-amount-down"
-                  ></fa-icon>
-                </button>
-              </ng-container>
-              <ng-container *ngIf="filters.passage !== null">
-                <button
-                  (click)="updateFilters('sortKey', 'PASSAGE', 'ascending')"
-                  ngbDropdownItem
-                >
-                  Trier par dernier passage<fa-icon
-                    icon="sort-amount-up"
-                  ></fa-icon>
-                </button>
-                <button
-                  (click)="updateFilters('sortKey', 'PASSAGE', 'descending')"
-                  ngbDropdownItem
-                >
-                  Trier par dernier passage<fa-icon
-                    icon="sort-amount-down"
-                  ></fa-icon>
-                </button>
-              </ng-container>
-            </div>
+            <ng-container *ngIf="filters.statut !== 'TOUS'">
+              <button
+                (click)="updateFilters('sortKey', filters.statut, 'ascending')"
+                ngbDropdownItem
+              >
+                Trier par {{ dateLabel | lowercase }}<fa-icon
+                  icon="sort-amount-up"
+                ></fa-icon>
+              </button>
+              <button
+                (click)="updateFilters('sortKey', filters.statut, 'descending')"
+                ngbDropdownItem
+              >
+                Trier par {{ dateLabel | lowercase }}<fa-icon
+                  icon="sort-amount-down"
+                ></fa-icon>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="filters.passage !== null">
+              <button
+                (click)="updateFilters('sortKey', 'PASSAGE', 'ascending')"
+                ngbDropdownItem
+              >
+                Trier par dernier passage<fa-icon
+                  icon="sort-amount-up"
+                ></fa-icon>
+              </button>
+              <button
+                (click)="updateFilters('sortKey', 'PASSAGE', 'descending')"
+                ngbDropdownItem
+              >
+                Trier par dernier passage<fa-icon
+                  icon="sort-amount-down"
+                ></fa-icon>
+              </button>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -480,8 +474,7 @@
                 </div>
               </td>
               <td (click)="goToProfil(usager)">
-                {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy"
-                }}
+                {{ usager.lastInteraction.dateInteraction|date: "dd/MM/yyyy" }}
               </td>
               <td>
                 <span class="statut-date" *ngIf="usager.isActif">
@@ -511,13 +504,13 @@
                   <div
                     ngbTooltip="Signaler l'arrivée de courrier"
                     class="interaction-btn"
-                    (click)="openInteractionModal(usager)"
+                    (click)="openInteractionInModal(usager)"
                   >
                     <span class="icon-reception list-icon"></span>
                     <span class="list-icon-label">Réception</span>
                   </div>
 
-                  <ng-template #distributionTooltip class="p-2 text-left">
+                  <ng-template #distributionBox class="p-2 text-left">
                     <div class="distribution-tooltip">
                       <div *ngIf="usager.lastInteraction.courrierIn > 0">
                         <span class="list-icon icon-courrier"></span>
@@ -554,13 +547,14 @@
                   <div
                     *ngIf="usager.lastInteraction.enAttente"
                     class="interaction-btn"
-                    [ngbTooltip]="distributionTooltip"
+                    [ngbTooltip]="distributionBox"
+                    (click)="openInteractionOutModal(usager)"
                   >
                     <span class="icon-distribution list-icon"></span>
                     <span class="list-icon-label">Distribuer</span>
-                    <b class="notification"
-                      >{{ usager.totalInteractionsEnAttente }}</b
-                    >
+                    <b class="notification">
+                      {{ usager.totalInteractionsEnAttente }}
+                    </b>
                   </div>
                 </div>
               </td>
@@ -576,55 +570,18 @@
   </div>
 </div>
 
-<ng-template #setInteractionModal let-modal>
-  <app-set-interaction-form
+<ng-template #setInteractionInModal let-modal>
+  <app-set-interaction-in-form
     [(usager)]="selectedUsager"
     (usagerChange)="updateUsager($event)"
     (cancelReception)="cancelReception()"
-  ></app-set-interaction-form>
+  ></app-set-interaction-in-form>
 </ng-template>
 
-<ng-template #distributionConfirm let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">
-      <fa-icon icon="exclamation-triangle"></fa-icon>
-      Attention, procuration active !
-    </h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Fermer la fenêtre"
-      (click)="closeModals()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body text-center">
-    Qui est venu récupérer le courrier ?
-    <br />
-    <br />
-    <button
-      (click)="setInteraction(selectedUsager, 'courrierOut', true)"
-      class="btn btn-outline-primary"
-    >
-      <b>LE MANDATAIRE</b>
-      <br />
-      {{ selectedUsager.options.procuration.nom | uppercase }} {{
-      selectedUsager.options.procuration.prenom }}
-    </button>
-    &nbsp;&nbsp;
-    <button
-      (click)="setInteraction(selectedUsager, 'courrierOut', false)"
-      class="btn btn-outline-primary"
-    >
-      <b>LE DOMICILIÉ</b>
-      <br />
-      {{ selectedUsager.nom }} {{ selectedUsager.prenom }}
-    </button>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="closeModals()">
-      Revenir à la liste
-    </button>
-  </div>
+<ng-template #setInteractionOutModal let-modal>
+  <app-set-interaction-out-form
+    [(usager)]="selectedUsager"
+    (usagerChange)="updateUsager($event)"
+    (cancelReception)="cancelReception()"
+  ></app-set-interaction-out-form>
 </ng-template>

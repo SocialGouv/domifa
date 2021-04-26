@@ -122,8 +122,14 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
 
-  @ViewChild("setInteractionModal", { static: true })
-  public setInteractionModal!: TemplateRef<any>;
+  @ViewChild("setInteractionInModal", { static: true })
+  public setInteractionInModal!: TemplateRef<any>;
+
+  @ViewChild("setInteractionOutModal", { static: true })
+  public setInteractionOutModal!: TemplateRef<any>;
+
+  @ViewChild("distributionBox", { static: true })
+  public distributionBox: ElementRef;
 
   private subscription = new Subscription();
 
@@ -229,8 +235,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   }
 
   public updateUsager(usager: UsagerFormModel) {
-    console.log("UPDATE USAGER");
-    console.log(usager.lastInteraction);
     this.allUsagers$.next(
       this.allUsagers$.value.map((x) => {
         if (x.ref === usager.ref) {
@@ -395,10 +399,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       interaction.procuration = procuration;
     }
 
-    if (type === "courrierOut" && usager.options.transfert.actif) {
-      interaction.transfert = true;
-    }
-
     this.matomo.trackEvent("interactions", "manage", type, 1);
 
     this.interactionService.setInteraction(usager, interaction).subscribe(
@@ -461,15 +461,22 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     return filters === null ? {} : JSON.parse(filters);
   }
 
-  public openInteractionModal(usager: UsagerFormModel) {
+  public openInteractionInModal(usager: UsagerFormModel) {
     this.selectedUsager = usager;
-    this.modalService.open(this.setInteractionModal);
+    this.modalService.open(this.setInteractionInModal);
+  }
+
+  public openInteractionOutModal(usager: UsagerFormModel) {
+    this.selectedUsager = usager;
+    this.modalService.open(this.setInteractionOutModal);
   }
 
   public cancelReception() {
     this.selectedUsager = null;
     this.modalService.dismissAll();
   }
+
+  public openDistributionBox() {}
 
   @HostListener("window:scroll", ["$event"])
   onScroll($event: Event): void {

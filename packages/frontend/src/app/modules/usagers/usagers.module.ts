@@ -41,7 +41,8 @@ import { DocumentService } from "./services/document.service";
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
 import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-preference/profil-edit-preference.component";
-import { SetInteractionFormComponent } from "./components/set-interaction-form/set-interaction-form.component";
+import { SetInteractionInFormComponent } from "./components/set-interaction-in-form/set-interaction-in-form.component";
+import { SetInteractionOutFormComponent } from "./components/set-interaction-out-form/set-interaction-out-form.component";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { SetInteractionFormComponent } from "./components/set-interaction-form/s
     RaftComponent,
     EntretienComponent,
     ProfilEditPreferenceComponent,
-    SetInteractionFormComponent,
+    SetInteractionInFormComponent,
+    SetInteractionOutFormComponent,
   ],
   exports: [
     UploadComponent,
