@@ -215,12 +215,6 @@ export class UsagerFormModel implements UsagerLight {
       }
     }
 
-    console.log("________");
-    console.log("________");
-    console.warn(INTERACTIONS_AVAILABLE);
-    console.log(this.lastInteraction);
-    console.log(usager.lastInteraction);
-
     INTERACTIONS_AVAILABLE.forEach((interaction) => {
       this.totalInteractionsEnAttente += this.lastInteraction[interaction];
     });

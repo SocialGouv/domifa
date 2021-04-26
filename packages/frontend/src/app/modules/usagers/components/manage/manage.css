@@ -7,12 +7,11 @@
   display: inline-block;
   vertical-align: middle;
   margin-right: 10px;
-
   font-style: normal;
   font-weight: 600;
 }
 
-.dropdown-toggle {
+button.dropdown-toggle {
   font-size: 1rem;
   background: #f9f9fc;
   border: 1px solid #cfcfd9;
@@ -26,15 +25,14 @@
 .dropdown-menu {
   padding: 0;
   margin: 0;
-  width: 100%;
+  min-width: 100%;
   background: #ffffff;
   border: 1px solid #ececec;
   border-radius: 5px;
 }
 
 .dropdown-menu .ng-fa-icon {
-  margin-left: 6px;
-  float: left;
+  margin-left: 10px;
 }
 
 .dropdown-item:not(:last-child) {
@@ -47,6 +45,18 @@
   color: #4a4a4a;
   text-align: left;
   width: 100%;
+}
+
+#dropdownSort > div {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#dropdownSortButton .ng-fa-icon,
+.dropdown-item .ng-fa-icon {
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 #statut-selector .col:first-child {
@@ -344,17 +354,17 @@ th {
 }
 
 .list-icon {
-  min-height: 30px;
-  min-width: 30px;
+  min-height: 24px;
+  min-width: 24px;
   padding: 16px;
   box-sizing: border-box;
   background-color: #4164f5;
-  -webkit-mask-size: 80%;
-  mask-size: 80%;
+  -webkit-mask-size: 75%;
+  mask-size: 75%;
 }
 
 .list-icon-label {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   padding: 0 4px;
 }
 

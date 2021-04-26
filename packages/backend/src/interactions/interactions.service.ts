@@ -206,7 +206,7 @@ function buildNewInteraction({
       usager.lastInteraction.dateInteraction = new Date();
     }
 
-    if (interaction.transfert) {
+    if (usager.options.transfert.actif) {
       newInteraction.content =
         "Courrier transféré à : " +
         usager.options.transfert.nom +

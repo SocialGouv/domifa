@@ -1,0 +1,144 @@
+<div class="modal-header">
+  <h4>
+    Distribuer les courriers de
+    <span class="text-primary">{{ usager.nom }} {{ usager.prenom }}  </span>
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Fermer la fenêtre"
+    (click)="cancelReception.emit()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body text-center">
+  <div class="row d-flex align-items-top">
+    <div
+      class="col-md-3 px-3 my-4"
+      [ngClass]="{ disabled: interactionFormData.courrierOut.nbCourrier === 0 }"
+    >
+      <div class="interaction-icon-box">
+        <div class="interaction-notification">
+          {{ interactionFormData.courrierOut.nbCourrier }}
+        </div>
+        <div class="interaction-icon icon-courrier"></div>
+      </div>
+      <div class="interaction-actions">
+        <div
+          class="action action-selected"
+          (click)="
+            interactionFormData.courrierOut.selected = !interactionFormData
+              .courrierOut.selected
+          "
+          [ngClass]="
+            interactionFormData.courrierOut.selected
+              ? 'action-seleted'
+              : 'action-not-selected'
+          "
+        >
+          <fa-icon
+            [icon]="
+              interactionFormData.courrierOut.selected ? 'check' : 'circle'
+            "
+          ></fa-icon>
+        </div>
+      </div>
+      <span class="interaction-label">Courriers</span>
+    </div>
+
+    <div
+      class="col-md-3 px-3 my-4"
+      [ngClass]="{ disabled: interactionFormData.colisOut.nbCourrier === 0 }"
+    >
+      <div class="interaction-icon-box">
+        <div class="interaction-notification">
+          {{ interactionFormData.colisOut.nbCourrier }}
+        </div>
+        <div class="interaction-icon icon-colis"></div>
+      </div>
+      <div class="interaction-actions">
+        <div
+          class="action action-selected"
+          (click)="
+            interactionFormData.colisOut.selected = !interactionFormData
+              .colisOut.selected
+          "
+          [ngClass]="
+            interactionFormData.colisOut.selected
+              ? 'action-seleted'
+              : 'action-not-selected'
+          "
+        >
+          <fa-icon
+            [icon]="interactionFormData.colisOut.selected ? 'check' : 'circle'"
+          ></fa-icon>
+        </div>
+      </div>
+      <span class="interaction-label">Colis</span>
+    </div>
+
+    <div
+      class="col-md-3 px-3 my-4"
+      [ngClass]="{
+        disabled: interactionFormData.recommandeOut.nbCourrier === 0
+      }"
+    >
+      <div class="interaction-icon-box">
+        <div class="interaction-notification">
+          {{ interactionFormData.recommandeOut.nbCourrier }}
+        </div>
+        <div class="interaction-icon icon-recommande"></div>
+      </div>
+      <div class="interaction-actions">
+        <div
+          class="action action-selected"
+          (click)="
+            interactionFormData.recommandeOut.selected = !interactionFormData
+              .recommandeOut.selected
+          "
+          [ngClass]="
+            interactionFormData.recommandeOut.selected
+              ? 'action-seleted'
+              : 'action-not-selected'
+          "
+        >
+          <fa-icon
+            [icon]="
+              interactionFormData.recommandeOut.selected ? 'check' : 'circle'
+            "
+          ></fa-icon>
+        </div>
+      </div>
+      <span class="interaction-label">Avis de passage</span>
+    </div>
+  </div>
+
+  <div class="text-left" *ngIf="usager.options.procuration.actif">
+    <fa-icon icon="exclamation-triangle"></fa-icon>
+    Attention, procuration active ! Qui est venu récupérer le courrier ?
+    <br />
+    <br />
+    <button class="btn btn-outline-primary">
+      <b>LE MANDATAIRE</b>
+      <br />
+      {{ usager.options.procuration.nom | uppercase }}
+      {{ usager.options.procuration.prenom }}
+    </button>
+    &nbsp;&nbsp;
+    <button class="btn btn-outline-primary">
+      <b>LE DOMICILIÉ</b>
+      <br />
+      {{ usager.nom }} {{ usager.prenom }}
+    </button>
+  </div>
+  <div class="text-left">
+    <br />
+    <button class="btn btn-lg btn-primary mx-1" (click)="setInteractionForm()">
+      Confirmer la distribution
+    </button>
+    <button class="btn btn-lg mx-1" (click)="cancelReception.emit()">
+      Revenir à la liste
+    </button>
+  </div>
+</div>
