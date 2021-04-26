@@ -2,6 +2,7 @@ import {
   Controller,
   HttpException,
   HttpStatus,
+  Param,
   Post,
   Res,
   UploadedFile,
@@ -13,67 +14,74 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as fs from "fs";
 import { diskStorage } from "multer";
+import * as os from "os";
 import * as path from "path";
 import { CurrentUser } from "../../../auth/current-user.decorator";
 import { FacteurGuard } from "../../../auth/guards/facteur.guard";
 import { structureCommonRepository } from "../../../database";
-import { StructuresService } from "../../../structures/services/structures.service";
 import { appLogger } from "../../../util";
 import { ExpressResponse } from "../../../util/express";
 import { randomName, validateUpload } from "../../../util/FileManager";
 import { AppAuthUser } from "../../../_common/model";
 import { UsagersService } from "../../services/usagers.service";
 import { ImportProcessTracker } from "./ImportProcessTracker.type";
-import { UsagersImportError } from "./model";
 import {
   ImportPreviewColumn,
   ImportPreviewRow,
   ImportPreviewTable,
-} from "./preview";
-import { UsagersImportUsager } from "./schema";
-import { usagersImportExcelParser, usagersImportValidator } from "./services";
+  UsagersImportError,
+  UsagersImportRow,
+} from "./model";
+import { usagersImportExcelParser } from "./step1-parse-excel";
+import {
+  UsagersImportUsager,
+  usagersImportValidator,
+} from "./step2-validate-row";
+import { usagersImportCreator } from "./step3-create";
 
 import moment = require("moment");
+
+const USAGERS_IMPORT_DIR = path.join(os.tmpdir(), "domifa", "usagers-imports");
+
+const UsagersImportFileInterceptor = FileInterceptor("file", {
+  limits: {
+    fieldSize: 10 * 1024 * 1024,
+    files: 1,
+  },
+  fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
+    if (!validateUpload("IMPORT", req, file)) {
+      throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
+    }
+    cb(null, true);
+  },
+  storage: diskStorage({
+    destination: (req: any, file: Express.Multer.File, cb: any) => {
+      const dir = USAGERS_IMPORT_DIR;
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      cb(null, dir);
+    },
+
+    filename: (req: any, file: Express.Multer.File, cb: any) => {
+      return cb(null, randomName(file));
+    },
+  }),
+});
+
+type UsagersImportMode = "preview" | "confirm";
 
 @UseGuards(AuthGuard("jwt"), FacteurGuard)
 @ApiTags("import")
 @ApiBearerAuth()
 @Controller("import")
 export class ImportController {
-  constructor(
-    private readonly usagersService: UsagersService,
-    private readonly structureService: StructuresService
-  ) {}
+  constructor(private readonly usagersService: UsagersService) {}
 
-  @Post()
-  @UseInterceptors(
-    FileInterceptor("file", {
-      limits: {
-        fieldSize: 10 * 1024 * 1024,
-        files: 1,
-      },
-      fileFilter: (req: any, file: Express.Multer.File, cb: any) => {
-        if (!validateUpload("IMPORT", req, file)) {
-          throw new HttpException("INCORRECT_FORMAT", HttpStatus.BAD_REQUEST);
-        }
-        cb(null, true);
-      },
-      storage: diskStorage({
-        destination: (req: any, file: Express.Multer.File, cb: any) => {
-          const dir = path.resolve(__dirname, "../../../imports/");
-          if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-          }
-          cb(null, dir);
-        },
-
-        filename: (req: any, file: Express.Multer.File, cb: any) => {
-          return cb(null, randomName(file));
-        },
-      }),
-    })
-  )
+  @Post(":mode")
+  @UseInterceptors(UsagersImportFileInterceptor)
   public async importExcel(
+    @Param("mode") importMode: UsagersImportMode,
     @Res() res: ExpressResponse,
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: AppAuthUser
@@ -86,12 +94,24 @@ export class ImportController {
     };
 
     const fileName = file.filename;
-    const filePath = path.resolve(__dirname, "../../../imports", fileName);
+    const filePath = path.resolve(USAGERS_IMPORT_DIR, fileName);
 
-    const usagerImportRows = await usagersImportExcelParser.parseFileSync(
-      filePath
-    );
-    processTracker.data = { count: usagerImportRows.length };
+    let usagerImportRows: {
+      rowNumber: number;
+      row: UsagersImportRow;
+    }[] = [];
+    try {
+      usagerImportRows = await usagersImportExcelParser.parseFileSync(filePath);
+      processTracker.data = { count: usagerImportRows.length };
+    } catch (err) {
+      appLogger.error(`Import unexpected error while opening upload file`, {
+        sentry: true,
+        extra: {
+          fileName,
+        },
+      });
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
+    }
 
     const today = moment.utc().endOf("day").toDate();
     const nextYear = moment.utc().add(1, "year").endOf("day").toDate();
@@ -138,10 +158,10 @@ export class ImportController {
           today,
         },
       });
-      if (errors.length) {
+      if (errors.length || importMode === "preview") {
         importErrors = importErrors.concat(errors);
         importPreviewRows.push({
-          isValid: false,
+          isValid: errors.length === 0,
           rowNumber,
           columns: row.reduce(
             (acc, value, i) => {
@@ -170,12 +190,7 @@ export class ImportController {
     processTracker.build = {
       start: new Date(),
     };
-    if (importErrors.length > 0) {
-      const error = {
-        ids: JSON.stringify(importErrors),
-        message: "IMPORT_ERRORS_BACKEND",
-      };
-
+    if (importErrors.length) {
       appLogger.error(`Import error for structure ${structureId}`, {
         sentry: true,
         extra: {
@@ -185,9 +200,11 @@ export class ImportController {
       });
 
       const previewTable: ImportPreviewTable = {
-        errorsCount: importErrors.length,
         isValid: false,
-        rows: importPreviewRows,
+        totalCount: importPreviewRows.length,
+        errorsCount: importErrors.length,
+        // keep only errors, limit to 50 results
+        rows: importPreviewRows.filter(({ isValid }) => !isValid).slice(0, 50),
       };
 
       throw new HttpException({ previewTable }, HttpStatus.BAD_REQUEST);
@@ -202,7 +219,20 @@ export class ImportController {
       );
     }
 
-    await this.usagersService.createFromImport({
+    if (importMode === "preview") {
+      const previewTable: ImportPreviewTable = {
+        isValid: true,
+        totalCount: importPreviewRows.length,
+        errorsCount: importErrors.length,
+        rows: importPreviewRows.slice(0, 50), // limit to 50 results
+      };
+      return res.status(HttpStatus.OK).json({
+        importMode,
+        previewTable,
+      });
+    }
+
+    await usagersImportCreator.createFromImport({
       usagersRows,
       user,
       processTracker,
@@ -224,7 +254,15 @@ export class ImportController {
         2
       )}`
     );
-
-    return res.status(HttpStatus.OK).json({ success: true });
+    const previewTable: ImportPreviewTable = {
+      isValid: true,
+      totalCount: importPreviewRows.length,
+      errorsCount: importErrors.length,
+      rows: [], // don't return rows
+    };
+    return res.status(HttpStatus.OK).json({
+      importMode,
+      previewTable,
+    });
   }
 }

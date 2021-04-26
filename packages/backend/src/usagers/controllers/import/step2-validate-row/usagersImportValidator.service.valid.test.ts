@@ -1,6 +1,6 @@
-import { TEST_VALID_IMPORT_ROW } from "../schema/test-data";
-import { UsagersImportUsager } from "../schema/UsagersImportUsagerSchema.yup";
-import { UsagersImportUsagerSchemaContext } from "../schema/UsagersImportUsagerSchemaContext.type";
+import { TEST_VALID_IMPORT_ROW } from "./schema/test-data";
+import { UsagersImportUsager } from "./schema/UsagersImportUsagerSchema.yup";
+import { UsagersImportUsagerSchemaContext } from "./schema/UsagersImportUsagerSchemaContext.type";
 import { usagersImportValidator } from "./usagersImportValidator.service";
 
 const today = new Date(Date.UTC(2021, 0, 1));

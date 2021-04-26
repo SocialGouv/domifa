@@ -10,8 +10,11 @@ import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecis
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { LoadingService } from "../../loading/loading.service";
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
+import { ImportPreviewTable } from "../components/import/preview";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
+
+export type UsagersImportMode = "preview" | "confirm";
 
 @Injectable({
   providedIn: "root",
@@ -194,7 +197,13 @@ export class UsagerService {
       );
   }
 
-  public import(data: FormData): Observable<any> {
-    return this.http.post(environment.apiUrl + "import", data);
+  public import(
+    mode: UsagersImportMode,
+    data: FormData
+  ): Observable<{
+    importMode: UsagersImportMode;
+    previewTable: ImportPreviewTable;
+  }> {
+    return this.http.post<any>(environment.apiUrl + "import/" + mode, data);
   }
 }

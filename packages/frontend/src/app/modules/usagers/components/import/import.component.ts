@@ -8,7 +8,10 @@ import { COLUMNS_HEADERS } from "../../../../../_common/import/COLUMNS_HEADERS.c
 import { AppUser } from "../../../../../_common/model";
 import { LoadingService } from "../../../loading/loading.service";
 import { AuthService } from "../../../shared/services/auth.service";
-import { UsagerService } from "../../services/usager.service";
+import {
+  UsagerService,
+  UsagersImportMode,
+} from "../../services/usager.service";
 import { IMPORT_PREVIEW_COLUMNS } from "./IMPORT_PREVIEW_COLUMNS.const";
 import { ImportPreviewRow, ImportPreviewTable } from "./preview";
 
@@ -36,14 +39,9 @@ export class ImportComponent implements OnInit {
 
   public nbreAyantsDroits: number[];
 
-  public etapeImport: number;
+  public etapeImport: "select-file" | "preview-import";
 
   public me: AppUser;
-
-  public etapes = [
-    "Téléchargement de votre fichier",
-    "Vérification des données",
-  ];
 
   public CUSTOM_ID = 0;
   public CIVILITE = 1;
@@ -113,7 +111,7 @@ export class ImportComponent implements OnInit {
     this.showErrors = false;
     this.showTable = false;
 
-    this.etapeImport = 0;
+    this.etapeImport = "select-file";
     this.showErrors = false;
     this.showTable = false;
     this.uploadError = false;
@@ -140,57 +138,74 @@ export class ImportComponent implements OnInit {
   }
 
   public onFileChange(event: Event) {
-    const input = event.target as HTMLInputElement;
+    try {
+      const input = event.target as HTMLInputElement;
 
-    if (
-      !input.files?.length ||
-      (input.files[0].type !== "application/vnd.ms-excel" &&
-        input.files[0].type !==
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
-        input.files[0].type !==
-          "application/vnd.oasis.opendocument.spreadsheet")
-    ) {
+      if (
+        !input.files?.length ||
+        (input.files[0].type !== "application/vnd.ms-excel" &&
+          input.files[0].type !==
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
+          input.files[0].type !==
+            "application/vnd.oasis.opendocument.spreadsheet")
+      ) {
+        this.uploadError = true;
+        this.notifService.error("Seul les fichiers Excel sont autorisés");
+        return;
+      }
+
+      this.etapeImport = "preview-import";
+      this.datas = [[], []];
+      this.showTable = false;
+
+      const file = input.files[0];
+      this.uploadForm.controls.fileInput.setValue(file);
+
+      this.submitFile("preview");
+    } catch (err) {
+      console.error("Error while uploading file", err);
       this.uploadError = true;
-      this.notifService.error("Seul les fichiers Excel sont autorisés");
-      return;
+      this.notifService.error("Erreur innatendue, veuillez réessayer.");
+      this.backToEtapeSelectFile();
     }
-
-    this.etapeImport = 1;
-    this.datas = [[], []];
-    this.showTable = true;
-
-    const file = input.files[0];
-    this.uploadForm.controls.fileInput.setValue(file);
-
-    this.submitFile();
   }
 
-  public submitFile() {
+  public submitFile(importMode: UsagersImportMode) {
     this.loadingService.startLoading();
 
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.fileInput.value);
 
-    this.usagerService.import(formData).subscribe(
-      (res: any) => {
-        this.notifService.success("L'import a eu lieu avec succès");
+    this.usagerService.import(importMode, formData).subscribe(
+      ({ importMode, previewTable }) => {
+        if (importMode === "preview") {
+          this.showTable = true;
+          this.previewTable = previewTable;
+          this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
+        } else {
+          // confirm
+          this.notifService.success("L'import a eu lieu avec succès");
+          this.router.navigate(["/manage"]);
+        }
         this.loadingService.stopLoading();
-        this.router.navigate(["/manage"]);
       },
       (error: HttpErrorResponse) => {
         this.notifService.error("Le fichier n'a pas pu être importé ");
         this.loadingService.stopLoading();
 
         if (error.error?.previewTable) {
+          this.showTable = true;
           this.previewTable = error.error.previewTable;
-          this.visibleRows = this.previewTable.isValid
-            ? this.previewTable.rows.slice(0, 50) // show only first 50 rows
-            : this.previewTable.rows.filter((x) => !x.isValid).slice(0, 50); // show only first 50 error rows
+          this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
+        } else {
+          this.backToEtapeSelectFile();
         }
       }
     );
   }
-  backToStep1() {
-    this.etapeImport = 0;
+  backToEtapeSelectFile() {
+    this.etapeImport = "select-file";
+    this.datas = [[], []];
+    this.showTable = false;
   }
 }

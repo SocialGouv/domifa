@@ -28,6 +28,7 @@ async function parseFileSync(
       xlRow.eachCell({ includeEmpty: true }, function (xlCell, cellNumber) {
         // ignore header row
         if (cellNumber < 100) {
+          // parse 100 cells max
           row.push(parseValue(xlCell));
         }
       });
@@ -51,10 +52,21 @@ function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
     return rawValue;
   }
   if (typeof rawValue === "string") {
-    if (!rawValue?.trim().length) {
-      return undefined;
-    }
-    return rawValue?.trim();
+    return cleanString(rawValue);
   }
-  return xlCell.result;
+  if (xlCell.type === ExcelJS.ValueType.Formula) {
+    const result = xlCell.result;
+    if (typeof result === "string") {
+      return cleanString(result);
+    }
+    return xlCell.result;
+  }
+  return cleanString(xlCell.toString());
+}
+
+function cleanString(str: string): string {
+  if (!str?.trim().length) {
+    return undefined;
+  }
+  return str?.trim();
 }
