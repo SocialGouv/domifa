@@ -10,7 +10,7 @@ export const environment = {
   },
   healthzCheck: {
     initialCheckDelay: 5,
-    checkPeriodIfSuccess: 30,
-    checkPeriodIfError: 5,
+    checkPeriodIfSuccess: 60,
+    checkPeriodIfError: 30,
   },
 };

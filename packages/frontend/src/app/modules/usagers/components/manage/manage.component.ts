@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import {
   Component,
   ElementRef,
@@ -36,7 +37,6 @@ import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
 import { interactionsLabels } from "../../interactions.labels";
-
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 import {
@@ -48,6 +48,7 @@ import {
   UsagersFilterCriteriaSortValues,
 } from "./usager-filter";
 
+const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({
   animations: [fadeInOutSlow, fadeInOut],
 
@@ -134,15 +135,21 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
 
     // reload every hour
-    timer(0, 3600000)
+    timer(0, AUTO_REFRESH_PERIOD)
       .pipe(
         switchMap(() => this.usagerService.getAllUsagers()),
         retryWhen((errors) =>
           // retry in case of error
           errors.pipe(
-            tap((err) => console.log(`Error loading usagers`, err)),
-            // retry in 5 seconds
-            delayWhen(() => timer(5000))
+            tap((err: HttpErrorResponse) => {
+              if (err?.status === 401) {
+                this.authService.logoutAndRedirect();
+              } else {
+                console.log(`Error loading usagers`, err);
+              }
+            }),
+            // retry in 30 seconds
+            delayWhen(() => timer(30000))
           )
         )
       )
