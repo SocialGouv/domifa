@@ -39,7 +39,10 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
-import { InteractionType } from "../../../../../_common/model/interaction";
+import {
+  InteractionForApi,
+  InteractionType,
+} from "../../../../../_common/model/interaction";
 import { interactionsLabels } from "../../interactions.labels";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
@@ -371,37 +374,18 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     }
   }
 
-  public setInteraction(
+  public setAppelOuPassage(
     usager: UsagerFormModel,
-    type: InteractionType,
-    procuration?: boolean
+    type: InteractionType
   ): void {
-    const interaction: {
-      content?: string;
-      type?: string;
-      procuration?: boolean;
-      transfert?: boolean;
-      nbCourrier: number;
-    } = {
-      content: "",
+    const interaction: InteractionForApi = {
       type,
       nbCourrier: 1,
     };
 
-    if (type === "courrierOut" && usager.options.procuration.actif) {
-      if (typeof procuration === "undefined") {
-        this.selectedUsager = usager;
-        this.modalService.open(this.distributionConfirm);
-        // open
-        return;
-      }
-      this.modalService.dismissAll();
-      interaction.procuration = procuration;
-    }
-
     this.matomo.trackEvent("interactions", "manage", type, 1);
 
-    this.interactionService.setInteraction(usager, interaction).subscribe(
+    this.interactionService.setInteraction(usager, [interaction]).subscribe(
       (newUsager: UsagerLight) => {
         usager = new UsagerFormModel(newUsager);
         this.updateUsager(usager);

@@ -4,4 +4,6 @@ export * from "./InteractionIn.type";
 export * from "./InteractionInForm.type";
 export * from "./InteractionOut.type";
 export * from "./InteractionOutForm.type";
-export * from "./INTERACTIONS_AVAILABLE.const";
+export * from "./INTERACTIONS_IN_AVAILABLE.const";
+export * from "./INTERACTIONS_OUT_AVAILABLE.const";
+export * from "./InteractionForApi.type";

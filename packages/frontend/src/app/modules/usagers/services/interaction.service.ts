@@ -1,3 +1,4 @@
+import { InteractionForApi } from "./../../../../_common/model/interaction/InteractionForApi.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -19,11 +20,11 @@ export class InteractionService {
 
   public setInteraction(
     usager: UsagerLight | UsagerFormModel,
-    interaction?: any
+    interactions: InteractionForApi[]
   ): Observable<UsagerLight> {
     return this.http.post<UsagerLight>(
       `${this.endPoint}${usager.ref}`,
-      interaction
+      interactions
     );
   }
 

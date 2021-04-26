@@ -134,7 +134,16 @@
   </div>
   <div class="text-left">
     <br />
-    <button class="btn btn-lg btn-primary mx-1" (click)="setInteractionForm()">
+
+    <button
+      [disabled]="
+        !interactionFormData.courrierOut.selected &&
+        !interactionFormData.recommandeOut.selected &&
+        !interactionFormData.colisOut.selected
+      "
+      class="btn btn-lg btn-primary mx-1"
+      (click)="setInteractionForm()"
+    >
       Confirmer la distribution
     </button>
     <button class="btn btn-lg mx-1" (click)="cancelReception.emit()">
