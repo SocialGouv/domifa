@@ -5,6 +5,8 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
+import { usagerValideMock } from "../../../../../_common/mocks/usager.mock";
+import { UsagerFormModel } from "../form/UsagerFormModel";
 
 import { SetInteractionInFormComponent } from "./set-interaction-in-form.component";
 
@@ -38,6 +40,7 @@ describe("SetInteractionInFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SetInteractionInFormComponent);
     component = fixture.componentInstance;
+    component.usager = new UsagerFormModel(usagerValideMock);
     fixture.detectChanges();
   });
 
