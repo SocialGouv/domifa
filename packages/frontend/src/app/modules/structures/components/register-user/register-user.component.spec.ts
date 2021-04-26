@@ -5,10 +5,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { RegisterUserComponent } from "./register-user.component";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("RegisterUserComponent", () => {
   let component: RegisterUserComponent;
@@ -31,7 +32,7 @@ describe("RegisterUserComponent", () => {
         }),
         HttpClientModule,
         HttpClientTestingModule,
-        RouterModule.forRoot([]),
+        RouterTestingModule,
       ],
 
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

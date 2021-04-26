@@ -5,6 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/compiler";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
@@ -25,10 +26,9 @@ describe("ProfilEditPreferenceComponent", () => {
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),
-        RouterModule.forRoot([]),
+        RouterTestingModule,
       ],
       providers: [
         {

@@ -72,6 +72,6 @@ describe("Interactions Controller", () => {
     const testFc = await controller.postInteraction(interaction, user, usager);
     expect(testFc).toBeDefined();
     expect(testFc.lastInteraction.enAttente).toBeTruthy();
-    expect(testFc.lastInteraction.colisIn).toEqual(16);
+    expect(testFc.lastInteraction.colisIn).toEqual(12);
   });
 });

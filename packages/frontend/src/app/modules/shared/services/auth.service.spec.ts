@@ -9,11 +9,7 @@ import { RouterModule } from "@angular/router";
 describe("AuthService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule,
-        RouterTestingModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [HttpClientModule, RouterTestingModule, RouterTestingModule],
       providers: [AuthService, { provide: APP_BASE_HREF, useValue: "/" }],
     });
   });

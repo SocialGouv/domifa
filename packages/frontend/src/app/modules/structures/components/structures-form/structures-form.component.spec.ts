@@ -9,6 +9,7 @@ import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { StructuresFormComponent } from "./structures-form.component";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("StructuresFormComponent", () => {
   let component: StructuresFormComponent;
@@ -21,7 +22,7 @@ describe("StructuresFormComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
+
         HttpClientTestingModule,
         ToastrModule.forRoot({
           enableHtml: true,
@@ -31,7 +32,7 @@ describe("StructuresFormComponent", () => {
           progressBar: true,
           timeOut: 2000,
         }),
-        RouterModule.forRoot([]),
+        RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
