@@ -4,12 +4,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   InteractionIn,
   InteractionOutForm,
-  INTERACTIONS_AVAILABLE,
+  INTERACTIONS_OUT_AVAILABLE,
 } from "../../../../../_common/model/interaction";
 
 import { InteractionService } from "../../services/interaction.service";
 import { ToastrService } from "ngx-toastr";
-import { forkJoin } from "rxjs";
+
 import { UsagerService } from "../../services/usager.service";
 
 @Component({
@@ -37,54 +37,44 @@ export class SetInteractionOutFormComponent implements OnInit {
       courrierOut: {
         nbCourrier: 0,
         procuration: false,
-        selected: true,
+        selected: false,
       },
       recommandeOut: {
         nbCourrier: 0,
         procuration: false,
-        selected: true,
+        selected: false,
       },
       colisOut: {
         nbCourrier: 0,
         procuration: false,
-        selected: true,
+        selected: false,
       },
     };
   }
 
   public ngOnInit(): void {
+    console.log(this.usager.lastInteraction);
     this.interactionFormData.courrierOut.nbCourrier = this.usager.lastInteraction.courrierIn;
     this.interactionFormData.recommandeOut.nbCourrier = this.usager.lastInteraction.recommandeIn;
     this.interactionFormData.colisOut.nbCourrier = this.usager.lastInteraction.colisIn;
-  }
 
-  // Ajout de courrier / colis / recommandé entrant
-  public setInteractionOut(usager: UsagerFormModel) {
-    this.interactionService
-      .setInteraction(usager, this.interactionFormData)
-      .subscribe(
-        (response: UsagerLight) => {
-          usager = new UsagerFormModel(response);
-
-          // this.notifService.success(interactionsLabels[type]);
-        },
-        (error) => {
-          this.notifService.error("Impossible d'enregistrer cette interaction");
-        }
-      );
+    this.interactionFormData.courrierOut.selected =
+      this.usager.lastInteraction.courrierIn > 0;
+    this.interactionFormData.recommandeOut.selected =
+      this.usager.lastInteraction.recommandeIn > 0;
+    this.interactionFormData.colisOut.selected =
+      this.usager.lastInteraction.colisIn > 0;
   }
 
   public setInteractionForm() {
-    const interactionsToSave = INTERACTIONS_AVAILABLE.reduce(
+    const interactionsToSave = INTERACTIONS_OUT_AVAILABLE.reduce(
       (filtered, interaction) => {
-        if (this.interactionFormData[interaction].nbCourrier > 0) {
-          filtered.push(
-            this.interactionService.setInteraction(this.usager, {
-              content: this.interactionFormData[interaction].content,
-              nbCourrier: this.interactionFormData[interaction].nbCourrier,
-              type: interaction,
-            })
-          );
+        if (this.interactionFormData[interaction].selected) {
+          filtered.push({
+            procuration: this.interactionFormData[interaction].procuration,
+            nbCourrier: this.interactionFormData[interaction].nbCourrier,
+            type: interaction,
+          });
         }
         return filtered;
       },
@@ -96,16 +86,18 @@ export class SetInteractionOutFormComponent implements OnInit {
       return;
     }
 
-    const joined$ = forkJoin(interactionsToSave);
-
-    joined$.subscribe(
-      (values: any) => {
-        this.refreshUsager();
-      },
-      () => {
-        this.notifService.error("Impossible d'enregistrer cette interaction");
-      }
-    );
+    this.interactionService
+      .setInteraction(this.usager, interactionsToSave)
+      .subscribe(
+        (values: any) => {
+          console.log(values);
+          this.notifService.success("Distribution effectuée avec succès");
+          this.refreshUsager();
+        },
+        () => {
+          this.notifService.error("Impossible d'enregistrer cette interaction");
+        }
+      );
   }
 
   // Actualiser les données de l'usager

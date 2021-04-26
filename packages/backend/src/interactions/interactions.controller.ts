@@ -6,6 +6,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseArrayPipe,
   Post,
   UseGuards,
 } from "@nestjs/common";
@@ -33,58 +34,63 @@ export class InteractionsController {
   ) {}
 
   @Post(":usagerRef")
-  public async postInteraction(
-    @Body() interaction: InteractionDto,
+  public async postInteractions(
+    @Body(new ParseArrayPipe({ items: InteractionDto }))
+    interactions: InteractionDto[],
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: UsagerLight
   ) {
-    const createdInteraction = await this.interactionsService.create({
-      interaction,
-      user,
-      usager,
-    });
+    // Parcours des demandes
+    for (let i = 0; i < interactions.length; i++) {
+      const interaction: InteractionDto = interactions[i] as InteractionDto;
+      console.log(interaction);
+      usager = await this.interactionsService.create({
+        interaction,
+        usager,
+        user,
+      });
 
-    // 1. Vérifier l'activation des SMS par la structure
-    if (
-      user.structure.sms.enabledByDomifa &&
-      user.structure.sms.enabledByStructure
-    ) {
-      // 2. Vérifier l'activation du SMS pour l'usager
-      if (usager.preference?.phone === true) {
-        // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
-        if (
-          interaction.type === "courrierIn" ||
-          interaction.type === "colisIn" ||
-          interaction.type === "recommandeIn"
-        ) {
-          // TODO:  3. Numéro de téléphone valide
-          const sms = await this.smsService.createSmsInteraction(
-            usager,
-            user,
-            interaction
-          );
-        } else if (
-          interaction.type === "courrierOut" ||
-          interaction.type === "colisOut" ||
-          interaction.type === "recommandeOut"
-        ) {
-          const len = interaction.type.length;
+      // 1. Vérifier l'activation des SMS par la structure
+      if (
+        user.structure.sms.enabledByDomifa &&
+        user.structure.sms.enabledByStructure
+      ) {
+        // 2. Vérifier l'activation du SMS pour l'usager
+        if (usager.preference?.phone === true) {
+          // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
+          if (
+            interaction.type === "courrierIn" ||
+            interaction.type === "colisIn" ||
+            interaction.type === "recommandeIn"
+          ) {
+            // TODO:  3. Numéro de téléphone valide
+            const sms = await this.smsService.createSmsInteraction(
+              usager,
+              user,
+              interaction
+            );
+          } else if (
+            interaction.type === "courrierOut" ||
+            interaction.type === "colisOut" ||
+            interaction.type === "recommandeOut"
+          ) {
+            const len = interaction.type.length;
 
-          const inType = ((interaction.type.substring(0, len - 3) +
-            "In") as unknown) as InteractionType;
+            const inType = ((interaction.type.substring(0, len - 3) +
+              "In") as unknown) as InteractionType;
 
-          interaction.type = inType;
-          // Suppression du SMS en file d'attente
-          const smsToDelete = await this.smsService.deleteSmsInteractionOut(
-            usager,
-            user,
-            interaction
-          );
+            interaction.type = inType;
+            // Suppression du SMS en file d'attente
+            const smsToDelete = await this.smsService.deleteSmsInteractionOut(
+              usager,
+              user,
+              interaction
+            );
+          }
         }
       }
     }
-
-    return createdInteraction;
+    return usager;
   }
 
   @Get(":usagerRef/:limit")

@@ -4,7 +4,7 @@ import {
   UsagerSexe,
   UsagerTypeDom,
 } from "../../../../../_common/model";
-import { INTERACTIONS_AVAILABLE } from "../../../../../_common/model/interaction";
+import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction";
 import { ETAPE_ETAT_CIVIL } from "../../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerAyantDroit } from "../../../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../../../_common/model/usager/UsagerDecision.type";
@@ -215,7 +215,7 @@ export class UsagerFormModel implements UsagerLight {
       }
     }
 
-    INTERACTIONS_AVAILABLE.forEach((interaction) => {
+    INTERACTIONS_IN_AVAILABLE.forEach((interaction) => {
       this.totalInteractionsEnAttente += this.lastInteraction[interaction];
     });
 

@@ -1,3 +1,5 @@
+import { INTERACTIONS_IN_AVAILABLE } from "./../../../../../_common/model/interaction/INTERACTIONS_IN_AVAILABLE.const";
+import { InteractionForApi } from "./../../../../../_common/model/interaction/InteractionForApi.type";
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -55,7 +57,6 @@ export class UsagersProfilComponent implements OnInit {
 
   public typeInteraction: InteractionType;
   public interactions: Interaction[];
-  public interactionsType: string[] = ["courrierIn", "recommandeIn", "colisIn"];
 
   public languagesAutocomplete = languagesAutocomplete;
 
@@ -326,21 +327,24 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public notifier(cpt: number) {
-    if (cpt >= this.interactionsType.length) {
+    if (cpt >= INTERACTIONS_IN_AVAILABLE.length) {
       return;
     }
 
-    const item = this.interactionsType[cpt];
+    const item: InteractionType = INTERACTIONS_IN_AVAILABLE[cpt];
+
     if (this.notifInputs[item] === 0) {
       this.notifier(cpt + 1);
     } else {
       this.matomo.trackEvent("interactions", "profil_icones", item, 1);
       this.interactionService
-        .setInteraction(this.usager, {
-          content: "",
-          nbCourrier: this.notifInputs[item],
-          type: item,
-        })
+        .setInteraction(this.usager, [
+          {
+            content: "",
+            nbCourrier: this.notifInputs[item],
+            type: item,
+          },
+        ])
         .subscribe(
           (usager: UsagerLight) => {
             this.notifService.success(interactionsLabels[item]);
@@ -362,13 +366,14 @@ export class UsagersProfilComponent implements OnInit {
   public setInteraction(type: InteractionType, procuration?: boolean) {
     const interaction: {
       content?: string;
-      type?: string;
-      nbCourrier?: number;
+      type: InteractionType;
+      nbCourrier: number;
       procuration?: boolean;
       transfert?: boolean;
     } = {
       content: "",
       type,
+      nbCourrier: 1,
     };
 
     this.matomo.trackEvent("interactions", "profil_icones", type, 1);
@@ -384,28 +389,26 @@ export class UsagersProfilComponent implements OnInit {
         this.modalService.dismissAll();
         interaction.procuration = procuration;
       }
-
-      if (this.usager.options.transfert.actif) {
-        interaction.transfert = true;
-      }
     }
 
     if (!interaction.nbCourrier) {
       interaction.nbCourrier = 1;
     }
 
-    this.interactionService.setInteraction(this.usager, interaction).subscribe(
-      (usager: UsagerLight) => {
-        this.usager = new UsagerFormModel(usager);
+    this.interactionService
+      .setInteraction(this.usager, [interaction])
+      .subscribe(
+        (usager: UsagerLight) => {
+          this.usager = new UsagerFormModel(usager);
 
-        this.notifService.success(interactionsLabels[type]);
-        this.usager.lastInteraction = usager.lastInteraction;
-        this.getInteractions();
-      },
-      () => {
-        this.notifService.error("Impossible d'enregistrer cette interaction");
-      }
-    );
+          this.notifService.success(interactionsLabels[type]);
+          this.usager.lastInteraction = usager.lastInteraction;
+          this.getInteractions();
+        },
+        () => {
+          this.notifService.error("Impossible d'enregistrer cette interaction");
+        }
+      );
   }
 
   public getAttestation() {
@@ -429,7 +432,7 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.stopCourrier(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usager.options = new Options(usager.options);
-        this.setInteraction("npai", false);
+        // this.setInteraction("npai", false);
       },
       () => {
         this.notifService.error("Cette opération a échoué");

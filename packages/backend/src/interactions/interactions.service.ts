@@ -195,8 +195,8 @@ function buildNewInteraction({
       usager.lastInteraction[interaction.type] + count;
     usager.lastInteraction.enAttente = true;
   } else if (interactionOut) {
+    // La procuration ne remet pas à jour le dernier passage
     if (interaction.procuration) {
-      // La procuration ne remet pas à jour le dernier passage
       newInteraction.content =
         "Courrier remis au mandataire : " +
         usager.options.procuration.prenom +
@@ -206,6 +206,7 @@ function buildNewInteraction({
       usager.lastInteraction.dateInteraction = new Date();
     }
 
+    // Transfert actif: on le précise dans le contenu
     if (usager.options.transfert.actif) {
       newInteraction.content =
         "Courrier transféré à : " +

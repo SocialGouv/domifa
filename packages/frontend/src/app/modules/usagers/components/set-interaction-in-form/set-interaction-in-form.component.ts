@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   InteractionIn,
   InteractionInForm,
-  INTERACTIONS_AVAILABLE,
+  INTERACTIONS_IN_AVAILABLE,
 } from "../../../../../_common/model/interaction";
 
 import { InteractionService } from "../../services/interaction.service";
@@ -49,7 +49,9 @@ export class SetInteractionInFormComponent implements OnInit {
     };
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    console.log(this.usager.lastInteraction);
+  }
 
   // Ajout de courrier / colis / recommandé entrant
   public setInteractionIn(usager: UsagerFormModel) {
@@ -68,16 +70,13 @@ export class SetInteractionInFormComponent implements OnInit {
   }
 
   public setInteractionForm() {
-    const interactionsToSave = INTERACTIONS_AVAILABLE.reduce(
+    const interactionsToSave = INTERACTIONS_IN_AVAILABLE.reduce(
       (filtered, interaction) => {
         if (this.interactionFormData[interaction].nbCourrier > 0) {
-          filtered.push(
-            this.interactionService.setInteraction(this.usager, {
-              content: this.interactionFormData[interaction].content,
-              nbCourrier: this.interactionFormData[interaction].nbCourrier,
-              type: interaction,
-            })
-          );
+          filtered.push({
+            nbCourrier: this.interactionFormData[interaction].nbCourrier,
+            type: interaction,
+          });
         }
         return filtered;
       },
@@ -89,17 +88,18 @@ export class SetInteractionInFormComponent implements OnInit {
       return;
     }
 
-    const joined$ = forkJoin(interactionsToSave);
-
-    joined$.subscribe(
-      (values: any) => {
-        this.notifService.success("Réception enregistrée avec succès");
-        this.refreshUsager();
-      },
-      () => {
-        this.notifService.error("Impossible d'enregistrer cette interaction");
-      }
-    );
+    this.interactionService
+      .setInteraction(this.usager, interactionsToSave)
+      .subscribe(
+        (values: any) => {
+          console.log(values);
+          this.notifService.success("Réception enregistrée avec succès");
+          this.refreshUsager();
+        },
+        () => {
+          this.notifService.error("Impossible d'enregistrer cette interaction");
+        }
+      );
   }
 
   // Actualiser les données de l'usager

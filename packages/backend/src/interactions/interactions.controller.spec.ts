@@ -58,7 +58,11 @@ describe("Interactions Controller", () => {
     interaction.type = "courrierOut";
     interaction.content = "Les impôts";
 
-    const testFc = await controller.postInteraction(interaction, user, usager);
+    const testFc = await controller.postInteractions(
+      [interaction],
+      user,
+      usager
+    );
     expect(testFc).toBeDefined();
   });
 
@@ -69,7 +73,11 @@ describe("Interactions Controller", () => {
     interaction.nbCourrier = 12;
     interaction.content = "Un colis sympa";
 
-    const testFc = await controller.postInteraction(interaction, user, usager);
+    const testFc = await controller.postInteractions(
+      [interaction],
+      user,
+      usager
+    );
     expect(testFc).toBeDefined();
     expect(testFc.lastInteraction.enAttente).toBeTruthy();
     expect(testFc.lastInteraction.colisIn).toEqual(12);
