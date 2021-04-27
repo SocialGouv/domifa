@@ -18,13 +18,12 @@ import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import {
   MessageEmailIcalEvent,
-  UsagerLight,
   usagerLightRepository,
   usersRepository,
 } from "../../database";
 import { usagerAppointmentCreatedEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
-import { AppAuthUser, UserProfile } from "../../_common/model";
+import { AppAuthUser, UsagerLight, UserProfile } from "../../_common/model";
 import { RdvDto } from "../dto/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
 

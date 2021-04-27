@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsOptional } from "class-validator";
-import { UsagerEntretien, UsagerRaisonDemande } from "../../database";
+import { UsagerEntretien, UsagerRaisonDemande } from "../../_common/model";
 
 export class EntretienDto implements UsagerEntretien {
   @IsOptional()

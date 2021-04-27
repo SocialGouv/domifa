@@ -1,7 +1,9 @@
-import { AppUser } from "../../../_common/model";
-import { InteractionType } from "../../../_common/model/interaction";
-import { MessageSms } from "../../../_common/model/message-sms";
-import { UsagerLight } from "../../entities";
+import {
+  AppUser,
+  InteractionType,
+  MessageSms,
+  UsagerLight,
+} from "../../../_common/model";
 import { MessageSmsTable } from "../../entities/message-sms/MessageSmsTable.typeorm";
 import { pgRepository } from "../_postgres";
 

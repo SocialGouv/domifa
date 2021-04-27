@@ -1,8 +1,10 @@
-import { UsagerDecisionMotif } from "../../../entities/usager/UsagerDecisionMotif.type";
-import { UsagerDecisionOrientation } from "../../../entities/usager/UsagerDecisionOrientation.type";
-import { UsagerDecisionStatut } from "../../../entities/usager/UsagerDecisionStatut.type";
-import { UsagerEntretien } from "../../../entities/usager/UsagerEntretien.type";
-import { UsagerTypeDom } from "../../../entities/usager/UsagerTypeDom.type";
+import {
+  UsagerDecisionMotif,
+  UsagerDecisionOrientation,
+  UsagerDecisionStatut,
+  UsagerEntretien,
+  UsagerTypeDom,
+} from "../../../../_common/model";
 
 export type UsagerAvancedSearchCriteria = {
   structureId?: number;

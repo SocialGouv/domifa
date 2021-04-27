@@ -1,9 +1,7 @@
 import moment = require("moment");
-import { UsagerPG } from "../../../../database";
-import { ETAPE_DOSSIER_COMPLET } from "../../../../database/entities/usager/ETAPES_DEMANDE.const";
-import { UsagerAyantDroit } from "../../../../database/entities/usager/UsagerAyantDroit.type";
-import { UsagerDecisionMotif } from "../../../../database/entities/usager/UsagerDecisionMotif.type";
-import { AppUser } from "../../../../_common/model";
+import { AppUser, Usager, UsagerAyantDroit } from "../../../../_common/model";
+import { ETAPE_DOSSIER_COMPLET } from "../../../../_common/model/usager/ETAPES_DEMANDE.const";
+import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { Entretien } from "../../../interfaces/entretien";
 import { UsagersImportUsager } from "../step2-validate-row/schema";
 
@@ -130,7 +128,7 @@ function buildUsager({
   }
 
   // Enregistrement
-  const usager: Partial<UsagerPG> = {
+  const usager: Partial<Usager> = {
     ayantsDroits: usagerRow.ayantsDroits.map((ad) => {
       const ayantDroit: UsagerAyantDroit = {
         dateNaissance: ad.dateNaissance,

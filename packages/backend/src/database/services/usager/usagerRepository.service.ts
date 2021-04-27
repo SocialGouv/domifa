@@ -2,8 +2,9 @@ import {
   StructureStatsQuestionsRaisonDemande,
   StructureStatsSexe,
   StructureStatsTranchesAge,
+  UsagerRaisonDemande,
+  UsagerSexe,
 } from "../../../_common/model";
-import { UsagerRaisonDemande, UsagerSexe } from "../../entities";
 import { UsagerAvancedSearchCriteria } from "./services";
 import { usagerAdvancedSearchQueryBuilder } from "./services/usagerAdvancedSearchQueryBuilder.service";
 import { usagerCoreRepository } from "./services/usagerCoreRepository.service";

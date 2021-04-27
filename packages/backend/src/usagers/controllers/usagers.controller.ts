@@ -22,18 +22,15 @@ import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
+import { usagerLightRepository, usagerRepository } from "../../database";
+import { InteractionsService } from "../../interactions/interactions.service";
 import {
-  UsagerLight,
-  usagerLightRepository,
-  usagerRepository,
-} from "../../database";
-import {
+  AppAuthUser,
   ETAPE_DOSSIER_COMPLET,
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
-} from "../../database/entities/usager/ETAPES_DEMANDE.const";
-import { InteractionsService } from "../../interactions/interactions.service";
-import { AppAuthUser } from "../../_common/model";
+  UsagerLight,
+} from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { DecisionDto } from "../dto/decision.dto";
 import { EditUsagerDto } from "../dto/edit-usager.dto";

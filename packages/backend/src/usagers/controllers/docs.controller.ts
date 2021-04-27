@@ -25,14 +25,14 @@ import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
+import { usagerRepository } from "../../database";
+import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 import {
+  AppAuthUser,
+  Usager,
   UsagerDoc,
   UsagerLight,
-  UsagerPG,
-  usagerRepository,
-} from "../../database";
-import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
-import { AppAuthUser } from "../../_common/model";
+} from "../../_common/model";
 import { DocumentsService } from "../services/documents.service";
 import { UsagersService } from "../services/usagers.service";
 
@@ -105,7 +105,7 @@ export class DocsController {
 
     this.encryptFile(fileName, res);
 
-    const toUpdate: Partial<UsagerPG> = {
+    const toUpdate: Partial<Usager> = {
       docs: usager.docs,
       docsPath: usager.docsPath,
     };

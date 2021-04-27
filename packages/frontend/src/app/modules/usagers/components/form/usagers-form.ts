@@ -17,7 +17,7 @@ import {
   minDateNaissance,
   minDateToday,
 } from "src/app/shared/bootstrap-util";
-import { AppUser, UsagerLight, UsagerPG } from "../../../../../_common/model";
+import { AppUser, Usager, UsagerLight } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
@@ -100,7 +100,7 @@ export class UsagersFormComponent implements OnInit {
       const id = this.route.snapshot.params.id;
 
       this.usagerService.findOne(id).subscribe(
-        (usager: UsagerPG) => {
+        (usager: Usager) => {
           this.usager = new UsagerFormModel(usager);
           this.initForm();
         },

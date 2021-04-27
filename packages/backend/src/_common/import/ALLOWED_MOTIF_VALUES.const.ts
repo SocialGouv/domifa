@@ -1,4 +1,4 @@
-import { UsagerDecisionMotif } from "../../database/entities/usager/UsagerDecisionMotif.type";
+import { UsagerDecisionMotif } from "../model/usager/UsagerDecisionMotif.type";
 
 export const ALLOWED_MOTIF_VALUES: UsagerDecisionMotif[] = [
   // RADIATIOn

@@ -1,4 +1,4 @@
-import { UsagerRaisonDemande } from "../../database";
+import { UsagerRaisonDemande } from "../../_common/model";
 
 export interface Entretien {
   domiciliation?: boolean;

@@ -3,11 +3,9 @@ import { FindConditions, LessThan, MoreThan, Repository } from "typeorm";
 import {
   appTypeormManager,
   InteractionsTable,
-  UsagerLight,
   usagerLightRepository,
-  UsagerPG,
 } from "../database";
-import { AppAuthUser, AppUser } from "../_common/model";
+import { AppAuthUser, AppUser, Usager, UsagerLight } from "../_common/model";
 import { Interactions, InteractionType } from "../_common/model/interaction";
 import { InteractionDto } from "./interactions.dto";
 
@@ -173,10 +171,10 @@ function buildNewInteraction({
   user,
 }: {
   interaction: InteractionDto;
-  usager: Pick<UsagerPG, "ref" | "uuid" | "lastInteraction" | "options">;
+  usager: Pick<Usager, "ref" | "uuid" | "lastInteraction" | "options">;
   user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
 }): {
-  usager: Pick<UsagerPG, "lastInteraction">;
+  usager: Pick<Usager, "lastInteraction">;
   newInteraction: Omit<InteractionsTable, "_id" | "id">;
 } {
   const newInteraction = new InteractionsTable(interaction);
