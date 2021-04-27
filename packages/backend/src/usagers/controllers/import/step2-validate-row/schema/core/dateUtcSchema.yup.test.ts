@@ -1,4 +1,4 @@
-import { dateUtcSchema } from "./dateUtc.yup";
+import { dateUtcSchema } from "./dateUtcSchema.yup";
 
 describe("dateUtcSchema schema", () => {
   it("valid date", async () => {
@@ -9,6 +9,7 @@ describe("dateUtcSchema schema", () => {
       new Date(Date.UTC(1920, 12 - 1, 31))
     );
   });
+
   it("invalid date", async () => {
     await expect(dateUtcSchema().validate("15-12-1920")).rejects.toThrow();
     await expect(dateUtcSchema().validate("32/12/1920")).rejects.toThrow();
@@ -18,7 +19,13 @@ describe("dateUtcSchema schema", () => {
     await expect(dateUtcSchema().validate("undefined")).rejects.toThrow();
     await expect(dateUtcSchema().validate("2019-12-10")).rejects.toThrow();
     await expect(dateUtcSchema().validate("1/00/1900")).rejects.toThrow();
+
+    // Tests
+    await expect(
+      dateUtcSchema().validate(new Date("1/00/1900"))
+    ).rejects.toThrow();
   });
+
   it("valid date with valid validation", async () => {
     expect(
       await dateUtcSchema()
@@ -27,6 +34,7 @@ describe("dateUtcSchema schema", () => {
         .validate("15/03/2020")
     ).toEqual(new Date(Date.UTC(2020, 3 - 1, 15)));
   });
+
   it("valid date with invalid validation", async () => {
     await expect(
       dateUtcSchema()

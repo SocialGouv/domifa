@@ -26,9 +26,9 @@ async function parseAndValidate({
   errors: UsagersImportError[];
   usagerRow?: UsagersImportUsager;
 }> {
-  try {
-    const rowAsObject = buildRowAsUsagerObject(row);
+  const rowAsObject = buildRowAsUsagerObject(row);
 
+  try {
     const usagerRow: UsagersImportUsager = await UsagersImportUsagerSchema.validate(
       rowAsObject,
       {
@@ -36,15 +36,18 @@ async function parseAndValidate({
         abortEarly: false,
       }
     );
+
     return { errors: [], usagerRow };
   } catch (err) {
     const errors = usagersImportErrorBuilder.buildErrors({
       err,
       rowNumber,
+      rowAsObject,
     });
     return { errors };
   }
 }
+
 function buildRowAsUsagerObject(row: UsagersImportRow) {
   const rowAsObject: any = Object.keys(USAGERS_IMPORT_COLUMNS).reduce(
     (acc, key) => {

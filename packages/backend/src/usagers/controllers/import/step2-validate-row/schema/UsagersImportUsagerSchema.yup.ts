@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { TypeOf } from "yup";
+
 import { booleanOuiNon, dateUtcSchema, oneOfString, phone } from "./core";
 import { email } from "./core/email.yup";
 
@@ -121,4 +121,4 @@ export const UsagersImportUsagerSchema = yup
   })
   .label("UsagersImportUsager");
 
-export type UsagersImportUsager = TypeOf<typeof UsagersImportUsagerSchema>;
+export type UsagersImportUsager = yup.TypeOf<typeof UsagersImportUsagerSchema>;
