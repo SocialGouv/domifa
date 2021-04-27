@@ -168,12 +168,6 @@ export class StatsGeneratorService {
   }) {
     expectDateToHaveNoUtcHoursMinutes(statsDateUTC);
 
-    const dateMajorite = moment
-      .utc(statsDateUTC)
-      .subtract(18, "year")
-      .endOf("day")
-      .toDate();
-
     // End of stat day
     const statsDateEndOfDayUTC = moment
       .utc(statsDateUTC)
@@ -296,7 +290,6 @@ export class StatsGeneratorService {
     stat.questions.Q_10 = await usagerRepository.countDomiciliations({
       structureId: structure.id,
       actifsInHistoryBefore: statsDateEndOfDayUTC,
-      logSql: false,
     });
 
     // Dont Premiere demande
