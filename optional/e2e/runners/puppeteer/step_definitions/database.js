@@ -10,7 +10,7 @@ Soit("une nouvelle base de donnée", async () => {
   const { output } = require("codeceptjs");
   {
     // restore POSTGRES DB
-    const scriptPath = path.join(rootPath, process.env.DOMIFA_2E2_RESTORE_DATABASES_SCRIPT || '_scripts/db/restore-databases-docker.sh')
+    const scriptPath = path.join(rootPath, process.env.DOMIFA_2E2_RESTORE_DATABASES_SCRIPT || '_scripts/db/restore-database-docker.sh')
     const scriptArgs = ['--db=test'];
 
     console.warn(`RUN POSTGRES RESET SCRIPT with args "${scriptArgs}": ${scriptPath}`)
