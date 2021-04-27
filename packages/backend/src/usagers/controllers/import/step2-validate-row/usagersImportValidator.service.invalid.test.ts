@@ -1,4 +1,4 @@
-import { UsagersImportUsagerSchemaContext } from "../schema";
+import { UsagersImportUsagerSchemaContext } from "./schema";
 import { usagersImportValidator } from "./usagersImportValidator.service";
 
 const today = new Date(Date.UTC(2021, 0, 1));
@@ -92,6 +92,12 @@ describe("usagersImportValidator parse invalid data", () => {
         label: "Statut domiciliation",
         rowNumber: 10,
         value: "INVALID-STATUTDOM",
+      },
+      {
+        columnNumber: 16,
+        label: "Date 1ere domiciliation",
+        rowNumber: 10,
+        value: new Date(Date.UTC(2050, 3 - 1, 10)),
       },
       {
         columnNumber: 17,

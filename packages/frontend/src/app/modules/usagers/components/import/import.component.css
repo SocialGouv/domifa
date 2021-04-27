@@ -1,3 +1,7 @@
+#import-table {
+  max-height: 50vh;
+  overflow: auto;
+}
 #import-table table {
   min-width: 6500px;
 }

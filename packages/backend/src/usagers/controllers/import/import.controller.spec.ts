@@ -65,7 +65,7 @@ describe("Import Controller", () => {
     expect(fs.existsSync(importFilePath)).toBeTruthy();
 
     const response = await request(app.getHttpServer())
-      .post("/import")
+      .post("/import/confirm")
       .set("Authorization", `Bearer ${authToken}`)
       .set("Content-Type", "multipart/form-data")
       .attach("file", importFilePath)
@@ -81,14 +81,22 @@ describe("Import Controller", () => {
     expect(fs.existsSync(importFilePath)).toBeTruthy();
 
     const response = await request(app.getHttpServer())
-      .post("/import")
+      .post("/import/confirm")
       .set("Authorization", `Bearer ${authToken}`)
       .set("Content-Type", "multipart/form-data")
       .attach("file", importFilePath)
       .expect(200);
 
     expect(response.status).toBe(HttpStatus.OK);
-    expect(JSON.parse(response.text)).toEqual({ success: true });
+    expect(JSON.parse(response.text)).toEqual({
+      importMode: "confirm",
+      previewTable: {
+        errorsCount: 0,
+        isValid: true,
+        rows: [],
+        totalCount: 0,
+      },
+    });
     done();
   });
 
@@ -98,14 +106,22 @@ describe("Import Controller", () => {
     expect(fs.existsSync(importFilePath)).toBeTruthy();
 
     const response = await request(app.getHttpServer())
-      .post("/import")
+      .post("/import/confirm")
       .set("Authorization", `Bearer ${authToken}`)
       .set("Content-Type", "multipart/form-data")
       .attach("file", importFilePath)
       .expect(200);
 
     expect(response.status).toBe(HttpStatus.OK);
-    expect(JSON.parse(response.text)).toEqual({ success: true });
+    expect(JSON.parse(response.text)).toEqual({
+      importMode: "confirm",
+      previewTable: {
+        errorsCount: 0,
+        isValid: true,
+        rows: [],
+        totalCount: 0,
+      },
+    });
     done();
   });
 

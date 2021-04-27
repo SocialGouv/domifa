@@ -1,7 +1,8 @@
 import { ImportPreviewRow } from "./ImportPreviewRow.type";
 
 export type ImportPreviewTable = {
-  rows: ImportPreviewRow[];
   isValid: boolean;
+  rows: ImportPreviewRow[];
+  totalCount: number;
   errorsCount: number;
 };

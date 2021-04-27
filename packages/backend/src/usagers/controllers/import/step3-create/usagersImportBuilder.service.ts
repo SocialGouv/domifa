@@ -5,7 +5,7 @@ import { UsagerAyantDroit } from "../../../../database/entities/usager/UsagerAya
 import { UsagerDecisionMotif } from "../../../../database/entities/usager/UsagerDecisionMotif.type";
 import { AppUser } from "../../../../_common/model";
 import { Entretien } from "../../../interfaces/entretien";
-import { UsagersImportUsager } from "../schema";
+import { UsagersImportUsager } from "../step2-validate-row/schema";
 
 export const usagersImportBuilder = {
   buildUsagers,

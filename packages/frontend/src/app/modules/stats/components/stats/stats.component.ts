@@ -39,7 +39,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
 
   public structure: StructureCommon;
 
-  public labels: any;
+  public labels;
   public interactionsLabels: any;
 
   public exportLoading: boolean;

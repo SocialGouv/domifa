@@ -103,7 +103,7 @@ describe("UsagersImportCiviliteSchema dates", () => {
         },
         { context }
       )
-    ).rejects.toThrowError("dateDebutDom is a required field");
+    ).rejects.toThrowError("dateFinDom field must be later than undefined");
   });
 
   it("statutDom=VALIDE dateFinDom missing", async () => {
@@ -118,5 +118,21 @@ describe("UsagersImportCiviliteSchema dates", () => {
         { context }
       )
     ).rejects.toThrowError("dateFinDom is a required field");
+  });
+
+  it("statutDom=VALIDE dateDebutDom > dateFinDom", async () => {
+    await expect(
+      UsagersImportUsagerSchema.validate(
+        {
+          ...TEST_VALID_IMPORT_USAGER,
+          statutDom: "VALIDE",
+          dateDebutDom: "03/02/2022",
+          dateFinDom: "05/10/2021",
+        },
+        { context }
+      )
+    ).rejects.toThrowError(
+      "dateFinDom field must be later than 2022-02-03T00:00:00.000Z"
+    );
   });
 });

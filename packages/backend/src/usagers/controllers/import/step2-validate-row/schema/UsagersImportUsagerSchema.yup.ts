@@ -17,8 +17,8 @@ export const UsagersImportUsagerSchema = yup
       .required(),
     lieuNaissance: yup.string().required(),
     phone: phone(),
-    email: email(),
-    statutDom: oneOfString(["VALIDE", "REFUS", "RADIE"]).notRequired(),
+    email: email().notRequired(),
+    statutDom: oneOfString(["VALIDE", "REFUS", "RADIE"]).required(),
     motifRefus: oneOfString([
       "LIEN_COMMUNE",
       "SATURATION",
@@ -34,7 +34,7 @@ export const UsagersImportUsagerSchema = yup
       "NON_RESPECT_REGLEMENT",
       "AUTRE",
     ]).notRequired(),
-    typeDom: oneOfString(["PREMIERE", "RENOUVELLEMENT"]).notRequired(),
+    typeDom: oneOfString(["PREMIERE", "RENOUVELLEMENT"]).required(),
     dateDebutDom: dateUtcSchema()
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))
@@ -46,10 +46,13 @@ export const UsagersImportUsagerSchema = yup
       .min(yup.ref("$minDate"))
       .max(yup.ref("$nextYear"))
       .when("statutDom", {
-        is: (statutDom) => !["REFUS", "RADIE"].includes(statutDom),
-        then: dateUtcSchema().required(),
+        is: (statutDom) => !["REFUS", "RADIE"].includes(statutDom), // = VALIDE
+        then: dateUtcSchema().min(yup.ref("dateDebutDom")).required(),
       }),
-    datePremiereDom: dateUtcSchema(),
+    datePremiereDom: dateUtcSchema()
+      .min(yup.ref("$minDate"))
+      .max(yup.ref("$today"))
+      .notRequired(),
     dateDernierPassage: dateUtcSchema()
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))

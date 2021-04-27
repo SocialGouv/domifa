@@ -1,32 +1,48 @@
 <br />
 
 <div id="steps">
-  <div class="step" *ngFor="let etape of etapes; let i = index" id="step{{ i }}">
+  <div class="step" id="step0">
     <div>
-      <span *ngIf="etapeImport > i" class="step_number step_check">
+      <span *ngIf="etapeImport === 'select-file'" [ngClass]="{
+        step_active: etapeImport === 'select-file',
+        step_inactive: etapeImport !== 'select-file'
+        }" class="step_number">
+       1
+      </span>
+      <span *ngIf="etapeImport !== 'select-file'" class="step_number step_check" (click)="backToEtapeSelectFile()">
         <fa-icon icon="check"></fa-icon>
       </span>
-      <span *ngIf="etapeImport <= i" [ngClass]="{
-          step_active: etapeImport == i,
-          step_inactive: i > 0 && etapeImport != i
-        }" class="step_number">
-        {{ i + 1 }}
-      </span>
       <span [ngClass]="{
-          step_text_active: etapeImport == i,
-          step_text_inactive: i > 0 && etapeImport != i
+        step_text_active: etapeImport === 'select-file',
+        step_text_inactive: etapeImport !== 'select-file'
         }" class="step_text">
-        {{ etape }}
+        Téléchargement de votre fichier
       </span>
     </div>
-    <div *ngIf="i < 1" [className]="etapeImport > i ? 'check_sep' : ''">
-      <span class="separateur" [ngClass]="{ separateur_inactive: i > 0 }"></span>
+    <div className="check_sep">
+      <span class="separateur" ngClass="separateur_inactive"></span>
+    </div>
+  </div>
+  <div class="step" id="step1">
+    <div>
+      <span [ngClass]="{
+        step_active: etapeImport === 'preview-import',
+        step_inactive: etapeImport !== 'preview-import'
+        }" class="step_number">
+       2
+      </span>
+      <span [ngClass]="{
+        step_text_active: etapeImport === 'preview-import',
+        step_text_inactive: etapeImport !== 'preview-import'
+        }" class="step_text">
+        Vérification des données
+      </span>
     </div>
   </div>
 </div>
 
 <br />
-<div *ngIf="etapeImport == 0">
+<div *ngIf="etapeImport === 'select-file'">
   <div class="col-md-8 offset-md-2 text-center">
     <h4 class="text-center">Étape 1 : Télécharger et compléter le modèle</h4>
     <p>
@@ -68,16 +84,16 @@
   </div>
 </div>
 
-<div *ngIf="etapeImport == 1">
+<div *ngIf="etapeImport === 'preview-import'">
   <div class="col-md-10 offset-md-1 text-center">
     <div class="form-group" *ngIf="!uploadForm.invalid">
       <div class="text-center" *ngIf="previewTable">
         <h4 class="text-primary">Votre fichier est prêt à être importé !</h4>
-        <b>{{ previewTable.rows.length }} domiciliés</b>
+        <b>{{ previewTable.totalCount }} domiciliés</b>
         seront importés sur Domifa
       </div>
       <br />
-      <form #form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
+      <form #form [formGroup]="uploadForm" (ngSubmit)="submitFile('confirm')">
         <div>
           <input type="hidden" name="fileHidden" formControlName="fileInput" required />
           <button type="submit" class="btn btn-primary" *ngIf="previewTable?.errorsCount === 0">
@@ -99,7 +115,7 @@
       </p>
     </div>
 
-    <button *ngIf="previewTable?.errorsCount > 0" (click)="backToStep1()" class="btn btn-danger">
+    <button *ngIf="previewTable?.errorsCount > 0" (click)="backToEtapeSelectFile()" class="btn btn-danger">
       Recommencer
     </button>
     &nbsp;
@@ -362,11 +378,11 @@
           </tr>
         </tbody>
       </table>
-      <div *ngIf="visibleRows && previewTable && previewTable.isValid && visibleRows.length !== previewTable.rows.length" class="text-danger">
-        <p>
-          Note: seules les 50 premières lignes du fichier sont affichées.
-        </p>
-      </div>
+    </div>
+    <div *ngIf="visibleRows && previewTable && previewTable.isValid && visibleRows.length !== previewTable.totalCount" class="text-danger">
+      <p>
+        Note: seules les 50 premières lignes du fichier sont affichées.
+      </p>
     </div>
   </div>
 </div>
