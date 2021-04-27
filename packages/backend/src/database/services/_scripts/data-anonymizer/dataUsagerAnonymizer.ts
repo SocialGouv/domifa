@@ -1,6 +1,6 @@
 import { INestApplication } from "@nestjs/common";
 import { appLogger } from "../../../../util";
-import { UsagerPG } from "../../../entities";
+import { Usager } from "../../../../_common/model";
 import { usagerRepository } from "../../usager/usagerRepository.service";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
@@ -44,17 +44,17 @@ async function anonymizeUsagers({ app }: { app: INestApplication }) {
     await _anonymizeUsager(usager, { app });
   }
 }
-function isUsagerToAnonymize(x: UsagerPG): unknown {
+function isUsagerToAnonymize(x: Usager): unknown {
   return dataStructureAnonymizer.isStructureToAnonymise({ id: x.structureId });
 }
 
 async function _anonymizeUsager(
-  usager: UsagerPG,
+  usager: Usager,
   { app }: { app: INestApplication }
 ) {
   // appLogger.debug(`[dataUsagerAnonymizer] check usager "${usager.ref}"`);
 
-  const attributesToUpdate: Partial<UsagerPG> = {
+  const attributesToUpdate: Partial<Usager> = {
     email: `usager-${usager.ref}@domifa-fake.fabrique.social.gouv.fr`,
     prenom: dataGenerator.firstName(),
     nom: dataGenerator.lastName(),

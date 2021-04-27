@@ -1,4 +1,5 @@
-import { UsagerLight, UsagerPG, UsagerTable } from "../../entities";
+import { Usager, UsagerLight } from "../../../_common/model";
+import { UsagerTable } from "../../entities";
 import { pgRepository, PgRepositoryFindOrder } from "../_postgres";
 
 const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
@@ -69,7 +70,7 @@ function findNextRendezVous({
 }: {
   userId: number;
   dateRefNow?: Date;
-}): Promise<Pick<UsagerPG, "nom" | "prenom" | "uuid" | "ref" | "rdv">[]> {
+}): Promise<Pick<Usager, "nom" | "prenom" | "uuid" | "ref" | "rdv">[]> {
   return baseRepository.findManyWithQuery({
     where: `rdv->>'userId' = :userId 
       and (rdv->>'dateRdv')::timestamptz > :dateRefNow`,

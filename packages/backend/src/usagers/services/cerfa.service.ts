@@ -1,10 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
-import { UsagerPG } from "../../database";
-import { UsagerCerfaFields } from "../../database/entities/usager/UsagerCerfaFields.type";
 import { appLogger } from "../../util";
-import { AppAuthUser } from "../../_common/model";
+import { AppAuthUser, Usager } from "../../_common/model";
+import { UsagerCerfaFields } from "../../_common/model/usager/UsagerCerfaFields.type";
 import { DateCerfa } from "../interfaces/date-cerfa";
 
 // tslint:disable-next-line: no-var-requires
@@ -24,7 +23,7 @@ export class CerfaService {
     };
   }
 
-  public async attestation(usager: UsagerPG, user: AppAuthUser) {
+  public async attestation(usager: Usager, user: AppAuthUser) {
     const pdfForm =
       usager.decision.statut === "VALIDE"
         ? "../../_static/static-docs/attestation.pdf"

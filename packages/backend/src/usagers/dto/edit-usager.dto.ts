@@ -1,9 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
-import { UsagerPG, UsagerSexe, UsagerTypeDom } from "../../database";
-import { UsagerAyantDroit } from "../../database/entities/usager/UsagerAyantDroit.type";
+import {
+  Usager,
+  UsagerAyantDroit,
+  UsagerSexe,
+  UsagerTypeDom,
+} from "../../_common/model";
 
-export class EditUsagerDto implements Partial<UsagerPG> {
+export class EditUsagerDto implements Partial<Usager> {
   @ApiProperty()
   @IsIn(["homme", "femme"])
   public sexe!: UsagerSexe;

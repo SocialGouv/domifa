@@ -4,14 +4,18 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
-import { UsagerLight } from "../../database";
 import {
   structureUsagersExporter,
   StructureUsagersExportModel,
 } from "../../excel/export-structure-usagers";
 import { InteractionsService } from "../../interactions/interactions.service";
 import { appLogger } from "../../util";
-import { AppAuthUser, AppUser, UserRole } from "../../_common/model";
+import {
+  AppAuthUser,
+  AppUser,
+  UsagerLight,
+  UserRole,
+} from "../../_common/model";
 import { UsagersService } from "../services/usagers.service";
 
 import moment = require("moment");

@@ -1,9 +1,9 @@
-import { UsagerPG, usagerRepository, usersRepository } from "../database";
+import { usagerRepository, usersRepository } from "../database";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
-import { AppUser } from "../_common/model";
+import { AppUser, Usager } from "../_common/model";
 import { InteractionDto } from "./interactions.dto";
 import { InteractionsModule } from "./interactions.module";
 import { InteractionsService } from "./interactions.service";
@@ -14,7 +14,7 @@ describe("InteractionsService", () => {
   let interactionsService: InteractionsService;
 
   let user: AppUser;
-  let usager: UsagerPG;
+  let usager: Usager;
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({

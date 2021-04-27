@@ -13,8 +13,7 @@ import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { UsagerLight } from "../../database";
-import { AppUser } from "../../_common/model";
+import { AppUser, UsagerLight } from "../../_common/model";
 import {
   buildCustomDoc,
   customDocTemplateLoader,

@@ -5,14 +5,17 @@ import {
   InteractionsTable,
   structureRepository,
   typeOrmSearch,
-  UsagerDecisionStatut,
   usagerRepository,
   UsagerTable,
   usersRepository,
 } from "../../database";
 import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
-import { DashboardStats, StructureType } from "../../_common/model";
+import {
+  DashboardStats,
+  StructureType,
+  UsagerDecisionStatut,
+} from "../../_common/model";
 import { InteractionType } from "../../_common/model/interaction";
 import { StructureAdmin } from "../../_common/model/structure/StructureAdmin.type";
 import { StatsGeneratorService } from "./stats-generator.service";

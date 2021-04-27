@@ -1,8 +1,8 @@
-import { UsagerPG } from "../../database";
+import { Usager } from "../../_common/model";
 
 export type StructureUsagersExportModel = {
   exportDate: Date;
-  usagers: UsagerPG[];
+  usagers: Usager[];
   usagersInteractionsCountByType: {
     [usagerRef: number]: { [interactionType: string]: number };
   };

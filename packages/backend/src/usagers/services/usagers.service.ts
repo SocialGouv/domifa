@@ -1,25 +1,25 @@
 import { Injectable } from "@nestjs/common";
 import {
-  UsagerLight,
   usagerLightRepository,
-  UsagerPG,
   usagerRepository,
   UsagerTable,
 } from "../../database";
 import {
+  AppUser,
   ETAPE_DECISION,
   ETAPE_DOCUMENTS,
   ETAPE_DOSSIER_COMPLET,
   ETAPE_ENTRETIEN,
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
-} from "../../database/entities/usager/ETAPES_DEMANDE.const";
-import { UsagerDecision } from "../../database/entities/usager/UsagerDecision.type";
-import { AppUser, UserProfile } from "../../_common/model";
+  Usager,
+  UsagerDecision,
+  UsagerLight,
+  UserProfile,
+} from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
-import { Usager } from "../interfaces/usagers";
 import { usagersCreator } from "./usagersCreator.service";
 
 import moment = require("moment");
@@ -54,7 +54,7 @@ export class UsagersService {
 
   public async patch(
     { uuid }: { uuid: string },
-    update: Partial<UsagerPG>
+    update: Partial<Usager>
   ): Promise<Usager> {
     return usagerLightRepository.updateOne({ uuid }, update);
   }
@@ -194,7 +194,7 @@ export class UsagersService {
     return usagerLightRepository.save(usager);
   }
 
-  public async export(structureId: number): Promise<UsagerPG[]> {
+  public async export(structureId: number): Promise<Usager[]> {
     return usagerRepository.findMany({ structureId });
   }
 }

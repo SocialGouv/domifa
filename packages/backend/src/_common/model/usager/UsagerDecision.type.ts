@@ -4,9 +4,10 @@ import { UsagerDecisionStatut } from "./UsagerDecisionStatut.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
 
 export type UsagerDecision = {
+  dateDecision: Date; // Now()
+
   dateDebut?: Date;
   dateFin?: Date;
-  dateDecision: Date; // Now()
 
   typeDom?: UsagerTypeDom;
   statut: UsagerDecisionStatut;

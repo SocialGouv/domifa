@@ -3,8 +3,8 @@ import {
   AppUserForAdminEmail,
   MessageEmailContent,
   MessageEmailIcalEvent,
-  UsagerLight,
 } from "../../../../database";
+import { UsagerLight } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,

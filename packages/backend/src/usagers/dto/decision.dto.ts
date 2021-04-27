@@ -1,9 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmpty, IsIn, IsNotEmpty, IsOptional } from "class-validator";
-import { UsagerDecisionStatut, UsagerTypeDom } from "../../database";
-import { UsagerDecision } from "../../database/entities/usager/UsagerDecision.type";
-import { UsagerDecisionMotif } from "../../database/entities/usager/UsagerDecisionMotif.type";
-import { UsagerDecisionOrientation } from "../../database/entities/usager/UsagerDecisionOrientation.type";
+import {
+  UsagerDecision,
+  UsagerDecisionMotif,
+  UsagerDecisionOrientation,
+  UsagerDecisionStatut,
+  UsagerTypeDom,
+} from "../../_common/model";
 
 export class DecisionDto implements UsagerDecision {
   @ApiProperty({

@@ -10,7 +10,7 @@ import { UsagerRdv } from "./UsagerRdv.type";
 import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
 
-export type UsagerPG = AppEntity & {
+export type Usager = AppEntity & {
   ref: number; // unique par structure
   customRef: string; // valeur par défaut: 'ref'
   structureId: number;
