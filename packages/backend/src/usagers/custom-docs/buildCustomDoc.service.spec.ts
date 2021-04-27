@@ -1,6 +1,8 @@
-import { UsagerLight } from "../../database";
-import { StructureCommon } from "../../_common/model";
-import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
+import {
+  StructureCommon,
+  StructureCustomDoc,
+  UsagerLight,
+} from "../../_common/model";
 import { buildCustomDoc } from "./buildCustomDoc.service";
 import { generatedAttestationMock } from "./mocks/generatedAttestationMock";
 

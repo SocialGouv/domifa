@@ -1,9 +1,9 @@
 import { AppEntity } from "../../../_common/model";
-import { UsagerPG } from "./UsagerPG.type";
+import { Usager } from "./Usager.type";
 
 export type UsagerLight = AppEntity &
   Pick<
-    UsagerPG,
+    Usager,
     | "ref"
     | "customRef"
     | "structureId"

@@ -1,24 +1,26 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
-import { UsagerSexe } from ".";
+import {
+  Usager,
+  UsagerDoc,
+  UsagerEntretien,
+  UsagerLastInteractions,
+  UsagerOptions,
+  UsagerPreferenceContact,
+  UsagerRdv,
+  UsagerSexe,
+  UsagerTypeDom,
+} from "../../../_common/model";
+import { UsagerAyantDroit } from "../../../_common/model/usager/UsagerAyantDroit.type";
+import { UsagerDecision } from "../../../_common/model/usager/UsagerDecision.type";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
-import { UsagerDecision } from "./UsagerDecision.type";
-import { UsagerDoc } from "./UsagerDoc.type";
-import { UsagerEntretien } from "./UsagerEntretien.type";
-import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
-import { UsagerOptions } from "./UsagerOptions.type";
-import { UsagerPG } from "./UsagerPG.type";
-import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
-import { UsagerRdv } from "./UsagerRdv.type";
-import { UsagerTypeDom } from "./UsagerTypeDom.type";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
 @Unique(["structureId", "ref"])
 export class UsagerTable
   extends AppTypeormTable<UsagerTable>
-  implements UsagerPG {
+  implements Usager {
   // ETAT-CIVIL
   // pas de "id", mais un champ 'ref'
   @Index()

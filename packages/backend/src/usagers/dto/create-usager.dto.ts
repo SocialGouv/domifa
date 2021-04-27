@@ -7,8 +7,11 @@ import {
   Max,
   Min,
 } from "class-validator";
-import { UsagerSexe, UsagerTypeDom } from "../../database";
-import { UsagerAyantDroit } from "../../database/entities/usager/UsagerAyantDroit.type";
+import {
+  UsagerAyantDroit,
+  UsagerSexe,
+  UsagerTypeDom,
+} from "../../_common/model";
 
 export class CreateUsagerDto {
   @ApiProperty({

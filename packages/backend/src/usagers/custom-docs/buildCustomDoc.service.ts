@@ -1,15 +1,13 @@
 import moment = require("moment");
-import { UsagerLight } from "../../database";
 import {
-  motifsRefus,
-  motifsRadiation,
   decisionLabels,
-  typeMenage,
+  motifsRadiation,
+  motifsRefus,
   residence,
+  typeMenage,
 } from "../../stats/usagers.labels";
 import { notEmpty } from "../../_common/import/import.validators";
-import { StructureCommon } from "../../_common/model";
-
+import { StructureCommon, UsagerLight } from "../../_common/model";
 import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
 
 export function buildCustomDoc(
