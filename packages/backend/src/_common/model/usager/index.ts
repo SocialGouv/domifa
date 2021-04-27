@@ -7,6 +7,8 @@ export * from "./UsagerDecisionOrientation.type";
 export * from "./UsagerDecisionStatut.type";
 export * from "./UsagerDoc.type";
 export * from "./UsagerEntretien.type";
+export * from "./UsagerHistory.type";
+export * from "./UsagerHistoryAttribute.type";
 export * from "./UsagerLastInteractions.type";
 export * from "./UsagerLight.type";
 export * from "./UsagerOptions.type";
