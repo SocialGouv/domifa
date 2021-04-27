@@ -35,7 +35,7 @@ stages:
 
 .db_setup: &db_setup |
   pg_isready -d postgres -h postgres -p 5432 -U runner
-  ./_scripts/db/restore-databases-gitlab-ci.sh --db=test --ci
+  ./_scripts/db/restore-database-gitlab-ci.sh --db=test --ci
 
 .start_e2e_app: &start_e2e_app |
   cd ${CI_PROJECT_DIR}
@@ -80,7 +80,7 @@ stages:
     DOMIFA_BACKEND_URL: http://localhost:3000/
     POSTGRES_DUMP_PATH: /builds/SocialGouv/domifa/_scripts/db/dumps/domifa_test.postgres.custom.gz
     SENTRY_DSN: https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
-    DOMIFA_2E2_RESTORE_DATABASES_SCRIPT: _scripts/db/restore-databases-gitlab-ci.sh
+    DOMIFA_2E2_RESTORE_DATABASES_SCRIPT: _scripts/db/restore-database-gitlab-ci.sh
   before_script:
     - *print_env
 
