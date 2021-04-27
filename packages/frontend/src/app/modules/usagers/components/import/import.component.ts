@@ -178,6 +178,7 @@ export class ImportComponent implements OnInit {
 
     this.usagerService.import(importMode, formData).subscribe(
       ({ importMode, previewTable }) => {
+        this.loadingService.stopLoading();
         if (importMode === "preview") {
           this.showTable = true;
           this.previewTable = previewTable;
@@ -187,7 +188,6 @@ export class ImportComponent implements OnInit {
           this.notifService.success("L'import a eu lieu avec succès");
           this.router.navigate(["/manage"]);
         }
-        this.loadingService.stopLoading();
       },
       (error: HttpErrorResponse) => {
         this.notifService.error("Le fichier n'a pas pu être importé ");

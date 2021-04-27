@@ -1,6 +1,8 @@
 import * as ExcelJS from "exceljs";
-import { CellValue } from "exceljs";
+import moment = require("moment");
+
 import { UsagersImportRow } from "../model";
+import { ValidationRegexp } from "../step2-validate-row";
 export const usagersImportExcelParser = {
   parseFileSync,
 };
@@ -21,11 +23,11 @@ async function parseFileSync(
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(filePath);
   const worksheet = workbook.worksheets[0];
-  worksheet.eachRow({ includeEmpty: false }, function (xlRow, rowNumber) {
+  worksheet.eachRow({ includeEmpty: false }, (xlRow, rowNumber) => {
     // ignore header row
     if (rowNumber > 1) {
       const row: UsagersImportRow = [];
-      xlRow.eachCell({ includeEmpty: true }, function (xlCell, cellNumber) {
+      xlRow.eachCell({ includeEmpty: true }, (xlCell, cellNumber) => {
         // ignore header row
         if (cellNumber < 100) {
           // parse 100 cells max
@@ -43,17 +45,19 @@ async function parseFileSync(
 }
 
 function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
-  const rawValue: CellValue = xlCell.value;
-  if (
-    rawValue instanceof Date ||
-    typeof rawValue === "boolean" ||
-    typeof rawValue === "number"
-  ) {
+  const rawValue: ExcelJS.CellValue = xlCell.value;
+  if (typeof rawValue === "number") {
     return rawValue;
   }
+
+  if (rawValue instanceof Date) {
+    return moment(rawValue).format("DD/MM/yyyy");
+  }
+
   if (typeof rawValue === "string") {
     return cleanString(rawValue);
   }
+
   if (xlCell.type === ExcelJS.ValueType.Formula) {
     const result = xlCell.result;
     if (typeof result === "string") {
@@ -61,6 +65,7 @@ function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
     }
     return xlCell.result;
   }
+
   return cleanString(xlCell.toString());
 }
 

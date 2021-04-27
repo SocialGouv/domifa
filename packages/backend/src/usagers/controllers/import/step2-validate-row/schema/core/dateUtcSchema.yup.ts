@@ -17,24 +17,24 @@ export const dateUtcSchema = (
     startOfDay: true,
   }
 ) =>
-  yup.date().transform(function (value, originalValue) {
+  yup.date().transform((value, originalValue) => {
+    // Si c'est du texte, Original value sera vide, mais value non
+    if (!originalValue && value) {
+      originalValue = value;
+    }
+
     if (originalValue) {
       if (
         typeof originalValue === "string" &&
         !RegExp(ValidationRegexp.date).test(originalValue)
       ) {
-        appLogger.warn(`Invalid date (regexp)`, {
-          sentryBreadcrumb: true,
-          extra: {
-            originalValue,
-          },
-        });
         return yup.date.INVALID_DATE;
       }
 
       const momentDate = startOfDay
         ? moment.utc(originalValue, parseFormats).startOf("day")
         : moment.utc(originalValue, parseFormats);
+
       if (!momentDate.isValid) {
         appLogger.warn(`Invalid date (moment)`, {
           sentryBreadcrumb: true,

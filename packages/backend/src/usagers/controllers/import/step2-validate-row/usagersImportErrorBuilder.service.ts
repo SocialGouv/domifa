@@ -14,14 +14,17 @@ export const usagersImportErrorBuilder = {
 function buildErrors({
   err,
   rowNumber,
+  rowAsObject,
 }: {
   err: {
     inner: Pick<ValidationError, "path" | "value">[];
   };
   rowNumber: number;
+  rowAsObject: any;
 }) {
   const errors = (err.inner ?? []).reduce((acc, innerError) => {
     const key = innerError.path;
+
     const column = USAGERS_IMPORT_COLUMNS[key];
     if (!column) {
       if (key.indexOf("ayantsDroits") === 0) {
@@ -35,7 +38,7 @@ function buildErrors({
           acc,
           rowNumber,
           columnNumber,
-          value: innerError.value,
+          value: rowAsObject[innerError.path],
           label: `${columnAttributeLabel} Ayant-Droit ${ayantDroitIndex + 1}`,
           details: innerError,
         });
@@ -49,7 +52,7 @@ function buildErrors({
         acc,
         rowNumber,
         columnNumber,
-        value: innerError.value,
+        value: rowAsObject[innerError.path],
         label: column.label,
         details: innerError,
       });
