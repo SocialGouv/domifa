@@ -1,8 +1,7 @@
 import * as ExcelJS from "exceljs";
+import { UsagersImportRow } from "../model";
 import moment = require("moment");
 
-import { UsagersImportRow } from "../model";
-import { ValidationRegexp } from "../step2-validate-row";
 export const usagersImportExcelParser = {
   parseFileSync,
 };
@@ -59,11 +58,7 @@ function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
   }
 
   if (xlCell.type === ExcelJS.ValueType.Formula) {
-    const result = xlCell.result;
-    if (typeof result === "string") {
-      return cleanString(result);
-    }
-    return xlCell.result.toString();
+    return cleanString(xlCell.result?.toString());
   }
 
   return cleanString(xlCell.toString());
