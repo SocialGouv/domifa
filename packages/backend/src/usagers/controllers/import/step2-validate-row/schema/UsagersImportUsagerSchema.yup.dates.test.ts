@@ -29,19 +29,19 @@ describe("UsagersImportCiviliteSchema dates", () => {
     expect(usager.dateFinDom).toEqual(new Date(Date.UTC(2021, 10 - 1, 5)));
   });
   it("statutDom=REFUS dateDebutDom missing", async () => {
-    const usager = await UsagersImportUsagerSchema.validate(
-      {
-        ...TEST_VALID_IMPORT_USAGER,
-        statutDom: "REFUS",
-        dateDebutDom: null, // missing
-        dateFinDom: "05/10/2021",
-      },
-      { context }
+    await expect(
+      UsagersImportUsagerSchema.validate(
+        {
+          ...TEST_VALID_IMPORT_USAGER,
+          statutDom: "REFUS",
+          dateDebutDom: null, // missing
+          dateFinDom: "05/10/2021",
+        },
+        { context }
+      )
+    ).rejects.toThrowError(
+      "dateDebutDom must be a `date` type, but the final value was: `Invalid Date`."
     );
-
-    expect(usager.statutDom).toEqual("REFUS");
-    expect(usager.dateDebutDom).toBeUndefined();
-    expect(usager.dateFinDom).toEqual(new Date(Date.UTC(2021, 10 - 1, 5)));
   });
 
   it("statutDom=REFUS dateDebutDom > today", async () => {
@@ -103,7 +103,9 @@ describe("UsagersImportCiviliteSchema dates", () => {
         },
         { context }
       )
-    ).rejects.toThrowError("dateFinDom field must be later than undefined");
+    ).rejects.toThrowError(
+      "dateDebutDom must be a `date` type, but the final value was: `Invalid Date`."
+    );
   });
 
   it("statutDom=VALIDE dateFinDom missing", async () => {
@@ -117,7 +119,9 @@ describe("UsagersImportCiviliteSchema dates", () => {
         },
         { context }
       )
-    ).rejects.toThrowError("dateFinDom is a required field");
+    ).rejects.toThrowError(
+      "dateFinDom must be a `date` type, but the final value was: `Invalid Date`."
+    );
   });
 
   it("statutDom=VALIDE dateDebutDom > dateFinDom", async () => {
