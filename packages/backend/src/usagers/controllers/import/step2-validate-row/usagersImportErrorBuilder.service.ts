@@ -4,7 +4,11 @@ import {
   USAGERS_IMPORT_COLUMNS,
   USAGERS_IMPORT_COLUMNS_AYANT_DROIT,
 } from "../constants";
-import { UsagersImportError } from "../model";
+import {
+  UsagerImportAyantDroitColumn,
+  UsagerImportObject,
+  UsagersImportError,
+} from "../model";
 
 export const usagersImportErrorBuilder = {
   buildErrors,
@@ -20,7 +24,7 @@ function buildErrors({
     inner: Pick<ValidationError, "path" | "value">[];
   };
   rowNumber: number;
-  rowAsObject: any;
+  rowAsObject: UsagerImportObject;
 }) {
   const errors = (err.inner ?? []).reduce((acc, innerError) => {
     const key = innerError.path;
@@ -33,21 +37,28 @@ function buildErrors({
           columnNumber,
           ayantDroitIndex,
           columnAttributeLabel,
+          attributeKey,
         } = _parseAyantsDroitsKey(key);
+
+        const ayantDroitRawValue =
+          rowAsObject.ayantsDroits[ayantDroitIndex][attributeKey];
+
         addError({
           acc,
           rowNumber,
           columnNumber,
-          value: rowAsObject[innerError.path],
+          value: ayantDroitRawValue,
           label: `${columnAttributeLabel} Ayant-Droit ${ayantDroitIndex + 1}`,
           details: innerError,
         });
       } else {
         appLogger.error(`Invalid column key "${key}" (USAGERS_IMPORT_COLUMNS)`);
       }
+
       return acc;
     } else {
       const columnNumber = column.index + 1;
+
       addError({
         acc,
         rowNumber,
@@ -56,14 +67,17 @@ function buildErrors({
         label: column.label,
         details: innerError,
       });
+
       return acc;
     }
   }, [] as UsagersImportError[]);
+
   if (errors.length === 0) {
     appLogger.error("Unexpected error while importing usagers", {
       sentry: true,
       error: err as any,
     });
+
     errors.push({
       columnNumber: -1,
       rowNumber: -1,
@@ -73,12 +87,14 @@ function buildErrors({
   }
   return errors;
 }
+
 function _parseAyantsDroitsKey(
   key: string
 ): {
   columnNumber: number;
   ayantDroitIndex: number;
   columnAttributeLabel: string;
+  attributeKey: UsagerImportAyantDroitColumn;
 } {
   // e.g. "ayantsDroits[0].prenom"
   const chunks = key.split(".");
@@ -90,14 +106,17 @@ function _parseAyantsDroitsKey(
     "ayantsDroits".length + 1,
     chunks[0].length - 1
   );
+
   const ayantDroitIndex = parseInt(indexString, 10);
   if (isNaN(ayantDroitIndex)) {
     throw new Error(`Invalid ayantDroitIndex "${indexString}"`);
   }
+
   columnNumber += 4 * ayantDroitIndex;
-  const attribute = chunks[1];
+  const attributeKey = chunks[1];
   let columnAttributeLabel: string;
-  switch (attribute) {
+
+  switch (attributeKey) {
     case "nom":
       columnNumber += 0;
       columnAttributeLabel = "Nom";
@@ -117,7 +136,12 @@ function _parseAyantsDroitsKey(
     default:
       throw new Error(`Invalid attribute ${chunks[1]}`);
   }
-  return { columnNumber, ayantDroitIndex, columnAttributeLabel };
+  return {
+    columnNumber,
+    ayantDroitIndex,
+    columnAttributeLabel,
+    attributeKey,
+  };
 }
 
 function addError({

@@ -63,7 +63,7 @@ function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
     if (typeof result === "string") {
       return cleanString(result);
     }
-    return xlCell.result;
+    return xlCell.result.toString();
   }
 
   return cleanString(xlCell.toString());

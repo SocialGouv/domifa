@@ -12,10 +12,12 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import * as fs from "fs";
 import { diskStorage } from "multer";
+
+import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
+
 import { CurrentUser } from "../../../auth/current-user.decorator";
 import { FacteurGuard } from "../../../auth/guards/facteur.guard";
 import { structureCommonRepository } from "../../../database";

@@ -2,7 +2,11 @@ import {
   USAGERS_IMPORT_COLUMNS,
   USAGERS_IMPORT_COLUMNS_AYANT_DROIT,
 } from "../constants";
-import { UsagersImportError, UsagersImportRow } from "../model";
+import {
+  UsagerImportObject,
+  UsagersImportError,
+  UsagersImportRow,
+} from "../model";
 import { UsagersImportUsagerSchemaContext } from "./schema";
 import {
   UsagersImportUsager,
@@ -26,8 +30,7 @@ async function parseAndValidate({
   errors: UsagersImportError[];
   usagerRow?: UsagersImportUsager;
 }> {
-  const rowAsObject = buildRowAsUsagerObject(row);
-
+  const rowAsObject: UsagerImportObject = buildRowAsUsagerObject(row);
   try {
     const usagerRow: UsagersImportUsager = await UsagersImportUsagerSchema.validate(
       rowAsObject,
