@@ -30,7 +30,7 @@ export function generateSmsInteraction(
 
   //
   return (
-    "Bonjour, \nVous avez reçu " +
+    "Bonjour, \n\nVous avez reçu " +
     interaction.nbCourrier +
     " " +
     newInteractionsLabel +

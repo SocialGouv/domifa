@@ -51,22 +51,22 @@ describe("generate SMS", () => {
 
     const smsOne = generateSmsInteraction(firstInteraction, "DOMIFA");
     expect(smsOne).toEqual(
-      "Bonjour, \nVous avez reçu 2 nouveaux courriers\n\nDOMIFA"
+      "Bonjour, \n\nVous avez reçu 2 nouveaux courriers\n\nDOMIFA"
     );
 
     const smsTwo = generateSmsInteraction(secondInteraction, "DOMIFA");
     expect(smsTwo).toEqual(
-      "Bonjour, \nVous avez reçu 1 nouvel avis de passage\n\nDOMIFA"
+      "Bonjour, \n\nVous avez reçu 1 nouvel avis de passage\n\nDOMIFA"
     );
 
     const smsThree = generateSmsInteraction(thirdInteraction, "DOMIFA_TEST");
     expect(smsThree).toEqual(
-      "Bonjour, \nVous avez reçu 19 nouveaux colis\n\nDOMIFA_TEST"
+      "Bonjour, \n\nVous avez reçu 19 nouveaux colis\n\nDOMIFA_TEST"
     );
 
     const smsFour = generateSmsInteraction(fourInteraction, "DOMIFA_75T");
     expect(smsFour).toEqual(
-      "Bonjour, \nVous avez reçu 1 nouveau courrier\n\nDOMIFA_75T"
+      "Bonjour, \n\nVous avez reçu 1 nouveau courrier\n\nDOMIFA_75T"
     );
   });
 });
