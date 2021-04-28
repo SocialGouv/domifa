@@ -292,7 +292,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
               envId === "preprod" ||
               envId === "formation"
                 ? CronExpression.EVERY_5_MINUTES
-                : CronExpression.EVERY_DAY_AT_6PM, //
+                : CronExpression.EVERY_DAY_AT_7PM, //
           }
         ),
         autoRunOnStartup: false,

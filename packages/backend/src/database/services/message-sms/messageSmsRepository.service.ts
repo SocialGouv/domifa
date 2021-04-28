@@ -31,6 +31,7 @@ export const SMS_ON_HOLD_INTERACTION: (keyof MessageSms)[] = [
 export const messageSmsRepository = {
   ...baseRepository,
   findSmsOnHold,
+  findSmsToSend,
 };
 
 async function findSmsOnHold({
@@ -53,5 +54,11 @@ async function findSmsOnHold({
       structureId: user.structureId,
       interactionType,
     },
+  });
+}
+
+async function findSmsToSend(): Promise<MessageSmsTable[]> {
+  return messageSmsRepository.findMany({
+    status: "TO_SEND",
   });
 }
