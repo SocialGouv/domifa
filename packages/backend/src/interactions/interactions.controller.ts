@@ -42,7 +42,7 @@ export class InteractionsController {
     // Parcours des demandes
     for (let i = 0; i < interactions.length; i++) {
       const interaction: InteractionDto = interactions[i] as InteractionDto;
-      console.log(interaction);
+
       usager = await this.interactionsService.create({
         interaction,
         usager,

@@ -1,54 +1,55 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-import { Repository } from "typeorm";
+import { AxiosError } from "axios";
 
 import { domifaConfig } from "../../config";
-import { appTypeormManager } from "../../database";
-import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
+import {
+  monitoringBatchProcessSimpleCountRunner,
+  MonitoringBatchProcessTrigger,
+} from "../../database";
+import { messageSmsRepository } from "../../database/services/message-sms";
 import { appLogger } from "../../util";
-
 import { MessageSmsSenderService } from "./message-sms-sender.service";
+
 @Injectable()
 export class CronSmsInteractionSenderService {
-  private messageSmsRepository: Repository<MessageSmsTable>;
-
-  constructor(private messageSmsSenderService: MessageSmsSenderService) {
-    this.messageSmsRepository = appTypeormManager.getRepository(
-      MessageSmsTable
-    );
-  }
+  constructor(private messageSmsSenderService: MessageSmsSenderService) {}
 
   @Cron(domifaConfig().cron.smsConsumer.crontime)
   protected async sendSmsImportCron() {
     if (!domifaConfig().cron.enable) {
       return;
     }
-    await this.sendSmsImports();
+    await this.sendSmsImports("cron");
   }
 
-  public async sendSmsImports() {
-    const messageSmsList = await this._findSmsToSend();
-
-    for (const messageSms of messageSmsList) {
-      try {
-        await this.messageSmsSenderService.sendSms(messageSms);
-      } catch (err) {
-        appLogger.warn(`[CronSms] ERROR in sending SMS : ${err.message}`, {
-          sentryBreadcrumb: true,
-        });
-        break;
-      }
-    }
-  }
-
-  private async _findSmsToSend(): Promise<MessageSmsTable[]> {
-    return this.messageSmsRepository.find({
-      where: { status: "TO_SEND" },
-      order: {
-        scheduledDate: "DESC",
+  public async sendSmsImports(trigger: MonitoringBatchProcessTrigger) {
+    await monitoringBatchProcessSimpleCountRunner.monitorProcess(
+      {
+        processId: "sms-messages-consumer",
+        trigger,
       },
-      skip: 0,
-      take: 30,
-    });
+      async ({ monitorTotal, monitorSuccess, monitorError }) => {
+        const messageSmsList = await messageSmsRepository.findSmsToSend();
+
+        monitorTotal(messageSmsList.length);
+
+        for (const messageSms of messageSmsList) {
+          this.messageSmsSenderService.sendSms(messageSms).subscribe(
+            () => {
+              monitorSuccess();
+            },
+            (error: AxiosError) => {
+              appLogger.warn(
+                `[CronSms] ERROR in sending SMS : ${error?.message}`,
+                {
+                  sentryBreadcrumb: true,
+                }
+              );
+            }
+          );
+        }
+      }
+    );
   }
 }

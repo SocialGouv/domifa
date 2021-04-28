@@ -1,16 +1,19 @@
+import { Observable, throwError } from "rxjs";
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosError, AxiosResponse } from "axios";
+import { catchError, map } from "rxjs/operators";
+import { Repository } from "typeorm";
+import { domifaConfig } from "../../config";
+import { appTypeormManager } from "../../database";
+import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
+import { messageSmsRepository } from "../../database/services/message-sms";
 
 import {
   MessageSms,
   MessageSmsSendResponse,
+  MESSAGE_SMS_RESPONSE_ERRORS,
 } from "../../_common/model/message-sms";
-import { domifaConfig } from "../../config";
-import { Repository } from "typeorm";
-import { appTypeormManager } from "../../database";
-import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
-import { messageSmsRepository } from "../../database/services/message-sms";
-import { appLogger } from "../../util";
+
 @Injectable()
 export class MessageSmsSenderService {
   private messageSmsRepository: Repository<MessageSmsTable>;
@@ -21,7 +24,7 @@ export class MessageSmsSenderService {
     );
   }
 
-  public async sendSms(message: MessageSms) {
+  public sendSms(message: MessageSms): Observable<any> {
     const options: {
       key: string;
       message: string;
@@ -45,8 +48,8 @@ export class MessageSmsSenderService {
       "&expediteur=" +
       encodeURIComponent(options.expediteur);
 
-    return this.httpService.get(endPoint).subscribe(
-      (response: AxiosResponse) => {
+    return this.httpService.get(endPoint).pipe(
+      map((response: AxiosResponse) => {
         const responseContent: MessageSmsSendResponse = response.data;
         const updateSms: Partial<MessageSms> = {
           status: "ON_HOLD",
@@ -58,17 +61,18 @@ export class MessageSmsSenderService {
           updateSms.responseId = responseContent.id;
         } else {
           updateSms.status = "FAILURE";
-          updateSms.errorMessage = responseContent.erreurs.toString();
+          updateSms.errorMessage =
+            MESSAGE_SMS_RESPONSE_ERRORS[responseContent.erreurs];
+          updateSms.errorCount = 1;
         }
-
-        messageSmsRepository.updateOne({ uuid: message.uuid }, updateSms);
-      },
-      (error: AxiosError) => {
-        appLogger.error(`[SmsSender] Error running application`, {
-          error,
-          sentry: true,
-        });
-      }
+        return messageSmsRepository.updateOne(
+          { uuid: message.uuid },
+          updateSms
+        );
+      }),
+      catchError((err: AxiosError) => {
+        return throwError(err);
+      })
     );
   }
 }
