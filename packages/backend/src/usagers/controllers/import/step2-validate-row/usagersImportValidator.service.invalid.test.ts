@@ -1,3 +1,4 @@
+import moment = require("moment");
 import { UsagersImportUsagerSchemaContext } from "./schema";
 import { usagersImportValidator } from "./usagersImportValidator.service";
 
@@ -74,12 +75,12 @@ describe("usagersImportValidator parse invalid data", () => {
         label,
       }))
     ).toEqual([
-      { columnNumber: 2, label: "Civilité", rowNumber: 10, value: "Y" },
+      { columnNumber: 2, label: "Civilité", rowNumber: 10, value: "y" },
       {
         columnNumber: 6,
         label: "Date naissance",
         rowNumber: 10,
-        value: new Date(Date.UTC(2050, 6 - 1, 15)),
+        value: "15/06/2050",
       },
       {
         columnNumber: 9,
@@ -91,19 +92,21 @@ describe("usagersImportValidator parse invalid data", () => {
         columnNumber: 10,
         label: "Statut domiciliation",
         rowNumber: 10,
-        value: "INVALID-STATUTDOM",
+        value: "invalid-statutDom",
       },
       {
         columnNumber: 16,
         label: "Date 1ere domiciliation",
         rowNumber: 10,
-        value: new Date(Date.UTC(2050, 3 - 1, 10)),
+        value: "10/03/2050",
       },
       {
         columnNumber: 17,
         label: "Date de dernier passage",
         rowNumber: 10,
-        value: new Date(Date.UTC(2040, 12 - 1, 18)),
+        value: moment(new Date(Date.UTC(2040, 12 - 1, 18))).format(
+          "DD/MM/yyyy"
+        ),
       },
       {
         columnNumber: 18,
@@ -127,25 +130,25 @@ describe("usagersImportValidator parse invalid data", () => {
         columnNumber: 24,
         label: "Composition du ménage",
         rowNumber: 10,
-        value: "INVALID-COMPOSITIONMENAGE",
+        value: "invalid-compositionMenage",
       },
       {
         columnNumber: 25,
         label: "Situation résidentielle",
         rowNumber: 10,
-        value: "INVALID-SITUATIONRESIDENTIELLE",
+        value: "invalid-situationResidentielle",
       },
       {
         columnNumber: 27,
         label: "Cause instabilité logement",
         rowNumber: 10,
-        value: "INVALID-CAUSEINSTABILITE",
+        value: "invalid-causeInstabilite",
       },
       {
         columnNumber: 29,
         label: "Motif principal de la demande",
         rowNumber: 10,
-        value: "INVALID-RAISONDEMANDE",
+        value: "invalid-raisonDemande",
       },
       {
         columnNumber: 31,
@@ -163,13 +166,13 @@ describe("usagersImportValidator parse invalid data", () => {
         columnNumber: 36,
         label: "Date de naissance Ayant-Droit 1",
         rowNumber: 10,
-        value: new Date(Date.UTC(2218, 7 - 1, 15)),
+        value: moment(new Date(Date.UTC(2218, 7 - 1, 15))).format("DD/MM/yyyy"),
       },
       {
         columnNumber: 41,
         label: "Lien de Parenté Ayant-Droit 2",
         rowNumber: 10,
-        value: "INVALID-LIENPARENTE",
+        value: "invalid-lienParente",
       },
     ]);
   });
