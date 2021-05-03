@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
@@ -14,7 +14,7 @@ describe("SetInteractionOutFormComponent", () => {
   let component: SetInteractionOutFormComponent;
   let fixture: ComponentFixture<SetInteractionOutFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SetInteractionOutFormComponent],
       imports: [NgbModule, ToastrModule.forRoot(), HttpClientTestingModule],

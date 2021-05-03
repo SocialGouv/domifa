@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
@@ -17,7 +17,7 @@ describe("StatsComponent", () => {
   let fixture: ComponentFixture<StatsComponent>;
   const spyScrollTo = jest.fn();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
 
     TestBed.configureTestingModule({

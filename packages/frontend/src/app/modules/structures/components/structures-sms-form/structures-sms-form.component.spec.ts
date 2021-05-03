@@ -2,7 +2,7 @@ import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -15,7 +15,7 @@ describe("StructuresSmsFormComponent", () => {
   let component: StructuresSmsFormComponent;
   let fixture: ComponentFixture<StructuresSmsFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule,

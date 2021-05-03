@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
 
@@ -16,7 +16,7 @@ describe("StructuresConfirmComponent", () => {
   let fixture: ComponentFixture<StructuresConfirmComponent>;
   let activatedRoute: ActivatedRoute;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StructuresConfirmComponent],
       imports: [
@@ -48,7 +48,7 @@ describe("StructuresConfirmComponent", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-    activatedRoute = TestBed.get(ActivatedRoute);
+    activatedRoute = TestBed.inject(ActivatedRoute);
   }));
 
   beforeEach(() => {

@@ -58,7 +58,7 @@ describe("UsagerService", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-    service = TestBed.get(UsagerService);
+    service = TestBed.inject(UsagerService);
   });
 
   it("should be created", () => {

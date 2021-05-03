@@ -1,11 +1,11 @@
-import { async, TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { LoadingService } from "./loading.service";
 
 describe("LoadingService", () => {
-  beforeEach(async(() => TestBed.configureTestingModule({})));
+  beforeEach(waitForAsync(() => TestBed.configureTestingModule({})));
 
-  it("should be created", async(() => {
-    const service: LoadingService = TestBed.get(LoadingService);
+  it("should be created", waitForAsync(() => {
+    const service: LoadingService = TestBed.inject(LoadingService);
     expect(service).toBeTruthy();
 
     service.startLoading();

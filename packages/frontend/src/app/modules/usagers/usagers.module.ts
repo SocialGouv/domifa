@@ -91,8 +91,9 @@ import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delet
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
-    RouterModule.forRoot([]),
-    ToastrModule.forRoot(),
+    RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
+
+    ToastrModule.forRoot({}),
     HttpClientModule,
     NgbModule,
     FormsModule,
