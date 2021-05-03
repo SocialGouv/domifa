@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
 
@@ -15,7 +15,7 @@ describe("StructuresEditComponent", () => {
   let component: StructuresEditComponent;
   let fixture: ComponentFixture<StructuresEditComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StructuresEditComponent],
       imports: [

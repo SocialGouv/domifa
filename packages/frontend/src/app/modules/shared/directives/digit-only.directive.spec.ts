@@ -1,12 +1,6 @@
 import { Component, DebugElement, ElementRef, Injectable } from "@angular/core";
 
-import {
-  async,
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from "@angular/core/testing";
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { DigitOnlyDirective } from "./digit-only.directive";
 
@@ -22,7 +16,7 @@ describe("Directive: Digit Only", () => {
   let fixture: ComponentFixture<TestHoverFocusComponent>;
   let inputEl: DebugElement;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TestHoverFocusComponent, DigitOnlyDirective],
     });

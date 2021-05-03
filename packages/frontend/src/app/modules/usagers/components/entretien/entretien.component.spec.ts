@@ -1,6 +1,6 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { UsagersModule } from "src/app/modules/usagers/usagers.module";
 import { EntretienComponent } from "./entretien.component";
@@ -9,7 +9,7 @@ describe("EntretienComponent", () => {
   let component: EntretienComponent;
   let fixture: ComponentFixture<EntretienComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [UsagersModule],

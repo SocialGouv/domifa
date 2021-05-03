@@ -19,7 +19,7 @@ describe("AuthGuard", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterModule.forRoot([])],
+      imports: [HttpClientModule, RouterModule.forRoot([], { relativeLinkResolution: 'legacy' })],
       providers: [
         AuthGuard,
         {
@@ -39,11 +39,11 @@ describe("AuthGuard", () => {
       ],
     });
 
-    authService = TestBed.get(AuthService);
-    authGuard = TestBed.get(AuthGuard);
-    router = TestBed.get(Router);
-    activatedSnapshot = TestBed.get(ActivatedRouteSnapshot);
-    routerSnapshot = TestBed.get(RouterStateSnapshot);
+    authService = TestBed.inject(AuthService);
+    authGuard = TestBed.inject(AuthGuard);
+    router = TestBed.inject(Router);
+    activatedSnapshot = TestBed.inject(ActivatedRouteSnapshot);
+    routerSnapshot = TestBed.inject(RouterStateSnapshot);
   });
 
   it("should be created", inject([AuthGuard], (service: AuthGuard) => {

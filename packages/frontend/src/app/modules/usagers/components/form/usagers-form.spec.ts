@@ -3,7 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { global } from "@angular/compiler/src/util";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { RouterTestingModule } from "@angular/router/testing";
@@ -19,7 +19,7 @@ describe("UsagersFormComponent", () => {
   let component: UsagersFormComponent;
   let fixture: ComponentFixture<UsagersFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UsagersFormComponent],
       imports: [
@@ -76,7 +76,7 @@ describe("UsagersFormComponent", () => {
     expect(component.usager.lastInteraction).toBeTruthy();
   });
 
-  it("7. DOUBLON", async(() => {
+  it("7. DOUBLON", waitForAsync(() => {
     component.usagerForm.controls.nom.setValue("Mamadou");
     component.usagerForm.controls.prenom.setValue("Diallo");
     component.isDoublon();

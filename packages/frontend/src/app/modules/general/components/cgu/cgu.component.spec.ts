@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { CguComponent } from "./cgu.component";
 
@@ -6,7 +6,7 @@ describe("CguComponent", () => {
   let component: CguComponent;
   let fixture: ComponentFixture<CguComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CguComponent],
     }).compileComponents();

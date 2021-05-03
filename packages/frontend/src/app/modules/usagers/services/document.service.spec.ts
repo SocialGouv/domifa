@@ -30,7 +30,7 @@ describe("DocumentService", () => {
         },
       ],
     });
-    service = TestBed.get(DocumentService);
+    service = TestBed.inject(DocumentService);
   });
 
   it("should be created", () => {
