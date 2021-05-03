@@ -1,14 +1,16 @@
+import * as fs from "fs-extra";
+import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 import {
   interactionRepository,
   structureStatsRepository,
   usagerRepository,
   usersRepository,
 } from "../database";
-import * as fs from "fs-extra";
-import { MigrationInterface, QueryRunner } from "typeorm";
 import { appLogger } from "../util";
+
 import path = require("path");
-import { domifaConfig } from "../config";
+
 import { Usager } from "../_common/model";
 
 export class manualMigration1620015603536 implements MigrationInterface {
@@ -25,11 +27,11 @@ export class manualMigration1620015603536 implements MigrationInterface {
     let startNbFoldersB = 0;
 
     fs.readdir(filesA, (err, files) => {
-      startNbFoldersA = files.length;
+      startNbFoldersA = files?.length ?? 0;
     });
 
     fs.readdir(filesB, (err, files) => {
-      startNbFoldersB = files.length;
+      startNbFoldersB = files?.length ?? 0;
     });
 
     const startNbUsagersA: number = await usagerRepository.count({
@@ -156,11 +158,11 @@ export class manualMigration1620015603536 implements MigrationInterface {
     let endNbFoldersB = 0;
 
     fs.readdir(filesA, (err, files) => {
-      endNbFoldersA = files.length;
+      endNbFoldersA = files?.length ?? 0;
     });
 
     fs.readdir(filesB, (err, files) => {
-      endNbFoldersB = files.length;
+      endNbFoldersB = files?.length ?? 0;
     });
 
     appLogger.debug(``);
