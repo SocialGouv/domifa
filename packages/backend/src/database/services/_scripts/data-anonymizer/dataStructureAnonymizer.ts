@@ -25,6 +25,7 @@ async function anonymizeStructures() {
   appLogger.warn(
     `[dataStructureAnonymizer] ${structuresWithEmailsToAnonymize.length}/${structures.length} structures to anonymize`
   );
+
   for (const structure of structuresWithEmailsToAnonymize) {
     await _anonymizeStructure(structure);
   }
@@ -41,6 +42,9 @@ async function _anonymizeStructure(structure: Pick<Structure, "id" | "email">) {
   if (Object.keys(attributesToUpdate).length === 0) {
     return structure;
   }
+
+  attributesToUpdate.sms.enabledByDomifa = false;
+  attributesToUpdate.sms.enabledByStructure = false;
 
   return structureRepository.updateOne(
     { id: structure.id },

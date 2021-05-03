@@ -4,7 +4,6 @@ import { Usager } from "../../../../_common/model";
 import { usagerRepository } from "../../usager/usagerRepository.service";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
-import moment = require("moment");
 
 export const dataUsagerAnonymizer = {
   anonymizeUsagers,
@@ -25,6 +24,7 @@ async function anonymizeUsagers({ app }: { app: INestApplication }) {
         "dateNaissance",
         "ayantsDroits",
         "datePremiereDom",
+        "entretien",
       ],
     }
   );
@@ -54,14 +54,26 @@ async function _anonymizeUsager(
 ) {
   // appLogger.debug(`[dataUsagerAnonymizer] check usager "${usager.ref}"`);
 
+  usager.entretien.commentaires = null;
+  usager.entretien.revenusDetail = null;
+  usager.entretien.raisonDetail = null;
+  usager.entretien.orientationDetail = null;
+
   const attributesToUpdate: Partial<Usager> = {
     email: `usager-${usager.ref}@domifa-fake.fabrique.social.gouv.fr`,
     prenom: dataGenerator.firstName(),
+    phone: null,
+    preference: {
+      email: false,
+      phone: false,
+      phoneNumber: null,
+    },
     nom: dataGenerator.lastName(),
     surnom: null,
     dateNaissance: dataGenerator.date({
       years: { min: 18, max: -90 },
     }),
+    entretien: usager.entretien,
     ayantsDroits: usager.ayantsDroits
       ? usager.ayantsDroits.map((x) => ({
           lien: x.lien,
@@ -79,7 +91,6 @@ async function _anonymizeUsager(
 
   if (Object.keys(attributesToUpdate).length === 0) {
     // appLogger.debug(`[dataUsagerAnonymizer] nothing to update for "${usager.ref}"`);
-
     return usager;
   }
 
