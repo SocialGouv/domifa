@@ -37,7 +37,7 @@ export class HealthCheckService {
         : of(undefined).pipe(
             delay(environment.healthzCheck.initialCheckDelay * 1000),
             switchMap(() => this.checkPeriod$.pipe(distinctUntilChanged())),
-            switchMap((checkPeriod) => timer(0, checkPeriod * 1000)),
+            switchMap((checkPeriod: number) => timer(0, checkPeriod * 1000)),
             debounceTime(500), // be sure only one event is triggered
             concatMap(() => this.executeCheck())
           )
@@ -55,7 +55,7 @@ export class HealthCheckService {
     this.checkEnabled$.next(enabled);
     return this.currentStatusCheck$.pipe(
       distinctUntilChanged(
-        (a, b) =>
+        (a: HealthCheckInfo, b: HealthCheckInfo) =>
           a?.status === b?.status &&
           a?.details?.version?.info === b?.details?.version?.info
       )

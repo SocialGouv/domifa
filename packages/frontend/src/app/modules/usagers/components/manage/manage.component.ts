@@ -207,7 +207,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
             return (event.target as HTMLInputElement).value;
           }),
           debounceTime(50),
-          map((filter) => (!filter ? filter : filter.trim())),
+          map((filter: string) => (!filter ? filter : filter.trim())),
           distinctUntilChanged()
         )
         .subscribe((text: any) => {
@@ -220,7 +220,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.subscription.add(
       combineLatest([
         this.filters$.pipe(
-          tap((filters) => {
+          tap((filters: UsagersFilterCriteria) => {
             if (filters.page === 0) {
               window.scroll({
                 behavior: "smooth",

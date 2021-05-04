@@ -34,7 +34,7 @@ export class AuthService {
         password,
       })
       .pipe(
-        map((token) => {
+        map((token: { access_token: string }) => {
           const user = appUserBuilder.buildAppUser(
             jwtDecode(token.access_token)
           );

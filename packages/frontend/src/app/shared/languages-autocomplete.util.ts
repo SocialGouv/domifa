@@ -9,7 +9,7 @@ const typeahead = ({ maxResults = 10 }: { maxResults: number }) => (
   return text$.pipe(
     debounceTime(200),
     distinctUntilChanged(),
-    map((term) => _filterLanguages(term, { maxResults }))
+    map((term: string) => _filterLanguages(term, { maxResults }))
   );
 };
 

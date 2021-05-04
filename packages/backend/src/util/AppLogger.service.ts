@@ -55,7 +55,7 @@ class AppLogger {
   ) {
     if (sentry && domifaConfig().dev.sentry.enabled) {
       // log to sentry
-      const contexts = context ? { context } : undefined;
+      const contexts = context ? { context } : (undefined as {});
       // FIXME il y a eu confusion entre contexts et extra, service à refactorer
       const sentryExtra = extra
         ? extra
