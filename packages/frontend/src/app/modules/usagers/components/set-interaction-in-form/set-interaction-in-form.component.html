@@ -28,7 +28,9 @@
         <div
           (click)="decrement('courrierIn')"
           class="action"
-          *ngIf="interactionFormData.courrierIn.nbCourrier > 0"
+          [ngClass]="{
+            disabled: interactionFormData.courrierIn.nbCourrier === 0
+          }"
         >
           <img src="/assets/icones/moins.svg" />
         </div>
@@ -53,7 +55,7 @@
         <div
           (click)="decrement('colisIn')"
           class="action"
-          *ngIf="interactionFormData.colisIn.nbCourrier > 0"
+          [ngClass]="{ disabled: interactionFormData.colisIn.nbCourrier === 0 }"
         >
           <img src="/assets/icones/moins.svg" />
         </div>
@@ -78,7 +80,9 @@
         <div
           (click)="decrement('recommandeIn')"
           class="action"
-          *ngIf="interactionFormData.recommandeIn.nbCourrier > 0"
+          [ngClass]="{
+            disabled: interactionFormData.recommandeIn.nbCourrier === 0
+          }"
         >
           <img src="/assets/icones/moins.svg" />
         </div>

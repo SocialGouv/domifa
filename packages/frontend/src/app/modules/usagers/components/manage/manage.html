@@ -408,15 +408,9 @@
                 <span *ngIf="usager.surnom && usager.surnom !== null">
                   ({{ usager.surnom }})
                 </span>
-
-                <ng-container *ngIf="filters.searchString && !searching">
-                  <span class="badge badge-info" *ngIf="usager.isAyantDroit">
-                    Ayant-droit
-                  </span>
-                </ng-container>
               </td>
 
-              <td>
+              <td (click)="goToProfil(usager)">
                 <div
                   class="label-info label-green"
                   *ngIf="usager.ayantsDroits.length > 1"
@@ -469,8 +463,7 @@
                   *ngIf="usager.options.npai.actif"
                   class="label-info label-danger"
                 >
-                  <fa-icon icon="ban" class="btn-icon"></fa-icon>
-                  Pli non distribuable
+                  <span> Pli non distribuable </span>
                 </div>
               </td>
               <td (click)="goToProfil(usager)">

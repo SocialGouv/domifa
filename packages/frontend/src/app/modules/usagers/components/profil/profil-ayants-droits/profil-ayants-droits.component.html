@@ -10,7 +10,7 @@
     </tr>
     <tr *ngFor="let ayantDroit of ayantsDroits">
       <td>{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</td>
-      <td>{{ ayantDroit.dateNaissance }}</td>
+      <td>{{ ayantDroit.dateNaissance | date: "dd/MM/yyyy" }}</td>
       <td>{{ ayantDroit.lien }}</td>
     </tr>
   </tbody>

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <a class="navbar-brand" [routerLink]="!me ? ['/'] : ['/manage']">
+    <a class="navbar-brand" [routerLink]="['/']">
       <img src="../assets/images/logo.svg" alt="Logo Domifa" />
       <span id="nom-asso" *ngIf="me">
         {{ me.structure.nom }}
@@ -49,6 +49,12 @@
             placement="bottom-right"
             class="d-inline-block"
           >
+            <a
+              class="btn btn-outline-primary"
+              [routerLink]="!me ? ['/'] : ['/manage']"
+            >
+              Domiciliés
+            </a>
             <button class="btn btn-outline-primary" ngbDropdownToggle>
               Mon compte
             </button>

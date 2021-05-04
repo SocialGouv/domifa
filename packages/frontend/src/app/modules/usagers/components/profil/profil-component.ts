@@ -43,7 +43,7 @@ import { UsagerFormModel } from "../form/UsagerFormModel";
   ],
   selector: "app-profil",
   styleUrls: ["./profil.css"],
-  templateUrl: "./profil.html",
+  templateUrl: "./profil.old.html",
 })
 export class UsagersProfilComponent implements OnInit {
   // Affichage des formulaires d'édition
