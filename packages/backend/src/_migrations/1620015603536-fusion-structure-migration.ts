@@ -1,16 +1,15 @@
-import * as fs from "fs-extra";
-import { MigrationInterface, QueryRunner } from "typeorm";
-import { domifaConfig } from "../config";
 import {
   interactionRepository,
   structureStatsRepository,
   usagerRepository,
   usersRepository,
 } from "../database";
+import * as fs from "fs-extra";
+import { MigrationInterface, QueryRunner } from "typeorm";
 import { appLogger } from "../util";
-import { UsagerPG } from "./../database/entities/usager/UsagerPG.type";
-
 import path = require("path");
+import { domifaConfig } from "../config";
+import { Usager } from "../_common/model";
 
 export class manualMigration1620015603536 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -26,11 +25,11 @@ export class manualMigration1620015603536 implements MigrationInterface {
     let startNbFoldersB = 0;
 
     fs.readdir(filesA, (err, files) => {
-      startNbFoldersA = files?.length ?? 0;
+      startNbFoldersA = files.length;
     });
 
     fs.readdir(filesB, (err, files) => {
-      startNbFoldersB = files?.length ?? 0;
+      startNbFoldersB = files.length;
     });
 
     const startNbUsagersA: number = await usagerRepository.count({
@@ -66,7 +65,7 @@ export class manualMigration1620015603536 implements MigrationInterface {
     });
 
     const usagers: Pick<
-      UsagerPG,
+      Usager,
       "ref" | "uuid"
     >[] = await usagerRepository.findMany(
       { structureId: 159 },
@@ -85,7 +84,7 @@ export class manualMigration1620015603536 implements MigrationInterface {
         `[MIGRATE USAGER] OLD REF: ${usager.ref}  \t\t NEW REF: ${newRef}`
       );
 
-      const newUsager: UsagerPG = await usagerRepository.updateOne(
+      const newUsager: Usager = await usagerRepository.updateOne(
         {
           uuid: usager.uuid,
           structureId: 159,
@@ -157,11 +156,11 @@ export class manualMigration1620015603536 implements MigrationInterface {
     let endNbFoldersB = 0;
 
     fs.readdir(filesA, (err, files) => {
-      endNbFoldersA = files?.length ?? 0;
+      endNbFoldersA = files.length;
     });
 
     fs.readdir(filesB, (err, files) => {
-      endNbFoldersB = files?.length ?? 0;
+      endNbFoldersB = files.length;
     });
 
     appLogger.debug(``);
