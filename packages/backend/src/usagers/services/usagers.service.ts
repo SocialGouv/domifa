@@ -4,10 +4,11 @@ import {
   usagerRepository,
   UsagerTable,
 } from "../../database";
+import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
+import { uuidGenerator } from "../../database/services/uuid";
 import {
   AppUser,
   ETAPE_DECISION,
-  ETAPE_DOCUMENTS,
   ETAPE_DOSSIER_COMPLET,
   ETAPE_ENTRETIEN,
   ETAPE_ETAT_CIVIL,
@@ -18,9 +19,10 @@ import {
   UserProfile,
 } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
-import { EntretienDto } from "../dto/entretien.dto";
 import { RdvDto } from "../dto/rdv.dto";
+import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
 import { usagersCreator } from "./usagersCreator.service";
+import { usagerVisibleHistoryManager } from "./usagerVisibleHistoryManager.service";
 
 import moment = require("moment");
 @Injectable()
@@ -39,17 +41,31 @@ export class UsagersService {
     usager.customRef = `${usager.ref}`;
 
     usager.decision = {
+      uuid: uuidGenerator.random(),
       dateDecision: new Date(),
       statut: "INSTRUCTION",
       userName: user.prenom + " " + user.nom,
       userId: user.id,
       dateFin: new Date(),
     };
+    usager.historique.push(usager.decision);
 
     usager.structureId = user.structureId;
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
 
-    return usagerLightRepository.save(usager);
+    const createdUsager = await usagerLightRepository.save(usager);
+
+    const usagerHistory = usagerHistoryStateManager.buildInitialHistoryState({
+      isImport: false,
+      usager: createdUsager,
+      createdAt: usager.decision.dateDecision,
+      createdEvent: "new-decision",
+      historyBeginDate: usager.decision.dateDebut,
+    });
+
+    await usagerHistoryRepository.save(usagerHistory);
+
+    return createdUsager;
   }
 
   public async patch(
@@ -70,16 +86,15 @@ export class UsagersService {
     const usager = await usagerRepository.findOne({
       uuid,
     });
-
-    (usager.historique = usager.historique.concat([usager.decision])),
-      (usager.decision = {
-        dateDebut: new Date(),
-        dateDecision: new Date(),
-        statut: "INSTRUCTION",
-        userId: user.id,
-        userName: user.prenom + " " + user.nom,
-        typeDom: "RENOUVELLEMENT",
-      });
+    usager.decision = {
+      uuid: uuidGenerator.random(),
+      dateDebut: new Date(),
+      dateDecision: new Date(),
+      statut: "INSTRUCTION",
+      userId: user.id,
+      userName: user.prenom + " " + user.nom,
+      typeDom: "RENOUVELLEMENT",
+    };
 
     if (!usager.options.npai) {
       usager.options.npai = {} as any;
@@ -94,20 +109,16 @@ export class UsagersService {
 
     usager.rdv = null;
 
-    return usagerLightRepository.save(usager);
-  }
+    usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
-  public async setEntretien(
-    { uuid }: { uuid: string },
-    entretienForm: EntretienDto
-  ): Promise<Usager> {
-    return usagerLightRepository.updateOne(
-      { uuid },
-      {
-        entretien: entretienForm,
-        etapeDemande: ETAPE_DOCUMENTS,
-      }
-    );
+    await usagerHistoryStateManager.updateHistoryStateFromDecision({
+      usager,
+      createdAt: usager.decision.dateDecision,
+      createdEvent: "new-decision",
+      historyBeginDate: usager.decision.dateDebut,
+    });
+
+    return usagerLightRepository.save(usager);
   }
 
   public async setDecision(
@@ -119,7 +130,6 @@ export class UsagersService {
     const usager = await usagerRepository.findOne({
       uuid,
     });
-    usager.historique.push(usager.decision);
 
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
 
@@ -164,6 +174,15 @@ export class UsagersService {
       usager.entretien = {};
     }
 
+    usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
+
+    await usagerHistoryStateManager.updateHistoryStateFromDecision({
+      usager,
+      createdAt: usager.decision.dateDecision,
+      createdEvent: "new-decision",
+      historyBeginDate: usager.decision.dateDebut,
+    });
+
     return usagerLightRepository.save(usager);
   }
 
@@ -190,6 +209,15 @@ export class UsagersService {
     usager.rdv.dateRdv = rdv.dateRdv;
     usager.rdv.userId = rdv.userId;
     usager.rdv.userName = user.prenom + " " + user.nom;
+
+    await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
+      usager,
+      createdBy: {
+        userId: user.id,
+        userName: user.prenom + " " + user.nom,
+      },
+      createdEvent: "update-rdv",
+    });
 
     return usagerLightRepository.save(usager);
   }

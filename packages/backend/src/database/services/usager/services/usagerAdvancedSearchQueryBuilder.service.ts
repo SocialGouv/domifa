@@ -47,41 +47,64 @@ function buildQuery({
     `);
     params["actifsInHistoryBefore"] = actifsInHistoryBefore;
   }
+
   if (decisionInHistory) {
     const {
       dateDebutBefore,
+      dateDebutAfter,
+      dateFinAfter,
       dateDecisionBefore,
+      dateDecisionAfter,
       statut,
       motif,
       orientation,
+      typeDom: typeDomInHistory,
     } = decisionInHistory;
     let condition1 = `decision->>'statut' = :statut`;
-    let condition2InExists = `SELECT 1 FROM LATERAL (SELECT jsonb_array_elements(u.historique) decision) y WHERE
-        decision->>'statut' = :statut`;
+    let condition2InExists = `SELECT 1 FROM LATERAL (SELECT jsonb_array_elements(u.historique) decision) histo WHERE
+      histo.decision->>'statut' = :statut`;
     params["statut"] = statut;
-    params["dateDebutBefore"] = dateDebutBefore;
-    params["dateDecisionBefore"] = dateDecisionBefore;
 
     if (dateDebutBefore) {
       condition1 += ` AND (decision->>'dateDebut')::timestamptz <= :dateDebutBefore`;
-      condition2InExists += ` AND (decision->>'dateDebut')::timestamptz <= :dateDebutBefore`;
+      condition2InExists += ` AND (histo.decision->>'dateDebut')::timestamptz <= :dateDebutBefore`;
       params["dateDebutBefore"] = dateDebutBefore;
+    }
+    if (dateDebutAfter) {
+      condition1 += ` AND (decision->>'dateDebut')::timestamptz >= :dateDebutAfter`;
+      condition2InExists += ` AND (histo.decision->>'dateDebut')::timestamptz >= :dateDebutAfter`;
+      params["dateDebutAfter"] = dateDebutAfter;
+    }
+    if (dateFinAfter) {
+      condition1 += ` AND (decision->>'dateFin')::timestamptz >= :dateFinAfter`;
+      condition2InExists += ` AND (histo.decision->>'dateFin')::timestamptz >= :dateFinAfter`;
+      params["dateFinAfter"] = dateFinAfter;
     }
     if (dateDecisionBefore) {
       condition1 += ` AND (decision->>'dateDecision')::timestamptz <= :dateDecisionBefore`;
-      condition2InExists += ` AND (decision->>'dateDecision')::timestamptz <= :dateDecisionBefore`;
+      condition2InExists += ` AND (histo.decision->>'dateDecision')::timestamptz <= :dateDecisionBefore`;
       params["dateDecisionBefore"] = dateDecisionBefore;
+    }
+    if (dateDecisionAfter) {
+      condition1 += ` AND (decision->>'dateDecision')::timestamptz >= :dateDecisionAfter`;
+      condition2InExists += ` AND (histo.decision->>'dateDecision')::timestamptz >= :dateDecisionAfter`;
+      params["dateDecisionAfter"] = dateDecisionAfter;
     }
 
     if (motif) {
       condition1 += ` AND decision->>'motif' = :motif`;
-      condition2InExists += ` AND decision->>'motif' = :motif`;
+      condition2InExists += ` AND histo.decision->>'motif' = :motif`;
       params["motif"] = motif;
     }
     if (orientation) {
       condition1 += ` AND decision->>'orientation' = :orientation`;
-      condition2InExists += ` AND decision->>'orientation' = :orientation`;
+      condition2InExists += ` AND histo.decision->>'orientation' = :orientation`;
       params["orientation"] = orientation;
+    }
+    if (typeDomInHistory) {
+      condition1 += ` AND decision->>'typeDom' = :typeDomInHistory`;
+      condition2InExists += ` AND histo.decision->>'typeDom' = :typeDomInHistory`;
+      params["typeDomInHistory"] = typeDomInHistory;
     }
 
     andSubQueries.push(`(${condition1}) OR EXISTS (${condition2InExists})`);

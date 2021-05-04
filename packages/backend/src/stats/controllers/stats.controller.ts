@@ -5,16 +5,13 @@ import { Response } from "express";
 import * as XLSX from "xlsx";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
-import { usagerRepository } from "../../database";
+import { structureRepository, usagerRepository } from "../../database";
 import { appLogger } from "../../util";
-import { AppAuthUser, StructureStats } from "../../_common/model";
+import { AppAuthUser, StructureStatsFull } from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
 import { DashboardService } from "../services/dashboard.service";
-import {
-  buildStatsDateUTC,
-  StatsGeneratorService,
-} from "../services/stats-generator.service";
-import { StatsService } from "../services/stats.service";
+import { structureStatsInPeriodGenerator } from "../services/stats-generator";
+import { statsQuestionsCoreBuilder } from "../services/stats-questions-builder";
 import {
   cause,
   motifsRadiation,
@@ -38,11 +35,7 @@ export class StatsController {
   public residence: any;
   public cause: any;
 
-  constructor(
-    private readonly statsGeneratorService: StatsGeneratorService,
-    private readonly statsService: StatsService,
-    private readonly dashboardService: DashboardService
-  ) {
+  constructor(private readonly dashboardService: DashboardService) {
     this.sheet = [];
     this.typeMenage = typeMenage;
     this.motifsRefus = motifsRefus;
@@ -59,7 +52,7 @@ export class StatsController {
     const totalUsagers = usagers + ayantsDroits;
 
     const statsHome = {
-      structures: await this.statsGeneratorService.countStructures(),
+      structures: await structureRepository.count(),
       interactions: await this.dashboardService.totalInteractions("courrierIn"),
       usagers: totalUsagers,
     };
@@ -73,7 +66,7 @@ export class StatsController {
     @CurrentUser() user: AppAuthUser,
     @Body() statsDto: StatsDto
   ) {
-    return this.getStatsDiff(user, statsDto);
+    return this.buildStatsInPeriod(user, statsDto);
   }
 
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
@@ -83,28 +76,35 @@ export class StatsController {
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ) {
-    const { stats: dataToExport } = await this.getStatsDiff(user, statsDto);
+    const { stats: dataToExport } = await this.buildStatsInPeriod(
+      user,
+      statsDto
+    );
     res.status(200).send(this.exportData(dataToExport, statsDto));
   }
 
-  private async getStatsDiff(
+  private async buildStatsInPeriod(
     user: Pick<AppAuthUser, "structure">,
     statsDto: StatsDto
   ): Promise<{
-    stats: StructureStats;
+    stats: StructureStatsFull;
     startDate?: Date;
     endDate?: Date;
   }> {
-    const startDateUTC = buildStatsDateUTC({ date: statsDto.start });
-    const endDateUTC = buildStatsDateUTC({ date: statsDto.end });
-    return this.statsService.getStatsDiff({
+    const startDateUTC = statsQuestionsCoreBuilder.buildStatsDateUTC({
+      date: statsDto.start,
+    });
+    const endDateUTC = statsQuestionsCoreBuilder.buildStatsDateUTC({
+      date: statsDto.end,
+    });
+    return structureStatsInPeriodGenerator.buildStatsInPeriod({
       structure: user.structure,
       startDateUTC,
       endDateUTC,
     });
   }
 
-  private exportData(stats: StructureStats, statsDto?: StatsDto) {
+  private exportData(stats: StructureStatsFull, statsDto?: StatsDto) {
     appLogger.debug(
       `[StatsController] exportData (${JSON.stringify(stats, undefined, 2)})`
     );

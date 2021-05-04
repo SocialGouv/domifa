@@ -1,57 +1,30 @@
-import { forwardRef, INestApplication } from "@nestjs/common";
-import { structureRepository } from "../../database";
-import { InteractionsModule } from "../../interactions/interactions.module";
-import { StructuresService } from "../../structures/services/structures.service";
-import { StructuresModule } from "../../structures/structure.module";
-import { UsagersModule } from "../../usagers/usagers.module";
-import { UsersModule } from "../../users/users.module";
-import { AppTestContext, AppTestHelper } from "../../util/test";
-import { DashboardService } from "./dashboard.service";
-import { StatsGeneratorService } from "./stats-generator.service";
-import { StatsService } from "./stats.service";
+import { Connection } from "typeorm";
+import { structureRepository } from "../../../database";
+import { AppTestHelper } from "../../../util/test";
+import { structureStatsInPeriodGenerator } from "./structureStatsInPeriodGenerator.service";
 
-describe("StatsService", () => {
-  let service: StatsService;
-  let structureService: StructuresService;
-
-  let app: INestApplication;
-  let context: AppTestContext;
+describe("structureStatsInPeriodGenerator", () => {
+  let postgresTypeormConnection: Connection;
 
   beforeAll(async () => {
-    context = await AppTestHelper.bootstrapTestApp({
-      imports: [
-        forwardRef(() => UsersModule),
-        forwardRef(() => StructuresModule),
-        forwardRef(() => UsagersModule),
-        forwardRef(() => InteractionsModule),
-      ],
-      providers: [DashboardService, StatsGeneratorService, StatsService],
-    });
-
-    app = context.module.createNestApplication();
-
-    service = context.module.get<StatsService>(StatsService);
-    structureService = context.module.get<StructuresService>(StructuresService);
-
-    await app.init();
+    postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
-
   afterAll(async () => {
-    await AppTestHelper.tearDownTestApp(context);
+    AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });
 
-  it("should be defined", () => {
-    expect(service).toBeDefined();
-  });
-
-  it("getStatsDiff", async () => {
+  it("buildStatsInPeriod", async () => {
     const structure = await structureRepository.findOne({
       id: 1,
     });
     const startDateUTC = new Date(Date.UTC(2019, 10, 15));
     const endDateUTC = new Date(Date.UTC(2021, 1, 1));
 
-    const { startDate, endDate, stats } = await service.getStatsDiff({
+    const {
+      startDate,
+      endDate,
+      stats,
+    } = await structureStatsInPeriodGenerator.buildStatsInPeriod({
       structure,
       startDateUTC,
       endDateUTC,

@@ -1,7 +1,7 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
 import {
   StructureStats,
-  StructureStatsQuestions,
+  StructureStatsQuestionsAtDate,
   StructureType,
 } from "../../../_common/model";
 import { StructureTable } from "../structure/StructureTable.typeorm";
@@ -43,7 +43,7 @@ export class StructureStatsTable
   codePostal: string;
 
   @Column({ type: "jsonb" })
-  questions: StructureStatsQuestions;
+  questions: StructureStatsQuestionsAtDate;
 
   @Column({ type: "boolean", default: false })
   generated: boolean;

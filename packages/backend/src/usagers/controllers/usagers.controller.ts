@@ -23,9 +23,11 @@ import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import { usagerLightRepository, usagerRepository } from "../../database";
+import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
 import { InteractionsService } from "../../interactions/interactions.service";
 import {
   AppAuthUser,
+  ETAPE_DOCUMENTS,
   ETAPE_DOSSIER_COMPLET,
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
@@ -39,7 +41,9 @@ import { PreferenceContactDto } from "../dto/preferenceContact.dto";
 import { ProcurationDto } from "../dto/procuration.dto";
 import { TransfertDto } from "../dto/transfert.dto";
 import { CerfaService } from "../services/cerfa.service";
+import { usagerHistoryStateManager } from "../services/usagerHistoryStateManager.service";
 import { UsagersService } from "../services/usagers.service";
+import { usagerVisibleHistoryManager } from "../services/usagerVisibleHistoryManager.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -76,6 +80,7 @@ export class UsagersController {
   @Patch(":usagerRef")
   public async patchUsager(
     @Body() usagerDto: EditUsagerDto,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: UsagerLight
   ) {
     if (
@@ -89,16 +94,43 @@ export class UsagersController {
       usagerDto.langue = null;
     }
 
+    await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
+      usager,
+      createdBy: {
+        userId: user.id,
+        userName: user.prenom + " " + user.nom,
+      },
+      createdEvent: "update-usager",
+    });
+
     return this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Post("entretien/:usagerRef")
-  public setEntretien(
+  public async setEntretien(
     @Body() entretien: EntretienDto,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUser() user: AppAuthUser,
+    @CurrentUsager() currentUsager: UsagerLight
   ) {
-    return this.usagersService.setEntretien({ uuid: usager.uuid }, entretien);
+    const usager = await usagerLightRepository.updateOne(
+      { uuid: currentUsager.uuid },
+      {
+        entretien,
+        etapeDemande: ETAPE_DOCUMENTS,
+      }
+    );
+
+    await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
+      usager,
+      createdBy: {
+        userId: user.id,
+        userName: user.prenom + " " + user.nom,
+      },
+      createdEvent: "update-entretien",
+    });
+
+    return usager;
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
@@ -176,6 +208,11 @@ export class UsagersController {
       domifaConfig().upload.basePath + usager.structureId + "/" + usager.ref
     );
 
+    await usagerHistoryRepository.deleteByCriteria({
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+    });
+
     await this.interactionsService.deleteByUsager(usager.ref, user.structureId);
 
     deleteUsagerFolder(pathFile);
@@ -238,12 +275,40 @@ export class UsagersController {
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Delete("renew/:usagerRef")
-  public async deleteRenew(@CurrentUsager() usager: UsagerLight) {
-    usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
+  public async deleteRenew(
+    @Res() res: Response,
+    @CurrentUser() user: AppAuthUser,
+    @CurrentUsager() usager: UsagerLight
+  ) {
+    if (usager.typeDom === "RENOUVELLEMENT") {
+      usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
 
-    usager.decision = usager.historique[usager.historique.length - 1];
-    usager.historique.splice(usager.historique.length - 1, 1);
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+      const {
+        removedDecision,
+      } = usagerVisibleHistoryManager.removeLastDecision({
+        usager,
+      });
+
+      if (removedDecision) {
+        // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
+        usagerHistoryStateManager.removeLastDecisionFromHistory({
+          usager,
+          createdBy: {
+            userId: user.id,
+            userName: user.prenom + " " + user.nom,
+          },
+          createdAt: usager.decision.dateDecision,
+          historyBeginDate: usager.decision.dateDebut,
+          removedDecisionUUID: removedDecision.uuid,
+        });
+      }
+
+      return usagerLightRepository.updateOne({ uuid: usager.uuid }, usager);
+    } else {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_DELETE_DECISION" });
+    }
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)

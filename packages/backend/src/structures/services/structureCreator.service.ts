@@ -7,10 +7,8 @@ import {
   usersRepository,
 } from "../../database";
 import { newStructureEmailSender } from "../../mails/services/templates-renderers";
-import {
-  buildStatsDateUTC,
-  StatsGeneratorService,
-} from "../../stats/services/stats-generator.service";
+import { structureStatsAtDateGenerator } from "../../stats/services/stats-generator";
+import { statsQuestionsCoreBuilder } from "../../stats/services/stats-questions-builder";
 import { UserDto } from "../../users/dto/user.dto";
 import { usersCreator } from "../../users/services";
 import { appLogger } from "../../util/AppLogger.service";
@@ -20,7 +18,7 @@ import { StructureDto } from "../dto/structure.dto";
 
 @Injectable()
 export class StructureCreatorService {
-  constructor(private statsGeneratorService: StatsGeneratorService) {}
+  constructor() {}
 
   public async checkStructureCreateArgs(
     structureDto: StructureDto
@@ -55,9 +53,11 @@ export class StructureCreatorService {
     const structure = await this.createStructure(structureDto);
 
     // generate stats for yesterday
-    const statsDateUTC = buildStatsDateUTC({ date: "yesterday" });
+    const statsDateUTC = statsQuestionsCoreBuilder.buildStatsDateUTC({
+      date: "yesterday",
+    });
 
-    await this.statsGeneratorService.generateStructureStats(
+    await structureStatsAtDateGenerator.generateStructureStats(
       statsDateUTC,
       structure,
       true

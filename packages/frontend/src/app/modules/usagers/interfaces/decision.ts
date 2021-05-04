@@ -1,4 +1,3 @@
-import { UsagerDecision } from "./../../../../_common/model/usager/UsagerDecision.type";
 import {
   motifsRadiation,
   motifsRefus,
@@ -6,8 +5,10 @@ import {
 import { UsagerDecisionStatut, UsagerTypeDom } from "../../../../_common/model";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { UsagerDecisionOrientation } from "../../../../_common/model/usager/UsagerDecisionOrientation.type";
+import { UsagerDecision } from "./../../../../_common/model/usager/UsagerDecision.type";
 
 export class Decision implements UsagerDecision {
+  public uuid?: string;
   public dateDebut: Date;
   public dateFin?: Date;
   public dateDecision: Date; // Now()
@@ -30,6 +31,7 @@ export class Decision implements UsagerDecision {
   public userName: string; // AppUser.nom / prenom
 
   constructor(decision?: any) {
+    this.uuid = decision?.uuid;
     this.dateDebut = (decision && new Date(decision.dateDebut)) || undefined;
     this.dateFin = (decision && new Date(decision.dateFin)) || undefined;
     this.dateDecision =

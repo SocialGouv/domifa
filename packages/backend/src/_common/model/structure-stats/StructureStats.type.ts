@@ -1,6 +1,6 @@
 import { StructureType } from "../structure/StructureType.type";
 import { AppEntity } from "../_core/AppEntity.type";
-import { StructureStatsQuestions } from "./StructureStatsQuestions.type";
+import { StructureStatsQuestionsAtDate } from "./StructureStatsQuestionsAtDate.type";
 
 export type StructureStats = AppEntity & {
   createdAt?: Date;
@@ -12,6 +12,6 @@ export type StructureStats = AppEntity & {
   ville: string;
   capacite: number;
   codePostal: string;
-  questions: StructureStatsQuestions;
+  questions: StructureStatsQuestionsAtDate;
   generated: boolean;
 };

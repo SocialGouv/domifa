@@ -7,7 +7,7 @@ import {
   CronMailUserGuideSenderService,
 } from "./mails/services";
 import { messageEmailConsummerTrigger } from "./mails/services/_core";
-import { StatsGeneratorService } from "./stats/services/stats-generator.service";
+import { structureStatsAtDateGenerator } from "./stats/services/stats-generator";
 import { appLogger } from "./util";
 
 (async () => {
@@ -44,10 +44,7 @@ import { appLogger } from "./util";
 
 async function runCronJobs(app) {
   if (domifaConfig().cron.stats.autoRunOnStartup) {
-    const statsGeneratorService: StatsGeneratorService = app.get(
-      StatsGeneratorService
-    );
-    await statsGeneratorService.generateStats("startup");
+    await structureStatsAtDateGenerator.generateStats("startup");
   }
   if (domifaConfig().cron.emailUserGuide.autoRunOnStartup) {
     const cronMailUserGuideSenderService: CronMailUserGuideSenderService = app.get(

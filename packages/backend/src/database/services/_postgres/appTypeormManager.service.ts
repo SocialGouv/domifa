@@ -25,7 +25,7 @@ const connectionHolder: {
 
 async function migrateUp(connection: Connection): Promise<Migration[]> {
   const migrations = await connection.runMigrations({
-    transaction: "all",
+    transaction: "each",
   });
   appLogger.warn(`Migration success: ${migrations.length}`);
   return migrations;

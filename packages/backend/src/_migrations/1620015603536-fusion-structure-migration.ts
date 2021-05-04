@@ -8,16 +8,15 @@ import {
   usersRepository,
 } from "../database";
 import { appLogger } from "../util";
+import { Usager } from "../_common/model";
 
 import path = require("path");
-
-import { Usager } from "../_common/model";
 
 export class manualMigration1620015603536 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     appLogger.debug(`[Migration] UP manualMigration1618928713316`);
 
-    appLogger.debug(`[Migration] RUN migration Users`);
+    appLogger.debug(`[Migration] RUN migration fusion`);
 
     const filesA = path.resolve(domifaConfig().upload.basePath + "159");
 
@@ -33,6 +32,10 @@ export class manualMigration1620015603536 implements MigrationInterface {
     fs.readdir(filesB, (err, files) => {
       startNbFoldersB = files?.length ?? 0;
     });
+
+    appLogger.debug(
+      `[Migration] A:${startNbFoldersA} & B:${startNbFoldersB} folders to migrate`
+    );
 
     const startNbUsagersA: number = await usagerRepository.count({
       where: { structureId: 159 },
@@ -75,6 +78,10 @@ export class manualMigration1620015603536 implements MigrationInterface {
         select: ["uuid", "ref"],
         order: { ref: "ASC" },
       }
+    );
+
+    appLogger.debug(
+      `[Migration] RUN migration ${usagers.length} usagers to migrate`
     );
 
     for (const usager of usagers) {

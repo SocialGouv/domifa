@@ -1,4 +1,7 @@
-import { AppEntity } from "../../../_common/model";
+import {
+  AppEntity,
+  UsagerVisibleHistoryDecision,
+} from "../../../_common/model";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./UsagerDecision.type";
 import { UsagerDoc } from "./UsagerDoc.type";
@@ -45,7 +48,9 @@ export type Usager = AppEntity & {
 
   // DECISIONS
   decision: UsagerDecision;
-  historique: UsagerDecision[];
+
+  // visible history
+  historique: UsagerVisibleHistoryDecision[];
 
   // INTERACTIONS
   lastInteraction: UsagerLastInteractions;

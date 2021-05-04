@@ -12,10 +12,14 @@ export type UsagerAvancedSearchCriteria = {
   actifsInHistoryBefore?: Date;
   decisionInHistory?: {
     statut: UsagerDecisionStatut;
+    dateDebutAfter?: Date;
     dateDebutBefore?: Date;
+    dateFinAfter?: Date;
     dateDecisionBefore?: Date;
+    dateDecisionAfter?: Date;
     motif?: UsagerDecisionMotif;
     orientation?: UsagerDecisionOrientation;
+    typeDom?: UsagerTypeDom;
   };
   decision?: {
     dateDecisionBefore: Date;
