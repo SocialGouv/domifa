@@ -20,11 +20,11 @@ SET row_security = off;
 -- Data for Name: structure; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.structure (uuid, "createdAt", "updatedAt", version, id, adresse, "adresseCourrier", agrement, capacite, "codePostal", "complementAdresse", departement, region, email, "hardReset", "tokenDelete", import, "registrationDate", "importDate", "lastLogin", nom, options, phone, responsable, stats, "structureType", token, verified, ville, "mongoStructureId", sms) FROM stdin;
-e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 07:51:53.846157+00	2021-01-26 07:51:53.846157+00	1	2	2 rue du test	\N	\N	\N	33600	\N	33	75	cias.test@yopmail.com	\N		f	2020-11-17 13:32:21.959+00	\N	2020-11-17	CIAS de Test	{"numeroBoite": false}	0102030405	{"nom": "Anna", "prenom": "Dupond", "fonction": "PDG"}	{"RADIE": 0, "REFUS": 0, "TOTAL": 0, "VALIDE": 0}	cias	b1ca3193633282c675257f1b05771a7605a4aa1c5ba231b3545564bfa33a	f	Pessac	\N	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}
-412f6962-fc6e-4e48-b0a6-a37d6eebbc67	2021-01-26 07:51:53.846157+00	2021-02-01 16:13:04.469973+00	14	1	1 rue de l'océan	\N	\N	\N	92600	\N	92	11	ccas.test@yopmail.com	\N		f	2020-11-17 13:30:23.692+00	\N	2021-02-01	CCAS de Test	{"numeroBoite": false}	0602030405	{"nom": "Jean", "prenom": "Thomson", "fonction": "PDG"}	{"RADIE": 0, "REFUS": 0, "TOTAL": 0, "VALIDE": 0}	ccas	adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89	t	Asnieres-sur-seine	\N	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}
-610966c4-ab91-43c0-88da-483ae23d0af2	2021-02-01 16:12:30.65884+00	2021-02-01 16:13:04.633129+00	4	4	rue de l'import	{"actif": false, "ville": "", "adresse": "", "codePostal": ""}	123	\N	44000		44	52	test.import@yopmail.com	\N	\N	f	2021-02-01 16:12:30.655+00	\N	\N	Structure de Test d'import	{"numeroBoite": false}	0101010101	{"nom": "Test", "prenom": "Import", "fonction": "Testeur"}	{"RADIE": 0, "REFUS": 0, "TOTAL": 0, "VALIDE": 0}	asso		t	Nantes	\N	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}
-1d1ed6f0-7674-474a-908b-d0bd8c6389cb	2021-01-26 07:51:53.846157+00	2021-01-26 07:51:53.846157+00	1	3	1 rue du test de l'organise agréé	\N	1234	80	44000	\N	44	52	organisme.agree@yopmail.com	{"token": "6V0XR2S", "userId": 3}		f	2020-11-17 13:34:35.821+00	\N	\N	Organisme agréé de Test	{"numeroBoite": false}	0506070809	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	{"RADIE": 0, "REFUS": 0, "TOTAL": 0, "VALIDE": 0}	asso	b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343	f	Nantes	\N	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}
+COPY public.structure (uuid, "createdAt", "updatedAt", version, id, adresse, "adresseCourrier", agrement, capacite, "codePostal", "complementAdresse", departement, region, email, "hardReset", "tokenDelete", import, "registrationDate", "importDate", "lastLogin", nom, options, phone, responsable, stats, "structureType", token, verified, ville, sms) FROM stdin;
+e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 07:51:53.846157+00	2021-01-26 07:51:53.846157+00	1	2	2 rue du test	\N	\N	\N	33600	\N	33	75	cias.test@yopmail.com	\N		f	2020-11-17 13:32:21.959+00	\N	2020-11-17	CIAS de Test	{"numeroBoite": false}	0102030405	{"nom": "Anna", "prenom": "Dupond", "fonction": "PDG"}	{"RADIE": 0, "REFUS": 0, "TOTAL": 0, "VALIDE": 0}	cias	b1ca3193633282c675257f1b05771a7605a4aa1c5ba231b3545564bfa33a	f	Pessac	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}
+412f6962-fc6e-4e48-b0a6-a37d6eebbc67	2021-01-26 07:51:53.846157+00	2021-02-01 16:13:04.469973+00	14	1	1 rue de l'océan	\N	\N	\N	92600	\N	92	11	ccas.test@yopmail.com	\N		f	2020-11-17 13:30:23.692+00	\N	2021-02-01	CCAS de Test	{"numeroBoite": false}	0602030405	{"nom": "Jean", "prenom": "Thomson", "fonction": "PDG"}	{"RADIE": 0, "REFUS": 0, "TOTAL": 0, "VALIDE": 0}	ccas	adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89	t	Asnieres-sur-seine	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}
+610966c4-ab91-43c0-88da-483ae23d0af2	2021-02-01 16:12:30.65884+00	2021-02-01 16:13:04.633129+00	4	4	rue de l'import	{"actif": false, "ville": "", "adresse": "", "codePostal": ""}	123	\N	44000		44	52	test.import@yopmail.com	\N	\N	f	2021-02-01 16:12:30.655+00	\N	\N	Structure de Test d'import	{"numeroBoite": false}	0101010101	{"nom": "Test", "prenom": "Import", "fonction": "Testeur"}	{"RADIE": 0, "REFUS": 0, "TOTAL": 0, "VALIDE": 0}	asso		t	Nantes	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}
+1d1ed6f0-7674-474a-908b-d0bd8c6389cb	2021-01-26 07:51:53.846157+00	2021-01-26 07:51:53.846157+00	1	3	1 rue du test de l'organise agréé	\N	1234	80	44000	\N	44	52	organisme.agree@yopmail.com	{"token": "6V0XR2S", "userId": 3}		f	2020-11-17 13:34:35.821+00	\N	\N	Organisme agréé de Test	{"numeroBoite": false}	0506070809	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	{"RADIE": 0, "REFUS": 0, "TOTAL": 0, "VALIDE": 0}	asso	b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343	f	Nantes	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}
 \.
 
 
@@ -103,55 +103,6 @@ COPY public.message_email (uuid, "createdAt", "updatedAt", version, status, "ema
 COPY public.message_sms (uuid, "createdAt", "updatedAt", version, "usagerRef", "structureId", content, status, "smsId", "scheduledDate", "sendDate", "interactionMetas", "reminderMetas", "statusUpdates", "lastUpdate", "errorCount", "errorMessage", "responseId", "phoneNumber", "senderName") FROM stdin;
 \.
 
-
---
--- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.migrations (id, "timestamp", name) FROM stdin;
-1	1603812391580	autoMigration1603812391580
-2	1604995302358	autoMigration1604995302358
-3	1605001375177	autoMigration1605001375177
-4	1605620815542	autoMigration1605620815542
-5	1606748548178	manualMigration1606748548178
-6	1606822012536	autoMigration1606822012536
-7	1606838472064	autoMigration1606838472064
-8	1606839814470	autoMigration1606839814470
-9	1606839814472	autoMigration1606839814472
-10	1607476591678	autoMigration1607476591678
-11	1608026995583	manualMigration1608026995583
-12	1608026995584	manualMigration1608026995584
-13	1608026995585	manualMigration1608026995585
-14	1609767028614	manualMigration1609767028614
-15	1609776115336	autoMigration1609776115336
-16	1611066431350	autoMigration1611066431350
-17	1611148210101	autoMigration1611148210101
-18	1609860597375	autoMigration1609860597375
-19	1610982547284	autoMigration1610982547284
-20	1611568677140	autoMigration1611568677140
-21	1611568677141	autoMigration1611568677141
-22	1611658001706	autoMigration1611658001706
-23	1612770930656	autoMigration1612770930656
-24	1613425788373	manualMigration1613425788373
-25	1613425788374	manualMigration1613425788374
-26	1613987756520	autoMigration1613987756520
-27	1614089579788	manualMigration1614089579788
-28	1614164251906	manualMigration1614164251906
-29	1614194657232	manualMigration1614194657232
-30	1614589489050	manualMigration1614589489050
-31	1614589489060	manualMigration1614589489060
-32	1614608625533	manualMigration1614608625533
-33	1615804855154	autoMigration1615804855154
-34	1615884899669	autoMigration1615884899669
-35	1615884899670	autoMigration1615884899670
-36	1617745703874	manualMigration1617745703874
-37	1617740677589	manualMigration1617740677589
-38	1618289243100	manualMigration1618289243100
-39	1618928713316	manualMigration1618928713316
-40	1619517500466	manualMigration1619517500466
-\.
-
-
 --
 -- Data for Name: monitor_batch_process; Type: TABLE DATA; Schema: public; Owner: -
 --
@@ -192,14 +143,6 @@ SELECT pg_catalog.setval('public.app_user_id_seq', 7, true);
 --
 
 SELECT pg_catalog.setval('public.interactions_id_seq', 7, true);
-
-
---
--- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.migrations_id_seq', 40, true);
-
 
 --
 -- Name: structure_doc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -

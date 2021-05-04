@@ -1,5 +1,3 @@
-import { UsagerPG } from "./../database/entities/usager/UsagerPG.type";
-
 import {
   interactionRepository,
   structureStatsRepository,
@@ -11,6 +9,7 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 import { appLogger } from "../util";
 import path = require("path");
 import { domifaConfig } from "../config";
+import { Usager } from "../_common/model";
 
 export class manualMigration1620015603536 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -66,7 +65,7 @@ export class manualMigration1620015603536 implements MigrationInterface {
     });
 
     const usagers: Pick<
-      UsagerPG,
+      Usager,
       "ref" | "uuid"
     >[] = await usagerRepository.findMany(
       { structureId: 159 },
@@ -85,7 +84,7 @@ export class manualMigration1620015603536 implements MigrationInterface {
         `[MIGRATE USAGER] OLD REF: ${usager.ref}  \t\t NEW REF: ${newRef}`
       );
 
-      const newUsager: UsagerPG = await usagerRepository.updateOne(
+      const newUsager: Usager = await usagerRepository.updateOne(
         {
           uuid: usager.uuid,
           structureId: 159,

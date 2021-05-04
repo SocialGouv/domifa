@@ -60,7 +60,7 @@ function buildList<T>(nb: number, value: T): T[] {
 
 function fromList<T>(list: T[]): T {
   const length = list.length;
-  const randomIndex = get().random.number({
+  const randomIndex = get().datatype.number({
     min: 0,
     max: length - 1,
   });
@@ -107,7 +107,7 @@ function fromListAndRemove<T>(
       remaining: [],
     };
   }
-  const randomIndex = get().random.number({
+  const randomIndex = get().datatype.number({
     min: 0,
     max: length - 1,
   });
@@ -126,14 +126,13 @@ function number(options?: {
   max?: number;
   precision?: number;
 }): number {
-  return get().random.number(options);
+  return get().datatype.number(options);
 }
-
 function boolean(options?: { percentageTrue?: number }): boolean {
   if (options && options.percentageTrue) {
     return number({ min: 1, max: 100, precision: 1 }) <= options.percentageTrue;
   }
-  return get().random.boolean();
+  return get().datatype.boolean();
 }
 
 type MinMaxOptions = {
