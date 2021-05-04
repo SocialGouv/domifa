@@ -9,7 +9,7 @@
       <button
         (click)="showForm()"
         class="btn btn-outline-primary"
-        *ngIf="!isRole('facteur') && usager.isActif"
+        *ngIf="!isRole('facteur') && usager.decision.statut !== 'REFUS'"
       >
         <fa-icon icon="plus" class="btn-icon"></fa-icon>
         Activer le transfert de courrier

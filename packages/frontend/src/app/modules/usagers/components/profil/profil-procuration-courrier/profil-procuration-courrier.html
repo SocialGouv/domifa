@@ -6,7 +6,7 @@
     >
       <p>Il n'y a aucune procuration actuellement</p>
       <button
-        *ngIf="!isRole('facteur') && usager.isActif"
+        *ngIf="!isRole('facteur') && usager.decision.statut !== 'REFUS'"
         class="btn btn-outline-primary"
         (click)="showForm()"
       >
