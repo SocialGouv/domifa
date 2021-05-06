@@ -1,5 +1,4 @@
-<br />
-<div class="row" *ngIf="me">
+<div class="container" *ngIf="me">
   <div id="steps">
     <div
       class="step"
@@ -14,7 +13,8 @@
           *ngIf="currentStep <= i"
           [ngClass]="{
             step_active: currentStep == i,
-            step_inactive: (usager.ref === 0 || i > usager.etapeDemande) && i > 0
+            step_inactive:
+              (usager.ref === 0 || i > usager.etapeDemande) && i > 0
           }"
           class="step_number"
         >
@@ -44,4 +44,3 @@
     </div>
   </div>
 </div>
-<br />

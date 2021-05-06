@@ -132,7 +132,7 @@ table {
 tbody td,
 tbody th {
   vertical-align: middle;
-  min-width: 30px;
+
   border: none;
   height: 64px;
   font-weight: 600;
@@ -207,7 +207,7 @@ th {
 }
 
 .icones_liste {
-  min-width: 280px;
+  min-width: 340px;
 }
 
 .sort-structures label {
@@ -308,8 +308,8 @@ th {
   box-sizing: border-box;
   vertical-align: middle;
   border-radius: 3px;
-  margin: 0 4px;
-  padding: 3px 5px;
+  margin: 2px;
+  padding: 2px 4px;
   position: relative;
 }
 
@@ -318,8 +318,7 @@ th {
 }
 
 .list-icon {
-  min-height: 24px;
-  min-width: 24px;
+  width: 20px;
   padding: 16px;
   box-sizing: border-box;
   background-color: #4164f5;
@@ -328,8 +327,8 @@ th {
 }
 
 .list-icon-label {
-  font-size: 0.85rem;
-  padding: 0 4px;
+  font-size: 0.8rem;
+  padding: 0 3px;
 }
 
 .interaction-btn:hover {

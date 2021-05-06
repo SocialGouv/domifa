@@ -314,8 +314,9 @@ table .active {
 
 #steps {
   max-width: 800px;
-  margin: 0 auto 3rem auto;
+  margin: 1.5rem auto;
   text-align: center;
+  min-height: 90px;
 }
 
 .step_number {
@@ -463,7 +464,7 @@ table .active {
 }
 
 #statut-selector .col {
-  padding: 16px 24px;
+  padding: 1rem 1.2rem;
   margin: 0;
   font-size: 1.05rem;
   cursor: pointer;

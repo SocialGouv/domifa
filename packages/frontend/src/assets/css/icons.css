@@ -7,6 +7,32 @@
   mask-size: 100%;
 }
 
+.icon-plus {
+  -webkit-mask: url("../icones/plus.svg") no-repeat center;
+  mask: url("../icones/plus.svg") no-repeat center;
+  min-height: 28px;
+  min-width: 24px;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+  background-color: white;
+}
+
+.icon-moins {
+  min-height: 28px;
+  min-width: 24px;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+  background-color: white;
+  -webkit-mask: url("../icones/moins.svg") no-repeat center;
+  mask: url("../icones/moins.svg") no-repeat center;
+}
+
 .icon-courrier {
   -webkit-mask: url("../icones/courrier.svg") no-repeat center;
   mask: url("../icones/courrier.svg") no-repeat center;

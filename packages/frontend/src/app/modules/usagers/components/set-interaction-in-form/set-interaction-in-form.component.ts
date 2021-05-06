@@ -9,10 +9,12 @@ import {
 
 import { InteractionService } from "../../services/interaction.service";
 import { ToastrService } from "ngx-toastr";
-import { forkJoin } from "rxjs";
+
 import { UsagerService } from "../../services/usager.service";
+import { bounce } from "../../../../shared/animations";
 
 @Component({
+  animations: [bounce],
   selector: "app-set-interaction-in-form",
   templateUrl: "./set-interaction-in-form.component.html",
   styleUrls: ["./set-interaction-in-form.component.css"],
