@@ -47,7 +47,7 @@ export const bounce = trigger("bounce", [
             style({ opacity: 1, transform: "scale3d(1, 1, 1)", offset: 1 }),
           ])
         ),
-        { params: { timing: 1, delay: 0 } }
+        { params: { timing: 0.5, delay: 0 } }
       )
     )
   ),

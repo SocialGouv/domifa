@@ -41,6 +41,7 @@ import { DocumentService } from "./services/document.service";
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
 import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-preference/profil-edit-preference.component";
+
 import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 

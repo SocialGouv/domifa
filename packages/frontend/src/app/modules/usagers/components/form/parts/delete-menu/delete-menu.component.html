@@ -9,7 +9,7 @@
       *ngIf="usager.typeDom !== 'RENOUVELLEMENT' && usager.etapeDemande >= 1"
       (click)="open(deleteConfirmation)"
     >
-      <fa-icon icon="trash" class="btn-icon"></fa-icon>
+      <fa-icon icon="trash" class="mr-2"></fa-icon>
       Supprimer cette demande
     </button>
 
@@ -19,7 +19,7 @@
       *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
       (click)="open(deleteRenewConfirmation)"
     >
-      <fa-icon icon="trash" class="btn-icon"></fa-icon>
+      <fa-icon icon="trash" class="mr-2"></fa-icon>
       Supprimer cette demande
     </button>
   </div>

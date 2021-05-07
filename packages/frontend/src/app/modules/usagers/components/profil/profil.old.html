@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-2 text-center">
       <a routerLink="/manage/">
-        <fa-icon icon="angle-left" class="btn-icon"></fa-icon>
+        <fa-icon icon="angle-left" class="mr-2"></fa-icon>
         Retour à la liste
       </a>
     </div>
@@ -36,7 +36,7 @@
           (click)="open(renewConfirmation)"
           class="btn btn-outline-secondary"
         >
-          <fa-icon icon="redo" class="btn-icon"></fa-icon>
+          <fa-icon icon="redo" class="mr-2"></fa-icon>
           Créer une nouvelle demande
         </button>
         &nbsp;&nbsp;
@@ -63,7 +63,7 @@
             (click)="open(renewConfirmation)"
             class="btn btn-outline-secondary"
           >
-            <fa-icon icon="redo" class="btn-icon"></fa-icon>
+            <fa-icon icon="redo" class="mr-2"></fa-icon>
             Créer une nouvelle demande
           </button>
           &nbsp;&nbsp;
@@ -72,7 +72,7 @@
             (click)="getStructureDocument('courrier_radiation')"
             class="btn btn-outline-primary"
           >
-            <fa-icon icon="download" class="btn-icon"></fa-icon>
+            <fa-icon icon="download" class="mr-2"></fa-icon>
             Télécharger le courrier de radiation
           </button>
         </div>
@@ -127,7 +127,7 @@
             *ngIf="usager.dayBeforeEnd < 60"
             class="btn col-5 btn-outline-secondary"
           >
-            <fa-icon icon="redo" class="btn-icon"></fa-icon>
+            <fa-icon icon="redo" class="mr-2"></fa-icon>
             Demande de renouvellement
           </button>
           &nbsp;&nbsp;
@@ -137,7 +137,7 @@
             routerLinkActive="router-link-active"
             class="btn col-5 btn-outline-danger"
           >
-            <fa-icon icon="times" class="btn-icon"></fa-icon>
+            <fa-icon icon="times" class="mr-2"></fa-icon>
             Radier le domicilié
           </a>
         </div>
@@ -291,7 +291,7 @@
   >
     Une demande de renouvellement est actuellement en cours &nbsp;
     <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
-      <fa-icon icon="redo" class="btn-icon"></fa-icon>
+      <fa-icon icon="redo" class="mr-2"></fa-icon>
       Compléter la demande
     </a>
   </ngb-alert>
@@ -305,7 +305,7 @@
     Cette demande de renouvellement est actuellement en attente d'une décision
     &nbsp;
     <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
-      <fa-icon icon="redo" class="btn-icon"></fa-icon>
+      <fa-icon icon="redo" class="mr-2"></fa-icon>
       Voir le récapitulatif
     </a>
   </ngb-alert>
@@ -415,7 +415,7 @@
                     <fa-icon icon="trash-alt" class="delete"></fa-icon>
                   </span>
                   <span *ngIf="false" (click)="interaction.delete = false">
-                    <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
+                    <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
                   </span>
                 </td>
               </tr>
@@ -449,7 +449,7 @@
                 class="btn btn-outline-dark"
                 (click)="editInfos = !editInfos"
               >
-                <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
+                <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
                 Modifier les informations
               </button>
             </div>
@@ -788,7 +788,7 @@
                   <label for class="text-white"> c </label>
                   <div>
                     <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
-                      <fa-icon icon="trash" class="btn-icon"></fa-icon>
+                      <fa-icon icon="trash" class="mr-2"></fa-icon>
                     </span>
                   </div>
                 </div>
@@ -829,7 +829,7 @@
               class="btn btn-outline-dark"
               (click)="editAyantsDroits = !editAyantsDroits"
             >
-              <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
+              <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
               Modifier les ayants-droit
             </button>
           </div>
@@ -1008,7 +1008,7 @@
             *ngIf="!editEntretien"
             (click)="openEntretien()"
           >
-            <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
+            <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
             Modifier la situation sociale
           </button>
         </div>
@@ -1047,7 +1047,7 @@
             (click)="getAttestation()"
             class="col btn btn-outline-primary"
           >
-            <fa-icon icon="file-pdf" class="btn-icon"></fa-icon>
+            <fa-icon icon="file-pdf" class="mr-2"></fa-icon>
             Télécharger l'attestation
           </button>
           &nbsp;&nbsp;
@@ -1056,7 +1056,7 @@
             routerLinkActive="router-link-active"
             class="col btn btn-outline-danger"
           >
-            <fa-icon icon="times" class="btn-icon"></fa-icon>
+            <fa-icon icon="times" class="mr-2"></fa-icon>
             Radier le domicilié
           </a>
           &nbsp;&nbsp;
@@ -1064,7 +1064,7 @@
             (click)="open(renewConfirmation)"
             class="col btn btn-outline-secondary"
           >
-            <fa-icon icon="redo" class="btn-icon"></fa-icon>
+            <fa-icon icon="redo" class="mr-2"></fa-icon>
             Demande de renouvellement
           </button>
         </div>
@@ -1072,13 +1072,11 @@
     </div>
   </div>
   <div
-    class="col-md-12 text-center text-danger"
+    class="col-md-12 my-5 text-center text-danger"
     *ngIf="me.role === 'admin' || me.role === 'responsable'"
   >
-    <br />
-    <br />
     <span id="delete-usager" (click)="open(deleteConfirmation)">
-      <fa-icon icon="trash" class="btn-icon"></fa-icon>
+      <fa-icon icon="trash" class="mr-2"></fa-icon>
       Supprimer le domicilié
     </span>
   </div>

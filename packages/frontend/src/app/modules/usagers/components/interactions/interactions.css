@@ -55,7 +55,7 @@
   padding: 6px 8px;
   display: inline-block;
   max-width: 60px;
-  margin: 0 4px;
+  margin: 0 auto;
   text-align: center;
   cursor: pointer;
 }
@@ -77,6 +77,10 @@
   box-shadow: 2px 1px 4px rgb(179 179 179 / 50%);
 }
 
+.interaction-actions .action .ng-fa-icon {
+  padding: 1px 4px;
+}
+
 .interaction-actions .action {
   border-radius: 100%;
   max-width: 50px;
@@ -84,7 +88,7 @@
   cursor: pointer;
   display: inline-block;
   font-size: 1.2rem;
-  padding: 6px 11px;
+  padding: 6px 8px;
   margin: 0 auto;
 }
 

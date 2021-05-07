@@ -32,7 +32,7 @@
           routerLink="/nouveau"
           class="btn btn-white-primary"
         >
-          <fa-icon icon="plus" class="btn-icon"></fa-icon>
+          <fa-icon icon="plus" class="mr-2"></fa-icon>
           Créer une demande
         </a>
       </div>
@@ -425,7 +425,7 @@
                 >
                   <ng-template #transfertActif>
                     <span *ngIf=" usager.options.transfert.dateFin > today">
-                      <fa-icon icon="share" class="btn-icon"></fa-icon>
+                      <fa-icon icon="share" class="mr-2"></fa-icon>
                       Courrier à transférer : ADRESSE ICI
                     </span>
 
@@ -445,7 +445,7 @@
                 >
                   <ng-template #procurationActif>
                     <span *ngIf=" usager.options.procuration.dateFin > today">
-                      <fa-icon icon="share" class="btn-icon"></fa-icon>
+                      <fa-icon icon="share" class="mr-2"></fa-icon>
                       Procuration : {{ usager.options.procuration.nom }}
                       {{ usager.options.procuration.prenom }}
                     </span>

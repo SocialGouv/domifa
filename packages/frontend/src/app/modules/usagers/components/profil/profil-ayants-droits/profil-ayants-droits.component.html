@@ -2,7 +2,6 @@
   Aucun ayant-droit enregistré
 </div>
 
-{{ ayantsDroits | json }}
 <table *ngIf="ayantsDroits.length > 0" class="table table-light">
   <tbody>
     <tr>
@@ -12,7 +11,7 @@
     </tr>
     <tr *ngFor="let ayantDroit of ayantsDroits">
       <td>{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</td>
-      <td>{{ ayantDroit.dateNaissance | date: "dd/MM/yyyy" }}</td>
+      <td>{{ ayantDroit.dateNaissance }}</td>
       <td>{{ ayantDroit.lien }}</td>
     </tr>
   </tbody>

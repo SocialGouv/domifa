@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, Output } from "@angular/core";
-import { EventEmitter } from "events";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight } from "../../../../../../_common/model";
 import {
@@ -7,17 +6,16 @@ import {
   INTERACTIONS_OUT_AVAILABLE,
   InteractionIn,
 } from "../../../../../../_common/model/interaction";
+import { bounce } from "../../../../../shared/animations";
 import { InteractionService } from "../../../services/interaction.service";
 import { UsagerService } from "../../../services/usager.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 
 @Component({
+  animations: [bounce],
   selector: "app-set-interaction-out-form",
   templateUrl: "./set-interaction-out-form.component.html",
-  styleUrls: [
-    "./set-interaction-out-form.component.css",
-    "../interactions.css",
-  ],
+  styleUrls: ["../interactions.css"],
 })
 export class SetInteractionOutFormComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
@@ -29,14 +27,13 @@ export class SetInteractionOutFormComponent implements OnInit {
   public usagerChange = new EventEmitter<UsagerFormModel>();
 
   public interactionFormData: InteractionOutForm;
-
   public procuration: boolean; // Mandataire = true / domicilié = false
+
   constructor(
     private interactionService: InteractionService,
     private usagerService: UsagerService,
     private notifService: ToastrService
   ) {
-    console.log("CONSTRUCT");
     this.procuration = false;
     this.interactionFormData = {
       courrierOut: {

@@ -337,8 +337,14 @@ th {
 
 .btn-white-primary {
   background-color: #ffffff;
+  color: #4164f5;
   box-shadow: 0 2px 2px #2f4ece;
   border-radius: 3px;
+}
+
+.btn-white-primary:hover {
+  background-color: #e7e7e7;
+  border: 1px solid #2f4ece;
 }
 
 .selected-btn {

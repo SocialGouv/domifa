@@ -32,7 +32,7 @@
               required
             />
             <div *ngIf="f.codePostal.errors" class="invalid-feedback">
-              <fa-icon icon="exclamation-triangle" class="btn-icon"></fa-icon>
+              <fa-icon icon="exclamation-triangle" class="mr-2"></fa-icon>
               Code-postal incorrect
             </div>
             <br />
@@ -41,7 +41,7 @@
               [disabled]="f.codePostal.invalid"
               class="btn btn-block btn-primary"
             >
-              <fa-icon icon="search" class="btn-icon"></fa-icon>
+              <fa-icon icon="search" class="mr-2"></fa-icon>
               Rechercher
             </button>
           </div>
@@ -64,7 +64,7 @@
         routerLinkActive="router-link-active"
       >
         J'inscris ma structure
-        <fa-icon icon="arrow-alt-circle-right" class="btn-icon"></fa-icon>
+        <fa-icon icon="arrow-alt-circle-right" class="mr-2"></fa-icon>
       </a>
     </div>
     <div class="text-center" *ngIf="structures.length > 0">
