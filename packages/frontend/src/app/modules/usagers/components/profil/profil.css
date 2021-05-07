@@ -38,7 +38,8 @@ input[type="number"] {
   stroke-width: 10px;
   transition: all 0.3s;
   cursor: pointer;
-  padding: 20px 10px;
+  font-size: 1.3rem;
+  padding: 10px;
 }
 
 #big_icons div {

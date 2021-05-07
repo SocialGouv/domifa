@@ -10,8 +10,8 @@
 .icon-plus {
   -webkit-mask: url("../icones/plus.svg") no-repeat center;
   mask: url("../icones/plus.svg") no-repeat center;
-  min-height: 28px;
-  min-width: 24px;
+  min-height: 24px;
+  min-width: 20px;
   display: block;
   background-repeat: no-repeat;
   background-position: center center;
@@ -21,8 +21,8 @@
 }
 
 .icon-moins {
-  min-height: 28px;
-  min-width: 24px;
+  min-height: 24px;
+  min-width: 20px;
   display: block;
   background-repeat: no-repeat;
   background-position: center center;

@@ -183,14 +183,13 @@
       </div>
     </div>
 
-    <div>
-      <div *ngIf="usager.options.npai.actif" class="text-center">
-        <fa-icon icon="ban" size="3x" class="npai actions_icones"> </fa-icon>
-        <span class="text-danger">
-          N'habite plus à l'adresse indiquée, pli non distribuable
-        </span>
-      </div>
+    <div *ngIf="usager.options.npai.actif" class="my-2 text-center">
+      <fa-icon icon="ban" size="3x" class="npai actions_icones"> </fa-icon>
+      <span class="text-danger">
+        N'habite plus à l'adresse indiquée, pli non distribuable
+      </span>
     </div>
+
     <div
       *ngIf=" usager.isActif ||  (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
     >

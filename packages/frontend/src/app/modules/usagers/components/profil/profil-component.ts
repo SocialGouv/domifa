@@ -432,7 +432,7 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.stopCourrier(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usager.options = new Options(usager.options);
-        // this.setInteraction("npai", false);
+        this.setInteraction("npai", false);
       },
       () => {
         this.notifService.error("Cette opération a échoué");

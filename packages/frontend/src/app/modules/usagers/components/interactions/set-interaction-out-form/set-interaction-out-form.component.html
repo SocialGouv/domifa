@@ -1,7 +1,7 @@
 <div class="modal-header">
   <h4>
     Distribuer les courriers de
-    <span class="text-primary">{{ usager.nom }} {{ usager.prenom }}  </span>
+    <span class="text-primary">{{ usager.nom }} {{ usager.prenom }}</span>
   </h4>
   <button
     type="button"
@@ -15,7 +15,7 @@
 <div class="modal-body text-center">
   <div class="row d-flex align-items-top">
     <div
-      class="col-md-3 px-3 my-4"
+      class="col-md-3 px-2 my-4"
       [ngClass]="{ disabled: interactionFormData.courrierOut.nbCourrier === 0 }"
     >
       <div class="interaction-icon-box">
@@ -48,7 +48,7 @@
     </div>
 
     <div
-      class="col-md-3 px-3 my-4"
+      class="col-md-3 px-2 my-4"
       [ngClass]="{ disabled: interactionFormData.colisOut.nbCourrier === 0 }"
     >
       <div class="interaction-icon-box">
@@ -79,7 +79,7 @@
     </div>
 
     <div
-      class="col-md-3 px-3 my-4"
+      class="col-md-3 px-2 my-4"
       [ngClass]="{
         disabled: interactionFormData.recommandeOut.nbCourrier === 0
       }"
@@ -114,27 +114,47 @@
     </div>
   </div>
 
-  <div class="text-left" *ngIf="usager.options.procuration.actif">
-    <fa-icon icon="exclamation-triangle"></fa-icon>
-    Attention, procuration active ! Qui est venu récupérer le courrier ?
-    <br />
-    <br />
-    <button class="btn btn-outline-primary">
-      <b>LE MANDATAIRE</b>
-      <br />
-      {{ usager.options.procuration.nom | uppercase }}
-      {{ usager.options.procuration.prenom }}
-    </button>
-    &nbsp;&nbsp;
-    <button class="btn btn-outline-primary">
-      <b>LE DOMICILIÉ</b>
-      <br />
-      {{ usager.nom }} {{ usager.prenom }}
-    </button>
+  <div class="text-left my-3" *ngIf="usager.options.procuration.actif">
+    <div class="row d-flex align-items-top">
+      <div class="col-md-6 px-2 my-2">
+        <div class="interaction-icon-box">
+          <div class="font-weight-bold">Mandataire</div>
+          <div class="mb-3">
+            {{ usager.options.procuration.nom | uppercase }}
+            {{ usager.options.procuration.prenom }}
+          </div>
+        </div>
+        <div class="interaction-actions">
+          <div
+            class="action action-selected"
+            (click)="procuration = !procuration"
+            [ngClass]="procuration ? 'action-seleted' : 'action-not-selected'"
+          >
+            <fa-icon [icon]="procuration ? 'check' : 'circle'"></fa-icon>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 px-2 my-2">
+        <div class="interaction-icon-box">
+          <div class="font-weight-bold">Domicilié</div>
+          <div class="mb-3">
+            {{ usager.options.procuration.nom | uppercase }}
+            {{ usager.options.procuration.prenom }}
+          </div>
+        </div>
+        <div class="interaction-actions">
+          <div
+            class="action action-selected"
+            (click)="procuration = !procuration"
+            [ngClass]="!procuration ? 'action-seleted' : 'action-not-selected'"
+          >
+            <fa-icon [icon]="!procuration ? 'check' : 'circle'"></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="text-left">
-    <br />
-
+  <div class="mt-5 text-left">
     <button
       [disabled]="
         !interactionFormData.courrierOut.selected &&
@@ -146,7 +166,7 @@
     >
       Confirmer la distribution
     </button>
-    <button class="btn btn-lg mx-1" (click)="cancelReception.emit()">
+    <button class="btn btn-lg mx-1 btn-light" (click)="cancelReception.emit()">
       Revenir à la liste
     </button>
   </div>

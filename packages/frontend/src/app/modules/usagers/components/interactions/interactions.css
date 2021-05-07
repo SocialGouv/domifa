@@ -1,44 +1,76 @@
+/* INTERACTIONS */
 .interaction-icon-box {
   background: #eceffe;
   border-radius: 10px;
-  padding: 0;
+  padding: 10px 5px;
   text-align: center;
-}
-
-.interaction-notification {
-  position: absolute;
-  top: -20px;
-  right: -6px;
-  background-color: var(--secondary);
-  border-radius: 100%;
-  color: white;
-  font-weight: 600;
-  padding: 4px 14px;
-  font-size: 1.2rem;
 }
 
 .interaction-icon {
   height: 60px;
   width: 60px;
   text-align: center;
-  padding: 60px 30px;
+  padding: 50px 30px;
   margin: 0 auto;
   box-sizing: border-box;
   background-color: black;
-  -webkit-mask-size: 100%;
-  mask-size: 100%;
+  -webkit-mask-size: 100% !important;
+  mask-size: 100% !important;
 }
 
 .interaction-actions {
   text-align: center;
   width: 100%;
-  margin-top: -18px;
+  margin-top: -10px;
+}
+
+.interaction-notification {
+  display: inline-block;
+  position: absolute;
+  top: -24px;
+  right: -14px;
+  background-color: var(--secondary);
+  border-radius: 100%;
+  color: white;
+  font-weight: 600;
+  width: 44px;
+  padding: 4px 2px;
+  font-size: 1.5rem;
+}
+
+.interaction-btn  {
+  border: 1px solid rgba(65, 100, 245, 0.3);
+  box-sizing: border-box;
+  border-radius: 3px;
 }
 
 .interaction-actions img {
   width: 20px;
   height: auto;
   margin-top: -4px;
+}
+
+.interaction-actions button {
+  border-radius: 100%;
+  padding: 6px 8px;
+  display: inline-block;
+  max-width: 60px;
+  margin: 0 4px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.interaction-actions button:focus {
+  outline: none;
+}
+
+.interaction-label {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.row {
+  margin: 0;
 }
 
 .interaction-actions .action:hover {

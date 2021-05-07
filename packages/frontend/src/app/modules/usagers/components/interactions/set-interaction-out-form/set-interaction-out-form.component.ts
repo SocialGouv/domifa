@@ -1,21 +1,23 @@
-import { UsagerFormModel } from "../form/UsagerFormModel";
-import { UsagerLight } from "../../../../../_common/model/usager/UsagerLight.type";
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, OnInit, Input, Output } from "@angular/core";
+import { EventEmitter } from "events";
+import { ToastrService } from "ngx-toastr";
+import { UsagerLight } from "../../../../../../_common/model";
 import {
-  InteractionIn,
   InteractionOutForm,
   INTERACTIONS_OUT_AVAILABLE,
-} from "../../../../../_common/model/interaction";
-
-import { InteractionService } from "../../services/interaction.service";
-import { ToastrService } from "ngx-toastr";
-
-import { UsagerService } from "../../services/usager.service";
+  InteractionIn,
+} from "../../../../../../_common/model/interaction";
+import { InteractionService } from "../../../services/interaction.service";
+import { UsagerService } from "../../../services/usager.service";
+import { UsagerFormModel } from "../../form/UsagerFormModel";
 
 @Component({
   selector: "app-set-interaction-out-form",
   templateUrl: "./set-interaction-out-form.component.html",
-  styleUrls: ["./set-interaction-out-form.component.css"],
+  styleUrls: [
+    "./set-interaction-out-form.component.css",
+    "../interactions.css",
+  ],
 })
 export class SetInteractionOutFormComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
@@ -28,11 +30,14 @@ export class SetInteractionOutFormComponent implements OnInit {
 
   public interactionFormData: InteractionOutForm;
 
+  public procuration: boolean; // Mandataire = true / domicilié = false
   constructor(
     private interactionService: InteractionService,
     private usagerService: UsagerService,
     private notifService: ToastrService
   ) {
+    console.log("CONSTRUCT");
+    this.procuration = false;
     this.interactionFormData = {
       courrierOut: {
         nbCourrier: 0,
@@ -53,7 +58,7 @@ export class SetInteractionOutFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    console.log(this.usager.lastInteraction);
+    console.log("INTI");
     this.interactionFormData.courrierOut.nbCourrier = this.usager.lastInteraction.courrierIn;
     this.interactionFormData.recommandeOut.nbCourrier = this.usager.lastInteraction.recommandeIn;
     this.interactionFormData.colisOut.nbCourrier = this.usager.lastInteraction.colisIn;
@@ -71,7 +76,7 @@ export class SetInteractionOutFormComponent implements OnInit {
       (filtered, interaction) => {
         if (this.interactionFormData[interaction].selected) {
           filtered.push({
-            procuration: this.interactionFormData[interaction].procuration,
+            procuration: this.procuration,
             nbCourrier: this.interactionFormData[interaction].nbCourrier,
             type: interaction,
           });
@@ -90,7 +95,6 @@ export class SetInteractionOutFormComponent implements OnInit {
       .setInteraction(this.usager, interactionsToSave)
       .subscribe(
         (values: any) => {
-          console.log(values);
           this.notifService.success("Distribution effectuée avec succès");
           this.refreshUsager();
         },

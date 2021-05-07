@@ -9,7 +9,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-10 offset-1 text-center">
+    <div class="my-3 col-md-10 offset-1 text-center">
       <div
         id="profil_head"
         [ngClass]="{
@@ -146,22 +146,20 @@
         </div>
       </div>
     </div>
-    <br />
   </div>
 
-  <div>
-    <div *ngIf="usager.options.npai.actif" class="text-center">
-      <fa-icon icon="ban" size="3x" class="npai actions_icones"> </fa-icon>
-      <span class="text-danger">
-        N'habite plus à l'adresse indiquée, pli non distribuable
-      </span>
-    </div>
+  <div *ngIf="usager.options.npai.actif" class="my-4 text-center">
+    <fa-icon icon="ban" size="3x" class="npai actions_icones"> </fa-icon>
+    <span class="text-danger">
+      N'habite plus à l'adresse indiquée, pli non distribuable
+    </span>
   </div>
+
   <div
+    class="my-5"
     *ngIf=" usager.isActif ||  (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
   >
-    <br />
-    <h5 class="text-center font-weight-bold">
+    <h5 class="text-center mb-4 font-weight-bold">
       Signaler la réception d’un courrier ou un passage
     </h5>
 
@@ -217,26 +215,26 @@
           class="text-center"
           (click)="stopCourrier()"
         >
-          <fa-icon icon="ban" size="4x" class="bannir actions_icones">
+          <fa-icon icon="ban" size="3x" class="bannir actions_icones">
           </fa-icon>
           <span class="text-danger">Ne plus accepter le courrier</span>
         </div>
       </div>
       <div id="big_icons" *ngIf="usager.decision.statut !== 'RADIE'">
         <div class="text-center" (click)="setInteraction('visite')">
-          <fa-icon icon="walking" size="4x" class="visite actions_icones">
+          <fa-icon icon="walking" size="3x" class="visite actions_icones">
           </fa-icon>
           <span>Passage sans récupérer de courrier</span>
         </div>
         <div class="text-center" (click)="setInteraction('appel')">
-          <fa-icon class="actions_icones appel" icon="phone" size="4x">
+          <fa-icon class="actions_icones appel" icon="phone" size="3x">
           </fa-icon>
           <span>Appel téléphonique</span>
         </div>
       </div>
     </div>
   </div>
-  <br />
+
   <div class="row" *ngIf="usager.options.transfert.actif" class="text-center">
     <div
       *ngIf="usager.options.transfert.dateFin <= today"

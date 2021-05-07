@@ -1,23 +1,23 @@
-import { UsagerFormModel } from "../form/UsagerFormModel";
-import { UsagerLight } from "../../../../../_common/model/usager/UsagerLight.type";
+import { UsagerFormModel } from "../../form/UsagerFormModel";
+import { UsagerLight } from "../../../../../../_common/model/usager/UsagerLight.type";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   InteractionIn,
   InteractionInForm,
   INTERACTIONS_IN_AVAILABLE,
-} from "../../../../../_common/model/interaction";
+} from "../../../../../../_common/model/interaction";
 
-import { InteractionService } from "../../services/interaction.service";
+import { InteractionService } from "../../../services/interaction.service";
 import { ToastrService } from "ngx-toastr";
 
-import { UsagerService } from "../../services/usager.service";
-import { bounce } from "../../../../shared/animations";
+import { UsagerService } from "../../../services/usager.service";
+import { bounce } from "../../../../../shared/animations";
 
 @Component({
   animations: [bounce],
   selector: "app-set-interaction-in-form",
   templateUrl: "./set-interaction-in-form.component.html",
-  styleUrls: ["./set-interaction-in-form.component.css"],
+  styleUrls: ["./set-interaction-in-form.component.css", "../interactions.css"],
 })
 export class SetInteractionInFormComponent implements OnInit {
   @Input() public usager: UsagerFormModel;

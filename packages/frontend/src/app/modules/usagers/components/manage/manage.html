@@ -106,7 +106,7 @@
 <div id="filters" class="py-4">
   <div class="container">
     <div class="row d-flex align-items-center">
-      <div class="col-md-8">
+      <div class="col-md-9">
         <div *ngIf="nbResults" class="filter-part">
           Filtrer les <span class="text-primary"> {{nbResults}} </span>résultats
         </div>
@@ -250,7 +250,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 text-right">
+      <div class="col-md-3 text-right">
         <div
           ngbDropdown
           id="dropdownSort"
@@ -359,7 +359,7 @@
         aucun dossier ne correspond à votre recherche
       </span>
 
-      <button (click)="resetFilters()" class="btn btn-outline-white">
+      <button (click)="resetFilters()" class="btn btn-outline-dark">
         Réinitialiser les filtres
       </button>
     </div>
@@ -413,7 +413,7 @@
               <td (click)="goToProfil(usager)">
                 <div
                   class="label-info label-green"
-                  *ngIf="usager.ayantsDroits.length > 1"
+                  *ngIf="usager.ayantsDroits.length"
                 >
                   <span>{{ usager.ayantsDroits.length }} ayants-droit</span>
                 </div>

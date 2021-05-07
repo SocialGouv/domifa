@@ -129,41 +129,37 @@ table {
   margin: 0 auto;
 }
 
-tbody td,
-tbody th {
+tbody td {
   vertical-align: middle;
-
   border: none;
   height: 64px;
   font-weight: 600;
+  min-width: 130px;
   font-style: normal;
+  padding: 0.4rem;
 }
 
-tbody td:first-child,
-tbody th:first-child {
+tbody td:first-child {
   padding: 10px 14px;
   background-color: white;
   border-radius: 2px 0 0 2px;
+  min-width: 60px;
 }
 
-tbody td:nth-child(2),
-tbody th:nth-child(2) {
-  min-width: 200px;
+tbody td:nth-child(2) {
   max-width: 350px;
   word-break: break-all;
 }
 
-tbody td:last-child,
-tbody th:last-child {
+tbody td:last-child {
   background-color: white;
-  padding: 10px 12px;
   text-align: right;
   border-radius: 0 2px 2px 0;
   width: 40px;
+  min-width: 0;
 }
 
-tbody td:last-child span,
-tbody th:last-child span {
+tbody td:last-child span {
   display: block;
 }
 
@@ -193,7 +189,6 @@ thead th {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
-  padding: 8px 14px;
   transition: all 0.2s ease;
   vertical-align: middle;
 }
@@ -273,7 +268,7 @@ th {
 .label-info {
   border-radius: 50px;
   padding: 3px 12px;
-  margin-right: 3px;
+  margin: 2px;
   display: inline-block;
 }
 
