@@ -186,6 +186,7 @@ thead th {
   font-size: 0.95rem;
   line-height: 1.2rem;
   color: #3150c0;
+  padding: 10px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;

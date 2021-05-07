@@ -106,14 +106,14 @@
         La date de fin est incorrecte
       </div>
     </div>
-    <div class="col-3 form-group">
+    <div class="col-md-3 form-group">
       <div class="input-group">
         <button
           class="btn btn-primary"
           [disabled]="ca.status === 'INVALID' || cb.status === 'INVALID'"
           (click)="compare()"
         >
-          <fa-icon icon="sync-alt" class="mr-2"></fa-icon>
+          <fa-icon icon="sync-alt" class="mr-1"></fa-icon>
           Actualiser les statistiques
         </button>
       </div>
@@ -125,7 +125,7 @@
         class="btn btn-primary"
       >
         <span *ngIf="!exportLoading">
-          <fa-icon icon="download" class="mr-2"></fa-icon>
+          <fa-icon icon="download" class="mr-1"></fa-icon>
           Exporter les statistiques
         </span>
         <span *ngIf="exportLoading">

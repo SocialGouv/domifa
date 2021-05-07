@@ -898,7 +898,9 @@
                   au
                   <b>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</b>
                 </span>
-                <div *ngIf="histo.statut === 'RADIE'">- {{ histo.motif }}</div>
+                <div *ngIf="histo.statut === 'RADIE'">
+                  - {{ motifsRadiation[histo.motif] }}
+                </div>
               </td>
               <td>{{ histo.userName }}</td>
               <td></td>

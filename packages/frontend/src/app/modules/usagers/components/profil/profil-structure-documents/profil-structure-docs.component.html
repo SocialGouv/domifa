@@ -1,22 +1,21 @@
 <div class="row">
-  <div class="col-md-4" *ngIf="usager.isActif">
-    <h6>Attestation postale</h6>
-
+  <div class="col-6" *ngIf="usager.isActif">
     <button
       class="btn btn-outline-primary"
       (click)="getStructureDocument('attestation_postale')"
     >
-      <fa-icon icon="file-word"></fa-icon> Télécharger l'attestation postale
+      <fa-icon icon="file-word" class="mr-2"></fa-icon> Télécharger
+      l'attestation postale
     </button>
   </div>
 
-  <div class="col-md-4" *ngIf="usager.decision.statut === 'RADIE'">
-    <h6>Courrier de radiation</h6>
+  <div class="col-6" *ngIf="usager.decision.statut === 'RADIE'">
     <button
       class="btn btn-outline-primary"
       (click)="getStructureDocument('courrier_radiation')"
     >
-      <fa-icon icon="file-word"></fa-icon> Télécharger le courrier de radiation
+      <fa-icon icon="file-word" class="mr-2"></fa-icon> Télécharger le courrier
+      de radiation
     </button>
   </div>
 </div>
