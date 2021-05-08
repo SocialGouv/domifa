@@ -3,7 +3,6 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -36,9 +35,7 @@ import { SharedModule } from "../shared/shared.module";
   ],
   imports: [
     CommonModule,
-
     SharedModule,
-    BrowserAnimationsModule,
     FontAwesomeModule,
     RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
     ToastrModule.forRoot({}),

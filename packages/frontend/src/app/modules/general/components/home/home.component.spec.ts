@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 
 import { SharedModule } from "src/app/modules/shared/shared.module";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CountUpModule } from "ngx-countup";
 
@@ -23,7 +23,7 @@ describe("HomeComponent", () => {
         CommonModule,
 
         SharedModule,
-        BrowserAnimationsModule,
+
         FontAwesomeModule,
         RouterTestingModule,
         CountUpModule,

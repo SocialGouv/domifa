@@ -30,7 +30,6 @@ describe("UsagersFormComponent", () => {
         FormsModule,
         HttpClientModule,
         ToastrModule.forRoot(),
-        BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
       providers: [

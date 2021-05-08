@@ -21,7 +21,6 @@ import { StatsComponent } from "./components/structure-stats/structure-stats.com
     CommonModule,
     NgbModule,
     SharedModule,
-    BrowserAnimationsModule,
     FontAwesomeModule,
     ToastrModule.forRoot(),
     HttpClientModule,

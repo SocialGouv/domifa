@@ -36,8 +36,6 @@ import { ResetPasswordComponent } from "./modules/users/components/reset-passwor
 import { UserProfilComponent } from "./modules/users/components/user-profil/user-profil.component";
 
 export const routes: Routes = [
-  { path: "", component: HomeComponent },
-
   {
     canActivate: [LoggedGuard],
     component: LoginComponent,
@@ -137,12 +135,13 @@ export const routes: Routes = [
     component: UsagersProfilComponent,
     path: "usager/:id",
   },
+
   {
     canActivate: [AuthGuard],
     component: ManageUsagersComponent,
     path: "manage",
   },
-
+  { path: "", component: HomeComponent },
   { path: "faq", component: FaqComponent },
   { path: "news", component: NewsComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },
@@ -153,9 +152,6 @@ export const routes: Routes = [
     component: ImportComponent,
     path: "import",
   },
-
-  // OLD URL --> REDIRECT TO LAZY LOAD MODULES
-
   {
     canActivate: [DomifaGuard, ResponsableGuard],
     path: "statsdomifa",
@@ -166,9 +162,16 @@ export const routes: Routes = [
     path: "rapport-activite",
     component: StatsComponent,
   },
-  // NEW  LAZY LOAD MODULES
 
   { path: "404", component: NotFoundComponent },
+  {
+    path: "profil",
+    loadChildren: () =>
+      import("./modules/usager-profil/usager-profil.module").then(
+        (m) => m.UsagerProfilModule
+      ),
+  },
+
   { path: "**", redirectTo: "404" },
 ];
 @NgModule({

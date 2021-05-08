@@ -1,57 +1,39 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { FormGroup, FormBuilder, FormArray, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-  NgbDateStruct,
-  NgbModal,
-} from "@ng-bootstrap/ng-bootstrap";
-import { saveAs } from "file-saver";
+import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
-import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
+import { AppUser, UserRole, UsagerLight } from "../../../../../_common/model";
 import {
-  formatDateToNgb,
-  minDateNaissance,
-} from "src/app/shared/bootstrap-util";
-import { regexp } from "src/app/shared/validators";
-import {
-  AppUser,
-  UsagerLight,
-  UsagerOptionsProcuration,
-  UserRole,
-} from "../../../../../_common/model";
-import { InteractionType } from "../../../../../_common/model/interaction";
+  InteractionType,
+  INTERACTIONS_IN_AVAILABLE,
+} from "../../../../../_common/model/interaction";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
-import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/constants";
 import { languagesAutocomplete } from "../../../../shared";
-import { interactionsLabels } from "../../interactions.labels";
-import { AyantDroit } from "../../interfaces/ayant-droit";
-import { Interaction } from "../../interfaces/interaction";
-import { Options } from "../../interfaces/options";
-import { isProcurationActifMaintenant } from "../../services";
-import { DocumentService } from "../../services/document.service";
-import { InteractionService } from "../../services/interaction.service";
-import { UsagerService } from "../../services/usager.service";
-import * as usagersLabels from "../../usagers.labels";
-import { UsagerFormModel } from "../form/UsagerFormModel";
-import { INTERACTIONS_IN_AVAILABLE } from "./../../../../../_common/model/interaction/INTERACTIONS_IN_AVAILABLE.const";
+import {
+  minDateNaissance,
+  formatDateToNgb,
+} from "../../../../shared/bootstrap-util";
+import { regexp } from "../../../../shared/validators";
+import { AuthService } from "../../../shared/services/auth.service";
+import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { interactionsLabels } from "../../../usagers/interactions.labels";
+import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
+import { Interaction } from "../../../usagers/interfaces/interaction";
+import { Options } from "../../../usagers/interfaces/options";
+import { DocumentService } from "../../../usagers/services/document.service";
+import { InteractionService } from "../../../usagers/services/interaction.service";
+import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
-  providers: [
-    NgbDateCustomParserFormatter,
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
-  selector: "app-profil",
-  styleUrls: ["./profil.css"],
-  templateUrl: "./profil.html",
+  selector: "app-profil-overview",
+  templateUrl: "./profil-overview.component.html",
+  styleUrls: ["./profil-overview.component.css"],
 })
-export class UsagersProfilComponent implements OnInit {
+export class ProfilOverviewComponent implements OnInit {
   // Affichage des formulaires d'édition
   public editInfos: boolean;
   public editEntretien: boolean;
@@ -64,13 +46,7 @@ export class UsagersProfilComponent implements OnInit {
   public typeInteraction: InteractionType;
   public interactions: Interaction[];
 
-  public etapesUrl = ETAPES_DEMANDE_URL;
-
   public languagesAutocomplete = languagesAutocomplete;
-
-  public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
-    maxResults: 10,
-  });
 
   public interactionsLabels: {
     [key: string]: any;
@@ -80,7 +56,9 @@ export class UsagersProfilComponent implements OnInit {
     [key: string]: any;
   };
 
-  public labels: any = usagersLabels;
+  public motifsRadiation: { [key: string]: string };
+
+  // public labels: any = usagersLabels;
 
   public usager: UsagerFormModel;
   public usagerForm!: FormGroup;
@@ -117,6 +95,8 @@ export class UsagersProfilComponent implements OnInit {
     private matomo: MatomoTracker,
     private documentService: DocumentService
   ) {
+    console.log("COMPO");
+    // this.motifsRadiation = usagersLabels.motifsRadiation;
     this.editAyantsDroits = false;
     this.editEntretien = false;
     this.editInfos = false;
@@ -166,7 +146,7 @@ export class UsagersProfilComponent implements OnInit {
       (usager: UsagerLight) => {
         if (
           usager.decision.statut === "ATTENTE_DECISION" &&
-          usager.typeDom === "PREMIERE_DOM"
+          usager.typeDom === "PREMIERE"
         ) {
           this.router.navigate(["/usager/" + usager.ref + "/edit"]);
         }
@@ -241,15 +221,8 @@ export class UsagersProfilComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
-      const usagerFormValues = this.usagerForm.value;
-      usagerFormValues.ayantsDroits.map((ayantDroit: any) => {
-        ayantDroit.dateNaissance = new Date(
-          this.nbgDate.formatEn(ayantDroit.dateNaissance)
-        );
-      });
-
-      const formValue: UsagerFormModel = {
-        ...usagerFormValues,
+      const formValue = {
+        ...this.usagerForm.value,
         dateNaissance: this.nbgDate.formatEn(
           this.usagerForm.controls.dateNaissance.value
         ),
@@ -292,8 +265,8 @@ export class UsagersProfilComponent implements OnInit {
   public newAyantDroit(ayantDroit: AyantDroit) {
     return this.formBuilder.group({
       dateNaissance: [
-        formatDateToNgb(ayantDroit.dateNaissance),
-        [Validators.required],
+        ayantDroit.dateNaissance,
+        [Validators.pattern(regexp.date), Validators.required],
       ],
       lien: [ayantDroit.lien, Validators.required],
       nom: [ayantDroit.nom, Validators.required],
@@ -302,13 +275,6 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public renouvellement() {
-    this.matomo.trackEvent(
-      "test-nouveau-profil",
-      "actions",
-      "renouvellement",
-      1
-    );
-
     this.usagerService.renouvellement(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
@@ -333,7 +299,7 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public deleteInteraction(idInteraction: number) {
-    this.matomo.trackEvent("test-nouveau-profil", "interactions", "delete", 1);
+    this.matomo.trackEvent("profil", "interactions", "delete", 1);
     this.interactionService.delete(this.usager.ref, idInteraction).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
@@ -347,12 +313,6 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public deleteUsager() {
-    this.matomo.trackEvent(
-      "test-nouveau-profil",
-      "actions",
-      "supprimer-usager",
-      1
-    );
     this.usagerService.delete(this.usager.ref).subscribe(
       (result: any) => {
         this.modalService.dismissAll();
@@ -375,12 +335,7 @@ export class UsagersProfilComponent implements OnInit {
     if (this.notifInputs[item] === 0) {
       this.notifier(cpt + 1);
     } else {
-      this.matomo.trackEvent(
-        "test-nouveau-profil",
-        "form-interaction",
-        item,
-        1
-      );
+      this.matomo.trackEvent("interactions", "profil_icones", item, 1);
       this.interactionService
         .setInteraction(this.usager, [
           {
@@ -407,10 +362,6 @@ export class UsagersProfilComponent implements OnInit {
     }
   }
 
-  public isProcurationActifMaintenant(procuration: UsagerOptionsProcuration) {
-    return isProcurationActifMaintenant(procuration);
-  }
-
   public setInteraction(type: InteractionType, procuration?: boolean) {
     const interaction: {
       content?: string;
@@ -424,10 +375,10 @@ export class UsagersProfilComponent implements OnInit {
       nbCourrier: 1,
     };
 
-    this.matomo.trackEvent("test-nouveau-profil", "gros-icones", type, 1);
+    this.matomo.trackEvent("interactions", "profil_icones", type, 1);
 
     if (type.substring(type.length - 3) === "Out") {
-      if (isProcurationActifMaintenant(this.usager.options.procuration)) {
+      if (this.usager.options.procuration.actif) {
         if (typeof procuration === "undefined") {
           this.typeInteraction = type;
           this.modalService.open(this.distributionConfirm);
@@ -460,12 +411,6 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public getAttestation() {
-    this.matomo.trackEvent(
-      "test-nouveau-profil",
-      "boutons",
-      "telechargement-attestation",
-      1
-    );
     return this.usagerService.attestation(this.usager.ref);
   }
 
@@ -473,7 +418,8 @@ export class UsagersProfilComponent implements OnInit {
     this.documentService.getStructureDoc(this.usager.ref, docType).subscribe(
       (blob: any) => {
         const newBlob = new Blob([blob], {
-          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          type:
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         });
         saveAs(newBlob, docType + ".docx");
       },
@@ -482,13 +428,6 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public stopCourrier() {
-    this.matomo.trackEvent(
-      "test-nouveau-profil",
-      "interactions",
-      "stop-courrier",
-      1
-    );
-
     this.usagerService.stopCourrier(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usager.options = new Options(usager.options);
@@ -505,18 +444,13 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public openEntretien() {
-    this.matomo.trackEvent(
-      "test-nouveau-profil",
-      "actions",
-      "editEntretien",
-      1
-    );
+    this.matomo.trackEvent("profil", "actions", "editEntretien", 1);
     this.editEntretien = !this.editEntretien;
   }
 
   private getInteractions() {
     this.interactionService
-      .getInteractions({ usagerRef: this.usager.ref, maxResults: 30 })
+      .getInteractions(this.usager.ref)
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;
       });

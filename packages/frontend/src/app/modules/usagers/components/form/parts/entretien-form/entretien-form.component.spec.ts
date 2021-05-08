@@ -3,7 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
@@ -23,7 +23,6 @@ describe("EntretienFormComponent", () => {
         MatomoModule,
         HttpClientModule,
         ToastrModule.forRoot(),
-        BrowserAnimationsModule,
         HttpClientTestingModule,
       ],
       declarations: [EntretienFormComponent],
