@@ -160,16 +160,86 @@ button.dropdown-toggle {
   margin-left: 4px;
 }
 
-.btn-white-primary {
-  background-color: #ffffff;
-  color: #4164f5;
-  box-shadow: 0 2px 2px #2f4ece;
-  border-radius: 3px;
+.sortable .ng-fa-icon {
+  float: right;
 }
 
-.btn-white-primary:hover {
-  background-color: #e7e7e7;
-  border: 1px solid #2f4ece;
+.sortable:hover {
+  background-color: #fafafa;
+}
+
+.sorted {
+  background-color: #fafafa !important;
+}
+
+.label-info {
+  border-radius: 50px;
+  padding: 3px 12px;
+  margin: 2px;
+  display: inline-block;
+}
+
+.label-info span {
+  display: block;
+  font-size: 0.8rem;
+}
+
+.label-danger {
+  background-color: #ffe5dd;
+  color: #b51515;
+}
+
+.label-green {
+  background-color: #d4f4ed;
+  color: #486346;
+}
+
+.label-yellow {
+  background-color: #feedd1;
+  color: #282828;
+}
+
+.interaction-btn span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.interaction-btn {
+  display: inline-block;
+  border: 1px solid rgba(65, 100, 245, 0.4);
+  box-sizing: border-box;
+  vertical-align: middle;
+  border-radius: 3px;
+  margin: 2px;
+  padding: 2px 4px;
+  position: relative;
+}
+
+.interaction-btn * {
+  transition: all 0.2s;
+}
+
+.list-icon {
+  width: 20px;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #4164f5;
+  -webkit-mask-size: 75%;
+  mask-size: 75%;
+}
+
+.list-icon-label {
+  font-size: 0.8rem;
+  padding: 0 3px;
+}
+
+.interaction-btn:hover {
+  color: white;
+  background-color: #4164f5;
+}
+
+.interaction-btn:hover .list-icon {
+  background-color: white;
 }
 
 .selected-btn {

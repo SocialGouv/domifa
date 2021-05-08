@@ -6,7 +6,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -22,7 +22,7 @@ describe("DeleteUsagerMenuComponent", () => {
         NgbModule,
         HttpClientModule,
         ToastrModule.forRoot(),
-        BrowserAnimationsModule,
+
         HttpClientTestingModule,
       ],
       schemas: [NO_ERRORS_SCHEMA],

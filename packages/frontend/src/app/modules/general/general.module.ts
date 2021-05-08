@@ -7,7 +7,6 @@ import {
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
 
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -40,16 +39,7 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
     NavbarComponent,
   ],
   exports: [LoadingComponent, NotFoundComponent, NavbarComponent],
-  imports: [
-    CommonModule,
-    BrowserAnimationsModule,
-    FontAwesomeModule,
-    CountUpModule,
-    RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
-    ToastrModule.forRoot(),
-    HttpClientModule,
-    NgbModule,
-  ],
+  imports: [CommonModule, HttpClientModule, NgbModule],
   providers: [LoadingService, HomeService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
