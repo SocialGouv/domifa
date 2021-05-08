@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import {
@@ -84,13 +83,14 @@ import { UsagerService } from "./services/usager.service";
     UsagersProfilComponent,
     ImportComponent,
     RaftComponent,
+    SetInteractionInFormComponent,
+    SetInteractionOutFormComponent,
   ],
   imports: [
     CommonModule,
     GeneralModule,
     UsersModule,
     SharedModule,
-    BrowserAnimationsModule,
     FontAwesomeModule,
     RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
     ToastrModule.forRoot({}),
