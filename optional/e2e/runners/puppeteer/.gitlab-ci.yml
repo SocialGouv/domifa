@@ -1,7 +1,7 @@
 
 Launch e2e tests:
   stage: Prepare
-  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/curl:4.6.1
+  image: ghcr.io/socialgouv/docker/curl:6.0.1
   when: manual
   except:
     variables:
@@ -23,7 +23,7 @@ Launch e2e tests:
 
 E2E Test @optional/e2e.runner.puppeteer:
   stage: Code Quality
-  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer:4.1.0
+  image: ghcr.io/socialgouv/docker/puppeteer:6.0.1
   variables:
     CODECEPT_BASEURL: "https://master-code-travail.dev.fabrique.social.gouv.fr/"
   artifacts:

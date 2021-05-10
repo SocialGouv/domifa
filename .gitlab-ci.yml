@@ -220,7 +220,8 @@ Test:frontend:unit:
 
 Test:e2e:dist:
   extends: .tests_setup
-  image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:4.2.0 # https://github.com/SocialGouv/docker/blob/master/puppeteer-mongo-pg/Dockerfile
+  # image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:4.2.0 # https://github.com/SocialGouv/docker/blob/master/puppeteer-mongo-pg/Dockerfile
+  image: ghcr.io/socialgouv/docker/puppeteer:6.0.1
   services:
     - name: postgres:10.14
   before_script:
