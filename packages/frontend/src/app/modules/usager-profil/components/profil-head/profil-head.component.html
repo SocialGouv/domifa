@@ -1,0 +1,62 @@
+<div *ngIf="usager && me" class="head-page">
+  <div class="container">
+    <div class="row d-flex align-items-center">
+      <div class="col-6">
+        <span class="title">
+          {{ usager | usagerNomComplet }}
+          <b *ngIf="usager.customRef">{{ usager.customRef }}</b>
+          <b *ngIf="!usager.customRef">{{ usager.ref }}</b>
+        </span>
+      </div>
+
+      <div class="col-6 text-right">
+        <button class="btn btn-white-primary">
+          <fa-icon icon="plus" class="mr-2"></fa-icon>
+          Nouveau contact
+        </button>
+        <button class="btn btn-white-primary">
+          <fa-icon icon="plus" class="mr-2"></fa-icon>
+          Nouveau courrier
+        </button>
+      </div>
+    </div>
+
+    <div id="statut-selector" class="mt-4 row">
+      <a class="col selected-statut" [routerLink]="['/profil/' + usager.ref]"
+        ><span class="statut-label"> Vue d'ensemble</span></a
+      >
+
+      <a
+        class="col selected-statut"
+        [routerLink]="['/profil/courriers/' + usager.ref]"
+        ><span class="statut-label"> Courriers</span></a
+      >
+
+      <a
+        class="col selected-statut"
+        [routerLink]="['/profil/dossier/' + usager.ref]"
+        ><span class="statut-label"> Dossier</span></a
+      >
+
+      <a
+        class="col selected-statut"
+        [routerLink]="['/profil/historique/' + usager.ref]"
+        ><span class="statut-label"> Historique</span></a
+      >
+    </div>
+  </div>
+</div>
+
+<ng-template #setInteractionInModal let-modal>
+  <app-set-interaction-in-form
+    [(usager)]="usager"
+    (cancelReception)="closeModals()"
+  ></app-set-interaction-in-form>
+</ng-template>
+
+<ng-template #setInteractionOutModal let-modal>
+  <app-set-interaction-out-form
+    [(usager)]="usager"
+    (cancelReception)="closeModals()"
+  ></app-set-interaction-out-form>
+</ng-template>

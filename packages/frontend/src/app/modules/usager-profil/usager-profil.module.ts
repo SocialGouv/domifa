@@ -12,15 +12,23 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../shared/shared.module";
+import { ProfilHeadComponent } from "./components/profil-head/profil-head.component";
+import { ProfilDossierComponent } from './components/profil-dossier/profil-dossier.component';
+import { ProfilHistoriqueComponent } from './components/profil-historique/profil-historique.component';
 
 @NgModule({
-  declarations: [ProfilOverviewComponent, ProfilCourriersComponent],
+  declarations: [
+    ProfilOverviewComponent,
+    ProfilCourriersComponent,
+    ProfilHeadComponent,
+    ProfilDossierComponent,
+    ProfilHistoriqueComponent,
+  ],
   imports: [
     CommonModule,
     FontAwesomeModule,
     UsagerProfilRoutingModule,
     SharedModule,
-
     HttpClientModule,
     NgbModule,
     FormsModule,
