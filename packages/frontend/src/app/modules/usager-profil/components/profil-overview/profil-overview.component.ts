@@ -95,7 +95,6 @@ export class ProfilOverviewComponent implements OnInit {
     private matomo: MatomoTracker,
     private documentService: DocumentService
   ) {
-    console.log("COMPO");
     // this.motifsRadiation = usagersLabels.motifsRadiation;
     this.editAyantsDroits = false;
     this.editEntretien = false;
