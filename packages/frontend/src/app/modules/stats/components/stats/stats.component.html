@@ -106,14 +106,14 @@
         La date de fin est incorrecte
       </div>
     </div>
-    <div class="col-3 form-group">
+    <div class="col-md-3 form-group">
       <div class="input-group">
         <button
           class="btn btn-primary"
           [disabled]="ca.status === 'INVALID' || cb.status === 'INVALID'"
           (click)="compare()"
         >
-          <fa-icon icon="sync-alt" class="btn-icon"></fa-icon>
+          <fa-icon icon="sync-alt" class="mr-1"></fa-icon>
           Actualiser les statistiques
         </button>
       </div>
@@ -125,7 +125,7 @@
         class="btn btn-primary"
       >
         <span *ngIf="!exportLoading">
-          <fa-icon icon="download" class="btn-icon"></fa-icon>
+          <fa-icon icon="download" class="mr-1"></fa-icon>
           Exporter les statistiques
         </span>
         <span *ngIf="exportLoading">
@@ -184,7 +184,7 @@
             <td>
               {{ stats.questions.USAGERS.SEXE.F }}
             </td>
-          </tr> 
+          </tr>
           <tr>
             <td class="soustable">Homme</td>
             <td>
@@ -205,7 +205,7 @@
           <tr>
             <td class="soustable">15-19 ans</td>
             <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_15_19 }}</td>
-          </tr> 
+          </tr>
           <tr>
             <td class="soustable">20-24 ans</td>
             <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_20_24 }}</td>
@@ -237,7 +237,7 @@
           <tr>
             <td class="soustable">55-59 ans</td>
             <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_55_59 }}</td>
-          </tr>  
+          </tr>
           <tr>
             <td class="soustable">60-64 ans</td>
             <td>{{ stats.questions.USAGERS.TRANCHE_AGE.T_60_64 }}</td>
@@ -327,7 +327,7 @@
             <td>
               {{ stats.questions.Q_21.RAISON_DEMANDE.EXERCICE_DROITS }}
             </td>
-          </tr> 
+          </tr>
           <tr>
             <td class="soustable">Accès aux prestations sociales</td>
             <td>
@@ -395,7 +395,8 @@
 
           <tr>
             <td class="font-weight-bold">
-              Nombre total de refus d'élection de domicile (y compris refus de renouvellements)
+              Nombre total de refus d'élection de domicile (y compris refus de
+              renouvellements)
             </td>
             <td>{{ stats.questions.Q_13.TOTAL }}</td>
           </tr>

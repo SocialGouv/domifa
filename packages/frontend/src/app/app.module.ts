@@ -60,11 +60,11 @@ if (environment.production) {
     UsersModule,
     ToastrModule.forRoot({
       enableHtml: true,
-      positionClass: "toast-top-full-width",
+      positionClass: "toast-top-right",
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,
-      timeOut: 3000,
+      timeOut: 4000,
     }),
   ],
   providers: [

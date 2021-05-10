@@ -382,9 +382,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       type,
       nbCourrier: 1,
     };
-
     this.matomo.trackEvent("interactions", "manage", type, 1);
-
     this.interactionService.setInteraction(usager, [interaction]).subscribe(
       (newUsager: UsagerLight) => {
         usager = new UsagerFormModel(newUsager);

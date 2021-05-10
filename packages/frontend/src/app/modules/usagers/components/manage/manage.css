@@ -2,15 +2,6 @@
   padding-top: 120px;
 }
 
-/* FILTRES */
-.filter-part {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
-  font-style: normal;
-  font-weight: 600;
-}
-
 button.dropdown-toggle {
   font-size: 1rem;
   background: #f9f9fc;
@@ -57,33 +48,6 @@ button.dropdown-toggle {
   margin-left: 10px;
   display: inline-block;
   vertical-align: middle;
-}
-
-#statut-selector .col:first-child {
-  border-radius: 5px 0 0 0;
-  font-family: Source Sans Pro;
-}
-
-#statut-selector .col:last-child {
-  border-radius: 0 5px 0 0;
-}
-
-#statut-selector .col {
-  padding: 16px 24px;
-  margin: 0;
-  font-size: 1.05rem;
-  cursor: pointer;
-  transition: all 0.25s ease-in-out;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 -1px 2px 0 rgba(65, 100, 245, 0.2);
-}
-
-#statut-selector .col span {
-  vertical-align: middle;
-}
-
-#statut-selector {
-  box-shadow: 0 1px 3px rgba(50, 66, 124, 0.1);
 }
 
 .statut-cpt {
@@ -165,41 +129,37 @@ table {
   margin: 0 auto;
 }
 
-tbody td,
-tbody th {
+tbody td {
   vertical-align: middle;
-  min-width: 30px;
   border: none;
   height: 64px;
   font-weight: 600;
+  min-width: 130px;
   font-style: normal;
+  padding: 0.4rem;
 }
 
-tbody td:first-child,
-tbody th:first-child {
+tbody td:first-child {
   padding: 10px 14px;
   background-color: white;
   border-radius: 2px 0 0 2px;
+  min-width: 60px;
 }
 
-tbody td:nth-child(2),
-tbody th:nth-child(2) {
-  min-width: 200px;
+tbody td:nth-child(2) {
   max-width: 350px;
   word-break: break-all;
 }
 
-tbody td:last-child,
-tbody th:last-child {
+tbody td:last-child {
   background-color: white;
-  padding: 10px 12px;
   text-align: right;
   border-radius: 0 2px 2px 0;
   width: 40px;
+  min-width: 0;
 }
 
-tbody td:last-child span,
-tbody th:last-child span {
+tbody td:last-child span {
   display: block;
 }
 
@@ -226,10 +186,10 @@ thead th {
   font-size: 0.95rem;
   line-height: 1.2rem;
   color: #3150c0;
+  padding: 10px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
-  padding: 8px 14px;
   transition: all 0.2s ease;
   vertical-align: middle;
 }
@@ -243,7 +203,7 @@ th {
 }
 
 .icones_liste {
-  min-width: 280px;
+  min-width: 340px;
 }
 
 .sort-structures label {
@@ -309,13 +269,13 @@ th {
 .label-info {
   border-radius: 50px;
   padding: 3px 12px;
-  margin-right: 3px;
+  margin: 2px;
   display: inline-block;
 }
 
 .label-info span {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .label-danger {
@@ -344,8 +304,8 @@ th {
   box-sizing: border-box;
   vertical-align: middle;
   border-radius: 3px;
-  margin: 0 4px;
-  padding: 3px 5px;
+  margin: 2px;
+  padding: 2px 4px;
   position: relative;
 }
 
@@ -354,8 +314,7 @@ th {
 }
 
 .list-icon {
-  min-height: 24px;
-  min-width: 24px;
+  width: 20px;
   padding: 16px;
   box-sizing: border-box;
   background-color: #4164f5;
@@ -364,8 +323,8 @@ th {
 }
 
 .list-icon-label {
-  font-size: 0.85rem;
-  padding: 0 4px;
+  font-size: 0.8rem;
+  padding: 0 3px;
 }
 
 .interaction-btn:hover {
@@ -379,8 +338,14 @@ th {
 
 .btn-white-primary {
   background-color: #ffffff;
+  color: #4164f5;
   box-shadow: 0 2px 2px #2f4ece;
   border-radius: 3px;
+}
+
+.btn-white-primary:hover {
+  background-color: #e7e7e7;
+  border: 1px solid #2f4ece;
 }
 
 .selected-btn {

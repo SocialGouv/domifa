@@ -14,12 +14,6 @@
   transition: all 0.25s;
 }
 
-#steps {
-  max-width: 800px;
-  margin: 0 auto 3rem auto;
-  text-align: center;
-}
-
 .step_number {
   cursor: pointer;
   border-radius: 50%;

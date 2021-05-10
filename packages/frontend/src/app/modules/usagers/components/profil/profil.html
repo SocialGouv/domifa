@@ -1,809 +1,696 @@
-<div *ngIf="usager && me" class="my-4 container">
-  <div class="row">
-    <div class="col-md-2 text-center">
-      <a routerLink="/manage/">
-        <fa-icon icon="angle-left" class="btn-icon"></fa-icon>
-        Retour à la liste
-      </a>
+<div *ngIf="usager && me" class="head-page">
+  <div class="container">
+    <div class="row d-flex align-items-center">
+      <div class="col-6">
+        <span class="title">
+          {{ usager | usagerNomComplet }}
+          <b *ngIf="usager.customRef">{{ usager.customRef }}</b>
+          <b *ngIf="!usager.customRef">{{ usager.ref }}</b>
+        </span>
+      </div>
+
+      <div class="col-6 text-right">
+        <a
+          *ngIf="me.role !== 'facteur'"
+          routerLink="/nouveau"
+          class="btn btn-white-primary"
+        >
+          <fa-icon icon="plus" class="mr-2"></fa-icon>
+          Créer une demande
+        </a>
+      </div>
+    </div>
+
+    <div id="statut-selector" class="mt-4 row">
+      <div class="col">
+        <span class="statut-cpt"> </span>
+        <span class="statut-label"> Vue d'ensemble</span>
+      </div>
+      <div class="col">
+        <span class="statut-cpt"> </span>
+        <span class="statut-label"> Courrier</span>
+      </div>
+      <div class="col">
+        <span class="statut-cpt"> </span>
+        <span class="statut-label"> Dossier</span>
+      </div>
+      <div class="col">
+        <span class="statut-cpt"> </span>
+        <span class="statut-label"> Historique</span>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="row">
-    <div class="col-md-10 offset-1 text-center">
-      <div
-        id="profil_head"
-        [ngClass]="{
-           'text-danger': usager.dayBeforeEnd < 15,
-           'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
-         }"
-      >
-        <h2 id="profil_name">{{ usager | usagerNomComplet }}</h2>
-        Numéro domicilié :
-        <b *ngIf="usager.customRef">{{ usager.customRef }}</b>
-        <b *ngIf="!usager.customRef">{{ usager.ref }}</b>
-      </div>
-      <div class="text-center" *ngIf="usager.decision.statut === 'REFUS'">
-        <div class="text-radiation text-danger">
-          Demande refusée le {{ usager.decision.dateDecision | date:
-          "dd/MM/yyyy" }}
-          <br />
-          Motif : {{ usager.decision.motifString }}
-          <br />
-          Orientation proposée : {{ usager.decision.orientationDetails}}
-        </div>
-        <button
-          *ngIf="!isRole('facteur')"
-          (click)="open(renewConfirmation)"
-          class="btn btn-outline-secondary"
-        >
-          <fa-icon icon="redo" class="btn-icon"></fa-icon>
-          Créer une nouvelle demande
-        </button>
-        &nbsp;&nbsp;
-        <button (click)="getAttestation()" class="btn btn-primary">
-          <fa-icon icon="download"></fa-icon>
-          Télécharger le CERFA de refus
-        </button>
-      </div>
-
-      <div
-        class="text-center text-danger"
-        *ngIf="usager.decision.statut === 'RADIE'"
-      >
-        <div class="text-radiation">
-          Cette personne a été radiée le {{ usager.decision.dateDecision |
-          date:'dd/MM/yyyy' }}
-          <br />
-          Motif : {{ usager.decision.motifString }}
-        </div>
-
-        <div class="col-md-12">
-          <button
-            *ngIf="!isRole('facteur')"
-            (click)="open(renewConfirmation)"
-            class="btn btn-outline-secondary"
-          >
-            <fa-icon icon="redo" class="btn-icon"></fa-icon>
-            Créer une nouvelle demande
-          </button>
-          &nbsp;&nbsp;
-
-          <button
-            (click)="getStructureDocument('courrier_radiation')"
-            class="btn btn-outline-primary"
-          >
-            <fa-icon icon="download" class="btn-icon"></fa-icon>
-            Télécharger le courrier de radiation
-          </button>
-        </div>
-      </div>
-
-      <div class="text-center" *ngIf="usager.isActif">
-        <span
-          [ngClass]="{
-              'text-danger': usager.dayBeforeEnd <= 15,
-              'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
-            }"
-          *ngIf="usager.dayBeforeEnd > 0"
-        >
-          Domiciliation valable jusqu'au
-          <b
+<div class="content">
+  <div class="container p-0" *ngIf="usager && me">
+    <div class="page-content p-3">
+      <div class="row">
+        <div class="col-md-10 offset-1 text-center">
+          <div
+            id="profil_head"
             [ngClass]="{
-              'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60,
-              'text-secondary': usager.dayBeforeEnd >= 60
-             }"
+             'text-danger': usager.dayBeforeEnd < 15,
+             'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
+           }"
+          ></div>
+          <div class="text-center" *ngIf="usager.decision.statut === 'REFUS'">
+            <div class="text-radiation text-danger">
+              Demande refusée le {{ usager.decision.dateDecision | date:
+              "dd/MM/yyyy" }}
+              <br />
+              Motif : {{ usager.decision.motifString }}
+              <br />
+              Orientation proposée : {{ usager.decision.orientationDetails}}
+            </div>
+            <button
+              *ngIf="!isRole('facteur')"
+              (click)="open(renewConfirmation)"
+              class="btn btn-outline-secondary"
+            >
+              <fa-icon icon="redo" class="mr-2"></fa-icon>
+              Créer une nouvelle demande
+            </button>
+            &nbsp;&nbsp;
+            <button (click)="getAttestation()" class="btn btn-primary">
+              <fa-icon icon="download"></fa-icon>
+              Télécharger le CERFA de refus
+            </button>
+          </div>
+
+          <div
+            class="text-center text-danger"
+            *ngIf="usager.decision.statut === 'RADIE'"
           >
-            {{ usager.dateToDisplay | date: 'dd/MM/yyyy' }}
-          </b>
-        </span>
-        <span class="text-danger" *ngIf="usager.dayBeforeEnd < 0">
-          <fa-icon icon="exclamation-triangle"></fa-icon>
-          Domiciliation expirée depuis le
-          <b>
-            {{ usager.decision.dateFin | date: 'dd/MM/yyyy' }}, il y a
-            {{ usager.dayBeforeEnd * -1 }} jours
-          </b>
-        </span>
+            <div class="text-radiation">
+              Cette personne a été radiée le {{ usager.decision.dateDecision |
+              date:'dd/MM/yyyy' }}
+              <br />
+              Motif : {{ usager.decision.motifString }}
+            </div>
+
+            <div class="col-md-12">
+              <button
+                *ngIf="!isRole('facteur')"
+                (click)="open(renewConfirmation)"
+                class="btn btn-outline-secondary"
+              >
+                <fa-icon icon="redo" class="mr-2"></fa-icon>
+                Créer une nouvelle demande
+              </button>
+              &nbsp;&nbsp;
+
+              <button
+                (click)="getStructureDocument('courrier_radiation')"
+                class="btn btn-outline-primary"
+              >
+                <fa-icon icon="download" class="mr-2"></fa-icon>
+                Télécharger le courrier de radiation
+              </button>
+            </div>
+          </div>
+
+          <div class="text-center" *ngIf="usager.isActif">
+            <span
+              [ngClass]="{
+                'text-danger': usager.dayBeforeEnd <= 15,
+                'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
+              }"
+              *ngIf="usager.dayBeforeEnd > 0"
+            >
+              Domiciliation valable jusqu'au
+              <b
+                [ngClass]="{
+                'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60,
+                'text-secondary': usager.dayBeforeEnd >= 60
+               }"
+              >
+                {{ usager.dateToDisplay | date: 'dd/MM/yyyy' }}
+              </b>
+            </span>
+            <span class="text-danger" *ngIf="usager.dayBeforeEnd < 0">
+              <fa-icon icon="exclamation-triangle"></fa-icon>
+              Domiciliation expirée depuis le
+              <b>
+                {{ usager.decision.dateFin | date: 'dd/MM/yyyy' }}, il y a
+                {{ usager.dayBeforeEnd * -1 }} jours
+              </b>
+            </span>
+            <br />
+
+            <span *ngIf="usager.lastInteraction.dateInteraction !== null">
+              Dernier passage le
+              <b>
+                {{ usager.lastInteraction.dateInteraction | date:
+                'dd/MM/yyyy' }}
+              </b>
+            </span>
+          </div>
+
+          <div
+            *ngIf="usager.isActif && usager.dayBeforeEnd < 60 && !isRole('facteur')"
+            class="text-center row"
+          >
+            <div class="w-100">
+              <br />
+            </div>
+            <div class="col-12">
+              <button
+                (click)="open(renewConfirmation)"
+                *ngIf="usager.dayBeforeEnd < 60"
+                class="btn col-5 btn-outline-secondary"
+              >
+                <fa-icon icon="redo" class="mr-2"></fa-icon>
+                Demande de renouvellement
+              </button>
+              &nbsp;&nbsp;
+              <a
+                *ngIf="usager.dayBeforeEnd < 0"
+                [routerLink]="['/radiation/'+usager.ref]"
+                routerLinkActive="router-link-active"
+                class="btn col-5 btn-outline-danger"
+              >
+                <fa-icon icon="times" class="mr-2"></fa-icon>
+                Radier le domicilié
+              </a>
+            </div>
+            <div class="w-100">
+              <br />
+            </div>
+          </div>
+        </div>
         <br />
-
-        <span *ngIf="usager.lastInteraction.dateInteraction !== null">
-          Dernier passage le
-          <b>
-            {{ usager.lastInteraction.dateInteraction | date: 'dd/MM/yyyy' }}
-          </b>
-        </span>
-      </div>
-
-      <div
-        *ngIf="usager.isActif && usager.dayBeforeEnd < 60 && !isRole('facteur')"
-        class="text-center row"
-      >
-        <div class="w-100">
-          <br />
-        </div>
-        <div class="col-12">
-          <button
-            (click)="open(renewConfirmation)"
-            *ngIf="usager.dayBeforeEnd < 60"
-            class="btn col-5 btn-outline-secondary"
-          >
-            <fa-icon icon="redo" class="btn-icon"></fa-icon>
-            Demande de renouvellement
-          </button>
-          &nbsp;&nbsp;
-          <a
-            *ngIf="usager.dayBeforeEnd < 0"
-            [routerLink]="['/radiation/'+usager.ref]"
-            routerLinkActive="router-link-active"
-            class="btn col-5 btn-outline-danger"
-          >
-            <fa-icon icon="times" class="btn-icon"></fa-icon>
-            Radier le domicilié
-          </a>
-        </div>
-        <div class="w-100">
-          <br />
-        </div>
       </div>
     </div>
-    <br />
-  </div>
 
-  <div>
-    <div *ngIf="usager.options.npai.actif" class="text-center">
+    <div *ngIf="usager.options.npai.actif" class="my-2 text-center">
       <fa-icon icon="ban" size="3x" class="npai actions_icones"> </fa-icon>
       <span class="text-danger">
         N'habite plus à l'adresse indiquée, pli non distribuable
       </span>
     </div>
-  </div>
-  <div
-    *ngIf=" usager.isActif ||  (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
-  >
-    <br />
-    <h5 class="text-center font-weight-bold">
-      Signaler la réception d’un courrier ou un passage
-    </h5>
-
-    <div id="notif-container">
-      <div id="notif-form">
-        <div>
-          <fa-icon icon="envelope"></fa-icon>
-          <input
-            min="0"
-            max="50"
-            [(ngModel)]="notifInputs.courrierIn"
-            class="form-control"
-            placeholder="Nouveaux courriers"
-            type="number"
-          />
-          <span>Courriers reçus</span>
-        </div>
-        <div>
-          <fa-icon icon="envelope"></fa-icon>
-          <input
-            min="0"
-            max="50"
-            [(ngModel)]="notifInputs.recommandeIn"
-            placeholder="Nouveaux avis de passage"
-            class="form-control"
-            type="number"
-          />
-          <span>Avis de passage reçus</span>
-        </div>
-        <div>
-          <fa-icon icon="box"></fa-icon>
-          <input
-            min="0"
-            max="50"
-            [(ngModel)]="notifInputs.colisIn"
-            placeholder="Nombre colis"
-            class="form-control"
-            type="number"
-          />
-          <span>Colis reçus</span>
-        </div>
-      </div>
-
-      <div id="notif_button" class="text-center">
-        <button (click)="notifier(0)" class="btn btn-primary btn-block">
-          Enregistrer
-        </button>
-      </div>
-
-      <div id="big_icons" *ngIf="usager.decision.statut === 'RADIE'">
-        <div
-          *ngIf="!usager.options.npai.actif"
-          class="text-center"
-          (click)="stopCourrier()"
-        >
-          <fa-icon icon="ban" size="3x" class="bannir actions_icones">
-          </fa-icon>
-          <span class="text-danger">Ne plus accepter le courrier</span>
-        </div>
-      </div>
-      <div id="big_icons" *ngIf="usager.decision.statut !== 'RADIE'">
-        <div class="text-center" (click)="setInteraction('visite')">
-          <fa-icon icon="walking" size="3x" class="visite actions_icones">
-          </fa-icon>
-          <span>Passage sans récupérer de courrier</span>
-        </div>
-        <div class="text-center" (click)="setInteraction('appel')">
-          <fa-icon class="actions_icones appel" icon="phone" size="3x">
-          </fa-icon>
-          <span>Appel téléphonique</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br />
-  <div class="row" *ngIf="usager.options.transfert.actif" class="text-center">
-    <div
-      *ngIf="usager.options.transfert.dateFin <= today"
-      class="alert alert-danger"
-    >
-      <b>Attention : </b> le transfert de courrier était valable jusqu'au {{
-      usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}.
-    </div>
 
     <div
-      *ngIf="usager.options.transfert.dateFin > today"
-      class="alert alert-warning"
+      *ngIf=" usager.isActif ||  (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
     >
-      <fa-icon [icon]="['fas', 'share']"></fa-icon>
-      Le courrier est à transférer à l'adresse suivante :
       <br />
-      {{ usager.options.transfert.nom | titlecase }}
-      {{ usager.options.transfert.adresse | titlecase }}
+      <h5 class="text-center font-weight-bold">
+        Signaler la réception d’un courrier ou un passage
+      </h5>
+
+      <div id="notif-container">
+        <div id="notif-form">
+          <div>
+            <fa-icon icon="envelope"></fa-icon>
+            <input
+              min="0"
+              max="50"
+              [(ngModel)]="notifInputs.courrierIn"
+              class="form-control"
+              placeholder="Nouveaux courriers"
+              type="number"
+            />
+            <span>Courriers reçus</span>
+          </div>
+          <div>
+            <fa-icon icon="envelope"></fa-icon>
+            <input
+              min="0"
+              max="50"
+              [(ngModel)]="notifInputs.recommandeIn"
+              placeholder="Nouveaux avis de passage"
+              class="form-control"
+              type="number"
+            />
+            <span>Avis de passage reçus</span>
+          </div>
+          <div>
+            <fa-icon icon="box"></fa-icon>
+            <input
+              min="0"
+              max="50"
+              [(ngModel)]="notifInputs.colisIn"
+              placeholder="Nombre colis"
+              class="form-control"
+              type="number"
+            />
+            <span>Colis reçus</span>
+          </div>
+        </div>
+
+        <div id="notif_button" class="text-center">
+          <button (click)="notifier(0)" class="btn btn-primary btn-block">
+            Enregistrer
+          </button>
+        </div>
+
+        <div id="big_icons" *ngIf="usager.decision.statut === 'RADIE'">
+          <div
+            *ngIf="!usager.options.npai.actif"
+            class="text-center"
+            (click)="stopCourrier()"
+          >
+            <fa-icon icon="ban" size="3x" class="bannir actions_icones">
+            </fa-icon>
+            <span class="text-danger">Ne plus accepter le courrier</span>
+          </div>
+        </div>
+        <div id="big_icons" *ngIf="usager.decision.statut !== 'RADIE'">
+          <div class="text-center" (click)="setInteraction('visite')">
+            <fa-icon icon="walking" size="3x" class="visite actions_icones">
+            </fa-icon>
+            <span>Passage sans récupérer de courrier</span>
+          </div>
+          <div class="text-center" (click)="setInteraction('appel')">
+            <fa-icon class="actions_icones appel" icon="phone" size="3x">
+            </fa-icon>
+            <span>Appel téléphonique</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+    <br />
+    <div class="row" *ngIf="usager.options.transfert.actif" class="text-center">
+      <div
+        *ngIf="usager.options.transfert.dateFin <= today"
+        class="alert alert-danger"
+      >
+        <b>Attention : </b> le transfert de courrier était valable jusqu'au {{
+        usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}.
+      </div>
 
-  <div
-    class="text-center alert alert-warning"
-    *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin > today"
-  >
-    <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-    Une procuration au nom de
-    <b
-      >{{ usager.options.procuration.nom }} {{ usager.options.procuration.prenom
-      }}</b
+      <div
+        *ngIf="usager.options.transfert.dateFin > today"
+        class="alert alert-warning"
+      >
+        <fa-icon [icon]="['fas', 'share']"></fa-icon>
+        Le courrier est à transférer à l'adresse suivante :
+        <br />
+        {{ usager.options.transfert.nom | titlecase }}
+        {{ usager.options.transfert.adresse | titlecase }}
+      </div>
+    </div>
+
+    <div
+      class="text-center alert alert-warning"
+      *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin > today"
     >
-    est active et valable jusqu'au {{ usager.options.procuration.dateFin | date:
-    'dd/MM/yyyy' }}
-  </div>
+      <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+      Une procuration au nom de
+      <b
+        >{{ usager.options.procuration.nom }} {{
+        usager.options.procuration.prenom }}</b
+      >
+      est active et valable jusqu'au {{ usager.options.procuration.dateFin |
+      date: 'dd/MM/yyyy' }}
+    </div>
 
-  <div
-    *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin <= today"
-    class="alert alert-danger text-center"
-  >
-    <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-    La procuration au nom de {{ usager.options.procuration.nom }}{{
-    usager.options.procuration.prenom }}
-    <b
-      >a expiré le {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy'
-      }}</b
+    <div
+      *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin <= today"
+      class="alert alert-danger text-center"
     >
-  </div>
+      <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+      La procuration au nom de {{ usager.options.procuration.nom }}{{
+      usager.options.procuration.prenom }}
+      <b
+        >a expiré le {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy'
+        }}</b
+      >
+    </div>
 
-  <ngb-alert
-    type="info"
-    [dismissible]="false"
-    class="text-center"
-    *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT' && !isRole('facteur')"
-  >
-    Une demande de renouvellement est actuellement en cours &nbsp;
-    <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
-      <fa-icon icon="redo" class="btn-icon"></fa-icon>
-      Compléter la demande
-    </a>
-  </ngb-alert>
+    <ngb-alert
+      type="info"
+      [dismissible]="false"
+      class="text-center"
+      *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT' && !isRole('facteur')"
+    >
+      Une demande de renouvellement est actuellement en cours &nbsp;
+      <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
+        <fa-icon icon="redo" class="mr-2"></fa-icon>
+        Compléter la demande
+      </a>
+    </ngb-alert>
 
-  <ngb-alert
-    type="info"
-    [dismissible]="false"
-    class="text-center"
-    *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && usager.typeDom === 'RENOUVELLEMENT'"
-  >
-    Cette demande de renouvellement est actuellement en attente d'une décision
-    &nbsp;
-    <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
-      <fa-icon icon="redo" class="btn-icon"></fa-icon>
-      Voir le récapitulatif
-    </a>
-  </ngb-alert>
+    <ngb-alert
+      type="info"
+      [dismissible]="false"
+      class="text-center"
+      *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && usager.typeDom === 'RENOUVELLEMENT'"
+    >
+      Cette demande de renouvellement est actuellement en attente d'une décision
+      &nbsp;
+      <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
+        <fa-icon icon="redo" class="mr-2"></fa-icon>
+        Voir le récapitulatif
+      </a>
+    </ngb-alert>
 
-  <div
-    class="text-center alert alert-info"
-    *ngIf="usager.lastInteraction.courrierIn > 0"
-  >
-    <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
-    {{ usager.lastInteraction.courrierIn }} courriers en attente
-    <button class="btn btn-primary" (click)="setInteraction('courrierOut')">
-      Confirmer la distribution
-    </button>
-  </div>
-  <div
-    class="text-center alert alert-info"
-    *ngIf="usager.lastInteraction.colisIn > 0"
-  >
-    <fa-icon id="courrier" icon="box"></fa-icon>
-    {{ usager.lastInteraction.colisIn }} colis en attente
-    <button class="btn btn-primary" (click)="setInteraction('colisOut')">
-      Confirmer la distribution
-    </button>
-  </div>
-  <div
-    class="text-center alert alert-info"
-    *ngIf="usager.lastInteraction.recommandeIn > 0"
-  >
-    <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
-    {{ usager.lastInteraction.recommandeIn }} avis de passage en attente
-    <button class="btn btn-primary" (click)="setInteraction('recommandeOut')">
-      Confirmer la distribution
-    </button>
-  </div>
+    <div
+      class="text-center alert alert-primary"
+      *ngIf="usager.lastInteraction.courrierIn > 0"
+    >
+      <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
+      {{ usager.lastInteraction.courrierIn }} courriers en attente
+      <button class="btn btn-primary" (click)="setInteraction('courrierOut')">
+        Confirmer la distribution
+      </button>
+    </div>
+    <div
+      class="text-center alert alert-primary"
+      *ngIf="usager.lastInteraction.colisIn > 0"
+    >
+      <fa-icon id="courrier" icon="box"></fa-icon>
+      {{ usager.lastInteraction.colisIn }} colis en attente
+      <button class="btn btn-primary" (click)="setInteraction('colisOut')">
+        Confirmer la distribution
+      </button>
+    </div>
+    <div
+      class="text-center alert alert-primary"
+      *ngIf="usager.lastInteraction.recommandeIn > 0"
+    >
+      <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
+      {{ usager.lastInteraction.recommandeIn }} avis de passage en attente
+      <button class="btn btn-primary" (click)="setInteraction('recommandeOut')">
+        Confirmer la distribution
+      </button>
+    </div>
 
-  <ngb-accordion
-    #acc="ngbAccordion"
-    activeIds="panel-0,panel-9,panel-1,panel-10,panel-2,panel-4,panel-5,panel-6"
-  >
-    <ngb-panel id="panel-0" *ngIf="usager.decision.statut !== 'REFUS'">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>SUIVI DU COURRIER ET DES PASSAGES</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
+    <ngb-accordion
+      #acc="ngbAccordion"
+      activeIds="panel-0,panel-9,panel-1,panel-10,panel-2,panel-4,panel-5,panel-6"
+    >
+      <ngb-panel id="panel-0" *ngIf="usager.decision.statut !== 'REFUS'">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>SUIVI DU COURRIER ET DES PASSAGES</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
 
-      <ng-template ngbPanelContent>
-        <ngb-alert *ngIf="interactions.length == 0" [dismissible]="false">
-          Aucune interaction enregistrée
-        </ngb-alert>
-        <table
-          id="interactions-table"
-          class="profil-table table table-light table-hover"
-          *ngIf="interactions.length > 0"
-        >
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type d'interaction</th>
-              <th>Notifié par</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container
-              *ngFor="let interaction of interactions | slice:0:30; let i=index;"
-            >
-              <tr *ngIf="interaction.delete === true">
-                <td colspan="4" class="delete-interaction">
-                  Êtes-vous sûr de vouloir supprimer cette interaction ?
-                  <button
-                    class="btn btn-danger"
-                    (click)="deleteInteraction(interaction.id)"
-                  >
-                    Oui
-                  </button>
-                  <button
-                    class="btn btn-dark"
-                    (click)="interaction.delete = false"
-                  >
-                    Non
-                  </button>
-                </td>
+        <ng-template ngbPanelContent>
+          <ngb-alert *ngIf="interactions.length == 0" [dismissible]="false">
+            Aucune interaction enregistrée
+          </ngb-alert>
+          <table
+            id="interactions-table"
+            class="profil-table table table-light table-hover"
+            *ngIf="interactions.length > 0"
+          >
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type d'interaction</th>
+                <th>Notifié par</th>
+                <th></th>
               </tr>
-              <tr
-                *ngIf="!interaction.delete"
-                [ngClass]="{ 'font-weight-bold' : interaction.type === 'courrierOut' || interaction.type === 'recommandeOut' || interaction.type === 'colisOut' }"
+            </thead>
+            <tbody>
+              <ng-container
+                *ngFor="let interaction of interactions | slice:0:30; let i=index;"
               >
-                <td>
-                  {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
-                </td>
-                <td>
-                  {{ interaction.label }}
-                  <div *ngIf="interaction.content">
-                    {{ interaction.content }}
-                  </div>
-                </td>
-                <td>{{ interaction.userName }}</td>
-                <td class="interactions-actions" *ngIf="!interaction.delete">
-                  <span (click)="interaction.delete = true">
-                    <fa-icon icon="trash-alt" class="delete"></fa-icon>
-                  </span>
-                  <span *ngIf="false" (click)="interaction.delete = false">
-                    <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
-                  </span>
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
-      </ng-template>
-    </ngb-panel>
+                <tr *ngIf="interaction.delete === true">
+                  <td colspan="4" class="delete-interaction">
+                    Êtes-vous sûr de vouloir supprimer cette interaction ?
+                    <button
+                      class="btn btn-danger"
+                      (click)="deleteInteraction(interaction.id)"
+                    >
+                      Oui
+                    </button>
+                    <button
+                      class="btn btn-dark"
+                      (click)="interaction.delete = false"
+                    >
+                      Non
+                    </button>
+                  </td>
+                </tr>
+                <tr
+                  *ngIf="!interaction.delete"
+                  [ngClass]="{ 'font-weight-bold' : interaction.type === 'courrierOut' || interaction.type === 'recommandeOut' || interaction.type === 'colisOut' }"
+                >
+                  <td>
+                    {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm'
+                    }}
+                  </td>
+                  <td>
+                    {{ interaction.label }}
+                    <div *ngIf="interaction.content">
+                      {{ interaction.content }}
+                    </div>
+                  </td>
+                  <td>{{ interaction.userName }}</td>
+                  <td class="interactions-actions" *ngIf="!interaction.delete">
+                    <span (click)="interaction.delete = true">
+                      <fa-icon icon="trash-alt" class="delete"></fa-icon>
+                    </span>
+                    <span *ngIf="false" (click)="interaction.delete = false">
+                      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+                    </span>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </ng-template>
+      </ngb-panel>
 
-    <ngb-panel id="panel-2">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>ÉTAT CIVIL</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <ng-container *ngIf="!editInfos">
-          <app-profil-infos [usager]="usager"></app-profil-infos>
-
-          <div class="row" *ngIf="usager.isActif && !isRole('facteur')">
-            <div class="col-md-12 text-center">
-              <br />
-              <button
-                class="btn btn-outline-dark"
-                (click)="editInfos = !editInfos"
-              >
-                <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
-                Modifier les informations
-              </button>
-            </div>
+      <ngb-panel id="panel-2">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>ÉTAT CIVIL</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
           </div>
-        </ng-container>
-        <form
-          *ngIf="editInfos"
-          [formGroup]="usagerForm"
-          (ngSubmit)="updateInfos()"
-          autocomplete="off"
-        >
-          <div class="row">
-            <div class="col-md-4 form-group required">
-              <label for="nom">Nom</label>
-              <input
-                type="text"
-                class="form-control"
-                id="nom"
-                cleanStr
-                formControlName="nom"
-                placeholder="Précisez nom de naissance si nécessaire"
-                [ngClass]="{ 'is-invalid': f.nom.errors }"
-                required
-              />
-              <div
-                *ngIf="f.nom.errors"
-                class="invalid-feedback"
-                autocomplete="null"
-              >
-                <div *ngIf="f.nom.errors.required">
-                  Le nom du demandeur est obligatoire
-                </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <ng-container *ngIf="!editInfos">
+            <app-profil-infos [usager]="usager"></app-profil-infos>
+
+            <div class="row" *ngIf="usager.isActif && !isRole('facteur')">
+              <div class="col-md-12 text-center">
+                <br />
+                <button
+                  class="btn btn-outline-dark"
+                  (click)="editInfos = !editInfos"
+                >
+                  <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+                  Modifier les informations
+                </button>
               </div>
             </div>
-
-            <div class="col-md-4 form-group required">
-              <label for="prenom">Prénom(s)</label>
-              <input
-                type="text"
-                class="form-control"
-                id="prenom"
-                cleanStr
-                formControlName="prenom"
-                placeholder="Prénom(s) du demandeur"
-                [ngClass]="{ 'is-invalid': f.prenom.errors }"
-                required
-              />
-              <div
-                *ngIf="f.prenom.errors"
-                class="invalid-feedback"
-                autocomplete="null"
-              >
-                <div *ngIf="f.prenom.errors.required">
-                  Le prénom est obligatoire
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4 form-group">
-              <label for="surnom">Nom d'usage / Surnom</label>
-              <input
-                type="text"
-                class="form-control"
-                id="surnom"
-                cleanStr
-                formControlName="surnom"
-                placeholder="Nom d'usage / Surnom"
-                [ngClass]="{ 'is-invalid': f.surnom.errors }"
-              />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 form-group required">
-              <label for="sexe">Sexe</label>
-              <select formControlName="sexe" id="sexe" class="custom-select">
-                <option value="homme">Homme</option>
-                <option value="femme">Femme</option>
-              </select>
-            </div>
-
-            <div class="col-md-4 form-group required">
-              <label for="dateNaissance">Date de naissance</label>
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  placeholder="jj/mm/aaaa"
-                  [minDate]="minDateNaissance"
-                  [maxDate]="maxDateNaissance"
-                  placement="bottom"
-                  formControlName="dateNaissance"
-                  ngbDatepicker
-                  dateFr
-                  value
-                  [ngClass]="{ 'is-invalid': f.dateNaissance.errors  }"
-                  #d="ngbDatepicker"
-                  maxlength="10"
-                  required
-                />
-                <div class="input-group-append">
-                  <span class="btn btn-outline-primary" (click)="d.toggle()">
-                    <fa-icon icon="calendar"></fa-icon>
-                  </span>
-                </div>
-
-                <div *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
-                  La date de naissance est obligatoire
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4 form-group required">
-              <label for="villeNaissance">Ville de naissance</label>
-              <input
-                type="text"
-                class="form-control"
-                id="villeNaissance"
-                formControlName="villeNaissance"
-                placeholder="Ville (préciser le pays si à l'étranger)"
-                autocomplete="null"
-                [ngClass]="{ 'is-invalid': f.villeNaissance.errors   }"
-                required
-              />
-              <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
-                La ville de naissance est obligatoire
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 form-group">
-              <label for="phone">Numéro de téléphone</label>
-              <input
-                type="text"
-                class="form-control"
-                id="phone"
-                digitOnly
-                formControlName="phone"
-                aria-describedby="phoneHelp"
-                [ngClass]="{ 'is-invalid': f.phone.errors }"
-                placeholder="0606060606"
-                autocomplete="null"
-                maxlength="10"
-              />
-              <div *ngIf="f.phone.errors" class="invalid-feedback">
-                <div>Le numéro de téléphone est incorrect</div>
-              </div>
-            </div>
-
-            <div class="col-md-4 form-group">
-              <label for="email">Adresse e-mail</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                formControlName="email"
-                aria-describedby="emailHelp"
-                [ngClass]="{ 'is-invalid': f.email.errors }"
-                placeholder="adresse@mail.com"
-                autocomplete="null"
-              />
-              <div *ngIf="f.email.errors" class="invalid-feedback">
-                L'adresse email est incorrecte
-              </div>
-            </div>
-
-            <div class="col-md-4 form-group">
-              <label for="langue">Langue parlée</label>
-              <input
-                id="langue"
-                type="text"
-                class="form-control"
-                formControlName="langue"
-                placeholder="Langue parlée"
-                [ngClass]="{ 'is-invalid': submitted && f.langue.errors }"
-                [ngbTypeahead]="languagesAutocomplete.typeahead({maxResults: 10})"
-                [resultFormatter]="languagesAutocomplete.formatter"
-                [inputFormatter]="languagesAutocomplete.formatter"
-              />
-              <div
-                *ngIf="submitted && f.langue.errors"
-                class="invalid-feedback"
-              >
-                La langue saisie est invalide
-              </div>
-            </div>
-
-            <div class="col-md-4 form-group">
-              <label for="email">Identifiant personnalisé</label>
-              <input
-                type="text"
-                class="form-control"
-                id="customRef"
-                maxlength="30"
-                formControlName="customRef"
-                [ngClass]="{ 'is-invalid': f.customRef.errors }"
-                autocomplete="null"
-              />
-              <div *ngIf="f.customRef.errors" class="invalid-feedback">
-                L'adresse email est incorrecte
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 offset-md-4 text-center">
-              <br />
-              <input formControlName="dateNaissance" type="hidden" />
-              <button
-                type="submit"
-                [disabled]="usagerForm.invalid"
-                class="btn btn-primary btn-block"
-              >
-                Enregistrer
-              </button>
-            </div>
-          </div>
-        </form>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel
-      id="panel-12"
-      *ngIf="me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure"
-    >
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>NOTIFICATIONS</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <app-profil-edit-preference
-          [me]="me"
-          [usager]="usager"
-        ></app-profil-edit-preference>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-3">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>AYANTS-DROIT</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <div *ngIf="editAyantsDroits">
+          </ng-container>
           <form
+            *ngIf="editInfos"
             [formGroup]="usagerForm"
             (ngSubmit)="updateInfos()"
             autocomplete="off"
           >
-            <div
-              formArrayName="ayantsDroits"
-              *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
-            >
-              <div [formGroupName]="i" class="row">
-                <div class="col form-group required">
-                  <label for="nom_{{i}}">Nom</label>
-                  <input
-                    id="nom_{{i}}"
-                    type="text"
-                    cleanStr
-                    class="form-control"
-                    formControlName="nom"
-                    [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('nom').errors }"
-                    placeholder="Nom de l'ayant droit"
-                  />
-                  <div
-                    *ngIf="submitted && ayantsDroits.controls[i].get('nom').errors "
-                    class="invalid-feedback"
-                  >
-                    Le nom est obligatoire
-                  </div>
-                </div>
-                <div class="col form-group required">
-                  <label for="ad_prenom_{{i}}">Prénom</label>
-                  <input
-                    type="text"
-                    id="ad_prenom_{{i}}"
-                    class="form-control"
-                    cleanStr
-                    formControlName="prenom"
-                    [ngClass]="{  'is-invalid': submitted && ayantsDroits.controls[i].get('prenom').errors  }"
-                    placeholder="Prénom"
-                  />
-                  <div
-                    *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
-                    class="invalid-feedback"
-                  >
-                    Le prénom est obligatoire
-                  </div>
-                </div>
-                <div class="col form-group required">
-                  <label for="dateNaissance_{{ i }}">Date de naissance</label>
-                  <input
-                    id="dateNaissance_{{ i }}"
-                    class="form-control"
-                    placeholder="jj/mm/aaaa"
-                    dateFr
-                    [ngClass]="{ 'is-invalid': submitted &&  ayantsDroits.controls[i].get('dateNaissance').errors  }"
-                    formControlName="dateNaissance"
-                  />
-                  <div
-                    *ngIf="submitted && ayantsDroits.controls[i].get('dateNaissance').errors"
-                    class="invalid-feedback"
-                  >
-                    <div>La date de naissance est obligatoire</div>
-                  </div>
-                </div>
-                <div class="col form-group required">
-                  <label for="lien_{{i}}">Lien</label>
-                  <select
-                    formControlName="lien"
-                    id="lien_{{i}}"
-                    class="custom-select"
-                  >
-                    <option
-                      *ngFor="let lien of labels.lienParente | keyvalue"
-                      [ngValue]="lien.key"
-                    >
-                      {{ lien.value }}
-                    </option>
-                  </select>
-                </div>
-                <div class="col-md-1">
-                  <label for class="text-white"> c </label>
-                  <div>
-                    <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
-                      <fa-icon icon="trash" class="btn-icon"></fa-icon>
-                    </span>
+            <div class="row">
+              <div class="col-md-4 form-group required">
+                <label for="nom">Nom</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nom"
+                  cleanStr
+                  formControlName="nom"
+                  placeholder="Précisez nom de naissance si nécessaire"
+                  [ngClass]="{ 'is-invalid': f.nom.errors }"
+                  required
+                />
+                <div
+                  *ngIf="f.nom.errors"
+                  class="invalid-feedback"
+                  autocomplete="null"
+                >
+                  <div *ngIf="f.nom.errors.required">
+                    Le nom du demandeur est obligatoire
                   </div>
                 </div>
               </div>
+
+              <div class="col-md-4 form-group required">
+                <label for="prenom">Prénom(s)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="prenom"
+                  cleanStr
+                  formControlName="prenom"
+                  placeholder="Prénom(s) du demandeur"
+                  [ngClass]="{ 'is-invalid': f.prenom.errors }"
+                  required
+                />
+                <div
+                  *ngIf="f.prenom.errors"
+                  class="invalid-feedback"
+                  autocomplete="null"
+                >
+                  <div *ngIf="f.prenom.errors.required">
+                    Le prénom est obligatoire
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label for="surnom">Nom d'usage / Surnom</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="surnom"
+                  cleanStr
+                  formControlName="surnom"
+                  placeholder="Nom d'usage / Surnom"
+                  [ngClass]="{ 'is-invalid': f.surnom.errors }"
+                />
+              </div>
             </div>
-            <span (click)="addAyantDroit()" class="btn btn-primary">
-              <fa-icon icon="plus"></fa-icon>
-              Ajouter des ayants droits
-            </span>
-            <br />
-            <br />
             <div class="row">
-              <div class="col-md-4 offset-4">
+              <div class="col-md-4 form-group required">
+                <label for="sexe">Sexe</label>
+                <select formControlName="sexe" id="sexe" class="custom-select">
+                  <option value="homme">Homme</option>
+                  <option value="femme">Femme</option>
+                </select>
+              </div>
+
+              <div class="col-md-4 form-group required">
+                <label for="dateNaissance">Date de naissance</label>
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="jj/mm/aaaa"
+                    [minDate]="minDateNaissance"
+                    [maxDate]="maxDateNaissance"
+                    placement="bottom"
+                    formControlName="dateNaissance"
+                    ngbDatepicker
+                    dateFr
+                    value
+                    [ngClass]="{ 'is-invalid': f.dateNaissance.errors  }"
+                    #d="ngbDatepicker"
+                    maxlength="10"
+                    required
+                  />
+                  <div class="input-group-append">
+                    <span class="btn btn-outline-primary" (click)="d.toggle()">
+                      <fa-icon icon="calendar"></fa-icon>
+                    </span>
+                  </div>
+
+                  <div *ngIf="f.dateNaissance.invalid" class="invalid-feedback">
+                    La date de naissance est obligatoire
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 form-group required">
+                <label for="villeNaissance">Ville de naissance</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="villeNaissance"
+                  formControlName="villeNaissance"
+                  placeholder="Ville (préciser le pays si à l'étranger)"
+                  autocomplete="null"
+                  [ngClass]="{ 'is-invalid': f.villeNaissance.errors   }"
+                  required
+                />
+                <div *ngIf="f.villeNaissance.errors" class="invalid-feedback">
+                  La ville de naissance est obligatoire
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 form-group">
+                <label for="phone">Numéro de téléphone</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phone"
+                  digitOnly
+                  formControlName="phone"
+                  aria-describedby="phoneHelp"
+                  [ngClass]="{ 'is-invalid': f.phone.errors }"
+                  placeholder="0606060606"
+                  autocomplete="null"
+                  maxlength="10"
+                />
+                <div *ngIf="f.phone.errors" class="invalid-feedback">
+                  <div>Le numéro de téléphone est incorrect</div>
+                </div>
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label for="email">Adresse e-mail</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                  aria-describedby="emailHelp"
+                  [ngClass]="{ 'is-invalid': f.email.errors }"
+                  placeholder="adresse@mail.com"
+                  autocomplete="null"
+                />
+                <div *ngIf="f.email.errors" class="invalid-feedback">
+                  L'adresse email est incorrecte
+                </div>
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label for="langue">Langue parlée</label>
+                <input
+                  id="langue"
+                  type="text"
+                  class="form-control"
+                  formControlName="langue"
+                  placeholder="Langue parlée"
+                  [ngClass]="{ 'is-invalid': submitted && f.langue.errors }"
+                  [ngbTypeahead]="languagesAutocomplete.typeahead({maxResults: 10})"
+                  [resultFormatter]="languagesAutocomplete.formatter"
+                  [inputFormatter]="languagesAutocomplete.formatter"
+                />
+                <div
+                  *ngIf="submitted && f.langue.errors"
+                  class="invalid-feedback"
+                >
+                  La langue saisie est invalide
+                </div>
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label for="email">Identifiant personnalisé</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="customRef"
+                  maxlength="30"
+                  formControlName="customRef"
+                  [ngClass]="{ 'is-invalid': f.customRef.errors }"
+                  autocomplete="null"
+                />
+                <div *ngIf="f.customRef.errors" class="invalid-feedback">
+                  L'adresse email est incorrecte
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 offset-md-4 text-center">
+                <br />
+                <input formControlName="dateNaissance" type="hidden" />
                 <button
                   type="submit"
                   [disabled]="usagerForm.invalid"
@@ -813,14 +700,346 @@
                 </button>
               </div>
             </div>
-            <br />
           </form>
-        </div>
+        </ng-template>
+      </ngb-panel>
 
-        <div *ngIf="!editAyantsDroits">
-          <app-profil-ayants-droits
-            [ayantsDroits]="usager.ayantsDroits"
-          ></app-profil-ayants-droits>
+      <ngb-panel
+        id="panel-12"
+        *ngIf="me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure"
+      >
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>NOTIFICATIONS</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <app-profil-edit-preference
+            [me]="me"
+            [usager]="usager"
+          ></app-profil-edit-preference>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-3">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>AYANTS-DROIT</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <div *ngIf="editAyantsDroits">
+            <form
+              [formGroup]="usagerForm"
+              (ngSubmit)="updateInfos()"
+              autocomplete="off"
+            >
+              <div
+                formArrayName="ayantsDroits"
+                *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
+              >
+                <div [formGroupName]="i" class="row">
+                  <div class="col form-group required">
+                    <label for="nom_{{i}}">Nom</label>
+                    <input
+                      id="nom_{{i}}"
+                      type="text"
+                      cleanStr
+                      class="form-control"
+                      formControlName="nom"
+                      [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('nom').errors }"
+                      placeholder="Nom de l'ayant droit"
+                    />
+                    <div
+                      *ngIf="submitted && ayantsDroits.controls[i].get('nom').errors "
+                      class="invalid-feedback"
+                    >
+                      Le nom est obligatoire
+                    </div>
+                  </div>
+                  <div class="col form-group required">
+                    <label for="ad_prenom_{{i}}">Prénom</label>
+                    <input
+                      type="text"
+                      id="ad_prenom_{{i}}"
+                      class="form-control"
+                      cleanStr
+                      formControlName="prenom"
+                      [ngClass]="{  'is-invalid': submitted && ayantsDroits.controls[i].get('prenom').errors  }"
+                      placeholder="Prénom"
+                    />
+                    <div
+                      *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
+                      class="invalid-feedback"
+                    >
+                      Le prénom est obligatoire
+                    </div>
+                  </div>
+                  <div class="col form-group required">
+                    <label for="dateNaissance_{{ i }}">Date de naissance</label>
+                    <input
+                      id="dateNaissance_{{ i }}"
+                      class="form-control"
+                      placeholder="jj/mm/aaaa"
+                      dateFr
+                      [ngClass]="{ 'is-invalid': submitted &&  ayantsDroits.controls[i].get('dateNaissance').errors  }"
+                      formControlName="dateNaissance"
+                    />
+                    <div
+                      *ngIf="submitted && ayantsDroits.controls[i].get('dateNaissance').errors"
+                      class="invalid-feedback"
+                    >
+                      <div>La date de naissance est obligatoire</div>
+                    </div>
+                  </div>
+                  <div class="col form-group required">
+                    <label for="lien_{{i}}">Lien</label>
+                    <select
+                      formControlName="lien"
+                      id="lien_{{i}}"
+                      class="custom-select"
+                    >
+                      <option
+                        *ngFor="let lien of labels.lienParente | keyvalue"
+                        [ngValue]="lien.key"
+                      >
+                        {{ lien.value }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <label for class="text-white"> c </label>
+                    <div>
+                      <span
+                        (click)="deleteAyantDroit(i)"
+                        class="btn btn-danger"
+                      >
+                        <fa-icon icon="trash"></fa-icon>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span (click)="addAyantDroit()" class="btn btn-primary">
+                <fa-icon icon="plus"></fa-icon>
+                Ajouter des ayants droits
+              </span>
+              <br />
+              <br />
+              <div class="row">
+                <div class="col-md-4 offset-4">
+                  <button
+                    type="submit"
+                    [disabled]="usagerForm.invalid"
+                    class="btn btn-primary btn-block"
+                  >
+                    Enregistrer
+                  </button>
+                </div>
+              </div>
+              <br />
+            </form>
+          </div>
+
+          <div *ngIf="!editAyantsDroits">
+            <app-profil-ayants-droits
+              [ayantsDroits]="usager.ayantsDroits"
+            ></app-profil-ayants-droits>
+
+            <div
+              class="col-md-12 text-center"
+              *ngIf="usager.isActif && !isRole('facteur')"
+            >
+              <br />
+              <button
+                class="btn btn-outline-dark"
+                (click)="editAyantsDroits = !editAyantsDroits"
+              >
+                <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+                Modifier les ayants-droit
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-1">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>HISTORIQUE DE LA DOMICILIATION</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <table
+            *ngIf="usager.historique.length > 0"
+            class="profil-table table table-light table-hover"
+          >
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type de décision</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                  <span *ngIf="usager.decision.statut !== 'VALIDE'">
+                    {{ labels.decision[usager.decision.statut] }}
+                  </span>
+                  <span *ngIf="usager.decision.statut === 'VALIDE'">
+                    <span *ngIf="usager.typeDom === 'PREMIERE'">
+                      Première domiciliation
+                    </span>
+                    <span *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
+                      Renouvellement de domiciliation
+                    </span>
+                    du
+                    <b>
+                      {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }}
+                    </b>
+                    au
+                    <b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}} </b>
+                  </span>
+                  <b *ngIf="usager.decision.statut === 'RADIE'"
+                    >- {{ usager.decision.motifString }}</b
+                  >
+                </td>
+                <td>{{ usager.decision.userName }}</td>
+                <td></td>
+              </tr>
+              <tr *ngFor="let histo of usager.historique">
+                <td>{{ histo.dateDecision | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                  {{ labels.decision[histo.statut] }}
+                  <span *ngIf="histo.statut === 'VALIDE'">
+                    du
+                    <b> {{ histo.dateDebut | date: 'dd/MM/yyyy' }} </b>
+                    au
+                    <b>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</b>
+                  </span>
+                  <div *ngIf="histo.statut === 'RADIE'">
+                    - {{ motifsRadiation[histo.motif] }}
+                  </div>
+                </td>
+                <td>{{ histo.userName }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-6" *ngIf="!isRole('facteur')">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>DOCUMENTS DISPONIBLES</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <app-profil-structure-docs
+            [usager]="usager"
+          ></app-profil-structure-docs>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-9">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>TRANSFERT DE COURRIER</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <app-profil-transfert-courrier
+            [usager]="usager"
+            (usagerChanges)="onUsagerChanges($event)"
+            [me]="me"
+          ></app-profil-transfert-courrier>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-10">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>PROCURATION DE COURRIER</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <app-profil-procuration-courrier
+            [usager]="usager"
+            (usagerChanges)="onUsagerChanges($event)"
+            [me]="me"
+          ></app-profil-procuration-courrier>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-4" *ngIf="!isRole('facteur')">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>ENTRETIEN</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <app-entretien
+            *ngIf="editEntretien"
+            [(editEntretien)]="editEntretien"
+            [(usager)]="usager"
+          ></app-entretien>
+
+          <app-profil-entretien
+            *ngIf="!editEntretien"
+            [usager]="usager"
+            [structure]="me.structure"
+          >
+          </app-profil-entretien>
 
           <div
             class="col-md-12 text-center"
@@ -829,260 +1048,83 @@
             <br />
             <button
               class="btn btn-outline-dark"
-              (click)="editAyantsDroits = !editAyantsDroits"
+              *ngIf="!editEntretien"
+              (click)="openEntretien()"
             >
-              <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
-              Modifier les ayants-droit
+              <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+              Modifier la situation sociale
+            </button>
+          </div>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="panel-5" *ngIf="!isRole('facteur')">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="head-panel">
+            <button ngbPanelToggle class="btn btn-link">
+              <span>PIÈCES JOINTES</span>
+              <span class="arrows">
+                <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+                <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+              </span>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <app-upload
+            *ngIf="usager.isActif || usager.decision.statut === 'RADIE'"
+            [usager]="usager"
+          >
+          </app-upload>
+          <br />
+          <app-documents [usager]="usager"></app-documents>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+    <div class="text-center" *ngIf="usager.isActif && !isRole('facteur')">
+      <br />
+      <div class="row">
+        <div class="col-md-8 offset-2">
+          <div class="row">
+            <button
+              (click)="getAttestation()"
+              class="col btn btn-outline-primary"
+            >
+              <fa-icon icon="file-pdf" class="mr-2"></fa-icon>
+              Télécharger l'attestation
+            </button>
+            &nbsp;&nbsp;
+            <a
+              [routerLink]="['/radiation/'+usager.ref]"
+              routerLinkActive="router-link-active"
+              class="col btn btn-outline-danger"
+            >
+              <fa-icon icon="times" class="mr-2"></fa-icon>
+              Radier le domicilié
+            </a>
+            &nbsp;&nbsp;
+            <button
+              (click)="open(renewConfirmation)"
+              class="col btn btn-outline-secondary"
+            >
+              <fa-icon icon="redo" class="mr-2"></fa-icon>
+              Demande de renouvellement
             </button>
           </div>
         </div>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-1">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>HISTORIQUE DE LA DOMICILIATION</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <table
-          *ngIf="usager.historique.length > 0"
-          class="profil-table table table-light table-hover"
-        >
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type de décision</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ usager.decision.dateDecision | date: 'dd/MM/yyyy'}}</td>
-              <td>
-                <span *ngIf="usager.decision.statut !== 'VALIDE'">
-                  {{ labels.decision[usager.decision.statut] }}
-                </span>
-                <span *ngIf="usager.decision.statut === 'VALIDE'">
-                  <span *ngIf="usager.typeDom === 'PREMIERE'">
-                    Première domiciliation
-                  </span>
-                  <span *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
-                    Renouvellement de domiciliation
-                  </span>
-                  du
-                  <b> {{ usager.decision.dateDebut | date: 'dd/MM/yyyy' }} </b>
-                  au
-                  <b> {{ usager.decision.dateFin | date: 'dd/MM/yyyy'}} </b>
-                </span>
-                <b *ngIf="usager.decision.statut === 'RADIE'"
-                  >- {{ usager.decision.motifString }}</b
-                >
-              </td>
-              <td>{{ usager.decision.userName }}</td>
-              <td></td>
-            </tr>
-            <tr *ngFor="let histo of usager.historique">
-              <td>{{ histo.dateDecision | date: 'dd/MM/yyyy'}}</td>
-              <td>
-                {{ labels.decision[histo.statut] }}
-                <span *ngIf="histo.statut === 'VALIDE'">
-                  du
-                  <b> {{ histo.dateDebut | date: 'dd/MM/yyyy' }} </b>
-                  au
-                  <b>{{ histo.dateFin | date: 'dd/MM/yyyy'}}</b>
-                </span>
-                <div *ngIf="histo.statut === 'RADIE'">- {{ histo.motif }}</div>
-              </td>
-              <td>{{ histo.userName }}</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-6" *ngIf="!isRole('facteur')">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>DOCUMENTS DISPONIBLES</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <app-profil-structure-docs
-          [usager]="usager"
-        ></app-profil-structure-docs>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-9">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>TRANSFERT DE COURRIER</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <app-profil-transfert-courrier
-          [usager]="usager"
-          (usagerChanges)="onUsagerChanges($event)"
-          [me]="me"
-        ></app-profil-transfert-courrier>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-10">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>PROCURATION DE COURRIER</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <app-profil-procuration-courrier
-          [usager]="usager"
-          (usagerChanges)="onUsagerChanges($event)"
-          [me]="me"
-        ></app-profil-procuration-courrier>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-4" *ngIf="!isRole('facteur')">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>ENTRETIEN</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <app-entretien
-          *ngIf="editEntretien"
-          [(editEntretien)]="editEntretien"
-          [(usager)]="usager"
-        ></app-entretien>
-
-        <app-profil-entretien
-          *ngIf="!editEntretien"
-          [usager]="usager"
-          [structure]="me.structure"
-        >
-        </app-profil-entretien>
-
-        <div
-          class="col-md-12 text-center"
-          *ngIf="usager.isActif && !isRole('facteur')"
-        >
-          <br />
-          <button
-            class="btn btn-outline-dark"
-            *ngIf="!editEntretien"
-            (click)="openEntretien()"
-          >
-            <fa-icon icon="pencil-alt" class="btn-icon"></fa-icon>
-            Modifier la situation sociale
-          </button>
-        </div>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-5" *ngIf="!isRole('facteur')">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>PIÈCES JOINTES</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <app-upload
-          *ngIf="usager.isActif || usager.decision.statut === 'RADIE'"
-          [usager]="usager"
-        >
-        </app-upload>
-        <br />
-        <app-documents [usager]="usager"></app-documents>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
-  <div class="text-center" *ngIf="usager.isActif && !isRole('facteur')">
-    <br />
-    <div class="row">
-      <div class="col-md-8 offset-2">
-        <div class="row">
-          <button
-            (click)="getAttestation()"
-            class="col btn btn-outline-primary"
-          >
-            <fa-icon icon="file-pdf" class="btn-icon"></fa-icon>
-            Télécharger l'attestation
-          </button>
-          &nbsp;&nbsp;
-          <a
-            [routerLink]="['/radiation/'+usager.ref]"
-            routerLinkActive="router-link-active"
-            class="col btn btn-outline-danger"
-          >
-            <fa-icon icon="times" class="btn-icon"></fa-icon>
-            Radier le domicilié
-          </a>
-          &nbsp;&nbsp;
-          <button
-            (click)="open(renewConfirmation)"
-            class="col btn btn-outline-secondary"
-          >
-            <fa-icon icon="redo" class="btn-icon"></fa-icon>
-            Demande de renouvellement
-          </button>
-        </div>
       </div>
     </div>
-  </div>
-  <div
-    class="col-md-12 text-center text-danger"
-    *ngIf="me.role === 'admin' || me.role === 'responsable'"
-  >
-    <br />
-    <br />
-    <span id="delete-usager" (click)="open(deleteConfirmation)">
-      <fa-icon icon="trash" class="btn-icon"></fa-icon>
-      Supprimer le domicilié
-    </span>
+    <div
+      class="col-md-12 text-center text-danger"
+      *ngIf="me.role === 'admin' || me.role === 'responsable'"
+    >
+      <br />
+      <br />
+      <span id="delete-usager" (click)="open(deleteConfirmation)">
+        <fa-icon icon="trash" class="mr-2"></fa-icon>
+        Supprimer le domicilié
+      </span>
+    </div>
   </div>
 </div>
 

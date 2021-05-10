@@ -43,7 +43,7 @@ import { UsagerFormModel } from "../form/UsagerFormModel";
   ],
   selector: "app-profil",
   styleUrls: ["./profil.css"],
-  templateUrl: "./profil.html",
+  templateUrl: "./profil.old.html",
 })
 export class UsagersProfilComponent implements OnInit {
   // Affichage des formulaires d'édition
@@ -67,6 +67,8 @@ export class UsagersProfilComponent implements OnInit {
   public actions: {
     [key: string]: any;
   };
+
+  public motifsRadiation: { [key: string]: string };
 
   public labels: any = usagersLabels;
 
@@ -98,6 +100,7 @@ export class UsagersProfilComponent implements OnInit {
     private matomo: MatomoTracker,
     private documentService: DocumentService
   ) {
+    this.motifsRadiation = usagersLabels.motifsRadiation;
     this.editAyantsDroits = false;
     this.editEntretien = false;
     this.editInfos = false;
@@ -432,7 +435,7 @@ export class UsagersProfilComponent implements OnInit {
     this.usagerService.stopCourrier(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usager.options = new Options(usager.options);
-        // this.setInteraction("npai", false);
+        this.setInteraction("npai", false);
       },
       () => {
         this.notifService.error("Cette opération a échoué");

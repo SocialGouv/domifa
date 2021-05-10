@@ -32,7 +32,7 @@
           routerLink="/nouveau"
           class="btn btn-white-primary"
         >
-          <fa-icon icon="plus" class="btn-icon"></fa-icon>
+          <fa-icon icon="plus" class="mr-2"></fa-icon>
           Créer une demande
         </a>
       </div>
@@ -106,7 +106,7 @@
 <div id="filters" class="py-4">
   <div class="container">
     <div class="row d-flex align-items-center">
-      <div class="col-md-8">
+      <div class="col-md-9">
         <div *ngIf="nbResults" class="filter-part">
           Filtrer les <span class="text-primary"> {{nbResults}} </span>résultats
         </div>
@@ -250,7 +250,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 text-right">
+      <div class="col-md-3 text-right">
         <div
           ngbDropdown
           id="dropdownSort"
@@ -348,7 +348,7 @@
     </div>
   </div>
 </div>
-<div class="content">
+<div class="content pt-3 pb-5">
   <div class="container">
     <div
       *ngIf="usagers.length === 0 && !searching"
@@ -359,7 +359,7 @@
         aucun dossier ne correspond à votre recherche
       </span>
 
-      <button (click)="resetFilters()" class="btn btn-outline-white">
+      <button (click)="resetFilters()" class="btn btn-outline-dark">
         Réinitialiser les filtres
       </button>
     </div>
@@ -408,18 +408,12 @@
                 <span *ngIf="usager.surnom && usager.surnom !== null">
                   ({{ usager.surnom }})
                 </span>
-
-                <ng-container *ngIf="filters.searchString && !searching">
-                  <span class="badge badge-info" *ngIf="usager.isAyantDroit">
-                    Ayant-droit
-                  </span>
-                </ng-container>
               </td>
 
-              <td>
+              <td (click)="goToProfil(usager)">
                 <div
                   class="label-info label-green"
-                  *ngIf="usager.ayantsDroits.length > 1"
+                  *ngIf="usager.ayantsDroits.length"
                 >
                   <span>{{ usager.ayantsDroits.length }} ayants-droit</span>
                 </div>
@@ -431,7 +425,7 @@
                 >
                   <ng-template #transfertActif>
                     <span *ngIf=" usager.options.transfert.dateFin > today">
-                      <fa-icon icon="share" class="btn-icon"></fa-icon>
+                      <fa-icon icon="share" class="mr-2"></fa-icon>
                       Courrier à transférer : ADRESSE ICI
                     </span>
 
@@ -451,7 +445,7 @@
                 >
                   <ng-template #procurationActif>
                     <span *ngIf=" usager.options.procuration.dateFin > today">
-                      <fa-icon icon="share" class="btn-icon"></fa-icon>
+                      <fa-icon icon="share" class="mr-2"></fa-icon>
                       Procuration : {{ usager.options.procuration.nom }}
                       {{ usager.options.procuration.prenom }}
                     </span>
@@ -469,8 +463,7 @@
                   *ngIf="usager.options.npai.actif"
                   class="label-info label-danger"
                 >
-                  <fa-icon icon="ban" class="btn-icon"></fa-icon>
-                  Pli non distribuable
+                  <span> Pli non distribuable </span>
                 </div>
               </td>
               <td (click)="goToProfil(usager)">
