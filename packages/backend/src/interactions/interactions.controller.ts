@@ -175,24 +175,23 @@ export class InteractionsController {
         usager.lastInteraction[inType] =
           usager.lastInteraction[inType] + interactionToDelete.nbCourrier;
       }
-
       // TODO: update SMS si distribution
     }
 
-    // Check s'il s'agit du dernier passage
-    const lastTwo = await this.interactionsService.deuxDerniersPassages(
-      usager.ref,
+    // Recherche de la dernière date de passage
+    const lastTwo = await this.interactionsService.findLastInteractionOk(
+      usager,
       user
     );
 
-    if (lastTwo && lastTwo !== null && lastTwo.length > 1) {
-      if (lastTwo[0].uuid.toString() === interactionToDelete.uuid.toString()) {
-        // Vérification si la personne n'a pas de date de dernier passage
-        usager.lastInteraction.dateInteraction =
-          lastTwo.length < 2
-            ? usager.decision.dateDecision
-            : lastTwo[1].dateInteraction;
-      }
+    if (lastTwo && lastTwo !== null && lastTwo.length) {
+      // Si la date de la dernière décision a lieu après la dernière interaction, on l'assigne à lastInteraction.dateInteraction
+      usager.lastInteraction.dateInteraction =
+        lastTwo[0].dateInteraction > new Date(usager.decision.dateDecision)
+          ? lastTwo[0].dateInteraction
+          : usager.decision.dateDecision;
+    } else {
+      usager.lastInteraction.dateInteraction = usager.decision.dateDecision;
     }
 
     usager.lastInteraction.enAttente =
