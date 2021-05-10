@@ -2,6 +2,7 @@ import { HttpException, Injectable } from "@nestjs/common";
 import { FindConditions, LessThan, MoreThan, Repository } from "typeorm";
 import {
   appTypeormManager,
+  interactionRepository,
   InteractionsTable,
   usagerLightRepository,
 } from "../database";
@@ -75,23 +76,11 @@ export class InteractionsService {
     return this.interactionRepository.findOne({ where });
   }
 
-  public async deuxDerniersPassages(
-    usagerRef: number,
-    user: AppAuthUser
+  public async findLastInteractionOk(
+    usager: Pick<Usager, "ref">,
+    user: Pick<AppAuthUser, "structureId">
   ): Promise<Interactions[] | [] | null> {
-    return this.interactionRepository.find({
-      where: {
-        structureId: user.structureId,
-        usagerRef,
-        type: ["courrierOut", "visite", "appel", "colisOut", "recommandeOut"],
-      },
-
-      order: {
-        dateInteraction: "DESC",
-      },
-      skip: 0,
-      take: 2,
-    });
+    return interactionRepository.findLastInteractionOk(user, usager);
   }
 
   public async findLastInteraction(
