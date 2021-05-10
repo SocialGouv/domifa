@@ -69,15 +69,17 @@
 </ng-template>
 
 <ng-template #deleteRenewConfirmation let-modal>
-  <h4 class="text-white modal-title" id="modal-title">Attention !</h4>
-  <button
-    type="button"
-    class="close"
-    aria-describedby="modal-title"
-    (click)="closeModals()"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <div class="modal-header bg-danger">
+    <h4 class="text-white modal-title" id="modal-title">Attention !</h4>
+    <button
+      type="button"
+      class="close"
+      aria-describedby="modal-title"
+      (click)="closeModals()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div class="modal-body py-3 text-center">
     Si vous supprimez cette demande de renouvellement, l'usager retrouvera son
     précédent statut :
