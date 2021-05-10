@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 
-import { DeleteMenuComponent } from "./delete-menu.component";
+import { DeleteUsagerMenuComponent } from "./delete-usager-menu.component";
 import { APP_BASE_HREF } from "@angular/common";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { HttpClientModule } from "@angular/common/http";
@@ -10,11 +10,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { RouterTestingModule } from "@angular/router/testing";
-import { routes } from "../../../../../../app-routing.module";
 
-describe("DeleteMenuComponent", () => {
-  let component: DeleteMenuComponent;
-  let fixture: ComponentFixture<DeleteMenuComponent>;
+describe("DeleteUsagerMenuComponent", () => {
+  let component: DeleteUsagerMenuComponent;
+  let fixture: ComponentFixture<DeleteUsagerMenuComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,9 +41,9 @@ describe("DeleteMenuComponent", () => {
         },
         { provide: APP_BASE_HREF, useValue: "/" },
       ],
-      declarations: [DeleteMenuComponent],
+      declarations: [DeleteUsagerMenuComponent],
     });
-    fixture = TestBed.createComponent(DeleteMenuComponent);
+    fixture = TestBed.createComponent(DeleteUsagerMenuComponent);
     component = fixture.debugElement.componentInstance;
     component.ngOnInit();
   });

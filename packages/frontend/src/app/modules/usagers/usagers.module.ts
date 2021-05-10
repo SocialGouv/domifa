@@ -20,7 +20,7 @@ import { UsersModule } from "../users/users.module";
 import { DocumentsComponent } from "./components/documents/documents.component";
 import { EntretienComponent } from "./components/entretien/entretien.component";
 import { DecisionComponent } from "./components/form/parts/decision/decision.component";
-import { DeleteMenuComponent } from "./components/form/parts/delete-menu/delete-menu.component";
+
 import { DocumentsFormComponent } from "./components/form/parts/documents-form/documents-form.component";
 import { EntretienFormComponent } from "./components/form/parts/entretien-form/entretien-form.component";
 import { MenuComponent } from "./components/form/parts/menu/menu.component";
@@ -44,6 +44,7 @@ import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-p
 
 import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
+import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delete-usager-menu.component";
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import { SetInteractionOutFormComponent } from "./components/interactions/set-in
     DocumentsComponent,
     ManageUsagersComponent,
     MenuComponent,
-    DeleteMenuComponent,
+    DeleteUsagerMenuComponent,
     ProfilStructureDocsComponent,
     UsagersProfilComponent,
     UsagersProfilTransfertCourrierComponent,

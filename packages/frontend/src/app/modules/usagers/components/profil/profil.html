@@ -1118,12 +1118,10 @@
       class="col-md-12 text-center text-danger"
       *ngIf="me.role === 'admin' || me.role === 'responsable'"
     >
-      <br />
-      <br />
-      <span id="delete-usager" (click)="open(deleteConfirmation)">
-        <fa-icon icon="trash" class="mr-2"></fa-icon>
-        Supprimer le domicilié
-      </span>
+      <app-delete-usager-menu
+        class="my-5"
+        [usager]="usager"
+      ></app-delete-usager-menu>
     </div>
   </div>
 </div>
@@ -1163,38 +1161,6 @@
   </div>
 </ng-template>
 
-<ng-template #deleteConfirmation let-modal>
-  <div class="modal-body text-center">
-    <b class="text-danger">Attention !</b>
-    <br />
-    <br />
-    Si vous supprimez un utilisateur, vous ne pourrez plus retrouver sa fiche !
-    <br />
-    <br />
-    <b class="text-danger">
-      <fa-icon icon="exclamation-triangle"></fa-icon>
-      Toutes les informations liées à cet usager disparaitront définitivement
-      <br />
-      - Les fichiers uploadés sur Domifa
-      <br />
-      - L'historique de la domiciliation
-      <br />
-      - L'historique des interactions
-    </b>
-    <br />
-    <br />
-    Ce dossier n'apparaitra ni dans les rapports d'activités ni dans la liste
-    des domiciliés.
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="closeModals()">
-      Revenir au profil
-    </button>
-    <button class="btn btn-danger" (click)="deleteUsager();">
-      Supprimer l'usager
-    </button>
-  </div>
-</ng-template>
 <ng-template #distributionConfirm let-modal>
   <div class="modal-header">
     <h4 class="modal-title">
