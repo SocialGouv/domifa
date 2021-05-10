@@ -6473,7 +6473,7 @@ a.close.disabled {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 600px;
+    max-width: 660px;
     margin: 1.8rem auto;
   }
   .modal-dialog-scrollable {

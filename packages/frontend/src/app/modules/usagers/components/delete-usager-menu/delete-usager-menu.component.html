@@ -24,11 +24,20 @@
     </button>
   </div>
 </div>
+
 <ng-template #deleteConfirmation let-modal>
-  <div class="modal-body text-center">
-    <b class="text-danger">Attention !</b>
-    <br />
-    <br />
+  <div class="modal-header bg-danger">
+    <h4 class="text-white modal-title" id="modal-title">Attention !</h4>
+    <button
+      type="button"
+      class="close"
+      aria-describedby="modal-title"
+      (click)="closeModals()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body py-3 text-center">
     Si vous supprimez un utilisateur, vous ne pourrez plus retrouver sa fiche !
     <br />
     <br />
@@ -41,6 +50,8 @@
       - L'historique de la domiciliation
       <br />
       - L'historique des interactions
+      <br />
+      - Les statistiques
     </b>
     <br />
     <br />
@@ -58,13 +69,19 @@
 </ng-template>
 
 <ng-template #deleteRenewConfirmation let-modal>
-  <div class="modal-body text-center">
-    <b class="text-danger">Attention !</b>
-    <br />
-    <br />
+  <h4 class="text-white modal-title" id="modal-title">Attention !</h4>
+  <button
+    type="button"
+    class="close"
+    aria-describedby="modal-title"
+    (click)="closeModals()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="modal-body py-3 text-center">
     Si vous supprimez cette demande de renouvellement, l'usager retrouvera son
     précédent statut :
-    {{ usager.historique[usager.historique.length - 1].statut }}
+    <b>{{ usager.historique[usager.historique.length - 1].statut }}</b>
     <br />
   </div>
   <div class="modal-footer">

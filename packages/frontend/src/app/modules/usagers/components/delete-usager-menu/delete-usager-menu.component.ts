@@ -1,16 +1,16 @@
-import { Component, Input, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, Input, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import { AppUser, UsagerLight } from "../../../../../../../_common/model";
+import { UsagerLight, AppUser } from "../../../../../_common/model";
+import { AuthService } from "../../../shared/services/auth.service";
+import { UsagerService } from "../../services/usager.service";
 
 @Component({
-  selector: "app-form-delete-menu",
-  templateUrl: "./delete-menu.component.html",
+  selector: "app-delete-usager-menu",
+  templateUrl: "./delete-usager-menu.component.html",
 })
-export class DeleteMenuComponent implements OnInit {
+export class DeleteUsagerMenuComponent implements OnInit {
   @Input() public usager!: UsagerLight;
 
   public me: AppUser;

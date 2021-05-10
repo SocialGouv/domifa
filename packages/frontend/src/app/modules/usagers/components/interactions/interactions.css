@@ -27,15 +27,16 @@
 .interaction-notification {
   display: inline-block;
   position: absolute;
-  top: -24px;
-  right: -14px;
+  top: -20px;
+  right: -6px;
   background-color: var(--secondary);
   border-radius: 100%;
   color: white;
   font-weight: 600;
-  width: 44px;
+  width: 40px;
   padding: 4px 2px;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
+  z-index: 1000;
 }
 
 .interaction-btn  {
