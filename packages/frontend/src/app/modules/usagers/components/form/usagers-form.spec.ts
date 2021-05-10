@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { global } from "@angular/compiler/src/util";
+
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -9,7 +9,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 

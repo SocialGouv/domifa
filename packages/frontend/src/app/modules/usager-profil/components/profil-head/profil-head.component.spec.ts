@@ -3,15 +3,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
-import { ProfilCourriersComponent } from "./profil-courriers.component";
+import { ProfilHeadComponent } from "./profil-head.component";
 
-describe("ProfilCourriersComponent", () => {
-  let component: ProfilCourriersComponent;
-  let fixture: ComponentFixture<ProfilCourriersComponent>;
+describe("ProfilHeadComponent", () => {
+  let component: ProfilHeadComponent;
+  let fixture: ComponentFixture<ProfilHeadComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfilCourriersComponent],
+      declarations: [ProfilHeadComponent],
       providers: [
         {
           provide: MatomoInjector,
@@ -32,7 +32,7 @@ describe("ProfilCourriersComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfilCourriersComponent);
+    fixture = TestBed.createComponent(ProfilHeadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
