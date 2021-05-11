@@ -36,7 +36,6 @@ stages:
   apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/main/ postgresql=10.12-r0
 
 .db_setup: &db_setup |
-  pg_isready -d postgres -h postgres -p 5432 -U runner
   ./_scripts/db/restore-database-gitlab-ci.sh --db=test --ci
 
 .start_e2e_app: &start_e2e_app |
@@ -225,7 +224,6 @@ Test:e2e:dist:
   services:
     - name: postgres:10.14
   before_script:
-    - apt-get install postgresql-client-9.3
     - *db_setup
     - *start_e2e_app
   script:
