@@ -1,5 +1,4 @@
 import { INTERACTIONS_IN_AVAILABLE } from "./../../../../../_common/model/interaction/INTERACTIONS_IN_AVAILABLE.const";
-import { InteractionForApi } from "./../../../../../_common/model/interaction/InteractionForApi.type";
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -225,8 +224,15 @@ export class UsagersProfilComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
-      const formValue = {
-        ...this.usagerForm.value,
+      const usagerFormValues = this.usagerForm.value;
+      usagerFormValues.ayantsDroits.map((ayantDroit: any) => {
+        ayantDroit.dateNaissance = new Date(
+          this.nbgDate.formatEn(ayantDroit.dateNaissance)
+        );
+      });
+
+      const formValue: UsagerFormModel = {
+        ...usagerFormValues,
         dateNaissance: this.nbgDate.formatEn(
           this.usagerForm.controls.dateNaissance.value
         ),
@@ -269,8 +275,8 @@ export class UsagersProfilComponent implements OnInit {
   public newAyantDroit(ayantDroit: AyantDroit) {
     return this.formBuilder.group({
       dateNaissance: [
-        ayantDroit.dateNaissance,
-        [Validators.pattern(regexp.date), Validators.required],
+        formatDateToNgb(ayantDroit.dateNaissance),
+        [Validators.required],
       ],
       lien: [ayantDroit.lien, Validators.required],
       nom: [ayantDroit.nom, Validators.required],

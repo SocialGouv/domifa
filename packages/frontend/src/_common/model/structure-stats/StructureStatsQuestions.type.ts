@@ -43,7 +43,6 @@ export type StructureStatsQuestions = {
   };
 
   /* Q 16 : DOMICILIES VALIDE + AYANTS-DROIT*/
-  // TODO : Convertir en date les date de naissance des Ayant-droit
 
   /* ----------------------------------- */
   /* STATS Q19 : PARTIE SUR LES QUESTIONS DE L'ENTRETIEN */

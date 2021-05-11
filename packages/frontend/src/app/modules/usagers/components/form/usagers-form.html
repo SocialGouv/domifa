@@ -300,19 +300,37 @@
             </div>
             <div class="col form-group required">
               <label for="dateNaissance">Date de naissance</label>
-              <input
-                id="dateNaissance_{{i}}"
-                class="form-control"
-                placeholder="jj/mm/aaaa"
-                dateFr
-                [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('dateNaissance').errors }"
-                formControlName="dateNaissance"
-              />
+              <div class="input-group">
+                <input
+                  id="dateNaissance_{{i}}"
+                  class="form-control"
+                  placeholder="jj/mm/aaaa"
+                  [minDate]="minDateNaissance"
+                  [maxDate]="maxDateNaissance"
+                  placement="bottom"
+                  formControlName="dateNaissance"
+                  #dateAyantDroit="ngbDatepicker"
+                  ngbDatepicker
+                  maxlength="10"
+                  required
+                  dateFr
+                  [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('dateNaissance').errors }"
+                  formControlName="dateNaissance"
+                />
+                <div class="input-group-append">
+                  <span
+                    class="btn btn-outline-primary"
+                    (click)="dateAyantDroit.toggle()"
+                  >
+                    <fa-icon icon="calendar"></fa-icon>
+                  </span>
+                </div>
+              </div>
               <div
                 *ngIf=" submitted && ayantsDroits.controls[i].get('dateNaissance').errors"
                 class="invalid-feedback"
               >
-                <div>La date de naissance est obligatoire</div>
+                La date de naissance est obligatoire
               </div>
             </div>
             <div class="col form-group required">

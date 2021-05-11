@@ -752,21 +752,40 @@
                     Le prénom est obligatoire
                   </div>
                 </div>
+
                 <div class="col form-group required">
-                  <label for="dateNaissance_{{ i }}">Date de naissance</label>
-                  <input
-                    id="dateNaissance_{{ i }}"
-                    class="form-control"
-                    placeholder="jj/mm/aaaa"
-                    dateFr
-                    [ngClass]="{ 'is-invalid': submitted &&  ayantsDroits.controls[i].get('dateNaissance').errors  }"
-                    formControlName="dateNaissance"
-                  />
+                  <label for="dateNaissance_{{i}}">Date de naissance</label>
+                  <div class="input-group">
+                    <input
+                      id="dateNaissance_{{i}}"
+                      class="form-control"
+                      placeholder="jj/mm/aaaa"
+                      [minDate]="minDateNaissance"
+                      [maxDate]="maxDateNaissance"
+                      placement="bottom"
+                      formControlName="dateNaissance"
+                      #dateAd="ngbDatepicker"
+                      ngbDatepicker
+                      maxlength="10"
+                      dateFr
+                      [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('dateNaissance').errors }"
+                      required
+                    />
+                    <div class="input-group-append">
+                      <span
+                        class="btn btn-outline-primary"
+                        (click)="dateAd.toggle()"
+                      >
+                        <fa-icon icon="calendar"></fa-icon>
+                      </span>
+                    </div>
+                  </div>
+
                   <div
-                    *ngIf="submitted && ayantsDroits.controls[i].get('dateNaissance').errors"
+                    *ngIf=" submitted && ayantsDroits.controls[i].get('dateNaissance').errors"
                     class="invalid-feedback"
                   >
-                    <div>La date de naissance est obligatoire</div>
+                    La date de naissance est obligatoire
                   </div>
                 </div>
                 <div class="col form-group required">
@@ -774,6 +793,8 @@
                   <select
                     formControlName="lien"
                     id="lien_{{i}}"
+                    [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('lien').errors}"
+                    required
                     class="custom-select"
                   >
                     <option
@@ -788,12 +809,13 @@
                   <label for class="text-white"> c </label>
                   <div>
                     <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
-                      <fa-icon icon="trash" class="mr-2"></fa-icon>
+                      <fa-icon icon="trash"></fa-icon>
                     </span>
                   </div>
                 </div>
               </div>
             </div>
+
             <span (click)="addAyantDroit()" class="btn btn-primary">
               <fa-icon icon="plus"></fa-icon>
               Ajouter des ayants droits
@@ -1079,6 +1101,7 @@
   >
     <app-delete-usager-menu
       class="my-5"
+      f
       [usager]="usager"
     ></app-delete-usager-menu>
   </div>

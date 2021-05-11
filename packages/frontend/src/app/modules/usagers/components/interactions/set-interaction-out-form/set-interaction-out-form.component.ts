@@ -55,7 +55,6 @@ export class SetInteractionOutFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    console.log("INTI");
     this.interactionFormData.courrierOut.nbCourrier = this.usager.lastInteraction.courrierIn;
     this.interactionFormData.recommandeOut.nbCourrier = this.usager.lastInteraction.recommandeIn;
     this.interactionFormData.colisOut.nbCourrier = this.usager.lastInteraction.colisIn;
