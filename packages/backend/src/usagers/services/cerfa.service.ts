@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as fs from "fs";
+import moment = require("moment");
 import * as path from "path";
 import { appLogger } from "../../util";
 import { AppAuthUser, Usager } from "../../_common/model";
@@ -117,7 +118,7 @@ export class CerfaService {
         " " +
         ayantDroit.prenom +
         " né(e) le " +
-        ayantDroit.dateNaissance +
+        moment(ayantDroit.dateNaissance).locale("fr").format("L") +
         " - ";
     }
 
