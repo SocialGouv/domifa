@@ -103,6 +103,7 @@ COPY public.message_email (uuid, "createdAt", "updatedAt", version, status, "ema
 COPY public.message_sms (uuid, "createdAt", "updatedAt", version, "usagerRef", "structureId", content, status, "smsId", "scheduledDate", "sendDate", "interactionMetas", "reminderMetas", "statusUpdates", "lastUpdate", "errorCount", "errorMessage", "responseId", "phoneNumber", "senderName") FROM stdin;
 \.
 
+
 --
 -- Data for Name: monitor_batch_process; Type: TABLE DATA; Schema: public; Owner: -
 --
@@ -144,6 +145,7 @@ SELECT pg_catalog.setval('public.app_user_id_seq', 7, true);
 
 SELECT pg_catalog.setval('public.interactions_id_seq', 7, true);
 
+
 --
 -- Name: structure_doc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
@@ -161,3 +163,4 @@ SELECT pg_catalog.setval('public.structure_id_seq', 4, true);
 --
 -- PostgreSQL database dump complete
 --
+

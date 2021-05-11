@@ -1,7 +1,8 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateDatabase1614608625533 implements MigrationInterface {
-    name = 'CreateDatabase1614608625533'
+// IMPORTANT: utilisé sur les branches PR pour initialiser la bdd: ne pas supprimer!!!
+export class CreateDatabase1603812391580 implements MigrationInterface {
+    name = 'autoMigration1603812391580'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
