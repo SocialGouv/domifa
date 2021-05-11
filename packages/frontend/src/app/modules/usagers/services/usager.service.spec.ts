@@ -94,7 +94,7 @@ describe("UsagerService", () => {
     expect(docFull).toEqual(docFull);
 
     const ayantDroit = new AyantDroit({
-      dateNaissance: "1991/12/20",
+      dateNaissance: new Date("1991/12/20"),
       lien: "ENFANT",
       nom: "Le nom",
       prenom: "Le prénom",

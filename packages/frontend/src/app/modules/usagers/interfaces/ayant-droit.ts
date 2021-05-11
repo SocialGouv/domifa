@@ -1,8 +1,9 @@
+import { AyantDroiLienParent } from "./../../../../_common/model/usager/AyantDroitLienParente.type";
 import { UsagerAyantDroit } from "../../../../_common/model/usager/UsagerAyantDroit.type";
 
-export class AyantDroit {
-  public dateNaissance: Date | string;
-  public lien: string;
+export class AyantDroit implements UsagerAyantDroit {
+  public dateNaissance: Date;
+  public lien: AyantDroiLienParent | null;
   public nom: string;
   public prenom: string;
 
@@ -11,7 +12,7 @@ export class AyantDroit {
     this.prenom = (ayantDroit && ayantDroit.prenom) || "";
     this.dateNaissance = ayantDroit?.dateNaissance
       ? new Date(ayantDroit.dateNaissance)
-      : "";
-    this.lien = (ayantDroit && ayantDroit.lien) || "";
+      : null;
+    this.lien = (ayantDroit && ayantDroit.lien) || null;
   }
 }

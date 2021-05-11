@@ -33,7 +33,7 @@ export const usagerValideMock: UsagerLight = {
     {
       nom: "Karamoko",
       prenom: "Mauricette",
-      dateNaissance: "20/12/1978",
+      dateNaissance: new Date("1978-12-20T00:00:00.000Z"),
       lien: "CONJOINT",
     },
   ],

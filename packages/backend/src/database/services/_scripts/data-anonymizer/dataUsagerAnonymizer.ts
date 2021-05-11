@@ -79,9 +79,7 @@ async function _anonymizeUsager(
           lien: x.lien,
           nom: dataGenerator.lastName(),
           prenom: dataGenerator.firstName(),
-          dateNaissance: dataGenerator.date({
-            years: { min: 0, max: -90 },
-          }),
+          dateNaissance: x.dateNaissance,
         }))
       : usager.ayantsDroits,
     datePremiereDom: dataGenerator.date({
