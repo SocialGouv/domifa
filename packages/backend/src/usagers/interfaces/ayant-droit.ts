@@ -1,6 +1,6 @@
 export interface AyantDroit {
   nom: string;
   prenom: string;
-  dateNaissance: string;
+  dateNaissance: Date;
   lien: string;
 }
