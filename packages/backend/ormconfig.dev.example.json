@@ -8,12 +8,19 @@
   "username": "domifa_dev",
   "password": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "database": "domifa_dev",
-  "entities": ["src/database/entities/**/*Table.typeorm.ts"],
-  "migrations": ["src/_migrations/**/*.ts"],
-  "subscribers": ["src/**/*Subscriber.typeorm.ts"],
+  "entities": [
+    "src/database/entities/**/*Table.typeorm.ts"
+  ],
+  "migrations": [
+    "src/_migrations/01_exclude-from-create_db/**/*.ts",
+    "src/_migrations/02_always/**/*.ts"
+  ],
+  "subscribers": [
+    "src/**/*Subscriber.typeorm.ts"
+  ],
   "cli": {
     "entitiesDir": "src",
-    "migrationsDir": "src/_migrations",
+    "migrationsDir": "src/_migrations/02_always",
     "subscribersDir": "src"
   }
 }

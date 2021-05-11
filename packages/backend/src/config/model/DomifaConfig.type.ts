@@ -29,6 +29,10 @@ export type DomifaConfig = {
     database: string; // POSTGRES_DATABASE
     logging: LoggerOptions; // POSTGRES_LOGGING
   };
+  typeorm: {
+    runOnStartup: boolean; // DOMIFA_TYPEORM_RUN_ON_STARTUP
+    createDatabase: boolean; // DOMIFA_TYPEORM_CREATE_DATABASE
+  };
   upload: {
     basePath: string; // UPLOADS_FOLDER
   };

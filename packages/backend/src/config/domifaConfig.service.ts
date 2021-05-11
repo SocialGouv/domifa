@@ -154,6 +154,22 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         "POSTGRES_LOGGING"
       ),
     },
+    typeorm: {
+      runOnStartup: configParser.parseBoolean(
+        x,
+        "DOMIFA_TYPEORM_RUN_ON_STARTUP",
+        {
+          defaultValue: true,
+        }
+      ),
+      createDatabase: configParser.parseBoolean(
+        x,
+        "DOMIFA_TYPEORM_CREATE_DATABASE",
+        {
+          defaultValue: false,
+        }
+      ),
+    },
     upload: {
       basePath: configParser.parseString(x, "UPLOADS_FOLDER", {
         defaultValue: "/files/",
