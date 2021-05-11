@@ -789,22 +789,36 @@
                     </div>
                   </div>
                   <div class="col form-group required">
-                    <label for="dateNaissance_{{ i }}">Date de naissance</label>
+                    <label for="dateNaissance_{{i}}">Date de naissance</label>
                     <input
-                      id="dateNaissance_{{ i }}"
+                      id="dateNaissance_{{i}}"
                       class="form-control"
                       placeholder="jj/mm/aaaa"
-                      dateFr
-                      [ngClass]="{ 'is-invalid': submitted &&  ayantsDroits.controls[i].get('dateNaissance').errors  }"
+                      [minDate]="minDateNaissance"
+                      [maxDate]="maxDateNaissance"
+                      placement="bottom"
                       formControlName="dateNaissance"
+                      #d="ngbDatepicker"
+                      ngbDatepicker
+                      maxlength="10"
+                      dateFr
+                      [ngClass]="{ 'is-invalid': submitted && ayantsDroits.controls[i].get('dateNaissance').errors }"
+                      required
                     />
+                    <div class="input-group-append">
+                      <span
+                        class="btn btn-outline-primary"
+                        (click)="d.toggle()"
+                      >
+                        <fa-icon icon="calendar"></fa-icon>
+                      </span>
+                    </div>
                     <div
-                      *ngIf="submitted && ayantsDroits.controls[i].get('dateNaissance').errors"
+                      *ngIf=" submitted && ayantsDroits.controls[i].get('dateNaissance').errors"
                       class="invalid-feedback"
                     >
-                      <div>La date de naissance est obligatoire</div>
+                      La date de naissance est obligatoire
                     </div>
-                  </div>
                   <div class="col form-group required">
                     <label for="lien_{{i}}">Lien</label>
                     <select

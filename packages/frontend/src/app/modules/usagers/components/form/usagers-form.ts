@@ -216,8 +216,8 @@ export class UsagersFormComponent implements OnInit {
   public newAyantDroit(ayantDroit: AyantDroit) {
     return this.formBuilder.group({
       dateNaissance: [
-        ayantDroit.dateNaissance,
-        [Validators.pattern(regexp.date), Validators.required],
+        formatDateToNgb(ayantDroit.dateNaissance),
+        [Validators.required],
       ],
       lien: [ayantDroit.lien, Validators.required],
       nom: [ayantDroit.nom, Validators.required],
@@ -237,8 +237,15 @@ export class UsagersFormComponent implements OnInit {
         "Un des champs du formulaire n'est pas rempli ou contient une erreur"
       );
     } else {
-      const formValue = {
-        ...this.usagerForm.value,
+      const usagerFormValues = this.usagerForm.value;
+      usagerFormValues.ayantsDroits.map((ayantDroit: any) => {
+        ayantDroit.dateNaissance = new Date(
+          this.nbgDate.formatEn(ayantDroit.dateNaissance)
+        );
+      });
+
+      const formValue: UsagerFormModel = {
+        ...usagerFormValues,
         dateNaissance: this.nbgDate.formatEn(
           this.usagerForm.controls.dateNaissance.value
         ),

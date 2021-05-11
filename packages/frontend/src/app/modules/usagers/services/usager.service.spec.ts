@@ -4,7 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterModule } from "@angular/router";
+
 import { RouterTestingModule } from "@angular/router/testing";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
@@ -13,7 +13,7 @@ import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
-import { AyantDroit } from "../interfaces/ayant-droit";
+
 import { Doc } from "../interfaces/doc";
 import { Entretien } from "../interfaces/entretien";
 import { Rdv } from "../interfaces/rdv";
@@ -92,20 +92,6 @@ describe("UsagerService", () => {
       importBy: "A",
     });
     expect(docFull).toEqual(docFull);
-
-    const ayantDroit = new AyantDroit({
-      dateNaissance: new Date("1991/12/20"),
-      lien: "ENFANT",
-      nom: "Le nom",
-      prenom: "Le prénom",
-    });
-
-    expect(ayantDroit).toEqual({
-      dateNaissance: new Date("1991/12/20"),
-      lien: "ENFANT",
-      nom: "Le nom",
-      prenom: "Le prénom",
-    });
 
     expect(rdvFull).toEqual({
       dateRdv: new Date("December 20, 1991 02:12:00"),
