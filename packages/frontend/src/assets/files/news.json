@@ -1,4 +1,15 @@
 [
+    {
+    "date": "2021-05-17",
+    "content": [
+    {   "type": "new",
+        "categorie": "Nouvelle liste des domiciliés",
+        "message": [
+          "Les premières améliorations de la liste des domiciliés est en ligne ! Majoritairement des changements graphiques, vous avez cependant un nouvel écran de réception et distribution du courrier. Nous allons continuer à améliorer cette section puis nous passerons à la refonte de la fiche domicilié. Nous vous tiendrons informés des prochains jalons."
+        ]
+      }
+    ]
+  },
   {
     "date": "2021-04-14",
     "content": [
