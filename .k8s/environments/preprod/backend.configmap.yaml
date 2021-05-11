@@ -1,1 +1,9 @@
-../dev/backend.configmap.yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: backend-configmap
+data:
+  DOMIFA_ENV_ID: dev
+  PGSSLMODE: "require"
+  NODE_ENV: production
+  DOMIFA_TYPEORM_CREATE_DATABASE: "true"

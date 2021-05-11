@@ -86,10 +86,14 @@ stages:
   before_script:
     - *print_env
 
-Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.2.0/base_yarn_stage.yml
+.install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v20.2.0/base_yarn_stage.yml
   image: node:14.15.5-alpine3.12
   stage: Install
   interruptible: true
+  rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
+    - when: always
   cache: # https://docs.gitlab.com/ce/ci/caching/
     key:
       files:
@@ -110,56 +114,64 @@ Install:node_modules: # from https://github.com/SocialGouv/gitlab-ci-yml/blob/v2
   retry:
     max: 1
 
-Install:e2e:node_modules:
-  image: node:14.15.5-alpine3.12
-  stage: Install
-  interruptible: true
-  cache: # https://docs.gitlab.com/ce/ci/caching/
-    key:
-      files:
-        - optional/e2e/runners/puppeteer/yarn.lock
-      prefix: ${CI_JOB_NAME}
-    paths:
-      - .cache
-  before_script:
-    - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn # cache yarn dependencies into gitlab-ci runner cache: https://classic.yarnpkg.com/en/docs/cli/cache/
-  script:
-    - cd optional/e2e/runners/puppeteer
-    - yarn install --prefer-offline
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - optional/e2e/runners/puppeteer/node_modules
-  only: # disable job on branchs as it is too slow for now
-    - master
-    - tags
-  retry:
-    max: 1
+Install:node_modules:
+  extends:
+    - .install:node_modules
 
-Build:frontend:gitlab-ci: # "gitlab-ci" environment build
+# Install:e2e:node_modules:
+#   image: node:14.15.5-alpine3.12
+#   stage: Install
+#   interruptible: true
+#   cache: # https://docs.gitlab.com/ce/ci/caching/
+#     key:
+#       files:
+#         - optional/e2e/runners/puppeteer/yarn.lock
+#       prefix: ${CI_JOB_NAME}
+#     paths:
+#       - .cache
+#   before_script:
+#     - yarn config set cache-folder $CI_PROJECT_DIR/.cache/yarn # cache yarn dependencies into gitlab-ci runner cache: https://classic.yarnpkg.com/en/docs/cli/cache/
+#   script:
+#     - cd optional/e2e/runners/puppeteer
+#     - yarn install --prefer-offline
+#   artifacts:
+#     expire_in: 1 day
+#     paths:
+#       - optional/e2e/runners/puppeteer/node_modules
+#   only: # disable job on branchs as it is too slow for now
+#     - master
+#     - tags
+#   retry:
+#     max: 1
+
+# Build:frontend:gitlab-ci: # "gitlab-ci" environment build
+#   image: node:14.15.5-alpine3.12
+#   stage: Build
+#   interruptible: true
+#   script:
+#     - yarn --cwd packages/frontend build:gitlab-ci
+#   artifacts:
+#     expire_in: 1 day
+#     paths:
+#       - packages/frontend/dist
+#   needs:
+#     - Install:node_modules
+#   dependencies:
+#     - Install:node_modules
+#   only: # disable job on branchs as it is too slow for now
+#     - master
+#     - tags
+#   retry:
+#     max: 1
+
+.build:frontend:dist: # "dist" environment build
   image: node:14.15.5-alpine3.12
   stage: Build
   interruptible: true
-  script:
-    - yarn --cwd packages/frontend build:gitlab-ci
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - packages/frontend/dist
-  needs:
-    - Install:node_modules
-  dependencies:
-    - Install:node_modules
-  only: # disable job on branchs as it is too slow for now
-    - master
-    - tags
-  retry:
-    max: 1
-
-Build:frontend:dist: # "dist" environment build
-  image: node:14.15.5-alpine3.12
-  stage: Build
-  interruptible: true
+  rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
+    - when: always
   script:
     - yarn --cwd packages/frontend build
   artifacts:
@@ -173,10 +185,18 @@ Build:frontend:dist: # "dist" environment build
   retry:
     max: 1
 
-Build:backend:dist: # "dist" environment build
+Build:frontend:dist:
+  extends:
+    - .build:frontend:dist
+
+.build:backend:dist: # "dist" environment build
   image: node:14.15.5-alpine3.12
   stage: Build
   interruptible: true
+  rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
+    - when: always
   script:
     - yarn --cwd packages/backend build
   artifacts:
@@ -190,11 +210,19 @@ Build:backend:dist: # "dist" environment build
   retry:
     max: 1
 
-Test:backend:integration:
+Build:backend:dist:
+  extends:
+    - .build:backend:dist
+
+.test:backend:integration:
   extends: .tests_setup
   image: node:14.15.5-alpine3.12
   services:
     - name: postgres:10.14
+  rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
+    - when: always
   script:
     - *db_tools
     - *db_setup
@@ -206,9 +234,17 @@ Test:backend:integration:
   retry:
     max: 1
 
-Test:frontend:unit:
+Test:backend:integration:
+  extends:
+    - .test:backend:integration
+
+.test:frontend:unit:
   extends: .tests_setup
   image: node:14.15.5-alpine3.12
+  rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
+    - when: always
   script:
     - yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
   needs:
@@ -218,42 +254,46 @@ Test:frontend:unit:
   retry:
     max: 1
 
-Test:e2e:dist:
-  extends: .tests_setup
-  # image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:4.2.0 # https://github.com/SocialGouv/docker/blob/master/puppeteer-mongo-pg/Dockerfile
-  image: ghcr.io/socialgouv/docker/puppeteer:6.0.1
-  services:
-    - name: postgres:10.14
-  before_script:
-    - *db_setup
-    - *start_e2e_app
-  script:
-    - cd optional/e2e/runners/puppeteer/
-    - yarn test --debug
-  needs:
-    - Install:node_modules
-    - Install:e2e:node_modules
-    - Build:frontend:gitlab-ci
-  dependencies:
-    - Install:node_modules
-    - Install:e2e:node_modules
-    - Build:frontend:gitlab-ci
-  artifacts:
-    when: on_failure
-    expire_in: 1 week
-    paths:
-      - ${CI_PROJECT_DIR}/optional/e2e/runners/puppeteer/output
-      - ${CI_PROJECT_DIR}/backend.log
-      - ${CI_PROJECT_DIR}/frontend.log
-  only: # disable job on branchs as it is too slow for now
-    - master
-    - tags
-  retry:
-    max: 1
+Test:frontend:unit:
+  extends:
+    - .test:frontend:unit
 
-Release:
-  rules:
-    - when: never
+# Test:e2e:dist:
+#   extends: .tests_setup
+#   image: registry.gitlab.factory.social.gouv.fr/socialgouv/docker/puppeteer-mongo-pg:4.2.0 # https://github.com/SocialGouv/docker/blob/master/puppeteer-mongo-pg/Dockerfile
+#   # image: ghcr.io/socialgouv/docker/puppeteer:6.0.1
+#   services:
+#     - name: postgres:10.14
+#   before_script:
+#     - *db_setup
+#     - *start_e2e_app
+#   script:
+#     - cd optional/e2e/runners/puppeteer/
+#     - yarn test --debug
+#   needs:
+#     - Install:node_modules
+#     - Install:e2e:node_modules
+#     - Build:frontend:gitlab-ci
+#   dependencies:
+#     - Install:node_modules
+#     - Install:e2e:node_modules
+#     - Build:frontend:gitlab-ci
+#   artifacts:
+#     when: on_failure
+#     expire_in: 1 week
+#     paths:
+#       - ${CI_PROJECT_DIR}/optional/e2e/runners/puppeteer/output
+#       - ${CI_PROJECT_DIR}/backend.log
+#       - ${CI_PROJECT_DIR}/frontend.log
+#   only: # disable job on branches as it is too slow for now
+#     - master
+#     - tags
+#   retry:
+#     max: 1
+
+# Release:
+#   rules:
+#     - when: never
 
 Register:frontend:
   extends:
@@ -271,9 +311,11 @@ Register:frontend:
     DOCKER_BUILD_ARGS: >-
       -f packages/frontend/Dockerfile
   rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
     - when: on_success
 
-Register:backend:
+.register:backend:
   extends:
     - .base_register_kaniko_stage
   stage: Registration
@@ -289,7 +331,13 @@ Register:backend:
     DOCKER_BUILD_ARGS: >-
       -f packages/backend/Dockerfile
   rules:
+    - if: "$PRODUCTION || $TRIGGER"
+      when: never
     - when: on_success
+
+Register:backend:
+  extends:
+    - .register:backend
 
 Seed:
   stage: Seed
