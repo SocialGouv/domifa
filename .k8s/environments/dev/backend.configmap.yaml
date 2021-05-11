@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: domifa-backend-configmap-dev
+  namespace: "domifa"
+data:
+  DOMIFA_ENV_ID: dev
+  PGSSLMODE: "require"
+  NODE_ENV: production
+  DOMIFA_TYPEORM_CREATE_DATABASE: "true"

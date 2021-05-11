@@ -9,7 +9,7 @@ COPY ./packages/backend/package.json ./yarn.lock /app/
 
 WORKDIR /app
 
-RUN yarn --production --frozen-lockfile --cache-folder /dev/shm/yarn
+RUN yarn --production --frozen-lockfile && yarn cache clean
 
 COPY ./packages/backend/dist /app/dist
 

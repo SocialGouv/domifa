@@ -59,7 +59,7 @@ echo "##########################################################################
 echo ""
 
 (set -x && docker exec ${POSTGRES_CONTAINER_NAME} bash -c "\
-(set -x && pg_dump --dbname=${POSTGRES_DUMP_FROM_DATABASE} --username=\${POSTGRES_USER} --data-only --no-owner --format=plain --exclude-schema=migrations --file=${POSTGRES_DUMP_PATH}) \
+(set -x && pg_dump --dbname=${POSTGRES_DUMP_FROM_DATABASE} --username=\${POSTGRES_USER} --data-only --no-owner --format=plain --exclude-table=migrations --exclude-table=migrations_id_seq --file=${POSTGRES_DUMP_PATH}) \
  && ls -lah ${POSTGRES_DUMP_PATH} \
 ")
 

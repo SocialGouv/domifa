@@ -3,7 +3,7 @@ import {
   createConnection,
   EntityManager,
   EntityTarget,
-  Migration,
+  Migration
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { domifaConfig } from "../../../config";
@@ -77,14 +77,24 @@ async function connect(
   if (isTypescriptMode) {
     appLogger.warn(`[appTypeormManager] Running in typescript DEV mode`);
     connectOptionsPaths = {
-      migrations: ["src/_migrations/**/*.ts"],
+      migrations: domifaConfig().typeorm.createDatabase?[
+        `src/_migrations/**/*.ts`,
+      ]:[
+        `src/_migrations/**/*.ts`,
+        `src/_migrations_exclude-from-create_db/**/*.ts`
+      ],
       entities: ["src/database/entities/**/*Table.typeorm.ts"],
       subscribers: ["src/**/*Subscriber.typeorm.ts"],
     };
   } else {
     appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
     connectOptionsPaths = {
-      migrations: ["dist/_migrations/**/*.js"],
+      migrations: domifaConfig().typeorm.createDatabase?[
+        `dist/_migrations/**/*.js`
+      ]:[
+        `dist/_migrations/**/*.js`,
+        `dist/_migrations_exclude-from-create_db/**/*.js`
+      ],
       entities: ["dist/database/entities/**/*Table.typeorm.js"],
       subscribers: ["dist/**/*Subscriber.typeorm.js"],
     };

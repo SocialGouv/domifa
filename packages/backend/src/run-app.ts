@@ -4,7 +4,7 @@ import { appTypeormManager } from "./database";
 import { MonitoringCleaner } from "./database/services/monitoring/MonitoringCleaner.service";
 import {
   CronMailImportGuideSenderService,
-  CronMailUserGuideSenderService,
+  CronMailUserGuideSenderService
 } from "./mails/services";
 import { messageEmailConsummerTrigger } from "./mails/services/_core";
 import { StatsGeneratorService } from "./stats/services/stats-generator.service";
@@ -16,8 +16,9 @@ import { appLogger } from "./util";
   try {
     const { app, postgresTypeormConnection } = await bootstrapApplication();
     try {
-      await appTypeormManager.migrateUp(postgresTypeormConnection);
-
+      if(domifaConfig().typeorm.runOnStartup){
+        await appTypeormManager.migrateUp(postgresTypeormConnection);
+      }
       // in local env, run cron on app startup (non blocking)
       await runCronJobs(app);
       const server = await app.listen(3000);
