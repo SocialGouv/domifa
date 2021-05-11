@@ -211,28 +211,24 @@
         </div>
 
         <div *ngIf="filters.statut !== 'REFUS'" class="filter-part">
+          <div class="d-inline-block" *ngIf="filters.interactionType">
+            <button
+              class="btn selected-btn"
+              (click)="updateFilters('interactionType',null)"
+            >
+              Courrier à récupérer
+              <fa-icon icon="times" class="cross"></fa-icon>
+            </button>
+          </div>
           <div
             ngbDropdown
             id="dropdownDernierPassage"
             display="dynamic"
             placement="bottom-left"
+            *ngIf="!filters.interactionType"
             class="d-inline-block"
           >
-            <div class="d-inline-block" *ngIf="filters.interactionType">
-              <button
-                class="btn selected-btn"
-                (click)="updateFilters('interactionType',null)"
-              >
-                Courrier à récupérer
-                <fa-icon icon="times" class="cross"></fa-icon>
-              </button>
-            </div>
-            <button
-              *ngIf="!filters.interactionType"
-              class="btn"
-              id="dropdownManual"
-              ngbDropdownToggle
-            >
+            <button class="btn" id="dropdownManual" ngbDropdownToggle>
               <span>Courriers à récupérer</span>
             </button>
             <div
@@ -305,43 +301,6 @@
             >
               Trier par ID <fa-icon icon="sort-amount-down"></fa-icon>
             </button>
-
-            <ng-container *ngIf="filters.statut !== 'TOUS'">
-              <button
-                (click)="updateFilters('sortKey', filters.statut, 'ascending')"
-                ngbDropdownItem
-              >
-                Trier par {{ dateLabel | lowercase }}<fa-icon
-                  icon="sort-amount-up"
-                ></fa-icon>
-              </button>
-              <button
-                (click)="updateFilters('sortKey', filters.statut, 'descending')"
-                ngbDropdownItem
-              >
-                Trier par {{ dateLabel | lowercase }}<fa-icon
-                  icon="sort-amount-down"
-                ></fa-icon>
-              </button>
-            </ng-container>
-            <ng-container *ngIf="filters.passage !== null">
-              <button
-                (click)="updateFilters('sortKey', 'PASSAGE', 'ascending')"
-                ngbDropdownItem
-              >
-                Trier par dernier passage<fa-icon
-                  icon="sort-amount-up"
-                ></fa-icon>
-              </button>
-              <button
-                (click)="updateFilters('sortKey', 'PASSAGE', 'descending')"
-                ngbDropdownItem
-              >
-                Trier par dernier passage<fa-icon
-                  icon="sort-amount-down"
-                ></fa-icon>
-              </button>
-            </ng-container>
           </div>
         </div>
       </div>
@@ -387,8 +346,12 @@
             <th (click)="updateFilters('sortKey', 'ID')">ID</th>
             <th (click)="updateFilters('sortKey', 'NAME')">Nom prénom</th>
             <th>INFORMATIONS</th>
-            <th>DERNIER PASSAGE</th>
-            <th>ÉCHÉANCE</th>
+            <ng-container
+              *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
+            >
+              <th>PASSAGE</th>
+              <th>ÉCHÉANCE</th>
+            </ng-container>
             <th class="text-left">ACTIONS RAPIDES</th>
             <th></th>
           </thead>
@@ -466,15 +429,20 @@
                   <span> Pli non distribuable </span>
                 </div>
               </td>
-              <td (click)="goToProfil(usager)">
-                {{ usager.lastInteraction.dateInteraction|date: "dd/MM/yyyy" }}
-              </td>
-              <td>
-                <span class="statut-date" *ngIf="usager.isActif">
-                  <span class="statut-signal"></span>
-                  {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
-                </span>
-              </td>
+              <ng-container
+                *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
+              >
+                <td (click)="goToProfil(usager)">
+                  {{ usager.lastInteraction.dateInteraction|date: "dd/MM/yyyy"
+                  }}
+                </td>
+                <td>
+                  <span class="statut-date" *ngIf="usager.isActif">
+                    <span class="statut-signal"></span>
+                    {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
+                  </span>
+                </td>
+              </ng-container>
 
               <td class="text-left icones_liste">
                 <div
