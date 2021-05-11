@@ -225,6 +225,7 @@ Test:e2e:dist:
   services:
     - name: postgres:10.14
   before_script:
+    - apt-get install postgresql-client-9.3
     - *db_setup
     - *start_e2e_app
   script:
@@ -245,7 +246,7 @@ Test:e2e:dist:
       - ${CI_PROJECT_DIR}/optional/e2e/runners/puppeteer/output
       - ${CI_PROJECT_DIR}/backend.log
       - ${CI_PROJECT_DIR}/frontend.log
-  only: # disable job on branchs as it is too slow for now
+  only: # disable job on branches as it is too slow for now
     - master
     - tags
   retry:
