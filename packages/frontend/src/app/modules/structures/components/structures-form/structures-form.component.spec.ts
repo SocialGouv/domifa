@@ -1,11 +1,10 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { StructuresFormComponent } from "./structures-form.component";
@@ -22,16 +21,8 @@ describe("StructuresFormComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-
         HttpClientTestingModule,
-        ToastrModule.forRoot({
-          enableHtml: true,
-          positionClass: "toast-top-full-width",
-          preventDuplicates: true,
-          progressAnimation: "increasing",
-          progressBar: true,
-          timeOut: 2000,
-        }),
+        ToastrModule,
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

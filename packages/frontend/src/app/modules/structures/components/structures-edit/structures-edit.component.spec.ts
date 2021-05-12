@@ -24,14 +24,7 @@ describe("StructuresEditComponent", () => {
         FormsModule,
 
         HttpClientTestingModule,
-        ToastrModule.forRoot({
-          enableHtml: true,
-          positionClass: "toast-top-full-width",
-          preventDuplicates: true,
-          progressAnimation: "increasing",
-          progressBar: true,
-          timeOut: 2000,
-        }),
+        ToastrModule,
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

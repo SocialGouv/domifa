@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BrowserModule } from "@angular/platform-browser";
+
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -41,19 +41,11 @@ import { StructureService } from "./services/structure.service";
   imports: [
     UsersModule,
     CommonModule,
-    BrowserModule,
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
     RouterModule.forRoot([]),
-    ToastrModule.forRoot({
-      enableHtml: true,
-      positionClass: "toast-top-full-width",
-      preventDuplicates: true,
-      progressAnimation: "increasing",
-      progressBar: true,
-      timeOut: 2000,
-    }),
+    ToastrModule.forRoot(),
     HttpClientModule,
     NgbModule,
     FormsModule,
