@@ -21,7 +21,7 @@ describe("UserProfilComponent", () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
-        ToastrModule,
+        ToastrModule.forRoot(),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

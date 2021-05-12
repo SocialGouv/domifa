@@ -1,38 +1,12 @@
-import {
-  StructureCommon,
-  StructureCustomDoc,
-  UsagerLight,
-} from "../../_common/model";
+import { StructureCustomDoc, UsagerLight } from "../../_common/model";
 import { buildCustomDoc } from "./buildCustomDoc.service";
-import { generatedAttestationMock } from "./mocks/generatedAttestationMock";
+import {
+  generatedAttestationMock,
+  generatedRadiationMock,
+  structureMock,
+} from "./mocks";
 
-describe("buildCustomDoc", () => {
-  const structure: StructureCommon = {
-    id: 1,
-    adresse: "1 rue de l'océan",
-    adresseCourrier: null,
-    agrement: null,
-    capacite: null,
-    codePostal: "92600",
-    complementAdresse: null,
-    departement: "92",
-    region: "11",
-    email: "ccas.test@yopmail.com",
-    nom: "CCAS de Test",
-    options: { numeroBoite: false },
-    phone: "0602030405",
-    responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
-    structureType: "ccas",
-    ville: "Asnieres-sur-seine",
-    sms: {
-      enabledByDomifa: false,
-      enabledByStructure: false,
-      senderDetails: "",
-      senderName: "",
-    },
-  };
-  // const usagerRadie: UsagerLight = {};
-
+describe("ATTESTATION POSTALE", () => {
   const usagerActif: UsagerLight = {
     uuid: "ee7ef219-b101-422c-8ad4-4d5aedf9caad",
     ref: 6,
@@ -111,16 +85,94 @@ describe("buildCustomDoc", () => {
     },
   };
 
-  it("buildCustomDoc render ", async () => {
-    // const docRadie = buildCustomDoc(usagerRadie, structure);
-
+  it("Generate data for render", async () => {
     const date = new Date("2020-12-15 14:30:00");
     const docActif: StructureCustomDoc = buildCustomDoc(
       usagerActif,
-      structure,
+      structureMock,
       date
     );
 
     expect(docActif).toEqual(generatedAttestationMock);
+  });
+});
+
+describe("ATTESTATION RADIATION", () => {
+  const usagerRadie: UsagerLight = {
+    uuid: "ebee4605-6262-472d-82e3-d56935830764",
+    ref: 10,
+    customRef: "10",
+    structureId: 1,
+    nom: "DUPONT",
+    prenom: "PATRICK",
+    surnom: "",
+    sexe: "homme",
+    dateNaissance: new Date("1969-09-09T00:00:00.000Z"),
+    villeNaissance: "Marseille",
+    langue: null,
+    email: "montest@yopmail.com",
+    phone: "0142494242",
+    datePremiereDom: new Date("2018-10-01T00:00:00.000Z"),
+    preference: { phone: false, phoneNumber: null, email: null },
+    typeDom: "PREMIERE",
+    decision: {
+      motif: "ENTREE_LOGEMENT",
+      statut: "RADIE",
+      userId: 28,
+      dateFin: new Date("2021-05-11T16:19:48.046Z"),
+      userName: "PO TEST",
+      dateDebut: new Date("2021-05-11T16:19:48.046Z"),
+      dateDecision: new Date("2021-05-11T16:19:48.041Z"),
+      motifDetails: "",
+    },
+    historique: [
+      {
+        statut: "VALIDE",
+        userId: 28,
+        dateFin: new Date("2022-04-17T00:00:00.000Z"),
+        userName: "PO TEST",
+        dateDebut: new Date("2021-04-17T00:00:00.000Z"),
+        dateDecision: new Date("2021-04-07T14:01:17.322Z"),
+      },
+      {
+        statut: "INSTRUCTION",
+        userId: 28,
+        dateFin: new Date("2021-04-07T14:01:09.187Z"),
+        userName: "PO TEST",
+        dateDecision: new Date("2021-04-07T14:01:09.187Z"),
+      },
+    ],
+    ayantsDroits: [],
+    lastInteraction: {
+      colisIn: 0,
+      enAttente: false,
+      courrierIn: 0,
+      recommandeIn: 0,
+      dateInteraction: new Date("2021-06-10T00:00:00.000Z"),
+    },
+    docs: [],
+    etapeDemande: 5,
+    rdv: {
+      userId: 28,
+      dateRdv: new Date("2021-04-07T14:00:10.570Z"),
+      userName: "PO TEST",
+    },
+    entretien: {},
+    options: {
+      npai: { actif: false },
+      transfert: { actif: false },
+      historique: { transfert: [], procuration: [] },
+      procuration: { actif: false },
+    },
+  };
+  it("Generate data for render", async () => {
+    const date = new Date("2020-12-15 14:30:00");
+    const docRadiation: StructureCustomDoc = buildCustomDoc(
+      usagerRadie,
+      structureMock,
+      date
+    );
+
+    expect(docRadiation).toEqual(generatedRadiationMock);
   });
 });
