@@ -1,7 +1,7 @@
 export const interactionsLabels: {
   [key: string]: any;
 } = {
-  appel: "Appel téléphonique",
+  appel: "Appel téléphonique enregistré",
   colisIn: "Colis enregistré",
   colisOut: "Colis remis",
   courrierIn: "Courrier enregistré",

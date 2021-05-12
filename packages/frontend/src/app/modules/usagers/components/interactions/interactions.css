@@ -21,7 +21,8 @@
 .interaction-actions {
   text-align: center;
   width: 100%;
-  margin-top: -10px;
+  margin-top: -12px;
+  margin-bottom: 10px;
 }
 
 .interaction-notification {
@@ -37,12 +38,6 @@
   padding: 4px 2px;
   font-size: 1.35rem;
   z-index: 1000;
-}
-
-.interaction-btn  {
-  border: 1px solid rgba(65, 100, 245, 0.3);
-  box-sizing: border-box;
-  border-radius: 3px;
 }
 
 .interaction-actions img {
@@ -65,43 +60,20 @@
   outline: none;
 }
 
-.interaction-label {
-  font-weight: 600;
-  font-size: 1.05rem;
-}
-
-.row {
-  margin: 0;
-}
-
-.interaction-actions .action:hover {
+.interaction-actions button:hover {
   box-shadow: 2px 1px 4px rgb(179 179 179 / 50%);
 }
 
-.interaction-actions .action .ng-fa-icon {
-  padding: 1px 4px;
+.interaction-actions button .ng-fa-icon {
+  padding: 3px 1px;
+  font-size: 1.4rem;
+  line-height: 1rem;
+  display: block;
+  color: white !important;
 }
 
-.interaction-actions .action {
-  border-radius: 100%;
-  max-width: 50px;
-  text-align: center;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 1.2rem;
-  padding: 6px 8px;
-  margin: 0 auto;
-}
-
-.interaction-actions .action-selected {
-  background-color: var(--primary);
-  color: white;
-}
-
-.interaction-actions .action-not-selected {
+.interaction-actions .btn-outline-primary {
   background-color: white;
-  border: 1px solid var(--primary);
-  color: white;
 }
 
 .interaction-label {
@@ -110,10 +82,14 @@
 }
 
 .disabled {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .disabled .action,
 .disabled .interaction-notification {
-  opacity: 0;
+  display: none;
+}
+
+.row {
+  margin: 0;
 }
