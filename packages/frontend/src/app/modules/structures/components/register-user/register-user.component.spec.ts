@@ -22,7 +22,7 @@ describe("RegisterUserComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        ToastrModule,
+        ToastrModule.forRoot(),
         HttpClientModule,
         HttpClientTestingModule,
         RouterTestingModule,

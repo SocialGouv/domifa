@@ -22,7 +22,7 @@ describe("StructuresFormComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
-        ToastrModule,
+        ToastrModule.forRoot(),
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

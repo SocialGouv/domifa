@@ -23,11 +23,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
   imports: [
     CommonModule,
     NgbModule,
-
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
-    ToastrModule,
+    ToastrModule.forRoot(),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
