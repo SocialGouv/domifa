@@ -47,6 +47,11 @@ export function buildCustomDoc(
     dateFinDom = usager.decision.dateFin;
   }
 
+  const dateFinDom =
+    usager.decision.statut === "RADIE"
+      ? usager.historique[0].dateFin
+      : usager.decision.dateFin;
+
   // Motif de refus
   if (
     usager.decision.statut === "REFUS" ||
