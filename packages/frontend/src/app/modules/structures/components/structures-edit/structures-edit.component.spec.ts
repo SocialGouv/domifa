@@ -15,22 +15,24 @@ describe("StructuresEditComponent", () => {
   let component: StructuresEditComponent;
   let fixture: ComponentFixture<StructuresEditComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [StructuresEditComponent],
-      imports: [
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [StructuresEditComponent],
+        imports: [
+          NgbModule,
+          ReactiveFormsModule,
+          FormsModule,
 
-        HttpClientTestingModule,
-        ToastrModule.forRoot(),
-        RouterTestingModule,
-      ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+          HttpClientTestingModule,
+          ToastrModule.forRoot(),
+          RouterTestingModule,
+        ],
+        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StructuresEditComponent);
