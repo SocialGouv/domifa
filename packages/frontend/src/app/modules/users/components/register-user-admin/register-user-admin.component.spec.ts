@@ -16,35 +16,37 @@ describe("RegisterUserAdminComponent", () => {
   let component: RegisterUserAdminComponent;
   let fixture: ComponentFixture<RegisterUserAdminComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [RegisterUserAdminComponent],
-      imports: [
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        ToastrModule.forRoot(),
-        HttpClientTestingModule,
-        RouterTestingModule,
-      ],
-      providers: [
-        { provide: APP_BASE_HREF, useValue: "/" },
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [RegisterUserAdminComponent],
+        imports: [
+          NgbModule,
+          ReactiveFormsModule,
+          FormsModule,
+          ToastrModule.forRoot(),
+          HttpClientTestingModule,
+          RouterTestingModule,
+        ],
+        providers: [
+          { provide: APP_BASE_HREF, useValue: "/" },
+          {
+            provide: MatomoInjector,
+            useValue: {
+              init: jest.fn(),
+            },
           },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
+          {
+            provide: MatomoTracker,
+            useValue: {
+              setUserId: jest.fn(),
+            },
           },
-        },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterUserAdminComponent);

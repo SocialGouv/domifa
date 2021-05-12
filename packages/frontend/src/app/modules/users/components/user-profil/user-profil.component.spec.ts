@@ -12,23 +12,25 @@ describe("UserProfilComponent", () => {
   let component: UserProfilComponent;
   let fixture: ComponentFixture<UserProfilComponent>;
 
-  beforeAll(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [UserProfilComponent],
-      imports: [
-        RouterTestingModule,
-        HttpClientModule,
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        ToastrModule.forRoot(),
-      ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
-    fixture = TestBed.createComponent(UserProfilComponent);
-    component = fixture.componentInstance;
-  }));
+  beforeAll(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UserProfilComponent],
+        imports: [
+          RouterTestingModule,
+          HttpClientModule,
+          HttpClientTestingModule,
+          ReactiveFormsModule,
+          FormsModule,
+          ToastrModule.forRoot(),
+        ],
+        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      }).compileComponents();
+      fixture = TestBed.createComponent(UserProfilComponent);
+      component = fixture.componentInstance;
+    })
+  );
 
   it("0. create component", () => {
     expect(component).toBeTruthy();
