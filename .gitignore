@@ -7,3 +7,4 @@ coverage
 optional/e2e/runners/puppeteer/output
 *.code-workspace
 .prettierignore
+.secrets.yaml
