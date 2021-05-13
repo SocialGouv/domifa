@@ -1,0 +1,129 @@
+name: Build and Register
+
+on: [pull_request]
+
+jobs:
+
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js v14
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Set up Yarn cache
+      uses: c-hive/gha-yarn-cache@v1
+
+    - name: Install backend dependencies
+      run: yarn workspace @domifa/backend install --frozen-lockfile --prefer-offline
+
+    - name: Build backend
+      run: yarn workspace @domifa/backend build
+
+    - name: Archive backend build
+      uses: actions/upload-artifact@v2
+      with:
+        name: backend-dist
+        path: packages/backend/dist
+
+  build-front-end:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js v14
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Set up Yarn cache
+      uses: c-hive/gha-yarn-cache@v1
+
+    - name: Install front-end dependencies
+      # run: yarn --cwd packages/frontend install --frozen-lockfile --prefer-offline
+      run: yarn workspace @domifa/backend install --frozen-lockfile --prefer-offline
+
+    - name: Build front-end
+      # run: yarn --cwd packages/frontend build
+      run: yarn workspace @domifa/backend build
+
+    - name: Archive front-end build
+      uses: actions/upload-artifact@v2
+      with:
+        name: frontend-dist
+        # path: packages/frontend/dist
+        path: packages/backend/dist
+
+  register-backend:
+    runs-on: ubuntu-latest
+    needs: build-backend
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Download backend build
+      uses: actions/download-artifact@v2
+      with:
+        name: backend-dist
+        path: packages/backend/dist
+
+    - name: Image build and register
+      uses: docker://ghcr.io/salt-labs/action-kaniko:latest
+      with:
+        loglevel: "INFO"
+        registry: ghcr.io
+        cache_enabled: true
+        image_name: domifa/backend
+        image_tag: "${{ github.sha }}"
+        # registry_namespace: socialgouv
+        dockerfile: packages/backend/Dockerfile
+        registry_username: "${{ secrets.SOCIALGROOVYBOT_NAME }}"
+        registry_password: "${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}"
+
+  register-front-end:
+    runs-on: ubuntu-latest
+    needs: build-front-end
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Download front-end build
+      uses: actions/download-artifact@v2
+      with:
+        name: frontend-dist
+        path: packages/backend/dist
+
+    - name: Image build and register
+      uses: aevea/action-kaniko@master
+      with:
+        cache: true
+        tag: ${{ github.sha }}
+        registry: ghcr.io
+        image: domifa/frontend
+        cache_registry: domifa/frontend/cache
+        username: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+        password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
+        extra_args: >-
+          --dockerfile=packages/backend/Dockerfile
+
+    # - name: Image build and register
+    #   uses: aevea/action-kaniko@master
+    #   with:
+    #     cache: true
+    #     tag: ${{ github.sha }}
+    #     registry: ${{ secrets.HARBOR_REGISTRY }}
+    #     username: ${{ secrets.HARBOR_USERNAME }}
+    #     password: ${{ secrets.HARBOR_PASSWORD }}
+    #     extra_args: >-
+    #       --dockerfile=packages/backend/Dockerfile
+    #     image: ${{ secrets.HARBOR_PROJECT }}/backendx
+    #     cache_registry: ${{ secrets.HARBOR_PROJECT }}/backendx/cache
