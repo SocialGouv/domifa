@@ -1,5 +1,6 @@
 import { ok } from "assert";
 import env from "@kosko/env";
+import { assert } from "@sindresorhus/is";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { create } from "@socialgouv/kosko-charts/components/app";
@@ -62,6 +63,10 @@ export const getManifests = () => {
     deployment: {
       image: getHarborImagePath({ name }),
       container: {
+        volumeMounts: [{
+          mountPath: "/mnt/resource",
+          name: "domifa-azure-volume"
+        }],
         resources: {
           requests: {
             cpu: "50m",
@@ -83,24 +88,41 @@ export const getManifests = () => {
 export default () => {
   const manifests = getManifests()
 
-    /* pass dynamic deployment URL as env var to the container */
-    //@ts-expect-error
-    const deployment = getManifestByKind(manifests, Deployment) as Deployment;
+  /* pass dynamic deployment URL as env var to the container */
+  //@ts-expect-error
+  const deployment = getManifestByKind(manifests, Deployment) as Deployment;
 
-    ok(deployment);
+  ok(deployment);
 
-    const frontendManifests = getFrontendManifests()
+  const frontendManifests = getFrontendManifests()
 
-    addEnvs({
-      deployment,
-      data: {
-        POSTGRES_HOST: "$(PGHOST)",
-        POSTGRES_USERNAME: "$(PGUSER)",
-        POSTGRES_PASSWORD: "$(PGPASSWORD)",
-        POSTGRES_DATABASE: "$(PGDATABASE)",
-        DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: `https://${getIngressHost(frontendManifests)}`
-      },
-    });
+  addEnvs({
+    deployment,
+    data: {
+      POSTGRES_HOST: "$(PGHOST)",
+      POSTGRES_USERNAME: "$(PGUSER)",
+      POSTGRES_PASSWORD: "$(PGPASSWORD)",
+      POSTGRES_DATABASE: "$(PGDATABASE)",
+      DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: `https://${getIngressHost(frontendManifests)}`
+    },
+  });
 
-    return manifests;
+  const volumes = [{
+    name: "domifa-azure-volume",
+    azureFile: {
+      readOnly: false,
+      shareName: "domifa-resource",
+      secretName: "azure-storage",
+    }
+  }]
+
+  assert.object(deployment.spec);
+  assert.object(deployment.spec.template.spec);
+
+  deployment.spec.template.spec.volumes = [
+    ...(deployment.spec.template.spec.volumes || []),
+    ...volumes
+  ]
+
+  return manifests;
 };
