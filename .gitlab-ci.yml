@@ -354,6 +354,7 @@ Seed:
   except:
     refs:
       - master
+      - alpha
     variables:
       # Don't run when deploying in production or releasing
       - $PRODUCTION
