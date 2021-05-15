@@ -4,6 +4,7 @@ import {
   AppUser,
   UsagerLight,
   UsagerPreferenceContact,
+  UserRole,
 } from "../../../../../../_common/model";
 import { regexp } from "../../../../../shared/validators";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
@@ -59,6 +60,10 @@ export class ProfilEditPreferenceComponent implements OnInit {
 
   get formPref() {
     return this.preferenceForm.controls;
+  }
+
+  public isRole(role: UserRole) {
+    return this.me.role === role;
   }
 
   public updateUsagerPreference() {
