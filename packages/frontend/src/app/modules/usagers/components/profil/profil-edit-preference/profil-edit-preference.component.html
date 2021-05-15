@@ -14,7 +14,10 @@
     </span>
   </div>
 
-  <div class="col-md-12 text-center" *ngIf="usager.isActif">
+  <div
+    class="col-md-12 text-center"
+    *ngIf="usager.isActif && !isRole('facteur')"
+  >
     <br />
     <button
       class="btn btn-outline-dark"
