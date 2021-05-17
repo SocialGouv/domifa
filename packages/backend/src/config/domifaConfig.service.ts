@@ -30,9 +30,9 @@ function loadEnv(): Partial<DomifaEnv> {
         `[configService] Env file ${envFilePath} not found: ignoring`
       );
     }
-    return ({
+    return {
       ...process.env,
-    } as unknown) as Partial<DomifaEnv>;
+    } as unknown as Partial<DomifaEnv>;
   } else {
     // tslint:disable-next-line: no-console
     console.debug(`[configService] Loading config file "${envFilePath}"`);
@@ -44,10 +44,10 @@ function loadEnv(): Partial<DomifaEnv> {
         sentry: true,
       });
     }
-    return ({
+    return {
       ...process.env,
       ...parsed, // override process.env from ${envFile}
-    } as unknown) as Partial<DomifaEnv>;
+    } as unknown as Partial<DomifaEnv>;
   }
 }
 
@@ -90,10 +90,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
   });
 
   const smsEnabled = configParser.parseBoolean(x, "DOMIFA_SMS_ENABLE", {
-    defaultValue:
-      envId === "prod" || envId === "preprod" || envId === "formation"
-        ? true
-        : false,
+    defaultValue: envId === "prod" ? true : false,
   });
 
   const sentryDns = configParser.parseString(x, "SENTRY_DSN", {
@@ -302,13 +299,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
           {
-            defaultValue:
-              envId === "dev" ||
-              envId === "test" ||
-              envId === "preprod" ||
-              envId === "formation"
-                ? CronExpression.EVERY_5_MINUTES
-                : CronExpression.EVERY_DAY_AT_7PM, //
+            defaultValue: CronExpression.EVERY_DAY_AT_7PM,
           }
         ),
         autoRunOnStartup: false,

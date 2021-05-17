@@ -30,14 +30,16 @@ async function sendMail(model: AdminBatchsErrorReportModel): Promise<void> {
   const recipients = mailRecipientsFilter.filterRecipients(to, {
     logEnabled: false,
   });
-  const renderedTemplate = await adminBatchsErrorReportEmailRenderer.renderTemplate(
-    { ...model, toSkipString: recipients.toSkipString }
-  );
+  const renderedTemplate =
+    await adminBatchsErrorReportEmailRenderer.renderTemplate({
+      ...model,
+      toSkipString: recipients.toSkipString,
+    });
 
   const messageContent: MessageEmailContent = {
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
-    to: to,
+    to,
   };
 
   messageEmailSender.sendMessageLater(messageContent, {
