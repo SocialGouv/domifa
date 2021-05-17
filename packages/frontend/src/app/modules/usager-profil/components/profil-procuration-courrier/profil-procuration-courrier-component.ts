@@ -14,14 +14,10 @@ import {
   minDateToday,
 } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
-import {
-  AppUser,
-  UsagerLight,
-  UserRole,
-} from "../../../../../../_common/model";
-import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
-import { UsagerService } from "../../../services/usager.service";
-import { UsagerFormModel } from "../../form/UsagerFormModel";
+import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
+import { CustomDatepickerI18n } from "../../../shared/services/date-french";
+import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 
 @Component({
   providers: [
@@ -61,7 +57,6 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     private matomo: MatomoTracker
   ) {
     this.hideForm();
-
     this.isFormVisible = false;
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;

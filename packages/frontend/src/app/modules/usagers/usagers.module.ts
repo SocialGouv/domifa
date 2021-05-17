@@ -36,9 +36,8 @@ import { UsagersProfilComponent } from "./components/profil/profil-component";
 import { ProfilEditPreferenceComponent } from "./components/profil/profil-edit-preference/profil-edit-preference.component";
 import { ProfilEntretienComponent } from "./components/profil/profil-entretien/profil-entretien.component";
 import { ProfilInfosComponent } from "./components/profil/profil-infos/profil-infos.component";
-import { UsagersProfilProcurationCourrierComponent } from "./components/profil/profil-procuration-courrier/profil-procuration-courrier-component";
 import { ProfilStructureDocsComponent } from "./components/profil/profil-structure-documents/profil-structure-docs.component";
-import { UsagersProfilTransfertCourrierComponent } from "./components/profil/profil-transfert-courrier/profil-transfert-courrier-component";
+
 import { RaftComponent } from "./components/raft/raft.component";
 import { UploadComponent } from "./components/upload/upload.component";
 import { DocumentService } from "./services/document.service";
@@ -60,8 +59,7 @@ import { UsagerService } from "./services/usager.service";
     DeleteUsagerMenuComponent,
     ProfilStructureDocsComponent,
     UsagersProfilComponent,
-    UsagersProfilTransfertCourrierComponent,
-    UsagersProfilProcurationCourrierComponent,
+
     ProfilInfosComponent,
     ProfilAyantsDroitsComponent,
     ProfilEntretienComponent,

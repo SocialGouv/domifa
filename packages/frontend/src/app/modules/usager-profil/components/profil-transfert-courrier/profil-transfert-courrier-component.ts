@@ -10,14 +10,10 @@ import { ToastrService } from "ngx-toastr";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { formatDateToNgb, minDateToday } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
-import {
-  AppUser,
-  UsagerLight,
-  UserRole,
-} from "../../../../../../_common/model";
-import { CustomDatepickerI18n } from "../../../../shared/services/date-french";
-import { UsagerService } from "../../../services/usager.service";
-import { UsagerFormModel } from "../../form/UsagerFormModel";
+import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
+import { CustomDatepickerI18n } from "../../../shared/services/date-french";
+import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 
 @Component({
   providers: [
@@ -68,13 +64,11 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   public showForm() {
     this.isFormVisible = true;
     this.transfertForm.reset(this.transfertForm.value);
-
     this.initForm();
   }
 
   public hideForm() {
     this.isFormVisible = false;
-
     this.transfertForm.reset(this.transfertForm.value);
   }
 

@@ -27,7 +27,7 @@ export class ProfilCourriersComponent implements OnInit {
     this.me = null;
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.titleService.setTitle("Courrier du domicilié");
     //
 
@@ -44,5 +44,9 @@ export class ProfilCourriersComponent implements OnInit {
         this.router.navigate(["404"]);
       }
     );
+  }
+
+  public onUsagerChanges(usager: UsagerLight) {
+    this.usager = new UsagerFormModel(usager);
   }
 }
