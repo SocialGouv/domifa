@@ -36,21 +36,39 @@ export function buildCustomDoc(
   if (usager.decision.statut === "RADIE") {
     usager.historique.forEach((decision: UsagerDecision) => {
       if (decision.statut === "VALIDE") {
-        if (!dateDebutDom || dateDebutDom < decision.dateDebut) {
+        // Premiere décision retenue
+        if (!dateDebutDom) {
+          dateDebutDom = decision.dateDebut;
+          dateFinDom = decision.dateFin;
+        }
+
+        // Si une décision plus récente est présente
+        if (dateDebutDom < decision.dateDebut) {
           dateDebutDom = decision.dateDebut;
           dateFinDom = decision.dateFin;
         }
       }
     });
+
+    console.log(dateDebutDom);
+
     // Aucune date défini, on cherche la date de premième Dom
-    dateDebutDom =
-      !dateDebutDom && usager.datePremiereDom
-        ? usager.datePremiereDom
-        : usager.decision.dateDebut;
-    dateDebutDom =
-      !dateFinDom && usager.datePremiereDom
-        ? usager.datePremiereDom
-        : usager.decision.dateDebut;
+    if (!dateDebutDom || !dateFinDom) {
+      console.log("AUCUNE DATE");
+
+      // Date de premiere Dom par défaut
+      if (usager.datePremiereDom) {
+        dateDebutDom = usager.datePremiereDom;
+        dateFinDom = usager.datePremiereDom;
+      }
+      // Cas rares : on met une date par défaut
+      else {
+        dateDebutDom = usager.decision.dateDebut;
+        dateFinDom = usager.decision.dateFin;
+      }
+
+      console.log(dateDebutDom);
+    }
   } else {
     dateDebutDom = usager.decision.dateDebut;
     dateFinDom = usager.decision.dateFin;
