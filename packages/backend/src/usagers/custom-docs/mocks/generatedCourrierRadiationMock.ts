@@ -28,8 +28,8 @@ export const generatedRadiationMock = {
   STATUT_DOM: "Radié",
   TYPE_DOM: "Type de domiciliation : première domiciliation ou renouvellement",
   MOTIF_RADIATION: "Entrée dans un logement/hébergement stable",
-  DATE_RADIATION: "11 mai 2021", // 2021-05-11
-  DATE_DEBUT_DOM: "17 avril 2021", // 2021-04-17
+  DATE_RADIATION: "19 février 2021", // 2021-05-11
+  DATE_DEBUT_DOM: "19 avril 2021", // 2021-04-17
   DATE_FIN_DOM: "17 avril 2022",
   DATE_PREMIERE_DOM: "1 octobre 2018",
   DATE_DERNIER_PASSAGE: "10 juin 2021",
