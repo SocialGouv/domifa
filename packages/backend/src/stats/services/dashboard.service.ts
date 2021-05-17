@@ -318,7 +318,7 @@ export class DashboardService {
           .groupBy("interactions.type")
           .getRawOne();
 
-        return typeof search !== "undefined" ? search.sum : 0;
+        return typeof search !== "undefined" ? parseInt(search.sum, 10) : 0;
       }
     }
   }
