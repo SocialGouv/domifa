@@ -30,9 +30,9 @@ function loadEnv(): Partial<DomifaEnv> {
         `[configService] Env file ${envFilePath} not found: ignoring`
       );
     }
-    return ({
+    return {
       ...process.env,
-    } as unknown) as Partial<DomifaEnv>;
+    } as unknown as Partial<DomifaEnv>;
   } else {
     // tslint:disable-next-line: no-console
     console.debug(`[configService] Loading config file "${envFilePath}"`);
@@ -44,10 +44,10 @@ function loadEnv(): Partial<DomifaEnv> {
         sentry: true,
       });
     }
-    return ({
+    return {
       ...process.env,
       ...parsed, // override process.env from ${envFile}
-    } as unknown) as Partial<DomifaEnv>;
+    } as unknown as Partial<DomifaEnv>;
   }
 }
 

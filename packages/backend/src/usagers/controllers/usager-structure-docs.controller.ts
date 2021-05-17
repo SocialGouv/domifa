@@ -41,7 +41,7 @@ export class UsagerStructureDocsController {
         .json({ message: "INVALID_PARAM_DOCS" });
     }
 
-    let content = customDocTemplateLoader.loadCustomDocTemplate({
+    const content = customDocTemplateLoader.loadCustomDocTemplate({
       docType,
       structureId: user.structureId,
     });

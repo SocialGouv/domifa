@@ -66,7 +66,11 @@
       fichier Excel ci-dessous.
       <br />
       Vous trouverez toutes les indications dans
-      <a href="/assets/files/tuto-import.pdf" download>
+      <a
+        title="Télécharger le tuto d'import domifa"
+        href="/assets/files/tuto-import.pdf"
+        download
+      >
         ce document explicatif
       </a>
       <br />
@@ -76,6 +80,7 @@
       <a
         href="/assets/files/modele_import_domifa.xlsx"
         target="_blank"
+        title="Télécharger le modèle Excel"
         class="btn btn-outline-primary"
         download
       >
@@ -152,7 +157,7 @@
     </div>
 
     <div *ngIf="previewTable?.errorsCount > 0" class="text-danger">
-      <h4 class="text-danger">Votre fichier ne peux pas être importé !</h4>
+      <h4 class="text-danger">votre fichier ne peut pas être importé !</h4>
 
       <p>
         Attention : votre fichier contient
@@ -161,7 +166,15 @@
         <br />
         Les champs incorrects sont marqués en rouge dans le tableau ci-dessous
         <br />
-        N'hésitez pas à consulter ce document explicatif en cas de souci.
+        N'hésitez pas à consulter
+        <a
+          title="Télécharger le tuto d'import domifa"
+          href="/assets/files/tuto-import.pdf"
+          download
+        >
+          ce document explicatif
+        </a>
+        en cas de souci.
       </p>
     </div>
 
