@@ -17,7 +17,11 @@ export class CronSmsInteractionSenderService {
 
   @Cron(domifaConfig().cron.smsConsumer.crontime)
   protected async sendSmsImportCron() {
-    if (!domifaConfig().cron.enable) {
+    if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
+      // Désactiver tous les SMS en attente
+      appLogger.warn(`[CronSms] Disable all SMS to Send`);
+      const retour = await this.messageSmsSenderService.disableAllSmsToSend();
+      console.log(retour);
       return;
     }
     await this.sendSmsImports("cron");

@@ -19,9 +19,8 @@ export class MessageSmsSenderService {
   private messageSmsRepository: Repository<MessageSmsTable>;
 
   constructor(private httpService: HttpService) {
-    this.messageSmsRepository = appTypeormManager.getRepository(
-      MessageSmsTable
-    );
+    this.messageSmsRepository =
+      appTypeormManager.getRepository(MessageSmsTable);
   }
 
   public sendSms(message: MessageSms): Observable<any> {
@@ -73,6 +72,17 @@ export class MessageSmsSenderService {
       catchError((err: AxiosError) => {
         return throwError(err);
       })
+    );
+  }
+
+  public disableAllSmsToSend() {
+    return messageSmsRepository.updateMany(
+      { status: "TO_SEND" },
+      {
+        status: "DISABLED",
+        sendDate: new Date(),
+        lastUpdate: new Date(),
+      }
     );
   }
 }
