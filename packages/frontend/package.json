@@ -42,7 +42,7 @@
     "fuse.js": "^6.4.6",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
-    "ngx-countup": "7.3.3",
+    "ngx-countup": "^7.3.3",
     "ngx-matomo": "^0.1.4",
     "ngx-print": "1.2.1",
     "ngx-toastr": "^13.2.1",
