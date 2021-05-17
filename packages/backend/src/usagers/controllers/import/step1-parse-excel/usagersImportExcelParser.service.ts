@@ -46,7 +46,8 @@ async function parseFileSync(
 function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
   const rawValue: ExcelJS.CellValue = xlCell.value;
   if (typeof rawValue === "number") {
-    return rawValue;
+    // Colonne téléphone potentiellement au format Number
+    return xlCell.fullAddress.col === 8 ? "0" + rawValue.toString() : rawValue;
   }
 
   if (rawValue instanceof Date) {
@@ -61,6 +62,20 @@ function parseValue(xlCell: ExcelJS.Cell): Date | boolean | number | string {
     return cleanString(xlCell.result?.toString());
   }
 
+  // Les emails peuvent avoir 2 formats différents sur Excel
+  if (
+    xlCell.type === ExcelJS.ValueType.Hyperlink ||
+    xlCell.type === ExcelJS.ValueType.RichText
+  ) {
+    const parsedText: ExcelJS.CellRichTextValue = JSON.parse(
+      JSON.stringify(xlCell.text)
+    );
+
+    return parsedText?.richText
+      ? cleanString(parsedText?.richText[0].text)
+      : cleanString(xlCell.text);
+  }
+
   return cleanString(xlCell.toString());
 }
 
@@ -68,5 +83,6 @@ function cleanString(str: string): string {
   if (!str?.trim().length) {
     return undefined;
   }
+
   return str?.trim();
 }

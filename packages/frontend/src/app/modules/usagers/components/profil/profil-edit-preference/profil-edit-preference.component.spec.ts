@@ -1,3 +1,4 @@
+import { userMock } from "./../../../../../../_common/mocks/user.mock";
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -13,6 +14,7 @@ import { usagerValideMock } from "../../../../../../_common/mocks/usager.mock";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 
 import { ProfilEditPreferenceComponent } from "./profil-edit-preference.component";
+import { appUserBuilder } from "../../../../users/services";
 
 describe("ProfilEditPreferenceComponent", () => {
   let component: ProfilEditPreferenceComponent;
@@ -54,6 +56,7 @@ describe("ProfilEditPreferenceComponent", () => {
     fixture = TestBed.createComponent(ProfilEditPreferenceComponent);
     component = fixture.componentInstance;
     component.usager = new UsagerFormModel(usagerValideMock);
+    component.me = appUserBuilder.buildAppUser(userMock);
 
     fixture.detectChanges();
   });

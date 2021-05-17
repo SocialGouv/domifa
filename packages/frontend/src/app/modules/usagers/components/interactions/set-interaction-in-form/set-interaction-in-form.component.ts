@@ -51,9 +51,7 @@ export class SetInteractionInFormComponent implements OnInit {
     };
   }
 
-  public ngOnInit(): void {
-    console.log(this.usager.lastInteraction);
-  }
+  public ngOnInit(): void {}
 
   // Ajout de courrier / colis / recommandé entrant
   public setInteractionIn(usager: UsagerFormModel) {
@@ -93,8 +91,7 @@ export class SetInteractionInFormComponent implements OnInit {
     this.interactionService
       .setInteraction(this.usager, interactionsToSave)
       .subscribe(
-        (values: any) => {
-          console.log(values);
+        () => {
           this.notifService.success("Réception enregistrée avec succès");
           this.refreshUsager();
         },

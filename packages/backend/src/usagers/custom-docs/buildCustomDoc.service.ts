@@ -1,3 +1,4 @@
+import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
 import moment = require("moment");
 import {
   decisionLabels,
@@ -29,10 +30,22 @@ export function buildCustomDoc(
       adresseStructure + ", " + ucFirst(structure.complementAdresse);
   }
 
-  const dateDebutDom =
-    usager.decision.statut === "RADIE"
-      ? usager.historique[0].dateDebut
-      : usager.decision.dateDebut;
+  let dateDebutDom: Date;
+  let dateFinDom: Date;
+
+  if (usager.decision.statut === "RADIE") {
+    usager.historique.forEach((decision: UsagerDecision) => {
+      if (decision.statut === "VALIDE") {
+        if (!dateDebutDom || dateDebutDom < decision.dateDebut) {
+          dateDebutDom = decision.dateDebut;
+          dateFinDom = decision.dateFin;
+        }
+      }
+    });
+  } else {
+    dateDebutDom = usager.decision.dateDebut;
+    dateFinDom = usager.decision.dateFin;
+  }
 
   // Motif de refus
   if (
@@ -120,7 +133,7 @@ export function buildCustomDoc(
 
     // DATES DOMICILIATION
     DATE_DEBUT_DOM: moment(dateDebutDom).locale("fr").format("LL"),
-    DATE_FIN_DOM: moment(usager.decision.dateFin).locale("fr").format("LL"),
+    DATE_FIN_DOM: moment(dateFinDom).locale("fr").format("LL"),
 
     DATE_PREMIERE_DOM: moment(usager.datePremiereDom).locale("fr").format("LL"),
 

@@ -55,10 +55,11 @@
     </div>
   </div>
 </div>
-
-<br />
-<div *ngIf="etapeImport === 'select-file'">
-  <div class="col-md-8 offset-md-2 text-center">
+<div class="row">
+  <div
+    class="col-md-8 offset-md-2 text-center"
+    *ngIf="etapeImport === 'select-file'"
+  >
     <h4 class="text-center">Étape 1 : Télécharger et compléter le modèle</h4>
     <p>
       Afin d'importer vos dossiers, vous devez télécharger et compléter le
@@ -115,10 +116,11 @@
       required
     />
   </div>
-</div>
 
-<div *ngIf="etapeImport === 'preview-import'">
-  <div class="col-md-10 offset-md-1 text-center">
+  <div
+    *ngIf="etapeImport === 'preview-import'"
+    class="col-md-10 offset-md-1 text-center"
+  >
     <div
       class="form-group"
       *ngIf="!uploadForm.invalid && previewTable?.errorsCount === 0"
@@ -147,7 +149,6 @@
           </button>
         </div>
       </form>
-      <br />
     </div>
 
     <div *ngIf="previewTable?.errorsCount > 0" class="text-danger">

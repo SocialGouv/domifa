@@ -60,7 +60,7 @@ if (environment.production) {
     UsersModule,
     ToastrModule.forRoot({
       enableHtml: true,
-      positionClass: "toast-top-right",
+      positionClass: "toast-top-left",
       preventDuplicates: true,
       progressAnimation: "increasing",
       progressBar: true,

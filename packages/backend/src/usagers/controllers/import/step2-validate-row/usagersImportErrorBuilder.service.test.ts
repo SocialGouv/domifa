@@ -1,7 +1,4 @@
-import {
-  TEST_INVALID_IMPORT_USAGER,
-  TEST_VALID_IMPORT_USAGER,
-} from "./schema/test-data";
+import { TEST_INVALID_IMPORT_USAGER } from "./schema/test-data";
 import { usagersImportErrorBuilder } from "./usagersImportErrorBuilder.service";
 
 describe("usagersImportErrorBuilder parse valid data", () => {

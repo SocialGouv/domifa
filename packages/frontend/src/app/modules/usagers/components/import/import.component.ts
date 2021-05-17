@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { COLUMNS_HEADERS } from "../../../../../_common/import/COLUMNS_HEADERS.const";
+
 import { AppUser } from "../../../../../_common/model";
 import { LoadingService } from "../../../loading/loading.service";
 import { AuthService } from "../../../shared/services/auth.service";
@@ -100,10 +100,6 @@ export class ImportComponent implements OnInit {
     private notifService: ToastrService,
     private titleService: Title
   ) {
-    this.columnsHeaders = COLUMNS_HEADERS;
-
-    // Variables de suivi des erreurs
-
     // Tableaux des erreurs
     this.errorsId = [];
 

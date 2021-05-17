@@ -28,8 +28,12 @@ export const fadeInOutSlow = trigger("fadeInOutSlow", [
 ]);
 
 export const bounce = trigger("bounce", [
+  transition(":leave, * => 0", [
+    style({ opacity: 1 }),
+    animate(100, style({ opacity: 0 })),
+  ]),
   transition(
-    "* => *",
+    ":increment, :decrement",
     useAnimation(
       animation(
         animate(
@@ -40,10 +44,10 @@ export const bounce = trigger("bounce", [
             style({ transform: "scale3d(.9, .9, .9)", offset: 0.4 }),
             style({
               opacity: 1,
-              transform: "scale3d(1.03, 1.03, 1.03)",
+              transform: "scale3d(1.1, 1.1, 1.1)",
               offset: 0.6,
             }),
-            style({ transform: "scale3d(.97, .97, .97)", offset: 0.8 }),
+            style({ transform: "scale3d(.95, .95, .95)", offset: 0.8 }),
             style({ opacity: 1, transform: "scale3d(1, 1, 1)", offset: 1 }),
           ])
         ),

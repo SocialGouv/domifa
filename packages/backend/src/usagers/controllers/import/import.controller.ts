@@ -109,6 +109,7 @@ export class ImportController {
       appLogger.error(`Import unexpected error while opening upload file`, {
         sentry: true,
         extra: {
+          err,
           fileName,
         },
       });
