@@ -42,6 +42,15 @@ export function buildCustomDoc(
         }
       }
     });
+    // Aucune date défini, on cherche la date de premième Dom
+    dateDebutDom =
+      !dateDebutDom && usager.datePremiereDom
+        ? usager.datePremiereDom
+        : usager.decision.dateDebut;
+    dateDebutDom =
+      !dateFinDom && usager.datePremiereDom
+        ? usager.datePremiereDom
+        : usager.decision.dateDebut;
   } else {
     dateDebutDom = usager.decision.dateDebut;
     dateFinDom = usager.decision.dateFin;
