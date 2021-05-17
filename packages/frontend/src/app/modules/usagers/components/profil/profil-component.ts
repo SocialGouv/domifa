@@ -67,8 +67,6 @@ export class UsagersProfilComponent implements OnInit {
     [key: string]: any;
   };
 
-  public motifsRadiation: { [key: string]: string };
-
   public labels: any = usagersLabels;
 
   public usager: UsagerFormModel;
@@ -99,7 +97,6 @@ export class UsagersProfilComponent implements OnInit {
     private matomo: MatomoTracker,
     private documentService: DocumentService
   ) {
-    this.motifsRadiation = usagersLabels.motifsRadiation;
     this.editAyantsDroits = false;
     this.editEntretien = false;
     this.editInfos = false;
