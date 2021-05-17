@@ -50,12 +50,8 @@ export function buildCustomDoc(
       }
     });
 
-    console.log(dateDebutDom);
-
     // Aucune date défini, on cherche la date de premième Dom
     if (!dateDebutDom || !dateFinDom) {
-      console.log("AUCUNE DATE");
-
       // Date de premiere Dom par défaut
       if (usager.datePremiereDom) {
         dateDebutDom = usager.datePremiereDom;
@@ -66,8 +62,6 @@ export function buildCustomDoc(
         dateDebutDom = usager.decision.dateDebut;
         dateFinDom = usager.decision.dateFin;
       }
-
-      console.log(dateDebutDom);
     }
   } else {
     dateDebutDom = usager.decision.dateDebut;
