@@ -70,12 +70,6 @@ ul {
   animation-duration: 300ms;
 }
 
-.alert {
-  max-width: 900px;
-  width: 98%;
-  margin: 10px auto;
-}
-
 .bannir {
   -webkit-text-stroke-color: var(--danger);
   stroke: var(--danger);

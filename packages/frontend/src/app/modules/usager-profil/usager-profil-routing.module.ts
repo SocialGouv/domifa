@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: "dossier/:id", component: ProfilDossierComponent },
   { path: "historique/:id", component: ProfilHistoriqueComponent },
   { path: "courriers/:id", component: ProfilCourriersComponent },
-  { path: ":id", component: ProfilOverviewComponent },
+  { path: "general/:id", component: ProfilOverviewComponent },
 ];
 
 @NgModule({

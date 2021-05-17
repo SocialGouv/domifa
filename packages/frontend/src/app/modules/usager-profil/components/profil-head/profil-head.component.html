@@ -22,7 +22,9 @@
     </div>
 
     <div id="statut-selector" class="mt-4 row">
-      <a class="col selected-statut" [routerLink]="['/profil/' + usager.ref]"
+      <a
+        class="col selected-statut"
+        [routerLink]="['/profil/general/' + usager.ref]"
         ><span class="statut-label"> Vue d'ensemble</span></a
       >
 
@@ -43,6 +45,29 @@
         [routerLink]="['/profil/historique/' + usager.ref]"
         ><span class="statut-label"> Historique</span></a
       >
+    </div>
+  </div>
+</div>
+<div class="container">
+  TRANSFERTTRANSFERTTRANSFERTTRANSFERT
+  <div class="row" *ngIf="usager.options.transfert.actif" class="text-center">
+    <div
+      *ngIf="usager.options.transfert.dateFin <= today"
+      class="alert alert-danger"
+    >
+      <b>Attention : </b> le transfert de courrier était valable jusqu'au
+      {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}.
+    </div>
+
+    <div
+      *ngIf="usager.options.transfert.dateFin > today"
+      class="alert alert-warning"
+    >
+      <fa-icon [icon]="['fas', 'share']"></fa-icon>
+      Le courrier est à transférer à l'adresse suivante :
+      <br />
+      {{ usager.options.transfert.nom | titlecase }}
+      {{ usager.options.transfert.adresse | titlecase }}
     </div>
   </div>
 </div>
