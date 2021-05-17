@@ -355,6 +355,8 @@ Seed:
     refs:
       - master
       - alpha
+      - beta
+      - next
     variables:
       # Don't run when deploying in production or releasing
       - $PRODUCTION

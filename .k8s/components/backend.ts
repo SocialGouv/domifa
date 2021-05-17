@@ -57,7 +57,7 @@ export const getManifests = () => {
       ingress: true,
       withPostgres: true,
       containerPort: 3000,
-      subDomainPrefix: process.env.PRODUCTION ? `${subdomain}.` : `${subdomain}-`,
+      subDomainPrefix: process.env.PRODUCTION ? `fake-` : `${subdomain}-`,
     },
     deployment: {
       image: getHarborImagePath({ name }),
