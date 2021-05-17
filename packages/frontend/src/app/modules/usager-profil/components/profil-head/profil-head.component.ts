@@ -18,6 +18,7 @@ export class ProfilHeadComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
   @Input() public me: AppUser;
 
+  public today: Date;
   constructor(
     private interactionService: InteractionService,
     private authService: AuthService,
@@ -27,7 +28,9 @@ export class ProfilHeadComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private usagerService: UsagerService
-  ) {}
+  ) {
+    this.today = new Date();
+  }
 
   ngOnInit(): void {}
   public closeModals() {

@@ -910,69 +910,6 @@
       </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="panel-6" *ngIf="!isRole('facteur')">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>DOCUMENTS DISPONIBLES</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <app-profil-structure-docs
-          [usager]="usager"
-        ></app-profil-structure-docs>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-9">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>TRANSFERT DE COURRIER</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <app-profil-transfert-courrier
-          [usager]="usager"
-          (usagerChanges)="onUsagerChanges($event)"
-          [me]="me"
-        ></app-profil-transfert-courrier>
-      </ng-template>
-    </ngb-panel>
-
-    <ngb-panel id="panel-10">
-      <ng-template ngbPanelHeader let-opened="opened">
-        <div class="head-panel">
-          <button ngbPanelToggle class="btn btn-link">
-            <span>PROCURATION DE COURRIER</span>
-            <span class="arrows">
-              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
-              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
-            </span>
-          </button>
-        </div>
-      </ng-template>
-
-      <ng-template ngbPanelContent>
-        <app-profil-procuration-courrier
-          [usager]="usager"
-          (usagerChanges)="onUsagerChanges($event)"
-          [me]="me"
-        ></app-profil-procuration-courrier>
-      </ng-template>
-    </ngb-panel>
-
     <ngb-panel id="panel-4" *ngIf="!isRole('facteur')">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="head-panel">

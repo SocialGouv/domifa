@@ -1,1 +1,20 @@
-<p>profil-dossier works!</p>
+<app-profil-head [usager]="usager" [me]="me"> </app-profil-head>
+
+<div class="content">
+  <div class="container p-0">
+    <div class="page-content p-4">
+      <div class="row">
+        <div class="col-md-6"><h4>Dossier</h4></div>
+        <div class="col-md-6">
+          <h4>Documents téléchargeables</h4>
+
+          <app-profil-structure-docs
+            [usager]="usager"
+          ></app-profil-structure-docs>
+        </div>
+        <div class="col-md-6"><h4>Notes internes</h4></div>
+        <div class="col-md-6"><h4>Historique des interactions</h4></div>
+      </div>
+    </div>
+  </div>
+</div>
