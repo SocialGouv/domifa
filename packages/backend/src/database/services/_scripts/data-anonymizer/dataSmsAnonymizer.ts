@@ -15,7 +15,7 @@ async function anonymizeSms() {
   const smsPhoneNumberToAnonymize = await messageSmsRepository.count({});
 
   appLogger.warn(
-    `[dataSmsAnonymizer] ${smsToSendToAnonymize} SMS TO SENDto anonymize`
+    `[dataSmsAnonymizer] ${smsToSendToAnonymize} SMS to anonymize`
   );
 
   await messageSmsRepository.updateMany(

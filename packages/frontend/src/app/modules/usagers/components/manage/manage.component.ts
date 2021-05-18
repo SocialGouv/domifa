@@ -1,9 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import {
-  UsagersFilterCriteriaDernierPassage,
-  UsagersFilterCriteriaStatut,
-} from "./usager-filter/UsagersFilterCriteria";
-import {
   Component,
   ElementRef,
   HostListener,
@@ -55,6 +51,10 @@ import {
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
 } from "./usager-filter";
+import {
+  UsagersFilterCriteriaDernierPassage,
+  UsagersFilterCriteriaStatut,
+} from "./usager-filter/UsagersFilterCriteria";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({
