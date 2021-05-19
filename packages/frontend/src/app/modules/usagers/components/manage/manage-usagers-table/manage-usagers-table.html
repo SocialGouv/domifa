@@ -1,0 +1,207 @@
+<table class="table" *ngIf="usagers.length !== 0" id="table-usagers">
+  <thead>
+    <th (click)="updateFilter.emit({
+      element: 'sortKey', 
+      value: 'ID'
+    })">ID</th>
+    <th (click)="updateFilter.emit({
+      element: 'sortKey', 
+      value: 'NAME'
+    })">Nom prénom</th>
+    <th>INFORMATIONS</th>
+    <ng-container
+      *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
+    >
+      <th>PASSAGE</th>
+      <th>ÉCHÉANCE</th>
+    </ng-container>
+    <th class="text-left">ACTIONS RAPIDES</th>
+    <th></th>
+  </thead>
+  <tbody *ngFor="let usager of usagers; let i = index">
+    <tr [class]="usager.statutColor">
+      <td (click)="goToProfil(usager)" class="text-primary">
+        <span *ngIf="usager.customRef">#{{ usager.customRef }}</span>
+        <span *ngIf="!usager.customRef ">#{{ usager.ref }}</span>
+      </td>
+
+      <td
+        (click)="goToProfil(usager)"
+        scope="row"
+        class="table-name td-name"
+      >
+        {{ usager.nom | uppercase }} {{ usager.prenom }}
+        <span *ngIf="usager.surnom && usager.surnom !== null">
+          ({{ usager.surnom }})
+        </span>
+      </td>
+
+      <td (click)="goToProfil(usager)">
+        <div
+          class="label-info label-green"
+          *ngIf="usager.ayantsDroits.length"
+        >
+          <span>{{ usager.ayantsDroits.length }} ayants-droit</span>
+        </div>
+
+        <div
+          class="label-info label-yellow"
+          *ngIf="usager.options.transfert.actif"
+          [ngbTooltip]="transfertActif"
+        >
+          <ng-template #transfertActif>
+            <span *ngIf=" usager.options.transfert.dateFin > today">
+              <fa-icon icon="share" class="mr-2"></fa-icon>
+              Courrier à transférer : ADRESSE ICI
+            </span>
+
+            <span *ngIf=" usager.options.transfert.dateFin <= today">
+              Transfert expiré le {{ usager.options.transfert.dateFin |
+              date: "dd/MM/yyyy" }}
+            </span>
+          </ng-template>
+
+          <span>Transfert</span>
+        </div>
+
+        <div
+          class="label-info label-yellow"
+          *ngIf="usager.options.procuration.actif"
+          [ngbTooltip]="procurationActif"
+        >
+          <ng-template #procurationActif>
+            <span *ngIf=" usager.options.procuration.dateFin > today">
+              <fa-icon icon="share" class="mr-2"></fa-icon>
+              Procuration : {{ usager.options.procuration.nom }}
+              {{ usager.options.procuration.prenom }}
+            </span>
+
+            <span *ngIf=" usager.options.procuration.dateFin <= today">
+              Procuration expirée : {{usager.options.procuration.dateFin
+              | date: "dd/MM/yyyy" }}
+            </span>
+          </ng-template>
+
+          <span>Procuration</span>
+        </div>
+
+        <div
+          *ngIf="usager.options.npai.actif"
+          class="label-info label-danger"
+        >
+          <span> Pli non distribuable </span>
+        </div>
+      </td>
+      <ng-container
+        *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
+      >
+        <td (click)="goToProfil(usager)">
+          {{ usager.lastInteraction.dateInteraction|date: "dd/MM/yyyy"
+          }}
+        </td>
+        <td>
+          <span class="statut-date" *ngIf="usager.isActif">
+            <span class="statut-signal"></span>
+            {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
+          </span>
+        </td>
+      </ng-container>
+
+      <td class="text-left icones_liste">
+        <div
+          *ngIf="usager.isActif || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
+        >
+          <div
+            ngbTooltip="Signaler un passage"
+            class="interaction-btn"
+            (click)="setAppelOuPassage(usager, 'visite')"
+          >
+            <span class="icon-passage list-icon"></span>
+          </div>
+          <div
+            ngbTooltip="Signaler un appel"
+            class="interaction-btn"
+            (click)="setAppelOuPassage(usager, 'appel')"
+          >
+            <span class="icon-appel list-icon"></span>
+          </div>
+          <div
+            ngbTooltip="Signaler l'arrivée de courrier"
+            class="interaction-btn"
+            (click)="openInteractionInModal(usager)"
+          >
+            <span class="icon-reception list-icon"></span>
+            <span class="list-icon-label">Réception</span>
+          </div>
+
+          <ng-template #distributionBox class="p-2 text-left">
+            <div class="distribution-tooltip">
+              <div *ngIf="usager.lastInteraction.courrierIn > 0">
+                <span class="list-icon icon-courrier"></span>
+                <span>
+                  <b class="text-primary"
+                    >{{ usager.lastInteraction.courrierIn }}</b
+                  >
+                  courriers
+                </span>
+              </div>
+
+              <div *ngIf="usager.lastInteraction.recommandeIn > 0">
+                <span class="list-icon icon-recommande"> </span>
+                <span>
+                  <b class="text-primary"
+                    >{{ usager.lastInteraction.recommandeIn }}</b
+                  >
+                  avis de passage</span
+                >
+              </div>
+
+              <div *ngIf="usager.lastInteraction.colisIn > 0">
+                <span class="list-icon icon-colis"> </span>
+                <span>
+                  <b class="text-primary"
+                    >{{ usager.lastInteraction.colisIn }}</b
+                  >
+                  colis</span
+                >
+              </div>
+            </div>
+          </ng-template>
+
+          <div
+            *ngIf="usager.lastInteraction.enAttente"
+            class="interaction-btn"
+            [ngbTooltip]="distributionBox"
+            (click)="openInteractionOutModal(usager)"
+          >
+            <span class="icon-distribution list-icon"></span>
+            <span class="list-icon-label">Distribuer</span>
+            <b class="notification">
+              {{ usager.totalInteractionsEnAttente }}
+            </b>
+          </div>
+        </div>
+      </td>
+
+      <td (click)="goToProfil(usager)">
+        <div class="svg-icon icon-arrow"></div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #setInteractionInModal let-modal>
+  <app-set-interaction-in-form
+    [(usager)]="selectedUsager"
+    (usagerChange)="updateUsager.next($event)"
+    (cancelReception)="cancelReception()"
+  ></app-set-interaction-in-form>
+</ng-template>
+
+<ng-template #setInteractionOutModal let-modal>
+  <app-set-interaction-out-form
+    [(usager)]="selectedUsager"
+    (usagerChange)="updateUsager.next($event)"
+    (cancelReception)="cancelReception()"
+  ></app-set-interaction-out-form>
+</ng-template>

@@ -1,17 +1,22 @@
-import { UsagerFormModel } from "../../form/UsagerFormModel";
-import { UsagerLight } from "../../../../../../_common/model/usager/UsagerLight.type";
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import {
   InteractionIn,
   InteractionInForm,
   INTERACTIONS_IN_AVAILABLE,
 } from "../../../../../../_common/model/interaction";
-
-import { InteractionService } from "../../../services/interaction.service";
-import { ToastrService } from "ngx-toastr";
-
-import { UsagerService } from "../../../services/usager.service";
+import { UsagerLight } from "../../../../../../_common/model/usager/UsagerLight.type";
 import { bounce } from "../../../../../shared/animations";
+import { InteractionService } from "../../../services/interaction.service";
+import { UsagerService } from "../../../services/usager.service";
+import { UsagerFormModel } from "../../form/UsagerFormModel";
 
 @Component({
   animations: [bounce],
@@ -121,5 +126,13 @@ export class SetInteractionInFormComponent implements OnInit {
     this.interactionFormData[value].nbCourrier = this.interactionFormData[
       value
     ].nbCourrier = this.interactionFormData[value].nbCourrier - 1;
+  }
+
+  @HostListener("document:keypress", ["$event"])
+  keyEvent(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setInteractionForm();
+    }
   }
 }

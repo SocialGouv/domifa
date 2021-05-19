@@ -1,0 +1,165 @@
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
+import { Router } from "@angular/router";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { MatomoTracker } from "ngx-matomo";
+import { ToastrService } from "ngx-toastr";
+import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
+import { AppUser, UsagerLight } from "../../../../../../_common/model";
+import {
+  InteractionForApi,
+  InteractionType,
+} from "../../../../../../_common/model/interaction";
+import { interactionsLabels } from "../../../interactions.labels";
+import { InteractionService } from "../../../services/interaction.service";
+import { UsagerFormModel } from "../../form/UsagerFormModel";
+import {
+  UsagersFilterCriteria,
+  UsagersFilterCriteriaDernierPassage,
+  UsagersFilterCriteriaSortValues,
+  UsagersFilterCriteriaStatut,
+} from "../usager-filter";
+
+@Component({
+  animations: [fadeInOutSlow, fadeInOut],
+  selector: "app-manage-manage-usagers-table",
+  styleUrls: ["./manage-usagers-table.css"],
+  templateUrl: "./manage-usagers-table.html",
+})
+export class ManageUsagersTableComponent implements OnInit {
+  @Input() public me: AppUser;
+  @Input() public usagers: UsagerFormModel[];
+  @Input() public filters: UsagersFilterCriteria;
+  @Output() public updateUsager = new EventEmitter<UsagerLight>();
+  @Output() public updateFilter = new EventEmitter<{
+    element: keyof UsagersFilterCriteria;
+    value: UsagersFilterCriteria[keyof UsagersFilterCriteria] | null;
+    sortValue?: UsagersFilterCriteriaSortValues;
+  }>();
+
+  public today: Date;
+
+  public labelsDateFin: { [key in UsagersFilterCriteriaStatut]: string } = {
+    ATTENTE_DECISION: "Demande effectuée le",
+    INSTRUCTION: "Dossier débuté le",
+    RENOUVELLEMENT: "Renouvellement le",
+    RADIE: "Radié le ",
+    REFUS: "Date de refus",
+    TOUS: "Fin de domiciliation",
+    VALIDE: "Fin de domiciliation",
+  };
+
+  public labelsDernierPassage: {
+    [key in UsagersFilterCriteriaDernierPassage]: string;
+  } = {
+    DEUX_MOIS: "Dernier passage 2 mois",
+    TROIS_MOIS: "Dernier passage 3 mois",
+  };
+
+  public selectedUsager: UsagerFormModel;
+
+  @ViewChild("setInteractionInModal", { static: true })
+  public setInteractionInModal!: TemplateRef<any>;
+
+  @ViewChild("setInteractionOutModal", { static: true })
+  public setInteractionOutModal!: TemplateRef<any>;
+
+  @ViewChild("distributionBox", { static: true })
+  public distributionBox: ElementRef;
+
+  constructor(
+    private interactionService: InteractionService,
+    private modalService: NgbModal,
+    private router: Router,
+    private notifService: ToastrService,
+    private matomo: MatomoTracker
+  ) {}
+
+  public ngOnInit() {
+    this.selectedUsager = {} as UsagerFormModel;
+    this.today = new Date();
+  }
+
+  public goToProfil(usager: UsagerFormModel) {
+    const etapesUrl = [
+      "etat-civil",
+      "rendez-vous",
+      "entretien",
+      "documents",
+      "decision",
+    ];
+
+    if (
+      usager.decision.statut === "ATTENTE_DECISION" ||
+      usager.decision.statut === "INSTRUCTION"
+    ) {
+      if (usager.typeDom === "RENOUVELLEMENT") {
+        this.router.navigate(["usager/" + usager.ref]);
+        return;
+      }
+
+      if (this.me.role === "facteur") {
+        this.notifService.error("Vous ne pouvez pas accéder à ce profil");
+        return;
+      }
+
+      if (usager.decision.statut === "INSTRUCTION") {
+        this.router.navigate([
+          "usager/" + usager.ref + "/edit/" + etapesUrl[usager.etapeDemande],
+        ]);
+      } else {
+        this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
+      }
+    } else if (
+      usager.decision.statut === "REFUS" &&
+      this.me.role === "facteur"
+    ) {
+      this.notifService.error("Vous ne pouvez pas accéder à ce profil");
+      return;
+    } else {
+      this.router.navigate(["usager/" + usager.ref]);
+    }
+  }
+
+  public setAppelOuPassage(
+    usager: UsagerFormModel,
+    type: InteractionType
+  ): void {
+    const interaction: InteractionForApi = {
+      type,
+      nbCourrier: 1,
+    };
+    this.matomo.trackEvent("interactions", "manage", type, 1);
+    this.interactionService.setInteraction(usager, [interaction]).subscribe(
+      (newUsager: UsagerLight) => {
+        usager = new UsagerFormModel(newUsager);
+        this.updateUsager.emit(usager);
+        this.notifService.success(interactionsLabels[type]);
+      },
+      (error) => {
+        this.notifService.error("Impossible d'enregistrer cette interaction");
+      }
+    );
+  }
+
+  public openInteractionInModal(usager: UsagerFormModel) {
+    this.selectedUsager = usager;
+    this.modalService.open(this.setInteractionInModal);
+  }
+
+  public openInteractionOutModal(usager: UsagerFormModel) {
+    this.selectedUsager = usager;
+    this.modalService.open(this.setInteractionOutModal);
+  }
+  public cancelReception() {
+    this.modalService.dismissAll();
+  }
+}
