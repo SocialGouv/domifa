@@ -4,43 +4,6 @@
   <div class="container p-0">
     <div class="page-content py-3 px-5">
       <div class="row">
-
-        <div
-          class="alert alert-warning"
-          *ngIf="
-            usager.decision.statut === 'INSTRUCTION' &&
-            usager.typeDom === 'RENOUVELLEMENT' &&
-            !isRole('facteur')
-          "
-        >
-          Une demande de renouvellement est actuellement en cours &nbsp;
-          <a
-            [routerLink]="['/usager/' + usager.ref + '/edit']"
-            class="btn btn-light"
-          >
-            <fa-icon icon="redo" class="mr-2"></fa-icon>
-            Compléter la demande
-          </a>
-        </div>
-
-        <div class="col-md-12">
-          <div
-            class="alert"
-            [ngClass]="{
-              'alert-danger': usager.dayBeforeEnd <= 15,
-              'alert-warning': usager.dayBeforeEnd > 15
-            }"
-            *ngIf="usager.dayBeforeEnd > 0 && usager.dayBeforeEnd < 60"
-          >
-            La domiciliation expire le
-            <b>
-              {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
-            </b>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
         <div class="col-md-6">
           <div class="row">
             <h4 class="col-12">Dossier</h4>
@@ -72,3 +35,5 @@
     (cancelReception)="closeModals()"
   ></app-set-interaction-out-form>
 </ng-template>
+
+<app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>

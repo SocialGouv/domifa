@@ -23,6 +23,7 @@ import { UsagersProfilTransfertCourrierComponent } from "./components/profil-tra
 import { NgbDateCustomParserFormatter } from "../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil-procuration-courrier/profil-procuration-courrier-component";
+import { ProfilHistoriqueCourriersComponent } from './components/profil-historique-courriers/profil-historique-courriers.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { UsagersProfilProcurationCourrierComponent } from "./components/profil-p
     // Parts
     UsagersProfilTransfertCourrierComponent,
     UsagersProfilProcurationCourrierComponent,
+    ProfilHistoriqueCourriersComponent,
   ],
   imports: [
     CommonModule,

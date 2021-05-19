@@ -33,7 +33,7 @@
         </span>
       </div>
 
-      <div class="col-md-4 reponses">
+      <div class="col-md-3 reponses">
         <span class="question">Dates de validité</span>
         <span
           class="valeur"
@@ -76,7 +76,7 @@
       autocomplete="off"
     >
       <div class="row">
-        <div class="col-4 form-group required">
+        <div class="col-md-3 form-group required">
           <label for="procuration_nom">Nom</label>
           <input
             type="text"
@@ -94,7 +94,7 @@
             <div *ngIf="f.nom.errors.required">Le nom est obligatoire</div>
           </div>
         </div>
-        <div class="col-4 form-group required">
+        <div class="col-md-3 form-group required">
           <label for="procuration_prenom">Prénom</label>
           <input
             type="text"
@@ -112,7 +112,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 form-group required">
+        <div class="col-md-2 form-group required">
           <label for="dateNaissance">Date de naissance</label>
           <div class="input-group">
             <input
@@ -145,7 +145,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 form-group required">
+        <div class="col-md-2 form-group required">
           <label for="dateDebut">Date de début de validité</label>
           <div class="input-group">
             <input
@@ -180,7 +180,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 form-group required">
+        <div class="col-md-2 form-group required">
           <label for="dateFin">Date de fin de validité</label>
           <div class="input-group">
             <input
@@ -207,8 +207,9 @@
               </span>
             </div>
 
-            <div *ngIf="f.dateFin.invalid" class="invalid-feedback">
+            <div *ngIf="f.dateFin.invalid">
               <div
+                class="invalid-feedback"
                 *ngIf="f.dateFin.dirty && (f.dateFin.errors.ngbDate || f.dateFin.errors.endDateAfterBeginDate)"
               >
                 La date de fin est incorrecte

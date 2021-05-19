@@ -16,5 +16,5 @@ optional/e2e/runners/puppeteer/output
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
-
 .yarn
+~$*.xlsx
