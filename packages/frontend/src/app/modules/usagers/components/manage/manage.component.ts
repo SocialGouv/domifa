@@ -5,7 +5,6 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
@@ -35,11 +34,6 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
-import {
-  InteractionForApi,
-  InteractionType,
-} from "../../../../../_common/model/interaction";
-import { interactionsLabels } from "../../interactions.labels";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 import {
@@ -66,15 +60,13 @@ const AUTO_REFRESH_PERIOD = 3600000; // 1h
 })
 export class ManageUsagersComponent implements OnInit, OnDestroy {
   public searching: boolean;
+  public loading: boolean;
 
   public allUsagers$ = new BehaviorSubject<UsagerLight[]>([]);
   public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
   public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerFormModel[] = [];
   public me: AppUser;
-
-  public dateLabel: string;
-  public today: Date;
 
   public labelsDateFin: { [key in UsagersFilterCriteriaStatut]: string } = {
     ATTENTE_DECISION: "Demande effectuée le",
@@ -116,23 +108,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     PASSAGE: "date de dernier passage",
     ID: "ID",
   };
-
-  public selectedUsager: UsagerFormModel;
-
   @ViewChild("searchInput", { static: true })
   public searchInput!: ElementRef;
-
-  @ViewChild("distributionConfirm", { static: true })
-  public distributionConfirm!: TemplateRef<any>;
-
-  @ViewChild("setInteractionInModal", { static: true })
-  public setInteractionInModal!: TemplateRef<any>;
-
-  @ViewChild("setInteractionOutModal", { static: true })
-  public setInteractionOutModal!: TemplateRef<any>;
-
-  @ViewChild("distributionBox", { static: true })
-  public distributionBox: ElementRef;
 
   private subscription = new Subscription();
 
@@ -151,12 +128,9 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.usagers = [];
     this.searching = true;
     this.nbResults = 0;
-    this.selectedUsager = {} as any;
 
-    this.dateLabel = "Fin de domiciliation";
     this.filters = new UsagersFilterCriteria(this.getFilters());
 
-    this.today = new Date();
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
@@ -170,11 +144,18 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     // reload every hour
     timer(0, AUTO_REFRESH_PERIOD)
       .pipe(
+        tap(() => {
+          this.loading = true;
+        }),
         switchMap(() => this.usagerService.getAllUsagers()),
+        tap(() => {
+          this.loading = false;
+        }),
         retryWhen((errors) =>
           // retry in case of error
           errors.pipe(
             tap((err: HttpErrorResponse) => {
+              this.loading = false;
               if (err?.status === 401) {
                 this.authService.logoutAndRedirect();
               } else {
@@ -267,11 +248,15 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
   }
 
-  public updateFilters<T extends keyof UsagersFilterCriteria>(
-    element: T,
-    value: UsagersFilterCriteria[T] | null,
-    sortValue?: UsagersFilterCriteriaSortValues
-  ) {
+  public updateFilters<T extends keyof UsagersFilterCriteria>({
+    element,
+    value,
+    sortValue,
+  }: {
+    element: T;
+    value: UsagersFilterCriteria[T] | null;
+    sortValue?: UsagersFilterCriteriaSortValues;
+  }) {
     if (
       element === "interactionType" ||
       element === "passage" ||
@@ -333,68 +318,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.matomo.trackEvent("filters", element, value as string, 1);
   }
 
-  public goToProfil(usager: UsagerFormModel) {
-    const etapesUrl = [
-      "etat-civil",
-      "rendez-vous",
-      "entretien",
-      "documents",
-      "decision",
-    ];
-
-    if (
-      usager.decision.statut === "ATTENTE_DECISION" ||
-      usager.decision.statut === "INSTRUCTION"
-    ) {
-      if (usager.typeDom === "RENOUVELLEMENT") {
-        this.router.navigate(["usager/" + usager.ref]);
-        return;
-      }
-
-      if (this.me.role === "facteur") {
-        this.notifService.error("Vous ne pouvez pas accéder à ce profil");
-        return;
-      }
-
-      if (usager.decision.statut === "INSTRUCTION") {
-        this.router.navigate([
-          "usager/" + usager.ref + "/edit/" + etapesUrl[usager.etapeDemande],
-        ]);
-      } else {
-        this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
-      }
-    } else if (
-      usager.decision.statut === "REFUS" &&
-      this.me.role === "facteur"
-    ) {
-      this.notifService.error("Vous ne pouvez pas accéder à ce profil");
-      return;
-    } else {
-      this.router.navigate(["usager/" + usager.ref]);
-    }
-  }
-
-  public setAppelOuPassage(
-    usager: UsagerFormModel,
-    type: InteractionType
-  ): void {
-    const interaction: InteractionForApi = {
-      type,
-      nbCourrier: 1,
-    };
-    this.matomo.trackEvent("interactions", "manage", type, 1);
-    this.interactionService.setInteraction(usager, [interaction]).subscribe(
-      (newUsager: UsagerLight) => {
-        usager = new UsagerFormModel(newUsager);
-        this.updateUsager(usager);
-        this.notifService.success(interactionsLabels[type]);
-      },
-      (error) => {
-        this.notifService.error("Impossible d'enregistrer cette interaction");
-      }
-    );
-  }
-
   public applyFilters({
     filters,
     allUsagersByStatus,
@@ -403,8 +326,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     allUsagersByStatus: UsagersByStatus;
   }) {
     this.searching = true;
-
-    this.dateLabel = this.labelsDateFin[filters.statut];
 
     localStorage.setItem("filters", JSON.stringify(filters));
 
@@ -434,31 +355,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.searching = false;
   }
 
-  public closeModals() {
-    this.modalService.dismissAll();
-  }
-
   private getFilters() {
     const filters = localStorage.getItem("filters");
     return filters === null ? {} : JSON.parse(filters);
   }
-
-  public openInteractionInModal(usager: UsagerFormModel) {
-    this.selectedUsager = usager;
-    this.modalService.open(this.setInteractionInModal);
-  }
-
-  public openInteractionOutModal(usager: UsagerFormModel) {
-    this.selectedUsager = usager;
-    this.modalService.open(this.setInteractionOutModal);
-  }
-
-  public cancelReception() {
-    this.selectedUsager = null;
-    this.modalService.dismissAll();
-  }
-
-  public openDistributionBox() {}
 
   @HostListener("window:scroll", ["$event"])
   onScroll($event: Event): void {

@@ -1,10 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight } from "../../../../../../_common/model";
 import {
+  InteractionIn,
   InteractionOutForm,
   INTERACTIONS_OUT_AVAILABLE,
-  InteractionIn,
 } from "../../../../../../_common/model/interaction";
 import { bounce } from "../../../../../shared/animations";
 import { InteractionService } from "../../../services/interaction.service";
@@ -55,9 +62,12 @@ export class SetInteractionOutFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.interactionFormData.courrierOut.nbCourrier = this.usager.lastInteraction.courrierIn;
-    this.interactionFormData.recommandeOut.nbCourrier = this.usager.lastInteraction.recommandeIn;
-    this.interactionFormData.colisOut.nbCourrier = this.usager.lastInteraction.colisIn;
+    this.interactionFormData.courrierOut.nbCourrier =
+      this.usager.lastInteraction.courrierIn;
+    this.interactionFormData.recommandeOut.nbCourrier =
+      this.usager.lastInteraction.recommandeIn;
+    this.interactionFormData.colisOut.nbCourrier =
+      this.usager.lastInteraction.colisIn;
 
     this.interactionFormData.courrierOut.selected =
       this.usager.lastInteraction.courrierIn > 0;
@@ -120,5 +130,13 @@ export class SetInteractionOutFormComponent implements OnInit {
     this.interactionFormData[value].nbCourrier = this.interactionFormData[
       value
     ].nbCourrier = this.interactionFormData[value].nbCourrier - 1;
+  }
+
+  @HostListener("document:keypress", ["$event"])
+  keyEvent(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.setInteractionForm();
+    }
   }
 }
