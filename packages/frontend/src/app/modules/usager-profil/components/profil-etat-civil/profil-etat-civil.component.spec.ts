@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { languagesAutocomplete } from "../../../../../shared";
-import { ProfilInfosComponent } from "./profil-infos.component";
-import { SharedModule } from "../../../../shared/shared.module";
+import { languagesAutocomplete } from "../../../../shared";
+import { ProfilEtatCivilComponent } from "./profil-etat-civil.component";
+import { SharedModule } from "../../../shared/shared.module";
 
-describe("ProfilInfosComponent", () => {
-  let component: ProfilInfosComponent;
-  let fixture: ComponentFixture<ProfilInfosComponent>;
+describe("ProfilEtatCivilComponent", () => {
+  let component: ProfilEtatCivilComponent;
+  let fixture: ComponentFixture<ProfilEtatCivilComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SharedModule],
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ProfilInfosComponent],
+      declarations: [ProfilEtatCivilComponent],
     });
-    fixture = TestBed.createComponent(ProfilInfosComponent);
+    fixture = TestBed.createComponent(ProfilEtatCivilComponent);
     component = fixture.componentInstance;
   });
 

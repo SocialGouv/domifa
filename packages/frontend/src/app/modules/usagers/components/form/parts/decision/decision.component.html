@@ -110,16 +110,9 @@
   </div>
 
   <div class="step_form">
-    <h4>ÉTAT CIVIL</h4>
-    <app-profil-infos [usager]="usager"></app-profil-infos>
-
-    <h4>AYANTS-DROIT</h4>
-    <app-profil-ayants-droits
-      [ayantsDroits]="usager.ayantsDroits"
-    ></app-profil-ayants-droits>
+    <app-profil-etat-civil [usager]="usager"></app-profil-etat-civil>
 
     <h4>ENTRETIEN</h4>
-
     <app-profil-entretien
       [usager]="usager"
       [structure]="me.structure"

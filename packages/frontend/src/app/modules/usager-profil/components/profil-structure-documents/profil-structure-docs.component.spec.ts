@@ -4,8 +4,9 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { UsagersModule } from "../../../usagers.module";
+
 import { ProfilStructureDocsComponent } from "./profil-structure-docs.component";
+import { UsagersModule } from "../../../usagers/usagers.module";
 
 describe("ProfilStructureDocsComponent", () => {
   let component: ProfilStructureDocsComponent;

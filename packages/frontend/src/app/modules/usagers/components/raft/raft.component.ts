@@ -9,7 +9,6 @@ import { MOTIFS_RADIATION_LABELS } from "../../../../../_common/model/usager/con
 
 import { UsagerDecisionMotif } from "../../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { UsagerService } from "../../services/usager.service";
-
 import { UsagerFormModel } from "../form/UsagerFormModel";
 @Component({
   providers: [UsagerService, AuthService],

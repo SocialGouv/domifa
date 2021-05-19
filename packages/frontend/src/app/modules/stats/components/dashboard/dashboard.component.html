@@ -28,14 +28,18 @@
           <span class="stats-chiffres" [ngClass]="statutClass['TOUS']">
             {{ stats.usagersCountByStatutMap["TOUS"] }}
           </span>
-          <span class="stats-labels">{{ DASHBOARD_STATUS_LABELS["TOUS"] }}</span>
+          <span class="stats-labels">{{
+            DASHBOARD_STATUS_LABELS["TOUS"]
+          }}</span>
         </div>
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['VALIDE']">
             {{ stats.usagersCountByStatutMap["VALIDE"] }}
           </span>
-          <span class="stats-labels">{{ DASHBOARD_STATUS_LABELS["VALIDE"] }}</span>
+          <span class="stats-labels">{{
+            DASHBOARD_STATUS_LABELS["VALIDE"]
+          }}</span>
         </div>
 
         <div>
@@ -63,14 +67,18 @@
           <span class="stats-chiffres" [ngClass]="statutClass['REFUS']">
             {{ stats.usagersCountByStatutMap["REFUS"] }}
           </span>
-          <span class="stats-labels">{{ DASHBOARD_STATUS_LABELS["REFUS"] }}</span>
+          <span class="stats-labels">{{
+            DASHBOARD_STATUS_LABELS["REFUS"]
+          }}</span>
         </div>
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['RADIE']">
             {{ stats.usagersCountByStatutMap["RADIE"] }}
           </span>
-          <span class="stats-labels">{{ DASHBOARD_STATUS_LABELS["RADIE"] }}</span>
+          <span class="stats-labels">{{
+            DASHBOARD_STATUS_LABELS["RADIE"]
+          }}</span>
         </div>
 
         <div>
