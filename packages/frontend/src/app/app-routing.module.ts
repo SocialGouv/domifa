@@ -171,7 +171,6 @@ export const routes: Routes = [
         (m) => m.UsagerProfilModule
       ),
   },
-
   { path: "**", redirectTo: "404" },
 ];
 @NgModule({

@@ -2,9 +2,9 @@
 
 <div class="content">
   <div class="container p-0">
-    <div class="page-content p-4">
+    <div class="page-content p-4 mb-5">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <h4>Transfert</h4>
           <app-profil-transfert-courrier
             [usager]="usager"
@@ -12,7 +12,7 @@
             [me]="me"
           ></app-profil-transfert-courrier>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
           <h4>Procuration</h4>
           <app-profil-procuration-courrier
             [usager]="usager"
@@ -26,3 +26,5 @@
     </div>
   </div>
 </div>
+
+<app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>

@@ -534,3 +534,28 @@ table .active {
   background-color: #feedd1;
   color: #282828;
 }
+.alert .svg-icon {
+  display: table-cell;
+  margin-right: 10px;
+  width: 35px;
+  height: 35px;
+  padding: 6px;
+  box-sizing: border-box;
+  -webkit-mask-size: 98%;
+  mask-size: 98%;
+}
+
+.alert div,
+.alert span {
+  padding-left: 5px;
+  flex-shrink: 1;
+  align-self: center;
+}
+
+.alert-warning .svg-icon {
+  background-color: #f0870c;
+}
+
+.alert-danger .svg-icon {
+  background-color: #f00c0c;
+}

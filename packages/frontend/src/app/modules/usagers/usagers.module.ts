@@ -59,7 +59,6 @@ import { UsagerService } from "./services/usager.service";
     DeleteUsagerMenuComponent,
     ProfilStructureDocsComponent,
     UsagersProfilComponent,
-
     ProfilInfosComponent,
     ProfilAyantsDroitsComponent,
     ProfilEntretienComponent,
@@ -81,6 +80,7 @@ import { UsagerService } from "./services/usager.service";
     UsagersProfilComponent,
     ImportComponent,
     RaftComponent,
+    DeleteUsagerMenuComponent,
     SetInteractionInFormComponent,
     SetInteractionOutFormComponent,
   ],

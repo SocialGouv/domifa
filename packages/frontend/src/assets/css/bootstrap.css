@@ -5621,8 +5621,15 @@ a.badge-dark.focus {
   position: relative;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 150%;
+  display: flex;
+  align-items: left;
+  justify-content: left;
 }
 
 .alert-heading {
@@ -5703,7 +5710,7 @@ a.badge-dark.focus {
 }
 
 .alert-warning {
-  color: #856404;
+  color: black;
   background-color: #fff9f4;
   border-color: #ffe1c6;
 }
@@ -5717,7 +5724,7 @@ a.badge-dark.focus {
 }
 
 .alert-danger {
-  color: #721c24;
+  color: black;
   background-color: #fff4f5;
   border-color: #ffcccf;
 }
