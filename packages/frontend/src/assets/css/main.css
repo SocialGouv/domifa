@@ -172,15 +172,18 @@ table .active {
 }
 
 .reponses .question {
-  color: #212529;
+  color: var(--primary);
   text-transform: uppercase;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.7px;
 }
 
 .reponses .valeur {
   display: block;
   font-weight: bold;
   color: #4a4a4a;
+  font-weight: 400;
   word-break: break-word;
 }
 
@@ -420,10 +423,34 @@ table .active {
   height: 10px;
 }
 
-.statut-signal.bg-danger,
-.statut-signal.bg-warning {
-  display: inline-block;
-  vertical-align: middle;
+.danger-status .statut-label,
+.label-danger {
+  background-color: #ffe5dd;
+  color: #b51515;
+}
+
+.normal-status .statut-label,
+.label-green {
+  background-color: #d4f4ed;
+  color: #486346;
+}
+
+.warning-status .statut-label,
+.label-yellow {
+  background-color: #feedd1;
+  color: #282828;
+}
+
+.danger-status .statut-date,
+.warning-status .statut-date {
+  font-weight: bold;
+}
+
+.danger-status td:first-child {
+  border-left: 4px solid var(--red) !important;
+}
+.warning-status td:first-child {
+  border-left: 4px solid var(--warning) !important;
 }
 
 .statut-signal.d-none {
@@ -558,4 +585,31 @@ table .active {
 
 .alert-danger .svg-icon {
   background-color: #f00c0c;
+}
+
+.label-info {
+  border-radius: 50px;
+  padding: 3px 12px;
+  margin: 2px;
+  display: inline-block;
+}
+
+.label-info span {
+  display: block;
+  font-size: 0.8rem;
+}
+
+.label-danger {
+  background-color: #ffe5dd;
+  color: #b51515;
+}
+
+.label-green {
+  background-color: #d4f4ed;
+  color: #486346;
+}
+
+.label-yellow {
+  background-color: #feedd1;
+  color: #282828;
 }

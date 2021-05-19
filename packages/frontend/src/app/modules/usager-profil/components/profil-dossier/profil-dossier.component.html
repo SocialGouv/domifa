@@ -4,16 +4,53 @@
   <div class="container p-0">
     <div class="page-content p-4">
       <div class="row">
-        <div class="col-md-6"><h4>Dossier</h4></div>
-        <div class="col-md-6">
-          <h4>Documents téléchargeables</h4>
-
-          <app-profil-structure-docs
-            [usager]="usager"
-          ></app-profil-structure-docs>
+        <div class="col-md-12">
+          <ng-container *ngIf="!editInfos">
+            <app-profil-etat-civil [usager]="usager"></app-profil-etat-civil>
+            <div class="row" *ngIf="usager.isActif && !isRole('facteur')">
+              <div class="col-md-12 text-center">
+                <br />
+                <button
+                  class="btn btn-outline-dark"
+                  (click)="editInfos = !editInfos"
+                >
+                  <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+                  Modifier les informations
+                </button>
+              </div>
+            </div>
+          </ng-container>
         </div>
-        <div class="col-md-6"><h4>Notes internes</h4></div>
-        <div class="col-md-6"><h4>Historique des interactions</h4></div>
+
+        <div class="col-md-12">
+          <app-entretien
+            *ngIf="editEntretien"
+            [(editEntretien)]="editEntretien"
+            [(usager)]="usager"
+          ></app-entretien>
+
+          <app-profil-entretien
+            *ngIf="!editEntretien"
+            [usager]="usager"
+            [structure]="me.structure"
+          >
+          </app-profil-entretien>
+
+          <div
+            class="col-md-12 text-center"
+            *ngIf="usager.isActif && !isRole('facteur')"
+          >
+            <br />
+            <button
+              class="btn btn-outline-dark"
+              *ngIf="!editEntretien"
+              (click)="openEntretien()"
+            >
+              <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+              Modifier la situation sociale
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

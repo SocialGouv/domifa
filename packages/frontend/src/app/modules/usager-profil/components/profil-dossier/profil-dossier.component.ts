@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { UsagerService } from "../../../usagers/services/usager.service";
@@ -16,6 +16,8 @@ export class ProfilDossierComponent implements OnInit {
   public me: AppUser;
   public usager: UsagerFormModel;
 
+  public editInfos: boolean;
+  public editEntretien: boolean;
   constructor(
     private authService: AuthService,
     private usagerService: UsagerService,
@@ -25,11 +27,12 @@ export class ProfilDossierComponent implements OnInit {
     private router: Router
   ) {
     this.me = null;
+    this.editInfos = false;
+    this.editEntretien = false;
   }
 
-  ngOnInit(): void {
-    this.titleService.setTitle("Courrier du domicilié");
-    //
+  public ngOnInit(): void {
+    this.titleService.setTitle("Dossier du domicilié");
 
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
@@ -44,5 +47,13 @@ export class ProfilDossierComponent implements OnInit {
         this.router.navigate(["404"]);
       }
     );
+  }
+
+  public openEntretien() {
+    this.editEntretien = !this.editEntretien;
+  }
+
+  public isRole(role: UserRole) {
+    return this.me.role === role;
   }
 }

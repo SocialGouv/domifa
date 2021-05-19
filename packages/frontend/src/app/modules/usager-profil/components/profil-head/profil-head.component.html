@@ -2,19 +2,41 @@
   <div class="container">
     <div class="row d-flex align-items-center">
       <div class="col-6">
-        <span class="title">
-          {{ usager | usagerNomComplet }}
+        <span class="title" [class]="usager.statutColor">
+          <a [routerLink]="['/manage']"
+            ><fa-icon icon="arrow-circle-left"></fa-icon
+          ></a>
+          <span class="statut-signal"></span>
+          {{ usager | usagerNomComplet }} -
           <b *ngIf="usager.customRef">{{ usager.customRef }}</b>
           <b *ngIf="!usager.customRef">{{ usager.ref }}</b>
         </span>
       </div>
 
       <div class="col-6 text-right">
-        <button class="btn btn-white-primary">
-          <fa-icon icon="plus" class="mr-2"></fa-icon>
-          Nouveau contact
+        <ng-container *ngIf="usager.decision.statut === 'REFUS'">
+          <button *ngIf="!isRole('facteur')" class="btn btn-white-primary mr-2">
+            <fa-icon icon="redo" class="mr-2"></fa-icon>
+            Créer une nouvelle demande
+          </button>
+          <button class="btn btn-white-primary">
+            <fa-icon icon="download"></fa-icon>
+            Télécharger le CERFA de refus
+          </button>
+        </ng-container>
+
+        <button
+          class="btn btn-white-primary mr-2"
+          *ngIf="usager.decision.statut === 'RADIE'"
+        >
+          <fa-icon icon="redo" class="mr-2"></fa-icon>
+          Créer une nouvelle demande
         </button>
-        <button class="btn btn-white-primary">
+
+        <button
+          class="btn btn-white-primary"
+          *ngIf="usager.decision.statut === 'VALIDE'"
+        >
           <fa-icon icon="plus" class="mr-2"></fa-icon>
           Nouveau courrier
         </button>
@@ -50,9 +72,34 @@
 </div>
 <div class="content">
   <div class="container p-0">
-    <div class="page-content p-4">
+    <div class="page-content px-4 pt-3">
       <div class="row">
+        <!-- INFOS LIÉS AU STATUT -->
         <div class="col-md-12">
+          <div
+            class="alert alert-danger"
+            *ngIf="usager.decision.statut === 'RADIE'"
+          >
+            <div class="svg-icon icon-danger"></div>
+
+            <div>
+              Cette personne a été radiée le
+              {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+              : {{ usager.decision.motifString }}
+            </div>
+          </div>
+          <div
+            class="alert alert-danger"
+            *ngIf="usager.decision.statut === 'REFUS'"
+          >
+            <div class="svg-icon icon-danger"></div>
+            <div class="text-danger">
+              Demande refusée le
+              {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+              : {{ usager.decision.motif }}
+            </div>
+          </div>
+
           <div
             class="alert alert-warning"
             *ngIf="
@@ -71,6 +118,31 @@
           </div>
 
           <div
+            class="alert alert-info"
+            *ngIf="
+              usager.decision.statut === 'ATTENTE_DECISION' &&
+              usager.typeDom === 'RENOUVELLEMENT'
+            "
+          >
+            <div class="svg-icon icon-calendar"></div>
+            <div>
+              Cette demande de renouvellement est actuellement en attente d'une
+              décision
+            </div>
+            <div>
+              <a
+                [routerLink]="['/usager/' + usager.ref + '/edit']"
+                class="btn btn-light"
+              >
+                <fa-icon icon="redo" class="mr-2"></fa-icon>
+                Voir le récapitulatif
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div
             class="alert"
             [ngClass]="{
               'alert-danger': usager.dayBeforeEnd <= 15,
@@ -86,7 +158,29 @@
               </b>
             </span>
           </div>
+          <div class="alert alert-danger" *ngIf="usager.dayBeforeEnd < 0">
+            <div class="svg-icon icon-danger"></div>
+            <div>
+              Domiciliation expirée depuis le
+              <b>
+                {{ usager.decision.dateFin | date: "dd/MM/yyyy" }}, il y a
+                {{ usager.dayBeforeEnd * -1 }} jours
+              </b>
+            </div>
+          </div>
+        </div>
 
+        <!-- COURRIERS -->
+        <div class="col-md-12">
+          <!-- NPAI -->
+          <div *ngIf="usager.options.npai.actif" class="alert alert-danger">
+            <fa-icon icon="ban" size="2x" class="text-danger mr-3"></fa-icon>
+            <span>
+              N'habite plus à l'adresse indiquée, pli non distribuable
+            </span>
+          </div>
+
+          <!-- TRANSFERT -->
           <div
             *ngIf="
               usager.options.transfert.actif &&
@@ -95,8 +189,11 @@
             class="alert alert-danger"
           >
             <div class="svg-icon icon-distribution"></div>
-            <b>Attention : </b> le transfert de courrier était valable jusqu'au
-            {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}.
+            <span
+              ><b>Attention : </b> le transfert de courrier était valable
+              jusqu'au
+              {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}</span
+            >
           </div>
 
           <div
@@ -110,7 +207,6 @@
               {{ usager.options.transfert.adresse | titlecase }}
             </span>
           </div>
-
           <div
             class="alert alert-warning"
             *ngIf="

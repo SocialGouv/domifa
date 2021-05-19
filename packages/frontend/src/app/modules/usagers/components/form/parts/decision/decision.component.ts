@@ -14,7 +14,6 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-
 import { AppUser } from "../../../../../../../_common/model";
 import { MOTIFS_REFUS_LABELS } from "../../../../../../../_common/model/usager/constants/MOTIFS_REFUS_LABELS.const";
 
