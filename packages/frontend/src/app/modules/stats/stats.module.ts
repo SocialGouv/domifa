@@ -20,7 +20,6 @@ import { StatsComponent } from "./components/structure-stats/structure-stats.com
   imports: [
     CommonModule,
     NgbModule,
-    SharedModule,
     FontAwesomeModule,
     ToastrModule.forRoot(),
     HttpClientModule,

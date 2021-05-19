@@ -42,7 +42,6 @@ import { StructureService } from "./services/structure.service";
     UsersModule,
     CommonModule,
     SharedModule,
-
     FontAwesomeModule,
     RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
     ToastrModule.forRoot({}),

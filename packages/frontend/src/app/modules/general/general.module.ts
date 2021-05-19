@@ -6,11 +6,8 @@ import {
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
 
-import { RouterModule } from "@angular/router";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { ToastrModule } from "ngx-toastr";
 import { LoadingComponent } from "../loading/loading.component";
 import { LoadingService } from "../loading/loading.service";
 
@@ -22,8 +19,12 @@ import { MentionsLegalesComponent } from "./components/mentions/mentions-legales
 import { NewsComponent } from "./components/news/news.component";
 import { PolitiqueComponent } from "./components/politique/politique.component";
 import { HomeService } from "./components/home/home.service";
-import { CountUpModule } from "ngx-countup";
+
 import { NavbarComponent } from "./components/navbar/navbar.component";
+import { RouterModule } from "@angular/router";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { CountUpModule } from "ngx-countup";
+import { ToastrModule } from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,17 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
     NavbarComponent,
   ],
   exports: [LoadingComponent, NotFoundComponent, NavbarComponent],
-  imports: [CommonModule, HttpClientModule, NgbModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    NgbModule,
+    FontAwesomeModule,
+    CountUpModule,
+    RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
+    ToastrModule.forRoot(),
+    HttpClientModule,
+    NgbModule,
+  ],
   providers: [LoadingService, HomeService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

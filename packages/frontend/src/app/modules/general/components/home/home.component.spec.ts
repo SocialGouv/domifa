@@ -16,23 +16,23 @@ describe("HomeComponent", () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [HomeComponent],
-      imports: [
-        CommonModule,
-
-        SharedModule,
-
-        FontAwesomeModule,
-        RouterTestingModule,
-        CountUpModule,
-        HttpClientTestingModule,
-      ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [HomeComponent],
+        imports: [
+          CommonModule,
+          SharedModule,
+          FontAwesomeModule,
+          RouterTestingModule,
+          CountUpModule,
+          HttpClientTestingModule,
+        ],
+        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { AppUser } from "../../../../../_common/model";
+import { AppUser, UserRole } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
@@ -32,8 +32,12 @@ export class ProfilHeadComponent implements OnInit {
     this.today = new Date();
   }
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
   public closeModals() {
     this.modalService.dismissAll();
+  }
+
+  public isRole(role: UserRole) {
+    return this.me.role === role;
   }
 }

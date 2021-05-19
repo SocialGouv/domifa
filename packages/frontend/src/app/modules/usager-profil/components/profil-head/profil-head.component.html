@@ -48,26 +48,108 @@
     </div>
   </div>
 </div>
-<div class="container">
-  TRANSFERTTRANSFERTTRANSFERTTRANSFERT
-  <div class="row" *ngIf="usager.options.transfert.actif" class="text-center">
-    <div
-      *ngIf="usager.options.transfert.dateFin <= today"
-      class="alert alert-danger"
-    >
-      <b>Attention : </b> le transfert de courrier était valable jusqu'au
-      {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}.
-    </div>
+<div class="content">
+  <div class="container p-0">
+    <div class="page-content p-4">
+      <div class="row">
+        <div class="col-md-12">
+          <div
+            class="alert alert-warning"
+            *ngIf="
+              usager.decision.statut === 'INSTRUCTION' &&
+              usager.typeDom === 'RENOUVELLEMENT' &&
+              !isRole('facteur')
+            "
+          >
+            <div class="svg-icon icon-calendar"></div>
+            <span>
+              Demande de renouvellement est actuellement en cours &nbsp;
+              <a [routerLink]="['/usager/' + usager.ref + '/edit']">
+                Compléter la demande
+              </a>
+            </span>
+          </div>
 
-    <div
-      *ngIf="usager.options.transfert.dateFin > today"
-      class="alert alert-warning"
-    >
-      <fa-icon [icon]="['fas', 'share']"></fa-icon>
-      Le courrier est à transférer à l'adresse suivante :
-      <br />
-      {{ usager.options.transfert.nom | titlecase }}
-      {{ usager.options.transfert.adresse | titlecase }}
+          <div
+            class="alert"
+            [ngClass]="{
+              'alert-danger': usager.dayBeforeEnd <= 15,
+              'alert-warning': usager.dayBeforeEnd > 15
+            }"
+            *ngIf="usager.dayBeforeEnd > 0 && usager.dayBeforeEnd < 60"
+          >
+            <div class="svg-icon icon-distribution"></div>
+            <span>
+              La domiciliation expire le
+              <b>
+                {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
+              </b>
+            </span>
+          </div>
+
+          <div
+            *ngIf="
+              usager.options.transfert.actif &&
+              usager.options.transfert.dateFin <= today
+            "
+            class="alert alert-danger"
+          >
+            <div class="svg-icon icon-distribution"></div>
+            <b>Attention : </b> le transfert de courrier était valable jusqu'au
+            {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}.
+          </div>
+
+          <div
+            *ngIf="usager.options.transfert.dateFin > today"
+            class="alert alert-warning"
+          >
+            <div class="svg-icon icon-distribution"></div>
+            <span>
+              Le courrier est à transférer à l'adresse suivante :
+              {{ usager.options.transfert.nom | titlecase }}
+              {{ usager.options.transfert.adresse | titlecase }}
+            </span>
+          </div>
+
+          <div
+            class="alert alert-warning"
+            *ngIf="
+              usager.options.procuration.actif &&
+              usager.options.procuration.dateFin > today
+            "
+          >
+            <div class="svg-icon icon-distribution"></div>
+
+            <span>
+              Une procuration au nom de
+              <b
+                >{{ usager.options.procuration.nom }}
+                {{ usager.options.procuration.prenom }}</b
+              >
+              est active et valable jusqu'au
+              {{ usager.options.procuration.dateFin | date: "dd/MM/yyyy" }}
+            </span>
+          </div>
+
+          <div
+            *ngIf="
+              usager.options.procuration.actif &&
+              usager.options.procuration.dateFin <= today
+            "
+            class="alert alert-danger"
+          >
+            <span class="svg-icon icon-calendar"></span>
+            <span>
+              La procuration au nom de {{ usager.options.procuration.nom
+              }}{{ usager.options.procuration.prenom }}
+              <b
+                >a expiré le
+                {{ usager.options.procuration.dateFin | date: "dd/MM/yyyy" }}</b
+              >
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

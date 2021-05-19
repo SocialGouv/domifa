@@ -23,7 +23,7 @@ import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormMode
 import { interactionsLabels } from "../../../usagers/interactions.labels";
 import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
 import { Interaction } from "../../../usagers/interfaces/interaction";
-import { Options } from "../../../usagers/interfaces/options";
+
 import { DocumentService } from "../../../usagers/services/document.service";
 import { InteractionService } from "../../../usagers/services/interaction.service";
 import { UsagerService } from "../../../usagers/services/usager.service";
@@ -83,7 +83,6 @@ export class ProfilOverviewComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private interactionService: InteractionService,
     private authService: AuthService,
     private modalService: NgbModal,
     private nbgDate: NgbDateCustomParserFormatter,
@@ -166,7 +165,6 @@ export class ProfilOverviewComponent implements OnInit {
 
         this.usager = new UsagerFormModel(usager);
 
-        this.getInteractions();
         this.initForms();
       },
       (error) => {
@@ -297,20 +295,6 @@ export class ProfilOverviewComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  public deleteInteraction(idInteraction: number) {
-    this.matomo.trackEvent("profil", "interactions", "delete", 1);
-    this.interactionService.delete(this.usager.ref, idInteraction).subscribe(
-      (usager: UsagerLight) => {
-        this.usager = new UsagerFormModel(usager);
-        this.notifService.success("Interactionn supprimée avec succès");
-        this.getInteractions();
-      },
-      (error) => {
-        this.notifService.error("Impossible de supprimer l'interaction");
-      }
-    );
-  }
-
   public deleteUsager() {
     this.usagerService.delete(this.usager.ref).subscribe(
       (result: any) => {
@@ -322,91 +306,6 @@ export class ProfilOverviewComponent implements OnInit {
         this.notifService.error("Impossible de supprimer la fiche");
       }
     );
-  }
-
-  public notifier(cpt: number) {
-    if (cpt >= INTERACTIONS_IN_AVAILABLE.length) {
-      return;
-    }
-
-    const item: InteractionType = INTERACTIONS_IN_AVAILABLE[cpt];
-
-    if (this.notifInputs[item] === 0) {
-      this.notifier(cpt + 1);
-    } else {
-      this.matomo.trackEvent("interactions", "profil_icones", item, 1);
-      this.interactionService
-        .setInteraction(this.usager, [
-          {
-            content: "",
-            nbCourrier: this.notifInputs[item],
-            type: item,
-          },
-        ])
-        .subscribe(
-          (usager: UsagerLight) => {
-            this.notifService.success(interactionsLabels[item]);
-            this.usager = new UsagerFormModel(usager);
-            this.usager.lastInteraction = usager.lastInteraction;
-            this.notifInputs[item] = 0;
-            this.getInteractions();
-            this.notifier(cpt + 1);
-          },
-          () => {
-            this.notifService.error(
-              "Impossible d'enregistrer cette interaction"
-            );
-          }
-        );
-    }
-  }
-
-  public setInteraction(type: InteractionType, procuration?: boolean) {
-    const interaction: {
-      content?: string;
-      type: InteractionType;
-      nbCourrier: number;
-      procuration?: boolean;
-      transfert?: boolean;
-    } = {
-      content: "",
-      type,
-      nbCourrier: 1,
-    };
-
-    this.matomo.trackEvent("interactions", "profil_icones", type, 1);
-
-    if (type.substring(type.length - 3) === "Out") {
-      if (this.usager.options.procuration.actif) {
-        if (typeof procuration === "undefined") {
-          this.typeInteraction = type;
-          this.modalService.open(this.distributionConfirm);
-          // open
-          return;
-        }
-        this.modalService.dismissAll();
-        interaction.procuration = procuration;
-      }
-    }
-
-    if (!interaction.nbCourrier) {
-      interaction.nbCourrier = 1;
-    }
-
-    this.interactionService
-      .setInteraction(this.usager, [interaction])
-      .subscribe(
-        (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
-
-          this.notifService.success(interactionsLabels[type]);
-          this.usager.lastInteraction = usager.lastInteraction;
-          this.getInteractions();
-        },
-        () => {
-          this.notifService.error("Impossible d'enregistrer cette interaction");
-        }
-      );
   }
 
   public getAttestation() {
@@ -426,18 +325,6 @@ export class ProfilOverviewComponent implements OnInit {
     );
   }
 
-  public stopCourrier() {
-    this.usagerService.stopCourrier(this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
-        this.usager.options = new Options(usager.options);
-        this.setInteraction("npai", false);
-      },
-      () => {
-        this.notifService.error("Cette opération a échoué");
-      }
-    );
-  }
-
   public closeModal() {
     this.modalService.dismissAll();
   }
@@ -445,14 +332,6 @@ export class ProfilOverviewComponent implements OnInit {
   public openEntretien() {
     this.matomo.trackEvent("profil", "actions", "editEntretien", 1);
     this.editEntretien = !this.editEntretien;
-  }
-
-  private getInteractions() {
-    this.interactionService
-      .getInteractions(this.usager.ref)
-      .subscribe((interactions: Interaction[]) => {
-        this.interactions = interactions;
-      });
   }
 
   public openInteractionInModal(usager: UsagerFormModel) {

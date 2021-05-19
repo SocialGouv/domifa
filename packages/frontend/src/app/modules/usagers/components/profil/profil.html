@@ -235,54 +235,6 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="usager.options.transfert.actif" class="text-center">
-    <div
-      *ngIf="usager.options.transfert.dateFin <= today"
-      class="alert alert-danger"
-    >
-      <b>Attention : </b> le transfert de courrier était valable jusqu'au {{
-      usager.options.transfert.dateFin | date: 'dd/MM/yyyy' }}.
-    </div>
-
-    <div
-      *ngIf="usager.options.transfert.dateFin > today"
-      class="alert alert-warning"
-    >
-      <fa-icon [icon]="['fas', 'share']"></fa-icon>
-      Le courrier est à transférer à l'adresse suivante :
-      <br />
-      {{ usager.options.transfert.nom | titlecase }} {{
-      usager.options.transfert.adresse | titlecase }}
-    </div>
-  </div>
-
-  <div
-    class="text-center alert alert-warning"
-    *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin > today"
-  >
-    <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-    Une procuration au nom de
-    <b
-      >{{ usager.options.procuration.nom }} {{ usager.options.procuration.prenom
-      }}</b
-    >
-    est active et valable jusqu'au {{ usager.options.procuration.dateFin | date:
-    'dd/MM/yyyy' }}
-  </div>
-
-  <div
-    *ngIf="usager.options.procuration.actif && usager.options.procuration.dateFin <= today"
-    class="alert alert-danger text-center"
-  >
-    <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>
-    La procuration au nom de {{ usager.options.procuration.nom }}{{
-    usager.options.procuration.prenom }}
-    <b
-      >a expiré le {{ usager.options.procuration.dateFin | date: 'dd/MM/yyyy'
-      }}</b
-    >
-  </div>
-
   <ngb-alert
     type="info"
     [dismissible]="false"
@@ -358,71 +310,7 @@
         </div>
       </ng-template>
 
-      <ng-template ngbPanelContent>
-        <ngb-alert *ngIf="interactions.length == 0" [dismissible]="false">
-          Aucune interaction enregistrée
-        </ngb-alert>
-        <table
-          id="interactions-table"
-          class="profil-table table table-light table-hover"
-          *ngIf="interactions.length > 0"
-        >
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type d'interaction</th>
-              <th>Notifié par</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container
-              *ngFor="let interaction of interactions | slice:0:30; let i=index;"
-            >
-              <tr *ngIf="interaction.delete === true">
-                <td colspan="4" class="delete-interaction">
-                  Êtes-vous sûr de vouloir supprimer cette interaction ?
-                  <button
-                    class="btn btn-danger"
-                    (click)="deleteInteraction(interaction.id)"
-                  >
-                    Oui
-                  </button>
-                  <button
-                    class="btn btn-dark"
-                    (click)="interaction.delete = false"
-                  >
-                    Non
-                  </button>
-                </td>
-              </tr>
-              <tr
-                *ngIf="!interaction.delete"
-                [ngClass]="{ 'font-weight-bold' : interaction.type === 'courrierOut' || interaction.type === 'recommandeOut' || interaction.type === 'colisOut' }"
-              >
-                <td>
-                  {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
-                </td>
-                <td>
-                  {{ interaction.label }}
-                  <div *ngIf="interaction.content">
-                    {{ interaction.content }}
-                  </div>
-                </td>
-                <td>{{ interaction.userName }}</td>
-                <td class="interactions-actions" *ngIf="!interaction.delete">
-                  <span (click)="interaction.delete = true">
-                    <fa-icon icon="trash-alt" class="delete"></fa-icon>
-                  </span>
-                  <span *ngIf="false" (click)="interaction.delete = false">
-                    <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
-                  </span>
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
-      </ng-template>
+      <ng-template ngbPanelContent> </ng-template>
     </ngb-panel>
 
     <ngb-panel id="panel-2">
@@ -1010,15 +898,6 @@
       </div>
     </div>
   </div>
-  <div
-    class="col-md-12 my-5 text-center text-danger"
-    *ngIf="me.role === 'admin' || me.role === 'responsable'"
-  >
-    <span id="delete-usager" (click)="open(deleteConfirmation)">
-      <fa-icon icon="trash" class="mr-2"></fa-icon>
-      Supprimer le domicilié
-    </span>
-  </div>
 </div>
 
 <ng-template #renewConfirmation let-modal>
@@ -1056,38 +935,6 @@
   </div>
 </ng-template>
 
-<ng-template #deleteConfirmation let-modal>
-  <div class="modal-body text-center">
-    <b class="text-danger">Attention !</b>
-    <br />
-    <br />
-    Si vous supprimez un utilisateur, vous ne pourrez plus retrouver sa fiche !
-    <br />
-    <br />
-    <b class="text-danger">
-      <fa-icon icon="exclamation-triangle"></fa-icon>
-      Toutes les informations liées à cet usager disparaitront définitivement
-      <br />
-      - Les fichiers uploadés sur Domifa
-      <br />
-      - L'historique de la domiciliation
-      <br />
-      - L'historique des interactions
-    </b>
-    <br />
-    <br />
-    Ce dossier n'apparaitra ni dans les rapports d'activités ni dans la liste
-    des domiciliés.
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-outline-dark" (click)="closeModals()">
-      Revenir au profil
-    </button>
-    <button class="btn btn-danger" (click)="deleteUsager();">
-      Supprimer l'usager
-    </button>
-  </div>
-</ng-template>
 <ng-template #distributionConfirm let-modal>
   <div class="modal-header">
     <h4 class="modal-title">

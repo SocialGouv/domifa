@@ -171,11 +171,10 @@ export const routes: Routes = [
         (m) => m.UsagerProfilModule
       ),
   },
-
   { path: "**", redirectTo: "404" },
 ];
 @NgModule({
   exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: "legacy" })],
 })
 export class AppRoutingModule {}

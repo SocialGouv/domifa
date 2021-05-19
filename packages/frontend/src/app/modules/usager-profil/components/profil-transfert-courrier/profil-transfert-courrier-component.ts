@@ -53,18 +53,14 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     this.minDateToday = minDateToday;
   }
 
-  public isRole(role: UserRole) {
-    return this.me.role === role;
-  }
-
   public ngOnInit() {
     this.initForm();
   }
 
   public showForm() {
     this.isFormVisible = true;
-    this.transfertForm.reset(this.transfertForm.value);
     this.initForm();
+    this.transfertForm.reset(this.transfertForm.value);
   }
 
   public hideForm() {
@@ -74,6 +70,10 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
 
   get f() {
     return this.transfertForm.controls;
+  }
+
+  public isRole(role: UserRole) {
+    return this.me.role === role;
   }
 
   public initForm() {

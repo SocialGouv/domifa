@@ -22,7 +22,6 @@ describe("DeleteUsagerMenuComponent", () => {
         NgbModule,
         HttpClientModule,
         ToastrModule.forRoot(),
-
         HttpClientTestingModule,
       ],
       schemas: [NO_ERRORS_SCHEMA],
