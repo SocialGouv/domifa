@@ -24,10 +24,10 @@ function sortBy(
             asc: sortValue !== "descending",
           },
           {
-            value: usager.nom,
+            value: usager.nom?.toLowerCase(),
           },
           {
-            value: usager.prenom,
+            value: usager.prenom?.toLowerCase(),
           }
         );
       } else if (sortKey === "INSTRUCTION" || sortKey === "ATTENTE_DECISION") {
@@ -37,10 +37,10 @@ function sortBy(
             asc: sortValue !== "descending",
           },
           {
-            value: usager.nom,
+            value: usager.nom?.toLowerCase(),
           },
           {
-            value: usager.prenom,
+            value: usager.prenom?.toLowerCase(),
           }
         );
       } else if (sortKey === "VALIDE" || sortKey === "TOUS") {
@@ -50,10 +50,10 @@ function sortBy(
             asc: sortValue !== "descending",
           },
           {
-            value: usager.nom,
+            value: usager.nom?.toLowerCase(),
           },
           {
-            value: usager.prenom,
+            value: usager.prenom?.toLowerCase(),
           }
         );
       } else if (sortKey === "PASSAGE") {
@@ -63,20 +63,20 @@ function sortBy(
             asc: sortValue !== "descending",
           },
           {
-            value: usager.nom,
+            value: usager.nom?.toLowerCase(),
           },
           {
-            value: usager.prenom,
+            value: usager.prenom?.toLowerCase(),
           }
         );
       } else if (sortKey === "NAME") {
         sortAttributes.push(
           {
-            value: usager.nom,
+            value: usager.nom?.toLowerCase(),
             asc: sortValue !== "descending",
           },
           {
-            value: usager.prenom,
+            value: usager.prenom?.toLowerCase(),
           }
         );
       } else if (sortKey === "ID") {
@@ -86,14 +86,13 @@ function sortBy(
             asc: sortValue !== "descending",
           },
           {
-            value: usager.nom,
+            value: usager.nom?.toLowerCase(),
           },
           {
-            value: usager.prenom,
+            value: usager.prenom?.toLowerCase(),
           }
         );
       }
-
       return sortAttributes;
     },
   });
