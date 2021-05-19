@@ -6,4 +6,3 @@ data:
   NODE_ENV: production
   PGSSLMODE: "require"
   DOMIFA_ENV_ID: prod
-  SECRET: my_great_production_secret

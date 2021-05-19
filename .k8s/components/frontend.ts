@@ -32,7 +32,9 @@ export const getManifests = () => {
 
   const manifests = create(name, {
     env,
-    config: { subdomain },
+    config: {
+      subdomain: process.env.PRODUCTION ? `fake-${subdomain}` : subdomain,
+     },
     deployment: {
       image: getHarborImagePath({ name }),
       ...podProbes,
