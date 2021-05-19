@@ -33,6 +33,11 @@
   mask: url("../icones/moins.svg") no-repeat center;
 }
 
+.icon-danger {
+  -webkit-mask: url("../icones/danger.svg") no-repeat center;
+  mask: url("../icones/danger.svg") no-repeat center;
+}
+
 .icon-calendar {
   -webkit-mask: url("../icones/calendar.svg") no-repeat center;
   mask: url("../icones/calendar.svg") no-repeat center;

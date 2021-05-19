@@ -6,7 +6,7 @@ export const structureType = {
 };
 
 /* LIENS DE PARENTÉ */
-export const lienParente: { [key: string]: string } = {
+export const LIENS_PARENTE: { [key: string]: string } = {
   AUTRE: "Autre personne à la charge du domicilié",
   CONJOINT: "Conjoint.e",
   ENFANT: "Enfant",
@@ -14,7 +14,7 @@ export const lienParente: { [key: string]: string } = {
 };
 
 /* DÉCISIONS */
-export const decision: { [key: string]: string } = {
+export const DECISION_LABELS: { [key: string]: string } = {
   ATTENTE_DECISION: "Demande de domiciliation déposée",
   INSTRUCTION: "Instruction du dossier",
   RADIE: "Radiation",
@@ -23,7 +23,7 @@ export const decision: { [key: string]: string } = {
 };
 
 /* DÉCISIONS */
-export const decisionStats: { [key: string]: string } = {
+export const DECISION_STATUT_LABELS: { [key: string]: string } = {
   TOUS: "Tous",
   ATTENTE_DECISION: "Attente de décision",
   INSTRUCTION: "À compléter",

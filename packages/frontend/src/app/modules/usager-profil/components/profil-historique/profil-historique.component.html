@@ -4,10 +4,69 @@
   <div class="container p-0">
     <div class="page-content p-4">
       <div class="row">
-        <div class="col-md-6"><h4>Dossier</h4></div>
-        <div class="col-md-6"><h4>Courrier en attente</h4></div>
-        <div class="col-md-6"><h4>Notes internes</h4></div>
-        <div class="col-md-6"><h4>Historique des interactions</h4></div>
+        <div class="col-md-12">
+          <h4>Dossier</h4>
+
+          <table
+            *ngIf="usager.historique.length > 0"
+            class="profil-table table table-light table-hover"
+          >
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type de décision</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}</td>
+                <td>
+                  <span *ngIf="usager.decision.statut !== 'VALIDE'">
+                    {{ DECISION_LABELS[usager.decision.statut] }}
+                  </span>
+                  <span *ngIf="usager.decision.statut === 'VALIDE'">
+                    <span *ngIf="usager.typeDom === 'PREMIERE'">
+                      Première domiciliation
+                    </span>
+                    <span *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
+                      Renouvellement de domiciliation
+                    </span>
+                    du
+                    <b>
+                      {{ usager.decision.dateDebut | date: "dd/MM/yyyy" }}
+                    </b>
+                    au
+                    <b> {{ usager.decision.dateFin | date: "dd/MM/yyyy" }} </b>
+                  </span>
+                  <b *ngIf="usager.decision.statut === 'RADIE'"
+                    >- {{ usager.decision.motif }}</b
+                  >
+                </td>
+                <td>{{ usager.decision.userName }}</td>
+                <td></td>
+              </tr>
+              <tr *ngFor="let histo of usager.historique">
+                <td>{{ histo.dateDecision | date: "dd/MM/yyyy" }}</td>
+                <td>
+                  {{ DECISION_LABELS[histo.statut] }}
+                  <span *ngIf="histo.statut === 'VALIDE'">
+                    du
+                    <b> {{ histo.dateDebut | date: "dd/MM/yyyy" }} </b>
+                    au
+                    <b>{{ histo.dateFin | date: "dd/MM/yyyy" }}</b>
+                  </span>
+                  <div *ngIf="histo.statut === 'RADIE'">
+                    - {{ histo.motifString }}
+                  </div>
+                </td>
+                <td>{{ histo.userName }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

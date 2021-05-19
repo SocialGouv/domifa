@@ -22,7 +22,7 @@ import { languagesAutocomplete } from "../../../../shared";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
 import { AyantDroit } from "../../interfaces/ayant-droit";
-import * as labels from "../../usagers.labels";
+import * as labels from "../../../../shared/constants/USAGER_LABELS.const";
 import { UsagerFormModel } from "./UsagerFormModel";
 
 @Component({
@@ -67,6 +67,7 @@ export class UsagersFormComponent implements OnInit {
 
   public me: AppUser;
 
+  public LIENS_PARENTE = labels.LIENS_PARENTE;
   get f() {
     return this.usagerForm.controls;
   }

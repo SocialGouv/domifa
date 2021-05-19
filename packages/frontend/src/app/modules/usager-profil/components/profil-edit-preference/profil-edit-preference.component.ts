@@ -1,15 +1,15 @@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, Input, OnInit } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import {
   AppUser,
-  UsagerLight,
-  UsagerPreferenceContact,
   UserRole,
-} from "../../../../../../_common/model";
-import { regexp } from "../../../../../shared/validators";
-import { UsagerFormModel } from "../../form/UsagerFormModel";
-import { ToastrService } from "ngx-toastr";
-import { UsagerService } from "../../../services/usager.service";
+  UsagerPreferenceContact,
+  UsagerLight,
+} from "../../../../../_common/model";
+import { regexp } from "../../../../shared/validators";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
   selector: "app-profil-edit-preference",

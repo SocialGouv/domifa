@@ -3,6 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { DECISION_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { UsagerService } from "../../../usagers/services/usager.service";
@@ -15,6 +16,8 @@ import { UsagerService } from "../../../usagers/services/usager.service";
 export class ProfilHistoriqueComponent implements OnInit {
   public me: AppUser;
   public usager: UsagerFormModel;
+
+  public DECISION_LABELS = DECISION_LABELS;
 
   constructor(
     private authService: AuthService,

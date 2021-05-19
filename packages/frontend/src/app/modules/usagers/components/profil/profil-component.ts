@@ -37,7 +37,7 @@ import { isProcurationActifMaintenant } from "../../services";
 import { DocumentService } from "../../services/document.service";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
-import * as usagersLabels from "../../usagers.labels";
+import * as usagersLabels from "../../../../shared/constants/USAGER_LABELS.const";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 import { INTERACTIONS_IN_AVAILABLE } from "./../../../../../_common/model/interaction/INTERACTIONS_IN_AVAILABLE.const";
 
@@ -502,16 +502,6 @@ export class UsagersProfilComponent implements OnInit {
 
   public closeModal() {
     this.modalService.dismissAll();
-  }
-
-  public openEntretien() {
-    this.matomo.trackEvent(
-      "test-nouveau-profil",
-      "actions",
-      "editEntretien",
-      1
-    );
-    this.editEntretien = !this.editEntretien;
   }
 
   private getInteractions() {

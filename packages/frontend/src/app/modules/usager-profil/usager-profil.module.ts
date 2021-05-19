@@ -23,10 +23,16 @@ import { UsagersProfilTransfertCourrierComponent } from "./components/profil-tra
 import { NgbDateCustomParserFormatter } from "../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil-procuration-courrier/profil-procuration-courrier-component";
-import { ProfilHistoriqueCourriersComponent } from './components/profil-historique-courriers/profil-historique-courriers.component';
+import { ProfilHistoriqueCourriersComponent } from "./components/profil-historique-courriers/profil-historique-courriers.component";
+import { ProfilEditPreferenceComponent } from "./components/profil-edit-preference/profil-edit-preference.component";
+import { ProfilEntretienComponent } from "./components/profil-entretien/profil-entretien.component";
+import { ProfilStructureDocsComponent } from "./components/profil-structure-documents/profil-structure-docs.component.ts";
+import { ProfilEtatCivilComponent } from "./components/profil-etat-civil/profil-etat-civil.component";
+import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
 
 @NgModule({
   declarations: [
+    // Composants principaux
     ProfilOverviewComponent,
     ProfilCourriersComponent,
     ProfilHeadComponent,
@@ -36,7 +42,13 @@ import { ProfilHistoriqueCourriersComponent } from './components/profil-historiq
     UsagersProfilTransfertCourrierComponent,
     UsagersProfilProcurationCourrierComponent,
     ProfilHistoriqueCourriersComponent,
+    ProfilStructureDocsComponent,
+    ProfilEntretienComponent,
+    ProfilEditPreferenceComponent,
+    ProfilEtatCivilComponent,
+    ProfilEtatCivilFormComponent,
   ],
+  exports: [ProfilEtatCivilComponent],
   imports: [
     CommonModule,
     UsagerProfilRoutingModule,

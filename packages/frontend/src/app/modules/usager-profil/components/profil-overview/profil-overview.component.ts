@@ -6,16 +6,14 @@ import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { AppUser, UserRole, UsagerLight } from "../../../../../_common/model";
-import {
-  InteractionType,
-  INTERACTIONS_IN_AVAILABLE,
-} from "../../../../../_common/model/interaction";
+import { InteractionType } from "../../../../../_common/model/interaction";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
 import { languagesAutocomplete } from "../../../../shared";
 import {
   minDateNaissance,
   formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
+import { DECISION_STATUT_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
 import { regexp } from "../../../../shared/validators";
 import { AuthService } from "../../../shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
@@ -25,7 +23,7 @@ import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
 import { Interaction } from "../../../usagers/interfaces/interaction";
 
 import { DocumentService } from "../../../usagers/services/document.service";
-import { InteractionService } from "../../../usagers/services/interaction.service";
+
 import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
@@ -35,7 +33,7 @@ import { UsagerService } from "../../../usagers/services/usager.service";
 })
 export class ProfilOverviewComponent implements OnInit {
   // Affichage des formulaires d'édition
-  public editInfos: boolean;
+
   public editEntretien: boolean;
   public editAyantsDroits: boolean;
   public acceptInteractions: boolean;
@@ -45,8 +43,6 @@ export class ProfilOverviewComponent implements OnInit {
 
   public typeInteraction: InteractionType;
   public interactions: Interaction[];
-
-  public languagesAutocomplete = languagesAutocomplete;
 
   public interactionsLabels: {
     [key: string]: any;
@@ -81,6 +77,7 @@ export class ProfilOverviewComponent implements OnInit {
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
+  public DECISION_STATUT_LABELS = DECISION_STATUT_LABELS;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -94,10 +91,6 @@ export class ProfilOverviewComponent implements OnInit {
     private matomo: MatomoTracker,
     private documentService: DocumentService
   ) {
-    // this.motifsRadiation = usagersLabels.motifsRadiation;
-    this.editAyantsDroits = false;
-    this.editEntretien = false;
-    this.editInfos = false;
     this.submitted = false;
     this.editCustomId = false;
     this.acceptInteractions = true;
@@ -142,30 +135,7 @@ export class ProfilOverviewComponent implements OnInit {
 
     this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
-        if (
-          usager.decision.statut === "ATTENTE_DECISION" &&
-          usager.typeDom === "PREMIERE"
-        ) {
-          this.router.navigate(["/usager/" + usager.ref + "/edit"]);
-        }
-
-        // Refus : interdits pour les facteurs
-        if (usager.decision.statut === "REFUS") {
-          if (
-            this.me.role !== "admin" &&
-            this.me.role !== "responsable" &&
-            this.me.role !== "simple"
-          ) {
-            this.notifService.error(
-              "Vos droits ne vous permettent pas d'accéder à cette page"
-            );
-            this.router.navigate(["/manage"]);
-          }
-        }
-
         this.usager = new UsagerFormModel(usager);
-
-        this.initForms();
       },
       (error) => {
         this.notifService.error("Le dossier recherché n'existe pas");
@@ -184,65 +154,6 @@ export class ProfilOverviewComponent implements OnInit {
 
   get ayantsDroits() {
     return this.usagerForm.get("ayantsDroits") as FormArray;
-  }
-
-  public initForms() {
-    this.usagerForm = this.formBuilder.group({
-      ayantsDroits: this.formBuilder.array([]),
-      ayantsDroitsExist: [this.usager.ayantsDroitsExist, []],
-      customRef: [this.usager.customRef, []],
-      dateNaissance: [
-        formatDateToNgb(this.usager.dateNaissance),
-        [Validators.required],
-      ],
-      email: [this.usager.email, [Validators.email]],
-      ref: [this.usager.ref, [Validators.required]],
-      langue: [this.usager.langue, languagesAutocomplete.validator("langue")],
-      nom: [this.usager.nom, Validators.required],
-      phone: [this.usager.phone, [Validators.pattern(regexp.phone)]],
-      prenom: [this.usager.prenom, Validators.required],
-      sexe: [this.usager.sexe, Validators.required],
-      surnom: [this.usager.surnom, []],
-      villeNaissance: [this.usager.villeNaissance, [Validators.required]],
-    });
-
-    for (const ayantDroit of this.usager.ayantsDroits) {
-      this.addAyantDroit(ayantDroit);
-    }
-  }
-
-  public updateInfos() {
-    this.submitted = true;
-    if (this.usagerForm.invalid) {
-      this.notifService.error(
-        "Un des champs du formulaire n'est pas rempli ou contient une erreur"
-      );
-    } else {
-      const formValue = {
-        ...this.usagerForm.value,
-        dateNaissance: this.nbgDate.formatEn(
-          this.usagerForm.controls.dateNaissance.value
-        ),
-        etapeDemande: this.usager.etapeDemande,
-      };
-
-      this.usagerService.create(formValue).subscribe(
-        (usager: UsagerLight) => {
-          this.submitted = false;
-          this.notifService.success("Enregistrement réussi");
-          this.usager = new UsagerFormModel(usager);
-          this.editInfos = false;
-          this.editAyantsDroits = false;
-        },
-        (error) => {
-          if (error.statusCode && error.statusCode === 400) {
-            this.notifService.error(
-              "Veuillez vérifiez les champs du formulaire"
-            );
-          }
-        }
-      );
-    }
   }
 
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
@@ -316,8 +227,7 @@ export class ProfilOverviewComponent implements OnInit {
     this.documentService.getStructureDoc(this.usager.ref, docType).subscribe(
       (blob: any) => {
         const newBlob = new Blob([blob], {
-          type:
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         });
         saveAs(newBlob, docType + ".docx");
       },
@@ -327,11 +237,6 @@ export class ProfilOverviewComponent implements OnInit {
 
   public closeModal() {
     this.modalService.dismissAll();
-  }
-
-  public openEntretien() {
-    this.matomo.trackEvent("profil", "actions", "editEntretien", 1);
-    this.editEntretien = !this.editEntretien;
   }
 
   public openInteractionInModal(usager: UsagerFormModel) {

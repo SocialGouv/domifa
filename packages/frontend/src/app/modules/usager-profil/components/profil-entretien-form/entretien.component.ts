@@ -11,9 +11,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import * as labels from "src/app/modules/usagers/usagers.labels";
+import * as labels from "src/app/shared/constants/USAGER_LABELS.const";
 import { UsagerLight } from "../../../../../_common/model";
-import { Entretien } from "../../interfaces/entretien";
+import { Entretien } from "../../../usagers/interfaces/entretien";
 
 @Component({
   selector: "app-entretien",

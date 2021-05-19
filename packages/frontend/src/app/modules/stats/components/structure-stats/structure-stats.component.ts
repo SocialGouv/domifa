@@ -19,9 +19,9 @@ import { Subscription } from "rxjs";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
-import * as labels from "src/app/modules/usagers/usagers.labels";
 import { AppUser, StructureStatsFull } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
+import * as labels from "src/app/shared/constants/USAGER_LABELS.const";
 import { StatsService } from "../services/stats.service";
 @Component({
   providers: [

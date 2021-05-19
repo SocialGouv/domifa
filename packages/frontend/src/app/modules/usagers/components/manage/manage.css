@@ -172,33 +172,6 @@ button.dropdown-toggle {
   background-color: #fafafa !important;
 }
 
-.label-info {
-  border-radius: 50px;
-  padding: 3px 12px;
-  margin: 2px;
-  display: inline-block;
-}
-
-.label-info span {
-  display: block;
-  font-size: 0.8rem;
-}
-
-.label-danger {
-  background-color: #ffe5dd;
-  color: #b51515;
-}
-
-.label-green {
-  background-color: #d4f4ed;
-  color: #486346;
-}
-
-.label-yellow {
-  background-color: #feedd1;
-  color: #282828;
-}
-
 .interaction-btn span {
   display: inline-block;
   vertical-align: middle;

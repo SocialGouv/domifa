@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import * as usagersLabels from "../../../usagers.labels";
+import * as USAGERS_LABELS from "../../../../shared/constants/USAGER_LABELS.const";
+
 import { ProfilEntretienComponent } from "./profil-entretien.component";
 
 describe("ProfilEntretienComponent", () => {
@@ -21,6 +22,6 @@ describe("ProfilEntretienComponent", () => {
   });
 
   it(`labels has default value`, () => {
-    expect(component.labels).toEqual(usagersLabels);
+    expect(component.labels).toEqual(USAGERS_LABELS);
   });
 });
