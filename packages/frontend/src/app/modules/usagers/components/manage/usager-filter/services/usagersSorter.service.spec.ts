@@ -4,10 +4,10 @@ import { usagersSorter } from "./usagersSorter.service";
 const usagers = [
   {
     ref: 1,
+    customRef: "01",
     prenom: "John",
     nom: "Smith",
     email: "john21@provider1.com",
-    customRef: "001",
     ayantsDroits: [
       {
         prenom: "Sarah",
@@ -21,6 +21,7 @@ const usagers = [
   },
   {
     ref: 2,
+    customRef: "50",
     prenom: "Marie",
     nom: "Smith",
     surnom: "Maria",
@@ -37,14 +38,38 @@ const usagers = [
   },
   {
     ref: 3,
+    customRef: "8",
     prenom: "Claire",
     nom: "Meunier",
     surnom: "Clacla",
     email: "claire.meunier@vprovider2.org",
-    customRef: "003",
     ayantsDroits: [],
     decision: {
       dateFin: new Date(Date.UTC(2022, 6, 15)),
+    },
+  },
+  {
+    ref: 4,
+    customRef: "Ab6",
+    prenom: "Toto",
+    nom: "Meunier",
+    surnom: undefined,
+    email: undefined,
+    ayantsDroits: [],
+    decision: {
+      dateFin: new Date(Date.UTC(2021, 6, 15)),
+    },
+  },
+  {
+    ref: 5,
+    customRef: "AB5",
+    prenom: "Sophie",
+    nom: "meunier",
+    surnom: undefined,
+    email: undefined,
+    ayantsDroits: [],
+    decision: {
+      dateFin: new Date(Date.UTC(2021, 6, 16)),
     },
   },
 ] as UsagerLight[];
@@ -55,9 +80,7 @@ it("usagersSorter NAME (nom, prenom)", () => {
     sortValue: "ascending",
   });
   expect(results.length).toEqual(usagers.length);
-  expect(results[0].ref).toEqual(3);
-  expect(results[1].ref).toEqual(1);
-  expect(results[2].ref).toEqual(2);
+  expect(results.map((x) => x.ref)).toEqual([3, 5, 4, 1, 2]);
 });
 
 it("usagersSorter RADIE (usager.decision.dateFin)", () => {
@@ -66,7 +89,35 @@ it("usagersSorter RADIE (usager.decision.dateFin)", () => {
     sortValue: "descending",
   });
   expect(results.length).toEqual(usagers.length);
-  expect(results[0].ref).toEqual(2);
-  expect(results[1].ref).toEqual(3);
-  expect(results[2].ref).toEqual(1); // null last
+  expect(results.map((x) => x.ref)).toEqual([2, 3, 5, 4, 1]); // null last
+});
+
+it("usagersSorter customRef asc", () => {
+  const results = usagersSorter.sortBy(usagers, {
+    sortKey: "ID",
+    sortValue: "ascending",
+  });
+  expect(results.length).toEqual(usagers.length);
+  expect(results.map((x) => x.customRef)).toEqual([
+    "01",
+    "8",
+    "50",
+    "AB5",
+    "Ab6",
+  ]);
+});
+
+it("usagersSorter customRef desc", () => {
+  const results = usagersSorter.sortBy(usagers, {
+    sortKey: "ID",
+    sortValue: "descending",
+  });
+  expect(results.length).toEqual(usagers.length);
+  expect(results.map((x) => x.customRef)).toEqual([
+    "Ab6",
+    "AB5",
+    "50",
+    "8",
+    "01",
+  ]);
 });
