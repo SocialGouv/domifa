@@ -6,4 +6,5 @@ data:
   DOMIFA_ENV_ID: dev
   PGSSLMODE: "require"
   NODE_ENV: production
+  UPLOADS_FOLDER: "/mnt/files"
   DOMIFA_TYPEORM_CREATE_DATABASE: "true"
