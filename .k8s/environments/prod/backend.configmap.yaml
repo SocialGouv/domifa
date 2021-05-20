@@ -6,3 +6,4 @@ data:
   NODE_ENV: production
   PGSSLMODE: "require"
   DOMIFA_ENV_ID: prod
+  UPLOADS_FOLDER: "/mnt/files"

@@ -64,8 +64,8 @@ export const getManifests = () => {
       image: getHarborImagePath({ name }),
       container: {
         volumeMounts: [{
-          mountPath: "/mnt/resource",
-          name: "domifa-azure-volume"
+          mountPath: "/mnt/files",
+          name: "domifa-volume"
         }],
         resources: {
           requests: {
@@ -86,12 +86,16 @@ export const getManifests = () => {
 }
 
 export default () => {
+  const { env } = process
+  const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
+  const isProductionCluster = Boolean(PRODUCTION);
+  const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev2";
+  const isDev = !isProductionCluster && !isPreProduction
+  
   const manifests = getManifests()
-
   /* pass dynamic deployment URL as env var to the container */
   //@ts-expect-error
   const deployment = getManifestByKind(manifests, Deployment) as Deployment;
-
   ok(deployment);
 
   const frontendManifests = getFrontendManifests()
@@ -107,8 +111,11 @@ export default () => {
     },
   });
 
-  const volumes = [{
-    name: "domifa-azure-volume",
+  const volumes = [isDev ? {
+    name: "domifa-volume",
+    emptyDir: {}
+  } : {
+    name: "domifa-volume",
     azureFile: {
       readOnly: false,
       shareName: "domifa-resource",
