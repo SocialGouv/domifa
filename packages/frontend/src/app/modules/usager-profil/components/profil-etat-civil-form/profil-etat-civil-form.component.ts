@@ -60,7 +60,9 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     this.maxDateNaissance = formatDateToNgb(new Date());
   }
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.initForms();
+  }
 
   get f() {
     return this.usagerForm.controls;
@@ -129,6 +131,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       );
     } else {
       const usagerFormValues = this.usagerForm.value;
+
       usagerFormValues.ayantsDroits.map((ayantDroit: any) => {
         ayantDroit.dateNaissance = new Date(
           this.nbgDate.formatEn(ayantDroit.dateNaissance)

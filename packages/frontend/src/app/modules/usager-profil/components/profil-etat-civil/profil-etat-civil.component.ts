@@ -1,5 +1,4 @@
-import { OnInit } from "@angular/core";
-import { Component, Input } from "@angular/core";
+import { OnInit, Component, Input } from "@angular/core";
 import { UsagerLight } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
 
