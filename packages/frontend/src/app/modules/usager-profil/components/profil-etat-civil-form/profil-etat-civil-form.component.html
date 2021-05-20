@@ -1,5 +1,8 @@
 <form [formGroup]="usagerForm" (ngSubmit)="updateInfos()" autocomplete="off">
   <div class="row">
+    <div class="col-12">
+      <h4>État-civil</h4>
+    </div>
     <div class="col-md-4 form-group required">
       <label for="nom">Nom</label>
       <input
@@ -176,135 +179,138 @@
       </div>
     </div>
   </div>
+
   <div class="row">
-    <div class="col-md-4 offset-md-4 text-center">
-      <br />
-      <input formControlName="dateNaissance" type="hidden" />
-      <button
-        type="submit"
-        [disabled]="usagerForm.invalid"
-        class="btn btn-primary btn-block"
-      >
-        Enregistrer
-      </button>
+    <div class="col-12">
+      <h4>Ayants-droits</h4>
     </div>
   </div>
-</form>
-
-<div>
-  <form [formGroup]="usagerForm" (ngSubmit)="updateInfos()" autocomplete="off">
-    <div
-      formArrayName="ayantsDroits"
-      *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
-    >
-      <div [formGroupName]="i" class="row">
-        <div class="col form-group required">
-          <label for="nom_{{ i }}">Nom</label>
-          <input
-            id="nom_{{ i }}"
-            type="text"
-            cleanStr
-            class="form-control"
-            formControlName="nom"
-            [ngClass]="{
-              'is-invalid':
-                submitted && ayantsDroits.controls[i].get('nom').errors
-            }"
-            placeholder="Nom de l'ayant droit"
-          />
-          <div
-            *ngIf="submitted && ayantsDroits.controls[i].get('nom').errors"
-            class="invalid-feedback"
-          >
-            Le nom est obligatoire
-          </div>
+  <div
+    formArrayName="ayantsDroits"
+    *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
+  >
+    <div [formGroupName]="i" class="row">
+      <div class="col form-group required">
+        <label for="nom_{{ i }}">Nom</label>
+        <input
+          id="nom_{{ i }}"
+          type="text"
+          cleanStr
+          class="form-control"
+          formControlName="nom"
+          [ngClass]="{
+            'is-invalid':
+              submitted && ayantsDroits.controls[i].get('nom').errors
+          }"
+          placeholder="Nom de l'ayant droit"
+        />
+        <div
+          *ngIf="submitted && ayantsDroits.controls[i].get('nom').errors"
+          class="invalid-feedback"
+        >
+          Le nom est obligatoire
         </div>
-        <div class="col form-group required">
-          <label for="ad_prenom_{{ i }}">Prénom</label>
-          <input
-            type="text"
-            id="ad_prenom_{{ i }}"
-            class="form-control"
-            cleanStr
-            formControlName="prenom"
-            [ngClass]="{
-              'is-invalid':
-                submitted && ayantsDroits.controls[i].get('prenom').errors
-            }"
-            placeholder="Prénom"
-          />
-          <div
-            *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
-            class="invalid-feedback"
-          >
-            Le prénom est obligatoire
-          </div>
+      </div>
+      <div class="col form-group required">
+        <label for="ad_prenom_{{ i }}">Prénom</label>
+        <input
+          type="text"
+          id="ad_prenom_{{ i }}"
+          class="form-control"
+          cleanStr
+          formControlName="prenom"
+          [ngClass]="{
+            'is-invalid':
+              submitted && ayantsDroits.controls[i].get('prenom').errors
+          }"
+          placeholder="Prénom"
+        />
+        <div
+          *ngIf="submitted && ayantsDroits.controls[i].get('prenom').errors"
+          class="invalid-feedback"
+        >
+          Le prénom est obligatoire
         </div>
-        <div class="col form-group required">
-          <label for="dateNaissance_{{ i }}">Date de naissance</label>
+      </div>
+      <div class="col form-group required">
+        <label for="dateNaissance_{{ i }}">Date de naissance</label>
+        <div class="input-group">
           <input
             id="dateNaissance_{{ i }}"
             class="form-control"
             placeholder="jj/mm/aaaa"
+            [minDate]="minDateNaissance"
+            [maxDate]="maxDateNaissance"
+            placement="bottom"
+            formControlName="dateNaissance"
+            ngbDatepicker
             dateFr
+            value
             [ngClass]="{
               'is-invalid':
                 submitted &&
                 ayantsDroits.controls[i].get('dateNaissance').errors
             }"
-            formControlName="dateNaissance"
+            #d="ngbDatepicker"
+            maxlength="10"
+            required
           />
-          <div
-            *ngIf="
-              submitted && ayantsDroits.controls[i].get('dateNaissance').errors
-            "
-            class="invalid-feedback"
-          >
-            <div>La date de naissance est obligatoire</div>
-          </div>
-        </div>
-        <div class="col form-group required">
-          <label for="lien_{{ i }}">Lien</label>
-          <select
-            formControlName="lien"
-            id="lien_{{ i }}"
-            class="custom-select"
-          >
-            <option
-              *ngFor="let lien of LIENS_PARENTE | keyvalue"
-              [ngValue]="lien.key"
-            >
-              {{ lien.value }}
-            </option>
-          </select>
-        </div>
-        <div class="col-md-1">
-          <label for class="text-white"> c </label>
-          <div>
-            <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
-              <fa-icon icon="trash" class="mr-2"></fa-icon>
+          <div class="input-group-append">
+            <span class="btn btn-outline-primary" (click)="d.toggle()">
+              <fa-icon icon="calendar"></fa-icon>
             </span>
           </div>
         </div>
-      </div>
-    </div>
-    <span (click)="addAyantDroit()" class="btn btn-primary">
-      <fa-icon icon="plus"></fa-icon>
-      Ajouter des ayants droits
-    </span>
-    <br />
-    <br />
-    <div class="row">
-      <div class="col-md-4 offset-4">
-        <button
-          type="submit"
-          [disabled]="usagerForm.invalid"
-          class="btn btn-primary btn-block"
+        <div
+          *ngIf="
+            submitted && ayantsDroits.controls[i].get('dateNaissance').errors
+          "
+          class="invalid-feedback"
         >
-          Enregistrer
-        </button>
+          La date de naissance est obligatoire
+        </div>
+      </div>
+      <div class="col form-group required">
+        <label for="lien_{{ i }}">Lien</label>
+        <select
+          formControlName="lien"
+          id="lien_{{ i }}"
+          class="custom-select"
+          [ngClass]="{
+            'is-invalid':
+              submitted && ayantsDroits.controls[i].get('lien').errors
+          }"
+        >
+          <option
+            *ngFor="let lien of LIENS_PARENTE | keyvalue"
+            [ngValue]="lien.key"
+          >
+            {{ lien.value }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-1">
+        <label for class="text-white"> c </label>
+        <div>
+          <span (click)="deleteAyantDroit(i)" class="btn btn-danger">
+            <fa-icon icon="trash"></fa-icon>
+          </span>
+        </div>
       </div>
     </div>
-    <br />
-  </form>
-</div>
+  </div>
+  <span (click)="addAyantDroit()" class="btn btn-primary">
+    <fa-icon icon="plus"></fa-icon>
+    Ajouter des ayants droits
+  </span>
+  <br />
+  <br />
+  <div class="row">
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary btn-block">
+        Enregistrer
+      </button>
+    </div>
+  </div>
+  <br />
+</form>

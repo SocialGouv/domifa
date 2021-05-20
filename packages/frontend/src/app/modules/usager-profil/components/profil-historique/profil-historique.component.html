@@ -2,11 +2,10 @@
 
 <div class="content">
   <div class="container p-0">
-    <div class="page-content p-4">
+    <div class="page-content py-2 px-5">
       <div class="row">
         <div class="col-md-12">
-          <h4>Dossier</h4>
-
+          <h4>Historique des décisions</h4>
           <table
             *ngIf="usager.historique.length > 0"
             class="profil-table table table-light table-hover"
@@ -15,8 +14,7 @@
               <tr>
                 <th>Date</th>
                 <th>Type de décision</th>
-                <th></th>
-                <th></th>
+                <th>Responsable</th>
               </tr>
             </thead>
             <tbody>
@@ -45,7 +43,6 @@
                   >
                 </td>
                 <td>{{ usager.decision.userName }}</td>
-                <td></td>
               </tr>
               <tr *ngFor="let histo of usager.historique">
                 <td>{{ histo.dateDecision | date: "dd/MM/yyyy" }}</td>
@@ -62,7 +59,6 @@
                   </div>
                 </td>
                 <td>{{ histo.userName }}</td>
-                <td></td>
               </tr>
             </tbody>
           </table>
