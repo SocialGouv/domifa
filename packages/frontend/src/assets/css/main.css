@@ -418,8 +418,7 @@ table .active {
   color: #ffffff;
 }
 
-.danger-status .statut-signal,
-.warning-status .statut-signal {
+.statut-signal {
   border-radius: 100%;
   margin-right: 6px;
   display: inline-block;
@@ -481,4 +480,38 @@ table .active {
   margin-right: 10px;
   font-style: normal;
   font-weight: 600;
+}
+
+.label-statut {
+  border-radius: 50px;
+  padding: 4px 15px;
+  margin: 2px;
+  display: block;
+  text-align: center;
+}
+
+.label-statut span {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.red-status {
+  background-color: #ffe5dd;
+  color: #b51515;
+}
+
+.green-status {
+  background-color: #ecf9a2;
+  color: #282828;
+}
+
+.orange-status {
+  background-color: #feedd1;
+  color: #282828;
+}
+
+.grey-status {
+  background-color: #efefef;
+  color: #282828;
 }

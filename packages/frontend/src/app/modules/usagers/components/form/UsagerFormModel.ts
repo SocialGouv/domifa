@@ -1,8 +1,10 @@
+import { USAGER_DECISION_STATUT_COLORS } from "./../../../../../_common/model/usager/USAGER_DECISION_STATUT_COLORS.const";
 import {
   UsagerDoc,
   UsagerLight,
   UsagerSexe,
   UsagerTypeDom,
+  USAGER_DECISION_STATUT_LABELS,
 } from "../../../../../_common/model";
 import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction";
 import { ETAPE_ETAT_CIVIL } from "../../../../../_common/model/usager/ETAPES_DEMANDE.const";
@@ -79,7 +81,13 @@ export class UsagerFormModel implements UsagerLight {
 
   // Dates à afficher sur le manage, couleur selon le statut
   public dateToDisplay: Date;
-  public statutColor: "normal-status" | "warning-status" | "danger-status";
+
+  public echeanceColor: "" | "bg-warning" | "bg-danger";
+
+  public statusInfos: {
+    text: string;
+    color: string;
+  };
 
   constructor(
     usager?: Partial<UsagerLight>,
@@ -176,13 +184,18 @@ export class UsagerFormModel implements UsagerLight {
     this.isActif = false;
     this.dayBeforeEnd = 365;
     this.dateToDisplay = null;
-    this.statutColor = "normal-status";
+
+    this.statusInfos = {
+      text: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
+      color: USAGER_DECISION_STATUT_COLORS[usager.decision.statut],
+    };
 
     // Actuellement actif
     if (this.decision.statut === "VALIDE") {
       this.dateToDisplay = this.decision.dateFin;
       this.isActif = true;
     }
+
     // En cours de renouvellement
     if (
       this.decision.statut === "INSTRUCTION" &&
@@ -209,9 +222,9 @@ export class UsagerFormModel implements UsagerLight {
       this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
 
       if (this.dayBeforeEnd < 15) {
-        this.statutColor = "danger-status";
+        this.echeanceColor = "bg-danger";
       } else if (this.dayBeforeEnd > 15 && this.dayBeforeEnd < 60) {
-        this.statutColor = "warning-status";
+        this.echeanceColor = "bg-warning";
       }
     }
 

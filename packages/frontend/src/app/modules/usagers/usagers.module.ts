@@ -29,6 +29,7 @@ import { ImportComponent } from "./components/import/import.component";
 import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 import { ManageUsagersTableComponent } from "./components/manage/manage-usagers-table/manage-usagers-table.component";
+
 import { ManageUsagersComponent } from "./components/manage/manage.component";
 import { ProfilAyantsDroitsComponent } from "./components/profil/profil-ayants-droits/profil-ayants-droits.component";
 import { UsagersProfilComponent } from "./components/profil/profil-component";

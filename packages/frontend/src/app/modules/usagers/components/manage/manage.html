@@ -341,8 +341,12 @@
           </div>
         </div>
 
-        <app-manage-manage-usagers-table [usagers]="usagers" [filters]="filters" (updateUsager)="updateUsager($event)" (updateFilters)="updateFilters($event)" ></app-manage-manage-usagers-table>
-
+        <app-manage-manage-usagers-table
+          [usagers]="usagers"
+          [filters]="filters"
+          (updateUsager)="updateUsager($event)"
+          (updateFilters)="updateFilters($event)"
+        ></app-manage-manage-usagers-table>
       </div>
     </div>
   </div>

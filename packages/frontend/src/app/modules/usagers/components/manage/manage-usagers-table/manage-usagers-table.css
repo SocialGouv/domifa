@@ -9,16 +9,18 @@ tbody td {
   border: none;
   height: 64px;
   font-weight: 600;
-  min-width: 130px;
   font-style: normal;
-  padding: 0.4rem;
+  padding: 4px 8px;
 }
 
-tbody td:first-child {
-  padding: 10px 14px;
+.manage-usager-ref {
+  padding-left: 12px !important;
   background-color: white;
   border-radius: 2px 0 0 2px;
-  min-width: 60px;
+  min-width: 50px !important;
+  max-width: 100px;
+  font-style: normal;
+  font-weight: normal;
 }
 
 tbody td:nth-child(2) {
@@ -91,6 +93,8 @@ th {
 .label-info span {
   display: block;
   font-size: 0.8rem;
+  font-style: normal;
+  font-weight: normal;
 }
 
 .label-danger {
