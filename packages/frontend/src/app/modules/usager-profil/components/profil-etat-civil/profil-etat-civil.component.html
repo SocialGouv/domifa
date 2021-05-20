@@ -49,9 +49,6 @@
     }}</span>
     <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
   </div>
-</div>
-
-<div class="row">
   <div class="col-md-4 reponses">
     <span class="question">Identifiant personnalisé</span>
     <span class="valeur">
@@ -61,28 +58,21 @@
   <div class="col-md-8 reponses"></div>
 </div>
 
-<div class="row">
+<div class="row justify-content-start">
   <div class="col-md-12">
     <h4>Ayants-droits</h4>
-  </div>
-  <div class="col-md-12">
+
     <div class="alert alert-primary" *ngIf="usager.ayantsDroits.length === 0">
       Aucun ayant-droit enregistré
     </div>
-
-    <table *ngIf="usager.ayantsDroits.length > 0" class="table table-light">
-      <tbody>
-        <tr>
-          <th>NOM Prénom</th>
-          <th>Né le</th>
-          <th>Lien</th>
-        </tr>
-        <tr *ngFor="let ayantDroit of usager.ayantsDroits">
-          <td>{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</td>
-          <td>{{ ayantDroit.dateNaissance | date: "dd/MM/yyyy" }}</td>
-          <td>{{ ayantDroit.lien }}</td>
-        </tr>
-      </tbody>
-    </table>
+  </div>
+  <div class="col-md-4 reponses" *ngFor="let ayantDroit of usager.ayantsDroits">
+    <span class="question"
+      >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
+    >
+    <span class="valeur">
+      {{ ayantDroit.dateNaissance | date: "dd/MM/yyyy" }},
+      {{ ayantDroit.lien }}
+    </span>
   </div>
 </div>

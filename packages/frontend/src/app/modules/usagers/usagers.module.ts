@@ -28,8 +28,6 @@ import { ManageUsagersTableComponent } from "./components/manage/manage-usagers-
 
 import { ManageUsagersComponent } from "./components/manage/manage.component";
 import { ProfilHistoriqueSmsComponent } from "./components/profil-historique-sms/profil-historique-sms.component";
-import { ProfilStructureDocsComponent } from "./components/profil/profil-structure-documents/profil-structure-docs.component";
-import { UsagersProfilComponent } from "./components/profil/profil-component";
 
 import { RaftComponent } from "./components/raft/raft.component";
 import { UploadComponent } from "./components/upload/upload.component";
@@ -54,7 +52,7 @@ import { UsagerProfilModule } from "../usager-profil/usager-profil.module";
     ManageUsagersTableComponent,
     MenuComponent,
     DeleteUsagerMenuComponent,
-    UsagersProfilComponent,
+    // UsagersProfilComponent,
     ImportComponent,
     RaftComponent,
     EntretienComponent,
@@ -69,7 +67,7 @@ import { UsagerProfilModule } from "../usager-profil/usager-profil.module";
     EntretienComponent,
     DocumentsFormComponent,
     ManageUsagersComponent,
-    UsagersProfilComponent,
+
     ImportComponent,
     RaftComponent,
     DeleteUsagerMenuComponent,

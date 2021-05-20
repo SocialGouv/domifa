@@ -13,8 +13,6 @@ export class ProfilEtatCivilComponent implements OnInit {
 
   public languagesAutocomplete = languagesAutocomplete;
 
-  public ngOnInit() {
-    console.log("okopkpo");
-  }
+  public ngOnInit() {}
   constructor() {}
 }

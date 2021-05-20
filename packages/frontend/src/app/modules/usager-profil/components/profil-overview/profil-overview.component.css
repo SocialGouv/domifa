@@ -1,0 +1,28 @@
+.interaction-icon-box {
+  background: #eceffe;
+  border-radius: 5px;
+  padding: 12px;
+  text-align: center;
+}
+
+.interaction-icon {
+  height: 35px;
+  width: 35px;
+  text-align: center;
+  box-sizing: border-box;
+  background-color: #4164f5;
+  -webkit-mask-size: 80% !important;
+  mask-size: 80% !important;
+}
+
+.profil-interaction {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+
+.profil-interaction div {
+  font-size: 1.1rem;
+  align-self: center;
+}
