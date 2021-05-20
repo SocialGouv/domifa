@@ -28,7 +28,7 @@ import { RdvComponent } from "./modules/usagers/components/form/parts/rdv/rdv.co
 import { UsagersFormComponent } from "./modules/usagers/components/form/usagers-form";
 import { ImportComponent } from "./modules/usagers/components/import/import.component";
 import { ManageUsagersComponent } from "./modules/usagers/components/manage/manage.component";
-import { UsagersProfilComponent } from "./modules/usagers/components/profil/profil-component";
+
 import { RaftComponent } from "./modules/usagers/components/raft/raft.component";
 import { EditUserComponent } from "./modules/users/components/edit-user/edit-user.component";
 import { LoginComponent } from "./modules/users/components/login/login.component";
@@ -130,12 +130,6 @@ export const routes: Routes = [
     component: DecisionComponent,
     path: "usager/:id/edit/decision",
   },
-  {
-    canActivate: [AuthGuard],
-    component: UsagersProfilComponent,
-    path: "usager/:id",
-  },
-
   {
     canActivate: [AuthGuard],
     component: ManageUsagersComponent,

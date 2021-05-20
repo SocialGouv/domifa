@@ -167,7 +167,8 @@ table .active {
 }
 
 .reponses {
-  margin: 15px auto;
+  margin-bottom: 15px;
+  margin-top: 15px;
   vertical-align: middle;
 }
 

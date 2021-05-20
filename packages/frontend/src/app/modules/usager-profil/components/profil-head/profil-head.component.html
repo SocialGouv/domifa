@@ -1,7 +1,7 @@
 <div *ngIf="usager && me" class="head-page">
   <div class="container">
     <div class="row d-flex align-items-center">
-      <div class="col-6">
+      <div class="col-4">
         <span class="title" [class]="usager.statutColor">
           <a [routerLink]="['/manage']"
             ><fa-icon icon="arrow-circle-left"></fa-icon
@@ -13,7 +13,7 @@
         </span>
       </div>
 
-      <div class="col-6 text-right">
+      <div class="col-8 text-right">
         <ng-container *ngIf="usager.decision.statut === 'REFUS'">
           <button *ngIf="!isRole('facteur')" class="btn btn-white-primary mr-2">
             <fa-icon icon="redo" class="mr-2"></fa-icon>
@@ -21,25 +21,35 @@
           </button>
           <button class="btn btn-white-primary">
             <fa-icon icon="download"></fa-icon>
-            Télécharger le CERFA de refus
+            Télécharger le CERFA
           </button>
         </ng-container>
 
-        <button
-          class="btn btn-white-primary mr-2"
-          *ngIf="usager.decision.statut === 'RADIE'"
-        >
-          <fa-icon icon="redo" class="mr-2"></fa-icon>
-          Créer une nouvelle demande
-        </button>
+        <ng-container *ngIf="usager.decision.statut === 'RADIE'">
+          <button class="btn btn-white-primary mr-2">
+            <fa-icon icon="redo" class="mr-2"></fa-icon>
+            Créer une nouvelle demande
+          </button>
+        </ng-container>
 
-        <button
-          class="btn btn-white-primary"
-          *ngIf="usager.decision.statut === 'VALIDE'"
-        >
-          <fa-icon icon="plus" class="mr-2"></fa-icon>
-          Nouveau courrier
-        </button>
+        <ng-container *ngIf="usager.decision.statut === 'VALIDE'">
+          <button class="btn btn-white-primary mr-2">
+            <fa-icon icon="plus" class="mr-2"></fa-icon>
+            Nouveau courrier
+          </button>
+          <button class="btn btn-white-primary mr-2" (click)="openRenewModal()">
+            <fa-icon icon="redo" class="mr-2"></fa-icon>
+            Demande de renouvellement
+          </button>
+          <a
+            [routerLink]="['/radiation/' + usager.ref]"
+            routerLinkActive="router-link-active"
+            class="btn btn-white-primary"
+          >
+            <fa-icon icon="times" class="mr-2"></fa-icon>
+            Radier le domicilié
+          </a>
+        </ng-container>
       </div>
     </div>
 
@@ -262,4 +272,53 @@
     [(usager)]="usager"
     (cancelReception)="closeModals()"
   ></app-set-interaction-out-form>
+</ng-template>
+
+<ng-template #renewModal let-modal>
+  <div class="modal-header bg-primary">
+    <h4 class="text-white modal-title" id="modal-title">
+      Demande de renouvellement
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-describedby="modal-title"
+      (click)="closeModals()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body py-4 text-center">
+    <p
+      *ngIf="
+        usager.decision.statut !== 'RADIE' && usager.decision.statut !== 'REFUS'
+      "
+    >
+      Si vous commencez un renouvellement,
+      <br />
+      <b> ce dossier ne sera plus considéré comme "actif". </b>
+    </p>
+    <p *ngIf="usager.decision.statut === 'RADIE'">
+      Si vous commencez une nouvelle demande,
+      <br />
+      <b> ce dossier ne sera plus comptabilisé parmi les radiés. </b>
+    </p>
+    <p *ngIf="usager.decision.statut === 'REFUS'">
+      Si vous créez une nouvelle demande,
+      <br />
+      <b> ce dossier ne sera plus comptabilisé parmi les refusés. </b>
+    </p>
+    Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre "À
+    compléter"
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-outline-dark" (click)="closeModals()">
+      Revenir au profil
+    </button>
+    <button class="btn btn-primary" (click)="renouvellement()">
+      Demander un renouvellement
+    </button>
+  </div>
 </ng-template>

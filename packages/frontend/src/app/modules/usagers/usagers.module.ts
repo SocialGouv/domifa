@@ -27,7 +27,6 @@ import { ImportComponent } from "./components/import/import.component";
 import { ManageUsagersTableComponent } from "./components/manage/manage-usagers-table/manage-usagers-table.component";
 
 import { ManageUsagersComponent } from "./components/manage/manage.component";
-import { UsagersProfilComponent } from "./components/profil/profil-component";
 
 import { RaftComponent } from "./components/raft/raft.component";
 import { UploadComponent } from "./components/upload/upload.component";
@@ -53,8 +52,6 @@ import { UsagerProfilModule } from "../usager-profil/usager-profil.module";
     MenuComponent,
     DeleteUsagerMenuComponent,
 
-    UsagersProfilComponent,
-
     ImportComponent,
     RaftComponent,
     EntretienComponent,
@@ -69,7 +66,7 @@ import { UsagerProfilModule } from "../usager-profil/usager-profil.module";
     EntretienComponent,
     DocumentsFormComponent,
     ManageUsagersComponent,
-    UsagersProfilComponent,
+
     ImportComponent,
     RaftComponent,
     DeleteUsagerMenuComponent,
