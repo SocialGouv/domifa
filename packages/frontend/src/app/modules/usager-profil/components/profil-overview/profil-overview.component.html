@@ -52,8 +52,23 @@
               <b>{{ usager.lastInteraction.recommandeIn }}</b> avis de passage
             </div>
           </div>
-        </div>
+          <div class="btn btn-primary mr-2" (click)="openInteractionInModal()">
+            <span class="icon-reception list-icon"></span>
+            <span class="list-icon-label">Réception</span>
+          </div>
 
+          <div
+            *ngIf="usager.lastInteraction.enAttente"
+            class="btn btn-outline-primary"
+            (click)="openInteractionOutModal()"
+          >
+            <span class="icon-distribution list-icon"></span>
+            <span class="list-icon-label">Distribuer le courrier</span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
         <div class="col-md-6">
           <h4>Documents téléchargeables</h4>
 
@@ -79,6 +94,7 @@
     </div>
   </div>
 </div>
+
 <ng-template #setInteractionInModal let-modal>
   <app-set-interaction-in-form
     [(usager)]="usager"

@@ -239,11 +239,11 @@ export class ProfilOverviewComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  public openInteractionInModal(usager: UsagerFormModel) {
+  public openInteractionInModal() {
     this.modalService.open(this.setInteractionInModal);
   }
 
-  public openInteractionOutModal(usager: UsagerFormModel) {
+  public openInteractionOutModal() {
     this.modalService.open(this.setInteractionOutModal);
   }
 }

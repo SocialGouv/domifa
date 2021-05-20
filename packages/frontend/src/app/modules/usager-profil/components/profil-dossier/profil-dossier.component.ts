@@ -18,6 +18,7 @@ export class ProfilDossierComponent implements OnInit {
 
   public editInfos: boolean;
   public editEntretien: boolean;
+
   constructor(
     private authService: AuthService,
     private usagerService: UsagerService,
