@@ -3,7 +3,21 @@ apiVersion: v1
 metadata:
   name: backend-configmap
 data:
-  NODE_ENV: production
-  PGSSLMODE: "require"
   DOMIFA_ENV_ID: prod
+  PGSSLMODE: "require"
+  NODE_ENV: production
   UPLOADS_FOLDER: "/mnt/files"
+  DOMIFA_PRINT_CONFIG: "false"
+  DOMIFA_PRINT_ENV: "false"
+  DOMIFA_MAIL_SMTP_ID: TIPIMAIL # MAILTRAP or TIPIMAIL
+  DOMIFA_SWAGGER_ENABLE: "false"
+  DOMIFA_CRON_ENABLED: "true"
+  DOMIFA_EMAILS_ENABLE: "false"
+  DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
+  DOMIFA_SMS_ENABLED: "false"
+  DOMIFA_SMS_API_KEY: ""
+  DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: ""
+  # DOMIFA_CORS_URL:https://fake-domifa.fabrique.social.gouv.fr
+  # DOMIFA_FRONTEND_URL:https://fake-domifa.fabrique.social.gouv.fr/
+  # DOMIFA_BACKEND_URL:https://fake-domifa-api.fabrique.social.gouv.fr/
+  # DOCKER_HOST_UPLOADS_FOLDER:/mnt/files
