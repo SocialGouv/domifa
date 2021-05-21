@@ -19,7 +19,11 @@ jobs:
     - run: cp ./packages/backend/.env.backend.test.ci.example.env ./packages/backend/.env
     - run: yarn install --frozen-lockfile --prefer-offline
     - run: ./docker-compose.local.run.sh
+    - uses: jakejarvis/wait-action@master
+      with:
+        time: '30s'
     - run: docker container ls
+    - run: docker exec domifa-postgres bash -c 'pg_isready -d domifa_test -h localhost -p 5432 -U domifa_user'
     - run: _scripts/db/restore-database-docker.sh --db=test
     - run: cd packages/backend
     - run: yarn db:test:migrate-up
