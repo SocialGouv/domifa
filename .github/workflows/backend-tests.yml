@@ -15,6 +15,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: cp .env.dev.example.env .env
+    - run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
     - run: yarn install --frozen-lockfile --prefer-offline
     - run: ./docker-compose.local.run.sh
     - run: yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
