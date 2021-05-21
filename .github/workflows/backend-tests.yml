@@ -26,5 +26,5 @@ jobs:
     - run: docker exec domifa-postgres bash -c 'pg_isready -d domifa_test -h localhost -p 5432 -U domifa_user'
     - run: _scripts/db/restore-database-docker.sh --db=test
     - run: cd packages/backend
-    - run: yarn db:test:migrate-up
-    - run: yarn test --coverage --detectOpenHandles --forceExit
+    - run: yarn workspace @domifa/backend db:test:migrate-up
+    - run: yarn workspace @domifa/backend test --coverage --detectOpenHandles --forceExit
