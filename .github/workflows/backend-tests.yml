@@ -19,7 +19,7 @@ jobs:
     - run: cp ./packages/backend/.env.backend.test.ci.example.env ./packages/backend/.env
     - run: yarn install --frozen-lockfile --prefer-offline
     - run: ./docker-compose.local.run.sh
-    - uses: jakejarvis/wait-action@master
-      with:
-        time: '30s'
-    - run: yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
+    - run: _scripts/db/restore-database-docker.sh --db=test
+    - run: cd packages/backend
+    - run: yarn db:test:migrate-up
+    - run: yarn test --coverage --detectOpenHandles --forceExit
