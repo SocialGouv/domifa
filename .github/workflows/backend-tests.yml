@@ -14,8 +14,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - uses: c-hive/gha-yarn-cache@v1
     - run: cp .env.dev.example.env .env
-    - run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
+    - run: cp ./packages/backend/.env.backend.test.ci.example.env ./packages/backend/.env
     - run: yarn install --frozen-lockfile --prefer-offline
     - run: ./docker-compose.local.run.sh
     - run: yarn workspace @domifa/backend test:ci --coverage --detectOpenHandles --forceExit
