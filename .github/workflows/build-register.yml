@@ -72,14 +72,23 @@ jobs:
         name: backend-dist
         path: packages/backend/dist
 
+    - uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+        password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
+
     - name: Image build and register
       uses: docker/build-push-action@v2
       with:
-        registry: ghcr.io
-        tags: ${{ github.sha }}
-        repository: socialgouv/domifa
-        username: ${{ secrets.SOCIALGROOVYBOT_NAME }}
-        password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
+        context: .
+        file: packages/backend/Dockerfile
+        tags: socialgouv/domifa:${{ github.sha }}
+        # registry: ghcr.io
+        # tags: ${{ github.sha }}
+        # repository: socialgouv/domifa
+        # username: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+        # password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
 
     # - name: Image build and register
     #   uses: docker://ghcr.io/salt-labs/action-kaniko:latest
@@ -125,11 +134,10 @@ jobs:
         password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
     - uses: docker/build-push-action@v2
       with:
-        builder: ${{ steps.buildx.outputs.name }}
         context: .
         file: packages/frontend/Dockerfile
-        tags: ${{ steps.prep.outputs.tags }}
-        push: true
+        tags: socialgouv/domifa:${{ github.sha }}
+        builder: ${{ steps.buildx.outputs.name }}
         platforms: linux/amd64,linux/arm64,linux/386
         secrets: |
           GIT_AUTH_TOKEN=${{ github.token }}
