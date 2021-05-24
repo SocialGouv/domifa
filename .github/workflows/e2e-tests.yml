@@ -48,9 +48,9 @@ jobs:
         curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
         curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
         curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-        curl http://localhost:3000/healthz
         curl http://localhost:4200/connexion
+        curl http://localhost:3000/healthz
         curl http://localhost:4200
         curl --fail http://localhost:3000/healthz
-        tail -100 ${CI_PROJECT_DIR}/frontend.log
-        tail -100 ${CI_PROJECT_DIR}/backend.log
+        tail -100 frontend.log
+        tail -100 backend.log
