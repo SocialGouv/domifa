@@ -29,8 +29,8 @@
           class="btn"
           [disabled]="interactionFormData.courrierOut.nbCourrier === 0"
           (click)="
-            interactionFormData.courrierOut.selected = !interactionFormData
-              .courrierOut.selected
+            interactionFormData.courrierOut.selected =
+              !interactionFormData.courrierOut.selected
           "
           [ngClass]="
             interactionFormData.courrierOut.selected
@@ -63,8 +63,8 @@
           class="btn"
           [disabled]="interactionFormData.colisOut.nbCourrier === 0"
           (click)="
-            interactionFormData.colisOut.selected = !interactionFormData
-              .colisOut.selected
+            interactionFormData.colisOut.selected =
+              !interactionFormData.colisOut.selected
           "
           [ngClass]="
             interactionFormData.colisOut.selected
@@ -96,8 +96,8 @@
         <button
           class="btn action-selected"
           (click)="
-            interactionFormData.recommandeOut.selected = !interactionFormData
-              .recommandeOut.selected
+            interactionFormData.recommandeOut.selected =
+              !interactionFormData.recommandeOut.selected
           "
           [disabled]="interactionFormData.recommandeOut.nbCourrier === 0"
           [ngClass]="
@@ -141,8 +141,7 @@
         <div class="interaction-icon-box">
           <div class="font-weight-bold">Domicilié</div>
           <div class="mb-3">
-            {{ usager.options.procuration.nom | uppercase }}
-            {{ usager.options.procuration.prenom }}
+            {{ usager.nom | uppercase }} {{ usager.prenom }}
           </div>
         </div>
         <div class="interaction-actions">
