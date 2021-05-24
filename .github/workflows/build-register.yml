@@ -47,19 +47,16 @@ jobs:
       uses: c-hive/gha-yarn-cache@v1
 
     - name: Install front-end dependencies
-      # run: yarn --cwd packages/frontend install --frozen-lockfile --prefer-offline
-      run: yarn workspace @domifa/backend install --frozen-lockfile --prefer-offline
+      run: yarn --cwd packages/frontend install --frozen-lockfile --prefer-offline
 
     - name: Build front-end
-      # run: yarn --cwd packages/frontend build
-      run: yarn workspace @domifa/backend build
+      run: yarn --cwd packages/frontend build
 
     - name: Archive front-end build
       uses: actions/upload-artifact@v2
       with:
         name: frontend-dist
-        # path: packages/frontend/dist
-        path: packages/backend/dist
+        path: packages/frontend/dist
 
   register-backend:
     runs-on: ubuntu-latest
@@ -100,7 +97,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: frontend-dist
-        path: packages/backend/dist
+        path: packages/frontend/dist
 
     - name: Image build and register
       uses: aevea/action-kaniko@master
@@ -113,7 +110,7 @@ jobs:
         username: ${{ secrets.SOCIALGROOVYBOT_NAME }}
         password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
         extra_args: >-
-          --dockerfile=packages/backend/Dockerfile
+          --dockerfile=packages/frontend/Dockerfile
 
     # - name: Image build and register
     #   uses: aevea/action-kaniko@master
