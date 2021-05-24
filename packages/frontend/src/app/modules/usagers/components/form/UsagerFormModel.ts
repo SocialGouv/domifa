@@ -186,8 +186,8 @@ export class UsagerFormModel implements UsagerLight {
     this.dateToDisplay = null;
 
     this.statusInfos = {
-      text: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
-      color: USAGER_DECISION_STATUT_COLORS[usager.decision.statut],
+      text: USAGER_DECISION_STATUT_LABELS[this.decision.statut],
+      color: USAGER_DECISION_STATUT_COLORS[this.decision.statut],
     };
 
     // Actuellement actif
