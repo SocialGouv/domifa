@@ -1,6 +1,8 @@
 <table class="table" *ngIf="usagers.length !== 0" id="table-usagers">
   <thead>
     <th *ngIf="filters.statut==='TOUS'">STATUT</th>
+    <th *ngIf="filters.statut === 'ATTENTE_DECISION'">Type de demande</th>
+
     <th
       (click)="updateFilter.emit({
       element: 'sortKey',
@@ -34,9 +36,25 @@
           <span>{{usager.statusInfos.text }}</span>
         </div>
       </td>
+
+      <td *ngIf="filters.statut ==='ATTENTE_DECISION'">
+        <div
+          *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+          class="label-statut orange-status"
+        >
+          <span>Renouvellement</span>
+        </div>
+
+        <div
+          *ngIf="usager.typeDom === 'PREMIERE'"
+          class="label-statut grey-status"
+        >
+          <span>Première demande</span>
+        </div>
+      </td>
       <td (click)="goToProfil(usager)" class="text-primary manage-usager-ref">
-        <span *ngIf="usager.customRef">#{{ usager.customRef }}</span>
-        <span *ngIf="!usager.customRef ">#{{ usager.ref }}</span>
+        <span *ngIf="usager.customRef">{{ usager.customRef }}</span>
+        <span *ngIf="!usager.customRef ">{{ usager.ref }}</span>
       </td>
 
       <td (click)="goToProfil(usager)" scope="row" class="table-name td-name">
@@ -200,7 +218,7 @@
 <ng-template #setInteractionInModal let-modal>
   <app-set-interaction-in-form
     [(usager)]="selectedUsager"
-    (usagerChange)="updateUsager.next($event)"
+    (usagerChange)="updateUsager.emit($event)"
     (cancelReception)="cancelReception()"
   ></app-set-interaction-in-form>
 </ng-template>
@@ -208,7 +226,7 @@
 <ng-template #setInteractionOutModal let-modal>
   <app-set-interaction-out-form
     [(usager)]="selectedUsager"
-    (usagerChange)="updateUsager.next($event)"
+    (usagerChange)="updateUsager.emit($event)"
     (cancelReception)="cancelReception()"
   ></app-set-interaction-out-form>
 </ng-template>
