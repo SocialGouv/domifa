@@ -1,6 +1,9 @@
 name: Build and Register
 
-on: [pull_request]
+on:
+  push:
+    branches: [master, alpha, beta, next]
+  pull_request:
 
 jobs:
 
@@ -10,6 +13,8 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Set up Node.js v14
       uses: actions/setup-node@v2
@@ -37,6 +42,8 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Set up Node.js v14
       uses: actions/setup-node@v2
@@ -65,6 +72,8 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Download backend build
       uses: actions/download-artifact@v2
@@ -120,6 +129,8 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Download front-end build
       uses: actions/download-artifact@v2

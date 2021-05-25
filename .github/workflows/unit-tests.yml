@@ -11,21 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    # - name: Checkout repository
-    #   uses: actions/checkout@v2
-    - name: Checkout
+    - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0
-        persist-credentials: false
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Set up Node.js v14
       uses: actions/setup-node@v2
       with:
         node-version: '14'
 
-    # - name: Set up Yarn cache
-    #   uses: c-hive/gha-yarn-cache@v1
+    - name: Set up Yarn cache
+      uses: c-hive/gha-yarn-cache@v1
 
     - name: Create backend .env file
       run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
@@ -60,6 +57,8 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Set up Node.js v14
       uses: actions/setup-node@v2
@@ -86,8 +85,11 @@ jobs:
     runs-on: ubuntu-18.04
     needs: [backend, front-end]
     steps:
+
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Download backend coverage
         uses: actions/download-artifact@v2
