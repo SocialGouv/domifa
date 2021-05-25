@@ -1,9 +1,10 @@
 const envPath = require("path").join(process.cwd(), ".env");
 require("dotenv").config({ path: envPath });
 
-console.log(process.env.PUPPETEER_CHROME_HEADLESS);
-console.log(process.env.CHROME_PATH);
-console.log(process.env.PUPPETEER_CHROME_ARGS);
+console.log("PUPPETEER_CHROME_HEADLESS:", process.env.PUPPETEER_CHROME_HEADLESS);
+console.log("CHROME_PATH:", process.env.CHROME_PATH);
+console.log("PUPPETEER_CHROME_ARGS:", process.env.PUPPETEER_CHROME_ARGS);
+
 exports.config = {
   output: "./output",
   helpers: {

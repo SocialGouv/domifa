@@ -8,10 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Debug
-      run: |
-        echo ${{ github.event.deployment_status }}
-
     - name: Checkout repository
       uses: actions/checkout@v2
 

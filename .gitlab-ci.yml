@@ -435,6 +435,7 @@ Seed:
   #     # Don't run when deploying in production or releasing
   #     - $PRODUCTION
   #     - $RELEASE
+  retry: 2
   rules:
     - if: "$RELEASE"
       when: never
