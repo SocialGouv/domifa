@@ -70,9 +70,8 @@ export type DomifaConfig = {
       autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_CONSUMER_AUTO_RUN_STARTUP
     };
     smsConsumer: {
-      enableSendImmadiately: boolean; // DOMIFA_CRON_EMAIL_SEND_IMMEDIATELY
       crontime: string; // DOMIFA_CRON_SMS_CONSUMER_CRONTIME
-      autoRunOnStartup: boolean; // DOMIFA_CRON_EMAIL_CONSUMER_AUTO_RUN_STARTUP
+      autoRunOnStartup: boolean; // DOMIFA_CRON_SMS_CONSUMER_AUTO_RUN_STARTUP
     };
     monitoringCleaner: {
       crontime: string; // DOMIFA_CRON_MONITORING_CLEANER_CRONTIME

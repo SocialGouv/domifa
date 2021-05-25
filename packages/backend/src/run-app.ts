@@ -4,9 +4,10 @@ import { appTypeormManager } from "./database";
 import { MonitoringCleaner } from "./database/services/monitoring/MonitoringCleaner.service";
 import {
   CronMailImportGuideSenderService,
-  CronMailUserGuideSenderService
+  CronMailUserGuideSenderService,
 } from "./mails/services";
 import { messageEmailConsummerTrigger } from "./mails/services/_core";
+import { CronSmsInteractionSenderService } from "./sms/services/cron-sms-interaction-sender.service";
 import { StatsGeneratorService } from "./stats/services/stats-generator.service";
 import { appLogger } from "./util";
 
@@ -16,7 +17,7 @@ import { appLogger } from "./util";
   try {
     const { app, postgresTypeormConnection } = await bootstrapApplication();
     try {
-      if(domifaConfig().typeorm.runOnStartup){
+      if (domifaConfig().typeorm.runOnStartup) {
         await appTypeormManager.migrateUp(postgresTypeormConnection);
       }
       // in local env, run cron on app startup (non blocking)
@@ -51,16 +52,14 @@ async function runCronJobs(app) {
     await statsGeneratorService.generateStats("startup");
   }
   if (domifaConfig().cron.emailUserGuide.autoRunOnStartup) {
-    const cronMailUserGuideSenderService: CronMailUserGuideSenderService = app.get(
-      CronMailUserGuideSenderService
-    );
+    const cronMailUserGuideSenderService: CronMailUserGuideSenderService =
+      app.get(CronMailUserGuideSenderService);
     await cronMailUserGuideSenderService.sendMailGuides("startup");
   }
 
   if (domifaConfig().cron.emailImportGuide.autoRunOnStartup) {
-    const cronMailImportGuideSenderService: CronMailImportGuideSenderService = app.get(
-      CronMailImportGuideSenderService
-    );
+    const cronMailImportGuideSenderService: CronMailImportGuideSenderService =
+      app.get(CronMailImportGuideSenderService);
     await cronMailImportGuideSenderService.sendMailImports("startup");
   }
 
@@ -70,5 +69,11 @@ async function runCronJobs(app) {
   if (domifaConfig().cron.monitoringCleaner.autoRunOnStartup) {
     const monitoringCleaner: MonitoringCleaner = app.get(MonitoringCleaner);
     await monitoringCleaner.purgeObsoleteData("startup");
+  }
+  if (domifaConfig().cron.smsConsumer.autoRunOnStartup) {
+    const cronSmsInteractionSenderService = await app.get(
+      CronSmsInteractionSenderService
+    );
+    cronSmsInteractionSenderService.sendSmsImports("startup");
   }
 }
