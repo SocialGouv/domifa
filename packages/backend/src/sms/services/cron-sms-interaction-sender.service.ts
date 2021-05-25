@@ -1,7 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-import { AxiosError } from "axios";
-
 import { domifaConfig } from "../../config";
 import {
   monitoringBatchProcessSimpleCountRunner,
@@ -39,19 +37,15 @@ export class CronSmsInteractionSenderService {
         monitorTotal(messageSmsList.length);
 
         for (const messageSms of messageSmsList) {
-          this.messageSmsSenderService.sendSms(messageSms).subscribe(
-            () => {
-              monitorSuccess();
-            },
-            (error: AxiosError) => {
-              appLogger.warn(
-                `[CronSms] ERROR in sending SMS : ${error?.message}`,
-                {
-                  sentryBreadcrumb: true,
-                }
-              );
-            }
-          );
+          try {
+            await this.messageSmsSenderService.sendSms(messageSms);
+            monitorSuccess();
+          } catch (err) {
+            monitorError(err);
+            appLogger.warn(`[CronSms] ERROR in sending SMS : ${err?.message}`, {
+              sentryBreadcrumb: true,
+            });
+          }
         }
       }
     );

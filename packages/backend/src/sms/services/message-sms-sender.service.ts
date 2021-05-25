@@ -1,13 +1,10 @@
-import { Observable, throwError } from "rxjs";
 import { HttpService, Injectable } from "@nestjs/common";
-import { AxiosError, AxiosResponse } from "axios";
-import { catchError, map } from "rxjs/operators";
+import { AxiosError } from "axios";
 import { Repository } from "typeorm";
 import { domifaConfig } from "../../config";
 import { appTypeormManager } from "../../database";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { messageSmsRepository } from "../../database/services/message-sms";
-
 import {
   MessageSms,
   MessageSmsSendResponse,
@@ -23,7 +20,7 @@ export class MessageSmsSenderService {
       appTypeormManager.getRepository(MessageSmsTable);
   }
 
-  public sendSms(message: MessageSms): Observable<any> {
+  public async sendSms(message: MessageSms): Promise<MessageSms> {
     const options: {
       key: string;
       message: string;
@@ -47,32 +44,40 @@ export class MessageSmsSenderService {
       "&expediteur=" +
       encodeURIComponent(options.expediteur);
 
-    return this.httpService.get(endPoint).pipe(
-      map((response: AxiosResponse) => {
-        const responseContent: MessageSmsSendResponse = response.data;
-        const updateSms: Partial<MessageSms> = {
-          status: "ON_HOLD",
-          sendDate: new Date(),
-          lastUpdate: new Date(),
-        };
+    const updateSms: Partial<MessageSms> = {
+      lastUpdate: new Date(),
+      errorCount: message.errorCount,
+    };
 
-        if (responseContent.resultat === 1) {
-          updateSms.responseId = responseContent.id;
-        } else {
-          updateSms.status = "FAILURE";
-          updateSms.errorMessage =
-            MESSAGE_SMS_RESPONSE_ERRORS[responseContent.erreurs];
-          updateSms.errorCount = 1;
-        }
-        return messageSmsRepository.updateOne(
-          { uuid: message.uuid },
-          updateSms
-        );
-      }),
-      catchError((err: AxiosError) => {
-        return throwError(err);
-      })
+    try {
+      const response = await this.httpService.get(endPoint).toPromise();
+      const responseContent: MessageSmsSendResponse = response.data;
+      if (responseContent.resultat === 1) {
+        updateSms.responseId = responseContent.id;
+        updateSms.status = "ON_HOLD";
+        updateSms.sendDate = new Date();
+      } else {
+        updateSms.status = "FAILURE";
+        updateSms.errorCount++;
+        updateSms.errorMessage =
+          MESSAGE_SMS_RESPONSE_ERRORS[responseContent.erreurs];
+      }
+    } catch (err) {
+      updateSms.status = "FAILURE";
+      updateSms.errorCount++;
+      updateSms.errorMessage = (err as AxiosError)?.message;
+    }
+
+    const messageSms = await messageSmsRepository.updateOne(
+      { uuid: message.uuid },
+      updateSms
     );
+
+    if (updateSms.status === "FAILURE") {
+      throw new Error(`Sms error: ${updateSms.errorMessage}`);
+    }
+
+    return messageSms;
   }
 
   public disableAllSmsToSend() {

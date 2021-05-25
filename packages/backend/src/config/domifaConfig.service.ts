@@ -302,7 +302,11 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: CronExpression.EVERY_DAY_AT_7PM,
           }
         ),
-        autoRunOnStartup: false,
+        autoRunOnStartup: configParser.parseBoolean(
+          x,
+          "DOMIFA_CRON_SMS_CONSUMER_AUTO_RUN_STARTUP",
+          { defaultValue: false }
+        ),
       },
       monitoringCleaner: {
         crontime: configParser.parseString(
