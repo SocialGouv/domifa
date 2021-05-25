@@ -176,4 +176,4 @@ jobs:
     - name: Trigger deployment
       uses: wei/curl@v1
       with:
-        args: -X POST -F token=${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }} -F ref=${{ github.ref}} -F "variables[DEPLOY]=true" https://gitlab.factory.social.gouv.fr/api/v4/projects/domifa/trigger/pipeline
+        args: -X POST -F token=${{ secrets.GITLAB_DOMIFA_API_TOKEN }} -F ref=${{ github.ref}} -F "variables[DEPLOY]=true" https://gitlab.factory.social.gouv.fr/api/v4/projects/domifa/trigger/pipeline
