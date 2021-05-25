@@ -37,7 +37,9 @@ export const getDateToDisplay = (
       usager.decision.statut === "RADIE" ||
       usager.decision.statut === "REFUS"
     ) {
-      usagerInfos.dateToDisplay = new Date(usager.decision.dateFin);
+      usagerInfos.dateToDisplay = usager.decision.dateFin
+        ? new Date(usager.decision.dateFin)
+        : new Date(usager.decision.dateDebut);
     } else {
       usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
     }
