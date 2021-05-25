@@ -36,6 +36,10 @@ export const getManifests = () => {
   const probesPath = "/healthz"
   const subdomain = "domifa-api"
 
+  const tag = process.env.CI_COMMIT_TAG
+    ? process.env.CI_COMMIT_TAG.slice(1)
+    : process.env.CI_COMMIT_SHA;
+
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
       ...probes,
@@ -61,7 +65,8 @@ export const getManifests = () => {
       subDomainPrefix: process.env.PRODUCTION ? `fake-` : `${subdomain}-`,
     },
     deployment: {
-      image: getHarborImagePath({ name }),
+      // image: getHarborImagePath({ name }),
+      image: `ghcr.io/socialgouv/domifa:${tag}`,
       container: {
         volumeMounts: [{
           mountPath: "/mnt/files",
