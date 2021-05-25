@@ -66,7 +66,7 @@ export const getManifests = () => {
     },
     deployment: {
       // image: getHarborImagePath({ name }),
-      image: `ghcr.io/socialgouv/domifa:${tag}`,
+      image: `ghcr.io/socialgouv/domifa/backend:${tag}`,
       container: {
         volumeMounts: [{
           mountPath: "/mnt/files",
