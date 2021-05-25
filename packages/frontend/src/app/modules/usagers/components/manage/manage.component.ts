@@ -1,3 +1,4 @@
+import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import {
   Component,
@@ -8,8 +9,6 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import {
@@ -34,7 +33,6 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
-import { InteractionService } from "../../services/interaction.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 import {
   UsagersByStatus,
@@ -65,7 +63,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public allUsagers$ = new BehaviorSubject<UsagerLight[]>([]);
   public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
   public allUsagersByStatus: UsagersByStatus;
-  public usagers: UsagerFormModel[] = [];
+  public usagers: UsagerLight[] = [];
   public me: AppUser;
 
   public labelsDateFin: { [key in UsagersFilterCriteriaStatut]: string } = {
@@ -100,6 +98,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public sortLabels: { [key: string]: string } = {
     NAME: "nom",
     ATTENTE_DECISION: "demande effectuée le",
+    ECHEANCE: "Échéance",
     INSTRUCTION: "dossier débuté le",
     RADIE: "radié le ",
     REFUS: "date de refus",
@@ -115,10 +114,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   constructor(
     private usagerService: UsagerService,
-    private interactionService: InteractionService,
     private authService: AuthService,
-    private modalService: NgbModal,
-    private router: Router,
     private notifService: ToastrService,
     private titleService: Title,
     private matomo: MatomoTracker
@@ -169,7 +165,11 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (allUsagers: UsagerLight[]) => {
-          this.allUsagers$.next(allUsagers);
+          const usagers = allUsagers.map((usager) => {
+            usager.dateToDisplay = getDateToDisplay(usager).dateToDisplay;
+            return usager;
+          });
+          this.allUsagers$.next(usagers);
         },
         () => {
           this.notifService.error("Une erreur a eu lieu lors de la recherche");

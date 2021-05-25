@@ -65,10 +65,23 @@ function sortBy(
               value: usager.prenom?.toLowerCase(),
             }
           );
+        } else if (sortKey === "ECHEANCE") {
+          sortAttributes.push(
+            {
+              value: usager.dateToDisplay,
+              asc,
+            },
+            {
+              value: usager.nom?.toLowerCase(),
+            },
+            {
+              value: usager.prenom?.toLowerCase(),
+            }
+          );
         } else if (sortKey === "PASSAGE") {
           sortAttributes.push(
             {
-              value: usager.lastInteraction?.dateInteraction,
+              value: usager.lastInteraction.dateInteraction,
               asc,
             },
             {

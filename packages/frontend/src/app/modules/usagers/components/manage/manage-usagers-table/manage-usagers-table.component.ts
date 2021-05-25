@@ -35,12 +35,20 @@ import {
   templateUrl: "./manage-usagers-table.html",
 })
 export class ManageUsagersTableComponent implements OnInit {
-  @Input() public me: AppUser;
-  @Input() public usagers: UsagerFormModel[];
-  @Input() public filters: UsagersFilterCriteria;
+  @Input()
+  public me: AppUser;
 
-  @Output() public updateUsager = new EventEmitter<UsagerLight>();
-  @Output() public updateFilter = new EventEmitter<{
+  @Input()
+  public usagers: UsagerFormModel[];
+
+  @Input()
+  public filters: UsagersFilterCriteria;
+
+  @Output()
+  public updateUsager = new EventEmitter<UsagerLight>();
+
+  @Output()
+  public updateFilters = new EventEmitter<{
     element: keyof UsagersFilterCriteria;
     value: UsagersFilterCriteria[keyof UsagersFilterCriteria] | null;
     sortValue?: UsagersFilterCriteriaSortValues;
@@ -130,7 +138,7 @@ export class ManageUsagersTableComponent implements OnInit {
     }
   }
 
-  public setAppelOuPassage(
+  public setSingleInteraction(
     usager: UsagerFormModel,
     type: InteractionType
   ): void {
@@ -143,6 +151,7 @@ export class ManageUsagersTableComponent implements OnInit {
       (newUsager: UsagerLight) => {
         usager = new UsagerFormModel(newUsager);
         this.updateUsager.emit(usager);
+
         this.notifService.success(interactionsLabels[type]);
       },
       (error) => {

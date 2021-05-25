@@ -11,6 +11,7 @@ export * from "./UsagerRaisonDemande.type";
 export * from "./UsagerRdv.type";
 export * from "./UsagerSexe.type";
 export * from "./UsagerAyantDroit.type";
+
 export * from "./UsagerTypeDom.type";
 export * from "./USAGER_DECISION_STATUT_COLORS.const";
 export * from "./USAGER_DECISION_STATUT_LABELS.const";

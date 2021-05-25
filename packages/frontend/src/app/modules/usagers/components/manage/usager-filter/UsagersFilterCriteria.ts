@@ -19,6 +19,7 @@ export type UsagersFilterCriteriaSortKey =
   | "RENOUVELLEMENT" // from UsagersFilterCriteriaStatut => TODO @toub apparemment pas géré dans le traitement de tri
   | "PASSAGE"
   | "NAME"
+  | "ECHEANCE"
   | "ID";
 
 export type UsagersFilterCriteriaEcheance =
