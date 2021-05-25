@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
@@ -54,6 +54,11 @@ export class ManageUsagersTableComponent implements OnInit {
     sortValue?: UsagersFilterCriteriaSortValues;
   }>();
 
+  public modalOptions: NgbModalOptions = {
+    backdrop: "static",
+    keyboard: false,
+  };
+
   public today: Date;
 
   public labelsDateFin: { [key in UsagersFilterCriteriaStatut]: string } = {
@@ -75,14 +80,11 @@ export class ManageUsagersTableComponent implements OnInit {
 
   public selectedUsager: UsagerFormModel;
 
-  @ViewChild("setInteractionInModal", { static: true })
+  @ViewChild("setInteractionInModal")
   public setInteractionInModal!: TemplateRef<any>;
 
-  @ViewChild("setInteractionOutModal", { static: true })
+  @ViewChild("setInteractionOutModal")
   public setInteractionOutModal!: TemplateRef<any>;
-
-  @ViewChild("distributionBox", { static: true })
-  public distributionBox: ElementRef;
 
   constructor(
     private interactionService: InteractionService,
@@ -162,12 +164,12 @@ export class ManageUsagersTableComponent implements OnInit {
 
   public openInteractionInModal(usager: UsagerFormModel) {
     this.selectedUsager = usager;
-    this.modalService.open(this.setInteractionInModal);
+    this.modalService.open(this.setInteractionInModal, this.modalOptions);
   }
 
   public openInteractionOutModal(usager: UsagerFormModel) {
     this.selectedUsager = usager;
-    this.modalService.open(this.setInteractionOutModal);
+    this.modalService.open(this.setInteractionOutModal, this.modalOptions);
   }
   public cancelReception() {
     this.modalService.dismissAll();
