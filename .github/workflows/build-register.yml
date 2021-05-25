@@ -10,9 +10,10 @@ jobs:
 
     - name: debug
       run: |
-        echo ${{github.ref}}
-        echo ${{github.base_ref}}
-        echo ${{github.head_ref}}
+        echo "GITHUB_SHA: ${{github.sha}}"
+        echo "GITHUB_REF: ${{github.ref}}"
+        echo "GITHUB_BASE_REF: ${{github.base_ref}}"
+        echo "GITHUB_HEAD_REF: ${{github.head_ref}}"
 
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -68,6 +69,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-backend
     steps:
+
+    - name: debug
+      run: |
+        echo "GITHUB_SHA: ${{github.sha}}"
+        echo "GITHUB_REF: ${{github.ref}}"
+        echo "GITHUB_BASE_REF: ${{github.base_ref}}"
+        echo "GITHUB_HEAD_REF: ${{github.head_ref}}"
 
     - name: Checkout repository
       uses: actions/checkout@v2
