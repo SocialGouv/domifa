@@ -3,7 +3,7 @@
 <div id="page">
   <router-outlet></router-outlet>
 </div>
-<div class="not-print" id="help-button-wrapper">
+<div class="not-print" id="help-button-wrapper" *ngIf="me">
   <button id="help-button" (click)="openModal(helpCenter)">
     <fa-icon icon="question"></fa-icon>
   </button>
@@ -161,70 +161,93 @@
   </div>
 </ng-template>
 
-<footer class="not-print page-footer">
-  <div>
-    <img
-      src="../assets/images/logoministere.svg"
-      alt="Logo Domifa"
-      title="Logo Domifa"
-    />
-    <br />
-    <span class="small">© 2020 Fabrique des Ministères Sociaux</span>
-    <br />
-  </div>
-  <div>
-    <a
-      [routerLink]="['/news']"
-      routerLinkActive="router-link-active"
-      title="Nouveautés"
-    >
-      Nouveautés
-    </a>
-  </div>
-  <div>
-    <a
-      [routerLink]="['/faq']"
-      routerLinkActive="router-link-active"
-      title="FAQ"
-    >
-      FAQ
-    </a>
-  </div>
-  <div>
-    <a
-      [routerLink]="['/cgu']"
-      routerLinkActive="router-link-active"
-      title="Conditions d'utilisation"
-    >
-      Conditions d'utilisation
-    </a>
-  </div>
-  <div>
-    <a
-      [routerLink]="['/mentions-legales']"
-      routerLinkActive="router-link-active"
-    >
-      Mentions légales
-    </a>
-  </div>
-  <div>
-    <a
-      [routerLink]="['/confidentialite']"
-      routerLinkActive="router-link-active"
-    >
-      Politique de confidentialité
-    </a>
-  </div>
-  <div>
-    <a
-      href="https://voxusagers.numerique.gouv.fr/Demarches/2495?&view-mode=formulaire-avis&nd_mode=en-ligne-enti%C3%A8rement&nd_source=button&key=7b9d610111ea41e1af555b1343146d12"
-    >
-      <img
-        src="https://voxusagers.numerique.gouv.fr/static/bouton-blanc.svg"
-        alt="Je donne mon avis"
-        title="Je donne mon avis sur cette démarche"
-      />
-    </a>
+<footer class="not-print page-footer my-5 py-5">
+  <div class="container w-95">
+
+    <div class="my-5 d-flex flex-column justify-content-between flex-sm-row">
+      <a class="mr-5" [routerLink]="['/']">
+        <img class="ministere-logo"
+          src="../assets/images/logo_ministere-des-solidarites-et-de-la-sante.png"
+          alt="Ministère des Solidarités et de la Santé"
+          title="Ministère des Solidarités et de la Santé"
+        />
+      </a>
+
+      <div class="w-100 w-sm-50 text-right">Domifa est une solution gratuite et complète de gestion des domiciliations pour les structures domiciliataires (centres d'Action Sociale, communes, organismes agréés).</div>
+    </div>
+
+    <div class="my-5 border-top">
+      <div>Nos partenaires: </div>
+      <div class="d-flex flex-column flex-sm-row">
+          <a class="flex-sm-grow-1 text-left mr-sm-5" href="https://www.fabrique.social.gouv.fr">
+            <img class="ministere-logo"
+              src="../assets/images/footer/partenaire-fabrique-numerique.png"
+              alt="La Fabrique Numérique"
+              title="La Fabrique Numérique"
+            />
+          </a>
+          <a class="mr-0 mr-sm-3" href="https://beta.gouv.fr">
+            <img class="ministere-logo"
+            src="../assets/images/footer/partenaire-beta-gouv.png"
+            alt="Beta Gouv"
+            title="Beta Gouv"
+          /></a> 
+          <a class="mr-0 mr-sm-3" href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement">
+            <img class="ministere-logo"
+            src="../assets/images/footer/partenaire-dihal.png"
+            alt="DIHAL"
+            title="DIHAL"
+          /></a>
+          <a class="mr-0 mr-sm-3" href="https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante">
+            <img class="ministere-logo"
+            src="../assets/images/footer/partenaire-dgcs.png"
+            alt="DGCS"
+            title="DGCS"
+          /></a>
+          <a href="https://www.unccas.org">
+            <img class="ministere-logo"
+            src="../assets/images/footer/partenaire-unccas.png"
+            alt="UNCCAS"
+            title="UNCCAS"
+          /></a>
+      </div>
+    </div>
+    <div class="my-4 text-xs color-gray border-top">
+      <div>
+        <span>
+          Accessibilité: non conforme
+        </span>
+        <span class="menu-breadcrumb">|</span>
+        <a
+          [routerLink]="['/mentions-legales']"
+          routerLinkActive="router-link-active"
+          title="FAQ"
+        >
+          Mentions légales
+        </a>
+        <span class="menu-breadcrumb">|</span>
+        <a
+          [routerLink]="['/cgu']"
+          routerLinkActive="router-link-active"
+          title="Conditions d'utilisation"
+        >
+          CGU
+        </a>
+        <span class="menu-breadcrumb">|</span>
+        <a
+          [routerLink]="['/news']"
+          routerLinkActive="router-link-active"
+        >
+          Nouveautés
+        </a>
+        <span class="menu-breadcrumb">|</span>
+        <span class="color-gray"
+        >
+          Statistiques (prochainement)
+        </span>
+      </div>
+      <div class="my-4 text-xs color-gray">Sauf mention contraire, tous les textes de ce site sont sous <a href="https://github.com/etalab/licence-ouverte/blob/master/LO.md" target="_blank">licence etatlab-2.0</a><img src="../../../assets/icones/link-external.png" class="ml-1" style="height: 8px" alt="" aria-hidden="true" /></div>
+    </div>
   </div>
 </footer>
 
