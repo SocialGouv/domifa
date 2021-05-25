@@ -3,14 +3,6 @@
     Distribuer les courriers de
     <span class="text-primary">{{ usager.nom }} {{ usager.prenom }}</span>
   </h4>
-  <button
-    type="button"
-    class="close"
-    aria-label="Fermer la fenêtre"
-    (click)="cancelReception.emit()"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
 </div>
 <div class="modal-body text-center" *ngIf="usager">
   <div class="row d-flex align-items-top">
@@ -168,8 +160,11 @@
     >
       Confirmer la distribution
     </button>
-    <button class="btn btn-lg mx-1 btn-light" (click)="cancelReception.emit()">
-      Revenir à la liste
+    <button
+      class="btn btn-lg mx-1 btn-outline-dark"
+      (click)="cancelReception.emit()"
+    >
+      Annuler
     </button>
   </div>
 </div>
