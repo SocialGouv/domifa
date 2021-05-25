@@ -41,7 +41,7 @@ export const getManifests = () => {
      },
     deployment: {
       // image: getHarborImagePath({ name }),
-      image: `ghcr.io/socialgouv/domifa/frontend:${tag}`,
+      image: `ghcr.io/socialgouv/domifa/frontend:sha-${tag}`,
       ...podProbes,
     },
   })
