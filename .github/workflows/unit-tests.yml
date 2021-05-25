@@ -19,8 +19,8 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Set up Yarn cache
-      uses: c-hive/gha-yarn-cache@v1
+    # - name: Set up Yarn cache
+    #   uses: c-hive/gha-yarn-cache@v1
 
     - name: Create backend .env file
       run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
