@@ -9,4 +9,7 @@ it("getDateToDisplay: Valide", () => {
 
   usagerValideMock.decision.statut = "RADIE";
   expect(getDateToDisplay(usagerValideMock).isActif).toEqual(false);
+
+  delete usagerValideMock.decision;
+  expect(getDateToDisplay(usagerValideMock).isActif).toEqual(false);
 });
