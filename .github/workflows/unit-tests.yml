@@ -11,8 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Checkout repository
+    # - name: Checkout repository
+    #   uses: actions/checkout@v2
+    - name: Checkout
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        persist-credentials: false
 
     - name: Set up Node.js v14
       uses: actions/setup-node@v2
@@ -30,6 +35,15 @@ jobs:
 
     - name: Create Postgres service
       run: docker-compose -f ./docker-compose.tests.yml up --build --detach
+
+    - name: debug
+      run: |
+        echo "GITHUB_SHA: ${{github.sha}}"
+        echo "GITHUB_REF: ${{github.ref}}"
+        echo "GITHUB_BASE_REF: ${{github.base_ref}}"
+        echo "GITHUB_HEAD_REF: ${{github.head_ref}}"
+        echo "PR SHA: ${{ github.event.pull_request.head.sha }}"
+        git branch
 
     - name: Run backend tests
       run: yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
