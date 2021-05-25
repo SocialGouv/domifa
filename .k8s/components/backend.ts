@@ -1,5 +1,6 @@
 import { ok } from "assert";
 import env from "@kosko/env";
+import { assert } from "@sindresorhus/is";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { create } from "@socialgouv/kosko-charts/components/app";
@@ -62,6 +63,10 @@ export const getManifests = () => {
     deployment: {
       image: getHarborImagePath({ name }),
       container: {
+        volumeMounts: [{
+          mountPath: "/mnt/files",
+          name: "domifa-volume"
+        }],
         resources: {
           requests: {
             cpu: "50m",
@@ -81,26 +86,50 @@ export const getManifests = () => {
 }
 
 export default () => {
+  const { env } = process
+  const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
+  const isProductionCluster = Boolean(PRODUCTION);
+  const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev2";
+  const isDev = !isProductionCluster && !isPreProduction
+  
   const manifests = getManifests()
+  /* pass dynamic deployment URL as env var to the container */
+  //@ts-expect-error
+  const deployment = getManifestByKind(manifests, Deployment) as Deployment;
+  ok(deployment);
 
-    /* pass dynamic deployment URL as env var to the container */
-    //@ts-expect-error
-    const deployment = getManifestByKind(manifests, Deployment) as Deployment;
+  const frontendManifests = getFrontendManifests()
 
-    ok(deployment);
+  addEnvs({
+    deployment,
+    data: {
+      POSTGRES_HOST: "$(PGHOST)",
+      POSTGRES_USERNAME: "$(PGUSER)",
+      POSTGRES_PASSWORD: "$(PGPASSWORD)",
+      POSTGRES_DATABASE: "$(PGDATABASE)",
+      DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: `https://${getIngressHost(frontendManifests)}`
+    },
+  });
 
-    const frontendManifests = getFrontendManifests()
+  const volumes = [isDev ? {
+    name: "domifa-volume",
+    emptyDir: {}
+  } : {
+    name: "domifa-volume",
+    azureFile: {
+      readOnly: false,
+      shareName: "domifa-resource",
+      secretName: "azure-storage",
+    }
+  }]
 
-    addEnvs({
-      deployment,
-      data: {
-        POSTGRES_HOST: "$(PGHOST)",
-        POSTGRES_USERNAME: "$(PGUSER)",
-        POSTGRES_PASSWORD: "$(PGPASSWORD)",
-        POSTGRES_DATABASE: "$(PGDATABASE)",
-        DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: `https://${getIngressHost(frontendManifests)}`
-      },
-    });
+  assert.object(deployment.spec);
+  assert.object(deployment.spec.template.spec);
 
-    return manifests;
+  deployment.spec.template.spec.volumes = [
+    ...(deployment.spec.template.spec.volumes || []),
+    ...volumes
+  ]
+
+  return manifests;
 };
