@@ -1,12 +1,16 @@
 name: End to End Tests
 
-on: [pull_request]
+on: [deployment_status]
 
 jobs:
 
   tests:
     runs-on: ubuntu-latest
     steps:
+
+    - name: Debug
+      run: |
+        echo ${{ github.event.deployment_status }}
 
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -15,6 +19,8 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
+      env:
+        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
 
     - name: Set up Yarn cache
       uses: c-hive/gha-yarn-cache@v1
@@ -22,35 +28,51 @@ jobs:
     - name: Install e2e dependencies
       run: yarn --cwd optional/e2e/runners/puppeteer install --frozen-lockfile --prefer-offline
 
-    - name: Install packages dependencies
-      run: yarn install --frozen-lockfile --prefer-offline
+    - name: Create .env file
+      run: echo "DOMIFA_FRONTEND_URL=${{ github.event.deployment_status.target_url }}\r\nPUPPETEER_CHROME_HEADLESS=false" > optional/e2e/runners/puppeteer/.env
 
-    - name: Create Postgres service
-      run: docker-compose -f ./docker-compose.tests.yml up --build --detach
+    - name: Run e2e tests
+      uses: mujo-code/puppeteer-headful@master
+      env:
+        CI: 'true'
+      with:
+        args: yarn --cwd optional/e2e/runners/puppeteer test:debug
 
-    - name: Build front-end
-      run: yarn workspace @domifa/frontend build:gitlab-ci
+    # - name: Set up Yarn cache
+    #   uses: c-hive/gha-yarn-cache@v1
 
-    - name: Start front-end
-      run: npx serve packages/frontend/dist/domifa -l 4200 > frontend.log 2>&1 &
+    # - name: Install e2e dependencies
+    #   run: yarn --cwd optional/e2e/runners/puppeteer install --frozen-lockfile --prefer-offline
 
-    - name: Start backend
-      run: yarn workspace @domifa/backend start:tests-ci > backend.log 2>&1 &
+    # - name: Install packages dependencies
+    #   run: yarn install --frozen-lockfile --prefer-offline
 
-    - name: Check services
-      run: |
-        echo "Wait for backend to be healthy... (timeout:40s)"
-        curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-        curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-        curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-        curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-        curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-        curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-        curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-        curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
-        curl http://localhost:4200/connexion
-        curl http://localhost:3000/healthz
-        curl http://localhost:4200
-        curl --fail http://localhost:3000/healthz
-        tail -100 frontend.log
-        tail -100 backend.log
+    # - name: Create Postgres service
+    #   run: docker-compose -f ./docker-compose.tests.yml up --build --detach
+
+    # - name: Build front-end
+    #   run: yarn workspace @domifa/frontend build:gitlab-ci
+
+    # - name: Start front-end
+    #   run: npx serve packages/frontend/dist/domifa -l 4200 > frontend.log 2>&1 &
+
+    # - name: Start backend
+    #   run: yarn workspace @domifa/backend start:tests-ci > backend.log 2>&1 &
+
+    # - name: Check services
+    #   run: |
+    #     echo "Wait for backend to be healthy... (timeout:40s)"
+    #     curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    #     curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    #     curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    #     curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    #     curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    #     curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    #     curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    #     curl --fail --silent -o /dev/null http://localhost:3000/healthz || sleep 5
+    #     curl http://localhost:4200/connexion
+    #     curl http://localhost:3000/healthz
+    #     curl http://localhost:4200
+    #     curl --fail http://localhost:3000/healthz
+    #     tail -100 frontend.log
+    #     tail -100 backend.log

@@ -65,7 +65,6 @@ export const getManifests = () => {
       subDomainPrefix: process.env.PRODUCTION ? `fake-` : `${subdomain}-`,
     },
     deployment: {
-      // image: getHarborImagePath({ name }),
       image: `ghcr.io/socialgouv/domifa/backend:sha-${tag}`,
       container: {
         volumeMounts: [{

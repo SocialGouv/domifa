@@ -16,7 +16,9 @@ exports.config = {
           width: 1080,
           height: 1080,
         },
-        executablePath: process.env.CI && process.env.PUPPETEER_CHROME_PATH,
+        executablePath:
+          process.env.PUPPETEER_EXEC_PATH ||
+          (process.env.CI && process.env.PUPPETEER_CHROME_PATH),
         headless:
           process.env.PUPPETEER_CHROME_HEADLESS === "false" ? false : true,
       },
