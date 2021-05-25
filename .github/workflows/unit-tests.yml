@@ -8,6 +8,7 @@ on:
 jobs:
 
   backend:
+    name: Backend unit tests
     runs-on: ubuntu-latest
     steps:
 
@@ -33,15 +34,6 @@ jobs:
     - name: Create Postgres service
       run: docker-compose -f ./docker-compose.tests.yml up --build --detach
 
-    - name: debug
-      run: |
-        echo "GITHUB_SHA: ${{github.sha}}"
-        echo "GITHUB_REF: ${{github.ref}}"
-        echo "GITHUB_BASE_REF: ${{github.base_ref}}"
-        echo "GITHUB_HEAD_REF: ${{github.head_ref}}"
-        echo "PR SHA: ${{ github.event.pull_request.head.sha }}"
-        git branch
-
     - name: Run backend tests
       run: yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
 
@@ -51,7 +43,8 @@ jobs:
         name: backend-coverage
         path: packages/backend/coverage
 
-  front-end:
+  frontend:
+    name: Front-end unit tests
     runs-on: ubuntu-latest
     steps:
 
@@ -81,9 +74,9 @@ jobs:
         path: packages/frontend/coverage
 
   codecov:
-    name: Code coverage
+    name: Publish code coverage
     runs-on: ubuntu-18.04
-    needs: [backend, front-end]
+    needs: [backend, frontend]
     steps:
 
       - name: Checkout

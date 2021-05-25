@@ -1,10 +1,11 @@
-name: End to End Tests
+name: End to End Tests On Deploy
 
 on: [deployment_status]
 
 jobs:
 
   tests:
+    name: Run e2e tests
     runs-on: ubuntu-latest
     steps:
 
@@ -30,13 +31,15 @@ jobs:
         echo "PUPPETEER_CHROME_HEADLESS=true" >> optional/e2e/runners/puppeteer/.env
         echo "DOMIFA_FRONTEND_URL=${{ github.event.deployment_status.target_url }}" >> optional/e2e/runners/puppeteer/.env
 
-    - name: Run e2e tests
-      uses: mujo-code/puppeteer-headful@master
-      env:
-        CI: 'true'
-        PUPPETEER_CHROME_ARGS: '--no-sandbox'
-      with:
-        args: yarn --cwd optional/e2e/runners/puppeteer test:debug
+    # - name: Run e2e tests
+    #   uses: mujo-code/puppeteer-headful@master
+    #   env:
+    #     CI: 'true'
+    #     PUPPETEER_CHROME_ARGS: '--no-sandbox'
+    #   with:
+    #     args: yarn --cwd optional/e2e/runners/puppeteer test:debug
+
+    #### OLD FASHION ###########################################################
 
     # - name: Set up Yarn cache
     #   uses: c-hive/gha-yarn-cache@v1
