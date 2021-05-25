@@ -27,5 +27,6 @@ export type UsagerLight = AppEntity &
     | "phone"
     | "langue"
     | "preference"
+    | "dateToDisplay"
     | "datePremiereDom"
   >;

@@ -17,6 +17,7 @@ import { Entretien } from "../../interfaces/entretien";
 import { Options } from "../../interfaces/options";
 import { Rdv } from "../../interfaces/rdv";
 import { usagersFilter, UsagersFilterCriteria } from "../manage/usager-filter";
+import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
 
 export class UsagerFormModel implements UsagerLight {
   public ref: number;
@@ -70,14 +71,16 @@ export class UsagerFormModel implements UsagerLight {
   // TRANSFERT & PROCUS
   public options: Options;
 
-  // ***
-  // VARIABLES UTILES AU FRONT UNIQUEMENT
-  // Recherche : si la requête fait remonté un ayant-droit
+  /***
+   VARIABLES UTILES AU FRONT UNIQUEMENT
+   Recherche : si la requête fait remonté un ayant-droit
+  **/
   public isAyantDroit: boolean;
-  public totalInteractionsEnAttente: number;
-  // Dossier actuellement actif
-  public isActif: boolean;
+  public echeance: Date | null; // Echéance pour le tri
+  public isActif: boolean; // Dossier actuellement actif
   public dayBeforeEnd: number;
+
+  public totalInteractionsEnAttente: number;
 
   // Dates à afficher sur le manage, couleur selon le statut
   public dateToDisplay: Date;
@@ -182,36 +185,18 @@ export class UsagerFormModel implements UsagerLight {
     //
     this.totalInteractionsEnAttente = 0;
     this.isActif = false;
-    this.dayBeforeEnd = 365;
     this.dateToDisplay = null;
+    this.dayBeforeEnd = 365;
 
     this.statusInfos = {
       text: USAGER_DECISION_STATUT_LABELS[this.decision.statut],
       color: USAGER_DECISION_STATUT_COLORS[this.decision.statut],
     };
 
-    // Actuellement actif
-    if (this.decision.statut === "VALIDE") {
-      this.dateToDisplay = this.decision.dateFin;
-      this.isActif = true;
-    }
+    const { isActif, dateToDisplay } = getDateToDisplay(usager);
 
-    // En cours de renouvellement
-    if (
-      this.decision.statut === "INSTRUCTION" &&
-      this.typeDom === "RENOUVELLEMENT"
-    ) {
-      this.isActif = true;
-      this.dateToDisplay = this.historique[0].dateFin;
-    }
-    // En attente de décision de renouvellement
-    if (
-      this.decision.statut === "ATTENTE_DECISION" &&
-      this.typeDom === "RENOUVELLEMENT"
-    ) {
-      this.isActif = true;
-      this.dateToDisplay = this.historique[1].dateFin;
-    }
+    this.isActif = isActif;
+    this.dateToDisplay = dateToDisplay;
 
     if (this.isActif) {
       const today = new Date();
@@ -234,16 +219,25 @@ export class UsagerFormModel implements UsagerLight {
 
     this.isAyantDroit = false;
 
-    const { searchString } = filterCriteria ?? {};
-    if (searchString && searchString !== null) {
-      // if search does not match without ayant-droits, flag it as "isAyantDroit"
-      this.isAyantDroit =
-        usagersFilter.filter([usager as UsagerLight], {
-          criteria: {
-            ...filterCriteria,
-            searchInAyantDroits: false,
-          },
-        }).length === 0;
+    if (filterCriteria) {
+      const { searchString } = filterCriteria ?? {};
+      if (searchString && searchString !== null) {
+        // if search does not match without ayant-droits, flag it as "isAyantDroit"
+        this.isAyantDroit =
+          usagersFilter.filter([usager as UsagerLight], {
+            criteria: {
+              ...filterCriteria,
+              searchInAyantDroits: false,
+            },
+          }).length === 0;
+      }
+
+      delete this.entretien;
+      delete this.docs;
+      delete this.langue;
+      delete this.phone;
+      delete this.villeNaissance;
+      delete this.rdv;
     }
   }
 }

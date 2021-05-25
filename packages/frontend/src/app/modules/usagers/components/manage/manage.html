@@ -267,6 +267,7 @@
               *ngIf="filters.sortValue === 'ascending'"
               icon="sort-amount-up"
             ></fa-icon>
+
             <fa-icon
               *ngIf="filters.sortValue === 'descending'"
               icon="sort-amount-down"
@@ -277,6 +278,20 @@
             aria-labelledby="navbarDropdown2"
             class="dropdown-menu dropdown-menu-right"
           >
+            <button
+              (click)="updateFilters({element: 'sortKey', value: 'PASSAGE', sortValue:'ascending'})"
+              ngbDropdownItem
+            >
+              Trier par dernier passage
+              <fa-icon icon="sort-amount-up"></fa-icon>
+            </button>
+            <button
+              (click)="updateFilters({element: 'sortKey', value: 'PASSAGE', sortValue:'descending'})"
+              ngbDropdownItem
+            >
+              Trier par dernier passage
+              <fa-icon icon="sort-amount-down"></fa-icon>
+            </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'NAME', sortValue:'ascending'})"
               ngbDropdownItem

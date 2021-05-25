@@ -1,10 +1,14 @@
 <table class="table" *ngIf="usagers.length !== 0" id="table-usagers">
   <thead>
     <th *ngIf="filters.statut==='TOUS'">STATUT</th>
-    <th *ngIf="filters.statut === 'ATTENTE_DECISION'">Type de demande</th>
+    <th
+      *ngIf="filters.statut === 'ATTENTE_DECISION' || filters.statut === 'INSTRUCTION'"
+    >
+      Type de demande
+    </th>
 
     <th
-      (click)="updateFilter.emit({
+      (click)="updateFilters.emit({
       element: 'sortKey',
       value: 'ID'
     })"
@@ -12,7 +16,7 @@
       ID
     </th>
     <th
-      (click)="updateFilter.emit({
+      (click)="updateFilters.emit({
       element: 'sortKey',
       value: 'NAME'
     })"
@@ -20,12 +24,18 @@
       Nom prénom
     </th>
     <th>INFORMATIONS</th>
-    <ng-container
+    <th
       *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
+      (click)="updateFilters.emit({  element: 'sortKey',   value: 'PASSAGE'  })"
     >
-      <th>PASSAGE</th>
-      <th>ÉCHÉANCE</th>
-    </ng-container>
+      PASSAGE
+    </th>
+
+    <th
+      (click)="updateFilters.emit({  element: 'sortKey',   value: 'ECHEANCE'  })"
+    >
+      ÉCHÉANCE
+    </th>
     <th class="text-left">ACTIONS RAPIDES</th>
     <th></th>
   </thead>
@@ -36,8 +46,9 @@
           <span>{{usager.statusInfos.text }}</span>
         </div>
       </td>
-
-      <td *ngIf="filters.statut ==='ATTENTE_DECISION'">
+      <td
+        *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
+      >
         <div
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
           class="label-statut orange-status"
@@ -52,6 +63,7 @@
           <span>Première demande</span>
         </div>
       </td>
+
       <td (click)="goToProfil(usager)" class="text-primary manage-usager-ref">
         <span *ngIf="usager.customRef">{{ usager.customRef }}</span>
         <span *ngIf="!usager.customRef ">{{ usager.ref }}</span>
@@ -65,7 +77,20 @@
       </td>
 
       <td (click)="goToProfil(usager)">
-        <div class="label-info label-green" *ngIf="usager.ayantsDroits.length">
+        <ng-template #ayantsDroitsTooltip class="p-4 text-left">
+          <div class="distribution-tooltip">
+            <div class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
+              <b class="text-primary">{{ayantDroit.nom }}</b> {{
+              ayantDroit.prenom}} colis
+            </div>
+          </div>
+        </ng-template>
+
+        <div
+          class="label-info label-green"
+          [ngbTooltip]="ayantsDroitsTooltip"
+          *ngIf="usager.ayantsDroits.length"
+        >
           <span>{{ usager.ayantsDroits.length }} ayants-droit</span>
         </div>
 
@@ -75,15 +100,17 @@
           [ngbTooltip]="transfertActif"
         >
           <ng-template #transfertActif>
-            <span *ngIf=" usager.options.transfert.dateFin > today">
-              <fa-icon icon="share" class="mr-2"></fa-icon>
-              Courrier à transférer : ADRESSE ICI
-            </span>
+            <div class="distribution-tooltip">
+              <div *ngIf=" usager.options.transfert.dateFin > today">
+                <fa-icon icon="share" class="text-primary mr-2"></fa-icon>
+                Courrier à transférer : <br />ADRESSE ICI
+              </div>
 
-            <span *ngIf=" usager.options.transfert.dateFin <= today">
-              Transfert expiré le {{ usager.options.transfert.dateFin | date:
-              "dd/MM/yyyy" }}
-            </span>
+              <div *ngIf=" usager.options.transfert.dateFin <= today">
+                Transfert expiré le {{ usager.options.transfert.dateFin | date:
+                "dd/MM/yyyy" }}
+              </div>
+            </div>
           </ng-template>
 
           <span>Transfert</span>
@@ -114,23 +141,24 @@
           <span> Pli non distribuable </span>
         </div>
       </td>
-      <ng-container
+
+      <td
+        (click)="goToProfil(usager)"
         *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
       >
-        <td (click)="goToProfil(usager)">
-          {{ usager.lastInteraction.dateInteraction|date: "dd/MM/yyyy" }}
-        </td>
-        <td class="statut-date">
-          <span
-            *ngIf="usager.isActif"
-            class="statut-signal"
-            [class]="usager.echeanceColor"
-          ></span>
-          <span [ngClass]="usager.echeanceColor ? 'font-weight-bold' : ''">
-            {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}</span
-          >
-        </td>
-      </ng-container>
+        {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
+      </td>
+
+      <td (click)="goToProfil(usager)" class="statut-date">
+        <span
+          *ngIf="usager.isActif"
+          class="statut-signal"
+          [class]="usager.echeanceColor"
+        ></span>
+        <span [ngClass]="usager.echeanceColor ? 'font-weight-bold' : ''">
+          {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}</span
+        >
+      </td>
 
       <td class="text-left icones_liste">
         <div
@@ -139,16 +167,23 @@
           <div
             ngbTooltip="Signaler un passage"
             class="interaction-btn"
-            (click)="setAppelOuPassage(usager, 'visite')"
+            (click)="setSingleInteraction(usager, 'visite')"
           >
             <span class="icon-passage list-icon"></span>
           </div>
           <div
-            ngbTooltip="Signaler un appel"
+            ngbTooltip="Signaler un appel téléphonique"
             class="interaction-btn"
-            (click)="setAppelOuPassage(usager, 'appel')"
+            (click)="setSingleInteraction(usager, 'appel')"
           >
             <span class="icon-appel list-icon"></span>
+          </div>
+          <div
+            ngbTooltip="Signaler la réception d'un courrier"
+            class="interaction-btn"
+            (click)="setSingleInteraction(usager, 'courrierIn')"
+          >
+            <span class="icon-courrier list-icon"></span>
           </div>
           <div
             ngbTooltip="Signaler l'arrivée de courrier"

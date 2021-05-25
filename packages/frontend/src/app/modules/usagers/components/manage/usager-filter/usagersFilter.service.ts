@@ -31,6 +31,7 @@ function filter(
       searchInAyantDroits: criteria.searchInAyantDroits,
     }
   );
+
   return usagersSorter.sortBy(filteredAndSearchUsagers, {
     sortKey: criteria.sortKey,
     sortValue: criteria.sortValue,

@@ -421,30 +421,17 @@ table .active {
 .statut-signal {
   border-radius: 100%;
   margin-right: 6px;
-  display: inline-block;
-  vertical-align: middle;
   width: 10px;
   height: 10px;
 }
 
-.danger-status .statut-date,
-.warning-status .statut-date {
+.statut-signal.bg-danger,
+.statut-signal.bg-warning {
+  display: inline-block;
+  vertical-align: middle;
+}
+.statut-signal .statut-date {
   font-weight: bold;
-}
-
-.danger-status td:first-child {
-  border-left: 4px solid var(--red) !important;
-}
-.warning-status td:first-child {
-  border-left: 4px solid var(--warning) !important;
-}
-
-.warning-status .statut-signal {
-  background-color: var(--warning);
-}
-
-.danger-status .statut-signal {
-  background-color: var(--red);
 }
 
 #statut-selector .col:first-child {
@@ -488,6 +475,7 @@ table .active {
   margin: 2px;
   display: block;
   text-align: center;
+  max-width: 150px;
 }
 
 .label-statut span {

@@ -7,10 +7,10 @@ table {
 tbody td {
   vertical-align: middle;
   border: none;
-  height: 64px;
+  height: 62px;
   font-weight: 600;
   font-style: normal;
-  padding: 4px 8px;
+  padding: 4px 10px;
 }
 
 .manage-usager-ref {
