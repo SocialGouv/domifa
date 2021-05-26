@@ -294,7 +294,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         ),
       },
       smsConsumer: {
-        enableSendImmadiately: false,
         crontime: configParser.parseString(
           x,
           "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
