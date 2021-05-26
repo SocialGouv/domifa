@@ -124,13 +124,10 @@ export class UsagersService {
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
 
     if (decision.statut === "ATTENTE_DECISION") {
-      /* Mail au responsable */
       usager.etapeDemande = ETAPE_DECISION;
     }
 
     if (decision.statut === "REFUS") {
-      /* SMS & Mail pr prévenir */
-
       decision.dateFin =
         decision.dateFin !== undefined && decision.dateFin !== null
           ? new Date(decision.dateFin)

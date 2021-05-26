@@ -1,5 +1,25 @@
 [
   {
+    "date": "2021-05-26",
+    "description": "Vos retours ont été pris en compte",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Suite à vos messages, nous avons ajusté notre nouvelle liste des domiciliés",
+        "message": [
+          "Retour du bouton d’ajout rapide d’un courrier",
+          "Ajout de la colonne échéance sur tous les onglets",
+          "Ajout du tri par échéance et dernier passage",
+          "Ajout du statut des domiciliés dans l’onglet Tous",
+          "Ajout du type de domiciliation dans les onglets À compléter et En attente de décision",
+          "Affichage des ayants-droit en passant la souris sur l’étiquette correspondante",
+          "Il est désormais possible d’ouvrir une fiche domicilié dans un nouvel onglet",
+          "Améliorations diverses de la pop-up de réception de courrier"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2021-05-17",
     "content": [
       {

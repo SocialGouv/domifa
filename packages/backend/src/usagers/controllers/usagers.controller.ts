@@ -26,7 +26,6 @@ import { usagerLightRepository, usagerRepository } from "../../database";
 import { InteractionsService } from "../../interactions/interactions.service";
 import {
   AppAuthUser,
-  ETAPE_DOSSIER_COMPLET,
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
   UsagerLight,
@@ -239,8 +238,7 @@ export class UsagersController {
   @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Delete("renew/:usagerRef")
   public async deleteRenew(@CurrentUsager() usager: UsagerLight) {
-    usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
-
+    usager.etapeDemande = ETAPE_ETAT_CIVIL;
     usager.decision = usager.historique[usager.historique.length - 1];
     usager.historique.splice(usager.historique.length - 1, 1);
     return this.usagersService.patch({ uuid: usager.uuid }, usager);

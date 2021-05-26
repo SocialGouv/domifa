@@ -88,20 +88,23 @@
         >
       </p>
       <div *ngFor="let content of domifaNews.content" class="text-left news">
-        <span
-          class="badge badge-pill"
-          [ngClass]="{
-            'badge-primary': content.type === 'new',
-            'badge-warning': content.type === 'bug'
-          }"
-        >
-          {{ newsLabels[content.type] }}
-        </span>
-        &nbsp;
-        <b>{{ content.categorie }}</b>
-        <br />
+        <div>
+          <span
+            class="badge badge-pill"
+            [ngClass]="{
+              'badge-primary': content.type === 'new',
+              'badge-warning': content.type === 'bug'
+            }"
+          >
+            {{ newsLabels[content.type] }}
+          </span>
+          <b class="ml-2">{{ content.categorie }}</b>
+        </div>
+
         <ul>
-          <li *ngFor="let message of content.message">{{ message }}</li>
+          <li class="my-1" *ngFor="let message of content.message">
+            {{ message }}
+          </li>
         </ul>
       </div>
     </div>
