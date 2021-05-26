@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -89,7 +88,7 @@ export class ManageUsagersTableComponent implements OnInit {
   constructor(
     private interactionService: InteractionService,
     private modalService: NgbModal,
-    private router: Router,
+
     private notifService: ToastrService,
     private matomo: MatomoTracker
   ) {}
@@ -99,50 +98,7 @@ export class ManageUsagersTableComponent implements OnInit {
     this.today = new Date();
   }
 
-  public goToProfil(usager: UsagerFormModel) {
-    const etapesUrl = [
-      "etat-civil",
-      "rendez-vous",
-      "entretien",
-      "documents",
-      "decision",
-    ];
-    console.log("OKOKK");
-    if (
-      usager.decision.statut === "ATTENTE_DECISION" ||
-      usager.decision.statut === "INSTRUCTION"
-    ) {
-      if (usager.typeDom === "RENOUVELLEMENT") {
-        this.router.navigate(["usager/" + usager.ref]);
-        return;
-      }
-
-      if (this.me?.role === "facteur") {
-        this.notifService.error("Vous ne pouvez pas accéder à ce profil");
-        return;
-      }
-
-      if (usager.decision.statut === "INSTRUCTION") {
-        this.router.navigate([
-          "usager/" + usager.ref + "/edit/" + etapesUrl[usager.etapeDemande],
-        ]);
-        return;
-      } else {
-        this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
-        return;
-      }
-    }
-
-    if (usager.decision.statut === "REFUS") {
-      console.log("lllll");
-      if (this.me?.role === "facteur") {
-        this.notifService.error("Vous ne pouvez pas accéder à ce profil");
-        return;
-      }
-    }
-
-    this.router.navigate(["usager/" + usager.ref]);
-  }
+  public goToProfil(usager: UsagerFormModel) {}
 
   public setSingleInteraction(
     usager: UsagerFormModel,

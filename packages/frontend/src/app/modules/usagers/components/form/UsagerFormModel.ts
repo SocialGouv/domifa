@@ -18,6 +18,7 @@ import { Options } from "../../interfaces/options";
 import { Rdv } from "../../interfaces/rdv";
 import { usagersFilter, UsagersFilterCriteria } from "../manage/usager-filter";
 import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
+import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
 
 export class UsagerFormModel implements UsagerLight {
   public ref: number;
@@ -84,6 +85,7 @@ export class UsagerFormModel implements UsagerLight {
 
   // Dates à afficher sur le manage, couleur selon le statut
   public dateToDisplay: Date;
+  public usagerProfilUrl: String;
 
   public echeanceColor: "" | "bg-warning" | "bg-danger";
 
@@ -197,6 +199,7 @@ export class UsagerFormModel implements UsagerLight {
 
     this.isActif = isActif;
     this.dateToDisplay = dateToDisplay;
+    this.usagerProfilUrl = getUrlUsagerProfil(usager);
 
     if (this.isActif) {
       const today = new Date();

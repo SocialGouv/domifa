@@ -56,5 +56,8 @@ export type Usager = AppEntity & {
   docsPath: string[]; // TODO: fusionner avec docs
 
   options: UsagerOptions;
+
+  // Variables de front
   dateToDisplay?: Date | null;
+  usagerProfilUrl?: String;
 };
