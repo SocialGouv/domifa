@@ -7,32 +7,33 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoModule } from "ngx-matomo";
+
 import { ToastrModule } from "ngx-toastr";
-import { routes } from "../../../../../../app-routing.module";
 
 describe("MenuComponent", () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      imports: [
-        RouterTestingModule,
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        ToastrModule.forRoot(),
-        BrowserAnimationsModule,
-        HttpClientTestingModule,
-      ],
-      declarations: [MenuComponent],
-    });
-    fixture = TestBed.createComponent(MenuComponent);
-    component = fixture.componentInstance;
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        schemas: [NO_ERRORS_SCHEMA],
+        imports: [
+          RouterTestingModule,
+          NgbModule,
+          ReactiveFormsModule,
+          FormsModule,
+          HttpClientModule,
+          ToastrModule.forRoot(),
+          BrowserAnimationsModule,
+          HttpClientTestingModule,
+        ],
+        declarations: [MenuComponent],
+      });
+      fixture = TestBed.createComponent(MenuComponent);
+      component = fixture.componentInstance;
+    })
+  );
 
   it("can load instance", () => {
     expect(component).toBeTruthy();
