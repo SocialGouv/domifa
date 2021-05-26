@@ -43,4 +43,6 @@ it("getUrlUsagerProfil: redirection vers le profil", () => {
   expect(getUrlUsagerProfil(usagerValideMock)).toEqual(
     "/usager/5/edit/etat-civil"
   );
+
+  expect(getUrlUsagerProfil(undefined)).toEqual("/nouveau");
 });
