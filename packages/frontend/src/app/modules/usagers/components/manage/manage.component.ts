@@ -245,6 +245,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   public resetFilters() {
     this.filters = new UsagersFilterCriteria();
+    this.searchString = null;
     this.filters$.next(this.filters);
   }
 

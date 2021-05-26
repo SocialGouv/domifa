@@ -107,7 +107,7 @@ export class ManageUsagersTableComponent implements OnInit {
       "documents",
       "decision",
     ];
-
+    console.log("OKOKK");
     if (
       usager.decision.statut === "ATTENTE_DECISION" ||
       usager.decision.statut === "INSTRUCTION"
@@ -117,7 +117,7 @@ export class ManageUsagersTableComponent implements OnInit {
         return;
       }
 
-      if (this.me.role === "facteur") {
+      if (this.me?.role === "facteur") {
         this.notifService.error("Vous ne pouvez pas accéder à ce profil");
         return;
       }
@@ -126,18 +126,22 @@ export class ManageUsagersTableComponent implements OnInit {
         this.router.navigate([
           "usager/" + usager.ref + "/edit/" + etapesUrl[usager.etapeDemande],
         ]);
+        return;
       } else {
         this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
+        return;
       }
-    } else if (
-      usager.decision.statut === "REFUS" &&
-      this.me.role === "facteur"
-    ) {
-      this.notifService.error("Vous ne pouvez pas accéder à ce profil");
-      return;
-    } else {
-      this.router.navigate(["usager/" + usager.ref]);
     }
+
+    if (usager.decision.statut === "REFUS") {
+      console.log("lllll");
+      if (this.me?.role === "facteur") {
+        this.notifService.error("Vous ne pouvez pas accéder à ce profil");
+        return;
+      }
+    }
+
+    this.router.navigate(["usager/" + usager.ref]);
   }
 
   public setSingleInteraction(
