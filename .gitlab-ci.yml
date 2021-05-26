@@ -65,7 +65,7 @@ Stop review:
 
 Seed:
   stage: Seed
-  allow_failure: true
+  # allow_failure: true
   image:
     name: postgres:11
     entrypoint: [""]
