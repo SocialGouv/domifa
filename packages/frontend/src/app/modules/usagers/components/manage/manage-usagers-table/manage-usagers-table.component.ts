@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { Router } from "@angular/router";
+
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
@@ -97,8 +97,6 @@ export class ManageUsagersTableComponent implements OnInit {
     this.selectedUsager = {} as UsagerFormModel;
     this.today = new Date();
   }
-
-  public goToProfil(usager: UsagerFormModel) {}
 
   public setSingleInteraction(
     usager: UsagerFormModel,
