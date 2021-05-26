@@ -8,13 +8,11 @@ export class manualMigration1620724704165 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     appLogger.debug(`[Migration] UP manualMigration1620724704165`);
 
-    const usagers: Pick<
-      Usager,
-      "uuid" | "ayantsDroits" | "structureId"
-    >[] = await usagerRepository.findManyWithQuery({
-      select: ["uuid", "ayantsDroits", "structureId"],
-      where: 'jsonb_array_length("ayantsDroits") > 0;',
-    });
+    const usagers: Pick<Usager, "uuid" | "ayantsDroits" | "structureId">[] =
+      await usagerRepository.findManyWithQuery({
+        select: ["uuid", "ayantsDroits", "structureId"],
+        where: 'jsonb_array_length("ayantsDroits") > 0;',
+      });
 
     const total = usagers.length;
     let i = 0;
@@ -28,7 +26,7 @@ export class manualMigration1620724704165 implements MigrationInterface {
       const defaultDate = new Date(Date.UTC(1900, 0, 1));
 
       usager.ayantsDroits.forEach((ayantDroit) => {
-        const str = (ayantDroit.dateNaissance as any) as string;
+        const str = ayantDroit.dateNaissance as any as string;
         if (str.split) {
           const chunks = str.split("/");
           if (chunks.length === 3) {
