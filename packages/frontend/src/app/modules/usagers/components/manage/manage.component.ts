@@ -47,6 +47,7 @@ import {
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaStatut,
 } from "./usager-filter/UsagersFilterCriteria";
+import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({
@@ -167,6 +168,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         (allUsagers: UsagerLight[]) => {
           const usagers = allUsagers.map((usager) => {
             usager.dateToDisplay = getDateToDisplay(usager).dateToDisplay;
+            usager.usagerProfilUrl = getUrlUsagerProfil(usager);
             return usager;
           });
           this.allUsagers$.next(usagers);

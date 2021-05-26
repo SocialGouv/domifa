@@ -28,5 +28,6 @@ export type UsagerLight = AppEntity &
     | "langue"
     | "preference"
     | "dateToDisplay"
+    | "usagerProfilUrl"
     | "datePremiereDom"
   >;

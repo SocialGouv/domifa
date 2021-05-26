@@ -115,13 +115,10 @@
       </div>
 
       <div
-        *ngIf="usager.isActif && usager.dayBeforeEnd < 60 && !isRole('facteur')"
+        *ngIf="usager.decision.statut ==='VALIDE'  && usager.dayBeforeEnd < 60 && !isRole('facteur')"
         class="text-center row"
       >
-        <div class="w-100">
-          <br />
-        </div>
-        <div class="col-12">
+        <div class="col-12 my-4">
           <button
             (click)="open(renewConfirmation)"
             *ngIf="usager.dayBeforeEnd < 60"
@@ -141,9 +138,6 @@
             Radier le domicilié
           </a>
         </div>
-        <div class="w-100">
-          <br />
-        </div>
       </div>
     </div>
   </div>
@@ -156,7 +150,7 @@
   </div>
 
   <div
-    class="my-5"
+    class="my-3"
     *ngIf=" usager.isActif ||  (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
   >
     <h5 class="text-center mb-4 font-weight-bold">
