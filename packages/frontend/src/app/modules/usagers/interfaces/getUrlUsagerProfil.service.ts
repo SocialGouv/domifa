@@ -1,14 +1,7 @@
+import { ETAPES_DEMANDE_URL } from "../../../../_common/model/usager/ETAPES_DEMANDE_URL.const";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 
 export const getUrlUsagerProfil = (usager: Partial<UsagerLight>): string => {
-  const etapesUrl = [
-    "etat-civil",
-    "rendez-vous",
-    "entretien",
-    "documents",
-    "decision",
-  ];
-
   if (usager && usager?.decision) {
     if (usager.decision.statut === "ATTENTE_DECISION") {
       // Retour à la page de décision
@@ -18,7 +11,10 @@ export const getUrlUsagerProfil = (usager: Partial<UsagerLight>): string => {
       return usager.typeDom === "RENOUVELLEMENT"
         ? "/usager/" + usager.ref
         : // Retour à la dernière étape validée
-          "/usager/" + usager.ref + "/edit/" + etapesUrl[usager.etapeDemande];
+          "/usager/" +
+            usager.ref +
+            "/edit/" +
+            ETAPES_DEMANDE_URL[usager.etapeDemande];
     } else {
       // Retour vers le profil pour les refusés, radiés, valide
       return "/usager/" + usager.ref;
