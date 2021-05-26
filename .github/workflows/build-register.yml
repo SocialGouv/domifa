@@ -4,6 +4,7 @@ on:
   push:
     branches: [master, alpha, beta, next]
   pull_request:
+  workflow_dispatch:
 
 jobs:
 
@@ -15,6 +16,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
+        token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Set up Node.js v14
@@ -45,6 +47,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
+        token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Set up Node.js v14
@@ -76,6 +79,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
+        token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Download backend build
@@ -134,6 +138,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
+        token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
     - name: Download front-end build
