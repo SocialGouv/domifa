@@ -48,14 +48,14 @@
       <div class="row">
         <div class="col-md-10 offset-1 text-center">
           <div
-            id="profil_head"
             [ngClass]="{
              'text-danger': usager.dayBeforeEnd < 15,
              'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
            }"
+            class="my-1"
           ></div>
           <div class="text-center" *ngIf="usager.decision.statut === 'REFUS'">
-            <div class="text-radiation text-danger">
+            <div class="text-danger">
               Demande refusée le {{ usager.decision.dateDecision | date:
               "dd/MM/yyyy" }}
               <br />
@@ -82,7 +82,7 @@
             class="text-center text-danger"
             *ngIf="usager.decision.statut === 'RADIE'"
           >
-            <div class="text-radiation">
+            <div class="">
               Cette personne a été radiée le {{ usager.decision.dateDecision |
               date:'dd/MM/yyyy' }}
               <br />

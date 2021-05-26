@@ -9,9 +9,9 @@
   </div>
 
   <div class="row">
-    <div class="my-3 col-md-10 offset-1 text-center">
+    <div class="my-2 col-md-10 offset-1 text-center">
       <div
-        id="profil_head"
+        class="my-1"
         [ngClass]="{
            'text-danger': usager.dayBeforeEnd < 15,
            'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
@@ -23,7 +23,7 @@
         <b *ngIf="!usager.customRef">{{ usager.ref }}</b>
       </div>
       <div class="text-center" *ngIf="usager.decision.statut === 'REFUS'">
-        <div class="text-radiation text-danger">
+        <div class="my-3 text-radiation text-danger">
           Demande refusée le {{ usager.decision.dateDecision | date:
           "dd/MM/yyyy" }}
           <br />
@@ -34,13 +34,13 @@
         <button
           *ngIf="!isRole('facteur')"
           (click)="open(renewConfirmation)"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary my-1 mr-2"
         >
           <fa-icon icon="redo" class="mr-2"></fa-icon>
           Créer une nouvelle demande
         </button>
-        &nbsp;&nbsp;
-        <button (click)="getAttestation()" class="btn btn-primary">
+
+        <button (click)="getAttestation()" class="btn my-1 btn-primary">
           <fa-icon icon="download"></fa-icon>
           Télécharger le CERFA de refus
         </button>
@@ -50,40 +50,38 @@
         class="text-center text-danger"
         *ngIf="usager.decision.statut === 'RADIE'"
       >
-        <div class="text-radiation">
+        <div class="text-radiation my-3 text-danger">
           Cette personne a été radiée le {{ usager.decision.dateDecision |
           date:'dd/MM/yyyy' }}
           <br />
           Motif : {{ usager.decision.motifString }}
         </div>
 
-        <div class="col-md-12">
-          <button
-            *ngIf="!isRole('facteur')"
-            (click)="open(renewConfirmation)"
-            class="btn btn-outline-secondary"
-          >
-            <fa-icon icon="redo" class="mr-2"></fa-icon>
-            Créer une nouvelle demande
-          </button>
-          &nbsp;&nbsp;
+        <button
+          *ngIf="!isRole('facteur')"
+          (click)="open(renewConfirmation)"
+          class="btn my-1 btn-outline-secondary mr-2"
+        >
+          <fa-icon icon="redo" class="mr-2"></fa-icon>
+          Créer une nouvelle demande
+        </button>
 
-          <button
-            (click)="getStructureDocument('courrier_radiation')"
-            class="btn btn-outline-primary"
-          >
-            <fa-icon icon="download" class="mr-2"></fa-icon>
-            Télécharger le courrier de radiation
-          </button>
-        </div>
+        <button
+          (click)="getStructureDocument('courrier_radiation')"
+          class="btn my-1 btn-outline-primary"
+        >
+          <fa-icon icon="download" class="mr-2"></fa-icon>
+          Télécharger le courrier de radiation
+        </button>
       </div>
 
       <div class="text-center" *ngIf="usager.isActif">
-        <span
+        <div
           [ngClass]="{
               'text-danger': usager.dayBeforeEnd <= 15,
               'text-warning': usager.dayBeforeEnd > 15 && usager.dayBeforeEnd < 60
             }"
+          class="my-1"
           *ngIf="usager.dayBeforeEnd > 0"
         >
           Domiciliation valable jusqu'au
@@ -95,44 +93,45 @@
           >
             {{ usager.dateToDisplay | date: 'dd/MM/yyyy' }}
           </b>
-        </span>
-        <span class="text-danger" *ngIf="usager.dayBeforeEnd < 0">
+        </div>
+        <div class="my-1 text-danger" *ngIf="usager.dayBeforeEnd < 0">
           <fa-icon icon="exclamation-triangle"></fa-icon>
           Domiciliation expirée depuis le
           <b>
             {{ usager.dateToDisplay | date: 'dd/MM/yyyy' }}, il y a {{
             usager.dayBeforeEnd * -1 }} jours
           </b>
-        </span>
-        <br />
+        </div>
 
-        <span *ngIf="usager.lastInteraction.dateInteraction !== null">
+        <div
+          class="my-1"
+          *ngIf="usager.lastInteraction.dateInteraction !== null"
+        >
           Dernier passage le
           <b>
             {{ usager.lastInteraction.dateInteraction | date: 'dd/MM/yyyy' }}
           </b>
-        </span>
+        </div>
       </div>
 
       <div
         *ngIf="usager.decision.statut ==='VALIDE'  && usager.dayBeforeEnd < 60 && !isRole('facteur')"
         class="text-center row"
       >
-        <div class="col-12 my-4">
+        <div class="col-12 my-3">
           <button
             (click)="open(renewConfirmation)"
             *ngIf="usager.dayBeforeEnd < 60"
-            class="btn col-5 btn-outline-secondary"
+            class="btn col-3 mr-2 btn-outline-secondary"
           >
             <fa-icon icon="redo" class="mr-2"></fa-icon>
             Demande de renouvellement
           </button>
-          &nbsp;&nbsp;
           <a
             *ngIf="usager.dayBeforeEnd < 0"
             [routerLink]="['/radiation/'+usager.ref]"
             routerLinkActive="router-link-active"
-            class="btn col-5 btn-outline-danger"
+            class="btn col-3 mr-2 btn-outline-danger"
           >
             <fa-icon icon="times" class="mr-2"></fa-icon>
             Radier le domicilié
@@ -142,7 +141,7 @@
     </div>
   </div>
 
-  <div *ngIf="usager.options.npai.actif" class="my-4 text-center">
+  <div *ngIf="usager.options.npai.actif" class="mb-3 text-center">
     <fa-icon icon="ban" size="3x" class="npai actions_icones"> </fa-icon>
     <span class="text-danger">
       N'habite plus à l'adresse indiquée, pli non distribuable
@@ -277,62 +276,83 @@
     >
   </div>
 
-  <ngb-alert
-    type="info"
-    [dismissible]="false"
-    class="text-center"
+  <div
+    class="alert alert-warning text-center"
     *ngIf="usager.decision.statut === 'INSTRUCTION' && usager.typeDom === 'RENOUVELLEMENT' && !isRole('facteur')"
   >
-    Une demande de renouvellement est actuellement en cours &nbsp;
-    <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
-      <fa-icon icon="redo" class="mr-2"></fa-icon>
-      Compléter la demande
-    </a>
-  </ngb-alert>
+    <div class="font-weight-bold d-inline-block mr-3">
+      Une demande de renouvellement est actuellement en cours
+    </div>
+    <div class="d-inline-block">
+      <a
+        [routerLink]="['/usager/'+usager.ref+'/edit/'+ etapesUrl[usager.etapeDemande]]"
+        class="btn btn-light"
+      >
+        <fa-icon icon="redo" class="mr-2"></fa-icon>
+        Compléter la demande
+      </a>
+    </div>
+  </div>
 
-  <ngb-alert
-    type="info"
-    [dismissible]="false"
-    class="text-center"
+  <div
+    class="alert alert-warning text-center"
     *ngIf="usager.decision.statut === 'ATTENTE_DECISION' && usager.typeDom === 'RENOUVELLEMENT'"
   >
-    Cette demande de renouvellement est actuellement en attente d'une décision
-    &nbsp;
-    <a [routerLink]="['/usager/'+usager.ref+'/edit']" class="btn btn-light">
-      <fa-icon icon="redo" class="mr-2"></fa-icon>
-      Voir le récapitulatif
-    </a>
-  </ngb-alert>
+    <div class="d-inline-block mr-2">
+      Cette demande de renouvellement est actuellement en attente d'une décision
+    </div>
+    <div class="d-inline-block">
+      <a
+        [routerLink]="['/usager/'+usager.ref+'/edit/decision']"
+        class="btn btn-light"
+      >
+        <fa-icon icon="redo" class="mr-2"></fa-icon>
+        Voir le récapitulatif
+      </a>
+    </div>
+  </div>
 
   <div
     class="text-center alert alert-primary"
     *ngIf="usager.lastInteraction.courrierIn > 0"
   >
-    <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
-    {{ usager.lastInteraction.courrierIn }} courriers en attente
-    <button class="btn btn-primary" (click)="setInteraction('courrierOut')">
-      Confirmer la distribution
-    </button>
+    <div class="d-inline-block mr-2">
+      <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
+      {{ usager.lastInteraction.courrierIn }} courriers en attente
+    </div>
+    <div class="d-inline-block">
+      <button class="btn btn-primary" (click)="setInteraction('courrierOut')">
+        Confirmer la distribution
+      </button>
+    </div>
   </div>
   <div
     class="text-center alert alert-primary"
     *ngIf="usager.lastInteraction.colisIn > 0"
   >
-    <fa-icon id="courrier" icon="box"></fa-icon>
-    {{ usager.lastInteraction.colisIn }} colis en attente
-    <button class="btn btn-primary" (click)="setInteraction('colisOut')">
-      Confirmer la distribution
-    </button>
+    <div class="d-inline-block mr-2">
+      <fa-icon id="courrier" icon="box"></fa-icon>
+      {{ usager.lastInteraction.colisIn }} colis en attente
+    </div>
+    <div class="d-inline-block">
+      <button class="btn btn-primary" (click)="setInteraction('colisOut')">
+        Confirmer la distribution
+      </button>
+    </div>
   </div>
   <div
     class="text-center alert alert-primary"
     *ngIf="usager.lastInteraction.recommandeIn > 0"
   >
-    <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
-    {{ usager.lastInteraction.recommandeIn }} avis de passage en attente
-    <button class="btn btn-primary" (click)="setInteraction('recommandeOut')">
-      Confirmer la distribution
-    </button>
+    <div class="d-inline-block mr-2">
+      <fa-icon id="courrier" icon="envelope-open-text"></fa-icon>
+      {{ usager.lastInteraction.recommandeIn }} avis de passage en attente
+    </div>
+    <div class="d-inline-block">
+      <button class="btn btn-primary" (click)="setInteraction('recommandeOut')">
+        Confirmer la distribution
+      </button>
+    </div>
   </div>
 
   <ngb-accordion

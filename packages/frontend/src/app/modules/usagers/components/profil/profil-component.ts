@@ -33,6 +33,7 @@ import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
 import { UsagerFormModel } from "../form/UsagerFormModel";
+import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/ETAPES_DEMANDE_URL.const";
 
 @Component({
   providers: [
@@ -56,6 +57,8 @@ export class UsagersProfilComponent implements OnInit {
 
   public typeInteraction: InteractionType;
   public interactions: Interaction[];
+
+  public etapesUrl = ETAPES_DEMANDE_URL;
 
   public languagesAutocomplete = languagesAutocomplete;
 
@@ -425,8 +428,7 @@ export class UsagersProfilComponent implements OnInit {
     this.documentService.getStructureDoc(this.usager.ref, docType).subscribe(
       (blob: any) => {
         const newBlob = new Blob([blob], {
-          type:
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         });
         saveAs(newBlob, docType + ".docx");
       },
