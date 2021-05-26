@@ -1,0 +1,111 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [master, alpha, beta, next]
+  pull_request:
+
+jobs:
+
+  backend:
+    name: Backend unit tests
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+    - name: Set up Node.js v14
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Set up Yarn cache
+      uses: c-hive/gha-yarn-cache@v1
+
+    - name: Create backend .env file
+      run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
+
+    - name: Install backend dependencies
+      run: yarn workspace @domifa/backend install --frozen-lockfile --prefer-offline
+
+    - name: Create Postgres service
+      run: docker-compose -f ./docker-compose.tests.yml up --build --detach
+
+    - name: Run backend tests
+      run: yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
+
+    - name: Archive code coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: backend-coverage
+        path: packages/backend/coverage
+
+  frontend:
+    name: Front-end unit tests
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+    - name: Set up Node.js v14
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Set up Yarn cache
+      uses: c-hive/gha-yarn-cache@v1
+
+    - name: Install front-end dependencies
+      run: yarn workspace @domifa/frontend install --frozen-lockfile --prefer-offline
+
+    - name: Run front-end tests
+      run: yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+
+    - name: Archive code coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: frontend-coverage
+        path: packages/frontend/coverage
+
+  codecov:
+    name: Publish code coverage
+    runs-on: ubuntu-18.04
+    needs: [backend, frontend]
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Download backend coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: backend-coverage
+          path: packages/backend/coverage
+
+      - name: Download front-end coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: frontend-coverage
+          path: packages/frontend/coverage
+
+      - name: Publish backend code coverage
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: packages/backend/coverage
+
+      - name: Publish front-end code coverage
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: packages/frontend/coverage

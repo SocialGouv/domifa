@@ -1,0 +1,23 @@
+version: "3.4"
+
+services:
+  postgres:
+    image: postgres:10.16
+    container_name: domifa-postgres
+    volumes:
+      - ./_scripts/docker/postgres-restore-test-dump.docker-entrypoint.sh:/docker-entrypoint-initdb.d/postgres-restore-dump.docker-entrypoint.sh
+      - ./_scripts:/app/_scripts:delegated
+    ports:
+      - "5432:5432"
+    environment:
+      TZ: UTC
+      POSTGRES_DB: domifa_test
+      POSTGRES_USER: domifa_user
+      POSTGRES_PASSWORD: xxxxxxxxxxxxxxxxxxx
+    env_file: ./.env.dev.example.env
+    healthcheck:
+      retries: 5
+      timeout: 5s
+      interval: 5s
+      start_period: 2s
+      test: ["CMD-SHELL", "pg_isready -U domifa_user"]

@@ -1,0 +1,16 @@
+FROM node:14.15.5
+
+ENV TZ Europe/Paris
+
+RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
+RUN apt-get update && apt-get install -y pdftk
+
+COPY ./package.json /app/
+
+WORKDIR /app
+
+RUN yarn --production --frozen-lockfile && yarn cache clean
+
+COPY ./dist /app/dist
+
+ENTRYPOINT [ "yarn", "start:prod"]
