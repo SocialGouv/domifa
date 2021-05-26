@@ -430,6 +430,11 @@ table .active {
   display: inline-block;
   vertical-align: middle;
 }
+
+.statut-signal.d-none {
+  display: none;
+}
+
 .statut-signal .statut-date {
   font-weight: bold;
 }

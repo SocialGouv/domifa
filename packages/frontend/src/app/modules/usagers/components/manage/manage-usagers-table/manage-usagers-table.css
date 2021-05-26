@@ -2,6 +2,14 @@ table {
   border-collapse: separate;
   border-spacing: 0 10px;
   margin: 0 auto;
+  box-sizing: content-box;
+  min-width: 1000px;
+}
+
+#table-usagers  {
+  width: 100%;
+  max-width: 2000px;
+  overflow-x: scroll;
 }
 
 tbody td {
@@ -16,7 +24,7 @@ tbody td {
 tbody td a {
   width: 100%;
   height: 100%;
-  padding: 4px 10px;
+  padding: 4px 11px;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -44,16 +52,16 @@ tbody td:first-child {
   max-width: 120px;
 }
 
+.manage-usager-ref {
+  min-width: 80px;
+}
+
 tbody td:last-child {
   background-color: white;
   text-align: right;
   border-radius: 0 2px 2px 0;
-  width: 40px;
+  width: 60px;
   min-width: 0;
-}
-
-tbody td:last-child span {
-  display: block;
 }
 
 tbody tr {
@@ -95,19 +103,31 @@ th {
   vertical-align: bottom;
 }
 
+.table-name a div {
+  width: 210px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.table-name {
+  max-width: 300px;
+}
+
 .icones_liste {
-  min-width: 340px;
+  padding: 2px 4px;
+  min-width: 360px;
 }
 
 .label-info {
   border-radius: 50px;
   padding: 3px 12px;
   margin: 2px;
-  display: inline-block;
+  min-width: 100px;
+  text-align: center;
 }
 
-.label-info span {
-  display: block;
+.label-info div {
   font-size: 0.8rem;
   font-style: normal;
   font-weight: normal;
@@ -116,6 +136,7 @@ th {
 .label-danger {
   background-color: #ffe5dd;
   color: #b51515;
+  min-width: 135px;
 }
 
 .label-green {
@@ -169,6 +190,7 @@ th {
   font-size: 0.8rem;
   padding: 0 3px;
 }
+
 .distribution-tooltip {
   opacity: 1;
   min-width: 240px;

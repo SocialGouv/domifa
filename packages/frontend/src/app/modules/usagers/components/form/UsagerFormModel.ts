@@ -85,9 +85,9 @@ export class UsagerFormModel implements UsagerLight {
 
   // Dates à afficher sur le manage, couleur selon le statut
   public dateToDisplay: Date;
-  public usagerProfilUrl: String;
+  public usagerProfilUrl: string;
 
-  public echeanceColor: "" | "bg-warning" | "bg-danger";
+  public echeanceColor: "d-none" | "bg-warning" | "bg-danger";
 
   public statusInfos: {
     text: string;
@@ -209,6 +209,7 @@ export class UsagerFormModel implements UsagerLight {
 
       this.dayBeforeEnd = Math.ceil((end - start) / msPerDay);
 
+      this.echeanceColor = "d-none";
       if (this.dayBeforeEnd < 15) {
         this.echeanceColor = "bg-danger";
       } else if (this.dayBeforeEnd > 15 && this.dayBeforeEnd < 60) {
