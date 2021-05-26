@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { AppUser } from "../../../../../../../_common/model";
+import { ETAPES_DEMANDE_URL } from "../../../../../../../_common/model/usager/ETAPES_DEMANDE_URL.const";
 import { UsagerFormModel } from "../../UsagerFormModel";
 
 // 1 : Etat-civil OK
@@ -28,13 +29,7 @@ export class MenuComponent implements OnInit {
     "Décision finale",
   ];
 
-  public etapesUrl = [
-    "etat-civil",
-    "rendez-vous",
-    "entretien",
-    "documents",
-    "decision",
-  ];
+  public etapesUrl = ETAPES_DEMANDE_URL;
 
   public me: AppUser;
 
