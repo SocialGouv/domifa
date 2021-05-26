@@ -100,7 +100,7 @@
           <fa-icon icon="exclamation-triangle"></fa-icon>
           Domiciliation expirée depuis le
           <b>
-            {{ usager.decision.dateFin | date: 'dd/MM/yyyy' }}, il y a {{
+            {{ usager.dateToDisplay | date: 'dd/MM/yyyy' }}, il y a {{
             usager.dayBeforeEnd * -1 }} jours
           </b>
         </span>
