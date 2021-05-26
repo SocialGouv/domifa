@@ -354,31 +354,29 @@
       </button>
     </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div
-          *ngIf="(searching || loading) && filters.page === 0"
-          @fadeInOut
-          class="text-center content-overlay"
-        >
-          <div *ngIf="searching || loading" @fadeInOutSlow>
-            <fa-icon
-              [icon]="['fas', 'spinner']"
-              class="spinner"
-              [spin]="true"
-            ></fa-icon>
-            <br />
-            <span class="loading_message">Chargement des dossiers...</span>
-          </div>
-        </div>
-
-        <app-manage-manage-usagers-table
-          [usagers]="usagers"
-          [filters]="filters"
-          (updateUsager)="updateUsager($event)"
-          (updateFilters)="updateFilters($event)"
-        ></app-manage-manage-usagers-table>
+    <div
+      *ngIf="(searching || loading) && filters.page === 0"
+      @fadeInOut
+      class="text-center content-overlay"
+    >
+      <div *ngIf="searching || loading" @fadeInOutSlow>
+        <fa-icon
+          [icon]="['fas', 'spinner']"
+          class="spinner"
+          [spin]="true"
+        ></fa-icon>
+        <br />
+        <span class="loading_message">Chargement des dossiers...</span>
       </div>
+    </div>
+
+    <div id="table-container">
+      <app-manage-manage-usagers-table
+        [usagers]="usagers"
+        [filters]="filters"
+        (updateUsager)="updateUsager($event)"
+        (updateFilters)="updateFilters($event)"
+      ></app-manage-manage-usagers-table>
     </div>
   </div>
 </div>

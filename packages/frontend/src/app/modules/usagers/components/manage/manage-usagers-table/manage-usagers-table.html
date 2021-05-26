@@ -39,8 +39,8 @@
     <th class="text-left">ACTIONS RAPIDES</th>
     <th></th>
   </thead>
-  <tbody *ngFor="let usager of usagers; let i = index">
-    <tr>
+  <tbody>
+    <tr *ngFor="let usager of usagers; let i = index">
       <td *ngIf="filters.statut==='TOUS'">
         <a [routerLink]="usager.usagerProfilUrl">
           <div class="label-statut" [class]="usager.statusInfos.color">
@@ -77,10 +77,12 @@
 
       <td scope="row" class="table-name td-name">
         <a [routerLink]="usager.usagerProfilUrl">
-          {{ usager.nom | uppercase }} {{ usager.prenom }}
-          <span *ngIf="usager.surnom && usager.surnom !== null">
-            ({{ usager.surnom }})
-          </span>
+          <div>
+            {{ usager.nom | uppercase }} {{ usager.prenom }}
+            <span *ngIf="usager.surnom && usager.surnom !== null">
+              ({{ usager.surnom }})
+            </span>
+          </div>
         </a>
       </td>
 
@@ -100,7 +102,7 @@
             [ngbTooltip]="ayantsDroitsTooltip"
             *ngIf="usager.ayantsDroits.length"
           >
-            <span>{{ usager.ayantsDroits.length }} ayants-droit</span>
+            <div>{{ usager.ayantsDroits.length }} ayants-droit</div>
           </div>
 
           <div
@@ -122,7 +124,7 @@
               </div>
             </ng-template>
 
-            <span>Transfert</span>
+            <div>Transfert</div>
           </div>
 
           <div
@@ -143,20 +145,22 @@
               </span>
             </ng-template>
 
-            <span>Procuration</span>
+            <div>Procuration</div>
           </div>
 
           <div
             *ngIf="usager.options.npai.actif"
             class="label-info label-danger"
           >
-            <span> Pli non distribuable </span>
+            <div>Pli non distribuable</div>
           </div>
         </a>
       </td>
 
       <td *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' ">
-        {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
+        <a [routerLink]="usager.usagerProfilUrl">
+          {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
+        </a>
       </td>
 
       <td class="statut-date">
