@@ -41,12 +41,13 @@
   </thead>
   <tbody *ngFor="let usager of usagers; let i = index">
     <tr>
-      <td *ngIf="filters.statut==='TOUS'">
+      <td (click)="goToProfil(usager)" *ngIf="filters.statut==='TOUS'">
         <div class="label-statut" [class]="usager.statusInfos.color">
           <span>{{usager.statusInfos.text }}</span>
         </div>
       </td>
       <td
+        (click)="goToProfil(usager)"
         *ngIf="filters.statut ==='ATTENTE_DECISION' || filters.statut ==='INSTRUCTION'"
       >
         <div

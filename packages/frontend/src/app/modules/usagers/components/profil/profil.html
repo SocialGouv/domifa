@@ -132,8 +132,8 @@
               <fa-icon icon="exclamation-triangle"></fa-icon>
               Domiciliation expirée depuis le
               <b>
-                {{ usager.decision.dateFin | date: 'dd/MM/yyyy' }}, il y a
-                {{ usager.dayBeforeEnd * -1 }} jours
+                {{ usager.decision.dateFin | date: 'dd/MM/yyyy' }}, il y a {{
+                usager.dayBeforeEnd * -1 }} jours
               </b>
             </span>
             <br />
@@ -819,6 +819,7 @@
                     >
                       La date de naissance est obligatoire
                     </div>
+                  </div>
                   <div class="col form-group required">
                     <label for="lien_{{i}}">Lien</label>
                     <select
@@ -848,7 +849,7 @@
                 </div>
               </div>
               <span (click)="addAyantDroit()" class="btn btn-primary">
-                <fa-icon icon="plus"></fa-icon>
+                <fa-icon icon="plus"> </fa-icon>
                 Ajouter des ayants droits
               </span>
               <br />

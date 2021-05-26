@@ -278,19 +278,35 @@
             aria-labelledby="navbarDropdown2"
             class="dropdown-menu dropdown-menu-right"
           >
+            <ng-container
+              *ngIf="filters.statut === 'TOUS'  || filters.statut === 'VALIDE'"
+            >
+              <button
+                (click)="updateFilters({element: 'sortKey', value: 'PASSAGE', sortValue:'ascending'})"
+                ngbDropdownItem
+              >
+                Trier par dernier passage
+                <fa-icon icon="sort-amount-up"></fa-icon>
+              </button>
+              <button
+                (click)="updateFilters({element: 'sortKey', value: 'PASSAGE', sortValue:'descending'})"
+                ngbDropdownItem
+              >
+                Trier par dernier passage
+                <fa-icon icon="sort-amount-down"></fa-icon>
+              </button>
+            </ng-container>
             <button
-              (click)="updateFilters({element: 'sortKey', value: 'PASSAGE', sortValue:'ascending'})"
+              (click)="updateFilters({element: 'sortKey', value: 'ECHEANCE', sortValue:'ascending'})"
               ngbDropdownItem
             >
-              Trier par dernier passage
-              <fa-icon icon="sort-amount-up"></fa-icon>
+              Trier par échéance <fa-icon icon="sort-amount-up"></fa-icon>
             </button>
             <button
-              (click)="updateFilters({element: 'sortKey', value: 'PASSAGE', sortValue:'descending'})"
+              (click)="updateFilters({element: 'sortKey', value: 'ECHEANCE', sortValue:'descending'})"
               ngbDropdownItem
             >
-              Trier par dernier passage
-              <fa-icon icon="sort-amount-down"></fa-icon>
+              Trier par échéance <fa-icon icon="sort-amount-down"></fa-icon>
             </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'NAME', sortValue:'ascending'})"
