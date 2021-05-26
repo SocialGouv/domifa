@@ -166,28 +166,28 @@
           *ngIf="usager.isActif || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
         >
           <div
-            ngbTooltip="Signaler un passage"
+            ngbTooltip="Ajout d'un passage"
             class="interaction-btn"
             (click)="setSingleInteraction(usager, 'visite')"
           >
             <span class="icon-passage list-icon"></span>
           </div>
           <div
-            ngbTooltip="Signaler un appel téléphonique"
+            ngbTooltip="Ajout d'un appel téléphonique"
             class="interaction-btn"
             (click)="setSingleInteraction(usager, 'appel')"
           >
             <span class="icon-appel list-icon"></span>
           </div>
           <div
-            ngbTooltip="Signaler la réception d'un courrier"
+            ngbTooltip="Ajout rapide d'un courrier"
             class="interaction-btn"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
             <span class="icon-courrier list-icon"></span>
           </div>
           <div
-            ngbTooltip="Signaler l'arrivée de courrier"
+            ngbTooltip="Ajout détaillé d'un courrier"
             class="interaction-btn"
             (click)="openInteractionInModal(usager)"
           >
