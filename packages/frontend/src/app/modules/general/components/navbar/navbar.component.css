@@ -62,3 +62,9 @@
 .dropdown-item .ng-fa-icon {
   margin-right: 10px;
 }
+
+@media (min-width: 576px) {
+  .navbar > a {
+    display: inline-block;
+  }
+}

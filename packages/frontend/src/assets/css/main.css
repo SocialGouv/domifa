@@ -21,7 +21,7 @@ ul {
   border-radius: 3px;
 }
 #page {
-  padding-top: 78px;
+  padding-top: 120px;
   min-height: calc(90vh - 78px);
   overflow-x: hidden;
 }

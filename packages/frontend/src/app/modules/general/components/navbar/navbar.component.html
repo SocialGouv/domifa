@@ -1,17 +1,21 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-
-    <div class="d-flex">
+    <div class="row d-flex align-items-center">
       <a class="ml-2" [routerLink]="['/']">
-        <img class="ministere-logo"
-          src="../assets/images/logo_ministere-des-solidarites-et-de-la-sante.png"
+        <img
+          class="home-header-image"
+          src="../assets/images/logo-ministere.svg "
           alt="Ministère des Solidarités et de la Santé"
           title="Ministère des Solidarités et de la Santé"
         />
       </a>
 
       <a class="navbar-brand ml-5 d-none d-sm-block" [routerLink]="['/']">
-        <img class="domifa-logo" src="../assets/images/logo.svg" alt="Logo Domifa" />
+        <img
+          class="domifa-logo"
+          src="../assets/images/logo.svg"
+          alt="Logo Domifa"
+        />
         <span id="nom-asso" *ngIf="me">
           {{ me.structure.nom }}
         </span>
@@ -28,25 +32,23 @@
           <li class="nav-item active"></li>
         </ul>
         <div class="my-2 my-lg-0">
-          <ng-container  *ngIf="!me">
-          <!-- MENU SI DECONNECTE - SAUF MOBILE -->
-          <div class="d-none d-xs-inline-block d-sm-inline-block">
-            <a routerLink="/faq" class="btn text-primary">
-              En savoir plus
-            </a>
-            <span class="nav--menu-breadcrumb">|</span>
-            <a
-              routerLink="/connexion"
-              aria-hidden="true"
-              title="Me connecter"
-              class="btn text-primary"
-            >
-              Me connecter &#8594;
-            </a>
-          </div>
+          <ng-container *ngIf="!me">
+            <!-- MENU SI DECONNECTE - SAUF MOBILE -->
+            <div class="d-none d-xs-inline-block d-sm-inline-block">
+              <a routerLink="/faq" class="btn text-primary"> En savoir plus </a>
+              <span class="nav--menu-breadcrumb">|</span>
+              <a
+                routerLink="/connexion"
+                aria-hidden="true"
+                title="Me connecter"
+                class="btn text-primary"
+              >
+                Me connecter &#8594;
+              </a>
+            </div>
 
-          <!-- MENU SI DECONNECTE - MOBILE -->
-          <div
+            <!-- MENU SI DECONNECTE - MOBILE -->
+            <div
               ngbDropdown
               id="dropdownNotAuthenticatedMenu"
               display="dynamic"
@@ -56,13 +58,15 @@
               <button class="btn" ngbDropdownToggle>
                 <fa-icon icon="bars"></fa-icon>
               </button>
-              <div ngbDropdownMenu aria-labelledby="dropdownNotAuthenticatedMenu">
+              <div
+                ngbDropdownMenu
+                aria-labelledby="dropdownNotAuthenticatedMenu"
+              >
                 <a ngbDropdownItem routerLink="/faq">En savoir plus</a>
                 <a ngbDropdownItem routerLink="/connexion">Me connecter</a>
               </div>
-          </div>
-            
-        </ng-container>
+            </div>
+          </ng-container>
 
           <!-- MENU DECONNECTE -->
           <ng-container *ngIf="me">
@@ -96,7 +100,11 @@
                   *ngIf="me.role === 'admin' || me.role === 'responsable'"
                   routerLink="/admin"
                 >
-                  <fa-icon aria-hidden="true" title="Administration" icon="users">
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Administration"
+                    icon="users"
+                  >
                   </fa-icon>
                   Utilisateurs</a
                 >
