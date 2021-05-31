@@ -59,21 +59,6 @@ export class StructuresService {
     );
   }
 
-  public async updateStructureStats(
-    structureId: number,
-    valide: number,
-    refus: number,
-    radie: number
-  ): Promise<StructureCommon> {
-    const total = valide + refus + radie;
-    return structureCommonRepository.updateOne(
-      { id: structureId },
-      {
-        stats: { TOTAL: total, VALIDE: valide, REFUS: refus, RADIE: radie },
-      }
-    );
-  }
-
   public async updateLastLogin(structureId: number): Promise<StructureCommon> {
     return structureCommonRepository.updateOne(
       { id: structureId },

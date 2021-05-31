@@ -18,13 +18,12 @@ import {
 } from "../../_common/model";
 import { InteractionType } from "../../_common/model/interaction";
 import { StructureAdmin } from "../../_common/model/structure/StructureAdmin.type";
-import { StatsGeneratorService } from "./stats-generator.service";
 
 @Injectable()
 export class DashboardService {
   private interactionRepository: Repository<InteractionsTable>;
 
-  constructor(private statsGeneratorService: StatsGeneratorService) {
+  constructor() {
     this.interactionRepository = appTypeormManager.getRepository(
       InteractionsTable
     );

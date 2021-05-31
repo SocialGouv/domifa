@@ -23,7 +23,6 @@ import {
   hardResetEmailSender,
   userAccountActivatedEmailSender,
 } from "../../mails/services/templates-renderers";
-import { StatsService } from "../../stats/services/stats.service";
 import { EmailDto } from "../../users/dto/email.dto";
 import { AppAuthUser } from "../../_common/model";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
@@ -41,8 +40,7 @@ export class StructuresController {
   constructor(
     private structureCreatorService: StructureCreatorService,
     private structureHardResetService: StructureHardResetService,
-    private structureService: StructuresService,
-    private statsService: StatsService
+    private structureService: StructuresService
   ) {}
 
   @Post()

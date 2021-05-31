@@ -1,9 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
-import {
-  structureRepository,
-  structureStatsRepository,
-  usersRepository,
-} from "../database";
+import { structureRepository, usersRepository } from "../database";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
@@ -58,9 +54,8 @@ describe("Stuctures creation full", () => {
       ],
       providers: [],
     });
-    structureController = context.module.get<StructuresController>(
-      StructuresController
-    );
+    structureController =
+      context.module.get<StructuresController>(StructuresController);
     userController = context.module.get<UsersController>(UsersController);
   });
   afterAll(async () => {
@@ -155,24 +150,12 @@ describe("Stuctures creation full", () => {
     expect(user.email).toEqual(userDto.email);
     expect(user.verified).toBeFalsy();
 
-    const stats = await structureStatsRepository.findMany(
-      {
-        structureId,
-      },
-      { select: "ALL" }
-    );
-    expect(stats).toBeDefined();
-    expect(stats.length).toEqual(1);
-    expect(stats[0].nom).toEqual(structureDto.nom);
-    expect(stats[0].questions).toBeDefined();
-
     return { structureId, userId };
   }
 
   async function testPreCreateStructure() {
-    const prePostStructure: StructureDto = await structureController.prePostStructure(
-      structureDto
-    );
+    const prePostStructure: StructureDto =
+      await structureController.prePostStructure(structureDto);
     expect(prePostStructure).toBeDefined();
     expect(prePostStructure.email).toEqual(structureDto.email);
     expect(prePostStructure.adresseCourrier.adresse).toEqual(
@@ -194,10 +177,10 @@ describe("Stuctures creation full", () => {
     expect(structure).toBeDefined();
     expect(structure.id).toEqual(structureId);
     expect(structure.token).toBeDefined();
-    const res = ({
+    const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
-    } as unknown) as ExpressResponse;
+    } as unknown as ExpressResponse;
     await structureController.confirmStructureCreation(
       structure.token,
       `${structure.id}`,

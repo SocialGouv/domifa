@@ -1,8 +1,9 @@
-import { UsagerDecisionStatut } from ".";
+import { UsagerVisibleHistoryDecisionStatut } from "./history/UsagerVisibleHistoryDecisionStatut.type";
 
 export const USAGER_DECISION_STATUT_LABELS: {
-  [key in UsagerDecisionStatut]: string;
+  [key in UsagerVisibleHistoryDecisionStatut]: string;
 } = {
+  PREMIERE_DOM: "Première domiciliation",
   VALIDE: "Actif",
   INSTRUCTION: "Instruction",
   ATTENTE_DECISION: "À valider",

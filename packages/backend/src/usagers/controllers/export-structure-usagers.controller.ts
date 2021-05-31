@@ -9,7 +9,7 @@ import {
   StructureUsagersExportModel,
 } from "../../excel/export-structure-usagers";
 import { InteractionsService } from "../../interactions/interactions.service";
-import { appLogger } from "../../util";
+import { expressResponseExcelRenderer } from "../../util";
 import {
   AppAuthUser,
   AppUser,
@@ -25,27 +25,10 @@ import moment = require("moment");
 @ApiBearerAuth()
 @Controller("export")
 export class ExportStructureUsagersController {
-  // Données des usagers + ayant-droit
-  public dataSheet1: {
-    [key: string]: {};
-  }[];
-  // Données usagers + entretiens
-  public dataSheet2: {
-    [key: string]: {};
-  }[];
-  // Données usagers + courriers
-  public dataSheet3: {
-    [key: string]: {};
-  }[];
-
   constructor(
     private readonly usagersService: UsagersService,
     private readonly interactionsService: InteractionsService
-  ) {
-    this.dataSheet1 = [];
-    this.dataSheet2 = [];
-    this.dataSheet3 = [];
-  }
+  ) {}
 
   @Get("")
   public async export(
@@ -63,22 +46,11 @@ export class ExportStructureUsagersController {
     const fileName = `${moment(model.exportDate).format(
       "DD-MM-yyyy_HH-mm"
     )}_export-structure-${user.structureId}-usagers.xlsx`;
-    res.header(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    );
-    res.header("Content-Disposition", `attachment; filename="${fileName}"`);
-
-    await workbook.xlsx
-      .write(res)
-      .then(() => {
-        res.end();
-      })
-      .catch((err) => {
-        appLogger.error("Unexpected export error", err);
-        res.sendStatus(500);
-        res.end();
-      });
+    await expressResponseExcelRenderer.sendExcelWorkbook({
+      res,
+      fileName,
+      workbook,
+    });
   }
 
   private async buildExportModel(user: Pick<AppUser, "structureId">) {

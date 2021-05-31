@@ -84,9 +84,10 @@ async function _anonymizeUsager(
           }),
         }))
       : usager.ayantsDroits,
-    datePremiereDom: dataGenerator.date({
-      years: { min: 0, max: -30 },
-    }),
+    // datePremiereDom non-anonymisée car ça casse la cohérence des données, il faudrait le faire en tenant compte de l'historique
+    // datePremiereDom: dataGenerator.date({
+    //   years: { min: 0, max: -30 },
+    // }),
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {

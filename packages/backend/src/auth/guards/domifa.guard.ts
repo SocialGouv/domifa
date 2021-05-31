@@ -12,7 +12,7 @@ export class DomifaGuard implements CanActivate {
 
     const user = request.user as AppAuthUser;
 
-    const isValidRole = this.isDomifaAdmin(user);
+    const isValidRole = isDomifaAdmin(user);
     if (user && !isValidRole) {
       appLogger.warn(
         `[DomifaGuard] invalid role "${user.role}" or structureId "${user.structureId}" for user "${user.id}" with role "${user.role}"`,
@@ -24,8 +24,8 @@ export class DomifaGuard implements CanActivate {
     }
     return isValidRole;
   }
+}
 
-  public isDomifaAdmin(user: any) {
-    return !!user && user.role === "admin" && user.structureId === 1;
-  }
+export function isDomifaAdmin(user: Pick<AppAuthUser, "role" | "structureId">) {
+  return !!user && user.role === "admin" && user.structureId === 1;
 }

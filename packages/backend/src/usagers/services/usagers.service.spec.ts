@@ -5,6 +5,7 @@ import { AppTestContext, AppTestHelper } from "../../util/test";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
 import { SearchDto } from "../dto/search.dto";
 import { CerfaService } from "./cerfa.service";
+import { usagerDeletor } from "./usagerDeletor.service";
 import { UsagersService } from "./usagers.service";
 
 describe("UsagersService", () => {
@@ -69,8 +70,9 @@ describe("UsagersService", () => {
     expect(updatedUsager.prenom).toEqual("Nouveau prénom");
 
     // DELETE
-    const deletedCount = await usagerRepository.deleteByCriteria({
-      uuid: updatedUsager.uuid,
+    const deletedCount = await usagerDeletor.deleteUsager({
+      usagerRef: usagerTest.ref,
+      structureId: user.structureId,
     });
     expect(await deletedCount).toEqual(1);
   });

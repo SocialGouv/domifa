@@ -1,0 +1,663 @@
+<div id="rapport" class="container my-5 text-left">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Rapport d'activité de votre structure</h1>
+
+      <div>
+        Cet item vous permettra de remplir votre obligation légale et
+        réglementaire (Article L 264-8 et Article D 264-8 du code de l'action
+        sociale et des familles) de transmission annuelle au préfet de
+        département de votre rapport d’activité de domiciliation.
+        <br />
+        <br />Il vous permettra aussi d’assurer le suivi et le pilotage de votre
+        activité.<br />
+
+        <div class="card p-4 my-4">
+          <div class="row d-flex align-items-center">
+            <div class="col-md-8">
+              <b>
+                <fa-icon icon="info-circle"></fa-icon>
+                Les statistiques du rapport d’activité 2020 sont disponibles
+              </b>
+            </div>
+            <div class="col-md-4 text-right">
+              <button class="btn btn-primary" (click)="export(2020)">
+                <fa-icon icon="download"> </fa-icon> Télécharger le rapport 2020
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <div class="form-group required">
+        <div class="input-group">
+          <label class="control-label">Du </label>
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            [minDate]="minDateDebut"
+            [maxDate]="maxDateDebut"
+            placement="bottom"
+            ngbDatepicker
+            id="dateDebutValide"
+            outsideDays="hidden"
+            [(ngModel)]="fromDate"
+            #dDebut="ngbDatepicker"
+            #ca="ngModel"
+            (dateSelect)="changeStart($event)"
+            dateFr
+            value
+            [ngClass]="{
+              'is-invalid': ca.status === 'INVALID'
+            }"
+            maxlength="10"
+            required
+          />
+          <div class="input-group-append">
+            <span class="btn btn-outline-primary" (click)="dDebut.toggle()">
+              <fa-icon icon="calendar"></fa-icon>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="text-danger" *ngIf="ca.status === 'INVALID'">
+        La date de début est incorrecte
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group">
+        <div class="input-group required">
+          <label class="control-label" for="dateFinValide"> au </label>
+          <input
+            class="form-control"
+            placeholder="jj/mm/aaaa"
+            [minDate]="minDateFin"
+            [maxDate]="maxDateFin"
+            placement="bottom"
+            ngbDatepicker
+            [(ngModel)]="toDate"
+            #dFin="ngbDatepicker"
+            #cb="ngModel"
+            dateFr
+            [readonly]="ca.status === 'INVALID'"
+            id="dateFinValide"
+            value
+            [ngClass]="{
+              'is-invalid': cb.status === 'INVALID',
+              disabled: ca.status === 'INVALID'
+            }"
+            maxlength="10"
+            required
+          />
+          <div class="input-group-append">
+            <span class="btn btn-outline-primary" (click)="dFin.toggle()">
+              <fa-icon icon="calendar"></fa-icon>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center text-danger" *ngIf="cb.status === 'INVALID'">
+        La date de fin est incorrecte
+      </div>
+    </div>
+    <div class="col-md-3 form-group">
+      <div class="input-group">
+        <button
+          class="btn btn-primary"
+          [disabled]="ca.status === 'INVALID' || cb.status === 'INVALID'"
+          (click)="compare()"
+        >
+          <fa-icon icon="sync-alt" class="mr-1"></fa-icon>
+          Actualiser les statistiques
+        </button>
+      </div>
+    </div>
+    <div class="col-3" *ngIf="start !== null">
+      <button
+        (click)="export()"
+        [disabled]="exportLoading"
+        class="btn btn-primary"
+      >
+        <span *ngIf="!exportLoading">
+          <fa-icon icon="download" class="mr-1"></fa-icon>
+          Exporter les statistiques
+        </span>
+        <span *ngIf="exportLoading">
+          <fa-icon icon="circle-notch" [spin]="true"> </fa-icon> Export en
+          cours, veuillez patienter...
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="col-md-12" *ngIf="stats">
+    <br />
+    <h4>
+      1. Domiciliés par statut au
+      {{ stats.period.endDateUTC | date: "dd/MM/yyyy":"UTC" }}
+    </h4>
+    <b>Astuce:</b> pour avoir des statistiques sur une date précise, la date de
+    fin sera prise en compte.
+
+    <br />
+    <br />
+
+    <b>Note 2020 :</b> les statistiques des ayants droits et des questions de
+    l'entretien affichent les dernières valeurs à jour sur les fiches
+    domiciliés. <br />Par exemple, si les données de l'entretien ont été
+    modifiées récemment, les statistiques afficheront seulement la dernière
+    information saisie.
+
+    <div class="rapport-part">
+      <table id="table-stats" class="table table-hover">
+        <tbody>
+          <tr>
+            <td class="font-weight-bold">
+              Total des domiciliés actifs + leurs ayants-droit
+            </td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.total.usagerEtAyantsDroits }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Nombre de domiciliés</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.total.usagers }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">Nombre d'ayants-droit</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.total.ayantsDroits }}</td>
+          </tr>
+
+          <tr>
+            <td class="font-weight-bold" colspan="2">
+              Nombre de domiciliés actifs par sexe
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Femme</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.sexe.f }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Homme</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.sexe.h }}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="font-weight-bold" colspan="2">
+              Nombre de domiciliés actifs + leurs ayants-droit par tranche d'âge
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Mineurs</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.mineurs + stats.data.validUsagers.age.ayantsDroits.mineurs }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">Majeurs</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.majeurs + stats.data.validUsagers.age.ayantsDroits.majeurs }}</td>
+          </tr>
+
+          <tr>
+            <td class="font-weight-bold" colspan="2">
+              Nombre de domiciliés actifs par tranche d'âge
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Mineurs</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.mineurs }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">Majeurs</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.majeurs }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">Moins de 15 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_0_14 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">15-19 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_15_19 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">20-24 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_20_24 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">25-29 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_25_29 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">30-34 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_30_34 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">35-39 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_35_39 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">40-44 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_40_44 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">45-49 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_45_49 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">50-54 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_50_54 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">55-59 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_55_59 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">60-64 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_60_64 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">65-69 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_65_69 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">70-74 ans</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_70_74 }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">75 ans ou plus</td>
+            <td class="stats-table-value">{{ stats.data.validUsagers.age.usagers.t_75_plus }}</td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <td class="font-weight-bold" colspan="2">
+              Nombre de domiciliés actifs par type de ménage
+            </td>
+          </tr>
+
+          <tr>
+            <td class="soustable">Couple avec enfant(s)</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.menage.couple_avec_enfant }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Femme isolée avec enfant(s)</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.menage.femme_isole_avec_enfant }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Femme isolée sans enfant</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.menage.femme_isole_sans_enfant }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Homme isolé avec enfant(s)</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.menage.homme_isole_avec_enfant }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Homme isolé sans enfant</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.menage.homme_isole_sans_enfant }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Non renseigné</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.menage.non_renseigne }}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="font-weight-bold" colspan="2">
+              Situation résidentielle
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">
+              Domicile mobile (ex: caravane)
+            </td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.residence.domicile_mobile }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">
+              Hébergement social (sans service courrier)
+            </td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.residence.hebergement_social }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">
+              Hébergé chez un tiers
+            </td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.residence.hebergement_tiers }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">
+              Hôtel
+            </td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.residence.hotel }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">
+              Sans abris / Squat
+            </td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.residence.sans_abri }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Autre situation</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.residence.autre }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Non renseigné</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.residence.non_renseigne }}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="font-weight-bold" colspan="2">
+              Cause de l'instabilité de logement
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Errance</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.cause.errance }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Expulsion</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.cause.expulsion }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Hébergé, mais ne peut justifier d'une adresse</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.cause.heberge_sans_adresse }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Personnes itinérantes</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.cause.itinerant }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Rupture familiale et/ou conjugale </td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.cause.rupture }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Sortie d'une structure d'hébergement</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.cause.sortie_structure }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Violence familiale et/ou conjugale</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.cause.violence }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Autre cause</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.cause.autre }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Non renseigné</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.cause.non_renseigne }}
+            </td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold" colspan="2">
+              Motif principal de demande de domiciliation
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Exercice des droits civils ou civiques</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.raison.exercice_droits }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Accès aux prestations sociales</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.raison.prestations_sociales }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Autre raison</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.raison.autre }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Non renseigné</td>
+            <td class="stats-table-value">
+              {{ stats.data.validUsagers.raison.non_renseigne }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <br />
+
+    <h4>
+      2. Activité du {{  stats.period.startDateUTC | date: "dd/MM/yyyy" }} au
+      {{  stats.period.endDateUTC | date: "dd/MM/yyyy" }}
+
+      <span *ngIf="end !== null"> </span>
+      <span *ngIf="end === null"> </span>
+    </h4>
+
+    <div class="rapport-part">
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <td class="font-weight-bold">
+              Nombre total d'attestations d'élection de domicile délivrées
+            </td>
+            <td class="stats-table-value">{{ stats.data.decisions.valid.usagers.total }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">
+              Dont premières demandes conclues par une attestation d'élection de
+              domicile
+            </td>
+            <td class="stats-table-value">{{ stats.data.decisions.valid.usagers.premiere_demande }}</td>
+          </tr>
+          <tr>
+            <td class="soustable">Dont renouvellements</td>
+            <td class="stats-table-value">{{ stats.data.decisions.valid.usagers.renouvellement }}</td>
+          </tr> 
+          <tr>
+            <td class="soustable">Ayants-droits concernés</td>
+           <td class="stats-table-value"> {{ stats.data.decisions.valid.ayantsDroits.total }}</td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold">Nombre total de radiations</td>
+            <td class="stats-table-value">{{ stats.data.decisions.radie.total }}</td>
+          </tr>
+          <tr>
+            <td colspan="2">Répartition des radiations par motif</td>
+          </tr>
+          <tr>
+            <td class="soustable">À la demande de la personne</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.radie.motif.a_sa_demande }}
+            </td>
+          </tr> <tr>
+            <td class="soustable">Plus de lien avec la commune</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.radie.motif.plus_de_lien_commune }}
+            </td>
+          </tr> <tr>
+            <td class="soustable">La domiciliation est arrivée à échéance (1 an) et son renouvellement n'a pas été sollicité</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.radie.motif.fin_de_domiciliation }}
+            </td>
+          </tr> <tr>
+            <td class="soustable">Non-manifestation de la personne pendant plus de 3 mois consécutifs</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.radie.motif.non_manifestation_3_mois }}
+            </td>
+          </tr> <tr>
+            <td class="soustable">Non-respect du règlement</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.radie.motif.non_respect_reglement }}
+            </td>
+          </tr> <tr>
+            <td class="soustable">Entrée dans un logement/hébergement stable</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.radie.motif.entree_logement }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Autre motif de radiation</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.radie.motif.autre }}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="font-weight-bold">
+              Nombre total de refus d'élection de domicile (y compris refus de
+              renouvellements)
+            </td>
+            <td class="stats-table-value">{{ stats.data.decisions.refus.total }}</td>
+          </tr>
+          <tr>
+            <td colspan="2">Répartition par motif de refus</td>
+          </tr>
+          <tr>
+            <td class="soustable">En dehors des critères du public domicilié</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.refus.motif.hors_agrement }}
+            </td>
+          </tr> 
+          <tr>
+            <td class="soustable">Absence de lien avec la commune</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.refus.motif.lien_commune }}
+            </td>
+          </tr> 
+          <tr>
+            <td class="soustable">Nombre maximal de domiciliations atteint</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.refus.motif.saturation }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Autre motif de refus</td>
+            <td class="stats-table-value">{{ stats.data.decisions.refus.motif.autre }}</td>
+          </tr>
+          <tr>
+            <td colspan="2">Répartition des orientations</td>
+          </tr>
+          <tr>
+            <td class="soustable">Orientation vers CCAS</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.refus.reorientation.ccas }}
+            </td>
+          </tr>
+          <tr>
+            <td class="soustable">Orientation vers Organisme agrée</td>
+            <td class="stats-table-value">
+              {{ stats.data.decisions.refus.reorientation.asso }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <br />
+    <h4>
+      3. Total des interactions du
+      {{  stats.period.startDateUTC | date: "dd/MM/yyyy" }} au
+      {{  stats.period.endDateUTC | date: "dd/MM/yyyy" }}
+    </h4>
+    <div>
+      <b>Note 2020 : </b> les statistiques des interactions sont disponibles à
+      compter de votre date d'utilisation de DomiFa, date à partir de laquelle
+      vous avez débuté la saisie des passages, appels, et courriers.
+    </div>
+    <div class="rapport-part">
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <td>Appel téléphonique</td>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.appel }}
+            </td>
+          </tr>  <tr>
+            <td>Colis enregistré</td>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.colisIn }}
+            </td>
+          </tr>  <tr>
+            <td>Colis remis</td>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.colisOut }}
+            </td>
+          </tr>  <tr>
+            <td>Courrier enregistré</td>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.courrierIn }}
+            </td>
+          </tr>  <tr>
+            <td>Courrier remis</td>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.courrierOut }}
+            </td>
+          </tr>  <tr>
+            <td>Avis de passage enregistré</td>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.recommandeIn }}
+            </td>
+          </tr>  <tr>
+            <td>Avis de passage remis</td>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.recommandeOut }}
+            </td>
+          </tr>  <tr>
+            <td>Passage enregistré</td>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.visite }}
+            </td>
+          </tr>  <tr>
+            <td>Pli non distribuable enregistré</td>
+            <td class="stats-table-value">
+              {{ stats.data.interactions.npai }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

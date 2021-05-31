@@ -3,9 +3,11 @@ import * as path from "path";
 import { appLogger } from "../../util";
 import { StatsDeploiementExportModel } from "./StatsDeploiementExportModel.type";
 import { StatsExportUser } from "./StatsExportUser.type";
-import { exportListeStructuresWorksheetRenderer } from "./worksheet-renderer/exportListeStructuresWorksheetRenderer";
-import { exportListeUsersWorksheetRenderer } from "./worksheet-renderer/exportListeUsersWorksheetRenderer";
-import { exportStatsGlobalesWorksheetRenderer } from "./worksheet-renderer/exportStatsGlobalesWorksheetRenderer";
+import {
+  exportListeStructuresWorksheetRenderer,
+  exportListeUsersWorksheetRenderer,
+  exportStatsGlobalesWorksheetRenderer,
+} from "./worksheet-renderer";
 
 export const statsDeploiementExporter = {
   generateExcelDocument,

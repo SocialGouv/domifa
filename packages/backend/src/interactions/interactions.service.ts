@@ -1,7 +1,6 @@
 import { HttpException, Injectable } from "@nestjs/common";
-import { FindConditions, LessThan, MoreThan, Repository } from "typeorm";
+import { FindConditions, LessThan, MoreThan } from "typeorm";
 import {
-  appTypeormManager,
   interactionRepository,
   InteractionsTable,
   usagerLightRepository,
@@ -12,13 +11,7 @@ import { InteractionDto } from "./interactions.dto";
 
 @Injectable()
 export class InteractionsService {
-  private interactionRepository: Repository<InteractionsTable>;
-
-  constructor() {
-    this.interactionRepository = appTypeormManager.getRepository(
-      InteractionsTable
-    );
-  }
+  constructor() {}
   public async create({
     interaction,
     usager,
@@ -41,7 +34,7 @@ export class InteractionsService {
       newInteraction
     );
 
-    await this.interactionRepository.insert(createdInteraction);
+    await interactionRepository.save(createdInteraction);
 
     return usagerLightRepository.updateOne(
       { uuid: usager.uuid },
@@ -53,14 +46,16 @@ export class InteractionsService {
     usagerRef: number,
     user: Pick<AppUser, "structureId">
   ): Promise<any> {
-    return this.interactionRepository.find({
-      where: { structureId: user.structureId, usagerRef },
-      order: {
-        dateInteraction: "DESC",
-      },
-      skip: 0,
-      take: 30,
-    });
+    return interactionRepository.findMany(
+      { structureId: user.structureId, usagerRef },
+      {
+        order: {
+          dateInteraction: "DESC",
+        },
+        skip: 0,
+        maxResults: 30,
+      }
+    );
   }
 
   public async findOne(
@@ -68,12 +63,11 @@ export class InteractionsService {
     interactionId: number,
     user: Pick<AppUser, "structureId">
   ): Promise<Interactions | null> {
-    const where: FindConditions<InteractionsTable> = {
+    return interactionRepository.findOne({
       id: interactionId,
       structureId: user.structureId,
       usagerRef,
-    };
-    return this.interactionRepository.findOne({ where });
+    });
   }
 
   public async findLastInteractionOk(
@@ -99,9 +93,7 @@ export class InteractionsService {
       type: typeInteraction,
       dateInteraction: dateQuery,
     };
-    return this.interactionRepository.findOne({
-      where,
-    });
+    return interactionRepository.findOne(where as any);
   }
 
   public async delete(
@@ -109,7 +101,7 @@ export class InteractionsService {
     interactionId: number,
     user: Pick<AppUser, "structureId">
   ): Promise<any> {
-    const retour = this.interactionRepository.delete({
+    const retour = interactionRepository.deleteByCriteria({
       id: interactionId,
       structureId: user.structureId,
       usagerRef,
@@ -121,29 +113,21 @@ export class InteractionsService {
     return retour;
   }
 
-  public async deleteByUsager(
-    usagerRef: number,
-    structureId: number
-  ): Promise<any> {
-    return this.interactionRepository.delete({
-      structureId,
-      usagerRef,
-    });
-  }
-
   public async totalInteraction(
     structureId: number,
     usagerRef: number,
     interactionType: InteractionType
   ): Promise<number> {
     if (interactionType === "appel" || interactionType === "visite") {
-      return this.interactionRepository.count({
-        structureId,
-        usagerRef,
-        type: interactionType,
+      return interactionRepository.count({
+        where: {
+          structureId,
+          usagerRef,
+          type: interactionType,
+        },
       });
     } else {
-      const search = await this.interactionRepository
+      const search = await (await interactionRepository.typeorm())
         .createQueryBuilder("interactions")
         .select("SUM(interactions.nbCourrier)", "sum")
         .where({ structureId, usagerRef, type: interactionType })

@@ -25,6 +25,7 @@ import {
   StructureAdmin,
 } from "../../../../../_common/model";
 import { StatsService } from "../services/stats.service";
+import { buildExportStructureStatsFileName } from "../structure-stats/structure-stats.component";
 
 export type DashboardTableStructure = StructureAdmin & {
   structureTypeLabel: string;
@@ -131,10 +132,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.statsService.exportDashboard().subscribe(
       (x: any) => {
         const newBlob = new Blob([x], {
-          type:
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
         saveAs(newBlob, "export_stats_domifa" + ".xlsx");
+        setTimeout(() => {
+          this.exportLoading = false;
+        }, 500);
+      },
+      (error: any) => {
+        this.notifService.error(
+          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+        );
+        this.exportLoading = false;
+      }
+    );
+  }
+
+  public exportYearStats(structureId: number, year: number): void {
+    this.exportLoading = true;
+
+    const period = {
+      start: new Date(year.toString() + "-01-01"),
+      end: new Date(year.toString() + "-12-31"),
+    };
+
+    this.statsService.export(structureId, period.start, period.end).subscribe(
+      (x: any) => {
+        const newBlob = new Blob([x], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        saveAs(
+          newBlob,
+          buildExportStructureStatsFileName({
+            startDateUTC: period.start,
+            endDateUTC: period.end,
+            structureId,
+          })
+        );
         setTimeout(() => {
           this.exportLoading = false;
         }, 500);
@@ -186,7 +221,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ) {
             sortKey = dataCompare.cleanString(ts[sortAttribute.name]);
           } else if (sortAttribute.name === "usagersValideCount") {
-            sortKey = ts.stats.VALIDE;
+            sortKey = this.stats.usagersValidCountByStructureMap[ts.id];
           } else {
             sortKey = ts[sortAttribute.name];
           }

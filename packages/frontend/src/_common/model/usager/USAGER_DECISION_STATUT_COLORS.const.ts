@@ -1,8 +1,9 @@
-import { UsagerDecisionStatut } from ".";
+import { UsagerVisibleHistoryDecisionStatut } from "./history/UsagerVisibleHistoryDecisionStatut.type";
 
 export const USAGER_DECISION_STATUT_COLORS: {
-  [key in UsagerDecisionStatut]: string;
+  [key in UsagerVisibleHistoryDecisionStatut]: string;
 } = {
+  PREMIERE_DOM: "green-status",
   VALIDE: "green-status",
   INSTRUCTION: "grey-status",
   ATTENTE_DECISION: "orange-status",

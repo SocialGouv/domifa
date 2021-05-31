@@ -285,6 +285,13 @@
             </button>
             &nbsp;
             <button
+              class="btn btn-primary"
+              (click)="exportYearStats(structure.id, 2020)"
+            >stats 2020
+              <fa-icon icon="download"></fa-icon>
+            </button>
+            &nbsp;
+            <button
               (click)="enableSms(structure)"
               class="btn"
               [ngClass]="

@@ -1,5 +1,11 @@
 import moment = require("moment");
-import { AppUser, Usager, UsagerAyantDroit } from "../../../../_common/model";
+import { uuidGenerator } from "../../../../database/services/uuid";
+import {
+  AppUser,
+  Usager,
+  UsagerAyantDroit,
+  UsagerVisibleHistoryDecision,
+} from "../../../../_common/model";
 import { ETAPE_DOSSIER_COMPLET } from "../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { Entretien } from "../../../interfaces/entretien";
@@ -15,7 +21,7 @@ function buildUsagers({
 }: {
   usagersRows: UsagersImportUsager[];
   user: Pick<AppUser, "id" | "structureId" | "prenom" | "nom">;
-}) {
+}): Partial<Usager>[] {
   const now = moment().toDate();
   const agent = user.prenom + " " + user.nom;
 
@@ -44,12 +50,18 @@ function buildUsager({
   let motif: UsagerDecisionMotif;
 
   // Tableaux d'ayant-droit & historique
-  const historique = [];
+  const historique: UsagerVisibleHistoryDecision[] = [];
 
   // Partie STATUT + HISTORIQUE
   //
   let datePremiereDom = now;
   let dateDecision = usagerRow.dateDebutDom ?? now;
+
+  //
+  // Partie ENTRETIEN
+  //
+  const entretien: Entretien = buildEntretien(usagerRow);
+  const ayantsDroits = buildAyantsDroits(usagerRow);
 
   if (usagerRow.datePremiereDom) {
     datePremiereDom = usagerRow.datePremiereDom;
@@ -57,7 +69,7 @@ function buildUsager({
     const dateFinPremiereDom = moment(datePremiereDom).add(1, "year").toDate();
 
     historique.push({
-      agent,
+      uuid: uuidGenerator.random(),
       dateDebut: datePremiereDom,
       dateDecision: datePremiereDom,
       dateFin: dateFinPremiereDom,
@@ -71,7 +83,7 @@ function buildUsager({
   }
 
   historique.push({
-    agent,
+    uuid: uuidGenerator.random(),
     dateDebut: now,
     dateDecision: now,
     dateFin: now,
@@ -106,38 +118,9 @@ function buildUsager({
     dateDecision = usagerRow.dateFinDom ?? now;
     motif = usagerRow.motifRadiation ?? "AUTRE";
   }
-
-  //
-  // Partie ENTRETIEN
-  //
-  const entretien: Entretien = {};
-
-  entretien.accompagnement = usagerRow.accompagnement;
-  if (usagerRow.accompagnement) {
-    entretien.accompagnementDetail = usagerRow.accompagnementDetails;
-  }
-
-  entretien.revenus = usagerRow.revenus;
-  if (usagerRow.revenus) {
-    entretien.revenusDetail = usagerRow.revenusDetails;
-  }
-
-  entretien.orientation = usagerRow.orientation;
-  if (usagerRow.orientation) {
-    entretien.orientationDetail = usagerRow.orientationDetails;
-  }
-
   // Enregistrement
   const usager: Partial<Usager> = {
-    ayantsDroits: usagerRow.ayantsDroits.map((ad) => {
-      const ayantDroit: UsagerAyantDroit = {
-        dateNaissance: ad.dateNaissance,
-        lien: ad.lienParente,
-        nom: ad.nom,
-        prenom: ad.prenom,
-      };
-      return ayantDroit;
-    }),
+    ayantsDroits,
     customRef,
     dateNaissance: usagerRow.dateNaissance,
     datePremiereDom,
@@ -171,5 +154,37 @@ function buildUsager({
     typeDom: usagerRow.typeDom,
     villeNaissance: usagerRow.lieuNaissance,
   };
+
   return usager;
+}
+function buildAyantsDroits(usagerRow): UsagerAyantDroit[] {
+  return usagerRow.ayantsDroits.map((ad) => {
+    const ayantDroit: UsagerAyantDroit = {
+      dateNaissance: ad.dateNaissance,
+      lien: ad.lienParente,
+      nom: ad.nom,
+      prenom: ad.prenom,
+    };
+    return ayantDroit;
+  });
+}
+
+function buildEntretien(usagerRow) {
+  const entretien: Entretien = {};
+
+  entretien.accompagnement = usagerRow.accompagnement;
+  if (usagerRow.accompagnement) {
+    entretien.accompagnementDetail = usagerRow.accompagnementDetails;
+  }
+
+  entretien.revenus = usagerRow.revenus;
+  if (usagerRow.revenus) {
+    entretien.revenusDetail = usagerRow.revenusDetails;
+  }
+
+  entretien.orientation = usagerRow.orientation;
+  if (usagerRow.orientation) {
+    entretien.orientationDetail = usagerRow.orientationDetails;
+  }
+  return entretien;
 }

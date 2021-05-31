@@ -6,14 +6,14 @@ import {
 } from "../../../_common/model";
 import { StructureAddresseCourrier } from "../../../_common/model/structure/StructureAddresseCourrier.type";
 import { StructureSmsParams } from "../../../_common/model/structure/StructureSmsParams.type";
-import { StructureUsagersStats } from "../../../_common/model/structure/StructureUsagersStats.type";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure" })
 export class StructureTable
   extends AppTypeormTable<StructureTable>
-  implements Structure {
+  implements Structure
+{
   @Index()
   @Column({ type: "integer", unique: true })
   @Generated("increment")
@@ -86,9 +86,6 @@ export class StructureTable
 
   @Column({ type: "jsonb" })
   responsable: StructureResponsable;
-
-  @Column({ type: "jsonb" })
-  stats: StructureUsagersStats;
 
   @Column({ type: "text" })
   structureType: StructureType;

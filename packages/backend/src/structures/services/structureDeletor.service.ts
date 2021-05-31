@@ -4,13 +4,15 @@ import * as fs from "fs";
 import { domifaConfig } from "../../config";
 import {
   interactionRepository,
+  pgRepository,
   structureDocRepository,
   structureRepository,
-  structureStatsRepository,
+  StructureStatsTable,
   usagerRepository,
   userSecurityRepository,
   usersRepository,
 } from "../../database";
+import { StructureStats } from "../../_common/model";
 
 export const structureDeletorService = {
   generateDeleteToken,
@@ -28,9 +30,11 @@ async function deleteStructureUsagers({
 }: {
   structureId: number;
 }) {
-  await structureStatsRepository.deleteByCriteria({
-    structureId,
-  });
+  await pgRepository
+    .get<StructureStatsTable, StructureStats>(StructureStatsTable)
+    .deleteByCriteria({
+      structureId,
+    });
   await interactionRepository.deleteByCriteria({
     structureId,
   });

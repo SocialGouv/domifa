@@ -3,10 +3,10 @@ import * as path from "path";
 import { appLogger } from "../../util";
 import { StructureUsagersExportModel } from "./StructureUsagersExportModel.type";
 import {
+  exportListeCourriersWorksheetRenderer,
   exportListeEntretiensWorksheetRenderer,
   exportListeParticipantsWorksheetRenderer,
 } from "./worksheet-renderer";
-import { exportListeCourriersWorksheetRenderer } from "./worksheet-renderer/exportListeCourriersWorksheetRenderer";
 
 export const structureUsagersExporter = {
   generateExcelDocument,
@@ -24,7 +24,8 @@ async function generateExcelDocument(
     const workbook = await renderWorkbook(model);
     const endDate = new Date();
     appLogger.debug(
-      `[structureUsagersExporter] SUCCESS - Report created - duration: ${endDate.getTime() - beginDate.getTime()
+      `[structureUsagersExporter] SUCCESS - Report created - duration: ${
+        endDate.getTime() - beginDate.getTime()
       }ms`
     );
     return workbook;

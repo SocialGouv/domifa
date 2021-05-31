@@ -13,7 +13,7 @@ import {
   StatsDeploiementExportModel,
 } from "../../excel/export-stats-deploiement";
 import { StatsExportUser } from "../../excel/export-stats-deploiement/StatsExportUser.type";
-import { appLogger } from "../../util";
+import { expressResponseExcelRenderer } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
 import { DashboardStats, Structure } from "../../_common/model";
 import { DashboardService } from "../services/dashboard.service";
@@ -83,22 +83,11 @@ export class DashboardController {
     const fileName = `${moment(stats.exportDate).format(
       "DD-MM-yyyy_HH-mm"
     )}_export-stats-deploiement.xlsx`;
-    res.header(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    );
-    res.header("Content-Disposition", `attachment; filename="${fileName}"`);
-
-    await workbook.xlsx
-      .write(res)
-      .then(() => {
-        res.end();
-      })
-      .catch((err) => {
-        appLogger.error("Unexpected export error", err);
-        res.sendStatus(500);
-        res.end();
-      });
+    await expressResponseExcelRenderer.sendExcelWorkbook({
+      res,
+      fileName,
+      workbook,
+    });
   }
 
   @Get()

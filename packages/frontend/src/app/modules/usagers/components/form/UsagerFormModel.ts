@@ -1,9 +1,9 @@
-import { USAGER_DECISION_STATUT_COLORS } from "./../../../../../_common/model/usager/USAGER_DECISION_STATUT_COLORS.const";
 import {
   UsagerDoc,
   UsagerLight,
   UsagerSexe,
   UsagerTypeDom,
+  UsagerVisibleHistoryDecision,
   USAGER_DECISION_STATUT_LABELS,
 } from "../../../../../_common/model";
 import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction";
@@ -14,11 +14,12 @@ import { regexp } from "../../../../shared/validators";
 import { Decision } from "../../interfaces/decision";
 import { Doc } from "../../interfaces/doc";
 import { Entretien } from "../../interfaces/entretien";
+import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
+import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
 import { Options } from "../../interfaces/options";
 import { Rdv } from "../../interfaces/rdv";
 import { usagersFilter, UsagersFilterCriteria } from "../manage/usager-filter";
-import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
-import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
+import { USAGER_DECISION_STATUT_COLORS } from "./../../../../../_common/model/usager/USAGER_DECISION_STATUT_COLORS.const";
 
 export class UsagerFormModel implements UsagerLight {
   public ref: number;
@@ -57,7 +58,7 @@ export class UsagerFormModel implements UsagerLight {
   public ayantsDroits: UsagerAyantDroit[];
 
   // Historique des décisions et dernière décision
-  public historique: Decision[];
+  public historique: UsagerVisibleHistoryDecision[];
   public decision: Decision;
   public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
 

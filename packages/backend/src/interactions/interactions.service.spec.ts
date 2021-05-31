@@ -26,13 +26,12 @@ describe("InteractionsService", () => {
       ],
       providers: [InteractionsService],
     });
-    interactionsService = context.module.get<InteractionsService>(
-      InteractionsService
-    );
+    interactionsService =
+      context.module.get<InteractionsService>(InteractionsService);
 
     user = await usersRepository.findOne({ id: 1 });
     usager = await usagerRepository.findOne({
-      ref: 1,
+      ref: 2,
       structureId: 1,
     });
   });
@@ -89,7 +88,7 @@ describe("InteractionsService", () => {
     interaction.nbCourrier = 1;
 
     const usagerBefore = await usagerRepository.findOne({
-      ref: 1,
+      ref: 2,
       structureId: 1,
     });
 

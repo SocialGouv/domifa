@@ -50,10 +50,6 @@ export type DomifaConfig = {
   };
   cron: {
     enable: boolean; // DOMIFA_CRON_ENABLED
-    stats: {
-      crontime: string; // DOMIFA_CRON_STATS_CRONTIME
-      autoRunOnStartup: boolean; // DOMIFA_CRON_STATS_AUTO_RUN_STARTUP
-    };
     emailUserGuide: {
       crontime: string; // DOMIFA_CRON_EMAIL_USER_GUIDE_CRONTIME
       delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_USER_GUIDE_DELAY

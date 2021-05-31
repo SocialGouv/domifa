@@ -1,9 +1,5 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
-import {
-  StructureStats,
-  StructureStatsQuestions,
-  StructureType,
-} from "../../../_common/model";
+import { StructureStats, StructureType } from "../../../_common/model";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
@@ -43,7 +39,7 @@ export class StructureStatsTable
   codePostal: string;
 
   @Column({ type: "jsonb" })
-  questions: StructureStatsQuestions;
+  questions: any;
 
   @Column({ type: "boolean", default: false })
   generated: boolean;

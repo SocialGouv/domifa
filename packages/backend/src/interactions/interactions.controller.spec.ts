@@ -65,10 +65,12 @@ describe("Interactions Controller", () => {
   });
 
   it("POST : colis", async () => {
-    // 4 Colis déjà enregistrés
+    // 4 Colis déjà enregistrés en base
+    const nbCourrierBefore = 4;
+    const nbCourrierToAdd = 12;
     const interaction = new InteractionDto();
     interaction.type = "colisIn";
-    interaction.nbCourrier = 12;
+    interaction.nbCourrier = nbCourrierToAdd;
     interaction.content = "Un colis sympa";
 
     const testFc = await controller.postInteractions(
@@ -78,6 +80,8 @@ describe("Interactions Controller", () => {
     );
     expect(testFc).toBeDefined();
     expect(testFc.lastInteraction.enAttente).toBeTruthy();
-    expect(testFc.lastInteraction.colisIn).toEqual(12);
+    expect(testFc.lastInteraction.colisIn).toEqual(
+      nbCourrierToAdd + nbCourrierBefore
+    );
   });
 });
