@@ -14,18 +14,16 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import * as fs from "fs";
-import * as path from "path";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { domifaConfig } from "../../config";
 import { usagerLightRepository, usagerRepository } from "../../database";
 import { InteractionsService } from "../../interactions/interactions.service";
 import {
   AppAuthUser,
+  ETAPE_DOCUMENTS,
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
   UsagerLight,
@@ -38,7 +36,10 @@ import { PreferenceContactDto } from "../dto/preferenceContact.dto";
 import { ProcurationDto } from "../dto/procuration.dto";
 import { TransfertDto } from "../dto/transfert.dto";
 import { CerfaService } from "../services/cerfa.service";
+import { usagerDeletor } from "../services/usagerDeletor.service";
+import { usagerHistoryStateManager } from "../services/usagerHistoryStateManager.service";
 import { UsagersService } from "../services/usagers.service";
+import { usagerVisibleHistoryManager } from "../services/usagerVisibleHistoryManager.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -75,6 +76,7 @@ export class UsagersController {
   @Patch(":usagerRef")
   public async patchUsager(
     @Body() usagerDto: EditUsagerDto,
+    @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: UsagerLight
   ) {
     if (
@@ -88,16 +90,43 @@ export class UsagersController {
       usagerDto.langue = null;
     }
 
+    await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
+      usager,
+      createdBy: {
+        userId: user.id,
+        userName: user.prenom + " " + user.nom,
+      },
+      createdEvent: "update-usager",
+    });
+
     return this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Post("entretien/:usagerRef")
-  public setEntretien(
+  public async setEntretien(
     @Body() entretien: EntretienDto,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUser() user: AppAuthUser,
+    @CurrentUsager() currentUsager: UsagerLight
   ) {
-    return this.usagersService.setEntretien({ uuid: usager.uuid }, entretien);
+    const usager = await usagerLightRepository.updateOne(
+      { uuid: currentUsager.uuid },
+      {
+        entretien,
+        etapeDemande: ETAPE_DOCUMENTS,
+      }
+    );
+
+    await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
+      usager,
+      createdBy: {
+        userId: user.id,
+        userName: user.prenom + " " + user.nom,
+      },
+      createdEvent: "update-entretien",
+    });
+
+    return usager;
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
@@ -171,22 +200,10 @@ export class UsagersController {
     @CurrentUsager() usager: UsagerLight,
     @Res() res: Response
   ) {
-    const pathFile = path.resolve(
-      domifaConfig().upload.basePath + usager.structureId + "/" + usager.ref
-    );
-
-    await this.interactionsService.deleteByUsager(usager.ref, user.structureId);
-
-    deleteUsagerFolder(pathFile);
-
-    const usagerToDelete = await usagerRepository.deleteByCriteria({
-      uuid: usager.uuid,
+    await usagerDeletor.deleteUsager({
+      usagerRef: usager.ref,
+      structureId: user.structureId,
     });
-    if (!usagerToDelete || usagerToDelete === null) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "CANNOT_DELETE_USAGER" });
-    }
 
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
@@ -237,11 +254,39 @@ export class UsagersController {
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
   @Delete("renew/:usagerRef")
-  public async deleteRenew(@CurrentUsager() usager: UsagerLight) {
-    usager.etapeDemande = ETAPE_ETAT_CIVIL;
-    usager.decision = usager.historique[usager.historique.length - 1];
-    usager.historique.splice(usager.historique.length - 1, 1);
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+  public async deleteRenew(
+    @Res() res: Response,
+    @CurrentUser() user: AppAuthUser,
+    @CurrentUsager() usager: UsagerLight
+  ) {
+    if (usager.typeDom === "RENOUVELLEMENT") {
+      usager.etapeDemande = ETAPE_ETAT_CIVIL;
+
+      const { removedDecision } =
+        usagerVisibleHistoryManager.removeLastDecision({
+          usager,
+        });
+
+      if (removedDecision) {
+        // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
+        usagerHistoryStateManager.removeLastDecisionFromHistory({
+          usager,
+          createdBy: {
+            userId: user.id,
+            userName: user.prenom + " " + user.nom,
+          },
+          createdAt: usager.decision.dateDecision,
+          historyBeginDate: usager.decision.dateDebut,
+          removedDecisionUUID: removedDecision.uuid,
+        });
+      }
+
+      return usagerLightRepository.updateOne({ uuid: usager.uuid }, usager);
+    } else {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_DELETE_DECISION" });
+    }
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
@@ -351,40 +396,5 @@ export class UsagersController {
   @Get(":usagerRef")
   public async findOne(@CurrentUsager() usager: UsagerLight) {
     return usager;
-  }
-}
-function deleteUsagerFolder(pathFile: string) {
-  if (fs.existsSync(pathFile)) {
-    fs.readdir(pathFile, (err, files) => {
-      if (err) {
-        throw new HttpException(
-          {
-            message:
-              "CANNOT_READ_FOLDER : " +
-              pathFile +
-              "\n Err: " +
-              JSON.stringify(err),
-          },
-          HttpStatus.INTERNAL_SERVER_ERROR
-        );
-      }
-
-      for (const file of files) {
-        fs.unlink(path.join(pathFile, file), (error: any) => {
-          if (err) {
-            throw new HttpException(
-              {
-                message:
-                  "CANNOT_DELETE_FILE: " +
-                  file +
-                  "\n Err: " +
-                  JSON.stringify(error),
-              },
-              HttpStatus.INTERNAL_SERVER_ERROR
-            );
-          }
-        });
-      }
-    });
   }
 }

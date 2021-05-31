@@ -1,4 +1,5 @@
 export * from "./ETAPES_DEMANDE.const";
+export * from "./history";
 export * from "./Usager.type";
 export * from "./UsagerAyantDroit.type";
 export * from "./UsagerDecision.type";

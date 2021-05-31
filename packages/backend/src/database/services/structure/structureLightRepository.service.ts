@@ -13,23 +13,4 @@ const baseRepository = pgRepository.get<StructureTable, StructureLight>(
 
 export const structureLightRepository = {
   ...baseRepository,
-  findStructuresToGenerateStats,
 };
-
-async function findStructuresToGenerateStats({
-  statsDateUTC,
-}: {
-  statsDateUTC: Date;
-}): Promise<StructureLight[]> {
-  const statsDateUTCString = moment.utc(statsDateUTC).format("YYYY-MM-DD");
-  const structures: StructureLight[] = await baseRepository.findManyWithQuery({
-    select: STRUCTURE_LIGHT_ATTRIBUTES,
-    alias: "s",
-    where: `not exists(select 1 from structure_stats ss where ss."structureId"=s.id and ss."date"=(:statsDateUTCString::"date"))`,
-    params: {
-      statsDateUTCString,
-    },
-    logSql: false,
-  });
-  return structures;
-}

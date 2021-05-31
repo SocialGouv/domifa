@@ -196,16 +196,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       enable: configParser.parseBoolean(x, "DOMIFA_CRON_ENABLED", {
         defaultValue: envId === "test" ? false : true,
       }),
-      stats: {
-        crontime: configParser.parseString(x, "DOMIFA_CRON_STATS_CRONTIME", {
-          defaultValue: CronExpression.EVERY_HOUR,
-        }),
-        autoRunOnStartup: configParser.parseBoolean(
-          x,
-          "DOMIFA_CRON_STATS_AUTO_RUN_STARTUP",
-          { defaultValue: false }
-        ),
-      },
       emailUserGuide: {
         crontime: configParser.parseString(
           x,

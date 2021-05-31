@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as fs from "fs";
-import moment = require("moment");
 import * as path from "path";
 import { appLogger } from "../../util";
 import { AppAuthUser, Usager } from "../../_common/model";
 import { UsagerCerfaFields } from "../../_common/model/usager/UsagerCerfaFields.type";
 import { DateCerfa } from "../interfaces/date-cerfa";
+import moment = require("moment");
 
 // tslint:disable-next-line: no-var-requires
 const pdftk = require("node-pdftk");
@@ -204,19 +204,24 @@ export class CerfaService {
       typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1",
     };
 
+    const filePath = path.resolve(__dirname, pdfForm);
     return pdftk
-      .input(fs.readFileSync(path.resolve(__dirname, pdfForm)))
+      .input(fs.readFileSync(filePath))
       .fillForm(pdfInfos)
       .output()
       .then((buffer: any) => {
         return buffer;
       })
       .catch((err: any) => {
+        console.error(err);
         appLogger.error(
           `CERFA ERROR structure : ${user.structureId} / usager :${usagerRef} `,
           {
             sentry: true,
-            extra: pdfInfos,
+            extra: {
+              filePath,
+              ...pdfInfos,
+            },
           }
         );
         throw new HttpException(

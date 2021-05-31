@@ -1,4 +1,3 @@
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import {
@@ -7,16 +6,14 @@ import {
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../shared/shared.module";
-
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { StatsComponent } from "./components/stats/stats.component";
 import { StatsService } from "./components/services/stats.service";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { StatsComponent } from "./components/structure-stats/structure-stats.component";
 
 @NgModule({
   declarations: [DashboardComponent, StatsComponent],

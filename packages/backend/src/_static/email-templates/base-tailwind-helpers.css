@@ -7,7 +7,6 @@
 .text-left {
   text-align: left;
 }
-
 /* https://tailwindcss.com/docs/font-size */
 .text-xl {
   font-size: 1.25rem;

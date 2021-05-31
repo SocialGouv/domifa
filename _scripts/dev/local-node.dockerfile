@@ -5,7 +5,7 @@ FROM node:14.15.1-stretch
 USER root
 
 # install common tools
-ENV CORE_PACKAGES sudo bash wget vim git bash-completion xsel rubygems build-essential ruby-dev
+ENV CORE_PACKAGES sudo bash wget vim git bash-completion xsel rubygems build-essential ruby-dev pdftk
 
 # install via APT
 RUN apt-get update && \

@@ -7,10 +7,6 @@ import {
   usersRepository,
 } from "../../database";
 import { newStructureEmailSender } from "../../mails/services/templates-renderers";
-import {
-  buildStatsDateUTC,
-  StatsGeneratorService,
-} from "../../stats/services/stats-generator.service";
 import { UserDto } from "../../users/dto/user.dto";
 import { usersCreator } from "../../users/services";
 import { appLogger } from "../../util/AppLogger.service";
@@ -20,7 +16,7 @@ import { StructureDto } from "../dto/structure.dto";
 
 @Injectable()
 export class StructureCreatorService {
-  constructor(private statsGeneratorService: StatsGeneratorService) {}
+  constructor() {}
 
   public async checkStructureCreateArgs(
     structureDto: StructureDto
@@ -53,15 +49,6 @@ export class StructureCreatorService {
     }
 
     const structure = await this.createStructure(structureDto);
-
-    // generate stats for yesterday
-    const statsDateUTC = buildStatsDateUTC({ date: "yesterday" });
-
-    await this.statsGeneratorService.generateStructureStats(
-      statsDateUTC,
-      structure,
-      true
-    );
 
     const { user } = await usersCreator.createUserWithPassword(userDto, {
       structureId: structure.id,
@@ -101,18 +88,13 @@ export class StructureCreatorService {
     createdStructure.registrationDate = new Date();
     createdStructure.token = crypto.randomBytes(30).toString("hex");
 
-    createdStructure.departement = departementHelper.getDepartementFromCodePostal(
-      createdStructure.codePostal
-    );
+    createdStructure.departement =
+      departementHelper.getDepartementFromCodePostal(
+        createdStructure.codePostal
+      );
     createdStructure.region = departementHelper.getRegionCodeFromDepartement(
       createdStructure.departement
     );
-    createdStructure.stats = {
-      RADIE: 0,
-      REFUS: 0,
-      TOTAL: 0,
-      VALIDE: 0,
-    };
 
     const structure = await structureRepository.save(createdStructure);
 

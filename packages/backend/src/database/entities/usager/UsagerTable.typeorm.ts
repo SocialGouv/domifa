@@ -9,6 +9,7 @@ import {
   UsagerRdv,
   UsagerSexe,
   UsagerTypeDom,
+  UsagerVisibleHistoryDecision,
 } from "../../../_common/model";
 import { UsagerAyantDroit } from "../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../_common/model/usager/UsagerDecision.type";
@@ -87,7 +88,7 @@ export class UsagerTable
   public decision: UsagerDecision;
 
   @Column({ type: "jsonb" })
-  public historique: UsagerDecision[];
+  public historique: UsagerVisibleHistoryDecision[];
 
   //
   // AYANTS DROITS

@@ -1,3 +1,4 @@
+export * from "./history";
 export * from "./Usager.type";
 export * from "./UsagerDecisionStatut.type";
 export * from "./UsagerDoc.type";
