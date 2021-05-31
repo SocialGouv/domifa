@@ -1,3 +1,4 @@
+import { FormsModule } from "@angular/forms";
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -14,28 +15,35 @@ describe("SetInteractionInFormComponent", () => {
   let component: SetInteractionInFormComponent;
   let fixture: ComponentFixture<SetInteractionInFormComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [SetInteractionInFormComponent],
-      imports: [NgbModule, ToastrModule.forRoot(), HttpClientTestingModule],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SetInteractionInFormComponent],
+        imports: [
+          NgbModule,
+          ToastrModule.forRoot(),
+          HttpClientTestingModule,
+          FormsModule,
+        ],
+        providers: [
+          {
+            provide: MatomoInjector,
+            useValue: {
+              init: jest.fn(),
+            },
           },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
+          {
+            provide: MatomoTracker,
+            useValue: {
+              setUserId: jest.fn(),
+            },
           },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+          { provide: APP_BASE_HREF, useValue: "/" },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SetInteractionInFormComponent);
