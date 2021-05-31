@@ -192,8 +192,10 @@ table .active {
 
 .label {
   display: block;
-  font-weight: 600;
-  padding: 10px 0;
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: bold;
+  padding: 8px 0;
 }
 
 .autres {
@@ -249,11 +251,10 @@ table .active {
   height: 20px;
   background-color: #ff6b6b;
   position: absolute;
-  top: -5px;
+  top: -10px;
   right: -10px;
   font-size: 12px;
   line-height: 20px;
-
   color: #fff;
   font-weight: 700;
 }

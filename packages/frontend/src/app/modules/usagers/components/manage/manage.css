@@ -126,6 +126,7 @@ button.dropdown-toggle {
 .content-overlay {
   position: absolute;
   top: 0;
+  left: 0;
   display: block;
   width: 100%;
   min-height: 800px;
@@ -192,5 +193,9 @@ button.dropdown-toggle {
 #table-container {
   max-width: 100%;
   margin: 0 auto;
-  overflow-x: scroll;
+  overflow-x: auto;
+}
+
+.container {
+  position: relative;
 }

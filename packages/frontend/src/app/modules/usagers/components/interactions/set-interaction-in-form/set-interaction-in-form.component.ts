@@ -35,6 +35,8 @@ export class SetInteractionInFormComponent implements OnInit {
 
   public interactionFormData: InteractionInForm;
 
+  public content: string;
+
   constructor(
     private interactionService: InteractionService,
     private usagerService: UsagerService,
@@ -54,6 +56,7 @@ export class SetInteractionInFormComponent implements OnInit {
         content: null,
       },
     };
+    this.content = null;
   }
 
   public ngOnInit(): void {}
@@ -65,7 +68,6 @@ export class SetInteractionInFormComponent implements OnInit {
       .subscribe(
         (response: UsagerLight) => {
           usager = new UsagerFormModel(response);
-
           // this.notifService.success(interactionsLabels[type]);
         },
         (error) => {
@@ -81,6 +83,7 @@ export class SetInteractionInFormComponent implements OnInit {
           filtered.push({
             nbCourrier: this.interactionFormData[interaction].nbCourrier,
             type: interaction,
+            content: this.content,
           });
         }
         return filtered;

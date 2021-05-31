@@ -34,7 +34,11 @@
     <th
       (click)="updateFilters.emit({  element: 'sortKey',   value: 'ECHEANCE'  })"
     >
-      ÉCHÉANCE
+      <span *ngIf="filters.statut !== 'REFUS' &&filters.statut !== 'RADIE'"
+        >ÉCHÉANCE</span
+      >
+      <span *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</span>
+      <span *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</span>
     </th>
     <th class="text-left">ACTIONS RAPIDES</th>
     <th></th>
@@ -113,8 +117,10 @@
             <ng-template #transfertActif>
               <div class="distribution-tooltip">
                 <div *ngIf=" usager.options.transfert.dateFin > today">
-                  <fa-icon icon="share" class="text-primary mr-2"></fa-icon>
-                  Courrier à transférer : <br />ADRESSE ICI
+                  <fa-icon icon="share" class="text-primary mr-1"></fa-icon>
+                  Courrier à transférer : {{ usager.options.transfert.nom |
+                  titlecase }} {{ usager.options.transfert.adresse | titlecase
+                  }}
                 </div>
 
                 <div *ngIf=" usager.options.transfert.dateFin <= today">
@@ -134,7 +140,7 @@
           >
             <ng-template #procurationActif>
               <span *ngIf=" usager.options.procuration.dateFin > today">
-                <fa-icon icon="share" class="mr-2"></fa-icon>
+                <fa-icon icon="share" class="text-primary mr-1"></fa-icon>
                 Procuration : {{ usager.options.procuration.nom }}
                 {{ usager.options.procuration.prenom }}
               </span>
@@ -178,6 +184,7 @@
 
       <td class="text-left icones_liste">
         <div
+          class="interaction-buttons"
           *ngIf="usager.isActif || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
         >
           <div
@@ -185,29 +192,29 @@
             class="interaction-btn"
             (click)="setSingleInteraction(usager, 'visite')"
           >
-            <span class="icon-passage list-icon"></span>
+            <div class="icon-passage list-icon"></div>
           </div>
           <div
             ngbTooltip="Ajout d'un appel téléphonique"
             class="interaction-btn"
             (click)="setSingleInteraction(usager, 'appel')"
           >
-            <span class="icon-appel list-icon"></span>
+            <div class="icon-appel list-icon"></div>
           </div>
           <div
             ngbTooltip="Ajout rapide d'un courrier"
             class="interaction-btn"
             (click)="setSingleInteraction(usager, 'courrierIn')"
           >
-            <span class="icon-courrier list-icon"></span>
+            <div class="icon-courrier list-icon"></div>
           </div>
           <div
             ngbTooltip="Ajout détaillé d'un courrier"
             class="interaction-btn"
             (click)="openInteractionInModal(usager)"
           >
-            <span class="icon-reception list-icon"></span>
-            <span class="list-icon-label">Réception</span>
+            <div class="icon-reception list-icon"></div>
+            <div class="list-icon-label">Réception</div>
           </div>
 
           <ng-template #distributionBox class="p-2 text-left">
@@ -250,8 +257,8 @@
             [ngbTooltip]="distributionBox"
             (click)="openInteractionOutModal(usager)"
           >
-            <span class="icon-distribution list-icon"></span>
-            <span class="list-icon-label">Distribuer</span>
+            <div class="icon-distribution list-icon"></div>
+            <div class="list-icon-label">Distribuer</div>
             <b class="notification">
               {{ usager.totalInteractionsEnAttente }}
             </b>
