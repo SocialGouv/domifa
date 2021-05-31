@@ -1,4 +1,9 @@
 /* INTERACTIONS */
+.interaction-zone {
+  width: 130px;
+  position: relative;
+}
+
 .interaction-icon-box {
   background: #eceffe;
   border-radius: 10px;

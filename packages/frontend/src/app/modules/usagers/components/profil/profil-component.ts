@@ -285,6 +285,13 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public renouvellement() {
+    this.matomo.trackEvent(
+      "test-nouveau-profil",
+      "actions",
+      "renouvellement",
+      1
+    );
+
     this.usagerService.renouvellement(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
@@ -309,7 +316,7 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public deleteInteraction(idInteraction: number) {
-    this.matomo.trackEvent("profil", "interactions", "delete", 1);
+    this.matomo.trackEvent("test-nouveau-profil", "interactions", "delete", 1);
     this.interactionService.delete(this.usager.ref, idInteraction).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
@@ -323,6 +330,12 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public deleteUsager() {
+    this.matomo.trackEvent(
+      "test-nouveau-profil",
+      "actions",
+      "supprimer-usager",
+      1
+    );
     this.usagerService.delete(this.usager.ref).subscribe(
       (result: any) => {
         this.modalService.dismissAll();
@@ -345,7 +358,12 @@ export class UsagersProfilComponent implements OnInit {
     if (this.notifInputs[item] === 0) {
       this.notifier(cpt + 1);
     } else {
-      this.matomo.trackEvent("interactions", "profil_icones", item, 1);
+      this.matomo.trackEvent(
+        "test-nouveau-profil",
+        "form-interaction",
+        item,
+        1
+      );
       this.interactionService
         .setInteraction(this.usager, [
           {
@@ -385,7 +403,7 @@ export class UsagersProfilComponent implements OnInit {
       nbCourrier: 1,
     };
 
-    this.matomo.trackEvent("interactions", "profil_icones", type, 1);
+    this.matomo.trackEvent("test-nouveau-profil", "gros-icones", type, 1);
 
     if (type.substring(type.length - 3) === "Out") {
       if (this.usager.options.procuration.actif) {
@@ -421,6 +439,12 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public getAttestation() {
+    this.matomo.trackEvent(
+      "test-nouveau-profil",
+      "boutons",
+      "telechargement-attestation",
+      1
+    );
     return this.usagerService.attestation(this.usager.ref);
   }
 
@@ -437,6 +461,13 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public stopCourrier() {
+    this.matomo.trackEvent(
+      "test-nouveau-profil",
+      "interactions",
+      "stop-courrier",
+      1
+    );
+
     this.usagerService.stopCourrier(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usager.options = new Options(usager.options);
@@ -453,7 +484,12 @@ export class UsagersProfilComponent implements OnInit {
   }
 
   public openEntretien() {
-    this.matomo.trackEvent("profil", "actions", "editEntretien", 1);
+    this.matomo.trackEvent(
+      "test-nouveau-profil",
+      "actions",
+      "editEntretien",
+      1
+    );
     this.editEntretien = !this.editEntretien;
   }
 
