@@ -9,8 +9,17 @@
   margin-bottom: 100px;
 }
 
-.navbar img {
-  height: 28px;
+.navbar .nav--menu-breadcrumb {
+  color: #cecece;
+}
+
+.navbar img.ministere-logo {
+  height: 60px;
+  width: auto;
+}
+
+.navbar img.domifa-logo {
+  height: 20px;
   width: auto;
 }
 
@@ -52,4 +61,10 @@
 
 .dropdown-item .ng-fa-icon {
   margin-right: 10px;
+}
+
+@media (min-width: 576px) {
+  .navbar > a {
+    display: inline-block;
+  }
 }

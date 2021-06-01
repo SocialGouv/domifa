@@ -1,23 +1,64 @@
-h1 {
-  font-weight: 600;
-  font-size: 2.3rem;
-  line-height: 2.8rem;
-  max-width: 780px;
-  margin: 0.4rem auto;
+#home-header .home-header-content h1 {
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+}
+#home-header h1 .home-header-subtitle {
+  font-size: 1rem;
+}
+@media (min-width: 576px) {
+  #home-header .home-header-content h1 {
+    font-size: 1.8rem;
+    line-height: 2.1rem;
+  }
+  #home-header h1 .home-header-subtitle {
+    font-size: 1.3rem;
+  }
+}
+@media (min-width: 768px) {
+  #home-header .home-header-content h1 {
+    font-size: 2rem;
+    line-height: 2.2rem;
+  }
+  #home-header h1 .home-header-subtitle {
+    font-size: 1.5rem;
+  }
 }
 
-#home1 p {
-  max-width: 650px;
-  margin: 0.4rem auto;
+@media (min-width: 992px) {
+  #home-header .home-header-content h1 {
+    font-size: 2.2rem;
+    line-height: 2.5rem;
+  }
+  #home-header h1 .home-header-subtitle {
+    font-size: 1.4rem;
+  }
 }
 
-#home1 {
-  background: url("/assets/images/image_fond.jpg") no-repeat center;
-  -webkit-background-size: cover;
-  background-size: cover;
-  padding: 2rem 0.75rem;
-  text-align: center;
-  color: white;
+@media (min-width: 1200px) {
+  #home-header .home-header-content h1 {
+    font-size: 2.5rem;
+    line-height: 2.8rem;
+  }
+  #home-header h1 .home-header-subtitle {
+    font-size: 1.6rem;
+  }
+}
+
+.text-gray {
+  color: #777;
+}
+ul.check-list {
+  padding: 0;
+}
+ul.check-list li {
+  list-style: none;
+}
+
+ul.check-list li::before {
+  content: "\2713";
+  padding-right: 0.51em;
+  font-weight: bold;
+  color: #4164f5;
 }
 
 .big_number {
@@ -29,12 +70,6 @@ h1 {
   text-align: center;
 }
 
-#home_pictos img {
-  max-width: 90px;
-  height: auto;
-  margin: 2rem auto;
-}
-
 #team b {
   display: block;
 }
@@ -43,13 +78,6 @@ h1 {
   display: block;
   max-height: 150px;
   margin-bottom: 20px;
-}
-
-.counter {
-  font-weight: 600;
-  font-size: 4rem;
-  color: #4164f5;
-  display: block;
 }
 
 .counter-title {
@@ -73,6 +101,6 @@ h1 {
   color: white;
 }
 
-.section {
-  padding: 1.5rem 0;
+.structure-logo {
+  height: 50px;
 }

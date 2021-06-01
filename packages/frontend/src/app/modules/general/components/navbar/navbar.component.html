@@ -1,146 +1,179 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <a class="navbar-brand" [routerLink]="['/']">
-      <img src="../assets/images/logo.svg" alt="Logo Domifa" />
-      <span id="nom-asso" *ngIf="me">
-        {{ me.structure.nom }}
-      </span>
-    </a>
+    <div class="row d-flex align-items-center">
+      <a class="ml-2" [routerLink]="['/']">
+        <img
+          class="home-header-image"
+          src="../assets/images/logo-ministere.svg "
+          alt="Ministère des Solidarités et de la Santé"
+          title="Ministère des Solidarités et de la Santé"
+        />
+      </a>
 
-    <button
-      class="navbar-toggler hidden-sm-up"
-      type="button"
-      (click)="isNavbarCollapsed = !isNavbarCollapsed"
-      data-target="#navbarsDefault"
-      aria-controls="navbarsDefault"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div
-      [ngbCollapse]="isNavbarCollapsed"
-      class="collapse navbar-collapse"
-      id="navbarsDefault"
-    >
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active"></li>
-      </ul>
-      <div class="my-2 my-lg-0">
-        <ng-container *ngIf="!me">
-          <a routerLink="/inscription" class="btn btn-outline-primary">
-            S'inscrire
-          </a>
-          <a
-            routerLink="/connexion"
-            aria-hidden="true"
-            title="Se connecter"
-            class="btn btn-outline-primary"
-          >
-            Se connecter
-          </a>
-        </ng-container>
+      <a class="navbar-brand ml-5 d-none d-sm-block" [routerLink]="['/']">
+        <img
+          class="domifa-logo"
+          src="../assets/images/logo.svg"
+          alt="Logo Domifa"
+        />
+        <span id="nom-asso" *ngIf="me">
+          {{ me.structure.nom }}
+        </span>
+      </a>
+    </div>
 
-        <ng-container *ngIf="me">
-          <div
-            ngbDropdown
-            id="dropdownBasic1"
-            display="dynamic"
-            placement="bottom-right"
-            class="d-inline-block"
-          >
-            <a
-              class="btn btn-outline-primary"
-              [routerLink]="!me ? ['/'] : ['/manage']"
-            >
-              Domiciliés
-            </a>
-            <button class="btn btn-outline-primary" ngbDropdownToggle>
-              Mon compte
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <a ngbDropdownItem routerLink="/mon-compte">
-                <fa-icon
-                  aria-hidden="true"
-                  title="Compte"
-                  icon="user"
-                ></fa-icon>
-                Compte</a
-              >
+    <div>
+      <div
+        [ngbCollapse]="isNavbarCollapsed"
+        class="collapse navbar-collapse"
+        id="navbarsDefault"
+      >
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active"></li>
+        </ul>
+        <div class="my-2 my-lg-0">
+          <ng-container *ngIf="!me">
+            <!-- MENU SI DECONNECTE - SAUF MOBILE -->
+            <div class="d-none d-xs-inline-block d-sm-inline-block">
+              <a routerLink="/faq" class="btn text-primary"> En savoir plus </a>
+              <span class="nav--menu-breadcrumb">|</span>
               <a
-                ngbDropdownItem
-                *ngIf="me.role === 'admin' || me.role === 'responsable'"
-                routerLink="/admin"
+                routerLink="/connexion"
+                aria-hidden="true"
+                title="Me connecter"
+                class="btn text-primary"
               >
-                <fa-icon aria-hidden="true" title="Administration" icon="users">
-                </fa-icon>
-                Utilisateurs</a
-              >
-
-              <a
-                ngbDropdownItem
-                *ngIf="me.role !== 'facteur'"
-                routerLink="/import"
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  title="Importer"
-                  icon="upload"
-                ></fa-icon>
-                Importer
-              </a>
-              <a
-                ngbDropdownItem
-                *ngIf="me.role === 'admin' || me.role === 'responsable'"
-                routerLink="/structure-edit"
-              >
-                <fa-icon aria-hidden="true" title="Structure" icon="home">
-                </fa-icon>
-                Structure
-              </a>
-              <a
-                ngbDropdownItem
-                *ngIf="
-                  me.role === 'admin' && me.structure?.sms?.enabledByDomifa
-                "
-                routerLink="/structures/sms"
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  title="Notifications"
-                  icon="sms"
-                ></fa-icon>
-                Notifications
-              </a>
-              <a
-                ngbDropdownItem
-                *ngIf="
-                  me.role === 'admin' ||
-                  me.role === 'responsable' ||
-                  me.role === 'simple'
-                "
-                routerLink="/rapport-activite"
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  title="Statistiques"
-                  icon="chart-bar"
-                >
-                </fa-icon>
-                Statistiques
-              </a>
-              <a ngbDropdownItem (click)="logout()">
-                <fa-icon
-                  aria-hidden="true"
-                  title="Statistiques"
-                  icon="sign-out-alt"
-                >
-                </fa-icon>
-                Déconnexion
+                Me connecter &#8594;
               </a>
             </div>
-          </div>
-        </ng-container>
+
+            <!-- MENU SI DECONNECTE - MOBILE -->
+            <div
+              ngbDropdown
+              id="dropdownNotAuthenticatedMenu"
+              display="dynamic"
+              placement="bottom-right"
+              class="d-inline-block d-xs-none d-sm-none"
+            >
+              <button class="btn" ngbDropdownToggle>
+                <fa-icon icon="bars"></fa-icon>
+              </button>
+              <div
+                ngbDropdownMenu
+                aria-labelledby="dropdownNotAuthenticatedMenu"
+              >
+                <a ngbDropdownItem routerLink="/faq">En savoir plus</a>
+                <a ngbDropdownItem routerLink="/connexion">Me connecter</a>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- MENU DECONNECTE -->
+          <ng-container *ngIf="me">
+            <div
+              ngbDropdown
+              id="dropdownAuthenticatedMenu"
+              display="dynamic"
+              placement="bottom-right"
+              class="d-inline-block"
+            >
+              <a
+                class="btn btn-outline-primary"
+                [routerLink]="!me ? ['/'] : ['/manage']"
+              >
+                Domiciliés
+              </a>
+              <button class="btn btn-outline-primary" ngbDropdownToggle>
+                Mon compte
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
+                <a ngbDropdownItem routerLink="/mon-compte">
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Compte"
+                    icon="user"
+                  ></fa-icon>
+                  Compte</a
+                >
+                <a
+                  ngbDropdownItem
+                  *ngIf="me.role === 'admin' || me.role === 'responsable'"
+                  routerLink="/admin"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Administration"
+                    icon="users"
+                  >
+                  </fa-icon>
+                  Utilisateurs</a
+                >
+
+                <a
+                  ngbDropdownItem
+                  *ngIf="me.role !== 'facteur'"
+                  routerLink="/import"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Importer"
+                    icon="upload"
+                  ></fa-icon>
+                  Importer
+                </a>
+                <a
+                  ngbDropdownItem
+                  *ngIf="me.role === 'admin' || me.role === 'responsable'"
+                  routerLink="/structure-edit"
+                >
+                  <fa-icon aria-hidden="true" title="Structure" icon="home">
+                  </fa-icon>
+                  Structure
+                </a>
+                <a
+                  ngbDropdownItem
+                  *ngIf="
+                    me.role === 'admin' && me.structure?.sms?.enabledByDomifa
+                  "
+                  routerLink="/structures/sms"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Notifications"
+                    icon="sms"
+                  ></fa-icon>
+                  Notifications
+                </a>
+                <a
+                  ngbDropdownItem
+                  *ngIf="
+                    me.role === 'admin' ||
+                    me.role === 'responsable' ||
+                    me.role === 'simple'
+                  "
+                  routerLink="/rapport-activite"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Statistiques"
+                    icon="chart-bar"
+                  >
+                  </fa-icon>
+                  Statistiques
+                </a>
+                <a ngbDropdownItem (click)="logout()">
+                  <fa-icon
+                    aria-hidden="true"
+                    title="Statistiques"
+                    icon="sign-out-alt"
+                  >
+                  </fa-icon>
+                  Déconnexion
+                </a>
+              </div>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>
