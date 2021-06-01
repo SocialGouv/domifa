@@ -37,7 +37,6 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
     private interactionService: InteractionService
   ) {}
   public ngOnInit(): void {
-    console.log("ook");
     this.getInteractions();
   }
 

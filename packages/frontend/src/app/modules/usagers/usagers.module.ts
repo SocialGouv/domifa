@@ -17,7 +17,6 @@ import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 
-import { EntretienComponent } from "../usager-profil/components/profil-entretien-form/entretien.component";
 import { DecisionComponent } from "./components/form/parts/decision/decision.component";
 import { DocumentsFormComponent } from "./components/form/parts/documents-form/documents-form.component";
 import { EntretienFormComponent } from "./components/form/parts/entretien-form/entretien-form.component";
@@ -48,12 +47,11 @@ import { UsagerService } from "./services/usager.service";
     ImportComponent,
 
     RaftComponent,
-    EntretienComponent,
   ],
   exports: [
     DecisionComponent,
     UsagersFormComponent,
-    EntretienComponent,
+
     DocumentsFormComponent,
     ManageUsagersComponent,
   ],

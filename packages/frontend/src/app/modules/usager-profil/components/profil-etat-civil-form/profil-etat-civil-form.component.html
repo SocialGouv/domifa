@@ -1,8 +1,5 @@
 <form [formGroup]="usagerForm" (ngSubmit)="updateInfos()" autocomplete="off">
   <div class="row">
-    <div class="col-12">
-      <h4>État-civil</h4>
-    </div>
     <div class="col-md-4 form-group required">
       <label for="nom">Nom</label>
       <input
@@ -182,7 +179,17 @@
 
   <div class="row">
     <div class="col-12">
-      <h4>Ayants-droits</h4>
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h4>Ayants-droits</h4>
+        </div>
+        <div>
+          <span (click)="addAyantDroit()" class="btn btn-outline-primary">
+            <fa-icon icon="plus" class="mr-2"></fa-icon>
+            Ajouter des ayants droits
+          </span>
+        </div>
+      </div>
     </div>
   </div>
   <div
@@ -299,10 +306,11 @@
       </div>
     </div>
   </div>
-  <span (click)="addAyantDroit()" class="btn btn-primary">
-    <fa-icon icon="plus"></fa-icon>
-    Ajouter des ayants droits
-  </span>
-  <br /><br />
-  <button type="submit" class="btn btn-primary">Enregistrer</button>
+  <div class="row">
+    <div class="col-md-3 my-3">
+      <button type="submit" class="btn btn-primary btn-block">
+        Enregistrer les modifications
+      </button>
+    </div>
+  </div>
 </form>

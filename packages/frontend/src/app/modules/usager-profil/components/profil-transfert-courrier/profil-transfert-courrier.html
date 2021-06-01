@@ -1,25 +1,26 @@
 <div *ngIf="usager && me">
   <div class="d-flex justify-content-between align-items-center">
-    <div class="">
+    <div>
       <h4>Transfert de courrier</h4>
     </div>
-    <div class="" *ngIf="!isRole('facteur')">
+    <div
+      *ngIf="!isRole('facteur') && usager.options.transfert.actif&& usager.decision.statut !== 'REFUS'"
+    >
       <button
-        *ngIf="usager.options.transfert.actif && !isFormVisible  && usager.decision.statut !== 'REFUS'"
+        *ngIf="!isFormVisible"
         (click)="showForm()"
-        class="btn btn-outline-primary mr-2"
+        class="btn btn-outline-dark"
       >
         <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
         Modifier le transfert
       </button>
-
       <button
-        type="button"
-        (click)="deleteTransfert()"
-        class="btn btn-outline-danger"
+        *ngIf="isFormVisible"
+        (click)="hideForm()"
+        class="btn btn-outline-dark"
       >
-        <fa-icon icon="trash" class="trash"></fa-icon>
-        Supprimer le transfert
+        <fa-icon icon="times" class="mr-2"></fa-icon>
+        Annuler les modifications
       </button>
     </div>
   </div>
@@ -187,11 +188,21 @@
           </div>
         </div>
       </div>
-      <div class="col-12 text-center">
-        <span class="btn btn-dark" (click)="hideForm()"> Annuler </span>
-        &nbsp;&nbsp;
+    </div>
+    <div class="row">
+      <div class="col-3 offset-3">
+        <span
+          type="button"
+          (click)="deleteTransfert()"
+          class="btn btn-block btn-danger"
+        >
+          <fa-icon icon="trash" class="trash"></fa-icon>
+          Supprimer le transfert
+        </span>
+      </div>
+      <div class="col-3">
         <button
-          class="btn btn-primary"
+          class="btn btn-block btn-primary"
           type="submit"
           [disabled]="!transfertForm.valid"
         >

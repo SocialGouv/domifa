@@ -13,7 +13,6 @@ import { UsagerService } from "../../../usagers/services/usager.service";
 })
 export class DeleteUsagerMenuComponent implements OnInit {
   @Input() public usager!: UsagerLight;
-
   public me: AppUser;
 
   constructor(
@@ -22,9 +21,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
     private modalService: NgbModal,
     private usagerProfilService: UsagerProfilService,
     private notifService: ToastrService
-  ) {
-    console.log("pokopkopkopkopk");
-  }
+  ) {}
 
   public ngOnInit() {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {

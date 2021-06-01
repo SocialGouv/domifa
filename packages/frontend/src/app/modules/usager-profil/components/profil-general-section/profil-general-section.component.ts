@@ -128,11 +128,8 @@ export class ProfilGeneralSectionComponent implements OnInit {
       this.me = user;
     });
 
-    console.log(this.route.snapshot.params.id);
-
     //
     if (!this.route.snapshot.params.id) {
-      console.log("5995099009");
       this.router.navigate(["/404"]);
       return;
     }
@@ -142,9 +139,8 @@ export class ProfilGeneralSectionComponent implements OnInit {
         this.usager = new UsagerFormModel(usager);
       },
       (error) => {
-        console.log(error);
         this.notifService.error("Le dossier recherché n'existe pas");
-        // this.router.navigate(["404"]);
+        this.router.navigate(["404"]);
       }
     );
   }

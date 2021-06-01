@@ -57,7 +57,6 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
 
   public ngOnInit() {
     this.initForm();
-    console.log(this.usager);
   }
 
   public showForm() {
@@ -80,7 +79,6 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   }
 
   public initForm() {
-    console.log("initForm");
     this.transfertForm = this.formBuilder.group(
       {
         nom: [this.usager.options.transfert.nom, [Validators.required]],

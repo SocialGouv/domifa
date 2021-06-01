@@ -31,6 +31,8 @@ export class ProfilEditPreferenceComponent implements OnInit {
     private usagerProfilService: UsagerProfilService
   ) {
     this.submitted = false;
+    this.me = null;
+    this.usager = null;
     this.editPreferences = false;
   }
 

@@ -10,10 +10,11 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+
 import * as labels from "src/app/shared/constants/USAGER_LABELS.const";
 import { UsagerLight } from "../../../../../_common/model";
 import { Entretien } from "../../../usagers/interfaces/entretien";
+import { EntretienService } from "../../services/entretien.service";
 
 @Component({
   selector: "app-entretien",
@@ -43,7 +44,7 @@ export class EntretienComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private usagerService: UsagerService,
+    private entretienService: EntretienService,
     private notifService: ToastrService,
     private modalService: NgbModal
   ) {
@@ -93,8 +94,8 @@ export class EntretienComponent implements OnInit {
       }
     }
 
-    this.usagerService
-      .entretien(this.entretienForm.value, this.usager.ref)
+    this.entretienService
+      .submitEntretien(this.entretienForm.value, this.usager.ref)
       .subscribe(
         (usager: UsagerLight) => {
           this.usagerChanges.emit(usager);
