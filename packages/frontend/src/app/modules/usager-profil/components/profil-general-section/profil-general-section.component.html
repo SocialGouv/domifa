@@ -3,21 +3,195 @@
 
 <div class="content">
   <div class="container p-0">
-    <div class="page-content pb-5 px-4">
+    <div class="page-content p-4">
+      <div class="row">
+        <!-- INFOS LIÉS AU STATUT -->
+        <div class="col-md-12">
+          <div
+            class="alert alert-danger"
+            *ngIf="usager.decision.statut === 'RADIE'"
+          >
+            <div class="svg-icon icon-danger"></div>
+
+            <div>
+              Cette personne a été radiée le
+              {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+              : {{ usager.decision.motifString }}
+            </div>
+          </div>
+          <div
+            class="alert alert-danger"
+            *ngIf="usager.decision.statut === 'REFUS'"
+          >
+            <div class="svg-icon icon-danger"></div>
+            <div class="text-danger">
+              Demande refusée le
+              {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
+              : {{ usager.decision.motif }}
+            </div>
+          </div>
+
+          <div
+            class="alert alert-warning"
+            *ngIf="
+              usager.decision.statut === 'INSTRUCTION' &&
+              usager.typeDom === 'RENOUVELLEMENT' &&
+              !isRole('facteur')
+            "
+          >
+            <div class="svg-icon icon-calendar"></div>
+            <span>
+              Demande de renouvellement est actuellement en cours &nbsp;
+              <a [routerLink]="['/usager/' + usager.ref + '/edit']">
+                Compléter la demande
+              </a>
+            </span>
+          </div>
+
+          <div
+            class="alert alert-info"
+            *ngIf="
+              usager.decision.statut === 'ATTENTE_DECISION' &&
+              usager.typeDom === 'RENOUVELLEMENT'
+            "
+          >
+            <div class="svg-icon icon-calendar"></div>
+            <div>
+              Cette demande de renouvellement est actuellement en attente d'une
+              décision
+            </div>
+            <div>
+              <a
+                [routerLink]="['/usager/' + usager.ref + '/edit']"
+                class="btn btn-light"
+              >
+                <fa-icon icon="redo" class="mr-2"></fa-icon>
+                Voir le récapitulatif
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div
+            class="alert"
+            [ngClass]="{
+              'alert-danger': usager.dayBeforeEnd <= 15,
+              'alert-warning': usager.dayBeforeEnd > 15
+            }"
+            *ngIf="usager.dayBeforeEnd > 0 && usager.dayBeforeEnd < 60"
+          >
+            <div class="svg-icon icon-distribution"></div>
+            <span>
+              La domiciliation expire le
+              <b>
+                {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
+              </b>
+            </span>
+          </div>
+          <div class="alert alert-danger" *ngIf="usager.dayBeforeEnd < 0">
+            <div class="svg-icon icon-danger"></div>
+            <div>
+              Domiciliation expirée depuis le
+              <b>
+                {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}, il y a
+                {{ usager.dayBeforeEnd * -1 }} jours
+              </b>
+            </div>
+          </div>
+        </div>
+
+        <!-- COURRIERS -->
+        <div class="col-md-12">
+          <!-- NPAI -->
+          <div *ngIf="usager.options.npai.actif" class="alert alert-danger">
+            <fa-icon icon="ban" size="2x" class="text-danger mr-3"></fa-icon>
+            <span>
+              N'habite plus à l'adresse indiquée, pli non distribuable
+            </span>
+          </div>
+
+          <!-- TRANSFERT -->
+          <div
+            *ngIf="
+              usager.options.transfert.actif &&
+              usager.options.transfert.dateFin <= today
+            "
+            class="alert alert-danger"
+          >
+            <div class="svg-icon icon-distribution"></div>
+            <span
+              ><b>Attention : </b> le transfert de courrier était valable
+              jusqu'au
+              {{ usager.options.transfert.dateFin | date: "dd/MM/yyyy" }}</span
+            >
+          </div>
+
+          <div
+            *ngIf="usager.options.transfert.dateFin > today"
+            class="alert alert-warning"
+          >
+            <div class="svg-icon icon-distribution"></div>
+            <span>
+              Le courrier est à transférer à l'adresse suivante :
+              {{ usager.options.transfert.nom | titlecase }}
+              {{ usager.options.transfert.adresse | titlecase }}
+            </span>
+          </div>
+          <div
+            class="alert alert-warning"
+            *ngIf="
+              usager.options.procuration.actif &&
+              usager.options.procuration.dateFin > today
+            "
+          >
+            <div class="svg-icon icon-distribution"></div>
+
+            <span>
+              Une procuration au nom de
+              <b
+                >{{ usager.options.procuration.nom }}
+                {{ usager.options.procuration.prenom }}</b
+              >
+              est active et valable jusqu'au
+              {{ usager.options.procuration.dateFin | date: "dd/MM/yyyy" }}
+            </span>
+          </div>
+
+          <div
+            *ngIf="
+              usager.options.procuration.actif &&
+              usager.options.procuration.dateFin <= today
+            "
+            class="alert alert-danger"
+          >
+            <span class="svg-icon icon-calendar"></span>
+            <span>
+              La procuration au nom de {{ usager.options.procuration.nom
+              }}{{ usager.options.procuration.prenom }}
+              <b
+                >a expiré le
+                {{ usager.options.procuration.dateFin | date: "dd/MM/yyyy" }}</b
+              >
+            </span>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-6">
           <div class="row">
             <h4 class="col-12">Dossier</h4>
-            <div class="col-6">
+            <div class="col-6 my-1">
               <span class="label">Référence dossier</span>
             </div>
-            <div class="col-6">
+            <div class="col-6 my-1">
               {{ usager.customRef }}
             </div>
-            <div class="col-6">
+            <div class="col-6 my-1">
               <span class="label">Statut</span>
             </div>
-            <div class="col-6">
+            <div class="col-6 my-1">
               <div class="label-statut" [class]="usager.statusInfos.color">
                 <span>{{
                   DECISION_STATUT_LABELS[usager.decision.statut]
@@ -25,8 +199,10 @@
               </div>
             </div>
 
-            <div class="col-6"><span class="label">Ayants-droits</span></div>
-            <div class="col-6">
+            <div class="col-6 my-1">
+              <span class="label">Ayants-droits</span>
+            </div>
+            <div class="col-6 my-1">
               <ng-template #ayantsDroitsTooltip class="p-4 text-left">
                 <div class="distribution-tooltip">
                   <div
@@ -41,7 +217,6 @@
               <div
                 class="label-info label-green"
                 [ngbTooltip]="ayantsDroitsTooltip"
-                *ngIf="usager.ayantsDroits.length"
               >
                 <div>{{ usager.ayantsDroits.length }} ayants-droit</div>
               </div>
@@ -118,7 +293,10 @@
         </div>
       </div>
     </div>
-    <app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>
+    <app-delete-usager-menu
+      [usager]="usager"
+      [me]="me"
+    ></app-delete-usager-menu>
   </div>
 </div>
 

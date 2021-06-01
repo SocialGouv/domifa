@@ -81,7 +81,9 @@
       class="col-md-6 form-group required"
       *ngIf="formPref.phone.value === true"
     >
-      <label for="phone">À quel numéro de téléphone ?</label>
+      <label for="phone"
+        >À quel numéro de téléphone ? (Numéro de portable uniquement)</label
+      >
       <input
         type="text"
         class="form-control"
@@ -94,7 +96,7 @@
         autocomplete="null"
         maxlength="10"
       />
-      <small>Numéro de portable uniquement</small>
+
       <div *ngIf="formPref.phoneNumber.errors" class="invalid-feedback">
         Le numéro de portable est incorrect
       </div>
