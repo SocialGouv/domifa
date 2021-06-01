@@ -161,63 +161,62 @@
   </div>
 </ng-template>
 
-<footer class="not-print page-footer my-5 py-5">
-  <div class="container w-95">
-
-    <div class="my-5 d-flex flex-column justify-content-between flex-sm-row">
-      <a class="mr-5" [routerLink]="['/']">
-        <img class="ministere-logo"
-          src="../assets/images/logo_ministere-des-solidarites-et-de-la-sante.png"
-          alt="Ministère des Solidarités et de la Santé"
-          title="Ministère des Solidarités et de la Santé"
-        />
-      </a>
-
-      <div class="w-100 w-sm-50 text-right">Domifa est une solution gratuite et complète de gestion des domiciliations pour les structures domiciliataires (centres d'Action Sociale, communes, organismes agréés).</div>
-    </div>
-
-    <div class="my-5 border-top">
-      <div>Nos partenaires: </div>
+<footer class="not-print page-footer my-5">
+  <div class="container px-2">
+    <div class="my-3">
+      <div class="mb-3 mb-sm-0">Nos partenaires:</div>
       <div class="d-flex flex-column flex-sm-row">
-          <a class="flex-sm-grow-1 text-left mr-sm-5" href="https://www.fabrique.social.gouv.fr">
-            <img class="ministere-logo"
-              src="../assets/images/footer/partenaire-fabrique-numerique.png"
-              alt="La Fabrique Numérique"
-              title="La Fabrique Numérique"
-            />
-          </a>
-          <a class="mr-0 mr-sm-3" href="https://beta.gouv.fr">
-            <img class="ministere-logo"
+        <a
+          class="flex-sm-grow-1 text-left mr-sm-5"
+          href="https://www.fabrique.social.gouv.fr"
+        >
+          <img
+            class="ministere-logo"
+            src="../assets/images/footer/partenaire-fabrique-numerique.png"
+            alt="La Fabrique Numérique"
+            title="La Fabrique Numérique"
+          />
+        </a>
+        <a class="mr-0 mr-sm-3" href="https://beta.gouv.fr">
+          <img
+            class="ministere-logo"
             src="../assets/images/footer/partenaire-beta-gouv.png"
             alt="Beta Gouv"
             title="Beta Gouv"
-          /></a> 
-          <a class="mr-0 mr-sm-3" href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement">
-            <img class="ministere-logo"
+        /></a>
+        <a
+          class="mr-0 mr-sm-3"
+          href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
+        >
+          <img
+            class="ministere-logo"
             src="../assets/images/footer/partenaire-dihal.png"
             alt="DIHAL"
             title="DIHAL"
-          /></a>
-          <a class="mr-0 mr-sm-3" href="https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante">
-            <img class="ministere-logo"
+        /></a>
+        <a
+          class="mr-0 mr-sm-3"
+          href="https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante"
+        >
+          <img
+            class="ministere-logo"
             src="../assets/images/footer/partenaire-dgcs.png"
             alt="DGCS"
             title="DGCS"
-          /></a>
-          <a href="https://www.unccas.org">
-            <img class="ministere-logo"
+        /></a>
+        <a href="https://www.unccas.org">
+          <img
+            class="ministere-logo"
             src="../assets/images/footer/partenaire-unccas.png"
             alt="UNCCAS"
             title="UNCCAS"
-          /></a>
+        /></a>
       </div>
     </div>
-    <div class="my-4 text-xs color-gray border-top">
-      <div>
-        <span>
-          Accessibilité: non conforme
-        </span>
-        <span class="menu-breadcrumb">|</span>
+    <div class="py-3 my-4 text-xs color-gray border-top">
+      <div class="d-flex flex-column flex-sm-row">
+        <span> Accessibilité: non conforme </span>
+        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
         <a
           [routerLink]="['/mentions-legales']"
           routerLinkActive="router-link-active"
@@ -225,7 +224,7 @@
         >
           Mentions légales
         </a>
-        <span class="menu-breadcrumb">|</span>
+        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
         <a
           [routerLink]="['/cgu']"
           routerLinkActive="router-link-active"
@@ -233,20 +232,27 @@
         >
           CGU
         </a>
-        <span class="menu-breadcrumb">|</span>
-        <a
-          [routerLink]="['/news']"
-          routerLinkActive="router-link-active"
-        >
+        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <a [routerLink]="['/news']" routerLinkActive="router-link-active">
           Nouveautés
         </a>
-        <span class="menu-breadcrumb">|</span>
-        <span class="color-gray"
-        >
-          Statistiques (prochainement)
-        </span>
+        <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
+        <span class="color-gray"> Statistiques (prochainement) </span>
       </div>
-      <div class="my-4 text-xs color-gray">Sauf mention contraire, tous les textes de ce site sont sous <a href="https://github.com/etalab/licence-ouverte/blob/master/LO.md" target="_blank">licence etatlab-2.0</a><img src="../../../assets/icones/link-external.png" class="ml-1" style="height: 8px" alt="" aria-hidden="true" /></div>
+      <div class="my-4 text-xs color-gray">
+        Sauf mention contraire, tous les textes de ce site sont sous
+        <a
+          href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+          target="_blank"
+          >licence etatlab-2.0</a
+        ><img
+          src="../../../assets/icones/link-external.png"
+          class="ml-1"
+          style="height: 8px"
+          alt=""
+          aria-hidden="true"
+        />
+      </div>
     </div>
   </div>
 </footer>

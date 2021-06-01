@@ -1,16 +1,3 @@
-.w-95 {
-  width: 95%;
-}
-.bg-primary {
-  background: #4164f5;
-}
-.bg-primary-light {
-  background: rgba(65, 100, 245, 0.1);
-}
-.bg-secondary-light {
-  background: rgba(80, 227, 194, 0.1);
-}
-
 #home-header .home-header-content h1 {
   font-size: 1.5rem;
   line-height: 1.8rem;
@@ -73,12 +60,6 @@ ul.check-list li::before {
   font-weight: bold;
   color: #4164f5;
 }
-.max-w-180 {
-  max-width: 180px;
-}
-#home-header .home-header-image {
-  max-width: 200px;
-}
 
 .big_number {
   display: block;
@@ -118,10 +99,6 @@ ul.check-list li::before {
   padding: 3rem 1rem;
   text-align: center;
   color: white;
-}
-
-.section {
-  padding: 1.5rem 0;
 }
 
 .structure-logo {

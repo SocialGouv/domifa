@@ -26,6 +26,8 @@
               "src/assets/css/tailwind/tailwind-font-size.css",
               "src/assets/css/tailwind/tailwind-font-weight.css",
               "src/assets/css/tailwind/tailwind-cursor.css",
+              "src/assets/css/tailwind/tailwind-width-partial.css",
+              "src/assets/css/util.css",
               "src/assets/css/bootstrap.css",
               "src/assets/css/forms.css",
               "src/assets/css/fonts.css",

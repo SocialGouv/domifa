@@ -1,0 +1,75 @@
+/* utility css - syntax inspired from tailwind */
+
+.max-w-150 {
+  max-width: 150px;
+}
+.max-w-180 {
+  max-width: 180px;
+}
+.max-w-200 {
+  max-width: 200px;
+}
+
+/* On ajoute ici la syntaxe et les breakpoints responsive de bootstrap */
+/* https://getbootstrap.com/docs/4.0/layout/overview/#responsive-breakpoints */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .max-sm-w-150 {
+    max-width: 150px;
+  }
+  .max-sm-w-180 {
+    max-width: 180px;
+  }
+  .max-sm-w-200 {
+    max-width: 200px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .max-md-w-150 {
+    max-width: 150px;
+  }
+  .max-md-w-180 {
+    max-width: 180px;
+  }
+  .max-md-w-200 {
+    max-width: 200px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .max-lg-w-150 {
+    max-width: 150px;
+  }
+  .max-lg-w-180 {
+    max-width: 180px;
+  }
+  .max-lg-w-200 {
+    max-width: 200px;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .max-xl-w-150 {
+    max-width: 150px;
+  }
+  .max-xl-w-180 {
+    max-width: 180px;
+  }
+  .max-xl-w-200 {
+    max-width: 200px;
+  }
+}
+
+/* NOTE: .bg-primary is already defined in bootstrap.css */
+
+.bg-primary-light {
+  background: rgba(65, 100, 245, 0.1);
+}
+.bg-secondary-light {
+  background: rgba(80, 227, 194, 0.1);
+}

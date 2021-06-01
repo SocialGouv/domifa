@@ -1,0 +1,172 @@
+/* https://tailwindcss.com/docs/width */
+
+/* Some classes conflict with bootstrap, so only a bit of tailwind ones are used here: https://getbootstrap.com/docs/4.0/utilities/sizing/ */
+
+.w-1\/2 {
+  width: 50%;
+}
+.w-1\/3 {
+  width: 33.333333%;
+}
+.w-2\/3 {
+  width: 66.666667%;
+}
+.w-1\/4 {
+  width: 25%;
+}
+.w-2\/4 {
+  width: 50%;
+}
+.w-3\/4 {
+  width: 75%;
+}
+.w-full {
+  width: 100%;
+}
+.w-screen {
+  width: 100vw;
+}
+.w-min {
+  width: min-content;
+}
+.w-max {
+  width: max-content;
+}
+/* On ajoute ici la syntaxe et les breakpoints responsive de bootstrap */
+/* https://getbootstrap.com/docs/4.0/layout/overview/#responsive-breakpoints */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .w-sm-1\/2 {
+    width: 50%;
+  }
+  .w-sm-1\/3 {
+    width: 33.333333%;
+  }
+  .w-sm-2\/3 {
+    width: 66.666667%;
+  }
+  .w-sm-1\/4 {
+    width: 25%;
+  }
+  .w-sm-2\/4 {
+    width: 50%;
+  }
+  .w-sm-3\/4 {
+    width: 75%;
+  }
+  .w-sm-full {
+    width: 100%;
+  }
+  .w-sm-screen {
+    width: 100vw;
+  }
+  .w-sm-min {
+    width: min-content;
+  }
+  .w-sm-max {
+    width: max-content;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .w-md-1\/2 {
+    width: 50%;
+  }
+  .w-md-1\/3 {
+    width: 33.333333%;
+  }
+  .w-md-2\/3 {
+    width: 66.666667%;
+  }
+  .w-md-1\/4 {
+    width: 25%;
+  }
+  .w-md-2\/4 {
+    width: 50%;
+  }
+  .w-md-3\/4 {
+    width: 75%;
+  }
+  .w-md-full {
+    width: 100%;
+  }
+  .w-md-screen {
+    width: 100vw;
+  }
+  .w-md-min {
+    width: min-content;
+  }
+  .w-md-max {
+    width: max-content;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .w-lg-1\/2 {
+    width: 50%;
+  }
+  .w-lg-1\/3 {
+    width: 33.333333%;
+  }
+  .w-lg-2\/3 {
+    width: 66.666667%;
+  }
+  .w-lg-1\/4 {
+    width: 25%;
+  }
+  .w-lg-2\/4 {
+    width: 50%;
+  }
+  .w-lg-3\/4 {
+    width: 75%;
+  }
+  .w-lg-full {
+    width: 100%;
+  }
+  .w-lg-screen {
+    width: 100vw;
+  }
+  .w-lg-min {
+    width: min-content;
+  }
+  .w-lg-max {
+    width: max-content;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .w-xl-1\/2 {
+    width: 50%;
+  }
+  .w-xl-1\/3 {
+    width: 33.333333%;
+  }
+  .w-xl-2\/3 {
+    width: 66.666667%;
+  }
+  .w-xl-1\/4 {
+    width: 25%;
+  }
+  .w-xl-2\/4 {
+    width: 50%;
+  }
+  .w-xl-3\/4 {
+    width: 75%;
+  }
+  .w-xl-full {
+    width: 100%;
+  }
+  .w-xl-screen {
+    width: 100vw;
+  }
+  .w-xl-min {
+    width: min-content;
+  }
+  .w-xl-max {
+    width: max-content;
+  }
+}
