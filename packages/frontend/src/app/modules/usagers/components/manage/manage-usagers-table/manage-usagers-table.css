@@ -126,12 +126,6 @@ th {
   text-align: center;
 }
 
-.label-info div {
-  font-size: 0.8rem;
-  font-style: normal;
-  font-weight: normal;
-}
-
 .label-danger {
   background-color: #ffe5dd;
   color: #b51515;

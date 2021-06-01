@@ -1,9 +1,9 @@
 <app-profil-head [usager]="usager" [section]="'dossier'" [me]="me">
 </app-profil-head>
 
-<div class="content">
+<div class="content" *ngIf="usager && me">
   <div class="container p-0">
-    <div class="page-content pt-2 pb-3 px-4">
+    <div class="page-content p-4">
       <div class="row mb-5">
         <div class="col-md-12">
           <div class="d-flex justify-content-between align-items-center">
@@ -39,6 +39,7 @@
           <app-profil-etat-civil-form
             [usager]="usager"
             *ngIf="editInfos"
+            [(editInfos)]="editInfos"
           ></app-profil-etat-civil-form>
         </div>
       </div>

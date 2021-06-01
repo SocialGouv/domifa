@@ -4,8 +4,9 @@ import {
 } from "@angular/common/http/testing";
 import { fakeAsync, inject, TestBed } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { UsagerFormModel } from "../components/form/UsagerFormModel";
-import { Doc } from "../interfaces/doc";
+import { UsagerFormModel } from "../../usagers/components/form/UsagerFormModel";
+import { Doc } from "../../usagers/interfaces/doc";
+
 import { DocumentService } from "./document.service";
 
 describe("DocumentService", () => {

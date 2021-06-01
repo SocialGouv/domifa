@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -13,12 +13,10 @@ import {
 } from "../../../../shared/bootstrap-util";
 import { LIENS_PARENTE } from "../../../../shared/constants/USAGER_LABELS.const";
 import { regexp } from "../../../../shared/validators";
-import { AuthService } from "../../../shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
-import { DocumentService } from "../../../usager-shared/services/document.service";
-import { InteractionService } from "../../../usager-shared/services/interaction.service";
+
 import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
@@ -31,7 +29,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   public usagerForm!: FormGroup;
   public submitted: boolean;
-  public editAyantsDroits: boolean;
+
   public languagesAutocomplete = languagesAutocomplete;
 
   public minDateNaissance: NgbDateStruct;
@@ -39,16 +37,14 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   public LIENS_PARENTE = LIENS_PARENTE;
 
+  @Output() public editInfosChange = new EventEmitter<boolean>();
+
   constructor(
     private formBuilder: FormBuilder,
-
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
-    private route: ActivatedRoute,
-    private router: Router,
     private usagerService: UsagerService
   ) {
-    this.editAyantsDroits = false;
     this.submitted = false;
 
     this.minDateNaissance = minDateNaissance;
@@ -144,6 +140,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
       this.usagerService.create(formValue).subscribe(
         (usager: UsagerLight) => {
           this.submitted = false;
+          this.editInfosChange.emit(false);
           this.notifService.success("Enregistrement réussi");
           this.usager = new UsagerFormModel(usager);
         },

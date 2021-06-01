@@ -192,6 +192,10 @@
       </div>
     </div>
   </div>
+
+  <div class="alert alert-primary" *ngIf="ayantsDroits.length === 0">
+    Aucun ayant-droit enregistré
+  </div>
   <div
     formArrayName="ayantsDroits"
     *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
@@ -307,7 +311,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-3 my-3">
+    <div class="col-4 offset-4 my-3">
       <button type="submit" class="btn btn-primary btn-block">
         Enregistrer les modifications
       </button>

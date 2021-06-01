@@ -34,7 +34,7 @@ export class ProfilStructureDocsComponent implements OnInit {
         saveAs(newBlob, docType + ".docx");
         this.loadingDownload = false;
       },
-      (error: any) => {
+      () => {
         this.loadingDownload = false;
       }
     );

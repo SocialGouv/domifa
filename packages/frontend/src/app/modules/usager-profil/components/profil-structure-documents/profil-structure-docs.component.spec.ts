@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
-import { ProfilStructureDocsComponent } from "./profil-structure-docs.component.ts";
+import { ProfilStructureDocsComponent } from "./profil-structure-docs.component";
 import { UsagersModule } from "../../../usagers/usagers.module";
 
 describe("ProfilStructureDocsComponent", () => {
@@ -15,7 +15,7 @@ describe("ProfilStructureDocsComponent", () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [],
+        declarations: [ProfilStructureDocsComponent],
         imports: [UsagersModule],
         providers: [
           {

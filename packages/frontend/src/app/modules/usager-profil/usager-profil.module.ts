@@ -28,7 +28,7 @@ import { UsagersProfilProcurationCourrierComponent } from "./components/profil-p
 import { ProfilHistoriqueCourriersComponent } from "./components/profil-historique-courriers/profil-historique-courriers.component";
 import { ProfilEditPreferenceComponent } from "./components/profil-edit-preference/profil-edit-preference.component";
 import { ProfilEntretienComponent } from "./components/profil-entretien/profil-entretien.component";
-import { ProfilStructureDocsComponent } from "./components/profil-structure-documents/profil-structure-docs.component.ts";
+import { ProfilStructureDocsComponent } from "./components/profil-structure-documents/profil-structure-docs.component";
 import { ProfilEtatCivilComponent } from "./components/profil-etat-civil/profil-etat-civil.component";
 import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
 import { ProfilDocumentsSectionComponent } from "./components/profil-documents-section/profil-documents-section.component";
