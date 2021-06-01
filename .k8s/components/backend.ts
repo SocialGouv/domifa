@@ -95,7 +95,6 @@ export default () => {
   const { env } = process
   const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
   const isProductionCluster = Boolean(PRODUCTION);
-  console.log("process.env.CI_ENVIRONMENT_NAME", process.env.CI_ENVIRONMENT_NAME);
   
   const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev2";
   const isDev = !isProductionCluster && !isPreProduction
