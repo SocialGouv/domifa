@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight } from "../../../../../_common/model";
 import {
   UploadResponseType,

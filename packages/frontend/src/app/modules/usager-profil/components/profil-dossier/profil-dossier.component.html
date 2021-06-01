@@ -68,18 +68,6 @@
             </button>
           </div>
         </div>
-
-        <div class="col-md-12">
-          <app-documents [usager]="usager"></app-documents>
-
-          <app-upload
-            *ngIf="usager.isActif || usager.decision.statut === 'RADIE'"
-            [usager]="usager"
-          >
-          </app-upload>
-        </div>
-
-        <br />
       </div>
     </div>
   </div>

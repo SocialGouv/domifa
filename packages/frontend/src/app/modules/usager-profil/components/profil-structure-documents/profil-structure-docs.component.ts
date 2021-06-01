@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { saveAs } from "file-saver";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { DocumentService } from "../../../usagers/services/document.service";
+import { DocumentService } from "../../../usager-shared/services/document.service";
 
 @Component({
   selector: "app-profil-structure-docs",

@@ -17,7 +17,7 @@ import { AuthService } from "../../../shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
-import { DocumentService } from "../../../usagers/services/document.service";
+import { DocumentService } from "../../../usager-shared/services/document.service";
 import { InteractionService } from "../../../usagers/services/interaction.service";
 import { UsagerService } from "../../../usagers/services/usager.service";
 
@@ -41,9 +41,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private interactionService: InteractionService,
-    private authService: AuthService,
-    private modalService: NgbModal,
+
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
     private route: ActivatedRoute,
