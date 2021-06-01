@@ -1,3 +1,4 @@
+import { RouterTestingModule } from "@angular/router/testing";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
@@ -16,7 +17,7 @@ describe("RdvComponent", () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [],
-        imports: [UsagersModule],
+        imports: [UsagersModule, RouterTestingModule],
         providers: [
           {
             provide: MatomoInjector,
