@@ -184,3 +184,7 @@ th {
   vertical-align: middle;
   display: inline-block;
 }
+.label-statut {
+  display: block;
+  width: 100%;
+}

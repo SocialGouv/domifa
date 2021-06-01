@@ -56,21 +56,6 @@ button.dropdown-toggle {
   font-weight: normal !important;
 }
 
-.selected-statut {
-  background-color: white !important;
-  box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
-}
-
-.statut-label {
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0;
-}
-
-.selected-statut .statut-label {
-  color: var(--primary);
-}
-
 .btn-outline-dark:hover,
 .btn-dark {
   color: white;

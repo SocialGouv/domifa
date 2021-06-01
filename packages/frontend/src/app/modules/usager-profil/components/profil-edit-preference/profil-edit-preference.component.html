@@ -1,3 +1,18 @@
+<div class="d-flex justify-content-between align-items-center">
+  <div class="">
+    <h4>Préférence de contact</h4>
+  </div>
+  <div class="text-right" *ngIf="usager.isActif && !isRole('facteur')">
+    <button
+      class="btn btn-outline-primary"
+      (click)="editPreferences = !editPreferences"
+    >
+      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+      Modifier les préférences
+    </button>
+  </div>
+</div>
+
 <div class="row" *ngIf="!editPreferences">
   <div class="col-md-6 reponses">
     <span class="question"
@@ -15,20 +30,6 @@
     <span *ngIf="!usager.preference.phoneNumber" class="valeur">
       Non renseigné
     </span>
-  </div>
-
-  <div
-    class="col-md-12 text-center"
-    *ngIf="usager.isActif && !isRole('facteur')"
-  >
-    <br />
-    <button
-      class="btn btn-outline-dark"
-      (click)="editPreferences = !editPreferences"
-    >
-      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
-      Modifier les préférences
-    </button>
   </div>
 </div>
 

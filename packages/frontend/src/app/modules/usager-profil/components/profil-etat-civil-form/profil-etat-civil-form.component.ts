@@ -18,7 +18,7 @@ import { NgbDateCustomParserFormatter } from "../../../shared/services/date-form
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
 import { DocumentService } from "../../../usager-shared/services/document.service";
-import { InteractionService } from "../../../usagers/services/interaction.service";
+import { InteractionService } from "../../../usager-shared/services/interaction.service";
 import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
@@ -46,10 +46,7 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     private notifService: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private usagerService: UsagerService,
-    private titleService: Title,
-    private matomo: MatomoTracker,
-    private documentService: DocumentService
+    private usagerService: UsagerService
   ) {
     this.editAyantsDroits = false;
     this.submitted = false;

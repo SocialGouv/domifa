@@ -21,11 +21,12 @@ import {
   InteractionForApi,
   InteractionType,
 } from "../../../../../../_common/model/interaction";
+
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/interaction/constants";
 
 import { isProcurationActifMaintenant } from "../../../services";
-import { InteractionService } from "../../../services/interaction.service";
 import { isTransfertActifMaintenant } from "../../../services/transfert.service";
+import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 import {
   UsagersFilterCriteria,

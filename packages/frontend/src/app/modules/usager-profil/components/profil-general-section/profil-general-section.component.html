@@ -1,25 +1,59 @@
-<app-profil-head [usager]="usager" [me]="me"> </app-profil-head>
+<app-profil-head [usager]="usager" [section]="'general'" [me]="me">
+</app-profil-head>
 
 <div class="content">
   <div class="container p-0">
-    <div class="page-content pb-5 px-5">
+    <div class="page-content pb-5 px-4">
       <div class="row">
         <div class="col-md-6">
           <div class="row">
             <h4 class="col-12">Dossier</h4>
-            <div class="col-6"><span class="label">Statut</span></div>
             <div class="col-6">
-              <span class="statut-label">
-                <span [class]="usager.echeanceColor">
-                  {{ DECISION_STATUT_LABELS[usager.decision.statut] }}
-                </span>
-              </span>
+              <span class="label">Référence dossier</span>
             </div>
+            <div class="col-6">
+              {{ usager.customRef }}
+            </div>
+            <div class="col-6">
+              <span class="label">Statut</span>
+            </div>
+            <div class="col-6">
+              <div class="label-statut" [class]="usager.statusInfos.color">
+                <span>{{
+                  DECISION_STATUT_LABELS[usager.decision.statut]
+                }}</span>
+              </div>
+            </div>
+
+            <div class="col-6"><span class="label">Ayants-droits</span></div>
+            <div class="col-6">
+              <ng-template #ayantsDroitsTooltip class="p-4 text-left">
+                <div class="distribution-tooltip">
+                  <div
+                    class="p-1"
+                    *ngFor="let ayantDroit of usager.ayantsDroits"
+                  >
+                    <b class="text-primary">{{ ayantDroit.nom }}</b>
+                    {{ ayantDroit.prenom }}
+                  </div>
+                </div>
+              </ng-template>
+              <div
+                class="label-info label-green"
+                [ngbTooltip]="ayantsDroitsTooltip"
+                *ngIf="usager.ayantsDroits.length"
+              >
+                <div>{{ usager.ayantsDroits.length }} ayants-droit</div>
+              </div>
+            </div>
+
             <div class="col-6"><span class="label">Échéance</span></div>
             <div class="col-6">
               {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
             </div>
-            <div class="col-6"><span class="label">Dernier passage</span></div>
+            <div class="col-6">
+              <span class="label">Dernier passage</span>
+            </div>
             <div class="col-6">
               {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
             </div>
@@ -84,6 +118,7 @@
         </div>
       </div>
     </div>
+    <app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>
   </div>
 </div>
 
@@ -100,5 +135,3 @@
     (cancelReception)="closeModals()"
   ></app-set-interaction-out-form>
 </ng-template>
-
-<app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>

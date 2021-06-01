@@ -12,7 +12,6 @@ import { formatDateToNgb, minDateToday } from "src/app/shared/bootstrap-util";
 import { endDateAfterBeginDateValidator } from "src/app/shared/validators";
 import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
-import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
@@ -52,10 +51,13 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   ) {
     this.isFormVisible = false;
     this.minDateToday = minDateToday;
+    this.usager = null;
+    this.me = null;
   }
 
   public ngOnInit() {
     this.initForm();
+    console.log(this.usager);
   }
 
   public showForm() {
@@ -78,6 +80,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   }
 
   public initForm() {
+    console.log("initForm");
     this.transfertForm = this.formBuilder.group(
       {
         nom: [this.usager.options.transfert.nom, [Validators.required]],

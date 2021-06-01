@@ -1,11 +1,11 @@
-<app-profil-head [usager]="usager" [me]="me"> </app-profil-head>
+<app-profil-head [usager]="usager" [section]="'courrier'" [me]="me">
+</app-profil-head>
 
 <div class="content">
-  <div class="container p-0">
-    <div class="page-content py-2 px-5">
+  <div class="container p-0 pb-5">
+    <div class="page-content pb-5 px-4">
       <div class="row">
         <div class="col-md-12">
-          <h4>Préférence de contact</h4>
           <app-profil-edit-preference
             [usager]="usager"
           ></app-profil-edit-preference>
@@ -13,17 +13,12 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <h4>Transfert</h4>
           <app-profil-transfert-courrier
             [usager]="usager"
             (usagerChanges)="onUsagerChanges($event)"
             [me]="me"
           ></app-profil-transfert-courrier>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h4>Procuration</h4>
+
           <app-profil-procuration-courrier
             [usager]="usager"
             (usagerChanges)="onUsagerChanges($event)"
@@ -32,7 +27,6 @@
         </div>
       </div>
     </div>
+    <app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>
   </div>
 </div>
-
-<app-delete-usager-menu [usager]="usager"></app-delete-usager-menu>

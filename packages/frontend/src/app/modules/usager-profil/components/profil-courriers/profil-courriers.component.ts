@@ -6,6 +6,7 @@ import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
   selector: "app-profil-courriers",
@@ -18,13 +19,14 @@ export class ProfilCourriersComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private usagerService: UsagerService,
+    private usagerProfilService: UsagerProfilService,
     private titleService: Title,
     private notifService: ToastrService,
     private route: ActivatedRoute,
     private router: Router
   ) {
     this.me = null;
+    this.usager = null;
   }
 
   public ngOnInit(): void {
@@ -35,9 +37,10 @@ export class ProfilCourriersComponent implements OnInit {
       this.me = user;
     });
 
-    this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
+    this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
+        console.log(this.usager);
       },
       (error) => {
         this.notifService.error("Le dossier recherché n'existe pas");

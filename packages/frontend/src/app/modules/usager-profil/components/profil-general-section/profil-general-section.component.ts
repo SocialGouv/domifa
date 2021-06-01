@@ -18,7 +18,7 @@ import { regexp } from "../../../../shared/validators";
 import { AuthService } from "../../../shared/services/auth.service";
 
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { interactionsLabels } from "../../../usagers/interactions.labels";
+import { interactionsLabels } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
 import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
 import { Interaction } from "../../../usagers/interfaces/interaction";
 

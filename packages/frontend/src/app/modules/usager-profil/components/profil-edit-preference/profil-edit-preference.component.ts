@@ -9,7 +9,6 @@ import {
 } from "../../../../../_common/model";
 import { regexp } from "../../../../shared/validators";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
@@ -64,7 +63,7 @@ export class ProfilEditPreferenceComponent implements OnInit {
   }
 
   public isRole(role: UserRole) {
-    return this.me.role === role;
+    return this.me?.role === role;
   }
 
   public updateUsagerPreference() {
