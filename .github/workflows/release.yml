@@ -18,7 +18,13 @@ jobs:
         with:
           node-version: 14
 
+      - name: Yarn cache setup
+        uses: c-hive/gha-yarn-cache@v1
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile --perfer-offline
+
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
         run: npx semantic-release
