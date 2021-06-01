@@ -95,10 +95,10 @@ jobs:
         images: ghcr.io/socialgouv/domifa/backend
         labels: |
           org.opencontainers.image.title=backend
-          org.opencontainers.image.documentation=https://github.com/SocialGouv/domifa/tree/${{ github.event.pull_request.head.sha }}
+          org.opencontainers.image.documentation=https://github.com/SocialGouv/domifa/tree/${{ github.event.pull_request.head.sha || github.sha }}
         tags: |
           type=sha
-          type=raw,value=sha-${{ github.event.pull_request.head.sha }}
+          type=raw,value=sha-${{ github.event.pull_request.head.sha || github.sha }}
           type=ref,event=branch
           type=ref,event=pr
           type=semver,pattern={{version}}
@@ -154,10 +154,10 @@ jobs:
         images: ghcr.io/socialgouv/domifa/frontend
         labels: |
           org.opencontainers.image.title=frontend
-          org.opencontainers.image.documentation=https://github.com/SocialGouv/domifa/tree/${{ github.event.pull_request.head.sha }}
+          org.opencontainers.image.documentation=https://github.com/SocialGouv/domifa/tree/${{ github.event.pull_request.head.sha || github.sha }}
         tags: |
           type=sha
-          type=raw,value=sha-${{ github.event.pull_request.head.sha }}
+          type=raw,value=sha-${{ github.event.pull_request.head.sha || github.sha }}
           type=ref,event=branch
           type=ref,event=pr
           type=semver,pattern={{version}}
@@ -197,4 +197,5 @@ jobs:
     - name: Trigger deployment
       uses: wei/curl@v1
       with:
-        args: -F token=${{ secrets.GITLAB_PIPELINE_TRIGGER_TOKEN }} -F "ref=${{ github.head_ref }}" -F "variables[DEPLOY]=true" https://gitlab.factory.social.gouv.fr/api/v4/projects/64/trigger/pipeline
+        args: -F token=${{ secrets.GITLAB_PIPELINE_TRIGGER_TOKEN }} -F "ref=${{ github.ref }}" -F "variables[DEPLOY]=true" https://gitlab.factory.social.gouv.fr/api/v4/projects/64/trigger/pipeline
+        # args: -F token=${{ secrets.GITLAB_PIPELINE_TRIGGER_TOKEN }} -F "ref=${{ github.head_ref }}" -F "variables[DEPLOY]=true" https://gitlab.factory.social.gouv.fr/api/v4/projects/64/trigger/pipeline
