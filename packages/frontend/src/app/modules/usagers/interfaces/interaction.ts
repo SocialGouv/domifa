@@ -1,7 +1,7 @@
 import {
   interactionsLabels,
   interactionsLabelsPluriel,
-} from "../interactions.labels";
+} from "../../../shared/constants/INTERACTIONS_LABELS.const";
 
 export class Interaction {
   public _id: string;

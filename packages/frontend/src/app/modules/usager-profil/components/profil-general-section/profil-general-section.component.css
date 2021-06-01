@@ -26,3 +26,7 @@
   font-size: 1.1rem;
   align-self: center;
 }
+
+.label-statut {
+  display: inline-block !important;
+}

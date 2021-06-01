@@ -9,7 +9,7 @@ import {
   Subscription,
 } from "rxjs";
 import { map } from "rxjs/operators";
-import { interactionsLabelsPluriel } from "src/app/modules/usagers/interactions.labels";
+import { interactionsLabelsPluriel } from "src/app/shared/constants/INTERACTIONS_LABELS.const";
 import * as labels from "src/app/shared/constants/USAGER_LABELS.const";
 import {
   dataCompare,

@@ -21,10 +21,8 @@ import {
   InteractionForApi,
   InteractionType,
 } from "../../../../../../_common/model/interaction";
-import { interactionsLabels } from "../../../interactions.labels";
-import { isProcurationActifMaintenant } from "../../../services";
-import { InteractionService } from "../../../services/interaction.service";
-import { isTransfertActifMaintenant } from "../../../services/transfert.service";
+import { interactionsLabels } from "../../../../../shared/constants/INTERACTIONS_LABELS.const";
+import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 import {
   UsagersFilterCriteria,

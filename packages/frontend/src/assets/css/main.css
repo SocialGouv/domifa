@@ -424,19 +424,33 @@ table .active {
   height: 10px;
 }
 
-.danger-status .statut-label,
+.statut-label a,
+.statut-label {
+  font-style: normal;
+  font-weight: 600;
+  color: #282828;
+  letter-spacing: 0;
+}
+
+.selected-section .statut-label {
+  color: var(--primary);
+}
+
+.selected-section {
+  background-color: white !important;
+  box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
+}
+
 .label-danger {
   background-color: #ffe5dd;
   color: #b51515;
 }
 
-.normal-status .statut-label,
 .label-green {
   background-color: #d4f4ed;
   color: #486346;
 }
 
-.warning-status .statut-label,
 .label-yellow {
   background-color: #feedd1;
   color: #282828;
@@ -501,8 +515,6 @@ table .active {
   border-radius: 50px;
   padding: 4px 15px;
   margin: 2px auto;
-  display: block;
-  width: 100%;
   text-align: center;
   max-width: 150px;
 }

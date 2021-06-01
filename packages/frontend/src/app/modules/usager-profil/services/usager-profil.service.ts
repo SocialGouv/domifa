@@ -25,7 +25,6 @@ export class UsagerProfilService {
   }
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
-    console.log("TETE");
     return this.http.get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`);
   }
 

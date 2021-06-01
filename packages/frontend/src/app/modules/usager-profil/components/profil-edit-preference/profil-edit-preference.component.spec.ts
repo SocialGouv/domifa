@@ -41,11 +41,11 @@ describe("ProfilEditPreferenceComponent", () => {
           useValue: {
             init: jest.fn(),
           },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
+          {
+            provide: MatomoTracker,
+            useValue: {
+              setUserId: jest.fn(),
+            },
           },
         },
         { provide: APP_BASE_HREF, useValue: "/" },

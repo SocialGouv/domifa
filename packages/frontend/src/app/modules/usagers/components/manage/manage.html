@@ -41,7 +41,7 @@
     <div id="statut-selector" class="mt-4 row">
       <div
         class="col"
-        [ngClass]="{'selected-statut' : filters.statut === 'TOUS' }"
+        [ngClass]="{'selected-section' : filters.statut === 'TOUS' }"
         (click)="updateFilters({element: 'statut', value:'TOUS'})"
       >
         <span class="statut-cpt">
@@ -51,7 +51,7 @@
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-statut' :filters.statut === 'VALIDE' }"
+        [ngClass]="{'selected-section' :filters.statut === 'VALIDE' }"
         (click)="updateFilters({element: 'statut', value:'VALIDE'})"
       >
         <span class="statut-cpt"
@@ -61,7 +61,7 @@
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-statut' : filters.statut === 'INSTRUCTION' }"
+        [ngClass]="{'selected-section' : filters.statut === 'INSTRUCTION' }"
         (click)="updateFilters({element: 'statut', value:'INSTRUCTION'})"
       >
         <span class="statut-cpt"
@@ -71,7 +71,7 @@
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-statut' : filters.statut === 'ATTENTE_DECISION' }"
+        [ngClass]="{'selected-section' : filters.statut === 'ATTENTE_DECISION' }"
         (click)="updateFilters({element: 'statut', value:'ATTENTE_DECISION'})"
       >
         <span class="statut-cpt"
@@ -81,7 +81,7 @@
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-statut' :filters.statut === 'REFUS' }"
+        [ngClass]="{'selected-section' :filters.statut === 'REFUS' }"
         (click)="updateFilters({element: 'statut', value:'REFUS'})"
       >
         <span class="statut-cpt"
@@ -91,7 +91,7 @@
       </div>
       <div
         class="col"
-        [ngClass]="{'selected-statut' :filters.statut === 'RADIE' }"
+        [ngClass]="{'selected-section' :filters.statut === 'RADIE' }"
         (click)="updateFilters({element: 'statut', value:'RADIE'})"
       >
         <span class="statut-cpt">

@@ -51,31 +51,36 @@
 
     <div id="statut-selector" class="mt-4 row">
       <a
-        class="col selected-statut"
+        class="col"
+        [class]="{ 'selected-section': section === 'general' }"
         [routerLink]="['/profil/general/' + usager.ref]"
         ><span class="statut-label"> Vue d'ensemble</span></a
       >
 
       <a
-        class="col selected-statut"
+        class="col"
+        [class]="{ 'selected-section': section === 'courrier' }"
         [routerLink]="['/profil/courriers/' + usager.ref]"
         ><span class="statut-label"> Courriers</span></a
       >
 
       <a
-        class="col selected-statut"
+        class="col"
+        [class]="{ 'selected-section': section === 'dossier' }"
         [routerLink]="['/profil/dossier/' + usager.ref]"
         ><span class="statut-label"> Dossier</span></a
       >
 
       <a
-        class="col selected-statut"
+        class="col"
+        [class]="{ 'selected-section': section === 'documents' }"
         [routerLink]="['/profil/documents/' + usager.ref]"
         ><span class="statut-label"> Documents</span></a
       >
 
       <a
-        class="col selected-statut"
+        class="col"
+        [class]="{ 'selected-section': section === 'historique' }"
         [routerLink]="['/profil/historique/' + usager.ref]"
         ><span class="statut-label"> Historique</span></a
       >
@@ -84,7 +89,7 @@
 </div>
 <div class="content">
   <div class="container p-0">
-    <div class="page-content px-5 pt-4">
+    <div class="page-content px-4 pt-4">
       <div class="row">
         <!-- INFOS LIÉS AU STATUT -->
         <div class="col-md-12">

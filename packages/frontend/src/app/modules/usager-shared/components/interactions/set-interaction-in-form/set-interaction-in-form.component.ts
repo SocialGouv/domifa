@@ -15,8 +15,8 @@ import {
 import { UsagerLight } from "../../../../../../_common/model/usager/UsagerLight.type";
 import { bounce } from "../../../../../shared/animations";
 import { InteractionService } from "../../../services/interaction.service";
-import { UsagerService } from "../../../services/usager.service";
-import { UsagerFormModel } from "../../form/UsagerFormModel";
+import { UsagerService } from "../../../../usagers/services/usager.service";
+import { UsagerFormModel } from "../../../../usagers/components/form/UsagerFormModel";
 
 @Component({
   animations: [bounce],
