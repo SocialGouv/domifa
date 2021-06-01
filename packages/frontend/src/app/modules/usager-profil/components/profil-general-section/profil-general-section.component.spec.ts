@@ -20,9 +20,7 @@ describe("ProfilGeneralSectionComponent", () => {
       imports: [
         NgbModule,
         MatomoModule,
-        CommonModule,
         ReactiveFormsModule,
-        FormsModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         RouterTestingModule,

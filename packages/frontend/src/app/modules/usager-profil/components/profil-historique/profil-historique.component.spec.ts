@@ -21,8 +21,6 @@ describe("ProfilHistoriqueComponent", () => {
       declarations: [ProfilHistoriqueComponent],
       imports: [
         MatomoModule,
-        CommonModule,
-        UsagerSharedModule,
         ReactiveFormsModule,
         NgbModule,
         FormsModule,
