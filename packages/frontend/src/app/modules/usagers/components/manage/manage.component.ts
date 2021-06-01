@@ -1,4 +1,3 @@
-import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import {
   Component,
@@ -33,6 +32,8 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
+import { getDateToDisplay } from "../../interfaces/getDateToDisplay.service";
+import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 import {
   UsagersByStatus,
@@ -47,7 +48,6 @@ import {
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaStatut,
 } from "./usager-filter/UsagersFilterCriteria";
-import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({
@@ -139,44 +139,42 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
 
     // reload every hour
-    timer(0, AUTO_REFRESH_PERIOD)
-      .pipe(
-        tap(() => {
-          this.loading = true;
-        }),
-        switchMap(() => this.usagerService.getAllUsagers()),
-        tap(() => {
-          this.loading = false;
-        }),
-        retryWhen((errors) =>
-          // retry in case of error
-          errors.pipe(
-            tap((err: HttpErrorResponse) => {
-              this.loading = false;
-              if (err?.status === 401) {
-                this.authService.logoutAndRedirect();
-              } else {
-                console.log(`Error loading usagers`, err);
-              }
-            }),
-            // retry in 30 seconds
-            delayWhen(() => timer(30000))
+    this.subscription.add(
+      timer(0, AUTO_REFRESH_PERIOD)
+        .pipe(
+          tap(() => {
+            this.loading = true;
+          }),
+          switchMap(() => this.usagerService.getAllUsagers()),
+          retryWhen((errors) =>
+            // retry in case of error
+            errors.pipe(
+              tap((err: HttpErrorResponse) => {
+                this.loading = false;
+                if (err?.status === 401) {
+                  this.authService.logoutAndRedirect();
+                } else {
+                  console.log(`Error loading usagers`, err);
+                  this.notifService.error(
+                    "Une erreur a eu lieu lors de la recherche"
+                  );
+                }
+              }),
+              // retry in 30 seconds
+              delayWhen(() => timer(30000))
+            )
           )
         )
-      )
-      .subscribe(
-        (allUsagers: UsagerLight[]) => {
+        .subscribe((allUsagers: UsagerLight[]) => {
+          this.loading = false;
           const usagers = allUsagers.map((usager) => {
             usager.dateToDisplay = getDateToDisplay(usager).dateToDisplay;
             usager.usagerProfilUrl = getUrlUsagerProfil(usager);
             return usager;
           });
           this.allUsagers$.next(usagers);
-        },
-        () => {
-          this.notifService.error("Une erreur a eu lieu lors de la recherche");
-        }
-      );
+        })
+    );
 
     this.allUsagers$.subscribe((allUsagers: UsagerLight[]) => {
       this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);

@@ -48,6 +48,7 @@
     "ngx-toastr": "^13.2.1",
     "path": "^0.12.7",
     "raven-js": "^3.27.2",
+    "redux": "^4.1.0",
     "rxjs": "^7.0.0",
     "smoothscroll-polyfill": "^0.4.4",
     "tslib": "^2.0.0",
