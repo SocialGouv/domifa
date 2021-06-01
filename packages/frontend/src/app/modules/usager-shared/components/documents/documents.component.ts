@@ -2,7 +2,6 @@ import { Component, Input, OnChanges, OnInit } from "@angular/core";
 import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerDoc } from "../../../../../_common/model";
 import { UsagerLight } from "../../../../../_common/model/usager/UsagerLight.type";
 import { DocumentService } from "../../services/document.service";

@@ -30,6 +30,7 @@ import { SharedModule } from "./modules/shared/shared.module";
 import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
+import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
 
 if (environment.production) {
   Sentry.init({
@@ -43,6 +44,7 @@ if (environment.production) {
   imports: [
     AppRoutingModule,
     BrowserModule,
+    UsagerSharedModule,
     BrowserAnimationsModule,
     FormsModule,
     MatomoModule,

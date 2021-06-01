@@ -3,12 +3,12 @@ import { FormGroup, FormBuilder, FormArray, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoTracker } from "ngx-matomo";
+
 import { ToastrService } from "ngx-toastr";
 import { AppUser, UserRole, UsagerLight } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
-import { languagesAutocomplete } from "../../../../shared";
+
 import {
   minDateNaissance,
   formatDateToNgb,
@@ -16,22 +16,22 @@ import {
 import { DECISION_STATUT_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
 import { regexp } from "../../../../shared/validators";
 import { AuthService } from "../../../shared/services/auth.service";
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
+
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { interactionsLabels } from "../../../usagers/interactions.labels";
 import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
 import { Interaction } from "../../../usagers/interfaces/interaction";
 
-import { DocumentService } from "../../../usagers/services/document.service";
+import { DocumentService } from "../../../usager-shared/services/document.service";
 
-import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
-  selector: "app-profil-overview",
-  templateUrl: "./profil-overview.component.html",
-  styleUrls: ["./profil-overview.component.css"],
+  selector: "app-profil-general-section",
+  templateUrl: "./profil-general-section.component.html",
+  styleUrls: ["./profil-general-section.component.css"],
 })
-export class ProfilOverviewComponent implements OnInit {
+export class ProfilGeneralSectionComponent implements OnInit {
   // Affichage des formulaires d'édition
 
   public editEntretien: boolean;
@@ -82,13 +82,14 @@ export class ProfilOverviewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private modalService: NgbModal,
-    private nbgDate: NgbDateCustomParserFormatter,
+
     private notifService: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private usagerService: UsagerService,
+
+    private usagerProfilService: UsagerProfilService,
     private titleService: Title,
-    private matomo: MatomoTracker,
+
     private documentService: DocumentService
   ) {
     this.submitted = false;
@@ -127,19 +128,23 @@ export class ProfilOverviewComponent implements OnInit {
       this.me = user;
     });
 
+    console.log(this.route.snapshot.params.id);
+
     //
     if (!this.route.snapshot.params.id) {
+      console.log("5995099009");
       this.router.navigate(["/404"]);
       return;
     }
 
-    this.usagerService.findOne(this.route.snapshot.params.id).subscribe(
+    this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
       },
       (error) => {
+        console.log(error);
         this.notifService.error("Le dossier recherché n'existe pas");
-        this.router.navigate(["404"]);
+        // this.router.navigate(["404"]);
       }
     );
   }
@@ -183,7 +188,7 @@ export class ProfilOverviewComponent implements OnInit {
   }
 
   public renouvellement() {
-    this.usagerService.renouvellement(this.usager.ref).subscribe(
+    this.usagerProfilService.renouvellement(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
         this.modalService.dismissAll();
@@ -207,7 +212,7 @@ export class ProfilOverviewComponent implements OnInit {
   }
 
   public deleteUsager() {
-    this.usagerService.delete(this.usager.ref).subscribe(
+    this.usagerProfilService.delete(this.usager.ref).subscribe(
       (result: any) => {
         this.modalService.dismissAll();
         this.notifService.success("Usager supprimé avec succès");
@@ -217,10 +222,6 @@ export class ProfilOverviewComponent implements OnInit {
         this.notifService.error("Impossible de supprimer la fiche");
       }
     );
-  }
-
-  public getAttestation() {
-    return this.usagerService.attestation(this.usager.ref);
   }
 
   public getStructureDocument(docType: StructureDocTypesAvailable) {

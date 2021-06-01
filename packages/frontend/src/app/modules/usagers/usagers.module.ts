@@ -1,3 +1,4 @@
+import { UsagerSharedModule } from "./../usager-shared/usager-shared.module";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
@@ -15,7 +16,7 @@ import { GeneralModule } from "../general/general.module";
 import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
-import { DocumentsComponent } from "./components/documents/documents.component";
+
 import { EntretienComponent } from "../usager-profil/components/profil-entretien-form/entretien.component";
 import { DecisionComponent } from "./components/form/parts/decision/decision.component";
 import { DocumentsFormComponent } from "./components/form/parts/documents-form/documents-form.component";
@@ -30,30 +31,26 @@ import { ManageUsagersComponent } from "./components/manage/manage.component";
 import { ProfilHistoriqueSmsComponent } from "./components/profil-historique-sms/profil-historique-sms.component";
 
 import { RaftComponent } from "./components/raft/raft.component";
-import { UploadComponent } from "./components/upload/upload.component";
-import { DocumentService } from "./services/document.service";
+
 import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
 import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
-import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delete-usager-menu.component";
-import { UsagerProfilModule } from "../usager-profil/usager-profil.module";
 
 @NgModule({
   declarations: [
-    UploadComponent,
     DecisionComponent,
     RdvComponent,
     EntretienFormComponent,
     DocumentsFormComponent,
     UsagersFormComponent,
-    DocumentsComponent,
+
     ManageUsagersComponent,
     ManageUsagersTableComponent,
+
     MenuComponent,
-    DeleteUsagerMenuComponent,
-    // UsagersProfilComponent,
     ImportComponent,
+
     RaftComponent,
     EntretienComponent,
     SetInteractionInFormComponent,
@@ -61,35 +58,28 @@ import { UsagerProfilModule } from "../usager-profil/usager-profil.module";
     ProfilHistoriqueSmsComponent,
   ],
   exports: [
-    UploadComponent,
     DecisionComponent,
     UsagersFormComponent,
     EntretienComponent,
     DocumentsFormComponent,
     ManageUsagersComponent,
-
-    ImportComponent,
-    RaftComponent,
-    DeleteUsagerMenuComponent,
     SetInteractionInFormComponent,
     SetInteractionOutFormComponent,
   ],
   imports: [
     CommonModule,
-    GeneralModule,
-    UsagerProfilModule,
-    UsersModule,
-    SharedModule,
     FontAwesomeModule,
-    RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
-    ToastrModule.forRoot({}),
+    FormsModule,
+    GeneralModule,
     HttpClientModule,
     NgbModule,
-    FormsModule,
     ReactiveFormsModule,
+    RouterModule.forChild([]),
+    SharedModule,
+    ToastrModule.forRoot({}),
+    UsersModule,
   ],
   providers: [
-    DocumentService,
     UsagerService,
     InteractionService,
     NgbDateCustomParserFormatter,

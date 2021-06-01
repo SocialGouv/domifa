@@ -14,6 +14,7 @@ import { NgbDateCustomParserFormatter } from "../../../shared/services/date-form
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { InteractionService } from "../../../usagers/services/interaction.service";
 import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
   selector: "app-profil-head",
@@ -30,14 +31,11 @@ export class ProfilHeadComponent implements OnInit {
   public renewModal!: TemplateRef<any>;
 
   constructor(
-    private interactionService: InteractionService,
-    private authService: AuthService,
     private modalService: NgbModal,
-    private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private usagerService: UsagerService
+    private usagerProfilService: UsagerProfilService
   ) {
     this.today = new Date();
   }
@@ -53,7 +51,7 @@ export class ProfilHeadComponent implements OnInit {
   }
 
   public renouvellement() {
-    this.usagerService.renouvellement(this.usager.ref).subscribe(
+    this.usagerProfilService.renouvellement(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
         this.modalService.dismissAll();

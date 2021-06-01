@@ -1,3 +1,6 @@
+import { UsagerSharedModule } from "./../usager-shared/usager-shared.module";
+import { UsagerProfilService } from "./services/usager-profil.service";
+
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -5,7 +8,6 @@ import { CommonModule } from "@angular/common";
 import { UsagerProfilRoutingModule } from "./usager-profil-routing.module";
 
 import { ProfilCourriersComponent } from "./components/profil-courriers/profil-courriers.component";
-import { ProfilOverviewComponent } from "./components/profil-overview/profil-overview.component";
 
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -29,11 +31,18 @@ import { ProfilEntretienComponent } from "./components/profil-entretien/profil-e
 import { ProfilStructureDocsComponent } from "./components/profil-structure-documents/profil-structure-docs.component.ts";
 import { ProfilEtatCivilComponent } from "./components/profil-etat-civil/profil-etat-civil.component";
 import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
+import { ProfilDocumentsSectionComponent } from "./components/profil-documents-section/profil-documents-section.component";
+import { ProfilGeneralHistoriqueCourriersComponent } from "./components/profil-general-historique-courriers/profil-general-historique-courriers.component";
+import { ProfilGeneralSectionComponent } from "./components/profil-general-section/profil-general-section.component";
+
+import { ToastrModule } from "ngx-toastr";
+import { UsersModule } from "../users/users.module";
+import { GeneralModule } from "../general/general.module";
 
 @NgModule({
   declarations: [
-    // Composants principaux
-    ProfilOverviewComponent,
+    // Composants principaux : Sections
+    ProfilGeneralSectionComponent,
     ProfilCourriersComponent,
     ProfilHeadComponent,
     ProfilDossierComponent,
@@ -41,23 +50,29 @@ import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-for
     // Parts
     UsagersProfilTransfertCourrierComponent,
     UsagersProfilProcurationCourrierComponent,
+    //
     ProfilHistoriqueCourriersComponent,
     ProfilStructureDocsComponent,
     ProfilEntretienComponent,
     ProfilEditPreferenceComponent,
     ProfilEtatCivilComponent,
     ProfilEtatCivilFormComponent,
+    ProfilDocumentsSectionComponent,
+    ProfilGeneralHistoriqueCourriersComponent,
   ],
   exports: [ProfilEtatCivilComponent],
   imports: [
     CommonModule,
-    UsagerProfilRoutingModule,
     FontAwesomeModule,
-    SharedModule,
+    UsagerSharedModule,
+    FormsModule,
+    GeneralModule,
     HttpClientModule,
     NgbModule,
-    FormsModule,
     ReactiveFormsModule,
+    SharedModule,
+    UsagerProfilRoutingModule,
+    UsersModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

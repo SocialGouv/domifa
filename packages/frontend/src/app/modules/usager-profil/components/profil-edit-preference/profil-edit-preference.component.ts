@@ -10,6 +10,7 @@ import {
 import { regexp } from "../../../../shared/validators";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { UsagerService } from "../../../usagers/services/usager.service";
+import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
   selector: "app-profil-edit-preference",
@@ -28,7 +29,7 @@ export class ProfilEditPreferenceComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private notifService: ToastrService,
-    private usagerService: UsagerService
+    private usagerProfilService: UsagerProfilService
   ) {
     this.submitted = false;
     this.editPreferences = false;
@@ -82,17 +83,21 @@ export class ProfilEditPreferenceComponent implements OnInit {
         preference.phoneNumber = null;
       }
 
-      this.usagerService.editPreference(preference, this.usager.ref).subscribe(
-        (usager: UsagerLight) => {
-          this.submitted = false;
-          this.editPreferences = false;
-          this.notifService.success("Enregistrement des préférences réussi");
-          this.usager = new UsagerFormModel(usager);
-        },
-        (error) => {
-          this.notifService.error("Veuillez vérifiez les champs du formulaire");
-        }
-      );
+      this.usagerProfilService
+        .editPreference(preference, this.usager.ref)
+        .subscribe(
+          (usager: UsagerLight) => {
+            this.submitted = false;
+            this.editPreferences = false;
+            this.notifService.success("Enregistrement des préférences réussi");
+            this.usager = new UsagerFormModel(usager);
+          },
+          (error) => {
+            this.notifService.error(
+              "Veuillez vérifiez les champs du formulaire"
+            );
+          }
+        );
     }
   }
 }

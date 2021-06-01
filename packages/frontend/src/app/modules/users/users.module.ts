@@ -37,7 +37,7 @@ import { SharedModule } from "../shared/shared.module";
     CommonModule,
     SharedModule,
     FontAwesomeModule,
-    RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
+    RouterModule.forChild([]),
     ToastrModule.forRoot({}),
     HttpClientModule,
     NgbModule,

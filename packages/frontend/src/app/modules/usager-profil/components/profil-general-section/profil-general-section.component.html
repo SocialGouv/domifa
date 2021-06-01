@@ -10,7 +10,7 @@
             <div class="col-6"><span class="label">Statut</span></div>
             <div class="col-6">
               <span class="statut-label">
-                <span [class]="usager.statutColor">
+                <span [class]="usager.echeanceColor">
                   {{ DECISION_STATUT_LABELS[usager.decision.statut] }}
                 </span>
               </span>
@@ -67,28 +67,20 @@
           </div>
         </div>
       </div>
+      <br />
       <hr />
       <div class="row">
         <div class="col-md-6">
-          <h4>Documents téléchargeables</h4>
+          <h4>Historique des courriers</h4>
 
-          <button (click)="getAttestation()" class="btn btn-primary">
-            <fa-icon icon="download" class="mr-2"></fa-icon>
-            Télécharger le CERFA
-          </button>
-          <br />
-          <br />
-          <app-profil-structure-docs
-            [usager]="usager"
-          ></app-profil-structure-docs>
-        </div>
-        <div class="col-md-6">
-          <h4>Historique des interactions</h4>
-
-          <app-profil-historique-courriers
+          <app-profil-historique-table-courriers
             [usager]="usager"
             [me]="me"
-          ></app-profil-historique-courriers>
+          ></app-profil-historique-table-courriers>
+        </div>
+
+        <div class="col-md-6">
+          <h4>Notes</h4>
         </div>
       </div>
     </div>
