@@ -4,8 +4,8 @@ import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv"
 import { create } from "@socialgouv/kosko-charts/components/nginx"
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost"
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind"
-// import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath"
 import { EnvVar } from "@socialgouv/kosko-charts/node_modules/kubernetes-models/v1/EnvVar"
+import { getGithubRegistryImagePath } from "@socialgouv/kosko-charts/utils/getGithubRegistryImagePath"
 import { Deployment } from "@socialgouv/kosko-charts/node_modules/kubernetes-models/apps/v1/Deployment"
 
 import { getManifests as getBackendManifests } from "./backend"
@@ -13,6 +13,7 @@ import { getManifests as getBackendManifests } from "./backend"
 export const getManifests = () => {
   const probesPath = "/"
   const name = "frontend"
+  const project = "domifa"
   const subdomain = "domifa"
 
   const tag = process.env.CI_COMMIT_TAG
@@ -34,15 +35,14 @@ export const getManifests = () => {
     {}
   );
 
+  const image = getGithubRegistryImagePath({ project, name });
+
   const manifests = create(name, {
     env,
     config: {
       subdomain: process.env.PRODUCTION ? `fake-${subdomain}` : subdomain,
      },
-    deployment: {
-      image: `ghcr.io/socialgouv/domifa/frontend:sha-${tag}`,
-      ...podProbes,
-    },
+    deployment: { image, ...podProbes },
   })
 
   return manifests
