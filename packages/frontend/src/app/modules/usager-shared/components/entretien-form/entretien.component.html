@@ -385,12 +385,14 @@
       <button
         type="submit"
         class="btn btn-primary btn-block"
-        *ngIf="usager.decision.statut !== 'INSTRUCTION'"
+        *ngIf="editEntretien"
       >
         Enregistrer
       </button>
 
-      <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
+      <ng-container
+        *ngIf="usager.decision.statut === 'INSTRUCTION' && !editEntretien"
+      >
         <button type="submit" class="btn btn-primary btn-block">Suivant</button>
         <br />
         <a
@@ -398,8 +400,8 @@
           routerLinkActive="router-link-active"
           class="btn btn-block"
         >
-          <u>Continuer plus tard</u>
-          &nbsp;
+          <u class="mr-2">Continuer plus tard</u>
+
           <fa-icon icon="angle-right"></fa-icon>
         </a>
       </ng-container>

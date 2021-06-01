@@ -3,21 +3,29 @@
     <div>
       <h4>Transfert de courrier</h4>
     </div>
-    <div
-      *ngIf="!isRole('facteur') && usager.options.transfert.actif&& usager.decision.statut !== 'REFUS'"
-    >
+    <div *ngIf="!isRole('facteur') && usager.decision.statut !== 'REFUS'">
       <button
-        *ngIf="!isFormVisible"
+        *ngIf="!isFormVisible && usager.options.transfert.actif "
         (click)="showForm()"
-        class="btn btn-outline-dark"
+        class="btn btn-outline-dark ml-2"
       >
         <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
         Modifier le transfert
       </button>
+
+      <button
+        (click)="showForm()"
+        class="btn btn-outline-primary ml-2"
+        *ngIf="!isFormVisible && !usager.options.transfert.actif"
+      >
+        <fa-icon icon="plus" class="mr-2"></fa-icon>
+        Activer le transfert de courrier
+      </button>
+
       <button
         *ngIf="isFormVisible"
         (click)="hideForm()"
-        class="btn btn-outline-dark"
+        class="btn btn-outline-dark ml-2"
       >
         <fa-icon icon="times" class="mr-2"></fa-icon>
         Annuler les modifications
@@ -25,26 +33,18 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-12">
-      <div
-        class="text-center"
-        *ngIf="!usager.options.transfert.actif && !isFormVisible"
+  <div class="row" *ngIf="!usager.options.transfert.actif && !isFormVisible">
+    <div class="col-md-6 reponses">
+      <span class="question"
+        >Il n'y a aucun transfert de courrier actuellement.</span
       >
-        <p>Il n'y a aucun transfert de courrier actuellement.</p>
-        <button
-          (click)="showForm()"
-          class="btn btn-outline-primary"
-          *ngIf="!isRole('facteur') && usager.decision.statut !== 'REFUS'"
-        >
-          <fa-icon icon="plus" class="mr-2"></fa-icon>
-          Activer le transfert de courrier
-        </button>
-      </div>
     </div>
   </div>
 
-  <div *ngIf="usager.options.transfert.actif && !isFormVisible" class="row">
+  <div
+    *ngIf="usager.options.transfert.actif && !isFormVisible"
+    class="my-3 row"
+  >
     <div class="col-md-4 reponses">
       <span class="question">Nom de l'établissement</span>
       <span class="valeur">{{ usager.options.transfert.nom }}</span>

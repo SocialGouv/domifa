@@ -15,7 +15,7 @@ describe("ProfilStructureDocsComponent", () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [],
+        declarations: [ProfilStructureDocsComponent],
         imports: [UsagersModule],
         providers: [
           {

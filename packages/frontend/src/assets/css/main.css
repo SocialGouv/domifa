@@ -607,6 +607,12 @@ table .active {
   display: inline-block;
 }
 
+.label-info div {
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: normal;
+}
+
 .label-info span {
   display: block;
   font-size: 0.8rem;

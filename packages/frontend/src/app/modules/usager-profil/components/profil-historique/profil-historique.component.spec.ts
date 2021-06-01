@@ -1,3 +1,5 @@
+import { NgbDateCustomParserFormatter } from "./../../../shared/services/date-formatter";
+import { UsagerSharedModule } from "./../../../usager-shared/usager-shared.module";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -18,10 +20,11 @@ describe("ProfilHistoriqueComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ProfilHistoriqueComponent],
       imports: [
-        NgbModule,
         MatomoModule,
         CommonModule,
+        UsagerSharedModule,
         ReactiveFormsModule,
+        NgbModule,
         FormsModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),

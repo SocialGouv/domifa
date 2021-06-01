@@ -8,15 +8,15 @@ import {
 import { getUrlUsagerProfil } from "./getUrlUsagerProfil.service";
 
 it("getUrlUsagerProfil: redirection vers le profil", () => {
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/usager/5");
+  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/profil/general/5");
 
   // Refus = page profil
   usagerValideMock.decision.statut = "REFUS";
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/usager/5");
+  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/profil/general/5");
 
   // Radié = page profil
   usagerValideMock.decision.statut = "RADIE";
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/usager/5");
+  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/profil/general/5");
 
   // Attente décision = page de décision
   usagerValideMock.decision.statut = "ATTENTE_DECISION";
@@ -26,7 +26,7 @@ it("getUrlUsagerProfil: redirection vers le profil", () => {
 
   // Renouvellement + instruction = retour à la page profil
   usagerValideMock.decision.statut = "INSTRUCTION";
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/usager/5");
+  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/profil/general/5");
 
   // Premiere demande + instruction = Aller sur le dossier d'instruction
   usagerValideMock.typeDom = "PREMIERE_DOM";

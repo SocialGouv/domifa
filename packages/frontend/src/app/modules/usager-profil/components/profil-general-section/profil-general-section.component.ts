@@ -9,6 +9,8 @@ import { AppUser, UserRole, UsagerLight } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
 
+import { saveAs } from "file-saver";
+
 import {
   minDateNaissance,
   formatDateToNgb,
@@ -34,8 +36,6 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 export class ProfilGeneralSectionComponent implements OnInit {
   // Affichage des formulaires d'édition
 
-  public editEntretien: boolean;
-  public editAyantsDroits: boolean;
   public acceptInteractions: boolean;
   public editCustomId: boolean;
 
