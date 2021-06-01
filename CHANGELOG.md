@@ -1,3 +1,10 @@
+# [0.4.0-alpha.4](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.3...v0.4.0-alpha.4) (2021-06-01)
+
+
+### Bug Fixes
+
+* Disable CI on release. ([5316945](https://github.com/SocialGouv/domifa/commit/5316945869b447d4221914a078383fdf5b7fc031))
+
 # [0.4.0-alpha.3](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.2...v0.4.0-alpha.3) (2021-06-01)
 
 
