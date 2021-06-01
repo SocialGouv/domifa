@@ -9,7 +9,6 @@ import {
   Subscription,
 } from "rxjs";
 import { map } from "rxjs/operators";
-
 import {
   dataCompare,
   departements,

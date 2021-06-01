@@ -32,10 +32,7 @@ import { ProfilHistoriqueSmsComponent } from "./components/profil-historique-sms
 
 import { RaftComponent } from "./components/raft/raft.component";
 
-import { InteractionService } from "./services/interaction.service";
 import { UsagerService } from "./services/usager.service";
-import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
-import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 
 @NgModule({
   declarations: [
@@ -53,8 +50,6 @@ import { SetInteractionOutFormComponent } from "./components/interactions/set-in
 
     RaftComponent,
     EntretienComponent,
-    SetInteractionInFormComponent,
-    SetInteractionOutFormComponent,
     ProfilHistoriqueSmsComponent,
   ],
   exports: [
@@ -63,14 +58,13 @@ import { SetInteractionOutFormComponent } from "./components/interactions/set-in
     EntretienComponent,
     DocumentsFormComponent,
     ManageUsagersComponent,
-    SetInteractionInFormComponent,
-    SetInteractionOutFormComponent,
   ],
   imports: [
     CommonModule,
     FontAwesomeModule,
     FormsModule,
     GeneralModule,
+    UsagerSharedModule,
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
@@ -81,7 +75,6 @@ import { SetInteractionOutFormComponent } from "./components/interactions/set-in
   ],
   providers: [
     UsagerService,
-    InteractionService,
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },

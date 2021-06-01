@@ -6,9 +6,9 @@ import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { interactionsLabels } from "../../../usagers/interactions.labels";
+import { interactionsLabels } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
 import { Interaction } from "../../../usagers/interfaces/interaction";
-import { InteractionService } from "../../../usagers/services/interaction.service";
+import { InteractionService } from "../../../usager-shared/services/interaction.service";
 import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({

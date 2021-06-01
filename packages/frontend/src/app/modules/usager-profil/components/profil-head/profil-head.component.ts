@@ -12,7 +12,7 @@ import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { InteractionService } from "../../../usagers/services/interaction.service";
+import { InteractionService } from "../../../usager-shared/services/interaction.service";
 import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
@@ -24,6 +24,8 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 export class ProfilHeadComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
   @Input() public me: AppUser;
+
+  @Input() public section: string;
 
   public today: Date;
 

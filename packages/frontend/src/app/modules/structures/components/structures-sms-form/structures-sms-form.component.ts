@@ -6,7 +6,6 @@ import { ToastrService } from "ngx-toastr";
 import { AppUser, StructureCommon } from "../../../../../_common/model";
 
 import { AuthService } from "../../../shared/services/auth.service";
-
 import { generateSender } from "../../services/generateSender.service";
 import { StructureService } from "../../services/structure.service";
 

@@ -1,4 +1,4 @@
-import { UsagerService } from "src/app/modules/usagers/services/usager.service";
+import { InteractionService } from "./services/interaction.service";
 
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -15,12 +15,16 @@ import { ToastrModule } from "ngx-toastr";
 import { DocumentService } from "./services/document.service";
 
 import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delete-usager-menu.component";
+import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
+import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 
 @NgModule({
   declarations: [
     DocumentsComponent,
     DeleteUsagerMenuComponent,
     UploadComponent,
+    SetInteractionInFormComponent,
+    SetInteractionOutFormComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +35,13 @@ import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delet
     FormsModule,
     ReactiveFormsModule,
   ],
-  exports: [UploadComponent, DocumentsComponent, DeleteUsagerMenuComponent],
+  exports: [
+    UploadComponent,
+    DocumentsComponent,
+    DeleteUsagerMenuComponent,
+    SetInteractionInFormComponent,
+    SetInteractionOutFormComponent,
+  ],
   providers: [DocumentService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
