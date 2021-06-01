@@ -1,21 +1,17 @@
-<div class="row">
-  <div class="col-6" *ngIf="usager.isActif">
-    <button
-      class="btn btn-outline-primary"
-      (click)="getStructureDocument('attestation_postale')"
-    >
-      <fa-icon icon="file-word" class="mr-2"></fa-icon> Télécharger
-      l'attestation postale
-    </button>
-  </div>
+<button
+  *ngIf="usager.isActif"
+  class="mr-2 btn btn-outline-primary"
+  (click)="getStructureDocument('attestation_postale')"
+>
+  <fa-icon icon="file-word" class="mr-2"></fa-icon> Télécharger l'attestation
+  postale
+</button>
 
-  <div class="col-6" *ngIf="usager.decision.statut === 'RADIE'">
-    <button
-      class="btn btn-outline-primary"
-      (click)="getStructureDocument('courrier_radiation')"
-    >
-      <fa-icon icon="file-word" class="mr-2"></fa-icon> Télécharger le courrier
-      de radiation
-    </button>
-  </div>
-</div>
+<button
+  *ngIf="usager.decision.statut === 'RADIE'"
+  class="mr-2 btn btn-outline-primary"
+  (click)="getStructureDocument('courrier_radiation')"
+>
+  <fa-icon icon="file-word" class="mr-2"></fa-icon> Télécharger le courrier de
+  radiation
+</button>

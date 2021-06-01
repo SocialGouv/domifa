@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { saveAs } from "file-saver";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { DocumentService } from "../../../usagers/services/document.service";
+import { DocumentService } from "../../../usager-shared/services/document.service";
 
 @Component({
   selector: "app-profil-structure-docs",
@@ -29,8 +29,7 @@ export class ProfilStructureDocsComponent implements OnInit {
     this.documentService.getStructureDoc(this.usager.ref, docType).subscribe(
       (blob: any) => {
         const newBlob = new Blob([blob], {
-          type:
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         });
         saveAs(newBlob, docType + ".docx");
         this.loadingDownload = false;

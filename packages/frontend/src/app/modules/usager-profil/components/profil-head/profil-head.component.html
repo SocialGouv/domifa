@@ -1,8 +1,8 @@
 <div *ngIf="usager && me" class="head-page">
   <div class="container">
     <div class="row d-flex align-items-center">
-      <div class="col-4">
-        <span class="title" [class]="usager.statutColor">
+      <div class="col-5">
+        <span class="title">
           <a [routerLink]="['/manage']"
             ><fa-icon icon="arrow-circle-left"></fa-icon
           ></a>
@@ -13,7 +13,7 @@
         </span>
       </div>
 
-      <div class="col-8 text-right">
+      <div class="col-7 text-right">
         <ng-container *ngIf="usager.decision.statut === 'REFUS'">
           <button *ngIf="!isRole('facteur')" class="btn btn-white-primary mr-2">
             <fa-icon icon="redo" class="mr-2"></fa-icon>
@@ -33,10 +33,6 @@
         </ng-container>
 
         <ng-container *ngIf="usager.decision.statut === 'VALIDE'">
-          <button class="btn btn-white-primary mr-2">
-            <fa-icon icon="plus" class="mr-2"></fa-icon>
-            Nouveau courrier
-          </button>
           <button class="btn btn-white-primary mr-2" (click)="openRenewModal()">
             <fa-icon icon="redo" class="mr-2"></fa-icon>
             Demande de renouvellement
@@ -74,6 +70,12 @@
 
       <a
         class="col selected-statut"
+        [routerLink]="['/profil/documents/' + usager.ref]"
+        ><span class="statut-label"> Documents</span></a
+      >
+
+      <a
+        class="col selected-statut"
         [routerLink]="['/profil/historique/' + usager.ref]"
         ><span class="statut-label"> Historique</span></a
       >
@@ -82,7 +84,7 @@
 </div>
 <div class="content">
   <div class="container p-0">
-    <div class="page-content px-4 pt-3">
+    <div class="page-content px-5 pt-4">
       <div class="row">
         <!-- INFOS LIÉS AU STATUT -->
         <div class="col-md-12">

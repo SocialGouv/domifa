@@ -4,7 +4,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
-import { UsagerService } from "../../services/usager.service";
+import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
+import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
   selector: "app-delete-usager-menu",
@@ -19,7 +20,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private modalService: NgbModal,
-    private usagerService: UsagerService,
+    private usagerProfilService: UsagerProfilService,
     private notifService: ToastrService
   ) {}
 
@@ -42,7 +43,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
   }
 
   public deleteUsager() {
-    this.usagerService.delete(this.usager.ref).subscribe(
+    this.usagerProfilService.delete(this.usager.ref).subscribe(
       () => {
         this.modalService.dismissAll();
         this.notifService.success("Usager supprimé avec succès");
@@ -55,7 +56,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
   }
 
   public deleteRenew() {
-    this.usagerService.deleteRenew(this.usager.ref).subscribe(
+    this.usagerProfilService.deleteRenew(this.usager.ref).subscribe(
       () => {
         this.modalService.dismissAll();
         this.notifService.success(

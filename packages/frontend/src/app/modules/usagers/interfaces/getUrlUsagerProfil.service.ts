@@ -9,7 +9,7 @@ export const getUrlUsagerProfil = (usager: Partial<UsagerLight>): string => {
     } else if (usager.decision.statut === "INSTRUCTION") {
       // Instruction, on renvoi vers le dossier d'édition
       return usager.typeDom === "RENOUVELLEMENT"
-        ? "/usager/" + usager.ref
+        ? "/profil/general/" + usager.ref
         : // Retour à la dernière étape validée
           "/usager/" +
             usager.ref +
@@ -17,7 +17,7 @@ export const getUrlUsagerProfil = (usager: Partial<UsagerLight>): string => {
             ETAPES_DEMANDE_URL[usager.etapeDemande];
     } else {
       // Retour vers le profil pour les refusés, radiés, valide
-      return "/usager/" + usager.ref;
+      return "/profil/general/" + usager.ref;
     }
   }
   return "/nouveau";

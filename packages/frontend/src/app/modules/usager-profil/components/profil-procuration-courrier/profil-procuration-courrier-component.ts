@@ -18,6 +18,7 @@ import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
   providers: [
@@ -53,7 +54,7 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
-    private usagerService: UsagerService,
+    private usagerProfilService: UsagerProfilService,
     private matomo: MatomoTracker
   ) {
     this.hideForm();
@@ -129,22 +130,24 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
       ),
     };
 
-    this.usagerService.editProcuration(formValue, this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
-        this.hideForm();
-        this.usagerChanges.emit(usager);
-        this.usager = new UsagerFormModel(usager);
-        this.notifService.success("Procuration ajoutée avec succès");
-        this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
-      },
-      (error) => {
-        this.notifService.error("Impossible d'ajouter la procuration'");
-      }
-    );
+    this.usagerProfilService
+      .editProcuration(formValue, this.usager.ref)
+      .subscribe(
+        (usager: UsagerLight) => {
+          this.hideForm();
+          this.usagerChanges.emit(usager);
+          this.usager = new UsagerFormModel(usager);
+          this.notifService.success("Procuration ajoutée avec succès");
+          this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
+        },
+        (error) => {
+          this.notifService.error("Impossible d'ajouter la procuration'");
+        }
+      );
   }
 
   public deleteProcuration() {
-    this.usagerService.deleteProcuration(this.usager.ref).subscribe(
+    this.usagerProfilService.deleteProcuration(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.hideForm();
         this.usagerChanges.emit(usager);

@@ -8,15 +8,15 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 
-import { ProfilOverviewComponent } from "./profil-overview.component";
+import { ProfilGeneralSectionComponent } from "./profil-general-section.component";
 
-describe("ProfilOverviewComponent", () => {
-  let component: ProfilOverviewComponent;
-  let fixture: ComponentFixture<ProfilOverviewComponent>;
+describe("ProfilGeneralSectionComponent", () => {
+  let component: ProfilGeneralSectionComponent;
+  let fixture: ComponentFixture<ProfilGeneralSectionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfilOverviewComponent],
+      declarations: [ProfilGeneralSectionComponent],
       imports: [
         NgbModule,
         MatomoModule,
@@ -47,7 +47,7 @@ describe("ProfilOverviewComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfilOverviewComponent);
+    fixture = TestBed.createComponent(ProfilGeneralSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

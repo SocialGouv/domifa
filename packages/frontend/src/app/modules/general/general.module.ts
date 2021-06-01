@@ -45,7 +45,7 @@ import { ToastrModule } from "ngx-toastr";
     NgbModule,
     FontAwesomeModule,
     CountUpModule,
-    RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
+    RouterModule.forChild([]),
     ToastrModule.forRoot(),
     HttpClientModule,
     NgbModule,

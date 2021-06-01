@@ -14,6 +14,7 @@ import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { UsagerService } from "../../../usagers/services/usager.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
   providers: [
@@ -46,7 +47,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
-    private usagerService: UsagerService,
+    private usagerProfilService: UsagerProfilService,
     private matomo: MatomoTracker
   ) {
     this.isFormVisible = false;
@@ -111,23 +112,25 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
       ),
     };
 
-    this.usagerService.editTransfert(formValue, this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
-        this.usagerChanges.emit(usager);
-        this.hideForm();
-        this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
-        this.usager = new UsagerFormModel(usager);
+    this.usagerProfilService
+      .editTransfert(formValue, this.usager.ref)
+      .subscribe(
+        (usager: UsagerLight) => {
+          this.usagerChanges.emit(usager);
+          this.hideForm();
+          this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
+          this.usager = new UsagerFormModel(usager);
 
-        this.notifService.success("Transfert ajouté avec succès");
-      },
-      () => {
-        this.notifService.error("Impossible d'ajouter le transfert'");
-      }
-    );
+          this.notifService.success("Transfert ajouté avec succès");
+        },
+        () => {
+          this.notifService.error("Impossible d'ajouter le transfert'");
+        }
+      );
   }
 
   public deleteTransfert() {
-    this.usagerService.deleteTransfert(this.usager.ref).subscribe(
+    this.usagerProfilService.deleteTransfert(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usagerChanges.emit(usager);
         this.hideForm();

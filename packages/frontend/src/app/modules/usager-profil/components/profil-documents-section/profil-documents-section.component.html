@@ -1,0 +1,33 @@
+<app-profil-head [usager]="usager" [me]="me"> </app-profil-head>
+
+<div class="content">
+  <div class="container p-0">
+    <div class="page-content px-5 pt-3 pb-5">
+      <div class="row mb-5">
+        <h4 class="col-md-12">Documents téléchargeables</h4>
+
+        <div class="col-md-12 my-3">
+          <button (click)="getAttestation()" class="btn mr-2 btn-primary">
+            <fa-icon icon="download" class="mr-2"></fa-icon>
+            Télécharger le CERFA
+          </button>
+
+          <app-profil-structure-docs
+            [usager]="usager"
+          ></app-profil-structure-docs>
+        </div>
+
+        <h4 class="col-md-12">Documents de l'usager</h4>
+
+        <div class="col-md-12">
+          <app-upload
+            *ngIf="usager.isActif || usager.decision.statut === 'RADIE'"
+            [usager]="usager"
+          >
+          </app-upload>
+          <app-documents [usager]="usager"></app-documents>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
