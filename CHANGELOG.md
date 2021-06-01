@@ -1,3 +1,10 @@
+# [0.4.0-alpha.3](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.2...v0.4.0-alpha.3) (2021-06-01)
+
+
+### Bug Fixes
+
+* Set semrel message. ([d92a5ae](https://github.com/SocialGouv/domifa/commit/d92a5aece104cfb3d08729a6819102fa80974c2c))
+
 # [0.4.0-alpha.2](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.1...v0.4.0-alpha.2) (2021-06-01)
 
 
