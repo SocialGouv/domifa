@@ -5,8 +5,7 @@ import { project } from "@socialgouv/kosko-charts/testing/fake/gitlab-ci.env";
 
 jest.setTimeout(1000 * 60);
 test("kosko generate --preprod", async () => {
-  process.env.HARBOR_PROJECT = "domifa";
-  process.env.CI_ENVIRONMENT_NAME = "preprod-dev2";
+  process.env.HARBOR_PROJECT = "domifa";  
   expect(
     await getEnvManifests("preprod", "", {
       ...project("domifa").preprod,

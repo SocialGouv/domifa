@@ -1,6 +1,6 @@
 import { ok } from "assert";
 import env from "@kosko/env";
-import { assert } from "@sindresorhus/is";
+// import { assert } from "@sindresorhus/is";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { create } from "@socialgouv/kosko-charts/components/app";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
@@ -36,7 +36,7 @@ export const getManifests = (stateful: boolean) => {
   const name = "backend"
   const project = "domifa"
   const probesPath = "/healthz"
-  const subdomain = "domifa-api"
+  const subdomain = "domifa-api"  
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -53,12 +53,6 @@ export const getManifests = (stateful: boolean) => {
     {}
   );
 
-  const volumes = [{
-    name: "domifa",
-    size: "10Gi",
-    mountPath: "/mnt/files"
-  }];
-
   const config = {
     subdomain,
     ingress: true,
@@ -67,28 +61,32 @@ export const getManifests = (stateful: boolean) => {
     subDomainPrefix: process.env.PRODUCTION ? `fake-` : `${subdomain}-`,
   };
 
-const deployment = {
-  image: getGithubRegistryImagePath({ project, name }),
-  container: {
-    volumeMounts: [{ mountPath: "/mnt/files", name: "domifa-volume" }],
-    resources: {
-      requests: { cpu: "50m", memory: "128Mi" },
-      limits: { cpu: "200m", memory: "256Mi" },
-    },
-    ...podProbes,
-  },
-}
+  const image = getGithubRegistryImagePath({ project, name });
 
-  const params = stateful ? {
-    env,
-    config,
-    deployment,
-    volumes,
-  } : {
-    env,
-    config,
-    deployment,
+  const resources = {
+    limits: { cpu: "200m", memory: "256Mi" },
+    requests: { cpu: "50m", memory: "128Mi" },
   };
+
+  const volume = {
+    name: "domifa-volume",
+    mountPath: "/mnt/files",
+    size: stateful ? "10Gi" : "2Gi",
+    azureFile: {
+      secretName: "azure-storage",
+      shareName: "domifa-resource",
+    }
+    // emptyDir: {},
+  };
+
+  const container = {
+    resources,
+    ...podProbes,
+  };
+
+  const deployment = { image, container }
+
+  const params = { env, config, deployment, volumes: [volume] };
 
   return create(name, params);
 }

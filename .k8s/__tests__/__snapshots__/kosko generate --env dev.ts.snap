@@ -1,68 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`kosko generate --dev 1`] = `
-"---
+"process.env.CI_ENVIRONMENT_NAME master-dev2
+---
 apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
     field.cattle.io/creatorId: gitlab
-    field.cattle.io/projectId: c-bd7z2:p-p4xn6
-    git/branch: alpha
+    field.cattle.io/projectId: c-gjtkk:p-gv8gc
+    git/branch: master
     git/remote: >-
       https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/domifa.git
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   labels:
     azure-pg-admin-user: domifa
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  name: domifa-64-alpha-dev2
+  name: domifa-85-master-dev2
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   labels:
     app: backend
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
   name: backend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-master-dev2
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: backend
-  serviceName: backend
   template:
     metadata:
       annotations:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
       labels:
         app: backend
-        application: alpha-dev2-domifa
+        application: master-dev2-domifa
         owner: domifa
         team: domifa
         cert: wildcard
     spec:
       containers:
         - image: >-
-            ghcr.io/socialgouv/domifa/backend:sha-9e3027bc7c6dab66be874658abdc12c946fd0357
+            ghcr.io/socialgouv/domifa/backend:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -103,7 +103,7 @@ spec:
               name: domifa-volume
           envFrom:
             - secretRef:
-                name: azure-pg-user-9e3027bc
+                name: azure-pg-user-0123456
             - secretRef:
                 name: backend-sealed-secret
             - configMapRef:
@@ -118,20 +118,16 @@ spec:
             - name: POSTGRES_DATABASE
               value: $(PGDATABASE)
             - name: DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND
-              value: https://alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+              value: https://master-dev2-domifa.dev2.fabrique.social.gouv.fr
       volumes:
-        - name: domifa
-          persistentVolumeClaim:
-            claimName: domifa
         - name: domifa-volume
-          emptyDir: {}
       initContainers:
         - env:
             - name: WAIT_FOR_RETRIES
               value: '24'
           envFrom:
             - secretRef:
-                name: azure-pg-user-9e3027bc
+                name: azure-pg-user-0123456
           image: ghcr.io/socialgouv/docker/wait-for-postgres:6.0.1
           imagePullPolicy: Always
           name: wait-for-postgres
@@ -151,12 +147,12 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   name: backend-sealed-secret
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-master-dev2
   labels:
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -195,11 +191,11 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
       name: backend-sealed-secret
       labels:
-        application: alpha-dev2-domifa
+        application: master-dev2-domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -213,14 +209,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   labels:
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-master-dev2
 data:
   DOMIFA_ENV_ID: dev
   PGSSLMODE: require
@@ -243,7 +239,7 @@ kind: Service
 metadata:
   labels:
     app: backend
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -252,9 +248,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
-  namespace: domifa-64-alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  namespace: domifa-85-master-dev2
 spec:
   ports:
     - name: http
@@ -272,19 +268,19 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   labels:
     app: backend
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
   name: backend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-master-dev2
 spec:
   rules:
-    - host: domifa-api-alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+    - host: domifa-api-master-dev2-domifa.dev2.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -293,7 +289,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - domifa-api-alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+        - domifa-api-master-dev2-domifa.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
 apiVersion: apps/v1
@@ -303,17 +299,17 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   labels:
     app: frontend
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
     component: nginx
   name: frontend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-master-dev2
 spec:
   replicas: 1
   selector:
@@ -325,11 +321,11 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
       labels:
         app: frontend
-        application: alpha-dev2-domifa
+        application: master-dev2-domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -337,7 +333,7 @@ spec:
     spec:
       containers:
         - image: >-
-            ghcr.io/socialgouv/domifa/frontend:sha-9e3027bc7c6dab66be874658abdc12c946fd0357
+            ghcr.io/socialgouv/domifa/frontend:sha-0123456789abcdefghijklmnopqrstuvwxyz0123
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -375,14 +371,14 @@ spec:
           env:
             - name: DOMIFA_BACKEND_URL
               value: >-
-                https://domifa-api-alpha-dev2-domifa.dev2.fabrique.social.gouv.fr/
+                https://domifa-api-master-dev2-domifa.dev2.fabrique.social.gouv.fr/
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: frontend
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -391,9 +387,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
-  namespace: domifa-64-alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
+  namespace: domifa-85-master-dev2
 spec:
   ports:
     - name: http
@@ -411,19 +407,19 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   labels:
     app: frontend
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
   name: frontend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-master-dev2
 spec:
   rules:
-    - host: alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+    - host: master-dev2-domifa.dev2.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -432,7 +428,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - alpha-dev2-domifa.dev2.fabrique.social.gouv.fr
+        - master-dev2-domifa.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
 apiVersion: batch/v1
@@ -446,11 +442,11 @@ spec:
             - create-db-user
           env:
             - name: NEW_DB_NAME
-              value: autodevops_9e3027bc
+              value: autodevops_0123456
             - name: NEW_USER
-              value: user_9e3027bc
+              value: user_0123456
             - name: NEW_PASSWORD
-              value: password_9e3027bc
+              value: password_0123456
             - name: NEW_DB_EXTENSIONS
               value: hstore pgcrypto citext uuid-ossp
           envFrom:
@@ -470,10 +466,10 @@ spec:
     metadata:
       annotations:
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
       labels:
-        application: alpha-dev2-domifa
+        application: master-dev2-domifa
         owner: domifa
         team: domifa
         cert: wildcard
@@ -481,44 +477,44 @@ spec:
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   labels:
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  name: create-db-job-9e3027bc
-  namespace: domifa-64-alpha-dev2
+  name: create-db-job-0123456
+  namespace: domifa-85-master-dev2
 ---
 apiVersion: v1
 kind: Secret
 stringData:
   DATABASE_URL: >-
-    postgresql://user_9e3027bc%40domifadevserver.postgres.database.azure.com:password_9e3027bc@domifadevserver.postgres.database.azure.com/autodevops_9e3027bc?sslmode=require
+    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
   DB_URI: >-
-    postgresql://user_9e3027bc%40domifadevserver.postgres.database.azure.com:password_9e3027bc@domifadevserver.postgres.database.azure.com/autodevops_9e3027bc?sslmode=require
+    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
   HASURA_GRAPHQL_DATABASE_URL: >-
-    postgresql://user_9e3027bc%40domifadevserver.postgres.database.azure.com:password_9e3027bc@domifadevserver.postgres.database.azure.com/autodevops_9e3027bc?sslmode=require
-  PGDATABASE: autodevops_9e3027bc
+    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
+  PGDATABASE: autodevops_0123456
   PGHOST: domifadevserver.postgres.database.azure.com
-  PGPASSWORD: password_9e3027bc
+  PGPASSWORD: password_0123456
   PGRST_DB_URI: >-
-    postgresql://user_9e3027bc%40domifadevserver.postgres.database.azure.com:password_9e3027bc@domifadevserver.postgres.database.azure.com/autodevops_9e3027bc?sslmode=require
+    postgresql://user_0123456%40domifadevserver.postgres.database.azure.com:password_0123456@domifadevserver.postgres.database.azure.com/autodevops_0123456?sslmode=require
   PGSSLMODE: require
-  PGUSER: user_9e3027bc@domifadevserver.postgres.database.azure.com
+  PGUSER: user_0123456@domifadevserver.postgres.database.azure.com
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   labels:
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  name: azure-pg-user-9e3027bc
-  namespace: domifa-64-alpha-dev2
+  name: azure-pg-user-0123456
+  namespace: domifa-85-master-dev2
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -526,12 +522,12 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: master-dev2
+    app.gitlab.com/env.name: master-dev2
   name: azure-storage
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-master-dev2
   labels:
-    application: alpha-dev2-domifa
+    application: master-dev2-domifa
     owner: domifa
     team: domifa
     cert: wildcard
@@ -546,11 +542,11 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: master-dev2
+        app.gitlab.com/env.name: master-dev2
       name: azure-storage
       labels:
-        application: alpha-dev2-domifa
+        application: master-dev2-domifa
         owner: domifa
         team: domifa
         cert: wildcard

@@ -677,10 +677,10 @@
     eslint-import-resolver-typescript "~2.4.0"
     eslint-plugin-import "~2.23.3"
 
-"@socialgouv/kosko-charts@5.5.0-beta.4":
-  version "5.5.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-5.5.0-beta.4.tgz#d5c4509117fc516d0b53960f4e0e7ac533501177"
-  integrity sha512-Q+/KPg/bX0tptZug4S3ElzjQtin7inkAYfHGwTYIC10gkNq7IUndqmGP83t+8iTL+icDpf5fHAcT1evxp3kjQg==
+"@socialgouv/kosko-charts@5.5.0-beta.8":
+  version "5.5.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@socialgouv/kosko-charts/-/kosko-charts-5.5.0-beta.8.tgz#da63b51ff54f32d98645b322a3be49577fc700a7"
+  integrity sha512-Nm857mr8zcefAKH5fgXYlHb8AaURjJ7XuiuCrC2oudxyCNGIhlLcyYo/D/Yf6rx8Osz8I2PoyN9qoXsR7ajWLg==
   dependencies:
     "@sindresorhus/is" "^4.0.0"
 

@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`kosko generate --prod 1`] = `
-"---
+"process.env.CI_ENVIRONMENT_NAME prod2
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -9,14 +10,13 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   labels:
     app: backend
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
   name: backend
   namespace: domifa
 spec:
@@ -31,14 +31,13 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
       labels:
         app: backend
         application: domifa
         owner: domifa
         team: domifa
-        cert: wildcard
     spec:
       containers:
         - image: ghcr.io/socialgouv/domifa/backend:1.2.3
@@ -97,16 +96,7 @@ spec:
             - name: POSTGRES_DATABASE
               value: $(PGDATABASE)
             - name: DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND
-              value: https://fake-domifa.dev2.fabrique.social.gouv.fr
-      volumes:
-        - name: domifa
-          persistentVolumeClaim:
-            claimName: domifa
-        - name: domifa-volume
-          azureFile:
-            readOnly: false
-            shareName: domifa-resource
-            secretName: azure-storage
+              value: https://fake-domifa.fabrique.social.gouv.fr
       initContainers:
         - env:
             - name: WAIT_FOR_RETRIES
@@ -124,6 +114,18 @@ spec:
             requests:
               cpu: 5m
               memory: 16Mi
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: domifa-volume
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: domifa-volume
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -132,15 +134,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   name: backend-sealed-secret
   namespace: domifa
   labels:
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
 spec:
   encryptedData:
     SECRET: >-
@@ -175,14 +176,13 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
       name: backend-sealed-secret
       labels:
         application: domifa
         owner: domifa
         team: domifa
-        cert: wildcard
     type: Opaque
 ---
 apiVersion: v1
@@ -193,13 +193,12 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   labels:
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
   namespace: domifa
 data:
   DOMIFA_ENV_ID: prod
@@ -225,14 +224,13 @@ metadata:
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
   name: backend
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   namespace: domifa
 spec:
   ports:
@@ -253,19 +251,18 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   labels:
     app: backend
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
   name: backend
   namespace: domifa
 spec:
   rules:
-    - host: fake-domifa-api.dev2.fabrique.social.gouv.fr
+    - host: fake-domifa-api.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -274,8 +271,26 @@ spec:
             path: /
   tls:
     - hosts:
-        - fake-domifa-api.dev2.fabrique.social.gouv.fr
+        - fake-domifa-api.fabrique.social.gouv.fr
       secretName: backend-crt
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-domifa-volume
+  labels:
+    usage: pv-domifa-volume
+spec:
+  storageClassName: domifa-volume
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  persistentVolumeReclaimPolicy: Delete
+  azureFile:
+    secretName: azure-storage
+    shareName: domifa-resource
+    secretNamespace: domifa
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -284,14 +299,13 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   labels:
     app: frontend
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
     component: nginx
   name: frontend
   namespace: domifa
@@ -306,14 +320,13 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
       labels:
         app: frontend
         application: domifa
         owner: domifa
         team: domifa
-        cert: wildcard
         component: nginx
     spec:
       containers:
@@ -354,7 +367,7 @@ spec:
             periodSeconds: 5
           env:
             - name: DOMIFA_BACKEND_URL
-              value: https://fake-domifa-api.dev2.fabrique.social.gouv.fr/
+              value: https://fake-domifa-api.fabrique.social.gouv.fr/
 ---
 apiVersion: v1
 kind: Service
@@ -364,14 +377,13 @@ metadata:
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
   name: frontend
   annotations:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   namespace: domifa
 spec:
   ports:
@@ -392,19 +404,18 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   labels:
     app: frontend
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
   name: frontend
   namespace: domifa
 spec:
   rules:
-    - host: fake-domifa.dev2.fabrique.social.gouv.fr
+    - host: fake-domifa.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -413,7 +424,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - fake-domifa.dev2.fabrique.social.gouv.fr
+        - fake-domifa.fabrique.social.gouv.fr
       secretName: frontend-crt
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -421,15 +432,14 @@ kind: SealedSecret
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   name: azure-pg-user
   namespace: domifa
   labels:
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
 spec:
   encryptedData:
     PGDATABASE: >-
@@ -446,14 +456,13 @@ spec:
     metadata:
       annotations:
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
       name: azure-pg-user
       labels:
         application: domifa
         owner: domifa
         team: domifa
-        cert: wildcard
     type: Opaque
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -461,15 +470,14 @@ kind: SealedSecret
 metadata:
   annotations:
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: prod2
+    app.gitlab.com/env.name: prod2
   name: azure-storage
   namespace: domifa
   labels:
     application: domifa
     owner: domifa
     team: domifa
-    cert: wildcard
 spec:
   encryptedData:
     azurestorageaccountname: >-
@@ -480,14 +488,13 @@ spec:
     metadata:
       annotations:
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: prod2
+        app.gitlab.com/env.name: prod2
       name: azure-storage
       labels:
         application: domifa
         owner: domifa
         team: domifa
-        cert: wildcard
     type: Opaque
 "
 `;

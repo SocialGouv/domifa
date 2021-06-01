@@ -1,26 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`kosko generate --preprod 1`] = `
-"---
+"process.env.CI_ENVIRONMENT_NAME preprod-dev2
+---
 apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
     field.cattle.io/creatorId: gitlab
-    field.cattle.io/projectId: c-bd7z2:p-p4xn6
-    git/branch: alpha
+    field.cattle.io/projectId: c-gjtkk:p-gv8gc
+    git/branch: v1.2.3
     git/remote: >-
       https://gitlab-ci-token:[MASKED]@gitlab.factory.social.gouv.fr/SocialGouv/domifa.git
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
   labels:
     azure-pg-admin-user: domifa
     application: v1-2-3-domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  name: domifa-64-alpha-dev2
+  name: domifa-85-preprod-dev2
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -29,8 +30,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
   labels:
     app: backend
     application: v1-2-3-domifa
@@ -38,7 +39,7 @@ metadata:
     team: domifa
     cert: wildcard
   name: backend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-preprod-dev2
 spec:
   replicas: 1
   selector:
@@ -51,8 +52,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
       labels:
         app: backend
         application: v1-2-3-domifa
@@ -117,13 +118,7 @@ spec:
             - name: POSTGRES_DATABASE
               value: $(PGDATABASE)
             - name: DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND
-              value: https://v1-2-3-domifa.dev2.fabrique.social.gouv.fr
-      volumes:
-        - name: domifa
-          persistentVolumeClaim:
-            claimName: domifa
-        - name: domifa-volume
-          emptyDir: {}
+              value: https://preprod-domifa.dev2.fabrique.social.gouv.fr
       initContainers:
         - env:
             - name: WAIT_FOR_RETRIES
@@ -141,6 +136,18 @@ spec:
             requests:
               cpu: 5m
               memory: 16Mi
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: domifa-volume
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: domifa-volume
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -150,10 +157,10 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
   name: backend-sealed-secret
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-preprod-dev2
   labels:
     application: v1-2-3-domifa
     owner: domifa
@@ -194,8 +201,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
       name: backend-sealed-secret
       labels:
         application: v1-2-3-domifa
@@ -212,14 +219,14 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
   labels:
     application: v1-2-3-domifa
     owner: domifa
     team: domifa
     cert: wildcard
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-preprod-dev2
 data:
   DOMIFA_ENV_ID: dev
   PGSSLMODE: require
@@ -251,9 +258,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
-  namespace: domifa-64-alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  namespace: domifa-85-preprod-dev2
 spec:
   ports:
     - name: http
@@ -271,8 +278,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
   labels:
     app: backend
     application: v1-2-3-domifa
@@ -280,10 +287,10 @@ metadata:
     team: domifa
     cert: wildcard
   name: backend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-preprod-dev2
 spec:
   rules:
-    - host: domifa-api-v1-2-3-domifa.dev2.fabrique.social.gouv.fr
+    - host: domifa-api-preprod-domifa.dev2.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -292,8 +299,26 @@ spec:
             path: /
   tls:
     - hosts:
-        - domifa-api-v1-2-3-domifa.dev2.fabrique.social.gouv.fr
+        - domifa-api-preprod-domifa.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-domifa-volume
+  labels:
+    usage: pv-domifa-volume
+spec:
+  storageClassName: domifa-volume
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  persistentVolumeReclaimPolicy: Delete
+  azureFile:
+    secretName: azure-storage
+    shareName: domifa-resource
+    secretNamespace: domifa-85-preprod-dev2
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -302,8 +327,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
   labels:
     app: frontend
     application: v1-2-3-domifa
@@ -312,7 +337,7 @@ metadata:
     cert: wildcard
     component: nginx
   name: frontend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-preprod-dev2
 spec:
   replicas: 1
   selector:
@@ -324,8 +349,8 @@ spec:
         kapp.k14s.io/disable-default-ownership-label-rules: ''
         kapp.k14s.io/disable-default-label-scoping-rules: ''
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
       labels:
         app: frontend
         application: v1-2-3-domifa
@@ -372,7 +397,7 @@ spec:
             periodSeconds: 5
           env:
             - name: DOMIFA_BACKEND_URL
-              value: https://domifa-api-v1-2-3-domifa.dev2.fabrique.social.gouv.fr/
+              value: https://domifa-api-preprod-domifa.dev2.fabrique.social.gouv.fr/
 ---
 apiVersion: v1
 kind: Service
@@ -388,9 +413,9 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
-  namespace: domifa-64-alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
+  namespace: domifa-85-preprod-dev2
 spec:
   ports:
     - name: http
@@ -408,8 +433,8 @@ metadata:
     kapp.k14s.io/disable-default-ownership-label-rules: ''
     kapp.k14s.io/disable-default-label-scoping-rules: ''
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
   labels:
     app: frontend
     application: v1-2-3-domifa
@@ -417,10 +442,10 @@ metadata:
     team: domifa
     cert: wildcard
   name: frontend
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-preprod-dev2
 spec:
   rules:
-    - host: v1-2-3-domifa.dev2.fabrique.social.gouv.fr
+    - host: preprod-domifa.dev2.fabrique.social.gouv.fr
       http:
         paths:
           - backend:
@@ -429,7 +454,7 @@ spec:
             path: /
   tls:
     - hosts:
-        - v1-2-3-domifa.dev2.fabrique.social.gouv.fr
+        - preprod-domifa.dev2.fabrique.social.gouv.fr
       secretName: wildcard-crt
 ---
 apiVersion: bitnami.com/v1alpha1
@@ -438,10 +463,10 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
   name: azure-pg-user
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-preprod-dev2
   labels:
     application: v1-2-3-domifa
     owner: domifa
@@ -464,8 +489,8 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
       name: azure-pg-user
       labels:
         application: v1-2-3-domifa
@@ -480,10 +505,10 @@ metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: 'true'
     app.gitlab.com/app: socialgouv-domifa
-    app.gitlab.com/env: alpha-dev2
-    app.gitlab.com/env.name: alpha-dev2
+    app.gitlab.com/env: preprod-dev2
+    app.gitlab.com/env.name: preprod-dev2
   name: azure-storage
-  namespace: domifa-64-alpha-dev2
+  namespace: domifa-85-preprod-dev2
   labels:
     application: v1-2-3-domifa
     owner: domifa
@@ -500,8 +525,8 @@ spec:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: 'true'
         app.gitlab.com/app: socialgouv-domifa
-        app.gitlab.com/env: alpha-dev2
-        app.gitlab.com/env.name: alpha-dev2
+        app.gitlab.com/env: preprod-dev2
+        app.gitlab.com/env.name: preprod-dev2
       name: azure-storage
       labels:
         application: v1-2-3-domifa
