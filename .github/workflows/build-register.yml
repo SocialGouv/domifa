@@ -2,8 +2,8 @@ name: Build and Register
 
 on:
   push:
-    branches: [master, alpha, beta, next]
-  pull_request:
+    # branches: [master, alpha, beta, next]
+  # pull_request:
   workflow_dispatch:
 
 jobs:
