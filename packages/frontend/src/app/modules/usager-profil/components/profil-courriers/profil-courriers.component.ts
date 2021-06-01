@@ -5,7 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { UsagerService } from "../../../usagers/services/usager.service";
+
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
@@ -40,7 +40,6 @@ export class ProfilCourriersComponent implements OnInit {
     this.usagerProfilService.findOne(this.route.snapshot.params.id).subscribe(
       (usager: UsagerLight) => {
         this.usager = new UsagerFormModel(usager);
-        console.log(this.usager);
       },
       (error) => {
         this.notifService.error("Le dossier recherché n'existe pas");

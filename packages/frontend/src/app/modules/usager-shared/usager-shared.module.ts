@@ -17,6 +17,7 @@ import { DocumentService } from "./services/document.service";
 import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delete-usager-menu.component";
 import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
+import { EntretienComponent } from "./components/entretien-form/entretien.component";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SetInteractionOutFormComponent } from "./components/interactions/set-in
     DeleteUsagerMenuComponent,
     UploadComponent,
     SetInteractionInFormComponent,
+    EntretienComponent,
     SetInteractionOutFormComponent,
   ],
   imports: [
@@ -40,6 +42,7 @@ import { SetInteractionOutFormComponent } from "./components/interactions/set-in
     DocumentsComponent,
     DeleteUsagerMenuComponent,
     SetInteractionInFormComponent,
+    EntretienComponent,
     SetInteractionOutFormComponent,
   ],
   providers: [DocumentService],
