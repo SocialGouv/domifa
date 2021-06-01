@@ -4,10 +4,12 @@ import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
+import { filter, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerPreferenceContact } from "../../../../_common/model";
 import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
+import { usagersSearchCache } from "../../../shared/store";
 import { LoadingService } from "../../loading/loading.service";
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { ImportPreviewTable } from "../components/import/preview";
@@ -32,11 +34,18 @@ export class UsagerService {
   public create(usager: UsagerFormModel): Observable<UsagerLight> {
     const response =
       usager.ref !== 0
-        ? this.http.patch<UsagerLight>(
-            `${this.endPointUsagers}/${usager.ref}`,
-            usager
-          )
-        : this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager);
+        ? this.http
+            .patch<UsagerLight>(`${this.endPointUsagers}/${usager.ref}`, usager)
+            .pipe(
+              tap((usager: UsagerLight) => {
+                usagersSearchCache.updateUsager(usager);
+              })
+            )
+        : this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager).pipe(
+            tap((usager: UsagerLight) => {
+              usagersSearchCache.createUsager(usager);
+            })
+          );
 
     return response;
   }
@@ -144,7 +153,16 @@ export class UsagerService {
   }
 
   public findOne(usagerRef: number): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`);
+    return this.http
+      .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
+      .pipe(
+        startWith(
+          usagersSearchCache
+            .getUsagersSnapshot()
+            ?.find((x) => x.ref === usagerRef)
+        ),
+        filter((x) => !!x)
+      );
   }
 
   public isDoublon(nom: string, prenom: string, usagerRef: number) {
@@ -154,12 +172,22 @@ export class UsagerService {
   }
 
   public delete(usagerRef: number) {
-    return this.http.delete(`${this.endPointUsagers}/${usagerRef}`);
+    return this.http.delete(`${this.endPointUsagers}/${usagerRef}`).pipe(
+      tap(() => {
+        usagersSearchCache.removeUsagersByCriteria({ ref: usagerRef });
+      })
+    );
   }
 
   /* Recherche */
   public getAllUsagers(): Observable<UsagerLight[]> {
-    return this.http.get<UsagerLight[]>(`${environment.apiUrl}usagers/`);
+    return this.http.get<UsagerLight[]>(`${environment.apiUrl}usagers/`).pipe(
+      tap((usagers: UsagerLight[]) => {
+        usagersSearchCache.setUsagers(usagers);
+      }),
+      startWith(usagersSearchCache.getUsagersSnapshot()),
+      filter((x) => !!x)
+    );
   }
 
   /* Attestation */
