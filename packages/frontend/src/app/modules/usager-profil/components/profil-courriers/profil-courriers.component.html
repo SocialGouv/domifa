@@ -1,24 +1,26 @@
 <app-profil-head [usager]="usager" [section]="'courrier'" [me]="me">
 </app-profil-head>
 
-<div class="content">
+<div class="content" *ngIf="usager && me">
   <div class="container p-0 pb-5">
     <div class="page-content pb-5 px-4">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 my-4">
           <app-profil-edit-preference
             [usager]="usager"
+            [me]="me"
           ></app-profil-edit-preference>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
+
+        <div class="col-md-12 my-4">
           <app-profil-transfert-courrier
             [usager]="usager"
             (usagerChanges)="onUsagerChanges($event)"
             [me]="me"
           ></app-profil-transfert-courrier>
+        </div>
 
+        <div class="col-md-12 my-4">
           <app-profil-procuration-courrier
             [usager]="usager"
             (usagerChanges)="onUsagerChanges($event)"
