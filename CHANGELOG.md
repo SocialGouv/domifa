@@ -1,3 +1,10 @@
+# [0.4.0-alpha.5](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.4...v0.4.0-alpha.5) (2021-06-01)
+
+
+### Bug Fixes
+
+* Release on  deployment_status. ([55c173f](https://github.com/SocialGouv/domifa/commit/55c173fb6d07269ff31f8b59ba08ea4c90566c0b))
+
 # [0.4.0-alpha.4](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.3...v0.4.0-alpha.4) (2021-06-01)
 
 
