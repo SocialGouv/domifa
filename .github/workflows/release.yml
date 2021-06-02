@@ -15,8 +15,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-          persist-credentials: false
+          token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
+          # fetch-depth: 0
+          # persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -30,7 +31,7 @@ jobs:
         run: yarn --frozen-lockfile --perfer-offline
 
       - name: Release
+        run: npx semantic-release
         env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
-        run: npx semantic-release
