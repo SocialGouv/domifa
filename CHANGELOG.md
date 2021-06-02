@@ -1,3 +1,10 @@
+# [0.4.0-alpha.6](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.5...v0.4.0-alpha.6) (2021-06-02)
+
+
+### Bug Fixes
+
+* Register on tags. ([7c912d1](https://github.com/SocialGouv/domifa/commit/7c912d10394c00129b7288b1c9c4ed3b916946c3))
+
 # [0.4.0-alpha.5](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.4...v0.4.0-alpha.5) (2021-06-01)
 
 
