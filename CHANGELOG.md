@@ -1,3 +1,11 @@
+# [0.4.0-alpha.7](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.6...v0.4.0-alpha.7) (2021-06-02)
+
+
+### Bug Fixes
+
+* Register on all tags. ([5280a5e](https://github.com/SocialGouv/domifa/commit/5280a5e67bbc48f0262ef01a82d7eede48bef168))
+* Use SOCIALGROOVYBOT_BOTO_PAT to release. ([7758e25](https://github.com/SocialGouv/domifa/commit/7758e2514b31e83f45925ecf32eec4f80a290614))
+
 # [0.4.0-alpha.6](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.5...v0.4.0-alpha.6) (2021-06-02)
 
 
