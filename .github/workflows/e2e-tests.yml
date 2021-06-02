@@ -7,6 +7,7 @@ jobs:
   tests:
     name: Run e2e tests
     runs-on: ubuntu-latest
+    if: github.event.deployment_status.state == 'success'
     steps:
 
     - name: Checkout repository

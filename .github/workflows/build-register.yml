@@ -3,8 +3,9 @@ name: Build and Register
 on:
   push:
     branches: []
-    tags:
-      - '*'
+      # - '*'
+    tags: []
+      # - '*'
     # branches: [master, alpha, beta, next]
   # pull_request:
 
