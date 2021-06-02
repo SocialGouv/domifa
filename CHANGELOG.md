@@ -1,3 +1,11 @@
+# [0.4.0-alpha.8](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.7...v0.4.0-alpha.8) (2021-06-02)
+
+
+### Bug Fixes
+
+* Update autodevops. ([675f561](https://github.com/SocialGouv/domifa/commit/675f561350c37ef24382f44c20d745dfb082ec2f))
+* Use SOCIALGROOVYBOT_BOTO_PAT to checkout. ([5fc0ffb](https://github.com/SocialGouv/domifa/commit/5fc0ffb28015f4b517b911fa9b7ccc46a77c8d38))
+
 # [0.4.0-alpha.7](https://github.com/SocialGouv/domifa/compare/v0.4.0-alpha.6...v0.4.0-alpha.7) (2021-06-02)
 
 
