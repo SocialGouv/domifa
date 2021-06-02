@@ -25,8 +25,13 @@ export const getDateToDisplay = (
       usager.decision.statut === "ATTENTE_DECISION" &&
       usager.typeDom === "RENOUVELLEMENT"
     ) {
-      usagerInfos.isActif = true;
-      usagerInfos.dateToDisplay = new Date(usager.historique[1].dateFin);
+      if (typeof usager.historique[1] !== "undefined") {
+        usagerInfos.isActif = true;
+        usagerInfos.dateToDisplay = new Date(usager.historique[1].dateFin);
+      } else {
+        usagerInfos.isActif = true;
+        usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
+      }
     }
 
     // Actuellement actif
