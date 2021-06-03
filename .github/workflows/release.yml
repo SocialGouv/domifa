@@ -7,7 +7,7 @@ on: [deployment_status]
 
 jobs:
   release:
-    name: Release
+    name: Release (Alpha)
     runs-on: ubuntu-18.04
     if: github.event.deployment_status.state == 'success'
     steps:
@@ -30,8 +30,8 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile --perfer-offline
 
-      - name: Release
-        run: npx semantic-release
-        env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
+      # - name: Release
+      #   run: npx semantic-release
+      #   env:
+      #     # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     GITHUB_TOKEN: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
