@@ -9,7 +9,7 @@ import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
 import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 
-import { getManifests as getFrontendManifests } from "./frontend"
+import { getManifests as getFrontendManifests } from "./frontend";
 
 type AnyObject = {
   [any: string]: any;
@@ -32,9 +32,9 @@ const addEnvs = ({ deployment, data, containerIndex = 0 }: AddEnvsParams) => {
 };
 
 export const getManifests = () => {
-  const name = "backend"
-  const probesPath = "/healthz"
-  const subdomain = "domifa-api"
+  const name = "backend";
+  const probesPath = "/healthz";
+  const subdomain = "domifa-api";
 
   const tag = process.env.CI_COMMIT_TAG
     ? process.env.CI_COMMIT_TAG.slice(1)
@@ -67,10 +67,12 @@ export const getManifests = () => {
     deployment: {
       image: `ghcr.io/socialgouv/domifa/backend:sha-${tag}`,
       container: {
-        volumeMounts: [{
-          mountPath: "/mnt/files",
-          name: "domifa-volume"
-        }],
+        volumeMounts: [
+          {
+            mountPath: "/mnt/files",
+            name: "domifa-volume",
+          },
+        ],
         resources: {
           requests: {
             cpu: "50m",
@@ -86,23 +88,23 @@ export const getManifests = () => {
     },
   });
 
-  return manifests
-}
+  return manifests;
+};
 
 export default () => {
-  const { env } = process
+  const { env } = process;
   const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
   const isProductionCluster = Boolean(PRODUCTION);
   const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev2";
-  const isDev = !isProductionCluster && !isPreProduction
-  
-  const manifests = getManifests()
+  const isDev = !isProductionCluster && !isPreProduction;
+
+  const manifests = getManifests();
   /* pass dynamic deployment URL as env var to the container */
   //@ts-expect-error
   const deployment = getManifestByKind(manifests, Deployment) as Deployment;
   ok(deployment);
 
-  const frontendManifests = getFrontendManifests()
+  const frontendManifests = getFrontendManifests();
 
   addEnvs({
     deployment,
@@ -111,29 +113,35 @@ export default () => {
       POSTGRES_USERNAME: "$(PGUSER)",
       POSTGRES_PASSWORD: "$(PGPASSWORD)",
       POSTGRES_DATABASE: "$(PGDATABASE)",
-      DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: `https://${getIngressHost(frontendManifests)}`
+      DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: `https://${getIngressHost(
+        frontendManifests
+      )}`,
     },
   });
 
-  const volumes = [isDev ? {
-    name: "domifa-volume",
-    emptyDir: {}
-  } : {
-    name: "domifa-volume",
-    azureFile: {
-      readOnly: false,
-      shareName: "domifa-resource",
-      secretName: "azure-storage",
-    }
-  }]
+  const volumes = [
+    isDev
+      ? {
+          name: "domifa-volume",
+          emptyDir: {},
+        }
+      : {
+          name: "domifa-volume",
+          azureFile: {
+            readOnly: false,
+            shareName: "domifa-resource",
+            secretName: "azure-storage",
+          },
+        },
+  ];
 
   assert.object(deployment.spec);
   assert.object(deployment.spec.template.spec);
 
   deployment.spec.template.spec.volumes = [
     ...(deployment.spec.template.spec.volumes || []),
-    ...volumes
-  ]
+    ...volumes,
+  ];
 
   return manifests;
 };
