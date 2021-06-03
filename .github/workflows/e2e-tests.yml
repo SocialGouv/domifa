@@ -3,33 +3,31 @@ name: End to End Tests On Deploy
 on: [deployment_status]
 
 jobs:
-
   tests:
     name: Run e2e tests
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Set up Node.js v14
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
 
-    - name: Set up Node.js v14
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-      env:
-        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+      - name: Set up Yarn cache
+        uses: c-hive/gha-yarn-cache@v1
 
-    - name: Set up Yarn cache
-      uses: c-hive/gha-yarn-cache@v1
+      - name: Install e2e dependencies
+        run: yarn --cwd optional/e2e/runners/puppeteer install --frozen-lockfile --prefer-offline
 
-    - name: Install e2e dependencies
-      run: yarn --cwd optional/e2e/runners/puppeteer install --frozen-lockfile --prefer-offline
-
-    - name: Create .env file
-      run: |
-        touch optional/e2e/runners/puppeteer/.env
-        echo "PUPPETEER_CHROME_HEADLESS=true" >> optional/e2e/runners/puppeteer/.env
-        echo "DOMIFA_FRONTEND_URL=${{ github.event.deployment_status.target_url }}" >> optional/e2e/runners/puppeteer/.env
+      - name: Create .env file
+        run: |
+          touch optional/e2e/runners/puppeteer/.env
+          echo "PUPPETEER_CHROME_HEADLESS=true" >> optional/e2e/runners/puppeteer/.env
+          echo "DOMIFA_FRONTEND_URL=${{ github.event.deployment_status.target_url }}" >> optional/e2e/runners/puppeteer/.env
 
     # - name: Run e2e tests
     #   uses: mujo-code/puppeteer-headful@master
