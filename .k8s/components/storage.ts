@@ -6,7 +6,10 @@ import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 
 export default (): { kind: string }[] => {
-  const secret = loadYaml<SealedSecret>(env, `azure-storage.sealed-secret.yaml`);
+  const secret = loadYaml<SealedSecret>(
+    env,
+    `azure-storage.sealed-secret.yaml`
+  );
   if (!secret) {
     return [];
   }
