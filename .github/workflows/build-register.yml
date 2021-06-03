@@ -183,4 +183,4 @@ jobs:
       - name: Trigger deployment
         uses: wei/curl@v1
         with:
-          args: -F token=${{ secrets.GITLAB_PIPELINE_TRIGGER_TOKEN }} -F "ref=${{ github.head_ref }}" -F "variables[DEPLOY]=true" https://gitlab.factory.social.gouv.fr/api/v4/projects/64/trigger/pipeline
+          args: -F token=${{ secrets.GITLAB_PIPELINE_TRIGGER_TOKEN }} -F "ref=${{ github.head_ref | github.ref }}" -F "variables[DEPLOY]=true" https://gitlab.factory.social.gouv.fr/api/v4/projects/64/trigger/pipeline
