@@ -1,9 +1,6 @@
 name: Unit Tests
 
-on:
-  push:
-    branches: [master, alpha, beta, next]
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   backend:
