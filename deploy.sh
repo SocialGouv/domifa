@@ -1,3 +1,4 @@
+
 #!/bin/bash
 branch=$1
 
@@ -29,7 +30,7 @@ then
   echo "#############################################################################"
   exit 1
 else
-  
+
   echo ""
   echo "----------------------------------------------------------------------------"
   echo "Fetching git branchs..."
@@ -76,11 +77,11 @@ else
     echo ""
     read -p "Are you sure? (y/N)?" choice
     echo ""
-    case "$choice" in 
+    case "$choice" in
       y|Y ) echo "yes";;
       * ) echo "exit"; exit 0 ;;
     esac
-  
+
     echo ""
     echo "----------------------------------------------------------------------------"
     echo "Pull master branch"
@@ -89,7 +90,7 @@ else
         echo "[ERROR] exit"
         exit 3
     fi
-  
+
     echo ""
     echo "----------------------------------------------------------------------------"
     echo "Switch to git branch '$branch'"
@@ -115,7 +116,7 @@ else
         echo "[ERROR] exit"
         exit 3
     fi
-    
+
     echo ""
     echo "----------------------------------------------------------------------------"
     echo "Setting 'DOMIFA_DOCKER_IMAGE_VERSION=$DOMIFA_DOCKER_IMAGE_VERSION' in .env"
