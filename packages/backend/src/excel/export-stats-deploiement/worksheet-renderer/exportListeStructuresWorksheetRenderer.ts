@@ -34,6 +34,7 @@ function renderWorksheet({
     { key: "import" },
     { key: "importDate" },
     { key: "usersCount" },
+    { key: "usagersAllCount" },
     { key: "usagersValideCount" },
     { key: "lastLogin" },
     { key: "codePostal" },
@@ -68,7 +69,9 @@ function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
         import: structure.import ? "oui" : "non",
         importDate: xlFormater.toLocalTimezone(structure.importDate),
         usersCount: model.usersCount,
-        usagersValideCount: stats.usagersCountByStructureId[structure.id] || 0,
+        usagersAllCount: stats.usagersAllCountByStructureId[structure.id] || 0,
+        usagersValideCount:
+          stats.usagersValideCountByStructureId[structure.id] || 0,
         lastLogin: xlFormater.toLocalTimezone(structure.lastLogin),
         codePostal: structure.codePostal,
         departementCode: structure.departement,

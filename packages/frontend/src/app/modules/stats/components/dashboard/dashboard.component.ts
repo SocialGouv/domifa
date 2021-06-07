@@ -42,6 +42,7 @@ type DashboardTableSortAttribute =
   | "import"
   | "importDate"
   | "usersCount"
+  | "usagersAllCount"
   | "usagersValideCount"
   | "lastLogin"
   | "regionLabel"
@@ -222,6 +223,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
             sortKey = dataCompare.cleanString(ts[sortAttribute.name]);
           } else if (sortAttribute.name === "usagersValideCount") {
             sortKey = this.stats.usagersValidCountByStructureMap[ts.id];
+          } else if (sortAttribute.name === "usagersAllCount") {
+            sortKey = this.stats.usagersAllCountByStructureMap[ts.id];
           } else {
             sortKey = ts[sortAttribute.name];
           }
