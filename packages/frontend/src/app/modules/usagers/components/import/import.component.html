@@ -80,6 +80,7 @@
       <a
         href="/assets/files/modele_import_domifa.xlsx"
         target="_blank"
+        rel="noopener noreferrer"
         title="Télécharger le modèle Excel"
         class="btn btn-outline-primary"
         download
@@ -430,8 +431,8 @@
 
             <td
               [ngClass]="{
-                'table-danger': !row.columns[COL.DOMICILIATION_EXISTANTE]
-                  ?.isValid
+                'table-danger':
+                  !row.columns[COL.DOMICILIATION_EXISTANTE]?.isValid
               }"
             >
               {{ row.columns[COL.DOMICILIATION_EXISTANTE]?.value }}
@@ -469,8 +470,8 @@
 
             <td
               [ngClass]="{
-                'table-danger': !row.columns[COL.SITUATION_RESIDENTIELLE]
-                  ?.isValid
+                'table-danger':
+                  !row.columns[COL.SITUATION_RESIDENTIELLE]?.isValid
               }"
             >
               {{ row.columns[COL.SITUATION_RESIDENTIELLE]?.value }}
@@ -502,8 +503,8 @@
 
             <td
               [ngClass]="{
-                'table-danger': !row.columns[COL.ACCOMPAGNEMENT_DETAILS]
-                  ?.isValid
+                'table-danger':
+                  !row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.isValid
               }"
             >
               {{ row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.value }}
