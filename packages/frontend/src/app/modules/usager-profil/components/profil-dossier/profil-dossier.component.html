@@ -31,16 +31,16 @@
             </div>
           </div>
 
-          <app-profil-etat-civil
+          <app-display-etat-civil
             *ngIf="!editInfos"
             [usager]="usager"
-          ></app-profil-etat-civil>
+          ></app-display-etat-civil>
 
-          <app-profil-etat-civil-form
+          <app-display-etat-civil-form
             [usager]="usager"
             *ngIf="editInfos"
             [(editInfos)]="editInfos"
-          ></app-profil-etat-civil-form>
+          ></app-display-etat-civil-form>
         </div>
       </div>
 
@@ -75,12 +75,12 @@
             [(usager)]="usager"
           ></app-entretien>
 
-          <app-profil-entretien
+          <app-display-entretien
             *ngIf="!editEntretien"
             [usager]="usager"
             [structure]="me.structure"
           >
-          </app-profil-entretien>
+          </app-display-entretien>
         </div>
       </div>
     </div>

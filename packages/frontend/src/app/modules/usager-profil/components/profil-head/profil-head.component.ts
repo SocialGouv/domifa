@@ -5,15 +5,13 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
-import { AuthService } from "../../../shared/services/auth.service";
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
+
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { InteractionService } from "../../../usager-shared/services/interaction.service";
-import { UsagerService } from "../../../usagers/services/usager.service";
+
 import { UsagerProfilService } from "../../services/usager-profil.service";
 
 @Component({
@@ -35,8 +33,9 @@ export class ProfilHeadComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private notifService: ToastrService,
-    private route: ActivatedRoute,
+
     private router: Router,
+
     private usagerProfilService: UsagerProfilService
   ) {
     this.today = new Date();

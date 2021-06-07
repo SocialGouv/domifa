@@ -42,7 +42,7 @@ export class RaftComponent implements OnInit {
           const usagerModel = new UsagerFormModel(usager);
           if (!usagerModel.isActif) {
             this.notifService.error("Vous ne pouvez pas radier ce domicilié");
-            this.router.navigate(["usager/" + usager.ref]);
+            this.router.navigate(["profil/general/" + usager.ref]);
           } else {
             this.usager = usagerModel;
           }
@@ -70,7 +70,7 @@ export class RaftComponent implements OnInit {
       .subscribe(
         (usager: UsagerLight) => {
           this.notifService.success("Radiation enregistrée avec succès ! ");
-          this.router.navigate(["usager/" + usager.ref]);
+          this.router.navigate(["profil/general/" + usager.ref]);
         },
         () => {
           this.notifService.error("Une erreur est survenue");

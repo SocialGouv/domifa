@@ -56,6 +56,6 @@ export class ProfilDocumentsSectionComponent implements OnInit {
   }
 
   public getAttestation() {
-    // return this.documentService.attestation(this.usager.ref);
+    return this.documentService.attestation(this.usager.ref);
   }
 }

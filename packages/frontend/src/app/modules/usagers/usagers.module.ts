@@ -39,19 +39,15 @@ import { UsagerService } from "./services/usager.service";
     EntretienFormComponent,
     DocumentsFormComponent,
     UsagersFormComponent,
-
     ManageUsagersComponent,
     ManageUsagersTableComponent,
-
     MenuComponent,
     ImportComponent,
-
     RaftComponent,
   ],
   exports: [
     DecisionComponent,
     UsagersFormComponent,
-
     DocumentsFormComponent,
     ManageUsagersComponent,
   ],
