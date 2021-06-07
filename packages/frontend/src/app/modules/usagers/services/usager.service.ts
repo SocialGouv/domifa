@@ -97,9 +97,9 @@ export class UsagerService {
   }
 
   public deleteRenew(usagerRef: number): Observable<UsagerLight> {
-    return this.http
-      .delete<UsagerLight>(`${this.endPointUsagers}/renew/${usagerRef}`)
-      .pipe();
+    return this.http.delete<UsagerLight>(
+      `${this.endPointUsagers}/renew/${usagerRef}`
+    );
   }
 
   public nextStep(
