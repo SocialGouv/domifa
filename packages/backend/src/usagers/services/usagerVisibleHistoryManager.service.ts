@@ -42,4 +42,5 @@ function removeLastDecision({
     usager.decision = usager.historique[0] as UsagerDecision;
     return { removedDecision };
   }
+  return { removedDecision: undefined };
 }

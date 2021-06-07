@@ -269,7 +269,7 @@ export class UsagersController {
 
       if (removedDecision) {
         // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
-        usagerHistoryStateManager.removeLastDecisionFromHistory({
+        await usagerHistoryStateManager.removeLastDecisionFromHistory({
           usager,
           createdBy: {
             userId: user.id,
@@ -281,7 +281,11 @@ export class UsagersController {
         });
       }
 
-      return usagerLightRepository.updateOne({ uuid: usager.uuid }, usager);
+      const result = await usagerLightRepository.updateOne(
+        { uuid: usager.uuid },
+        usager
+      );
+      return res.status(HttpStatus.OK).json(result);
     } else {
       return res
         .status(HttpStatus.BAD_REQUEST)
