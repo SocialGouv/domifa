@@ -11,6 +11,13 @@ import { PostgresHealthIndicator } from "./postgres-health-indicator.service";
 
 @Controller("/healthz")
 export class HealthController {
+  version: HealthIndicatorResult = {
+    version: {
+      info: domifaConfig().version,
+      status: "up",
+    },
+  };
+
   constructor(
     private health: HealthCheckService,
     public dnsIndicator: HttpHealthIndicator,
@@ -19,16 +26,17 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  healthCheck() {
+  healthCheckBackendAndDb() {
+    return this.health.check([
+      async () => this.postgresIndicator.pingCheck("postgres"),
+      async () => this.version,
+    ]);
+  }
+
+  @Get("full")
+  @HealthCheck()
+  healthCheckFull() {
     const frontUrl = domifaConfig().healthz.frontendUrlFromBackend;
-
-    const version: HealthIndicatorResult = {
-      version: {
-        info: domifaConfig().version,
-        status: "up",
-      },
-    };
-
     return this.health.check([
       async () => this.postgresIndicator.pingCheck("postgres"),
       async () =>
@@ -39,7 +47,7 @@ export class HealthController {
           );
           throw err;
         }),
-      async () => version,
+      async () => this.version,
     ]);
   }
 }

@@ -63,17 +63,19 @@ export class HealthCheckService {
   }
 
   private executeCheck(): Observable<HealthCheckInfo> {
-    return this.http.get<HealthCheckInfo>(`${environment.apiUrl}healthz`).pipe(
-      tap(() => {
-        this.checkPeriod$.next(environment.healthzCheck.checkPeriodIfSuccess);
-      }),
-      catchError(() => {
-        this.checkPeriod$.next(environment.healthzCheck.checkPeriodIfError);
-        const errorStatus: HealthCheckInfo = {
-          status: "error",
-        };
-        return of(errorStatus);
-      })
-    );
+    return this.http
+      .get<HealthCheckInfo>(`${environment.apiUrl}healthz/full`)
+      .pipe(
+        tap(() => {
+          this.checkPeriod$.next(environment.healthzCheck.checkPeriodIfSuccess);
+        }),
+        catchError(() => {
+          this.checkPeriod$.next(environment.healthzCheck.checkPeriodIfError);
+          const errorStatus: HealthCheckInfo = {
+            status: "error",
+          };
+          return of(errorStatus);
+        })
+      );
   }
 }
