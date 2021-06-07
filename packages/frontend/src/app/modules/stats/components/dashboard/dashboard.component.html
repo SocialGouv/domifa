@@ -221,8 +221,11 @@
           <th (click)="sortDashboard('usersCount', 'desc')">
             Comptes <fa-icon icon="sort"></fa-icon>
           </th>
+          <th (click)="sortDashboard('usagersAllCount', 'desc')">
+            Tous <fa-icon icon="sort"></fa-icon>
+          </th>
           <th (click)="sortDashboard('usagersValideCount', 'desc')">
-            Domiciliés <fa-icon icon="sort"></fa-icon>
+            Actifs <fa-icon icon="sort"></fa-icon>
           </th>
           <th (click)="sortDashboard('lastLogin', 'desc')">
             Dernière connexion <fa-icon icon="sort"></fa-icon>
@@ -263,6 +266,7 @@
             {{ structure.importDate | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>
           <td>{{ structure.usersCount }}</td>
+          <td>{{ stats.usagersAllCountByStructureMap[structure.id] }}</td>
           <td>{{ stats.usagersValidCountByStructureMap[structure.id] }}</td>
           <td>
             {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
@@ -287,7 +291,8 @@
             <button
               class="btn btn-primary"
               (click)="exportYearStats(structure.id, 2020)"
-            >stats 2020
+            >
+              stats 2020
               <fa-icon icon="download"></fa-icon>
             </button>
             &nbsp;

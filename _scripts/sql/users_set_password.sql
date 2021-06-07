@@ -1,1 +1,1 @@
-update app_user set "password" ='$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u' where true;
+update app_user set "password" ='$2a$10$3yXcVfWYOWsI/KzAwZ0BrOay1Dp/ZOF5RjhLL0QA2Pt7gQVg2U86u' where "structureId" <> 1;
