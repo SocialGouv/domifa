@@ -1,1 +1,33 @@
-<p>profil-general-historique-courriers works!</p>
+<div
+  *ngIf="!interactions || interactions.length === 0"
+  class="alert alert-info"
+>
+  Aucune interaction enregistrée
+</div>
+
+<div
+  *ngFor="let interaction of interactions | slice: 0:5; let i = index"
+  class="interaction-historique"
+>
+  <div class="d-flex align-items-top">
+    <div>
+      <div class="number">
+        <div class="icon-courrier" [ngClass]="'icon-' + interaction.type"></div>
+      </div>
+      <div class="interaction-separator"></div>
+    </div>
+
+    <div class="ml-3">
+      <div class="interaction-date">
+        {{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }}
+      </div>
+      <div>
+        <span class="font-weight-bold">
+          {{ interaction.label }}
+        </span>
+
+        <span *ngIf="interaction.content">- {{ interaction.content }}</span>
+      </div>
+    </div>
+  </div>
+</div>

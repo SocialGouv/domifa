@@ -40,10 +40,8 @@ import { UsagerService } from "./services/usager.service";
     EntretienFormComponent,
     DocumentsFormComponent,
     UsagersFormComponent,
-
     ManageUsagersComponent,
     ManageUsagersTableComponent,
-
     MenuComponent,
     ImportComponent,
     ProfilHistoriqueSmsComponent,
@@ -53,7 +51,6 @@ import { UsagerService } from "./services/usager.service";
   exports: [
     DecisionComponent,
     UsagersFormComponent,
-
     DocumentsFormComponent,
     ManageUsagersComponent,
   ],

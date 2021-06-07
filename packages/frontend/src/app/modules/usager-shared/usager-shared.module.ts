@@ -1,5 +1,3 @@
-import { InteractionService } from "./services/interaction.service";
-
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -18,6 +16,12 @@ import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delet
 import { SetInteractionInFormComponent } from "./components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "./components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 import { EntretienComponent } from "./components/entretien-form/entretien.component";
+import { DisplayEtatCivilComponent } from "./components/display-etat-civil/display-etat-civil.component";
+import { DisplayEntretienComponent } from "./components/display-entretien/display-entretien.component";
+import { UsersModule } from "../users/users.module";
+import { RouterModule } from "@angular/router";
+import { SharedModule } from "../shared/shared.module";
+import { GeneralModule } from "../general/general.module";
 
 @NgModule({
   declarations: [
@@ -27,25 +31,33 @@ import { EntretienComponent } from "./components/entretien-form/entretien.compon
     SetInteractionInFormComponent,
     EntretienComponent,
     SetInteractionOutFormComponent,
+    DisplayEtatCivilComponent,
+    DisplayEntretienComponent,
   ],
   imports: [
     CommonModule,
     FontAwesomeModule,
-    ToastrModule.forRoot({}),
     HttpClientModule,
     NgbModule,
     FormsModule,
+    GeneralModule,
+    RouterModule.forChild([]),
+    SharedModule,
+    ToastrModule.forRoot({}),
+    UsersModule,
     ReactiveFormsModule,
   ],
   exports: [
     UploadComponent,
     DocumentsComponent,
+    DisplayEntretienComponent,
     DeleteUsagerMenuComponent,
+    DisplayEtatCivilComponent,
     SetInteractionInFormComponent,
     EntretienComponent,
     SetInteractionOutFormComponent,
   ],
-  providers: [DocumentService],
+
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class UsagerSharedModule {}

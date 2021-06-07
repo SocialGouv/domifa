@@ -182,27 +182,28 @@
         <div class="col-md-6">
           <div class="row">
             <h4 class="col-12">Dossier</h4>
-            <div class="col-6 my-1">
+
+            <div class="col-6 my-1 align-self-center">
               <span class="label">Référence dossier</span>
             </div>
-            <div class="col-6 my-1">
+            <div class="col-6 my-1 align-self-center">
               {{ usager.customRef }}
             </div>
-            <div class="col-6 my-1">
+            <div class="col-6 my-1 align-self-center">
               <span class="label">Statut</span>
             </div>
-            <div class="col-6 my-1">
+            <div class="col-6 my-1 align-self-center">
               <div class="label-statut" [class]="usager.statusInfos.color">
-                <span>{{
-                  DECISION_STATUT_LABELS[usager.decision.statut]
-                }}</span>
+                <span>
+                  {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
+                </span>
               </div>
             </div>
 
-            <div class="col-6 my-1">
+            <div class="col-6 my-1 align-self-center">
               <span class="label">Ayants-droits</span>
             </div>
-            <div class="col-6 my-1">
+            <div class="col-6 my-1 align-self-center">
               <ng-template #ayantsDroitsTooltip class="p-4 text-left">
                 <div class="distribution-tooltip">
                   <div
@@ -222,15 +223,23 @@
               </div>
             </div>
 
-            <div class="col-6"><span class="label">Échéance</span></div>
-            <div class="col-6">
+            <div class="col-6 my-1"><span class="label">Échéance</span></div>
+            <div class="col-6 my-1">
               {{ usager.dateToDisplay | date: "dd/MM/yyyy" }}
             </div>
-            <div class="col-6">
+            <div class="col-6 my-1">
               <span class="label">Dernier passage</span>
             </div>
-            <div class="col-6">
+            <div class="col-6 my-1">
               {{ usager.lastInteraction.dateInteraction | date: "dd/MM/yyyy" }}
+            </div>
+            <div class="col-12 mt-4">
+              <a
+                class="text-link"
+                [routerLink]="['/profil/dossier/' + usager.ref]"
+              >
+                Voir le dossier complet
+              </a>
             </div>
           </div>
         </div>
@@ -261,35 +270,61 @@
               <b>{{ usager.lastInteraction.recommandeIn }}</b> avis de passage
             </div>
           </div>
+
+          <ng-container
+            *ngIf="usager.isActif || usager.decision.statut === 'RADIE'"
+          >
+            <button
+              ngbTooltip="Ajout d'un passage"
+              class="btn btn-outline-primary mr-2"
+              (click)="setSingleInteraction(usager, 'visite')"
+            >
+              <div class="list-icon icon-passage"></div>
+            </button>
+            <button
+              ngbTooltip="Ajout d'un appel téléphonique"
+              class="btn btn-outline-primary mr-2"
+              (click)="setSingleInteraction(usager, 'appel')"
+            >
+              <div class="list-icon icon-appel"></div>
+            </button>
+          </ng-container>
           <div class="btn btn-primary mr-2" (click)="openInteractionInModal()">
-            <span class="icon-reception list-icon"></span>
-            <span class="list-icon-label">Réception</span>
+            <span class="">Réception</span>
           </div>
 
           <div
             *ngIf="usager.lastInteraction.enAttente"
-            class="btn btn-outline-primary"
+            class="btn btn-primary"
             (click)="openInteractionOutModal()"
           >
-            <span class="icon-distribution list-icon"></span>
-            <span class="list-icon-label">Distribuer le courrier</span>
+            <span class="">Distribuer le courrier</span>
           </div>
         </div>
       </div>
       <br />
       <hr />
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 mb-3">
           <h4>Historique des courriers</h4>
 
-          <app-profil-historique-table-courriers
+          <app-profil-general-historique-courriers
             [usager]="usager"
             [me]="me"
-          ></app-profil-historique-table-courriers>
+          ></app-profil-general-historique-courriers>
+
+          <br /><br />
+          <a
+            class="text-link"
+            [routerLink]="['/profil/courriers/' + usager.ref]"
+          >
+            Voir tout l'historique
+          </a>
         </div>
 
         <div class="col-md-6">
           <h4>Notes</h4>
+          <div class="alert alert-info">Aucune note enregistrée</div>
         </div>
       </div>
     </div>

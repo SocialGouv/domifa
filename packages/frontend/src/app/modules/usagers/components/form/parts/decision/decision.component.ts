@@ -20,6 +20,7 @@ import { MOTIFS_REFUS_LABELS } from "../../../../../../../_common/model/usager/c
 import { UsagerDecisionForm } from "../../../../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../../../../_common/model/usager/UsagerLight.type";
 import { formatDateToNgb } from "../../../../../../shared/bootstrap-util";
+import { DocumentService } from "../../../../../usager-shared/services/document.service";
 import { UsagerService } from "../../../../services/usager.service";
 
 @Component({
@@ -52,6 +53,7 @@ export class DecisionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private usagerService: UsagerService,
+    private documentService: DocumentService,
     private modalService: NgbModal,
     private router: Router,
     private nbgDate: NgbDateCustomParserFormatter,
@@ -210,7 +212,7 @@ export class DecisionComponent implements OnInit {
           this.usager = usager;
         } else {
           this.notifService.success("Décision enregistrée avec succès ! ");
-          this.router.navigate(["usager/" + usager.ref]);
+          this.router.navigate(["profil/general/" + usager.ref]);
         }
         this.modalService.dismissAll();
       });
@@ -225,7 +227,7 @@ export class DecisionComponent implements OnInit {
   }
 
   public getAttestation() {
-    return this.usagerService.attestation(this.usager.ref);
+    return this.documentService.attestation(this.usager.ref);
   }
 
   public printPage() {

@@ -1,32 +1,34 @@
 import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
-import { FormGroup, FormBuilder, FormArray, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 import { ToastrService } from "ngx-toastr";
-import { AppUser, UserRole, UsagerLight } from "../../../../../_common/model";
-import { InteractionType } from "../../../../../_common/model/interaction";
-import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
-
-import { saveAs } from "file-saver";
+import {
+  AppUser,
+  UserRole,
+  UsagerLight,
+  USAGER_DECISION_STATUT_LABELS,
+} from "../../../../../_common/model";
+import {
+  InteractionForApi,
+  InteractionType,
+} from "../../../../../_common/model/interaction";
 
 import {
   minDateNaissance,
   formatDateToNgb,
 } from "../../../../shared/bootstrap-util";
-import { DECISION_STATUT_LABELS } from "../../../../shared/constants/USAGER_LABELS.const";
-import { regexp } from "../../../../shared/validators";
+
 import { AuthService } from "../../../shared/services/auth.service";
 
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { interactionsLabels } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
-import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
+
 import { Interaction } from "../../../usagers/interfaces/interaction";
 
-import { DocumentService } from "../../../usager-shared/services/document.service";
-
 import { UsagerProfilService } from "../../services/usager-profil.service";
+import { InteractionService } from "../../../usager-shared/services/interaction.service";
 
 @Component({
   selector: "app-profil-general-section",
@@ -34,13 +36,6 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
   styleUrls: ["./profil-general-section.component.css"],
 })
 export class ProfilGeneralSectionComponent implements OnInit {
-  // Affichage des formulaires d'édition
-
-  public acceptInteractions: boolean;
-  public editCustomId: boolean;
-
-  public submitted: boolean;
-
   public typeInteraction: InteractionType;
   public interactions: Interaction[];
 
@@ -54,11 +49,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
 
   public motifsRadiation: { [key: string]: string };
 
-  // public labels: any = usagersLabels;
-
   public usager: UsagerFormModel;
-  public usagerForm!: FormGroup;
-  public ayantsDroitsForm!: FormGroup;
 
   public notifInputs: { [key: string]: any };
 
@@ -77,9 +68,9 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
-  public DECISION_STATUT_LABELS = DECISION_STATUT_LABELS;
+  public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
+
   constructor(
-    private formBuilder: FormBuilder,
     private authService: AuthService,
     private modalService: NgbModal,
 
@@ -89,31 +80,19 @@ export class ProfilGeneralSectionComponent implements OnInit {
 
     private usagerProfilService: UsagerProfilService,
     private titleService: Title,
-
-    private documentService: DocumentService
+    private interactionService: InteractionService
   ) {
-    this.submitted = false;
-    this.editCustomId = false;
-    this.acceptInteractions = true;
-
-    this.today = new Date();
-
     this.interactions = [];
 
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
-
-    this.notifInputs = {
-      colisIn: 0,
-      courrierIn: 0,
-      recommandeIn: 0,
-    };
 
     this.actions = {
       EDIT: "Modification",
       DELETE: "Suppression",
       CREATION: "Création",
     };
+    this.today = new Date();
   }
 
   public isRole(role: UserRole) {
@@ -149,49 +128,20 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.usager = new UsagerFormModel(usager);
   }
 
-  get f() {
-    return this.usagerForm.controls;
-  }
+  public setSingleInteraction(
+    usager: UsagerFormModel,
+    type: InteractionType
+  ): void {
+    const interaction: InteractionForApi = {
+      type,
+      nbCourrier: 1,
+    };
 
-  get ayantsDroits() {
-    return this.usagerForm.get("ayantsDroits") as FormArray;
-  }
+    this.interactionService.setInteraction(usager, [interaction]).subscribe(
+      (newUsager: UsagerLight) => {
+        usager = new UsagerFormModel(newUsager);
 
-  public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
-    (this.usagerForm.controls.ayantsDroits as FormArray).push(
-      this.newAyantDroit(ayantDroit)
-    );
-  }
-
-  public deleteAyantDroit(i: number): void {
-    if (i === 0) {
-      this.usagerForm.controls.ayantsDroitsExist.setValue(false);
-    }
-
-    (this.usagerForm.controls.ayantsDroits as FormArray).removeAt(i);
-  }
-
-  public newAyantDroit(ayantDroit: AyantDroit) {
-    return this.formBuilder.group({
-      dateNaissance: [
-        ayantDroit.dateNaissance,
-        [Validators.pattern(regexp.date), Validators.required],
-      ],
-      lien: [ayantDroit.lien, Validators.required],
-      nom: [ayantDroit.nom, Validators.required],
-      prenom: [ayantDroit.prenom, Validators.required],
-    });
-  }
-
-  public renouvellement() {
-    this.usagerProfilService.renouvellement(this.usager.ref).subscribe(
-      (usager: UsagerLight) => {
-        this.usager = new UsagerFormModel(usager);
-        this.modalService.dismissAll();
-        this.router.navigate(["usager/" + usager.ref + "/edit"]);
-        this.notifService.success(
-          "Votre demande a été enregistrée. Merci de remplir l'ensemble du dossier"
-        );
+        this.notifService.success(interactionsLabels[type]);
       },
       (error) => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
@@ -199,40 +149,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
     );
   }
 
-  public open(content: TemplateRef<any>) {
-    this.modalService.open(content);
-  }
-
   public closeModals() {
-    this.modalService.dismissAll();
-  }
-
-  public deleteUsager() {
-    this.usagerProfilService.delete(this.usager.ref).subscribe(
-      (result: any) => {
-        this.modalService.dismissAll();
-        this.notifService.success("Usager supprimé avec succès");
-        this.router.navigate(["/manage"]);
-      },
-      (error) => {
-        this.notifService.error("Impossible de supprimer la fiche");
-      }
-    );
-  }
-
-  public getStructureDocument(docType: StructureDocTypesAvailable) {
-    this.documentService.getStructureDoc(this.usager.ref, docType).subscribe(
-      (blob: any) => {
-        const newBlob = new Blob([blob], {
-          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        });
-        saveAs(newBlob, docType + ".docx");
-      },
-      (error: any) => {}
-    );
-  }
-
-  public closeModal() {
     this.modalService.dismissAll();
   }
 

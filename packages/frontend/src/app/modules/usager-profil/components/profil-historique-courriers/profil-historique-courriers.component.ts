@@ -1,15 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { Component, Input, OnInit } from "@angular/core";
+
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
+
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { interactionsLabels } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
 import { Interaction } from "../../../usagers/interfaces/interaction";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
-import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
   selector: "app-profil-historique-courriers",
@@ -20,8 +19,6 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
   @Input() public me: AppUser;
 
-  @Output() usagerChanges = new EventEmitter<UsagerLight>();
-
   public typeInteraction: InteractionType;
   public interactions: Interaction[];
   public interactionsLabels: {
@@ -29,10 +26,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
   } = interactionsLabels;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private nbgDate: NgbDateCustomParserFormatter,
     private notifService: ToastrService,
-    private usagerService: UsagerService,
     private matomo: MatomoTracker,
     private interactionService: InteractionService
   ) {}

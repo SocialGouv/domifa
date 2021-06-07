@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 
-import { ProfilEntretienComponent } from "./profil-entretien.component";
+import { DisplayEntretienComponent } from "./display-entretien.component";
 
-describe("ProfilEntretienComponent", () => {
-  let component: ProfilEntretienComponent;
-  let fixture: ComponentFixture<ProfilEntretienComponent>;
+describe("DisplayEntretienComponent", () => {
+  let component: DisplayEntretienComponent;
+  let fixture: ComponentFixture<DisplayEntretienComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ProfilEntretienComponent],
+      declarations: [DisplayEntretienComponent],
     });
-    fixture = TestBed.createComponent(ProfilEntretienComponent);
+    fixture = TestBed.createComponent(DisplayEntretienComponent);
     component = fixture.componentInstance;
   });
 
