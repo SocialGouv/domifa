@@ -1,3 +1,6 @@
+<div>
+  <h4>Historique des courriers</h4>
+</div>
 <div class="alert alert-info" *ngIf="interactions.length == 0">
   Aucune interaction enregistrée
 </div>
@@ -19,7 +22,7 @@
       *ngFor="let interaction of interactions | slice: 0:30; let i = index"
     >
       <tr *ngIf="interaction.delete === true">
-        <td colspan="4" class="delete-interaction">
+        <td colspan="4" class="text-center delete-interaction">
           Êtes-vous sûr de vouloir supprimer cette interaction ?
           <button
             class="btn btn-danger"

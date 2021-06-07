@@ -16,6 +16,7 @@ import { UsersService } from "src/app/modules/users/services/users.service";
 import { fadeInOut } from "src/app/shared/animations";
 import { minDateToday } from "src/app/shared/bootstrap-util";
 import { AppUser, UsagerLight } from "../../../../../../../_common/model";
+import { DocumentService } from "../../../../../usager-shared/services/document.service";
 import { UsagerFormModel } from "../../UsagerFormModel";
 
 @Component({
@@ -47,6 +48,7 @@ export class RdvComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
+    private documentService: DocumentService,
     private notifService: ToastrService,
     private authService: AuthService,
     private userService: UsersService,
@@ -96,7 +98,7 @@ export class RdvComponent implements OnInit {
   }
 
   public getAttestation() {
-    return this.usagerService.attestation(this.usager.ref);
+    return this.documentService.attestation(this.usager.ref);
   }
 
   public initForm() {

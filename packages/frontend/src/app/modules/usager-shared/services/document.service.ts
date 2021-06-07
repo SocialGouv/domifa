@@ -1,17 +1,24 @@
 import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerDoc } from "../../../../_common/model";
 import { StructureDocTypesAvailable } from "../../../../_common/model/structure-doc";
+import { LoadingService } from "../../loading/loading.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class DocumentService {
   public endPoint: string;
+  public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private loadingService: LoadingService,
+    private notifService: ToastrService
+  ) {
     this.endPoint = environment.apiUrl + "docs/";
   }
 
@@ -38,6 +45,37 @@ export class DocumentService {
           }
           return `Unhandled event: ${event.type}`;
         })
+      );
+  }
+
+  /* Attestation */
+  public attestation(usagerRef: number): void {
+    this.loadingService.startLoading();
+
+    this.http
+      .get(`${this.endPointUsagers}/attestation/${usagerRef}`, {
+        responseType: "blob",
+      })
+      .subscribe(
+        (x) => {
+          const newBlob = new Blob([x], { type: "application/pdf" });
+          const randomNumber = Math.floor(Math.random() * 100) + 1;
+
+          saveAs(
+            newBlob,
+            "attestation_" + usagerRef + "_" + randomNumber + ".pdf"
+          );
+
+          setTimeout(() => {
+            this.loadingService.stopLoading();
+          }, 500);
+        },
+        () => {
+          this.notifService.error(
+            "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          );
+          this.loadingService.stopLoading();
+        }
       );
   }
 

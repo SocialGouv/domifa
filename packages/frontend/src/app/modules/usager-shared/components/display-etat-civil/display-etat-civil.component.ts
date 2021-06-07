@@ -3,11 +3,10 @@ import { UsagerLight } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
 
 @Component({
-  selector: "app-profil-etat-civil",
-  templateUrl: "./profil-etat-civil.component.html",
-  styleUrls: ["./profil-etat-civil.component.css"],
+  selector: "app-display-etat-civil",
+  templateUrl: "./display-etat-civil.component.html",
 })
-export class ProfilEtatCivilComponent implements OnInit {
+export class DisplayEtatCivilComponent implements OnInit {
   @Input() public usager: UsagerLight;
 
   public languagesAutocomplete = languagesAutocomplete;

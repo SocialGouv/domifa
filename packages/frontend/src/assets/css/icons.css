@@ -43,21 +43,25 @@
   mask: url("../icones/calendar.svg") no-repeat center;
 }
 
+.icon-courrierIn,
 .icon-courrier {
   -webkit-mask: url("../icones/courrier.svg") no-repeat center;
   mask: url("../icones/courrier.svg") no-repeat center;
 }
 
+.icon-colisIn,
 .icon-colis {
   -webkit-mask: url("../icones/colis.svg") no-repeat center;
   mask: url("../icones/colis.svg") no-repeat center;
 }
 
+.icon-recommandeIn,
 .icon-recommande {
   -webkit-mask: url("../icones/recommande.svg") no-repeat center;
   mask: url("../icones/recommande.svg") no-repeat center;
 }
 
+.icon-recommandeIn,
 .icon-avis-passage {
   -webkit-mask: url("../icones/avispassage.svg") no-repeat center;
   mask: url("../icones/avispassage.svg") no-repeat center;

@@ -47,21 +47,21 @@
         </ng-container>
 
         <ng-container *ngIf="usager.decision.statut === 'RADIE'">
-          <button class="btn btn-white-primary ml-2">
+          <button class="btn btn-white-primary ml-2" (click)="openRenewModal()">
             <fa-icon icon="redo" class="mr-2"></fa-icon>
             Créer une nouvelle demande
           </button>
         </ng-container>
 
         <ng-container *ngIf="usager.decision.statut === 'VALIDE'">
-          <button class="btn btn-white-primary ml-2" (click)="openRenewModal()">
+          <button class="ml-2 btn btn-white-primary" (click)="openRenewModal()">
             <fa-icon icon="redo" class="mr-2"></fa-icon>
             Demande de renouvellement
           </button>
           <a
             [routerLink]="['/radiation/' + usager.ref]"
             routerLinkActive="router-link-active"
-            class="btn btn-white-primary"
+            class="ml-2 btn btn-white-primary"
           >
             <fa-icon icon="times" class="mr-2"></fa-icon>
             Radier le domicilié
