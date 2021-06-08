@@ -86,7 +86,11 @@ async function countInteractions({
   structureId: number;
   interactionType: InteractionType;
 }): Promise<number> {
-  if (interactionType === "appel" || interactionType === "visite") {
+  if (
+    interactionType === "appel" ||
+    interactionType === "visite" ||
+    interactionType === "npai"
+  ) {
     //
     return interactionRepository.count({
       where: {
@@ -99,7 +103,7 @@ async function countInteractions({
       },
     });
   } else {
-    return await interactionRepository.sum({
+    return interactionRepository.sum({
       sumAttribute: "nbCourrier",
       where: {
         structureId,
