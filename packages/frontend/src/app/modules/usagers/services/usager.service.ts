@@ -146,10 +146,16 @@ export class UsagerService {
     usagerRef: number,
     decision: UsagerDecisionForm
   ): Observable<UsagerLight> {
-    return this.http.post<UsagerLight>(
-      `${this.endPointUsagers}/decision/${usagerRef}`,
-      decision
-    );
+    return this.http
+      .post<UsagerLight>(
+        `${this.endPointUsagers}/decision/${usagerRef}`,
+        decision
+      )
+      .pipe(
+        tap((usager: UsagerLight) => {
+          usagersSearchCache.updateUsager(usager);
+        })
+      );
   }
 
   public findOne(usagerRef: number): Observable<UsagerLight> {

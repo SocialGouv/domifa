@@ -17,9 +17,8 @@ export class SmsService {
   private messageSmsRepository: Repository<MessageSmsTable>;
 
   constructor() {
-    this.messageSmsRepository = appTypeormManager.getRepository(
-      MessageSmsTable
-    );
+    this.messageSmsRepository =
+      appTypeormManager.getRepository(MessageSmsTable);
   }
 
   // Suppression d'un SMS si le courrier a été distribué
@@ -36,7 +35,7 @@ export class SmsService {
 
     if (smsOnHold) {
       return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
-    } else {
+    } else if (usager.preference?.phone === true) {
       appLogger.warn(`SMS Service: Interaction Out not found`);
     }
   }
@@ -65,7 +64,7 @@ export class SmsService {
       } else {
         return messageSmsRepository.deleteByCriteria({ uuid: smsOnHold.uuid });
       }
-    } else {
+    } else if (usager.preference?.phone === true) {
       appLogger.warn(`SMS Service: Interaction to delete not found`);
     }
   }

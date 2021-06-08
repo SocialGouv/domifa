@@ -1,14 +1,14 @@
-import { InteractionForApi } from "./../../../../_common/model/interaction/InteractionForApi.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
 import { InteractionInForm } from "../../../../_common/model/interaction";
-
+import { usagersSearchCache } from "../../../shared/store";
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { Interaction } from "../interfaces/interaction";
+import { InteractionForApi } from "./../../../../_common/model/interaction/InteractionForApi.type";
 
 @Injectable({
   providedIn: "root",
@@ -22,10 +22,13 @@ export class InteractionService {
     usager: UsagerLight | UsagerFormModel,
     interactions: InteractionForApi[]
   ): Observable<UsagerLight> {
-    return this.http.post<UsagerLight>(
-      `${this.endPoint}${usager.ref}`,
-      interactions
-    );
+    return this.http
+      .post<UsagerLight>(`${this.endPoint}${usager.ref}`, interactions)
+      .pipe(
+        tap((usager: UsagerLight) => {
+          usagersSearchCache.updateUsager(usager);
+        })
+      );
   }
 
   public getInteractions(usagerRef: number): Observable<Interaction[]> {
