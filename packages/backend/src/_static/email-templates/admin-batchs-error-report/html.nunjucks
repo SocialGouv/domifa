@@ -1,36 +1,24 @@
 {% extends "./base.nunjucks" %}
-{% block head_custom %}
-     <link rel="stylesheet" href="./admin-batchs-error-report/html.css">
-{% endblock %}
+{% import "./helpers.nunjucks" as helpers %}
 
 {% block content %}
 
-     <div class="content text-left leading-normal">
-          <div class="my-2">
-               <b>{{errorsCount}} erreurs</b> ont été rencontrées lors des traitements sur l'environnement <b>"{{envId}}"</b>
-          </div>
+     <p>
+          <b>{{errorsCount}} erreurs</b> ont été rencontrées lors des traitements sur l'environnement <b>"{{envId}}"</b>
+     </p>
 
-          <div class="my-2"><br/>Dernier message d'erreur: 
-        <br/>> <i>
-                    <b>{{lastErrorMessage}}</b>
-               </i>
-          </div>
+     <p><br/>Dernier message d'erreur: 
+     <br/>> <i>
+               <b>{{lastErrorMessage}}</b>
+          </i>
+     </p>
 
-          <div class="my-2"<br/>Date de la dernière erreur: <b>{{lastErrorDate}}</b>
-          </div>
+     <p<br/>Date de la dernière erreur: <b>{{lastErrorDate}}</b>
+     </p>
 
-          <div class="my-2"><br/>Process en erreur: <b>{{processIds}}</b>
-          </div>
-     </div>
+     <p><br/>Process en erreur: <b>{{processIds}}</b>
+     </p>
 
-     {% if toSkipString %}
-          <div class="my-12">
-               <hr/>
-               <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à: 
-                    <br/>{{toSkipString}}
-               </div>
-          </div>
-     {% endif %}
+     {{ helpers.redirectedMessage(toSkipString) }}
 
 {% endblock %}

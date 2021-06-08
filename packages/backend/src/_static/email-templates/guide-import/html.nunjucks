@@ -1,49 +1,34 @@
 {% extends "./base.nunjucks" %}
-{% block head_custom %}
-     <link rel="stylesheet" href="./usager-appointment-created/html.css">
-{% endblock %}
+{% import "./helpers.nunjucks" as helpers %}
 
 {% block content %}
 
-     <div class="content text-center leading-normal">
-          <div class="my-3">
-               Bonjour {{ prenom }}
-          </div>
+     <p>
+          Bonjour {{ prenom }}
+     </p>
 
-          <div class="my-3">
-               Une fonctionnalité d’import de données a été créée afin que puissiez télécharger plus facilement les données liées à vos domiciliés actuels. 
-          </div>
+     <p>
+          Une fonctionnalité d’import de données a été créée afin que puissiez télécharger plus facilement les données liées à vos domiciliés actuels. 
+     </p>
 
-          <div class="my-3">
-               Réalisez dès à présent l’import de vos données afin de pouvoir utiliser DomiFa. 
-          </div>
+     <p>
+          Réalisez dès à présent l’import de vos données afin de pouvoir utiliser DomiFa. 
+     </p>
 
-           <div class="mt-8 mb-12 text-center">
-               <a href="{{ lienImport }}" target="_blank" rel="noopener noreferrer" class="btn-main">
-               <span class="btn-main-title font-bold">Importer mes domiciliés</span></a>
-          </div>
+     {{ helpers.button("primary", lienImport, "Importer mes domiciliés") }}
 
-          <div class="my-3">
-                En cas de question n’hésitez pas à consulter notre <a href="{{ lienGuide }}" target="_blank" rel="noopener noreferrer">guide pratique</a> et notre <a href="{{ lienFaq }}" target="_blank" rel="noopener noreferrer">FAQ</a>. 
-          </div>
+     <p>
+               En cas de question n’hésitez pas à consulter notre <a href="{{ lienGuide }}" target="_blank" rel="noopener noreferrer">guide pratique</a> et notre <a href="{{ lienFaq }}" target="_blank" rel="noopener noreferrer">FAQ</a>. 
+     </p>
 
-          <div class="my-3">
-                À bientôt,
-          </div>
+     <p>
+               À bientôt,
+     </p>
 
-          <div class="my-3">
-               L’équipe Domifa 
-          </div>
-     </div>
+     <p>
+          L’équipe Domifa 
+     </p>
 
-     {% if toSkipString %}
-          <div class="my-12">
-               <hr/>
-               <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à: 
-                    <br/>{{toSkipString}}
-               </div>
-          </div>
-     {% endif %}
+     {{ helpers.redirectedMessage(toSkipString) }}
 
 {% endblock %}

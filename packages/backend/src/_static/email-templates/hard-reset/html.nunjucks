@@ -1,48 +1,36 @@
 {% extends "./base.nunjucks" %}
-{% block head_custom %}
-     <link rel="stylesheet" href="./usager-appointment-created/html.css">
-{% endblock %}
+{% import "./helpers.nunjucks" as helpers %}
 
 {% block content %}
 
-     <div class="content text-center leading-normal">
-          <div class="my-3">
-               Bonjour {{ prenom }}
-          </div>
+     <p>
+          Bonjour {{ prenom }}
+     </p>
 
-          <div class="my-3">
-               Vous avez demandé la suppression des usagers de votre structure.
-          </div>
+     <p>
+          Vous avez demandé la suppression des usagers de votre structure.
+     </p>
 
-          <div class="my-3 font-bold text-red-600">
-               Pour rappel, vous n'aurez aucun moyen de restaurer les dossiers effacés.
-          </div>  
-          
-          <div class="mt-8 mb-4 font-bold">
-                CODE DE CONFIRMATION
-          </div>
+     <p class="my-3 font-bold text-red-600">
+          Pour rappel, vous n'aurez aucun moyen de restaurer les dossiers effacés.
+     </p>  
+     
+     <p class="mt-8 mb-4 text-center font-bold">
+               CODE DE CONFIRMATION
+     </p>
 
-           <div class="mt-8 mb-12 font-bold text-3xl text-blue-800">
-               {{ confirmationCode }}
-          </div>
+     <p class="mt-8 mb-12 text-center font-bold text-3xl text-blue-800">
+          {{ confirmationCode }}
+     </p>
 
-          <div class="my-3">
-                À bientôt,
-          </div>
+     <p>
+               À bientôt,
+     </p>
 
-          <div class="my-3">
-               L’équipe Domifa 
-          </div>
-     </div>
+     <p>
+          L’équipe Domifa 
+     </p>
 
-     {% if toSkipString %}
-          <div class="my-12">
-               <hr/>
-               <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à: 
-                    <br/>{{toSkipString}}
-               </div>
-          </div>
-     {% endif %}
+     {{ helpers.redirectedMessage(toSkipString) }}
 
 {% endblock %}
