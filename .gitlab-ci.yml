@@ -2,7 +2,7 @@ include:
   # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v22.0.0/base_register_docker_stage.yml
   - project: SocialGouv/gitlab-ci-yml
     file: /base_autodevops.yml
-    ref: v21.0.1
+    ref: v22.1.9
 
 variables:
   # Globals
