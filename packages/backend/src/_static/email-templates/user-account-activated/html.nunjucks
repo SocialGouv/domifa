@@ -1,53 +1,40 @@
 {% extends "./base.nunjucks" %}
-{% block head_custom %}
-     <link rel="stylesheet" href="./usager-appointment-created/html.css">
-{% endblock %}
+{% import "./helpers.nunjucks" as helpers %}
 
 {% block content %}
 
-     <div class="content text-center leading-normal">
-          <div class="my-3">
-               Bonjour {{ prenom }}
-          </div>
+     <p>
+          Bonjour {{ prenom }}
+     </p>
 
-          <div class="my-3">
-               Votre compte Domifa a été validé par l'administrateur.
-          </div>
+     <p>
+          Votre compte Domifa a été validé par l'administrateur.
+     </p>
 
-          <div class="my-3">
-               Vous pouvez désormais vous connecter avec les identifiants indiqués lors de votre inscription.
-          </div>
+     <p>
+          Vous pouvez désormais vous connecter avec les identifiants indiqués lors de votre inscription.
+     </p>
 
-           <div class="mt-8 mb-12 text-center">
-               <a href="{{ lien }}" target="_blank" rel="noopener noreferrer" class="btn-main">
-               <span class="btn-main-title font-bold">Se connecter</span></a>
-          </div>
-           <div class="mt-8 mb-12 text-center">
+     {{ helpers.button("primary", lien, "Se connecter") }}
 
-           Pour vous accompagner au mieux dans votre utilisation de DomiFa, il vous est possible de vous inscrire à une session de présentation en ligne sur le lien suivant :
-           <br />
-            <a href="https://startupdetat.typeform.com/to/O63SNL" target="_blank" rel="noopener noreferrer">
-            https://startupdetat.typeform.com/to/O63SNL
-            </a>
-</div>
+     <p class="mt-8">
+          Pour vous accompagner au mieux dans votre utilisation de DomiFa, il vous est possible de vous inscrire à une session de présentation en ligne sur le lien suivant :
+     </p>
+     <p class="mb-12 text-center">
+          <a href="https://startupdetat.typeform.com/to/O63SNL" target="_blank" rel="noopener noreferrer">
+          https://startupdetat.typeform.com/to/O63SNL
+          </a>
+     </p>
 
-          <div class="my-3">
-                À bientôt,
-          </div>
+     <p>
+          À bientôt,
+     </p>
 
-          <div class="my-3">
-               L’équipe Domifa
-          </div>
-     </div>
+     <p>
+          L’équipe Domifa
+     </p>
 
-     {% if toSkipString %}
-          <div class="my-12">
-               <hr/>
-               <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à:
-                    <br/>{{toSkipString}}
-               </div>
-          </div>
-     {% endif %}
+
+     {{ helpers.redirectedMessage(toSkipString) }}
 
 {% endblock %}

@@ -1,45 +1,15 @@
 {% extends "./base.nunjucks" %}
-{% block head_custom %}
-     <link rel="stylesheet" href="./usager-appointment-created/html.css">
-{% endblock %}
+{% import "./helpers.nunjucks" as helpers %}
 
 {% block content %}
 
-     <div class="content text-center leading-normal">
-          <div class="my-3">
-               Bonjour {{ prenom }}
-          </div>
+     <p class="text-center">Bonjour {{ prenom }},</p>
+     <p class="text-center">Un administrateur vient de vous créer un compte sur Domifa.</p>
+     <p class="text-center">Cliquez sur le lien ci-dessous pour finaliser votre inscription</p>
+     {{ helpers.button("primary", lien, "Finaliser l'inscription") }}
+     <p class="text-center">À bientôt,</p>
+     <p class="text-center">L’équipe Domifa</p>
 
-          <div class="my-3">
-               Un administrateur vient de vous créer un compte sur Domifa.
-          </div>
-
-          <div class="my-3">
-               Cliquez sur le lien ci-dessous pour finaliser votre inscription
-          </div>
-
-           <div class="mt-8 mb-12">
-               <a href="{{ lien }}" target="_blank" rel="noopener noreferrer" class="btn-main">
-               <span class="btn-main-title font-bold">Finaliser l'inscription</span></a>
-          </div>
-
-          <div class="my-3">
-                À bientôt,
-          </div>
-
-          <div class="my-3">
-               L’équipe Domifa 
-          </div>
-     </div>
-
-     {% if toSkipString %}
-          <div class="my-12">
-               <hr/>
-               <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à: 
-                    <br/>{{toSkipString}}
-               </div>
-          </div>
-     {% endif %}
+     {{ helpers.redirectedMessage(toSkipString) }}
 
 {% endblock %}

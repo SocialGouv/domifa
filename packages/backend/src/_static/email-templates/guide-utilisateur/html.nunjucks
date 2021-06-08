@@ -1,45 +1,30 @@
 {% extends "./base.nunjucks" %}
-{% block head_custom %}
-     <link rel="stylesheet" href="./usager-appointment-created/html.css">
-{% endblock %}
+{% import "./helpers.nunjucks" as helpers %}
 
 {% block content %}
 
-     <div class="content text-center leading-normal">
-          <div class="my-3">
-               Bonjour {{ prenom }}
-          </div>
+     <p>
+          Bonjour {{ prenom }}
+     </p>
 
-          <div class="my-3">
-               Vous avez récemment créé votre compte sur DomiFa et nous vous en remercions.
-          </div>
+     <p>
+          Vous avez récemment créé votre compte sur DomiFa et nous vous en remercions.
+     </p>
 
-          <div class="my-3">
-               Afin de vous accompagner dans l’utilisation de la plateforme, <span class="font-bold">vous trouverez ci-dessous un guide utilisateur détaillé</span> qui vous permettra de découvrir les différentes fonctionnalités disponibles. 
-          </div>
+     <p>
+          Afin de vous accompagner dans l’utilisation de la plateforme, <span class="font-bold">vous trouverez ci-dessous un guide utilisateur détaillé</span> qui vous permettra de découvrir les différentes fonctionnalités disponibles. 
+     </p>
 
-           <div class="mt-8 mb-12 text-center">
-               <a href="{{ lienGuide }}" target="_blank" rel="noopener noreferrer" class="btn-main">
-               <span class="btn-main-title font-bold">Télécharger le guide utilisateur</span></a>
-          </div>
+     {{ helpers.button("primary", lienGuide, "Télécharger le guide utilisateur") }}
 
-          <div class="my-3">
-                À bientôt,
-          </div>
+     <p>
+          À bientôt,
+     </p>
 
-          <div class="my-3">
-               L’équipe Domifa 
-          </div>
-     </div>
+     <p>
+          L’équipe Domifa 
+     </p>
 
-     {% if toSkipString %}
-          <div class="my-12">
-               <hr/>
-               <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à: 
-                    <br/>{{toSkipString}}
-               </div>
-          </div>
-     {% endif %}
+     {{ helpers.redirectedMessage(toSkipString) }}
 
 {% endblock %}

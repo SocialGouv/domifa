@@ -1,88 +1,68 @@
 {% extends "./base.nunjucks" %}
-{% block head_custom %}
-     <link rel="stylesheet" href="./usager-appointment-created/html.css">
-{% endblock %}
+{% import "./helpers.nunjucks" as helpers %}
 
 {% block content %}
 
-     <div class="content text-left leading-normal">
+   <p>
+      Une nouvelle structure vient de s'inscrire sur Domifa.
+      Veuillez vérifier les informations ci-dessous.
+   </p>
 
-          <div class="my-3">
-               Une nouvelle structure vient de s'inscrire sur Domifa.
-               Veuillez vérifier les informations ci-dessous.
-          </div>
+   <p>
+   <p class="my-1">
+      <b>Nom : </b>{{ structure_name }}
+   </p>
+   <p class="my-1">
+      <b>Type de structure :</b> {{ structure_type }}
+   </p>
+   <p class="my-1">
+      <b>Département :</b> {{ departement }}
+   </p>
+   </p>
 
-          <div class="my-3">
-            <div class="my-1">
-               <b>Nom : </b>{{ structure_name }}
-            </div>
-            <div class="my-1">
-               <b>Type de structure :</b> {{ structure_type }}
-            </div>
-            <div class="my-1">
-               <b>Département :</b> {{ departement }}
-            </div>
-          </div>
+   <p>
+   <p class="my-1">
+      <b>Adresse : </b>
+   </p>
+   <ul>
+      <li>{{ adresse }}</li>
+      <li>{{ code_postal }}, {{ ville }}</li>
+   </ul>
+   </p>
 
-          <div class="my-3">
-            <div class="my-1">
-               <b>Adresse : </b>
-            </div>
-            <ul>
-               <li>{{ adresse }}</li>
-               <li>{{ code_postal }}, {{ ville }}</li>
-            </ul>
-          </div>
+   <p>
+   <p class="my-1">
+      <b> Coordonnées de la structure: </b>
+   </p>
+   <ul>
+      <li>{{ email }}</li>
+      <li>{{ phone }}</li>
+   </ul>
+   </p>
 
-          <div class="my-3">
-            <div class="my-1">
-               <b> Coordonnées de la structure: </b>
-            </div>
-            <ul>
-               <li>{{ email }}</li>
-               <li>{{ phone }}</li>
-            </ul>
-          </div>
+   <p>
+   <p class="my-1">
+      <b>Responsable de la structure: </b>
+   </p>
+   <ul>
+      <li>{{ responsable_nom }} {{ responsable_prenom }}</li>
+      <li>{{ responsable_fonction }}</li>
+   </ul>
+   </p>
 
-          <div class="my-3">
-            <div class="my-1">
-               <b>Responsable de la structure: </b>
-            </div>
-            <ul>
-               <li>{{ responsable_nom }} {{ responsable_prenom }}</li>
-               <li>{{ responsable_fonction }}</li>
-            </ul>
-          </div>
+   <p>
+   <p class="my-1">
+      <b>Informations de l'administrateur: </b>
+   </p>
+   <ul>
+      <li>{{ user_nom }} {{ user_prenom }}</li>
+      <li>{{ user_email }}</li>
+   </ul>
+   </p>
 
-          <div class="my-3">
-            <div class="my-1">
-               <b>Informations de l'administrateur: </b>
-            </div>
-            <ul>
-               <li>{{ user_nom }} {{ user_prenom }}</li>
-               <li>{{ user_email }}</li>
-            </ul>
-          </div>
+   {{ helpers.button("primary", lien_confirmation, "Valider le compte") }}
+   {{ helpers.button("danger", lien_suppression, "Supprimer le compte") }}
 
-          <div class="mt-8 mb-12 text-center">
-               <a href="{{ lien_confirmation }}" target="_blank" rel="noopener noreferrer" class="btn-main">
-               <span class="btn-main-title font-bold">Valider le compte</span></a>
-          </div>
-
-          <div class="mt-8 mb-12 text-center">
-               <a href="{{ lien_suppression }}" target="_blank" rel="noopener noreferrer" class="btn-main btn-color-red">
-               <span class="btn-main-title font-bold">Supprimer le compte</span></a>
-          </div>
-     </div>
-
-     {% if toSkipString %}
-          <div class="my-12">
-               <hr/>
-               <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à:
-                    <br/>{{toSkipString}}
-               </div>
-          </div>
-     {% endif %}
+   {{ helpers.redirectedMessage(toSkipString) }}
 
 {% endblock %}

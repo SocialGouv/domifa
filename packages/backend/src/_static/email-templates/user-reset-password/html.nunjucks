@@ -1,58 +1,44 @@
 {% extends "./base.nunjucks" %}
-{% block head_custom %}
-     <link rel="stylesheet" href="./usager-appointment-created/html.css">
-{% endblock %}
+{% import "./helpers.nunjucks" as helpers %}
 
 {% block content %}
 
-     <div class="content text-center leading-normal">
-          <div class="my-3">
-               Bonjour {{ prenom }}
-          </div>
+     <p>
+          Bonjour {{ prenom }}
+     </p>
 
-          <div class="my-3">
-               Vous avez demandé la réinitialisation de votre mot de passe.
-               <br /> Si vous n’avez pas demandé ce changement, merci d’ignorer cet e-mail. 
-          </div>
+     <p>
+          Vous avez demandé la réinitialisation de votre mot de passe.
+          <br /> Si vous n’avez pas demandé ce changement, merci d’ignorer cet e-mail. 
+     </p>
 
-          <div class="my-3">
-               Cliquez sur le bouton ci-dessous pour créer un nouveau mot de passe. 
-          </div>
+     <p>
+          Cliquez sur le bouton ci-dessous pour créer un nouveau mot de passe. 
+     </p>
 
-           <div class="mt-8 mb-12 text-center">
-               <a href="{{ lien }}" target="_blank" rel="noopener noreferrer" class="btn-main">
-               <span class="btn-main-title font-bold">Créer un nouveau mot de passe</span></a>
-          </div>
+     {{ helpers.button("primary", lien, "Créer un nouveau mot de passe") }}
 
-          <div class="my-3">
-               Vous pouvez également copier-coller le lien ci-dessous dans votre navigateur :
-          </div>
 
-          <div class="mt-3 mb-6 font-bold">
-               {{ lien }}
-          </div>
+     <p>
+          Vous pouvez également copier-coller le lien ci-dessous dans votre navigateur :
+     </p>
 
-          <div class="my-3">
-               <span class="font-bold">Veuillez noter que passé un délai de 48H, le lien ne fonctionnera plus</span> et vous devrez demander un nouveau mail de réinitialisation de mot de passe. 
-          </div>
+     <p class="mt-3 mb-6 font-bold">
+          {{ lien }}
+     </p>
 
-          <div class="my-3">
-               Si vous n’avez pas demandé ce changement, merci d’ignorer cet e-mail.
-          </div>
+     <p>
+          <span class="font-bold">Veuillez noter que passé un délai de 48H, le lien ne fonctionnera plus</span> et vous devrez demander un nouveau mail de réinitialisation de mot de passe. 
+     </p>
 
-          <div class="my-3">
-               Cordialement
-          </div>
-     </div>
+     <p>
+          Si vous n’avez pas demandé ce changement, merci d’ignorer cet e-mail.
+     </p>
 
-     {% if toSkipString %}
-          <div class="my-12">
-               <hr/>
-               <div class="my-12">
-                    <b>Message redirigé</b>, initialement destiné à: 
-                    <br/>{{toSkipString}}
-               </div>
-          </div>
-     {% endif %}
+     <p>
+          Cordialement
+     </p>
+
+     {{ helpers.redirectedMessage(toSkipString) }}
 
 {% endblock %}
