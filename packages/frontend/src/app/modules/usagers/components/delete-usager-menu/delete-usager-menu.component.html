@@ -83,7 +83,7 @@
   <div class="modal-body py-3 text-center">
     Si vous supprimez cette demande de renouvellement, l'usager retrouvera son
     précédent statut :
-    <b>{{ usager.historique[usager.historique.length - 1].statut }}</b>
+    <b>{{ getPreviousStatus() }}</b>
     <br />
   </div>
   <div class="modal-footer">

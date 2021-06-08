@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, TemplateRef } from "@angular/core";
+import { Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
-import { UsagerLight, AppUser } from "../../../../../_common/model";
+import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsagerService } from "../../services/usager.service";
 
@@ -27,6 +27,13 @@ export class DeleteUsagerMenuComponent implements OnInit {
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
+  }
+
+  public getPreviousStatus(): string {
+    if (this.usager.historique.length >= 2) {
+      return this.usager.historique[this.usager.historique.length - 2].statut;
+    }
+    return "";
   }
 
   public open(content: TemplateRef<any>) {
