@@ -112,12 +112,12 @@
           >
             <ng-template #transfertActif>
               <div class="distribution-tooltip">
-                <div *ngIf=" usager.options.transfert.dateFin > today">
+                <div *ngIf="usager.options.transfert.dateFin > today">
                   <fa-icon icon="share" class="text-primary mr-2"></fa-icon>
                   Courrier à transférer : <br />ADRESSE ICI
                 </div>
 
-                <div *ngIf=" usager.options.transfert.dateFin <= today">
+                <div *ngIf="usager.options.transfert.dateFin <= today">
                   Transfert expiré le {{ usager.options.transfert.dateFin |
                   date: "dd/MM/yyyy" }}
                 </div>

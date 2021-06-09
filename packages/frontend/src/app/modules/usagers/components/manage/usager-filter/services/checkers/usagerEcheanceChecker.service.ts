@@ -37,6 +37,7 @@ function check({
           .toDate()
           .getTime();
         const dateFinTime = new Date(usager.decision.dateFin).getTime();
+
         return dateFinTime <= maxDateTime && dateFinTime >= minDateTime;
       }
       case "DEUX_SEMAINES": {
