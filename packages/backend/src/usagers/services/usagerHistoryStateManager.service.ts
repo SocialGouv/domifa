@@ -168,20 +168,22 @@ function addNewStateToHistory({
   usagerHistory: UsagerHistory;
   newHistoryState: UsagerHistoryState;
 }) {
+  const states: UsagerHistoryState[] = [
+    ...usagerHistory.states.map((state, i) => {
+      if (i === usagerHistory.states.length - 1) {
+        // finish previous history state
+        state.historyEndDate = getHistoryEndDateFromNextBeginDate(
+          newHistoryState.historyBeginDate
+        );
+      }
+      return state;
+    }),
+    newHistoryState,
+  ];
+
   return {
     ...usagerHistory,
-    states: [
-      ...usagerHistory.states.map((state, i) => {
-        if (i === usagerHistory.states.length - 1) {
-          // finish previous history state
-          state.historyEndDate = getHistoryEndDateFromNextBeginDate(
-            newHistoryState.historyBeginDate
-          );
-        }
-        return state;
-      }),
-      newHistoryState,
-    ],
+    states,
   };
 }
 

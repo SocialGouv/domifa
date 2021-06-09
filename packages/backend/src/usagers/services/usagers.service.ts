@@ -188,7 +188,7 @@ export class UsagersService {
     rdv: RdvDto,
     user: UserProfile
   ): Promise<UsagerLight> {
-    const usager = await usagerRepository.findOne({
+    let usager = await usagerRepository.findOne({
       uuid,
     });
 
@@ -207,6 +207,8 @@ export class UsagersService {
     usager.rdv.userId = rdv.userId;
     usager.rdv.userName = user.prenom + " " + user.nom;
 
+    usager = await usagerLightRepository.save(usager);
+
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager,
       createdBy: {
@@ -216,7 +218,7 @@ export class UsagersService {
       createdEvent: "update-rdv",
     });
 
-    return usagerLightRepository.save(usager);
+    return usager;
   }
 
   public async export(structureId: number): Promise<Usager[]> {

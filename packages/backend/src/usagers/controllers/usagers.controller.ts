@@ -90,6 +90,8 @@ export class UsagersController {
       usagerDto.langue = null;
     }
 
+    usager = await this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
+
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager,
       createdBy: {
@@ -99,7 +101,7 @@ export class UsagersController {
       createdEvent: "update-usager",
     });
 
-    return this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
+    return usager;
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
