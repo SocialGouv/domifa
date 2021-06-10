@@ -47,10 +47,11 @@ export class StructuresController {
   public async postStructure(
     @Body() structureWithUserDto: StructureWithUserDto
   ) {
-    const structure = await this.structureCreatorService.createStructureWithAdminUser(
-      structureWithUserDto.structure,
-      structureWithUserDto.user
-    );
+    const structure =
+      await this.structureCreatorService.createStructureWithAdminUser(
+        structureWithUserDto.structure,
+        structureWithUserDto.user
+      );
     return structure;
   }
 
@@ -201,6 +202,7 @@ export class StructuresController {
     }
 
     const now = new Date();
+
     if (structure.hardReset.expireAt && structure.hardReset.expireAt < now) {
       throw new HttpException(
         "HARD_RESET_EXPIRED_TOKEN",

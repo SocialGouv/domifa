@@ -64,9 +64,11 @@
   </div>
 
   <ng-template #hardResetConfirmation let-modal>
+    <div class="modal-header bg-danger text-white">
+      <h4 class="px-2">Suppression de tous les dossiers</h4>
+    </div>
     <div class="modal-body">
-      <h4 class="text-danger">Suppression de tous les dossiers</h4>
-      <div class="col" *ngIf="!hardResetCode">
+      <div class="p-3" *ngIf="!hardResetCode">
         Vous êtes sur le point de
         <b>supprimer TOUS LES DOMICILIÉS</b>
         de votre structure.
@@ -85,9 +87,7 @@
         Pour finaliser cette procédure, cliquez sur "continuer".
         <br />
       </div>
-      <div class="col text-center" *ngIf="showHardReset">
-        <br />
-        <br />
+      <div class="p-3" *ngIf="showHardReset">
         <form
           [formGroup]="hardResetForm"
           (ngSubmit)="hardResetConfirm()"
