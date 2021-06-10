@@ -27,15 +27,14 @@ import { CustomDatepickerI18n } from "../shared/services/date-french";
 import { UsagersProfilProcurationCourrierComponent } from "./components/profil-procuration-courrier/profil-procuration-courrier-component";
 import { ProfilHistoriqueCourriersComponent } from "./components/profil-historique-courriers/profil-historique-courriers.component";
 import { ProfilEditPreferenceComponent } from "./components/profil-edit-preference/profil-edit-preference.component";
-import { DisplayEntretienComponent } from "../usager-shared/components/display-entretien/display-entretien.component";
 import { ProfilStructureDocsComponent } from "./components/profil-structure-documents/profil-structure-docs.component";
-import { DisplayEtatCivilComponent } from "../usager-shared/components/display-etat-civil/display-etat-civil.component";
 import { ProfilDocumentsSectionComponent } from "./components/profil-documents-section/profil-documents-section.component";
 import { ProfilGeneralHistoriqueCourriersComponent } from "./components/profil-general-historique-courriers/profil-general-historique-courriers.component";
 import { ProfilGeneralSectionComponent } from "./components/profil-general-section/profil-general-section.component";
 
 import { UsersModule } from "../users/users.module";
 import { GeneralModule } from "../general/general.module";
+import { ProfilEtatCivilFormComponent } from "./components/profil-etat-civil-form/profil-etat-civil-form.component";
 
 @NgModule({
   declarations: [
@@ -52,6 +51,7 @@ import { GeneralModule } from "../general/general.module";
     ProfilHistoriqueCourriersComponent,
     ProfilStructureDocsComponent,
     ProfilEditPreferenceComponent,
+    ProfilEtatCivilFormComponent,
 
     ProfilDocumentsSectionComponent,
     ProfilGeneralHistoriqueCourriersComponent,

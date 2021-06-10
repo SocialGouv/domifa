@@ -50,6 +50,14 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   @Output() public editInfosChange = new EventEmitter<boolean>();
 
+  get f() {
+    return this.usagerForm.controls;
+  }
+
+  get ayantsDroits() {
+    return this.usagerForm.get("ayantsDroits") as FormArray;
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private nbgDate: NgbDateCustomParserFormatter,
@@ -57,21 +65,13 @@ export class ProfilEtatCivilFormComponent implements OnInit {
     private usagerService: UsagerService
   ) {
     this.submitted = false;
-
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
+    this.usager = new UsagerFormModel();
   }
 
   public ngOnInit(): void {
     this.initForms();
-  }
-
-  get f() {
-    return this.usagerForm.controls;
-  }
-
-  get ayantsDroits() {
-    return this.usagerForm.get("ayantsDroits") as FormArray;
   }
 
   public initForms() {
