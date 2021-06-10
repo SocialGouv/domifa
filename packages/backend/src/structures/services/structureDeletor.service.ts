@@ -8,10 +8,12 @@ import {
   structureDocRepository,
   structureRepository,
   StructureStatsTable,
+  usagerHistoryRepository,
   usagerRepository,
   userSecurityRepository,
   usersRepository,
 } from "../../database";
+import { messageSmsRepository } from "../../database/services/message-sms";
 import { StructureStats } from "../../_common/model";
 
 export const structureDeletorService = {
@@ -35,9 +37,19 @@ async function deleteStructureUsagers({
     .deleteByCriteria({
       structureId,
     });
+
   await interactionRepository.deleteByCriteria({
     structureId,
   });
+
+  await usagerHistoryRepository.deleteByCriteria({
+    structureId,
+  });
+
+  await messageSmsRepository.deleteByCriteria({
+    structureId,
+  });
+
   await usagerRepository.deleteByCriteria({
     structureId,
   });

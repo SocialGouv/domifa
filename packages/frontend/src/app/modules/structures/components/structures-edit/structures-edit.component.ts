@@ -88,7 +88,8 @@ export class StructuresEditComponent implements OnInit {
             this.closeModals();
             this.showHardReset = false;
           },
-          () => {
+          (error) => {
+            console.log(error);
             this.notifService.error(
               "La remise à zéro n'a pas pu être effectuée !"
             );
@@ -102,8 +103,7 @@ export class StructuresEditComponent implements OnInit {
     this.structureService.export().subscribe(
       (x: any) => {
         const newBlob = new Blob([x], {
-          type:
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
 
         saveAs(newBlob, "export_domifa" + ".xlsx");
