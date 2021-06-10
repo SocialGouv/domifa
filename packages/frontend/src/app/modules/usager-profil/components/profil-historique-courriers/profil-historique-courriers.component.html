@@ -1,68 +1,70 @@
 <div>
   <h4>Historique des courriers</h4>
 </div>
-<div class="alert alert-info" *ngIf="interactions.length == 0">
-  Aucune interaction enregistrée
-</div>
-<table
-  id="interactions-table"
-  class="profil-table table table-light table-hover"
-  *ngIf="interactions.length > 0"
->
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Type d'interaction</th>
-      <th>Notifié par</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-container
-      *ngFor="let interaction of interactions | slice: 0:30; let i = index"
-    >
-      <tr *ngIf="interaction.delete === true">
-        <td colspan="4" class="text-center delete-interaction">
-          Êtes-vous sûr de vouloir supprimer cette interaction ?
-          <button
-            class="btn btn-danger"
-            (click)="deleteInteraction(interaction.id)"
-          >
-            Oui
-          </button>
-          <button class="btn btn-dark" (click)="interaction.delete = false">
-            Non
-          </button>
-        </td>
+<div *ngIf="interactions">
+  <div class="alert alert-info" *ngIf="interactions.length == 0">
+    Aucune interaction enregistrée
+  </div>
+  <table
+    id="interactions-table"
+    class="profil-table table table-light table-hover"
+    *ngIf="interactions.length > 0"
+  >
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Type d'interaction</th>
+        <th>Notifié par</th>
+        <th></th>
       </tr>
-      <tr
-        *ngIf="!interaction.delete"
-        [ngClass]="{
-          'font-weight-bold':
-            interaction.type === 'courrierOut' ||
-            interaction.type === 'recommandeOut' ||
-            interaction.type === 'colisOut'
-        }"
+    </thead>
+    <tbody>
+      <ng-container
+        *ngFor="let interaction of interactions | slice: 0:30; let i = index"
       >
-        <td>
-          {{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }}
-        </td>
-        <td>
-          {{ interaction.label }}
-          <div *ngIf="interaction.content">
-            {{ interaction.content }}
-          </div>
-        </td>
-        <td>{{ interaction.userName }}</td>
-        <td class="interactions-actions" *ngIf="!interaction.delete">
-          <span (click)="interaction.delete = true">
-            <fa-icon icon="trash-alt" class="delete"></fa-icon>
-          </span>
-          <span *ngIf="false" (click)="interaction.delete = false">
-            <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
-          </span>
-        </td>
-      </tr>
-    </ng-container>
-  </tbody>
-</table>
+        <tr *ngIf="interaction.delete === true">
+          <td colspan="4" class="text-center delete-interaction">
+            Êtes-vous sûr de vouloir supprimer cette interaction ?
+            <button
+              class="btn btn-danger"
+              (click)="deleteInteraction(interaction.id)"
+            >
+              Oui
+            </button>
+            <button class="btn btn-dark" (click)="interaction.delete = false">
+              Non
+            </button>
+          </td>
+        </tr>
+        <tr
+          *ngIf="!interaction.delete"
+          [ngClass]="{
+            'font-weight-bold':
+              interaction.type === 'courrierOut' ||
+              interaction.type === 'recommandeOut' ||
+              interaction.type === 'colisOut'
+          }"
+        >
+          <td>
+            {{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }}
+          </td>
+          <td>
+            {{ interaction.label }}
+            <div *ngIf="interaction.content">
+              {{ interaction.content }}
+            </div>
+          </td>
+          <td>{{ interaction.userName }}</td>
+          <td class="interactions-actions" *ngIf="!interaction.delete">
+            <span (click)="interaction.delete = true">
+              <fa-icon icon="trash-alt" class="delete"></fa-icon>
+            </span>
+            <span *ngIf="false" (click)="interaction.delete = false">
+              <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+            </span>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

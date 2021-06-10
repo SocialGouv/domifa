@@ -1,4 +1,3 @@
-import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
@@ -11,12 +10,8 @@ describe("AppComponent", () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [AppComponent],
-        imports: [
-          HttpClientModule,
-          HttpClientTestingModule,
-          MatomoModule,
-          RouterTestingModule,
-        ],
+
+        imports: [HttpClientTestingModule, MatomoModule, RouterTestingModule],
         providers: [
           {
             provide: MatomoInjector,
