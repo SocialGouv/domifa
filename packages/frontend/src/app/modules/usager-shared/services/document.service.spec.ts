@@ -4,6 +4,7 @@ import {
 } from "@angular/common/http/testing";
 import { fakeAsync, inject, TestBed } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
+import { ToastrModule } from "ngx-toastr";
 import { UsagerFormModel } from "../../usagers/components/form/UsagerFormModel";
 import { Doc } from "../../usagers/interfaces/doc";
 
@@ -14,7 +15,7 @@ describe("DocumentService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, ToastrModule.forRoot()],
       providers: [
         DocumentService,
         {

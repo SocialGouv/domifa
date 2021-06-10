@@ -23,6 +23,7 @@ describe("ProfilEtatCivilFormComponent", () => {
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
+        NgbModule,
         HttpClientTestingModule,
         ToastrModule.forRoot(),
         RouterTestingModule,
