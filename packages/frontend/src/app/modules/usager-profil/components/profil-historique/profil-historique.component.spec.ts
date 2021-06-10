@@ -11,6 +11,8 @@ import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 
 import { ProfilHistoriqueComponent } from "./profil-historique.component";
+import { usagerValideMock } from "../../../../../_common/mocks/usager.mock";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 
 describe("ProfilHistoriqueComponent", () => {
   let component: ProfilHistoriqueComponent;
@@ -50,6 +52,7 @@ describe("ProfilHistoriqueComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilHistoriqueComponent);
     component = fixture.componentInstance;
+    component.usager = new UsagerFormModel(usagerValideMock);
     fixture.detectChanges();
   });
 
