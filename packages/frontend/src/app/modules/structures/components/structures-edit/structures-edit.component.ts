@@ -88,8 +88,7 @@ export class StructuresEditComponent implements OnInit {
             this.closeModals();
             this.showHardReset = false;
           },
-          (error) => {
-            console.log(error);
+          () => {
             this.notifService.error(
               "La remise à zéro n'a pas pu être effectuée !"
             );
