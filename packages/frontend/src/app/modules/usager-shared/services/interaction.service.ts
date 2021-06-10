@@ -6,8 +6,9 @@ import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
 import { InteractionInForm } from "../../../../_common/model/interaction";
 import { usagersSearchCache } from "../../../shared/store";
-import { UsagerFormModel } from "../components/form/UsagerFormModel";
-import { Interaction } from "../interfaces/interaction";
+import { UsagerFormModel } from "../../usagers/components/form/UsagerFormModel";
+import { Interaction } from "../../usagers/interfaces/interaction";
+
 import { InteractionForApi } from "./../../../../_common/model/interaction/InteractionForApi.type";
 
 @Injectable({
