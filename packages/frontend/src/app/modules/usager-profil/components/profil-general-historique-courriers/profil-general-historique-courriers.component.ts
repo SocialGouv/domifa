@@ -22,9 +22,7 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
     [key: string]: any;
   } = interactionsLabels;
 
-  constructor(private interactionService: InteractionService) {
-    console.log("okpok");
-  }
+  constructor(private interactionService: InteractionService) {}
 
   public ngOnInit(): void {
     this.getInteractions();
@@ -34,7 +32,6 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
     this.interactionService
       .getInteractions(this.usager.ref)
       .subscribe((interactions: Interaction[]) => {
-        console.log(interactions);
         this.interactions = interactions;
       });
   }
