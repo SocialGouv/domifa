@@ -1,3 +1,4 @@
+import { usagerValideMock } from "./../../../../../_common/mocks/usager.mock";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -7,6 +8,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoModule, MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 
 import { ProfilGeneralSectionComponent } from "./profil-general-section.component";
 
@@ -47,6 +49,7 @@ describe("ProfilGeneralSectionComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilGeneralSectionComponent);
     component = fixture.componentInstance;
+    component.usager = new UsagerFormModel(usagerValideMock);
     fixture.detectChanges();
   });
 

@@ -30,6 +30,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
     private matomo: MatomoTracker,
     private interactionService: InteractionService
   ) {}
+
   public ngOnInit(): void {
     this.getInteractions();
   }
