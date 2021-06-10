@@ -74,13 +74,17 @@ async function deleteStructure({
     await userSecurityRepository.deleteByCriteria({
       structureId: structure.id,
     });
+
     await usersRepository.deleteByCriteria({
       structureId: structure.id,
     });
+
     await deleteStructureUsagers({
       structureId: structure.id,
     });
+
     await structureDocRepository.deleteByCriteria({ structureId });
+
     await structureRepository.deleteByCriteria({ id: structureId });
 
     const pathFile = domifaConfig().upload.basePath + structure.id;
