@@ -2,7 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateParserFormatter,
+  NgbDatepickerI18n,
+  NgbDateStruct,
+  NgbModal,
+} from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight } from "../../../../../_common/model";
@@ -14,6 +19,7 @@ import {
 import { LIENS_PARENTE } from "../../../../shared/constants/USAGER_LABELS.const";
 import { regexp } from "../../../../shared/validators";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
+import { CustomDatepickerI18n } from "../../../shared/services/date-french";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { AyantDroit } from "../../../usagers/interfaces/ayant-droit";
 
@@ -23,6 +29,11 @@ import { UsagerService } from "../../../usagers/services/usager.service";
   selector: "app-profil-etat-civil-form",
   templateUrl: "./profil-etat-civil-form.component.html",
   styleUrls: ["./profil-etat-civil-form.component.css"],
+  providers: [
+    NgbDateCustomParserFormatter,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+  ],
 })
 export class ProfilEtatCivilFormComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
