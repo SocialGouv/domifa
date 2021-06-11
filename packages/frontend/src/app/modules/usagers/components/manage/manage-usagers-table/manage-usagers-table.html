@@ -34,7 +34,7 @@
     <th
       (click)="updateFilters.emit({  element: 'sortKey',   value: 'ECHEANCE'  })"
     >
-      <span *ngIf="filters.statut !== 'REFUS' &&filters.statut !== 'RADIE'"
+      <span *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
         >ÉCHÉANCE</span
       >
       <span *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</span>

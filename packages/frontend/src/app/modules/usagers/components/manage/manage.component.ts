@@ -44,10 +44,7 @@ import {
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
 } from "./usager-filter";
-import {
-  UsagersFilterCriteriaDernierPassage,
-  UsagersFilterCriteriaStatut,
-} from "./usager-filter/UsagersFilterCriteria";
+import { UsagersFilterCriteriaDernierPassage } from "./usager-filter/UsagersFilterCriteria";
 
 const AUTO_REFRESH_PERIOD = 3600000; // 1h
 @Component({
@@ -66,16 +63,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerLight[] = [];
   public me: AppUser;
-
-  public labelsDateFin: { [key in UsagersFilterCriteriaStatut]: string } = {
-    ATTENTE_DECISION: "Demande effectuée le",
-    INSTRUCTION: "Dossier débuté le",
-    RENOUVELLEMENT: "Renouvellement le",
-    RADIE: "Radié le ",
-    REFUS: "Date de refus",
-    TOUS: "Fin de domiciliation",
-    VALIDE: "Fin de domiciliation",
-  };
 
   public labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;
@@ -96,22 +83,12 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   public nbResults: number;
 
-  public sortLabels: { [key: string]: string } = {
-    NAME: "nom",
-    ATTENTE_DECISION: "demande effectuée le",
-    ECHEANCE: "Échéance",
-    INSTRUCTION: "dossier débuté le",
-    RADIE: "radié le ",
-    REFUS: "date de refus",
-    TOUS: "fin de domiciliation",
-    VALIDE: "fin de domiciliation",
-    PASSAGE: "date de dernier passage",
-    ID: "ID",
-  };
   @ViewChild("searchInput", { static: true })
   public searchInput!: ElementRef;
 
   private subscription = new Subscription();
+
+  public sortLabel = "Échéance";
 
   constructor(
     private usagerService: UsagerService,
@@ -170,6 +147,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
           const usagers = allUsagers.map((usager) => {
             usager.dateToDisplay = getDateToDisplay(usager).dateToDisplay;
             usager.usagerProfilUrl = getUrlUsagerProfil(usager);
+            this.updateSortLabel();
             return usager;
           });
           this.allUsagers$.next(usagers);
@@ -249,6 +227,29 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
   }
 
+  private updateSortLabel() {
+    const LABELS_SORT: { [key: string]: string } = {
+      NAME: "nom",
+      ATTENTE_DECISION: "demande effectuée le",
+      ECHEANCE: "Échéance",
+      INSTRUCTION: "dossier débuté le",
+      RADIE: "radié le ",
+      REFUS: "date de refus",
+      TOUS: "fin de domiciliation",
+      VALIDE: "fin de domiciliation",
+      PASSAGE: "date de dernier passage",
+      ID: "ID",
+    };
+
+    if (this.filters.statut === "RADIE") {
+      this.sortLabel = "radiation";
+    } else if (this.filters.statut === "REFUS") {
+      this.sortLabel = "refus";
+    } else {
+      this.sortLabel = LABELS_SORT[this.filters.sortKey];
+    }
+  }
+
   public updateFilters<T extends keyof UsagersFilterCriteria>({
     element,
     value,
@@ -317,6 +318,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters.page = 0;
     this.filters$.next(this.filters);
     this.matomo.trackEvent("filters", element, value as string, 1);
+    this.updateSortLabel();
   }
 
   public applyFilters({
