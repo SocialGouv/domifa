@@ -153,6 +153,8 @@ export class UsagerService {
       )
       .pipe(
         tap((usager: UsagerLight) => {
+          console.log("PIPE");
+          console.log(usager);
           usagersSearchCache.updateUsager(usager);
         })
       );

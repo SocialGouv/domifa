@@ -6,17 +6,20 @@
     <button
       class="btn btn-outline-danger"
       id="delete-usager"
-      *ngIf="usager.typeDom !== 'RENOUVELLEMENT' && usager.etapeDemande >= 1"
+      *ngIf="
+        usager.decision.statut !== 'INSTRUCTION' &&
+        usager.decision.statut !== 'ATTENTE_DECISION'
+      "
       (click)="open(deleteConfirmation)"
     >
       <fa-icon icon="trash" class="mr-2"></fa-icon>
-      Supprimer cette demande
+      Supprimer ce domicilié
     </button>
 
     <button
       class="btn btn-outline-danger"
       id="delete-usager"
-      *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+      *ngIf="usager.decision.statut === 'INSTRUCTION'"
       (click)="open(deleteRenewConfirmation)"
     >
       <fa-icon icon="trash" class="mr-2"></fa-icon>

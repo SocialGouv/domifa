@@ -256,7 +256,7 @@
           <div class="" id="dropdownSortButton" ngbDropdownToggle>
             <span *ngIf="filters.sortKey !== 'PASSAGE'">
               Trier par
-              <b class="text-primary">{{ sortLabels[filters.sortKey] }}</b>
+              <b class="text-primary">{{ sortLabel }}</b>
             </span>
 
             <span *ngIf="filters.sortKey === 'PASSAGE'">
@@ -300,13 +300,15 @@
               (click)="updateFilters({element: 'sortKey', value: 'ECHEANCE', sortValue:'ascending'})"
               ngbDropdownItem
             >
-              Trier par échéance <fa-icon icon="sort-amount-up"></fa-icon>
+              Trier par {{ sortLabel }}
+              <fa-icon icon="sort-amount-up"></fa-icon>
             </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'ECHEANCE', sortValue:'descending'})"
               ngbDropdownItem
             >
-              Trier par échéance <fa-icon icon="sort-amount-down"></fa-icon>
+              Trier par {{ sortLabel }}
+              <fa-icon icon="sort-amount-down"></fa-icon>
             </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'NAME', sortValue:'ascending'})"

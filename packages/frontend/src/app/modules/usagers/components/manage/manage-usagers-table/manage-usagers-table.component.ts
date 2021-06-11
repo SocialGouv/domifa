@@ -60,16 +60,6 @@ export class ManageUsagersTableComponent implements OnInit {
 
   public today: Date;
 
-  public labelsDateFin: { [key in UsagersFilterCriteriaStatut]: string } = {
-    ATTENTE_DECISION: "Demande effectuée le",
-    INSTRUCTION: "Dossier débuté le",
-    RENOUVELLEMENT: "Renouvellement le",
-    RADIE: "Radié le ",
-    REFUS: "Date de refus",
-    TOUS: "Fin de domiciliation",
-    VALIDE: "Fin de domiciliation",
-  };
-
   public labelsDernierPassage: {
     [key in UsagersFilterCriteriaDernierPassage]: string;
   } = {
@@ -88,7 +78,6 @@ export class ManageUsagersTableComponent implements OnInit {
   constructor(
     private interactionService: InteractionService,
     private modalService: NgbModal,
-
     private notifService: ToastrService,
     private matomo: MatomoTracker
   ) {}
