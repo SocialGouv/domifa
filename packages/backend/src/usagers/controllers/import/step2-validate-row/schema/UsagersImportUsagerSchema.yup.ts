@@ -35,6 +35,7 @@ export const UsagersImportUsagerSchema = yup
       "AUTRE",
     ]).notRequired(),
 
+    // 14/06 : les deux valeurs sont présentes car des fichiers Exceld avec les deux valeurs circulent
     typeDom: oneOfString([
       "PREMIERE_DOM",
       "PREMIERE",

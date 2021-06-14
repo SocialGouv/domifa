@@ -158,8 +158,6 @@ function buildHistoryFromNewDecision({
     historyBeginDate,
   });
 
-  console.log(newHistoryState);
-
   const newHistory = addNewStateToHistory({ usagerHistory, newHistoryState });
 
   return newHistory;
