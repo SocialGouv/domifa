@@ -3,6 +3,7 @@ import {
   motifsRefus,
 } from "src/app/modules/usagers/usagers.labels";
 import { UsagerDecisionStatut, UsagerTypeDom } from "../../../../_common/model";
+import { USAGER_DECISION_STATUT_LABELS_PROFIL } from "../../../../_common/model/usager/constants";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { UsagerDecisionOrientation } from "../../../../_common/model/usager/UsagerDecisionOrientation.type";
 import { UsagerDecision } from "./../../../../_common/model/usager/UsagerDecision.type";
@@ -15,7 +16,7 @@ export class Decision implements UsagerDecision {
 
   public typeDom: UsagerTypeDom;
   public statut: UsagerDecisionStatut;
-
+  public statutLabel: string;
   // Motif de refus ou radiation
   public motif?: UsagerDecisionMotif;
   public motifDetails?: string;
@@ -47,6 +48,8 @@ export class Decision implements UsagerDecision {
 
     this.orientation = (decision && decision.orientation) || "";
     this.orientationDetails = (decision && decision.orientationDetails) || "";
+
+    this.statutLabel = USAGER_DECISION_STATUT_LABELS_PROFIL[this.statut];
 
     if (this.statut === "REFUS" || this.statut === "RADIE") {
       if (decision.motif === "AUTRE") {

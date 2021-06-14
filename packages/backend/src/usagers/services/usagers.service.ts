@@ -178,6 +178,8 @@ export class UsagersService {
       usager.entretien = {};
     }
 
+    usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
+
     await usagerHistoryStateManager.updateHistoryStateFromDecision({
       usager,
       createdAt: usager.decision.dateDecision,
