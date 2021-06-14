@@ -149,7 +149,7 @@ export class UsagersProfilComponent implements OnInit {
       (usager: UsagerLight) => {
         if (
           usager.decision.statut === "ATTENTE_DECISION" &&
-          usager.typeDom === "PREMIERE"
+          usager.typeDom === "PREMIERE_DOM"
         ) {
           this.router.navigate(["/usager/" + usager.ref + "/edit"]);
         }

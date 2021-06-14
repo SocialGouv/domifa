@@ -180,7 +180,7 @@ export class UsagerFormModel implements UsagerLight {
     this.options = (usager && new Options(usager.options)) || new Options();
     this.decision = (usager && new Decision(usager.decision)) || new Decision();
 
-    this.typeDom = (usager && usager.typeDom) || "PREMIERE";
+    this.typeDom = (usager && usager.typeDom) || "PREMIERE_DOM";
 
     //
     //

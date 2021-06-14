@@ -157,7 +157,7 @@ export class UsagersService {
       if (usager.datePremiereDom !== null) {
         usager.typeDom = "RENOUVELLEMENT";
       } else {
-        usager.typeDom = "PREMIERE";
+        usager.typeDom = "PREMIERE_DOM";
         usager.datePremiereDom = new Date(decision.dateDebut);
       }
 

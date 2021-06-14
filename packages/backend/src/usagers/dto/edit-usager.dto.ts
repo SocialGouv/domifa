@@ -55,7 +55,7 @@ export class EditUsagerDto implements Partial<Usager> {
 
   @ApiProperty()
   @IsOptional()
-  @IsIn(["RENOUVELLEMENT", "PREMIERE"])
+  @IsIn(["RENOUVELLEMENT", "PREMIERE_DOM"])
   public typeDom!: UsagerTypeDom;
 
   @ApiProperty()

@@ -23,7 +23,7 @@ describe("ATTESTATION POSTALE", () => {
     email: "fake-mail@yopmail.com",
     phone: "0101010101",
     preference: { email: false, phone: false },
-    typeDom: "PREMIERE",
+    typeDom: "PREMIERE_DOM",
     decision: {
       statut: "VALIDE",
       userId: 1,
@@ -114,7 +114,7 @@ describe("ATTESTATION RADIATION", () => {
     phone: "0142494242",
     datePremiereDom: new Date("2018-10-01T00:00:00.000Z"),
     preference: { phone: false, phoneNumber: null, email: null },
-    typeDom: "PREMIERE",
+    typeDom: "PREMIERE_DOM",
     decision: {
       motif: "ENTREE_LOGEMENT",
       statut: "RADIE",

@@ -13,7 +13,7 @@ export const TEST_INVALID_IMPORT_USAGER: UsagerImportObject = {
   statutDom: "VALIDE",
   motifRefus: "",
   motifRadiation: "",
-  typeDom: "PREMIERE",
+  typeDom: "PREMIERE_DOM",
   dateDebutDom: "10/03/2019",
   dateFinDom: "10/03/2020",
   datePremiereDom: "10/03/2019",

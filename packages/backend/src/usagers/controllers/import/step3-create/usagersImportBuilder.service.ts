@@ -74,8 +74,7 @@ function buildUsager({
       dateDecision: datePremiereDom,
       dateFin: dateFinPremiereDom,
       motif,
-      // TODO: remplacer tous les "PREMIERE_DOM" par "PREMIERE"
-      statut: "PREMIERE",
+      statut: "PREMIERE_DOM",
       userId: user.id,
       userName: agent,
     });
