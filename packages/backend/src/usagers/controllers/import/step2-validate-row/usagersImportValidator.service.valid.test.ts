@@ -36,7 +36,7 @@ describe("usagersImportValidator parse valid data", () => {
       statutDom: "VALIDE",
       // motifRefus: undefined,
       // motifRadiation: undefined,
-      typeDom: "PREMIERE",
+      typeDom: "PREMIERE_DOM",
       dateDebutDom: new Date(Date.UTC(2019, 3 - 1, 10)),
       dateFinDom: new Date(Date.UTC(2020, 3 - 1, 10)),
       datePremiereDom: new Date(Date.UTC(2019, 3 - 1, 10)),

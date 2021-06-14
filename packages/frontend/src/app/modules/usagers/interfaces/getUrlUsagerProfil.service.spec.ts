@@ -28,7 +28,7 @@ it("getUrlUsagerProfil: redirection vers le profil", () => {
   expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/usager/5");
 
   // Premiere demande + instruction = Aller sur le dossier d'instruction
-  usagerValideMock.typeDom = "PREMIERE";
+  usagerValideMock.typeDom = "PREMIERE_DOM";
   usagerValideMock.etapeDemande = ETAPE_DOCUMENTS;
   expect(getUrlUsagerProfil(usagerValideMock)).toEqual(
     "/usager/5/edit/documents"

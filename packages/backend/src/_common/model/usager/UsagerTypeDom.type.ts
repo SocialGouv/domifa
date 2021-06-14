@@ -1,1 +1,1 @@
-export type UsagerTypeDom = "PREMIERE" | "RENOUVELLEMENT";
+export type UsagerTypeDom = "PREMIERE_DOM" | "RENOUVELLEMENT";

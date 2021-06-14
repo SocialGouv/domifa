@@ -295,8 +295,8 @@ function fixHistoryStateTypeDom({
   const decision = currentState.decision;
 
   if (!decision.typeDom) {
-    if (usager.typeDom === "PREMIERE") {
-      decision.typeDom = "PREMIERE";
+    if (usager.typeDom === "PREMIERE_DOM") {
+      decision.typeDom = "PREMIERE_DOM";
     } else {
       if (
         decision.statut === "VALIDE" ||
@@ -313,7 +313,7 @@ function fixHistoryStateTypeDom({
             (365 / 2) * 24 * 3600 * 1000
         ) {
           // date début  < 6 mois après la date de premier dom
-          decision.typeDom = "PREMIERE";
+          decision.typeDom = "PREMIERE_DOM";
         }
       }
 
@@ -346,7 +346,7 @@ function fixHistoryStateTypeDom({
         if (!decision.typeDom && nextState) {
           // on regarde la décision suivante
           const nextDecision = nextState.decision;
-          if (nextDecision.typeDom === "PREMIERE") {
+          if (nextDecision.typeDom === "PREMIERE_DOM") {
             // copie du typeDom suivant si PREMIERE
             decision.typeDom = nextDecision.typeDom;
           }
@@ -367,7 +367,7 @@ function fixHistoryStateTypeDom({
               365 * 24 * 3600 * 1000
           ) {
             // date début  < 1 an après la date de premier dom
-            decision.typeDom = "PREMIERE";
+            decision.typeDom = "PREMIERE_DOM";
           } else {
             // date début > 1 an après la date de premier dom
             decision.typeDom = "RENOUVELLEMENT";

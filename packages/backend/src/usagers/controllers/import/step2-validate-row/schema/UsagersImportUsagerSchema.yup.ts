@@ -34,7 +34,12 @@ export const UsagersImportUsagerSchema = yup
       "NON_RESPECT_REGLEMENT",
       "AUTRE",
     ]).notRequired(),
-    typeDom: oneOfString(["PREMIERE", "RENOUVELLEMENT"]).required(),
+    // TODO: fix mettre à jour le fichier Excel
+    typeDom: oneOfString([
+      "PREMIERE_DOM",
+      "PREMIERE",
+      "RENOUVELLEMENT",
+    ]).required(),
     dateDebutDom: dateUtcSchema()
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))

@@ -71,6 +71,6 @@ export class DecisionDto implements UsagerDecision {
     required: false,
   })
   @IsOptional()
-  @IsIn(["RENOUVELLEMENT", "PREMIERE"])
+  @IsIn(["RENOUVELLEMENT", "PREMIERE_DOM"])
   public typeDom!: UsagerTypeDom;
 }

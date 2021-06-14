@@ -11,7 +11,7 @@ export const TEST_VALID_IMPORT_USAGER = {
   statutDom: "VALIDE",
   motifRefus: undefined,
   motifRadiation: undefined,
-  typeDom: "PREMIERE",
+  typeDom: "PREMIERE_DOM",
   dateDebutDom: "10/03/2019",
   dateFinDom: "10/03/2020",
   datePremiereDom: "10/03/2019",
