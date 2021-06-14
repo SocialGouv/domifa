@@ -33,7 +33,7 @@ function removeLastDecision({
   if (usager.historique.length >= 2) {
     // remove current decision from history
     const [decisionToRollback] = usager.historique.splice(
-      usager.historique.length - 1,
+      usager.historique.length - 2,
       1
     );
 
