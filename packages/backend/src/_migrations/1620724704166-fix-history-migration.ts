@@ -210,7 +210,10 @@ async function processUsager(
 
   await usagerRepository
     .getForMigration(queryRunner.manager)
-    .updateOne({ uuid: usager.uuid }, { nom: "chips" });
+    .updateOne(
+      { uuid: usager.uuid },
+      { historique: newHistorique, import: importData }
+    );
 
   //
   //
