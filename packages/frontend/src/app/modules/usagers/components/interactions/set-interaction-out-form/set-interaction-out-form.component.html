@@ -148,6 +148,28 @@
       </div>
     </div>
   </div>
+  <div
+    class="interaction-icon-box text-left px-3 py-3 my-3"
+    *ngIf="contentToCheck"
+  >
+    <div class="mb-2 font-weight-bold">
+      Un ou plusieurs courriers contiennent des informations importantes :
+    </div>
+    <div
+      class="text-left"
+      *ngFor="let interaction of interactions | slice: 0:30"
+    >
+      <ng-container *ngIf="interaction.content">
+        <b>{{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }} </b> -
+
+        {{ interaction.label }}
+        <div *ngIf="interaction.content">
+          {{ interaction.content }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
   <div class="text-left py-1 mt-2 mb-1">
     <button
       [disabled]="

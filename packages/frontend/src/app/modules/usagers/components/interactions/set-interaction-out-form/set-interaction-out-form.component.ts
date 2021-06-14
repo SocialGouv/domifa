@@ -14,6 +14,7 @@ import {
   INTERACTIONS_OUT_AVAILABLE,
 } from "../../../../../../_common/model/interaction";
 import { bounce } from "../../../../../shared/animations";
+import { Interaction } from "../../../interfaces/interaction";
 import { InteractionService } from "../../../services/interaction.service";
 import { UsagerService } from "../../../services/usager.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
@@ -36,11 +37,16 @@ export class SetInteractionOutFormComponent implements OnInit {
   public interactionFormData: InteractionOutForm;
   public procuration: boolean; // Mandataire = true / domicilié = false
 
+  public contentToCheck: boolean; // Si un courrier a du contenu écrit
+  public interactions: Interaction[]; // Si un courrier a du contenu écrit
+
   constructor(
     private interactionService: InteractionService,
     private usagerService: UsagerService,
     private notifService: ToastrService
   ) {
+    this.contentToCheck = false;
+    this.interactions = [];
     this.procuration = false;
     this.interactionFormData = {
       courrierOut: {
@@ -75,6 +81,8 @@ export class SetInteractionOutFormComponent implements OnInit {
       this.usager.lastInteraction.recommandeIn > 0;
     this.interactionFormData.colisOut.selected =
       this.usager.lastInteraction.colisIn > 0;
+
+    this.getInteractions();
   }
 
   public setInteractionForm() {
@@ -130,6 +138,21 @@ export class SetInteractionOutFormComponent implements OnInit {
     this.interactionFormData[value].nbCourrier = this.interactionFormData[
       value
     ].nbCourrier = this.interactionFormData[value].nbCourrier - 1;
+  }
+
+  private getInteractions() {
+    this.interactionService
+      .getInteractions(this.usager.ref)
+      .subscribe((interactions: Interaction[]) => {
+        this.interactions = interactions;
+
+        for (const interaction of interactions) {
+          if (interaction.content && interaction.content.length !== 0) {
+            this.contentToCheck = true;
+            break;
+          }
+        }
+      });
   }
 
   @HostListener("document:keypress", ["$event"])
