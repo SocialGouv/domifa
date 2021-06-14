@@ -62,7 +62,7 @@ export class manualMigration1620724704166 implements MigrationInterface {
           `[Migration][${this.name}] migrating ${i}/${total} usagers history`
         );
       }
-      const usagerHistory = await processUsager(usager, now);
+      const usagerHistory = await processUsager(usager, now, queryRunner);
       usagersHistory.push(usagerHistory);
     }
     const chunkSize = 1000;
@@ -113,7 +113,11 @@ export class manualMigration1620724704166 implements MigrationInterface {
   }
 }
 
-async function processUsager(usager: Usager, now: Date) {
+async function processUsager(
+  usager: Usager,
+  now: Date,
+  queryRunner: QueryRunner
+) {
   // add uuid to all decisions so we can identify them easily
   usager.historique.forEach((h) => {
     h.uuid = uuidGenerator.random();
@@ -137,6 +141,7 @@ async function processUsager(usager: Usager, now: Date) {
   //   }
   // });
   usager.decision.uuid = uuidGenerator.random();
+
   // add decision to history
   usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
@@ -174,18 +179,6 @@ async function processUsager(usager: Usager, now: Date) {
 
   const importHistory = usager.historique.find((d) => d.statut === "IMPORT");
 
-  // initialisation de l'import
-  if (!usager.import) {
-    usager.import = null;
-    if (importHistory) {
-      usager.import = {
-        date: new Date(importHistory.dateDecision),
-        userId: importHistory.userId,
-        userName: importHistory.userName,
-      };
-    }
-  }
-
   // Récupération de l'historique sans import & premiere dom
   const realDecisions: UsagerDecision[] = usager.historique.filter(
     (d) =>
@@ -194,6 +187,34 @@ async function processUsager(usager: Usager, now: Date) {
       d.statut !== "PREMIERE"
   ) as any;
 
+  // Ajout de l'import à l'objet usager
+  let importData = null;
+
+  if (!usager.import) {
+    if (importHistory) {
+      importData = {
+        date: new Date(importHistory.dateDecision),
+        userId: importHistory.userId,
+        userName: importHistory.userName,
+      };
+    }
+  }
+
+  // Mise à jour de l'historique : suppression de premier dom, premiere et import
+  const newHistorique = realDecisions.map((decision) => {
+    if (!decision.dateDebut) {
+      decision.dateDebut = decision.dateDecision;
+    }
+    return decision;
+  });
+
+  await usagerRepository
+    .getForMigration(queryRunner.manager)
+    .updateOne({ uuid: usager.uuid }, { nom: "chips" });
+
+  //
+  //
+  //
   const usagerHistory = new UsagerHistoryTable({
     usagerUUID: usager.uuid,
     structureId: usager.structureId,
@@ -210,25 +231,6 @@ async function processUsager(usager: Usager, now: Date) {
           }
         : undefined,
   });
-
-  console.log(usager.import);
-
-  const newHistorique = realDecisions.map((decision) => {
-    console.log(decision);
-    if (!decision.dateDebut) {
-      decision.dateDebut = decision.dateDecision;
-    }
-    return decision;
-  });
-
-  console.log();
-  console.log(newHistorique);
-  console.log();
-  // Mise à jour de l'historique de base
-  await usagerRepository.updateOne(
-    { uuid: usager.uuid },
-    { historique: newHistorique, import: usager.import }
-  );
 
   usagerHistory.states = realDecisions.map((decision) => {
     // if (!decision.typeDom) {
