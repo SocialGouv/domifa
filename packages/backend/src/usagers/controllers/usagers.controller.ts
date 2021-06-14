@@ -26,6 +26,7 @@ import {
   ETAPE_DOCUMENTS,
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
+  UsagerDecision,
   UsagerLight,
 } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
@@ -255,7 +256,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
-  @Delete("renew/:usagerRef")
+  @Delete("renouvellement/:usagerRef")
   public async deleteRenew(
     @Res() res: Response,
     @CurrentUser() user: AppAuthUser,
@@ -264,10 +265,13 @@ export class UsagersController {
     if (usager.typeDom === "RENOUVELLEMENT") {
       usager.etapeDemande = ETAPE_ETAT_CIVIL;
 
-      const { removedDecision } =
+      const { removedDecision, decisionToRollback, historiqueToRollback } =
         usagerVisibleHistoryManager.removeLastDecision({
           usager,
         });
+
+      usager.decision = decisionToRollback as UsagerDecision;
+      usager.historique = historiqueToRollback;
 
       if (removedDecision) {
         // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps

@@ -105,12 +105,6 @@ export class UsagerService {
     );
   }
 
-  public deleteRenew(usagerRef: number): Observable<UsagerLight> {
-    return this.http.delete<UsagerLight>(
-      `${this.endPointUsagers}/renew/${usagerRef}`
-    );
-  }
-
   public nextStep(
     usagerRef: number,
     etapeDemande: number
@@ -126,12 +120,6 @@ export class UsagerService {
     );
   }
 
-  public renouvellement(usagerRef: number): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(
-      `${this.endPointUsagers}/renouvellement/${usagerRef}`
-    );
-  }
-
   public entretien(
     entretien: Entretien,
     usagerRef: number
@@ -139,6 +127,18 @@ export class UsagerService {
     return this.http.post<UsagerLight>(
       `${this.endPointUsagers}/entretien/${usagerRef}`,
       entretien
+    );
+  }
+
+  public renouvellement(usagerRef: number): Observable<UsagerLight> {
+    return this.http.get<UsagerLight>(
+      `${this.endPointUsagers}/renouvellement/${usagerRef}`
+    );
+  }
+
+  public deleteRenew(usagerRef: number): Observable<UsagerLight> {
+    return this.http.delete<UsagerLight>(
+      `${this.endPointUsagers}/renouvellement/${usagerRef}`
     );
   }
 
@@ -153,8 +153,6 @@ export class UsagerService {
       )
       .pipe(
         tap((usager: UsagerLight) => {
-          console.log("PIPE");
-          console.log(usager);
           usagersSearchCache.updateUsager(usager);
         })
       );

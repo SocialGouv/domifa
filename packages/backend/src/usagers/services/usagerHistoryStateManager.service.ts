@@ -148,6 +148,7 @@ function buildHistoryFromNewDecision({
     userId: decision.userId,
     userName: decision.userName,
   };
+
   const newHistoryState: UsagerHistoryState = buildHistoryState({
     usager,
     usagerHistory,
@@ -156,6 +157,9 @@ function buildHistoryFromNewDecision({
     createdEvent,
     historyBeginDate,
   });
+
+  console.log(newHistoryState);
+
   const newHistory = addNewStateToHistory({ usagerHistory, newHistoryState });
 
   return newHistory;
