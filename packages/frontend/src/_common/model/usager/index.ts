@@ -1,5 +1,5 @@
-export * from "./history";
 export * from "./Usager.type";
+export * from "./UsagerDecision.type";
 export * from "./UsagerDecisionStatut.type";
 export * from "./UsagerDoc.type";
 export * from "./UsagerEntretien.type";
@@ -12,7 +12,5 @@ export * from "./UsagerRaisonDemande.type";
 export * from "./UsagerRdv.type";
 export * from "./UsagerSexe.type";
 export * from "./UsagerAyantDroit.type";
-
 export * from "./UsagerTypeDom.type";
-export * from "./USAGER_DECISION_STATUT_COLORS.const";
-export * from "./USAGER_DECISION_STATUT_LABELS.const";
+export * from "./UsagerImport.type";

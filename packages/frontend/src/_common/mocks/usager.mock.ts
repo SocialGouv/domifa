@@ -1,5 +1,5 @@
 import { UsagerLight } from "../model";
-import { ETAPE_DOSSIER_COMPLET } from "../model/usager/ETAPES_DEMANDE.const";
+import { ETAPE_DOSSIER_COMPLET } from "../model/usager/constants";
 
 export const usagerValideMock: UsagerLight = {
   decision: {
@@ -73,7 +73,7 @@ export const usagerValideMock: UsagerLight = {
       dateDecision: new Date("2020-12-01T10:00:24.980Z"),
       dateFin: new Date("2020-12-01T10:00:24.980Z"),
       motif: undefined,
-      statut: "IMPORT",
+      statut: "INSTRUCTION",
       userId: 30,
       userName: "Testeur Robin",
       typeDom: undefined,
@@ -83,6 +83,11 @@ export const usagerValideMock: UsagerLight = {
   // migration: false,
   phone: "0142424242",
   surnom: "",
+  import: {
+    date: new Date("2020-12-01T10:00:24.980Z"),
+    userId: 30,
+    userName: "Testeur Robin",
+  },
   typeDom: "RENOUVELLEMENT",
 
   customRef: "5",

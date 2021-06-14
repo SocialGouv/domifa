@@ -11,7 +11,6 @@ import {
   UsagerDecision,
   UsagerHistory,
   UsagerHistoryState,
-  UsagerVisibleHistoryDecision,
 } from "../_common/model";
 
 export class manualMigration1620724704166 implements MigrationInterface {
@@ -155,8 +154,9 @@ function processUsager(usager: Usager, now: Date) {
       );
     }
     return acc;
-  }, [] as UsagerVisibleHistoryDecision[]);
+  }, [] as UsagerDecision[]);
 
+  // Récupération de la date de premiere dom
   if (!usager.datePremiereDom) {
     const firstActiveDom = usager.historique.find((h) => h.statut === "VALIDE");
     if (firstActiveDom) {
@@ -168,6 +168,19 @@ function processUsager(usager: Usager, now: Date) {
   }
 
   const importHistory = usager.historique.find((d) => d.statut === "IMPORT");
+
+  if (!usager.import) {
+    usager.import = null;
+    if (importHistory) {
+      usager.import = {
+        date: new Date(importHistory.dateDecision),
+        userId: importHistory.userId,
+        userName: importHistory.userName,
+      };
+    }
+
+    console.log(importHistory);
+  }
 
   const realDecisions: UsagerDecision[] = usager.historique.filter(
     (d) => d.statut !== "IMPORT" && d.statut !== "PREMIERE_DOM"
@@ -190,6 +203,18 @@ function processUsager(usager: Usager, now: Date) {
         : undefined,
   });
 
+  const historiqueTemp = realDecisions.map((decision) => {
+    // if (!decision.typeDom) {
+    //   decision.typeDom = usager.typeDom;
+    // }
+    if (!decision.dateDebut) {
+      decision.dateDebut = decision.dateDecision;
+    }
+    return decision;
+  });
+
+  // console.log(historiqueTemp);
+
   usagerHistory.states = realDecisions.map((decision) => {
     // if (!decision.typeDom) {
     //   decision.typeDom = usager.typeDom;
@@ -197,6 +222,7 @@ function processUsager(usager: Usager, now: Date) {
     if (!decision.dateDebut) {
       decision.dateDebut = decision.dateDecision;
     }
+
     const createdBy: AppUserResume = {
       userId: decision.userId,
       userName: decision.userName,
@@ -267,6 +293,7 @@ function processUsager(usager: Usager, now: Date) {
       usager,
     });
   });
+
   // fix historique typeDom from states
   usager.historique.forEach((h) => {
     if (!h.typeDom) {

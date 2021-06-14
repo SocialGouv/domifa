@@ -9,7 +9,6 @@ import {
   UsagerRdv,
   UsagerSexe,
   UsagerTypeDom,
-  UsagerVisibleHistoryDecision,
 } from "../../../_common/model";
 import { UsagerAyantDroit } from "../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../_common/model/usager/UsagerDecision.type";
@@ -21,7 +20,8 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 @Unique(["structureId", "ref"])
 export class UsagerTable
   extends AppTypeormTable<UsagerTable>
-  implements Usager {
+  implements Usager
+{
   // ETAT-CIVIL
   // pas de "id", mais un champ 'ref'
   @Index()
@@ -88,7 +88,7 @@ export class UsagerTable
   public decision: UsagerDecision;
 
   @Column({ type: "jsonb" })
-  public historique: UsagerVisibleHistoryDecision[];
+  public historique: UsagerDecision[];
 
   //
   // AYANTS DROITS

@@ -1,5 +1,6 @@
+import { UsagerImport } from "./UsagerImport.type";
 import { AppEntity } from "../_core/AppEntity.type";
-import { UsagerVisibleHistoryDecision } from "./history/UsagerVisibleHistoryDecision.type";
+
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./UsagerDecision.type";
 import { UsagerDoc } from "./UsagerDoc.type";
@@ -43,12 +44,13 @@ export type Usager = AppEntity & {
   // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;
   datePremiereDom?: Date;
+  import: UsagerImport;
 
   // DECISIONS
   decision: UsagerDecision;
 
   // visible history
-  historique: UsagerVisibleHistoryDecision[];
+  historique: UsagerDecision[];
 
   // INTERACTIONS
   lastInteraction: UsagerLastInteractions;

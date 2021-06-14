@@ -4,7 +4,7 @@ import {
   AppUser,
   Usager,
   UsagerAyantDroit,
-  UsagerVisibleHistoryDecision,
+  UsagerDecision,
 } from "../../../../_common/model";
 import { ETAPE_DOSSIER_COMPLET } from "../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
@@ -50,7 +50,7 @@ function buildUsager({
   let motif: UsagerDecisionMotif;
 
   // Tableaux d'ayant-droit & historique
-  const historique: UsagerVisibleHistoryDecision[] = [];
+  const historique: UsagerDecision[] = [];
 
   // Partie STATUT + HISTORIQUE
   //
@@ -65,33 +65,9 @@ function buildUsager({
 
   if (usagerRow.datePremiereDom) {
     datePremiereDom = usagerRow.datePremiereDom;
-
-    const dateFinPremiereDom = moment(datePremiereDom).add(1, "year").toDate();
-
-    historique.push({
-      uuid: uuidGenerator.random(),
-      dateDebut: datePremiereDom,
-      dateDecision: datePremiereDom,
-      dateFin: dateFinPremiereDom,
-      motif,
-      statut: "PREMIERE_DOM",
-      userId: user.id,
-      userName: agent,
-    });
   } else if (usagerRow.dateDebutDom) {
     datePremiereDom = usagerRow.dateDebutDom;
   }
-
-  historique.push({
-    uuid: uuidGenerator.random(),
-    dateDebut: now,
-    dateDecision: now,
-    dateFin: now,
-    motif,
-    statut: "IMPORT",
-    userId: user.id,
-    userName: agent,
-  });
 
   const customRef = usagerRow.customId;
 
@@ -118,12 +94,17 @@ function buildUsager({
     dateDecision = usagerRow.dateFinDom ?? now;
     motif = usagerRow.motifRadiation ?? "AUTRE";
   }
+
+  if (usagerRow.typeDom === "PREMIERE") {
+    usagerRow.typeDom = "PREMIERE_DOM";
+  }
   // Enregistrement
   const usager: Partial<Usager> = {
     ayantsDroits,
     customRef,
     dateNaissance: usagerRow.dateNaissance,
     datePremiereDom,
+    dateImport: new Date(),
     decision: {
       dateDebut,
       dateDecision,

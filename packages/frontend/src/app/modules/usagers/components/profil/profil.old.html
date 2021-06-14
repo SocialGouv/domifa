@@ -906,7 +906,7 @@
                   {{ labels.decision[usager.decision.statut] }}
                 </span>
                 <span *ngIf="usager.decision.statut === 'VALIDE'">
-                  <span *ngIf="usager.typeDom === 'PREMIERE'">
+                  <span *ngIf="usager.typeDom === 'PREMIERE_DOM'">
                     Première domiciliation
                   </span>
                   <span *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
@@ -931,7 +931,7 @@
                   {{ labels.decision[histo.statut] }}
                 </span>
                 <span *ngIf="histo.statut === 'VALIDE'">
-                  <span *ngIf="histo.typeDom === 'PREMIERE'">
+                  <span *ngIf="histo.typeDom === 'PREMIERE_DOM'">
                     Première domiciliation
                   </span>
                   <span *ngIf="histo.typeDom === 'RENOUVELLEMENT'">

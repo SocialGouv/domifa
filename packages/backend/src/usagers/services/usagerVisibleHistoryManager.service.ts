@@ -1,8 +1,4 @@
-import {
-  Usager,
-  UsagerDecision,
-  UsagerVisibleHistoryDecision,
-} from "../../_common/model";
+import { Usager, UsagerDecision } from "../../_common/model";
 
 export const usagerVisibleHistoryManager = {
   addDecisionToVisibleHistory,
@@ -13,9 +9,9 @@ function addDecisionToVisibleHistory({
   usager,
 }: {
   usager: Pick<Usager, "decision" | "historique" | "typeDom">;
-}): UsagerVisibleHistoryDecision {
+}): UsagerDecision {
   // pour l'instant c'est une copie exacte de l'objet, mais il faut faire évoluer UsagerVisibleHistoryDecision pour ne garder que l'essentiel
-  const historyDecision: UsagerVisibleHistoryDecision = {
+  const historyDecision: UsagerDecision = {
     ...usager.decision,
   };
   if (!historyDecision.typeDom) {
@@ -30,9 +26,9 @@ function removeLastDecision({
 }: {
   usager: Pick<Usager, "decision" | "historique">;
 }): {
-  removedDecision: UsagerVisibleHistoryDecision;
-  decisionToRollback: UsagerVisibleHistoryDecision;
-  historiqueToRollback: UsagerVisibleHistoryDecision[];
+  removedDecision: UsagerDecision;
+  decisionToRollback: UsagerDecision;
+  historiqueToRollback: UsagerDecision[];
 } {
   if (usager.historique.length >= 2) {
     // remove current decision from history
