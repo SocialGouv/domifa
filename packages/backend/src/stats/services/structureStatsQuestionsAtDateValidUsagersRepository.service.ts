@@ -1,3 +1,4 @@
+import moment = require("moment");
 import { usagerHistoryRepository } from "../../database";
 import { StructureStatsQuestionsAtDateValidUsagers } from "../../_common/model";
 
@@ -13,6 +14,10 @@ async function getStats({
   structureId: number;
 }): Promise<StructureStatsQuestionsAtDateValidUsagers> {
   // TODO pas besoin de précalculer usager_tranche, on peut faire comme v_u_age_mineur
+
+  // dateUTC est le lendemain à 0:00 UTC, alors que pour l'age, il faut la date du jour
+  const dateAgeUTC = moment.utc(dateUTC).add(-1, 'day'); 
+
   const rawResults = await (
     await usagerHistoryRepository.typeorm()
   ).query(
@@ -22,8 +27,8 @@ async function getStats({
     ,COALESCE(sum(jsonb_array_length(state->'ayantsDroits')), 0) as v_ad
     ,count(distinct uh."usagerUUID") filter (where u.sexe = 'homme') as v_u_sexe_h
     ,count(distinct uh."usagerUUID") filter (where u.sexe = 'femme') as v_u_sexe_f
-    ,count(distinct uh."usagerUUID") filter (where date_part('year',age($2, u."dateNaissance"))::int < 18) as v_u_age_mineur
-    ,count(distinct uh."usagerUUID") filter (where date_part('year',age($2, u."dateNaissance"))::int >= 18) as v_u_age_majeur
+    ,count(distinct uh."usagerUUID") filter (where date_part('year',age($3, u."dateNaissance" at time zone 'utc'))::int < 18) as v_u_age_mineur
+    ,count(distinct uh."usagerUUID") filter (where date_part('year',age($3, u."dateNaissance" at time zone 'utc'))::int >= 18) as v_u_age_majeur
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_0_14') as v_u_age_0_14
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_15_19') as v_u_age_15_19
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_20_24') as v_u_age_20_24
@@ -40,7 +45,7 @@ async function getStats({
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_75_PLUS') as v_u_age_75_plus
     ,COALESCE(sum(state_ayant_droit_agg.count_mineur), 0) as v_ad_age_mineur
     ,COALESCE(sum(state_ayant_droit_agg.count_majeur), 0) as v_ad_age_majeur
-    ,count(distinct uh."usagerUUID") filter (where date_part('year',age($2, u."dateNaissance"))::int >= 18) as v_u_age_majeur
+    ,count(distinct uh."usagerUUID") filter (where date_part('year',age($3, u."dateNaissance" at time zone 'utc'))::int >= 18) as v_u_age_majeur
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'typeMenage' = 'COUPLE_AVEC_ENFANT') as v_u_menage_cae
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'typeMenage' = 'COUPLE_SANS_ENFANT') as v_u_menage_cse
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'typeMenage' = 'FEMME_ISOLE_AVEC_ENFANT') as v_u_menage_fiae
@@ -73,26 +78,26 @@ async function getStats({
     join jsonb_array_elements(uh.states) as state on true
     left join lateral(
       select state->'uuid' as "stateUUID", 
-      count(state_ayant_droit) filter (where date_part('year',age($2, (state_ayant_droit->>'dateNaissance')::timestamptz))::int < 18) as count_mineur,
-      count(state_ayant_droit) filter (where date_part('year',age($2, (state_ayant_droit->>'dateNaissance')::timestamptz))::int >= 18) as count_majeur
+      count(state_ayant_droit) filter (where date_part('year',age($3, (state_ayant_droit->>'dateNaissance')::timestamptz at time zone 'utc'))::int < 18) as count_mineur,
+      count(state_ayant_droit) filter (where date_part('year',age($3, (state_ayant_droit->>'dateNaissance')::timestamptz at time zone 'utc'))::int >= 18) as count_majeur
       from jsonb_array_elements (state->'ayantsDroits') as state_ayant_droit
       where true
       group by state->'uuid'
     ) as state_ayant_droit_agg on true
     join (select u2.uuid, CASE
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 15  THEN 'T_0_14'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 20  THEN 'T_15_19'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 25  THEN 'T_20_24'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 30  THEN 'T_25_29'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 35  THEN 'T_30_34'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 40  THEN 'T_35_39'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 45  THEN 'T_40_44'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 50  THEN 'T_45_49'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 55  THEN 'T_50_54'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 60  THEN 'T_55_59'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 65  THEN 'T_60_64'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 70  THEN 'T_65_69'
-      WHEN date_part('year',age($2, u2."dateNaissance"))::int < 75  THEN 'T_70_74'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 15  THEN 'T_0_14'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 20  THEN 'T_15_19'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 25  THEN 'T_20_24'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 30  THEN 'T_25_29'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 35  THEN 'T_30_34'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 40  THEN 'T_35_39'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 45  THEN 'T_40_44'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 50  THEN 'T_45_49'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 55  THEN 'T_50_54'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 60  THEN 'T_55_59'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 65  THEN 'T_60_64'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 70  THEN 'T_65_69'
+      WHEN date_part('year',age($3, u2."dateNaissance" at time zone 'utc'))::int < 75  THEN 'T_70_74'
     ELSE 'T_75_PLUS'
     end as tranche_age
     from usager u2
@@ -103,7 +108,7 @@ async function getStats({
     AND (state->>'historyBeginDate')::timestamptz < $2
     AND (state->>'historyEndDate' is null or (state->>'historyEndDate')::timestamptz >= $2)
 `,
-    [structureId, dateUTC]
+    [structureId, dateUTC, dateAgeUTC]
   );
 
   if (rawResults.length === 1) {
