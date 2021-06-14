@@ -47,6 +47,10 @@ export class manualMigration1620724704166 implements MigrationInterface {
       `ALTER TABLE "usager_history" ADD CONSTRAINT "FK_36a2e869faca3bb31cbacdf81ba" FOREIGN KEY ("structureId") REFERENCES "structure"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
 
+    await queryRunner.query(
+      `UPDATE usager set "typeDom"='PREMIERE_DOM' where "typeDom" = 'PREMIERE'`
+    );
+
     const now = new Date();
 
     const usagers: Usager[] = await usagerRepository
@@ -201,6 +205,9 @@ async function processUsager(usager: Usager, now: Date) {
     // Récupération date de décision
     if (!decision.dateDebut) {
       decision.dateDebut = decision.dateDecision;
+    }
+    if ((decision.typeDom as any) === "PREMIERE") {
+      decision.typeDom = "PREMIERE_DOM";
     }
     return decision;
   });

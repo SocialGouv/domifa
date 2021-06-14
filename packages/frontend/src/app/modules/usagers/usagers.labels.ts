@@ -16,9 +16,7 @@ export const lienParente: { [key: string]: string } = {
 /* DÉCISIONS */
 export const decision: { [key: string]: string } = {
   ATTENTE_DECISION: "Demande de domiciliation déposée",
-  IMPORT: "Dossier importé",
   INSTRUCTION: "Instruction du dossier",
-  PREMIERE_DOM: "Première domiciliation",
   RADIE: "Radiation",
   REFUS: "Demande refusée",
   VALIDE: "Domiciliation acceptée",
