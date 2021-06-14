@@ -18,10 +18,10 @@ async function getStats({
     await usagerHistoryRepository.typeorm()
   ).query(
     `
-    select 
+    select
     count(state->'uuid') filter (where state->'decision'->>'statut' = 'VALIDE') as u_decision_valide
     ,COALESCE(sum(jsonb_array_length(state->'ayantsDroits')) filter (where state->'decision'->>'statut' = 'VALIDE'), 0) as ad_decision_valide
-    ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'VALIDE' and state->>'typeDom' = 'PREMIERE') as u_decision_valide_typedom_premiere
+    ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'VALIDE' and state->>'typeDom' = 'PREMIERE_DOM') as u_decision_valide_typedom_premiere
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'VALIDE' and state->>'typeDom' = 'RENOUVELLEMENT') as u_decision_valide_typedom_renouvellement
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'RADIE') as u_decision_radie
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'RADIE' and state->'decision'->>'motif' = 'A_SA_DEMANDE') as u_decision_radie_motif_a_sa_demande

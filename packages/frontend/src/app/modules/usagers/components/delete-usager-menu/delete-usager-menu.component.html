@@ -17,7 +17,7 @@
       <button
         class="btn btn-outline-danger"
         id="delete-usager"
-        *ngIf="usager.typeDom === 'PREMIERE' && usager.etapeDemande > 0"
+        *ngIf="usager.typeDom === 'PREMIERE_DOM' && usager.etapeDemande > 0"
         (click)="open(deleteConfirmation)"
       >
         <fa-icon icon="trash" class="mr-2"></fa-icon>

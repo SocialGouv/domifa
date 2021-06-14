@@ -1,3 +1,4 @@
+import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
 import {
   decisionLabels,
   motifsRadiation,
@@ -6,11 +7,7 @@ import {
   typeMenage,
 } from "../../stats/usagers.labels";
 import { notEmpty } from "../../_common/import/import.validators";
-import {
-  StructureCommon,
-  UsagerLight,
-  UsagerVisibleHistoryDecision,
-} from "../../_common/model";
+import { StructureCommon, UsagerLight } from "../../_common/model";
 import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
 import moment = require("moment");
 
@@ -37,7 +34,7 @@ export function buildCustomDoc(
   let dateFinDom: Date;
 
   if (usager.decision.statut === "RADIE") {
-    usager.historique.forEach((decision: UsagerVisibleHistoryDecision) => {
+    usager.historique.forEach((decision: UsagerDecision) => {
       if (decision.statut === "VALIDE") {
         // Premiere décision retenue
         if (!dateDebutDom) {

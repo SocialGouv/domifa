@@ -1,15 +1,20 @@
+import { UsagerImport } from "./../../../../../_common/model/usager/UsagerImport.type";
 import {
   UsagerDoc,
   UsagerLight,
   UsagerSexe,
   UsagerTypeDom,
-  UsagerVisibleHistoryDecision,
-  USAGER_DECISION_STATUT_LABELS,
 } from "../../../../../_common/model";
 import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction";
-import { ETAPE_ETAT_CIVIL } from "../../../../../_common/model/usager/ETAPES_DEMANDE.const";
+import {
+  ETAPE_ETAT_CIVIL,
+  USAGER_DECISION_STATUT_LABELS,
+  USAGER_DECISION_STATUT_COLORS,
+} from "../../../../../_common/model/usager/constants";
+
 import { UsagerAyantDroit } from "../../../../../_common/model/usager/UsagerAyantDroit.type";
 import { UsagerDecision } from "../../../../../_common/model/usager/UsagerDecision.type";
+
 import { regexp } from "../../../../shared/validators";
 import { Decision } from "../../interfaces/decision";
 import { Doc } from "../../interfaces/doc";
@@ -19,7 +24,6 @@ import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service"
 import { Options } from "../../interfaces/options";
 import { Rdv } from "../../interfaces/rdv";
 import { usagersFilter, UsagersFilterCriteria } from "../manage/usager-filter";
-import { USAGER_DECISION_STATUT_COLORS } from "./../../../../../_common/model/usager/USAGER_DECISION_STATUT_COLORS.const";
 
 export class UsagerFormModel implements UsagerLight {
   public ref: number;
@@ -58,9 +62,12 @@ export class UsagerFormModel implements UsagerLight {
   public ayantsDroits: UsagerAyantDroit[];
 
   // Historique des décisions et dernière décision
-  public historique: UsagerVisibleHistoryDecision[];
+  public historique: UsagerDecision[];
   public decision: Decision;
+
   public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
+  public datePremiereDom?: Date;
+  public import?: UsagerImport | null;
 
   public lastInteraction: {
     dateInteraction: Date;
@@ -181,6 +188,11 @@ export class UsagerFormModel implements UsagerLight {
     this.decision = (usager && new Decision(usager.decision)) || new Decision();
 
     this.typeDom = (usager && usager.typeDom) || "PREMIERE_DOM";
+    this.import = (usager && usager.import) || null;
+
+    if (usager && usager.datePremiereDom !== null) {
+      this.datePremiereDom = new Date(usager.datePremiereDom);
+    }
 
     //
     //

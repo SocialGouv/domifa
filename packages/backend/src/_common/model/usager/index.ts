@@ -16,4 +16,5 @@ export * from "./UsagerPreferenceContact.type";
 export * from "./UsagerRaisonDemande.type";
 export * from "./UsagerRdv.type";
 export * from "./UsagerSexe.type";
+export * from "./UsagerImport.type";
 export * from "./UsagerTypeDom.type";
