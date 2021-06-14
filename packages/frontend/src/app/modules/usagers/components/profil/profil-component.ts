@@ -33,7 +33,7 @@ import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
 import { UsagerFormModel } from "../form/UsagerFormModel";
-import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/ETAPES_DEMANDE_URL.const";
+import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/constants";
 
 @Component({
   providers: [
