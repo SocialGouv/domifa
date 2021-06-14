@@ -3,28 +3,43 @@
     class="not-print col-md-12 text-center text-danger"
     *ngIf="me.role === 'admin' || me.role === 'responsable'"
   >
-    <button
-      class="btn btn-outline-danger"
-      id="delete-usager"
+    <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
+      <button
+        class="btn btn-outline-danger"
+        id="delete-usager"
+        *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+        (click)="open(deleteRenewConfirmation)"
+      >
+        <fa-icon icon="trash" class="mr-2"></fa-icon>
+        Supprimer cette demande
+      </button>
+
+      <button
+        class="btn btn-outline-danger"
+        id="delete-usager"
+        *ngIf="usager.typeDom === 'PREMIERE' && usager.etapeDemande > 0"
+        (click)="open(deleteConfirmation)"
+      >
+        <fa-icon icon="trash" class="mr-2"></fa-icon>
+        Supprimer cette demande
+      </button>
+    </ng-container>
+
+    <ng-container
       *ngIf="
         usager.decision.statut !== 'INSTRUCTION' &&
         usager.decision.statut !== 'ATTENTE_DECISION'
       "
-      (click)="open(deleteConfirmation)"
     >
-      <fa-icon icon="trash" class="mr-2"></fa-icon>
-      Supprimer ce domicilié
-    </button>
-
-    <button
-      class="btn btn-outline-danger"
-      id="delete-usager"
-      *ngIf="usager.decision.statut === 'INSTRUCTION'"
-      (click)="open(deleteRenewConfirmation)"
-    >
-      <fa-icon icon="trash" class="mr-2"></fa-icon>
-      Supprimer cette demande
-    </button>
+      <button
+        class="btn btn-outline-danger"
+        id="delete-usager"
+        (click)="open(deleteConfirmation)"
+      >
+        <fa-icon icon="trash" class="mr-2"></fa-icon>
+        Supprimer ce domicilié
+      </button>
+    </ng-container>
   </div>
 </div>
 

@@ -3,6 +3,7 @@ import { UsagerVisibleHistoryDecisionStatut } from "./history/UsagerVisibleHisto
 export const USAGER_DECISION_STATUT_COLORS: {
   [key in UsagerVisibleHistoryDecisionStatut]: string;
 } = {
+  PREMIERE: "green-status",
   PREMIERE_DOM: "green-status",
   VALIDE: "green-status",
   INSTRUCTION: "grey-status",

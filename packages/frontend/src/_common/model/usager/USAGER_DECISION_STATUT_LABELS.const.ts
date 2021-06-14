@@ -3,6 +3,7 @@ import { UsagerVisibleHistoryDecisionStatut } from "./history/UsagerVisibleHisto
 export const USAGER_DECISION_STATUT_LABELS: {
   [key in UsagerVisibleHistoryDecisionStatut]: string;
 } = {
+  PREMIERE: "Première domiciliation",
   PREMIERE_DOM: "Première domiciliation",
   VALIDE: "Actif",
   INSTRUCTION: "Instruction",

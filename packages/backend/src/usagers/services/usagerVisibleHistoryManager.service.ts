@@ -31,16 +31,30 @@ function removeLastDecision({
   usager: Pick<Usager, "decision" | "historique">;
 }): {
   removedDecision: UsagerVisibleHistoryDecision;
+  decisionToRollback: UsagerVisibleHistoryDecision;
+  historiqueToRollback: UsagerVisibleHistoryDecision[];
 } {
   if (usager.historique.length >= 2) {
     // remove current decision from history
-    const [removedDecision] = usager.historique.splice(
+    const [decisionToRollback] = usager.historique.splice(
       usager.historique.length - 1,
       1
     );
+
+    const historiqueToRollback = usager.historique;
+
+    const removedDecision = usager.decision as UsagerDecision;
     // restore previous decision from history
-    usager.decision = usager.historique[0] as UsagerDecision;
-    return { removedDecision };
+
+    return {
+      removedDecision,
+      decisionToRollback,
+      historiqueToRollback,
+    };
   }
-  return { removedDecision: undefined };
+  return {
+    removedDecision: undefined,
+    decisionToRollback: undefined,
+    historiqueToRollback: undefined,
+  };
 }
