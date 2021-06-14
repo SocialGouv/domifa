@@ -1,3 +1,4 @@
+import { UsagerImport } from "./../../../_common/model/usager/UsagerImport.type";
 import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
 import {
   Usager,
@@ -83,6 +84,9 @@ export class UsagerTable
 
   @Column({ type: "text", nullable: true, default: "INSTRUCTION" })
   public typeDom: UsagerTypeDom;
+
+  @Column({ type: "jsonb", nullable: true, default: null })
+  public import: UsagerImport;
 
   @Column({ type: "jsonb" })
   public decision: UsagerDecision;
