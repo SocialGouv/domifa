@@ -35,7 +35,9 @@ export class SmsController {
 
   @Get("retour-api")
   // URL de retour de l'API Spot-Hit pour mettre à jour le statut d'un SMS
-  public async retourApi(@Body() suiviSmsDto: SuiviSmsDto) {}
+  public async retourApi(@Body() suiviSmsDto: SuiviSmsDto) {
+    console.log(suiviSmsDto);
+  }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
