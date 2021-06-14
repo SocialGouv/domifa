@@ -34,7 +34,7 @@ export const UsagersImportUsagerSchema = yup
       "NON_RESPECT_REGLEMENT",
       "AUTRE",
     ]).notRequired(),
-    // TODO: fix mettre à jour le fichier Excel
+
     typeDom: oneOfString([
       "PREMIERE_DOM",
       "PREMIERE",
