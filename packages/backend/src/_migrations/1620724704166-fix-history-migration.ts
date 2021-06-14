@@ -58,7 +58,7 @@ export class manualMigration1620724704166 implements MigrationInterface {
           `[Migration][${this.name}] migrating ${i}/${total} usagers history`
         );
       }
-      const usagerHistory = processUsager(usager, now);
+      const usagerHistory = await processUsager(usager, now);
       usagersHistory.push(usagerHistory);
     }
     const chunkSize = 1000;
@@ -108,7 +108,8 @@ export class manualMigration1620724704166 implements MigrationInterface {
     );
   }
 }
-function processUsager(usager: Usager, now: Date) {
+
+async function processUsager(usager: Usager, now: Date) {
   // add uuid to all decisions so we can identify them easily
   usager.historique.forEach((h) => {
     h.uuid = uuidGenerator.random();
@@ -169,6 +170,7 @@ function processUsager(usager: Usager, now: Date) {
 
   const importHistory = usager.historique.find((d) => d.statut === "IMPORT");
 
+  // initialisation de l'import
   if (!usager.import) {
     usager.import = null;
     if (importHistory) {
@@ -178,12 +180,14 @@ function processUsager(usager: Usager, now: Date) {
         userName: importHistory.userName,
       };
     }
-
-    console.log(importHistory);
   }
 
+  // Récupération de l'historique sans import & premiere dom
   const realDecisions: UsagerDecision[] = usager.historique.filter(
-    (d) => d.statut !== "IMPORT" && d.statut !== "PREMIERE_DOM"
+    (d) =>
+      d.statut !== "IMPORT" &&
+      d.statut !== "PREMIERE_DOM" &&
+      d.statut !== "PREMIERE"
   ) as any;
 
   const usagerHistory = new UsagerHistoryTable({
@@ -203,17 +207,18 @@ function processUsager(usager: Usager, now: Date) {
         : undefined,
   });
 
-  const historiqueTemp = realDecisions.map((decision) => {
-    // if (!decision.typeDom) {
-    //   decision.typeDom = usager.typeDom;
-    // }
+  const newHistorique = realDecisions.map((decision) => {
     if (!decision.dateDebut) {
       decision.dateDebut = decision.dateDecision;
     }
     return decision;
   });
 
-  // console.log(historiqueTemp);
+  // Mise à jour de l'historique de base
+  await usagerRepository.updateOne(
+    { uuid: usager.uuid },
+    { historique: newHistorique, import: usager.import }
+  );
 
   usagerHistory.states = realDecisions.map((decision) => {
     // if (!decision.typeDom) {

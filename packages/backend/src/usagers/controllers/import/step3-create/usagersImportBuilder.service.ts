@@ -104,7 +104,11 @@ function buildUsager({
     customRef,
     dateNaissance: usagerRow.dateNaissance,
     datePremiereDom,
-    dateImport: new Date(),
+    import: {
+      date: new Date(),
+      userId: user.id,
+      userName: agent,
+    },
     decision: {
       dateDebut,
       dateDecision,
