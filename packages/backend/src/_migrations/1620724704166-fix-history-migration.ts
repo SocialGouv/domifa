@@ -19,6 +19,10 @@ export class manualMigration1620724704166 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     appLogger.debug(`[Migration][${this.name}] UP`);
 
+    await queryRunner.query(
+      `ALTER TABLE "usager" ADD "import" jsonb DEFAULT null`
+    );
+
     await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "stats"`);
     await queryRunner.query(
       `ALTER TABLE "structure" ALTER COLUMN "sms" SET DEFAULT '{ "enabledByDomifa": false, "enabledByStructure": false, "senderName": null, "senderDetails": null }'`
@@ -207,13 +211,19 @@ async function processUsager(usager: Usager, now: Date) {
         : undefined,
   });
 
+  console.log(usager.import);
+
   const newHistorique = realDecisions.map((decision) => {
+    console.log(decision);
     if (!decision.dateDebut) {
       decision.dateDebut = decision.dateDecision;
     }
     return decision;
   });
 
+  console.log();
+  console.log(newHistorique);
+  console.log();
   // Mise à jour de l'historique de base
   await usagerRepository.updateOne(
     { uuid: usager.uuid },

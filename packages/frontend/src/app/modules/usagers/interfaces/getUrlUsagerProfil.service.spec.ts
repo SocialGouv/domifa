@@ -1,9 +1,10 @@
+import { usagerValideMock } from "../../../../_common/mocks/usager.mock";
 import {
+  ETAPE_DOCUMENTS,
   ETAPE_ENTRETIEN,
   ETAPE_ETAT_CIVIL,
-} from "./../../../../_common/model/usager/ETAPES_DEMANDE.const";
-import { usagerValideMock } from "../../../../_common/mocks/usager.mock";
-import { ETAPE_DOCUMENTS } from "../../../../_common/model/usager/ETAPES_DEMANDE.const";
+} from "../../../../_common/model/usager/constants";
+
 import { getUrlUsagerProfil } from "./getUrlUsagerProfil.service";
 
 it("getUrlUsagerProfil: redirection vers le profil", () => {

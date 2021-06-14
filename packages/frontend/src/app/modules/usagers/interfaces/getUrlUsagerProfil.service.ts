@@ -1,4 +1,4 @@
-import { ETAPES_DEMANDE_URL } from "../../../../_common/model/usager/ETAPES_DEMANDE_URL.const";
+import { ETAPES_DEMANDE_URL } from "../../../../_common/model/usager/constants";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 
 export const getUrlUsagerProfil = (usager: Partial<UsagerLight>): string => {
