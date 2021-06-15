@@ -1,6 +1,11 @@
 import * as yup from "yup";
-
-import { booleanOuiNon, dateUtcSchema, oneOfString, phone } from "./core";
+import {
+  booleanOuiNon,
+  dateUtcSchema,
+  oneOfString,
+  phone,
+  typeDomSchema,
+} from "./core";
 import { email } from "./core/email.yup";
 
 // Note: les méthodes .notRequired() et .required() sont indispensable pour que `oneOfString` soit correctement typé
@@ -34,13 +39,7 @@ export const UsagersImportUsagerSchema = yup
       "NON_RESPECT_REGLEMENT",
       "AUTRE",
     ]).notRequired(),
-
-    // 14/06 : les deux valeurs sont présentes car des fichiers Exceld avec les deux valeurs circulent
-    typeDom: oneOfString([
-      "PREMIERE_DOM",
-      "PREMIERE",
-      "RENOUVELLEMENT",
-    ]).required(),
+    typeDom: typeDomSchema.required(),
     dateDebutDom: dateUtcSchema()
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))

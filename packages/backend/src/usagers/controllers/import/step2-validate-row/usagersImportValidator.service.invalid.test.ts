@@ -32,7 +32,7 @@ describe("usagersImportValidator parse invalid data", () => {
           "invalid-statutDom", // statutDom
           undefined, // motifRefus
           undefined, // motifRadiation
-          "PREMIERE_DOM", // typeDom
+          "PREMIERE", // typeDom
           "10/03/2020", // dateDebutDom
           "10/03/2020", // dateFinDom
           "10/03/2050", // datePremiereDom

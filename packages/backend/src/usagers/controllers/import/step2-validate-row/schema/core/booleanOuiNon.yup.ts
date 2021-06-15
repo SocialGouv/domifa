@@ -4,7 +4,7 @@ export function booleanOuiNon() {
   return yup
     .boolean()
     .transform((value, originalValue) => {
-      if (originalValue) {
+      if (originalValue && originalValue.toString) {
         const upper = originalValue.toString().toUpperCase();
         if (upper === "OUI") {
           return true;

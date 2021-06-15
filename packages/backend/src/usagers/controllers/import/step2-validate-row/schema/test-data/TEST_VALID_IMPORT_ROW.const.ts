@@ -12,7 +12,7 @@ export const TEST_VALID_IMPORT_ROW = [
   "VALIDE", // statutDom
   undefined, // motifRefus
   undefined, // motifRadiation
-  "PREMIERE_DOM", // typeDom
+  "PREMIERE", // typeDom
   "10/03/2019", // dateDebutDom
   "10/03/2020", // dateFinDom
   "10/03/2019", // datePremiereDom
