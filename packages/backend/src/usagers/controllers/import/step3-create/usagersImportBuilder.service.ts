@@ -49,9 +49,6 @@ function buildUsager({
   const sexe = usagerRow.civilite === "H" ? "homme" : "femme";
   let motif: UsagerDecisionMotif;
 
-  // Tableaux d'ayant-droit & historique
-  const historique: UsagerDecision[] = [];
-
   // Partie STATUT + HISTORIQUE
   //
   let datePremiereDom = now;
@@ -98,6 +95,19 @@ function buildUsager({
   if (usagerRow.typeDom === "PREMIERE") {
     usagerRow.typeDom = "PREMIERE_DOM";
   }
+
+  const decision: UsagerDecision = {
+    uuid: uuidGenerator.random(),
+    dateDebut,
+    dateDecision,
+    dateFin,
+    motif,
+    motifDetails: "",
+    statut: usagerRow.statutDom,
+    userId: user.id,
+    userName: agent,
+  };
+
   // Enregistrement
   const usager: Partial<Usager> = {
     ayantsDroits,
@@ -109,16 +119,7 @@ function buildUsager({
       userId: user.id,
       userName: agent,
     },
-    decision: {
-      dateDebut,
-      dateDecision,
-      dateFin,
-      motif,
-      motifDetails: "",
-      statut: usagerRow.statutDom,
-      userId: user.id,
-      userName: agent,
-    },
+    decision,
     lastInteraction: {
       dateInteraction: dernierPassage,
       colisIn: 0,
@@ -129,7 +130,7 @@ function buildUsager({
     email,
     entretien,
     etapeDemande: ETAPE_DOSSIER_COMPLET,
-    historique,
+    historique: [decision],
     nom: usagerRow.nom,
     phone,
     prenom: usagerRow.prenom,
