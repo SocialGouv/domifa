@@ -25,6 +25,7 @@ export type UsagerLight = AppEntity &
     | "ayantsDroits"
     | "villeNaissance"
     | "phone"
+    | "import"
     | "langue"
     | "preference"
     | "datePremiereDom"

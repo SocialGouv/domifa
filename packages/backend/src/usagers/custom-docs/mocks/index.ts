@@ -1,3 +1,3 @@
 export * from "./generatedCourrierRadiationMock";
 export * from "./generatedAttestationMock";
-export * from "./structureMock";
+export * from "../../../_common/mocks/structureMock";

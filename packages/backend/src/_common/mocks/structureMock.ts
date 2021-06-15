@@ -1,4 +1,4 @@
-import { StructureCommon } from "../../../_common/model";
+import { StructureCommon } from "../model";
 
 export const structureMock: StructureCommon = {
   id: 1,
