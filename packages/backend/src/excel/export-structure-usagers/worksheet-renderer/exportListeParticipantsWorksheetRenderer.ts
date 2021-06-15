@@ -1,6 +1,7 @@
+import { USAGER_DECISION_STATUT_LABELS } from "./../../../_common/labels/USAGER_DECISION_STATUT_LABELS.const";
 import { generateMotifLabel } from "./../../../usagers/services/generateMotifLabel.service";
 import { Column, Workbook } from "exceljs";
-import { decisionLabels, motifsRefus } from "../../../stats/usagers.labels";
+
 import {
   WorksheetRenderer,
   xlFormater,
@@ -8,7 +9,6 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
-import { MOTIFS_RADIATION_LABELS } from "../../../_common/labels";
 
 export const exportListeParticipantsWorksheetRenderer = {
   renderWorksheet,
@@ -153,7 +153,7 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
         villeNaissance: usager.villeNaissance,
         phone: usager.phone,
         email: usager.email,
-        decisionStatut: decisionLabels[usager.decision.statut],
+        decisionStatut: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
         decisionMotifRefus:
           usager.decision.statut === "REFUS" ? usager.decision.motif : "",
 

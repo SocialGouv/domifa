@@ -1,27 +1,8 @@
-import { UsagerDecisionMotif } from "../_common/model";
-
 /* TYPE DE STRUCTURE */
 export const structureType: { [key: string]: string } = {
   asso: "Organisme agrée",
   ccas: "CCAS ",
   cias: "CIAS ou commune",
-};
-
-/* LIENS DE PARENTÉ */
-export const lienParente: { [key: string]: string } = {
-  AUTRE: "Autre personne à la charge du domicilié",
-  CONJOINT: "Conjoint.e",
-  ENFANT: "Enfant",
-  PARENT: "Parent",
-};
-
-/* DÉCISIONS */
-export const decision: { [key: string]: string } = {
-  ATTENTE_DECISION: "Demande de domiciliation déposée",
-  INSTRUCTION: "Instruction du dossier",
-  RADIE: "Radiation",
-  REFUS: "Demande refusée",
-  VALIDE: "Domiciliation acceptée",
 };
 
 /* DÉCISIONS */
@@ -32,21 +13,6 @@ export const decisionStats: { [key: string]: string } = {
   RADIE: "radiés",
   REFUS: "Demandes refusées",
   VALIDE: "DOMICILIÉS ACTIFS",
-};
-
-/* DÉCISIONS */
-export const decisionLabels: { [key: string]: string } = {
-  ATTENTE_DECISION: "Attente de décision",
-  INSTRUCTION: "À compléter",
-  RADIE: "Radié",
-  REFUS: "Refusé",
-  VALIDE: "Actif",
-};
-
-export const motifsRefus: { [key in UsagerDecisionMotif]?: string } = {
-  HORS_AGREMENT: "En dehors des critères du public domicilié",
-  LIEN_COMMUNE: "Absence de lien avec la commune",
-  SATURATION: "Nombre maximal domiciliations atteint",
 };
 
 /* QUESTIONS RÉPONSES DE L'ENTRETIEN SOCIAL */
