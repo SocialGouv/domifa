@@ -1,14 +1,14 @@
 import { UsagerLight } from "../model";
 import { ETAPE_DOSSIER_COMPLET } from "../model/usager/constants";
 
-export const usagerValideMock: UsagerLight = {
+export const usagerRefusMock: UsagerLight = {
   decision: {
     orientationDetails: null,
-    statut: "VALIDE",
+    statut: "REFUS",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
     dateDecision: new Date("2020-02-12T00:00:00.000Z"),
     dateFin: new Date("2021-02-12T00:00:00.000Z"),
-    motif: undefined,
+    motif: "NON_MANIFESTATION_3_MOIS",
     typeDom: undefined,
     motifDetails: "",
     userId: 30,

@@ -1,12 +1,9 @@
-import {
-  motifsRadiation,
-  motifsRefus,
-} from "src/app/modules/usagers/usagers.labels";
 import { UsagerDecisionStatut, UsagerTypeDom } from "../../../../_common/model";
 import { USAGER_DECISION_STATUT_LABELS_PROFIL } from "../../../../_common/model/usager/constants";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { UsagerDecisionOrientation } from "../../../../_common/model/usager/UsagerDecisionOrientation.type";
 import { UsagerDecision } from "./../../../../_common/model/usager/UsagerDecision.type";
+import { generateMotifLabel } from "./generateMotifLabel.service";
 
 export class Decision implements UsagerDecision {
   public uuid?: string;
@@ -51,18 +48,8 @@ export class Decision implements UsagerDecision {
 
     this.statutLabel = USAGER_DECISION_STATUT_LABELS_PROFIL[this.statut];
 
-    if (this.statut === "REFUS" || this.statut === "RADIE") {
-      if (decision.motif === "AUTRE") {
-        this.motifString =
-          this.motifDetails !== ""
-            ? this.motifDetails
-            : "Autre motif non précisé";
-      } else {
-        this.motifString =
-          this.statut === "REFUS"
-            ? motifsRefus[decision.motif]
-            : motifsRadiation[decision.motif];
-      }
+    if (decision && decision.statut) {
+      this.motifString = generateMotifLabel(decision);
     }
   }
 }

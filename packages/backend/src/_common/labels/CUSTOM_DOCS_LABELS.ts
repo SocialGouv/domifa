@@ -1,4 +1,4 @@
-export const docsCustomLabels: {
+export const CUSTOM_DOCS_LABELS: {
   [key: string]: string;
 } = {
   // Responsable

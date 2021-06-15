@@ -1,10 +1,7 @@
+import { USAGER_DECISION_STATUT_LABELS } from "./../../_common/labels/USAGER_DECISION_STATUT_LABELS.const";
 import { generateMotifLabel } from "./../services/generateMotifLabel.service";
 import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
-import {
-  decisionLabels,
-  residence,
-  typeMenage,
-} from "../../stats/usagers.labels";
+import { residence, typeMenage } from "../../stats/usagers.labels";
 import { StructureCommon, UsagerLight } from "../../_common/model";
 import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
 import moment = require("moment");
@@ -127,7 +124,7 @@ export function buildCustomDoc(
     USAGER_EMAIL: usager.email || "",
 
     // STATUT ET TYPE DE DOM
-    STATUT_DOM: decisionLabels[usager.decision.statut],
+    STATUT_DOM: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
     TYPE_DOM:
       "Type de domiciliation : première domiciliation ou renouvellement",
 
