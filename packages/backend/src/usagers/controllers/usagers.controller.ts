@@ -270,10 +270,7 @@ export class UsagersController {
         1
       );
 
-      console.log(decisionToRollback);
-      console.log(usager.decision);
       usager.decision = usager.historique[usager.historique.length - 1];
-      console.log(usager.decision);
 
       if (decisionToRollback) {
         // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps

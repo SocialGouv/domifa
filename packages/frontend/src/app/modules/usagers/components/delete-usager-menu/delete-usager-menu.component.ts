@@ -30,7 +30,7 @@ export class DeleteUsagerMenuComponent implements OnInit {
   }
 
   public getPreviousStatus(): string {
-    return this.usager.historique[this.usager.historique.length - 1].statut;
+    return this.usager.historique[1].statut;
   }
 
   public open(content: TemplateRef<any>) {
