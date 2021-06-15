@@ -103,7 +103,6 @@ async function getStats({
     from usager u2
     ) as usager_tranche on usager_tranche.uuid = u.uuid
     WHERE uh."structureId" = $1
-    -- states_lateral.state->>'createdEvent' = 'new-decision' 
     and (state->>'isActive')::boolean
     AND (state->>'historyBeginDate')::timestamptz < $2
     AND (state->>'historyEndDate' is null or (state->>'historyEndDate')::timestamptz >= $2)

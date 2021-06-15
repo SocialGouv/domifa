@@ -3,14 +3,14 @@ import { JwtService } from "@nestjs/jwt";
 import {
   AppUserTable,
   structureCommonRepository,
-  usersRepository,
+  usersRepository
 } from "../database";
 import { StructuresService } from "../structures/services/structures.service";
 import {
   AppAuthUser,
   AppUser,
   AppUserPublic,
-  StructureCommon,
+  StructureCommon
 } from "../_common/model";
 import { JwtPayload } from "./jwt-payload.interface";
 
@@ -33,6 +33,7 @@ export class AuthService {
   ) {}
 
   public async login(user: AppUser) {
+
     const payload = {
       email: user.email,
       id: user.id,
@@ -71,7 +72,8 @@ export class AuthService {
   public async findAuthUser(
     criteria: Partial<AppUserTable>
   ): Promise<AppAuthUser> {
-    const user = await usersRepository.findOne<AppUserPublic>(criteria, {
+    
+const user = await usersRepository.findOne<AppUserPublic>(criteria, {
       select: APP_USER_PUBLIC_ATTRIBUTES,
     });
 
