@@ -22,13 +22,6 @@ import { StatsDto } from "../dto/stats.dto";
 import { structureStatsInPeriodGenerator } from "../services";
 import { DashboardService } from "../services/dashboard.service";
 import { statsQuestionsCoreBuilder } from "../services/statsQuestionsCoreBuilder.service";
-import {
-  cause,
-  motifsRadiation,
-  motifsRefus,
-  residence,
-  typeMenage,
-} from "../usagers.labels";
 
 import moment = require("moment");
 
@@ -39,19 +32,8 @@ export class StatsController {
     [key: string]: {};
   }[];
 
-  public motifsRadiation: any;
-  public typeMenage: any;
-  public motifsRefus: any;
-  public residence: any;
-  public cause: any;
-
   constructor(private readonly dashboardService: DashboardService) {
     this.sheet = [];
-    this.typeMenage = typeMenage;
-    this.motifsRefus = motifsRefus;
-    this.residence = residence;
-    this.cause = cause;
-    this.motifsRadiation = motifsRadiation;
   }
 
   @Get("home-stats")

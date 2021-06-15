@@ -1,15 +1,17 @@
+import { generateMotifLabel } from "./../services/generateMotifLabel.service";
 import { UsagerDecision } from "./../../_common/model/usager/UsagerDecision.type";
 import {
   decisionLabels,
-  motifsRadiation,
-  motifsRefus,
   residence,
   typeMenage,
 } from "../../stats/usagers.labels";
-import { notEmpty } from "../../_common/import/import.validators";
 import { StructureCommon, UsagerLight } from "../../_common/model";
 import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
 import moment = require("moment");
+import {
+  MOTIFS_RADIATION_LABELS,
+  MOTIFS_REFUS_LABELS,
+} from "../../_common/labels";
 
 export function buildCustomDoc(
   usager: UsagerLight,
@@ -69,24 +71,7 @@ export function buildCustomDoc(
   }
 
   // Motif de refus
-  if (
-    usager.decision.statut === "REFUS" ||
-    usager.decision.statut === "RADIE"
-  ) {
-    if (usager.decision.motif === "AUTRE") {
-      usager.decision.motif =
-        usager.decision.motifDetails !== ""
-          ? "Autre motif" + usager.decision.motifDetails
-          : ("Autre motif non précisé" as any);
-    } else {
-      usager.decision.motif =
-        usager.decision.statut === "REFUS"
-          ? motifsRefus[usager.decision.motif]
-          : (motifsRadiation[usager.decision.motif] as any);
-    }
-  } else {
-    usager.decision.motif = "" as any;
-  }
+  usager.decision.motif = generateMotifLabel(usager) as any;
 
   return {
     // DATES UTILES
@@ -191,8 +176,12 @@ export function buildCustomDoc(
   };
 }
 
-function ucFirst(value: string) {
+const ucFirst = (value: string) => {
   return value === undefined || value === null
     ? ""
     : value.charAt(0).toUpperCase() + value.slice(1);
-}
+};
+
+const notEmpty = (value: string): boolean => {
+  return typeof value !== "undefined" && value !== null && value.trim() !== "";
+};

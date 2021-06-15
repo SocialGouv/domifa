@@ -1,3 +1,4 @@
+import { generateMotifLabel } from "./generateMotifLabel.service";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
@@ -12,17 +13,7 @@ const pdftk = require("node-pdftk");
 
 @Injectable()
 export class CerfaService {
-  public motifsRefus: {
-    [key: string]: string;
-  };
-
-  constructor() {
-    this.motifsRefus = {
-      HORS_AGREMENT: "En dehors des critères du public domicilié",
-      LIEN_COMMUNE: "Absence de lien avec la commune",
-      SATURATION: "Nombre maximal domiciliations atteint",
-    };
-  }
+  constructor() {}
 
   public async attestation(usager: Usager, user: AppAuthUser) {
     const pdfForm =
@@ -128,17 +119,7 @@ export class CerfaService {
       usager.entretien.rattachement
     ).toUpperCase();
 
-    let motif = "";
-
-    if (usager.decision.statut === "REFUS") {
-      if (usager.decision.motif === "AUTRE") {
-        motif = usager.decision.motifDetails
-          ? "Autre motif : " + usager.decision.motifDetails
-          : "Autre motif non précisé";
-      } else {
-        motif = this.motifsRefus[usager.decision.motif];
-      }
-    }
+    const motif = generateMotifLabel(usager);
 
     const pdfInfos: UsagerCerfaFields = {
       adresse: adresseDomicilie,
