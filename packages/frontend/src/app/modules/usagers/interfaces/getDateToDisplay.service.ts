@@ -18,7 +18,7 @@ export const getDateToDisplay = (
       usager.typeDom === "RENOUVELLEMENT"
     ) {
       usagerInfos.isActif = true;
-      usagerInfos.dateToDisplay = new Date(usager.historique[0].dateFin);
+      usagerInfos.dateToDisplay = new Date(usager.historique[0].dateDecision);
     }
     // En attente de décision de renouvellement
     if (
@@ -27,7 +27,7 @@ export const getDateToDisplay = (
     ) {
       if (typeof usager.historique[1] !== "undefined") {
         usagerInfos.isActif = true;
-        usagerInfos.dateToDisplay = new Date(usager.historique[1].dateFin);
+        usagerInfos.dateToDisplay = new Date(usager.historique[1].dateDecision);
       } else {
         usagerInfos.isActif = true;
         usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
