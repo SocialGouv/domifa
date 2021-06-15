@@ -7,11 +7,10 @@ export function oneOfString<T extends string>(
     toUpperCase,
     label,
   }: {
-    transform: (value: any, originalValue: any) => T;
+    transform?: (value: any, originalValue: any) => T;
     toUpperCase?: boolean;
     label?: string;
   } = {
-    transform: (value: any, originalValue: any) => originalValue,
     toUpperCase: true,
   }
 ) {
