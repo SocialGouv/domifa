@@ -49,8 +49,7 @@ export class UsagersService {
       dateFin: new Date(),
     };
 
-    // @Toub est-ce qu'il faut systématiquement enregistrer la décision actuelle dans l'historique ?
-    // usager.historique.push(usager.decision);
+    usager.historique.push(usager.decision);
 
     usager.structureId = user.structureId;
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
@@ -89,9 +88,6 @@ export class UsagersService {
       uuid,
     });
 
-    // Ajout du précédent état dans l'historique
-    usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
-
     usager.decision = {
       uuid: uuidGenerator.random(),
       dateDebut: new Date(),
@@ -101,6 +97,9 @@ export class UsagersService {
       userName: user.prenom + " " + user.nom,
       typeDom: "RENOUVELLEMENT",
     };
+
+    // Ajout du précédent état dans l'historique
+    usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
     if (!usager.options.npai) {
       usager.options.npai = {} as any;
@@ -135,8 +134,6 @@ export class UsagersService {
     const usager = await usagerRepository.findOne({
       uuid,
     });
-
-    usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
 
@@ -173,7 +170,9 @@ export class UsagersService {
       usager.lastInteraction.dateInteraction = decision.dateDebut;
     }
 
+    usager.decision.uuid = uuidGenerator.random();
     usager.decision = decision;
+
     if (!usager.entretien) {
       usager.entretien = {};
     }

@@ -265,15 +265,17 @@ export class UsagersController {
     if (usager.typeDom === "RENOUVELLEMENT") {
       usager.etapeDemande = ETAPE_ETAT_CIVIL;
 
-      const { removedDecision, decisionToRollback, historiqueToRollback } =
-        usagerVisibleHistoryManager.removeLastDecision({
-          usager,
-        });
+      const [decisionToRollback] = usager.historique.splice(
+        usager.historique.length - 1,
+        1
+      );
 
-      usager.decision = decisionToRollback as UsagerDecision;
-      usager.historique = historiqueToRollback;
+      console.log(decisionToRollback);
+      console.log(usager.decision);
+      usager.decision = usager.historique[usager.historique.length - 1];
+      console.log(usager.decision);
 
-      if (removedDecision) {
+      if (decisionToRollback) {
         // on garde trace du changement dans l'historique, car il peut y avoir eu aussi d'autres changements entre temps
         await usagerHistoryStateManager.removeLastDecisionFromHistory({
           usager,
@@ -283,7 +285,7 @@ export class UsagersController {
           },
           createdAt: usager.decision.dateDecision,
           historyBeginDate: usager.decision.dateDebut,
-          removedDecisionUUID: removedDecision.uuid,
+          removedDecisionUUID: decisionToRollback.uuid,
         });
       }
 
