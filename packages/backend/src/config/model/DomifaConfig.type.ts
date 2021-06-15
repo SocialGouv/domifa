@@ -28,6 +28,7 @@ export type DomifaConfig = {
     password: string; // POSTGRES_PASSWORD
     database: string; // POSTGRES_DATABASE
     logging: LoggerOptions; // POSTGRES_LOGGING
+    poolMaxConnections: number; // POSTGRES_POOL_MAX_CONNEXIONS
   };
   typeorm: {
     runOnStartup: boolean; // DOMIFA_TYPEORM_RUN_ON_STARTUP
@@ -41,8 +42,9 @@ export type DomifaConfig = {
     printConfig: boolean;
     swaggerEnabled: boolean; // DOMIFA_SWAGGER_ENABLE
     sentry: {
-      enabled: boolean; // enabled if SENTRY_DSN is defined
-      sentryDns: string; // SENTRY_DSN
+      enabled: boolean; // DOMIFA_SENTRY_ENABLED (default: enabled if DOMIFA_SENTRY_DSN is defined)
+      sentryDns: string; // DOMIFA_SENTRY_DSN
+      debugModeEnabled: boolean; // DOMIFA_SENTRY_DEBUG_MODE_ENABLED
     };
     anonymizer: {
       password: string; // DOMIFA_ANONYMIZER_PASSWORD

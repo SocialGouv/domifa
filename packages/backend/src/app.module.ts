@@ -1,10 +1,7 @@
 import { Module } from "@nestjs/common";
-import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ScheduleModule } from "@nestjs/schedule";
 import { TerminusModule } from "@nestjs/terminus";
-import { RavenInterceptor, RavenModule } from "nest-raven";
 import { AuthModule } from "./auth/auth.module";
-import { domifaConfig } from "./config";
 import { MonitoringModule } from "./database/services/monitoring/monitoring.module";
 import { HealthController } from "./health/health.controller";
 import { PostgresHealthIndicator } from "./health/postgres-health-indicator.service";
@@ -21,7 +18,6 @@ import { UsersModule } from "./users/users.module";
     AuthModule,
     InteractionsModule,
     SmsModule,
-    RavenModule,
     ScheduleModule.forRoot(),
     StatsModule,
     StructuresModule,
@@ -30,14 +26,6 @@ import { UsersModule } from "./users/users.module";
     UsersModule,
     TerminusModule,
   ],
-  providers: [
-    PostgresHealthIndicator,
-    {
-      provide: APP_INTERCEPTOR,
-      useValue: new RavenInterceptor({
-        tags: { serverName: domifaConfig().envId },
-      }),
-    },
-  ],
+  providers: [PostgresHealthIndicator],
 })
 export class AppModule {}

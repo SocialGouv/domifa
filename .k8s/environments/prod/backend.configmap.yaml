@@ -14,9 +14,11 @@ data:
   DOMIFA_CRON_ENABLED: "true"
   DOMIFA_EMAILS_ENABLE: "false"
   DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
+  DOMIFA_SENTRY_ENABLED: "false"
   DOMIFA_SMS_ENABLED: "false"
   DOMIFA_SMS_API_KEY: ""
   DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: ""
+  POSTGRES_POOL_MAX_CONNEXIONS: "10" # 50 connexions max sur l'instance azure : https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
   # DOMIFA_CORS_URL:https://fake-domifa.fabrique.social.gouv.fr
   # DOMIFA_FRONTEND_URL:https://fake-domifa.fabrique.social.gouv.fr/
   # DOMIFA_BACKEND_URL:https://fake-domifa-api.fabrique.social.gouv.fr/
