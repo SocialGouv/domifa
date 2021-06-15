@@ -93,7 +93,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     defaultValue: envId === "prod" ? true : false,
   });
 
-  const sentryDns = configParser.parseString(x, "SENTRY_DSN", {
+  const sentryDns = configParser.parseString(x, "DOMIFA_SENTRY_DNS", {
     required: false,
   });
 
@@ -150,6 +150,9 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         x,
         "POSTGRES_LOGGING"
       ),
+      poolMaxConnections: configParser.parseInteger(x, "POSTGRES_POOL_MAX_CONNEXIONS", {
+        defaultValue: 10, // 10 is also driver default: https://node-postgres.com/api/pool#constructor
+      }),
     },
     typeorm: {
       runOnStartup: configParser.parseBoolean(
@@ -183,7 +186,12 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         defaultValue: envId === "dev" ? true : false,
       }),
       sentry: {
-        enabled: !!sentryDns,
+        enabled: configParser.parseBoolean(x, "DOMIFA_SENTRY_ENABLED", {
+          defaultValue:  !!sentryDns,
+        }) && !!sentryDns,
+        debugModeEnabled: configParser.parseBoolean(x, "DOMIFA_SENTRY_DEBUG_MODE_ENABLED", {
+          defaultValue:  false,
+        }),
         sentryDns,
       },
       anonymizer: {
