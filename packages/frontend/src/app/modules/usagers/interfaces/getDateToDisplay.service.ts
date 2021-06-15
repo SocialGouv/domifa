@@ -12,32 +12,23 @@ export const getDateToDisplay = (
   };
 
   if (usager && usager?.decision) {
-    // En cours de renouvellement
-    if (
-      usager.decision.statut === "INSTRUCTION" &&
-      usager.typeDom === "RENOUVELLEMENT"
-    ) {
-      usagerInfos.isActif = true;
-      usagerInfos.dateToDisplay = new Date(usager.historique[0].dateDecision);
-    }
-    // En attente de décision de renouvellement
-    if (
-      usager.decision.statut === "ATTENTE_DECISION" &&
-      usager.typeDom === "RENOUVELLEMENT"
-    ) {
-      if (typeof usager.historique[1] !== "undefined") {
+    usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
+
+    if (usager.typeDom === "RENOUVELLEMENT") {
+      // En cours de renouvellement
+      // En attente de décision de renouvellement
+      if (
+        usager.decision.statut === "INSTRUCTION" ||
+        usager.decision.statut === "ATTENTE_DECISION"
+      ) {
         usagerInfos.isActif = true;
-        usagerInfos.dateToDisplay = new Date(usager.historique[1].dateDecision);
-      } else {
-        usagerInfos.isActif = true;
-        usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
       }
     }
 
     // Actuellement actif
     if (usager.decision.statut === "VALIDE") {
-      usagerInfos.dateToDisplay = new Date(usager.decision.dateFin);
       usagerInfos.isActif = true;
+      usagerInfos.dateToDisplay = new Date(usager.decision.dateFin);
     } else if (
       usager.decision.statut === "RADIE" ||
       usager.decision.statut === "REFUS"
@@ -45,8 +36,6 @@ export const getDateToDisplay = (
       usagerInfos.dateToDisplay = usager.decision.dateFin
         ? new Date(usager.decision.dateFin)
         : new Date(usager.decision.dateDebut);
-    } else {
-      usagerInfos.dateToDisplay = new Date(usager.decision.dateDecision);
     }
   }
 
