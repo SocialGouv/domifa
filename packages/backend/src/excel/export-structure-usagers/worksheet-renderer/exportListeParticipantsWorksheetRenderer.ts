@@ -1,9 +1,6 @@
+import { generateMotifLabel } from "./../../../usagers/services/generateMotifLabel.service";
 import { Column, Workbook } from "exceljs";
-import {
-  decisionLabels,
-  motifsRadiation,
-  motifsRefus,
-} from "../../../stats/usagers.labels";
+import { decisionLabels, motifsRefus } from "../../../stats/usagers.labels";
 import {
   WorksheetRenderer,
   xlFormater,
@@ -11,6 +8,7 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
+import { MOTIFS_RADIATION_LABELS } from "../../../_common/labels";
 
 export const exportListeParticipantsWorksheetRenderer = {
   renderWorksheet,
@@ -117,24 +115,7 @@ function renderWorksheet({
 
 function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
   return model.usagers.map((usager) => {
-    if (
-      usager.decision.statut === "REFUS" ||
-      usager.decision.statut === "RADIE"
-    ) {
-      if (usager.decision.motif === "AUTRE") {
-        usager.decision.motif =
-          usager.decision.motifDetails !== ""
-            ? "Autre motif" + usager.decision.motifDetails
-            : ("Autre motif non précisé" as any);
-      } else {
-        usager.decision.motif =
-          usager.decision.statut === "REFUS"
-            ? motifsRefus[usager.decision.motif]
-            : (motifsRadiation[usager.decision.motif] as any);
-      }
-    } else {
-      usager.decision.motif = "" as any;
-    }
+    usager.decision.motif = generateMotifLabel(usager) as any;
 
     let decisionUserPremierDom = "";
     let decisionUserRenouvellement = "";
