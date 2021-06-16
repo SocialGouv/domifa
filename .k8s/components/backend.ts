@@ -1,14 +1,13 @@
-import { ok } from "assert";
 import env from "@kosko/env";
 import { assert } from "@sindresorhus/is";
-import { EnvVar } from "kubernetes-models/v1/EnvVar";
-import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { create } from "@socialgouv/kosko-charts/components/app";
-import { Deployment } from "kubernetes-models/apps/v1/Deployment";
+import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
 // import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
-
+import { ok } from "assert";
+import { Deployment } from "kubernetes-models/apps/v1/Deployment";
+import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getFrontendManifests } from "./frontend";
 
 type AnyObject = {
@@ -113,9 +112,8 @@ export default async () => {
       POSTGRES_USERNAME: "$(PGUSER)",
       POSTGRES_PASSWORD: "$(PGPASSWORD)",
       POSTGRES_DATABASE: "$(PGDATABASE)",
-      DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: `https://${getIngressHost(
-        frontendManifests
-      )}`,
+      DOMIFA_BACKEND_URL: `https://${getIngressHost(manifests)}`,
+      DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}`,
     },
   });
 

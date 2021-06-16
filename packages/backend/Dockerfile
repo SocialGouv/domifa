@@ -12,5 +12,6 @@ WORKDIR /app
 RUN yarn --production --frozen-lockfile && yarn cache clean
 
 COPY ./packages/backend/dist /app/dist
+COPY ./packages/backend/.env.preset /app/.env.preset
 
 ENTRYPOINT [ "yarn", "start:prod"]

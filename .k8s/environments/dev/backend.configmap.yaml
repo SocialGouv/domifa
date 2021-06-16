@@ -4,23 +4,11 @@ metadata:
   name: backend-configmap
 data:
   DOMIFA_ENV_ID: k8s-dev
+  DOMIFA_ENV_PRESET: dist.preset.env
   PGSSLMODE: "require"
   NODE_ENV: production
-  UPLOADS_FOLDER: "/mnt/files"
+  DOMIFA_PRINT_CONFIG: "true"
   DOMIFA_TYPEORM_CREATE_DATABASE: "true"
-  DOMIFA_PRINT_CONFIG: "false"
-  DOMIFA_PRINT_ENV: "false"
-  DOMIFA_MAIL_SMTP_ID: TIPIMAIL # MAILTRAP or TIPIMAIL
-  DOMIFA_SWAGGER_ENABLE: "false"
-  DOMIFA_CRON_ENABLED: "true"
-  DOMIFA_EMAILS_ENABLE: "true" # redirigés vers l'adresse configurée pour DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
-  DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
-  DOMIFA_SENTRY_ENABLED: "true"
+  # emails redirigés vers l'adresse configurée pour DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
+  DOMIFA_EMAILS_ENABLE: "true"
   DOMIFA_SMS_ENABLED: "false"
-  DOMIFA_SMS_API_KEY: ""
-  DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: ""
-  POSTGRES_POOL_MAX_CONNEXIONS: "1" # 50 connexions en tout à partager entre la preprod + les environnements de dev : https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
-  # DOMIFA_CORS_URL:https://fake-domifa.fabrique.social.gouv.fr
-  # DOMIFA_FRONTEND_URL:https://fake-domifa.fabrique.social.gouv.fr/
-  # DOMIFA_BACKEND_URL:https://fake-domifa-api.fabrique.social.gouv.fr/
-  # DOCKER_HOST_UPLOADS_FOLDER:/mnt/files
