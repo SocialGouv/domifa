@@ -1,12 +1,31 @@
 export type DomifaEnv = {
+  DOMIFA_ENV_PRESET: string;
+  DOMIFA_ENV_PRIORITY: "files" | "process.env";
+  /**
+   * @deprecated use DOMIFA_SECURITY_FILES_IV instead
+   */
   FILES_IV: string;
+  /**
+   * @deprecated use DOMIFA_SECURITY_FILES_PRIVATE instead
+   */
   FILES_PRIVATE: string;
+  DOMIFA_SECURITY_FILES_IV: string;
+  DOMIFA_SECURITY_FILES_PRIVATE: string;
+  DOMIFA_SECURITY_CORS_ENABLED: string;
   DOMIFA_CORS_URL: string;
   DOMIFA_FRONTEND_URL: string;
   DOMIFA_BACKEND_URL: string;
   DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: string;
+  /**
+   * @deprecated use DOMIFA_SECURITY_JWT_SECRET instead
+   */
   SECRET: string;
+  DOMIFA_SECURITY_JWT_SECRET: string;
+  /**
+   * @deprecated use DOMIFA_UPLOADS_FOLDER instead
+   */
   UPLOADS_FOLDER: string;
+  DOMIFA_UPLOADS_FOLDER: string;
   DOMIFA_ENV_ID: string;
   DOMIFA_DOCKER_IMAGE_VERSION: string;
   DOMIFA_SWAGGER_ENABLE: string;

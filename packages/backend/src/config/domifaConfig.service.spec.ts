@@ -1,17 +1,21 @@
-import { loadConfig } from "./domifaConfig.service";
+import { loadConfig, loadEnvWithPreset } from "./domifaConfig.service";
 import { DomifaEnv } from "./model";
 
 describe("loadConfig", () => {
   beforeEach(async () => {});
 
   it("loadConfig TEST (default)", () => {
-    const env: Partial<DomifaEnv> = {
-      DOMIFA_ENV_ID: "test",
+    const defaultEnv: Partial<DomifaEnv> = {
+      DOMIFA_ENV_PRESET: "local-test.preset.env",
       POSTGRES_USERNAME: "value POSTGRES_USERNAME",
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
-      SECRET: "******************",
+      DOMIFA_SECURITY_JWT_SECRET: "******************",
+      DOMIFA_PRINT_ENV: "false",
+      DOMIFA_PRINT_CONFIG: "false",
     };
+    const env = loadEnvWithPreset({ defaultEnv });
+
     const config = loadConfig(env);
 
     expect(config.envId).toEqual("test");
@@ -29,7 +33,7 @@ describe("loadConfig", () => {
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
-    expect(config.postgres.logging).toEqual(false);
+    expect(config.postgres.logging).toEqual(["warn"]);
     expect(config.postgres.username).toEqual(env.POSTGRES_USERNAME);
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
@@ -43,13 +47,16 @@ describe("loadConfig", () => {
   });
 
   it("loadConfig DEV (default)", () => {
-    const env: Partial<DomifaEnv> = {
-      DOMIFA_ENV_ID: "dev",
+    const defaultEnv: Partial<DomifaEnv> = {
+      DOMIFA_ENV_PRESET: "local-dev.preset.env",
       POSTGRES_USERNAME: "value POSTGRES_USERNAME",
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
-      SECRET: "******************",
+      DOMIFA_SECURITY_JWT_SECRET: "******************",
+      DOMIFA_PRINT_ENV: "false",
+      DOMIFA_PRINT_CONFIG: "false",
     };
+    const env = loadEnvWithPreset({ defaultEnv });
     const config = loadConfig(env);
 
     expect(config.envId).toEqual("dev");
@@ -64,7 +71,7 @@ describe("loadConfig", () => {
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
-    expect(config.postgres.logging).toEqual(false);
+    expect(config.postgres.logging).toEqual(["warn", "migration"]);
     expect(config.postgres.username).toEqual(env.POSTGRES_USERNAME);
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
@@ -80,12 +87,14 @@ describe("loadConfig", () => {
   });
 
   it("loadConfig PROD (default)", () => {
-    const env: Partial<DomifaEnv> = {
+    const defaultEnv: Partial<DomifaEnv> = {
+      DOMIFA_ENV_PRESET: "dist.preset.env",
+      DOMIFA_ENV_PRIORITY: "files",
       DOMIFA_ENV_ID: "prod",
       POSTGRES_USERNAME: "value POSTGRES_USERNAME",
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
-      SECRET: "******************",
+      DOMIFA_SECURITY_JWT_SECRET: "******************",
       FILES_IV: "******************",
       FILES_PRIVATE: "******************",
       DOMIFA_FRONTEND_URL: "https://domifa.xxx",
@@ -100,7 +109,11 @@ describe("loadConfig", () => {
       DOMIFA_SMS_API_KEY: "xxx",
       DOMIFA_SMS_ENABLE: "xxx",
       DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: "xxx",
+      DOMIFA_PRINT_ENV: "false",
+      DOMIFA_PRINT_CONFIG: "false",
     };
+    const env = loadEnvWithPreset({ defaultEnv });
+
     const config = loadConfig(env);
 
     expect(config.envId).toEqual("prod");
@@ -121,6 +134,6 @@ describe("loadConfig", () => {
     expect(config.dev.swaggerEnabled).toEqual(false);
     expect(config.dev.sentry.enabled).toEqual(false);
 
-    expect(config.email.emailsEnabled).toEqual(true);
+    expect(config.email.emailsEnabled).toEqual(false);
   });
 });

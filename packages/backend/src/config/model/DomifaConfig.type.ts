@@ -3,6 +3,16 @@ import { LoggerOptions } from "typeorm/logger/LoggerOptions";
 import { DomifaConfigDelay } from "./DomifaConfigDelay.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";
 
+export type DomifaConfigSecurity = {
+  corsEnabled: boolean; // DOMIFA_SECURITY_CORS_ENABLED
+  corsUrl: string; // DOMIFA_CORS_URL
+  files: {
+    iv: string; // DOMIFA_SECURITY_FILES_IV
+    private: string; // DOMIFA_SECURITY_FILES_PRIVATE
+  };
+  jwtSecret: string; // SECRET
+};
+
 export type DomifaConfig = {
   envId: DomifaEnvId; // DOMIFA_ENV_ID
   version: string; // DOMIFA_DOCKER_IMAGE_VERSION (default to process.env.npm_package_version)
@@ -13,14 +23,7 @@ export type DomifaConfig = {
   healthz: {
     frontendUrlFromBackend: string; // DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND
   };
-  security: {
-    corsUrl: string; // DOMIFA_CORS_URL
-    files: {
-      iv: string; // FILES_IV
-      private: string; // FILES_PRIVATE
-    };
-    jwtSecret: string; // SECRET
-  };
+  security: DomifaConfigSecurity;
   postgres: {
     host: string; // POSTGRES_HOST
     port: number; // POSTGRES_PORT
