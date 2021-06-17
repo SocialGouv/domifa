@@ -28,7 +28,8 @@ export class DashboardController {
 
   @Get("export")
   public async export(@Res() res: Response) {
-    const stats: StatsDeploiementExportModel = await this.dashboardService.getStatsDeploiement();
+    const stats: StatsDeploiementExportModel =
+      await this.dashboardService.getStatsDeploiement();
 
     const USER_STATS_ATTRIBUTES: (keyof StatsExportUser &
       keyof AppUserTable)[] = [
@@ -46,10 +47,8 @@ export class DashboardController {
       select: USER_STATS_ATTRIBUTES,
     });
 
-    const structures: Pick<
-      Structure,
-      "id" | "nom"
-    >[] = await structureRepository.findMany({}, { select: ["id", "nom"] });
+    const structures: Pick<Structure, "id" | "nom">[] =
+      await structureRepository.findMany({}, { select: ["id", "nom"] });
 
     const structuresById = structures.reduce((acc, s) => {
       acc[s.id] = s;
