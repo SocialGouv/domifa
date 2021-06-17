@@ -6,10 +6,11 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-import { usagerValideMock } from "../../../../../../_common/mocks/usager.mock";
+
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 
 import { SetInteractionInFormComponent } from "./set-interaction-in-form.component";
+import { usagerValideMock } from "../../../../../../_common/mocks/usagerValideMock.mock";
 
 describe("SetInteractionInFormComponent", () => {
   let component: SetInteractionInFormComponent;

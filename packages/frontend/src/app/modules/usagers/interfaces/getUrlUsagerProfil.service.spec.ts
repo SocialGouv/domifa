@@ -1,4 +1,4 @@
-import { usagerValideMock } from "../../../../_common/mocks/usager.mock";
+import { usagerValideMock } from "../../../../_common/mocks/usagerValideMock.mock";
 import {
   ETAPE_DOCUMENTS,
   ETAPE_ENTRETIEN,

@@ -1,16 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { usagerValideMock } from "../../../../../../_common/mocks/usager.mock";
+import { usagerValideMock } from "../../../../../../_common/mocks/usagerValideMock.mock";
+
 import { ProfilAyantsDroitsComponent } from "./profil-ayants-droits.component";
 
 describe("ProfilAyantsDroitsComponent", () => {
   let component: ProfilAyantsDroitsComponent;
   let fixture: ComponentFixture<ProfilAyantsDroitsComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProfilAyantsDroitsComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProfilAyantsDroitsComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilAyantsDroitsComponent);
