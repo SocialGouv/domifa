@@ -25,6 +25,9 @@ export type DashboardStats = {
   usagersAllCountByStructureMap: {
     [structureId: string]: number;
   };
+  usagersAyantsDroitsCountByStructureMap: {
+    [structureId: string]: number;
+  };
   usagersCountByLanguage: {
     langue: string;
     count: number;

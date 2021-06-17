@@ -19,6 +19,9 @@ export type DashboardStats = {
   usagersCountByStatutMap: {
     [statut: string]: number;
   };
+  usagersAyantsDroitsCountByStructureMap: {
+    [structureId: string]: number;
+  };
   usagersValidCountByStructureMap: {
     [structureId: string]: number;
   };

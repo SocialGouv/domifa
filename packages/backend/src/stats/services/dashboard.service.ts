@@ -1,3 +1,4 @@
+import { Usager } from "./../../_common/model/usager/Usager.type";
 import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import {
@@ -31,8 +32,11 @@ export class DashboardService {
   public async getStatsDomifaAdminDashboard(): Promise<DashboardStats> {
     const structures = await this.getStructuresForDashboard();
 
-    const { usagersValidCountByStructureMap, usagersAllCountByStructureMap } =
-      await this.getUsagersCountByStructureMaps();
+    const {
+      usagersValidCountByStructureMap,
+      usagersAllCountByStructureMap,
+      usagersAyantsDroitsCountByStructureMap,
+    } = await this.getUsagersCountByStructureMaps();
 
     const structuresCountByRegion = await this.getStructuresCountByRegion();
 
@@ -50,6 +54,7 @@ export class DashboardService {
     const stats: DashboardStats = {
       structures,
       usagersValidCountByStructureMap,
+      usagersAyantsDroitsCountByStructureMap,
       usagersAllCountByStructureMap,
       structuresCountByRegion,
       structuresCountByTypeMap,
@@ -144,6 +149,20 @@ export class DashboardService {
       },
     });
   }
+  public async getUsagersAyantsDroitsCountByStructure(): Promise<
+    {
+      structureId: number;
+      sum: number;
+    }[]
+  > {
+    const test = await appTypeormManager
+      .getRepository(UsagerTable)
+      .query(
+        `select "structureId", sum(jsonb_array_length("ayantsDroits")) from usager u group by "structureId" `
+      );
+
+    return test;
+  }
 
   public async getUsagersCountByStatut(): Promise<
     {
@@ -180,6 +199,7 @@ export class DashboardService {
       },
     });
   }
+
   public async getUsagersCountByStatutMap() {
     const ayantsDroits = await usagerRepository.countAyantsDroits();
     const result = await this.getUsagersCountByStatut();
@@ -299,6 +319,21 @@ export class DashboardService {
 
     const usagersAllCountByStructure =
       await this.getUsagersAllCountByStructure();
+
+    const usagersAyantsDroitsCountByStructure =
+      await this.getUsagersAyantsDroitsCountByStructure();
+
+    const usagersAyantsDroitsCountByStructureMap =
+      usagersAyantsDroitsCountByStructure.reduce(
+        (acc, x) => {
+          acc[x.structureId] = x.sum;
+          return acc;
+        },
+        {} as {
+          [structureId: string]: number;
+        }
+      );
+
     const usagersAllCountByStructureMap = usagersAllCountByStructure.reduce(
       (acc, x) => {
         acc[x.structureId] = x.count;
@@ -308,6 +343,10 @@ export class DashboardService {
         [structureId: string]: number;
       }
     );
-    return { usagersValidCountByStructureMap, usagersAllCountByStructureMap };
+    return {
+      usagersValidCountByStructureMap,
+      usagersAllCountByStructureMap,
+      usagersAyantsDroitsCountByStructureMap,
+    };
   }
 }
