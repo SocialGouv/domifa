@@ -224,6 +224,9 @@
           <th (click)="sortDashboard('usagersAllCount', 'desc')">
             Domiciliés <fa-icon icon="sort"></fa-icon>
           </th>
+          <th (click)="sortDashboard('usagersAyantsDroitsCount', 'desc')">
+            Ayants-droits <fa-icon icon="sort"></fa-icon>
+          </th>
           <th (click)="sortDashboard('usagersValideCount', 'desc')">
             Actifs <fa-icon icon="sort"></fa-icon>
           </th>
@@ -268,6 +271,9 @@
           <td>{{ structure.usersCount }}</td>
           <td>{{ stats.usagersAllCountByStructureMap[structure.id] }}</td>
           <td>{{ stats.usagersValidCountByStructureMap[structure.id] }}</td>
+          <td>
+            {{ stats.usagersAyantsDroitsCountByStructureMap[structure.id] }}
+          </td>
           <td>
             {{ structure.lastLogin | date: "dd/MM/yyyy" || "Info manquante" }}
           </td>
