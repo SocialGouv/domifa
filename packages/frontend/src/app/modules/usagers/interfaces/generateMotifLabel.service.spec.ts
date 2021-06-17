@@ -6,17 +6,35 @@ describe("generateMotifLabel", () => {
   it("generateMotifLabel  ", async () => {
     expect(generateMotifLabel(usagerValideMock)).toEqual("");
 
+    usagerRefusMock.decision.motif = "HORS_AGREMENT";
     expect(generateMotifLabel(usagerRefusMock)).toEqual(
-      "Non-manifestation de la personne pendant plus de 3 mois consécutifs"
+      "En dehors des critères du public domicilié"
     );
 
-    usagerRefusMock.decision.motif = "A_SA_DEMANDE";
+    usagerRefusMock.decision.motif = "LIEN_COMMUNE";
+
     expect(generateMotifLabel(usagerRefusMock)).toEqual(
-      "À la demande de la personne"
+      "Absence de lien avec la commune"
+    );
+
+    usagerRefusMock.decision.motif = "SATURATION";
+
+    expect(generateMotifLabel(usagerRefusMock)).toEqual(
+      "Nombre maximal domiciliations atteint"
     );
 
     usagerRefusMock.decision.motif = "AUTRE";
     usagerRefusMock.decision.motifDetails =
-      "Il y un autre motif que ceux dans la liste";
+      "Nombre maximal domiciliations atteint";
+
+    expect(generateMotifLabel(usagerRefusMock)).toEqual(
+      "Autre motif : Nombre maximal domiciliations atteint"
+    );
+
+    usagerRefusMock.decision.motifDetails = null;
+
+    expect(generateMotifLabel(usagerRefusMock)).toEqual(
+      "Autre motif non précisé"
+    );
   });
 });

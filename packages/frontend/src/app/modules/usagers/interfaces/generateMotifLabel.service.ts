@@ -1,10 +1,13 @@
+import { UsagerFormModel } from "./../components/form/UsagerFormModel";
 import { UsagerLight } from "../../../../_common/model";
 import {
   MOTIFS_REFUS_LABELS,
   MOTIFS_RADIATION_LABELS,
 } from "../../../../_common/model/usager/labels";
 
-export const generateMotifLabel = (usager: UsagerLight): string => {
+export const generateMotifLabel = (
+  usager: UsagerLight | UsagerFormModel
+): string => {
   let motif = "" as any;
   if (usager.decision) {
     if (
@@ -13,8 +16,9 @@ export const generateMotifLabel = (usager: UsagerLight): string => {
     ) {
       if (usager.decision.motif === "AUTRE") {
         motif =
-          usager.decision.motifDetails !== ""
-            ? "Autre motif" + usager.decision.motifDetails
+          usager.decision.motifDetails !== "" &&
+          usager.decision.motifDetails !== null
+            ? "Autre motif : " + usager.decision.motifDetails
             : ("Autre motif non précisé" as any);
       } else {
         motif =
