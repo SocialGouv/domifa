@@ -62,7 +62,6 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
     );
     component = fixture.debugElement.componentInstance;
     component.usager = new UsagerFormModel(usagerValideMock);
-
     component.ngOnInit();
   });
 

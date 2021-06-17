@@ -152,8 +152,12 @@ export class DecisionComponent implements OnInit {
     });
 
     this.refusForm.get("motif").valueChanges.subscribe((value) => {
-      const customValidator = value === "AUTRE" ? Validators.required : null;
-      this.refusForm.get("motifDetails").setValidators(customValidator);
+      if (value === "AUTRE") {
+        this.refusForm.get("agrement").setValidators(Validators.required);
+      } else {
+        this.refusForm.get("motifDetails").setValidators(null);
+        this.refusForm.get("motifDetails").setValue(null);
+      }
     });
   }
 
