@@ -15,11 +15,12 @@ import {
   INTERACTIONS_OUT_AVAILABLE,
 } from "../../../../../../_common/model/interaction";
 import { bounce } from "../../../../../shared/animations";
-import { Interaction } from "../../../interfaces/interaction";
-import { isProcurationActifMaintenant } from "../../../services";
+
 import { InteractionService } from "../../../services/interaction.service";
-import { UsagerService } from "../../../services/usager.service";
-import { UsagerFormModel } from "../../form/UsagerFormModel";
+import { UsagerService } from "../../../../usagers/services/usager.service";
+import { UsagerFormModel } from "../../../../usagers/components/form/UsagerFormModel";
+import { Interaction } from "../../../../usagers/interfaces/interaction";
+
 @Component({
   animations: [bounce],
   selector: "app-set-interaction-out-form",

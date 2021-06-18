@@ -5,10 +5,6 @@ import { residence, typeMenage } from "../../stats/usagers.labels";
 import { StructureCommon, UsagerLight } from "../../_common/model";
 import { StructureCustomDoc } from "../../_common/model/structure-doc/StructureCustomDoc.type";
 import moment = require("moment");
-import {
-  MOTIFS_RADIATION_LABELS,
-  MOTIFS_REFUS_LABELS,
-} from "../../_common/labels";
 
 export function buildCustomDoc(
   usager: UsagerLight,

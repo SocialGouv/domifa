@@ -6,8 +6,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { usagerValideMock } from "../../../../../../_common/mocks/usagerValideMock.mock";
-
-import { UsagerFormModel } from "../../form/UsagerFormModel";
+import { UsagerFormModel } from "../../../../usagers/components/form/UsagerFormModel";
 
 import { SetInteractionOutFormComponent } from "./set-interaction-out-form.component";
 

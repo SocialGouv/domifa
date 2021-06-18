@@ -9,12 +9,10 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-
-import { UsagerFormModel } from "../../form/UsagerFormModel";
+import { usagerValideMock } from "../../../../../_common/mocks/usagerValideMock.mock";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 
 import { ProfilEditPreferenceComponent } from "./profil-edit-preference.component";
-
-import { usagerValideMock } from "../../../../../../_common/mocks/usagerValideMock.mock";
 
 describe("ProfilEditPreferenceComponent", () => {
   let component: ProfilEditPreferenceComponent;
@@ -41,11 +39,11 @@ describe("ProfilEditPreferenceComponent", () => {
           useValue: {
             init: jest.fn(),
           },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
+        },
+        {
+          provide: MatomoTracker,
+          useValue: {
+            setUserId: jest.fn(),
           },
         },
         { provide: APP_BASE_HREF, useValue: "/" },

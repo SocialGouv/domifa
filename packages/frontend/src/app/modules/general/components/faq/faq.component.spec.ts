@@ -15,36 +15,38 @@ import { RouterTestingModule } from "@angular/router/testing";
 describe("FaqComponent", () => {
   let component: FaqComponent;
   let fixture: ComponentFixture<FaqComponent>;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [FaqComponent],
-      imports: [
-        MatomoModule,
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
-        ToastrModule.forRoot(),
-      ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FaqComponent],
+        imports: [
+          MatomoModule,
+          NgbModule,
+          ReactiveFormsModule,
+          FormsModule,
+          HttpClientTestingModule,
+          RouterTestingModule,
+          ToastrModule.forRoot(),
+        ],
+        providers: [
+          {
+            provide: MatomoInjector,
+            useValue: {
+              init: jest.fn(),
+            },
           },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
+          {
+            provide: MatomoTracker,
+            useValue: {
+              setUserId: jest.fn(),
+            },
           },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+          { provide: APP_BASE_HREF, useValue: "/" },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FaqComponent);

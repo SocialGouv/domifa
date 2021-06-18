@@ -4,12 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDateStruct, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 import { ToastrService } from "ngx-toastr";
-import {
-  AppUser,
-  UserRole,
-  UsagerLight,
-  USAGER_DECISION_STATUT_LABELS,
-} from "../../../../../_common/model";
+import { AppUser, UserRole, UsagerLight } from "../../../../../_common/model";
 import {
   InteractionForApi,
   InteractionType,
@@ -29,6 +24,7 @@ import { Interaction } from "../../../usagers/interfaces/interaction";
 
 import { UsagerProfilService } from "../../services/usager-profil.service";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
+import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/labels";
 
 @Component({
   selector: "app-profil-general-section",
@@ -73,11 +69,9 @@ export class ProfilGeneralSectionComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private modalService: NgbModal,
-
     private notifService: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-
     private usagerProfilService: UsagerProfilService,
     private titleService: Title,
     private interactionService: InteractionService
