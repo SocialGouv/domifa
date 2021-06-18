@@ -115,7 +115,7 @@ function renderWorksheet({
 
 function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
   return model.usagers.map((usager) => {
-    usager.decision.motif = generateMotifLabel(usager) as any;
+    usager.decision.motif = generateMotifLabel(usager.decision) as any;
 
     let decisionUserPremierDom = "";
     let decisionUserRenouvellement = "";

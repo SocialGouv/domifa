@@ -153,7 +153,7 @@ export class DecisionComponent implements OnInit {
 
     this.refusForm.get("motif").valueChanges.subscribe((value) => {
       if (value === "AUTRE") {
-        this.refusForm.get("agrement").setValidators(Validators.required);
+        this.refusForm.get("motifDetails").setValidators(Validators.required);
       } else {
         this.refusForm.get("motifDetails").setValidators(null);
         this.refusForm.get("motifDetails").setValue(null);

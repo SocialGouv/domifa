@@ -1,25 +1,28 @@
-import { UsagerLight } from "./../../_common/model/usager/UsagerLight.type";
 import {
   MOTIFS_REFUS_LABELS,
   MOTIFS_RADIATION_LABELS,
 } from "../../_common/labels";
+import { UsagerDecision } from "../../_common/model";
 
-export const generateMotifLabel = (usager: UsagerLight): string => {
-  let motif = "" as any;
-  if (
-    usager.decision.statut === "REFUS" ||
-    usager.decision.statut === "RADIE"
-  ) {
-    if (usager.decision.motif === "AUTRE") {
+export const generateMotifLabel = (decision: UsagerDecision): string => {
+  if (!decision) {
+    return "";
+  }
+
+  console.log(decision);
+
+  let motif = "";
+  if (decision.statut === "REFUS" || decision.statut === "RADIE") {
+    if (decision.motif === "AUTRE") {
       motif =
-        usager.decision.motifDetails !== ""
-          ? "Autre motif" + usager.decision.motifDetails
+        decision.motifDetails !== "" && decision.motifDetails !== null
+          ? "Autre motif : " + decision.motifDetails
           : ("Autre motif non précisé" as any);
     } else {
       motif =
-        usager.decision.statut === "REFUS"
-          ? MOTIFS_REFUS_LABELS[usager.decision.motif]
-          : (MOTIFS_RADIATION_LABELS[usager.decision.motif] as any);
+        decision.statut === "REFUS"
+          ? MOTIFS_REFUS_LABELS[decision.motif]
+          : (MOTIFS_RADIATION_LABELS[decision.motif] as any);
     }
   }
 
