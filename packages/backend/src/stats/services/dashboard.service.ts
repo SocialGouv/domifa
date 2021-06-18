@@ -252,7 +252,7 @@ export class DashboardService {
       structures: structuresModels,
       usagersAllCountByStructureId: usagersAllCountByStructureMap,
       usagersValideCountByStructureId: usagersValidCountByStructureMap,
-      usagersAyantDroitsByStructureId: usagersAyantsDroitsCountByStructureMap,
+      usagersAyantsDroitsByStructureId: usagersAyantsDroitsCountByStructureMap,
       usagersCountByStatut,
       structuresCountByRegion,
       structuresCountByType,
