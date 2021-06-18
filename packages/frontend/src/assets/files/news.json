@@ -1,19 +1,22 @@
 [
   {
-    "date": "2021-06-15",
+    "date": "2021-06-18",
+    "description": "Les notifications SMS sont disponibles !",
     "content": [
       {
         "type": "new",
         "categorie": "Des nouveautés sur DomiFa !",
         "message": [
-          "Une nouvelle page d’acceuil sur ordinateur et mobile",
+          "Une nouvelle page d’accueil sur ordinateur et mobile",
           "Les statistiques structure sont de nouveau disponibles ! Elles ont été retravaillées, ainsi que le modèle d’export",
+          "Ajout de commentaire possible sur la réception de courrier depuis la liste des domiciliés",
           "Correction du bug d’affichage des mails",
           "Correction du bug de la suppression d’un renouvellement"
         ]
       }
     ]
   },
+
   {
     "date": "2021-05-26",
     "description": "Vos retours ont été pris en compte",
