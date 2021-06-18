@@ -1,3 +1,4 @@
+import { UsagerAyantDroit } from "./../../../_common/model/usager/UsagerAyantDroit.type";
 import { Column, Workbook } from "exceljs";
 import { structureType } from "../../../stats/usagers.labels";
 import { DEPARTEMENTS_MAP } from "../../../structures/DEPARTEMENTS_MAP.const";
@@ -35,6 +36,7 @@ function renderWorksheet({
     { key: "importDate" },
     { key: "usersCount" },
     { key: "usagersAllCount" },
+    { key: "usagersAyantsDroitsCount" },
     { key: "usagersValideCount" },
     { key: "lastLogin" },
     { key: "codePostal" },
@@ -70,6 +72,8 @@ function buildRows(stats: StatsDeploiementExportModel): XlRowModel[] {
         importDate: xlFormater.toLocalTimezone(structure.importDate),
         usersCount: model.usersCount,
         usagersAllCount: stats.usagersAllCountByStructureId[structure.id] || 0,
+        usagersAyantsDroitsCount:
+          stats.usagersAyantsDroitsByStructureId[structure.id] || 0,
         usagersValideCount:
           stats.usagersValideCountByStructureId[structure.id] || 0,
         lastLogin: xlFormater.toLocalTimezone(structure.lastLogin),

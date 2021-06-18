@@ -3,7 +3,7 @@ import { StatsDeploiementStructureExportModel } from "./StatsDeploiementStructur
 export type StatsDeploiementExportModel = {
   exportDate: Date;
   structures: StatsDeploiementStructureExportModel[];
-  usagersAyantDroitsByStructureId: { [structureId: string]: number };
+  usagersAyantsDroitsByStructureId: { [structureId: string]: number };
   usagersAllCountByStructureId: { [structureId: string]: number };
   usagersValideCountByStructureId: { [structureId: string]: number };
   usagersCountByStatut: { [statut: string]: number };
