@@ -36,7 +36,7 @@ export class DashboardService {
       usagersValidCountByStructureMap,
       usagersAllCountByStructureMap,
       usagersAyantsDroitsCountByStructureMap,
-    } = await this.getUsagersCountByStructureMaps();
+    } = await this.getUsagersCountByStructureMaps(structures);
 
     const structuresCountByRegion = await this.getStructuresCountByRegion();
 
@@ -149,19 +149,18 @@ export class DashboardService {
       },
     });
   }
+
   public async getUsagersAyantsDroitsCountByStructure(): Promise<
     {
       structureId: number;
-      sum: number;
+      sum: string;
     }[]
   > {
-    const test = await appTypeormManager
+    return appTypeormManager
       .getRepository(UsagerTable)
       .query(
-        `select "structureId", sum(jsonb_array_length("ayantsDroits")) from usager u group by "structureId" `
+        `select "structureId", sum(jsonb_array_length("ayantsDroits")) as count from usager u group by "structureId" `
       );
-
-    return test;
   }
 
   public async getUsagersCountByStatut(): Promise<
@@ -229,8 +228,14 @@ export class DashboardService {
     const structuresModels: StatsDeploiementStructureExportModel[] =
       await this.getStatsDeploiementStructures();
 
-    const { usagersValidCountByStructureMap, usagersAllCountByStructureMap } =
-      await this.getUsagersCountByStructureMaps();
+    const structures = await this.getStructuresForDashboard();
+
+    const {
+      usagersValidCountByStructureMap,
+      usagersAllCountByStructureMap,
+      usagersAyantsDroitsCountByStructureMap,
+    } = await this.getUsagersCountByStructureMaps(structures);
+
     const usagersCountByStatut = await this.getUsagersCountByStatutMap();
 
     const structuresCountByRegion = await this.getStructuresCountByRegion();
@@ -247,6 +252,7 @@ export class DashboardService {
       structures: structuresModels,
       usagersAllCountByStructureId: usagersAllCountByStructureMap,
       usagersValideCountByStructureId: usagersValidCountByStructureMap,
+      usagersAyantDroitsByStructureId: usagersAyantsDroitsCountByStructureMap,
       usagersCountByStatut,
       structuresCountByRegion,
       structuresCountByType,
@@ -304,18 +310,9 @@ export class DashboardService {
       }
     }
   }
-  private async getUsagersCountByStructureMaps() {
+  private async getUsagersCountByStructureMaps(structures) {
     const usagersValidCountByStructure =
       await this.getUsagersValideCountByStructure();
-    const usagersValidCountByStructureMap = usagersValidCountByStructure.reduce(
-      (acc, x) => {
-        acc[x.structureId] = x.count;
-        return acc;
-      },
-      {} as {
-        [structureId: string]: number;
-      }
-    );
 
     const usagersAllCountByStructure =
       await this.getUsagersAllCountByStructure();
@@ -323,30 +320,51 @@ export class DashboardService {
     const usagersAyantsDroitsCountByStructure =
       await this.getUsagersAyantsDroitsCountByStructure();
 
-    const usagersAyantsDroitsCountByStructureMap =
-      usagersAyantsDroitsCountByStructure.reduce(
-        (acc, x) => {
-          acc[x.structureId] = x.sum;
-          return acc;
-        },
-        {} as {
-          [structureId: string]: number;
-        }
-      );
+    const usagersValidCountByStructureMap = this.reduceSumResults(
+      structures,
+      usagersValidCountByStructure
+    );
 
-    const usagersAllCountByStructureMap = usagersAllCountByStructure.reduce(
+    const usagersAyantsDroitsCountByStructureMap = this.reduceSumResults(
+      structures,
+      usagersAyantsDroitsCountByStructure
+    );
+
+    const usagersAllCountByStructureMap = this.reduceSumResults(
+      structures,
+      usagersAllCountByStructure
+    );
+
+    return {
+      usagersValidCountByStructureMap,
+      usagersAllCountByStructureMap,
+      usagersAyantsDroitsCountByStructureMap,
+    };
+  }
+
+  public reduceSumResults(structures, sumToReduce) {
+    const listOfStructures: {
+      [key in string]?: number;
+    } = structures.reduce(
       (acc, x) => {
-        acc[x.structureId] = x.count;
+        acc[x.id] = 0;
         return acc;
       },
       {} as {
         [structureId: string]: number;
       }
     );
-    return {
-      usagersValidCountByStructureMap,
-      usagersAllCountByStructureMap,
-      usagersAyantsDroitsCountByStructureMap,
-    };
+
+    sumToReduce.reduce(
+      (acc, x) => {
+        listOfStructures[x.structureId] = parseInt(x.count, 10);
+        return acc;
+      },
+      {} as {
+        [structureId: string]: number;
+      }
+    );
+
+    return listOfStructures;
   }
 }
