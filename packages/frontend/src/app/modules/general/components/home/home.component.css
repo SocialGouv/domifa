@@ -102,5 +102,15 @@ ul.check-list li::before {
 }
 
 .structure-logo {
-  height: 50px;
+  height: 60px;
+}
+
+h2 span,
+h2 img {
+  vertical-align: middle;
+}
+
+h2 img {
+  width: 32px;
+  height: auto;
 }

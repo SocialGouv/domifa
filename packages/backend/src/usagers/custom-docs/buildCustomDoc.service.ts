@@ -68,7 +68,7 @@ export function buildCustomDoc(
   }
 
   // Motif de refus
-  usager.decision.motif = generateMotifLabel(usager) as any;
+  const motif = generateMotifLabel(usager.decision);
 
   return {
     // DATES UTILES
@@ -129,7 +129,7 @@ export function buildCustomDoc(
       "Type de domiciliation : première domiciliation ou renouvellement",
 
     // REFUS / RADIATION
-    MOTIF_RADIATION: usager.decision.motif,
+    MOTIF_RADIATION: motif,
     DATE_RADIATION: moment(usager.decision.dateDecision)
       .locale("fr")
       .format("LL"),

@@ -119,8 +119,8 @@ export class CerfaService {
       usager.entretien.rattachement
     ).toUpperCase();
 
-    const motif = generateMotifLabel(usager);
-
+    const motif = generateMotifLabel(usager.decision);
+    console.log(motif);
     const pdfInfos: UsagerCerfaFields = {
       adresse: adresseDomicilie,
       adresseOrga1: adresseStructure,
