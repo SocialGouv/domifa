@@ -1,4 +1,3 @@
-import { INTERACTIONS_IN_AVAILABLE } from "./../../../../../_common/model/interaction/INTERACTIONS_IN_AVAILABLE.const";
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -23,17 +22,19 @@ import { regexp } from "src/app/shared/validators";
 import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
+import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/constants";
 import { languagesAutocomplete } from "../../../../shared";
 import { interactionsLabels } from "../../interactions.labels";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction } from "../../interfaces/interaction";
 import { Options } from "../../interfaces/options";
+import { isProcurationActifMaintenant } from "../../services";
 import { DocumentService } from "../../services/document.service";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
 import { UsagerFormModel } from "../form/UsagerFormModel";
-import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/constants";
+import { INTERACTIONS_IN_AVAILABLE } from "./../../../../../_common/model/interaction/INTERACTIONS_IN_AVAILABLE.const";
 
 @Component({
   providers: [
@@ -406,7 +407,7 @@ export class UsagersProfilComponent implements OnInit {
     this.matomo.trackEvent("test-nouveau-profil", "gros-icones", type, 1);
 
     if (type.substring(type.length - 3) === "Out") {
-      if (this.usager.options.procuration.actif) {
+      if (isProcurationActifMaintenant(this.usager)) {
         if (typeof procuration === "undefined") {
           this.typeInteraction = type;
           this.modalService.open(this.distributionConfirm);

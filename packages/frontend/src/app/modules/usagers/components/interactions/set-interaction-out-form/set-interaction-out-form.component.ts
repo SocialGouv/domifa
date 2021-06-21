@@ -15,6 +15,7 @@ import {
 } from "../../../../../../_common/model/interaction";
 import { bounce } from "../../../../../shared/animations";
 import { Interaction } from "../../../interfaces/interaction";
+import { isProcurationActifMaintenant } from "../../../services";
 import { InteractionService } from "../../../services/interaction.service";
 import { UsagerService } from "../../../services/usager.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
@@ -39,6 +40,10 @@ export class SetInteractionOutFormComponent implements OnInit {
 
   public contentToCheck: boolean; // Si un courrier a du contenu écrit
   public interactions: Interaction[]; // Si un courrier a du contenu écrit
+
+  public displayProcuration() {
+    return isProcurationActifMaintenant(this.usager);
+  }
 
   constructor(
     private interactionService: InteractionService,
