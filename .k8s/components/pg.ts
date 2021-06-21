@@ -7,25 +7,26 @@ import gitlab from "@socialgouv/kosko-charts/environments/gitlab";
 
 import { create } from "@socialgouv/kosko-charts/components/azure-pg";
 
-export default () => {
+export default async () => {
   if (env.env === "dev") {
-    return create({
-      env,
-    });
+    return await create({ env });
   }
 
   // in prod/preprod, we try to add a fixed sealed-secret
-  const secret = loadYaml<SealedSecret>(env, `pg-user.sealed-secret.yaml`);
+  const secret = await loadYaml<SealedSecret>(env, `pg-user.sealed-secret.yaml`);
+
   if (!secret) {
     return [];
   }
 
   const envParams = gitlab(process.env);
+
   // add gitlab annotations
   updateMetadata(secret, {
     annotations: envParams.annotations || {},
     labels: envParams.labels || {},
     namespace: envParams.namespace,
   });
+
   return [secret];
 };
