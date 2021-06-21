@@ -95,7 +95,7 @@ export default async () => {
   const { env } = process;
   const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
   const isProductionCluster = Boolean(PRODUCTION);
-  const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev2";
+  const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev";
   const isDev = !isProductionCluster && !isPreProduction;
 
   const manifests = await getManifests();
