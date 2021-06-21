@@ -1010,7 +1010,8 @@
         <app-entretien
           *ngIf="editEntretien"
           [(editEntretien)]="editEntretien"
-          [(usager)]="usager"
+          [usager]="usager"
+          (usagerChanges)="onUsagerChanges($event)"
         ></app-entretien>
 
         <app-profil-entretien
