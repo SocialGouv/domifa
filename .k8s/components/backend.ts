@@ -111,6 +111,7 @@ export default () => {
       POSTGRES_USERNAME: "$(PGUSER)",
       POSTGRES_PASSWORD: "$(PGPASSWORD)",
       POSTGRES_DATABASE: "$(PGDATABASE)",
+      DOMIFA_BACKEND_URL: `https://${getIngressHost(manifests)}`,
       DOMIFA_FRONTEND_URL: `https://${getIngressHost(frontendManifests)}`,
     },
   });

@@ -1,13 +1,11 @@
-import { ok } from "assert";
 import env from "@kosko/env";
-import { EnvVar } from "kubernetes-models/v1/EnvVar";
-import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
-import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { create } from "@socialgouv/kosko-charts/components/nginx";
+import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
-import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
-
+import { ok } from "assert";
+import { Deployment } from "kubernetes-models/apps/v1/Deployment";
+import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getBackendManifests } from "./backend";
 
 export const getManifests = () => {
@@ -59,12 +57,12 @@ export default () => {
 
   const backendManifests = getBackendManifests();
 
-  const frontendUrl = new EnvVar({
+  const backendUrl = new EnvVar({
     name: "DOMIFA_BACKEND_URL",
     value: `https://${getIngressHost(backendManifests)}/`,
   });
 
-  addEnv({ deployment, data: frontendUrl });
+  addEnv({ deployment, data: backendUrl });
 
   return manifests;
 };
