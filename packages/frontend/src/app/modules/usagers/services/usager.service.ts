@@ -124,10 +124,16 @@ export class UsagerService {
     entretien: Entretien,
     usagerRef: number
   ): Observable<UsagerLight> {
-    return this.http.post<UsagerLight>(
-      `${this.endPointUsagers}/entretien/${usagerRef}`,
-      entretien
-    );
+    return this.http
+      .post<UsagerLight>(
+        `${this.endPointUsagers}/entretien/${usagerRef}`,
+        entretien
+      )
+      .pipe(
+        tap((usager: UsagerLight) => {
+          usagersSearchCache.updateUsager(usager);
+        })
+      );
   }
 
   public renouvellement(usagerRef: number): Observable<UsagerLight> {

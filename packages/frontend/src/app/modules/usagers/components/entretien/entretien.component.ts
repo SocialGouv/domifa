@@ -26,7 +26,7 @@ export class EntretienComponent implements OnInit {
   public entretienForm!: FormGroup;
 
   @Input() public usager!: UsagerLight;
-  @Output() public usagerChange = new EventEmitter<UsagerLight>();
+  @Output() public usagerChanges = new EventEmitter<UsagerLight>();
 
   @Input() public editEntretien!: boolean;
   @Output() public editEntretienChange = new EventEmitter<boolean>();
@@ -97,7 +97,7 @@ export class EntretienComponent implements OnInit {
       .entretien(this.entretienForm.value, this.usager.ref)
       .subscribe(
         (usager: UsagerLight) => {
-          this.usagerChange.emit(usager);
+          this.usagerChanges.emit(usager);
           this.editEntretienChange.emit(false);
           this.nextStep.emit(3);
           this.notifService.success("Enregistrement de l'entretien réussi");
