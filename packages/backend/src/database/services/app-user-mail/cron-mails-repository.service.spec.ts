@@ -20,6 +20,7 @@ describe("cronMailsRepository", () => {
     {
       // retrieve users without "guide" mail flag
       const users = await cronMailsRepository.findUsersToSendCronMail({
+        minCreationDate: new Date(Date.UTC(2020, 11, 1)),
         maxCreationDate: new Date(Date.now()),
         mailType: "guide",
         structuresIds: [1, 2],
@@ -40,6 +41,7 @@ describe("cronMailsRepository", () => {
     {
       // retrieve users again
       const users = await cronMailsRepository.findUsersToSendCronMail({
+        minCreationDate: new Date(Date.UTC(2020, 11, 1)),
         maxCreationDate: new Date(Date.now()),
         mailType: "guide",
         structuresIds: [1],
@@ -56,6 +58,7 @@ describe("cronMailsRepository", () => {
   });
   it("findNextUserToSendCronMail returns no user", async () => {
     const users = await cronMailsRepository.findUsersToSendCronMail({
+      minCreationDate: new Date(Date.UTC(2019, 11, 1)),
       maxCreationDate: new Date(Date.UTC(2020, 10, 15)),
       mailType: "guide",
       structuresIds: [2],
@@ -66,6 +69,7 @@ describe("cronMailsRepository", () => {
   it("findNextUserToSendCronMail returns next user to send import mail", async () => {
     // retrieve users without "guide" mail flag
     const users = await cronMailsRepository.findUsersToSendCronMail({
+      minCreationDate: new Date(Date.UTC(2020, 11, 1)),
       maxCreationDate: new Date(Date.now()),
       mailType: "import",
     });

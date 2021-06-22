@@ -67,20 +67,21 @@ export class CronMailImportGuideSenderService {
     const maxCreationDate: Date = moment()
       .subtract(delay.amount, delay.unit)
       .toDate();
+    const minCreationDate: Date = moment(maxCreationDate)
+      .subtract(14, "day")
+      .toDate();
 
     const structuresIds: number[] = [];
 
-    const structures: Pick<
-      Structure,
-      "id"
-    >[] = await structureRepository.findMany(
-      {
-        import: false,
-      },
-      {
-        select: ["id"],
-      }
-    );
+    const structures: Pick<Structure, "id">[] =
+      await structureRepository.findMany(
+        {
+          import: false,
+        },
+        {
+          select: ["id"],
+        }
+      );
 
     if (structures.length === 0) {
       return [];
@@ -94,6 +95,7 @@ export class CronMailImportGuideSenderService {
     }
 
     const users = await cronMailsRepository.findUsersToSendCronMail({
+      minCreationDate,
       maxCreationDate,
       structuresIds,
       mailType: "import",
