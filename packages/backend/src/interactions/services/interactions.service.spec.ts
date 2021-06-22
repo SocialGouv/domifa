@@ -1,11 +1,11 @@
-import { usagerRepository, usersRepository } from "../database";
-import { StructuresModule } from "../structures/structure.module";
-import { UsagersModule } from "../usagers/usagers.module";
-import { UsersModule } from "../users/users.module";
-import { AppTestContext, AppTestHelper } from "../util/test";
-import { AppUser, Usager } from "../_common/model";
-import { InteractionDto } from "./interactions.dto";
-import { InteractionsModule } from "./interactions.module";
+import { usagerRepository, usersRepository } from "../../database";
+import { StructuresModule } from "../../structures/structure.module";
+import { UsagersModule } from "../../usagers/usagers.module";
+import { UsersModule } from "../../users/users.module";
+import { AppTestContext, AppTestHelper } from "../../util/test";
+import { AppUser, Usager } from "../../_common/model";
+import { InteractionDto } from "../interactions.dto";
+import { InteractionsModule } from "../interactions.module";
 import { InteractionsService } from "./interactions.service";
 
 describe("InteractionsService", () => {
@@ -49,7 +49,7 @@ describe("InteractionsService", () => {
     interaction.type = "courrierOut";
     interaction.content = "Retrait du courrier";
     interaction.nbCourrier = 0;
-    const resultat = await interactionsService.create({
+    const { usager: resultat } = await interactionsService.create({
       usager,
       user,
       interaction,
@@ -73,7 +73,7 @@ describe("InteractionsService", () => {
     secondInteraction.type = "courrierIn";
     secondInteraction.content = "Le Loyer";
     secondInteraction.nbCourrier = 5;
-    const usager2 = await interactionsService.create({
+    const { usager: usager2 } = await interactionsService.create({
       usager,
       user,
       interaction: secondInteraction,
@@ -81,7 +81,7 @@ describe("InteractionsService", () => {
     expect(usager2.lastInteraction.courrierIn).toEqual(15);
   });
 
-  it("2. Réception et distribution de 10 courriers", async () => {
+  it("2. Réception et distribution de 1 courriers", async () => {
     const interaction = new InteractionDto();
     interaction.type = "colisIn";
     interaction.content = "Colis d'un distributeur";
@@ -92,7 +92,7 @@ describe("InteractionsService", () => {
       structureId: 1,
     });
 
-    const usager3 = await interactionsService.create({
+    const { usager: usager3 } = await interactionsService.create({
       usager,
       user,
       interaction,
@@ -103,7 +103,7 @@ describe("InteractionsService", () => {
 
     const distribution = new InteractionDto();
     distribution.type = "colisOut";
-    const usager2 = await interactionsService.create({
+    const { usager: usager2 } = await interactionsService.create({
       usager,
       user,
       interaction: distribution,

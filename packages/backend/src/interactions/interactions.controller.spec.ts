@@ -7,7 +7,7 @@ import { AppAuthUser, UsagerLight } from "../_common/model";
 import { SmsModule } from "./../sms/sms.module";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionDto } from "./interactions.dto";
-import { InteractionsService } from "./interactions.service";
+import { InteractionsModule } from "./interactions.module";
 
 describe("Interactions Controller", () => {
   let controller: InteractionsController;
@@ -20,8 +20,8 @@ describe("Interactions Controller", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [InteractionsController],
-      imports: [UsersModule, UsagersModule, SmsModule],
-      providers: [InteractionsService],
+      imports: [UsersModule, UsagersModule, SmsModule, InteractionsModule],
+      providers: [],
     });
 
     controller = context.module.get<InteractionsController>(

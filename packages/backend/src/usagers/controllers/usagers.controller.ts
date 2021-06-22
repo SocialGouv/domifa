@@ -20,13 +20,12 @@ import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { ResponsableGuard } from "../../auth/guards/responsable.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { usagerLightRepository, usagerRepository } from "../../database";
-import { InteractionsService } from "../../interactions/interactions.service";
+import { InteractionsService } from "../../interactions/services";
 import {
   AppAuthUser,
   ETAPE_DOCUMENTS,
   ETAPE_ETAT_CIVIL,
   ETAPE_RENDEZ_VOUS,
-  UsagerDecision,
   UsagerLight,
 } from "../../_common/model";
 import { CreateUsagerDto } from "../dto/create-usager.dto";
@@ -40,7 +39,6 @@ import { CerfaService } from "../services/cerfa.service";
 import { usagerDeletor } from "../services/usagerDeletor.service";
 import { usagerHistoryStateManager } from "../services/usagerHistoryStateManager.service";
 import { UsagersService } from "../services/usagers.service";
-import { usagerVisibleHistoryManager } from "../services/usagerVisibleHistoryManager.service";
 
 @Controller("usagers")
 @ApiTags("usagers")

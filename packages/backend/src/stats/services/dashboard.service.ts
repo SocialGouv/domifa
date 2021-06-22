@@ -1,4 +1,3 @@
-import { Usager } from "./../../_common/model/usager/Usager.type";
 import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import {
@@ -297,12 +296,13 @@ export class DashboardService {
       if (interactionType === "appel" || interactionType === "visite") {
         return this.interactionRepository.count({
           type: interactionType,
+          event: "create",
         });
       } else {
         const search = await this.interactionRepository
           .createQueryBuilder("interactions")
           .select("SUM(interactions.nbCourrier)", "sum")
-          .where({ type: interactionType })
+          .where({ type: interactionType, event: "create" })
           .groupBy("interactions.type")
           .getRawOne();
 

@@ -1,7 +1,9 @@
-import { In } from "typeorm";
-import { AppAuthUser, Usager } from "../../../_common/model";
+import { FindConditions, In, LessThan, MoreThan } from "typeorm";
+import { AppAuthUser, AppUser, Usager } from "../../../_common/model";
 import {
+  InteractionEvent,
   Interactions,
+  InteractionType,
   INTERACTION_IN_OUT_LIST,
   INTERACTION_IN_OUT_OBJECTS,
   INTERACTION_OK_LIST,
@@ -14,28 +16,63 @@ const baseRepository =
 
 export const interactionRepository = {
   ...baseRepository,
+  findLastInteraction,
   findLastInteractionOk,
   findWithFilters,
 };
 
-async function findLastInteractionOk(
-  user: Pick<AppAuthUser, "structureId">,
-  usager: Pick<Usager, "ref">
-): Promise<InteractionsTable[]> {
-  return baseRepository.findMany(
+async function findLastInteraction({
+  usagerRef,
+  dateInteraction,
+  typeInteraction,
+  user,
+  isIn,
+  event,
+}: {
+  usagerRef: number;
+  dateInteraction: Date;
+  typeInteraction: InteractionType;
+  user: Pick<AppUser, "structureId">;
+  isIn: string;
+  event: InteractionEvent;
+}): Promise<Interactions | null> {
+  const dateQuery =
+    isIn === "out" ? LessThan(dateInteraction) : MoreThan(dateInteraction);
+
+  const where: FindConditions<InteractionsTable> = {
+    structureId: user.structureId,
+    usagerRef,
+    type: typeInteraction,
+    dateInteraction: dateQuery,
+    event,
+  };
+  return interactionRepository.findOne(where as any);
+}
+
+async function findLastInteractionOk({
+  user,
+  usager,
+  event,
+}: {
+  user: Pick<AppAuthUser, "structureId">;
+  usager: Pick<Usager, "ref">;
+  event: InteractionEvent;
+}): Promise<Interactions> {
+  const lastInteractions = await baseRepository.findMany(
     typeOrmSearch<InteractionsTable>({
       structureId: user.structureId,
       usagerRef: usager.ref,
       type: In(INTERACTION_OK_LIST),
+      event,
     }),
     {
       order: {
         dateInteraction: "DESC",
       },
-      skip: 1,
-      maxResults: 2,
+      maxResults: 1,
     }
   );
+  return lastInteractions?.length > 0 ? lastInteractions[0] : undefined;
 }
 
 async function findWithFilters({

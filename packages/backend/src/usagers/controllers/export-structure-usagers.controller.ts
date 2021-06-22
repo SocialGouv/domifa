@@ -8,7 +8,7 @@ import {
   structureUsagersExporter,
   StructureUsagersExportModel,
 } from "../../excel/export-structure-usagers";
-import { InteractionsService } from "../../interactions/interactions.service";
+import { InteractionsService } from "../../interactions/services";
 import { expressResponseExcelRenderer } from "../../util";
 import {
   AppAuthUser,
