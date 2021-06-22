@@ -6,7 +6,7 @@ import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsT
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/interactions.dto";
 import { appLogger } from "../../util";
-import { AppAuthUser, UsagerLight } from "../../_common/model";
+import { AppAuthUser, Usager, UsagerLight } from "../../_common/model";
 import { MessageSms } from "../../_common/model/message-sms";
 import { StructureSmsParams } from "../../_common/model/structure/StructureSmsParams.type";
 import { generateSmsInteraction } from "./generators";
@@ -49,13 +49,13 @@ export class MessageSmsService {
 
   // Suppression d'un SMS si le courrier a été distribué
   public async deleteSmsInteractionOut(
-    usager: UsagerLight,
-    user: AppAuthUser,
+    usager: Pick<Usager, "ref" | "preference">,
+    structureId: number,
     interaction: InteractionDto
   ) {
     const smsOnHold = await messageSmsRepository.findSmsOnHold({
-      usager,
-      user,
+      usagerRef: usager.ref,
+      structureId,
       interactionType: interaction.type,
     });
 
@@ -68,13 +68,13 @@ export class MessageSmsService {
 
   // Suppression d'un SMS si l'interaction a été supprimée
   public async deleteSmsInteraction(
-    usager: UsagerLight,
-    user: AppAuthUser,
+    usager: Pick<Usager, "ref" | "preference">,
+    structureId: number,
     interaction: InteractionDto
   ) {
     const smsOnHold = await messageSmsRepository.findSmsOnHold({
-      usager,
-      user,
+      usagerRef: usager.ref,
+      structureId,
       interactionType: interaction.type,
     });
 
@@ -122,8 +122,8 @@ export class MessageSmsService {
     }
 
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
-      usager,
-      user,
+      usagerRef: usager.ref,
+      structureId: user.structureId,
       interactionType: interaction.type,
     });
 

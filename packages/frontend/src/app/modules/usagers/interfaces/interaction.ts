@@ -1,4 +1,8 @@
 import {
+  InteractionEvent,
+  Interactions,
+} from "../../../../_common/model/interaction";
+import {
   interactionsLabels,
   interactionsLabelsPluriel,
 } from "../interactions.labels";
@@ -19,7 +23,12 @@ export class Interaction {
 
   public label: string;
 
+  event: InteractionEvent;
+  previousValue?: Interactions; // if event === 'delete'
+
   constructor(interaction: any) {
+    this.event = interaction?.event;
+    this.previousValue = interaction?.previousValue;
     this.usagerRef = (interaction && interaction.usagerRef) || null;
     this.structureId = (interaction && interaction.structureId) || null;
     this.userId = (interaction && interaction.userId) || null;

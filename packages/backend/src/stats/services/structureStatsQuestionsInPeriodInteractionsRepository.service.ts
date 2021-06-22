@@ -96,6 +96,7 @@ async function countInteractions({
       where: {
         structureId,
         type: interactionType,
+        event: "create",
         dateInteraction: Between(
           dateInteractionAfter,
           dateInteractionBefore
@@ -108,6 +109,7 @@ async function countInteractions({
       where: {
         structureId,
         type: interactionType,
+        event: "create",
         dateInteraction: Between(
           dateInteractionAfter,
           dateInteractionBefore

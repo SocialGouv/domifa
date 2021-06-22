@@ -1,15 +1,9 @@
-import {
-  AppUser,
-  InteractionType,
-  MessageSms,
-  UsagerLight,
-} from "../../../_common/model";
+import { InteractionType, MessageSms } from "../../../_common/model";
 import { MessageSmsTable } from "../../entities/message-sms/MessageSmsTable.typeorm";
 import { pgRepository } from "../_postgres";
 
-const baseRepository = pgRepository.get<MessageSmsTable, MessageSms>(
-  MessageSmsTable
-);
+const baseRepository =
+  pgRepository.get<MessageSmsTable, MessageSms>(MessageSmsTable);
 
 export const SMS_ON_HOLD_INTERACTION: (keyof MessageSms)[] = [
   "uuid",
@@ -35,12 +29,12 @@ export const messageSmsRepository = {
 };
 
 async function findSmsOnHold({
-  usager,
-  user,
+  usagerRef,
+  structureId,
   interactionType,
 }: {
-  usager: Pick<UsagerLight, "ref">;
-  user: Pick<AppUser, "structureId">;
+  usagerRef: number;
+  structureId: number;
   interactionType: InteractionType;
 }): Promise<MessageSms> {
   return messageSmsRepository.findOneWithQuery<MessageSms>({
@@ -50,8 +44,8 @@ async function findSmsOnHold({
     "usagerRef"= :usagerRef and
     "structureId"=:structureId `,
     params: {
-      usagerRef: usager.ref,
-      structureId: user.structureId,
+      usagerRef,
+      structureId: structureId,
       interactionType,
     },
   });

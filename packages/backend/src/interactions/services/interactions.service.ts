@@ -4,11 +4,16 @@ import {
   interactionRepository,
   InteractionsTable,
   usagerLightRepository,
-} from "../database";
-import { AppAuthUser, AppUser, Usager, UsagerLight } from "../_common/model";
-import { Interactions, InteractionType } from "../_common/model/interaction";
-import { UsagerOptionsTransfert } from "../_common/model/usager";
-import { InteractionDto } from "./interactions.dto";
+} from "../../database";
+import {
+  AppAuthUser,
+  AppUser,
+  Usager,
+  UsagerLight,
+  UsagerOptionsTransfert,
+} from "../../_common/model";
+import { Interactions, InteractionType } from "../../_common/model/interaction";
+import { InteractionDto } from "../interactions.dto";
 
 @Injectable()
 export class InteractionsService {
@@ -21,7 +26,10 @@ export class InteractionsService {
     interaction: InteractionDto;
     usager: UsagerLight;
     user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
-  }): Promise<UsagerLight> {
+  }): Promise<{
+    usager: UsagerLight;
+    interaction: Interactions;
+  }> {
     const buildedInteraction = buildNewInteraction({
       interaction,
       usager,
@@ -35,12 +43,15 @@ export class InteractionsService {
       newInteraction
     );
 
-    await interactionRepository.save(createdInteraction);
+    const interactionCreated = await interactionRepository.save(
+      createdInteraction
+    );
 
-    return usagerLightRepository.updateOne(
+    const usagerUpdated = await usagerLightRepository.updateOne(
       { uuid: usager.uuid },
       { lastInteraction }
     );
+    return { usager: usagerUpdated, interaction: interactionCreated };
   }
 
   public async findOne(
@@ -53,13 +64,6 @@ export class InteractionsService {
       structureId: user.structureId,
       usagerRef,
     });
-  }
-
-  public async findLastInteractionOk(
-    usager: Pick<Usager, "ref">,
-    user: Pick<AppAuthUser, "structureId">
-  ): Promise<Interactions[] | [] | null> {
-    return interactionRepository.findLastInteractionOk(user, usager);
   }
 
   public async findLastInteraction(
@@ -109,13 +113,21 @@ export class InteractionsService {
           structureId,
           usagerRef,
           type: interactionType,
+          event: "create",
         },
       });
     } else {
-      const search = await (await interactionRepository.typeorm())
+      const search = await (
+        await interactionRepository.typeorm()
+      )
         .createQueryBuilder("interactions")
         .select("SUM(interactions.nbCourrier)", "sum")
-        .where({ structureId, usagerRef, type: interactionType })
+        .where({
+          structureId,
+          usagerRef,
+          type: interactionType,
+          event: "create",
+        })
         .groupBy("interactions.type")
         .getRawOne();
       return typeof search !== "undefined" ? search.sum : 0;

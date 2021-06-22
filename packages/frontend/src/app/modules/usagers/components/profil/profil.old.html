@@ -395,7 +395,14 @@
             >
               <tr *ngIf="interaction.delete === true">
                 <td colspan="4" class="delete-interaction">
-                  Êtes-vous sûr de vouloir supprimer cette interaction ?
+                  <span *ngIf="interaction.event === 'create'"
+                    >Êtes-vous sûr de vouloir supprimer cette interaction
+                    ?</span
+                  >
+                  <span *ngIf="interaction.event === 'delete'"
+                    >Êtes-vous sûr de vouloir restaurer cette interaction
+                    ?</span
+                  >
                   <button
                     class="btn btn-danger"
                     (click)="deleteInteraction(interaction.id)"
@@ -418,19 +425,40 @@
                   {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
                 </td>
                 <td>
-                  {{ interaction.label }}
+                  <div *ngIf="interaction.event === 'create'">
+                    {{ interaction.label }}
+                  </div>
+                  <div *ngIf="interaction.event === 'delete'">
+                    <b>Interraction supprimée:</b>
+                    <br />{{ interaction.label }} le {{
+                    interaction?.previousValue?.dateInteraction | date:
+                    'dd/MM/yyyy à HH:mm' }} par {{
+                    interaction?.previousValue?.userName }}
+                  </div>
                   <div *ngIf="interaction.content">
                     {{ interaction.content }}
                   </div>
                 </td>
                 <td>{{ interaction.userName }}</td>
-                <td class="interactions-actions" *ngIf="!interaction.delete">
-                  <span (click)="interaction.delete = true">
-                    <fa-icon icon="trash-alt" class="delete"></fa-icon>
-                  </span>
-                  <span *ngIf="false" (click)="interaction.delete = false">
-                    <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
-                  </span>
+                <td class="interactions-actions">
+                  <ng-container *ngIf="!interaction.delete && i === 0">
+                    <span (click)="interaction.delete = true" title="Supprimer">
+                      <fa-icon
+                        *ngIf="interaction.event === 'create'"
+                        icon="trash-alt"
+                        class="delete"
+                      ></fa-icon>
+                      <fa-icon
+                        *ngIf="interaction.event === 'delete'"
+                        icon="exclamation-triangle"
+                        class="delete"
+                        title="Restaurer"
+                      ></fa-icon>
+                    </span>
+                    <span *ngIf="false" (click)="interaction.delete = false">
+                      <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
+                    </span>
+                  </ng-container>
                 </td>
               </tr>
             </ng-container>

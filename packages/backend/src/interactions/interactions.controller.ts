@@ -3,8 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
   Param,
   ParseArrayPipe,
   Post,
@@ -22,7 +20,7 @@ import { UsagersService } from "../usagers/services/usagers.service";
 import { AppAuthUser, UsagerLight } from "../_common/model";
 import { InteractionType } from "../_common/model/interaction";
 import { InteractionDto } from "./interactions.dto";
-import { InteractionsService } from "./interactions.service";
+import { InteractionsDeletor, InteractionsService } from "./services";
 
 @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
 @ApiTags("interactions")
@@ -30,6 +28,7 @@ import { InteractionsService } from "./interactions.service";
 export class InteractionsController {
   constructor(
     private readonly interactionsService: InteractionsService,
+    private readonly interactionDeletor: InteractionsDeletor,
     private readonly usagersService: UsagersService,
     private readonly smsService: MessageSmsService
   ) {}
@@ -45,11 +44,12 @@ export class InteractionsController {
     for (let i = 0; i < interactions.length; i++) {
       const interaction: InteractionDto = interactions[i] as InteractionDto;
 
-      usager = await this.interactionsService.create({
+      const created = await this.interactionsService.create({
         interaction,
         usager,
         user,
       });
+      usager = created.usager;
 
       // 1. Vérifier l'activation des SMS par la structure
       if (
@@ -84,7 +84,7 @@ export class InteractionsController {
             // Suppression du SMS en file d'attente
             const smsToDelete = await this.smsService.deleteSmsInteractionOut(
               usager,
-              user,
+              user.structureId,
               interaction
             );
           }
@@ -119,109 +119,10 @@ export class InteractionsController {
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: UsagerLight
   ) {
-    const interactionToDelete = await this.interactionsService.findOne(
-      usager.ref,
+    return this.interactionDeletor.deleteInteraction({
       interactionId,
-      user
-    );
-
-    if (!interactionToDelete || interactionToDelete === null) {
-      throw new HttpException("INTERACTION_NOT_FOUND", HttpStatus.BAD_REQUEST);
-    }
-
-    if (interactionToDelete.type === "npai") {
-      usager.options.npai.actif = false;
-      usager.options.npai.dateDebut = null;
-
-      const delInteraction = await this.interactionsService.delete(
-        usager.ref,
-        interactionId,
-        user
-      );
-
-      if (delInteraction) {
-        return this.usagersService.patch({ uuid: usager.uuid }, usager);
-      }
-    }
-
-    const len = interactionToDelete.type.length;
-
-    const interactionOut =
-      interactionToDelete.type.substring(len - 3) ===
-      ("Out" as unknown as InteractionType);
-
-    const interactionIn =
-      interactionToDelete.type.substring(len - 2) ===
-      ("In" as unknown as InteractionType);
-
-    if (interactionIn) {
-      // Suppression du SMS en file d'attente
-      const smsToDelete = await this.smsService.deleteSmsInteraction(
-        usager,
-        user,
-        interactionToDelete
-      );
-
-      const inType = (interactionToDelete.type.substring(0, len - 2) +
-        "Out") as unknown as InteractionType;
-
-      const last = await this.interactionsService.findLastInteraction(
-        usager.ref,
-        interactionToDelete.dateInteraction,
-        inType,
-        user,
-        "in"
-      );
-
-      if (!last || last === null) {
-        if (interactionToDelete.nbCourrier) {
-          usager.lastInteraction[interactionToDelete.type] =
-            usager.lastInteraction[interactionToDelete.type] -
-            interactionToDelete.nbCourrier;
-        }
-      }
-    } else if (interactionOut) {
-      const inType = interactionToDelete.type.substring(0, len - 3) + "In";
-
-      if (interactionToDelete.nbCourrier) {
-        usager.lastInteraction[inType] =
-          usager.lastInteraction[inType] + interactionToDelete.nbCourrier;
-      }
-    }
-
-    // Recherche de la dernière date de passage
-    const lastTwo = await this.interactionsService.findLastInteractionOk(
-      usager,
-      user
-    );
-
-    if (lastTwo && lastTwo !== null && lastTwo.length) {
-      // Si la date de la dernière décision a lieu après la dernière interaction, on l'assigne à lastInteraction.dateInteraction
-      usager.lastInteraction.dateInteraction =
-        lastTwo[0].dateInteraction > new Date(usager.decision.dateDecision)
-          ? lastTwo[0].dateInteraction
-          : usager.decision.dateDecision;
-    } else {
-      usager.lastInteraction.dateInteraction = usager.decision.dateDecision;
-    }
-
-    usager.lastInteraction.enAttente =
-      usager.lastInteraction.courrierIn > 0 ||
-      usager.lastInteraction.colisIn > 0 ||
-      usager.lastInteraction.recommandeIn > 0;
-
-    const deletedInteraction = await this.interactionsService.delete(
-      usager.ref,
-      interactionId,
-      user
-    );
-
-    if (deletedInteraction === null || !deletedInteraction) {
-      throw new HttpException(
-        "INTERACTION_DELETE_IMPOSSIBLE",
-        HttpStatus.BAD_REQUEST
-      );
-    }
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+      user,
+      usagerRef: usager.ref,
+    });
   }
 }

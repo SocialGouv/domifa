@@ -1,4 +1,4 @@
-import { AppEntity } from "..";
+import { AppEntity, InteractionEvent } from "..";
 import { InteractionType } from "./InteractionType.type";
 
 export type Interactions = AppEntity & {
@@ -13,4 +13,6 @@ export type Interactions = AppEntity & {
   usagerUUID: string;
   userId: number;
   userName: string;
+  event: InteractionEvent;
+  previousValue?: Interactions; // if event === 'delete'
 };

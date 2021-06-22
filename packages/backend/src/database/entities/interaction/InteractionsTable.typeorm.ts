@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import {
+  InteractionEvent,
   Interactions,
   InteractionType,
 } from "../../../_common/model/interaction";
@@ -17,7 +18,8 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 @Entity({ name: "interactions" })
 export class InteractionsTable
   extends AppTypeormTable<Interactions>
-  implements Interactions {
+  implements Interactions
+{
   @PrimaryGeneratedColumn("increment")
   id: number;
 
@@ -64,4 +66,10 @@ export class InteractionsTable
 
   @Column({ type: "text", nullable: true })
   content: string;
+
+  @Column({ type: "text", default: "create" })
+  event: InteractionEvent;
+
+  @Column({ type: "jsonb", nullable: true })
+  previousValue?: Interactions; // if event === 'delete'
 }
