@@ -64,7 +64,7 @@ describe("cronMailsRepository", () => {
   });
 
   it("findNextUserToSendCronMail returns next user to send import mail", async () => {
-    // retrieve users without "guide" mail flag
+    //  retrieve users without "guide" mail flag
     const users = await cronMailsRepository.findUsersToSendCronMail({
       maxCreationDate: new Date(Date.now()),
       mailType: "import",
