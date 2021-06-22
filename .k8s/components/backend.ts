@@ -7,7 +7,7 @@ import { create } from "@socialgouv/kosko-charts/components/app";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
-import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
+// import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 
 import { getManifests as getFrontendManifests } from "./frontend";
 
@@ -31,7 +31,7 @@ const addEnvs = ({ deployment, data, containerIndex = 0 }: AddEnvsParams) => {
   });
 };
 
-export const getManifests = () => {
+export const getManifests = async () => {
   const name = "backend";
   const probesPath = "/healthz";
   const subdomain = "domifa-api";
@@ -55,7 +55,7 @@ export const getManifests = () => {
     {}
   );
 
-  const manifests = create(name, {
+  const manifests = await create(name, {
     env,
     config: {
       subdomain,
@@ -91,20 +91,20 @@ export const getManifests = () => {
   return manifests;
 };
 
-export default () => {
+export default async () => {
   const { env } = process;
   const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
   const isProductionCluster = Boolean(PRODUCTION);
-  const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev2";
+  const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev";
   const isDev = !isProductionCluster && !isPreProduction;
 
-  const manifests = getManifests();
+  const manifests = await getManifests();
   /* pass dynamic deployment URL as env var to the container */
   //@ts-expect-error
   const deployment = getManifestByKind(manifests, Deployment) as Deployment;
   ok(deployment);
 
-  const frontendManifests = getFrontendManifests();
+  const frontendManifests = await getFrontendManifests();
 
   addEnvs({
     deployment,

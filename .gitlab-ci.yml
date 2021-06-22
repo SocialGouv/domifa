@@ -2,7 +2,7 @@ include:
   # docker build + push: https://github.com/SocialGouv/gitlab-ci-yml/blob/v22.0.0/base_register_docker_stage.yml
   - project: SocialGouv/gitlab-ci-yml
     file: /base_autodevops.yml
-    ref: v22.1.9
+    ref: v23.0.1
 
 variables:
   # Globals
@@ -70,7 +70,7 @@ Seed:
     name: postgres:11
     entrypoint: [""]
   environment:
-    name: ${CI_COMMIT_REF_NAME}-dev2
+    name: ${CI_COMMIT_REF_NAME}${AUTO_DEVOPS_PREPROD_ENVIRONMENT_NAME}
     url: https://${CI_ENVIRONMENT_SLUG}-${CI_PROJECT_NAME}.${KUBE_INGRESS_BASE_DOMAIN}
   retry: 2
   rules:

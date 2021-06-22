@@ -6,11 +6,10 @@ import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { create } from "@socialgouv/kosko-charts/components/nginx";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
-import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 
 import { getManifests as getBackendManifests } from "./backend";
 
-export const getManifests = () => {
+export const getManifests = async () => {
   const probesPath = "/";
   const name = "frontend";
   const subdomain = "domifa";
@@ -34,7 +33,7 @@ export const getManifests = () => {
     {}
   );
 
-  const manifests = create(name, {
+  const manifests = await create(name, {
     env,
     config: {
       subdomain: process.env.PRODUCTION ? `fake-${subdomain}` : subdomain,
@@ -48,8 +47,8 @@ export const getManifests = () => {
   return manifests;
 };
 
-export default () => {
-  const manifests = getManifests();
+export default async () => {
+  const manifests = await getManifests();
 
   /* pass dynamic deployment URL as env var to the container */
   //@ts-expect-error
@@ -57,7 +56,7 @@ export default () => {
 
   ok(deployment);
 
-  const backendManifests = getBackendManifests();
+  const backendManifests = await getBackendManifests();
 
   const frontendUrl = new EnvVar({
     name: "DOMIFA_BACKEND_URL",
