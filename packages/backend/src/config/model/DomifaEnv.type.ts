@@ -1,12 +1,31 @@
 export type DomifaEnv = {
+  DOMIFA_ENV_PRESET: string;
+  DOMIFA_ENV_PRIORITY: "files" | "process.env";
+  /**
+   * @deprecated use DOMIFA_SECURITY_FILES_IV instead
+   */
   FILES_IV: string;
+  /**
+   * @deprecated use DOMIFA_SECURITY_FILES_PRIVATE instead
+   */
   FILES_PRIVATE: string;
+  DOMIFA_SECURITY_FILES_IV: string;
+  DOMIFA_SECURITY_FILES_PRIVATE: string;
+  DOMIFA_SECURITY_CORS_ENABLED: string;
   DOMIFA_CORS_URL: string;
   DOMIFA_FRONTEND_URL: string;
   DOMIFA_BACKEND_URL: string;
   DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND: string;
+  /**
+   * @deprecated use DOMIFA_SECURITY_JWT_SECRET instead
+   */
   SECRET: string;
+  DOMIFA_SECURITY_JWT_SECRET: string;
+  /**
+   * @deprecated use DOMIFA_UPLOADS_FOLDER instead
+   */
   UPLOADS_FOLDER: string;
+  DOMIFA_UPLOADS_FOLDER: string;
   DOMIFA_ENV_ID: string;
   DOMIFA_DOCKER_IMAGE_VERSION: string;
   DOMIFA_SWAGGER_ENABLE: string;
@@ -37,6 +56,7 @@ export type DomifaEnv = {
   POSTGRES_PASSWORD: string;
   POSTGRES_DATABASE: string;
   POSTGRES_LOGGING: string;
+  POSTGRES_POOL_MAX_CONNEXIONS: string;
   DOMIFA_TYPEORM_RUN_ON_STARTUP: string;
   DOMIFA_TYPEORM_CREATE_DATABASE: string;
   DOMIFA_MAIL_SMTP_ID: string;
@@ -48,7 +68,9 @@ export type DomifaEnv = {
   DOMIFA_MAIL_SMTP_TIPIMAIL_PORT: string;
   DOMIFA_MAIL_SMTP_TIPIMAIL_USER: string;
   DOMIFA_MAIL_SMTP_TIPIMAIL_PASSWORD: string;
-  SENTRY_DSN: string;
+  DOMIFA_SENTRY_ENABLED: string;
+  DOMIFA_SENTRY_DEBUG_MODE_ENABLED: string;
+  DOMIFA_SENTRY_DNS: string;
   DOMIFA_CRON_MONITORING_CLEANER_DELAY: string;
   DOMIFA_CRON_MONITORING_CLEANER_CRONTIME: string;
   DOMIFA_CRON_MONITORING_CLEANER_AUTO_RUN_STARTUP: string;

@@ -36,24 +36,30 @@ async function updateMailFlag({
 }
 
 async function findUsersToSendCronMail({
+  minCreationDate,
   maxCreationDate,
   structuresIds,
   mailType,
 }: {
+  minCreationDate: Date;
   maxCreationDate: Date;
   structuresIds?: number[];
   mailType: CronMailType;
 }): Promise<Pick<AppUser, "id" | "role" | "email" | "nom" | "prenom">[]> {
-  const maxCreationDateString = postgresQueryBuilder.formatPostgresDate(
-    maxCreationDate
-  );
+  const minCreationDateString =
+    postgresQueryBuilder.formatPostgresDate(minCreationDate);
+
+  const maxCreationDateString =
+    postgresQueryBuilder.formatPostgresDate(maxCreationDate);
 
   const whereClausesAnd = [
     `"createdAt" <= (:maxCreationDateString)::timestamp at time zone 'Europe/Paris'`,
+    `"createdAt" >= (:minCreationDateString)::timestamp at time zone 'Europe/Paris'`,
     `(mails->>:mailType)::boolean = false`,
   ];
   const params: { [attr: string]: any } = {
     maxCreationDateString,
+    minCreationDateString,
     mailType,
   };
   if (structuresIds && structuresIds.length) {
@@ -67,14 +73,12 @@ async function findUsersToSendCronMail({
     params["roles"] = roles;
   }
 
-  const users: Pick<
-    AppUser,
-    "id" | "email" | "nom" | "prenom" | "role"
-  >[] = await usersRepository.findManyWithQuery({
-    select: ["id", "email", "nom", "prenom", "role"],
-    where: whereClausesAnd.join(" AND "),
-    params,
-  });
+  const users: Pick<AppUser, "id" | "email" | "nom" | "prenom" | "role">[] =
+    await usersRepository.findManyWithQuery({
+      select: ["id", "email", "nom", "prenom", "role"],
+      where: whereClausesAnd.join(" AND "),
+      params,
+    });
 
   return users;
 }

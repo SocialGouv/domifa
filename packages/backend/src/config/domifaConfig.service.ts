@@ -1,8 +1,13 @@
 import { CronExpression } from "@nestjs/schedule";
-import * as dotenv from "dotenv";
-import * as fs from "fs";
 import * as path from "path";
-import { DomifaConfig, DomifaEnv, DOMIFA_ENV_IDS } from "./model";
+import { appLogger } from "../util";
+import { domifaConfigFileLoader } from "./domifaConfigFileLoader.service";
+import {
+  DomifaConfig,
+  DomifaConfigSecurity,
+  DomifaEnv,
+  DOMIFA_ENV_IDS,
+} from "./model";
 import { configParser } from "./services/configParser.service";
 import { configTypeOrmLoggerParser } from "./services/configTypeOrmLoggerParser.service";
 import SMTPTransport = require("nodemailer/lib/smtp-transport");
@@ -11,61 +16,71 @@ let _domifaConfig: DomifaConfig;
 
 export const domifaConfig = (env?: Partial<DomifaEnv>) => {
   if (!_domifaConfig) {
-    _domifaConfig = loadConfig(env ? env : loadEnv());
+    _domifaConfig = loadConfig(env ? env : loadEnvWithPreset());
   }
   return _domifaConfig;
 };
 
-function loadEnv(): Partial<DomifaEnv> {
-  const envFile =
-    process.env.NODE_ENV === "tests-local"
+export function loadEnvWithPreset({
+  defaultEnv,
+}: { defaultEnv?: Partial<DomifaEnv> } = {}): Partial<DomifaEnv> {
+  const envFileName =
+    process.env.ENV_FILE === "tests-local"
       ? ".env.backend.test.local.env"
       : ".env";
-  const envFilePath = path.join(__dirname, "../../", envFile);
 
-  if (!fs.existsSync(envFilePath)) {
-    if (process.env.NODE_ENV) {
-      // tslint:disable-next-line: no-console
-      console.warn(
-        `[configService] Env file ${envFilePath} not found: ignoring`
-      );
-    }
+  const domifaEnv =
+    defaultEnv ?? domifaConfigFileLoader.loadEnvFile(envFileName);
+
+  const presetEnvFileName =
+    domifaEnv["DOMIFA_ENV_PRESET"] ?? process.env["DOMIFA_ENV_PRESET"];
+
+  let domifaPresetEnv = domifaConfigFileLoader.loadEnvFile(
+    path.join(".env.preset", presetEnvFileName)
+  );
+
+  const presetParentEnvFileName = domifaPresetEnv["DOMIFA_ENV_PRESET_PARENT"];
+
+  if (presetParentEnvFileName) {
+    const domifaPresetParentEnv = domifaConfigFileLoader.loadEnvFile(
+      path.join(".env.preset", presetParentEnvFileName)
+    );
+    domifaPresetEnv = {
+      ...domifaPresetParentEnv,
+      ...domifaPresetEnv,
+    };
+  }
+  const merged = {
+    ...process.env, // specific config is here in dist environments
+    ...domifaPresetEnv, // default values
+    ...domifaEnv, // empty in dist env (but used in local environments)
+  };
+  if (merged["DOMIFA_ENV_PRIORITY"] === "process.env") {
+    // DIST: global environment variables overrides files config
+    appLogger.warn('[loadEnvWithPreset] "process.env" overrides files config');
     return {
-      ...process.env,
-    } as unknown as Partial<DomifaEnv>;
+      ...merged,
+      ...process.env, // specific config is here in dist environments
+    };
   } else {
-    // tslint:disable-next-line: no-console
-    console.debug(`[configService] Loading config file "${envFilePath}"`);
-    const { error, parsed } = dotenv.config({ path: envFile });
-    if (error) {
-      // tslint:disable-next-line: no-console
-      console.error(`[configService] Error loading env file ${envFilePath}`, {
-        error,
-        sentry: true,
-      });
-    }
-    return {
-      ...process.env,
-      ...parsed, // override process.env from ${envFile}
-    } as unknown as Partial<DomifaEnv>;
+    // LOCAL: files config overrides global environment (usefull for local tests env)
+    return merged;
   }
 }
 
 /*
  * STRATEGIE:
- * - définir les bonnes options par défaut en fonction de l'environnement
+ * - utilisation d'un fichier preset dédié via la variable "DOMIFA_ENV_PRESET" en fonction de l'environnement
+ * - pour certaines variables non définies, calcul des valeurs par défaut en fonction des autres variables
  */
 export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
+  // be sure that DOMIFA_ENV_PRESET is set
+  configParser.parseString(x, "DOMIFA_ENV_PRESET");
+
   const envId = configParser.parseString(x, "DOMIFA_ENV_ID", {
     validValues: DOMIFA_ENV_IDS,
   });
-
-  const frontendUrl = configParser.parseString(x, "DOMIFA_FRONTEND_URL", {
-    defaultValue:
-      envId === "dev" || envId === "test"
-        ? "http://localhost:4200/" // default on LOCAL
-        : undefined,
-  });
+  const frontendUrl = configParser.parseString(x, "DOMIFA_FRONTEND_URL");
 
   const frontendUrlFromBackend = configParser.parseString(
     x,
@@ -75,25 +90,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     }
   );
 
-  const backendUrl = configParser.parseString(x, "DOMIFA_BACKEND_URL", {
-    defaultValue:
-      envId === "dev" || envId === "test"
-        ? "http://localhost:3000/" // default on LOCAL
-        : undefined,
-  });
+  const backendUrl = configParser.parseString(x, "DOMIFA_BACKEND_URL");
 
-  const emailsEnabled = configParser.parseBoolean(x, "DOMIFA_EMAILS_ENABLE", {
-    defaultValue:
-      envId === "prod" || envId === "preprod" || envId === "formation"
-        ? true
-        : false,
-  });
+  const emailsEnabled = configParser.parseBoolean(x, "DOMIFA_EMAILS_ENABLE");
 
-  const smsEnabled = configParser.parseBoolean(x, "DOMIFA_SMS_ENABLE", {
-    defaultValue: envId === "prod" ? true : false,
-  });
+  const smsEnabled = configParser.parseBoolean(x, "DOMIFA_SMS_ENABLE");
 
-  const sentryDns = configParser.parseString(x, "SENTRY_DSN", {
+  const sentryDns = configParser.parseString(x, "DOMIFA_SENTRY_DNS", {
     required: false,
   });
 
@@ -112,30 +115,9 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     healthz: {
       frontendUrlFromBackend,
     },
-    security: {
-      corsUrl: configParser.parseString(x, "DOMIFA_CORS_URL", {
-        defaultValue:
-          envId === "dev" || envId === "test"
-            ? undefined // disabled by default in DEV
-            : frontendUrl, // required in DIST
-        required: false,
-      }),
-      files: {
-        iv: configParser.parseString(x, "FILES_IV", {
-          defaultValue:
-            envId === "dev" || envId === "test"
-              ? "gHSEyi222Nx5iwk7gF3vYxHX7aHki2XmuHqZq4pYF29xfBBuUE1rc2gv3wdU3DVW" // not critical locally
-              : undefined,
-        }),
-        private: configParser.parseString(x, "FILES_PRIVATE", {
-          defaultValue:
-            envId === "dev" || envId === "test"
-              ? "sXsQ4eT75rt4QcgJpMDvlTUzgxqlJIPX7psHCKDSUbNvIE1K4ykqrUssJW5v2jwr" // not critical locally
-              : undefined,
-        }),
-      },
-      jwtSecret: configParser.parseString(x, "SECRET"), // critical: no default value
-    },
+    security: parseSecurityConfig(x, {
+      frontendUrl,
+    }),
     postgres: {
       host: configParser.parseString(x, "POSTGRES_HOST", {
         defaultValue: "postgres",
@@ -149,6 +131,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       logging: configTypeOrmLoggerParser.getTypeormLoggerOptions(
         x,
         "POSTGRES_LOGGING"
+      ),
+      poolMaxConnections: configParser.parseInteger(
+        x,
+        "POSTGRES_POOL_MAX_CONNEXIONS",
+        {
+          defaultValue: 10, // 10 is also driver default: https://node-postgres.com/api/pool#constructor
+        }
       ),
     },
     typeorm: {
@@ -168,22 +157,26 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       ),
     },
     upload: {
-      basePath: configParser.parseString(x, "UPLOADS_FOLDER", {
-        defaultValue: "/files/",
+      basePath: configParser.parseString(x, "DOMIFA_UPLOADS_FOLDER", {
+        deprecatedKey: "UPLOADS_FOLDER",
       }),
     },
     dev: {
-      printEnv: configParser.parseBoolean(x, "DOMIFA_PRINT_ENV", {
-        defaultValue: false,
-      }),
-      printConfig: configParser.parseBoolean(x, "DOMIFA_PRINT_CONFIG", {
-        defaultValue: false,
-      }),
-      swaggerEnabled: configParser.parseBoolean(x, "DOMIFA_SWAGGER_ENABLE", {
-        defaultValue: envId === "dev" ? true : false,
-      }),
+      printEnv: configParser.parseBoolean(x, "DOMIFA_PRINT_ENV"),
+      printConfig: configParser.parseBoolean(x, "DOMIFA_PRINT_CONFIG"),
+      swaggerEnabled: configParser.parseBoolean(x, "DOMIFA_SWAGGER_ENABLE"),
       sentry: {
-        enabled: !!sentryDns,
+        enabled:
+          configParser.parseBoolean(x, "DOMIFA_SENTRY_ENABLED", {
+            defaultValue: !!sentryDns,
+          }) && !!sentryDns,
+        debugModeEnabled: configParser.parseBoolean(
+          x,
+          "DOMIFA_SENTRY_DEBUG_MODE_ENABLED",
+          {
+            defaultValue: false,
+          }
+        ),
         sentryDns,
       },
       anonymizer: {
@@ -194,20 +187,14 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     },
     cron: {
       enable: configParser.parseBoolean(x, "DOMIFA_CRON_ENABLED", {
-        defaultValue: envId === "test" ? false : true,
+        defaultValue: false,
       }),
       emailUserGuide: {
         crontime: configParser.parseString(
           x,
           "DOMIFA_CRON_EMAIL_USER_GUIDE_CRONTIME",
           {
-            defaultValue:
-              envId === "dev" ||
-              envId === "test" ||
-              envId === "preprod" ||
-              envId === "formation"
-                ? CronExpression.EVERY_10_MINUTES
-                : "0 15 * * TUE",
+            defaultValue: "0 15 * * TUE",
           }
         ),
         delay: configParser.parseDelay(
@@ -216,13 +203,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           "DOMIFA_CRON_EMAIL_USER_GUIDE_DELAY",
 
           {
-            defaultValue:
-              envId === "dev" ||
-              envId === "test" ||
-              envId === "preprod" ||
-              envId === "formation"
-                ? "5 minutes"
-                : "7 days",
+            defaultValue: "7 days",
           }
         ),
         autoRunOnStartup: configParser.parseBoolean(
@@ -236,26 +217,14 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_CRONTIME",
           {
-            defaultValue:
-              envId === "dev" ||
-              envId === "test" ||
-              envId === "preprod" ||
-              envId === "formation"
-                ? CronExpression.EVERY_10_MINUTES
-                : "0 15 * * TUE",
+            defaultValue: "0 15 * * TUE",
           }
         ),
         delay: configParser.parseDelay(
           x,
           "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_DELAY",
           {
-            defaultValue:
-              envId === "dev" ||
-              envId === "test" ||
-              envId === "preprod" ||
-              envId === "formation"
-                ? "5 minutes"
-                : "7 days",
+            defaultValue: "7 days",
           }
         ),
         autoRunOnStartup: configParser.parseBoolean(
@@ -268,7 +237,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         enableSendImmadiately: configParser.parseBoolean(
           x,
           "DOMIFA_CRON_EMAIL_SEND_IMMEDIATELY",
-          { defaultValue: envId === "test" ? false : true }
+          { defaultValue: true }
         ),
         crontime: configParser.parseString(
           x,
@@ -314,8 +283,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_MONITORING_CLEANER_DELAY",
           {
-            defaultValue:
-              envId === "dev" || envId === "test" ? "1 day" : "7 days",
+            defaultValue: "7 days",
           }
         ),
       },
@@ -375,6 +343,38 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
   }
   return config;
 }
+function parseSecurityConfig(
+  x: Partial<DomifaEnv>,
+  {
+    frontendUrl,
+  }: {
+    frontendUrl: string;
+  }
+): DomifaConfigSecurity {
+  const securityCorsEnabled = configParser.parseBoolean(
+    x,
+    "DOMIFA_SECURITY_CORS_ENABLED"
+  );
+  return {
+    corsEnabled: securityCorsEnabled,
+    corsUrl: configParser.parseString(x, "DOMIFA_CORS_URL", {
+      defaultValue: securityCorsEnabled ? frontendUrl : undefined,
+      required: securityCorsEnabled,
+    }),
+    files: {
+      iv: configParser.parseString(x, "DOMIFA_SECURITY_FILES_IV", {
+        deprecatedKey: "FILES_IV",
+      }),
+      private: configParser.parseString(x, "DOMIFA_SECURITY_FILES_PRIVATE", {
+        deprecatedKey: "FILES_PRIVATE",
+      }),
+    },
+    jwtSecret: configParser.parseString(x, "DOMIFA_SECURITY_JWT_SECRET", {
+      deprecatedKey: "SECRET",
+    }),
+  };
+}
+
 function buildSmtpOptions(
   x: Partial<DomifaEnv>,
   { required }: { required: boolean }

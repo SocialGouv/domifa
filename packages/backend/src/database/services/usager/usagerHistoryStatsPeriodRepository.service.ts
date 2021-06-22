@@ -3,7 +3,7 @@ import {
   UsagerDecisionOrientation,
   UsagerDecisionStatut,
   UsagerHistoryStateCreationEvent,
-  UsagerTypeDom,
+  UsagerTypeDom
 } from "../../../_common/model";
 import { typeOrmSearch } from "../_postgres/pgRepository.service";
 import { usagerHistoryRepository } from "./usagerHistoryRepository.service";

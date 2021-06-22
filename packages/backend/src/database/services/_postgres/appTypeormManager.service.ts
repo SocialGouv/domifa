@@ -63,9 +63,11 @@ async function connect(
     return connectionHolder.connection;
   }
 
-  appLogger.warn(
-    `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
-  );
+  if (domifaConfig().envId !== "test") {
+    appLogger.warn(
+      `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port} (max poolMaxConnections=${pgConfig.poolMaxConnections}, logging="${pgConfig.logging}")`
+    );
+  }
 
   const isTypescriptMode = __filename.split(".").pop() === "ts"; // if current file extension is "ts": use src/*.ts files, eles use dist/*.js files
 
@@ -75,7 +77,9 @@ async function connect(
   >;
 
   if (isTypescriptMode) {
-    appLogger.warn(`[appTypeormManager] Running in typescript DEV mode`);
+    if (domifaConfig().envId !== "test") {
+      appLogger.warn(`[appTypeormManager] Running in typescript DEV mode`);
+    }
     connectOptionsPaths = {
       migrations: domifaConfig().typeorm.createDatabase
         ? [`src/_migrations/**/*.ts`]
@@ -87,7 +91,9 @@ async function connect(
       subscribers: ["src/**/*Subscriber.typeorm.ts"],
     };
   } else {
-    appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
+    if (domifaConfig().envId !== "test") {
+      appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
+    }
     connectOptionsPaths = {
       migrations: domifaConfig().typeorm.createDatabase
         ? [`dist/_migrations/**/*.js`]
@@ -109,6 +115,7 @@ async function connect(
     logger: "simple-console",
     logging: pgConfig.logging,
     ...connectOptionsPaths,
+    extra: { max: pgConfig.poolMaxConnections }, // https://github.com/typeorm/typeorm/issues/3388#issuecomment-452860552 (default: 10 - https://node-postgres.com/api/pool#constructor)
   };
   try {
     connectionHolder.connection = await createConnection(connectOptions);

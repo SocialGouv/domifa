@@ -64,8 +64,11 @@ async function _findUsersToSendMailGuide() {
   const maxCreationDate: Date = moment()
     .subtract(delay.amount, delay.unit)
     .toDate();
-
+  const minCreationDate: Date = moment(maxCreationDate)
+    .subtract(14, "day")
+    .toDate();
   const users = await cronMailsRepository.findUsersToSendCronMail({
+    minCreationDate,
     maxCreationDate,
     structuresIds: undefined,
     mailType: "guide",

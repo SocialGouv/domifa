@@ -97,10 +97,12 @@ function parseString<T extends string>(
     required = true,
     validValues,
     defaultValue,
+    deprecatedKey,
   }: {
     required?: boolean;
     validValues?: T[];
     defaultValue?: T;
+    deprecatedKey?: DomifaEnvKey;
   } = {
     required: true,
   }
@@ -117,7 +119,19 @@ function parseString<T extends string>(
     throw new Error(`Unexpected value type "${value}" for ${key}`);
   }
 
-  if (!value || value.trim().length === 0) {
+  if (!isStringValueSet(value) && deprecatedKey) {
+    // use deprecated key
+    value = parseString(envConfig, deprecatedKey, {
+      required: false,
+    });
+    if (value) {
+      console.warn(
+        `[configParser] "${deprecatedKey}" env variable is deprecated: use "${key}" instead`
+      );
+    }
+  }
+
+  if (!isStringValueSet(value)) {
     value = defaultValue;
   }
 
@@ -127,7 +141,7 @@ function parseString<T extends string>(
     throw new Error(`Missing required env value ${key}`);
   }
 
-  if (value && validValues && !validValues.includes(value)) {
+  if (isStringValueSet(value) && validValues && !validValues.includes(value)) {
     // tslint:disable-next-line: no-console
     console.error(
       `[configParser] invalid env value "${key}": "${value}" (allowed: ${validValues
@@ -137,6 +151,10 @@ function parseString<T extends string>(
     throw new Error("Invalid env value");
   }
   return value;
+}
+
+function isStringValueSet(value: string): boolean {
+  return !!value && value.trim && value.trim().length !== 0;
 }
 
 function parseDelay<T extends string>(

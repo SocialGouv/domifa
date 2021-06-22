@@ -5,7 +5,6 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from "@nestjs/swagger";
-
 import * as Sentry from "@sentry/node";
 import * as compression from "compression";
 import { Connection } from "typeorm";
@@ -13,8 +12,8 @@ import { AppModule } from "./app.module";
 import { appHolder } from "./appHolder";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
-
 import { appLogger } from "./util";
+import { AppSentryInterceptor } from "./util/sentry";
 
 export async function tearDownApplication({
   app,
@@ -26,19 +25,38 @@ export async function tearDownApplication({
   await app.close();
   await postgresTypeormConnection.close();
 }
+
 export async function bootstrapApplication() {
   try {
     if (domifaConfig().dev.sentry.enabled) {
+      appLogger.debug(
+        `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDns}`
+      );
       Sentry.init({
         dsn: domifaConfig().dev.sentry.sentryDns,
         release: "domifa@" + domifaConfig().version,
+        environment: domifaConfig().envId,
         serverName: domifaConfig().envId,
+        debug: domifaConfig().dev.sentry.debugModeEnabled,
+        onFatalError: (err) => {
+          console.log("SENTRY FATAL ERROR", err);
+        },
+        logLevel: domifaConfig().dev.sentry.debugModeEnabled
+          ? 3 // Verbose,
+          : undefined, // default
       });
     }
 
     const postgresTypeormConnection = await appTypeormManager.connect();
 
     const app = await NestFactory.create(AppModule);
+
+    if (domifaConfig().dev.sentry.enabled) {
+      app.useGlobalInterceptors(
+        new AppSentryInterceptor() // remplace RavenInterceptor qui ne fonctionne plus
+      );
+    }
+
     appHolder.app = app;
     app.useGlobalPipes(new ValidationPipe());
     const corsUrl = domifaConfig().security.corsUrl;
@@ -71,6 +89,10 @@ export async function bootstrapApplication() {
   } catch (err) {
     // tslint:disable-next-line: no-console
     console.error("[bootstrapApplication] Error bootstraping application", err);
+    appLogger.error("[bootstrapApplication] Error bootstraping application", {
+      error: err,
+      sentry: true,
+    });
     throw err;
   }
 }

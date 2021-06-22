@@ -3,6 +3,16 @@ import { LoggerOptions } from "typeorm/logger/LoggerOptions";
 import { DomifaConfigDelay } from "./DomifaConfigDelay.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";
 
+export type DomifaConfigSecurity = {
+  corsEnabled: boolean; // DOMIFA_SECURITY_CORS_ENABLED
+  corsUrl: string; // DOMIFA_CORS_URL
+  files: {
+    iv: string; // DOMIFA_SECURITY_FILES_IV
+    private: string; // DOMIFA_SECURITY_FILES_PRIVATE
+  };
+  jwtSecret: string; // SECRET
+};
+
 export type DomifaConfig = {
   envId: DomifaEnvId; // DOMIFA_ENV_ID
   version: string; // DOMIFA_DOCKER_IMAGE_VERSION (default to process.env.npm_package_version)
@@ -13,14 +23,7 @@ export type DomifaConfig = {
   healthz: {
     frontendUrlFromBackend: string; // DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND
   };
-  security: {
-    corsUrl: string; // DOMIFA_CORS_URL
-    files: {
-      iv: string; // FILES_IV
-      private: string; // FILES_PRIVATE
-    };
-    jwtSecret: string; // SECRET
-  };
+  security: DomifaConfigSecurity;
   postgres: {
     host: string; // POSTGRES_HOST
     port: number; // POSTGRES_PORT
@@ -28,6 +31,7 @@ export type DomifaConfig = {
     password: string; // POSTGRES_PASSWORD
     database: string; // POSTGRES_DATABASE
     logging: LoggerOptions; // POSTGRES_LOGGING
+    poolMaxConnections: number; // POSTGRES_POOL_MAX_CONNEXIONS
   };
   typeorm: {
     runOnStartup: boolean; // DOMIFA_TYPEORM_RUN_ON_STARTUP
@@ -41,8 +45,9 @@ export type DomifaConfig = {
     printConfig: boolean;
     swaggerEnabled: boolean; // DOMIFA_SWAGGER_ENABLE
     sentry: {
-      enabled: boolean; // enabled if SENTRY_DSN is defined
-      sentryDns: string; // SENTRY_DSN
+      enabled: boolean; // DOMIFA_SENTRY_ENABLED (default: enabled if DOMIFA_SENTRY_DSN is defined)
+      sentryDns: string; // DOMIFA_SENTRY_DSN
+      debugModeEnabled: boolean; // DOMIFA_SENTRY_DEBUG_MODE_ENABLED
     };
     anonymizer: {
       password: string; // DOMIFA_ANONYMIZER_PASSWORD
