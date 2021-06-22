@@ -11,10 +11,10 @@
     "rapport": "allure serve output"
   },
   "dependencies": {
-    "@codeceptjs/ui": "^0.4.3",
-    "codeceptjs": "^3.0.6",
+    "@codeceptjs/ui": "^0.4.6",
+    "codeceptjs": "^3.0.7",
     "dotenv": "^8.2.0",
-    "execa": "^5.0.0",
+    "execa": "^5.0.1",
     "path": "^0.12.7",
     "puppeteer": "^8.0.0"
   }
