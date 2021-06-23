@@ -637,7 +637,7 @@
                 formControlName="langue"
                 placeholder="Langue parlée"
                 [ngClass]="{ 'is-invalid': submitted && f.langue.errors }"
-                [ngbTypeahead]="languagesAutocomplete.typeahead({maxResults: 10})"
+                [ngbTypeahead]="languagesAutocompleteSearch"
                 [resultFormatter]="languagesAutocomplete.formatter"
                 [inputFormatter]="languagesAutocomplete.formatter"
               />
