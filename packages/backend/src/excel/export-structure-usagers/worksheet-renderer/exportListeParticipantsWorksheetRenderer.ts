@@ -1,7 +1,4 @@
-import { USAGER_DECISION_STATUT_LABELS } from "./../../../_common/labels/USAGER_DECISION_STATUT_LABELS.const";
-import { generateMotifLabel } from "./../../../usagers/services/generateMotifLabel.service";
 import { Column, Workbook } from "exceljs";
-
 import {
   WorksheetRenderer,
   xlFormater,
@@ -9,6 +6,8 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
+import { generateMotifLabel } from "./../../../usagers/services/generateMotifLabel.service";
+import { USAGER_DECISION_STATUT_LABELS } from "./../../../_common/labels/USAGER_DECISION_STATUT_LABELS.const";
 
 export const exportListeParticipantsWorksheetRenderer = {
   renderWorksheet,
@@ -168,42 +167,34 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
 
         decisionDate:
           usager.decision.statut === "RADIE"
-            ? usager.decision.dateDecision
+            ? asDate(usager.decision.dateDecision)
             : "",
         typeDom: usager.typeDom,
-        decisionDateDebut:
-          usager.decision.dateDebut && usager.decision.dateDebut !== null
-            ? usager.decision.dateDebut
-            : "",
-        decisionDateFin:
-          usager.decision.dateFin && usager.decision.dateFin !== null
-            ? usager.decision.dateFin
-            : "",
-        datePremiereDom:
-          usager.datePremiereDom && usager.datePremiereDom !== null
-            ? usager.datePremiereDom
-            : "",
+        decisionDateDebut: asDate(usager.decision.dateDebut),
+        decisionDateFin: asDate(usager.decision.dateFin),
+        datePremiereDom: asDate(usager.datePremiereDom),
 
         decisionUserPremierDom,
 
         decisionUserRenouvellement,
 
-        dateLastInteraction:
-          usager.lastInteraction.dateInteraction &&
-          usager.lastInteraction.dateInteraction !== null
-            ? usager.lastInteraction.dateInteraction
-            : "",
+        dateLastInteraction: asDate(usager.lastInteraction.dateInteraction),
         ayantsDroitsCount: usager.ayantsDroits.length,
       },
     };
     usager.ayantsDroits.forEach((ayantDroit, i) => {
       row.values[`ayant_droit_nom_${i + 1}`] = ayantDroit.nom;
       row.values[`ayant_droit_prenom_${i + 1}`] = ayantDroit.prenom;
-      row.values[`ayant_droit_date_naissance_${i + 1}`] =
-        ayantDroit.dateNaissance;
+      row.values[`ayant_droit_date_naissance_${i + 1}`] = asDate(
+        ayantDroit.dateNaissance
+      );
       row.values[`ayant_droit_lien_parente_${i + 1}`] = ayantDroit.lien;
     });
 
     return row;
   });
+}
+
+function asDate(date: string | Date): Date {
+  return date ? new Date(date) : undefined;
 }
