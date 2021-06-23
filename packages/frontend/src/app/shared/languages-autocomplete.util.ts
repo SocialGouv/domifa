@@ -3,14 +3,14 @@ import { Observable } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { LANGUAGES, LANGUAGES_MAP } from "./constants";
 
-const typeahead = ({ maxResults = 10 }: { maxResults: number }) => (
-  text$: Observable<string>
-) => {
-  return text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    map((term: string) => _filterLanguages(term, { maxResults }))
-  );
+const typeahead = ({ maxResults = 10 }: { maxResults: number }) => {
+  return (text$: Observable<string>) => {
+    return text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map((term: string) => _filterLanguages(term, { maxResults }))
+    );
+  };
 };
 
 const formatter = (languageCode: string) => LANGUAGES_MAP[languageCode]?.label;

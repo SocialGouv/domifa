@@ -63,6 +63,10 @@ export class UsagersProfilComponent implements OnInit {
 
   public languagesAutocomplete = languagesAutocomplete;
 
+  public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
+    maxResults: 10,
+  });
+
   public interactionsLabels: {
     [key: string]: any;
   } = interactionsLabels;
