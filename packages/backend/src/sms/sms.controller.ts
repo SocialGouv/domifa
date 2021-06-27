@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUser } from "../auth/current-user.decorator";
@@ -7,7 +15,8 @@ import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { StructuresService } from "../structures/services/structures.service";
 import { AppAuthUser } from "../_common/model";
 import { SmsService } from "./services/sms.service";
-import { SuiviSmsDto } from "./suivi.dto";
+import { SpotHitPushDecorator } from "./SpotHitPushDecorator";
+import { SuiviSmsDto } from "./suivi-sms.dto";
 
 @Controller("sms")
 @ApiTags("sms")
@@ -33,9 +42,11 @@ export class SmsController {
     return this.smsService.changeStatutByDomifa(structureId, smsParams);
   }
 
+  @UsePipes(new ValidationPipe({ transform: true }))
   @Get("retour-api")
-  // URL de retour de l'API Spot-Hit pour mettre à jour le statut d'un SMS
-  public async retourApi(@Body() suiviSmsDto: SuiviSmsDto) {
+  public async getHello(@SpotHitPushDecorator() suiviSmsDto: SuiviSmsDto) {
+    // URL de retour de l'API Spot-Hit pour mettre à jour le statut d'un SMS
+
     console.log(suiviSmsDto);
   }
 
