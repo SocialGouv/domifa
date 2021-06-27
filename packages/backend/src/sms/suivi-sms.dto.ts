@@ -26,19 +26,18 @@ export class SuiviSmsDto {
   public statut!: number;
 
   @IsNotEmpty()
-  public timestamp!: string;
-
   @IsDate()
-  date_envoi: Date; // Date d'envoi du message (timestamp).
+  public date_envoi: Date; // Date d'envoi du message (timestamp).
+  @IsNotEmpty()
   @IsDate()
-  date_update: Date; // Date de dernière mise à jour du statut (timestamp).
+  public date_update: Date; // Date de dernière mise à jour du statut (timestamp).
 
   @IsNumber()
   @Min(0)
   @Max(9999)
-  @IsNotEmpty()
-  statut_code: number; // Statut détaillé de 0 à 9999 (détails à demander à votre gestionnaire de compte).
+  @IsOptional()
+  public statut_code: number; // Statut détaillé de 0 à 9999 (détails à demander à votre gestionnaire de compte).
 
   @IsOptional()
-  nom: string; // Le nom ou l'identifiant personnel de votre message
+  public nom: string; // Le nom ou l'identifiant personnel de votre message
 }
