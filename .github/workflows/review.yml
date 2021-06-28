@@ -218,7 +218,7 @@ jobs:
     - name: Generate k8s manifests
       run: |
         yarn --cwd .k8s install --frozen-lockfile --prefer-offline
-        yarn --cwd .k8s generate:dev > manifests.yml
+        yarn --cwd .k8s --silent generate:dev > manifests.yml
       env:
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
@@ -229,63 +229,63 @@ jobs:
         path: manifests.yml
 
   ##############################################################################
-  ## DEPLOY APPLICATION OVER KUBERNETES
+  ## DEPLOY BACKEND OVER KUBERNETES
   ##############################################################################
-  # deploy:
-  #   name: Deploy application
-  #   runs-on: ubuntu-latest
-  #   needs: [register, manifests]
-  #   steps:
+  deploy-backend:
+    name: Deploy backend
+    runs-on: ubuntu-latest
+    needs: [register-backend, register-frontend, manifests]
+    steps:
   
-  #   - name: Checkout repository
-  #     uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-  #   - name: Get project and namespace names
-  #     run: |
-  #       cat ".github/review.env" >> $GITHUB_ENV
-  #       echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-  #       echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
+    - name: Get project and namespace names
+      run: |
+        cat ".github/review.env" >> $GITHUB_ENV
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-  #   - name: Download k8s manifests
-  #     uses: actions/download-artifact@v2
-  #     with:
-  #       name: manifests.yml
+    - name: Download k8s manifests
+      uses: actions/download-artifact@v2
+      with:
+        name: manifests.yml
 
-  #   - name: Notify deployment start
-  #     uses: bobheadxi/deployments@v0.4.3
-  #     id: deployment
-  #     with:
-  #       step: start
-  #       env: ${{ env.namespace }}
-  #       token: ${{ secrets.GITHUB_TOKEN }}
-  #       desc: "Deploying environment: ${{ env.namespace }}"
+    - name: Notify deployment start
+      uses: bobheadxi/deployments@v0.4.3
+      id: deployment
+      with:
+        step: start
+        env: ${{ env.namespace }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        desc: "Deploying environment: ${{ env.namespace }}"
 
-  #   - name: Install Kapp
-  #     uses: vmware-tanzu/carvel-setup-action@v1
-  #     with:
-  #       only: kapp
-  #       token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Install Kapp
+      uses: vmware-tanzu/carvel-setup-action@v1
+      with:
+        only: kapp
+        token: ${{ secrets.GITHUB_TOKEN }}
 
-  #   - name: Create kubernetes config
-  #     run: |
-  #       mkdir ~/.kube
-  #       touch ~/.kube/config
-  #       echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }} | base64 -d > ~/.kube/config
+    - name: Create kubernetes config
+      run: |
+        mkdir ~/.kube
+        touch ~/.kube/config
+        echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }} | base64 -d > ~/.kube/config
 
-  #   - name: Create k8s namespace and annotations
-  #     run: |
-  #       kubectl create ns ${{ env.namespace }} || true
-  #       kubectl annotate ns ${{ env.namespace }} azure-pg-admin-user=${{ env.project }} || true
+    - name: Create k8s namespace and annotations
+      run: |
+        kubectl create ns ${{ env.namespace }} || true
+        kubectl annotate ns ${{ env.namespace }} azure-pg-admin-user=${{ env.project }} || true
 
-  #   - name: Deploy application
-  #     run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests.yml
+    - name: Deploy application
+      run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests.yml
 
-  #   - name: Notify deployment end
-  #     uses: bobheadxi/deployments@v0.4.3
-  #     if: always()
-  #     with:
-  #       step: finish
-  #       status: ${{ job.status }}
-  #       token: ${{ secrets.GITHUB_TOKEN }}
-  #       deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-  #       env_url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_KUBE_INGRESS_BASE_DOMAIN }}
+    - name: Notify deployment end
+      uses: bobheadxi/deployments@v0.4.3
+      if: always()
+      with:
+        step: finish
+        status: ${{ job.status }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+        env_url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}

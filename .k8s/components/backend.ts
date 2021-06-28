@@ -35,9 +35,10 @@ export const getManifests = async () => {
   const probesPath = "/healthz";
   const subdomain = "domifa-api";
 
-  const tag = process.env.CI_COMMIT_TAG
-    ? process.env.CI_COMMIT_TAG.slice(1)
-    : process.env.CI_COMMIT_SHA;
+  // const tag = process.env.CI_COMMIT_TAG
+  //   ? process.env.CI_COMMIT_TAG.slice(1)
+  //   : process.env.CI_COMMIT_SHA;
+  const tag = process.env.GITHUB_SHA;
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
