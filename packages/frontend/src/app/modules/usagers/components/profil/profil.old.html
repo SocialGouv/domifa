@@ -629,21 +629,21 @@
             </div>
 
             <div class="col-md-4 form-group">
-              <label for="langue">Langue parlée</label>
+              <label for="langue">Langue parlée </label>
               <input
                 id="langue"
                 type="text"
                 class="form-control"
                 formControlName="langue"
                 placeholder="Langue parlée"
-                [ngClass]="{ 'is-invalid': submitted && f.langue.errors }"
+                [ngClass]="{ 'is-invalid': f.langue.errors && f.langue.touched }"
                 [ngbTypeahead]="languagesAutocompleteSearch"
                 [resultFormatter]="languagesAutocomplete.formatter"
                 [inputFormatter]="languagesAutocomplete.formatter"
               />
               <div
-                *ngIf="submitted && f.langue.errors"
-                class="invalid-feedback"
+                *ngIf="f.langue.errors && f.langue.touched"
+                class="invalid-feedback-custom"
               >
                 La langue saisie est invalide
               </div>

@@ -25,11 +25,14 @@ TMP_LANGUAGES.sort((a, b) => {
 
 export const LANGUAGES = TMP_LANGUAGES;
 
-export const LANGUAGES_MAP = LANGUAGES.reduce((acc, l) => {
-  acc[l.isoCode] = l;
-  return acc;
-  // tslint:disable-next-line: no-object-literal-type-assertion
-}, {} as { [attr: string]: AppLanguage });
+export const LANGUAGES_MAP: { [attr: string]: AppLanguage } = LANGUAGES.reduce(
+  (acc, l) => {
+    acc[l.isoCode] = l;
+    return acc;
+    // tslint:disable-next-line: no-object-literal-type-assertion
+  },
+  {} as { [attr: string]: AppLanguage }
+);
 
 function uppercaseFirstEveryWords(words: string) {
   return words
