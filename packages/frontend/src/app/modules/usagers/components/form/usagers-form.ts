@@ -61,6 +61,10 @@ export class UsagersFormComponent implements OnInit {
 
   public languagesAutocomplete = languagesAutocomplete;
 
+  public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
+    maxResults: 10,
+  });
+
   public me: AppUser;
 
   get f() {

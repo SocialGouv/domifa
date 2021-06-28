@@ -6,7 +6,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
