@@ -287,7 +287,7 @@ jobs:
       run: |
         mkdir ~/.kube
         touch ~/.kube/config
-        echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV }} | base64 -d > ~/.kube/config
+        echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }} | base64 -d > ~/.kube/config
 
     - name: Create k8s namespace and annotations
       run: kubectl create -f namespace.yml || true    
