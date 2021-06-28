@@ -17,9 +17,9 @@ export default async (): Promise<{ kind: string }[]> => {
 
   // add gitlab annotations
   updateMetadata(secret, {
-    annotations: envParams.annotations ?? {},
-    labels: envParams.labels ?? {},
-    namespace: envParams.namespace,
+    annotations: envParams.manifest.annotations ?? {},
+    labels: envParams.manifest.labels ?? {},
+    namespace: envParams.manifest.namespace,
   });
 
   return [secret];

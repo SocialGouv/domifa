@@ -95,7 +95,9 @@ spec:
               value: $(PGPASSWORD)
             - name: POSTGRES_DATABASE
               value: $(PGDATABASE)
-            - name: DOMIFA_HEALTHZ_FRONTEND_URL_FROM_BACKEND
+            - name: DOMIFA_BACKEND_URL
+              value: https://fake-domifa-api.dev2.fabrique.social.gouv.fr
+            - name: DOMIFA_FRONTEND_URL
               value: https://fake-domifa.dev2.fabrique.social.gouv.fr
       initContainers:
         - env:
@@ -104,7 +106,7 @@ spec:
           envFrom:
             - secretRef:
                 name: azure-pg-user
-          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.0.1
+          image: ghcr.io/socialgouv/docker/wait-for-postgres:6.26.2
           imagePullPolicy: Always
           name: wait-for-postgres
           resources:
@@ -139,7 +141,7 @@ metadata:
     cert: wildcard
 spec:
   encryptedData:
-    SECRET: >-
+    DOMIFA_SECURITY_JWT_SECRET: >-
       AgBBe3jvRqmUfpnvFJKZ1L/TpYx7Ssn58gNDOa8JvWrASv3+4fzoJfL9e5Mz+pC149B1/IPf5HLhNU3gz8RLkmGZ78jDF7qYTYcGmKe1U80e8xH7quPRuObm73Mj1sQJGbqySQkXu312Z4GWrAIMCNizmom9KqD34snCI0R7/lIh9lUIZPwYH25Zg93VNWmzPZZkGFCL03kS264g9ZTibWDkPg61K0NHNHgDPGy4Mj/8ABdtunNS847cc/l/U96qzm25LO6ZlVoBZy2Bvz0oA7Rx6Q6kd/5gLBRqO23Io89FNigrgNfke7wR/alzYDRC00uIefIebKqbNjry/lWqXqHEJvBjcopSlTpbun8aQq18PQo5nmqZNjWB3d7ll1L9xNPg1SaBJK2YVcAE1c6YI51v24rJ9jaHI5KkJ0IX6Prp4Uaml+gCTgkrurMZcMChR2P7ZqXuV9hfYGqBmPMuUIfLwLBVqdnyBKYeqtuaKNIW8W6dFpBDvVisFmzhFbtRhR1XF9LQoZqaXYMSZ4VYVcnMIhRQaZs5+fOOVRHrQ/HqsPkksjhRuZFD44gByKSYamNaCBvnKCnhj1hFFbaPpZq1O4rJSdxvsNHvNnH9Y89oOA1h1q2DWhoC+monswt6ssFLmuvDUkcoMWufsfX0wDME7AwCGfGHVMcAVPspZOCM4nO2J8o5MG2DpZAaN7DQ/hxNBATI4gHUz8AQDHSUDvE2nEoM4txJltspdqMcvhj9jo10l6yKAl+cA198gnpO5RxiwhZtcchPH6zcqXBBfhl8tOjl5aErqGW0GuLYW1FoQ1F0vtwGO2P6eFh+tr+uFMrQ7k6HZP+V2duSOWvWE6REnz6e4InkEGjoT6aGRzw3kqN/wcPrml7BAYJA7hT2Sk68bo/+EvbeWzT1OkYQ6Wq6yh0/po8DdnFIpt+dUeQovUaPAG1+1s6G0iq8BiDZvrABl4gssKStD6dEKzgvM6pkxy3YltgvFnEQbfQNzRIe+5apRyV3CfDUX2UBPPwzZEL6dX5aH9SWDgqK/vUWgomA
     FILES_PRIVATE: >-
       AgCqPpBdjpkn1HaHGhwfuSVWHn5vsbYmjdJynKyDyPtYLshP06OWg5g5r3CVqM+tZgn+t0B+Jik9J0JNjD7mLcCltKifuSF/ufGMtgBtE+6t6L7/g2TQbM58f0QvJnsxtNOY6cY1MfW4Lc//pMgHAHt8hdH6GGoellDULI6JiXRZqocOzeY82WcLK5YpfUAoGaDIxaM3haMpB1WAyKcwa7Sh5latOW+IoJ3zXioxZiJFwUhVCRCSEIoTvpwRKfcwBlY0J4KTmfR+pUs+JucfDt2zzHaCEyKe2vY+z37LfJfJF5thup2JYlMClbh62zDa4vL0gMAIw6JBrYLYavDNvc1Qg50Wni+7bNVDN5pHRIYHikA8OHdLdqWC17ZfjglU+HVFra7ZhA/0f061qfWtFqgeDsl83meQMoNzbYek2h3Unmak1iXZPCXlOidjwgtVAv7BVX+g0a07Kt3SmaRtw92JQpgau/y+uedpvJUIp4tJXhbiBA4epU4MlKVrkN+wzOR9cz+HorNABfMl+WUWWyDLA4LEK8tYl9I3sJfqTiRSvHNzt7LzDhT+N/ihXmWGGfa+YTHny3a5w7V5/yTWyFme9YYRbN5dvyZJQ9hanINqv5WtfgHooEEMLnupTT0xDtpsPGYtGimT/lv80MTnSg9InWWK9jZM8EHlijDnHuyKovSKCAtZdpXKYBzQRS/THyy6UKjufHD+3V9GsHq3RCBCODlleaNKHRWLMGYehzuzLg==
@@ -155,7 +157,7 @@ spec:
       AgAaycIFURfIvThUVNpapc2hQB32QPsoCUUW7wiFDBSG9C70+bfNv5YYbQ5DanOS2jeJBKeGN4W0iHnuWKy5KNenNwmcKp6U7lWVIaqoSHEwT5kjtydmOPygD9FvkNJ+7Iek7dddNdNt+9Wy5j7109UpsKpBd8Lqj5wFXU4ii7kae0mUHl1PgcXIZV99VPOsXf9ZX7fUZ+sdWh3iI7SXXD6KkqZhBOxsCc4rAWbo3WLXbpvbA0WaXLQ6aKCMLlsZKaLN3DrnETPF824jgLiIN7Uq4uXW3p0hMzEKWuaC1zfh8MoiGO5d0XHG8GI7pgnhxraqVpw4SV4U8/n9IPPHkGf73oTbZOZoQMB7RoVhtONpYQE50kR6xAKeIXbMEJrae64jNZNuEqpfadY0pwORyX7wGY/TvmJXXaWkKQ+5N6x3MD7uDrd9DqkGbgR4SG1ro/0/o/SpGhpsf3El3iWblnEiD8EpBX8dqlxHtCDF1uRyV1ZrIagSv+e9ng+uUy03P8N1Zkb5vEP+qyWAfJT93Y3tegqxe2m4UPINRVB8fdj+70aO/AGUx4f33DEtG5RBPSCFw+t+M1CrAVdjzmjjPcSfJeSs0/dR3T8rhAwKA80hmhi+XVNEFUyKP6vjpD7gRHwMFYOVQUTUa6BhIEwk2qSnVVZC9FG1VqlHRnnwRBgYCCeuBDnW0lhN4svwia1RPrsttX3jlzuWAk5F+dyUyHWMDT4UST/+e3UXxrKc5wBcYg==
     DOMIFA_ERROR_REPORT_EMAILS: >-
       AgCkA92d4huLLBn/f/PF+sQV8/cxYOFbs7gpZKfTlh+KapdrlpRWsJR1CJd2w20fI6Vtbt9yKFDkBLf2uruGijSU4xltGUZVkjF0NrzKqI846r70H/4DCmd3rMu7coZyR53eMFNuBkUh5d80tmanhL3CxVsKnfoNHkUeCALasj8leiYxdkwoRjSt1H8R8ddwFHeZ/HiGOUUn3HrD7e5+yuhYnn2Gg21rqOqYI+UlxFc56Ws2bIDRlOfe5fFH7dQ0mNkgPCCq/RtKKcylP5+9oJ14e5VMwjXQ/pAWFewpyMFpJfFkj/YZaFrI1rnj5Of292DbLk+qmXuF6paSt3l0YsXd+LnBJtCf9s0M9973AeBP1tTY+kZ0wecsVBhudxrkUB9UU1xC9xmKlJD/089U9TeR+uxjovohvVGCxMD6TJXy/FziKuZHiWqwjc/P8/qh03avQm/JKlMVBOr6Y0XakLa+yxJn25Te5cJAhAEe3MWocgblIdPgM/QEF28sRtZwWD4IRTFOOh4G3uJKqYNrTNVsCoTMj+CMjMgpNMCVaaTctQO/kE64ulUXLRyUvqlOyYNbn51g2yLTJWJBGGds1mUXD5TsVlgBII6QuoDfq8dw19E7TcnKlhgbOc+3xs2uFk+N51KjBGShEgeg8yz4meWS8xGor3MdiCoO7CMuEWlj85j9g8x9sOnxuZQztr0kPJK0258rHul5vWx0WROeAdWR4/JziQKuE9kEUblhdBg+5rwv/Amc96SNcAtctSTHhodcMhg0TxTmuqZdNd5qH6nNNyOxXzucC8OJLOmuKrij
-    SENTRY_DSN: >-
+    DOMIFA_SENTRY_DNS: >-
       AgApZ3f0Yy4YvxWKZYvfdoMppA1CZ+jqd+atktdbZWKvtArwM4CtKx7Bm6WVLkxIBSJ5ZaGPfrqB2k0bT8emddEVL/xU2JyCLgqvjR1sbzWA59JN0LBfwcasLs7nT2OwNb2to56LNhsLDbmlNYzs1EDjNFQkp5dQTcBeYRI18/VTmMHx58EN9pNAhuSIPwHpKWgJr3U/aYKp7hBl79Ol/FuklmcAqtb1IT6WqpjZpSswhKSMsDpYKYn73LoKz7rDbUvYmQ/jAFNxcgCMtJXy+L4tkEq0T/S4r10x2TpuAbaPggNCllMaPwS42tpi/8hG3NK5TV3iz6LwB4Inh5Xp3LxeKsSfQruu533rDClofFcGk8KjdU4Qq9g3/ODWL9Uo484tY8uQE4iexwuWzIrCWZXTeMZEFDrtxdlRRLWbhQojENrcYXrRW1VKvh+05CFu9973KFog9ciPyCULRLoNGOO4e6scO1cexMFZQcgkzXxj6U0yQaWeOnoi19b4BEitz3DSE62NzgJiIkvpC4Tp0tApmr0vi2XYypIwsuOHc5s3UD/owOb8gk2xP7db/M27/51IstVTTHFRV3GkSkuQlj8Nh/pxPNAD/A2mO8jdCzeUZ1WDt0eGQ9T3fiaueGV/DPxvCh4n5JKAOY5ya3O4Qjaj7xEff8QCN2dHkh5VNYVus5mNbCoK3LP7pdc5Kn/3BxrELJYrhboMmNphmVaN+9ApPosiyzCu9PKAXRg2P5vKjpxZUqaPHFd3MLpiukEqZIz9m4aHGwz6u/kTR5qiKO4uIErMyCT0ZsMwbw==
     DOMIFA_MAILJET_FROM_EMAIL: >-
       AgCCRqfZB0qiTbjyOtxDL/TY8pIPdbHi1CU/r+uzmxJjpq14CTHxPePtqt3zLDRi8FGf2fCPAIFBppOsjGy9/mzd5TZUE664Iykcic61dEZWVkqLXohjnRCGTQ7BFmlUNjYyEPBAZ/L/WApss1X+EpOi6OChW5db1u/w823iMaD+efcAsYZl66pxkeiXenAu6ybsgTNgzXWOOTI7lVaNVd+bv5w0AxDNifNt0w5C1jz2mufa9aHFslr9jimi27kKTH1LznUhL6bLrwcwEXgJ8huERGWOPDQ7/k2HRTP1jAtvpFxm2MXKzhyWRTeSy2zrtt+c3ZHFHQSlmSuq4WD20rh2YtT6cvfFrdOhvfXhtgxCE3kWO8lQ0oji1sIBPO0rq0AeVKFvwafCFfQOpQpQjRJO8uavV9Sl9/6gJpzAFKU0E1z21LQgQeoPHVKHV/b+6iVS0QFYQGBSDtjlGudfSfFFg5WisoOARWzaYR/X5m0c6y72qRJuNWC0gG/rpu+rqcj6SrW4/DyVz3yck4Y49AZeqgulFUrAcDRfOQ5y7jVJkqrjUdPe+vjzoVmNwfreK6X8/NFCZv4wfuFmESfnTMrqffZ+wxqmBCEP4UM2Izh3gJT356h42WGjEHBFMn/We2TGTZAelsx0NNs0HZZoOgVnE4B57V8ApCkmuqCs55qfFeHl8v+lIiUgpbYwtQBKkDegKKqn16DlCgpTHd1xLSvYwh75v4USrf1+BapXWM7zKG09apotRQ==
@@ -198,20 +200,14 @@ metadata:
     cert: wildcard
   namespace: domifa
 data:
-  DOMIFA_ENV_ID: prod
+  DOMIFA_ENV_ID: k8s-prod
+  DOMIFA_ENV_PRESET: dist-prod.preset.env
   PGSSLMODE: require
   NODE_ENV: production
-  UPLOADS_FOLDER: /mnt/files
   DOMIFA_PRINT_CONFIG: 'false'
-  DOMIFA_PRINT_ENV: 'false'
-  DOMIFA_MAIL_SMTP_ID: TIPIMAIL
-  DOMIFA_SWAGGER_ENABLE: 'false'
-  DOMIFA_CRON_ENABLED: 'true'
   DOMIFA_EMAILS_ENABLE: 'false'
-  DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
   DOMIFA_SMS_ENABLED: 'false'
-  DOMIFA_SMS_API_KEY: ''
-  DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: ''
+  POSTGRES_POOL_MAX_CONNEXIONS: '20'
 ---
 apiVersion: v1
 kind: Service
