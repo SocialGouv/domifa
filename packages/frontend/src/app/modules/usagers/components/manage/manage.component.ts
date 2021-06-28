@@ -88,7 +88,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  public sortLabel = "Échéance";
+  public sortLabel = "échéance";
 
   constructor(
     private usagerService: UsagerService,
@@ -231,7 +231,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     const LABELS_SORT: { [key: string]: string } = {
       NAME: "nom",
       ATTENTE_DECISION: "demande effectuée le",
-      ECHEANCE: "Échéance",
+      ECHEANCE: "échéance",
       INSTRUCTION: "dossier débuté le",
       RADIE: "radié le ",
       REFUS: "date de refus",
