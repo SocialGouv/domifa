@@ -6,7 +6,7 @@
      <p class="text-center">Bonjour {{ prenom }},</p>
      <p class="text-center">Un administrateur vient de vous créer un compte sur Domifa.</p>
      <p class="text-center">Cliquez sur le lien ci-dessous pour finaliser votre inscription</p>
-     {{ helpers.button("primary", lien, "Finaliser l'inscription") }}
+     {{ helpers.button("primary", lien, "Finaliser l'inscription", true) }}
      <p class="text-center">À bientôt,</p>
      <p class="text-center">L’équipe Domifa</p>
 

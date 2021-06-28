@@ -60,8 +60,8 @@
    </ul>
    </p>
 
-   {{ helpers.button("primary", lien_confirmation, "Valider le compte") }}
-   {{ helpers.button("danger", lien_suppression, "Supprimer le compte") }}
+   {{ helpers.button("primary", lien_confirmation, "Valider le compte", true) }}
+   {{ helpers.button("danger", lien_suppression, "Supprimer le compte", true) }}
 
    {{ helpers.redirectedMessage(toSkipString) }}
 

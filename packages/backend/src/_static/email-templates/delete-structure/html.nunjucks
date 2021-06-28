@@ -49,7 +49,7 @@
    </ul>
    </p>
 
-   {{ helpers.button("danger", lien_suppression, "Confirmer la suppression") }}
+   {{ helpers.button("danger", lien_suppression, "Confirmer la suppression", true) }}
 
    {{ helpers.redirectedMessage(toSkipString) }}
 
