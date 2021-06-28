@@ -3,13 +3,14 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { BehaviorSubject, combineLatest, Subscription } from "rxjs";
 import { UsagerLight } from "../../../../../../_common/model";
 import {
-  InteractionIn,
   InteractionOutForm,
   INTERACTIONS_OUT_AVAILABLE,
 } from "../../../../../../_common/model/interaction";
@@ -19,14 +20,13 @@ import { isProcurationActifMaintenant } from "../../../services";
 import { InteractionService } from "../../../services/interaction.service";
 import { UsagerService } from "../../../services/usager.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
-
 @Component({
   animations: [bounce],
   selector: "app-set-interaction-out-form",
   templateUrl: "./set-interaction-out-form.component.html",
   styleUrls: ["../interactions.css"],
 })
-export class SetInteractionOutFormComponent implements OnInit {
+export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   @Input() public usager: UsagerFormModel;
 
   @Output()
@@ -35,23 +35,24 @@ export class SetInteractionOutFormComponent implements OnInit {
   @Output()
   public usagerChange = new EventEmitter<UsagerFormModel>();
 
-  public interactionFormData: InteractionOutForm;
-  public procuration: boolean; // Mandataire = true / domicilié = false
+  public interactions$ = new BehaviorSubject<Interaction[]>();
+  public selectedInteractionsWithContent: Interaction[] = [];
 
-  public contentToCheck: boolean; // Si un courrier a du contenu écrit
-  public interactions: Interaction[]; // Si un courrier a du contenu écrit
+  public interactionFormData: InteractionOutForm;
+  public interactionFormData$ = new BehaviorSubject<InteractionOutForm>();
+  public procuration: boolean; // Mandataire = true / domicilié = false
 
   public displayProcuration() {
     return isProcurationActifMaintenant(this.usager);
   }
+
+  private subscription = new Subscription();
 
   constructor(
     private interactionService: InteractionService,
     private usagerService: UsagerService,
     private notifService: ToastrService
   ) {
-    this.contentToCheck = false;
-    this.interactions = [];
     this.procuration = false;
     this.interactionFormData = {
       courrierOut: {
@@ -70,6 +71,11 @@ export class SetInteractionOutFormComponent implements OnInit {
         selected: false,
       },
     };
+    this.interactionFormData$.next(this.interactionFormData);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public ngOnInit(): void {
@@ -87,7 +93,43 @@ export class SetInteractionOutFormComponent implements OnInit {
     this.interactionFormData.colisOut.selected =
       this.usager.lastInteraction.colisIn > 0;
 
+    this.subscription.add(
+      combineLatest([this.interactions$, this.interactionFormData$]).subscribe(
+        ([interactions, interactionFormData]: [
+          Interaction[],
+          InteractionOutForm
+        ]) => {
+          // update interactions with content when form or fetched data changes
+          if (interactions && interactionFormData) {
+            const selectedInteractionsWithContent: Interaction[] = [];
+            for (const interaction of interactions) {
+              if (interaction.content) {
+                if (
+                  (interaction.type === "courrierIn" &&
+                    interactionFormData["courrierOut"]?.selected) ||
+                  (interaction.type === "recommandeIn" &&
+                    interactionFormData["recommandeOut"]?.selected) ||
+                  (interaction.type === "colisIn" &&
+                    interactionFormData["colisOut"]?.selected)
+                ) {
+                  selectedInteractionsWithContent.push(interaction);
+                }
+              }
+            }
+            this.selectedInteractionsWithContent =
+              selectedInteractionsWithContent;
+          }
+        }
+      )
+    );
+
     this.getInteractions();
+  }
+
+  public toggleSelect(type: "courrierOut" | "recommandeOut" | "colisOut") {
+    this.interactionFormData[type].selected =
+      !this.interactionFormData[type].selected;
+    this.interactionFormData$.next(this.interactionFormData);
   }
 
   public setInteractionForm() {
@@ -133,30 +175,11 @@ export class SetInteractionOutFormComponent implements OnInit {
       });
   }
 
-  public increment(value: InteractionIn) {
-    this.interactionFormData[value].nbCourrier = this.interactionFormData[
-      value
-    ].nbCourrier = this.interactionFormData[value].nbCourrier + 1;
-  }
-
-  public decrement(value: InteractionIn) {
-    this.interactionFormData[value].nbCourrier = this.interactionFormData[
-      value
-    ].nbCourrier = this.interactionFormData[value].nbCourrier - 1;
-  }
-
   private getInteractions() {
     this.interactionService
-      .getInteractions(this.usager.ref)
+      .getInteractions({ usagerRef: this.usager.ref, filter: "distribution" })
       .subscribe((interactions: Interaction[]) => {
-        this.interactions = interactions;
-
-        for (const interaction of interactions) {
-          if (interaction.content && interaction.content.length !== 0) {
-            this.contentToCheck = true;
-            break;
-          }
-        }
+        this.interactions$.next(interactions);
       });
   }
 

@@ -42,22 +42,6 @@ export class InteractionsService {
     );
   }
 
-  public async find(
-    usagerRef: number,
-    user: Pick<AppUser, "structureId">
-  ): Promise<any> {
-    return interactionRepository.findMany(
-      { structureId: user.structureId, usagerRef },
-      {
-        order: {
-          dateInteraction: "DESC",
-        },
-        skip: 0,
-        maxResults: 30,
-      }
-    );
-  }
-
   public async findOne(
     usagerRef: number,
     interactionId: number,

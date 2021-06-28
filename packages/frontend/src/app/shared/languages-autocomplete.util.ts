@@ -13,12 +13,16 @@ const typeahead = ({ maxResults = 10 }: { maxResults: number }) => {
   };
 };
 
-const formatter = (languageCode: string) => LANGUAGES_MAP[languageCode]?.label;
+const formatter = (languageCode: string) => {
+  return LANGUAGES_MAP[languageCode]?.label;
+};
 
 const validator = (errorName = "language") =>
   function validate(control: AbstractControl): { [key: string]: any } | null {
     if (_isInvalid(control.value)) {
-      return { errorName: true }; // error
+      const errorObj = {};
+      errorObj[errorName] = true;
+      return errorObj; // error
     }
     return null; // ok
   };

@@ -31,14 +31,26 @@ export class InteractionService {
       );
   }
 
-  public getInteractions(usagerRef: number): Observable<Interaction[]> {
-    return this.http.get(`${this.endPoint}${usagerRef}/10`).pipe(
-      map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) => new Interaction(item))
-          : [new Interaction(response)];
-      })
-    );
+  public getInteractions({
+    usagerRef,
+    maxResults,
+    filter,
+  }: {
+    usagerRef: number;
+    maxResults?: number;
+    filter?: "distribution";
+  }): Observable<Interaction[]> {
+    return this.http
+      .get(
+        `${this.endPoint}${usagerRef}?maxResults=${maxResults}&filter=${filter}`
+      )
+      .pipe(
+        map((response) => {
+          return Array.isArray(response)
+            ? response.map((item) => new Interaction(item))
+            : [new Interaction(response)];
+        })
+      );
   }
 
   public delete(usagerRef: number, interactionId: number) {

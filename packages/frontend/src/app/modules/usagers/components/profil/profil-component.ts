@@ -500,7 +500,7 @@ export class UsagersProfilComponent implements OnInit {
 
   private getInteractions() {
     this.interactionService
-      .getInteractions(this.usager.ref)
+      .getInteractions({ usagerRef: this.usager.ref, maxResults: 30 })
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;
       });

@@ -45,8 +45,8 @@ describe("usagerLightRepository", () => {
 
   it("findNextRendezVous", async () => {
     const rendezVous = await usagerLightRepository.findNextRendezVous({
-      userId: 1,
-      dateRefNow: new Date(Date.UTC(2020, 1, 1)),
+      userId: 2,
+      dateRefNow: new Date(Date.UTC(2019, 1, 1)),
     });
     expect(rendezVous.length).toEqual(1);
   });

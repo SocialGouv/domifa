@@ -8,6 +8,7 @@ import {
   Param,
   ParseArrayPipe,
   Post,
+  Query,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -15,6 +16,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
+import { interactionRepository } from "../database";
 import { SmsService } from "../sms/services/sms.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { AppAuthUser, UsagerLight } from "../_common/model";
@@ -75,8 +77,8 @@ export class InteractionsController {
           ) {
             const len = interaction.type.length;
 
-            const inType = ((interaction.type.substring(0, len - 3) +
-              "In") as unknown) as InteractionType;
+            const inType = (interaction.type.substring(0, len - 3) +
+              "In") as unknown as InteractionType;
 
             interaction.type = inType;
             // Suppression du SMS en file d'attente
@@ -92,13 +94,23 @@ export class InteractionsController {
     return usager;
   }
 
-  @Get(":usagerRef/:limit")
+  @Get(":usagerRef")
   public async getInteractions(
-    @Param("limit") limit: number,
+    @Query("filter") filterString: string,
+    @Query("maxResults") maxResultsString: string,
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: UsagerLight
   ) {
-    return this.interactionsService.find(usager.ref, user);
+    // check query parameters
+    const filter = filterString === "distribution" ? "distribution" : undefined;
+    const maxResultsInteger = parseInt(maxResultsString, 10);
+    const maxResults = maxResultsInteger > 0 ? maxResultsInteger : undefined;
+    return interactionRepository.findWithFilters({
+      usagerRef: usager.ref,
+      structureId: user.structureId,
+      filter,
+      maxResults,
+    });
   }
 
   @Delete(":usagerRef/:interactionId")
@@ -136,11 +148,11 @@ export class InteractionsController {
 
     const interactionOut =
       interactionToDelete.type.substring(len - 3) ===
-      (("Out" as unknown) as InteractionType);
+      ("Out" as unknown as InteractionType);
 
     const interactionIn =
       interactionToDelete.type.substring(len - 2) ===
-      (("In" as unknown) as InteractionType);
+      ("In" as unknown as InteractionType);
 
     if (interactionIn) {
       // Suppression du SMS en file d'attente
@@ -150,8 +162,8 @@ export class InteractionsController {
         interactionToDelete
       );
 
-      const inType = ((interactionToDelete.type.substring(0, len - 2) +
-        "Out") as unknown) as InteractionType;
+      const inType = (interactionToDelete.type.substring(0, len - 2) +
+        "Out") as unknown as InteractionType;
 
       const last = await this.interactionsService.findLastInteraction(
         usager.ref,
