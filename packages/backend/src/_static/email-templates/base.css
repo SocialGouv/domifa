@@ -171,7 +171,7 @@ a {
   margin: 0;
   padding: 12px 25px;
   text-decoration: none;
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 
 .btn-primary table td {
@@ -328,5 +328,12 @@ hr {
   .btn-danger a:hover {
     background-color: #bb2f15 !important;
     border-color: #bb2f15 !important;
+  }
+
+  .text-primary {
+    color: #3956d9 !important;
+  }
+  .text-danger {
+    color: #bb2f15 !important;
   }
 }

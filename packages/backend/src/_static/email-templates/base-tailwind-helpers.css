@@ -145,13 +145,21 @@
 
 /* https://tailwindcss.com/docs/text-color */
 .text-red-600 {
-  color: rgba(220, 38, 38, 1);
+  color: rgb(220, 38, 38);
 }
 .text-blue-800 {
-  color: rgba(30, 64, 175, 1);
+  color: rgb(30, 64, 175);
+}
+.text-gray-600 {
+  color: rgb(75, 85, 99);
 }
 
 /* https://tailwindcss.com/docs/text-transform */
 .uppercase {
   text-transform: uppercase;
+}
+
+/* https://tailwindcss.com/docs/font-style#italics */
+.italic {
+  font-style: italic;
 }

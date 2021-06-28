@@ -15,7 +15,7 @@
           Vous pouvez désormais vous connecter avec les identifiants indiqués lors de votre inscription.
      </p>
 
-     {{ helpers.button("primary", lien, "Se connecter") }}
+     {{ helpers.button("primary", lien, "Se connecter", true) }}
 
      <p class="mt-8">
           Pour vous accompagner au mieux dans votre utilisation de DomiFa, il vous est possible de vous inscrire à une session de présentation en ligne sur le lien suivant :
