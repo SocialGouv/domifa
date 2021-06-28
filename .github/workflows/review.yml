@@ -212,8 +212,13 @@ jobs:
       run: |
         cat ".github/review.env" >> $GITHUB_ENV
 
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v1
+
     - name: Generate k8s manifests
-      run: yarn --cwd .k8s generate:dev > manifests.yml
+      run: |
+        yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+        yarn --cwd .k8s generate:dev > manifests.yml
       env:
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
