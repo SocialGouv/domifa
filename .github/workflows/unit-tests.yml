@@ -5,6 +5,10 @@ on:
     branches: [master, alpha, beta, next]
   pull_request:
 
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.ref }}
+
 jobs:
   backend:
     name: Backend unit tests

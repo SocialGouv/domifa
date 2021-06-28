@@ -17,6 +17,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import * as fs from "fs";
+import * as path from "path";
 import { diskStorage } from "multer";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
@@ -44,8 +45,13 @@ export class StructureDocController {
       user.structureId,
       structureDocId
     );
-    const output =
-      domifaConfig().upload.basePath + user.structureId + "/docs/" + doc.path;
+    const output = path.join(
+      domifaConfig().upload.basePath,
+      `${user.structureId}`,
+      "docs",
+      doc.path
+    );
+
     return res.status(HttpStatus.OK).sendFile(output as string);
   }
 
@@ -74,8 +80,11 @@ export class StructureDocController {
           file: Express.Multer.File,
           cb: (error: Error | null, success: string) => void
         ) => {
-          const dir =
-            domifaConfig().upload.basePath + req.user.structureId + "/docs";
+          const dir = path.join(
+            domifaConfig().upload.basePath,
+            `${req.user.structureId}`,
+            "docs"
+          );
 
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -138,8 +147,12 @@ export class StructureDocController {
       structureDocId
     );
 
-    const pathFile =
-      domifaConfig().upload.basePath + user.structureId + "/docs/" + doc.path;
+    const pathFile = path.join(
+      domifaConfig().upload.basePath,
+      `${user.structureId}`,
+      "docs",
+      doc.path
+    );
 
     await deleteFile(pathFile);
 

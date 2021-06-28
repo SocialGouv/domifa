@@ -59,11 +59,11 @@ export class DocsController {
       },
       storage: diskStorage({
         destination: (req: any, file: Express.Multer.File, cb: any) => {
-          const dir =
-            domifaConfig().upload.basePath +
-            req.user.structureId +
-            "/" +
-            req.usager.ref;
+          const dir = path.join(
+            domifaConfig().upload.basePath,
+            `${req.user.structureId}`,
+            `${req.usager.ref}`
+          );
 
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -96,13 +96,12 @@ export class DocsController {
       label: postData.label,
     };
 
-    const fileName =
-      domifaConfig().upload.basePath +
-      user.structureId +
-      "/" +
-      usagerRef +
-      "/" +
-      file.filename;
+    const fileName = path.join(
+      domifaConfig().upload.basePath,
+      `${user.structureId}`,
+      `${usagerRef}`,
+      file.filename
+    );
 
     this.encryptFile(fileName, res);
 
@@ -157,12 +156,12 @@ export class DocsController {
     fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
-      domifaConfig().upload.basePath +
-        usager.structureId +
-        "/" +
-        usager.ref +
-        "/" +
+      path.join(
+        domifaConfig().upload.basePath,
+        `${usager.structureId}`,
+        `${usager.ref}`,
         fileInfos.path
+      )
     );
 
     deleteFile(pathFile);
