@@ -20,10 +20,7 @@
         <button
           class="btn"
           [disabled]="interactionFormData.courrierOut.nbCourrier === 0"
-          (click)="
-            interactionFormData.courrierOut.selected =
-              !interactionFormData.courrierOut.selected
-          "
+          (click)="this.toggleSelect('courrierOut')"
           [ngClass]="
             interactionFormData.courrierOut.selected
               ? 'btn-primary'
@@ -54,10 +51,7 @@
         <button
           class="btn"
           [disabled]="interactionFormData.colisOut.nbCourrier === 0"
-          (click)="
-            interactionFormData.colisOut.selected =
-              !interactionFormData.colisOut.selected
-          "
+          (click)="toggleSelect('colisOut')"
           [ngClass]="
             interactionFormData.colisOut.selected
               ? 'btn-primary'
@@ -87,10 +81,7 @@
       <div class="interaction-actions">
         <button
           class="btn action-selected"
-          (click)="
-            interactionFormData.recommandeOut.selected =
-              !interactionFormData.recommandeOut.selected
-          "
+          (click)="toggleSelect('recommandeOut')"
           [disabled]="interactionFormData.recommandeOut.nbCourrier === 0"
           [ngClass]="
             interactionFormData.recommandeOut.selected
@@ -150,14 +141,14 @@
   </div>
   <div
     class="interaction-icon-box text-left px-3 py-3 my-3"
-    *ngIf="contentToCheck"
+    *ngIf="this.selectedInteractionsWithContent.length !== 0"
   >
     <div class="mb-2 font-weight-bold">
       Un ou plusieurs courriers contiennent des informations importantes :
     </div>
     <div
       class="text-left"
-      *ngFor="let interaction of interactions | slice: 0:30"
+      *ngFor="let interaction of selectedInteractionsWithContent | slice: 0:30"
     >
       <ng-container *ngIf="interaction.content">
         <b>{{ interaction.dateInteraction | date: "dd/MM/yyyy à HH:mm" }} </b> -

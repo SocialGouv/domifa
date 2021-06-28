@@ -1,1 +1,1 @@
-export * from "./interaction-repository.service";
+export * from "./interactionRepository.service";

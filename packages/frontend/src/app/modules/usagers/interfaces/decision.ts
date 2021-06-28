@@ -50,7 +50,6 @@ export class Decision implements UsagerDecision {
 
     if (decision && decision.statut) {
       this.motifString = generateMotifLabel(decision);
-      console.log(generateMotifLabel(decision));
     }
   }
 }
