@@ -89,6 +89,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   public sortLabel = "échéance";
+  public echeanceSortLabel = "échéance";
 
   constructor(
     private usagerService: UsagerService,
@@ -242,11 +243,14 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     };
 
     if (this.filters.statut === "RADIE") {
+      this.echeanceSortLabel = "radiation";
       this.sortLabel = "radiation";
     } else if (this.filters.statut === "REFUS") {
       this.sortLabel = "refus";
+      this.echeanceSortLabel = "refus";
     } else {
       this.sortLabel = LABELS_SORT[this.filters.sortKey];
+      this.echeanceSortLabel = "échéance";
     }
   }
 
