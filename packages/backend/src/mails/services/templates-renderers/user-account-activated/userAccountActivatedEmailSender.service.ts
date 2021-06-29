@@ -1,4 +1,3 @@
-import * as path from "path";
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
 import { AppUser } from "../../../../_common/model";
@@ -18,7 +17,7 @@ async function sendMail({
   user: Pick<AppUser, "email" | "nom" | "prenom">;
 }): Promise<void> {
   const frontendUrl = domifaConfig().apps.frontendUrl;
-  const lien = path.join(frontendUrl, "/connexion");
+  const lien = frontendUrl + "connexion";
 
   const to = [
     {

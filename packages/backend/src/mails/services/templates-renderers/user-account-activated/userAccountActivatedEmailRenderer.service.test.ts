@@ -6,13 +6,10 @@ describe("userAccountActivatedEmailRenderer", () => {
   it("userAccountActivatedEmailRenderer render ", async () => {
     const model = {
       prenom: "Paul",
-      lien: "https://domifa.fabrique.social.gouv.fr",
+      lien: "https://domifa.fabrique.social.gouv.fr/connexion",
     };
-    const {
-      subject,
-      text,
-      html,
-    } = await userAccountActivatedEmailRenderer.renderTemplate(model);
+    const { subject, text, html } =
+      await userAccountActivatedEmailRenderer.renderTemplate(model);
 
     expect(subject).toEqual(`[DOMIFA] Votre compte Domifa a été activé`);
     expect(text).toContain(model.prenom);
