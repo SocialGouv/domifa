@@ -1,9 +1,9 @@
 // import { EnvVar } from "kubernetes-models/v1";
 // import { restoreDbJob } from "@socialgouv/kosko-charts/components/azure-pg/restore-db.job";
-// import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/azure-pg/params";
+import { getDevDatabaseParameters } from "@socialgouv/kosko-charts/components/azure-pg/params";
 
-// const suffix = (process.env.GITHUB_SHA || "").slice(0, 7);
-// const pgParams = getDevDatabaseParameters({ suffix });
+const suffix = (process.env.GITHUB_SHA || "").slice(0, 7);
+const pgParams = getDevDatabaseParameters({ suffix });
 
 // const manifests = restoreDbJob({
 //   env: [
@@ -72,7 +72,7 @@ const job = new Job({
     annotations: ciEnv.manifest.annotations
   },
   spec: {
-    backoffLimit: 0,
+    // backoffLimit: 0,
     template: {
       metadata: {},
       spec: {
@@ -83,7 +83,8 @@ const job = new Job({
         initContainers: [{
           name: "restore-db-init",
           image: "alpine/git:v2.30.2",
-          command: ["git clone git@github.com:SocialGouv/domifa.git /mnt/domifa"],
+          command: ["git"],
+          args: ["clone", "https://github.com/SocialGouv/domifa.git", "/mnt/domifa"],
           volumeMounts: [{
             name: "restore-db-volume",
             mountPath: "/mnt/domifa"
@@ -92,12 +93,16 @@ const job = new Job({
         containers: [{
           name: "restore-db",
           image: "postgres:10.16",
-          // command: ["psql < ./_scripts/db/dumps/domifa_test.postgres.data-only.sql"],
-          command: ["psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql"],
+          command: ["sh", "-c"],
+          args: ["psql < /mnt/domifa/_scripts/db/dumps/domifa_test.postgres.data-only.sql"],
           envFrom: [{
             secretRef: {
               name: "azure-pg-admin-user"
             }
+          }],
+          env: [{
+            name: "PGDATABASE",
+            value: pgParams.database,
           }],
           volumeMounts: [{
             name: "restore-db-volume",
