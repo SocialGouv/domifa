@@ -1,3 +1,4 @@
+import * as path from "path";
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
 import { AppUser } from "../../../../_common/model";
@@ -7,7 +8,6 @@ import {
   messageEmailSender,
 } from "../../_core";
 import { userAccountActivatedEmailRenderer } from "./userAccountActivatedEmailRenderer.service";
-
 const messageEmailId = "user-account-activated";
 
 export const userAccountActivatedEmailSender = { sendMail };
@@ -18,7 +18,7 @@ async function sendMail({
   user: Pick<AppUser, "email" | "nom" | "prenom">;
 }): Promise<void> {
   const frontendUrl = domifaConfig().apps.frontendUrl;
-  const lien = frontendUrl + "/connexion";
+  const lien = path.join(frontendUrl, "/connexion");
 
   const to = [
     {
@@ -36,9 +36,8 @@ async function sendMail({
     toSkipString: recipients.toSkipString,
   };
 
-  const renderedTemplate = await userAccountActivatedEmailRenderer.renderTemplate(
-    model
-  );
+  const renderedTemplate =
+    await userAccountActivatedEmailRenderer.renderTemplate(model);
   const messageContent: MessageEmailContent = {
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
