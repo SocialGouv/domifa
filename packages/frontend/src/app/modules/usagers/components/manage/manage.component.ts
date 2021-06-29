@@ -89,7 +89,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   public sortLabel = "échéance";
-  public echeanceSortLabel = "échéance";
 
   constructor(
     private usagerService: UsagerService,
@@ -228,11 +227,21 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
   }
 
+  getEcheanceLabel() {
+    if (this.filters.statut === "RADIE") {
+      return "radiation";
+    } else if (this.filters.statut === "REFUS") {
+      return "refus";
+    } else {
+      return "échéance";
+    }
+  }
+
   private updateSortLabel() {
     const LABELS_SORT: { [key: string]: string } = {
       NAME: "nom",
       ATTENTE_DECISION: "demande effectuée le",
-      ECHEANCE: "échéance",
+      ECHEANCE: this.getEcheanceLabel(),
       INSTRUCTION: "dossier débuté le",
       RADIE: "radié le ",
       REFUS: "date de refus",
@@ -242,16 +251,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       ID: "ID",
     };
 
-    if (this.filters.statut === "RADIE") {
-      this.echeanceSortLabel = "radiation";
-      this.sortLabel = "radiation";
-    } else if (this.filters.statut === "REFUS") {
-      this.sortLabel = "refus";
-      this.echeanceSortLabel = "refus";
-    } else {
-      this.sortLabel = LABELS_SORT[this.filters.sortKey];
-      this.echeanceSortLabel = "échéance";
-    }
+    this.sortLabel = LABELS_SORT[this.filters.sortKey];
   }
 
   public updateFilters<T extends keyof UsagersFilterCriteria>({

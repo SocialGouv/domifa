@@ -300,14 +300,14 @@
               (click)="updateFilters({element: 'sortKey', value: 'ECHEANCE', sortValue:'ascending'})"
               ngbDropdownItem
             >
-              Trier par {{ echeanceSortLabel }}
+              Trier par {{ getEcheanceLabel() }}
               <fa-icon icon="sort-amount-up"></fa-icon>
             </button>
             <button
               (click)="updateFilters({element: 'sortKey', value: 'ECHEANCE', sortValue:'descending'})"
               ngbDropdownItem
             >
-              Trier par {{ echeanceSortLabel }}
+              Trier par {{ getEcheanceLabel() }}
               <fa-icon icon="sort-amount-down"></fa-icon>
             </button>
             <button
