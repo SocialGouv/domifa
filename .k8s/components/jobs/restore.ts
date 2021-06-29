@@ -102,8 +102,9 @@ const job = new Job({
           volumeMounts: [{
             name: "restore-db-volume",
             mountPath: "/mnt/domifa"
-          }]
-        }]
+          }],
+        }],
+        restartPolicy: "OnFailure",
       },
     },
     ttlSecondsAfterFinished: 86400,
