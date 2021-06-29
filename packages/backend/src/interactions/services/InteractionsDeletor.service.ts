@@ -30,23 +30,23 @@ export class InteractionsDeletor {
       ref: usagerRef,
     });
 
-    const interactionToDelete = await interactionRepository.findOne({
+    const interaction = await interactionRepository.findOne({
       id: interactionId,
       structureId: user.structureId,
       usagerRef,
     });
 
-    if (!interactionToDelete || interactionToDelete === null) {
+    if (!interaction || interaction === null) {
       throw new HttpException("INTERACTION_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
-    if (interactionToDelete.type === "npai") {
+    if (interaction.type === "npai") {
       usager.options.npai.actif = false;
       usager.options.npai.dateDebut = null;
 
       const delInteraction = await this._deleteOrRestore({
         user,
-        interactionToDelete,
+        interaction,
       });
 
       if (delInteraction) {
@@ -54,55 +54,21 @@ export class InteractionsDeletor {
       }
     }
 
-    const len = interactionToDelete.type.length;
+    const interactionMeta = this.getInteractionMeta(interaction);
 
-    const interactionOut =
-      interactionToDelete.type.substring(len - 3) ===
-      ("Out" as unknown as InteractionType);
-
-    const interactionIn =
-      interactionToDelete.type.substring(len - 2) ===
-      ("In" as unknown as InteractionType);
-
-    if (interactionIn) {
+    if (interactionMeta.interactionIn && interaction.event === "create") {
       // Suppression du SMS en file d'attente
       const smsToDelete = await this.smsService.deleteSmsInteraction(
         usager,
         user.structureId,
-        interactionToDelete
+        interaction
       );
-
-      const inType = (interactionToDelete.type.substring(0, len - 2) +
-        "Out") as unknown as InteractionType;
-
-      const last = await interactionRepository.findLastInteraction({
-        usagerRef: usager.ref,
-        dateInteraction: interactionToDelete.dateInteraction,
-        typeInteraction: inType,
-        user,
-        isIn: "in",
-        event: "create",
-      });
-
-      if (!last || last === null) {
-        if (interactionToDelete.nbCourrier) {
-          usager.lastInteraction[interactionToDelete.type] =
-            usager.lastInteraction[interactionToDelete.type] -
-            interactionToDelete.nbCourrier;
-        }
-      }
-    } else if (interactionOut) {
-      const inType = interactionToDelete.type.substring(0, len - 3) + "In";
-
-      if (interactionToDelete.nbCourrier) {
-        usager.lastInteraction[inType] =
-          usager.lastInteraction[inType] + interactionToDelete.nbCourrier;
-      }
     }
+    // TODO en cas de restauration, recréer le SMS si il n'a pas encore été envoyé?
 
     const deletedInteraction = await this._deleteOrRestore({
       user,
-      interactionToDelete,
+      interaction,
     });
 
     if (deletedInteraction === null || !deletedInteraction) {
@@ -112,33 +78,62 @@ export class InteractionsDeletor {
       );
     }
 
-    return await this.updateUsagerLastInteraction(user, usager);
+    return await this.updateUsagerLastInteractionAfterDeleteOrRestoreLast({
+      user,
+      usager,
+      interaction,
+      interactionMeta,
+    });
+  }
+
+  private getInteractionMeta(i: Interactions): {
+    interactionOut: boolean;
+    interactionIn: boolean;
+    oppositeType: InteractionType;
+  } {
+    const len = i.type.length;
+
+    const interactionOut = i.type.substring(len - 3) === "Out";
+
+    const interactionIn = i.type.substring(len - 2) === "In";
+
+    const oppositeType = (interactionIn
+      ? i.type.substring(0, len - 2) + "Out"
+      : interactionOut
+      ? i.type.substring(0, len - 3) + "In"
+      : undefined) as unknown as InteractionType;
+
+    return {
+      interactionOut,
+      interactionIn,
+      oppositeType,
+    };
   }
 
   private async _deleteOrRestore({
-    interactionToDelete,
+    interaction,
     user,
   }: {
-    interactionToDelete: Interactions;
+    interaction: Interactions;
     user: Pick<AppUser, "structureId" | "id" | "nom" | "prenom">;
   }) {
-    if (interactionToDelete.event === "create") {
+    if (interaction.event === "create") {
       // create a "delete" interaction
       await this._createDeleteInteraction({
         user,
-        interactionToDelete,
+        interaction,
       });
     } else {
       // restore deleted interaction
       await this._restoreDeleteInteraction({
-        interactionToDelete,
+        interaction,
       });
     }
     // delete interaction
     const retour = interactionRepository.deleteByCriteria({
-      id: interactionToDelete.id,
+      id: interaction.id,
       structureId: user.structureId,
-      usagerRef: interactionToDelete.usagerRef,
+      usagerRef: interaction.usagerRef,
     });
 
     if (!retour || retour === null) {
@@ -149,42 +144,79 @@ export class InteractionsDeletor {
 
   private _createDeleteInteraction({
     user,
-    interactionToDelete,
+    interaction,
   }: {
     user: Pick<AppUser, "structureId" | "id" | "nom" | "prenom">;
-    interactionToDelete: Interactions;
+    interaction: Interactions;
   }) {
     const deleteInteraction = new InteractionsTable({
-      ...interactionToDelete,
+      ...interaction,
       uuid: undefined, // generate new uuid
       structureId: user.structureId,
       userId: user.id,
       userName: user.prenom + " " + user.nom,
       dateInteraction: new Date(),
       event: "delete",
-      previousValue: interactionToDelete,
+      previousValue: interaction,
     });
 
     return interactionRepository.save(deleteInteraction);
   }
 
   private _restoreDeleteInteraction({
-    interactionToDelete,
+    interaction,
   }: {
-    interactionToDelete: Interactions;
+    interaction: Interactions;
   }) {
-    const deleteInteraction = new InteractionsTable(
-      interactionToDelete.previousValue
-    );
+    const deleteInteraction = new InteractionsTable(interaction.previousValue);
 
     return interactionRepository.save(deleteInteraction);
   }
-  private async updateUsagerLastInteraction(
-    user: Pick<AppUser, "structureId" | "nom" | "prenom" | "id">,
-    usager: Usager
-  ) {
-    // Recherche de la dernière date de passage
+  private async updateUsagerLastInteractionAfterDeleteOrRestoreLast({
+    user,
+    usager,
+    interaction,
+    interactionMeta,
+  }: {
+    user: Pick<AppUser, "structureId" | "nom" | "prenom" | "id">;
+    usager: Usager;
+    interaction: Interactions;
+    interactionMeta: {
+      interactionOut: boolean;
+      interactionIn: boolean;
+      oppositeType: InteractionType;
+    };
+  }) {
+    // TODO prendre en compte le type 'create' ou 'delete'
 
+    if (interactionMeta.interactionIn) {
+      const outType = interactionMeta.oppositeType;
+
+      const last = await interactionRepository.findLastInteraction({
+        usagerRef: usager.ref,
+        dateInteraction: interaction.dateInteraction,
+        typeInteraction: outType,
+        user,
+        isIn: "in",
+        event: "create",
+      });
+
+      if (!last || last === null) {
+        if (interaction.nbCourrier) {
+          usager.lastInteraction[interaction.type] =
+            usager.lastInteraction[interaction.type] - interaction.nbCourrier;
+        }
+      }
+    } else if (interactionMeta.interactionOut) {
+      const inType = interactionMeta.oppositeType;
+
+      if (interaction.nbCourrier) {
+        usager.lastInteraction[inType] =
+          usager.lastInteraction[inType] + interaction.nbCourrier;
+      }
+    }
+
+    // Recherche de la dernière date de passage
     const lastInteraction = await interactionRepository.findLastInteractionOk({
       user,
       usager,
@@ -201,6 +233,12 @@ export class InteractionsDeletor {
     } else {
       usager.lastInteraction.dateInteraction = usager.decision.dateDecision;
     }
+
+    // recalcul des totaux
+
+    // NOTE @toub 2021-06-29: j'ai envisagé de recalculer tous les compteurs (voir fichier `sum_all_interactions.aggregate.sql`)
+    // mais hélas, ils ne correspondent pas à la valeur qu'on a dans "lastInteraction"
+    // donc il faudrait mieux revoir le modèle de données
 
     usager.lastInteraction.enAttente =
       usager.lastInteraction.courrierIn > 0 ||
