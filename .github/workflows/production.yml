@@ -194,3 +194,116 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
+
+  ##############################################################################
+  ## GENERATE KUBERNETES MANIFESTS
+  ##############################################################################
+  manifests:
+    name: Generate k8s manifests
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Load review environment variables
+      run: |
+        cat ".github/review.env" >> $GITHUB_ENV
+
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v1
+
+    - name: Install kosko-charts dependencies
+      run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+
+    - name: Generate k8s manifests
+      run: yarn --cwd .k8s --silent generate:preprod > manifests.yml
+      env:
+        SOCIALGOUV_PREPRODUCTION: true
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
+    - name: Generate k8s namespace
+      run: yarn --cwd .k8s --silent generate:preprod _namespace > namespace.yml
+      env:
+        SOCIALGOUV_PREPRODUCTION: true
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
+    - name: Archive k8s manifests
+      uses: actions/upload-artifact@v2
+      with:
+        name: manifests.yml
+        path: manifests.yml
+
+    - name: Archive k8s namespace
+      uses: actions/upload-artifact@v2
+      with:
+        name: namespace.yml
+        path: namespace.yml
+
+  ##############################################################################
+  ## DEPLOY BACKEND & FRONT-END
+  ##############################################################################
+  deploy-backend:
+    name: Deploy application
+    runs-on: ubuntu-latest
+    needs: [register-backend, register-frontend, manifests]
+    environment:
+      name: preproduction
+      url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
+    steps:
+  
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Get project and namespace names
+      run: |
+        cat ".github/preproduction.env" >> $GITHUB_ENV
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+        echo "namespace=${GITHUB_REPOSITORY#*/}-preprod" >> $GITHUB_ENV
+
+    - name: Download k8s manifests
+      uses: actions/download-artifact@v2
+      with:
+        name: manifests.yml
+
+    - name: Download k8s namespace
+      uses: actions/download-artifact@v2
+      with:
+        name: namespace.yml
+
+    # - name: Notify deployment start
+    #   uses: bobheadxi/deployments@v0.4.3
+    #   id: deployment
+    #   with:
+    #     step: start
+    #     env: ${{ env.namespace }}
+    #     token: ${{ secrets.GITHUB_TOKEN }}
+    #     desc: "Deploying environment: ${{ env.namespace }}"
+
+    - name: Install Kapp
+      uses: vmware-tanzu/carvel-setup-action@v1
+      with:
+        only: kapp
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create kubernetes config
+      run: |
+        mkdir ~/.kube
+        touch ~/.kube/config
+        echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }} | base64 -d > ~/.kube/config
+
+    - name: Create k8s namespace and annotations
+      run: kubectl create -f namespace.yml || true
+
+    - name: Deploy application
+      run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests.yml
+
+    # - name: Notify deployment end
+    #   uses: bobheadxi/deployments@v0.4.3
+    #   if: always()
+    #   with:
+    #     step: finish
+    #     status: ${{ job.status }}
+    #     token: ${{ secrets.GITHUB_TOKEN }}
+    #     deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+    #     env_url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
