@@ -218,6 +218,12 @@ export class DocsController {
         fileInfos.path
       )
     );
+    const pathFile2 = path.join(
+      domifaConfig().upload.basePath,
+      `${usager.structureId}`,
+      `${usager.ref}`,
+      fileInfos.path
+    );
 
     if (!fs.existsSync(pathFile + ".encrypted")) {
       if (!fs.existsSync(pathFile)) {
@@ -238,6 +244,19 @@ export class DocsController {
         const baseUsagerPathExists = fs.existsSync(
           path.resolve(path.join(domifaConfig().upload.basePath))
         );
+        const basePathExists2 = fs.existsSync(
+          path.join(
+            domifaConfig().upload.basePath,
+            `${usager.structureId}`,
+            `${usager.ref}`
+          )
+        );
+        const baseStructurePathExists2 = fs.existsSync(
+          path.join(domifaConfig().upload.basePath, `${usager.structureId}`)
+        );
+        const baseUsagerPathExists2 = fs.existsSync(
+          path.join(domifaConfig().upload.basePath)
+        );
         appLogger.error("Error reading usager document", {
           sentry: true,
           extra: {
@@ -245,6 +264,10 @@ export class DocsController {
             basePathExists,
             baseStructurePathExists,
             baseUsagerPathExists,
+            pathFile2,
+            basePathExists2,
+            baseStructurePathExists2,
+            baseUsagerPathExists2,
           },
         });
         throw new HttpException(
