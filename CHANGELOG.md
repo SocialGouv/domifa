@@ -1,3 +1,10 @@
+# [1.0.0-beta.8](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2021-06-30)
+
+
+### Bug Fixes
+
+* Create DB within deployment. ([f5d31cd](https://github.com/SocialGouv/domifa/commit/f5d31cdbb615fc600e16acaaa2d5f2531f59a2fb))
+
 # [1.0.0-beta.7](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2021-06-30)
 
 
