@@ -330,13 +330,13 @@ jobs:
     - name: Create database
       run: kubectl apply -f create-db.yml
 
+    - name: Deploy application
+      run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests.yml
+
     - name: Seed database
       run: |
         kubectl delete -f restore-db.yml --namespace ${{ env.namespace }} || true
         kubectl apply -f restore-db.yml --namespace ${{ env.namespace }}
-
-    - name: Deploy application
-      run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests.yml
 
     - name: Notify deployment end
       uses: bobheadxi/deployments@v0.4.3
