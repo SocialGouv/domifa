@@ -2,6 +2,10 @@ name: End to End Tests On Deploy
 
 on: [deployment_status]
 
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.ref }}
+
 jobs:
   tests:
     name: Run e2e tests
