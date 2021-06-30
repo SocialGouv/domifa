@@ -67,9 +67,9 @@ const ciEnv = environments(process.env);
 const job = new Job({
   metadata: {
     name: "restore-db",
-    namespace: ciEnv.manifest.namespace.name,
-    labels: ciEnv.manifest.labels,
-    annotations: ciEnv.manifest.annotations
+    namespace: ciEnv.metadata.namespace.name,
+    labels: ciEnv.metadata.labels,
+    annotations: ciEnv.metadata.annotations
   },
   spec: {
     // backoffLimit: 0,

@@ -23,9 +23,9 @@ export default async () => {
 
   // add gitlab annotations
   updateMetadata(secret, {
-    annotations: envParams.manifest.annotations || {},
-    labels: envParams.manifest.labels || {},
-    namespace: envParams.manifest.namespace,
+    annotations: envParams.metadata.annotations || {},
+    labels: envParams.metadata.labels || {},
+    namespace: envParams.metadata.namespace,
   });
 
   return [secret];
