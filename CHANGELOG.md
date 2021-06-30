@@ -1,3 +1,10 @@
+# [1.0.0-beta.7](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2021-06-30)
+
+
+### Bug Fixes
+
+* Add pg component for preprod and prod. ([fc11f25](https://github.com/SocialGouv/domifa/commit/fc11f25e10636b935f4e88abbcf96a1fa129d267))
+
 # [1.0.0-beta.6](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2021-06-30)
 
 
