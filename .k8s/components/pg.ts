@@ -3,10 +3,11 @@ import type { SealedSecret } from "@kubernetes-models/sealed-secrets/bitnami.com
 import environments from "@socialgouv/kosko-charts/environments";
 import { loadYaml } from "@socialgouv/kosko-charts/utils/getEnvironmentComponent";
 import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
+import { create } from "@socialgouv/kosko-charts/components/azure-pg";
 
 export default async (): Promise<{ kind: string }[]> => {
   if (env.env === "dev") {
-    return [];
+    return await create({ env });
   }
 
   // in prod/preprod, we try to add a fixed sealed-secret

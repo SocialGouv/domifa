@@ -228,10 +228,10 @@ jobs:
       env:
         SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-    - name: Generate create-db job manifest
-      run: yarn --cwd .k8s --silent generate:dev jobs/pg > create-db.yml
-      env:
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+    # - name: Generate create-db job manifest
+    #   run: yarn --cwd .k8s --silent generate:dev jobs/pg > create-db.yml
+    #   env:
+    #     SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
     - name: Generate restore-db job manifest
       run: yarn --cwd .k8s --silent generate:dev jobs/restore > restore-db.yml
@@ -250,11 +250,11 @@ jobs:
         name: namespace.yml
         path: namespace.yml
 
-    - name: Archive create-db job
-      uses: actions/upload-artifact@v2
-      with:
-        name: create-db.yml
-        path: create-db.yml
+    # - name: Archive create-db job
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: create-db.yml
+    #     path: create-db.yml
 
     - name: Archive restore-db job
       uses: actions/upload-artifact@v2
@@ -290,10 +290,10 @@ jobs:
       with:
         name: namespace.yml
 
-    - name: Download create-db job
-      uses: actions/download-artifact@v2
-      with:
-        name: create-db.yml
+    # - name: Download create-db job
+    #   uses: actions/download-artifact@v2
+    #   with:
+    #     name: create-db.yml
 
     - name: Download restore-db job
       uses: actions/download-artifact@v2
@@ -324,8 +324,8 @@ jobs:
     - name: Create k8s namespace and annotations
       run: kubectl create -f namespace.yml || true
 
-    - name: Create database
-      run: kubectl apply -f create-db.yml
+    # - name: Create database
+    #   run: kubectl apply -f create-db.yml
 
     - name: Deploy application
       run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests.yml
