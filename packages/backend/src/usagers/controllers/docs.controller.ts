@@ -221,18 +221,22 @@ export class DocsController {
 
     if (!fs.existsSync(pathFile + ".encrypted")) {
       if (!fs.existsSync(pathFile)) {
-        const basePathExists = path.resolve(
-          path.join(
-            domifaConfig().upload.basePath,
-            `${usager.structureId}`,
-            `${usager.ref}`
+        const basePathExists = fs.existsSync(
+          path.resolve(
+            path.join(
+              domifaConfig().upload.basePath,
+              `${usager.structureId}`,
+              `${usager.ref}`
+            )
           )
         );
-        const baseStructurePathExists = path.resolve(
-          path.join(domifaConfig().upload.basePath, `${usager.structureId}`)
+        const baseStructurePathExists = fs.existsSync(
+          path.resolve(
+            path.join(domifaConfig().upload.basePath, `${usager.structureId}`)
+          )
         );
-        const baseUsagerPathExists = path.resolve(
-          path.join(domifaConfig().upload.basePath)
+        const baseUsagerPathExists = fs.existsSync(
+          path.resolve(path.join(domifaConfig().upload.basePath))
         );
         appLogger.error("Error reading usager document", {
           sentry: true,
