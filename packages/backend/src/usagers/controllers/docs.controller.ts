@@ -26,6 +26,7 @@ import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import { usagerRepository } from "../../database";
+import { appLogger } from "../../util";
 import { deleteFile, randomName, validateUpload } from "../../util/FileManager";
 import {
   AppAuthUser,
@@ -210,16 +211,38 @@ export class DocsController {
     fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
-      domifaConfig().upload.basePath +
-        usager.structureId +
-        "/" +
-        usager.ref +
-        "/" +
+      path.join(
+        domifaConfig().upload.basePath,
+        `${usager.structureId}`,
+        `${usager.ref}`,
         fileInfos.path
+      )
     );
 
     if (!fs.existsSync(pathFile + ".encrypted")) {
       if (!fs.existsSync(pathFile)) {
+        const basePathExists = path.resolve(
+          path.join(
+            domifaConfig().upload.basePath,
+            `${usager.structureId}`,
+            `${usager.ref}`
+          )
+        );
+        const baseStructurePathExists = path.resolve(
+          path.join(domifaConfig().upload.basePath, `${usager.structureId}`)
+        );
+        const baseUsagerPathExists = path.resolve(
+          path.join(domifaConfig().upload.basePath)
+        );
+        appLogger.error("Error reading usager document", {
+          sentry: true,
+          extra: {
+            pathFile,
+            basePathExists,
+            baseStructurePathExists,
+            baseUsagerPathExists,
+          },
+        });
         throw new HttpException(
           { message: "UNENCRYPTED_FILE_NOT_FOUND" },
           HttpStatus.BAD_REQUEST
