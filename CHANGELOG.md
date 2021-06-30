@@ -1,3 +1,10 @@
+# [1.0.0-beta.6](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2021-06-30)
+
+
+### Bug Fixes
+
+* Deploy preproduction. ([d53ea52](https://github.com/SocialGouv/domifa/commit/d53ea5204afca679600b9955419110c0527d36fc))
+
 # [1.0.0-beta.5](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2021-06-30)
 
 
