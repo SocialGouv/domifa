@@ -1,5 +1,7 @@
 {
+  "name": "domifa",
   "private": true,
+  "version": "2.6.11",
   "scripts": {
     "build": "lerna run build --stream",
     "dev": "lerna run dev --parallel --stream",
@@ -28,7 +30,5 @@
       "**/@angular-devkit/*",
       "**/@angular-devkit/*/**"
     ]
-  },
-  "name": "domifa",
-  "version": "1.0.0-beta.3"
+  }
 }
