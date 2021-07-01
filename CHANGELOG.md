@@ -1,3 +1,10 @@
+# [1.0.0-beta.16](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2021-07-01)
+
+
+### Bug Fixes
+
+* Use kosko-charts azureProjectVolume. ([5510bc5](https://github.com/SocialGouv/domifa/commit/5510bc5419dfd76bacc0b887a1c8fd7cf6b65086))
+
 # 1.0.0-beta.1 (2021-07-01)
 
 
