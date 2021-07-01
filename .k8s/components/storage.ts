@@ -7,7 +7,7 @@ import { updateMetadata } from "@socialgouv/kosko-charts/utils/updateMetadata";
 export default async (): Promise<{ kind: string }[]> => {
   const secret = await loadYaml<SealedSecret>(
     env,
-    `azure-storage.sealed-secret.yaml`
+    `azure-domifa-volume.sealed-secret.yaml`
   );
   if (!secret) {
     return [];
