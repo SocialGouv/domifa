@@ -1,3 +1,10 @@
+# [1.0.0-beta.17](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2021-07-01)
+
+
+### Bug Fixes
+
+* Rename storage secret. ([6cad937](https://github.com/SocialGouv/domifa/commit/6cad9373adbc6bdc70451171c6fa3f260ace97d4))
+
 # [1.0.0-beta.16](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2021-07-01)
 
 
