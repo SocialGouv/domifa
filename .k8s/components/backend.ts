@@ -61,21 +61,21 @@ export const getManifests = async () => {
     {}
   );
 
-  const [persistentVolumeClaim, persistentVolume] = azureProjectVolume("resource", {
+  const [persistentVolumeClaim, persistentVolume] = azureProjectVolume("files", {
     storage: "5Gi",
   });
 
   const uploadsVolume = new Volume({
-    name: "resource",
+    name: "files",
     persistentVolumeClaim: { claimName: persistentVolumeClaim.metadata!.name! },
   });
 
   const uploadsVolumeMount = new VolumeMount({
     mountPath: "/mnt/files",
-    name: "resource",
+    name: "files",
   });
 
-  const emptyDir = new Volume({ name: "resource", emptyDir: {} });
+  const emptyDir = new Volume({ name: "files", emptyDir: {} });
 
   const manifests = await create(name, {
     env,
@@ -154,7 +154,7 @@ export default async () => {
   //         name: "domifa-volume",
   //         azureFile: {
   //           readOnly: false,
-  //           shareName: "resource",
+  //           shareName: "files",
   //           secretName: "azure-storage",
   //           secretNamespace: "domifa-preprod",
   //         },
