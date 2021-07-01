@@ -9,7 +9,7 @@
   "dependencies": {
     "@kosko/env": "^2.0.1",
     "@kubernetes-models/sealed-secrets": "^1.6.3",
-    "@socialgouv/kosko-charts": "7.0.2",
+    "@socialgouv/kosko-charts": "7.0.3",
     "@types/node": "^15.12.2",
     "kosko": "^1.1.5",
     "kubernetes-models": "^1.7.1",
@@ -34,7 +34,9 @@
     "gitlab:dev": "yarn --silent gitlab --env dev",
     "github:dev": "yarn --silent github --env dev",
     "gitlab:preprod": "yarn --silent gitlab --env preprod",
+    "github:preprod": "yarn --silent github --env preprod",
     "gitlab:prod": "yarn --silent gitlab --env prod",
+    "github:prod": "yarn --silent github --env prod",
     "test": "jest"
   }
 }
