@@ -1,3 +1,10 @@
+# [1.0.0-beta.9](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2021-07-01)
+
+
+### Bug Fixes
+
+* Upgrade kosko-charts version. ([d64b1b4](https://github.com/SocialGouv/domifa/commit/d64b1b43d3cebbffe7102ef64a5f8a93fa95e2cf))
+
 # [1.0.0-beta.8](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2021-06-30)
 
 
