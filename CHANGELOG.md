@@ -1,3 +1,10 @@
+# [1.0.0-beta.19](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.18...v1.0.0-beta.19) (2021-07-01)
+
+
+### Bug Fixes
+
+* Rename file share. ([b15951c](https://github.com/SocialGouv/domifa/commit/b15951c160856e9d807cb243f4b4446d53d5255b))
+
 # [1.0.0-beta.18](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2021-07-01)
 
 
