@@ -1,3 +1,10 @@
+# [1.0.0-beta.12](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2021-07-01)
+
+
+### Bug Fixes
+
+* Remove namespace from storage preprod secrets. ([465d939](https://github.com/SocialGouv/domifa/commit/465d93980504634aab4c4aa757c196b7c2e413f6))
+
 # [1.0.0-beta.11](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2021-07-01)
 
 
