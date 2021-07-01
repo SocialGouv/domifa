@@ -129,7 +129,7 @@ export default async () => {
             readOnly: false,
             shareName: "domifa-resource",
             secretName: "azure-storage",
-            secretNamespace: "domifa",
+            secretNamespace: "domifa-preprod",
           },
         } 
       : {
