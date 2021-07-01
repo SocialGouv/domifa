@@ -1,3 +1,10 @@
+# [1.0.0-beta.11](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2021-07-01)
+
+
+### Bug Fixes
+
+* Use specific volumes for preprod and prod. ([645d724](https://github.com/SocialGouv/domifa/commit/645d724ca31f085ecae393001ff1d5f54d83dfd4))
+
 # [1.0.0-beta.10](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2021-07-01)
 
 
