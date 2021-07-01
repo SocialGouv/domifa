@@ -1,3 +1,11 @@
+# [1.0.0-beta.14](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2021-07-01)
+
+
+### Bug Fixes
+
+* Force secret storage namespace to domifa, again. ([ed73a91](https://github.com/SocialGouv/domifa/commit/ed73a919f7d1833c71717ae643de8b9f35aab8a5))
+* Force secret storage namespace to domifa. ([a5c0788](https://github.com/SocialGouv/domifa/commit/a5c0788ed008de9ddbe6b48afb424d2c307db4d7))
+
 # [1.0.0-beta.13](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2021-07-01)
 
 
