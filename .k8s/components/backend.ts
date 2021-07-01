@@ -9,6 +9,7 @@ import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getFrontendManifests } from "./frontend";
+import environments from "@socialgouv/kosko-charts/environments"
 
 type AnyObject = {
   [any: string]: any;
@@ -94,10 +95,11 @@ export const getManifests = async () => {
 
 export default async () => {
   const { env } = process;
-  const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
-  const isProductionCluster = Boolean(PRODUCTION);
-  const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev";
-  const isDev = !isProductionCluster && !isPreProduction;
+  const ciEnv = environments(env);
+  // const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
+  // const isProductionCluster = Boolean(PRODUCTION);
+  // const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev";
+  // const isDev = !isProductionCluster && !isPreProduction;
 
   const manifests = await getManifests();
   /* pass dynamic deployment URL as env var to the container */
@@ -120,19 +122,19 @@ export default async () => {
   });
 
   const volumes = [
-    isDev
+    ciEnv.isPreProduction || ciEnv.isProduction
       ? {
-          name: "domifa-volume",
-          emptyDir: {},
-        }
-      : {
           name: "domifa-volume",
           azureFile: {
             readOnly: false,
             shareName: "domifa-resource",
             secretName: "azure-storage",
           },
-        },
+        } 
+      : {
+        name: "domifa-volume",
+        emptyDir: {},
+      }
   ];
 
   assert.object(deployment.spec);
