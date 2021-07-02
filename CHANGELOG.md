@@ -1,3 +1,10 @@
+# [1.0.0-beta.33](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.32...v1.0.0-beta.33) (2021-07-02)
+
+
+### Bug Fixes
+
+* Add k8s-prod to DOMIFA_ENV_ID set. ([a77bfb8](https://github.com/SocialGouv/domifa/commit/a77bfb80057227bd5bd10813423a5aa3702bae7b))
+
 # [1.0.0-beta.32](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2021-07-02)
 
 
