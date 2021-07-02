@@ -1,3 +1,10 @@
+# [1.0.0-beta.24](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2021-07-02)
+
+
+### Bug Fixes
+
+* Remove comments. ([8a1b0b5](https://github.com/SocialGouv/domifa/commit/8a1b0b551dc565ae2b295766304d5e8307ad9a98))
+
 # [1.0.0-beta.23](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.22...v1.0.0-beta.23) (2021-07-02)
 
 
