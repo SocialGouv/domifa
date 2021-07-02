@@ -1,3 +1,10 @@
+# [1.0.0-beta.31](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2021-07-02)
+
+
+### Bug Fixes
+
+* Reshape prod storage sealed secret. ([06f8683](https://github.com/SocialGouv/domifa/commit/06f8683508cd0e199eb804cfdd9ed95b80d4d451))
+
 # [1.0.0-beta.30](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2021-07-02)
 
 
