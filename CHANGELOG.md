@@ -1,3 +1,10 @@
+# [1.0.0-beta.28](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.27...v1.0.0-beta.28) (2021-07-02)
+
+
+### Bug Fixes
+
+* Use other kube creds. ([ed2ee56](https://github.com/SocialGouv/domifa/commit/ed2ee56d17f21cf51c9d42a54c2f2129379307b8))
+
 # [1.0.0-beta.27](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.26...v1.0.0-beta.27) (2021-07-02)
 
 
