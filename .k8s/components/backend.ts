@@ -121,7 +121,7 @@ export const getManifests = async () => {
 
 export default async () => {
   const { env } = process;
-  const ciEnv = environments(env);
+  // const ciEnv = environments(env);
   // const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
   // const isProductionCluster = Boolean(PRODUCTION);
   // const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev";
