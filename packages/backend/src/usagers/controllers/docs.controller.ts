@@ -96,13 +96,20 @@ export class DocsController {
       label: postData.label,
     };
 
-    const fileName =
-      domifaConfig().upload.basePath +
-      user.structureId +
-      "/" +
-      usagerRef +
-      "/" +
-      file.filename;
+    // const fileName =
+    //   domifaConfig().upload.basePath +
+    //   user.structureId +
+    //   "/" +
+    //   usagerRef +
+    //   "/" +
+    //   file.filename;
+
+    const fileName = path.join(
+      domifaConfig().upload.basePath,
+      user.structureId.toString(),
+      usagerRef.toString(),
+      file.filename
+    );
 
     console.log("----> fileName:", fileName);
 
@@ -159,21 +166,13 @@ export class DocsController {
     fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
-      path.join(
-        domifaConfig().upload.basePath,
-        usager.structureId.toString(),
-        usager.ref.toString(),
+      domifaConfig().upload.basePath +
+        usager.structureId +
+        "/" +
+        usager.ref +
+        "/" +
         fileInfos.path
-      )
     );
-    // const pathFile = path.resolve(
-    //   domifaConfig().upload.basePath +
-    //     usager.structureId +
-    //     "/" +
-    //     usager.ref +
-    //     "/" +
-    //     fileInfos.path
-    // );
 
     deleteFile(pathFile);
 
