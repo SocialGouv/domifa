@@ -90,7 +90,7 @@ async function deleteStructure({
 
     const pathFile = path.join(
       domifaConfig().upload.basePath,
-      structure.id.toString()
+      `${structure.id}`
     );
 
     if (fs.existsSync(pathFile)) {
