@@ -1,3 +1,10 @@
+# [1.0.0-beta.30](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2021-07-02)
+
+
+### Bug Fixes
+
+* Set static namespace for prod deployments. ([d914566](https://github.com/SocialGouv/domifa/commit/d914566b4c0b639e9f03f3341405cf6c8cf03f31))
+
 # [1.0.0-beta.29](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2021-07-02)
 
 
