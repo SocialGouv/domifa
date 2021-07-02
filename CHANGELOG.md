@@ -1,3 +1,10 @@
+# [1.0.0-beta.26](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2021-07-02)
+
+
+### Bug Fixes
+
+* Typo. ([d1462cf](https://github.com/SocialGouv/domifa/commit/d1462cf3c5c300ce6003d344778e179412574931))
+
 # [1.0.0-beta.25](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2021-07-02)
 
 
