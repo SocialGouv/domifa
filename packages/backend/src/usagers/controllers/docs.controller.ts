@@ -59,11 +59,20 @@ export class DocsController {
       },
       storage: diskStorage({
         destination: (req: any, file: Express.Multer.File, cb: any) => {
-          const dir =
-            domifaConfig().upload.basePath +
-            req.user.structureId +
-            "/" +
-            req.usager.ref;
+          // const dir =
+          //   domifaConfig().upload.basePath +
+          //   req.user.structureId +
+          //   "/" +
+          //   req.usager.ref;
+
+          const dir = path.join(
+            domifaConfig().upload.basePath,
+            req.user.structureId,
+            req.usager.ref
+          );
+
+          console.log("----> diskStorage", dir);
+          
 
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -165,14 +174,24 @@ export class DocsController {
     const fileInfos: UsagerDoc & { path?: string } = usager.docs[index];
     fileInfos.path = usager.docsPath[index];
 
+    // const pathFile = path.resolve(
+    //   domifaConfig().upload.basePath +
+    //     usager.structureId +
+    //     "/" +
+    //     usager.ref +
+    //     "/" +
+    //     fileInfos.path
+    // );
     const pathFile = path.resolve(
-      domifaConfig().upload.basePath +
-        usager.structureId +
-        "/" +
-        usager.ref +
-        "/" +
+      path.join(
+        domifaConfig().upload.basePath,
+        usager.structureId.toString(),
+        usager.ref.toString(),
         fileInfos.path
+      )
     );
+
+    console.log("----> deleteFile", pathFile);
 
     deleteFile(pathFile);
 
