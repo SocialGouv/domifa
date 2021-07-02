@@ -1,3 +1,10 @@
+# [1.0.0-beta.27](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.26...v1.0.0-beta.27) (2021-07-02)
+
+
+### Bug Fixes
+
+* Deploy fake prod. ([6940ae2](https://github.com/SocialGouv/domifa/commit/6940ae2b34f906bb5bbf90bb48bc8c290a679701))
+
 # [1.0.0-beta.26](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2021-07-02)
 
 
