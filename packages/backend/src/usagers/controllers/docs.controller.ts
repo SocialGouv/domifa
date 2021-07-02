@@ -67,8 +67,8 @@ export class DocsController {
 
           const dir = path.join(
             domifaConfig().upload.basePath,
-            req.user.structureId,
-            req.usager.ref
+            req.user.structureId.toString(),
+            req.usager.ref.toString()
           );
 
           console.log("----> diskStorage", dir);

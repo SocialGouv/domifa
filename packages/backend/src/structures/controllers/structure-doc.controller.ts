@@ -82,7 +82,7 @@ export class StructureDocController {
         ) => {
           const dir = path.join(
             domifaConfig().upload.basePath,
-            req.user.structureId,
+            req.user.structureId.toString(),
             "docs"
           );
 
