@@ -1,3 +1,10 @@
+# [1.0.0-beta.20](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.19...v1.0.0-beta.20) (2021-07-02)
+
+
+### Bug Fixes
+
+* Upload file path. ([975f2b9](https://github.com/SocialGouv/domifa/commit/975f2b9a87e76951c835a1256420818f81947536))
+
 # [1.0.0-beta.19](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.18...v1.0.0-beta.19) (2021-07-01)
 
 
