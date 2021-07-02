@@ -1,3 +1,10 @@
+# [1.0.0-beta.35](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.34...v1.0.0-beta.35) (2021-07-02)
+
+
+### Bug Fixes
+
+* Update secrets. ([f8b93ab](https://github.com/SocialGouv/domifa/commit/f8b93ab812af6f278196b4d60d46f037b8c03cfe))
+
 # [1.0.0-beta.34](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.33...v1.0.0-beta.34) (2021-07-02)
 
 
