@@ -104,6 +104,8 @@ export class DocsController {
       "/" +
       file.filename;
 
+    console.log("----> fileName:", fileName);
+
     this.encryptFile(fileName, res);
 
     const toUpdate: Partial<Usager> = {
@@ -157,13 +159,21 @@ export class DocsController {
     fileInfos.path = usager.docsPath[index];
 
     const pathFile = path.resolve(
-      domifaConfig().upload.basePath +
-        usager.structureId +
-        "/" +
-        usager.ref +
-        "/" +
+      path.join(
+        domifaConfig().upload.basePath,
+        usager.structureId.toString(),
+        usager.ref.toString(),
         fileInfos.path
+      )
     );
+    // const pathFile = path.resolve(
+    //   domifaConfig().upload.basePath +
+    //     usager.structureId +
+    //     "/" +
+    //     usager.ref +
+    //     "/" +
+    //     fileInfos.path
+    // );
 
     deleteFile(pathFile);
 
@@ -218,12 +228,15 @@ export class DocsController {
         fileInfos.path
       )
     );
+    console.log("----> pathFile", pathFile);
+    
     const pathFile2 = path.join(
       domifaConfig().upload.basePath,
       `${usager.structureId}`,
       `${usager.ref}`,
       fileInfos.path
     );
+    console.log("----> pathFile2", pathFile2);
 
     if (!fs.existsSync(pathFile + ".encrypted")) {
       if (!fs.existsSync(pathFile)) {
