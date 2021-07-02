@@ -330,11 +330,11 @@ jobs:
     - name: Install kosko-charts dependencies
       run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
 
-    - name: Generate production namespace
-      run: yarn --cwd .k8s --silent generate:prod _namespace > namespace-production.yml
-      env:
-        SOCIALGOUV_PRODUCTION: true
-        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+    # - name: Generate production namespace
+    #   run: yarn --cwd .k8s --silent generate:prod _namespace > namespace-production.yml
+    #   env:
+    #     SOCIALGOUV_PRODUCTION: true
+    #     SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
     - name: Generate production manifests
       run: yarn --cwd .k8s --silent generate:prod > manifests-production.yml
@@ -348,11 +348,11 @@ jobs:
         name: manifests-production.yml
         path: manifests-production.yml
 
-    - name: Archive production namespace
-      uses: actions/upload-artifact@v2
-      with:
-        name: namespace-production.yml
-        path: namespace-production.yml
+    # - name: Archive production namespace
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: namespace-production.yml
+    #     path: namespace-production.yml
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END TO PRODUCTION
@@ -380,10 +380,10 @@ jobs:
       with:
         name: manifests-production.yml
 
-    - name: Download production namespace
-      uses: actions/download-artifact@v2
-      with:
-        name: namespace-production.yml
+    # - name: Download production namespace
+    #   uses: actions/download-artifact@v2
+    #   with:
+    #     name: namespace-production.yml
 
     # - name: Notify deployment start
     #   uses: bobheadxi/deployments@v0.4.3
@@ -406,8 +406,8 @@ jobs:
         touch ~/.kube/config
         echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }} | base64 -d > ~/.kube/config
 
-    - name: Create production namespace
-      run: kubectl create -f namespace-production.yml || true
+    # - name: Create production namespace
+    #   run: kubectl create -f namespace-production.yml || true
 
     - name: Deploy application
       run: |
