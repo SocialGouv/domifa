@@ -1,3 +1,10 @@
+# [1.0.0-beta.23](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.22...v1.0.0-beta.23) (2021-07-02)
+
+
+### Bug Fixes
+
+* File path args types. ([bcb820e](https://github.com/SocialGouv/domifa/commit/bcb820ea765875e690cf6b84992bb1e61bcc4ed2))
+
 # [1.0.0-beta.22](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.21...v1.0.0-beta.22) (2021-07-02)
 
 
