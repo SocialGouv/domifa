@@ -1,3 +1,10 @@
+# [1.0.0-beta.29](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2021-07-02)
+
+
+### Bug Fixes
+
+* Create production namespace. ([c9f3b08](https://github.com/SocialGouv/domifa/commit/c9f3b08368ad669b982a138f5829a31af8f9011d))
+
 # [1.0.0-beta.28](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.27...v1.0.0-beta.28) (2021-07-02)
 
 
