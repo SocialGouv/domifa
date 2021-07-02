@@ -7,7 +7,7 @@ import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getFrontendManifests } from "./frontend";
-import environments from "@socialgouv/kosko-charts/environments"
+import environments from "@socialgouv/kosko-charts/environments";
 import { azureProjectVolume } from "@socialgouv/kosko-charts/components/azure-storage/azureProjectVolume";
 import { VolumeMount, Volume } from "kubernetes-models/v1";
 
