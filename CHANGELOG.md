@@ -1,3 +1,10 @@
+# [1.0.0-beta.25](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2021-07-02)
+
+
+### Bug Fixes
+
+* Add production deployment steps. ([6fe6361](https://github.com/SocialGouv/domifa/commit/6fe636182617d2d807e7065b2790fd19a25e23c9))
+
 # [1.0.0-beta.24](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2021-07-02)
 
 
