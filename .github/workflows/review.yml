@@ -60,8 +60,8 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v1
+    # - name: Yarn cache setup
+    #   uses: c-hive/gha-yarn-cache@v1
 
     - name: Install front-end dependencies
       run: yarn --cwd packages/frontend install --frozen-lockfile --prefer-offline
