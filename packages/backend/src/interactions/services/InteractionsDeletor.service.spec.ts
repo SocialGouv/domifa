@@ -1,15 +1,20 @@
-import { usagerRepository, usersRepository } from "../../database";
+import {
+  structureRepository,
+  usagerRepository,
+  usersRepository,
+} from "../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { AppUser, Usager } from "../../_common/model";
+import { AppUser, Structure, Usager } from "../../_common/model";
 import { InteractionDto } from "../interactions.dto";
 import { InteractionsModule } from "../interactions.module";
 import { InteractionsService } from "./interactions.service";
+import { interactionsCreator } from "./interactionsCreator.service";
 import { InteractionsDeletor } from "./InteractionsDeletor.service";
 
-describe("InteractionsService", () => {
+describe("InteractionsDeletor", () => {
   let context: AppTestContext;
 
   let interactionsDeletor: InteractionsDeletor;
@@ -17,6 +22,7 @@ describe("InteractionsService", () => {
 
   let user: AppUser;
   let usager: Usager;
+  let structure: Structure;
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
@@ -37,6 +43,9 @@ describe("InteractionsService", () => {
     usager = await usagerRepository.findOne({
       ref: 2,
       structureId: 1,
+    });
+    structure = await structureRepository.findOne({
+      id: 1,
     });
   });
 
@@ -60,21 +69,24 @@ describe("InteractionsService", () => {
     interaction1.content = "Colis d'un distributeur";
     interaction1.nbCourrier = 5;
     const { usager: usagerAfterCreate, interaction: interactionCreated } =
-      await interactionsService.create({
+      await interactionsCreator.createInteraction({
+        interaction: interaction1,
         usager,
         user,
-        interaction: interaction1,
       });
+
     expect(usagerAfterCreate.lastInteraction.colisIn).toEqual(
       usagerBefore.lastInteraction.colisIn + 5
     );
 
     {
-      const usagerAfterDelete = await interactionsDeletor.deleteInteraction({
-        interactionId: interactionCreated.id,
-        usagerRef: usager.ref,
-        user,
-      });
+      const usagerAfterDelete =
+        await interactionsDeletor.deleteOrRestoreInteraction({
+          interactionId: interactionCreated.id,
+          usagerRef: usager.ref,
+          user,
+          structure,
+        });
       expect(usagerAfterDelete.lastInteraction.colisIn).toEqual(
         usagerBefore.lastInteraction.colisIn
       );
