@@ -284,6 +284,12 @@ jobs:
       with:
         name: namespace.yml
 
+    - name: Get namespace name
+      uses: mikefarah/yq@master
+      id: namespace
+      with:
+        cmd: yq eval '.metadata.name' namespace.yml
+
     # - name: Download create-db job
     #   uses: actions/download-artifact@v2
     #   with:
@@ -304,8 +310,10 @@ jobs:
       run: |
         cat ".github/review.env" >> $GITHUB_ENV
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
-        yq eval ".metadata.name" ./namespace.yml
+        # echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
+        echo "namespace=${NAMESPACE}" >> $GITHUB_ENV
+      env:
+        NAMESPACE: ${{ steps.namespace.outputs.result }}
 
     - name: Notify deployment start
       uses: bobheadxi/deployments@v0.4.3
