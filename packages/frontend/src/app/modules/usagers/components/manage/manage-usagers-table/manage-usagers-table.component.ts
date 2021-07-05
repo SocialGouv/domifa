@@ -7,24 +7,29 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { fadeInOut, fadeInOutSlow } from "src/app/shared/animations";
-import { AppUser, UsagerLight } from "../../../../../../_common/model";
+import {
+  AppUser,
+  UsagerLight,
+  UsagerOptionsProcuration,
+  UsagerOptionsTransfert,
+} from "../../../../../../_common/model";
 import {
   InteractionForApi,
   InteractionType,
 } from "../../../../../../_common/model/interaction";
 import { interactionsLabels } from "../../../interactions.labels";
+import { isProcurationActifMaintenant } from "../../../services";
 import { InteractionService } from "../../../services/interaction.service";
+import { isTransfertActifMaintenant } from "../../../services/transfert.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 import {
   UsagersFilterCriteria,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaSortValues,
-  UsagersFilterCriteriaStatut,
 } from "../usager-filter";
 
 @Component({
@@ -85,6 +90,13 @@ export class ManageUsagersTableComponent implements OnInit {
   public ngOnInit() {
     this.selectedUsager = {} as UsagerFormModel;
     this.today = new Date();
+  }
+
+  public isProcurationActifMaintenant(procuration: UsagerOptionsProcuration) {
+    return isProcurationActifMaintenant(procuration);
+  }
+  public isTransfertActifMaintenant(transfert: UsagerOptionsTransfert) {
+    return isTransfertActifMaintenant(transfert);
   }
 
   public setSingleInteraction(

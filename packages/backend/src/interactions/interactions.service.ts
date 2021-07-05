@@ -7,6 +7,7 @@ import {
 } from "../database";
 import { AppAuthUser, AppUser, Usager, UsagerLight } from "../_common/model";
 import { Interactions, InteractionType } from "../_common/model/interaction";
+import { UsagerOptionsTransfert } from "../_common/model/usager";
 import { InteractionDto } from "./interactions.dto";
 
 @Injectable()
@@ -162,7 +163,7 @@ function buildNewInteraction({
     }
 
     // Transfert actif: on le précise dans le contenu
-    if (usager.options.transfert.actif) {
+    if (isTransfertActifMaintenant(usager.options.transfert)) {
       newInteraction.content =
         "Courrier transféré à : " +
         usager.options.transfert.nom +
@@ -196,4 +197,16 @@ function buildNewInteraction({
   newInteraction.dateInteraction = new Date();
 
   return { usager, newInteraction };
+}
+
+export function isTransfertActifMaintenant(
+  transfert: UsagerOptionsTransfert
+): boolean {
+  if (transfert.actif) {
+    const debut = new Date(transfert.dateDebut).getTime();
+    const fin = new Date(transfert.dateFin).getTime();
+    const now = new Date().getTime();
+    return debut < now && fin > now;
+  }
+  return false;
 }

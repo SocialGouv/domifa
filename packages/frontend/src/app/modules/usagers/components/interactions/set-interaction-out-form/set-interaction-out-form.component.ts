@@ -43,7 +43,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public procuration: boolean; // Mandataire = true / domicilié = false
 
   public displayProcuration() {
-    return isProcurationActifMaintenant(this.usager);
+    return isProcurationActifMaintenant(this.usager.options.procuration);
   }
 
   private subscription = new Subscription();

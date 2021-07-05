@@ -1,21 +1,10 @@
 import { UsagerOptionsHistorique } from "./UsagerOptionsHistorique.type";
+import { UsagerOptionsProcuration } from "./UsagerOptionsProcuration.type";
+import { UsagerOptionsTransfert } from "./UsagerOptionsTransfert.type";
 
 export type UsagerOptions = {
-  transfert: {
-    actif: boolean;
-    nom?: string;
-    adresse?: string;
-    dateDebut?: Date | null;
-    dateFin?: Date | null;
-  };
-  procuration: {
-    actif: boolean;
-    nom?: string;
-    prenom?: string;
-    dateFin?: Date | null;
-    dateDebut?: Date | null;
-    dateNaissance?: string | null;
-  };
+  transfert: UsagerOptionsTransfert;
+  procuration: UsagerOptionsProcuration;
   npai: {
     actif: boolean;
     dateDebut?: Date | null;

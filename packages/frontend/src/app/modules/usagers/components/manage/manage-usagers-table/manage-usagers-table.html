@@ -111,7 +111,7 @@
 
           <div
             class="label-info label-yellow"
-            *ngIf="usager.options.transfert.actif"
+            *ngIf="isTransfertActifMaintenant(usager.options.transfert)"
             [ngbTooltip]="transfertActif"
           >
             <ng-template #transfertActif>
@@ -135,7 +135,7 @@
 
           <div
             class="label-info label-yellow"
-            *ngIf="usager.options.procuration.actif"
+            *ngIf="isProcurationActifMaintenant(usager.options.procuration)"
             [ngbTooltip]="procurationActif"
           >
             <ng-template #procurationActif>
