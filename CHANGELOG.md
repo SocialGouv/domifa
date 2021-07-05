@@ -1,3 +1,10 @@
+# [1.0.0-beta.36](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.35...v1.0.0-beta.36) (2021-07-05)
+
+
+### Bug Fixes
+
+* Bump version. ([bfd0349](https://github.com/SocialGouv/domifa/commit/bfd0349aba5af2a7a51f11d92fee8bcb96fb9795))
+
 # [1.0.0-beta.35](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.34...v1.0.0-beta.35) (2021-07-02)
 
 
