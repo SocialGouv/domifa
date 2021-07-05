@@ -1,3 +1,10 @@
+## [2.7.2](https://github.com/SocialGouv/domifa/compare/v2.7.1...v2.7.2) (2021-07-05)
+
+
+### Bug Fixes
+
+* boutons stats 2020 [#1468](https://github.com/SocialGouv/domifa/issues/1468) ([#1514](https://github.com/SocialGouv/domifa/issues/1514)) ([d0035dc](https://github.com/SocialGouv/domifa/commit/d0035dcd86cc9a71b44b15036ced1ca40715bb13))
+
 ## [2.7.1](https://github.com/SocialGouv/domifa/compare/v2.7.0...v2.7.1) (2021-07-05)
 
 
