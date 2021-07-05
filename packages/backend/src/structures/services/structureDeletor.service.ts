@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
 import * as crypto from "crypto";
 import * as fs from "fs";
+import * as path from "path";
 import { domifaConfig } from "../../config";
 import {
   interactionRepository,
@@ -87,7 +88,11 @@ async function deleteStructure({
 
     await structureRepository.deleteByCriteria({ id: structureId });
 
-    const pathFile = domifaConfig().upload.basePath + structure.id;
+    const pathFile = path.join(
+      domifaConfig().upload.basePath,
+      `${structure.id}`
+    );
+
     if (fs.existsSync(pathFile)) {
       fs.rmdirSync(pathFile, { recursive: true });
     }

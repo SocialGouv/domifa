@@ -1,12 +1,15 @@
 {
+  "name": "domifa",
   "private": true,
+  "version": "2.7.0-beta.1",
   "scripts": {
     "build": "lerna run build --stream",
     "dev": "lerna run dev --parallel --stream",
     "e2e": "yarn --cwd optional/e2e/runners/puppeteer test",
     "lint": "lerna run lint --parallel --stream",
     "start": "lerna run start --parallel --stream",
-    "test": "lerna run test --parallel --stream"
+    "test": "lerna run test --parallel --stream",
+    "seal-secrets": "sre-secrets --from=./.secrets.yaml --to=./.k8s"
   },
   "devDependencies": {
     "@socialgouv/sre-secrets": "^1.4.0",
@@ -28,6 +31,5 @@
       "**/@angular-devkit/*",
       "**/@angular-devkit/*/**"
     ]
-  },
-  "name": "domifa"
+  }
 }

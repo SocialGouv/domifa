@@ -7,15 +7,20 @@ import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getBackendManifests } from "./backend";
+import environments from "@socialgouv/kosko-charts/environments";
 
 export const getManifests = async () => {
   const probesPath = "/";
   const name = "frontend";
   const subdomain = "domifa";
 
+  const ciEnv = environments(process.env);
+
   const tag = process.env.CI_COMMIT_TAG
     ? process.env.CI_COMMIT_TAG.slice(1)
-    : process.env.CI_COMMIT_SHA;
+    : process.env.CI_COMMIT_SHA
+    ? process.env.CI_COMMIT_SHA
+    : process.env.GITHUB_SHA;
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -35,7 +40,7 @@ export const getManifests = async () => {
   const manifests = await create(name, {
     env,
     config: {
-      subdomain: process.env.PRODUCTION ? `fake-${subdomain}` : subdomain,
+      subdomain: ciEnv.isProduction ? `fake-${subdomain}` : subdomain,
     },
     deployment: {
       image: `ghcr.io/socialgouv/domifa/frontend:sha-${tag}`,

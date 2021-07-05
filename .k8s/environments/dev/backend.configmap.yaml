@@ -12,3 +12,4 @@ data:
   # emails redirigés vers l'adresse configurée pour DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
   DOMIFA_EMAILS_ENABLE: "true"
   DOMIFA_SMS_ENABLED: "false"
+  POSTGRES_LOGGING: "schema,migration"

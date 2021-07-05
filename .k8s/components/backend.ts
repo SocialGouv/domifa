@@ -1,14 +1,15 @@
 import env from "@kosko/env";
-import { assert } from "@sindresorhus/is";
 import { create } from "@socialgouv/kosko-charts/components/app";
 import { addEnv } from "@socialgouv/kosko-charts/utils/addEnv";
 import { getIngressHost } from "@socialgouv/kosko-charts/utils/getIngressHost";
 import { getManifestByKind } from "@socialgouv/kosko-charts/utils/getManifestByKind";
-// import { getHarborImagePath } from "@socialgouv/kosko-charts/utils/getHarborImagePath";
 import { ok } from "assert";
 import { Deployment } from "kubernetes-models/apps/v1/Deployment";
 import { EnvVar } from "kubernetes-models/v1/EnvVar";
 import { getManifests as getFrontendManifests } from "./frontend";
+import environments from "@socialgouv/kosko-charts/environments";
+import { azureProjectVolume } from "@socialgouv/kosko-charts/components/azure-storage/azureProjectVolume";
+import { VolumeMount, Volume } from "kubernetes-models/v1";
 
 type AnyObject = {
   [any: string]: any;
@@ -35,9 +36,15 @@ export const getManifests = async () => {
   const probesPath = "/healthz";
   const subdomain = "domifa-api";
 
+  const ciEnv = environments(process.env);
+
+  const isDev = !(ciEnv.isPreProduction || ciEnv.isProduction);
+
   const tag = process.env.CI_COMMIT_TAG
     ? process.env.CI_COMMIT_TAG.slice(1)
-    : process.env.CI_COMMIT_SHA;
+    : process.env.CI_COMMIT_SHA
+    ? process.env.CI_COMMIT_SHA
+    : process.env.GITHUB_SHA;
 
   const podProbes = ["livenessProbe", "readinessProbe", "startupProbe"].reduce(
     (probes, probe) => ({
@@ -54,6 +61,22 @@ export const getManifests = async () => {
     {}
   );
 
+  const [persistentVolumeClaim, persistentVolume] = azureProjectVolume("files", {
+    storage: "5Gi",
+  });
+
+  const uploadsVolume = new Volume({
+    name: "files",
+    persistentVolumeClaim: { claimName: persistentVolumeClaim.metadata!.name! },
+  });
+
+  const uploadsVolumeMount = new VolumeMount({
+    mountPath: "/mnt/files",
+    name: "files",
+  });
+
+  const emptyDir = new Volume({ name: "files", emptyDir: {} });
+
   const manifests = await create(name, {
     env,
     config: {
@@ -61,17 +84,19 @@ export const getManifests = async () => {
       ingress: true,
       withPostgres: true,
       containerPort: 3000,
-      subDomainPrefix: process.env.PRODUCTION ? `fake-` : `${subdomain}-`,
+      subDomainPrefix: ciEnv.isProduction ? `fake-` : `${subdomain}-`,
     },
     deployment: {
       image: `ghcr.io/socialgouv/domifa/backend:sha-${tag}`,
+      volumes: [isDev ? emptyDir : uploadsVolume],
       container: {
-        volumeMounts: [
-          {
-            mountPath: "/mnt/files",
-            name: "domifa-volume",
-          },
-        ],
+        volumeMounts: [uploadsVolumeMount],
+        // volumeMounts: [
+        //   {
+        //     mountPath: "/mnt/files",
+        //     name: "domifa-volume",
+        //   },
+        // ],
         resources: {
           requests: {
             cpu: "50m",
@@ -87,17 +112,23 @@ export const getManifests = async () => {
     },
   });
 
-  return manifests;
+  return manifests.concat(
+    isDev
+      ? []
+      : [persistentVolumeClaim, persistentVolume]
+  );
 };
 
 export default async () => {
   const { env } = process;
-  const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
-  const isProductionCluster = Boolean(PRODUCTION);
-  const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev";
-  const isDev = !isProductionCluster && !isPreProduction;
+  // const ciEnv = environments(env);
+  // const { CI_ENVIRONMENT_NAME, PRODUCTION } = env;
+  // const isProductionCluster = Boolean(PRODUCTION);
+  // const isPreProduction = CI_ENVIRONMENT_NAME === "preprod-dev";
+  // const isDev = !isProductionCluster && !isPreProduction;
 
   const manifests = await getManifests();
+
   /* pass dynamic deployment URL as env var to the container */
   //@ts-expect-error
   const deployment = getManifestByKind(manifests, Deployment) as Deployment;
@@ -117,29 +148,30 @@ export default async () => {
     },
   });
 
-  const volumes = [
-    isDev
-      ? {
-          name: "domifa-volume",
-          emptyDir: {},
-        }
-      : {
-          name: "domifa-volume",
-          azureFile: {
-            readOnly: false,
-            shareName: "domifa-resource",
-            secretName: "azure-storage",
-          },
-        },
-  ];
+  // const volumes = [
+  //   ciEnv.isPreProduction || ciEnv.isProduction
+  //     ? {
+  //         name: "domifa-volume",
+  //         azureFile: {
+  //           readOnly: false,
+  //           shareName: "files",
+  //           secretName: "azure-storage",
+  //           secretNamespace: "domifa-preprod",
+  //         },
+  //       } 
+  //     : {
+  //       name: "domifa-volume",
+  //       emptyDir: {},
+  //     }
+  // ];
 
-  assert.object(deployment.spec);
-  assert.object(deployment.spec.template.spec);
+  // assert.object(deployment.spec);
+  // assert.object(deployment.spec.template.spec);
 
-  deployment.spec.template.spec.volumes = [
-    ...(deployment.spec.template.spec.volumes || []),
-    ...volumes,
-  ];
+  // deployment.spec.template.spec.volumes = [
+  //   ...(deployment.spec.template.spec.volumes || []),
+  //   ...volumes,
+  // ];
 
   return manifests;
 };
