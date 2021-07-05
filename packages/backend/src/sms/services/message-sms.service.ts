@@ -6,7 +6,12 @@ import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsT
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/interactions.dto";
 import { appLogger } from "../../util";
-import { AppAuthUser, Usager, UsagerLight } from "../../_common/model";
+import {
+  AppAuthUser,
+  Structure,
+  Usager,
+  UsagerLight,
+} from "../../_common/model";
 import { MessageSms } from "../../_common/model/message-sms";
 import { StructureSmsParams } from "../../_common/model/structure/StructureSmsParams.type";
 import { generateSmsInteraction } from "./generators";
@@ -97,7 +102,7 @@ export class MessageSmsService {
 
   public async createSmsInteraction(
     usager: UsagerLight,
-    user: AppAuthUser,
+    structure: Pick<Structure, "id" | "sms">,
     interaction: InteractionDto
   ) {
     let scheduledDate = moment()
@@ -123,7 +128,7 @@ export class MessageSmsService {
 
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
       usagerRef: usager.ref,
-      structureId: user.structureId,
+      structureId: structure.id,
       interactionType: interaction.type,
     });
 
@@ -132,7 +137,7 @@ export class MessageSmsService {
         smsReady.interactionMetas.nbCourrier + interaction.nbCourrier;
       const content = generateSmsInteraction(
         interaction,
-        user.structure.sms.senderDetails
+        structure.sms.senderDetails
       );
 
       smsReady.interactionMetas.date = new Date();
@@ -144,15 +149,15 @@ export class MessageSmsService {
     } else {
       const content = generateSmsInteraction(
         interaction,
-        user.structure.sms.senderDetails
+        structure.sms.senderDetails
       );
 
       const createdSms: MessageSms = {
         // Infos sur l'usager
         usagerRef: usager.ref,
-        structureId: user.structureId,
+        structureId: structure.id,
         content,
-        senderName: user.structure.sms.senderName,
+        senderName: structure.sms.senderName,
         smsId: interaction.type,
         phoneNumber: usager.preference.phoneNumber,
         scheduledDate,

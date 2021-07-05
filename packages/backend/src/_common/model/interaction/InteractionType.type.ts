@@ -40,3 +40,15 @@ export const INTERACTION_IN_OUT_LIST: InteractionType[] =
     (acc, arr) => acc.concat(arr),
     [] as InteractionType[]
   );
+
+export const INTERACTION_IN_CREATE_SMS: InteractionType[] = [
+  "courrierIn",
+  "colisIn",
+  "recommandeIn",
+];
+
+export const INTERACTION_OUT_REMOVE_SMS: InteractionType[] = [
+  "courrierOut",
+  "colisOut",
+  "recommandeOut",
+];

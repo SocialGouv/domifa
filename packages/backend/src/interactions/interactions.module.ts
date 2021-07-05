@@ -6,16 +6,22 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionsDeletor, InteractionsService } from "./services";
+import { InteractionsSmsManager } from "./services/InteractionsSmsManager.service";
 
 @Module({
   controllers: [InteractionsController],
-  exports: [InteractionsService, InteractionsDeletor],
+  exports: [InteractionsSmsManager, InteractionsService, InteractionsDeletor],
   imports: [
     forwardRef(() => UsersModule),
     forwardRef(() => UsagersModule),
     forwardRef(() => StructuresModule),
     forwardRef(() => SmsModule),
   ],
-  providers: [InteractionsService, InteractionsDeletor, MessageSmsService],
+  providers: [
+    InteractionsSmsManager,
+    InteractionsService,
+    InteractionsDeletor,
+    MessageSmsService,
+  ],
 })
 export class InteractionsModule {}
