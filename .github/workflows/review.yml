@@ -126,6 +126,14 @@ jobs:
         username: ${{ secrets.SOCIALGROOVYBOT_NAME }}
         password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
 
+    - name: Set buildx cache up
+      uses: "actions/cache@v2"
+      with:
+        key: "${{ runner.os }}-buildx-backend-${{ hashFiles('packages/backend/Dockerfile') }}"
+        path: /tmp/.buildx-backend-cache
+        restore-keys: |
+          ${{ runner.os }}-buildx-backend
+
     - name: Image build and register
       uses: docker/build-push-action@v2
       with:
@@ -135,6 +143,8 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
+        cache-to: "type=local,dest=/tmp/.buildx-backend-cache"
+        cache-from: "type=local,src=/tmp/.buildx-backend-cache"
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
@@ -187,6 +197,14 @@ jobs:
         username: ${{ secrets.SOCIALGROOVYBOT_NAME }}
         password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
 
+    - name: Set buildx cache up
+      uses: "actions/cache@v2"
+      with:
+        key: "${{ runner.os }}-buildx-frontend-${{ hashFiles('packages/frontend/Dockerfile') }}"
+        path: /tmp/.buildx-frontend-cache
+        restore-keys: |
+          ${{ runner.os }}-buildx-frontend
+
     - name: Image build and register
       uses: docker/build-push-action@v2
       with:
@@ -196,6 +214,8 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
+        cache-to: "type=local,dest=/tmp/.buildx-frontend-cache"
+        cache-from: "type=local,src=/tmp/.buildx-frontend-cache"
 
   ##############################################################################
   ## GENERATE KUBERNETES MANIFESTS
