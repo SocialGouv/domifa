@@ -60,8 +60,8 @@ jobs:
       with:
         node-version: '14'
 
-    # - name: Yarn cache setup
-    #   uses: c-hive/gha-yarn-cache@v1
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v1
 
     - name: Install front-end dependencies
       run: yarn --cwd packages/frontend install --frozen-lockfile --prefer-offline
@@ -274,12 +274,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Get project and namespace names
-      run: |
-        cat ".github/review.env" >> $GITHUB_ENV
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
-
     - name: Download k8s manifests
       uses: actions/download-artifact@v2
       with:
@@ -300,6 +294,19 @@ jobs:
       with:
         name: restore-db.yml
 
+    - name: Install Kapp
+      uses: vmware-tanzu/carvel-setup-action@v1
+      with:
+        only: kapp
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get project and namespace names
+      run: |
+        cat ".github/review.env" >> $GITHUB_ENV
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
+        yq eval ".metadata.name" ./namespace.yml
+
     - name: Notify deployment start
       uses: bobheadxi/deployments@v0.4.3
       id: deployment
@@ -308,12 +315,6 @@ jobs:
         env: ${{ env.namespace }}
         token: ${{ secrets.GITHUB_TOKEN }}
         desc: "Deploying environment: ${{ env.namespace }}"
-
-    - name: Install Kapp
-      uses: vmware-tanzu/carvel-setup-action@v1
-      with:
-        only: kapp
-        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create kubernetes config
       run: |
