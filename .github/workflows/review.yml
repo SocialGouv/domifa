@@ -301,7 +301,7 @@ jobs:
         name: restore-db.yml
 
     - name: Notify deployment start
-      uses: bobheadxi/deployments@v0.4.3
+      uses: bobheadxi/deployments@v0.6.0
       id: deployment
       with:
         step: start
@@ -336,7 +336,7 @@ jobs:
         kubectl apply -f restore-db.yml --namespace ${{ env.namespace }}
 
     - name: Notify deployment end
-      uses: bobheadxi/deployments@v0.4.3
+      uses: bobheadxi/deployments@v0.6.0
       if: always()
       with:
         step: finish
