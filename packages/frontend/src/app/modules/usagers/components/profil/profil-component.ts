@@ -19,7 +19,12 @@ import {
   minDateNaissance,
 } from "src/app/shared/bootstrap-util";
 import { regexp } from "src/app/shared/validators";
-import { AppUser, UsagerLight, UserRole } from "../../../../../_common/model";
+import {
+  AppUser,
+  UsagerLight,
+  UsagerOptionsProcuration,
+  UserRole,
+} from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
 import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/constants";
@@ -395,6 +400,10 @@ export class UsagersProfilComponent implements OnInit {
     }
   }
 
+  public isProcurationActifMaintenant(procuration: UsagerOptionsProcuration) {
+    return isProcurationActifMaintenant(procuration);
+  }
+
   public setInteraction(type: InteractionType, procuration?: boolean) {
     const interaction: {
       content?: string;
@@ -411,7 +420,7 @@ export class UsagersProfilComponent implements OnInit {
     this.matomo.trackEvent("test-nouveau-profil", "gros-icones", type, 1);
 
     if (type.substring(type.length - 3) === "Out") {
-      if (isProcurationActifMaintenant(this.usager)) {
+      if (isProcurationActifMaintenant(this.usager.options.procuration)) {
         if (typeof procuration === "undefined") {
           this.typeInteraction = type;
           this.modalService.open(this.distributionConfirm);

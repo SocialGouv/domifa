@@ -1,23 +1,13 @@
+import {
+  UsagerOptionsProcuration,
+  UsagerOptionsTransfert,
+} from "../../../../_common/model";
 import { UsagerOptions } from "./../../../../_common/model/usager/UsagerOptions.type";
 import { HistoriqueOptions } from "./historique-options";
 
 export class Options implements UsagerOptions {
-  public transfert: {
-    actif: boolean;
-    adresse: string | null;
-    dateDebut: Date | null;
-    dateFin: Date | null;
-    nom: string | null;
-  };
-
-  public procuration: {
-    actif: boolean;
-    dateDebut: Date | null;
-    dateFin: Date | null;
-    dateNaissance: Date | null;
-    nom: string;
-    prenom: string;
-  };
+  public transfert: UsagerOptionsTransfert;
+  public procuration: UsagerOptionsProcuration;
 
   public npai: {
     actif: boolean;
