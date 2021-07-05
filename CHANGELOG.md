@@ -1,3 +1,10 @@
+# [2.7.0-beta.1](https://github.com/SocialGouv/domifa/compare/v2.6.12-beta.1...v2.7.0-beta.1) (2021-07-05)
+
+
+### Features
+
+* Remove gitlab-ci config. ([72f1404](https://github.com/SocialGouv/domifa/commit/72f140417e6dabe2e45fc166618c9b49f319468f))
+
 ## [2.6.12-beta.1](https://github.com/SocialGouv/domifa/compare/v2.6.11...v2.6.12-beta.1) (2021-07-05)
 
 
