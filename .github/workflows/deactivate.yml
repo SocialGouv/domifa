@@ -10,11 +10,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Load review environment variables
+      run: |
+        cat ".github/review.env" >> $GITHUB_ENV
+
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v1
+
+    - name: Install kosko-charts dependencies
+      run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
+
+    - name: Generate k8s namespace
+      run: yarn --cwd .k8s --silent generate:dev _namespace > namespace.yml
+      env:
+        SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
+
+    - name: Get namespace name
+      uses: mikefarah/yq@master
+      id: namespace
+      with:
+        cmd: yq eval '.metadata.name' namespace.yml
+
     - name: Get branch, project and namespace names
       run: |
+        echo "namespace=${NAMESPACE}" >> $GITHUB_ENV
         echo "branch=${GITHUB_HEAD_REF##*/}" >> $GITHUB_ENV
         echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_HEAD_REF##*/}" >> $GITHUB_ENV
+      env:
+        NAMESPACE: ${{ steps.namespace.outputs.result }}
 
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
@@ -29,8 +55,7 @@ jobs:
         echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_DEV2 }} | base64 -d > ~/.kube/config
 
     - name: Delete k8s environment
-      run: kapp -y delete --namespace ${{ env.namespace }}
-      # run: kapp -y delete -a ${{ env.project }} --namespace ${{ env.namespace }}
+      run: kapp -y delete -a ${{ env.project }} --namespace ${{ env.namespace }}
 
     - name: Mark environment as deactivated
       uses: bobheadxi/deployments@v0.4.3
