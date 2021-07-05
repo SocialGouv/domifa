@@ -60,8 +60,8 @@ jobs:
       with:
         node-version: '14'
 
-    # - name: Yarn cache setup
-    #   uses: c-hive/gha-yarn-cache@v1
+    - name: Yarn cache setup
+      uses: c-hive/gha-yarn-cache@v1
 
     - name: Install front-end dependencies
       run: yarn --cwd packages/frontend install --frozen-lockfile --prefer-offline
@@ -126,6 +126,14 @@ jobs:
         username: ${{ secrets.SOCIALGROOVYBOT_NAME }}
         password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
 
+    - name: Set buildx cache up
+      uses: "actions/cache@v2"
+      with:
+        key: "${{ runner.os }}-buildx-backend-${{ hashFiles('packages/backend/Dockerfile') }}"
+        path: /tmp/.buildx-backend-cache
+        restore-keys: |
+          ${{ runner.os }}-buildx-backend
+
     - name: Image build and register
       uses: docker/build-push-action@v2
       with:
@@ -135,6 +143,8 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
+        cache-to: "type=local,dest=/tmp/.buildx-backend-cache"
+        cache-from: "type=local,src=/tmp/.buildx-backend-cache"
 
   ##############################################################################
   ## BUILD AND REGISTER FRONTEND IMAGE
@@ -187,6 +197,14 @@ jobs:
         username: ${{ secrets.SOCIALGROOVYBOT_NAME }}
         password: ${{ secrets.SOCIALGROOVYBOT_GHCR_PAT }}
 
+    - name: Set buildx cache up
+      uses: "actions/cache@v2"
+      with:
+        key: "${{ runner.os }}-buildx-frontend-${{ hashFiles('packages/frontend/Dockerfile') }}"
+        path: /tmp/.buildx-frontend-cache
+        restore-keys: |
+          ${{ runner.os }}-buildx-frontend
+
     - name: Image build and register
       uses: docker/build-push-action@v2
       with:
@@ -196,6 +214,8 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         tags: "${{ steps.docker_meta.outputs.tags }}"
         labels: "${{ steps.docker_meta.outputs.labels }}"
+        cache-to: "type=local,dest=/tmp/.buildx-frontend-cache"
+        cache-from: "type=local,src=/tmp/.buildx-frontend-cache"
 
   ##############################################################################
   ## GENERATE KUBERNETES MANIFESTS
@@ -274,12 +294,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Get project and namespace names
-      run: |
-        cat ".github/review.env" >> $GITHUB_ENV
-        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-        echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
-
     - name: Download k8s manifests
       uses: actions/download-artifact@v2
       with:
@@ -289,6 +303,12 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: namespace.yml
+
+    - name: Get namespace name
+      uses: mikefarah/yq@master
+      id: namespace
+      with:
+        cmd: yq eval '.metadata.name' namespace.yml
 
     # - name: Download create-db job
     #   uses: actions/download-artifact@v2
@@ -300,6 +320,21 @@ jobs:
       with:
         name: restore-db.yml
 
+    - name: Install Kapp
+      uses: vmware-tanzu/carvel-setup-action@v1
+      with:
+        only: kapp
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get project and namespace names
+      run: |
+        cat ".github/review.env" >> $GITHUB_ENV
+        echo "project=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+        # echo "namespace=${GITHUB_REPOSITORY#*/}-${GITHUB_REF##*/}" >> $GITHUB_ENV
+        echo "namespace=${NAMESPACE}" >> $GITHUB_ENV
+      env:
+        NAMESPACE: ${{ steps.namespace.outputs.result }}
+
     - name: Notify deployment start
       uses: bobheadxi/deployments@v0.4.3
       id: deployment
@@ -308,12 +343,6 @@ jobs:
         env: ${{ env.namespace }}
         token: ${{ secrets.GITHUB_TOKEN }}
         desc: "Deploying environment: ${{ env.namespace }}"
-
-    - name: Install Kapp
-      uses: vmware-tanzu/carvel-setup-action@v1
-      with:
-        only: kapp
-        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create kubernetes config
       run: |
