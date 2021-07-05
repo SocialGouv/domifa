@@ -1,3 +1,12 @@
+## [2.6.12-beta.1](https://github.com/SocialGouv/domifa/compare/v2.6.11...v2.6.12-beta.1) (2021-07-05)
+
+
+### Bug Fixes
+
+* Generate k8s manifests from Github. ([6078249](https://github.com/SocialGouv/domifa/commit/6078249b5b2bd15c4cb0dd7e51cd22711b4407dc))
+* **deps:** update all dependencies ([#1512](https://github.com/SocialGouv/domifa/issues/1512)) ([2608bf0](https://github.com/SocialGouv/domifa/commit/2608bf0e8c26391b9dd2b4da6c2134a1031463c9))
+* **PJ:** impossible de télécharger les pj [#1500](https://github.com/SocialGouv/domifa/issues/1500) ([#1513](https://github.com/SocialGouv/domifa/issues/1513)) ([97b0f02](https://github.com/SocialGouv/domifa/commit/97b0f0219c47703a635a2891dd8a601d3b344c4c))
+
 # [1.0.0-beta.36](https://github.com/SocialGouv/domifa/compare/v1.0.0-beta.35...v1.0.0-beta.36) (2021-07-05)
 
 
