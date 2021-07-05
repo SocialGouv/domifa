@@ -195,7 +195,7 @@
   <br />
 
   <div id="dashboard">
-    <table class="table table-hover">
+    <table class="table table-hover" style="overflow-x: visible">
       <thead>
         <tr>
           <th (click)="sortDashboard('id')">#</th>
@@ -240,6 +240,7 @@
             Département <fa-icon icon="sort"></fa-icon>
           </th>
           <th>Email</th>
+          <th colspan="2"></th>
         </tr>
       </thead>
       <tbody>
@@ -287,41 +288,51 @@
           <td>
             {{ structure.email }}
           </td>
-          <td>
-            <button
-              class="btn btn-danger"
-              (click)="deleteStructure(structure.id)"
-            >
-              <fa-icon icon="trash"></fa-icon>
-            </button>
-            &nbsp;
-            <button
-              class="btn btn-primary"
-              (click)="exportYearStats(structure.id, 2020)"
-            >
-              stats 2020
-              <fa-icon icon="download"></fa-icon>
-            </button>
-            &nbsp;
-            <button
-              (click)="enableSms(structure)"
-              class="btn"
-              [ngClass]="
-                structure.sms.enabledByDomifa
-                  ? 'btn-primary'
-                  : 'btn-outline-primary'
-              "
-            >
-              SMS
-              <fa-icon
-                *ngIf="structure.sms.enabledByDomifa"
-                icon="check"
-              ></fa-icon>
-              <fa-icon
-                *ngIf="!structure.sms.enabledByDomifa"
-                icon="times"
-              ></fa-icon>
-            </button>
+          <td colspan="2">
+            <div style="white-space: nowrap">
+              <button
+                class="ml-2 mr-2 btn btn-danger"
+                (click)="deleteStructure(structure.id)"
+              >
+                <fa-icon icon="trash"></fa-icon>
+              </button>
+              <button
+                class="ml-2 mr-2 btn btn-primary"
+                (click)="exportYearStats(structure.id, 2020)"
+              >
+                <div
+                  class="mr-2"
+                  style="
+                    display: inline-block;
+                    line-height: 0.9em;
+                    font-size: 12px;
+                  "
+                >
+                  <div>stats</div>
+                  <div>2020</div>
+                </div>
+                <fa-icon icon="download"></fa-icon>
+              </button>
+              <button
+                (click)="enableSms(structure)"
+                class="ml-2 mr-2 btn"
+                [ngClass]="
+                  structure.sms.enabledByDomifa
+                    ? 'btn-primary'
+                    : 'btn-outline-primary'
+                "
+              >
+                SMS
+                <fa-icon
+                  *ngIf="structure.sms.enabledByDomifa"
+                  icon="check"
+                ></fa-icon>
+                <fa-icon
+                  *ngIf="!structure.sms.enabledByDomifa"
+                  icon="times"
+                ></fa-icon>
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
