@@ -1,7 +1,7 @@
 {
   "enabled": true,
   "extends": [
-     "config: base"
+     "config:base"
   ],
   "schedule": "every weekend",
   "separateMinorPatch": true,
