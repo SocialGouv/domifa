@@ -1,3 +1,10 @@
+## [2.7.3](https://github.com/SocialGouv/domifa/compare/v2.7.2...v2.7.3) (2021-07-05)
+
+
+### Bug Fixes
+
+* transfert expiration [#1501](https://github.com/SocialGouv/domifa/issues/1501) ([#1515](https://github.com/SocialGouv/domifa/issues/1515)) ([4f45a4b](https://github.com/SocialGouv/domifa/commit/4f45a4bf8cf125fe199963175659af5eb17d12bf))
+
 ## [2.7.2](https://github.com/SocialGouv/domifa/compare/v2.7.1...v2.7.2) (2021-07-05)
 
 
