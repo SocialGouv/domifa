@@ -1,3 +1,10 @@
+## [2.7.1](https://github.com/SocialGouv/domifa/compare/v2.7.0...v2.7.1) (2021-07-05)
+
+
+### Bug Fixes
+
+* Change renovate config. ([7024ea7](https://github.com/SocialGouv/domifa/commit/7024ea73d0868b762ba2c16d437d69b78f5112c2))
+
 # [2.7.0](https://github.com/SocialGouv/domifa/compare/v2.6.11...v2.7.0) (2021-07-05)
 
 
