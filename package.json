@@ -12,7 +12,7 @@
     "seal-secrets": "sre-secrets --from=./.secrets.yaml --to=./.k8s"
   },
   "devDependencies": {
-    "@socialgouv/sre-secrets": "^1.4.0",
+    "@socialgouv/sre-secrets": "1.4.0",
     "lerna": "^4.0.0"
   },
   "workspaces": {
