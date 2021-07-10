@@ -10,7 +10,7 @@
     "@angular-devkit/core" "11.2.14"
     rxjs "6.6.3"
 
-"@angular-devkit/build-angular@^0.1102.14":
+"@angular-devkit/build-angular@0.1102.14":
   version "0.1102.14"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-0.1102.14.tgz#102a61c80b4b23cfa08d8f5d25beb4f1146cd5a4"
   integrity sha512-SyX9SK3qfpk6xNIrxpxYi8zxP/cN2kny4I+XYbkKvgGiE3qhkrC/PRJE9OWj0sloekLD0CDfFWOvIiw3GMc4Tg==
@@ -189,7 +189,7 @@
   dependencies:
     tslib "^2.0.0"
 
-"@angular/cli@^11.2.14":
+"@angular/cli@11.2.14":
   version "11.2.14"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-11.2.14.tgz#7f3bef6367af185fb3904de080d307f0bbb624ba"
   integrity sha512-8Ud7vcUK7CKjzT2Ks1glLhleAPIC5ChcrA15XtOb7k+/uMHBkMscP/UKymbVQiBjCJlglbzJoyj8cpVYTZY5KA==
@@ -2536,7 +2536,7 @@
   dependencies:
     "@octokit/openapi-types" "^7.0.0"
 
-"@schematics/angular@11.2.14", "@schematics/angular@^11.2.14":
+"@schematics/angular@11.2.14":
   version "11.2.14"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-11.2.14.tgz#d0fa7ec009780ade0f9414f2602dd557a72fdd2f"
   integrity sha512-nErn5BFYp4HB7mOkt23kF+dyM6zPxolejM8eXQ5vd/rdhcc6ROaMZ0EmeEAWkfqB3+vqaSDz/D2Nm/IjJlyW/Q==
@@ -2553,7 +2553,7 @@
     "@angular-devkit/core" "11.2.6"
     "@angular-devkit/schematics" "11.2.6"
 
-"@schematics/update@0.1102.14", "@schematics/update@^0.1102.12":
+"@schematics/update@0.1102.14":
   version "0.1102.14"
   resolved "https://registry.yarnpkg.com/@schematics/update/-/update-0.1102.14.tgz#d64a713e99a0ffba80d7493da92c55fee44ec882"
   integrity sha512-OsWuC0iyNjpST1+hVUUZAegXAFpEFpS5uKYSQF3jsbyw8XHx7oA5/HbEwyr2WkX2EdV1tKrDLz6BrD5b8W6EYw==
