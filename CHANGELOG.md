@@ -1,3 +1,16 @@
+# [2.8.0](https://github.com/SocialGouv/domifa/compare/v2.7.3...v2.8.0) (2021-07-12)
+
+
+### Bug Fixes
+
+* console.log inutile ([09c3b06](https://github.com/SocialGouv/domifa/commit/09c3b0648c4fb0678e820f6e89c6117489b71d8e))
+* mise à jour du Suivi ([e9ff616](https://github.com/SocialGouv/domifa/commit/e9ff616b313c5f1b143bd22f9f32f4b649ac7ac5))
+
+
+### Features
+
+* test du retour API spothit ([98f7a2e](https://github.com/SocialGouv/domifa/commit/98f7a2ed07315955b916716b41f7854de055a8af))
+
 ## [2.7.3](https://github.com/SocialGouv/domifa/compare/v2.7.2...v2.7.3) (2021-07-05)
 
 
