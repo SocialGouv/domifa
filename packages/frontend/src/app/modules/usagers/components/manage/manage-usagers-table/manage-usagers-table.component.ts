@@ -23,6 +23,8 @@ import {
 } from "../../../../../../_common/model/interaction";
 import { interactionsLabels } from "../../../../../shared/constants/INTERACTIONS_LABELS.const";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
+import { isProcurationActifMaintenant } from "../../../services";
+import { isTransfertActifMaintenant } from "../../../services/transfert.service";
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 import {
   UsagersFilterCriteria,
@@ -93,6 +95,7 @@ export class ManageUsagersTableComponent implements OnInit {
   public isProcurationActifMaintenant(procuration: UsagerOptionsProcuration) {
     return isProcurationActifMaintenant(procuration);
   }
+
   public isTransfertActifMaintenant(transfert: UsagerOptionsTransfert) {
     return isTransfertActifMaintenant(transfert);
   }
