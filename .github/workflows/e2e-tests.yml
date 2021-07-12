@@ -22,7 +22,7 @@ jobs:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
 
       - name: Set up Yarn cache
-        uses: c-hive/gha-yarn-cache@v1
+        uses: c-hive/gha-yarn-cache@v2
 
       - name: Install e2e dependencies
         run: yarn --cwd optional/e2e/runners/puppeteer install --frozen-lockfile --prefer-offline
