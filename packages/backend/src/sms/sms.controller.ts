@@ -46,9 +46,7 @@ export class SmsController {
   @Get("retour-api")
   public async getHello(@SpotHitPushDecorator() suiviSmsDto: SuiviSmsDto) {
     // URL de retour de l'API Spot-Hit pour mettre à jour le statut d'un SMS
-
-    this.smsService.updateMessageSmsStatut(suiviSmsDto);
-    console.log(suiviSmsDto);
+    return this.smsService.updateMessageSmsStatut(suiviSmsDto);
   }
 
   @ApiBearerAuth()
