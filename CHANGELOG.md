@@ -1,3 +1,10 @@
+## [2.8.1](https://github.com/SocialGouv/domifa/compare/v2.8.0...v2.8.1) (2021-07-12)
+
+
+### Bug Fixes
+
+* update packages ([18f8c80](https://github.com/SocialGouv/domifa/commit/18f8c807a47f2d94c60baa5919334a42c72d2614))
+
 # [2.8.0](https://github.com/SocialGouv/domifa/compare/v2.7.3...v2.8.0) (2021-07-12)
 
 
