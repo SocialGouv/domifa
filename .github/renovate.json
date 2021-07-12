@@ -12,6 +12,10 @@
   ],
   "schedule": "every weekend",
   "separateMinorPatch": true,
+  "masterIssueAutoclose": true,
+  "node": {
+    "supportPolicy": ["lts_latest"]
+  },
   "packageRules": [
      {
         "depTypeList": [
