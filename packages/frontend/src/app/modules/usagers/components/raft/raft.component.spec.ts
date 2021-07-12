@@ -8,38 +8,42 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { UsagersModule } from "../../usagers.module";
 import { RaftComponent } from "./raft.component";
 import { MatomoTracker, MatomoInjector } from "ngx-matomo";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("RaftComponent", () => {
   let component: RaftComponent;
   let fixture: ComponentFixture<RaftComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [],
-      imports: [
-        UsagersModule,
-        NgbModule,
-        HttpClientModule,
-        HttpClientTestingModule,
-      ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [],
+        imports: [
+          UsagersModule,
+          NgbModule,
+          HttpClientModule,
+          HttpClientTestingModule,
+          RouterTestingModule,
+        ],
+        providers: [
+          {
+            provide: MatomoInjector,
+            useValue: {
+              init: jest.fn(),
+            },
           },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
+          {
+            provide: MatomoTracker,
+            useValue: {
+              setUserId: jest.fn(),
+            },
           },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+          { provide: APP_BASE_HREF, useValue: "/" },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RaftComponent);

@@ -6,7 +6,7 @@ import { DocumentsFormComponent } from "./documents-form.component";
 import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { APP_BASE_HREF } from "@angular/common";
@@ -25,7 +25,7 @@ describe("DocumentsFormComponent", () => {
         FormsModule,
         HttpClientModule,
         ToastrModule.forRoot(),
-        BrowserAnimationsModule,
+
         HttpClientTestingModule,
       ],
       providers: [

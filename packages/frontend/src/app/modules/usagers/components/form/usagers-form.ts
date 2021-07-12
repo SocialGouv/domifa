@@ -22,8 +22,9 @@ import { languagesAutocomplete } from "../../../../shared";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
 import { AyantDroit } from "../../interfaces/ayant-droit";
-import * as labels from "../../usagers.labels";
+import * as labels from "../../../../shared/constants/USAGER_LABELS.const";
 import { UsagerFormModel } from "./UsagerFormModel";
+import { DocumentService } from "../../../usager-shared/services/document.service";
 
 @Component({
   animations: [fadeInOut],
@@ -67,6 +68,7 @@ export class UsagersFormComponent implements OnInit {
 
   public me: AppUser;
 
+  public LIENS_PARENTE = labels.LIENS_PARENTE;
   get f() {
     return this.usagerForm.controls;
   }
@@ -78,6 +80,7 @@ export class UsagersFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usagerService: UsagerService,
+    private documentService: DocumentService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
@@ -230,7 +233,7 @@ export class UsagersFormComponent implements OnInit {
   }
 
   public getAttestation() {
-    return this.usagerService.attestation(this.usager.ref);
+    return this.documentService.attestation(this.usager.ref);
   }
 
   public submitInfos() {

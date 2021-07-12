@@ -6,7 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { AppUser, StructureCommon } from "../../../../../_common/model";
 import { MessageSms } from "../../../../../_common/model/message-sms";
 import { AuthService } from "../../../shared/services/auth.service";
-import { interactionsLabels } from "../../../usagers/interactions.labels";
+import { interactionsLabels } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
 import { generateSender } from "../../services/generateSender.service";
 import { StructureService } from "../../services/structure.service";
 

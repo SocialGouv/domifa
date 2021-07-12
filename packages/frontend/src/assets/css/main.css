@@ -70,12 +70,6 @@ ul {
   animation-duration: 300ms;
 }
 
-.alert {
-  max-width: 900px;
-  width: 98%;
-  margin: 10px auto;
-}
-
 .bannir {
   -webkit-text-stroke-color: var(--danger);
   stroke: var(--danger);
@@ -173,20 +167,24 @@ table .active {
 }
 
 .reponses {
-  margin: 15px auto;
+  margin-bottom: 15px;
+  margin-top: 15px;
   vertical-align: middle;
 }
 
 .reponses .question {
-  color: #212529;
+  color: var(--primary);
   text-transform: uppercase;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.7px;
 }
 
 .reponses .valeur {
   display: block;
   font-weight: bold;
   color: #4a4a4a;
+  font-weight: 400;
   word-break: break-word;
 }
 
@@ -426,10 +424,48 @@ table .active {
   height: 10px;
 }
 
-.statut-signal.bg-danger,
-.statut-signal.bg-warning {
-  display: inline-block;
-  vertical-align: middle;
+.statut-label a,
+.statut-label {
+  font-style: normal;
+  font-weight: 600;
+  color: #282828;
+  letter-spacing: 0;
+}
+
+.selected-section .statut-label {
+  color: var(--primary);
+}
+
+.selected-section {
+  background-color: white !important;
+  box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
+}
+
+.label-danger {
+  background-color: #ffe5dd;
+  color: #b51515;
+}
+
+.label-green {
+  background-color: #d4f4ed;
+  color: #486346;
+}
+
+.label-yellow {
+  background-color: #feedd1;
+  color: #282828;
+}
+
+.danger-status .statut-date,
+.warning-status .statut-date {
+  font-weight: bold;
+}
+
+.danger-status td:first-child {
+  border-left: 4px solid var(--red) !important;
+}
+.warning-status td:first-child {
+  border-left: 4px solid var(--warning) !important;
 }
 
 .statut-signal.d-none {
@@ -479,8 +515,6 @@ table .active {
   border-radius: 50px;
   padding: 4px 15px;
   margin: 2px auto;
-  display: block;
-  width: 100%;
   text-align: center;
   max-width: 150px;
 }
@@ -508,5 +542,64 @@ table .active {
 
 .grey-status {
   background-color: #efefef;
+  color: #282828;
+}
+
+.alert .svg-icon {
+  display: table-cell;
+  margin-right: 10px;
+  width: 35px;
+  height: 35px;
+  padding: 6px;
+  box-sizing: border-box;
+  -webkit-mask-size: 98%;
+  mask-size: 98%;
+}
+
+.alert div,
+.alert span {
+  padding-left: 5px;
+  flex-shrink: 1;
+  align-self: center;
+}
+
+.alert-warning .svg-icon {
+  background-color: #f0870c;
+}
+
+.alert-danger .svg-icon {
+  background-color: #f00c0c;
+}
+
+.label-info {
+  border-radius: 50px;
+  padding: 3px 12px;
+  margin: 2px;
+  display: inline-block;
+}
+
+.label-info div {
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.label-info span {
+  display: block;
+  font-size: 0.8rem;
+}
+
+.label-danger {
+  background-color: #ffe5dd;
+  color: #b51515;
+}
+
+.label-green {
+  background-color: #d4f4ed;
+  color: #486346;
+}
+
+.label-yellow {
+  background-color: #feedd1;
   color: #282828;
 }

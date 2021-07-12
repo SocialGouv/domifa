@@ -1,0 +1,69 @@
+.interaction-icon-box {
+  background: #eceffe;
+  border-radius: 5px;
+  padding: 12px;
+  text-align: center;
+}
+
+.interaction-icon {
+  height: 35px;
+  width: 35px;
+  text-align: center;
+  box-sizing: border-box;
+  background-color: #4164f5;
+  -webkit-mask-size: 80% !important;
+  mask-size: 80% !important;
+}
+
+.icon-courrier {
+  background-color: #4164f5;
+  -webkit-mask-size: 80% !important;
+  mask-size: 80% !important;
+}
+
+.list-icon {
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: #4164f5;
+  -webkit-mask-size: 80%;
+  mask-size: 80%;
+}
+
+.btn-outline-primary {
+  padding: 0.2rem;
+}
+
+.btn:hover .list-icon {
+  background-color: white;
+}
+
+.profil-interaction {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+
+.profil-interaction div {
+  font-size: 1.1rem;
+  align-self: center;
+}
+
+.label-statut {
+  display: inline-block !important;
+}
+
+.label-info {
+  padding: 4px 15px;
+  margin: 2px auto;
+  text-align: center;
+  max-width: 150px;
+}
+.label-info div {
+  font-size: 0.9rem !important;
+}
+
+.text-link {
+  text-decoration: underline;
+  font-weight: bold;
+}

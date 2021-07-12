@@ -126,12 +126,6 @@ th {
   text-align: center;
 }
 
-.label-info div {
-  font-size: 0.8rem;
-  font-style: normal;
-  font-weight: normal;
-}
-
 .label-danger {
   background-color: #ffe5dd;
   color: #b51515;
@@ -177,6 +171,7 @@ th {
 .interaction-btn:hover .list-icon {
   background-color: white;
 }
+
 .list-icon {
   padding: 15px;
   box-sizing: border-box;
@@ -213,4 +208,8 @@ th {
 .distribution-tooltip span {
   vertical-align: middle;
   display: inline-block;
+}
+.label-statut {
+  display: block;
+  width: 100%;
 }

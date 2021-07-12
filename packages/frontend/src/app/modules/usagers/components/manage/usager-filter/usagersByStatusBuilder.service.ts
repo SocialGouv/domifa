@@ -17,15 +17,15 @@ function build(usagers: UsagerLight[]): UsagersByStatus {
   };
   return usagers.reduce((acc, usager) => {
     if (isStatus(usager, "RADIE")) {
-      acc["RADIE"].push(usager);
+      acc.RADIE.push(usager);
     } else if (isStatus(usager, "VALIDE")) {
-      acc["VALIDE"].push(usager);
+      acc.VALIDE.push(usager);
     } else if (isStatus(usager, "REFUS")) {
-      acc["REFUS"].push(usager);
+      acc.REFUS.push(usager);
     } else if (isStatus(usager, "INSTRUCTION")) {
-      acc["INSTRUCTION"].push(usager);
+      acc.INSTRUCTION.push(usager);
     } else if (isStatus(usager, "ATTENTE_DECISION")) {
-      acc["ATTENTE_DECISION"].push(usager);
+      acc.ATTENTE_DECISION.push(usager);
     }
     return acc;
   }, acc);

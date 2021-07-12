@@ -30,11 +30,11 @@ import { SharedModule } from "./modules/shared/shared.module";
 import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
+import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
 
 if (environment.production) {
   Sentry.init({
-    dsn:
-      "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
+    dsn: "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
   });
 }
 
@@ -43,16 +43,17 @@ if (environment.production) {
   declarations: [AppComponent],
   imports: [
     AppRoutingModule,
-    BrowserAnimationsModule,
     BrowserModule,
-    FontAwesomeModule,
+    UsagerSharedModule,
+    BrowserAnimationsModule,
     FormsModule,
+    MatomoModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FontAwesomeModule,
     GeneralModule,
     StatsModule,
-    HttpClientModule,
-    MatomoModule,
     NgbModule,
-    ReactiveFormsModule,
     SharedModule,
     StructuresModule,
     UsagersModule,

@@ -217,10 +217,6 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     this.filters$.next(this.filters);
   }
 
-  public getAttestation(usagerRef: number) {
-    return this.usagerService.attestation(usagerRef);
-  }
-
   public resetFilters() {
     this.filters = new UsagersFilterCriteria();
     this.searchString = null;
