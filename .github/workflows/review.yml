@@ -30,7 +30,7 @@ jobs:
         node-version: '14'
 
     - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v1
+      uses: c-hive/gha-yarn-cache@v2
 
     - name: Install backend dependencies
       run: yarn workspace @domifa/backend install --frozen-lockfile --prefer-offline
@@ -61,7 +61,7 @@ jobs:
         node-version: '14'
 
     - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v1
+      uses: c-hive/gha-yarn-cache@v2
 
     - name: Install front-end dependencies
       run: yarn --cwd packages/frontend install --frozen-lockfile --prefer-offline
@@ -233,7 +233,7 @@ jobs:
         cat ".github/review.env" >> $GITHUB_ENV
 
     - name: Yarn cache setup
-      uses: c-hive/gha-yarn-cache@v1
+      uses: c-hive/gha-yarn-cache@v2
 
     - name: Install kosko-charts dependencies
       run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline

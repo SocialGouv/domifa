@@ -25,7 +25,7 @@ jobs:
           node-version: "14"
 
       - name: Set up Yarn cache
-        uses: c-hive/gha-yarn-cache@v1
+        uses: c-hive/gha-yarn-cache@v2
 
       - name: Create backend .env file
         run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
@@ -60,7 +60,7 @@ jobs:
           node-version: "14"
 
       - name: Set up Yarn cache
-        uses: c-hive/gha-yarn-cache@v1
+        uses: c-hive/gha-yarn-cache@v2
 
       - name: Install front-end dependencies
         run: yarn workspace @domifa/frontend install --frozen-lockfile --prefer-offline
