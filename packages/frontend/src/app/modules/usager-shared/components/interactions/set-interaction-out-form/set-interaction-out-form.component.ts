@@ -18,6 +18,7 @@ import { InteractionService } from "../../../services/interaction.service";
 import { UsagerService } from "../../../../usagers/services/usager.service";
 import { UsagerFormModel } from "../../../../usagers/components/form/UsagerFormModel";
 import { Interaction } from "../../../../usagers/interfaces/interaction";
+import { isProcurationActifMaintenant } from "../../../../usagers/services";
 
 @Component({
   animations: [bounce],

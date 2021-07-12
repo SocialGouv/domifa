@@ -30,7 +30,9 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
 
   private getInteractions() {
     this.interactionService
-      .getInteractions(this.usager.ref)
+      .getInteractions({
+        usagerRef: this.usager.ref,
+      })
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;
       });

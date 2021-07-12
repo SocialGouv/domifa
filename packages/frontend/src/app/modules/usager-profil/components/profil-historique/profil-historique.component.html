@@ -26,7 +26,7 @@
                     {{ DECISION_LABELS[usager.decision.statut] }}
                   </span>
                   <span *ngIf="usager.decision.statut === 'VALIDE'">
-                    <span *ngIf="usager.typeDom === 'PREMIERE'">
+                    <span *ngIf="usager.typeDom === 'PREMIERE_DOM'">
                       Première domiciliation
                     </span>
                     <span *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
