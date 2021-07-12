@@ -1,3 +1,10 @@
+## [2.8.2](https://github.com/SocialGouv/domifa/compare/v2.8.1...v2.8.2) (2021-07-12)
+
+
+### Bug Fixes
+
+* **deps:** update all patch dependencies ([9261356](https://github.com/SocialGouv/domifa/commit/926135627f6e1471a75372129314634232e6b3b7))
+
 ## [2.8.1](https://github.com/SocialGouv/domifa/compare/v2.8.0...v2.8.1) (2021-07-12)
 
 
