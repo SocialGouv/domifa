@@ -5,13 +5,13 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { CronSmsInteractionSenderService } from "./services/cron-sms-interaction-sender.service";
 
 import { MessageSmsSenderService } from "./services/message-sms-sender.service";
-import { SmsService } from "./services/sms.service";
+import { MessageSmsService } from "./services/message-sms.service";
 import { SmsController } from "./sms.controller";
 
 @Module({
   controllers: [SmsController],
   exports: [
-    SmsService,
+    MessageSmsService,
     CronSmsInteractionSenderService,
     MessageSmsSenderService,
   ],
@@ -21,7 +21,7 @@ import { SmsController } from "./sms.controller";
     forwardRef(() => UsagersModule),
   ],
   providers: [
-    SmsService,
+    MessageSmsService,
     CronSmsInteractionSenderService,
     MessageSmsSenderService,
   ],

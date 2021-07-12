@@ -9,8 +9,6 @@ export const generateMotifLabel = (decision: UsagerDecision): string => {
     return "";
   }
 
-  console.log(decision);
-
   let motif = "";
   if (decision.statut === "REFUS" || decision.statut === "RADIE") {
     if (decision.motif === "AUTRE") {

@@ -1,6 +1,6 @@
 import moment = require("moment");
 import { Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
+import { Repository, ReturningStatementNotSupportedError } from "typeorm";
 import { appTypeormManager, structureRepository } from "../../database";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { messageSmsRepository } from "../../database/services/message-sms";
@@ -8,17 +8,43 @@ import { InteractionDto } from "../../interactions/interactions.dto";
 import { appLogger } from "../../util";
 import { AppAuthUser, UsagerLight } from "../../_common/model";
 import { MessageSms } from "../../_common/model/message-sms";
-import { StructureSmsParams } from "./../../_common/model/structure/StructureSmsParams.type";
+import { StructureSmsParams } from "../../_common/model/structure/StructureSmsParams.type";
 import { generateSmsInteraction } from "./generators";
+import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
+import { SuiviSmsDto } from "../suivi-sms.dto";
 
 @Injectable()
-export class SmsService {
+export class MessageSmsService {
   // Délai entre chaque message envoyé
   private messageSmsRepository: Repository<MessageSmsTable>;
 
-  constructor() {
+  public constructor() {
     this.messageSmsRepository =
       appTypeormManager.getRepository(MessageSmsTable);
+  }
+
+  public async updateMessageSmsStatut(suiviSms: SuiviSmsDto) {
+    const sms = await messageSmsRepository.findOne({
+      responseId: suiviSms.id_accuse,
+    });
+
+    if (!sms) {
+      appLogger.warn(
+        `[UPDATE-SMS-STATUS] Sms not found : ${suiviSms.id_message}`,
+        {
+          sentryBreadcrumb: true,
+        }
+      );
+      return;
+    }
+
+    return messageSmsRepository.updateOne(
+      { responseId: suiviSms.id_accuse },
+      {
+        status: MESSAGE_SMS_STATUS[suiviSms.statut],
+        lastUpdate: new Date(),
+      }
+    );
   }
 
   // Suppression d'un SMS si le courrier a été distribué

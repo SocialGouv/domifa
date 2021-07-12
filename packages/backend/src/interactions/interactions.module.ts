@@ -1,5 +1,5 @@
 import { forwardRef, Module } from "@nestjs/common";
-import { SmsService } from "../sms/services/sms.service";
+import { MessageSmsService } from "../sms/services/message-sms.service";
 import { SmsModule } from "../sms/sms.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -16,6 +16,6 @@ import { InteractionsService } from "./interactions.service";
     forwardRef(() => StructuresModule),
     forwardRef(() => SmsModule),
   ],
-  providers: [InteractionsService, SmsService],
+  providers: [InteractionsService, MessageSmsService],
 })
 export class InteractionsModule {}
