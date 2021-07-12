@@ -1,7 +1,14 @@
 {
   "enabled": true,
   "extends": [
-     "config:base"
+    "config:base",
+    "docker:enableMajor",
+    ":maintainLockFilesMonthly",
+    ":masterIssue",
+    ":preserveSemverRanges",
+    ":prHourlyLimit4",
+    ":semanticCommits",
+    ":timezone(Europe/Paris)"
   ],
   "schedule": "every weekend",
   "separateMinorPatch": true,
