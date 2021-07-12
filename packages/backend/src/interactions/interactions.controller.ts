@@ -17,7 +17,7 @@ import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { interactionRepository } from "../database";
-import { SmsService } from "../sms/services/sms.service";
+import { MessageSmsService } from "../sms/services/message-sms.service";
 import { UsagersService } from "../usagers/services/usagers.service";
 import { AppAuthUser, UsagerLight } from "../_common/model";
 import { InteractionType } from "../_common/model/interaction";
@@ -31,7 +31,7 @@ export class InteractionsController {
   constructor(
     private readonly interactionsService: InteractionsService,
     private readonly usagersService: UsagersService,
-    private readonly smsService: SmsService
+    private readonly smsService: MessageSmsService
   ) {}
 
   @Post(":usagerRef")

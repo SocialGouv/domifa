@@ -14,7 +14,7 @@ import { DomifaGuard } from "../auth/guards/domifa.guard";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { StructuresService } from "../structures/services/structures.service";
 import { AppAuthUser } from "../_common/model";
-import { SmsService } from "./services/sms.service";
+import { MessageSmsService } from "./services/message-sms.service";
 import { SpotHitPushDecorator } from "./SpotHitPushDecorator";
 import { SuiviSmsDto } from "./suivi-sms.dto";
 
@@ -22,7 +22,7 @@ import { SuiviSmsDto } from "./suivi-sms.dto";
 @ApiTags("sms")
 export class SmsController {
   constructor(
-    private readonly smsService: SmsService,
+    private readonly smsService: MessageSmsService,
     private readonly structureService: StructuresService
   ) {}
 
@@ -47,6 +47,7 @@ export class SmsController {
   public async getHello(@SpotHitPushDecorator() suiviSmsDto: SuiviSmsDto) {
     // URL de retour de l'API Spot-Hit pour mettre à jour le statut d'un SMS
 
+    this.smsService.updateMessageSmsStatut(suiviSmsDto);
     console.log(suiviSmsDto);
   }
 

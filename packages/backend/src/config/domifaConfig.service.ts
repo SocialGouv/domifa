@@ -33,13 +33,15 @@ export function loadEnvWithPreset({
     defaultEnv ?? domifaConfigFileLoader.loadEnvFile(envFileName);
 
   const presetEnvFileName =
-    domifaEnv["DOMIFA_ENV_PRESET"] ?? process.env["DOMIFA_ENV_PRESET"];
+    domifaEnv.DOMIFA_ENV_PRESET ?? process.env.DOMIFA_ENV_PRESET;
 
   let domifaPresetEnv = domifaConfigFileLoader.loadEnvFile(
     path.join(".env.preset", presetEnvFileName)
   );
 
-  const presetParentEnvFileName = domifaPresetEnv["DOMIFA_ENV_PRESET_PARENT"];
+  console.log(domifaPresetEnv);
+
+  const presetParentEnvFileName = domifaPresetEnv.DOMIFA_ENV_PRESET_PARENT;
 
   if (presetParentEnvFileName) {
     const domifaPresetParentEnv = domifaConfigFileLoader.loadEnvFile(
@@ -55,7 +57,7 @@ export function loadEnvWithPreset({
     ...domifaPresetEnv, // default values
     ...domifaEnv, // empty in dist env (but used in local environments)
   };
-  if (merged["DOMIFA_ENV_PRIORITY"] === "process.env") {
+  if (merged.DOMIFA_ENV_PRIORITY === "process.env") {
     // DIST: global environment variables overrides files config
     appLogger.warn('[loadEnvWithPreset] "process.env" overrides files config');
     return {

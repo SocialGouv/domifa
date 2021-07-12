@@ -2,7 +2,6 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { DomifaEnv } from "./model";
-import SMTPTransport = require("nodemailer/lib/smtp-transport");
 
 export const domifaConfigFileLoader = {
   loadEnvFile,
