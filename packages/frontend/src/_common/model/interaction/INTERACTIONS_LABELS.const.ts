@@ -1,6 +1,6 @@
-import { InteractionType } from "../../../_common/model/interaction";
+import { InteractionType } from ".";
 
-export const interactionsLabels: {
+export const INTERACTIONS_LABELS_SINGULIER: {
   [key in InteractionType]: string;
 } = {
   appel: "Appel téléphonique enregistré",
@@ -14,7 +14,7 @@ export const interactionsLabels: {
   npai: "Pli non distribuable enregistré",
 };
 
-export const interactionsLabelsPluriel: {
+export const INTERACTIONS_LABELS_PLURIEL: {
   [key in InteractionType]: string;
 } = {
   appel: "Appels téléphoniques",

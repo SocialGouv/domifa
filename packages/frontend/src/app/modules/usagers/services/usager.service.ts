@@ -4,9 +4,10 @@ import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
-import { filter, startWith, tap } from "rxjs/operators";
+import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerPreferenceContact } from "../../../../_common/model";
+import { MessageSms } from "../../../../_common/model/message-sms";
 import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { usagersSearchCache } from "../../../shared/store";
@@ -243,5 +244,13 @@ export class UsagerService {
     previewTable: ImportPreviewTable;
   }> {
     return this.http.post<any>(environment.apiUrl + "import/" + mode, data);
+  }
+
+  public findMySms(usager: UsagerLight): Observable<MessageSms[]> {
+    return this.http.get(environment.apiUrl + "sms/usager/" + usager.ref).pipe(
+      map((res: MessageSms[]) => {
+        return res;
+      })
+    );
   }
 }

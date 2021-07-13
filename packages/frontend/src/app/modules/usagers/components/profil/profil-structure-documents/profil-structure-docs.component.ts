@@ -30,8 +30,7 @@ export class ProfilStructureDocsComponent implements OnInit {
     this.documentService.getStructureDoc(this.usager.ref, docType).subscribe(
       (blob: any) => {
         const newBlob = new Blob([blob], {
-          type:
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         });
         saveAs(newBlob, docType + ".docx");
         this.loadingDownload = false;
@@ -41,7 +40,4 @@ export class ProfilStructureDocsComponent implements OnInit {
       }
     );
   }
-
-  // Documents uploadés par les strucutres
-  public getCustomDocument(docId: string) {}
 }

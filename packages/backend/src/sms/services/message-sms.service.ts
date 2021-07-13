@@ -173,9 +173,9 @@ export class MessageSmsService {
   }
 
   // Afficher les SMS en attente d'envoi
-  public getTimeline(user: AppAuthUser): Promise<MessageSmsTable[]> {
+  public findAll(usager: UsagerLight): Promise<MessageSmsTable[]> {
     return this.messageSmsRepository.find({
-      where: { structureId: user.structureId, status: "TO_SEND" },
+      where: { structureId: usager.structureId, usagerRef: usager.ref },
       order: {
         scheduledDate: "DESC",
       },
@@ -188,7 +188,4 @@ export class MessageSmsService {
   public changeStatutByDomifa(structureId: number, sms: StructureSmsParams) {
     return structureRepository.updateOne({ id: structureId }, { sms });
   }
-
-  // Messages de rappel de renouvellement
-  public renewReminder() {}
 }

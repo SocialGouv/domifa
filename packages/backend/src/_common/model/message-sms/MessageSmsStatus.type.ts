@@ -5,7 +5,7 @@ export type MessageSmsStatus =
   | "SENT_AND_NOT_RECEIVED"
   | "IN_PROGRESS"
   | "FAILURE"
-  | "DISABLED" // Disabled by
+  | "DISABLED"
   | "EXPIRED";
 
 export const ON_HOLD = 0;

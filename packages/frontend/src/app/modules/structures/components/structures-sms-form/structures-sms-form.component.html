@@ -129,34 +129,4 @@
       </div>
     </div>
   </div>
-  <br /><br />
-  <div class="row">
-    <div class="col-12">
-      <h5>Liste des SMS en attente</h5>
-      <div class="p-3">
-        <table class="table">
-          <thead>
-            <th>USAGER ID</th>
-            <th>NOMBRE COURRIER</th>
-            <th>TYPE INTERACTION</th>
-            <th>DATE D'ENVOI PRÉVUE</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let sms of smsList">
-              <td>
-                <a [routerLink]="['/usager/' + sms.usagerRef]"
-                  >Usager {{ sms.usagerRef }}</a
-                >
-              </td>
-              <td>{{ sms.interactionMetas.nbCourrier }}</td>
-              <td>
-                {{ interactionsLabels[sms.interactionMetas.interactionType] }}
-              </td>
-              <td>{{ sms.scheduledDate | date: "dd/MM/yyyy à HH:mm" }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
 </div>

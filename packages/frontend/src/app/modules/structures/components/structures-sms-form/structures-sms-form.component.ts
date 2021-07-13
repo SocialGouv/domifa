@@ -4,7 +4,7 @@ import { Title } from "@angular/platform-browser";
 
 import { ToastrService } from "ngx-toastr";
 import { AppUser, StructureCommon } from "../../../../../_common/model";
-import { MessageSms } from "../../../../../_common/model/message-sms";
+
 import { AuthService } from "../../../shared/services/auth.service";
 import { interactionsLabels } from "../../../usagers/interactions.labels";
 import { generateSender } from "../../services/generateSender.service";
@@ -19,7 +19,6 @@ export class StructuresSmsFormComponent implements OnInit {
   public me: AppUser;
   public structure: StructureCommon;
 
-  public smsList: MessageSms[];
   public submitted: boolean;
   public structureSmsForm!: FormGroup;
 
@@ -33,7 +32,7 @@ export class StructuresSmsFormComponent implements OnInit {
     private titleService: Title
   ) {
     this.interactionsLabels = interactionsLabels;
-    this.smsList = [];
+
     this.me = null;
     this.structure = null;
     this.submitted = false;
@@ -69,19 +68,10 @@ export class StructuresSmsFormComponent implements OnInit {
 
         this.initForm();
       },
-      (error: any) => {
+      () => {
         this.notifService.success(
           "Impossible de récupérer les infos de ma structure"
         );
-      }
-    );
-
-    this.structureService.smsTimeline().subscribe(
-      (smsList: MessageSms[]) => {
-        this.smsList = smsList;
-      },
-      (error: any) => {
-        this.notifService.success("Impossible de récupérer les sms en attente");
       }
     );
   }
