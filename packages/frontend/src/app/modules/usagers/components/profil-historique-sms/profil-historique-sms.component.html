@@ -1,0 +1,28 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Type de SMS</th>
+      <th>Statut</th>
+      <th>Contenu</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let sms of messagesList">
+      <td>
+        {{ sms.lastUpdate | date: "dd/MM/yyyy à HH:mm" }}
+      </td>
+      <td>
+        <span
+          class="label-info"
+          [ngClass]="MESSAGE_SMS_STATUS_LABEL_COLOR[sms.status].color"
+        >
+          {{ MESSAGE_SMS_STATUS_LABEL_COLOR[sms.status].label }}</span
+        >
+      </td>
+
+      <td>{{ INTERACTIONS_LABELS_SINGULIER[sms.smsId] }}</td>
+      <td>{{ sms.content }}</td>
+    </tr>
+  </tbody>
+</table>

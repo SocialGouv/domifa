@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Usager } from "../../_common/model";
+import { Usager } from "../../../../_common/model";
 
 @Pipe({ name: "usagerNomComplet" })
 export class UsagerNomCompletPipe implements PipeTransform {
