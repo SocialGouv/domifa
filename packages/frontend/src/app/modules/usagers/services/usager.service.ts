@@ -90,12 +90,12 @@ export class UsagerService {
   }
 
   public editProcuration(
-    transfert: any,
+    procuration: any,
     usagerRef: number
   ): Observable<UsagerLight> {
     return this.http.post<UsagerLight>(
       `${this.endPointUsagers}/procuration/${usagerRef}`,
-      transfert
+      procuration
     );
   }
 
