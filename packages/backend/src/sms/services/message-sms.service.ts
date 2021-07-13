@@ -175,7 +175,6 @@ export class MessageSmsService {
   // Afficher les SMS en attente d'envoi
   public getTimeline(user: AppAuthUser): Promise<MessageSmsTable[]> {
     return this.messageSmsRepository.find({
-      // TODO: ajouter une condition where lors de la livraison : date > 19h aujourd'hui
       where: { structureId: user.structureId, status: "TO_SEND" },
       order: {
         scheduledDate: "DESC",

@@ -4,7 +4,8 @@ import {
   InteractionsTable,
   usagerRepository,
 } from "../../database";
-import { SmsService } from "../../sms/services/sms.service";
+import { MessageSmsService } from "../../sms/services/message-sms.service";
+
 import { UsagersService } from "../../usagers/services/usagers.service";
 import { AppUser, Structure, Usager, UsagerLight } from "../../_common/model";
 import {
@@ -21,7 +22,7 @@ export class InteractionsDeletor {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly interactionsSmsManager: InteractionsSmsManager,
-    private readonly smsService: SmsService
+    private readonly smsService: MessageSmsService
   ) {}
 
   public async deleteOrRestoreInteraction({
@@ -80,6 +81,7 @@ export class InteractionsDeletor {
 
         return this.usagersService.patch({ uuid: usager.uuid }, usager);
       }
+
       if (direction === "in") {
         // Suppression du SMS en file d'attente
         await this.smsService.deleteSmsInteraction(
@@ -89,7 +91,7 @@ export class InteractionsDeletor {
         );
       }
 
-      return await this.updateUsagerLastInteractionAfterDeleteLast({
+      return this.updateUsagerLastInteractionAfterDeleteLast({
         user,
         usager,
         interaction,
@@ -98,10 +100,6 @@ export class InteractionsDeletor {
     } else {
       // restore deleted interaction
 
-      if (interaction.type === "npai") {
-        // TODO @yassine faut-il un traitement particulier dans ce cas???
-      }
-
       // même traitement que lors de la création d'une interaction
       const created = await interactionsCreator.createInteraction({
         interaction: interaction.previousValue,
@@ -109,11 +107,13 @@ export class InteractionsDeletor {
         user,
       });
 
-      await this.interactionsSmsManager.updateSmsAfterCreation({
-        interaction: created.interaction,
-        structure,
-        usager: created.usager,
-      });
+      if (direction === "in") {
+        await this.interactionsSmsManager.updateSmsAfterCreation({
+          interaction: created.interaction,
+          structure,
+          usager: created.usager,
+        });
+      }
 
       const deleteInteraction = new InteractionsTable(
         interaction.previousValue

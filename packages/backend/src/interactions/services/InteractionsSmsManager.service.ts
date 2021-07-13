@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { interactionsTypeManager } from ".";
-import { SmsService } from "../../sms/services/sms.service";
+import { MessageSmsService } from "../../sms/services/message-sms.service";
+
 import { Structure, UsagerLight } from "../../_common/model";
 import {
   Interactions,
@@ -10,7 +11,7 @@ import {
 
 @Injectable()
 export class InteractionsSmsManager {
-  constructor(private readonly smsService: SmsService) {}
+  constructor(private readonly smsService: MessageSmsService) {}
 
   public async updateSmsAfterCreation({
     interaction,
@@ -28,21 +29,19 @@ export class InteractionsSmsManager {
         // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
         if (INTERACTION_IN_CREATE_SMS.includes(interaction.type)) {
           // TODO:  3. Numéro de téléphone valide
-          const sms = await this.smsService.createSmsInteraction(
+          await this.smsService.createSmsInteraction(
             usager,
             structure,
             interaction
           );
         } else if (INTERACTION_OUT_REMOVE_SMS.includes(interaction.type)) {
-          const len = interaction.type.length;
-
           const inType = interactionsTypeManager.getOppositeDirectionalType({
             type: interaction.type,
           });
 
           interaction.type = inType;
           // Suppression du SMS en file d'attente
-          const smsToDelete = await this.smsService.deleteSmsInteractionOut(
+          await this.smsService.deleteSmsInteractionOut(
             usager,
             structure.id,
             interaction
