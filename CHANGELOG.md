@@ -1,3 +1,10 @@
+## [2.9.1](https://github.com/SocialGouv/domifa/compare/v2.9.0...v2.9.1) (2021-07-13)
+
+
+### Bug Fixes
+
+* **interactions:** mise à jour du SMS seulement pour les interactions entrantes ([c295132](https://github.com/SocialGouv/domifa/commit/c295132397e926cd7dfd4977cb2663894db96cc8))
+
 # [2.9.0](https://github.com/SocialGouv/domifa/compare/v2.8.2...v2.9.0) (2021-07-13)
 
 
