@@ -1,3 +1,15 @@
+# [2.9.0](https://github.com/SocialGouv/domifa/compare/v2.8.2...v2.9.0) (2021-07-13)
+
+
+### Bug Fixes
+
+* **mail:** ajout lien [#1492](https://github.com/SocialGouv/domifa/issues/1492) ([#1496](https://github.com/SocialGouv/domifa/issues/1496)) ([40c2a7e](https://github.com/SocialGouv/domifa/commit/40c2a7e306cb736ad87d33d8f6afe6749ac8fce6))
+
+
+### Features
+
+* tracer suppression interactions [#1432](https://github.com/SocialGouv/domifa/issues/1432) ([c180240](https://github.com/SocialGouv/domifa/commit/c18024082d397d951354c741bd8561894af0664f))
+
 ## [2.8.2](https://github.com/SocialGouv/domifa/compare/v2.8.1...v2.8.2) (2021-07-12)
 
 
