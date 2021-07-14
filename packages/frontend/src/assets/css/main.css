@@ -510,3 +510,33 @@ table .active {
   background-color: #efefef;
   color: #282828;
 }
+
+.label-info {
+  border-radius: 50px;
+  padding: 3px 12px;
+  margin: 2px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.label-info div {
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.label-danger {
+  background-color: #ffe5dd;
+  color: #b51515;
+  min-width: 135px;
+}
+
+.label-green {
+  background-color: #d4f4ed;
+  color: #486346;
+}
+
+.label-yellow {
+  background-color: #feedd1;
+  color: #282828;
+}

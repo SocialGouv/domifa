@@ -2,10 +2,11 @@ import {
   InteractionEvent,
   Interactions,
 } from "../../../../_common/model/interaction";
+
 import {
-  interactionsLabels,
-  interactionsLabelsPluriel,
-} from "../interactions.labels";
+  INTERACTIONS_LABELS_PLURIEL,
+  INTERACTIONS_LABELS_SINGULIER,
+} from "../../../../_common/model/interaction/INTERACTIONS_LABELS.const";
 
 export class Interaction {
   public _id: string;
@@ -54,10 +55,10 @@ export class Interaction {
       this.label = nbCourrierTemp.toString() + " ";
       this.label =
         nbCourrierTemp > 1
-          ? this.label + interactionsLabelsPluriel[this.type].toLowerCase()
-          : this.label + interactionsLabels[this.type].toLowerCase();
+          ? this.label + INTERACTIONS_LABELS_PLURIEL[this.type].toLowerCase()
+          : this.label + INTERACTIONS_LABELS_SINGULIER[this.type].toLowerCase();
     } else {
-      this.label = interactionsLabels[this.type];
+      this.label = INTERACTIONS_LABELS_SINGULIER[this.type];
     }
   }
 }

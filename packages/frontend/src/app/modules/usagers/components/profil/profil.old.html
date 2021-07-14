@@ -357,7 +357,7 @@
 
   <ngb-accordion
     #acc="ngbAccordion"
-    activeIds="panel-0,panel-9,panel-1,panel-10,panel-2,panel-4,panel-5,panel-6"
+    activeIds="panel-0,panel-9,panel-1,panel-10,panel-2,panel-4,panel-5,panel-6,panel-13"
   >
     <ngb-panel id="panel-0" *ngIf="usager.decision.statut !== 'REFUS'">
       <ng-template ngbPanelHeader let-opened="opened">
@@ -730,6 +730,29 @@
           [me]="me"
           [usager]="usager"
         ></app-profil-edit-preference>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel
+      id="panel-13"
+      *ngIf="me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure"
+    >
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="head-panel">
+          <button ngbPanelToggle class="btn btn-link">
+            <span>HISTORIQUE DES SMS ENVOYÉS</span>
+            <span class="arrows">
+              <fa-icon *ngIf="opened" icon="chevron-down"></fa-icon>
+              <fa-icon *ngIf="!opened" icon="chevron-right"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <app-profil-historique-sms
+          [me]="me"
+          [usager]="usager"
+        ></app-profil-historique-sms>
       </ng-template>
     </ngb-panel>
 
