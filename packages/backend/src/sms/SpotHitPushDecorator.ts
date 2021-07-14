@@ -6,6 +6,7 @@ export const SpotHitPushDecorator = createParamDecorator(
     const req = ctx.switchToHttp().getRequest();
     const result = new SuiviSmsDto();
 
+    console.log(req.query);
     result.id_accuse = req.query?.id_accuse || null;
     result.id_message = req.query?.id_message || null;
     result.numero = req.query?.numero || null;
