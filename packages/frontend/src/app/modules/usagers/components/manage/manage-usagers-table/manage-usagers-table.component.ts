@@ -21,6 +21,7 @@ import {
   InteractionForApi,
   InteractionType,
 } from "../../../../../../_common/model/interaction";
+import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/interaction/constants";
 
 import { isProcurationActifMaintenant } from "../../../services";
 import { InteractionService } from "../../../services/interaction.service";
