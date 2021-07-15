@@ -36,11 +36,12 @@
             [usager]="usager"
           ></app-display-etat-civil>
 
-          <app-display-etat-civil-form
+          <app-profil-etat-civil-form
             [usager]="usager"
             *ngIf="editInfos"
+            (usagerChanges)="onUsagerChanges($event)"
             [(editInfos)]="editInfos"
-          ></app-display-etat-civil-form>
+          ></app-profil-etat-civil-form>
         </div>
       </div>
 
@@ -72,6 +73,7 @@
           <app-entretien
             *ngIf="editEntretien"
             [(editEntretien)]="editEntretien"
+            (usagerChanges)="onUsagerChanges($event)"
             [(usager)]="usager"
           ></app-entretien>
 

@@ -409,13 +409,18 @@
                     ?</span
                   >
                   <button
+<<<<<<< HEAD
                     class="btn btn-danger"
                     (click)="deleteInteraction(interaction.uuid)"
+=======
+                    class="btn btn-danger ml-2"
+                    (click)="deleteInteraction(interaction.id)"
+>>>>>>> 3062b1b4 (fix: tests et ajout des suppression d'interaction)
                   >
                     Oui
                   </button>
                   <button
-                    class="btn btn-dark"
+                    class="btn btn-dark ml-2"
                     (click)="interaction.delete = false"
                   >
                     Non

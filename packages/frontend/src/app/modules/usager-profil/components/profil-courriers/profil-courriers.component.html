@@ -8,6 +8,7 @@
         <div class="col-md-12 my-4">
           <app-profil-edit-preference
             [usager]="usager"
+            (usagerChanges)="onUsagerChanges($event)"
             [me]="me"
           ></app-profil-edit-preference>
         </div>

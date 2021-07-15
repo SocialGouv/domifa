@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
+import { usagersSearchCache } from "../../../shared/store";
 import { Entretien } from "../../usagers/interfaces/entretien";
 
 export type UsagersImportMode = "preview" | "confirm";
@@ -22,9 +23,16 @@ export class EntretienService {
     entretien: Entretien,
     usagerRef: number
   ): Observable<UsagerLight> {
-    return this.http.post<UsagerLight>(
-      `${this.endPointUsagers}/entretien/${usagerRef}`,
-      entretien
-    );
+    return this.http
+      .post<UsagerLight>(
+        `${this.endPointUsagers}/entretien/${usagerRef}`,
+        entretien
+      )
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          usagersSearchCache.updateUsager(newUsager);
+          return newUsager;
+        })
+      );
   }
 }

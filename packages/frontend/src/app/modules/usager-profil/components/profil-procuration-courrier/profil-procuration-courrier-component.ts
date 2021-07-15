@@ -147,6 +147,11 @@ export class UsagersProfilProcurationCourrierComponent implements OnInit {
   }
 
   public deleteProcuration() {
+    if (!this.usager.options.procuration.actif) {
+      this.hideForm();
+      return;
+    }
+
     this.usagerProfilService.deleteProcuration(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.hideForm();

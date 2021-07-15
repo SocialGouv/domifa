@@ -131,6 +131,11 @@ export class UsagersProfilTransfertCourrierComponent implements OnInit {
   }
 
   public deleteTransfert() {
+    if (!this.usager.options.transfert.actif) {
+      this.hideForm();
+      return;
+    }
+
     this.usagerProfilService.deleteTransfert(this.usager.ref).subscribe(
       (usager: UsagerLight) => {
         this.usagerChanges.emit(usager);
