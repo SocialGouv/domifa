@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-import { usagerValideMock } from "../../../../../../_common/mocks/usagerValideMock.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../../usagers/components/form/UsagerFormModel";
 
 import { SetInteractionOutFormComponent } from "./set-interaction-out-form.component";
@@ -42,7 +42,7 @@ describe("SetInteractionOutFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SetInteractionOutFormComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(usagerValideMock);
+    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
 
     fixture.detectChanges();
   });

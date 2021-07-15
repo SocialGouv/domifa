@@ -1,5 +1,3 @@
-import { usagerValideMock } from "./../../../../../_common/mocks/usager.mock";
-
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -18,6 +16,7 @@ import { ProfilDocumentsSectionComponent } from "./profil-documents-section.comp
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french";
+import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 
 describe("ProfilDocumentsSectionComponent", () => {
   let component: ProfilDocumentsSectionComponent;
@@ -65,7 +64,7 @@ describe("ProfilDocumentsSectionComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilDocumentsSectionComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(usagerValideMock);
+    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
     fixture.detectChanges();
   });
 

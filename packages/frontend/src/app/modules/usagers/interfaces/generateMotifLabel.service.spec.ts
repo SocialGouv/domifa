@@ -1,10 +1,10 @@
 import { usagerRefusMock } from "../../../../_common/mocks/usagerRefus.mock";
-import { usagerValideMock } from "../../../../_common/mocks/usagerValideMock.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks/USAGER_ACTIF.mock";
 import { generateMotifLabel } from "./generateMotifLabel.service";
 
 describe("generateMotifLabel", () => {
   it("generateMotifLabel  ", async () => {
-    expect(generateMotifLabel(usagerValideMock.decision)).toEqual("");
+    expect(generateMotifLabel(USAGER_ACTIF_MOCK.decision)).toEqual("");
 
     usagerRefusMock.decision.motif = "HORS_AGREMENT";
     expect(generateMotifLabel(usagerRefusMock.decision)).toEqual(

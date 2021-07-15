@@ -8,7 +8,7 @@ import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 
 import { SetInteractionInFormComponent } from "./set-interaction-in-form.component";
-import { usagerValideMock } from "../../../../../../_common/mocks/usagerValideMock.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../../usagers/components/form/UsagerFormModel";
 
 describe("SetInteractionInFormComponent", () => {
@@ -48,7 +48,7 @@ describe("SetInteractionInFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SetInteractionInFormComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(usagerValideMock);
+    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
     fixture.detectChanges();
   });
 

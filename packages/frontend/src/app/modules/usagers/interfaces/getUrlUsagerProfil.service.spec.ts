@@ -1,4 +1,4 @@
-import { usagerValideMock } from "../../../../_common/mocks/usagerValideMock.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks/USAGER_ACTIF.mock";
 import {
   ETAPE_DOCUMENTS,
   ETAPE_ENTRETIEN,
@@ -8,40 +8,40 @@ import {
 import { getUrlUsagerProfil } from "./getUrlUsagerProfil.service";
 
 it("getUrlUsagerProfil: redirection vers le profil", () => {
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/profil/general/5");
+  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual("/profil/general/5");
 
   // Refus = page profil
-  usagerValideMock.decision.statut = "REFUS";
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/profil/general/5");
+  USAGER_ACTIF_MOCK.decision.statut = "REFUS";
+  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual("/profil/general/5");
 
   // Radié = page profil
-  usagerValideMock.decision.statut = "RADIE";
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/profil/general/5");
+  USAGER_ACTIF_MOCK.decision.statut = "RADIE";
+  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual("/profil/general/5");
 
   // Attente décision = page de décision
-  usagerValideMock.decision.statut = "ATTENTE_DECISION";
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual(
+  USAGER_ACTIF_MOCK.decision.statut = "ATTENTE_DECISION";
+  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual(
     "/usager/5/edit/decision"
   );
 
   // Renouvellement + instruction = retour à la page profil
-  usagerValideMock.decision.statut = "INSTRUCTION";
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual("/profil/general/5");
+  USAGER_ACTIF_MOCK.decision.statut = "INSTRUCTION";
+  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual("/profil/general/5");
 
   // Premiere demande + instruction = Aller sur le dossier d'instruction
-  usagerValideMock.typeDom = "PREMIERE_DOM";
-  usagerValideMock.etapeDemande = ETAPE_DOCUMENTS;
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual(
+  USAGER_ACTIF_MOCK.typeDom = "PREMIERE_DOM";
+  USAGER_ACTIF_MOCK.etapeDemande = ETAPE_DOCUMENTS;
+  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual(
     "/usager/5/edit/documents"
   );
 
-  usagerValideMock.etapeDemande = ETAPE_ENTRETIEN;
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual(
+  USAGER_ACTIF_MOCK.etapeDemande = ETAPE_ENTRETIEN;
+  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual(
     "/usager/5/edit/entretien"
   );
 
-  usagerValideMock.etapeDemande = ETAPE_ETAT_CIVIL;
-  expect(getUrlUsagerProfil(usagerValideMock)).toEqual(
+  USAGER_ACTIF_MOCK.etapeDemande = ETAPE_ETAT_CIVIL;
+  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual(
     "/usager/5/edit/etat-civil"
   );
 

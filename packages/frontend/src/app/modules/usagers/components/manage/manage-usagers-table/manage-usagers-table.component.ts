@@ -27,8 +27,7 @@ import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../../_common/model/i
 import { isProcurationActifMaintenant } from "../../../services";
 import { isTransfertActifMaintenant } from "../../../services/transfert.service";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
-import { isProcurationActifMaintenant } from "../../../services";
-import { isTransfertActifMaintenant } from "../../../services/transfert.service";
+
 import { UsagerFormModel } from "../../form/UsagerFormModel";
 import {
   UsagersFilterCriteria,
