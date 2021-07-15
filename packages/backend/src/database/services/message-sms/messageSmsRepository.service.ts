@@ -2,8 +2,9 @@ import { InteractionType, MessageSms } from "../../../_common/model";
 import { MessageSmsTable } from "../../entities/message-sms/MessageSmsTable.typeorm";
 import { pgRepository } from "../_postgres";
 
-const baseRepository =
-  pgRepository.get<MessageSmsTable, MessageSms>(MessageSmsTable);
+const baseRepository = pgRepository.get<MessageSmsTable, MessageSms>(
+  MessageSmsTable
+);
 
 export const SMS_ON_HOLD_INTERACTION: (keyof MessageSms)[] = [
   "uuid",
@@ -45,7 +46,7 @@ async function findSmsOnHold({
     "structureId"=:structureId `,
     params: {
       usagerRef,
-      structureId: structureId,
+      structureId,
       interactionType,
     },
   });
