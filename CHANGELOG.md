@@ -1,3 +1,17 @@
+# [2.10.0](https://github.com/SocialGouv/domifa/compare/v2.9.1...v2.10.0) (2021-07-15)
+
+
+### Bug Fixes
+
+* add log for retour api ([3d4a25c](https://github.com/SocialGouv/domifa/commit/3d4a25c5fd4ce2f78f9f10564fb00de6802098cf))
+* correction des tests + affichage des status ([4098291](https://github.com/SocialGouv/domifa/commit/4098291326f95a3aca0538fb33c6fed7a63972c5))
+* oubli de fichier ([4ef9c24](https://github.com/SocialGouv/domifa/commit/4ef9c24dbe2ba61285747a46c6454abe6ee481b4))
+
+
+### Features
+
+* **sms:** Ajout d'un historique des sms envoyés ([641c49f](https://github.com/SocialGouv/domifa/commit/641c49fdd8adf00f74f89f01ca9e0887ddcc92ee))
+
 ## [2.9.1](https://github.com/SocialGouv/domifa/compare/v2.9.0...v2.9.1) (2021-07-13)
 
 
