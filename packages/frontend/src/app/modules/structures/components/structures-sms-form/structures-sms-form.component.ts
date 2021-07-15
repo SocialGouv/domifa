@@ -6,7 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { AppUser, StructureCommon } from "../../../../../_common/model";
 
 import { AuthService } from "../../../shared/services/auth.service";
-import { interactionsLabels } from "../../../usagers/interactions.labels";
+
 import { generateSender } from "../../services/generateSender.service";
 import { StructureService } from "../../services/structure.service";
 
@@ -22,8 +22,6 @@ export class StructuresSmsFormComponent implements OnInit {
   public submitted: boolean;
   public structureSmsForm!: FormGroup;
 
-  public interactionsLabels: any;
-
   constructor(
     private formBuilder: FormBuilder,
     private structureService: StructureService,
@@ -31,8 +29,6 @@ export class StructuresSmsFormComponent implements OnInit {
     private authService: AuthService,
     private titleService: Title
   ) {
-    this.interactionsLabels = interactionsLabels;
-
     this.me = null;
     this.structure = null;
     this.submitted = false;

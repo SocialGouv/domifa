@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { AppUser } from "../../../../../_common/model";
-import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/INTERACTIONS_LABELS.const";
+import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
+
 import { MessageSms } from "../../../../../_common/model/message-sms";
 import { MESSAGE_SMS_STATUS_LABEL_COLOR } from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS_LABEL_COLOR.const";
 import { UsagerService } from "../../services/usager.service";

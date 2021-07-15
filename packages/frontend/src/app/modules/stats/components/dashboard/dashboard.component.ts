@@ -9,8 +9,9 @@ import {
   Subscription,
 } from "rxjs";
 import { map } from "rxjs/operators";
-import { interactionsLabelsPluriel } from "src/app/modules/usagers/interactions.labels";
+
 import * as labels from "src/app/modules/usagers/usagers.labels";
+
 import {
   dataCompare,
   departements,
@@ -24,6 +25,7 @@ import {
   Structure,
   StructureAdmin,
 } from "../../../../../_common/model";
+import { INTERACTIONS_LABELS_PLURIEL } from "../../../../../_common/model/interaction/constants";
 import { StatsService } from "../services/stats.service";
 import { buildExportStructureStatsFileName } from "../structure-stats/structure-stats.component";
 
@@ -55,7 +57,8 @@ type DashboardTableSortAttribute =
   templateUrl: "./dashboard.component.html",
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  public interactionsLabels: any;
+  public INTERACTIONS_LABELS_PLURIEL = INTERACTIONS_LABELS_PLURIEL;
+
   public stats$ = new ReplaySubject<DashboardStats>(1);
   public stats: DashboardStats;
   public sortAttribute$ = new BehaviorSubject<{
@@ -97,7 +100,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private notifService: ToastrService
   ) {
-    this.interactionsLabels = interactionsLabelsPluriel;
     this.labels = labels;
     this.regions = REGIONS_LABELS_MAP;
     this.departements = departements;

@@ -29,7 +29,7 @@ import { InteractionType } from "../../../../../_common/model/interaction";
 import { StructureDocTypesAvailable } from "../../../../../_common/model/structure-doc";
 import { ETAPES_DEMANDE_URL } from "../../../../../_common/model/usager/constants";
 import { languagesAutocomplete } from "../../../../shared";
-import { interactionsLabels } from "../../interactions.labels";
+
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { Interaction } from "../../interfaces/interaction";
 import { Options } from "../../interfaces/options";
@@ -39,7 +39,9 @@ import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
 import * as usagersLabels from "../../usagers.labels";
 import { UsagerFormModel } from "../form/UsagerFormModel";
-import { INTERACTIONS_IN_AVAILABLE } from "./../../../../../_common/model/interaction/INTERACTIONS_IN_AVAILABLE.const";
+
+import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction/constants/INTERACTIONS_IN_AVAILABLE.const";
+import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
 
 @Component({
   providers: [
@@ -72,9 +74,7 @@ export class UsagersProfilComponent implements OnInit {
     maxResults: 10,
   });
 
-  public interactionsLabels: {
-    [key: string]: any;
-  } = interactionsLabels;
+  public INTERACTIONS_LABELS_SINGULIER = INTERACTIONS_LABELS_SINGULIER;
 
   public actions: {
     [key: string]: any;
@@ -384,7 +384,7 @@ export class UsagersProfilComponent implements OnInit {
         ])
         .subscribe(
           (usager: UsagerLight) => {
-            this.notifService.success(interactionsLabels[item]);
+            this.notifService.success(INTERACTIONS_LABELS_SINGULIER[item]);
             this.usager = new UsagerFormModel(usager);
             this.usager.lastInteraction = usager.lastInteraction;
             this.notifInputs[item] = 0;
@@ -441,8 +441,7 @@ export class UsagersProfilComponent implements OnInit {
       .subscribe(
         (usager: UsagerLight) => {
           this.usager = new UsagerFormModel(usager);
-
-          this.notifService.success(interactionsLabels[type]);
+          this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
           this.usager.lastInteraction = usager.lastInteraction;
           this.getInteractions();
         },

@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
@@ -18,8 +19,7 @@ import { ToastrService } from "ngx-toastr";
 import { Subscription } from "rxjs";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter";
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
-import { interactionsLabels } from "src/app/modules/usagers/interactions.labels";
-import * as labels from "src/app/modules/usagers/usagers.labels";
+
 import { AppUser, StructureStatsFull } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StatsService } from "../services/stats.service";
@@ -33,11 +33,8 @@ import { StatsService } from "../services/stats.service";
   styleUrls: ["./structure-stats.component.css"],
   templateUrl: "./structure-stats.component.html",
 })
-export class StatsComponent implements OnInit, AfterViewInit {
+export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public stats: StructureStatsFull;
-
-  public labels;
-  public interactionsLabels: any;
 
   public exportLoading: boolean;
   public showCalendar: boolean;
@@ -54,6 +51,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
 
   public fromDate: NgbDate;
   public toDate: NgbDate | null = null;
+
   private defaultStartDate: Date;
   private defaultEndDate: Date;
 
@@ -70,10 +68,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
     private cdRef: ChangeDetectorRef,
     private matomo: MatomoTracker,
     private authService: AuthService
-  ) {
-    this.labels = labels;
-    this.interactionsLabels = interactionsLabels;
-  }
+  ) {}
 
   public ngOnInit() {
     this.titleService.setTitle("Rapport d'activité de votre structure");
@@ -101,6 +96,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
       })
     );
   }
+
   public ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }

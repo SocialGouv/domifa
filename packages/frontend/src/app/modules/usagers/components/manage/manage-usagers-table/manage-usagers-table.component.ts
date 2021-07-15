@@ -21,7 +21,7 @@ import {
   InteractionForApi,
   InteractionType,
 } from "../../../../../../_common/model/interaction";
-import { interactionsLabels } from "../../../interactions.labels";
+
 import { isProcurationActifMaintenant } from "../../../services";
 import { InteractionService } from "../../../services/interaction.service";
 import { isTransfertActifMaintenant } from "../../../services/transfert.service";
@@ -95,6 +95,7 @@ export class ManageUsagersTableComponent implements OnInit {
   public isProcurationActifMaintenant(procuration: UsagerOptionsProcuration) {
     return isProcurationActifMaintenant(procuration);
   }
+
   public isTransfertActifMaintenant(transfert: UsagerOptionsTransfert) {
     return isTransfertActifMaintenant(transfert);
   }
@@ -112,10 +113,9 @@ export class ManageUsagersTableComponent implements OnInit {
       (newUsager: UsagerLight) => {
         usager = new UsagerFormModel(newUsager);
         this.updateUsager.emit(usager);
-
-        this.notifService.success(interactionsLabels[type]);
+        this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
       }
     );
@@ -130,6 +130,7 @@ export class ManageUsagersTableComponent implements OnInit {
     this.selectedUsager = usager;
     this.modalService.open(this.setInteractionOutModal, this.modalOptions);
   }
+
   public cancelReception() {
     this.modalService.dismissAll();
   }

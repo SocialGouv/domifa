@@ -10,10 +10,8 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, combineLatest, Subscription } from "rxjs";
 import { UsagerLight } from "../../../../../../_common/model";
-import {
-  InteractionOutForm,
-  INTERACTIONS_OUT_AVAILABLE,
-} from "../../../../../../_common/model/interaction";
+import { InteractionOutForm } from "../../../../../../_common/model/interaction";
+import { INTERACTIONS_OUT_AVAILABLE } from "../../../../../../_common/model/interaction/constants";
 import { bounce } from "../../../../../shared/animations";
 import { Interaction } from "../../../interfaces/interaction";
 import { isProcurationActifMaintenant } from "../../../services";
@@ -40,6 +38,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
 
   public interactionFormData: InteractionOutForm;
   public interactionFormData$ = new BehaviorSubject<InteractionOutForm>();
+
   public procuration: boolean; // Mandataire = true / domicilié = false
 
   public displayProcuration() {
@@ -106,11 +105,11 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
               if (interaction.content) {
                 if (
                   (interaction.type === "courrierIn" &&
-                    interactionFormData["courrierOut"]?.selected) ||
+                    interactionFormData.courrierOut?.selected) ||
                   (interaction.type === "recommandeIn" &&
-                    interactionFormData["recommandeOut"]?.selected) ||
+                    interactionFormData.recommandeOut?.selected) ||
                   (interaction.type === "colisIn" &&
-                    interactionFormData["colisOut"]?.selected)
+                    interactionFormData.colisOut?.selected)
                 ) {
                   selectedInteractionsWithContent.push(interaction);
                 }
@@ -171,6 +170,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       .findOne(this.usager.ref)
       .subscribe((usager: UsagerLight) => {
         this.usagerChange.emit(new UsagerFormModel(usager));
+
         this.cancelReception.emit();
       });
   }

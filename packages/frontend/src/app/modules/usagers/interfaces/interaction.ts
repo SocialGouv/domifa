@@ -6,7 +6,7 @@ import {
 import {
   INTERACTIONS_LABELS_PLURIEL,
   INTERACTIONS_LABELS_SINGULIER,
-} from "../../../../_common/model/interaction/INTERACTIONS_LABELS.const";
+} from "../../../../_common/model/interaction/constants";
 
 export class Interaction {
   public _id: string;
