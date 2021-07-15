@@ -37,7 +37,7 @@ describe("EntretienComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EntretienComponent);
     component = fixture.debugElement.componentInstance;
-    // const usager = usagerValideMock;
+    // const usager = USAGER_ACTIF_MOCK;
     // component.usager = usager;
   });
 

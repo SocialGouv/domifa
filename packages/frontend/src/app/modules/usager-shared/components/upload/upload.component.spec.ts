@@ -2,7 +2,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { usagerValideMock } from "../../../../../_common/mocks/usagerValideMock.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagersModule } from "../../../usagers/usagers.module";
 
 import { UploadComponent } from "./upload.component";
@@ -40,7 +40,7 @@ describe("UploadComponent", () => {
     fixture = TestBed.createComponent(UploadComponent);
     component = fixture.componentInstance;
 
-    component.usager = usagerValideMock;
+    component.usager = USAGER_ACTIF_MOCK;
   });
 
   it("should create", () => {

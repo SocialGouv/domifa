@@ -9,8 +9,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-import { usagerValideMock } from "../../../../../_common/mocks/usagerValideMock.mock";
 import { SharedModule } from "../../../shared/shared.module";
+import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 
 import { ProfilEditPreferenceComponent } from "./profil-edit-preference.component";
@@ -55,7 +55,7 @@ describe("ProfilEditPreferenceComponent", () => {
 
     fixture = TestBed.createComponent(ProfilEditPreferenceComponent);
     component = fixture.debugElement.componentInstance;
-    component.usager = new UsagerFormModel(usagerValideMock);
+    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
     component.ngOnInit();
   });
 

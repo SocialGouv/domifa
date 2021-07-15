@@ -4,7 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 import { UsagersModule } from "src/app/modules/usagers/usagers.module";
-import { usagerValideMock } from "../../../../../../../_common/mocks/usagerValideMock.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../../../../_common/mocks/USAGER_ACTIF.mock";
 
 import { UsagerFormModel } from "../../UsagerFormModel";
 import { RdvComponent } from "./rdv.component";
@@ -41,7 +41,7 @@ describe("RdvComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RdvComponent);
     component = fixture.debugElement.componentInstance;
-    component.usager = new UsagerFormModel(usagerValideMock);
+    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
   });
 
   it("should create", () => {

@@ -6,7 +6,7 @@ import { AppUser, UsagerLight } from "../../../../../_common/model";
 import { InteractionType } from "../../../../../_common/model/interaction";
 
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { interactionsLabels } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
+
 import { Interaction } from "../../../usagers/interfaces/interaction";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
 
@@ -21,9 +21,6 @@ export class ProfilHistoriqueCourriersComponent implements OnInit {
 
   public typeInteraction: InteractionType;
   public interactions: Interaction[];
-  public interactionsLabels: {
-    [key: string]: any;
-  } = interactionsLabels;
 
   constructor(
     private notifService: ToastrService,

@@ -18,13 +18,13 @@ import {
 import { AuthService } from "../../../shared/services/auth.service";
 
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
-import { interactionsLabels } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
 
 import { Interaction } from "../../../usagers/interfaces/interaction";
 
 import { UsagerProfilService } from "../../services/usager-profil.service";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
 import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/labels";
+import { INTERACTIONS_LABELS_SINGULIER } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
 
 @Component({
   selector: "app-profil-general-section",
@@ -34,10 +34,6 @@ import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usag
 export class ProfilGeneralSectionComponent implements OnInit {
   public typeInteraction: InteractionType;
   public interactions: Interaction[];
-
-  public interactionsLabels: {
-    [key: string]: any;
-  } = interactionsLabels;
 
   public actions: {
     [key: string]: any;
@@ -135,7 +131,7 @@ export class ProfilGeneralSectionComponent implements OnInit {
       (newUsager: UsagerLight) => {
         usager = new UsagerFormModel(newUsager);
 
-        this.notifService.success(interactionsLabels[type]);
+        this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
       },
       (error) => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
