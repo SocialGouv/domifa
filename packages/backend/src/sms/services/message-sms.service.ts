@@ -158,6 +158,7 @@ export class MessageSmsService {
         structureId: structure.id,
         content,
         senderName: structure.sms.senderName,
+        status: "TO_SEND",
         smsId: interaction.type,
         phoneNumber: usager.preference.phoneNumber,
         scheduledDate,

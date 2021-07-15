@@ -37,7 +37,6 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
           ToastrModule.forRoot(),
           HttpClientTestingModule,
           ReactiveFormsModule,
-          FormsModule,
         ],
         providers: [
           {

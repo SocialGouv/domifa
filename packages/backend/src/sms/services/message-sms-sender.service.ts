@@ -1,4 +1,3 @@
-import { SuiviSmsDto } from "./../suivi-sms.dto";
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosError } from "axios";
 import { Repository } from "typeorm";
@@ -11,7 +10,6 @@ import {
   MessageSmsSendResponse,
   MESSAGE_SMS_RESPONSE_ERRORS,
 } from "../../_common/model/message-sms";
-import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 
 @Injectable()
 export class MessageSmsSenderService {

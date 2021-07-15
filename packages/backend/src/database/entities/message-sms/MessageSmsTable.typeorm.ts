@@ -14,7 +14,8 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 @Entity({ name: "message_sms" })
 export class MessageSmsTable
   extends AppTypeormTable<MessageSmsTable>
-  implements MessageSms {
+  implements MessageSms
+{
   // Infos usager
   @Column({ type: "integer" })
   public usagerRef: number;

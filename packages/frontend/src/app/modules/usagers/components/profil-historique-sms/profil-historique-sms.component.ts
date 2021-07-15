@@ -20,7 +20,9 @@ export class ProfilHistoriqueSmsComponent implements OnInit {
 
   public messagesList: MessageSms[];
 
-  constructor(private usagerService: UsagerService) {}
+  constructor(private usagerService: UsagerService) {
+    this.usager = new UsagerFormModel();
+  }
 
   public ngOnInit(): void {
     this.usagerService.findMySms(this.usager).subscribe({
