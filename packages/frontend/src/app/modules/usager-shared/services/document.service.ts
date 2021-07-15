@@ -1,6 +1,8 @@
 import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { saveAs } from "file-saver";
+
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UsagerDoc } from "../../../../_common/model";
