@@ -10,8 +10,8 @@ import { ToastrService } from "ngx-toastr";
 import {
   InteractionIn,
   InteractionInForm,
-  INTERACTIONS_IN_AVAILABLE,
 } from "../../../../../../_common/model/interaction";
+import { INTERACTIONS_IN_AVAILABLE } from "../../../../../../_common/model/interaction/constants";
 import { UsagerLight } from "../../../../../../_common/model/usager/UsagerLight.type";
 import { bounce } from "../../../../../shared/animations";
 import { InteractionService } from "../../../services/interaction.service";
@@ -60,21 +60,6 @@ export class SetInteractionInFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {}
-
-  // Ajout de courrier / colis / recommandé entrant
-  public setInteractionIn(usager: UsagerFormModel) {
-    this.interactionService
-      .setInteractionIN(usager, this.interactionFormData)
-      .subscribe(
-        (response: UsagerLight) => {
-          usager = new UsagerFormModel(response);
-          // this.notifService.success(interactionsLabels[type]);
-        },
-        (error) => {
-          this.notifService.error("Impossible d'enregistrer cette interaction");
-        }
-      );
-  }
 
   public setInteractionForm() {
     const interactionsToSave = INTERACTIONS_IN_AVAILABLE.reduce(

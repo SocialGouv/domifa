@@ -5,7 +5,7 @@ import {
   UsagerSexe,
   UsagerTypeDom,
 } from "../../../../../_common/model";
-import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction";
+
 import {
   ETAPE_ETAT_CIVIL,
   USAGER_DECISION_STATUT_LABELS,
@@ -24,6 +24,7 @@ import { getUrlUsagerProfil } from "../../interfaces/getUrlUsagerProfil.service"
 import { Options } from "../../interfaces/options";
 import { Rdv } from "../../interfaces/rdv";
 import { usagersFilter, UsagersFilterCriteria } from "../manage/usager-filter";
+import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction/constants";
 
 export class UsagerFormModel implements UsagerLight {
   public ref: number;

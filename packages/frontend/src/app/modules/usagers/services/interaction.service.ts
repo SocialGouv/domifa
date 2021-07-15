@@ -25,8 +25,8 @@ export class InteractionService {
     return this.http
       .post<UsagerLight>(`${this.endPoint}${usager.ref}`, interactions)
       .pipe(
-        tap((usager: UsagerLight) => {
-          usagersSearchCache.updateUsager(usager);
+        tap((newUsager: UsagerLight) => {
+          usagersSearchCache.updateUsager(newUsager);
         })
       );
   }
