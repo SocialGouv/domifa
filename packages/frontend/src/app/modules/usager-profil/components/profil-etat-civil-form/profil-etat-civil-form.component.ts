@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
-import { ActivatedRoute, Router } from "@angular/router";
+
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
   NgbDateStruct,
   NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoTracker } from "ngx-matomo";
+
 import { ToastrService } from "ngx-toastr";
 import { UsagerLight } from "../../../../../_common/model";
 import { languagesAutocomplete } from "../../../../shared";
@@ -37,6 +36,7 @@ import { UsagerService } from "../../../usagers/services/usager.service";
 })
 export class ProfilEtatCivilFormComponent implements OnInit {
   @Input() public usager: UsagerFormModel;
+  @Output() public usagerChanges = new EventEmitter<UsagerLight>();
 
   public usagerForm!: FormGroup;
   public submitted: boolean;
@@ -153,14 +153,11 @@ export class ProfilEtatCivilFormComponent implements OnInit {
           this.submitted = false;
           this.editInfosChange.emit(false);
           this.notifService.success("Enregistrement réussi");
-          this.usager = new UsagerFormModel(usager);
+
+          this.usagerChanges.emit(usager);
         },
-        (error) => {
-          if (error.statusCode && error.statusCode === 400) {
-            this.notifService.error(
-              "Veuillez vérifiez les champs du formulaire"
-            );
-          }
+        () => {
+          this.notifService.error("Veuillez vérifiez les champs du formulaire");
         }
       );
     }

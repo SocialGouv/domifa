@@ -5,21 +5,12 @@
     </div>
     <div *ngIf="!isRole('facteur') && usager.decision.statut !== 'REFUS'">
       <button
-        *ngIf="!isFormVisible && usager.options.transfert.actif "
+        *ngIf="!isFormVisible"
         (click)="showForm()"
         class="btn btn-outline-dark ml-2"
       >
         <fa-icon icon="pencil-alt" class="mr-2"></fa-icon>
         Modifier le transfert
-      </button>
-
-      <button
-        (click)="showForm()"
-        class="btn btn-outline-primary ml-2"
-        *ngIf="!isFormVisible && !usager.options.transfert.actif"
-      >
-        <fa-icon icon="plus" class="mr-2"></fa-icon>
-        Activer le transfert de courrier
       </button>
 
       <button

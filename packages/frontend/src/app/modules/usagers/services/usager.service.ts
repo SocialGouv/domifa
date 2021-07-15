@@ -1,8 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { saveAs } from "file-saver";
-import { MatomoTracker } from "ngx-matomo";
-import { ToastrService } from "ngx-toastr";
+
 import { Observable } from "rxjs";
 import { filter, map, startWith, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
@@ -10,7 +8,7 @@ import { MessageSms } from "../../../../_common/model/message-sms";
 import { UsagerDecisionForm } from "../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 import { usagersSearchCache } from "../../../shared/store";
-import { LoadingService } from "../../loading/loading.service";
+
 import { UsagerFormModel } from "../components/form/UsagerFormModel";
 import { ImportPreviewTable } from "../components/import/preview";
 import { Entretien } from "../interfaces/entretien";
@@ -32,13 +30,15 @@ export class UsagerService {
         ? this.http
             .patch<UsagerLight>(`${this.endPointUsagers}/${usager.ref}`, usager)
             .pipe(
-              tap((usager: UsagerLight) => {
-                usagersSearchCache.updateUsager(usager);
+              tap((newUsager: UsagerLight) => {
+                usagersSearchCache.updateUsager(newUsager);
+                return newUsager;
               })
             )
         : this.http.post<UsagerLight>(`${this.endPointUsagers}`, usager).pipe(
-            tap((usager: UsagerLight) => {
-              usagersSearchCache.createUsager(usager);
+            tap((newUsager: UsagerLight) => {
+              usagersSearchCache.createUsager(newUsager);
+              return newUsager;
             })
           );
 
@@ -63,22 +63,6 @@ export class UsagerService {
     return this.http.get<UsagerLight>(
       `${this.endPointUsagers}/next-step/${usagerRef}/${etapeDemande}`
     );
-  }
-
-  public entretien(
-    entretien: Entretien,
-    usagerRef: number
-  ): Observable<UsagerLight> {
-    return this.http
-      .post<UsagerLight>(
-        `${this.endPointUsagers}/entretien/${usagerRef}`,
-        entretien
-      )
-      .pipe(
-        tap((usager: UsagerLight) => {
-          usagersSearchCache.updateUsager(usager);
-        })
-      );
   }
 
   public renouvellement(usagerRef: number): Observable<UsagerLight> {
