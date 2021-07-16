@@ -1,4 +1,4 @@
-FROM ghcr.io/socialgouv/docker/nginx4spa:6.26.5
+FROM ghcr.io/socialgouv/docker/nginx4spa:6.26.6
 
 COPY ./packages/frontend/nginx.conf /etc/nginx/nginx.conf
 
