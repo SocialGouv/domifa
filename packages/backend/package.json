@@ -47,7 +47,7 @@
     "@nestjs/swagger": "^4.8.2",
     "@nestjs/terminus": "^7.2.0",
     "@nestjs/testing": "^7.6.18",
-    "@sentry/node": "6.3.6",
+    "@sentry/node": "6.9.0",
     "@types/compression": "^1.7.0",
     "@types/cron": "^1.7.2",
     "@types/express": "4.17.13",
@@ -59,8 +59,8 @@
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "braces": "^3.0.2",
-    "class-transformer": "^0.3.1",
-    "class-validator": "^0.12.2",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.0",
     "compression": "^1.7.4",
     "date-fns": "^2.17.0",
     "date-fns-tz": "^1.1.4",
@@ -87,7 +87,7 @@
     "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.34",
     "uuid": "^8.3.2",
-    "xlsx": "^0.16.9",
+    "xlsx": "^0.17.0",
     "yup": "^0.32.9"
   },
   "devDependencies": {
