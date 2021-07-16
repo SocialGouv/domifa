@@ -6,7 +6,7 @@ volumes:
 
 services:
   postgres:
-    image: postgres:10.16
+    image: postgres:10.17
     restart: always
     volumes:
       - postgres-data:/var/lib/postgresql/data
