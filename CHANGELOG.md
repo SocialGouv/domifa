@@ -1,3 +1,10 @@
+## [2.10.1](https://github.com/SocialGouv/domifa/compare/v2.10.0...v2.10.1) (2021-07-21)
+
+
+### Bug Fixes
+
+* **deps:** update all minor dependencies ([73679d5](https://github.com/SocialGouv/domifa/commit/73679d5ec8743c2d4cd4860c59bb63fa4028d060))
+
 # [2.10.0](https://github.com/SocialGouv/domifa/compare/v2.9.1...v2.10.0) (2021-07-15)
 
 
