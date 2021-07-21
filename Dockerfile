@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:16
 
 ENV TZ Europe/Paris
 RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
