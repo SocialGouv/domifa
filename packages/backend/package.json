@@ -83,7 +83,7 @@
     "pg": "^8.6.0",
     "pizzip": "^3.0.6",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.6.7",
+    "rxjs": "^7.0.0",
     "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.34",
     "uuid": "^8.3.2",
