@@ -1,3 +1,11 @@
+## [2.10.2](https://github.com/SocialGouv/domifa/compare/v2.10.1...v2.10.2) (2021-07-22)
+
+
+### Bug Fixes
+
+* **home:** correction d'erreurs de CSS ([a601464](https://github.com/SocialGouv/domifa/commit/a60146492922037fdde15066cf06bcef63d43356))
+* **interactions:** mise en place d'un test sur transfert ([2715a4f](https://github.com/SocialGouv/domifa/commit/2715a4fae4c587c30af684b40dea2d6fa4d4ff3a))
+
 ## [2.10.1](https://github.com/SocialGouv/domifa/compare/v2.10.0...v2.10.1) (2021-07-21)
 
 
