@@ -85,6 +85,11 @@ ul.check-list li::before {
   font-size: 1.2rem;
 }
 
+.ministere-logo-home {
+  height: 120px;
+  width: auto;
+}
+
 @media all and (max-width: 1024px) {
   h1 {
     font-weight: 600;

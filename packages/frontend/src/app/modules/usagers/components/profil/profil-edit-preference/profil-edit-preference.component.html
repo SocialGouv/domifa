@@ -9,8 +9,11 @@
 
   <div class="col-md-6 reponses">
     <span class="question">Numéro de téléphone</span>
-    <span class="valeur"
-      >{{ usager.preference.phoneNumber || "Non renseigné" }}
+    <span *ngIf="usager.preference.phoneNumber" class="valeur"
+      >{{ usager.preference.phoneNumber | formatPhoneNumber }}
+    </span>
+    <span *ngIf="!usager.preference.phoneNumber" class="valeur">
+      Non renseigné
     </span>
   </div>
 
