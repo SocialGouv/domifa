@@ -4,6 +4,7 @@ import {
   InteractionsTable,
   usagerLightRepository,
 } from "../../database";
+
 import { AppAuthUser, Usager, UsagerLight } from "../../_common/model";
 import { Interactions } from "../../_common/model/interaction";
 import { InteractionDto } from "../interactions.dto";
@@ -60,7 +61,6 @@ function buildNewInteraction({
   newInteraction: Omit<InteractionsTable, "_id" | "id">;
 } {
   const newInteraction = new InteractionsTable(interaction);
-  const len = interaction.type.length;
 
   const direction = interactionsTypeManager.getDirection({
     type: interaction.type,
@@ -88,12 +88,15 @@ function buildNewInteraction({
     }
 
     // Transfert actif: on le précise dans le contenu
+
     if (usager.options.transfert.actif) {
-      newInteraction.content =
-        "Courrier transféré à : " +
-        usager.options.transfert.nom +
-        " - " +
-        usager.options.transfert.adresse.toUpperCase();
+      if (usager.options.transfert.dateFin >= new Date()) {
+        newInteraction.content =
+          "Courrier transféré à : " +
+          usager.options.transfert.nom +
+          " - " +
+          usager.options.transfert.adresse.toUpperCase();
+      }
     }
 
     const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
