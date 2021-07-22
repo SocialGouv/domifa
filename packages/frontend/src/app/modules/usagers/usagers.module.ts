@@ -87,14 +87,12 @@ import { UsagerService } from "./services/usager.service";
   ],
   imports: [
     CommonModule,
-
     GeneralModule,
     UsersModule,
     SharedModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
     RouterModule.forRoot([], { relativeLinkResolution: "legacy" }),
-
     ToastrModule.forRoot({}),
     HttpClientModule,
     NgbModule,

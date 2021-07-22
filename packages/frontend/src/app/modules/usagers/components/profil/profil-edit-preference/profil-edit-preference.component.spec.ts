@@ -1,3 +1,4 @@
+import { SharedModule } from "./../../../../shared/shared.module";
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
@@ -29,6 +30,7 @@ describe("ProfilEditPreferenceComponent", () => {
         RouterTestingModule,
         NgbModule,
         ReactiveFormsModule,
+        SharedModule,
         FormsModule,
         ToastrModule.forRoot(),
         HttpClientTestingModule,
