@@ -25,6 +25,7 @@ import { UsagerProfilService } from "../../services/usager-profil.service";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
 import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/labels";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
+import { ProfilGeneralHistoriqueCourriersComponent } from "../profil-general-historique-courriers/profil-general-historique-courriers.component";
 
 @Component({
   selector: "app-profil-general-section",
@@ -61,6 +62,9 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public maxDateNaissance: NgbDateStruct;
 
   public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
+
+  @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
+  private profileComponent: ProfilGeneralHistoriqueCourriersComponent;
 
   constructor(
     private authService: AuthService,
@@ -137,6 +141,11 @@ export class ProfilGeneralSectionComponent implements OnInit {
         this.notifService.error("Impossible d'enregistrer cette interaction");
       }
     );
+  }
+
+  public updateInteractions() {
+    console.log("getInteractions");
+    this.profileComponent.getInteractions();
   }
 
   public closeModals() {

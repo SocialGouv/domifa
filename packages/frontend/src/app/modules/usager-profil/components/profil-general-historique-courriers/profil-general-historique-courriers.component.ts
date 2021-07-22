@@ -25,7 +25,7 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
     this.getInteractions();
   }
 
-  private getInteractions() {
+  public getInteractions() {
     this.interactionService
       .getInteractions({
         usagerRef: this.usager.ref,

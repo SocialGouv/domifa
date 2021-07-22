@@ -314,6 +314,7 @@
           <app-profil-general-historique-courriers
             [usager]="usager"
             [me]="me"
+            (updateInteractions)="updateInteractions()"
           ></app-profil-general-historique-courriers>
 
           <br /><br />
@@ -349,6 +350,7 @@
   <app-set-interaction-in-form
     [(usager)]="usager"
     (cancelReception)="closeModals()"
+    (updateInteractions)="updateInteractions()"
   ></app-set-interaction-in-form>
 </ng-template>
 
@@ -356,5 +358,6 @@
   <app-set-interaction-out-form
     [(usager)]="usager"
     (cancelReception)="closeModals()"
+    (updateInteractions)="updateInteractions()"
   ></app-set-interaction-out-form>
 </ng-template>

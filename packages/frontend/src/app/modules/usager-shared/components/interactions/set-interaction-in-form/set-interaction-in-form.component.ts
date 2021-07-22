@@ -31,6 +31,9 @@ export class SetInteractionInFormComponent implements OnInit {
   public cancelReception = new EventEmitter<void>();
 
   @Output()
+  public updateInteractions = new EventEmitter<void>();
+
+  @Output()
   public usagerChange = new EventEmitter<UsagerFormModel>();
 
   public interactionFormData: InteractionInForm;
@@ -78,6 +81,7 @@ export class SetInteractionInFormComponent implements OnInit {
 
     if (interactionsToSave.length === 0) {
       this.cancelReception.emit();
+
       return;
     }
 
@@ -101,6 +105,7 @@ export class SetInteractionInFormComponent implements OnInit {
       .subscribe((usager: UsagerLight) => {
         this.usagerChange.emit(new UsagerFormModel(usager));
         this.cancelReception.emit();
+        this.updateInteractions.emit();
       });
   }
 
