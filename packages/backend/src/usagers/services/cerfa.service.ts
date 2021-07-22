@@ -120,7 +120,7 @@ export class CerfaService {
     ).toUpperCase();
 
     const motif = generateMotifLabel(usager.decision);
-    console.log(motif);
+
     const pdfInfos: UsagerCerfaFields = {
       adresse: adresseDomicilie,
       adresseOrga1: adresseStructure,

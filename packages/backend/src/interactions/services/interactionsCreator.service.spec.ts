@@ -1,3 +1,4 @@
+import moment = require("moment");
 import {
   structureRepository,
   usagerRepository,
@@ -38,10 +39,12 @@ describe("interactionsCreator", () => {
       context.module.get<InteractionsDeletor>(InteractionsDeletor);
 
     user = await usersRepository.findOne({ id: 1 });
+
     usager = await usagerRepository.findOne({
       ref: 2,
       structureId: 1,
     });
+
     structure = await structureRepository.findOne({
       id: 1,
     });
@@ -104,7 +107,7 @@ describe("interactionsCreator", () => {
     });
   });
 
-  it("2. Réception et distribution de 1 courriers", async () => {
+  it("3. Réception et distribution de 1 courriers", async () => {
     const interaction = new InteractionDto();
     interaction.type = "colisIn";
     interaction.content = "Colis d'un distributeur";
@@ -144,6 +147,71 @@ describe("interactionsCreator", () => {
     // clean
     await interactionsDeletor.deleteOrRestoreInteraction({
       interactionId: resultat2.interaction.id,
+      structure,
+      usagerRef: usager.ref,
+      user,
+    });
+  });
+
+  it("4. Distribution d'un courrier avec transfert", async () => {
+    const interaction = new InteractionDto();
+
+    interaction.type = "courrierOut";
+    interaction.content = "Test transfert du courrier";
+    interaction.nbCourrier = 10;
+
+    usager.options.transfert.actif = true;
+    usager.options.transfert.adresse = "ICI ADRESSE";
+    usager.options.transfert.nom = "LA personne DU TRANSFERT";
+    usager.options.transfert.dateFin = moment().add(10, "days").toDate();
+
+    const resultat = await interactionsCreator.createInteraction({
+      usager,
+      user,
+      interaction,
+    });
+
+    expect(resultat.interaction.content).toEqual(
+      "Courrier transféré à : LA personne DU TRANSFERT - ICI ADRESSE"
+    );
+
+    // clean
+    await interactionsDeletor.deleteOrRestoreInteraction({
+      interactionId: resultat.interaction.id,
+      structure,
+      usagerRef: usager.ref,
+      user,
+    });
+  });
+
+  it("5. Distribution d'un courrier avec procuration", async () => {
+    const interaction = new InteractionDto();
+
+    interaction.type = "courrierOut";
+    interaction.content = "Test transfert du courrier";
+    interaction.nbCourrier = 10;
+    interaction.procuration = true;
+
+    usager.options.transfert.actif = false;
+
+    usager.options.procuration.actif = true;
+    usager.options.procuration.nom = "Procuration";
+    usager.options.procuration.prenom = "Jean michel";
+    usager.options.procuration.dateFin = moment().add(10, "days").toDate();
+
+    const resultat = await interactionsCreator.createInteraction({
+      usager,
+      user,
+      interaction,
+    });
+
+    expect(resultat.interaction.content).toEqual(
+      "Courrier remis au mandataire : Jean michel PROCURATION"
+    );
+
+    // clean
+    await interactionsDeletor.deleteOrRestoreInteraction({
+      interactionId: resultat.interaction.id,
       structure,
       usagerRef: usager.ref,
       user,
