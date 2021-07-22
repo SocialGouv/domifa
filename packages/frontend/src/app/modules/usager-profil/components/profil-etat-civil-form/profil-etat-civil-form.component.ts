@@ -48,6 +48,10 @@ export class ProfilEtatCivilFormComponent implements OnInit {
 
   public LIENS_PARENTE = LIENS_PARENTE;
 
+  public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
+    maxResults: 10,
+  });
+
   @Output() public editInfosChange = new EventEmitter<boolean>();
 
   get f() {

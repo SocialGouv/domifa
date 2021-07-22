@@ -10064,7 +10064,7 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-ngx-countup@7.3.3:
+ngx-countup@^7.3.3:
   version "7.3.3"
   resolved "https://registry.yarnpkg.com/ngx-countup/-/ngx-countup-7.3.3.tgz#c68926369d4c3a666e1e8920e62b9649187cb933"
   integrity sha512-Vu+amEzO0ZrfXxWUFXl61qTDxFpKvxTwHg7Uw/psCIj2vhZzZEIBWliZ6m6FzBBHvvfJzb1xhK/6+Ab7RivuMg==

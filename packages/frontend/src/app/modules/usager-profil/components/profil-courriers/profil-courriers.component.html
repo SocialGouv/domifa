@@ -14,11 +14,10 @@
         </div>
 
         <div class="col-md-12 my-4">
-          <app-profil-transfert-courrier
+          <app-profil-historique-courriers
             [usager]="usager"
-            (usagerChanges)="onUsagerChanges($event)"
             [me]="me"
-          ></app-profil-transfert-courrier>
+          ></app-profil-historique-courriers>
         </div>
 
         <div class="col-md-12 my-4">
@@ -30,10 +29,11 @@
         </div>
 
         <div class="col-md-12 my-4">
-          <app-profil-historique-courriers
+          <app-profil-transfert-courrier
             [usager]="usager"
+            (usagerChanges)="onUsagerChanges($event)"
             [me]="me"
-          ></app-profil-historique-courriers>
+          ></app-profil-transfert-courrier>
         </div>
       </div>
     </div>
