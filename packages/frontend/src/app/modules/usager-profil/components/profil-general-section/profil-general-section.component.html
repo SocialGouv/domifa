@@ -41,8 +41,11 @@
           >
             <div class="svg-icon icon-calendar"></div>
             <span>
-              Demande de renouvellement est actuellement en cours &nbsp;
-              <a [routerLink]="['/usager/' + usager.ref + '/edit']">
+              Demande de renouvellement actuellement en cours
+              <a
+                [routerLink]="['/usager/' + usager.ref + '/edit']"
+                class="ml-2"
+              >
                 Compléter la demande
               </a>
             </span>
