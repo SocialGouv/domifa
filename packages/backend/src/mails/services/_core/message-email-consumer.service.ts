@@ -23,7 +23,9 @@ export class MessageEmailConsummer {
     messageEmailConsummerTrigger.trigger$
       .pipe(
         debounceTime(1000),
-        concatMap((trigger) => from(this.consumeEmails(trigger)))
+        concatMap((trigger: MonitoringBatchProcessTrigger) =>
+          from(this.consumeEmails(trigger))
+        )
       )
       .subscribe();
   }
