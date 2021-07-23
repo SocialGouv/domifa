@@ -90,7 +90,7 @@ function buildNewInteraction({
     // Transfert actif: on le précise dans le contenu
 
     if (usager.options.transfert.actif) {
-      if (usager.options.transfert.dateFin >= new Date()) {
+      if (new Date(usager.options.transfert.dateFin) >= new Date()) {
         newInteraction.content =
           "Courrier transféré à : " +
           usager.options.transfert.nom +
