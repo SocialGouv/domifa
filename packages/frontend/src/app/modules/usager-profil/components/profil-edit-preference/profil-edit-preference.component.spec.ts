@@ -11,6 +11,7 @@ import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
 import { SharedModule } from "../../../shared/shared.module";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
 
 import { ProfilEditPreferenceComponent } from "./profil-edit-preference.component";
@@ -25,6 +26,7 @@ describe("ProfilEditPreferenceComponent", () => {
         NgbModule,
         MatomoModule,
         CommonModule,
+        SharedModule,
         RouterTestingModule,
         NgbModule,
         ReactiveFormsModule,
