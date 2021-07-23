@@ -18,12 +18,6 @@ export class UsagerProfilService {
     this.http = http;
   }
 
-  public renouvellement(usagerRef: number): Observable<UsagerLight> {
-    return this.http.get<UsagerLight>(
-      `${this.endPointUsagers}/renouvellement/${usagerRef}`
-    );
-  }
-
   public findOne(usagerRef: number): Observable<UsagerLight> {
     return this.http.get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`);
   }
@@ -32,9 +26,17 @@ export class UsagerProfilService {
     return this.http.delete(`${this.endPointUsagers}/${usagerRef}`);
   }
 
+  public renouvellement(usagerRef: number): Observable<UsagerLight> {
+    return this.http.get<UsagerLight>(
+      `${this.endPointUsagers}/renouvellement/${usagerRef}`
+    );
+  }
+
   public deleteRenew(usagerRef: number): Observable<UsagerLight> {
     return this.http
-      .delete<UsagerLight>(`${this.endPointUsagers}/renew/${usagerRef}`)
+      .delete<UsagerLight>(
+        `${this.endPointUsagers}/renouvellement/${usagerRef}`
+      )
       .pipe();
   }
 

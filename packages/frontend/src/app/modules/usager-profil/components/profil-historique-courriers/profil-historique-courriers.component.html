@@ -60,18 +60,22 @@
           <td>
             <div *ngIf="interaction.event === 'create'">
               {{ interaction.label }}
+              <span *ngIf="interaction.content">
+                : {{ interaction.content }}
+              </span>
             </div>
             <div *ngIf="interaction.event === 'delete'">
-              <b>Interraction supprimée:</b>
-              <br />{{ interaction.label }} le
+              <b>{{ interaction.label }}</b>
+              <span *ngIf="interaction.content">
+                {{ interaction.content }}
+              </span>
+              <br />
+              Interaction supprimée le
               {{
                 interaction?.previousValue?.dateInteraction
                   | date: "dd/MM/yyyy à HH:mm"
               }}
               par {{ interaction?.previousValue?.userName }}
-            </div>
-            <div *ngIf="interaction.content">
-              {{ interaction.content }}
             </div>
           </td>
           <td>{{ interaction.userName }}</td>

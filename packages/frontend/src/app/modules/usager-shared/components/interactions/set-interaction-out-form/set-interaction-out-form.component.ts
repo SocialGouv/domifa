@@ -131,7 +131,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
         }
       )
     );
-    this.updateInteractions.emit();
+
     this.getInteractions();
   }
 
@@ -164,7 +164,8 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     this.interactionService
       .setInteraction(this.usager, interactionsToSave)
       .subscribe(
-        (values: any) => {
+        () => {
+          this.updateInteractions.emit();
           this.notifService.success("Distribution effectuée avec succès");
           this.refreshUsager();
         },

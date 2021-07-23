@@ -31,7 +31,12 @@ export class ProfilGeneralHistoriqueCourriersComponent implements OnInit {
         usagerRef: this.usager.ref,
       })
       .subscribe((interactions: Interaction[]) => {
-        this.interactions = interactions;
+        this.interactions = interactions.reduce((filtered, interaction) => {
+          if (interaction.event !== "delete") {
+            filtered.push(interaction);
+          }
+          return filtered;
+        }, []);
       });
   }
 }
