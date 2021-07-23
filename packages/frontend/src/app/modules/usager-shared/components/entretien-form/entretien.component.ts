@@ -107,7 +107,6 @@ export class EntretienComponent implements OnInit {
       .submitEntretien(this.entretienForm.value, this.usager.ref)
       .subscribe(
         (usager: UsagerLight) => {
-          console.log(usager.entretien);
           this.usagerChanges.emit(usager);
           this.editEntretienChange.emit(false);
           this.nextStep.emit(3);

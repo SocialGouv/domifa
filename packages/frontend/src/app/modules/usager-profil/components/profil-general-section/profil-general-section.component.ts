@@ -134,17 +134,16 @@ export class ProfilGeneralSectionComponent implements OnInit {
     this.interactionService.setInteraction(usager, [interaction]).subscribe(
       (newUsager: UsagerLight) => {
         usager = new UsagerFormModel(newUsager);
-
         this.notifService.success(INTERACTIONS_LABELS_SINGULIER[type]);
+        this.updateInteractions();
       },
-      (error) => {
+      () => {
         this.notifService.error("Impossible d'enregistrer cette interaction");
       }
     );
   }
 
   public updateInteractions() {
-    console.log("getInteractions");
     this.profileComponent.getInteractions();
   }
 
