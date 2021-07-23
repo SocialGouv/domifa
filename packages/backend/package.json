@@ -65,7 +65,7 @@
     "date-fns": "^2.17.0",
     "date-fns-tz": "^1.1.4",
     "docxtemplater": "^3.19.10",
-    "dotenv": "^8.6.0",
+    "dotenv": "^10.0.0",
     "email-templates": "^8.0.7",
     "exceljs": "^4.2.1",
     "faker": "^5.5.3",
