@@ -27,16 +27,14 @@ async function checkHardResetToken({
   userId: number;
   token: string;
 }): Promise<StructureCommon & Pick<Structure, "hardReset">> {
-  const select: (keyof StructureCommon &
-    Pick<
-      Structure,
-      "hardReset"
-    >)[] = (STRUCTURE_COMMON_ATTRIBUTES as any[]).concat(["hardReset"]);
+  const select: (keyof StructureCommon & Pick<Structure, "hardReset">)[] = (
+    STRUCTURE_COMMON_ATTRIBUTES as any[]
+  ).concat(["hardReset"]);
 
   return structureRepository.findOneWithQuery<
     StructureCommon & Pick<Structure, "hardReset">
   >({
-    select: select,
+    select,
     where: `"hardReset" @> '{"token": "${token}", "userId": ${userId}}'`,
     params: [],
   });

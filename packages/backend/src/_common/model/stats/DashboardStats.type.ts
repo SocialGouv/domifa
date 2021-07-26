@@ -13,6 +13,7 @@ export type DashboardStats = {
   structuresCountByTypeMap: {
     [type: string]: number;
   };
+  structuresCountBySmsEnabled: number;
   interactionsCountByTypeMap: {
     [statut: string]: number;
   };

@@ -132,6 +132,20 @@
             </div>
           </div>
         </div>
+        <div class="stats-blocks-container--inline">
+          <div>
+            <span class="stats-titre">Notifications SMS</span>
+          </div>
+          <div
+            class="stats-blocks"
+            *ngFor="let statSms of stats.structuresCountBySmsEnabled"
+          >
+            <div>
+              <span class="stats-chiffres">{{ statSms.count }}</span>
+              <span class="stats-labels">STRUCTURES ACTIVÉES</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <br />
