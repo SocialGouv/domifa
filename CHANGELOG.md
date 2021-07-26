@@ -1,3 +1,17 @@
+# [2.11.0](https://github.com/SocialGouv/domifa/compare/v2.10.3...v2.11.0) (2021-07-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency dotenv to v10 ([402c0c7](https://github.com/SocialGouv/domifa/commit/402c0c769a450a13d771be83a1834d61f7c6875a))
+* **deps:** update dependency fs-extra to v10 ([ecdc407](https://github.com/SocialGouv/domifa/commit/ecdc4071e1783b2741462323d8649aa399d1d8f0))
+* **interactions:** Correction de la date de dernier passage ([41fe479](https://github.com/SocialGouv/domifa/commit/41fe4791eed5d1f8f0c9c487f0edc4350f9a28b5))
+
+
+### Features
+
+* **sms:** compteur de structures ayant activé les SMS ([0898ff9](https://github.com/SocialGouv/domifa/commit/0898ff90e892e5be770baad74d7790408b22e8ec))
+
 ## [2.10.3](https://github.com/SocialGouv/domifa/compare/v2.10.2...v2.10.3) (2021-07-23)
 
 
