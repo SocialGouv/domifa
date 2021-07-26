@@ -13,6 +13,7 @@ import { ToastrService } from "ngx-toastr";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
 import * as labels from "src/app/modules/usagers/usagers.labels";
 import { UsagerLight } from "../../../../../_common/model";
+import { ENTRETIEN_LIEN_COMMUNE } from "../../../../../_common/model/usager/constants";
 import { Entretien } from "../../interfaces/entretien";
 
 @Component({
@@ -22,6 +23,8 @@ import { Entretien } from "../../interfaces/entretien";
 })
 export class EntretienComponent implements OnInit {
   public labels: any;
+
+  public ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
 
   public entretienForm!: FormGroup;
 

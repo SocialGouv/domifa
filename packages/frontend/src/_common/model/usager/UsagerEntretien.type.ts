@@ -11,6 +11,7 @@ export type UsagerEntretien = {
 
   typeMenage?: string;
   liencommune?: string;
+  liencommuneDetail?: string;
   residence?: string;
   residenceDetail?: string;
   cause?: string;

@@ -40,7 +40,7 @@
       <span *ngIf="filters.statut === 'REFUS' ">REFUSÉ LE</span>
       <span *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</span>
     </th>
-    <th class="text-left">ACTIONS RAPIDES</th>
+    <th class="text-left d-print-none">ACTIONS RAPIDES</th>
     <th></th>
   </thead>
   <tbody>
@@ -182,7 +182,7 @@
         </a>
       </td>
 
-      <td class="text-left icones_liste">
+      <td class="text-left icones_liste d-print-none">
         <div
           class="interaction-buttons"
           *ngIf="usager.isActif || (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)"
