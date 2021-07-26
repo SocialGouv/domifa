@@ -1,3 +1,10 @@
+## [2.11.1-alpha.2](https://github.com/SocialGouv/domifa/compare/v2.11.1-alpha.1...v2.11.1-alpha.2) (2021-07-26)
+
+
+### Bug Fixes
+
+* Add Rancher ID. ([eef4b59](https://github.com/SocialGouv/domifa/commit/eef4b597d6e424aaeb23f74db5362b40ff9854fa))
+
 ## [2.11.1-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.11.0...v2.11.1-alpha.1) (2021-07-26)
 
 
