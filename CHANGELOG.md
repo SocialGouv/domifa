@@ -1,3 +1,10 @@
+## [2.11.2](https://github.com/SocialGouv/domifa/compare/v2.11.1...v2.11.2) (2021-07-26)
+
+
+### Bug Fixes
+
+* **github:** release commit as @SocialGroovyBot ([#1573](https://github.com/SocialGouv/domifa/issues/1573)) ([fbe2a66](https://github.com/SocialGouv/domifa/commit/fbe2a66cee7f52bfb151640261691aa2dfe86a8c))
+
 ## [2.11.1](https://github.com/SocialGouv/domifa/compare/v2.11.0...v2.11.1) (2021-07-26)
 
 
