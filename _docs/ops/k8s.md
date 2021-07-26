@@ -9,7 +9,7 @@ Pour chiffrer une variable, on peut utiliser l'outil suivant:
 - <https://socialgouv.github.io/sre-tools/>
 
 Choisir:
-- "dev2" pour les environnements `dev` et `preprod`
+- "dev" pour les environnements `dev` et `preprod`
 - "prod2" pour l' environnement de `prod`
 
 ## Environnements automatique K8S sur les branches de PR
