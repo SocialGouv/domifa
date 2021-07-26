@@ -1,3 +1,10 @@
+## [2.11.1-alpha.1](https://github.com/SocialGouv/domifa/compare/v2.11.0...v2.11.1-alpha.1) (2021-07-26)
+
+
+### Bug Fixes
+
+* Switch to dev urls. ([d967e9b](https://github.com/SocialGouv/domifa/commit/d967e9b960652b4c6c472f53b1c8305b3b471c81))
+
 # [2.11.0](https://github.com/SocialGouv/domifa/compare/v2.10.3...v2.11.0) (2021-07-26)
 
 
