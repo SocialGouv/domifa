@@ -14,7 +14,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        token: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
         fetch-depth: 0
         persist-credentials: false
 
@@ -30,4 +29,4 @@ jobs:
         GIT_AUTHOR_NAME: ${{ secrets.SOCIALGROOVYBOT_NAME }}
         GIT_COMMITTER_EMAIL: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
         GIT_COMMITTER_NAME: ${{ secrets.SOCIALGROOVYBOT_NAME }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.SOCIALGROOVYBOT_BOTO_PAT }}
