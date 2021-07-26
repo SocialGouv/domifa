@@ -1,12 +1,12 @@
 @media print {
   html,
   body {
-    width: 210mm;
-    height: 297mm;
-    margin: 0 auto !important;
-    padding: 0 !important;
+    width: 100%;
+    margin: 0 !important;
+    padding: 2% !important;
     background-color: white;
   }
+
   @page {
     size: A4 !important;
     margin: 0 !important;
@@ -16,15 +16,13 @@
   #page,
   .container {
     width: 100% !important;
-    max-width: 10000px !important;
     padding: 0 !important;
     margin: 0 !important;
     clear: both;
     display: block;
   }
 
-  .impression,
-  #courrier-radiation {
+  .impression {
     width: 100% !important;
     font-size: 13pt !important;
     margin: 0 auto !important;
