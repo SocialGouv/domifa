@@ -15,6 +15,7 @@ import { UsagerFormModel } from "../../form/UsagerFormModel";
 import { ProfilEditPreferenceComponent } from "./profil-edit-preference.component";
 
 import { usagerValideMock } from "../../../../../../_common/mocks/usagerValideMock.mock";
+import { SharedModule } from "../../../../shared/shared.module";
 
 describe("ProfilEditPreferenceComponent", () => {
   let component: ProfilEditPreferenceComponent;
@@ -30,6 +31,7 @@ describe("ProfilEditPreferenceComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
+        SharedModule,
         ToastrModule.forRoot(),
         HttpClientTestingModule,
         ReactiveFormsModule,
