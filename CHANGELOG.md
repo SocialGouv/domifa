@@ -1,3 +1,10 @@
+## [2.11.3](https://github.com/SocialGouv/domifa/compare/v2.11.2...v2.11.3) (2021-07-26)
+
+
+### Bug Fixes
+
+* **github:** allow trigger workflow on release ([0579a60](https://github.com/SocialGouv/domifa/commit/0579a60e8877357d306aac360c1684b08b0b3754))
+
 ## [2.11.2](https://github.com/SocialGouv/domifa/compare/v2.11.1...v2.11.2) (2021-07-26)
 
 
