@@ -64,13 +64,13 @@ async function findUsersToSendCronMail({
   };
   if (structuresIds && structuresIds.length) {
     whereClausesAnd.push(`"structureId" = ANY(:structuresIds)`);
-    params["structuresIds"] = structuresIds;
+    params.structuresIds = structuresIds;
   }
 
   if (mailType === "import") {
     const roles: UserRole[] = ["admin", "simple", "responsable"];
     whereClausesAnd.push(`"role" = ANY(:roles)`);
-    params["roles"] = roles;
+    params.roles = roles;
   }
 
   const users: Pick<AppUser, "id" | "email" | "nom" | "prenom" | "role">[] =

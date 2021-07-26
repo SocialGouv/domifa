@@ -167,7 +167,12 @@ export class UsagersService {
       }
 
       decision.dateDebut = new Date(decision.dateDebut);
-      usager.lastInteraction.dateInteraction = decision.dateDebut;
+
+      if (
+        decision.dateDebut > new Date(usager.lastInteraction.dateInteraction)
+      ) {
+        usager.lastInteraction.dateInteraction = decision.dateDebut;
+      }
     }
 
     usager.decision.uuid = uuidGenerator.random();

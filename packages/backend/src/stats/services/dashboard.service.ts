@@ -4,6 +4,7 @@ import {
   appTypeormManager,
   InteractionsTable,
   structureRepository,
+  StructureTable,
   typeOrmSearch,
   usagerRepository,
   UsagerTable,
@@ -49,6 +50,7 @@ export class DashboardService {
     const usagersDocumentsCount = await usagerRepository.countDocuments();
     const usagersCountByStatutMap = await this.getUsagersCountByStatutMap();
     const usagersCountByLanguage = await this.getUsagersCountByLanguage();
+    const structuresCountBySmsEnabled = await this.getStructuresWithSms();
 
     const stats: DashboardStats = {
       structures,
@@ -57,6 +59,7 @@ export class DashboardService {
       usagersAllCountByStructureMap,
       structuresCountByRegion,
       structuresCountByTypeMap,
+      structuresCountBySmsEnabled,
       usersCount,
       interactionsCountByTypeMap,
       usagersDocumentsCount,
@@ -100,6 +103,14 @@ export class DashboardService {
         countBy: "ASC",
       },
     });
+  }
+
+  public async getStructuresWithSms(): Promise<number> {
+    return appTypeormManager
+      .getRepository(StructureTable)
+      .query(
+        `SELECT COUNT(*)  from structure where sms->>'enabledByStructure' = 'true' `
+      );
   }
 
   public async getInteractionsCountByTypeMap(): Promise<{
@@ -175,6 +186,7 @@ export class DashboardService {
       escapeAttributes: false,
     }) as any;
   }
+
   public async getUsagersCountByLanguage() {
     return usagerRepository.countBy({
       countBy: "langue",
