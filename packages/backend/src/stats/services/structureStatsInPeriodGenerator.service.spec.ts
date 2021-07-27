@@ -96,6 +96,15 @@ describe("structureStatsInPeriodGenerator", () => {
           sortie_structure: 0,
           violence: 1,
         },
+        liencommune: {
+          autre: 0,
+          familial: 0,
+          non_renseigne: 3,
+          parental: 0,
+          professionnel: 0,
+          residentiel: 0,
+          social: 0,
+        },
         menage: {
           couple_avec_enfant: 1,
           couple_sans_enfant: 0,
