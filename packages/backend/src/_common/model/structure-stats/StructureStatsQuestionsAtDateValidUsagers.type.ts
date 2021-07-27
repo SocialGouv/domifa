@@ -37,7 +37,6 @@ export type StructureStatsQuestionsAtDateValidUsagers = {
     non_renseigne: number;
   };
   liencommune: {
-    // Q21
     residentiel: number;
     parental: number;
     familial: number;

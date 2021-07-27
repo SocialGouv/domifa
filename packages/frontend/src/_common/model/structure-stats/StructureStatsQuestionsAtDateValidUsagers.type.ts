@@ -53,4 +53,13 @@ export type StructureStatsQuestionsAtDateValidUsagers = {
     autre: number;
     non_renseigne: number;
   };
+  liencommune: {
+    residentiel: number;
+    parental: number;
+    familial: number;
+    professionnel: number;
+    social: number;
+    autre: number;
+    non_renseigne: number;
+  };
 };

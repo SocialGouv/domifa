@@ -45,8 +45,13 @@
 
   <div class="col-md-4 reponses">
     <span class="question">LIEN COMMUNE</span>
-    <span class="valeur">
-      {{ usager.entretien.liencommune || "Non renseigné" }}
+    <span class="valeur" *ngIf="usager.entretien.liencommune == 'AUTRE'">
+      Autre : {{ usager.entretien.liencommuneDetail }}
+    </span>
+    <span class="valeur" *ngIf="usager.entretien.liencommune != 'AUTRE'">
+      {{
+        ENTRETIEN_LIEN_COMMUNE[usager.entretien.liencommune] || "Non renseigné"
+      }}
     </span>
   </div>
 
