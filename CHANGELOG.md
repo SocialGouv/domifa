@@ -1,3 +1,11 @@
+## [2.11.5](https://github.com/SocialGouv/domifa/compare/v2.11.4...v2.11.5) (2021-07-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @sentry/node to v6.10.0 ([480d631](https://github.com/SocialGouv/domifa/commit/480d6310e13b4344a79867b0a6333efa504da0f0))
+* **deps:** update dependency ical-generator to v2 ([0632456](https://github.com/SocialGouv/domifa/commit/06324561abae4b0bdff9c124833d411db47a9821))
+
 ## [2.11.4](https://github.com/SocialGouv/domifa/compare/v2.11.3...v2.11.4) (2021-07-26)
 
 
