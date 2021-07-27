@@ -71,6 +71,7 @@ export class EntretienComponent implements OnInit {
       commentaires: [this.usager.entretien.commentaires, []],
       domiciliation: [this.usager.entretien.domiciliation, []],
       liencommune: [this.usager.entretien.liencommune, []],
+      liencommuneDetail: [this.usager.entretien.liencommuneDetail, []],
       orientation: [this.usager.entretien.orientation, []],
       orientationDetail: [this.usager.entretien.orientationDetail, []],
       rattachement: [this.usager.entretien.rattachement, []],

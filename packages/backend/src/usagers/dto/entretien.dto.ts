@@ -36,9 +36,6 @@ export class EntretienDto implements UsagerEntretien {
   public typeMenage!: string;
 
   @IsOptional()
-  public liencommune!: string;
-
-  @IsOptional()
   public rattachement!: string;
 
   @ApiProperty({
@@ -63,6 +60,32 @@ export class EntretienDto implements UsagerEntretien {
   ])
   @IsOptional()
   public residence!: string;
+
+  @ApiProperty({
+    type: String,
+    required: false,
+    enum: [
+      "RESIDENTIEL",
+      "PARENTAL",
+      "FAMILIAL",
+      "PROFESSIONNEL",
+      "SOCIAL",
+      "AUTRE",
+    ],
+  })
+  @IsIn([
+    "RESIDENTIEL",
+    "PARENTAL",
+    "FAMILIAL",
+    "PROFESSIONNEL",
+    "SOCIAL",
+    "AUTRE",
+  ])
+  @IsOptional()
+  public liencommune!: string;
+
+  @IsOptional()
+  public liencommuneDetail!: string;
 
   @IsOptional()
   public residenceDetail!: string;

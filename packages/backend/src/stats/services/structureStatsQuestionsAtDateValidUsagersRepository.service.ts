@@ -62,13 +62,13 @@ async function getStats({
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'VIOLENCE') as v_u_cause_violence
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'AUTRE') as v_u_cause_autre
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'cause' is null or state->'entretien'->'cause' = 'null' or state->'entretien'->>'cause' = 'NON_RENSEIGNE') as v_u_cause_nr
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'RESIDENTIEL') as v_u_lien_commune_residentiel
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'PARENTAL') as v_u_lien_commune_parental
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'FAMILIAL') as v_u_lien_commune_familial
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'PROFESSIONNEL') as v_u_lien_commune_professionnel
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'SOCIAL') as v_u_lien_commune_social
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'AUTRE') as v_u_lien_commune_autre
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'liencommune' is null or state->'entretien'->'liencommune' = 'null' or state->'entretien'->>'liencommune' = 'NON_RENSEIGNE') as v_u_lien_commune_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'RESIDENTIEL') as v_u_liencommune_residentiel
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'PARENTAL') as v_u_liencommune_parental
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'FAMILIAL') as v_u_liencommune_familial
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'PROFESSIONNEL') as v_u_liencommune_professionnel
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'SOCIAL') as v_u_liencommune_social
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'AUTRE') as v_u_liencommune_autre
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'liencommune' is null or state->'entretien'->'liencommune' = 'null' or state->'entretien'->>'liencommune' = 'NON_RENSEIGNE') as v_u_liencommune_nr
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'EXERCICE_DROITS') as v_u_raison_exercice_droits
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'PRESTATIONS_SOCIALES') as v_u_raison_prestations_sociales
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'AUTRE') as v_u_raison_autre
@@ -151,13 +151,13 @@ async function getStats({
         non_renseigne: parseInt(r.v_u_cause_nr, 10),
       },
       liencommune: {
-        residentiel: parseInt(r.v_u_residentiel_nr, 10),
-        parental: parseInt(r.v_u_parental_nr, 10),
-        familial: parseInt(r.v_u_familial_nr, 10),
-        professionnel: parseInt(r.v_u_professionnel_nr, 10),
-        social: parseInt(r.v_u_social_nr, 10),
-        autre: parseInt(r.v_u_autre_nr, 10),
-        non_renseigne: parseInt(r.v_u_non_renseigne_nr, 10),
+        residentiel: parseInt(r.v_u_liencommune_residentiel, 10),
+        parental: parseInt(r.v_u_liencommune_parental, 10),
+        familial: parseInt(r.v_u_liencommune_familial, 10),
+        professionnel: parseInt(r.v_u_liencommune_professionnel, 10),
+        social: parseInt(r.v_u_liencommune_social, 10),
+        autre: parseInt(r.v_u_liencommune_autre, 10),
+        non_renseigne: parseInt(r.v_u_liencommune_nr, 10),
       },
       raison: {
         // Q21
