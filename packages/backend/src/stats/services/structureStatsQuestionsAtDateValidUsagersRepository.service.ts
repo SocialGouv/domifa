@@ -16,13 +16,13 @@ async function getStats({
   // TODO pas besoin de précalculer usager_tranche, on peut faire comme v_u_age_mineur
 
   // dateUTC est le lendemain à 0:00 UTC, alors que pour l'age, il faut la date du jour
-  const dateAgeUTC = moment.utc(dateUTC).add(-1, 'day'); 
+  const dateAgeUTC = moment.utc(dateUTC).add(-1, "day");
 
   const rawResults = await (
     await usagerHistoryRepository.typeorm()
   ).query(
     `
-    select 
+    select
     count(distinct uh."usagerUUID") as v_u
     ,COALESCE(sum(jsonb_array_length(state->'ayantsDroits')), 0) as v_ad
     ,count(distinct uh."usagerUUID") filter (where u.sexe = 'homme') as v_u_sexe_h
@@ -62,6 +62,13 @@ async function getStats({
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'VIOLENCE') as v_u_cause_violence
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'AUTRE') as v_u_cause_autre
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'cause' is null or state->'entretien'->'cause' = 'null' or state->'entretien'->>'cause' = 'NON_RENSEIGNE') as v_u_cause_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'lienCommune' = 'RESIDENTIEL') as v_u_lien_commune_residentiel
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'lienCommune' = 'PARENTAL') as v_u_lien_commune_parental
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'lienCommune' = 'FAMILIAL') as v_u_lien_commune_familial
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'lienCommune' = 'PROFESSIONNEL') as v_u_lien_commune_professionnel
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'lienCommune' = 'SOCIAL') as v_u_lien_commune_social
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'lienCommune' = 'AUTRE') as v_u_lien_commune_autre
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'lienCommune' is null or state->'entretien'->'lienCommune' = 'null' or state->'entretien'->>'lienCommune' = 'NON_RENSEIGNE') as v_u_lien_commune_nr
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'EXERCICE_DROITS') as v_u_raison_exercice_droits
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'PRESTATIONS_SOCIALES') as v_u_raison_prestations_sociales
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'AUTRE') as v_u_raison_autre
@@ -77,7 +84,7 @@ async function getStats({
     join usager u on uh."usagerUUID" = u.uuid
     join jsonb_array_elements(uh.states) as state on true
     left join lateral(
-      select state->'uuid' as "stateUUID", 
+      select state->'uuid' as "stateUUID",
       count(state_ayant_droit) filter (where date_part('year',age($3, (state_ayant_droit->>'dateNaissance')::timestamptz at time zone 'utc'))::int < 18) as count_mineur,
       count(state_ayant_droit) filter (where date_part('year',age($3, (state_ayant_droit->>'dateNaissance')::timestamptz at time zone 'utc'))::int >= 18) as count_majeur
       from jsonb_array_elements (state->'ayantsDroits') as state_ayant_droit
@@ -142,6 +149,15 @@ async function getStats({
         sortie_structure: parseInt(r.v_u_cause_sortie_struct, 10),
         violence: parseInt(r.v_u_cause_violence, 10),
         non_renseigne: parseInt(r.v_u_cause_nr, 10),
+      },
+      lienCommunne: {
+        residentiel: parseInt(r.v_u_residentiel_nr, 10),
+        parental: parseInt(r.v_u_parental_nr, 10),
+        familial: parseInt(r.v_u_familial_nr, 10),
+        professionnel: parseInt(r.v_u_professionnel_nr, 10),
+        social: parseInt(r.v_u_social_nr, 10),
+        autre: parseInt(r.v_u_autre_nr, 10),
+        non_renseigne: parseInt(r.v_u_non_renseigne_nr, 10),
       },
       raison: {
         // Q21

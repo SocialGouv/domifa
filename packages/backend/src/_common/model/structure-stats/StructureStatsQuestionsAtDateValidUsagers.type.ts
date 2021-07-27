@@ -36,6 +36,16 @@ export type StructureStatsQuestionsAtDateValidUsagers = {
     violence: number;
     non_renseigne: number;
   };
+  lienCommunne: {
+    // Q21
+    residentiel: number;
+    parental: number;
+    familial: number;
+    professionnel: number;
+    social: number;
+    autre: number;
+    non_renseigne: number;
+  };
   raison: {
     // Q21
     exercice_droits: number;
