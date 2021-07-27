@@ -9,7 +9,6 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { ToastrModule } from "ngx-toastr";
-import { SharedModule } from "../../../shared/shared.module";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
