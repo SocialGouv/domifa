@@ -36,7 +36,7 @@ export type StructureStatsQuestionsAtDateValidUsagers = {
     violence: number;
     non_renseigne: number;
   };
-  lienCommunne: {
+  liencommune: {
     // Q21
     residentiel: number;
     parental: number;
