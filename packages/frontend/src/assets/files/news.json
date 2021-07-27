@@ -1,4 +1,18 @@
 [
+    {
+    "date": "2021-07-27",
+    "description": "Les notifications SMS sont disponibles, n’oubliez pas de les activer au sein de votre structure !",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Des nouveautés sur DomiFa !",
+        "message": [
+          "L’historique d’envoi des notifications SMS désormais visible directement sur chaque fiche domicilié",
+          "Formatage de l’affichage des numéros de téléphone pour une meilleure visibilité"
+        ]
+      }
+    ]
+  },
   {
     "date": "2021-06-18",
     "description": "Les notifications SMS sont disponibles !",
