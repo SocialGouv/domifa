@@ -8,3 +8,13 @@ optional/e2e/runners/puppeteer/output
 *.code-workspace
 .prettierignore
 .secrets.yaml
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+.yarn

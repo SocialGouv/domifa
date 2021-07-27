@@ -7,6 +7,7 @@ export class Entretien {
   public orientation: boolean;
   public orientationDetail: string;
   public liencommune: string;
+  public liencommuneDetail: string;
   public residence: string;
   public residenceDetail: string;
   public cause: string;
@@ -33,18 +34,16 @@ export class Entretien {
     if (entretien && typeof entretien.revenus !== "undefined") {
       this.revenus = entretien.revenus;
     }
+    this.revenusDetail = (entretien && entretien.revenusDetail) || null;
 
     if (entretien && typeof entretien.orientation !== "undefined") {
       this.orientation = entretien.orientation;
     }
-
-    if (entretien && typeof entretien.accompagnement !== "undefined") {
-      this.accompagnement = entretien.accompagnement;
-    }
-
-    this.revenusDetail = (entretien && entretien.revenusDetail) || null;
     this.orientationDetail = (entretien && entretien.orientationDetail) || null;
+
     this.liencommune = (entretien && entretien.liencommune) || null;
+    this.liencommuneDetail = (entretien && entretien.liencommuneDetail) || null;
+
     this.residence = (entretien && entretien.residence) || null;
     this.residenceDetail = (entretien && entretien.residenceDetail) || null;
     this.cause = (entretien && entretien.cause) || null;
@@ -52,6 +51,10 @@ export class Entretien {
     this.rattachement = (entretien && entretien.rattachement) || null;
     this.raison = (entretien && entretien.raison) || null;
     this.raisonDetail = (entretien && entretien.raisonDetail) || null;
+
+    if (entretien && typeof entretien.accompagnement !== "undefined") {
+      this.accompagnement = entretien.accompagnement;
+    }
 
     this.accompagnementDetail =
       (entretien && entretien.accompagnementDetail) || null;

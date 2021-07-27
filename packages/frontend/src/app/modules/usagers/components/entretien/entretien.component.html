@@ -120,18 +120,49 @@
         ></textarea>
       </div>
 
-      <div>
-        <span class="label">Quel est votre lien avec la commune ?</span>
-        <textarea
-          class="form-control"
-          formControlName="liencommune"
-          name="liencommune"
-          id="liencommune"
-        ></textarea>
-
-        <small id="liencommuneHelp" class="form-text text-muted">
-          Uniquement pour les communes, CCAS, CIAS
-        </small>
+      <div class="questions">
+        <div>
+          <span class="label">Quel est votre lien avec la commune ?</span>
+          <div
+            class="form-check"
+            *ngFor="let residence of labels.residence | keyvalue"
+          >
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="residence"
+              id="{{ residence.key }}"
+              value="{{ residence.key }}"
+            />
+            <label class="form-check-label" for="{{ residence.key }}">
+              {{ residence.value }}
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="residence"
+              id="residenceAutre"
+              value="AUTRE"
+            />
+            <label class="form-check-label" for="residenceAutre">
+              Autre lieu de vie
+            </label>
+            <small id="liencommuneHelp" class="form-text text-muted">
+              Uniquement pour les communes, CCAS, CIAS
+            </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            *ngIf="e.residence.value === 'AUTRE'"
+            formControlName="residenceDetail"
+            placeholder="Précisions"
+          />
+        </div>
       </div>
 
       <div class="questions">
