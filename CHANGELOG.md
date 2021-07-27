@@ -1,3 +1,10 @@
+## [2.11.6](https://github.com/SocialGouv/domifa/compare/v2.11.5...v2.11.6) (2021-07-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/schedule to v1 ([6851680](https://github.com/SocialGouv/domifa/commit/6851680f4b08f353cdd457e13d12f221b83bde3b))
+
 ## [2.11.5](https://github.com/SocialGouv/domifa/compare/v2.11.4...v2.11.5) (2021-07-27)
 
 
