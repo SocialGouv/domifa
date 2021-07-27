@@ -1,3 +1,10 @@
+## [2.11.7](https://github.com/SocialGouv/domifa/compare/v2.11.6...v2.11.7) (2021-07-27)
+
+
+### Bug Fixes
+
+* packages et news ([fe9fe45](https://github.com/SocialGouv/domifa/commit/fe9fe45ce3260b205457672c759c838fb3d1f9aa))
+
 ## [2.11.6](https://github.com/SocialGouv/domifa/compare/v2.11.5...v2.11.6) (2021-07-27)
 
 
