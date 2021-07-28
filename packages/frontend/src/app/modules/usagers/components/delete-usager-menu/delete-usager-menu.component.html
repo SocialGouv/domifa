@@ -1,6 +1,6 @@
 <div class="container my-5" *ngIf="me && usager">
   <div
-    class="not-print col-md-12 text-center text-danger"
+    class="d-print-none col-md-12 text-center text-danger"
     *ngIf="me.role === 'admin' || me.role === 'responsable'"
   >
     <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
