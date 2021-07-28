@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <div class="step_form not-print" id="step_form4" *ngIf="isAdmin">
+  <div class="step_form" id="step_form4" *ngIf="isAdmin">
     <div class="col text-center">
       <h5>
         Le dossier de
@@ -78,9 +78,9 @@
           le {{ usager.decision.dateDecision | date: "dd/MM/yyyy à HH:mm" }}
         </b>
       </p>
-      <p>Quelle décision souhaitez-vous rendre ?</p>
+      <p class="d-print-none">Quelle décision souhaitez-vous rendre ?</p>
 
-      <div class="row text-center">
+      <div class="d-print-none row text-center">
         <div class="col" *ngIf="usager.decision.statut !== 'ATTENTE_DECISION'">
           <button
             (click)="setDecision('ATTENTE_DECISION')"
@@ -109,7 +109,7 @@
     </div>
   </div>
 
-  <div class="step_form impression">
+  <div class="step_form">
     <h4>ÉTAT CIVIL</h4>
     <app-profil-infos [usager]="usager"></app-profil-infos>
 
@@ -130,7 +130,7 @@
     <app-documents [usager]="usager"></app-documents>
     <br />
 
-    <div class="row not-print">
+    <div class="row d-print-none">
       <div class="col">
         <button (click)="printPage()" class="btn-block btn btn-primary">
           <fa-icon icon="print" class="mr-2"></fa-icon>

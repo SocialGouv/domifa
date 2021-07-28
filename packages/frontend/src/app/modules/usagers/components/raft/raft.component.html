@@ -1,5 +1,5 @@
 <div class="container" *ngIf="usager">
-  <div class="row not-print">
+  <div class="row d-print-none">
     <div class="col text-left">
       <a [routerLink]="['/usager/' + usager.ref]">
         <fa-icon icon="angle-left"></fa-icon>
@@ -13,7 +13,7 @@
       </a>
     </div>
   </div>
-  <div class="row not-print">
+  <div class="row d-print-none">
     <div class="col-md-8 offset-2 text-center">
       <h4 id="profil_name">Fin de domiciliation</h4>
       <p>

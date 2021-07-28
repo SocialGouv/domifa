@@ -3,7 +3,7 @@
   body {
     width: 100%;
     margin: 0 !important;
-    padding: 2% !important;
+    padding: 2% 1% !important;
     background-color: white;
   }
 
@@ -14,27 +14,14 @@
   }
 
   #page,
+  .step_form,
   .container {
     width: 100% !important;
     padding: 0 !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
     clear: both;
     display: block;
-  }
-
-  .impression {
-    width: 100% !important;
-    font-size: 13pt !important;
-    margin: 0 auto !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    display: table;
-    table-layout: fixed;
-    max-width: 10000px !important;
-    padding-top: 2cm !important;
-    padding-bottom: 2cm !important;
-    padding-left: 1.5cm !important;
-    padding-right: 1.5cm !important;
+    border: none;
   }
 
   *,
@@ -87,7 +74,6 @@
   footer,
   #steps,
   #help-button,
-  .not-print,
   .navbar {
     display: none !important;
   }
