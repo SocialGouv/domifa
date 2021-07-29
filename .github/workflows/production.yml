@@ -271,15 +271,6 @@ jobs:
       with:
         name: namespace.yml
 
-    # - name: Notify deployment start
-    #   uses: bobheadxi/deployments@v0.4.3
-    #   id: deployment
-    #   with:
-    #     step: start
-    #     env: ${{ env.namespace }}
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     desc: "Deploying environment: ${{ env.namespace }}"
-
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
       with:
@@ -297,16 +288,6 @@ jobs:
 
     - name: Deploy application
       run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests.yml
-
-    # - name: Notify deployment end
-    #   uses: bobheadxi/deployments@v0.4.3
-    #   if: always()
-    #   with:
-    #     step: finish
-    #     status: ${{ job.status }}
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-    #     env_url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
   ##############################################################################
   ## GENERATE PROD KUBERNETES MANIFESTS
@@ -330,12 +311,6 @@ jobs:
     - name: Install kosko-charts dependencies
       run: yarn --cwd .k8s install --frozen-lockfile --prefer-offline
 
-    # - name: Generate production namespace
-    #   run: yarn --cwd .k8s --silent generate:prod _namespace > namespace-production.yml
-    #   env:
-    #     SOCIALGOUV_PRODUCTION: true
-    #     SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-
     - name: Generate production manifests
       run: yarn --cwd .k8s --silent generate:prod > manifests-production.yml
       env:
@@ -347,12 +322,6 @@ jobs:
       with:
         name: manifests-production.yml
         path: manifests-production.yml
-
-    # - name: Archive production namespace
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: namespace-production.yml
-    #     path: namespace-production.yml
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END TO PRODUCTION
@@ -380,20 +349,6 @@ jobs:
       with:
         name: manifests-production.yml
 
-    # - name: Download production namespace
-    #   uses: actions/download-artifact@v2
-    #   with:
-    #     name: namespace-production.yml
-
-    # - name: Notify deployment start
-    #   uses: bobheadxi/deployments@v0.4.3
-    #   id: deployment
-    #   with:
-    #     step: start
-    #     env: ${{ env.namespace }}
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     desc: "Deploying environment: ${{ env.namespace }}"
-
     - name: Install Kapp
       uses: vmware-tanzu/carvel-setup-action@v1
       with:
@@ -406,9 +361,6 @@ jobs:
         touch ~/.kube/config
         echo ${{ secrets.SOCIALGOUV_KUBE_CONFIG_PROD2 }} | base64 -d > ~/.kube/config
 
-    # - name: Create production namespace
-    #   run: kubectl create -f namespace-production.yml || true
-
     - name: Deploy application
       run: |
         kapp --dangerous-override-ownership-of-existing-resources \
@@ -416,13 +368,3 @@ jobs:
         -a ${{ env.project }} \
         --namespace domifa \
         -f manifests-production.yml
-
-    # - name: Notify deployment end
-    #   uses: bobheadxi/deployments@v0.4.3
-    #   if: always()
-    #   with:
-    #     step: finish
-    #     status: ${{ job.status }}
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-    #     env_url: https://${{ env.namespace }}.${{ env.SOCIALGOUV_BASE_DOMAIN }}
