@@ -5,10 +5,11 @@ import {
   Usager,
   UsagerAyantDroit,
   UsagerDecision,
+  UsagerEntretien,
 } from "../../../../_common/model";
 import { ETAPE_DOSSIER_COMPLET } from "../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
-import { Entretien } from "../../../interfaces/entretien";
+
 import { UsagersImportUsager } from "../step2-validate-row/schema";
 
 export const usagersImportBuilder = {
@@ -57,7 +58,7 @@ function buildUsager({
   //
   // Partie ENTRETIEN
   //
-  const entretien: Entretien = buildEntretien(usagerRow);
+  const entretien: UsagerEntretien = buildEntretien(usagerRow);
   const ayantsDroits = buildAyantsDroits(usagerRow);
 
   if (usagerRow.datePremiereDom) {
@@ -155,8 +156,8 @@ function buildAyantsDroits(usagerRow): UsagerAyantDroit[] {
   });
 }
 
-function buildEntretien(usagerRow) {
-  const entretien: Entretien = {};
+function buildEntretien(usagerRow): UsagerEntretien {
+  const entretien: UsagerEntretien = {};
 
   entretien.accompagnement = usagerRow.accompagnement;
   if (usagerRow.accompagnement) {

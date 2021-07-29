@@ -68,7 +68,7 @@ async function getStats({
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'PROFESSIONNEL') as v_u_liencommune_professionnel
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'SOCIAL') as v_u_liencommune_social
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'AUTRE') as v_u_liencommune_autre
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'liencommune' is null or state->'entretien'->'liencommune' = 'null' or state->'entretien'->>'liencommune' = 'NON_RENSEIGNE') as v_u_liencommune_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'liencommune' is null or state->'entretien'->'liencommune' = 'null' or  state->'entretien'->>'liencommune' = 'NON_RENSEIGNE') as v_u_liencommune_nr
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'EXERCICE_DROITS') as v_u_raison_exercice_droits
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'PRESTATIONS_SOCIALES') as v_u_raison_prestations_sociales
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'AUTRE') as v_u_raison_autre
