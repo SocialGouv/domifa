@@ -1,3 +1,22 @@
+# [2.12.0](https://github.com/SocialGouv/domifa/compare/v2.11.8...v2.12.0) (2021-08-02)
+
+
+### Bug Fixes
+
+* **entretien:** correction d'un label ([7509506](https://github.com/SocialGouv/domifa/commit/75095063bf67a4222f01d27ae745a9363cef7dba))
+* disable senntry ([4701892](https://github.com/SocialGouv/domifa/commit/4701892d94c44e97807bbd1dc8d35182ba217ea6))
+* **cron:** désactiver le cron a distance ([5719663](https://github.com/SocialGouv/domifa/commit/5719663cb1a84178253d77e13714a78560a50c59))
+* **css:** correction des pages d'impressionn ([385c92b](https://github.com/SocialGouv/domifa/commit/385c92bca56f53fec56f7e09c68174298d5e7e75))
+* **stats:** affichage des stats de lien commune ([51a49f5](https://github.com/SocialGouv/domifa/commit/51a49f5111a8cfc8d301919a814a01af9ba97260))
+* revert to Yarn 1 ([5fb9b38](https://github.com/SocialGouv/domifa/commit/5fb9b383d6a5321c6a70cb2306df9ce9177eabbb))
+
+
+### Features
+
+* **lien-commune:** migration finale ([f9c5eeb](https://github.com/SocialGouv/domifa/commit/f9c5eeb3adf263454ec197353a77d747fe51bbbe))
+* **stats:** ajout des données lien avec la commune ([adc3e42](https://github.com/SocialGouv/domifa/commit/adc3e420adc25a1e1c1964dbb86a9a76119fb665))
+* **stats:** ajout du lien commune ([99d0454](https://github.com/SocialGouv/domifa/commit/99d04542eb1f46636a2e7fcd374845faf4e6819d))
+
 ## [2.11.8](https://github.com/SocialGouv/domifa/compare/v2.11.7...v2.11.8) (2021-08-02)
 
 
