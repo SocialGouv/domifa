@@ -1,3 +1,10 @@
+## [2.11.8](https://github.com/SocialGouv/domifa/compare/v2.11.7...v2.11.8) (2021-08-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency puppeteer to v10 ([b709001](https://github.com/SocialGouv/domifa/commit/b709001330ca2e5cef66a825d69e195579f78703))
+
 ## [2.11.7](https://github.com/SocialGouv/domifa/compare/v2.11.6...v2.11.7) (2021-07-27)
 
 
