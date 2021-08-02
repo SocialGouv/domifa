@@ -53,6 +53,9 @@ export class ManageUsagersTableComponent implements OnInit {
   public updateUsager = new EventEmitter<UsagerLight>();
 
   @Output()
+  public goToPrint = new EventEmitter<void>();
+
+  @Output()
   public updateFilters = new EventEmitter<{
     element: keyof UsagersFilterCriteria;
     value: UsagersFilterCriteria[keyof UsagersFilterCriteria] | null;

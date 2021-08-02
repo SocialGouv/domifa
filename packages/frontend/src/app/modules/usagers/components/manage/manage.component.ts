@@ -82,6 +82,8 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
   public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
 
   public nbResults: number;
+  public needToPrint: boolean;
+  public pageSize: number;
 
   @ViewChild("searchInput", { static: true })
   public searchInput!: ElementRef;
@@ -96,7 +98,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     private notifService: ToastrService,
     private titleService: Title,
     private matomo: MatomoTracker
-  ) {}
+  ) {
+    this.pageSize = 2;
+    this.needToPrint = false;
+  }
 
   public ngOnInit() {
     this.usagers = [];
@@ -194,6 +199,13 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
         this.applyFilters({ filters, allUsagersByStatus });
       })
     );
+  }
+
+  public goToPrint() {
+    this.pageSize = 20000;
+    this.filters.page = 0;
+    this.needToPrint = true;
+    this.filters$.next(this.filters);
   }
 
   public updateUsager(usager: UsagerFormModel) {
@@ -346,20 +358,28 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
       criteria: filterCriteria,
     });
 
-    const pageSize = 40;
     if (filters.page === 0) {
       this.nbResults = filteredUsagers.length;
       this.usagers = filteredUsagers
-        .slice(0, pageSize)
+        .slice(0, this.pageSize)
         .map((item) => new UsagerFormModel(item, filters));
     } else {
       this.usagers = this.usagers.concat(
         filteredUsagers
-          .slice(filters.page * pageSize, filters.page * pageSize + 40)
+          .slice(filters.page * this.pageSize, filters.page * this.pageSize + 2)
           .map((item) => new UsagerFormModel(item, filters))
       );
     }
+
     this.searching = false;
+
+    // Impression: on attend la fin de la générationde la liste
+    if (this.needToPrint) {
+      setTimeout(() => {
+        window.print();
+        this.needToPrint = false;
+      }, 1500);
+    }
   }
 
   private getFilters() {
