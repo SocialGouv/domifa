@@ -6,7 +6,6 @@
     >
       Type de demande
     </th>
-
     <th
       (click)="updateFilters.emit({
       element: 'sortKey',
@@ -41,7 +40,11 @@
       <span *ngIf="filters.statut === 'RADIE' ">RADIÉ LE</span>
     </th>
     <th class="text-left d-print-none">ACTIONS RAPIDES</th>
-    <th></th>
+    <th class="d-print-none">
+      <button class="btn-sm btn-primary btn" (click)="goToPrint.emit()">
+        <fa-icon icon="print"></fa-icon>
+      </button>
+    </th>
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index">
@@ -266,7 +269,7 @@
         </div>
       </td>
 
-      <td>
+      <td class="d-print-none">
         <a class="svg-icon icon-arrow" [routerLink]="usager.usagerProfilUrl">
         </a>
       </td>

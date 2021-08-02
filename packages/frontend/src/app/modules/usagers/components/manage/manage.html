@@ -344,7 +344,7 @@
   <div class="container">
     <div
       *ngIf="usagers.length === 0 && !searching && !loading"
-      class="my-4 alert alert-warning text-center"
+      class="my-4 alert alert-warning text-center d-print-none"
     >
       <span class="mr-2">
         <b>Aucun résultat :</b>
@@ -359,7 +359,7 @@
     <div
       *ngIf="(searching || loading) && filters.page === 0"
       @fadeInOut
-      class="text-center content-overlay"
+      class="text-center content-overlay d-print-none"
     >
       <div *ngIf="searching || loading" @fadeInOutSlow>
         <fa-icon
@@ -378,6 +378,7 @@
         [filters]="filters"
         (updateUsager)="updateUsager($event)"
         (updateFilters)="updateFilters($event)"
+        (goToPrint)="goToPrint()"
       ></app-manage-manage-usagers-table>
     </div>
   </div>
