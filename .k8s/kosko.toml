@@ -1,8 +1,4 @@
 
-# dont include jobs on deploys
-components = ["!jobs", "*"]
+# dont default include jobs and namespace on deploys
+components = ["!_namespace", "!jobs", "*"]
 require = ["ts-node/register"]
-
-# dont include underscores-prefix components
-[environments.prod]
-components = ["!_*"]
