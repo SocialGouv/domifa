@@ -1,4 +1,3 @@
-
 # dont default include jobs and namespace on deploys
 components = ["!_namespace", "!jobs", "*"]
 require = ["ts-node/register"]
