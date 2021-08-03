@@ -1,3 +1,16 @@
+# [2.13.0](https://github.com/SocialGouv/domifa/compare/v2.12.0...v2.13.0) (2021-08-03)
+
+
+### Bug Fixes
+
+* **ci:** dont include namespace on deploy ([4bb499e](https://github.com/SocialGouv/domifa/commit/4bb499e84c9475ce09606cfc759aa9a06ba72b9d))
+* pagination ([6dcf333](https://github.com/SocialGouv/domifa/commit/6dcf3337736fda0d59c3fc5567aeef7a88e4e240))
+
+
+### Features
+
+* **print:** ajout de l'impression de toute la liste ([ff6eddd](https://github.com/SocialGouv/domifa/commit/ff6eddd5e3ea63310cc50188a0eac2e60a4ed089))
+
 # [2.12.0](https://github.com/SocialGouv/domifa/compare/v2.11.8...v2.12.0) (2021-08-02)
 
 
