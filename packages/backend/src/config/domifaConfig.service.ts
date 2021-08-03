@@ -39,8 +39,6 @@ export function loadEnvWithPreset({
     path.join(".env.preset", presetEnvFileName)
   );
 
-  console.log(domifaPresetEnv);
-
   const presetParentEnvFileName = domifaPresetEnv.DOMIFA_ENV_PRESET_PARENT;
 
   if (presetParentEnvFileName) {
