@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 // IMPORTANT: utilisé sur les branches PR pour initialiser la bdd: ne pas supprimer!!!
-export class CreateDatabase1603812391580 implements MigrationInterface {
-  name = "autoMigration1603812391580";
+export class CreateDatabase1603812391581 implements MigrationInterface {
+  name = "autoMigration1603812391581";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`COPY public.structure (uuid, "createdAt", "updatedAt", version, id, adresse, "adresseCourrier", agrement, capacite, "codePostal", "complementAdresse", departement, region, email, "hardReset", "tokenDelete", import, "registrationDate", "importDate", "lastLogin", nom, options, phone, responsable, "structureType", token, verified, ville, sms) FROM stdin;
