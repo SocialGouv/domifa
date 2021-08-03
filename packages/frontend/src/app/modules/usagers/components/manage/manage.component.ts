@@ -99,7 +99,7 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private matomo: MatomoTracker
   ) {
-    this.pageSize = 2;
+    this.pageSize = 40;
     this.needToPrint = false;
   }
 
@@ -366,7 +366,10 @@ export class ManageUsagersComponent implements OnInit, OnDestroy {
     } else {
       this.usagers = this.usagers.concat(
         filteredUsagers
-          .slice(filters.page * this.pageSize, filters.page * this.pageSize + 2)
+          .slice(
+            filters.page * this.pageSize,
+            filters.page * this.pageSize + 40
+          )
           .map((item) => new UsagerFormModel(item, filters))
       );
     }
