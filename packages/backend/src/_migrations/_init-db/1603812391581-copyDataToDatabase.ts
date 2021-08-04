@@ -98,23 +98,7 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
       `
     );
 
-    appLogger.warn("> Primary keys");
-    await queryRunner.query(
-      `
-        ALTER TABLE ONLY public.usager ADD CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.usager_history ADD CONSTRAINT "PK_29638b771d16000882db14bab40" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.message_sms ADD CONSTRAINT "PK_4d9f00a5bf0f7f424985b156043" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.message_email ADD CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.structure_doc ADD CONSTRAINT "PK_6d6be27ca865c8ba30b9c862b70" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.interactions ADD CONSTRAINT "PK_9cf825bde3ff3a979664feb460f" PRIMARY KEY (uuid, id);
-        ALTER TABLE ONLY public.app_user ADD CONSTRAINT "PK_a58dc229068f494a0360b170322" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.app_user_security ADD CONSTRAINT "PK_a617f0127221193d06271877ae0" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.structure ADD CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.structure_stats ADD CONSTRAINT "PK_ed21deae6f1374998af1cb267b9" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.monitor_batch_process ADD CONSTRAINT "PK_f00131d757d1ddf39e70901e372" PRIMARY KEY (uuid);
-      `
-    );
-    appLogger.warn("> Unique keys");
+    appLogger.warn(">> UNIQUE KEYS");
     await queryRunner.query(
       `
         ALTER TABLE ONLY public.structure_stats ADD CONSTRAINT "UQ_102c69c2491695e723e3b7ed4ec" UNIQUE (date, "structureId");
@@ -129,11 +113,25 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
       `
     );
 
-    appLogger.warn("> Indexes");
+    appLogger.warn(">> PRIMARY KEYS");
     await queryRunner.query(
       `
-        CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON public.interactions USING btree ("usagerRef");
-        CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
+        ALTER TABLE ONLY public.usager ADD CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid);
+        ALTER TABLE ONLY public.usager_history ADD CONSTRAINT "PK_29638b771d16000882db14bab40" PRIMARY KEY (uuid);
+        ALTER TABLE ONLY public.message_sms ADD CONSTRAINT "PK_4d9f00a5bf0f7f424985b156043" PRIMARY KEY (uuid);
+        ALTER TABLE ONLY public.message_email ADD CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid);
+        ALTER TABLE ONLY public.structure_doc ADD CONSTRAINT "PK_6d6be27ca865c8ba30b9c862b70" PRIMARY KEY (uuid);
+        ALTER TABLE ONLY public.app_user ADD CONSTRAINT "PK_a58dc229068f494a0360b170322" PRIMARY KEY (uuid);
+        ALTER TABLE ONLY public.app_user_security ADD CONSTRAINT "PK_a617f0127221193d06271877ae0" PRIMARY KEY (uuid);
+        ALTER TABLE ONLY public.structure ADD CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid);
+        ALTER TABLE ONLY public.structure_stats ADD CONSTRAINT "PK_ed21deae6f1374998af1cb267b9" PRIMARY KEY (uuid);
+        ALTER TABLE ONLY public.monitor_batch_process ADD CONSTRAINT "PK_f00131d757d1ddf39e70901e372" PRIMARY KEY (uuid);
+      `
+    );
+
+    appLogger.warn(">> INDEXES");
+    await queryRunner.query(
+      `
         CREATE INDEX "IDX_22a5c4a3d9b2fb8e4e73fc4ada" ON public.app_user USING btree (id);
         CREATE INDEX "IDX_32881a91eaf51f28d3f9cf0958" ON public.structure_stats USING btree ("structureId");
         CREATE INDEX "IDX_36a2e869faca3bb31cbacdf81b" ON public.usager_history USING btree ("structureId");
@@ -143,20 +141,20 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
         CREATE INDEX "IDX_7356ee08f3ac6e3e1c6fe08bd8" ON public.usager_history USING btree ("usagerUUID");
         CREATE INDEX "IDX_8198a25ae40584a38bce1dd4d2" ON public.usager USING btree (ref);
         CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
+        CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
+        CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON public.interactions USING btree ("usagerRef");
+        CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
         CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON public.interactions USING btree ("userId");
         CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
         CREATE INDEX "IDX_b1dfa7ef1934657b38072e749e" ON public.structure_doc USING btree (id);
         CREATE INDEX "IDX_cec1c2a0820383d2a4045b5f90" ON public.app_user_security USING btree ("userId");
         CREATE INDEX "IDX_d79d466c870df0b58864836899" ON public.structure_doc USING btree ("structureId");
-        CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
       `
     );
 
     appLogger.warn("> Create Foreign KEYS");
     await queryRunner.query(
       `
-      ALTER TABLE ONLY public.interactions
-          ADD CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES public.structure(id);
 
       ALTER TABLE ONLY public.structure_stats
           ADD CONSTRAINT "FK_32881a91eaf51f28d3f9cf09589" FOREIGN KEY ("structureId") REFERENCES public.structure(id);
@@ -181,6 +179,9 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
 
       ALTER TABLE ONLY public.structure_doc
           ADD CONSTRAINT "FK_d79d466c870df0b58864836899d" FOREIGN KEY ("structureId") REFERENCES public.structure(id);
+
+      ALTER TABLE ONLY public.interactions
+          ADD CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES public.structure(id);
 
       ALTER TABLE ONLY public.interactions
           ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid);
