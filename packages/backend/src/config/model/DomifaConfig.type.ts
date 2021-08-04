@@ -8,6 +8,7 @@ export type DomifaConfigSecurity = {
   corsUrl: string; // DOMIFA_CORS_URL
   files: {
     iv: string; // DOMIFA_SECURITY_FILES_IV
+    ivSecours: string; // DOMIFA_SECURITY_FILES_IV_SECOURS
     private: string; // DOMIFA_SECURITY_FILES_PRIVATE
   };
   jwtSecret: string; // SECRET

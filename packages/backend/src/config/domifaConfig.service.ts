@@ -367,6 +367,10 @@ function parseSecurityConfig(
       iv: configParser.parseString(x, "DOMIFA_SECURITY_FILES_IV", {
         deprecatedKey: "FILES_IV",
       }),
+      ivSecours: configParser.parseString(
+        x,
+        "DOMIFA_SECURITY_FILES_IV_SECOURS"
+      ),
       private: configParser.parseString(x, "DOMIFA_SECURITY_FILES_PRIVATE", {
         deprecatedKey: "FILES_PRIVATE",
       }),
