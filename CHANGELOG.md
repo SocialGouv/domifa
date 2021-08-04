@@ -1,3 +1,10 @@
+## [2.13.6](https://github.com/SocialGouv/domifa/compare/v2.13.5...v2.13.6) (2021-08-04)
+
+
+### Bug Fixes
+
+* drop structues-stats ([6300c98](https://github.com/SocialGouv/domifa/commit/6300c98bc76002848dadf5427fd753c8178eff24))
+
 ## [2.13.5](https://github.com/SocialGouv/domifa/compare/v2.13.4...v2.13.5) (2021-08-04)
 
 
