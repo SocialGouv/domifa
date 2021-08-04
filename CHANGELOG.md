@@ -1,3 +1,10 @@
+## [2.13.5](https://github.com/SocialGouv/domifa/compare/v2.13.4...v2.13.5) (2021-08-04)
+
+
+### Bug Fixes
+
+* file upload ([2893c18](https://github.com/SocialGouv/domifa/commit/2893c185e8486a1c0e34886b3eb1c450b27f33d8))
+
 ## [2.13.4](https://github.com/SocialGouv/domifa/compare/v2.13.3...v2.13.4) (2021-08-04)
 
 
