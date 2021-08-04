@@ -53,23 +53,24 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     appLogger.warn("> interactions");
     await queryRunner.query(
       `
-      CREATE TABLE public.interactions (
-        uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-        "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
-        "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-        version integer NOT NULL,
-        id integer NOT NULL,
-        "dateInteraction" timestamp without time zone NOT NULL,
-        "nbCourrier" integer NOT NULL,
-        "structureId" integer NOT NULL,
-        type text NOT NULL,
-        "usagerRef" integer NOT NULL,
-        "userId" integer,
-        "userName" text NOT NULL,
-        content text,
-        "usagerUUID" uuid NOT NULL,
-        event text DEFAULT 'create'::text NOT NULL,
-        "previousValue" jsonb
+        CREATE TABLE public.interactions (
+          uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+          "createdAt" timestamptz NOT NULL DEFAULT now(),
+          "updatedAt" timestamptz NOT NULL DEFAULT now(),
+          "version" int4 NOT NULL,
+          id serial NOT NULL,
+          "dateInteraction" timestamptz NOT NULL,
+          "nbCourrier" int4 NOT NULL,
+          "structureId" int4 NOT NULL,
+          "type" text NOT NULL,
+          "usagerRef" int4 NOT NULL,
+          "userId" int4 NULL,
+          "userName" text NOT NULL,
+          "content" text NULL,
+          "usagerUUID" uuid NOT NULL,
+          "event" text NOT NULL DEFAULT 'create'::text,
+          "previousValue" jsonb NULL,
+          CONSTRAINT "PK_9cf825bde3ff3a979664feb460f" PRIMARY KEY (uuid, id)
         );
       `
     );
