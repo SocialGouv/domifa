@@ -1,3 +1,11 @@
+## [2.13.4](https://github.com/SocialGouv/domifa/compare/v2.13.3...v2.13.4) (2021-08-04)
+
+
+### Bug Fixes
+
+* create db ([715fcd7](https://github.com/SocialGouv/domifa/commit/715fcd7f52a3d00e54e0622a49bdca047c1999cb))
+* fail unit test ([630fe71](https://github.com/SocialGouv/domifa/commit/630fe718b8700d484f26dbca85631e9e59d5abc0))
+
 ## [2.13.3](https://github.com/SocialGouv/domifa/compare/v2.13.2...v2.13.3) (2021-08-04)
 
 
