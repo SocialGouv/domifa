@@ -199,26 +199,6 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
       );`
     );
 
-    appLogger.warn("> structure_stats");
-    await queryRunner.query(
-      `CREATE TABLE public.structure_stats (
-        uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-        "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
-        "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-        version integer NOT NULL,
-        nom text NOT NULL,
-        date date NOT NULL,
-        "structureId" integer NOT NULL,
-        "structureType" text NOT NULL,
-        departement text NOT NULL,
-        ville text NOT NULL,
-        capacite integer,
-        "codePostal" text NOT NULL,
-        questions jsonb NOT NULL,
-        generated boolean DEFAULT false NOT NULL
-      );`
-    );
-
     appLogger.warn("> usager");
     await queryRunner.query(
       `CREATE TABLE public.usager (
@@ -284,9 +264,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "app_user" DROP CONSTRAINT "FK_64204d3f209764ef8d08f334bd7"`
     );
-    await queryRunner.query(
-      `ALTER TABLE "structure_stats" DROP CONSTRAINT "FK_32881a91eaf51f28d3f9cf09589"`
-    );
+
     await queryRunner.query(
       `ALTER TABLE "interactions" DROP CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335"`
     );
@@ -308,7 +286,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     await queryRunner.query(`DROP INDEX "IDX_3fa909d0e37c531ebc23770339"`);
     await queryRunner.query(`DROP TABLE "app_user"`);
     await queryRunner.query(`DROP INDEX "IDX_32881a91eaf51f28d3f9cf0958"`);
-    await queryRunner.query(`DROP TABLE "structure_stats"`);
+
     await queryRunner.query(`DROP TABLE "monitor_batch_process"`);
     await queryRunner.query(`DROP TABLE "message_email"`);
     await queryRunner.query(`DROP INDEX "IDX_9992157cbe54583ff7002ae4c0"`);

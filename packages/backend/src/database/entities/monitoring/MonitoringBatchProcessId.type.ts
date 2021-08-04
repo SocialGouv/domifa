@@ -3,5 +3,4 @@ export type MonitoringBatchProcessId =
   | "mail-user-guide"
   | "mail-messages-consumer"
   | "sms-messages-consumer"
-  | "generate-structures-stats"
   | "purge-obsolete-monitoring-data";

@@ -7,23 +7,20 @@ describe("adminBatchsErrorReportEmailRenderer", () => {
     const errorsCount = 5;
     const lastErrorDate = new Date("2020-12-15 14:30:00");
     const lastErrorMessage = "This is a serious error";
-    const {
-      subject,
-      text,
-      html,
-    } = await adminBatchsErrorReportEmailRenderer.renderTemplate({
-      errorsCount: 5,
-      lastErrorDate,
-      lastErrorMessage,
-      processIds: ["generate-structures-stats", "mail-import-guide"],
-      envId: "test",
-    });
+    const { subject, text, html } =
+      await adminBatchsErrorReportEmailRenderer.renderTemplate({
+        errorsCount: 5,
+        lastErrorDate,
+        lastErrorMessage,
+        processIds: ["mail-import-guide"],
+        envId: "test",
+      });
     // be sure the count is ok
     expect(subject).toEqual(
       `[DOMIFA][test] Rapport d'erreur (2020-12-15 14:30 - ${errorsCount} erreurs)`
     );
     expect(text).toContain(`${errorsCount} erreurs`);
-    expect(text).toContain("generate-structures-stats,mail-import-guide");
+    expect(text).toContain("mail-import-guide");
     expect(html).toContain(`${errorsCount} erreurs`);
 
     if (domifaConfig().envId === "dev") {
