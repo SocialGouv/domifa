@@ -1,3 +1,3 @@
-# dont default include jobs and namespace on deploys
-components = ["!_namespace", "!jobs", "*"]
+# dont default include namespace on deploys
+components = ["!_namespace", "*"]
 require = ["ts-node/register"]
