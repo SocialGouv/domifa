@@ -247,11 +247,6 @@ jobs:
       #   env:
       #     SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-      # - name: Generate restore-db job manifest
-      #   run: yarn --cwd .k8s --silent generate:dev jobs/restore > restore-db.yml
-      #   env:
-      #     SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-
       - name: Archive k8s manifests
         uses: actions/upload-artifact@v2
         with:
@@ -269,12 +264,6 @@ jobs:
     #   with:
     #     name: create-db.yml
     #     path: create-db.yml
-
-    # - name: Archive restore-db job
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: restore-db.yml
-    #     path: restore-db.yml
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
