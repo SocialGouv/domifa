@@ -8,14 +8,12 @@ import {
   pgRepository,
   structureDocRepository,
   structureRepository,
-  StructureStatsTable,
   usagerHistoryRepository,
   usagerRepository,
   userSecurityRepository,
   usersRepository,
 } from "../../database";
 import { messageSmsRepository } from "../../database/services/message-sms";
-import { StructureStats } from "../../_common/model";
 
 export const structureDeletorService = {
   generateDeleteToken,
@@ -33,12 +31,6 @@ async function deleteStructureUsagers({
 }: {
   structureId: number;
 }) {
-  await pgRepository
-    .get<StructureStatsTable, StructureStats>(StructureStatsTable)
-    .deleteByCriteria({
-      structureId,
-    });
-
   await interactionRepository.deleteByCriteria({
     structureId,
   });
