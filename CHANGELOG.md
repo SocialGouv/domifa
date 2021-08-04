@@ -1,3 +1,18 @@
+## [2.13.2](https://github.com/SocialGouv/domifa/compare/v2.13.1...v2.13.2) (2021-08-04)
+
+
+### Bug Fixes
+
+* clean scripts ([86ca975](https://github.com/SocialGouv/domifa/commit/86ca9755d579ef72d7cb41f62fe666ad59984972))
+* creation de la db ([a9dc30c](https://github.com/SocialGouv/domifa/commit/a9dc30ce0fbccd5b6b4608352b6fcc12e0f0f30e))
+* cron ([891a82e](https://github.com/SocialGouv/domifa/commit/891a82e3831382c07e3df50f8f627bdbbb6d80a8))
+* db ([3d34d22](https://github.com/SocialGouv/domifa/commit/3d34d2291aebe67518523867c5a82f9aa1f5c197))
+* migration dans le projet directement ([ee371e8](https://github.com/SocialGouv/domifa/commit/ee371e82f3d13e80e9eb89077775433a608f9b5e))
+* migrationn ([aa88e01](https://github.com/SocialGouv/domifa/commit/aa88e017c8238e9a75610eb65170010958320c06))
+* sql import ([6e15f75](https://github.com/SocialGouv/domifa/commit/6e15f758b77be79f926c1ef3c9a4a83a9194ef07))
+* suppression du fichier sql ([50a4eb1](https://github.com/SocialGouv/domifa/commit/50a4eb15c66a71c932e48b40bc0805fcc1c3beae))
+* **migration:** migration test 1 - users ([b097f96](https://github.com/SocialGouv/domifa/commit/b097f96a58515f4255ff5928486be8f81729acf1))
+
 ## [2.13.1](https://github.com/SocialGouv/domifa/compare/v2.13.0...v2.13.1) (2021-08-04)
 
 
