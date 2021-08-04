@@ -257,16 +257,19 @@ export class DocsController {
 
     const key = domifaConfig().security.files.private;
     let iv = domifaConfig().security.files.iv;
-    const envId = domifaConfig().envId;
 
     // TEMP FIX : Utiliser la deuxième clé d'encryptage générée le 30 juin
     // A supprimer une fois que les fichiers seront de nouveaux regénérés
     if (
-      envId === "prod" &&
-      new Date(usager.docs[index].createdAt) >
-        new Date("2021-06-30T01:01:01.113Z")
+      new Date(usager.docs[index].createdAt) <
+      new Date("2021-06-30T01:01:01.113Z")
     ) {
       iv = domifaConfig().security.files.ivSecours;
+      console.log("IV SECOURS REQUIS");
+      console.log(iv);
+    } else {
+      console.log("Utilisattion du nouvel IV après le 30/06");
+      console.log(iv);
     }
 
     const decipher = crypto.createDecipheriv("aes-256-cfb", key, iv);

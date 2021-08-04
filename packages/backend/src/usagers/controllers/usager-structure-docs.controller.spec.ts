@@ -22,6 +22,7 @@ describe("Document Controller", () => {
       UsagerStructureDocsController
     );
   });
+
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
   });
