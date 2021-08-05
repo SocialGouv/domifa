@@ -242,11 +242,6 @@ jobs:
         env:
           SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
 
-      # - name: Generate create-db job manifest
-      #   run: yarn --cwd .k8s --silent generate:dev jobs/pg > create-db.yml
-      #   env:
-      #     SOCIALGOUV_BASE_DOMAIN: ${{ env.SOCIALGOUV_BASE_DOMAIN }}
-
       - name: Archive k8s manifests
         uses: actions/upload-artifact@v2
         with:
@@ -258,12 +253,6 @@ jobs:
         with:
           name: namespace.yml
           path: namespace.yml
-
-    # - name: Archive create-db job
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: create-db.yml
-    #     path: create-db.yml
 
   ##############################################################################
   ## DEPLOY BACKEND & FRONT-END
@@ -291,16 +280,6 @@ jobs:
         id: namespace
         with:
           cmd: yq eval '.metadata.name' namespace.yml
-
-      # - name: Download create-db job
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: create-db.yml
-
-      # - name: Download restore-db job
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: restore-db.yml
 
       - name: Install Kapp
         uses: vmware-tanzu/carvel-setup-action@v1
@@ -335,16 +314,8 @@ jobs:
       - name: Create k8s namespace and annotations
         run: kubectl create -f namespace.yml || true
 
-      # - name: Create database
-      #   run: kubectl apply -f create-db.yml
-
       - name: Deploy application
         run: kapp --dangerous-override-ownership-of-existing-resources -y deploy -a ${{ env.project }} --namespace ${{ env.namespace }} -f manifests.yml
-
-      # - name: Seed database
-      #   run: |
-      #     kubectl delete -f restore-db.yml --namespace ${{ env.namespace }} || true
-      #     kubectl apply -f restore-db.yml --namespace ${{ env.namespace }}
 
       - name: Notify deployment end
         uses: bobheadxi/deployments@v0.6.0
