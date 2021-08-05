@@ -101,7 +101,6 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
     appLogger.warn(">> UNIQUE KEYS");
     await queryRunner.query(
       `
-        ALTER TABLE ONLY public.structure_stats ADD CONSTRAINT "UQ_102c69c2491695e723e3b7ed4ec" UNIQUE (date, "structureId");
         ALTER TABLE ONLY public.app_user ADD CONSTRAINT "UQ_22a5c4a3d9b2fb8e4e73fc4ada1" UNIQUE (id);
         ALTER TABLE ONLY public.usager_history      ADD CONSTRAINT "UQ_29a873927e96c4290d288d594f4" UNIQUE ("structureId", "usagerRef");
         ALTER TABLE ONLY public.app_user ADD CONSTRAINT "UQ_3fa909d0e37c531ebc237703391" UNIQUE (email);
@@ -124,7 +123,6 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
         ALTER TABLE ONLY public.app_user ADD CONSTRAINT "PK_a58dc229068f494a0360b170322" PRIMARY KEY (uuid);
         ALTER TABLE ONLY public.app_user_security ADD CONSTRAINT "PK_a617f0127221193d06271877ae0" PRIMARY KEY (uuid);
         ALTER TABLE ONLY public.structure ADD CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid);
-        ALTER TABLE ONLY public.structure_stats ADD CONSTRAINT "PK_ed21deae6f1374998af1cb267b9" PRIMARY KEY (uuid);
         ALTER TABLE ONLY public.monitor_batch_process ADD CONSTRAINT "PK_f00131d757d1ddf39e70901e372" PRIMARY KEY (uuid);
       `
     );
@@ -133,7 +131,6 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
     await queryRunner.query(
       `
         CREATE INDEX "IDX_22a5c4a3d9b2fb8e4e73fc4ada" ON public.app_user USING btree (id);
-        CREATE INDEX "IDX_32881a91eaf51f28d3f9cf0958" ON public.structure_stats USING btree ("structureId");
         CREATE INDEX "IDX_36a2e869faca3bb31cbacdf81b" ON public.usager_history USING btree ("structureId");
         CREATE INDEX "IDX_3fa909d0e37c531ebc23770339" ON public.app_user USING btree (email);
         CREATE INDEX "IDX_4950bb2d2181b91b9219f9039c" ON public.app_user_security USING btree ("structureId");
@@ -155,10 +152,6 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
     appLogger.warn("> Create Foreign KEYS");
     await queryRunner.query(
       `
-
-      ALTER TABLE ONLY public.structure_stats
-          ADD CONSTRAINT "FK_32881a91eaf51f28d3f9cf09589" FOREIGN KEY ("structureId") REFERENCES public.structure(id);
-
       ALTER TABLE ONLY public.usager_history
           ADD CONSTRAINT "FK_36a2e869faca3bb31cbacdf81ba" FOREIGN KEY ("structureId") REFERENCES public.structure(id);
 
@@ -204,9 +197,6 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
       `ALTER TABLE "app_user" DROP CONSTRAINT "FK_64204d3f209764ef8d08f334bd7"`
     );
     await queryRunner.query(
-      `ALTER TABLE "structure_stats" DROP CONSTRAINT "FK_32881a91eaf51f28d3f9cf09589"`
-    );
-    await queryRunner.query(
       `ALTER TABLE "interactions" DROP CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335"`
     );
     await queryRunner.query(
@@ -227,7 +217,6 @@ export class copyDataToDatabase1603812391581 implements MigrationInterface {
     await queryRunner.query(`DROP INDEX "IDX_3fa909d0e37c531ebc23770339"`);
     await queryRunner.query(`DROP TABLE "app_user"`);
     await queryRunner.query(`DROP INDEX "IDX_32881a91eaf51f28d3f9cf0958"`);
-    await queryRunner.query(`DROP TABLE "structure_stats"`);
     await queryRunner.query(`DROP TABLE "monitor_batch_process"`);
     await queryRunner.query(`DROP TABLE "message_email"`);
     await queryRunner.query(`DROP INDEX "IDX_9992157cbe54583ff7002ae4c0"`);
