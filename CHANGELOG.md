@@ -1,3 +1,10 @@
+## [2.13.8](https://github.com/SocialGouv/domifa/compare/v2.13.7...v2.13.8) (2021-08-05)
+
+
+### Bug Fixes
+
+* sql file ([47aa1b1](https://github.com/SocialGouv/domifa/commit/47aa1b1c8ea22bb26ddf1ca0635c1b01bb133623))
+
 ## [2.13.7](https://github.com/SocialGouv/domifa/compare/v2.13.6...v2.13.7) (2021-08-05)
 
 
