@@ -1,3 +1,10 @@
+## [2.13.7](https://github.com/SocialGouv/domifa/compare/v2.13.6...v2.13.7) (2021-08-05)
+
+
+### Bug Fixes
+
+* migration qui fait tout planter ([774c302](https://github.com/SocialGouv/domifa/commit/774c302b7bf075aa11a5a133c884af7e87b0333f))
+
 ## [2.13.6](https://github.com/SocialGouv/domifa/compare/v2.13.5...v2.13.6) (2021-08-04)
 
 
