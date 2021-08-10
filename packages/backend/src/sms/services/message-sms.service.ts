@@ -178,10 +178,10 @@ export class MessageSmsService {
     return this.messageSmsRepository.find({
       where: { structureId: usager.structureId, usagerRef: usager.ref },
       order: {
-        scheduledDate: "DESC",
+        createdAt: "DESC",
       },
       skip: 0,
-      take: 30,
+      take: 10,
     });
   }
 

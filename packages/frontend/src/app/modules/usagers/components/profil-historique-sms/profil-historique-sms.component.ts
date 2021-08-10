@@ -26,6 +26,11 @@ export class ProfilHistoriqueSmsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.getMySms();
+  }
+
+  public getMySms() {
+    console.log("CHIPS");
     this.usagerService.findMySms(this.usager).subscribe({
       next: (messages: MessageSms[]) => (this.messagesList = messages),
     });

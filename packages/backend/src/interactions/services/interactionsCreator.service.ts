@@ -12,6 +12,7 @@ import { InteractionDto } from "../interactions.dto";
 export const interactionsCreator = {
   createInteraction,
 };
+
 async function createInteraction({
   interaction,
   usager,

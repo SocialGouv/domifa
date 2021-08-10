@@ -37,9 +37,7 @@ export class InteractionsController {
     @CurrentUsager() usager: UsagerLight
   ) {
     // Parcours des demandes
-    for (let i = 0; i < interactions.length; i++) {
-      const interaction: InteractionDto = interactions[i] as InteractionDto;
-
+    for (const interaction of interactions) {
       const created = await interactionsCreator.createInteraction({
         interaction,
         usager,

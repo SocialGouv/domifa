@@ -57,7 +57,6 @@ export class MessageSmsTable
   @Column({ type: "timestamptz", nullable: true })
   public lastUpdate: Date;
 
-  //
   @Column({ type: "integer", default: 0 })
   public errorCount: number;
 
