@@ -265,11 +265,6 @@ export class DocsController {
       new Date("2021-06-30T01:01:01.113Z")
     ) {
       iv = domifaConfig().security.files.ivSecours;
-      console.log("IV SECOURS REQUIS");
-      console.log(iv);
-    } else {
-      console.log("Utilisattion du nouvel IV après le 30/06");
-      console.log(iv);
     }
 
     const decipher = crypto.createDecipheriv("aes-256-cfb", key, iv);

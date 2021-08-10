@@ -429,7 +429,7 @@
                     {{ interaction.label }}
                   </div>
                   <div *ngIf="interaction.event === 'delete'">
-                    <b>Interraction supprimée:</b>
+                    <b>Interaction supprimée:</b>
                     <br />{{ interaction.label }} le {{
                     interaction?.previousValue?.dateInteraction | date:
                     'dd/MM/yyyy à HH:mm' }} par {{
@@ -750,6 +750,7 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <app-profil-historique-sms
+          #smsHistory
           [me]="me"
           [usager]="usager"
         ></app-profil-historique-sms>

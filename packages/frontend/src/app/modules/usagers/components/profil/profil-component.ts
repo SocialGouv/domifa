@@ -1,4 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -42,6 +48,7 @@ import { UsagerFormModel } from "../form/UsagerFormModel";
 
 import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction/constants/INTERACTIONS_IN_AVAILABLE.const";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
+import { ProfilHistoriqueSmsComponent } from "../profil-historique-sms/profil-historique-sms.component";
 
 @Component({
   providers: [
@@ -53,7 +60,7 @@ import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/inte
   styleUrls: ["./profil.css"],
   templateUrl: "./profil.old.html",
 })
-export class UsagersProfilComponent implements OnInit {
+export class UsagersProfilComponent implements OnInit, AfterViewInit {
   // Affichage des formulaires d'édition
   public editInfos: boolean;
   public editEntretien: boolean;
@@ -93,6 +100,9 @@ export class UsagersProfilComponent implements OnInit {
 
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
+
+  @ViewChild("smsHistory") smsHistory: ProfilHistoriqueSmsComponent;
+
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
@@ -135,6 +145,12 @@ export class UsagersProfilComponent implements OnInit {
       DELETE: "Suppression",
       CREATION: "Création",
     };
+  }
+
+  ngAfterViewInit() {
+    // child is set
+    console.log("ijijoij");
+    this.smsHistory.getMySms();
   }
 
   public isRole(role: UserRole) {
@@ -511,6 +527,8 @@ export class UsagersProfilComponent implements OnInit {
       .getInteractions({ usagerRef: this.usager.ref, maxResults: 30 })
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;
+        console.log(interactions);
+        this.smsHistory.getMySms();
       });
   }
 }

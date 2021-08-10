@@ -28,7 +28,6 @@ export class InteractionsSmsManager {
       if (usager.preference?.phone === true) {
         // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
         if (INTERACTION_IN_CREATE_SMS.includes(interaction.type)) {
-          // TODO:  3. Numéro de téléphone valide
           await this.smsService.createSmsInteraction(
             usager,
             structure,

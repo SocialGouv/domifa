@@ -62,6 +62,7 @@ export class InteractionsDeletor {
       structureId: structure.id,
       usagerRef: interaction.usagerRef,
     });
+
     if (!deletedInteraction) {
       throw new HttpException("INTERACTION_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
@@ -75,20 +76,28 @@ export class InteractionsDeletor {
         newEvent,
       });
 
-      if (interaction.type === "npai") {
-        usager.options.npai.actif = false;
-        usager.options.npai.dateDebut = null;
-
-        return this.usagersService.patch({ uuid: usager.uuid }, usager);
-      }
-
+      // Suppression du SMS en file d'attente
       if (direction === "in") {
-        // Suppression du SMS en file d'attente
         await this.smsService.deleteSmsInteraction(
           usager,
           structure.id,
           interaction
         );
+      }
+      // Restaurer le SMS
+      else if (direction === "out") {
+        await this.interactionsSmsManager.updateSmsAfterCreation({
+          interaction,
+          structure,
+          usager,
+        });
+      } else {
+        // Désactiver le NPAI
+        if (interaction.type === "npai") {
+          usager.options.npai.actif = false;
+          usager.options.npai.dateDebut = null;
+          return this.usagersService.patch({ uuid: usager.uuid }, usager);
+        }
       }
 
       return this.updateUsagerLastInteractionAfterDeleteLast({
@@ -99,7 +108,6 @@ export class InteractionsDeletor {
       });
     } else {
       // restore deleted interaction
-
       // même traitement que lors de la création d'une interaction
       const created = await interactionsCreator.createInteraction({
         interaction: interaction.previousValue,
@@ -107,6 +115,7 @@ export class InteractionsDeletor {
         user,
       });
 
+      //
       if (direction === "in") {
         await this.interactionsSmsManager.updateSmsAfterCreation({
           interaction: created.interaction,
@@ -114,13 +123,22 @@ export class InteractionsDeletor {
           usager: created.usager,
         });
       }
+      //
+      else if (direction === "out") {
+        await this.smsService.deleteSmsInteraction(
+          usager,
+          structure.id,
+          created.interaction
+        );
+      } else {
+        // Désactiver le NPAI
+        if (created.interaction.type === "npai") {
+          usager.options.npai.actif = true;
+          usager.options.npai.dateDebut = created.interaction.dateInteraction;
 
-      const deleteInteraction = new InteractionsTable(
-        interaction.previousValue
-      );
-
-      await interactionRepository.save(deleteInteraction);
-
+          return this.usagersService.patch({ uuid: usager.uuid }, usager);
+        }
+      }
       return created.usager;
     }
   }
