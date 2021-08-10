@@ -30,8 +30,6 @@ import { UsagerFormModel } from "../../UsagerFormModel";
   templateUrl: "./rdv.component.html",
 })
 export class RdvComponent implements OnInit {
-  public labels: any;
-
   public rdvForm!: FormGroup;
 
   public usager!: UsagerFormModel;

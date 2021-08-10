@@ -171,7 +171,7 @@
         <span class="label"> Quelle est la composition de votre ménage ? </span>
         <div
           class="form-check"
-          *ngFor="let typeMenage of labels.typeMenage | keyvalue"
+          *ngFor="let typeMenage of ENTRETIEN_TYPE_MENAGE | keyvalue"
         >
           <input
             class="form-check-input"
@@ -191,33 +191,34 @@
           <span class="label">
             Quelle est votre situation résidentielle ?
           </span>
-          <div
-            class="form-check"
-            *ngFor="let residence of labels.residence | keyvalue"
+          <ng-container
+            *ngFor="let residence of ENTRETIEN_RESIDENCE | keyvalue"
           >
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="residence"
-              id="{{ residence.key }}"
-              value="{{ residence.key }}"
-            />
-            <label class="form-check-label" for="{{ residence.key }}">
-              {{ residence.value }}
-            </label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="residence"
-              id="residenceAutre"
-              value="AUTRE"
-            />
-            <label class="form-check-label" for="residenceAutre">
-              Autre lieu de vie
-            </label>
-          </div>
+            <div class="form-check" *ngIf="residence.key !== 'AUTRE'">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="residence"
+                id="{{ residence.key }}"
+                value="{{ residence.key }}"
+              />
+              <label class="form-check-label" for="{{ residence.key }}">
+                {{ residence.value }}
+              </label>
+            </div>
+            <div class="form-check" *ngIf="residence.key === 'AUTRE'">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="residence"
+                id="residenceAutre"
+                value="AUTRE"
+              />
+              <label class="form-check-label" for="residenceAutre">
+                Autre lieu de vie
+              </label>
+            </div></ng-container
+          >
         </div>
         <div class="form-group">
           <input
@@ -234,31 +235,33 @@
         <span class="label">
           Quelle est la cause de l'instabilité de logement ?
         </span>
-        <div class="form-check" *ngFor="let cause of labels.cause | keyvalue">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="cause"
-            id="{{ cause.key }}"
-            value="{{ cause.key }}"
-          />
-          <label class="form-check-label" for="{{ cause.key }}">
-            {{ cause.value }}
-          </label>
-        </div>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="cause"
-            id="causeAutre"
-            value="AUTRE"
-          />
-          <label class="form-check-label" for="causeAutre">
-            Autre raison
-          </label>
-        </div>
 
+        <ng-container *ngFor="let cause of ENTRETIEN_CAUSE | keyvalue">
+          <div class="form-check" *ngIf="cause.key !== 'AUTRE'">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="cause"
+              id="{{ cause.key }}"
+              value="{{ cause.key }}"
+            />
+            <label class="form-check-label" for="{{ cause.key }}">
+              {{ cause.value }}
+            </label>
+          </div>
+          <div class="form-check" *ngIf="cause.key === 'AUTRE'">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="cause"
+              id="causeAutre"
+              value="AUTRE"
+            />
+            <label class="form-check-label" for="causeAutre">
+              Autre raison
+            </label>
+          </div>
+        </ng-container>
         <div class="form-group" *ngIf="e.cause.value === 'AUTRE'">
           <input
             type="text"
@@ -274,33 +277,34 @@
           <span class="label">
             Quel est le motif principal de demande de domiciliation ?
           </span>
-          <div
-            class="form-check"
-            *ngFor="let raison of labels.raison | keyvalue"
+          <ng-container
+            *ngFor="let raison of ENTRETIEN_RAISON_DEMANDE | keyvalue"
           >
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="raison"
-              id="{{ raison.key }}"
-              value="{{ raison.key }}"
-            />
-            <label class="form-check-label" for="{{ raison.key }}">
-              {{ raison.value }}
-            </label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="raison"
-              id="raisonAutre"
-              value="AUTRE"
-            />
-            <label class="form-check-label" for="raisonAutre">
-              Autre raison
-            </label>
-          </div>
+            <div class="form-check" *ngIf="raison.key !== 'AUTRE'">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="raison"
+                id="{{ raison.key }}"
+                value="{{ raison.key }}"
+              />
+              <label class="form-check-label" for="{{ raison.key }}">
+                {{ raison.value }}
+              </label>
+            </div>
+            <div *ngIf="raison.key === 'AUTRE'" class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="raison"
+                id="raisonAutre"
+                value="AUTRE"
+              />
+              <label class="form-check-label" for="raisonAutre">
+                Autre raison
+              </label>
+            </div>
+          </ng-container>
         </div>
         <div *ngIf="e.raison.value === 'AUTRE'" class="form-group">
           <input

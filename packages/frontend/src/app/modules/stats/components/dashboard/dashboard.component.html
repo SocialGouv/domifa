@@ -28,14 +28,14 @@
           <span class="stats-chiffres" [ngClass]="statutClass['TOUS']">
             {{ stats.usagersCountByStatutMap["TOUS"] }}
           </span>
-          <span class="stats-labels">{{ labels.decisionStats["TOUS"] }}</span>
+          <span class="stats-labels">{{ DASHBOARD_STATUS_LABELS["TOUS"] }}</span>
         </div>
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['VALIDE']">
             {{ stats.usagersCountByStatutMap["VALIDE"] }}
           </span>
-          <span class="stats-labels">{{ labels.decisionStats["VALIDE"] }}</span>
+          <span class="stats-labels">{{ DASHBOARD_STATUS_LABELS["VALIDE"] }}</span>
         </div>
 
         <div>
@@ -43,7 +43,7 @@
             {{ stats.usagersCountByStatutMap["INSTRUCTION"] }}
           </span>
           <span class="stats-labels">{{
-            labels.decisionStats["INSTRUCTION"]
+            DASHBOARD_STATUS_LABELS["INSTRUCTION"]
           }}</span>
         </div>
 
@@ -55,7 +55,7 @@
             {{ stats.usagersCountByStatutMap["ATTENTE_DECISION"] }}
           </span>
           <span class="stats-labels">{{
-            labels.decisionStats["ATTENTE_DECISION"]
+            DASHBOARD_STATUS_LABELS["ATTENTE_DECISION"]
           }}</span>
         </div>
 
@@ -63,14 +63,14 @@
           <span class="stats-chiffres" [ngClass]="statutClass['REFUS']">
             {{ stats.usagersCountByStatutMap["REFUS"] }}
           </span>
-          <span class="stats-labels">{{ labels.decisionStats["REFUS"] }}</span>
+          <span class="stats-labels">{{ DASHBOARD_STATUS_LABELS["REFUS"] }}</span>
         </div>
 
         <div>
           <span class="stats-chiffres" [ngClass]="statutClass['RADIE']">
             {{ stats.usagersCountByStatutMap["RADIE"] }}
           </span>
-          <span class="stats-labels">{{ labels.decisionStats["RADIE"] }}</span>
+          <span class="stats-labels">{{ DASHBOARD_STATUS_LABELS["RADIE"] }}</span>
         </div>
 
         <div>
@@ -98,7 +98,7 @@
           <div *ngIf="structure.key !== 'total'">
             <span class="stats-chiffres">{{ structure.value }}</span>
             <span class="stats-labels">
-              {{ labels.structureType[structure.key] }}
+              {{ STRUCTURE_TYPE_LABELS[structure.key] }}
             </span>
           </div>
         </ng-container>

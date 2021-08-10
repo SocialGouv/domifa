@@ -4,13 +4,14 @@ import { AppEntity } from "../_core/AppEntity.type";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./UsagerDecision.type";
 import { UsagerDoc } from "./UsagerDoc.type";
-import { UsagerEntretien } from "./UsagerEntretien.type";
+
 import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerOptions } from "./UsagerOptions.type";
 import { UsagerPreferenceContact } from "./UsagerPreferenceContact.type";
 import { UsagerRdv } from "./UsagerRdv.type";
 import { UsagerSexe } from "./UsagerSexe.type";
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
+import { UsagerEntretien } from "./entretien";
 
 export type Usager = AppEntity & {
   ref: number; // unique par structure

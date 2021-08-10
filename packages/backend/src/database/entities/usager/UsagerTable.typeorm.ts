@@ -3,7 +3,6 @@ import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
 import {
   Usager,
   UsagerDoc,
-  UsagerEntretien,
   UsagerLastInteractions,
   UsagerOptions,
   UsagerPreferenceContact,
@@ -15,6 +14,7 @@ import { UsagerAyantDroit } from "../../../_common/model/usager/UsagerAyantDroit
 import { UsagerDecision } from "../../../_common/model/usager/UsagerDecision.type";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
+import { UsagerEntretien } from "../../../_common/model/usager/entretien";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
@@ -127,7 +127,7 @@ export class UsagerTable
   @Column({
     type: "jsonb",
     // default:
-    //   "{ accompagnement: null, accompagnementDetail: null, cause: null, causeDetail: null, commentaires: null, domiciliation: null, liencommune: null, pourquoi: null, pourquoiDetail: null, rattachement: null, raison: null, raisonDetail: null, residence: null, residenceDetail: null, revenus: null, revenusDetail: null, typeMenage: null }",
+    //   "{ accompagnement: null, accompagnementDetail: null, cause: null, causeDetail: null, commentaires: null, domiciliation: null, liencommune: null, pourquoi: null, rattachement: null, raison: null, raisonDetail: null, residence: null, residenceDetail: null, revenus: null, revenusDetail: null, typeMenage: null }",
   })
   public entretien: UsagerEntretien;
 

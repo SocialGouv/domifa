@@ -65,12 +65,21 @@ export const UsagersImportUsagerSchema = yup
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))
       .notRequired(),
+    // ENTRETIEN
     orientation: booleanOuiNon().notRequired(),
     orientationDetails: yup.string(),
     domiciliationExistante: booleanOuiNon().notRequired(),
     revenus: booleanOuiNon().notRequired(),
-    revenusDetails: yup.string(),
-    lienCommune: yup.string(),
+    revenusDetail: yup.string(),
+    liencommune: oneOfString([
+      "RESIDENTIEL",
+      "PARENTAL",
+      "FAMILIAL",
+      "PROFESSIONNEL",
+      "SOCIAL",
+      "AUTRE",
+    ]).notRequired(),
+    liencommuneDetail: yup.string(),
     compositionMenage: oneOfString([
       "HOMME_ISOLE_SANS_ENFANT",
       "FEMME_ISOLE_SANS_ENFANT",
@@ -98,15 +107,15 @@ export const UsagersImportUsagerSchema = yup
       "SORTIE_STRUCTURE",
       "VIOLENCE",
     ]).notRequired(),
-    causeDetails: yup.string(),
+    causeDetail: yup.string(),
     raisonDemande: oneOfString([
       "EXERCICE_DROITS",
       "PRESTATIONS_SOCIALES",
       "AUTRE",
     ]).notRequired(),
-    raisonDemande_details: yup.string(),
+    raisonDemandeDetail: yup.string(),
     accompagnement: booleanOuiNon().notRequired(),
-    accompagnementDetails: yup.string(),
+    accompagnementDetail: yup.string(),
     commentaires: yup.string(),
     ayantsDroits: yup
       .array(

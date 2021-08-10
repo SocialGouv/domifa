@@ -21,17 +21,17 @@ export const TEST_VALID_IMPORT_ROW = [
   "détails orientation", // orientationDetails
   "NON", // domiciliationExistante
   "OUI", // revenus
-  "détails revenus", // revenusDetails
-  "suivi social", // lienCommune
+  "détails revenus", // revenusDetail
+  "suivi social", // liencommune
   "FEMME_ISOLE_AVEC_ENFANT", // compositionMenage
   "HEBERGEMENT_TIERS", // situationResidentielle
   "détails situation", // situationDetails
   "ERRANCE", // causeInstabilite
-  "détails cause", // causeDetails
+  "détails cause", // causeDetail
   "EXERCICE_DROITS", // raisonDemande
-  "détails raison demande", // raisonDemande_details
+  "détails raison demande", // raisonDemandeDetail
   "NON", // accompagnement
-  "détails accompagnement", // accompagnementDetails
+  "détails accompagnement", // accompagnementDetail
   "commentaires sur l'usager", // commentaires
   "Dupont", // AYANT_DROIT N°1 - nom
   "Paula", // AYANT_DROIT N°1 - prenom

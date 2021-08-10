@@ -13,20 +13,22 @@ describe("DashboardComponent", () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [DashboardComponent],
-      imports: [
-        StructuresModule,
-        HttpClientModule,
-        HttpClientTestingModule,
-        MatomoModule,
-        RouterTestingModule,
-      ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [DashboardComponent],
+        imports: [
+          StructuresModule,
+          HttpClientModule,
+          HttpClientTestingModule,
+          MatomoModule,
+          RouterTestingModule,
+        ],
+        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DashboardComponent);

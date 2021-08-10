@@ -20,17 +20,18 @@ export type UsagerImportObject = {
   orientationDetails?: string;
   domiciliationExistante?: string;
   revenus?: string;
-  revenusDetails?: string;
-  lienCommune?: string;
+  revenusDetail?: string;
+  liencommune?: string;
+  liencommuneDetail?: string;
   compositionMenage?: string;
   situationResidentielle?: string;
   situationDetails?: string;
   causeInstabilite?: string;
-  causeDetails?: string;
+  causeDetail?: string;
   raisonDemande?: string;
-  raisonDemande_details?: string;
+  raisonDemandeDetail?: string;
   accompagnement?: string;
-  accompagnementDetails?: string;
+  accompagnementDetail?: string;
   commentaires?: string;
   ayantsDroits?: {
     nom: string;

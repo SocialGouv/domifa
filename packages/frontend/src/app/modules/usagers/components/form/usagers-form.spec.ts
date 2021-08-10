@@ -19,42 +19,44 @@ describe("UsagersFormComponent", () => {
   let component: UsagersFormComponent;
   let fixture: ComponentFixture<UsagersFormComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [UsagersFormComponent],
-      imports: [
-        MatomoModule,
-        RouterTestingModule,
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        ToastrModule.forRoot(),
-        BrowserAnimationsModule,
-        HttpClientTestingModule,
-      ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UsagersFormComponent],
+        imports: [
+          MatomoModule,
+          RouterTestingModule,
+          NgbModule,
+          ReactiveFormsModule,
+          FormsModule,
+          HttpClientModule,
+          ToastrModule.forRoot(),
+          BrowserAnimationsModule,
+          HttpClientTestingModule,
+        ],
+        providers: [
+          {
+            provide: MatomoInjector,
+            useValue: {
+              init: jest.fn(),
+            },
           },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
+          {
+            provide: MatomoTracker,
+            useValue: {
+              setUserId: jest.fn(),
+            },
           },
-        },
-        { provide: APP_BASE_HREF, useValue: "/" },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+          { provide: APP_BASE_HREF, useValue: "/" },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(UsagersFormComponent);
-    component = fixture.debugElement.componentInstance;
-    component.ngOnInit();
-  }));
+      fixture = TestBed.createComponent(UsagersFormComponent);
+      component = fixture.debugElement.componentInstance;
+      component.ngOnInit();
+    })
+  );
 
   it("0. Création du compenent", () => {
     expect(component).toBeTruthy();
@@ -63,9 +65,7 @@ describe("UsagersFormComponent", () => {
   it("should update header", () => {
     expect(component.doublons).toEqual([]);
 
-    expect(component.labels.residence).toBeDefined();
-    expect(component.labels.cause).toBeDefined();
-    expect(component.labels.raison).toBeDefined();
+    expect(component.LIEN_PARENTE_LABELS).toBeDefined();
 
     expect(component.f).toEqual(component.usagerForm.controls);
   });
@@ -76,12 +76,15 @@ describe("UsagersFormComponent", () => {
     expect(component.usager.lastInteraction).toBeTruthy();
   });
 
-  it("7. DOUBLON", waitForAsync(() => {
-    component.usagerForm.controls.nom.setValue("Mamadou");
-    component.usagerForm.controls.prenom.setValue("Diallo");
-    component.isDoublon();
-    expect(component.doublons).toEqual([]);
-  }));
+  it(
+    "7. DOUBLON",
+    waitForAsync(() => {
+      component.usagerForm.controls.nom.setValue("Mamadou");
+      component.usagerForm.controls.prenom.setValue("Diallo");
+      component.isDoublon();
+      expect(component.doublons).toEqual([]);
+    })
+  );
 
   it("6. Valid form", () => {
     component.usagerForm.controls.nom.setValue("Test nom");

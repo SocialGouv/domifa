@@ -11,9 +11,15 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { UsagerService } from "src/app/modules/usagers/services/usager.service";
-import * as labels from "src/app/modules/usagers/usagers.labels";
+
 import { UsagerLight } from "../../../../../_common/model";
-import { ENTRETIEN_LIEN_COMMUNE } from "../../../../../_common/model/usager/constants";
+import {
+  ENTRETIEN_CAUSE,
+  ENTRETIEN_LIEN_COMMUNE,
+  ENTRETIEN_RAISON_DEMANDE,
+  ENTRETIEN_RESIDENCE,
+  ENTRETIEN_TYPE_MENAGE,
+} from "../../../../../_common/model/usager/constants";
 import { Entretien } from "../../interfaces/entretien";
 
 @Component({
@@ -22,9 +28,11 @@ import { Entretien } from "../../interfaces/entretien";
   templateUrl: "./entretien.component.html",
 })
 export class EntretienComponent implements OnInit {
-  public labels: any;
-
   public ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
+  public ENTRETIEN_TYPE_MENAGE = ENTRETIEN_TYPE_MENAGE;
+  public ENTRETIEN_CAUSE = ENTRETIEN_CAUSE;
+  public ENTRETIEN_RAISON_DEMANDE = ENTRETIEN_RAISON_DEMANDE;
+  public ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
 
   public entretienForm!: FormGroup;
 
@@ -58,8 +66,6 @@ export class EntretienComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.labels = labels;
-
     this.entretienForm = this.formBuilder.group({
       accompagnement: [
         this.usager.entretien.accompagnement,

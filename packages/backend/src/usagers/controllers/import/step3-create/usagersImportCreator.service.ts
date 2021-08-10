@@ -56,7 +56,7 @@ async function createFromImport({
     const nextUsagersHistoryToCreate = nextUsagersToCreate.map((usager) =>
       usagerHistoryStateManager.buildInitialHistoryState({
         isImport: true,
-        usager: usager,
+        usager,
         createdAt: usager.decision.dateDecision,
         createdEvent: "new-decision",
         historyBeginDate: usager.decision.dateDebut,

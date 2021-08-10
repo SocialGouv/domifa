@@ -1,7 +1,12 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { UsagerLight } from "../../../../../../_common/model";
-import { ENTRETIEN_LIEN_COMMUNE } from "../../../../../../_common/model/usager/constants";
-import * as usagersLabels from "../../../usagers.labels";
+import {
+  ENTRETIEN_LIEN_COMMUNE,
+  ENTRETIEN_RAISON_DEMANDE,
+  ENTRETIEN_RESIDENCE,
+  ENTRETIEN_TYPE_MENAGE,
+} from "../../../../../../_common/model/usager/constants";
+
 @Component({
   selector: "app-profil-entretien",
   templateUrl: "./profil-entretien.component.html",
@@ -9,8 +14,11 @@ import * as usagersLabels from "../../../usagers.labels";
 })
 export class ProfilEntretienComponent implements OnInit {
   @Input() public usager: UsagerLight;
-  public labels = usagersLabels;
+
   public ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
+  public ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
+  public ENTRETIEN_RAISON_DEMANDE = ENTRETIEN_RAISON_DEMANDE;
+  public ENTRETIEN_TYPE_MENAGE = ENTRETIEN_TYPE_MENAGE;
 
   constructor() {}
   public ngOnInit() {}

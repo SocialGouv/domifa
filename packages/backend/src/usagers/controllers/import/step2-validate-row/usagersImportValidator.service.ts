@@ -32,13 +32,11 @@ async function parseAndValidate({
 }> {
   const rowAsObject: UsagerImportObject = buildRowAsUsagerObject(row);
   try {
-    const usagerRow: UsagersImportUsager = await UsagersImportUsagerSchema.validate(
-      rowAsObject,
-      {
+    const usagerRow: UsagersImportUsager =
+      await UsagersImportUsagerSchema.validate(rowAsObject, {
         context,
         abortEarly: false,
-      }
-    );
+      });
 
     return { errors: [], usagerRow };
   } catch (err) {

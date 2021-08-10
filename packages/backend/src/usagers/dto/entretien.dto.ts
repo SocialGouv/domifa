@@ -1,6 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsOptional } from "class-validator";
-import { UsagerEntretien, UsagerRaisonDemande } from "../../_common/model";
+import {
+  UsagerEntretien,
+  UsagerEntretienCause,
+  UsagerEntretienLienCommune,
+  UsagerEntretienRaisonDemande,
+  UsagerEntretienResidence,
+  UsagerEntretienTypeMenage,
+} from "../../_common/model/usager/entretien";
 
 export class EntretienDto implements UsagerEntretien {
   @IsOptional()
@@ -33,7 +40,7 @@ export class EntretienDto implements UsagerEntretien {
     "HOMME_ISOLE_AVEC_ENFANT",
     "HOMME_ISOLE_SANS_ENFANT",
   ])
-  public typeMenage!: string;
+  public typeMenage!: UsagerEntretienTypeMenage;
 
   @IsOptional()
   public rattachement!: string;
@@ -59,7 +66,7 @@ export class EntretienDto implements UsagerEntretien {
     "SANS_ABRI",
   ])
   @IsOptional()
-  public residence!: string;
+  public residence!: UsagerEntretienResidence;
 
   @ApiProperty({
     type: String,
@@ -82,7 +89,7 @@ export class EntretienDto implements UsagerEntretien {
     "AUTRE",
   ])
   @IsOptional()
-  public liencommune!: string;
+  public liencommune!: UsagerEntretienLienCommune;
 
   @IsOptional()
   public liencommuneDetail!: string;
@@ -121,7 +128,7 @@ export class EntretienDto implements UsagerEntretien {
     "VIOLENCE",
   ])
   @IsOptional()
-  public cause!: string;
+  public cause!: UsagerEntretienCause;
 
   @ApiProperty({
     type: String,
@@ -130,22 +137,14 @@ export class EntretienDto implements UsagerEntretien {
   @IsOptional()
   public causeDetail!: string;
 
+  @IsIn(["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"])
   @ApiProperty({
     type: String,
     required: false,
+    enum: ["EXERCICE_DROITS", "PRESTATIONS_SOCIALES", "AUTRE"],
   })
   @IsOptional()
-  public pourquoi!: string;
-
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
-  @IsOptional()
-  public pourquoiDetail!: string;
-
-  @IsOptional()
-  public raison!: UsagerRaisonDemande;
+  public raison!: UsagerEntretienRaisonDemande;
 
   @ApiProperty({
     type: String,
@@ -155,18 +154,8 @@ export class EntretienDto implements UsagerEntretien {
   public raisonDetail!: string;
 
   @ApiProperty({
-    type: String,
+    type: Boolean,
     required: false,
-    enum: [
-      "AUTRE",
-      "ERRANCE",
-      "EXPULSION",
-      "HEBERGE_SANS_ADRESSE",
-      "ITINERANT",
-      "RUPTURE",
-      "SORTIE_STRUCTURE",
-      "VIOLENCE",
-    ],
   })
   @IsOptional()
   public accompagnement!: boolean;

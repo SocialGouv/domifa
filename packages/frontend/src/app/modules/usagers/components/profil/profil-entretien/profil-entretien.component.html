@@ -61,7 +61,7 @@
       Autre : {{ usager.entretien.raisonDetail }}
     </span>
     <span class="valeur" *ngIf="usager.entretien.raison != 'AUTRE'">
-      {{ labels.raison[usager.entretien.raison] || "Non renseigné" }}
+      {{ ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison] || "Non renseigné" }}
     </span>
   </div>
 
@@ -71,7 +71,7 @@
       Autre : {{ usager.entretien.residenceDetail }}
     </span>
     <span class="valeur" *ngIf="usager.entretien.residence != 'AUTRE'">
-      {{ labels.residence[usager.entretien.residence] || "Non renseigné" }}
+      {{ ENTRETIEN_RESIDENCE[usager.entretien.residence] || "Non renseigné" }}
     </span>
   </div>
 
@@ -79,9 +79,7 @@
     <span class="question">COMPOSITION MÉNAGE</span>
     <span class="valeur">
       {{
-        labels.typeMenage[usager.entretien.typeMenage] ||
-          "Non
-              renseigné"
+        ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage] || "Non renseigné"
       }}
     </span>
   </div>
@@ -92,7 +90,7 @@
       Autre : {{ usager.entretien.causeDetail }}
     </span>
     <span class="valeur" *ngIf="usager.entretien.cause != 'AUTRE'">
-      {{ labels.cause[usager.entretien.cause] || "Non renseigné" }}
+      {{ ENTRETIEN_LIEN_COMMUNE[usager.entretien.cause] || "Non renseigné" }}
     </span>
   </div>
 

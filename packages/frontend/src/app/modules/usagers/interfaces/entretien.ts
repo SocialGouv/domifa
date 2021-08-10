@@ -1,24 +1,41 @@
-import { UsagerRaisonDemande } from "../../../../_common/model";
+import { UsagerEntretien } from "./../../../../_common/model/usager/entretien/UsagerEntretien.type";
+import {
+  UsagerEntretienCause,
+  UsagerEntretienLienCommune,
+  UsagerEntretienRaisonDemande,
+  UsagerEntretienResidence,
+  UsagerEntretienTypeMenage,
+} from "../../../../_common/model/usager/entretien";
 
-export class Entretien {
+export class Entretien implements UsagerEntretien {
   public domiciliation: boolean;
+
   public revenus: boolean;
   public revenusDetail: string;
+
   public orientation: boolean;
   public orientationDetail: string;
-  public liencommune: string;
+
+  public typeMenage: UsagerEntretienTypeMenage;
+
+  public liencommune: UsagerEntretienLienCommune;
   public liencommuneDetail: string;
-  public residence: string;
+
+  public residence: UsagerEntretienResidence;
   public residenceDetail: string;
-  public cause: string;
+
+  public cause: UsagerEntretienCause;
   public causeDetail: string;
-  public raison: UsagerRaisonDemande;
-  public rattachement: string;
+
+  public raison: UsagerEntretienRaisonDemande;
   public raisonDetail: string;
+
+  public rattachement: string;
+
   public accompagnement: boolean;
   public accompagnementDetail: string;
+
   public commentaires: string;
-  public typeMenage: string;
 
   constructor(entretien?: any) {
     this.domiciliation = null;
