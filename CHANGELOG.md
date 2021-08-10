@@ -1,3 +1,10 @@
+## [2.13.9](https://github.com/SocialGouv/domifa/compare/v2.13.8...v2.13.9) (2021-08-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @sentry/node to v6.11.0 ([abc341c](https://github.com/SocialGouv/domifa/commit/abc341c20a677f547652caffe2e4091ddd41b2e4))
+
 ## [2.13.8](https://github.com/SocialGouv/domifa/compare/v2.13.7...v2.13.8) (2021-08-05)
 
 
