@@ -16,7 +16,8 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 
 import { AppUser } from "../../../../../../../_common/model";
-import { MOTIFS_REFUS_LABELS } from "../../../../../../../_common/model/usager/labels";
+import { MOTIFS_REFUS_LABELS } from "../../../../../../../_common/model/usager/constants/MOTIFS_REFUS_LABELS.const";
+
 import { UsagerDecisionForm } from "../../../../../../../_common/model/usager/UsagerDecisionForm.type";
 import { UsagerLight } from "../../../../../../../_common/model/usager/UsagerLight.type";
 import { formatDateToNgb } from "../../../../../../shared/bootstrap-util";

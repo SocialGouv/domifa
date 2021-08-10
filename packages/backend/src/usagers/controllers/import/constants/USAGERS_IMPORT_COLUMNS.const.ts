@@ -23,11 +23,11 @@ export const USAGERS_IMPORT_COLUMNS = {
     label: "La personne a t-elle déjà une domiciliation ?",
   },
   revenus: { index: 20, label: "Le domicilié possède t-il des revenus ?" },
-  revenusDetails: {
+  revenusDetail: {
     index: 21,
     label: "Seulement si revenus, de quelle nature ?",
   },
-  lienCommune: { index: 22, label: "Lien avec la commune" },
+  liencommune: { index: 22, label: "Lien avec la commune" },
   compositionMenage: { index: 23, label: "Composition du ménage" },
   situationResidentielle: { index: 24, label: "Situation résidentielle" },
   situationDetails: {
@@ -35,11 +35,11 @@ export const USAGERS_IMPORT_COLUMNS = {
     label: "Si autre situation résidentielle, précisez",
   },
   causeInstabilite: { index: 26, label: "Cause instabilité logement" },
-  causeDetails: { index: 27, label: "Si autre cause, précisez" },
+  causeDetail: { index: 27, label: "Si autre cause, précisez" },
   raisonDemande: { index: 28, label: "Motif principal de la demande" },
-  raisonDemande_details: { index: 29, label: "Si autre motif, précisez" },
+  raisonDemandeDetail: { index: 29, label: "Si autre motif, précisez" },
   accompagnement: { index: 30, label: "Accompagnement social" },
-  accompagnementDetails: {
+  accompagnementDetail: {
     index: 31,
     label: "Par quelle structure est fait l'accompagnement ?",
   },

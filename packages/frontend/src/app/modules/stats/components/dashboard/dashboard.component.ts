@@ -10,8 +10,6 @@ import {
 } from "rxjs";
 import { map } from "rxjs/operators";
 
-import * as labels from "src/app/modules/usagers/usagers.labels";
-
 import {
   dataCompare,
   departements,
@@ -26,6 +24,8 @@ import {
   StructureAdmin,
 } from "../../../../../_common/model";
 import { INTERACTIONS_LABELS_PLURIEL } from "../../../../../_common/model/interaction/constants";
+import { DASHBOARD_STATUS_LABELS } from "../../../../../_common/model/usager/constants/DASHBOARD_STATUS_LABELS.const";
+import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/usager/constants/STRUCTURE_TYPE_LABELS.const";
 import { StatsService } from "../services/stats.service";
 import { buildExportStructureStatsFileName } from "../structure-stats/structure-stats.component";
 
@@ -70,6 +70,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   });
   public sortedTableStructures: DashboardTableStructure[];
 
+  public STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
+
   public interactions: any;
 
   public usersByStructure: any;
@@ -94,13 +96,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
 
   public languagesAutocomplete = languagesAutocomplete;
+  public DASHBOARD_STATUS_LABELS = DASHBOARD_STATUS_LABELS;
 
   constructor(
     private statsService: StatsService,
     private titleService: Title,
     private notifService: ToastrService
   ) {
-    this.labels = labels;
     this.regions = REGIONS_LABELS_MAP;
     this.departements = departements;
 
@@ -198,7 +200,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ) => {
             const tableStructure: DashboardTableStructure = {
               ...structure,
-              structureTypeLabel: labels.structureType[structure.structureType],
+              structureTypeLabel:
+                STRUCTURE_TYPE_LABELS[structure.structureType],
               regionLabel: this.getRegionLabel(structure),
               departementLabel: this.getDepartementLabel(structure),
             };

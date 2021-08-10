@@ -247,6 +247,7 @@
             de quelle nature ?
           </th>
           <th>Quel est le lien avec la commune ? (Si CCAS ou CIAS)</th>
+          <th><u>Si autre lien avec la commune</u>, précisions</th>
           <th>Composition du ménage</th>
           <th>Situation résidentielle</th>
           <th><u>Si autre situation résidentielle</u><br />, précisions</th>
@@ -458,6 +459,9 @@
               }"
             >
               {{ row.columns[COL.LIEN_COMMUNE]?.value }}
+            </td>
+            <td>
+              {{ row.columns[COL.LIEN_COMMUNE_DETAILS]?.value }}
             </td>
 
             <td

@@ -41,17 +41,17 @@ describe("usagersImportValidator parse invalid data", () => {
           "détails orientation", // orientationDetails
           "NO", // domiciliationExistante
           "yes", // revenus
-          "détails revenus", // revenusDetails
-          "suivi social", // lienCommune
+          "détails revenus", // revenusDetail
+          "suivi social", // liencommune
           "invalid-compositionMenage", // compositionMenage
           "invalid-situationResidentielle", // situationResidentielle
           "détails situation", // situationDetails
           "invalid-causeInstabilite", // causeInstabilite
-          "détails cause", // causeDetails
+          "détails cause", // causeDetail
           "invalid-raisonDemande", // raisonDemande
-          "détails raison demande", // raisonDemande_details
+          "détails raison demande", // raisonDemandeDetail
           "n", // accompagnement
-          "détails accompagnement", // accompagnementDetails
+          "détails accompagnement", // accompagnementDetail
           "commentaires sur l'usager", // commentaires
           "Dupont", // AYANT_DROIT N°1 - nom
           undefined, // AYANT_DROIT N°1 - prenom

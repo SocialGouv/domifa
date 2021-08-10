@@ -43,12 +43,13 @@ import { isProcurationActifMaintenant } from "../../services";
 import { DocumentService } from "../../services/document.service";
 import { InteractionService } from "../../services/interaction.service";
 import { UsagerService } from "../../services/usager.service";
-import * as usagersLabels from "../../usagers.labels";
+
 import { UsagerFormModel } from "../form/UsagerFormModel";
 
 import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interaction/constants/INTERACTIONS_IN_AVAILABLE.const";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
 import { ProfilHistoriqueSmsComponent } from "../profil-historique-sms/profil-historique-sms.component";
+import { LIEN_PARENTE_LABELS } from "../../../../../_common/model/usager/constants/LIEN_PARENTE_LABELS.const";
 
 @Component({
   providers: [
@@ -82,12 +83,11 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
   });
 
   public INTERACTIONS_LABELS_SINGULIER = INTERACTIONS_LABELS_SINGULIER;
+  public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
 
   public actions: {
     [key: string]: any;
   };
-
-  public labels: any = usagersLabels;
 
   public usager: UsagerFormModel;
   public usagerForm!: FormGroup;

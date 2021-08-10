@@ -4,7 +4,7 @@ export * from "./UsagerDecision.type";
 export * from "./UsagerDecisionMotif.type";
 export * from "./UsagerDecisionStatut.type";
 export * from "./UsagerDoc.type";
-export * from "./UsagerEntretien.type";
+
 export * from "./UsagerImport.type";
 export * from "./UsagerLastInteractions.type";
 export * from "./UsagerLight.type";
@@ -13,7 +13,7 @@ export * from "./UsagerOptionsHistorique.type";
 export * from "./UsagerOptionsProcuration.type";
 export * from "./UsagerOptionsTransfert.type";
 export * from "./UsagerPreferenceContact.type";
-export * from "./UsagerRaisonDemande.type";
+
 export * from "./UsagerRdv.type";
 export * from "./UsagerSexe.type";
 export * from "./UsagerTypeDom.type";

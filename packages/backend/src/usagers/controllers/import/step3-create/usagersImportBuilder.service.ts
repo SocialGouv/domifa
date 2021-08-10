@@ -5,8 +5,8 @@ import {
   Usager,
   UsagerAyantDroit,
   UsagerDecision,
-  UsagerEntretien,
 } from "../../../../_common/model";
+import { UsagerEntretien } from "../../../../_common/model/usager/entretien";
 import { ETAPE_DOSSIER_COMPLET } from "../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
 
@@ -159,19 +159,48 @@ function buildAyantsDroits(usagerRow): UsagerAyantDroit[] {
 function buildEntretien(usagerRow): UsagerEntretien {
   const entretien: UsagerEntretien = {};
 
+  entretien.commentaires = usagerRow.commentaires;
+  entretien.domiciliation = usagerRow.domiciliationExistante;
+  entretien.typeMenage = usagerRow.compositionMenage;
+
   entretien.accompagnement = usagerRow.accompagnement;
   if (usagerRow.accompagnement) {
-    entretien.accompagnementDetail = usagerRow.accompagnementDetails;
+    entretien.accompagnementDetail = usagerRow.accompagnementDetail;
   }
 
   entretien.revenus = usagerRow.revenus;
   if (usagerRow.revenus) {
-    entretien.revenusDetail = usagerRow.revenusDetails;
+    entretien.revenusDetail = usagerRow.revenusDetail;
+  }
+
+  entretien.revenus = usagerRow.revenus;
+  if (usagerRow.revenus) {
+    entretien.revenusDetail = usagerRow.revenusDetail;
+  }
+
+  entretien.liencommune = usagerRow.liencommune;
+  if (usagerRow.liencommune) {
+    entretien.liencommuneDetail = usagerRow.liencommuneDetail;
+  }
+
+  entretien.residence = usagerRow.situationResidentielle;
+  if (usagerRow.situationResidentielle) {
+    entretien.residenceDetail = usagerRow.situationDetails;
   }
 
   entretien.orientation = usagerRow.orientation;
   if (usagerRow.orientation) {
-    entretien.orientationDetail = usagerRow.orientationDetails;
+    entretien.orientationDetail = usagerRow.orientationDetail;
+  }
+
+  entretien.raison = usagerRow.raisonDemande;
+  if (usagerRow.raisonDemande) {
+    entretien.raisonDetail = usagerRow.raisonDemandeDetail;
+  }
+
+  entretien.cause = usagerRow.causeInstabilite;
+  if (usagerRow.causeInstabilite) {
+    entretien.causeDetail = usagerRow.causeDetail;
   }
   return entretien;
 }

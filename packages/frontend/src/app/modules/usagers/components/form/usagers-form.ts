@@ -18,11 +18,12 @@ import {
   minDateToday,
 } from "src/app/shared/bootstrap-util";
 import { AppUser, Usager, UsagerLight } from "../../../../../_common/model";
+import { LIEN_PARENTE_LABELS } from "../../../../../_common/model/usager/constants/LIEN_PARENTE_LABELS.const";
 import { languagesAutocomplete } from "../../../../shared";
 import { fadeInOut } from "../../../../shared/animations";
 import { regexp } from "../../../../shared/validators";
 import { AyantDroit } from "../../interfaces/ayant-droit";
-import * as labels from "../../usagers.labels";
+
 import { UsagerFormModel } from "./UsagerFormModel";
 
 @Component({
@@ -37,9 +38,8 @@ import { UsagerFormModel } from "./UsagerFormModel";
   templateUrl: "./usagers-form.html",
 })
 export class UsagersFormComponent implements OnInit {
-  public labels: any;
   public doublons: UsagerLight[];
-
+  public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
   /* Config datepickers */
   public dToday = new Date();
   public maxDateNaissance: NgbDateStruct;
@@ -85,7 +85,6 @@ export class UsagersFormComponent implements OnInit {
     private nbgDate: NgbDateCustomParserFormatter,
     private titleService: Title
   ) {
-    this.labels = labels;
     this.doublons = [];
 
     this.minDateToday = minDateToday;

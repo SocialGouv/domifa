@@ -5,7 +5,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { AppUser, UsagerLight } from "../../../../../_common/model";
-import { MOTIFS_RADIATION_LABELS } from "../../../../../_common/model/usager/labels";
+import { MOTIFS_RADIATION_LABELS } from "../../../../../_common/model/usager/constants/MOTIFS_RADIATION_LABELS.const";
+
 import { UsagerDecisionMotif } from "../../../../../_common/model/usager/UsagerDecisionMotif.type";
 import { UsagerService } from "../../services/usager.service";
 
