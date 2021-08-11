@@ -7,6 +7,7 @@ import {
   UsagerDecision,
 } from "../../../../_common/model";
 import { UsagerEntretien } from "../../../../_common/model/usager/entretien";
+
 import { ETAPE_DOSSIER_COMPLET } from "../../../../_common/model/usager/ETAPES_DEMANDE.const";
 import { UsagerDecisionMotif } from "../../../../_common/model/usager/UsagerDecisionMotif.type";
 

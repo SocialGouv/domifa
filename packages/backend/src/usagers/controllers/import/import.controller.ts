@@ -149,18 +149,16 @@ export class ImportController {
       // Ligne
       const { row, rowNumber } = usagerImportRows[rowIndex];
 
-      const {
-        usagerRow,
-        errors,
-      } = await usagersImportValidator.parseAndValidate({
-        row,
-        rowNumber,
-        context: {
-          minDate,
-          nextYear,
-          today,
-        },
-      });
+      const { usagerRow, errors } =
+        await usagersImportValidator.parseAndValidate({
+          row,
+          rowNumber,
+          context: {
+            minDate,
+            nextYear,
+            today,
+          },
+        });
       if (errors.length || importMode === "preview") {
         importErrors = importErrors.concat(errors);
         importPreviewRows.push({

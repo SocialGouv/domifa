@@ -45,6 +45,7 @@ describe("UsagersImportCiviliteSchema schema", () => {
       revenus: true,
       revenusDetail: "détails revenus",
       liencommune: "SOCIAL",
+      liencommuneDetail: "Suivi social",
       compositionMenage: "FEMME_ISOLE_AVEC_ENFANT",
       situationResidentielle: "HEBERGEMENT_TIERS",
       situationDetails: "détails situation",
