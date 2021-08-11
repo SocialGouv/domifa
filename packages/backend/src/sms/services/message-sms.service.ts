@@ -1,55 +1,66 @@
+import { MessageSmsSuivi } from "./../../_common/model/message-sms/MessageSmsSuivi.type";
 import moment = require("moment");
-import { Injectable } from "@nestjs/common";
+import { HttpService, Injectable } from "@nestjs/common";
 import { Repository, ReturningStatementNotSupportedError } from "typeorm";
 import { appTypeormManager, structureRepository } from "../../database";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/interactions.dto";
 import { appLogger } from "../../util";
-import {
-  AppAuthUser,
-  Structure,
-  Usager,
-  UsagerLight,
-} from "../../_common/model";
+import { Structure, Usager, UsagerLight } from "../../_common/model";
 import { MessageSms } from "../../_common/model/message-sms";
 import { StructureSmsParams } from "../../_common/model/structure/StructureSmsParams.type";
 import { generateSmsInteraction } from "./generators";
-import { MESSAGE_SMS_STATUS } from "../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
-import { SuiviSmsDto } from "../suivi-sms.dto";
+
+import { AxiosError } from "axios";
+import { domifaConfig } from "../../config";
 
 @Injectable()
 export class MessageSmsService {
   // Délai entre chaque message envoyé
   private messageSmsRepository: Repository<MessageSmsTable>;
 
-  public constructor() {
+  public constructor(private httpService: HttpService) {
     this.messageSmsRepository =
       appTypeormManager.getRepository(MessageSmsTable);
   }
 
-  public async updateMessageSmsStatut(suiviSms: SuiviSmsDto) {
-    const sms = await messageSmsRepository.findOne({
-      responseId: suiviSms.id_accuse,
-    });
+  public async updateMessageSmsStatut(smsToUpdate: MessageSms) {
+    //
+    const options: {
+      key: string;
+      id: string;
+    } = {
+      key: domifaConfig().sms.apiKey,
+      id: smsToUpdate.responseId,
+    };
 
-    if (!sms) {
-      appLogger.warn(
-        `[UPDATE-SMS-STATUS] Sms not found : ${suiviSms.id_message}`,
-        {
-          sentryBreadcrumb: true,
-        }
-      );
-      return;
+    const endPoint =
+      "https://www.spot-hit.fr/api/envoyer/sms/?key=" +
+      options.key +
+      "&id=" +
+      encodeURIComponent(options.id);
+
+    try {
+      const response = await this.httpService.get(endPoint).toPromise();
+      const responseContent: MessageSmsSuivi = response.data;
+      console.log(responseContent);
+    } catch (err) {
+      smsToUpdate.status = "FAILURE";
+      smsToUpdate.errorCount++;
+      smsToUpdate.errorMessage = (err as AxiosError)?.message;
     }
 
-    return messageSmsRepository.updateOne(
-      { responseId: suiviSms.id_accuse },
-      {
-        status: MESSAGE_SMS_STATUS[suiviSms.statut],
-        lastUpdate: new Date(),
-      }
+    const messageSms = await messageSmsRepository.updateOne(
+      { uuid: smsToUpdate.uuid },
+      smsToUpdate
     );
+
+    if (smsToUpdate.status === "FAILURE") {
+      throw new Error(`Sms error: ${smsToUpdate.errorMessage}`);
+    }
+
+    return messageSms;
   }
 
   // Suppression d'un SMS si le courrier a été distribué
