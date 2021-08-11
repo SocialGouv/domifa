@@ -51,8 +51,11 @@ export class Interaction {
       this.type !== "visite" &&
       this.type !== "npai"
     ) {
+      console.log(this.type);
       const nbCourrierTemp = !this.nbCourrier ? 1 : this.nbCourrier;
       this.label = nbCourrierTemp.toString() + " ";
+      console.log(nbCourrierTemp);
+
       this.label =
         nbCourrierTemp > 1
           ? this.label + INTERACTIONS_LABELS_PLURIEL[this.type].toLowerCase()
