@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { UsagerLight } from "../../../../../../_common/model";
 import {
+  ENTRETIEN_CAUSE,
   ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
@@ -19,6 +20,7 @@ export class ProfilEntretienComponent implements OnInit {
   public ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
   public ENTRETIEN_RAISON_DEMANDE = ENTRETIEN_RAISON_DEMANDE;
   public ENTRETIEN_TYPE_MENAGE = ENTRETIEN_TYPE_MENAGE;
+  public ENTRETIEN_CAUSE = ENTRETIEN_CAUSE;
 
   constructor() {}
   public ngOnInit() {}

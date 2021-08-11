@@ -38,7 +38,7 @@ describe("usagersImportValidator parse invalid data", () => {
           "10/03/2050", // datePremiereDom
           "18/12/2040", // dateDernierPassage
           "invalid-orientation", // orientation
-          "détails orientation", // orientationDetails
+          "détails orientation", // orientationDetail
           "NO", // domiciliationExistante
           "yes", // revenus
           "détails revenus", // revenusDetail

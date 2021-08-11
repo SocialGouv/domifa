@@ -1,4 +1,6 @@
-export const TEST_VALID_IMPORT_USAGER = {
+import { UsagerImportObject } from "../../../model";
+
+export const TEST_VALID_IMPORT_USAGER: UsagerImportObject = {
   customId: "15b",
   civilite: "h",
   nom: "Dupont",
@@ -17,7 +19,7 @@ export const TEST_VALID_IMPORT_USAGER = {
   datePremiereDom: "10/03/2019",
   dateDernierPassage: "18/12/2020",
   orientation: "NON",
-  orientationDetails: "détails orientation",
+  orientationDetail: "détails orientation",
   domiciliationExistante: "NON",
   revenus: "OUI",
   revenusDetail: "détails revenus",

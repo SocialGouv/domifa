@@ -18,7 +18,7 @@ export const TEST_VALID_IMPORT_ROW = [
   "10/03/2019", // datePremiereDom
   "18/12/2020", // dateDernierPassage
   "NON", // orientation
-  "détails orientation", // orientationDetails
+  "détails orientation", // orientationDetail
   "NON", // domiciliationExistante
   "OUI", // revenus
   "détails revenus", // revenusDetail

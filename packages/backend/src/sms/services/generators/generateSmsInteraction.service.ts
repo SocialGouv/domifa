@@ -1,5 +1,6 @@
 import { InteractionDto } from "../../../interactions/interactions.dto";
 
+// TODO: calculer les interactions en standBy
 export function generateSmsInteraction(
   interaction: InteractionDto,
   senderDetails: string
