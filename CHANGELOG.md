@@ -1,3 +1,10 @@
+## [2.13.10](https://github.com/SocialGouv/domifa/compare/v2.13.9...v2.13.10) (2021-08-11)
+
+
+### Bug Fixes
+
+* mise à jour des sms ([926f1d3](https://github.com/SocialGouv/domifa/commit/926f1d381d849845aa0a987ed6849672b2d86659))
+
 ## [2.13.9](https://github.com/SocialGouv/domifa/compare/v2.13.8...v2.13.9) (2021-08-10)
 
 
