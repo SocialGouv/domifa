@@ -17,7 +17,7 @@ export type UsagerImportObject = {
   datePremiereDom?: string;
   dateDernierPassage?: string;
   orientation?: string;
-  orientationDetails?: string;
+  orientationDetail?: string;
   domiciliationExistante?: string;
   revenus?: string;
   revenusDetail?: string;

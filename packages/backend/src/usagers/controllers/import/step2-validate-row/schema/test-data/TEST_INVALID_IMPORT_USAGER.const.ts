@@ -19,7 +19,7 @@ export const TEST_INVALID_IMPORT_USAGER: UsagerImportObject = {
   datePremiereDom: "10/03/2019",
   dateDernierPassage: "18/12/2020",
   orientation: "NON",
-  orientationDetails: "détails orientation",
+  orientationDetail: "détails orientation",
   domiciliationExistante: "NON",
   revenus: "OUI",
   revenusDetail: "détails revenus",

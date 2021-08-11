@@ -63,9 +63,12 @@ export class Entretien implements UsagerEntretien {
 
     this.residence = (entretien && entretien.residence) || null;
     this.residenceDetail = (entretien && entretien.residenceDetail) || null;
+
     this.cause = (entretien && entretien.cause) || null;
     this.causeDetail = (entretien && entretien.causeDetail) || null;
+
     this.rattachement = (entretien && entretien.rattachement) || null;
+
     this.raison = (entretien && entretien.raison) || null;
     this.raisonDetail = (entretien && entretien.raisonDetail) || null;
 

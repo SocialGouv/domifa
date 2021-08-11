@@ -67,7 +67,7 @@ export const UsagersImportUsagerSchema = yup
       .notRequired(),
     // ENTRETIEN
     orientation: booleanOuiNon().notRequired(),
-    orientationDetails: yup.string(),
+    orientationDetail: yup.string(),
     domiciliationExistante: booleanOuiNon().notRequired(),
     revenus: booleanOuiNon().notRequired(),
     revenusDetail: yup.string(),

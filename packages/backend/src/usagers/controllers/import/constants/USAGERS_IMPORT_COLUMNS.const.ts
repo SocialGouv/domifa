@@ -17,7 +17,7 @@ export const USAGERS_IMPORT_COLUMNS = {
   datePremiereDom: { index: 15, label: "Date 1ere domiciliation" },
   dateDernierPassage: { index: 16, label: "Date de dernier passage" },
   orientation: { index: 17, label: "Orientation" },
-  orientationDetails: { index: 18, label: "Détails de l'orientation" },
+  orientationDetail: { index: 18, label: "Détails de l'orientation" },
   domiciliationExistante: {
     index: 19,
     label: "La personne a t-elle déjà une domiciliation ?",

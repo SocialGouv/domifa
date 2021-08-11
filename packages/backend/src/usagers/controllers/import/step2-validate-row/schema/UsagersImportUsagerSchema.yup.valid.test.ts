@@ -40,7 +40,7 @@ describe("UsagersImportCiviliteSchema schema", () => {
       datePremiereDom: new Date(Date.UTC(2019, 3 - 1, 10)),
       dateDernierPassage: new Date(Date.UTC(2020, 12 - 1, 18)),
       orientation: false,
-      orientationDetails: "détails orientation",
+      orientationDetail: "détails orientation",
       domiciliationExistante: false,
       revenus: true,
       revenusDetail: "détails revenus",

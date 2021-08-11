@@ -90,7 +90,7 @@
       Autre : {{ usager.entretien.causeDetail }}
     </span>
     <span class="valeur" *ngIf="usager.entretien.cause != 'AUTRE'">
-      {{ ENTRETIEN_LIEN_COMMUNE[usager.entretien.cause] || "Non renseigné" }}
+      {{ ENTRETIEN_CAUSE[usager.entretien.cause] || "Non renseigné" }}
     </span>
   </div>
 
