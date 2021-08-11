@@ -23,5 +23,6 @@ export class ProfilEntretienComponent implements OnInit {
   public ENTRETIEN_CAUSE = ENTRETIEN_CAUSE;
 
   constructor() {}
+
   public ngOnInit() {}
 }

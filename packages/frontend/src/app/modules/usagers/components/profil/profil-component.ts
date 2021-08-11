@@ -149,7 +149,6 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // child is set
-    console.log("ijijoij");
     this.smsHistory.getMySms();
   }
 
@@ -527,7 +526,6 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
       .getInteractions({ usagerRef: this.usager.ref, maxResults: 30 })
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;
-        console.log(interactions);
         this.smsHistory.getMySms();
       });
   }
