@@ -7,7 +7,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
       usagersImportErrorBuilder._parseAyantsDroitsKey("ayantsDroits[0].nom")
     ).toEqual({
       ayantDroitIndex: 0,
-      columnNumber: 1 + 33 + 4 * 0 + 0,
+      columnNumber: 1 + 34 + 4 * 0 + 0,
       columnAttributeLabel: "Nom",
       attributeKey: "nom",
     });
@@ -15,7 +15,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
       usagersImportErrorBuilder._parseAyantsDroitsKey("ayantsDroits[3].prenom")
     ).toEqual({
       ayantDroitIndex: 3,
-      columnNumber: 1 + 33 + 4 * 3 + 1,
+      columnNumber: 1 + 34 + 4 * 3 + 1,
       columnAttributeLabel: "Prénom",
       attributeKey: "prenom",
     });
@@ -25,7 +25,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
       )
     ).toEqual({
       ayantDroitIndex: 2,
-      columnNumber: 1 + 33 + 4 * 2 + 2,
+      columnNumber: 1 + 34 + 4 * 2 + 2,
       columnAttributeLabel: "Date de naissance",
       attributeKey: "dateNaissance",
     });
@@ -35,7 +35,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
       )
     ).toEqual({
       ayantDroitIndex: 2,
-      columnNumber: 1 + 33 + 4 * 2 + 3,
+      columnNumber: 1 + 34 + 4 * 2 + 3,
       columnAttributeLabel: "Lien de Parenté",
       attributeKey: "lienParente",
     });
@@ -68,7 +68,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
         value: "homme",
       },
       {
-        columnNumber: 39,
+        columnNumber: 40,
         details: {
           path: "ayantsDroits[1].prenom",
           value: "",

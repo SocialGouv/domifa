@@ -42,6 +42,7 @@ describe("usagersImportValidator parse invalid data", () => {
           "NO", // domiciliationExistante
           "yes", // revenus
           "détails revenus", // revenusDetail
+          "SOCIAL", // liencommune
           "suivi social", // liencommune
           "invalid-compositionMenage", // compositionMenage
           "invalid-situationResidentielle", // situationResidentielle
@@ -127,49 +128,49 @@ describe("usagersImportValidator parse invalid data", () => {
         value: "yes",
       },
       {
-        columnNumber: 24,
+        columnNumber: 25,
         label: "Composition du ménage",
         rowNumber: 10,
         value: "invalid-compositionMenage",
       },
       {
-        columnNumber: 25,
+        columnNumber: 26,
         label: "Situation résidentielle",
         rowNumber: 10,
         value: "invalid-situationResidentielle",
       },
       {
-        columnNumber: 27,
+        columnNumber: 28,
         label: "Cause instabilité logement",
         rowNumber: 10,
         value: "invalid-causeInstabilite",
       },
       {
-        columnNumber: 29,
+        columnNumber: 30,
         label: "Motif principal de la demande",
         rowNumber: 10,
         value: "invalid-raisonDemande",
       },
       {
-        columnNumber: 31,
+        columnNumber: 32,
         label: "Accompagnement social",
         rowNumber: 10,
         value: "n",
       },
       {
-        columnNumber: 35,
+        columnNumber: 36,
         label: "Prénom Ayant-Droit 1",
         rowNumber: 10,
         value: undefined,
       },
       {
-        columnNumber: 36,
+        columnNumber: 37,
         label: "Date de naissance Ayant-Droit 1",
         rowNumber: 10,
         value: moment(new Date(Date.UTC(2218, 7 - 1, 15))).format("DD/MM/yyyy"),
       },
       {
-        columnNumber: 41,
+        columnNumber: 42,
         label: "Lien de Parenté Ayant-Droit 2",
         rowNumber: 10,
         value: "invalid-lienParente",

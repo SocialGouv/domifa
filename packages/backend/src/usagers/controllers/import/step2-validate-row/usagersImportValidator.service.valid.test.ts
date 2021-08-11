@@ -47,7 +47,7 @@ describe("usagersImportValidator parse valid data", () => {
       revenus: true,
       revenusDetail: "détails revenus",
       liencommune: "SOCIAL",
-      liencommuneDetail: "Habite chez un tiers",
+      liencommuneDetail: "suivi social",
       compositionMenage: "FEMME_ISOLE_AVEC_ENFANT",
       situationResidentielle: "HEBERGEMENT_TIERS",
       situationDetails: "détails situation",
