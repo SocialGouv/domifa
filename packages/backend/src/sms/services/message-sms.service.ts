@@ -1,3 +1,12 @@
+import { MESSAGE_SMS_STATUS } from "./../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
+import {
+  INDEX_DATE_EMISSION,
+  INDEX_DATE_MISE_A_JOUR,
+  INDEX_NUMERO,
+  INDEX_OPERATEUR,
+  INDEX_STATUT,
+  INDEX_STATUT_DETAILLE,
+} from "./../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
 import { MessageSmsSuivi } from "./../../_common/model/message-sms/MessageSmsSuivi.type";
 import moment = require("moment");
 import { HttpService, Injectable } from "@nestjs/common";
@@ -14,6 +23,7 @@ import { generateSmsInteraction } from "./generators";
 
 import { AxiosError } from "axios";
 import { domifaConfig } from "../../config";
+import { INDEX_ID_MESSAGE } from "../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
 
 @Injectable()
 export class MessageSmsService {
@@ -36,14 +46,26 @@ export class MessageSmsService {
     };
 
     const endPoint =
-      "https://www.spot-hit.fr/api/envoyer/sms/?key=" +
+      "https://www.spot-hit.fr/api/dlr?key=" +
       options.key +
       "&id=" +
       encodeURIComponent(options.id);
 
     try {
       const response = await this.httpService.get(endPoint).toPromise();
-      const responseContent: MessageSmsSuivi = response.data;
+
+      const suivi = response.data[0];
+
+      const responseContent: MessageSmsSuivi = {
+        date_emission: new Date(suivi[INDEX_DATE_EMISSION] * 1000),
+        date_mise_a_jour: new Date(suivi[INDEX_DATE_MISE_A_JOUR] * 1000),
+        statut_detaille: MESSAGE_SMS_STATUS[suivi[INDEX_STATUT_DETAILLE]],
+        id_message: suivi[INDEX_ID_MESSAGE],
+        operateur: suivi[INDEX_OPERATEUR],
+        statut: MESSAGE_SMS_STATUS[suivi[INDEX_STATUT]],
+        numero: suivi[INDEX_NUMERO],
+      };
+      console.log(smsToUpdate);
       console.log(responseContent);
     } catch (err) {
       smsToUpdate.status = "FAILURE";
@@ -51,16 +73,16 @@ export class MessageSmsService {
       smsToUpdate.errorMessage = (err as AxiosError)?.message;
     }
 
-    const messageSms = await messageSmsRepository.updateOne(
-      { uuid: smsToUpdate.uuid },
-      smsToUpdate
-    );
+    // const messageSms = await messageSmsRepository.updateOne(
+    //  { uuid: smsToUpdate.uuid },
+    //  smsToUpdate
+    // );
 
-    if (smsToUpdate.status === "FAILURE") {
-      throw new Error(`Sms error: ${smsToUpdate.errorMessage}`);
-    }
+    // if (smsToUpdate.status === "FAILURE") {
+    //  throw new Error(`Sms error: ${smsToUpdate.errorMessage}`);
+    // }
 
-    return messageSms;
+    return smsToUpdate;
   }
 
   // Suppression d'un SMS si le courrier a été distribué
@@ -187,12 +209,12 @@ export class MessageSmsService {
   // Afficher les SMS en attente d'envoi
   public findAll(usager: UsagerLight): Promise<MessageSmsTable[]> {
     return this.messageSmsRepository.find({
-      where: { structureId: usager.structureId, usagerRef: usager.ref },
+      where: { usagerRef: usager.ref, structureId: usager.structureId },
       order: {
         createdAt: "DESC",
       },
       skip: 0,
-      take: 10,
+      take: 2,
     });
   }
 
