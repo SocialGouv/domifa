@@ -2,8 +2,8 @@
   <thead>
     <tr>
       <th>Date</th>
-      <th>Type de SMS</th>
       <th>Statut</th>
+      <th>Type de SMS</th>
       <th>Contenu</th>
     </tr>
   </thead>
@@ -14,11 +14,11 @@
       </td>
       <td>
         <span
-          [ngbTooltip]=""
-          class="label-info"
-          [ngClass]="MESSAGE_SMS_STATUS_LABEL_COLOR[sms.status].color"
+          [ngbTooltip]="MESSAGE_SMS_STATUS[sms.status].description"
+          class="label-statut"
+          [ngClass]="MESSAGE_SMS_STATUS[sms.status].color"
         >
-          {{ MESSAGE_SMS_STATUS_LABEL_COLOR[sms.status].label }}</span
+          {{ MESSAGE_SMS_STATUS[sms.status].label }}</span
         >
       </td>
       <td>{{ INTERACTIONS_LABELS_SINGULIER[sms.smsId] }}</td>

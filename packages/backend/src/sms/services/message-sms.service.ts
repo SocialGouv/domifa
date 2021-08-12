@@ -65,24 +65,22 @@ export class MessageSmsService {
         statut: MESSAGE_SMS_STATUS[suivi[INDEX_STATUT]],
         numero: suivi[INDEX_NUMERO],
       };
-      console.log(smsToUpdate);
-      console.log(responseContent);
+
+      smsToUpdate.status = responseContent.statut;
     } catch (err) {
       smsToUpdate.status = "FAILURE";
       smsToUpdate.errorCount++;
       smsToUpdate.errorMessage = (err as AxiosError)?.message;
     }
 
-    // const messageSms = await messageSmsRepository.updateOne(
-    //  { uuid: smsToUpdate.uuid },
-    //  smsToUpdate
-    // );
+    smsToUpdate.lastUpdate = new Date();
 
-    // if (smsToUpdate.status === "FAILURE") {
-    //  throw new Error(`Sms error: ${smsToUpdate.errorMessage}`);
-    // }
+    const messageSms = await messageSmsRepository.updateOne(
+      { uuid: smsToUpdate.uuid },
+      smsToUpdate
+    );
 
-    return smsToUpdate;
+    return messageSms;
   }
 
   // Suppression d'un SMS si le courrier a été distribué
@@ -214,7 +212,7 @@ export class MessageSmsService {
         createdAt: "DESC",
       },
       skip: 0,
-      take: 2,
+      take: 10,
     });
   }
 

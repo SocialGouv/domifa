@@ -24,7 +24,6 @@ export class CronSmsInteractionSenderService {
   }
 
   public async sendSmsImports(trigger: MonitoringBatchProcessTrigger) {
-    console.log("sendSmsImports");
     await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {
         processId: "sms-messages-consumer",
@@ -41,9 +40,9 @@ export class CronSmsInteractionSenderService {
             monitorSuccess();
           } catch (err) {
             monitorError(err);
-            appLogger.warn(`[CronSms] ERROR in sending SMS : ${err?.message}`, {
-              sentryBreadcrumb: true,
-            });
+            // appLogger.warn(`[CronSms] ERROR in sending SMS : ${err?.message}`, {
+            //   sentryBreadcrumb: true,
+            // });
           }
         }
       }

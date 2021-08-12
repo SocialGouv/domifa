@@ -1,4 +1,11 @@
-export const MESSAGE_SMS_STATUS_LABEL_COLOR: any = {
+import { MessageSmsStatus } from "./MessageSmsStatus.type";
+export const MESSAGE_SMS_STATUS: {
+  [key in MessageSmsStatus]: {
+    label: string;
+    description: string;
+    color: string;
+  };
+} = {
   TO_SEND: {
     label: "Envoi prévu",
     description: "",
