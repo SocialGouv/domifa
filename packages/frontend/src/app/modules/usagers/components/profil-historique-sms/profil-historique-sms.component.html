@@ -14,13 +14,13 @@
       </td>
       <td>
         <span
+          [ngbTooltip]=""
           class="label-info"
           [ngClass]="MESSAGE_SMS_STATUS_LABEL_COLOR[sms.status].color"
         >
           {{ MESSAGE_SMS_STATUS_LABEL_COLOR[sms.status].label }}</span
         >
       </td>
-
       <td>{{ INTERACTIONS_LABELS_SINGULIER[sms.smsId] }}</td>
       <td>{{ sms.content }}</td>
     </tr>

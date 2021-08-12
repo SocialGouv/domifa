@@ -1,4 +1,4 @@
-import { forwardRef, Module } from "@nestjs/common";
+import { forwardRef, HttpModule, Module } from "@nestjs/common";
 import { MessageSmsService } from "../sms/services/message-sms.service";
 import { SmsModule } from "../sms/sms.module";
 import { StructuresModule } from "../structures/structure.module";
@@ -12,6 +12,7 @@ import { InteractionsSmsManager } from "./services/InteractionsSmsManager.servic
   controllers: [InteractionsController],
   exports: [InteractionsSmsManager, InteractionsService, InteractionsDeletor],
   imports: [
+    HttpModule,
     forwardRef(() => UsersModule),
     forwardRef(() => UsagersModule),
     forwardRef(() => StructuresModule),

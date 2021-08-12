@@ -1,15 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
-} from "@nestjs/common";
+import { Body, Controller, Get, Param, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { last } from "rxjs/operators";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { DomifaGuard } from "../auth/guards/domifa.guard";
