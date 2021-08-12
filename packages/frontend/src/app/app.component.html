@@ -179,6 +179,9 @@
           href="https://www.fabrique.social.gouv.fr"
           target="_blank"
           rel="noopener noreferrer"
+          (click)="
+            matomo.trackEvent('FOOTER', 'Footer_Logo_Fabrique', 'null', 1)
+          "
         >
           <img
             class="ministere-logo"
@@ -192,6 +195,7 @@
           href="https://beta.gouv.fr"
           target="_blank"
           rel="noopener noreferrer"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_Beta', 'null', 1)"
         >
           <img
             class="ministere-logo"
@@ -204,6 +208,9 @@
           href="https://www.gouvernement.fr/france-relance"
           target="_blank"
           rel="noopener noreferrer"
+          (click)="
+            matomo.trackEvent('FOOTER', 'Footer_Logo_FranceRelance', 'null', 1)
+          "
         >
           <img
             class="ministere-logo"
@@ -216,6 +223,7 @@
           href="https://www.gouvernement.fr/delegation-interministerielle-a-l-hebergement-et-a-l-acces-au-logement"
           target="_blank"
           rel="noopener noreferrer"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_DIHAL', 'null', 1)"
         >
           <img
             class="ministere-logo"
@@ -225,6 +233,7 @@
         /></a>
         <a
           class="mr-0 mr-sm-3"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_DGCS', 'null', 1)"
           href="https://www.gouvernement.fr/le-ministere-des-solidarites-et-de-la-sante"
           target="_blank"
           rel="noopener noreferrer"
@@ -239,6 +248,7 @@
           href="https://www.unccas.org"
           target="_blank"
           rel="noopener noreferrer"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_UNCCAS', 'null', 1)"
         >
           <img
             class="ministere-logo"
@@ -255,6 +265,9 @@
         <a
           [routerLink]="['/mentions-legales']"
           routerLinkActive="router-link-active"
+          (click)="
+            matomo.trackEvent('FOOTER', 'Footer_Mentions_Légales', 'null', 1)
+          "
           title="FAQ"
         >
           Mentions légales
@@ -263,12 +276,17 @@
         <a
           [routerLink]="['/cgu']"
           routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_CGU', 'null', 1)"
           title="Conditions d'utilisation"
         >
           CGU
         </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
-        <a [routerLink]="['/news']" routerLinkActive="router-link-active">
+        <a
+          [routerLink]="['/news']"
+          routerLinkActive="router-link-active"
+          (click)="matomo.trackEvent('FOOTER', 'Footer_Nouveautés', 'null', 1)"
+        >
           Nouveautés
         </a>
         <span class="menu-breadcrumb d-none d-sm-block mt-2 mt-sm-0">|</span>
