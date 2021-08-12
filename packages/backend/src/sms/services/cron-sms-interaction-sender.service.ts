@@ -15,11 +15,11 @@ export class CronSmsInteractionSenderService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   protected async sendSmsImportCron() {
-    // if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
-    //  // Désactiver tous les SMS en attente
-    //  appLogger.warn(`[CronSms] Disable all SMS to Send`);
-    //   return this.messageSmsSenderService.disableAllSmsToSend();
-    // }
+    if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
+      // Désactiver tous les SMS en attente
+      appLogger.warn(`[CronSms] Disable all SMS to Send`);
+      return this.messageSmsSenderService.disableAllSmsToSend();
+    }
     await this.sendSmsImports("cron");
   }
 
@@ -40,9 +40,9 @@ export class CronSmsInteractionSenderService {
             monitorSuccess();
           } catch (err) {
             monitorError(err);
-            // appLogger.warn(`[CronSms] ERROR in sending SMS : ${err?.message}`, {
-            //   sentryBreadcrumb: true,
-            // });
+            appLogger.warn(`[CronSms] ERROR in sending SMS : ${err?.message}`, {
+              sentryBreadcrumb: true,
+            });
           }
         }
       }

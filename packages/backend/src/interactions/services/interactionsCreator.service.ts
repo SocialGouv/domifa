@@ -25,7 +25,7 @@ async function createInteraction({
   usager: UsagerLight;
   interaction: Interactions;
 }> {
-  const buildedInteraction = buildNewInteraction({
+  const buildedInteraction = await buildNewInteraction({
     interaction,
     usager,
     user,
@@ -49,7 +49,7 @@ async function createInteraction({
   return { usager: usagerUpdated, interaction: interactionCreated };
 }
 
-function buildNewInteraction({
+async function buildNewInteraction({
   interaction,
   usager,
   user,
@@ -57,10 +57,10 @@ function buildNewInteraction({
   interaction: InteractionDto;
   usager: Pick<Usager, "ref" | "uuid" | "lastInteraction" | "options">;
   user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
-}): {
+}): Promise<{
   usager: Pick<Usager, "lastInteraction">;
   newInteraction: Omit<InteractionsTable, "_id" | "id">;
-} {
+}> {
   const newInteraction = new InteractionsTable(interaction);
 
   const direction = interactionsTypeManager.getDirection({
@@ -89,7 +89,6 @@ function buildNewInteraction({
     }
 
     // Transfert actif: on le précise dans le contenu
-
     if (usager.options.transfert.actif) {
       if (new Date(usager.options.transfert.dateFin) >= new Date()) {
         newInteraction.content =
@@ -103,6 +102,17 @@ function buildNewInteraction({
     const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
       type: interaction.type,
     });
+
+    // On ajoute le dernier contenu
+
+    const lastInteraction =
+      await interactionRepository.findLastInteractionInWithContent({
+        user,
+        usager,
+        oppositeType,
+      });
+
+    newInteraction.content = lastInteraction.content;
 
     newInteraction.nbCourrier = usager.lastInteraction[oppositeType] || 1;
 

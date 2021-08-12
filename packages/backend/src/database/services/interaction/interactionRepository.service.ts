@@ -1,4 +1,4 @@
-import { FindConditions, In, LessThan, MoreThan } from "typeorm";
+import { FindConditions, In, LessThan, MoreThan, Not } from "typeorm";
 import { AppAuthUser, AppUser, Usager } from "../../../_common/model";
 import {
   InteractionEvent,
@@ -11,13 +11,15 @@ import {
 import { InteractionsTable } from "../../entities";
 import { pgRepository, typeOrmSearch } from "../_postgres";
 
-const baseRepository =
-  pgRepository.get<InteractionsTable, Interactions>(InteractionsTable);
+const baseRepository = pgRepository.get<InteractionsTable, Interactions>(
+  InteractionsTable
+);
 
 export const interactionRepository = {
   ...baseRepository,
   findLastInteraction,
   findLastInteractionOk,
+  findLastInteractionInWithContent,
   findWithFilters,
 };
 
@@ -75,6 +77,32 @@ async function findLastInteractionOk({
   return lastInteractions?.length > 0 ? lastInteractions[0] : undefined;
 }
 
+async function findLastInteractionInWithContent({
+  user,
+  usager,
+  oppositeType,
+}: {
+  user: Pick<AppAuthUser, "structureId">;
+  usager: Pick<Usager, "ref">;
+  oppositeType: InteractionType;
+}): Promise<Interactions> {
+  const lastInteractions = await baseRepository.findMany(
+    typeOrmSearch<InteractionsTable>({
+      structureId: user.structureId,
+      usagerRef: usager.ref,
+      type: oppositeType,
+      event: "create",
+    }),
+    {
+      order: {
+        dateInteraction: "DESC",
+      },
+      maxResults: 1,
+    }
+  );
+  return lastInteractions?.length > 0 ? lastInteractions[0] : undefined;
+}
+
 async function findWithFilters({
   usagerRef,
   structureId,
@@ -89,7 +117,7 @@ async function findWithFilters({
   const search: Partial<InteractionsTable> = { structureId, usagerRef };
 
   if (filter === "distribution") {
-    search["type"] = In(INTERACTION_IN_OUT_LIST) as any;
+    search.type = In(INTERACTION_IN_OUT_LIST) as any;
   }
   const interactions = await interactionRepository.findMany(search, {
     order: {
