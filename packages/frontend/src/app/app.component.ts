@@ -53,12 +53,12 @@ export class AppComponent implements OnInit {
     private healthCheckService: HealthCheckService,
     private authService: AuthService,
     private matomoInjector: MatomoInjector,
-    private matomo: MatomoTracker,
     private modalService: NgbModal,
     private http: HttpClient,
     private router: Router,
     private titleService: Title,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    public matomo: MatomoTracker
   ) {
     this.help = false;
 
