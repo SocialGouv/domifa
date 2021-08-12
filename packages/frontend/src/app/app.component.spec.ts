@@ -7,32 +7,34 @@ import { MatomoInjector, MatomoModule, MatomoTracker } from "ngx-matomo";
 import { AppComponent } from "./app.component";
 
 describe("AppComponent", () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: [
-        HttpClientModule,
-        HttpClientTestingModule,
-        MatomoModule,
-        RouterTestingModule,
-      ],
-      providers: [
-        {
-          provide: MatomoInjector,
-          useValue: {
-            init: jest.fn(),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AppComponent],
+        imports: [
+          HttpClientModule,
+          HttpClientTestingModule,
+          MatomoModule,
+          RouterTestingModule,
+        ],
+        providers: [
+          {
+            provide: MatomoInjector,
+            useValue: {
+              init: jest.fn(),
+            },
           },
-        },
-        {
-          provide: MatomoTracker,
-          useValue: {
-            setUserId: jest.fn(),
+          {
+            provide: MatomoTracker,
+            useValue: {
+              setUserId: jest.fn(),
+            },
           },
-        },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
-  }));
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   it("should create the app", () => {
     const fixture = TestBed.createComponent(AppComponent);

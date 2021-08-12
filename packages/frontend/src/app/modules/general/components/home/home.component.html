@@ -9,7 +9,13 @@
           </div>
         </h1>
         <div class="mt-2 mt-lg-4">
-          <a routerLink="/inscription" class="btn bg-light btn-outline-primary">
+          <a
+            routerLink="/inscription"
+            class="btn bg-light btn-outline-primary"
+            (click)="
+              matomo.trackEvent('HOME', 'HP_Découvrir_Plateforme', 'null', 1)
+            "
+          >
             Découvrir la plateforme &#8594;
           </a>
         </div>
@@ -166,6 +172,9 @@
           routerLink="/confidentialite"
           title="Lire notre politique de confidentialité"
           class="text-sm font-bold text-primary"
+          (click)="
+            matomo.trackEvent('HOME', 'HP_Politique_Confidentialité', 'null', 1)
+          "
         >
           Lire notre politique de confidentialité &#8594;
         </a>
@@ -190,7 +199,12 @@
           pour découvrir la plateforme.
         </p>
         <div>
-          <a routerLink="/faq" class="text-sm font-bold text-primary">
+          <a
+            routerLink="/faq"
+            class="text-sm font-bold text-primary"
+            title="Voir notre centre d'aide"
+            (click)="matomo.trackEvent('HOME', 'HP_Centre_Aide', 'null', 1)"
+          >
             Voir notre centre d’aide &#8594;
           </a>
         </div>
@@ -204,7 +218,12 @@
           en quelques clics.
         </p>
         <div>
-          <a routerLink="/inscription" class="text-sm font-bold text-primary">
+          <a
+            routerLink="/inscription"
+            title="S'inscrire"
+            (click)="matomo.trackEvent('HOME', 'HP_Inscription1', 'null', 1)"
+            class="text-sm font-bold text-primary"
+          >
             S'inscrire &#8594;
           </a>
         </div>
@@ -242,6 +261,7 @@
       <button
         class="btn bg-light btn-outline-primary cursor-not-allowed"
         disabled
+        (click)="matomo.trackEvent('HOME', 'HP_Statistiques', 'null', 1)"
       >
         Voir nos statistiques (en cours de construction) &#8594;
       </button>
@@ -317,12 +337,17 @@
           demandes de domiciliations.
         </p>
         <div class="mt-2 mt-lg-4">
-          <a routerLink="/inscription" class="btn bg-light btn-outline-primary">
+          <a
+            routerLink="/inscription"
+            class="btn bg-light btn-outline-primary"
+            (click)="matomo.trackEvent('HOME', 'HP_Inscription2', 'null', 1)"
+          >
             S'inscrire &#8594;
           </a>
           <a
             href="mailto:contact.domifa@fabrique.social.gouv.fr"
             class="ml-2 text-sm font-bold text-white"
+            (click)="matomo.trackEvent('HOME', 'HP_Contact_Équipe', 'null', 1)"
           >
             Contacter l’équipe &#8594;
           </a>
