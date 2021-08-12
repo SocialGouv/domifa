@@ -41,10 +41,14 @@ export class SmsController {
     // Etape 2 : on renvoi les donnnnées
     const allSmsUpdated = [];
     for (const sms of lastTenSms) {
-      const smsUpdated = await this.messageSmsService.updateMessageSmsStatut(
-        sms
-      );
-      allSmsUpdated.push(smsUpdated);
+      if (sms.status !== "TO_SEND") {
+        const smsUpdated = await this.messageSmsService.updateMessageSmsStatut(
+          sms
+        );
+        allSmsUpdated.push(smsUpdated);
+      } else {
+        allSmsUpdated.push(sms);
+      }
     }
     return allSmsUpdated;
   }

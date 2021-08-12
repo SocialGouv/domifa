@@ -4,6 +4,7 @@
       <a [routerLink]="['/']">
         <img
           class="home-header-image"
+          (click)="matomo.trackEvent('HOME', 'Header_Logo_DomiFa', 'null', 1)"
           src="../assets/images/logo-ministere.svg "
           alt="Ministère des Solidarités et de la Santé"
           title="Ministère des Solidarités et de la Santé"
@@ -35,12 +36,21 @@
           <ng-container *ngIf="!me">
             <!-- MENU SI DECONNECTE - SAUF MOBILE -->
             <div class="d-none d-xs-inline-block d-sm-inline-block">
-              <a routerLink="/faq" class="btn text-primary"> En savoir plus </a>
+              <a
+                routerLink="/faq"
+                class="btn text-primary"
+                (click)="matomo.trackEvent('HOME', 'Header_ESP', 'null', 1)"
+              >
+                En savoir plus
+              </a>
               <span class="nav--menu-breadcrumb">|</span>
               <a
                 routerLink="/connexion"
                 aria-hidden="true"
                 title="Me connecter"
+                (click)="
+                  matomo.trackEvent('HEADER', 'Header_Connection', 'null', 1)
+                "
                 class="btn text-primary"
               >
                 Me connecter &#8594;

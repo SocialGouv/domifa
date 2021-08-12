@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { CountUpOptions } from "countup.js";
+import { MatomoTracker } from "ngx-matomo";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { AppUser } from "../../../../../_common/model";
 import { HomeService } from "./home.service";
@@ -19,7 +20,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private titleService: Title,
     private homeService: HomeService,
-    private authenticationService: AuthService
+    private authenticationService: AuthService,
+    public matomo: MatomoTracker
   ) {
     this.countOptions = {
       duration: 2,
