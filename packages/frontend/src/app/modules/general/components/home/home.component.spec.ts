@@ -11,8 +11,8 @@ import { CountUpModule } from "ngx-countup";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MatomoInjector } from "ngx-matomo/src/service/matomo-injector.service";
-import { MatomoTracker } from "ngx-matomo";
+
+import { MatomoInjector, MatomoTracker } from "ngx-matomo";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
