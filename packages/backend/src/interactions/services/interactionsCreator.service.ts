@@ -77,6 +77,21 @@ async function buildNewInteraction({
       usager.lastInteraction[interaction.type] + count;
     usager.lastInteraction.enAttente = true;
   } else if (direction === "out") {
+    const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
+      type: interaction.type,
+    });
+
+    // On ajoute le dernier contenu
+
+    const lastInteraction =
+      await interactionRepository.findLastInteractionInWithContent({
+        user,
+        usager,
+        oppositeType,
+      });
+
+    newInteraction.content = lastInteraction?.content || "";
+
     // La procuration ne remet pas à jour le dernier passage
     if (interaction.procuration) {
       newInteraction.content =
@@ -98,21 +113,6 @@ async function buildNewInteraction({
           usager.options.transfert.adresse.toUpperCase();
       }
     }
-
-    const oppositeType = interactionsTypeManager.getOppositeDirectionalType({
-      type: interaction.type,
-    });
-
-    // On ajoute le dernier contenu
-
-    const lastInteraction =
-      await interactionRepository.findLastInteractionInWithContent({
-        user,
-        usager,
-        oppositeType,
-      });
-
-    newInteraction.content = lastInteraction.content;
 
     newInteraction.nbCourrier = usager.lastInteraction[oppositeType] || 1;
 
