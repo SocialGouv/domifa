@@ -153,6 +153,7 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit() {
     // child is set
+    this.getMySms();
     //  this.smsHistory.getMySms();
   }
 
@@ -163,6 +164,7 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
   public getMySms() {
     this.usagerService.findMySms(this.usager).subscribe({
       next: (messages: MessageSms[]) => {
+        console.log(messages);
         this.messagesList = messages;
         this.messagesError = 0;
 
@@ -175,6 +177,8 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
             this.messagesError++;
           }
         }
+
+        console.log(this.messagesError);
       },
     });
   }
@@ -215,7 +219,7 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
         }
 
         this.usager = new UsagerFormModel(usager);
-
+        this.getMySms();
         this.getInteractions();
         this.initForms();
       },

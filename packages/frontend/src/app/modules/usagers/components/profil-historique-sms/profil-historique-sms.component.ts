@@ -26,7 +26,7 @@ export class ProfilHistoriqueSmsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.getMySms();
+    // this.getMySms();
   }
 
   public getMySms() {
