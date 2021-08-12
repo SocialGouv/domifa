@@ -14,6 +14,22 @@
 * init check status ([669d237](https://github.com/SocialGouv/domifa/commit/669d237755be201b4edc9cb10a8b73e4e35993b3))
 * mettre à jour le statut du sms ([dc9f46a](https://github.com/SocialGouv/domifa/commit/dc9f46a9168d40eab9abda69e00e828ad18ab3e1))
 
+# [2.14.0](https://github.com/SocialGouv/domifa/compare/v2.13.11...v2.14.0) (2021-08-12)
+
+
+### Bug Fixes
+
+* sms ([cea73b6](https://github.com/SocialGouv/domifa/commit/cea73b664ca99532eb56e8b6fc52b8b75c31eff1))
+* test sur les sms ([8c30d1d](https://github.com/SocialGouv/domifa/commit/8c30d1dbc606748ef9cba3a2f65abab13a3415b6))
+
+
+### Features
+
+* afficher une alerte pour les sms ([15d5529](https://github.com/SocialGouv/domifa/commit/15d55295a342998b507a1b97d0cd1f24103f4393))
+* **sms:** ajout des status à jour ([c5465f9](https://github.com/SocialGouv/domifa/commit/c5465f9bd590ebd72bd9eba8834142c14e307244))
+* init check status ([669d237](https://github.com/SocialGouv/domifa/commit/669d237755be201b4edc9cb10a8b73e4e35993b3))
+* mettre à jour le statut du sms ([dc9f46a](https://github.com/SocialGouv/domifa/commit/dc9f46a9168d40eab9abda69e00e828ad18ab3e1))
+
 ## [2.13.11](https://github.com/SocialGouv/domifa/compare/v2.13.10...v2.13.11) (2021-08-11)
 
 
