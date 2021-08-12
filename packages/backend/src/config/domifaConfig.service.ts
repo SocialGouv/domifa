@@ -257,7 +257,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
           {
-            defaultValue: CronExpression.EVERY_10_SECONDS,
+            defaultValue: CronExpression.EVERY_DAY_AT_7PM,
           }
         ),
         autoRunOnStartup: configParser.parseBoolean(
