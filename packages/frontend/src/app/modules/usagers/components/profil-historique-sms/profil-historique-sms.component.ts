@@ -3,7 +3,7 @@ import { AppUser } from "../../../../../_common/model";
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
 
 import { MessageSms } from "../../../../../_common/model/message-sms";
-import { MESSAGE_SMS_STATUS_LABEL_COLOR } from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS_LABEL_COLOR.const";
+import { MESSAGE_SMS_STATUS } from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
 import { UsagerService } from "../../services/usager.service";
 import { UsagerFormModel } from "../form/UsagerFormModel";
 
@@ -17,9 +17,9 @@ export class ProfilHistoriqueSmsComponent implements OnInit {
   @Input() public me: AppUser;
 
   public INTERACTIONS_LABELS_SINGULIER = INTERACTIONS_LABELS_SINGULIER;
-  public MESSAGE_SMS_STATUS_LABEL_COLOR = MESSAGE_SMS_STATUS_LABEL_COLOR;
+  public MESSAGE_SMS_STATUS = MESSAGE_SMS_STATUS;
 
-  public messagesList: MessageSms[];
+  @Input() public messagesList: MessageSms[];
 
   constructor(private usagerService: UsagerService) {
     this.usager = new UsagerFormModel();

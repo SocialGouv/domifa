@@ -40,6 +40,7 @@ import { UsagerFormModel } from "./UsagerFormModel";
 export class UsagersFormComponent implements OnInit {
   public doublons: UsagerLight[];
   public LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
+
   /* Config datepickers */
   public dToday = new Date();
   public maxDateNaissance: NgbDateStruct;

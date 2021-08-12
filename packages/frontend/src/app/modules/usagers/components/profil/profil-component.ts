@@ -50,6 +50,7 @@ import { INTERACTIONS_IN_AVAILABLE } from "../../../../../_common/model/interact
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/interaction/constants";
 import { ProfilHistoriqueSmsComponent } from "../profil-historique-sms/profil-historique-sms.component";
 import { LIEN_PARENTE_LABELS } from "../../../../../_common/model/usager/constants/LIEN_PARENTE_LABELS.const";
+import { MessageSms } from "../../../../../_common/model/message-sms";
 
 @Component({
   providers: [
@@ -93,6 +94,9 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
   public usagerForm!: FormGroup;
   public ayantsDroitsForm!: FormGroup;
 
+  public messagesList: MessageSms[];
+  public messagesError: number;
+
   public notifInputs: { [key: string]: any };
 
   public today: Date;
@@ -133,7 +137,7 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
 
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
-
+    this.messagesError = 0;
     this.notifInputs = {
       colisIn: 0,
       courrierIn: 0,
@@ -147,24 +151,41 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
     };
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     // child is set
-    this.smsHistory.getMySms();
+    //  this.smsHistory.getMySms();
   }
 
   public isRole(role: UserRole) {
     return this.me.role === role;
   }
 
+  public getMySms() {
+    this.usagerService.findMySms(this.usager).subscribe({
+      next: (messages: MessageSms[]) => {
+        this.messagesList = messages;
+        this.messagesError = 0;
+
+        // Vérification du nombre d'échecs des 3 derniners messages
+        for (let i = 0; i < messages.length && i < 4; i++) {
+          if (
+            messages[i].status === "FAILURE" ||
+            messages[i].status === "EXPIRED"
+          ) {
+            this.messagesError++;
+          }
+        }
+      },
+    });
+  }
+
   public ngOnInit(): void {
     this.titleService.setTitle("Fiche d'un domicilié");
-    //
 
     this.authService.currentUserSubject.subscribe((user: AppUser) => {
       this.me = user;
     });
 
-    //
     if (!this.route.snapshot.params.id) {
       this.router.navigate(["/404"]);
       return;
@@ -526,7 +547,6 @@ export class UsagersProfilComponent implements OnInit, AfterViewInit {
       .getInteractions({ usagerRef: this.usager.ref, maxResults: 30 })
       .subscribe((interactions: Interaction[]) => {
         this.interactions = interactions;
-        this.smsHistory.getMySms();
       });
   }
 }

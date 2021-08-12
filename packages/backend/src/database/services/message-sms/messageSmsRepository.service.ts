@@ -53,7 +53,6 @@ async function findSmsOnHold({
 }
 
 async function findSmsToSend(): Promise<MessageSmsTable[]> {
-  console.log("TO SENND");
   return messageSmsRepository.findMany({
     status: "TO_SEND",
   });

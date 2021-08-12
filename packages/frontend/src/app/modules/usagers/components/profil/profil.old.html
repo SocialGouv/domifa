@@ -228,6 +228,11 @@
     </div>
   </div>
 
+  <div *ngIf="messagesError > 2" class="alert alert-danger">
+    <b>Attention : </b> le numéro de téléphone enregistré n'est peut-être plus
+    attribué
+  </div>
+
   <div class="row" *ngIf="usager.options.transfert.actif" class="text-center">
     <div
       *ngIf="usager.options.transfert.dateFin <= today"
@@ -425,7 +430,6 @@
                   {{ interaction.dateInteraction | date: 'dd/MM/yyyy à HH:mm' }}
                 </td>
                 <td>
-                  - {{ interaction.event}}-
                   <div *ngIf="interaction.event === 'create'">
                     {{ interaction.label }}
                   </div>
@@ -754,6 +758,7 @@
           #smsHistory
           [me]="me"
           [usager]="usager"
+          [messagesList]="messagesList"
         ></app-profil-historique-sms>
       </ng-template>
     </ngb-panel>

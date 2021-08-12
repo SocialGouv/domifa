@@ -44,7 +44,6 @@ export class MessageSmsSenderService {
       "&expediteur=" +
       encodeURIComponent(options.expediteur);
 
-    console.log(endPoint);
     const updateSms: Partial<MessageSms> = {
       lastUpdate: new Date(),
       errorCount: message.errorCount,
@@ -54,7 +53,6 @@ export class MessageSmsSenderService {
       const response = await this.httpService.get(endPoint).toPromise();
       const responseContent: MessageSmsSendResponse = response.data;
 
-      console.log(responseContent);
       if (responseContent.resultat === 1) {
         updateSms.responseId = responseContent.id;
         updateSms.status = "ON_HOLD";
@@ -66,7 +64,6 @@ export class MessageSmsSenderService {
           MESSAGE_SMS_RESPONSE_ERRORS[responseContent.erreurs];
       }
     } catch (err) {
-      console.log(err);
       updateSms.status = "FAILURE";
       updateSms.errorCount++;
       updateSms.errorMessage = (err as AxiosError)?.message;
