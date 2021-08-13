@@ -1,4 +1,19 @@
 [
+      {
+    "date": "2021-08-13",
+    "description": "Les notifications SMS sont disponibles, n’oubliez pas de les activer au sein de votre structure !",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Des nouveautés sur DomiFa !",
+        "message": [
+          "Possibilité d’annuler la suppression d’une interaction (courrier, appel, passage)",
+          "Traçage de la suppression des interactions sur la fiche domicilié",
+          "Amélioration de l’historique d’envoi des notifications SMS au domicilié (différents statuts disponibles)"
+        ]
+      }
+    ]
+  },
     {
     "date": "2021-08-04",
     "description": "Les notifications SMS sont disponibles, n’oubliez pas de les activer au sein de votre structure !",
