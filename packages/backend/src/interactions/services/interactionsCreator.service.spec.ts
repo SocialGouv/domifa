@@ -59,6 +59,7 @@ describe("interactionsCreator", () => {
     interaction.type = "courrierOut";
     interaction.content = "Retrait du courrier";
     interaction.nbCourrier = 0;
+    interaction.dateInteraction = new Date();
     const resultat = await interactionsCreator.createInteraction({
       usager,
       user,
@@ -80,6 +81,7 @@ describe("interactionsCreator", () => {
     interaction.type = "courrierIn";
     interaction.content = "Les impôts";
     interaction.nbCourrier = 10;
+    interaction.dateInteraction = new Date();
 
     await interactionsCreator.createInteraction({
       usager,
@@ -91,6 +93,7 @@ describe("interactionsCreator", () => {
     secondInteraction.type = "courrierIn";
     secondInteraction.content = "Le Loyer";
     secondInteraction.nbCourrier = 5;
+    interaction.dateInteraction = new Date();
     const resultat = await interactionsCreator.createInteraction({
       usager,
       user,
@@ -112,7 +115,7 @@ describe("interactionsCreator", () => {
     interaction.type = "colisIn";
     interaction.content = "Colis d'un distributeur";
     interaction.nbCourrier = 1;
-
+    interaction.dateInteraction = new Date();
     const usagerBefore = await usagerRepository.findOne({
       ref: 2,
       structureId: 1,
@@ -164,6 +167,7 @@ describe("interactionsCreator", () => {
     usager.options.transfert.adresse = "ICI ADRESSE";
     usager.options.transfert.nom = "LA personne DU TRANSFERT";
     usager.options.transfert.dateFin = moment().add(10, "days").toDate();
+    interaction.dateInteraction = new Date();
 
     const resultat = await interactionsCreator.createInteraction({
       usager,
@@ -191,6 +195,7 @@ describe("interactionsCreator", () => {
     interaction.content = "Test transfert du courrier";
     interaction.nbCourrier = 10;
     interaction.procuration = true;
+    interaction.dateInteraction = new Date();
 
     usager.options.transfert.actif = false;
 
