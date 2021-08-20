@@ -21,7 +21,6 @@ import { AppUser, Usager, UsagerLight } from "../../../../../_common/model";
 import { LIEN_PARENTE_LABELS } from "../../../../../_common/model/usager/constants/LIEN_PARENTE_LABELS.const";
 import { languagesAutocomplete } from "../../../../shared";
 import { fadeInOut } from "../../../../shared/animations";
-import { LIENS_PARENTE } from "../../../../shared/constants/USAGER_LABELS.const";
 import { regexp } from "../../../../shared/validators";
 import { AyantDroit } from "../../interfaces/ayant-droit";
 import { UsagerFormModel } from "./UsagerFormModel";

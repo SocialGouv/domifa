@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { UsagerLight } from "../../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import {
-  ENTRETIEN_CAUSE,
   ENTRETIEN_LIEN_COMMUNE,
-  ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
+  ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_TYPE_MENAGE,
-} from "../../../../../../_common/model/usager/constants";
+  ENTRETIEN_CAUSE,
+} from "../../../../../_common/model/usager/constants";
 
 @Component({
   selector: "app-display-entretien",
