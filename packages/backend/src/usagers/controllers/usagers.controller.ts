@@ -388,7 +388,7 @@ export class UsagersController {
         res.setHeader("content-type", "application/pdf");
         res.send(buffer);
       })
-      .catch((err: any) => {
+      .catch((err) => {
         throw new HttpException(
           {
             err,

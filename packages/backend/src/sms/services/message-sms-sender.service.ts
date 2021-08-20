@@ -65,7 +65,7 @@ export class MessageSmsSenderService {
         updateSms.errorMessage =
           MESSAGE_SMS_RESPONSE_ERRORS[responseContent.erreurs];
       }
-    } catch (err: any) {
+    } catch (err) {
       updateSms.status = "FAILURE";
       updateSms.errorCount++;
       updateSms.errorMessage = (err as AxiosError)?.message;

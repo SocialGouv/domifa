@@ -193,7 +193,7 @@ export class CerfaService {
       .then((buffer: any) => {
         return buffer;
       })
-      .catch((err: any) => {
+      .catch((err) => {
         console.error(err);
         appLogger.error(
           `CERFA ERROR structure : ${user.structureId} / usager :${usagerRef} `,
