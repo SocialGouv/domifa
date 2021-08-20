@@ -86,7 +86,7 @@ async function monitorProcess(
     appLogger.error(
       `[monitorProcess] Unexpected error during "${processId}" process`,
       {
-        error: err,
+        error: err as Error,
         sentry: true,
       }
     );
@@ -102,12 +102,13 @@ async function monitorProcess(
       );
     }
 
-    const monitoringBatchProcessEntity = new MonitoringBatchProcessTable<MonitoringBatchProcessSimpleCountDetails>(
-      {
-        ...monitoringBatchProcess,
-        endDate: new Date(),
-      }
-    );
+    const monitoringBatchProcessEntity =
+      new MonitoringBatchProcessTable<MonitoringBatchProcessSimpleCountDetails>(
+        {
+          ...monitoringBatchProcess,
+          endDate: new Date(),
+        }
+      );
     // tslint:disable-next-line: no-unsafe-finally
     return monitoringBatchProcessRepository.save(monitoringBatchProcessEntity);
   }

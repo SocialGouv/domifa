@@ -23,7 +23,9 @@ export class MessageEmailConsummer {
     messageEmailConsummerTrigger.trigger$
       .pipe(
         debounceTime(1000),
-        concatMap((trigger) => from(this.consumeEmails(trigger)))
+        concatMap((trigger: MonitoringBatchProcessTrigger) =>
+          from(this.consumeEmails(trigger))
+        )
       )
       .subscribe();
   }
@@ -78,8 +80,10 @@ export class MessageEmailConsummer {
             await messageEmailRepository.save(messageEmail);
             monitorSuccess();
           } catch (err) {
+            const error: Error = err as Error;
+
             appLogger.error("[MessageEmailConsummer] Error sending mail", {
-              error: err,
+              error,
               sentry: true,
             });
             messageEmail.errorCount++;
@@ -94,10 +98,10 @@ export class MessageEmailConsummer {
               messageEmail.status = "failed";
             }
             await messageEmailRepository.save(messageEmail);
-            const totalErrors = monitorError(err);
+            const totalErrors = monitorError(error);
             if (totalErrors > 10) {
               appLogger.warn(
-                `[MessageEmailConsummer] Too many errors: skip next emails: : ${err.message}`,
+                `[MessageEmailConsummer] Too many errors: skip next emails: : ${error}`,
                 {
                   sentryBreadcrumb: true,
                 }

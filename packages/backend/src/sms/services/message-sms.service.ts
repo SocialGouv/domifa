@@ -9,8 +9,10 @@ import {
 } from "./../../_common/model/message-sms/MESSAGE_SMS_SUIVI_INDEX.const";
 import { MessageSmsSuivi } from "./../../_common/model/message-sms/MessageSmsSuivi.type";
 import moment = require("moment");
-import { HttpService, Injectable } from "@nestjs/common";
-import { Repository, ReturningStatementNotSupportedError } from "typeorm";
+import { Injectable } from "@nestjs/common";
+import { HttpService } from "@nestjs/axios";
+
+import { Repository } from "typeorm";
 import { appTypeormManager, structureRepository } from "../../database";
 import { MessageSmsTable } from "../../database/entities/message-sms/MessageSmsTable.typeorm";
 import { messageSmsRepository } from "../../database/services/message-sms";

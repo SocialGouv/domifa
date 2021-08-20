@@ -270,12 +270,10 @@ export class UsersController {
     @Res() res: ExpressResponse
   ) {
     try {
-      const {
-        user,
-        userSecurity,
-      } = await userSecurityResetPasswordInitiator.generateResetPasswordToken({
-        email: emailDto.email,
-      });
+      const { user, userSecurity } =
+        await userSecurityResetPasswordInitiator.generateResetPasswordToken({
+          email: emailDto.email,
+        });
       await userResetPasswordEmailSender.sendMail({
         user,
         token: userSecurity.temporaryTokens.token,
@@ -305,10 +303,8 @@ export class UsersController {
     registerUserDto.structureId = user.structureId;
     registerUserDto.structure = user.structure;
 
-    const {
-      user: newUser,
-      userSecurity,
-    } = await usersCreator.createUserWithTmpToken(registerUserDto);
+    const { user: newUser, userSecurity } =
+      await usersCreator.createUserWithTmpToken(registerUserDto);
 
     if (newUser) {
       return userAccountCreatedByAdminEmailSender
