@@ -45,7 +45,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     return isProcurationActifMaintenant(this.usager.options.procuration);
   }
 
-  private subscription = new Subscription();
+  private subscription: Subscription;
 
   constructor(
     private interactionService: InteractionService,
@@ -71,8 +71,11 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       },
     };
 
-    this.interactions$.next([]);
-    this.interactionFormData$.next(this.interactionFormData);
+    this.subscription = new Subscription();
+    this.interactions$ = new BehaviorSubject<Interaction[]>([]);
+    this.interactionFormData$ = new BehaviorSubject<InteractionOutForm>(
+      this.interactionFormData
+    );
   }
 
   ngOnDestroy(): void {

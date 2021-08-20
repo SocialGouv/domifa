@@ -18,7 +18,7 @@ describe("CustomDatepickerI18n", () => {
   it("1. Functions", inject(
     [CustomDatepickerI18n],
     (service: CustomDatepickerI18n) => {
-      expect(service.getWeekdayShortName(1)).toEqual("Lu");
+      expect(service.getWeekdayLabel(1)).toEqual("Lu");
       expect(service.getMonthShortName(7)).toEqual("Juillet");
       expect(service.getMonthFullName(7)).toEqual("Juillet");
       expect(

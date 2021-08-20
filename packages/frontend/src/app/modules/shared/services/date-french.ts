@@ -1,3 +1,4 @@
+import { TranslationWidth } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { NgbDatepickerI18n, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
@@ -23,7 +24,7 @@ const I18N_VALUES = {
 
 @Injectable()
 export class CustomDatepickerI18n extends NgbDatepickerI18n {
-  public getWeekdayShortName(weekday: number): string {
+  public getWeekdayLabel(weekday: number, width?: TranslationWidth): string {
     return I18N_VALUES.fr.weekdays[weekday - 1];
   }
   public getMonthShortName(month: number): string {
