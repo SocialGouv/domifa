@@ -1,10 +1,10 @@
-import { Logger } from "@nestjs/common";
+import { ConsoleLogger } from "@nestjs/common";
 import * as Sentry from "@sentry/node";
 import { domifaConfig } from "../config";
 
 class AppLogger {
-  debug(message: string, context?: string) {
-    Logger.debug(message, context);
+  debug(message: string) {
+    new ConsoleLogger().debug(message);
   }
   warn(
     message: string,
@@ -35,7 +35,7 @@ class AppLogger {
       };
       Sentry.addBreadcrumb(breadcrumb);
     }
-    Logger.warn(message, context);
+    new ConsoleLogger().warn(message);
   }
   error(
     message: string,
@@ -76,7 +76,11 @@ class AppLogger {
         });
       }
     }
-    Logger.error(message, error?.stack, JSON.stringify({ context, extra }));
+    new ConsoleLogger().error(
+      message,
+      error?.stack,
+      JSON.stringify({ context, extra })
+    );
   }
 }
 
