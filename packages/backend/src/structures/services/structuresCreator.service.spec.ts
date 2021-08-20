@@ -25,7 +25,7 @@ describe("Structure Creator Service", () => {
     expect(service).toBeDefined();
   });
 
-  it("check token", async (done) => {
+  it("check token", async () => {
     const structureId = 2;
     const token =
       "adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89";
@@ -40,6 +40,5 @@ describe("Structure Creator Service", () => {
     expect(structure.id).toEqual(2);
     const structure2 = await service.checkCreationToken({ structureId, token });
     expect(structure2).toBeUndefined(); // token has been clear
-    done();
   });
 });
