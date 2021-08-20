@@ -79,7 +79,7 @@ export class MessageEmailConsummer {
             monitorSuccess();
           } catch (err) {
             appLogger.error("[MessageEmailConsummer] Error sending mail", {
-              error: err,
+              error: err as Error,
               sentry: true,
             });
             messageEmail.errorCount++;
@@ -94,10 +94,12 @@ export class MessageEmailConsummer {
               messageEmail.status = "failed";
             }
             await messageEmailRepository.save(messageEmail);
-            const totalErrors = monitorError(err);
+            const totalErrors = monitorError(err as Error);
             if (totalErrors > 10) {
+              const errorTyped = err as Error;
+
               appLogger.warn(
-                `[MessageEmailConsummer] Too many errors: skip next emails: : ${err.message}`,
+                `[MessageEmailConsummer] Too many errors: skip next emails: : ${errorTyped.message}`,
                 {
                   sentryBreadcrumb: true,
                 }
