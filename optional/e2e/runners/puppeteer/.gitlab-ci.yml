@@ -1,7 +1,7 @@
 
 Launch e2e tests:
   stage: Prepare
-  image: ghcr.io/socialgouv/docker/curl:6.38.6
+  image: ghcr.io/socialgouv/docker/curl:6.43.1
   when: manual
   except:
     variables:
