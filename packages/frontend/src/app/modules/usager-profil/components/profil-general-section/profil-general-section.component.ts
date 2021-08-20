@@ -23,9 +23,10 @@ import { Interaction } from "../../../usagers/interfaces/interaction";
 
 import { UsagerProfilService } from "../../services/usager-profil.service";
 import { InteractionService } from "../../../usager-shared/services/interaction.service";
-import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/labels";
+
 import { INTERACTIONS_LABELS_SINGULIER } from "../../../../shared/constants/INTERACTIONS_LABELS.const";
 import { ProfilGeneralHistoriqueCourriersComponent } from "../profil-general-historique-courriers/profil-general-historique-courriers.component";
+import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/model/usager/constants";
 
 @Component({
   selector: "app-profil-general-section",
@@ -49,6 +50,9 @@ export class ProfilGeneralSectionComponent implements OnInit {
   public today: Date;
   public me: AppUser;
 
+  public minDateNaissance: NgbDateStruct;
+  public maxDateNaissance: NgbDateStruct;
+
   @ViewChild("distributionConfirm", { static: true })
   public distributionConfirm!: TemplateRef<any>;
 
@@ -58,13 +62,10 @@ export class ProfilGeneralSectionComponent implements OnInit {
   @ViewChild("setInteractionOutModal", { static: true })
   public setInteractionOutModal!: TemplateRef<any>;
 
-  public minDateNaissance: NgbDateStruct;
-  public maxDateNaissance: NgbDateStruct;
-
-  public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
-
   @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
   private profileComponent: ProfilGeneralHistoriqueCourriersComponent;
+
+  public USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
   constructor(
     private authService: AuthService,

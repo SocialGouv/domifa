@@ -4,8 +4,8 @@ import { INTERACTIONS_LABELS_SINGULIER } from "../../../../../_common/model/inte
 
 import { MessageSms } from "../../../../../_common/model/message-sms";
 import { MESSAGE_SMS_STATUS } from "../../../../../_common/model/message-sms/MESSAGE_SMS_STATUS.const";
-import { UsagerService } from "../../services/usager.service";
-import { UsagerFormModel } from "../form/UsagerFormModel";
+import { UsagerFormModel } from "../../../usagers/components/form/UsagerFormModel";
+import { UsagerService } from "../../../usagers/services/usager.service";
 
 @Component({
   selector: "app-profil-historique-sms",

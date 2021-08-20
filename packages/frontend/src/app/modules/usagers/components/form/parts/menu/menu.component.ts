@@ -7,12 +7,6 @@ import { ETAPES_DEMANDE_URL } from "../../../../../../../_common/model/usager/co
 
 import { UsagerFormModel } from "../../UsagerFormModel";
 
-// 1 : Etat-civil OK
-// 2 : RDV OK
-// 3 : ENTRETIEN OK
-// 4 : DOCS OK
-// 5 : DECISION OK
-
 @Component({
   selector: "app-form-menu",
   styleUrls: ["./menu.component.css"],

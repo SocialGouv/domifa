@@ -19,8 +19,9 @@ import {
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
 } from "../../../../../_common/model/usager/constants";
+import { Entretien } from "../../../usagers/interfaces/entretien";
 
-import { Entretien } from "../../interfaces/entretien";
+import { EntretienService } from "../../services/entretien.service";
 
 @Component({
   selector: "app-entretien",
