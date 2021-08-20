@@ -1,5 +1,5 @@
-import { forwardRef, HttpModule, Module } from "@nestjs/common";
-
+import { forwardRef, Module } from "@nestjs/common";
+import { HttpModule } from "@nestjs/axios";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { CronSmsInteractionSenderService } from "./services/cron-sms-interaction-sender.service";

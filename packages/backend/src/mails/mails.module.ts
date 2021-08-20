@@ -1,4 +1,5 @@
-import { forwardRef, HttpModule, Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
+import { HttpModule } from "@nestjs/axios";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";

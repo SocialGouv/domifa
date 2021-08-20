@@ -55,26 +55,24 @@ export class MonitoringCleaner {
         monitorTotal(3);
 
         try {
-          results.purgedMonitoringBatchsCount = await purgeObsoleteMonitoringBatchProcess(
-            { limitDate }
-          );
+          results.purgedMonitoringBatchsCount =
+            await purgeObsoleteMonitoringBatchProcess({ limitDate });
           monitorSuccess();
-        } catch (err) {
+        } catch (err: any) {
           monitorError(err);
         }
         try {
-          results.purgedMessageEmailsCount = await purgeObsoleteMessageEmailProcess(
-            { limitDate }
-          );
+          results.purgedMessageEmailsCount =
+            await purgeObsoleteMessageEmailProcess({ limitDate });
           monitorSuccess();
-        } catch (err) {
+        } catch (err: any) {
           monitorError(err);
         }
 
         try {
           results.errorReportSent = await sendErrorReport();
           monitorSuccess();
-        } catch (err) {
+        } catch (err: any) {
           monitorError(err);
         }
 
@@ -113,17 +111,18 @@ async function purgeObsoleteMonitoringBatchProcess({
 }
 
 async function sendErrorReport(): Promise<boolean> {
-  const monitoringBatchsInError = await monitoringBatchProcessRepository.findMany(
-    {
-      status: "error",
-      alertMailSent: false,
-    },
-    {
-      order: {
-        endDate: "DESC",
+  const monitoringBatchsInError =
+    await monitoringBatchProcessRepository.findMany(
+      {
+        status: "error",
+        alertMailSent: false,
       },
-    }
-  );
+      {
+        order: {
+          endDate: "DESC",
+        },
+      }
+    );
   if (monitoringBatchsInError.length) {
     appLogger.error(`Errors detected in last batchs - ${Date.now()}`);
 

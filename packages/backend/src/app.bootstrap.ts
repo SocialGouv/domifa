@@ -90,7 +90,7 @@ export async function bootstrapApplication() {
     // tslint:disable-next-line: no-console
     console.error("[bootstrapApplication] Error bootstraping application", err);
     appLogger.error("[bootstrapApplication] Error bootstraping application", {
-      error: err,
+      error: err as Error,
       sentry: true,
     });
     throw err;

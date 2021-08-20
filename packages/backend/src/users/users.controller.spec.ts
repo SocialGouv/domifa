@@ -1,4 +1,5 @@
-import { HttpModule, HttpStatus } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common";
+import { HttpModule } from "@nestjs/axios";
 import { MailsModule } from "../mails/mails.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
@@ -27,10 +28,10 @@ describe("Users Controller", () => {
   });
 
   it("validateEmail does not exists", async () => {
-    const res = ({
+    const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
-    } as unknown) as ExpressResponse;
+    } as unknown as ExpressResponse;
 
     await controller.validateEmail(
       {
@@ -43,10 +44,10 @@ describe("Users Controller", () => {
   });
 
   it("validateEmail exists", async () => {
-    const res = ({
+    const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
-    } as unknown) as ExpressResponse;
+    } as unknown as ExpressResponse;
 
     await controller.validateEmail(
       {

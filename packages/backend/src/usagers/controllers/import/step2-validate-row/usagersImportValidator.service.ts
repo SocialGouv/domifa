@@ -39,7 +39,7 @@ async function parseAndValidate({
       });
 
     return { errors: [], usagerRow };
-  } catch (err) {
+  } catch (err: any) {
     const errors = usagersImportErrorBuilder.buildErrors({
       err,
       rowNumber,

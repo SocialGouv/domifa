@@ -1,4 +1,5 @@
-import { forwardRef, HttpModule, Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
+import { HttpModule } from "@nestjs/axios";
 import { MessageSmsService } from "../sms/services/message-sms.service";
 import { SmsModule } from "../sms/sms.module";
 import { StructuresModule } from "../structures/structure.module";

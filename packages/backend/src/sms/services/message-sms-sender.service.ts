@@ -1,5 +1,6 @@
-import { HttpService, Injectable } from "@nestjs/common";
-import { AxiosError } from "axios";
+import { Injectable } from "@nestjs/common";
+import { HttpService } from "@nestjs/axios";
+
 import { Repository } from "typeorm";
 import { domifaConfig } from "../../config";
 import { appTypeormManager } from "../../database";
@@ -10,6 +11,7 @@ import {
   MessageSmsSendResponse,
   MESSAGE_SMS_RESPONSE_ERRORS,
 } from "../../_common/model/message-sms";
+import { AxiosError } from "axios";
 
 @Injectable()
 export class MessageSmsSenderService {
@@ -63,7 +65,7 @@ export class MessageSmsSenderService {
         updateSms.errorMessage =
           MESSAGE_SMS_RESPONSE_ERRORS[responseContent.erreurs];
       }
-    } catch (err) {
+    } catch (err: any) {
       updateSms.status = "FAILURE";
       updateSms.errorCount++;
       updateSms.errorMessage = (err as AxiosError)?.message;
