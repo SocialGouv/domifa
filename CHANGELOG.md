@@ -1,3 +1,12 @@
+## [2.15.1](https://github.com/SocialGouv/domifa/compare/v2.15.0...v2.15.1) (2021-08-20)
+
+
+### Bug Fixes
+
+* test notfound ([6643276](https://github.com/SocialGouv/domifa/commit/6643276b02b33a7a2a14e492e1cb29939eb61685))
+* tests unitaires à jour pour Angular 12é ([6369f18](https://github.com/SocialGouv/domifa/commit/6369f18272f7bfe35ce9ad8ff61d17f4dd905bdf))
+* tests unitaires backend ([e0cda3a](https://github.com/SocialGouv/domifa/commit/e0cda3acdea39ff4765d2439dca2d3c00b8068e2))
+
 # [2.15.0](https://github.com/SocialGouv/domifa/compare/v2.14.0...v2.15.0) (2021-08-12)
 
 
