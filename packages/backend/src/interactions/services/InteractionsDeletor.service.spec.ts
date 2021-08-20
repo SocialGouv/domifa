@@ -68,6 +68,7 @@ describe("InteractionsDeletor", () => {
     interaction1.type = "colisIn";
     interaction1.content = "Colis d'un distributeur";
     interaction1.nbCourrier = 5;
+    interaction1.dateInteraction = new Date();
     const { usager: usagerAfterCreate, interaction: interactionCreated } =
       await interactionsCreator.createInteraction({
         interaction: interaction1,
