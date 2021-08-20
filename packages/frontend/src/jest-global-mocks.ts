@@ -1,9 +1,7 @@
 Object.defineProperty(window, "CSS", { value: null });
-
 Object.defineProperty(document, "doctype", {
   value: "<!DOCTYPE html>",
 });
-
 Object.defineProperty(window, "getComputedStyle", {
   value: () => {
     return {
@@ -12,7 +10,6 @@ Object.defineProperty(window, "getComputedStyle", {
     };
   },
 });
-
 /**
  * ISSUE: https://github.com/angular/material2/issues/7101
  * Workaround for JSDOM missing transform property

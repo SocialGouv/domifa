@@ -1,14 +1,11 @@
+require("jest-preset-angular/ngcc-jest-processor");
+
 module.exports = {
+  preset: "jest-preset-angular",
   globals: {
     "ts-jest": {
       tsconfig: "<rootDir>/src/tsconfig.spec.json",
       stringifyContentPathRegex: "\\.html$",
-      astTransformers: {
-        before: [
-          "./node_modules/jest-preset-angular/build/InlineFilesTransformer",
-          "./node_modules/jest-preset-angular/build/StripStylesTransformer",
-        ],
-      },
     },
   },
   moduleFileExtensions: ["ts", "html", "js", "tsx", "json"],
@@ -19,10 +16,10 @@ module.exports = {
     "^environments/(.*)$": "<rootDir>/src/environments/$1",
   },
   transform: {
-    "^.+\\.(js|ts|tsx|html)$": "ts-jest",
+    "^.+\\.(js|ts|tsx|html)$": "jest-preset-angular",
   },
   transformIgnorePatterns: ["node_modules/(?!@ngrx" + "|countup.js)"],
-  setupFilesAfterEnv: ["<rootDir>/src/setupJest.ts"],
+  setupFilesAfterEnv: ["<rootDir>/src/setup-jest.ts"],
   snapshotSerializers: [
     "jest-preset-angular/build/serializers/no-ng-attributes",
     "jest-preset-angular/build/serializers/ng-snapshot",
