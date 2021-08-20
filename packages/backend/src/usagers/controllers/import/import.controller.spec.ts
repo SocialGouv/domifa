@@ -59,7 +59,7 @@ describe("Import Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  it(`❌ Import d'un fichier Incorrect`, async (done) => {
+  it(`❌ Import d'un fichier Incorrect`, async () => {
     const importFilePath = path.resolve(importFilesDir, "import_ko_1.xlsx");
 
     expect(fs.existsSync(importFilePath)).toBeTruthy();
@@ -72,10 +72,9 @@ describe("Import Controller", () => {
       .expect(400);
 
     expect(response.status).toBe(HttpStatus.BAD_REQUEST);
-    done();
   });
 
-  it(`✅ Import d'un fichier Valide 1️⃣`, async (done) => {
+  it(`✅ Import d'un fichier Valide 1️⃣`, async () => {
     const importFilePath = path.resolve(importFilesDir, "import_ok_1.xlsx");
 
     expect(fs.existsSync(importFilePath)).toBeTruthy();
@@ -97,10 +96,9 @@ describe("Import Controller", () => {
         totalCount: 0,
       },
     });
-    done();
   });
 
-  it(`✅ Import d'un fichier Valide 2️⃣`, async (done) => {
+  it(`✅ Import d'un fichier Valide 2️⃣`, async () => {
     const importFilePath = path.resolve(importFilesDir, "import_ok_2.xlsx");
 
     expect(fs.existsSync(importFilePath)).toBeTruthy();
@@ -122,9 +120,8 @@ describe("Import Controller", () => {
         totalCount: 0,
       },
     });
-    done();
   });
 
   // TODO: ajouter les test de taille limite
-  // TODO: vérufier le résultat dans la BDD
+  // TODO: vérifier le résultat dans la BDD
 });
