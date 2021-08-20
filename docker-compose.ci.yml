@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   postgres:
-    image: postgres:10.17 # https://hub.docker.com/_/postgres
+    image: postgres:10.18 # https://hub.docker.com/_/postgres
     container_name: domifa-postgres-test
     volumes:
       # /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
