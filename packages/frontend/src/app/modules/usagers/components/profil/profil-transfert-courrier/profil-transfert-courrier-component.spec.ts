@@ -21,16 +21,11 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          UsagersProfilTransfertCourrierComponent,
-          NotFoundComponent,
-        ],
+        declarations: [UsagersProfilTransfertCourrierComponent],
         imports: [
           NgbModule,
           MatomoModule,
-          RouterTestingModule.withRoutes([
-            { path: "404", component: NotFoundComponent },
-          ]),
+          RouterTestingModule.withRoutes([]),
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
