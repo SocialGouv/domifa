@@ -1,3 +1,5 @@
+import { appLogger } from "./../../../../util/AppLogger.service";
+import { ValidationError } from "yup";
 import {
   USAGERS_IMPORT_COLUMNS,
   USAGERS_IMPORT_COLUMNS_AYANT_DROIT,
@@ -39,13 +41,20 @@ async function parseAndValidate({
       });
 
     return { errors: [], usagerRow };
-  } catch (err: any) {
-    const errors = usagersImportErrorBuilder.buildErrors({
-      err,
-      rowNumber,
-      rowAsObject,
-    });
-    return { errors };
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      const errors = usagersImportErrorBuilder.buildErrors({
+        err,
+        rowNumber,
+        rowAsObject,
+      });
+      return { errors };
+    } else {
+      appLogger.error("[IMPORT]: Error during import", {
+        error: err as Error,
+        sentry: true,
+      });
+    }
   }
 }
 

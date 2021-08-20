@@ -92,7 +92,7 @@ async function sendEmail(
       serverResponse,
     };
     return sendDetails;
-  } catch (err: any) {
+  } catch (err) {
     appLogger.warn(
       `[smtpSender] Error sending smtp message: : ${err.message}`,
       {

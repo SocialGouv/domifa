@@ -20,6 +20,7 @@ import moment = require("moment");
 @Injectable()
 export class MessageEmailConsummer {
   constructor() {
+    // TODO: à fixer avant mise en production
     // messageEmailConsummerTrigger.trigger$
     //   .pipe(
     //     debounceTime(1000),

@@ -58,21 +58,21 @@ export class MonitoringCleaner {
           results.purgedMonitoringBatchsCount =
             await purgeObsoleteMonitoringBatchProcess({ limitDate });
           monitorSuccess();
-        } catch (err: any) {
+        } catch (err) {
           monitorError(err);
         }
         try {
           results.purgedMessageEmailsCount =
             await purgeObsoleteMessageEmailProcess({ limitDate });
           monitorSuccess();
-        } catch (err: any) {
+        } catch (err) {
           monitorError(err);
         }
 
         try {
           results.errorReportSent = await sendErrorReport();
           monitorSuccess();
-        } catch (err: any) {
+        } catch (err) {
           monitorError(err);
         }
 

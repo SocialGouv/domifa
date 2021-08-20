@@ -88,9 +88,7 @@ function buildErrors({
   return errors;
 }
 
-function _parseAyantsDroitsKey(
-  key: string
-): {
+function _parseAyantsDroitsKey(key: string): {
   columnNumber: number;
   ayantDroitIndex: number;
   columnAttributeLabel: string;
