@@ -20,14 +20,14 @@ import moment = require("moment");
 @Injectable()
 export class MessageEmailConsummer {
   constructor() {
-    messageEmailConsummerTrigger.trigger$
-      .pipe(
-        debounceTime(1000),
-        concatMap((trigger: MonitoringBatchProcessTrigger) =>
-          from(this.consumeEmails(trigger))
-        )
-      )
-      .subscribe();
+    // messageEmailConsummerTrigger.trigger$
+    //   .pipe(
+    //     debounceTime(1000),
+    //     concatMap((trigger: MonitoringBatchProcessTrigger) =>
+    //       from(this.consumeEmails(trigger))
+    //     )
+    //   )
+    //   .subscribe();
   }
 
   @Cron(domifaConfig().cron.emailConsumer.crontime)
