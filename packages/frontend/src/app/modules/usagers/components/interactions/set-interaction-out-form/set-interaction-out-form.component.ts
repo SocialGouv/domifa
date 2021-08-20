@@ -33,11 +33,11 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   @Output()
   public usagerChange = new EventEmitter<UsagerFormModel>();
 
-  public interactions$ = new BehaviorSubject<Interaction[]>();
+  public interactions$: BehaviorSubject<Interaction[]>;
   public selectedInteractionsWithContent: Interaction[] = [];
 
   public interactionFormData: InteractionOutForm;
-  public interactionFormData$ = new BehaviorSubject<InteractionOutForm>();
+  public interactionFormData$: BehaviorSubject<InteractionOutForm>;
 
   public procuration: boolean; // Mandataire = true / domicilié = false
 
@@ -70,6 +70,8 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
         selected: false,
       },
     };
+
+    this.interactions$.next([]);
     this.interactionFormData$.next(this.interactionFormData);
   }
 
