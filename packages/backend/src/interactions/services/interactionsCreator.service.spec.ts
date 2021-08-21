@@ -79,13 +79,18 @@ describe("interactionsCreator", () => {
   });
 
   it("2. Réception de 15 courriers", async () => {
+    const newusager = await usagerRepository.findOne({
+      ref: 2,
+      structureId: 1,
+    });
+
     const interaction = new InteractionDto();
     interaction.type = "courrierIn";
     interaction.content = "Les impôts";
     interaction.nbCourrier = 10;
     interaction.dateInteraction = new Date();
 
-    await interactionsCreator.createInteraction({
+    const retour = await interactionsCreator.createInteraction({
       usager,
       user,
       interaction,
@@ -96,12 +101,14 @@ describe("interactionsCreator", () => {
     secondInteraction.content = "Le Loyer";
     secondInteraction.nbCourrier = 5;
     interaction.dateInteraction = new Date();
+
     const resultat = await interactionsCreator.createInteraction({
       usager,
       user,
       interaction: secondInteraction,
     });
-    expect(resultat.usager.lastInteraction.courrierIn).toEqual(15);
+
+    expect(resultat.usager.lastInteraction.courrierIn).toEqual(17);
 
     // clean
     await interactionsDeletor.deleteOrRestoreInteraction({
