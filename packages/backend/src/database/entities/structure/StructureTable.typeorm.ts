@@ -104,4 +104,9 @@ export class StructureTable
     default: `{ "enabledByDomifa": false, "enabledByStructure": false, "senderName": null, "senderDetails": null }`,
   })
   sms: StructureSmsParams;
+
+  public constructor(entity?: Partial<StructureTable>) {
+    super(entity);
+    Object.assign(this, entity);
+  }
 }

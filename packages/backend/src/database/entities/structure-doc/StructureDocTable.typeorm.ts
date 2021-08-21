@@ -15,7 +15,8 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 @Entity({ name: "structure_doc" })
 export class StructureDocTable
   extends AppTypeormTable<StructureDocTable>
-  implements StructureDoc {
+  implements StructureDoc
+{
   @Index()
   @Column({ type: "integer", unique: true })
   @Generated("increment")
@@ -48,4 +49,9 @@ export class StructureDocTable
 
   @Column({ type: "text", nullable: false })
   path: string;
+
+  public constructor(entity?: Partial<StructureDocTable>) {
+    super(entity);
+    Object.assign(this, entity);
+  }
 }

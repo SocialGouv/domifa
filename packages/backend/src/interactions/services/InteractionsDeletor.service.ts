@@ -72,7 +72,10 @@ export class InteractionsDeletor {
         if (interaction.type === "npai") {
           usager.options.npai.actif = false;
           usager.options.npai.dateDebut = null;
-          return this.usagersService.patch({ uuid: usager.uuid }, usager);
+          return this.usagersService.patch(
+            { uuid: usager.uuid },
+            { options: usager.options }
+          );
         }
       }
 

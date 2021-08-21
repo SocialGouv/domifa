@@ -8,7 +8,8 @@ import { MonitoringBatchProcessTrigger } from "./MonitoringBatchProcessTrigger.t
 @Entity({ name: "monitor_batch_process" })
 export class MonitoringBatchProcessTable<T = any>
   extends AppTypeormTable<MonitoringBatchProcess<T>>
-  implements MonitoringBatchProcess {
+  implements MonitoringBatchProcess
+{
   @Column({ type: "text" })
   processId: MonitoringBatchProcessId;
 
@@ -32,4 +33,9 @@ export class MonitoringBatchProcessTable<T = any>
 
   @Column({ type: "bool", default: false })
   alertMailSent: boolean;
+
+  public constructor(entity?: Partial<MonitoringBatchProcess>) {
+    super(entity);
+    Object.assign(this, entity);
+  }
 }

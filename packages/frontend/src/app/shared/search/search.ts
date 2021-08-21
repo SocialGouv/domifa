@@ -44,7 +44,7 @@ function matchWord({
       if (!attr) {
         return false;
       }
-      return searchCore.clean((attr as unknown) as string).indexOf(word) !== -1;
+      return searchCore.clean(attr as unknown as string).indexOf(word) !== -1;
     });
     if (firstMatchingAttribute !== undefined) {
       return {

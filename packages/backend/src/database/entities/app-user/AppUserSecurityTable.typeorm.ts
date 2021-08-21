@@ -9,7 +9,8 @@ import { AppUserTable } from "./AppUserTable.typeorm";
 @Entity({ name: "app_user_security" })
 export class AppUserSecurityTable
   extends AppTypeormTable<AppUserSecurityTable>
-  implements AppUserSecurity {
+  implements AppUserSecurity
+{
   @Index()
   @Column({ type: "integer", unique: true, update: false })
   userId: number;
@@ -31,4 +32,9 @@ export class AppUserSecurityTable
 
   @Column({ type: "jsonb", default: () => "'[]'" })
   eventsHistory: AppUserSecurityEvent[];
+
+  public constructor(entity?: Partial<AppUserSecurityTable>) {
+    super(entity);
+    Object.assign(this, entity);
+  }
 }

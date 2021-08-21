@@ -11,12 +11,11 @@ function filter(
   {
     searchString,
     searchInAyantDroits,
-  }: Pick<UsagersFilterCriteria, "searchString"|'searchInAyantDroits'>  
+  }: Pick<UsagersFilterCriteria, "searchString" | "searchInAyantDroits">
 ) {
   return search.filter(usagers, {
     searchText: searchString,
     getAttributes: (usager, i) => {
-     
       const attributes = [
         usager.nom,
         usager.prenom,
@@ -24,8 +23,8 @@ function filter(
         // usager.phone,
         usager.surnom,
         usager.customRef,
-      ]
-      if (searchInAyantDroits){
+      ];
+      if (searchInAyantDroits) {
         const ayantDroitsAttributes = (usager.ayantsDroits ?? []).map((ad) => [
           ad.nom,
           ad.prenom,

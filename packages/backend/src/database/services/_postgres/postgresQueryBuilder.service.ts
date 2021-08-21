@@ -7,4 +7,3 @@ export const postgresQueryBuilder = {
 function formatPostgresDate(maxCreationDate: Date) {
   return moment(maxCreationDate).format("yyyy-MM-DD HH:mm:ss");
 }
-

@@ -64,7 +64,7 @@ async function checkPassword({
     eventType: "login-success",
   });
 
-  return await usersRepository.updateOne(
+  return usersRepository.updateOne(
     {
       id: user.id,
     },
