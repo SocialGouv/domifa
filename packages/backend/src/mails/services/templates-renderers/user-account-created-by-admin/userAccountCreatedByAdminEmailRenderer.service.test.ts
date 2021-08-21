@@ -8,11 +8,8 @@ describe("userAccountCreatedByAdminEmailRenderer", () => {
       prenom: "Paul",
       lien: "https://domifa.fabrique.social.gouv.fr/validate",
     };
-    const {
-      subject,
-      text,
-      html,
-    } = await userAccountCreatedByAdminEmailRenderer.renderTemplate(model);
+    const { subject, text, html } =
+      await userAccountCreatedByAdminEmailRenderer.renderTemplate(model);
 
     expect(subject).toEqual(`[DOMIFA] Finalisez votre inscription sur Domifa`);
     expect(text).toContain(model.prenom);

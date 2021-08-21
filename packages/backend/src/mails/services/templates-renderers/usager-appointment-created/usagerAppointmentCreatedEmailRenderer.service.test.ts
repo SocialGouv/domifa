@@ -4,17 +4,14 @@ import { domifaConfig } from "../../../../config";
 import { usagerAppointmentCreatedEmailRenderer } from "./usagerAppointmentCreatedEmailRenderer.service";
 describe("usagerAppointmentCreatedEmailRenderer", () => {
   it("usagerAppointmentCreatedEmailRenderer render ", async () => {
-    const {
-      subject,
-      text,
-      html,
-    } = await usagerAppointmentCreatedEmailRenderer.renderTemplate({
-      prenom: "Paul",
-      usager: "Smith",
-      date: "15/12/2020",
-      heure: "14:20",
-      message: "Petit commentaire concernant le RV.",
-    });
+    const { subject, text, html } =
+      await usagerAppointmentCreatedEmailRenderer.renderTemplate({
+        prenom: "Paul",
+        usager: "Smith",
+        date: "15/12/2020",
+        heure: "14:20",
+        message: "Petit commentaire concernant le RV.",
+      });
     expect(subject).toEqual(
       `[DOMIFA] Prise de rendez-vous entre le demandeur et un collaborateur`
     );

@@ -32,11 +32,8 @@ describe("newStructureEmailRenderer", () => {
       },
     };
 
-    const {
-      subject,
-      text,
-      html,
-    } = await newStructureEmailRenderer.renderTemplate(model);
+    const { subject, text, html } =
+      await newStructureEmailRenderer.renderTemplate(model);
 
     expect(subject).toEqual(`[DOMIFA] Nouvelle structure sur Domifa`);
     expect(text).toContain(model.user.prenom);

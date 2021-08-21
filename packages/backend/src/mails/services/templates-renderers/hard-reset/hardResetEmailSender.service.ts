@@ -38,7 +38,7 @@ async function sendMail({
   const messageContent: MessageEmailContent = {
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
-    to: to,
+    to,
   };
 
   messageEmailSender.sendMessageLater(messageContent, {

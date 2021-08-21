@@ -3,7 +3,7 @@ import {
   UsagerDecisionOrientation,
   UsagerDecisionStatut,
   UsagerHistoryStateCreationEvent,
-  UsagerTypeDom
+  UsagerTypeDom,
 } from "../../../_common/model";
 import { typeOrmSearch } from "../_postgres/pgRepository.service";
 import { usagerHistoryRepository } from "./usagerHistoryRepository.service";
@@ -83,7 +83,7 @@ function buildQuery({
   } = {};
   if (structureId) {
     globalSubQueries.push(`"structureId" = :structureId`);
-    params["structureId"] = structureId;
+    params.structureId = structureId;
   }
 
   const statesSubQueries: string[] = [];
@@ -94,44 +94,44 @@ function buildQuery({
     statesSubQueries.push(
       `states_lateral.state->>'createdEvent' = :createdEvent`
     );
-    params["createdEvent"] = createdEvent;
+    params.createdEvent = createdEvent;
   }
   if (typeDom) {
     statesSubQueries.push(`states_lateral.state->>'typeDom' = :typeDom`);
-    params["typeDom"] = typeDom;
+    params.typeDom = typeDom;
   }
 
   if (decision?.statut) {
     statesSubQueries.push(
       `states_lateral.state->'decision'->>'statut' = :decisionStatut`
     );
-    params["decisionStatut"] = decision?.statut;
+    params.decisionStatut = decision?.statut;
   }
 
   if (decision?.motif) {
     statesSubQueries.push(
       `states_lateral.state->'decision'->>'motif' = :decisionMotif`
     );
-    params["decisionMotif"] = decision?.motif;
+    params.decisionMotif = decision?.motif;
   }
   if (decision?.orientation) {
     statesSubQueries.push(
       `states_lateral.state->'decision'->>'orientation' = :decisionOrientation`
     );
-    params["decisionOrientation"] = decision?.orientation;
+    params.decisionOrientation = decision?.orientation;
   }
 
   if (dateFinPeriode) {
     statesSubQueries.push(
       `(states_lateral.state->'decision'->>'dateDecision')::timestamptz <= :dateFinPeriode`
     );
-    params["dateFinPeriode"] = dateFinPeriode;
+    params.dateFinPeriode = dateFinPeriode;
   }
   if (dateDebutPeriode) {
     statesSubQueries.push(
       `(states_lateral.state->'decision'->>'dateDecision')::timestamptz >= :dateDebutPeriode`
     );
-    params["dateDebutPeriode"] = dateDebutPeriode;
+    params.dateDebutPeriode = dateDebutPeriode;
   }
 
   globalSubQueries.push(

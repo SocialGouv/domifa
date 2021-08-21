@@ -25,11 +25,8 @@ describe("deleteStructureEmailRenderer", () => {
         structureType: "asso",
       },
     };
-    const {
-      subject,
-      text,
-      html,
-    } = await deleteStructureEmailRenderer.renderTemplate(model);
+    const { subject, text, html } =
+      await deleteStructureEmailRenderer.renderTemplate(model);
 
     expect(subject).toEqual(`[DOMIFA] Supprimer une structure`);
     expect(text).toContain(model.structure.nom);

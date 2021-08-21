@@ -1,4 +1,4 @@
-//jest.setup.ts
+// jest.setup.ts
 
 // let postgresTypeormConnection: Connection;
 beforeAll(async () => {

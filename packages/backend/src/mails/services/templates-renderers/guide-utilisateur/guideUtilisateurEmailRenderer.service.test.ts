@@ -8,11 +8,8 @@ describe("guideUtilisateurEmailRenderer", () => {
       prenom: "Paul",
       lienGuide: "https://domifa/guide",
     };
-    const {
-      subject,
-      text,
-      html,
-    } = await guideUtilisateurEmailRenderer.renderTemplate(model);
+    const { subject, text, html } =
+      await guideUtilisateurEmailRenderer.renderTemplate(model);
 
     expect(subject).toEqual(`[DOMIFA] Découvrez le guide utilisateur DomiFa !`);
     expect(text).toContain(model.prenom);

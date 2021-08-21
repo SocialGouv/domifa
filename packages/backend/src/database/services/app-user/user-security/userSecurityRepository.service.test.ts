@@ -14,12 +14,10 @@ describe("userSecurityRepository", () => {
   });
 
   it("findOneByTokenAttribute returns matching user", async () => {
-    const {
-      user,
-      userSecurity,
-    } = await userSecurityResetPasswordInitiator.generateResetPasswordToken({
-      email: "roseline.parmentier@yopmail.com",
-    });
+    const { user, userSecurity } =
+      await userSecurityResetPasswordInitiator.generateResetPasswordToken({
+        email: "roseline.parmentier@yopmail.com",
+      });
 
     const userSecurity2 = await userSecurityRepository.findOneByTokenAttribute(
       userSecurity.temporaryTokens.token

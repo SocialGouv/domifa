@@ -42,13 +42,12 @@ async function sendMail({
     toSkipString: recipients.toSkipString,
   };
 
-  const renderedTemplate = await userAccountCreatedByAdminEmailRenderer.renderTemplate(
-    model
-  );
+  const renderedTemplate =
+    await userAccountCreatedByAdminEmailRenderer.renderTemplate(model);
   const messageContent: MessageEmailContent = {
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
-    to: to,
+    to,
   };
 
   messageEmailSender.sendMessageLater(messageContent, {

@@ -36,10 +36,10 @@ describe("Stuctures Controller", () => {
   });
 
   it("validateEmail (does not exists)", async () => {
-    const res = ({
+    const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
-    } as unknown) as ExpressResponse;
+    } as unknown as ExpressResponse;
 
     await controller.validateEmail(
       {
@@ -53,10 +53,10 @@ describe("Stuctures Controller", () => {
   });
 
   it("validateEmail (exists)", async () => {
-    const res = ({
+    const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
-    } as unknown) as ExpressResponse;
+    } as unknown as ExpressResponse;
 
     await controller.validateEmail(
       {

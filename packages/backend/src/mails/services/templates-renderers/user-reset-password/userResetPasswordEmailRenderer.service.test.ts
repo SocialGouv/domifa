@@ -8,11 +8,8 @@ describe("userResetPasswordEmailRenderer", () => {
       prenom: "Paul",
       lien: "https://domifa/reset-password",
     };
-    const {
-      subject,
-      text,
-      html,
-    } = await userResetPasswordEmailRenderer.renderTemplate(model);
+    const { subject, text, html } =
+      await userResetPasswordEmailRenderer.renderTemplate(model);
 
     expect(subject).toEqual(`[DOMIFA] Demande d'un nouveau mot de passe`);
     expect(text).toContain(model.prenom);

@@ -6,7 +6,7 @@ async function renderTemplate(model: {
   prenom: string;
   lien: string;
 }): Promise<DomifaMailTemplateRendering> {
-  return await domifaMailTemplateRenderer.renderTemplate(
+  return domifaMailTemplateRenderer.renderTemplate(
     "user-account-activated",
     model
   );
