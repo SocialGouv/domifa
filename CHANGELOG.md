@@ -1,3 +1,18 @@
+## [2.15.2](https://github.com/SocialGouv/domifa/compare/v2.15.1...v2.15.2) (2021-08-21)
+
+
+### Bug Fixes
+
+* ajout d'un 'super' dans les objets TypeOrm suite mise à jour ([02fe5c7](https://github.com/SocialGouv/domifa/commit/02fe5c7047bc151344e964b241fb9143cdf6d3a8))
+* applogger ([4610626](https://github.com/SocialGouv/domifa/commit/461062682bdadcbebc728548ca35ec9e68a590ef))
+* correction de tests ([1437164](https://github.com/SocialGouv/domifa/commit/14371641423011dcb3e83c7e9745e1aec7fb20e5))
+* lancnement des emails ([358487c](https://github.com/SocialGouv/domifa/commit/358487c2d72385014a4396701b4ce20bd15ab09f))
+* tests ([e677ad3](https://github.com/SocialGouv/domifa/commit/e677ad33cce99fc5c1980d202db09c55c874af4b))
+* tests unitaires ([5ae54cb](https://github.com/SocialGouv/domifa/commit/5ae54cbf2c732858dc029779206d5d3bae476be8))
+* tests unitaires suite update de Typescript ([f97e65e](https://github.com/SocialGouv/domifa/commit/f97e65e0870cc35f3186fcec10aae6d4c6b532b3))
+* tests unitaires suite update de Typescript ([7a0191a](https://github.com/SocialGouv/domifa/commit/7a0191aaaf391e5e1c9b80f98fa1933713ced6cd))
+* upgrade packages nest ([2281950](https://github.com/SocialGouv/domifa/commit/22819505e60dca3596cd2065171093f4e70c48d5))
+
 ## [2.15.1](https://github.com/SocialGouv/domifa/compare/v2.15.0...v2.15.1) (2021-08-20)
 
 
