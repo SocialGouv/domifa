@@ -34,11 +34,11 @@ export class UsagerTable
 
   @Index()
   @Column({ type: "integer" })
-  structureId: number;
+  public structureId: number;
 
   @ManyToOne(() => StructureTable, { lazy: true })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk?: Promise<StructureTable>;
+  public structureFk?: Promise<StructureTable>;
 
   // ETAT-CIVIL
   @Column({ type: "text" })
@@ -137,4 +137,9 @@ export class UsagerTable
     type: "jsonb",
   })
   public options: UsagerOptions;
+
+  public constructor(entity?: Partial<UsagerTable>) {
+    super(entity);
+    Object.assign(this, entity);
+  }
 }

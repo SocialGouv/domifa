@@ -60,18 +60,20 @@ describe("interactionsCreator", () => {
     interaction.content = "Retrait du courrier";
     interaction.nbCourrier = 0;
     interaction.dateInteraction = new Date();
+
     const resultat = await interactionsCreator.createInteraction({
       usager,
       user,
       interaction,
     });
+
     expect(resultat.usager.lastInteraction.courrierIn).toEqual(0);
 
     // clean
     await interactionsDeletor.deleteOrRestoreInteraction({
-      interactionId: resultat.interaction.id,
+      interaction: resultat.interaction,
       structure,
-      usagerRef: usager.ref,
+      usager,
       user,
     });
   });
@@ -103,9 +105,9 @@ describe("interactionsCreator", () => {
 
     // clean
     await interactionsDeletor.deleteOrRestoreInteraction({
-      interactionId: resultat.interaction.id,
+      interaction: resultat.interaction,
       structure,
-      usagerRef: usager.ref,
+      usager,
       user,
     });
   });
@@ -126,15 +128,16 @@ describe("interactionsCreator", () => {
       user,
       interaction,
     });
+
     expect(resultat1.usager.lastInteraction.colisIn).toEqual(
       usagerBefore.lastInteraction.colisIn + 1
     );
 
     // clean
     await interactionsDeletor.deleteOrRestoreInteraction({
-      interactionId: resultat1.interaction.id,
+      interaction: resultat1.interaction,
       structure,
-      usagerRef: usager.ref,
+      usager,
       user,
     });
 
@@ -149,9 +152,9 @@ describe("interactionsCreator", () => {
 
     // clean
     await interactionsDeletor.deleteOrRestoreInteraction({
-      interactionId: resultat2.interaction.id,
+      interaction: resultat2.interaction,
       structure,
-      usagerRef: usager.ref,
+      usager,
       user,
     });
   });
@@ -181,9 +184,9 @@ describe("interactionsCreator", () => {
 
     // clean
     await interactionsDeletor.deleteOrRestoreInteraction({
-      interactionId: resultat.interaction.id,
+      interaction: resultat.interaction,
       structure,
-      usagerRef: usager.ref,
+      usager,
       user,
     });
   });
@@ -216,9 +219,9 @@ describe("interactionsCreator", () => {
 
     // clean
     await interactionsDeletor.deleteOrRestoreInteraction({
-      interactionId: resultat.interaction.id,
+      interaction: resultat.interaction,
       structure,
-      usagerRef: usager.ref,
+      usager,
       user,
     });
   });

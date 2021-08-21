@@ -15,9 +15,8 @@ export class StructureDocService {
   private structureDocRepository: Repository<StructureDocTable>;
 
   constructor() {
-    this.structureDocRepository = appTypeormManager.getRepository(
-      StructureDocTable
-    );
+    this.structureDocRepository =
+      appTypeormManager.getRepository(StructureDocTable);
   }
 
   public async create(structureDoc: StructureDoc): Promise<any> {

@@ -10,11 +10,11 @@ export class InteractionsService {
 
   public async findOne(
     usagerRef: number,
-    interactionId: number,
+    interactionUuid: string,
     user: Pick<AppUser, "structureId">
   ): Promise<Interactions | null> {
     return interactionRepository.findOne({
-      id: interactionId,
+      uuid: interactionUuid,
       structureId: user.structureId,
       usagerRef,
     });

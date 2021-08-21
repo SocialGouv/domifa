@@ -82,8 +82,8 @@ describe("InteractionsDeletor", () => {
     {
       const usagerAfterDelete =
         await interactionsDeletor.deleteOrRestoreInteraction({
-          interactionId: interactionCreated.id,
-          usagerRef: usager.ref,
+          interaction: interactionCreated,
+          usager: usagerAfterCreate,
           user,
           structure,
         });

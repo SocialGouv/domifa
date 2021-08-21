@@ -85,9 +85,10 @@ describe("UsersCreator", () => {
     expect(userSecurity.temporaryTokens.type).toEqual("create-user");
     expect(userSecurity.temporaryTokens.token).toBeDefined();
     expect(userSecurity.temporaryTokens.validity).toBeDefined();
-    const useSecurityByToken = await userSecurityRepository.findOneByTokenAttribute(
-      userSecurity.temporaryTokens.token
-    );
+    const useSecurityByToken =
+      await userSecurityRepository.findOneByTokenAttribute(
+        userSecurity.temporaryTokens.token
+      );
     expect(useSecurityByToken).toBeDefined();
     expect(useSecurityByToken.uuid).toEqual(userSecurity.uuid);
 

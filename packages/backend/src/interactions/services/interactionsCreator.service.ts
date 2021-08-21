@@ -34,13 +34,8 @@ async function createInteraction({
   const newInteraction = buildedInteraction.newInteraction;
   const lastInteraction = buildedInteraction.usager.lastInteraction;
 
-  const createdInteraction: Interactions = new InteractionsTable(
-    newInteraction
-  );
-
-  const interactionCreated = await interactionRepository.save(
-    createdInteraction
-  );
+  const news = new InteractionsTable(newInteraction);
+  const interactionCreated = await interactionRepository.save(news);
 
   const usagerUpdated = await usagerLightRepository.updateOne(
     { uuid: usager.uuid },
@@ -59,9 +54,9 @@ async function buildNewInteraction({
   user: Pick<AppAuthUser, "id" | "structureId" | "nom" | "prenom">;
 }): Promise<{
   usager: Pick<Usager, "lastInteraction">;
-  newInteraction: Omit<InteractionsTable, "_id" | "id">;
+  newInteraction: Interactions;
 }> {
-  const newInteraction = new InteractionsTable(interaction);
+  interaction.dateInteraction = new Date();
 
   const direction = interactionsTypeManager.getDirection({
     type: interaction.type,
@@ -90,11 +85,11 @@ async function buildNewInteraction({
         oppositeType,
       });
 
-    newInteraction.content = lastInteraction?.content || "";
+    interaction.content = lastInteraction?.content || "";
 
     // La procuration ne remet pas à jour le dernier passage
     if (interaction.procuration) {
-      newInteraction.content =
+      interaction.content =
         "Courrier remis au mandataire : " +
         usager.options.procuration.prenom +
         " " +
@@ -106,7 +101,7 @@ async function buildNewInteraction({
     // Transfert actif: on le précise dans le contenu
     if (usager.options.transfert.actif) {
       if (new Date(usager.options.transfert.dateFin) >= new Date()) {
-        newInteraction.content =
+        interaction.content =
           "Courrier transféré à : " +
           usager.options.transfert.nom +
           " - " +
@@ -114,7 +109,7 @@ async function buildNewInteraction({
       }
     }
 
-    newInteraction.nbCourrier = usager.lastInteraction[oppositeType] || 1;
+    interaction.nbCourrier = usager.lastInteraction[oppositeType] || 1;
 
     usager.lastInteraction[oppositeType] = 0;
 
@@ -123,20 +118,25 @@ async function buildNewInteraction({
       usager.lastInteraction.colisIn > 0 ||
       usager.lastInteraction.recommandeIn > 0;
   } else {
-    newInteraction.nbCourrier = 0;
+    interaction.nbCourrier = 0;
   }
 
   if (interaction.type === "visite" || interaction.type === "appel") {
     usager.lastInteraction.dateInteraction = new Date();
   }
 
-  newInteraction.structureId = user.structureId;
-  newInteraction.usagerRef = usager.ref;
-  newInteraction.usagerUUID = usager.uuid;
-  newInteraction.userId = user.id;
-  newInteraction.userName = user.prenom + " " + user.nom;
+  delete interaction.procuration;
 
-  newInteraction.dateInteraction = new Date();
+  const newInteraction: Interactions = {
+    ...interaction,
+    structureId: user.structureId,
+    usagerRef: usager.ref,
+    usagerUUID: usager.uuid,
+    userId: user.id,
+    userName: user.prenom + " " + user.nom,
+    dateInteraction: new Date(),
+    event: "create",
+  };
 
   return { usager, newInteraction };
 }

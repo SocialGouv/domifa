@@ -58,7 +58,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
           "createdAt" timestamptz NOT NULL DEFAULT now(),
           "updatedAt" timestamptz NOT NULL DEFAULT now(),
           "version" int4 NOT NULL,
-          id serial NOT NULL,
+
           "dateInteraction" timestamptz NOT NULL,
           "nbCourrier" int4 NOT NULL,
           "structureId" int4 NOT NULL,

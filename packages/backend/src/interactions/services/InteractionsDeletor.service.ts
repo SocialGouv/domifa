@@ -1,9 +1,5 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import {
-  interactionRepository,
-  InteractionsTable,
-  usagerRepository,
-} from "../../database";
+import { Injectable } from "@nestjs/common";
+import { interactionRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
 
 import { UsagersService } from "../../usagers/services/usagers.service";
@@ -26,52 +22,31 @@ export class InteractionsDeletor {
   ) {}
 
   public async deleteOrRestoreInteraction({
-    interactionId,
-    usagerRef,
+    interaction,
+    usager,
     user,
     structure,
   }: {
-    interactionId: number;
-    usagerRef: number;
+    interaction: Interactions;
+    usager: UsagerLight;
     user: Pick<AppUser, "id" | "structureId" | "nom" | "prenom">;
     structure: Pick<Structure, "id" | "sms">;
   }): Promise<UsagerLight> {
-    const usager = await usagerRepository.findOne({
-      structureId: structure.id,
-      ref: usagerRef,
-    });
-
-    const interaction = await interactionRepository.findOne({
-      id: interactionId,
-      structureId: structure.id,
-      usagerRef,
-    });
-
-    if (!interaction || interaction === null) {
-      throw new HttpException("INTERACTION_NOT_FOUND", HttpStatus.BAD_REQUEST);
-    }
-
     const newEvent: InteractionEvent =
       interaction.event === "create" ? "delete" : "create"; // 'create' means 'restore' here
 
     const direction = interactionsTypeManager.getDirection(interaction);
 
     // always delete previous interaction ('delete' or 'create' ('restore') event)
-    const deletedInteraction = await interactionRepository.deleteByCriteria({
-      id: interaction.id,
-      structureId: structure.id,
-      usagerRef: interaction.usagerRef,
+    await interactionRepository.deleteByCriteria({
+      uuid: interaction.uuid,
     });
-
-    if (!deletedInteraction) {
-      throw new HttpException("INTERACTION_NOT_FOUND", HttpStatus.BAD_REQUEST);
-    }
 
     if (newEvent === "delete") {
       // create a "delete" interaction
       await this._createDeleteInteraction({
         user,
-        structure,
+
         interaction,
         newEvent,
       });
@@ -84,6 +59,7 @@ export class InteractionsDeletor {
           interaction
         );
       }
+
       // Restaurer le SMS
       else if (direction === "out") {
         await this.interactionsSmsManager.updateSmsAfterCreation({
@@ -136,36 +112,38 @@ export class InteractionsDeletor {
           usager.options.npai.actif = true;
           usager.options.npai.dateDebut = created.interaction.dateInteraction;
 
-          return this.usagersService.patch({ uuid: usager.uuid }, usager);
+          return this.usagersService.patch(
+            { uuid: usager.uuid },
+            {
+              options: usager.options,
+              lastInteraction: usager.lastInteraction,
+            }
+          );
         }
       }
       return created.usager;
     }
   }
 
-  private _createDeleteInteraction({
+  private async _createDeleteInteraction({
     user,
-    structure,
     interaction,
     newEvent,
   }: {
     user: Pick<AppUser, "id" | "structureId" | "nom" | "prenom">;
-    structure: Pick<Structure, "id" | "sms">;
     interaction: Interactions;
     newEvent: InteractionEvent;
   }) {
-    const deleteInteraction = new InteractionsTable({
+    const newInteraction: Interactions = {
       ...interaction,
-      uuid: undefined, // generate new uuid
-      structureId: structure.id,
-      userId: user.id,
-      userName: user.prenom + " " + user.nom,
-      dateInteraction: new Date(),
+      structureId: user.structureId,
       event: newEvent,
       previousValue: interaction,
-    });
+    };
 
-    return interactionRepository.save(deleteInteraction);
+    newInteraction.uuid = undefined;
+
+    return interactionRepository.save(newInteraction);
   }
 
   private async updateUsagerLastInteractionAfterDeleteLast({
@@ -175,7 +153,7 @@ export class InteractionsDeletor {
     direction,
   }: {
     user: Pick<AppUser, "id" | "structureId" | "nom" | "prenom">;
-    usager: Usager;
+    usager: UsagerLight;
     interaction: Interactions;
     direction: InteractionDirection;
   }) {
@@ -217,6 +195,7 @@ export class InteractionsDeletor {
       usager,
       event: "create",
     });
+
     const lastInteractionDate = lastInteraction?.dateInteraction;
 
     if (lastInteractionDate) {
@@ -238,6 +217,13 @@ export class InteractionsDeletor {
       usager.lastInteraction.courrierIn > 0 ||
       usager.lastInteraction.colisIn > 0 ||
       usager.lastInteraction.recommandeIn > 0;
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+
+    return this.usagersService.patch(
+      { uuid: usager.uuid },
+      {
+        options: usager.options,
+        lastInteraction: usager.lastInteraction,
+      }
+    );
   }
 }
