@@ -51,14 +51,13 @@ async function sendMail({
     toSkipString: recipients.toSkipString,
   };
 
-  const renderedTemplate = await usagerAppointmentCreatedEmailRenderer.renderTemplate(
-    model
-  );
+  const renderedTemplate =
+    await usagerAppointmentCreatedEmailRenderer.renderTemplate(model);
 
   const messageContent: MessageEmailContent = {
     ...DOMIFA_DEFAULT_MAIL_CONFIG,
     ...renderedTemplate,
-    to: to,
+    to,
     icalEvent,
   };
 

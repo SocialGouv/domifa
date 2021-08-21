@@ -25,11 +25,7 @@ async function deleteUsager({
   });
 
   const pathFile = path.resolve(
-    path.join(
-      domifaConfig().upload.basePath,
-      `${structureId}`,
-      `${usagerRef}`
-    )
+    path.join(domifaConfig().upload.basePath, `${structureId}`, `${usagerRef}`)
   );
   deleteUsagerFolder(pathFile);
 

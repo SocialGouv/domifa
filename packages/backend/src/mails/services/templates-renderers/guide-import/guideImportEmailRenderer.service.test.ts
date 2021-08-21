@@ -10,11 +10,8 @@ describe("guideImportEmailRenderer", () => {
       lienGuide: "https://domifa/guide",
       lienFaq: "https://domifa/faq",
     };
-    const {
-      subject,
-      text,
-      html,
-    } = await guideImportEmailRenderer.renderTemplate(model);
+    const { subject, text, html } =
+      await guideImportEmailRenderer.renderTemplate(model);
 
     expect(subject).toEqual(`[DOMIFA] Importer vos domiciliés sur DomiFa`);
     expect(text).toContain(model.prenom);

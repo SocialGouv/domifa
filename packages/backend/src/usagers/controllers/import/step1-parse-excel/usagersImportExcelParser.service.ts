@@ -6,9 +6,7 @@ export const usagersImportExcelParser = {
   parseFileSync,
 };
 
-async function parseFileSync(
-  filePath: string
-): Promise<
+async function parseFileSync(filePath: string): Promise<
   {
     rowNumber: number;
     row: UsagersImportRow;

@@ -7,7 +7,7 @@ async function renderTemplate(model: {
   lien: string;
   toSkipString?: string;
 }): Promise<DomifaMailTemplateRendering> {
-  return await domifaMailTemplateRenderer.renderTemplate(
+  return domifaMailTemplateRenderer.renderTemplate(
     "user-account-created-by-admin",
     model
   );
