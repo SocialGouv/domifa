@@ -18,7 +18,7 @@ export const pgRepository = {
 export function typeOrmSearch<T>(
   search: FindConditions<T>[] | FindConditions<T> | ObjectLiteral | string
 ): Partial<T> {
-  return (search as unknown) as Partial<T>;
+  return search as unknown as Partial<T>;
 }
 
 function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
@@ -323,7 +323,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       });
       throw new Error("Not found");
     }
-    return (res as unknown) as R;
+    return res as unknown as R;
   }
 
   async function findMany<R = DEFAULT_RESULT>(
@@ -339,7 +339,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
       skip: options.skip,
       take: options.maxResults,
     });
-    return (res as unknown) as R[];
+    return res as unknown as R[];
   }
 
   async function updateOne<R = DEFAULT_RESULT>(
@@ -350,8 +350,8 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     const typeormRepository = await typeorm();
 
     const { affected } = await typeormRepository.update(
-      (search as unknown) as FindConditions<T>,
-      (data as unknown) as QueryDeepPartialEntity<T>
+      search as unknown as FindConditions<T>,
+      data as unknown as QueryDeepPartialEntity<T>
     );
     if (affected === 1) {
       return findOne<R>(
@@ -370,8 +370,8 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     const typeormRepository = await typeorm();
 
     await typeormRepository.update(
-      (search as unknown) as FindConditions<T>,
-      (data as unknown) as QueryDeepPartialEntity<T>
+      search as unknown as FindConditions<T>,
+      data as unknown as QueryDeepPartialEntity<T>
     );
     return findMany<R>(search, options);
   }
@@ -404,7 +404,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
   async function deleteByCriteria(search: Partial<T>): Promise<number> {
     const typeormRepository = await typeorm();
     const res = await typeormRepository.delete(
-      (search as unknown) as FindConditions<T>
+      search as unknown as FindConditions<T>
     );
     return res.affected;
   }

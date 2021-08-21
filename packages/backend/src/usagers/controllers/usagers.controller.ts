@@ -153,7 +153,10 @@ export class UsagersController {
       usager.options.npai.dateDebut = new Date();
     }
 
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+    return this.usagersService.patch(
+      { uuid: usager.uuid },
+      { options: usager.options }
+    );
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
@@ -235,7 +238,10 @@ export class UsagersController {
 
     usager.options.transfert = newTransfert;
 
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+    return this.usagersService.patch(
+      { uuid: usager.uuid },
+      { options: usager.options }
+    );
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
@@ -250,7 +256,10 @@ export class UsagersController {
     if (!preferenceDto.phone) {
       preferenceDto.phoneNumber = null;
     }
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+    return this.usagersService.patch(
+      { uuid: usager.uuid },
+      { preference: usager.preference }
+    );
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
@@ -317,7 +326,10 @@ export class UsagersController {
       content: {},
     });
 
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+    return this.usagersService.patch(
+      { uuid: usager.uuid },
+      { options: usager.options }
+    );
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
@@ -345,7 +357,10 @@ export class UsagersController {
     });
 
     usager.options.procuration = newProcuration;
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+    return this.usagersService.patch(
+      { uuid: usager.uuid },
+      { options: usager.options }
+    );
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
@@ -370,7 +385,10 @@ export class UsagersController {
       content: {},
     });
 
-    return this.usagersService.patch({ uuid: usager.uuid }, usager);
+    return this.usagersService.patch(
+      { uuid: usager.uuid },
+      { options: usager.options }
+    );
   }
 
   @UseGuards(UsagerAccessGuard)

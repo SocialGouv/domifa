@@ -7,7 +7,7 @@ async function renderTemplate(model: {
   confirmationCode: string;
   toSkipString?: string;
 }): Promise<DomifaMailTemplateRendering> {
-  return await domifaMailTemplateRenderer.renderTemplate("hard-reset", model);
+  return domifaMailTemplateRenderer.renderTemplate("hard-reset", model);
 }
 
 export const hardResetEmailRenderer = { renderTemplate };

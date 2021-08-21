@@ -8,7 +8,7 @@ async function renderTemplate(model: {
   lienGuide: string;
   lienFaq: string;
 }): Promise<DomifaMailTemplateRendering> {
-  return await domifaMailTemplateRenderer.renderTemplate("guide-import", model);
+  return domifaMailTemplateRenderer.renderTemplate("guide-import", model);
 }
 
 export const guideImportEmailRenderer = { renderTemplate };

@@ -7,7 +7,7 @@ import { domifaMailTemplateRenderer } from "../../../../mail-generator/services/
 async function renderTemplate(
   model: AdminBatchsErrorReportModel
 ): Promise<DomifaMailTemplateRendering> {
-  return await domifaMailTemplateRenderer.renderTemplate(
+  return domifaMailTemplateRenderer.renderTemplate(
     "admin-batchs-error-report",
     {
       ...model,

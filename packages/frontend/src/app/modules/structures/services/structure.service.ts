@@ -127,9 +127,8 @@ export class StructureService {
       const testCode = RegExp(regexp.postcode).test(postalCode);
       if (testCode) {
         try {
-          const departement = departementHelper.getDepartementFromCodePostal(
-            postalCode
-          );
+          const departement =
+            departementHelper.getDepartementFromCodePostal(postalCode);
           departementHelper.getRegionCodeFromDepartement(departement);
         } catch (err) {
           // tslint:disable-next-line: no-console

@@ -93,9 +93,7 @@ function buildArrayBySize(count: number): any[] {
   return [];
 }
 
-function fromListAndRemove<T>(
-  list: T[]
-): {
+function fromListAndRemove<T>(list: T[]): {
   item: T;
   remaining: T[];
 } {

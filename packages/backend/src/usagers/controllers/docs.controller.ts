@@ -105,17 +105,17 @@ export class DocsController {
 
     this.encryptFile(fileName, res);
 
-    const toUpdate: Partial<Usager> = {
+    const fieldsToUpdate: Partial<Usager> = {
       docs: usager.docs,
       docsPath: usager.docsPath,
     };
 
-    toUpdate.docs.push(newDoc);
-    toUpdate.docsPath.push(file.filename);
+    fieldsToUpdate.docs.push(newDoc);
+    fieldsToUpdate.docsPath.push(file.filename);
 
     const retour = await this.usagersService.patch(
       { uuid: usager.uuid },
-      toUpdate
+      fieldsToUpdate
     );
 
     if (!retour || retour === null) {

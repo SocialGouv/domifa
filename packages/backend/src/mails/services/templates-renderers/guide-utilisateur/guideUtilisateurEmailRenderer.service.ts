@@ -7,7 +7,7 @@ async function renderTemplate(model: {
   lienGuide: string;
   toSkipString?: string;
 }): Promise<DomifaMailTemplateRendering> {
-  return await domifaMailTemplateRenderer.renderTemplate(
+  return domifaMailTemplateRenderer.renderTemplate(
     "guide-utilisateur",
     model
   );

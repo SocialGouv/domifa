@@ -40,4 +40,9 @@ export class UsagerHistoryTable
 
   @Column({ type: "jsonb" })
   states: UsagerHistoryState[];
+
+  public constructor(entity?: Partial<UsagerHistoryTable>) {
+    super(entity);
+    Object.assign(this, entity);
+  }
 }

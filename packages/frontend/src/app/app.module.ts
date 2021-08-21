@@ -33,8 +33,7 @@ import { UsersModule } from "./modules/users/users.module";
 
 if (environment.production) {
   Sentry.init({
-    dsn:
-      "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
+    dsn: "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31",
   });
 }
 

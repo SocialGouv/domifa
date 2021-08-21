@@ -57,8 +57,9 @@ function isAccountLockedForOperation({
   );
   if (eventsRecentHistory.length >= SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
     if (operation === "login") {
-      const count = eventsRecentHistory.filter((x) => x.type === "login-error")
-        .length;
+      const count = eventsRecentHistory.filter(
+        (x) => x.type === "login-error"
+      ).length;
       if (count >= SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
         logOperationError({ operation, userId });
         return true;

@@ -71,7 +71,7 @@ export class AppUserTable
     this.prenom = titleCase(this.prenom);
   }
 
-  public constructor(entity?: any) {
+  public constructor(entity?: Partial<AppUserTable>) {
     super(entity);
     Object.assign(this, entity);
   }

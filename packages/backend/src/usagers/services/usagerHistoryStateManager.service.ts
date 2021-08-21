@@ -301,7 +301,7 @@ function buildHistoryState({
     ...usager.decision,
   };
 
-  const previousState = usagerHistory.states.length
+  const previousState = usagerHistory?.states.length
     ? usagerHistory.states[usagerHistory.states.length - 1]
     : undefined;
 

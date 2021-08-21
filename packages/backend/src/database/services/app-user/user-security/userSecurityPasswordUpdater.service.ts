@@ -18,7 +18,7 @@ async function updatePassword({
 }): Promise<void> {
   const userSecurity = await userSecurityRepository.findOne(
     {
-      userId: userId,
+      userId,
     },
     {
       throwErrorIfNotFound: true,

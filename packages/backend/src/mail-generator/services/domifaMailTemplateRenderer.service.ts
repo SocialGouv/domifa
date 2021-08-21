@@ -36,10 +36,8 @@ async function renderTemplate(
   templateId: string,
   model: any
 ): Promise<DomifaMailTemplateRendering> {
-  const message: Partial<EmailTemplate.EmailMessage> = await emailTemplate.renderAll(
-    templateId,
-    model
-  );
+  const message: Partial<EmailTemplate.EmailMessage> =
+    await emailTemplate.renderAll(templateId, model);
   const rendering: DomifaMailTemplateRendering = {
     html: message.html,
     text: message.text,

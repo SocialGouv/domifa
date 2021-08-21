@@ -8,7 +8,7 @@ import { MessageEmailSendDetails } from "./MessageEmailSendDetails.type";
 import { MessageEmailStatus } from "./MessageEmailStatus.type";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "message_email" })
-export class MessageEmailTable<T = any>
+export class MessageEmailTable
   extends AppTypeormTable<MessageEmailTable>
   implements MessageEmail
 {
@@ -38,7 +38,8 @@ export class MessageEmailTable<T = any>
   @Column({ type: "bytea", nullable: true })
   public attachments: Bytea; // binary content, use hexEncoder to read/write
 
-  public constructor(entity?: any) {
+  public constructor(entity?: Partial<MessageEmailTable>) {
     super(entity);
+    Object.assign(this, entity);
   }
 }

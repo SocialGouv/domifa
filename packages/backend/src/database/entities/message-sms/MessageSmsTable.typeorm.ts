@@ -68,4 +68,9 @@ export class MessageSmsTable
 
   @Column({ type: "text" })
   public senderName: string;
+
+  public constructor(entity?: Partial<MessageSmsTable>) {
+    super(entity);
+    Object.assign(this, entity);
+  }
 }

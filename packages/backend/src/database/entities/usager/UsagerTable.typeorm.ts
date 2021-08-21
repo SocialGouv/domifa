@@ -37,7 +37,10 @@ export class UsagerTable
   public structureId: number;
 
   @ManyToOne(() => StructureTable, { lazy: true })
-  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
+  @JoinColumn({
+    name: "structureId",
+    referencedColumnName: "id",
+  })
   public structureFk?: Promise<StructureTable>;
 
   // ETAT-CIVIL

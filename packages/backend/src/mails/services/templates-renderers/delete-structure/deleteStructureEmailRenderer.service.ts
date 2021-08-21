@@ -48,7 +48,7 @@ async function renderTemplate({
     toSkipString,
   };
 
-  return await domifaMailTemplateRenderer.renderTemplate(
+  return domifaMailTemplateRenderer.renderTemplate(
     "delete-structure",
     model
   );
