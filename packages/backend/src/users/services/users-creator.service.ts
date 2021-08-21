@@ -60,9 +60,10 @@ async function createUserWithTmpToken(
   const userSecurityAttributes: AppUserSecurity = {
     userId: user.id,
     structureId: user.structureId,
-    temporaryTokens: userSecurityResetPasswordInitiator.generateResetPasswordTokenAndValidity(
-      { type: "create-user" }
-    ),
+    temporaryTokens:
+      userSecurityResetPasswordInitiator.generateResetPasswordTokenAndValidity({
+        type: "create-user",
+      }),
     eventsHistory: [],
   };
 

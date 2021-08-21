@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import {
   InteractionEvent,
   Interactions,
@@ -17,44 +10,41 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "interactions" })
 export class InteractionsTable
-  extends AppTypeormTable<Interactions>
+  extends AppTypeormTable<InteractionsTable>
   implements Interactions
 {
-  @PrimaryGeneratedColumn("increment")
-  id: number;
-
   @Column({ type: "timestamptz" })
-  dateInteraction: Date;
+  public dateInteraction: Date;
 
   @Column({ type: "integer" })
-  nbCourrier: number;
+  public nbCourrier: number;
 
   @Index()
   @Column({ type: "integer" })
-  structureId: number;
+  public structureId: number;
 
   @ManyToOne(() => StructureTable, { lazy: true })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureFk?: Promise<StructureTable>;
+  public structureFk?: Promise<StructureTable>;
 
   @Column({ type: "text" })
-  type: InteractionType;
+  public type: InteractionType;
 
   @Index()
   @Column({ type: "integer" })
-  usagerRef: number;
+  public usagerRef: number;
 
   @Index()
   @Column({ type: "text" })
-  usagerUUID: string;
+  public usagerUUID: string;
 
   @ManyToOne(() => UsagerTable, { lazy: true })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
-  usagerFk?: Promise<UsagerTable>;
+  public usagerFk?: Promise<UsagerTable>;
 
   @Index()
   @Column({ type: "integer", nullable: true }) // nullable if user is deleted
-  userId: number;
+  public userId: number;
 
   // NOTE: pas de FK car les users peuvent être supprimés (si on ajoute la FK, il faudra rendre nullable les userId)
   // @ManyToOne(() => AppUserTable, { lazy: true })
@@ -62,14 +52,19 @@ export class InteractionsTable
   // userFk?: Promise<AppUserTable>;
 
   @Column({ type: "text" })
-  userName: string;
+  public userName: string;
 
   @Column({ type: "text", nullable: true })
-  content: string;
+  public content: string;
 
   @Column({ type: "text", default: "create" })
-  event: InteractionEvent;
+  public event: InteractionEvent;
 
   @Column({ type: "jsonb", nullable: true })
-  previousValue?: Interactions; // if event === 'delete'
+  public previousValue?: Interactions; // if event === 'delete'
+
+  public constructor(entity?: Partial<InteractionsTable>) {
+    super(entity);
+    Object.assign(this, entity);
+  }
 }

@@ -13,7 +13,8 @@ import { UsagerTable } from "./UsagerTable.typeorm";
 @Unique(["structureId", "usagerRef"])
 export class UsagerHistoryTable
   extends AppTypeormTable<UsagerHistoryTable>
-  implements UsagerHistory {
+  implements UsagerHistory
+{
   @Index()
   @Column({ type: "text", unique: true, update: false }) // unique par structure
   public usagerUUID: string;

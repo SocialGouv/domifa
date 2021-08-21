@@ -16,7 +16,8 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 @Entity({ name: "app_user" })
 export class AppUserTable
   extends AppTypeormTable<AppUserTable>
-  implements AppUser {
+  implements AppUser
+{
   mail: AppUserMails;
 
   @Index()
@@ -68,5 +69,10 @@ export class AppUserTable
     this.email = this.email.toLowerCase();
     this.nom = titleCase(this.nom);
     this.prenom = titleCase(this.prenom);
+  }
+
+  public constructor(entity?: any) {
+    super(entity);
+    Object.assign(this, entity);
   }
 }

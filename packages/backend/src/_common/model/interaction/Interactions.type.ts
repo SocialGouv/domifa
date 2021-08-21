@@ -2,8 +2,6 @@ import { AppEntity, InteractionEvent } from "..";
 import { InteractionType } from "./InteractionType.type";
 
 export type Interactions = AppEntity & {
-  id?: number;
-  createdAt?: Date;
   content?: string;
   dateInteraction: Date;
   nbCourrier: number;

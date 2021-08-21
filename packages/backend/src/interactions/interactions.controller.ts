@@ -11,11 +11,12 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
+import { CurrentInteraction } from "../auth/current-interaction.decorator";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { interactionRepository } from "../database";
-import { AppAuthUser, UsagerLight } from "../_common/model";
+import { AppAuthUser, Interactions, UsagerLight } from "../_common/model";
 import { InteractionDto } from "./interactions.dto";
 import { interactionsCreator, InteractionsDeletor } from "./services";
 import { InteractionsSmsManager } from "./services/InteractionsSmsManager.service";
@@ -73,16 +74,17 @@ export class InteractionsController {
     });
   }
 
-  @Delete(":usagerRef/:interactionId")
+  @Delete(":usagerRef/:interactionUuid")
   public async deleteInteraction(
-    @Param("interactionId") interactionId: number,
+    @Param("interactionUuid") interactionUuid: string,
     @CurrentUser() user: AppAuthUser,
-    @CurrentUsager() usager: UsagerLight
+    @CurrentUsager() usager: UsagerLight,
+    @CurrentInteraction() interaction: Interactions
   ) {
     return this.interactionDeletor.deleteOrRestoreInteraction({
-      interactionId,
+      interaction,
       user,
-      usagerRef: usager.ref,
+      usager,
       structure: user.structure,
     });
   }

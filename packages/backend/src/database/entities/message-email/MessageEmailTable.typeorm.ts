@@ -10,7 +10,8 @@ import { MessageEmailStatus } from "./MessageEmailStatus.type";
 @Entity({ name: "message_email" })
 export class MessageEmailTable<T = any>
   extends AppTypeormTable<MessageEmailTable>
-  implements MessageEmail {
+  implements MessageEmail
+{
   @Column({ type: "text" })
   status: MessageEmailStatus;
   @Column({ type: "text" })
@@ -36,4 +37,8 @@ export class MessageEmailTable<T = any>
 
   @Column({ type: "bytea", nullable: true })
   public attachments: Bytea; // binary content, use hexEncoder to read/write
+
+  public constructor(entity?: any) {
+    super(entity);
+  }
 }

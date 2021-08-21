@@ -2,7 +2,6 @@ import { StructureType } from "../structure/StructureType.type";
 import { AppEntity } from "../_core/AppEntity.type";
 
 export type StructureStats = AppEntity & {
-  createdAt?: Date;
   date: Date;
   nom: string;
   structureId: number;

@@ -1,6 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import { appLogger } from "../AppLogger.service";
 import { tokenGenerator } from "./tokenGenerator.service";
+
 export const passwordGenerator = {
   generatePasswordHash,
   generateRandomPasswordHash,
@@ -29,7 +30,10 @@ async function generatePasswordHash({
   try {
     return bcrypt.hash(password, salt);
   } catch (err) {
-    appLogger.error("Unexpected error testing password", err);
+    appLogger.error("Unexpected error testing password", {
+      error: err as Error,
+      sentry: true,
+    });
     throw err;
   }
 }
@@ -44,7 +48,10 @@ async function checkPassword({
   try {
     return await bcrypt.compare(password, hash);
   } catch (err) {
-    appLogger.error("Unexpected error checking password", err);
+    appLogger.error("Unexpected error checking password", {
+      error: err as Error,
+      sentry: true,
+    });
     return false;
   }
 }

@@ -9,8 +9,7 @@ import {
 } from "../../../../_common/model/interaction/constants";
 
 export class Interaction {
-  public _id: string;
-  public id: number;
+  public uuid: string;
   public type: string;
   public dateInteraction: Date | null;
   public content?: string;
@@ -24,8 +23,8 @@ export class Interaction {
 
   public label: string;
 
-  event: InteractionEvent;
-  previousValue?: Interactions; // if event === 'delete'
+  public event: InteractionEvent;
+  public previousValue?: Interactions; // if event === 'delete'
 
   constructor(interaction: any) {
     this.event = interaction?.event;
@@ -44,7 +43,7 @@ export class Interaction {
     this.userName = (interaction && interaction.userName) || "";
 
     this.delete = false;
-    this.id = interaction.id;
+    this.uuid = (interaction && interaction.uuid) || null;
 
     if (
       this.type !== "appel" &&

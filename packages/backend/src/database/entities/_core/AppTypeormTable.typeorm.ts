@@ -6,21 +6,20 @@ import {
 } from "typeorm";
 import { AppEntity } from "../../../_common/model";
 
-export abstract class AppTypeormTable<T extends AppEntity>
-  implements AppEntity {
+export class AppTypeormTable<T extends AppEntity> implements AppEntity {
   @PrimaryGeneratedColumn("uuid")
-  uuid?: string;
+  public uuid?: string;
 
   @CreateDateColumn({ type: "timestamptz" })
-  createdAt?: Date;
+  public createdAt?: Date;
 
   @UpdateDateColumn({ type: "timestamptz" })
-  updatedAt?: Date;
+  public updatedAt?: Date;
 
   @VersionColumn()
-  version?: number;
+  public version?: number;
 
-  constructor(entity?: Partial<T>) {
+  public constructor(entity?: Partial<T>) {
     Object.assign(this, entity);
   }
 }
