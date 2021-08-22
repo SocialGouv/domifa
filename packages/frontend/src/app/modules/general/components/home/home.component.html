@@ -258,13 +258,13 @@
       </div>
     </div>
     <div class="my-3 my-lg-3 d-none d-sm-block">
-      <button
+      <a
+        routerLink="stats"
         class="btn bg-light btn-outline-primary cursor-not-allowed"
-        disabled
         (click)="matomo.trackEvent('HOME', 'HP_Statistiques', 'null', 1)"
       >
-        Voir nos statistiques (en cours de construction) &#8594;
-      </button>
+        Voir nos statistiques &#8594;
+      </a>
     </div>
   </div>
   <div class="my-5 container px-2">
