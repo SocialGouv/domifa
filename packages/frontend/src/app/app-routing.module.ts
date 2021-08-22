@@ -6,7 +6,7 @@ import { CanEditSmsGuard } from "./guards/can-edit-sms.guard";
 import { DomifaGuard } from "./guards/domifa-guard";
 import { FacteurGuard } from "./guards/facteur-guard";
 import { LoggedGuard } from "./guards/logged-guard";
-import { ResponsableGuard } from "./guards/responsable-guard";
+
 import { CguComponent } from "./modules/general/components/cgu/cgu.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
 import { FaqComponent } from "./modules/general/components/faq/faq.component";
@@ -14,8 +14,7 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { MentionsLegalesComponent } from "./modules/general/components/mentions/mentions-legales/mentions-legales.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PolitiqueComponent } from "./modules/general/components/politique/politique.component";
-import { DashboardComponent } from "./modules/stats/components/dashboard/dashboard.component";
-import { StatsComponent } from "./modules/stats/components/structure-stats/structure-stats.component";
+
 import { StructuresConfirmComponent } from "./modules/structures/components/structures-confirm/structures-confirm.component";
 import { StructuresEditComponent } from "./modules/structures/components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./modules/structures/components/structures-form/structures-form.component";
@@ -147,16 +146,28 @@ export const routes: Routes = [
     path: "import",
   },
   {
-    canActivate: [DomifaGuard, ResponsableGuard],
     path: "statsdomifa",
-    component: DashboardComponent,
+    redirectTo: "/admin-domifa",
   },
   {
-    canActivate: [AuthGuard, FacteurGuard],
     path: "rapport-activite",
-    component: StatsComponent,
+    redirectTo: "/stats/rapport-activite",
+  },
+  {
+    path: "stats",
+    loadChildren: () =>
+      import("./modules/stats/stats.module").then((m) => m.StatsModule),
+  },
+  {
+    canActivate: [AuthGuard, DomifaGuard],
+    path: "admin-domifa",
+    loadChildren: () =>
+      import("./modules/admin-domifa/admin-domifa.module").then(
+        (m) => m.AdminDomifaModule
+      ),
   },
 
+  // NEW  LAZY LOAD MODULES
   { path: "404", component: NotFoundComponent },
   {
     path: "profil",

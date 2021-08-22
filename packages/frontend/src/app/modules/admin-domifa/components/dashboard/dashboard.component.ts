@@ -25,8 +25,8 @@ import {
 import { INTERACTIONS_LABELS_PLURIEL } from "../../../../../_common/model/interaction/constants";
 import { DASHBOARD_STATUS_LABELS } from "../../../../../_common/model/usager/constants/DASHBOARD_STATUS_LABELS.const";
 import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/usager/constants/STRUCTURE_TYPE_LABELS.const";
-import { StatsService } from "../services/stats.service";
-import { buildExportStructureStatsFileName } from "../structure-stats/structure-stats.component";
+import { buildExportStructureStatsFileName } from "../../../stats/components/structure-stats/structure-stats.component";
+import { AdminDomifaService } from "../../services/admin-domifa.service";
 
 export type DashboardTableStructure = StructureAdmin & {
   structureTypeLabel: string;
@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public DASHBOARD_STATUS_LABELS = DASHBOARD_STATUS_LABELS;
 
   constructor(
-    private statsService: StatsService,
+    private adminDomifaService: AdminDomifaService,
     private titleService: Title,
     private notifService: ToastrService
   ) {
@@ -116,7 +116,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.titleService.setTitle("Dashboard de suivi");
 
     // Liste des structures
-    this.statsService
+    this.adminDomifaService
       .getStatsDomifaAdminDashboard()
       .subscribe((stats: DashboardStats) => {
         this.stats$.next(stats);
@@ -134,7 +134,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public exportDashboard() {
     this.exportLoading = true;
-    this.statsService.exportDashboard().subscribe(
+    this.adminDomifaService.exportDashboard().subscribe(
       (x: any) => {
         const newBlob = new Blob([x], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -161,31 +161,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
       end: new Date(year.toString() + "-12-31"),
     };
 
-    this.statsService.export(structureId, period.start, period.end).subscribe(
-      (x: any) => {
-        const newBlob = new Blob([x], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
+    this.adminDomifaService
+      .export(structureId, period.start, period.end)
+      .subscribe(
+        (x: any) => {
+          const newBlob = new Blob([x], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
 
-        saveAs(
-          newBlob,
-          buildExportStructureStatsFileName({
-            startDateUTC: period.start,
-            endDateUTC: period.end,
-            structureId,
-          })
-        );
-        setTimeout(() => {
+          saveAs(
+            newBlob,
+            buildExportStructureStatsFileName({
+              startDateUTC: period.start,
+              endDateUTC: period.end,
+              structureId,
+            })
+          );
+          setTimeout(() => {
+            this.exportLoading = false;
+          }, 500);
+        },
+        (error: any) => {
+          this.notifService.error(
+            "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+          );
           this.exportLoading = false;
-        }, 500);
-      },
-      (error: any) => {
-        this.notifService.error(
-          "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
-        );
-        this.exportLoading = false;
-      }
-    );
+        }
+      );
   }
 
   private buildSortedTableStructures() {
@@ -299,7 +301,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public deleteStructure(id: string): void {
-    this.statsService.deleteStructure(id).subscribe(
+    this.adminDomifaService.deleteStructure(id).subscribe(
       () => {
         this.notifService.success(
           "Vous venez de recevoir un email vous permettant de supprimer la structure"
@@ -314,7 +316,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public enableSms(structure: Structure): void {
-    this.statsService.enableSms(structure.id).subscribe(
+    this.adminDomifaService.enableSms(structure.id).subscribe(
       () => {
         structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
 
