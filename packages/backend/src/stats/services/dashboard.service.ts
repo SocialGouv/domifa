@@ -1,8 +1,11 @@
 import { Injectable } from "@nestjs/common";
+import moment = require("moment");
 import { Repository } from "typeorm";
 import {
   appTypeormManager,
+  interactionRepository,
   InteractionsTable,
+  postgresQueryBuilder,
   structureRepository,
   StructureTable,
   typeOrmSearch,
@@ -14,6 +17,7 @@ import { StatsDeploiementExportModel } from "../../excel/export-stats-deploiemen
 import { StatsDeploiementStructureExportModel } from "../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
 import {
   DashboardStats,
+  StatsByMonth,
   StructureType,
   UsagerDecisionStatut,
 } from "../../_common/model";
@@ -42,7 +46,7 @@ export class DashboardService {
 
     const structuresCountByTypeMap = await this.getStructuresCountByTypeMap();
 
-    const usersCount = await usersRepository.count();
+    const usersCount = await this.countUsers();
 
     const interactionsCountByTypeMap =
       await this.getInteractionsCountByTypeMap();
@@ -90,6 +94,7 @@ export class DashboardService {
     return structures;
   }
 
+  // TODO: ajouter la région
   public async getStructuresByType(): Promise<
     {
       structureType: StructureType;
@@ -144,6 +149,7 @@ export class DashboardService {
       },
     });
   }
+
   public async getUsagersAllCountByStructure(): Promise<
     {
       structureId: number;
@@ -171,6 +177,14 @@ export class DashboardService {
       .query(
         `select "structureId", sum(jsonb_array_length("ayantsDroits")) as count from usager u group by "structureId" `
       );
+  }
+
+  public async countUsers(regionId?: string): Promise<number> {
+    return usersRepository.count();
+  }
+
+  public async countStructures(regionId?: string): Promise<number> {
+    return structureRepository.count();
   }
 
   public async getUsagersCountByStatut(): Promise<
@@ -322,6 +336,7 @@ export class DashboardService {
       }
     }
   }
+
   private async getUsagersCountByStructureMaps(structures) {
     const usagersValidCountByStructure =
       await this.getUsagersValideCountByStructure();
@@ -352,6 +367,97 @@ export class DashboardService {
       usagersAllCountByStructureMap,
       usagersAyantsDroitsCountByStructureMap,
     };
+  }
+
+  public async getUsagersByMonth(regionId?: string) {
+    const startDate = postgresQueryBuilder.formatPostgresDate(
+      moment().subtract(1, "year").add(1, "month").startOf("month").toDate()
+    );
+
+    const where = [startDate];
+
+    let query = `select date_trunc('month', "createdAt") as date,
+        COUNT(uuid) AS count
+        FROM usager u
+        WHERE "createdAt" > $1 `;
+
+    if (regionId) {
+      query =
+        query +
+        ` and "structureId" in (select id from "structure" s where  "region"=$2)`;
+
+      where.push(regionId);
+    }
+
+    query = query + ` GROUP BY 1`;
+
+    const rawResults = await (
+      await usagerRepository.typeorm()
+    ).query(query, where);
+
+    return this.formatStatsByMonth(rawResults);
+  }
+
+  public async getInteractionsByMonth(
+    interactionType: InteractionType = "courrierOut",
+    regionId?: string
+  ) {
+    const startDate = postgresQueryBuilder.formatPostgresDate(
+      moment().subtract(1, "year").add(1, "month").startOf("month").toDate()
+    );
+
+    const where: string[] = [startDate, interactionType];
+
+    let query = `select date_trunc('month', "dateInteraction") as date,
+        SUM("nbCourrier") as count
+        FROM interactions i
+        WHERE "dateInteraction" > $1 AND "type" = $2`;
+
+    if (regionId) {
+      query =
+        query +
+        ` and "structureId" in (select id from "structure" s where  "region"=$3)`;
+
+      where.push(regionId);
+    }
+
+    query = query + ` GROUP BY 1`;
+
+    const rawResults = await (
+      await interactionRepository.typeorm()
+    ).query(query, where);
+
+    return this.formatStatsByMonth(rawResults);
+  }
+
+  private formatStatsByMonth(rawResults: any): StatsByMonth {
+    const results = {
+      "sept.": 0,
+      "oct.": 0,
+      "nov.": 0,
+      "déc.": 0,
+      "janv.": 0,
+      "févr.": 0,
+      mars: 0,
+      "avr.": 0,
+      mai: 0,
+      juin: 0,
+      "juil.": 0,
+      août: 0,
+    };
+
+    for (const result of rawResults) {
+      const monthKey = new Date(result.date).toLocaleString("fr-fr", {
+        month: "short",
+      });
+      results[monthKey] = result.count;
+    }
+
+    const statsByMonth: StatsByMonth = Object.entries(results).map(
+      ([key, value]) => ({ name: key, value })
+    );
+
+    return statsByMonth;
   }
 
   public reduceSumResults(structures, sumToReduce) {

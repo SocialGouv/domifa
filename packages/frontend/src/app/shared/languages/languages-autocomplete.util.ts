@@ -1,7 +1,7 @@
 import { AbstractControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
-import { LANGUAGES, LANGUAGES_MAP } from "./constants";
+import { LANGUAGES, LANGUAGES_MAP } from ".";
 
 const typeahead = ({ maxResults = 10 }: { maxResults: number }) => {
   return (text$: Observable<string>) => {

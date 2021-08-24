@@ -1,35 +1,46 @@
 // constante dupliquée côté frontend
 
 // https://fr.wikipedia.org/wiki/Liste_des_d%C3%A9partements_fran%C3%A7ais
-export const REGIONS_DEF = [
+export const REGIONS_DEF: {
+  regionCode: string;
+  regionName: string;
+  regionId: string;
+  departements: any[];
+}[] = [
   {
     regionCode: "01",
     regionName: "Guadeloupe",
+    regionId: "guadeloupe",
     departements: [{ departementCode: "971", departementName: "Guadeloupe" }],
   },
   {
     regionCode: "02",
     regionName: "Martinique",
+    regionId: "martinique",
     departements: [{ departementCode: "972", departementName: "Martinique" }],
   },
   {
     regionCode: "03",
     regionName: "Guyane",
+    regionId: "guyane",
     departements: [{ departementCode: "973", departementName: "Guyane" }],
   },
   {
     regionCode: "04",
     regionName: "La Réunion",
+    regionId: "la-reunion",
     departements: [{ departementCode: "974", departementName: "La Réunion" }],
   },
   {
     regionCode: "06",
     regionName: "Mayotte",
+    regionId: "mayotte",
     departements: [{ departementCode: "976", departementName: "Mayotte" }],
   },
   {
     regionCode: "11",
     regionName: "Île-de-France",
+    regionId: "ile-de-france",
     departements: [
       { departementCode: "75", departementName: "Paris" },
       { departementCode: "77", departementName: "Seine-et-Marne" },
@@ -44,6 +55,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "24",
     regionName: "Centre-Val de Loire",
+    regionId: "centre-val-de-loire",
     departements: [
       { departementCode: "18", departementName: "Cher" },
       { departementCode: "28", departementName: "Eure-et-Loir" },
@@ -56,6 +68,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "27",
     regionName: "Bourgogne-Franche-Comté",
+    regionId: "bourgogne-franche-comte",
     departements: [
       { departementCode: "21", departementName: "Côte-d'Or" },
       { departementCode: "25", departementName: "Doubs" },
@@ -70,6 +83,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "28",
     regionName: "Normandie",
+    regionId: "normandie",
     departements: [
       { departementCode: "14", departementName: "Calvados" },
       { departementCode: "27", departementName: "Eure" },
@@ -81,6 +95,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "32",
     regionName: "Hauts-de-France",
+    regionId: "hauts-de-france",
     departements: [
       { departementCode: "02", departementName: "Aisne" },
       { departementCode: "59", departementName: "Nord" },
@@ -92,6 +107,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "44",
     regionName: "Grand Est",
+    regionId: "grand-est",
     departements: [
       { departementCode: "08", departementName: "Ardennes" },
       { departementCode: "10", departementName: "Aube" },
@@ -108,6 +124,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "52",
     regionName: "Pays de la Loire",
+    regionId: "pays-de-la-loire",
     departements: [
       { departementCode: "44", departementName: "Loire-Atlantique" },
       { departementCode: "49", departementName: "Maine-et-Loire" },
@@ -119,6 +136,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "53",
     regionName: "Bretagne",
+    regionId: "bretagne",
     departements: [
       { departementCode: "22", departementName: "Côtes-d'armor" },
       { departementCode: "29", departementName: "Finistère" },
@@ -129,6 +147,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "75",
     regionName: "Nouvelle-Aquitaine",
+    regionId: "nouvelle-aquitaine",
     departements: [
       { departementCode: "16", departementName: "Charente" },
       { departementCode: "17", departementName: "Charente-Maritime" },
@@ -147,6 +166,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "76",
     regionName: "Occitanie",
+    regionId: "occitanie",
     departements: [
       { departementCode: "09", departementName: "Ariège" },
       { departementCode: "11", departementName: "Aude" },
@@ -166,6 +186,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "84",
     regionName: "Auvergne-Rhône-Alpes",
+    regionId: "auvergne-rhone-alpes",
     departements: [
       { departementCode: "01", departementName: "Ain" },
       { departementCode: "03", departementName: "Allier" },
@@ -184,6 +205,7 @@ export const REGIONS_DEF = [
   {
     regionCode: "93",
     regionName: "Provence-Alpes-Côte d'Azur",
+    regionId: "paca",
     departements: [
       { departementCode: "04", departementName: "Alpes-de-Haute-Provence" },
       { departementCode: "05", departementName: "Hautes-Alpes" },
@@ -195,6 +217,7 @@ export const REGIONS_DEF = [
   },
   {
     regionCode: "94",
+    regionId: "corse",
     regionName: "Corse",
     departements: [
       { departementCode: "2A", departementName: "Corse-du-Sud" },
@@ -203,6 +226,7 @@ export const REGIONS_DEF = [
   },
   {
     regionCode: "NC",
+    regionId: "nouvelle-caledonie",
     regionName: "Nouvelle Calédonie",
     departements: [
       { departementCode: "988", departementName: "Nouvelle Calédonie" },
@@ -210,6 +234,7 @@ export const REGIONS_DEF = [
   },
   {
     regionCode: "PO",
+    regionId: "polynesie-française",
     regionName: "Polynésie Française",
     departements: [
       { departementCode: "987", departementName: "Polynésie Française" },
@@ -217,6 +242,7 @@ export const REGIONS_DEF = [
   },
   {
     regionCode: "SB",
+    regionId: "saint-barthelemy",
     regionName: "Saint-Barthélemy",
     departements: [
       { departementCode: "977", departementName: "Saint-Barthélemy" },
@@ -224,11 +250,13 @@ export const REGIONS_DEF = [
   },
   {
     regionCode: "SM",
+    regionId: "saint-martin",
     regionName: "Saint-Martin",
     departements: [{ departementCode: "978", departementName: "Saint-Martin" }],
   },
   {
     regionCode: "SP",
+    regionId: "saint-pierre-et-miquelon",
     regionName: "Saint-Pierre-et-Miquelon",
     departements: [
       { departementCode: "975", departementName: "Saint-Pierre-et-Miquelon" },

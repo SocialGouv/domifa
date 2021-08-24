@@ -31,6 +31,7 @@ import { StructuresModule } from "./modules/structures/structures.module";
 import { UsagersModule } from "./modules/usagers/usagers.module";
 import { UsersModule } from "./modules/users/users.module";
 import { UsagerSharedModule } from "./modules/usager-shared/usager-shared.module";
+import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 if (environment.production) {
   Sentry.init({
@@ -58,6 +59,7 @@ if (environment.production) {
     NgbModule,
     SharedModule,
     StructuresModule,
+    NgxChartsModule,
     UsagersModule,
     CountUpModule,
     UsersModule,

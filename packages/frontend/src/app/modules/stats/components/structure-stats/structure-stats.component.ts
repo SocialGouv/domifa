@@ -21,8 +21,7 @@ import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/da
 import { CustomDatepickerI18n } from "src/app/modules/shared/services/date-french";
 import { AppUser, StructureStatsFull } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
-
-import { StatsService } from "../services/stats.service";
+import { StatsService } from "../../services/stats.service";
 @Component({
   providers: [
     NgbDateCustomParserFormatter,

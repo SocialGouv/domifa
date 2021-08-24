@@ -1,1 +1,114 @@
-<p>public-stats works!</p>
+<div class="home-header-content bg-primary py-4 text-white text-bold">
+  <div class="container px-2 py-3 py-sm-4 d-flex align-items-center">
+    <div class="text-left flex-sm-grow-1">
+      <h1>
+        <div class="font-bold">Statistiques et mesure d’impact</div>
+        <div class="font-weight-normal home-header-subtitle">
+          Domifa simplifie la domiciliation et la distribution de courrier pour
+          les personnes sans domicile stable
+        </div>
+      </h1>
+    </div>
+
+    <div class="flex-sm-grow-0 flex-lg-grow-0 text-center" aria-hidden="true">
+      <div class="w-full text-center">
+        <img
+          src="../assets/images/stats/stats-head.svg"
+          alt="Statistiques publiques"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container py-5">
+  <section class="py-4">
+    <h2 class="font-bold text-primary">
+      Notre priorité, l’aide aux domiciliés
+    </h2>
+    <p>
+      Au coeur de notre action, faciliter l’acheminement du courrier aux
+      personnes sans domicile stable
+    </p>
+    <app-stats-charts [publicStats]="stats"></app-stats-charts>
+  </section>
+  <section class="py-4">
+    <h2 class="font-bold text-primary">
+      Nous équipons les structures de domiciliation
+    </h2>
+    <p>
+      En lien avec les domiciliés, des structures de domiciliation utilisent
+      Domifa chaque jour pour gérer leur activité
+      <br />
+      <a routerLink="/" title="S'inscrire">
+        Vous souhaitez utiliser Domifa ?
+      </a>
+    </p>
+    <br />
+
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <div class="p-2 d-flex align-items-top">
+          <div class="mr-5">
+            <img src="../assets/images/stats/structures.svg" alt="" />
+          </div>
+          <div>
+            <div class="text-left">
+              <div class="stats-counter">{{ stats.structuresCount }}</div>
+              <div class="stats-counter-label">structures</div>
+            </div>
+            <div class="py-3 text-left">
+              <ul>
+                <li
+                  *ngFor="
+                    let structure of stats.structuresCountByTypeMap | keyvalue
+                  "
+                >
+                  <span class="sub-stats-number">{{ structure.value }}</span>
+                  <span class="sub-stats-label">{{
+                    STRUCTURE_TYPE_LABELS[structure.key]
+                  }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="p-2 d-flex align-items-top">
+          <div class="mr-5">
+            <img src="../assets/images/stats/agents.svg" alt="" />
+          </div>
+          <div class="text-left">
+            <div class="stats-counter">{{ stats.usersCount }}</div>
+            <div class="stats-counter-label">agents</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="p-2 d-flex align-items-top">
+          <div class="mr-5">
+            <img src="../assets/images/stats/agents.svg" alt="" />
+          </div>
+          <div class="text-left">
+            <div class="stats-counter">89 %</div>
+            <div class="stats-counter-label">d'utilisateurs satisfaits</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-4">
+    <h2 class="font-bold text-primary">
+      Nous répondons présent partout en France !
+    </h2>
+    <p>Domifa est utilisé dans la majorité des régions Françaises</p>
+    <br />
+    <div class="row">
+      <div class="col-md-6 text-center">
+        <app-stats-map></app-stats-map>
+      </div>
+      <div class="col-md-4">Top des régions</div>
+    </div>
+  </section>
+</div>

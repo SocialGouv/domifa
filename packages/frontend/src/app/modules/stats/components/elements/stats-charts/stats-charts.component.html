@@ -1,0 +1,57 @@
+<div id="stats-charts-container" class="p-4">
+  <div class="row">
+    <div class="col-md-3 px-3">
+      <div class="text-center">
+        <div class="font-weight-bold mb-3">Depuis notre lancement</div>
+        <div
+          [ngClass]="selectedCharts ? 'selected-stats' : ''"
+          class="stats-section p-3"
+          (click)="selectChart('courriers')"
+        >
+          <img src="/assets/images/stats/courriers.svg" title="" alt="" />
+          <div class="stats-section-counter text-primary">430 001</div>
+          <div class="stats-section-label">courriers distribués</div>
+        </div>
+
+        <div
+          [ngClass]="selectedCharts ? 'selected-stats' : ''"
+          class="stats-section p-3"
+          (click)="selectChart('usagers')"
+        >
+          <img src="/assets/images/stats/domicilies.svg" title="" alt="" />
+          <div class="stats-section-counter text-primary">430 001</div>
+          <div class="stats-section-label">domiciliés</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="text-center font-weight-bold mb-3">
+        <span *ngIf="selectedCharts === 'courriers'">
+          Courrier distribué chaque mois
+        </span>
+        <span *ngIf="selectedCharts === 'usagers'">
+          Nouveaux domiciliés chaque mois
+        </span>
+      </div>
+
+      <div class="stats-section">
+        <div id="charts">
+          <ngx-charts-bar-vertical
+            [scheme]="colorScheme"
+            [results]="statsInCharts"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)"
+          >
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
