@@ -1,4 +1,4 @@
 export * from "./constants";
-export * from "./languages-autocomplete.util";
+export * from "./languages";
 export * from "./search";
 export * from "./sorter";

@@ -1,0 +1,39 @@
+#stats-charts-container {
+  background: #f6f7ff;
+  border: 1px solid rgba(65, 100, 245, 0.1);
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.selected-stats,
+.charts-section {
+  background: #ffffff;
+  border: 1px solid rgba(72, 107, 255, 0.2);
+  box-sizing: border-box;
+}
+
+.stats-section {
+  display: block;
+
+  border-radius: 3px;
+}
+
+.stats-section-counter {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+#charts {
+  height: 440px;
+  width: 97%;
+  display: block;
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(72, 107, 255, 0.2);
+  margin: 1rem auto !important;
+}
+
+.tick {
+  color: var(--primary);
+}

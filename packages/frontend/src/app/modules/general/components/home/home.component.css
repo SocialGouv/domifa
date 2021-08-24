@@ -5,6 +5,7 @@
 #home-header h1 .home-header-subtitle {
   font-size: 1rem;
 }
+
 @media (min-width: 576px) {
   #home-header .home-header-content h1 {
     font-size: 1.8rem;
