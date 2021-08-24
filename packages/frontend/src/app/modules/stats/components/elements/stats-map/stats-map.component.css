@@ -1,0 +1,34 @@
+.carte {
+  min-width: 400px;
+}
+
+path {
+  stroke: #999999;
+  stroke-width: 1px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: white;
+  transition: all 0.2s ease;
+}
+
+svg {
+  height: auto;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+g path:hover {
+  fill: #f2f2f2;
+  cursor: pointer;
+}
+
+.map-number {
+  background-color: var(--primary);
+  font-weight: bold;
+  border-radius: 100%;
+  padding: 4px;
+  font-size: 0.9rem;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}

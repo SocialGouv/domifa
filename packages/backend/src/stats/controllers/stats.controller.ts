@@ -17,7 +17,11 @@ import { FacteurGuard } from "../../auth/guards/facteur.guard";
 import { structureRepository, usagerRepository } from "../../database";
 import { structureStatsExporter } from "../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../util";
-import { AppAuthUser, StructureStatsFull } from "../../_common/model";
+import {
+  AppAuthUser,
+  PublicStats,
+  StructureStatsFull,
+} from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
 import { structureStatsInPeriodGenerator } from "../services";
 import { DashboardService } from "../services/dashboard.service";
@@ -67,6 +71,51 @@ export class StatsController {
     });
   }
 
+  @Get("public-stats")
+  public async getPublicStats() {
+    const usagers = await usagerRepository.count();
+    const ayantsDroits = await usagerRepository.countAyantsDroits();
+    const totalUsagers = usagers + ayantsDroits;
+
+    const usersCount = await this.dashboardService.countUsers();
+    const structuresCount = await this.dashboardService.countStructures();
+
+    const structuresCountByRegion =
+      await this.dashboardService.getStructuresCountByRegion();
+
+    const structuresCountByTypeMap =
+      await this.dashboardService.getStructuresCountByTypeMap();
+
+    const courrierOutCount = await this.dashboardService.totalInteractions(
+      "courrierOut"
+    );
+
+    const usagersCountByMonth = await this.dashboardService.getUsagersByMonth();
+    const interactionsCountByMonth =
+      await this.dashboardService.getInteractionsByMonth();
+
+    const publicStats: PublicStats = {
+      courrierOutCount,
+      usagersCount: totalUsagers,
+      usersCount,
+      interactionsCountByMonth,
+      usagersCountByMonth,
+      structuresCountByTypeMap,
+      structuresCountByRegion,
+      structuresCount,
+    };
+
+    return publicStats;
+  }
+
+  @UseGuards()
+  @Post("public-stats/:regionId")
+  public async getPublicStatsByRegion() {
+    const structuresCountByRegion =
+      await this.dashboardService.getStructuresCountByRegion();
+    return { structuresCountByRegion };
+  }
+
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
   @Post("export")
   public async exportByDate(
@@ -80,9 +129,6 @@ export class StatsController {
     const stats = await this.buildStatsInPeriod({
       ...statsDto,
     });
-    // appLogger.debug(
-    //   `[StatsController] exportData (${JSON.stringify(stats, undefined, 2)})`
-    // );
 
     const workbook = await structureStatsExporter.generateExcelDocument({
       exportDate: new Date(),
@@ -123,6 +169,7 @@ export class StatsController {
     });
   }
 }
+
 export function buildExportStructureStatsFileName({
   startDateUTC,
   endDateUTCExclusive,
