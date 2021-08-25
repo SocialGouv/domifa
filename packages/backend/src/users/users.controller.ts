@@ -229,7 +229,7 @@ export class UsersController {
     try {
       await userSecurityResetPasswordUpdater.checkResetPasswordToken({
         token,
-        userId: parseInt(userId),
+        userId: parseInt(userId, 10),
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
