@@ -1,3 +1,4 @@
+import moment = require("moment");
 import { FindConditions, In, LessThan, MoreThan, Not } from "typeorm";
 import { AppAuthUser, AppUser, Usager } from "../../../_common/model";
 import {
@@ -9,7 +10,12 @@ import {
   INTERACTION_OK_LIST,
 } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
-import { pgRepository, typeOrmSearch } from "../_postgres";
+import {
+  appTypeormManager,
+  pgRepository,
+  postgresQueryBuilder,
+  typeOrmSearch,
+} from "../_postgres";
 
 const baseRepository = pgRepository.get<InteractionsTable, Interactions>(
   InteractionsTable
@@ -21,6 +27,7 @@ export const interactionRepository = {
   findLastInteractionOk,
   findLastInteractionInWithContent,
   findWithFilters,
+  countInteractionsByMonth,
 };
 
 async function findLastInteraction({
@@ -159,4 +166,32 @@ async function findWithFilters({
   }
 
   return interactions;
+}
+
+async function countInteractionsByMonth(
+  regionId?: string,
+  interactionType: InteractionType = "courrierOut"
+) {
+  const startDate = postgresQueryBuilder.formatPostgresDate(
+    moment().subtract(1, "year").add(1, "month").startOf("month").toDate()
+  );
+
+  const where: string[] = [startDate, interactionType];
+
+  let query = `select date_trunc('month', "dateInteraction") as date,
+    SUM("nbCourrier") as count
+    FROM interactions i
+    WHERE "dateInteraction" > $1 AND "type" = $2`;
+
+  if (regionId) {
+    query =
+      query +
+      ` and "structureId" in (select id from "structure" s where "region"=$3)`;
+
+    where.push(regionId);
+  }
+
+  query = query + ` GROUP BY 1`;
+
+  return appTypeormManager.getRepository(InteractionsTable).query(query, where);
 }

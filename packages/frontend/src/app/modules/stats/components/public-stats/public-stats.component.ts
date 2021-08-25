@@ -6,6 +6,7 @@ import {
   RegionsLabels,
   REGIONS_LABELS_MAP,
   REGIONS_SEO_URL_MAP,
+  REGIONS_SEO_URL_TO_REGION_ID_MAP,
 } from "../../../../shared";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -36,14 +37,17 @@ export class PublicStatsComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.route.snapshot.params.region) {
-      const region = this.route.snapshot.params.region;
+      const region = this.route.snapshot.params.region as string;
 
-      // TODO: check region exist
-      this.statsService
-        .getPublicStats(region)
-        .subscribe((stats: PublicStats) => {
-          this.stats = stats;
-        });
+      if (typeof REGIONS_SEO_URL_TO_REGION_ID_MAP[region] !== "undefined") {
+        // TODO: check region exist
+        this.statsService
+          .getPublicStats(REGIONS_SEO_URL_TO_REGION_ID_MAP[region])
+          .subscribe((stats: PublicStats) => {
+            this.stats = stats;
+          });
+      } else {
+      }
     } else {
       this.statsService.getPublicStats().subscribe((stats: PublicStats) => {
         this.stats = stats;
