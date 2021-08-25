@@ -1,3 +1,11 @@
+## [2.15.4](https://github.com/SocialGouv/domifa/compare/v2.15.3...v2.15.4) (2021-08-25)
+
+
+### Bug Fixes
+
+* correction d'un bug sur l'enregistrement des dossiers ([7fb3f1b](https://github.com/SocialGouv/domifa/commit/7fb3f1b8b5af37e3170964147aefffa1abe8d394))
+* correction d'un bug sur l'enregistrement des dossiers ([1a57a9e](https://github.com/SocialGouv/domifa/commit/1a57a9e7f9ca3cdd372752a01e04b78c6decbf2d))
+
 ## [2.15.3](https://github.com/SocialGouv/domifa/compare/v2.15.2...v2.15.3) (2021-08-25)
 
 
