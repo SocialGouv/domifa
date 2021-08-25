@@ -94,13 +94,8 @@ export class UsersController {
     @Res() res: ExpressResponse
   ) {
     const confirmerUser = await usersRepository.updateOne(
-      {
-        id,
-        structureId: user.structureId,
-      },
-      {
-        verified: true,
-      }
+      { id, structureId: user.structureId },
+      { verified: true }
     );
 
     if (confirmerUser && confirmerUser !== undefined) {
