@@ -122,7 +122,16 @@ export class UsagersService {
       historyBeginDate: usager.decision.dateDebut,
     });
 
-    return usagerLightRepository.save(usager);
+    return usagerLightRepository.updateOne(
+      { uuid },
+      {
+        decision: usager.decision,
+        options: usager.options,
+        etapeDemande: usager.etapeDemande,
+        typeDom: usager.typeDom,
+        rdv: usager.rdv,
+      }
+    );
   }
 
   public async setDecision(
@@ -191,7 +200,14 @@ export class UsagersService {
       historyBeginDate: usager.decision.dateDebut,
     });
 
-    return usagerLightRepository.save(usager);
+    return usagerLightRepository.updateOne(
+      { uuid },
+      {
+        decision: usager.decision,
+        entretien: usager.entretien,
+        etapeDemande: usager.etapeDemande,
+      }
+    );
   }
 
   public async setRdv(
@@ -218,7 +234,10 @@ export class UsagersService {
     usager.rdv.userId = rdv.userId;
     usager.rdv.userName = user.prenom + " " + user.nom;
 
-    usager = await usagerLightRepository.save(usager);
+    usager = await usagerLightRepository.updateOne(
+      { uuid },
+      { rdv: usager.rdv }
+    );
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager,

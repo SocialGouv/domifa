@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Cron, CronExpression } from "@nestjs/schedule";
+import { Cron } from "@nestjs/schedule";
 import { domifaConfig } from "../../config";
 import {
   monitoringBatchProcessSimpleCountRunner,
@@ -13,7 +13,7 @@ import { MessageSmsSenderService } from "./message-sms-sender.service";
 export class CronSmsInteractionSenderService {
   constructor(private messageSmsSenderService: MessageSmsSenderService) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(domifaConfig().cron.smsConsumer.crontime)
   protected async sendSmsImportCron() {
     if (!domifaConfig().cron.enable || !domifaConfig().sms.enabled) {
       // Désactiver tous les SMS en attente
@@ -39,7 +39,7 @@ export class CronSmsInteractionSenderService {
             await this.messageSmsSenderService.sendSms(messageSms);
             monitorSuccess();
           } catch (err) {
-            monitorError(err);
+            monitorError(err as Error);
             appLogger.warn(`[CronSms] ERROR in sending SMS : ${err?.message}`, {
               sentryBreadcrumb: true,
             });
