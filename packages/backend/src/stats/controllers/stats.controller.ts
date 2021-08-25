@@ -4,6 +4,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Param,
   Post,
   Res,
   UseGuards,
@@ -71,17 +72,26 @@ export class StatsController {
     });
   }
 
-  @Get("public-stats")
-  public async getPublicStats() {
-    const usagers = await usagerRepository.count();
-    const ayantsDroits = await usagerRepository.countAyantsDroits();
-    const totalUsagers = usagers + ayantsDroits;
+  @Get("public-stats/:regionId")
+  public async getPublicStats(@Param("regionId") regionId: string) {
+    // TODO: si région: récupérer les départements
+    let totalUsagers = 0;
+    let usagers = 0;
+    let ayantsDroits = 0;
 
-    const usersCount = await this.dashboardService.countUsers();
-    const structuresCount = await this.dashboardService.countStructures();
+    if (regionId) {
+      usagers = await usagerRepository.countUsagersByRegion(regionId);
+    } else {
+      usagers = await usagerRepository.count();
+      ayantsDroits = await usagerRepository.countAyantsDroits();
+      totalUsagers = usagers + ayantsDroits;
+    }
 
     const structuresCountByRegion =
       await this.dashboardService.getStructuresCountByRegion();
+
+    const usersCount = await this.dashboardService.countUsers();
+    const structuresCount = await this.dashboardService.countStructures();
 
     const structuresCountByTypeMap =
       await this.dashboardService.getStructuresCountByTypeMap();
@@ -90,9 +100,11 @@ export class StatsController {
       "courrierOut"
     );
 
-    const usagersCountByMonth = await this.dashboardService.getUsagersByMonth();
+    const usagersCountByMonth =
+      await this.dashboardService.countUsagersByMonth();
+
     const interactionsCountByMonth =
-      await this.dashboardService.getInteractionsByMonth();
+      await this.dashboardService.countInteractionsByMonth(regionId);
 
     const publicStats: PublicStats = {
       courrierOutCount,
@@ -106,14 +118,6 @@ export class StatsController {
     };
 
     return publicStats;
-  }
-
-  @UseGuards()
-  @Post("public-stats/:regionId")
-  public async getPublicStatsByRegion() {
-    const structuresCountByRegion =
-      await this.dashboardService.getStructuresCountByRegion();
-    return { structuresCountByRegion };
   }
 
   @UseGuards(AuthGuard("jwt"), FacteurGuard)
