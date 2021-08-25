@@ -14,7 +14,7 @@
 
 .stats-section {
   display: block;
-
+  cursor: pointer;
   border-radius: 3px;
 }
 

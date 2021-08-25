@@ -8,6 +8,7 @@ const map: {
     departmentName: string;
     regionCode: string;
     regionName: string;
+    regionId: string;
   };
 } = {};
 export const DEPARTEMENTS_MAP = REGIONS_DEF.reduce((acc, region) => {
@@ -16,6 +17,7 @@ export const DEPARTEMENTS_MAP = REGIONS_DEF.reduce((acc, region) => {
       departmentName: dep.departementName,
       regionCode: region.regionCode,
       regionName: region.regionName,
+      regionId: "guadeloupe",
     };
   });
   return acc;

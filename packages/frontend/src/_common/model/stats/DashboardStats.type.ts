@@ -1,3 +1,4 @@
+import { StatsByRegion } from ".";
 import { StructureAdmin } from "../structure/StructureAdmin.type";
 
 export type DashboardStats = {
@@ -6,10 +7,7 @@ export type DashboardStats = {
   structures: (StructureAdmin & {
     usersCount?: number; // dashboard only
   })[];
-  structuresCountByRegion: {
-    region: string;
-    count: number;
-  }[];
+  structuresCountByRegion: StatsByRegion;
   structuresCountByTypeMap: {
     [type: string]: number;
   };
