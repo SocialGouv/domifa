@@ -25,8 +25,12 @@ export class StatsService {
     });
   }
 
-  public getPublicStats(): Observable<PublicStats> {
-    return this.http.get<PublicStats>(this.baseUrl + "public-stats");
+  public getPublicStats(region?: string): Observable<PublicStats> {
+    let statsUrl = this.baseUrl + "public-stats";
+    if (region) {
+      statsUrl = statsUrl + "/" + region;
+    }
+    return this.http.get<PublicStats>(statsUrl);
   }
 
   public export(structureId: number, start: Date, end: Date) {

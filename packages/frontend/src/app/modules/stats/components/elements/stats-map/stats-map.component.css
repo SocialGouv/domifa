@@ -22,6 +22,15 @@ g path:hover {
   cursor: pointer;
 }
 
+foreignObject:hover .map-number {
+  transform: scale(1.35, 1.35);
+  box-shadow: 2px 2px 4px 1px rgba(215, 210, 210, 0.8);
+}
+
+foreignObject {
+  cursor: pointer;
+}
+
 .map-number {
   background-color: var(--primary);
   font-weight: bold;
@@ -29,6 +38,13 @@ g path:hover {
   padding: 4px;
   font-size: 0.9rem;
   text-align: center;
-  width: 100%;
-  height: 100%;
+  width: 30px;
+  height: 30px;
+  margin: 10% auto;
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.map-number:hover {
 }
