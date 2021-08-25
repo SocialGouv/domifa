@@ -89,6 +89,26 @@ export class UsagersController {
       usagerDto.langue = null;
     }
 
+    if (!usagerDto.customRef) {
+      usagerDto.customRef = usager.ref.toString();
+    }
+
+    console.log(usagerDto);
+
+    // /sexe
+    // langue
+    // customRef
+    // nom
+    // prenom
+    // surnom
+    // dateNaissance
+    // villeNaissance
+    // email
+    // phone
+    // etapeDemande
+    // typeDom
+    // preference
+    // ayantsDroits
     usager = await this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
@@ -276,6 +296,7 @@ export class UsagersController {
         usager.historique.length - 1,
         1
       );
+      console.log(usager);
 
       usager.decision = usager.historique[usager.historique.length - 1];
 
@@ -295,7 +316,10 @@ export class UsagersController {
 
       const result = await usagerLightRepository.updateOne(
         { uuid: usager.uuid },
-        usager
+        {
+          etapeDemande: usager.etapeDemande,
+          decision: usager.decision,
+        }
       );
       return res.status(HttpStatus.OK).json(result);
     } else {

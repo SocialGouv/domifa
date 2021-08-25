@@ -14,6 +14,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { CurrentInteraction } from "../auth/current-interaction.decorator";
 import { CurrentUsager } from "../auth/current-usager.decorator";
 import { CurrentUser } from "../auth/current-user.decorator";
+import { InteractionsGuard } from "../auth/guards/interactions.guard";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { interactionRepository } from "../database";
 import { AppAuthUser, Interactions, UsagerLight } from "../_common/model";
@@ -74,6 +75,7 @@ export class InteractionsController {
     });
   }
 
+  @UseGuards(InteractionsGuard)
   @Delete(":usagerRef/:interactionUuid")
   public async deleteInteraction(
     @Param("interactionUuid") interactionUuid: string,

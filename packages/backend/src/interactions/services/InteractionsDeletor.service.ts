@@ -32,6 +32,7 @@ export class InteractionsDeletor {
     user: Pick<AppUser, "id" | "structureId" | "nom" | "prenom">;
     structure: Pick<Structure, "id" | "sms">;
   }): Promise<UsagerLight> {
+    console.log(interaction);
     const newEvent: InteractionEvent =
       interaction.event === "create" ? "delete" : "create"; // 'create' means 'restore' here
 

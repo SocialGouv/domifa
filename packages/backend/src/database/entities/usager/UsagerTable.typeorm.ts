@@ -23,8 +23,6 @@ export class UsagerTable
   extends AppTypeormTable<UsagerTable>
   implements Usager
 {
-  // ETAT-CIVIL
-  // pas de "id", mais un champ 'ref'
   @Index()
   @Column({ type: "integer" }) // unique par structure
   public ref: number;
