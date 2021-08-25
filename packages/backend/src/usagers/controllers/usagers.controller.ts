@@ -93,22 +93,6 @@ export class UsagersController {
       usagerDto.customRef = usager.ref.toString();
     }
 
-    console.log(usagerDto);
-
-    // /sexe
-    // langue
-    // customRef
-    // nom
-    // prenom
-    // surnom
-    // dateNaissance
-    // villeNaissance
-    // email
-    // phone
-    // etapeDemande
-    // typeDom
-    // preference
-    // ayantsDroits
     usager = await this.usagersService.patch({ uuid: usager.uuid }, usagerDto);
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
@@ -296,7 +280,6 @@ export class UsagersController {
         usager.historique.length - 1,
         1
       );
-      console.log(usager);
 
       usager.decision = usager.historique[usager.historique.length - 1];
 
