@@ -369,65 +369,20 @@ export class DashboardService {
     };
   }
 
-  public async getUsagersByMonth(regionId?: string) {
-    const startDate = postgresQueryBuilder.formatPostgresDate(
-      moment().subtract(1, "year").add(1, "month").startOf("month").toDate()
-    );
-
-    const where = [startDate];
-
-    let query = `select date_trunc('month', "createdAt") as date,
-        COUNT(uuid) AS count
-        FROM usager u
-        WHERE "createdAt" > $1 `;
-
-    if (regionId) {
-      query =
-        query +
-        ` and "structureId" in (select id from "structure" s where  "region"=$2)`;
-
-      where.push(regionId);
-    }
-
-    query = query + ` GROUP BY 1`;
-
-    const rawResults = await (
-      await usagerRepository.typeorm()
-    ).query(query, where);
-
-    return this.formatStatsByMonth(rawResults);
+  public async countUsagersByMonth(regionId?: string) {
+    const usagersByMonth = await usagerRepository.countUsagersByMonth(regionId);
+    return this.formatStatsByMonth(usagersByMonth);
   }
 
-  public async getInteractionsByMonth(
-    interactionType: InteractionType = "courrierOut",
-    regionId?: string
+  public async countInteractionsByMonth(
+    regionId?: string,
+    interactionType: InteractionType = "courrierOut"
   ) {
-    const startDate = postgresQueryBuilder.formatPostgresDate(
-      moment().subtract(1, "year").add(1, "month").startOf("month").toDate()
+    const usagersByMonth = await interactionRepository.countInteractionsByMonth(
+      regionId,
+      interactionType
     );
-
-    const where: string[] = [startDate, interactionType];
-
-    let query = `select date_trunc('month', "dateInteraction") as date,
-        SUM("nbCourrier") as count
-        FROM interactions i
-        WHERE "dateInteraction" > $1 AND "type" = $2`;
-
-    if (regionId) {
-      query =
-        query +
-        ` and "structureId" in (select id from "structure" s where  "region"=$3)`;
-
-      where.push(regionId);
-    }
-
-    query = query + ` GROUP BY 1`;
-
-    const rawResults = await (
-      await interactionRepository.typeorm()
-    ).query(query, where);
-
-    return this.formatStatsByMonth(rawResults);
+    return this.formatStatsByMonth(usagersByMonth);
   }
 
   private formatStatsByMonth(rawResults: any): StatsByMonth {
