@@ -2,6 +2,14 @@ import { PublicStats } from "./../../../../../_common/model/stats/PublicStats.ty
 import { StatsService } from "./../../services/stats.service";
 import { Component, OnInit } from "@angular/core";
 import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/usager/constants/STRUCTURE_TYPE_LABELS.const";
+import {
+  RegionsLabels,
+  REGIONS_LABELS_MAP,
+  REGIONS_SEO_URL_MAP,
+} from "../../../../shared";
+import { Title } from "@angular/platform-browser";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-public-stats",
@@ -11,13 +19,35 @@ import { STRUCTURE_TYPE_LABELS } from "../../../../../_common/model/usager/const
 export class PublicStatsComponent implements OnInit {
   public STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public stats: PublicStats;
-  constructor(public statsService: StatsService) {
+  public regions: RegionsLabels;
+  public regionsUrls: RegionsLabels;
+
+  constructor(
+    public statsService: StatsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private notifService: ToastrService,
+    private titleService: Title
+  ) {
     this.stats = null;
+    this.regions = REGIONS_LABELS_MAP;
+    this.regionsUrls = REGIONS_SEO_URL_MAP;
   }
 
   public ngOnInit(): void {
-    this.statsService.getPublicStats().subscribe((stats: PublicStats) => {
-      this.stats = stats;
-    });
+    if (this.route.snapshot.params.region) {
+      const region = this.route.snapshot.params.region;
+
+      // TODO: check region exist
+      this.statsService
+        .getPublicStats(region)
+        .subscribe((stats: PublicStats) => {
+          this.stats = stats;
+        });
+    } else {
+      this.statsService.getPublicStats().subscribe((stats: PublicStats) => {
+        this.stats = stats;
+      });
+    }
   }
 }

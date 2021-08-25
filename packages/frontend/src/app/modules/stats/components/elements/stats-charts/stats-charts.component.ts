@@ -19,7 +19,7 @@ export class StatsChartsComponent implements OnInit, AfterViewInit {
   public showYAxis: boolean = true;
 
   public showLegend: boolean = false;
-
+  public barPadding: number = 35;
   public colorScheme = {
     domain: ["#4164f5"],
   };
@@ -37,7 +37,8 @@ export class StatsChartsComponent implements OnInit, AfterViewInit {
   constructor(public statsService: StatsService) {}
 
   public ngAfterViewInit(): void {
-    this.statsInCharts = this.publicStats.usagersCountByMonth;
+    this.selectedCharts = "courriers";
+    this.statsInCharts = this.publicStats.interactionsCountByMonth;
   }
 
   public ngOnInit(): void {}

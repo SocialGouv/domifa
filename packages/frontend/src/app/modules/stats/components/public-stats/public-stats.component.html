@@ -20,7 +20,7 @@
     </div>
   </div>
 </div>
-<div class="container py-5">
+<div class="container py-3">
   <section class="py-4">
     <h2 class="font-bold text-primary">
       Notre priorité, l’aide aux domiciliés
@@ -106,9 +106,35 @@
     <br />
     <div class="row">
       <div class="col-md-6 text-center">
-        <app-stats-map></app-stats-map>
+        <app-stats-map [publicStats]="stats"></app-stats-map>
       </div>
-      <div class="col-md-4">Top des régions</div>
+      <div class="col-md-4 offset-md-1">
+        <h4 class="font-weight-bold text-primary">Top des régions</h4>
+
+        <div>
+          <ul id="region-stats">
+            <li
+              class="py-2"
+              *ngFor="let structure of stats.structuresCountByRegion"
+            >
+              <a
+                [routerLink]="['/stats/' + regionsUrls[structure.region]]"
+                class="region-name"
+              >
+                {{
+                  regions[structure.region]
+                    ? regions[structure.region]
+                    : structure.region
+                }}
+              </a>
+              <span class="text-primary font-weight-bold">
+                {{ structure.count }}
+              </span>
+            </li>
+          </ul>
+        </div>
+        <tr></tr>
+      </div>
     </div>
   </section>
 </div>

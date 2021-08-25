@@ -23,7 +23,20 @@ ul {
   list-style-type: none;
 }
 
-li span {
+li span,
+li a {
   vertical-align: middle;
   display: inline-block;
+}
+
+li a:hover {
+  color: var(--primary);
+}
+li a {
+  text-decoration: underline;
+  color: black;
+}
+
+.region-name {
+  width: 270px;
 }

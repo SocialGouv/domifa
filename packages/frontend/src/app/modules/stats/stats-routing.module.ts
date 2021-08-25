@@ -11,6 +11,10 @@ export const statsRoutes: Routes = [
     component: PublicStatsComponent,
   },
   {
+    path: ":region",
+    component: PublicStatsComponent,
+  },
+  {
     canActivate: [AuthGuard, FacteurGuard],
     path: "rapport-activite",
     component: StatsComponent,
