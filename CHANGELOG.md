@@ -1,3 +1,10 @@
+## [2.15.3](https://github.com/SocialGouv/domifa/compare/v2.15.2...v2.15.3) (2021-08-25)
+
+
+### Bug Fixes
+
+* Impossiblité d'ajouter un entretienn ([908ca5b](https://github.com/SocialGouv/domifa/commit/908ca5bb2d4495633cb94fc1ca66935bb6ae4058))
+
 ## [2.15.2](https://github.com/SocialGouv/domifa/compare/v2.15.1...v2.15.2) (2021-08-21)
 
 
