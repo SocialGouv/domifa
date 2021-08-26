@@ -89,7 +89,7 @@ export class UsagersController {
       usagerDto.langue = null;
     }
 
-    if (!usagerDto.customRef) {
+    if (!usager.customRef) {
       usagerDto.customRef = usager.ref.toString();
     }
 
