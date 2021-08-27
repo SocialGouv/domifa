@@ -9,7 +9,9 @@
           (click)="selectChart('courriers')"
         >
           <img src="/assets/images/stats/courriers.svg" title="" alt="" />
-          <div class="stats-section-counter text-primary">430 001</div>
+          <div class="stats-section-counter text-primary">
+            {{ publicStats.interactionsCount }}
+          </div>
           <div class="stats-section-label">courriers distribués</div>
         </div>
 
@@ -19,7 +21,9 @@
           (click)="selectChart('usagers')"
         >
           <img src="/assets/images/stats/domicilies.svg" title="" alt="" />
-          <div class="stats-section-counter text-primary">430 001</div>
+          <div class="stats-section-counter text-primary">
+            {{ publicStats.usagersCount }}
+          </div>
           <div class="stats-section-label">domiciliés</div>
         </div>
       </div>

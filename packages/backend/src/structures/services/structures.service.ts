@@ -99,4 +99,15 @@ export class StructuresService {
       maxResults: 100,
     });
   }
+
+  public async findStructuresInRegion(regionId?: string): Promise<number[]> {
+    const structures = await structureRepository.findMany(
+      { region: regionId },
+      { select: ["id"] }
+    );
+
+    return structures.map((structure) => {
+      return structure.id;
+    });
+  }
 }
