@@ -1,3 +1,4 @@
+import { StructuresService } from "./../../structures/services/structures.service";
 import {
   Body,
   Controller,
@@ -37,7 +38,10 @@ export class StatsController {
     [key: string]: {};
   }[];
 
-  constructor(private readonly dashboardService: DashboardService) {
+  constructor(
+    private readonly dashboardService: DashboardService,
+    private readonly structuresService: StructuresService
+  ) {
     this.sheet = [];
   }
 
@@ -72,26 +76,45 @@ export class StatsController {
     });
   }
 
-  @Get("public-stats/:regionId")
+  @Get("public-stats/:regionId?")
   public async getPublicStats(@Param("regionId") regionId: string) {
     // TODO: si région: récupérer les départements
     let totalUsagers = 0;
     let usagers = 0;
     let ayantsDroits = 0;
+    let structuresCount = 0;
+    let usersCount = 0;
+    let interactionsCount = 0;
 
+    /// Select structures in region
     if (regionId) {
-      usagers = await usagerRepository.countUsagersByRegion(regionId);
+      const structuresId = await this.structuresService.findStructuresInRegion(
+        regionId
+      );
+      console.log(structuresId.length);
+      console.log(structuresId);
+
+      ayantsDroits = await usagerRepository.countAyantsDroits();
+      interactionsCount = await this.dashboardService.totalInteractions(
+        "courrierOut"
+      );
+      structuresCount = structuresId.length;
+      // usagers = await usagerRepository.count(structuresId);
+      usersCount = await this.dashboardService.countUsers(structuresId);
     } else {
       usagers = await usagerRepository.count();
       ayantsDroits = await usagerRepository.countAyantsDroits();
-      totalUsagers = usagers + ayantsDroits;
+      interactionsCount = await this.dashboardService.totalInteractions(
+        "courrierOut"
+      );
+      structuresCount = await this.dashboardService.countStructures();
+      usersCount = await this.dashboardService.countUsers();
     }
+
+    totalUsagers = usagers + ayantsDroits;
 
     const structuresCountByRegion =
       await this.dashboardService.getStructuresCountByRegion();
-
-    const usersCount = await this.dashboardService.countUsers();
-    const structuresCount = await this.dashboardService.countStructures();
 
     const structuresCountByTypeMap =
       await this.dashboardService.getStructuresCountByTypeMap();
@@ -110,6 +133,7 @@ export class StatsController {
       courrierOutCount,
       usagersCount: totalUsagers,
       usersCount,
+      interactionsCount,
       interactionsCountByMonth,
       usagersCountByMonth,
       structuresCountByTypeMap,

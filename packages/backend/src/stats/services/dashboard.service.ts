@@ -179,11 +179,17 @@ export class DashboardService {
       );
   }
 
-  public async countUsers(regionId?: string): Promise<number> {
+  public async countUsers(structuresId?: number[]): Promise<number> {
+    if (structuresId) {
+      return usersRepository.count({
+        where: typeOrmSearch<UsagerTable>('"structureId" in :structuresId'),
+        params: structuresId,
+      });
+    }
     return usersRepository.count();
   }
 
-  public async countStructures(regionId?: string): Promise<number> {
+  public async countStructures(): Promise<number> {
     return structureRepository.count();
   }
 
@@ -369,8 +375,10 @@ export class DashboardService {
     };
   }
 
-  public async countUsagersByMonth(regionId?: string) {
-    const usagersByMonth = await usagerRepository.countUsagersByMonth(regionId);
+  public async countUsagersByMonth(structuresId?: number[]) {
+    const usagersByMonth = await usagerRepository.countUsagersByMonth(
+      structuresId
+    );
     return this.formatStatsByMonth(usagersByMonth);
   }
 
