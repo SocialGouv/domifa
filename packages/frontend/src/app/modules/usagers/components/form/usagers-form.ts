@@ -128,6 +128,7 @@ export class UsagersFormComponent implements OnInit {
         [Validators.required],
       ],
       decision: [this.usager.decision, []],
+      customRef: [this.usager.customRef, []],
       email: [this.usager.email, [Validators.email]],
       etapeDemande: [this.usager.etapeDemande, []],
       ref: [this.usager.ref, []],
