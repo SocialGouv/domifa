@@ -14,6 +14,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+import { UsingJoinColumnOnlyOnOneSideAllowedError } from "typeorm";
 import { CurrentUsager } from "../../auth/current-usager.decorator";
 import { CurrentUser } from "../../auth/current-user.decorator";
 import { FacteurGuard } from "../../auth/guards/facteur.guard";
@@ -169,7 +170,7 @@ export class UsagersController {
     @CurrentUser() user: AppAuthUser,
     @CurrentUsager() usager: UsagerLight
   ) {
-    return this.usagersService.renouvellement({ uuid: usager.uuid }, user);
+    return this.usagersService.renouvellement(usager, user);
   }
 
   @UseGuards(UsagerAccessGuard, FacteurGuard)
