@@ -96,7 +96,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
 
   const smsEnabled = configParser.parseBoolean(x, "DOMIFA_SMS_ENABLE");
 
-  const sentryDns = configParser.parseString(x, "DOMIFA_SENTRY_DNS", {
+  const sentryDsn = configParser.parseString(x, "DOMIFA_SENTRY_DSN", {
     required: false,
   });
 
@@ -168,8 +168,8 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       sentry: {
         enabled:
           configParser.parseBoolean(x, "DOMIFA_SENTRY_ENABLED", {
-            defaultValue: !!sentryDns,
-          }) && !!sentryDns,
+            defaultValue: !!sentryDsn,
+          }) && !!sentryDsn,
         debugModeEnabled: configParser.parseBoolean(
           x,
           "DOMIFA_SENTRY_DEBUG_MODE_ENABLED",
@@ -177,7 +177,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: false,
           }
         ),
-        sentryDns,
+        sentryDsn,
       },
       anonymizer: {
         password: configParser.parseString(x, "DOMIFA_ANONYMIZER_PASSWORD", {

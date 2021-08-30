@@ -1,7 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
 import { TerminusModule } from "@nestjs/terminus";
+import { SentryModule } from "@ntegral/nestjs-sentry";
 import { AuthModule } from "./auth/auth.module";
+import { domifaConfig } from "./config";
 import { MonitoringModule } from "./database/services/monitoring/monitoring.module";
 import { HealthController } from "./health/health.controller";
 import { PostgresHealthIndicator } from "./health/postgres-health-indicator.service";
@@ -15,6 +17,15 @@ import { UsersModule } from "./users/users.module";
   controllers: [HealthController],
   exports: [],
   imports: [
+    SentryModule.forRoot({
+      dsn: domifaConfig().dev.sentry.sentryDsn,
+      release: "domifa@" + domifaConfig().version,
+      environment: domifaConfig().envId,
+      debug: domifaConfig().dev.sentry.debugModeEnabled,
+      logLevel: domifaConfig().dev.sentry.debugModeEnabled
+        ? 3 // Verbose,
+        : undefined, // default
+    }),
     AuthModule,
     InteractionsModule,
     SmsModule,

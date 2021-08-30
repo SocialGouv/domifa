@@ -7,6 +7,7 @@ import {
   usersRepository,
 } from "../database";
 import { StructuresService } from "../structures/services/structures.service";
+import { appLogger } from "../util";
 import {
   AppAuthUser,
   AppUser,

@@ -23,13 +23,13 @@ class AppLogger {
     if (sentryBreadcrumb && domifaConfig().dev.sentry.enabled) {
       // add breadcrumb to sentry
       // FIXME il y a eu confusion entre contexts et extra, service à refactorer
-      console.log(extra);
-      console.log(context);
+
       const sentryExtra = extra
         ? extra
         : context
         ? { extraInfo: context }
         : undefined;
+
       const breadcrumb: Sentry.Breadcrumb = {
         level: Sentry.Severity.Warning,
         message,
@@ -65,14 +65,12 @@ class AppLogger {
         ? { extraInfo: context }
         : undefined;
       if (error) {
-        console.log("Call Sentry");
         Sentry.captureException(error, {
           level: Sentry.Severity.Error,
           contexts,
           extra: sentryExtra,
         });
       } else {
-        console.log("Call Sentry");
         Sentry.captureMessage(message, {
           level: Sentry.Severity.Error,
           contexts,

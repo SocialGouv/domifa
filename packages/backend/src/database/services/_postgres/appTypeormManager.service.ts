@@ -138,9 +138,11 @@ function getRepository<Entity>(
 ) {
   return _getEntityManager(entityManager).getRepository(entityTarget);
 }
+
 function _getEntityManager(entityManager?: EntityManager) {
   return entityManager ? entityManager : getConnection().manager;
 }
+
 function getConnection(): Connection {
   return connectionHolder.connection;
 }

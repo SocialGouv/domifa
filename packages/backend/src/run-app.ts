@@ -25,8 +25,9 @@ import { appLogger } from "./util";
       server.setTimeout(1000 * 60 * 5); //  5mn - TODO @toub après refactoring de l'import, remettre le timeout par défaut
       appLogger.warn(`[${__filename}] Application listening on port 3000`);
     } catch (error) {
+      const err = error as Error;
       appLogger.error(`[${__filename}] Error running application`, {
-        error,
+        error: err,
         sentry: true,
       });
       appLogger.warn(`[${__filename}] Closing app and exit  ...`);
@@ -34,8 +35,10 @@ import { appLogger } from "./util";
       process.exit(0);
     }
   } catch (error) {
+    const err = error as Error;
+
     appLogger.error(`[${__filename}] Error bootstraping application`, {
-      error,
+      error: err,
       sentry: true,
     });
     appLogger.warn(`[${__filename}] Exit`);
