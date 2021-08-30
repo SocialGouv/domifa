@@ -1,17 +1,17 @@
 [
-        {
+  {
     "date": "2021-08-30",
     "description": "L'équipe rencontre des soucis techniques, nous faisons le maximum pour les régler dans la journée. La plateforme risque du coup d'être instable aujourd'hui, nous nous en excusons."
   },
-      {
+  {
     "date": "2021-08-26",
     "description": "Les notifications SMS sont de nouveau disponibles ! Les SMS n’ayant pas pu être envoyés le 25/08 seront envoyées le 26/08 à 19h avec ceux du jour."
   },
-      {
+  {
     "date": "2021-08-25",
     "description": "Pour cause de souci technique, les notifications SMS sont suspendues pour le moment ! Nous faisons notre maximum pour les rétablir au plus vite, merci pour votre compréhension"
   },
-      {
+  {
     "date": "2021-08-13",
     "description": "Les notifications SMS sont disponibles, n’oubliez pas de les activer au sein de votre structure !",
     "content": [
@@ -26,7 +26,7 @@
       }
     ]
   },
-    {
+  {
     "date": "2021-08-04",
     "description": "Les notifications SMS sont disponibles, n’oubliez pas de les activer au sein de votre structure !",
     "content": [
@@ -34,7 +34,7 @@
         "type": "new",
         "categorie": "Des nouveautés sur DomiFa !",
         "message": [
-"Ajout d’une icône d’impression sur la liste des domiciliés vous permettant d’imprimer la liste entière ou filtrée",
+          "Ajout d’une icône d’impression sur la liste des domiciliés vous permettant d’imprimer la liste entière ou filtrée",
           "Amélioration de la partie “Lien avec la commune” de l’entretien avec plusieurs réponses disponibles ",
           "Amélioration de l’affichage de l’impression de la page récapitulatif d’une demande d’élection de domiciliation"
         ]
