@@ -1,3 +1,13 @@
+## [2.15.9](https://github.com/SocialGouv/domifa/compare/v2.15.8...v2.15.9) (2021-08-30)
+
+
+### Bug Fixes
+
+* add log to track the bug ([dc7b294](https://github.com/SocialGouv/domifa/commit/dc7b29431c713d6803a77cf1819fe238480dcb41))
+* log sentry ([c910eae](https://github.com/SocialGouv/domifa/commit/c910eaec7be8554223c2ce3d32f0c823b99d32cd))
+* message d'erreur ([9027f03](https://github.com/SocialGouv/domifa/commit/9027f03a85474861f333635854a5da39e84cefc0))
+* **sentry:** remise en route de Sentry ([736234f](https://github.com/SocialGouv/domifa/commit/736234f7abfcc45ae897d7a9709f7b279477a215))
+
 ## [2.15.8](https://github.com/SocialGouv/domifa/compare/v2.15.7...v2.15.8) (2021-08-30)
 
 
