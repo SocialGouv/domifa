@@ -1,3 +1,12 @@
+## [2.15.8](https://github.com/SocialGouv/domifa/compare/v2.15.7...v2.15.8) (2021-08-30)
+
+
+### Bug Fixes
+
+* ajout du customref ([e2d01d8](https://github.com/SocialGouv/domifa/commit/e2d01d81a706df3481ec76637533cb3f2caf9e64))
+* correction des bugs sur l'update des usagers ([03d5a3b](https://github.com/SocialGouv/domifa/commit/03d5a3b1d48b60deac5d82dd72488f7013887c1c))
+* remove log ([6108f6b](https://github.com/SocialGouv/domifa/commit/6108f6b4bf05912414d4bb1af7ea048520145903))
+
 ## [2.15.7](https://github.com/SocialGouv/domifa/compare/v2.15.6...v2.15.7) (2021-08-30)
 
 
