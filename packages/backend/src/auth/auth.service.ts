@@ -77,7 +77,9 @@ export class AuthService {
       select: APP_USER_PUBLIC_ATTRIBUTES,
     });
 
-    appLogger.debug("[TRACK BUG] " + JSON.stringify(user));
+    if (typeof user.structureId === "undefined") {
+      appLogger.debug("[TRACK BUG] " + JSON.stringify(user));
+    }
 
     const structure: StructureCommon = await structureCommonRepository.findOne({
       id: user.structureId,

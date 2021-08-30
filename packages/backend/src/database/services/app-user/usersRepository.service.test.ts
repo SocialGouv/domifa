@@ -8,6 +8,7 @@ describe("usesRepository", () => {
   beforeAll(async () => {
     postgresTypeormConnection = await AppTestHelper.bootstrapTestConnection();
   });
+
   afterAll(async () => {
     AppTestHelper.tearDownTestConnection({ postgresTypeormConnection });
   });

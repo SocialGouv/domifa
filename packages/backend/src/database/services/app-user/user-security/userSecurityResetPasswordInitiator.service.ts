@@ -53,6 +53,7 @@ async function generateResetPasswordToken({
       throwErrorIfNotFound: true,
     }
   );
+
   if (
     userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-request",
