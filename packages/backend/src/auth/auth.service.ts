@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { ConnectableObservable } from "rxjs";
 import {
   AppUserTable,
   structureCommonRepository,
