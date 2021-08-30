@@ -81,7 +81,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.3.0",
     "swagger-ui-express": "^4.1.6",
-    "typeorm": "^0.2.37",
+    "typeorm": "^0.2.34",
     "uuid": "^8.3.2",
     "xlsx": "^0.17.1",
     "yup": "^0.32.9"
