@@ -81,13 +81,9 @@ export class UsagersService {
   }
 
   public async renouvellement(
-    { uuid }: { uuid: string },
+    usager: UsagerLight,
     user: Pick<AppUser, "id" | "nom" | "prenom">
   ): Promise<UsagerLight> {
-    const usager = await usagerRepository.findOne({
-      uuid,
-    });
-
     usager.decision = {
       uuid: uuidGenerator.random(),
       dateDebut: new Date(),
@@ -109,9 +105,7 @@ export class UsagersService {
     usager.options.npai.dateDebut = null;
 
     usager.etapeDemande = ETAPE_ETAT_CIVIL;
-
     usager.typeDom = "RENOUVELLEMENT";
-
     usager.rdv = null;
 
     // Ajout du nouvel état
@@ -123,10 +117,11 @@ export class UsagersService {
     });
 
     return usagerLightRepository.updateOne(
-      { uuid },
+      { uuid: usager.uuid },
       {
         decision: usager.decision,
         options: usager.options,
+        historique: usager.historique,
         etapeDemande: usager.etapeDemande,
         typeDom: usager.typeDom,
         rdv: usager.rdv,
@@ -203,9 +198,13 @@ export class UsagersService {
     return usagerLightRepository.updateOne(
       { uuid },
       {
-        decision: usager.decision,
         entretien: usager.entretien,
+        decision: usager.decision,
+        options: usager.options,
+        historique: usager.historique,
         etapeDemande: usager.etapeDemande,
+        typeDom: usager.typeDom,
+        datePremiereDom: usager.datePremiereDom,
       }
     );
   }
@@ -236,7 +235,7 @@ export class UsagersService {
 
     usager = await usagerLightRepository.updateOne(
       { uuid },
-      { rdv: usager.rdv }
+      { rdv: usager.rdv, etapeDemande: usager.etapeDemande }
     );
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
