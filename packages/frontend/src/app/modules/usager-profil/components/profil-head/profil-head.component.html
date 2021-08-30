@@ -40,7 +40,7 @@
             <fa-icon icon="redo" class="mr-2"></fa-icon>
             Créer une nouvelle demande
           </button>
-          <button class="btn btn-white-primary">
+          <button class="btn btn-white-primary ml-2">
             <fa-icon icon="download"></fa-icon>
             Télécharger le CERFA
           </button>
@@ -54,7 +54,10 @@
         </ng-container>
 
         <ng-container *ngIf="usager.decision.statut === 'VALIDE'">
-          <button class="ml-2 btn btn-white-primary" (click)="openRenewModal()">
+          <button
+            class="ml-2 btn btn-white-primary ml-2"
+            (click)="openRenewModal()"
+          >
             <fa-icon icon="redo" class="mr-2"></fa-icon>
             Demande de renouvellement
           </button>
