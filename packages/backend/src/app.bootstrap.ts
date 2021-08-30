@@ -5,7 +5,7 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from "@nestjs/swagger";
-import * as Sentry from "@sentry/node";
+
 import * as compression from "compression";
 import { Connection } from "typeorm";
 import { AppModule } from "./app.module";
@@ -30,21 +30,8 @@ export async function bootstrapApplication() {
   try {
     if (domifaConfig().dev.sentry.enabled) {
       appLogger.debug(
-        `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDns}`
+        `SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDsn}`
       );
-      Sentry.init({
-        dsn: domifaConfig().dev.sentry.sentryDns,
-        release: "domifa@" + domifaConfig().version,
-        environment: domifaConfig().envId,
-        serverName: domifaConfig().envId,
-        debug: domifaConfig().dev.sentry.debugModeEnabled,
-        onFatalError: (err) => {
-          console.log("SENTRY FATAL ERROR", err);
-        },
-        logLevel: domifaConfig().dev.sentry.debugModeEnabled
-          ? 3 // Verbose,
-          : undefined, // default
-      });
     }
 
     const postgresTypeormConnection = await appTypeormManager.connect();
@@ -113,9 +100,6 @@ function configureSwagger(app) {
       .setTitle("Domifa")
       .setDescription("API description")
       .setVersion("1.0")
-      // .addTag("xxx")
-      // NOTE: possibilité de définir différents token sur l'interface:
-      // .addBearerAuth({ in: "header", type: "http" }, "responsable")
       .addBearerAuth({
         type: "http",
         scheme: "bearer",
