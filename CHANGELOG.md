@@ -1,3 +1,10 @@
+## [2.15.11](https://github.com/SocialGouv/domifa/compare/v2.15.10...v2.15.11) (2021-08-30)
+
+
+### Bug Fixes
+
+* affichage de logs ([6698e90](https://github.com/SocialGouv/domifa/commit/6698e90f3e19c701988fb605364604fb55a725be))
+
 ## [2.15.10](https://github.com/SocialGouv/domifa/compare/v2.15.9...v2.15.10) (2021-08-30)
 
 
