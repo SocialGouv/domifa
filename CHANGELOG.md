@@ -1,3 +1,10 @@
+## [2.15.7](https://github.com/SocialGouv/domifa/compare/v2.15.6...v2.15.7) (2021-08-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/terminus to v8 ([474a4d8](https://github.com/SocialGouv/domifa/commit/474a4d82f58d8f6868d7a3c9e990697cbd0ad1a2))
+
 ## [2.15.6](https://github.com/SocialGouv/domifa/compare/v2.15.5...v2.15.6) (2021-08-26)
 
 
