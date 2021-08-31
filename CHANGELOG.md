@@ -1,3 +1,45 @@
+# [2.16.0](https://github.com/SocialGouv/domifa/compare/v2.15.11...v2.16.0) (2021-08-31)
+
+
+### Bug Fixes
+
+* affichage ([5ddb63e](https://github.com/SocialGouv/domifa/commit/5ddb63ed2d72883b4bbfd8e7a4098177340e2308))
+* ajout de courriers ([6aa47d0](https://github.com/SocialGouv/domifa/commit/6aa47d0655908042dd29d0b0c41660e86b523323))
+* derniers retours ([ebf63e6](https://github.com/SocialGouv/domifa/commit/ebf63e609ddbed8f4670c107d063ec25354c8aef))
+* mise à jour sur Angular 12 ([e37c1d0](https://github.com/SocialGouv/domifa/commit/e37c1d0fd4cc89e994fc81d163612e7c40e3de28))
+* **courriers:** ajout de vérificatiosn ([e3a3850](https://github.com/SocialGouv/domifa/commit/e3a3850cbf32cf920f74533577a8dc7c468f0bd6))
+* **transfert:** correction du bug d'ajout ([b91e39c](https://github.com/SocialGouv/domifa/commit/b91e39c36fb3631d05e90b67163b0fb02266f125))
+* **transfert:** mise à jour des pages ([c97943f](https://github.com/SocialGouv/domifa/commit/c97943f585396c1a415965e3db1b5dc7482125bd))
+* build frontend ([93d2da8](https://github.com/SocialGouv/domifa/commit/93d2da8323e18f3e9a12bbd633c26cc54713cf84))
+* config Jest ([353c95d](https://github.com/SocialGouv/domifa/commit/353c95dac485c5b8437aef1ef003f4baf34223ea))
+* countup ([99bdc02](https://github.com/SocialGouv/domifa/commit/99bdc0262613b12211a9c487c77714b72e0cd4cc))
+* test unitaire ([c9c240d](https://github.com/SocialGouv/domifa/commit/c9c240d58bf3ade088e1f4b207e60bd9fb366878))
+* tests after merge ([23330eb](https://github.com/SocialGouv/domifa/commit/23330ebd0fcd2ddad185d39a95ea7bc0e7f6a797))
+* tests et ajout des suppression d'interaction ([3279f0a](https://github.com/SocialGouv/domifa/commit/3279f0afb88c1c7f526731a73569cd474d84812b))
+* **tests:** mise à jour des mock ([ac7d966](https://github.com/SocialGouv/domifa/commit/ac7d966061519b87cf92837572c229aec1506a92))
+* rebase ([0c9f50b](https://github.com/SocialGouv/domifa/commit/0c9f50bd2bd72d01831ae7d61f09cf3aaa70ad04))
+* tests et merge ([2f5baf9](https://github.com/SocialGouv/domifa/commit/2f5baf9c72359813e7c3faac1c920ffdbec20144))
+* tests unitaires ([7dad8fd](https://github.com/SocialGouv/domifa/commit/7dad8fdf884a30a736e662c287e1b020e19dc0c7))
+* tests unitaires ([2150b93](https://github.com/SocialGouv/domifa/commit/2150b932b354c428f04dac795781490591f30bac))
+* tests unitaires ([a5151a0](https://github.com/SocialGouv/domifa/commit/a5151a08926ff94d29b5f965716aa9ba81e6d4b6))
+* unit tests ([2e46108](https://github.com/SocialGouv/domifa/commit/2e46108d127ecc0658a998e9a30dad2b3fdf9ed6))
+* **entretien:** correction de l'affichage de l'entretien ([29ee2e3](https://github.com/SocialGouv/domifa/commit/29ee2e38d272d30e81c709523536165c6b614ad8))
+* **tests:** correction de tests manquants ([4f8601c](https://github.com/SocialGouv/domifa/commit/4f8601cbb0403ca7e2bce316576fcdbe11f200eb))
+
+
+### Features
+
+* ajout des boutons manquants ([98215ba](https://github.com/SocialGouv/domifa/commit/98215ba8b01ebe96326ba9b69f7ae0eb142c82ec))
+* **interactions:** séparation des modules partagés entre modules ([26feab3](https://github.com/SocialGouv/domifa/commit/26feab34029575f8d79cd137a567060e16b016ae))
+* **procuration:** correction des formulaires ([3d30ed0](https://github.com/SocialGouv/domifa/commit/3d30ed0fb71a74c6c8401f6f2956dc4604b67b22))
+* **profil:** ajout d'un nouveau module dédié au profil ([6330585](https://github.com/SocialGouv/domifa/commit/6330585800df4b9ef6af84ee2eba6e56aef3d1ec))
+* **profil:** création d'un module séparé ([e938a7d](https://github.com/SocialGouv/domifa/commit/e938a7d70c0e6257e4f0d305de4f5b5fba1e56b3))
+* **profil:** division des modules pour plus de clarté ([171d15e](https://github.com/SocialGouv/domifa/commit/171d15e8626023c149e28f7467decb03292afcb4))
+* **profil:** import de toutes les composantes sur la nouvelle page ([0fc37a1](https://github.com/SocialGouv/domifa/commit/0fc37a1a7e3782133fc337d20b79598d37966251))
+* **profil:** import des modules de profil vers la nouvelle page ([8cb4aff](https://github.com/SocialGouv/domifa/commit/8cb4affa3019839cf0eb50489a91c7f0feb6cf84))
+* **profil:** intégration des différentes sections ([5f87087](https://github.com/SocialGouv/domifa/commit/5f8708771e3f10d69923041763142b2797b74078))
+* **profil:** intégration du formulaire d'édition des infos générales ([9e9ff3d](https://github.com/SocialGouv/domifa/commit/9e9ff3d2925c0c966d97e3013d31cea61172553b))
+
 ## [2.15.11](https://github.com/SocialGouv/domifa/compare/v2.15.10...v2.15.11) (2021-08-30)
 
 
