@@ -10,7 +10,7 @@
         >
           <img src="/assets/images/stats/courriers.svg" title="" alt="" />
           <div class="stats-section-counter text-primary">
-            {{ publicStats.interactionsCount }}
+            {{ publicStats.interactionsCount | formatBigNumber }}
           </div>
           <div class="stats-section-label">courriers distribués</div>
         </div>
@@ -22,7 +22,7 @@
         >
           <img src="/assets/images/stats/domicilies.svg" title="" alt="" />
           <div class="stats-section-counter text-primary">
-            {{ publicStats.usagersCount }}
+            {{ publicStats.usagersCount | formatBigNumber }}
           </div>
           <div class="stats-section-label">domiciliés</div>
         </div>

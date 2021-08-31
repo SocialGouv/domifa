@@ -1,11 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import moment = require("moment");
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import {
   appTypeormManager,
   interactionRepository,
   InteractionsTable,
-  postgresQueryBuilder,
   structureRepository,
   StructureTable,
   typeOrmSearch,
@@ -95,12 +93,24 @@ export class DashboardService {
   }
 
   // TODO: ajouter la région
-  public async getStructuresByType(): Promise<
+  public async getStructuresByType(region?: string): Promise<
     {
       structureType: StructureType;
       count: number;
     }[]
   > {
+    if (region) {
+      return structureRepository.countBy({
+        countBy: "structureType",
+        order: {
+          count: "DESC",
+          countBy: "ASC",
+        },
+        where: {
+          region,
+        },
+      });
+    }
     return structureRepository.countBy({
       countBy: "structureType",
       order: {
@@ -182,10 +192,11 @@ export class DashboardService {
   public async countUsers(structuresId?: number[]): Promise<number> {
     if (structuresId) {
       return usersRepository.count({
-        where: typeOrmSearch<UsagerTable>('"structureId" in :structuresId'),
-        params: structuresId,
+        where: typeOrmSearch<UsagerTable>('"structureId" IN(:...ids)'),
+        params: { ids: structuresId },
       });
     }
+
     return usersRepository.count();
   }
 
@@ -229,6 +240,24 @@ export class DashboardService {
       },
     });
   }
+  public async getStructuresCountByDepartement(regionId: string): Promise<
+    {
+      departement: string;
+      count: number;
+    }[]
+  > {
+    return structureRepository.countBy({
+      countBy: "departement",
+      countByAlias: "dep",
+      where: {
+        region: regionId,
+      },
+      order: {
+        count: "DESC",
+        countBy: "ASC",
+      },
+    });
+  }
 
   public async getUsagersCountByStatutMap() {
     const ayantsDroits = await usagerRepository.countAyantsDroits();
@@ -246,9 +275,9 @@ export class DashboardService {
     return usagers;
   }
 
-  public async getStructuresCountByTypeMap() {
+  public async getStructuresCountByTypeMap(region?: string) {
     const structures: { [key: string]: number } = {};
-    const result = await this.getStructuresByType();
+    const result = await this.getStructuresByType(region);
     for (const structure of result) {
       structures[structure.structureType] = structure.count;
     }
@@ -322,7 +351,8 @@ export class DashboardService {
   }
 
   public async totalInteractions(
-    interactionType: InteractionType
+    interactionType: InteractionType,
+    structuresId?: number[]
   ): Promise<number> {
     {
       if (interactionType === "appel" || interactionType === "visite") {
@@ -330,16 +360,25 @@ export class DashboardService {
           type: interactionType,
           event: "create",
         });
-      } else {
-        const search = await this.interactionRepository
-          .createQueryBuilder("interactions")
-          .select("SUM(interactions.nbCourrier)", "sum")
-          .where({ type: interactionType, event: "create" })
-          .groupBy("interactions.type")
-          .getRawOne();
-
-        return typeof search !== "undefined" ? parseInt(search.sum, 10) : 0;
       }
+      const whereCondition: {
+        type: string;
+        event: string;
+        structureId?: any;
+      } = { type: interactionType, event: "create" };
+
+      if (structuresId) {
+        whereCondition.structureId = In(structuresId);
+      }
+
+      const search = await this.interactionRepository
+        .createQueryBuilder("interactions")
+        .select("SUM(interactions.nbCourrier)", "sum")
+        .where(whereCondition)
+        .groupBy("interactions.type")
+        .getRawOne();
+
+      return typeof search !== "undefined" ? search.sum : 0;
     }
   }
 
@@ -375,11 +414,10 @@ export class DashboardService {
     };
   }
 
-  public async countUsagersByMonth(structuresId?: number[]) {
-    const usagersByMonth = await usagerRepository.countUsagersByMonth(
-      structuresId
-    );
-    return this.formatStatsByMonth(usagersByMonth);
+  public async countUsagersByMonth(regionId?: string) {
+    const usagersByMonth = await usagerRepository.countUsagersByMonth(regionId);
+
+    return this.formatStatsByMonth(usagersByMonth, "domicilies");
   }
 
   public async countInteractionsByMonth(
@@ -390,10 +428,17 @@ export class DashboardService {
       regionId,
       interactionType
     );
-    return this.formatStatsByMonth(usagersByMonth);
+    return this.formatStatsByMonth(usagersByMonth, "interactions");
   }
 
-  private formatStatsByMonth(rawResults: any): StatsByMonth {
+  private formatStatsByMonth(
+    rawResults: {
+      date: Date;
+      count: string;
+      ayantsdroits?: string;
+    }[],
+    elementToCount: "interactions" | "domicilies"
+  ): StatsByMonth {
     const results = {
       "sept.": 0,
       "oct.": 0,
@@ -413,7 +458,10 @@ export class DashboardService {
       const monthKey = new Date(result.date).toLocaleString("fr-fr", {
         month: "short",
       });
-      results[monthKey] = result.count;
+      results[monthKey] =
+        elementToCount === "domicilies"
+          ? parseInt(result.count, 10) + parseInt(result.ayantsdroits, 10)
+          : parseInt(result.count, 10);
     }
 
     const statsByMonth: StatsByMonth = Object.entries(results).map(

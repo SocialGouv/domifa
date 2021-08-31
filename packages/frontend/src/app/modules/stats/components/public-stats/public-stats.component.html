@@ -53,7 +53,9 @@
           </div>
           <div>
             <div class="text-left">
-              <div class="stats-counter">{{ stats.structuresCount }}</div>
+              <div class="stats-counter">
+                {{ stats.structuresCount | formatBigNumber }}
+              </div>
               <div class="stats-counter-label">structures</div>
             </div>
             <div class="py-3 text-left">
@@ -63,7 +65,9 @@
                     let structure of stats.structuresCountByTypeMap | keyvalue
                   "
                 >
-                  <span class="sub-stats-number">{{ structure.value }}</span>
+                  <span class="sub-stats-number">{{
+                    structure.value | formatBigNumber
+                  }}</span>
                   <span class="sub-stats-label">{{
                     STRUCTURE_TYPE_LABELS[structure.key]
                   }}</span>
@@ -79,26 +83,33 @@
             <img src="../assets/images/stats/agents.svg" alt="" />
           </div>
           <div class="text-left">
-            <div class="stats-counter">{{ stats.usersCount }}</div>
+            <div class="stats-counter">
+              {{ stats.usersCount | formatBigNumber }}
+            </div>
             <div class="stats-counter-label">agents</div>
           </div>
         </div>
       </div>
-      <div class="col-md-4 text-center">
+      <div class="col-md-3 text-center" *ngIf="!regionId">
         <div class="p-2 d-flex align-items-top">
           <div class="mr-5">
             <img src="../assets/images/stats/agents.svg" alt="" />
           </div>
           <div class="text-left">
-            <div class="stats-counter">89 %</div>
-            <div class="stats-counter-label">d'utilisateurs satisfaits</div>
+            <div class="stats-counter">8,9/10</div>
+            <div class="stats-counter-label py-2">
+              Questionnaire envoyé à nos usagers en avril 2021
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="py-4">
+  <section class="py-4" *ngIf="regionId">
+    <h4 class="font-weight-bold text-primary">Structures par département</h4>
+  </section>
+  <section class="py-4" *ngIf="!regionId">
     <h2 class="font-bold text-primary">
       Nous répondons présent partout en France !
     </h2>
@@ -111,29 +122,26 @@
       <div class="col-md-4 offset-md-1">
         <h4 class="font-weight-bold text-primary">Top des régions</h4>
 
-        <div>
-          <ul id="region-stats">
-            <li
-              class="py-2"
-              *ngFor="let structure of stats.structuresCountByRegion"
+        <ul>
+          <li
+            class="py-2"
+            *ngFor="let structure of stats.structuresCountByRegion"
+          >
+            <a
+              [routerLink]="['/stats/' + regionsUrls[structure.region]]"
+              class="region-name"
             >
-              <a
-                [routerLink]="['/stats/' + regionsUrls[structure.region]]"
-                class="region-name"
-              >
-                {{
-                  regions[structure.region]
-                    ? regions[structure.region]
-                    : structure.region
-                }}
-              </a>
-              <span class="text-primary font-weight-bold">
-                {{ structure.count }}
-              </span>
-            </li>
-          </ul>
-        </div>
-        <tr></tr>
+              {{
+                regions[structure.region]
+                  ? regions[structure.region]
+                  : structure.region
+              }}
+            </a>
+            <span class="text-primary font-weight-bold">
+              {{ structure.count }}
+            </span>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
