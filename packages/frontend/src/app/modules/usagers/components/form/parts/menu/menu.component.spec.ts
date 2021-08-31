@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { MenuComponent } from "./menu.component";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
@@ -23,9 +23,8 @@ describe("MenuComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-          HttpClientModule,
+          HttpClientTestingModule,
           ToastrModule.forRoot(),
-
           HttpClientTestingModule,
         ],
         declarations: [MenuComponent],

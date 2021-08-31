@@ -1,5 +1,5 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
@@ -21,7 +21,7 @@ describe("EntretienFormComponent", () => {
         RouterTestingModule,
         NgbModule,
         MatomoModule,
-        HttpClientModule,
+
         ToastrModule.forRoot(),
         HttpClientTestingModule,
       ],

@@ -47,7 +47,6 @@ import { ToastrModule } from "ngx-toastr";
     CountUpModule,
     RouterModule.forChild([]),
     ToastrModule.forRoot(),
-    HttpClientModule,
     NgbModule,
   ],
   providers: [LoadingService, HomeService],

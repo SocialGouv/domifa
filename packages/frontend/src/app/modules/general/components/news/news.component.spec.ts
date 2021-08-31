@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
@@ -12,13 +11,15 @@ describe("NewsComponent", () => {
   let fixture: ComponentFixture<NewsComponent>;
   const spyScrollTo = jest.fn();
 
-  beforeEach(waitForAsync(() => {
-    Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
-    TestBed.configureTestingModule({
-      declarations: [NewsComponent],
-      imports: [HttpClientModule, HttpClientTestingModule, RouterTestingModule],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      Object.defineProperty(global.window, "scroll", { value: spyScrollTo });
+      TestBed.configureTestingModule({
+        declarations: [NewsComponent],
+        imports: [HttpClientTestingModule, RouterTestingModule],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NewsComponent);
