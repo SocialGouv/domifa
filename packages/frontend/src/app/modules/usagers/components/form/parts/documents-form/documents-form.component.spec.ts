@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 import { RouterTestingModule } from "@angular/router/testing";
 import { DocumentsFormComponent } from "./documents-form.component";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
@@ -23,7 +23,6 @@ describe("DocumentsFormComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
         ToastrModule.forRoot(),
         HttpClientTestingModule,
       ],

@@ -1,5 +1,5 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -28,7 +28,6 @@ describe("UsagersFormComponent", () => {
           NgbModule,
           ReactiveFormsModule,
           FormsModule,
-          HttpClientModule,
           ToastrModule.forRoot(),
           HttpClientTestingModule,
         ],

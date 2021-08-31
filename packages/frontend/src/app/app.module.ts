@@ -54,7 +54,6 @@ if (environment.production) {
     FontAwesomeModule,
     GeneralModule,
     StatsModule,
-    HttpClientModule,
     MatomoModule,
     NgbModule,
     SharedModule,

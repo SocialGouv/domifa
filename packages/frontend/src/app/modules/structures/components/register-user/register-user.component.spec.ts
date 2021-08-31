@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -24,7 +24,6 @@ describe("RegisterUserComponent", () => {
           ReactiveFormsModule,
           FormsModule,
           ToastrModule.forRoot(),
-          HttpClientModule,
           HttpClientTestingModule,
           RouterTestingModule,
         ],
