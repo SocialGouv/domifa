@@ -1,5 +1,4 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
@@ -18,7 +17,7 @@ describe("UserProfilComponent", () => {
         declarations: [UserProfilComponent],
         imports: [
           RouterTestingModule,
-          HttpClientModule,
+
           HttpClientTestingModule,
           ReactiveFormsModule,
           FormsModule,
