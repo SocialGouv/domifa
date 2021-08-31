@@ -19,32 +19,6 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>{{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}</td>
-                <td>
-                  <span *ngIf="usager.decision.statut !== 'VALIDE'">
-                    {{ DECISION_LABELS[usager.decision.statut] }}
-                  </span>
-                  <span *ngIf="usager.decision.statut === 'VALIDE'">
-                    <span *ngIf="usager.typeDom === 'PREMIERE_DOM'">
-                      Première domiciliation
-                    </span>
-                    <span *ngIf="usager.typeDom === 'RENOUVELLEMENT'">
-                      Renouvellement de domiciliation
-                    </span>
-                    du
-                    <b>
-                      {{ usager.decision.dateDebut | date: "dd/MM/yyyy" }}
-                    </b>
-                    au
-                    <b> {{ usager.decision.dateFin | date: "dd/MM/yyyy" }} </b>
-                  </span>
-                  <b *ngIf="usager.decision.statut === 'RADIE'"
-                    >- {{ usager.decision.motif }}</b
-                  >
-                </td>
-                <td>{{ usager.decision.userName }}</td>
-              </tr>
               <tr *ngFor="let histo of usager.historique">
                 <td>{{ histo.dateDecision | date: "dd/MM/yyyy" }}</td>
                 <td>

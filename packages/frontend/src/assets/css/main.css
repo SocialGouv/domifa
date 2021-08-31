@@ -4,7 +4,7 @@ body {
 }
 
 body {
-  font-family: "Source Sans Pro";
+  font-family: "Marianne";
 }
 
 ul {
@@ -20,6 +20,7 @@ ul {
   background-color: white;
   border-radius: 3px;
 }
+
 #page {
   padding-top: 120px;
   min-height: calc(90vh - 78px);
@@ -28,37 +29,6 @@ ul {
 
 .container {
   max-width: 1350px;
-}
-
-.card-header {
-  padding: 0;
-  margin-bottom: 0;
-  background-color: white;
-  border-radius: 1px;
-}
-
-.card-header button:hover {
-  background-color: #f1f1f1;
-}
-
-.card-header button {
-  padding: 7px 16px;
-  background-color: #fafafa;
-  width: 100%;
-  font-size: 1rem;
-  text-transform: uppercase;
-  font-weight: 600;
-  text-align: left;
-  transition: 0.5s all;
-  color: #2e384d;
-}
-
-.accordion .card {
-  margin: 12px auto;
-  border: 1px solid rgba(0, 0, 0, 0.125) !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
-  border-radius: 0.25rem !important;
-  max-width: 900px;
 }
 
 .modal-backdrop.show {
@@ -70,29 +40,10 @@ ul {
   animation-duration: 300ms;
 }
 
-.bannir {
-  -webkit-text-stroke-color: var(--danger);
-  stroke: var(--danger);
-}
-
-.bannir:hover {
-  color: var(--danger) !important;
-}
-
 .npai {
   -webkit-text-stroke-width: 0;
   stroke-width: 0;
   color: var(--danger) !important;
-}
-
-.courrier {
-  -webkit-text-stroke-color: #c62bd9;
-  stroke: #c62bd9;
-  color: white;
-}
-
-.courrier:hover {
-  color: #c62bd9 !important;
 }
 
 .pointer {
@@ -148,19 +99,6 @@ table .active {
   color: #e08b01;
 }
 
-.arrows {
-  text-align: right;
-}
-
-.head-panel .btn {
-  position: relative;
-}
-
-.head-panel .arrows {
-  position: absolute;
-  right: 20px;
-}
-
 .step_form .card {
   margin: 15px auto;
   width: 90%;
@@ -190,17 +128,10 @@ table .active {
 
 .label {
   display: block;
-  font-family: Source Sans Pro;
+  font-family: "Marianne";
   font-style: normal;
-  font-weight: bold;
+  font-weight: 600;
   padding: 8px 0;
-}
-
-.autres {
-  display: inline-block;
-  width: 220px;
-  margin-left: 10px;
-  margin-top: -15px;
 }
 
 .form-check label {
@@ -322,7 +253,7 @@ table .active {
   background-color: #fff;
   border: 1px solid var(--blue);
   color: var(--blue);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   text-align: center;
 }
 
@@ -400,12 +331,10 @@ table .active {
   border-color: var(--success);
 }
 
-/* REDESIGN */
-/* PARTIE BLEU FICHE + LISTE */
 .head-page {
   background-color: var(--primary);
   width: 100%;
-  min-height: 80px;
+  min-height: 90px;
   padding-top: 40px;
 }
 
@@ -478,7 +407,7 @@ table .active {
 
 #statut-selector .col:first-child {
   border-radius: 5px 0 0 0;
-  font-family: Source Sans Pro;
+  font-family: "Marianne";
 }
 
 #statut-selector .col:last-child {
@@ -486,9 +415,9 @@ table .active {
 }
 
 #statut-selector .col {
-  padding: 1rem 1.2rem;
+  padding: 1rem 1.1rem;
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.25s ease-in-out;
   background: rgba(255, 255, 255, 0.9);

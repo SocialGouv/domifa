@@ -84,7 +84,7 @@ thead th {
   font-style: normal;
   font-weight: 600;
   font-size: 0.95rem;
-  line-height: 1.2rem;
+  line-height: 1.1rem;
   color: #3150c0;
   padding: 10px;
   letter-spacing: 0.05em;
@@ -185,6 +185,7 @@ th {
   vertical-align: middle;
   display: inline-block;
 }
+
 .label-statut {
   display: block;
   width: 100%;
