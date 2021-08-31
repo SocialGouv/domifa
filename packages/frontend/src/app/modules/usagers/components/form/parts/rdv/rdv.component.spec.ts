@@ -2,12 +2,17 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { MatomoInjector, MatomoTracker } from "ngx-matomo";
-import { UsagersModule } from "src/app/modules/usagers/usagers.module";
+
 import { USAGER_ACTIF_MOCK } from "../../../../../../../_common/mocks/USAGER_ACTIF.mock";
 
 import { UsagerFormModel } from "../../UsagerFormModel";
 import { RdvComponent } from "./rdv.component";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrModule } from "ngx-toastr";
+import { SharedModule } from "../../../../../shared/shared.module";
 
 describe("RdvComponent", () => {
   let component: RdvComponent;
@@ -16,23 +21,18 @@ describe("RdvComponent", () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [],
-        imports: [UsagersModule, RouterTestingModule],
-        providers: [
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
-          },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
-          },
-          { provide: APP_BASE_HREF, useValue: "/" },
+        declarations: [RdvComponent],
+        imports: [
+          NgbModule,
+          HttpClientTestingModule,
+          RouterTestingModule,
+          BrowserAnimationsModule,
+          ToastrModule.forRoot(),
+          SharedModule,
+          ReactiveFormsModule,
+          FormsModule,
         ],
+        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
