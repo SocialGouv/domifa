@@ -27,7 +27,7 @@
             <div class="text-danger">
               Demande refusée le
               {{ usager.decision.dateDecision | date: "dd/MM/yyyy" }}
-              : {{ usager.decision.motif }}
+              : {{ usager.decision.motifString }}
             </div>
           </div>
 
@@ -181,7 +181,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row pb-5">
         <div class="col-md-6">
           <div class="row">
             <h4 class="col-12">Dossier</h4>
@@ -275,39 +275,62 @@
           </div>
 
           <ng-container
-            *ngIf="usager.isActif || usager.decision.statut === 'RADIE'"
+            *ngIf="
+              usager.isActif ||
+              (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)
+            "
           >
-            <button
-              ngbTooltip="Ajout d'un passage"
-              class="btn btn-outline-primary mr-2"
-              (click)="setSingleInteraction(usager, 'visite')"
-            >
-              <div class="list-icon icon-passage"></div>
-            </button>
-            <button
-              ngbTooltip="Ajout d'un appel téléphonique"
-              class="btn btn-outline-primary mr-2"
-              (click)="setSingleInteraction(usager, 'appel')"
-            >
-              <div class="list-icon icon-appel"></div>
-            </button>
-          </ng-container>
-          <div class="btn btn-primary mr-2" (click)="openInteractionInModal()">
-            <span class="">Réception</span>
-          </div>
+            <ng-container *ngIf="usager.isActif">
+              <button
+                ngbTooltip="Ajout d'un passage"
+                class="btn btn-primary mr-2"
+                (click)="setSingleInteraction(usager, 'visite')"
+              >
+                <div class="list-icon icon-passage"></div>
+              </button>
+              <button
+                ngbTooltip="Ajout d'un appel téléphonique"
+                class="btn btn-primary mr-2"
+                (click)="setSingleInteraction(usager, 'appel')"
+              >
+                <div class="list-icon icon-appel"></div>
+              </button>
+            </ng-container>
 
-          <div
-            *ngIf="usager.lastInteraction.enAttente"
-            class="btn btn-primary"
-            (click)="openInteractionOutModal()"
-          >
-            <span class="">Distribuer le courrier</span>
-          </div>
+            <ng-container *ngIf="!usager.options.npai.actif">
+              <button
+                class="btn btn-primary mr-2"
+                (click)="openInteractionInModal()"
+              >
+                <span class="icon-reception list-icon mr-2"></span>
+                <span>Réception</span>
+              </button>
+
+              <button
+                *ngIf="usager.lastInteraction.enAttente"
+                class="btn btn-primary"
+                (click)="openInteractionOutModal()"
+              >
+                <span class="icon-distribution list-icon mr-2"></span>
+                <span>Distribuer le courrier</span>
+              </button>
+
+              <button
+                class="btn btn-danger mr-2"
+                *ngIf="usager.decision.statut === 'RADIE'"
+                (click)="stopCourrier()"
+              >
+                <fa-icon icon="ban" class="mr-2 font-weight-bold"> </fa-icon>
+                <span>Ne plus accepter le courrier</span>
+              </button>
+            </ng-container>
+          </ng-container>
         </div>
       </div>
-      <br />
+
       <hr />
-      <div class="row">
+
+      <div class="row mt-3">
         <div class="col-md-6 mb-3">
           <h4>Historique des courriers</h4>
 

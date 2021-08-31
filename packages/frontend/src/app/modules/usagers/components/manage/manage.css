@@ -1,7 +1,3 @@
-#head-page {
-  padding-top: 120px;
-}
-
 button.dropdown-toggle {
   font-size: 1rem;
   background: #f9f9fc;
@@ -143,61 +139,6 @@ button.dropdown-toggle {
 
 #filters .btn fa-icon {
   margin-left: 4px;
-}
-
-.sortable .ng-fa-icon {
-  float: right;
-}
-
-.sortable:hover {
-  background-color: #fafafa;
-}
-
-.sorted {
-  background-color: #fafafa !important;
-}
-
-.interaction-btn span {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.interaction-btn {
-  display: inline-block;
-  border: 1px solid rgba(65, 100, 245, 0.4);
-  box-sizing: border-box;
-  vertical-align: middle;
-  border-radius: 3px;
-  margin: 2px;
-  padding: 2px 4px;
-  position: relative;
-}
-
-.interaction-btn * {
-  transition: all 0.2s;
-}
-
-.list-icon {
-  width: 20px;
-  padding: 16px;
-  box-sizing: border-box;
-  background-color: #4164f5;
-  -webkit-mask-size: 75%;
-  mask-size: 75%;
-}
-
-.list-icon-label {
-  font-size: 0.8rem;
-  padding: 0 3px;
-}
-
-.interaction-btn:hover {
-  color: white;
-  background-color: #4164f5;
-}
-
-.interaction-btn:hover .list-icon {
-  background-color: white;
 }
 
 .selected-btn {

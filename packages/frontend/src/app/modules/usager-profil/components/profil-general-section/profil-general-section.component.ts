@@ -144,6 +144,19 @@ export class ProfilGeneralSectionComponent implements OnInit {
     );
   }
 
+  public stopCourrier() {
+    this.usagerProfilService.stopCourrier(this.usager.ref).subscribe(
+      (newUsager: UsagerLight) => {
+        this.notifService.success("Le courrier ne sera plus enregistré ");
+        this.usager = new UsagerFormModel(newUsager);
+        this.updateInteractions();
+      },
+      () => {
+        this.notifService.error("Impossible d'enregistrer cette interaction");
+      }
+    );
+  }
+
   public updateInteractions() {
     this.profileComponent.getInteractions();
   }

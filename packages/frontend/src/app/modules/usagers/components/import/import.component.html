@@ -1,132 +1,128 @@
-<div id="steps">
-  <div class="step" id="step0">
-    <div>
-      <span
-        *ngIf="etapeImport === 'select-file'"
-        [ngClass]="{
-          step_active: etapeImport === 'select-file',
-          step_inactive: etapeImport !== 'select-file'
-        }"
-        class="step_number"
-      >
-        1
-      </span>
-      <span
-        *ngIf="etapeImport !== 'select-file'"
-        class="step_number step_check"
-        (click)="backToEtapeSelectFile()"
-      >
-        <fa-icon icon="check"></fa-icon>
-      </span>
-      <span
-        [ngClass]="{
-          step_text_active: etapeImport === 'select-file',
-          step_text_inactive: etapeImport !== 'select-file'
-        }"
-        class="step_text"
-      >
-        Téléchargement de votre fichier
-      </span>
+<div class="container pb-2">
+  <div id="steps">
+    <div class="step">
+      <div>
+        <span
+          *ngIf="etapeImport === 'select-file'"
+          [ngClass]="{
+            step_active: etapeImport === 'select-file',
+            step_inactive: etapeImport !== 'select-file'
+          }"
+          class="step_number"
+        >
+          1
+        </span>
+        <span
+          *ngIf="etapeImport !== 'select-file'"
+          class="step_number step_check"
+          (click)="backToEtapeSelectFile()"
+        >
+          <fa-icon icon="check"></fa-icon>
+        </span>
+        <span
+          [ngClass]="{
+            step_text_active: etapeImport === 'select-file',
+            step_text_inactive: etapeImport !== 'select-file'
+          }"
+          class="step_text"
+        >
+          Téléchargement de votre fichier
+        </span>
+      </div>
+      <div className="check_sep">
+        <span class="separateur" ngClass="separateur_inactive"></span>
+      </div>
     </div>
-    <div className="check_sep">
-      <span class="separateur" ngClass="separateur_inactive"></span>
+    <div class="step">
+      <div>
+        <span
+          [ngClass]="{
+            step_active: etapeImport === 'preview-import',
+            step_inactive: etapeImport !== 'preview-import'
+          }"
+          class="step_number"
+        >
+          2
+        </span>
+        <span
+          [ngClass]="{
+            step_text_active: etapeImport === 'preview-import',
+            step_text_inactive: etapeImport !== 'preview-import'
+          }"
+          class="step_text"
+        >
+          Vérification des données
+        </span>
+      </div>
     </div>
   </div>
-  <div class="step" id="step1">
-    <div>
-      <span
-        [ngClass]="{
-          step_active: etapeImport === 'preview-import',
-          step_inactive: etapeImport !== 'preview-import'
-        }"
-        class="step_number"
-      >
-        2
-      </span>
-      <span
-        [ngClass]="{
-          step_text_active: etapeImport === 'preview-import',
-          step_text_inactive: etapeImport !== 'preview-import'
-        }"
-        class="step_text"
-      >
-        Vérification des données
-      </span>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div
-    class="col-md-8 offset-md-2 text-center"
-    *ngIf="etapeImport === 'select-file'"
-  >
-    <h4 class="text-center">Étape 1 : Télécharger et compléter le modèle</h4>
-    <p>
-      Afin d'importer vos dossiers, vous devez télécharger et compléter le
-      fichier Excel ci-dessous.
-      <br />
-      Vous trouverez toutes les indications dans
-      <a
-        title="Télécharger le tuto d'import domifa"
-        href="/assets/files/tuto-import.pdf"
-        download
-      >
-        ce document explicatif
-      </a>
-      <br />
-    </p>
 
-    <div id="import-menu" class="col-md-10 offset-1">
+  <div class="text-center" *ngIf="etapeImport === 'select-file'">
+    <div class="py-2">
+      <h4 class="text-center">Étape 1 : Télécharger et compléter le modèle</h4>
+      <p>
+        Afin d'importer vos dossiers, vous devez télécharger et compléter le
+        fichier Excel ci-dessous.
+        <br />
+        Vous trouverez toutes les indications dans
+        <a
+          title="Télécharger le tuto d'import domifa"
+          href="/assets/files/tuto-import.pdf"
+          download
+        >
+          ce document explicatif
+        </a>
+      </p>
+    </div>
+
+    <div id="import-menu">
       <a
         href="/assets/files/modele_import_domifa.xlsx"
         target="_blank"
         rel="noopener noreferrer"
         title="Télécharger le modèle Excel"
-        class="btn btn-outline-primary"
+        class="btn btn-outline-primary my-2"
         download
       >
         Téléchargez le modèle Excel
       </a>
     </div>
-    <br />
-    <br />
-    <h4 class="text-center">Étape 2 : importer le fichier complété</h4>
-    <p>
-      Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer sur
-      Domifa
-    </p>
-    <label
-      for="fileExcel"
-      data-browse="Parcourir"
-      lang="fr"
-      id="upload-zone"
-      [className]="uploadError ? 'upload-error' : 'upload-ok'"
-    >
-      <fa-icon icon="download"></fa-icon>
-      <span>
-        <b>Cliquez ici</b>
-        pour importer le fichier complété
-      </span>
-      <span *ngIf="uploadError" class="upload-error">
-        Seul les fichiers Excel sont autorisés
-      </span>
-    </label>
-    <input
-      type="file"
-      id="fileExcel"
-      name="fileExcel"
-      (change)="onFileChange($event)"
-      multiple="false"
-      accept=".xlsx,.xls"
-      file="fileExcel"
-      required
-    />
+    <div class="pt-2 pb-5">
+      <h4 class="text-center">Étape 2 : importer le fichier complété</h4>
+      <p>
+        Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer
+        sur Domifa
+      </p>
+      <label
+        for="fileExcel"
+        data-browse="Parcourir"
+        lang="fr"
+        id="upload-zone"
+        [className]="uploadError ? 'upload-error' : 'upload-ok'"
+      >
+        <fa-icon icon="download"></fa-icon>
+        <span>
+          <b>Cliquez ici</b>
+          pour importer le fichier complété
+        </span>
+        <span *ngIf="uploadError" class="upload-error">
+          Seul les fichiers Excel sont autorisés
+        </span>
+      </label>
+      <input
+        type="file"
+        id="fileExcel"
+        name="fileExcel"
+        (change)="onFileChange($event)"
+        multiple="false"
+        accept=".xlsx,.xls"
+        file="fileExcel"
+        required
+      />
+    </div>
   </div>
 
-  <div
-    *ngIf="etapeImport === 'preview-import'"
-    class="col-md-10 offset-md-1 text-center"
-  >
+  <div *ngIf="etapeImport === 'preview-import'" class="text-center">
     <div
       class="form-group"
       *ngIf="!uploadForm.invalid && previewTable?.errorsCount === 0"
@@ -158,7 +154,7 @@
     </div>
 
     <div *ngIf="previewTable?.errorsCount > 0" class="text-danger">
-      <h4 class="text-danger">votre fichier ne peut pas être importé !</h4>
+      <h4 class="text-danger">Votre fichier ne peut pas être importé !</h4>
 
       <p>
         Attention : votre fichier contient

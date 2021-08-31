@@ -1,9 +1,9 @@
 <form [formGroup]="entretienForm" (ngSubmit)="submitEntretien()">
-  <div class="text-center" *ngIf="!editEntretien">
-    <h5 class="title">Entretien avec le demandeur</h5>
-  </div>
+  <h5 class="title text-center my-1" *ngIf="!editEntretien">
+    Entretien avec le demandeur
+  </h5>
 
-  <div class="alert alert-primary my-1">
+  <div class="alert alert-info my-3">
     Merci de n'inscrire aucune donnée sensible au sens du RGPD (orientation
     sexuelle et politique, données de santé, etc.) et de limiter au maximum la
     présence de données à caractère personnel.

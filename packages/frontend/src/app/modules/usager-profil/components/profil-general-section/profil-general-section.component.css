@@ -15,24 +15,6 @@
   mask-size: 80% !important;
 }
 
-.icon-courrier {
-  background-color: #4164f5;
-  -webkit-mask-size: 80% !important;
-  mask-size: 80% !important;
-}
-
-.list-icon {
-  padding: 15px;
-  box-sizing: border-box;
-  background-color: #4164f5;
-  -webkit-mask-size: 80%;
-  mask-size: 80%;
-}
-
-.btn-outline-primary {
-  padding: 0.2rem;
-}
-
 .btn:hover .list-icon {
   background-color: white;
 }
@@ -59,6 +41,7 @@
   text-align: center;
   max-width: 150px;
 }
+
 .label-info div {
   font-size: 0.9rem !important;
 }

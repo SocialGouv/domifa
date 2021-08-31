@@ -167,8 +167,6 @@ export const routes: Routes = [
       ),
   },
 
-  // NEW  LAZY LOAD MODULES
-  { path: "404", component: NotFoundComponent },
   {
     path: "profil",
     loadChildren: () =>
@@ -176,6 +174,8 @@ export const routes: Routes = [
         (m) => m.UsagerProfilModule
       ),
   },
+  // NEW  LAZY LOAD MODULES
+  { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "404" },
 ];
 @NgModule({
