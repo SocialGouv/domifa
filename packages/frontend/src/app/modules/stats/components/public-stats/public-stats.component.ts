@@ -22,31 +22,35 @@ export class PublicStatsComponent implements OnInit {
   public stats: PublicStats;
   public regions: RegionsLabels;
   public regionsUrls: RegionsLabels;
+  public regionId: string;
 
   constructor(
     public statsService: StatsService,
     private route: ActivatedRoute,
     private router: Router,
-    private notifService: ToastrService,
+
     private titleService: Title
   ) {
     this.stats = null;
     this.regions = REGIONS_LABELS_MAP;
     this.regionsUrls = REGIONS_SEO_URL_MAP;
+    this.regionId = null;
   }
 
   public ngOnInit(): void {
     if (this.route.snapshot.params.region) {
       const region = this.route.snapshot.params.region as string;
-
       if (typeof REGIONS_SEO_URL_TO_REGION_ID_MAP[region] !== "undefined") {
-        // TODO: check region exist
+        this.titleService.setTitle("Stats de la région XX");
+        this.regionId = region;
+
         this.statsService
           .getPublicStats(REGIONS_SEO_URL_TO_REGION_ID_MAP[region])
           .subscribe((stats: PublicStats) => {
             this.stats = stats;
           });
       } else {
+        this.router.navigate(["404"]);
       }
     } else {
       this.statsService.getPublicStats().subscribe((stats: PublicStats) => {

@@ -16,7 +16,7 @@ export type PublicStats = {
     count: number;
   }[]; // Structures par région
   structuresCountByDepartement?: {
-    region: string;
+    departement: string;
     count: number;
   }[];
   // Structures par région

@@ -154,6 +154,7 @@ function get<T, DEFAULT_RESULT extends Partial<T> | number = T>(
     if (where) {
       qb = qb.where(where, params);
     }
+    appLogger.debug(`[pgRepository.aggregateAsNumber] "${qb.getSql()}"`);
 
     if (logSql) {
       appLogger.debug(`[pgRepository.aggregateAsNumber] "${qb.getSql()}"`);

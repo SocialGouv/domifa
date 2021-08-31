@@ -17,7 +17,7 @@ export const DEPARTEMENTS_MAP = REGIONS_DEF.reduce((acc, region) => {
       departmentName: dep.departementName,
       regionCode: region.regionCode,
       regionName: region.regionName,
-      regionId: "guadeloupe",
+      regionId: region.regionId,
     };
   });
   return acc;
