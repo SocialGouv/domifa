@@ -10,7 +10,6 @@ describe("AppComponent", () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [AppComponent],
-
         imports: [HttpClientTestingModule, MatomoModule, RouterTestingModule],
         providers: [
           {

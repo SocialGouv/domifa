@@ -1,3 +1,4 @@
+import { DEFAULT_PUBLIC_STATS } from "./../../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
 import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 import {
   PublicStats,
@@ -22,6 +23,7 @@ export class StatsMapComponent implements OnInit, AfterViewInit {
 
   constructor() {
     this.statsByRegion = [];
+    this.publicStats = DEFAULT_PUBLIC_STATS;
   }
 
   ngOnInit(): void {}

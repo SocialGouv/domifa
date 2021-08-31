@@ -1,3 +1,5 @@
+import { FormsModule } from "@angular/forms";
+import { SharedModule } from "src/app/modules/shared/shared.module";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -5,10 +7,12 @@ import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { UsagersModule } from "../../usagers.module";
+
 import { RaftComponent } from "./raft.component";
-import { MatomoTracker, MatomoInjector } from "ngx-matomo";
+
 import { RouterTestingModule } from "@angular/router/testing";
+import { ToastrModule } from "ngx-toastr";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("RaftComponent", () => {
   let component: RaftComponent;
@@ -17,28 +21,17 @@ describe("RaftComponent", () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [],
+        declarations: [RaftComponent],
         imports: [
-          UsagersModule,
           NgbModule,
           HttpClientTestingModule,
           RouterTestingModule,
+          BrowserAnimationsModule,
+          ToastrModule.forRoot(),
+          SharedModule,
+          FormsModule,
         ],
-        providers: [
-          {
-            provide: MatomoInjector,
-            useValue: {
-              init: jest.fn(),
-            },
-          },
-          {
-            provide: MatomoTracker,
-            useValue: {
-              setUserId: jest.fn(),
-            },
-          },
-          { provide: APP_BASE_HREF, useValue: "/" },
-        ],
+        providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })

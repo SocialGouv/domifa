@@ -1,3 +1,4 @@
+import { SharedModule } from "src/app/modules/shared/shared.module";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -20,6 +21,7 @@ describe("DashboardComponent", () => {
           StructuresModule,
           HttpClientTestingModule,
           MatomoModule,
+          SharedModule,
           RouterTestingModule,
         ],
         providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

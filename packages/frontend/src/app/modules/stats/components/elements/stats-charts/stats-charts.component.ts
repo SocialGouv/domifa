@@ -1,13 +1,14 @@
 import { PublicStats } from "./../../../../../../_common/model/stats/PublicStats.type";
 import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 import { StatsService } from "../../../services/stats.service";
+import { DEFAULT_PUBLIC_STATS } from "../../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
 
 @Component({
   selector: "app-stats-charts",
   templateUrl: "./stats-charts.component.html",
   styleUrls: ["./stats-charts.component.css"],
 })
-export class StatsChartsComponent implements OnInit, AfterViewInit {
+export class StatsChartsComponent implements AfterViewInit {
   public multi: any[];
 
   public view: any[] = [700, 400];
@@ -34,16 +35,14 @@ export class StatsChartsComponent implements OnInit, AfterViewInit {
 
   @Input() public publicStats: PublicStats;
 
-  constructor(public statsService: StatsService) {}
-
-  public ngAfterViewInit(): void {
+  constructor(public statsService: StatsService) {
+    this.publicStats = DEFAULT_PUBLIC_STATS;
     this.selectedCharts = "courriers";
-    this.statsInCharts = this.publicStats.interactionsCountByMonth;
   }
 
-  public ngOnInit(): void {}
-
-  public onSelect(event) {}
+  public ngAfterViewInit(): void {
+    this.statsInCharts = this.publicStats.interactionsCountByMonth;
+  }
 
   public selectChart(value: "courriers" | "usagers") {
     this.selectedCharts = value;
