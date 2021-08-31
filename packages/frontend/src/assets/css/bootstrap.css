@@ -23,6 +23,7 @@
   --secondary: #50e3c2;
   --success: #00e457;
   --info: #17a2b8;
+
   --warning: #f0870c;
   --danger: #f00c0c;
   --light: #f8f9fa;
@@ -5696,13 +5697,13 @@ a.badge-dark.focus {
 }
 
 .alert-info {
-  color: #0c5460;
-  background-color: #d1ecf1;
-  border-color: #bee5eb;
+  color: #000000;
+  background-color: #e1ecff;
+  border-color: #a4c7ff;
 }
 
 .alert-info hr {
-  border-top-color: #abdde5;
+  border-color: #a4c7ff;
 }
 
 .alert-info .alert-link {

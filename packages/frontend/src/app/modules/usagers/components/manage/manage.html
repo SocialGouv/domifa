@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div id="statut-selector" class="mt-4 row">
+    <div id="statut-selector" class="mt-5 row">
       <div
         class="col"
         [ngClass]="{'selected-section' : filters.statut === 'TOUS' }"
@@ -253,7 +253,7 @@
           placement="bottom-right"
           class="d-inline-block"
         >
-          <div class="" id="dropdownSortButton" ngbDropdownToggle>
+          <div id="dropdownSortButton" ngbDropdownToggle>
             <span *ngIf="filters.sortKey !== 'PASSAGE'">
               Trier par
               <b class="text-primary">{{ sortLabel }}</b>
